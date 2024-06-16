@@ -175,9 +175,11 @@ public class MainActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission granted, proceed with enabling geolocation in WebView
                 webview.getSettings().setGeolocationEnabled(true);
+                webview.reload();
             } else {
                 // Permission denied, show an explanation to the user
-                Toast.makeText(this, "Location permission is required for geolocation", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Location permission is required", Toast.LENGTH_SHORT).show();
+
             }
         }
 
