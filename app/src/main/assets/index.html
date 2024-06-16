@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-color-theme="Material You (Hint orange 33)">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Weather Home</title>
+    <link rel="stylesheet" href="ui-files/ui.css">
+    <link rel="stylesheet" href="ui-files/font-usage.css">
+    <link rel="stylesheet" href="ui-files/variables.css">
+    <link rel="stylesheet" href="components/components.css">
+    <link rel="stylesheet" href="components/modal-ver.css">
+    <link rel="stylesheet" href="ripple-files/ripple.css">
+</head>
+
+<body>
+    <div class="header-top" id="main-Header-Top">
+        <div class="main-city" id="main-city">
+            <span icon-filled></span>
+            <h2 id="city-name" style="margin-right: 3px;">
+                <md-circular-progress indeterminate style="--md-circular-progress-size: 30px;"></md-circular-progress>
+            </h2>
+        </div>
+        <div class="header_actions">
+            <button class="ripple-icon-btn focus regular" id="city-open" ontouchstart="playEffect(this)"
+                ontouchend="playEffect2(this)">
+                <span class="ripple-effect-icon"></span>
+                <span icon-outlined>search</span>
+            </button>
+            <button class="ripple-icon-btn focus regular" onclick="refreshWeather()" ontouchstart="playEffect(this)" id="usage-popover-anchor"
+            ontouchend="playEffect2(this)">
+            <span class="ripple-effect-icon"></span>
+            <span icon-outlined>refresh</span>
+        </button>
+            <button class="ripple-icon-btn focus regular" onclick="transitionToPage('pages/settings.html');  checkTHEME()" ontouchstart="playEffect(this)"
+            ontouchend="playEffect2(this)">
+            <span class="ripple-effect-icon"></span>
+            <span icon-outlined>settings</span>
+        </button>
+
+        </div>
+    </div>
+    </div>
+    <!-- current -->
+    <div class="weather_wrap"  id="weather_wrap">
+        <div class="weather">
+            <div class="main-weat" id="main-weather">
+
+                <div class="img-div">
+                    <img id="weather-icon" src="weather-icons/11d.svg" alt="Weather Icon">
+                </div>
+
+                <div class="current">
+
+                    <div class="temp-main">
+                        <p id="temp">39 <span>°C</span></p>
+                    </div>
+
+                    <div class="disc-main">
+                        <p id="description">Scattered clouds </p>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <div class="high-all">
+                <div class="high-mini">
+                    <div class="mini humidity ripple_btn_low" onclick="ShowSnack('Humidity', 2000, 3)">
+                        <span icon-outlined>thermostat</span>
+                        <p id="humidity"></p>
+                    </div>
+
+                    <div class="mini wind ripple_btn_low" onclick="ShowSnack('Wind Speed', 2000, 3)">
+                        <span icon-outlined>wind_power</span>
+                        <p id="wind-speed"></p>
+                    </div>
+
+                    <div class="mini clouds ripple_btn_low" onclick="ShowSnack('Cloud Percentage', 2000, 3)">
+                        <span icon-outlined>cloud</span>
+                        <p id="clouds"></p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="other-main">
+
+                <div class="all-24">
+                    <div class="h1">
+                        <p class="today_Text">Today</p>
+                        <p class="date_Text_top" id="date_text_top">Mar, 19</p>
+                    </div>
+                    <div class="forecast" id="forecast">
+
+                        <div style="display: flex; align-items: center; justify-content: center; width: 100%;">
+                        <md-circular-progress indeterminate ></md-circular-progress></div>
+
+                    </div>
+                </div>
+                <div class="all-5d">
+                    <div class="h2">
+                        <p class="forecast_Text">Next 5 Days</p>
+                        <p class="icon_top">Forecast</p>
+                    </div>
+                    <div class="forecast-5day" id="forecast-5day">
+
+
+                    </div>
+                </div>
+
+
+                <div class="all-sun-div" style="border-radius: 20px 20px 10px 10px; margin-bottom: 5px;">
+                    <div class="sun_text">
+                        <p >Sunrise & Sunset / Moonrise & Moonset</p>
+                    </div>
+                    <div class="sunset-rise" style="display: grid; grid-template-columns: repeat(2, 1fr); row-gap: 1px; column-gap:5px; padding: 10px; padding-bottom: 5px; padding-top: 5px;">
+
+                        <div class="bttom sunset" style="flex-direction: column; border-radius: 10px; padding-bottom: 10px; margin-bottom: 4px; margin-top: 0;  padding-left: 0px; padding-right: 0px; width: 100%; border-radius: 30px 10px 10px 10px; margin-left: 0; margin-right: 0;">
+                            <img src="icons/sunrise.svg" style="width: 60px;" alt="">
+                            <p id="sunrise"></p>
+                        </div>
+                        <div class="bttom sunrise" style="flex-direction: column; border-radius: 10px; padding-bottom: 10px; margin-bottom: 4px; margin-top: 0; margin-left: 0; padding-left: 0px; padding-right: 0px; width: 100%; border-radius: 10px 30px 10px 10px; margin-left: 0; margin-right: 0;" >
+                            <img src="icons/sunset.svg" style="width: 60px;" alt="">
+                            <p id="sunset"></p>
+                        </div>
+                        <div class="bttom moonset" style="flex-direction: column; border-radius: 10px; padding-bottom: 10px; margin-bottom: 4px; margin-top: 0; padding-left: 0px; padding-right: 0px; width: 100%; border-radius: 10px 10px 10px 30px; margin-left: 0; margin-right: 0;">
+                            <img src="icons/moonrise.svg" style="width: 60px;" alt="">
+                            <p id="moonrise"></p>
+                        </div>
+                        <div class="bttom moonrise" style="flex-direction: column; border-radius: 10px; padding-bottom: 10px; margin-bottom: 4px; margin-left: 0;  margin-top: 0; padding-left: 0px; padding-right: 0px; width: 100%; border-radius: 10px 10px 30px 10px; margin-left: 0; margin-right: 0;" >
+                            <img src="icons/moonset.svg" style="width: 60px;" alt="">
+                            <p id="moonset"></p>
+                        </div>
+
+                    </div>
+                </div>
+                
+
+                <div class="all-sun-div" style="border-radius: 10px 10px 20px 20px ; margin-top: 0;">
+                    <div class="sun_text">
+                        
+                        <p >Feels Like & Visibility</p>
+
+                    </div>
+                    <div class="sunset-rise">
+
+                        <div class="bttom sunset" style="margin-bottom: 5px;">
+                            <img src="icons/feels_like.svg" alt="">
+                            <p id="max-temp"></p>
+                        </div>
+                        <div class="bttom sunrise" style="margin-top: 0; border-radius: 10px 10px 30px 30px;">
+                            <img src="icons/visibility.svg" alt="">
+                            <p id="min-temp"></p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="all_air_quality" style="border-radius: 20px 20px 10px 10px; margin-bottom: 5px;">
+                    <div class="sun_text">
+                        <p>Air Quality</p>
+                    </div>
+                    <div class="air-quality">
+
+                        <div class="img-div_air">
+                            <img src="" id="aqi_img" alt="">
+                        </div>
+                        <div class="all_text_air">
+                            <div class="air_text">
+                                <p id="aqi-level"></p>
+                            </div>
+                            <div class="detail">
+                                <span id="detail_air"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="all_air_quality" style="border-radius: 10px 10px 20px 20px; margin-top: 0px;">
+                    <div class="sun_text">
+                        <p>UV Index</p>
+                    </div>
+                    <div class="air-quality">
+
+                        <div class="img-div_air">
+                            <img src=" " id="uv_img" alt="">
+                        </div>
+                        <div class="all_text_air">
+                            <div class="air_text">
+                                <p id="uv-index"></p>
+                            </div>
+                            <div class="detail">
+                                <span id="detail_uv"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="updated-div">
+                    <p id="updated"></p>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- search-modal -->
+
+    <div id="search-container" class="modal">
+        <div class="main-options" id="main-opt">
+            <button class="ripple-icon-btn focus regular close_search"  ontouchstart="playEffect(this)"
+            ontouchend="playEffect2(this)">
+            <span class="ripple-effect-icon"></span>
+            <span icon-outlined>arrow_back</span>
+        </button>
+            <input type="text" id="city-input" class="focus-input" placeholder="Search for a city..." style="width: 100%;"
+                autocomplete="off">
+
+                <div class="city_loader">
+                    <md-linear-progress id="cityLoader" indeterminate style="width: 100%;  --md-linear-progress-track-height: 2px;" hidden></md-linear-progress>
+                </div>
+
+                <button class="ripple-icon-btn focus regular"id="clearCityInput"  ontouchstart="playEffect(this)" hidden
+                ontouchend="playEffect2(this)">
+                <span class="ripple-effect-icon"></span>
+                <span icon-outlined>close</span>
+            </button>
+        </div>
+        <div class="modal-content" id="modal-content">
+            <div class="city-list" id="city-list">
+
+            </div>
+        </div>
+    </div>
+    <!-- loader -->
+
+    <div id="loader-container" class="loader-container">
+        <md-linear-progress indeterminate style="width: 100%;"></md-linear-progress>
+    </div>
+
+
+
+
+    <div id="toast-container" class="toast-container"></div>
+
+<div class="no_internet_error" hidden>
+    <div class="top_error_internet">Something went wrong!</div>
+    <div class="bottom_no_interNet_actions">
+    <p style="text-align: center;">An error occurred</p>
+    <md-filled-button onclick="window.location.reload()">Retry</md-filled-button></div>
+</div>
+
+
+<div class="not_made_for_pc">
+    <p>UI isn't made for Desktop devices</p>
+</div>
+
+    <script>
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const cityInput = document.getElementById("city-input");
+
+
+            cityInput.addEventListener("input", function () {
+
+                let inputValue = cityInput.value;
+
+
+                inputValue = inputValue.replace(/\d/g, '');
+
+
+                cityInput.value = inputValue;
+            });
+        });
+
+
+
+        var currentDate = new Date();
+
+
+        var monthAbbreviation = new Intl.DateTimeFormat('en', { month: 'short' }).format(currentDate);
+        var day = currentDate.getDate();
+
+
+        var formattedDate = monthAbbreviation + ', ' + day;
+
+
+        document.getElementById('date_text_top').innerText = formattedDate;
+
+        setTimeout(() =>{
+            checkTHEME();
+        }, 100);
+
+        setTimeout(() =>{
+            checkSearchScroll();
+        }, 250);
+
+
+        const CitySearchInput = document.getElementById('city-input')
+
+        function CityInputClearBtn() {
+    if (CitySearchInput.value.trim() === ""){
+            document.getElementById('clearCityInput').hidden = true;
+    } else {
+        document.getElementById('clearCityInput').hidden = false;
+    }
+}
+
+CitySearchInput.addEventListener('input', CityInputClearBtn);
+
+
+document.getElementById('clearCityInput').addEventListener('click', () =>{
+    CitySearchInput.value = ''
+    CitySearchInput.focus()
+    CitySearchInput.dispatchEvent(new Event('input'));
+});
+
+
+
+function checkNoInternet(){
+        if(navigator.onLine){
+            document.querySelector('.no_internet_error').hidden = true;
+
+        } else{
+            document.querySelector('.no_internet_error').hidden = false;
+
+            setInterval(() =>{
+                checkNoInternet()
+            }, 2000)
+        }
+    }
+
+    checkNoInternet()
+
+
+    </script>
+
+    <script type="module" src="./index.js"></script>
+    <script src="./bundle.js"></script>
+    <script src="components-script.js/components.js"></script>
+    <script src="ripple-files/icon-ripple.js"></script>
+    <script src="app/app.js"></script>
+    <script src="modules/call-themes.js"></script>
+    <script src="modules/scroll.js"></script>
+    <script src="modules/ripple_acc.js"></script>
+    <script src="app/navigate.js"></script>
+    <script src="app/apply.js"></script>
+</body>
+
+</html>

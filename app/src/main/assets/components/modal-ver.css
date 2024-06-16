@@ -1,0 +1,270 @@
+/* settings-template */
+
+
+
+.title{
+  color: var(--Primary);
+  font-family: 'Google';
+  margin: 0;
+  margin-top: 20px;
+  font-weight: 900;
+  margin-left: 10px;
+  padding-bottom: 5px;
+
+}
+
+.text_content_options{
+  display: flex;
+  flex-direction: column;
+  margin-left: 40px;
+
+}
+
+.text_content_options p{
+  margin: 0;
+  color: var(--On-Surface) ;
+  font-family: 'Google';
+  font-size: 18px;
+}
+
+.text_content_options span{
+  margin: 0;
+  font-size: 14.5px;
+  color: var(--Outline) ;
+  margin-top: 3px !important;
+  max-width: 200px;
+  font-family: var(--google-normal);
+}
+
+.settings_options{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0px;
+  padding: 10px;
+  position: relative;
+  margin-bottom: 10px;
+  padding-right: 15px;
+}
+
+.settings_options.radio{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0px;
+  padding: 10px;
+  position: relative;
+  margin-bottom: 10px;
+  padding-right: 15px;
+  padding-bottom: 55px;
+  position: relative !important;
+}
+
+
+.icon-options{
+  position: absolute;
+  left: 10px;
+  font-size: 23px;
+  font-style: normal;
+  color: var(--On-Surface) ;
+}
+
+/* about-app-template */
+
+.about-div{
+  padding: 10px;
+  align-items: center;
+  color: var(--On-Surface);
+}
+
+.about-div li{
+  margin-bottom: 10px;
+  font-family: var(--google-normal);
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.version-area{
+background-color: rgba(255, 0, 0, 0);
+padding-bottom: 1px;
+padding-top: 1px;
+font-weight: 700;
+}
+
+.made-by{
+text-align: right;
+margin-right: 20px;
+font-family: var(--google-normal);
+font-size: 20px;
+color: var(--Primary);
+
+}
+
+
+
+
+.title-about{
+color: var(--Primary);
+font-family: 'Google';
+margin: 0;
+margin-top: 20px;
+font-weight: 500;
+font-size: 20px;
+padding-left: 10px;
+padding-bottom: 5px;
+display: flex;
+align-items: center;
+border-bottom: 1px solid var(--Outline);
+}
+
+.title-about span{
+font-weight: normal;
+margin-right: 10px;
+}
+
+
+/* license */
+
+.licenses-div{
+border: 1.5px solid var(--Outline-Variant);
+margin: 10px;
+padding: 10px;
+border-radius: 10px;
+}
+
+.licenses-div .name-main{
+margin: 0;
+margin-top: 10px !important;
+margin-bottom: 10px;
+font-weight: 300;
+font-family: var(--outfit);
+color: var(--On-Surface);
+
+
+}
+
+.licenses-div .name-label{
+font-size: 16px;
+font-family: var(--outfit);
+color: var(--On-Surface);
+
+}
+
+.licenses-div .main-license{
+line-height: 1.5;
+font-size: 14px;
+font-family: var(--outfit);
+color: var(--On-Surface-Variant);
+
+}
+
+.licenses-div .license-label{
+align-items: center;
+justify-content: flex-end;
+color: var(--Primary);
+opacity: 0.7;
+display: flex;
+font-weight: 600;
+font-family: var(--outfit);
+
+width: 100%;
+}
+
+
+
+
+
+
+
+
+
+/* settings-template_usage ----
+
+  switch-option
+
+   <div class="settings_options" >
+                <i class="icon-class-filled icon-options">dark_mode</i>
+                <div class="text_content_options">
+                    <p>Dark theme</p>
+                    <span>Enables the dark theme for the app</span>
+                </div>
+                <label class="md3 switch theme-switch">
+                    <input type="checkbox" name="darkmode" id="toggledark">
+                    <span class="slider">
+                <span class="icon-class-outlined icon"></span>
+              </span>
+                </label>
+            </div>
+
+
+
+            ---LABEL---
+
+            <p class="title" >General</p>
+
+
+
+            ---OPENS-Other-Screen ----
+
+
+                  <div class="settings_options md-ripples ripples-bounded show-time" id="show_time_toast" onclick="openLicenses()">
+        <i class="icon-class-filled icon-options">verified</i>
+        <div class="text_content_options">
+          <p>Third party licenses</p>
+          <span>Used in the app</span>
+        </div>
+        <i class="icon-class-filled" style="font-size: 24px; color: var(--On-Surface);">chevron_right</i>
+      </div>
+
+
+
+    ---SHOW-version
+              <div class="settings_options md-ripples ripples-bounded show-time" id="show_time_toast">
+              <i class="icon-class-filled icon-options">info</i>
+              <div class="text_content_options">
+                  <p id="themeName"></p>
+                  <span>Lollipop (6-14)</span>
+              </div>
+          </div>
+
+ */
+
+
+
+ /* about-temp 
+ 
+            <div class="about-div" >
+              <li>The app is mainly coded in Java, JavaScript, C++.</li>
+              <li>The UI of this app is created using GDK, Material You, and Material 3 components, which are open source and
+                developed by @Google.</li>
+            </div>
+
+
+
+            ---LABle---
+
+
+ <p class="title-about"><span class="icon-class-outlined">info</span>Language used</p>
+
+ 
+ */
+
+
+
+ /* license
+ 
+ 
+  <div class="licenses-div">
+        <h2 class="name-main">Open Sans</h2>
+        <span class="name-label">Steve Matteson</span>
+
+        <p class="main-license">Open Sans is a humanist sans serif typeface designed by Steve Matteson, Type Director of
+          Ascender Corp. This version contains the complete 897 character set, which includes the standard ISO Latin 1,
+          Latin CE, Greek and Cyrillic character sets. Open Sans was designed with an upright stress, open forms and a
+          neutral, yet friendly appearance. It was optimized for print, web, and mobile interfaces, and has excellent
+          legibility characteristics in its letterforms.</p>
+
+        <span class="license-label">Open Font License</span>
+      </div>
+ 
+ */

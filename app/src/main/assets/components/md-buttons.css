@@ -1,0 +1,303 @@
+button-filled {
+    color: var(--On-Primary);
+    background-color: var(--Primary);
+    height: 45px;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    width: max-content;
+    border-radius: 50px;
+    display: flex;
+    font-family: var(--google-normal);
+    min-width: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+  
+  }
+  
+  
+  
+  button-outlined {
+    color: var(--Primary);
+    background-color: transparent;
+    height: 45px;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    border: 1px solid var(--Outline);
+    width: max-content;
+    border-radius: 50px;
+    display: flex;
+    font-family: var(--google-normal);
+    min-width: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+  
+  }
+  
+  button-tonal {
+    color: var(--On-Secondary-Container);
+    background-color: var(--Secondary-Container);
+    height: 45px;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    width: max-content;
+    border-radius: 50px;
+    display: flex;
+    font-family: var(--google-normal);
+    min-width: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+  
+  }
+  
+  text-button {
+    color: var(--Primary);
+    background-color: transparent;
+    height: 45px;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    width: max-content;
+    border-radius: 50px;
+    display: flex;
+    font-family: var(--google-normal);
+    min-width: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+  
+  }
+  
+  
+  /* disabled-form */
+  
+  button-filled[disabled],
+  button-tonal[disabled] {
+    opacity: 0.12;
+    background-color: var(--On-Surface);
+    color: var(--Surface);
+    pointer-events: none;
+
+  }
+  
+  
+  button-outlined[disabled] {
+    opacity: 0.32;
+    border-color: var(--On-Surface);
+    color: var(--On-Surface);
+    pointer-events: none;
+
+  }
+  
+  
+  
+  
+  /* Fab */
+  
+  fab {
+    width: 56px;
+    height: 56px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Material icons outlined';
+    background-color: var(--Primary-Container);
+    color: var(--On-Primary-Container);
+    font-size: 30px;
+    border-radius: 18px;
+  }
+  
+  
+  fab-small {
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Material icons outlined';
+    background-color: var(--Primary-Container);
+    color: var(--On-Primary-Container);
+    font-size: 24px;
+    border-radius: 16px;
+  }
+  
+  fab-large {
+    width: 76px;
+    height: 76px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Material icons outlined';
+    background-color: var(--Primary-Container);
+    color: var(--On-Primary-Container);
+    font-size: 34px;
+    border-radius: 24px;
+  }
+  
+  /* icon-btn */
+  
+  button-filled-i {
+    color: var(--On-Primary);
+    background-color: var(--Primary);
+    height: 45px;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    width: max-content;
+    border-radius: 50px;
+    display: flex;
+    font-family: var(--google-normal);
+    min-width: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+  
+  }
+  
+  button-filled-i i,
+  button-outlined-i i,
+  button-tonal-i i,
+  text-button-i i {
+    font-family: 'Material icons outlined';
+    margin-right: 8px;
+    font-style: normal !important;
+    font-size: 22px;
+  }
+  
+  button-outlined-i {
+    color: var(--Primary);
+    background-color: transparent;
+    height: 45px;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    border: 1px solid var(--Outline);
+    width: max-content;
+    border-radius: 50px;
+    display: flex;
+    font-family: var(--google-normal);
+    min-width: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+  
+  }
+  
+  
+  button-tonal-i {
+    color: var(--On-Secondary-Container);
+    background-color: var(--Secondary-Container);
+    height: 45px;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    width: max-content;
+    border-radius: 50px;
+    display: flex;
+    font-family: var(--google-normal);
+    min-width: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+  
+  }
+  
+  
+  text-button-i {
+    color: var(--Primary);
+    background-color: transparent;
+    height: 45px;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    width: max-content;
+    border-radius: 50px;
+    display: flex;
+    font-family: var(--google-normal);
+    min-width: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+  
+  }
+  
+  
+  
+  
+  
+  /* buttons-usage */
+  
+  
+  
+  /* filled--
+  
+      <button-filled>Filled Button</button-filled>
+  
+  
+      --FILLED With ICON--
+  
+      <button-filled-i><i>add</i>Add task</button-filled-i>
+  
+  
+  */
+  
+  
+  /* Outlined ---
+  
+      <button-outlined>Outlined Button</button-outlined>
+  
+      --OUTLINED With ICON--
+      <button-outlined-i><i>add</i>Add task</button-outlined-i>
+  
+  
+  */
+  
+  
+  
+  
+  /* Tonal ---
+  
+        <button-tonal>Tonal Button</button-tonal>
+  
+  
+      --TONAL With ICON--
+         <button-tonal-i><i>add</i>Add task</button-tonal-i>
+  
+  
+  
+  */
+  
+  
+  /* Text Btn ---
+  
+      <text-button>Text Button</text-button>
+  
+  
+  
+      --TextBtn With ICON--
+           <text-button-i><i>add</i>Text Button</text-button-i>
+  
+  
+  
+  
+  */
+  
+  
+  
+  /* fab Btn ---
+  
+         <fab>edit</fab>
+  
+      --fab-small--
+  
+      <fab-small>check</fab-small>
+  
+      --fab-large
+  
+      <fab-large>add</fab-large>
+  
+  
+  */
+  
+  
+  

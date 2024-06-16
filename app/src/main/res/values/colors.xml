@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!--   bg-colors -->
+    <color name="blue_dark">#121318</color>
+    <color name="blue_light">#faf8ff</color>
+    <color name="purple_dark">#161217</color>
+    <color name="purple_light">#fff7fd</color>
+    <color name="yellow_dark">#14140c</color>
+    <color name="yellow_light">#fdf9ec</color>
+    <color name="green_dark">#11140f</color>
+    <color name="green_light">#f8fbf1</color>
+    <color name="red_dark">#1a1110</color>
+    <color name="red_light">#fff8f6</color>
+    <color name="pink_dark">#191113</color>
+    <color name="pink_light">#fff8f8</color>
+    <color name="orange_dark">#17130d</color>
+    <color name="orange_light">#fff8f4</color>
+    <color name="charcoal_dark">#131313</color>
+    <color name="charcoal_light">#f9f9f9</color>
+    <color name="blue_bright_dark">#11131a</color>
+    <color name="blue_bright_light">#faf8ff</color>
+</resources>

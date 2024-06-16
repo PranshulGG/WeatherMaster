@@ -1,0 +1,104 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.WeatherMaster" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.WeatherMaster" parent="Base.Theme.WeatherMaster" />
+
+    <style name="app_theme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:navigationBarColor">#000000</item>
+        <item name="android:statusBarColor">#000000</item>
+
+
+    </style>
+
+    <style name="blue_light_scheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAccent">#465d91</item>
+
+
+    </style>
+
+
+
+    <style name="blue_dark_scheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">#afc6ff</item>
+
+    </style>
+    <!--purple-->
+    <style name="purple_light_scheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAccent">#725188</item>
+    </style>
+
+    <style name="purple_dark_scheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">#dfb8f6</item>
+    </style>
+
+    <!-- yellow  -->
+
+    <style name="yellow_light_scheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAccent">#616118</item>
+    </style>
+
+    <style name="yellow_dark_scheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">#cbcb76</item>
+    </style>
+
+    <!--  green  -->
+
+    <style name="green_light_scheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAccent">#406836</item>
+    </style>
+
+    <style name="green_dark_scheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">#a5d396</item>
+    </style>
+
+    <!--  red  -->
+
+    <style name="red_light_scheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAccent">#904b40</item>
+    </style>
+
+    <style name="red_dark_scheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">#ffb4a8</item>
+    </style>
+
+    <!--  pink  -->
+    <style name="pink_light_scheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAccent">#8c4a60</item>
+    </style>
+
+    <style name="pink_dark_scheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">#ffb1c8</item>
+    </style>
+
+    <!--  charcol  -->
+    <style name="charcol_light_scheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAccent">#000000</item>
+    </style>
+
+    <style name="charcol_dark_scheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">#c6c6c6</item>
+    </style>
+
+    <!--  orange  -->
+    <style name="orange_light_scheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAccent">#684100</item>
+    </style>
+
+    <style name="orange_dark_scheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">#fbba67</item>
+    </style>
+
+    <!--    blue bright -->
+
+    <style name="blue_bright_light_scheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAccent">#0045a2</item>
+    </style>
+
+    <style name="blue_bright_dark_scheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">#b0c6ff</item>
+    </style>
+</resources>

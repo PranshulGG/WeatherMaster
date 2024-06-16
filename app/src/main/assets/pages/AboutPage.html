@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>about Page</title>
+    <link rel="stylesheet" href="../ui-files/ui.css">
+    <link rel="stylesheet" href="../ui-files/font-usage.css">
+    <link rel="stylesheet" href="../ui-files/variables.css">
+    <link rel="stylesheet" href="../components/components.css">
+    <link rel="stylesheet" href="../ripple-files/ripple.css">
+    <link rel="stylesheet" href="../components/md-buttons.css">
+
+</head>
+
+<body style="--md-list-item-label-text-size: 1.15rem; --md-list-item-pressed-state-layer-opacity: 0.15; --md-ref-typeface-plain: var(--google-normal);">
+
+    <div class="activity-large open">
+        <div class="header-activity-large" id="head-6">
+            <button class="ripple-icon-btn regular" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)" title="Go back"
+                onclick="window.history.back()">
+                <span class="ripple-effect-icon"></span>
+                <span icon-outlined>arrow_back</span>
+            </button>
+            <p class="label-hidden-large">About WeatherMaster</p>
+        </div>
+        <div class="activity-large-content" id="headUser-6">
+            <p class="label-large-main">About WeatherMaster</p>
+            <div class="content-parent-large">
+
+                <md-list>
+
+                    <md-list-item type="button" onclick="transitionToPage('aboutPages/TermsConditions.html');">
+                        <md-icon slot="start" icon-filled>privacy_tip</md-icon>
+                        <div slot="headline">Terms and Conditions</div>
+                    </md-list-item>
+
+                    <md-list-item type="button" onclick="transitionToPage('aboutPages/PrivacyPolicy.html');">
+                        <md-icon slot="start" icon-filled>policy</md-icon>
+                        <div slot="headline">Privacy Policy</div>
+                    </md-list-item>
+
+                    <md-list-item type="button" onclick="window.location.href='https://github.com/PranshulGG/WeatherMaster'">
+                        <md-icon slot="start" icon-filled>code</md-icon>
+                        <div slot="headline">View source code</div>
+                    </md-list-item>
+
+                    
+                    <md-list-item type="button" onclick="window.location.href='https://github.com/PranshulGG/WeatherMaster/releases'">
+                        <md-icon slot="start" icon-filled>system_update</md-icon>
+                        <div slot="headline">Latest version</div>
+                    </md-list-item>
+
+                    <md-list-item type="button" onclick="transitionToPage('aboutPages/licenses.html');">
+                        <md-icon slot="start" icon-filled>copyright</md-icon>
+                        <div slot="headline">Third party licenses</div>
+                        
+                    </md-list-item>
+
+
+                    <md-list-item id="show_time_toast">
+                        <md-icon slot="start" icon-filled>info</md-icon>
+                        <div slot="headline" style="margin-bottom: 2px;">Version</div>
+                        <div slot="supporting-text">1.1.0 (W)</div>
+                    </md-list-item>
+
+                </md-list>
+
+            
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <script>
+
+    
+
+setTimeout(()  =>{
+
+checkTHEME()
+}, 100);
+
+
+
+
+const user6 = document.getElementById('headUser-6')
+
+
+
+function changeColorOnScroll6() {
+  var container = document.getElementById('headUser-6');
+  var scrollY = container.scrollTop;
+
+  if (scrollY >= 50) {
+    document.getElementById('head-6').style.backgroundColor = 'var(--Surface-Container)'; 
+    document.getElementById('head-6').style.transition = ''; 
+
+    document.getElementById('headUser-6').style.scrollSnapType = 'unset'; 
+    container.removeEventListener('scroll', changeColorOnScroll6); 
+    checkSearchScroll()
+
+  } else {
+
+  }
+}
+
+if(user6){
+  document.getElementById('headUser-6').addEventListener('scroll', changeColorOnScroll6);
+  }
+
+
+
+function changeColorOnScroll6A() {
+  var container = document.getElementById('headUser-6');
+  var scrollY = container.scrollTop;
+
+  if (scrollY <= 1) {
+    document.getElementById('head-6').style.backgroundColor = ''; 
+    document.getElementById('head-6').style.transition = 'background-color 0.2s ease-in'; 
+
+    ActivityColor()
+    container.addEventListener('scroll', changeColorOnScroll6); 
+    if(scrollY <= 20); {
+      document.getElementById('headUser-6').style.scrollSnapType = ''; 
+
+    }
+
+  } else{
+      
+  }
+}
+
+if(user6){
+document.getElementById('headUser-6').addEventListener('scroll', changeColorOnScroll6A);
+}
+
+
+    </script>
+
+
+    <script src="../app/navigate.js"></script>
+    <script src="../components-script.js/components.js"></script>
+    <script src="../ripple-files/icon-ripple.js"></script>
+    <script src="../modules/scroll.js"></script>
+    <script src="../modules/call-themes.js"></script>
+    <script src="../bundle.js"></script>
+    <script type="module" src="../index.js"></script>
+    <script src="../app/ripple.js"></script>
+    <script src="../ripple-files/ripples.js"></script>
+    <script src="../app/apply.js"></script>
+</body>
+
+</html>

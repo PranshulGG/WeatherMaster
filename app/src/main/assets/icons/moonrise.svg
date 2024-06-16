@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512">
+    <defs>
+        <linearGradient id="a" x1="54.33" y1="29.03" x2="187.18" y2="259.13" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#86c3db"/>
+            <stop offset="0.45" stop-color="#86c3db"/>
+            <stop offset="1" stop-color="#5eafcf"/>
+        </linearGradient>
+        <clipPath id="b">
+            <path d="M512,306H304l-35.86-31.38a18.44,18.44,0,0,0-24.28,0L208,306H0V0H512Z" fill="none"/>
+        </clipPath>
+        <symbol id="c" viewBox="0 0 270 270">
+            <path d="M252.25,168.63C178.13,168.63,118,109.35,118,36.21A130.48,130.48,0,0,1,122.47,3C55.29,10.25,3,66.37,3,134.58,3,207.71,63.09,267,137.21,267,199.69,267,252,224.82,267,167.79A135.56,135.56,0,0,1,252.25,168.63Z" stroke="#72b9d5" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" fill="url(#a)"/>
+        </symbol>
+    </defs>
+    <polyline points="128 332 216 332 256 296 296 332 384 332" fill="none" stroke="silver" stroke-linecap="round" stroke-linejoin="round" stroke-width="18"/>
+    <g clip-path="url(#b)">
+        <use width="270" height="270" transform="translate(121 121)" xlink:href="#c"/>
+    </g>
+</svg>
