@@ -51,11 +51,12 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
    
  - <strong>Material Web Components: </stronge>Utilized to create a consistent and attractive Material Design look and feel.
 
-   # ✅ Todos:
-  - [ ] Make it lightweight
-  - [ ] Notification alerts
-  - [ ] A feature that allows you to add multiple locations
-  - [ ] More detailed weather
+ # ✅ Todos:
+ 
+ - [ ] Make it lightweight
+ - [ ] Notification alerts
+ - [ ] A feature that allows you to add multiple locations
+ - [ ] More detailed weather
    
 <br>
 <br>
