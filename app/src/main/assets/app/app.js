@@ -181,11 +181,6 @@ function displayCitySuggestions(suggestions, searchTerm) {
     });
 }
 
-setTimeout(() => {
-    getWeather('Delhi, India', 32.1015, 76.2731);
-}, 1000);;
-
-
 
 
 function getWeather(city, latitude, longitude) {
