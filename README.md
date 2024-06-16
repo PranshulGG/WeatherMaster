@@ -50,6 +50,12 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
  - <strong>Java: </stronge>Mainly used for JavaScript interface and permissions, allowing the app to run on Android devices.
    
  - <strong>Material Web Components: </stronge>Utilized to create a consistent and attractive Material Design look and feel.
+
+   # ✅ Todos:
+  - [ ] Make it lightweight
+  - [ ] Notification alerts
+  - [ ] A feature that allows you to add multiple locations
+  - [ ] More detailed weather
    
 <br>
 <br>
