@@ -601,16 +601,7 @@ function display24HourForecast(forecastData) {
             forecastItem.classList.add('forecast-item');
             forecastItem.id = "forecast24";
 
-            if(SelectedTempUnit === 'celsius'){
-                forecastItem.innerHTML = `
-                <p class="time-24">${time}</p>
-                <img id="icon-24" src="weather-icons/${iconCode}.svg" alt="Weather Icon" class="icon-24">
-                <p class="temp-24">${temperature}°C</p>
-                 <p class="rain-24"><span icon-outlined>water_drop</span> ${Math.round(rainPercentage)}%</p>
-
-                 <p class="disc_sml-24" >${description}</p>
-            `;
-            } else{
+            if(SelectedTempUnit === 'fahrenheit'){
                 forecastItem.innerHTML = `
                 <p class="time-24">${time}</p>
                 <img id="icon-24" src="weather-icons/${iconCode}.svg" alt="Weather Icon" class="icon-24">
@@ -619,6 +610,15 @@ function display24HourForecast(forecastData) {
 
                  <p class="disc_sml-24" >${description}</p>
             `;
+            } else{
+            forecastItem.innerHTML = `
+            <p class="time-24">${time}</p>
+            <img id="icon-24" src="weather-icons/${iconCode}.svg" alt="Weather Icon" class="icon-24">
+            <p class="temp-24">${temperature}°C</p>
+             <p class="rain-24"><span icon-outlined>water_drop</span> ${Math.round(rainPercentage)}%</p>
+
+             <p class="disc_sml-24" >${description}</p>
+        `;
             }
 
             
@@ -708,30 +708,31 @@ function display5DayForecast(forecastData) {
         forecastItem.classList.add('forecast-item-forecast');
 
 
-        if(SelectedTempUnit === 'celsius'){
-            forecastItem.innerHTML = `
-
-            <img id="icon-5d" src="weather-icons/${iconCode}.svg" alt="Weather Icon">
-            <p class="disc-5d">${temp}°C</p>
-            <div class="temp_progress_hold">
-            <md-linear-progress value="0" id="temp-bar-${i}" style="--md-linear-progress-active-indicator-color: ${tempColor};"></md-linear-progress></div>
-            <div class="d5-disc-text">${description} 
-            <p class="time-5d">${date}</p>
-            </div>
-            
-        `;
-        } else{
+        if(SelectedTempUnit === 'fahrenheit'){
             forecastItem.innerHTML = `
 
             <img id="icon-5d" src="weather-icons/${iconCode}.svg" alt="Weather Icon">
             <p class="disc-5d">${tempF}°F</p>
             <div class="temp_progress_hold">
             <md-linear-progress value="0" id="temp-bar-${i}" style="--md-linear-progress-active-indicator-color: ${tempColor};"></md-linear-progress></div>
-            <div class="d5-disc-text">${description} 
+            <div class="d5-disc-text">${description}
             <p class="time-5d">${date}</p>
             </div>
-            
+
         `;
+        } else{
+
+        forecastItem.innerHTML = `
+
+        <img id="icon-5d" src="weather-icons/${iconCode}.svg" alt="Weather Icon">
+        <p class="disc-5d">${temp}°C</p>
+        <div class="temp_progress_hold">
+        <md-linear-progress value="0" id="temp-bar-${i}" style="--md-linear-progress-active-indicator-color: ${tempColor};"></md-linear-progress></div>
+        <div class="d5-disc-text">${description}
+        <p class="time-5d">${date}</p>
+        </div>
+
+    `;
         }
 
 
