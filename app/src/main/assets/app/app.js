@@ -211,13 +211,12 @@ function getWeather(city, latitude, longitude) {
             const iconCode = data.weather[0].icon;
             document.getElementById('city-name').innerHTML = `${cityName}, ${countryName}`;
 
-            if(SelectedTempUnit === 'celsius'){
-                document.getElementById('temp').innerHTML = `${temperature}<span>°C</span>`;
-            document.getElementById('max-temp').innerHTML = `${Math.round(feelslike)}°C`;
-
-            } else{
+            if(SelectedTempUnit === 'fahrenheit'){
                 document.getElementById('temp').innerHTML = `${tempF}<span>°F</span>`;
             document.getElementById('max-temp').innerHTML = `${Math.round(feelslikeF)}°F`;
+            } else{
+            document.getElementById('temp').innerHTML = `${temperature}<span>°C</span>`;
+            document.getElementById('max-temp').innerHTML = `${Math.round(feelslike)}°C`;
 
             }
 
@@ -249,18 +248,18 @@ function getWeather(city, latitude, longitude) {
             const sunrise = sunriseUTC.toLocaleTimeString('en-US', options);
             const sunset = sunsetUTC.toLocaleTimeString('en-US', options);
 
-            if(SelectedWindUnit === 'kilometer'){
-                document.getElementById('wind-speed').textContent = `${windSpeedKPH} km/h`; 
+            if(SelectedWindUnit === 'mile'){
+                document.getElementById('wind-speed').textContent = `${windSpeedMPH} mph`;
             } else{
-                document.getElementById('wind-speed').textContent = `${windSpeedMPH} mph`; 
+                document.getElementById('wind-speed').textContent = `${windSpeedKPH} km/h`;
 
             }
 
-            if(SelectedVisibiltyUnit === 'km'){
-                document.getElementById('min-temp').innerHTML = `${visibility / 1000} km`;
 
-            } else{
+            if(SelectedVisibiltyUnit === 'mileV'){
                 document.getElementById('min-temp').innerHTML = `${visibilityInMiles} mile`;
+            } else{
+                document.getElementById('min-temp').innerHTML = `${visibility / 1000} km`;
 
             }
 
@@ -419,13 +418,12 @@ function getWeatherByCoordinates(latitude, longitude) {
             const feelslikeF = Math.round(feelslike * 9 / 5 + 32);
             document.getElementById('city-name').innerHTML = `${cityName}, ${countryName}`;
 
-            if(SelectedTempUnit === 'celsius'){
-                document.getElementById('temp').innerHTML = `${temperature}<span>°C</span>`;
-            document.getElementById('max-temp').innerHTML = `${Math.round(feelslike)}°C`;
-
-            } else{
+            if(SelectedTempUnit === 'fahrenheit'){
                 document.getElementById('temp').innerHTML = `${tempF}<span>°F</span>`;
             document.getElementById('max-temp').innerHTML = `${Math.round(feelslikeF)}°F`;
+            } else{
+            document.getElementById('temp').innerHTML = `${temperature}<span>°C</span>`;
+            document.getElementById('max-temp').innerHTML = `${Math.round(feelslike)}°C`;
 
             }
 
@@ -454,25 +452,25 @@ function getWeatherByCoordinates(latitude, longitude) {
             const maxTemp = data.main.temp_max;
             const minTemp = data.main.temp_min;
 
-            const options = { timeZone: 'UTC' }; // Use UTC for formatting
+            const options = { timeZone: 'UTC', hour: 'numeric', minute: 'numeric' };
             const sunrise = sunriseUTC.toLocaleTimeString('en-US', options);
             const sunset = sunsetUTC.toLocaleTimeString('en-US', options);
 
             
-            if(SelectedWindUnit === 'kilometer'){
-                document.getElementById('wind-speed').textContent = `${windSpeedKPH} km/h`; 
+            if(SelectedWindUnit === 'mile'){
+                document.getElementById('wind-speed').textContent = `${windSpeedMPH} mph`;
             } else{
-                document.getElementById('wind-speed').textContent = `${windSpeedMPH} mph`; 
-
-            } // Display in km/h
-
-            if(SelectedVisibiltyUnit === 'km'){
-                document.getElementById('min-temp').innerHTML = `${visibility / 1000} km`;
-
-            } else{
-                document.getElementById('min-temp').innerHTML = `${visibilityInMiles} mile`;
+                document.getElementById('wind-speed').textContent = `${windSpeedKPH} km/h`;
 
             }
+
+            if(SelectedVisibiltyUnit === 'mileV'){
+                document.getElementById('min-temp').innerHTML = `${visibilityInMiles} mile`;
+
+            } else{
+                document.getElementById('min-temp').innerHTML = `${visibility / 1000} km`;
+            }
+
 
             document.getElementById('sunrise').textContent = sunrise;
             document.getElementById('sunset').textContent = sunset;
@@ -793,24 +791,14 @@ document.getElementById('forecast').addEventListener('scroll', function () {
 
 
 
+document.getElementById('usage-popover').addEventListener('opening', () =>{
+    document.getElementById('menu-overLap').hidden = false;
+});
 
+document.getElementById('usage-popover').addEventListener('closing', () =>{
+    document.getElementById('menu-overLap').hidden = true;
+});
 
-
-
-
-
-
-
-
-
-
-// document.getElementById('MenuUsage-popover').addEventListener('opening', () =>{
-//     document.getElementById('menu-overLap').hidden = false;
-// });
-
-// document.getElementById('MenuUsage-popover').addEventListener('closing', () =>{
-//     document.getElementById('menu-overLap').hidden = true;
-// });
 
 
 function getMoonSetMoonRise(lat,long){

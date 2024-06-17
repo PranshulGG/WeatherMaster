@@ -32,11 +32,22 @@
             <span class="ripple-effect-icon"></span>
             <span icon-outlined>refresh</span>
         </button>
-            <button class="ripple-icon-btn focus regular" onclick="transitionToPage('pages/settings.html');  checkTHEME()" ontouchstart="playEffect(this)"
-            ontouchend="playEffect2(this)">
-            <span class="ripple-effect-icon"></span>
-            <span icon-outlined>settings</span>
-        </button>
+            <button class="ripple-icon-btn focus regular" id="usage-popover-anchorMenu" ontouchstart="playEffect(this)"
+                    ontouchend="playEffect2(this)">
+                <span class="ripple-effect-icon"></span>
+                <span icon-outlined>more_vert</span>
+            </button>
+
+            <md-menu positioning="popover" id="usage-popover" anchor="usage-popover-anchorMenu" anchor-corner="start-start">
+                <md-menu-item menu-type onclick="window.location.reload()">
+                    <div slot="headline">Current location</div>
+                </md-menu-item>
+                <md-menu-item onclick="transitionToPage('pages/settings.html');  checkTHEME()" menu-type>
+                    <div slot="headline">Settings</div>
+                </md-menu-item>
+            </md-menu>
+
+            <div id="menu-overLap" hidden></div>
 
         </div>
     </div>
@@ -305,7 +316,13 @@
 
         setTimeout(() =>{
             checkSearchScroll();
-        }, 250);
+        }, 350);
+
+
+        setTimeout(() =>{
+            checkSearchScroll();
+        }, 500);
+
 
 
         const CitySearchInput = document.getElementById('city-input')
@@ -346,6 +363,14 @@ function checkNoInternet(){
 
 
     </script>
+
+    <script type="module">
+    const anchorEl = document.body.querySelector('#usage-popover-anchorMenu');
+    const menuEl = document.body.querySelector('#usage-popover');
+
+    anchorEl.addEventListener('click', () => { menuEl.open = !menuEl.open; });
+  </script>
+
 
     <script type="module" src="./index.js"></script>
     <script src="./bundle.js"></script>
