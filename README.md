@@ -8,11 +8,11 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 # 👁️ Preview
 
 <div > 
-<img alt="App image" src="preview/1.png" width="30%">
-<img alt="App image" src="preview/2.png" width="30%">
-<img alt="App image" src="preview/3.png" width="30%">
-<img alt="App image" src="preview/4.png" width="30%">
-<img alt="App image" src="preview/5.png" width="30%">
+<img alt="App image" src="imgs/img_1.jpeg" width="30%">
+<img alt="App image" src="imgs/img_2.jpeg" width="30%">
+<img alt="App image" src="imgs/img_3.jpeg" width="30%">
+<img alt="App image" src="imgs/img_4.jpeg" width="30%">
+<img alt="App image" src="imgs/img_5.jpeg" width="30%">
   
 </div>
 
