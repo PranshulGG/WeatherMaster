@@ -20,7 +20,7 @@
 
 
 body {
-  background-color: var(--Surface);
+  background-color: var(--Secondary-Container);
   padding: 0;
   margin: 0;
   overflow: hidden;
@@ -35,11 +35,10 @@ body {
   padding: 10px;
   height: 45px;
   padding-left: 4px;
-  background-color: var(--Surface-Container);
+  background-color: var(--Surface);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid var(--Outline);
 
 }
 
@@ -49,7 +48,7 @@ body {
   margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 100%;
+  width: calc(100% - 20px);
   white-space: nowrap;
   color: var(--On-Surface);
 }
@@ -75,13 +74,15 @@ body {
 
 
 .main-weat {
-  /* background-color: var(--Surface-Container); */
+  /* background-color: var(--Secondary-Container); */
+  background: linear-gradient(0deg, var(--Secondary-Container) 10%, var(--Surface));
+
   position: relative;
   height: 180px;
-  border-radius: 0 0 10px 10px;
+  /* border-radius: 0 0 10px 10px; */
   overflow: hidden;
   transition: opacity 0.2s;
-  
+
 }
 
 
@@ -93,29 +94,29 @@ body {
 
 .img-div {
   position: absolute;
-  right: 10px;
+  right: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 150px;
-  height: 150px;
-  top: 10px;
+  width: 90px;
+  height: 90px;
+  top: 30px;
   border-radius: 100px;
 }
 
 .img-div img {
-  width: 140px;
-  
+  width: 90px;
+
 }
 
 .temp-main {
-  color: var(--On-Surface-Variant);
+  color: var(--Primary);
   position: absolute;
   top: 10px;
   left: 15px;
-  font-size: 55px;
+  font-size: 65px;
   width: max-content;
-
+  font-family: var(--google-mid);
 
 }
 
@@ -123,6 +124,8 @@ body {
   font-size: 30px;
   position: absolute;
   top: 3px;
+  font-family: var(--google-mid);
+
 }
 
 #temp {
@@ -155,6 +158,7 @@ body {
 .weather_wrap {
   overflow: auto;
   height: calc(100vh - 65px);
+  overflow-x: hidden;
 }
 
 .weather_wrap::-webkit-scrollbar{
@@ -176,13 +180,13 @@ body {
 
 
 .high-all {
-  background-color: var(--Surface-Container-Low);
+  background-color: var(--Surface);
   margin: 10px;
-  
+
   padding-left: 10px;
   padding-right: 10px;
   border-radius: 20px 20px 10px 10px;
-  
+
   margin-bottom: 5px;
 }
 
@@ -214,12 +218,12 @@ body {
 
 .all-24,
 .all-5d {
-  background-color: var(--Surface-Container-Low);
+  background-color: var(--Surface);
   margin: 10px;
   /* margin-top: 5px; */
   border-radius: 10px 10px 10px 10px;
   overflow: hidden;
-  
+
 }
 
 .all-5d {
@@ -247,7 +251,8 @@ body {
 .forecast #forecast24 {
   transition: all 0.3s cubic-bezier(1, 0, 0, 1);
   flex-shrink: 0;
-  background-color: var(--Surface);
+  /* background-color: var(--Surface-Container-Low); */
+  background-color: rgba(0, 0, 0, 0.247);
   border-radius: 10px;
   padding-left: 25px;
   padding-right: 25px;
@@ -257,6 +262,7 @@ body {
   justify-content: center;
   padding-bottom: 63px;
   margin-bottom: 5px;
+  min-width: calc(60px + 2px);
   position: relative;
 }
 
@@ -274,20 +280,25 @@ body {
   margin-right: 0;
   margin-bottom: 0;
   text-transform: capitalize;
-  background-color: var(--Surface-Container-Low);
+  background-color: var(--Surface);
   border-radius: 10px;
   color: var(--On-Surface);
-  font-size: 15px;
+  font-size: 13px;
   margin-top: 5px;
   padding-top: 3px;
   padding-bottom: 3px;
   font-family: var(--google-normal);
   position: absolute;
   bottom: 5px;
-  min-height: 40px;
-  max-height: 45px;
+  max-height: calc(45px - 5px);
+  min-height: calc(40px - 5px);
+
+  padding-top: 10px;
+  padding-bottom: 5px;
+
 
 }
+
 
 .today_Text {
   margin: 0;
@@ -380,7 +391,8 @@ body {
   justify-content: flex-end;
   position: relative;
   direction: rtl;
-  background-color: var(--Surface);
+  background-color: rgba(0, 0, 0, 0.247);
+
   padding: 10px;
   border-radius: 10px;
 
@@ -398,7 +410,7 @@ body {
 .forecast-5day div img {
   position: absolute;
   right: 15px;
-  width: 40px;
+  width: 35px;
 }
 
 .disc-5d {
@@ -430,9 +442,9 @@ body {
 }
 
 .all-sun-div {
-  background-color: var(--Surface-Container-Low);
+  background-color: var(--Surface);
   margin: 10px;
-  
+
 
 }
 
@@ -455,10 +467,10 @@ body {
   height: max-content;
   width: calc(100% - 60px);
   margin: 10px;
-  background-color: var(--Surface);
+  background-color: rgba(0, 0, 0, 0.247);
   padding-left: 20px;
   padding-right: 20px;
-  border-radius: 30px 30px 10px 10px;
+  border-radius: 20px 20px 10px 10px;
   position: relative;
 
 }
@@ -513,7 +525,7 @@ body {
   padding: 10px;
   height: 45px;
   padding-left: 5px;
-  background-color: var(--Surface-Container);
+  background-color: var(--Surface);
   gap: 10px;
   position: relative;
 }
@@ -522,14 +534,13 @@ body {
   font-size: 18px;
   background-color: transparent;
   border: none;
-  caret-color: var(--Primary);
+  caret-color: #afc6ff;
   font-family: var(--google-normal);
   color: var(--On-Surface);
 }
 
 .main-options input::selection {
-  background-color: var(--Secondary-Container);
-  color: var(--On-Secondary-Container);
+  background-color: #465b9d;
 }
 
 .city_loader {
@@ -682,10 +693,10 @@ body {
 }
 
 .all_air_quality {
-  background-color: var(--Surface-Container-Low);
+  background-color: var(--Surface);
   margin: 10px;
   margin-bottom: 5px;
-  
+
 
 }
 
@@ -703,7 +714,7 @@ body {
 .air-quality .img-div_air {
   width: 70px;
   height: 70px;
-  background-color: var(--Surface);
+  background-color: var(--Secondary-Container);
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -788,11 +799,15 @@ body {
   color: var(--On-Surface);
   position: relative;
   padding: 10px;
-  padding-top: 15px;
   display: flex;
   align-items: center;
-  gap: 5px;
-  padding-bottom: 15px;
+  gap: 10px;
+}
+
+suggest-space{
+  flex: 1;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .city-list {
@@ -807,16 +822,23 @@ body {
   line-height: 1;
   color: var(--Secondary);
   font-size: 24px;
+  width: 40px;
+  height: 40px;
+  background-color: var(--Secondary-Container);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
+  flex-shrink: 0;
 }
 
 #updated-div {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--Secondary-Container);
   margin: 10px;
   margin-bottom: 40px;
-  color: var(--On-Secondary-Container);
+  color: var(--On-Surface-Variant);
   border-radius: 50px;
 }
 
@@ -852,4 +874,40 @@ body {
   #updated-div{
     margin-bottom: 90px;
   }
+}
+
+.froggie img{
+  width: 120%;
+}
+
+.froggie {
+background: linear-gradient(0deg, rgba(255, 0, 0, 0), var(--Secondary-Container) 100%);
+
+}
+
+.cloths{
+  display: flex;
+  align-items: center;
+  background-color: var(--Surface);
+  margin: 10px;
+  border-radius: 20px;
+  padding: 10px;
+}
+
+.cloths div{
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--On-Secondary-Container);
+  background-color: var(--Secondary-Container);
+  flex-shrink: 0;
+  border-radius: 10px;
+}
+
+#cloth_recommended{
+  margin: 0;
+  color: var(--On-Surface);
+  margin-left: 10px;
 }

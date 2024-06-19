@@ -40,6 +40,14 @@ const uvIndexData = [
     { description: "Its Very High", style: "background-color: #ff3c00;", img: 'uv-images/uv-10.png', detail: 'index at 10 Very high risk. Maximize precautions—use high SPF sunscreen, wear protective clothing, and limit sun exposure, especially midday, to minimize harm from intense ultraviolet radiation.' },
     { description: "Extreme", style: "background-color: #9936D4;", img: 'uv-images/uv-11.png', detail: 'Index at 11 avoid every outdoor activies.' },
     { description: "Extreme+", style: "background-color: #FF0087;", img: 'uv-images/uv-12.png', detail: 'Index at 12 avoid every outdoor activies.' },
+    { description: "Extreme++", style: "background-color: #FF0087;", img: 'uv-images/uv-13.png', detail: 'Index at 13 avoid every outdoor activies.' },
+    { description: "Extreme++", style: "background-color: #FF0087;", img: 'uv-images/uv-13.png', detail: 'Index at 13 avoid every outdoor activies.' },
+    { description: "Extreme++", style: "background-color: #FF0087;", img: 'uv-images/uv-13.png', detail: 'Index at 13 avoid every outdoor activies.' },
+    { description: "Extreme++", style: "background-color: #FF0087;", img: 'uv-images/uv-13.png', detail: 'Index at 13 avoid every outdoor activies.' },
+    { description: "Extreme++", style: "background-color: #FF0087;", img: 'uv-images/uv-13.png', detail: 'Index at 13 avoid every outdoor activies.' },
+    { description: "Extreme++", style: "background-color: #FF0087;", img: 'uv-images/uv-13.png', detail: 'Index at 13 avoid every outdoor activies.' },
+    { description: "Extreme++", style: "background-color: #FF0087;", img: 'uv-images/uv-13.png', detail: 'Index at 13 avoid every outdoor activies.' },
+    { description: "Extreme++", style: "background-color: #FF0087;", img: 'uv-images/uv-13.png', detail: 'Index at 13 avoid every outdoor activies.' },
     { description: "Extreme++", style: "background-color: #FF0087;", img: 'uv-images/uv-13.png', detail: 'Index at 13 avoid every outdoor activies.' }
 
 ];
@@ -107,6 +115,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('city-name').innerHTML = '<md-circular-progress indeterminate style="--md-circular-progress-size: 30px;"></md-circular-progress>'
         document.querySelector('.focus-input').blur();
         document.getElementById('forecast').scrollLeft = 0;
+    cityInput.dispatchEvent(new Event('input'));
+
         showLoader()
         if (selectedCity.toLowerCase() === "delhi, india") {
             getWeather(selectedCity, 28.6139, 77.2090);
@@ -165,13 +175,18 @@ function displayCitySuggestions(suggestions, searchTerm) {
 
         if (suggestion.toLowerCase().includes(searchTerm.toLowerCase())) {
             const suggestionItem = document.createElement('div');
-            const createSuggestRipple = document.createElement('md-ripple')
-            createSuggestRipple.style = '--md-ripple-pressed-opacity: 0.13;'
+            const saveBTN = document.createElement('md-text-button');
+                        const createSuggestRipple = document.createElement('md-ripple')
+                        createSuggestRipple.style = '--md-ripple-pressed-opacity: 0.13;'
+            // const suggestSpace = document.createElement('suggest-space');
             suggestionItem.classList.add("suggest");
             suggestionItem.textContent = suggestion;
+            // suggestionItem.appendChild(suggestSpace)
             cityList.appendChild(suggestionItem);
-
+            // suggestionItem.appendChild(saveBTN)
+            // saveBTN.textContent = 'Save'
             suggestionItem.appendChild(createSuggestRipple)
+
             setTimeout(() => {
                 document.getElementById('cityLoader').hidden = true;
 
@@ -224,7 +239,12 @@ function getWeather(city, latitude, longitude) {
 
 
             const weatherIcon = document.getElementById('weather-icon');
-            weatherIcon.src = `weather_icon_animated/${iconCode}.svg`;
+            weatherIcon.src = `weather-icons/${iconCode}.svg`;
+                        document.getElementById('froggie_imgs').src = `froggie/${iconCode}.png`;
+                        document.documentElement.setAttribute('iconCodeTheme', `${iconCode}`);
+                        localStorage.setItem('weatherTHEME', iconCode)
+                        sendThemeToAndroid(iconCode)
+
             weatherIcon.alt = "Weather Icon";
 
             const latitude = data.coord.lat;
@@ -275,6 +295,36 @@ function getWeather(city, latitude, longitude) {
 
             document.getElementById('updated').textContent = `Last Updated: ${lastUpdatedTime}`;
 
+
+            function getClothingRecommendation(temp) {
+                if (temp <= 0) {
+                    return "Wear a heavy coat, gloves, a hat, and a scarf.";
+                } else if (temp <= 5) {
+                    return "Wear a thick coat, a hat, and gloves.";
+                } else if (temp <= 10) {
+                    return "Wear a coat and a sweater.";
+                } else if (temp <= 15) {
+                    return "Wear a light jacket and long sleeves.";
+                } else if (temp <= 20) {
+                    return "Wear a light jacket or a sweater.";
+                } else if (temp <= 25) {
+                    return "Wear a t-shirt and jeans or pants.";
+                } else if (temp <= 30) {
+                    return "Wear a t-shirt and light pants or shorts.";
+                } else if (temp <= 35) {
+                    return "Wear light, breathable clothing and stay hydrated.";
+                } else if (temp <= 40) {
+                    return "Wear very light clothing, stay hydrated, and avoid direct sun.";
+                } else if (temp <= 45) {
+                    return "Wear minimal clothing, stay indoors if possible, and stay hydrated.";
+                } else {
+                    return "Extreme heat! Wear minimal clothing, stay indoors, and drink plenty of water.";
+                }
+            }
+
+            const recommendation = getClothingRecommendation(temperature);
+
+            document.getElementById('cloth_recommended').textContent = recommendation
 
 
             // Fetch UV Index
@@ -343,6 +393,7 @@ function getWeather(city, latitude, longitude) {
             console.error('Error fetching current weather:', error);
             document.querySelector('.no_internet_error').hidden = false;
         });
+
 
 
     currentLocation = null;
@@ -434,7 +485,12 @@ function getWeatherByCoordinates(latitude, longitude) {
 
 
             const weatherIcon = document.getElementById('weather-icon');
-            weatherIcon.src = `weather_icon_animated/${iconCode}.svg`
+            weatherIcon.src = `weather-icons/${iconCode}.svg`
+                        document.getElementById('froggie_imgs').src = `froggie/${iconCode}.png`;
+                        document.documentElement.setAttribute('iconCodeTheme', `${iconCode}`);
+                        localStorage.setItem('weatherTHEME', iconCode)
+                        sendThemeToAndroid(iconCode)
+
             weatherIcon.title = `${iconCode}`;
             // Fetch 24-hour forecast
             get24HourForecast(latitude, longitude);
@@ -489,6 +545,35 @@ function getWeatherByCoordinates(latitude, longitude) {
 
 
 
+                            function getClothingRecommendation(temp) {
+                                if (temp <= 0) {
+                                    return "Wear a heavy coat, gloves, a hat, and a scarf.";
+                                } else if (temp <= 5) {
+                                    return "Wear a thick coat, a hat, and gloves.";
+                                } else if (temp <= 10) {
+                                    return "Wear a coat and a sweater.";
+                                } else if (temp <= 15) {
+                                    return "Wear a light jacket and long sleeves.";
+                                } else if (temp <= 20) {
+                                    return "Wear a light jacket or a sweater.";
+                                } else if (temp <= 25) {
+                                    return "Wear a t-shirt and jeans or pants.";
+                                } else if (temp <= 30) {
+                                    return "Wear a t-shirt and light pants or shorts.";
+                                } else if (temp <= 35) {
+                                    return "Wear light, breathable clothing and stay hydrated.";
+                                } else if (temp <= 40) {
+                                    return "Wear very light clothing, stay hydrated, and avoid direct sun.";
+                                } else if (temp <= 45) {
+                                    return "Wear minimal clothing, stay indoors if possible, and stay hydrated.";
+                                } else {
+                                    return "Extreme heat! Wear minimal clothing, stay indoors, and drink plenty of water.";
+                                }
+                            }
+
+                            const recommendation = getClothingRecommendation(temperature);
+
+                            document.getElementById('cloth_recommended').textContent = recommendation
 
 
 
@@ -521,8 +606,7 @@ function getWeatherByCoordinates(latitude, longitude) {
 
                     document.getElementById('aqi_img').src = backgroundImage[aqi];
                     document.getElementById('aqi-level').style.backgroundColor = backgroundColor[aqi];
-                });
-
+                })
             const uvUrl = `https://api.openweathermap.org/data/2.5/uvi?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
             fetch(uvUrl)
                 .then(response => response.json())
@@ -549,7 +633,11 @@ function getWeatherByCoordinates(latitude, longitude) {
 
 
         })
-        .catch(error => console.error('Error fetching current weather:', error));
+          .catch(error => {
+                    console.error('Error fetching current weather:', error);
+                    document.querySelector('.no_internet_error').hidden = false;
+                });
+n
 
 
     currentLocation = {
@@ -838,3 +926,9 @@ function refreshWeather(){
 
     getWeather(' ',latSend, longSend)
 }
+
+
+function sendThemeToAndroid(theme) {
+
+    AndroidInterface.updateStatusBarColor(theme);
+  };

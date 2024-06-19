@@ -16,6 +16,7 @@ weatherWrap.addEventListener('scroll', function() {
             const newOpacity = Math.max(minOpacity, maxOpacity - (scrollPosition / maxHeight));
             mainWeat.style.transform = `scale(${newOpacity})`;
             mainWeat.style.opacity = newOpacity;
+                        document.querySelector('.froggie').style.opacity = newOpacity;
             ticking = false;
         });
         ticking = true;

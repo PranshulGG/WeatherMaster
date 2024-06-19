@@ -16,13 +16,43 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_icon_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.WeatherMaster"
+        android:theme="@style/Base.Theme.WeatherMaster"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
-            android:theme="@style/app_theme"
+            android:name=".SettingsActivity"
             android:screenOrientation="portrait"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/ScreensAll"
+            />
+        <activity
+            android:name=".AboutPage"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/ScreensAll"
+            />
+        <activity
+            android:name=".Terms_Conditions"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/ScreensAll"
+            />
+        <activity
+            android:name=".PrivacyPolicy"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/ScreensAll"
+            />
+        <activity
+            android:name=".ThirdParty"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/ScreensAll"
+            />
+            <activity
+                android:name=".MainActivity"
+                android:theme="@style/app_theme"
+                android:screenOrientation="portrait"
+                android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

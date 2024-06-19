@@ -8,8 +8,17 @@
     <style name="Theme.WeatherMaster" parent="Base.Theme.WeatherMaster" />
 
     <style name="app_theme" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:navigationBarColor">#000000</item>
-        <item name="android:statusBarColor">#000000</item>
+        <item name="android:navigationBarColor">#0e1d2a</item>
+        <item name="android:statusBarColor">#0e1d2a</item>
+        <item name="colorAccent">#afc6ff</item>
+
+
+    </style>
+
+    <style name="ScreensAll" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:navigationBarColor">@color/mainBG</item>
+        <item name="android:statusBarColor">@color/mainBG</item>
+        <item name="colorAccent">#afc6ff</item>
 
 
     </style>
@@ -23,7 +32,6 @@
 
 
     <style name="blue_dark_scheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorAccent">#afc6ff</item>
 
     </style>
     <!--purple-->

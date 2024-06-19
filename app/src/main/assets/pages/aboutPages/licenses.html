@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" Theme="default" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -39,125 +39,130 @@
 
 </head>
 
-<body>
+<body style="background-color: var(--Surface);">
 
-    <div class="activity-large open">
+<div class="activity-large open">
 
-        <div class="header-activity-large" id="head-7">
-            <button class="ripple-icon-btn regular" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)"
-                title="Go back" onclick="window.history.back()">
-                <span class="ripple-effect-icon"></span>
-                <span icon-outlined>arrow_back</span>
-            </button>
-            <p class="label-hidden-large">Third party licenses</p>
-        </div>
-        <div class="activity-large-content" id="headUser-7" onscroll="">
-            <p class="label-large-main">Third party licenses</p>
-            <div class="content-parent-large">
+    <div class="header-activity-large" id="head-7">
+        <button class="ripple-icon-btn regular" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)"
+                title="Go back" onclick="sendThemeToAndroid('GoBack')">
+            <span class="ripple-effect-icon"></span>
+            <span icon-outlined>arrow_back</span>
+        </button>
+        <p class="label-hidden-large">Third party licenses</p>
+    </div>
+    <div class="activity-large-content" id="headUser-7" onscroll="">
+        <p class="label-large-main">Third party licenses</p>
+        <div class="content-parent-large">
 
-                <div class="licenses-div ripple_btn_low" onclick="window.location.href='https://fonts.google.com/specimen/Outfit?query=outfit'">
-                    <h2 class="name-main">Outfit </h2>
-                    <span class="name-label">Rodrigo Fuenzalida, Smartsheet Inc</span>
-                    <p class="main-license">A beautiful geometric sans: The official typeface for brand automation
-                        company outfit.io. Inspired by the ligature-rich outfit wordmark, Outfit.io is delighted to
-                        release it's own type family. The Outfit typeface links the Outfit written voice to Outfit
-                        product marks; on brand by default.</p>
-                    <span class="license-label">Open Font License</span>
-                </div>
+            <div class="licenses-div ripple_btn_low" onclick="window.location.href='https://fonts.google.com/specimen/Outfit?query=outfit'">
+                <h2 class="name-main">Outfit </h2>
+                <span class="name-label">Rodrigo Fuenzalida, Smartsheet Inc</span>
+                <p class="main-license">A beautiful geometric sans: The official typeface for brand automation
+                    company outfit.io. Inspired by the ligature-rich outfit wordmark, Outfit.io is delighted to
+                    release it's own type family. The Outfit typeface links the Outfit written voice to Outfit
+                    product marks; on brand by default.</p>
+                <span class="license-label">Open Font License</span>
+            </div>
 
-                <div class="licenses-div ripple_btn_low" onclick="window.location.href='https://fonts.google.com/specimen/Poppins?query=poppins'">
-                    <h2 class="name-main">Poppins </h2>
-                    <span class="name-label">Indian Type Foundry, Jonny Pinhorn</span>
-                    <p class="main-license">Poppins is a geometric sans serif font supporting Devanagari and Latin
-                        scripts. Its Latin glyphs are rationalist, while the Devanagari design, introduced in 2015, was
-                        pioneering, featuring various weights. Developed by Indian Type Foundry, Poppins maintains
-                        monolinear letterforms with optical corrections. It later expanded to include multiple weights
-                        and italics by the ITF studio team. </p>
-                    <span class="license-label">Open Font License</span>
-                </div>
+            <div class="licenses-div ripple_btn_low" onclick="window.location.href='https://fonts.google.com/specimen/Poppins?query=poppins'">
+                <h2 class="name-main">Poppins </h2>
+                <span class="name-label">Indian Type Foundry, Jonny Pinhorn</span>
+                <p class="main-license">Poppins is a geometric sans serif font supporting Devanagari and Latin
+                    scripts. Its Latin glyphs are rationalist, while the Devanagari design, introduced in 2015, was
+                    pioneering, featuring various weights. Developed by Indian Type Foundry, Poppins maintains
+                    monolinear letterforms with optical corrections. It later expanded to include multiple weights
+                    and italics by the ITF studio team. </p>
+                <span class="license-label">Open Font License</span>
+            </div>
 
-                <div class="licenses-div ripple_btn_low" onclick="window.location.href='https://github.com/material-components/material-web'">
-                    <h2 class="name-main">Material design components </h2>
-                    <span class="name-label">Open Source Project</span>
-                    <p class="main-license">Material Web, or MWC, is a web component library aligned with Google's
-                        Material Design guidelines. Supported by Google, it offers guidance for creating Material apps
-                        and components, accessible on material.io. Material 3, the latest version, enhances experiences
-                        with dynamic color, better accessibility, and support for large screen layouts and design
-                        tokens.</p>
-                    <span class="license-label">Apache-2.0</span>
-                </div>
+            <div class="licenses-div ripple_btn_low" onclick="window.location.href='https://github.com/material-components/material-web'">
+                <h2 class="name-main">Material design components </h2>
+                <span class="name-label">Open Source Project</span>
+                <p class="main-license">Material Web, or MWC, is a web component library aligned with Google's
+                    Material Design guidelines. Supported by Google, it offers guidance for creating Material apps
+                    and components, accessible on material.io. Material 3, the latest version, enhances experiences
+                    with dynamic color, better accessibility, and support for large screen layouts and design
+                    tokens.</p>
+                <span class="license-label">Apache-2.0</span>
+            </div>
 
             <br>
-            </div>
         </div>
     </div>
+</div>
 
 
 
 <script>
-    const user7 = document.getElementById('headUser-7')
+        const user7 = document.getElementById('headUser-7')
 
 
 
 function changeColorOnScroll7() {
-  var container = document.getElementById('headUser-7');
-  var scrollY = container.scrollTop;
+    var container = document.getElementById('headUser-7');
+    var scrollY = container.scrollTop;
 
-  if (scrollY >= 50) {
-    document.getElementById('head-7').style.backgroundColor = 'var(--Surface-Container)'; 
-    document.getElementById('head-7').style.transition = ''; 
+    if (scrollY >= 50) {
+        document.getElementById('head-7').style.backgroundColor = 'var(--Surface-Container)';
+        document.getElementById('head-7').style.transition = '';
 
-    document.getElementById('headUser-7').style.scrollSnapType = 'unset'; 
-    container.removeEventListener('scroll', changeColorOnScroll7); 
-    checkSearchScroll()
+        document.getElementById('headUser-7').style.scrollSnapType = 'unset';
+        container.removeEventListener('scroll', changeColorOnScroll7);
+        sendThemeToAndroid('Scrolled')
 
-  } else {
+    } else {
 
-  }
+    }
 }
 
-if(user7){
-  document.getElementById('headUser-7').addEventListener('scroll', changeColorOnScroll7);
-  }
+if (user7) {
+    document.getElementById('headUser-7').addEventListener('scroll', changeColorOnScroll7);
+}
 
 
 
 function changeColorOnScroll7A() {
-  var container = document.getElementById('headUser-7');
-  var scrollY = container.scrollTop;
+    var container = document.getElementById('headUser-7');
+    var scrollY = container.scrollTop;
 
-  if (scrollY <= 1) {
-    document.getElementById('head-7').style.backgroundColor = ''; 
-    document.getElementById('head-7').style.transition = 'background-color 0.2s ease-in'; 
+    if (scrollY <= 1) {
+        document.getElementById('head-7').style.backgroundColor = '';
+        document.getElementById('head-7').style.transition = 'background-color 0.2s ease-in';
 
-    ActivityColor();
-    container.addEventListener('scroll', changeColorOnScroll7); 
-    if(scrollY <= 20); {
-      document.getElementById('headUser-7').style.scrollSnapType = ''; 
+        sendThemeToAndroid('ScrollFalse')
+        container.addEventListener('scroll', changeColorOnScroll7);
+        if (scrollY <= 20); {
+            document.getElementById('headUser-7').style.scrollSnapType = '';
 
-    } 
+        }
 
-  } else{
-      
-  }
+    } else {
+
+    }
 }
 
-if(user7){
-document.getElementById('headUser-7').addEventListener('scroll', changeColorOnScroll7A);
+if (user7) {
+    document.getElementById('headUser-7').addEventListener('scroll', changeColorOnScroll7A);
 }
+
+function sendThemeToAndroid(theme) {
+
+AndroidInterface.updateStatusBarColor(theme);
+};
 
 </script>
 
-    <script src="../../app/navigate.js"></script>
-    <script src="../../components-script.js/components.js"></script>
-    <script src="../../ripple-files/icon-ripple.js"></script>
-    <script src="../../modules/scroll.js"></script>
-    <script src="../../modules/call-themes.js"></script>
-    <script src="../../bundle.js"></script>
-    <script type="module" src="../../index.js"></script>
-    <script src="../../modules/ripple.js"></script>
-    <script src="../../app/ripple.js"></script>
-    <script src="../../app/apply.js"></script>
+<script src="../../app/navigate.js"></script>
+<script src="../../components-script.js/components.js"></script>
+<script src="../../ripple-files/icon-ripple.js"></script>
+<script src="../../modules/scroll.js"></script>
+<script src="../../modules/call-themes.js"></script>
+<script src="../../bundle.js"></script>
+<script type="module" src="../../index.js"></script>
+<script src="../../modules/ripple.js"></script>
+<script src="../../app/ripple.js"></script>
+<script src="../../app/apply.js"></script>
 </body>
 
 </html>
