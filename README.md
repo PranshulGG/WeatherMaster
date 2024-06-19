@@ -51,7 +51,7 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
    
  - <strong>Material Web Components: </stronge>Utilized to create a consistent and attractive Material Design look and feel.
 
- - <strong>Weather icons</strong>: <a href="https://gitlab.com/bignutty/google-weather-icons/-/tree/main/icons/weather/light?ref_type=heads">Pack 1</a> and <a href="https://github.com/basmilius/weather-icons">Pack 2</a>
+ - <strong>Weather icons</strong>: <a href="https://gitlab.com/bignutty/google-weather-icons">Google weather icons
 
  # ✅ Todos:
  
