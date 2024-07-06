@@ -22,7 +22,7 @@
         </h2>
     </div>
     <div class="header_actions">
-        <button class="ripple-icon-btn focus regular" id="city-open" ontouchstart="playEffect(this)"
+        <button class="ripple-icon-btn focus regular" id="city-open" ontouchstart="playEffect(this)" disabled
                 ontouchend="playEffect2(this)">
             <span class="ripple-effect-icon"></span>
             <span icon-outlined>search</span>
@@ -32,22 +32,12 @@
             <span class="ripple-effect-icon"></span>
             <span icon-outlined>refresh</span>
         </button>
-        <button class="ripple-icon-btn focus regular" id="usage-popover-anchorMenu" ontouchstart="playEffect(this)"
+        <button class="ripple-icon-btn focus regular" onclick="sendThemeToAndroid('OpenSettings')" ontouchstart="playEffect(this)"
                 ontouchend="playEffect2(this)">
             <span class="ripple-effect-icon"></span>
-            <span icon-outlined>more_vert</span>
+            <span icon-outlined>Settings</span>
         </button>
 
-        <md-menu positioning="popover" id="usage-popover" anchor="usage-popover-anchorMenu" anchor-corner="start-start">
-            <md-menu-item menu-type onclick="window.location.reload()">
-                <div slot="headline">Current location</div>
-            </md-menu-item>
-            <md-menu-item onclick="sendThemeToAndroid('OpenSettings')" menu-type>
-                <div slot="headline">Settings</div>
-            </md-menu-item>
-        </md-menu>
-
-        <div id="menu-overLap" hidden></div>
 
     </div>
 </div>
@@ -83,17 +73,17 @@
 
         <div class="high-all">
             <div class="high-mini">
-                <div class="mini humidity ripple_btn_low" onclick="ShowSnack('Humidity', 2000, 3)">
+                <div class="mini humidity ripple_btn_low" >
                     <span icon-outlined>thermostat</span>
                     <p id="humidity"></p>
                 </div>
 
-                <div class="mini wind ripple_btn_low" onclick="ShowSnack('Wind Speed', 2000, 3)">
+                <div class="mini wind ripple_btn_low">
                     <span icon-outlined>wind_power</span>
                     <p id="wind-speed"></p>
                 </div>
 
-                <div class="mini clouds ripple_btn_low" onclick="ShowSnack('Cloud Percentage', 2000, 3)">
+                <div class="mini clouds ripple_btn_low">
                     <span icon-outlined>cloud</span>
                     <p id="clouds"></p>
                 </div>
@@ -267,6 +257,18 @@
         <div class="city-list" id="city-list">
 
         </div>
+
+        <div class="currentLocationdiv" style="margin-top: 20px; ">
+            <p class="title" style="display: flex; align-items: center; gap: 10px;"><md-icon icon-outlined>location_on</md-icon>Current Location</p>
+            <div class="currentLocations" id="currentLocations">
+                <div class="currentSearchImg">
+                    <img src="" id="currentSearchImg" alt=""> </div>
+                <currentLocationNames>
+                    <p id="currentLocationName"></p>
+                    <span id="temPDiscCurrentLocation"></span>
+                </currentLocationNames>
+            </div>
+        </div>
     </div>
 </div>
 <!-- loader -->
@@ -275,7 +277,11 @@
     <md-linear-progress indeterminate style="width: 100%;"></md-linear-progress>
 </div>
 
-
+<div class="fab-holder">
+    <md-fab variant="primary" onclick="getCurrentLocationWeather()">
+        <md-icon icon-outlined slot="icon">my_location</md-icon>
+    </md-fab>
+</div>
 
 
 <div id="toast-container" class="toast-container"></div>

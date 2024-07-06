@@ -69,10 +69,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     cityopen.addEventListener("click", () => {
         searchContainer.style.display = 'block';
-        cityInput.focus()
         window.history.pushState({ SearchContainerOpen: true }, "");
 
-
+        setTimeout(() =>{
+            cityInput.focus()
+        }, 300);
     });
 
     closeButton.addEventListener('click', () => {
@@ -85,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     cityInput.addEventListener('input', () => {
         const searchTerm = cityInput.value.trim();
+        document.querySelector('.currentLocationdiv').hidden = true;
 
 
         if (searchTerm) {
@@ -94,6 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             cityList.innerHTML = '';
             document.getElementById('cityLoader').hidden = true;
+            document.querySelector('.currentLocationdiv').hidden = false;
 
 
         }
@@ -115,7 +118,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('city-name').innerHTML = '<md-circular-progress indeterminate style="--md-circular-progress-size: 30px;"></md-circular-progress>'
         document.querySelector('.focus-input').blur();
         document.getElementById('forecast').scrollLeft = 0;
-    cityInput.dispatchEvent(new Event('input'));
+        document.getElementById('weather_wrap').scrollTop = 0;
+        setTimeout(() =>{
+            cityInput.dispatchEvent(new Event('input'));
+        }, 200);
 
         showLoader()
         if (selectedCity.toLowerCase() === "delhi, india") {
@@ -229,11 +235,18 @@ function getWeather(city, latitude, longitude) {
             if(SelectedTempUnit === 'fahrenheit'){
                 document.getElementById('temp').innerHTML = `${tempF}<span>°F</span>`;
             document.getElementById('max-temp').innerHTML = `${Math.round(feelslikeF)}°F`;
+         document.getElementById('temPDiscCurrentLocation').innerHTML = `${tempF}°F • <span>${description}</span>`
+
             } else{
             document.getElementById('temp').innerHTML = `${temperature}<span>°C</span>`;
             document.getElementById('max-temp').innerHTML = `${Math.round(feelslike)}°C`;
+             document.getElementById('temPDiscCurrentLocation').innerHTML = `${temperature}°C • <span>${description}</span>`
+
 
             }
+
+          document.getElementById('currentLocationName').textContent = `${cityName}, ${countryName}`;
+             document.getElementById('currentSearchImg').src = `weather-icons/${iconCode}.svg`;
 
             document.getElementById('description').textContent = description;
 
@@ -472,11 +485,19 @@ function getWeatherByCoordinates(latitude, longitude) {
             if(SelectedTempUnit === 'fahrenheit'){
                 document.getElementById('temp').innerHTML = `${tempF}<span>°F</span>`;
             document.getElementById('max-temp').innerHTML = `${Math.round(feelslikeF)}°F`;
+             document.getElementById('temPDiscCurrentLocation').innerHTML = `${tempF}°F • <span>${description}</span>`
+
             } else{
             document.getElementById('temp').innerHTML = `${temperature}<span>°C</span>`;
             document.getElementById('max-temp').innerHTML = `${Math.round(feelslike)}°C`;
 
+            document.getElementById('temPDiscCurrentLocation').innerHTML = `${temperature}°C • <span>${description}</span>`
+
             }
+
+
+              document.getElementById('currentLocationName').textContent = `${cityName}, ${countryName}`;
+                 document.getElementById('currentSearchImg').src = `weather-icons/${iconCode}.svg`;
 
 
             document.getElementById('description').textContent = description;
@@ -716,6 +737,9 @@ function display24HourForecast(forecastData) {
         }
     } else {
         console.error('Error fetching 24-hour forecast: Data is missing or insufficient');
+                forecastContainer.innerHTML = `
+                                    <div style="display: flex; align-items: center; justify-content: center; width: 100%;">
+                                <md-circular-progress indeterminate ></md-circular-progress></div>`
     }
 }
 
@@ -844,6 +868,8 @@ function showLoader() {
     const loaderContainer = document.getElementById('loader-container');
     loaderContainer.style.display = 'flex';
     loaderContainer.style.opacity = '1';
+                document.getElementById('city-open').disabled = true;
+
 }
 
 // Hide the loader
@@ -854,6 +880,8 @@ function hideLoader() {
 
     setTimeout(() => {
         loaderContainer.style.display = 'none';
+                document.getElementById('city-open').disabled = false;
+
     }, 300);
 
 
@@ -878,15 +906,6 @@ document.getElementById('forecast').addEventListener('scroll', function () {
     });
 });
 
-
-
-document.getElementById('usage-popover').addEventListener('opening', () =>{
-    document.getElementById('menu-overLap').hidden = false;
-});
-
-document.getElementById('usage-popover').addEventListener('closing', () =>{
-    document.getElementById('menu-overLap').hidden = true;
-});
 
 
 

@@ -185,8 +185,8 @@ button-filled .ripple, button-filled-i .ripple{
 
  .ripple-icon-btn[disabled]{
   pointer-events: none;
-  color: red;
-  opacity: 0.5;
+  color: var(--On-Surface);
+  opacity: 0.38;
  }
  
 
