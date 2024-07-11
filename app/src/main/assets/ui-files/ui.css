@@ -838,7 +838,7 @@ suggest-space{
   align-items: center;
   justify-content: center;
   margin: 10px;
-  margin-bottom: 100px;
+  margin-bottom: 50px;
 
   color: var(--On-Surface-Variant);
   border-radius: 50px;
@@ -958,8 +958,8 @@ currentLocationNames span{
 
 .fab-holder{
   position: fixed;
-  bottom: 16px;
-  right: 16px;
+  bottom: 20px;
+  right: 20px;
   z-index: 99;
 }
 
