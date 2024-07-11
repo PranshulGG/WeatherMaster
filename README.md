@@ -53,13 +53,13 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 
  - <strong>Weather icons</strong>: <a href="https://gitlab.com/bignutty/google-weather-icons">Google weather icons
 
- # ✅ Todos:
+ # 📝 Todos:
  
- - [ ] Make it lightweight
- - [ ] Notification alerts
- - [ ] A feature that allows you to add multiple locations
- - [ ] More detailed weather
- - [x] Change app colors according to the weather
+ - ⬛ Make it lightweight
+ - ⬛ Notification alerts
+ - ⬛ A feature that allows you to add multiple locations
+ - ⬛ More detailed weather
+ - ✅ Change app colors according to the weather
    
 <br>
 <br>
