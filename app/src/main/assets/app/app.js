@@ -102,6 +102,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+
+    cityInput.addEventListener('keypress', (event)=>{
+        const searchTerm = cityInput.value.trim();
+        document.querySelector('.currentLocationdiv').hidden = true;
+
+        if(event.key === 'Enter'){
+            if(searchTerm){
+                document.getElementById('cityLoader').hidden = false;
+                fetchCitySuggestions(searchTerm)
+                    .then(suggestions => displayCitySuggestions(suggestions, searchTerm));
+            }else {
+                cityList.innerHTML = '';
+                document.getElementById('cityLoader').hidden = true;
+                document.querySelector('.currentLocationdiv').hidden = false;
+
+
+            }
+        }
+    });
+
     cityList.addEventListener('click', (event) => {
         const selectedCity = event.target.textContent;
         const apiKey = '120d979ba5b2d0780f51872890f5ad0b';
@@ -146,6 +166,8 @@ window.addEventListener('popstate', function (event) {
     document.getElementById('search-container').style.opacity = '0'
 
     setTimeout(() => {
+        document.getElementById('city-input').value = ''
+        document.getElementById('city-input').dispatchEvent(new Event('input'));
         document.getElementById('search-container').style.display = 'none'
         document.getElementById('search-container').style.opacity = '1'
 
@@ -236,14 +258,41 @@ function getWeather(city, latitude, longitude) {
                 document.getElementById('temp').innerHTML = `${tempF}<span>°F</span>`;
             document.getElementById('max-temp').innerHTML = `${Math.round(feelslikeF)}°F`;
          document.getElementById('temPDiscCurrentLocation').innerHTML = `${tempF}°F • <span>${description}</span>`
+             document.getElementById('willFeelLike').innerHTML = `${Math.round(feelslikeF + 3)}°F`
 
             } else{
             document.getElementById('temp').innerHTML = `${temperature}<span>°C</span>`;
             document.getElementById('max-temp').innerHTML = `${Math.round(feelslike)}°C`;
              document.getElementById('temPDiscCurrentLocation').innerHTML = `${temperature}°C • <span>${description}</span>`
 
+                 document.getElementById('willFeelLike').innerHTML = ` ${Math.round(feelslike + 3)}°C`
 
             }
+
+                        if(temperature > 32){
+                            document.querySelector('.excessiveHeat').hidden = false;
+                        } else{
+                            document.querySelector('.excessiveHeat').hidden = true;
+                        }
+
+                                    const rainWithInHour = document.getElementById('rainNextHourText');
+
+                                    if (data.rain && data.rain['1h']) {
+                                        const precipitation = data.rain['1h'];
+                                        if (precipitation < 2.5) {
+                                            rainWithInHour.innerHTML = 'Light rain within an hour' + ` <span>${Math.round(data.rain['1h'])} mm</span>`;
+                                            document.getElementById('icon-next-Hour').innerHTML = 'rainy'
+                                        } else if (precipitation < 7.6) {
+                                            rainWithInHour.innerHTML = 'Moderate rain within an hour' + ` <span>${Math.round(data.rain['1h'])} mm</span>`;
+                                            document.getElementById('icon-next-Hour').innerHTML = 'rainy'
+                                        } else {
+                                            rainWithInHour.innerHTML = 'Heavy rain within an hour' + ` <span>${Math.round(data.rain['1h'])} mm</span>`;
+                                            document.getElementById('icon-next-Hour').innerHTML = 'rainy'
+                                        }
+                                    } else {
+                                        rainWithInHour.innerHTML = 'No rain expected for now or within an hour';
+                                        document.getElementById('icon-next-Hour').innerHTML = 'umbrella'
+                                    }
 
           document.getElementById('currentLocationName').textContent = `${cityName}, ${countryName}`;
              document.getElementById('currentSearchImg').src = `weather-icons/${iconCode}.svg`;
@@ -486,15 +535,43 @@ function getWeatherByCoordinates(latitude, longitude) {
                 document.getElementById('temp').innerHTML = `${tempF}<span>°F</span>`;
             document.getElementById('max-temp').innerHTML = `${Math.round(feelslikeF)}°F`;
              document.getElementById('temPDiscCurrentLocation').innerHTML = `${tempF}°F • <span>${description}</span>`
+         document.getElementById('willFeelLike').innerHTML = `${Math.round(feelslikeF + 3)}°F`
 
             } else{
             document.getElementById('temp').innerHTML = `${temperature}<span>°C</span>`;
             document.getElementById('max-temp').innerHTML = `${Math.round(feelslike)}°C`;
 
             document.getElementById('temPDiscCurrentLocation').innerHTML = `${temperature}°C • <span>${description}</span>`
+             document.getElementById('willFeelLike').innerHTML = ` ${Math.round(feelslike + 3)}°C`
 
             }
 
+                        if(temperature > 32){
+                            document.querySelector('.excessiveHeat').hidden = false;
+                        } else{
+                            document.querySelector('.excessiveHeat').hidden = true;
+                        }
+
+
+
+                                    const rainWithInHour = document.getElementById('rainNextHourText');
+
+                                    if (data.rain && data.rain['1h']) {
+                                        const precipitation = data.rain['1h'];
+                                        if (precipitation < 2.5) {
+                                            rainWithInHour.innerHTML = 'Light rain within an hour' + ` <span>${Math.round(data.rain['1h'])} mm</span>`;
+                                            document.getElementById('icon-next-Hour').innerHTML = 'rainy'
+                                        } else if (precipitation < 7.6) {
+                                            rainWithInHour.innerHTML = 'Moderate rain within an hour' + ` <span>${Math.round(data.rain['1h'])} mm</span>`;
+                                            document.getElementById('icon-next-Hour').innerHTML = 'rainy'
+                                        } else {
+                                            rainWithInHour.innerHTML = 'Heavy rain within an hour' + ` <span>${Math.round(data.rain['1h'])} mm</span>`;
+                                            document.getElementById('icon-next-Hour').innerHTML = 'rainy'
+                                        }
+                                    } else {
+                                        rainWithInHour.innerHTML = 'No rain expected for now or within an hour';
+                                        document.getElementById('icon-next-Hour').innerHTML = 'umbrella'
+                                    }
 
               document.getElementById('currentLocationName').textContent = `${cityName}, ${countryName}`;
                  document.getElementById('currentSearchImg').src = `weather-icons/${iconCode}.svg`;

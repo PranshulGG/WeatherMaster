@@ -220,7 +220,7 @@ body {
 .all-5d {
   background-color: var(--Surface);
   margin: 10px;
-  /* margin-top: 5px; */
+   margin-top: 5px;
   border-radius: 10px 10px 10px 10px;
   overflow: hidden;
 
@@ -838,7 +838,8 @@ suggest-space{
   align-items: center;
   justify-content: center;
   margin: 10px;
-  margin-bottom: 40px;
+  margin-bottom: 100px;
+
   color: var(--On-Surface-Variant);
   border-radius: 50px;
 }
@@ -957,7 +958,76 @@ currentLocationNames span{
 
 .fab-holder{
   position: fixed;
-  bottom: calc(30px + 16px);
+  bottom: 16px;
   right: 16px;
   z-index: 99;
+}
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration { display: none; }
+
+.rainNextHour, .excessiveHeat{
+  background-color: var(--Surface);
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  padding: 10px;
+  gap: 15px;
+  font-size: 16px;
+  color: var(--On-Surface);
+}
+
+.icon-container-rainnextHour, .icon-container-excessiveHeat{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #284777;
+  color: #d6e3ff;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 24px;
+}
+
+.rainNextHour span{
+  background-color: var(--Surface-Bright);
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 5px;
+  color: var(--On-Surface);
+}
+
+.rainNextHour p, .excessiveHeat p{
+  margin: 0;
+}
+
+.excessiveHeat{
+  background-color: var(--Error-Container) !important;
+  color: var(--On-Error-Container) !important;
+  font-size: 18px;
+}
+
+.icon-container-excessiveHeat{
+  background-color: var(--Error) !important;
+  color: var(--On-Error) !important;
+}
+
+.excessiveHeat p{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+}
+
+.excessiveHeat p text{
+  font-size: 15px;
+  font-family: var(--google-normal);
+  opacity: 0.9;
+}
+.excessiveHeat p span{
+  font-size: 15px;
+  font-family: var(--google-normal);
+  opacity: 0.9;
 }

@@ -70,6 +70,21 @@
             <img src="" id="froggie_imgs" alt="">
         </div>
 
+        <div class="excessiveHeat" style="margin-bottom: 0;" hidden>
+            <div class="icon-container-excessiveHeat">
+                <md-icon icon-filled>emergency_heat_2</md-icon>
+            </div>
+            <p id="excessiveHeatText">Excessive heat <span><text>Will feel like</text><span id="willFeelLike"> 45C</span></span></p>
+
+        </div>
+
+        <div class="rainNextHour"style="">
+            <div class="icon-container-rainnextHour">
+                <md-icon icon-filled id="icon-next-Hour">circle</md-icon>
+            </div>
+            <p id="rainNextHourText"></p>
+        </div>
+
 
         <div class="high-all">
             <div class="high-mini">
@@ -240,7 +255,7 @@
             <span class="ripple-effect-icon"></span>
             <span icon-outlined>arrow_back</span>
         </button>
-        <input type="text" id="city-input" class="focus-input" placeholder="Search for a city..." style="width: 100%;"
+        <input type="search" id="city-input" class="focus-input" placeholder="Search for a city..." style="width: 100%;"
                autocomplete="off">
 
         <div class="city_loader">
@@ -290,7 +305,7 @@
     <div class="top_error_internet">Something went wrong!</div>
     <div class="bottom_no_interNet_actions">
         <p style="text-align: center;">An error occurred</p>
-        <md-filled-button onclick="window.location.reload()">Retry</md-filled-button></div>
+        <md-filled-button onclick="window.location.reload(); sendThemeToAndroid('10d')">Retry</md-filled-button></div>
 </div>
 
 
@@ -369,12 +384,6 @@ function checkNoInternet(){
 
     </script>
 
-<script type="module">
-    const anchorEl = document.body.querySelector('#usage-popover-anchorMenu');
-    const menuEl = document.body.querySelector('#usage-popover');
-
-    anchorEl.addEventListener('click', () => { menuEl.open = !menuEl.open; });
-  </script>
 
 
 <script type="module" src="./index.js"></script>
