@@ -185,7 +185,7 @@ body {
 
   padding-left: 10px;
   padding-right: 10px;
-  border-radius: 20px 20px 10px 10px;
+  border-radius: 10px 10px 5px 5px;
 
   margin-bottom: 5px;
 }
@@ -221,13 +221,13 @@ body {
   background-color: var(--Surface);
   margin: 10px;
    margin-top: 5px;
-  border-radius: 10px 10px 10px 10px;
+  border-radius: 5px 5px 5px 5px;
   overflow: hidden;
-
+  margin-bottom: 0;
 }
 
 .all-5d {
-  border-radius: 10px 10px 20px 20px;
+  border-radius: 5px 5px 5px 5px;
 
 }
 
@@ -441,45 +441,7 @@ body {
   font-size: 16px;
 }
 
-.all-sun-div {
-  background-color: var(--Surface);
-  margin: 10px;
 
-
-}
-
-.sunset-rise div img {
-  width: 80px;
-}
-
-.sunset-rise {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-}
-
-.bttom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 0;
-  flex-direction: row;
-  height: max-content;
-  width: calc(100% - 60px);
-  margin: 10px;
-  background-color: rgba(0, 0, 0, 0.247);
-  padding-left: 20px;
-  padding-right: 20px;
-  border-radius: 20px 20px 10px 10px;
-  position: relative;
-
-}
-
-.bttom p {
-  color: var(--On-Surface);
-  font-size: 18px;
-  margin: 0;
-}
 
 .loader-container {
   display: flex;
@@ -812,7 +774,7 @@ suggest-space{
 }
 
 .city-list {
-  padding-top: 10px;
+  margin-top: 10px;
 }
 
 .city-list .suggest::before {
@@ -892,8 +854,9 @@ background: linear-gradient(0deg, rgba(255, 0, 0, 0), var(--Secondary-Container)
   align-items: center;
   background-color: var(--Surface);
   margin: 10px;
-  border-radius: 20px;
+  border-radius: 5px 5px 10px 10px;
   padding: 10px;
+  margin-top: 5px;
 }
 
 .cloths div{
@@ -1030,4 +993,176 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
   font-size: 15px;
   font-family: var(--google-normal);
   opacity: 0.9;
+}
+
+suntrack, moontrack{
+  background-color: var(--Surface-Container-Highest);
+  height: 25px;
+  display: flex;
+  margin: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+  border-radius: 2px;
+}
+
+
+
+suntrackprogress, moontrackprogress{
+  width: 50%;
+  height: 100%;
+  background-color: orange;
+  position: relative;
+  transition: width 2s ease-in;
+  border-radius: inherit;
+}
+
+moontrackprogress{
+  background-color: silver;
+
+}
+
+sun{
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  background: url('../icons/sun.png');
+  right: -30px;
+  background-size: cover;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+moon{
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  background: url('../icons/moon.png');
+  right: -30px;
+  background-size: cover;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+
+
+/* timings */
+
+.setRiseDivWrap{
+  background-color: var(--Surface);
+  margin: 10px;
+  border-radius: 10px 10px 5px 5px;
+}
+
+.wrapTimingdiv{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+
+.timingWrap span{
+    font-family: var(--google-mid);
+    color: var(--On-Surface-Variant);
+    font-size: 15px;
+}
+
+.timingItem p{
+  margin: 0;
+  color: var(--On-Surface);
+  font-size: 18px;
+}
+
+.currentConditions{
+  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  padding-top: 0;
+  align-content: center;
+  justify-items: center;
+  gap: 10px;
+}
+
+.currentConditions .currentConditionItem{
+  background-color: var(--Surface);
+  border-radius: 10px;
+  /* width: 160px; */
+  width: 100%;
+}
+
+.currentConditionItem .currentCondtionLabel{
+  padding: 15px;
+  color: var(--On-Surface-Variant);
+  font-family: var(--google-mid);
+}
+
+.currentConditions currentConditonIcon i{
+  position: absolute;
+  font-size: 23px;
+  color: var(--On-Surface);
+}
+
+.currentConditions currentConditonIcon{
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  height: 100px;
+}
+
+.currentConditions currentConditonIcon .md-circle01{
+  --md-circular-progress-size: 100px;
+  --md-circular-progress-active-indicator-width: 13;
+  stroke-linecap: round;
+  z-index: 1;
+  --md-sys-color-primary: #5fb1f8;
+}
+
+.currentConditions currentConditonIcon .md-circle02{
+  --md-circular-progress-size: 100px;
+  --md-circular-progress-active-indicator-width: 13;
+  stroke-linecap: round;
+  --md-sys-color-primary: #cee4ff;
+  position: absolute;
+}
+
+.currentConditions p{
+  padding: 15px;
+  color: var(--On-Surface);
+  font-size: 20px;
+  font-family: var(--google-normal);
+  margin: 0;
+}
+
+humidityBar{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+}
+
+
+humidityBar humidityBarWrap{
+  height: 65px;
+  background-color: #fde293;
+  width: 35px;
+  border-radius: 50px;
+  position: relative;
+  overflow: hidden;
+}
+humidityBarWrap humidityBarProgress{
+  height: 40%;
+  width: 100%;
+  background-color: #fbbe11;
+  bottom: 0;
+  left: 0;
+  transition: height 2s ease-in;
+  position: absolute;
+}
+
+humidityBar span{
+  color: var(--On-Surface);
+  font-size: 15px;
 }

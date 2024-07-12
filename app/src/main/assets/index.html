@@ -88,14 +88,15 @@
 
         <div class="high-all">
             <div class="high-mini">
-                <div class="mini humidity ripple_btn_low" >
-                    <span icon-outlined>thermostat</span>
-                    <p id="humidity"></p>
-                </div>
 
                 <div class="mini wind ripple_btn_low">
                     <span icon-outlined>wind_power</span>
                     <p id="wind-speed"></p>
+                </div>
+
+                <div class="mini humidity ripple_btn_low">
+                    <span icon-filled class="direction" style="transition: transform 2s ease-out; transform: rotate(-180deg); color: var(--Secondary);">assistant_navigation</span>
+                    <p id="directionWind"></p>
                 </div>
 
                 <div class="mini clouds ripple_btn_low">
@@ -104,6 +105,7 @@
                 </div>
             </div>
         </div>
+
 
 
         <div class="other-main">
@@ -140,52 +142,105 @@
             </div>
 
 
-            <div class="all-sun-div" style="border-radius: 20px 20px 10px 10px; margin-bottom: 5px;">
-                <div class="sun_text">
-                    <p >Sunrise & Sunset / Moonrise & Moonset</p>
+            <div class="setRiseDivWrap" style="margin-bottom: 0px;">
+                <div class="h1">
+                    <p>Sunrise & Sunset</p>
                 </div>
-                <div class="sunset-rise" style="display: grid; grid-template-columns: repeat(2, 1fr); row-gap: 1px; column-gap:5px; padding: 10px; padding-bottom: 5px; padding-top: 5px;">
 
-                    <div class="bttom sunset" style="flex-direction: column; border-radius: 10px; padding-bottom: 10px; margin-bottom: 4px; margin-top: 0;  padding-left: 0px; padding-right: 0px; width: 100%; border-radius: 20px 10px 10px 10px; margin-left: 0; margin-right: 0;">
-                        <img src="icons/sunrise.svg" style="width: 60px;" alt="">
-                        <p id="sunrise"></p>
-                    </div>
-                    <div class="bttom sunrise" style="flex-direction: column; border-radius: 10px; padding-bottom: 10px; margin-bottom: 4px; margin-top: 0; margin-left: 0; padding-left: 0px; padding-right: 0px; width: 100%; border-radius: 10px 20px 10px 10px; margin-left: 0; margin-right: 0;" >
-                        <img src="icons/sunset.svg" style="width: 60px;" alt="">
-                        <p id="sunset"></p>
-                    </div>
-                    <div class="bttom moonset" style="flex-direction: column; border-radius: 10px; padding-bottom: 10px; margin-bottom: 4px; margin-top: 0; padding-left: 0px; padding-right: 0px; width: 100%; border-radius: 10px 10px 10px 20px; margin-left: 0; margin-right: 0;">
-                        <img src="icons/moonrise.svg" style="width: 60px;" alt="">
-                        <p id="moonrise"></p>
-                    </div>
-                    <div class="bttom moonrise" style="flex-direction: column; border-radius: 10px; padding-bottom: 10px; margin-bottom: 4px; margin-left: 0;  margin-top: 0; padding-left: 0px; padding-right: 0px; width: 100%; border-radius: 10px 10px 20px 10px; margin-left: 0; margin-right: 0;" >
-                        <img src="icons/moonset.svg" style="width: 60px;" alt="">
-                        <p id="moonset"></p>
+                <div class="wrapTimingdiv">
+                    <div class="timingWrap">
+                        <span>Sunrise</span>
+                        <div class="timingItem">
+                            <p id="sunrise"></p>
+                        </div>
                     </div>
 
+                    <div class="timingWrap">
+                        <span>Sunset</span>
+                        <div class="timingItem">
+                            <p id="sunset"></p>
+                        </div>
+                    </div>
                 </div>
+
+
+
+                <suntrack>
+                    <suntrackprogress>
+                        <sun></sun>
+                    </suntrackprogress>
+                </suntrack>
+                <br>
+            </div>
+
+            <div class="setRiseDivWrap" style="border-radius: 5px 5px 10px 10px; margin-top: 5px;">
+                <div class="h1">
+                    <p>Moonrise & Moonset</p>
+                </div>
+
+                <div class="wrapTimingdiv">
+                    <div class="timingWrap">
+                        <span>Moonrise</span>
+                        <div class="timingItem">
+                            <p id="moonrise"></p>
+                        </div>
+                    </div>
+
+                    <div class="timingWrap">
+                        <span>Moonset</span>
+                        <div class="timingItem">
+                            <p id="moonset"></p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <moontrack>
+                    <moontrackprogress>
+                        <moon></moon>
+                    </moontrackprogress>
+                </moontrack>
+
+                <br>
             </div>
 
 
 
+            <div class="currentConditions">
 
-            <div class="all-sun-div" style="border-radius: 10px 10px 20px 20px ; margin-top: 0;">
-                <div class="sun_text">
+                <div class="currentConditionItem">
 
-                    <p >Feels Like & Visibility</p>
-
-                </div>
-                <div class="sunset-rise">
-
-                    <div class="bttom sunset" style="margin-bottom: 5px;">
-                        <img src="icons/feels_like.svg" alt="">
-                        <p id="max-temp"></p>
+                    <div class="currentCondtionLabel">
+                        <span>Visibility</span>
                     </div>
-                    <div class="bttom sunrise" style="margin-top: 0; border-radius: 10px 10px 20px 20px;">
-                        <img src="icons/visibility.svg" alt="">
-                        <p id="min-temp"></p>
-                    </div>
+
+                    <currentConditonIcon>
+                        <md-circular-progress value="0.75" class="md-circle01"></md-circular-progress>
+                        <i icon-outlined>visibility</i>
+                        <md-circular-progress value="1" class="md-circle02"></md-circular-progress>
+                    </currentConditonIcon>
+                    <p id="min-temp"></p>
                 </div>
+
+                <div class="currentConditionItem">
+                    <div class="currentCondtionLabel">
+                        <span>Humidity</span>
+                    </div>
+
+                    <currentConditonIcon>
+                        <humidityBar>
+                            <span>100</span>
+                            <humidityBarWrap>
+                                <humidityBarProgress>
+                                </humidityBarProgress>
+                            </humidityBarWrap>
+                            <span>0</span>
+                        </humidityBar>
+                    </currentConditonIcon>
+                    <p id="humidity"></p>
+                </div>
+
+
             </div>
 
 

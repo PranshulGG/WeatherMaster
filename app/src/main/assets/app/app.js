@@ -251,18 +251,26 @@ function getWeather(city, latitude, longitude) {
             const feelslike = data.main.feels_like;
             const feelslikeF = Math.round(feelslike * 9 / 5 + 32);
 
+                        const windDirection = data.wind.deg;
+
+                        setTimeout(() => {
+                            document.querySelector('.direction').style.transform = `rotate(${windDirection}deg)`
+                        }, 300);
+
+                        const directions = ['North', 'North-East', 'East', 'South-East', 'South', 'South-West', 'West', 'North-West'];
+                        const index = Math.round((windDirection % 360) / 45);
+                        document.getElementById('directionWind').textContent = directions[index]
+
             const iconCode = data.weather[0].icon;
             document.getElementById('city-name').innerHTML = `${cityName}, ${countryName}`;
 
             if(SelectedTempUnit === 'fahrenheit'){
                 document.getElementById('temp').innerHTML = `${tempF}<span>°F</span>`;
-            document.getElementById('max-temp').innerHTML = `${Math.round(feelslikeF)}°F`;
          document.getElementById('temPDiscCurrentLocation').innerHTML = `${tempF}°F • <span>${description}</span>`
-             document.getElementById('willFeelLike').innerHTML = `${Math.round(feelslikeF + 3)}°F`
+             document.getElementById('willFeelLike').innerHTML = ` ${Math.round(feelslikeF + 3)}°F`
 
             } else{
             document.getElementById('temp').innerHTML = `${temperature}<span>°C</span>`;
-            document.getElementById('max-temp').innerHTML = `${Math.round(feelslike)}°C`;
              document.getElementById('temPDiscCurrentLocation').innerHTML = `${temperature}°C • <span>${description}</span>`
 
                  document.getElementById('willFeelLike').innerHTML = ` ${Math.round(feelslike + 3)}°C`
@@ -341,14 +349,39 @@ function getWeather(city, latitude, longitude) {
             if(SelectedVisibiltyUnit === 'mileV'){
                 document.getElementById('min-temp').innerHTML = `${visibilityInMiles} mile`;
             } else{
-                document.getElementById('min-temp').innerHTML = `${visibility / 1000} km`;
+                document.getElementById('min-temp').innerHTML = `${(visibility / 1000).toFixed(0)} km`;
 
             }
+
+                        let visibilityInKm = visibility / 1000;
+                        let maxVisibility = 15;
+
+                        let visibilityPercentage = Math.min(visibilityInKm / maxVisibility, 1);
+
+                        document.querySelector('.md-circle01').setAttribute('value', visibilityPercentage.toString());
+
 
             document.getElementById('sunrise').textContent = sunrise;
             document.getElementById('sunset').textContent = sunset;
             document.getElementById('humidity').textContent = `${humidity}%`;
             document.getElementById('clouds').textContent = `${clouds}%`;
+            document.querySelector('humidityBarProgress').style.height = `${humidity}%`;
+
+            function updateSuntrackProgress() {
+                            const currentTime = new Date();
+                            const daylightDuration = sunsetUTC - sunriseUTC;
+                            const timeSinceSunrise = currentTime - sunriseUTC;
+
+                            const validTimeSinceSunrise = Math.max(timeSinceSunrise, 0);
+
+                            const percentageOfDaylight = (validTimeSinceSunrise / daylightDuration) * 100;
+                            document.querySelector('suntrackprogress').style.width = `${percentageOfDaylight}%`;
+                            console.log('updated')
+                        }
+
+                        updateSuntrackProgress();
+
+                        setInterval(updateSuntrackProgress, 60000);
 
 
 
@@ -531,15 +564,23 @@ function getWeatherByCoordinates(latitude, longitude) {
             const feelslikeF = Math.round(feelslike * 9 / 5 + 32);
             document.getElementById('city-name').innerHTML = `${cityName}, ${countryName}`;
 
+                        const windDirection = data.wind.deg;
+
+                        setTimeout(() => {
+                            document.querySelector('.direction').style.transform = `rotate(${windDirection}deg)`
+                        }, 300);
+
+                        const directions = ['North', 'North-East', 'East', 'South-East', 'South', 'South-West', 'West', 'North-West'];
+                        const index = Math.round((windDirection % 360) / 45);
+                        document.getElementById('directionWind').textContent = directions[index]
+
             if(SelectedTempUnit === 'fahrenheit'){
                 document.getElementById('temp').innerHTML = `${tempF}<span>°F</span>`;
-            document.getElementById('max-temp').innerHTML = `${Math.round(feelslikeF)}°F`;
              document.getElementById('temPDiscCurrentLocation').innerHTML = `${tempF}°F • <span>${description}</span>`
-         document.getElementById('willFeelLike').innerHTML = `${Math.round(feelslikeF + 3)}°F`
+         document.getElementById('willFeelLike').innerHTML = ` ${Math.round(feelslikeF + 3)}°F`
 
             } else{
             document.getElementById('temp').innerHTML = `${temperature}<span>°C</span>`;
-            document.getElementById('max-temp').innerHTML = `${Math.round(feelslike)}°C`;
 
             document.getElementById('temPDiscCurrentLocation').innerHTML = `${temperature}°C • <span>${description}</span>`
              document.getElementById('willFeelLike').innerHTML = ` ${Math.round(feelslike + 3)}°C`
@@ -622,8 +663,17 @@ function getWeatherByCoordinates(latitude, longitude) {
                 document.getElementById('min-temp').innerHTML = `${visibilityInMiles} mile`;
 
             } else{
-                document.getElementById('min-temp').innerHTML = `${visibility / 1000} km`;
+                document.getElementById('min-temp').innerHTML = `${(visibility / 1000).toFixed(0)} km`;
             }
+
+
+
+            let visibilityInKm = visibility / 1000;
+            let maxVisibility = 15;
+
+            let visibilityPercentage = Math.min(visibilityInKm / maxVisibility, 1);
+
+            document.querySelector('.md-circle01').setAttribute('value', visibilityPercentage.toString());
 
 
             document.getElementById('sunrise').textContent = sunrise;
@@ -631,9 +681,24 @@ function getWeatherByCoordinates(latitude, longitude) {
 
             document.getElementById('humidity').textContent = ` ${humidity}% `;
             document.getElementById('clouds').textContent = `${clouds}%`;
+            document.querySelector('humidityBarProgress').style.height = `${humidity}%`;
 
 
+            function updateSuntrackProgress() {
+                            const currentTime = new Date();
+                            const daylightDuration = sunsetUTC - sunriseUTC;
+                            const timeSinceSunrise = currentTime - sunriseUTC;
 
+                            const validTimeSinceSunrise = Math.max(timeSinceSunrise, 0);
+
+                            const percentageOfDaylight = (validTimeSinceSunrise / daylightDuration) * 100;
+                            document.querySelector('suntrackprogress').style.width = `${percentageOfDaylight}%`;
+                            console.log('updated')
+                        }
+
+                        updateSuntrackProgress();
+
+                        setInterval(updateSuntrackProgress, 60000);
 
 
             const lastUpdatedTimestamp = data.dt;
@@ -926,8 +991,8 @@ function display5DayForecast(forecastData) {
 
 
 
-        const minTemp = -100;
-        const maxTemp = 50;
+        const minTemp = -70;
+        const maxTemp = 60;
         const value = (temp - minTemp) / (maxTemp - minTemp);
         setTimeout(() => {
             document.getElementById(`temp-bar-${i}`).value = value;
@@ -986,7 +1051,7 @@ document.getElementById('forecast').addEventListener('scroll', function () {
 
 
 
-function getMoonSetMoonRise(lat,long){
+function getMoonSetMoonRise(lat, long) {
     fetch(`https://api.ipgeolocation.io/astronomy?apiKey=f22c81e7a0b5448e812ad5e0e1c25242&lat=${lat}&long=${long}`)
         .then(response => response.json())
         .then(data => {
@@ -994,8 +1059,13 @@ function getMoonSetMoonRise(lat,long){
             const moonset = formatTimeMoonRiseMoonSet(data.moonset);
             document.getElementById('moonrise').textContent = `${moonrise}`;
             document.getElementById('moonset').textContent = `${moonset}`;
-        })
-    }
+
+            const moonriseTime = parseTime(data.moonrise);
+            const moonsetTime = parseTime(data.moonset);
+
+            updateMoonProgress(moonriseTime, moonsetTime);
+        });
+}
 
 function formatTimeMoonRiseMoonSet(time24) {
     let [hours, minutes] = time24.split(':').map(Number);
@@ -1015,6 +1085,36 @@ function formatTimeMoonRiseMoonSet(time24) {
 
     return `${hours}:${minutes} ${period}`;
 }
+
+function parseTime(time24) {
+    const [hours, minutes] = time24.split(':').map(Number);
+    const now = new Date();
+    now.setHours(hours, minutes, 0, 0);
+    return now;
+}
+
+function updateMoonProgress(moonrise, moonset) {
+    const updateProgress = () => {
+        const currentTime = new Date();
+        const moonlightDuration = moonset - moonrise;
+        const timeSinceMoonrise = currentTime - moonrise;
+
+        if (timeSinceMoonrise < 0 || currentTime > moonset) {
+            const percentageOfMoonlight = currentTime < moonrise ? 0 : 100;
+            document.getElementById('moontrackprogress').style.width = `${percentageOfMoonlight}%`;
+        } else {
+            const percentageOfMoonlight = (timeSinceMoonrise / moonlightDuration) * 100;
+            document.querySelector('moontrackprogress').style.width = `${percentageOfMoonlight}%`;
+        }
+
+        console.log('updated')
+
+    };
+    updateProgress();
+
+    setInterval(updateProgress, 60000);
+}
+
 
 function refreshWeather(){
     const latSend = localStorage.getItem('currentLat')
