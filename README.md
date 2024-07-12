@@ -8,11 +8,11 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 # 👁️ Preview
 
 <div > 
-<img alt="App image" src="imgs/img_1.jpeg" width="30%">
-<img alt="App image" src="imgs/img_2.jpeg" width="30%">
-<img alt="App image" src="imgs/img_3.jpeg" width="30%">
-<img alt="App image" src="imgs/img_4.jpeg" width="30%">
-<img alt="App image" src="imgs/img_5.jpeg" width="30%">
+<img alt="App image" src="screenshots/1.png" width="30%" style="border-radius: 10px;">
+<img alt="App image" src="screenshots/2.png" width="30%">
+<img alt="App image" src="screenshots/3.png" width="30%">
+<img alt="App image" src="screenshots/4.png" width="30%">
+<img alt="App image" src="screenshots/5.png" width="30%">
   
 </div>
 
@@ -53,13 +53,13 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 
  - <strong>Weather icons</strong>: <a href="https://gitlab.com/bignutty/google-weather-icons">Google weather icons
 
- # ✅ Todos:
+ # 📝 Todos:
  
- - [ ] Make it lightweight
- - [ ] Notification alerts
- - [ ] A feature that allows you to add multiple locations
- - [ ] More detailed weather
- - [x] Change app colors according to the weather
+ - ⬛ Make it lightweight
+ - ⬛ Notification alerts
+ - ⬛ A feature that allows you to add multiple locations
+ - ⬛ More detailed weather
+ - ✅ Change app colors according to the weather
    
 <br>
 <br>
