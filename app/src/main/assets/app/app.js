@@ -1176,6 +1176,7 @@ function showLoader() {
     loaderContainer.style.display = 'flex';
     loaderContainer.style.opacity = '1';
                 document.getElementById('city-open').disabled = true;
+                document.querySelector('rainmeterbar').scrollLeft = 0
 
 }
 
