@@ -26,32 +26,20 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-const uvIndexData = [
-    { description: "Very Low", style: "background-color: #4AC708;", img: 'uv-images/uv-0.png', detail: 'A UV index of 0 is considered satisfactory, indicating that there is little or no risk of harm from ultraviolet radiation.' },
-    { description: "Low", style: "background-color: #4AC708;", img: 'uv-images/uv-1.png', detail: 'A UV index of 1 is considered satisfactory, indicating that there is little or no risk of harm from ultraviolet radiation.' },
-    { description: "Acceptable", style: "background-color: #4AC708;", img: 'uv-images/uv-2.png', detail: 'With a UV index of 2, conditions are still generally low-risk, indicating that exposure to ultraviolet radiation poses a minimal threat.' },
-    { description: "Fair", style: "background-color: #FFB800;", img: 'uv-images/uv-3.png', detail: 'At a index of 3, the risk of harm from ultraviolet radiation remains low. It is considered moderate, suggesting a slight increase in caution for prolonged sun exposure.' },
-    { description: "Moderate", style: "background-color: #FFB800;", img: 'uv-images/uv-4.png', detail: 'index at 4 Moderate risk. Caution advised—consider sunscreen and limit sun exposure during peak hours.' },
-    { description: "Balanced", style: "background-color: #FFB800;", img: 'uv-images/uv-5.png', detail: 'index of 5 Moderate risk. Use sunscreen, especially during midday hours, and take precautions for extended sun exposure.' },
-    { description: "Elevated", style: "background-color: #ff8d00;", img: 'uv-images/uv-6.png', detail: 'index at 6 Moderate to high risk. Apply sunscreen, wear protective clothing, and limit sun exposure, especially during midday hours.' },
-    { description: "Intense", style: "background-color: #ff8d00;", img: 'uv-images/uv-7.png', detail: 'index at 7 High risk. Use sunscreen, protective clothing, and limit sun exposure, particularly during midday hours, to reduce the risk of harm from intense ultraviolet radiation.' },
-    { description: "Severe", style: "background-color: #ff3c00;", img: 'uv-images/uv-8.png', detail: 'index of 8 Very high risk. Take utmost precautions—apply sunscreen, wear protective clothing, and minimize sun exposure, especially during midday hours, to prevent harm from intense ultraviolet radiation.' },
-    { description: "Critical", style: "background-color: #ff3c00;", img: 'uv-images/uv-9.png', detail: 'index at 9 Extremely high risk. Use high SPF sunscreen, wear protective clothing, and avoid prolonged sun exposure, especially midday, to minimize harm from intense ultraviolet radiation.' },
-    { description: "Its Very High", style: "background-color: #ff3c00;", img: 'uv-images/uv-10.png', detail: 'index at 10 Very high risk. Maximize precautions—use high SPF sunscreen, wear protective clothing, and limit sun exposure, especially midday, to minimize harm from intense ultraviolet radiation.' },
-    { description: "Extreme", style: "background-color: #9936D4;", img: 'uv-images/uv-11.png', detail: 'Index at 11 avoid every outdoor activies.' },
-    { description: "Extreme+", style: "background-color: #FF0087;", img: 'uv-images/uv-12.png', detail: 'Index at 12 avoid every outdoor activies.' },
-    { description: "Extreme++", style: "background-color: #FF0087;", img: 'uv-images/uv-13.png', detail: 'Index at 13 avoid every outdoor activies.' },
-    { description: "Extreme++", style: "background-color: #FF0087;", img: 'uv-images/uv-13.png', detail: 'Index at 13 avoid every outdoor activies.' },
-    { description: "Extreme++", style: "background-color: #FF0087;", img: 'uv-images/uv-13.png', detail: 'Index at 13 avoid every outdoor activies.' },
-    { description: "Extreme++", style: "background-color: #FF0087;", img: 'uv-images/uv-13.png', detail: 'Index at 13 avoid every outdoor activies.' },
-    { description: "Extreme++", style: "background-color: #FF0087;", img: 'uv-images/uv-13.png', detail: 'Index at 13 avoid every outdoor activies.' },
-    { description: "Extreme++", style: "background-color: #FF0087;", img: 'uv-images/uv-13.png', detail: 'Index at 13 avoid every outdoor activies.' },
-    { description: "Extreme++", style: "background-color: #FF0087;", img: 'uv-images/uv-13.png', detail: 'Index at 13 avoid every outdoor activies.' },
-    { description: "Extreme++", style: "background-color: #FF0087;", img: 'uv-images/uv-13.png', detail: 'Index at 13 avoid every outdoor activies.' },
-    { description: "Extreme++", style: "background-color: #FF0087;", img: 'uv-images/uv-13.png', detail: 'Index at 13 avoid every outdoor activies.' }
-
-];
-
+const Uv_0 = 'A UV index is satisfactory, indicating that there is little or no risk of harm from ultraviolet radiation.';
+const Uv_1 = 'Conditions are generally low-risk, indicating that exposure to ultraviolet radiation poses a minimal threat.';
+const Uv_2 = 'Low exposure level with minimal risk of harm from UV radiation, suitable for most people.';
+const Uv_3 = 'Moderate risk of harm from unprotected sun exposure, protective measures recommended.';
+const Uv_4 = 'Moderate risk of harm from unprotected sun exposure, protective measures recommended.';
+const Uv_5 = 'Moderate risk of harm from unprotected sun exposure, protective measures recommended.';
+const Uv_6 = 'High risk of harm from unprotected sun exposure, protective measures required.';
+const Uv_7 = 'High risk of harm from unprotected sun exposure, protective measures required.';
+const Uv_8 = 'Very high risk of harm from unprotected sun exposure, extra precautions required.';
+const Uv_9 = 'Very high risk of harm from unprotected sun exposure, extra precautions required.';
+const Uv_10 = 'Very high risk of harm from unprotected sun exposure, extra precautions required.';
+const Uv_11 = 'Extreme risk of harm from unprotected sun exposure, full protection necessary.';
+const Uv_12 = 'Extreme risk of harm from unprotected sun exposure, full protection necessary.';
+const Uv_13 = 'Extreme risk of harm from unprotected sun exposure, full protection necessary.';
 
 function handleGeolocationError(error) {
     console.error('Error getting geolocation:', error);
@@ -231,10 +219,11 @@ function getWeather(city, latitude, longitude) {
     const apiKey = '120d979ba5b2d0780f51872890f5ad0b';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
+    setTimeout(() => {
+        updateMoonTrackProgress(latitude, longitude)
+        updateSunTrackProgress(latitude, longitude);
+    }, 500);
 
-    updateMoonTrackProgress(latitude, longitude)
-
-    updateSunTrackProgress(latitude, longitude);
 
 
     function SendupdateSunTrackProgress(){
@@ -250,6 +239,8 @@ function getWeather(city, latitude, longitude) {
 
 
     
+    localStorage.setItem('currentLong', longitude)
+    localStorage.setItem('currentLat', latitude)
 
 
     fetch(apiUrl)
@@ -300,24 +291,17 @@ function getWeather(city, latitude, longitude) {
                             document.querySelector('.excessiveHeat').hidden = true;
                         }
 
-                                    const rainWithInHour = document.getElementById('rainNextHourText');
+                        if (data.rain && data.rain['1h']) {
+                            const precipitation = data.rain['1h'];
+                            if (precipitation > 0) {
+                                document.getElementById('AmountRainMM').innerHTML = `${data.rain['1h'].toFixed(1)} mm`
+                                document.querySelector('noRain').hidden = true;
 
-                                    if (data.rain && data.rain['1h']) {
-                                        const precipitation = data.rain['1h'];
-                                        if (precipitation < 2.5) {
-                                            rainWithInHour.innerHTML = 'Light rain within an hour' + ` <span>${Math.round(data.rain['1h'])} mm</span>`;
-                                            document.getElementById('icon-next-Hour').innerHTML = 'rainy'
-                                        } else if (precipitation < 7.6) {
-                                            rainWithInHour.innerHTML = 'Moderate rain within an hour' + ` <span>${Math.round(data.rain['1h'])} mm</span>`;
-                                            document.getElementById('icon-next-Hour').innerHTML = 'rainy'
-                                        } else {
-                                            rainWithInHour.innerHTML = 'Heavy rain within an hour' + ` <span>${Math.round(data.rain['1h'])} mm</span>`;
-                                            document.getElementById('icon-next-Hour').innerHTML = 'rainy'
-                                        }
-                                    } else {
-                                        rainWithInHour.innerHTML = 'No rain expected for now or within an hour';
-                                        document.getElementById('icon-next-Hour').innerHTML = 'umbrella'
-                                    }
+                            }
+                        } else {
+                            document.querySelector('noRain').hidden = false;
+                            document.getElementById('AmountRainMM').innerHTML = `0.0 mm`
+                        }
 
           document.getElementById('currentLocationName').textContent = `${cityName}, ${countryName}`;
              document.getElementById('currentSearchImg').src = `weather-icons/${iconCode}.svg`;
@@ -443,11 +427,11 @@ function getWeather(city, latitude, longitude) {
                     };
 
                     const backgroundColor = {
-                        1: 'rgb(11, 189, 5)',
-                        2: 'rgb(218, 179, 8)',
-                        3: 'rgb(255, 136, 0)',
-                        4: 'rgb(255, 0, 0)',
-                        5: 'rgb(183, 0, 255)'
+                        1: '#43b710',
+                        2: '#eaaf10',
+                        3: '#eb8a11',
+                        4: '#e83f0f',
+                        5: '#8e3acf'
                     }
 
 
@@ -455,32 +439,97 @@ function getWeather(city, latitude, longitude) {
                     document.getElementById('aqi-level').style.backgroundColor = backgroundColor[aqi];
                 });
 
-            const api_uv = 'c3a14b64fd3eb5f994230183700f79d1'
+            const url = `https://currentuvindex.com/api/v1/uvi?latitude=${latitude}&longitude=${longitude}`;
+            const option = { method: 'GET', headers: { Accept: 'application/json' } };
 
-            const uvUrl = `https://api.openweathermap.org/data/2.5/uvi?lat=${latitude}&lon=${longitude}&appid=${api_uv}`;
-            fetch(uvUrl)
-                .then(response => response.json())
-                .then(uvData => {
-                    const uvIndexValue = uvData.value;
-                    const uvIndex = Math.round(uvIndexValue);
+            fetch(url, option)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const now = data.now;
+                    const uvIndex = now.uvi;
 
-                    const uvIndexInfo = uvIndexData[uvIndex];
 
-                    const uvIndexText = uvIndexInfo.description;
+                    if (uvIndex >= 0 && uvIndex <= 1) {
+                        document.getElementById('uv-index').innerHTML = 'Minimal risk';
+                        document.getElementById('uv-index').style = 'background-color: #43b710';
+                        document.getElementById('uv_img').src = 'uv-images/uv-0.png';
+                        document.getElementById('detail_uv').innerHTML = Uv_0
+                    } else if (uvIndex > 1 && uvIndex <= 2) {
+                        document.getElementById('uv-index').innerHTML = 'Low risk';
+                        document.getElementById('uv-index').style = 'background-color: #43b710';
+                        document.getElementById('uv_img').src = 'uv-images/uv-1.png';
+                        document.getElementById('detail_uv').innerHTML = Uv_1
+                    } else if (uvIndex > 2 && uvIndex <= 3) {
+                        document.getElementById('uv-index').innerHTML = 'Low risk';
+                        document.getElementById('uv-index').style = 'background-color: #43b710';
+                        document.getElementById('uv_img').src = 'uv-images/uv-2.png';
+                        document.getElementById('detail_uv').innerHTML = Uv_2
+                    } else if (uvIndex > 3 && uvIndex <= 4) {
+                        document.getElementById('uv-index').innerHTML = 'Moderate risk';
+                        document.getElementById('uv-index').style = 'background-color: #eaaf10';
+                        document.getElementById('uv_img').src = 'uv-images/uv-3.png';
+                        document.getElementById('detail_uv').innerHTML = Uv_3
+                    } else if (uvIndex > 4 && uvIndex <= 5) {
+                        document.getElementById('uv-index').innerHTML = 'Moderate risk';
+                        document.getElementById('uv-index').style = 'background-color: #eaaf10';
+                        document.getElementById('uv_img').src = 'uv-images/uv-4.png';
+                        document.getElementById('detail_uv').innerHTML = Uv_4
+                    } else if (uvIndex > 5 && uvIndex <= 6) {
+                        document.getElementById('uv-index').innerHTML = 'Moderate risk';
+                        document.getElementById('uv-index').style = 'background-color: #eaaf10';
+                        document.getElementById('uv_img').src = 'uv-images/uv-5.png';
+                        document.getElementById('detail_uv').innerHTML = Uv_5
+                    } else if (uvIndex > 6 && uvIndex <= 7) {
+                        document.getElementById('uv-index').innerHTML = 'High risk';
+                        document.getElementById('uv-index').style = 'background-color: #eb8a11';
+                        document.getElementById('uv_img').src = 'uv-images/uv-6.png';
+                        document.getElementById('detail_uv').innerHTML = Uv_6
+                    } else if (uvIndex > 7 && uvIndex <= 8) {
+                        document.getElementById('uv-index').innerHTML = 'High risk';
+                        document.getElementById('uv-index').style = 'background-color: #eb8a11';
+                        document.getElementById('uv_img').src = 'uv-images/uv-7.png';
+                        document.getElementById('detail_uv').innerHTML = Uv_7
+                    } else if (uvIndex > 8 && uvIndex <= 9) {
+                        document.getElementById('uv-index').innerHTML = 'Very high risk';
+                        document.getElementById('uv-index').style = 'background-color: #e83f0f';
+                        document.getElementById('uv_img').src = 'uv-images/uv-8.png';
+                        document.getElementById('detail_uv').innerHTML = Uv_8
+                    } else if (uvIndex > 9 && uvIndex <= 10) {
+                        document.getElementById('uv-index').innerHTML = 'Very high risk';
+                        document.getElementById('uv-index').style = 'background-color: #e83f0f';
+                        document.getElementById('uv_img').src = 'uv-images/uv-9.png';
+                        document.getElementById('detail_uv').innerHTML = Uv_9
+                    } else if (uvIndex > 10 && uvIndex <= 11) {
+                        document.getElementById('uv-index').innerHTML = 'Very high risk';
+                        document.getElementById('uv-index').style = 'background-color: #e83f0f';
+                        document.getElementById('uv_img').src = 'uv-images/uv-10.png';
+                        document.getElementById('detail_uv').innerHTML = Uv_10
+                    } else if (uvIndex > 11 && uvIndex <= 12) {
+                        document.getElementById('uv-index').innerHTML = 'Extreme risk';
+                        document.getElementById('uv-index').style = 'background-color: #8e3acf';
+                        document.getElementById('uv_img').src = 'uv-images/uv-11.png';
+                        document.getElementById('detail_uv').innerHTML = Uv_11
+                    } else if (uvIndex > 12 && uvIndex <= 13) {
+                        document.getElementById('uv-index').innerHTML = 'Extreme risk';
+                        document.getElementById('uv-index').style = 'background-color: #ec0c8b';
+                        document.getElementById('uv_img').src = 'uv-images/uv-12.png';
+                        document.getElementById('detail_uv').innerHTML = Uv_12
+                    } else if (uvIndex > 13) {
+                        document.getElementById('uv-index').innerHTML = 'Extreme risk';
+                        document.getElementById('uv-index').style = 'background-color: #550ef9';
+                        document.getElementById('uv_img').src = 'uv-images/uv-13.png';
+                        document.getElementById('detail_uv').innerHTML = Uv_13
+                    }
 
-
-                    const uvIndexElement = document.getElementById('uv-index');
-                    uvIndexElement.textContent = uvIndexText;
-                    document.getElementById('uv-index').style = uvIndexInfo.style;
-                    document.getElementById('uv_img').src = uvIndexInfo.img;
-                    document.getElementById('detail_uv').innerHTML = uvIndexInfo.detail;
-
-                    hideLoader();
-                    localStorage.setItem('currentLat', latitude)
-                    localStorage.setItem('currentLong', longitude)
+                    hideLoader()
 
                 })
-                .catch(error => console.error('Error fetching UV Index:', error));
+
 
 
         })
@@ -547,9 +596,11 @@ function getWeatherByCoordinates(latitude, longitude) {
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
 
-    updateMoonTrackProgress(latitude, longitude)
+    setTimeout(() => {
+        updateMoonTrackProgress(latitude, longitude)
+        updateSunTrackProgress(latitude, longitude);
+    }, 500);
 
-    updateSunTrackProgress(latitude, longitude);
 
 
     function SendupdateSunTrackProgress(){
@@ -562,6 +613,10 @@ function getWeatherByCoordinates(latitude, longitude) {
 
     setInterval(SendupdateSunTrackProgress, 60000);
     setInterval(SendupdateMoonTrackProgress, 60000);
+
+        localStorage.setItem('currentLong', longitude)
+        localStorage.setItem('currentLat', latitude)
+
 
     fetch(apiUrl)
         .then(response => response.json())
@@ -610,24 +665,18 @@ function getWeatherByCoordinates(latitude, longitude) {
 
 
 
-                                    const rainWithInHour = document.getElementById('rainNextHourText');
+                        if (data.rain && data.rain['1h']) {
+                            const precipitation = data.rain['1h'];
+                            if (precipitation > 0) {
+                                document.getElementById('AmountRainMM').innerHTML = `${data.rain['1h'].toFixed(1)} mm`
+                                document.querySelector('noRain').hidden = true;
 
-                                    if (data.rain && data.rain['1h']) {
-                                        const precipitation = data.rain['1h'];
-                                        if (precipitation < 2.5) {
-                                            rainWithInHour.innerHTML = 'Light rain within an hour' + ` <span>${Math.round(data.rain['1h'])} mm</span>`;
-                                            document.getElementById('icon-next-Hour').innerHTML = 'rainy'
-                                        } else if (precipitation < 7.6) {
-                                            rainWithInHour.innerHTML = 'Moderate rain within an hour' + ` <span>${Math.round(data.rain['1h'])} mm</span>`;
-                                            document.getElementById('icon-next-Hour').innerHTML = 'rainy'
-                                        } else {
-                                            rainWithInHour.innerHTML = 'Heavy rain within an hour' + ` <span>${Math.round(data.rain['1h'])} mm</span>`;
-                                            document.getElementById('icon-next-Hour').innerHTML = 'rainy'
-                                        }
-                                    } else {
-                                        rainWithInHour.innerHTML = 'No rain expected for now or within an hour';
-                                        document.getElementById('icon-next-Hour').innerHTML = 'umbrella'
-                                    }
+
+                            }
+                        } else {
+                            document.querySelector('noRain').hidden = false;
+                            document.getElementById('AmountRainMM').innerHTML = `0.0 mm`
+                        }
 
               document.getElementById('currentLocationName').textContent = `${cityName}, ${countryName}`;
                  document.getElementById('currentSearchImg').src = `weather-icons/${iconCode}.svg`;
@@ -758,40 +807,109 @@ function getWeatherByCoordinates(latitude, longitude) {
                     };
 
                     const backgroundColor = {
-                        1: 'rgb(11, 189, 5)',
-                        2: 'rgb(218, 179, 8)',
-                        3: 'rgb(255, 136, 0)',
-                        4: 'rgb(255, 0, 0)',
-                        5: 'rgb(183, 0, 255)'
+                        1: '#43b710',
+                        2: '#eaaf10',
+                        3: '#eb8a11',
+                        4: '#e83f0f',
+                        5: '#8e3acf'
                     }
 
 
                     document.getElementById('aqi_img').src = backgroundImage[aqi];
                     document.getElementById('aqi-level').style.backgroundColor = backgroundColor[aqi];
                 })
-            const uvUrl = `https://api.openweathermap.org/data/2.5/uvi?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
-            fetch(uvUrl)
-                .then(response => response.json())
-                .then(uvData => {
-                    const uvIndexValue = uvData.value;
-                    const uvIndex = Math.round(uvIndexValue);
 
-                    const uvIndexInfo = uvIndexData[uvIndex];
+            const url = `https://currentuvindex.com/api/v1/uvi?latitude=${latitude}&longitude=${longitude}`;
+            const option = { method: 'GET', headers: { Accept: 'application/json' } };
 
-                    const uvIndexText = uvIndexInfo.description;
-
-                    // Set the text and class on the element
-                    const uvIndexElement = document.getElementById('uv-index');
-                    uvIndexElement.textContent = uvIndexText;
-                    document.getElementById('uv-index').style = uvIndexInfo.style;
-                    document.getElementById('uv_img').src = uvIndexInfo.img;
-                    document.getElementById('detail_uv').innerHTML = uvIndexInfo.detail;
-
-                    hideLoader();
-                    localStorage.setItem('currentLat', latitude)
-                    localStorage.setItem('currentLong', longitude)
+            fetch(url, option)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
                 })
-                .catch(error => console.error('Error fetching UV Index:', error));
+                .then(data => {
+                    const now = data.now;
+                    const uvIndex = now.uvi;
+
+
+                    if (uvIndex >= 0 && uvIndex <= 1) {
+                        document.getElementById('uv-index').innerHTML = 'Minimal risk';
+                        document.getElementById('uv-index').style = 'background-color: #43b710';
+                        document.getElementById('uv_img').src = 'uv-images/uv-0.png';
+                        document.getElementById('detail_uv').innerHTML = Uv_0
+                    } else if (uvIndex > 1 && uvIndex <= 2) {
+                        document.getElementById('uv-index').innerHTML = 'Low risk';
+                        document.getElementById('uv-index').style = 'background-color: #43b710';
+                        document.getElementById('uv_img').src = 'uv-images/uv-1.png';
+                        document.getElementById('detail_uv').innerHTML = Uv_1
+                    } else if (uvIndex > 2 && uvIndex <= 3) {
+                        document.getElementById('uv-index').innerHTML = 'Low risk';
+                        document.getElementById('uv-index').style = 'background-color: #43b710';
+                        document.getElementById('uv_img').src = 'uv-images/uv-2.png';
+                        document.getElementById('detail_uv').innerHTML = Uv_2
+                    } else if (uvIndex > 3 && uvIndex <= 4) {
+                        document.getElementById('uv-index').innerHTML = 'Moderate risk';
+                        document.getElementById('uv-index').style = 'background-color: #eaaf10';
+                        document.getElementById('uv_img').src = 'uv-images/uv-3.png';
+                        document.getElementById('detail_uv').innerHTML = Uv_3
+                    } else if (uvIndex > 4 && uvIndex <= 5) {
+                        document.getElementById('uv-index').innerHTML = 'Moderate risk';
+                        document.getElementById('uv-index').style = 'background-color: #eaaf10';
+                        document.getElementById('uv_img').src = 'uv-images/uv-4.png';
+                        document.getElementById('detail_uv').innerHTML = Uv_4
+                    } else if (uvIndex > 5 && uvIndex <= 6) {
+                        document.getElementById('uv-index').innerHTML = 'Moderate risk';
+                        document.getElementById('uv-index').style = 'background-color: #eaaf10';
+                        document.getElementById('uv_img').src = 'uv-images/uv-5.png';
+                        document.getElementById('detail_uv').innerHTML = Uv_5
+                    } else if (uvIndex > 6 && uvIndex <= 7) {
+                        document.getElementById('uv-index').innerHTML = 'High risk';
+                        document.getElementById('uv-index').style = 'background-color: #eb8a11';
+                        document.getElementById('uv_img').src = 'uv-images/uv-6.png';
+                        document.getElementById('detail_uv').innerHTML = Uv_6
+                    } else if (uvIndex > 7 && uvIndex <= 8) {
+                        document.getElementById('uv-index').innerHTML = 'High risk';
+                        document.getElementById('uv-index').style = 'background-color: #eb8a11';
+                        document.getElementById('uv_img').src = 'uv-images/uv-7.png';
+                        document.getElementById('detail_uv').innerHTML = Uv_7
+                    } else if (uvIndex > 8 && uvIndex <= 9) {
+                        document.getElementById('uv-index').innerHTML = 'Very high risk';
+                        document.getElementById('uv-index').style = 'background-color: #e83f0f';
+                        document.getElementById('uv_img').src = 'uv-images/uv-8.png';
+                        document.getElementById('detail_uv').innerHTML = Uv_8
+                    } else if (uvIndex > 9 && uvIndex <= 10) {
+                        document.getElementById('uv-index').innerHTML = 'Very high risk';
+                        document.getElementById('uv-index').style = 'background-color: #e83f0f';
+                        document.getElementById('uv_img').src = 'uv-images/uv-9.png';
+                        document.getElementById('detail_uv').innerHTML = Uv_9
+                    } else if (uvIndex > 10 && uvIndex <= 11) {
+                        document.getElementById('uv-index').innerHTML = 'Very high risk';
+                        document.getElementById('uv-index').style = 'background-color: #e83f0f';
+                        document.getElementById('uv_img').src = 'uv-images/uv-10.png';
+                        document.getElementById('detail_uv').innerHTML = Uv_10
+                    } else if (uvIndex > 11 && uvIndex <= 12) {
+                        document.getElementById('uv-index').innerHTML = 'Extreme risk';
+                        document.getElementById('uv-index').style = 'background-color: #8e3acf';
+                        document.getElementById('uv_img').src = 'uv-images/uv-11.png';
+                        document.getElementById('detail_uv').innerHTML = Uv_11
+                    } else if (uvIndex > 12 && uvIndex <= 13) {
+                        document.getElementById('uv-index').innerHTML = 'Extreme risk';
+                        document.getElementById('uv-index').style = 'background-color: #ec0c8b';
+                        document.getElementById('uv_img').src = 'uv-images/uv-12.png';
+                        document.getElementById('detail_uv').innerHTML = Uv_12
+                    } else if (uvIndex > 13) {
+                        document.getElementById('uv-index').innerHTML = 'Extreme risk';
+                        document.getElementById('uv-index').style = 'background-color: #550ef9';
+                        document.getElementById('uv_img').src = 'uv-images/uv-13.png';
+                        document.getElementById('detail_uv').innerHTML = Uv_13
+                    }
+
+                    hideLoader()
+
+                })
+
 
 
         })
@@ -799,8 +917,6 @@ function getWeatherByCoordinates(latitude, longitude) {
                     console.error('Error fetching current weather:', error);
                     document.querySelector('.no_internet_error').hidden = false;
                 });
-
-
 
     currentLocation = {
         latitude,
@@ -854,6 +970,8 @@ function get24HourForecast(latitude, longitude) {
 
 function display24HourForecast(forecastData) {
     const forecastContainer = document.getElementById('forecast');
+        const RainBarsContainer = document.querySelector('rainMeterBar');
+
     forecastContainer.innerHTML = ''; 
 
     if (forecastData && forecastData.length >= 24) {
@@ -872,6 +990,7 @@ function display24HourForecast(forecastData) {
             const iconCode = forecast.weather[0].icon;
             const description = forecast.weather[0].description;
             const rainPercentage = forecast.pop * 100;
+            const rainMeterBarItem = document.createElement('rainMeterBarItem');
 
 
             const forecastItem = document.createElement('div');
@@ -883,21 +1002,41 @@ function display24HourForecast(forecastData) {
                 <p class="time-24">${time}</p>
                 <img id="icon-24" src="weather-icons/${iconCode}.svg" alt="Weather Icon" class="icon-24">
                 <p class="temp-24">${tempF}°F</p>
-                 <p class="rain-24"><span icon-outlined>water_drop</span> ${Math.round(rainPercentage)}%</p>
 
                  <p class="disc_sml-24" >${description}</p>
+                  <md-ripple style="--md-ripple-pressed-opacity: 0.1;"></md-ripple>
+
             `;
             } else{
             forecastItem.innerHTML = `
             <p class="time-24">${time}</p>
             <img id="icon-24" src="weather-icons/${iconCode}.svg" alt="Weather Icon" class="icon-24">
             <p class="temp-24">${temperature}°C</p>
-             <p class="rain-24"><span icon-outlined>water_drop</span> ${Math.round(rainPercentage)}%</p>
 
              <p class="disc_sml-24" >${description}</p>
+              <md-ripple style="--md-ripple-pressed-opacity: 0.1;"></md-ripple>
+
         `;
             }
 
+            rainMeterBarItem.innerHTML = `
+                <rainPerBar>
+                  <rainPerBarProgress style="height: ${Math.round(rainPercentage)}%;">
+                </rainPerBarProgress>
+                </rainPerBar>
+                <p>${Math.round(rainPercentage)}%</p>
+                 <span>${time}</span>
+
+
+            `
+
+            forecastItem.addEventListener('click', ()=>{
+                ShowSnack(`<span style="text-transform: capitalize;">${description}</span>`, 2000, 3, 'none', ' ', 'no-up')
+
+            });
+
+
+            RainBarsContainer.append(rainMeterBarItem)
             
 
             forecastContainer.appendChild(forecastItem);
@@ -1103,7 +1242,6 @@ function updateMoonTrackProgress(lat, long) {
         .catch(error => {
             console.error('Error fetching moonrise/moonset data:', error);
         });
-
 }
 
 function parseTime(time24) {
@@ -1145,3 +1283,6 @@ function sendThemeToAndroid(theme) {
 
     AndroidInterface.updateStatusBarColor(theme);
   };
+function Toast(toastText, time){
+    ToastAndroidShow.ShowToast(toastText, time);
+}

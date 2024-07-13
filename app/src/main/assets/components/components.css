@@ -958,19 +958,20 @@ circle-loader #spinner {
   position: fixed;
   bottom: var(--snackbar-bottom, 5%);
 border-radius: 5px;
-left: 50%;
+left: 20px;
   display: none;
   align-items: center;
   justify-content: flex-start;
-  padding: 10px;
+  padding: 5px;
 min-height: 30px;
-width: 85%;
+width: max-content;
 max-height: calc(100vh - var(--snackbar-bottom) - 50px);
-transform: translate(-50%);
   background-color: var(--Inverse-Surface);
   transition: all 0.3s;
   z-index: 999999;
   overflow-y: auto;
+  padding-left: 10px;
+  padding-right: 10px;
   animation: snackbar 0.5s cubic-bezier(0,0,0,1);
 }
 
@@ -1016,7 +1017,7 @@ transform: translate(-50%);
   font-family: var(--outfit);
   color: var(--Inverse-On-Surface);
   margin: 0;
-  font-size: 18px;
+  font-size: 17px;
   word-wrap: break-word;
   overflow: hidden;
 

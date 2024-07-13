@@ -254,13 +254,13 @@ body {
   /* background-color: var(--Surface-Container-Low); */
   background-color: rgba(0, 0, 0, 0.247);
   border-radius: 10px;
-  padding-left: 25px;
-  padding-right: 25px;
+  padding-left: 13px;
+  padding-right: 13px;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  padding-bottom: 63px;
+  padding-bottom: 15px;
   margin-bottom: 5px;
   min-width: calc(60px + 2px);
   position: relative;
@@ -270,7 +270,7 @@ body {
 
 .disc_sml-24 {
   width: calc(100% - 30px);
-    display: flex;
+    display: none;
     padding-left: 10px;
     padding-right: 10px;
     align-items: center;
@@ -280,14 +280,13 @@ body {
   margin-right: 0;
   margin-bottom: 0;
   text-transform: capitalize;
-  background-color: var(--Surface);
+  /* background-color: var(--Surface); */
   border-radius: 10px;
   color: var(--On-Surface);
-  font-size: 13px;
+  font-size: 16px;
   margin-top: 5px;
   padding-top: 3px;
   padding-bottom: 3px;
-  font-family: var(--google-normal);
   position: absolute;
   bottom: 5px;
   max-height: calc(45px - 5px);
@@ -296,6 +295,7 @@ body {
   padding-top: 10px;
   padding-bottom: 5px;
 
+  overflow: auto;
 
 }
 
@@ -326,8 +326,10 @@ body {
 }
 
 .temp-24 {
-  margin: 10px 0;
+  margin: 20px 0;
   color: var(--On-Surface);
+  margin-bottom: 0;
+  font-family: var(--google-mid);
 }
 
 .icon-24 {
@@ -1165,4 +1167,108 @@ humidityBarWrap humidityBarProgress{
 humidityBar span{
   color: var(--On-Surface);
   font-size: 15px;
+}
+
+rainMeter{
+  margin: 10px;
+  margin-top: 5px;
+  margin-bottom: 0;
+  background-color: var(--Surface);
+  border-radius: 5px;
+  display: block;
+  padding-bottom: 10px;
+}
+
+rainMeter .todaysAmount{
+  padding: 10px;
+  padding-left: 20px;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 5px;
+}
+
+rainMeter .todaysAmount p{
+  margin: 0;
+  color: var(--On-Surface-Variant);
+  font-size: 14px;
+  font-family: var(--google-normal);
+
+}
+
+
+rainMeter .todaysAmount span{
+  color: var(--On-Surface);
+  font-size: 24px;
+  font-family: var(--google-normal);
+}
+
+
+rainMeter noRain{
+  font-size: 18px;
+  color: var(--On-Surface);
+  opacity: 0.6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+rainMeterBar rainmeterbaritem{
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+
+}
+
+rainMeterBar rainmeterbaritem rainperbar{
+   /* max-height: 55px;
+  min-height: 5px;    */
+  height: 55px;
+  width: 30px;
+  /* border: 1px solid #7cacf8; */
+  display: block;
+  border-radius: 5px;
+  position: relative;
+
+}
+
+rainMeterBar rainmeterbaritem rainperbar rainperbarProgress{
+  position: absolute;
+  width: 100%;
+  height: 5%;
+  min-height: 10%;
+  background: linear-gradient(0deg, #4d8ef8, #0062ff);
+  border: 1px solid linear-gradient(0deg, #4d8ef8, #0062ff);
+  border-radius: 2px;
+  bottom: 0;
+  left: 0;
+}
+
+
+
+rainMeterBar rainmeterbaritem span{
+  color: var(--On-Surface-Variant);
+  font-size: 14px;
+}
+
+rainMeterBar rainmeterbaritem p{
+  margin: 0;
+  color: var(--On-Surface);
+  font-family: var(--google-normal);
+}
+
+rainMeterBar{
+  display: flex;
+  align-items: center;
+  overflow: auto;
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  gap: 25px;
 }

@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
         AndroidInterface androidInterface = new AndroidInterface(this);
         webview.addJavascriptInterface(androidInterface, "AndroidInterface");
+        webview.addJavascriptInterface(new ShowToastInterface(this), "ToastAndroidShow");
         webview.setBackgroundColor(getResources().getColor(R.color.diffDefault));
 
 
@@ -180,6 +181,25 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    public class ShowToastInterface {
+        private final Context mContext;
+
+        public ShowToastInterface(Context context) {
+            this.mContext = context;
+        }
+
+        @JavascriptInterface
+        public void ShowToast(final String text, final String time) {
+            int duration = Toast.LENGTH_SHORT;
+            if (time.equals("long")) {
+                duration = Toast.LENGTH_LONG;
+            } else if(time.equals("short")){
+                duration = Toast.LENGTH_SHORT;
+            }
+            Toast.makeText(mContext, text, duration).show();
+        }
+    }
 
     public class AndroidInterface {
         private MainActivity mActivity;
