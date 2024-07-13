@@ -799,7 +799,7 @@ function getWeatherByCoordinates(latitude, longitude) {
                     console.error('Error fetching current weather:', error);
                     document.querySelector('.no_internet_error').hidden = false;
                 });
-n
+
 
 
     currentLocation = {
@@ -1103,6 +1103,7 @@ function updateMoonTrackProgress(lat, long) {
         .catch(error => {
             console.error('Error fetching moonrise/moonset data:', error);
         });
+
 }
 
 function parseTime(time24) {
