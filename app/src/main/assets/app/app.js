@@ -781,7 +781,7 @@ function getWeatherByCoordinates(latitude, longitude) {
 
                     const uvIndexText = uvIndexInfo.description;
 
-                    // Set the text and class on the element
+             
                     const uvIndexElement = document.getElementById('uv-index');
                     uvIndexElement.textContent = uvIndexText;
                     document.getElementById('uv-index').style = uvIndexInfo.style;
@@ -811,7 +811,7 @@ n
 }
 
 
-// Add this function to fetch the 24-hour forecast
+
 function get24HourForecast(latitude, longitude) {
     const apiKey = '28fe7b5f9a78838c639143fc517e4343';
     const apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=current,minutely,daily,alerts&appid=${apiKey}&units=metric`;
