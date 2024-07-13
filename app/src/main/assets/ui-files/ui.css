@@ -659,7 +659,7 @@ body {
   background-color: var(--Surface);
   margin: 10px;
   margin-bottom: 5px;
-
+    margin-top: 0px;
 
 }
 
@@ -1008,7 +1008,7 @@ suntrack, moontrack{
 
 
 suntrackprogress, moontrackprogress{
-  width: 50%;
+  width: 0%;
   height: 100%;
   background-color: orange;
   position: relative;

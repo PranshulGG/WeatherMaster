@@ -230,7 +230,24 @@ function getWeather(city, latitude, longitude) {
     showLoader();
     const apiKey = '120d979ba5b2d0780f51872890f5ad0b';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
-    getMoonSetMoonRise(latitude, longitude)
+
+
+    updateMoonTrackProgress(latitude, longitude)
+
+    updateSunTrackProgress(latitude, longitude);
+
+
+    function SendupdateSunTrackProgress(){
+        updateSunTrackProgress(latitude, longitude);
+    }
+
+    function SendupdateMoonTrackProgress(){
+        updateMoonTrackProgress(latitude, longitude)
+    }
+
+    setInterval(SendupdateSunTrackProgress, 60000);
+    setInterval(SendupdateMoonTrackProgress, 60000);
+
 
     
 
@@ -366,23 +383,6 @@ function getWeather(city, latitude, longitude) {
             document.getElementById('humidity').textContent = `${humidity}%`;
             document.getElementById('clouds').textContent = `${clouds}%`;
             document.querySelector('humidityBarProgress').style.height = `${humidity}%`;
-
-            function updateSuntrackProgress() {
-                            const currentTime = new Date();
-                            const daylightDuration = sunsetUTC - sunriseUTC;
-                            const timeSinceSunrise = currentTime - sunriseUTC;
-
-                            const validTimeSinceSunrise = Math.max(timeSinceSunrise, 0);
-
-                            const percentageOfDaylight = (validTimeSinceSunrise / daylightDuration) * 100;
-                            document.querySelector('suntrackprogress').style.width = `${percentageOfDaylight}%`;
-                            console.log('updated')
-                        }
-
-                        updateSuntrackProgress();
-
-                        setInterval(updateSuntrackProgress, 60000);
-
 
 
             const lastUpdatedTimestamp = data.dt;
@@ -545,8 +545,23 @@ function getWeatherByCoordinates(latitude, longitude) {
     showLoader();
     const apiKey = '120d979ba5b2d0780f51872890f5ad0b';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
-    getMoonSetMoonRise(latitude, longitude)
 
+
+    updateMoonTrackProgress(latitude, longitude)
+
+    updateSunTrackProgress(latitude, longitude);
+
+
+    function SendupdateSunTrackProgress(){
+        updateSunTrackProgress(latitude, longitude);
+    }
+
+    function SendupdateMoonTrackProgress(){
+        updateMoonTrackProgress(latitude, longitude)
+    }
+
+    setInterval(SendupdateSunTrackProgress, 60000);
+    setInterval(SendupdateMoonTrackProgress, 60000);
 
     fetch(apiUrl)
         .then(response => response.json())
@@ -684,22 +699,6 @@ function getWeatherByCoordinates(latitude, longitude) {
             document.querySelector('humidityBarProgress').style.height = `${humidity}%`;
 
 
-            function updateSuntrackProgress() {
-                            const currentTime = new Date();
-                            const daylightDuration = sunsetUTC - sunriseUTC;
-                            const timeSinceSunrise = currentTime - sunriseUTC;
-
-                            const validTimeSinceSunrise = Math.max(timeSinceSunrise, 0);
-
-                            const percentageOfDaylight = (validTimeSinceSunrise / daylightDuration) * 100;
-                            document.querySelector('suntrackprogress').style.width = `${percentageOfDaylight}%`;
-                            console.log('updated')
-                        }
-
-                        updateSuntrackProgress();
-
-                        setInterval(updateSuntrackProgress, 60000);
-
 
             const lastUpdatedTimestamp = data.dt;
             const lastUpdatedTime = new Date(lastUpdatedTimestamp * 1000).toLocaleTimeString();
@@ -811,7 +810,34 @@ n
 }
 
 
-// Add this function to fetch the 24-hour forecast
+function updateSunTrackProgress(latitude, longitude) {
+    const apiKey = '120d979ba5b2d0780f51872890f5ad0b';
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            const timeZoneOffsetSeconds = data.timezone;
+            const sunriseUTC = new Date((data.sys.sunrise + timeZoneOffsetSeconds) * 1000);
+            const sunsetUTC = new Date((data.sys.sunset + timeZoneOffsetSeconds) * 1000);
+            const currentTime = new Date();
+
+            const totalDaylight = sunsetUTC - sunriseUTC;
+            const timeSinceSunrise = currentTime - sunriseUTC;
+            const percentageOfDaylight = (timeSinceSunrise / totalDaylight) * 100;
+
+            const progressWidth = Math.min(Math.max(percentageOfDaylight, 0), 100);
+
+            document.querySelector('suntrackprogress').style.width = `${progressWidth}%`;
+
+            console.log('updated')
+        })
+        .catch(error => {
+            console.error('Error fetching sunrise/sunset data:', error);
+        });
+}
+
+
 function get24HourForecast(latitude, longitude) {
     const apiKey = '28fe7b5f9a78838c639143fc517e4343';
     const apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=current,minutely,daily,alerts&appid=${apiKey}&units=metric`;
@@ -1051,20 +1077,39 @@ document.getElementById('forecast').addEventListener('scroll', function () {
 
 
 
-function getMoonSetMoonRise(lat, long) {
+function updateMoonTrackProgress(lat, long) {
     fetch(`https://api.ipgeolocation.io/astronomy?apiKey=f22c81e7a0b5448e812ad5e0e1c25242&lat=${lat}&long=${long}`)
         .then(response => response.json())
         .then(data => {
+            const moonriseTime = parseTime(data.moonrise);
+            const moonsetTime = parseTime(data.moonset);
+            const currentTime = new Date();
+
+            const totalMoonlight = moonsetTime - moonriseTime;
+            const timeSinceMoonrise = currentTime - moonriseTime;
+            const percentageOfMoonlight = (timeSinceMoonrise / totalMoonlight) * 100;
+
+            const moonProgressWidth = Math.min(Math.max(percentageOfMoonlight, 0), 100);
+
+            document.querySelector('moontrackprogress').style.width = `${moonProgressWidth}%`;
+
             const moonrise = formatTimeMoonRiseMoonSet(data.moonrise);
             const moonset = formatTimeMoonRiseMoonSet(data.moonset);
             document.getElementById('moonrise').textContent = `${moonrise}`;
             document.getElementById('moonset').textContent = `${moonset}`;
+            console.log('updated')
 
-            const moonriseTime = parseTime(data.moonrise);
-            const moonsetTime = parseTime(data.moonset);
-
-            updateMoonProgress(moonriseTime, moonsetTime);
+        })
+        .catch(error => {
+            console.error('Error fetching moonrise/moonset data:', error);
         });
+}
+
+function parseTime(time24) {
+    const [hours, minutes] = time24.split(':').map(Number);
+    const currentDate = new Date();
+    const time = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), hours, minutes);
+    return time;
 }
 
 function formatTimeMoonRiseMoonSet(time24) {
@@ -1084,35 +1129,6 @@ function formatTimeMoonRiseMoonSet(time24) {
     minutes = minutes.toString().padStart(2, '0');
 
     return `${hours}:${minutes} ${period}`;
-}
-
-function parseTime(time24) {
-    const [hours, minutes] = time24.split(':').map(Number);
-    const now = new Date();
-    now.setHours(hours, minutes, 0, 0);
-    return now;
-}
-
-function updateMoonProgress(moonrise, moonset) {
-    const updateProgress = () => {
-        const currentTime = new Date();
-        const moonlightDuration = moonset - moonrise;
-        const timeSinceMoonrise = currentTime - moonrise;
-
-        if (timeSinceMoonrise < 0 || currentTime > moonset) {
-            const percentageOfMoonlight = currentTime < moonrise ? 0 : 100;
-            document.getElementById('moontrackprogress').style.width = `${percentageOfMoonlight}%`;
-        } else {
-            const percentageOfMoonlight = (timeSinceMoonrise / moonlightDuration) * 100;
-            document.querySelector('moontrackprogress').style.width = `${percentageOfMoonlight}%`;
-        }
-
-        console.log('updated')
-
-    };
-    updateProgress();
-
-    setInterval(updateProgress, 60000);
 }
 
 
