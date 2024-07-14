@@ -59,6 +59,11 @@ document.addEventListener('DOMContentLoaded', () => {
         searchContainer.style.display = 'block';
         window.history.pushState({ SearchContainerOpen: true }, "");
 
+        removeMap()
+
+        setTimeout(()=>{
+            RenderSearhMap()
+        }, 400);
     });
 
     closeButton.addEventListener('click', () => {
@@ -220,12 +225,10 @@ function getWeather(city, latitude, longitude) {
     setTimeout(() => {
         updateMoonTrackProgress(latitude, longitude)
         updateSunTrackProgress(latitude, longitude);
-         RenderSearhMap()
 
     }, 500);
 
-removeMap()
-    
+
     localStorage.setItem('currentLong', longitude)
     localStorage.setItem('currentLat', latitude)
 
@@ -586,10 +589,8 @@ function getWeatherByCoordinates(latitude, longitude) {
     setTimeout(() => {
         updateMoonTrackProgress(latitude, longitude)
         updateSunTrackProgress(latitude, longitude);
-         RenderSearhMap()
     }, 500);
 
-    removeMap()
 
         localStorage.setItem('currentLong', longitude)
         localStorage.setItem('currentLat', latitude)
