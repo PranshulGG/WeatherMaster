@@ -60,6 +60,7 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
  - ⬛ Notification alerts
  - ⬛ A feature that allows you to add multiple locations
  - ⬛ More detailed weather
+ - ✅ Pick locations using map
  - ✅ Change app colors according to the weather
    
 <br>
