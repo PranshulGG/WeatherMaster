@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="components/components.css">
     <link rel="stylesheet" href="components/modal-ver.css">
     <link rel="stylesheet" href="ripple-files/ripple.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 
 <body>
@@ -357,6 +359,13 @@
                 </currentLocationNames>
             </div>
         </div>
+
+        <div class="full_Wrap_map">
+            <p class="title" style="display: flex; align-items: center; gap: 10px;"><md-icon icon-outlined>map</md-icon>Pick from the map</p>
+            <div class="map_wrap">
+                <div id="map"></div></div>
+
+        </div>
     </div>
 </div>
 <!-- loader -->
@@ -445,15 +454,37 @@ function checkNoInternet(){
 
         } else{
             document.querySelector('.no_internet_error').hidden = false;
-
-            setInterval(() =>{
-                checkNoInternet()
-            }, 2000)
         }
     }
 
     checkNoInternet()
 
+
+    const latDif = localStorage.getItem('currentLat')
+    const longDif = localStorage.getItem('currentLong')
+
+    var map = L.map('map').setView([latDif, longDif], 13);
+
+
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+}).addTo(map);
+
+var marker = L.marker([latDif, longDif]).addTo(map);
+
+map.on('click', function(e) {
+    var lat = e.latlng.lat;
+    var lon = e.latlng.lng;
+
+    marker.setLatLng([lat, lon]);
+    window.history.back()
+    getWeather(' ', lat, lon)
+
+
+    document.getElementById('city-name').innerHTML = '<md-circular-progress indeterminate style="--md-circular-progress-size: 30px;"></md-circular-progress>';
+    document.getElementById('forecast').scrollLeft = 0;
+    document.getElementById('weather_wrap').scrollTop = 0;
+});
 
     </script>
 

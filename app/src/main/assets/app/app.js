@@ -59,9 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
         searchContainer.style.display = 'block';
         window.history.pushState({ SearchContainerOpen: true }, "");
 
-        setTimeout(() =>{
-            cityInput.focus()
-        }, 300);
     });
 
     closeButton.addEventListener('click', () => {
@@ -75,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cityInput.addEventListener('input', () => {
         const searchTerm = cityInput.value.trim();
         document.querySelector('.currentLocationdiv').hidden = true;
-
+        document.querySelector('.full_Wrap_map').hidden = true;
 
         if (searchTerm) {
             document.getElementById('cityLoader').hidden = false;
@@ -85,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cityList.innerHTML = '';
             document.getElementById('cityLoader').hidden = true;
             document.querySelector('.currentLocationdiv').hidden = false;
+            document.querySelector('.full_Wrap_map').hidden = false;
 
 
         }
@@ -223,19 +221,6 @@ function getWeather(city, latitude, longitude) {
         updateMoonTrackProgress(latitude, longitude)
         updateSunTrackProgress(latitude, longitude);
     }, 500);
-
-
-
-    function SendupdateSunTrackProgress(){
-        updateSunTrackProgress(latitude, longitude);
-    }
-
-    function SendupdateMoonTrackProgress(){
-        updateMoonTrackProgress(latitude, longitude)
-    }
-
-    setInterval(SendupdateSunTrackProgress, 60000);
-    setInterval(SendupdateMoonTrackProgress, 60000);
 
 
     
@@ -601,18 +586,6 @@ function getWeatherByCoordinates(latitude, longitude) {
         updateSunTrackProgress(latitude, longitude);
     }, 500);
 
-
-
-    function SendupdateSunTrackProgress(){
-        updateSunTrackProgress(latitude, longitude);
-    }
-
-    function SendupdateMoonTrackProgress(){
-        updateMoonTrackProgress(latitude, longitude)
-    }
-
-    setInterval(SendupdateSunTrackProgress, 60000);
-    setInterval(SendupdateMoonTrackProgress, 60000);
 
         localStorage.setItem('currentLong', longitude)
         localStorage.setItem('currentLat', latitude)
@@ -1236,8 +1209,11 @@ function updateMoonTrackProgress(lat, long) {
             const moonrise = formatTimeMoonRiseMoonSet(data.moonrise);
             const moonset = formatTimeMoonRiseMoonSet(data.moonset);
             document.getElementById('moonrise').textContent = `${moonrise}`;
-            document.getElementById('moonset').textContent = `${moonset}`;
-            console.log('updated')
+            if (data.moonset === "-:-") {
+                document.getElementById('moonset').textContent = "Not available";
+            } else{
+                document.getElementById('moonset').textContent = `${moonset}`;
+            }
 
         })
         .catch(error => {

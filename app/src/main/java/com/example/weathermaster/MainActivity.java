@@ -451,7 +451,8 @@ public class MainActivity extends AppCompatActivity {
                     url.startsWith("https://app-privacy-policy-generator.nisrulz.com/") ||
                     url.startsWith("https://github.com/PranshulGG/WeatherMaster") ||
                     url.startsWith("mailto:pranshul.devmain@gmail.com")||
-                    url.startsWith("https://github.com/PranshulGG/WeatherMaster/releases");
+                    url.startsWith("https://github.com/PranshulGG/WeatherMaster/releases")||
+                    url.startsWith("https://leafletjs.com/");
 
 
         }
