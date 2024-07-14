@@ -220,9 +220,11 @@ function getWeather(city, latitude, longitude) {
     setTimeout(() => {
         updateMoonTrackProgress(latitude, longitude)
         updateSunTrackProgress(latitude, longitude);
+         RenderSearhMap()
+
     }, 500);
 
-
+RemoveMap()
     
     localStorage.setItem('currentLong', longitude)
     localStorage.setItem('currentLat', latitude)
@@ -584,8 +586,10 @@ function getWeatherByCoordinates(latitude, longitude) {
     setTimeout(() => {
         updateMoonTrackProgress(latitude, longitude)
         updateSunTrackProgress(latitude, longitude);
+         RenderSearhMap()
     }, 500);
 
+    removeMap()
 
         localStorage.setItem('currentLong', longitude)
         localStorage.setItem('currentLat', latitude)
@@ -1262,4 +1266,43 @@ function sendThemeToAndroid(theme) {
   };
 function Toast(toastText, time){
     ToastAndroidShow.ShowToast(toastText, time);
+}
+
+
+// map
+
+var map;
+
+function RenderSearhMap() {
+    const latDif = localStorage.getItem('currentLat');
+    const longDif = localStorage.getItem('currentLong');
+
+    map = window.L.map('map', {
+        center: [latDif, longDif],
+        zoom: 13
+    });
+
+    window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
+
+    var marker = window.L.marker([latDif, longDif]).addTo(map);
+
+    map.on('click', function(e) {
+        var lat = e.latlng.lat;
+        var lon = e.latlng.lng;
+
+        marker.setLatLng([lat, lon]);
+        window.history.back();
+        getWeather(' ', lat, lon);
+
+        document.getElementById('city-name').innerHTML = '<md-circular-progress indeterminate style="--md-circular-progress-size: 30px;"></md-circular-progress>';
+        document.getElementById('forecast').scrollLeft = 0;
+        document.getElementById('weather_wrap').scrollTop = 0;
+    });
+}
+
+function removeMap() {
+    if (map) {
+        map.remove();
+        map = null;
+    }
 }

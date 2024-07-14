@@ -11,8 +11,8 @@
     <link rel="stylesheet" href="components/components.css">
     <link rel="stylesheet" href="components/modal-ver.css">
     <link rel="stylesheet" href="ripple-files/ripple.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="map/leaflet.css">
+
 </head>
 
 <body>
@@ -460,31 +460,7 @@ function checkNoInternet(){
     checkNoInternet()
 
 
-    const latDif = localStorage.getItem('currentLat')
-    const longDif = localStorage.getItem('currentLong')
 
-    var map = L.map('map').setView([latDif, longDif], 13);
-
-
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-}).addTo(map);
-
-var marker = L.marker([latDif, longDif]).addTo(map);
-
-map.on('click', function(e) {
-    var lat = e.latlng.lat;
-    var lon = e.latlng.lng;
-
-    marker.setLatLng([lat, lon]);
-    window.history.back()
-    getWeather(' ', lat, lon)
-
-
-    document.getElementById('city-name').innerHTML = '<md-circular-progress indeterminate style="--md-circular-progress-size: 30px;"></md-circular-progress>';
-    document.getElementById('forecast').scrollLeft = 0;
-    document.getElementById('weather_wrap').scrollTop = 0;
-});
 
     </script>
 
@@ -494,6 +470,7 @@ map.on('click', function(e) {
 <script src="./bundle.js"></script>
 <script src="components-script.js/components.js"></script>
 <script src="ripple-files/icon-ripple.js"></script>
+<script src="map/leaflet.js"></script>
 <script src="app/app.js"></script>
 <script src="modules/scroll.js"></script>
 <script src="modules/ripple_acc.js"></script>
