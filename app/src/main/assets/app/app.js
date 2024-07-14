@@ -224,7 +224,7 @@ function getWeather(city, latitude, longitude) {
 
     }, 500);
 
-RemoveMap()
+removeMap()
     
     localStorage.setItem('currentLong', longitude)
     localStorage.setItem('currentLat', latitude)
