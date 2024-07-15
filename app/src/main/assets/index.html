@@ -161,6 +161,12 @@
                 <p id="cloth_recommended"></p>
             </div>
 
+            <div class="LiveMapWrap ripple_btn_low" onclick="openLivemap();Open_RefreshLiveMap('temp_new')">
+                <div id="livemapPreview">
+                    <img src="icons/prevmap.png" alt="">
+                </div>
+            </div>
+
 
             <div class="setRiseDivWrap" style="margin-bottom: 0px;">
                 <div class="h1">
@@ -384,15 +390,67 @@
 <div id="toast-container" class="toast-container"></div>
 
 <div class="no_internet_error" hidden>
-    <div class="top_error_internet">Something went wrong!</div>
-    <div class="bottom_no_interNet_actions">
-        <p style="text-align: center;">An error occurred</p>
-        <md-filled-button onclick="window.location.reload(); sendThemeToAndroid('10d')">Retry</md-filled-button></div>
+    <div class="img_wrap404">
+        <img src="icons/404.svg" alt="">
+    </div>
+
+    <div class="text_content_error">
+        <p>Error occurred!</p>
+
+        <span>Check your internet connection and try again.</span>
+        <span>OR</span>
+        <span>There might be an API error.</span>
+    </div>
+
+
+    <div class="retry_btn_error">
+        <button class="ripple_btn" onclick="window.location.reload(); sendThemeToAndroid('10d')">Retry</button>
+    </div>
+
 </div>
 
 
 <div class="not_made_for_pc">
     <p>UI isn't made for Desktop devices</p>
+</div>
+
+
+<div class="liveMapScreen" hidden>
+    <div class="topLiveMapActions">
+        <div>
+            <button class="ripple-icon-btn focus regular" onclick="window.history.back()"  ontouchstart="playEffect(this)"
+                    ontouchend="playEffect2(this)">
+                <span class="ripple-effect-icon"></span>
+                <span icon-outlined>arrow_back</span>
+            </button>
+            <p>Live map</p></div>
+        <div>
+            <button class="ripple-icon-btn focus regular" ontouchstart="playEffect(this)" onclick="refreshCurrentMap()"
+                    ontouchend="playEffect2(this)">
+                <span class="ripple-effect-icon"></span>
+                <span icon-outlined>autorenew</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="liveMapHolder">
+        <div id="livemap">
+
+        </div>
+
+
+        <div class="map_Type">
+            <md-chip-set>
+                <md-filter-chip label="Rain" onclick="Open_RefreshLiveMap('rain');toggleMapTypeChips(this);" name="MapType"></md-filter-chip>
+                <md-filter-chip label="Clouds" onclick="Open_RefreshLiveMap('clouds');toggleMapTypeChips(this);" name="MapType"></md-filter-chip>
+                <md-filter-chip label="Snow" onclick="Open_RefreshLiveMap('snow'); toggleMapTypeChips(this);" name="MapType"></md-filter-chip>
+                <md-filter-chip label="Wind" onclick="Open_RefreshLiveMap('wind_new');toggleMapTypeChips(this);" name="MapType"></md-filter-chip>
+                <md-filter-chip label="Temperature" onclick="Open_RefreshLiveMap('temp_new');toggleMapTypeChips(this);" name="MapType" selected></md-filter-chip>
+            </md-chip-set>
+        </div>
+    </div>
+    <!-- togglePasswordTypeChips(this); -->
+
 </div>
 
 <script>

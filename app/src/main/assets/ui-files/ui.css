@@ -736,33 +736,51 @@ body {
   background-color: var(--Surface);
 }
 
-.top_error_internet {
-  height: 45px;
-  padding: 10px;
-  padding-left: 20px;
-  color: var(--On-Surface);
-  background-color: var(--Surface);
-  border-bottom: 1px solid transparent;
-  font-size: 16px;
-  gap: 10px;
-  display: flex;
-  align-items: center;
-}
-
-.bottom_no_interNet_actions {
+.no_internet_error .img_wrap404{
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  gap: 20px;
-  margin-top: 100px;
+  padding-top:30px;
 }
 
-.bottom_no_interNet_actions p {
-  font-size: 50px;
-  font-family: var(--google-mid);
+.no_internet_error .text_content_error{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.no_internet_error .text_content_error p{
+  font-size: 30px;
   color: var(--Error);
-  margin: 0;
+}
+
+.no_internet_error .text_content_error span{
+  display: block;
+  color: var(--On-Surface);
+  margin-bottom: 10px;
+}
+
+.retry_btn_error{
+  display: flex;
+  align-items: center;
+  width: calc(100% - 40px);
+  position: absolute;
+  bottom: 50px;
+  justify-content: center;
+  padding: 20px;
+}
+
+.retry_btn_error button{
+  background: var(--Error-Container);
+  color: var(--On-Error-Container);
+  font-family: var(--outfit);
+  width: 100%;
+  border: none;
+  height: 50px;
+  border-radius: 10px;
+  font-size: 24px;
+
 }
 
 .city-list .suggest {
@@ -1289,4 +1307,104 @@ rainMeterBar{
   padding: 5px;
   border-radius: 10px;
   margin: 10px;
+}
+
+.LiveMapWrap #livemapPreview img{
+  border-radius: 10px;
+  width: 100%;
+  height: 100px;
+  z-index: -1;
+}
+
+.LiveMapWrap{
+  margin: 10px;
+  padding: 10px;
+  background-color: var(--Surface);
+  border-radius: 10px;
+  position: relative;
+}
+
+.LiveMapWrap::before{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  border-radius: inherit;
+  content: 'Live map';
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  color: rgb(255, 255, 255);
+  left: 0;
+}
+
+.liveMapScreen{
+  width: 100%;
+  height: 100%;
+  background-color: var(--Surface);
+  z-index: 99;
+  position: fixed;
+  top: 0;
+  left: 0;
+  animation: liveMapScreen 0.3s cubic-bezier(1,0,0,1);
+  transition:all 0.3s cubic-bezier(1,0,0,1);
+
+  overflow: hidden;
+}
+
+@keyframes liveMapScreen{
+  0%{
+    opacity: 0;
+    height: 0;
+  }
+  100%{
+    opacity: 1;
+    height: 100%;
+  }
+}
+
+.liveMapScreen .liveMapHolder #livemap{
+  /* height: calc(100% - 60px); */
+  height: 100%;
+  /* border-radius: 20px; */
+  width: 100%;
+  z-index: 1;
+}
+
+
+.liveMapHolder{
+  display: flex;
+  background-color: var(--Surface);
+  height: calc(100% - 65px);
+  overflow: hidden;
+  flex-direction: column;
+}
+
+.liveMapScreen .topLiveMapActions{
+  display: flex;
+  padding: 10px;
+  height: 45px;
+  background-color: var(--Surface);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.liveMapScreen .topLiveMapActions div{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.liveMapScreen .topLiveMapActions div p{
+  font-size: 20px;
+}
+
+
+
+.map_Type{
+  padding: 10px;
+  padding-bottom: 20px;
 }

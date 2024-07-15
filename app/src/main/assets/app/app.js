@@ -911,20 +911,21 @@ function updateSunTrackProgress(latitude, longitude) {
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
-            const timeZoneOffsetSeconds = data.timezone;
-            const sunriseUTC = new Date((data.sys.sunrise + timeZoneOffsetSeconds) * 1000);
-            const sunsetUTC = new Date((data.sys.sunset + timeZoneOffsetSeconds) * 1000);
+            const sunriseUTC = new Date(data.sys.sunrise * 1000);
+            const sunsetUTC = new Date(data.sys.sunset * 1000);
             const currentTime = new Date();
 
             const totalDaylight = sunsetUTC - sunriseUTC;
+
             const timeSinceSunrise = currentTime - sunriseUTC;
-            const percentageOfDaylight = (timeSinceSunrise / totalDaylight) * 100;
 
-            const progressWidth = Math.min(Math.max(percentageOfDaylight, 0), 100);
+            let percentageOfDaylight = (timeSinceSunrise / totalDaylight) * 100;
 
-            document.querySelector('suntrackprogress').style.width = `${progressWidth}%`;
+            percentageOfDaylight = Math.min(Math.max(percentageOfDaylight, 0), 100);
 
-            console.log('updated')
+            document.querySelector('suntrackprogress').style.width = `${percentageOfDaylight}%`;
+
+
         })
         .catch(error => {
             console.error('Error fetching sunrise/sunset data:', error);
@@ -1204,7 +1205,13 @@ function updateMoonTrackProgress(lat, long) {
             const currentTime = new Date();
 
             const totalMoonlight = moonsetTime - moonriseTime;
-            const timeSinceMoonrise = currentTime - moonriseTime;
+
+            let timeSinceMoonrise = currentTime - moonriseTime;
+
+            if (currentTime > moonsetTime && currentTime < new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate(), 23, 59, 59)) {
+                timeSinceMoonrise = totalMoonlight;
+            }
+
             const percentageOfMoonlight = (timeSinceMoonrise / totalMoonlight) * 100;
 
             const moonProgressWidth = Math.min(Math.max(percentageOfMoonlight, 0), 100);
@@ -1212,19 +1219,16 @@ function updateMoonTrackProgress(lat, long) {
             document.querySelector('moontrackprogress').style.width = `${moonProgressWidth}%`;
 
             const moonrise = formatTimeMoonRiseMoonSet(data.moonrise);
-            const moonset = formatTimeMoonRiseMoonSet(data.moonset);
+            const moonset = data.moonset === "-:-" ? "Not available" : formatTimeMoonRiseMoonSet(data.moonset);
             document.getElementById('moonrise').textContent = `${moonrise}`;
-            if (data.moonset === "-:-") {
-                document.getElementById('moonset').textContent = "Not available";
-            } else{
-                document.getElementById('moonset').textContent = `${moonset}`;
-            }
+            document.getElementById('moonset').textContent = `${moonset}`;
 
         })
         .catch(error => {
             console.error('Error fetching moonrise/moonset data:', error);
         });
 }
+
 
 function parseTime(time24) {
     const [hours, minutes] = time24.split(':').map(Number);
@@ -1280,7 +1284,9 @@ function RenderSearhMap() {
 
     map = window.L.map('map', {
         center: [latDif, longDif],
-        zoom: 13
+        zoom: 13,
+        zoomControl: false
+
     });
 
     window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
@@ -1306,4 +1312,121 @@ function removeMap() {
         map.remove();
         map = null;
     }
+}
+
+var livemap;
+
+function liveMapRender(maptype){
+
+    const latDif = localStorage.getItem('currentLat');
+    const longDif = localStorage.getItem('currentLong');
+
+    livemap = window.L.map('livemap', {
+        center: [latDif, longDif],
+        zoom: 4,
+        minZoom: 3,
+        zoomControl: false
+    });
+
+
+ window.L.marker([latDif, longDif]).addTo(livemap);
+
+
+    const apiKey = '9458a8b672d3e5ed460b72e7637c6eeb';
+
+    window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(livemap);
+
+
+    window.L.tileLayer(`https://tile.openweathermap.org/map/${maptype}/{z}/{x}/{y}.png?appid=${apiKey}`).addTo(livemap);
+
+
+
+
+}
+
+
+function removeLiveMap() {
+    if (livemap) {
+        livemap.remove();
+        livemap = null;
+    }
+}
+
+
+
+
+
+
+
+
+function Open_RefreshLiveMap(type){
+        removeLiveMap()
+
+    setTimeout(()=>{
+        liveMapRender(type)
+    }, 500);
+
+}
+
+
+
+
+function toggleMapTypeChips(element) {
+    if (element.selected) {
+    var passChips = document.getElementsByName('MapType');
+    passChips.forEach((passChip) => {
+        if (passChip !== element) {
+            passChip.selected = false;
+        }
+
+    });
+    } else{
+        element.selected = true;
+    }
+}
+
+
+function openLivemap(){
+    document.querySelector('.liveMapScreen').hidden = false;
+    window.history.pushState({ LiveMapOpen: true }, "");
+}
+
+function closeLiveMap(){
+    document.querySelector('.liveMapScreen').style.height = '0'
+    document.querySelector('.liveMapScreen').style.opacity = '0'
+
+
+    setTimeout(()=>{
+        document.querySelector('.liveMapScreen').hidden = true;
+    document.querySelector('.liveMapScreen').style.height = ''
+    document.querySelector('.liveMapScreen').style.opacity = ''
+
+    }, 350);
+
+}
+
+
+window.addEventListener('popstate', function (event) {
+    if(!document.querySelector('.liveMapScreen').hidden){
+        closeLiveMap()
+    }
+
+});
+
+function refreshCurrentMap(){
+if(document.querySelector('[label="Rain"]').selected){
+    Open_RefreshLiveMap('rain')
+} else if(document.querySelector('[label="Clouds"]').selected){
+    Open_RefreshLiveMap('clouds')
+} else if(document.querySelector('[label="Temperature"]').selected){
+    Open_RefreshLiveMap('temp_new')
+
+} else if(document.querySelector('[label="Snow"]').selected){
+    Open_RefreshLiveMap('snow')
+
+} else if(document.querySelector('[label="Wind"]').selected){
+    Open_RefreshLiveMap('wind_new')
+
+}
+
 }
