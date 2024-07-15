@@ -1038,7 +1038,7 @@ suntrackprogress, moontrackprogress{
   height: 100%;
   background-color: orange;
   position: relative;
-  transition: width 2s ease-in;
+  transition: width 2s ease-out;
   border-radius: inherit;
 }
 
@@ -1052,17 +1052,6 @@ sun{
   height: 50px;
   position: absolute;
   background: url('../icons/sun.png');
-  right: -30px;
-  background-size: cover;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-moon{
-  width: 50px;
-  height: 50px;
-  position: absolute;
-  background: url('../icons/moon.png');
   right: -30px;
   background-size: cover;
   top: 50%;
@@ -1269,7 +1258,7 @@ rainMeterBar rainmeterbaritem rainperbar rainperbarProgress{
   min-height: 10%;
   background: #4c8df6;
   border: 1px solid #4c8df6;
-  border-radius: 10px;
+  border-radius: 5px;
   bottom: 0;
   left: 0;
 }
@@ -1314,6 +1303,10 @@ rainMeterBar{
   width: 100%;
   height: 100px;
   z-index: -1;
+}
+
+.LiveMapWrap #livemapPreview{
+  height: 100px;
 }
 
 .LiveMapWrap{
@@ -1407,4 +1400,38 @@ rainMeterBar{
 .map_Type{
   padding: 10px;
   padding-bottom: 20px;
+}
+
+.moonSideWrap{
+  display: flex;
+  justify-content: space-between;
+}
+
+.moonSideWrap .rightWrapMoon img{
+  width: 150px;
+}
+
+.moonSideWrap .leftWrapMoon .moonPhaseNameWrap{
+  padding-left: 20px;
+  font-family: var(--google-mid);
+  font-size: 20px;
+  color: var(--On-Surface);
+  padding-top: 10px;
+}
+
+.moonSideWrap .leftWrapMoon .moonPhaseNameWrap p{
+  margin: 0;
+}
+
+.moonSideWrap .leftWrapMoon .moonrise-Set{
+  padding-left: 20px;
+  padding-top: 20px;
+}
+
+.moonSideWrap .leftWrapMoon .moonrise-Set p{
+  color: var(--On-Surface-Variant);
+}
+
+.moonSideWrap .leftWrapMoon .moonrise-Set span{
+  color: var(--On-Surface);
 }

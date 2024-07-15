@@ -162,7 +162,7 @@ window.addEventListener('popstate', function (event) {
         document.getElementById('search-container').style.display = 'none'
         document.getElementById('search-container').style.opacity = '1'
 
-    }, 200);
+    }, 250);
 
 });
 
@@ -223,9 +223,8 @@ function getWeather(city, latitude, longitude) {
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
     setTimeout(() => {
-        updateMoonTrackProgress(latitude, longitude)
         updateSunTrackProgress(latitude, longitude);
-
+        Fetchmoonphases(latitude, longitude)
     }, 500);
 
 
@@ -587,7 +586,7 @@ function getWeatherByCoordinates(latitude, longitude) {
 
 
     setTimeout(() => {
-        updateMoonTrackProgress(latitude, longitude)
+                Fetchmoonphases(latitude, longitude)
         updateSunTrackProgress(latitude, longitude);
     }, 500);
 
@@ -1195,68 +1194,6 @@ document.getElementById('forecast').addEventListener('scroll', function () {
 
 
 
-
-function updateMoonTrackProgress(lat, long) {
-    fetch(`https://api.ipgeolocation.io/astronomy?apiKey=f22c81e7a0b5448e812ad5e0e1c25242&lat=${lat}&long=${long}`)
-        .then(response => response.json())
-        .then(data => {
-            const moonriseTime = parseTime(data.moonrise);
-            const moonsetTime = parseTime(data.moonset);
-            const currentTime = new Date();
-
-            const totalMoonlight = moonsetTime - moonriseTime;
-
-            let timeSinceMoonrise = currentTime - moonriseTime;
-
-            if (currentTime > moonsetTime && currentTime < new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate(), 23, 59, 59)) {
-                timeSinceMoonrise = totalMoonlight;
-            }
-
-            const percentageOfMoonlight = (timeSinceMoonrise / totalMoonlight) * 100;
-
-            const moonProgressWidth = Math.min(Math.max(percentageOfMoonlight, 0), 100);
-
-            document.querySelector('moontrackprogress').style.width = `${moonProgressWidth}%`;
-
-            const moonrise = formatTimeMoonRiseMoonSet(data.moonrise);
-            const moonset = data.moonset === "-:-" ? "Not available" : formatTimeMoonRiseMoonSet(data.moonset);
-            document.getElementById('moonrise').textContent = `${moonrise}`;
-            document.getElementById('moonset').textContent = `${moonset}`;
-
-        })
-        .catch(error => {
-            console.error('Error fetching moonrise/moonset data:', error);
-        });
-}
-
-
-function parseTime(time24) {
-    const [hours, minutes] = time24.split(':').map(Number);
-    const currentDate = new Date();
-    const time = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), hours, minutes);
-    return time;
-}
-
-function formatTimeMoonRiseMoonSet(time24) {
-    let [hours, minutes] = time24.split(':').map(Number);
-
-    minutes = Math.round(minutes);
-
-    if (minutes === 60) {
-        minutes = 0;
-        hours += 1;
-    }
-
-    const period = hours >= 12 ? 'PM' : 'AM';
-
-    hours = hours % 12 || 12;
-
-    minutes = minutes.toString().padStart(2, '0');
-
-    return `${hours}:${minutes} ${period}`;
-}
-
-
 function refreshWeather(){
     const latSend = localStorage.getItem('currentLat')
     const longSend = localStorage.getItem('currentLong')
@@ -1389,6 +1326,12 @@ function toggleMapTypeChips(element) {
 function openLivemap(){
     document.querySelector('.liveMapScreen').hidden = false;
     window.history.pushState({ LiveMapOpen: true }, "");
+
+        var passChips = document.getElementsByName('MapType');
+        passChips.forEach((passChip) => {
+            passChip.selected = false;
+        });
+        document.querySelector('[label="Temperature"]').selected = true;
 }
 
 function closeLiveMap(){
@@ -1429,4 +1372,74 @@ if(document.querySelector('[label="Rain"]').selected){
 
 }
 
+}
+
+
+function Fetchmoonphases(lat, long){
+    fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${lat},${long}?unitGroup=metric&include=days&key=4KMES28T2K3PXBCXTNYZCZFW8&contentType=json`)
+    .then(response => response.json())
+    .then(data => {
+
+        const moon_phase_img = document.getElementById('moon_phase_img');
+
+        if(data.days[0].moonphase === 0 && data.days[0].moonphase <= 0){
+            document.getElementById('moonPhaseText').innerHTML = 'New Moon';
+            moon_phase_img.src = 'moon_phases/moon_new.svg';
+        } else if(data.days[0].moonphase > 0 && data.days[0].moonphase <= 0.25){
+            document.getElementById('moonPhaseText').innerHTML = 'Waxing Crescent';
+            moon_phase_img.src = 'moon_phases/moon_waxing_crescent.svg';
+        } else if(data.days[0].moonphase === 0.25 && data.days[0].moonphase <= 0.25){
+            document.getElementById('moonPhaseText').innerHTML = 'First Quarter';
+            moon_phase_img.src = 'moon_phases/moon_first_quarter.svg';
+        } else if(data.days[0].moonphase > 0.25 && data.days[0].moonphase <= 0.5){
+            document.getElementById('moonPhaseText').innerHTML = 'Waxing Gibbous';
+            moon_phase_img.src = 'moon_phases/moon_waxing_gibbous.svg';
+        } else if(data.days[0].moonphase === 0.5 && data.days[0].moonphase <= 0.5){
+            document.getElementById('moonPhaseText').innerHTML = 'Full Moon';
+            moon_phase_img.src = 'moon_phases/moon_full.svg';
+        } else if(data.days[0].moonphase > 0.5 && data.days[0].moonphase <= 0.75){
+            document.getElementById('moonPhaseText').innerHTML = 'Waning Gibbous';
+            moon_phase_img.src = 'moon_phases/moon_waning_gibbous.svg';
+        } else if(data.days[0].moonphase === 0.75 && data.days[0].moonphase <= 0.75){
+            document.getElementById('moonPhaseText').innerHTML = 'Last Quarter';
+            moon_phase_img.src = 'moon_phases/moon_last_quarter.svg';
+        } else if(data.days[0].moonphase > 0.75 && data.days[0].moonphase <= 1){
+            document.getElementById('moonPhaseText').innerHTML = 'Waning Crescent';
+            moon_phase_img.src = 'moon_phases/moon_waning_crescent.svg';
+        }
+
+        console.log(data)
+
+    })
+    .catch(error => console.error(error));
+
+
+
+    fetch(`https://api.ipgeolocation.io/astronomy?apiKey=63a7210d2b104646a1099d5ba223d221&lat=${lat}8&long=${long}`)
+.then(response => response.json())
+.then(data => {
+    const moonRise = data.moonrise;
+    const moonSet = data.moonset;
+
+    const moonRiseAmPm = convertToAmPm(moonRise);
+    const moonSetAmPm = convertToAmPm(moonSet);
+
+
+    document.getElementById('moonriseText').innerHTML = moonRiseAmPm;
+    document.getElementById('moonsetText').innerHTML = moonSetAmPm;
+
+
+})
+.catch(error => console.error(error));
+
+
+}
+
+function convertToAmPm(time) {
+    let [hour, minute] = time.split(':');
+    hour = parseInt(hour);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    hour = hour % 12;
+    hour = hour ? hour : 12;
+    return `${hour}:${minute} ${ampm}`;
 }

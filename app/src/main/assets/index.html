@@ -201,32 +201,28 @@
 
             <div class="setRiseDivWrap" style="border-radius: 5px 5px 10px 10px; margin-top: 5px;">
                 <div class="h1">
-                    <p>Moonrise & Moonset</p>
+                    <p>Moon phase</p>
                 </div>
 
-                <div class="wrapTimingdiv">
-                    <div class="timingWrap">
-                        <span>Moonrise</span>
-                        <div class="timingItem">
-                            <p id="moonrise"></p>
+                <div class="moonSideWrap">
+                    <div class="leftWrapMoon">
+
+                        <div class="moonPhaseNameWrap">
+                            <p id="moonPhaseText"></p>
                         </div>
+
+                        <div class="moonrise-Set">
+                            <p>Moonrise: <span id="moonriseText"></span></p>
+                            <p>Moonset: <span id="moonsetText"></span></p>
+                        </div>
+
                     </div>
 
-                    <div class="timingWrap">
-                        <span>Moonset</span>
-                        <div class="timingItem">
-                            <p id="moonset"></p>
-                        </div>
+
+                    <div class="rightWrapMoon">
+                        <img src="moon_phases/moon_full.svg" alt="" id="moon_phase_img">
                     </div>
                 </div>
-
-
-                <moontrack>
-                    <moontrackprogress>
-                        <moon></moon>
-                    </moontrackprogress>
-                </moontrack>
-
                 <br>
             </div>
 
