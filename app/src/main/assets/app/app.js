@@ -950,7 +950,9 @@ function display24HourForecast(forecastData) {
     const forecastContainer = document.getElementById('forecast');
         const RainBarsContainer = document.querySelector('rainMeterBar');
 
-    forecastContainer.innerHTML = ''; 
+    forecastContainer.innerHTML = '';
+    RainBarsContainer.innerHTML = '';
+
 
     if (forecastData && forecastData.length >= 24) {
         for (let i = 0; i < 24; i++) {
@@ -1428,6 +1430,13 @@ function Fetchmoonphases(lat, long){
     document.getElementById('moonriseText').innerHTML = moonRiseAmPm;
     document.getElementById('moonsetText').innerHTML = moonSetAmPm;
 
+
+    const dayLength = data.day_length;
+    const [hours, minutes, seconds] = dayLength.split(':');
+    const formattedDayLength = `${parseInt(hours)} hours ${parseInt(minutes)} mins`;
+
+
+        document.getElementById('DayLengthText').innerHTML = formattedDayLength;
 
 })
 .catch(error => console.error(error));

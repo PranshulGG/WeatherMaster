@@ -91,17 +91,17 @@
         <div class="high-all">
             <div class="high-mini">
 
-                <div class="mini wind ripple_btn_low">
+                <div class="mini wind ripple_btn_low" onclick="ShowSnack('Wind speed', 2000, 3, 'none', ' ', 'no-up')">
                     <span icon-outlined>wind_power</span>
                     <p id="wind-speed"></p>
                 </div>
 
-                <div class="mini humidity ripple_btn_low">
+                <div class="mini humidity ripple_btn_low" onclick="ShowSnack('Wind direction', 2000, 3, 'none', ' ', 'no-up')">
                     <span icon-filled class="direction" style="transition: transform 2s ease-out; transform: rotate(-180deg); color: var(--Secondary);">assistant_navigation</span>
                     <p id="directionWind"></p>
                 </div>
 
-                <div class="mini clouds ripple_btn_low">
+                <div class="mini clouds ripple_btn_low" onclick="ShowSnack('Cloudiness', 2000, 3, 'none', ' ', 'no-up')">
                     <span icon-outlined>cloud</span>
                     <p id="clouds"></p>
                 </div>
@@ -196,7 +196,11 @@
                         <sun></sun>
                     </suntrackprogress>
                 </suntrack>
-                <br>
+
+                <div class="dayLengthWrap" style="display: flex; align-items: center; padding-left: 20px; gap: 5px; margin-top: 10px;">
+                    <span style="color: var(--On-Surface-Variant);">Day length: </span>
+                    <p id="DayLengthText" style="color: var(--On-Surface);"></p>
+                </div>
             </div>
 
             <div class="setRiseDivWrap" style="border-radius: 5px 5px 10px 10px; margin-top: 5px;">
