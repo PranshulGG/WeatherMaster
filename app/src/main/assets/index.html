@@ -96,10 +96,11 @@
                     <p id="wind-speed"></p>
                 </div>
 
-                <div class="mini humidity ripple_btn_low" onclick="ShowSnack('Wind direction', 2000, 3, 'none', ' ', 'no-up')">
-                    <span icon-filled class="direction" style="transition: transform 2s ease-out; transform: rotate(-180deg); color: var(--Secondary);">assistant_navigation</span>
-                    <p id="directionWind"></p>
+                <div class="mini timeCurrent ripple_btn_low" onclick="ShowSnack('Current time', 2000, 3, 'none', ' ', 'no-up')">
+                    <span icon-outlined>schedule</span>
+                    <p id="currentTime"></p>
                 </div>
+
 
                 <div class="mini clouds ripple_btn_low" onclick="ShowSnack('Cloudiness', 2000, 3, 'none', ' ', 'no-up')">
                     <span icon-outlined>cloud</span>
@@ -266,6 +267,44 @@
                     <p id="humidity"></p>
                 </div>
 
+
+                <div class="currentConditionItem">
+
+                    <div class="currentCondtionLabel">
+                        <span>Pressure</span>
+                    </div>
+
+                    <currentConditonIcon class="prssure_area">
+                        <md-circular-progress value="0.1" class="pressure_progress_main"></md-circular-progress>
+                        <md-circular-progress value="0.8" class="pressure_progress_bg"></md-circular-progress>
+                    </currentConditonIcon>
+                    <div class="text_press_lowHigh">
+                        <span>Low</span>
+                        <span>High</span>
+                    </div>
+
+
+                    <p id="pressure_text_main"></p>
+                </div>
+
+
+                <div class="currentConditionItem">
+
+                    <div class="currentCondtionLabel">
+                        <span>Wind direction</span>
+                    </div>
+
+                    <currentConditonIcon>
+                        <img src="icons/wind_direction.png" alt="" class="direction" width="70px" style="transition: transform 2s ease-out;">
+                    </currentConditonIcon>
+
+
+
+                    <p id="directionWind" style="padding-bottom: 0;"></p>
+                    <div class="windtypeName" style="display: flex; align-items: center; justify-content: flex-start; padding-left: 15px; color: var(--On-Surface-Variant); font-size: 13px;">
+                        <span id="windtype"></span>
+                    </div>
+                </div>
 
             </div>
 
@@ -519,7 +558,25 @@ function checkNoInternet(){
 
 
 
+    function updateCurrentTime() {
+        const currentTimeElement = document.getElementById("currentTime");
+        const now = new Date();
+        let hours = now.getHours();
+        const minutes = now.getMinutes();
+        const seconds = now.getSeconds();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
 
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        const minutesStr = minutes < 10 ? '0' + minutes : minutes;
+        const secondsStr = seconds < 10 ? '0' + seconds : seconds;
+
+        const timeStr = hours + ':' + minutesStr + ' ' + ampm;
+        currentTimeElement.textContent = timeStr;
+    }
+
+    setInterval(updateCurrentTime, 1000);
+    updateCurrentTime();
     </script>
 
 

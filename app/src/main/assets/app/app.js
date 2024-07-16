@@ -162,7 +162,7 @@ window.addEventListener('popstate', function (event) {
         document.getElementById('search-container').style.display = 'none'
         document.getElementById('search-container').style.opacity = '1'
 
-    }, 250);
+    }, 300);
 
 });
 
@@ -247,6 +247,21 @@ function getWeather(city, latitude, longitude) {
             const clouds = data.clouds.all
             const feelslike = data.main.feels_like;
             const feelslikeF = Math.round(feelslike * 9 / 5 + 32);
+
+                        const pressureMain = data.main.pressure;
+
+                        document.getElementById('pressure_text_main').innerHTML = pressureMain + '<span style="color: var(--On-Surface-Variant); font-size: 15px;"> hPa</span> '
+
+
+                        const minPressure = 870;
+            const maxPressure = 1080;
+            const maxProgress = 0.8;
+
+            let progressValue = ((pressureMain - minPressure) / (maxPressure - minPressure)) * maxProgress;
+
+            progressValue = Math.max(0, Math.min(progressValue, maxProgress));
+
+            document.querySelector('.pressure_progress_main').setAttribute('value', progressValue);
 
                         const windDirection = data.wind.deg;
 
@@ -344,7 +359,7 @@ function getWeather(city, latitude, longitude) {
             }
 
                         let visibilityInKm = visibility / 1000;
-                        let maxVisibility = 15;
+                        let maxVisibility = 10;
 
                         let visibilityPercentage = Math.min(visibilityInKm / maxVisibility, 1);
 
@@ -394,6 +409,35 @@ function getWeather(city, latitude, longitude) {
 
             document.getElementById('cloth_recommended').textContent = recommendation
 
+                        const windspeedType = document.getElementById('windtype');
+
+                            if (windSpeedKPH < 1) {
+                                windspeedType.innerHTML = "Calm";
+                            } else if (windSpeedKPH < 5) {
+                                windspeedType.innerHTML =  "Light air";
+                            } else if (windSpeedKPH < 11) {
+                                windspeedType.innerHTML =  "Light breeze";
+                            } else if (windSpeedKPH < 19) {
+                                windspeedType.innerHTML =  "Gentle breeze";
+                            } else if (windSpeedKPH < 28) {
+                                windspeedType.innerHTML =  "Moderate breeze";
+                            } else if (windSpeedKPH < 38) {
+                                windspeedType.innerHTML =  "Fresh breeze";
+                            } else if (windSpeedKPH < 49) {
+                                windspeedType.innerHTML =  "Strong breeze";
+                            } else if (windSpeedKPH < 61) {
+                                windspeedType.innerHTML =  "High wind";
+                            } else if (windSpeedKPH < 74) {
+                                windspeedType.innerHTML =  "Gale";
+                            } else if (windSpeedKPH < 88) {
+                                windspeedType.innerHTML =  "Strong gale";
+                            } else if (windSpeedKPH < 102) {
+                                windspeedType.innerHTML =  "Storm";
+                            } else if (windSpeedKPH < 117) {
+                                windspeedType.innerHTML =  "Violent storm";
+                            } else {
+                                windspeedType.innerHTML =  "Hurricane";
+                            }
 
             // Fetch UV Index
 
@@ -611,6 +655,21 @@ function getWeatherByCoordinates(latitude, longitude) {
             const feelslikeF = Math.round(feelslike * 9 / 5 + 32);
             document.getElementById('city-name').innerHTML = `${cityName}, ${countryName}`;
 
+                        const pressureMain = data.main.pressure;
+
+                        document.getElementById('pressure_text_main').innerHTML = pressureMain + '<span style="color: var(--On-Surface-Variant); font-size: 15px;"> hPa</span> '
+
+
+                        const minPressure = 870;
+            const maxPressure = 1080;
+            const maxProgress = 0.8;
+
+            let progressValue = ((pressureMain - minPressure) / (maxPressure - minPressure)) * maxProgress;
+
+            progressValue = Math.max(0, Math.min(progressValue, maxProgress));
+
+            document.querySelector('.pressure_progress_main').setAttribute('value', progressValue);
+
                         const windDirection = data.wind.deg;
 
                         setTimeout(() => {
@@ -710,7 +769,7 @@ function getWeatherByCoordinates(latitude, longitude) {
 
 
             let visibilityInKm = visibility / 1000;
-            let maxVisibility = 15;
+            let maxVisibility = 10;
 
             let visibilityPercentage = Math.min(visibilityInKm / maxVisibility, 1);
 
@@ -763,6 +822,37 @@ function getWeatherByCoordinates(latitude, longitude) {
 
                             document.getElementById('cloth_recommended').textContent = recommendation
 
+
+
+                    const windspeedType = document.getElementById('windtype');
+
+                        if (windSpeedKPH < 1) {
+                            windspeedType.innerHTML = "Calm";
+                        } else if (windSpeedKPH < 5) {
+                            windspeedType.innerHTML =  "Light air";
+                        } else if (windSpeedKPH < 11) {
+                            windspeedType.innerHTML =  "Light breeze";
+                        } else if (windSpeedKPH < 19) {
+                            windspeedType.innerHTML =  "Gentle breeze";
+                        } else if (windSpeedKPH < 28) {
+                            windspeedType.innerHTML =  "Moderate breeze";
+                        } else if (windSpeedKPH < 38) {
+                            windspeedType.innerHTML =  "Fresh breeze";
+                        } else if (windSpeedKPH < 49) {
+                            windspeedType.innerHTML =  "Strong breeze";
+                        } else if (windSpeedKPH < 61) {
+                            windspeedType.innerHTML =  "High wind";
+                        } else if (windSpeedKPH < 74) {
+                            windspeedType.innerHTML =  "Gale";
+                        } else if (windSpeedKPH < 88) {
+                            windspeedType.innerHTML =  "Strong gale";
+                        } else if (windSpeedKPH < 102) {
+                            windspeedType.innerHTML =  "Storm";
+                        } else if (windSpeedKPH < 117) {
+                            windspeedType.innerHTML =  "Violent storm";
+                        } else {
+                            windspeedType.innerHTML =  "Hurricane";
+                        }
 
 
             const air_url = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
@@ -1452,3 +1542,20 @@ function convertToAmPm(time) {
     hour = hour ? hour : 12;
     return `${hour}:${minute} ${ampm}`;
 }
+
+document.querySelector('rainMeterBar').addEventListener('scroll', function () {
+    var items = document.querySelectorAll('rainmeterbaritem');
+    var scrollPosition = document.querySelector('rainMeterBar').scrollLeft;
+    var windowWidth = document.querySelector('rainMeterBar').offsetWidth;
+
+    items.forEach(function (item) {
+        var itemOffset = item.offsetLeft - scrollPosition;
+        var isVisible = (itemOffset >= 0 && itemOffset < windowWidth);
+        if (isVisible) {
+            item.style.scale = 1;
+
+        } else {
+            item.style.scale = 0.5;
+        }
+    });
+});

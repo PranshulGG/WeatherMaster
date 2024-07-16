@@ -1133,14 +1133,14 @@ sun{
   --md-circular-progress-active-indicator-width: 13;
   stroke-linecap: round;
   z-index: 1;
-  --md-sys-color-primary: #5fb1f8;
+  --md-sys-color-primary: #a7d278;
 }
 
 .currentConditions currentConditonIcon .md-circle02{
   --md-circular-progress-size: 100px;
   --md-circular-progress-active-indicator-width: 13;
   stroke-linecap: round;
-  --md-sys-color-primary: #cee4ff;
+  --md-sys-color-primary: #c4eed0;
   position: absolute;
 }
 
@@ -1237,6 +1237,7 @@ rainMeterBar rainmeterbaritem{
   flex-direction: column;
   justify-content: center;
   gap: 5px;
+    transition: all 0.3s cubic-bezier(1, 0, 0, 1);
 
 }
 
@@ -1283,6 +1284,17 @@ rainMeterBar{
   padding-left: 15px;
   padding-right: 15px;
   gap: 25px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+rainMeterBar::-webkit-scrollbar {
+  height: 2px;
+}
+
+rainMeterBar::-webkit-scrollbar-thumb {
+  background-color: var(--Primary);
+
 }
 
 #map {
@@ -1433,4 +1445,37 @@ rainMeterBar{
 
 .moonSideWrap .leftWrapMoon .moonrise-Set span{
   color: var(--On-Surface);
+}
+
+/* pressure */
+
+.prssure_area .pressure_progress_bg{
+  --md-circular-progress-size: 100px;
+  --md-circular-progress-active-indicator-width: 13;
+  stroke-linecap: round;
+  --md-sys-color-primary: #cee4ff;
+  position: absolute;
+}
+
+.prssure_area .pressure_progress_main{
+  --md-circular-progress-size: 100px;
+  --md-circular-progress-active-indicator-width: 13;
+  stroke-linecap: round;
+  z-index: 1;
+  --md-sys-color-primary: #5fb1f8;
+}
+
+.prssure_area{
+  transform: rotate(215deg);
+}
+
+.text_press_lowHigh{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 14px;
+  color: var(--On-Surface);
+  opacity: 0.7;
 }
