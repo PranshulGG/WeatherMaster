@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     cityList.addEventListener('click', (event) => {
-        const selectedCity = event.target.textContent;
+        const selectedCity = event.target.getAttribute('Location');;
         const apiKey = '120d979ba5b2d0780f51872890f5ad0b';
 
         
@@ -135,9 +135,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 200);
 
         showLoader()
-        if (selectedCity.toLowerCase() === "delhi, india") {
-            getWeather(selectedCity, 28.6139, 77.2090);
-        } else {
             fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(selectedCity)}&limit=1&appid=${apiKey}`)
                 .then(response => response.json())
                 .then(data => {
@@ -147,7 +144,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 })
                 .catch(error => console.error('Error fetching coordinates:', error));
-        }
 
     });
 });
@@ -171,17 +167,13 @@ function fetchCitySuggestions(searchTerm) {
     const query = encodeURIComponent(searchTerm);
     const apiKey = '120d979ba5b2d0780f51872890f5ad0b';
 
-    if (searchTerm.toLowerCase() === "delhi") {
-        return Promise.resolve(["Delhi, India"]);
-    }
-
     return fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${apiKey}`)
         .then(response => response.json())
         .then(data => data.map(city => {
             const cityName = city.name;
             const stateOrCountry = city.state || city.country;
 
-            return `${cityName}, ${stateOrCountry}`;
+           return `<suggestTextContent>${cityName}<span>${stateOrCountry}</span></suggestTextContent>`;
 
         }))
         .catch(error => console.error('Error fetching city suggestions:', error));
@@ -199,7 +191,15 @@ function displayCitySuggestions(suggestions, searchTerm) {
                         createSuggestRipple.style = '--md-ripple-pressed-opacity: 0.13;'
             // const suggestSpace = document.createElement('suggest-space');
             suggestionItem.classList.add("suggest");
-            suggestionItem.textContent = suggestion;
+            let formattedSuggestion = suggestion.replace(/<\/?suggestTextContent>/g, '');
+
+                        formattedSuggestion = formattedSuggestion.replace(/<\/span>/g, '');
+                        formattedSuggestion = formattedSuggestion.replace(/<span>/g, ', ');
+
+
+                        suggestionItem.setAttribute('Location', formattedSuggestion)
+
+                        suggestionItem.innerHTML = suggestion;
             // suggestionItem.appendChild(suggestSpace)
             cityList.appendChild(suggestionItem);
             // suggestionItem.appendChild(saveBTN)
@@ -215,6 +215,9 @@ function displayCitySuggestions(suggestions, searchTerm) {
     });
 }
 
+function getCountryName(code) {
+    return countryNames[code] || "Unknown Country";
+}
 
 
 function getWeather(city, latitude, longitude) {
@@ -248,6 +251,12 @@ function getWeather(city, latitude, longitude) {
             const feelslike = data.main.feels_like;
             const feelslikeF = Math.round(feelslike * 9 / 5 + 32);
 
+                        if (data.snow && data.snow['1h']) {
+                            document.getElementById('SnowAmount').innerHTML = (`${data.snow['1h'].toFixed(1)} mm`)
+                        } else{
+                            document.getElementById('SnowAmount').innerHTML = '0.0 mm'
+                        }
+
                         const pressureMain = data.main.pressure;
 
                         document.getElementById('pressure_text_main').innerHTML = pressureMain + '<span style="color: var(--On-Surface-Variant); font-size: 15px;"> hPa</span> '
@@ -274,7 +283,10 @@ function getWeather(city, latitude, longitude) {
                         document.getElementById('directionWind').textContent = directions[index]
 
             const iconCode = data.weather[0].icon;
-            document.getElementById('city-name').innerHTML = `${cityName}, ${countryName}`;
+
+            const countryNameText = getCountryName(countryName);
+
+            document.getElementById('city-name').innerHTML = `${cityName}, ${countryNameText}`;
 
             if(SelectedTempUnit === 'fahrenheit'){
                 document.getElementById('temp').innerHTML = `${tempF}<span>°F</span>`;
@@ -653,7 +665,17 @@ function getWeatherByCoordinates(latitude, longitude) {
             const description = data.weather[0].description;
             const feelslike = data.main.feels_like;
             const feelslikeF = Math.round(feelslike * 9 / 5 + 32);
-            document.getElementById('city-name').innerHTML = `${cityName}, ${countryName}`;
+
+            const countryNameText = getCountryName(countryName);
+
+            document.getElementById('city-name').innerHTML = `${cityName}, ${countryNameText}`;
+
+
+                        if (data.snow && data.snow['1h']) {
+                            document.getElementById('SnowAmount').innerHTML = (`${data.snow['1h'].toFixed(1)} mm`)
+                        } else{
+                            document.getElementById('SnowAmount').innerHTML = '0.0 mm'
+                        }
 
                         const pressureMain = data.main.pressure;
 

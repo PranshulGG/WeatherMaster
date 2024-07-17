@@ -96,9 +96,9 @@
                     <p id="wind-speed"></p>
                 </div>
 
-                <div class="mini timeCurrent ripple_btn_low" onclick="ShowSnack('Current time', 2000, 3, 'none', ' ', 'no-up')">
-                    <span icon-outlined>schedule</span>
-                    <p id="currentTime"></p>
+                <div class="mini snowAmount ripple_btn_low" onclick="ShowSnack('Snow amount', 2000, 3, 'none', ' ', 'no-up')">
+                    <span icon-outlined>ac_unit</span>
+                    <p id="SnowAmount"></p>
                 </div>
 
 
@@ -557,26 +557,6 @@ function checkNoInternet(){
     checkNoInternet()
 
 
-
-    function updateCurrentTime() {
-        const currentTimeElement = document.getElementById("currentTime");
-        const now = new Date();
-        let hours = now.getHours();
-        const minutes = now.getMinutes();
-        const seconds = now.getSeconds();
-        const ampm = hours >= 12 ? 'PM' : 'AM';
-
-        hours = hours % 12;
-        hours = hours ? hours : 12; // the hour '0' should be '12'
-        const minutesStr = minutes < 10 ? '0' + minutes : minutes;
-        const secondsStr = seconds < 10 ? '0' + seconds : seconds;
-
-        const timeStr = hours + ':' + minutesStr + ' ' + ampm;
-        currentTimeElement.textContent = timeStr;
-    }
-
-    setInterval(updateCurrentTime, 1000);
-    updateCurrentTime();
     </script>
 
 
@@ -590,6 +570,8 @@ function checkNoInternet(){
 <script src="modules/scroll.js"></script>
 <script src="modules/ripple_acc.js"></script>
 <script src="app/navigate.js"></script>
+<script src="app/country-list.js"></script>
+
 </body>
 
 </html>

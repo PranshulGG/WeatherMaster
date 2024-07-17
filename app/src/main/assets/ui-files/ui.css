@@ -821,6 +821,18 @@ suggest-space{
   flex-shrink: 0;
 }
 
+.suggest suggesttextcontent{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+ gap: 2px;
+}
+
+.suggest suggesttextcontent span{
+  color: var(--On-Surface-Variant);
+  font-size: 14px;
+}
+
 #updated-div {
   display: flex;
   align-items: center;
@@ -924,7 +936,7 @@ background: linear-gradient(0deg, rgba(255, 0, 0, 0), var(--Secondary-Container)
 }
 
 .currentSearchImg img{
-  width: 30px;
+  width: 25px;
 }
 
 currentLocationNames{
@@ -944,6 +956,7 @@ currentLocationNames p{
 currentLocationNames span{
   font-size: 16px;
   color: var(--On-Surface-Variant);
+    text-transform: capitalize;
 }
 
 .fab-holder{
