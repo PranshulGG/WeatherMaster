@@ -319,7 +319,7 @@ function getWeather(city, latitude, longitude) {
                             document.getElementById('AmountRainMM').innerHTML = `0.0 mm`
                         }
 
-          document.getElementById('currentLocationName').textContent = `${cityName}, ${countryName}`;
+          document.getElementById('currentLocationName').textContent = `${cityName}, ${countryNameText}`;
              document.getElementById('currentSearchImg').src = `weather-icons/${iconCode}.svg`;
 
             document.getElementById('description').textContent = description;
@@ -736,7 +736,7 @@ function getWeatherByCoordinates(latitude, longitude) {
                             document.getElementById('AmountRainMM').innerHTML = `0.0 mm`
                         }
 
-              document.getElementById('currentLocationName').textContent = `${cityName}, ${countryName}`;
+              document.getElementById('currentLocationName').textContent = `${cityName}, ${countryNameText}`;
                  document.getElementById('currentSearchImg').src = `weather-icons/${iconCode}.svg`;
 
 
