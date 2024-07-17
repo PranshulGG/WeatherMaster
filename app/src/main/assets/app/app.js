@@ -286,7 +286,11 @@ function getWeather(city, latitude, longitude) {
 
             const countryNameText = getCountryName(countryName);
 
-            document.getElementById('city-name').innerHTML = `${cityName} <span>${countryNameText}</span>`;
+                        if(!cityName){
+                            document.getElementById('city-name').innerHTML = `<span>${countryNameText}</span>`;
+                        } else{
+                            document.getElementById('city-name').innerHTML = `${cityName} <span>, ${countryNameText}</span>`;
+                        }
 
             if(SelectedTempUnit === 'fahrenheit'){
                 document.getElementById('temp').innerHTML = `${tempF}<span>°F</span>`;
@@ -668,7 +672,11 @@ function getWeatherByCoordinates(latitude, longitude) {
 
             const countryNameText = getCountryName(countryName);
 
-            document.getElementById('city-name').innerHTML = `${cityName} <span>${countryNameText}</span>`;
+                       if(!cityName){
+                           document.getElementById('city-name').innerHTML = `<span>${countryNameText}</span>`;
+                       } else{
+                           document.getElementById('city-name').innerHTML = `${cityName} <span>, ${countryNameText}</span>`;
+                       }
 
 
                         if (data.snow && data.snow['1h']) {

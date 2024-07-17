@@ -52,15 +52,17 @@ body {
   white-space: nowrap;
   color: var(--On-Surface);
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
 }
 
 #city-name span{
-  font-size: 15px !important;
-  color: var(--On-Surface-Variant) !important;
+  /* font-size: 15px !important; */
+  font-size: 18px !important;
+  color: var(--On-Surface) !important;
+
 
 }
+
 #main-city span {
   font-size: 24px;
   color: var(--Secondary);
