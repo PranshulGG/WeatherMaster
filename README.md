@@ -28,8 +28,20 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
     <a href="https://github.com/PranshulGG/WeatherMaster/releases"><img alt="GitHub" src="https://github.com/PranshulGG/CalcMaster-A-Calculator-App/blob/master/previewed/badge_github.png" height="120"/></a>
 </p>
 
+# ✨ Feature:
 
-# ✨ Features:
+ - Shows current weather
+ - 24 - 48hrs forecast
+ - 5-days of forecast
+ - Moon phases, Moonrise and Moonset
+ - Sunrise, Sunset, Day length
+ - Rain bar
+ - Visibility, humidity, pressure, wind direction, wind speed, snow amount, cloudiness
+ - UV index and Air quality
+ - Live map, location picker
+ - Cloths recommendation
+
+# ⚙️ Other:
 
  - <strong>Native Android Experience: </stronge>Enjoy a user interface and interaction that closely resemble a native Android Weather app.
    
