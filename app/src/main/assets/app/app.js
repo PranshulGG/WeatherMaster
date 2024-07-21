@@ -1516,7 +1516,14 @@ function Fetchmoonphases(lat, long){
             moon_phase_img.src = 'moon_phases/moon_waning_crescent.svg';
         }
 
-document.getElementById('weatherComments').innerHTML = data.days[0].description + ' Chances of precipitation' + ` <span style="background-color: black; padding-left: 5px;padding-right: 5px; border-radius: 5px;">${data.days[0].precipprob}%</span>`
+        if(data.days[0].precipprob > 10){
+            document.getElementById('weatherComments').innerHTML = data.days[0].description + ' Chances of precipitation' + ` <span style="background-color: black; padding-left: 5px;padding-right: 5px; border-radius: 5px;">${data.days[0].precipprob}%</span>`
+        } else{
+        document.getElementById('weatherComments').innerHTML = data.days[0].description;
+
+        }
+
+
         const severerisk = data.days[0].severerisk
 
         const riskFill = document.getElementById('riskFill');
@@ -1532,7 +1539,7 @@ document.getElementById('weatherComments').innerHTML = data.days[0].description 
         } else if (severerisk > 50) {
             riskFill.style.color = '#ff4d4d';
             riskDescription.innerHTML = 'High Risk: Severe weather likely. ';
-        } else if (severerisk > 25) {
+        } else if (severerisk > 30) {
             riskFill.style.color = '#ff9999';
             riskDescription.innerHTML = 'Moderate Risk: Potential weather issues.';
         } else if (severerisk > 10) {
@@ -1547,6 +1554,23 @@ document.getElementById('weatherComments').innerHTML = data.days[0].description 
                 document.getElementById('AmountRainMM').innerHTML = data.days[0].precip + ' mm'
 
                 document.getElementById('RainCoverage').innerHTML = data.days[0].precipcover + '%'
+
+                        const today_max_temp = data.days[0].tempmax;
+                        const today_min_temp = data.days[0].tempmin;
+
+                        function celsiusToFahrenheit(celsius) {
+                            return Math.round((celsius * 9/5) + 32);
+                        }
+
+
+                        if(SelectedTempUnit === 'fahrenheit'){
+                            document.getElementById('todays_max_temp').textContent = celsiusToFahrenheit(today_max_temp)+ '°F';
+                            document.getElementById('todays_min_temp').textContent = celsiusToFahrenheit(today_min_temp)+ '°F';
+                        } else{
+                            document.getElementById('todays_max_temp').textContent = `${Math.round(today_max_temp)}°C`;
+                            document.getElementById('todays_min_temp').textContent = `${Math.round(today_min_temp)}°C`;
+
+                        }
     })
 
     .catch(error => console.error(error));

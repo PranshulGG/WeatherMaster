@@ -66,6 +66,17 @@
 
             </div>
 
+            <div class="max_min_temp_today">
+                <div class="max_min_temp_div">
+                    <i icon-filled style="color: rgb(255, 102, 0);">arrow_drop_up</i>
+                    <p id="todays_max_temp">----</p>
+                </div>
+                <div class="max_min_temp_div">
+                    <i icon-filled style="color: rgb(0, 162, 255);">arrow_drop_down</i>
+                    <p id="todays_min_temp">----</p>
+                </div>
+            </div>
+
         </div>
 
         <div class="froggie">
@@ -76,7 +87,7 @@
 
         <div class="excessiveHeat" style="margin-bottom: 0;" hidden>
             <div class="icon-container-excessiveHeat">
-                <md-icon icon-filled>emergency_heat_2</md-icon>
+                <md-icon><img src="icons/very_hot.svg" alt=""></md-icon>
             </div>
             <p id="excessiveHeatText">Excessive heat <span><text>Will feel like</text><span id="willFeelLike"> 45C</span></span></p>
 
@@ -91,11 +102,11 @@
 
         <div class="severeriskDiv">
             <i id="riskFill" icon-filled>warning</i>
-            <p id="severeriskText"></p>
+            <p id="severeriskText">---------</p>
         </div>
 
         <div class="weatherComments">
-            <p id="weatherComments"></p>
+            <p id="weatherComments">-------</p>
         </div>
 
 

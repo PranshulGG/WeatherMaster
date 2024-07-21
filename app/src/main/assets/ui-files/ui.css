@@ -186,8 +186,8 @@ body {
 
   padding-left: 10px;
   padding-right: 10px;
-  border-radius: 10px 10px 5px 5px;
-
+  border-radius: 5px;
+  margin-top: 5px;
   margin-bottom: 5px;
 }
 
@@ -1014,7 +1014,7 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
 }
 
 .icon-container-excessiveHeat{
-  background-color: var(--Error) !important;
+  background-color: rgb(75, 0, 0) !important;
   color: var(--On-Error) !important;
 }
 
@@ -1503,10 +1503,12 @@ rainMeterBar::-webkit-scrollbar-thumb {
   padding: 10px;
   margin-top: 5px;
   gap: 10px;
+    border-radius: 5px;
+    margin-bottom: 0px;
 }
 
 .weatherComments::before{
-  background-color: black;
+  background-color: var(--Surface);
   width: 100%;
   height: 100%;
   border-radius: inherit;
@@ -1514,8 +1516,6 @@ rainMeterBar::-webkit-scrollbar-thumb {
   top: 0;
   left: 0;
   content: '';
-  border-radius: 10px;
-  opacity: 0.2;
   z-index: -1;
 }
 
@@ -1543,7 +1543,7 @@ rainMeterBar::-webkit-scrollbar-thumb {
 
 .severeriskDiv{
   position: relative;
-  border-radius: 10px;
+    border-radius: 10px 10px 5px 5px;
   display: flex;
   margin: 10px;
   margin-bottom: 0;
@@ -1567,7 +1567,7 @@ rainMeterBar::-webkit-scrollbar-thumb {
 }
 
 .severeriskDiv::before{
-  background-color: black;
+  background-color: var(--Surface);
   width: 100%;
   height: 100%;
   border-radius: inherit;
@@ -1576,6 +1576,25 @@ rainMeterBar::-webkit-scrollbar-thumb {
   left: 0;
   content: '';
   border-radius: inherit;
-  opacity: 0.2;
   z-index: -1;
+}
+
+.max_min_temp_today{
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  right: 10px;
+}
+
+.max_min_temp_today .max_min_temp_div{
+  display: flex;
+  align-items: center;
+  color: var(--On-Surface);
+  font-family: var(--google-mid);
+}
+
+.max_min_temp_today .max_min_temp_div i{
+  font-size: 24px;
 }
