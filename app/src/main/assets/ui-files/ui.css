@@ -1537,6 +1537,8 @@ rainMeterBar::-webkit-scrollbar-thumb {
   color: var(--On-Surface);
   font-family: var(--outfit);
   font-size: 15px;
+    line-height: 1.5;
+
 }
 
 .severeriskDiv{
@@ -1551,6 +1553,8 @@ rainMeterBar::-webkit-scrollbar-thumb {
   align-items: center;
   gap: 10px;
   margin-bottom: 0;
+    margin-top: 0;
+
 }
 
 .severeriskDiv p{
