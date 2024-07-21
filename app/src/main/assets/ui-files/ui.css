@@ -1547,7 +1547,6 @@ rainMeterBar::-webkit-scrollbar-thumb {
   display: flex;
   margin: 10px;
   margin-bottom: 0;
-  width: max-content;
   padding: 10px;
   display: flex;
   align-items: center;
