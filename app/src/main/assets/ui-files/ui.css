@@ -51,15 +51,6 @@ body {
   width: calc(100% - 20px);
   white-space: nowrap;
   color: var(--On-Surface);
-  display: flex;
-  align-items: center;
-}
-
-#city-name span{
-  /* font-size: 15px !important; */
-  font-size: 18px !important;
-  color: var(--On-Surface) !important;
-
 
 }
 
@@ -1501,4 +1492,86 @@ rainMeterBar::-webkit-scrollbar-thumb {
   font-size: 14px;
   color: var(--On-Surface);
   opacity: 0.7;
+}
+
+
+.weatherComments{
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 10px;
+  margin-top: 5px;
+  gap: 10px;
+}
+
+.weatherComments::before{
+  background-color: black;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: '';
+  border-radius: 10px;
+  opacity: 0.2;
+  z-index: -1;
+}
+
+.weatherComments .icon-container-weatherComments{
+  background-color: var(--Secondary);
+  color: var(--On-Secondary);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  font-size: 24px;
+}
+
+.weatherComments p{
+  margin: 0;
+  color: var(--On-Surface);
+  font-family: var(--outfit);
+  font-size: 15px;
+}
+
+.severeriskDiv{
+  position: relative;
+  border-radius: 10px;
+  display: flex;
+  margin: 10px;
+  margin-bottom: 0;
+  width: max-content;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0;
+}
+
+.severeriskDiv p{
+  margin: 0;
+  color: var(--On-Surface-Variant);
+}
+
+.severeriskDiv i{
+  font-size: 18px;
+}
+
+.severeriskDiv::before{
+  background-color: black;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: '';
+  border-radius: inherit;
+  opacity: 0.2;
+  z-index: -1;
 }

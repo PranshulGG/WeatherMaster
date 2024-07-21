@@ -72,6 +72,8 @@
             <img src="" id="froggie_imgs" alt="">
         </div>
 
+
+
         <div class="excessiveHeat" style="margin-bottom: 0;" hidden>
             <div class="icon-container-excessiveHeat">
                 <md-icon icon-filled>emergency_heat_2</md-icon>
@@ -86,6 +88,15 @@
 <!--            </div>-->
 <!--            <p id="rainNextHourText"></p>-->
 <!--        </div>-->
+
+        <div class="severeriskDiv">
+            <i id="riskFill" icon-filled>warning</i>
+            <p id="severeriskText"></p>
+        </div>
+
+        <div class="weatherComments">
+            <p id="weatherComments"></p>
+        </div>
 
 
         <div class="high-all">
@@ -129,13 +140,22 @@
             <rainMeter>
                 <div class="h1">
                     <p>Hourly precipitation</p>
-                </div>
-                <div class="todaysAmount">
-                    <p>Current amount</p>
-                    <span id="AmountRainMM">1.5 mm</span>
+                    <div class="ripple_btn_low" style="display: flex; align-items: center;" onclick="ShowSnack('Type of precipitation expected', 2000, 10, 'none', ' ', 'no-up')"><md-icon icon-outlined style="font-size: 18px;">info</md-icon>Type: Rain</div>
                 </div>
 
-                <noRain hidden>No rain expected for now</noRain>
+                <div class="wrap_cover_rain_meter" style="display: flex; align-items: center; justify-content: space-between;">
+                    <div class="todaysAmount">
+                        <p>Today's amount</p>
+                        <span id="AmountRainMM">1.5 mm</span>
+                    </div>
+
+                    <div class="todaysAmount" style="padding-left: 0; padding-right: 20px;">
+                        <p>Area coverage</p>
+                        <span id="RainCoverage">1.5 mm</span>
+                    </div>
+
+                </div>
+
 
                 <rainMeterBar>
 

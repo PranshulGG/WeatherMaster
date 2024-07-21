@@ -286,11 +286,11 @@ function getWeather(city, latitude, longitude) {
 
             const countryNameText = getCountryName(countryName);
 
-                        if(!cityName){
-                            document.getElementById('city-name').innerHTML = `<span>${countryNameText}</span>`;
-                        } else{
-                            document.getElementById('city-name').innerHTML = `${cityName} <span>, ${countryNameText}</span>`;
-                        }
+            if(!cityName){
+                document.getElementById('city-name').innerHTML = `${countryNameText}`;
+            } else{
+                document.getElementById('city-name').innerHTML = `${cityName}, ${countryNameText}`;
+            }
 
             if(SelectedTempUnit === 'fahrenheit'){
                 document.getElementById('temp').innerHTML = `${tempF}<span>°F</span>`;
@@ -311,17 +311,7 @@ function getWeather(city, latitude, longitude) {
                             document.querySelector('.excessiveHeat').hidden = true;
                         }
 
-                        if (data.rain && data.rain['1h']) {
-                            const precipitation = data.rain['1h'];
-                            if (precipitation > 0) {
-                                document.getElementById('AmountRainMM').innerHTML = `${data.rain['1h'].toFixed(1)} mm`
-                                document.querySelector('noRain').hidden = true;
 
-                            }
-                        } else {
-                            document.querySelector('noRain').hidden = false;
-                            document.getElementById('AmountRainMM').innerHTML = `0.0 mm`
-                        }
 
           document.getElementById('currentLocationName').textContent = `${cityName}, ${countryNameText}`;
              document.getElementById('currentSearchImg').src = `weather-icons/${iconCode}.svg`;
@@ -589,6 +579,7 @@ function getWeather(city, latitude, longitude) {
 
 
 
+
     currentLocation = null;
 
 } 
@@ -672,11 +663,11 @@ function getWeatherByCoordinates(latitude, longitude) {
 
             const countryNameText = getCountryName(countryName);
 
-                       if(!cityName){
-                           document.getElementById('city-name').innerHTML = `<span>${countryNameText}</span>`;
-                       } else{
-                           document.getElementById('city-name').innerHTML = `${cityName} <span>, ${countryNameText}</span>`;
-                       }
+            if(!cityName){
+                document.getElementById('city-name').innerHTML = `${countryNameText}`;
+            } else{
+                document.getElementById('city-name').innerHTML = `${cityName}, ${countryNameText}`;
+            }
 
 
                         if (data.snow && data.snow['1h']) {
@@ -731,18 +722,7 @@ function getWeatherByCoordinates(latitude, longitude) {
 
 
 
-                        if (data.rain && data.rain['1h']) {
-                            const precipitation = data.rain['1h'];
-                            if (precipitation > 0) {
-                                document.getElementById('AmountRainMM').innerHTML = `${data.rain['1h'].toFixed(1)} mm`
-                                document.querySelector('noRain').hidden = true;
 
-
-                            }
-                        } else {
-                            document.querySelector('noRain').hidden = false;
-                            document.getElementById('AmountRainMM').innerHTML = `0.0 mm`
-                        }
 
               document.getElementById('currentLocationName').textContent = `${cityName}, ${countryNameText}`;
                  document.getElementById('currentSearchImg').src = `weather-icons/${iconCode}.svg`;
@@ -1020,7 +1000,11 @@ function getWeatherByCoordinates(latitude, longitude) {
         longitude
     };
 
+
+
+
 }
+
 
 
 function updateSunTrackProgress(latitude, longitude) {
@@ -1050,6 +1034,8 @@ function updateSunTrackProgress(latitude, longitude) {
             console.error('Error fetching sunrise/sunset data:', error);
         });
 }
+
+
 
 
 function get24HourForecast(latitude, longitude) {
@@ -1530,9 +1516,39 @@ function Fetchmoonphases(lat, long){
             moon_phase_img.src = 'moon_phases/moon_waning_crescent.svg';
         }
 
-        console.log(data)
+document.getElementById('weatherComments').innerHTML = data.days[0].description + ' Chances of precipitation' + ` <span style="background-color: black; padding-left: 5px;padding-right: 5px; border-radius: 5px;">${data.days[0].precipprob}%</span>`
+        const severerisk = data.days[0].severerisk
 
+        const riskFill = document.getElementById('riskFill');
+        const riskDescription = document.getElementById('severeriskText')
+
+
+        if (severerisk > 90) {
+            riskFill.style.color = '#b30000';
+            riskDescription.innerHTML = 'Extremely High Risk: Catastrophic weather conditions expected.';
+        } else if (severerisk > 75) {
+            riskFill.style.color = '#ff0000';
+            riskDescription.innerHTML = 'Very High Risk: Extreme weather conditions expected';
+        } else if (severerisk > 50) {
+            riskFill.style.color = '#ff4d4d';
+            riskDescription.innerHTML = 'High Risk: Severe weather likely. ';
+        } else if (severerisk > 25) {
+            riskFill.style.color = '#ff9999';
+            riskDescription.innerHTML = 'Moderate Risk: Potential weather issues.';
+        } else if (severerisk > 10) {
+            riskFill.style.color = '#ffff99';
+            riskDescription.innerHTML = 'Low to Moderate Risk: Minor weather impacts.';
+        } else {
+            riskFill.style.color = '#ccffcc';
+            riskDescription.innerHTML = 'No weather risk.';
+        }
+
+
+                document.getElementById('AmountRainMM').innerHTML = data.days[0].precip + ' mm'
+
+                document.getElementById('RainCoverage').innerHTML = data.days[0].precipcover + '%'
     })
+
     .catch(error => console.error(error));
 
 
