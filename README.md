@@ -35,8 +35,10 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
  - 5-days of forecast
  - Moon phases, Moonrise and Moonset
  - Sunrise, Sunset, Day length
+ - Day description
  - Rain bar
- - Visibility, humidity, pressure, wind direction, wind speed, snow amount, cloudiness
+ - Visibility, humidity, pressure, wind direction, wind speed, snow amount, cloudiness, min-max temp
+ - precipitation type, precipitation area cover
  - UV index and Air quality
  - Live map, location picker
  - Cloths recommendation
