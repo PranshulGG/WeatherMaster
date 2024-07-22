@@ -8,13 +8,13 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 # 👁️ Preview
 
 <div > 
-<img alt="App image" src="screenshots/img_6.jpeg" width="30%" style="border-radius: 10px;">
-<img alt="App image" src="screenshots/img_sunMoon.jpeg" width="30%">
-<img alt="App image" src="screenshots/img_4.jpeg" width="30%">
-<img alt="App image" src="screenshots/img_3.jpeg" width="30%">
-<img alt="App image" src="screenshots/img_search.jpeg" width="30%">
-<img alt="App image" src="screenshots/img_1.jpeg" width="30%">
-<img alt="App image" src="screenshots/img_map.jpeg" width="30%">
+<img alt="App image" src="screenshots/1.jpeg" width="30%" style="border-radius: 10px;">
+<img alt="App image" src="screenshots/2.jpeg" width="30%">
+<img alt="App image" src="screenshots/3.jpeg" width="30%">
+<img alt="App image" src="screenshots/4.jpeg" width="30%">
+<img alt="App image" src="screenshots/5.jpeg" width="30%">
+<img alt="App image" src="screenshots/6.jpeg" width="30%">
+<img alt="App image" src="screenshots/7.jpeg" width="30%">
 
   
 </div>
@@ -35,8 +35,10 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
  - 5-days of forecast
  - Moon phases, Moonrise and Moonset
  - Sunrise, Sunset, Day length
+ - Day description
  - Rain bar
- - Visibility, humidity, pressure, wind direction, wind speed, snow amount, cloudiness
+ - Visibility, humidity, pressure, wind direction, wind speed, snow amount, cloudiness, min-max temp
+ - precipitation type, precipitation area cover
  - UV index and Air quality
  - Live map, location picker
  - Cloths recommendation
