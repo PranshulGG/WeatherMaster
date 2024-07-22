@@ -42,6 +42,23 @@ body {
 
 }
 
+.header-top::before {
+  position: fixed;
+  top: 65px;
+  content: '';
+  width: 100%;
+  background: linear-gradient(180deg, var(--Surface) 10%, rgba(255, 0, 0, 0));
+  height: 30px;
+  opacity: 0;
+  z-index: 1;
+  left: 0;
+  transition: opacity 1s ease-out;
+}
+
+.header-top.use::before{
+  opacity: 1;
+}
+
 #city-name {
   font-size: 18px;
   font-weight: normal;
@@ -95,13 +112,13 @@ body {
 
 .img-div {
   position: absolute;
-  right: 25px;
+  right: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 90px;
   height: 90px;
-  top: 30px;
+  top: 10px;
   border-radius: 100px;
 }
 
@@ -176,6 +193,7 @@ body {
   background: linear-gradient(0deg, var(--Surface) 10%, rgba(255, 0, 0, 0));
   height: 30px;
   z-index: 1;
+  left: 0;
 }
 
 
@@ -183,28 +201,24 @@ body {
 .high-all {
   background-color: var(--Surface);
   margin: 10px;
-
-  padding-left: 10px;
-  padding-right: 10px;
-  border-radius: 5px;
-  margin-top: 5px;
+  border-radius: 0 0 5px 5px;
   margin-bottom: 5px;
+  margin-top: 0;
+  overflow: hidden;
 }
 
 .high-mini {
   display: flex;
   align-items: center;
-  width: calc(100% - 20px);
   justify-content: space-between;
-  padding-left: 10px;
-  padding-right: 10px;
 }
 
 .high-mini .mini {
   display: flex;
   align-items: center;
   gap: 5px;
-  border-radius: 10px;
+  width: 100%;
+  justify-content: center;
 }
 
 .high-mini .mini p {
@@ -1503,8 +1517,8 @@ rainMeterBar::-webkit-scrollbar-thumb {
   padding: 10px;
   margin-top: 5px;
   gap: 10px;
-    border-radius: 5px;
-    margin-bottom: 0px;
+  border-radius: 5px 5px 0 0;
+  margin-bottom: 0;
 }
 
 .weatherComments::before{
@@ -1578,22 +1592,3 @@ rainMeterBar::-webkit-scrollbar-thumb {
   z-index: -1;
 }
 
-.max_min_temp_today{
-  position: absolute;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  right: 10px;
-}
-
-.max_min_temp_today .max_min_temp_div{
-  display: flex;
-  align-items: center;
-  color: var(--On-Surface);
-  font-family: var(--google-mid);
-}
-
-.max_min_temp_today .max_min_temp_div i{
-  font-size: 24px;
-}

@@ -565,7 +565,6 @@ function getWeather(city, latitude, longitude) {
                         document.getElementById('detail_uv').innerHTML = Uv_13
                     }
 
-                    hideLoader()
 
                 })
 
@@ -983,7 +982,6 @@ function getWeatherByCoordinates(latitude, longitude) {
                         document.getElementById('detail_uv').innerHTML = Uv_13
                     }
 
-                    hideLoader()
 
                 })
 
@@ -1488,40 +1486,55 @@ function Fetchmoonphases(lat, long){
     .then(response => response.json())
     .then(data => {
 
-        const moon_phase_img = document.getElementById('moon_phase_img');
+const moon_phase_img = document.getElementById('moon_phase_img');
+        const moonPhaseText = document.getElementById('moonPhaseText');
+        const moonPhaseDaysLeft = document.getElementById('moonPhaseDaysLeft');
+        const moonPhase = data.days[0].moonphase;
 
-        if(data.days[0].moonphase === 0 && data.days[0].moonphase <= 0){
-            document.getElementById('moonPhaseText').innerHTML = 'New Moon';
-            moon_phase_img.src = 'moon_phases/moon_new.svg';
-        } else if(data.days[0].moonphase > 0 && data.days[0].moonphase <= 0.25){
-            document.getElementById('moonPhaseText').innerHTML = 'Waxing Crescent';
-            moon_phase_img.src = 'moon_phases/moon_waxing_crescent.svg';
-        } else if(data.days[0].moonphase === 0.25 && data.days[0].moonphase <= 0.25){
-            document.getElementById('moonPhaseText').innerHTML = 'First Quarter';
-            moon_phase_img.src = 'moon_phases/moon_first_quarter.svg';
-        } else if(data.days[0].moonphase > 0.25 && data.days[0].moonphase <= 0.5){
-            document.getElementById('moonPhaseText').innerHTML = 'Waxing Gibbous';
-            moon_phase_img.src = 'moon_phases/moon_waxing_gibbous.svg';
-        } else if(data.days[0].moonphase === 0.5 && data.days[0].moonphase <= 0.5){
-            document.getElementById('moonPhaseText').innerHTML = 'Full Moon';
-            moon_phase_img.src = 'moon_phases/moon_full.svg';
-        } else if(data.days[0].moonphase > 0.5 && data.days[0].moonphase <= 0.75){
-            document.getElementById('moonPhaseText').innerHTML = 'Waning Gibbous';
-            moon_phase_img.src = 'moon_phases/moon_waning_gibbous.svg';
-        } else if(data.days[0].moonphase === 0.75 && data.days[0].moonphase <= 0.75){
-            document.getElementById('moonPhaseText').innerHTML = 'Last Quarter';
-            moon_phase_img.src = 'moon_phases/moon_last_quarter.svg';
-        } else if(data.days[0].moonphase > 0.75 && data.days[0].moonphase <= 1){
-            document.getElementById('moonPhaseText').innerHTML = 'Waning Crescent';
-            moon_phase_img.src = 'moon_phases/moon_waning_crescent.svg';
+        let phaseName = '';
+        let phaseImg = '';
+        let daysLeft = 0;
+
+        if (moonPhase === 0) {
+            phaseName = 'New Moon';
+            phaseImg = 'moon_phases/moon_new.svg';
+            daysLeft = Math.round((0.25 - moonPhase) * 29.53);
+        } else if (moonPhase > 0 && moonPhase < 0.25) {
+            phaseName = 'Waxing Crescent';
+            phaseImg = 'moon_phases/moon_waxing_crescent.svg';
+            daysLeft = Math.round((0.25 - moonPhase) * 29.53);
+        } else if (moonPhase === 0.25) {
+            phaseName = 'First Quarter';
+            phaseImg = 'moon_phases/moon_first_quarter.svg';
+            daysLeft = Math.round((0.5 - moonPhase) * 29.53);
+        } else if (moonPhase > 0.25 && moonPhase < 0.5) {
+            phaseName = 'Waxing Gibbous';
+            phaseImg = 'moon_phases/moon_waxing_gibbous.svg';
+            daysLeft = Math.round((0.5 - moonPhase) * 29.53);
+        } else if (moonPhase === 0.5) {
+            phaseName = 'Full Moon';
+            phaseImg = 'moon_phases/moon_full.svg';
+            daysLeft = Math.round((0.75 - moonPhase) * 29.53);
+        } else if (moonPhase > 0.5 && moonPhase < 0.75) {
+            phaseName = 'Waning Gibbous';
+            phaseImg = 'moon_phases/moon_waning_gibbous.svg';
+            daysLeft = Math.round((0.75 - moonPhase) * 29.53);
+        } else if (moonPhase === 0.75) {
+            phaseName = 'Last Quarter';
+            phaseImg = 'moon_phases/moon_last_quarter.svg';
+            daysLeft = Math.round((1 - moonPhase) * 29.53);
+        } else if (moonPhase > 0.75 && moonPhase < 1) {
+            phaseName = 'Waning Crescent';
+            phaseImg = 'moon_phases/moon_waning_crescent.svg';
+            daysLeft = Math.round((1 - moonPhase) * 29.53);
         }
 
-        if(data.days[0].precipprob > 10){
-            document.getElementById('weatherComments').innerHTML = data.days[0].description + ' Chances of precipitation' + ` <span style="background-color: black; padding-left: 5px;padding-right: 5px; border-radius: 5px;">${data.days[0].precipprob}%</span>`
-        } else{
-        document.getElementById('weatherComments').innerHTML = data.days[0].description;
+        moonPhaseText.innerHTML = phaseName;
+        moon_phase_img.src = phaseImg;
+        moonPhaseDaysLeft.innerHTML = `${daysLeft} days`;
 
-        }
+            document.getElementById('weatherComments').innerHTML = data.days[0].description
+
 
 
         const severerisk = data.days[0].severerisk
@@ -1532,22 +1545,22 @@ function Fetchmoonphases(lat, long){
 
         if (severerisk > 90) {
             riskFill.style.color = '#b30000';
-            riskDescription.innerHTML = 'Extremely High Risk: Catastrophic weather conditions expected.';
+            riskDescription.innerHTML = 'Extremely High Risk: Catastrophic weather conditions expected';
         } else if (severerisk > 75) {
             riskFill.style.color = '#ff0000';
             riskDescription.innerHTML = 'Very High Risk: Extreme weather conditions expected';
         } else if (severerisk > 50) {
             riskFill.style.color = '#ff4d4d';
-            riskDescription.innerHTML = 'High Risk: Severe weather likely. ';
+            riskDescription.innerHTML = 'High Risk: Severe weather likely ';
         } else if (severerisk > 30) {
             riskFill.style.color = '#ff9999';
-            riskDescription.innerHTML = 'Moderate Risk: Potential weather issues.';
+            riskDescription.innerHTML = 'Moderate Risk: Potential weather issues';
         } else if (severerisk > 10) {
             riskFill.style.color = '#ffff99';
-            riskDescription.innerHTML = 'Low to Moderate Risk: Minor weather impacts.';
+            riskDescription.innerHTML = 'Low to Moderate Risk: Minor weather impacts';
         } else {
             riskFill.style.color = '#ccffcc';
-            riskDescription.innerHTML = 'No weather risk.';
+            riskDescription.innerHTML = 'No weather risks';
         }
 
 
@@ -1555,22 +1568,8 @@ function Fetchmoonphases(lat, long){
 
                 document.getElementById('RainCoverage').innerHTML = data.days[0].precipcover + '%'
 
-                        const today_max_temp = data.days[0].tempmax;
-                        const today_min_temp = data.days[0].tempmin;
+                    hideLoader()
 
-                        function celsiusToFahrenheit(celsius) {
-                            return Math.round((celsius * 9/5) + 32);
-                        }
-
-
-                        if(SelectedTempUnit === 'fahrenheit'){
-                            document.getElementById('todays_max_temp').textContent = celsiusToFahrenheit(today_max_temp)+ '°F';
-                            document.getElementById('todays_min_temp').textContent = celsiusToFahrenheit(today_min_temp)+ '°F';
-                        } else{
-                            document.getElementById('todays_max_temp').textContent = `${Math.round(today_max_temp)}°C`;
-                            document.getElementById('todays_min_temp').textContent = `${Math.round(today_min_temp)}°C`;
-
-                        }
     })
 
     .catch(error => console.error(error));

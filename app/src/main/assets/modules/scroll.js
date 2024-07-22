@@ -17,6 +17,14 @@ weatherWrap.addEventListener('scroll', function() {
             mainWeat.style.transform = `scale(${newOpacity})`;
             mainWeat.style.opacity = newOpacity;
                         document.querySelector('.froggie').style.opacity = newOpacity;
+
+                                              if(scrollPosition > 100){
+                                                    document.querySelector('.header-top').classList.add('use');
+
+                                                } else{
+                                                    document.querySelector('.header-top').classList.remove('use');
+
+                                                }
             ticking = false;
         });
         ticking = true;
