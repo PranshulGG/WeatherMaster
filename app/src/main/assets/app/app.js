@@ -1332,7 +1332,7 @@ function RenderSearhMap() {
 
     });
 
-    window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
+    window.L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', {}).addTo(map);
 
     var marker = window.L.marker([latDif, longDif]).addTo(map);
 
@@ -1377,7 +1377,7 @@ function liveMapRender(maptype){
 
     const apiKey = '9458a8b672d3e5ed460b72e7637c6eeb';
 
-    window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(livemap);
+    window.L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', {}).addTo(livemap);
 
 
     window.L.tileLayer(`https://tile.openweathermap.org/map/${maptype}/{z}/{x}/{y}.png?appid=${apiKey}`).addTo(livemap);
