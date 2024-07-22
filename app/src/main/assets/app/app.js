@@ -1566,7 +1566,8 @@ const moon_phase_img = document.getElementById('moon_phase_img');
 
                 document.getElementById('AmountRainMM').innerHTML = data.days[0].precip + ' mm'
 
-                document.getElementById('RainCoverage').innerHTML = data.days[0].precipcover + '%'
+                document.getElementById('RainCoverage').innerHTML = Math.round(data.days[0].precipcover) + '%';
+
 
                     hideLoader()
 
