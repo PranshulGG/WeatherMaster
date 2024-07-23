@@ -798,7 +798,7 @@ body {
 
 }
 
-.city-list .suggest {
+.city-list .suggestion-item {
   font-size: 18px;
   color: var(--On-Surface);
   position: relative;
@@ -818,7 +818,7 @@ suggest-space{
   margin-top: 10px;
 }
 
-.city-list .suggest::before {
+.city-list .suggestion-item::before {
   content: 'pin_drop';
   font-family: 'Material symbols';
   font-weight: normal !important;
@@ -836,17 +836,6 @@ suggest-space{
   flex-shrink: 0;
 }
 
-.suggest suggesttextcontent{
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
- gap: 2px;
-}
-
-.suggest suggesttextcontent span{
-  color: var(--On-Surface-Variant);
-  font-size: 15px;
-}
 
 #updated-div {
   display: flex;
