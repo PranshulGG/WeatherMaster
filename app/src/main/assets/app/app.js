@@ -330,6 +330,7 @@ function getWeather(city, latitude, longitude) {
                         const components = data.results[0].components;
                         const city = components.city || components.town || components.village || 'Unknown';
                         document.getElementById('city-name').innerHTML = `${city}, ${countryNameText}`;
+                        document.getElementById('currentLocationName').textContent = `${city}, ${countryNameText}`;
                     } else {
                         console.log('No results found')
 
@@ -357,7 +358,7 @@ function getWeather(city, latitude, longitude) {
 
 
 
-          document.getElementById('currentLocationName').textContent = `${cityName}, ${countryNameText}`;
+
              document.getElementById('currentSearchImg').src = `weather-icons/${iconCode}.svg`;
 
             document.getElementById('description').textContent = description;
@@ -719,6 +720,7 @@ function getWeatherByCoordinates(latitude, longitude) {
                         const components = data.results[0].components;
                         const city = components.city || components.town || components.village || 'Unknown';
                         document.getElementById('city-name').innerHTML = `${city}, ${countryNameText}`;
+                        document.getElementById('currentLocationName').textContent = `${city}, ${countryNameText}`;
                     } else {
                         console.log('No results found')
 
@@ -779,7 +781,6 @@ function getWeatherByCoordinates(latitude, longitude) {
 
 
 
-              document.getElementById('currentLocationName').textContent = `${cityName}, ${countryNameText}`;
                  document.getElementById('currentSearchImg').src = `weather-icons/${iconCode}.svg`;
 
 
