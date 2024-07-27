@@ -30,18 +30,18 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 
 # ✨ Feature:
 
- - Shows current weather
- - 24 - 48hrs forecast
- - 5-days of forecast
- - Moon phases, Moonrise and Moonset
- - Sunrise, Sunset, Day length
- - Day description
- - Rain bar
- - Visibility, humidity, pressure, wind direction, wind speed, snow amount, cloudiness, min-max temp
- - precipitation type, precipitation area cover
- - UV index and Air quality
- - Live map, location picker
- - Cloths recommendation
+ - `Shows current weather`
+ - `48hrs forecast`
+ - `5-days of forecast`
+ - `Moon phases, Moonrise and Moonset`
+ - `Sunrise, Sunset, Day length`
+ - `Day description`
+ - `Rain bar`
+ - `Visibility, humidity, pressure, wind direction, wind speed, snow amount, cloudiness, min-max temp`
+ - `precipitation type, precipitation area cover`
+ - `UV index and Air quality`
+ - `Live map, location picker`
+ - `Cloths recommendation`
 
 # ⚙️ Other:
 
@@ -84,7 +84,7 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 <br>
 <br>
 
-> [!NOTE]
+> [!WARNING]
 > The app is designed to run on Android devices and does not support web browsers. Attempting to open the app in a browser will not work.
 
 <br>
