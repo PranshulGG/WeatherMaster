@@ -1374,6 +1374,7 @@ rainMeterBar{
 
 rainMeterBar::-webkit-scrollbar {
   height: 2px;
+
 }
 
 rainMeterBar::-webkit-scrollbar-thumb {
