@@ -128,15 +128,28 @@ document.addEventListener('DOMContentLoaded', () => {
         const suggestionsContainer = document.getElementById('city-list');
         clearSuggestions()
 
+        const displayedSuggestions = new Set();
+
+
         results.forEach(result => {
             const city = result.components.city || result.components.town || result.components.village || result.components.hamlet;
             const state = result.components.state || result.components.region;
             const country = result.components.country;
+            const countryCode = result.components.country_code;
 
             const uniqueComponents = [city, state, country].filter((value, index, self) => value && self.indexOf(value) === index);
             const suggestionText = uniqueComponents.join(', ');
 
+
+  if (!displayedSuggestions.has(suggestionText)) {
+                        displayedSuggestions.add(suggestionText);
+
+
             const suggestionItem = document.createElement('div');
+
+                        const countryIcon = document.createElement('span');
+                        countryIcon.classList.add('fi', 'fis', `fi-${countryCode}`)
+
 
             suggestionItem.classList.add('suggestion-item');
             const suggestRipple = document.createElement('md-ripple');
@@ -160,11 +173,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     cityInput.dispatchEvent(new Event('input'));
                 }, 200);
             });
+                        suggestionItem.appendChild(countryIcon)
             suggestionsContainer.appendChild(suggestionItem);
             setTimeout(() => {
                 document.getElementById('cityLoader').hidden = true;
 
             }, 400);
+            }
         });
     }
 
@@ -329,8 +344,9 @@ function getWeather(city, latitude, longitude) {
                     if (data.results.length > 0) {
                         const components = data.results[0].components;
                         const city = components.city || components.town || components.village || 'Unknown';
-                        document.getElementById('city-name').innerHTML = `${city}, ${countryNameText}`;
-                        document.getElementById('currentLocationName').textContent = `${city}, ${countryNameText}`;
+                        const stateMain = components.state
+                        document.getElementById('city-name').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
+                        document.getElementById('currentLocationName').textContent = `${city}, ${stateMain}, ${countryNameText}`;
                     } else {
                         console.log('No results found')
 
@@ -338,15 +354,15 @@ function getWeather(city, latitude, longitude) {
                 })
 
             if(SelectedTempUnit === 'fahrenheit'){
-                document.getElementById('temp').innerHTML = `${tempF}<span>°F</span>`;
+                document.getElementById('temp').innerHTML = `${tempF}°`;
          document.getElementById('temPDiscCurrentLocation').innerHTML = `${tempF}°F • <span>${description}</span>`
-             document.getElementById('willFeelLike').innerHTML = ` ${Math.round(feelslikeF + 3)}°F`
+ document.getElementById('feels_like_now').innerHTML = `Feels like ${Math.round(feelslikeF)}°`
 
             } else{
-            document.getElementById('temp').innerHTML = `${temperature}<span>°C</span>`;
+            document.getElementById('temp').innerHTML = `${temperature}°`;
              document.getElementById('temPDiscCurrentLocation').innerHTML = `${temperature}°C • <span>${description}</span>`
+        document.getElementById('feels_like_now').innerHTML = `Feels like ${Math.round(feelslike)}°`
 
-                 document.getElementById('willFeelLike').innerHTML = ` ${Math.round(feelslike + 3)}°C`
 
             }
 
@@ -719,8 +735,9 @@ function getWeatherByCoordinates(latitude, longitude) {
                     if (data.results.length > 0) {
                         const components = data.results[0].components;
                         const city = components.city || components.town || components.village || 'Unknown';
-                        document.getElementById('city-name').innerHTML = `${city}, ${countryNameText}`;
-                        document.getElementById('currentLocationName').textContent = `${city}, ${countryNameText}`;
+                        const stateMain = components.state
+                        document.getElementById('city-name').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
+                        document.getElementById('currentLocationName').textContent = `${city}, ${stateMain}, ${countryNameText}`;
                     } else {
                         console.log('No results found')
 
@@ -759,15 +776,14 @@ function getWeatherByCoordinates(latitude, longitude) {
                         document.getElementById('directionWind').textContent = directions[index]
 
             if(SelectedTempUnit === 'fahrenheit'){
-                document.getElementById('temp').innerHTML = `${tempF}<span>°F</span>`;
+                document.getElementById('temp').innerHTML = `${tempF}°`;
              document.getElementById('temPDiscCurrentLocation').innerHTML = `${tempF}°F • <span>${description}</span>`
-         document.getElementById('willFeelLike').innerHTML = ` ${Math.round(feelslikeF + 3)}°F`
-
+     document.getElementById('feels_like_now').innerHTML = `Feels like ${Math.round(feelslikeF)}°`
             } else{
-            document.getElementById('temp').innerHTML = `${temperature}<span>°C</span>`;
+            document.getElementById('temp').innerHTML = `${temperature}°`;
 
             document.getElementById('temPDiscCurrentLocation').innerHTML = `${temperature}°C • <span>${description}</span>`
-             document.getElementById('willFeelLike').innerHTML = ` ${Math.round(feelslike + 3)}°C`
+         document.getElementById('feels_like_now').innerHTML = `Feels like ${Math.round(feelslike)}°`
 
             }
 
@@ -1551,40 +1567,60 @@ const moon_phase_img = document.getElementById('moon_phase_img');
         let phaseName = '';
         let phaseImg = '';
         let daysLeft = 0;
+        let nextPhaseName = '';
 
         if (moonPhase === 0) {
             phaseName = 'New Moon';
             phaseImg = 'moon_phases/moon_new.svg';
             daysLeft = Math.round((0.25 - moonPhase) * 29.53);
+            nextPhaseName = 'Waxing Crescent';
+
         } else if (moonPhase > 0 && moonPhase < 0.25) {
             phaseName = 'Waxing Crescent';
             phaseImg = 'moon_phases/moon_waxing_crescent.svg';
             daysLeft = Math.round((0.25 - moonPhase) * 29.53);
+            nextPhaseName = 'First Quarter';
+
         } else if (moonPhase === 0.25) {
             phaseName = 'First Quarter';
             phaseImg = 'moon_phases/moon_first_quarter.svg';
             daysLeft = Math.round((0.5 - moonPhase) * 29.53);
+            nextPhaseName = 'Waxing Gibbous';
+
         } else if (moonPhase > 0.25 && moonPhase < 0.5) {
             phaseName = 'Waxing Gibbous';
             phaseImg = 'moon_phases/moon_waxing_gibbous.svg';
             daysLeft = Math.round((0.5 - moonPhase) * 29.53);
+            nextPhaseName = 'Full Moon';
+
         } else if (moonPhase === 0.5) {
             phaseName = 'Full Moon';
             phaseImg = 'moon_phases/moon_full.svg';
             daysLeft = Math.round((0.75 - moonPhase) * 29.53);
+            nextPhaseName = 'Waning Gibbous';
+
         } else if (moonPhase > 0.5 && moonPhase < 0.75) {
             phaseName = 'Waning Gibbous';
             phaseImg = 'moon_phases/moon_waning_gibbous.svg';
             daysLeft = Math.round((0.75 - moonPhase) * 29.53);
+            nextPhaseName = 'Last Quarter';
+
         } else if (moonPhase === 0.75) {
             phaseName = 'Last Quarter';
             phaseImg = 'moon_phases/moon_last_quarter.svg';
             daysLeft = Math.round((1 - moonPhase) * 29.53);
+            nextPhaseName = 'Waning Crescent';
+
         } else if (moonPhase > 0.75 && moonPhase < 1) {
             phaseName = 'Waning Crescent';
             phaseImg = 'moon_phases/moon_waning_crescent.svg';
             daysLeft = Math.round((1 - moonPhase) * 29.53);
+            nextPhaseName = 'New Moon';
+
         }
+
+                document.getElementById('moonPhaseNext').innerHTML = nextPhaseName
+
 
         moonPhaseText.innerHTML = phaseName;
         moon_phase_img.src = phaseImg;
@@ -1626,8 +1662,28 @@ const moon_phase_img = document.getElementById('moon_phase_img');
                 document.getElementById('RainCoverage').innerHTML = Math.round(data.days[0].precipcover) + '%';
 
 
-                    hideLoader()
+                        document.getElementById('rain_percentage').innerHTML = Math.round(data.days[0].precipprob) + '%';
 
+
+
+
+                                function celsiusToFahrenheit(celsius) {
+                                    return Math.round((celsius * 9/5) + 32);
+                                }
+
+                                const today_max_temp_celsius = data.days[0].tempmax;
+                                const today_min_temp_celsius = data.days[0].tempmin;
+
+
+                                if(SelectedTempUnit === 'fahrenheit'){
+                                    document.getElementById('high_temp').innerHTML = celsiusToFahrenheit(today_max_temp_celsius) + '°';
+                                    document.getElementById('low_temp').innerHTML = celsiusToFahrenheit(today_min_temp_celsius) + '°';
+                                } else{
+                                    document.getElementById('high_temp').innerHTML = Math.round(today_max_temp_celsius) + '°';
+                                    document.getElementById('low_temp').innerHTML = Math.round(today_min_temp_celsius) + '°';
+                                }
+
+                                hideLoader()
     })
 
     .catch(error => console.error(error));

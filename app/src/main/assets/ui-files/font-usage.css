@@ -30,6 +30,13 @@
 }
 
 @font-face {
+  font-family: 'Outfit-mid';
+  src: url('../fonts/Outfit-Medium.ttf') format('truetype');
+
+}
+
+
+@font-face {
   font-family: 'Google-medium';
   src: url('../fonts/ProductSans-Medium.ttf') format('truetype');
 

@@ -12,11 +12,13 @@
     <link rel="stylesheet" href="components/modal-ver.css">
     <link rel="stylesheet" href="ripple-files/ripple.css">
     <link rel="stylesheet" href="map/leaflet.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css" />
 
 </head>
 
 <body>
 <div class="header-top" id="main-Header-Top">
+    <div class="header_hold">
     <div class="main-city" id="main-city">
         <span icon-filled></span>
         <h2 id="city-name" style="margin-right: 3px;">
@@ -24,17 +26,12 @@
         </h2>
     </div>
     <div class="header_actions">
-        <button class="ripple-icon-btn focus regular" id="city-open" ontouchstart="playEffect(this)" disabled
-                ontouchend="playEffect2(this)">
-            <span class="ripple-effect-icon"></span>
-            <span icon-outlined>search</span>
-        </button>
-        <button class="ripple-icon-btn focus regular" onclick="refreshWeather()" ontouchstart="playEffect(this)" id="usage-popover-anchor"
+        <button class="ripple-icon-btn focus regular" onclick="refreshWeather()" ontouchstart="playEffect(this)" id="usage-popover-anchor" style="z-index: 1;"
                 ontouchend="playEffect2(this)">
             <span class="ripple-effect-icon"></span>
             <span icon-outlined>refresh</span>
         </button>
-        <button class="ripple-icon-btn focus regular" onclick="sendThemeToAndroid('OpenSettings')" ontouchstart="playEffect(this)"
+        <button class="ripple-icon-btn focus regular" onclick="sendThemeToAndroid('OpenSettings')" ontouchstart="playEffect(this)" style="z-index: 1;"
                 ontouchend="playEffect2(this)">
             <span class="ripple-effect-icon"></span>
             <span icon-outlined>Settings</span>
@@ -42,31 +39,51 @@
 
 
     </div>
+
+        <touch_search  id="city-open">
+        </touch_search>
 </div>
+</div>
+
 </div>
 <!-- current -->
 <div class="weather_wrap"  id="weather_wrap">
     <div class="weather">
         <div class="main-weat" id="main-weather">
 
-            <div class="img-div">
-                <img id="weather-icon" src="weather-icons/11d.svg" alt="Weather Icon">
-            </div>
 
             <div class="current">
 
-                <div class="temp-main">
-                    <p id="temp">39 <span>°C</span></p>
+
+
+
+                <div class="left_current_weather">
+                    <now>Now</now>
+                    <div class="temp_img">
+                        <p id="temp"></p>
+                        <img id="weather-icon" src="weather-icons/11d.svg" alt="Weather Icon">
+                    </div>
+
+                    <div class="high_low_temp">
+                        <p><i icon-outlined>arrow_upward</i><span id="high_temp">34°</span></p>
+                        <p><i icon-outlined>arrow_downward</i><span id="low_temp">23°</span></p>
+                    </div>
                 </div>
 
-                <div class="disc-main">
-                    <p id="description">Scattered clouds </p>
+                <div class="disc_main">
+                    <p id="description"></p>
+                    <span id="feels_like_now">Feels like 30°</span>
                 </div>
+
+
 
 
             </div>
 
-
+            <div class="rain_per">
+                <i icon-outlined>rainy</i>
+                <p id="rain_percentage">10%</p>
+            </div>
 
         </div>
 
@@ -80,7 +97,7 @@
             <div class="icon-container-excessiveHeat">
                 <md-icon><img src="icons/very_hot.svg" alt=""></md-icon>
             </div>
-            <p id="excessiveHeatText">Excessive heat <span><text>Will feel like</text><span id="willFeelLike"> 45C</span></span></p>
+            <p id="excessiveHeatText">Excessive heat <span><text>Warning</text></p>
 
         </div>
 
@@ -241,6 +258,7 @@
                         <div class="moonrise-Set">
                             <p>Moonrise: <span id="moonriseText"></span></p>
                             <p>Moonset: <span id="moonsetText"></span></p>
+                            <p>Next phase: <span id="moonPhaseNext"></span></p>
                             <p>Next phase in: <span id="moonPhaseDaysLeft"></span></p>
                         </div>
 

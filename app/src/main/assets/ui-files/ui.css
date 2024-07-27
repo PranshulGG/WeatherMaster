@@ -34,7 +34,6 @@ body {
 .header-top {
   padding: 10px;
   height: 45px;
-  padding-left: 4px;
   background-color: var(--Surface);
   display: flex;
   align-items: center;
@@ -59,6 +58,27 @@ body {
   opacity: 1;
 }
 
+.header-top .header_hold{
+  background-color: var(--Surface-Container);
+  display: flex;
+  width: 100%;
+  height: 56px;
+  border-radius: 50px;
+  padding-left: 10px;
+  padding-right: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+touch_search{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
 #city-name {
   font-size: 18px;
   font-weight: normal;
@@ -68,13 +88,11 @@ body {
   width: calc(100% - 20px);
   white-space: nowrap;
   color: var(--On-Surface);
+  opacity: 0.8;
 
 }
 
-#main-city span {
-  font-size: 24px;
-  color: var(--Secondary);
-}
+
 
 .main-city {
   display: flex;
@@ -96,82 +114,112 @@ body {
   background: linear-gradient(0deg, var(--Secondary-Container) 10%, var(--Surface));
 
   position: relative;
-  height: 180px;
+  height: 150px;
   /* border-radius: 0 0 10px 10px; */
   overflow: hidden;
   transition: opacity 0.2s;
 
 }
 
+.current{
+  display: flex;
+  align-self: center;
+  justify-content: space-between;
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-right: 15px;
+}
 
+.current .left_current_weather now{
+  font-family: var(--google-mid);
+  color: var(--Secondary);
+  opacity: 0.95;
+  font-size: 17px;
+}
 
-.current p {
+.left_current_weather .temp_img{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.current .left_current_weather .high_low_temp{
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding-top: 5px;
+}
+
+.current .left_current_weather .high_low_temp p{
+  margin: 0;
+  display: flex;
+  font-size: 15px;
+  color: var(--On-Surface-Variant);
+  align-items: center;
+}
+
+.current .left_current_weather .high_low_temp i{
+  font-size: 20px;
+}
+
+.left_current_weather .temp_img p{
+  color: var(--Primary);
+  font-size: 60px;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  font-weight: 500;
+}
+
+.left_current_weather .temp_img img{
+  width: 55px;
+  height: 55px;
+}
+
+.disc_main p{
+  margin: 0;
+  color: var(--On-Surface);
+  font-size: 17px;
+  display: flex;
+  text-align: right;
+  text-transform: capitalize;
+  font-family: var(--outfit-mid);
+  font-weight: 500;
+}
+
+.main-weat .rain_per{
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  display: flex;
+  align-items: center;
+  color: var(--Secondary);
+  font-family: var(--google-mid);
+  font-size: 16px;
+  gap: 4px;
+}
+
+.main-weat .rain_per p{
   margin: 0;
 }
 
+.main-weat .rain_per i{
+  font-size: 20px;
+}
 
-.img-div {
-  position: absolute;
-  right: 20px;
+.disc_main{
+  width: calc(100% - 190px);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 90px;
-  height: 90px;
-  top: 15px;
-  border-radius: 100px;
+  align-items: flex-end;
+  flex-direction: column;
+  gap: 5px;
 }
 
-.img-div img {
-  width: 90px;
-
+.disc_main span{
+  color: var(--On-Surface-Variant);
+  font-family: var(--outfit);
+  font-size: 15px;
 }
 
-.temp-main {
-  color: var(--Primary);
-  position: absolute;
-  top: 10px;
-  left: 15px;
-  font-size: 65px;
-  width: max-content;
-  font-family: var(--google-mid);
-
-}
-
-#temp span {
-  font-size: 30px;
-  position: absolute;
-  top: 3px;
-  font-family: var(--google-mid);
-
-}
-
-#temp {
-  position: relative;
-
-}
-
-.current {
-  position: relative;
-  width: max-content;
-  height: 100%;
-}
-
-.disc-main {
-  position: absolute;
-  bottom: 20px;
-  left: 15px;
-  color: var(--On-Surface);
-  font-size: 25px;
-  width: calc(100vw - 170px);
-
-}
-
-
-.disc-main p {
-  width: 100%;
-  text-transform: capitalize;
-}
 
 .weather_wrap {
   overflow: auto;
@@ -834,6 +882,20 @@ suggest-space{
   justify-content: center;
   border-radius: 50px;
   flex-shrink: 0;
+}
+
+
+.city-list .suggestion-item span {
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
+  display: flex;
+  border-radius: 50px;
+  position: absolute;
+  left: 10px;
 }
 
 
