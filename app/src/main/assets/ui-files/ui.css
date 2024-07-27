@@ -1356,6 +1356,8 @@ rainMeterBar rainmeterbaritem span{
 rainMeterBar rainmeterbaritem p{
   margin: 0;
   color: var(--On-Surface);
+    font-family: var(--outfit-mid);
+
 }
 
 rainMeterBar{
