@@ -37,7 +37,7 @@ body {
   background-color: var(--Surface);
   display: flex;
   align-items: center;
-  justify-content: space-between;
+
 
 }
 
@@ -68,6 +68,8 @@ body {
   padding-right: 10px;
   position: relative;
   overflow: hidden;
+   transition: all 0.2s ease-out;
+
 }
 
 touch_search{
@@ -1323,11 +1325,13 @@ rainMeterBar rainmeterbaritem{
 rainMeterBar rainmeterbaritem rainperbar{
    /* max-height: 55px;
   min-height: 5px;    */
-  height: 60px;
-  width: 35px;
+  height: 65px;
+  width: 20px;
   /* border: 1px solid #7cacf8; */
+  background-color: var(--Surface-Container);
+  overflow: hidden;
   display: block;
-  border-radius: 5px;
+  border-radius: 50px;
   position: relative;
 
 }
@@ -1336,12 +1340,11 @@ rainMeterBar rainmeterbaritem rainperbar rainperbarProgress{
   position: absolute;
   width: 100%;
   height: 5%;
-  min-height: 10%;
   background: #4c8df6;
-  border-radius: 5px;
   bottom: 0;
   left: 0;
 }
+
 
 
 

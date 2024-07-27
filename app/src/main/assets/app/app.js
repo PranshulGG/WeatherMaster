@@ -58,11 +58,14 @@ document.addEventListener('DOMContentLoaded', () => {
     cityopen.addEventListener("click", () => {
         searchContainer.style.display = 'block';
         window.history.pushState({ SearchContainerOpen: true }, "");
-
+         document.querySelector('.header_hold').style.transform = 'scale(1.1)';
+                document.querySelector('.header_hold').style.opacity = '0';
         removeMap()
 
         setTimeout(() => {
             RenderSearhMap()
+                                    document.querySelector('.header_hold').style.transform = '';
+                                    document.querySelector('.header_hold').style.opacity = '';
         }, 400);
     });
 
@@ -343,10 +346,15 @@ function getWeather(city, latitude, longitude) {
                 .then(data => {
                     if (data.results.length > 0) {
                         const components = data.results[0].components;
-                        const city = components.city || components.town || components.village || 'Unknown';
+                        const city = components.city || components.town || components.village;
                         const stateMain = components.state
+                          if(!city){
+                            document.getElementById('city-name').innerHTML = `${stateMain}, ${countryNameText}`;
+                            document.getElementById('currentLocationName').textContent = `${stateMain}, ${countryNameText}`;
+                          } else {
                         document.getElementById('city-name').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
                         document.getElementById('currentLocationName').textContent = `${city}, ${stateMain}, ${countryNameText}`;
+                          }
                     } else {
                         console.log('No results found')
 
@@ -734,10 +742,15 @@ function getWeatherByCoordinates(latitude, longitude) {
                 .then(data => {
                     if (data.results.length > 0) {
                         const components = data.results[0].components;
-                        const city = components.city || components.town || components.village || 'Unknown';
+                        const city = components.city || components.town || components.village;
                         const stateMain = components.state
+                          if(!city){
+                            document.getElementById('city-name').innerHTML = `${stateMain}, ${countryNameText}`;
+                            document.getElementById('currentLocationName').textContent = `${stateMain}, ${countryNameText}`;
+                          } else {
                         document.getElementById('city-name').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
                         document.getElementById('currentLocationName').textContent = `${city}, ${stateMain}, ${countryNameText}`;
+                          }
                     } else {
                         console.log('No results found')
 
@@ -1149,6 +1162,16 @@ function display24HourForecast(forecastData) {
             const rainPercentage = forecast.pop * 100;
             const rainMeterBarItem = document.createElement('rainMeterBarItem');
 
+                        let barColor;
+
+                        if(rainPercentage < 30 ){
+                            barColor = '#4c8df6'
+                        } else if(rainPercentage > 30 && rainPercentage <= 50){
+                            barColor = 'orange'
+                        } else{
+                            barColor = 'red'
+                        }
+
 
             const forecastItem = document.createElement('div');
             forecastItem.classList.add('forecast-item');
@@ -1178,7 +1201,7 @@ function display24HourForecast(forecastData) {
 
             rainMeterBarItem.innerHTML = `
                 <rainPerBar>
-                  <rainPerBarProgress style="height: ${Math.round(rainPercentage)}%;">
+                  <rainPerBarProgress style="height: ${Math.round(rainPercentage)}%; background-color: ${barColor};"">
                 </rainPerBarProgress>
                 </rainPerBar>
                 <p>${Math.round(rainPercentage)}%</p>
@@ -1662,7 +1685,13 @@ const moon_phase_img = document.getElementById('moon_phase_img');
                 document.getElementById('RainCoverage').innerHTML = Math.round(data.days[0].precipcover) + '%';
 
 
-                        document.getElementById('rain_percentage').innerHTML = Math.round(data.days[0].precipprob) + '%';
+                if(data.days[0].precipprob > 5){
+                    document.getElementById('rain_percentage').innerHTML = Math.round(data.days[0].precipprob) + '%';
+                    document.querySelector('.rain_per').hidden = false;
+                } else{
+                    document.querySelector('.rain_per').hidden = true;
+
+                }
 
 
 
