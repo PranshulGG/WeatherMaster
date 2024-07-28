@@ -15,6 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 longitude: position.coords.longitude
             };
             getWeatherByCoordinates(currentLocation.latitude, currentLocation.longitude);
+                        setCurrentLocation(currentLocation.latitude, currentLocation.longitude);
+
         }, (error) => {
             console.error('Geolocation error:', error);
 
@@ -53,19 +55,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const cityopen = document.getElementById('city-open');
     const searchContainer = document.getElementById('search-container');
     const closeButton = document.querySelector('.close_search');
-
+    const openMapPicker = document.getElementById('openMapPicker');
 
     cityopen.addEventListener("click", () => {
         searchContainer.style.display = 'block';
         window.history.pushState({ SearchContainerOpen: true }, "");
          document.querySelector('.header_hold').style.transform = 'scale(1.1)';
                 document.querySelector('.header_hold').style.opacity = '0';
-        removeMap()
 
         setTimeout(() => {
-            RenderSearhMap()
                                     document.querySelector('.header_hold').style.transform = '';
                                     document.querySelector('.header_hold').style.opacity = '';
+                                          cityInput.focus()
+
         }, 400);
     });
 
@@ -75,12 +77,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
+    openMapPicker.addEventListener('click', () => {
+        document.querySelector('.map_picker').hidden = false;
+        window.history.pushState({ MapPickerContainerOpen: true }, "");
+
+        removeMap()
+
+                setTimeout(() => {
+                    RenderSearhMap()
+                }, 400);
+    });
 
 
     cityInput.addEventListener('input', () => {
         const searchTerm = cityInput.value.trim();
         document.querySelector('.currentLocationdiv').hidden = true;
-        document.querySelector('.full_Wrap_map').hidden = true;
+        document.querySelector('.savedLocations').hidden = true;
 
         if (searchTerm) {
             document.getElementById('cityLoader').hidden = false;
@@ -89,11 +101,18 @@ document.addEventListener('DOMContentLoaded', () => {
             cityList.innerHTML = '';
             document.getElementById('cityLoader').hidden = true;
             document.querySelector('.currentLocationdiv').hidden = false;
-            document.querySelector('.full_Wrap_map').hidden = false;
+            document.querySelector('.savedLocations').hidden = false;
 
-            setTimeout(() => {
-                document.getElementById('city-input').dispatchEvent(new Event('input'));
-            }, 300);
+
+            let savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
+
+            if (savedLocations.length === 0) {
+                document.querySelector('.savedLocations').hidden = true;
+            } else {
+                document.querySelector('.savedLocations').hidden = false;
+
+            }
+
 
         }
     });
@@ -133,6 +152,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const displayedSuggestions = new Set();
 
+        const savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
+        const savedLocationsSet = new Set(savedLocations.map(location => location.locationName));
+
 
         results.forEach(result => {
             const city = result.components.city || result.components.town || result.components.village || result.components.hamlet;
@@ -150,6 +172,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const suggestionItem = document.createElement('div');
 
+                            const clickLocation = document.createElement('savelocationtouch')
+
+
+                            const saveBtnLocation = document.createElement('md-text-button');
+
+
+                            saveBtnLocation.textContent = 'Save';
+
+                            if (!savedLocationsSet.has(suggestionText)) {
+                                saveBtnLocation.hidden = false;
+                            } else {
+                                saveBtnLocation.hidden = true;
+
+                            }
+
+
+                            const createGap = document.createElement('flex');
+
                         const countryIcon = document.createElement('span');
                         countryIcon.classList.add('fi', 'fis', `fi-${countryCode}`)
 
@@ -158,10 +198,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const suggestRipple = document.createElement('md-ripple');
             suggestRipple.style = '--md-ripple-pressed-opacity: 0.1;'
             suggestionItem.textContent = suggestionText;
-            suggestionItem.appendChild(suggestRipple)
+            clickLocation.appendChild(suggestRipple)
             suggestionItem.setAttribute('data-lat', result.geometry.lat);
             suggestionItem.setAttribute('data-lon', result.geometry.lng);
-            suggestionItem.addEventListener('click', function () {
+            clickLocation.addEventListener('click', function () {
                 getWeather(city, result.geometry.lat, result.geometry.lng)
 
                 cityList.innerHTML = '';
@@ -176,8 +216,27 @@ document.addEventListener('DOMContentLoaded', () => {
                     cityInput.dispatchEvent(new Event('input'));
                 }, 200);
             });
-                        suggestionItem.appendChild(countryIcon)
-            suggestionsContainer.appendChild(suggestionItem);
+
+                            saveBtnLocation.addEventListener('click', () => {
+
+
+                                saveLocationToContainer(suggestionText, result.geometry.lat, result.geometry.lng)
+
+
+
+                                cityList.innerHTML = '';
+                                cityInput.value = '';
+
+                                setTimeout(() => {
+                                    cityInput.dispatchEvent(new Event('input'));
+                                }, 200);
+                            });
+
+                suggestionItem.appendChild(countryIcon)
+                suggestionItem.appendChild(clickLocation)
+                suggestionItem.appendChild(createGap)
+                suggestionItem.appendChild(saveBtnLocation);
+                suggestionsContainer.appendChild(suggestionItem);
             setTimeout(() => {
                 document.getElementById('cityLoader').hidden = true;
 
@@ -197,72 +256,230 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+function saveLocationToContainer(locationName, lat, lon) {
+    // Save to local storage
+    let savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
+    savedLocations.push({ locationName, lat, lon });
+    localStorage.setItem('savedLocations', JSON.stringify(savedLocations));
 
-window.addEventListener('popstate', function (event) {
-    document.getElementById('search-container').style.opacity = '0'
+    const savedLocationsHolder = document.querySelector('savedLocationsHolder');
+
+    savedLocationsHolder.innerHTML = ''
+
 
     setTimeout(() => {
-        document.getElementById('city-input').value = ''
-        document.getElementById('city-input').dispatchEvent(new Event('input'));
-        document.getElementById('search-container').style.display = 'none'
-        document.getElementById('search-container').style.opacity = '1'
+        loadSavedLocations()
+    }, 200)
 
-    }, 300);
+}
 
+
+function loadSavedLocations() {
+    const savedLocationsHolder = document.querySelector('savedLocationsHolder');
+    const savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
+
+
+
+    if (savedLocations.length === 0) {
+        document.querySelector('.savedLocations').hidden = true;
+    } else {
+        document.querySelector('.savedLocations').hidden = false;
+
+    }
+
+    savedLocations.forEach(location => {
+        const savedLocationItem = document.createElement('savedLocationItem');
+
+        savedLocationItem.setAttribute('lat', location.lat);
+        savedLocationItem.setAttribute('lon', location.lon);
+
+        const savedLocationItemLat = savedLocationItem.getAttribute('lat');
+        const savedLocationItemLon = savedLocationItem.getAttribute('lon');
+
+
+        const apiKeySaved = '120d979ba5b2d0780f51872890f5ad0b';
+        const apiUrlSaved = `https://api.openweathermap.org/data/2.5/weather?lat=${savedLocationItemLat}&lon=${savedLocationItemLon}&appid=${apiKeySaved}&units=metric`;
+
+
+        fetch(apiUrlSaved)
+            .then(response => response.json())
+            .then(data => {
+                const currentTemp = Math.round(data.main.temp);
+                const currentCondition = data.weather[0].description;
+                const currentIcon = data.weather[0].icon;
+
+
+
+                    const currentTempF = Math.round(currentTemp * 9 / 5 + 32);
+
+
+                if (SelectedTempUnit === 'fahrenheit') {
+                savedLocationItem.innerHTML = `
+            <savedlocationimg>
+                <img src="weather-icons/${currentIcon}.svg" alt="">
+            </savedlocationimg>
+            <div>
+                <p>${location.locationName}</p>
+                <span>${currentCondition} • ${currentTempF}°F</span>
+            </div>
+            <flex></flex>
+            <md-icon-button class="delete-btn">
+                <md-icon icon-filled>delete</md-icon>
+            </md-icon-button>
+        `;
+                } else{
+                    savedLocationItem.innerHTML = `
+                    <savedlocationimg>
+                        <img src="weather-icons/${currentIcon}.svg" alt="">
+                    </savedlocationimg>
+                    <div>
+                        <p>${location.locationName}</p>
+                        <span>${currentCondition} • ${currentTemp}°C</span>
+                    </div>
+                    <flex></flex>
+                    <md-icon-button class="delete-btn">
+                        <md-icon icon-filled>delete</md-icon>
+                    </md-icon-button>
+                `;
+                }
+
+
+
+
+                savedLocationItem.querySelector('.delete-btn').addEventListener('click', () => {
+                    deleteLocation(location.locationName);
+                    savedLocationItem.remove();
+                });
+
+
+
+                const savelocationtouch = document.createElement('savelocationtouch');
+                const md_rippleSaveLocationTouch = document.createElement('md-ripple');
+                savelocationtouch.appendChild(md_rippleSaveLocationTouch);
+
+                savelocationtouch.addEventListener('click', () => {
+                    getWeather(location.locationName, savedLocationItemLat, savedLocationItemLon)
+                    window.history.back();
+                });
+
+
+
+
+
+
+
+
+
+
+
+                savedLocationsHolder.append(savedLocationItem);
+                savedLocationItem.appendChild(savelocationtouch);
+            });
+    });
+
+
+}
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    loadSavedLocations();
 });
 
+function deleteLocation(locationName) {
+    let savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
 
-function fetchCitySuggestions(searchTerm) {
-    const query = encodeURIComponent(searchTerm);
-    const apiKey = '120d979ba5b2d0780f51872890f5ad0b';
+    savedLocations = savedLocations.filter(location => location.locationName !== locationName);
 
-    return fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${apiKey}`)
-        .then(response => response.json())
-        .then(data => data.map(city => {
-            const cityName = city.name;
-            const stateOrCountry = city.state || city.country;
+    localStorage.setItem('savedLocations', JSON.stringify(savedLocations));
 
-           return `<suggestTextContent>${cityName}<span>${stateOrCountry}</span></suggestTextContent>`;
+    if (savedLocations.length === 0) {
+        document.querySelector('.savedLocations').hidden = true;
+    } else {
+        document.querySelector('.savedLocations').hidden = false;
 
-        }))
-        .catch(error => console.error('Error fetching city suggestions:', error));
+    }
 }
 
-function displayCitySuggestions(suggestions, searchTerm) {
-    const cityList = document.getElementById('city-list');
-    cityList.innerHTML = '';
-    suggestions.forEach(suggestion => {
 
-        if (suggestion.toLowerCase().includes(searchTerm.toLowerCase())) {
-            const suggestionItem = document.createElement('div');
-            const saveBTN = document.createElement('md-text-button');
-                        const createSuggestRipple = document.createElement('md-ripple')
-                        createSuggestRipple.style = '--md-ripple-pressed-opacity: 0.13;'
-            // const suggestSpace = document.createElement('suggest-space');
-            suggestionItem.classList.add("suggest");
-            let formattedSuggestion = suggestion.replace(/<\/?suggestTextContent>/g, '');
-
-                        formattedSuggestion = formattedSuggestion.replace(/<\/span>/g, '');
-                        formattedSuggestion = formattedSuggestion.replace(/<span>/g, ', ');
+function setCurrentLocation(lat, lon){
+    const apiKeyCurrent = '120d979ba5b2d0780f51872890f5ad0b';
+        const apiUrlCurrent = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKeyCurrent}&units=metric`;
 
 
-                        suggestionItem.setAttribute('Location', formattedSuggestion)
+        fetch(apiUrlCurrent)
+            .then(response => response.json())
+            .then(data => {
+                const currentTemp = Math.round(data.main.temp);
+                const currentCondition = data.weather[0].description;
+                const currentIcon = data.weather[0].icon;
+                const tempF = Math.round(currentTemp * 9 / 5 + 32);
+                const countryName = data.sys.country;
 
-                        suggestionItem.innerHTML = suggestion;
-            // suggestionItem.appendChild(suggestSpace)
-            cityList.appendChild(suggestionItem);
-            // suggestionItem.appendChild(saveBTN)
-            // saveBTN.textContent = 'Save'
-            suggestionItem.appendChild(createSuggestRipple)
+            const countryNameText = getCountryName(countryName);
 
-            setTimeout(() => {
-                document.getElementById('cityLoader').hidden = true;
 
-            }, 400);
+            document.getElementById('currentSearchImg').src = `weather-icons/${currentIcon}.svg`;
 
-        }
-    });
+
+                if (SelectedTempUnit === 'fahrenheit') {
+                document.getElementById('temPDiscCurrentLocation').innerHTML = `${tempF}°F • <span>${currentCondition}</span>`
+                } else{
+                    document.getElementById('temPDiscCurrentLocation').innerHTML = `${currentTemp}°C • <span>${currentCondition}</span>`
+
+                }
+
+
+
+                const apiKeyCityName = '7147cfac7299479da122684c73d9b80a';
+                const urlcityName = `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lon}&key=${apiKeyCityName}`;
+
+                fetch(urlcityName)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.results.length > 0) {
+                            const components = data.results[0].components;
+                            const city = components.city || components.town || components.village;
+                            const stateMain = components.state
+                            if(!city){
+                            document.getElementById('currentLocationName').textContent = `${stateMain}, ${countryNameText}`;
+                          } else if(!stateMain) {
+                        document.getElementById('currentLocationName').textContent = `${city}, ${countryNameText}`;
+                          } else{
+                            document.getElementById('currentLocationName').textContent = `${city}, ${stateMain}, ${countryNameText}`;
+                          }
+                        } else {
+                            console.log('No results found')
+
+                        }
+                    })
+
+            });
 }
+
+
+window.addEventListener('popstate', function (event) {
+
+    if (!document.querySelector('.map_picker').hidden) {
+        document.querySelector('.map_picker').style.opacity = '0';
+        document.querySelector('.map_picker').style.transform = 'scale(0.8)';
+
+
+        setTimeout(() => {
+            document.querySelector('.map_picker').hidden = true;
+            document.querySelector('.map_picker').style.opacity = '';
+            document.querySelector('.map_picker').style.transform = '';
+
+        }, 300);
+    } else {
+        document.getElementById('search-container').style.opacity = '0'
+        setTimeout(() => {
+            document.getElementById('city-input').value = ''
+            document.getElementById('city-input').dispatchEvent(new Event('input'));
+            document.getElementById('search-container').style.display = 'none'
+            document.getElementById('search-container').style.opacity = '1'
+
+        }, 300);
+    }
+});
 
 function getCountryName(code) {
     return countryNames[code] || "Unknown Country";
@@ -348,12 +565,12 @@ function getWeather(city, latitude, longitude) {
                         const components = data.results[0].components;
                         const city = components.city || components.town || components.village;
                         const stateMain = components.state
-                          if(!city){
+                        if(!city){
                             document.getElementById('city-name').innerHTML = `${stateMain}, ${countryNameText}`;
-                            document.getElementById('currentLocationName').textContent = `${stateMain}, ${countryNameText}`;
-                          } else {
-                        document.getElementById('city-name').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
-                        document.getElementById('currentLocationName').textContent = `${city}, ${stateMain}, ${countryNameText}`;
+                          } else if(!stateMain) {
+                        document.getElementById('city-name').innerHTML = `${city}, ${countryNameText}`;
+                          } else{
+                            document.getElementById('city-name').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
                           }
                     } else {
                         console.log('No results found')
@@ -363,12 +580,10 @@ function getWeather(city, latitude, longitude) {
 
             if(SelectedTempUnit === 'fahrenheit'){
                 document.getElementById('temp').innerHTML = `${tempF}°`;
-         document.getElementById('temPDiscCurrentLocation').innerHTML = `${tempF}°F • <span>${description}</span>`
  document.getElementById('feels_like_now').innerHTML = `Feels like ${Math.round(feelslikeF)}°`
 
             } else{
             document.getElementById('temp').innerHTML = `${temperature}°`;
-             document.getElementById('temPDiscCurrentLocation').innerHTML = `${temperature}°C • <span>${description}</span>`
         document.getElementById('feels_like_now').innerHTML = `Feels like ${Math.round(feelslike)}°`
 
 
@@ -383,7 +598,6 @@ function getWeather(city, latitude, longitude) {
 
 
 
-             document.getElementById('currentSearchImg').src = `weather-icons/${iconCode}.svg`;
 
             document.getElementById('description').textContent = description;
 
@@ -643,6 +857,17 @@ function getWeather(city, latitude, longitude) {
         .catch(error => {
             console.error('Error fetching current weather:', error);
             document.querySelector('.no_internet_error').hidden = false;
+                        var animationContainer = document.getElementById('error_img_cat');
+
+                        var animationData = 'icons/error-cat.json';
+
+                        var anim = bodymovin.loadAnimation({
+                            container: animationContainer,
+                            renderer: 'svg',
+                            loop: true,
+                            autoplay: true,
+                            path: animationData
+                        });
         });
 
 
@@ -744,12 +969,12 @@ function getWeatherByCoordinates(latitude, longitude) {
                         const components = data.results[0].components;
                         const city = components.city || components.town || components.village;
                         const stateMain = components.state
-                          if(!city){
+                        if(!city){
                             document.getElementById('city-name').innerHTML = `${stateMain}, ${countryNameText}`;
-                            document.getElementById('currentLocationName').textContent = `${stateMain}, ${countryNameText}`;
-                          } else {
-                        document.getElementById('city-name').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
-                        document.getElementById('currentLocationName').textContent = `${city}, ${stateMain}, ${countryNameText}`;
+                          } else if(!stateMain) {
+                        document.getElementById('city-name').innerHTML = `${city}, ${countryNameText}`;
+                          } else{
+                            document.getElementById('city-name').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
                           }
                     } else {
                         console.log('No results found')
@@ -790,12 +1015,10 @@ function getWeatherByCoordinates(latitude, longitude) {
 
             if(SelectedTempUnit === 'fahrenheit'){
                 document.getElementById('temp').innerHTML = `${tempF}°`;
-             document.getElementById('temPDiscCurrentLocation').innerHTML = `${tempF}°F • <span>${description}</span>`
      document.getElementById('feels_like_now').innerHTML = `Feels like ${Math.round(feelslikeF)}°`
             } else{
             document.getElementById('temp').innerHTML = `${temperature}°`;
 
-            document.getElementById('temPDiscCurrentLocation').innerHTML = `${temperature}°C • <span>${description}</span>`
          document.getElementById('feels_like_now').innerHTML = `Feels like ${Math.round(feelslike)}°`
 
             }
@@ -810,7 +1033,6 @@ function getWeatherByCoordinates(latitude, longitude) {
 
 
 
-                 document.getElementById('currentSearchImg').src = `weather-icons/${iconCode}.svg`;
 
 
             document.getElementById('description').textContent = description;
@@ -1077,6 +1299,17 @@ function getWeatherByCoordinates(latitude, longitude) {
           .catch(error => {
                     console.error('Error fetching current weather:', error);
                     document.querySelector('.no_internet_error').hidden = false;
+                                var animationContainer = document.getElementById('error_img_cat');
+
+                                var animationData = 'icons/error-cat.json';
+
+                                var anim = bodymovin.loadAnimation({
+                                    container: animationContainer,
+                                    renderer: 'svg',
+                                    loop: true,
+                                    autoplay: true,
+                                    path: animationData
+                                });
                 });
 
     currentLocation = {
@@ -1164,13 +1397,14 @@ function display24HourForecast(forecastData) {
 
                         let barColor;
 
-                        if(rainPercentage < 30 ){
-                            barColor = '#4c8df6'
-                        } else if(rainPercentage > 30 && rainPercentage <= 50){
-                            barColor = 'orange'
-                        } else{
-                            barColor = 'red'
-                        }
+            if(rainPercentage < 30 ){
+                barColor = '#4c8df6'
+            } else if(rainPercentage > 30 && rainPercentage <= 60){
+                barColor = 'orange'
+            } else if(rainPercentage > 60){
+                barColor = 'red'
+            }
+
 
 
             const forecastItem = document.createElement('div');
@@ -1373,6 +1607,16 @@ function hideLoader() {
     }, 300);
 
 
+    let savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
+
+    if (savedLocations.length === 0) {
+        document.querySelector('.savedLocations').hidden = true;
+    } else {
+        document.querySelector('.savedLocations').hidden = false;
+
+    }
+
+
 }
 
 
@@ -1438,6 +1682,14 @@ function RenderSearhMap() {
 
         marker.setLatLng([lat, lon]);
         window.history.back();
+
+                document.getElementById('search-container').style.opacity = '0'
+
+                setTimeout(() => {
+                    window.history.back();
+
+                }, 500);
+
         getWeather(' ', lat, lon);
 
         document.getElementById('city-name').innerHTML = '<md-circular-progress indeterminate style="--md-circular-progress-size: 30px;"></md-circular-progress>';
@@ -1647,7 +1899,11 @@ const moon_phase_img = document.getElementById('moon_phase_img');
 
         moonPhaseText.innerHTML = phaseName;
         moon_phase_img.src = phaseImg;
-        moonPhaseDaysLeft.innerHTML = `${daysLeft} days`;
+                    if(daysLeft > 1){
+                        moonPhaseDaysLeft.innerHTML = `${daysLeft} days`;
+                    } else{
+                        moonPhaseDaysLeft.innerHTML = `${daysLeft} day`;
+                    }
 
             document.getElementById('weatherComments').innerHTML = data.days[0].description
 
@@ -1682,7 +1938,6 @@ const moon_phase_img = document.getElementById('moon_phase_img');
 
                 document.getElementById('AmountRainMM').innerHTML = data.days[0].precip + ' mm'
 
-                document.getElementById('RainCoverage').innerHTML = Math.round(data.days[0].precipcover) + '%';
 
 
                 if(data.days[0].precipprob > 5){
@@ -1742,6 +1997,23 @@ const moon_phase_img = document.getElementById('moon_phase_img');
 
 })
 .catch(error => console.error(error));
+
+
+fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=precipitation_hours&models=gfs_seamless`)
+        .then(response => response.json())
+        .then(data => {
+
+            if (Math.round(data.daily.precipitation_hours[0]) > 2 && Math.round(data.daily.precipitation_hours[0]) <= 2) {
+                document.getElementById('RainHours').innerHTML = Math.round(data.daily.precipitation_hours[0]) + ' hr';
+            } else {
+                document.getElementById('RainHours').innerHTML = Math.round(data.daily.precipitation_hours[0]) + ' hrs';
+
+            }
+
+
+
+        })
+        .catch(error => console.warn(error))
 
 
 }

@@ -169,8 +169,8 @@
                     </div>
 
                     <div class="todaysAmount" style="padding-left: 0; padding-right: 20px;">
-                        <p>Area coverage</p>
-                        <span id="RainCoverage">1.5 mm</span>
+                        <p>Precipitation hours</p>
+                        <span id="RainHours">1.5 mm</span>
                     </div>
 
                 </div>
@@ -428,6 +428,12 @@
             <span class="ripple-effect-icon"></span>
             <span icon-outlined>close</span>
         </button>
+
+        <button class="ripple-icon-btn focus regular" id="openMapPicker" ontouchstart="playEffect(this)"
+                ontouchend="playEffect2(this)">
+            <span class="ripple-effect-icon"></span>
+            <span icon-outlined>map</span>
+        </button>
     </div>
     <div class="modal-content" id="modal-content">
         <div class="city-list" id="city-list">
@@ -436,7 +442,7 @@
 
         <div class="currentLocationdiv" style="margin-top: 20px; ">
             <p class="title" style="display: flex; align-items: center; gap: 10px;"><md-icon icon-outlined>location_on</md-icon>Current Location</p>
-            <div class="currentLocations" id="currentLocations">
+            <div class="currentLocations ripple_btn_low" id="currentLocations" onclick="getCurrentLocationWeather(); window.history.back()">
                 <div class="currentSearchImg">
                     <img src="" id="currentSearchImg" alt=""> </div>
                 <currentLocationNames>
@@ -446,12 +452,17 @@
             </div>
         </div>
 
-        <div class="full_Wrap_map">
-            <p class="title" style="display: flex; align-items: center; gap: 10px;"><md-icon icon-outlined>map</md-icon>Pick from the map</p>
-            <div class="map_wrap">
-                <div id="map"></div></div>
+        <div class="savedLocations" hidden>
+            <p class="title" style="display: flex; align-items: center; gap: 10px;"><md-icon icon-outlined>star</md-icon>Saved locations</p>
+
+            <savedLocationsHolder>
+
+
+
+            </savedLocationsHolder>
 
         </div>
+
     </div>
 </div>
 <!-- loader -->
@@ -460,7 +471,7 @@
     <md-linear-progress indeterminate style="width: 100%;"></md-linear-progress>
 </div>
 
-<div class="fab-holder">
+<div class="fab-holder" hidden>
     <md-fab variant="primary" onclick="getCurrentLocationWeather()">
         <md-icon icon-outlined slot="icon">my_location</md-icon>
     </md-fab>
@@ -470,8 +481,9 @@
 <div id="toast-container" class="toast-container"></div>
 
 <div class="no_internet_error" hidden>
-    <div class="img_wrap404">
-        <img src="icons/404.svg" alt="">
+    <div class="img_wrap404" >
+        <!-- <img src="icons/404.svg" alt=""> -->
+        <div id="error_img_cat" style="height: 330px;"></div>
     </div>
 
     <div class="text_content_error">
@@ -532,6 +544,28 @@
     <!-- togglePasswordTypeChips(this); -->
 
 </div>
+
+
+<div class="map_picker" hidden>
+    <div class="topLocationPickerActions">
+        <button class="ripple-icon-btn focus regular" onclick="window.history.back()"
+                ontouchstart="playEffect(this)" ontouchend="playEffect2(this)">
+            <span class="ripple-effect-icon"></span>
+            <span icon-outlined>arrow_back</span>
+        </button>
+        <p>Pick a location</p>
+    </div>
+
+
+    <div class="map_pick_holder">
+        <div class="map_wrap">
+            <div id="map"></div>
+        </div>
+
+    </div>
+
+</div>
+
 
 <script>
 
@@ -612,6 +646,7 @@ function checkNoInternet(){
 <script src="modules/ripple_acc.js"></script>
 <script src="app/navigate.js"></script>
 <script src="app/country-list.js"></script>
+<script src="modules/lottie.js"></script>
 
 </body>
 
