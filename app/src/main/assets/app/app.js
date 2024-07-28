@@ -58,6 +58,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const openMapPicker = document.getElementById('openMapPicker');
 
     cityopen.addEventListener("click", () => {
+  let savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
+
+
         searchContainer.style.display = 'block';
         window.history.pushState({ SearchContainerOpen: true }, "");
          document.querySelector('.header_hold').style.transform = 'scale(1.1)';
@@ -66,7 +69,16 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
                                     document.querySelector('.header_hold').style.transform = '';
                                     document.querySelector('.header_hold').style.opacity = '';
-                                          cityInput.focus()
+
+
+            if (savedLocations.length === 0) {
+                cityInput.focus()
+
+
+            } else {
+
+
+            }
 
         }, 400);
     });
@@ -102,6 +114,19 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('cityLoader').hidden = true;
             document.querySelector('.currentLocationdiv').hidden = false;
             document.querySelector('.savedLocations').hidden = false;
+
+
+                        setTimeout(()=>{
+                        cityList.innerHTML = '';
+                        }, 200)
+
+                        setTimeout(()=>{
+                            cityList.innerHTML = '';
+                            }, 400)
+
+                            setTimeout(()=>{
+                                cityList.innerHTML = '';
+                                }, 600)
 
 
             let savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
