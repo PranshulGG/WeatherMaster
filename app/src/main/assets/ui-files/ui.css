@@ -37,8 +37,7 @@ body {
   background-color: var(--Surface);
   display: flex;
   align-items: center;
-   padding-left: 12px;
-   padding-right: 12px;
+
 
 }
 
@@ -818,7 +817,7 @@ touch_search{
   justify-content: center;
   align-items: center;
   text-align: center;
-  margin-top: 260px;
+  margin-top: 220px;
 }
 .no_internet_error .text_content_error p{
   font-size: 30px;
