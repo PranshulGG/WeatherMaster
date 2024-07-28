@@ -497,6 +497,7 @@ window.addEventListener('popstate', function (event) {
     } else {
         document.getElementById('search-container').style.opacity = '0'
         setTimeout(() => {
+            document.getElementById('modal-content').scrollTop = 0;
             document.getElementById('city-input').value = ''
             document.getElementById('city-input').dispatchEvent(new Event('input'));
             document.getElementById('search-container').style.display = 'none'
