@@ -40,7 +40,7 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
  - `Visibility, humidity, pressure, wind direction, wind speed, snow amount, cloudiness, min-max temp`
  - `precipitation type, precipitation hours`
  - `UV index and Air quality`
- - `Live map, location picker`
+ - `Live map, location picker, save your fav locations`
  - `Cloths recommendation`
 
 # ⚙️ Other:
@@ -74,7 +74,7 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
  
  - ✅ Make it lightweight
  - ⬛ Notification alerts
- - ⬛ A feature that allows you to add multiple locations
+ - ✅ Allows you to add multiple locations
  - ⬛ Customization (under construction)
  - ✅ More detailed weather (almost)
  - ✅ Live weather map
