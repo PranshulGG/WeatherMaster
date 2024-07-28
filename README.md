@@ -15,7 +15,7 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 <img alt="App image" src="screenshots/5.jpeg" width="30%">
 <img alt="App image" src="screenshots/6.jpeg" width="30%">
 <img alt="App image" src="screenshots/7.jpeg" width="30%">
-
+<img alt="App image" src="screenshots/8.jpeg" width="30%">
   
 </div>
 
@@ -38,7 +38,7 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
  - `Day description`
  - `Rain bar`
  - `Visibility, humidity, pressure, wind direction, wind speed, snow amount, cloudiness, min-max temp`
- - `precipitation type, precipitation area cover`
+ - `precipitation type, precipitation hours`
  - `UV index and Air quality`
  - `Live map, location picker`
  - `Cloths recommendation`
