@@ -37,7 +37,8 @@ body {
   background-color: var(--Surface);
   display: flex;
   align-items: center;
-
+  padding-left: 12px;
+  padding-right: 12px;
 
 }
 
