@@ -61,6 +61,12 @@ document.addEventListener('DOMContentLoaded', () => {
   let savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
 
 
+        document.querySelector('savedLocationsHolder').innerHTML = ''
+
+        setTimeout(()=>{
+            loadSavedLocations()
+        }, 150);
+
         searchContainer.style.display = 'block';
         window.history.pushState({ SearchContainerOpen: true }, "");
          document.querySelector('.header_hold').style.transform = 'scale(1.1)';
@@ -108,7 +114,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (searchTerm) {
             document.getElementById('cityLoader').hidden = false;
-            getCitySuggestions(cityInput.value);
+                        setTimeout(()=>{
+                            getCitySuggestions(cityInput.value);
+                        }, 500);
         } else {
             cityList.innerHTML = '';
             document.getElementById('cityLoader').hidden = true;
@@ -150,7 +158,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.key === 'Enter') {
             if (searchTerm) {
                 document.getElementById('cityLoader').hidden = false;
-                getCitySuggestions(cityInput.value);
+                            setTimeout(()=>{
+                                getCitySuggestions(cityInput.value);
+                            }, 500);
             } else {
                 cityList.innerHTML = '';
                 document.getElementById('cityLoader').hidden = true;
@@ -384,6 +394,9 @@ function loadSavedLocations() {
 
                 savelocationtouch.addEventListener('click', () => {
                     getWeather(location.locationName, savedLocationItemLat, savedLocationItemLon)
+            document.getElementById('city-name').innerHTML = '<md-circular-progress indeterminate style="--md-circular-progress-size: 30px;"></md-circular-progress>'
+            document.getElementById('forecast').scrollLeft = 0;
+            document.getElementById('weather_wrap').scrollTop = 0;
                     window.history.back();
                 });
 
@@ -593,10 +606,17 @@ function getWeather(city, latitude, longitude) {
                         const stateMain = components.state
                         if(!city){
                             document.getElementById('city-name').innerHTML = `${stateMain}, ${countryNameText}`;
+                            document.getElementById('SelectedLocationText').innerHTML = `${stateMain}, ${countryNameText}`;
+
+
                           } else if(!stateMain) {
                         document.getElementById('city-name').innerHTML = `${city}, ${countryNameText}`;
+                            document.getElementById('SelectedLocationText').innerHTML = `${city}, ${countryNameText}`;
+
                           } else{
                             document.getElementById('city-name').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
+                            document.getElementById('SelectedLocationText').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
+
                           }
                     } else {
                         console.log('No results found')
@@ -642,7 +662,7 @@ function getWeather(city, latitude, longitude) {
 
             get24HourForecast(latitude, longitude);
 
-            get5DayForecast(latitude, longitude);
+            getDailyForecast(latitude, longitude);
 
             const windSpeedMPS = data.wind.speed;
             const windSpeedMPH = (windSpeedMPS * 2.23694).toFixed(0);
@@ -940,6 +960,9 @@ function getCurrentLocationWeather() {
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
             getWeatherByCoordinates(latitude, longitude); // Call getWeatherByCoordinates with coordinates
+                        document.getElementById('city-name').innerHTML = '<md-circular-progress indeterminate style="--md-circular-progress-size: 30px;"></md-circular-progress>'
+                        document.getElementById('forecast').scrollLeft = 0;
+                        document.getElementById('weather_wrap').scrollTop = 0;
         }, handleGeolocationError);
     } else {
         console.error('Geolocation is not supported by this browser.');
@@ -963,6 +986,8 @@ function getWeatherByCoordinates(latitude, longitude) {
 
         localStorage.setItem('currentLong', longitude)
         localStorage.setItem('currentLat', latitude)
+
+
 
 
     fetch(apiUrl)
@@ -997,10 +1022,17 @@ function getWeatherByCoordinates(latitude, longitude) {
                         const stateMain = components.state
                         if(!city){
                             document.getElementById('city-name').innerHTML = `${stateMain}, ${countryNameText}`;
+                            document.getElementById('SelectedLocationText').innerHTML = `${stateMain}, ${countryNameText}`;
+
+
                           } else if(!stateMain) {
                         document.getElementById('city-name').innerHTML = `${city}, ${countryNameText}`;
+                            document.getElementById('SelectedLocationText').innerHTML = `${city}, ${countryNameText}`;
+
                           } else{
                             document.getElementById('city-name').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
+                            document.getElementById('SelectedLocationText').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
+
                           }
                     } else {
                         console.log('No results found')
@@ -1078,7 +1110,7 @@ function getWeatherByCoordinates(latitude, longitude) {
             get24HourForecast(latitude, longitude);
 
             // Fetch 5-day forecast
-            get5DayForecast(latitude, longitude);
+            getDailyForecast(latitude, longitude);
 
             // Additional weather information
             const windSpeedMPS = data.wind.speed;
@@ -1509,106 +1541,89 @@ function showToast(description, time) {
         }, 500);
     }, 3000);
 }
-function get5DayForecast(latitude, longitude) {
-    const apiKey = '28fe7b5f9a78838c639143fc517e4343';
-    const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+const apiOne = 'dd1571a8ad3fd44555e8a5d66db01929';
+
+function getDailyForecast(latitude, longitude) {
+    const apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiOne}&units=metric`;
 
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
-            const forecastData = data.list;
-            display5DayForecast(forecastData);
+            const dailyForecast = data.daily;
+            displayDailyForecast(dailyForecast);
         })
-        .catch(error => console.error('Error fetching 5-day forecast:', error));
+        .catch(error => console.error('Error fetching daily forecast:', error));
 }
 
-function display5DayForecast(forecastData) {
-    const forecast5dayContainer = document.getElementById('forecast-5day');
-    forecast5dayContainer.innerHTML = '';
+function displayDailyForecast(dailyForecast) {
+    const forecastContainer = document.getElementById('forecast-5day');
+    forecastContainer.innerHTML = '';
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    for (let i = 7; i < forecastData.length; i += 8) {
-        const forecast = forecastData[i];
+    dailyForecast.forEach((forecast, index) => {
+
+        console.log(forecast)
+
         const timestamp = new Date(forecast.dt * 1000);
+        const isToday = index === 0;
+        const date = isToday ? 'Today' : timestamp.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
-
-        if (timestamp.getDate() === today.getDate()) {
-            continue;
-        }
-
-        const date = timestamp.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
         const description = forecast.weather[0].description;
         let iconCode = forecast.weather[0].icon;
-        const temp = Math.round(forecast.main.temp);
+        const temp = Math.round(forecast.temp.max);
+        const tempMIN = Math.round(forecast.temp.min);
 
         const tempF = Math.round(temp * 9 / 5 + 32);
 
+        const rainPercentage = Math.round(forecast.pop * 100);;
 
+
+        const tempMINF = Math.round(tempMIN * 9 / 5 + 32);
 
 
         iconCode = iconCode.replace('n', 'd');
 
-        let tempColor;
-        if (temp <= -50) {
-            tempColor = 'blue';
-        } else if (temp <= 0) {
-            tempColor = 'lightblue'; 
-        } else if (temp <= 25) {
-            tempColor = 'rgb(9, 185, 9)'; 
-        } else {
-            tempColor = 'red'; 
-        }
-
-
         const forecastItem = document.createElement('div');
         forecastItem.classList.add('forecast-item-forecast');
 
-
-        if(SelectedTempUnit === 'fahrenheit'){
+        if (SelectedTempUnit === 'fahrenheit') {
             forecastItem.innerHTML = `
 
             <img id="icon-5d" src="weather-icons/${iconCode}.svg" alt="Weather Icon">
-            <p class="disc-5d">${tempF}°F</p>
-            <div class="temp_progress_hold">
-            <md-linear-progress value="0" id="temp-bar-${i}" style="--md-linear-progress-active-indicator-color: ${tempColor};"></md-linear-progress></div>
+            <p class="disc-5d"><span>${tempMINF}° </span>/ ${tempF}°</p>
+            <span class="daily_rain">${rainPercentage}%<i icon-outlined>water_drop</i></span>
             <div class="d5-disc-text">${description}
             <p class="time-5d">${date}</p>
             </div>
 
-        `;
-        } else{
 
-        forecastItem.innerHTML = `
+            `
 
+
+        ;
+        } else {
+
+            forecastItem.innerHTML =
+`
         <img id="icon-5d" src="weather-icons/${iconCode}.svg" alt="Weather Icon">
-        <p class="disc-5d">${temp}°C</p>
-        <div class="temp_progress_hold">
-        <md-linear-progress value="0" id="temp-bar-${i}" style="--md-linear-progress-active-indicator-color: ${tempColor};"></md-linear-progress></div>
+        <p class="disc-5d"><span>${tempMIN}° </span>/ ${temp}°</p>
+            <span class="daily_rain">${rainPercentage}% <i icon-outlined>water_drop</i></span>
         <div class="d5-disc-text">${description}
         <p class="time-5d">${date}</p>
         </div>
-
-    `;
+`
+    ;
         }
 
 
 
-        const minTemp = -70;
-        const maxTemp = 60;
-        const value = (temp - minTemp) / (maxTemp - minTemp);
-        setTimeout(() => {
-            document.getElementById(`temp-bar-${i}`).value = value;
-        }, 0);
 
-
-        forecast5dayContainer.appendChild(forecastItem);
-        
-    }
+        forecastContainer.appendChild(forecastItem);
+    });
 }
-
 
 
 function showLoader() {
@@ -1974,6 +1989,9 @@ const moon_phase_img = document.getElementById('moon_phase_img');
 
                 }
 
+                            document.getElementById('RainHours').innerHTML = Math.round(data.days[0].precipcover) + '%';
+
+
 
 
 
@@ -2025,22 +2043,6 @@ const moon_phase_img = document.getElementById('moon_phase_img');
 .catch(error => console.error(error));
 
 
-fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=precipitation_hours&models=gfs_seamless`)
-        .then(response => response.json())
-        .then(data => {
-
-            if (Math.round(data.daily.precipitation_hours[0]) > 2 && Math.round(data.daily.precipitation_hours[0]) <= 2) {
-                document.getElementById('RainHours').innerHTML = Math.round(data.daily.precipitation_hours[0]) + ' hr';
-            } else {
-                document.getElementById('RainHours').innerHTML = Math.round(data.daily.precipitation_hours[0]) + ' hrs';
-
-            }
-
-
-
-        })
-        .catch(error => console.warn(error))
-
 
 }
 
@@ -2069,3 +2071,26 @@ document.querySelector('rainMeterBar').addEventListener('scroll', function () {
         }
     });
 });
+
+
+function seeSelectedLocation(){
+    document.querySelector('selectLocationText').hidden = false;
+    document.querySelector('selectLocationTextOverlay').hidden = false;
+
+    document.querySelector('.header_hold').style.transform = 'scale(1.1)';
+    document.querySelector('.header_hold').style.opacity = '0';
+
+
+}
+
+function seeSelectedLocationClose(){
+    document.querySelector('selectLocationTextOverlay').hidden = true;
+    document.querySelector('selectLocationText').hidden = true;
+    document.querySelector('.header_hold').style.transform = '';
+    document.querySelector('.header_hold').style.opacity = '';
+}
+
+document.querySelector('selectLocationTextOverlay').addEventListener('click', ()=>{
+    seeSelectedLocationClose()
+});
+

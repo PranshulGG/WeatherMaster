@@ -20,7 +20,11 @@
 <div class="header-top" id="main-Header-Top">
     <div class="header_hold">
     <div class="main-city" id="main-city">
-        <span icon-filled></span>
+        <button class="ripple-icon-btn regular" onclick="seeSelectedLocation()" ontouchstart="playEffect(this)"
+                style="z-index: 1;" ontouchend="playEffect2(this)">
+            <span class="ripple-effect-icon"></span>
+            <span icon-outlined style="opacity: 0.8;">location_on</span>
+        </button>
         <h2 id="city-name" style="margin-right: 3px;">
             <md-circular-progress indeterminate style="--md-circular-progress-size: 30px;"></md-circular-progress>
         </h2>
@@ -43,8 +47,18 @@
         <touch_search  id="city-open">
         </touch_search>
 </div>
-</div>
 
+    <selectLocationText hidden>
+        <button class="ripple-icon-btn regular" onclick="seeSelectedLocationClose()" ontouchstart="playEffect(this)"
+                style="z-index: 1;" ontouchend="playEffect2(this)">
+            <span class="ripple-effect-icon"></span>
+            <span icon-outlined>close</span>
+        </button>
+        <p id="SelectedLocationText"></p>
+    </selectLocationText>
+    <selectLocationTextOverlay hidden></selectLocationTextOverlay>
+
+</div>
 </div>
 <!-- current -->
 <div class="weather_wrap"  id="weather_wrap">
@@ -80,7 +94,7 @@
 
             </div>
 
-            <div class="rain_per">
+            <div class="rain_per" style="display: none;">
                 <i icon-outlined>rainy</i>
                 <p id="rain_percentage">10%</p>
             </div>
@@ -169,7 +183,7 @@
                     </div>
 
                     <div class="todaysAmount" style="padding-left: 0; padding-right: 20px;">
-                        <p>Precipitation hours</p>
+                        <p>Area coverage</p>
                         <span id="RainHours">1.5 mm</span>
                     </div>
 
@@ -184,8 +198,8 @@
 
             <div class="all-5d">
                 <div class="h2">
-                    <p class="forecast_Text">Next 5 Days</p>
-                    <p class="icon_top">Forecast</p>
+                    <p class="forecast_Text">Forecast</p>
+                    <p class="icon_top">8-Days</p>
                 </div>
                 <div class="forecast-5day" id="forecast-5day">
 
@@ -626,6 +640,17 @@ function checkNoInternet(){
 
         } else{
             document.querySelector('.no_internet_error').hidden = false;
+                                            var animationContainer = document.getElementById('error_img_cat');
+
+                                var animationData = 'icons/error-cat.json';
+
+                                var anim = bodymovin.loadAnimation({
+                                    container: animationContainer,
+                                    renderer: 'svg',
+                                    loop: true,
+                                    autoplay: true,
+                                    path: animationData
+                                });
         }
     }
 
