@@ -963,6 +963,8 @@ function getCurrentLocationWeather() {
                         document.getElementById('city-name').innerHTML = '<md-circular-progress indeterminate style="--md-circular-progress-size: 30px;"></md-circular-progress>'
                         document.getElementById('forecast').scrollLeft = 0;
                         document.getElementById('weather_wrap').scrollTop = 0;
+                                    setCurrentLocation(latitude, longitude)
+
         }, handleGeolocationError);
     } else {
         console.error('Geolocation is not supported by this browser.');
@@ -1599,7 +1601,7 @@ function displayDailyForecast(dailyForecast) {
             <p class="time-5d">${date}</p>
             </div>
 
-
+<md-ripple style="--md-ripple-pressed-opacity: 0.1;"></md-ripple>
             `
 
 
@@ -1614,11 +1616,17 @@ function displayDailyForecast(dailyForecast) {
         <div class="d5-disc-text">${description}
         <p class="time-5d">${date}</p>
         </div>
+        <md-ripple style="--md-ripple-pressed-opacity: 0.1;"></md-ripple>
 `
     ;
         }
 
 
+        forecastItem.addEventListener('click', () => {
+                        setTimeout(()=>{
+                            sendThemeToAndroid('Open8Forecast')
+                        }, 250);
+        });
 
 
         forecastContainer.appendChild(forecastItem);
@@ -1981,13 +1989,6 @@ const moon_phase_img = document.getElementById('moon_phase_img');
 
 
 
-                if(data.days[0].precipprob > 5){
-                    document.getElementById('rain_percentage').innerHTML = Math.round(data.days[0].precipprob) + '%';
-                    document.querySelector('.rain_per').hidden = false;
-                } else{
-                    document.querySelector('.rain_per').hidden = true;
-
-                }
 
                             document.getElementById('RainHours').innerHTML = Math.round(data.days[0].precipcover) + '%';
 
@@ -2002,13 +2003,18 @@ const moon_phase_img = document.getElementById('moon_phase_img');
                                 const today_max_temp_celsius = data.days[0].tempmax;
                                 const today_min_temp_celsius = data.days[0].tempmin;
 
+            const dewPointTodayC = Math.round(data.days[0].dew);
+            const dewPointTodayF = Math.round(dewPointTodayC * 9 / 5 + 32);
 
                                 if(SelectedTempUnit === 'fahrenheit'){
                                     document.getElementById('high_temp').innerHTML = celsiusToFahrenheit(today_max_temp_celsius) + '°';
                                     document.getElementById('low_temp').innerHTML = celsiusToFahrenheit(today_min_temp_celsius) + '°';
+                                     document.getElementById('dew_percentage').innerHTML  = dewPointTodayF + '°';
                                 } else{
                                     document.getElementById('high_temp').innerHTML = Math.round(today_max_temp_celsius) + '°';
                                     document.getElementById('low_temp').innerHTML = Math.round(today_min_temp_celsius) + '°';
+                                     document.getElementById('dew_percentage').innerHTML  = dewPointTodayC + '°';
+
                                 }
 
                                 hideLoader()

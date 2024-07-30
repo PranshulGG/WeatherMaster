@@ -229,7 +229,7 @@ touch_search{
   font-weight: 500;
 }
 
-.main-weat .rain_per{
+.main-weat .dew_per{
   position: absolute;
   right: 10px;
   bottom: 10px;
@@ -241,11 +241,11 @@ touch_search{
   gap: 4px;
 }
 
-.main-weat .rain_per p{
+.main-weat .dew_per p{
   margin: 0;
 }
 
-.main-weat .rain_per i{
+.main-weat .dew_per i{
   font-size: 20px;
 }
 

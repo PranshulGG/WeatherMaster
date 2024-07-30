@@ -1,0 +1,158 @@
+* {
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    touch-action: manipulation;
+    -webkit-user-drag: none;
+    outline: none;
+}
+
+p{
+    margin: 0;
+}
+
+body {
+    background-color: var(--Surface);
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    font-family: var(--outfit);
+    animation: opacity 0.3s ease-out;
+
+}
+
+@keyframes opacity{
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+
+.activity-large-content::before {
+    position: fixed;
+    bottom: 0;
+    content: '';
+    width: 100%;
+    background: linear-gradient(0deg, var(--Surface) 10%, rgba(255, 0, 0, 0));
+    height: 30px;
+    z-index: 1;
+}
+
+
+
+.loader_holder{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 130px;
+    --md-circular-progress-size: 55px;
+}
+
+
+#foreCastList .forecast-list-item{
+    animation: forecast-list-item 0.3s ease-in;
+    padding: 15px;
+    /* background-color: var(--Surface-Container-Low); */
+    background: linear-gradient(0deg, var(--Surface-Container-Low) 40%, var(--weather-color));
+    border-radius: 5px;
+    margin-bottom: 5px;
+    
+}
+
+#foreCastList .forecast-list-item:first-child{
+    border-radius:10px 10px 5px 5px;
+}
+
+#foreCastList .forecast-list-item:last-child{
+    border-radius:5px 5px 10px 10px ;
+}
+
+#foreCastList{
+    padding: 10px;
+}
+
+@keyframes forecast-list-item{
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+
+#foreCastList .forecast-list-item .daily_date_time div p{
+    font-size: 30px;
+    color: White;
+    padding-bottom: 3px;
+}
+
+#foreCastList .forecast-list-item .daily_date_time div span{
+    font-size: 20px;
+    text-transform: capitalize;
+}
+
+#foreCastList .forecast-list-item .daily_date_time{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#foreCastList .forecast-list-item .daily_date_time div img{
+    width: 60px;
+    height: 60px;
+}
+
+#foreCastList .forecast-list-item .temp_min_max{
+    font-size: 34px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 20px;
+    color: var(--On-Surface);
+    margin-bottom: 20px;
+}
+
+#foreCastList .forecast-list-item .temp_min_max p span{
+    opacity: 0.8;
+}
+
+#foreCastList .forecast-list-item .daily_details .details_daily_items{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+}
+
+#foreCastList .forecast-list-item .daily_details .details_daily_items .daily_detail_item{
+    background-color: rgba(0, 0, 0, 0.308);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+#foreCastList .forecast-list-item .daily_details .details_daily_items .daily_detail_item span{
+    color: var(--On-Surface-Variant);
+    font-size: 15px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--Outline-Variant);
+    display: block;
+    padding-bottom: 4px;
+}
+
+#foreCastList .forecast-list-item .daily_details .details_daily_items .daily_detail_item p{
+    color: White;
+    font-size: 18px;
+}
+
+#foreCastList .forecast-list-item .daily_details .details_daily_items .daily_detail_item i{
+    display: flex;
+    align-items: center;
+    padding-bottom: 10px;
+    justify-content: center;
+    color: var(--Secondary);
+    font-size: 30px;
+    height: 40px;
+}
+
+#foreCastList .forecast-list-item .daily_details .details_daily_items .daily_detail_item i img{
+    width: 35px;
+}

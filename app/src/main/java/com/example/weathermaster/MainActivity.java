@@ -349,7 +349,9 @@ public class MainActivity extends AppCompatActivity {
                     } else if (color.equals("OpenSettings")){
                         openSettingsActivity();
                         return;
-
+                    } else if (color.equals("Open8Forecast")){
+                        openForecastPage();
+                        return;
                     } else if (color.equals("GoBack")){
                         back();
                         return;
@@ -415,6 +417,11 @@ public class MainActivity extends AppCompatActivity {
                 public void openSettingsActivity() {
             Intent intent = new Intent(mActivity, SettingsActivity.class);
                     mActivity.startActivity(intent);
+        }
+
+        public void openForecastPage(){
+            Intent intent = new Intent(mActivity, ForecastPage.class);
+            mActivity.startActivity(intent);
         }
 
     }
