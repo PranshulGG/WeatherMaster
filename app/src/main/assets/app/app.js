@@ -1621,9 +1621,12 @@ function displayDailyForecast(dailyForecast) {
 
 
         forecastItem.addEventListener('click', () => {
-                        setTimeout(()=>{
-                            sendThemeToAndroid('Open8Forecast')
-                        }, 250);
+            forecastContainer.style.pointerEvents = 'none';
+
+            setTimeout(()=>{
+                sendThemeToAndroid('Open8Forecast')
+                forecastContainer.style.pointerEvents = '';
+            }, 250);
         });
 
 
