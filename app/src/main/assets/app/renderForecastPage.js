@@ -119,9 +119,9 @@ function displayDailyForecast(dailyForecast) {
         } else if(iconCode === '11d'){
             colorStyle = '--weather-color: #383147;'
         } else if(iconCode === '13d'){
-            colorStyle === '--weather-color: #41465f;'
+            colorStyle = '--weather-color: #41465f;'
         } else if(iconCode === '50d'){
-            colorStyle === '--weather-color: #352603;'
+            colorStyle = '--weather-color: #352603;'
         }
 
 
