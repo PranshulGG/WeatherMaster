@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" Theme="default" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Alert page</title>
+    <link rel="stylesheet" href="../ui-files/font-usage.css">
+    <link rel="stylesheet" href="../ui-files/variables.css">
+    <link rel="stylesheet" href="../components/components.css">
+    <link rel="stylesheet" href="../components/modal-ver.css">
+    <link rel="stylesheet" href="../ripple-files/ripple.css">
+    <link rel="stylesheet" href="../components/segment-btns.css">
+    <link rel="stylesheet" href="forecastPageUi.css">
+
+    <style>
+        #eventDiv, .startEndEvent{
+            display: flex;
+            align-items: flex-start;
+            flex-direction: column;
+            background-color: var(--Surface-Container-Low);
+            margin: 0px 10px;
+            padding: 10px;
+            border-radius: 10px 10px 5px 5px;
+            margin-bottom: 5px;
+
+        }
+
+        #eventDiv p, .startEndEvent .startEndEventItem span{
+            margin: 0;
+            color: var(--Primary);
+            font-family: var(--outfit-mid);
+            font-size: 20px;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--Outline-Variant);
+            width: 100%;
+        }
+
+        #eventDiv span,  .startEndEventItem p{
+            color: var(--On-Surface);
+            font-size: 18px;
+            font-family: var(--outfit);
+        }
+
+        .startEndEvent{
+            border-radius: 5px;
+        }
+
+        .startEndEventItem{
+            margin-bottom: 12px;
+            margin-top: 10px;
+        }
+
+        .startEndEventItem span{
+            border: 0 !important;
+        }
+
+        #WeatherAlertDiv{
+            display: flex;
+            align-items: flex-start;
+            flex-direction: column;
+            background-color: var(--Surface-Container-Low);
+            margin: 0px 10px;
+            padding: 10px;
+            border-radius: 5px 5px 10px 10px ;
+            margin-bottom: 5px;
+            font-size: 17px;
+            color: var(--On-Surface);
+        }
+
+        #WeatherAlertDiv span{
+            margin: 0;
+            color: var(--Primary);
+            font-family: var(--outfit-mid);
+            font-size: 20px;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--Outline-Variant);
+            width: 100%;
+            display: block;
+        }
+
+        .alert_loader{
+              --md-circular-progress-size: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            z-index: 1;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--Surface);
+            height: calc(100% - 65px);
+        }
+
+        [hidden]{
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body style="background-color: var(--Surface);">
+
+<div class="full-activity open">
+    <div class="full-activity-header transparent round" id="head-2">
+        <button class="ripple-icon-btn close" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)" onclick="sendThemeToAndroid('GoBack')">
+            <span class="ripple-effect-icon"></span>
+            <span icon-outlined style="font-size: 24px !important;">arrow_back</span>
+        </button>
+
+        <p>Weather alert</p>
+    </div>
+    <div class="full-activity-content" id="Content">
+
+
+        <div id="eventDiv" style="margin-top: 15px;">
+            <p>Event</p>
+            <span id="eventTextPage"></span>
+        </div>
+        <div class="startEndEvent">
+            <div class="startEndEventItem">
+                <span>Start</span>
+                <p id="startEventTime"></p>
+            </div>
+            <md-divider></md-divider>
+
+            <div class="startEndEventItem">
+                <span>End</span>
+                <p id="endEventTime"></p>
+            </div>
+        </div>
+        <div id="WeatherAlertDiv" style="margin-bottom: 20px;">
+            <span>Description</span>
+
+            <p id="WeatherAlertDivText"></p>
+
+        </div>
+
+        <div class="alert_loader">
+            <md-circular-progress indeterminate></md-circular-progress>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<script>
+
+
+        function sendThemeToAndroid(theme) {
+
+            AndroidInterface.updateStatusBarColor(theme);
+        };
+
+        const latDif = localStorage.getItem('currentLat');
+        const longDif = localStorage.getItem('currentLong');
+
+
+        const latAlerts = latDif;
+const lonAlerts = longDif;
+const apiKeyAlerts = '20a36f8e1152244bbbd9ac296d3640f2';
+
+
+
+fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latAlerts}&lon=${lonAlerts}&exclude=current,minutely,hourly,daily&appid=${apiKeyAlerts}`)
+  .then(response => response.json())
+  .then(data => {
+    if(data.alerts){
+        const alertEventDesc = data.alerts[0].description;
+        const alertEventPage = data.alerts[0].event;
+        const startEventTime = data.alerts[0].start;
+        const endEventTime = data.alerts[0].end;
+
+        const formatDate = (timestamp) => {
+          const date = new Date(timestamp * 1000);
+          return date.toLocaleString();
+        };
+
+
+        document.getElementById('eventTextPage').innerHTML = alertEventPage;
+        document.getElementById('startEventTime').innerHTML = formatDate(startEventTime);
+        document.getElementById('endEventTime').innerHTML = formatDate(endEventTime);
+
+
+        if(alertEventDesc){
+        document.getElementById('WeatherAlertDivText').innerHTML = alertEventDesc;
+        } else{
+        document.getElementById('WeatherAlertDivText').innerHTML = 'No description';
+        }
+
+    } else{
+        console.log('No alerts')
+    }
+  })
+
+  .catch(error => console.error('Error:', error));
+
+
+
+
+  const user2 = document.getElementById('Content')
+
+  function changeColorOnScroll2() {
+    var container = document.getElementById('Content');
+    var scrollY = container.scrollTop;
+
+    if (scrollY >= 10) {
+      document.getElementById('head-2').style.backgroundColor = 'var(--Surface-Container)';
+      document.getElementById('head-2').style.transition = '';
+
+
+      container.removeEventListener('scroll', changeColorOnScroll2);
+      checkSearchScroll()
+
+    } else {
+
+    }
+  }
+
+
+  if(user2){
+    document.getElementById('Content').addEventListener('scroll', changeColorOnScroll2);
+  } else{
+
+  }
+
+
+  function changeColorOnScroll2A() {
+    var container = document.getElementById('Content');
+    var scrollY = container.scrollTop;
+
+    if (scrollY <= 0) {
+      document.getElementById('head-2').style.backgroundColor = '';
+      document.getElementById('head-2').style.transition = 'background-color 0.2s ease-in';
+
+      checkTHEME();
+      container.addEventListener('scroll', changeColorOnScroll2);
+      if(scrollY <= 20); {
+
+
+      }
+
+    } else{
+
+    }
+  }
+
+  if(user2){
+  document.getElementById('Content').addEventListener('scroll', changeColorOnScroll2A);
+}
+
+
+setTimeout(()=>{
+document.querySelector('.alert_loader').hidden = true;
+}, 2000);
+    </script>
+
+<script src="../components-script.js/components.js"></script>
+<script src="../ripple-files/icon-ripple.js"></script>
+<script src="../modules/scroll.js"></script>
+<script src="../modules/ripple_acc.js"></script>
+<script src="../app/navigate.js"></script>
+<script src="../bundle.js"></script>
+<script type="module" src="../index.js"></script>
+</body>
+
+</html>

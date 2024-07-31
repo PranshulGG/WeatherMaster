@@ -54,6 +54,12 @@
             android:exported="true"
             android:theme="@style/ScreensAll"
             />
+        <activity
+            android:name=".AlertPage"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/ScreensAll"
+            />
             <activity
                 android:name=".MainActivity"
                 android:theme="@style/app_theme"

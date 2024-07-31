@@ -960,9 +960,7 @@ function getCurrentLocationWeather() {
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
             getWeatherByCoordinates(latitude, longitude); // Call getWeatherByCoordinates with coordinates
-                        document.getElementById('city-name').innerHTML = '<md-circular-progress indeterminate style="--md-circular-progress-size: 30px;"></md-circular-progress>'
-                        document.getElementById('forecast').scrollLeft = 0;
-                        document.getElementById('weather_wrap').scrollTop = 0;
+
                                     setCurrentLocation(latitude, longitude)
 
         }, handleGeolocationError);
@@ -1958,31 +1956,6 @@ const moon_phase_img = document.getElementById('moon_phase_img');
 
 
 
-        const severerisk = data.days[0].severerisk
-
-        const riskFill = document.getElementById('riskFill');
-        const riskDescription = document.getElementById('severeriskText')
-
-
-        if (severerisk > 90) {
-            riskFill.style.color = '#b30000';
-            riskDescription.innerHTML = 'Extremely High Risk: Catastrophic weather conditions expected';
-        } else if (severerisk > 75) {
-            riskFill.style.color = '#ff0000';
-            riskDescription.innerHTML = 'Very High Risk: Extreme weather conditions expected';
-        } else if (severerisk > 50) {
-            riskFill.style.color = '#ff4d4d';
-            riskDescription.innerHTML = 'High Risk: Severe weather likely ';
-        } else if (severerisk > 30) {
-            riskFill.style.color = '#ff9999';
-            riskDescription.innerHTML = 'Moderate Risk: Potential weather issues';
-        } else if (severerisk > 10) {
-            riskFill.style.color = '#ffff99';
-            riskDescription.innerHTML = 'Low to Moderate Risk: Minor weather impacts';
-        } else {
-            riskFill.style.color = '#ccffcc';
-            riskDescription.innerHTML = 'No weather risks';
-        }
 
 
                 document.getElementById('AmountRainMM').innerHTML = data.days[0].precip + ' mm'
@@ -2049,6 +2022,33 @@ const moon_phase_img = document.getElementById('moon_phase_img');
 .catch(error => console.error(error));
 
 
+
+const latAlerts = lat;
+const lonAlerts = long;
+const apiKeyAlerts = 'dd1571a8ad3fd44555e8a5d66db01929';
+
+
+
+fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latAlerts}&lon=${lonAlerts}&exclude=current,minutely,hourly,daily&appid=${apiKeyAlerts}`)
+  .then(response => response.json())
+  .then(data => {
+    if(data.alerts){
+        console.log(data.alerts)
+        const alertEvent = data.alerts[0].event;
+
+        document.getElementById('excessiveHeatText').innerHTML = alertEvent + '<text>More on this alert...</text>';
+
+        document.querySelector('.weatherCommentsDiv').classList.add('alertOpened');
+        document.querySelector('.excessiveHeat').hidden = false;
+
+    } else{
+        console.log('No alerts')
+        document.querySelector('.weatherCommentsDiv').classList.remove('alertOpened');
+        document.querySelector('.excessiveHeat').hidden = true;
+    }
+  })
+
+  .catch(error => console.error('Error:', error));
 
 }
 

@@ -352,6 +352,9 @@ public class MainActivity extends AppCompatActivity {
                     } else if (color.equals("Open8Forecast")){
                         openForecastPage();
                         return;
+                    } else if (color.equals("OpenAlertsPage")){
+                        OpenAlertsPage();
+                        return;
                     } else if (color.equals("GoBack")){
                         back();
                         return;
@@ -421,6 +424,11 @@ public class MainActivity extends AppCompatActivity {
 
         public void openForecastPage(){
             Intent intent = new Intent(mActivity, ForecastPage.class);
+            mActivity.startActivity(intent);
+        }
+
+        public void OpenAlertsPage(){
+            Intent intent = new Intent(mActivity, AlertPage.class);
             mActivity.startActivity(intent);
         }
 

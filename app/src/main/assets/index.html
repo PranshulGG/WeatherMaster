@@ -107,11 +107,11 @@
 
 
 
-        <div class="excessiveHeat" style="margin-bottom: 5px;" hidden>
+        <div class="excessiveHeat ripple_btn_low" style="margin-bottom: 5px; margin-top: 5px !important;" onclick="sendThemeToAndroid('OpenAlertsPage')" hidden>
             <div class="icon-container-excessiveHeat">
-                <md-icon><img src="icons/very_hot.svg" alt=""></md-icon>
+                <md-icon icon-outlined>info</md-icon>
             </div>
-            <p id="excessiveHeatText">Excessive heat <span><text>Warning</text></p>
+            <p id="excessiveHeatText">Excessive heat<text></text></p>
 
         </div>
 
@@ -122,12 +122,9 @@
 <!--            <p id="rainNextHourText"></p>-->
 <!--        </div>-->
 
-        <div class="severeriskDiv">
-            <i id="riskFill" icon-filled>warning</i>
-            <p id="severeriskText">---------</p>
-        </div>
 
-        <div class="weatherComments">
+
+        <div class="weatherComments weatherCommentsDiv">
             <p id="weatherComments">-------</p>
         </div>
 
@@ -657,6 +654,11 @@ function checkNoInternet(){
     checkNoInternet()
 
 
+    document.getElementById('currentLocations').addEventListener('click', ()=>{
+        document.getElementById('city-name').innerHTML = '<md-circular-progress indeterminate style="--md-circular-progress-size: 30px;"></md-circular-progress>'
+            document.getElementById('forecast').scrollLeft = 0;
+            document.getElementById('weather_wrap').scrollTop = 0;
+    });
     </script>
 
 
