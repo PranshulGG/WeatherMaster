@@ -635,13 +635,6 @@ function getWeather(city, latitude, longitude) {
 
             }
 
-                        if(temperature > 32){
-                            document.querySelector('.excessiveHeat').hidden = false;
-                        } else{
-                            document.querySelector('.excessiveHeat').hidden = true;
-                        }
-
-
 
 
 
@@ -1080,12 +1073,6 @@ function getWeatherByCoordinates(latitude, longitude) {
          document.getElementById('feels_like_now').innerHTML = `Feels like ${Math.round(feelslike)}°`
 
             }
-
-                        if(temperature > 32){
-                            document.querySelector('.excessiveHeat').hidden = false;
-                        } else{
-                            document.querySelector('.excessiveHeat').hidden = true;
-                        }
 
 
 
