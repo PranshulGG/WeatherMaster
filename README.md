@@ -30,7 +30,7 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 
 # ✨ Feature:
 
- - `Shows current weather`
+ - `Current weather, gov weather alerts`
  - `48hrs forecast`
  - `8-days of forecast`
  - `Moon phases, Moonrise and Moonset`
