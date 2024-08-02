@@ -30,18 +30,31 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 
 # ✨ Feature:
 
- - `Current weather, gov weather alerts`
- - `48hrs forecast`
- - `8-days of forecast`
- - `Moon phases, Moonrise and Moonset`
- - `Sunrise, Sunset, Day length`
- - `Day description`
- - `Rain bar`
- - `Visibility, humidity, pressure, wind direction, wind speed, snow amount, cloudiness, min-max temp, feels like temp`
- - `precipitation type, precipitation area coverage`
- - `UV index and Air quality`
- - `Live map, location picker, save your fav locations`
- - `Cloths recommendation`
+- 🌤️ **Current Weather:** Get real-time updates on weather conditions in your area.
+- 📢 **Government Weather Alerts:** Receive official alerts and warnings to stay safe.
+- ⏳ **48-Hour Forecast:** Plan your short-term activities with accurate forecasts for the next two days.
+- 📅 **8-Day Forecast:** View detailed weather predictions for the upcoming week.
+- 🌙 **Moon Phases:** Track the current phase of the moon and plan accordingly.
+- 🌑 **Moonrise & Moonset:** Know the exact times for moonrise and moonset each day.
+- 🌅 **Sunrise & Sunset:** Stay informed about sunrise and sunset times to optimize your day.
+- 📏 **Day Length:** Check how long the daylight lasts each day.
+- 📝 **Day Description:** Get a brief summary of the day’s weather conditions.
+- 🌧️ **Rain Bar:** See a visual representation of expected rainfall.
+- 👁️ **Visibility:** Monitor how far you can see clearly based on weather conditions.
+- 💧 **Humidity:** Check the current humidity levels to stay comfortable.
+- 🧭 **Pressure:** Track atmospheric pressure to understand weather changes.
+- 🌬️ **Wind Direction & Speed:** Stay aware of wind patterns and strength.
+- ❄️ **Snow Amount:** Know the expected snowfall for winter planning.
+- ☁️ **Cloudiness:** See how much of the sky is covered by clouds.
+- 🌡️ **Min-Max Temperature:** View the range of temperatures for the day.
+- 🌬️ **Feels Like Temperature:** Understand how the temperature feels based on wind and humidity.
+- 🌧️ **Precipitation Type & Area Coverage:** Get details on what kind of precipitation is expected and its coverage area.
+- 🌞 **UV Index:** Stay protected from harmful UV rays with UV index updates.
+- 🌿 **Air Quality:** Monitor air quality to stay informed about pollution levels.
+- 🗺️ **Live Map:** Access a real-time map to track weather conditions in different areas.
+- 📍 **Location Picker:** Easily select and view weather information for different locations.
+- ⭐ **Save Favorite Locations:** Save your preferred locations for quick access to their weather updates.
+- 👗 **Clothing Recommendations:** Get suggestions on what to wear based on the current weather conditions.
 
 # ⚙️ Other:
 
