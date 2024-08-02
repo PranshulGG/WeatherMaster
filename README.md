@@ -58,15 +58,15 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 
 # ⚙️ Other:
 
- - <strong>Native Android Experience: </stronge>Enjoy a user interface and interaction that closely resemble a native Android Weather app.
+ - 📱<strong>Native Android Experience: </stronge>Enjoy a user interface and interaction that closely resemble a native Android Weather app.
    
- - <strong>Material Design: </stronge>The app is built using Material Web Components, ensuring a clean, consistent, and visually appealing design.
+ - 🎨<strong>Material Design: </stronge>The app is built using Material Web Components, ensuring a clean, consistent, and visually appealing design.
 
- - <strong>Customization Options: </stronge>Enjoy a ton of customization options. Adjust themes, Units.
+ - ⚙️<strong>Customization Options: </stronge>Enjoy a ton of customization options. Adjust themes, Units.
    
- - <strong>Responsive Design: </stronge>WeatherMaster is fully responsive for all mobile devices.
+ - 📐<strong>Responsive Design: </stronge>WeatherMaster is fully responsive for all mobile devices.
    
- - <strong>User-Friendly Interface: </stronge>The app's interface is designed to be straightforward and user-friendly.
+ - 🧩<strong>User-Friendly Interface: </stronge>The app's interface is designed to be straightforward and user-friendly.
 
 
 # 🛠️ Built With:
