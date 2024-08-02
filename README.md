@@ -28,7 +28,7 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
     <a href="https://github.com/PranshulGG/WeatherMaster/releases"><img alt="GitHub" src="https://github.com/PranshulGG/CalcMaster-A-Calculator-App/blob/master/previewed/badge_github.png" height="120"/></a>
 </p>
 
-# ✨ Feature:
+# ✨ Features:
 
 - 🌤️ **Current Weather:** Get real-time updates on weather conditions in your area.
 - 📢 **Government Weather Alerts:** Receive official alerts and warnings to stay safe.
