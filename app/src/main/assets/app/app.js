@@ -781,6 +781,36 @@ function getWeather(city, latitude, longitude) {
                     document.getElementById('detail_air').textContent = aqiText[aqi].message;
 
 
+                                    const airQualityDetailsCompo = air_data.list[0].components;
+
+
+
+
+
+
+                                    document.getElementById('pm25_air').innerHTML = Math.round(airQualityDetailsCompo.pm2_5);
+                                    document.getElementById('pm25_air_color').style.backgroundColor = getColor(Math.round(airQualityDetailsCompo.pm10), 'PM2.5');
+
+
+                                    document.getElementById('pm10_air').innerHTML = Math.round(airQualityDetailsCompo.pm10);
+                                    document.getElementById('pm10_air_color').style.backgroundColor = getColor(Math.round(airQualityDetailsCompo.pm10), 'PM10');
+
+
+                                    document.getElementById('NO_air').innerHTML = Math.round(airQualityDetailsCompo.no);
+                                    document.getElementById('NO_air_color').style.backgroundColor = getColor(Math.round(airQualityDetailsCompo.no), 'NO');
+
+
+                                    document.getElementById('NO2_air').innerHTML = Math.round(airQualityDetailsCompo.no2);
+                                    document.getElementById('NO2_air_color').style.backgroundColor = getColor(Math.round(airQualityDetailsCompo.no2), 'NO2');
+
+
+                                    document.getElementById('SO2_air').innerHTML = Math.round(airQualityDetailsCompo.so2);
+                                    document.getElementById('SO2_air_color').style.backgroundColor = getColor(Math.round(airQualityDetailsCompo.so2), 'SO2');
+
+                                    document.getElementById('O3_air').innerHTML = Math.round(airQualityDetailsCompo.o3);
+                                    document.getElementById('O3_air_color').style.backgroundColor = getColor(Math.round(airQualityDetailsCompo.o3), 'O3');
+
+
                     const backgroundImage = {
                         1: 'air-pop-imgs/good.png',
                         2: 'air-pop-imgs/fair.png',
@@ -1229,6 +1259,34 @@ function getWeatherByCoordinates(latitude, longitude) {
                     document.getElementById('aqi-level').textContent = aqiText[aqi].level;
                     document.getElementById('detail_air').textContent = aqiText[aqi].message;
 
+                                        const airQualityDetailsCompo = air_data.list[0].components;
+
+
+
+
+
+
+                                        document.getElementById('pm25_air').innerHTML = Math.round(airQualityDetailsCompo.pm2_5);
+                                        document.getElementById('pm25_air_color').style.backgroundColor = getColor(Math.round(airQualityDetailsCompo.pm10), 'PM2.5');
+
+
+                                        document.getElementById('pm10_air').innerHTML = Math.round(airQualityDetailsCompo.pm10);
+                                        document.getElementById('pm10_air_color').style.backgroundColor = getColor(Math.round(airQualityDetailsCompo.pm10), 'PM10');
+
+
+                                        document.getElementById('NO_air').innerHTML = Math.round(airQualityDetailsCompo.no);
+                                        document.getElementById('NO_air_color').style.backgroundColor = getColor(Math.round(airQualityDetailsCompo.no), 'NO');
+
+
+                                        document.getElementById('NO2_air').innerHTML = Math.round(airQualityDetailsCompo.no2);
+                                        document.getElementById('NO2_air_color').style.backgroundColor = getColor(Math.round(airQualityDetailsCompo.no2), 'NO2');
+
+
+                                        document.getElementById('SO2_air').innerHTML = Math.round(airQualityDetailsCompo.so2);
+                                        document.getElementById('SO2_air_color').style.backgroundColor = getColor(Math.round(airQualityDetailsCompo.so2), 'SO2');
+
+                                        document.getElementById('O3_air').innerHTML = Math.round(airQualityDetailsCompo.o3);
+                                        document.getElementById('O3_air_color').style.backgroundColor = getColor(Math.round(airQualityDetailsCompo.o3), 'O3');
 
                     const backgroundImage = {
                         1: 'air-pop-imgs/good.png',
@@ -1368,6 +1426,70 @@ function getWeatherByCoordinates(latitude, longitude) {
 
 
 
+}
+
+
+function getColor(value, type) {
+    switch(type) {
+        case 'CO':
+            if (value <= 4.4) return '#20fc03';
+            if (value <= 9.0) return 'yellow';
+            if (value <= 15.0) return 'orange';
+            if (value <= 30.0) return '#fc606d';
+            if (value <= 45.0) return '#9000ff';
+            return 'maroon';
+        case 'NH3':
+            if (value <= 5) return '#20fc03';
+            if (value <= 15) return 'yellow';
+            if (value <= 25) return 'orange';
+            if (value <= 35) return '#fc606d';
+            if (value <= 50) return '#9000ff';
+            return 'maroon';
+        case 'NO':
+            if (value <= 50) return '#20fc03';
+            if (value <= 100) return 'yellow';
+            if (value <= 150) return 'orange';
+            if (value <= 200) return '#fc606d';
+            if (value <= 300) return '#9000ff';
+            return 'maroon';
+        case 'NO2':
+            if (value <= 40) return '#20fc03';
+            if (value <= 100) return 'yellow';
+            if (value <= 200) return 'orange';
+            if (value <= 300) return '#fc606d';
+            if (value <= 500) return '#9000ff';
+            return 'maroon';
+        case 'O3':
+            if (value <= 100) return '#20fc03';
+            if (value <= 180) return 'yellow';
+            if (value <= 300) return 'orange';
+            if (value <= 400) return '#fc606d';
+            if (value <= 500) return '#9000ff';
+            return 'maroon';
+        case 'PM2.5':
+            if (value <= 12) return '#20fc03';
+            if (value <= 35) return 'yellow';
+            if (value <= 55) return 'orange';
+            if (value <= 150) return '#fc606d';
+            if (value <= 250) return '#9000ff';
+            return 'maroon';
+        case 'PM10':
+            if (value <= 20) return '#20fc03';
+            if (value <= 50) return 'yellow';
+            if (value <= 100) return 'orange';
+            if (value <= 150) return '#fc606d';
+            if (value <= 250) return '#9000ff';
+            return 'maroon';
+        case 'SO2':
+            if (value <= 50) return '#20fc03';
+            if (value <= 150) return 'yellow';
+            if (value <= 250) return 'orange';
+            if (value <= 500) return '#fc606d';
+            if (value <= 1000) return '#9000ff';
+            return 'maroon';
+        default:
+            return 'white';
+    }
 }
 
 
