@@ -318,6 +318,9 @@
                                         const stateMain = components.state
                                         const countryName = components.country
 
+                             const alertDetails = alertEventDesc.split('\n').map(line => `<li>${line.trim()}</li>`).join('');
+
+
                                         alertInfoDivCreate.innerHTML = `
 
 
@@ -336,7 +339,7 @@
 
 
                                 <div class="description">
-                                    <p>${alertEventDesc}</p>
+                                    <ul>${alertDetails}</ul>
                                 </div>
 
                             </div>
