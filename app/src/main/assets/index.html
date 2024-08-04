@@ -634,6 +634,8 @@ document.getElementById('clearCityInput').addEventListener('click', () =>{
 function checkNoInternet(){
         if(navigator.onLine){
             document.querySelector('.no_internet_error').hidden = true;
+                        document.getElementById('error_img_cat').innerHTML = ''
+
 
         } else{
             document.querySelector('.no_internet_error').hidden = false;

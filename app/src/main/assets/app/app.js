@@ -535,6 +535,8 @@ function getWeather(city, latitude, longitude) {
         Fetchmoonphases(latitude, longitude)
     }, 500);
 
+            document.getElementById('error_img_cat').innerHTML = ''
+
 
     localStorage.setItem('currentLong', longitude)
     localStorage.setItem('currentLat', latitude)
@@ -970,6 +972,7 @@ function getWeatherByCoordinates(latitude, longitude) {
     const apiKey = '120d979ba5b2d0780f51872890f5ad0b';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
+            document.getElementById('error_img_cat').innerHTML = ''
 
     setTimeout(() => {
                 Fetchmoonphases(latitude, longitude)

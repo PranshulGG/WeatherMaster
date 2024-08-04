@@ -57,7 +57,7 @@ public class AlertPage extends AppCompatActivity {
         AndroidInterface androidInterface = new AndroidInterface(this);
         webview.addJavascriptInterface(androidInterface, "AndroidInterface");
         webview.setBackgroundColor(getResources().getColor(R.color.mainBG));
-
+        setTheme(R.style.blue_caret);
         webview.loadUrl("file:///android_asset/pages/alertPage.html");
 
     }

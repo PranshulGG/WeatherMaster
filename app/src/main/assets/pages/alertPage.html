@@ -14,72 +14,127 @@
     <link rel="stylesheet" href="forecastPageUi.css">
 
     <style>
-        #eventDiv, .startEndEvent{
-            display: flex;
-            align-items: flex-start;
-            flex-direction: column;
-            background-color: var(--Surface-Container-Low);
-            margin: 0px 10px;
-            padding: 10px;
-            border-radius: 10px 10px 5px 5px;
-            margin-bottom: 5px;
-
+        [hidden] {
+            display: none !important;
         }
 
-        #eventDiv p, .startEndEvent .startEndEventItem span{
+        *::selection{
+  background-color: var(--Inverse-Primary);
+            color: white;
+        }
+
+        ul{
+            padding: 0;
             margin: 0;
-            color: var(--Primary);
-            font-family: var(--outfit-mid);
-            font-size: 20px;
-            padding-bottom: 5px;
-            margin-bottom: 10px;
-            border-bottom: 1px solid var(--Outline-Variant);
-            width: 100%;
+            user-select: text !important;
+
         }
 
-        #eventDiv span,  .startEndEventItem p{
+        ul li{
+            list-style-type: none;
+            margin-bottom: 10px;
+            user-select: text !important;
+
+        }
+
+        #alert_info_div{
+            padding: 10px;
+            padding-bottom: 60px;
+        }
+
+
+        #alert_info_div alertHolder .location{
+            display: flex;
+            align-items: center;
+            font-family: var(--outfit-mid);
+            color: var(--On-Surface-Variant);
+            font-size: 18px;
+            font-weight: 500;
+            border-bottom: 1px solid var(--Outline-Variant);
+            padding: 10px;
+        }
+
+        #alert_info_div alertHolder {
+            background-color: var(--Surface-Container-Low);
+            display: block;
+            border-radius: 10px;
+        }
+
+        .alert_event{
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            gap: 10px;
+            padding-left: 5px;
+        }
+
+        .alert_event md-icon{
+            color: Orange;
+            font-size: 20px;
+            border-right: 1px solid var(--Outline);
+            padding-right: 10px;
+        }
+
+        .alert_event p{
+            font-size: 19px;
+            font-family: var(--outfit);
+            color: var(--On-Surface);
+
+        }
+
+        .other_info_desc_time{
+            padding-left: 50px;
+            padding-top: 10px;
+            font-family: var(--outfit);
+
+        }
+
+
+        .other_info_desc_time .start_end{
             color: var(--On-Surface);
             font-size: 18px;
-            font-family: var(--outfit);
-        }
-
-        .startEndEvent{
-            border-radius: 5px;
-        }
-
-        .startEndEventItem{
-            margin-bottom: 12px;
-            margin-top: 10px;
-        }
-
-        .startEndEventItem span{
-            border: 0 !important;
-        }
-
-        #WeatherAlertDiv{
             display: flex;
             align-items: flex-start;
             flex-direction: column;
-            background-color: var(--Surface-Container-Low);
-            margin: 0px 10px;
-            padding: 10px;
-            border-radius: 5px 5px 10px 10px ;
-            margin-bottom: 5px;
-            font-size: 17px;
-            color: var(--On-Surface);
+            margin-bottom: 20px;
+            gap: 10px;
         }
 
-        #WeatherAlertDiv span{
-            margin: 0;
+        .other_info_desc_time .start_end span{
             color: var(--Primary);
             font-family: var(--outfit-mid);
-            font-size: 20px;
-            padding-bottom: 5px;
-            margin-bottom: 10px;
-            border-bottom: 1px solid var(--Outline-Variant);
-            width: 100%;
-            display: block;
         }
+
+        .other_info_desc_time .start_end p{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .description{
+            font-family: var(--outfit);
+            font-size: 16px;
+            padding: 10px;
+            color: var(--On-Surface);
+            padding-left: 0;
+            padding-right: 15px;
+            user-select: text !important;
+        }
+
+
+        #senderName{
+            position: fixed;
+            color: rgba(255, 255, 255, 0.486);
+            font-size: 15px;
+            bottom: 0;
+            padding-bottom: 5px;
+            width: calc(100% - 20px);
+            background-color: var(--Surface);
+            z-index: 1;
+            text-align: right;
+            padding-right: 20px;
+        }
+
 
         .alert_loader{
               --md-circular-progress-size: 55px;
@@ -95,9 +150,6 @@
             height: calc(100% - 65px);
         }
 
-        [hidden]{
-            display: none !important;
-        }
     </style>
 </head>
 
@@ -105,7 +157,8 @@
 
 <div class="full-activity open">
     <div class="full-activity-header transparent round" id="head-2">
-        <button class="ripple-icon-btn close" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)" onclick="sendThemeToAndroid('GoBack')">
+        <button class="ripple-icon-btn close" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)"
+                onclick="sendThemeToAndroid('GoBack')">
             <span class="ripple-effect-icon"></span>
             <span icon-outlined style="font-size: 24px !important;">arrow_back</span>
         </button>
@@ -115,157 +168,275 @@
     <div class="full-activity-content" id="Content">
 
 
-        <div id="eventDiv" style="margin-top: 15px;">
-            <p>Event</p>
-            <span id="eventTextPage"></span>
-        </div>
-        <div class="startEndEvent">
-            <div class="startEndEventItem">
-                <span>Start</span>
-                <p id="startEventTime"></p>
-            </div>
-            <md-divider></md-divider>
+        <div id="alert_info_div">
 
-            <div class="startEndEventItem">
-                <span>End</span>
-                <p id="endEventTime"></p>
-            </div>
-        </div>
-        <div id="WeatherAlertDiv" style="margin-bottom: 20px;">
-            <span>Description</span>
-
-            <p id="WeatherAlertDivText"></p>
 
         </div>
+
+
+        <p id="senderName"></p>
+
+
 
         <div class="alert_loader">
-            <md-circular-progress indeterminate></md-circular-progress>
+            <md-circular-progress indeterminate style="margin-bottom: 100px;"></md-circular-progress>
         </div>
-
-    </div>
-</div>
+        <script>
 
 
+                function sendThemeToAndroid(theme) {
+
+                    AndroidInterface.updateStatusBarColor(theme);
+                };
+
+                const latDif = localStorage.getItem('currentLat');
+                const longDif = localStorage.getItem('currentLong');
 
 
-<script>
-
-
-        function sendThemeToAndroid(theme) {
-
-            AndroidInterface.updateStatusBarColor(theme);
-        };
-
-        const latDif = localStorage.getItem('currentLat');
-        const longDif = localStorage.getItem('currentLong');
-
-
-        const latAlerts = latDif;
-const lonAlerts = longDif;
-const apiKeyAlerts = '20a36f8e1152244bbbd9ac296d3640f2';
+                const latAlerts = latDif;
+                const lonAlerts = longDif;
+                const apiKeyAlerts = '20a36f8e1152244bbbd9ac296d3640f2';
 
 
 
-fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latAlerts}&lon=${lonAlerts}&exclude=current,minutely,hourly,daily&appid=${apiKeyAlerts}`)
-  .then(response => response.json())
-  .then(data => {
-    if(data.alerts){
-        const alertEventDesc = data.alerts[0].description;
-        const alertEventPage = data.alerts[0].event;
-        const startEventTime = data.alerts[0].start;
-        const endEventTime = data.alerts[0].end;
+                fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latAlerts}&lon=${lonAlerts}&exclude=current,minutely,hourly,daily&appid=${apiKeyAlerts}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.alerts[0]) {
+                            const alertInfoDiv = document.getElementById('alert_info_div')
+                            const alertInfoDivCreate = document.createElement('alertHolder');
+                            const alertEventDesc = data.alerts[0].description;
+                            const alertEventPage = data.alerts[0].event;
+                            const startEventTime = data.alerts[0].start;
+                            const endEventTime = data.alerts[0].end;
+                            const senderName  = data.alerts[0].sender_name;
 
-        const formatDate = (timestamp) => {
-          const date = new Date(timestamp * 1000);
-          return date.toLocaleString();
-        };
-
-
-        document.getElementById('eventTextPage').innerHTML = alertEventPage;
-        document.getElementById('startEventTime').innerHTML = formatDate(startEventTime);
-        document.getElementById('endEventTime').innerHTML = formatDate(endEventTime);
-
-
-        if(alertEventDesc){
-        document.getElementById('WeatherAlertDivText').innerHTML = alertEventDesc;
-        } else{
-        document.getElementById('WeatherAlertDivText').innerHTML = 'No description';
-        }
-
-    } else{
-        console.log('No alerts')
-    }
-  })
-
-  .catch(error => console.error('Error:', error));
+                            const formatDate = (timestamp) => {
+                                const date = new Date(timestamp * 1000);
+                                return date.toLocaleString();
+                            };
 
 
 
+                            const apiKeyCityName = '7147cfac7299479da122684c73d9b80a';
+                            const urlcityName = `https://api.opencagedata.com/geocode/v1/json?q=${latAlerts}+${lonAlerts}&key=${apiKeyCityName}`;
 
-  const user2 = document.getElementById('Content')
+                            fetch(urlcityName)
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.results.length > 0) {
+                                        const components = data.results[0].components;
+                                        const city = components.city || components.town || components.village;
+                                        const stateMain = components.state
+                                        const countryName = components.country
 
-  function changeColorOnScroll2() {
-    var container = document.getElementById('Content');
-    var scrollY = container.scrollTop;
+                                        const alertDetails = alertEventDesc.split('\n').map(line => `<li>${line.trim()}</li>`).join('');
 
-    if (scrollY >= 10) {
-      document.getElementById('head-2').style.backgroundColor = 'var(--Surface-Container)';
-      document.getElementById('head-2').style.transition = '';
-
-
-      container.removeEventListener('scroll', changeColorOnScroll2);
-      checkSearchScroll()
-
-    } else {
-
-    }
-  }
+                                        alertInfoDivCreate.innerHTML = `
 
 
-  if(user2){
-    document.getElementById('Content').addEventListener('scroll', changeColorOnScroll2);
-  } else{
+                            <div class="location">
+                                <p id="alert_location">${city}, ${countryName}</p>
+                            </div>
 
-  }
+                            <div class="alert_event">
+                                <md-icon icon-filled>warning</md-icon>
+                                <p id="EventText">${alertEventPage}</p>
+                            </div>
 
+                            <div class="other_info_desc_time">
 
-  function changeColorOnScroll2A() {
-    var container = document.getElementById('Content');
-    var scrollY = container.scrollTop;
-
-    if (scrollY <= 0) {
-      document.getElementById('head-2').style.backgroundColor = '';
-      document.getElementById('head-2').style.transition = 'background-color 0.2s ease-in';
-
-      checkTHEME();
-      container.addEventListener('scroll', changeColorOnScroll2);
-      if(scrollY <= 20); {
+                                <div class="start_end">
+                                    <p><span>Start:</span> ${formatDate(startEventTime)}</p>
+                                    <p><span>End:</span> ${formatDate(endEventTime)}</p>
+                                </div>
 
 
-      }
+                                <div class="description">
+                                    <ul>${alertDetails}</ul>
+                                </div>
 
-    } else{
-
-    }
-  }
-
-  if(user2){
-  document.getElementById('Content').addEventListener('scroll', changeColorOnScroll2A);
-}
+                            </div>
 
 
-setTimeout(()=>{
-document.querySelector('.alert_loader').hidden = true;
-}, 2000);
-    </script>
 
-<script src="../components-script.js/components.js"></script>
-<script src="../ripple-files/icon-ripple.js"></script>
-<script src="../modules/scroll.js"></script>
-<script src="../modules/ripple_acc.js"></script>
-<script src="../app/navigate.js"></script>
-<script src="../bundle.js"></script>
-<script type="module" src="../index.js"></script>
+      `
+
+                            document.getElementById('senderName').innerHTML = 'Sender: ' + senderName
+
+
+                                        alertInfoDiv.appendChild(alertInfoDivCreate);
+
+
+
+                                    } else {
+                                        console.log('No results found')
+
+                                    }
+                                })
+
+
+
+
+
+
+
+                            console.log(data.alerts)
+
+                        } else {
+                            console.log('No alerts')
+                        }
+
+
+                        if (data.alerts[1]) {
+                            const alertInfoDiv = document.getElementById('alert_info_div')
+                            const alertInfoDivCreate = document.createElement('alertHolder');
+                            const alertEventDesc = data.alerts[1].description;
+                            const alertEventPage = data.alerts[1].event;
+                            const startEventTime = data.alerts[1].start;
+                            const endEventTime = data.alerts[1].end;
+
+                            const formatDate = (timestamp) => {
+                                const date = new Date(timestamp * 1000);
+                                return date.toLocaleString();
+                            };
+
+
+                            alertInfoDivCreate.style.marginTop = '10px'
+
+
+
+                            const apiKeyCityName = '7147cfac7299479da122684c73d9b80a';
+                            const urlcityName = `https://api.opencagedata.com/geocode/v1/json?q=${latAlerts}+${lonAlerts}&key=${apiKeyCityName}`;
+
+                            fetch(urlcityName)
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.results.length > 0) {
+                                        const components = data.results[0].components;
+                                        const city = components.city || components.town || components.village;
+                                        const stateMain = components.state
+                                        const countryName = components.country
+
+                                        alertInfoDivCreate.innerHTML = `
+
+
+
+                            <div class="alert_event">
+                                <md-icon icon-filled>warning</md-icon>
+                                <p id="EventText">${alertEventPage}</p>
+                            </div>
+
+                            <div class="other_info_desc_time">
+
+                                <div class="start_end">
+                                    <p><span>Start:</span> ${formatDate(startEventTime)}</p>
+                                    <p><span>End:</span> ${formatDate(endEventTime)}</p>
+                                </div>
+
+
+                                <div class="description">
+                                    <p>${alertEventDesc}</p>
+                                </div>
+
+                            </div>
+
+
+
+      `
+
+
+                                        alertInfoDiv.appendChild(alertInfoDivCreate);
+
+
+
+                                    } else {
+                                        console.log('No results found')
+
+                                    }
+                                })
+
+
+
+
+
+
+
+
+                        } else {
+                            console.log('No alerts')
+                        }
+
+                    })
+
+                    .catch(error => console.error('Error:', error));
+
+
+
+
+                const user2 = document.getElementById('Content')
+
+                function changeColorOnScroll2() {
+                    var container = document.getElementById('Content');
+                    var scrollY = container.scrollTop;
+
+                    if (scrollY >= 10) {
+                        document.getElementById('head-2').style.backgroundColor = 'var(--Surface-Container)';
+                        document.getElementById('head-2').style.transition = '';
+
+
+                        container.removeEventListener('scroll', changeColorOnScroll2);
+                        sendThemeToAndroid('Scrolled')
+                    } else {
+
+                    }
+                }
+
+
+                if (user2) {
+                    document.getElementById('Content').addEventListener('scroll', changeColorOnScroll2);
+                } else {
+
+                }
+
+
+                function changeColorOnScroll2A() {
+                    var container = document.getElementById('Content');
+                    var scrollY = container.scrollTop;
+
+                    if (scrollY <= 0) {
+                        document.getElementById('head-2').style.backgroundColor = '';
+                        document.getElementById('head-2').style.transition = 'background-color 0.2s ease-in';
+
+                        sendThemeToAndroid('ScrollFalse')
+                        container.addEventListener('scroll', changeColorOnScroll2);
+                        if (scrollY <= 20); {
+
+
+                        }
+
+                    } else {
+
+                    }
+                }
+
+                if (user2) {
+                    document.getElementById('Content').addEventListener('scroll', changeColorOnScroll2A);
+                }
+
+
+                setTimeout(() => {
+                    document.querySelector('.alert_loader').hidden = true;
+                }, 2000);
+            </script>
+
+        <script src="../components-script.js/components.js"></script>
+        <script src="../ripple-files/icon-ripple.js"></script>
+        <script src="../modules/scroll.js"></script>
+        <script src="../modules/ripple_acc.js"></script>
+        <script src="../app/navigate.js"></script>
+        <script src="../bundle.js"></script>
+        <script type="module" src="../index.js"></script>
 </body>
 
 </html>
