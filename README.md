@@ -7,13 +7,13 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 
 # 👁️ Preview
 
-| Notes |                                                                                                     Notes Grid View|                                                                                           View saved notes|  Todo list| 
+| Current & 48hrs |                                                                                                     Hourly prec & 8-days forecast|                                                                                           Radar & moon/sun|  Current Conditions| 
 | :---: |                                                                                                    :---: |                                                                                                     :---: |             :---: | 
-| <img src="preview/current.jpeg" style="width: 250px;"> |  <img src="https://github.com/PranshulGG/NoteNest/blob/master/noteImg/img_2.jpeg" style="width: 250px;"> |   <img    src="https://github.com/PranshulGG/NoteNest/blob/master/noteImg/img_3.jpeg" style="width: 250px;"> |   <img src="https://github.com/PranshulGG/NoteNest/blob/master/noteImg/img_4.jpeg" style="width: 250px;"> | 
+| <img src="preview/current.png" style="width: 250px;"> |  <img src="preview/rain_8_days.png" style="width: 250px;"> |   <img    src="preview/map_sun_moon.png" style="width: 250px;"> |   <img src="preview/details.png" style="width: 250px;"> | 
 
-| Completed Todo list |                                                                                       Settings |                                                                                               Added Labels |   Locked app screen| 
+| Air and UV index |                                                                                       Government alerts|                                                                                               Moon phases |   Settings| 
 | :---: |                                                                                                    :---: |                                                                                                    :---: |          :---: | 
-| <img src="https://github.com/PranshulGG/NoteNest/blob/master/noteImg/img_5.jpeg" style="width: 250px;"> |  <img src="https://github.com/PranshulGG/NoteNest/blob/master/noteImg/img_6.jpeg" style="width: 250px;"> | <img src="https://github.com/PranshulGG/NoteNest/blob/master/noteImg/img_7.jpeg" style="width: 250px;"> |  <img src="https://github.com/PranshulGG/NoteNest/blob/master/noteImg/img_8.jpeg" style="width: 250px;"> |
+| <img src="preview/air_uv.png" style="width: 250px;"> |  <img src="preview/gov_alert.png" style="width: 250px;"> | <img src="preview/moonphases.png" style="width: 250px;"> |  <img src="preview/settings.png" style="width: 250px;"> |
 
 <br>
 
