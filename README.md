@@ -30,7 +30,7 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 - 📢 **Government Weather Alerts:** Receive official alerts and warnings to stay safe.
 - ⏳ **48-Hour Forecast:** Plan your short-term activities with accurate forecasts for the next two days.
 - 📅 **8-Day Forecast:** View detailed weather predictions for the upcoming week.
-- 🌙 **Moon Phases:** Track the current phase of the moon and plan accordingly.
+- 🌙 **Moon Phases:** Track the phases of the moon and plan accordingly.
 - 🌑 **Moonrise & Moonset:** Know the exact times for moonrise and moonset each day.
 - 🌅 **Sunrise & Sunset:** Stay informed about sunrise and sunset times to optimize your day.
 - 📏 **Day Length:** Check how long the daylight lasts each day.
