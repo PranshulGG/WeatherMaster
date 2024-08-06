@@ -96,6 +96,11 @@
 <script>
 
 
+                function sendThemeToAndroid(theme) {
+
+                    AndroidInterface.updateStatusBarColor(theme);
+                };
+
 const latDif = localStorage.getItem('currentLat');
 const longDif = localStorage.getItem('currentLong');
 
