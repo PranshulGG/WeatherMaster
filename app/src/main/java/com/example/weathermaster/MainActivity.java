@@ -355,6 +355,9 @@ public class MainActivity extends AppCompatActivity {
                     } else if (color.equals("OpenAlertsPage")){
                         OpenAlertsPage();
                         return;
+                    } else if (color.equals("OpenMoonPhasesPage")){
+                        OpenMoonPhasesPage();
+                        return;
                     } else if (color.equals("GoBack")){
                         back();
                         return;
@@ -432,6 +435,10 @@ public class MainActivity extends AppCompatActivity {
             mActivity.startActivity(intent);
         }
 
+        public void OpenMoonPhasesPage(){
+            Intent intent = new Intent(mActivity, MoonPhases.class);
+            mActivity.startActivity(intent);
+        }
     }
 
     public void back() {

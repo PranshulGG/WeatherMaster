@@ -2006,6 +2006,9 @@ const moon_phase_img = document.getElementById('moon_phase_img');
         let daysLeft = 0;
         let nextPhaseName = '';
 
+            let MoonPhasepercentage = Math.round(moonPhase * 100);
+
+
         if (moonPhase === 0) {
             phaseName = 'New Moon';
             phaseImg = 'moon_phases/moon_new.svg';
@@ -2058,6 +2061,8 @@ const moon_phase_img = document.getElementById('moon_phase_img');
 
                 document.getElementById('moonPhaseNext').innerHTML = nextPhaseName
 
+                        document.getElementById('MoonIllumination').innerHTML = `${MoonPhasepercentage}%`
+
 
         moonPhaseText.innerHTML = phaseName;
         moon_phase_img.src = phaseImg;
@@ -2075,6 +2080,10 @@ const moon_phase_img = document.getElementById('moon_phase_img');
 
                 document.getElementById('AmountRainMM').innerHTML = data.days[0].precip + ' mm'
 
+const precipitationtypeText = data.days[0].preciptype ? data.days[0].preciptype[0] : 'None';
+
+
+                document.getElementById('precipitation_type').innerHTML = 'Type: ' + precipitationtypeText
 
 
 

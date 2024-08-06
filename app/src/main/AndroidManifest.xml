@@ -60,6 +60,12 @@
             android:exported="true"
             android:theme="@style/ScreensAll"
             />
+        <activity
+            android:name=".MoonPhases"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/ScreenMoonPhase"
+            />
             <activity
                 android:name=".MainActivity"
                 android:theme="@style/app_theme"

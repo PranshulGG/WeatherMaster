@@ -1,0 +1,202 @@
+* {
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    touch-action: manipulation;
+    -webkit-user-drag: none;
+    outline: none;
+}
+
+p {
+    margin: 0;
+}
+
+
+body,
+html {
+    background: linear-gradient(0deg, #4e2bad, #2b226f);
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100vh;
+}
+
+.moon_activity {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    position: fixed;
+    background: linear-gradient(0deg, #4e2bad, #2b226f);
+}
+
+.moon_activity_header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    height: 45px;
+    padding-left: 4px;
+    background-color: transparent;
+    overflow: hidden;
+}
+
+.moon_activity_header p {
+    margin: 0;
+    font-family: 'outfit';
+    margin-left: 8px;
+    font-size: 23px;
+
+}
+
+.moon_phase_current_data{
+    display: flex;
+    flex-direction: column;
+}
+
+.moon_phase_img_text_current img{
+    height: 190px;
+    position: absolute;
+    top: -20px;
+}
+
+.moon_phase_img_text_current{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 0px;
+    position: relative;
+    padding-bottom: 10px;
+    height: 166px;
+}
+
+.moon_phase_img_text_current p{
+    font-family: var(--outfit-mid);
+    font-size: 25px;
+    position: absolute;
+    bottom: 0;
+}
+
+.moon_phase_current_text_data{
+    background-color: rgba(0, 0, 0, 0.308);
+    margin: 10px;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.moon_phase_current_text_data .moon_phase_current_text_data_item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-family: var(--outfit);
+    
+}
+
+.moon_phase_current_text_data .moon_phase_current_text_data_item:last-child{
+    margin-bottom: 0;
+}
+
+.moon_phase_current_text_data .moon_phase_current_text_data_item span{
+    color: white;
+    opacity: 0.8;
+    font-size: 18px;
+}
+
+.moon_phase_current_text_data .moon_phase_current_text_data_item p{
+    font-family: var(--outfit-mid);
+}
+
+.moon_Phase_content{
+    height: calc(100% - 65px);
+    overflow: auto;
+}
+
+.moon_Phase_content::before {
+    position: fixed;
+    bottom: 0;
+    content: '';
+    width: 100%;
+    background: linear-gradient(0deg, #2b226f 10%, rgba(255, 0, 0, 0));
+    height: 30px;
+    z-index: 1;
+}
+
+
+
+moonPhasetitle{
+    padding-left: 12px;
+    font-family: var(--google-mid);
+    margin-top: 15px;
+    font-size: 16px;
+    opacity: 0.7;
+    display: block;
+    color: #ffffff;
+
+
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.moonPhase_forecast div img{
+height:80px;
+}
+
+.moonPhase_forecast {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 10px;
+    gap: 10px;
+    padding-bottom: 32px;
+}
+
+.moonPhase_forecast div{
+    background-color: rgba(0, 0, 0, 0.2);
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    border-radius: 10px;
+    padding-bottom: 15px;
+    padding-top: 12px;
+    align-items: center;
+}
+
+.moonPhase_forecast div p{
+    font-size: 15px;
+    font-family: var(--outfit-mid);
+    
+    text-align: center;
+}
+
+.moonPhase_forecast div span{
+    font-size: 15px;
+    font-family: var(--outfit);
+    opacity: 0.7;
+    display: block;
+    width: 100%;
+    text-align: left;
+}   
+
+
+
+
+.moonphase_loader{
+    --md-circular-progress-size: 55px;
+    --md-sys-color-primary: rgb(191, 173, 255);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  z-index: 1;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(0deg, #4e2bad, #2b226f);
+  height: calc(100% - 65px);
+  transition: opacity 0.3s ease-out;
+}
+
+
+[hidden]{
+    display: none !important;
+}

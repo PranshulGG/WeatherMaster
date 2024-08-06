@@ -25,5 +25,6 @@
 
 
     <color name="mainBG">#121317</color>
+    <color name="MoonPhase">#2b226f</color>
     <color name="diffDefault">#0e1d2a</color>
 </resources>

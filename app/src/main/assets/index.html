@@ -170,7 +170,7 @@
             <rainMeter>
                 <div class="h1">
                     <p>Hourly precipitation</p>
-                    <div class="ripple_btn_low" style="display: flex; align-items: center;" onclick="ShowSnack('Type of precipitation expected', 2000, 10, 'none', ' ', 'no-up')"><md-icon icon-outlined style="font-size: 18px;">info</md-icon>Type: Rain</div>
+                    <div class="ripple_btn_low" style="display: flex; align-items: center;" onclick="ShowSnack('Type of precipitation expected', 2000, 3, 'none', ' ', 'no-up')"><md-icon icon-outlined style="font-size: 18px;">info</md-icon><span id="precipitation_type" style="text-transform: capitalize;">Type: ---</span></div>
                 </div>
 
                 <div class="wrap_cover_rain_meter" style="display: flex; align-items: center; justify-content: space-between;">
@@ -257,6 +257,7 @@
             <div class="setRiseDivWrap" style="border-radius: 5px 5px 10px 10px; margin-top: 5px;">
                 <div class="h1">
                     <p>Moon phase</p>
+                    <p class="" style="display: flex; align-items: center;">More <i icon-outlined style="font-size: 20px;">chevron_right</i></p>
                 </div>
 
                 <div class="moonSideWrap">
@@ -269,6 +270,7 @@
                         <div class="moonrise-Set">
                             <p>Moonrise: <span id="moonriseText"></span></p>
                             <p>Moonset: <span id="moonsetText"></span></p>
+                            <p>Illumination: <span id="MoonIllumination"></span></p>
                             <p>Next phase: <span id="moonPhaseNext"></span></p>
                             <p>Next phase in: <span id="moonPhaseDaysLeft"></span></p>
                         </div>

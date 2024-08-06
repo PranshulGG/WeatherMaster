@@ -23,6 +23,13 @@
 
     </style>
 
+    <style name="ScreenMoonPhase" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:navigationBarColor">@color/MoonPhase</item>
+        <item name="android:statusBarColor">@color/MoonPhase</item>
+        <item name="colorAccent">#afc6ff</item>
+
+
+    </style>
 
     <style name="blue_caret" parent="Theme.AppCompat.NoActionBar">
         <item name="colorAccent">#aac7ff</item>

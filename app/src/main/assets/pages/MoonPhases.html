@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>MoonPhases</title>
+    <link rel="stylesheet" href="../ui-files/font-usage.css">
+    <link rel="stylesheet" href="../ui-files/variables.css">
+    <link rel="stylesheet" href="../components/components.css">
+    <link rel="stylesheet" href="../components/modal-ver.css">
+    <link rel="stylesheet" href="../ripple-files/ripple.css">
+    <link rel="stylesheet" href="moonphaseUi.css">
+
+</head>
+
+<body>
+
+    <div class="moon_activity">
+
+        <div class="moon_activity_header">
+            <button class="ripple-icon-btn regular" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)"
+                onclick="sendThemeToAndroid('GoBack')" style="--ripple-unbounded: white">
+                <span class="ripple-effect-icon"></span>
+                <span icon-outlined style="font-size: 24px !important; color: white;">arrow_back</span>
+            </button>
+
+            <p style="color: white;">Moon phases</p>
+        </div>
+
+
+        <div class="moon_Phase_content">
+
+            <div class="moon_phase_current_data">
+
+                <div class="moon_phase_img_text_current">
+                    <img src="../moon_phases/moon_full.svg" alt="" id="current_phase_img">
+                    <p id="currentMoonPhase_name"></p>
+                </div>
+
+
+                <div class="moon_phase_current_text_data">
+
+                    <div class="moon_phase_current_text_data_item">
+                        <span>Illumination:</span>
+                        <p id="IlluminationText"></p>
+                    </div>
+
+                    <div class="moon_phase_current_text_data_item">
+                        <span>Moonrise:</span>
+                        <p id="MoonriseText"></p>
+                    </div>
+
+                    <div class="moon_phase_current_text_data_item">
+                        <span>Moonset:</span>
+                        <p id="MoonsetText"></p>
+                    </div>
+
+                    <div class="moon_phase_current_text_data_item">
+                        <span>Next phase:</span>
+                        <p id="NextphaseText"></p>
+                    </div>
+
+                    <div class="moon_phase_current_text_data_item">
+                        <span>Next phase in:</span>
+                        <p id="NextphaseinText"></p>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <moonPhasetitle>
+                Moon phase forecast
+            </moonPhasetitle>
+
+            <div class="moonPhase_forecast" id="moonPhase_forecast">
+
+            </div>
+
+
+
+            <div class="moonphase_loader">
+                <md-circular-progress indeterminate style="margin-bottom: 100px;"></md-circular-progress>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+<script>
+
+
+const latDif = localStorage.getItem('currentLat');
+const longDif = localStorage.getItem('currentLong');
+
+fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${latDif},${longDif}?unitGroup=metric&include=days&key=4KMES28T2K3PXBCXTNYZCZFW8&contentType=json`)
+        .then(response => response.json())
+        .then(data => {
+
+
+       
+
+            const moon_phase_img = document.getElementById('current_phase_img');
+            const moonPhaseText = document.getElementById('currentMoonPhase_name');
+            const moonPhase = data.days[0].moonphase;
+            const moonPhase_forecast = document.getElementById('moonPhase_forecast')
+
+            let phaseName = '';
+            let phaseImg = '';
+            let daysLeft = 0;
+            let nextPhaseName = '';
+
+            let MoonPhasepercentage = Math.round(moonPhase * 100);
+
+            if (moonPhase === 0) {
+                phaseName = 'New Moon';
+                phaseImg = '../moon_phases/moon_new.svg';
+                daysLeft = Math.round((0.25 - moonPhase) * 29.53);
+                nextPhaseName = 'Waxing Crescent';
+
+            } else if (moonPhase > 0 && moonPhase < 0.25) {
+                phaseName = 'Waxing Crescent';
+                phaseImg = '../moon_phases/moon_waxing_crescent.svg';
+                daysLeft = Math.round((0.25 - moonPhase) * 29.53);
+                nextPhaseName = 'First Quarter';
+
+            } else if (moonPhase === 0.25) {
+                phaseName = 'First Quarter';
+                phaseImg = '../moon_phases/moon_first_quarter.svg';
+                daysLeft = Math.round((0.5 - moonPhase) * 29.53);
+                nextPhaseName = 'Waxing Gibbous';
+
+            } else if (moonPhase > 0.25 && moonPhase < 0.5) {
+                phaseName = 'Waxing Gibbous';
+                phaseImg = '../moon_phases/moon_waxing_gibbous.svg';
+                daysLeft = Math.round((0.5 - moonPhase) * 29.53);
+                nextPhaseName = 'Full Moon';
+
+            } else if (moonPhase === 0.5) {
+                phaseName = 'Full Moon';
+                phaseImg = '../moon_phases/moon_full.svg';
+                daysLeft = Math.round((0.75 - moonPhase) * 29.53);
+                nextPhaseName = 'Waning Gibbous';
+
+            } else if (moonPhase > 0.5 && moonPhase < 0.75) {
+                phaseName = 'Waning Gibbous';
+                phaseImg = '../moon_phases/moon_waning_gibbous.svg';
+                daysLeft = Math.round((0.75 - moonPhase) * 29.53);
+                nextPhaseName = 'Last Quarter';
+
+            } else if (moonPhase === 0.75) {
+                phaseName = 'Last Quarter';
+                phaseImg = '../moon_phases/moon_last_quarter.svg';
+                daysLeft = Math.round((1 - moonPhase) * 29.53);
+                nextPhaseName = 'Waning Crescent';
+
+            } else if (moonPhase > 0.75 && moonPhase < 1) {
+                phaseName = 'Waning Crescent';
+                phaseImg = '../moon_phases/moon_waning_crescent.svg';
+                daysLeft = Math.round((1 - moonPhase) * 29.53);
+                nextPhaseName = 'New Moon';
+
+            }
+
+            moon_phase_img.src = phaseImg
+            moonPhaseText.textContent = phaseName
+            document.getElementById('IlluminationText').innerHTML = MoonPhasepercentage + '%';
+            document.getElementById('NextphaseText').innerHTML = nextPhaseName;
+
+            if (daysLeft > 1) {
+                document.getElementById('NextphaseinText').innerHTML = `${daysLeft} days`;
+            } else {
+                document.getElementById('NextphaseinText').innerHTML = `${daysLeft} day`;
+            }
+
+            const formatDate = (dateStr) => {
+            const options = { day: 'numeric', month: 'long' };
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', options);
+        };
+
+
+        const startDate = data.days[1].datetime;
+        const endDate = data.days[data.days.length - 1].datetime;
+
+
+        document.querySelector('moonPhasetitle').innerHTML = `Moon phases from ${formatDate(startDate)} to ${formatDate(endDate)}`
+
+            moonPhase_forecast.innerHTML = '';
+
+            for (let i = 1; i < data.days.length; i++) {
+            const day = data.days[i];
+            const phase = day.moonphase;
+            const phasePercentage = Math.round(phase * 100);
+            let phaseForecastName = '';
+            let phaseForecastImg = '';
+
+            if (phase === 0) {
+                phaseForecastName = 'New Moon';
+                phaseForecastImg = '../moon_phases/moon_new.svg';
+            } else if (phase > 0 && phase < 0.25) {
+                phaseForecastName = 'Waxing Crescent';
+                phaseForecastImg = '../moon_phases/moon_waxing_crescent.svg';
+            } else if (phase === 0.25) {
+                phaseForecastName = 'First Quarter';
+                phaseForecastImg = '../moon_phases/moon_first_quarter.svg';
+            } else if (phase > 0.25 && phase < 0.5) {
+                phaseForecastName = 'Waxing Gibbous';
+                phaseForecastImg = '../moon_phases/moon_waxing_gibbous.svg';
+            } else if (phase === 0.5) {
+                phaseForecastName = 'Full Moon';
+                phaseForecastImg = '../moon_phases/moon_full.svg';
+            } else if (phase > 0.5 && phase < 0.75) {
+                phaseForecastName = 'Waning Gibbous';
+                phaseForecastImg = '../moon_phases/moon_waning_gibbous.svg';
+            } else if (phase === 0.75) {
+                phaseForecastName = 'Last Quarter';
+                phaseForecastImg = '../moon_phases/moon_last_quarter.svg';
+            } else if (phase > 0.75 && phase < 1) {
+                phaseForecastName = 'Waning Crescent';
+                phaseForecastImg = '../moon_phases/moon_waning_crescent.svg';
+            }
+
+           
+            const forecastItem = document.createElement('div');
+            const forecastDate = document.createElement('span');
+            const forecastImg = document.createElement('img');
+            const forecastName = document.createElement('p');
+
+            forecastImg.src = phaseForecastImg;
+            forecastName.textContent = phaseForecastName ;
+            forecastDate.textContent = formatDate(day.datetime);
+            forecastItem.appendChild(forecastDate);
+
+            forecastItem.appendChild(forecastImg);
+            forecastItem.appendChild(forecastName);
+            moonPhase_forecast.appendChild(forecastItem);
+        }
+
+        });
+
+
+
+
+
+
+
+        // set/rise
+
+
+        fetch(`https://api.ipgeolocation.io/astronomy?apiKey=63a7210d2b104646a1099d5ba223d221&lat=${latDif}8&long=${longDif}`)
+        .then(response => response.json())
+        .then(data => {
+            const moonRise = data.moonrise;
+            const moonSet = data.moonset;
+
+            const moonRiseAmPm = convertToAmPm(moonRise);
+            const moonSetAmPm = convertToAmPm(moonSet);
+
+
+            document.getElementById('MoonriseText').innerHTML =  moonRiseAmPm;
+            document.getElementById('MoonsetText').innerHTML = moonSetAmPm;
+
+        })
+        .catch(error => console.error(error));
+
+
+        
+function convertToAmPm(time) {
+    let [hour, minute] = time.split(':');
+    hour = parseInt(hour);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    hour = hour % 12;
+    hour = hour ? hour : 12;
+    return `${hour}:${minute} ${ampm}`;
+}
+
+
+setTimeout(()=>{
+    document.querySelector('.moonphase_loader').style.opacity = '0';
+}, 3000);
+
+setTimeout(()=>{
+    document.querySelector('.moonphase_loader').hidden = true;;
+}, 3200);
+</script>
+
+
+
+ 
+
+    <script src="../components-script.js/components.js"></script>
+    <script src="../ripple-files/icon-ripple.js"></script>
+    <script src="../modules/ripple_acc.js"></script>
+    <script src="../bundle.js"></script>
+    <script type="module" src="../index.js"></script>
+</body>
+
+</html>
