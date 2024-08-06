@@ -191,8 +191,8 @@ height:80px;
   bottom: 0;
   left: 0;
   width: 100%;
-  background: linear-gradient(0deg, #4e2bad, #2b226f);
-  height: calc(100% - 65px);
+  background: #2b226f;
+  height: 100%;
   transition: opacity 0.3s ease-out;
 }
 
