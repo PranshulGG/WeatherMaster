@@ -7,17 +7,13 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 
 # 👁️ Preview
 
-<div > 
-<img alt="App image" src="screenshots/1.jpeg" width="30%" style="border-radius: 10px;">
-<img alt="App image" src="screenshots/2.jpeg" width="30%">
-<img alt="App image" src="screenshots/3.jpeg" width="30%">
-<img alt="App image" src="screenshots/4.jpeg" width="30%">
-<img alt="App image" src="screenshots/5.jpeg" width="30%">
-<img alt="App image" src="screenshots/6.jpeg" width="30%">
-<img alt="App image" src="screenshots/7.jpeg" width="30%">
-<img alt="App image" src="screenshots/8.jpeg" width="30%">
-  
-</div>
+| Notes |                                                                                                     Notes Grid View|                                                                                           View saved notes|  Todo list| 
+| :---: |                                                                                                    :---: |                                                                                                     :---: |             :---: | 
+| <img src="https://github.com/PranshulGG/NoteNest/blob/master/noteImg/img_1.jpeg" style="width: 250px;"> |  <img src="https://github.com/PranshulGG/NoteNest/blob/master/noteImg/img_2.jpeg" style="width: 250px;"> |   <img    src="https://github.com/PranshulGG/NoteNest/blob/master/noteImg/img_3.jpeg" style="width: 250px;"> |   <img src="https://github.com/PranshulGG/NoteNest/blob/master/noteImg/img_4.jpeg" style="width: 250px;"> | 
+
+| Completed Todo list |                                                                                       Settings |                                                                                               Added Labels |   Locked app screen| 
+| :---: |                                                                                                    :---: |                                                                                                    :---: |          :---: | 
+| <img src="https://github.com/PranshulGG/NoteNest/blob/master/noteImg/img_5.jpeg" style="width: 250px;"> |  <img src="https://github.com/PranshulGG/NoteNest/blob/master/noteImg/img_6.jpeg" style="width: 250px;"> | <img src="https://github.com/PranshulGG/NoteNest/blob/master/noteImg/img_7.jpeg" style="width: 250px;"> |  <img src="https://github.com/PranshulGG/NoteNest/blob/master/noteImg/img_8.jpeg" style="width: 250px;"> |
 
 <br>
 
