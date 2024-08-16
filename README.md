@@ -1,4 +1,4 @@
- # WeatherMaster 
+ # 🌦️ WeatherMaster 
  
 <img src="https://github.com/PranshulGG/WeatherMaster/blob/master/app/src/main/assets/weather-icons/02d.svg?short_path=21e6bd2" alt="" width="150px">
 
@@ -7,17 +7,13 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 
 # 👁️ Preview
 
-<div > 
-<img alt="App image" src="screenshots/1.jpeg" width="30%" style="border-radius: 10px;">
-<img alt="App image" src="screenshots/2.jpeg" width="30%">
-<img alt="App image" src="screenshots/3.jpeg" width="30%">
-<img alt="App image" src="screenshots/4.jpeg" width="30%">
-<img alt="App image" src="screenshots/5.jpeg" width="30%">
-<img alt="App image" src="screenshots/6.jpeg" width="30%">
-<img alt="App image" src="screenshots/7.jpeg" width="30%">
-<img alt="App image" src="screenshots/8.jpeg" width="30%">
-  
-</div>
+| Current & 48hrs |                                                                                                     Hourly prec & 8-days forecast|                                                                                           Radar & moon/sun|  Current Conditions| 
+| :---: |                                                                                                    :---: |                                                                                                     :---: |             :---: | 
+| <img src="preview/current.png" style="width: 250px;"> |  <img src="preview/rain_8_days.png" style="width: 250px;"> |   <img    src="preview/map_sun_moon.png" style="width: 250px;"> |   <img src="preview/details.png" style="width: 250px;"> | 
+
+| Air and UV index |                                                                                       Government alerts|                                                                                               Moon phases |   Settings| 
+| :---: |                                                                                                    :---: |                                                                                                    :---: |          :---: | 
+| <img src="preview/air_uv.png" style="width: 250px;"> |  <img src="preview/gov_alert.png" style="width: 250px;"> | <img src="preview/moonphases.png" style="width: 250px;"> |  <img src="preview/settings.png" style="width: 250px;"> |
 
 <br>
 
@@ -34,7 +30,7 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 - 📢 **Government Weather Alerts:** Receive official alerts and warnings to stay safe.
 - ⏳ **48-Hour Forecast:** Plan your short-term activities with accurate forecasts for the next two days.
 - 📅 **8-Day Forecast:** View detailed weather predictions for the upcoming week.
-- 🌙 **Moon Phases:** Track the current phase of the moon and plan accordingly.
+- 🌙 **Moon Phases:** Track the phases of the moon and plan accordingly.
 - 🌑 **Moonrise & Moonset:** Know the exact times for moonrise and moonset each day.
 - 🌅 **Sunrise & Sunset:** Stay informed about sunrise and sunset times to optimize your day.
 - 📏 **Day Length:** Check how long the daylight lasts each day.
