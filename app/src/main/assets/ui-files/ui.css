@@ -356,19 +356,20 @@ touch_search{
 .forecast #forecast24 {
   transition: all 0.3s cubic-bezier(1, 0, 0, 1);
   flex-shrink: 0;
-  /* background-color: var(--Surface-Container-Low); */
-  background-color: rgba(0, 0, 0, 0.247);
-  border-radius: 10px;
-  padding-left: 13px;
-  padding-right: 13px;
+  border-radius: 50px;
+  padding-left: 10px;
+  padding-right: 10px;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  padding-bottom: 15px;
+  padding-bottom: 16px;
+  gap: 10px;
+  padding-top: 16px;
   margin-bottom: 5px;
-  min-width: calc(60px + 2px);
   position: relative;
+  width: 45px;
+  background-color: rgba(0, 0, 0, 0.247);
 }
 
 
@@ -431,22 +432,22 @@ touch_search{
 }
 
 .temp-24 {
-  margin: 20px 0;
   color: var(--On-Surface);
-  margin-bottom: 0;
   font-family: var(--google-mid);
+  margin: 0;
 }
 
 .icon-24 {
-  width: 35px;
+  width: 30px;
   margin-top: 5px;
 }
 
 .time-24 {
-  margin-bottom: 5px;
   color: var(--On-Surface-Variant);
   border-bottom: 1px solid var(--Outline-Variant);
-
+  font-family: var(--outfit-mid);
+  font-size: 14px;
+  margin: 0;
 }
 
 .toast-container {

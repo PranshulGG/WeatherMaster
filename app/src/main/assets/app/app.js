@@ -535,7 +535,6 @@ function getWeather(city, latitude, longitude) {
         Fetchmoonphases(latitude, longitude)
     }, 500);
 
-            document.getElementById('error_img_cat').innerHTML = ''
 
 
     localStorage.setItem('currentLong', longitude)
@@ -928,17 +927,7 @@ function getWeather(city, latitude, longitude) {
         .catch(error => {
             console.error('Error fetching current weather:', error);
             document.querySelector('.no_internet_error').hidden = false;
-                        var animationContainer = document.getElementById('error_img_cat');
 
-                        var animationData = 'icons/error-cat.json';
-
-                        var anim = bodymovin.loadAnimation({
-                            container: animationContainer,
-                            renderer: 'svg',
-                            loop: true,
-                            autoplay: true,
-                            path: animationData
-                        });
         });
 
 
@@ -1002,7 +991,6 @@ function getWeatherByCoordinates(latitude, longitude) {
     const apiKey = '120d979ba5b2d0780f51872890f5ad0b';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
-            document.getElementById('error_img_cat').innerHTML = ''
 
     setTimeout(() => {
                 Fetchmoonphases(latitude, longitude)
@@ -1405,17 +1393,7 @@ function getWeatherByCoordinates(latitude, longitude) {
           .catch(error => {
                     console.error('Error fetching current weather:', error);
                     document.querySelector('.no_internet_error').hidden = false;
-                                var animationContainer = document.getElementById('error_img_cat');
 
-                                var animationData = 'icons/error-cat.json';
-
-                                var anim = bodymovin.loadAnimation({
-                                    container: animationContainer,
-                                    renderer: 'svg',
-                                    loop: true,
-                                    autoplay: true,
-                                    path: animationData
-                                });
                 });
 
     currentLocation = {
@@ -1551,7 +1529,10 @@ function display24HourForecast(forecastData) {
         for (let i = 0; i < 24; i++) {
             const forecast = forecastData[i];
             const timestamp = new Date(forecast.dt * 1000);
-            const time = timestamp.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }).replace(/\s/g, '');
+            let time = timestamp.toLocaleTimeString('en-US', { hour: 'numeric', hour12: true });
+
+            time = time.replace('AM', ' AM').replace('PM', ' PM');
+
 
 
                 const temperature = Math.round(forecast.temp);
@@ -1585,7 +1566,7 @@ function display24HourForecast(forecastData) {
                 forecastItem.innerHTML = `
                 <p class="time-24">${time}</p>
                 <img id="icon-24" src="weather-icons/${iconCode}.svg" alt="Weather Icon" class="icon-24">
-                <p class="temp-24">${tempF}°F</p>
+                <p class="temp-24">${tempF}°</p>
 
                  <p class="disc_sml-24" >${description}</p>
                   <md-ripple style="--md-ripple-pressed-opacity: 0.1;"></md-ripple>
@@ -1595,7 +1576,7 @@ function display24HourForecast(forecastData) {
             forecastItem.innerHTML = `
             <p class="time-24">${time}</p>
             <img id="icon-24" src="weather-icons/${iconCode}.svg" alt="Weather Icon" class="icon-24">
-            <p class="temp-24">${temperature}°C</p>
+            <p class="temp-24">${temperature}°</p>
 
              <p class="disc_sml-24" >${description}</p>
               <md-ripple style="--md-ripple-pressed-opacity: 0.1;"></md-ripple>
@@ -1737,8 +1718,11 @@ function displayDailyForecast(dailyForecast) {
 
             setTimeout(()=>{
                 sendThemeToAndroid('Open8Forecast')
-                forecastContainer.style.pointerEvents = '';
             }, 250);
+
+                        setTimeout(()=>{
+                            forecastContainer.style.pointerEvents = '';
+                        }, 400);
         });
 
 
@@ -1782,23 +1766,6 @@ function hideLoader() {
 }
 
 
-
-document.getElementById('forecast').addEventListener('scroll', function () {
-    var items = document.querySelectorAll('.forecast .forecast-item');
-    var scrollPosition = document.getElementById('forecast').scrollLeft;
-    var windowWidth = document.getElementById('forecast').offsetWidth;
-
-    items.forEach(function (item) {
-        var itemOffset = item.offsetLeft - scrollPosition;
-        var isVisible = (itemOffset >= 0 && itemOffset < windowWidth);
-        if (isVisible) {
-            item.style.scale = 1;
-
-        } else {
-            item.style.scale = 0.5;
-        }
-    });
-});
 
 
 
@@ -1930,13 +1897,21 @@ function toggleMapTypeChips(element) {
     passChips.forEach((passChip) => {
         if (passChip !== element) {
             passChip.selected = false;
+            passChip.style.pointerEvents = '';
+
+
+        } else{
+            passChip.style.pointerEvents = 'none';
         }
 
     });
     } else{
         element.selected = true;
+        element.style.pointerEvents = 'none';
+
     }
 }
+
 
 
 function openLivemap(){
@@ -2185,22 +2160,6 @@ function convertToAmPm(time) {
     return `${hour}:${minute} ${ampm}`;
 }
 
-document.querySelector('rainMeterBar').addEventListener('scroll', function () {
-    var items = document.querySelectorAll('rainmeterbaritem');
-    var scrollPosition = document.querySelector('rainMeterBar').scrollLeft;
-    var windowWidth = document.querySelector('rainMeterBar').offsetWidth;
-
-    items.forEach(function (item) {
-        var itemOffset = item.offsetLeft - scrollPosition;
-        var isVisible = (itemOffset >= 0 && itemOffset < windowWidth);
-        if (isVisible) {
-            item.style.scale = 1;
-
-        } else {
-            item.style.scale = 0.5;
-        }
-    });
-});
 
 
 function seeSelectedLocation(){
@@ -2224,3 +2183,14 @@ document.querySelector('selectLocationTextOverlay').addEventListener('click', ()
     seeSelectedLocationClose()
 });
 
+var animationContainer = document.getElementById('error_img_cat');
+
+var animationData = 'icons/error-cat.json';
+
+var anim = bodymovin.loadAnimation({
+    container: animationContainer,
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+    path: animationData
+});
