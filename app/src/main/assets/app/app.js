@@ -926,7 +926,6 @@ function getWeather(city, latitude, longitude) {
         })
         .catch(error => {
             console.error('Error fetching current weather:', error);
-            document.querySelector('.no_internet_error').hidden = false;
 
         });
 
@@ -1392,7 +1391,6 @@ function getWeatherByCoordinates(latitude, longitude) {
         })
           .catch(error => {
                     console.error('Error fetching current weather:', error);
-                    document.querySelector('.no_internet_error').hidden = false;
 
                 });
 
@@ -1564,9 +1562,9 @@ function display24HourForecast(forecastData) {
 
             if(SelectedTempUnit === 'fahrenheit'){
                 forecastItem.innerHTML = `
-                <p class="time-24">${time}</p>
-                <img id="icon-24" src="weather-icons/${iconCode}.svg" alt="Weather Icon" class="icon-24">
                 <p class="temp-24">${tempF}°</p>
+                <img id="icon-24" src="weather-icons/${iconCode}.svg" alt="Weather Icon" class="icon-24">
+                <p class="time-24">${time}</p>
 
                  <p class="disc_sml-24" >${description}</p>
                   <md-ripple style="--md-ripple-pressed-opacity: 0.1;"></md-ripple>
@@ -1574,9 +1572,9 @@ function display24HourForecast(forecastData) {
             `;
             } else{
             forecastItem.innerHTML = `
-            <p class="time-24">${time}</p>
-            <img id="icon-24" src="weather-icons/${iconCode}.svg" alt="Weather Icon" class="icon-24">
             <p class="temp-24">${temperature}°</p>
+            <img id="icon-24" src="weather-icons/${iconCode}.svg" alt="Weather Icon" class="icon-24">
+            <p class="time-24">${time}</p>
 
              <p class="disc_sml-24" >${description}</p>
               <md-ripple style="--md-ripple-pressed-opacity: 0.1;"></md-ripple>
@@ -1981,7 +1979,8 @@ const moon_phase_img = document.getElementById('moon_phase_img');
         let daysLeft = 0;
         let nextPhaseName = '';
 
-            let MoonPhasepercentage = Math.round(moonPhase * 100);
+        let phasePercentage = 0;
+
 
 
         if (moonPhase === 0) {
@@ -1989,54 +1988,66 @@ const moon_phase_img = document.getElementById('moon_phase_img');
             phaseImg = 'moon_phases/moon_new.svg';
             daysLeft = Math.round((0.25 - moonPhase) * 29.53);
             nextPhaseName = 'Waxing Crescent';
+            phasePercentage = 0;
 
         } else if (moonPhase > 0 && moonPhase < 0.25) {
             phaseName = 'Waxing Crescent';
             phaseImg = 'moon_phases/moon_waxing_crescent.svg';
             daysLeft = Math.round((0.25 - moonPhase) * 29.53);
             nextPhaseName = 'First Quarter';
+            phasePercentage = Math.round((moonPhase / 0.25) * 100);
 
         } else if (moonPhase === 0.25) {
             phaseName = 'First Quarter';
             phaseImg = 'moon_phases/moon_first_quarter.svg';
             daysLeft = Math.round((0.5 - moonPhase) * 29.53);
             nextPhaseName = 'Waxing Gibbous';
+            phasePercentage = 100;
 
         } else if (moonPhase > 0.25 && moonPhase < 0.5) {
             phaseName = 'Waxing Gibbous';
             phaseImg = 'moon_phases/moon_waxing_gibbous.svg';
             daysLeft = Math.round((0.5 - moonPhase) * 29.53);
             nextPhaseName = 'Full Moon';
+            phasePercentage = Math.round(((moonPhase - 0.25) / 0.25) * 100);
+
 
         } else if (moonPhase === 0.5) {
             phaseName = 'Full Moon';
             phaseImg = 'moon_phases/moon_full.svg';
             daysLeft = Math.round((0.75 - moonPhase) * 29.53);
             nextPhaseName = 'Waning Gibbous';
+            phasePercentage = 100;
 
         } else if (moonPhase > 0.5 && moonPhase < 0.75) {
             phaseName = 'Waning Gibbous';
             phaseImg = 'moon_phases/moon_waning_gibbous.svg';
             daysLeft = Math.round((0.75 - moonPhase) * 29.53);
             nextPhaseName = 'Last Quarter';
+            phasePercentage = Math.round(((moonPhase - 0.5) / 0.25) * 100);
+
 
         } else if (moonPhase === 0.75) {
             phaseName = 'Last Quarter';
             phaseImg = 'moon_phases/moon_last_quarter.svg';
             daysLeft = Math.round((1 - moonPhase) * 29.53);
             nextPhaseName = 'Waning Crescent';
+            phasePercentage = 100;
 
         } else if (moonPhase > 0.75 && moonPhase < 1) {
             phaseName = 'Waning Crescent';
             phaseImg = 'moon_phases/moon_waning_crescent.svg';
             daysLeft = Math.round((1 - moonPhase) * 29.53);
             nextPhaseName = 'New Moon';
+            phasePercentage = Math.round(((moonPhase - 0.75) / 0.25) * 100);
+
 
         }
 
+
                 document.getElementById('moonPhaseNext').innerHTML = nextPhaseName
 
-                        document.getElementById('MoonIllumination').innerHTML = `${MoonPhasepercentage}%`
+                        document.getElementById('MoonIllumination').innerHTML = `${phasePercentage}%`
 
 
         moonPhaseText.innerHTML = phaseName;
@@ -2053,7 +2064,7 @@ const moon_phase_img = document.getElementById('moon_phase_img');
 
 
 
-                document.getElementById('AmountRainMM').innerHTML = data.days[0].precip + ' mm'
+            document.getElementById('AmountRainMM').innerHTML = data.days[0].precip.toFixed(1) + ' mm'
 
 const precipitationtypeText = data.days[0].preciptype ? data.days[0].preciptype[0] : 'None';
 
@@ -2183,14 +2194,20 @@ document.querySelector('selectLocationTextOverlay').addEventListener('click', ()
     seeSelectedLocationClose()
 });
 
-var animationContainer = document.getElementById('error_img_cat');
+function ShowError(){
+    var animationContainer = document.getElementById('error_img_cat');
 
-var animationData = 'icons/error-cat.json';
+    var animationData = 'icons/error-cat.json';
 
-var anim = bodymovin.loadAnimation({
-    container: animationContainer,
-    renderer: 'svg',
-    loop: true,
-    autoplay: true,
-    path: animationData
-});
+    var anim = bodymovin.loadAnimation({
+        container: animationContainer,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path: animationData
+    });
+    document.querySelector('.no_internet_error').hidden = false;
+
+}
+
+

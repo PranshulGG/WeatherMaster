@@ -339,7 +339,7 @@ touch_search{
 .forecast {
   display: flex;
   overflow: auto;
-  gap: 10px;
+  gap: 5px;
   margin: 10px;
 }
 
@@ -356,7 +356,7 @@ touch_search{
 .forecast #forecast24 {
   transition: all 0.3s cubic-bezier(1, 0, 0, 1);
   flex-shrink: 0;
-  border-radius: 50px;
+  border-radius: 5px;
   padding-left: 10px;
   padding-right: 10px;
   display: flex;
@@ -369,7 +369,7 @@ touch_search{
   margin-bottom: 5px;
   position: relative;
   width: 45px;
-  background-color: rgba(0, 0, 0, 0.247);
+  background: linear-gradient(0deg,var(--Surface), rgba(0, 0, 0, 0.247) 10% , var(--Surface));
 }
 
 
@@ -444,7 +444,6 @@ touch_search{
 
 .time-24 {
   color: var(--On-Surface-Variant);
-  border-bottom: 1px solid var(--Outline-Variant);
   font-family: var(--outfit-mid);
   font-size: 14px;
   margin: 0;

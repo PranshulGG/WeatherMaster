@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="ripple-files/ripple.css">
     <link rel="stylesheet" href="map/leaflet.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css" />
-
+    <script src="modules/lottie.js"></script>
 </head>
 
 <body>
@@ -677,28 +677,16 @@ document.getElementById('clearCityInput').addEventListener('click', () =>{
 
 
 
+
 function checkNoInternet(){
         if(navigator.onLine){
             document.querySelector('.no_internet_error').hidden = true;
-                        document.getElementById('error_img_cat').innerHTML = ''
-
+            document.getElementById('error_img_cat').innerHTML = ''
 
         } else{
-            document.querySelector('.no_internet_error').hidden = false;
-                                            var animationContainer = document.getElementById('error_img_cat');
-
-                                var animationData = 'icons/error-cat.json';
-
-                                var anim = bodymovin.loadAnimation({
-                                    container: animationContainer,
-                                    renderer: 'svg',
-                                    loop: true,
-                                    autoplay: true,
-                                    path: animationData
-                                });
+            ShowError()
         }
     }
-
     checkNoInternet()
 
 
@@ -721,7 +709,7 @@ function checkNoInternet(){
 <script src="modules/ripple_acc.js"></script>
 <script src="app/navigate.js"></script>
 <script src="app/country-list.js"></script>
-<script src="modules/lottie.js"></script>
+
 
 </body>
 
