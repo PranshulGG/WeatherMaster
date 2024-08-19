@@ -911,7 +911,7 @@ touch_search{
   width: 100%;
   border: none;
   height: 50px;
-  border-radius: 10px;
+  border-radius: 5px;
   font-size: 24px;
 
 }
@@ -1392,17 +1392,22 @@ rainMeterBar rainmeterbaritem{
 }
 
 rainMeterBar rainmeterbaritem rainperbar{
-   /* max-height: 55px;
-  min-height: 5px;    */
   height: 65px;
-  width: 20px;
-  /* border: 1px solid #7cacf8; */
+  width: 100%;
   background-color: var(--Surface-Container);
   overflow: hidden;
   display: block;
-  border-radius: 50px;
+  border-radius: 0px;
   position: relative;
 
+}
+
+rainMeterBar rainmeterbaritem:first-child rainperbar{
+  border-radius: 5px 0 0px 5px;
+}
+
+rainMeterBar rainmeterbaritem:last-child rainperbar{
+  border-radius: 0 5px 5px 0px;
 }
 
 rainMeterBar rainmeterbaritem rainperbar rainperbarProgress{
@@ -1423,10 +1428,16 @@ rainMeterBar rainmeterbaritem span{
 }
 
 rainMeterBar rainmeterbaritem p{
-  margin: 0;
   color: var(--On-Surface);
-    font-family: var(--outfit-mid);
-
+  opacity: 0.8;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  margin: 0;
+  width: 50px;
+  margin-left: 10px;
+  margin-right: 10px;
+  text-align: center;
 }
 
 rainMeterBar{
@@ -1436,7 +1447,6 @@ rainMeterBar{
   padding: 10px;
   padding-left: 15px;
   padding-right: 15px;
-  gap: 25px;
   margin-left: 5px;
   margin-right: 5px;
 }
@@ -1485,7 +1495,7 @@ height: 100%;
   height: calc(100% - 20px);
   position: absolute;
   border-radius: inherit;
-  content: 'Live map';
+  content: 'Live radar';
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;

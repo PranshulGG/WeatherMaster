@@ -572,7 +572,7 @@
                 <span class="ripple-effect-icon"></span>
                 <span icon-outlined>arrow_back</span>
             </button>
-            <p>Live map</p></div>
+            <p>Live radar</p></div>
         <div>
             <button class="ripple-icon-btn focus regular" ontouchstart="playEffect(this)" onclick="refreshCurrentMap()"
                     ontouchend="playEffect2(this)">
@@ -678,16 +678,6 @@ document.getElementById('clearCityInput').addEventListener('click', () =>{
 
 
 
-function checkNoInternet(){
-        if(navigator.onLine){
-            document.querySelector('.no_internet_error').hidden = true;
-            document.getElementById('error_img_cat').innerHTML = ''
-
-        } else{
-            ShowError()
-        }
-    }
-    checkNoInternet()
 
 
     document.getElementById('currentLocations').addEventListener('click', ()=>{

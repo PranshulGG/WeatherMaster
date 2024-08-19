@@ -1527,9 +1527,14 @@ function display24HourForecast(forecastData) {
         for (let i = 0; i < 24; i++) {
             const forecast = forecastData[i];
             const timestamp = new Date(forecast.dt * 1000);
-            let time = timestamp.toLocaleTimeString('en-US', { hour: 'numeric', hour12: true });
+            let time;
 
-            time = time.replace('AM', ' AM').replace('PM', ' PM');
+            if (i === 0) {
+                time = "Now";
+            } else {
+                time = timestamp.toLocaleTimeString('en-US', { hour: 'numeric', hour12: true });
+                time = time.replace('AM', ' AM').replace('PM', ' PM');
+            }
 
 
 
@@ -1543,14 +1548,23 @@ function display24HourForecast(forecastData) {
             const description = forecast.weather[0].description;
             const rainPercentage = forecast.pop * 100;
             const rainMeterBarItem = document.createElement('rainMeterBarItem');
+            const rain1hr = forecast.rain ? forecast.rain['1h'] : 0;
 
-                        let barColor;
 
-            if(rainPercentage < 30 ){
+
+
+
+
+            const maxRain = 2;
+            const rainAmountPercent = (rain1hr / maxRain) * 100;
+
+            let barColor;
+
+            if(rain1hr < 0.5 ){
                 barColor = '#4c8df6'
-            } else if(rainPercentage > 30 && rainPercentage <= 60){
+            } else if(rain1hr > 0.5 && rain1hr <= 1){
                 barColor = 'orange'
-            } else if(rainPercentage > 60){
+            } else if(rain1hr > 1){
                 barColor = 'red'
             }
 
@@ -1584,10 +1598,10 @@ function display24HourForecast(forecastData) {
 
             rainMeterBarItem.innerHTML = `
                 <rainPerBar>
-                  <rainPerBarProgress style="height: ${Math.round(rainPercentage)}%; background-color: ${barColor};"">
+                  <rainPerBarProgress style="height: ${Math.round(rainAmountPercent)}%; background-color: ${barColor};"">
                 </rainPerBarProgress>
                 </rainPerBar>
-                <p>${Math.round(rainPercentage)}%</p>
+                <p>${rain1hr}mm</p>
                  <span>${time}</span>
 
 
@@ -1655,7 +1669,6 @@ function displayDailyForecast(dailyForecast) {
 
     dailyForecast.forEach((forecast, index) => {
 
-        console.log(forecast)
 
         const timestamp = new Date(forecast.dt * 1000);
         const isToday = index === 0;
@@ -1720,7 +1733,7 @@ function displayDailyForecast(dailyForecast) {
 
                         setTimeout(()=>{
                             forecastContainer.style.pointerEvents = '';
-                        }, 400);
+                        }, 800);
         });
 
 
@@ -2193,6 +2206,19 @@ function seeSelectedLocationClose(){
 document.querySelector('selectLocationTextOverlay').addEventListener('click', ()=>{
     seeSelectedLocationClose()
 });
+
+
+
+function checkNoInternet(){
+        if(navigator.onLine){
+            document.querySelector('.no_internet_error').hidden = true;
+            document.getElementById('error_img_cat').innerHTML = ''
+
+        } else{
+            ShowError()
+        }
+    }
+    checkNoInternet()
 
 function ShowError(){
     var animationContainer = document.getElementById('error_img_cat');
