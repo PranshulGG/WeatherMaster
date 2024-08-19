@@ -1,4 +1,4 @@
- # 🌦️ WeatherMaster 
+ # 🌦️ WeatherMaster (last updated: 08-19-2024 / 3:16 PM UTC)
  
 <img src="https://github.com/PranshulGG/WeatherMaster/blob/master/app/src/main/assets/weather-icons/02d.svg?short_path=21e6bd2" alt="" width="150px">
 
