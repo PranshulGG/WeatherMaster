@@ -926,6 +926,7 @@ function getWeather(city, latitude, longitude) {
         })
         .catch(error => {
             console.error('Error fetching current weather:', error);
+            ShowError()
 
         });
 
@@ -1391,7 +1392,7 @@ function getWeatherByCoordinates(latitude, longitude) {
         })
           .catch(error => {
                     console.error('Error fetching current weather:', error);
-
+                    ShowError()
                 });
 
     currentLocation = {
@@ -1548,7 +1549,18 @@ function display24HourForecast(forecastData) {
             const description = forecast.weather[0].description;
             const rainPercentage = forecast.pop * 100;
             const rainMeterBarItem = document.createElement('rainMeterBarItem');
-            const rain1hr = forecast.rain ? forecast.rain['1h'] : 0;
+
+
+                        let rain1hr;
+
+
+
+                         if(forecast.snow){
+                         rain1hr = forecast.snow ? forecast.snow['1h'] : 0;
+                        }  else{
+                            rain1hr = forecast.rain ? forecast.rain['1h'] : 0;
+                        }
+
 
 
 
@@ -1703,7 +1715,6 @@ function displayDailyForecast(dailyForecast) {
             <p class="time-5d">${date}</p>
             </div>
 
-<md-ripple style="--md-ripple-pressed-opacity: 0.1;"></md-ripple>
             `
 
 
@@ -1718,23 +1729,10 @@ function displayDailyForecast(dailyForecast) {
         <div class="d5-disc-text">${description}
         <p class="time-5d">${date}</p>
         </div>
-        <md-ripple style="--md-ripple-pressed-opacity: 0.1;"></md-ripple>
 `
     ;
         }
 
-
-        forecastItem.addEventListener('click', () => {
-            forecastContainer.style.pointerEvents = 'none';
-
-            setTimeout(()=>{
-                sendThemeToAndroid('Open8Forecast')
-            }, 250);
-
-                        setTimeout(()=>{
-                            forecastContainer.style.pointerEvents = '';
-                        }, 800);
-        });
 
 
         forecastContainer.appendChild(forecastItem);

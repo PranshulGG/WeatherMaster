@@ -881,11 +881,13 @@ touch_search{
   justify-content: center;
   align-items: center;
   text-align: center;
-  margin-top: 220px;
+  margin-top:190px;
+
 }
 .no_internet_error .text_content_error p{
   font-size: 30px;
   color: var(--Error);
+    margin-bottom: 20px;
 }
 
 .no_internet_error .text_content_error span{
