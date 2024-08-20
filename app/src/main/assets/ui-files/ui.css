@@ -870,7 +870,7 @@ touch_search{
   align-items: center;
   justify-content: center;
  position: absolute;
-   top: -40px;
+   top: -10px;
      width: 100%;
 
 }
@@ -881,7 +881,7 @@ touch_search{
   justify-content: center;
   align-items: center;
   text-align: center;
-  margin-top:190px;
+  margin-top:220px;
 
 }
 .no_internet_error .text_content_error p{

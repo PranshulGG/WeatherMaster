@@ -340,6 +340,13 @@ fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latAlerts}&lon=${lo
                 setTimeout(() => {
                     document.querySelector('.alert_loader').hidden = true;
                 }, 2000);
+
+
+                setTimeout(()=>{
+                    const senderDivHeight = document.getElementById('senderName').offsetHeight;
+                    console.log(senderDivHeight);
+                    document.getElementById('alert_info_div').style.paddingBottom = `calc(30px + ${senderDivHeight}px)`
+                }, 1000);
             </script>
 
         <script src="../components-script.js/components.js"></script>

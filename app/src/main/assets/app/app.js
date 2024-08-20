@@ -1990,7 +1990,6 @@ const moon_phase_img = document.getElementById('moon_phase_img');
         let daysLeft = 0;
         let nextPhaseName = '';
 
-        let phasePercentage = 0;
 
 
 
@@ -1999,28 +1998,28 @@ const moon_phase_img = document.getElementById('moon_phase_img');
             phaseImg = 'moon_phases/moon_new.svg';
             daysLeft = Math.round((0.25 - moonPhase) * 29.53);
             nextPhaseName = 'Waxing Crescent';
-            phasePercentage = 0;
+
 
         } else if (moonPhase > 0 && moonPhase < 0.25) {
             phaseName = 'Waxing Crescent';
             phaseImg = 'moon_phases/moon_waxing_crescent.svg';
             daysLeft = Math.round((0.25 - moonPhase) * 29.53);
             nextPhaseName = 'First Quarter';
-            phasePercentage = Math.round((moonPhase / 0.25) * 100);
+
 
         } else if (moonPhase === 0.25) {
             phaseName = 'First Quarter';
             phaseImg = 'moon_phases/moon_first_quarter.svg';
             daysLeft = Math.round((0.5 - moonPhase) * 29.53);
             nextPhaseName = 'Waxing Gibbous';
-            phasePercentage = 100;
+
 
         } else if (moonPhase > 0.25 && moonPhase < 0.5) {
             phaseName = 'Waxing Gibbous';
             phaseImg = 'moon_phases/moon_waxing_gibbous.svg';
             daysLeft = Math.round((0.5 - moonPhase) * 29.53);
             nextPhaseName = 'Full Moon';
-            phasePercentage = Math.round(((moonPhase - 0.25) / 0.25) * 100);
+
 
 
         } else if (moonPhase === 0.5) {
@@ -2028,14 +2027,14 @@ const moon_phase_img = document.getElementById('moon_phase_img');
             phaseImg = 'moon_phases/moon_full.svg';
             daysLeft = Math.round((0.75 - moonPhase) * 29.53);
             nextPhaseName = 'Waning Gibbous';
-            phasePercentage = 100;
+
 
         } else if (moonPhase > 0.5 && moonPhase < 0.75) {
             phaseName = 'Waning Gibbous';
             phaseImg = 'moon_phases/moon_waning_gibbous.svg';
             daysLeft = Math.round((0.75 - moonPhase) * 29.53);
             nextPhaseName = 'Last Quarter';
-            phasePercentage = Math.round(((moonPhase - 0.5) / 0.25) * 100);
+
 
 
         } else if (moonPhase === 0.75) {
@@ -2043,22 +2042,41 @@ const moon_phase_img = document.getElementById('moon_phase_img');
             phaseImg = 'moon_phases/moon_last_quarter.svg';
             daysLeft = Math.round((1 - moonPhase) * 29.53);
             nextPhaseName = 'Waning Crescent';
-            phasePercentage = 100;
+
 
         } else if (moonPhase > 0.75 && moonPhase < 1) {
             phaseName = 'Waning Crescent';
             phaseImg = 'moon_phases/moon_waning_crescent.svg';
             daysLeft = Math.round((1 - moonPhase) * 29.53);
             nextPhaseName = 'New Moon';
-            phasePercentage = Math.round(((moonPhase - 0.75) / 0.25) * 100);
+
 
 
         }
 
 
+                    const currentDateMoonPhase = Math.floor(new Date().getTime() / 1000);
+
+
+
+                    fetch(`https://api.farmsense.net/v1/moonphases/?d=${currentDateMoonPhase}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            const  MoonIllumination = data[0].Illumination * 100
+
+
+                            document.getElementById('MoonIllumination').innerHTML = `${MoonIllumination}%`
+
+                        })
+                        .catch(error => {
+                            console.error('Error fetching data:', error);
+                        });
+
+
+
                 document.getElementById('moonPhaseNext').innerHTML = nextPhaseName
 
-                        document.getElementById('MoonIllumination').innerHTML = `${phasePercentage}%`
+
 
 
         moonPhaseText.innerHTML = phaseName;
@@ -2218,20 +2236,27 @@ function checkNoInternet(){
     }
     checkNoInternet()
 
-function ShowError(){
-    var animationContainer = document.getElementById('error_img_cat');
+let anim = null;
 
+function ShowError() {
+    if (anim) {
+        return;
+    }
+
+    var animationContainer = document.getElementById('error_img_cat');
     var animationData = 'icons/error-cat.json';
 
-    var anim = bodymovin.loadAnimation({
+    anim = bodymovin.loadAnimation({
         container: animationContainer,
         renderer: 'svg',
         loop: true,
         autoplay: true,
         path: animationData
     });
-    document.querySelector('.no_internet_error').hidden = false;
 
+    document.querySelector('.no_internet_error').hidden = false;
 }
+
+
 
 
