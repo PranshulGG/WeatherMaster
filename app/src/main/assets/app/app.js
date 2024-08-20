@@ -1530,12 +1530,9 @@ function display24HourForecast(forecastData) {
             const timestamp = new Date(forecast.dt * 1000);
             let time;
 
-            if (i === 0) {
-                time = "Now";
-            } else {
                 time = timestamp.toLocaleTimeString('en-US', { hour: 'numeric', hour12: true });
                 time = time.replace('AM', ' AM').replace('PM', ' PM');
-            }
+
 
 
 
