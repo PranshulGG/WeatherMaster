@@ -90,7 +90,7 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
  - ✅ Live weather map
  - ✅ Pick locations using map
  - ✅ Change app colors according to the weather
-   
+ -  Any user suggestions :)
 <br>
 <br>
 
