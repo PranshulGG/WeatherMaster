@@ -1,7 +1,31 @@
 const SelectedTempUnit = localStorage.getItem('SelectedTempUnit');
 const SelectedWindUnit = localStorage.getItem('SelectedWindUnit');
 const SelectedVisibiltyUnit = localStorage.getItem('selectedVisibilityUnit');
+const SelectedPrecipitationUnit = localStorage.getItem('selectedPrecipitationUnit');
+const SelectedPressureUnit = localStorage.getItem('selectedPressureUnit');
 
+let anim = null;
+
+function ShowError() {
+
+    document.querySelector('.no_internet_error').hidden = false;
+
+    if (anim) {
+        return;
+    }
+
+    var animationContainer = document.getElementById('error_img_cat');
+    var animationData = 'icons/error-cat.json';
+
+    anim = bodymovin.loadAnimation({
+        container: animationContainer,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path: animationData
+    });
+
+}
 
 
 let currentLocation = null;
@@ -557,22 +581,32 @@ function getWeather(city, latitude, longitude) {
             const feelslike = data.main.feels_like;
             const feelslikeF = Math.round(feelslike * 9 / 5 + 32);
 
-                        if (data.snow && data.snow['1h']) {
-                            document.getElementById('SnowAmount').innerHTML = (`${data.snow['1h'].toFixed(1)} mm`)
-                        } else{
-                            document.getElementById('SnowAmount').innerHTML = '0.0 mm'
-                        }
 
-                        const pressureMain = data.main.pressure;
 
-                        document.getElementById('pressure_text_main').innerHTML = pressureMain + '<span style="color: var(--On-Surface-Variant); font-size: 15px;"> hPa</span> '
+                                        const pressureBar = data.main.pressure;
+
+                                        let pressureMain;
+                                        let pressureMainUnit;
+
+                                        if (SelectedPressureUnit === 'inHg') {
+                                            pressureMain = (data.main.pressure * 0.02953).toFixed(2);
+                                            pressureMainUnit = 'inHg';
+                                        } else if (SelectedPressureUnit === 'mmHg') {
+                                            pressureMain = (data.main.pressure * 0.750062).toFixed(2);
+                                            pressureMainUnit = 'mmHg';
+                                        } else {
+                                            pressureMain = data.main.pressure;
+                                            pressureMainUnit = 'hPa';
+                                        }
+
+                                    document.getElementById('pressure_text_main').innerHTML = pressureMain + `<span style="color: var(--On-Surface-Variant); font-size: 15px;"> ${pressureMainUnit}</span> `
 
 
                         const minPressure = 870;
             const maxPressure = 1080;
             const maxProgress = 0.8;
 
-            let progressValue = ((pressureMain - minPressure) / (maxPressure - minPressure)) * maxProgress;
+            let progressValue = ((pressureBar - minPressure) / (maxPressure - minPressure)) * maxProgress;
 
             progressValue = Math.max(0, Math.min(progressValue, maxProgress));
 
@@ -1054,22 +1088,34 @@ function getWeatherByCoordinates(latitude, longitude) {
                     }
                 })
 
-                        if (data.snow && data.snow['1h']) {
-                            document.getElementById('SnowAmount').innerHTML = (`${data.snow['1h'].toFixed(1)} mm`)
-                        } else{
-                            document.getElementById('SnowAmount').innerHTML = '0.0 mm'
-                        }
 
-                        const pressureMain = data.main.pressure;
 
-                        document.getElementById('pressure_text_main').innerHTML = pressureMain + '<span style="color: var(--On-Surface-Variant); font-size: 15px;"> hPa</span> '
+                                        const pressureBar = data.main.pressure;
+
+                                        let pressureMain;
+                                        let pressureMainUnit;
+
+                                        if (SelectedPressureUnit === 'inHg') {
+                                            pressureMain = (data.main.pressure * 0.02953).toFixed(2);
+                                            pressureMainUnit = 'inHg';
+                                        } else if (SelectedPressureUnit === 'mmHg') {
+                                            pressureMain = (data.main.pressure * 0.750062).toFixed(2);
+                                            pressureMainUnit = 'mmHg';
+                                        } else {
+                                            pressureMain = data.main.pressure;
+                                            pressureMainUnit = 'hPa';
+                                        }
+
+                                    document.getElementById('pressure_text_main').innerHTML = pressureMain + `<span style="color: var(--On-Surface-Variant); font-size: 15px;"> ${pressureMainUnit}</span> `
+
+
 
 
                         const minPressure = 870;
             const maxPressure = 1080;
             const maxProgress = 0.8;
 
-            let progressValue = ((pressureMain - minPressure) / (maxPressure - minPressure)) * maxProgress;
+            let progressValue = ((pressureBar - minPressure) / (maxPressure - minPressure)) * maxProgress;
 
             progressValue = Math.max(0, Math.min(progressValue, maxProgress));
 
@@ -1548,14 +1594,35 @@ function display24HourForecast(forecastData) {
             const rainMeterBarItem = document.createElement('rainMeterBarItem');
 
 
-                        let rain1hr;
+            let rain1hr;
 
 
 
-                         if(forecast.snow){
-                         rain1hr = forecast.snow ? forecast.snow['1h'] : 0;
-                        }  else{
-                            rain1hr = forecast.rain ? forecast.rain['1h'] : 0;
+                        if (SelectedPrecipitationUnit === 'in') {
+                            if (forecast.snow) {
+                                rain1hr = forecast.snow ? (forecast.snow['1h'] * 0.0393701).toFixed(2) : 0;
+                            } else {
+                                rain1hr = forecast.rain ? (forecast.rain['1h'] * 0.0393701).toFixed(2) : 0;
+                            }
+                            rainUnit = 'in'
+                        } else {
+                            if (forecast.snow) {
+                                rain1hr = forecast.snow ? forecast.snow['1h'] : 0;
+                            } else {
+                                rain1hr = forecast.rain ? forecast.rain['1h'] : 0;
+                            }
+                            rainUnit = 'mm'
+
+                        }
+
+
+                        let rain1hrBar;
+
+
+                        if (forecast.snow) {
+                            rain1hrBar = forecast.snow ? forecast.snow['1h'] : 0;
+                        } else {
+                            rain1hrBar = forecast.rain ? forecast.rain['1h'] : 0;
                         }
 
 
@@ -1563,17 +1630,16 @@ function display24HourForecast(forecastData) {
 
 
 
-
             const maxRain = 2;
-            const rainAmountPercent = (rain1hr / maxRain) * 100;
+            const rainAmountPercent = (rain1hrBar / maxRain) * 100;
 
             let barColor;
 
-            if(rain1hr < 0.5 ){
+            if(rain1hrBar < 0.5 ){
                 barColor = '#4c8df6'
-            } else if(rain1hr > 0.5 && rain1hr <= 1){
+            } else if(rain1hrBar > 0.5 && rain1hrBar <= 1){
                 barColor = 'orange'
-            } else if(rain1hr > 1){
+            } else if(rain1hrBar > 1){
                 barColor = 'red'
             }
 
@@ -1610,7 +1676,7 @@ function display24HourForecast(forecastData) {
                   <rainPerBarProgress style="height: ${Math.round(rainAmountPercent)}%; background-color: ${barColor};"">
                 </rainPerBarProgress>
                 </rainPerBar>
-                <p>${rain1hr}mm</p>
+                <p>${rain1hr}${rainUnit}</p>
                  <span>${time}</span>
 
 
@@ -2090,7 +2156,22 @@ const moon_phase_img = document.getElementById('moon_phase_img');
 
 
 
-            document.getElementById('AmountRainMM').innerHTML = data.days[0].precip.toFixed(1) + ' mm'
+            if (SelectedWindUnit === 'mile') {
+                const windGustInMph = Math.round((data.days[0].windgust * 0.621371)) || '0';
+                document.getElementById('WindGust').textContent = windGustInMph + ' mph';
+            } else {
+                document.getElementById('WindGust').textContent = Math.round(data.days[0].windgust || '0')  + ' km/h';
+            }
+
+
+
+            if (SelectedPrecipitationUnit === 'in') {
+                const precipInInches = (data.days[0].precip * 0.0393701).toFixed(2);
+                document.getElementById('AmountRainMM').innerHTML = precipInInches + ' in';
+            } else {
+                document.getElementById('AmountRainMM').innerHTML = data.days[0].precip.toFixed(1) + ' mm'
+            }
+
 
 const precipitationtypeText = data.days[0].preciptype ? data.days[0].preciptype[0] : 'None';
 
@@ -2233,26 +2314,6 @@ function checkNoInternet(){
     }
     checkNoInternet()
 
-let anim = null;
-
-function ShowError() {
-    if (anim) {
-        return;
-    }
-
-    var animationContainer = document.getElementById('error_img_cat');
-    var animationData = 'icons/error-cat.json';
-
-    anim = bodymovin.loadAnimation({
-        container: animationContainer,
-        renderer: 'svg',
-        loop: true,
-        autoplay: true,
-        path: animationData
-    });
-
-    document.querySelector('.no_internet_error').hidden = false;
-}
 
 
 

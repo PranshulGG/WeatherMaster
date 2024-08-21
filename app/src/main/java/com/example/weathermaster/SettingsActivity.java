@@ -196,6 +196,9 @@ public class SettingsActivity extends AppCompatActivity {
         private boolean shouldOpenInBrowser(String url) {
             return url.startsWith("https://fonts.google.com/specimen/Outfit?query=outfit") ||
                     url.startsWith("https://openweathermap.org/") ||
+                    url.startsWith("https://www.visualcrossing.com/") ||
+                    url.startsWith("https://ipgeolocation.io/") ||
+                    url.startsWith("https://opencagedata.com/api") ||
                     url.startsWith("https://fonts.google.com/specimen/Poppins?query=poppins") ||
                     url.startsWith("https://github.com/material-components/material-web") ||
                     url.startsWith("https://app-privacy-policy-generator.nisrulz.com/") ||

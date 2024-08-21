@@ -92,18 +92,40 @@
                     </md-outlined-select>
                 </md-list-item>
 
-            </md-list>
+                <md-list-item>
+                    <md-icon icon-filled slot="start">rainy_light</md-icon>
+                    <div slot="headline">Precipitation Unit</div>
+                    <md-outlined-select id="selectPrecipitationUnit" slot="end" style="min-width: max-content; --md-outlined-field-bottom-space: 10px;--md-outlined-field-top-space: 10px;">
+                        <md-select-option value="mm" menu-type>
+                            <div slot="headline">mm</div>
+                        </md-select-option>
+                        <md-select-option value="in" menu-type >
+                            <div slot="headline">in</div>
+                        </md-select-option>
+                    </md-outlined-select>
+                </md-list-item>
 
+
+                <md-list-item>
+                    <md-icon icon-filled slot="start">av_timer</md-icon>
+                    <div slot="headline">Pressure Unit</div>
+                    <md-outlined-select id="selectPressureUnit" slot="end" style="min-width: max-content; --md-outlined-field-bottom-space: 10px;--md-outlined-field-top-space: 10px;">
+                        <md-select-option value="hPa" menu-type>
+                            <div slot="headline">hPa</div>
+                        </md-select-option>
+                        <md-select-option value="inHg" menu-type >
+                            <div slot="headline">inHg</div>
+                        </md-select-option>
+                        <md-select-option value="mmHg" menu-type >
+                            <div slot="headline">mmHg</div>
+                        </md-select-option>
+                    </md-outlined-select>
+                </md-list-item>
+
+            </md-list>
 
             <p class="title" style="margin-top: 5px;">Additional</p>
             <md-list>
-                <md-list-item margin href="https://openweathermap.org/">
-                    <md-icon icon-filled slot="start">routine</md-icon>
-                    <div slot="headline">Data provided by</div>
-                    <div slot="supporting-text">OpenWeatherMap</div>
-                    <md-icon icon-filled slot="end">open_in_new</md-icon>
-                </md-list-item>
-
                 <md-list-item  onclick="sendThemeToAndroid('OpenAboutPage')" type="button">
                     <md-icon icon-filled slot="start">info</md-icon>
                     <div slot="headline">About WeatherMaster</div>
@@ -112,6 +134,28 @@
                 </md-list-item>
 
             </md-list>
+
+
+            <p class="title" style="margin-top: 5px;">Data provided by</p>
+            <md-list>
+                <md-list-item margin href="https://openweathermap.org/">
+                    <div slot="headline">OpenWeatherMap</div>
+                    <md-icon icon-filled slot="end">open_in_new</md-icon>
+                </md-list-item>
+                <md-list-item margin href="https://www.visualcrossing.com/">
+                    <div slot="headline">VisualCrossing</div>
+                    <md-icon icon-filled slot="end">open_in_new</md-icon>
+                </md-list-item>
+                <md-list-item margin href="https://ipgeolocation.io/">
+                    <div slot="headline">Ipgeolocation</div>
+                    <md-icon icon-filled slot="end">open_in_new</md-icon>
+                </md-list-item>
+                <md-list-item margin href="https://opencagedata.com/api">
+                    <div slot="headline">Opencagedata</div>
+                    <md-icon icon-filled slot="end">open_in_new</md-icon>
+                </md-list-item>
+            </md-list>
+
 
 
             <p style="margin-top: 110px;"></p>
@@ -251,6 +295,55 @@ const getSelectedVisibilityUnit = localStorage.getItem('selectedVisibilityUnit')
 
 if(getSelectedVisibilityUnit){
   document.querySelector(`[value="${getSelectedVisibilityUnit}"]`).selected = true;
+}
+
+const selectPrecipitationUnit = document.getElementById('selectPrecipitationUnit');
+
+
+selectPrecipitationUnit.addEventListener('input', () =>{
+    localStorage.setItem('selectedPrecipitationUnit', selectPrecipitationUnit.value)
+        ShowSnack('Relaunch the app to apply changes', 3000, 3);
+
+});
+
+
+if(!localStorage.getItem('selectedPrecipitationUnit')){
+localStorage.setItem('selectedPrecipitationUnit', 'mm');
+document.querySelector(`[value="mm"]`).selected = true;
+
+}
+
+const getSelectedPrecipitationUnit = localStorage.getItem('selectedPrecipitationUnit')
+
+
+if(localStorage.getItem('selectedPrecipitationUnit')){
+  document.querySelector(`[value="${getSelectedPrecipitationUnit}"]`).selected = true;
+}
+
+// -----------------------
+
+
+const selectPressureUnit = document.getElementById('selectPressureUnit');
+
+
+selectPressureUnit.addEventListener('input', () =>{
+    localStorage.setItem('selectedPressureUnit', selectPressureUnit.value)
+        ShowSnack('Relaunch the app to apply changes', 3000, 3);
+
+});
+
+
+if(!localStorage.getItem('selectedPressureUnit')){
+localStorage.setItem('selectedPressureUnit', 'hPa');
+document.querySelector(`[value="hPa"]`).selected = true;
+
+}
+
+const getSelectedPressureUnit = localStorage.getItem('selectedPressureUnit')
+
+
+if(localStorage.getItem('selectedPressureUnit')){
+  document.querySelector(`[value="${getSelectedPressureUnit}"]`).selected = true;
 }
 
     </script>

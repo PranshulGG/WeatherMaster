@@ -1,5 +1,7 @@
 const SelectedTempUnit = localStorage.getItem('SelectedTempUnit');
 const SelectedWindUnit = localStorage.getItem('SelectedWindUnit');
+const SelectedPrecipitationUnit = localStorage.getItem('selectedPrecipitationUnit');
+const SelectedPressureUnit = localStorage.getItem('selectedPressureUnit');
 
 
 
@@ -9,7 +11,7 @@ function getDailyForecast(latitude, longitude) {
 
 
         const apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiOne}&units=metric`;
-    
+
         fetch(apiUrl)
             .then(response => response.json())
             .then(data => {
@@ -29,7 +31,7 @@ function displayDailyForecast(dailyForecast) {
 
     dailyForecast.forEach((forecast, index) => {
 
-        if (index === 0) return; // Skip the current day
+        if (index === 0) return;
 
         const timestamp = new Date(forecast.dt * 1000);
         if (timestamp.getDate() === today.getDate()) return;
@@ -39,21 +41,69 @@ function displayDailyForecast(dailyForecast) {
 
         const description = forecast.weather[0].description;
         let iconCode = forecast.weather[0].icon;
-        const tempMax = Math.round(forecast.temp.max);
-        const tempMIN = Math.round(forecast.temp.min);
 
-        const tempMaxF = Math.round(tempMax * 9 / 5 + 32);
 
         const rainPercentage = Math.round(forecast.pop * 100)|| '0';
-        const tempMINF = Math.round(tempMIN * 9 / 5 + 32);
-        const rainMM = forecast.rain || '0.0';
-        const pressure = forecast.pressure
         const humidity = forecast.humidity
         const cloudCover = forecast.clouds
-        const dewPoint = Math.round(forecast.dew_point)
-        const dewPointF = Math.round(dewPoint * 9 / 5 + 32);
-        const windspeedKmh = Math.round(forecast.wind_speed);
-        const windSpeedMph = Math.round(forecast.wind_speed * 2.23694);
+
+        let WindSpeed;
+
+        if(SelectedWindUnit === 'mile'){
+            WindSpeed = Math.round(forecast.wind_speed * 2.23694) + ' mph';
+        } else{
+         WindSpeed = Math.round(forecast.wind_speed) + ' km/h';
+
+        }
+
+        let TemperatureMax;
+
+        if(SelectedTempUnit === 'fahrenheit'){
+         TemperatureMax = Math.round(forecast.temp.max * 9 / 5 + 32);
+        } else{
+            TemperatureMax = Math.round(forecast.temp.max);
+        }
+
+        let TemperatureMin;
+
+        if(SelectedTempUnit === 'fahrenheit'){
+            TemperatureMin = Math.round(forecast.temp.min * 9 / 5 + 32);
+        } else{
+            TemperatureMin = Math.round(forecast.temp.min);
+        }
+
+        let dewPointTemp;
+
+
+        if(SelectedTempUnit === 'fahrenheit'){
+            dewPointTemp = Math.round(forecast.dew_point * 9 / 5 + 32);
+        } else{
+            dewPointTemp = Math.round(forecast.dew_point);
+        }
+
+        let rainAmount;
+
+        if(SelectedPrecipitationUnit === 'in'){
+            rainAmount = forecast.rain ? (forecast.rain * 0.0393701).toFixed(2) + 'in' : '0.00in';
+
+        } else{
+        rainAmount = forecast.rain ? forecast.rain + ' mm' : '0.0mm';
+        }
+
+
+        let pressureMain;
+        let pressureMainUnit;
+
+        if (SelectedPressureUnit === 'inHg') {
+            pressureMain = (forecast.pressure * 0.02953).toFixed(2);
+            pressureMainUnit = 'inHg';
+        } else if (SelectedPressureUnit === 'mmHg') {
+            pressureMain = (forecast.pressure * 0.750062).toFixed(2);
+            pressureMainUnit = 'mmHg';
+        } else {
+            pressureMain = forecast.pressure;
+            pressureMainUnit = 'hPa';
+        }
 
                 const uvIndex = Math.round(forecast.uvi)
 
@@ -130,7 +180,7 @@ function displayDailyForecast(dailyForecast) {
         forecastItem.style = colorStyle
 
 
-       if(SelectedTempUnit === 'fahrenheit' && SelectedWindUnit === 'kilometer'){
+
 
                forecastItem.innerHTML = `
                <div class="daily_date_time">
@@ -144,7 +194,7 @@ function displayDailyForecast(dailyForecast) {
                </div>
 
                <div class="temp_min_max">
-                   <p>${tempMaxF}° <span>/ ${tempMINF}°</span></p>
+                   <p>${TemperatureMax}° <span>/ ${TemperatureMin}°</span></p>
                </div>
 
                <div class="daily_details">
@@ -160,19 +210,19 @@ function displayDailyForecast(dailyForecast) {
                                <div class="daily_detail_item">
                                    <span>Precipitation amount</span>
                                     <i><img src="https://i.ibb.co/YTzNd3G/rain-amount.png"></i>
-                                   <p>${rainMM} mm</p>
+                                   <p>${rainAmount}</p>
                                </div>
 
                                <div class="daily_detail_item">
                                    <span>Wind speed</span>
                                      <i><img src="https://i.ibb.co/59Rv1BW/wind-speed.png"></i>
-                                   <p>${windspeedKmh} km/h</p>
+                                   <p>${WindSpeed}</p>
                                </div>
 
                                <div class="daily_detail_item">
                                    <span>Pressure</span>
                                      <i><img src="https://i.ibb.co/C5Mpzz1/pressure.png"></i>
-                                   <p>${pressure} hPa</p>
+                                   <p>${pressureMain} ${pressureMainUnit}</p>
                                </div>
 
                                <div class="daily_detail_item">
@@ -191,7 +241,7 @@ function displayDailyForecast(dailyForecast) {
                                <div class="daily_detail_item">
                                    <span>Dew point</span>
                                      <i><img src="https://i.ibb.co/KrMZncB/dew-point.png"></i>
-                                   <p>${dewPointF}°</p>
+                                   <p>${dewPointTemp}°</p>
                                </div>
 
                                  <div class="daily_detail_item">
@@ -205,229 +255,8 @@ function displayDailyForecast(dailyForecast) {
                </div>
 
                `
-               } else if(SelectedWindUnit === 'mile' && SelectedTempUnit === 'celsius'){
-                   forecastItem.innerHTML = `
-                   <div class="daily_date_time">
-                       <div>
-                       <p>${date}</p>
-                       <span>${description}</span></div>
-
-                       <div>
-                       <img src="../weather-icons/${iconCode}.svg">
-                       </div>
-                   </div>
-
-                   <div class="temp_min_max">
-                       <p>${tempMax}° <span>/ ${tempMIN}°</span></p>
-                   </div>
-
-                   <div class="daily_details">
-
-                       <div class="details_daily_items">
-
-                               <div class="daily_detail_item">
-                                   <span>Precipitation chances</span>
-                                     <i><img src="https://i.ibb.co/BLHjSpt/rain-per.png"></i>
-                                   <p>${rainPercentage}%</p>
-                               </div>
-
-                               <div class="daily_detail_item">
-                                   <span>Precipitation amount</span>
-                                    <i><img src="https://i.ibb.co/YTzNd3G/rain-amount.png"></i>
-                                   <p>${rainMM} mm</p>
-                               </div>
-
-                               <div class="daily_detail_item">
-                                   <span>Wind speed</span>
-                                     <i><img src="https://i.ibb.co/59Rv1BW/wind-speed.png"></i>
-                                   <p>${windSpeedMph} mph</p>
-                               </div>
-
-                               <div class="daily_detail_item">
-                                   <span>Pressure</span>
-                                     <i><img src="https://i.ibb.co/C5Mpzz1/pressure.png"></i>
-                                   <p>${pressure} hPa</p>
-                               </div>
-
-                               <div class="daily_detail_item">
-                                   <span>Cloud cover</span>
-                                     <i><img src="https://i.ibb.co/Vw0BXpc/cloud-cover.png"></i>
-                                   <p>${cloudCover}%</p>
-                               </div>
 
 
-                               <div class="daily_detail_item">
-                                   <span>Humidity</span>
-                                     <i><img src="https://i.ibb.co/84G9S6Z/humidity.png"></i>
-                                   <p>${humidity}%</p>
-                               </div>
-
-                               <div class="daily_detail_item">
-                                   <span>Dew point</span>
-                                     <i><img src="https://i.ibb.co/KrMZncB/dew-point.png"></i>
-                                   <p>${dewPoint}°</p>
-                               </div>
-
-                                 <div class="daily_detail_item">
-                                   <span>UV index</span>
-                                     <i><img src="https://i.ibb.co/X2MtYGT/uv-index.png"></i>
-                                   <p>${uvIndex} <text style="color: var(--On-Surface-Variant);font-size: 13px;">${UVindexText}</text></p>
-                               </div>
-
-                           </div>
-
-                   </div>
-
-                   `
-               } else if(SelectedWindUnit === 'mile' && SelectedTempUnit === 'fahrenheit'){
-                   forecastItem.innerHTML = `
-                   <div class="daily_date_time">
-                       <div>
-                       <p>${date}</p>
-                       <span>${description}</span></div>
-
-                       <div>
-                       <img src="../weather-icons/${iconCode}.svg">
-                       </div>
-                   </div>
-
-                   <div class="temp_min_max">
-                       <p>${tempMaxF}° <span>/ ${tempMINF}°</span></p>
-                   </div>
-
-                   <div class="daily_details">
-
-                       <div class="details_daily_items">
-
-                               <div class="daily_detail_item">
-                                   <span>Precipitation chances</span>
-                                     <i><img src="https://i.ibb.co/BLHjSpt/rain-per.png"></i>
-                                   <p>${rainPercentage}%</p>
-                               </div>
-
-                               <div class="daily_detail_item">
-                                   <span>Precipitation amount</span>
-                                    <i><img src="https://i.ibb.co/YTzNd3G/rain-amount.png"></i>
-                                   <p>${rainMM} mm</p>
-                               </div>
-
-                               <div class="daily_detail_item">
-                                   <span>Wind speed</span>
-                                     <i><img src="https://i.ibb.co/59Rv1BW/wind-speed.png"></i>
-                                   <p>${windSpeedMph} mph</p>
-                               </div>
-
-                               <div class="daily_detail_item">
-                                   <span>Pressure</span>
-                                     <i><img src="https://i.ibb.co/C5Mpzz1/pressure.png"></i>
-                                   <p>${pressure} hPa</p>
-                               </div>
-
-                               <div class="daily_detail_item">
-                                   <span>Cloud cover</span>
-                                     <i><img src="https://i.ibb.co/Vw0BXpc/cloud-cover.png"></i>
-                                   <p>${cloudCover}%</p>
-                               </div>
-
-
-                               <div class="daily_detail_item">
-                                   <span>Humidity</span>
-                                     <i><img src="https://i.ibb.co/84G9S6Z/humidity.png"></i>
-                                   <p>${humidity}%</p>
-                               </div>
-
-                               <div class="daily_detail_item">
-                                   <span>Dew point</span>
-                                     <i><img src="https://i.ibb.co/KrMZncB/dew-point.png"></i>
-                                   <p>${dewPointF}°</p>
-                               </div>
-
-                                 <div class="daily_detail_item">
-                                   <span>UV index</span>
-                                     <i><img src="https://i.ibb.co/X2MtYGT/uv-index.png"></i>
-                                   <p>${uvIndex} <text style="color: var(--On-Surface-Variant);font-size: 13px;">${UVindexText}</text></p>
-                               </div>
-
-                           </div>
-
-                   </div>
-
-                   `
-               } else{
-                   forecastItem.innerHTML = `
-                   <div class="daily_date_time">
-                       <div>
-                       <p>${date}</p>
-                       <span>${description}</span></div>
-
-                       <div>
-                       <img src="../weather-icons/${iconCode}.svg">
-                       </div>
-                   </div>
-
-                   <div class="temp_min_max">
-                       <p>${tempMax}° <span>/ ${tempMIN}°</span></p>
-                   </div>
-
-                   <div class="daily_details">
-
-                       <div class="details_daily_items">
-
-                               <div class="daily_detail_item">
-                                   <span>Precipitation chances</span>
-                                     <i><img src="https://i.ibb.co/BLHjSpt/rain-per.png"></i>
-                                   <p>${rainPercentage}%</p>
-                               </div>
-
-                               <div class="daily_detail_item">
-                                   <span>Precipitation amount</span>
-                                    <i><img src="https://i.ibb.co/YTzNd3G/rain-amount.png"></i>
-                                   <p>${rainMM} mm</p>
-                               </div>
-
-                               <div class="daily_detail_item">
-                                   <span>Wind speed</span>
-                                     <i><img src="https://i.ibb.co/59Rv1BW/wind-speed.png"></i>
-                                   <p>${windspeedKmh} km/h</p>
-                               </div>
-
-                               <div class="daily_detail_item">
-                                   <span>Pressure</span>
-                                     <i><img src="https://i.ibb.co/C5Mpzz1/pressure.png"></i>
-                                   <p>${pressure} hPa</p>
-                               </div>
-
-                               <div class="daily_detail_item">
-                                   <span>Cloud cover</span>
-                                     <i><img src="https://i.ibb.co/Vw0BXpc/cloud-cover.png"></i>
-                                   <p>${cloudCover}%</p>
-                               </div>
-
-
-                               <div class="daily_detail_item">
-                                   <span>Humidity</span>
-                                     <i><img src="https://i.ibb.co/84G9S6Z/humidity.png"></i>
-                                   <p>${humidity}%</p>
-                               </div>
-
-                               <div class="daily_detail_item">
-                                   <span>Dew point</span>
-                                     <i><img src="https://i.ibb.co/KrMZncB/dew-point.png"></i>
-                                   <p>${dewPoint}°</p>
-                               </div>
-
-                                 <div class="daily_detail_item">
-                                   <span>UV index</span>
-                                     <i><img src="https://i.ibb.co/X2MtYGT/uv-index.png"></i>
-                                   <p>${uvIndex} <text style="color: var(--On-Surface-Variant);font-size: 13px;">${UVindexText}</text></p>
-                               </div>
-
-                           </div>
-
-                   </div>
-
-                   `
-               }
 
         forecastContainer.appendChild(forecastItem);
     });
