@@ -7,7 +7,9 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 `(Last updated on 08-21-2024 at 10:00 AM UTC)`
 
 # 👁️ Preview
-`Screenshots may differ from the current version.`
+
+> [!CAUTION]
+> **Screenshots may differ from the current version.**
 
 | Current & 48hrs |                                                                                                     Hourly prec & 8-days forecast|                                                                                           Radar & moon/sun|  Current Conditions| 
 | :---: |                                                                                                    :---: |                                                                                                     :---: |             :---: | 
