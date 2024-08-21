@@ -13,11 +13,11 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 
 | Current & 48hrs |                                                                                                     Hourly prec & 8-days forecast|                                                                                           Radar & moon/sun|  Current Conditions| 
 | :---: |                                                                                                    :---: |                                                                                                     :---: |             :---: | 
-| <img src="preview/current.png" style="width: 250px;"> |  <img src="preview/rain_8_days.png" style="width: 250px;"> |   <img    src="preview/map_sun_moon.png" style="width: 250px;"> |   <img src="preview/details.png" style="width: 250px;"> | 
+| <img src="preview/current.jpeg" style="width: 250px;"> |  <img src="preview/rain_8_days.jpeg" style="width: 250px;"> |   <img    src="preview/map_sun_moon.png" style="width: 250px;"> |   <img src="preview/details.png" style="width: 250px;"> | 
 
 | Air and UV index |                                                                                       Government alerts|                                                                                               Moon phases |   Settings| 
 | :---: |                                                                                                    :---: |                                                                                                    :---: |          :---: | 
-| <img src="preview/air_uv.png" style="width: 250px;"> |  <img src="preview/gov_alert.png" style="width: 250px;"> | <img src="preview/moonphases.png" style="width: 250px;"> |  <img src="preview/settings.png" style="width: 250px;"> |
+| <img src="preview/air_uv.jpeg" style="width: 250px;"> |  <img src="preview/gov_alert.png" style="width: 250px;"> | <img src="preview/moonphases.png" style="width: 250px;"> |  <img src="preview/settings.jpeg" style="width: 250px;"> |
 
 <br>
 
