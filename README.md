@@ -1,4 +1,4 @@
- # 🌦️ WeatherMaster 
+vi # 🌦️ WeatherMaster 
  
 <img src="https://github.com/PranshulGG/WeatherMaster/blob/master/app/src/main/assets/weather-icons/02d.svg?short_path=21e6bd2" alt="" width="150px">
 
@@ -85,6 +85,7 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 
  # 📝 Todos:
 
+ - ⬛ Adding cache to reduce api requests 
  - **Translations**: Support for multiple languages will be added soon!
  - ⬛ Widgets 
  - ✅ Make it lightweight
