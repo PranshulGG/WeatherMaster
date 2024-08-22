@@ -22,6 +22,14 @@
             height: 30px;
             z-index: 1;
         }
+
+                md-menu-item.selected-home-location{
+            background-color: var(--Secondary-Container);
+            color: var(--On-Secondary-Container);
+            pointer-events: none;
+
+        }
+
     </style>
 </head>
 
@@ -422,7 +430,7 @@ savedLocations.forEach(location => {
 const checkName = JSON.parse(localStorage.getItem('DefaultLocation'));
 
 if(!localStorage.getItem('DefaultLocation')){
-    localStorage.setItem('DefaultLocation', 'CurrentAutoLocation');
+      localStorage.setItem('DefaultLocation', JSON.stringify({ name: 'CurrentDeviceLocation' }));
 } else if (checkName.lat && checkName.lon){
     clearSelection();
     document.querySelector(`[name="${checkName.name}"]`).classList.add('selected-home-location')
