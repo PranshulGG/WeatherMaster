@@ -4,18 +4,20 @@
 
 WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed to mimic the look and feel of a native Android app.
 
-`(Last updated on 08-20-2024 at 12:28 PM UTC)`
+`(Last updated on 08-21-2024 at 10:00 AM UTC)`
 
 # 👁️ Preview
-`Screenshots may differ from the current version.`
+
+> [!CAUTION]
+> **Screenshots may differ from the current version.**
 
 | Current & 48hrs |                                                                                                     Hourly prec & 8-days forecast|                                                                                           Radar & moon/sun|  Current Conditions| 
 | :---: |                                                                                                    :---: |                                                                                                     :---: |             :---: | 
-| <img src="preview/current.png" style="width: 250px;"> |  <img src="preview/rain_8_days.png" style="width: 250px;"> |   <img    src="preview/map_sun_moon.png" style="width: 250px;"> |   <img src="preview/details.png" style="width: 250px;"> | 
+| <img src="preview/current.jpeg" style="width: 250px;"> |  <img src="preview/rain_8_days.jpeg" style="width: 250px;"> |   <img    src="preview/map_sun_moon.png" style="width: 250px;"> |   <img src="preview/details.png" style="width: 250px;"> | 
 
 | Air and UV index |                                                                                       Government alerts|                                                                                               Moon phases |   Settings| 
 | :---: |                                                                                                    :---: |                                                                                                    :---: |          :---: | 
-| <img src="preview/air_uv.png" style="width: 250px;"> |  <img src="preview/gov_alert.png" style="width: 250px;"> | <img src="preview/moonphases.png" style="width: 250px;"> |  <img src="preview/settings.png" style="width: 250px;"> |
+| <img src="preview/air_uv.jpeg" style="width: 250px;"> |  <img src="preview/gov_alert.png" style="width: 250px;"> | <img src="preview/moonphases.png" style="width: 250px;"> |  <img src="preview/settings.jpeg" style="width: 250px;"> |
 
 <br>
 
@@ -82,7 +84,9 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
  - <strong>Weather icons</strong>: <a href="https://gitlab.com/bignutty/google-weather-icons">Google weather icons
 
  # 📝 Todos:
- 
+
+ - **Translations**: Support for multiple languages will be added soon!
+ - ⬛ Widgets 
  - ✅ Make it lightweight
  - ⬛ Notification alerts
  - ✅ Allows you to add multiple locations
