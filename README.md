@@ -19,6 +19,9 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 | :---: |                                                                                                    :---: |                                                                                                    :---: |          :---: | 
 | <img src="preview/air_uv.jpeg" style="width: 250px;"> |  <img src="preview/gov_alert.png" style="width: 250px;"> | <img src="preview/moonphases.png" style="width: 250px;"> |  <img src="preview/settings.jpeg" style="width: 250px;"> |
 
+| Forecast page |
+| :---: | 
+| <img src="preview/forecast_page.jpeg" style="width: 250px;"> |
 <br>
 
 
