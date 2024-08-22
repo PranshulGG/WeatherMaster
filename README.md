@@ -89,7 +89,7 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
  # 📝 Todos:
 
  - ⬛ Adding cache to reduce api requests 
- - **Translations**: will be added soon!
+ - ⬛ Translations will be added soon!
  - ⬛ Widgets 
  - ✅ Make it lightweight
  - ⬛ Notification alerts
