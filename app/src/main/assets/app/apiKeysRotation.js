@@ -1,0 +1,28 @@
+const apiKeysDaily = [
+    'd94bcd435b62a031771c35633f9f310a',
+    '3b833dcd6aac36124a8a30e182224427',
+    'dd1571a8ad3fd44555e8a5d66db01929',
+    '82005d27a116c2880c8f0fcb866998a0',
+];
+
+
+const apiKeysAlerts = [
+    'd94bcd435b62a031771c35633f9f310a',
+    '3b833dcd6aac36124a8a30e182224427',
+    'dd1571a8ad3fd44555e8a5d66db01929',
+    '82005d27a116c2880c8f0fcb866998a0',
+];
+
+const apiKeysCityName = [
+    '7147cfac7299479da122684c73d9b80a',
+    '09713ffe266c4dfa99b98157dfd148f9',
+    '66f9ad95f6704259a376949eaa659e62'
+];
+
+const apiKeysGeo = [
+    '7147cfac7299479da122684c73d9b80a',
+    '09713ffe266c4dfa99b98157dfd148f9',
+    '66f9ad95f6704259a376949eaa659e62'
+];
+
+
