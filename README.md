@@ -9,7 +9,9 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 # 👁️ Preview
 
 > [!CAUTION]
-> **Screenshots may differ from the current version.**
+> **Screenshots may differ from the current version.** <br>
+> **Issue: The app may not load the weather if the API request limit is exceeded; you will have to wait until it resets. The app switches APIs up to 5 times, one for each request.**
+
 
 | Current & 48hrs |                                                                                                     Hourly prec & 8-days forecast|                                                                                           Radar & moon/sun|  Current Conditions| 
 | :---: |                                                                                                    :---: |                                                                                                     :---: |             :---: | 
