@@ -3,6 +3,7 @@ const SelectedWindUnit = localStorage.getItem('SelectedWindUnit');
 const SelectedVisibiltyUnit = localStorage.getItem('selectedVisibilityUnit');
 const SelectedPrecipitationUnit = localStorage.getItem('selectedPrecipitationUnit');
 const SelectedPressureUnit = localStorage.getItem('selectedPressureUnit');
+const DefaultLocation = JSON.parse(localStorage.getItem('DefaultLocation'));
 
 
 function handleStorageChange(event) {
@@ -10,6 +11,7 @@ function handleStorageChange(event) {
         event.key === 'SelectedWindUnit' ||
         event.key === 'selectedVisibilityUnit' ||
         event.key === 'selectedPrecipitationUnit' ||
+        event.key === 'DefaultLocation'||
         event.key === 'selectedPressureUnit') {
 
             setTimeout(()=>{
@@ -49,7 +51,7 @@ function ShowError() {
 
 let currentLocation = null;
 
-document.addEventListener('DOMContentLoaded', () => {
+function useAutoCurrentLocation(){
     showLoader();
     if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition((position) => {
@@ -68,7 +70,16 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Geolocation is not available in this browser.');
 
     }
-});
+}
+
+
+if(DefaultLocation.name === 'CurrentAutoLocation'){
+    useAutoCurrentLocation()
+} else if(DefaultLocation.lat && DefaultLocation.lon){
+    getWeather(' ', DefaultLocation.lat, DefaultLocation.lon)
+} else{
+    useAutoCurrentLocation()
+}
 
 
 const Uv_0 = 'A UV index is satisfactory, indicating that there is little or no risk of harm from ultraviolet radiation.';
@@ -1653,17 +1664,32 @@ function updateSunTrackProgress(latitude, longitude) {
 
 
 function get24HourForecast(latitude, longitude) {
-    const apiKey = '28fe7b5f9a78838c639143fc517e4343';
+    const apiKey = apiKeysDaily[currentApiKeyIndex];
     const apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=current,minutely,daily,alerts&appid=${apiKey}&units=metric`;
 
     fetch(apiUrl)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
             const forecastData = data.hourly;
             display24HourForecast(forecastData);
         })
-        .catch(error => console.error('Error fetching 24-hour forecast:', error));
+        .catch(error => {
+            console.error('Error fetching daily forecast:', error);
+            if (currentApiKeyIndex < apiKeysDaily.length - 1) {
+                currentApiKeyIndex++;
+                console.log(`Switching to API key index ${currentApiKeyIndex}`);
+                get24HourForecast(latitude, longitude);
+            } else {
+                console.error('All API keys failed. Unable to fetch data.');
+            }
+        });
 }
+
 
 
 function display24HourForecast(forecastData) {
@@ -2159,10 +2185,25 @@ if(document.querySelector('[label="Rain"]').selected){
 }
 
 
-function Fetchmoonphases(lat, long){
-    fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${lat},${long}?unitGroup=metric&include=days&key=4KMES28T2K3PXBCXTNYZCZFW8&contentType=json`)
-    .then(response => response.json())
-    .then(data => {
+let currentKeyMoonIndex = 0;
+
+function switchApiKey() {
+    currentKeyMoonIndex = (currentKeyMoonIndex + 1) % apiKeysVisual.length;
+}
+
+function Fetchmoonphases(lat, long) {
+    const apiKey = apiKeysVisual[currentKeyMoonIndex];
+
+    fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${lat},${long}?unitGroup=metric&include=days&key=${apiKey}&contentType=json`)
+      .then(response => {
+        if (!response.ok) {
+          switchApiKey();
+          throw new Error('API limit reached or error occurred');
+        }
+        return response.json();
+      })
+      .then(data => {
+
 
 const moon_phase_img = document.getElementById('moon_phase_img');
         const moonPhaseText = document.getElementById('moonPhaseText');
@@ -2331,13 +2372,34 @@ const precipitationtypeText = data.days[0].preciptype ? data.days[0].preciptype[
                                 hideLoader()
     })
 
-    .catch(error => console.error(error));
+    .catch(error => {
+        console.error(error);
+        console.log('no moon');
+        Fetchmoonphases(lat, long);
+      });
 
 
 
-    fetch(`https://api.ipgeolocation.io/astronomy?apiKey=63a7210d2b104646a1099d5ba223d221&lat=${lat}8&long=${long}`)
-.then(response => response.json())
-.then(data => {
+
+      let currentAstronomyKeyIndex = 0;
+      fetchAstronomyData(lat, long)
+
+      function switchAstronomyApiKey() {
+        currentAstronomyKeyIndex = (currentAstronomyKeyIndex + 1) % astronomyApiKeys.length;
+      }
+
+      function fetchAstronomyData(lat, long) {
+        const apiKey = astronomyApiKeys[currentAstronomyKeyIndex];
+
+        fetch(`https://api.ipgeolocation.io/astronomy?apiKey=${apiKey}&lat=${lat}&long=${long}`)
+          .then(response => {
+            if (!response.ok) {
+              switchAstronomyApiKey();
+              throw new Error('API limit reached or error occurred');
+            }
+            return response.json();
+          })
+          .then(data => {
     const moonRise = data.moonrise;
     const moonSet = data.moonset;
 
@@ -2356,8 +2418,13 @@ const precipitationtypeText = data.days[0].preciptype ? data.days[0].preciptype[
 
         document.getElementById('DayLengthText').innerHTML = formattedDayLength;
 
-})
-.catch(error => console.error(error));
+    })
+    .catch(error => {
+      console.error(error);
+      fetchAstronomyData(lat, long);
+    });
+}
+
 
 
 
@@ -2458,3 +2525,31 @@ function checkNoInternet(){
 
 
 
+    document.addEventListener('DOMContentLoaded', async function() {
+
+        const currentVersion = 'v1.4.8';
+            const githubRepo = 'PranshulGG/WeatherMaster';
+            const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
+
+            try {
+                const response = await fetch(releasesUrl);
+                if (!response.ok) throw new Error('Network response was not ok.');
+
+                const data = await response.json();
+                const latestVersion = data.tag_name;
+
+
+
+            if (latestVersion !== currentVersion) {
+
+
+                document.querySelector('.new_ver_download').hidden = false;
+
+
+                } else {
+                document.querySelector('.new_ver_download').hidden = true;
+                    return
+                }
+            }catch (error) {
+            }
+        });

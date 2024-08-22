@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../components/modal-ver.css">
     <link rel="stylesheet" href="../ripple-files/ripple.css">
     <link rel="stylesheet" href="moonphaseUi.css">
+    <script src="../app/apiKeysRotation.js"></script>
 
 </head>
 
@@ -104,9 +105,27 @@
 const latDif = localStorage.getItem('currentLat');
 const longDif = localStorage.getItem('currentLong');
 
-fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${latDif},${longDif}?unitGroup=metric&include=days&key=4KMES28T2K3PXBCXTNYZCZFW8&contentType=json`)
-        .then(response => response.json())
-        .then(data => {
+
+let currentKeyMoonIndex = 0;
+
+Fetchmoonphases(latDif, longDif)
+
+function switchApiKey() {
+    currentKeyMoonIndex = (currentKeyMoonIndex + 1) % apiKeysVisual.length;
+}
+
+function Fetchmoonphases(lat, long) {
+    const apiKey = apiKeysVisual[currentKeyMoonIndex];
+
+    fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${lat},${long}?unitGroup=metric&include=days&key=${apiKey}&contentType=json`)
+      .then(response => {
+        if (!response.ok) {
+          switchApiKey();
+          throw new Error('API limit reached or error occurred');
+        }
+        return response.json();
+      })
+      .then(data => {
 
 
        
@@ -280,9 +299,25 @@ fetch(`https://api.farmsense.net/v1/moonphases/?d=${currentDateMoonPhase}`)
         // set/rise
 
 
-        fetch(`https://api.ipgeolocation.io/astronomy?apiKey=63a7210d2b104646a1099d5ba223d221&lat=${latDif}8&long=${longDif}`)
-        .then(response => response.json())
-        .then(data => {
+        let currentAstronomyKeyIndex = 0;
+      fetchAstronomyData(latDif, longDif)
+
+      function switchAstronomyApiKey() {
+        currentAstronomyKeyIndex = (currentAstronomyKeyIndex + 1) % astronomyApiKeys.length;
+      }
+
+      function fetchAstronomyData(lat, long) {
+        const apiKey = astronomyApiKeys[currentAstronomyKeyIndex];
+
+        fetch(`https://api.ipgeolocation.io/astronomy?apiKey=${apiKey}&lat=${lat}&long=${long}`)
+          .then(response => {
+            if (!response.ok) {
+              switchAstronomyApiKey();
+              throw new Error('API limit reached or error occurred');
+            }
+            return response.json();
+          })
+          .then(data => {
             const moonRise = data.moonrise;
             const moonSet = data.moonset;
 
@@ -294,8 +329,12 @@ fetch(`https://api.farmsense.net/v1/moonphases/?d=${currentDateMoonPhase}`)
             document.getElementById('MoonsetText').innerHTML = moonSetAmPm;
 
         })
-        .catch(error => console.error(error));
-
+        .catch(error => {
+      console.error(error);
+      // Retry the request with the new key after switching
+      fetchAstronomyData(lat, long);
+    });
+}
 
         
 function convertToAmPm(time) {

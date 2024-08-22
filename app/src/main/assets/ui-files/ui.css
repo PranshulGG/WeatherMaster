@@ -1871,3 +1871,31 @@ savelocationtouch md-ripple{
   font-family: var(--outfit-mid);
   color: var(--On-Surface);
 }
+
+        .new_ver_download{
+            position: fixed;
+            bottom: 0;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 10px;
+            width: calc(100% - 40px);
+            background-color:var(--Inverse-Surface);
+            padding: 10px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        .new_ver_download md-text-button{
+            --md-sys-color-primary: var(--Inverse-Primary);
+        }
+
+        .new_ver_download p{
+            color: var(--Inverse-On-Surface);
+            margin: 0;
+            font-size: 18px;
+            font-family: var(--outfit);
+
+        }

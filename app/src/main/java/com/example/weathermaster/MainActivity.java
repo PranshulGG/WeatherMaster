@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
         webview.setBackgroundColor(getResources().getColor(R.color.diffDefault));
 
 
-        requestLocationPermissions();
 
 
         webview.setWebChromeClient(new WebChromeClient() {

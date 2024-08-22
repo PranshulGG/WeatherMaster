@@ -52,6 +52,25 @@
                     <md-switch slot="end"></md-switch>
                 </md-list-item>
 
+                <md-list-item margin type="button" id="usage-popover-anchor">
+                    <md-icon icon-filled slot="start">home_pin</md-icon>
+                    <div slot="headline">Home location</div>
+                    <div slot="supporting-text">You need to save locations to show in the menu</div>
+                    <div slot="supporting-text" id="homeLocationSelectedText" style="color: var(--Primary); font-family: var(--outfit-mid);">Your device location</div>
+
+                    <md-icon slot="end" icon-outlined>chevron_right</md-icon>
+                    <script type="module">
+                        const anchorEl = document.body.querySelector('#usage-popover-anchor');
+                        const menuEl = document.body.querySelector('#usage-popover');
+
+                        anchorEl.addEventListener('click', () => { menuEl.open = !menuEl.open; });
+                      </script>
+                </md-list-item>
+
+                <md-menu positioning="popover" id="usage-popover" anchor="usage-popover-anchor" anchor-corner="start-start">
+
+                </md-menu>
+
                 <md-list-item margin>
                     <md-icon icon-filled slot="start">device_thermostat</md-icon>
                     <div slot="headline">Temperature Unit</div>
@@ -126,6 +145,13 @@
 
             <p class="title" style="margin-top: 5px;">Additional</p>
             <md-list>
+
+                <md-list-item margin disabled>
+                    <div slot="headline">App language</div>
+                    <div slot="supporting-text">English (Translation soon)</div>
+                    <md-icon icon-filled slot="end">open_in_new</md-icon>
+                </md-list-item>
+
                 <md-list-item  onclick="sendThemeToAndroid('OpenAboutPage')" type="button">
                     <md-icon icon-filled slot="start">info</md-icon>
                     <div slot="headline">About WeatherMaster</div>
@@ -339,6 +365,70 @@ const getSelectedPressureUnit = localStorage.getItem('selectedPressureUnit')
 
 if(localStorage.getItem('selectedPressureUnit')){
   document.querySelector(`[value="${getSelectedPressureUnit}"]`).selected = true;
+}
+
+// get saved locations
+
+
+
+const savedLocationsMenu = document.getElementById('usage-popover');
+const savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
+
+const clearSelection = () => {
+    const allMenuItems = savedLocationsMenu.querySelectorAll('md-menu-item');
+    allMenuItems.forEach(item => item.classList.remove('selected-home-location'));
+};
+
+const defaultMenuItem = document.createElement('md-menu-item');
+defaultMenuItem.setAttribute('menu-type', '');
+defaultMenuItem.setAttribute('lat', 'defaultLat');
+defaultMenuItem.setAttribute('lon', 'defaultLon');
+defaultMenuItem.innerHTML = 'Your device location';
+defaultMenuItem.classList.add('selected-home-location');
+
+
+defaultMenuItem.addEventListener('click', () => {
+    clearSelection();
+    document.getElementById('homeLocationSelectedText').innerHTML = 'Your device location';
+    defaultMenuItem.classList.add('selected-home-location');
+    localStorage.setItem('DefaultLocation', JSON.stringify({ name: 'CurrentDeviceLocation' }));
+
+});
+
+savedLocationsMenu.appendChild(defaultMenuItem);
+
+savedLocations.forEach(location => {
+    const menuItemLocation = document.createElement('md-menu-item');
+    menuItemLocation.setAttribute('menu-type', '');
+    menuItemLocation.setAttribute('lat', location.lat);
+    menuItemLocation.setAttribute('lon', location.lon);
+    menuItemLocation.setAttribute('name', location.locationName);
+
+    menuItemLocation.innerHTML = `${location.locationName}`;
+
+    menuItemLocation.addEventListener('click', () => {
+        clearSelection();
+        document.getElementById('homeLocationSelectedText').innerHTML = location.locationName;
+        menuItemLocation.classList.add('selected-home-location');
+
+
+        localStorage.setItem('DefaultLocation', JSON.stringify({ lat: location.lat, lon: location.lon, name: location.locationName }));
+
+    });
+
+    savedLocationsMenu.appendChild(menuItemLocation);
+});
+
+const checkName = JSON.parse(localStorage.getItem('DefaultLocation'));
+
+if(!localStorage.getItem('DefaultLocation')){
+    localStorage.setItem('DefaultLocation', 'CurrentAutoLocation');
+} else if (checkName.lat && checkName.lon){
+    clearSelection();
+    document.querySelector(`[name="${checkName.name}"]`).classList.add('selected-home-location')
+        document.getElementById('homeLocationSelectedText').innerHTML = checkName.name;
+} else{
+
 }
 
     </script>
