@@ -239,7 +239,6 @@ AndroidInterface.updateStatusBarColor(theme);
 
   selectTempUnit.addEventListener('input', () =>{
         localStorage.setItem('SelectedTempUnit', selectTempUnit.value)
-        ShowSnack('Relaunch the app to apply changes', 3000, 3);
   });
 
   if(!localStorage.getItem('SelectedTempUnit')){
@@ -259,7 +258,6 @@ if(getSelectedTempUnit){
 
   selectWindUnit.addEventListener('input', () =>{
       localStorage.setItem('SelectedWindUnit', selectWindUnit.value)
-        ShowSnack('Relaunch the app to apply changes', 3000, 3);
 
 });
 
@@ -281,7 +279,6 @@ const selectVisibilityUnit = document.getElementById('selectVisibilityUnit');
 
 selectVisibilityUnit.addEventListener('input', () =>{
     localStorage.setItem('selectedVisibilityUnit', selectVisibilityUnit.value)
-        ShowSnack('Relaunch the app to apply changes', 3000, 3);
 
 });
 
@@ -302,7 +299,6 @@ const selectPrecipitationUnit = document.getElementById('selectPrecipitationUnit
 
 selectPrecipitationUnit.addEventListener('input', () =>{
     localStorage.setItem('selectedPrecipitationUnit', selectPrecipitationUnit.value)
-        ShowSnack('Relaunch the app to apply changes', 3000, 3);
 
 });
 
@@ -328,7 +324,6 @@ const selectPressureUnit = document.getElementById('selectPressureUnit');
 
 selectPressureUnit.addEventListener('input', () =>{
     localStorage.setItem('selectedPressureUnit', selectPressureUnit.value)
-        ShowSnack('Relaunch the app to apply changes', 3000, 3);
 
 });
 

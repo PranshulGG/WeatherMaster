@@ -4,6 +4,11 @@
     touch-action: manipulation;
     -webkit-user-drag: none;
     outline: none;
+    --Surface: #334151;
+    --On-Surface: #e0e2e8;
+    --On-Surface-Variant: #b9c8da;
+    --Outline-Variant: #3f4955;
+    --Primary: #9ccbfb;
 }
 
 p{
@@ -11,7 +16,7 @@ p{
 }
 
 body {
-    background-color: var(--Surface);
+    background-color: #334150;
     padding: 0;
     margin: 0;
     overflow: hidden;
@@ -30,7 +35,7 @@ body {
 }
 
 
-.activity-large-content::before {
+.full-activity-content::before {
     position: fixed;
     bottom: 0;
     content: '';
@@ -40,119 +45,249 @@ body {
     z-index: 1;
 }
 
+[hidden]{
+    display: none !important;
+}
 
 
 .loader_holder{
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 130px;
+    height: 100%;
+    position: fixed;
+    background-color: var(--Surface);
+    z-index: 2;
+    left: 0;
+    top: 0;
+    width: 100%;
     --md-circular-progress-size: 55px;
+    transition: opacity 0.2s ease-in;
 }
 
-
-#foreCastList .forecast-list-item{
-    animation: forecast-list-item 0.3s ease-in;
-    padding: 15px;
-    /* background-color: var(--Surface-Container-Low); */
-    background: linear-gradient(0deg, var(--Surface-Container-Low) 40%, var(--weather-color));
-    border-radius: 5px;
-    margin-bottom: 5px;
-    
-}
-
-#foreCastList .forecast-list-item:first-child{
-    border-radius:10px 10px 5px 5px;
-}
-
-#foreCastList .forecast-list-item:last-child{
-    border-radius:5px 5px 10px 10px ;
-}
-
-#foreCastList{
+forecastDateHeader{
+    display: flex;
+    overflow: auto;
     padding: 10px;
-}
-
-@keyframes forecast-list-item{
-    0%{
-        opacity: 0;
-    }
-    100%{
-        opacity: 1;
-    }
+    padding-left: 15px;
+    padding-right: 15px;
+    gap: 10px;
+    padding-bottom: 15px;
+    border-bottom: 1.5px solid  var(--Outline-Variant);
 }
 
 
-#foreCastList .forecast-list-item .daily_date_time div p{
-    font-size: 30px;
-    color: White;
-    padding-bottom: 3px;
+forecastDateHeader .forecastDateHeaderContent{
+    flex-shrink: 0;
+    height: 100px;
+    width: 65px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #253648;
+    padding: 5px 5px;
+    position: relative;
+    border-radius: 10px;
+    gap: 10px;
 }
 
-#foreCastList .forecast-list-item .daily_date_time div span{
+forecastDateHeader .forecastDateHeaderContent.selected{
+    background-color: #011d33;
+    pointer-events: none;
+}
+
+forecastDateHeader .forecastDateHeaderContent.selected::before{
+    opacity: 1;
+}
+
+
+forecastDateHeader .forecastDateHeaderContent::before{
+    content: '';
+    width: 40%;
+    height: 4px;
+    background-color: var(--Primary);
+    opacity: 0;
+    transition: opacity 0.2s ease-out;
+    position: absolute;
+    bottom: -15px;
+    border-radius: 50px 50px 0 0;
+    z-index: 1;
+}
+
+forecastDateHeader .forecastDateHeaderContent img{
+    width: 30px;
+}
+
+forecastDateHeader .forecastDateHeaderContent div p{
+    color: var(--On-Surface);
+    font-family: var(--google-normal);
+    font-size: 15px;
+
+}
+
+forecastDateHeader .forecastDateHeaderContent div span{
+    color: var(--On-Surface-Variant);
+    font-family: var(--google-normal);
+    font-size: 15px;
+
+}
+
+forecastDateHeader .forecastDateHeaderContent > span{
+    color: var(--On-Surface);
+    font-family: var(--google-mid);
+    font-size: 16.5px;
+}
+
+forecastMainDetails{
+    display: flex;
+    flex-direction: column;
+}
+
+forecastMainDetails .forecastTempConditionMainContent .top-details {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    padding-top: 40px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+forecastMainDetails .forecastTempConditionMainContent .top-details > p{
+    color: #e9eef7;
+    font-family: var(--google-mid);
     font-size: 20px;
-    text-transform: capitalize;
+    padding-bottom: 5px;
 }
 
-#foreCastList .forecast-list-item .daily_date_time{
+forecastMainDetails .forecastTempConditionMainContent .top-details > div > tempLarge p{
+    color: #e0e3ea;
+}
+
+forecastMainDetails .forecastTempConditionMainContent .top-details > div > tempLarge span{
+    color: #b9c8db;
+}
+
+forecastMainDetails .forecastTempConditionMainContent .top-details > div > tempLarge{
+    font-size: 56px;
+    flex-shrink: 0;
+    font-family: var(--google-mid);
+    font-weight: 500;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    padding-right: 10px;
 }
 
-#foreCastList .forecast-list-item .daily_date_time div img{
-    width: 60px;
-    height: 60px;
+forecastMainDetails .forecastTempConditionMainContent .top-details > div{
+    display: flex;
+    align-items: center;
 }
 
-#foreCastList .forecast-list-item .temp_min_max{
-    font-size: 34px;
-    font-family: Arial, Helvetica, sans-serif;
-    margin-top: 20px;
-    color: var(--On-Surface);
-    margin-bottom: 20px;
+weatherConditionText{
+    color: var(--Primary);
+    text-transform: capitalize;
+    font-family: var(--outfit-mid);
+    font-size: 18px;
+    padding-top: 5px;
 }
 
-#foreCastList .forecast-list-item .temp_min_max p span{
-    opacity: 0.8;
+.daily-conditions-title{
+    padding-left: 15px;
+    font-weight: 600;
+    color: #d0e2f8;
+    margin-top: 40px;
+    font-size: 20px;
+  }
+
+
+.daily-conditions{
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
 }
 
-#foreCastList .forecast-list-item .daily_details .details_daily_items{
+.daily-conditions-wrap{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 5px;
+    gap: 10px;
 }
 
-#foreCastList .forecast-list-item .daily_details .details_daily_items .daily_detail_item{
-    background-color: rgba(0, 0, 0, 0.308);
-    padding: 10px;
-    border-radius: 10px;
+.daily-conditions-wrap > div{
+    background-color: #0d1d2a;
+    border-radius: 15px;
 }
 
-#foreCastList .forecast-list-item .daily_details .details_daily_items .daily_detail_item span{
-    color: var(--On-Surface-Variant);
-    font-size: 15px;
-    margin-bottom: 10px;
-    border-bottom: 1px solid var(--Outline-Variant);
-    display: block;
-    padding-bottom: 4px;
+.daily-conditions-wrap > div svg{
+    height: 120px;
+    width: 120px;
+    flex-shrink: 0;
 }
 
-#foreCastList .forecast-list-item .daily_details .details_daily_items .daily_detail_item p{
-    color: White;
-    font-size: 18px;
-}
-
-#foreCastList .forecast-list-item .daily_details .details_daily_items .daily_detail_item i{
+conditionicon{
     display: flex;
     align-items: center;
-    padding-bottom: 10px;
     justify-content: center;
-    color: var(--Secondary);
-    font-size: 30px;
-    height: 40px;
+    flex-shrink: 0;
+
 }
 
-#foreCastList .forecast-list-item .daily_details .details_daily_items .daily_detail_item i img{
-    width: 35px;
+.daily-conditions-wrap > div p{
+    padding: 10px;
+    padding-left: 15px;
+    font-size: 18px;
+    font-family: var(--outfit);
+    color: var(--On-Surface-Variant);
+}
+
+.daily-conditions-wrap > div span{
+    padding: 10px;
+    display: flex;
+    padding-left: 15px;
+    color: var(--On-Surface);
+    font-size: 20px;
+    font-family: var(--outfit-mid);
+}
+
+.sunrise-sunset-forecast{
+    padding: 15px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.sunrise-sunset-forecast .sunrise-sunset-item{
+    background-color: #0d1d2a;
+    border-radius: 15px;
+    width: 100%;
+}
+
+.sunrise-sunset-forecast .sunrise-sunset-item > div > svg{
+    width: 100px;
+    height: 100px;
+}
+
+.sunrise-sunset-forecast .sunrise-sunset-item > div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sunrise-sunset-forecast .sunrise-sunset-item p{
+    padding: 10px;
+    padding-left: 15px;
+    font-size: 18px;
+    font-family: var(--outfit);
+    color: var(--On-Surface-Variant);
+}
+
+.sunrise-sunset-forecast .sunrise-sunset-item span{
+    padding: 10px;
+    display: flex;
+    padding-left: 15px;
+    color: var(--On-Surface);
+    font-size: 20px;
+    font-family: var(--outfit-mid);
 }

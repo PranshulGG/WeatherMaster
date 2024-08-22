@@ -52,7 +52,7 @@
             android:name=".ForecastPage"
             android:screenOrientation="portrait"
             android:exported="true"
-            android:theme="@style/ScreensAll"
+            android:theme="@style/ScreenForecastPage"
             />
         <activity
             android:name=".AlertPage"

@@ -4,6 +4,25 @@ const SelectedVisibiltyUnit = localStorage.getItem('selectedVisibilityUnit');
 const SelectedPrecipitationUnit = localStorage.getItem('selectedPrecipitationUnit');
 const SelectedPressureUnit = localStorage.getItem('selectedPressureUnit');
 
+
+function handleStorageChange(event) {
+    if (event.key === 'SelectedTempUnit' ||
+        event.key === 'SelectedWindUnit' ||
+        event.key === 'selectedVisibilityUnit' ||
+        event.key === 'selectedPrecipitationUnit' ||
+        event.key === 'selectedPressureUnit') {
+
+            setTimeout(()=>{
+                window.location.reload();
+            }, 1500);
+
+    }
+}
+
+window.addEventListener('storage', handleStorageChange);
+
+
+
 let anim = null;
 
 function ShowError() {
@@ -196,14 +215,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    const apiKeyGeo = '7147cfac7299479da122684c73d9b80a';
+let currentApiKeyGeoIndex = 0;
 
     async function getCitySuggestions(query) {
-        const response = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${query}&key=${apiKeyGeo}&limit=5`);
-        const data = await response.json();
-        displaySuggestions(data.results);
-    }
+        const apiKeyGeo = apiKeysGeo[currentApiKeyGeoIndex];
+        const url = `https://api.opencagedata.com/geocode/v1/json?q=${query}&key=${apiKeyGeo}&limit=5`;
 
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            displaySuggestions(data.results);
+        } catch (error) {
+            console.error('Error fetching city suggestions:', error);
+
+            if (currentApiKeyGeoIndex < apiKeysGeo.length - 1) {
+                currentApiKeyGeoIndex++;
+                console.log(`Switching to API key index ${currentApiKeyGeoIndex} for city suggestions`);
+                getCitySuggestions(query);
+            } else {
+                console.error('All geo API keys failed. Unable to fetch data.');
+
+            }
+        }
+    }
     function displaySuggestions(results) {
 
         const suggestionsContainer = document.getElementById('city-list');
@@ -491,28 +528,55 @@ function setCurrentLocation(lat, lon){
 
 
 
-                const apiKeyCityName = '7147cfac7299479da122684c73d9b80a';
-                const urlcityName = `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lon}&key=${apiKeyCityName}`;
+let currentApiKeyCityNameIndex = 0;
 
-                fetch(urlcityName)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.results.length > 0) {
-                            const components = data.results[0].components;
-                            const city = components.city || components.town || components.village;
-                            const stateMain = components.state
-                            if(!city){
-                            document.getElementById('currentLocationName').textContent = `${stateMain}, ${countryNameText}`;
-                          } else if(!stateMain) {
-                        document.getElementById('currentLocationName').textContent = `${city}, ${countryNameText}`;
-                          } else{
-                            document.getElementById('currentLocationName').textContent = `${city}, ${stateMain}, ${countryNameText}`;
-                          }
-                        } else {
-                            console.log('No results found')
 
-                        }
-                    })
+
+                    fetchCityName(lat, lon, countryNameText)
+
+
+
+                    function fetchCityName(cityLat, cityLon, countryNameText) {
+                        const apiKeyCityName = apiKeysCityName[currentApiKeyCityNameIndex];
+                        const urlcityName = `https://api.opencagedata.com/geocode/v1/json?q=${cityLat}+${cityLon}&key=${apiKeyCityName}`;
+
+                        fetch(urlcityName)
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                if (data.results.length > 0) {
+                                    const components = data.results[0].components;
+                                    const city = components.city || components.town || components.village;
+                                    const stateMain = components.state;
+
+                                    if(!city){
+                                        document.getElementById('currentLocationName').textContent = `${stateMain}, ${countryNameText}`;
+                                      } else if(!stateMain) {
+                                    document.getElementById('currentLocationName').textContent = `${city}, ${countryNameText}`;
+                                      } else{
+                                        document.getElementById('currentLocationName').textContent = `${city}, ${stateMain}, ${countryNameText}`;
+                                      }
+                                } else {
+                                    console.log('No results found');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error fetching city name:', error);
+
+                                if (currentApiKeyCityNameIndex < apiKeysCityName.length - 1) {
+                                    currentApiKeyCityNameIndex++;
+                                    console.log(`Switching to API key index ${currentApiKeyCityNameIndex} for city name`);
+                                    fetchCityName(cityLat, cityLon, countryNameText);
+                                } else {
+                                    console.error('All city name API keys failed. Unable to fetch data.');
+
+                                }
+                            });
+                    }
 
             });
 }
@@ -629,35 +693,55 @@ function getWeather(city, latitude, longitude) {
                         const cityLat = data.coord.lat
                         const cityLon = data.coord.lon
 
-            const apiKeyCityName = '7147cfac7299479da122684c73d9b80a';
-            const urlcityName = `https://api.opencagedata.com/geocode/v1/json?q=${cityLat}+${cityLon}&key=${apiKeyCityName}`;
+                        let currentApiKeyCityNameIndex = 0;
 
-            fetch(urlcityName)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.results.length > 0) {
-                        const components = data.results[0].components;
-                        const city = components.city || components.town || components.village;
-                        const stateMain = components.state
-                        if(!city){
-                            document.getElementById('city-name').innerHTML = `${stateMain}, ${countryNameText}`;
-                            document.getElementById('SelectedLocationText').innerHTML = `${stateMain}, ${countryNameText}`;
+                        fetchCityName(cityLat, cityLon, countryNameText)
 
 
-                          } else if(!stateMain) {
-                        document.getElementById('city-name').innerHTML = `${city}, ${countryNameText}`;
-                            document.getElementById('SelectedLocationText').innerHTML = `${city}, ${countryNameText}`;
+                        function fetchCityName(cityLat, cityLon, countryNameText) {
+                            const apiKeyCityName = apiKeysCityName[currentApiKeyCityNameIndex];
+                            const urlcityName = `https://api.opencagedata.com/geocode/v1/json?q=${cityLat}+${cityLon}&key=${apiKeyCityName}`;
 
-                          } else{
-                            document.getElementById('city-name').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
-                            document.getElementById('SelectedLocationText').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
+                            fetch(urlcityName)
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error('Network response was not ok');
+                                    }
+                                    return response.json();
+                                })
+                                .then(data => {
+                                    if (data.results.length > 0) {
+                                        const components = data.results[0].components;
+                                        const city = components.city || components.town || components.village;
+                                        const stateMain = components.state;
 
-                          }
-                    } else {
-                        console.log('No results found')
+                                        if (!city) {
+                                            document.getElementById('city-name').innerHTML = `${stateMain}, ${countryNameText}`;
+                                            document.getElementById('SelectedLocationText').innerHTML = `${stateMain}, ${countryNameText}`;
+                                        } else if (!stateMain) {
+                                            document.getElementById('city-name').innerHTML = `${city}, ${countryNameText}`;
+                                            document.getElementById('SelectedLocationText').innerHTML = `${city}, ${countryNameText}`;
+                                        } else {
+                                            document.getElementById('city-name').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
+                                            document.getElementById('SelectedLocationText').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
+                                        }
+                                    } else {
+                                        console.log('No results found');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error fetching city name:', error);
 
-                    }
-                })
+                                    if (currentApiKeyCityNameIndex < apiKeysCityName.length - 1) {
+                                        currentApiKeyCityNameIndex++;
+                                        console.log(`Switching to API key index ${currentApiKeyCityNameIndex} for city name`);
+                                        fetchCityName(cityLat, cityLon, countryNameText);
+                                    } else {
+                                        console.error('All city name API keys failed. Unable to fetch data.');
+
+                                    }
+                                });
+                        }
 
             if(SelectedTempUnit === 'fahrenheit'){
                 document.getElementById('temp').innerHTML = `${tempF}°`;
@@ -1058,35 +1142,55 @@ function getWeatherByCoordinates(latitude, longitude) {
             const cityLat = data.coord.lat
             const cityLon = data.coord.lon
 
-            const apiKeyCityName = '7147cfac7299479da122684c73d9b80a';
-            const urlcityName = `https://api.opencagedata.com/geocode/v1/json?q=${cityLat}+${cityLon}&key=${apiKeyCityName}`;
+                        let currentApiKeyCityNameIndex = 0;
 
-            fetch(urlcityName)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.results.length > 0) {
-                        const components = data.results[0].components;
-                        const city = components.city || components.town || components.village;
-                        const stateMain = components.state
-                        if(!city){
-                            document.getElementById('city-name').innerHTML = `${stateMain}, ${countryNameText}`;
-                            document.getElementById('SelectedLocationText').innerHTML = `${stateMain}, ${countryNameText}`;
+                        fetchCityName(cityLat, cityLon, countryNameText)
 
 
-                          } else if(!stateMain) {
-                        document.getElementById('city-name').innerHTML = `${city}, ${countryNameText}`;
-                            document.getElementById('SelectedLocationText').innerHTML = `${city}, ${countryNameText}`;
+                        function fetchCityName(cityLat, cityLon, countryNameText) {
+                            const apiKeyCityName = apiKeysCityName[currentApiKeyCityNameIndex];
+                            const urlcityName = `https://api.opencagedata.com/geocode/v1/json?q=${cityLat}+${cityLon}&key=${apiKeyCityName}`;
 
-                          } else{
-                            document.getElementById('city-name').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
-                            document.getElementById('SelectedLocationText').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
+                            fetch(urlcityName)
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error('Network response was not ok');
+                                    }
+                                    return response.json();
+                                })
+                                .then(data => {
+                                    if (data.results.length > 0) {
+                                        const components = data.results[0].components;
+                                        const city = components.city || components.town || components.village;
+                                        const stateMain = components.state;
 
-                          }
-                    } else {
-                        console.log('No results found')
+                                        if (!city) {
+                                            document.getElementById('city-name').innerHTML = `${stateMain}, ${countryNameText}`;
+                                            document.getElementById('SelectedLocationText').innerHTML = `${stateMain}, ${countryNameText}`;
+                                        } else if (!stateMain) {
+                                            document.getElementById('city-name').innerHTML = `${city}, ${countryNameText}`;
+                                            document.getElementById('SelectedLocationText').innerHTML = `${city}, ${countryNameText}`;
+                                        } else {
+                                            document.getElementById('city-name').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
+                                            document.getElementById('SelectedLocationText').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
+                                        }
+                                    } else {
+                                        console.log('No results found');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error fetching city name:', error);
 
-                    }
-                })
+                                    if (currentApiKeyCityNameIndex < apiKeysCityName.length - 1) {
+                                        currentApiKeyCityNameIndex++;
+                                        console.log(`Switching to API key index ${currentApiKeyCityNameIndex} for city name`);
+                                        fetchCityName(cityLat, cityLon, countryNameText);
+                                    } else {
+                                        console.error('All city name API keys failed. Unable to fetch data.');
+
+                                    }
+                                });
+                        }
 
 
 
@@ -1721,19 +1825,36 @@ function showToast(description, time) {
         }, 500);
     }, 3000);
 }
-const apiOne = 'dd1571a8ad3fd44555e8a5d66db01929';
+let currentApiKeyIndex = 0;
 
 function getDailyForecast(latitude, longitude) {
-    const apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiOne}&units=metric`;
+    const apiKey = apiKeysDaily[currentApiKeyIndex];
+    const apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
     fetch(apiUrl)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
             const dailyForecast = data.daily;
             displayDailyForecast(dailyForecast);
         })
-        .catch(error => console.error('Error fetching daily forecast:', error));
+        .catch(error => {
+            console.error('Error fetching daily forecast:', error);
+            if (currentApiKeyIndex < apiKeysDaily.length - 1) {
+                currentApiKeyIndex++;
+                console.log(`Switching to API key index ${currentApiKeyIndex}`);
+                getDailyForecast(latitude, longitude);
+            } else {
+                console.error('All API keys failed. Unable to fetch data.');
+            }
+        });
 }
+
+
 
 function displayDailyForecast(dailyForecast) {
     const forecastContainer = document.getElementById('forecast-5day');
@@ -2242,30 +2363,49 @@ const precipitationtypeText = data.days[0].preciptype ? data.days[0].preciptype[
 
 const latAlerts = lat;
 const lonAlerts = long;
-const apiKeyAlerts = 'dd1571a8ad3fd44555e8a5d66db01929';
+let currentApiKeyAlertsIndex = 0;
 
 
 
-fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latAlerts}&lon=${lonAlerts}&exclude=current,minutely,hourly,daily&appid=${apiKeyAlerts}`)
-  .then(response => response.json())
-  .then(data => {
-    if(data.alerts){
-        console.log(data.alerts)
-        const alertEvent = data.alerts[0].event;
 
-        document.getElementById('excessiveHeatText').innerHTML = alertEvent + '<text>More on this alert...</text>';
+getWeatherAlerts(latAlerts, lonAlerts)
 
-        document.querySelector('.weatherCommentsDiv').classList.add('alertOpened');
-        document.querySelector('.excessiveHeat').hidden = false;
 
-    } else{
-        console.log('No alerts')
-        document.querySelector('.weatherCommentsDiv').classList.remove('alertOpened');
-        document.querySelector('.excessiveHeat').hidden = true;
-    }
-  })
+function getWeatherAlerts(latAlerts, lonAlerts) {
+    const apiKeyAlerts = apiKeysAlerts[currentApiKeyAlertsIndex];
+    const apiUrlAlerts = `https://api.openweathermap.org/data/2.5/onecall?lat=${latAlerts}&lon=${lonAlerts}&exclude=current,minutely,hourly,daily&appid=${apiKeyAlerts}`;
 
-  .catch(error => console.error('Error:', error));
+    fetch(apiUrlAlerts)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.alerts) {
+                console.log(data.alerts);
+                const alertEvent = data.alerts[0].event;
+                document.getElementById('excessiveHeatText').innerHTML = alertEvent + '<text>More on this alert...</text>';
+                document.querySelector('.weatherCommentsDiv').classList.add('alertOpened');
+                document.querySelector('.excessiveHeat').hidden = false;
+            } else {
+                console.log('No alerts');
+                document.querySelector('.weatherCommentsDiv').classList.remove('alertOpened');
+                document.querySelector('.excessiveHeat').hidden = true;
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching weather alerts:', error);
+            if (currentApiKeyAlertsIndex < apiKeysAlerts.length - 1) {
+                currentApiKeyAlertsIndex++;
+                console.log(`Switching to API key index ${currentApiKeyAlertsIndex} for alerts`);
+                getWeatherAlerts(latAlerts, lonAlerts);
+            } else {
+                console.error('All alert API keys failed. Unable to fetch data.');
+            }
+        });
+}
 
 }
 

@@ -12,94 +12,101 @@
     <link rel="stylesheet" href="../ripple-files/ripple.css">
     <link rel="stylesheet" href="../components/segment-btns.css">
     <link rel="stylesheet" href="forecastPageUi.css">
+    <script src="../app/apiKeysRotation.js"></script>
+
 </head>
 
 <body style="background-color: var(--Surface);">
 
-    <div class="activity-large open">
-        <div class="header-activity-large" id="head-1">
-            <button class="ripple-icon-btn regular" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)"
-                title="Go back" onclick="sendThemeToAndroid('GoBack')">
-                <span class="ripple-effect-icon"></span>
-                <span icon-outlined>arrow_back</span>
-            </button>
-            <p class="label-hidden-large" style="white-space: nowrap;">Next 7-Days</p>
-        </div>
-        <div class="activity-large-content" id="headUser-1">
-            <p class="label-large-main">Next 7-Days</p>
-            <div class="content-parent-large" style="padding-bottom: 32px;">
 
-                <div id="foreCastList">
+<div class="full-activity open">
+    <div class="full-activity-header transparent round" id="head-2">
+        <button class="ripple-icon-btn close" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)"
+                onclick="sendThemeToAndroid('GoBack')">
+            <span class="ripple-effect-icon"></span>
+            <span icon-outlined style="font-size: 24px !important;">arrow_back</span>
+        </button>
 
-                    <div class="loader_holder">
-                    <md-circular-progress indeterminate></md-circular-progress></div>
-
-                </div>
-
-              
-
-            </div>
-        </div>
+        <p>7-day forecast</p>
     </div>
+    <div class="full-activity-content" id="Content">
+
+        <div id="foreCastList">
 
 
 
-    <script>
-        const user1 = document.getElementById('headUser-1')
 
-        function changeColorOnScroll1() {
-            var container = document.getElementById('headUser-1');
-            var scrollY = container.scrollTop;
-
-            if (scrollY >= 50) {
-                document.getElementById('head-1').style.backgroundColor = 'var(--Surface-Container)';
-                document.getElementById('head-1').style.transition = '';
-
-                document.getElementById('headUser-1').style.scrollSnapType = 'unset';
-                container.removeEventListener('scroll', changeColorOnScroll1);
-                sendThemeToAndroid('Scrolled')
+        </div>
 
 
-            } else {
 
-            }
+        <div class="loader_holder">
+            <md-circular-progress indeterminate></md-circular-progress></div>
+
+
+
+    </div>
+</div>
+
+
+
+
+<script>
+         const user2 = document.getElementById('Content')
+
+function changeColorOnScroll2() {
+    var container = document.getElementById('Content');
+    var scrollY = container.scrollTop;
+
+    if (scrollY >= 10) {
+        document.getElementById('head-2').style.backgroundColor = '#415161';
+        document.getElementById('head-2').style.transition = '';
+
+
+        container.removeEventListener('scroll', changeColorOnScroll2);
+        sendThemeToAndroid('Scrolled')
+    } else {
+
+    }
+}
+
+
+if (user2) {
+    document.getElementById('Content').addEventListener('scroll', changeColorOnScroll2);
+} else {
+
+}
+
+
+function changeColorOnScroll2A() {
+    var container = document.getElementById('Content');
+    var scrollY = container.scrollTop;
+
+    if (scrollY <= 0) {
+        document.getElementById('head-2').style.backgroundColor = '';
+        document.getElementById('head-2').style.transition = 'background-color 0.2s ease-in';
+
+        sendThemeToAndroid('ScrollFalse')
+        container.addEventListener('scroll', changeColorOnScroll2);
+        if (scrollY <= 20); {
+
+
         }
 
-        if (user1) {
-            document.getElementById('headUser-1').addEventListener('scroll', changeColorOnScroll1);
-        }
+    } else {
 
+    }
+}
 
-
-        function changeColorOnScroll1A() {
-            var container = document.getElementById('headUser-1');
-            var scrollY = container.scrollTop;
-
-            if (scrollY <= 1) {
-                document.getElementById('head-1').style.backgroundColor = '';
-                document.getElementById('head-1').style.transition = 'background-color 0.2s ease-in';
-
-                sendThemeToAndroid('ScrollFalse')
-
-                container.addEventListener('scroll', changeColorOnScroll1);
-                if (scrollY <= 20); {
-                    document.getElementById('headUser-1').style.scrollSnapType = '';
-
-                }
-
-            } else {
-
-            }
-        }
-
-        if (user1) {
-            document.getElementById('headUser-1').addEventListener('scroll', changeColorOnScroll1A);
-        }
+if (user2) {
+    document.getElementById('Content').addEventListener('scroll', changeColorOnScroll2A);
+}
 
         function sendThemeToAndroid(theme) {
 
             AndroidInterface.updateStatusBarColor(theme);
         };
+
 
 
 

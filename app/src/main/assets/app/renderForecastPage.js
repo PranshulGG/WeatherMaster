@@ -4,26 +4,77 @@ const SelectedPrecipitationUnit = localStorage.getItem('selectedPrecipitationUni
 const SelectedPressureUnit = localStorage.getItem('selectedPressureUnit');
 
 
+// change ids same
 
-const apiOne = 'dd1571a8ad3fd44555e8a5d66db01929';
+const ConditionIcons = {
+
+    WindSockIcon: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"> <defs> <symbol id="Winda" viewBox="0 0 342 234"> <!-- blow-1 --> <path d="M264.16,21.29A40,40,0,1,1,293,89H9" fill="none" stroke-dasharray="148" stroke="#e2e8f0" stroke-linecap="round" stroke-miterlimit="10" stroke-width="18"> <animate attributeName="stroke-dashoffset" values="0; 2960" dur="6s" repeatCount="indefinite"/> </path> <!-- blow-2 --> <path d="M148.16,212.71A40,40,0,1,0,177,145H9" fill="none" stroke-dasharray="110" stroke="#e2e8f0" stroke-linecap="round" stroke-miterlimit="10" stroke-width="18"> <animate attributeName="stroke-dashoffset" values="0; 1540" dur="6s" repeatCount="indefinite"/> </path> </symbol> </defs> <use width="342" height="234" transform="translate(85 139)" xlink:href="#Winda"/> </svg>',
+
+    PrecipitationAmountIcon: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"> <defs> <linearGradient id="PrecipitationAmountIcona" x1="310.54" y1="152.47" x2="425.46" y2="351.53" gradientUnits="userSpaceOnUse"> <stop offset="0" stop-color="#d4d7dd"/> <stop offset="0.45" stop-color="#d4d7dd"/> <stop offset="1" stop-color="#bec1c6"/> </linearGradient> <clipPath id="PrecipitationAmountIconb"> <path fill="none"> <animate attributeName="d" values=" M168,252H344V380H168Z; M168,220H376V380H168Z; M168,252H344V380H168Z " dur="3s" calcMode="spline" keySplines=".42, 0, .58, 1; .42, 0, .58, 1" repeatCount="indefinite"/> </path> </clipPath> <symbol id="PrecipitationAmountIconc" viewBox="0 0 175 260.88"> <path d="M87.5,13.38c-48.7,72-80,117-80,160.75s35.79,79.25,80,79.25,80-35.47,80-79.25S136.2,85.35,87.5,13.38Z" fill="none" stroke="#2885c7" stroke-miterlimit="10" stroke-width="15"/> </symbol> </defs> <path d="M256,132c-48.7,72-80,117-80,160.75S211.79,372,256,372s80-35.47,80-79.25S304.7,204,256,132Z" fill="none" stroke="#e2e8f0" stroke-miterlimit="10" stroke-width="15"/> <path d="M352,132h32V372H352m8-120h24m-16,56h16M368,188h16" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" stroke="url(#PrecipitationAmountIcona)"/> <g clip-path="url(#PrecipitationAmountIconb)"> <use width="175" height="260.88" transform="translate(168.61 119.2)" xlink:href="#PrecipitationAmountIconc"/> </g> </svg>',
+
+    PrecipitationChancesIcon: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"> <defs> <clipPath id="PrecipitationChancesIcona"> <path d="M302,137c-48.7,72-80,117-80,160.75S257.79,377,302,377V512H0V0H302Z" fill="none"> <animateTransform attributeName="transform" additive="sum" type="scale" values="1 1; 1 .95; 1 1" dur="6s" calcMode="spline" keySplines=".42, 0, .58, 1; .42, 0, .58, 1" repeatCount="indefinite"/> </path> </clipPath> <symbol id="PrecipitationChancesIconb" viewBox="0 0 175 260.88"> <path d="M87.5,13.38c-48.7,72-80,117-80,160.75s35.79,79.25,80,79.25,80-35.47,80-79.25S136.2,85.35,87.5,13.38Z" fill="none" stroke="#2885c7" stroke-miterlimit="10" stroke-width="15"/> </symbol> </defs> <use width="175" height="260.88" transform="translate(214.5 123.62)" xlink:href="#PrecipitationChancesIconb"> <animateTransform attributeName="transform" additive="sum" type="scale" values="1 1; 1 .9; 1 1" dur="6s" calcMode="spline" keySplines=".42, 0, .58, 1; .42, 0, .58, 1" repeatCount="indefinite"/> </use> <g clip-path="url(#PrecipitationChancesIcona)"> <use width="175" height="260.88" transform="translate(122.5 123.62)" xlink:href="#PrecipitationChancesIconb"> <animateTransform attributeName="transform" additive="sum" type="scale" values="1 .9; 1 1; 1 .9" dur="6s" calcMode="spline" keySplines=".42, 0, .58, 1; .42, 0, .58, 1" repeatCount="indefinite"/> </use> </g> </svg>',
+
+    PressureIcon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"> <!-- barometer --> <circle cx="256" cy="256" r="144" fill="none" stroke="#475569" stroke-miterlimit="10" stroke-width="12"/> <!-- values --> <path d="M256,200V152M364,256H316m-116,0H152m180-68-24,24m-104,0-24-24M308,300l24,24m-152,0,24-24" fill="none" stroke="#475569" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"/> <!-- pointer-mount --> <circle cx="256" cy="256" r="24" fill="#ef4444"/> <!-- pointer --> <line x1="256" y1="284" x2="256" y2="164" fill="none" stroke="#ef4444" stroke-linecap="round" stroke-miterlimit="10" stroke-width="12"> <animateTransform attributeName="transform" dur="6s" values="-54 256 256; -15 256 256; -36 256 256; 36 256 256; 10 256 256; 115 256 256; -54 256 256" repeatCount="indefinite" type="rotate" calcMode="spline" keySplines=".42, 0, .58, 1; .42, 0, .58, 1; .42, 0, .58, 1; .42, 0, .58, 1; .42, 0, .58, 1; .42, 0, .58, 1" keyTimes="0; .17; .25; .42; .5; .67; 1"/> </line> </svg>',
+
+    CloudCoverIcon: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"> <defs> <symbol id="a" viewBox="0 0 359 231"> <path d="M295.5,223.5a56,56,0,0,0,0-112c-.85,0-1.68.09-2.53.13A83.9,83.9,0,0,0,140.1,47.42,55.91,55.91,0,0,0,55.5,95.5a56.56,56.56,0,0,0,.8,9.08A60,60,0,0,0,67.5,223.5" fill="none" stroke="#e2e8f0" stroke-linecap="round" stroke-linejoin="round" stroke-width="15"/> </symbol> </defs> <use width="359" height="231" transform="translate(76.5 140.5)" xlink:href="#a"> <animateTransform attributeName="transform" additive="sum" type="translate" values="-18 0; 18 0; -18 0" dur="6s" repeatCount="indefinite"/> </use> </svg>',
+
+    HumidityIcon: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"> <defs> <symbol id="HumidityIcona" viewBox="0 0 175 260.88"> <path d="M87.5,13.38c-48.7,72-80,117-80,160.75s35.79,79.25,80,79.25,80-35.47,80-79.25S136.2,85.35,87.5,13.38Z" fill="none" stroke="#2885c7" stroke-miterlimit="10" stroke-width="15"> <animateTransform attributeName="transform" additive="sum" type="scale" values="1 1; 1 .9; 1 1" dur="6s" calcMode="spline" keySplines=".42, 0, .58, 1; .42, 0, .58, 1" repeatCount="indefinite"/> </path> </symbol> </defs> <use width="175" height="260.88" transform="translate(168.4 123.18)" xlink:href="#HumidityIcona"/> <path d="M218.78,250.47q4.78-4.47,13.69-4.47t13.68,4.47q4.78,4.47,4.79,12.4v8q0,7.8-4.79,12.22t-13.68,4.41q-8.9,0-13.69-4.41T214,270.91v-8Q214,254.95,218.78,250.47ZM290,248.94a2.79,2.79,0,0,1-.55,2.61l-53,73.24a9.43,9.43,0,0,1-2.84,2.83,12.29,12.29,0,0,1-4.62.56h-4.34c-1.33,0-2.16-.37-2.5-1.13a2.76,2.76,0,0,1,.61-2.72l53-73.35a7,7,0,0,1,2.67-2.66,12.7,12.7,0,0,1,4.34-.51h4.89C288.91,247.81,289.69,248.18,290,248.94Zm-57.52,7.59q-7.68,0-7.68,6.9v6.79q0,6.9,7.68,6.91t7.68-6.91v-6.79Q240.15,256.53,232.47,256.53Zm33.38,36.39q4.78-4.47,13.69-4.47t13.68,4.47q4.78,4.47,4.78,12.4v8q0,7.81-4.78,12.23T279.54,330q-8.91,0-13.69-4.42t-4.79-12.23v-8Q261.06,297.39,265.85,292.92ZM279.54,299q-7.68,0-7.69,6.92v6.67q0,7,7.69,7t7.67-7v-6.67Q287.21,299,279.54,299Z" fill="var(--On-Surface)"/> </svg>',
+
+    DewPointIcon: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"> <defs> <clipPath id="a"> <path d="M333.92,392c-30.93,0-56-25.45-56-56.84a57,57,0,0,1,24-46.6V152.46a32.23,32.23,0,0,1,32-32.47H167.4V392Zm4-192h28m-28-32h28m-28,64h28" fill="none"/> </clipPath> <symbol id="b" viewBox="0 0 175 260.88"> <path d="M87.5,13.38c-48.7,72-80,117-80,160.75s35.79,79.25,80,79.25,80-35.47,80-79.25S136.2,85.35,87.5,13.38Z" fill="none" stroke="#2885c7" stroke-miterlimit="10" stroke-width="15"/> </symbol> <symbol id="d" viewBox="0 0 72 168"> <circle cx="36" cy="132" r="36" fill="#ef4444"/> <path d="M36,12V132" fill="none" stroke="#ef4444" stroke-linecap="round" stroke-miterlimit="10" stroke-width="24"> <animateTransform attributeName="transform" type="translate" values="0 0; 0 18; 0 0" dur="1s" calcMode="spline" keySplines=".42, 0, .58, 1; .42, 0, .58, 1" repeatCount="indefinite"/> </path> </symbol> <symbol id="e" viewBox="0 0 118 278"> <path d="M115,218.16C115,249.55,89.93,275,59,275S3,249.55,3,218.16a57,57,0,0,1,24-46.6V35.48a32,32,0,1,1,64,0V171.56A57,57,0,0,1,115,218.16ZM63,83H91M63,51H91M63,115H91" fill="none" stroke="#cbd5e1" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"/> </symbol> <symbol id="c" viewBox="0 0 118 278"> <use width="72" height="168" transform="translate(23 87)" xlink:href="#d"/> <use width="118" height="278" xlink:href="#e"/> </symbol> </defs> <g clip-path="url(#a)"> <use width="175" height="260.88" transform="translate(168.43 123.18)" xlink:href="#b"/> </g> <use width="118" height="278" transform="translate(275 117)" xlink:href="#c"/> </svg>',
+
+    SunriseIcon: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"> <defs> <clipPath id="Sunrisea"> <path d="M512,306H304l-35.86-31.38a18.44,18.44,0,0,0-24.28,0L208,306H0V0H512Z" fill="none"/> </clipPath> <symbol id="Sunriseb" viewBox="0 0 375 375"> <!-- sun-core --> <circle cx="187.5" cy="187.5" r="84" fill="none" stroke="#fbbf24" stroke-miterlimit="10" stroke-width="15"/> <!-- sun-rays --> <path d="M187.5,57.16V7.5m0,360V317.84M279.67,95.33l35.11-35.11M60.22,314.78l35.11-35.11m0-184.34L60.22,60.22M314.78,314.78l-35.11-35.11M57.16,187.5H7.5m360,0H317.84" fill="none" stroke="#fbbf24" stroke-linecap="round" stroke-miterlimit="10" stroke-width="15"> <animateTransform attributeName="transform" additive="sum" type="rotate" values="0 187.5 187.5; 45 187.5 187.5" dur="6s" repeatCount="indefinite"/> </path> </symbol> </defs> <g clip-path="url(#Sunrisea)"> <use width="375" height="375" transform="translate(68.5 104.5)" xlink:href="#Sunriseb"/> </g> <polyline points="128 332 216 332 256 296 296 332 384 332" fill="none" stroke="var(--On-Surface-Variant)" stroke-linecap="round" stroke-linejoin="round" stroke-width="18"/> </svg>',
+
+    SunsetIcon: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"> <defs> <clipPath id="Sunseta"> <path d="M512,306H296.08a21.5,21.5,0,0,0-14.16,5.32L256,334l-25.92-22.68A21.5,21.5,0,0,0,215.92,306H0V0H512Z" fill="none"/> </clipPath> <symbol id="Sunsetb" viewBox="0 0 375 375"> <!-- sun-core --> <circle cx="187.5" cy="187.5" r="84" fill="none" stroke="#fbbf24" stroke-miterlimit="10" stroke-width="15"/> <!-- sun-rays --> <path d="M187.5,57.16V7.5m0,360V317.84M279.67,95.33l35.11-35.11M60.22,314.78l35.11-35.11m0-184.34L60.22,60.22M314.78,314.78l-35.11-35.11M57.16,187.5H7.5m360,0H317.84" fill="none" stroke="#fbbf24" stroke-linecap="round" stroke-miterlimit="10" stroke-width="15"> <animateTransform attributeName="transform" additive="sum" type="rotate" values="0 187.5 187.5; 45 187.5 187.5" dur="6s" repeatCount="indefinite"/> </path> </symbol> </defs> <g clip-path="url(#Sunseta)"> <use width="375" height="375" transform="translate(68.5 104.5)" xlink:href="#Sunsetb"/> </g> <polyline points="128 332 216 332 256 368 296 332 384 332" fill="none" stroke="var(--On-Surface-Variant)" stroke-linecap="round" stroke-linejoin="round" stroke-width="18"/> </svg>',
+
+    UVindexIcon: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"> <defs> <clipPath id="UVindexa"> <path d="M64,64H448V256H328a72,72,0,0,0-72,72V448H64Z" fill="none"/> </clipPath> <symbol id="UVindexb" viewBox="0 0 375 375"> <!-- sun-core --> <circle cx="187.5" cy="187.5" r="84" fill="none" stroke="#fbbf24" stroke-miterlimit="10" stroke-width="15"/> <!-- sun-rays --> <path d="M187.5,57.16V7.5m0,360V317.84M279.67,95.33l35.11-35.11M60.22,314.78l35.11-35.11m0-184.34L60.22,60.22M314.78,314.78l-35.11-35.11M57.16,187.5H7.5m360,0H317.84" fill="none" stroke="#fbbf24" stroke-linecap="round" stroke-miterlimit="10" stroke-width="15"> <animateTransform attributeName="transform" additive="sum" type="rotate" values="0 192 192; 45 192 192" dur="6s" repeatCount="indefinite"/> </path> </symbol> </defs> <g clip-path="url(#UVindexa)"> <use width="375" height="375" transform="translate(68.5 68.5)" xlink:href="#UVindexb"/> <path d="M254,338V328a74,74,0,0,1,74-74h10" fill="none" stroke="#fbbf24" stroke-miterlimit="10" stroke-width="15"/> </g> <path d="M337.71,388q-14.4,0-22.14-6.76t-7.74-19.39V316h18.32v45.94q0,11.07,11.65,11.07t11.56-11.07V316h18.32v45.85q0,12.73-7.74,19.44T337.71,388Z" fill="var(--On-Surface)"/> <path d="M413.43,344.51,421.56,316h18.61l-22.53,69.75H398.25L375.71,316h18.81l8.23,28.41,5.39,21.94Z" fill="var(--On-Surface)"/> </svg>',
+
+    MoonRiseIcon: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"> <defs> <clipPath id="Moonrisea"> <path d="M512,306H304l-35.86-31.38a18.44,18.44,0,0,0-24.28,0L208,306H0V0H512Z" fill="none"/> </clipPath> <symbol id="Moonriseb" viewBox="0 0 279 279"> <!-- moon --> <path d="M256.75,173.13c-74.12,0-134.21-59.28-134.21-132.42A130.48,130.48,0,0,1,127,7.5C59.79,14.75,7.5,70.87,7.5,139.08c0,73.13,60.09,132.42,134.21,132.42,62.48,0,114.83-42.18,129.79-99.21A135.56,135.56,0,0,1,256.75,173.13Z" fill="none" stroke="#72b9d5" stroke-linecap="round" stroke-linejoin="round" stroke-width="15"> <animateTransform attributeName="transform" additive="sum" type="rotate" values="-15 135 135; 9 135 135; -15 135 135" dur="6s" repeatCount="indefinite"/> </path> </symbol> </defs> <polyline points="128 332 216 332 256 296 296 332 384 332" fill="none" stroke="var(--On-Surface-Variant)" stroke-linecap="round" stroke-linejoin="round" stroke-width="18"/> <g clip-path="url(#Moonrisea)"> <use width="279" height="279" transform="translate(116.5 116.5)" xlink:href="#Moonriseb"/> </g> </svg>',
+
+    MoonSetIcon: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"> <defs> <clipPath id="Moonseta"> <path d="M512,306H296.08a21.5,21.5,0,0,0-14.16,5.32L256,334l-25.92-22.68A21.5,21.5,0,0,0,215.92,306H0V0H512Z" fill="none"/> </clipPath> <symbol id="Moonsetb" viewBox="0 0 279 279" overflow="visible"> <!-- moon --> <path d="M256.75,173.13c-74.12,0-134.21-59.28-134.21-132.42A130.48,130.48,0,0,1,127,7.5C59.79,14.75,7.5,70.87,7.5,139.08c0,73.13,60.09,132.42,134.21,132.42,62.48,0,114.83-42.18,129.79-99.21A135.56,135.56,0,0,1,256.75,173.13Z" fill="none" stroke="#72b9d5" stroke-linecap="round" stroke-linejoin="round" stroke-width="15"> <animateTransform attributeName="transform" additive="sum" type="rotate" values="-15 135 135; 9 135 135; -15 135 135" dur="6s" repeatCount="indefinite"/> </path> </symbol> </defs> <polyline points="128 332 216 332 256 368 296 332 384 332" fill="none" stroke="var(--On-Surface-Variant)" stroke-linecap="round" stroke-linejoin="round" stroke-width="18"/> <g clip-path="url(#Moonseta)"> <use width="279" height="279" transform="translate(116.5 116.5)" xlink:href="#Moonsetb"/> </g> </svg>',
+}
+
+
+
+
+
+let currentApiKeyIndex = 0;
+
 
 function getDailyForecast(latitude, longitude) {
 
+    const apiKey = apiKeysDaily[currentApiKeyIndex];
 
-        const apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiOne}&units=metric`;
+    const apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
-        fetch(apiUrl)
-            .then(response => response.json())
-            .then(data => {
-                const dailyForecast = data.daily;
-                displayDailyForecast(dailyForecast);
-            })
-            .catch(error => console.error('Error fetching daily forecast:', error));
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const dailyForecast = data.daily;
+            displayDailyForecast(dailyForecast);
+        })
+        .catch(error => {
+            console.error('Error fetching daily forecast:', error);
+            if (currentApiKeyIndex < apiKeysDaily.length - 1) {
+                currentApiKeyIndex++;
+                console.log(`Switching to API key index ${currentApiKeyIndex}`);
+                getDailyForecast(latitude, longitude);
+            } else {
+                console.error('All API keys failed. Unable to fetch data.');
+            }
+        });
 
 }
 
 function displayDailyForecast(dailyForecast) {
     const forecastContainer = document.getElementById('foreCastList');
+    const forecastDateHeader = document.createElement('forecastDateHeader');
+    const forecastMainDetails = document.createElement('forecastMainDetails');
+
     forecastContainer.innerHTML = '';
 
     const today = new Date();
@@ -31,63 +82,71 @@ function displayDailyForecast(dailyForecast) {
 
     dailyForecast.forEach((forecast, index) => {
 
+
         if (index === 0) return;
 
         const timestamp = new Date(forecast.dt * 1000);
         if (timestamp.getDate() === today.getDate()) return;
 
+        const dayName = timestamp.toLocaleDateString('en-US', { weekday: 'short' });
         const date = timestamp.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
 
 
         const description = forecast.weather[0].description;
         let iconCode = forecast.weather[0].icon;
 
 
-        const rainPercentage = Math.round(forecast.pop * 100)|| '0';
+        const rainPercentage = Math.round(forecast.pop * 100) || '0';
         const humidity = forecast.humidity
         const cloudCover = forecast.clouds
+        const SunriseTime = convertTo12HourFormat(forecast.sunrise);
+        const SunsetTime = convertTo12HourFormat(forecast.sunset);
+        const MoonriseTime = convertTo12HourFormat(forecast.moonrise);
+        const MoonsetTime = convertTo12HourFormat(forecast.moonset);
+
 
         let WindSpeed;
 
-        if(SelectedWindUnit === 'mile'){
+        if (SelectedWindUnit === 'mile') {
             WindSpeed = Math.round(forecast.wind_speed * 2.23694) + ' mph';
-        } else{
-         WindSpeed = Math.round(forecast.wind_speed) + ' km/h';
+        } else {
+            WindSpeed = Math.round(forecast.wind_speed) + ' km/h';
 
         }
 
         let TemperatureMax;
 
-        if(SelectedTempUnit === 'fahrenheit'){
-         TemperatureMax = Math.round(forecast.temp.max * 9 / 5 + 32);
-        } else{
+        if (SelectedTempUnit === 'fahrenheit') {
+            TemperatureMax = Math.round(forecast.temp.max * 9 / 5 + 32);
+        } else {
             TemperatureMax = Math.round(forecast.temp.max);
         }
 
         let TemperatureMin;
 
-        if(SelectedTempUnit === 'fahrenheit'){
+        if (SelectedTempUnit === 'fahrenheit') {
             TemperatureMin = Math.round(forecast.temp.min * 9 / 5 + 32);
-        } else{
+        } else {
             TemperatureMin = Math.round(forecast.temp.min);
         }
 
         let dewPointTemp;
 
 
-        if(SelectedTempUnit === 'fahrenheit'){
+        if (SelectedTempUnit === 'fahrenheit') {
             dewPointTemp = Math.round(forecast.dew_point * 9 / 5 + 32);
-        } else{
+        } else {
             dewPointTemp = Math.round(forecast.dew_point);
         }
 
         let rainAmount;
 
-        if(SelectedPrecipitationUnit === 'in'){
+        if (SelectedPrecipitationUnit === 'in') {
             rainAmount = forecast.rain ? (forecast.rain * 0.0393701).toFixed(2) + 'in' : '0.00in';
 
-        } else{
-        rainAmount = forecast.rain ? forecast.rain + ' mm' : '0.0mm';
+        } else {
+            rainAmount = forecast.rain ? forecast.rain + ' mm' : '0.0mm';
         }
 
 
@@ -105,160 +164,255 @@ function displayDailyForecast(dailyForecast) {
             pressureMainUnit = 'hPa';
         }
 
-                const uvIndex = Math.round(forecast.uvi)
+        const uvIndex = Math.round(forecast.uvi)
 
-                let UVindexText;
+        let UVindexText;
 
-                if (uvIndex >= 0 && uvIndex <= 1) {
-                    UVindexText = 'Minimal';
-                } else if (uvIndex > 1 && uvIndex <= 2) {
-                    UVindexText = 'Low';
+        if (uvIndex >= 0 && uvIndex <= 1) {
+            UVindexText = 'Minimal';
+        } else if (uvIndex > 1 && uvIndex <= 2) {
+            UVindexText = 'Low';
 
-                } else if (uvIndex > 2 && uvIndex <= 3) {
-                    UVindexText = 'Low';
+        } else if (uvIndex > 2 && uvIndex <= 3) {
+            UVindexText = 'Low';
 
-                } else if (uvIndex > 3 && uvIndex <= 4) {
-                    UVindexText = 'Moderate';
+        } else if (uvIndex > 3 && uvIndex <= 4) {
+            UVindexText = 'Moderate';
 
-                } else if (uvIndex > 4 && uvIndex <= 5) {
-                    UVindexText = 'Moderate';
+        } else if (uvIndex > 4 && uvIndex <= 5) {
+            UVindexText = 'Moderate';
 
-                } else if (uvIndex > 5 && uvIndex <= 6) {
-                    UVindexText = 'Moderate';
+        } else if (uvIndex > 5 && uvIndex <= 6) {
+            UVindexText = 'Moderate';
 
-                } else if (uvIndex > 6 && uvIndex <= 7) {
-                    UVindexText = 'High';
+        } else if (uvIndex > 6 && uvIndex <= 7) {
+            UVindexText = 'High';
 
-                } else if (uvIndex > 7 && uvIndex <= 8) {
-                    UVindexText = 'High';
+        } else if (uvIndex > 7 && uvIndex <= 8) {
+            UVindexText = 'High';
 
-                } else if (uvIndex > 8 && uvIndex <= 9) {
-                    UVindexText = 'Very high';
+        } else if (uvIndex > 8 && uvIndex <= 9) {
+            UVindexText = 'Very high';
 
-                } else if (uvIndex > 9 && uvIndex <= 10) {
-                    UVindexText = 'Very high';
+        } else if (uvIndex > 9 && uvIndex <= 10) {
+            UVindexText = 'Very high';
 
-                } else if (uvIndex > 10 && uvIndex <= 11) {
-                    UVindexText = 'Very high';
+        } else if (uvIndex > 10 && uvIndex <= 11) {
+            UVindexText = 'Very high';
 
-                } else if (uvIndex > 11 && uvIndex <= 12) {
-                    UVindexText = 'Extreme';
+        } else if (uvIndex > 11 && uvIndex <= 12) {
+            UVindexText = 'Extreme';
 
-                } else if (uvIndex > 12 && uvIndex <= 13) {
-                    UVindexText = 'Extreme';
+        } else if (uvIndex > 12 && uvIndex <= 13) {
+            UVindexText = 'Extreme';
 
-                } else if (uvIndex > 13) {
-                    UVindexText = 'Extreme';
-                }
+        } else if (uvIndex > 13) {
+            UVindexText = 'Extreme';
+        }
 
         iconCode = iconCode.replace('n', 'd');
 
-        const forecastItem = document.createElement('div');
-        forecastItem.classList.add('forecast-list-item');
 
         let colorStyle;
 
-        if(iconCode === '01d'){
+        if (iconCode === '01d') {
             colorStyle = '--weather-color: #375aa3;';
-        } else if(iconCode === '02d' ){
+        } else if (iconCode === '02d') {
             colorStyle = '--weather-color: #5b606b;';
-        } else if(iconCode === '03d' || iconCode === '04d'){
+        } else if (iconCode === '03d' || iconCode === '04d') {
             colorStyle = '--weather-color: #555b69;';
-        } else if(iconCode === '09d' || iconCode === '10d'){
+        } else if (iconCode === '09d' || iconCode === '10d') {
             colorStyle = '--weather-color: #33415e;';
-        } else if(iconCode === '11d'){
+        } else if (iconCode === '11d') {
             colorStyle = '--weather-color: #383147;'
-        } else if(iconCode === '13d'){
+        } else if (iconCode === '13d') {
             colorStyle = '--weather-color: #41465f;'
-        } else if(iconCode === '50d'){
+        } else if (iconCode === '50d') {
             colorStyle = '--weather-color: #352603;'
         }
 
 
-        // create forecast-details
 
-        forecastItem.style = colorStyle
-
-
-
-
-               forecastItem.innerHTML = `
-               <div class="daily_date_time">
-                   <div>
-                   <p>${date}</p>
-                   <span>${description}</span></div>
-
-                   <div>
-                   <img src="../weather-icons/${iconCode}.svg">
-                   </div>
-               </div>
-
-               <div class="temp_min_max">
-                   <p>${TemperatureMax}° <span>/ ${TemperatureMin}°</span></p>
-               </div>
-
-               <div class="daily_details">
-
-                   <div class="details_daily_items">
-
-                               <div class="daily_detail_item">
-                                   <span>Precipitation chances</span>
-                                     <i><img src="https://i.ibb.co/BLHjSpt/rain-per.png"></i>
-                                   <p>${rainPercentage}%</p>
-                               </div>
-
-                               <div class="daily_detail_item">
-                                   <span>Precipitation amount</span>
-                                    <i><img src="https://i.ibb.co/YTzNd3G/rain-amount.png"></i>
-                                   <p>${rainAmount}</p>
-                               </div>
-
-                               <div class="daily_detail_item">
-                                   <span>Wind speed</span>
-                                     <i><img src="https://i.ibb.co/59Rv1BW/wind-speed.png"></i>
-                                   <p>${WindSpeed}</p>
-                               </div>
-
-                               <div class="daily_detail_item">
-                                   <span>Pressure</span>
-                                     <i><img src="https://i.ibb.co/C5Mpzz1/pressure.png"></i>
-                                   <p>${pressureMain} ${pressureMainUnit}</p>
-                               </div>
-
-                               <div class="daily_detail_item">
-                                   <span>Cloud cover</span>
-                                     <i><img src="https://i.ibb.co/Vw0BXpc/cloud-cover.png"></i>
-                                   <p>${cloudCover}%</p>
-                               </div>
+        const forecastDateHeaderContent = document.createElement('div');
+        forecastDateHeaderContent.classList.add('forecastDateHeaderContent')
+        forecastDateHeaderContent.dataset.index = index;
 
 
-                               <div class="daily_detail_item">
-                                   <span>Humidity</span>
-                                     <i><img src="https://i.ibb.co/84G9S6Z/humidity.png"></i>
-                                   <p>${humidity}%</p>
-                               </div>
+        forecastDateHeaderContent.innerHTML = `
 
-                               <div class="daily_detail_item">
-                                   <span>Dew point</span>
-                                     <i><img src="https://i.ibb.co/KrMZncB/dew-point.png"></i>
-                                   <p>${dewPointTemp}°</p>
-                               </div>
+            <span>${dayName}</span>
+            <img src="../weather-icons/${iconCode}.svg">
+            <div>
+            <p>${TemperatureMax}°<span>/${TemperatureMin}°</span></p>
+            </div>
 
-                                 <div class="daily_detail_item">
-                                   <span>UV index</span>
-                                     <i><img src="https://i.ibb.co/X2MtYGT/uv-index.png"></i>
-                                   <p>${uvIndex} <text style="color: var(--On-Surface-Variant);font-size: 13px;">${UVindexText}</text></p>
-                               </div>
+            <md-ripple style="--md-ripple-pressed-opacity: 0.1;"></md-ripple>
 
-                       </div>
-
-               </div>
-
-               `
+        `
+        // ------------------------------------------------------
 
 
 
-        forecastContainer.appendChild(forecastItem);
+
+
+
+        forecastDateHeader.appendChild(forecastDateHeaderContent);
+        forecastContainer.appendChild(forecastDateHeader)
+        forecastContainer.appendChild(forecastMainDetails)
+
+
+
+        function handleSelection(event) {
+            document.querySelectorAll('.forecastDateHeaderContent').forEach(item => {
+                item.classList.remove('selected');
+            });
+
+            event.currentTarget.classList.add('selected');
+
+            forecastMainDetails.innerHTML = '';
+
+
+            const forecastTempConditionMainContent = document.createElement('div');
+            forecastTempConditionMainContent.classList.add('forecastTempConditionMainContent')
+
+            const selectedIndex = event.currentTarget.dataset.index;
+            const selectedForecast = dailyForecast[selectedIndex];
+
+            forecastTempConditionMainContent.innerHTML = `
+
+            <div class="top-details">
+                <p>${dayName}, ${date}</p>
+                <div>
+                <tempLarge><p>${TemperatureMax}° </p> <span>/${TemperatureMin}°</span></tempLarge>
+                <img src="../weather-icons/${iconCode}.svg">
+                </div>
+                <weatherConditionText>${description}</weatherConditionText>
+            </div>
+
+
+            <p class="daily-conditions-title">Daily conditions</p>
+            <div class="daily-conditions">
+            <div class="daily-conditions-wrap">
+
+                <div>
+                    <p>Wind speed</p>
+                    <conditionIcon>
+                    ${ConditionIcons.WindSockIcon}
+                    </conditionIcon>
+                    <span>${WindSpeed}</span>
+                </div>
+
+                <div>
+                    <p>Humidity</p>
+                    <conditionIcon>
+                    ${ConditionIcons.HumidityIcon}
+                    </conditionIcon>
+                    <span>${humidity}%</span>
+                </div>
+
+                <div>
+                    <p>Precipitation chances</p>
+                    <conditionIcon>
+                    ${ConditionIcons.PrecipitationChancesIcon}
+                    </conditionIcon>
+                    <span>${rainPercentage}%</span>
+                </div>
+
+                <div>
+                    <p>Precipitation amount</p>
+                    <conditionIcon>
+                    ${ConditionIcons.PrecipitationAmountIcon}
+                    </conditionIcon>
+                    <span>${rainAmount}</span>
+                </div>
+
+                <div>
+                    <p>Cloud cover</p>
+                    <conditionIcon>
+                    ${ConditionIcons.CloudCoverIcon}
+                    </conditionIcon>
+                    <span>${cloudCover}%</span>
+                </div>
+
+                 <div>
+                    <p>Pressure</p>
+                    <conditionIcon>
+                    ${ConditionIcons.PressureIcon}
+                    </conditionIcon>
+                    <span>${pressureMain} ${pressureMainUnit}</span>
+                </div>
+
+                <div>
+                    <p>Dew point</p>
+                    <conditionIcon>
+                    ${ConditionIcons.DewPointIcon}
+                    </conditionIcon>
+                    <span>${dewPointTemp}°</span>
+                </div>
+
+                <div>
+                    <p>UV index</p>
+                    <conditionIcon>
+                    ${ConditionIcons.UVindexIcon}
+                    </conditionIcon>
+                    <span style="align-items: center; gap: 5px;">${uvIndex} <text style="color: var(--On-Surface-Variant);font-size: 13px;"> ${UVindexText}</text></span>
+                </div>
+
+             </div>
+            </div>
+
+            <p class="daily-conditions-title" style="margin-top:10px;">Sun & Moon Times</p>
+            <div class="sunrise-sunset-forecast">
+
+            <div class="sunrise-sunset-item">
+             <p>Sunrise</p>
+                <div class="sunrise-sunset-img">
+                    ${ConditionIcons.SunriseIcon}
+                </div>
+                <span>${SunriseTime}</span>
+            </div>
+
+             <div class="sunrise-sunset-item">
+             <p>Sunrise</p>
+                <div class="sunrise-sunset-img">
+                    ${ConditionIcons.SunsetIcon}
+                </div>
+                <span>${SunsetTime}</span>
+            </div>
+
+            <div class="sunrise-sunset-item">
+             <p>Moonrise</p>
+                <div class="sunrise-sunset-img">
+                    ${ConditionIcons.MoonRiseIcon}
+                </div>
+                <span>${MoonriseTime}</span>
+            </div>
+
+             <div class="sunrise-sunset-item">
+             <p>Moonset</p>
+                <div class="sunrise-sunset-img">
+                    ${ConditionIcons.MoonSetIcon}
+                </div>
+                <span>${MoonsetTime}</span>
+            </div>
+
+            </div>
+
+            `
+
+            if (!forecastMainDetails.contains(forecastTempConditionMainContent)) {
+                forecastMainDetails.appendChild(forecastTempConditionMainContent);
+            }
+
+        }
+
+
+        forecastDateHeaderContent.addEventListener('click', handleSelection);
+        if (index === 1) {
+            forecastDateHeaderContent.classList.add('selected');
+            handleSelection({ currentTarget: forecastDateHeaderContent });
+            firstForecastIndex = index;
+        }
     });
 }
 
@@ -268,6 +422,28 @@ const latDif = localStorage.getItem('currentLat');
 const longDif = localStorage.getItem('currentLong');
 
 
-setTimeout(()=>{
+setTimeout(() => {
     getDailyForecast(latDif, longDif)
 }, 1500);
+
+
+function convertTo12HourFormat(unixTimestamp) {
+    const date = new Date(unixTimestamp * 1000);
+    let hours = date.getHours();
+    const minutes = date.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    const minutesStr = minutes < 10 ? '0' + minutes : minutes;
+    return `${hours}:${minutesStr} ${ampm}`;
+}
+
+
+setTimeout(()=>{
+    document.querySelector('.loader_holder').style.opacity = '0'
+}, 2000);
+
+
+setTimeout(()=>{
+    document.querySelector('.loader_holder').hidden = true
+}, 2200);

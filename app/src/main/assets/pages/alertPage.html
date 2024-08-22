@@ -11,9 +11,40 @@
     <link rel="stylesheet" href="../components/modal-ver.css">
     <link rel="stylesheet" href="../ripple-files/ripple.css">
     <link rel="stylesheet" href="../components/segment-btns.css">
-    <link rel="stylesheet" href="forecastPageUi.css">
 
     <style>
+
+        * {
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    touch-action: manipulation;
+    -webkit-user-drag: none;
+    outline: none;
+}
+
+p{
+    margin: 0;
+}
+
+body {
+    background-color: var(--Surface);
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    font-family: var(--outfit);
+    animation: opacity 0.3s ease-out;
+
+}
+
+@keyframes opacity{
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
         [hidden] {
             display: none !important;
         }
@@ -202,86 +233,128 @@
 const longDif = localStorage.getItem('currentLong');
 const latAlerts = latDif;
 const lonAlerts = longDif;
-const apiKeyAlerts = '20a36f8e1152244bbbd9ac296d3640f2';
 
-fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latAlerts}&lon=${lonAlerts}&exclude=current,minutely,hourly,daily&appid=${apiKeyAlerts}`)
-    .then(response => response.json())
-    .then(data => {
-        const alertInfoDiv = document.getElementById('alert_info_div');
-        const apiKeyCityName = '7147cfac7299479da122684c73d9b80a';
-        const urlcityName = `https://api.opencagedata.com/geocode/v1/json?q=${latAlerts}+${lonAlerts}&key=${apiKeyCityName}`;
+const apiKeysAlerts = [
+    'd94bcd435b62a031771c35633f9f310a',
+    '3b833dcd6aac36124a8a30e182224427',
+    'dd1571a8ad3fd44555e8a5d66db01929',
+    '82005d27a116c2880c8f0fcb866998a0',
+];
 
-        if (data.alerts && data.alerts.length > 0) {
-            fetch(urlcityName)
-                .then(response => response.json())
-                .then(locationData => {
-                    if (locationData.results.length > 0) {
-                        const components = locationData.results[0].components;
-                        const city = components.city || components.town || components.village;
-                        const stateMain = components.state;
-                        const countryName = components.country;
+const apiKeysCityName = [
+    '7147cfac7299479da122684c73d9b80a',
+    '09713ffe266c4dfa99b98157dfd148f9',
+    '66f9ad95f6704259a376949eaa659e62'
+];
 
-                        const locationText = `${city ? city + ', ' : ''}${stateMain ? stateMain + ', ' : ''}${countryName ? countryName : ''}`;
+let alertApiKeyIndex = 0;
+let cityNameApiKeyIndex = 0;
 
-                        let isFirstAlert = true;
+const fetchAlerts = async (apiKey) => {
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latAlerts}&lon=${lonAlerts}&exclude=current,minutely,hourly,daily&appid=${apiKey}`);
+    if (!response.ok) throw new Error('API error');
+    return response.json();
+};
 
-                        data.alerts.filter(alert => alert.description).forEach(alert => {
-                            const alertInfoDivCreate = document.createElement('alertHolder');
-                            alertInfoDivCreate.classList.add('alertHolder');
-                            const alertEventDesc = alert.description;
-                            const alertEventPage = alert.event;
-                            const startEventTime = alert.start;
-                            const endEventTime = alert.end;
-                            const senderName = alert.sender_name;
+const fetchCityName = async (apiKey) => {
+    const urlcityName = `https://api.opencagedata.com/geocode/v1/json?q=${latAlerts}+${lonAlerts}&key=${apiKey}`;
+    const response = await fetch(urlcityName);
+    if (!response.ok) throw new Error('API error');
+    return response.json();
+};
 
-                            const formatDate = (timestamp) => {
-                                const date = new Date(timestamp * 1000);
-                                return date.toLocaleString();
-                            };
-
-                            const alertDetails = alertEventDesc.split('\n').map(line => `<li>${line.trim()}</li>`).join('');
-
-                            alertInfoDivCreate.innerHTML = `
-                                ${isFirstAlert ? `
-                                    <div class="location">
-                                        <p id="alert_location">${locationText}</p>
-                                    </div>
-                                ` : ''}
-
-                                <div class="alert_event">
-                                    <md-icon icon-filled>warning</md-icon>
-                                    <p id="EventText">${alertEventPage}</p>
-                                </div>
-
-                                <div class="other_info_desc_time">
-                                    <div class="start_end">
-                                        <p><span>Start:</span> ${formatDate(startEventTime)}</p>
-                                        <p><span>End:</span> ${formatDate(endEventTime)}</p>
-                                    </div>
-
-                                    <div class="description">
-                                        <ul>${alertDetails}</ul>
-                                    </div>
-                                </div>
-                            `;
-
-                            alertInfoDiv.appendChild(alertInfoDivCreate);
-                            isFirstAlert = false;
-                        });
-
-                        document.getElementById('senderName').innerHTML = 'Sender: ' + (data.alerts[0].sender_name || 'N/A');
-
-                    } else {
-                        console.log('No location results found');
-                    }
-                })
-                .catch(error => console.error('Error fetching location data:', error));
-
+const handleAlerts = async () => {
+    let data;
+    try {
+        data = await fetchAlerts(apiKeysAlerts[alertApiKeyIndex]);
+    } catch (error) {
+        console.error('Error fetching alerts with API key', apiKeysAlerts[alertApiKeyIndex], ':', error);
+        // Try the next alerts API key if available
+        if (alertApiKeyIndex < apiKeysAlerts.length - 1) {
+            alertApiKeyIndex++;
+            console.log('Switching to next alerts API key:', apiKeysAlerts[alertApiKeyIndex]);
+            return handleAlerts(); // Retry with the next API key
         } else {
-            console.log('No alerts');
+            console.error('All alerts API keys exhausted or other errors');
+            return; // Exit if all keys exhausted
         }
-    })
-    .catch(error => console.error('Error:', error));
+    }
+
+    try {
+        const locationData = await fetchCityName(apiKeysCityName[cityNameApiKeyIndex]);
+        if (locationData.results.length > 0) {
+            const components = locationData.results[0].components;
+            const city = components.city || components.town || components.village;
+            const stateMain = components.state;
+            const countryName = components.country;
+
+            const locationText = `${city ? city + ', ' : ''}${stateMain ? stateMain + ', ' : ''}${countryName ? countryName : ''}`;
+            let isFirstAlert = true;
+
+            const alertInfoDiv = document.getElementById('alert_info_div');
+
+            data.alerts.filter(alert => alert.description).forEach(alert => {
+                const alertInfoDivCreate = document.createElement('alertHolder');
+                alertInfoDivCreate.classList.add('alertHolder');
+                const alertEventDesc = alert.description;
+                const alertEventPage = alert.event;
+                const startEventTime = alert.start;
+                const endEventTime = alert.end;
+                const senderName = alert.sender_name;
+
+                const formatDate = (timestamp) => {
+                    const date = new Date(timestamp * 1000);
+                    return date.toLocaleString();
+                };
+
+                const alertDetails = alertEventDesc.split('\n').map(line => `<li>${line.trim()}</li>`).join('');
+
+                alertInfoDivCreate.innerHTML = `
+                    ${isFirstAlert ? `
+                        <div class="location">
+                            <p id="alert_location">${locationText}</p>
+                        </div>
+                    ` : ''}
+
+                    <div class="alert_event">
+                        <md-icon icon-filled>warning</md-icon>
+                        <p id="EventText">${alertEventPage}</p>
+                    </div>
+
+                    <div class="other_info_desc_time">
+                        <div class="start_end">
+                            <p><span>Start:</span> ${formatDate(startEventTime)}</p>
+                            <p><span>End:</span> ${formatDate(endEventTime)}</p>
+                        </div>
+
+                        <div class="description">
+                            <ul>${alertDetails}</ul>
+                        </div>
+                    </div>
+                `;
+
+                alertInfoDiv.appendChild(alertInfoDivCreate);
+                isFirstAlert = false;
+            });
+
+            document.getElementById('senderName').innerHTML = 'Sender: ' + (data.alerts[0].sender_name || 'N/A');
+        } else {
+            console.log('No location results found');
+        }
+    } catch (error) {
+        console.error('Error fetching location data with API key', apiKeysCityName[cityNameApiKeyIndex], ':', error);
+        // Try the next city name API key if available
+        if (cityNameApiKeyIndex < apiKeysCityName.length - 1) {
+            cityNameApiKeyIndex++;
+            console.log('Switching to next city name API key:', apiKeysCityName[cityNameApiKeyIndex]);
+            return handleAlerts(); // Retry with the next API key
+        } else {
+            console.error('All city name API keys exhausted or other errors');
+        }
+    }
+};
+
+handleAlerts();
 
 
 

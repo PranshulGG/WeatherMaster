@@ -509,7 +509,8 @@ circle-loader #spinner {
 
 .full-activity-header.transparent{
   background-color: transparent;
-  z-index: 1; transition: background-color 0.17s ease-in;
+  z-index: 1;
+  transition: background-color 0.17s ease-in;
 
 }
 
