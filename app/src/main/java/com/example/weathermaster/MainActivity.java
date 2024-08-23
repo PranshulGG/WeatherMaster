@@ -358,6 +358,9 @@ public class MainActivity extends AppCompatActivity {
                     } else if (color.equals("OpenMoonPhasesPage")){
                         OpenMoonPhasesPage();
                         return;
+                    } else if (color.equals("OpenAboutPage")){
+                        openAboutPage();
+                        return;
                     } else if (color.equals("GoBack")){
                         back();
                         return;
@@ -377,6 +380,7 @@ public class MainActivity extends AppCompatActivity {
                     } else if (color.equals("ItsOff")) {
                         Toast.makeText(mActivity, "Your device will go to sleep at the default time", Toast.LENGTH_SHORT).show();
                         return;
+
 
 
                     } else {
@@ -439,6 +443,11 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(mActivity, MoonPhases.class);
             mActivity.startActivity(intent);
         }
+        public void openAboutPage() {
+            Intent intent = new Intent(mActivity, AboutPage.class);
+            mActivity.startActivity(intent);
+        }
+
     }
 
     public void back() {

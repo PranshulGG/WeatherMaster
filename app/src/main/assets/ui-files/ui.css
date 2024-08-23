@@ -1875,7 +1875,7 @@ savelocationtouch md-ripple{
         .new_ver_download{
             position: fixed;
             bottom: 0;
-            z-index: 999;
+            z-index: 99999999;
             display: flex;
             align-items: center;
             justify-content: space-between;
