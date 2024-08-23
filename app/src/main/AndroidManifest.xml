@@ -65,6 +65,12 @@
             android:exported="true"
             android:theme="@style/ScreenMoonPhase"
             />
+        <activity
+            android:name=".LiveRadar"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/ScreenLiveRadar"
+            />
             <activity
                 android:name=".MainActivity"
                 android:theme="@style/app_theme"

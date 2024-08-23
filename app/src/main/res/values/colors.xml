@@ -27,6 +27,7 @@
     <color name="mainBG">#121317</color>
     <color name="MoonPhase">#2b226f</color>
     <color name="forecastPageBg">#334151</color>
+    <color name="RadarPage">#003353</color>
 
     <color name="diffDefault">#0e1d2a</color>
 </resources>

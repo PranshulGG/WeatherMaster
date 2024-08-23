@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en" Theme="default" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live rader</title>
+    <link rel="stylesheet" href="../ui-files/font-usage.css">
+    <link rel="stylesheet" href="../ui-files/variables.css">
+    <link rel="stylesheet" href="../components/components.css">
+    <link rel="stylesheet" href="../components/modal-ver.css">
+    <link rel="stylesheet" href="../ripple-files/ripple.css">
+    <link rel="stylesheet" href="../components/segment-btns.css">
+    <link rel="stylesheet" href="../map/leaflet.css">
+    <script src="../map/leaflet.js"></script>
+
+
+    <style>
+        * {
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            touch-action: manipulation;
+            -webkit-user-drag: none;
+            outline: none;
+
+        }
+
+        p {
+            margin: 0;
+        }
+
+        body {
+            background-color: #003353;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            font-family: var(--outfit);
+            animation: opacity 0.3s ease-out;
+
+        }
+
+        .map_holder {
+            height: 100%;
+            width: 100%;
+            background-color: #003353;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        #mapRadar{
+            height: calc(100% - 175px);
+            background-color: #003353;
+        }
+
+        .header{
+            padding: 10px;
+            height: calc(65px - 20px);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .header p{
+            font-size: 22px;
+            color: var(--On-Surface);
+            font-family: var(--google-normal);
+        }
+
+        .controls{
+            height: 110px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+        }
+
+        .controls > div > md-slider{
+            --md-sys-color-surface-container-highest: #030457;
+            --md-slider-inactive-track-height: 56px;
+            --md-slider-active-track-height: 56px;
+            width: 100%;
+            --md-slider-inactive-track-shape: 16px !important;
+            --md-slider-active-track-shape: 16px !important;
+            --md-slider-handle-width: 0px;
+            --md-slider-handle-height: 0px;
+
+        }
+        .controls > div{
+            display: flex;
+            align-items: center;
+            gap: 0px;
+            padding-left: 10px;
+            padding-right: 0;
+        }
+
+        .time-label{
+            padding-right: 20px;
+            display: flex;
+            justify-content: flex-end;
+            padding-top: 5px;
+            font-size: 18px;
+            color: var(--On-Surface);
+            font-family: var(--outfit-mid);
+        }
+
+        .loader{
+            width: 100%;
+            height: 100%;
+            z-index: 999;
+            background-color: #003353;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            --md-circular-progress-size: 55px;
+            position: fixed;
+            transition: opacity 0.2s ease-out;
+
+        }
+
+        [hidden]{
+            display: none !important;
+        }
+
+        flex{
+            flex: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="map_holder">
+
+        <div class="header">
+            <button class="ripple-icon-btn regular" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)"
+            onclick="sendThemeToAndroid('GoBack')" style="--ripple-unbounded: white">
+            <span class="ripple-effect-icon"></span>
+            <span icon-outlined style="font-size: 24px !important; color: white;">arrow_back</span>
+        </button>
+
+        <p>Live Radar</p>
+        <flex></flex>
+        <md-icon-button toggle onchange="changeMapTypeToggle()" id="changeMapTypeToggle">
+            <md-icon icon-outlined>light_mode</md-icon>
+            <md-icon slot="selected" icon-outlined>dark_mode</md-icon>
+        </md-icon-button>
+        </div>
+
+        <div id="mapRadar"></div>
+
+        <div class="controls">
+            <div class="slider_btn">
+             <md-fab id="autoplayBtn" variant="primary">
+                <md-icon slot="icon" icon-filled>play_arrow</md-icon>
+             </md-fab>
+            <md-slider id="timeSlider" min="0" max="12" value="0" step="1"></md-slider>
+            </div>
+            <span class="time-label" id="timeLabel"></span>
+        </div>
+
+    </div>
+
+
+    <div class="loader">
+        <md-circular-progress indeterminate></md-circular-progress>
+    </div>
+
+    <script>
+
+var map;
+
+function loadMapRainView(theme){
+        const latDif = localStorage.getItem('currentLat');
+        const longDif = localStorage.getItem('currentLong');
+
+        map = window.L.map('mapRadar', {
+            center: [latDif, longDif],
+            zoom: 8,
+            zoomControl: false,
+            minZoom: 2
+        });
+
+        window.L.tileLayer(theme, {
+       
+
+        }).addTo(map);
+
+
+        var marker = window.L.marker([latDif, longDif]).addTo(map);
+
+        var radarLayer;
+
+        var autoplayInterval;
+        var isPlaying = false;
+
+        function loadRadarLayer(timestamp) {
+            var radarUrl = `https://tilecache.rainviewer.com/v2/radar/${timestamp}/256/{z}/{x}/{y}/2/1_1.png`;
+
+            if (radarLayer) {
+                map.removeLayer(radarLayer);
+            }
+            radarLayer = window.L.tileLayer(radarUrl, {
+                tileSize: 256,
+                opacity: 1
+            }).addTo(map);
+        }
+
+        fetch('https://api.rainviewer.com/public/weather-maps.json')
+            .then(response => response.json())
+            .then(data => {
+                var radarPast = data.radar.past;
+                var timeSlider = document.getElementById("timeSlider");
+                var timeLabel = document.getElementById("timeLabel");
+                var autoplayBtn = document.getElementById("autoplayBtn");
+
+                timeSlider.max = radarPast.length - 1;
+
+                var lastTimestamp = radarPast[radarPast.length - 1].time;
+                loadRadarLayer(lastTimestamp);
+                updateTimestampLabel(lastTimestamp);
+
+                timeSlider.oninput = function () {
+                    var selectedTimestamp = radarPast[this.value].time;
+                    loadRadarLayer(selectedTimestamp);
+                    updateTimestampLabel(selectedTimestamp);
+                };
+
+                autoplayBtn.onclick = function () {
+                    if (isPlaying) {
+                        stopAutoplay();
+                        document.getElementById('changeMapTypeToggle').hidden = false;
+                    } else {
+                        startAutoplay();
+                       document.getElementById('changeMapTypeToggle').hidden = true;
+                    }
+                };
+
+                function startAutoplay() {
+                    isPlaying = true;
+                    autoplayBtn.innerHTML = '<md-icon slot="icon" icon-filled>pause</md-icon>';
+                    autoplayInterval = setInterval(function () {
+                        timeSlider.value = (parseInt(timeSlider.value) + 1) % radarPast.length;
+                        timeSlider.oninput();
+                    }, 1000);
+                }
+
+                function stopAutoplay() {
+                    isPlaying = false;
+                    autoplayBtn.innerHTML = '<md-icon slot="icon" icon-filled>play_arrow</md-icon>';
+                    clearInterval(autoplayInterval);
+                }
+
+                function updateTimestampLabel(timestamp) {
+                    var date = new Date(timestamp * 1000);
+                    timeLabel.textContent = date.toLocaleTimeString();
+                }
+            });
+        }
+
+        loadMapRainView('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png')
+
+
+        setTimeout(()=>{
+            document.querySelector('.loader').style.opacity = '0';
+        }, 1000);
+
+        setTimeout(()=>{
+            document.querySelector('.loader').hidden = true;
+        }, 1300);
+
+
+        function changeMapTypeToggle(){
+            if(document.getElementById('changeMapTypeToggle').selected){
+                removeMap() 
+                setTimeout(()=>{
+                    loadMapRainView('https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png')
+                }, 400);
+            } else{
+                removeMap() 
+                setTimeout(()=>{
+                    loadMapRainView('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png')
+                }, 400);
+            }
+        }
+
+
+        function removeMap() {
+    if (map) {
+        map.remove();
+        map = null;
+    }
+}
+
+        
+    </script>
+
+
+    <script src="../components-script.js/components.js"></script>
+    <script src="../ripple-files/icon-ripple.js"></script>
+    <script src="../modules/scroll.js"></script>
+    <script src="../modules/ripple_acc.js"></script>
+    <script src="../app/navigate.js"></script>
+    <script src="../bundle.js"></script>
+    <script type="module" src="../index.js"></script>
+</body>
+
+</html>

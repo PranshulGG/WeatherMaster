@@ -212,7 +212,7 @@
                 <p id="cloth_recommended"></p>
             </div>
 
-            <div class="LiveMapWrap ripple_btn_low" onclick="openLivemap();Open_RefreshLiveMap('temp_new')">
+            <div class="LiveMapWrap ripple_btn_low" onclick="sendThemeToAndroid('OpenRadar')">
                 <div id="livemapPreview">
                     <img src="icons/prevmap.png" alt="">
                 </div>
@@ -566,44 +566,6 @@
     <p>UI isn't made for Desktop devices</p>
 </div>
 
-
-<div class="liveMapScreen" hidden>
-    <div class="topLiveMapActions">
-        <div>
-            <button class="ripple-icon-btn focus regular" onclick="window.history.back()"  ontouchstart="playEffect(this)"
-                    ontouchend="playEffect2(this)">
-                <span class="ripple-effect-icon"></span>
-                <span icon-outlined>arrow_back</span>
-            </button>
-            <p>Live radar</p></div>
-        <div>
-            <button class="ripple-icon-btn focus regular" ontouchstart="playEffect(this)" onclick="refreshCurrentMap()"
-                    ontouchend="playEffect2(this)">
-                <span class="ripple-effect-icon"></span>
-                <span icon-outlined>autorenew</span>
-            </button>
-        </div>
-    </div>
-
-    <div class="liveMapHolder">
-        <div id="livemap">
-
-        </div>
-
-
-        <div class="map_Type">
-            <md-chip-set>
-                <md-filter-chip label="Rain" onclick="Open_RefreshLiveMap('rain');toggleMapTypeChips(this);" name="MapType"></md-filter-chip>
-                <md-filter-chip label="Clouds" onclick="Open_RefreshLiveMap('clouds');toggleMapTypeChips(this);" name="MapType"></md-filter-chip>
-                <md-filter-chip label="Snow" onclick="Open_RefreshLiveMap('snow'); toggleMapTypeChips(this);" name="MapType"></md-filter-chip>
-                <md-filter-chip label="Wind" onclick="Open_RefreshLiveMap('wind_new');toggleMapTypeChips(this);" name="MapType"></md-filter-chip>
-                <md-filter-chip label="Temperature" onclick="Open_RefreshLiveMap('temp_new');toggleMapTypeChips(this);" name="MapType" style="pointer-events: none;" selected></md-filter-chip>
-            </md-chip-set>
-        </div>
-    </div>
-    <!-- togglePasswordTypeChips(this); -->
-
-</div>
 
 
 <div class="map_picker" hidden>

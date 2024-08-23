@@ -2053,136 +2053,6 @@ function removeMap() {
     }
 }
 
-var livemap;
-
-function liveMapRender(maptype){
-
-    const latDif = localStorage.getItem('currentLat');
-    const longDif = localStorage.getItem('currentLong');
-
-    livemap = window.L.map('livemap', {
-        center: [latDif, longDif],
-        zoom: 4,
-        minZoom: 3,
-        zoomControl: false
-    });
-
-
- window.L.marker([latDif, longDif]).addTo(livemap);
-
-
-    const apiKey = '9458a8b672d3e5ed460b72e7637c6eeb';
-
-    window.L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', {}).addTo(livemap);
-
-
-    window.L.tileLayer(`https://tile.openweathermap.org/map/${maptype}/{z}/{x}/{y}.png?appid=${apiKey}`).addTo(livemap);
-
-
-
-
-}
-
-
-function removeLiveMap() {
-    if (livemap) {
-        livemap.remove();
-        livemap = null;
-    }
-}
-
-
-
-
-
-
-
-
-function Open_RefreshLiveMap(type){
-        removeLiveMap()
-
-    setTimeout(()=>{
-        liveMapRender(type)
-    }, 500);
-
-}
-
-
-
-
-function toggleMapTypeChips(element) {
-    if (element.selected) {
-    var passChips = document.getElementsByName('MapType');
-    passChips.forEach((passChip) => {
-        if (passChip !== element) {
-            passChip.selected = false;
-            passChip.style.pointerEvents = '';
-
-
-        } else{
-            passChip.style.pointerEvents = 'none';
-        }
-
-    });
-    } else{
-        element.selected = true;
-        element.style.pointerEvents = 'none';
-
-    }
-}
-
-
-
-function openLivemap(){
-    document.querySelector('.liveMapScreen').hidden = false;
-    window.history.pushState({ LiveMapOpen: true }, "");
-
-        var passChips = document.getElementsByName('MapType');
-        passChips.forEach((passChip) => {
-            passChip.selected = false;
-        });
-        document.querySelector('[label="Temperature"]').selected = true;
-}
-
-function closeLiveMap(){
-    document.querySelector('.liveMapScreen').style.height = '0'
-    document.querySelector('.liveMapScreen').style.opacity = '0'
-
-
-    setTimeout(()=>{
-        document.querySelector('.liveMapScreen').hidden = true;
-    document.querySelector('.liveMapScreen').style.height = ''
-    document.querySelector('.liveMapScreen').style.opacity = ''
-
-    }, 350);
-
-}
-
-
-window.addEventListener('popstate', function (event) {
-    if(!document.querySelector('.liveMapScreen').hidden){
-        closeLiveMap()
-    }
-
-});
-
-function refreshCurrentMap(){
-if(document.querySelector('[label="Rain"]').selected){
-    Open_RefreshLiveMap('rain')
-} else if(document.querySelector('[label="Clouds"]').selected){
-    Open_RefreshLiveMap('clouds')
-} else if(document.querySelector('[label="Temperature"]').selected){
-    Open_RefreshLiveMap('temp_new')
-
-} else if(document.querySelector('[label="Snow"]').selected){
-    Open_RefreshLiveMap('snow')
-
-} else if(document.querySelector('[label="Wind"]').selected){
-    Open_RefreshLiveMap('wind_new')
-
-}
-
-}
 
 
 let currentKeyMoonIndex = 0;
@@ -2527,7 +2397,7 @@ function checkNoInternet(){
 
     document.addEventListener('DOMContentLoaded', async function() {
 
-        const currentVersion = 'v1.4.9';
+        const currentVersion = 'v1.5.0';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 

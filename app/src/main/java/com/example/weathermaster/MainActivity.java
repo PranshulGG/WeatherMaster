@@ -361,6 +361,9 @@ public class MainActivity extends AppCompatActivity {
                     } else if (color.equals("OpenAboutPage")){
                         openAboutPage();
                         return;
+                    } else if (color.equals("OpenRadar")){
+                        openLiveRadarPage();
+                        return;
                     } else if (color.equals("GoBack")){
                         back();
                         return;
@@ -445,6 +448,10 @@ public class MainActivity extends AppCompatActivity {
         }
         public void openAboutPage() {
             Intent intent = new Intent(mActivity, AboutPage.class);
+            mActivity.startActivity(intent);
+        }
+        public void openLiveRadarPage() {
+            Intent intent = new Intent(mActivity, LiveRadar.class);
             mActivity.startActivity(intent);
         }
 

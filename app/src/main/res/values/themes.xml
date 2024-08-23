@@ -31,6 +31,13 @@
 
     </style>
 
+    <style name="ScreenLiveRadar" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:navigationBarColor">@color/RadarPage</item>
+        <item name="android:statusBarColor">@color/RadarPage</item>
+        <item name="colorAccent">#afc6ff</item>
+
+    </style>
+
     <style name="ScreenForecastPage" parent="Theme.AppCompat.NoActionBar">
         <item name="android:navigationBarColor">@color/forecastPageBg</item>
         <item name="android:statusBarColor">@color/forecastPageBg</item>
