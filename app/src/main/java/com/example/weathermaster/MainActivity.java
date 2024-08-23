@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+            requestLocationPermissions();
 
         webview.setWebChromeClient(new WebChromeClient() {
             @Override
