@@ -9,7 +9,9 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 # 👁️ Preview
 
 > [!CAUTION]
-> **Screenshots may differ from the current version.**
+> **Screenshots may differ from the current version.** <br>
+> **Issue: The app may not load the weather if the API request limit is exceeded; you will have to wait until it resets. The app switches APIs up to 5 times, one for each request 🫠.**
+
 
 | Current & 48hrs |                                                                                                     Hourly prec & 8-days forecast|                                                                                           Radar & moon/sun|  Current Conditions| 
 | :---: |                                                                                                    :---: |                                                                                                     :---: |             :---: | 
@@ -19,6 +21,9 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 | :---: |                                                                                                    :---: |                                                                                                    :---: |          :---: | 
 | <img src="preview/air_uv.jpeg" style="width: 250px;"> |  <img src="preview/gov_alert.png" style="width: 250px;"> | <img src="preview/moonphases.png" style="width: 250px;"> |  <img src="preview/settings.jpeg" style="width: 250px;"> |
 
+| Forecast page |
+| :---: | 
+| <img src="preview/forecast_page.jpeg" style="width: 250px;"> |
 <br>
 
 
@@ -86,10 +91,9 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
  # 📝 Todos:
 
  - ⬛ Adding cache to reduce api requests 
- - **Translations**: Support for multiple languages will be added soon!
- - ⬛ Widgets 
+ - ⬛ Translations will be added soon! (i18n)
+ - ⬛ Widgets / Notifications
  - ✅ Make it lightweight
- - ⬛ Notification alerts
  - ✅ Allows you to add multiple locations
  - ⬛ Customization (under construction)
  - ✅ More detailed weather 
