@@ -80,7 +80,7 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
    
  - <strong>JavaScript: </stronge>To handle the app's logic and interactivity.
 
- - <strong>Weather data: </stronge> Using <a href="https://openweathermap.org/">OpenWeatherMap</a> to fetch weather, <a href="https://ipgeolocation.io/">ipgeolocation.io</a> for Moonset and Moonrise data, <a href="https://www.visualcrossing.com/">visualcrossing.com</a> for moon phases and <a href="https://opencagedata.com/api">api.opencagedata.com</a> for Geocoding 
+ - <strong>Weather data: </stronge> Using <a href="https://openweathermap.org/">OpenWeatherMap</a> to fetch weather, <a href="https://ipgeolocation.io/">ipgeolocation.io</a> for Moonset and Moonrise data, <a href="https://www.visualcrossing.com/">visualcrossing.com</a> for moon phases, <a href="https://opencagedata.com/api">api.opencagedata.com</a> for Geocoding and radar images are from <a href="https://www.rainviewer.com/">rainviewer</a> 
 
  - <strong>Java: </stronge>Mainly used for JavaScript interface and permissions, allowing the app to run on Android devices.
    
