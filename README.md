@@ -90,12 +90,12 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 
  # 📝 Todos:
 
- - ⬛ Adding cache to reduce api requests 
+ - ⬛ Adding cache to reduce api requests (under construction)
  - ⬛ Translations will be added soon! (i18n)
  - ⬛ Widgets / Notifications
  - ✅ Make it lightweight
  - ✅ Allows you to add multiple locations
- - ⬛ Customization (under construction)
+ - ✅ Customization 
  - ✅ More detailed weather 
  - ✅ Live weather map
  - ✅ Pick locations using map
