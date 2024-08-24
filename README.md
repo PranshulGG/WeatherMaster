@@ -12,17 +12,41 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 > **Screenshots may differ from the current version.**
 
 
-| Current & 48hrs |                                                                                                     Hourly prec & 8-days forecast|                                                                                           Radar & moon/sun|  Current Conditions| 
-| :---: |                                                                                                    :---: |                                                                                                     :---: |             :---: | 
-| <img src="preview/current.jpeg" style="width: 250px;"> |  <img src="preview/rain_8_days.jpeg" style="width: 250px;"> |   <img    src="preview/map_sun_moon.png" style="width: 250px;"> |   <img src="preview/details.png" style="width: 250px;"> | 
+<table style="width: 100%; border-collapse: collapse;">
+  <tr>
+    <th style="text-align: center; padding: 10px;">Current & 48hrs</th>
+    <th style="text-align: center; padding: 10px;">Hourly Precipitation & 8-Day Forecast</th>
+    <th style="text-align: center; padding: 10px;">Radar & Moon/Sun</th>
+  </tr>
+  <tr>
+    <td style="text-align: center;"><img src="preview/current.jpeg" style="width: 100%; max-width: 250px;"></td>
+    <td style="text-align: center;"><img src="preview/rain_8_days.jpeg" style="width: 100%; max-width: 250px;"></td>
+    <td style="text-align: center;"><img src="preview/map_sun_moon.png" style="width: 100%; max-width: 250px;"></td>
+  </tr>
+  <tr>
+    <th style="text-align: center; padding: 10px;">Current Conditions</th>
+    <th style="text-align: center; padding: 10px;">Air and UV Index</th>
+    <th style="text-align: center; padding: 10px;">Government Alerts</th>
+  </tr>
+  <tr>
+    <td style="text-align: center;"><img src="preview/details.png" style="width: 100%; max-width: 250px;"></td>
+    <td style="text-align: center;"><img src="preview/air_uv.jpeg" style="width: 100%; max-width: 250px;"></td>
+    <td style="text-align: center;"><img src="preview/gov_alert.png" style="width: 100%; max-width: 250px;"></td>
+  </tr>
+  <tr>
+    <th style="text-align: center; padding: 10px;">Moon Phases</th>
+    <th style="text-align: center; padding: 10px;">Settings</th>
+    <th style="text-align: center; padding: 10px;">Forecast Page</th>
+  </tr>
+  <tr>
+    <td style="text-align: center;"><img src="preview/moonphases.png" style="width: 100%; max-width: 250px;"></td>
+    <td style="text-align: center;"><img src="preview/settings.jpeg" style="width: 100%; max-width: 250px;"></td>
+    <td style="text-align: center;"><img src="preview/forecast_page.jpeg" style="width: 100%; max-width: 250px;"></td>
+  </tr>
+</table>
 
-| Air and UV index |                                                                                       Government alerts|                                                                                               Moon phases |   Settings| 
-| :---: |                                                                                                    :---: |                                                                                                    :---: |          :---: | 
-| <img src="preview/air_uv.jpeg" style="width: 250px;"> |  <img src="preview/gov_alert.png" style="width: 250px;"> | <img src="preview/moonphases.png" style="width: 250px;"> |  <img src="preview/settings.jpeg" style="width: 250px;"> |
 
-| Forecast page |
-| :---: | 
-| <img src="preview/forecast_page.jpeg" style="width: 250px;"> |
+
 <br>
 
 
