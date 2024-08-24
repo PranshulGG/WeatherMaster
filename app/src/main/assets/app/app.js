@@ -404,7 +404,7 @@ function loadSavedLocations() {
         const savedLocationItemLon = savedLocationItem.getAttribute('lon');
 
 
-        const apiKeySaved = '120d979ba5b2d0780f51872890f5ad0b';
+        const apiKeySaved = 'Keys here';
         const apiUrlSaved = `https://api.openweathermap.org/data/2.5/weather?lat=${savedLocationItemLat}&lon=${savedLocationItemLon}&appid=${apiKeySaved}&units=metric`;
 
 
@@ -626,7 +626,7 @@ function getCountryName(code) {
 
 function getWeather(city, latitude, longitude) {
     showLoader();
-    const apiKey = '120d979ba5b2d0780f51872890f5ad0b';
+    const apiKey = 'Keys here';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
     setTimeout(() => {
@@ -1117,7 +1117,7 @@ function getCurrentLocationWeather() {
 
 function getWeatherByCoordinates(latitude, longitude) {
     showLoader();
-    const apiKey = '120d979ba5b2d0780f51872890f5ad0b';
+    const apiKey = 'Keys here';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
 
@@ -1633,7 +1633,7 @@ function getColor(value, type) {
 
 
 function updateSunTrackProgress(latitude, longitude) {
-    const apiKey = '120d979ba5b2d0780f51872890f5ad0b';
+    const apiKey = 'Keys here';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
     fetch(apiUrl)
