@@ -2162,6 +2162,19 @@ const moon_phase_img = document.getElementById('moon_phase_img');
 
                             document.getElementById('MoonIllumination').innerHTML = `${MoonIllumination}%`
 
+                            const moonPhaseProgress = document.querySelector('moonPhaseProgress');
+
+                            if (MoonIllumination >= 50) {
+                                moonPhaseProgress.style.width = `${MoonIllumination}%`;
+                                moonPhaseProgress.style.right = '0';
+                                moonPhaseProgress.style.left = 'auto';
+                            } else {
+                                moonPhaseProgress.style.width = `${MoonIllumination}%`;
+                                moonPhaseProgress.style.left = '0';
+                                moonPhaseProgress.style.right = 'auto';
+                            }
+
+
                         })
                         .catch(error => {
                             console.error('Error fetching data:', error);
@@ -2175,7 +2188,7 @@ const moon_phase_img = document.getElementById('moon_phase_img');
 
 
         moonPhaseText.innerHTML = phaseName;
-        moon_phase_img.src = phaseImg;
+//        moon_phase_img.src = phaseImg;
                     if(daysLeft > 1){
                         moonPhaseDaysLeft.innerHTML = `${daysLeft} days`;
                     } else{
@@ -2397,7 +2410,7 @@ function checkNoInternet(){
 
     document.addEventListener('DOMContentLoaded', async function() {
 
-        const currentVersion = 'v1.5.0';
+        const currentVersion = 'v1.5.1';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 

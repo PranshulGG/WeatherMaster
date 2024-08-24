@@ -62,7 +62,7 @@ body {
     top: 0;
     width: 100%;
     --md-circular-progress-size: 55px;
-    transition: opacity 0.2s ease-in;
+    transition: opacity 0.2s ease-out;
 }
 
 forecastDateHeader{

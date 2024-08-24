@@ -1511,9 +1511,6 @@ height: 100%;
   justify-content: space-between;
 }
 
-.moonSideWrap .rightWrapMoon img{
-  width: 150px;
-}
 
 .moonSideWrap .leftWrapMoon .moonPhaseNameWrap{
   padding-left: 20px;
@@ -1538,6 +1535,11 @@ height: 100%;
 
 .moonSideWrap .leftWrapMoon .moonrise-Set span{
   color: var(--On-Surface);
+}
+
+.moonSideWrap .rightWrapMoon{
+  padding-right: 20px;
+  padding-top: 20px;
 }
 
 /* pressure */
@@ -1831,3 +1833,27 @@ savelocationtouch md-ripple{
             font-family: var(--outfit);
 
         }
+
+moonPhase {
+  width: 120px;
+  height: 120px;
+  display: block;
+  background: url(../icons/moon_texture.png);
+  border-radius: 9999px;
+  position: relative;
+  background-size: cover;
+  overflow: hidden;
+  background-position: center;
+  box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.3);
+  transform: rotate(-15deg);
+}
+
+moonPhaseProgress {
+  position: absolute;
+  top: 0;
+  width: 0;
+  transition: width 0.2s ease-out;
+  height: 100%;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.65);
+}

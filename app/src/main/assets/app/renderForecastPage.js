@@ -446,4 +446,4 @@ setTimeout(()=>{
 
 setTimeout(()=>{
     document.querySelector('.loader_holder').hidden = true
-}, 2200);
+}, 2300);

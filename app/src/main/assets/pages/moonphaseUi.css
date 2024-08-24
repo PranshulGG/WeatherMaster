@@ -53,27 +53,19 @@ html {
     flex-direction: column;
 }
 
-.moon_phase_img_text_current img{
-    height: 190px;
-    position: absolute;
-    top: -20px;
-}
 
 .moon_phase_img_text_current{
     display: flex;
     align-items: center;
     flex-direction: column;
-    gap: 0px;
+    gap: 14px;
     position: relative;
-    padding-bottom: 10px;
-    height: 166px;
+    margin-top: 12px;
 }
 
 .moon_phase_img_text_current p{
     font-family: var(--outfit-mid);
     font-size: 25px;
-    position: absolute;
-    bottom: 0;
 }
 
 .moon_phase_current_text_data{
@@ -200,3 +192,27 @@ height:80px;
 [hidden]{
     display: none !important;
 }
+
+moonPhase {
+    width: 150px;
+    height: 150px;
+    display: block;
+    background: url(../icons/moon_texture.png);
+    border-radius: 9999px;
+    position: relative;
+    background-size: cover;
+    overflow: hidden;
+    background-position: center;
+    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.3);
+    transform: rotate(-15deg);
+  }
+
+  moonPhaseProgress {
+    position: absolute;
+    top: 0;
+    width: 0;
+    transition: width 0.2s ease-out;
+    height: 100%;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.65);
+  }

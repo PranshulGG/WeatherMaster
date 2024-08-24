@@ -35,7 +35,11 @@
             <div class="moon_phase_current_data">
 
                 <div class="moon_phase_img_text_current">
-                    <img src="../moon_phases/moon_full.svg" alt="" id="current_phase_img">
+                    <moonPhase>
+                        <moonPhaseProgress>
+
+                        </moonPhaseProgress>
+                    </moonPhase>
                     <p id="currentMoonPhase_name"></p>
                 </div>
 
@@ -195,7 +199,6 @@ function Fetchmoonphases(lat, long) {
 
 
         }
-            moon_phase_img.src = phaseImg
             moonPhaseText.textContent = phaseName
             document.getElementById('NextphaseText').innerHTML = nextPhaseName;
 
@@ -224,6 +227,19 @@ fetch(`https://api.farmsense.net/v1/moonphases/?d=${currentDateMoonPhase}`)
 
 
         document.getElementById('IlluminationText').innerHTML = `${MoonIllumination}%`
+
+                                    const moonPhaseProgress = document.querySelector('moonPhaseProgress');
+
+                            if (MoonIllumination >= 50) {
+                                moonPhaseProgress.style.width = `${MoonIllumination}%`;
+                                moonPhaseProgress.style.right = '0';
+                                moonPhaseProgress.style.left = 'auto';
+                            } else {
+                                moonPhaseProgress.style.width = `${MoonIllumination}%`;
+                                moonPhaseProgress.style.left = '0';
+                                moonPhaseProgress.style.right = 'auto';
+                            }
+
 
     })
     .catch(error => {
