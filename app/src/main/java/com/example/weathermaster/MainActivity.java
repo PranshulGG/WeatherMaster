@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-            requestLocationPermissions();
+
 
         webview.setWebChromeClient(new WebChromeClient() {
             @Override
@@ -173,8 +173,8 @@ public class MainActivity extends AppCompatActivity {
                 webview.getSettings().setGeolocationEnabled(true);
                 webview.reload();
             } else {
-                // Permission denied, show an explanation to the user
-                Toast.makeText(this, "Location permission is required", Toast.LENGTH_SHORT).show();
+
+
 
             }
         }
@@ -364,10 +364,12 @@ public class MainActivity extends AppCompatActivity {
                     } else if (color.equals("OpenRadar")){
                         openLiveRadarPage();
                         return;
-                    } else if (color.equals("GoBack")){
+                    } else if (color.equals("GoBack")) {
                         back();
                         return;
-
+                    } else if  (color.equals("ReqLocation")) {
+                        requestLocationPermissions();
+                        return;
                     } else if (color.equals("bluesetDef")) {
 
                         return;

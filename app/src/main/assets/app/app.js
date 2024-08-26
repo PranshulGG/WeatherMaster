@@ -64,7 +64,8 @@ function useAutoCurrentLocation(){
 
         }, (error) => {
             console.error('Geolocation error:', error);
-
+            document.getElementById('search-container').style.display = 'block';
+            window.history.pushState({ SearchContainerOpen: true }, "");
         });
     } else {
         console.error('Geolocation is not available in this browser.');
@@ -73,13 +74,22 @@ function useAutoCurrentLocation(){
 }
 
 
+if(DefaultLocation){
 if(DefaultLocation.name === 'CurrentAutoLocation'){
     useAutoCurrentLocation()
+    sendThemeToAndroid("ReqLocation")
+    document.querySelector('.currentLocationdiv').hidden = false;
 } else if(DefaultLocation.lat && DefaultLocation.lon){
     getWeather(' ', DefaultLocation.lat, DefaultLocation.lon)
-} else{
-    useAutoCurrentLocation()
+    document.querySelector('.currentLocationdiv').hidden = true;
 }
+}
+else{
+    useAutoCurrentLocation()
+    sendThemeToAndroid("ReqLocation")
+    document.querySelector('.currentLocationdiv').hidden = false;
+}
+
 
 
 const Uv_0 = 'A UV index is satisfactory, indicating that there is little or no risk of harm from ultraviolet radiation.';
@@ -114,12 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
     cityopen.addEventListener("click", () => {
   let savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
 
-
-        document.querySelector('savedLocationsHolder').innerHTML = ''
-
-        setTimeout(()=>{
-            loadSavedLocations()
-        }, 150);
 
         searchContainer.style.display = 'block';
         window.history.pushState({ SearchContainerOpen: true }, "");
@@ -404,7 +408,7 @@ function loadSavedLocations() {
         const savedLocationItemLon = savedLocationItem.getAttribute('lon');
 
 
-        const apiKeySaved = '120d979ba5b2d0780f51872890f5ad0b';
+        const apiKeySaved = `${KEY}`;
         const apiUrlSaved = `https://api.openweathermap.org/data/2.5/weather?lat=${savedLocationItemLat}&lon=${savedLocationItemLon}&appid=${apiKeySaved}&units=metric`;
 
 
@@ -511,7 +515,7 @@ function deleteLocation(locationName) {
 
 
 function setCurrentLocation(lat, lon){
-    const apiKeyCurrent = '120d979ba5b2d0780f51872890f5ad0b';
+    const apiKeyCurrent = 'KEY';
         const apiUrlCurrent = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKeyCurrent}&units=metric`;
 
 
@@ -626,7 +630,7 @@ function getCountryName(code) {
 
 function getWeather(city, latitude, longitude) {
     showLoader();
-    const apiKey = '120d979ba5b2d0780f51872890f5ad0b';
+    const apiKey = 'KEY';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
     setTimeout(() => {
@@ -1117,7 +1121,7 @@ function getCurrentLocationWeather() {
 
 function getWeatherByCoordinates(latitude, longitude) {
     showLoader();
-    const apiKey = '120d979ba5b2d0780f51872890f5ad0b';
+    const apiKey = 'KEY';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
 
@@ -1954,7 +1958,6 @@ function showLoader() {
     const loaderContainer = document.getElementById('loader-container');
     loaderContainer.style.display = 'flex';
     loaderContainer.style.opacity = '1';
-                document.getElementById('city-open').disabled = true;
                 document.querySelector('rainmeterbar').scrollLeft = 0
 
 }
@@ -1967,7 +1970,6 @@ function hideLoader() {
 
     setTimeout(() => {
         loaderContainer.style.display = 'none';
-                document.getElementById('city-open').disabled = false;
 
     }, 300);
 
@@ -2410,7 +2412,7 @@ function checkNoInternet(){
 
     document.addEventListener('DOMContentLoaded', async function() {
 
-        const currentVersion = 'v1.5.1';
+        const currentVersion = 'v1.5.2';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 

@@ -116,6 +116,7 @@ Fetchmoonphases(latDif, longDif)
 
 function switchApiKey() {
     currentKeyMoonIndex = (currentKeyMoonIndex + 1) % apiKeysVisual.length;
+    Fetchmoonphases(latDif, longDif)
 }
 
 function Fetchmoonphases(lat, long) {
