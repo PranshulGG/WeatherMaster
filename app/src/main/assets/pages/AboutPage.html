@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" Theme="default" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <title>about Page</title>
-    <link rel="stylesheet" href="../ui-files/ui.css">
-    <link rel="stylesheet" href="../ui-files/font-usage.css">
-    <link rel="stylesheet" href="../ui-files/variables.css">
-    <link rel="stylesheet" href="../components/components.css">
-    <link rel="stylesheet" href="../ripple-files/ripple.css">
-    <link rel="stylesheet" href="../components/md-buttons.css">
-    <style>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+ <title>about Page</title>
+ <link rel="stylesheet" href="../ui-files/ui.css">
+ <link rel="stylesheet" href="../ui-files/font-usage.css">
+ <link rel="stylesheet" href="../ui-files/variables.css">
+ <link rel="stylesheet" href="../components/components.css">
+ <link rel="stylesheet" href="../ripple-files/ripple.css">
+ <link rel="stylesheet" href="../components/md-buttons.css">
+ <style>
         .toast_version{
             position: fixed;
             border-radius: 10px;
@@ -48,65 +48,65 @@
 <body style="--md-list-item-label-text-size: 1.15rem; --md-list-item-pressed-state-layer-opacity: 0.15; --md-ref-typeface-plain: var(--google-normal); background-color: var(--Surface);">
 
 <div class="activity-large open">
-    <div class="header-activity-large" id="head-6">
-        <button class="ripple-icon-btn regular" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)" title="Go back"
-                onclick="sendThemeToAndroid('GoBack')">
-            <span class="ripple-effect-icon"></span>
-            <span icon-outlined>arrow_back</span>
-        </button>
-        <p class="label-hidden-large">About WeatherMaster</p>
-    </div>
-    <div class="activity-large-content" id="headUser-6">
-        <p class="label-large-main">About WeatherMaster</p>
-        <div class="content-parent-large">
+ <div class="header-activity-large" id="head-6">
+  <button class="ripple-icon-btn regular" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)" title="Go back"
+          onclick="sendThemeToAndroid('GoBack')">
+   <span class="ripple-effect-icon"></span>
+   <span icon-outlined>arrow_back</span>
+  </button>
+  <p class="label-hidden-large">About WeatherMaster</p>
+ </div>
+ <div class="activity-large-content" id="headUser-6">
+  <p class="label-large-main">About WeatherMaster</p>
+  <div class="content-parent-large">
 
-            <md-list>
+   <md-list>
 
-                <md-list-item type="button" onclick="sendThemeToAndroid('OpenTermsConditions')">
-                    <md-icon slot="start" icon-filled>privacy_tip</md-icon>
-                    <div slot="headline">Terms and Conditions</div>
-                </md-list-item>
+    <md-list-item type="button" onclick="sendThemeToAndroid('OpenTermsConditions')">
+     <md-icon slot="start" icon-filled>privacy_tip</md-icon>
+     <div slot="headline">Terms and Conditions</div>
+    </md-list-item>
 
-                <md-list-item type="button" onclick="sendThemeToAndroid('OpenPrivacyPolicy')">
-                    <md-icon slot="start" icon-filled>policy</md-icon>
-                    <div slot="headline">Privacy Policy</div>
-                </md-list-item>
+    <md-list-item type="button" onclick="sendThemeToAndroid('OpenPrivacyPolicy')">
+     <md-icon slot="start" icon-filled>policy</md-icon>
+     <div slot="headline">Privacy Policy</div>
+    </md-list-item>
 
-                <md-list-item type="button" onclick="window.location.href='https://github.com/PranshulGG/WeatherMaster'">
-                    <md-icon slot="start" icon-filled>code</md-icon>
-                    <div slot="headline">View source code</div>
-                </md-list-item>
-
-
-                <md-list-item type="button" id="checkUpdatesBtn">
-                    <md-icon slot="start" icon-filled>system_update</md-icon>
-                    <div slot="headline">Latest version</div>
-                    <md-circular-progress indeterminate slot="end" style="--md-circular-progress-size: 32px;" hidden id="version_check_loader"></md-circular-progress>
-                </md-list-item>
-
-                <md-list-item type="button" onclick="sendThemeToAndroid('OpenLicenses')">
-                    <md-icon slot="start" icon-filled>copyright</md-icon>
-                    <div slot="headline">Third party licenses</div>
-
-                </md-list-item>
+    <md-list-item type="button" onclick="window.location.href='https://github.com/PranshulGG/WeatherMaster'">
+     <md-icon slot="start" icon-filled>code</md-icon>
+     <div slot="headline">View source code</div>
+    </md-list-item>
 
 
-                <md-list-item id="show_time_toast">
-                    <md-icon slot="start" icon-filled>info</md-icon>
-                    <div slot="headline" style="margin-bottom: 2px;">Version</div>
-                    <div slot="supporting-text">1.5.2 (W)</div>
-                </md-list-item>
+    <md-list-item type="button" id="checkUpdatesBtn">
+     <md-icon slot="start" icon-filled>system_update</md-icon>
+     <div slot="headline">Latest version</div>
+     <md-circular-progress indeterminate slot="end" style="--md-circular-progress-size: 32px;" hidden id="version_check_loader"></md-circular-progress>
+    </md-list-item>
 
-            </md-list>
+    <md-list-item type="button" onclick="sendThemeToAndroid('OpenLicenses')">
+     <md-icon slot="start" icon-filled>copyright</md-icon>
+     <div slot="headline">Third party licenses</div>
+
+    </md-list-item>
+
+
+    <md-list-item id="show_time_toast">
+     <md-icon slot="start" icon-filled>info</md-icon>
+     <div slot="headline" style="margin-bottom: 2px;">Version</div>
+     <div slot="supporting-text">1.5.3 (W)</div>
+    </md-list-item>
+
+   </md-list>
 
 
 
-            <div class="toast_version" hidden>
+   <div class="toast_version" hidden>
 
-                <p id="updateMessage"></p></div>
+    <p id="updateMessage"></p></div>
 
-        </div>
-    </div>
+  </div>
+ </div>
 </div>
 
 
@@ -178,7 +178,7 @@ AndroidInterface.updateStatusBarColor(theme);
 
 
 document.getElementById('checkUpdatesBtn').addEventListener('click', async function() {
-    const currentVersion = 'v1.5.2';
+    const currentVersion = 'v1.5.3';
     const githubRepo = 'PranshulGG/WeatherMaster';
     const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 

@@ -132,11 +132,11 @@
 
 <body>
 
-    <div class="map_holder">
+<div class="map_holder">
 
-        <div class="header">
-            <button class="ripple-icon-btn regular" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)"
-            onclick="sendThemeToAndroid('GoBack')" style="--ripple-unbounded: white">
+    <div class="header">
+        <button class="ripple-icon-btn regular" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)"
+                onclick="sendThemeToAndroid('GoBack')" style="--ripple-unbounded: white">
             <span class="ripple-effect-icon"></span>
             <span icon-outlined style="font-size: 24px !important; color: white;">arrow_back</span>
         </button>
@@ -147,28 +147,28 @@
             <md-icon icon-outlined>light_mode</md-icon>
             <md-icon slot="selected" icon-outlined>dark_mode</md-icon>
         </md-icon-button>
-        </div>
+    </div>
 
-        <div id="mapRadar"></div>
+    <div id="mapRadar"></div>
 
-        <div class="controls">
-            <div class="slider_btn">
-             <md-fab id="autoplayBtn" variant="primary">
+    <div class="controls">
+        <div class="slider_btn">
+            <md-fab id="autoplayBtn" variant="primary">
                 <md-icon slot="icon" icon-filled>play_arrow</md-icon>
-             </md-fab>
+            </md-fab>
             <md-slider id="timeSlider" min="0" max="12" value="0" step="1"></md-slider>
-            </div>
-            <span class="time-label" id="timeLabel"></span>
         </div>
-
+        <span class="time-label" id="timeLabel"></span>
     </div>
 
+</div>
 
-    <div class="loader">
-        <md-circular-progress indeterminate></md-circular-progress>
-    </div>
 
-    <script>
+<div class="loader">
+    <md-circular-progress indeterminate></md-circular-progress>
+</div>
+
+<script>
 
 var map;
 
@@ -184,7 +184,7 @@ function loadMapRainView(theme){
         });
 
         window.L.tileLayer(theme, {
-       
+
 
         }).addTo(map);
 
@@ -274,12 +274,12 @@ function loadMapRainView(theme){
 
         function changeMapTypeToggle(){
             if(document.getElementById('changeMapTypeToggle').selected){
-                removeMap() 
+                removeMap()
                 setTimeout(()=>{
                     loadMapRainView('https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png')
                 }, 400);
             } else{
-                removeMap() 
+                removeMap()
                 setTimeout(()=>{
                     loadMapRainView('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png')
                 }, 400);
@@ -294,17 +294,17 @@ function loadMapRainView(theme){
     }
 }
 
-        
+
     </script>
 
 
-    <script src="../components-script.js/components.js"></script>
-    <script src="../ripple-files/icon-ripple.js"></script>
-    <script src="../modules/scroll.js"></script>
-    <script src="../modules/ripple_acc.js"></script>
-    <script src="../app/navigate.js"></script>
-    <script src="../bundle.js"></script>
-    <script type="module" src="../index.js"></script>
+<script src="../components-script.js/components.js"></script>
+<script src="../ripple-files/icon-ripple.js"></script>
+<script src="../modules/scroll.js"></script>
+<script src="../modules/ripple_acc.js"></script>
+<script src="../app/navigate.js"></script>
+<script src="../bundle.js"></script>
+<script type="module" src="../index.js"></script>
 </body>
 
 </html>

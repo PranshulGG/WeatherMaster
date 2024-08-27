@@ -75,7 +75,7 @@ function useAutoCurrentLocation(){
 
 
 if(DefaultLocation){
-if(DefaultLocation.name === 'CurrentAutoLocation'){
+if(DefaultLocation.name === 'CurrentDeviceLocation'){
     useAutoCurrentLocation()
     sendThemeToAndroid("ReqLocation")
     document.querySelector('.currentLocationdiv').hidden = false;
@@ -92,20 +92,7 @@ else{
 
 
 
-const Uv_0 = 'A UV index is satisfactory, indicating that there is little or no risk of harm from ultraviolet radiation.';
-const Uv_1 = 'Conditions are generally low-risk, indicating that exposure to ultraviolet radiation poses a minimal threat.';
-const Uv_2 = 'Low exposure level with minimal risk of harm from UV radiation, suitable for most people.';
-const Uv_3 = 'Moderate risk of harm from unprotected sun exposure, protective measures recommended.';
-const Uv_4 = 'Moderate risk of harm from unprotected sun exposure, protective measures recommended.';
-const Uv_5 = 'Moderate risk of harm from unprotected sun exposure, protective measures recommended.';
-const Uv_6 = 'High risk of harm from unprotected sun exposure, protective measures required.';
-const Uv_7 = 'High risk of harm from unprotected sun exposure, protective measures required.';
-const Uv_8 = 'Very high risk of harm from unprotected sun exposure, extra precautions required.';
-const Uv_9 = 'Very high risk of harm from unprotected sun exposure, extra precautions required.';
-const Uv_10 = 'Very high risk of harm from unprotected sun exposure, extra precautions required.';
-const Uv_11 = 'Extreme risk of harm from unprotected sun exposure, full protection necessary.';
-const Uv_12 = 'Extreme risk of harm from unprotected sun exposure, full protection necessary.';
-const Uv_13 = 'Extreme risk of harm from unprotected sun exposure, full protection necessary.';
+
 
 function handleGeolocationError(error) {
     console.error('Error getting geolocation:', error);
@@ -408,7 +395,7 @@ function loadSavedLocations() {
         const savedLocationItemLon = savedLocationItem.getAttribute('lon');
 
 
-        const apiKeySaved = `${KEY}`;
+        const apiKeySaved = 'key';
         const apiUrlSaved = `https://api.openweathermap.org/data/2.5/weather?lat=${savedLocationItemLat}&lon=${savedLocationItemLon}&appid=${apiKeySaved}&units=metric`;
 
 
@@ -515,7 +502,7 @@ function deleteLocation(locationName) {
 
 
 function setCurrentLocation(lat, lon){
-    const apiKeyCurrent = 'KEY';
+    const apiKeyCurrent = 'key';
         const apiUrlCurrent = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKeyCurrent}&units=metric`;
 
 
@@ -630,7 +617,7 @@ function getCountryName(code) {
 
 function getWeather(city, latitude, longitude) {
     showLoader();
-    const apiKey = 'KEY';
+    const apiKey = 'key';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
     setTimeout(() => {
@@ -794,7 +781,7 @@ function getWeather(city, latitude, longitude) {
             const windSpeedMPS = data.wind.speed;
             const windSpeedMPH = (windSpeedMPS * 2.23694).toFixed(0);
 
-            const windSpeedKPH = (windSpeedMPS * 3.6).toFixed(0); 
+            const windSpeedKPH = (windSpeedMPS * 3.6).toFixed(0);
             const timeZoneOffsetSeconds = data.timezone;
             const sunriseUTC = new Date((data.sys.sunrise + timeZoneOffsetSeconds) * 1000);
             const sunsetUTC = new Date((data.sys.sunset + timeZoneOffsetSeconds) * 1000);
@@ -903,6 +890,35 @@ function getWeather(city, latitude, longitude) {
 
             // Fetch UV Index
 
+
+            const aqiText = {
+                1: {
+                    level: "Good",
+                    message: "Air quality is considered satisfactory, and air pollution poses little or no risk.",
+                },
+                2: {
+                    level: "Fair",
+                    message: "Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution.",
+
+                },
+                3: {
+                    level: "Moderate",
+                    message: "Member of sensitive groups may experience health effects. The general public is not likely to be affected.",
+
+                },
+                4: {
+                    level: "Poor",
+                    message: "Everyone may begin to experience health effects; member of sensitive groups may experience more serious health effects.",
+
+                },
+                5: {
+                    level: "Very Poor",
+                    message: "Health warnings of emergency conditions. The entire population is more likely to be affected.",
+                }
+            }
+
+
+
             const air_url = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
 
             fetch(air_url)
@@ -963,6 +979,23 @@ function getWeather(city, latitude, longitude) {
                     document.getElementById('aqi_img').src = backgroundImage[aqi];
                     document.getElementById('aqi-level').style.backgroundColor = backgroundColor[aqi];
                 });
+
+
+
+                const Uv_0 = 'A UV index is satisfactory, indicating that there is little or no risk of harm from ultraviolet radiation.';
+                const Uv_1 = 'Conditions are generally low-risk, indicating that exposure to ultraviolet radiation poses a minimal threat.';
+                const Uv_2 = 'Low exposure level with minimal risk of harm from UV radiation, suitable for most people.';
+                const Uv_3 = 'Moderate risk of harm from unprotected sun exposure, protective measures recommended.';
+                const Uv_4 = 'Moderate risk of harm from unprotected sun exposure, protective measures recommended.';
+                const Uv_5 = 'Moderate risk of harm from unprotected sun exposure, protective measures recommended.';
+                const Uv_6 = 'High risk of harm from unprotected sun exposure, protective measures required.';
+                const Uv_7 = 'High risk of harm from unprotected sun exposure, protective measures required.';
+                const Uv_8 = 'Very high risk of harm from unprotected sun exposure, extra precautions required.';
+                const Uv_9 = 'Very high risk of harm from unprotected sun exposure, extra precautions required.';
+                const Uv_10 = 'Very high risk of harm from unprotected sun exposure, extra precautions required.';
+                const Uv_11 = 'Extreme risk of harm from unprotected sun exposure, full protection necessary.';
+                const Uv_12 = 'Extreme risk of harm from unprotected sun exposure, full protection necessary.';
+                const Uv_13 = 'Extreme risk of harm from unprotected sun exposure, full protection necessary.';
 
             const url = `https://currentuvindex.com/api/v1/uvi?latitude=${latitude}&longitude=${longitude}`;
             const option = { method: 'GET', headers: { Accept: 'application/json' } };
@@ -1068,34 +1101,8 @@ function getWeather(city, latitude, longitude) {
 
     currentLocation = null;
 
-} 
-
-
-const aqiText = {
-    1: {
-        level: "Good",
-        message: "Air quality is considered satisfactory, and air pollution poses little or no risk.",
-    },
-    2: {
-        level: "Fair",
-        message: "Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution.",
-
-    },
-    3: {
-        level: "Moderate",
-        message: "Member of sensitive groups may experience health effects. The general public is not likely to be affected.",
-
-    },
-    4: {
-        level: "Poor",
-        message: "Everyone may begin to experience health effects; member of sensitive groups may experience more serious health effects.",
-
-    },
-    5: {
-        level: "Very Poor",
-        message: "Health warnings of emergency conditions. The entire population is more likely to be affected.",
-    }
 }
+
 
 
 
@@ -1121,7 +1128,7 @@ function getCurrentLocationWeather() {
 
 function getWeatherByCoordinates(latitude, longitude) {
     showLoader();
-    const apiKey = 'KEY';
+    const apiKey = 'key';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
 
@@ -1299,7 +1306,7 @@ function getWeatherByCoordinates(latitude, longitude) {
             const sunrise = sunriseUTC.toLocaleTimeString('en-US', options);
             const sunset = sunsetUTC.toLocaleTimeString('en-US', options);
 
-            
+
             if(SelectedWindUnit === 'mile'){
                 document.getElementById('wind-speed').textContent = `${windSpeedMPH} mph`;
             } else{
@@ -1403,6 +1410,34 @@ function getWeatherByCoordinates(latitude, longitude) {
                         }
 
 
+            const aqiText = {
+                1: {
+                    level: "Good",
+                    message: "Air quality is considered satisfactory, and air pollution poses little or no risk.",
+                },
+                2: {
+                    level: "Fair",
+                    message: "Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution.",
+
+                },
+                3: {
+                    level: "Moderate",
+                    message: "Member of sensitive groups may experience health effects. The general public is not likely to be affected.",
+
+                },
+                4: {
+                    level: "Poor",
+                    message: "Everyone may begin to experience health effects; member of sensitive groups may experience more serious health effects.",
+
+                },
+                5: {
+                    level: "Very Poor",
+                    message: "Health warnings of emergency conditions. The entire population is more likely to be affected.",
+                }
+            }
+
+
+
             const air_url = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
 
             fetch(air_url)
@@ -1461,6 +1496,21 @@ function getWeatherByCoordinates(latitude, longitude) {
                     document.getElementById('aqi_img').src = backgroundImage[aqi];
                     document.getElementById('aqi-level').style.backgroundColor = backgroundColor[aqi];
                 })
+
+                const Uv_0 = 'A UV index is satisfactory, indicating that there is little or no risk of harm from ultraviolet radiation.';
+                const Uv_1 = 'Conditions are generally low-risk, indicating that exposure to ultraviolet radiation poses a minimal threat.';
+                const Uv_2 = 'Low exposure level with minimal risk of harm from UV radiation, suitable for most people.';
+                const Uv_3 = 'Moderate risk of harm from unprotected sun exposure, protective measures recommended.';
+                const Uv_4 = 'Moderate risk of harm from unprotected sun exposure, protective measures recommended.';
+                const Uv_5 = 'Moderate risk of harm from unprotected sun exposure, protective measures recommended.';
+                const Uv_6 = 'High risk of harm from unprotected sun exposure, protective measures required.';
+                const Uv_7 = 'High risk of harm from unprotected sun exposure, protective measures required.';
+                const Uv_8 = 'Very high risk of harm from unprotected sun exposure, extra precautions required.';
+                const Uv_9 = 'Very high risk of harm from unprotected sun exposure, extra precautions required.';
+                const Uv_10 = 'Very high risk of harm from unprotected sun exposure, extra precautions required.';
+                const Uv_11 = 'Extreme risk of harm from unprotected sun exposure, full protection necessary.';
+                const Uv_12 = 'Extreme risk of harm from unprotected sun exposure, full protection necessary.';
+                const Uv_13 = 'Extreme risk of harm from unprotected sun exposure, full protection necessary.';
 
             const url = `https://currentuvindex.com/api/v1/uvi?latitude=${latitude}&longitude=${longitude}`;
             const option = { method: 'GET', headers: { Accept: 'application/json' } };
@@ -1637,7 +1687,7 @@ function getColor(value, type) {
 
 
 function updateSunTrackProgress(latitude, longitude) {
-    const apiKey = '120d979ba5b2d0780f51872890f5ad0b';
+    const apiKey = 'key';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
     fetch(apiUrl)
@@ -1668,6 +1718,8 @@ function updateSunTrackProgress(latitude, longitude) {
 
 
 function get24HourForecast(latitude, longitude) {
+let currentApiKeyIndex = 0;
+
     const apiKey = apiKeysDaily[currentApiKeyIndex];
     const apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=current,minutely,daily,alerts&appid=${apiKey}&units=metric`;
 
@@ -1719,7 +1771,7 @@ function display24HourForecast(forecastData) {
                 const temperature = Math.round(forecast.temp);
                 const tempF = Math.round(temperature * 9 / 5 + 32);
 
-                
+
 
 
             const iconCode = forecast.weather[0].icon;
@@ -1823,7 +1875,7 @@ function display24HourForecast(forecastData) {
 
 
             RainBarsContainer.append(rainMeterBarItem)
-            
+
 
             forecastContainer.appendChild(forecastItem);
 
@@ -1855,9 +1907,10 @@ function showToast(description, time) {
         }, 500);
     }, 3000);
 }
-let currentApiKeyIndex = 0;
 
 function getDailyForecast(latitude, longitude) {
+let currentApiKeyIndex = 0;
+
     const apiKey = apiKeysDaily[currentApiKeyIndex];
     const apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
@@ -2057,13 +2110,14 @@ function removeMap() {
 
 
 
-let currentKeyMoonIndex = 0;
 
 function switchApiKey() {
     currentKeyMoonIndex = (currentKeyMoonIndex + 1) % apiKeysVisual.length;
 }
 
 function Fetchmoonphases(lat, long) {
+let currentKeyMoonIndex = 0;
+
     const apiKey = apiKeysVisual[currentKeyMoonIndex];
 
     fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${lat},${long}?unitGroup=metric&include=days&key=${apiKey}&contentType=json`)
@@ -2301,13 +2355,27 @@ const precipitationtypeText = data.days[0].preciptype ? data.days[0].preciptype[
     const formattedDayLength = `${parseInt(hours)} hours ${parseInt(minutes)} mins`;
 
 
-        document.getElementById('DayLengthText').innerHTML = formattedDayLength;
+//        document.getElementById('DayLengthText').innerHTML = formattedDayLength;
 
     })
     .catch(error => {
       console.error(error);
       fetchAstronomyData(lat, long);
     });
+
+
+  fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=daylight_duration&timezone=auto`)
+  .then(response => response.json())
+  .then(data => {
+        const DayLengthdata = data.daily.daylight_duration[0]
+
+        const hours = Math.floor(DayLengthdata / 3600);
+        const minutes = Math.floor((DayLengthdata % 3600) / 60);
+
+        document.getElementById('DayLengthText').innerHTML = `${hours} hours ${minutes} mins`;
+
+
+    })
 }
 
 
@@ -2412,7 +2480,7 @@ function checkNoInternet(){
 
     document.addEventListener('DOMContentLoaded', async function() {
 
-        const currentVersion = 'v1.5.2';
+        const currentVersion = 'v1.5.3';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
