@@ -5,6 +5,11 @@ const SelectedPrecipitationUnit = localStorage.getItem('selectedPrecipitationUni
 const SelectedPressureUnit = localStorage.getItem('selectedPressureUnit');
 const DefaultLocation = JSON.parse(localStorage.getItem('DefaultLocation'));
 
+let currentApiKeyIndex = 0;
+
+let currentKeyMoonIndex = 0;
+let currentAstronomyKeyIndex = 0;
+
 
 function handleStorageChange(event) {
     if (event.key === 'SelectedTempUnit' ||
@@ -1718,7 +1723,6 @@ function updateSunTrackProgress(latitude, longitude) {
 
 
 function get24HourForecast(latitude, longitude) {
-let currentApiKeyIndex = 0;
 
     const apiKey = apiKeysDaily[currentApiKeyIndex];
     const apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=current,minutely,daily,alerts&appid=${apiKey}&units=metric`;
@@ -1909,7 +1913,6 @@ function showToast(description, time) {
 }
 
 function getDailyForecast(latitude, longitude) {
-let currentApiKeyIndex = 0;
 
     const apiKey = apiKeysDaily[currentApiKeyIndex];
     const apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
@@ -2116,7 +2119,6 @@ function switchApiKey() {
 }
 
 function Fetchmoonphases(lat, long) {
-let currentKeyMoonIndex = 0;
 
     const apiKey = apiKeysVisual[currentKeyMoonIndex];
 
@@ -2320,7 +2322,7 @@ const precipitationtypeText = data.days[0].preciptype ? data.days[0].preciptype[
 
 
 
-      let currentAstronomyKeyIndex = 0;
+
       fetchAstronomyData(lat, long)
 
       function switchAstronomyApiKey() {
@@ -2406,7 +2408,7 @@ function getWeatherAlerts(latAlerts, lonAlerts) {
             if (data.alerts) {
                 console.log(data.alerts);
                 const alertEvent = data.alerts[0].event;
-                document.getElementById('excessiveHeatText').innerHTML = alertEvent + '<text>More on this alert...</text>';
+                document.getElementById('excessiveHeatText').innerHTML = 'Weather alerts' + '<text>Tap to see more...</text>';
                 document.querySelector('.weatherCommentsDiv').classList.add('alertOpened');
                 document.querySelector('.excessiveHeat').hidden = false;
             } else {
@@ -2480,7 +2482,7 @@ function checkNoInternet(){
 
     document.addEventListener('DOMContentLoaded', async function() {
 
-        const currentVersion = 'v1.5.3';
+        const currentVersion = 'v1.5.4';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
