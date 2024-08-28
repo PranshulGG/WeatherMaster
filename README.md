@@ -6,6 +6,9 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 
 `(Last updated on 08-27-2024 at 5:44 AM UTC)`
 
+> [!NOTE]
+> **I'll be changing the weather provider from OpenWeatherMap to Open-Meteo and WeatherAPI.com in the next version.**
+
 # 👁️ Preview
 
 > [!NOTE]
