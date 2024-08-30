@@ -400,7 +400,7 @@ function loadSavedLocations() {
         const savedLocationItemLon = savedLocationItem.getAttribute('lon');
 
 
-        const apiKeySaved = 'keys';
+        const apiKeySaved = 'KEY';
         const apiUrlSaved = `https://api.openweathermap.org/data/2.5/weather?lat=${savedLocationItemLat}&lon=${savedLocationItemLon}&appid=${apiKeySaved}&units=metric`;
 
 
@@ -507,7 +507,7 @@ function deleteLocation(locationName) {
 
 
 function setCurrentLocation(lat, lon){
-    const apiKeyCurrent = 'keys';
+    const apiKeyCurrent = 'KEY';
         const apiUrlCurrent = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKeyCurrent}&units=metric`;
 
 
@@ -622,7 +622,7 @@ function getCountryName(code) {
 
 function getWeather(city, latitude, longitude) {
     showLoader();
-    const apiKey = 'keys';
+    const apiKey = 'KEY';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
     setTimeout(() => {
@@ -654,7 +654,6 @@ function getWeather(city, latitude, longitude) {
 
 
 
-                                        const pressureBar = data.main.pressure;
 
                                         let pressureMain;
                                         let pressureMainUnit;
@@ -670,28 +669,33 @@ function getWeather(city, latitude, longitude) {
                                             pressureMainUnit = 'hPa';
                                         }
 
-                                    document.getElementById('pressure_text_main').innerHTML = pressureMain + `<span style="color: var(--On-Surface-Variant); font-size: 15px;"> ${pressureMainUnit}</span> `
+            document.getElementById('pressure_text_main').innerHTML = pressureMain
+            document.getElementById('pressureMainUnit').innerHTML = pressureMainUnit
+
+            if (data.main.pressure < '980') {
+                document.getElementById('pressure_icon_svg').innerHTML = WidgetsPressure.LowPressure
+            } else if (data.main.pressure > '980' && data.main.pressure <= '1005') {
+                document.getElementById('pressure_icon_svg').innerHTML = WidgetsPressure.LowMedPressure
+            } else if (data.main.pressure > '1005' && data.main.pressure <= '1020') {
+                document.getElementById('pressure_icon_svg').innerHTML = WidgetsPressure.MediumPressure
+            } else if (data.main.pressure > '1020' && data.main.pressure <= '1035') {
+                document.getElementById('pressure_icon_svg').innerHTML = WidgetsPressure.HighPressure
+            } else if (data.main.pressure > '1036'){
+                document.getElementById('pressure_icon_svg').innerHTML = WidgetsPressure.VeryHighPressure
+            }
 
 
-                        const minPressure = 870;
-            const maxPressure = 1080;
-            const maxProgress = 0.8;
 
-            let progressValue = ((pressureBar - minPressure) / (maxPressure - minPressure)) * maxProgress;
+            const windDirection = data.wind.deg;
 
-            progressValue = Math.max(0, Math.min(progressValue, maxProgress));
 
-            document.querySelector('.pressure_progress_main').setAttribute('value', progressValue);
+            const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+            const index = Math.round((windDirection % 360) / 45);
+            document.getElementById('directionWind').textContent = directions[index]
 
-                        const windDirection = data.wind.deg;
-
-                        setTimeout(() => {
-                            document.querySelector('.direction').style.transform = `rotate(${windDirection}deg)`
-                        }, 300);
-
-                        const directions = ['North', 'North-East', 'East', 'South-East', 'South', 'South-West', 'West', 'North-West'];
-                        const index = Math.round((windDirection % 360) / 45);
-                        document.getElementById('directionWind').textContent = directions[index]
+            setTimeout(()=>{
+            document.getElementById('windDirectionArrow').style.transform = `rotate(${windDirection}deg)`
+            }, 300);
 
             const iconCode = data.weather[0].icon;
 
@@ -805,26 +809,19 @@ function getWeather(city, latitude, longitude) {
             }
 
 
-            if(SelectedVisibiltyUnit === 'mileV'){
-                document.getElementById('min-temp').innerHTML = `${visibilityInMiles} mile`;
-            } else{
-                document.getElementById('min-temp').innerHTML = `${(visibility / 1000).toFixed(0)} km`;
+            if (SelectedVisibiltyUnit === 'mileV') {
+                document.getElementById('min-temp').innerHTML = `${visibilityInMiles} <span>mi</span>`;
+            } else {
+                document.getElementById('min-temp').innerHTML = `${(visibility / 1000).toFixed(0)} <span>km</span>`;
 
             }
 
-                        let visibilityInKm = visibility / 1000;
-                        let maxVisibility = 10;
-
-                        let visibilityPercentage = Math.min(visibilityInKm / maxVisibility, 1);
-
-                        document.querySelector('.md-circle01').setAttribute('value', visibilityPercentage.toString());
 
 
             document.getElementById('sunrise').textContent = sunrise;
             document.getElementById('sunset').textContent = sunset;
             document.getElementById('humidity').textContent = `${humidity}%`;
             document.getElementById('clouds').textContent = `${clouds}%`;
-            document.querySelector('humidityBarProgress').style.height = `${humidity}%`;
 
 
             const lastUpdatedTimestamp = data.dt;
@@ -1133,7 +1130,7 @@ function getCurrentLocationWeather() {
 
 function getWeatherByCoordinates(latitude, longitude) {
     showLoader();
-    const apiKey = 'keys';
+    const apiKey = '120d979ba5b2d0780f51872890f5ad0b';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
 
@@ -1221,7 +1218,6 @@ function getWeatherByCoordinates(latitude, longitude) {
 
 
 
-                                        const pressureBar = data.main.pressure;
 
                                         let pressureMain;
                                         let pressureMainUnit;
@@ -1237,30 +1233,32 @@ function getWeatherByCoordinates(latitude, longitude) {
                                             pressureMainUnit = 'hPa';
                                         }
 
-                                    document.getElementById('pressure_text_main').innerHTML = pressureMain + `<span style="color: var(--On-Surface-Variant); font-size: 15px;"> ${pressureMainUnit}</span> `
+            document.getElementById('pressure_text_main').innerHTML = pressureMain
+            document.getElementById('pressureMainUnit').innerHTML = pressureMainUnit
 
+            if (data.main.pressure < '980') {
+                document.getElementById('pressure_icon_svg').innerHTML = WidgetsPressure.LowPressure
+            } else if (data.main.pressure > '980' && data.main.pressure <= '1005') {
+                document.getElementById('pressure_icon_svg').innerHTML = WidgetsPressure.LowMedPressure
+            } else if (data.main.pressure > '1005' && data.main.pressure <= '1020') {
+                document.getElementById('pressure_icon_svg').innerHTML = WidgetsPressure.MediumPressure
+            } else if (data.main.pressure > '1020' && data.main.pressure <= '1035') {
+                document.getElementById('pressure_icon_svg').innerHTML = WidgetsPressure.HighPressure
+            } else if (data.main.pressure > '1036'){
+                document.getElementById('pressure_icon_svg').innerHTML = WidgetsPressure.VeryHighPressure
+            }
 
-
-
-                        const minPressure = 870;
-            const maxPressure = 1080;
-            const maxProgress = 0.8;
-
-            let progressValue = ((pressureBar - minPressure) / (maxPressure - minPressure)) * maxProgress;
-
-            progressValue = Math.max(0, Math.min(progressValue, maxProgress));
-
-            document.querySelector('.pressure_progress_main').setAttribute('value', progressValue);
 
                         const windDirection = data.wind.deg;
 
-                        setTimeout(() => {
-                            document.querySelector('.direction').style.transform = `rotate(${windDirection}deg)`
-                        }, 300);
+            const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+            const index = Math.round((windDirection % 360) / 45);
+            document.getElementById('directionWind').textContent = directions[index]
 
-                        const directions = ['North', 'North-East', 'East', 'South-East', 'South', 'South-West', 'West', 'North-West'];
-                        const index = Math.round((windDirection % 360) / 45);
-                        document.getElementById('directionWind').textContent = directions[index]
+            setTimeout(()=>{
+            document.getElementById('windDirectionArrow').style.transform = `rotate(${windDirection}deg)`
+            }, 300);
+
 
             if(SelectedTempUnit === 'fahrenheit'){
                 document.getElementById('temp').innerHTML = `${tempF}°`;
@@ -1319,21 +1317,14 @@ function getWeatherByCoordinates(latitude, longitude) {
 
             }
 
-            if(SelectedVisibiltyUnit === 'mileV'){
-                document.getElementById('min-temp').innerHTML = `${visibilityInMiles} mile`;
+            if (SelectedVisibiltyUnit === 'mileV') {
+                document.getElementById('min-temp').innerHTML = `${visibilityInMiles} <span>mi</span>`;
+            } else {
+                document.getElementById('min-temp').innerHTML = `${(visibility / 1000).toFixed(0)} <span>km</span>`;
 
-            } else{
-                document.getElementById('min-temp').innerHTML = `${(visibility / 1000).toFixed(0)} km`;
             }
 
 
-
-            let visibilityInKm = visibility / 1000;
-            let maxVisibility = 10;
-
-            let visibilityPercentage = Math.min(visibilityInKm / maxVisibility, 1);
-
-            document.querySelector('.md-circle01').setAttribute('value', visibilityPercentage.toString());
 
 
             document.getElementById('sunrise').textContent = sunrise;
@@ -1341,7 +1332,6 @@ function getWeatherByCoordinates(latitude, longitude) {
 
             document.getElementById('humidity').textContent = ` ${humidity}% `;
             document.getElementById('clouds').textContent = `${clouds}%`;
-            document.querySelector('humidityBarProgress').style.height = `${humidity}%`;
 
 
 
@@ -1692,7 +1682,7 @@ function getColor(value, type) {
 
 
 function updateSunTrackProgress(latitude, longitude) {
-    const apiKey = 'keys';
+    const apiKey = 'KEY';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
     fetch(apiUrl)
@@ -2482,7 +2472,7 @@ function checkNoInternet(){
 
     document.addEventListener('DOMContentLoaded', async function() {
 
-        const currentVersion = 'v1.5.5';
+        const currentVersion = 'v1.5.6';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 

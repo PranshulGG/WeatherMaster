@@ -282,7 +282,7 @@ touch_search{
   width: 100%;
   background: linear-gradient(0deg, var(--Surface) 10%, rgba(255, 0, 0, 0));
   height: 30px;
-  z-index: 1;
+  z-index: 100000000000000000;
   left: 0;
 }
 
@@ -1252,87 +1252,6 @@ sun{
   gap: 10px;
 }
 
-.currentConditions .currentConditionItem{
-  background-color: var(--Surface);
-  border-radius: 10px;
-  /* width: 160px; */
-  width: 100%;
-}
-
-.currentConditionItem .currentCondtionLabel{
-  padding: 15px;
-  color: var(--On-Surface-Variant);
-  font-family: var(--google-mid);
-}
-
-.currentConditions currentConditonIcon i{
-  position: absolute;
-  font-size: 23px;
-  color: var(--On-Surface);
-}
-
-.currentConditions currentConditonIcon{
-  position: relative;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  height: 100px;
-}
-
-.currentConditions currentConditonIcon .md-circle01{
-  --md-circular-progress-size: 100px;
-  --md-circular-progress-active-indicator-width: 13;
-  stroke-linecap: round;
-  z-index: 1;
-  --md-sys-color-primary: #a7d278;
-}
-
-.currentConditions currentConditonIcon .md-circle02{
-  --md-circular-progress-size: 100px;
-  --md-circular-progress-active-indicator-width: 13;
-  stroke-linecap: round;
-  --md-sys-color-primary: #c4eed0;
-  position: absolute;
-}
-
-.currentConditions p{
-  padding: 15px;
-  color: var(--On-Surface);
-  font-size: 20px;
-  font-family: var(--google-normal);
-  margin: 0;
-}
-
-humidityBar{
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  gap: 5px;
-}
-
-
-humidityBar humidityBarWrap{
-  height: 65px;
-  background-color: #fde293;
-  width: 35px;
-  border-radius: 50px;
-  position: relative;
-  overflow: hidden;
-}
-humidityBarWrap humidityBarProgress{
-  height: 40%;
-  width: 100%;
-  background-color: #fbbe11;
-  bottom: 0;
-  left: 0;
-  transition: height 2s ease-in;
-  position: absolute;
-}
-
-humidityBar span{
-  color: var(--On-Surface);
-  font-size: 15px;
-}
 
 rainMeter{
   margin: 10px;
@@ -1488,7 +1407,7 @@ height: 100%;
   background-color: var(--Surface);
   border-radius: 5px 5px 10px 10px;
   position: relative;
-  margin-top: 0;
+  margin-top: 5px;
 }
 
 .LiveMapWrap::before{
@@ -1540,39 +1459,6 @@ height: 100%;
 .moonSideWrap .rightWrapMoon{
   padding-right: 20px;
   padding-top: 20px;
-}
-
-/* pressure */
-
-.prssure_area .pressure_progress_bg{
-  --md-circular-progress-size: 100px;
-  --md-circular-progress-active-indicator-width: 13;
-  stroke-linecap: round;
-  --md-sys-color-primary: #cee4ff;
-  position: absolute;
-}
-
-.prssure_area .pressure_progress_main{
-  --md-circular-progress-size: 100px;
-  --md-circular-progress-active-indicator-width: 13;
-  stroke-linecap: round;
-  z-index: 1;
-  --md-sys-color-primary: #5fb1f8;
-}
-
-.prssure_area{
-  transform: rotate(215deg);
-}
-
-.text_press_lowHigh{
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  padding-left: 20px;
-  padding-right: 20px;
-  font-size: 14px;
-  color: var(--On-Surface);
-  opacity: 0.7;
 }
 
 
@@ -1809,7 +1695,7 @@ savelocationtouch md-ripple{
         .new_ver_download{
             position: fixed;
             bottom: 0;
-            z-index: 99999999;
+            z-index: 100000000000000000000000000000000000;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -1855,4 +1741,240 @@ moonPhaseProgress {
   height: 100%;
   border-radius: 50%;
   background-color: rgba(0, 0, 0, 0.65);
+}
+
+
+.currentConditionItem.humidity{
+  background-color: var(--Surface);
+  display: flex;
+  overflow: hidden;
+  border-radius: 20px;
+  flex-direction: column;
+  position: relative;
+  width: 160px;
+  height: 160px;
+}
+
+.current_condition_icon{
+  position: absolute;
+  bottom: 0;
+  height: 100%;
+  left: 0;
+}
+
+.current_condition_icon svg{
+  height: 100%;
+}
+
+.currentConditionItem .currentConditionItemTitle{
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  color: white;
+  padding: 15px;
+  font-size: 18px;
+  font-family: var(--outfit);
+  z-index: 2;
+}
+
+.currentConditionItem .currentConditionItemTitle i{
+  font-size: 23px;
+}
+
+.currentConditionItem .currentConditionItemHumidityValue{
+  color: var(--On-Surface);
+  font-family: var(--google-mid);
+  font-size: 50px;
+  z-index: 4;
+  padding-left: 10px;
+  position: absolute;
+  top: 0px;
+  margin: 0;
+  left: 0;
+}
+
+.currentConditionItem .currentConditionItemDewpointValue p{
+  width: 33px;
+  height: 33px;
+  border-radius: 50px;
+  margin: 0;
+  background-color: var(--Primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--On-Primary);
+  font-family: var(--outfit-mid);
+
+}
+
+.currentConditionItem .currentConditionItemDewpointValue span{
+  color: var(--Primary);
+  font-family: var(--outfit-mid);
+  font-size: 14px;
+}
+
+.currentConditionItem .currentConditionItemDewpointValue{
+  position: absolute;
+  bottom: 10px;
+  left: 12px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+
+/* visiibility */
+
+.currentConditionItem.visibility{
+  background-color: var(--Surface);
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  position: relative;
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+  flex-shrink: 0;
+
+}
+
+.currentConditionItem.visibility .currentConditionItemVisibilityValue{
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90%;
+  left: 0;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.currentConditionItem.visibility .currentConditionItemVisibilityValue p{
+  margin: 0;
+  color: var(--On-Primary-Inverse);
+  font-family: var(--google-mid);
+  font-size: 45px;
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+
+}
+
+.currentConditionItem.visibility .currentConditionItemTitle.visibility{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  color: var(--On-Primary-Inverse);
+  padding-top: 35px;
+  font-size: 16px;
+  font-family: var(--outfit-mid);
+}
+
+.currentConditionItem.visibility .currentConditionItemVisibilityValue span{
+  font-size: 25px;
+  padding-bottom: 5px;
+}
+
+/* pressure */
+
+
+.currentConditionItem.pressure{
+  background-color: var(--Surface);
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  position: relative;
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+  flex-shrink: 0;
+  height: 160px;
+  width: 160px;
+}
+
+.currentConditionItem.pressure .currentConditionItemPressureValue{
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  gap: 8px;
+}
+
+.currentConditionItem.pressure .currentConditionItemPressureValue div{
+  color: var(--On-Surface-Variant);
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.currentConditionItem.pressure .currentConditionItemPressureValue div i{
+  font-size: 18px;
+}
+
+
+.currentConditionItem.pressure .currentConditionItemPressureValue  p{
+  font-family: var(--google-mid);
+  font-size: 34px;
+  color: var(--On-Surface);
+  margin: 0;
+}
+
+.currentConditionItem.pressure .currentConditionItemPressureValue span{
+    color: var(--On-Surface-Variant);
+}
+
+/* wind */
+
+.currentConditionItem.WindDirc{
+  background-color: var(--Surface);
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  position: relative;
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+  flex-shrink: 0;
+  height: 160px;
+  width: 160px;
+}
+
+.currentConditionItem.WindDirc .currentConditionItemWindDircValue{
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  gap: 8px;
+}
+
+.currentConditionItem.WindDirc .currentConditionItemWindDircValue div{
+  color: var(--On-Surface-Variant);
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.currentConditionItem.WindDirc .currentConditionItemWindDircValue div i{
+  font-size: 18px;
+}
+
+
+.currentConditionItem.WindDirc .currentConditionItemWindDircValue  p{
+  font-family: var(--google-mid);
+  font-size: 34px;
+  color: var(--Secondary);
+  margin: 0;
+}
+
+.currentConditionItem.WindDirc .currentConditionItemWindDircValue span{
+    color: var(--On-Surface);
+    font-family: var(--outfit-mid);
+    font-weight: 500;
+    display: flex;
 }
