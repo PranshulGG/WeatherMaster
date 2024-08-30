@@ -224,7 +224,7 @@ function Fetchmoonphases(lat, long) {
 fetch(`https://api.farmsense.net/v1/moonphases/?d=${currentDateMoonPhase}`)
     .then(response => response.json())
     .then(data => {
-        const  MoonIllumination = data[0].Illumination * 100
+        const  MoonIllumination = Math.round(data[0].Illumination * 100)
 
 
         document.getElementById('IlluminationText').innerHTML = `${MoonIllumination}%`

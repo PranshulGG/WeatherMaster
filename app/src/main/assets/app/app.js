@@ -400,7 +400,7 @@ function loadSavedLocations() {
         const savedLocationItemLon = savedLocationItem.getAttribute('lon');
 
 
-        const apiKeySaved = 'key';
+        const apiKeySaved = 'keys';
         const apiUrlSaved = `https://api.openweathermap.org/data/2.5/weather?lat=${savedLocationItemLat}&lon=${savedLocationItemLon}&appid=${apiKeySaved}&units=metric`;
 
 
@@ -507,7 +507,7 @@ function deleteLocation(locationName) {
 
 
 function setCurrentLocation(lat, lon){
-    const apiKeyCurrent = 'key';
+    const apiKeyCurrent = 'keys';
         const apiUrlCurrent = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKeyCurrent}&units=metric`;
 
 
@@ -622,7 +622,7 @@ function getCountryName(code) {
 
 function getWeather(city, latitude, longitude) {
     showLoader();
-    const apiKey = 'key';
+    const apiKey = 'keys';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
     setTimeout(() => {
@@ -1133,7 +1133,7 @@ function getCurrentLocationWeather() {
 
 function getWeatherByCoordinates(latitude, longitude) {
     showLoader();
-    const apiKey = 'key';
+    const apiKey = 'keys';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
 
@@ -1692,7 +1692,7 @@ function getColor(value, type) {
 
 
 function updateSunTrackProgress(latitude, longitude) {
-    const apiKey = 'key';
+    const apiKey = 'keys';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
     fetch(apiUrl)
@@ -2215,7 +2215,7 @@ const moon_phase_img = document.getElementById('moon_phase_img');
                     fetch(`https://api.farmsense.net/v1/moonphases/?d=${currentDateMoonPhase}`)
                         .then(response => response.json())
                         .then(data => {
-                            const  MoonIllumination = data[0].Illumination * 100
+                            const  MoonIllumination = Math.round(data[0].Illumination * 100)
 
 
                             document.getElementById('MoonIllumination').innerHTML = `${MoonIllumination}%`
@@ -2482,7 +2482,7 @@ function checkNoInternet(){
 
     document.addEventListener('DOMContentLoaded', async function() {
 
-        const currentVersion = 'v1.5.4';
+        const currentVersion = 'v1.5.5';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
