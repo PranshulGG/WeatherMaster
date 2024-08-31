@@ -86,6 +86,16 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 - ⭐ **Save Favorite Locations:** Save your preferred locations for quick access to their weather updates.
 - 👗 **Clothing Recommendations:** Get suggestions on what to wear based on the current weather conditions.
 
+
+# ☀️ Weather providers:
+- [**open-meteo**](https://open-meteo.com)
+- [**OpenWeatherMap**](https://openweathermap.org/api)
+- [**visualcrossing**](https://www.visualcrossing.com/)
+- [**ipgeolocation**](https://ipgeolocation.io/)
+- [**OpenCage**](https://opencagedata.com/)
+- [**Farmsense**](https://www.farmsense.net/)
+
+
 # ⚙️ Other:
 
  - 📱<strong>Native Android Experience: </stronge>Enjoy a user interface and interaction that closely resemble a native Android Weather app.
@@ -104,8 +114,6 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
  - <strong>HTML & CSS: </stronge> For the basic structure and styling of the app.
    
  - <strong>JavaScript: </stronge>To handle the app's logic and interactivity.
-
- - <strong>Weather data: </stronge> Using <a href="https://openweathermap.org/">OpenWeatherMap</a> to fetch weather, <a href="https://ipgeolocation.io/">ipgeolocation.io</a> for Moonset and Moonrise data, <a href="https://www.visualcrossing.com/">visualcrossing.com</a> for moon phases, <a href="https://opencagedata.com/api">api.opencagedata.com</a> for Geocoding and radar images are from <a href="https://www.rainviewer.com/">rainviewer</a> 
 
  - <strong>Java: </stronge>Mainly used for JavaScript interface and permissions, allowing the app to run on Android devices.
    
