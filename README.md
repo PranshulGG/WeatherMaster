@@ -87,7 +87,7 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 - 👗 **Clothing Recommendations:** Get suggestions on what to wear based on the current weather conditions.
 
 
-# ☀️ Weather providers:
+# 🌞 Weather providers:
 - [**open-meteo**](https://open-meteo.com)
 - [**OpenWeatherMap**](https://openweathermap.org/api)
 - [**visualcrossing**](https://www.visualcrossing.com/)
