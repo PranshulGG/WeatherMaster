@@ -30,7 +30,7 @@
         </h2>
     </div>
     <div class="header_actions">
-        <button class="ripple-icon-btn focus regular" onclick="refreshWeather()" ontouchstart="playEffect(this)" id="usage-popover-anchor" style="z-index: 1;"
+        <button class="ripple-icon-btn focus regular refresh_weat" onclick="refreshWeather()" ontouchstart="playEffect(this)" id="usage-popover-anchor" style="z-index: 1;"
                 ontouchend="playEffect2(this)">
             <span class="ripple-effect-icon"></span>
             <span icon-outlined>refresh</span>
@@ -94,9 +94,9 @@
 
             </div>
 
-            <div class="dew_per" hidden>
-                <i icon-outlined>dew_point</i>
-                <p id="">10%</p>
+            <div class="dew_per">
+                <i icon-outlined>rainy_snow</i>
+                <p id="is_rain"></p>
             </div>
 
         </div>
@@ -124,9 +124,16 @@
 
 
 
-        <div class="weatherComments weatherCommentsDiv">
-            <p id="weatherComments">-------</p>
+        <div class="weatherComments weatherCommentsDiv" onclick="openSummery()">
+            <p id="weatherComments"> <space></space> <md-icon icon-outlined id="arrow_up_toggle">keyboard_arrow_down</md-icon></p>
+
+            <div class="summeryText">
+                <ul id="summeryDay"></ul>
+                <ul id="day_tips"></ul>
+            </div>
+
         </div>
+
 
 
         <div class="high-all">
@@ -151,11 +158,44 @@
         </div>
 
 
-        <div class="cloths">
-            <div class="icon_container_cloths">
-                <md-icon icon-filled>apparel</md-icon>
+
+        <div class="insights_scroll">
+            <div class="insights">
+
+                <div class="cloths " id="sunrise_insight" hidden>
+                    <div class="icon_container_cloths" >
+                        <md-icon icon-filled>wb_twilight</md-icon>
+                    </div>
+                    <p id="dont_miss_sunrsie_text" class="insights_p">Don't miss the sunrise! It will happen in 40 minutes or less.</p>
+                </div>
+
+                <div class="cloths " id="sunset_insight" hidden>
+                    <div class="icon_container_cloths" >
+                        <md-icon icon-filled>wb_twilight</md-icon>
+                    </div>
+                    <p id="dont_miss_sunset_text" class="insights_p">Don't miss the sunset! It will happen in 40 minutes or less.</p>
+                </div>
+
+                <div class="cloths insights_item">
+                    <div class="icon_container_cloths">
+                        <md-icon icon-filled>apparel</md-icon>
+                    </div>
+                    <p id="cloth_recommended" class="insights_p">Wear a t-shirt and light pants or shorts.</p>
+                </div>
+
+                <div class="cloths insights_item">
+                    <div class="icon_container_cloths">
+                        <md-icon icon-filled id="temp_insight_icon">trending_down</md-icon>
+                    </div>
+                    <p id="temp_insight" class="insights_p">Cooling expected over the next 3 days</p>
+                </div>
+
+
+
             </div>
-            <p id="cloth_recommended"></p>
+            <div class="holder_scroll_indi">
+                <div class="scroll-indicators" id="scroll-indicators"></div>
+            </div>
         </div>
 
 
@@ -656,6 +696,9 @@ document.getElementById('clearCityInput').addEventListener('click', () =>{
             document.getElementById('forecast').scrollLeft = 0;
             document.getElementById('weather_wrap').scrollTop = 0;
     });
+
+
+
     </script>
 
 

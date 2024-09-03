@@ -5,6 +5,22 @@ const SelectedPrecipitationUnit = localStorage.getItem('selectedPrecipitationUni
 const SelectedPressureUnit = localStorage.getItem('selectedPressureUnit');
 const DefaultLocation = JSON.parse(localStorage.getItem('DefaultLocation'));
 
+
+
+
+function openSummery(){
+    document.querySelector('.summeryText').classList.toggle('openSummery');
+
+    if(document.querySelector('.summeryText').classList.contains('openSummery')){
+        document.querySelector('#arrow_up_toggle').innerHTML = 'keyboard_arrow_up'
+
+    } else{
+        document.querySelector('#arrow_up_toggle').innerHTML = 'keyboard_arrow_down';
+
+    }
+}
+
+
 let currentApiKeyIndex = 0;
 
 let currentKeyMoonIndex = 0;
@@ -400,7 +416,7 @@ function loadSavedLocations() {
         const savedLocationItemLon = savedLocationItem.getAttribute('lon');
 
 
-        const apiKeySaved = 'KEY';
+        const apiKeySaved = 'CREATE_KEY';
         const apiUrlSaved = `https://api.openweathermap.org/data/2.5/weather?lat=${savedLocationItemLat}&lon=${savedLocationItemLon}&appid=${apiKeySaved}&units=metric`;
 
 
@@ -507,7 +523,7 @@ function deleteLocation(locationName) {
 
 
 function setCurrentLocation(lat, lon){
-    const apiKeyCurrent = 'KEY';
+    const apiKeyCurrent = 'CREATE_KEY';
         const apiUrlCurrent = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKeyCurrent}&units=metric`;
 
 
@@ -622,7 +638,7 @@ function getCountryName(code) {
 
 function getWeather(city, latitude, longitude) {
     showLoader();
-    const apiKey = 'KEY';
+    const apiKey = 'CREATE_KEY';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
     setTimeout(() => {
@@ -787,11 +803,14 @@ function getWeather(city, latitude, longitude) {
 
             getDailyForecast(latitude, longitude);
 
+
+
             const windSpeedMPS = data.wind.speed;
             const windSpeedMPH = (windSpeedMPS * 2.23694).toFixed(0);
 
             const windSpeedKPH = (windSpeedMPS * 3.6).toFixed(0);
             const timeZoneOffsetSeconds = data.timezone;
+            const currentUTC = new Date().getTime();
             const sunriseUTC = new Date((data.sys.sunrise + timeZoneOffsetSeconds) * 1000);
             const sunsetUTC = new Date((data.sys.sunset + timeZoneOffsetSeconds) * 1000);
             const maxTemp = data.main.temp_max;
@@ -817,12 +836,46 @@ function getWeather(city, latitude, longitude) {
             }
 
 
+            const diffToSunrise = (sunriseUTC - currentUTC) / (1000 * 60);
+            const diffToSunset = (sunsetUTC - currentUTC) / (1000 * 60);
+
+            if (diffToSunrise <= 40 && diffToSunrise >= 0) {
+                console.log('Sunrise is happening in 40 minutes or less');
+                document.getElementById('sunrise_insight').hidden = false;
+                document.getElementById('sunrise_insight').classList.add('insights_item')
+
+            } else{
+                document.getElementById('sunrise_insight').hidden = true;
+                document.getElementById('sunrise_insight').classList.remove('insights_item')
+
+            }
+
+            if (diffToSunset <= 40 && diffToSunset >= 0) {
+                document.getElementById('sunset_insight').hidden = false;
+                document.getElementById('sunset_insight').classList.add('insights_item')
+
+            } else{
+                document.getElementById('sunset_insight').hidden = true;
+                document.getElementById('sunset_insight').classList.remove('insights_item')
+
+            }
+
 
             document.getElementById('sunrise').textContent = sunrise;
             document.getElementById('sunset').textContent = sunset;
             document.getElementById('humidity').textContent = `${humidity}%`;
             document.getElementById('clouds').textContent = `${clouds}%`;
 
+
+            if (humidity < '30') {
+                document.getElementById('humidity_icon_svg').innerHTML = WidgetsHumidity.Humidity_7;
+            } else if (humidity > '30' && humidity <= '50') {
+                document.getElementById('humidity_icon_svg').innerHTML = WidgetsHumidity.Humidity_30;
+            } else if (humidity > '50' && humidity <= '70') {
+                document.getElementById('humidity_icon_svg').innerHTML = WidgetsHumidity.Humidity_70;
+            } else if (humidity > '70') {
+                document.getElementById('humidity_icon_svg').innerHTML = WidgetsHumidity.Humidity_90;
+            }
 
             const lastUpdatedTimestamp = data.dt;
             const lastUpdatedTime = new Date(lastUpdatedTimestamp * 1000).toLocaleTimeString();
@@ -1130,7 +1183,7 @@ function getCurrentLocationWeather() {
 
 function getWeatherByCoordinates(latitude, longitude) {
     showLoader();
-    const apiKey = '120d979ba5b2d0780f51872890f5ad0b';
+    const apiKey = 'CREATE_KEY';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
 
@@ -1295,11 +1348,13 @@ function getWeatherByCoordinates(latitude, longitude) {
             // Fetch 5-day forecast
             getDailyForecast(latitude, longitude);
 
+
             // Additional weather information
             const windSpeedMPS = data.wind.speed;
             const windSpeedMPH = (windSpeedMPS * 2.23694).toFixed(0);
             const windSpeedKPH = (windSpeedMPS * 3.6).toFixed(0); // Convert m/s to km/h
             const timeZoneOffsetSeconds = data.timezone;
+            const currentUTC = new Date().getTime();
             const sunriseUTC = new Date((data.sys.sunrise + timeZoneOffsetSeconds) * 1000);
             const sunsetUTC = new Date((data.sys.sunset + timeZoneOffsetSeconds) * 1000);
             const maxTemp = data.main.temp_max;
@@ -1326,6 +1381,29 @@ function getWeatherByCoordinates(latitude, longitude) {
 
 
 
+            const diffToSunrise = (sunriseUTC - currentUTC) / (1000 * 60);
+            const diffToSunset = (sunsetUTC - currentUTC) / (1000 * 60);
+
+            if (diffToSunrise <= 40 && diffToSunrise >= 0) {
+                console.log('Sunrise is happening in 40 minutes or less');
+                document.getElementById('sunrise_insight').hidden = false;
+                document.getElementById('sunrise_insight').classList.add('insights_item')
+
+            } else{
+                document.getElementById('sunrise_insight').hidden = true;
+                document.getElementById('sunrise_insight').classList.remove('insights_item')
+
+            }
+
+            if (diffToSunset <= 40 && diffToSunset >= 0) {
+                document.getElementById('sunset_insight').hidden = false;
+                document.getElementById('sunset_insight').classList.add('insights_item')
+
+            } else{
+                document.getElementById('sunset_insight').hidden = true;
+                document.getElementById('sunset_insight').classList.remove('insights_item')
+
+            }
 
             document.getElementById('sunrise').textContent = sunrise;
             document.getElementById('sunset').textContent = sunset;
@@ -1333,6 +1411,16 @@ function getWeatherByCoordinates(latitude, longitude) {
             document.getElementById('humidity').textContent = ` ${humidity}% `;
             document.getElementById('clouds').textContent = `${clouds}%`;
 
+
+            if (humidity < '30') {
+                document.getElementById('humidity_icon_svg').innerHTML = WidgetsHumidity.Humidity_7;
+            } else if (humidity > '30' && humidity <= '50') {
+                document.getElementById('humidity_icon_svg').innerHTML = WidgetsHumidity.Humidity_30;
+            } else if (humidity > '50' && humidity <= '70') {
+                document.getElementById('humidity_icon_svg').innerHTML = WidgetsHumidity.Humidity_70;
+            } else if (humidity > '70') {
+                document.getElementById('humidity_icon_svg').innerHTML = WidgetsHumidity.Humidity_90;
+            }
 
 
             const lastUpdatedTimestamp = data.dt;
@@ -1682,7 +1770,7 @@ function getColor(value, type) {
 
 
 function updateSunTrackProgress(latitude, longitude) {
-    const apiKey = 'KEY';
+    const apiKey = 'CREATE_KEY';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
     fetch(apiUrl)
@@ -1939,12 +2027,46 @@ function displayDailyForecast(dailyForecast) {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
+        const trendDaysArray = [2, 3, 6];
+        let trendMessage = '';
+
+        for (let trendDays of trendDaysArray) {
+            if (dailyForecast.length >= trendDays) {
+                let tempDifferenceSum = 0;
+
+                for (let i = 0; i < trendDays - 1; i++) {
+                    const currentDayAvgTemp = (dailyForecast[i].temp.max + dailyForecast[i].temp.min) / 2;
+                    const nextDayAvgTemp = (dailyForecast[i + 1].temp.max + dailyForecast[i + 1].temp.min) / 2;
+                    tempDifferenceSum += nextDayAvgTemp - currentDayAvgTemp;
+                }
+
+                if (tempDifferenceSum > 0) {
+                    trendMessage = `Warming expected over the next ${trendDays} days`;
+                    document.getElementById('temp_insight_icon').innerHTML = 'trending_up';
+                } else if (tempDifferenceSum < 0) {
+                    trendMessage = `Cooling expected over the next ${trendDays} days`;
+                    document.getElementById('temp_insight_icon').innerHTML = 'trending_down';
+
+                } else {
+                    trendMessage = `Stable temperatures expected over the next ${trendDays} days`;
+                    document.getElementById('temp_insight_icon').innerHTML = 'thermostat';
+
+
+                }
+
+                break;
+            }
+        }
+
+        document.getElementById('temp_insight').innerHTML = trendMessage
+
     dailyForecast.forEach((forecast, index) => {
 
 
         const timestamp = new Date(forecast.dt * 1000);
         const isToday = index === 0;
         const date = isToday ? 'Today' : timestamp.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        const dayName = isToday ? 'Today' : timestamp.toLocaleDateString('en-US', { weekday: 'short' });
 
 
         const description = forecast.weather[0].description;
@@ -1967,12 +2089,12 @@ function displayDailyForecast(dailyForecast) {
 
         if (SelectedTempUnit === 'fahrenheit') {
             forecastItem.innerHTML = `
+            <p class="disc-5d">${tempF}°<span> ${tempMINF}°</span></p>
 
             <img id="icon-5d" src="weather-icons/${iconCode}.svg" alt="Weather Icon">
-            <p class="disc-5d"><span>${tempMINF}° </span>/ ${tempF}°</p>
             <span class="daily_rain">${rainPercentage}%<i icon-outlined>water_drop</i></span>
-            <div class="d5-disc-text">${description}
-            <p class="time-5d">${date}</p>
+            <div class="d5-disc-text">
+            <p class="time-5d">${dayName}</p>
             </div>
 
             `
@@ -1981,13 +2103,13 @@ function displayDailyForecast(dailyForecast) {
         ;
         } else {
 
-            forecastItem.innerHTML =
-`
+            forecastItem.innerHTML =`
+        <p class="disc-5d">${temp}°<span> ${tempMIN}°</span></p>
+
         <img id="icon-5d" src="weather-icons/${iconCode}.svg" alt="Weather Icon">
-        <p class="disc-5d"><span>${tempMIN}° </span>/ ${temp}°</p>
             <span class="daily_rain">${rainPercentage}% <i icon-outlined>water_drop</i></span>
-        <div class="d5-disc-text">${description}
-        <p class="time-5d">${date}</p>
+        <div class="d5-disc-text">
+        <p class="time-5d">${dayName}</p>
         </div>
 `
     ;
@@ -2041,6 +2163,14 @@ function refreshWeather(){
     const longSend = localStorage.getItem('currentLong')
 
     getWeather(' ',latSend, longSend)
+
+        setTimeout(()=>{
+            document.querySelector('.refresh_weat').disabled = true;
+        }, 200);
+
+        setTimeout(()=>{
+            document.querySelector('.refresh_weat').disabled = false;
+        }, 300000);
 }
 
 
@@ -2243,7 +2373,7 @@ const moon_phase_img = document.getElementById('moon_phase_img');
                         moonPhaseDaysLeft.innerHTML = `${daysLeft} day`;
                     }
 
-            document.getElementById('weatherComments').innerHTML = data.days[0].description
+            document.getElementById('weatherComments').innerHTML = data.days[0].description + '<space></space> <md-icon icon-outlined id="arrow_up_toggle">keyboard_arrow_down</md-icon>'
 
 
 
@@ -2378,6 +2508,9 @@ const lonAlerts = long;
 let currentApiKeyAlertsIndex = 0;
 
 
+          const latSum = lat;
+          const lonSum = long;
+                      summary(latSum, lonSum)
 
 
 getWeatherAlerts(latAlerts, lonAlerts)
@@ -2472,7 +2605,7 @@ function checkNoInternet(){
 
     document.addEventListener('DOMContentLoaded', async function() {
 
-        const currentVersion = 'v1.5.6';
+        const currentVersion = 'v1.5.7';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
@@ -2498,3 +2631,48 @@ function checkNoInternet(){
             }catch (error) {
             }
         });
+
+
+
+
+const scrollView = document.querySelector('.insights');
+
+
+const sections = document.querySelectorAll('.insights_item');
+const scrollIndicators = document.getElementById('scroll-indicators');
+
+
+sections.forEach((section, index) => {
+  const dot = document.createElement('span');
+  const dotValue = document.createElement('div');
+  dot.classList.add('dot');
+  dotValue.classList.add('dotValue')
+  dot.onclick = () => {
+    section.scrollIntoView({ behavior: 'smooth' });
+  };
+  scrollIndicators.appendChild(dot);
+  dot.appendChild(dotValue)
+});
+
+
+const updateActiveIndicator = () => {
+  const scrollPosition = Math.round(scrollView.scrollLeft / scrollView.offsetWidth);
+  const dotsValue = document.querySelectorAll('.dotValue');
+  dotsValue.forEach((dotValue, index) => {
+    if (index === scrollPosition) {
+    //   dot.style.backgroundColor = 'var(--Tertiary)';
+    dotValue.style.transform = 'scale(1)';
+    } else {
+    //   dot.style.backgroundColor = 'var(--Surface-Container-Low)';
+    dotValue.style.transform = 'scale(0)';
+
+    }
+  });
+};
+
+
+scrollView.addEventListener('scroll', updateActiveIndicator);
+
+updateActiveIndicator();
+
+

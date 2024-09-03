@@ -46,3 +46,75 @@ const WidgetsWindDirections = {
 
     WestArrow: '<svg  viewBox="0 0 176.0 176.0" xmlns="http://www.w3.org/2000/svg"> <g> <clip-path d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" /> <path fill="var(--Surface)" d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" /> <path fill="var(--Secondary-Container)" d="M151.6,68.96C168.42,77.03 168.42,100.97 151.6,109.04L66.66,149.79C49.12,158.21 29.99,141.6 35.87,123.04L44.52,95.71C45.9,91.34 45.9,86.66 44.52,82.29L35.87,54.96C29.99,36.4 49.12,19.79 66.66,28.21L151.6,68.96Z" /> </g> </svg>'
 }
+
+
+
+function summary(latSum, lonSum) {
+    fetch(`https://api.weatherapi.com/v1/forecast.json?key=CREATE_KEY&q=${latSum},${lonSum}`)
+    .then(response => {
+        if (!response.ok) {
+            Toast(`HTTP error! status: ${response.status}`, 'long');
+        }
+        return response.json();
+    })
+    .then(data => {
+        const mainData = data.forecast.forecastday[0].day;
+
+        const weatherCondition = mainData.condition.text;
+        const precipitation = mainData.totalprecip_in;
+        const humidity = mainData.avghumidity;
+
+        let maxTemp;
+        if (SelectedTempUnit === 'fahrenheit') {
+            maxTemp = Math.round(mainData.maxtemp_c * 9 / 5 + 32);
+        } else {
+            maxTemp = Math.round(mainData.maxtemp_c);
+        }
+
+        let minTemp;
+        if (SelectedTempUnit === 'fahrenheit') {
+            minTemp = Math.round(mainData.mintemp_c * 9 / 5 + 32);
+        } else {
+            minTemp = Math.round(mainData.mintemp_c);
+        }
+
+        const weatherSummary = `${weatherCondition} expected for today. The daytime temperature is going to reach ${maxTemp}° and the temperature is going to dip to ${minTemp}° at night. We expect around ${precipitation} In of precipitation to fall, the humidity will be around ${humidity}%.`;
+
+        let weatherTips = "";
+        if (maxTemp > 90) {
+            weatherTips += "It's going to be hot today, stay hydrated and wear light clothing. ";
+        } else if (maxTemp < 60) {
+            weatherTips += "It's going to be a bit chilly, consider wearing a jacket if you're heading out. ";
+        }
+
+        if (precipitation > 0) {
+            weatherTips += "Carry an umbrella or raincoat if you're going out, as there's a chance of rain. ";
+        }
+
+        if (weatherCondition.includes("rain")) {
+            weatherTips += "Be cautious of slippery roads if you're driving. ";
+        } else if (weatherCondition.includes("sunny")) {
+            weatherTips += "Enjoy the sunshine, but don't forget sunscreen if you're spending time outdoors. ";
+        } else if (weatherCondition.includes("snow")) {
+            weatherTips += "Snow is expected, so dress warmly and be careful on the roads. ";
+        }
+
+        document.getElementById('summeryDay').innerHTML = `<li>${weatherSummary}</li>`;
+        document.getElementById('day_tips').innerHTML = `<li>${weatherTips}</li>`;
+
+        if (mainData.daily_will_it_rain === 1) {
+            document.getElementById('is_rain').innerHTML = 'Rain is expected';
+        } else {
+            document.getElementById('is_rain').innerHTML = 'No rain is expected';
+        }
+    })
+    .catch(error => {
+        Toast("Error fetching weather data:"+ error, 'long');
+    });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    setTimeout(() => {
+        summary(localStorage.getItem('currentLat'), localStorage.getItem('currentLong'));
+    }, 300);
+});
