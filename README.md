@@ -4,7 +4,7 @@
 
 WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed to mimic the look and feel of a native Android app.
 
-`(Last updated on 09-03-2024 at 2:21 PM UTC)`
+`(Last updated on 10-09-2024 at 12:11 PM UTC)`
 
 
 
@@ -91,11 +91,6 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 - [**open-meteo**](https://open-meteo.com)
 - [**WeatherApi**](https://www.weatherapi.com/)
 - [**OpenWeatherMap**](https://openweathermap.org/api)
-- [**visualcrossing**](https://www.visualcrossing.com/)
-- [**ipgeolocation**](https://ipgeolocation.io/)
-- [**OpenCage**](https://opencagedata.com/)
-- [**Farmsense**](https://www.farmsense.net/)
-
 
 # ⚙️ Other:
 
