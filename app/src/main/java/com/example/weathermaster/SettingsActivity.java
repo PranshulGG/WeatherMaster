@@ -197,13 +197,14 @@ public class SettingsActivity extends AppCompatActivity {
             return url.startsWith("https://fonts.google.com/specimen/Outfit?query=outfit") ||
                     url.startsWith("https://openweathermap.org/") ||
                     url.startsWith("https://www.visualcrossing.com/") ||
-                    url.startsWith("https://ipgeolocation.io/") ||
+                    url.startsWith("https://open-meteo.com/") ||
                     url.startsWith("https://opencagedata.com/api") ||
                     url.startsWith("https://fonts.google.com/specimen/Poppins?query=poppins") ||
                     url.startsWith("https://github.com/material-components/material-web") ||
                     url.startsWith("https://app-privacy-policy-generator.nisrulz.com/") ||
                     url.startsWith("https://github.com/PranshulGG/WeatherMaster") ||
                     url.startsWith("mailto:pranshul.devmain@gmail.com")||
+                    url.startsWith("https://ko-fi.com/pranshulgg")||
                     url.startsWith("https://github.com/PranshulGG/WeatherMaster/releases");
 
 

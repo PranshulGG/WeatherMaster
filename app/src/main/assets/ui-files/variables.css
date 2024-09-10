@@ -137,15 +137,15 @@
 
 
 
-[iconCodeTheme="01d"] {
+[iconCodeTheme="clear-day"] {
 
-    --Primary: #d2dbff;
+ --Primary: #d2dbff;
     --On-Primary: #122c6c;
     --Primary-Container: #9bb0f8;
     --On-Primary-Container: #042162;
     --Secondary: #9dcbf9;
     --On-Secondary: #003353;
-    --Secondary-Container: #024874;
+    --Secondary-Container: #0e4585;
     --On-Secondary-Container: #97c4f1;
     --Tertiary: #ffcef9;
     --On-Tertiary: #4f1a51;
@@ -156,11 +156,11 @@
     --Error-Container: #93000a;
     --On-Error-Container: #ffdad6;
     --Surface-Dim:#121317 ;
-    --Surface: #001d33;
+    --Surface: #00043d;
     --Surface-Bright: #38393e;
     --Surface-Container-Lowest:#0d0e12 ;
     --Surface-Container-Low: #012438;
-    --Surface-Container: #152d41;
+    --Surface-Container: #03335a;
     --Surface-Container-High: #292a2e;
     --Surface-Container-Highest: #343439;
     --Inverse-Surface: #e3e2e8;
@@ -179,7 +179,7 @@
 }
 
 
-[iconCodeTheme="01n"] {
+[iconCodeTheme="clear-night"] {
 
     --Primary: #bac3ff;
     --On-Primary: #00208d;
@@ -198,7 +198,7 @@
     --Error-Container: #93000a;
     --On-Error-Container: #ffdad6;
     --Surface-Dim:#12131b ;
-    --Surface: #001d33;
+    --Surface: #01023d;
     --Surface-Bright: #383942;
     --Surface-Container-Lowest:#0c0e16 ;
     --Surface-Container-Low: #001742;
@@ -221,7 +221,7 @@
 }
 
 
-[iconCodeTheme="02d"] {
+[iconCodeTheme="cloudy"] {
 
 
     --Primary: #d2dbff;
@@ -264,7 +264,7 @@
 }
 
 
-[iconCodeTheme="02n"] {
+[iconCodeTheme="rain"] {
 
     --Primary: #d2dbff;
     --On-Primary: #122c6c;
@@ -306,7 +306,7 @@
 }
 
 
-[iconCodeTheme="03d"] {
+[iconCodeTheme="overcast"] {
 
     --Primary: #d2dbff;
     --On-Primary: #122c6c;
@@ -347,379 +347,50 @@
 }
 
 
-[iconCodeTheme="03n"] {
 
-    --Primary: #d2dbff;
-    --On-Primary: #122c6c;
-    --Primary-Container: #9bb0f8;
-    --On-Primary-Container: #042162;
-    --Secondary: #9dcbf9;
-    --On-Secondary: #003353;
-    --Secondary-Container: #364452;
-    --On-Secondary-Container: #97c4f1;
-    --Tertiary: #ffcef9;
-    --On-Tertiary: #4f1a51;
-    --Tertiary-Container:#e09ddc ;
-    --On-Tertiary-Container: #451048;
-    --Error: #ffb4ab;
+[iconCodeTheme="thunder"] {
+
+    --Primary: #e4b7f3;
+    --On-Primary: #442253;
+    --Primary-Container: #6e4281;
+    --On-Primary-Container: #f7d8ff;
+    --Secondary: #d4c0d7;
+    --On-Secondary: #392c3e;
+    --Secondary-Container: #3c2a42;
+    --On-Secondary-Container: #f1dcf4;
+    --Tertiary: #f5b7b5;
+    --On-Tertiary: #4c2525;
+    --Tertiary-Container: #663b3a;
+    --On-Tertiary-Container: #ffdad8;
+    --Error:#ffb4ab ;
     --On-Error: #690005;
     --Error-Container: #93000a;
     --On-Error-Container: #ffdad6;
-    --Surface-Dim:#121317 ;
-    --Surface: #0e1d2a;
-    --Surface-Bright: #38393e;
-    --Surface-Container-Lowest:#0d0e12 ;
-    --Surface-Container-Low: #012438;
-    --Surface-Container: #112535;
-    --Surface-Container-High: #292a2e;
-    --Surface-Container-Highest: #343439;
-    --Inverse-Surface: #e3e2e8;
-    --Inverse-On-Surface: #2f3035;
-    --Inverse-Primary: #465b9d;
-    --On-Surface: #e3e2e8;
-    --On-Surface-Variant: #c5c6d2;
-    --Outline: #8f909b;
-    --Outline-Variant: #444650;
+    --Surface-Dim: #161217;
+    --Surface: #231225;
+    --Surface-Bright: #3d373d;
+    --Surface-Container-Lowest: #110d12;
+    --Surface-Container-Low:#1e1a1f ;
+    --Surface-Container: #362a36;
+    --Surface-Container-High: #2d282e;
+    --Surface-Container-Highest: #383339;
+    --Inverse-Surface: #e9e0e7;
+    --Inverse-On-Surface: #342f34;
+    --Inverse-Primary: #765085;
+    --On-Surface: #e9e0e7;
+    --On-Surface-Variant: #cec3cd;
+    --Outline: #978e97;
+    --Outline-Variant: #4c444d;
     --Scrim: #000000;
     --Shadow: #000000;
 
-    --caret: #aac7ff;
+    --caret: #e4b7f3;
 
 
 }
 
 
-[iconCodeTheme="04d"] {
-
-    --Primary: #d2dbff;
-    --On-Primary: #122c6c;
-    --Primary-Container: #9bb0f8;
-    --On-Primary-Container: #042162;
-    --Secondary: #9dcbf9;
-    --On-Secondary: #003353;
-    --Secondary-Container: #202e3c;
-    --On-Secondary-Container: #97c4f1;
-    --Tertiary: #ffcef9;
-    --On-Tertiary: #4f1a51;
-    --Tertiary-Container:#e09ddc ;
-    --On-Tertiary-Container: #451048;
-    --Error: #ffb4ab;
-    --On-Error: #690005;
-    --Error-Container: #93000a;
-    --On-Error-Container: #ffdad6;
-    --Surface-Dim:#121317 ;
-    --Surface: #0e1d2a;
-    --Surface-Bright: #38393e;
-    --Surface-Container-Lowest:#0d0e12 ;
-    --Surface-Container-Low: #012438;
-    --Surface-Container: #112535;
-    --Surface-Container-High: #292a2e;
-    --Surface-Container-Highest: #343439;
-    --Inverse-Surface: #e3e2e8;
-    --Inverse-On-Surface: #2f3035;
-    --Inverse-Primary: #465b9d;
-    --On-Surface: #e3e2e8;
-    --On-Surface-Variant: #c5c6d2;
-    --Outline: #8f909b;
-    --Outline-Variant: #444650;
-    --Scrim: #000000;
-    --Shadow: #000000;
-
-    --caret: #aac7ff;
-
-}
-
-
-[iconCodeTheme="04n"] {
-
-    --Primary: #d2dbff;
-    --On-Primary: #122c6c;
-    --Primary-Container: #9bb0f8;
-    --On-Primary-Container: #042162;
-    --Secondary: #9dcbf9;
-    --On-Secondary: #003353;
-    --Secondary-Container: #202e3c;
-    --On-Secondary-Container: #97c4f1;
-    --Tertiary: #ffcef9;
-    --On-Tertiary: #4f1a51;
-    --Tertiary-Container:#e09ddc ;
-    --On-Tertiary-Container: #451048;
-    --Error: #ffb4ab;
-    --On-Error: #690005;
-    --Error-Container: #93000a;
-    --On-Error-Container: #ffdad6;
-    --Surface-Dim:#121317 ;
-    --Surface: #0e1d2a;
-    --Surface-Bright: #38393e;
-    --Surface-Container-Lowest:#0d0e12 ;
-    --Surface-Container-Low: #012438;
-    --Surface-Container: #112535;
-    --Surface-Container-High: #292a2e;
-    --Surface-Container-Highest: #343439;
-    --Inverse-Surface: #e3e2e8;
-    --Inverse-On-Surface: #2f3035;
-    --Inverse-Primary: #465b9d;
-    --On-Surface: #e3e2e8;
-    --On-Surface-Variant: #c5c6d2;
-    --Outline: #8f909b;
-    --Outline-Variant: #444650;
-    --Scrim: #000000;
-    --Shadow: #000000;
-
-
-    --caret: #aac7ff;
-
-}
-
-
-[iconCodeTheme="09d"] {
-
-    --Primary: #d2dbff;
-    --On-Primary: #122c6c;
-    --Primary-Container: #9bb0f8;
-    --On-Primary-Container: #042162;
-    --Secondary: #9dcbf9;
-    --On-Secondary: #003353;
-    --Secondary-Container: #1e2c3a;
-    --On-Secondary-Container: #97c4f1;
-    --Tertiary: #ffcef9;
-    --On-Tertiary: #4f1a51;
-    --Tertiary-Container:#e09ddc ;
-    --On-Tertiary-Container: #451048;
-    --Error: #ffb4ab;
-    --On-Error: #690005;
-    --Error-Container: #93000a;
-    --On-Error-Container: #ffdad6;
-    --Surface-Dim:#121317 ;
-    --Surface: #0e1d2a;
-    --Surface-Bright: #38393e;
-    --Surface-Container-Lowest:#0d0e12 ;
-    --Surface-Container-Low: #012438;
-    --Surface-Container: #112535;
-    --Surface-Container-High: #292a2e;
-    --Surface-Container-Highest: #343439;
-    --Inverse-Surface: #e3e2e8;
-    --Inverse-On-Surface: #2f3035;
-    --Inverse-Primary: #465b9d;
-    --On-Surface: #e3e2e8;
-    --On-Surface-Variant: #c5c6d2;
-    --Outline: #8f909b;
-    --Outline-Variant: #444650;
-    --Scrim: #000000;
-    --Shadow: #000000;
-
-    --caret: #aac7ff;
-
-}
-
-
-[iconCodeTheme="09n"] {
-
-    --Primary: #d2dbff;
-    --On-Primary: #122c6c;
-    --Primary-Container: #9bb0f8;
-    --On-Primary-Container: #042162;
-    --Secondary: #9dcbf9;
-    --On-Secondary: #003353;
-    --Secondary-Container: #1e2c3a;
-    --On-Secondary-Container: #97c4f1;
-    --Tertiary: #ffcef9;
-    --On-Tertiary: #4f1a51;
-    --Tertiary-Container:#e09ddc ;
-    --On-Tertiary-Container: #451048;
-    --Error: #ffb4ab;
-    --On-Error: #690005;
-    --Error-Container: #93000a;
-    --On-Error-Container: #ffdad6;
-    --Surface-Dim:#121317 ;
-    --Surface: #0e1d2a;
-    --Surface-Bright: #38393e;
-    --Surface-Container-Lowest:#0d0e12 ;
-    --Surface-Container-Low: #012438;
-    --Surface-Container: #112535;
-    --Surface-Container-High: #292a2e;
-    --Surface-Container-Highest: #343439;
-    --Inverse-Surface: #e3e2e8;
-    --Inverse-On-Surface: #2f3035;
-    --Inverse-Primary: #465b9d;
-    --On-Surface: #e3e2e8;
-    --On-Surface-Variant: #c5c6d2;
-    --Outline: #8f909b;
-    --Outline-Variant: #444650;
-    --Scrim: #000000;
-    --Shadow: #000000;
-
-    --caret: #aac7ff;
-
-
-}
-[iconCodeTheme="10d"] {
-
-    --Primary: #d2dbff;
-    --On-Primary: #122c6c;
-    --Primary-Container: #9bb0f8;
-    --On-Primary-Container: #042162;
-    --Secondary: #9dcbf9;
-    --On-Secondary: #003353;
-    --Secondary-Container: #1e2c3a;
-    --On-Secondary-Container: #97c4f1;
-    --Tertiary: #ffcef9;
-    --On-Tertiary: #4f1a51;
-    --Tertiary-Container:#e09ddc ;
-    --On-Tertiary-Container: #451048;
-    --Error: #ffb4ab;
-    --On-Error: #690005;
-    --Error-Container: #93000a;
-    --On-Error-Container: #ffdad6;
-    --Surface-Dim:#121317 ;
-    --Surface: #0e1d2a;
-    --Surface-Bright: #38393e;
-    --Surface-Container-Lowest:#0d0e12 ;
-    --Surface-Container-Low: #012438;
-    --Surface-Container: #112535;
-    --Surface-Container-High: #292a2e;
-    --Surface-Container-Highest: #343439;
-    --Inverse-Surface: #e3e2e8;
-    --Inverse-On-Surface: #2f3035;
-    --Inverse-Primary: #465b9d;
-    --On-Surface: #e3e2e8;
-    --On-Surface-Variant: #c5c6d2;
-    --Outline: #8f909b;
-    --Outline-Variant: #444650;
-    --Scrim: #000000;
-    --Shadow: #000000;
-
-    --caret: #aac7ff;
-
-
-}
-
-
-[iconCodeTheme="10n"] {
-
-    --Primary: #d2dbff;
-    --On-Primary: #122c6c;
-    --Primary-Container: #9bb0f8;
-    --On-Primary-Container: #042162;
-    --Secondary: #9dcbf9;
-    --On-Secondary: #003353;
-    --Secondary-Container: #1e2c3a;
-    --On-Secondary-Container: #97c4f1;
-    --Tertiary: #ffcef9;
-    --On-Tertiary: #4f1a51;
-    --Tertiary-Container:#e09ddc ;
-    --On-Tertiary-Container: #451048;
-    --Error: #ffb4ab;
-    --On-Error: #690005;
-    --Error-Container: #93000a;
-    --On-Error-Container: #ffdad6;
-    --Surface-Dim:#121317 ;
-    --Surface: #0e1d2a;
-    --Surface-Bright: #38393e;
-    --Surface-Container-Lowest:#0d0e12 ;
-    --Surface-Container-Low: #012438;
-    --Surface-Container: #112535;
-    --Surface-Container-High: #292a2e;
-    --Surface-Container-Highest: #343439;
-    --Inverse-Surface: #e3e2e8;
-    --Inverse-On-Surface: #2f3035;
-    --Inverse-Primary: #465b9d;
-    --On-Surface: #e3e2e8;
-    --On-Surface-Variant: #c5c6d2;
-    --Outline: #8f909b;
-    --Outline-Variant: #444650;
-    --Scrim: #000000;
-    --Shadow: #000000;
-
-    --caret: #aac7ff;
-
-
-}
-
-[iconCodeTheme="11d"] {
-
-    --Primary: #d2dbff;
-    --On-Primary: #122c6c;
-    --Primary-Container: #9bb0f8;
-    --On-Primary-Container: #042162;
-    --Secondary: #9dcbf9;
-    --On-Secondary: #003353;
-    --Secondary-Container: #1e2c3a;
-    --On-Secondary-Container: #97c4f1;
-    --Tertiary: #ffcef9;
-    --On-Tertiary: #4f1a51;
-    --Tertiary-Container:#e09ddc ;
-    --On-Tertiary-Container: #451048;
-    --Error: #ffb4ab;
-    --On-Error: #690005;
-    --Error-Container: #93000a;
-    --On-Error-Container: #ffdad6;
-    --Surface-Dim:#121317 ;
-    --Surface: #0e1d2a;
-    --Surface-Bright: #38393e;
-    --Surface-Container-Lowest:#0d0e12 ;
-    --Surface-Container-Low: #012438;
-    --Surface-Container: #112535;
-    --Surface-Container-High: #292a2e;
-    --Surface-Container-Highest: #343439;
-    --Inverse-Surface: #e3e2e8;
-    --Inverse-On-Surface: #2f3035;
-    --Inverse-Primary: #465b9d;
-    --On-Surface: #e3e2e8;
-    --On-Surface-Variant: #c5c6d2;
-    --Outline: #8f909b;
-    --Outline-Variant: #444650;
-    --Scrim: #000000;
-    --Shadow: #000000;
-
-    --caret: #aac7ff;
-
-
-}
-
-
-[iconCodeTheme="11n"] {
-
-    --Primary: #d2dbff;
-    --On-Primary: #122c6c;
-    --Primary-Container: #9bb0f8;
-    --On-Primary-Container: #042162;
-    --Secondary: #9dcbf9;
-    --On-Secondary: #003353;
-    --Secondary-Container: #1e2c3a;
-    --On-Secondary-Container: #97c4f1;
-    --Tertiary: #ffcef9;
-    --On-Tertiary: #4f1a51;
-    --Tertiary-Container:#e09ddc ;
-    --On-Tertiary-Container: #451048;
-    --Error: #ffb4ab;
-    --On-Error: #690005;
-    --Error-Container: #93000a;
-    --On-Error-Container: #ffdad6;
-    --Surface-Dim:#121317 ;
-    --Surface: #0e1d2a;
-    --Surface-Bright: #38393e;
-    --Surface-Container-Lowest:#0d0e12 ;
-    --Surface-Container-Low: #012438;
-    --Surface-Container: #112535;
-    --Surface-Container-High: #292a2e;
-    --Surface-Container-Highest: #343439;
-    --Inverse-Surface: #e3e2e8;
-    --Inverse-On-Surface: #2f3035;
-    --Inverse-Primary: #465b9d;
-    --On-Surface: #e3e2e8;
-    --On-Surface-Variant: #c5c6d2;
-    --Outline: #8f909b;
-    --Outline-Variant: #444650;
-    --Scrim: #000000;
-    --Shadow: #000000;
-
-    --caret: #aac7ff;
-
-}
-
-
-[iconCodeTheme="13d"] {
+[iconCodeTheme="snow"] {
 
 
 
@@ -763,50 +434,10 @@
 }
 
 
-[iconCodeTheme="13n"] {
-
-
-    --Primary: #bdc4f1;
-    --On-Primary: #262e52;
-    --Primary-Container: #9bb0f8;
-    --On-Primary-Container: #042162;
-    --Secondary: #9dcbf9;
-    --On-Secondary: #003353;
-    --Secondary-Container: #41465f;
-    --On-Secondary-Container: #cdd3ff;
-    --Tertiary: #ffcef9;
-    --On-Tertiary: #4f1a51;
-    --Tertiary-Container:#e09ddc ;
-    --On-Tertiary-Container: #451048;
-    --Error: #ffb4ab;
-    --On-Error: #690005;
-    --Error-Container: #93000a;
-    --On-Error-Container: #ffdad6;
-    --Surface-Dim:#121317 ;
-    --Surface: #1f1f30;
-    --Surface-Bright: #38393e;
-    --Surface-Container-Lowest:#0d0e12 ;
-    --Surface-Container-Low: #012438;
-    --Surface-Container: #2a3641;
-    --Surface-Container-High: #292a2e;
-    --Surface-Container-Highest: #343439;
-    --Inverse-Surface: #e3e2e8;
-    --Inverse-On-Surface: #2f3035;
-    --Inverse-Primary: #465b9d;
-    --On-Surface: #e3e2e8;
-    --On-Surface-Variant: #c5c6d2;
-    --Outline: #8f909b;
-    --Outline-Variant: #444650;
-    --Scrim: #000000;
-    --Shadow: #000000;
-
-    --caret: #aac7ff;
-
-}
 
 
 
-[iconCodeTheme="50d"] {
+[iconCodeTheme="fog"] {
 
 
     --Primary: #ffd5a5;
@@ -849,46 +480,6 @@
 }
 
 
-[iconCodeTheme="50n"] {
-
-    --Primary: #ffd5a5;
-    --On-Primary: #462a00;
-    --Primary-Container:#f7a000 ;
-    --On-Primary-Container: #3a2200;
-    --Secondary: #dec391;
-    --On-Secondary: #3e2e09;
-    --Secondary-Container: #352603;
-    --On-Secondary-Container: #cab180;
-    --Tertiary: #d3e64f;
-    --On-Tertiary: #2d3400;
-    --Tertiary-Container: #a9bb26;
-    --On-Tertiary-Container: #242900;
-    --Error: #ffb4ab;
-    --On-Error: #690005;
-    --Error-Container: #93000a;
-    --On-Error-Container: #ffdad6;
-    --Surface-Dim: #191209;
-    --Surface: #191209;
-    --Surface-Bright: #41382d;
-    --Surface-Container-Lowest: #140d05;
-    --Surface-Container-Low: #221a11;
-    --Surface-Container: #261e15;
-    --Surface-Container-High: #31281f;
-    --Surface-Container-Highest: #3c3329;
-    --Inverse-Surface: #f0e0d1;
-    --Inverse-On-Surface: #382f25;
-    --Inverse-Primary: #855400;
-    --On-Surface: #f0e0d1;
-    --On-Surface-Variant: #d9c3ac;
-    --Outline: #a18e79;
-    --Outline-Variant: #534433;
-    --Scrim: #000000;
-    --Shadow: #000000;
-    --caret: #ffd5a5;
-
-
-
-}
 
 
 /* apps */

@@ -2,6 +2,164 @@ const SelectedTempUnit = localStorage.getItem('SelectedTempUnit');
 const SelectedWindUnit = localStorage.getItem('SelectedWindUnit');
 const SelectedPrecipitationUnit = localStorage.getItem('selectedPrecipitationUnit');
 const SelectedPressureUnit = localStorage.getItem('selectedPressureUnit');
+const cachedData = JSON.parse(localStorage.getItem('DailyWeatherCache'));
+const cachedDataHourly = JSON.parse(localStorage.getItem('HourlyWeatherCache'));
+
+
+// icons
+
+function GetWeatherIcon(iconCode, isDay) {
+
+
+    if (isDay === 1) {
+        if (iconCode === 0) {
+            return '../weather-icons/clear_day.svg';
+        } else if (iconCode === 1) {
+            return '../weather-icons/mostly_clear_day.svg';
+        } else if (iconCode === 2) {
+            return '../weather-icons/partly_cloudy_day.svg';
+
+        } else if (iconCode === 3) {
+            return '../weather-icons/cloudy.svg';
+
+        } else if (iconCode === 45 || iconCode === 48) {
+            return '../weather-icons/haze_fog_dust_smoke.svg';
+
+        } else if (iconCode === 51 || iconCode === 53 || iconCode === 55) {
+
+            return '../weather-icons/drizzle.svg';
+
+        } else if (iconCode === 56 || iconCode === 57) {
+
+            return '../weather-icons/mixed_rain_hail_sleet.svg';
+
+        } else if (iconCode === 61 || iconCode === 63) {
+
+            return '../weather-icons/showers_rain.svg';
+
+        } else if (iconCode === 65) {
+
+            return '../weather-icons/heavy_rain.svg';
+
+        } else if (iconCode === 66 || iconCode === 67) {
+
+            return '../weather-icons/sleet_hail.svg';
+
+        } else if (iconCode === 71) {
+
+            return '../weather-icons/scattered_snow_showers_day.svg';
+
+        } else if (iconCode === 73) {
+
+            return '../weather-icons/showers_snow.svg';
+
+        } else if (iconCode === 75) {
+
+            return '../weather-icons/heavy_snow.svg';
+
+        } else if (iconCode === 77) {
+
+            return '../weather-icons/flurries.svg';
+
+        } else if (iconCode === 80 || iconCode === 81) {
+
+            return '../weather-icons/showers_rain.svg';
+
+        } else if (iconCode === 82) {
+
+            return '../weather-icons/heavy_rain.svg';
+
+        } else if (iconCode === 85) {
+
+            return '../weather-icons/showers_snow.svg';
+
+        } else if (iconCode === 86) {
+
+            return '../weather-icons/heavy_snow.svg';
+
+        } else if (iconCode === 95) {
+
+            return '../weather-icons/isolated_thunderstorms.svg'
+
+        } else if (iconCode === 96 || iconCode === 99) {
+
+            return '../weather-icons/strong_thunderstorms.svg'
+
+        }
+    }
+
+    return iconCode
+}
+
+// weather label
+
+function GetWeatherLabel(iconCode, isDay) {
+
+
+    if (isDay === 1) {
+        if (iconCode === 0) {
+            return 'Clear sky'
+
+        } else if (iconCode === 1) {
+            return 'Mostly clear'
+
+        } else if (iconCode === 2) {
+            return 'Partly cloudy'
+
+        } else if (iconCode === 3) {
+            return 'Overcast'
+
+        } else if (iconCode === 45 || iconCode === 48) {
+            return 'Fog'
+
+        } else if (iconCode === 51 || iconCode === 53 || iconCode === 55) {
+            return 'Drizzle'
+
+        } else if (iconCode === 56 || iconCode === 57) {
+            return 'Freezing Drizzle'
+
+        } else if (iconCode === 61 || iconCode === 63) {
+            return 'Moderate rain'
+
+        } else if (iconCode === 65) {
+            return 'Heavy intensity rain'
+
+        } else if (iconCode === 66 || iconCode === 67) {
+            return 'Freezing Rain'
+
+        } else if (iconCode === 71) {
+            return 'Slight snow'
+
+        } else if (iconCode === 73) {
+            return 'Moderate snow'
+
+        } else if (iconCode === 75) {
+            return 'Heavy intensity snow'
+
+        } else if (iconCode === 77) {
+            return 'Snow grains'
+
+        } else if (iconCode === 80 || iconCode === 81) {
+            return 'Rain showers'
+
+        } else if (iconCode === 82) {
+            return 'Heavy rain showers'
+
+        } else if (iconCode === 85) {
+            return 'Slight snow showers'
+
+        } else if (iconCode === 86) {
+            return 'Heavy snow showers'
+
+        } else if (iconCode === 95) {
+            return 'Thunderstorm'
+
+        } else if (iconCode === 96 || iconCode === 99) {
+            return 'Strong thunderstorm'
+
+        }
+    }
+}
 
 
 // change ids same
@@ -37,116 +195,146 @@ const ConditionIcons = {
 
 
 
-let currentApiKeyIndex = 0;
 
 
-function getDailyForecast(latitude, longitude) {
-
-    const apiKey = apiKeysDaily[currentApiKeyIndex];
-
-    const apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
-
-    fetch(apiUrl)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            const dailyForecast = data.daily;
-            displayDailyForecast(dailyForecast);
-        })
-        .catch(error => {
-            console.error('Error fetching daily forecast:', error);
-            if (currentApiKeyIndex < apiKeysDaily.length - 1) {
-                currentApiKeyIndex++;
-                console.log(`Switching to API key index ${currentApiKeyIndex}`);
-                getDailyForecast(latitude, longitude);
-            } else {
-                console.error('All API keys failed. Unable to fetch data.');
-            }
-        });
-
+function getDailyForecast() {
+    if (cachedDataHourly && cachedDataHourly.time && cachedDataHourly.time.length > 0) {
+        const dailyForecast = aggregateHourlyData(cachedDataHourly);
+        displayDailyForecast(cachedData, dailyForecast);
+    } else {
+        console.error('Hourly data is not available.');
+    }
 }
 
-function displayDailyForecast(dailyForecast) {
+function aggregateHourlyData(hourlyData) {
+    const dailyData = {};
+    hourlyData.time.forEach((time, index) => {
+        const date = new Date(time).toISOString().split('T')[0];
+
+        if (hourlyData.temperature_2m && hourlyData.temperature_2m[index] !== undefined) {
+            if (!dailyData[date]) {
+                dailyData[date] = {
+                    humidity: 0,
+                    cloudCover: 0,
+                    dewPoint: 0,
+                    pressure: 0,
+                    count: 0
+                };
+            }
+
+        }
+        const dayData = dailyData[date];
+        dayData.humidity += hourlyData.relative_humidity_2m[index];
+        dayData.cloudCover += hourlyData.cloud_cover[index];
+        dayData.dewPoint += hourlyData.dew_point_2m[index];
+        dayData.pressure +=  hourlyData.pressure_msl[index];
+        dayData.count++;
+    });
+
+
+    for (const date in dailyData) {
+        dailyData[date].humidity = Math.round(dailyData[date].humidity / dailyData[date].count);
+        dailyData[date].cloudCover = Math.round(dailyData[date].cloudCover / dailyData[date].count);
+        dailyData[date].dewPoint = Math.round(dailyData[date].dewPoint / dailyData[date].count);
+        dailyData[date].pressure = Math.round(dailyData[date].pressure / dailyData[date].count);
+    }
+
+    return dailyData;
+}
+
+
+function displayDailyForecast(forecast, forecastDaily) {
     const forecastContainer = document.getElementById('foreCastList');
     const forecastDateHeader = document.createElement('forecastDateHeader');
     const forecastMainDetails = document.createElement('forecastMainDetails');
 
     forecastContainer.innerHTML = '';
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    dailyForecast.forEach((forecast, index) => {
-
-
-        if (index === 0) return;
-
-        const timestamp = new Date(forecast.dt * 1000);
-        if (timestamp.getDate() === today.getDate()) return;
-
-        const dayName = timestamp.toLocaleDateString('en-US', { weekday: 'short' });
-        const date = timestamp.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    const today = new Date().toISOString().split('T')[0];
+    const sortedDates = Object.keys(forecastDaily)
+        .filter(date => date >= today)
+        .sort();
 
 
+    if (sortedDates.length === 0) {
+        forecastContainer.innerHTML = '<p>No upcoming forecast data available.</p>';
+        return;
+    }
 
-        const description = forecast.weather[0].description;
-        let iconCode = forecast.weather[0].icon;
+
+    sortedDates.forEach((date, index) => {
 
 
-        const rainPercentage = Math.round(forecast.pop * 100) || '0';
-        const humidity = forecast.humidity
-        const cloudCover = forecast.clouds
-        const SunriseTime = convertTo12HourFormat(forecast.sunrise);
-        const SunsetTime = convertTo12HourFormat(forecast.sunset);
-        const MoonriseTime = convertTo12HourFormat(forecast.moonrise);
-        const MoonsetTime = convertTo12HourFormat(forecast.moonset);
+
+
+        const dateObj = new Date(date);
+
+        const isToday = date === today;
+        const weekday = isToday ? 'Today' : dateObj.toLocaleDateString('en-US', { weekday: 'short' });
+
+
+        const dailyData = forecastDaily[date];
+
+        const formattedDate = new Intl.DateTimeFormat('en-US', { day: 'numeric', month: 'short' }).format(dateObj);
+
+        const rainPercentage = Math.round(forecast.precipitation_probability_max[index]) || '0';
+
+        const convertTo12Hour = (time) => {
+            const date = new Date(time);
+            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+        };
+
+        const SunriseTime = convertTo12Hour(forecast.sunrise[index])
+        const SunsetTime = convertTo12Hour(forecast.sunset[index])
+        const DailyWeatherCode = forecast.weather_code[index];
+
+        const cloudCover = dailyData.cloudCover
+
+        const humidity = dailyData.humidity;
 
 
         let WindSpeed;
 
         if (SelectedWindUnit === 'mile') {
-            WindSpeed = Math.round(forecast.wind_speed * 2.23694) + ' mph';
+            WindSpeed = Math.round(forecast.wind_speed_10m_max[index] * 2.23694) + ' mph';
         } else {
-            WindSpeed = Math.round(forecast.wind_speed) + ' km/h';
+            WindSpeed = Math.round(forecast.wind_speed_10m_max[index]) + ' km/h';
 
         }
+
 
         let TemperatureMax;
 
         if (SelectedTempUnit === 'fahrenheit') {
-            TemperatureMax = Math.round(forecast.temp.max * 9 / 5 + 32);
+            TemperatureMax = Math.round(forecast.temperature_2m_max[index] * 9 / 5 + 32);
         } else {
-            TemperatureMax = Math.round(forecast.temp.max);
+            TemperatureMax = Math.round(forecast.temperature_2m_max[index]);
         }
 
         let TemperatureMin;
 
         if (SelectedTempUnit === 'fahrenheit') {
-            TemperatureMin = Math.round(forecast.temp.min * 9 / 5 + 32);
+            TemperatureMin = Math.round(forecast.temperature_2m_min[index] * 9 / 5 + 32);
         } else {
-            TemperatureMin = Math.round(forecast.temp.min);
+            TemperatureMin = Math.round(forecast.temperature_2m_min[index]);
         }
 
         let dewPointTemp;
 
 
         if (SelectedTempUnit === 'fahrenheit') {
-            dewPointTemp = Math.round(forecast.dew_point * 9 / 5 + 32);
+            dewPointTemp = Math.round(dailyData.dewPoint * 9 / 5 + 32);
         } else {
-            dewPointTemp = Math.round(forecast.dew_point);
+            dewPointTemp = Math.round(dailyData.dewPoint);
         }
 
         let rainAmount;
 
         if (SelectedPrecipitationUnit === 'in') {
-            rainAmount = forecast.rain ? (forecast.rain * 0.0393701).toFixed(2) + 'in' : '0.00in';
+            rainAmount = forecast.precipitation_sum[index] ? (forecast.precipitation_sum[index] * 0.0393701).toFixed(2) + 'in' : '0.00in';
 
         } else {
-            rainAmount = forecast.rain ? forecast.rain + ' mm' : '0.0mm';
+            rainAmount = forecast.precipitation_sum[index] ? forecast.precipitation_sum[index] + ' mm' : '0.0mm';
         }
 
 
@@ -154,17 +342,17 @@ function displayDailyForecast(dailyForecast) {
         let pressureMainUnit;
 
         if (SelectedPressureUnit === 'inHg') {
-            pressureMain = (forecast.pressure * 0.02953).toFixed(2);
+            pressureMain = (dailyData.pressure * 0.02953).toFixed(2);
             pressureMainUnit = 'inHg';
         } else if (SelectedPressureUnit === 'mmHg') {
-            pressureMain = (forecast.pressure * 0.750062).toFixed(2);
+            pressureMain = (dailyData.pressure * 0.750062).toFixed(2);
             pressureMainUnit = 'mmHg';
         } else {
-            pressureMain = forecast.pressure;
+            pressureMain = dailyData.pressure;
             pressureMainUnit = 'hPa';
         }
 
-        const uvIndex = Math.round(forecast.uvi)
+        const uvIndex = Math.round(forecast.uv_index_max[index])
 
         let UVindexText;
 
@@ -210,26 +398,6 @@ function displayDailyForecast(dailyForecast) {
             UVindexText = 'Extreme';
         }
 
-        iconCode = iconCode.replace('n', 'd');
-
-
-        let colorStyle;
-
-        if (iconCode === '01d') {
-            colorStyle = '--weather-color: #375aa3;';
-        } else if (iconCode === '02d') {
-            colorStyle = '--weather-color: #5b606b;';
-        } else if (iconCode === '03d' || iconCode === '04d') {
-            colorStyle = '--weather-color: #555b69;';
-        } else if (iconCode === '09d' || iconCode === '10d') {
-            colorStyle = '--weather-color: #33415e;';
-        } else if (iconCode === '11d') {
-            colorStyle = '--weather-color: #383147;'
-        } else if (iconCode === '13d') {
-            colorStyle = '--weather-color: #41465f;'
-        } else if (iconCode === '50d') {
-            colorStyle = '--weather-color: #352603;'
-        }
 
 
 
@@ -240,8 +408,8 @@ function displayDailyForecast(dailyForecast) {
 
         forecastDateHeaderContent.innerHTML = `
 
-            <span>${dayName}</span>
-            <img src="../weather-icons/${iconCode}.svg">
+            <span>${weekday}</span>
+            <img src="${GetWeatherIcon(DailyWeatherCode, 1)}">
             <div>
             <p>${TemperatureMax}°<span>/${TemperatureMin}°</span></p>
             </div>
@@ -250,7 +418,6 @@ function displayDailyForecast(dailyForecast) {
 
         `
         // ------------------------------------------------------
-
 
 
 
@@ -276,17 +443,17 @@ function displayDailyForecast(dailyForecast) {
             forecastTempConditionMainContent.classList.add('forecastTempConditionMainContent')
 
             const selectedIndex = event.currentTarget.dataset.index;
-            const selectedForecast = dailyForecast[selectedIndex];
+            const selectedForecast = forecast[selectedIndex];
 
             forecastTempConditionMainContent.innerHTML = `
 
             <div class="top-details">
-                <p>${dayName}, ${date}</p>
+                <p>${weekday}, ${formattedDate}</p>
                 <div>
                 <tempLarge><p>${TemperatureMax}° </p> <span>/${TemperatureMin}°</span></tempLarge>
-                <img src="../weather-icons/${iconCode}.svg">
+                <img src="${GetWeatherIcon(DailyWeatherCode, 1)}">
                 </div>
-                <weatherConditionText>${description}</weatherConditionText>
+                <weatherConditionText>${GetWeatherLabel(DailyWeatherCode, 1)}</weatherConditionText>
             </div>
 
 
@@ -302,6 +469,7 @@ function displayDailyForecast(dailyForecast) {
                     <span>${WindSpeed}</span>
                 </div>
 
+
                 <div>
                     <p>Humidity</p>
                     <conditionIcon>
@@ -310,93 +478,78 @@ function displayDailyForecast(dailyForecast) {
                     <span>${humidity}%</span>
                 </div>
 
-                <div>
-                    <p>Precipitation chances</p>
-                    <conditionIcon>
-                    ${ConditionIcons.PrecipitationChancesIcon}
-                    </conditionIcon>
-                    <span>${rainPercentage}%</span>
-                </div>
 
                 <div>
-                    <p>Precipitation amount</p>
-                    <conditionIcon>
-                    ${ConditionIcons.PrecipitationAmountIcon}
-                    </conditionIcon>
-                    <span>${rainAmount}</span>
+                <p>Precipitation chances</p>
+                <conditionIcon>
+                ${ConditionIcons.PrecipitationChancesIcon}
+                </conditionIcon>
+                <span>${rainPercentage}%</span>
                 </div>
 
                 <div>
-                    <p>Cloud cover</p>
-                    <conditionIcon>
-                    ${ConditionIcons.CloudCoverIcon}
-                    </conditionIcon>
-                    <span>${cloudCover}%</span>
-                </div>
-
-                 <div>
-                    <p>Pressure</p>
-                    <conditionIcon>
-                    ${ConditionIcons.PressureIcon}
-                    </conditionIcon>
-                    <span>${pressureMain} ${pressureMainUnit}</span>
+                <p>Precipitation amount</p>
+                <conditionIcon>
+                ${ConditionIcons.PrecipitationAmountIcon}
+                </conditionIcon>
+                <span>${rainAmount}</span>
                 </div>
 
                 <div>
-                    <p>Dew point</p>
-                    <conditionIcon>
-                    ${ConditionIcons.DewPointIcon}
-                    </conditionIcon>
-                    <span>${dewPointTemp}°</span>
+                <p>Cloud cover</p>
+                <conditionIcon>
+                ${ConditionIcons.CloudCoverIcon}
+                </conditionIcon>
+                <span>${cloudCover}%</span>
                 </div>
 
                 <div>
-                    <p>UV index</p>
-                    <conditionIcon>
-                    ${ConditionIcons.UVindexIcon}
-                    </conditionIcon>
-                    <span style="align-items: center; gap: 5px;">${uvIndex} <text style="color: var(--On-Surface-Variant);font-size: 13px;"> ${UVindexText}</text></span>
+                <p>Pressure</p>
+                <conditionIcon>
+                ${ConditionIcons.PressureIcon}
+                </conditionIcon>
+                <span>${pressureMain} ${pressureMainUnit}</span>
                 </div>
 
-             </div>
-            </div>
+                <div>
+                <p>Dew point</p>
+                <conditionIcon>
+                ${ConditionIcons.DewPointIcon}
+                </conditionIcon>
+                <span>${dewPointTemp}°</span>
+                </div>
 
-            <p class="daily-conditions-title" style="margin-top:10px;">Sun & Moon Times</p>
-            <div class="sunrise-sunset-forecast">
+                <div>
+                <p>UV index</p>
+                <conditionIcon>
+                ${ConditionIcons.UVindexIcon}
+                </conditionIcon>
+                <span style="align-items: center; gap: 5px;">${uvIndex} <text style="color: var(--On-Surface-Variant);font-size: 13px;"> ${UVindexText}</text></span>
+                </div>
 
-            <div class="sunrise-sunset-item">
-             <p>Sunrise</p>
+                </div>
+                </div>
+
+                <p class="daily-conditions-title" style="margin-top:10px;">Sunrise & sunset</p>
+                <div class="sunrise-sunset-forecast">
+
+                <div class="sunrise-sunset-item">
+                <p>Sunrise</p>
                 <div class="sunrise-sunset-img">
-                    ${ConditionIcons.SunriseIcon}
+                ${ConditionIcons.SunriseIcon}
                 </div>
                 <span>${SunriseTime}</span>
-            </div>
+                </div>
 
-             <div class="sunrise-sunset-item">
-             <p>Sunset</p>
+                <div class="sunrise-sunset-item">
+                <p>Sunrise</p>
                 <div class="sunrise-sunset-img">
-                    ${ConditionIcons.SunsetIcon}
+                ${ConditionIcons.SunsetIcon}
                 </div>
                 <span>${SunsetTime}</span>
-            </div>
-
-            <div class="sunrise-sunset-item">
-             <p>Moonrise</p>
-                <div class="sunrise-sunset-img">
-                    ${ConditionIcons.MoonRiseIcon}
                 </div>
-                <span>${MoonriseTime}</span>
-            </div>
 
-             <div class="sunrise-sunset-item">
-             <p>Moonset</p>
-                <div class="sunrise-sunset-img">
-                    ${ConditionIcons.MoonSetIcon}
                 </div>
-                <span>${MoonsetTime}</span>
-            </div>
-
-            </div>
 
             `
 
@@ -408,7 +561,7 @@ function displayDailyForecast(dailyForecast) {
 
 
         forecastDateHeaderContent.addEventListener('click', handleSelection);
-        if (index === 1) {
+        if (index === 0) {
             forecastDateHeaderContent.classList.add('selected');
             handleSelection({ currentTarget: forecastDateHeaderContent });
             firstForecastIndex = index;
@@ -418,12 +571,8 @@ function displayDailyForecast(dailyForecast) {
 
 
 
-const latDif = localStorage.getItem('currentLat');
-const longDif = localStorage.getItem('currentLong');
-
-
 setTimeout(() => {
-    getDailyForecast(latDif, longDif)
+    getDailyForecast()
 }, 1500);
 
 
@@ -439,11 +588,18 @@ function convertTo12HourFormat(unixTimestamp) {
 }
 
 
-setTimeout(()=>{
+setTimeout(() => {
     document.querySelector('.loader_holder').style.opacity = '0'
 }, 2000);
 
 
-setTimeout(()=>{
+setTimeout(() => {
     document.querySelector('.loader_holder').hidden = true
 }, 2300);
+
+
+
+
+
+
+

@@ -220,130 +220,60 @@ public class MainActivity extends AppCompatActivity {
                     int systemUiVisibilityFlags = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
 
 
-                    if(color.equals("01d")){
-                        statusBarColor = 0xFF001d33;
-                        navigationBarColor = 0xFF001d33;
+                    if(color.equals("clear-day")){
+                        statusBarColor = 0xFF00043d;
+                        navigationBarColor = 0xFF00043d;
                         systemUiVisibilityFlags = 0;
                         webview.setBackgroundColor(getResources().getColor(R.color.C01d));
                         setTheme(R.style.blue_caret);
 
-                    } else if (color.equals("01n")) {
-                        statusBarColor = 0xFF001d33;
-                        navigationBarColor = 0xFF001d33;
+                    } else if (color.equals("clear-night")) {
+                        statusBarColor = 0xFF01023d;
+                        navigationBarColor = 0xFF01023d;
                         systemUiVisibilityFlags = 0;
                         webview.setBackgroundColor(getResources().getColor(R.color.C01n));
                         setTheme(R.style.blue_caret);
 
-                    } else if(color.equals("02d")){
+                    } else if(color.equals("cloudy")){
                             statusBarColor = 0xFF0e1d2a;
                             navigationBarColor = 0xFF0e1d2a;
                             systemUiVisibilityFlags = 0;
                         webview.setBackgroundColor(getResources().getColor(R.color.C02d));
                         setTheme(R.style.blue_caret);
 
-                        } else if (color.equals("02n")) {
-                            statusBarColor = 0xFF0e1d2a;
-                            navigationBarColor = 0xFF0e1d2a;
-                            systemUiVisibilityFlags = 0;
-                        webview.setBackgroundColor(getResources().getColor(R.color.C02n));
-                        setTheme(R.style.blue_caret);
-
-                    } else if(color.equals("03d")){
+                    } else if(color.equals("overcast")){
                         statusBarColor = 0xFF0e1d2a;
                         navigationBarColor = 0xFF0e1d2a;
                         systemUiVisibilityFlags = 0;
                         webview.setBackgroundColor(getResources().getColor(R.color.C03d));
                         setTheme(R.style.blue_caret);
 
-                    } else if (color.equals("03n")) {
-                        statusBarColor = 0xFF0e1d2a;
-                        navigationBarColor = 0xFF0e1d2a;
-                        systemUiVisibilityFlags = 0;
-                        webview.setBackgroundColor(getResources().getColor(R.color.C03n));
-                        setTheme(R.style.blue_caret);
-
-                    } else if(color.equals("04d")){
+                    } else if(color.equals("rain")){
                         statusBarColor = 0xFF0e1d2a;
                         navigationBarColor = 0xFF0e1d2a;
                         systemUiVisibilityFlags = 0;
                         webview.setBackgroundColor(getResources().getColor(R.color.C04d));
                         setTheme(R.style.blue_caret);
 
-                    } else if (color.equals("04n")) {
-                        statusBarColor = 0xFF0e1d2a;
-                        navigationBarColor = 0xFF0e1d2a;
+                    } else if (color.equals("thunder")) {
+                        statusBarColor = 0xFF231225;
+                        navigationBarColor = 0xFF231225;
                         systemUiVisibilityFlags = 0;
                         webview.setBackgroundColor(getResources().getColor(R.color.C04n));
                         setTheme(R.style.blue_caret);
 
-                    } else if(color.equals("09d")){
-                        statusBarColor = 0xFF0e1d2a;
-                        navigationBarColor = 0xFF0e1d2a;
+                    } else if(color.equals("snow")){
+                        statusBarColor = 0xFF1f1f30;
+                        navigationBarColor = 0xFF1f1f30;
                         systemUiVisibilityFlags = 0;
                         webview.setBackgroundColor(getResources().getColor(R.color.C09d));
                         setTheme(R.style.blue_caret);
 
-                    } else if (color.equals("09n")) {
-                        statusBarColor = 0xFF0e1d2a;
-                        navigationBarColor = 0xFF0e1d2a;
+                    } else if (color.equals("fog")) {
+                        statusBarColor = 0xFF191209;
+                        navigationBarColor = 0xFF191209;
                         systemUiVisibilityFlags = 0;
                         webview.setBackgroundColor(getResources().getColor(R.color.C09n));
-                        setTheme(R.style.blue_caret);
-
-                    } else if(color.equals("10d")){
-                        statusBarColor = 0xFF0e1d2a;
-                        navigationBarColor = 0xFF0e1d2a;
-                        systemUiVisibilityFlags = 0;
-                        webview.setBackgroundColor(getResources().getColor(R.color.C10d));
-                        setTheme(R.style.blue_caret);
-
-                    } else if (color.equals("10n")) {
-                        statusBarColor = 0xFF0e1d2a;
-                        navigationBarColor = 0xFF0e1d2a;
-                        systemUiVisibilityFlags = 0;
-                        webview.setBackgroundColor(getResources().getColor(R.color.C10n));
-                        setTheme(R.style.blue_caret);
-
-                    } else if(color.equals("11d")){
-                        statusBarColor = 0xFF0e1d2a;
-                        navigationBarColor = 0xFF0e1d2a;
-                        systemUiVisibilityFlags = 0;
-                        webview.setBackgroundColor(getResources().getColor(R.color.C11d));
-                        setTheme(R.style.blue_caret);
-
-                    } else if (color.equals("11n")) {
-                        statusBarColor = 0xFF0e1d2a;
-                        navigationBarColor = 0xFF0e1d2a;
-                        systemUiVisibilityFlags = 0;
-                        webview.setBackgroundColor(getResources().getColor(R.color.C11n));
-                        setTheme(R.style.blue_caret);
-
-                    } else if(color.equals("13d")){
-                        statusBarColor = 0xFF1f1f30;
-                        navigationBarColor = 0xFF1f1f30;
-                        systemUiVisibilityFlags = 0;
-                        webview.setBackgroundColor(getResources().getColor(R.color.C13d));
-                        setTheme(R.style.blue_caret);
-
-                    } else if (color.equals("13n")) {
-                        statusBarColor = 0xFF1f1f30;
-                        navigationBarColor = 0xFF1f1f30;
-                        systemUiVisibilityFlags = 0;
-                        webview.setBackgroundColor(getResources().getColor(R.color.C13n));
-                        setTheme(R.style.blue_caret);
-
-                    } else if(color.equals("50d")){
-                        statusBarColor = 0xFF191209;
-                        navigationBarColor = 0xFF191209;
-                        systemUiVisibilityFlags = 0;
-                        webview.setBackgroundColor(getResources().getColor(R.color.C50d));
-                        setTheme(R.style.orange_caret);
-
-                    } else if (color.equals("50n")) {
-                        statusBarColor = 0xFF191209;
-                        navigationBarColor = 0xFF191209;
-                        systemUiVisibilityFlags = 0;
-                        webview.setBackgroundColor(getResources().getColor(R.color.C50n));
                         setTheme(R.style.orange_caret);
 
                     } else if (color.equals("OpenSettings")){

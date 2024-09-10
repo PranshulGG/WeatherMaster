@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" internet="true" data-theme="dark"iconCodeTheme="10d">
+<html lang="en" internet="true" data-theme="dark"iconCodeTheme="overcast">
 
 <head>
     <meta charset="UTF-8">
@@ -75,7 +75,7 @@
                     <now>Now</now>
                     <div class="temp_img">
                         <p id="temp"></p>
-                        <img id="weather-icon" src="weather-icons/11d.svg" alt="Weather Icon">
+                        <img id="weather-icon" src="weather-icons/not_available.svg" alt="Weather Icon">
                     </div>
 
                     <div class="high_low_temp">
@@ -95,8 +95,8 @@
             </div>
 
             <div class="dew_per">
-                <i icon-outlined>rainy_snow</i>
-                <p id="is_rain"></p>
+                <i icon-outlined>schedule</i>
+                <p id="last_updated"></p>
             </div>
 
         </div>
@@ -203,7 +203,7 @@
 
             <div class="all-24">
                 <div class="h1">
-                    <p class="today_Text">Today</p>
+                    <p class="today_Text">Next 24-hrs</p>
                     <p class="date_Text_top" id="date_text_top">Mar, 19</p>
                 </div>
                 <div class="forecast" id="forecast">
@@ -217,7 +217,6 @@
             <rainMeter>
                 <div class="h1">
                     <p>Hourly precipitation</p>
-                    <div class="ripple_btn_low" style="display: flex; align-items: center;" onclick="ShowSnack('Type of precipitation expected', 2000, 3, 'none', ' ', 'no-up')"><md-icon icon-outlined style="font-size: 18px;">info</md-icon><span id="precipitation_type" style="text-transform: capitalize;">Type: ---</span></div>
                 </div>
 
                 <div class="wrap_cover_rain_meter" style="display: flex; align-items: center; justify-content: space-between;">
@@ -227,9 +226,10 @@
                     </div>
 
                     <div class="todaysAmount" style="padding-left: 0; padding-right: 20px;">
-                        <p>Area coverage</p>
+                        <p>Precipitation hours</p>
                         <span id="RainHours">1.5 mm</span>
                     </div>
+
 
                 </div>
 
@@ -242,8 +242,9 @@
 
             <div class="all-5d" onclick="sendThemeToAndroid('Open8Forecast')">
                 <div class="h2">
-                    <p>8-Days Forecast</p>
-                    <p class="" style="display: flex; align-items: center;">More <i icon-outlined style="font-size: 20px;">chevron_right</i></p>
+                    <p>14-days Forecast</p>
+                    <p class="" style="display: flex; align-items: center;">More <i icon-outlined
+                                                                                    style="font-size: 20px;">chevron_right</i></p>
                 </div>
                 <div class="forecast-5day" id="forecast-5day">
 
@@ -252,91 +253,95 @@
             </div>
 
             <div class="LiveMapWrap ripple_btn_low" onclick="sendThemeToAndroid('OpenRadar')">
+                <div class="radar_label"><md-icon icon-outlined>radar</md-icon>Live radar</div>
                 <div id="livemapPreview">
                     <img src="icons/prevmap.png" alt="">
                 </div>
             </div>
 
 
-            <div class="setRiseDivWrap" style="margin-bottom: 0px;">
-                <div class="h1">
-                    <p>Sunrise & Sunset</p>
-                </div>
-
-                <div class="wrapTimingdiv">
-                    <div class="timingWrap">
-                        <span>Sunrise</span>
-                        <div class="timingItem">
-                            <p id="sunrise"></p>
-                        </div>
-                    </div>
-
-                    <div class="timingWrap">
-                        <span>Sunset</span>
-                        <div class="timingItem">
-                            <p id="sunset"></p>
-                        </div>
-                    </div>
-                </div>
-
-
-
-                <suntrack>
-                    <suntrackprogress>
-                        <sun></sun>
-                    </suntrackprogress>
-                </suntrack>
-
-                <div class="dayLengthWrap" style="display: flex; align-items: center; padding-left: 20px; gap: 5px; margin-top: 10px;">
-                    <span style="color: var(--On-Surface-Variant);">Day length: </span>
-                    <p id="DayLengthText" style="color: var(--On-Surface);"></p>
-                </div>
-            </div>
-
-            <div class="setRiseDivWrap" style="border-radius: 5px 5px 10px 10px; margin-top: 5px;" onclick="sendThemeToAndroid('OpenMoonPhasesPage')">
-                <div class="h1">
-                    <p>Moon phase</p>
-                    <p class="" style="display: flex; align-items: center;">More <i icon-outlined style="font-size: 20px;">chevron_right</i></p>
-                </div>
-
-                <div class="moonSideWrap">
-                    <div class="leftWrapMoon">
-
-                        <div class="moonPhaseNameWrap">
-                            <p id="moonPhaseText"></p>
-                        </div>
-
-                        <div class="moonrise-Set">
-                            <p>Moonrise: <span id="moonriseText"></span></p>
-                            <p>Moonset: <span id="moonsetText"></span></p>
-                            <p>Illumination: <span id="MoonIllumination"></span></p>
-                            <p>Next phase: <span id="moonPhaseNext"></span></p>
-                            <p>Next phase in: <span id="moonPhaseDaysLeft"></span></p>
-                        </div>
-
-                    </div>
-
-
-                    <div class="rightWrapMoon">
-                        <moonPhase>
-                            <moonPhaseProgress>
-
-                            </moonPhaseProgress>
-                        </moonPhase>
-                    </div>
-                </div>
-                <br>
-            </div>
 
 
 
             <div class="currentConditions">
 
+
+                <div class="currentConditionItem sunRISESET">
+                    <div class="currentConditionItemTitle"><i icon-filled>wb_twilight</i>Sun</div>
+
+                    <div class="current_condition_icon">
+                        <svg height="110.0dip" width="176.0dip" viewBox="0 0 176.0 110.0"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path style="fill: var(--Primary-Container );"
+                                  d="M176.5,54.44V89.86C176.5,100.91 167.52,109.86 156.44,109.86H20.06C8.98,109.86 0,100.91 0,89.86V52.57C7.79,51.81 15.41,48.77 21.78,43.46L62.06,9.91C76.95,-2.49 98.6,-2.49 113.49,9.91L156.22,45.51C162.18,50.47 169.23,53.45 176.49,54.44H176.5Z"
+                                  fill-rule="evenodd" />
+                        </svg>
+                    </div>
+
+                    <div class="sun_tracker"><img src="weather-icons/clear_day.svg" alt=""></div>
+
+
+                    <div class="sunset_sunrise_text_block">
+
+                        <div>
+                            <md-icon icon-outlined>vertical_align_top</md-icon>
+                            <p id="sunrise"></p>
+                        </div>
+
+                        <div>
+                            <md-icon icon-outlined>vertical_align_bottom</md-icon>
+                            <p id="sunset"></p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="currentConditionItem moonSetRise">
+                    <div class="currentConditionItemTitle">
+                        <p id="moonPhase_name"></p><span id="moonIlli"></span>
+                    </div>
+
+                    <div class="current_condition_icon">
+                        <div class="rightWrapMoon">
+                            <moonPhase>
+                                <moonPhaseProgress>
+
+                                </moonPhaseProgress>
+                            </moonPhase>
+                        </div>
+                    </div>
+
+
+                    <div class="moondata_holder">
+
+
+                        <div class="moon_set_rise">
+                            <div>
+                                <md-icon icon-outlined>vertical_align_top</md-icon>
+                                <p id="moonriseTime"></p>
+                            </div>
+                            <div>
+                                <md-icon icon-outlined>vertical_align_bottom</md-icon>
+                                <p id="moonSetTime"></p>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
                 <div class="currentConditionItem humidity">
                     <div class="currentConditionItemTitle"><i icon-filled>humidity_high</i>Humdity</div>
 
                     <div class="current_condition_icon" id="humidity_icon_svg">
-                        <svg  viewBox="0 0 364.0 364.0" xmlns="http://www.w3.org/2000/svg"> <g> <clip-path d="M0,0h364v364h-364z" /> <path style="fill: var(--Inverse-Primary);" d="M9.4,178.46L7.79,179.41C-3.44,186.01 -10.34,198.06 -10.34,211.09L-10.34,358.64C-10.34,368.45 -2.39,376.41 7.43,376.41H393.8C403.61,376.41 411.57,368.45 411.57,358.64V200.82C411.57,186.08 395.56,176.93 382.86,184.39C376.9,187.89 369.52,187.89 363.56,184.39L353.47,178.46C341.98,171.71 327.73,171.71 316.24,178.46L315.12,179.12C303.63,185.87 289.38,185.87 277.88,179.12L276.76,178.46C265.27,171.71 251.02,171.71 239.53,178.46L238.41,179.12C226.91,185.87 212.67,185.87 201.17,179.12L200.05,178.46C188.56,171.71 174.31,171.71 162.82,178.46L161.7,179.12C150.2,185.87 135.96,185.87 124.46,179.12L123.34,178.46C111.85,171.71 97.6,171.71 86.11,178.46L84.99,179.12C73.49,185.87 59.24,185.87 47.75,179.12L46.63,178.46C35.14,171.71 20.89,171.71 9.4,178.46Z" /> </g> </svg>
+                        <svg viewBox="0 0 364.0 364.0" xmlns="http://www.w3.org/2000/svg">
+                            <g> <clip-path d="M0,0h364v364h-364z" />
+                                <path style="fill: var(--Inverse-Primary);"
+                                      d="M9.4,178.46L7.79,179.41C-3.44,186.01 -10.34,198.06 -10.34,211.09L-10.34,358.64C-10.34,368.45 -2.39,376.41 7.43,376.41H393.8C403.61,376.41 411.57,368.45 411.57,358.64V200.82C411.57,186.08 395.56,176.93 382.86,184.39C376.9,187.89 369.52,187.89 363.56,184.39L353.47,178.46C341.98,171.71 327.73,171.71 316.24,178.46L315.12,179.12C303.63,185.87 289.38,185.87 277.88,179.12L276.76,178.46C265.27,171.71 251.02,171.71 239.53,178.46L238.41,179.12C226.91,185.87 212.67,185.87 201.17,179.12L200.05,178.46C188.56,171.71 174.31,171.71 162.82,178.46L161.7,179.12C150.2,185.87 135.96,185.87 124.46,179.12L123.34,178.46C111.85,171.71 97.6,171.71 86.11,178.46L84.99,179.12C73.49,185.87 59.24,185.87 47.75,179.12L46.63,178.46C35.14,171.71 20.89,171.71 9.4,178.46Z" />
+                            </g>
+                        </svg>
                     </div>
 
                     <div class="currentConditionItemHumidityValue">
@@ -351,10 +356,19 @@
                 </div>
 
 
+
                 <div class="currentConditionItem pressure">
 
                     <div class="current_condition_icon" id="pressure_icon_svg">
-                        <svg height="176.0dip" width="176.0dip" android:autoMirrored="true" viewBox="0 0 176.0 176.0" xmlns="http://www.w3.org/2000/svg"> <path fill="var(--Surface)" d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" /> <path fill="var(--Surface-Container-Highest)" d="M34.26,141.74C32.7,143.3 30.16,143.31 28.67,141.67C18.99,130.96 12.36,117.82 9.54,103.61C6.45,88.09 8.03,72 14.09,57.39C20.14,42.77 30.4,30.27 43.55,21.48C56.71,12.69 72.18,8 88,8C103.82,8 119.29,12.69 132.45,21.48C145.6,30.27 155.85,42.77 161.91,57.39C167.96,72 169.55,88.09 166.46,103.61C163.64,117.82 157.01,130.96 147.32,141.67C145.84,143.31 143.3,143.3 141.74,141.74V141.74C140.18,140.18 140.19,137.65 141.66,136.01C150.23,126.43 156.1,114.7 158.62,102.05C161.4,88.08 159.97,73.6 154.52,60.45C149.07,47.29 139.84,36.05 128,28.13C116.16,20.22 102.24,16 88,16C73.76,16 59.84,20.22 48,28.13C36.16,36.05 26.93,47.29 21.48,60.45C16.03,73.6 14.61,88.08 17.38,102.05C19.9,114.7 25.77,126.43 34.34,136.01C35.81,137.65 35.82,140.18 34.26,141.74V141.74Z" /> <path fill="var(--Primary)" d="M34.26,141.74C32.7,143.3 30.16,143.31 28.67,141.67C20.29,132.41 14.2,121.31 10.88,109.26C10.29,107.13 11.66,104.99 13.82,104.51V104.51C15.97,104.03 18.1,105.39 18.7,107.52C21.67,118.08 27.02,127.83 34.34,136.01C35.81,137.65 35.82,140.18 34.26,141.74V141.74Z" /> </svg>
+                        <svg height="176.0dip" width="176.0dip" android:autoMirrored="true"
+                             viewBox="0 0 176.0 176.0" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="var(--Surface)"
+                                  d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" />
+                            <path fill="var(--Surface-Container-Highest)"
+                                  d="M34.26,141.74C32.7,143.3 30.16,143.31 28.67,141.67C18.99,130.96 12.36,117.82 9.54,103.61C6.45,88.09 8.03,72 14.09,57.39C20.14,42.77 30.4,30.27 43.55,21.48C56.71,12.69 72.18,8 88,8C103.82,8 119.29,12.69 132.45,21.48C145.6,30.27 155.85,42.77 161.91,57.39C167.96,72 169.55,88.09 166.46,103.61C163.64,117.82 157.01,130.96 147.32,141.67C145.84,143.31 143.3,143.3 141.74,141.74V141.74C140.18,140.18 140.19,137.65 141.66,136.01C150.23,126.43 156.1,114.7 158.62,102.05C161.4,88.08 159.97,73.6 154.52,60.45C149.07,47.29 139.84,36.05 128,28.13C116.16,20.22 102.24,16 88,16C73.76,16 59.84,20.22 48,28.13C36.16,36.05 26.93,47.29 21.48,60.45C16.03,73.6 14.61,88.08 17.38,102.05C19.9,114.7 25.77,126.43 34.34,136.01C35.81,137.65 35.82,140.18 34.26,141.74V141.74Z" />
+                            <path fill="var(--Primary)"
+                                  d="M34.26,141.74C32.7,143.3 30.16,143.31 28.67,141.67C20.29,132.41 14.2,121.31 10.88,109.26C10.29,107.13 11.66,104.99 13.82,104.51V104.51C15.97,104.03 18.1,105.39 18.7,107.52C21.67,118.08 27.02,127.83 34.34,136.01C35.81,137.65 35.82,140.18 34.26,141.74V141.74Z" />
+                        </svg>
                     </div>
 
                     <div class="currentConditionItemPressureValue">
@@ -365,22 +379,6 @@
 
 
                 </div>
-
-                <div class="currentConditionItem WindDirc">
-
-                    <div class="current_condition_icon" id="windDirectionArrow">
-                        <svg viewBox="0 0 176.0 176.0" xmlns="http://www.w3.org/2000/svg"> <g> <clip-path d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" /> <path fill="var(--Surface)" d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" /> <path fill="var(--Secondary-Container)" d="M108.04,151.24C99.97,168.05 76.03,168.05 67.96,151.24L27.21,66.3C18.79,48.75 35.4,29.63 53.96,35.5L81.29,44.15C85.66,45.54 90.34,45.54 94.71,44.15L122.04,35.5C140.6,29.63 157.21,48.75 148.79,66.3L108.04,151.24Z" /> </g> </svg>
-                    </div>
-
-                    <div class="currentConditionItemWindDircValue">
-                        <div><i icon-filled>explore</i>Direction</div>
-                        <p id="directionWind">NW</p>
-                        <span id="windtype">Light brezze</span>
-                    </div>
-
-
-                </div>
-
 
                 <div class="currentConditionItem visibility">
                     <div class="currentConditionItemTitle visibility"><i icon-filled>visibility</i>Visibility</div>
@@ -401,12 +399,43 @@
 
 
                     <div class="currentConditionItemVisibilityValue">
-                        <p id="min-temp">10  <span>km</span></p>
+                        <p id="min-temp">10</p>
+                        <span id="unit_visibility">km</span>
                     </div>
 
                 </div>
 
+
+                <div class="currentConditionItem WindDirc">
+
+                    <div class="current_condition_icon" id="windDirectionArrow">
+                        <svg viewBox="0 0 176.0 176.0" xmlns="http://www.w3.org/2000/svg">
+                            <g> <clip-path
+                                    d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" />
+                                <path fill="var(--Surface)"
+                                      d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" />
+                                <path fill="var(--Secondary-Container)"
+                                      d="M67.96,26.95C76.03,10.13 99.97,10.13 108.04,26.95L148.79,111.89C157.21,129.43 140.6,148.56 122.04,142.68L94.71,134.03C90.34,132.65 85.66,132.65 81.29,134.03L53.96,142.68C35.4,148.56 18.79,129.43 27.21,111.89L67.96,26.95Z" />
+                            </g>
+                        </svg>
+                    </div>
+
+                    <div class="currentConditionItemWindDircValue">
+                        <div><i icon-filled>explore</i>Direction</div>
+                        <p id="directionWind">--</p>
+                        <span id="windtype">---</span>
+                    </div>
+
+
+                </div>
+
+
+
+
+
+
             </div>
+
 
 
             <div class="all_air_quality" style="border-radius: 10px 10px 5px 5px; margin-bottom: 5px; overflow: hidden;">
@@ -439,9 +468,9 @@
                     </div>
 
                     <div class="air_quality_key_item">
-                        <span>NO</span>
-                        <air_key_color id="NO_air_color"></air_key_color>
-                        <p id="NO_air"></p>
+                        <span>CO</span>
+                        <air_key_color id="CO_air_color"></air_key_color>
+                        <p id="CO_air"></p>
                     </div>
 
                     <div class="air_quality_key_item">
@@ -498,7 +527,7 @@
 
 
             <div id="updated-div">
-                <p id="updated"></p>
+                <p id="updated">open-meteo | weatherapi</p>
             </div>
 
 
@@ -602,7 +631,7 @@
 
 
     <div class="retry_btn_error">
-        <button class="ripple_btn" onclick="window.location.reload(); sendThemeToAndroid('10d')">Retry</button>
+        <button class="ripple_btn" onclick="window.location.reload(); sendThemeToAndroid('overcast')">Retry</button>
     </div>
 
 </div>
@@ -715,7 +744,10 @@ document.getElementById('clearCityInput').addEventListener('click', () =>{
 <script src="app/country-list.js"></script>
 <script src="app/apiKeysRotation.js"></script>
 <script src="modules/pixel-components.js"></script>
-
+<script src="app/fetch.js"></script>
+<script src="app/renderWeather.js"></script>
+<script src="modules/units.js"></script>
+<script src="modules/sun-tracker.js"></script>
 
 </body>
 

@@ -220,7 +220,7 @@ touch_search{
 .disc_main p{
   margin: 0;
   color: var(--On-Surface);
-  font-size: 17px;
+  font-size: 20px;
   display: flex;
   text-align: right;
   text-transform: capitalize;
@@ -246,9 +246,10 @@ touch_search{
   bottom: 10px;
   display: flex;
   align-items: center;
-  color: var(--Secondary);
+  color: var(--On-Surface-Variant);
+  opacity: 0.8;
   font-family: var(--google-mid);
-  font-size: 15px;
+  font-size: 13px;
   gap: 4px;
 }
 
@@ -257,7 +258,7 @@ touch_search{
 }
 
 .main-weat .dew_per i{
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .disc_main{
@@ -294,7 +295,7 @@ touch_search{
   width: 100%;
   background: linear-gradient(0deg, var(--Surface) 10%, rgba(255, 0, 0, 0));
   height: 30px;
-  z-index: 100000000000000000;
+  z-index: 10000000000000000000000000000000000;
   left: 0;
 }
 
@@ -385,6 +386,13 @@ touch_search{
 }
 
 
+.forecast #forecast24 .hourly_forecast_star{
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  top: 7px;
+}
+
 
 .disc_sml-24 {
   width: calc(100% - 30px);
@@ -447,6 +455,11 @@ touch_search{
   color: var(--On-Surface);
   font-family: var(--google-mid);
   margin: 0;
+  z-index: 1;
+}
+
+.forecast #forecast24:first-child .temp-24{
+  color: white;
 }
 
 .icon-24 {
@@ -1187,7 +1200,7 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
 }
 
 suntrack, moontrack{
-  background-color: var(--Surface-Container-Highest);
+  background-color: var(--Secondary-Container);
   height: 25px;
   display: flex;
   margin: 10px;
@@ -1327,7 +1340,7 @@ rainMeterBar rainmeterbaritem{
 rainMeterBar rainmeterbaritem rainperbar{
   height: 65px;
   width: 100%;
-  background-color: var(--Surface-Container);
+  background-color:var(--Surface-Container);
   overflow: hidden;
   display: block;
   border-radius: 0px;
@@ -1404,10 +1417,11 @@ height: 100%;
 }
 
 .LiveMapWrap #livemapPreview img{
-  border-radius: 5px 5px 10px 10px;
+  border-radius: 10px;
   width: 100%;
   height: 100px;
   z-index: -1;
+  pointer-events: none;
 }
 
 .LiveMapWrap #livemapPreview{
@@ -1423,7 +1437,7 @@ height: 100%;
   margin-top: 5px;
 }
 
-.LiveMapWrap::before{
+/* .LiveMapWrap::before{
   width: calc(100% - 20px);
   height: calc(100% - 20px);
   position: absolute;
@@ -1435,44 +1449,8 @@ height: 100%;
   justify-content: center;
   font-size: 30px;
   color: rgb(255, 255, 255);
-}
+}*/
 
-
-.moonSideWrap{
-  display: flex;
-  justify-content: space-between;
-}
-
-
-.moonSideWrap .leftWrapMoon .moonPhaseNameWrap{
-  padding-left: 20px;
-  font-family: var(--google-mid);
-  font-size: 20px;
-  color: var(--On-Surface);
-  padding-top: 10px;
-}
-
-.moonSideWrap .leftWrapMoon .moonPhaseNameWrap p{
-  margin: 0;
-}
-
-.moonSideWrap .leftWrapMoon .moonrise-Set{
-  padding-left: 20px;
-  padding-top: 20px;
-}
-
-.moonSideWrap .leftWrapMoon .moonrise-Set p{
-  color: var(--On-Surface-Variant);
-}
-
-.moonSideWrap .leftWrapMoon .moonrise-Set span{
-  color: var(--On-Surface);
-}
-
-.moonSideWrap .rightWrapMoon{
-  padding-right: 20px;
-  padding-top: 20px;
-}
 
 
 .weatherComments{
@@ -1761,29 +1739,6 @@ savelocationtouch md-ripple{
 
         }
 
-moonPhase {
-  width: 120px;
-  height: 120px;
-  display: block;
-  background: url(../icons/moon_texture.png);
-  border-radius: 9999px;
-  position: relative;
-  background-size: cover;
-  overflow: hidden;
-  background-position: center;
-  box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.3);
-}
-
-moonPhaseProgress {
-  position: absolute;
-  top: 0;
-  width: 0;
-  transition: width 0.2s ease-out;
-  height: 100%;
-  border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.65);
-}
-
 
 .currentConditionItem.humidity{
   background-color: var(--Surface);
@@ -1884,6 +1839,7 @@ moonPhaseProgress {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   height: 90%;
   left: 0;
   position: absolute;
@@ -1914,7 +1870,7 @@ moonPhaseProgress {
 }
 
 .currentConditionItem.visibility .currentConditionItemVisibilityValue span{
-  font-size: 25px;
+  font-size: 18px;
   padding-bottom: 5px;
 }
 
@@ -2023,6 +1979,7 @@ moonPhaseProgress {
 .insights{
   background-color: transparent;
   scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
   overflow-x: auto;
   display: flex;
   margin: 10px;
@@ -2086,4 +2043,334 @@ moonPhaseProgress {
 space{
   display: flex;
   flex: 1;
+}
+
+.radar_label{
+
+  display: flex;
+
+  align-items: center;
+
+  color: var(--On-Surface-Variant);
+
+  gap: 10px;
+
+  font-size: 18px;
+
+  font-family: var(--outfit);
+
+  padding-bottom: 10px;
+
+}
+
+
+
+/* sun */
+
+
+
+.currentConditionItem.sunRISESET{
+
+  background-color: var(--Surface);
+
+  display: flex;
+
+  overflow: hidden;
+
+  border-radius: 20px;
+
+  flex-direction: column;
+
+  position: relative;
+
+  width: 160px;
+
+
+
+  height: 160px;
+
+}
+
+
+
+.currentConditionItem.sunRISESET
+
+.current_condition_icon {
+
+  bottom: -5px;
+
+  height: unset !important;
+
+}
+
+
+
+.sun_tracker img{
+
+  width: 30px;
+
+  height: 30px;
+
+}
+
+
+
+.sun_tracker {
+
+  position: absolute;
+
+  bottom: 20%;
+
+  left: 0;
+
+  transform: translateY(-20%);
+
+}
+
+
+
+
+
+.currentConditionItem.sunRISESET::before{
+
+  content: '';
+
+  background-color: rgba(0, 0, 0, 0.3);
+
+  height: 40%;
+
+  position: absolute;
+
+  bottom: 0;
+
+  left: 0;
+
+  width: 100%;
+
+  border-top: 1.5px solid var(--Outline);
+
+  z-index: 1;
+
+}
+
+
+
+.sunset_sunrise_text_block{
+
+  position: absolute;
+
+  bottom: 5px;
+
+  left: 0;
+
+  width: 100%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  flex-direction: column;
+
+  font-size: 13px;
+
+  color: white;
+
+  z-index: 1;
+
+}
+
+
+
+.sunset_sunrise_text_block div md-icon{
+
+  font-size: 18px;
+
+}
+
+
+
+.sunset_sunrise_text_block div {
+
+  display: flex;
+
+  align-items: center;
+
+
+
+}
+
+
+
+.sunset_sunrise_text_block div p{
+
+  margin: 0;
+
+}
+
+
+
+/* moon */
+
+
+
+.currentConditionItem.moonSetRise{
+
+  background-color: var(--Surface);
+
+  display: flex;
+
+  overflow: hidden;
+
+  border-radius: 20px;
+
+  flex-direction: column;
+
+  position: relative;
+
+  width: 160px;
+
+
+
+  height: 160px;
+
+}
+
+
+
+.currentConditionItem.moonSetRise .current_condition_icon{
+
+  display: flex;
+
+  align-self: center;
+
+  justify-content: center;
+
+  width: 100%;
+
+  position: unset;
+
+}
+
+
+
+
+
+moonPhase {
+
+  width: 50px;
+
+  height: 50px;
+
+  display: block;
+
+  background: url(../icons/moon_texture.png);
+
+  border-radius: 9999px;
+
+  position: relative;
+
+  background-size: cover;
+
+  overflow: hidden;
+
+  background-position: center;
+
+  box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.3);
+
+}
+
+
+
+moonPhaseProgress {
+
+  position: absolute;
+
+  top: 0;
+
+  width: 100%;
+
+  transition: width 0.2s ease-out;
+
+  height: 100%;
+
+  border-radius: 50%;
+
+  background-color: rgba(0, 0, 0, 0.65);
+
+}
+
+
+
+
+
+#moonPhase_name{
+
+  font-size: 14px;
+
+  color: var(--On-Surface);
+
+  font-family: var(--outfit);
+
+  margin: 0;
+
+  width: 100%;
+
+}
+
+
+
+.moondata_holder .moon_set_rise{
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  position: absolute;
+
+  bottom: 0;
+
+  width: calc(100% - 20px);
+
+  padding: 10px;
+
+}
+
+
+
+.moondata_holder .moon_set_rise div{
+
+  display: flex;
+
+  align-items: center;
+
+  flex-direction: column;
+
+  color: var(--On-Surface);
+
+  font-size: 13px;
+
+
+
+}
+
+
+
+.moondata_holder .moon_set_rise div md-icon{
+
+  font-size: 18px;
+
+}
+
+
+
+.moondata_holder .moon_set_rise div p{
+
+  margin: 0;
+
+  text-align: center;
+
 }

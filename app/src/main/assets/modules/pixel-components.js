@@ -32,7 +32,7 @@ const WidgetsPressure = {
 
 const WidgetsWindDirections = {
     
-    NorthArrow: '<svg  viewBox="0 0 176.0 176.0" xmlns="http://www.w3.org/2000/svg"> <g> <clip-path d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" /> <path fill="var(--Surface)" d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" /> <path fill="var(--Secondary-Container)" d="M108.04,151.24C99.97,168.05 76.03,168.05 67.96,151.24L27.21,66.3C18.79,48.75 35.4,29.63 53.96,35.5L81.29,44.15C85.66,45.54 90.34,45.54 94.71,44.15L122.04,35.5C140.6,29.63 157.21,48.75 148.79,66.3L108.04,151.24Z" /> </g> </svg>',
+    SouthArrow: '<svg  viewBox="0 0 176.0 176.0" xmlns="http://www.w3.org/2000/svg"> <g> <clip-path d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" /> <path fill="var(--Surface)" d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" /> <path fill="var(--Secondary-Container)" d="M108.04,151.24C99.97,168.05 76.03,168.05 67.96,151.24L27.21,66.3C18.79,48.75 35.4,29.63 53.96,35.5L81.29,44.15C85.66,45.54 90.34,45.54 94.71,44.15L122.04,35.5C140.6,29.63 157.21,48.75 148.79,66.3L108.04,151.24Z" /> </g> </svg>',
 
     EastArrow: '<svg  viewBox="0 0 176.0 176.0" xmlns="http://www.w3.org/2000/svg"> <g> <clip-path d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" /> <path fill="var(--Surface)" d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" /> <path fill="var(--Secondary-Container)" d="M24.76,108.04C7.95,99.97 7.95,76.03 24.76,67.96L109.7,27.21C127.25,18.79 146.38,35.4 140.5,53.96L131.85,81.29C130.46,85.66 130.46,90.34 131.85,94.71L140.5,122.04C146.38,140.6 127.25,157.21 109.7,148.79L24.76,108.04Z" /> </g> </svg>',
 
@@ -40,7 +40,7 @@ const WidgetsWindDirections = {
 
     NorthWestArrow: '<svg  viewBox="0 0 176.0 176.0" xmlns="http://www.w3.org/2000/svg"> <g> <clip-path d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" /> <path fill="var(--Surface)" d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" /> <path fill="var(--Secondary-Container)" d="M145.66,116.32C151.84,133.91 134.91,150.84 117.32,144.66L28.44,113.41C10.08,106.96 8.3,81.69 25.58,72.72L51.03,59.51C55.09,57.4 58.4,54.09 60.51,50.03L73.72,24.58C82.69,7.3 107.96,9.08 114.41,27.44L145.66,116.32Z" /> </g> </svg>',
 
-    SouthArrow: '<svg  viewBox="0 0 176.0 176.0" xmlns="http://www.w3.org/2000/svg"> <g> <clip-path d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" /> <path fill="var(--Surface)" d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" /> <path fill="var(--Secondary-Container)" d="M67.96,26.95C76.03,10.13 99.97,10.13 108.04,26.95L148.79,111.89C157.21,129.43 140.6,148.56 122.04,142.68L94.71,134.03C90.34,132.65 85.66,132.65 81.29,134.03L53.96,142.68C35.4,148.56 18.79,129.43 27.21,111.89L67.96,26.95Z" /> </g> </svg>',
+    NorthArrow: '<svg  viewBox="0 0 176.0 176.0" xmlns="http://www.w3.org/2000/svg"> <g> <clip-path d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" /> <path fill="var(--Surface)" d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" /> <path fill="var(--Secondary-Container)" d="M67.96,26.95C76.03,10.13 99.97,10.13 108.04,26.95L148.79,111.89C157.21,129.43 140.6,148.56 122.04,142.68L94.71,134.03C90.34,132.65 85.66,132.65 81.29,134.03L53.96,142.68C35.4,148.56 18.79,129.43 27.21,111.89L67.96,26.95Z" /> </g> </svg>',
 
     SouthWestArrow: '<svg  viewBox="0 0 176.0 176.0" xmlns="http://www.w3.org/2000/svg"> <g> <clip-path d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" /> <path fill="var(--Surface)" d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" /> <path fill="var(--Secondary-Container)" d="M118.33,31.88C135.93,25.7 152.85,42.62 146.67,60.22L115.42,149.1C108.97,167.46 83.7,169.24 74.73,151.96L61.52,126.51C59.41,122.45 56.1,119.14 52.04,117.03L26.59,103.82C9.31,94.85 11.09,69.58 29.46,63.13L118.33,31.88Z" /> </g> </svg>',
 
@@ -48,73 +48,50 @@ const WidgetsWindDirections = {
 }
 
 
+// uv text
 
-function summary(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/forecast.json?key=CREATE_KEY&q=${latSum},${lonSum}`)
-    .then(response => {
-        if (!response.ok) {
-            Toast(`HTTP error! status: ${response.status}`, 'long');
-        }
-        return response.json();
-    })
-    .then(data => {
-        const mainData = data.forecast.forecastday[0].day;
 
-        const weatherCondition = mainData.condition.text;
-        const precipitation = mainData.totalprecip_in;
-        const humidity = mainData.avghumidity;
+const Uv_0 = 'A UV index is satisfactory, indicating that there is little or no risk of harm from ultraviolet radiation.';
+const Uv_1 = 'Conditions are generally low-risk, indicating that exposure to ultraviolet radiation poses a minimal threat.';
+const Uv_2 = 'Low exposure level with minimal risk of harm from UV radiation, suitable for most people.';
+const Uv_3 = 'Moderate risk of harm from unprotected sun exposure, protective measures recommended.';
+const Uv_4 = 'Moderate risk of harm from unprotected sun exposure, protective measures recommended.';
+const Uv_5 = 'Moderate risk of harm from unprotected sun exposure, protective measures recommended.';
+const Uv_6 = 'High risk of harm from unprotected sun exposure, protective measures required.';
+const Uv_7 = 'High risk of harm from unprotected sun exposure, protective measures required.';
+const Uv_8 = 'Very high risk of harm from unprotected sun exposure, extra precautions required.';
+const Uv_9 = 'Very high risk of harm from unprotected sun exposure, extra precautions required.';
+const Uv_10 = 'Very high risk of harm from unprotected sun exposure, extra precautions required.';
+const Uv_11 = 'Extreme risk of harm from unprotected sun exposure, full protection necessary.';
+const Uv_12 = 'Extreme risk of harm from unprotected sun exposure, full protection necessary.';
+const Uv_13 = 'Extreme risk of harm from unprotected sun exposure, full protection necessary.';
 
-        let maxTemp;
-        if (SelectedTempUnit === 'fahrenheit') {
-            maxTemp = Math.round(mainData.maxtemp_c * 9 / 5 + 32);
-        } else {
-            maxTemp = Math.round(mainData.maxtemp_c);
-        }
+// aqi text
 
-        let minTemp;
-        if (SelectedTempUnit === 'fahrenheit') {
-            minTemp = Math.round(mainData.mintemp_c * 9 / 5 + 32);
-        } else {
-            minTemp = Math.round(mainData.mintemp_c);
-        }
+const aqiText = {
+    1: {
+        level: "Good",
+        message: "Air quality is considered satisfactory, and air pollution poses little or no risk.",
+    },
+    2: {
+        level: "Fair",
+        message: "Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution.",
 
-        const weatherSummary = `${weatherCondition} expected for today. The daytime temperature is going to reach ${maxTemp}° and the temperature is going to dip to ${minTemp}° at night. We expect around ${precipitation} In of precipitation to fall, the humidity will be around ${humidity}%.`;
+    },
+    3: {
+        level: "Moderate",
+        message: "Member of sensitive groups may experience health effects. The general public is not likely to be affected.",
 
-        let weatherTips = "";
-        if (maxTemp > 90) {
-            weatherTips += "It's going to be hot today, stay hydrated and wear light clothing. ";
-        } else if (maxTemp < 60) {
-            weatherTips += "It's going to be a bit chilly, consider wearing a jacket if you're heading out. ";
-        }
+    },
+    4: {
+        level: "Poor",
+        message: "Everyone may begin to experience health effects; member of sensitive groups may experience more serious health effects.",
 
-        if (precipitation > 0) {
-            weatherTips += "Carry an umbrella or raincoat if you're going out, as there's a chance of rain. ";
-        }
-
-        if (weatherCondition.includes("rain")) {
-            weatherTips += "Be cautious of slippery roads if you're driving. ";
-        } else if (weatherCondition.includes("sunny")) {
-            weatherTips += "Enjoy the sunshine, but don't forget sunscreen if you're spending time outdoors. ";
-        } else if (weatherCondition.includes("snow")) {
-            weatherTips += "Snow is expected, so dress warmly and be careful on the roads. ";
-        }
-
-        document.getElementById('summeryDay').innerHTML = `<li>${weatherSummary}</li>`;
-        document.getElementById('day_tips').innerHTML = `<li>${weatherTips}</li>`;
-
-        if (mainData.daily_will_it_rain === 1) {
-            document.getElementById('is_rain').innerHTML = 'Rain is expected';
-        } else {
-            document.getElementById('is_rain').innerHTML = 'No rain is expected';
-        }
-    })
-    .catch(error => {
-        Toast("Error fetching weather data:"+ error, 'long');
-    });
+    },
+    5: {
+        level: "Very Poor",
+        message: "Health warnings of emergency conditions. The entire population is more likely to be affected.",
+    }
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    setTimeout(() => {
-        summary(localStorage.getItem('currentLat'), localStorage.getItem('currentLong'));
-    }, 300);
-});
+
