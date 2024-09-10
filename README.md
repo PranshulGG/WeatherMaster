@@ -16,7 +16,7 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 
 <table style="width: 100%; border-collapse: collapse;">
   <tr>
-    <th style="text-align: center; padding: 10px;">Current & 48hrs</th>
+    <th style="text-align: center; padding: 10px;">Current & 24hrs</th>
     <th style="text-align: center; padding: 10px;">Hourly Precipitation & 8-Day Forecast</th>
     <th style="text-align: center; padding: 10px;">Radar & Moon/Sun</th>
   </tr>
