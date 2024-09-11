@@ -4,7 +4,7 @@
 
 WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed to mimic the look and feel of a native Android app.
 
-`(Last updated on 10-09-2024 at 12:11 PM UTC)`
+`(Last updated on 09-11-2024 at 3:33 PM UTC)`
 
 
 
@@ -16,7 +16,7 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 
 <table style="width: 100%; border-collapse: collapse;">
   <tr>
-    <th style="text-align: center; padding: 10px;">Current & 48hrs</th>
+    <th style="text-align: center; padding: 10px;">Current & 24hrs</th>
     <th style="text-align: center; padding: 10px;">Hourly Precipitation & 8-Day Forecast</th>
     <th style="text-align: center; padding: 10px;">Radar & Moon/Sun</th>
   </tr>
@@ -63,7 +63,7 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 - 🌤️ **Current Weather:** Get real-time updates on weather conditions in your area.
 - 📢 **Government Weather Alerts:** Receive official alerts and warnings to stay safe.
 - ⏳ **48-Hour Forecast:** Plan your short-term activities with accurate forecasts for the next two days.
-- 📅 **8-Day Forecast:** View detailed weather predictions for the upcoming week.
+- 📅 **14-Day Forecast:** View detailed weather predictions for the upcoming week.
 - 🌙 **Moon Phases:** Track the phases of the moon and plan accordingly.
 - 🌑 **Moonrise & Moonset:** Know the exact times for moonrise and moonset each day.
 - 🌅 **Sunrise & Sunset:** Stay informed about sunrise and sunset times to optimize your day.
@@ -119,8 +119,8 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 
  # 📝 Todos:
 
- - ⬛ Adding cache to reduce api requests (almost)
- - ⬛ Translations will be added soon! (i18n)
+ - ✅ Adding cache to reduce api requests
+ - ⬛ Translations under construction
  - ⬛ Widgets / Notifications
  - ✅ Make it lightweight
  - ✅ Allows you to add multiple locations
