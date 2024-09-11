@@ -5,7 +5,7 @@ function getCountryName(code) {
 
 
 async function DecodeWeather(lat, lon) {
-  const apiKey = 'KEYS';
+  const apiKey = 'J8HTH6P4YTGO';
   const url = `https://api.timezonedb.com/v2.1/get-time-zone?key=${apiKey}&format=json&by=position&lat=${lat}&lng=${lon}`;
 
   try {
@@ -108,17 +108,22 @@ showLoader();
                 document.getElementById('city-name').innerHTML = `${stateMain}, ${countryNameText}`;
                 document.getElementById('SelectedLocationText').innerHTML = `${stateMain}, ${countryNameText}`;
                 localStorage.setItem('CurrentLocationName', `${stateMain}, ${countryNameText}`)
+                      document.getElementById('currentLocationName').textContent = `${stateMain}, ${countryNameText}`;
+
 
           
               } else if (!stateMain) {
                 document.getElementById('city-name').innerHTML = `${city}, ${countryNameText}`;
                 document.getElementById('SelectedLocationText').innerHTML = `${city}, ${countryNameText}`;
                 localStorage.setItem('CurrentLocationName', `${city}, ${countryNameText}`)
+                      document.getElementById('currentLocationName').textContent = `${city}, ${countryNameText}`;
+
 
               } else {
                 document.getElementById('city-name').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
                 document.getElementById('SelectedLocationText').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
                 localStorage.setItem('CurrentLocationName', `${city}, ${stateMain}, ${countryNameText}`)
+                      document.getElementById('currentLocationName').textContent = `${city}, ${stateMain}, ${countryNameText}`;
 
               }
             } else {

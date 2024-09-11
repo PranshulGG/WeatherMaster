@@ -1872,6 +1872,8 @@ savelocationtouch md-ripple{
 .currentConditionItem.visibility .currentConditionItemVisibilityValue span{
   font-size: 18px;
   padding-bottom: 5px;
+  position: absolute;
+  bottom: 17px;
 }
 
 /* pressure */

@@ -93,8 +93,8 @@ function HourlyWeather(data) {
 
 
         if (SelectedTempUnit === 'fahrenheit') {
-            HourTemperature = celsiusToFahrenheit(Math.round(data.hourly.temperature_2m[index]));
-            DewPointTemp = celsiusToFahrenheit(Math.round(data.hourly.dew_point_2m[0]))
+            HourTemperature = Math.round(celsiusToFahrenheit(data.hourly.temperature_2m[index]));
+            DewPointTemp = Math.round(celsiusToFahrenheit(data.hourly.dew_point_2m[0]))
 
         } else {
             HourTemperature = Math.round(data.hourly.temperature_2m[index]);
@@ -228,7 +228,7 @@ function DailyWeather(dailyForecast) {
         let TempMin
 
         if (SelectedTempUnit === 'fahrenheit') {
-            TempMin = celsiusToFahrenheit(Math.round(dailyForecast.temperature_2m_min[index]))
+            TempMin = Math.round(celsiusToFahrenheit(dailyForecast.temperature_2m_min[index]))
         } else {
             TempMin = Math.round(dailyForecast.temperature_2m_min[index])
         }
@@ -236,7 +236,7 @@ function DailyWeather(dailyForecast) {
         let TempMax
 
         if (SelectedTempUnit === 'fahrenheit') {
-            TempMax = celsiusToFahrenheit(Math.round(dailyForecast.temperature_2m_max[index]))
+            TempMax = Math.round(celsiusToFahrenheit(dailyForecast.temperature_2m_max[index]))
         } else {
             TempMax = Math.round(dailyForecast.temperature_2m_max[index])
         }
@@ -268,7 +268,7 @@ function DailyWeather(dailyForecast) {
         let TodaysPrecAmount;
 
         if (SelectedPrecipitationUnit === 'in') {
-            TodaysPrecAmount = mmToInches(dailyForecast.precipitation_sum[0].toFixed(2)) + ' in';
+            TodaysPrecAmount = mmToInches(dailyForecast.precipitation_sum[0]).toFixed(2) + ' in';
         } else {
             TodaysPrecAmount = dailyForecast.precipitation_sum[0].toFixed(1) + ' mm';
         }
@@ -303,8 +303,8 @@ function CurrentWeather(data, sunrise, sunset) {
     let FeelsLikeTemp;
 
     if (SelectedTempUnit === 'fahrenheit') {
-        CurrentTemperature = celsiusToFahrenheit(Math.round(data.temperature_2m))
-        FeelsLikeTemp = celsiusToFahrenheit(Math.round(data.apparent_temperature))
+        CurrentTemperature = Math.round(celsiusToFahrenheit(data.temperature_2m))
+        FeelsLikeTemp = Math.round(celsiusToFahrenheit(data.apparent_temperature))
     } else {
         CurrentTemperature = Math.round(data.temperature_2m)
         FeelsLikeTemp = Math.round(data.apparent_temperature)
@@ -318,7 +318,7 @@ function CurrentWeather(data, sunrise, sunset) {
     let CurrentWindGust;
 
     if (SelectedWindUnit === 'mile') {
-        CurrentWindGust = kmhToMph(Math.round(data.wind_gusts_10m)) + ' mph';
+        CurrentWindGust = Math.round(kmhToMph(data.wind_gusts_10m)) + ' mph';
     } else {
         CurrentWindGust = Math.round(data.wind_gusts_10m) + ' km/h';
     }
@@ -326,7 +326,7 @@ function CurrentWeather(data, sunrise, sunset) {
     let CurrentWindSpeed;
 
     if (SelectedWindUnit === 'mile') {
-        CurrentWindSpeed = kmhToMph(Math.round(data.wind_speed_10m)) + ' mph';
+        CurrentWindSpeed = Math.round(kmhToMph(data.wind_gusts_10m)) + ' mph';
     } else {
         CurrentWindSpeed = Math.round(data.wind_speed_10m) + ' km/h';
     }
@@ -335,10 +335,10 @@ function CurrentWeather(data, sunrise, sunset) {
     let pressureMainUnit;
 
     if (SelectedPressureUnit === 'inHg') {
-        CurrentPressure = hPaToInHg(Math.round(data.pressure_msl));
+        CurrentPressure = hPaToInHg(data.pressure_msl).toFixed(2);
         pressureMainUnit = 'inHg';
     } else if (SelectedPressureUnit === 'mmHg') {
-        CurrentPressure = hPaToMmHg(Math.round(data.pressure_msl));
+        CurrentPressure = hPaToMmHg(data.pressure_msl).toFixed(2);
         pressureMainUnit = 'mmHg';
     } else {
         CurrentPressure = data.pressure_msl;
@@ -459,7 +459,7 @@ function CurrentWeather(data, sunrise, sunset) {
     };
 
     function calculateTimeDifference(targetTime) {
-        const now = new Date();
+        const now = new Date(data.time);
         const targetDate = new Date(targetTime); 
         
  
@@ -505,7 +505,7 @@ function CurrentWeather(data, sunrise, sunset) {
     }
 
 
-    const now = new Date();
+    const now = new Date(data.time);
     const lastUpdated = new Date(data.time);
     const minutesAgo = Math.floor((now - lastUpdated) / 60000);
 
@@ -524,26 +524,22 @@ setTimeout(()=>{
 
 
 
-    const calculateDaylightPercentage = (sunrise, sunset) => {
-        const now = new Date();
-        const sunriseTime = new Date(sunrise);
-        const sunsetTime = new Date(sunset);
+const calculateDaylightPercentage = (sunrise, sunset, nowTime) => {
+    const now = new Date(nowTime);
+    const sunriseTime = new Date(sunrise);
+    const sunsetTime = new Date(sunset);
 
-        if (now.getHours() >= 0 && now.getHours() < 12) {
-            return 0;
-        }
+    if (now < sunriseTime) return 0;
+    if (now > sunsetTime) return 100;
 
-        const totalDaylight = sunsetTime - sunriseTime;
+    const totalDaylight = sunsetTime - sunriseTime;
 
-        const timeSinceSunrise = now - sunriseTime;
+    const timeSinceSunrise = now - sunriseTime;
 
-        if (timeSinceSunrise < 0) return 0;
-        if (timeSinceSunrise > totalDaylight) return 100;
+    return (timeSinceSunrise / totalDaylight) * 100;
+};
 
-        return (timeSinceSunrise / totalDaylight) * 100;
-    };
-
-    const percentageOfDaylight = Math.round(calculateDaylightPercentage(sunrise, sunset));
+const percentageOfDaylight = Math.round(calculateDaylightPercentage(sunrise, sunset, data.time));
 
     if (percentageOfDaylight > 1 && percentageOfDaylight <= 10) {
         moveSun(10)
@@ -852,6 +848,13 @@ function MoreDetails(latSum, lonSum) {
             const precipitation = mainData.totalprecip_in;
             const humidity = mainData.avghumidity;
 
+            let willRain
+
+            if(mainData.daily_will_it_rain > 0){
+             willRain = 'Rain is'
+            } else{
+             willRain = 'no Rain is'
+            }
 
             let maxTemp
 
@@ -880,7 +883,7 @@ function MoreDetails(latSum, lonSum) {
             }
 
 
-            const weatherSummary = `${weatherCondition} expected for today. 🌡️ The daytime temperature will reach ${maxTemp}°, and it will dip to ${minTemp}° at night. 🌧️ We expect around ${Precipitation} of precipitation, with humidity levels around ${humidity}%.`;
+            const weatherSummary = `${weatherCondition} and ${willRain} expected for today. 🌡️ The daytime temperature will reach ${maxTemp}°, and it will dip to ${minTemp}° at night. 🌧️ We expect around ${Precipitation} of precipitation, with humidity levels around ${humidity}%.`;
 
             let weatherTips = "";
 
@@ -924,11 +927,11 @@ function MoreDetails(latSum, lonSum) {
                 weatherTips += rainTips[Math.floor(Math.random() * rainTips.length)] + " ";
             }
             
-            if (weatherCondition.includes("rain")) {
+            if (weatherCondition.toLowerCase().includes("rain")) {
                 weatherTips += "🚗 Be cautious of slippery roads if you're driving. ";
-            } else if (weatherCondition.includes("sunny")) {
+            } else if (weatherCondition.toLowerCase().includes("sunny")) {
                 weatherTips += sunnyTips[Math.floor(Math.random() * sunnyTips.length)] + " ";
-            } else if (weatherCondition.includes("snow")) {
+            } else if (weatherCondition.toLowerCase().includes("snow")) {
                 weatherTips += snowTips[Math.floor(Math.random() * snowTips.length)] + " ";
             }
             

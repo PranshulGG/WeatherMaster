@@ -64,66 +64,11 @@ function useAutoCurrentLocation(){
             DecodeWeather(currentLocation.latitude, currentLocation.longitude);
 
 
-            const cityLat = currentLocation.latitude
-            const cityLon = currentLocation.longitude
 
-
-            let currentApiKeyCityNameIndex = 0;
-
-            fetchCityCurrentName(cityLat, cityLon)
-
-
-            function fetchCityCurrentName(cityLat, cityLon) {
-              const apiKeyCityName = apiKeysCityName[currentApiKeyCityNameIndex];
-              const urlcityName = `https://api.opencagedata.com/geocode/v1/json?q=${cityLat}+${cityLon}&key=${apiKeyCityName}`;
-
-              fetch(urlcityName)
-                .then(response => {
-                  if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                  }
-                  return response.json();
-                })
-                .then(data => {
-                  if (data.results.length > 0) {
-                    const components = data.results[0].components;
-                    const city = components.city || components.town || components.village;
-                    const stateMain = components.state;
-                    const countryNameText = components.country || 'No country'
-
-                    if(!city){
-                        document.getElementById('currentLocationName').textContent = `${stateMain}, ${countryNameText}`;
-                      } else if(!stateMain) {
-                    document.getElementById('currentLocationName').textContent = `${city}, ${countryNameText}`;
-                      } else{
-                        document.getElementById('currentLocationName').textContent = `${city}, ${stateMain}, ${countryNameText}`;
-                      }
-                  } else {
-                    console.log('No results found');
-                  }
-                })
-                .catch(error => {
-                  console.error('Error fetching city name:', error);
-
-                  if (currentApiKeyCityNameIndex < apiKeysCityName.length - 1) {
-                    currentApiKeyCityNameIndex++;
-                    console.log(`Switching to API key index ${currentApiKeyCityNameIndex} for city name`);
-                    fetchCityCurrentName(cityLat, cityLon, countryNameText);
-                  } else {
-                    console.error('All city name API keys failed. Unable to fetch data.');
-
-                  }
-                });
-            }
-        }, (error) => {
-            console.error('Geolocation error:', error);
-            document.getElementById('search-container').style.display = 'block';
-            window.history.pushState({ SearchContainerOpen: true }, "");
-        });
-    } else {
         console.error('Geolocation is not available in this browser.');
 
-    }
+    });
+}
 }
 
 
@@ -133,7 +78,7 @@ if(DefaultLocation.name === 'CurrentDeviceLocation'){
     sendThemeToAndroid("ReqLocation")
     document.querySelector('.currentLocationdiv').hidden = false;
 } else if(DefaultLocation.lat && DefaultLocation.lon){
-    getWeather(' ', DefaultLocation.lat, DefaultLocation.lon)
+    DecodeWeather(DefaultLocation.lat, DefaultLocation.lon)
     document.querySelector('.currentLocationdiv').hidden = true;
 }
 }
@@ -711,7 +656,7 @@ function checkNoInternet(){
 
     document.addEventListener('DOMContentLoaded', async function() {
 
-        const currentVersion = 'v1.5.8';
+        const currentVersion = 'v1.5.9';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 

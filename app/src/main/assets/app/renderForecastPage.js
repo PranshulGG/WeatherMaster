@@ -542,7 +542,7 @@ function displayDailyForecast(forecast, forecastDaily) {
                 </div>
 
                 <div class="sunrise-sunset-item">
-                <p>Sunrise</p>
+                <p>Sunset</p>
                 <div class="sunrise-sunset-img">
                 ${ConditionIcons.SunsetIcon}
                 </div>

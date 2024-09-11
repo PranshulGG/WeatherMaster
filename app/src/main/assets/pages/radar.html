@@ -48,12 +48,12 @@
             left: 0;
         }
 
-        #mapRadar{
+        #mapRadar {
             height: calc(100% - 175px);
             background-color: #003353;
         }
 
-        .header{
+        .header {
             padding: 10px;
             height: calc(65px - 20px);
             display: flex;
@@ -61,13 +61,13 @@
             gap: 4px;
         }
 
-        .header p{
+        .header p {
             font-size: 22px;
             color: var(--On-Surface);
             font-family: var(--google-normal);
         }
 
-        .controls{
+        .controls {
             height: 110px;
             display: flex;
             flex-direction: column;
@@ -75,7 +75,7 @@
 
         }
 
-        .controls > div > md-slider{
+        .controls>div>md-slider {
             --md-sys-color-surface-container-highest: #030457;
             --md-slider-inactive-track-height: 56px;
             --md-slider-active-track-height: 56px;
@@ -86,7 +86,8 @@
             --md-slider-handle-height: 0px;
 
         }
-        .controls > div{
+
+        .controls>div {
             display: flex;
             align-items: center;
             gap: 0px;
@@ -94,7 +95,7 @@
             padding-right: 0;
         }
 
-        .time-label{
+        .time-label {
             padding-right: 20px;
             display: flex;
             justify-content: flex-end;
@@ -104,7 +105,7 @@
             font-family: var(--outfit-mid);
         }
 
-        .loader{
+        .loader {
             width: 100%;
             height: 100%;
             z-index: 999;
@@ -120,11 +121,11 @@
 
         }
 
-        [hidden]{
+        [hidden] {
             display: none !important;
         }
 
-        flex{
+        flex {
             flex: 1;
         }
     </style>
@@ -170,7 +171,7 @@
 
 <script>
 
-var map;
+        var map;
 
         function loadMapRainView(theme) {
             const latDif = localStorage.getItem('currentLat');
@@ -183,17 +184,21 @@ var map;
                 minZoom: 2
             });
 
-            window.L.tileLayer(theme, {}).addTo(map);
+            window.L.tileLayer(theme, {
+
+
+            }).addTo(map);
+
+
             var marker = window.L.marker([latDif, longDif]).addTo(map);
 
             var radarLayer;
+
             var autoplayInterval;
             var isPlaying = false;
 
-            function loadRadarLayer(timestamp, isNowcast = false) {
-                var radarUrl = isNowcast
-                    ? `https://tilecache.rainviewer.com/v2/radar-nowcast/${timestamp}/256/{z}/{x}/{y}/2/1_1.png`
-                    : `https://tilecache.rainviewer.com/v2/radar/${timestamp}/256/{z}/{x}/{y}/2/1_1.png`;
+            function loadRadarLayer(path) {
+                var radarUrl = `https://tilecache.rainviewer.com${path}/256/{z}/{x}/{y}/2/1_1.png`;
 
                 if (radarLayer) {
                     map.removeLayer(radarLayer);
@@ -204,85 +209,93 @@ var map;
                 }).addTo(map);
             }
 
+
             fetch('https://api.rainviewer.com/public/weather-maps.json')
-                .then(response => response.json())
-                .then(data => {
-                    var radarPast = data.radar.past;
-                    var radarNowcast = data.radar.nowcast;
-                    var timeSlider = document.getElementById("timeSlider");
-                    var timeLabel = document.getElementById("timeLabel");
-                    var autoplayBtn = document.getElementById("autoplayBtn");
+    .then(response => response.json())
+    .then(data => {
+        var radarPast = data.radar.past;
+        var radarNowcast = data.radar.nowcast;
 
-                    // Create a combined array with a flag for Nowcast
-                    var allRadarData = radarPast.map(item => ({ ...item, isNowcast: false }))
-                        .concat(radarNowcast.map(item => ({ ...item, isNowcast: true })));
+        // Combine past and nowcast data into one timeline
+        var combinedRadarData = radarPast.concat(radarNowcast);
 
-                    timeSlider.max = allRadarData.length - 1;
+        // Set up the slider and labels
+        var timeSlider = document.getElementById("timeSlider");
+        var timeLabel = document.getElementById("timeLabel");
+        var autoplayBtn = document.getElementById("autoplayBtn");
 
-                    var lastTimestamp = allRadarData[allRadarData.length - 1].time;
-                    var isNowcast = allRadarData[allRadarData.length - 1].isNowcast;
+        timeSlider.max = combinedRadarData.length - 1;
 
-                    loadRadarLayer(lastTimestamp, isNowcast);
-                    updateTimestampLabel(lastTimestamp);
+        // Load the last timestamp from the combined data (nowcast if present)
+        var lastTimestamp = combinedRadarData[combinedRadarData.length - 1].time;
+        var lastPath = combinedRadarData[combinedRadarData.length - 1].path;
+        loadRadarLayer(lastPath);
+        updateTimestampLabel(lastTimestamp);
 
-                    timeSlider.oninput = function () {
-                        var selectedData = allRadarData[this.value];
-                        loadRadarLayer(selectedData.time, selectedData.isNowcast);
-                        updateTimestampLabel(selectedData.time);
-                    };
+        // Slider input listener
+        timeSlider.oninput = function () {
+            var selectedData = combinedRadarData[this.value];
+            loadRadarLayer(selectedData.path);
+            updateTimestampLabel(selectedData.time);
+        };
 
-                    autoplayBtn.onclick = function () {
-                        if (isPlaying) {
-                            stopAutoplay();
-                            document.getElementById('changeMapTypeToggle').hidden = false;
-                        } else {
-                            startAutoplay();
-                            document.getElementById('changeMapTypeToggle').hidden = true;
-                        }
-                    };
+        // Autoplay
+        autoplayBtn.onclick = function () {
+            if (isPlaying) {
+                stopAutoplay();
+                document.getElementById('changeMapTypeToggle').hidden = false;
+            } else {
+                startAutoplay();
+                document.getElementById('changeMapTypeToggle').hidden = true;
+            }
+        };
 
-                    function startAutoplay() {
-                        isPlaying = true;
-                        autoplayBtn.innerHTML = '<md-icon slot="icon" icon-filled>pause</md-icon>';
-                        autoplayInterval = setInterval(function () {
-                            timeSlider.value = (parseInt(timeSlider.value) + 1) % allRadarData.length;
-                            timeSlider.oninput();
-                        }, 1000);
-                    }
+        function startAutoplay() {
+            isPlaying = true;
+            autoplayBtn.innerHTML = '<md-icon slot="icon" icon-filled>pause</md-icon>';
+            autoplayInterval = setInterval(function () {
+                timeSlider.value = (parseInt(timeSlider.value) + 1) % combinedRadarData.length;
+                timeSlider.oninput();
+            }, 1000);
+        }
 
-                    function stopAutoplay() {
-                        isPlaying = false;
-                        autoplayBtn.innerHTML = '<md-icon slot="icon" icon-filled>play_arrow</md-icon>';
-                        clearInterval(autoplayInterval);
-                    }
-                    function updateTimestampLabel(timestamp) {
+        function stopAutoplay() {
+            isPlaying = false;
+            autoplayBtn.innerHTML = '<md-icon slot="icon" icon-filled>play_arrow</md-icon>';
+            clearInterval(autoplayInterval);
+        }
+
+        // Function to update timestamp label
+        function updateTimestampLabel(timestamp) {
                         var date = new Date(timestamp * 1000);
                         var options = { hour: 'numeric', minute: 'numeric' };
                         timeLabel.textContent = date.toLocaleTimeString([], options);
                     }
-                });
+    });
+
         }
+
         loadMapRainView('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png')
 
 
-        setTimeout(()=>{
+        setTimeout(() => {
             document.querySelector('.loader').style.opacity = '0';
         }, 1000);
 
-        setTimeout(()=>{
+        setTimeout(() => {
             document.querySelector('.loader').hidden = true;
         }, 1300);
 
 
-        function changeMapTypeToggle(){
-            if(document.getElementById('changeMapTypeToggle').selected){
+        function changeMapTypeToggle() {
+            if (document.getElementById('changeMapTypeToggle').selected) {
                 removeMap()
-                setTimeout(()=>{
+                setTimeout(() => {
                     loadMapRainView('https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png')
                 }, 400);
-            } else{
+            } else {
                 removeMap()
-                setTimeout(()=>{
+                setTimeout(() => {
                     loadMapRainView('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png')
                 }, 400);
             }
@@ -290,11 +303,11 @@ var map;
 
 
         function removeMap() {
-    if (map) {
-        map.remove();
-        map = null;
-    }
-}
+            if (map) {
+                map.remove();
+                map = null;
+            }
+        }
 
 
     </script>
