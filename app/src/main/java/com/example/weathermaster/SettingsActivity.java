@@ -116,7 +116,6 @@ public class SettingsActivity extends AppCompatActivity {
                         Toast.makeText(sActivity, "Your device will go to sleep at the default time", Toast.LENGTH_SHORT).show();
                         return;
 
-
                     } else {
                         Toast.makeText(sActivity, "not found", Toast.LENGTH_SHORT).show();
                         return;
@@ -205,6 +204,9 @@ public class SettingsActivity extends AppCompatActivity {
                     url.startsWith("https://github.com/PranshulGG/WeatherMaster") ||
                     url.startsWith("mailto:pranshul.devmain@gmail.com")||
                     url.startsWith("https://ko-fi.com/pranshulgg")||
+                    url.startsWith("https://leafletjs.com/")||
+                    url.startsWith("https://www.rainviewer.com/")||
+                    url.startsWith("https://carto.com/")||
                     url.startsWith("https://github.com/PranshulGG/WeatherMaster/releases");
 
 

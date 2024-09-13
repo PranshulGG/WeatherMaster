@@ -55,9 +55,9 @@
             <md-list>
                 <md-list-item>
                     <md-icon icon-filled slot="start">notifications</md-icon>
-                    <div slot="headline">Weather alerts</div>
-                    <div slot="supporting-text">Show notification alerts whenever the weather changes (does'nt work yet)</div>
-                    <md-switch slot="end"></md-switch>
+                    <div slot="headline">Notification bar</div>
+                    <div slot="supporting-text">Show weather information in the notifications bar</div>
+                    <md-switch slot="end" id="toggle_noti"></md-switch>
                 </md-list-item>
 
                 <md-list-item margin type="button" id="usage-popover-anchor">
@@ -194,6 +194,23 @@
                 </md-list-item>
             </md-list>
 
+
+
+            <p class="title" style="margin-top: 5px;">Map</p>
+            <md-list>
+                <md-list-item margin href="https://leafletjs.com/">
+                    <div slot="headline">Leaflet</div>
+                    <md-icon icon-filled slot="end">open_in_new</md-icon>
+                </md-list-item>
+                <md-list-item margin href="https://www.rainviewer.com/">
+                    <div slot="headline">Rainviewer</div>
+                    <md-icon icon-filled slot="end">open_in_new</md-icon>
+                </md-list-item>
+                <md-list-item margin href="https://carto.com/">
+                    <div slot="headline">Carto</div>
+                    <md-icon icon-filled slot="end">open_in_new</md-icon>
+                </md-list-item>
+            </md-list>
 
 
 
@@ -408,6 +425,15 @@ defaultMenuItem.addEventListener('click', () => {
 
 });
 
+
+document.getElementById('toggle_noti').addEventListener('change', ()=>{
+
+setTimeout(()=>{
+    sendThemeToAndroid('Enable_noti')
+}, 1400);
+
+});
+
 savedLocationsMenu.appendChild(defaultMenuItem);
 
 savedLocations.forEach(location => {
@@ -443,6 +469,7 @@ if(!localStorage.getItem('DefaultLocation')){
 } else{
 
 }
+
 
     </script>
 

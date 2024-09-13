@@ -50,7 +50,7 @@ body {
   background: linear-gradient(180deg, var(--Surface) 10%, rgba(255, 0, 0, 0));
   height: 30px;
   opacity: 0;
-  z-index: 1;
+  z-index: 100000000000000000000000000000000000000;
   left: 0;
   transition: opacity 1s ease-out;
 }

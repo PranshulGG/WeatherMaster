@@ -65,7 +65,6 @@ function useAutoCurrentLocation(){
 
 
 
-        console.error('Geolocation is not available in this browser.');
 
     });
 }
@@ -656,7 +655,7 @@ function checkNoInternet(){
 
     document.addEventListener('DOMContentLoaded', async function() {
 
-        const currentVersion = 'v1.5.9';
+        const currentVersion = 'v1.6.1';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
@@ -686,11 +685,14 @@ function checkNoInternet(){
 
 
 
+
 const scrollView = document.querySelector('.insights');
 
 
-const sections = document.querySelectorAll('.insights_item');
 const scrollIndicators = document.getElementById('scroll-indicators');
+
+function createScrollDots(){
+    const sections = document.querySelectorAll('.insights_item');
 
 
 sections.forEach((section, index) => {
@@ -704,7 +706,7 @@ sections.forEach((section, index) => {
   scrollIndicators.appendChild(dot);
   dot.appendChild(dotValue)
 });
-
+}
 
 const updateActiveIndicator = () => {
   const scrollPosition = Math.round(scrollView.scrollLeft / scrollView.offsetWidth);
@@ -722,6 +724,11 @@ const updateActiveIndicator = () => {
 
 scrollView.addEventListener('scroll', updateActiveIndicator);
 
+document.addEventListener('DOMContentLoaded', ()=>{
+createScrollDots()
 updateActiveIndicator();
+
+});
+
 
 

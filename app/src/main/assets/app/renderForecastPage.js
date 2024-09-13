@@ -296,10 +296,9 @@ function displayDailyForecast(forecast, forecastDaily) {
         let WindSpeed;
 
         if (SelectedWindUnit === 'mile') {
-            WindSpeed = Math.round(forecast.wind_speed_10m_max[index] * 2.23694) + ' mph';
+            WindSpeed = Math.round(forecast.wind_speed_10m_max[index] / 1.60934) + ' mph';
         } else {
             WindSpeed = Math.round(forecast.wind_speed_10m_max[index]) + ' km/h';
-
         }
 
 
@@ -561,10 +560,20 @@ function displayDailyForecast(forecast, forecastDaily) {
 
 
         forecastDateHeaderContent.addEventListener('click', handleSelection);
-        if (index === 0) {
-            forecastDateHeaderContent.classList.add('selected');
-            handleSelection({ currentTarget: forecastDateHeaderContent });
-            firstForecastIndex = index;
+  const clickedForecastItem = localStorage.getItem('ClickedForecastItem') || '0';
+        const selectedForecastIndex = parseInt(clickedForecastItem, 10);
+
+
+        if (selectedForecastIndex >= 0 && selectedForecastIndex <= 13 || index === 0) {
+            if (index === selectedForecastIndex || index === 0) {
+                forecastDateHeaderContent.classList.add('selected');
+                handleSelection({ currentTarget: forecastDateHeaderContent });
+                firstForecastIndex = index;
+
+                setTimeout(() => {
+                    forecastDateHeaderContent.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 500);
+            }
         }
     });
 }

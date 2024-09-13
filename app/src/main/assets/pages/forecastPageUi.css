@@ -213,6 +213,7 @@ weatherConditionText{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
+    width: 100%;
 }
 
 .daily-conditions-wrap > div{
@@ -240,6 +241,8 @@ conditionicon{
     font-size: 18px;
     font-family: var(--outfit);
     color: var(--On-Surface-Variant);
+     padding-right: 15px;
+
 }
 
 .daily-conditions-wrap > div span{

@@ -30,7 +30,7 @@
         }
 
         body {
-            background-color: #003353;
+            background-color: #1a110f;
             padding: 0;
             margin: 0;
             overflow: hidden;
@@ -42,15 +42,18 @@
         .map_holder {
             height: 100%;
             width: 100%;
-            background-color: #003353;
+            background-color: #1a110f;
             position: fixed;
             top: 0;
             left: 0;
         }
 
         #mapRadar {
-            height: calc(100% - 175px);
-            background-color: #003353;
+            /* height: calc(100% - 225px); */
+            height: 100%;
+            background-color: #1a110f;
+            position: fixed;
+            width: 100%;
         }
 
         .header {
@@ -63,60 +66,62 @@
 
         .header p {
             font-size: 22px;
-            color: var(--On-Surface);
+            color: #f1dfda;
             font-family: var(--google-normal);
         }
 
         .controls {
-            height: 110px;
+            height: 160px;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            border-radius: 28px 28px 0 0;
+            position: relative;
+            background-color: #271d1b;
 
         }
 
         .controls>div>md-slider {
-            --md-sys-color-surface-container-highest: #030457;
-            --md-slider-inactive-track-height: 56px;
-            --md-slider-active-track-height: 56px;
+            --md-sys-color-surface-container-highest: transparent;
+            --md-slider-inactive-track-height: 30px;
+            --md-slider-active-track-height: 30px;
+            --md-slider-with-tick-marks-container-size: 5px;
+            --md-slider-with-tick-marks-inactive-container-color: #d8c2bc;
+            --md-slider-with-tick-marks-active-container-color: #561f0f;
+            --md-sys-color-primary: #ffb5a0;
             width: 100%;
-            --md-slider-inactive-track-shape: 16px !important;
-            --md-slider-active-track-shape: 16px !important;
-            --md-slider-handle-width: 0px;
-            --md-slider-handle-height: 0px;
+            --md-slider-inactive-track-shape: 50px !important;
+            --md-slider-active-track-shape: 50px !important;
+            --md-slider-handle-width: 0;
+            --md-slider-handle-height: 0;
+            --md-slider-handle-shadow-color: transparent;
 
         }
 
-        .controls>div {
+        .controls> .slider_btn {
             display: flex;
             align-items: center;
+            padding-top: 40px;
             gap: 0px;
-            padding-left: 10px;
-            padding-right: 0;
+            padding-left: 16px;
+            padding-right: 16px;
         }
 
         .time-label {
-            padding-right: 20px;
             display: flex;
             justify-content: flex-end;
-            padding-top: 5px;
-            font-size: 18px;
-            color: var(--On-Surface);
+            font-size: 36px;
+            color: #e7bdb2;
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-60%);
+            z-index: 20;
             font-family: var(--outfit-mid);
         }
 
+
         .loader {
-            width: 100%;
-            height: 100%;
-            z-index: 999;
-            background-color: #003353;
-            top: 0;
-            left: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            --md-circular-progress-size: 55px;
-            position: fixed;
             transition: opacity 0.2s ease-out;
 
         }
@@ -127,6 +132,61 @@
 
         flex {
             flex: 1;
+        }
+
+        .play_btn{
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            --md-sys-color-primary-container: #723523;
+            --md-sys-color-on-primary-container: #ffdbd1;
+            --md-fab-container-shape:999px;
+        }
+
+        .leaflet-control-attribution{
+    display: none !important;
+        }
+
+        height{
+            height: calc(100% - 225px);
+             display: flex;
+             pointer-events: none;
+        }
+
+        .amount_chip{
+            height: 50px;
+            display: flex;
+            align-items: center;
+            background-color: #271d1b;
+            position: fixed;
+            width: 240px;
+            z-index: 99;
+            bottom: calc(160px + 10px);
+            right: 10px;
+            border-radius: 999px;
+            gap: 3px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .amount_chip p{
+            margin: 0;
+            color: #f1dfda;
+        }
+
+        .amount_chip .chips_low color_item{
+            background-color: var(--clr);
+            width: 10px;
+            height: 14px;
+            display: flex;
+            flex-shrink: 0;
+        }
+
+        .amount_chip .chips_low{
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            border: 2px solid #a08c87;
         }
     </style>
 </head>
@@ -144,36 +204,68 @@
 
         <p>Live Radar</p>
         <flex></flex>
-        <md-icon-button toggle onchange="changeMapTypeToggle()" id="changeMapTypeToggle">
-            <md-icon icon-outlined>light_mode</md-icon>
-            <md-icon slot="selected" icon-outlined>dark_mode</md-icon>
-        </md-icon-button>
     </div>
 
     <div id="mapRadar"></div>
-
+    <height></height>
     <div class="controls">
         <div class="slider_btn">
-            <md-fab id="autoplayBtn" variant="primary">
-                <md-icon slot="icon" icon-filled>play_arrow</md-icon>
-            </md-fab>
-            <md-slider id="timeSlider" min="0" max="12" value="0" step="1"></md-slider>
+
+            <md-slider id="timeSlider" min="0" max="12" value="0" step="1" ticks></md-slider>
         </div>
         <span class="time-label" id="timeLabel"></span>
+        <div class="play_btn">
+            <md-fab id="autoplayBtn" variant="primary" hidden>
+                <md-icon slot="icon" icon-filled>play_arrow</md-icon>
+            </md-fab>
+            <div class="loader">
+                <md-circular-progress indeterminate style="--md-sys-color-primary: #ffb5a0;"></md-circular-progress>
+            </div>
+        </div>
     </div>
 
+    <div class="amount_chip">
+        <p style="padding-right: 5px;">Light</p>
+        <div class="chips_low" style="border-radius: 50px 20px 20px 50px;">
+            <color_item style="--clr: #36a106;">
+            </color_item>
+            <color_item style="--clr: #2c8007;">
+            </color_item>
+            <color_item style="--clr: #1c5506;">
+            </color_item>
+            <color_item style="--clr: #154008;">
+            </color_item>
+            <color_item style="--clr: #113007;">
+            </color_item>
+            <color_item style="--clr: #adaa07;">
+            </color_item>
+            <color_item style="--clr: #a88a08;">
+            </color_item>
+            <color_item style="--clr: #ab5a08;">
+            </color_item>
+        </div>
+        <div class="chips_low" style="border-radius: 5px;">
+            <color_item style="--clr: #5d06ab; width: 15px;" >
+            </color_item>
+        </div>
+        <div class="chips_low" style="border-radius: 20px 50px 50px 20px;">
+            <color_item style="--clr: #5792a0;">
+            </color_item>
+            <color_item style="--clr: #376da9;">
+            </color_item>
+            <color_item style="--clr: #0a34aa;">
+            </color_item>
+        </div>
+        <p style="padding-left: 5px;">Heavy</p>
+    </div>
 </div>
 
-
-<div class="loader">
-    <md-circular-progress indeterminate></md-circular-progress>
-</div>
 
 <script>
 
-        var map;
+       var map;
 
-        function loadMapRainView(theme) {
+        function loadMapRainView() {
             const latDif = localStorage.getItem('currentLat');
             const longDif = localStorage.getItem('currentLong');
 
@@ -184,7 +276,7 @@
                 minZoom: 2
             });
 
-            window.L.tileLayer(theme, {
+            window.L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png', {
 
 
             }).addTo(map);
@@ -216,30 +308,25 @@
         var radarPast = data.radar.past;
         var radarNowcast = data.radar.nowcast;
 
-        // Combine past and nowcast data into one timeline
         var combinedRadarData = radarPast.concat(radarNowcast);
 
-        // Set up the slider and labels
         var timeSlider = document.getElementById("timeSlider");
         var timeLabel = document.getElementById("timeLabel");
         var autoplayBtn = document.getElementById("autoplayBtn");
 
         timeSlider.max = combinedRadarData.length - 1;
 
-        // Load the last timestamp from the combined data (nowcast if present)
-        var lastTimestamp = combinedRadarData[combinedRadarData.length - 1].time;
-        var lastPath = combinedRadarData[combinedRadarData.length - 1].path;
-        loadRadarLayer(lastPath);
-        updateTimestampLabel(lastTimestamp);
+var firstTimestamp = combinedRadarData[0].time;
+var firstPath = combinedRadarData[0].path;
+loadRadarLayer(firstPath);
+updateTimestampLabel(firstTimestamp);
 
-        // Slider input listener
-        timeSlider.oninput = function () {
-            var selectedData = combinedRadarData[this.value];
-            loadRadarLayer(selectedData.path);
-            updateTimestampLabel(selectedData.time);
-        };
+timeSlider.oninput = function () {
+    var selectedData = combinedRadarData[this.value];
+    loadRadarLayer(selectedData.path);
+    updateTimestampLabel(selectedData.time);
+};
 
-        // Autoplay
         autoplayBtn.onclick = function () {
             if (isPlaying) {
                 stopAutoplay();
@@ -265,7 +352,6 @@
             clearInterval(autoplayInterval);
         }
 
-        // Function to update timestamp label
         function updateTimestampLabel(timestamp) {
                         var date = new Date(timestamp * 1000);
                         var options = { hour: 'numeric', minute: 'numeric' };
@@ -275,7 +361,8 @@
 
         }
 
-        loadMapRainView('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png')
+        loadMapRainView()
+
 
 
         setTimeout(() => {
@@ -284,22 +371,8 @@
 
         setTimeout(() => {
             document.querySelector('.loader').hidden = true;
+            document.getElementById('autoplayBtn').hidden = false;
         }, 1300);
-
-
-        function changeMapTypeToggle() {
-            if (document.getElementById('changeMapTypeToggle').selected) {
-                removeMap()
-                setTimeout(() => {
-                    loadMapRainView('https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png')
-                }, 400);
-            } else {
-                removeMap()
-                setTimeout(() => {
-                    loadMapRainView('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png')
-                }, 400);
-            }
-        }
 
 
         function removeMap() {
@@ -309,7 +382,10 @@
             }
         }
 
+                function sendThemeToAndroid(theme) {
 
+                    AndroidInterface.updateStatusBarColor(theme);
+                };
     </script>
 
 

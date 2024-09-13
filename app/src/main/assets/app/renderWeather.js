@@ -38,7 +38,7 @@ function HourlyWeather(data) {
         let PrecAmount;
 
         if (SelectedPrecipitationUnit === 'in') {
-            PrecAmount = mmToInches(data.hourly.precipitation[index].toFixed(2)) + ' in';
+            PrecAmount = mmToInches(data.hourly.precipitation[index]).toFixed(2) + ' in';
         } else {
             PrecAmount = data.hourly.precipitation[index].toFixed(1) + ' mm';
         }
@@ -241,9 +241,30 @@ function DailyWeather(dailyForecast) {
             TempMax = Math.round(dailyForecast.temperature_2m_max[index])
         }
 
+                let TempMinCurrent
+
+                if (SelectedTempUnit === 'fahrenheit') {
+                    TempMinCurrent = Math.round(celsiusToFahrenheit(dailyForecast.temperature_2m_min[0]))
+                } else {
+                    TempMinCurrent = Math.round(dailyForecast.temperature_2m_min[0])
+                }
+
+                let TempMaxCurrent
+
+                if (SelectedTempUnit === 'fahrenheit') {
+                    TempMaxCurrent = Math.round(celsiusToFahrenheit(dailyForecast.temperature_2m_max[0]))
+                } else {
+                    TempMaxCurrent = Math.round(dailyForecast.temperature_2m_max[0])
+                }
+
+                document.getElementById('high_temp').innerHTML = TempMaxCurrent + '°';
+                document.getElementById('low_temp').innerHTML = TempMinCurrent + '°';
+
 
         const forecastItem = document.createElement('div');
         forecastItem.classList.add('forecast-item-forecast');
+
+                forecastItem.setAttribute('onclick', `clickForecastItem(${index}); sendThemeToAndroid("Open8Forecast");`)
 
 
         forecastItem.innerHTML = `
@@ -254,7 +275,7 @@ function DailyWeather(dailyForecast) {
         <div class="d5-disc-text">
         <p class="time-5d">${weekday}</p>
         </div>
-
+      <md-ripple style="--md-ripple-pressed-opacity: 0.1;"></md-ripple>
         `
         const daylightDurationInSeconds = dailyForecast.daylight_duration[0];
         const daylightHours = Math.floor(daylightDurationInSeconds / 3600);
@@ -326,7 +347,7 @@ function CurrentWeather(data, sunrise, sunset) {
     let CurrentWindSpeed;
 
     if (SelectedWindUnit === 'mile') {
-        CurrentWindSpeed = Math.round(kmhToMph(data.wind_gusts_10m)) + ' mph';
+        CurrentWindSpeed = Math.round(kmhToMph(data.wind_speed_10m)) + ' mph';
     } else {
         CurrentWindSpeed = Math.round(data.wind_speed_10m) + ' km/h';
     }
@@ -484,6 +505,13 @@ function CurrentWeather(data, sunrise, sunset) {
         document.getElementById('sunrise_insight').hidden = false;
         document.getElementById('sunrise_insight').classList.add('insights_item')
 
+                document.getElementById('scroll-indicators').innerHTML = ''
+                setTimeout(()=>{
+                    document.querySelector('.insights').scrollLeft = 0
+
+                createScrollDots()
+                }, 1500);
+
     } else{
         document.getElementById('sunrise_insight').hidden = true;
         document.getElementById('sunrise_insight').classList.remove('insights_item')
@@ -494,8 +522,11 @@ function CurrentWeather(data, sunrise, sunset) {
         document.getElementById('sunset_insight').hidden = false;
         document.getElementById('sunset_insight').classList.add('insights_item')
 
+        document.getElementById('scroll-indicators').innerHTML = ''
         setTimeout(()=>{
             document.querySelector('.insights').scrollLeft = 0
+
+        createScrollDots()
         }, 1500);
 
     } else{
@@ -836,7 +867,7 @@ function UvIndex(latitude, longitude) {
 
 
 function MoreDetails(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/forecast.json?key=ef2cb48d90984d828a8140518240209&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/forecast.json?key=KEYS&q=${latSum},${lonSum}`)
         .then(response => response.json())
         .then(data => {
 
@@ -859,8 +890,7 @@ function MoreDetails(latSum, lonSum) {
             let maxTemp
 
             if (SelectedTempUnit === 'fahrenheit') {
-                const maxTemp = mainData.maxtemp_c;
-                maxTemp = Math.round(maxTemp * 9 / 5 + 32)
+                maxTemp = Math.round(mainData.maxtemp_c * 9 / 5 + 32)
             } else {
                 maxTemp = Math.round(mainData.maxtemp_c)
             }
@@ -868,8 +898,7 @@ function MoreDetails(latSum, lonSum) {
             let minTemp
 
             if (SelectedTempUnit === 'fahrenheit') {
-                const minTemp = mainData.mintemp_c;
-                minTemp = Math.round(minTemp * 9 / 5 + 32)
+                minTemp = Math.round(mainData.mintemp_c * 9 / 5 + 32)
             } else {
                 minTemp = Math.round(mainData.mintemp_c)
             }
@@ -949,7 +978,7 @@ function MoreDetails(latSum, lonSum) {
 }
 
 function astronomyData(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=ef2cb48d90984d828a8140518240209&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=KEYS&q=${latSum},${lonSum}`)
         .then(response => response.json())
         .then(data => {
 
@@ -964,13 +993,13 @@ function astronomyData(latSum, lonSum) {
             } else if (MoonPhaseName.includes("First Quarter")) {
                 document.querySelector('moonPhaseProgress').style.right = moonillumination + '%'
                 document.querySelector('moonPhaseProgress').style.borderRadius = '0%'
-            } else if (MoonPhaseName.includes("Waxing Gibbious")) {
-                document.querySelector('moonPhaseProgress').style.left = moonillumination + '%'
+            } else if (MoonPhaseName.includes("Waxing Gibbous")) {
+                document.querySelector('moonPhaseProgress').style.right = moonillumination + '%'
                 document.querySelector('moonPhaseProgress').style.borderRadius = ''
             } else if (MoonPhaseName.includes("Full Moon")) {
                 document.querySelector('moonPhaseProgress').style.left = moonillumination + '%'
                 document.querySelector('moonPhaseProgress').style.borderRadius = ''
-            } else if (MoonPhaseName.includes("Waning Gibbious")) {
+            } else if (MoonPhaseName.includes("Waning Gibbous")) {
                 document.querySelector('moonPhaseProgress').style.left = moonillumination + '%'
                 document.querySelector('moonPhaseProgress').style.borderRadius = ''
             } else if (MoonPhaseName.includes("Last Quarter")) {
@@ -1037,4 +1066,8 @@ fetch(apiUrlAlerts)
           console.error('All alert API keys failed. Unable to fetch data.');
       }
   });
+}
+
+function clickForecastItem(index){
+    localStorage.setItem('ClickedForecastItem', index)
 }
