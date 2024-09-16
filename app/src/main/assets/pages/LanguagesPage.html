@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" Theme="default" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Select language</title>
+    <link rel="stylesheet" href="../ui-files/ui.css">
+    <link rel="stylesheet" href="../ui-files/font-usage.css">
+    <link rel="stylesheet" href="../ui-files/variables.css">
+    <link rel="stylesheet" href="../components/components.css">
+    <link rel="stylesheet" href="../components/modal-ver.css">
+    <link rel="stylesheet" href="../ripple-files/ripple.css">
+    <link rel="stylesheet" href="../components/segment-btns.css">
+    <style>
+        .activity-large-content::before {
+            position: fixed;
+            bottom: 0;
+            content: '';
+            width: 100%;
+            background: linear-gradient(0deg, var(--Surface) 10%, rgba(255, 0, 0, 0));
+            height: 30px;
+            z-index: 1;
+        }
+
+
+        .language_item {
+            padding: 15px;
+            padding-left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            font-family: var(--outfit);
+            font-size: 18px;
+            position: relative;
+            --md-ripple-pressed-opacity: 0.1;
+        }
+
+                .language_item[disabled]{
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+    </style>
+</head>
+
+<body style="background-color: var(--Surface);">
+
+    <div class="activity-large open">
+        <div class="header-activity-large" id="head-1">
+            <button class="ripple-icon-btn regular" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)"
+                title="Go back" onclick="sendThemeToAndroid('GoBack')">
+                <span class="ripple-effect-icon"></span>
+                <span icon-outlined>arrow_back</span>
+            </button>
+            <p class="label-hidden-large" style="white-space: nowrap;" data-translate="language">Language</p>
+        </div>
+        <div class="activity-large-content" id="headUser-1">
+            <p class="label-large-main" data-translate="language">Language</p>
+            <div class="content-parent-large" style="padding-bottom: 32px;">
+
+                <md-list style="padding: 10px;">
+                    <md-list-item style="background-color: var(--Secondary-Container); border-radius: 15px;"
+                        type="button" href="https://poeditor.com/join/project/DxrGXdoUGF">
+                        <md-icon icon-outlined slot="start">translate</md-icon>
+                        <div slot="headline" style="color: var(--On-Secondary-Container);" data-translate="translate_this_app">Translate this app</div>
+                        <div slot="supporting-text" data-translate="join_POEditor_project_to_help">Join POEditor project to help</div>
+                    </md-list-item>
+                </md-list>
+
+                <md-list>
+
+                    <label class="language_item">
+                        <md-radio checked name="app_language_radios" value="English" lang="en"></md-radio>
+                        English
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item">
+                        <md-radio name="app_language_radios" value="Español" lang="es"></md-radio>
+                        Español
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item" disabled>
+                        <md-radio name="app_language_radios" value="Français" lang="fr"></md-radio>
+                        Français
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item">
+                        <md-radio name="app_language_radios" value="Deutsch" lang="de"></md-radio>
+                        Deutsch
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item">
+                        <md-radio name="app_language_radios" value="Italiano" lang="it"></md-radio>
+                        Italiano
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item" disabled>
+                        <md-radio name="app_language_radios" value="Português" lang="pt"></md-radio>
+                        Português
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item">
+                        <md-radio name="app_language_radios" value="Pусский" lang="ru"></md-radio>
+                        Pусский
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item" disabled>
+                        <md-radio name="app_language_radios" value="Magyar" lang="hu"></md-radio>
+                        Magyar
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item" disabled>
+                        <md-radio name="app_language_radios" value="Polski" lang="pl"></md-radio>
+                        Polski
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item" disabled>
+                        <md-radio name="app_language_radios" value="Ελληνικά" lang="el"></md-radio>
+                        Ελληνικά
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item">
+                        <md-radio name="app_language_radios" value="Română" lang="ro"></md-radio>
+                        Română
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item">
+                        <md-radio name="app_language_radios" value="Slovenčina" lang="sk"></md-radio>
+                        Slovenčina
+                        <md-ripple></md-ripple>
+                    </label>
+
+
+
+                    <label class="language_item" disabled>
+                        <md-radio name="app_language_radios" value="简体中文" lang="zh-Hans"></md-radio>
+                        简体中文
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item" disabled>
+                        <md-radio name="app_language_radios" value="日本語" lang="ja"></md-radio>
+                        日本語
+                        <md-ripple></md-ripple>
+                    </label>
+
+
+                </md-list>
+
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        const user1 = document.getElementById('headUser-1')
+
+        function changeColorOnScroll1() {
+            var container = document.getElementById('headUser-1');
+            var scrollY = container.scrollTop;
+
+            if (scrollY >= 50) {
+                document.getElementById('head-1').style.backgroundColor = 'var(--Surface-Container)';
+                document.getElementById('head-1').style.transition = '';
+
+                document.getElementById('headUser-1').style.scrollSnapType = 'unset';
+                container.removeEventListener('scroll', changeColorOnScroll1);
+                sendThemeToAndroid('Scrolled')
+
+
+            } else {
+
+            }
+        }
+
+        if (user1) {
+            document.getElementById('headUser-1').addEventListener('scroll', changeColorOnScroll1);
+        }
+
+
+
+        function changeColorOnScroll1A() {
+            var container = document.getElementById('headUser-1');
+            var scrollY = container.scrollTop;
+
+            if (scrollY <= 1) {
+                document.getElementById('head-1').style.backgroundColor = '';
+                document.getElementById('head-1').style.transition = 'background-color 0.2s ease-in';
+
+                sendThemeToAndroid('ScrollFalse')
+
+                container.addEventListener('scroll', changeColorOnScroll1);
+                if (scrollY <= 20); {
+                    document.getElementById('headUser-1').style.scrollSnapType = '';
+
+                }
+
+            } else {
+
+            }
+        }
+
+        if (user1) {
+            document.getElementById('headUser-1').addEventListener('scroll', changeColorOnScroll1A);
+        }
+
+        function sendThemeToAndroid(theme) {
+
+            AndroidInterface.updateStatusBarColor(theme);
+        };
+
+
+
+        document.querySelectorAll('md-radio[name="app_language_radios"]').forEach((radio) => {
+            radio.addEventListener('change', (event) => {
+                if (event.target.checked) {
+                    localStorage.setItem('AppLanguage', event.target.value);
+                    localStorage.setItem('AppLanguageCode', event.target.lang);
+                    applyTranslations(event.target.lang);
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const AppLanguageValue = localStorage.getItem('AppLanguage');
+            const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
+            if (AppLanguageValue) {
+                const radio = document.querySelector(`md-radio[value="${AppLanguageValue}"]`);
+                if (radio) {
+                    radio.checked = true;
+                    applyTranslations(AppLanguageCodeValue);
+                }
+            }
+        });
+
+
+    </script>
+
+    <script src="../components-script.js/components.js"></script>
+    <script src="../ripple-files/icon-ripple.js"></script>
+    <script src="../modules/scroll.js"></script>
+    <script src="../modules/ripple_acc.js"></script>
+    <script src="../app/navigate.js"></script>
+    <script src="../bundle.js"></script>
+    <script type="module" src="../index.js"></script>
+    <script src="../langs/langs.js"></script>
+</body>
+
+</html>

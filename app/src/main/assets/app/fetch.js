@@ -5,7 +5,7 @@ function getCountryName(code) {
 
 
 async function DecodeWeather(lat, lon) {
-  const apiKey = 'KEYS';
+  const apiKey = 'MAIN_KEYS';
   const url = `https://api.timezonedb.com/v2.1/get-time-zone?key=${apiKey}&format=json&by=position&lat=${lat}&lng=${lon}`;
 
   try {
@@ -112,7 +112,7 @@ showLoader();
                       document.getElementById('currentLocationName').textContent = `${stateMain}, ${countryNameText}`;
 
 
-          
+
               } else if (!stateMain) {
                 document.getElementById('city-name').innerHTML = `${city}, ${countryNameText}`;
                 document.getElementById('SelectedLocationText').innerHTML = `${city}, ${countryNameText}`;

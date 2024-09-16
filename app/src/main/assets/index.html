@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="map/leaflet.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css" />
     <script src="modules/lottie.js"></script>
+    <script src="langs/langs.js"></script>
+
 </head>
 
 <body>
@@ -72,7 +74,7 @@
 
 
                 <div class="left_current_weather">
-                    <now>Now</now>
+                    <now data-translate="now">Now</now>
                     <div class="temp_img">
                         <p id="temp"></p>
                         <img id="weather-icon" src="weather-icons/not_available.svg" alt="Weather Icon">
@@ -111,7 +113,7 @@
             <div class="icon-container-excessiveHeat">
                 <md-icon icon-outlined>info</md-icon>
             </div>
-            <p id="excessiveHeatText">Excessive heat<text></text></p>
+            <p id="excessiveHeatText">Weather alerts<text data-translate="tap_to_see_more">Tap to see more...</text></p>
 
         </div>
 
@@ -139,18 +141,18 @@
         <div class="high-all">
             <div class="high-mini">
 
-                <div class="mini wind ripple_btn_low" onclick="ShowSnack('Wind speed', 2000, 3, 'none', ' ', 'no-up')">
+                <div class="mini wind ripple_btn_low" onclick="ShowSnack(`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'wind_speed')}`, 2000, 3, 'none', ' ', 'no-up')">
                     <span icon-outlined>air</span>
                     <p id="wind-speed"></p>
                 </div>
 
-                <div class="mini snowAmount ripple_btn_low" onclick="ShowSnack('Wind gust', 2000, 3, 'none', ' ', 'no-up')">
+                <div class="mini snowAmount ripple_btn_low" onclick="ShowSnack(`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'wind_gust')}`, 2000, 3, 'none', ' ', 'no-up')">
                     <span icon-outlined>wind_power</span>
                     <p id="WindGust"></p>
                 </div>
 
 
-                <div class="mini clouds ripple_btn_low" onclick="ShowSnack('Cloudiness', 2000, 3, 'none', ' ', 'no-up')">
+                <div class="mini clouds ripple_btn_low" onclick="ShowSnack(`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'cloudiness')}`, 2000, 3, 'none', ' ', 'no-up')">
                     <span icon-outlined>cloud</span>
                     <p id="clouds"></p>
                 </div>
@@ -166,14 +168,14 @@
                     <div class="icon_container_cloths" >
                         <md-icon icon-filled>wb_twilight</md-icon>
                     </div>
-                    <p id="dont_miss_sunrsie_text" class="insights_p">Don't miss the sunrise! It will happen in 40 minutes or less.</p>
+                    <p id="dont_miss_sunrsie_text" class="insights_p" data-translate="dont_miss_sunrise">Don't miss the sunrise! It will happen in 40 minutes or less.</p>
                 </div>
 
                 <div class="cloths " id="sunset_insight" hidden>
                     <div class="icon_container_cloths" >
                         <md-icon icon-filled>wb_twilight</md-icon>
                     </div>
-                    <p id="dont_miss_sunset_text" class="insights_p">Don't miss the sunset! It will happen in 40 minutes or less.</p>
+                    <p id="dont_miss_sunset_text" class="insights_p" data-translate="dont_miss_sunset">Don't miss the sunset! It will happen in 40 minutes or less.</p>
                 </div>
 
                 <div class="cloths insights_item">
@@ -203,7 +205,7 @@
 
             <div class="all-24">
                 <div class="h1">
-                    <p class="today_Text">Next 24-hr</p>
+                    <p class="today_Text"><span data-translate="next">Next</span> 24-hr</p>
                     <p class="date_Text_top" id="date_text_top">Mar, 19</p>
                 </div>
                 <div class="forecast" id="forecast">
@@ -216,17 +218,17 @@
 
             <rainMeter>
                 <div class="h1">
-                    <p>Hourly precipitation</p>
+                    <p data-translate="hourly_precipitation">Hourly precipitation</p>
                 </div>
 
                 <div class="wrap_cover_rain_meter" style="display: flex; align-items: center; justify-content: space-between;">
                     <div class="todaysAmount">
-                        <p>Today's amount</p>
+                        <p data-translate="todays_amount">Today's amount</p>
                         <span id="AmountRainMM">1.5 mm</span>
                     </div>
 
                     <div class="todaysAmount" style="padding-left: 0; padding-right: 20px;">
-                        <p>Precipitation hours</p>
+                        <p data-translate="precipitation_hours">Precipitation hours</p>
                         <span id="RainHours">1.5 mm</span>
                     </div>
 
@@ -242,9 +244,9 @@
 
             <div class="all-5d">
                 <div class="h2">
-                    <p>14-day Forecast</p>
-                    <p class="" style="display: flex; align-items: center;">More <i icon-outlined
-                                                                                    style="font-size: 20px;">chevron_right</i></p>
+                    <p>14-<span data-translate="day">day</span> <span data-translate="forecast">forecast</span></p>
+                    <p class="" style="display: flex; align-items: center;"><span data-translate="more">More</span> <i icon-outlined
+                                                                                                                       style="font-size: 20px;">chevron_right</i></p>
                 </div>
                 <div class="forecast-5day" id="forecast-5day">
 
@@ -253,7 +255,8 @@
             </div>
 
             <div class="LiveMapWrap ripple_btn_low" onclick="sendThemeToAndroid('OpenRadar')">
-                <div class="radar_label"><md-icon icon-outlined>radar</md-icon>Live radar</div>
+                <div class="radar_label"><md-icon icon-outlined>radar</md-icon> <span
+                        data-translate="live_radar">Live radar</span></div>
                 <div id="livemapPreview">
                     <img src="icons/prevmap.png" alt="">
                 </div>
@@ -267,7 +270,7 @@
 
 
                 <div class="currentConditionItem sunRISESET">
-                    <div class="currentConditionItemTitle"><i icon-filled>wb_twilight</i>Sun</div>
+                    <div class="currentConditionItemTitle"><i icon-filled>wb_twilight</i><span data-translate="sun">Sun</span></div>
 
                     <div class="current_condition_icon">
                         <svg height="110.0dip" width="176.0dip" viewBox="0 0 176.0 110.0"
@@ -333,7 +336,8 @@
 
 
                 <div class="currentConditionItem humidity">
-                    <div class="currentConditionItemTitle"><i icon-filled>humidity_high</i>Humidity</div>
+                    <div class="currentConditionItemTitle"><i icon-filled>humidity_high</i><span
+                            data-translate="humidity">Humidity</span></div>
 
                     <div class="current_condition_icon" id="humidity_icon_svg">
                         <svg viewBox="0 0 364.0 364.0" xmlns="http://www.w3.org/2000/svg">
@@ -350,7 +354,7 @@
 
                     <div class="currentConditionItemDewpointValue">
                         <p id="dew_percentage">-</p>
-                        <span>Dew point</span>
+                        <span data-translate="dew_point">Dew point</span>
                     </div>
 
                 </div>
@@ -372,7 +376,8 @@
                     </div>
 
                     <div class="currentConditionItemPressureValue">
-                        <div style="padding-top: 10px;"><i icon-filled>compress</i>Pressure</div>
+                        <div style="padding-top: 10px;"><i icon-filled>compress</i><span
+                                data-translate="pressure">Pressure</span></div>
                         <p id="pressure_text_main">29.96</p>
                         <span id="pressureMainUnit">inHG</span>
                     </div>
@@ -381,7 +386,8 @@
                 </div>
 
                 <div class="currentConditionItem visibility">
-                    <div class="currentConditionItemTitle visibility"><i icon-filled>visibility</i>Visibility</div>
+                    <div class="currentConditionItemTitle visibility"><i icon-filled>visibility</i><span
+                            data-translate="visibility">Visibility</span></div>
 
                     <div class="current_condition_icon">
                         <svg height="180.0dip" width="180.0dip" viewBox="0 0 180.0 180.0"
@@ -421,7 +427,7 @@
                     </div>
 
                     <div class="currentConditionItemWindDircValue">
-                        <div><i icon-filled>explore</i>Direction</div>
+                        <div><i icon-filled>explore</i><span data-translate="direction">Direction</span></div>
                         <p id="directionWind">--</p>
                         <span id="windtype">---</span>
                     </div>
@@ -440,7 +446,7 @@
 
             <div class="all_air_quality" style="border-radius: 10px 10px 5px 5px; margin-bottom: 5px; overflow: hidden;">
                 <div class="sun_text">
-                    <p>Air Quality</p>
+                    <p data-translate="air_quality">Air Quality</p>
                     <div class="air_text">
                         <p id="aqi-level">Error</p>
                     </div>
@@ -505,7 +511,7 @@
 
             <div class="all_air_quality" style="border-radius: 5px 5px 10px 10px; margin-top: 0px;">
                 <div class="sun_text">
-                    <p>UV Index</p>
+                    <p data-translate="uv_index">UV Index</p>
                     <div class="air_text">
                         <p id="uv-index"></p>
                     </div>
@@ -532,8 +538,8 @@
 
 
             <div class="new_ver_download" hidden>
-                <p>New App Version is available!</p>
-                <md-text-button onclick="sendThemeToAndroid('OpenAboutPage')">Update</md-text-button>
+                <p data-translate="new_app_version_available">New App Version is available!</p>
+                <md-text-button onclick="sendThemeToAndroid('OpenAboutPage')" data-translate="update">Update</md-text-button>
             </div>
 
         </div>
@@ -576,7 +582,7 @@
         </div>
 
         <div class="currentLocationdiv" style="margin-top: 20px; ">
-            <p class="title" style="display: flex; align-items: center; gap: 10px;"><md-icon icon-outlined>location_on</md-icon>Current Location</p>
+            <p class="title" style="display: flex; align-items: center; gap: 10px;"><md-icon icon-outlined>location_on</md-icon><span data-translate="current_location">Current location</span></p>
             <div class="currentLocations ripple_btn_low" id="currentLocations" onclick="getCurrentLocationWeather(); window.history.back()">
                 <div class="currentSearchImg">
                     <img src="icons/error.png" id="currentSearchImg" alt=""> </div>
@@ -588,7 +594,7 @@
         </div>
 
         <div class="savedLocations" hidden>
-            <p class="title" style="display: flex; align-items: center; gap: 10px;"><md-icon icon-outlined>star</md-icon>Saved locations</p>
+            <p class="title" style="display: flex; align-items: center; gap: 10px;"><md-icon icon-outlined>star</md-icon><span data-translate="saved_locations">Saved locations</span></p>
 
             <savedLocationsHolder>
 
@@ -650,7 +656,7 @@
             <span class="ripple-effect-icon"></span>
             <span icon-outlined>arrow_back</span>
         </button>
-        <p>Pick a location</p>
+        <p data-translate="pick_a_location">Pick a location</p>
     </div>
 
 
@@ -666,6 +672,21 @@
 
 <script>
 
+    function handleStorageChangeLang(event) {
+    if (event.key === 'AppLanguageCode'){
+
+            setTimeout(()=>{
+                const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
+    if(AppLanguageCodeValue){
+        applyTranslations(AppLanguageCodeValue);
+
+    }
+            }, 200);
+
+    }
+}
+
+window.addEventListener('storage', handleStorageChangeLang);
 
         document.addEventListener("DOMContentLoaded", function () {
             const cityInput = document.getElementById("city-input");
@@ -728,6 +749,8 @@ document.getElementById('clearCityInput').addEventListener('click', () =>{
 
 
 
+
+
     </script>
 
 
@@ -737,7 +760,6 @@ document.getElementById('clearCityInput').addEventListener('click', () =>{
 <script src="components-script.js/components.js"></script>
 <script src="ripple-files/icon-ripple.js"></script>
 <script src="map/leaflet.js"></script>
-<script src="app/app.js"></script>
 <script src="modules/scroll.js"></script>
 <script src="modules/ripple_acc.js"></script>
 <script src="app/navigate.js"></script>
@@ -748,6 +770,7 @@ document.getElementById('clearCityInput').addEventListener('click', () =>{
 <script src="app/renderWeather.js"></script>
 <script src="modules/units.js"></script>
 <script src="modules/sun-tracker.js"></script>
+<script src="app/app.js"></script>
 
 </body>
 

@@ -207,126 +207,126 @@ function GetWeatherLabel(iconCode, isDay) {
 
     if (isDay === 1) {
         if (iconCode === 0) {
-            return 'Clear sky'
+            return 'clear_sky'
 
         } else if (iconCode === 1) {
-            return 'Mostly clear'
+            return 'mostly_clear'
 
         } else if (iconCode === 2) {
-            return 'Partly cloudy'
+            return 'partly_cloudy'
 
         } else if (iconCode === 3) {
-            return 'Overcast'
+            return 'overcast'
 
         } else if (iconCode === 45 || iconCode === 48) {
-            return 'Fog'
+            return 'fog'
 
         } else if (iconCode === 51 || iconCode === 53 || iconCode === 55) {
-            return 'Drizzle'
+            return 'drizzle'
 
         } else if (iconCode === 56 || iconCode === 57) {
-            return 'Freezing Drizzle'
+            return 'freezing_drizzle'
 
         } else if (iconCode === 61 || iconCode === 63) {
-            return 'Moderate rain'
+            return 'moderate_rain'
 
         } else if (iconCode === 65) {
-            return 'Heavy intensity rain'
+            return 'heavy_intensity_rain'
 
         } else if (iconCode === 66 || iconCode === 67) {
-            return 'Freezing Rain'
+            return 'freezing_rain'
 
         } else if (iconCode === 71) {
-            return 'Slight snow'
+            return 'slight_snow'
 
         } else if (iconCode === 73) {
-            return 'Moderate snow'
+            return 'moderate_snow'
 
         } else if (iconCode === 75) {
-            return 'Heavy intensity snow'
+            return 'heavy_intensity_snow'
 
         } else if (iconCode === 77) {
-            return 'Snow grains'
+            return 'snow_grains'
 
         } else if (iconCode === 80 || iconCode === 81) {
-            return 'Rain showers'
+            return 'rain_showers'
 
         } else if (iconCode === 82) {
-            return 'Heavy rain showers'
+            return 'heavy_rain_showers'
 
         } else if (iconCode === 85) {
-            return 'Slight snow showers'
+            return 'slight_snow_showers'
 
         } else if (iconCode === 86) {
-            return 'Heavy snow showers'
+            return 'heavy_snow_showers'
 
         } else if (iconCode === 95) {
-            return 'Thunderstorm'
+            return 'thunderstorm'
 
         } else if (iconCode === 96 || iconCode === 99) {
-            return 'Strong thunderstorm'
+            return 'strong_thunderstorm'
 
         }
     } else {
         if (iconCode === 0) {
-            return 'Clear sky'
+            return 'clear_sky'
 
         } else if (iconCode === 1) {
-            return 'Mostly clear'
+            return 'mostly_clear'
 
         } else if (iconCode === 2) {
-            return 'Partly cloudy'
+            return 'partly_cloudy'
 
         } else if (iconCode === 3) {
-            return 'Overcast'
+            return 'overcast'
 
         } else if (iconCode === 45 || iconCode === 48) {
-            return 'Fog'
+            return 'fog'
 
         } else if (iconCode === 51 || iconCode === 53 || iconCode === 55) {
-            return 'Drizzle'
+            return 'drizzle'
 
         } else if (iconCode === 56 || iconCode === 57) {
-            return 'Freezing Drizzle'
+            return 'freezing_drizzle'
 
         } else if (iconCode === 61 || iconCode === 63) {
-            return 'Moderate rain'
+            return 'moderate_rain'
 
         } else if (iconCode === 65) {
-            return 'Heavy intensity rain'
+            return 'heavy_intensity_rain'
 
         } else if (iconCode === 66 || iconCode === 67) {
-            return 'Freezing Rain'
+            return 'freezing_rain'
 
         } else if (iconCode === 71) {
-            return 'Slight snow'
+            return 'slight_snow'
 
         } else if (iconCode === 73) {
-            return 'Moderate snow'
+            return 'moderate_snow'
 
         } else if (iconCode === 75) {
-            return 'Heavy intensity snow'
+            return 'heavy_intensity_snow'
 
         } else if (iconCode === 77) {
-            return 'Snow grains'
+            return 'snow_grains'
 
         } else if (iconCode === 80 || iconCode === 81) {
-            return 'Rain showers'
+            return 'rain_showers'
 
         } else if (iconCode === 82) {
-            return 'Heavy rain showers'
+            return 'heavy_rain_showers'
 
         } else if (iconCode === 85) {
-            return 'Slight snow showers'
+            return 'slight_snow_showers'
 
         } else if (iconCode === 86) {
-            return 'Heavy snow showers'
+            return 'heavy_snow_showers'
 
         } else if (iconCode === 95) {
-            return 'Thunderstorm'
+            return 'thunderstorm'
 
         } else if (iconCode === 96 || iconCode === 99) {
-            return 'Strong thunderstorm'
+            return 'strong_thunderstorm'
 
         }
     }
@@ -334,7 +334,15 @@ function GetWeatherLabel(iconCode, isDay) {
 
 
 
-    return WeatherLabel
+    return ''
+}
+
+function getWeatherLabelInLang(iconCode, isDay, langCode) {
+    const translationKey = GetWeatherLabel(iconCode, isDay);
+
+    const translatedLabel = getTranslationByLang(langCode, translationKey);
+
+    return translatedLabel || 'Unknown weather';
 }
 
 

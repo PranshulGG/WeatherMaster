@@ -273,6 +273,7 @@ touch_search{
   color: var(--On-Surface-Variant);
   font-family: var(--outfit);
   font-size: 15px;
+  text-align: right;
 }
 
 

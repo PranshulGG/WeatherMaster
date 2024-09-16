@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live rader</title>
+    <script src="../langs/langs.js"></script>
     <link rel="stylesheet" href="../ui-files/font-usage.css">
     <link rel="stylesheet" href="../ui-files/variables.css">
     <link rel="stylesheet" href="../components/components.css">
@@ -202,7 +203,7 @@
             <span icon-outlined style="font-size: 24px !important; color: white;">arrow_back</span>
         </button>
 
-        <p>Live Radar</p>
+        <p data-translate="live_radar">Live Radar</p>
         <flex></flex>
     </div>
 
@@ -262,6 +263,12 @@
 
 
 <script>
+
+const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
+        if (AppLanguageCodeValue) {
+            applyTranslations(AppLanguageCodeValue);
+
+        }
 
        var map;
 

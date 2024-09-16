@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>Forecast page</title>
+    <script src="../langs/langs.js"></script>
     <link rel="stylesheet" href="../ui-files/font-usage.css">
     <link rel="stylesheet" href="../ui-files/variables.css">
     <link rel="stylesheet" href="../components/components.css">
@@ -27,7 +28,7 @@
             <span icon-outlined style="font-size: 24px !important;">arrow_back</span>
         </button>
 
-        <p>14-day forecast</p>
+        <p>14-<span data-translate="day">day</span> <span data-translate="forecast">forecast</span></p>
     </div>
     <div class="full-activity-content" id="Content">
 
@@ -52,6 +53,12 @@
 
 
 <script>
+
+const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
+        if (AppLanguageCodeValue) {
+            applyTranslations(AppLanguageCodeValue);
+
+        }
          const user2 = document.getElementById('Content')
 
 function changeColorOnScroll2() {

@@ -18,15 +18,15 @@ function HourlyWeather(data) {
         console.error("Hourly forecast data is missing or undefined");
         return;
     }
-    const sunriseTime = new Date(data.daily.sunrise[0]);
-    const sunsetTime = new Date(data.daily.sunset[0]);
+    const sunriseTimes = data.daily.sunrise.map(time => new Date(time).getTime());
+    const sunsetTimes = data.daily.sunset.map(time => new Date(time).getTime());
 
 
 
     data.hourly.time.forEach((time, index) => {
 
-        const forecastTime = new Date(time);
-        let hours = forecastTime.getHours();
+        const forecastTime = new Date(time).getTime();
+        let hours = new Date(time).getHours();
         const period = hours >= 12 ? "PM" : "AM";
         hours = hours % 12 || 12;
 
@@ -45,12 +45,18 @@ function HourlyWeather(data) {
 
         const PrecProb = data.hourly.precipitation_probability[index]
 
+        let dayIndex = -1;
+        for (let i = 0; i < sunriseTimes.length; i++) {
+            if (forecastTime >= sunriseTimes[i] && forecastTime < (sunriseTimes[i + 1] || Infinity)) {
+                dayIndex = i;
+                break;
+            }
+        }
         let icon;
-
-        if (forecastTime >= sunriseTime && forecastTime <= sunsetTime) {
-            icon = GetWeatherIconDay(HourWeatherCode);
+        if (dayIndex !== -1 && forecastTime >= sunriseTimes[dayIndex] && forecastTime < sunsetTimes[dayIndex]) {
+            icon = GetWeatherIconDay(HourWeatherCode);  // Day icon
         } else {
-            icon = GetWeatherIconNight(HourWeatherCode);
+            icon = GetWeatherIconNight(HourWeatherCode);  // Night icon
         }
 
         const maxRain = 2;
@@ -132,7 +138,8 @@ function HourlyWeather(data) {
             `
 
             forecastItem.addEventListener('click', ()=>{
-                ShowSnack(`<span style="text-transform: capitalize;">${GetWeatherLabel(HourWeatherCode, 1)}</span>`, 2000, 3, 'none', ' ', 'no-up')
+             ShowSnack(`<span style="text-transform: capitalize;">${getWeatherLabelInLang(HourWeatherCode, 1,  localStorage.getItem('AppLanguageCode'))}</span>`, 2000, 3, 'none', ' ', 'no-up')
+
 
             });
 
@@ -159,24 +166,24 @@ function DailyWeather(dailyForecast) {
 
 
     const warmingComments = [
-        "Warming expected over the next few days.",
-        "Temperatures will rise soon, get ready for some heat!",
-        "Looks like it's going to get warmer this week.",
-        "Prepare for warmer weather ahead."
+        getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'Warming expected over the next few days.'),
+        getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'Temperatures will rise soon, get ready for some heat!'),
+        getTranslationByLang(localStorage.getItem('AppLanguageCode'), "Looks like it's going to get warmer this week."),
+        getTranslationByLang(localStorage.getItem('AppLanguageCode'), "Prepare for warmer weather ahead."),
     ];
 
     const coolingComments = [
-        "Cooling expected over the next few days.",
-        "Temperatures are dropping soon, stay warm!",
-        "It's going to get cooler in the coming days.",
-        "Expect a chilly breeze over the next days."
+        getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'Cooling expected over the next few days.'),
+        getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'Temperatures are dropping soon, stay warm!'),
+        getTranslationByLang(localStorage.getItem('AppLanguageCode'), "It's going to get cooler in the coming days."),
+        getTranslationByLang(localStorage.getItem('AppLanguageCode'), "Expect a chilly breeze over the next days."),
     ];
 
     const stableComments = [
-        "Stable temperatures expected in the next few days.",
-        "No big temperature changes ahead, steady weather.",
-        "Temperatures are holding steady for now.",
-        "Expect stable weather without much change."
+        getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'Stable temperatures expected in the next few days.'),
+        getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'No big temperature changes ahead, steady weather.'),
+        getTranslationByLang(localStorage.getItem('AppLanguageCode'), "Temperatures are holding steady for now."),
+        getTranslationByLang(localStorage.getItem('AppLanguageCode'), "Expect stable weather without much change."),
     ];
 
     function getRandomComment(commentsArray) {
@@ -219,7 +226,10 @@ function DailyWeather(dailyForecast) {
         const dateObj = new Date(time);
 
         const isToday = time === today;
-        const weekday = isToday ? 'Today' : dateObj.toLocaleDateString('en-US', { weekday: 'short' });
+        const weekday = isToday ? 'today' : dateObj.toLocaleDateString('en-US', { weekday: 'short' }).toLowerCase();
+
+        const weekdayLang = getTranslationByLang(localStorage.getItem('AppLanguageCode'), weekday);
+
 
 
         const rainPercentage = dailyForecast.precipitation_probability_max[index];
@@ -273,7 +283,7 @@ function DailyWeather(dailyForecast) {
         <img id="icon-5d" src="${GetWeatherIcon(DailyWeatherCode, 1)}" alt="Weather Icon">
         <span class="daily_rain">${rainPercentage}%</span>
         <div class="d5-disc-text">
-        <p class="time-5d">${weekday}</p>
+        <p class="time-5d">${weekdayLang}</p>
         </div>
       <md-ripple style="--md-ripple-pressed-opacity: 0.1;"></md-ripple>
         `
@@ -282,7 +292,7 @@ function DailyWeather(dailyForecast) {
         const daylightMinutes = Math.floor((daylightDurationInSeconds % 3600) / 60);
 
 
-        document.getElementById('weatherComments').innerHTML = `<md-icon icon-outlined style="font-size: 18px;">hourglass_top</md-icon> ${daylightHours} hrs ${daylightMinutes} mins day length <space></space> <md-icon icon-outlined id="arrow_up_toggle">keyboard_arrow_down</md-icon>`
+        document.getElementById('weatherComments').innerHTML = `<md-icon icon-outlined style="font-size: 18px;">hourglass_top</md-icon> ${daylightHours} hrs ${daylightMinutes} mins ${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'day_length')} <space></space> <md-icon icon-outlined id="arrow_up_toggle">keyboard_arrow_down</md-icon>`
 
 
 
@@ -378,10 +388,10 @@ function CurrentWeather(data, sunrise, sunset) {
 
 
     document.getElementById('temp').innerHTML = CurrentTemperature + '°';
-    document.getElementById('feels_like_now').innerHTML = 'Feels like ' + FeelsLikeTemp + '°';
+    document.getElementById('feels_like_now').innerHTML = `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'feels_like')} ` + FeelsLikeTemp + '°';
     document.getElementById('weather-icon').src = GetWeatherIcon(CurrentWeatherCode, isDay);
     document.getElementById('weather-icon').alt = CurrentWeatherCode
-    document.getElementById('description').innerHTML = GetWeatherLabel(CurrentWeatherCode, isDay)
+    document.getElementById('description').innerHTML = getWeatherLabelInLang(CurrentWeatherCode, isDay,  localStorage.getItem('AppLanguageCode'));
     document.getElementById('wind-speed').innerHTML = CurrentWindSpeed
     document.getElementById('WindGust').innerHTML = CurrentWindGust
     document.getElementById('clouds').innerHTML = CurrentCloudCover + '%'
@@ -389,7 +399,7 @@ function CurrentWeather(data, sunrise, sunset) {
     document.documentElement.setAttribute('iconcodetheme', GetWeatherTheme(CurrentWeatherCode, isDay))
         sendThemeToAndroid(GetWeatherTheme(CurrentWeatherCode, 1))
 
-        document.getElementById('temPDiscCurrentLocation').innerHTML = `${CurrentTemperature}° • <span>${GetWeatherLabel(CurrentWeatherCode, isDay)}</span>`
+        document.getElementById('temPDiscCurrentLocation').innerHTML = `${CurrentTemperature}° • <span>${getWeatherLabelInLang(CurrentWeatherCode, isDay,  localStorage.getItem('AppLanguageCode'))}</span>`
 
         document.getElementById('currentSearchImg').src = `${GetWeatherIcon(CurrentWeatherCode, isDay)}`;
 
@@ -418,32 +428,33 @@ function CurrentWeather(data, sunrise, sunset) {
     const windspeedType = document.getElementById('windtype');
 
     if (data.wind_speed_10m < 1) {
-        windspeedType.innerHTML = "Calm";
+        windspeedType.innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'calm');
     } else if (data.wind_speed_10m < 5) {
-        windspeedType.innerHTML = "Light air";
+        windspeedType.innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'light_air');
     } else if (data.wind_speed_10m < 11) {
-        windspeedType.innerHTML = "Light breeze";
+        windspeedType.innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'light_breeze');
     } else if (data.wind_speed_10m < 19) {
-        windspeedType.innerHTML = "Gentle breeze";
+        windspeedType.innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'gentle_breeze');
     } else if (data.wind_speed_10m < 28) {
-        windspeedType.innerHTML = "Moderate breeze";
+        windspeedType.innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'moderate_breeze');
     } else if (data.wind_speed_10m < 38) {
-        windspeedType.innerHTML = "Fresh breeze";
+        windspeedType.innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'fresh_breeze');
     } else if (data.wind_speed_10m < 49) {
-        windspeedType.innerHTML = "Strong breeze";
+        windspeedType.innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'strong_breeze');
     } else if (data.wind_speed_10m < 61) {
-        windspeedType.innerHTML = "High wind";
+        windspeedType.innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'high_wind');
     } else if (data.wind_speed_10m < 74) {
-        windspeedType.innerHTML = "Gale";
+        windspeedType.innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'gale');
     } else if (data.wind_speed_10m < 88) {
-        windspeedType.innerHTML = "Strong gale";
+        windspeedType.innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'strong_gale');
     } else if (data.wind_speed_10m < 102) {
-        windspeedType.innerHTML = "Storm";
+        windspeedType.innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'storm');
     } else if (data.wind_speed_10m < 117) {
-        windspeedType.innerHTML = "Violent storm";
+        windspeedType.innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'violent_storm');
     } else {
-        windspeedType.innerHTML = "Hurricane";
+        windspeedType.innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'hurricane');
     }
+
 
     if (data.pressure_msl < '980') {
         document.getElementById('pressure_icon_svg').innerHTML = WidgetsPressure.LowPressure
@@ -546,7 +557,7 @@ setTimeout(()=>{
     if (minutesAgo > 1) {
         document.getElementById('last_updated').innerHTML = `Updated ${minutesAgo} mins ago`;
     } else if (minutesAgo < 1) {
-        document.getElementById('last_updated').innerHTML = `Updated, just now`;
+        document.getElementById('last_updated').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'updated_just_now');;
     } else {
         document.getElementById('last_updated').innerHTML = `Updated ${minutesAgo} min ago`;
     }
@@ -625,9 +636,9 @@ const percentageOfDaylight = Math.round(calculateDaylightPercentage(sunrise, sun
 
 
 
-    const recommendation = getClothingRecommendation(temperatureCLoths);
+    const recommendation = getClothingRecommendation(temperatureCLoths)
 
-    document.getElementById('cloth_recommended').textContent = recommendation
+    document.getElementById('cloth_recommended').textContent = getTranslationByLang(localStorage.getItem('AppLanguageCode'), recommendation)
 
 }
 
@@ -680,8 +691,16 @@ function AirQuaility(data) {
 
 
 
-    document.getElementById('aqi-level').textContent = aqiText[aqiCategory].level;
-    document.getElementById('detail_air').textContent = aqiText[aqiCategory].message;
+    const aqiData = aqiText[aqiCategory];
+
+    const langCode = localStorage.getItem('AppLanguageCode');
+
+    const levelTranslation = getTranslationByLang(langCode, aqiData.level);
+    const messageTranslation = getTranslationByLang(langCode, aqiData.message);
+
+    document.getElementById('aqi-level').textContent = levelTranslation;
+    document.getElementById('detail_air').textContent = messageTranslation;
+
 
     const backgroundImage = {
         1: 'air-pop-imgs/good.png',
@@ -789,75 +808,75 @@ function UvIndex(latitude, longitude) {
 
 
             if (uvIndex >= 0 && uvIndex <= 1) {
-                document.getElementById('uv-index').innerHTML = 'Minimal risk';
+                document.getElementById('uv-index').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'minimal_risk');
                 document.getElementById('uv-index').style = 'background-color: #43b710';
                 document.getElementById('uv_img').src = 'uv-images/uv-0.png';
-                document.getElementById('detail_uv').innerHTML = Uv_0
+                document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'uv_index_satisfactory')
             } else if (uvIndex > 1 && uvIndex <= 2) {
-                document.getElementById('uv-index').innerHTML = 'Low risk';
+                document.getElementById('uv-index').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'low_risk');
                 document.getElementById('uv-index').style = 'background-color: #43b710';
                 document.getElementById('uv_img').src = 'uv-images/uv-1.png';
-                document.getElementById('detail_uv').innerHTML = Uv_1
+                document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'conditions_low_risk')
             } else if (uvIndex > 2 && uvIndex <= 3) {
-                document.getElementById('uv-index').innerHTML = 'Low risk';
+                document.getElementById('uv-index').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'low_risk');
                 document.getElementById('uv-index').style = 'background-color: #43b710';
                 document.getElementById('uv_img').src = 'uv-images/uv-2.png';
-                document.getElementById('detail_uv').innerHTML = Uv_2
+                document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'low_exposure_level')
             } else if (uvIndex > 3 && uvIndex <= 4) {
-                document.getElementById('uv-index').innerHTML = 'Moderate risk';
+                document.getElementById('uv-index').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'moderate_risk');
                 document.getElementById('uv-index').style = 'background-color: #eaaf10';
                 document.getElementById('uv_img').src = 'uv-images/uv-3.png';
-                document.getElementById('detail_uv').innerHTML = Uv_3
+                document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'moderate_risk_sun_exposure')
             } else if (uvIndex > 4 && uvIndex <= 5) {
-                document.getElementById('uv-index').innerHTML = 'Moderate risk';
+                document.getElementById('uv-index').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'moderate_risk');
                 document.getElementById('uv-index').style = 'background-color: #eaaf10';
                 document.getElementById('uv_img').src = 'uv-images/uv-4.png';
-                document.getElementById('detail_uv').innerHTML = Uv_4
+                document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'moderate_risk_sun_exposure')
             } else if (uvIndex > 5 && uvIndex <= 6) {
-                document.getElementById('uv-index').innerHTML = 'Moderate risk';
+                document.getElementById('uv-index').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'moderate_risk');
                 document.getElementById('uv-index').style = 'background-color: #eaaf10';
                 document.getElementById('uv_img').src = 'uv-images/uv-5.png';
-                document.getElementById('detail_uv').innerHTML = Uv_5
+                document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'moderate_risk_sun_exposure')
             } else if (uvIndex > 6 && uvIndex <= 7) {
-                document.getElementById('uv-index').innerHTML = 'High risk';
+                document.getElementById('uv-index').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'high_risk');
                 document.getElementById('uv-index').style = 'background-color: #eb8a11';
                 document.getElementById('uv_img').src = 'uv-images/uv-6.png';
-                document.getElementById('detail_uv').innerHTML = Uv_6
+                document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'high_risk_sun_exposure')
             } else if (uvIndex > 7 && uvIndex <= 8) {
-                document.getElementById('uv-index').innerHTML = 'High risk';
+                document.getElementById('uv-index').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'high_risk');
                 document.getElementById('uv-index').style = 'background-color: #eb8a11';
                 document.getElementById('uv_img').src = 'uv-images/uv-7.png';
-                document.getElementById('detail_uv').innerHTML = Uv_7
+                document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'high_risk_sun_exposure')
             } else if (uvIndex > 8 && uvIndex <= 9) {
-                document.getElementById('uv-index').innerHTML = 'Very high risk';
+                document.getElementById('uv-index').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'very_high_risk');
                 document.getElementById('uv-index').style = 'background-color: #e83f0f';
                 document.getElementById('uv_img').src = 'uv-images/uv-8.png';
-                document.getElementById('detail_uv').innerHTML = Uv_8
+                document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'very_high_risk_sun_exposure')
             } else if (uvIndex > 9 && uvIndex <= 10) {
-                document.getElementById('uv-index').innerHTML = 'Very high risk';
+                document.getElementById('uv-index').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'very_high_risk');
                 document.getElementById('uv-index').style = 'background-color: #e83f0f';
                 document.getElementById('uv_img').src = 'uv-images/uv-9.png';
-                document.getElementById('detail_uv').innerHTML = Uv_9
+                document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'very_high_risk_sun_exposure')
             } else if (uvIndex > 10 && uvIndex <= 11) {
-                document.getElementById('uv-index').innerHTML = 'Very high risk';
+                document.getElementById('uv-index').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'very_high_risk');
                 document.getElementById('uv-index').style = 'background-color: #e83f0f';
                 document.getElementById('uv_img').src = 'uv-images/uv-10.png';
-                document.getElementById('detail_uv').innerHTML = Uv_10
+                document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'very_high_risk_sun_exposure')
             } else if (uvIndex > 11 && uvIndex <= 12) {
-                document.getElementById('uv-index').innerHTML = 'Extreme risk';
+                document.getElementById('uv-index').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'extreme_risk');
                 document.getElementById('uv-index').style = 'background-color: #8e3acf';
                 document.getElementById('uv_img').src = 'uv-images/uv-11.png';
-                document.getElementById('detail_uv').innerHTML = Uv_11
+                document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'extreme_risk_sun_exposure')
             } else if (uvIndex > 12 && uvIndex <= 13) {
-                document.getElementById('uv-index').innerHTML = 'Extreme risk';
+                document.getElementById('uv-index').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'extreme_risk');
                 document.getElementById('uv-index').style = 'background-color: #ec0c8b';
                 document.getElementById('uv_img').src = 'uv-images/uv-12.png';
-                document.getElementById('detail_uv').innerHTML = Uv_12
+                document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'extreme_risk_sun_exposure')
             } else if (uvIndex > 13) {
-                document.getElementById('uv-index').innerHTML = 'Extreme risk';
+                document.getElementById('uv-index').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'extreme_risk');
                 document.getElementById('uv-index').style = 'background-color: #550ef9';
                 document.getElementById('uv_img').src = 'uv-images/uv-13.png';
-                document.getElementById('detail_uv').innerHTML = Uv_13
+                document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'extreme_risk_sun_exposure')
             }
 
 
@@ -867,7 +886,7 @@ function UvIndex(latitude, longitude) {
 
 
 function MoreDetails(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/forecast.json?key=KEYS&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/forecast.json?key=MAIN_KEYS&q=${latSum},${lonSum}`)
         .then(response => response.json())
         .then(data => {
 
@@ -978,7 +997,7 @@ function MoreDetails(latSum, lonSum) {
 }
 
 function astronomyData(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=KEYS&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=MAIN_KEYS&q=${latSum},${lonSum}`)
         .then(response => response.json())
         .then(data => {
 
@@ -1043,7 +1062,7 @@ fetch(apiUrlAlerts)
       if (data.alerts) {
           console.log(data.alerts);
           const alertEvent = data.alerts[0].event;
-          document.getElementById('excessiveHeatText').innerHTML = 'Weather alerts' + '<text>Tap to see more...</text>';
+
           document.querySelector('.weatherCommentsDiv').classList.add('alertOpened');
           document.querySelector('.excessiveHeat').hidden = false;
       localStorage.setItem('AlertCache', JSON.stringify(data.alerts));
@@ -1071,3 +1090,9 @@ fetch(apiUrlAlerts)
 function clickForecastItem(index){
     localStorage.setItem('ClickedForecastItem', index)
 }
+
+        const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
+        if (AppLanguageCodeValue) {
+            applyTranslations(AppLanguageCodeValue);
+
+        }

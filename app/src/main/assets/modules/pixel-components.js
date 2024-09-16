@@ -70,28 +70,24 @@ const Uv_13 = 'Extreme risk of harm from unprotected sun exposure, full protecti
 
 const aqiText = {
     1: {
-        level: "Good",
-        message: "Air quality is considered satisfactory, and air pollution poses little or no risk.",
+        level: "good",
+        message: "air_quality_satisfactory",
     },
     2: {
-        level: "Fair",
-        message: "Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution.",
-
+        level: "fair",
+        message: "air_quality_acceptable",
     },
     3: {
-        level: "Moderate",
-        message: "Member of sensitive groups may experience health effects. The general public is not likely to be affected.",
-
+        level: "moderate",
+        message: "sensitive_groups_health_effects",
     },
     4: {
-        level: "Poor",
-        message: "Everyone may begin to experience health effects; member of sensitive groups may experience more serious health effects.",
-
+        level: "poor",
+        message: "health_effects_public",
     },
     5: {
-        level: "Very Poor",
-        message: "Health warnings of emergency conditions. The entire population is more likely to be affected.",
+        level: "very_poor",
+        message: "emergency_conditions",
     }
-}
-
+};
 

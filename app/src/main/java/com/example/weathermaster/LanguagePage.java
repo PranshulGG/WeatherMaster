@@ -1,5 +1,6 @@
 package com.example.weathermaster;
 
+
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
@@ -22,7 +23,7 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class SettingsActivity extends AppCompatActivity {
+public class LanguagePage extends AppCompatActivity {
 
     private WebView webview;
 
@@ -56,8 +57,8 @@ public class SettingsActivity extends AppCompatActivity {
         AndroidInterface androidInterface = new AndroidInterface(this);
         webview.addJavascriptInterface(androidInterface, "AndroidInterface");
         webview.setBackgroundColor(getResources().getColor(R.color.mainBG));
-
-        webview.loadUrl("file:///android_asset/pages/settings.html");
+        setTheme(R.style.blue_caret);
+        webview.loadUrl("file:///android_asset/pages/LanguagesPage.html");
 
     }
 
@@ -65,15 +66,15 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     public class AndroidInterface {
-        private SettingsActivity sActivity;
+        private LanguagePage aActivity;
 
-        AndroidInterface(SettingsActivity activity) {
-            sActivity = activity;
+        AndroidInterface(LanguagePage activity) {
+            aActivity = activity;
         }
 
         @JavascriptInterface
         public void updateStatusBarColor(final String color) {
-            sActivity.runOnUiThread(new Runnable() {
+            aActivity.runOnUiThread(new Runnable() {
                 @SuppressLint("ResourceType")
                 @RequiresApi(api = Build.VERSION_CODES.O)
                 @Override
@@ -96,12 +97,16 @@ public class SettingsActivity extends AppCompatActivity {
                     } else if (color.equals("GoBack")){
                         back();
                         return;
-                    } else if (color.equals("OpenAboutPage")){
-                        openAboutPage();
+                    } else if (color.equals("OpenTermsConditions")){
+
                         return;
-                    } else if (color.equals("OpenLanguagesPage")){
-                        openLanguagesPage();
+                    } else if (color.equals("OpenPrivacyPolicy")){
+
                         return;
+                    } else if (color.equals("OpenLicenses")){
+
+                        return;
+
                     } else if (color.equals("bluesetDef")) {
 
                         return;
@@ -112,23 +117,24 @@ public class SettingsActivity extends AppCompatActivity {
                         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                         return;
                     } else if (color.equals("itsOn")) {
-                        Toast.makeText(sActivity, "Your device will stay awake", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(aActivity, "Your device will stay awake", Toast.LENGTH_SHORT).show();
                         return;
                     } else if (color.equals("ItsOff")) {
-                        Toast.makeText(sActivity, "Your device will go to sleep at the default time", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(aActivity, "Your device will go to sleep at the default time", Toast.LENGTH_SHORT).show();
                         return;
 
+
                     } else {
-                        Toast.makeText(sActivity, "not found", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(aActivity, "not found", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
 
-                    int currentStatusBarColor = sActivity.getWindow().getStatusBarColor();
-                    int currentNavigationBarColor = sActivity.getWindow().getNavigationBarColor();
+                    int currentStatusBarColor = aActivity.getWindow().getStatusBarColor();
+                    int currentNavigationBarColor = aActivity.getWindow().getNavigationBarColor();
 
                     ObjectAnimator statusBarAnimator = ObjectAnimator.ofObject(
-                            sActivity.getWindow(),
+                            aActivity.getWindow(),
                             "statusBarColor",
                             new ArgbEvaluator(),
                             currentStatusBarColor,
@@ -139,7 +145,7 @@ public class SettingsActivity extends AppCompatActivity {
                     statusBarAnimator.start();
 
                     ObjectAnimator navBarAnimator = ObjectAnimator.ofObject(
-                            sActivity.getWindow(),
+                            aActivity.getWindow(),
                             "navigationBarColor",
                             new ArgbEvaluator(),
                             currentNavigationBarColor,
@@ -149,9 +155,9 @@ public class SettingsActivity extends AppCompatActivity {
                     navBarAnimator.setDuration(200);
                     navBarAnimator.start();
 
-                    sActivity.getWindow().setNavigationBarColor(navigationBarColor);
+                    aActivity.getWindow().setNavigationBarColor(navigationBarColor);
 
-                    View decorView = sActivity.getWindow().getDecorView();
+                    View decorView = aActivity.getWindow().getDecorView();
                     decorView.setSystemUiVisibility(systemUiVisibilityFlags);
 
 
@@ -160,15 +166,6 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
 
-
-        public void openAboutPage() {
-            Intent intent = new Intent(sActivity, AboutPage.class);
-            sActivity.startActivity(intent);
-        }
-        public void openLanguagesPage() {
-            Intent intent = new Intent(sActivity, LanguagePage.class);
-            sActivity.startActivity(intent);
-        }
 
     }
 
@@ -198,20 +195,13 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         private boolean shouldOpenInBrowser(String url) {
-            return url.startsWith("https://fonts.google.com/specimen/Outfit?query=outfit") ||
+            return url.startsWith("https://poeditor.com/join/project/DxrGXdoUGF") ||
                     url.startsWith("https://openweathermap.org/") ||
-                    url.startsWith("https://www.visualcrossing.com/") ||
-                    url.startsWith("https://open-meteo.com/") ||
-                    url.startsWith("https://opencagedata.com/api") ||
                     url.startsWith("https://fonts.google.com/specimen/Poppins?query=poppins") ||
                     url.startsWith("https://github.com/material-components/material-web") ||
                     url.startsWith("https://app-privacy-policy-generator.nisrulz.com/") ||
                     url.startsWith("https://github.com/PranshulGG/WeatherMaster") ||
                     url.startsWith("mailto:pranshul.devmain@gmail.com")||
-                    url.startsWith("https://ko-fi.com/pranshulgg")||
-                    url.startsWith("https://leafletjs.com/")||
-                    url.startsWith("https://www.rainviewer.com/")||
-                    url.startsWith("https://carto.com/")||
                     url.startsWith("https://github.com/PranshulGG/WeatherMaster/releases");
 
 

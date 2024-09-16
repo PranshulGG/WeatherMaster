@@ -4,6 +4,7 @@
  <meta charset="UTF-8">
  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
  <title>about Page</title>
+ <script src="../langs/langs.js"></script>
  <link rel="stylesheet" href="../ui-files/ui.css">
  <link rel="stylesheet" href="../ui-files/font-usage.css">
  <link rel="stylesheet" href="../ui-files/variables.css">
@@ -54,47 +55,47 @@
    <span class="ripple-effect-icon"></span>
    <span icon-outlined>arrow_back</span>
   </button>
-  <p class="label-hidden-large">About WeatherMaster</p>
+  <p class="label-hidden-large" data-translate="about_weathermaster">About WeatherMaster</p>
  </div>
  <div class="activity-large-content" id="headUser-6">
-  <p class="label-large-main">About WeatherMaster</p>
+  <p class="label-large-main" data-translate="about_weathermaster">About WeatherMaster</p>
   <div class="content-parent-large">
 
    <md-list>
 
     <md-list-item type="button" onclick="sendThemeToAndroid('OpenTermsConditions')">
      <md-icon slot="start" icon-filled>privacy_tip</md-icon>
-     <div slot="headline">Terms and Conditions</div>
+     <div slot="headline" data-translate="terms_conditions">Terms and Conditions</div>
     </md-list-item>
 
     <md-list-item type="button" onclick="sendThemeToAndroid('OpenPrivacyPolicy')">
      <md-icon slot="start" icon-filled>policy</md-icon>
-     <div slot="headline">Privacy Policy</div>
+     <div slot="headline" data-translate="privacy_policy">Privacy Policy</div>
     </md-list-item>
 
     <md-list-item type="button" onclick="window.location.href='https://github.com/PranshulGG/WeatherMaster'">
      <md-icon slot="start" icon-filled>code</md-icon>
-     <div slot="headline">View source code</div>
+     <div slot="headline" data-translate="view_source_code">View source code</div>
     </md-list-item>
 
 
     <md-list-item type="button" id="checkUpdatesBtn">
      <md-icon slot="start" icon-filled>system_update</md-icon>
-     <div slot="headline">Latest version</div>
+     <div slot="headline" data-translate="latest_version">Latest version</div>
      <md-circular-progress indeterminate slot="end" style="--md-circular-progress-size: 32px;" hidden id="version_check_loader"></md-circular-progress>
     </md-list-item>
 
     <md-list-item type="button" onclick="sendThemeToAndroid('OpenLicenses')">
      <md-icon slot="start" icon-filled>copyright</md-icon>
-     <div slot="headline">Third party licenses</div>
+     <div slot="headline" data-translate="third_party_licenses">Third party licenses</div>
 
     </md-list-item>
 
 
     <md-list-item id="show_time_toast">
      <md-icon slot="start" icon-filled>info</md-icon>
-     <div slot="headline" style="margin-bottom: 2px;">Version</div>
-     <div slot="supporting-text">1.6.1 (W)</div>
+     <div slot="headline" style="margin-bottom: 2px;" data-translate="app_version">App version</div>
+     <div slot="supporting-text">1.6.2 (W)</div>
     </md-list-item>
 
    </md-list>
@@ -116,6 +117,11 @@
 <script>
 
 
+const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
+        if (AppLanguageCodeValue) {
+            applyTranslations(AppLanguageCodeValue);
+
+        }
 
 
 const user6 = document.getElementById('headUser-6')
@@ -178,7 +184,7 @@ AndroidInterface.updateStatusBarColor(theme);
 
 
 document.getElementById('checkUpdatesBtn').addEventListener('click', async function() {
-    const currentVersion = 'v1.6.1';
+    const currentVersion = 'v1.6.2';
     const githubRepo = 'PranshulGG/WeatherMaster';
     const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
