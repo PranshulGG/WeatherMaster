@@ -964,6 +964,13 @@ function MoreDetails(latSum, lonSum) {
                 "🌨️ Heavy snow is on its way! Prepare for slippery roads and reduced visibility.",
                 "⛄ Snowy day ahead! A great time for winter fun, but stay safe on the roads."
             ];
+
+            const cloudyWeatherTips = [
+                "☁️ It's a cloudy day. Might be a good idea to carry a light jacket just in case.",
+                "🌥️ Overcast skies today. Perfect weather for a cozy indoor day or a walk in the park.",
+                "🌫️ Cloudy conditions ahead. Visibility might be reduced, so drive carefully."
+            ];
+
             
             if (maxTemp > 29) {
                 weatherTips += hotWeatherTips[Math.floor(Math.random() * hotWeatherTips.length)] + " ";
@@ -981,6 +988,8 @@ function MoreDetails(latSum, lonSum) {
                 weatherTips += sunnyTips[Math.floor(Math.random() * sunnyTips.length)] + " ";
             } else if (weatherCondition.toLowerCase().includes("snow")) {
                 weatherTips += snowTips[Math.floor(Math.random() * snowTips.length)] + " ";
+            } else if (weatherCondition.toLowerCase().includes("cloudy") || weatherCondition.toLowerCase().includes("cloud")) {
+                weatherTips += cloudyWeatherTips[Math.floor(Math.random() * cloudyWeatherTips.length)] + " ";
             }
             
 
