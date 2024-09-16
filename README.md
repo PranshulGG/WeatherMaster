@@ -8,6 +8,9 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 
 
 
+![app_gallery](preview/thumbnail.png)
+
+
 # 👁️ Screenshots
 
 > [!NOTE]
