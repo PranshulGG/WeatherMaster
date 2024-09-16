@@ -1,6 +1,6 @@
  # 🌦️ WeatherMaster 
  
-<img src="https://github.com/PranshulGG/WeatherMaster/blob/master/app/src/main/assets/weather-icons/02d.svg?short_path=21e6bd2" alt="" width="150px">
+<img src="https://github.com/PranshulGG/WeatherMaster/blob/master/preview/partly_cloudy_day.svg" alt="" width="150px">
 
 WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed to mimic the look and feel of a native Android app.
 
