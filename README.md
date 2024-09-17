@@ -54,7 +54,7 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 
 <br>
 
-# 🌐 Help translate the app on POEditor
+# 🌐 Help translate the app on POEditor (43%)
  <a href="https://poeditor.com/join/project/DxrGXdoUGF"><img alt="GitHub" src="preview/translate_btn.svg" height="70"/></a>
 
 # 📲 Download
