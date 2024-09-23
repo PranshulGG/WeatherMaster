@@ -1,11 +1,12 @@
  # 🌦️ WeatherMaster 
  
-<img src="https://github.com/PranshulGG/WeatherMaster/blob/master/app/src/main/assets/weather-icons/02d.svg?short_path=21e6bd2" alt="" width="150px">
+<img src="https://github.com/PranshulGG/WeatherMaster/blob/master/preview/partly_cloudy_day.svg" alt="" width="150px">
 
 WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed to mimic the look and feel of a native Android app.
 
 `(Last updated on 09-16-2024 at 3:17 PM UTC)`
 
+![app_thumbnail](preview/thumbnail.png)
 
 
 # 👁️ Screenshots
@@ -51,7 +52,7 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 
 <br>
 
-# 🌐 Help translate the app on POEditor
+# 🌐 Help translate the app on POEditor 
  <a href="https://poeditor.com/join/project/DxrGXdoUGF"><img alt="GitHub" src="preview/translate_btn.svg" height="70"/></a>
 
 # 📲 Download
@@ -122,7 +123,7 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
  # 📝 Todos:
 
  - ✅ Adding cache to reduce api requests
- - ⬛ Translations under construction
+ - ✅ Translations
  - ⬛ Widgets / Notifications
  - ✅ Make it lightweight
  - ✅ Allows you to add multiple locations
