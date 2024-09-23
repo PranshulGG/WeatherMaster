@@ -156,6 +156,19 @@
                     </md-outlined-select>
                 </md-list-item>
 
+                <md-list-item>
+                    <md-icon icon-filled slot="start">schedule</md-icon>
+                    <div slot="headline" data-translate="time_format">Time format</div>
+                    <md-outlined-select id="selectTimeformat" slot="end" style="min-width: max-content; --md-outlined-field-bottom-space: 10px;--md-outlined-field-top-space: 10px;">
+                        <md-select-option value="12 hour" menu-type>
+                            <div slot="headline">12 hr</div>
+                        </md-select-option>
+                        <md-select-option value="24 hour" menu-type >
+                            <div slot="headline">24 hr</div>
+                        </md-select-option>
+                    </md-outlined-select>
+                </md-list-item>
+
             </md-list>
 
             <p class="title" style="margin-top: 5px;" data-translate="additional">Additional</p>
@@ -424,6 +437,32 @@ const getSelectedPressureUnit = localStorage.getItem('selectedPressureUnit')
 
 if(localStorage.getItem('selectedPressureUnit')){
   document.querySelector(`[value="${getSelectedPressureUnit}"]`).selected = true;
+}
+
+
+// time format
+
+
+const selectTimeformat = document.getElementById('selectTimeformat');
+
+
+selectTimeformat.addEventListener('input', () =>{
+    localStorage.setItem('selectedTimeMode', selectTimeformat.value)
+
+});
+
+
+if(!localStorage.getItem('selectedTimeMode')){
+localStorage.setItem('selectedTimeMode', '12 hour');
+document.querySelector(`[value="12 hour"]`).selected = true;
+
+}
+
+const getSelectedTimeFormat = localStorage.getItem('selectedTimeMode')
+
+
+if(localStorage.getItem('selectedTimeMode')){
+  document.querySelector(`[value="${getSelectedTimeFormat}"]`).selected = true;
 }
 
 // get saved locations

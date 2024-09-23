@@ -137,6 +137,11 @@ forecastDateHeader .forecastDateHeaderContent > span{
     color: var(--On-Surface);
     font-family: var(--google-mid);
     font-size: 16.5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    text-align: center;
 }
 
 forecastMainDetails{
@@ -219,6 +224,8 @@ weatherConditionText{
 .daily-conditions-wrap > div{
     background-color: #0d1d2a;
     border-radius: 15px;
+    padding-bottom: 45px;
+    position: relative;
 }
 
 .daily-conditions-wrap > div svg{
@@ -252,6 +259,8 @@ conditionicon{
     color: var(--On-Surface);
     font-size: 20px;
     font-family: var(--outfit-mid);
+    position: absolute;
+     bottom: 0;
 }
 
 .sunrise-sunset-forecast{

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" Theme="condition_forecast_pages" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Wind Forecast</title>
+    <link rel="stylesheet" href="../../ui-files/font-usage.css">
+    <link rel="stylesheet" href="../../ui-files/variables.css">
+    <link rel="stylesheet" href="../../components/components.css">
+    <link rel="stylesheet" href="../../ripple-files/ripple.css">
+    <link rel="stylesheet" href="../../components/modal-ver.css">
+    <link rel="stylesheet" href="condition_pageUI.css">
+
+    <style>
+        .condition_info_content::before {
+            position: fixed;
+            bottom: 0;
+            content: '';
+            width: 100%;
+            background: linear-gradient(0deg, var(--Surface) 10%, rgba(255, 0, 0, 0));
+            height: 30px;
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top_conditions_for_header">
+        <md-icon-button onclick="sendThemeToAndroid('GoBack')">
+            <md-icon icon-outlined>arrow_back</md-icon>
+        </md-icon-button>
+    </div>
+
+    <div class="condition_info_content">
+        <div class="condition_label_forecast">
+            <md-icon icon-outlined>air</md-icon>
+            <p>Wind</p>
+        </div>
+
+        <div class="humidity_block_todays">
+            <p>Today's high</p>
+            <span id="WindHighMain">33px</span>
+
+            <div class="WindBars">
+
+            </div>
+    </div>
+    
+    <div class="info__forecast">
+        <span>Wind speed is measured by averaging wind speeds over a period of time. Gusts are sudden bursts of wind typically lasting under twenty seconds.</span>
+    </div>
+    </div>
+
+
+
+
+    <script>
+
+        const cachedCurrentDataHourly = JSON.parse(localStorage.getItem('CurrentHourlyCache'));
+        const cachedCurrentDataAvg = JSON.parse(localStorage.getItem('DailyWeatherCache'));
+        const timeFormat = localStorage.getItem('selectedTimeMode');
+        const SelectedWindUnit = localStorage.getItem('SelectedWindUnit');
+        const cachedDailyData = JSON.parse(localStorage.getItem('DailyWeatherCache'));
+
+        function loadwindForecast(data) {
+            const WindBarsContainer = document.querySelector('.WindBars');
+            WindBarsContainer.innerHTML = '';
+
+            const maxWindSpeed = Math.max(...data.wind_speed_10m);
+
+
+            data.time.forEach((time, index) => {
+                const forecastTime = new Date(time).getTime();
+
+                let hours
+                let period
+
+                if (timeFormat === '24 hour') {
+                    hours = new Date(time).getHours().toString().padStart(2, '0') + ':';
+                    period = new Date(time).getMinutes().toString().padStart(2, '0');
+                } else {
+                    hours = new Date(time).getHours();
+                    period = hours >= 12 ? "PM" : "AM";
+                    hours = hours % 12 || 12;
+                }
+
+
+
+                let WindSpeedForecast;
+
+                if (SelectedWindUnit === 'mile') {
+                    WindSpeedForecast = Math.round(data.wind_speed_10m[index] / 1.60934) + '';
+                } else {
+                    WindSpeedForecast = Math.round(data.wind_speed_10m[index]) + '';
+                }
+
+
+                function degreesToCompass(degrees) {
+                    const compassDirections = [
+                        "N", "NE", "E", "SE", "S", "SW", "W", "NW"
+                    ];
+                    const index = Math.round(degrees / 45) % 8;
+                    return compassDirections[index];
+                }
+
+                const windDirectionForecast = data.wind_direction_10m[index];
+                const windDirectionCompass = degreesToCompass(windDirectionForecast);
+
+                const WindMeterBarItem = document.createElement('WindMeterBarItem')
+
+                const barHeight = Math.min((data.wind_speed_10m[index] / maxWindSpeed) * 100, 100); // Scale relative to max
+
+
+                WindMeterBarItem.innerHTML = `
+                <windforecastBars>
+                  <windBarProgress style="height: ${barHeight}%;">
+                </windBarProgress>
+                </windforecastBars>
+                <p style="display:flex; flex-direction: column; align-items: center; gap: 3px;">${WindSpeedForecast} <br><span>${windDirectionCompass}</span></p>
+                 <span>${hours}${period}</span>
+
+            `
+
+
+                WindBarsContainer.appendChild(WindMeterBarItem)
+            });
+
+        }
+
+
+        function getTodaysHigh(data) {
+
+            data.time.forEach((time, index) => {
+
+                let WindSpeed;
+
+                if (SelectedWindUnit === 'mile') {
+                    WindSpeed = Math.round(data.wind_speed_10m_max[0] / 1.60934) + ' mph';
+                } else {
+                    WindSpeed = Math.round(data.wind_speed_10m_max[0]) + ' km/h';
+                }
+
+                document.getElementById('WindHighMain').innerHTML = WindSpeed
+
+            })
+        }
+
+
+        loadwindForecast(cachedCurrentDataHourly)
+        getTodaysHigh(cachedDailyData)
+
+
+  function sendThemeToAndroid(theme) {
+
+AndroidInterface.updateStatusBarColor(theme);
+};
+    </script>
+
+
+    <script src="../../app/navigate.js"></script>
+    <script src="../../components-script.js/components.js"></script>
+    <script src="../../ripple-files/icon-ripple.js"></script>
+    <script src="../../modules/scroll.js"></script>
+    <script src="../../bundle.js"></script>
+    <script type="module" src="../../index.js"></script>
+    <script src="../../modules/ripple_acc.js"></script>
+</body>
+
+</html>

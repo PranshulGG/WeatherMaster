@@ -5,6 +5,7 @@ const SelectedWindUnit = localStorage.getItem('SelectedWindUnit');
 const SelectedVisibiltyUnit = localStorage.getItem('selectedVisibilityUnit');
 const SelectedPrecipitationUnit = localStorage.getItem('selectedPrecipitationUnit');
 const SelectedPressureUnit = localStorage.getItem('selectedPressureUnit');
+const timeFormat = localStorage.getItem('selectedTimeMode');
 
 
 
@@ -26,9 +27,18 @@ function HourlyWeather(data) {
     data.hourly.time.forEach((time, index) => {
 
         const forecastTime = new Date(time).getTime();
-        let hours = new Date(time).getHours();
-        const period = hours >= 12 ? "PM" : "AM";
-        hours = hours % 12 || 12;
+
+        let hours
+        let period
+
+        if (timeFormat === '24 hour') {
+            hours = new Date(time).getHours().toString().padStart(2, '0') + ':';
+            period = new Date(time).getMinutes().toString().padStart(2, '0');
+        } else {
+            hours = new Date(time).getHours();
+            period = hours >= 12 ? "PM" : "AM";
+            hours = hours % 12 || 12;
+        }
 
         const HourWeatherCode = data.hourly.weather_code[index];
 
@@ -120,7 +130,7 @@ function HourlyWeather(data) {
             <path style="fill: var(--Inverse-Primary);" d="M20.926,1.495C27.8,-1.49 34.776,5.486 31.791,12.36L31.297,13.496C30.386,15.595 30.386,17.977 31.297,20.076L31.791,21.212C34.776,28.086 27.8,35.062 20.926,32.077L19.79,31.583C17.691,30.672 15.309,30.672 13.21,31.583L12.074,32.077C5.2,35.062 -1.776,28.086 1.209,21.212L1.703,20.076C2.614,17.977 2.614,15.595 1.703,13.496L1.209,12.36C-1.776,5.486 5.2,-1.49 12.074,1.495L13.21,1.989C15.309,2.9 17.691,2.9 19.79,1.989L20.926,1.495Z" />
         </svg>` : ''}
                 <img id="icon-24" src="${icon}" class="icon-24">
-                <p class="time-24">${hours} ${period}</p>
+                <p class="time-24">${hours}${period}</p>
                 <p class="disc_sml-24"></p>
                 <md-ripple style="--md-ripple-pressed-opacity: 0.1;"></md-ripple>
             `;
@@ -132,7 +142,7 @@ function HourlyWeather(data) {
                 </rainPerBarProgress>
                 </rainPerBar>
                 <p>${PrecAmount}</p>
-                 <span>${hours} ${period}</span>
+                 <span>${hours}${period}</span>
 
 
             `
@@ -490,6 +500,13 @@ function CurrentWeather(data, sunrise, sunset) {
         return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
     };
 
+
+    const convertTo24Hour = (time) => {
+        const date = new Date(time);
+        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+    };
+
+
     function calculateTimeDifference(targetTime) {
         const now = new Date(data.time);
         const targetDate = new Date(targetTime); 
@@ -507,8 +524,15 @@ function CurrentWeather(data, sunrise, sunset) {
 
     
 
-    document.getElementById('sunrise').innerHTML = convertTo12Hour(sunrise)
-    document.getElementById('sunset').innerHTML = convertTo12Hour(sunset)
+
+    if (timeFormat === '24 hour') {
+        document.getElementById('sunrise').innerHTML = convertTo24Hour(sunrise)
+        document.getElementById('sunset').innerHTML = convertTo24Hour(sunset)
+    } else{
+        document.getElementById('sunrise').innerHTML = convertTo12Hour(sunrise)
+        document.getElementById('sunset').innerHTML = convertTo12Hour(sunset)
+    }
+
 
     
 
@@ -886,7 +910,7 @@ function UvIndex(latitude, longitude) {
 
 
 function MoreDetails(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/forecast.json?key=MAIN_KEYS&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/forecast.json?key=ef2cb48d90984d828a8140518240209&q=${latSum},${lonSum}`)
         .then(response => response.json())
         .then(data => {
 
@@ -971,6 +995,23 @@ function MoreDetails(latSum, lonSum) {
                 "🌫️ Cloudy conditions ahead. Visibility might be reduced, so drive carefully."
             ];
 
+            const fogTips = [
+                "🌫️ Foggy conditions ahead. Reduce your speed and use low-beam headlights when driving.",
+                "👁️‍🗨️ Visibility will be reduced due to fog. Be cautious on the road.",
+                "🚶‍♂️ Foggy weather today. If you're walking or biking, wear bright, reflective clothing."
+            ];
+
+            const windTips = [
+                "💨 It's going to be windy today. Secure loose objects outdoors and be cautious when driving.",
+                "🌬️ Strong winds ahead! Hold onto your hat and be aware of flying debris.",
+                "🌀 Windy day ahead. If you're outdoors, take care of gusty conditions, especially near tall structures."
+            ];
+
+            const thunderstormTips = [
+                "⛈️ Thunderstorms expected. Stay indoors and avoid being near tall objects or open fields.",
+                "⚡ There's a risk of thunderstorms. Unplug sensitive electronics to avoid damage from lightning.",
+                "🌩️ Stormy weather today! Avoid driving during heavy rain and stay safe indoors."
+            ];
             
             if (maxTemp > 29) {
                 weatherTips += hotWeatherTips[Math.floor(Math.random() * hotWeatherTips.length)] + " ";
@@ -990,8 +1031,13 @@ function MoreDetails(latSum, lonSum) {
                 weatherTips += snowTips[Math.floor(Math.random() * snowTips.length)] + " ";
             } else if (weatherCondition.toLowerCase().includes("cloudy") || weatherCondition.toLowerCase().includes("cloud")) {
                 weatherTips += cloudyWeatherTips[Math.floor(Math.random() * cloudyWeatherTips.length)] + " ";
+            } else if (weatherCondition.toLowerCase().includes("fog")) {
+                weatherTips += fogTips[Math.floor(Math.random() * fogTips.length)] + " ";
+            } else if (weatherCondition.toLowerCase().includes("wind")) {
+                weatherTips += windTips[Math.floor(Math.random() * windTips.length)] + " ";
+            } else if (weatherCondition.toLowerCase().includes("thunder")) {
+                weatherTips += thunderstormTips[Math.floor(Math.random() * thunderstormTips.length)] + " ";
             }
-            
 
             document.getElementById('summeryDay').innerHTML = `<li>${weatherSummary}</li>`
             document.getElementById('day_tips').innerHTML = `<li>${weatherTips}</li>`
@@ -1006,7 +1052,7 @@ function MoreDetails(latSum, lonSum) {
 }
 
 function astronomyData(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=MAIN_KEYS&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=ef2cb48d90984d828a8140518240209&q=${latSum},${lonSum}`)
         .then(response => response.json())
         .then(data => {
 
@@ -1043,8 +1089,30 @@ function astronomyData(latSum, lonSum) {
 
             document.getElementById('moonPhase_name').innerHTML = MoonPhaseName
 
-            document.getElementById('moonriseTime').innerHTML = data.astronomy.astro.moonrise
-            document.getElementById('moonSetTime').innerHTML = data.astronomy.astro.moonset
+            function convertTo24Hour(time) {
+                const [timePart, modifier] = time.split(' ');
+                let [hours, minutes] = timePart.split(':');
+
+                if (hours === '12') {
+                    hours = '00';
+                }
+
+                if (modifier === 'PM') {
+                    hours = parseInt(hours, 10) + 12;
+                }
+
+                return `${hours}:${minutes}`;
+            }
+
+
+
+            if (timeFormat === '24 hour') {
+                document.getElementById('moonriseTime').innerHTML = convertTo24Hour(data.astronomy.astro.moonrise);
+                document.getElementById('moonSetTime').innerHTML = convertTo24Hour(data.astronomy.astro.moonset);
+            } else{
+                document.getElementById('moonriseTime').innerHTML = data.astronomy.astro.moonrise;
+                document.getElementById('moonSetTime').innerHTML = data.astronomy.astro.moonset;
+            }
 
 
         })

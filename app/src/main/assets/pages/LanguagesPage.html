@@ -12,8 +12,10 @@
     <link rel="stylesheet" href="../components/modal-ver.css">
     <link rel="stylesheet" href="../ripple-files/ripple.css">
     <link rel="stylesheet" href="../components/segment-btns.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css" />
+
     <style>
-        .activity-large-content::before {
+ .activity-large-content::before {
             position: fixed;
             bottom: 0;
             content: '';
@@ -25,22 +27,88 @@
 
 
         .language_item {
-            padding: 15px;
+            padding: 10px;
             padding-left: 20px;
             display: flex;
             align-items: center;
+            margin-bottom: 5px;
             gap: 25px;
             font-family: var(--outfit);
             font-size: 18px;
             position: relative;
-            --md-ripple-pressed-opacity: 0.1;
+            --md-ripple-pressed-opacity: 0.12;
         }
 
-                .language_item[disabled]{
+        .language_item[disabled] {
             opacity: 0.4;
             pointer-events: none;
         }
 
+        .language_item input {
+            display: none;
+        }
+
+
+
+
+
+        img_area {
+            display: block;
+            width: 40px;
+            height: 40px;
+            border-radius: 50px;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        img_area i {
+            width: 40px;
+            height: 40px;
+            background-position: center;
+            background-size: cover;
+            display: block;
+            border-radius: 50px;
+            background-repeat: no-repeat;
+        }
+
+
+        img_area::before {
+            content: 'check';
+            font-family: 'Material symbols';
+            font-weight: normal !important;
+            font-style: normal !important;
+            line-height: 1;
+            font-size: 24px;
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50px;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            align-items: center;
+            flex-shrink: 0;
+            justify-content: center;
+            background-color: var(--Primary);
+            color: var(--On-Primary);
+            animation: scaleUp 0.2s ease-out;
+            display: var(--display-before, none);
+        }
+
+        @keyframes scaleUp {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
     </style>
 </head>
 
@@ -71,87 +139,139 @@
                 <md-list>
 
                     <label class="language_item">
-                        <md-radio checked name="app_language_radios" value="English" lang="en"></md-radio>
+                        <input checked name="app_language_radios" value="English" lang="en"
+                               onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-us"></i>
+                        </img_area>
                         English
                         <md-ripple></md-ripple>
                     </label>
 
                     <label class="language_item">
-                        <md-radio name="app_language_radios" value="Español" lang="es"></md-radio>
+                        <input name="app_language_radios" value="Español" lang="es" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-es"></i>
+                        </img_area>
                         Español
                         <md-ripple></md-ripple>
                     </label>
 
-                    <label class="language_item" disabled>
-                        <md-radio name="app_language_radios" value="Français" lang="fr"></md-radio>
+                    <label class="language_item" >
+                        <input name="app_language_radios" value="Français" lang="fr" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-fr"></i>
+                        </img_area>
                         Français
                         <md-ripple></md-ripple>
                     </label>
 
                     <label class="language_item">
-                        <md-radio name="app_language_radios" value="Deutsch" lang="de"></md-radio>
+                        <input name="app_language_radios" value="Deutsch" lang="de" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-de"></i>
+                        </img_area>
                         Deutsch
                         <md-ripple></md-ripple>
                     </label>
 
                     <label class="language_item">
-                        <md-radio name="app_language_radios" value="Italiano" lang="it"></md-radio>
+                        <input name="app_language_radios" value="Italiano" lang="it" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-it"></i>
+                        </img_area>
                         Italiano
                         <md-ripple></md-ripple>
                     </label>
 
                     <label class="language_item" disabled>
-                        <md-radio name="app_language_radios" value="Português" lang="pt"></md-radio>
+                        <input name="app_language_radios" value="Português" lang="pt" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-pt"></i>
+                        </img_area>
                         Português
                         <md-ripple></md-ripple>
                     </label>
 
                     <label class="language_item">
-                        <md-radio name="app_language_radios" value="Pусский" lang="ru"></md-radio>
+                        <input name="app_language_radios" value="Pусский" lang="ru" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-ru"></i>
+                        </img_area>
                         Pусский
                         <md-ripple></md-ripple>
                     </label>
 
-                    <label class="language_item" disabled>
-                        <md-radio name="app_language_radios" value="Magyar" lang="hu"></md-radio>
+                    <label class="language_item">
+                        <input name="app_language_radios" value="українець" lang="uk" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-ua"></i>
+                        </img_area>
+                        українець
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item">
+                        <input name="app_language_radios" value="Magyar" lang="hu" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-hu"></i>
+                        </img_area>
                         Magyar
                         <md-ripple></md-ripple>
                     </label>
 
-                    <label class="language_item" disabled>
-                        <md-radio name="app_language_radios" value="Polski" lang="pl"></md-radio>
+                    <label class="language_item">
+                        <input name="app_language_radios" value="Polski" lang="pl" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-pl"></i>
+                        </img_area>
                         Polski
                         <md-ripple></md-ripple>
                     </label>
 
                     <label class="language_item" disabled>
-                        <md-radio name="app_language_radios" value="Ελληνικά" lang="el"></md-radio>
+                        <input name="app_language_radios" value="Ελληνικά" lang="el" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-gr"></i>
+                        </img_area>
                         Ελληνικά
                         <md-ripple></md-ripple>
                     </label>
 
                     <label class="language_item">
-                        <md-radio name="app_language_radios" value="Română" lang="ro"></md-radio>
+                        <input name="app_language_radios" value="Română" lang="ro" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-ro"></i>
+                        </img_area>
                         Română
                         <md-ripple></md-ripple>
                     </label>
 
                     <label class="language_item">
-                        <md-radio name="app_language_radios" value="Slovenčina" lang="sk"></md-radio>
+                        <input name="app_language_radios" value="Slovenčina" lang="sk" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-sk"></i>
+                        </img_area>
                         Slovenčina
                         <md-ripple></md-ripple>
                     </label>
 
 
 
-                    <label class="language_item" disabled>
-                        <md-radio name="app_language_radios" value="简体中文" lang="zh-Hans"></md-radio>
+                    <label class="language_item">
+                        <input name="app_language_radios" value="简体中文" lang="zh-Hans" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-cn"></i>
+                        </img_area>
                         简体中文
                         <md-ripple></md-ripple>
                     </label>
 
-                    <label class="language_item" disabled>
-                        <md-radio name="app_language_radios" value="日本語" lang="ja"></md-radio>
+                    <label class="language_item">
+                        <input name="app_language_radios" value="日本語" lang="ja" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-jp"></i>
+                        </img_area>
                         日本語
                         <md-ripple></md-ripple>
                     </label>
@@ -233,7 +353,7 @@
 
 
 
-        document.querySelectorAll('md-radio[name="app_language_radios"]').forEach((radio) => {
+            document.querySelectorAll('input[name="app_language_radios"]').forEach((radio) => {
             radio.addEventListener('change', (event) => {
                 if (event.target.checked) {
                     localStorage.setItem('AppLanguage', event.target.value);
@@ -247,13 +367,36 @@
             const AppLanguageValue = localStorage.getItem('AppLanguage');
             const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
             if (AppLanguageValue) {
-                const radio = document.querySelector(`md-radio[value="${AppLanguageValue}"]`);
+                const radio = document.querySelector(`input[value="${AppLanguageValue}"]`);
                 if (radio) {
                     radio.checked = true;
                     applyTranslations(AppLanguageCodeValue);
                 }
+
             }
+
+        updateImgAreas()
+
         });
+
+
+
+
+        function updateImgAreas() {
+    const radios = document.querySelectorAll("input[name='app_language_radios']");
+
+    radios.forEach(radio => {
+        const imgArea = radio.closest('.language_item').querySelector('img_area');
+
+        const beforeStyle = window.getComputedStyle(imgArea, '::before');
+
+        if (radio.checked) {
+            imgArea.style.setProperty('--display-before', 'flex');
+        } else {
+            imgArea.style.setProperty('--display-before', 'none');
+        }
+    });
+}
 
 
     </script>

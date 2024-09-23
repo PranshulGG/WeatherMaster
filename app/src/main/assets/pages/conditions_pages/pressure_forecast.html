@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" Theme="condition_forecast_pages" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Pressure Forecast</title>
+    <link rel="stylesheet" href="../../ui-files/font-usage.css">
+    <link rel="stylesheet" href="../../ui-files/variables.css">
+    <link rel="stylesheet" href="../../components/components.css">
+    <link rel="stylesheet" href="../../ripple-files/ripple.css">
+    <link rel="stylesheet" href="../../components/modal-ver.css">
+    <link rel="stylesheet" href="condition_pageUI.css">
+
+    <style>
+        .condition_info_content::before {
+            position: fixed;
+            bottom: 0;
+            content: '';
+            width: 100%;
+            background: linear-gradient(0deg, var(--Surface) 10%, rgba(255, 0, 0, 0));
+            height: 30px;
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top_conditions_for_header">
+        <md-icon-button onclick="sendThemeToAndroid('GoBack')">
+            <md-icon icon-outlined>arrow_back</md-icon>
+        </md-icon-button>
+    </div>
+
+    <div class="condition_info_content">
+        <div class="condition_label_forecast">
+            <md-icon icon-outlined>compress</md-icon>
+            <p>Pressure</p>
+        </div>
+
+        <div class="pressureCard">
+            
+            <div>
+                <span>Current condition</span>
+                <div>
+                    <p id="pressureValue">30.09</p>
+                    <p id="pressureUnit">inHg</p>
+                </div>
+            </div>
+
+            <md-linear-progress value="0" id="pressureBar"></md-linear-progress>
+        </div>
+
+        <div class="info__forecast">
+
+            <span>Atmospheric pressure, also known as air pressure or baromatic pressure, is the downward pressure exerted by the earth's atmosphere. This app uses Mean Sea Level Pressure (MSLP).</span>
+
+            <span>Abnormal atmospheric pressure may cause headaches, joint pain, fatigue, and other effects.</span>
+
+        </div>
+
+    </div>
+
+
+
+    <script>
+
+        const cachedCurrentDataAvg = JSON.parse(localStorage.getItem('CurrentHourlyCache'));
+        const SelectedPressureUnit = localStorage.getItem('selectedPressureUnit');
+        const pressureBar = document.getElementById('pressureBar');
+
+        function getpressure(data) {
+
+            data.time.forEach((time, index) => {
+
+                let pressureMain;
+                let pressureMainUnit;
+
+                if (SelectedPressureUnit === 'inHg') {
+                    pressureMain = (data.pressure_msl[0] * 0.02953).toFixed(2);
+                    pressureMainUnit = 'inHg';
+                } else if (SelectedPressureUnit === 'mmHg') {
+                    pressureMain = (data.pressure_msl[0] * 0.750062).toFixed(2);
+                    pressureMainUnit = 'mmHg';
+                } else {
+                    pressureMain = data.pressure_msl[0];
+                    pressureMainUnit = 'hPa';
+                }
+
+                const pressureBarValue = Math.round(data.pressure_msl[0]);
+
+
+
+                if(pressureBarValue < 1000){
+                    pressureBar.value = '0.2'
+                } else if (pressureBarValue > 1000 && pressureBarValue < 1010){
+                    pressureBar.value = '0.4'
+                } else if (pressureBarValue > 1010 && pressureBarValue < 1020){
+                    pressureBar.value = '0.5'
+                } else if (pressureBarValue > 1020 && pressureBarValue < 1030){
+                    pressureBar.value = '0.7'
+                } else if (pressureBarValue > 1030){
+                    pressureBar.value = '1'
+                }
+
+
+
+
+                document.getElementById('pressureValue').innerHTML = pressureMain
+                document.getElementById('pressureUnit').innerHTML = pressureMainUnit
+
+            })
+        }
+
+
+        getpressure(cachedCurrentDataAvg)
+
+
+  function sendThemeToAndroid(theme) {
+
+AndroidInterface.updateStatusBarColor(theme);
+};
+    </script>
+
+    <script src="../../app/navigate.js"></script>
+    <script src="../../components-script.js/components.js"></script>
+    <script src="../../ripple-files/icon-ripple.js"></script>
+    <script src="../../modules/scroll.js"></script>
+    <script src="../../bundle.js"></script>
+    <script type="module" src="../../index.js"></script>
+    <script src="../../modules/ripple_acc.js"></script>
+</body>
+
+</html>

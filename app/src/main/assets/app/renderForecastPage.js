@@ -4,6 +4,7 @@ const SelectedPrecipitationUnit = localStorage.getItem('selectedPrecipitationUni
 const SelectedPressureUnit = localStorage.getItem('selectedPressureUnit');
 const cachedData = JSON.parse(localStorage.getItem('DailyWeatherCache'));
 const cachedDataHourly = JSON.parse(localStorage.getItem('HourlyWeatherCache'));
+const timeFormat = localStorage.getItem('selectedTimeMode');
 
 
 // icons
@@ -98,68 +99,78 @@ function GetWeatherLabel(iconCode, isDay) {
 
     if (isDay === 1) {
         if (iconCode === 0) {
-            return 'Clear sky'
+            return 'clear_sky'
 
         } else if (iconCode === 1) {
-            return 'Mostly clear'
+            return 'mostly_clear'
 
         } else if (iconCode === 2) {
-            return 'Partly cloudy'
+            return 'partly_cloudy'
 
         } else if (iconCode === 3) {
-            return 'Overcast'
+            return 'overcast'
 
         } else if (iconCode === 45 || iconCode === 48) {
-            return 'Fog'
+            return 'fog'
 
         } else if (iconCode === 51 || iconCode === 53 || iconCode === 55) {
-            return 'Drizzle'
+            return 'drizzle'
 
         } else if (iconCode === 56 || iconCode === 57) {
-            return 'Freezing Drizzle'
+            return 'freezing_drizzle'
 
         } else if (iconCode === 61 || iconCode === 63) {
-            return 'Moderate rain'
+            return 'moderate_rain'
 
         } else if (iconCode === 65) {
-            return 'Heavy intensity rain'
+            return 'heavy_intensity_rain'
 
         } else if (iconCode === 66 || iconCode === 67) {
-            return 'Freezing Rain'
+            return 'freezing_rain'
 
         } else if (iconCode === 71) {
-            return 'Slight snow'
+            return 'slight_snow'
 
         } else if (iconCode === 73) {
-            return 'Moderate snow'
+            return 'moderate_snow'
 
         } else if (iconCode === 75) {
-            return 'Heavy intensity snow'
+            return 'heavy_intensity_snow'
 
         } else if (iconCode === 77) {
-            return 'Snow grains'
+            return 'snow_grains'
 
         } else if (iconCode === 80 || iconCode === 81) {
-            return 'Rain showers'
+            return 'rain_showers'
 
         } else if (iconCode === 82) {
-            return 'Heavy rain showers'
+            return 'heavy_rain_showers'
 
         } else if (iconCode === 85) {
-            return 'Slight snow showers'
+            return 'slight_snow_showers'
 
         } else if (iconCode === 86) {
-            return 'Heavy snow showers'
+            return 'heavy_snow_showers'
 
         } else if (iconCode === 95) {
-            return 'Thunderstorm'
+            return 'thunderstorm'
 
         } else if (iconCode === 96 || iconCode === 99) {
-            return 'Strong thunderstorm'
+            return 'strong_thunderstorm'
 
         }
     }
 }
+
+
+function getWeatherLabelInLang(iconCode, isDay, langCode) {
+    const translationKey = GetWeatherLabel(iconCode, isDay);
+
+    const translatedLabel = getTranslationByLang(langCode, translationKey);
+
+    return translatedLabel || 'Unknown weather';
+}
+
 
 
 // change ids same
@@ -270,7 +281,9 @@ function displayDailyForecast(forecast, forecastDaily) {
         const dateObj = new Date(date);
 
         const isToday = date === today;
-        const weekday = isToday ? 'Today' : dateObj.toLocaleDateString('en-US', { weekday: 'short' });
+            const weekday = isToday ? 'today' : dateObj.toLocaleDateString('en-US', { weekday: 'short' }).toLowerCase();
+
+            const weekdayLang = getTranslationByLang(localStorage.getItem('AppLanguageCode'), weekday);
 
 
         const dailyData = forecastDaily[date];
@@ -284,8 +297,21 @@ function displayDailyForecast(forecast, forecastDaily) {
             return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
         };
 
-        const SunriseTime = convertTo12Hour(forecast.sunrise[index])
-        const SunsetTime = convertTo12Hour(forecast.sunset[index])
+        const convertTo24Hour = (time) => {
+            const date = new Date(time);
+            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+        };
+
+        let SunriseTime
+        let SunsetTime
+
+        if (timeFormat === '24 hour') {
+             SunriseTime = convertTo24Hour(forecast.sunrise[index])
+             SunsetTime = convertTo24Hour(forecast.sunset[index])
+        } else{
+             SunriseTime = convertTo12Hour(forecast.sunrise[index])
+             SunsetTime = convertTo12Hour(forecast.sunset[index])
+        }
         const DailyWeatherCode = forecast.weather_code[index];
 
         const cloudCover = dailyData.cloudCover
@@ -407,7 +433,7 @@ function displayDailyForecast(forecast, forecastDaily) {
 
         forecastDateHeaderContent.innerHTML = `
 
-            <span>${weekday}</span>
+            <span>${weekdayLang}</span>
             <img src="${GetWeatherIcon(DailyWeatherCode, 1)}">
             <div>
             <p>${TemperatureMax}°<span>/${TemperatureMin}°</span></p>
@@ -447,21 +473,21 @@ function displayDailyForecast(forecast, forecastDaily) {
             forecastTempConditionMainContent.innerHTML = `
 
             <div class="top-details">
-                <p>${weekday}, ${formattedDate}</p>
+                <p>${weekdayLang}, ${formattedDate}</p>
                 <div>
                 <tempLarge><p>${TemperatureMax}° </p> <span>/${TemperatureMin}°</span></tempLarge>
                 <img src="${GetWeatherIcon(DailyWeatherCode, 1)}">
                 </div>
-                <weatherConditionText>${GetWeatherLabel(DailyWeatherCode, 1)}</weatherConditionText>
+                <weatherConditionText>${getWeatherLabelInLang(DailyWeatherCode, 1, localStorage.getItem('AppLanguageCode'))}</weatherConditionText>
             </div>
 
 
-            <p class="daily-conditions-title">Daily conditions</p>
+            <p class="daily-conditions-title" data-translate="daily_conditions">Daily conditions</p>
             <div class="daily-conditions">
             <div class="daily-conditions-wrap">
 
                 <div>
-                    <p>Wind speed</p>
+                    <p data-translate="wind_speed">Wind speed</p>
                     <conditionIcon>
                     ${ConditionIcons.WindSockIcon}
                     </conditionIcon>
@@ -470,7 +496,7 @@ function displayDailyForecast(forecast, forecastDaily) {
 
 
                 <div>
-                    <p>Humidity</p>
+                    <p data-translate="humidity">Humidity</p>
                     <conditionIcon>
                     ${ConditionIcons.HumidityIcon}
                     </conditionIcon>
@@ -479,7 +505,7 @@ function displayDailyForecast(forecast, forecastDaily) {
 
 
                 <div>
-                <p>Precipitation chances</p>
+                <p data-translate="precipitation_chances">Precipitation chances</p>
                 <conditionIcon>
                 ${ConditionIcons.PrecipitationChancesIcon}
                 </conditionIcon>
@@ -487,7 +513,7 @@ function displayDailyForecast(forecast, forecastDaily) {
                 </div>
 
                 <div>
-                <p>Precipitation amount</p>
+                <p data-translate="precipitation_amount">Precipitation amount</p>
                 <conditionIcon>
                 ${ConditionIcons.PrecipitationAmountIcon}
                 </conditionIcon>
@@ -495,7 +521,7 @@ function displayDailyForecast(forecast, forecastDaily) {
                 </div>
 
                 <div>
-                <p>Cloud cover</p>
+                <p data-translate="cloudiness">Cloud cover</p>
                 <conditionIcon>
                 ${ConditionIcons.CloudCoverIcon}
                 </conditionIcon>
@@ -503,7 +529,7 @@ function displayDailyForecast(forecast, forecastDaily) {
                 </div>
 
                 <div>
-                <p>Pressure</p>
+               <p data-translate="pressure">Pressure</p>
                 <conditionIcon>
                 ${ConditionIcons.PressureIcon}
                 </conditionIcon>
@@ -511,7 +537,7 @@ function displayDailyForecast(forecast, forecastDaily) {
                 </div>
 
                 <div>
-                <p>Dew point</p>
+                <p data-translate="dew_point">Dew point</p>
                 <conditionIcon>
                 ${ConditionIcons.DewPointIcon}
                 </conditionIcon>
@@ -519,7 +545,7 @@ function displayDailyForecast(forecast, forecastDaily) {
                 </div>
 
                 <div>
-                <p>UV index</p>
+                <p data-translate="uv_index">UV index</p>
                 <conditionIcon>
                 ${ConditionIcons.UVindexIcon}
                 </conditionIcon>
@@ -529,11 +555,11 @@ function displayDailyForecast(forecast, forecastDaily) {
                 </div>
                 </div>
 
-                <p class="daily-conditions-title" style="margin-top:10px;">Sunrise & sunset</p>
+                 <p class="daily-conditions-title" style="margin-top:10px;"><span data-translate="sunrise">Sunrise</span> & <span data-translate="sunset">sunset</span></p>
                 <div class="sunrise-sunset-forecast">
 
                 <div class="sunrise-sunset-item">
-                <p>Sunrise</p>
+                <p data-translate="sunrise">Sunrise</p>
                 <div class="sunrise-sunset-img">
                 ${ConditionIcons.SunriseIcon}
                 </div>
@@ -541,7 +567,7 @@ function displayDailyForecast(forecast, forecastDaily) {
                 </div>
 
                 <div class="sunrise-sunset-item">
-                <p>Sunset</p>
+                <p data-translate="sunset">Sunset</p>
                 <div class="sunrise-sunset-img">
                 ${ConditionIcons.SunsetIcon}
                 </div>
@@ -555,6 +581,13 @@ function displayDailyForecast(forecast, forecastDaily) {
             if (!forecastMainDetails.contains(forecastTempConditionMainContent)) {
                 forecastMainDetails.appendChild(forecastTempConditionMainContent);
             }
+
+                        const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
+                    if (AppLanguageCodeValue) {
+                        applyTranslations(AppLanguageCodeValue);
+
+                    }
+
 
         }
 

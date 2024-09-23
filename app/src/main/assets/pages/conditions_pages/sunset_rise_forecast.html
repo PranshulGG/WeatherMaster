@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" Theme="condition_forecast_pages" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>SunRise set Forecast</title>
+    <link rel="stylesheet" href="../../ui-files/font-usage.css">
+    <link rel="stylesheet" href="../../ui-files/variables.css">
+    <link rel="stylesheet" href="../../components/components.css">
+    <link rel="stylesheet" href="../../ripple-files/ripple.css">
+    <link rel="stylesheet" href="../../components/modal-ver.css">
+    <link rel="stylesheet" href="condition_pageUI.css">
+
+    <style>
+        .condition_info_content::before {
+            position: fixed;
+            bottom: 0;
+            content: '';
+            width: 100%;
+            background: linear-gradient(0deg, var(--Surface) 10%, rgba(255, 0, 0, 0));
+            height: 30px;
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top_conditions_for_header">
+        <md-icon-button onclick="sendThemeToAndroid('GoBack')">
+            <md-icon icon-outlined>arrow_back</md-icon>
+        </md-icon-button>
+    </div>
+
+    <div class="condition_info_content">
+        <div class="condition_label_forecast">
+            <md-icon icon-outlined>wb_twilight</md-icon>
+            <p>Sun</p>
+        </div>
+
+        <div class="top_sunSetRise_card">
+
+            <svg viewBox="0 0 176.0 110.0" xmlns="http://www.w3.org/2000/svg">
+                <path style="fill: var(--Primary);"
+                    d="M176.5,54.44V89.86C176.5,100.91 167.52,109.86 156.44,109.86H20.06C8.98,109.86 0,100.91 0,89.86V52.57C7.79,51.81 15.41,48.77 21.78,43.46L62.06,9.91C76.95,-2.49 98.6,-2.49 113.49,9.91L156.22,45.51C162.18,50.47 169.23,53.45 176.49,54.44H176.5Z"
+                    fill-rule="evenodd" />
+            </svg>
+
+        </div>
+
+        <div class="info_about_sun">
+
+            <div>
+                <span>Sunrise</span>
+                <p id="SunriseTime"></p>
+            </div>
+
+            <div>
+                <span>Sunset</span>
+                <p id="SunsetTime"></p>
+            </div>
+
+        </div>
+
+
+        <div class="info__forecast">
+            <span>Sunrise: When the sun fully appears above the horizon. This varies depending on location, time of year, and time zone.</span>
+
+            <span>Sunset: When the sun completely disappears below the horizon. This varies depending on location, time of year, and time zone.</span>
+
+            <span>Dawn: When the first visible light of the day appears before sunrise.</span>
+
+            <span style="margin-bottom: 30px;">Dusk: The darkest stage of twilight before the last visible light disappears.</span>
+
+
+        </div>
+
+    </div>
+
+
+
+    <script>
+
+        const cachedCurrentDataAvg = JSON.parse(localStorage.getItem('DailyWeatherCache'));
+        const timeFormat = localStorage.getItem('selectedTimeMode');
+
+        function getSunData(data) {
+            data.time.forEach((time, index) => {
+                const sunrise = data.sunrise[0].split('T')[1].slice(0, 5);
+                const sunset = data.sunset[0].split('T')[1].slice(0, 5);  
+
+                let SunriseTime;
+                let SunsetTime;
+
+                if (timeFormat === '24 hour') {
+                    SunriseTime = sunrise;
+                    SunsetTime = sunset;
+                } else {
+                    SunriseTime = convertTo12Hour(sunrise);
+                    SunsetTime = convertTo12Hour(sunset);
+                }
+
+                document.getElementById('SunriseTime').innerHTML = SunriseTime;
+                document.getElementById('SunsetTime').innerHTML = SunsetTime;
+            });
+        }
+
+        function convertTo12Hour(time) {
+            let [hours, minutes] = time.split(':');
+            hours = parseInt(hours);
+
+            let period = 'AM';
+            if (hours >= 12) {
+                period = 'PM';
+                if (hours > 12) {
+                    hours -= 12;
+                }
+            } else if (hours === 0) {
+                hours = 12;
+            }
+
+            return `${hours}:${minutes} ${period}`;
+        }
+
+
+        getSunData(cachedCurrentDataAvg)
+
+          function sendThemeToAndroid(theme) {
+
+AndroidInterface.updateStatusBarColor(theme);
+};
+    </script>
+
+    <script src="../../app/navigate.js"></script>
+    <script src="../../components-script.js/components.js"></script>
+    <script src="../../ripple-files/icon-ripple.js"></script>
+    <script src="../../modules/scroll.js"></script>
+    <script src="../../bundle.js"></script>
+    <script type="module" src="../../index.js"></script>
+    <script src="../../modules/ripple_acc.js"></script>
+</body>
+
+</html>

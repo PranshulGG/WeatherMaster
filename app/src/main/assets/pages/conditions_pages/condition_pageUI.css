@@ -1,0 +1,390 @@
+* {
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    touch-action: manipulation;
+    -webkit-user-drag: none;
+    outline: none;
+}
+
+body {
+    background-color: var(--Surface);
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    animation: opacity 0.3s ease-out;
+
+}
+
+[hidden]{
+    display: none !important;
+}
+
+p{
+    margin: 0;
+}
+
+@keyframes opacity{
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+
+.top_conditions_for_header{
+    padding: 10px;
+    height: calc(65px - 10px);
+    display: flex;
+    align-items: center;
+}
+
+.condition_info_content{
+    height: calc(100% - 65px);
+    position: fixed;
+    overflow: auto;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    background-color: var(--Surface);
+}
+
+.condition_label_forecast{
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+    color: var(--On-Surface);
+    padding-left: 18px;
+
+}
+
+.condition_label_forecast > p{
+    font-size: 26px;
+    font-family: var(--outfit);
+}
+
+.humidity_block_todays{
+    background-color: var(--Surface-Container);
+    margin: 10px;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.humidityBars, .WindBars{
+    display: flex;
+    align-items: center;
+    overflow: auto;
+    padding-top: 10px;
+    gap: 10px;
+}
+
+.humidityBars humiditymeterbaritem{
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+humidityforecastbars{
+    height: 115px;
+    width: 33px;
+    background-color: transparent;
+    border-radius: 50px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+}
+
+humidityforecastbars humiditybarprogress{
+    width: 100%;
+    background-color: var(--Tertiary);
+    border-radius: inherit;
+    position: relative;
+ 
+}
+
+humidityforecastbars humiditybarprogress::before{
+    content: 'humidity_high';
+    color: var(--On-Tertiary);
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    font-family: 'Material symbols';
+    font-weight: normal !important;
+    font-style: normal !important;
+    font-variation-settings: 'FILL' 1;
+    line-height: 1;
+}
+
+humiditymeterbaritem p{
+    color: var(--On-Surface);
+    font-family: var(--outfit-mid);
+    padding: 10px 0 18px 0;
+}
+
+humiditymeterbaritem span{
+    color: var(--On-Surface-Variant);
+    font-size: 15px;
+    font-family: var(--google-mid);
+}
+
+.humidity_block_todays > p{
+    color: var(--On-Surface);
+    font-family: var(--outfit-mid);
+    font-size: 20px;
+}
+
+#HumidityMain, #WindHighMain{
+    color: var(--Secondary);
+    font-size: 50px;
+    font-family: var(--google-mid);
+    padding-top: 10px;
+    display: block;
+}
+
+.info__forecast{
+    padding: 13px;
+    color: var(--On-Surface-Variant);
+    font-size: 18px;
+    font-family: var(--google-mid);
+    display: flex;
+    padding-top: 20px;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.top_visibility_box{
+    padding: 10px;
+    padding-top: 15px;
+}
+
+.visibility_graphic{
+    background-color: var(--Surface-Container);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    height: 130px;
+}
+
+.visibility_graphic svg{
+    width: 100%;
+    height: 100%;
+}
+
+.visibility_values{
+    z-index: 1;
+    top: 43px;
+    left: 20px;
+    position: absolute;
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+}
+
+.visibility_values p:first-child{
+    color: var(--On-Tertiary-Container);
+    font-size: 50px;
+    font-family: var(--google-mid);
+}
+
+.visibility_values p:last-child{
+    color: var(--On-Tertiary-Container);
+    font-size: 20px;
+    font-family: var(--google-mid);
+    padding-bottom: 10px;
+}
+
+.visibility_graphic > span{
+    color: var(--On-Surface);
+    font-family: var(--outfit-mid);
+    font-size: 16px;
+    position: absolute;
+    top: 15px;
+    left: 20px;
+}
+
+.UvCard{
+    background-color: var(--Surface-Container);
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    height: 100px;
+    border-radius: 20px;
+}
+
+.UvCard .uvImg div > svg{
+    width: 150px;
+    height: 100%;
+}
+
+.UvCard .uvImg div{
+    display: flex;
+    align-items: center;
+}
+
+#indexValue{
+    font-family: var(--google-mid);
+    color: var(--On-Surface);
+    font-size: 50px;
+}
+
+#indexDescrip{
+    color: var(--On-Surface-Variant);
+    font-size: 18px;
+    font-family: var(--outfit);
+}
+
+.WindBars windmeterbaritem{
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+windforecastBars{
+    height: 100px;
+    width: 33px;
+    background-color: transparent;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+}
+
+windforecastBars windBarProgress{
+    width: 100%;
+    background-color: var(--Tertiary);
+    border-radius: inherit;
+    height: 0%;
+    position: relative;
+ 
+}
+
+
+WindMeterBarItem p{
+    color: var(--On-Surface);
+    font-family: var(--outfit-mid);
+    padding: 10px 0 18px 0;
+}
+
+WindMeterBarItem span{
+    color: var(--On-Surface-Variant);
+    font-size: 15px;
+    font-family: var(--google-mid);
+}
+
+.WindBars{
+    padding-top: 15px !important;
+}
+
+
+.top_sunSetRise_card{
+    margin: 10px;
+    background-color: var(--Surface-Container-Lowest);
+    height: 220px;
+    border-radius: 40px;
+    overflow: hidden;
+    position: relative;
+}
+
+.top_sunSetRise_card svg{
+    position: absolute;
+    bottom: -40px;
+    left: 0;
+    width: 100%;
+}
+
+.top_sunSetRise_card::before{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 50%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.384);
+    border-top: 3px solid var(--Outline-Variant);
+    z-index: 1;
+
+}
+
+.info_about_sun{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    padding-top: 20px;
+    
+}
+
+.info_about_sun div span{
+    font-family: var(--outfit-mid);
+    font-size: 18px;
+    color: var(--On-Surface-Variant);
+}
+
+.info_about_sun div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    flex-direction: column;
+}
+
+.info_about_sun div p{
+    color: var(--Secondary);
+    font-family: var(--google-mid);
+    font-size: 18px;
+}
+
+.pressureCard{
+    margin: 10px;
+    background-color: var(--Surface-Container);
+    border-radius: 20px;
+    padding: 20px;
+    height: 105px;
+    --md-linear-progress-track-height: 10px;
+    --md-linear-progress-active-indicator-height: 10px;
+    --md-linear-progress-track-shape: 50px;
+}
+
+.pressureCard > div{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pressureCard > div > span{
+    color: var(--On-Surface);
+    font-size: 18px;
+    font-family: var(--outfit-mid);
+}
+
+.pressureCard > div > div > p:first-child{
+    color: var(--Secondary);
+    font-size: 40px;
+    font-family: var(--google-mid);
+}
+
+.pressureCard > div > div{
+    display: flex;
+    align-items: flex-end;    
+    gap: 5px;
+    padding-bottom: 20px;
+}
+
+.pressureCard > div > div > p:last-child{
+    color: var(--On-Surface-Variant);
+    font-size: 20px;
+    padding-bottom: 6px;
+    font-family: var(--google-mid);
+}

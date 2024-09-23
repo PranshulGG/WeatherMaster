@@ -12,6 +12,7 @@ function handleStorageChange(event) {
     if (event.key === 'SelectedTempUnit' ||
         event.key === 'SelectedWindUnit' ||
         event.key === 'selectedVisibilityUnit' ||
+        event.key === 'selectedTimeMode'||
         event.key === 'selectedPrecipitationUnit' ||
         event.key === 'DefaultLocation'||
         event.key === 'selectedPressureUnit') {
@@ -655,7 +656,7 @@ function checkNoInternet(){
 
     document.addEventListener('DOMContentLoaded', async function() {
 
-        const currentVersion = 'v1.6.2';
+        const currentVersion = 'v1.6.3';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 

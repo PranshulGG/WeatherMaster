@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" Theme="condition_forecast_pages" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Humidity Forecast</title>
+    <link rel="stylesheet" href="../../ui-files/font-usage.css">
+    <link rel="stylesheet" href="../../ui-files/variables.css">
+    <link rel="stylesheet" href="../../components/components.css">
+    <link rel="stylesheet" href="../../ripple-files/ripple.css">
+    <link rel="stylesheet" href="../../components/modal-ver.css">
+    <link rel="stylesheet" href="condition_pageUI.css">
+</head>
+
+<body>
+    <div class="top_conditions_for_header">
+        <md-icon-button onclick="sendThemeToAndroid('GoBack')">
+            <md-icon icon-outlined>arrow_back</md-icon>
+        </md-icon-button>
+    </div>
+
+    <div class="condition_info_content">
+        <div class="condition_label_forecast">
+            <md-icon icon-filled>humidity_high</md-icon>
+            <p>Humidity</p>
+        </div>
+
+
+        <div class="humidity_block_todays">
+            <p>Today's average</p>
+            <span id="HumidityMain">---%</span>
+
+            <div class="humidityBars">
+
+            </div>
+        </div>
+
+
+        <div class="info__forecast">
+
+            <span>Relative humidity is the percentage of water vapor present in the air compared to the maximum amount the air can hold at a given temperature.</span>
+            <span>Dew point is what the temperature would need to be cooled to in order to achieve a relative humidity of 100%.</span>
+        </div>
+    </div>
+
+
+    <script>
+        const cachedCurrentDataHourly = JSON.parse(localStorage.getItem('CurrentHourlyCache'));
+        const cachedCurrentDataAvg = JSON.parse(localStorage.getItem('DailyWeatherCache'));
+        const timeFormat = localStorage.getItem('selectedTimeMode');
+
+        function loadHumidityForecast(data) {
+            const HumidityBarsContainer = document.querySelector('.humidityBars');
+            HumidityBarsContainer.innerHTML = '';
+
+            let totalHumidity = 0;
+            let count = 0;
+
+            data.time.forEach((time, index) => {
+                const forecastTime = new Date(time).getTime();
+
+                let hours
+                let period
+
+                if (timeFormat === '24 hour') {
+                    hours = new Date(time).getHours().toString().padStart(2, '0') + ':';
+                    period = new Date(time).getMinutes().toString().padStart(2, '0');
+                } else {
+                     hours = new Date(time).getHours();
+                      period = hours >= 12 ? "PM" : "AM";
+                 hours = hours % 12 || 12;
+                }
+
+
+
+                const HumidityMain = data.relative_humidity_2m[index];
+                totalHumidity += HumidityMain; 
+                count++;
+
+                const HumidityMeterBarItem = document.createElement('HumidityMeterBarItem')
+
+                HumidityMeterBarItem.innerHTML = `
+                <humidityforecastBars>
+                  <humidityBarProgress style="height: ${Math.round(HumidityMain)}%;">
+                </humidityBarProgress>
+                </humidityforecastBars>
+                <p>${Math.round(HumidityMain)}%</p>
+                 <span>${hours}${period}</span>
+
+            `
+          
+
+            HumidityBarsContainer.appendChild(HumidityMeterBarItem)
+            });
+
+            const averageHumidity = Math.round(totalHumidity / count);
+            document.getElementById('HumidityMain').innerHTML = averageHumidity + '%'
+        }
+
+
+
+        loadHumidityForecast(cachedCurrentDataHourly)
+
+  function sendThemeToAndroid(theme) {
+
+AndroidInterface.updateStatusBarColor(theme);
+};
+
+    </script>
+
+    <script src="../../app/navigate.js"></script>
+    <script src="../../components-script.js/components.js"></script>
+    <script src="../../ripple-files/icon-ripple.js"></script>
+    <script src="../../modules/scroll.js"></script>
+    <script src="../../bundle.js"></script>
+    <script type="module" src="../../index.js"></script>
+    <script src="../../modules/ripple_acc.js"></script>
+</body>
+
+</html>

@@ -43,7 +43,7 @@
     --md-sys-color-on-surface-variant: var(--On-Surface-Variant);
     --md-sys-color-on-background-variant: var(--On-Surface-Variant);
     --md-focus-ring-color: transparent;
-    --md-ripple-pressed-opacity: 0.25;
+    --md-ripple-pressed-opacity: 0.12;
     --md-ripple-hover-opacity: 0;
     --md-ripple-focus-opacity: 1;
 
@@ -78,12 +78,12 @@
     --md-checkbox-hover-outline-color: var(--On-Surface-Variant);
     --md-checkbox-focus-outline-color: var(--On-Surface-Variant);
     --md-checkbox-pressed-outline-color: var(--On-Surface-Variant);
-    --md-list-item-pressed-state-layer-opacity: 0.2;
+    --md-list-item-pressed-state-layer-opacity: 0.12;
     --md-list-item-pressed-state-layer-color: var(--On-Surface);
     --md-list-item-label-text-size: 19px;
 
     --md-list-container-color: transparent;
-    --md-menu-item-pressed-state-layer-opacity: 0.2;
+    --md-menu-item-pressed-state-layer-opacity: 0.12;
 
     --md-filled-button-pressed-state-layer-opacity: 0.25;
     --md-outlined-button-pressed-state-layer-opacity: 0.25;
@@ -521,6 +521,96 @@
     --Shadow: #000000;
 
     --caret: #aac7ff;
+    --Top-bar: 64, 70, 89;
+
+
+}
+
+
+
+/* conditions forecast page */
+
+
+[Theme="condition_forecast_pages"] {
+
+    --Primary: #ffb0c8;
+    --On-Primary: #541d32;
+    --Primary-Container: #703349;
+    --On-Primary-Container: #ffd9e2;
+    --Secondary: #e3bdc6;
+    --On-Secondary: #422931;
+    --Secondary-Container: #5a3f47;
+    --On-Secondary-Container: #ffd9e2;
+    --Tertiary: #efbd94;
+    --On-Tertiary: #48290c;
+    --Tertiary-Container: #623f20;
+    --On-Tertiary-Container: #ffdcc1;
+    --Error: #ffb4ab;
+    --On-Error: #690005;
+    --Error-Container: #93000a;
+    --On-Error-Container: #ffdad6;
+    --Surface-Dim: #191113;
+    --Surface: #191113;
+    --Surface-Bright: #413739;
+    --Surface-Container-Lowest: #140c0e;
+    --Surface-Container-Low: #22191c;
+    --Surface-Container: #261d20;
+    --Surface-Container-High: #31282a;
+    --Surface-Container-Highest: #3c3235;
+    --Inverse-Surface: #efdfe1;
+    --Inverse-On-Surface: #372e30;
+    --Inverse-Primary: #8c4a60;
+    --On-Surface: #efdfe1;
+    --On-Surface-Variant: #d5c2c6;
+    --Outline: #9e8c90;
+    --Outline-Variant: #514347;
+    --Scrim: #000000;
+    --Shadow: #000000;
+
+    --caret: #ffb0c8;
+    --Top-bar: 64, 70, 89;
+
+
+}
+
+
+[Theme="about_page"] {
+
+    --Primary: #9dd49d;
+    --On-Primary: #033912;
+    --Primary-Container: #1f5027;
+    --On-Primary-Container: #b9f0b8;
+    --Secondary: #b8ccb5;
+    --On-Secondary: #243424;
+    --Secondary-Container: #3a4b39;
+    --On-Secondary-Container: #d4e8d0;
+    --Tertiary: #a1ced6;
+    --On-Tertiary: #00363c;
+    --Tertiary-Container: #1f4d54;
+    --On-Tertiary-Container: #bcebf2;
+    --Error: #ffb4ab;
+    --On-Error: #690005;
+    --Error-Container: #93000a;
+    --On-Error-Container: #ffdad6;
+    --Surface-Dim: #101510;
+    --Surface: #101510;
+    --Surface-Bright: #363a35;
+    --Surface-Container-Lowest: #0b0f0b;
+    --Surface-Container-Low: #181d18;
+    --Surface-Container: #1c211c;
+    --Surface-Container-High: #272b26;
+    --Surface-Container-Highest: #313630;
+    --Inverse-Surface: #e0e4db;
+    --Inverse-On-Surface: #2d322c;
+    --Inverse-Primary: #37693c;
+    --On-Surface: #e0e4db;
+    --On-Surface-Variant: #c2c9bd;
+    --Outline:#8c9389 ;
+    --Outline-Variant: #424940;
+    --Scrim: #000000;
+    --Shadow: #000000;
+
+    --caret: #9dd49d;
     --Top-bar: 64, 70, 89;
 
 

@@ -294,6 +294,24 @@ public class MainActivity extends AppCompatActivity {
                     } else if (color.equals("OpenRadar")){
                         openLiveRadarPage();
                         return;
+                    } else if (color.equals("openSunCondition")){
+                        openSunCondition();
+                        return;
+                    } else if (color.equals("openHumidityCondition")){
+                        openHumidityCondition();
+                        return;
+                    } else if (color.equals("openPressureCondition")){
+                        openPressureCondition();
+                        return;
+                    } else if (color.equals("openVisibilityCondition")){
+                        openVisibilityCondition();
+                        return;
+                    } else if (color.equals("openWindCondition")){
+                        openWindCondition();
+                        return;
+                    } else if (color.equals("openUVcondition")){
+                        openUVcondition();
+                        return;
                     } else if (color.equals("GoBack")) {
                         back();
                         return;
@@ -384,6 +402,37 @@ public class MainActivity extends AppCompatActivity {
         }
         public void openLiveRadarPage() {
             Intent intent = new Intent(mActivity, LiveRadar.class);
+            mActivity.startActivity(intent);
+        }
+
+//        -----------------------------
+        public void openSunCondition() {
+            Intent intent = new Intent(mActivity, sunCondition.class);
+            mActivity.startActivity(intent);
+        }
+
+        public void openHumidityCondition() {
+            Intent intent = new Intent(mActivity, humidityCondition.class);
+            mActivity.startActivity(intent);
+        }
+
+        public void openPressureCondition() {
+            Intent intent = new Intent(mActivity, pressureCondition.class);
+            mActivity.startActivity(intent);
+        }
+
+        public void openVisibilityCondition() {
+            Intent intent = new Intent(mActivity, visibilityCondition.class);
+            mActivity.startActivity(intent);
+        }
+
+        public void openWindCondition() {
+            Intent intent = new Intent(mActivity, WindCondition.class);
+            mActivity.startActivity(intent);
+        }
+
+        public void openUVcondition() {
+            Intent intent = new Intent(mActivity, UVIndexCondition.class);
             mActivity.startActivity(intent);
         }
 

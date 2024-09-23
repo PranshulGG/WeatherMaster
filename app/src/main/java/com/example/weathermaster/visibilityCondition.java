@@ -23,7 +23,7 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class AboutPage extends AppCompatActivity {
+public class visibilityCondition extends AppCompatActivity {
 
     private WebView webview;
 
@@ -56,9 +56,9 @@ public class AboutPage extends AppCompatActivity {
         webview.setWebViewClient(new WebViewClientDemo());
         AndroidInterface androidInterface = new AndroidInterface(this);
         webview.addJavascriptInterface(androidInterface, "AndroidInterface");
-        webview.setBackgroundColor(getResources().getColor(R.color.AboutBG));
+        webview.setBackgroundColor(getResources().getColor(R.color.conditionBG));
 
-        webview.loadUrl("file:///android_asset/pages/AboutPage.html");
+        webview.loadUrl("file:///android_asset/pages/conditions_pages/visibility_forecast.html");
 
     }
 
@@ -66,9 +66,9 @@ public class AboutPage extends AppCompatActivity {
 
 
     public class AndroidInterface {
-        private AboutPage aActivity;
+        private visibilityCondition aActivity;
 
-        AndroidInterface(AboutPage activity) {
+        AndroidInterface(visibilityCondition activity) {
             aActivity = activity;
         }
 
@@ -85,26 +85,26 @@ public class AboutPage extends AppCompatActivity {
 
 
                     if(color.equals("Scrolled")){
-                        statusBarColor = 0xFF1e2024;
-                        navigationBarColor = 0xFF121317;
+                        statusBarColor = 0xFF415161;
+                        navigationBarColor = 0xFF334151;
                         systemUiVisibilityFlags = 0;
 
                     } else if (color.equals("ScrollFalse")) {
-                        statusBarColor = 0xFF121317;
-                        navigationBarColor = 0xFF121317;
+                        statusBarColor = 0xFF334151;
+                        navigationBarColor = 0xFF334151;
                         systemUiVisibilityFlags = 0;
 
                     } else if (color.equals("GoBack")){
                         back();
                         return;
                     } else if (color.equals("OpenTermsConditions")){
-                        openTermsConditions();
+
                         return;
                     } else if (color.equals("OpenPrivacyPolicy")){
-                        openPrivacyPolicy();
+
                         return;
                     } else if (color.equals("OpenLicenses")){
-                        openThirdParty();
+
                         return;
 
                     } else if (color.equals("bluesetDef")) {
@@ -167,20 +167,6 @@ public class AboutPage extends AppCompatActivity {
 
 
 
-        public void openTermsConditions() {
-            Intent intent = new Intent(aActivity, Terms_Conditions.class);
-            aActivity.startActivity(intent);
-        }
-        public void openPrivacyPolicy() {
-            Intent intent = new Intent(aActivity, PrivacyPolicy.class);
-            aActivity.startActivity(intent);
-        }
-        public void openThirdParty() {
-            Intent intent = new Intent(aActivity, ThirdParty.class);
-            aActivity.startActivity(intent);
-        }
-
-
     }
 
     public void back() {
@@ -216,7 +202,8 @@ public class AboutPage extends AppCompatActivity {
                     url.startsWith("https://app-privacy-policy-generator.nisrulz.com/") ||
                     url.startsWith("https://github.com/PranshulGG/WeatherMaster") ||
                     url.startsWith("mailto:pranshul.devmain@gmail.com")||
-                    url.startsWith("https://github.com/PranshulGG/WeatherMaster/releases");
+                    url.startsWith("https://github.com/PranshulGG/WeatherMaster/releases")||
+                    url.startsWith("https://leafletjs.com/");
 
 
         }

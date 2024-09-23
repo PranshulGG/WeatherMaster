@@ -28,7 +28,7 @@
             android:name=".AboutPage"
             android:screenOrientation="portrait"
             android:exported="true"
-            android:theme="@style/ScreensAll"
+            android:theme="@style/aboutMainPage"
             />
         <activity
             android:name=".Terms_Conditions"
@@ -77,6 +77,42 @@
             android:screenOrientation="portrait"
             android:exported="true"
             android:theme="@style/ScreensAll"
+            />
+        <activity
+            android:name=".humidityCondition"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/conditionMainPage"
+            />
+        <activity
+            android:name=".pressureCondition"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/conditionMainPage"
+            />
+        <activity
+            android:name=".sunCondition"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/conditionMainPage"
+            />
+        <activity
+            android:name=".UVIndexCondition"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/conditionMainPage"
+            />
+        <activity
+            android:name=".visibilityCondition"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/conditionMainPage"
+            />
+        <activity
+            android:name=".WindCondition"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/conditionMainPage"
             />
             <activity
                 android:name=".MainActivity"

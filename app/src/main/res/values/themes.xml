@@ -44,6 +44,20 @@
         <item name="colorAccent">#afc6ff</item>
     </style>
 
+
+    <style name="aboutMainPage" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:navigationBarColor">#101510</item>
+        <item name="android:statusBarColor">#101510</item>
+        <item name="colorAccent">#9dd49d</item>
+    </style>
+
+    <style name="conditionMainPage" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:navigationBarColor">#191113</item>
+        <item name="android:statusBarColor">#191113</item>
+        <item name="colorAccent">#ffb0c8</item>
+    </style>
+
+
     <style name="blue_caret" parent="Theme.AppCompat.NoActionBar">
         <item name="colorAccent">#aac7ff</item>
     </style>
