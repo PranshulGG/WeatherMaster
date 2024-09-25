@@ -53,14 +53,16 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 <br>
 
 # 🌐 Help translate the app on POEditor 
- <a href="https://poeditor.com/join/project/DxrGXdoUGF"><img alt="GitHub" src="preview/figma_btn.svg" height="80"/></a>
+<a href="https://poeditor.com/join/project/DxrGXdoUGF"><img alt="GitHub" src="preview/figma_btn.svg" height="80"/></a>
 
 # 📲 Download
 
-<p align="left">
-    <a href="https://github.com/PranshulGG/WeatherMaster/releases"><img alt="GitHub" src="https://github.com/PranshulGG/CalcMaster-A-Calculator-App/blob/master/previewed/badge_github.png" height="120"/></a>
-</p>
-
+<table style="width: 100%; border-collapse: collapse;">
+  <tr>
+   <td style="text-align: center;"> <a href="https://github.com/PranshulGG/WeatherMaster/releases"><img alt="GitHub" src="https://github.com/PranshulGG/CalcMaster-A-Calculator-App/blob/master/previewed/badge_github.png" height="120"/></a></td>
+    <td style="text-align: center;"> <a href="https://apt.izzysoft.de/fdroid/index/apk/com.example.weathermaster"><img alt="GitHub" src="preview/download_Btn.png" height="120"/></a></td>
+  </tr>
+</table>
 # ✨ Features:
 
 - 🌤️ **Current Weather:** Get real-time updates on weather conditions in your area.
