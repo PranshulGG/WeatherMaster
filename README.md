@@ -63,6 +63,7 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
     <td style="text-align: center;"> <a href="https://apt.izzysoft.de/fdroid/index/apk/com.example.weathermaster"><img alt="GitHub" src="preview/download_Btn.png" height="120"/></a></td>
   </tr>
 </table>
+
 # ✨ Features:
 
 - 🌤️ **Current Weather:** Get real-time updates on weather conditions in your area.
