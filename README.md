@@ -141,7 +141,6 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 
 <br>
 
-
 # Contact
 For any questions or feedback, feel free to open an issue on GitHub or contact pranshul.devmain@gmail.com
 
