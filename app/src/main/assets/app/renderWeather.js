@@ -910,7 +910,7 @@ function UvIndex(latitude, longitude) {
 
 
 function MoreDetails(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/forecast.json?key=KEY&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/forecast.json?key=${OPEN_KEY}&q=${latSum},${lonSum}`)
         .then(response => response.json())
         .then(data => {
 
@@ -1052,7 +1052,7 @@ function MoreDetails(latSum, lonSum) {
 }
 
 function astronomyData(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=KEY&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=${OPEN_KEY}&q=${latSum},${lonSum}`)
         .then(response => response.json())
         .then(data => {
 
