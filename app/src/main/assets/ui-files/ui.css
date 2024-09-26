@@ -20,7 +20,7 @@
 
 
 body {
-  background-color: var(--Secondary-Container);
+  background-color: var(--Secondary-Container, #444444);
   padding: 0;
   margin: 0;
   overflow: hidden;
