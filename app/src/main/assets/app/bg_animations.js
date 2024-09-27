@@ -1,0 +1,1 @@
+// Background weather animation canvas
