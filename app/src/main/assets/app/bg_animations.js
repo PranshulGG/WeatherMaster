@@ -424,19 +424,3 @@ animateClouds();
 
   
 }
-
-
-document.addEventListener("DOMContentLoaded", function () {
-
-  setTimeout(()=>{
-    createFog()
-    createClouds()
-    createRain()
-    createStars()
-    createThunder()
-    
-    
-  }, 1000);
-
-
-});
