@@ -68,7 +68,7 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 
 - 🌤️ **Current Weather:** Get real-time updates on weather conditions in your area.
 - 📢 **Government Weather Alerts:** Receive official alerts and warnings to stay safe.
-- ⏳ **48-Hour Forecast:** Plan your short-term activities with accurate forecasts for the next two days.
+- ⏳ **24-Hour Forecast:** Plan your short-term activities with accurate forecasts for the next two days.
 - 📅 **14-Day Forecast:** View detailed weather predictions for the upcoming week.
 - 🌙 **Moon Phases:** Track the phases of the moon and plan accordingly.
 - 🌑 **Moonrise & Moonset:** Know the exact times for moonrise and moonset each day.
