@@ -1,0 +1,70 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.WeatherMaster" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.WeatherMaster" parent="Base.Theme.WeatherMaster" />
+
+    <style name="app_theme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:navigationBarColor">#0e1d2a</item>
+        <item name="android:statusBarColor">#0e1d2a</item>
+        <item name="colorAccent">#afc6ff</item>
+
+
+    </style>
+
+    <style name="ScreensAll" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:navigationBarColor">@color/mainBG</item>
+        <item name="android:statusBarColor">@color/mainBG</item>
+        <item name="colorAccent">#afc6ff</item>
+
+
+    </style>
+
+    <style name="ScreenMoonPhase" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:navigationBarColor">@color/MoonPhase</item>
+        <item name="android:statusBarColor">@color/MoonPhase</item>
+        <item name="colorAccent">#afc6ff</item>
+
+
+    </style>
+
+    <style name="ScreenLiveRadar" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:navigationBarColor">#271d1b</item>
+        <item name="android:statusBarColor">@color/RadarPage</item>
+        <item name="colorAccent">#afc6ff</item>
+
+    </style>
+
+    <style name="ScreenForecastPage" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:navigationBarColor">@color/forecastPageBg</item>
+        <item name="android:statusBarColor">@color/forecastPageBg</item>
+        <item name="colorAccent">#afc6ff</item>
+    </style>
+
+
+    <style name="aboutMainPage" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:navigationBarColor">#101510</item>
+        <item name="android:statusBarColor">#101510</item>
+        <item name="colorAccent">#9dd49d</item>
+    </style>
+
+    <style name="conditionMainPage" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:navigationBarColor">#191113</item>
+        <item name="android:statusBarColor">#191113</item>
+        <item name="colorAccent">#ffb0c8</item>
+    </style>
+
+
+    <style name="blue_caret" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">#aac7ff</item>
+    </style>
+
+    <style name="orange_caret" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">#ffd5a5</item>
+    </style>
+
+
+</resources>

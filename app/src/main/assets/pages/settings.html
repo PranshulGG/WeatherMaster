@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en" Theme="default" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Settings</title>
+    <script src="../langs/langs.js"></script>
+    <link rel="stylesheet" href="../ui-files/ui.css">
+    <link rel="stylesheet" href="../ui-files/font-usage.css">
+    <link rel="stylesheet" href="../ui-files/variables.css">
+    <link rel="stylesheet" href="../components/components.css">
+    <link rel="stylesheet" href="../components/modal-ver.css">
+    <link rel="stylesheet" href="../ripple-files/ripple.css">
+    <link rel="stylesheet" href="../components/segment-btns.css">
+    <style>
+        .activity-large-content::before {
+            position: fixed;
+            bottom: 0;
+            content: '';
+            width: 100%;
+            background: linear-gradient(0deg, var(--Surface) 10%, rgba(255, 0, 0, 0));
+            height: 30px;
+            z-index: 1;
+        }
+
+                md-menu-item.selected-home-location{
+            background-color: var(--Secondary-Container);
+            color: var(--On-Secondary-Container);
+            pointer-events: none;
+
+        }
+
+                .mainTempItem.selectedMainTemp {
+            background-color: var(--Secondary-Container);
+            color: var(--On-Secondary-Container);
+            pointer-events: none;
+        }
+
+        #apiKeyEnterInputTile {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height .6s cubic-bezier(1, 0, 0, 1), opacity .7s ease-in-out;
+        }
+
+    </style>
+</head>
+
+<body style="background-color: var(--Surface);">
+
+<div class="activity-large open">
+    <div class="header-activity-large" id="head-1">
+        <button class="ripple-icon-btn regular" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)"
+                title="Go back" onclick="sendThemeToAndroid('GoBack')">
+            <span class="ripple-effect-icon"></span>
+            <span icon-outlined>arrow_back</span>
+        </button>
+        <p class="label-hidden-large" style="white-space: nowrap;" data-translate="settings">Settings</p>
+    </div>
+    <div class="activity-large-content" id="headUser-1">
+        <p class="label-large-main" data-translate="settings">Settings</p>
+        <div class="content-parent-large" style="padding-bottom: 32px;">
+
+            <p class="title" style="margin-top: 5px;" data-translate="weather">Weather</p>
+
+
+
+            <md-list>
+                <md-list-item disabled>
+                    <md-icon icon-filled slot="start">notifications</md-icon>
+                    <div slot="headline" data-translate="notification_bar">Notification bar</div>
+                    <div slot="supporting-text" data-translate="show_weather_information_in_the_notification_bar">Show weather information in the notifications bar</div>
+                    <md-switch slot="end" id="toggle_noti"></md-switch>
+                </md-list-item>
+
+                <md-list-item type="button" id="openSelectMainTemp">
+                    <md-icon icon-filled slot="start">thermostat</md-icon>
+                    <div slot="headline" data-translate="main_temp">Main temperature</div>
+                    <div slot="supporting-text" id="currentProviderText">Open-Meteo</div>
+
+                    <script type="module">
+                            const anchorElTemp = document.body.querySelector('#openSelectMainTemp');
+                            const menuElTemp = document.body.querySelector('#usage-popoverTemp');
+
+                            anchorElTemp.addEventListener('click', () => { menuElTemp.open = !menuElTemp.open; });
+                        </script>
+                </md-list-item>
+
+                <md-menu positioning="popover" id="usage-popoverTemp" anchor="openSelectMainTemp"
+                         anchor-corner="start-start">
+                    <md-menu-item menu-type class="mainTempItem" value="Open-Meteo" id="openMeteoProviderItem">
+                        <div slot="headline">Open-Meteo</div>
+                    </md-menu-item>
+                    <md-menu-item menu-type class="mainTempItem" value="AccuWeather">
+                        <div slot="headline">AccuWeather</div>
+                    </md-menu-item>
+                    <md-menu-item menu-type class="mainTempItem" value="OpenWeatherMap">
+                        <div slot="headline">OpenWeatherMap</div>
+                    </md-menu-item>
+                </md-menu>
+
+                <md-list-item margin id="apiKeyEnterInputTile">
+                    <md-icon slot="start"></md-icon>
+                    <div slot="headline">
+                        <md-outlined-text-field placeholder="API key" id="apiKeyInputField" error-text="The API key isn't working. Please wait and try again." style="--md-outlined-field-supporting-text-color: #7bf542; --md-outlined-text-field-hover-supporting-text-color: #7bf542;">
+                            <md-icon-button slot="trailing-icon" disabled id="verifyKey">
+                                <md-icon icon-outlined id="verifyKeyiCon">check</md-icon>
+                                <md-circular-progress indeterminate style="--md-circular-progress-active-indicator-width: 5;" hidden id="keyVerifyLoader"></md-circular-progress>
+                            </md-icon-button>
+                        </md-outlined-text-field>
+                    </div>
+                    <div slot="supporting-text" style="padding-top: 10px;">Get your own API key from <span
+                            id="getFromText">openweathermap.org/api</span>. A new API key usually takes 10-15
+                        minutes to start working.</div>
+                </md-list-item>
+
+
+                <md-list-item>
+                    <md-icon icon-filled slot="start">animation</md-icon>
+                    <div slot="headline" data-translate="Background card animation">Background card animation</div>
+                    <md-switch slot="end" selected id="useAnimationBackground"></md-switch>
+                </md-list-item>
+
+                <md-list-item margin type="button" id="usage-popover-anchor">
+                    <md-icon icon-filled slot="start">home_pin</md-icon>
+                    <div slot="headline" data-translate="home_location">Home location</div>
+                    <div slot="supporting-text" data-translate="save_locations_menu">You need to save locations to show in the menu</div>
+                    <div slot="supporting-text" id="homeLocationSelectedText" style="color: var(--Primary); font-family: var(--outfit-mid);">Your device location</div>
+
+                    <md-icon slot="end" icon-outlined>chevron_right</md-icon>
+                    <script type="module">
+                        const anchorEl = document.body.querySelector('#usage-popover-anchor');
+                        const menuEl = document.body.querySelector('#usage-popover');
+
+                        anchorEl.addEventListener('click', () => { menuEl.open = !menuEl.open; });
+                      </script>
+                </md-list-item>
+
+                <md-menu positioning="popover" id="usage-popover" anchor="usage-popover-anchor" anchor-corner="start-start">
+
+                </md-menu>
+
+                <md-list-item margin>
+                    <md-icon icon-filled slot="start">device_thermostat</md-icon>
+                    <div slot="headline" data-translate="temperature_unit">Temperature Unit</div>
+                    <md-outlined-select id="selectTempUnit" slot="end" style="min-width: max-content; --md-outlined-field-bottom-space: 10px;--md-outlined-field-top-space: 10px;">
+                        <md-select-option value="fahrenheit" menu-type>
+                            <div slot="headline">°F</div>
+                        </md-select-option>
+                        <md-select-option value="celsius" menu-type>
+                            <div slot="headline">°C</div>
+                        </md-select-option>
+                    </md-outlined-select>
+                </md-list-item>
+
+
+                <md-list-item>
+                    <md-icon icon-filled slot="start">airwave</md-icon>
+                    <div slot="headline" data-translate="wind_unit">Wind Unit</div>
+                    <md-outlined-select id="selectWindUnit" slot="end" style="min-width: max-content; --md-outlined-field-bottom-space: 10px;--md-outlined-field-top-space: 10px;">
+                        <md-select-option value="kilometer" menu-type>
+                            <div slot="headline">Km/h</div>
+                        </md-select-option>
+                        <md-select-option value="mile" menu-type >
+                            <div slot="headline">Mph</div>
+                        </md-select-option>
+                        <md-select-option value="M/s" menu-type>
+                            <div slot="headline">M/s</div>
+                        </md-select-option>
+                    </md-outlined-select>
+                </md-list-item>
+
+                <md-list-item>
+                    <md-icon icon-filled slot="start">visibility</md-icon>
+                    <div slot="headline" data-translate="visibility_unit">Visibility Unit</div>
+                    <md-outlined-select id="selectVisibilityUnit" slot="end" style="min-width: max-content; --md-outlined-field-bottom-space: 10px;--md-outlined-field-top-space: 10px;">
+                        <md-select-option value="km" menu-type>
+                            <div slot="headline">km</div>
+                        </md-select-option>
+                        <md-select-option value="mileV" menu-type >
+                            <div slot="headline">mile</div>
+                        </md-select-option>
+                    </md-outlined-select>
+                </md-list-item>
+
+                <md-list-item>
+                    <md-icon icon-filled slot="start">rainy_light</md-icon>
+                    <div slot="headline" data-translate="precipitation_unit">Precipitation Unit</div>
+                    <md-outlined-select id="selectPrecipitationUnit" slot="end" style="min-width: max-content; --md-outlined-field-bottom-space: 10px;--md-outlined-field-top-space: 10px;">
+                        <md-select-option value="mm" menu-type>
+                            <div slot="headline">mm</div>
+                        </md-select-option>
+                        <md-select-option value="in" menu-type >
+                            <div slot="headline">in</div>
+                        </md-select-option>
+                    </md-outlined-select>
+                </md-list-item>
+
+
+                <md-list-item>
+                    <md-icon icon-filled slot="start">av_timer</md-icon>
+                    <div slot="headline" data-translate="pressure_unit">Pressure Unit</div>
+                    <md-outlined-select id="selectPressureUnit" slot="end" style="min-width: max-content; --md-outlined-field-bottom-space: 10px;--md-outlined-field-top-space: 10px;">
+                        <md-select-option value="hPa" menu-type>
+                            <div slot="headline">hPa</div>
+                        </md-select-option>
+                        <md-select-option value="inHg" menu-type >
+                            <div slot="headline">inHg</div>
+                        </md-select-option>
+                        <md-select-option value="mmHg" menu-type >
+                            <div slot="headline">mmHg</div>
+                        </md-select-option>
+                    </md-outlined-select>
+                </md-list-item>
+
+                <md-list-item>
+                    <md-icon icon-filled slot="start">schedule</md-icon>
+                    <div slot="headline" data-translate="time_format">Time format</div>
+                    <md-outlined-select id="selectTimeformat" slot="end" style="min-width: max-content; --md-outlined-field-bottom-space: 10px;--md-outlined-field-top-space: 10px;">
+                        <md-select-option value="12 hour" menu-type>
+                            <div slot="headline">12 hr</div>
+                        </md-select-option>
+                        <md-select-option value="24 hour" menu-type >
+                            <div slot="headline">24 hr</div>
+                        </md-select-option>
+                    </md-outlined-select>
+                </md-list-item>
+
+            </md-list>
+
+            <p class="title" style="margin-top: 5px;" data-translate="additional">Additional</p>
+            <md-list>
+
+                <md-list-item margin type="button" onclick="sendThemeToAndroid('OpenLanguagesPage')">
+                    <md-icon slot="start" icon-filled>language</md-icon>
+                    <div slot="headline" data-translate="app_language">App language</div>
+                    <div slot="supporting-text" id="selectedAppLang_text">English</div>
+                </md-list-item>
+
+                <md-list-item  onclick="sendThemeToAndroid('OpenAboutPage')" type="button">
+                    <md-icon icon-filled slot="start">info</md-icon>
+                    <div slot="headline" data-translate="about_weathermaster">About WeatherMaster</div>
+                    <div slot="supporting-text" data-translate="learn_about_the_app">Learn about the app</div>
+                    <md-icon icon-outlined slot="end">chevron_right</md-icon>
+                </md-list-item>
+
+
+                <md-list-item  href="https://ko-fi.com/pranshulgg" type="button">
+                    <md-icon icon-filled slot="start">favorite</md-icon>
+                    <div slot="headline" data-translate="support">Support</div>
+                    <div slot="supporting-text">On Ko-Fi</div>
+                    <md-icon icon-outlined slot="end">open_in_new</md-icon>
+                </md-list-item>
+
+            </md-list>
+
+
+            <p class="title" style="margin-top: 5px;" data-translate="data_provided_by">Data provided by</p>
+            <md-list>
+                <md-list-item margin href="https://openweathermap.org/">
+                    <div slot="headline">OpenWeatherMap</div>
+                    <md-icon icon-filled slot="end">open_in_new</md-icon>
+                </md-list-item>
+                <md-list-item margin href="https://opencagedata.com/api">
+                    <div slot="headline">Opencagedata</div>
+                    <md-icon icon-filled slot="end">open_in_new</md-icon>
+                </md-list-item>
+                <md-list-item margin href="https://open-meteo.com/">
+                    <div slot="headline">Open-Meteo</div>
+                    <md-icon icon-filled slot="end">open_in_new</md-icon>
+                </md-list-item>
+            </md-list>
+
+
+
+            <p class="title" style="margin-top: 5px;" data-translate="map">Map</p>
+            <md-list>
+                <md-list-item margin href="https://leafletjs.com/">
+                    <div slot="headline">Leaflet</div>
+                    <md-icon icon-filled slot="end">open_in_new</md-icon>
+                </md-list-item>
+                <md-list-item margin href="https://www.rainviewer.com/">
+                    <div slot="headline">Rainviewer</div>
+                    <md-icon icon-filled slot="end">open_in_new</md-icon>
+                </md-list-item>
+                <md-list-item margin href="https://carto.com/">
+                    <div slot="headline">Carto</div>
+                    <md-icon icon-filled slot="end">open_in_new</md-icon>
+                </md-list-item>
+            </md-list>
+
+
+
+            <p style="margin-top: 110px;"></p>
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- theme-overlay -->
+<div class="theme_overlay" hidden>
+    <md-circular-progress id="theme_loader"></md-circular-progress>
+</div>
+
+<script>
+
+
+    const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
+    if(AppLanguageCodeValue){
+        applyTranslations(AppLanguageCodeValue);
+
+    }
+
+
+    function handleStorageChangeLang(event) {
+    if (event.key === 'AppLanguageCode'){
+
+            setTimeout(()=>{
+                const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
+    if(AppLanguageCodeValue){
+        applyTranslations(AppLanguageCodeValue);
+
+    }
+            }, 200);
+
+    }
+}
+
+window.addEventListener('storage', handleStorageChangeLang);
+
+const user1 = document.getElementById('headUser-1')
+
+function changeColorOnScroll1() {
+    var container = document.getElementById('headUser-1');
+    var scrollY = container.scrollTop;
+
+    if (scrollY >= 50) {
+      document.getElementById('head-1').style.backgroundColor = 'var(--Surface-Container)';
+      document.getElementById('head-1').style.transition = '';
+
+      document.getElementById('headUser-1').style.scrollSnapType = 'unset';
+      container.removeEventListener('scroll', changeColorOnScroll1);
+      sendThemeToAndroid('Scrolled')
+
+
+    } else {
+
+    }
+  }
+
+  if(user1){
+    document.getElementById('headUser-1').addEventListener('scroll', changeColorOnScroll1);
+    }
+
+
+
+  function changeColorOnScroll1A() {
+    var container = document.getElementById('headUser-1');
+    var scrollY = container.scrollTop;
+
+    if (scrollY <= 1) {
+      document.getElementById('head-1').style.backgroundColor = '';
+      document.getElementById('head-1').style.transition = 'background-color 0.2s ease-in';
+
+      sendThemeToAndroid('ScrollFalse')
+
+      container.addEventListener('scroll', changeColorOnScroll1);
+      if(scrollY <= 20); {
+        document.getElementById('headUser-1').style.scrollSnapType = '';
+
+      }
+
+    } else{
+
+    }
+  }
+
+  if(user1){
+  document.getElementById('headUser-1').addEventListener('scroll', changeColorOnScroll1A);
+  }
+
+  function sendThemeToAndroid(theme) {
+
+AndroidInterface.updateStatusBarColor(theme);
+};
+
+
+  const selectTempUnit = document.getElementById('selectTempUnit');
+
+  selectTempUnit.addEventListener('input', () =>{
+        localStorage.setItem('SelectedTempUnit', selectTempUnit.value)
+  });
+
+  if(!localStorage.getItem('SelectedTempUnit')){
+    localStorage.setItem('SelectedTempUnit', 'celsius');
+    document.querySelector(`[value="celsius"]`).selected = true;
+
+  }
+
+  const getSelectedTempUnit = localStorage.getItem('SelectedTempUnit')
+
+if(getSelectedTempUnit){
+    document.querySelector(`[value="${getSelectedTempUnit}"]`).selected = true;
+}
+
+
+  const selectWindUnit = document.getElementById('selectWindUnit');
+
+  selectWindUnit.addEventListener('input', () =>{
+      localStorage.setItem('SelectedWindUnit', selectWindUnit.value)
+
+});
+
+if(!localStorage.getItem('SelectedWindUnit')){
+  localStorage.setItem('SelectedWindUnit', 'kilometer');
+  document.querySelector(`[value="kilometer"]`).selected = true;
+
+}
+
+const getSelectedWindUnit = localStorage.getItem('SelectedWindUnit')
+
+if(getSelectedWindUnit){
+    document.querySelector(`[value="${getSelectedWindUnit}"]`).selected = true;
+}
+
+
+
+const selectVisibilityUnit = document.getElementById('selectVisibilityUnit');
+
+selectVisibilityUnit.addEventListener('input', () =>{
+    localStorage.setItem('selectedVisibilityUnit', selectVisibilityUnit.value)
+
+});
+
+if(!localStorage.getItem('selectedVisibilityUnit')){
+localStorage.setItem('selectedVisibilityUnit', 'km');
+document.querySelector(`[value="km"]`).selected = true;
+
+}
+
+const getSelectedVisibilityUnit = localStorage.getItem('selectedVisibilityUnit')
+
+if(getSelectedVisibilityUnit){
+  document.querySelector(`[value="${getSelectedVisibilityUnit}"]`).selected = true;
+}
+
+const selectPrecipitationUnit = document.getElementById('selectPrecipitationUnit');
+
+
+selectPrecipitationUnit.addEventListener('input', () =>{
+    localStorage.setItem('selectedPrecipitationUnit', selectPrecipitationUnit.value)
+
+});
+
+
+if(!localStorage.getItem('selectedPrecipitationUnit')){
+localStorage.setItem('selectedPrecipitationUnit', 'mm');
+document.querySelector(`[value="mm"]`).selected = true;
+
+}
+
+const getSelectedPrecipitationUnit = localStorage.getItem('selectedPrecipitationUnit')
+
+
+if(localStorage.getItem('selectedPrecipitationUnit')){
+  document.querySelector(`[value="${getSelectedPrecipitationUnit}"]`).selected = true;
+}
+
+// -----------------------
+
+
+const selectPressureUnit = document.getElementById('selectPressureUnit');
+
+
+selectPressureUnit.addEventListener('input', () =>{
+    localStorage.setItem('selectedPressureUnit', selectPressureUnit.value)
+
+});
+
+
+if(!localStorage.getItem('selectedPressureUnit')){
+localStorage.setItem('selectedPressureUnit', 'hPa');
+document.querySelector(`[value="hPa"]`).selected = true;
+
+}
+
+const getSelectedPressureUnit = localStorage.getItem('selectedPressureUnit')
+
+
+if(localStorage.getItem('selectedPressureUnit')){
+  document.querySelector(`[value="${getSelectedPressureUnit}"]`).selected = true;
+}
+
+
+// time format
+
+
+const selectTimeformat = document.getElementById('selectTimeformat');
+
+
+selectTimeformat.addEventListener('input', () =>{
+    localStorage.setItem('selectedTimeMode', selectTimeformat.value)
+
+});
+
+
+if(!localStorage.getItem('selectedTimeMode')){
+localStorage.setItem('selectedTimeMode', '12 hour');
+document.querySelector(`[value="12 hour"]`).selected = true;
+
+}
+
+const getSelectedTimeFormat = localStorage.getItem('selectedTimeMode')
+
+
+if(localStorage.getItem('selectedTimeMode')){
+  document.querySelector(`[value="${getSelectedTimeFormat}"]`).selected = true;
+}
+
+
+        // background animations
+
+
+        const useAnimationBackgroundSwitch = document.getElementById('useAnimationBackground');
+
+        useAnimationBackgroundSwitch.addEventListener('change', () => {
+            if (useAnimationBackgroundSwitch.selected) {
+                localStorage.setItem('UseBackgroundAnimations', 'true');
+            } else {
+                localStorage.setItem('UseBackgroundAnimations', 'false');
+            }
+        });
+
+        const getUseBackgroundAnimations = localStorage.getItem('UseBackgroundAnimations');
+
+        if (getUseBackgroundAnimations) {
+            if (getUseBackgroundAnimations === 'true') {
+                useAnimationBackgroundSwitch.selected = true;
+            } else {
+                useAnimationBackgroundSwitch.selected = false;
+            }
+        } else {
+            localStorage.setItem('UseBackgroundAnimations', 'true');
+        }
+
+
+// get saved locations
+
+
+
+const savedLocationsMenu = document.getElementById('usage-popover');
+const savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
+
+const clearSelection = () => {
+    const allMenuItems = savedLocationsMenu.querySelectorAll('md-menu-item');
+    allMenuItems.forEach(item => item.classList.remove('selected-home-location'));
+};
+
+const defaultMenuItem = document.createElement('md-menu-item');
+defaultMenuItem.setAttribute('menu-type', '');
+defaultMenuItem.setAttribute('lat', 'defaultLat');
+defaultMenuItem.setAttribute('lon', 'defaultLon');
+defaultMenuItem.innerHTML = 'Your device location';
+defaultMenuItem.classList.add('selected-home-location');
+
+
+defaultMenuItem.addEventListener('click', () => {
+    clearSelection();
+    document.getElementById('homeLocationSelectedText').innerHTML = 'Your device location';
+    defaultMenuItem.classList.add('selected-home-location');
+    localStorage.setItem('DefaultLocation', JSON.stringify({ name: 'CurrentDeviceLocation' }));
+
+});
+
+
+document.getElementById('toggle_noti').addEventListener('change', ()=>{
+
+setTimeout(()=>{
+    sendThemeToAndroid('Enable_noti')
+}, 1400);
+
+});
+
+savedLocationsMenu.appendChild(defaultMenuItem);
+
+savedLocations.forEach(location => {
+    const menuItemLocation = document.createElement('md-menu-item');
+    menuItemLocation.setAttribute('menu-type', '');
+    menuItemLocation.setAttribute('lat', location.lat);
+    menuItemLocation.setAttribute('lon', location.lon);
+    menuItemLocation.setAttribute('name', location.locationName);
+
+    menuItemLocation.innerHTML = `${location.locationName}`;
+
+    menuItemLocation.addEventListener('click', () => {
+        clearSelection();
+        document.getElementById('homeLocationSelectedText').innerHTML = location.locationName;
+        menuItemLocation.classList.add('selected-home-location');
+
+
+        localStorage.setItem('DefaultLocation', JSON.stringify({ lat: location.lat, lon: location.lon, name: location.locationName }));
+
+    });
+
+    savedLocationsMenu.appendChild(menuItemLocation);
+});
+
+const checkName = JSON.parse(localStorage.getItem('DefaultLocation'));
+
+if(!localStorage.getItem('DefaultLocation')){
+      localStorage.setItem('DefaultLocation', JSON.stringify({ name: 'CurrentDeviceLocation' }));
+} else if (checkName.lat && checkName.lon){
+    clearSelection();
+    document.querySelector(`[name="${checkName.name}"]`).classList.add('selected-home-location')
+        document.getElementById('homeLocationSelectedText').innerHTML = checkName.name;
+} else{
+
+}
+
+    const AppLanguageText = localStorage.getItem('AppLanguage');
+    if(AppLanguageText){
+        document.getElementById("selectedAppLang_text").innerHTML = AppLanguageText;
+    } else{
+        document.getElementById("selectedAppLang_text").innerHTML = 'English';
+
+    }
+
+
+            // -----------------
+
+
+        const menuItems = document.querySelectorAll('.mainTempItem');
+
+        const setSelectedClass = () => {
+            const selectedValue = localStorage.getItem('MainTempProvider');
+            if (selectedValue) {
+                menuItems.forEach(item => {
+                    if (item.getAttribute('value') === selectedValue) {
+                        item.classList.add('selectedMainTemp');
+                        document.getElementById('currentProviderText').innerHTML = selectedValue;
+
+                        if (selectedValue === 'OpenWeatherMap') {
+                            document.getElementById('apiKeyEnterInputTile').style.maxHeight = '500px';
+                            document.getElementById('apiKeyEnterInputTile').style.opacity = '1';
+                            document.getElementById('getFromText').innerHTML = 'openweathermap.org/api'
+
+
+                        } else if (selectedValue === 'AccuWeather') {
+                            document.getElementById('apiKeyEnterInputTile').style.maxHeight = '500px';
+                            document.getElementById('apiKeyEnterInputTile').style.opacity = '1';
+                            document.getElementById('getFromText').innerHTML = 'developer.accuweather.com'
+
+                        } else {
+                            document.getElementById('apiKeyEnterInputTile').style.maxHeight = '0';
+                            document.getElementById('apiKeyEnterInputTile').style.opacity = '0';
+
+                        }
+                    }
+                });
+            } else {
+                document.getElementById('openMeteoProviderItem').classList.add('selectedMainTemp')
+            }
+        };
+
+        setSelectedClass();
+
+        menuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                menuItems.forEach(innerItem => {
+                    innerItem.classList.remove('selectedMainTemp');
+                });
+                item.classList.add('selectedMainTemp');
+                localStorage.setItem('MainTempProvider', item.getAttribute('value'));
+                document.getElementById('currentProviderText').innerHTML = item.getAttribute('value');
+
+                if (item.getAttribute('value') === 'OpenWeatherMap') {
+                    document.getElementById('apiKeyEnterInputTile').style.maxHeight = '500px';
+                    document.getElementById('apiKeyEnterInputTile').style.opacity = '1';
+                    document.getElementById('getFromText').innerHTML = 'openweathermap.org/api'
+
+
+                } else if (item.getAttribute('value') === 'AccuWeather') {
+                    document.getElementById('apiKeyEnterInputTile').style.maxHeight = '500px';
+                    document.getElementById('apiKeyEnterInputTile').style.opacity = '1';
+                    document.getElementById('getFromText').innerHTML = 'developer.accuweather.com'
+
+                } else {
+                    document.getElementById('apiKeyEnterInputTile').style.maxHeight = '0';
+                    document.getElementById('apiKeyEnterInputTile').style.opacity = '0';
+
+                }
+            });
+        });
+
+
+        // ---------------
+
+
+        document.getElementById('apiKeyInputField').addEventListener('input', ()=>{
+            localStorage.setItem('CustomApiKey', document.getElementById('apiKeyInputField').value)
+
+            if(document.getElementById('apiKeyInputField').value.trim().length < 1){
+                document.getElementById('verifyKey').disabled = true;
+            } else{
+                document.getElementById('verifyKey').disabled = false;
+            }
+
+            if(document.getElementById('apiKeyInputField').error){
+                document.getElementById('apiKeyInputField').error = false
+            }
+            document.getElementById('apiKeyInputField').removeAttribute('supporting-text');
+        });
+
+        const savedApiKEy = localStorage.getItem('CustomApiKey');
+
+        if(savedApiKEy){
+            document.getElementById('apiKeyInputField').value = savedApiKEy;
+            document.getElementById('verifyKey').disabled = false;
+        }
+
+
+
+
+    document.getElementById('verifyKey').addEventListener('click', () => {
+        if(document.getElementById('apiKeyInputField').error){
+                document.getElementById('apiKeyInputField').error = false
+            }
+        document.getElementById('verifyKeyiCon').hidden = true;
+        document.getElementById('keyVerifyLoader').hidden = false;
+        if (localStorage.getItem('MainTempProvider') === 'OpenWeatherMap') {
+        const apiKey = document.getElementById('apiKeyInputField').value;
+
+        const city = 'London';
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
+
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    console.log('Failed request:', response.status);
+                    localStorage.setItem('ApiKeyValid', 'No')
+                    setTimeout(()=>{
+                        document.getElementById('verifyKeyiCon').hidden = false;
+                        document.getElementById('keyVerifyLoader').hidden = true;
+                        document.getElementById('apiKeyInputField').error = true;
+                    }, 2000);
+                } else {
+                    return response.json();
+                }
+            })
+            .then(data => {
+                if (data) {
+                    localStorage.setItem('ApiKeyValid', 'Yes')
+                    setTimeout(()=>{
+                        document.getElementById('verifyKeyiCon').hidden = false;
+                        document.getElementById('keyVerifyLoader').hidden = true;
+                        document.getElementById('apiKeyInputField').setAttribute('supporting-text', 'Your API key is valid!');
+                    }, 2000);
+                }
+            })
+            .catch(error => {
+                console.log('Error occurred:', error);
+            });
+        } else {
+            const apiKeyAccu =  document.getElementById('apiKeyInputField').value;
+            const cityAccu = 'London';
+            const locationUrl = `https://dataservice.accuweather.com/locations/v1/cities/search?apikey=${apiKeyAccu}&q=${cityAccu}`;
+
+            fetch(locationUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        localStorage.setItem('ApiKeyValid', 'No')
+                    setTimeout(()=>{
+                        document.getElementById('verifyKeyiCon').hidden = false;
+                        document.getElementById('keyVerifyLoader').hidden = true;
+                        document.getElementById('apiKeyInputField').error = true;
+                    }, 2000);
+                    } else {
+                        return response.json();
+                    }
+                })
+                .then(locationData => {
+                    if (locationData && locationData.length > 0) {
+                        const locationKey = locationData[0].Key;
+                        console.log('Location Key:', locationKey);
+
+
+                        const weatherUrl = `https://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${apiKey}`;
+                        return fetch(weatherUrl);
+                    } else {
+                        console.log('No location found for the given city.');
+                    }
+                })
+                .then(weatherResponse => {
+                    if (weatherResponse && !weatherResponse.ok) {
+                        localStorage.setItem('ApiKeyValid', 'No')
+                    setTimeout(()=>{
+                        document.getElementById('verifyKeyiCon').hidden = false;
+                        document.getElementById('keyVerifyLoader').hidden = true;
+                        document.getElementById('apiKeyInputField').error = true;
+                    }, 2000);
+                    } else if (weatherResponse) {
+                        return weatherResponse.json();
+                    }
+                })
+                .then(weatherData => {
+                    if (weatherData) {
+                        localStorage.setItem('ApiKeyValid', 'Yes')
+                    setTimeout(()=>{
+                        document.getElementById('verifyKeyiCon').hidden = false;
+                        document.getElementById('keyVerifyLoader').hidden = true;
+                        document.getElementById('apiKeyInputField').setAttribute('supporting-text', 'Your API key is valid!');
+                    }, 2000);
+                    }
+                })
+                .catch(error => {
+                    localStorage.setItem('ApiKeyValid', 'No')
+                    setTimeout(()=>{
+                        document.getElementById('verifyKeyiCon').hidden = false;
+                        document.getElementById('keyVerifyLoader').hidden = true;
+                        document.getElementById('apiKeyInputField').error = true;
+                    }, 2000);
+                });
+        }
+    });
+
+
+    </script>
+
+<script src="../components-script.js/components.js"></script>
+<script src="../ripple-files/icon-ripple.js"></script>
+<script src="../modules/scroll.js"></script>
+<script src="../modules/ripple_acc.js"></script>
+<script src="../app/navigate.js"></script>
+<script src="../bundle.js"></script>
+<script type="module" src="../index.js"></script>
+</body>
+
+</html>

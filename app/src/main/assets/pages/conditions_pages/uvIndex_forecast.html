@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en" Theme="condition_forecast_pages" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>UVINDEX Forecast</title>
+    <link rel="stylesheet" href="../../ui-files/font-usage.css">
+    <link rel="stylesheet" href="../../ui-files/variables.css">
+    <link rel="stylesheet" href="../../components/components.css">
+    <link rel="stylesheet" href="../../ripple-files/ripple.css">
+    <link rel="stylesheet" href="../../components/modal-ver.css">
+    <link rel="stylesheet" href="condition_pageUI.css">
+
+    <style>
+        .condition_info_content::before {
+            position: fixed;
+            bottom: 0;
+            content: '';
+            width: 100%;
+            background: linear-gradient(0deg, var(--Surface) 10%, rgba(255, 0, 0, 0));
+            height: 30px;
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top_conditions_for_header">
+        <md-icon-button onclick="sendThemeToAndroid('GoBack')">
+            <md-icon icon-outlined>arrow_back</md-icon>
+        </md-icon-button>
+    </div>
+
+    <div class="condition_info_content">
+        <div class="condition_label_forecast">
+            <md-icon icon-outlined>sunny</md-icon>
+            <p>UV index</p>
+        </div>
+
+
+        <div class="UvCard">
+
+            <div class="UvInfo">
+                <span style="color: var(--On-Surface); font-family: var(--outfit-mid); font-size: 16px;">Current condition</span>
+                <p id="indexValue"></p>
+                <p id="indexDescrip"></p>
+            </div>
+
+
+            <div class="uvImg">
+
+                <!-- low -->
+                <div id="lowSvg" hidden>
+                    <svg viewBox="0 0 128.0 16.0">
+                        <path fill="#6dd58c" d="M8,8m8,-0a8,8 0,1 1,-16 -0a8,8 0,1 1,16 -0" />
+                        <path fill="#fcc934" d="M38,8m6,-0a6,6 0,1 1,-12 -0a6,6 0,1 1,12 -0" stroke-opacity="0.15"
+                            fill-opacity="0.15" />
+                        <path fill="#fa903e" d="M66,8m6,-0a6,6 0,1 1,-12 -0a6,6 0,1 1,12 -0" stroke-opacity="0.15"
+                            fill-opacity="0.15" />
+                        <path fill="#ee675c" d="M94,8m6,-0a6,6 0,1 1,-12 -0a6,6 0,1 1,12 -0" stroke-opacity="0.15"
+                            fill-opacity="0.15" />
+                        <path fill="#af5cf7" d="M122,8m6,-0a6,6 0,1 1,-12 -0a6,6 0,1 1,12 -0" stroke-opacity="0.15"
+                            fill-opacity="0.15" />
+                    </svg>
+                </div>
+                <!-- moderate -->
+                <div id="midSvg" hidden>
+                    <svg viewBox="0 0 128.0 16.0" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#6dd58c" d="M6,8m6,-0a6,6 0,1 1,-12 -0a6,6 0,1 1,12 -0" stroke-opacity="0.15"
+                            fill-opacity="0.15" />
+                        <path fill="#fcc934" d="M36,8m8,-0a8,8 0,1 1,-16 -0a8,8 0,1 1,16 -0" />
+                        <path fill="#fa903e" d="M66,8m6,-0a6,6 0,1 1,-12 -0a6,6 0,1 1,12 -0" stroke-opacity="0.15"
+                            fill-opacity="0.15" />
+                        <path fill="#ee675c" d="M94,8m6,-0a6,6 0,1 1,-12 -0a6,6 0,1 1,12 -0" stroke-opacity="0.15"
+                            fill-opacity="0.15" />
+                        <path fill="#af5cf7" d="M122,8m6,-0a6,6 0,1 1,-12 -0a6,6 0,1 1,12 -0" stroke-opacity="0.15"
+                            fill-opacity="0.15" />
+                    </svg>
+                </div>
+                <!-- high -->
+                <div id="highSvg" hidden>
+                    <svg viewBox="0 0 128.0 16.0" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#6dd58c" d="M6,8m6,-0a6,6 0,1 1,-12 -0a6,6 0,1 1,12 -0" stroke-opacity="0.15"
+                            fill-opacity="0.15" />
+                        <path fill="#fcc934" d="M34,8m6,-0a6,6 0,1 1,-12 -0a6,6 0,1 1,12 -0" stroke-opacity="0.15"
+                            fill-opacity="0.15" />
+                        <path fill="#fa903e" d="M64,8m8,-0a8,8 0,1 1,-16 -0a8,8 0,1 1,16 -0" />
+                        <path fill="#ee675c" d="M94,8m6,-0a6,6 0,1 1,-12 -0a6,6 0,1 1,12 -0" stroke-opacity="0.15"
+                            fill-opacity="0.15" />
+                        <path fill="#af5cf7" d="M122,8m6,-0a6,6 0,1 1,-12 -0a6,6 0,1 1,12 -0" stroke-opacity="0.15"
+                            fill-opacity="0.15" />
+                    </svg>
+                </div>
+                <!-- very high -->
+                <div id="very_highSvg" hidden>
+                    <svg viewBox="0 0 128.0 16.0" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#6dd58c" d="M6,8m6,-0a6,6 0,1 1,-12 -0a6,6 0,1 1,12 -0" stroke-opacity="0.15"
+                            fill-opacity="0.15" />
+                        <path fill="#fcc934" d="M34,8m6,-0a6,6 0,1 1,-12 -0a6,6 0,1 1,12 -0" stroke-opacity="0.15"
+                            fill-opacity="0.15" />
+                        <path fill="#fa903e" d="M62,8m6,-0a6,6 0,1 1,-12 -0a6,6 0,1 1,12 -0" stroke-opacity="0.15"
+                            fill-opacity="0.15" />
+                        <path fill="#ee675c" d="M92,8m8,-0a8,8 0,1 1,-16 -0a8,8 0,1 1,16 -0" />
+                        <path fill="#af5cf7" d="M122,8m6,-0a6,6 0,1 1,-12 -0a6,6 0,1 1,12 -0" stroke-opacity="0.15"
+                            fill-opacity="0.15" />
+                    </svg>
+                </div>
+
+                <!-- extreme -->
+
+                <div id="extremeSvg" hidden>
+                    <svg viewBox="0 0 128.0 16.0" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#6dd58c" d="M6,8m6,-0a6,6 0,1 1,-12 -0a6,6 0,1 1,12 -0" stroke-opacity="0.15"
+                            fill-opacity="0.15" />
+                        <path fill="#fcc934" d="M34,8m6,-0a6,6 0,1 1,-12 -0a6,6 0,1 1,12 -0" stroke-opacity="0.15"
+                            fill-opacity="0.15" />
+                        <path fill="#fa903e" d="M62,8m6,-0a6,6 0,1 1,-12 -0a6,6 0,1 1,12 -0" stroke-opacity="0.15"
+                            fill-opacity="0.15" />
+                        <path fill="#ee675c" d="M90,8m6,-0a6,6 0,1 1,-12 -0a6,6 0,1 1,12 -0" stroke-opacity="0.15"
+                            fill-opacity="0.15" />
+                        <path fill="#af5cf7" d="M120,8m8,-0a8,8 0,1 1,-16 -0a8,8 0,1 1,16 -0" />
+                    </svg>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="info__forecast">
+
+            <span>The UV index measures the strength of the sun's ultraviolet (UV) radiation. It is on a scale of 0 to
+                11, with the higher values indicating stronger UV radiation.</span>
+
+            <span>UV radiation can cause sunburn, skin cancer, and eye damage. The higher the UV index, the greater the
+                risk of these problems.</span>
+
+            <span>1-2: Low. no protection needed. You can safely stay outside using minimal sun protection.</span>
+
+            <span>3-7: Moderate to High. Protection needed. Seek shade during late morning through mid-afternoon. When
+                outside, generously apply broad-spectrum SPF-15 or higher suncreen on exposed skin, and wear protective
+                clothing, a wide-brimmed hat, and sunglasses.</span>
+
+            <span style="margin-bottom: 30px;">8+: Very High to Extreme. Extra protection needed. Be carefull outside,
+                especially during late morning through mid-afternoon. If your shadow is shorter than you, seek shade and
+                wear protective clothing, a wide-brimmed hat, and sunglasses, and generously apply a minimum of SPF-15,
+                broad-spectrum sunscreen on exposed skin.</span>
+        </div>
+    </div>
+
+
+    <script>
+
+        const cachedCurrentDataHourly = JSON.parse(localStorage.getItem('CurrentHourlyCache'));
+        const lowSvg = document.getElementById('lowSvg');
+        const midSvg = document.getElementById('midSvg')
+        const highSvg = document.getElementById('highSvg')
+        const very_highSvg = document.getElementById('very_highSvg')
+        const extremeSvg = document.getElementById('extremeSvg');
+
+        function loadUvForecast(data) {
+
+
+            data.time.forEach((time, index) => {
+
+                const uvIndex = Math.round(data.uv_index[0])
+
+
+
+
+                let UVindexText;
+
+                if (uvIndex >= 0 && uvIndex <= 1) {
+                    UVindexText = 'Minimal';
+                    lowSvg.hidden = false;
+                    midSvg.hidden = true;
+                    highSvg.hidden = true;
+                    very_highSvg.hidden = true;
+                    extremeSvg.hidden = true;
+
+                } else if (uvIndex > 1 && uvIndex <= 2) {
+                    UVindexText = 'Low';
+                    lowSvg.hidden = false;
+                    midSvg.hidden = true;
+                    highSvg.hidden = true;
+                    very_highSvg.hidden = true;
+                    extremeSvg.hidden = true;
+
+                } else if (uvIndex > 2 && uvIndex <= 3) {
+                    UVindexText = 'Low';
+                    lowSvg.hidden = false;
+                    midSvg.hidden = true;
+                    highSvg.hidden = true;
+                    very_highSvg.hidden = true;
+                    extremeSvg.hidden = true;
+
+                } else if (uvIndex > 3 && uvIndex <= 4) {
+                    UVindexText = 'Moderate';
+                    lowSvg.hidden = true;
+                    midSvg.hidden = false;
+                    highSvg.hidden = true;
+                    very_highSvg.hidden = true;
+                    extremeSvg.hidden = true;
+
+                } else if (uvIndex > 4 && uvIndex <= 5) {
+                    UVindexText = 'Moderate';
+                    lowSvg.hidden = true;
+                    midSvg.hidden = false;
+                    highSvg.hidden = true;
+                    very_highSvg.hidden = true;
+                    extremeSvg.hidden = true;
+
+                } else if (uvIndex > 5 && uvIndex <= 6) {
+                    UVindexText = 'Moderate';
+                    lowSvg.hidden = true;
+                    midSvg.hidden = false;
+                    highSvg.hidden = true;
+                    very_highSvg.hidden = true;
+                    extremeSvg.hidden = true;
+
+                } else if (uvIndex > 6 && uvIndex <= 7) {
+                    UVindexText = 'High';
+                    lowSvg.hidden = true;
+                    midSvg.hidden = true;
+                    highSvg.hidden = false;
+                    very_highSvg.hidden = true;
+                    extremeSvg.hidden = true;
+
+                } else if (uvIndex > 7 && uvIndex <= 8) {
+                    UVindexText = 'High';
+                    lowSvg.hidden = true;
+                    midSvg.hidden = true;
+                    highSvg.hidden = false;
+                    very_highSvg.hidden = true;
+                    extremeSvg.hidden = true;
+
+                } else if (uvIndex > 8 && uvIndex <= 9) {
+                    UVindexText = 'Very high';
+                    lowSvg.hidden = true;
+                    midSvg.hidden = true;
+                    highSvg.hidden = true;
+                    very_highSvg.hidden = false;
+                    extremeSvg.hidden = true;
+
+                } else if (uvIndex > 9 && uvIndex <= 10) {
+                    UVindexText = 'Very high';
+                    lowSvg.hidden = true;
+                    midSvg.hidden = true;
+                    highSvg.hidden = true;
+                    very_highSvg.hidden = false;
+                    extremeSvg.hidden = true;
+
+                } else if (uvIndex > 10 && uvIndex <= 11) {
+                    UVindexText = 'Extreme';
+                    lowSvg.hidden = true;
+                    midSvg.hidden = true;
+                    highSvg.hidden = true;
+                    very_highSvg.hidden = true;
+                    extremeSvg.hidden = false;
+
+                } else if (uvIndex > 11 && uvIndex <= 12) {
+                    UVindexText = 'Extreme';
+                    lowSvg.hidden = true;
+                    midSvg.hidden = true;
+                    highSvg.hidden = true;
+                    very_highSvg.hidden = true;
+                    extremeSvg.hidden = false;
+
+                } else if (uvIndex > 12 && uvIndex <= 13) {
+                    UVindexText = 'Extreme';
+                    lowSvg.hidden = true;
+                    midSvg.hidden = true;
+                    highSvg.hidden = true;
+                    very_highSvg.hidden = true;
+                    extremeSvg.hidden = false;
+
+                } else if (uvIndex > 13) {
+                    UVindexText = 'Extreme';
+                    lowSvg.hidden = true;
+                    midSvg.hidden = true;
+                    highSvg.hidden = true;
+                    very_highSvg.hidden = true;
+                    extremeSvg.hidden = false;
+                }
+
+
+
+
+
+
+                document.getElementById('indexValue').innerHTML = uvIndex
+                document.getElementById('indexDescrip').innerHTML = UVindexText
+
+
+            });
+
+
+        }
+
+        loadUvForecast(cachedCurrentDataHourly)
+
+
+  function sendThemeToAndroid(theme) {
+
+AndroidInterface.updateStatusBarColor(theme);
+};
+
+    </script>
+
+    <script src="../../app/navigate.js"></script>
+    <script src="../../components-script.js/components.js"></script>
+    <script src="../../ripple-files/icon-ripple.js"></script>
+    <script src="../../modules/scroll.js"></script>
+    <script src="../../bundle.js"></script>
+    <script type="module" src="../../index.js"></script>
+    <script src="../../modules/ripple_acc.js"></script>
+</body>
+
+</html>

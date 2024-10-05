@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!--   bg-colors -->
+    <color name="C01d">#001d33</color>
+    <color name="C01n">#001d33</color>
+    <color name="C02d">#0e1d2a</color>
+    <color name="C02n">#0e1d2a</color>
+    <color name="C03d">#0e1d2a</color>
+    <color name="C03n">#0e1d2a</color>
+    <color name="C04d">#0e1d2a</color>
+    <color name="C04n">#0e1d2a</color>
+    <color name="C09d">#0e1d2a</color>
+    <color name="C09n">#0e1d2a</color>
+    <color name="C10d">#0e1d2a</color>
+    <color name="C10n">#0e1d2a</color>
+    <color name="C11d">#0e1d2a</color>
+    <color name="C11n">#0e1d2a</color>
+    <color name="C13d">#1f1f30</color>
+    <color name="C13n">#1f1f30</color>
+    <color name="C50d">#191209</color>
+    <color name="C50n">#191209</color>
+
+
+    <color name="mainBG">#121317</color>
+    <color name="MoonPhase">#2b226f</color>
+    <color name="forecastPageBg">#334151</color>
+    <color name="RadarPage">#1a110f</color>
+    <color name="AboutBG">#101510</color>
+    <color name="conditionBG">#191113</color>
+    <color name="diffDefault">#0e1d2a</color>
+</resources>

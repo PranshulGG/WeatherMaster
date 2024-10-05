@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en" Theme="default" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Select language</title>
+    <link rel="stylesheet" href="../ui-files/ui.css">
+    <link rel="stylesheet" href="../ui-files/font-usage.css">
+    <link rel="stylesheet" href="../ui-files/variables.css">
+    <link rel="stylesheet" href="../components/components.css">
+    <link rel="stylesheet" href="../components/modal-ver.css">
+    <link rel="stylesheet" href="../ripple-files/ripple.css">
+    <link rel="stylesheet" href="../components/segment-btns.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css" />
+
+    <style>
+ .activity-large-content::before {
+            position: fixed;
+            bottom: 0;
+            content: '';
+            width: 100%;
+            background: linear-gradient(0deg, var(--Surface) 10%, rgba(255, 0, 0, 0));
+            height: 30px;
+            z-index: 1;
+        }
+
+
+        .language_item {
+            padding: 10px;
+            padding-left: 20px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+            gap: 25px;
+            font-family: var(--outfit);
+            font-size: 18px;
+            position: relative;
+            --md-ripple-pressed-opacity: 0.12;
+        }
+
+        .language_item[disabled] {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        .language_item input {
+            display: none;
+        }
+
+
+
+
+
+        img_area {
+            display: block;
+            width: 40px;
+            height: 40px;
+            border-radius: 50px;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        img_area i {
+            width: 40px;
+            height: 40px;
+            background-position: center;
+            background-size: cover;
+            display: block;
+            border-radius: 50px;
+            background-repeat: no-repeat;
+        }
+
+
+        img_area::before {
+            content: 'check';
+            font-family: 'Material symbols';
+            font-weight: normal !important;
+            font-style: normal !important;
+            line-height: 1;
+            font-size: 24px;
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50px;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            align-items: center;
+            flex-shrink: 0;
+            justify-content: center;
+            background-color: var(--Primary);
+            color: var(--On-Primary);
+            animation: scaleUp 0.2s ease-out;
+            display: var(--display-before, none);
+        }
+
+        @keyframes scaleUp {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body style="background-color: var(--Surface);">
+
+    <div class="activity-large open">
+        <div class="header-activity-large" id="head-1">
+            <button class="ripple-icon-btn regular" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)"
+                title="Go back" onclick="sendThemeToAndroid('GoBack')">
+                <span class="ripple-effect-icon"></span>
+                <span icon-outlined>arrow_back</span>
+            </button>
+            <p class="label-hidden-large" style="white-space: nowrap;" data-translate="language">Language</p>
+        </div>
+        <div class="activity-large-content" id="headUser-1">
+            <p class="label-large-main" data-translate="language">Language</p>
+            <div class="content-parent-large" style="padding-bottom: 32px;">
+
+                <md-list style="padding: 10px;">
+                    <md-list-item style="background-color: var(--Secondary-Container); border-radius: 15px;"
+                        type="button" href="https://poeditor.com/join/project/DxrGXdoUGF">
+                        <md-icon icon-outlined slot="start">translate</md-icon>
+                        <div slot="headline" style="color: var(--On-Secondary-Container);" data-translate="translate_this_app">Translate this app</div>
+                        <div slot="supporting-text" data-translate="join_POEditor_project_to_help">Join POEditor project to help</div>
+                    </md-list-item>
+                </md-list>
+
+                <md-list>
+
+                    <label class="language_item">
+                        <input checked name="app_language_radios" value="English" lang="en"
+                               onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-us"></i>
+                        </img_area>
+                        English
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item">
+                        <input name="app_language_radios" value="Español" lang="es" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-es"></i>
+                        </img_area>
+                        Español
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item" >
+                        <input name="app_language_radios" value="Français" lang="fr" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-fr"></i>
+                        </img_area>
+                        Français
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item">
+                        <input name="app_language_radios" value="Deutsch" lang="de" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-de"></i>
+                        </img_area>
+                        Deutsch
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item">
+                        <input name="app_language_radios" value="Italiano" lang="it" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-it"></i>
+                        </img_area>
+                        Italiano
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item" disabled>
+                        <input name="app_language_radios" value="Português" lang="pt" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-pt"></i>
+                        </img_area>
+                        Português
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item">
+                        <input name="app_language_radios" value="Pусский" lang="ru" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-ru"></i>
+                        </img_area>
+                        Pусский
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item">
+                        <input name="app_language_radios" value="українець" lang="uk" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-ua"></i>
+                        </img_area>
+                        українець
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item">
+                        <input name="app_language_radios" value="Magyar" lang="hu" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-hu"></i>
+                        </img_area>
+                        Magyar
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item">
+                        <input name="app_language_radios" value="Polski" lang="pl" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-pl"></i>
+                        </img_area>
+                        Polski
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item" disabled>
+                        <input name="app_language_radios" value="Ελληνικά" lang="el" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-gr"></i>
+                        </img_area>
+                        Ελληνικά
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item">
+                        <input name="app_language_radios" value="Română" lang="ro" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-ro"></i>
+                        </img_area>
+                        Română
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item">
+                        <input name="app_language_radios" value="Slovenčina" lang="sk" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-sk"></i>
+                        </img_area>
+                        Slovenčina
+                        <md-ripple></md-ripple>
+                    </label>
+
+
+
+                    <label class="language_item">
+                        <input name="app_language_radios" value="简体中文" lang="zh-Hans" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-cn"></i>
+                        </img_area>
+                        简体中文
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item">
+                        <input name="app_language_radios" value="日本語" lang="ja" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i class="fas fi-jp"></i>
+                        </img_area>
+                        日本語
+                        <md-ripple></md-ripple>
+                    </label>
+
+
+                </md-list>
+
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        const user1 = document.getElementById('headUser-1')
+
+        function changeColorOnScroll1() {
+            var container = document.getElementById('headUser-1');
+            var scrollY = container.scrollTop;
+
+            if (scrollY >= 50) {
+                document.getElementById('head-1').style.backgroundColor = 'var(--Surface-Container)';
+                document.getElementById('head-1').style.transition = '';
+
+                document.getElementById('headUser-1').style.scrollSnapType = 'unset';
+                container.removeEventListener('scroll', changeColorOnScroll1);
+                sendThemeToAndroid('Scrolled')
+
+
+            } else {
+
+            }
+        }
+
+        if (user1) {
+            document.getElementById('headUser-1').addEventListener('scroll', changeColorOnScroll1);
+        }
+
+
+
+        function changeColorOnScroll1A() {
+            var container = document.getElementById('headUser-1');
+            var scrollY = container.scrollTop;
+
+            if (scrollY <= 1) {
+                document.getElementById('head-1').style.backgroundColor = '';
+                document.getElementById('head-1').style.transition = 'background-color 0.2s ease-in';
+
+                sendThemeToAndroid('ScrollFalse')
+
+                container.addEventListener('scroll', changeColorOnScroll1);
+                if (scrollY <= 20); {
+                    document.getElementById('headUser-1').style.scrollSnapType = '';
+
+                }
+
+            } else {
+
+            }
+        }
+
+        if (user1) {
+            document.getElementById('headUser-1').addEventListener('scroll', changeColorOnScroll1A);
+        }
+
+        function sendThemeToAndroid(theme) {
+
+            AndroidInterface.updateStatusBarColor(theme);
+        };
+
+
+
+            document.querySelectorAll('input[name="app_language_radios"]').forEach((radio) => {
+            radio.addEventListener('change', (event) => {
+                if (event.target.checked) {
+                    localStorage.setItem('AppLanguage', event.target.value);
+                    localStorage.setItem('AppLanguageCode', event.target.lang);
+                    applyTranslations(event.target.lang);
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const AppLanguageValue = localStorage.getItem('AppLanguage');
+            const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
+            if (AppLanguageValue) {
+                const radio = document.querySelector(`input[value="${AppLanguageValue}"]`);
+                if (radio) {
+                    radio.checked = true;
+                    applyTranslations(AppLanguageCodeValue);
+                }
+
+            }
+
+        updateImgAreas()
+
+        });
+
+
+
+
+        function updateImgAreas() {
+    const radios = document.querySelectorAll("input[name='app_language_radios']");
+
+    radios.forEach(radio => {
+        const imgArea = radio.closest('.language_item').querySelector('img_area');
+
+        const beforeStyle = window.getComputedStyle(imgArea, '::before');
+
+        if (radio.checked) {
+            imgArea.style.setProperty('--display-before', 'flex');
+        } else {
+            imgArea.style.setProperty('--display-before', 'none');
+        }
+    });
+}
+
+
+    </script>
+
+    <script src="../components-script.js/components.js"></script>
+    <script src="../ripple-files/icon-ripple.js"></script>
+    <script src="../modules/scroll.js"></script>
+    <script src="../modules/ripple_acc.js"></script>
+    <script src="../app/navigate.js"></script>
+    <script src="../bundle.js"></script>
+    <script type="module" src="../index.js"></script>
+    <script src="../langs/langs.js"></script>
+</body>
+
+</html>

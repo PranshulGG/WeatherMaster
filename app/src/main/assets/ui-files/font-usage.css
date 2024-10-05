@@ -1,0 +1,77 @@
+@font-face {
+  font-family: 'Poppins';
+  src: url('../fonts/Poppins-Regular.ttf') format('truetype');
+
+}
+
+
+@font-face {
+  font-family: 'Google';
+  src: url('../fonts/ProductSans-Regular.ttf') format('truetype');
+
+}
+
+@font-face {
+  font-family: 'Google-thin';
+  src: url('../fonts/ProductSans-Thin.ttf') format('truetype');
+
+}
+
+@font-face {
+  font-family: 'Google-light';
+  src: url('../fonts/ProductSans-Light.ttf') format('truetype');
+
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('../fonts/Outfit-Regular.ttf') format('truetype');
+
+}
+
+@font-face {
+  font-family: 'Outfit-mid';
+  src: url('../fonts/Outfit-Medium.ttf') format('truetype');
+
+}
+
+
+@font-face {
+  font-family: 'Google-medium';
+  src: url('../fonts/ProductSans-Medium.ttf') format('truetype');
+
+}
+
+
+@font-face {
+  font-family: 'Material symbols';
+  src: url('../fonts/MaterialSymbols.ttf') format('truetype');
+}
+
+
+
+[icon-outlined] {
+  font-family: 'Material symbols';
+  font-weight: normal !important;
+  font-style: normal !important;
+  line-height: 1;
+
+}
+
+[icon-filled] {
+  font-family: 'Material symbols';
+  font-weight: normal !important;
+  font-style: normal !important;
+  font-variation-settings: 'FILL' 1;
+  line-height: 1;
+
+}
+
+[icon-weight="200"]{
+  font-weight: 200 !important;
+}
+
+
+[icon-weight="100"]{
+  font-weight: 100 !important;
+}

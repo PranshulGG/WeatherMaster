@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en" Theme="default" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Alert page</title>
+    <link rel="stylesheet" href="../ui-files/font-usage.css">
+    <link rel="stylesheet" href="../ui-files/variables.css">
+    <link rel="stylesheet" href="../components/components.css">
+    <link rel="stylesheet" href="../components/modal-ver.css">
+    <link rel="stylesheet" href="../ripple-files/ripple.css">
+    <link rel="stylesheet" href="../components/segment-btns.css">
+
+    <style>
+
+        * {
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    touch-action: manipulation;
+    -webkit-user-drag: none;
+    outline: none;
+}
+
+p{
+    margin: 0;
+}
+
+body {
+    background-color: var(--Surface);
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    font-family: var(--outfit);
+    animation: opacity 0.3s ease-out;
+
+}
+
+@keyframes opacity{
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+        [hidden] {
+            display: none !important;
+        }
+
+        *::selection{
+  background-color: var(--Inverse-Primary);
+            color: white;
+        }
+
+        ul{
+            padding: 0;
+            margin: 0;
+            user-select: text !important;
+
+        }
+
+        ul li{
+            list-style-type: none;
+            margin-bottom: 10px;
+            user-select: text !important;
+            overflow: hidden;
+             word-wrap: break-word;
+        }
+
+        #alert_info_div{
+            padding: 10px;
+            padding-bottom: 60px;
+        }
+
+
+        #alert_info_div alertHolder .location{
+            display: flex;
+            align-items: center;
+            font-family: var(--outfit-mid);
+            color: var(--On-Surface-Variant);
+            font-size: 18px;
+            font-weight: 500;
+            border-bottom: 1px solid var(--Outline-Variant);
+            padding: 10px;
+        }
+
+        #alert_info_div alertHolder {
+            background-color: var(--Surface-Container-Low);
+            display: block;
+            border-radius: 10px;
+        }
+
+        .alert_event{
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            gap: 10px;
+            padding-left: 5px;
+        }
+
+        .alert_event md-icon{
+            color: Orange;
+            font-size: 20px;
+            border-right: 1px solid var(--Outline);
+            padding-right: 10px;
+        }
+
+        .alert_event p{
+            font-size: 19px;
+            font-family: var(--outfit);
+            color: var(--On-Surface);
+
+        }
+
+        .other_info_desc_time{
+            padding-left: 50px;
+            padding-top: 10px;
+            font-family: var(--outfit);
+
+        }
+
+
+        .other_info_desc_time .start_end{
+            color: var(--On-Surface);
+            font-size: 18px;
+            display: flex;
+            align-items: flex-start;
+            flex-direction: column;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        .other_info_desc_time .start_end span{
+            color: var(--Primary);
+            font-family: var(--outfit-mid);
+        }
+
+        .other_info_desc_time .start_end p{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .description{
+            font-family: var(--outfit);
+            font-size: 16px;
+            padding: 10px;
+            color: var(--On-Surface);
+            padding-left: 0;
+            padding-right: 15px;
+            user-select: text !important;
+        }
+
+
+        #senderName{
+            position: fixed;
+            color: rgba(255, 255, 255, 0.486);
+            font-size: 15px;
+            bottom: 0;
+            padding-bottom: 5px;
+            width: calc(100% - 20px);
+            background-color: var(--Surface);
+            z-index: 1;
+            text-align: right;
+            padding-right: 20px;
+        }
+
+
+        .alert_loader{
+              --md-circular-progress-size: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            z-index: 1;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--Surface);
+            height: calc(100% - 65px);
+        }
+
+
+        alertHolder:first-child{
+            margin-top: 0 !important;
+        }
+
+        alertHolder{
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body style="background-color: var(--Surface);">
+
+<div class="full-activity open">
+    <div class="full-activity-header transparent round" id="head-2">
+        <button class="ripple-icon-btn close" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)"
+                onclick="sendThemeToAndroid('GoBack')">
+            <span class="ripple-effect-icon"></span>
+            <span icon-outlined style="font-size: 24px !important;">arrow_back</span>
+        </button>
+
+        <p>Weather alert</p>
+    </div>
+    <div class="full-activity-content" id="Content">
+
+
+        <div id="alert_info_div">
+
+
+        </div>
+
+
+        <p id="senderName"></p>
+
+
+
+        <div class="alert_loader">
+            <md-circular-progress indeterminate style="margin-bottom: 100px;"></md-circular-progress>
+        </div>
+        <script>
+
+
+                function sendThemeToAndroid(theme) {
+
+                    AndroidInterface.updateStatusBarColor(theme);
+                };
+
+                const cachedAlerts = JSON.parse(localStorage.getItem('AlertCache'));
+
+                const handleAlerts = async () => {
+                    if (!cachedAlerts || cachedAlerts.length === 0) {
+                        console.log('No cached alerts available.');
+                        return;
+                    }
+
+                    let isFirstAlert = true;
+                    const alertInfoDiv = document.getElementById('alert_info_div');
+
+                    const locationText = localStorage.getItem('CurrentLocationName')
+
+                    cachedAlerts.filter(alert => alert.description).forEach(alert => {
+                        const alertInfoDivCreate = document.createElement('alertHolder');
+                        alertInfoDivCreate.classList.add('alertHolder');
+                        const alertEventDesc = alert.description;
+                        const alertEventPage = alert.event;
+                        const startEventTime = alert.start;
+                        const endEventTime = alert.end;
+
+                        const formatDate = (timestamp) => {
+                            const date = new Date(timestamp * 1000);
+                            return date.toLocaleString();
+                        };
+
+                        const alertDetails = alertEventDesc.split('\n').map(line => `<li>${line.trim()}</li>`).join('');
+
+                        alertInfoDivCreate.innerHTML = `
+
+                  ${isFirstAlert ? `
+                        <div class="location">
+                            <p id="alert_location">${locationText}</p>
+                        </div>
+                    ` : ''}
+
+            <div class="alert_event">
+                <md-icon icon-filled>warning</md-icon>
+                <p id="EventText">${alertEventPage}</p>
+            </div>
+
+            <div class="other_info_desc_time">
+                <div class="start_end">
+                    <p><span>Start:</span> ${formatDate(startEventTime)}</p>
+                    <p><span>End:</span> ${formatDate(endEventTime)}</p>
+                </div>
+
+                <div class="description">
+                    <ul>${alertDetails}</ul>
+                </div>
+            </div>
+        `;
+
+                        alertInfoDiv.appendChild(alertInfoDivCreate);
+                        isFirstAlert = false;
+                    });
+
+                    if (cachedAlerts.length > 0) {
+                        document.getElementById('senderName').innerHTML = 'Sender: ' + (cachedAlerts[0].sender_name || 'N/A');
+                    }
+                };
+
+                handleAlerts();
+
+
+
+                const user2 = document.getElementById('Content')
+
+                function changeColorOnScroll2() {
+                    var container = document.getElementById('Content');
+                    var scrollY = container.scrollTop;
+
+                    if (scrollY >= 10) {
+                        document.getElementById('head-2').style.backgroundColor = 'var(--Surface-Container)';
+                        document.getElementById('head-2').style.transition = '';
+
+
+                        container.removeEventListener('scroll', changeColorOnScroll2);
+                        sendThemeToAndroid('Scrolled')
+                    } else {
+
+                    }
+                }
+
+
+                if (user2) {
+                    document.getElementById('Content').addEventListener('scroll', changeColorOnScroll2);
+                } else {
+
+                }
+
+
+                function changeColorOnScroll2A() {
+                    var container = document.getElementById('Content');
+                    var scrollY = container.scrollTop;
+
+                    if (scrollY <= 0) {
+                        document.getElementById('head-2').style.backgroundColor = '';
+                        document.getElementById('head-2').style.transition = 'background-color 0.2s ease-in';
+
+                        sendThemeToAndroid('ScrollFalse')
+                        container.addEventListener('scroll', changeColorOnScroll2);
+                        if (scrollY <= 20); {
+
+
+                        }
+
+                    } else {
+
+                    }
+                }
+
+                if (user2) {
+                    document.getElementById('Content').addEventListener('scroll', changeColorOnScroll2A);
+                }
+
+
+                setTimeout(() => {
+                    document.querySelector('.alert_loader').hidden = true;
+                }, 2000);
+
+
+                setTimeout(()=>{
+                    const senderDivHeight = document.getElementById('senderName').offsetHeight;
+                    console.log(senderDivHeight);
+                    document.getElementById('alert_info_div').style.paddingBottom = `calc(30px + ${senderDivHeight}px)`
+                }, 1000);
+            </script>
+
+        <script src="../components-script.js/components.js"></script>
+        <script src="../ripple-files/icon-ripple.js"></script>
+        <script src="../modules/scroll.js"></script>
+        <script src="../modules/ripple_acc.js"></script>
+        <script src="../app/navigate.js"></script>
+        <script src="../bundle.js"></script>
+        <script type="module" src="../index.js"></script>
+</body>
+
+</html>

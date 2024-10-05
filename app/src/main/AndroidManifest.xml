@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.BODY_SENSORS"/>
+
+    <application
+        android:hardwareAccelerated="true"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.WeatherMaster"
+        tools:targetApi="31">
+        <activity
+            android:name=".SettingsActivity"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/ScreensAll"
+            />
+        <activity
+            android:name=".AboutPage"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/aboutMainPage"
+            />
+        <activity
+            android:name=".Terms_Conditions"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/ScreensAll"
+            />
+        <activity
+            android:name=".PrivacyPolicy"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/ScreensAll"
+            />
+        <activity
+            android:name=".ThirdParty"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/ScreensAll"
+            />
+        <activity
+            android:name=".ForecastPage"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/ScreenForecastPage"
+            />
+        <activity
+            android:name=".AlertPage"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/ScreensAll"
+            />
+        <activity
+            android:name=".LiveRadar"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/ScreenLiveRadar"
+            />
+        <activity
+            android:name=".LanguagePage"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/ScreensAll"
+            />
+        <activity
+            android:name=".humidityCondition"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/conditionMainPage"
+            />
+        <activity
+            android:name=".pressureCondition"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/conditionMainPage"
+            />
+        <activity
+            android:name=".sunCondition"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/conditionMainPage"
+            />
+        <activity
+            android:name=".UVIndexCondition"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/conditionMainPage"
+            />
+        <activity
+            android:name=".visibilityCondition"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/conditionMainPage"
+            />
+        <activity
+            android:name=".WindCondition"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/conditionMainPage"
+            />
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/app_theme"
+            android:screenOrientation="portrait"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

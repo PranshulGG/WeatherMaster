@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/black"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/imageViewNoInternet"
+        android:layout_width="600px"
+
+        android:layout_height="600px"
+        android:layout_marginBottom="100dp"
+        android:contentDescription="No Internet Icon"
+     />
+
+    <TextView
+        android:id="@+id/textViewNoInternetTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Internet Connection"
+        android:textColor="#FF5722"
+        android:textSize="24sp"
+        android:layout_marginTop="-90dp"
+        android:textStyle="bold"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/textViewNoInternetMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please check your internet connection and try again."
+        android:textColor="#ffff"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp"
+        android:textAlignment="center" />
+
+<!--    <Button-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@drawable/rounded_button"-->
+<!--        android:textSize="20dp"-->
+<!--        android:textColor="#FFFFFF"-->
+<!--        android:text="QUIT"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:id="@+id/buttonQuit"-->
+
+
+<!--        />-->
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:id="@+id/buttonQuit"
+        android:text="QUIT"
+        android:textSize="20dp"
+        android:textColor="#FFFFFF"
+        style="@style/Widget.MaterialComponents.Button"
+         />
+
+</LinearLayout>

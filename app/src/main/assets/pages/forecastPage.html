@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" >
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Forecast page</title>
+    <script src="../langs/langs.js"></script>
+    <link rel="stylesheet" href="../ui-files/font-usage.css">
+    <link rel="stylesheet" href="../ui-files/variables.css">
+    <link rel="stylesheet" href="../components/components.css">
+    <link rel="stylesheet" href="../components/modal-ver.css">
+    <link rel="stylesheet" href="../ripple-files/ripple.css">
+    <link rel="stylesheet" href="../components/segment-btns.css">
+    <link rel="stylesheet" href="forecastPageUi.css">
+    <script src="../app/apiKeysRotation.js"></script>
+
+</head>
+
+<body style="background-color: var(--Surface);">
+
+
+<div class="full-activity open">
+    <div class="full-activity-header transparent round" id="head-2">
+        <button class="ripple-icon-btn close" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)"
+                onclick="sendThemeToAndroid('GoBack')">
+            <span class="ripple-effect-icon"></span>
+            <span icon-outlined style="font-size: 24px !important;">arrow_back</span>
+        </button>
+
+        <p>14-<span data-translate="day">day</span> <span data-translate="forecast">forecast</span></p>
+    </div>
+    <div class="full-activity-content" id="Content">
+
+        <div id="foreCastList">
+
+
+
+
+        </div>
+
+
+
+        <div class="loader_holder">
+            <md-circular-progress indeterminate></md-circular-progress></div>
+
+
+
+    </div>
+</div>
+
+
+
+
+<script>
+
+const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
+        if (AppLanguageCodeValue) {
+            applyTranslations(AppLanguageCodeValue);
+
+        }
+         const user2 = document.getElementById('Content')
+
+function changeColorOnScroll2() {
+    var container = document.getElementById('Content');
+    var scrollY = container.scrollTop;
+
+    if (scrollY >= 10) {
+        document.getElementById('head-2').style.backgroundColor = '#415161';
+        document.getElementById('head-2').style.transition = '';
+
+
+        container.removeEventListener('scroll', changeColorOnScroll2);
+        sendThemeToAndroid('Scrolled')
+    } else {
+
+    }
+}
+
+
+if (user2) {
+    document.getElementById('Content').addEventListener('scroll', changeColorOnScroll2);
+} else {
+
+}
+
+
+function changeColorOnScroll2A() {
+    var container = document.getElementById('Content');
+    var scrollY = container.scrollTop;
+
+    if (scrollY <= 0) {
+        document.getElementById('head-2').style.backgroundColor = '';
+        document.getElementById('head-2').style.transition = 'background-color 0.2s ease-in';
+
+        sendThemeToAndroid('ScrollFalse')
+        container.addEventListener('scroll', changeColorOnScroll2);
+        if (scrollY <= 20); {
+
+
+        }
+
+    } else {
+
+    }
+}
+
+if (user2) {
+    document.getElementById('Content').addEventListener('scroll', changeColorOnScroll2A);
+}
+
+        function sendThemeToAndroid(theme) {
+
+            AndroidInterface.updateStatusBarColor(theme);
+        };
+
+
+
+
+
+    </script>
+
+    <script src="../components-script.js/components.js"></script>
+    <script src="../ripple-files/icon-ripple.js"></script>
+    <script src="../modules/scroll.js"></script>
+    <script src="../modules/ripple_acc.js"></script>
+    <script src="../app/navigate.js"></script>
+    <script src="../bundle.js"></script>
+    <script src="../app/renderForecastPage.js"></script>
+    <script type="module" src="../index.js"></script>
+</body>
+
+</html>

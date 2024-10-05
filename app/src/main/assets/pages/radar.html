@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en" Theme="default" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live rader</title>
+    <script src="../langs/langs.js"></script>
+    <link rel="stylesheet" href="../ui-files/font-usage.css">
+    <link rel="stylesheet" href="../ui-files/variables.css">
+    <link rel="stylesheet" href="../components/components.css">
+    <link rel="stylesheet" href="../components/modal-ver.css">
+    <link rel="stylesheet" href="../ripple-files/ripple.css">
+    <link rel="stylesheet" href="../components/segment-btns.css">
+    <link rel="stylesheet" href="../map/leaflet.css">
+    <script src="../map/leaflet.js"></script>
+
+
+    <style>
+        * {
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            touch-action: manipulation;
+            -webkit-user-drag: none;
+            outline: none;
+
+        }
+
+        p {
+            margin: 0;
+        }
+
+        body {
+            background-color: #1a110f;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            font-family: var(--outfit);
+            animation: opacity 0.3s ease-out;
+
+        }
+
+        .map_holder {
+            height: 100%;
+            width: 100%;
+            background-color: #1a110f;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        #mapRadar {
+            /* height: calc(100% - 225px); */
+            height: 100%;
+            background-color: #1a110f;
+            position: fixed;
+            width: 100%;
+        }
+
+        .header {
+            padding: 10px;
+            height: calc(65px - 20px);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .header p {
+            font-size: 22px;
+            color: #f1dfda;
+            font-family: var(--google-normal);
+        }
+
+        .controls {
+            height: 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-radius: 28px 28px 0 0;
+            position: relative;
+            background-color: #271d1b;
+
+        }
+
+        .controls>div>md-slider {
+            --md-sys-color-surface-container-highest: transparent;
+            --md-slider-inactive-track-height: 30px;
+            --md-slider-active-track-height: 30px;
+            --md-slider-with-tick-marks-container-size: 5px;
+            --md-slider-with-tick-marks-inactive-container-color: #d8c2bc;
+            --md-slider-with-tick-marks-active-container-color: #561f0f;
+            --md-sys-color-primary: #ffb5a0;
+            width: 100%;
+            --md-slider-inactive-track-shape: 25px !important;
+            --md-slider-active-track-shape: 8px !important;
+            --md-slider-handle-width: 30px;
+            --md-slider-handle-height: 30px;
+            --md-slider-handle-shadow-color: transparent;
+
+        }
+
+        .controls> .slider_btn {
+            display: flex;
+            align-items: center;
+            padding-top: 40px;
+            gap: 0px;
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+
+        .time-label {
+            display: flex;
+            justify-content: flex-end;
+            font-size: 36px;
+            color: #e7bdb2;
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-60%);
+            z-index: 20;
+            font-family: var(--outfit-mid);
+        }
+
+
+        .loader {
+            transition: opacity 0.2s ease-out;
+
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        flex {
+            flex: 1;
+        }
+
+        .play_btn{
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            --md-sys-color-primary-container: #723523;
+            --md-sys-color-on-primary-container: #ffdbd1;
+            --md-fab-container-shape:999px;
+        }
+
+        .leaflet-control-attribution{
+    display: none !important;
+        }
+
+        height{
+            height: calc(100% - 225px);
+             display: flex;
+             pointer-events: none;
+        }
+
+        .amount_chip{
+            height: 50px;
+            display: flex;
+            align-items: center;
+            background-color: #271d1b;
+            position: fixed;
+            width: 240px;
+            z-index: 99;
+            bottom: calc(160px + 10px);
+            right: 10px;
+            border-radius: 999px;
+            gap: 3px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .amount_chip p{
+            margin: 0;
+            color: #f1dfda;
+        }
+
+        .amount_chip .chips_low color_item{
+            background-color: var(--clr);
+            width: 10px;
+            height: 14px;
+            display: flex;
+            flex-shrink: 0;
+        }
+
+        .amount_chip .chips_low{
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            border: 2px solid #a08c87;
+        }
+                dot {
+            display: flex;
+            background-color: #ffb5a0;
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            left: 21px;
+            border-radius: 50px;
+            z-index: 1;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="map_holder">
+
+    <div class="header">
+        <button class="ripple-icon-btn regular" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)"
+                onclick="sendThemeToAndroid('GoBack')" style="--ripple-unbounded: white">
+            <span class="ripple-effect-icon"></span>
+            <span icon-outlined style="font-size: 24px !important; color: white;">arrow_back</span>
+        </button>
+
+        <p data-translate="live_radar">Live Radar</p>
+        <flex></flex>
+    </div>
+
+    <div id="mapRadar"></div>
+    <height></height>
+    <div class="controls">
+        <div class="slider_btn">
+            <md-slider id="timeSlider" min="0" max="12" value="0" step="1" ticks></md-slider>
+            <dot></dot>
+        </div>
+        <span class="time-label" id="timeLabel"></span>
+        <div class="play_btn">
+            <md-fab id="autoplayBtn" variant="primary" hidden>
+                <md-icon slot="icon" icon-filled>play_arrow</md-icon>
+            </md-fab>
+            <div class="loader">
+                <md-circular-progress indeterminate style="--md-sys-color-primary: #ffb5a0;"></md-circular-progress>
+            </div>
+        </div>
+    </div>
+
+    <div class="amount_chip">
+        <p style="padding-right: 5px;">Light</p>
+        <div class="chips_low" style="border-radius: 50px 20px 20px 50px;">
+            <color_item style="--clr: #36a106;">
+            </color_item>
+            <color_item style="--clr: #2c8007;">
+            </color_item>
+            <color_item style="--clr: #1c5506;">
+            </color_item>
+            <color_item style="--clr: #154008;">
+            </color_item>
+            <color_item style="--clr: #113007;">
+            </color_item>
+            <color_item style="--clr: #adaa07;">
+            </color_item>
+            <color_item style="--clr: #a88a08;">
+            </color_item>
+            <color_item style="--clr: #ab5a08;">
+            </color_item>
+        </div>
+        <div class="chips_low" style="border-radius: 5px;">
+            <color_item style="--clr: #5d06ab; width: 15px;" >
+            </color_item>
+        </div>
+        <div class="chips_low" style="border-radius: 20px 50px 50px 20px;">
+            <color_item style="--clr: #5792a0;">
+            </color_item>
+            <color_item style="--clr: #376da9;">
+            </color_item>
+            <color_item style="--clr: #0a34aa;">
+            </color_item>
+        </div>
+        <p style="padding-left: 5px;">Heavy</p>
+    </div>
+</div>
+
+
+<script>
+
+const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
+        if (AppLanguageCodeValue) {
+            applyTranslations(AppLanguageCodeValue);
+
+        }
+
+       var map;
+
+       const timeFormat = localStorage.getItem('selectedTimeMode');
+
+
+        function loadMapRainView() {
+            const latDif = localStorage.getItem('currentLat');
+            const longDif = localStorage.getItem('currentLong');
+
+            map = window.L.map('mapRadar', {
+                center: [latDif, longDif],
+                zoom: 8,
+                zoomControl: false,
+                minZoom: 2
+            });
+
+            window.L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png', {
+
+
+            }).addTo(map);
+
+
+            var marker = window.L.marker([latDif, longDif]).addTo(map);
+
+            var radarLayer;
+
+            var autoplayInterval;
+            var isPlaying = false;
+
+            function loadRadarLayer(path) {
+                var radarUrl = `https://tilecache.rainviewer.com${path}/256/{z}/{x}/{y}/2/1_1.png`;
+
+                if (radarLayer) {
+                    map.removeLayer(radarLayer);
+                }
+                radarLayer = window.L.tileLayer(radarUrl, {
+                    tileSize: 256,
+                    opacity: 1
+                }).addTo(map);
+            }
+
+
+            fetch('https://api.rainviewer.com/public/weather-maps.json')
+                .then(response => response.json())
+                .then(data => {
+                    var radarPast = data.radar.past;
+                    var radarNowcast = data.radar.nowcast;
+
+                    var combinedRadarData = radarPast.concat(radarNowcast);
+
+                    var timeSlider = document.getElementById("timeSlider");
+                    var timeLabel = document.getElementById("timeLabel");
+                    var autoplayBtn = document.getElementById("autoplayBtn");
+
+                    timeSlider.max = combinedRadarData.length - 1;
+
+                    var currentTime = Math.floor(Date.now() / 1000);
+            var closestIndex = findClosestTimestampIndex(combinedRadarData, currentTime);
+
+
+            var firstTimestamp = combinedRadarData[closestIndex].time;
+            var firstPath = combinedRadarData[closestIndex].path;
+            timeSlider.value = closestIndex;
+                    loadRadarLayer(firstPath);
+                    updateTimestampLabel(firstTimestamp);
+
+                    timeSlider.oninput = function () {
+                        var selectedData = combinedRadarData[this.value];
+                        loadRadarLayer(selectedData.path);
+                        updateTimestampLabel(selectedData.time);
+                    };
+
+                    autoplayBtn.onclick = function () {
+                        if (isPlaying) {
+                            stopAutoplay();
+                            document.getElementById('changeMapTypeToggle').hidden = false;
+                        } else {
+                            startAutoplay();
+                            document.getElementById('changeMapTypeToggle').hidden = true;
+                        }
+                    };
+
+                    function startAutoplay() {
+                        isPlaying = true;
+                        autoplayBtn.innerHTML = '<md-icon slot="icon" icon-filled>pause</md-icon>';
+                        autoplayInterval = setInterval(function () {
+                            timeSlider.value = (parseInt(timeSlider.value) + 1) % combinedRadarData.length;
+                            timeSlider.oninput();
+                        }, 1000);
+                    }
+
+                    function stopAutoplay() {
+                        isPlaying = false;
+                        autoplayBtn.innerHTML = '<md-icon slot="icon" icon-filled>play_arrow</md-icon>';
+                        clearInterval(autoplayInterval);
+                    }
+
+                    function updateTimestampLabel(timestamp) {
+                        if (timeFormat === '24 hour') {
+                            var date = new Date(timestamp * 1000);
+                        var options = { hour: 'numeric', minute: 'numeric', hourCycle: 'h23' };
+                        timeLabel.textContent = date.toLocaleTimeString([], options);
+                        } else {
+                            var date = new Date(timestamp * 1000);
+                        var options = { hour: 'numeric', minute: 'numeric' };
+                        timeLabel.textContent = date.toLocaleTimeString([], options);
+                        }
+
+                    }
+
+                    function findClosestTimestampIndex(data, currentTime) {
+                var closestIndex = 0;
+                var closestDiff = Math.abs(currentTime - data[0].time);
+
+                for (var i = 1; i < data.length; i++) {
+                    var diff = Math.abs(currentTime - data[i].time);
+                    if (diff < closestDiff) {
+                        closestIndex = i;
+                        closestDiff = diff;
+                    }
+                }
+
+                return closestIndex;
+            }
+                });
+
+        }
+
+
+        loadMapRainView()
+
+
+
+        setTimeout(() => {
+            document.querySelector('.loader').style.opacity = '0';
+        }, 1000);
+
+        setTimeout(() => {
+            document.querySelector('.loader').hidden = true;
+            document.getElementById('autoplayBtn').hidden = false;
+        }, 1300);
+
+
+        function removeMap() {
+            if (map) {
+                map.remove();
+                map = null;
+            }
+        }
+
+                function sendThemeToAndroid(theme) {
+
+                    AndroidInterface.updateStatusBarColor(theme);
+                };
+    </script>
+
+
+<script src="../components-script.js/components.js"></script>
+<script src="../ripple-files/icon-ripple.js"></script>
+<script src="../modules/scroll.js"></script>
+<script src="../modules/ripple_acc.js"></script>
+<script src="../app/navigate.js"></script>
+<script src="../bundle.js"></script>
+<script type="module" src="../index.js"></script>
+</body>
+
+</html>

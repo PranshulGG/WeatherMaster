@@ -1,0 +1,413 @@
+.radio-div-set{
+    display: flex;
+    align-items: center;
+  }
+  
+  .radio-div-set div input{
+    display: none;
+  }
+  
+  .radio-div-set div label{
+    color: var(--On-Surface);
+    background-color: rgba(0, 0, 255, 0);
+    border: 1.4px solid var(--Outline);
+  
+  
+    display: flex;
+    height: 38px;
+    font-family: var(--google-mid);
+    font-size: 16px;
+    position: relative;
+    justify-content: center;
+  
+    align-items: center;
+    width: max-content;
+    padding-left: 20px;
+    padding-right: 20px;
+    transition: background-color 0.1s, padding 0.2s;
+  }
+  
+  .radio-div-set div:first-child > label{
+    border-bottom-left-radius: 50px;
+    border-top-left-radius: 50px;
+    width: max-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid var(--Outline) !important;
+  
+  }
+  
+  .radio-div-set div:last-child label{
+    border-bottom-right-radius: 50px;
+    border-top-right-radius: 50px;
+    width: max-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid var(--Outline);
+  
+  }
+  
+  .radio-div-set div:last-child input:checked + label {
+    background-color: var(--Secondary-Container);
+    color: var(--On-Secondary-Container);
+    padding-left: 40px;
+    padding-right: 20px !important;
+  }
+  
+  .radio-div-set div:first-child input:checked + label {
+    background-color: var(--Secondary-Container);
+    color: var(--On-Secondary-Container);
+    padding-left: 40px;
+    padding-right: 10px !important;
+  
+  
+  }
+  
+  
+  .radio-div-set div input:checked + label {
+    background-color: var(--Secondary-Container);
+    color: var(--On-Secondary-Container);
+    padding-left: 35px;
+    padding-right: 10px !important;
+  
+  }
+  
+  
+  .radio-div-set div:first-child input:checked + label::before {
+    content: 'done';
+    position: absolute;
+    font-family: 'Material symbols' !important;
+    left: 13px;
+    color: var(--On-Surface);
+    font-size: 24px;
+  
+  }
+  
+  .radio-div-set div:last-child input:checked + label::before {
+    content: 'done';
+    position: absolute;
+    font-family: 'Material symbols' !important;
+    left: 10px;
+    color: var(--On-Surface);
+    font-size: 24px;
+  
+  }
+  
+  .radio-div-set div input:checked + label::before {
+    content: 'done';
+    position: absolute;
+    font-family: 'Material symbols' !important;
+    left: 7px;
+    color: var(--On-Surface);
+    font-size: 24px;
+  
+  }
+  
+  
+  
+  /* icon-one */
+  
+  
+  .radio-div-set-icon{
+    display: flex;
+    align-items: center;
+  }
+  
+  .radio-div-set-icon div input{
+    display: none;
+  }
+  
+  .radio-div-set-icon div label{
+    color: var(--On-Surface);
+    background-color: rgba(0, 0, 255, 0);
+    border: 1.4px solid var(--Outline);
+  
+    cursor: pointer;
+  
+    display: flex;
+    height: 38px;
+    font-family: var(--google-mid);
+    font-size: 15px;
+    position: relative;
+    justify-content: space-around;
+    gap: 5px;
+    align-items: center;
+    width: max-content;
+    padding-left: 10px;
+    padding-right: 10px;
+    transition: background-color 0.1s, padding 0.2s;
+  }
+  
+  .radio-div-set-icon div:first-child > label{
+    border-bottom-left-radius: 50px;
+    /* padding-left: 45px; */
+  
+    border-top-left-radius: 50px;
+    width: max-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid var(--Outline) !important;
+  
+  }
+  
+  .radio-div-set-icon div:last-child label{
+    border-bottom-right-radius: 50px;
+    border-top-right-radius: 50px;
+    width: max-content;
+    display: flex;
+    /* padding-left: 40px; */
+  
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid var(--Outline);
+  
+  }
+  
+  .radio-div-set-icon div:last-child input:checked + label {
+    background-color: var(--Secondary-Container);
+    color: var(--On-Secondary-Container);
+  
+  }
+  
+  .radio-div-set-icon div:first-child input:checked + label {
+    background-color: var(--Secondary-Container);
+    color: var(--On-Secondary-Container);
+  
+  
+  
+  }
+  
+  
+  .radio-div-set-icon div input:checked + label {
+    background-color: var(--Secondary-Container);
+    color: var(--On-Secondary-Container);
+   
+  
+  }
+  
+  .radio-div-set-icon div label::before {
+    content: attr(data-icon);
+    /* position: absolute; */
+    font-family: 'Material symbols' !important;
+    left: 15px;
+    color: var(--On-Surface);
+    font-size: 20px;
+  
+  }
+  
+  
+  .radio-div-set-icon div:last-child label::before {
+    content: attr(data-icon);
+    /* position: absolute; */
+    font-family: 'Material symbols' !important;
+    color: var(--On-Surface);
+    font-size: 20px;
+  
+  }
+  
+  
+  .radio-div-set-icon div:first-child label::before {
+    content: attr(data-icon);
+    /* position: absolute; */
+    font-family: 'Material symbols' !important;
+    color: var(--On-Surface);
+    font-size: 20px;
+  
+  }
+  
+  
+  .radio-div-set-icon div:first-child input:checked + label::before {
+    content: 'done';
+    /* position: absolute; */
+    font-family: 'Material symbols' !important;
+    color: var(--On-Secondary-Container);
+    font-size: 22px;
+    width: 20px;
+    height: 24px;
+  
+  }
+  
+  .radio-div-set-icon div:last-child input:checked + label::before {
+    content: 'done';
+    /* position: absolute; */
+    font-family: 'Material symbols' !important;
+    color: var(--On-Secondary-Container);
+    font-size: 22px;
+    width: 20px;
+    height: 24px;
+  }
+  
+  .radio-div-set-icon div input:checked + label::before {
+    content: 'done';
+    /* position: absolute; */
+    font-family: 'Material symbols' !important;
+    color: var(--On-Secondary-Container);
+    font-size: 22px;
+    width: 20px;
+    height: 24px;
+  }
+  
+  
+  /* regular */
+  
+  
+  .radio-div-set-regular{
+    display: flex;
+    align-items: center;
+  }
+  
+  .radio-div-set-regular div input{
+    display: none;
+  }
+  
+  .radio-div-set-regular div label{
+    color: var(--On-Surface);
+    background-color: rgba(0, 0, 255, 0);
+    border: 1px solid var(--Outline);
+    
+    border-left: none;
+    /* border-right: none; */
+    cursor: pointer;
+    display: flex;
+    height: 38px;
+    font-family: var(--google-mid);
+    font-size: 15px;
+    position: relative;
+    justify-content: center;
+  
+    align-items: center;
+    width: max-content;
+    padding-left: 15px;
+    padding-right: 15px;
+    transition: background-color 0.1s, padding 0.2s;
+  }
+  
+  .radio-div-set-regular div:first-child > label{
+    border-bottom-left-radius: 50px;
+  
+    border-top-left-radius: 50px;
+    width: max-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid var(--Outline) !important;
+    border-left: 1px solid var(--Outline) !important;
+
+  
+  }
+  
+  .radio-div-set-regular div:last-child label{
+    border-bottom-right-radius: 50px;
+    border-top-right-radius: 50px;
+    width: max-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* border-left: 1px solid var(--Outline); */
+    border-right: 1px solid var(--Outline) !important;
+    
+  }
+  
+  .radio-div-set-regular div:last-child input:checked + label {
+    background-color: var(--Secondary-Container);
+    color: var(--On-Secondary-Container);
+    pointer-events: none;
+    
+  }
+  
+  .radio-div-set-regular div:first-child input:checked + label {
+    background-color: var(--Secondary-Container);
+    color: var(--On-Secondary-Container);
+  
+    pointer-events: none;
+    
+  
+  }
+  
+  
+  .radio-div-set-regular div input:checked + label {
+    background-color: var(--Secondary-Container);
+    color: var(--On-Secondary-Container);
+    pointer-events: none;
+  
+  }
+  
+
+  
+
+
+  /* usage */
+
+
+
+
+  /* Selected icon only 
+  
+  
+    <!-- <div class="radio-div-set">
+
+        <div class="radio-option-settings">
+            <input type="radio" name="options-1" id="radio1">
+            <label for="radio1" class="md-ripples ripples-bounded">Day</label>
+        </div>
+
+        <div class="radio-option-settings">
+            <input type="radio" name="options-1" id="radio2">
+            <label for="radio2" class="md-ripples ripples-bounded">Month</label>
+        </div>
+
+        <div class="radio-option-settings">
+            <input type="radio" name="options-1" id="radio3">
+            <label for="radio3" class="md-ripples ripples-bounded">Week</label>
+        </div>
+
+    </div> -->
+
+  
+  */
+
+
+
+
+
+  /* Icon Ones
+  
+      <!-- <div class="radio-div-set-icon">
+
+        <div class="radio-option-settings-icon">
+            <input type="radio" name="options-1" id="radio1">
+            <label for="radio1" class="md-ripples ripples-bounded" data-icon="event">Day</label>
+        </div>
+
+        <div class="radio-option-settings-icon">
+            <input type="radio" name="options-1" id="radio3">
+            <label for="radio3" class="md-ripples ripples-bounded" data-icon="date_range">Week</label>
+        </div>
+
+    </div> -->
+  
+  */
+
+
+
+  /* Regular no icons
+  
+   <div class="radio-div-set-regular">
+
+        <div class="radio-option-settings-regular">
+            <input type="radio" name="options-1" id="radio1">
+            <label for="radio1" class="ripple_btn_low">Day</label>
+        </div>
+
+
+        <div class="radio-option-settings-regular">
+            <input type="radio" name="options-1" id="radio3">  
+            <label for="radio3" class="ripple_btn_low">Week</label>
+        </div>
+
+    </div>
+  
+  */

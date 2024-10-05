@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en" Theme="about_page" data-theme="dark">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+ <title>about Page</title>
+ <script src="../langs/langs.js"></script>
+ <link rel="stylesheet" href="../ui-files/ui.css">
+ <link rel="stylesheet" href="../ui-files/font-usage.css">
+ <link rel="stylesheet" href="../ui-files/variables.css">
+ <link rel="stylesheet" href="../components/components.css">
+ <link rel="stylesheet" href="../ripple-files/ripple.css">
+ <link rel="stylesheet" href="../components/md-buttons.css">
+ <style>
+        #updateMessageDiv{
+            animation: opacity 0.3s ease-out;
+            transition: opacity 0.2s ease-in;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--On-Surface);
+            margin: 0;
+            margin-bottom: 5px;
+        }
+
+        @keyframes opacity {
+            0%{
+                opacity: 0;
+            }
+            100%{
+                opacity: 1;
+            }
+        }
+
+        #updateMessage{
+            background-color: var(--Secondary-Container);
+            color: var(--On-Secondary-Container);
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+
+
+        .about_app_icon{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 30px;
+            position: relative;
+        }
+
+        .about_app_icon > div{
+            width: 150px;
+            height: 150px;
+            background-color: var(--Surface-Container);
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+
+        }
+
+        .about_app_icon > div > img{
+            height: 130px;
+            z-index: 1;
+        }
+
+        .about_app_icon > md-circular-progress{
+            position: absolute;
+            width: 170px;
+            height: 170px;
+        }
+
+        .app_label_about_name{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding-top: 10px;
+            gap: 10px;
+        }
+
+        .app_label_about_name > p{
+            margin: 0;
+            font-family: var(--outfit-mid);
+            font-size: 30px;
+            color: var(--Secondary);
+            z-index: 1;
+        }
+
+        .app_label_about_name > span{
+            color: var(--On-Surface-Variant);
+            font-family: var(--google-mid);
+            z-index: 1;
+            display: flex;
+            border: 1.3px solid var(--Outline-Variant);
+            align-items: center;
+            justify-content: center;
+            padding-left: 8px;
+            padding-right: 8px;
+            border-radius: 50px;
+            height: 25px;
+        }
+
+        .other_about_actions{
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 5px;
+            padding: 10px;
+            position: absolute;
+            bottom: 20px;
+            width: calc(100% - 20px);
+        }
+
+
+        .other_about_actions > md-list-item{
+            background-color: var(--Surface-Container-Low);
+            border-radius: 50px;
+        }
+
+        .heart {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background-color: transparent !important;
+    opacity: 1;
+    z-index: 200;
+    animation: ripple 0.8s ease-out forwards;
+    font-family: 'Material symbols';
+  font-weight: normal !important;
+  font-style: normal !important;
+  font-variation-settings: 'FILL' 1;
+
+  line-height: 1;
+  color: rgb(243, 125, 125);
+  font-size: 40px;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+    </style>
+</head>
+
+<body style="--md-list-item-label-text-size: 1.15rem; --md-list-item-pressed-state-layer-opacity: 0.15; --md-ref-typeface-plain: var(--google-normal); background-color: var(--Surface);">
+
+<div class="about_app_icon" onclick="createRipple(event)">
+ <div>
+  <img src="../weather-icons/mostly_clear_day.svg" alt=""></div>
+ <md-circular-progress indeterminate hidden id="version_check_loader"></md-circular-progress>
+</div>
+
+<div class="app_label_about_name" style="position: relative;">
+ <p>WeatherMaster</p>
+ <span>1.6.4 (W)</span>
+ <img src="../froggie/50d.png" alt="" style="width: 100%; position: absolute; opacity: 0.4; bottom:30px;" >
+
+ <md-elevated-button trailing-icon style="margin-top: 15px;" id="checkUpdatesBtn" ><span data-translate="latest_version">Latest version</span> <md-icon icon-outlined slot="icon" style="font-size: 20px;">refresh</md-icon></md-elevated-button>
+</div>
+
+
+<div class="other_about_actions">
+
+
+ <p id="updateMessageDiv" hidden>
+  <span id="updateMessage">New version available!</span>
+ </p>
+
+ <md-list-item type="button" onclick="sendThemeToAndroid('OpenTermsConditions')">
+  <md-icon slot="start" icon-filled>privacy_tip</md-icon>
+  <div slot="headline" data-translate="terms_conditions">Terms and Conditions</div>
+ </md-list-item>
+
+ <md-list-item type="button" onclick="sendThemeToAndroid('OpenPrivacyPolicy')">
+  <md-icon slot="start" icon-filled>policy</md-icon>
+  <div slot="headline" data-translate="privacy_policy">Privacy Policy</div>
+ </md-list-item>
+
+ <md-list-item type="button" onclick="window.location.href='https://github.com/PranshulGG/WeatherMaster'">
+  <md-icon slot="start" icon-filled>code</md-icon>
+  <div slot="headline" data-translate="view_source_code">View source code</div>
+ </md-list-item>
+
+ <md-list-item type="button" onclick="sendThemeToAndroid('OpenLicenses')">
+  <md-icon slot="start" icon-filled>copyright</md-icon>
+  <div slot="headline" data-translate="third_party_licenses">Third party licenses</div>
+
+ </md-list-item>
+
+</div>
+
+
+<div class="toast_version" hidden>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+
+<script>
+
+
+const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
+        if (AppLanguageCodeValue) {
+            applyTranslations(AppLanguageCodeValue);
+
+        }
+
+
+const user6 = document.getElementById('headUser-6')
+
+
+
+function changeColorOnScroll6() {
+  var container = document.getElementById('headUser-6');
+  var scrollY = container.scrollTop;
+
+  if (scrollY >= 50) {
+    document.getElementById('head-6').style.backgroundColor = 'var(--Surface-Container)';
+    document.getElementById('head-6').style.transition = '';
+
+    document.getElementById('headUser-6').style.scrollSnapType = 'unset';
+    container.removeEventListener('scroll', changeColorOnScroll6);
+    sendThemeToAndroid('Scrolled')
+
+  } else {
+
+  }
+}
+
+if(user6){
+  document.getElementById('headUser-6').addEventListener('scroll', changeColorOnScroll6);
+  }
+
+
+
+function changeColorOnScroll6A() {
+  var container = document.getElementById('headUser-6');
+  var scrollY = container.scrollTop;
+
+  if (scrollY <= 1) {
+    document.getElementById('head-6').style.backgroundColor = '';
+    document.getElementById('head-6').style.transition = 'background-color 0.2s ease-in';
+
+    sendThemeToAndroid('ScrollFalse')
+
+    container.addEventListener('scroll', changeColorOnScroll6);
+    if(scrollY <= 20); {
+      document.getElementById('headUser-6').style.scrollSnapType = '';
+
+    }
+
+  } else{
+
+  }
+}
+
+if(user6){
+document.getElementById('headUser-6').addEventListener('scroll', changeColorOnScroll6A);
+}
+
+function sendThemeToAndroid(theme) {
+
+AndroidInterface.updateStatusBarColor(theme);
+};
+
+
+
+document.getElementById('checkUpdatesBtn').addEventListener('click', async function() {
+    const currentVersion = 'v1.6.4';
+    const githubRepo = 'PranshulGG/WeatherMaster';
+    const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
+
+    try {
+        const response = await fetch(releasesUrl);
+        if (!response.ok) throw new Error('Network response was not ok.');
+
+        const data = await response.json();
+        const latestVersion = data.tag_name;
+
+document.getElementById('version_check_loader').hidden = false;
+document.getElementById('checkUpdatesBtn').disabled = true;
+
+        setTimeout(()=>{
+    if (latestVersion !== currentVersion) {
+        document.getElementById('updateMessage').innerText = 'New version available!';
+    document.getElementById('version_check_loader').hidden = true;
+    document.getElementById('checkUpdatesBtn').disabled = false;
+    document.querySelector('#updateMessageDiv').hidden = false;
+
+    setTimeout(()=>{
+    window.location.href = 'https://github.com/PranshulGG/WeatherMaster/releases';
+}, 1000);
+
+
+        } else {
+            document.getElementById('updateMessage').innerText = 'You are using the latest version!';
+document.getElementById('version_check_loader').hidden = true;
+document.getElementById('checkUpdatesBtn').disabled = false;
+            document.querySelector('#updateMessageDiv').hidden = false;
+        }
+
+}, 2000);
+
+
+setTimeout(()=>{
+    document.querySelector('#updateMessageDiv').style.opacity = '0';
+}, 3800);
+
+setTimeout(()=>{
+    document.querySelector('#updateMessageDiv').hidden = true;
+    document.querySelector('#updateMessageDiv').style.opacity = '';
+}, 4000);
+}catch (error) {
+        document.getElementById('updateMessage').innerText = 'Error checking for updates.';
+        console.error('Error:', error);
+    }
+});
+
+
+
+
+
+function createRipple(event) {
+    const container = event.currentTarget;
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+
+    const colors = ['orange', 'yellow', 'red', 'var(--Primary)', '#ff0077'];
+    const icons = ['cloud', 'sunny', 'rainy', 'favorite', 'thunderstorm', 'cloudy_snowing', 'foggy', 'dark_mode']
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    const RandomIcon = icons[Math.floor(Math.random() * icons.length)];
+
+
+    heart.style.color = randomColor;
+
+    // Get click position relative to the container
+    const rect = container.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    // Position the heart at the click location
+    heart.style.left = `${x}px`;
+    heart.style.top = `${y}px`;
+
+    heart.innerHTML = RandomIcon
+
+
+
+
+
+    container.appendChild(heart);
+
+    heart.addEventListener('animationend', () => {
+        heart.remove();
+    });
+}
+
+    </script>
+
+
+<script src="../app/navigate.js"></script>
+<script src="../components-script.js/components.js"></script>
+<script src="../ripple-files/icon-ripple.js"></script>
+<script src="../modules/scroll.js"></script>
+<script src="../bundle.js"></script>
+<script type="module" src="../index.js"></script>
+<script src="../ripple-files/ripples.js"></script>
+<script src="../app/apply.js"></script>
+</body>
+
+</html>

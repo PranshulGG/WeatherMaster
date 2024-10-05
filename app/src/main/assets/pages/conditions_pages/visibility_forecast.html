@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" Theme="condition_forecast_pages" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Visibility Forecast</title>
+    <link rel="stylesheet" href="../../ui-files/font-usage.css">
+    <link rel="stylesheet" href="../../ui-files/variables.css">
+    <link rel="stylesheet" href="../../components/components.css">
+    <link rel="stylesheet" href="../../ripple-files/ripple.css">
+    <link rel="stylesheet" href="../../components/modal-ver.css">
+    <link rel="stylesheet" href="condition_pageUI.css">
+</head>
+
+<body>
+    <div class="top_conditions_for_header">
+        <md-icon-button onclick="sendThemeToAndroid('GoBack')">
+            <md-icon icon-outlined>arrow_back</md-icon>
+        </md-icon-button>
+    </div>
+
+    <div class="condition_info_content">
+        <div class="condition_label_forecast">
+            <md-icon icon-outlined>visibility</md-icon>
+            <p>Visibility</p>
+        </div>
+
+        <div class="top_visibility_box">
+
+            <div class="visibility_graphic">
+                <span>Current condition</span>
+                <div class="visibility_values">
+                    <p id="visibility_value"></p>
+                    <p id="visibility_unit"></p>
+                </div>
+             
+                <svg height="112.0dip" width="364.0dip" viewBox="0 0 364.0 112.0" xmlns="http://www.w3.org/2000/svg">
+                    <g>
+                        <clip-path d="M20,0L344,0A20,20 0,0 1,364 20L364,92A20,20 0,0 1,344 112L20,112A20,20 0,0 1,0 92L0,20A20,20 0,0 1,20 0z" />
+                        <path fill="var(--Tertiary-Container)" d="M6.2,238.86C15.3,248.66 30.8,248.66 39.9,238.86V238.86C46.5,231.76 56.86,229.55 65.78,233.36V233.36C78.08,238.61 92.24,232.3 96.57,219.65V219.65C99.71,210.47 108.27,204.25 117.97,204.1V204.1C131.34,203.89 141.72,192.37 140.53,179.05V179.05C139.66,169.39 144.96,160.23 153.76,156.14V156.14C165.88,150.51 170.67,135.77 164.17,124.09V124.09C159.45,115.61 160.56,105.08 166.94,97.77V97.77C175.73,87.7 174.11,72.28 163.41,64.25V64.25C155.65,58.43 152.38,48.36 155.24,39.09V39.09C159.17,26.31 151.42,12.89 138.39,9.9V9.9C128.93,7.74 121.85,-0.13 120.68,-9.76V-9.76C119.08,-23.03 106.53,-32.15 93.41,-29.57V-29.57C83.89,-27.7 74.23,-32.01 69.24,-40.33V-40.33C62.38,-51.8 47.21,-55.03 36.28,-47.34V-47.34C28.34,-41.76 17.76,-41.76 9.82,-47.34V-47.34C-1.12,-55.03 -16.28,-51.8 -23.15,-40.33V-40.33C-28.13,-32.01 -37.8,-27.7 -47.32,-29.57V-29.57C-60.44,-32.15 -72.98,-23.03 -74.59,-9.76V-9.76C-75.75,-0.13 -82.83,7.74 -92.29,9.9V9.9C-105.32,12.89 -113.07,26.31 -109.14,39.09V39.09C-106.29,48.36 -109.56,58.43 -117.32,64.25V64.25C-128.01,72.28 -129.63,87.7 -120.84,97.77V97.77C-114.46,105.08 -113.36,115.61 -118.07,124.09V124.09C-124.58,135.77 -119.79,150.51 -107.66,156.14V156.14C-98.86,160.23 -93.57,169.39 -94.43,179.05V179.05C-95.62,192.37 -85.25,203.89 -71.88,204.1V204.1C-62.18,204.25 -53.62,210.47 -50.47,219.65V219.65C-46.14,232.3 -31.98,238.61 -19.68,233.36V233.36C-10.76,229.55 -0.41,231.76 6.2,238.86V238.86Z" />
+                        <path fill="var(--Tertiary-Container)"  d="M72.91,239.34C82.51,248.65 97.99,247.83 106.57,237.58V237.58C112.79,230.13 123.01,227.39 132.12,230.73V230.73C144.68,235.32 158.49,228.29 162.15,215.43V215.43C164.81,206.1 173.03,199.44 182.71,198.78V198.78C196.05,197.87 205.81,185.82 203.92,172.58V172.58C202.56,162.98 207.36,153.55 215.93,149.01V149.01C227.75,142.76 231.76,127.78 224.66,116.45V116.45C219.5,108.24 220.06,97.67 226.04,90.03V90.03C234.29,79.51 231.87,64.2 220.77,56.74V56.74C212.72,51.33 208.93,41.45 211.29,32.04V32.04C214.55,19.08 206.1,6.07 192.93,3.78V3.78C183.38,2.11 175.89,-5.37 174.22,-14.93V-14.93C171.93,-28.1 158.92,-36.55 145.96,-33.29V-33.29C136.55,-30.92 126.67,-34.72 121.26,-42.77V-42.77C113.8,-53.87 98.49,-56.29 87.97,-48.04V-48.04C80.33,-42.06 69.76,-41.5 61.55,-46.66V-46.66C50.22,-53.76 35.25,-49.75 28.99,-37.93V-37.93C24.45,-29.36 15.02,-24.56 5.42,-25.92V-25.92C-7.82,-27.81 -19.87,-18.05 -20.78,-4.71V-4.71C-21.44,4.97 -28.1,13.19 -37.43,15.85V15.85C-50.29,19.51 -57.32,33.32 -52.73,45.88V45.88C-49.39,54.99 -52.13,65.21 -59.58,71.44V71.44C-69.83,80.01 -70.64,95.49 -61.34,105.09V105.09C-54.59,112.06 -52.93,122.51 -57.2,131.23V131.23C-63.08,143.23 -57.53,157.71 -45.12,162.69V162.69C-36.12,166.31 -30.36,175.18 -30.71,184.88V184.88C-31.2,198.24 -20.24,209.2 -6.88,208.71V208.71C2.81,208.36 11.69,214.12 15.31,223.12V223.12C20.29,235.53 34.77,241.08 46.77,235.2V235.2C55.49,230.93 65.94,232.59 72.91,239.34V239.34Z" stroke-opacity="0.5" fill-opacity="0.5" />
+                        <path fill="var(--Tertiary-Container)"  d="M52.51,239.89C62.58,248.68 78,247.06 86.03,236.37V236.37C91.85,228.61 101.92,225.34 111.19,228.19V228.19C123.97,232.12 137.4,224.37 140.38,211.34V211.34C142.55,201.88 150.41,194.8 160.04,193.63V193.63C173.32,192.03 182.43,179.49 179.85,166.37V166.37C177.99,156.85 182.29,147.18 190.62,142.2V142.2C202.09,135.33 205.31,120.17 197.62,109.23V109.23C192.04,101.29 192.04,90.71 197.62,82.77V82.77C205.31,71.83 202.09,56.67 190.62,49.8V49.8C182.29,44.82 177.99,35.15 179.85,25.63V25.63C182.43,12.51 173.32,-0.03 160.04,-1.63V-1.63C150.41,-2.8 142.55,-9.88 140.38,-19.34V-19.34C137.4,-32.37 123.97,-40.12 111.19,-36.19V-36.19C101.92,-33.34 91.85,-36.61 86.03,-44.37V-44.37C78,-55.06 62.58,-56.68 52.51,-47.89V-47.89C45.2,-41.51 34.67,-40.4 26.2,-45.12V-45.12C14.52,-51.63 -0.23,-46.84 -5.86,-34.71V-34.71C-9.94,-25.91 -19.11,-20.62 -28.77,-21.48V-21.48C-42.09,-22.67 -53.61,-12.29 -53.82,1.07V1.07C-53.97,10.77 -60.19,19.34 -69.37,22.48V22.48C-82.02,26.81 -88.32,40.97 -83.08,53.27V53.27C-79.27,62.19 -81.47,72.54 -88.58,79.15V79.15C-98.37,88.25 -98.37,103.75 -88.58,112.85V112.85C-81.47,119.46 -79.27,129.81 -83.08,138.73V138.73C-88.32,151.03 -82.02,165.19 -69.37,169.52V169.52C-60.19,172.66 -53.97,181.23 -53.82,190.93V190.93C-53.61,204.29 -42.09,214.67 -28.77,213.48V213.48C-19.11,212.62 -9.94,217.91 -5.86,226.71V226.71C-0.23,238.84 14.52,243.63 26.2,237.12V237.12C34.67,232.4 45.2,233.51 52.51,239.89V239.89Z" stroke-opacity="0.5" fill-opacity="0.5" />
+                    </g>
+                </svg>
+            </div>
+        </div>
+
+        <div class="info__forecast">
+
+            <span>Visibility measures the distance at which prominent objects can be seen against the sky or horizon. Visibility can be affected by precipitation, fog, dust, smoke, or haze.</span>
+        </div>
+
+    </div>
+
+
+    <script>
+
+        const cachedCurrentDataHourly = JSON.parse(localStorage.getItem('CurrentHourlyCache'));
+        const SelectedVisibiltyUnit = localStorage.getItem('selectedVisibilityUnit');
+
+        function loadVisibilityForecast(data) {
+
+
+            data.time.forEach((time, index) => {
+
+            const metersToMiles = meters => meters / 1609.34;
+
+            const metersToKilometers = meters => meters / 1000;
+
+            if (SelectedVisibiltyUnit === 'mile') {
+                visibility = Math.round(metersToMiles(data.visibility[0]));
+                unit = 'mi';
+            } else {
+                visibility = Math.round(metersToKilometers(data.visibility[0]));
+                unit = 'km';
+            }
+
+            document.getElementById('visibility_value').innerHTML = visibility
+            
+            document.getElementById('visibility_unit').innerHTML = unit
+
+            });
+
+        }
+
+
+
+        loadVisibilityForecast(cachedCurrentDataHourly)
+
+
+  function sendThemeToAndroid(theme) {
+
+AndroidInterface.updateStatusBarColor(theme);
+};
+    </script>
+        
+    <script src="../../app/navigate.js"></script>
+    <script src="../../components-script.js/components.js"></script>
+    <script src="../../ripple-files/icon-ripple.js"></script>
+    <script src="../../modules/scroll.js"></script>
+    <script src="../../bundle.js"></script>
+    <script type="module" src="../../index.js"></script>
+    <script src="../../modules/ripple_acc.js"></script>
+</body>
+
+</html>
