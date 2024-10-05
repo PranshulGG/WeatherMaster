@@ -4,7 +4,6 @@
 
 WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed to mimic the look and feel of a native Android app.
 
-`(Last updated on 09-23-2024 at 4:35 PM UTC)`
 `(Last updated on 10-05-2024 at 7:17 AM UTC)`
 
 ![app_thumbnail](preview/thumbnail.png)
@@ -59,7 +58,7 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 
 <table style="width: 100%; border-collapse: collapse;">
   <tr>
-   <td style="text-align: center;"> <a href="https://github.com/PranshulGG/WeatherMaster/releases"><img alt="GitHub" src="https://github.com/PranshulGG/CalcMaster-A-Calculator-App/blob/master/previewed/badge_github.png" height="120"/></a></td>
+   <td style="text-align: center;"> <a href="https://github.com/PranshulGG/WeatherMaster/releases"><img alt="GitHub" src="https://censorship.no/img/github-badge.png" height="120"/></a></td>
     <td style="text-align: center;"> <a href="https://apt.izzysoft.de/fdroid/index/apk/com.example.weathermaster"><img alt="GitHub" src="preview/download_Btn.png" height="120"/></a></td>
   </tr>
 </table>
