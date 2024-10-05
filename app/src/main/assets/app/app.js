@@ -15,6 +15,7 @@ function handleStorageChange(event) {
         event.key === 'selectedTimeMode'||
         event.key === 'selectedPrecipitationUnit' ||
         event.key === 'DefaultLocation'||
+        event.key === 'UseBackgroundAnimations'||
         event.key === 'selectedPressureUnit') {
 
             setTimeout(()=>{
@@ -149,17 +150,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 400);
     });
 
+    let debounceTimeout;
 
     cityInput.addEventListener('input', () => {
         const searchTerm = cityInput.value.trim();
         document.querySelector('.currentLocationdiv').hidden = true;
         document.querySelector('.savedLocations').hidden = true;
 
+        clearTimeout(debounceTimeout);
+
         if (searchTerm) {
             document.getElementById('cityLoader').hidden = false;
-                        setTimeout(()=>{
-                            getCitySuggestions(cityInput.value);
-                        }, 500);
+
+            debounceTimeout = setTimeout(() => {
+                getCitySuggestions(cityInput.value);
+            }, 500);
         } else {
             cityList.innerHTML = '';
             document.getElementById('cityLoader').hidden = true;
@@ -599,7 +604,7 @@ function RenderSearhMap() {
 
     });
 
-    window.L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', {}).addTo(map);
+    window.L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png', {}).addTo(map);
 
     var marker = window.L.marker([latDif, longDif]).addTo(map);
 
@@ -656,7 +661,7 @@ function checkNoInternet(){
 
     document.addEventListener('DOMContentLoaded', async function() {
 
-        const currentVersion = 'v1.6.3';
+        const currentVersion = 'v1.6.4';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 

@@ -207,125 +207,446 @@ function GetWeatherLabel(iconCode, isDay) {
 
     if (isDay === 1) {
         if (iconCode === 0) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            removeRain()
+            removeFog()
+            removeSnow()
+            removeStars()
+            removeThunder()
+            }
             return 'clear_sky'
 
         } else if (iconCode === 1) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            displayClouds()
+            removeRain()
+            removeFog()
+            removeSnow()
+            removeStars()
+            removeThunder()}
             return 'mostly_clear'
 
         } else if (iconCode === 2) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            displayClouds()
+            removeRain()
+            removeFog()
+            removeSnow()
+            removeStars()
+            removeThunder()}
             return 'partly_cloudy'
 
         } else if (iconCode === 3) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            displayClouds()
+            removeRain()
+            removeFog()
+            removeSnow()
+            removeStars()
+            removeThunder()}
             return 'overcast'
 
         } else if (iconCode === 45 || iconCode === 48) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            removeRain()
+            displayFog()
+            removeSnow()
+            removeStars()
+            removeThunder()}
             return 'fog'
 
         } else if (iconCode === 51 || iconCode === 53 || iconCode === 55) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            displayRain()
+            removeFog()
+            removeSnow()
+            removeStars()
+            removeThunder()}
             return 'drizzle'
 
         } else if (iconCode === 56 || iconCode === 57) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            displayRain()
+            removeFog()
+            removeSnow()
+            removeStars()
+            removeThunder()}
             return 'freezing_drizzle'
 
         } else if (iconCode === 61 || iconCode === 63) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            displayRain()
+            removeFog()
+            removeSnow()
+            removeStars()
+            removeThunder()}
             return 'moderate_rain'
 
         } else if (iconCode === 65) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            displayRain()
+            removeFog()
+            removeSnow()
+            removeStars()
+            removeThunder()}
             return 'heavy_intensity_rain'
 
         } else if (iconCode === 66 || iconCode === 67) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            displayRain()
+            removeFog()
+            removeSnow()
+            removeStars()
+            removeThunder()}
             return 'freezing_rain'
 
         } else if (iconCode === 71) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            removeRain()
+            removeFog()
+            displaySnow()
+            removeStars()
+            removeThunder()}
             return 'slight_snow'
 
         } else if (iconCode === 73) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            removeRain()
+            removeFog()
+            displaySnow()
+            removeStars()
+            removeThunder()}
             return 'moderate_snow'
 
         } else if (iconCode === 75) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            removeRain()
+            removeFog()
+            displaySnow()
+            removeStars()
+            removeThunder()}
             return 'heavy_intensity_snow'
 
         } else if (iconCode === 77) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            removeRain()
+            removeFog()
+            displaySnow()
+            removeStars()
+            removeThunder()}
             return 'snow_grains'
 
         } else if (iconCode === 80 || iconCode === 81) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            displayRain()
+            removeFog()
+            removeSnow()
+            removeStars()
+            removeThunder()}
             return 'rain_showers'
 
         } else if (iconCode === 82) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            displayRain()
+            removeFog()
+            removeSnow()
+            removeStars()
+            removeThunder()}
             return 'heavy_rain_showers'
 
         } else if (iconCode === 85) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            removeRain()
+            removeFog()
+            displaySnow()
+            removeStars()
+            removeThunder()}
             return 'slight_snow_showers'
 
         } else if (iconCode === 86) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            removeRain()
+            removeFog()
+            displaySnow()
+            removeStars()
+            removeThunder()}
             return 'heavy_snow_showers'
 
         } else if (iconCode === 95) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            displayRain()
+            removeFog()
+            removeSnow()
+            removeStars()
+            displayThunder()}
             return 'thunderstorm'
 
         } else if (iconCode === 96 || iconCode === 99) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            displayRain()
+            removeFog()
+            removeSnow()
+            removeStars()
+            displayThunder()}
             return 'strong_thunderstorm'
 
         }
     } else {
         if (iconCode === 0) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            removeRain()
+            removeFog()
+            removeSnow()
+            displayStars()
+            removeThunder()}
             return 'clear_sky'
 
         } else if (iconCode === 1) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            displayClouds()
+            removeRain()
+            removeFog()
+            removeSnow()
+            displayStars()
+            removeThunder()}
             return 'mostly_clear'
 
         } else if (iconCode === 2) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            displayClouds()
+            removeRain()
+            removeFog()
+            removeSnow()
+            removeStars()
+            removeThunder()}
             return 'partly_cloudy'
 
         } else if (iconCode === 3) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            displayClouds()
+            removeRain()
+            removeFog()
+            removeSnow()
+            removeStars()
+            removeThunder()}
             return 'overcast'
 
         } else if (iconCode === 45 || iconCode === 48) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            removeRain()
+            displayFog()
+            removeSnow()
+            removeStars()
+            removeThunder()}
             return 'fog'
 
         } else if (iconCode === 51 || iconCode === 53 || iconCode === 55) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            displayRain()
+            removeFog()
+            removeSnow()
+            removeStars()
+            removeThunder()}
             return 'drizzle'
 
         } else if (iconCode === 56 || iconCode === 57) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            displayRain()
+            removeFog()
+            removeSnow()
+            removeStars()
+            removeThunder()}
             return 'freezing_drizzle'
 
         } else if (iconCode === 61 || iconCode === 63) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            displayRain()
+            removeFog()
+            removeSnow()
+            removeStars()
+            removeThunder()}
             return 'moderate_rain'
 
         } else if (iconCode === 65) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            displayRain()
+            removeFog()
+            removeSnow()
+            removeStars()
+            removeThunder()}
             return 'heavy_intensity_rain'
 
         } else if (iconCode === 66 || iconCode === 67) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            displayRain()
+            removeFog()
+            removeSnow()
+            removeStars()
+            removeThunder()}
             return 'freezing_rain'
 
         } else if (iconCode === 71) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            removeRain()
+            removeFog()
+            displaySnow()
+            removeStars()
+            removeThunder()}
             return 'slight_snow'
 
         } else if (iconCode === 73) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            removeRain()
+            removeFog()
+            displaySnow()
+            removeStars()
+            removeThunder()}
             return 'moderate_snow'
 
         } else if (iconCode === 75) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            removeRain()
+            removeFog()
+            displaySnow()
+            removeStars()
+            removeThunder()}
             return 'heavy_intensity_snow'
 
         } else if (iconCode === 77) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            removeRain()
+            removeFog()
+            displaySnow()
+            removeStars()
+            removeThunder()}
             return 'snow_grains'
 
         } else if (iconCode === 80 || iconCode === 81) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            displayRain()
+            removeFog()
+            removeSnow()
+            removeStars()
+            removeThunder()}
             return 'rain_showers'
 
         } else if (iconCode === 82) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            displayRain()
+            removeFog()
+            removeSnow()
+            removeStars()
+            removeThunder()}
             return 'heavy_rain_showers'
 
         } else if (iconCode === 85) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            removeRain()
+            removeFog()
+            displaySnow()
+            removeStars()
+            removeThunder()}
             return 'slight_snow_showers'
 
         } else if (iconCode === 86) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            removeRain()
+            removeFog()
+            displaySnow()
+            removeStars()
+            removeThunder()}
             return 'heavy_snow_showers'
 
         } else if (iconCode === 95) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            displayRain()
+            removeFog()
+            removeSnow()
+            removeStars()
+            displayThunder()}
             return 'thunderstorm'
 
         } else if (iconCode === 96 || iconCode === 99) {
+            if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
+            }else{
+            removeClouds()
+            displayRain()
+            removeFog()
+            removeSnow()
+            removeStars()
+            displayThunder()}
             return 'strong_thunderstorm'
 
         }

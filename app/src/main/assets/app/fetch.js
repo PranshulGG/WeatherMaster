@@ -88,6 +88,8 @@ showLoader();
 
       fetchCityName(cityLat, cityLon)
 
+      document.getElementById('saveLocationCurrent').setAttribute('data-lat', cityLat)
+      document.getElementById('saveLocationCurrent').setAttribute('data-long', cityLon)
 
       function fetchCityName(cityLat, cityLon) {
         const apiKeyCityName = apiKeysCityName[currentApiKeyCityNameIndex];
@@ -114,21 +116,21 @@ showLoader();
                 localStorage.setItem('CurrentLocationName', `${stateMain}, ${countryNameText}`)
                       document.getElementById('currentLocationName').textContent = `${stateMain}, ${countryNameText}`;
 
-
+        document.getElementById('saveLocationCurrent').setAttribute('data-location-text', `${stateMain}, ${countryNameText}`)
 
               } else if (!stateMain) {
                 document.getElementById('city-name').innerHTML = `${city}, ${countryNameText}`;
                 document.getElementById('SelectedLocationText').innerHTML = `${city}, ${countryNameText}`;
                 localStorage.setItem('CurrentLocationName', `${city}, ${countryNameText}`)
                       document.getElementById('currentLocationName').textContent = `${city}, ${countryNameText}`;
-
+                 document.getElementById('saveLocationCurrent').setAttribute('data-location-text', `${city}, ${countryNameText}`)
 
               } else {
                 document.getElementById('city-name').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
                 document.getElementById('SelectedLocationText').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
                 localStorage.setItem('CurrentLocationName', `${city}, ${stateMain}, ${countryNameText}`)
                       document.getElementById('currentLocationName').textContent = `${city}, ${stateMain}, ${countryNameText}`;
-
+            document.getElementById('saveLocationCurrent').setAttribute('data-location-text', `${city}, ${stateMain}, ${countryNameText}`)
               }
             } else {
               console.log('No results found');
@@ -147,6 +149,8 @@ showLoader();
             }
           });
       }
+
+      getOpenWeatherMainTemp()
 
       hideLoader()
     }).catch(error =>{

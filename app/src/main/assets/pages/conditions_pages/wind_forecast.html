@@ -91,6 +91,8 @@
 
                 if (SelectedWindUnit === 'mile') {
                     WindSpeedForecast = Math.round(data.wind_speed_10m[index] / 1.60934) + '';
+                } else if (SelectedWindUnit === 'M/s') {
+                    WindSpeedForecast = (data.wind_speed_10m[index] / 3.6).toFixed(2) + ' m/s';
                 } else {
                     WindSpeedForecast = Math.round(data.wind_speed_10m[index]) + '';
                 }
@@ -137,6 +139,8 @@
 
                 if (SelectedWindUnit === 'mile') {
                     WindSpeed = Math.round(data.wind_speed_10m_max[0] / 1.60934) + ' mph';
+                } else if (SelectedWindUnit === 'M/s') {
+                    WindSpeed = (data.wind_speed_10m_max[0] / 3.6).toFixed(2) + ' m/s';
                 } else {
                     WindSpeed = Math.round(data.wind_speed_10m_max[0]) + ' km/h';
                 }

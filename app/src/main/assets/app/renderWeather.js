@@ -89,7 +89,7 @@ function HourlyWeather(data) {
         let VisibilityUnit;
 
 
-        if (SelectedVisibiltyUnit === 'mile') {
+        if (SelectedVisibiltyUnit === 'mileV') {
             Visibility = Math.round(data.hourly.visibility[0] / 1609.34);
             VisibilityUnit = 'miles'
         } else {
@@ -142,6 +142,7 @@ function HourlyWeather(data) {
                 </rainPerBarProgress>
                 </rainPerBar>
                 <p>${PrecAmount}</p>
+                 <p>${data.hourly.precipitation_probability[index]}%</p>
                  <span>${hours}${period}</span>
 
 
@@ -233,9 +234,19 @@ function DailyWeather(dailyForecast) {
 
 
     dailyForecast.time.forEach((time, index) => {
-        const dateObj = new Date(time);
+        const [year, month, day] = time.split('-').map(Number);
 
-        const isToday = time === today;
+
+        const dateObj = new Date(year, month - 1, day, 0, 0, 0);
+
+
+        const today = new Date();
+        const todayString = today.toISOString().split('T')[0];
+
+
+        const dateObjString = dateObj.toISOString().split('T')[0];
+
+        const isToday = index === 0;
         const weekday = isToday ? 'today' : dateObj.toLocaleDateString('en-US', { weekday: 'short' }).toLowerCase();
 
         const weekdayLang = getTranslationByLang(localStorage.getItem('AppLanguageCode'), weekday);
@@ -360,6 +371,8 @@ function CurrentWeather(data, sunrise, sunset) {
 
     if (SelectedWindUnit === 'mile') {
         CurrentWindGust = Math.round(kmhToMph(data.wind_gusts_10m)) + ' mph';
+    } else if (SelectedWindUnit === 'M/s') {
+        CurrentWindGust = (data.wind_gusts_10m / 3.6).toFixed(2) + ' m/s';
     } else {
         CurrentWindGust = Math.round(data.wind_gusts_10m) + ' km/h';
     }
@@ -368,6 +381,8 @@ function CurrentWeather(data, sunrise, sunset) {
 
     if (SelectedWindUnit === 'mile') {
         CurrentWindSpeed = Math.round(kmhToMph(data.wind_speed_10m)) + ' mph';
+    } else if (SelectedWindUnit === 'M/s') {
+        CurrentWindSpeed = (data.wind_speed_10m / 3.6).toFixed(2) + ' m/s';
     } else {
         CurrentWindSpeed = Math.round(data.wind_speed_10m) + ' km/h';
     }
@@ -691,6 +706,8 @@ function AirQuaility(data) {
         aqiCategory = 5;
     }
 
+        document.getElementById('aqi-level-value').innerHTML = aqi
+
     document.getElementById('pm25_air').innerHTML = Math.round(data.current.pm2_5);
     document.getElementById('pm25_air_color').style.backgroundColor = getColor(Math.round(data.current.pm2_5), 'PM2.5');
 
@@ -925,9 +942,9 @@ function MoreDetails(latSum, lonSum) {
             let willRain
 
             if(mainData.daily_will_it_rain > 0){
-             willRain = 'Rain is'
+             willRain = 'rain is'
             } else{
-             willRain = 'no Rain is'
+             willRain = 'no rain is'
             }
 
             let maxTemp
@@ -951,7 +968,7 @@ function MoreDetails(latSum, lonSum) {
             if (SelectedPrecipitationUnit === 'in') {
                 Precipitation = mainData.totalprecip_in.toFixed(2) + ' inches';
             } else {
-                Precipitation = inchesToMm(mainData.totalprecip_in.toFixed(1)) + ' millimetres'
+                Precipitation = inchesToMm(mainData.totalprecip_in).toFixed(1) + ' millimetres'
             }
 
 
@@ -1172,4 +1189,38 @@ function clickForecastItem(index){
         if (AppLanguageCodeValue) {
             applyTranslations(AppLanguageCodeValue);
 
+        }
+
+        // ---------
+
+        function getOpenWeatherMainTemp(){
+
+        const mainTempProviderGet = localStorage.getItem('CustomApiKey')
+        const mainTempProviderValid = localStorage.getItem('ApiKeyValid')
+        const mainTempProvider = localStorage.getItem('MainTempProvider');
+
+        setTimeout(()=>{
+            if(mainTempProviderValid && mainTempProviderValid === 'Yes'){
+            if(mainTempProvider && mainTempProvider === 'OpenWeatherMap'){
+                fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${localStorage.getItem('currentLat')}&lon=${localStorage.getItem('currentLong')}&units=metric&appid=${mainTempProviderGet}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        let CurrentTemperature;
+
+                        if (SelectedTempUnit === 'fahrenheit') {
+                            CurrentTemperature = Math.round(celsiusToFahrenheit(data.main.temp))
+                        } else {
+                            CurrentTemperature = Math.round(data.main.temp)
+                        }
+
+                        if (CurrentTemperature < 10 && CurrentTemperature >= 0) {
+                            CurrentTemperature = '0' + CurrentTemperature;
+                        }
+
+                        document.getElementById('temp').innerHTML = CurrentTemperature + '°';
+
+                    })
+            }
+        }
+        }, 300);
         }

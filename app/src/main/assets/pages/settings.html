@@ -31,6 +31,19 @@
 
         }
 
+                .mainTempItem.selectedMainTemp {
+            background-color: var(--Secondary-Container);
+            color: var(--On-Secondary-Container);
+            pointer-events: none;
+        }
+
+        #apiKeyEnterInputTile {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height .6s cubic-bezier(1, 0, 0, 1), opacity .7s ease-in-out;
+        }
+
     </style>
 </head>
 
@@ -61,10 +74,52 @@
                     <md-switch slot="end" id="toggle_noti"></md-switch>
                 </md-list-item>
 
-                <md-list-item disabled>
+                <md-list-item type="button" id="openSelectMainTemp">
                     <md-icon icon-filled slot="start">thermostat</md-icon>
                     <div slot="headline" data-translate="main_temp">Main temperature</div>
-                    <div slot="supporting-text">Open-Meteo</div>
+                    <div slot="supporting-text" id="currentProviderText">Open-Meteo</div>
+
+                    <script type="module">
+                            const anchorElTemp = document.body.querySelector('#openSelectMainTemp');
+                            const menuElTemp = document.body.querySelector('#usage-popoverTemp');
+
+                            anchorElTemp.addEventListener('click', () => { menuElTemp.open = !menuElTemp.open; });
+                        </script>
+                </md-list-item>
+
+                <md-menu positioning="popover" id="usage-popoverTemp" anchor="openSelectMainTemp"
+                         anchor-corner="start-start">
+                    <md-menu-item menu-type class="mainTempItem" value="Open-Meteo" id="openMeteoProviderItem">
+                        <div slot="headline">Open-Meteo</div>
+                    </md-menu-item>
+                    <md-menu-item menu-type class="mainTempItem" value="AccuWeather">
+                        <div slot="headline">AccuWeather</div>
+                    </md-menu-item>
+                    <md-menu-item menu-type class="mainTempItem" value="OpenWeatherMap">
+                        <div slot="headline">OpenWeatherMap</div>
+                    </md-menu-item>
+                </md-menu>
+
+                <md-list-item margin id="apiKeyEnterInputTile">
+                    <md-icon slot="start"></md-icon>
+                    <div slot="headline">
+                        <md-outlined-text-field placeholder="API key" id="apiKeyInputField" error-text="The API key isn't working. Please wait and try again." style="--md-outlined-field-supporting-text-color: #7bf542; --md-outlined-text-field-hover-supporting-text-color: #7bf542;">
+                            <md-icon-button slot="trailing-icon" disabled id="verifyKey">
+                                <md-icon icon-outlined id="verifyKeyiCon">check</md-icon>
+                                <md-circular-progress indeterminate style="--md-circular-progress-active-indicator-width: 5;" hidden id="keyVerifyLoader"></md-circular-progress>
+                            </md-icon-button>
+                        </md-outlined-text-field>
+                    </div>
+                    <div slot="supporting-text" style="padding-top: 10px;">Get your own API key from <span
+                            id="getFromText">openweathermap.org/api</span>. A new API key usually takes 10-15
+                        minutes to start working.</div>
+                </md-list-item>
+
+
+                <md-list-item>
+                    <md-icon icon-filled slot="start">animation</md-icon>
+                    <div slot="headline" data-translate="Background card animation">Background card animation</div>
+                    <md-switch slot="end" selected id="useAnimationBackground"></md-switch>
                 </md-list-item>
 
                 <md-list-item margin type="button" id="usage-popover-anchor">
@@ -109,6 +164,9 @@
                         </md-select-option>
                         <md-select-option value="mile" menu-type >
                             <div slot="headline">Mph</div>
+                        </md-select-option>
+                        <md-select-option value="M/s" menu-type>
+                            <div slot="headline">M/s</div>
                         </md-select-option>
                     </md-outlined-select>
                 </md-list-item>
@@ -465,6 +523,33 @@ if(localStorage.getItem('selectedTimeMode')){
   document.querySelector(`[value="${getSelectedTimeFormat}"]`).selected = true;
 }
 
+
+        // background animations
+
+
+        const useAnimationBackgroundSwitch = document.getElementById('useAnimationBackground');
+
+        useAnimationBackgroundSwitch.addEventListener('change', () => {
+            if (useAnimationBackgroundSwitch.selected) {
+                localStorage.setItem('UseBackgroundAnimations', 'true');
+            } else {
+                localStorage.setItem('UseBackgroundAnimations', 'false');
+            }
+        });
+
+        const getUseBackgroundAnimations = localStorage.getItem('UseBackgroundAnimations');
+
+        if (getUseBackgroundAnimations) {
+            if (getUseBackgroundAnimations === 'true') {
+                useAnimationBackgroundSwitch.selected = true;
+            } else {
+                useAnimationBackgroundSwitch.selected = false;
+            }
+        } else {
+            localStorage.setItem('UseBackgroundAnimations', 'true');
+        }
+
+
 // get saved locations
 
 
@@ -545,6 +630,206 @@ if(!localStorage.getItem('DefaultLocation')){
         document.getElementById("selectedAppLang_text").innerHTML = 'English';
 
     }
+
+
+            // -----------------
+
+
+        const menuItems = document.querySelectorAll('.mainTempItem');
+
+        const setSelectedClass = () => {
+            const selectedValue = localStorage.getItem('MainTempProvider');
+            if (selectedValue) {
+                menuItems.forEach(item => {
+                    if (item.getAttribute('value') === selectedValue) {
+                        item.classList.add('selectedMainTemp');
+                        document.getElementById('currentProviderText').innerHTML = selectedValue;
+
+                        if (selectedValue === 'OpenWeatherMap') {
+                            document.getElementById('apiKeyEnterInputTile').style.maxHeight = '500px';
+                            document.getElementById('apiKeyEnterInputTile').style.opacity = '1';
+                            document.getElementById('getFromText').innerHTML = 'openweathermap.org/api'
+
+
+                        } else if (selectedValue === 'AccuWeather') {
+                            document.getElementById('apiKeyEnterInputTile').style.maxHeight = '500px';
+                            document.getElementById('apiKeyEnterInputTile').style.opacity = '1';
+                            document.getElementById('getFromText').innerHTML = 'developer.accuweather.com'
+
+                        } else {
+                            document.getElementById('apiKeyEnterInputTile').style.maxHeight = '0';
+                            document.getElementById('apiKeyEnterInputTile').style.opacity = '0';
+
+                        }
+                    }
+                });
+            } else {
+                document.getElementById('openMeteoProviderItem').classList.add('selectedMainTemp')
+            }
+        };
+
+        setSelectedClass();
+
+        menuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                menuItems.forEach(innerItem => {
+                    innerItem.classList.remove('selectedMainTemp');
+                });
+                item.classList.add('selectedMainTemp');
+                localStorage.setItem('MainTempProvider', item.getAttribute('value'));
+                document.getElementById('currentProviderText').innerHTML = item.getAttribute('value');
+
+                if (item.getAttribute('value') === 'OpenWeatherMap') {
+                    document.getElementById('apiKeyEnterInputTile').style.maxHeight = '500px';
+                    document.getElementById('apiKeyEnterInputTile').style.opacity = '1';
+                    document.getElementById('getFromText').innerHTML = 'openweathermap.org/api'
+
+
+                } else if (item.getAttribute('value') === 'AccuWeather') {
+                    document.getElementById('apiKeyEnterInputTile').style.maxHeight = '500px';
+                    document.getElementById('apiKeyEnterInputTile').style.opacity = '1';
+                    document.getElementById('getFromText').innerHTML = 'developer.accuweather.com'
+
+                } else {
+                    document.getElementById('apiKeyEnterInputTile').style.maxHeight = '0';
+                    document.getElementById('apiKeyEnterInputTile').style.opacity = '0';
+
+                }
+            });
+        });
+
+
+        // ---------------
+
+
+        document.getElementById('apiKeyInputField').addEventListener('input', ()=>{
+            localStorage.setItem('CustomApiKey', document.getElementById('apiKeyInputField').value)
+
+            if(document.getElementById('apiKeyInputField').value.trim().length < 1){
+                document.getElementById('verifyKey').disabled = true;
+            } else{
+                document.getElementById('verifyKey').disabled = false;
+            }
+
+            if(document.getElementById('apiKeyInputField').error){
+                document.getElementById('apiKeyInputField').error = false
+            }
+            document.getElementById('apiKeyInputField').removeAttribute('supporting-text');
+        });
+
+        const savedApiKEy = localStorage.getItem('CustomApiKey');
+
+        if(savedApiKEy){
+            document.getElementById('apiKeyInputField').value = savedApiKEy;
+            document.getElementById('verifyKey').disabled = false;
+        }
+
+
+
+
+    document.getElementById('verifyKey').addEventListener('click', () => {
+        if(document.getElementById('apiKeyInputField').error){
+                document.getElementById('apiKeyInputField').error = false
+            }
+        document.getElementById('verifyKeyiCon').hidden = true;
+        document.getElementById('keyVerifyLoader').hidden = false;
+        if (localStorage.getItem('MainTempProvider') === 'OpenWeatherMap') {
+        const apiKey = document.getElementById('apiKeyInputField').value;
+
+        const city = 'London';
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
+
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    console.log('Failed request:', response.status);
+                    localStorage.setItem('ApiKeyValid', 'No')
+                    setTimeout(()=>{
+                        document.getElementById('verifyKeyiCon').hidden = false;
+                        document.getElementById('keyVerifyLoader').hidden = true;
+                        document.getElementById('apiKeyInputField').error = true;
+                    }, 2000);
+                } else {
+                    return response.json();
+                }
+            })
+            .then(data => {
+                if (data) {
+                    localStorage.setItem('ApiKeyValid', 'Yes')
+                    setTimeout(()=>{
+                        document.getElementById('verifyKeyiCon').hidden = false;
+                        document.getElementById('keyVerifyLoader').hidden = true;
+                        document.getElementById('apiKeyInputField').setAttribute('supporting-text', 'Your API key is valid!');
+                    }, 2000);
+                }
+            })
+            .catch(error => {
+                console.log('Error occurred:', error);
+            });
+        } else {
+            const apiKeyAccu =  document.getElementById('apiKeyInputField').value;
+            const cityAccu = 'London';
+            const locationUrl = `https://dataservice.accuweather.com/locations/v1/cities/search?apikey=${apiKeyAccu}&q=${cityAccu}`;
+
+            fetch(locationUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        localStorage.setItem('ApiKeyValid', 'No')
+                    setTimeout(()=>{
+                        document.getElementById('verifyKeyiCon').hidden = false;
+                        document.getElementById('keyVerifyLoader').hidden = true;
+                        document.getElementById('apiKeyInputField').error = true;
+                    }, 2000);
+                    } else {
+                        return response.json();
+                    }
+                })
+                .then(locationData => {
+                    if (locationData && locationData.length > 0) {
+                        const locationKey = locationData[0].Key;
+                        console.log('Location Key:', locationKey);
+
+
+                        const weatherUrl = `https://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${apiKey}`;
+                        return fetch(weatherUrl);
+                    } else {
+                        console.log('No location found for the given city.');
+                    }
+                })
+                .then(weatherResponse => {
+                    if (weatherResponse && !weatherResponse.ok) {
+                        localStorage.setItem('ApiKeyValid', 'No')
+                    setTimeout(()=>{
+                        document.getElementById('verifyKeyiCon').hidden = false;
+                        document.getElementById('keyVerifyLoader').hidden = true;
+                        document.getElementById('apiKeyInputField').error = true;
+                    }, 2000);
+                    } else if (weatherResponse) {
+                        return weatherResponse.json();
+                    }
+                })
+                .then(weatherData => {
+                    if (weatherData) {
+                        localStorage.setItem('ApiKeyValid', 'Yes')
+                    setTimeout(()=>{
+                        document.getElementById('verifyKeyiCon').hidden = false;
+                        document.getElementById('keyVerifyLoader').hidden = true;
+                        document.getElementById('apiKeyInputField').setAttribute('supporting-text', 'Your API key is valid!');
+                    }, 2000);
+                    }
+                })
+                .catch(error => {
+                    localStorage.setItem('ApiKeyValid', 'No')
+                    setTimeout(()=>{
+                        document.getElementById('verifyKeyiCon').hidden = false;
+                        document.getElementById('keyVerifyLoader').hidden = true;
+                        document.getElementById('apiKeyInputField').error = true;
+                    }, 2000);
+                });
+        }
+    });
+
+
     </script>
 
 <script src="../components-script.js/components.js"></script>

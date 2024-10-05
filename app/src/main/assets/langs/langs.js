@@ -2889,6 +2889,23 @@ const translations = {
                 "日々の状況",
                 "Щоденні умови"
             ],
+                "Background card animation": [
+                    "Background card animation",
+                    "Animaciones de tarjetas de fondo",
+                    "Animations de cartes d'arrière-plan",
+                    "Hintergrundkartenanimation",
+                    "Animazione della carta di sfondo",
+                    "Animação de cartão de fundo",
+                    "Háttérkártya animáció",
+                    "Анимация фоновой карты",
+                    "Animacja tła karty",
+                    "Κινούμενα σχέδια καρτών φόντου",
+                    "Animație de fundal de card",
+                    "Animácia karty na pozadí",
+                    "背景卡片动画",
+                    "背景カードアニメーション",
+                    "Анімація фонової картки"
+                ],
 };
 
 

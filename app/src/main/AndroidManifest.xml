@@ -9,12 +9,13 @@
     <uses-permission android:name="android.permission.BODY_SENSORS"/>
 
     <application
+        android:hardwareAccelerated="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher_icon"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_icon_round"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.WeatherMaster"
         tools:targetApi="31">
@@ -59,12 +60,6 @@
             android:screenOrientation="portrait"
             android:exported="true"
             android:theme="@style/ScreensAll"
-            />
-        <activity
-            android:name=".MoonPhases"
-            android:screenOrientation="portrait"
-            android:exported="true"
-            android:theme="@style/ScreenMoonPhase"
             />
         <activity
             android:name=".LiveRadar"

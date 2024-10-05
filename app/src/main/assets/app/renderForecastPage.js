@@ -261,10 +261,12 @@ function displayDailyForecast(forecast, forecastDaily) {
 
     forecastContainer.innerHTML = '';
 
-    const today = new Date().toISOString().split('T')[0];
+
+    const today = new Date();
+    const todayString = today.toISOString().split('T')[0];
     const sortedDates = Object.keys(forecastDaily)
-        .filter(date => date >= today)
-        .sort();
+    .filter(date => date >= todayString)
+    .sort();
 
 
     if (sortedDates.length === 0) {
@@ -278,10 +280,11 @@ function displayDailyForecast(forecast, forecastDaily) {
 
 
 
-        const dateObj = new Date(date);
+        const dateObj = new Date(date + 'T00:00:00');
 
-        const isToday = date === today;
-            const weekday = isToday ? 'today' : dateObj.toLocaleDateString('en-US', { weekday: 'short' }).toLowerCase();
+        const isToday = date === todayString;
+        const weekday = isToday ? 'today' : dateObj.toLocaleDateString('en-US', { weekday: 'short' }).toLowerCase();
+
 
             const weekdayLang = getTranslationByLang(localStorage.getItem('AppLanguageCode'), weekday);
 
@@ -323,6 +326,8 @@ function displayDailyForecast(forecast, forecastDaily) {
 
         if (SelectedWindUnit === 'mile') {
             WindSpeed = Math.round(forecast.wind_speed_10m_max[index] / 1.60934) + ' mph';
+        } else if (SelectedWindUnit === 'M/s') {
+            WindSpeed = (forecast.wind_speed_10m_max[index] / 3.6).toFixed(2) + ' m/s';
         } else {
             WindSpeed = Math.round(forecast.wind_speed_10m_max[index]) + ' km/h';
         }

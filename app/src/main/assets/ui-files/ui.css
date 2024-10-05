@@ -82,7 +82,7 @@ selectLocationText{
   min-height: 56px;
   margin: 12px;
   margin-top: 5px;
-  z-index: 2;
+  z-index: 99999999999999999999999999999910;
   border-radius: 10px;
   display: flex;
   gap: 6px;
@@ -100,7 +100,7 @@ selectLocationTextOverlay{
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1;
+  z-index: 99999999999999999999999999999910;
 }
 
 @keyframes selectLocationText{
@@ -171,6 +171,7 @@ touch_search{
   padding-left: 15px;
   padding-top: 10px;
   padding-right: 15px;
+      z-index: 1;
 }
 
 .current .left_current_weather now{
@@ -1409,7 +1410,7 @@ rainMeterBar::-webkit-scrollbar-thumb {
 
 #map {
     height: calc(100% - 0px);
-
+  background-color: var(--Surface);
   position: relative;
 }
 
@@ -1562,7 +1563,7 @@ height: 100%;
   align-items: center;
   padding: 10px;
   height: calc(45px - 1px);
-  border-bottom: 1px solid var(--Outline);
+  border-bottom: 1px solid black;
   gap: 10px;
   background-color: var(--Surface);
 }
@@ -2376,4 +2377,31 @@ moonPhaseProgress {
 
   text-align: center;
 
+}
+
+
+.animation_canvas{
+  position: absolute;
+  top: 0;
+  width: 100%;
+  left: 0;
+  height: 150px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.air_text_value_aqi{
+  margin-right: 10px;
+  background-color: var(--Secondary-Container);
+  height: 20px;
+  color: var(--On-Surface);
+  font-family: var(--google-mid);
+  display: flex;
+  aspect-ratio: 1/ 1;
+  align-items: center;
+
+  justify-content: center;
+  padding: 5px;
+
+  border-radius: 50px;
 }
