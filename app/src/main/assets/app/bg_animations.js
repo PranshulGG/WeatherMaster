@@ -1,4 +1,9 @@
 
+function createClearSkyDay(){
+  
+}
+
+
 function createRain() {
   const canvas = document.getElementById('bg_animation_rain');
   const ctx = canvas.getContext('2d');
