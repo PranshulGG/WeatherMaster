@@ -74,6 +74,7 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 - [**open-meteo**](https://open-meteo.com)
 - [**WeatherApi**](https://www.weatherapi.com/)
 - [**OpenWeatherMap**](https://openweathermap.org/api)
+- [**accuweather**](https://www.accuweather.com/)
 
 # ⚙️ Other:
 
