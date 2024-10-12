@@ -24,7 +24,7 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 <img src="preview/forecast_page.png"  width="320">
 <img src="preview/gov_alerts.png"  width="320">
 <img src="preview/settings.png"  width="320">
-<img src="preview/radar.png"  width="320">
+<img src="preview/radar_page.png"  width="320">
 
 </div>
 
