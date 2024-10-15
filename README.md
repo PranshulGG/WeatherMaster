@@ -1,10 +1,10 @@
- # 🌦️ WeatherMaster 
+# 🌦️ WeatherMaster
 
 <img src="https://github.com/PranshulGG/WeatherMaster/blob/master/preview/partly_cloudy_day.svg" alt="" width="150px">
 
 WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed to mimic the look and feel of a native Android app.
 
-`(Last updated on 10-08-2024 at 9:34 AM UTC)`
+`(Last updated on 10-15-2024 at 2:50 PM UTC)`
 
 ![app_thumbnail](preview/thumbnail.png)
 
@@ -76,44 +76,44 @@ WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed t
 
 # ⚙️ Other:
 
- - 📱<strong>Native Android Experience: </stronge>Enjoy a user interface and interaction that closely resemble a native Android Weather app.
+- 📱<strong>Native Android Experience: </stronge>Enjoy a user interface and interaction that closely resemble a native Android Weather app.
 
- - 🎨<strong>Material Design: </stronge>The app is built using Material Web Components, ensuring a clean, consistent, and visually appealing design.
+- 🎨<strong>Material Design: </stronge>The app is built using Material Web Components, ensuring a clean, consistent, and visually appealing design.
 
- - ⚙️<strong>Customization Options: </stronge>Enjoy a ton of customization options. Adjust themes, Units.
+- ⚙️<strong>Customization Options: </stronge>Enjoy a ton of customization options. Adjust themes, Units.
 
- - 📐<strong>Responsive Design: </stronge>WeatherMaster is fully responsive for all mobile devices.
+- 📐<strong>Responsive Design: </stronge>WeatherMaster is fully responsive for all mobile devices.
 
- - 🧩<strong>User-Friendly Interface: </stronge>The app's interface is designed to be straightforward and user-friendly.
+- 🧩<strong>User-Friendly Interface: </stronge>The app's interface is designed to be straightforward and user-friendly.
 
 
 # 🛠️ Built With:
 
- - <strong>HTML & CSS: </stronge> For the basic structure and styling of the app.
+- <strong>HTML & CSS: </stronge> For the basic structure and styling of the app.
 
- - <strong>JavaScript: </stronge>To handle the app's logic and interactivity.
+- <strong>JavaScript: </stronge>To handle the app's logic and interactivity.
 
- - <strong>Java: </stronge>Mainly used for JavaScript interface and permissions, allowing the app to run on Android devices.
+- <strong>Java: </stronge>Mainly used for JavaScript interface and permissions, allowing the app to run on Android devices.
 
- - <strong>Material Web Components: </stronge>Utilized to create a consistent and attractive Material Design look and feel.
+- <strong>Material Web Components: </stronge>Utilized to create a consistent and attractive Material Design look and feel.
 
- - <strong>Weather icons</strong>: <a href="https://gitlab.com/bignutty/google-weather-icons">Google weather icons
+- <strong>Weather icons</strong>: <a href="https://gitlab.com/bignutty/google-weather-icons">Google weather icons
 
- # 📝 Todos:
+# 📝 Todos:
 
- - ✅ Adding cache to reduce api requests
- - ✅ Translations
- - ⬛ Widgets / Notifications (under construction)
- - ✅ Make it lightweight
- - ✅ Allows you to add multiple locations
- - ✅ Customization 
- - ✅ More detailed weather 
- - ✅ Live weather map
- - ✅ Pick locations using map
- - ✅ Change app colors according to the weather
- -  Any user suggestions :)
-<br>
-<br>
+- ✅ Adding cache to reduce api requests
+- ✅ Translations
+- ⬛ Widgets / Notifications (under construction)
+- ✅ Make it lightweight
+- ✅ Allows you to add multiple locations
+- ✅ Customization
+- ✅ More detailed weather
+- ✅ Live weather map
+- ✅ Pick locations using map
+- ✅ Change app colors according to the weather
+-  Any user suggestions :)
+   <br>
+   <br>
 
 > [!NOTE]
 > The app is designed to run on Android devices and does not support web browsers. Attempting to open the app in a browser will not work.
@@ -126,6 +126,5 @@ For any questions or feedback, feel free to open an issue on GitHub or contact p
 
 # License
 This project is licensed under the GPL-3.0 license. See the `LICENSE` file for details.
-
 
 
