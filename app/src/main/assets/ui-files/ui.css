@@ -172,6 +172,8 @@ touch_search{
   padding-top: 10px;
   padding-right: 15px;
       z-index: 1;
+            position: relative;
+
 }
 
 .current .left_current_weather now{

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../components/modal-ver.css">
     <link rel="stylesheet" href="../ripple-files/ripple.css">
     <link rel="stylesheet" href="../components/segment-btns.css">
+    <script src="../langs/langs.js"></script>
 
     <style>
 
@@ -203,7 +204,8 @@ body {
             <span icon-outlined style="font-size: 24px !important;">arrow_back</span>
         </button>
 
-        <p>Weather alert</p>
+        <p data-translate="weather_alerts">Weather alert</p>
+
     </div>
     <div class="full-activity-content" id="Content">
 
@@ -356,6 +358,12 @@ body {
                     console.log(senderDivHeight);
                     document.getElementById('alert_info_div').style.paddingBottom = `calc(30px + ${senderDivHeight}px)`
                 }, 1000);
+
+                                const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
+    if(AppLanguageCodeValue){
+        applyTranslations(AppLanguageCodeValue);
+
+    }
             </script>
 
         <script src="../components-script.js/components.js"></script>

@@ -199,7 +199,14 @@
                     <p id="temp_insight" class="insights_p">Cooling expected over the next 3 days</p>
                 </div>
 
-
+                <div class="cloths insights_item">
+                    <div class="icon_container_cloths" style="position: relative;">
+                        <md-icon icon-filled style="z-index: 1; font-size: 20px;">hourglass_top</md-icon>
+                        <div style="position: absolute;">
+                            <md-circular-progress id="day_value" style="--md-circular-progress-active-indicator-width: 7; opacity: 0.7;"></md-circular-progress></div>
+                    </div>
+                    <p id="day_length_text" class="insights_p">Cooling expected over the next 3 days</p>
+                </div>
 
             </div>
             <div class="holder_scroll_indi">
@@ -759,6 +766,7 @@ document.getElementById('clearCityInput').addEventListener('click', () =>{
 <script src="modules/sun-tracker.js"></script>
 <script src="app/app.js"></script>
 <script src="app/bg_animations.js"></script>
+<script src="app/day_summary.js"></script>
 
 </body>
 
