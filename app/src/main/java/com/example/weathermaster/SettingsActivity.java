@@ -208,7 +208,6 @@ public class SettingsActivity extends AppCompatActivity {
                     url.startsWith("https://app-privacy-policy-generator.nisrulz.com/") ||
                     url.startsWith("https://github.com/PranshulGG/WeatherMaster") ||
                     url.startsWith("mailto:pranshul.devmain@gmail.com")||
-                    url.startsWith("https://www.openstreetmap.org/") ||
                     url.startsWith("https://ko-fi.com/pranshulgg")||
                     url.startsWith("https://leafletjs.com/")||
                     url.startsWith("https://www.rainviewer.com/")||

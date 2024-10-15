@@ -199,14 +199,7 @@
                     <p id="temp_insight" class="insights_p">Cooling expected over the next 3 days</p>
                 </div>
 
-                <div class="cloths insights_item">
-                    <div class="icon_container_cloths" style="position: relative;">
-                        <md-icon icon-filled style="z-index: 1; font-size: 20px;">hourglass_top</md-icon>
-                        <div style="position: absolute;">
-                            <md-circular-progress id="day_value" style="--md-circular-progress-active-indicator-width: 7; opacity: 0.7;"></md-circular-progress></div>
-                    </div>
-                    <p id="day_length_text" class="insights_p">Cooling expected over the next 3 days</p>
-                </div>
+
 
             </div>
             <div class="holder_scroll_indi">
@@ -453,10 +446,6 @@
             <div class="all_air_quality" style="border-radius: 10px 10px 5px 5px; margin-bottom: 5px; overflow: hidden;">
                 <div class="sun_text">
                     <p data-translate="air_quality">Air Quality</p>
-                    <space></space>
-                    <div class="air_text air_text_value_aqi">
-                        <p id="aqi-level-value">33</p>
-                    </div>
                     <div class="air_text">
                         <p id="aqi-level">Error</p>
                     </div>
@@ -522,6 +511,10 @@
             <div class="all_air_quality ripple_btn_low" style="border-radius: 5px 5px 10px 10px; margin-top: 0px;" onclick="sendThemeToAndroid('openUVcondition')">
                 <div class="sun_text">
                     <p data-translate="uv_index">UV Index</p>
+                    <space></space>
+                    <div class="air_text air_text_value_aqi">
+                        <p id="aqi-level-value">33</p>
+                    </div>
                     <div class="air_text">
                         <p id="uv-index"></p>
                     </div>
@@ -698,6 +691,22 @@
 
 window.addEventListener('storage', handleStorageChangeLang);
 
+        document.addEventListener("DOMContentLoaded", function () {
+            const cityInput = document.getElementById("city-input");
+
+
+            cityInput.addEventListener("input", function () {
+
+                let inputValue = cityInput.value;
+
+
+                inputValue = inputValue.replace(/\d/g, '');
+
+
+                cityInput.value = inputValue;
+            });
+        });
+
 
 
         var currentDate = new Date();
@@ -766,7 +775,6 @@ document.getElementById('clearCityInput').addEventListener('click', () =>{
 <script src="modules/sun-tracker.js"></script>
 <script src="app/app.js"></script>
 <script src="app/bg_animations.js"></script>
-<script src="app/day_summary.js"></script>
 
 </body>
 

@@ -593,24 +593,18 @@ function Toast(toastText, time){
 
 var map;
 
-function darkModeTileLayer(urlTemplate) {
-    const filterStyle = 'invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%)';
-
-    return window.L.tileLayer(urlTemplate, {
-    }).addTo(map).getContainer().style.filter = filterStyle;
-}
-
 function RenderSearhMap() {
     const latDif = localStorage.getItem('currentLat');
     const longDif = localStorage.getItem('currentLong');
 
     map = window.L.map('map', {
         center: [latDif, longDif],
-        zoom: 8,
+        zoom: 13,
         zoomControl: false
+
     });
 
-    darkModeTileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png');
+    window.L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png', {}).addTo(map);
 
     var marker = window.L.marker([latDif, longDif]).addTo(map);
 
@@ -621,11 +615,12 @@ function RenderSearhMap() {
         marker.setLatLng([lat, lon]);
         window.history.back();
 
-        document.getElementById('search-container').style.opacity = '0';
+                document.getElementById('search-container').style.opacity = '0'
 
-        setTimeout(() => {
-            window.history.back();
-        }, 500);
+                setTimeout(() => {
+                    window.history.back();
+
+                }, 500);
 
         DecodeWeather(lat, lon);
 
@@ -666,7 +661,7 @@ function checkNoInternet(){
 
     document.addEventListener('DOMContentLoaded', async function() {
 
-        const currentVersion = 'v1.6.6';
+        const currentVersion = 'v1.6.4';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
@@ -682,15 +677,7 @@ function checkNoInternet(){
             if (latestVersion !== currentVersion) {
 
 
-                           if(localStorage.getItem('HideNewUpdateToast') === 'true'){
-                               document.querySelector('.new_ver_download').hidden = false;
-
-                               setTimeout(()=>{
-                                   document.querySelector('.new_ver_download').hidden = true;
-                               }, 5000);
-                           } else{
-                               document.querySelector('.new_ver_download').hidden = false;
-                           }
+                document.querySelector('.new_ver_download').hidden = false;
 
 
                 } else {

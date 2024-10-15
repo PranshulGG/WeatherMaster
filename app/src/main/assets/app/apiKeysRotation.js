@@ -1,4 +1,5 @@
 const apiKeysDaily = [
+<<<<<<< HEAD
     'd94bcd435b62a031771c35633f9f310a',
     '3b833dcd6aac36124a8a30e182224427',
     'dd1571a8ad3fd44555e8a5d66db01929',
@@ -11,11 +12,15 @@ const apiKeysDaily = [
     'b02af426a3fad0d92d3e0b32f9324cf0',
     '392345e23d1613d56dad9cba63084b9c',
      '6841e5450643e5d4ff59981dbf58944e'
+=======
+KEY
+>>>>>>> 1fe5d703ff20ab7a83c669b8fdc662e822488967
 
 ];
 
 
 const apiKeysAlerts = [
+<<<<<<< HEAD
     'd94bcd435b62a031771c35633f9f310a',
     '3b833dcd6aac36124a8a30e182224427',
     'dd1571a8ad3fd44555e8a5d66db01929',
@@ -41,10 +46,18 @@ const apiKeysCityName = [
     '02fc5e51bae44471b936ef635e465558',
     'f1330ff150844fe885c8bed5f40ca593',
     '9261e72fd39d421bbdad506b1d1611ab'
+=======
+KEY
+];
+
+const apiKeysCityName = [
+KEY
+>>>>>>> 1fe5d703ff20ab7a83c669b8fdc662e822488967
 
 ];
 
 const apiKeysGeo = [
+<<<<<<< HEAD
     '7147cfac7299479da122684c73d9b80a',
     '09713ffe266c4dfa99b98157dfd148f9',
     '66f9ad95f6704259a376949eaa659e62',
@@ -66,10 +79,18 @@ const apiKeysVisual = [
     '2U6VP2EF5WD6ZXEAA7V5G6H7R',
     '7VXHK5K23FZAZEA8QGGPYM6NE',
     '8DADTJ5YHGASWH7QFBNVXVUMD'
+=======
+KEY
+];
+
+const apiKeysVisual = [
+KEY
+>>>>>>> 1fe5d703ff20ab7a83c669b8fdc662e822488967
   ];
 
 
   const astronomyApiKeys = [
+<<<<<<< HEAD
     '63a7210d2b104646a1099d5ba223d221',
     '4c502232671d48699afaf3b2741db4a4',
     '3dba64be2889483880c8534a81b5287e',
@@ -79,4 +100,7 @@ const apiKeysVisual = [
     '033158c54bf547a58ec44e6b7f5dc1f2',
     '8e982325202c43ab8ff4e2434af4b2bc',
     '5862f00bef2a49dbb8d96579e4d2bbee'
+=======
+KEY
+>>>>>>> 1fe5d703ff20ab7a83c669b8fdc662e822488967
   ];

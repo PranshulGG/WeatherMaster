@@ -1,4 +1,9 @@
 
+function createClearSkyDay(){
+  
+}
+
+
 function createRain() {
   const canvas = document.getElementById('bg_animation_rain');
   const ctx = canvas.getContext('2d');
@@ -66,14 +71,9 @@ function createRain() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
 
-  let animationRunning = false;
-
-  function startAnimationRain(){
-    if (!animationRunning) {
-        animationRunning = true;
+  function startAnimationRain(){  
   createRaindrops(100);
   animate();
-    }
   }
 
   return { clearCanvas, startAnimationRain };
@@ -184,18 +184,12 @@ function createThunder() {
       animationFrameId = requestAnimationFrame(animate);
   }
   
-  let animationRunning = false;
-
-
-  function startAnimation(){
-    if (!animationRunning) {
-        animationRunning = true;
+  function startAnimation(){  
   setup();
   animationFrameId = requestAnimationFrame(animate);
   intervalId = setInterval(function() {
       createLightning();
   }, interval);
-}
   }
   function clearCanvas() {
       cancelAnimationFrame(animationFrameId);
@@ -282,14 +276,9 @@ function createClouds() {
       initClouds();
   });
 
-  let animationRunning = false;
-
-  function startAnimation() {
-    if (!animationRunning) {
-      animationRunning = true;
-      initClouds();
-      animateClouds();
-    }
+  function startAnimation(){  
+  initClouds();
+  animateClouds();
   }
   function clearCanvas() {
       cancelAnimationFrame(animationFrameId); 
@@ -378,19 +367,11 @@ function createStars() {
       initStars();
   });
 
-  let animationRunning = false;
-
-
-  function startAnimation(){
-    if (!animationRunning) {
-        animationRunning = true;
-
+  function startAnimation(){  
   adjustCanvasSize();
   initStars();
   animationFrameId = requestAnimationFrame(animateStars);
-}
   }
-
   function clearCanvas() {
       cancelAnimationFrame(animationFrameId);
       starsArray = [];
@@ -475,15 +456,9 @@ function createFog() {
       initClouds();
   });
 
-  let animationRunning = false;
-
-  function startAnimation(){
-    if (!animationRunning) {
-        animationRunning = true;
-
+  function startAnimation(){  
   initClouds();
   animateClouds();
-    }
   }
   function clearCanvas() {
       cancelAnimationFrame(animationFrameId); 
@@ -570,15 +545,10 @@ function createSnow() {
       initSnowflakes();
   });
 
-  let animationRunning = false;
-
-  function startAnimation(){
-    if (!animationRunning) {
-        animationRunning = true;
+  function startAnimation(){  
     adjustCanvasSize();
   initSnowflakes();
   animateSnowflakes();
-    }
   }
   
   function clearCanvas() {

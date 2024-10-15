@@ -285,12 +285,6 @@ const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
 
        const timeFormat = localStorage.getItem('selectedTimeMode');
 
-       function darkModeTileLayer(urlTemplate) {
-    const filterStyle = 'invert(100%) hue-rotate(180deg) brightness(0.6) contrast(90%)';
-
-    return window.L.tileLayer(urlTemplate, {
-    }).addTo(map).getContainer().style.filter = filterStyle;
-}
 
         function loadMapRainView() {
             const latDif = localStorage.getItem('currentLat');
@@ -303,8 +297,10 @@ const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
                 minZoom: 2
             });
 
-            darkModeTileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png');
+            window.L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png', {
 
+
+            }).addTo(map);
 
 
             var marker = window.L.marker([latDif, longDif]).addTo(map);
@@ -315,7 +311,7 @@ const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
             var isPlaying = false;
 
             function loadRadarLayer(path) {
-                var radarUrl = `https://tilecache.rainviewer.com${path}/256/{z}/{x}/{y}/5/1_1.png`;
+                var radarUrl = `https://tilecache.rainviewer.com${path}/256/{z}/{x}/{y}/2/1_1.png`;
 
                 if (radarLayer) {
                     map.removeLayer(radarLayer);
@@ -325,7 +321,6 @@ const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
                     opacity: 1
                 }).addTo(map);
             }
-
 
 
             fetch('https://api.rainviewer.com/public/weather-maps.json')
@@ -361,10 +356,10 @@ const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
                     autoplayBtn.onclick = function () {
                         if (isPlaying) {
                             stopAutoplay();
-
+                            document.getElementById('changeMapTypeToggle').hidden = false;
                         } else {
                             startAutoplay();
-
+                            document.getElementById('changeMapTypeToggle').hidden = true;
                         }
                     };
 
@@ -440,6 +435,12 @@ const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
 
                     AndroidInterface.updateStatusBarColor(theme);
                 };
+
+
+        if(sendThemeToAndroidColor){
+            console.error('Color not found!')
+        }
+    
     </script>
 
 

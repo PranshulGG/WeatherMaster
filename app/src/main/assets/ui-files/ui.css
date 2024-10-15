@@ -172,8 +172,6 @@ touch_search{
   padding-top: 10px;
   padding-right: 15px;
       z-index: 1;
-            position: relative;
-
 }
 
 .current .left_current_weather now{
@@ -1036,7 +1034,14 @@ suggest-space{
     }
 }
 
-
+@media screen and (min-width: 600px){
+  .not_made_for_pc{
+    display: flex;
+  }
+  #updated-div{
+    margin-bottom: 90px;
+  }
+}
 
 .froggie img{
   width: 120%;
