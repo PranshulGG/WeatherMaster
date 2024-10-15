@@ -20,7 +20,19 @@ function ReportFromdaily(data) {
 }
 
 function GenerateSummary(data) {
-    document.getElementById('weatherComments').innerHTML = `Looks ${getWeatherLabelInLangNoAnim(data.hourlyData, 1, localStorage.getItem('AppLanguageCode'))} and ${getWeatherLabelInLangNoAnim(data.dailyData, 1, localStorage.getItem('AppLanguageCode'))} through out the day.
+    let hourlyWeather = getWeatherLabelInLangNoAnim(data.hourlyData, 1, localStorage.getItem('AppLanguageCode'));
+    let dailyWeather = getWeatherLabelInLangNoAnim(data.dailyData, 1, localStorage.getItem('AppLanguageCode'));
+
+    let weatherComment = '';
+
+    if (hourlyWeather === dailyWeather) {
+        weatherComment = `Looks ${hourlyWeather} throughout the day.`;
+    } else {
+        weatherComment = `Looks ${hourlyWeather} and ${dailyWeather} throughout the day.`;
+    }
+
+    document.getElementById('weatherComments').innerHTML = `
+        ${weatherComment}
         <space></space>
         <md-icon icon-outlined id="arrow_up_toggle">keyboard_arrow_down</md-icon>
     `;

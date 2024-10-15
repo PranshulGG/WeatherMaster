@@ -23,27 +23,44 @@ function HourlyWeather(data) {
     const sunsetTimes = data.daily.sunset.map(time => new Date(time).getTime());
 
 
-            const weatherCodeGroups = {
-                "0": [0],
-                "1-3": [1, 2, 3],
-                "45-48": [45, 48],
-                "51-55": [51, 53, 55],
-                "56-57": [56, 57],
-                "61-65": [61, 63, 65],
-                "66-67": [66, 67],
-                "71-75": [71, 73, 75],
-                "77": [77],
-                "80-82": [80, 81, 82],
-                "85-86": [85, 86],
-                "95": [95],
-                "96-99": [96, 99]
-            };
+    const weatherCodeGroups = {
+        "0": [0],
+        "1": [1],
+        "2": [2],
+        "3": [3],
+        "45": [45],
+        "48": [48],
+        "51": [51],
+        "53": [53],
+        "55": [55],
+        "56": [56],
+        "57": [57],
+        "61": [61],
+        "63": [63],
+        "65": [65],
+        "66": [66],
+        "67": [67],
+        "71": [71],
+        "73": [73],
+        "75": [75],
+        "77": [77],
+        "80": [80],
+        "81": [81],
+        "82": [82],
+        "85": [85],
+        "86": [86],
+        "95": [95],
+        "96": [96],
+        "99": [99]
+    };
+
 
             let groupCounts = {};
 
             Object.keys(weatherCodeGroups).forEach(group => {
                 groupCounts[group] = 0;
             });
+
 
 
 
@@ -141,6 +158,13 @@ function HourlyWeather(data) {
 
         }
 
+                Object.keys(weatherCodeGroups).forEach(group => {
+                    if (weatherCodeGroups[group].includes(HourWeatherCode)) {
+                        groupCounts[group]++;
+                    }
+                });
+
+
         const forecastItem = document.createElement('div');
         forecastItem.classList.add('forecast-item');
         forecastItem.id = "forecast24";
@@ -184,12 +208,11 @@ function HourlyWeather(data) {
         forecastContainer.appendChild(forecastItem);
     });
 
-        const mostFrequentGroup = Object.keys(groupCounts).reduce((a, b) => groupCounts[a] > groupCounts[b] ? a : b);
+    const mostFrequentGroup = Object.keys(groupCounts).reduce((a, b) => groupCounts[a] > groupCounts[b] ? a : b);
 
-        const selectedWeatherCode = weatherCodeGroups[mostFrequentGroup][0];
+    const selectedWeatherCode = weatherCodeGroups[mostFrequentGroup][0];
 
-
-        ReportFromhourly(selectedWeatherCode)
+    ReportFromhourly(selectedWeatherCode);
 }
 
 
@@ -949,14 +972,14 @@ function UvIndex(latitude, longitude) {
                 document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'extreme_risk_sun_exposure')
             }
 
-//add
+
         })
 
 }
 
 
 function MoreDetails(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/forecast.json?key=KEY&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/forecast.json?key=MAIN_KEY&q=${latSum},${lonSum}`)
         .then(response => response.json())
         .then(data => {
 
@@ -1102,7 +1125,7 @@ function MoreDetails(latSum, lonSum) {
 }
 
 function astronomyData(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=KEY&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=MAIN_KEY&q=${latSum},${lonSum}`)
         .then(response => response.json())
         .then(data => {
 
