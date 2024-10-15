@@ -98,9 +98,6 @@
                     <md-menu-item menu-type class="mainTempItem" value="OpenWeatherMap">
                         <div slot="headline">OpenWeatherMap</div>
                     </md-menu-item>
-                    <md-menu-item menu-type class="mainTempItem" value="Met_norway">
-                        <div slot="headline">Met-norway</div>
-                    </md-menu-item>
                 </md-menu>
 
                 <md-list-item margin id="apiKeyEnterInputTile">
@@ -123,6 +120,18 @@
                     <md-icon icon-filled slot="start">animation</md-icon>
                     <div slot="headline" data-translate="Background card animation">Background card animation</div>
                     <md-switch slot="end" selected id="useAnimationBackground"></md-switch>
+                </md-list-item>
+
+                <md-list-item>
+                    <md-icon icon-filled slot="start">font_download</md-icon>
+                    <div slot="headline">Use system font</div>
+                    <md-switch slot="end" id="useSysFontSwitch"></md-switch>
+                </md-list-item>
+
+                <md-list-item>
+                    <md-icon icon-filled slot="start">toast</md-icon>
+                    <div slot="headline">Hide the 'New update available' toast after 5 seconds</div>
+                    <md-switch slot="end" id="HideNewUpdateToastSwitch"></md-switch>
                 </md-list-item>
 
                 <md-list-item margin type="button" id="usage-popover-anchor">
@@ -287,12 +296,11 @@
                     <div slot="headline">Rainviewer</div>
                     <md-icon icon-filled slot="end">open_in_new</md-icon>
                 </md-list-item>
-                <md-list-item margin href="https://carto.com/">
-                    <div slot="headline">Carto</div>
+                <md-list-item margin href="https://www.openstreetmap.org/">
+                    <div slot="headline">OpenStreetMap</div>
                     <md-icon icon-filled slot="end">open_in_new</md-icon>
                 </md-list-item>
             </md-list>
-
 
 
             <p style="margin-top: 110px;"></p>
@@ -831,6 +839,49 @@ if(!localStorage.getItem('DefaultLocation')){
                 });
         }
     });
+
+
+        // ----------------------------------------------------------------------------------
+
+
+    const useSysFontSwitch = document.getElementById('useSysFontSwitch');
+
+    useSysFontSwitch.addEventListener('change', ()=>{
+        localStorage.setItem('useSysFont', useSysFontSwitch.selected)
+
+        if(useSysFontSwitch.selected){
+            document.documentElement.setAttribute('sys-font', 'true');
+        } else{
+            document.documentElement.setAttribute('sys-font', 'false');
+        }
+    });
+
+    const useSysFont = localStorage.getItem('useSysFont');
+
+    if(useSysFont === 'true'){
+        useSysFontSwitch.selected = true;
+    } else{
+        useSysFontSwitch.selected = false;
+
+    }
+
+    // ---------------------------------------------------
+
+    const HideNewUpdateToastSwitch = document.getElementById('HideNewUpdateToastSwitch');
+
+    HideNewUpdateToastSwitch.addEventListener('change', ()=>{
+    localStorage.setItem('HideNewUpdateToast', HideNewUpdateToastSwitch.selected)
+
+});
+
+const HideNewUpdateToast = localStorage.getItem('HideNewUpdateToast');
+
+if(HideNewUpdateToast === 'true'){
+    HideNewUpdateToastSwitch.selected = true;
+} else{
+    HideNewUpdateToastSwitch.selected = false;
+
+}
 
 
     </script>

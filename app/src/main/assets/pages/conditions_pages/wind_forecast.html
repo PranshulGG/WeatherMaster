@@ -92,7 +92,7 @@
                 if (SelectedWindUnit === 'mile') {
                     WindSpeedForecast = Math.round(data.wind_speed_10m[index] / 1.60934) + '';
                 } else if (SelectedWindUnit === 'M/s') {
-                    WindSpeedForecast = (data.wind_speed_10m[index] / 3.6).toFixed(2) + ' m/s';
+                    WindSpeedForecast = (data.wind_speed_10m[index] / 3.6).toFixed(2) + '';
                 } else {
                     WindSpeedForecast = Math.round(data.wind_speed_10m[index]) + '';
                 }

@@ -34,8 +34,6 @@
 
 //   });
 
-// removed menu
-
 
 //   border-change 
 

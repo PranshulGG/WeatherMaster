@@ -44,3 +44,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+const useSysFont = localStorage.getItem('useSysFont');
+
+if(useSysFont === 'true'){
+    document.documentElement.setAttribute('sys-font', 'true');
+} else{
+    document.documentElement.setAttribute('sys-font', 'false');
+
+}

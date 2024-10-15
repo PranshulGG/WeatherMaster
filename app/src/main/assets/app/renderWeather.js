@@ -23,6 +23,29 @@ function HourlyWeather(data) {
     const sunsetTimes = data.daily.sunset.map(time => new Date(time).getTime());
 
 
+            const weatherCodeGroups = {
+                "0": [0],
+                "1-3": [1, 2, 3],
+                "45-48": [45, 48],
+                "51-55": [51, 53, 55],
+                "56-57": [56, 57],
+                "61-65": [61, 63, 65],
+                "66-67": [66, 67],
+                "71-75": [71, 73, 75],
+                "77": [77],
+                "80-82": [80, 81, 82],
+                "85-86": [85, 86],
+                "95": [95],
+                "96-99": [96, 99]
+            };
+
+            let groupCounts = {};
+
+            Object.keys(weatherCodeGroups).forEach(group => {
+                groupCounts[group] = 0;
+            });
+
+
 
     data.hourly.time.forEach((time, index) => {
 
@@ -149,7 +172,7 @@ function HourlyWeather(data) {
             `
 
             forecastItem.addEventListener('click', ()=>{
-             ShowSnack(`<span style="text-transform: capitalize;">${getWeatherLabelInLang(HourWeatherCode, 1,  localStorage.getItem('AppLanguageCode'))}</span>`, 2000, 3, 'none', ' ', 'no-up')
+             ShowSnack(`<span style="text-transform: capitalize;">${getWeatherLabelInLangNoAnim(HourWeatherCode, 1,  localStorage.getItem('AppLanguageCode'))}</span>`, 2000, 3, 'none', ' ', 'no-up')
 
 
             });
@@ -160,6 +183,13 @@ function HourlyWeather(data) {
         RainBarsContainer.append(rainMeterBarItem)
         forecastContainer.appendChild(forecastItem);
     });
+
+        const mostFrequentGroup = Object.keys(groupCounts).reduce((a, b) => groupCounts[a] > groupCounts[b] ? a : b);
+
+        const selectedWeatherCode = weatherCodeGroups[mostFrequentGroup][0];
+
+
+        ReportFromhourly(selectedWeatherCode)
 }
 
 
@@ -234,24 +264,21 @@ function DailyWeather(dailyForecast) {
 
 
     dailyForecast.time.forEach((time, index) => {
-        const [year, month, day] = time.split('-').map(Number);
+  const [year, month, day] = time.split('-').map(Number);
+     const dateObj = new Date(year, month - 1, day);
+
+     const today = new Date();
+     const isSameDay = dateObj.getFullYear() === today.getFullYear() &&
+                       dateObj.getMonth() === today.getMonth() &&
+                       dateObj.getDate() === today.getDate();
+
+     const weekday = isSameDay ? 'today' : dateObj.toLocaleDateString('en-US', { weekday: 'short' }).toLowerCase();
+     const weekdayLang = getTranslationByLang(localStorage.getItem('AppLanguageCode'), weekday);
 
 
-        const dateObj = new Date(year, month - 1, day, 0, 0, 0);
+         const send1stDay = dailyForecast.weather_code[0]
 
-
-        const today = new Date();
-        const todayString = today.toISOString().split('T')[0];
-
-
-        const dateObjString = dateObj.toISOString().split('T')[0];
-
-        const isToday = index === 0;
-        const weekday = isToday ? 'today' : dateObj.toLocaleDateString('en-US', { weekday: 'short' }).toLowerCase();
-
-        const weekdayLang = getTranslationByLang(localStorage.getItem('AppLanguageCode'), weekday);
-
-
+         ReportFromdaily(send1stDay)
 
         const rainPercentage = dailyForecast.precipitation_probability_max[index];
         const DailyWeatherCode = dailyForecast.weather_code[index];
@@ -313,7 +340,8 @@ function DailyWeather(dailyForecast) {
         const daylightMinutes = Math.floor((daylightDurationInSeconds % 3600) / 60);
 
 
-        document.getElementById('weatherComments').innerHTML = `<md-icon icon-outlined style="font-size: 18px;">hourglass_top</md-icon> ${daylightHours} hrs ${daylightMinutes} mins ${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'day_length')} <space></space> <md-icon icon-outlined id="arrow_up_toggle">keyboard_arrow_down</md-icon>`
+                document.getElementById('day_length_text').innerHTML  = `${daylightHours} hrs ${daylightMinutes} mins ${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'day_length')}`
+
 
 
 
@@ -644,6 +672,7 @@ const percentageOfDaylight = Math.round(calculateDaylightPercentage(sunrise, sun
         moveSun(100)
     }
 
+    document.getElementById('day_value').value = (percentageOfDaylight / 100).toFixed(2) ;
 
     const temperatureCLoths = Math.round(data.temperature_2m);
 
@@ -927,7 +956,7 @@ function UvIndex(latitude, longitude) {
 
 
 function MoreDetails(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/forecast.json?key=KEY_API&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/forecast.json?key=KEY&q=${latSum},${lonSum}`)
         .then(response => response.json())
         .then(data => {
 
@@ -941,10 +970,11 @@ function MoreDetails(latSum, lonSum) {
 
             let willRain
 
+
             if(mainData.daily_will_it_rain > 0){
-             willRain = 'rain is'
+             willRain = 'There is a chance of rain today! So, stay prepared just in case!'
             } else{
-             willRain = 'no rain is'
+             willRain = 'No rain is expected today. It’s going to be a delightful day ahead! Enjoy! 😊'
             }
 
             let maxTemp
@@ -963,17 +993,20 @@ function MoreDetails(latSum, lonSum) {
                 minTemp = Math.round(mainData.mintemp_c)
             }
 
-            let Precipitation;
+                    let precipitationMessage;
+        if (mainData.totalprecip_in > 0) {
+            precipitationMessage = `Expect around ${Precipitation} of precipitation today 🌧️. Make sure to carry an umbrella! ☔`;
+        } else {
+            precipitationMessage = `No significant precipitation is expected today, so you can leave the umbrella at home! ☀️😊`;
+        }
 
-            if (SelectedPrecipitationUnit === 'in') {
-                Precipitation = mainData.totalprecip_in.toFixed(2) + ' inches';
-            } else {
-                Precipitation = inchesToMm(mainData.totalprecip_in).toFixed(1) + ' millimetres'
-            }
+        let weatherReport = `
+         <li style="padding-bottom: 5px;">${willRain}</li>
+         <li style="padding-bottom: 5px;">Expect a high of ${maxTemp}° ☀️. As the sun sets 🌅, temperatures will drop to a cozy ${minTemp}°. A lovely evening awaits! 🌙</li>
+         <li >${precipitationMessage}</li>
 
 
-            const weatherSummary = `${weatherCondition} and ${willRain} expected for today. 🌡️ The daytime temperature will reach ${maxTemp}°, and it will dip to ${minTemp}° at night. 🌧️ We expect around ${Precipitation} of precipitation, with humidity levels around ${humidity}%.`;
-
+        `;
             let weatherTips = "";
 
             const hotWeatherTips = [
@@ -1046,7 +1079,7 @@ function MoreDetails(latSum, lonSum) {
                 weatherTips += sunnyTips[Math.floor(Math.random() * sunnyTips.length)] + " ";
             } else if (weatherCondition.toLowerCase().includes("snow")) {
                 weatherTips += snowTips[Math.floor(Math.random() * snowTips.length)] + " ";
-            } else if (weatherCondition.toLowerCase().includes("cloudy") || weatherCondition.toLowerCase().includes("cloud")) {
+            } else if (weatherCondition.toLowerCase().includes("cloudy") || weatherCondition.toLowerCase().includes("cloud") || weatherCondition.toLowerCase().includes("overcast")) {
                 weatherTips += cloudyWeatherTips[Math.floor(Math.random() * cloudyWeatherTips.length)] + " ";
             } else if (weatherCondition.toLowerCase().includes("fog")) {
                 weatherTips += fogTips[Math.floor(Math.random() * fogTips.length)] + " ";
@@ -1056,8 +1089,8 @@ function MoreDetails(latSum, lonSum) {
                 weatherTips += thunderstormTips[Math.floor(Math.random() * thunderstormTips.length)] + " ";
             }
 
-            document.getElementById('summeryDay').innerHTML = `<li>${weatherSummary}</li>`
             document.getElementById('day_tips').innerHTML = `<li>${weatherTips}</li>`
+            document.getElementById('summeryDay').innerHTML = `<li>${weatherReport}</li>`
 
 
 
@@ -1069,7 +1102,7 @@ function MoreDetails(latSum, lonSum) {
 }
 
 function astronomyData(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=KEY_API&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=KEY&q=${latSum},${lonSum}`)
         .then(response => response.json())
         .then(data => {
 
