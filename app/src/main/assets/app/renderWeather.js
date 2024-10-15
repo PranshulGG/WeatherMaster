@@ -949,7 +949,7 @@ function UvIndex(latitude, longitude) {
                 document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'extreme_risk_sun_exposure')
             }
 
-
+//add
         })
 
 }
