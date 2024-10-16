@@ -9,9 +9,6 @@
 
 # 👁️ Screenshots
 
-> [!NOTE]
-> **Screenshots may differ from the current version.**
-
 <div align="center">
 <img src="preview/current.png"  width="320">
 <img src="preview/24hr.png"  width="320">
