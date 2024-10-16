@@ -55,11 +55,16 @@ function HourlyWeather(data) {
     };
 
 
-            let groupCounts = {};
+    let groupCounts = {};
+    Object.keys(weatherCodeGroups).forEach(group => {
+        groupCounts[group] = 0;
+    });
 
-            Object.keys(weatherCodeGroups).forEach(group => {
-                groupCounts[group] = 0;
-            });
+    data.hourly.weather_code.forEach((code) => {
+        if (groupCounts[code] !== undefined) {
+            groupCounts[code]++;
+        }
+    });
 
 
 
@@ -158,11 +163,7 @@ function HourlyWeather(data) {
 
         }
 
-                Object.keys(weatherCodeGroups).forEach(group => {
-                    if (weatherCodeGroups[group].includes(HourWeatherCode)) {
-                        groupCounts[group]++;
-                    }
-                });
+
 
 
         const forecastItem = document.createElement('div');
@@ -209,8 +210,8 @@ function HourlyWeather(data) {
     });
 
     const mostFrequentGroup = Object.keys(groupCounts).reduce((a, b) => groupCounts[a] > groupCounts[b] ? a : b);
+    const selectedWeatherCode = mostFrequentGroup;
 
-    const selectedWeatherCode = weatherCodeGroups[mostFrequentGroup][0];
 
     ReportFromhourly(selectedWeatherCode);
 }
@@ -979,7 +980,7 @@ function UvIndex(latitude, longitude) {
 
 
 function MoreDetails(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/forecast.json?key=MAIN_KEY&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/forecast.json?key=KEYS&q=${latSum},${lonSum}`)
         .then(response => response.json())
         .then(data => {
 
@@ -1125,7 +1126,7 @@ function MoreDetails(latSum, lonSum) {
 }
 
 function astronomyData(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=MAIN_KEY&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=KEYS&q=${latSum},${lonSum}`)
         .then(response => response.json())
         .then(data => {
 

@@ -2,7 +2,6 @@
 
 <img src="https://github.com/PranshulGG/WeatherMaster/blob/master/preview/partly_cloudy_day.svg" alt="" width="150px">
 
-WeatherMaster is developed with pure HTML, CSS, JavaScript, and Java. Designed to mimic the look and feel of a native Android app.
 
 `(Last updated on 10-15-2024 at 2:50 PM UTC)`
 
