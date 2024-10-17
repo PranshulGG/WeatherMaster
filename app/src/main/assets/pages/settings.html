@@ -92,7 +92,7 @@
                     <md-menu-item menu-type class="mainTempItem" value="Open-Meteo" id="openMeteoProviderItem">
                         <div slot="headline">Open-Meteo</div>
                     </md-menu-item>
-                    <md-menu-item menu-type class="mainTempItem" value="AccuWeather">
+                    <md-menu-item menu-type class="mainTempItem" value="AccuWeather" style="pointer-events: none; opacity: 0.6;">
                         <div slot="headline">AccuWeather</div>
                     </md-menu-item>
                     <md-menu-item menu-type class="mainTempItem" value="OpenWeatherMap">
@@ -124,13 +124,13 @@
 
                 <md-list-item>
                     <md-icon icon-filled slot="start">font_download</md-icon>
-                    <div slot="headline">Use system font</div>
+                    <div slot="headline" data-translate="Use system font">Use system font</div>
                     <md-switch slot="end" id="useSysFontSwitch"></md-switch>
                 </md-list-item>
 
                 <md-list-item>
                     <md-icon icon-filled slot="start">toast</md-icon>
-                    <div slot="headline">Hide the 'New update available' toast after 5 seconds</div>
+                    <div slot="headline" data-translate="Hide the 'New update available' toast after 5 seconds">Hide the 'New update available' toast after 5 seconds</div>
                     <md-switch slot="end" id="HideNewUpdateToastSwitch"></md-switch>
                 </md-list-item>
 

@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         clearTimeout(debounceTimeout);
 
-        if (searchTerm) {
+        if (searchTerm && searchTerm.length > 2) {
             document.getElementById('cityLoader').hidden = false;
 
             debounceTimeout = setTimeout(() => {
@@ -666,7 +666,7 @@ function checkNoInternet(){
 
     document.addEventListener('DOMContentLoaded', async function() {
 
-        const currentVersion = 'v1.6.6';
+        const currentVersion = 'v1.6.7';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 

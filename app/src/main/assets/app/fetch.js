@@ -5,7 +5,7 @@ function getCountryName(code) {
 
 
 async function DecodeWeather(lat, lon) {
-  const apiKey = 'KEYS';
+  const apiKey = 'KEys';
   const url = `https://api.timezonedb.com/v2.1/get-time-zone?key=${apiKey}&format=json&by=position&lat=${lat}&lng=${lon}`;
 
   try {

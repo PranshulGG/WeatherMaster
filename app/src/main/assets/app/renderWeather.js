@@ -712,7 +712,7 @@ const percentageOfDaylight = Math.round(calculateDaylightPercentage(sunrise, sun
         } else if (temp <= 20) {
             return "🌤️ Mild weather. A light jacket or a sweater should be enough.";
         } else if (temp <= 25) {
-            return "👕 Warm day. A t-shirt and jeans or pants are suitable.";
+            return "👕 Pleasantly warm. A t-shirt and jeans or pants are suitable.";
         } else if (temp <= 30) {
             return "☀️ Hot! Opt for a t-shirt and light pants or shorts.";
         } else if (temp <= 35) {
@@ -815,6 +815,76 @@ function AirQuaility(data) {
 
     document.getElementById('aqi_img').src = backgroundImage[aqiCategory];
     document.getElementById('aqi-level').style.backgroundColor = backgroundColor[aqiCategory];
+
+        const alder_pollen = data.current.alder_pollen;
+        const birch_pollen = data.current.birch_pollen;
+        const grass_pollen = data.current.grass_pollen;
+        const mugwort_pollen = data.current.mugwort_pollen;
+        const olive_pollen = data.current.olive_pollen;
+        const ragweed_pollen = data.current.ragweed_pollen;
+
+        function getPollenLevel(pollenCount) {
+            if (pollenCount < 20) {
+              return { fraction: "1/4", level: "Low", icon: WidgetsPollen.LowPollen};
+            } else if (pollenCount < 50) {
+              return { fraction: "2/4", level: "Medium", icon: WidgetsPollen.MediumPollen };
+            } else if (pollenCount < 100) {
+              return { fraction: "3/4", level: "High", icon: WidgetsPollen.HighPollen};
+            } else {
+              return { fraction: "4/4", level: "Severe", icon: WidgetsPollen.SeverePollen };
+            }
+          }
+
+          function isPollenDataAvailable(...pollenValues) {
+            return pollenValues.every(value => value !== null && value !== undefined);
+          }
+
+          if (isPollenDataAvailable(alder_pollen, birch_pollen, olive_pollen)) {
+            const treePollen = alder_pollen + birch_pollen + olive_pollen;
+            const treePollenLevel = getPollenLevel(treePollen);
+          document.getElementById('pollen_number_tree').innerHTML = `${treePollenLevel.fraction}`
+          document.getElementById('pollen_data-text_tree').innerHTML = `${treePollenLevel.level}`;
+            document.querySelector('.Pollen_Icon_slot_tree').innerHTML = `${treePollenLevel.icon}`
+            document.querySelector('.pollen_data').hidden = false;
+            document.getElementById('ifPollenIsThere').classList.add('available_pollen');
+          } else {
+            document.querySelector('.pollen_data').hidden = true;
+            document.getElementById('ifPollenIsThere').classList.remove('available_pollen');
+
+          }
+
+          if (isPollenDataAvailable(grass_pollen)) {
+            const grassPollenLevel = getPollenLevel(grass_pollen);
+          document.getElementById('pollen_number_grass').innerHTML = `${grassPollenLevel.fraction}`
+          document.getElementById('pollen_data-text_grass').innerHTML = `${grassPollenLevel.level}`;
+          document.querySelector('.Pollen_Icon_slot_grass').innerHTML = `${grassPollenLevel.icon}`
+          document.querySelector('.pollen_data').hidden = false;
+          document.getElementById('ifPollenIsThere').classList.add('available_pollen');
+
+
+          } else {
+            document.querySelector('.pollen_data').hidden = true;
+            document.getElementById('ifPollenIsThere').classList.remove('available_pollen');
+
+          }
+
+          if (isPollenDataAvailable(mugwort_pollen, ragweed_pollen)) {
+            const weedPollen = mugwort_pollen + ragweed_pollen;
+            const weedPollenLevel = getPollenLevel(weedPollen);
+              document.getElementById('pollen_number_weed').innerHTML = `${weedPollenLevel.fraction}`
+          document.getElementById('pollen_data-text_weed').innerHTML = `${weedPollenLevel.level}`;
+          document.querySelector('.Pollen_Icon_slot_weed').innerHTML = `${weedPollenLevel.icon}`
+          document.querySelector('.pollen_data').hidden = false;
+          document.getElementById('ifPollenIsThere').classList.add('available_pollen');
+
+
+          } else {
+            document.querySelector('.pollen_data').hidden = true;
+            document.getElementById('ifPollenIsThere').classList.remove('available_pollen');
+
+          }
+
+
 }
 
 
@@ -980,7 +1050,7 @@ function UvIndex(latitude, longitude) {
 
 
 function MoreDetails(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/forecast.json?key=KEYS&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/forecast.json?key=KEys&q=${latSum},${lonSum}`)
         .then(response => response.json())
         .then(data => {
 
@@ -1017,6 +1087,13 @@ function MoreDetails(latSum, lonSum) {
                 minTemp = Math.round(mainData.mintemp_c)
             }
 
+                    let Precipitation;
+
+                    if (SelectedPrecipitationUnit === 'in') {
+                        Precipitation = mainData.totalprecip_in.toFixed(2) + ' in';
+                    } else {
+                        Precipitation = inchesToMm(mainData.totalprecip_in.toFixed(2)) + ' mm'
+                    }
                     let precipitationMessage;
         if (mainData.totalprecip_in > 0) {
             precipitationMessage = `Expect around ${Precipitation} of precipitation today 🌧️. Make sure to carry an umbrella! ☔`;
@@ -1126,7 +1203,7 @@ function MoreDetails(latSum, lonSum) {
 }
 
 function astronomyData(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=KEYS&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=KEys&q=${latSum},${lonSum}`)
         .then(response => response.json())
         .then(data => {
 

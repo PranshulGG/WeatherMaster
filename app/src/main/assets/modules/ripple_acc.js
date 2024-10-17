@@ -44,9 +44,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-const useSysFont = localStorage.getItem('useSysFont');
+const useSysFontPages = localStorage.getItem('useSysFont');
 
-if(useSysFont === 'true'){
+if(useSysFontPages === 'true'){
     document.documentElement.setAttribute('sys-font', 'true');
 } else{
     document.documentElement.setAttribute('sys-font', 'false');

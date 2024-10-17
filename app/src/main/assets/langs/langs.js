@@ -2906,6 +2906,40 @@ const translations = {
                     "背景カードアニメーション",
                     "Анімація фонової картки"
                 ],
+                                "Use system font": [
+                                    "Use system font",
+                                    "Utilice la fuente del sistema",
+                                    "Utiliser la police système",
+                                    "Systemschriftart verwenden",
+                                    "Usa il font di sistema",
+                                    "Utilizar sistema fon",
+                                    "Használja a rendszer fon",
+                                    "Использовать системный фон",
+                                    "Użyj systemu fon",
+                                    "Χρησιμοποιήστε το σύστημα fon",
+                                    "Utilizați fontul de sistem",
+                                    "Použite systémový fon",
+                                    "使用系统 fon",
+                                    "システムフォンを使用する",
+                                    "Використовуйте системний телефон"
+                                ],
+                                "Hide the 'New update available' toast after 5 seconds": [
+                                    "Hide the 'New update available' toast after 5 seconds",
+                                    "Ocultar el mensaje 'Nueva actualización disponible' después de 5 segundos",
+                                    "Masquer le toast « Nouvelle mise à jour disponible » après 5 secondes",
+                                    "Die Meldung „Neues Update verfügbar“ nach 5 Sekunden ausblenden",
+                                    "Nascondi il messaggio 'Nuovo aggiornamento disponibile' dopo 5 secondi",
+                                    "Ocultar o brinde 'Nova atualização disponível' após 5 segundos",
+                                    "5 másodperc elteltével rejtse el az „Új frissítés elérhető” feliratot",
+                                    "Скрыть уведомление «Доступно новое обновление» через 5 секунд",
+                                    "Ukryj komunikat „Dostępna nowa aktualizacja” po 5 sekundach",
+                                    "Απόκρυψη του τοστ «Διαθέσιμη νέα ενημέρωση» μετά από 5 δευτερόλεπτα",
+                                    "Ascundeți „Actualizare nouă disponibilă” după 5 secunde",
+                                    "Po 5 sekundách skryte prípitok „K dispozícii je nová aktualizácia“.",
+                                    "5 秒后隐藏“有新更新可用”提示",
+                                    "5秒後に「新しいアップデートが利用可能」のトーストを非表示にする",
+                                    "Через 5 секунд приховати повідомлення «Доступне нове оновлення»."
+                                ],
 };
 
 

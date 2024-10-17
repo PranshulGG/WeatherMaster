@@ -6,17 +6,13 @@ let combinedData = {
 function ReportFromhourly(data) {
     combinedData.hourlyData = data;
     
-    if (combinedData.hourlyData && combinedData.dailyData) {
         GenerateSummary(combinedData);
-    }
 }
 
 function ReportFromdaily(data) {
     combinedData.dailyData = data;
     
-    if (combinedData.hourlyData && combinedData.dailyData) {
         GenerateSummary(combinedData);
-    }
 }
 
 function GenerateSummary(data) {

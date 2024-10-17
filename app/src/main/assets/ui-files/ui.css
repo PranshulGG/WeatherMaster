@@ -2400,3 +2400,98 @@ moonPhaseProgress {
 
   border-radius: 50px;
 }
+
+
+.pollen_data{
+  margin: 10px;
+  background-color: var(--Surface);
+  margin-bottom: 5px;
+  border-radius: 10px 10px 5px 5px;
+  padding-bottom: 20px;
+  margin-top: 0px;
+}
+
+.available_pollen{
+  border-radius: 5px !important;
+}
+
+.pollen_data .pollen_heading{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--On-Surface-Variant);
+  padding: 10px;
+  border-bottom: 1px solid var(--Outline-Variant);
+  gap: 3px;
+}
+
+.pollen_data .pollen_heading p{
+  font-size: 18px;
+  font-family: var(--outfit);
+  margin: 0;
+}
+
+.pollen_data .pollen_heading md-icon{
+  font-size: 18px;
+}
+
+.pollen_data_divs .pollen_circles .Pollen_Icon_slot svg{
+width: 100%;
+max-width: 150px;
+}
+
+.pollen_data_divs{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+
+}
+
+.pollen_data_divs .pollen_circles{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.pollen_data_divs .pollen_circles .pollen_icon{
+  position: absolute;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  color: var(--On-Surface);
+  opacity: 0.8;
+  font-family: var(--google-normal);
+  font-size: 15px;
+}
+
+
+.pollen_data_divs .pollen_circles .pollen_icon i{
+  font-size: 18px;
+}
+
+.pollen_data_divs .pollen_circles .pollen_values{
+  position: absolute;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  bottom: -20px;
+  color: var(--On-Surface);
+  font-size: 16px;
+}
+
+.pollen_data_divs .pollen_circles .pollen_values p{
+  margin: 0;
+  font-family: var(--google-mid);
+
+}
+
+.pollen_data_divs .pollen_circles .pollen_values span{
+  margin: 0;
+  font-family: var(--outfit-mid);
+
+}
