@@ -2651,8 +2651,8 @@ const translations = {
         "🌤️ 穏やかな天気です。薄いジャケットやセーターがあるといいでしょう。",
         "🌤️ Мінлива погода. Легкої куртки або светра буде достатньо."
     ],
-    "👕 Warm day. A t-shirt and jeans or pants are suitable.": [
-        "👕 Warm day. A t-shirt and jeans or pants are suitable.",
+    "👕 Pleasantly warm. A t-shirt and jeans or pants are suitable.": [
+        "👕 Pleasantly warm. A t-shirt and jeans or pants are suitable.",
         "👕 Día cálido. Una camiseta y unos vaqueros o pantalones son adecuados.",
         "👕 Journée chaude. Un t-shirt et un jean ou un pantalon conviennent.",
         "👕 Warmer Tag. Ein T-Shirt und Jeans oder Hosen reichen aus.",

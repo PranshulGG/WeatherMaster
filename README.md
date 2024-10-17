@@ -2,17 +2,14 @@
 
 
 <div align="center">
-   <img src="https://github.com/PranshulGG/WeatherMaster/blob/master/preview/partly_cloudy_day.svg" alt="" width="150px">
+   <img src="https://github.com/PranshulGG/WeatherMaster/blob/master/preview/partly_cloudy_day.svg" alt="" width="120px">
 </div>
 <h1 align="center">
  WeatherMaster
 </h1>
-<table style="width: 100%; border-collapse: collapse;" align="center">
-  <tr>
-   <td style="text-align: center;"> <a href="https://github.com/PranshulGG/WeatherMaster/releases"><img alt="GitHub" src="https://censorship.no/img/github-badge.png" height="80"/></a></td>
-    <td style="text-align: center;"> <a href="https://apt.izzysoft.de/fdroid/index/apk/com.example.weathermaster"><img alt="GitHub" src="preview/download_Btn.png" height="80"/></a></td>
-  </tr>
-</table>
+<div align="center">
+ <a href="https://github.com/PranshulGG/WeatherMaster/releases"><img alt="GitHub" src="https://censorship.no/img/github-badge.png" height="80"/></a>
+   <a href="https://apt.izzysoft.de/fdroid/index/apk/com.example.weathermaster"><img alt="GitHub" src="preview/download_Btn.png" height="80"/></a></div>
 <br>
 
 `(Last updated on 10-15-2024 at 12:29 PM UTC)`
