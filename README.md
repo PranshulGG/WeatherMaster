@@ -62,7 +62,7 @@
 - 📍 **Location Picker:** Easily select and view weather information for different locations.
 - ⭐ **Save Favorite Locations:** Save your preferred locations for quick access to their weather updates.
 - 👗 **Clothing Recommendations:** Get suggestions on what to wear based on the current weather conditions.
-
+- 🌾 **Pollen Data (Europe Only):** View pollen levels for grass, trees, and weeds in your area.
 
 # 🌞 Weather providers:
 - [**open-meteo**](https://open-meteo.com)
