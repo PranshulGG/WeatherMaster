@@ -2915,7 +2915,7 @@ const translations = {
                                     "Utilizar sistema fon",
                                     "Használja a rendszer fon",
                                     "Использовать системный фон",
-                                    "Użyj systemu fon",
+                                    "Użyj czcionki systemowej",
                                     "Χρησιμοποιήστε το σύστημα fon",
                                     "Utilizați fontul de sistem",
                                     "Použite systémový fon",
