@@ -222,15 +222,15 @@ weatherConditionText{
 }
 
 .daily-conditions-wrap > div{
-    background-color: #0d1d2a;
-    border-radius: 15px;
+    background-color: #0d1d2a8c;
+    border-radius: 10px;
     padding-bottom: 45px;
     position: relative;
 }
 
 .daily-conditions-wrap > div svg{
-    height: 120px;
-    width: 120px;
+    height: 80px;
+    width: 80px;
     flex-shrink: 0;
 }
 
@@ -271,14 +271,16 @@ conditionicon{
 }
 
 .sunrise-sunset-forecast .sunrise-sunset-item{
-    background-color: #0d1d2a;
-    border-radius: 15px;
+    background-color: #0d1d2a8c;
+    border-radius: 10px;
     width: 100%;
+    margin-bottom: 20px;
+
 }
 
 .sunrise-sunset-forecast .sunrise-sunset-item > div > svg{
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
 }
 
 .sunrise-sunset-forecast .sunrise-sunset-item > div{

@@ -107,7 +107,11 @@
             <canvas id="bg_animation_stars" class="animation_canvas"></canvas>
             <canvas id="bg_animation_fog" class="animation_canvas" ></canvas>
             <canvas id="bg_animation_snow" class="animation_canvas" ></canvas>
+            <canvas id="bg_animation_leaves" class="animation_canvas" ></canvas>
 
+            <div class="control-panel-for-wind">
+                <input type="range" id="windSpeed" min="0" max="5" step="0.1" value="1" style="display: none; position: absolute; left: -99999px; pointer-events: none;">
+            </div>
         </div>
 
         <div class="froggie">
@@ -120,7 +124,7 @@
             <div class="icon-container-excessiveHeat">
                 <md-icon icon-outlined>info</md-icon>
             </div>
-            <p id="excessiveHeatText"><span data-translate="weather_alerts">Weather alerts</span><text data-translate="tap_to_see_more">Tap to see more...</text></p>
+            <p id="excessiveHeatText"><span data-translate="weather_alerts" style="font-size: 16px;">Weather alerts</span><text data-translate="tap_to_see_more">Tap to see more...</text></p>
 
         </div>
 

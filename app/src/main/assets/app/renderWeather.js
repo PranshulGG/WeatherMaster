@@ -1050,7 +1050,7 @@ function UvIndex(latitude, longitude) {
 
 
 function MoreDetails(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/forecast.json?key=KEys&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/forecast.json?key=MAIN_KEYS&q=${latSum},${lonSum}`)
         .then(response => response.json())
         .then(data => {
 
@@ -1203,7 +1203,7 @@ function MoreDetails(latSum, lonSum) {
 }
 
 function astronomyData(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=KEys&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=MAIN_KEYS&q=${latSum},${lonSum}`)
         .then(response => response.json())
         .then(data => {
 
@@ -1271,49 +1271,28 @@ function astronomyData(latSum, lonSum) {
 }
 
 
-let currentApiKeyAlertsIndex = 0;
-
 function FetchAlert(lat, lon){
+    fetch(`https://api.weatherapi.com/v1/alerts.json?key=MAIN_KEYS&q=${lat},${lon}`)
+    .then(response => response.json())
+    .then(data => {
 
-
-const apiKeyAlerts = apiKeysAlerts[currentApiKeyAlertsIndex];
-const apiUrlAlerts = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,daily&appid=${apiKeyAlerts}`;
-
-fetch(apiUrlAlerts)
-  .then(response => {
-      if (!response.ok) {
-          throw new Error('Network response was not ok');
-      }
-      return response.json();
-  })
-  .then(data => {
-      if (data.alerts) {
-          console.log(data.alerts);
-          const alertEvent = data.alerts[0].event;
-
+        if(data.alerts.alert && data.alerts.alert.length > 0){
           document.querySelector('.weatherCommentsDiv').classList.add('alertOpened');
           document.querySelector('.excessiveHeat').hidden = false;
-      localStorage.setItem('AlertCache', JSON.stringify(data.alerts));
+      localStorage.setItem('AlertCache', JSON.stringify(data.alerts.alert));
 
       } else {
           console.log('No alerts');
           document.querySelector('.weatherCommentsDiv').classList.remove('alertOpened');
           document.querySelector('.excessiveHeat').hidden = true;
-      localStorage.removeItem('AlertCache', JSON.stringify(data.alerts));
+      localStorage.removeItem('AlertCache', JSON.stringify(data.alerts.alert));
 
       }
+
+
   })
-  .catch(error => {
-      console.error('Error fetching weather alerts:', error);
-      if (currentApiKeyAlertsIndex < apiKeysAlerts.length - 1) {
-          currentApiKeyAlertsIndex++;
-          console.log(`Switching to API key index ${currentApiKeyAlertsIndex} for alerts`);
-          FetchAlert(lat, lon);
-      } else {
-          console.error('All alert API keys failed. Unable to fetch data.');
-      }
-  });
 }
+
 
 function clickForecastItem(index){
     localStorage.setItem('ClickedForecastItem', index)

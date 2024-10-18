@@ -215,6 +215,7 @@ function GetWeatherLabel(iconCode, isDay) {
             removeSnow()
             removeStars()
             removeThunder()
+            displayLeaves()
             }
             return 'clear_sky'
 
@@ -225,6 +226,7 @@ function GetWeatherLabel(iconCode, isDay) {
             removeRain()
             removeFog()
             removeSnow()
+            displayLeaves()
             removeStars()
             removeThunder()}
             return 'mostly_clear'
@@ -236,6 +238,7 @@ function GetWeatherLabel(iconCode, isDay) {
             removeRain()
             removeFog()
             removeSnow()
+            removeLeaves()
             removeStars()
             removeThunder()}
             return 'partly_cloudy'
@@ -245,6 +248,7 @@ function GetWeatherLabel(iconCode, isDay) {
             }else{
             displayClouds()
             removeRain()
+            removeLeaves()
             removeFog()
             removeSnow()
             removeStars()
@@ -258,6 +262,7 @@ function GetWeatherLabel(iconCode, isDay) {
             removeRain()
             displayFog()
             removeSnow()
+            removeLeaves()
             removeStars()
             removeThunder()}
             return 'fog'
@@ -269,6 +274,7 @@ function GetWeatherLabel(iconCode, isDay) {
             displayRain()
             removeFog()
             removeSnow()
+            removeLeaves()
             removeStars()
             removeThunder()}
             return 'drizzle'
@@ -279,6 +285,7 @@ function GetWeatherLabel(iconCode, isDay) {
             removeClouds()
             displayRain()
             removeFog()
+            removeLeaves()
             removeSnow()
             removeStars()
             removeThunder()}
@@ -290,6 +297,7 @@ function GetWeatherLabel(iconCode, isDay) {
             removeClouds()
             displayRain()
             removeFog()
+            removeLeaves()
             removeSnow()
             removeStars()
             removeThunder()}
@@ -300,6 +308,7 @@ function GetWeatherLabel(iconCode, isDay) {
             }else{
             removeClouds()
             displayRain()
+            removeLeaves()
             removeFog()
             removeSnow()
             removeStars()
@@ -312,6 +321,7 @@ function GetWeatherLabel(iconCode, isDay) {
             removeClouds()
             displayRain()
             removeFog()
+            removeLeaves()
             removeSnow()
             removeStars()
             removeThunder()}
@@ -323,6 +333,7 @@ function GetWeatherLabel(iconCode, isDay) {
             removeClouds()
             removeRain()
             removeFog()
+            removeLeaves()
             displaySnow()
             removeStars()
             removeThunder()}
@@ -334,6 +345,7 @@ function GetWeatherLabel(iconCode, isDay) {
             removeClouds()
             removeRain()
             removeFog()
+            removeLeaves()
             displaySnow()
             removeStars()
             removeThunder()}
@@ -345,6 +357,7 @@ function GetWeatherLabel(iconCode, isDay) {
             removeClouds()
             removeRain()
             removeFog()
+            removeLeaves()
             displaySnow()
             removeStars()
             removeThunder()}
@@ -356,6 +369,7 @@ function GetWeatherLabel(iconCode, isDay) {
             removeClouds()
             removeRain()
             removeFog()
+            removeLeaves()
             displaySnow()
             removeStars()
             removeThunder()}
@@ -367,6 +381,7 @@ function GetWeatherLabel(iconCode, isDay) {
             removeClouds()
             displayRain()
             removeFog()
+            removeLeaves()
             removeSnow()
             removeStars()
             removeThunder()}
@@ -378,6 +393,7 @@ function GetWeatherLabel(iconCode, isDay) {
             removeClouds()
             displayRain()
             removeFog()
+            removeLeaves()
             removeSnow()
             removeStars()
             removeThunder()}
@@ -389,6 +405,7 @@ function GetWeatherLabel(iconCode, isDay) {
             removeClouds()
             removeRain()
             removeFog()
+            removeLeaves()
             displaySnow()
             removeStars()
             removeThunder()}
@@ -401,6 +418,7 @@ function GetWeatherLabel(iconCode, isDay) {
             removeRain()
             removeFog()
             displaySnow()
+            removeLeaves()
             removeStars()
             removeThunder()}
             return 'heavy_snow_showers'
@@ -410,6 +428,7 @@ function GetWeatherLabel(iconCode, isDay) {
             }else{
             removeClouds()
             displayRain()
+            removeLeaves()
             removeFog()
             removeSnow()
             removeStars()
@@ -421,6 +440,7 @@ function GetWeatherLabel(iconCode, isDay) {
             }else{
             removeClouds()
             displayRain()
+            removeLeaves()
             removeFog()
             removeSnow()
             removeStars()
@@ -435,9 +455,10 @@ function GetWeatherLabel(iconCode, isDay) {
             removeClouds()
             removeRain()
             removeFog()
+            removeLeaves()
             removeSnow()
-            displayStars()
-            removeThunder()}
+            removeThunder()
+            displayStars()}
             return 'clear_sky'
 
         } else if (iconCode === 1) {
@@ -447,6 +468,7 @@ function GetWeatherLabel(iconCode, isDay) {
             removeRain()
             removeFog()
             removeSnow()
+            removeLeaves()
             displayStars()
             removeThunder()}
             return 'mostly_clear'
@@ -458,6 +480,7 @@ function GetWeatherLabel(iconCode, isDay) {
             removeRain()
             removeFog()
             removeSnow()
+            removeLeaves()
             removeStars()
             removeThunder()}
             return 'partly_cloudy'
@@ -468,6 +491,7 @@ function GetWeatherLabel(iconCode, isDay) {
             displayClouds()
             removeRain()
             removeFog()
+            removeLeaves()
             removeSnow()
             removeStars()
             removeThunder()}
@@ -477,6 +501,7 @@ function GetWeatherLabel(iconCode, isDay) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
             removeClouds()
+            removeLeaves()
             removeRain()
             displayFog()
             removeSnow()
@@ -488,6 +513,7 @@ function GetWeatherLabel(iconCode, isDay) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
             removeClouds()
+            removeLeaves()
             displayRain()
             removeFog()
             removeSnow()
@@ -502,6 +528,7 @@ function GetWeatherLabel(iconCode, isDay) {
             displayRain()
             removeFog()
             removeSnow()
+            removeLeaves()
             removeStars()
             removeThunder()}
             return 'freezing_drizzle'
@@ -512,6 +539,7 @@ function GetWeatherLabel(iconCode, isDay) {
             removeClouds()
             displayRain()
             removeFog()
+            removeLeaves()
             removeSnow()
             removeStars()
             removeThunder()}
@@ -522,6 +550,7 @@ function GetWeatherLabel(iconCode, isDay) {
             }else{
             removeClouds()
             displayRain()
+            removeLeaves()
             removeFog()
             removeSnow()
             removeStars()
@@ -532,6 +561,7 @@ function GetWeatherLabel(iconCode, isDay) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
             removeClouds()
+            removeLeaves()
             displayRain()
             removeFog()
             removeSnow()
@@ -544,6 +574,7 @@ function GetWeatherLabel(iconCode, isDay) {
             }else{
             removeClouds()
             removeRain()
+            removeLeaves()
             removeFog()
             displaySnow()
             removeStars()
@@ -555,6 +586,7 @@ function GetWeatherLabel(iconCode, isDay) {
             }else{
             removeClouds()
             removeRain()
+            removeLeaves()
             removeFog()
             displaySnow()
             removeStars()
@@ -568,6 +600,7 @@ function GetWeatherLabel(iconCode, isDay) {
             removeRain()
             removeFog()
             displaySnow()
+            removeLeaves()
             removeStars()
             removeThunder()}
             return 'heavy_intensity_snow'
@@ -580,6 +613,7 @@ function GetWeatherLabel(iconCode, isDay) {
             removeFog()
             displaySnow()
             removeStars()
+            removeLeaves()
             removeThunder()}
             return 'snow_grains'
 
@@ -590,6 +624,7 @@ function GetWeatherLabel(iconCode, isDay) {
             displayRain()
             removeFog()
             removeSnow()
+            removeLeaves()
             removeStars()
             removeThunder()}
             return 'rain_showers'
@@ -601,6 +636,7 @@ function GetWeatherLabel(iconCode, isDay) {
             displayRain()
             removeFog()
             removeSnow()
+            removeLeaves()
             removeStars()
             removeThunder()}
             return 'heavy_rain_showers'
@@ -612,6 +648,7 @@ function GetWeatherLabel(iconCode, isDay) {
             removeRain()
             removeFog()
             displaySnow()
+            removeLeaves()
             removeStars()
             removeThunder()}
             return 'slight_snow_showers'
@@ -622,6 +659,7 @@ function GetWeatherLabel(iconCode, isDay) {
             removeClouds()
             removeRain()
             removeFog()
+            removeLeaves()
             displaySnow()
             removeStars()
             removeThunder()}
@@ -633,6 +671,7 @@ function GetWeatherLabel(iconCode, isDay) {
             removeClouds()
             displayRain()
             removeFog()
+            removeLeaves()
             removeSnow()
             removeStars()
             displayThunder()}
@@ -644,6 +683,7 @@ function GetWeatherLabel(iconCode, isDay) {
             removeClouds()
             displayRain()
             removeFog()
+            removeLeaves()
             removeSnow()
             removeStars()
             displayThunder()}

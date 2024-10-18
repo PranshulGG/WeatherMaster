@@ -590,6 +590,117 @@ function createSnow() {
   return { clearCanvas, startAnimation };
 }
 
+// leaves
+
+function createFallingLeaves() {
+    const leafSVG = new Image();
+    leafSVG.src = 'icons/leaf.png';
+
+    const canvas = document.getElementById('bg_animation_leaves');
+    const ctx = canvas.getContext('2d');
+
+    function adjustCanvasSize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    let leaves = [];
+    const leafCount = 8;
+    const windSpeedControl = document.getElementById('windSpeed');
+    let baseWindSpeed = parseFloat(windSpeedControl.value);
+    let animationFrameId;
+
+    for (let i = 0; i < leafCount; i++) {
+        leaves.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            speed: Math.random() * 2 + 1,
+            size: Math.random() * 0.01 + 0.2,
+            angle: Math.random() * Math.PI * 2,
+            angularSpeed: Math.random() * 0.1 - 0.05
+        });
+    }
+
+    let windTime = 0;
+
+    function getRandomWindSpeed(baseSpeed) {
+        const waveFrequency = 0.01;
+        const randomFactor = Math.random() * 0.5;
+        windTime += 0.01;
+        return baseSpeed + Math.sin(windTime) * 2 + randomFactor;
+    }
+
+    function drawLeaves() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const windSpeed = getRandomWindSpeed(baseWindSpeed);
+
+        leaves.forEach((leaf) => {
+            leaf.y += leaf.speed;
+            leaf.x += windSpeed;
+            leaf.angle += leaf.angularSpeed;
+
+            if (leaf.y > canvas.height) leaf.y = -leafSVG.height * leaf.size;
+            if (leaf.x > canvas.width) leaf.x = -leafSVG.width * leaf.size;
+            if (leaf.x < -leafSVG.width * leaf.size) leaf.x = canvas.width;
+
+            ctx.save();
+            ctx.translate(leaf.x, leaf.y);
+            ctx.rotate(leaf.angle);
+            ctx.drawImage(
+                leafSVG,
+                -leafSVG.width * leaf.size / 2,
+                -leafSVG.height * leaf.size / 2,
+                leafSVG.width * leaf.size,
+                leafSVG.height * leaf.size
+            );
+            ctx.restore();
+        });
+
+        animationFrameId = requestAnimationFrame(drawLeaves);
+    }
+
+    window.addEventListener('resize', () => {
+        adjustCanvasSize();
+        initLeaves();
+    });
+
+    function initLeaves() {
+        leaves = [];
+        for (let i = 0; i < leafCount; i++) {
+            leaves.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                speed: Math.random() * 2 + 1,
+                size: Math.random() * 0.01 + 0.2,
+                angle: Math.random() * Math.PI * 2,
+                angularSpeed: Math.random() * 0.1 - 0.05
+            });
+        }
+    }
+
+    let animationRunning = false;
+
+    function startAnimation() {
+        if (!animationRunning) {
+            animationRunning = true;
+            adjustCanvasSize();
+            initLeaves();
+            drawLeaves();
+        }
+    }
+
+    function clearCanvas() {
+        cancelAnimationFrame(animationFrameId);
+        leaves = [];
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    return { clearCanvas, startAnimation };
+}
+
+
+
 
 
 const snowAnimation = createSnow();
@@ -598,6 +709,7 @@ const cloudsAnimation = createClouds();
 const thunderAnimation = createThunder();
 const starsAnimation = createStars();
 const fogAnimation = createFog();
+const leavesAnimation = createFallingLeaves();
 
 
 
@@ -628,6 +740,10 @@ function displayThunder(){
   thunderAnimation.startAnimation()
 }
 
+function displayLeaves(){
+leavesAnimation.startAnimation()
+}
+
 // remove animations
 
 
@@ -654,3 +770,8 @@ function removeFog(){
 function removeThunder(){
   thunderAnimation.clearCanvas()
 }
+
+function removeLeaves(){
+    leavesAnimation.clearCanvas()
+  }
+
