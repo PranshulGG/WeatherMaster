@@ -1050,7 +1050,7 @@ function UvIndex(latitude, longitude) {
 
 
 function MoreDetails(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/forecast.json?key=MAIN_KEYS&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/forecast.json?key=MAIN&q=${latSum},${lonSum}`)
         .then(response => response.json())
         .then(data => {
 
@@ -1092,7 +1092,7 @@ function MoreDetails(latSum, lonSum) {
                     if (SelectedPrecipitationUnit === 'in') {
                         Precipitation = mainData.totalprecip_in.toFixed(2) + ' in';
                     } else {
-                        Precipitation = inchesToMm(mainData.totalprecip_in.toFixed(2)) + ' mm'
+                        Precipitation = inchesToMm(mainData.totalprecip_in).toFixed(2) + ' mm'
                     }
                     let precipitationMessage;
         if (mainData.totalprecip_in > 0) {
@@ -1203,7 +1203,7 @@ function MoreDetails(latSum, lonSum) {
 }
 
 function astronomyData(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=MAIN_KEYS&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=MAIN&q=${latSum},${lonSum}`)
         .then(response => response.json())
         .then(data => {
 
@@ -1272,7 +1272,7 @@ function astronomyData(latSum, lonSum) {
 
 
 function FetchAlert(lat, lon){
-    fetch(`https://api.weatherapi.com/v1/alerts.json?key=MAIN_KEYS&q=${lat},${lon}`)
+    fetch(`https://api.weatherapi.com/v1/alerts.json?key=MAIN&q=${lat},${lon}`)
     .then(response => response.json())
     .then(data => {
 
