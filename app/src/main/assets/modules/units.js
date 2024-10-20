@@ -783,10 +783,10 @@ const ClearNightFrog = [
 ]
 
 const PartlyCloudyNightFrog = [
-    "https://gitlab.com/bignutty/google-weather-icons/-/blob/main/froggie/v2/mobile/07-partly-cloudy-night/07-partly-cloudy-night-creek-fireflies.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/blob/main/froggie/v2/mobile/07-partly-cloudy-night/07-partly-cloudy-night-field-fireflies.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/blob/main/froggie/v2/mobile/07-partly-cloudy-night/07-partly-cloudy-night-hills-smores.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/blob/main/froggie/v2/mobile/07-partly-cloudy-night/07-partly-cloudy-night-orchard-eating.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/07-partly-cloudy-night/07-partly-cloudy-night-creek-fireflies.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/07-partly-cloudy-night/07-partly-cloudy-night-field-fireflies.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/07-partly-cloudy-night/07-partly-cloudy-night-hills-smores.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/07-partly-cloudy-night/07-partly-cloudy-night-orchard-eating.png?ref_type=heads",
 ]
 
 
