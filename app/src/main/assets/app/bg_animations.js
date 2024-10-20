@@ -59,14 +59,15 @@ function createRain() {
       });
       animationFrameId = requestAnimationFrame(animate);
   }
+  let animationRunning = false;
 
   function clearCanvas() {
       cancelAnimationFrame(animationFrameId);
       raindrops = []; 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      animationRunning = false;
   }
 
-  let animationRunning = false;
 
   function startAnimationRain(){
     if (!animationRunning) {
@@ -203,6 +204,8 @@ function createThunder() {
       lightning = [];
       clearCanvasArea();
       context.clearRect(0, 0, canvas.width, canvas.height);
+   animationRunning = false;
+
   }
 
   return { clearCanvas, startAnimation };
@@ -294,7 +297,8 @@ function createClouds() {
   function clearCanvas() {
       cancelAnimationFrame(animationFrameId); 
       cloudArray = []; 
-      ctx.clearRect(0, 0, canvas.width, canvas.height); 
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      animationRunning = false;
   }
 
   return { clearCanvas, startAnimation };
@@ -395,6 +399,7 @@ function createStars() {
       cancelAnimationFrame(animationFrameId);
       starsArray = [];
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      animationRunning = false;
   }
 
   return { clearCanvas, startAnimation };
@@ -488,7 +493,8 @@ function createFog() {
   function clearCanvas() {
       cancelAnimationFrame(animationFrameId); 
       cloudArray = []; 
-      ctx.clearRect(0, 0, canvas.width, canvas.height); 
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      animationRunning = false;
   }
 
   return { clearCanvas, startAnimation };
@@ -585,6 +591,7 @@ function createSnow() {
       cancelAnimationFrame(animationFrameId);
       snowflakesArray = [];
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      animationRunning = false;
   }
 
   return { clearCanvas, startAnimation };
@@ -694,6 +701,7 @@ function createFallingLeaves() {
         cancelAnimationFrame(animationFrameId);
         leaves = [];
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        animationRunning = false;
     }
 
     return { clearCanvas, startAnimation };

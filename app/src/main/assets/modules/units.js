@@ -710,157 +710,238 @@ function getWeatherLabelInLang(iconCode, isDay, langCode) {
 // froggie
 
 
+const sunnyFrog = [
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/01-sunny/01-sunny-beach-reading.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/01-sunny/01-sunny-creek-swimming.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/01-sunny/01-sunny-field-kite.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/01-sunny/01-sunny-orchard-picking.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/01-sunny/01-sunny-home-laundry_f.png?ref_type=heads",
+]
+
+const mostlySunnyFrog = [
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/02-mostly-sunny/02-mostly-sunny-citypark-picnic.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/02-mostly-sunny/02-mostly-sunny-beach-sunscreen.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/02-mostly-sunny/02-mostly-sunny-home-laundry.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/02-mostly-sunny/02-mostly-sunny-beach-sandcastle.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/02-mostly-sunny/02-mostly-sunny-rooftop-pinacolada.png?ref_type=heads",
+]
+
+const PartlyCloudyFrog = [
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/03-partly-cloudy-day/03-partly-cloudy-day-field-hiking_f.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/03-partly-cloudy-day/03-partly-cloudy-day-home-flowers.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/03-partly-cloudy-day/03-partly-cloudy-day-creek-feet.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/03-partly-cloudy-day/03-partly-cloudy-day-field-biking_c.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/03-partly-cloudy-day/03-partly-cloudy-day-citypark-ukelele.png?ref_type=heads",
+]
+
+const OvercastFrog = [
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/09-cloudy/09-cloudy-home-flowers.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/09-cloudy/09-cloudy-orchard-watching.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/09-cloudy/09-cloudy-hills-coffee.png?ref_type=heads"
+]
+
+const FogFrog = [
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/26-haze-fog-dust-smoke/26-haze-fog-dust-smoke-bridge.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/26-haze-fog-dust-smoke/26-haze-fog-dust-smoke-fruit-stand.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/26-haze-fog-dust-smoke/26-haze-fog-dust-smoke-mountain.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/26-haze-fog-dust-smoke/26-haze-fog-dust-smoke-pier.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/26-haze-fog-dust-smoke/26-haze-fog-dust-smoke-field-lantern.png?ref_type=heads",
+]
+
+const RainFrog = [
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/11-rain/11-rain-creek-leaf.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/11-rain/11-rain-home-inside.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/04-mostly-cloudy-day/04-mostly-cloudy-day-orchard-treeswing_f.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/12-heavy-rain/12-heavy-rain-busstop-umbrella.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/12-heavy-rain/12-heavy-rain-cafe-sitting-singing.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/11-rain/11-shower-rain-field-leaf.png?ref_type=heads"
+]
+
+const SnowFrog = [
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/15-snow-showers-snow/15-snow-showers-snow-citypark-snowman.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/15-snow-showers-snow/15-snow-showers-snow-home-shoveling.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/15-snow-showers-snow/15-snow-showers-snow-creek-iceskating.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/17-heavy-snow-blizzard/17-heavy-snow-blizzard-home-inside.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/16-blowing-snow/16-blowing-snow-field-snowman.png?ref_type=heads",
+]
+
+const ThunderStormFrog = [
+    "https://gitlab.com/bignutty/google-weather-icons/-/blob/main/froggie/v2/mobile/22-iso-thunderstorms/22-iso-thunderstorms-home-inside.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/blob/main/froggie/v2/mobile/22-iso-thunderstorms/22-iso-thunderstorms-cafe-looking-outside.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/blob/main/froggie/v2/mobile/22-iso-thunderstorms/22-iso-thunderstorms-busstop-newspaper.png?ref_type=heads",
+
+]
+
+// night ones
+
+const ClearNightFrog = [
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/05-clear/05-clear-creek-stars.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/05-clear/05-clear-field-lanterns.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/05-clear/05-clear-orchard-fireflies.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/05-clear/05-clear-home-lounging.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/05-clear/05-clear-hills-telescope.png?ref_type=heads",
+]
+
+const PartlyCloudyNightFrog = [
+    "https://gitlab.com/bignutty/google-weather-icons/-/blob/main/froggie/v2/mobile/07-partly-cloudy-night/07-partly-cloudy-night-creek-fireflies.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/blob/main/froggie/v2/mobile/07-partly-cloudy-night/07-partly-cloudy-night-field-fireflies.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/blob/main/froggie/v2/mobile/07-partly-cloudy-night/07-partly-cloudy-night-hills-smores.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/blob/main/froggie/v2/mobile/07-partly-cloudy-night/07-partly-cloudy-night-orchard-eating.png?ref_type=heads",
+]
+
+
+
 function GetFroggieIcon(iconCode, isDay) {
 
 
     if (isDay === 1) {
         if (iconCode === 0) {
-            return 'froggie/01d.png';
+            return sunnyFrog[Math.floor(Math.random() * sunnyFrog.length)];
         } else if (iconCode === 1) {
-            return 'froggie/02d.png';
-        } else if (iconCode === 2) { 
-            return 'froggie/02d.png';
+            return mostlySunnyFrog[Math.floor(Math.random() * mostlySunnyFrog.length)];
+        } else if (iconCode === 2) {
+            return PartlyCloudyFrog[Math.floor(Math.random() * PartlyCloudyFrog.length)];
 
         } else if (iconCode === 3) {
-            return 'froggie/03d.png';
+            return OvercastFrog[Math.floor(Math.random() * OvercastFrog.length)];
 
         } else if (iconCode === 45 || iconCode === 48) {
-            return 'froggie/50d.png';
+            return FogFrog[Math.floor(Math.random() * FogFrog.length)];
 
         } else if (iconCode === 51 || iconCode === 53 || iconCode === 55) {
 
-            return 'froggie/10d.png';
+            return DrizzleFrog[Math.floor(Math.random() * DrizzleFrog.length)];
 
         } else if (iconCode === 56 || iconCode === 57) {
 
-            return 'froggie/10d.png';
+            return RainFrog[Math.floor(Math.random() * RainFrog.length)];
 
         } else if (iconCode === 61 || iconCode === 63) {
 
-            return 'froggie/09d.png';
+            return RainFrog[Math.floor(Math.random() * RainFrog.length)];
 
         } else if (iconCode === 65) {
 
-            return 'froggie/09d.png';
+            return RainFrog[Math.floor(Math.random() * RainFrog.length)];
 
         } else if (iconCode === 66 || iconCode === 67) {
 
-            return 'froggie/hail.png';
+            return SnowFrog[Math.floor(Math.random() * SnowFrog.length)];
 
         } else if (iconCode === 71) {
 
-            return 'froggie/13d.png';
+            return SnowFrog[Math.floor(Math.random() * SnowFrog.length)];
 
         } else if (iconCode === 73) {
 
-            return 'froggie/flurries.png';
+            return SnowFrog[Math.floor(Math.random() * SnowFrog.length)];
 
         } else if (iconCode === 75) {
 
-            return 'froggie/13d.png';
+            return SnowFrog[Math.floor(Math.random() * SnowFrog.length)];
 
         } else if (iconCode === 77) {
 
-            return 'froggie/snowgrains.png';
+            return SnowFrog[Math.floor(Math.random() * SnowFrog.length)];
 
         } else if (iconCode === 80 || iconCode === 81) {
 
-            return 'froggie/heavy_rain.png';
+            return RainFrog[Math.floor(Math.random() * RainFrog.length)];
 
         } else if (iconCode === 82) {
 
-            return 'froggie/heavy_rain.png';
+            return RainFrog[Math.floor(Math.random() * RainFrog.length)];
 
         } else if (iconCode === 85) {
 
-            return 'froggie/13d.png';
+            return SnowFrog[Math.floor(Math.random() * SnowFrog.length)];
 
         } else if (iconCode === 86) {
 
-            return 'froggie/flurries.png';
+            return SnowFrog[Math.floor(Math.random() * SnowFrog.length)];
 
         } else if (iconCode === 95) {
 
-            return 'froggie/11d.png'
+            return ThunderStormFrog[Math.floor(Math.random() * ThunderStormFrog.length)];
 
         } else if (iconCode === 96 || iconCode === 99) {
 
-            return 'froggie/strong_thunder.png'
+            return ThunderStormFrog[Math.floor(Math.random() * ThunderStormFrog.length)];
 
         }
     } else {
         if (iconCode === 0) {
-            return 'froggie/01n.png';
+            return ClearNightFrog[Math.floor(Math.random() * ClearNightFrog.length)];
         } else if (iconCode === 1) {
-            return 'froggie/02n.png';
-        } else if (iconCode === 2) { 
-            return 'froggie/02n.png';
+            return ClearNightFrog[Math.floor(Math.random() * ClearNightFrog.length)];
+        } else if (iconCode === 2) {
+            return PartlyCloudyNightFrog[Math.floor(Math.random() * PartlyCloudyNightFrog.length)];
 
         } else if (iconCode === 3) {
-            return 'froggie/03n.png';
+            return OvercastFrog[Math.floor(Math.random() * OvercastFrog.length)];
 
         } else if (iconCode === 45 || iconCode === 48) {
-            return 'froggie/50n.png';
+            return FogFrog[Math.floor(Math.random() * FogFrog.length)];
 
         } else if (iconCode === 51 || iconCode === 53 || iconCode === 55) {
 
-            return 'froggie/10n.png';
+            return DrizzleFrog[Math.floor(Math.random() * DrizzleFrog.length)];
 
         } else if (iconCode === 56 || iconCode === 57) {
 
-            return 'froggie/10n.png';
+            return RainFrog[Math.floor(Math.random() * RainFrog.length)];
 
         } else if (iconCode === 61 || iconCode === 63) {
 
-            return 'froggie/09n.png';
+            return RainFrog[Math.floor(Math.random() * RainFrog.length)];
 
         } else if (iconCode === 65) {
 
-            return 'froggie/09n.png';
+            return RainFrog[Math.floor(Math.random() * RainFrog.length)];
 
         } else if (iconCode === 66 || iconCode === 67) {
 
-            return 'froggie/hail.png';
+            return SnowFrog[Math.floor(Math.random() * SnowFrog.length)];
 
         } else if (iconCode === 71) {
 
-            return 'froggie/13n.png';
+            return SnowFrog[Math.floor(Math.random() * SnowFrog.length)];
 
         } else if (iconCode === 73) {
 
-            return 'froggie/flurries.png';
+            return SnowFrog[Math.floor(Math.random() * SnowFrog.length)];
 
         } else if (iconCode === 75) {
 
-            return 'froggie/13n.png';
+            return SnowFrog[Math.floor(Math.random() * SnowFrog.length)];
 
         } else if (iconCode === 77) {
 
-            return 'froggie/snowgrains.png';
+            return SnowFrog[Math.floor(Math.random() * SnowFrog.length)];
 
         } else if (iconCode === 80 || iconCode === 81) {
 
-            return 'froggie/heavy_rain.png';
+            return RainFrog[Math.floor(Math.random() * RainFrog.length)];
 
         } else if (iconCode === 82) {
 
-            return 'froggie/heavy_rain.png';
+            return RainFrog[Math.floor(Math.random() * RainFrog.length)];
 
         } else if (iconCode === 85) {
 
-            return 'froggie/13n.png';
+            return SnowFrog[Math.floor(Math.random() * SnowFrog.length)];
 
         } else if (iconCode === 86) {
 
-            return 'froggie/flurries.png';
+            return SnowFrog[Math.floor(Math.random() * SnowFrog.length)];
 
         } else if (iconCode === 95) {
 
-            return 'froggie/11n.png'
+            return ThunderStormFrog[Math.floor(Math.random() * ThunderStormFrog.length)];
 
         } else if (iconCode === 96 || iconCode === 99) {
 
-            return 'froggie/strong_thunder.png'
+            return ThunderStormFrog[Math.floor(Math.random() * ThunderStormFrog.length)];
 
         }
     }
@@ -870,7 +951,6 @@ function GetFroggieIcon(iconCode, isDay) {
 
     return froggie
 }
-
 
 // color theme
 
