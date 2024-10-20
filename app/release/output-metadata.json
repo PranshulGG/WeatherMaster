@@ -11,8 +11,8 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 60,
-      "versionName": "1.6.8 (W)",
+      "versionCode": 61,
+      "versionName": "1.6.9 (W)",
       "outputFile": "app-release.apk"
     }
   ],

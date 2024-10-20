@@ -89,6 +89,8 @@ function HourlyWeather(data) {
 
         const rainMeterBarItem = document.createElement('rainMeterBarItem');
 
+            UvIndex(data.hourly.uv_index[0])
+
 
         let PrecAmount;
 
@@ -955,20 +957,9 @@ function getColor(value, type) {
 // uv index
 
 
-function UvIndex(latitude, longitude) {
-    const url = `https://currentuvindex.com/api/v1/uvi?latitude=${latitude}&longitude=${longitude}`;
-    const option = { method: 'GET', headers: { Accept: 'application/json' } };
+function UvIndex(uvIndexValue) {
 
-    fetch(url, option)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            const now = data.now;
-            const uvIndex = now.uvi;
+            const uvIndex = uvIndexValue;
 
 
             if (uvIndex >= 0 && uvIndex <= 1) {
@@ -1044,13 +1035,12 @@ function UvIndex(latitude, longitude) {
             }
 
 
-        })
 
 }
 
 
 function MoreDetails(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/forecast.json?key=MAIN&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/forecast.json?key=KEYS&q=${latSum},${lonSum}`)
         .then(response => response.json())
         .then(data => {
 
@@ -1203,7 +1193,7 @@ function MoreDetails(latSum, lonSum) {
 }
 
 function astronomyData(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=MAIN&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=KEYS&q=${latSum},${lonSum}`)
         .then(response => response.json())
         .then(data => {
 
@@ -1272,7 +1262,7 @@ function astronomyData(latSum, lonSum) {
 
 
 function FetchAlert(lat, lon){
-    fetch(`https://api.weatherapi.com/v1/alerts.json?key=MAIN&q=${lat},${lon}`)
+    fetch(`https://api.weatherapi.com/v1/alerts.json?key=KEYS&q=${lat},${lon}`)
     .then(response => response.json())
     .then(data => {
 

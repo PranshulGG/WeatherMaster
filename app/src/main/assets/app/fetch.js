@@ -5,7 +5,7 @@ function getCountryName(code) {
 
 
 async function DecodeWeather(lat, lon) {
-  const apiKey = 'MAIN';
+  const apiKey = 'KEYS';
   const url = `https://api.timezonedb.com/v2.1/get-time-zone?key=${apiKey}&format=json&by=position&lat=${lat}&lng=${lon}`;
 
   try {
@@ -67,9 +67,7 @@ showLoader();
 
       FetchAirQuality(lat, lon, timezone)
 
-      // send uv
 
-      UvIndex(lat, lon)
 
       // send other data
 
