@@ -66,6 +66,74 @@ function useAutoCurrentLocation(){
             DecodeWeather(currentLocation.latitude, currentLocation.longitude);
 
 
+            const cityLat = currentLocation.latitude
+            const cityLon = currentLocation.longitude
+
+            let currentApiKeyCityNameIndex = 0;
+
+            fetchCityName(cityLat, cityLon)
+
+            document.getElementById('saveLocationCurrent').setAttribute('data-lat', cityLat)
+            document.getElementById('saveLocationCurrent').setAttribute('data-long', cityLon)
+
+            function fetchCityName(cityLat, cityLon) {
+              const apiKeyCityName = apiKeysCityName[currentApiKeyCityNameIndex];
+              const urlcityName = `https://api.opencagedata.com/geocode/v1/json?q=${cityLat}+${cityLon}&key=${apiKeyCityName}`;
+
+              fetch(urlcityName)
+                .then(response => {
+                  if (!response.ok) {
+                    fetchCityName(cityLat, cityLon);
+                    throw new Error('Network response was not ok');
+                  }
+                  return response.json();
+                })
+                .then(data => {
+                  if (data.results.length > 0) {
+                    const components = data.results[0].components;
+                    const city = components.city || components.town || components.village;
+                    const stateMain = components.state;
+                    const countryNameText = components.country || 'No country'
+
+                    if (!city) {
+                      document.getElementById('city-name').innerHTML = `${stateMain}, ${countryNameText}`;
+                      document.getElementById('SelectedLocationText').innerHTML = `${stateMain}, ${countryNameText}`;
+                      localStorage.setItem('CurrentLocationName', `${stateMain}, ${countryNameText}`)
+                            document.getElementById('currentLocationName').textContent = `${stateMain}, ${countryNameText}`;
+
+              document.getElementById('saveLocationCurrent').setAttribute('data-location-text', `${stateMain}, ${countryNameText}`)
+
+                    } else if (!stateMain) {
+                      document.getElementById('city-name').innerHTML = `${city}, ${countryNameText}`;
+                      document.getElementById('SelectedLocationText').innerHTML = `${city}, ${countryNameText}`;
+                      localStorage.setItem('CurrentLocationName', `${city}, ${countryNameText}`)
+                            document.getElementById('currentLocationName').textContent = `${city}, ${countryNameText}`;
+                       document.getElementById('saveLocationCurrent').setAttribute('data-location-text', `${city}, ${countryNameText}`)
+
+                    } else {
+                      document.getElementById('city-name').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
+                      document.getElementById('SelectedLocationText').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
+                      localStorage.setItem('CurrentLocationName', `${city}, ${stateMain}, ${countryNameText}`)
+                            document.getElementById('currentLocationName').textContent = `${city}, ${stateMain}, ${countryNameText}`;
+                  document.getElementById('saveLocationCurrent').setAttribute('data-location-text', `${city}, ${stateMain}, ${countryNameText}`)
+                    }
+                  } else {
+                    console.log('No results found');
+                  }
+                })
+                .catch(error => {
+                  console.error('Error fetching city name:', error);
+
+                  if (currentApiKeyCityNameIndex < apiKeysCityName.length - 1) {
+                    currentApiKeyCityNameIndex++;
+                    console.log(`Switching to API key index ${currentApiKeyCityNameIndex} for city name`);
+                    fetchCityName(cityLat, cityLon);
+                  } else {
+                    console.error('All city name API keys failed. Unable to fetch data.');
+
+                  }
+                });
+            }
 
 
     });
@@ -308,7 +376,7 @@ let currentApiKeyGeoIndex = 0;
 
                 cityList.innerHTML = '';
                 cityInput.value = '';
-                document.getElementById('city-name').innerHTML = '<md-circular-progress indeterminate style="--md-circular-progress-size: 30px;"></md-circular-progress>'
+                document.getElementById('city-name').innerHTML = suggestionText;
                 document.querySelector('.focus-input').blur();
                 document.getElementById('forecast').scrollLeft = 0;
                 document.getElementById('weather_wrap').scrollTop = 0;
@@ -431,7 +499,7 @@ function loadSavedLocations() {
 
                 savelocationtouch.addEventListener('click', () => {
                     DecodeWeather(savedLocationItemLat, savedLocationItemLon)
-            document.getElementById('city-name').innerHTML = '<md-circular-progress indeterminate style="--md-circular-progress-size: 30px;"></md-circular-progress>'
+            document.getElementById('city-name').innerHTML = location.locationName
             document.getElementById('forecast').scrollLeft = 0;
             document.getElementById('weather_wrap').scrollTop = 0;
                     window.history.back();
@@ -666,7 +734,7 @@ function checkNoInternet(){
 
     document.addEventListener('DOMContentLoaded', async function() {
 
-        const currentVersion = 'v1.6.9';
+        const currentVersion = 'v1.7.0';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 

@@ -5,7 +5,7 @@ function getCountryName(code) {
 
 
 async function DecodeWeather(lat, lon) {
-  const apiKey = 'KEYS';
+  const apiKey = 'ALL_ENV';
   const url = `https://api.timezonedb.com/v2.1/get-time-zone?key=${apiKey}&format=json&by=position&lat=${lat}&lng=${lon}`;
 
   try {
@@ -75,84 +75,14 @@ showLoader();
       astronomyData(lat, lon)
       FetchAlert(lat, lon)
 
-      // location name
-
-
-
-      const cityLat = lat
-      const cityLon = lon
-
-      let currentApiKeyCityNameIndex = 0;
-
-      fetchCityName(cityLat, cityLon)
-
-      document.getElementById('saveLocationCurrent').setAttribute('data-lat', cityLat)
-      document.getElementById('saveLocationCurrent').setAttribute('data-long', cityLon)
-
-      function fetchCityName(cityLat, cityLon) {
-        const apiKeyCityName = apiKeysCityName[currentApiKeyCityNameIndex];
-        const urlcityName = `https://api.opencagedata.com/geocode/v1/json?q=${cityLat}+${cityLon}&key=${apiKeyCityName}`;
-
-        fetch(urlcityName)
-          .then(response => {
-            if (!response.ok) {
-              fetchCityName(cityLat, cityLon);
-              throw new Error('Network response was not ok');
-            }
-            return response.json();
-          })
-          .then(data => {
-            if (data.results.length > 0) {
-              const components = data.results[0].components;
-              const city = components.city || components.town || components.village;
-              const stateMain = components.state;
-              const countryNameText = components.country || 'No country'
-
-              if (!city) {
-                document.getElementById('city-name').innerHTML = `${stateMain}, ${countryNameText}`;
-                document.getElementById('SelectedLocationText').innerHTML = `${stateMain}, ${countryNameText}`;
-                localStorage.setItem('CurrentLocationName', `${stateMain}, ${countryNameText}`)
-                      document.getElementById('currentLocationName').textContent = `${stateMain}, ${countryNameText}`;
-
-        document.getElementById('saveLocationCurrent').setAttribute('data-location-text', `${stateMain}, ${countryNameText}`)
-
-              } else if (!stateMain) {
-                document.getElementById('city-name').innerHTML = `${city}, ${countryNameText}`;
-                document.getElementById('SelectedLocationText').innerHTML = `${city}, ${countryNameText}`;
-                localStorage.setItem('CurrentLocationName', `${city}, ${countryNameText}`)
-                      document.getElementById('currentLocationName').textContent = `${city}, ${countryNameText}`;
-                 document.getElementById('saveLocationCurrent').setAttribute('data-location-text', `${city}, ${countryNameText}`)
-
-              } else {
-                document.getElementById('city-name').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
-                document.getElementById('SelectedLocationText').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
-                localStorage.setItem('CurrentLocationName', `${city}, ${stateMain}, ${countryNameText}`)
-                      document.getElementById('currentLocationName').textContent = `${city}, ${stateMain}, ${countryNameText}`;
-            document.getElementById('saveLocationCurrent').setAttribute('data-location-text', `${city}, ${stateMain}, ${countryNameText}`)
-              }
-            } else {
-              console.log('No results found');
-            }
-          })
-          .catch(error => {
-            console.error('Error fetching city name:', error);
-
-            if (currentApiKeyCityNameIndex < apiKeysCityName.length - 1) {
-              currentApiKeyCityNameIndex++;
-              console.log(`Switching to API key index ${currentApiKeyCityNameIndex} for city name`);
-              fetchCityName(cityLat, cityLon, countryNameText);
-            } else {
-              console.error('All city name API keys failed. Unable to fetch data.');
-
-            }
-          });
-      }
 
       getOpenWeatherMainTemp()
 
       hideLoader()
     }).catch(error =>{
       ShowError()
+      document.getElementById('error_text_content').innerHTML = error
+
     })
 
 }
