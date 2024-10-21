@@ -1457,7 +1457,7 @@ height: 100%;
   position: relative;
   flex-direction: column;
   padding: 10px;
-  margin-top: 5px;
+  margin-top: 0;
   gap: 10px;
   border-radius: 10px 10px 0 0;
   margin-bottom: 0;

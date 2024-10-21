@@ -959,7 +959,7 @@ function getColor(value, type) {
 
 function UvIndex(uvIndexValue) {
 
-            const uvIndex = uvIndexValue;
+         const uvIndex = Math.round(uvIndexValue);
 
 
             if (uvIndex >= 0 && uvIndex <= 1) {
@@ -1040,7 +1040,7 @@ function UvIndex(uvIndexValue) {
 
 
 function MoreDetails(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/forecast.json?key=KEYS&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/forecast.json?key=ef2cb48d90984d828a8140518240209&q=${latSum},${lonSum}`)
         .then(response => response.json())
         .then(data => {
 
@@ -1093,7 +1093,7 @@ function MoreDetails(latSum, lonSum) {
 
         let weatherReport = `
          <li style="padding-bottom: 5px;">${willRain}</li>
-         <li style="padding-bottom: 5px;">Expect a high of ${maxTemp}° ☀️. As the sun sets 🌅, temperatures will drop to a cozy ${minTemp}°. A lovely evening awaits! 🌙</li>
+         <li style="padding-bottom: 5px;">Expect a high of ${maxTemp}° ☀️ with a maximum UV index of ${mainData.uv}. As the sun sets 🌅, temperatures will drop to a cozy ${minTemp}°. A lovely evening awaits! 🌙</li>
          <li >${precipitationMessage}</li>
 
 
@@ -1193,7 +1193,7 @@ function MoreDetails(latSum, lonSum) {
 }
 
 function astronomyData(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=KEYS&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=ef2cb48d90984d828a8140518240209&q=${latSum},${lonSum}`)
         .then(response => response.json())
         .then(data => {
 
@@ -1262,7 +1262,7 @@ function astronomyData(latSum, lonSum) {
 
 
 function FetchAlert(lat, lon){
-    fetch(`https://api.weatherapi.com/v1/alerts.json?key=KEYS&q=${lat},${lon}`)
+    fetch(`https://api.weatherapi.com/v1/alerts.json?key=10baabdf43ea48d191075955241810&q=${lat},${lon}`)
     .then(response => response.json())
     .then(data => {
 

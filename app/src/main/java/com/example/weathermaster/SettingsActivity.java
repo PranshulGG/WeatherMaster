@@ -58,6 +58,7 @@ public class SettingsActivity extends AppCompatActivity {
         webview.setBackgroundColor(getResources().getColor(R.color.mainBG));
 
         webview.loadUrl("file:///android_asset/pages/settings.html");
+        webSettings.setTextZoom(100);
 
     }
 

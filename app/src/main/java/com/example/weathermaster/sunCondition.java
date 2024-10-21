@@ -57,6 +57,7 @@ public class sunCondition extends AppCompatActivity {
         AndroidInterface androidInterface = new AndroidInterface(this);
         webview.addJavascriptInterface(androidInterface, "AndroidInterface");
         webview.setBackgroundColor(getResources().getColor(R.color.conditionBG));
+        webSettings.setTextZoom(100);
 
         webview.loadUrl("file:///android_asset/pages/conditions_pages/sunset_rise_forecast.html");
 

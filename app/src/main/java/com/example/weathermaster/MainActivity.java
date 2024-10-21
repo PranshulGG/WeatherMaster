@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
         webview.addJavascriptInterface(androidInterface, "AndroidInterface");
         webview.addJavascriptInterface(new ShowToastInterface(this), "ToastAndroidShow");
         webview.setBackgroundColor(getResources().getColor(R.color.diffDefault));
+        webSettings.setTextZoom(100);
 
 
 

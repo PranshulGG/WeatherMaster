@@ -766,9 +766,9 @@ const SnowFrog = [
 ]
 
 const ThunderStormFrog = [
-    "https://gitlab.com/bignutty/google-weather-icons/-/blob/main/froggie/v2/mobile/22-iso-thunderstorms/22-iso-thunderstorms-home-inside.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/blob/main/froggie/v2/mobile/22-iso-thunderstorms/22-iso-thunderstorms-cafe-looking-outside.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/blob/main/froggie/v2/mobile/22-iso-thunderstorms/22-iso-thunderstorms-busstop-newspaper.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/22-iso-thunderstorms/22-iso-thunderstorms-home-inside.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/22-iso-thunderstorms/22-iso-thunderstorms-cafe-looking-outside.png?ref_type=heads",
+    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/22-iso-thunderstorms/22-iso-thunderstorms-busstop-newspaper.png?ref_type=heads",
 
 ]
 

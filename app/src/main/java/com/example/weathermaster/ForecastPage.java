@@ -57,6 +57,7 @@ public class ForecastPage extends AppCompatActivity {
         AndroidInterface androidInterface = new AndroidInterface(this);
         webview.addJavascriptInterface(androidInterface, "AndroidInterface");
         webview.setBackgroundColor(getResources().getColor(R.color.forecastPageBg));
+        webSettings.setTextZoom(100);
 
         webview.loadUrl("file:///android_asset/pages/forecastPage.html");
 
