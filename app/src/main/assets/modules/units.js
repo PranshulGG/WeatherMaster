@@ -810,7 +810,7 @@ function GetFroggieIcon(iconCode, isDay) {
 
         } else if (iconCode === 51 || iconCode === 53 || iconCode === 55) {
 
-            return DrizzleFrog[Math.floor(Math.random() * DrizzleFrog.length)];
+            return RainFrog[Math.floor(Math.random() * RainFrog.length)];
 
         } else if (iconCode === 56 || iconCode === 57) {
 
@@ -885,7 +885,7 @@ function GetFroggieIcon(iconCode, isDay) {
 
         } else if (iconCode === 51 || iconCode === 53 || iconCode === 55) {
 
-            return DrizzleFrog[Math.floor(Math.random() * DrizzleFrog.length)];
+            return RainFrog[Math.floor(Math.random() * RainFrog.length)];
 
         } else if (iconCode === 56 || iconCode === 57) {
 
