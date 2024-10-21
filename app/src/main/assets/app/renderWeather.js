@@ -1040,7 +1040,7 @@ function UvIndex(uvIndexValue) {
 
 
 function MoreDetails(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/forecast.json?key=ALL_ENV&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/forecast.json?key=ALL_ENV_main&q=${latSum},${lonSum}`)
         .then(response => response.json())
         .then(data => {
 
@@ -1193,7 +1193,7 @@ function MoreDetails(latSum, lonSum) {
 }
 
 function astronomyData(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=ALL_ENV&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=ALL_ENV_main&q=${latSum},${lonSum}`)
         .then(response => response.json())
         .then(data => {
 
@@ -1262,7 +1262,7 @@ function astronomyData(latSum, lonSum) {
 
 
 function FetchAlert(lat, lon){
-    fetch(`https://api.weatherapi.com/v1/alerts.json?key=ALL_ENV&q=${lat},${lon}`)
+    fetch(`https://api.weatherapi.com/v1/alerts.json?key=ALL_ENV_main&q=${lat},${lon}`)
     .then(response => response.json())
     .then(data => {
 
