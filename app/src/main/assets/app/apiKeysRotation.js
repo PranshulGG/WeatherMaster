@@ -1,27 +1,27 @@
 const apiKeysDaily = [
-ALL_ENV
+KEYS
 
 ];
 
 
 const apiKeysAlerts = [
-ALL_ENV
+KEYS
 ];
 
 const apiKeysCityName = [
-ALL_ENV
+KEYS
 
 ];
 
 const apiKeysGeo = [
-ALL_ENV
+KEYS
 ];
 
 const apiKeysVisual = [
-ALL_ENV
+KEYS
   ];
 
 
   const astronomyApiKeys = [
-ALL_ENV
+KEYS
   ];
