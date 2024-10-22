@@ -2380,10 +2380,24 @@ moonPhaseProgress {
   top: 0;
   width: 100%;
   left: 0;
-  height: 150px;
+  height: 100%;
   z-index: 0;
   pointer-events: none;
 }
+
+.animation_canvas_lottie::before {
+  position: absolute;
+  top: 0;
+  content: '';
+  width: 100%;
+  background: linear-gradient(180deg, var(--Surface) 10%, transparent);
+  height: 14px;
+  z-index: 1;
+  opacity: 1;
+  left: 0;
+  transition: opacity 1s ease-out;
+}
+
 
 .air_text_value_aqi{
   margin-right: 10px;

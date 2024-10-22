@@ -108,6 +108,10 @@
             <canvas id="bg_animation_fog" class="animation_canvas" ></canvas>
             <canvas id="bg_animation_snow" class="animation_canvas" ></canvas>
             <canvas id="bg_animation_leaves" class="animation_canvas" ></canvas>
+            <canvas id="bg_animation_drizzle" class="animation_canvas" ></canvas>
+
+            <div id="foreground_animation" class="animation_canvas animation_canvas_lottie"></div>
+            <div id="background_animation" class="animation_canvas animation_canvas_lottie"></div>
 
             <div class="control-panel-for-wind">
                 <input type="range" id="windSpeed" min="0" max="5" step="0.1" value="1" style="display: none; position: absolute; left: -99999px; pointer-events: none;">
@@ -645,7 +649,7 @@
             <span icon-outlined>close</span>
         </button>
 
-        <button class="ripple-icon-btn focus regular" id="openMapPicker" ontouchstart="playEffect(this)"
+        <button class="ripple-icon-btn focus regular" id="openMapPicker" ontouchstart="playEffect(this)" hidden
                 ontouchend="playEffect2(this)">
             <span class="ripple-effect-icon"></span>
             <span icon-outlined>map</span>
@@ -657,7 +661,7 @@
         </div>
 
         <div class="currentLocationdiv" style="margin-top: 20px; ">
-            <p class="title" style="display: flex; align-items: center; gap: 10px;"><md-icon icon-outlined>location_on</md-icon><span data-translate="current_location">Current location</span><md-text-button id="saveLocationCurrent" onclick="saveLocationToContainer(document.getElementById('saveLocationCurrent').getAttribute('data-location-text'), document.getElementById('saveLocationCurrent').getAttribute('data-lat'), document.getElementById('saveLocationCurrent').getAttribute('data-long'))">Save?</md-text-button></p>
+            <p class="title" style="display: flex; align-items: center; gap: 10px;"><md-icon icon-outlined>location_on</md-icon><span data-translate="current_location">Current location</span><md-text-button id="saveLocationCurrent" onclick="saveLocationToContainer(document.getElementById('saveLocationCurrent').getAttribute('data-location-text'), document.getElementById('saveLocationCurrent').getAttribute('data-lat'), document.getElementById('saveLocationCurrent').getAttribute('data-long'))" hidden>Save?</md-text-button></p>
             <div class="currentLocations ripple_btn_low" id="currentLocations" onclick="getCurrentLocationWeather(); window.history.back()">
                 <div class="currentSearchImg">
                     <img src="icons/error.png" id="currentSearchImg" alt=""> </div>

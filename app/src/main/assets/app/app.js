@@ -65,76 +65,10 @@ function useAutoCurrentLocation(){
             };
             DecodeWeather(currentLocation.latitude, currentLocation.longitude);
 
-
-            const cityLat = currentLocation.latitude
-            const cityLon = currentLocation.longitude
-
-            let currentApiKeyCityNameIndex = 0;
-
-            fetchCityName(cityLat, cityLon)
-
-            document.getElementById('saveLocationCurrent').setAttribute('data-lat', cityLat)
-            document.getElementById('saveLocationCurrent').setAttribute('data-long', cityLon)
-
-            function fetchCityName(cityLat, cityLon) {
-              const apiKeyCityName = apiKeysCityName[currentApiKeyCityNameIndex];
-              const urlcityName = `https://api.opencagedata.com/geocode/v1/json?q=${cityLat}+${cityLon}&key=${apiKeyCityName}`;
-
-              fetch(urlcityName)
-                .then(response => {
-                  if (!response.ok) {
-                    fetchCityName(cityLat, cityLon);
-                    throw new Error('Network response was not ok');
-                  }
-                  return response.json();
-                })
-                .then(data => {
-                  if (data.results.length > 0) {
-                    const components = data.results[0].components;
-                    const city = components.city || components.town || components.village;
-                    const stateMain = components.state;
-                    const countryNameText = components.country || 'No country'
-
-                    if (!city) {
-                      document.getElementById('city-name').innerHTML = `${stateMain}, ${countryNameText}`;
-                      document.getElementById('SelectedLocationText').innerHTML = `${stateMain}, ${countryNameText}`;
-                      localStorage.setItem('CurrentLocationName', `${stateMain}, ${countryNameText}`)
-                            document.getElementById('currentLocationName').textContent = `${stateMain}, ${countryNameText}`;
-
-              document.getElementById('saveLocationCurrent').setAttribute('data-location-text', `${stateMain}, ${countryNameText}`)
-
-                    } else if (!stateMain) {
-                      document.getElementById('city-name').innerHTML = `${city}, ${countryNameText}`;
-                      document.getElementById('SelectedLocationText').innerHTML = `${city}, ${countryNameText}`;
-                      localStorage.setItem('CurrentLocationName', `${city}, ${countryNameText}`)
-                            document.getElementById('currentLocationName').textContent = `${city}, ${countryNameText}`;
-                       document.getElementById('saveLocationCurrent').setAttribute('data-location-text', `${city}, ${countryNameText}`)
-
-                    } else {
-                      document.getElementById('city-name').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
-                      document.getElementById('SelectedLocationText').innerHTML = `${city}, ${stateMain}, ${countryNameText}`;
-                      localStorage.setItem('CurrentLocationName', `${city}, ${stateMain}, ${countryNameText}`)
-                            document.getElementById('currentLocationName').textContent = `${city}, ${stateMain}, ${countryNameText}`;
-                  document.getElementById('saveLocationCurrent').setAttribute('data-location-text', `${city}, ${stateMain}, ${countryNameText}`)
-                    }
-                  } else {
-                    console.log('No results found');
-                  }
-                })
-                .catch(error => {
-                  console.error('Error fetching city name:', error);
-
-                  if (currentApiKeyCityNameIndex < apiKeysCityName.length - 1) {
-                    currentApiKeyCityNameIndex++;
-                    console.log(`Switching to API key index ${currentApiKeyCityNameIndex} for city name`);
-                    fetchCityName(cityLat, cityLon);
-                  } else {
-                    console.error('All city name API keys failed. Unable to fetch data.');
-
-                  }
-                });
-            }
-
+            document.getElementById('city-name').innerHTML = 'Current location';
+            document.getElementById('SelectedLocationText').innerHTML = 'Current location';
+            localStorage.setItem('CurrentLocationName', 'Current location')
+                  document.getElementById('currentLocationName').textContent = 'Current location';
 
     });
 }
@@ -288,11 +222,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-let currentApiKeyGeoIndex = 0;
-
     async function getCitySuggestions(query) {
-        const apiKeyGeo = apiKeysGeo[currentApiKeyGeoIndex];
-        const url = `https://api.opencagedata.com/geocode/v1/json?q=${query}&key=${apiKeyGeo}&limit=5`;
+        const url = `https://geocoding-api.open-meteo.com/v1/search?name=${query}&count=5`;
 
         try {
             const response = await fetch(url);
@@ -303,118 +234,91 @@ let currentApiKeyGeoIndex = 0;
             displaySuggestions(data.results);
         } catch (error) {
             console.error('Error fetching city suggestions:', error);
-
-            if (currentApiKeyGeoIndex < apiKeysGeo.length - 1) {
-                currentApiKeyGeoIndex++;
-                console.log(`Switching to API key index ${currentApiKeyGeoIndex} for city suggestions`);
-                getCitySuggestions(query);
-            } else {
-                console.error('All geo API keys failed. Unable to fetch data.');
-
-            }
         }
     }
-    function displaySuggestions(results) {
 
+    function displaySuggestions(results) {
         const suggestionsContainer = document.getElementById('city-list');
-        clearSuggestions()
+        clearSuggestions();
 
         const displayedSuggestions = new Set();
 
         const savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
         const savedLocationsSet = new Set(savedLocations.map(location => location.locationName));
 
-
         results.forEach(result => {
-            const city = result.components.city || result.components.town || result.components.village || result.components.hamlet;
-            const state = result.components.state || result.components.region;
-            const country = result.components.country;
-            const countryCode = result.components.country_code;
+            const city = result.name;
+            const state = result.admin1 || result.admin2 || result.admin3;
+            const country = result.country;
+            const countryCode = result.country_code.toLowerCase();
 
             const uniqueComponents = [city, state, country].filter((value, index, self) => value && self.indexOf(value) === index);
             const suggestionText = uniqueComponents.join(', ');
 
+            if (!displayedSuggestions.has(suggestionText)) {
+                displayedSuggestions.add(suggestionText);
 
-  if (!displayedSuggestions.has(suggestionText)) {
-                        displayedSuggestions.add(suggestionText);
+                const suggestionItem = document.createElement('div');
+                const clickLocation = document.createElement('savelocationtouch');
+                const saveBtnLocation = document.createElement('md-text-button');
+                saveBtnLocation.textContent = 'Save';
 
+                if (!savedLocationsSet.has(suggestionText)) {
+                    saveBtnLocation.hidden = false;
+                } else {
+                    saveBtnLocation.hidden = true;
+                }
 
-            const suggestionItem = document.createElement('div');
+                const createGap = document.createElement('flex');
+                const countryIcon = document.createElement('span');
+                countryIcon.classList.add('fi', 'fis', `fi-${countryCode}`);
 
-                            const clickLocation = document.createElement('savelocationtouch')
+                suggestionItem.classList.add('suggestion-item');
+                const suggestRipple = document.createElement('md-ripple');
+                suggestRipple.style = '--md-ripple-pressed-opacity: 0.1;';
+                suggestionItem.textContent = suggestionText;
 
+                clickLocation.appendChild(suggestRipple);
+                suggestionItem.setAttribute('data-lat', result.latitude);
+                suggestionItem.setAttribute('data-lon', result.longitude);
 
-                            const saveBtnLocation = document.createElement('md-text-button');
+                clickLocation.addEventListener('click', function () {
+                    DecodeWeather(result.latitude, result.longitude);
+                    cityList.innerHTML = '';
+                    cityInput.value = '';
+                    document.getElementById('city-name').innerHTML = suggestionText;
+                    document.querySelector('.focus-input').blur();
+                    document.getElementById('forecast').scrollLeft = 0;
+                    document.getElementById('weather_wrap').scrollTop = 0;
+                    window.history.back();
 
+                    setTimeout(() => {
+                        cityInput.dispatchEvent(new Event('input'));
+                    }, 200);
+                });
 
-                            saveBtnLocation.textContent = 'Save';
+                saveBtnLocation.addEventListener('click', () => {
+                    saveLocationToContainer(suggestionText, result.latitude, result.longitude);
+                    cityList.innerHTML = '';
+                    cityInput.value = '';
 
-                            if (!savedLocationsSet.has(suggestionText)) {
-                                saveBtnLocation.hidden = false;
-                            } else {
-                                saveBtnLocation.hidden = true;
+                    setTimeout(() => {
+                        cityInput.dispatchEvent(new Event('input'));
+                    }, 200);
+                });
 
-                            }
-
-
-                            const createGap = document.createElement('flex');
-
-                        const countryIcon = document.createElement('span');
-                        countryIcon.classList.add('fi', 'fis', `fi-${countryCode}`)
-
-
-            suggestionItem.classList.add('suggestion-item');
-            const suggestRipple = document.createElement('md-ripple');
-            suggestRipple.style = '--md-ripple-pressed-opacity: 0.1;'
-            suggestionItem.textContent = suggestionText;
-            clickLocation.appendChild(suggestRipple)
-            suggestionItem.setAttribute('data-lat', result.geometry.lat);
-            suggestionItem.setAttribute('data-lon', result.geometry.lng);
-            clickLocation.addEventListener('click', function () {
-
-                DecodeWeather(result.geometry.lat, result.geometry.lng)
-
-                cityList.innerHTML = '';
-                cityInput.value = '';
-                document.getElementById('city-name').innerHTML = suggestionText;
-                document.querySelector('.focus-input').blur();
-                document.getElementById('forecast').scrollLeft = 0;
-                document.getElementById('weather_wrap').scrollTop = 0;
-                window.history.back()
-
-                setTimeout(() => {
-                    cityInput.dispatchEvent(new Event('input'));
-                }, 200);
-            });
-
-                            saveBtnLocation.addEventListener('click', () => {
-
-
-                                saveLocationToContainer(suggestionText, result.geometry.lat, result.geometry.lng)
-
-
-
-                                cityList.innerHTML = '';
-                                cityInput.value = '';
-
-                                setTimeout(() => {
-                                    cityInput.dispatchEvent(new Event('input'));
-                                }, 200);
-                            });
-
-                suggestionItem.appendChild(countryIcon)
-                suggestionItem.appendChild(clickLocation)
-                suggestionItem.appendChild(createGap)
+                suggestionItem.appendChild(countryIcon);
+                suggestionItem.appendChild(clickLocation);
+                suggestionItem.appendChild(createGap);
                 suggestionItem.appendChild(saveBtnLocation);
                 suggestionsContainer.appendChild(suggestionItem);
-            setTimeout(() => {
-                document.getElementById('cityLoader').hidden = true;
 
-            }, 400);
+                setTimeout(() => {
+                    document.getElementById('cityLoader').hidden = true;
+                }, 400);
             }
         });
     }
-
 
     function clearSuggestions() {
         const suggestionsContainer = document.getElementById('city-list');
@@ -422,7 +326,6 @@ let currentApiKeyGeoIndex = 0;
             suggestionsContainer.removeChild(suggestionsContainer.firstChild);
         }
     }
-
 });
 
 
@@ -734,7 +637,7 @@ function checkNoInternet(){
 
     document.addEventListener('DOMContentLoaded', async function() {
 
-        const currentVersion = 'v1.7.0';
+        const currentVersion = 'v1.7.2';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 

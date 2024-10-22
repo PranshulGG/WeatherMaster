@@ -708,6 +708,89 @@ function createFallingLeaves() {
 }
 
 
+// ------------------
+
+
+function createDrizzle() {
+    const canvas = document.getElementById('bg_animation_drizzle');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    let raindrops = [];
+    let animationFrameId;
+
+    class Raindrop {
+        constructor(x, y, length, speed) {
+            this.x = x;
+            this.y = y;
+            this.length = length;
+            this.speed = speed;
+        }
+
+        fall() {
+            this.y += this.speed;
+            if (this.y > canvas.height) {
+                this.y = 0;
+                this.x = Math.random() * canvas.width;
+            }
+        }
+
+        draw() {
+            ctx.beginPath();
+            ctx.moveTo(this.x, this.y);
+            ctx.lineTo(this.x, this.y + this.length);
+            ctx.strokeStyle = 'rgba(174,194,224,0.5)';
+            ctx.lineWidth = 1;
+            ctx.lineCap = 'round';
+            ctx.stroke();
+        }
+    }
+
+    function createRaindrops(count) {
+        for (let i = 0; i < count; i++) {
+            let x = Math.random() * canvas.width;
+            let y = Math.random() * canvas.height;
+            let length = Math.random() * 20 + 50;
+            let speed = Math.random() * 10 + 15;
+            raindrops.push(new Raindrop(x, y, length, speed));
+        }
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        raindrops.forEach((raindrop) => {
+            raindrop.fall();
+            raindrop.draw();
+        });
+        animationFrameId = requestAnimationFrame(animate);
+    }
+    let animationRunning = false;
+
+    function clearCanvas() {
+        cancelAnimationFrame(animationFrameId);
+        raindrops = [];
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        animationRunning = false;
+    }
+
+
+    function startAnimationdrizzle(){
+      if (!animationRunning) {
+          animationRunning = true;
+    createRaindrops(20);
+    animate();
+      }
+    }
+
+    return { clearCanvas, startAnimationdrizzle };
+  }
 
 
 
@@ -718,10 +801,15 @@ const thunderAnimation = createThunder();
 const starsAnimation = createStars();
 const fogAnimation = createFog();
 const leavesAnimation = createFallingLeaves();
+const DrizzleAnimation = createDrizzle();
 
 
 
 // display animations
+
+function displayDrizzle(){
+    DrizzleAnimation.startAnimationdrizzle()
+}
 
 
 function displayRain(){
@@ -732,24 +820,114 @@ function displaySnow(){
   snowAnimation.startAnimation()
 }
 
+var anim1Cloud;
+
 function displayClouds(){
-  cloudsAnimation.startAnimation()
+    var animationContainer1 = document.getElementById('background_animation');
+    var animationContainer2 = document.getElementById('foreground_animation');
+
+
+        if (anim1Cloud) {
+            anim1Cloud.destroy();
+        }
+
+
+
+        animationContainer1.innerHTML = ''
+        animationContainer2.innerHTML = ''
+
+    var animationData1 = 'lottie_animations/mostly_cloudy_background.json';
+
+
+     anim1Cloud = bodymovin.loadAnimation({
+        container: animationContainer1,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path: animationData1,
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid slice'
+        }
+    });
+
+
 }
 
 function displayStars(){
   starsAnimation.startAnimation()
 }
 
+
+var anim1fog
+
 function displayFog(){
   fogAnimation.startAnimation()
+
+  var animationContainer1 = document.getElementById('background_animation');
+  var animationContainer2 = document.getElementById('foreground_animation');
+
+      if (anim1fog) {
+          anim1fog.destroy();
+      }
+
+      animationContainer1.innerHTML = ''
+      animationContainer2.innerHTML = ''
+
+  var animationData1 = 'lottie_animations/mostly_cloudy_background.json';
+
+
+   anim1fog = bodymovin.loadAnimation({
+      container: animationContainer1,
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      path: animationData1,
+      rendererSettings: {
+          preserveAspectRatio: 'xMidYMid slice'
+      }
+  });
 }
 
 function displayThunder(){
   thunderAnimation.startAnimation()
 }
 
-function displayLeaves(){
-leavesAnimation.startAnimation()
+var anim1;
+var anim2;
+
+function displayLeaves() {
+    var animationContainer1 = document.getElementById('background_animation');
+    var animationContainer2 = document.getElementById('foreground_animation');
+
+        if (anim1) {
+            anim1.destroy();
+        }
+
+        if (anim2) {
+            anim2.destroy();
+        }
+
+        animationContainer1.innerHTML = ''
+        animationContainer2.innerHTML = ''
+
+    var animationData1 = 'lottie_animations/sunny_background.json';
+    var animationData2 = 'lottie_animations/sunny_foreground.json';
+
+    anim1 = bodymovin.loadAnimation({
+        container: animationContainer1,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path: animationData1
+    });
+
+    anim2 = bodymovin.loadAnimation({
+        container: animationContainer2,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path: animationData2
+    });
 }
 
 // remove animations
@@ -764,7 +942,7 @@ function removeSnow(){
 }
 
 function removeClouds(){
-  cloudsAnimation.clearCanvas()
+    if (anim1Cloud) anim1Cloud.destroy();
 }
 
 function removeStars(){
@@ -773,13 +951,19 @@ function removeStars(){
 
 function removeFog(){
   fogAnimation.clearCanvas()
+  if (anim1fog) anim1fog.destroy();
 }
 
 function removeThunder(){
   thunderAnimation.clearCanvas()
 }
 
+function removeDrizzle(){
+    DrizzleAnimation.clearCanvas()
+  }
+
 function removeLeaves(){
-    leavesAnimation.clearCanvas()
+    if (anim1) anim1.destroy();
+    if (anim2) anim2.destroy();
   }
 

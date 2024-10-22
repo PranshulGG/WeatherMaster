@@ -236,8 +236,8 @@ public class MainActivity extends AppCompatActivity {
                         setTheme(R.style.blue_caret);
 
                     } else if(color.equals("cloudy")){
-                            statusBarColor = 0xFF0e1d2a;
-                            navigationBarColor = 0xFF0e1d2a;
+                            statusBarColor = 0xFF001d33;
+                            navigationBarColor = 0xFF001d33;
                             systemUiVisibilityFlags = 0;
                         webview.setBackgroundColor(getResources().getColor(R.color.C02d));
                         setTheme(R.style.blue_caret);

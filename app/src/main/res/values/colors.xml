@@ -6,8 +6,8 @@
     <!--   bg-colors -->
     <color name="C01d">#001d33</color>
     <color name="C01n">#001d33</color>
-    <color name="C02d">#0e1d2a</color>
-    <color name="C02n">#0e1d2a</color>
+    <color name="C02d">#001d33</color>
+    <color name="C02n">#001d33</color>
     <color name="C03d">#0e1d2a</color>
     <color name="C03n">#0e1d2a</color>
     <color name="C04d">#0e1d2a</color>
