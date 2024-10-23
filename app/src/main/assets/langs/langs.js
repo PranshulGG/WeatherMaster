@@ -15,6 +15,7 @@ const translations = {
         "体感温度",
         "体感",
         "Відчувається як"
+        ,"احساس می‌شود "
     ],
     "precipitation": [
         "Precipitation",
@@ -31,7 +32,8 @@ const translations = {
         "Zrážky",
         "降雨量",
         "降水量",
-        "Опади"
+        "Опади",
+        "بارش"
     ],
     "humidity": [
         "Humidity",
@@ -48,7 +50,8 @@ const translations = {
         "Vlhkosť",
         "湿度",
         "湿度",
-        "Вологість"
+        "Вологість",
+        "رطوبت"
     ],
     "wind": [
         "Wind",
@@ -65,7 +68,8 @@ const translations = {
         "Vietor",
         "风",
         "風",
-        "Вітер"
+        "Вітер",
+        "باد"
     ],
     "uv": [
         "UV",
@@ -82,7 +86,8 @@ const translations = {
         "UV",
         "紫外线",
         "UV",
-        "УФ"
+        "УФ",
+        "فرابنفش"
     ],
     "settings": [
         "Settings",
@@ -99,7 +104,8 @@ const translations = {
         "Nastavenia",
         "设置",
         "設定",
-        "Налаштування"
+        "Налаштування",
+        "تنظیمات"
     ],
     "about": [
         "About",
@@ -116,7 +122,8 @@ const translations = {
         "O aplikácii",
         "关于",
         "について",
-        "Про програму"
+        "Про програму",
+        "درباره ما"
     ],
     "today": [
         "Today",
@@ -133,7 +140,8 @@ const translations = {
         "Dnes",
         "今天",
         "今日",
-        "Сьогодні"
+        "Сьогодні",
+        "امروز"
     ],
     "tomorrow": [
         "Tomorrow",
@@ -150,7 +158,8 @@ const translations = {
         "Zajtra",
         "明天",
         "明日",
-        "Завтра"
+        "Завтра",
+        "فردا"
     ],
     "language": [
         "Language",
@@ -167,9 +176,11 @@ const translations = {
         "Jazyk",
         "语言",
         "言語",
-        "Мова"
+        "Мова",
+        "زبان"
     ],
     "weather_master": [
+        "WeatherMaster",
         "WeatherMaster",
         "WeatherMaster",
         "WeatherMaster",
@@ -201,7 +212,8 @@ const translations = {
         "Teplota",
         "温度",
         "温度",
-        "Температура"
+        "Температура",
+        "دما"
     ],
     "now": [
         "Now",
@@ -218,7 +230,8 @@ const translations = {
         "Teraz",
         "现在",
         "現在",
-        "Зараз"
+        "Зараз",
+        "اکنون"
     ],
     "clear_sky": [
         "Clear sky",
@@ -235,7 +248,8 @@ const translations = {
         "Jasno",
         "晴天",
         "晴天",
-        "Ясно"
+        "Ясно",
+        "آسمان صاف"
     ],
     "mostly_clear": [
         "Mostly clear",
@@ -252,7 +266,8 @@ const translations = {
         "Takmer jasno",
         "大部晴朗",
         "ほぼ快晴",
-        "Переважно ясно"
+        "Переважно ясно",
+        "اغلب صاف"
     ],
     "partly_cloudy": [
         "Partly cloudy",
@@ -269,7 +284,8 @@ const translations = {
         "Polooblačno",
         "多云",
         "一部曇り",
-        "Хмарно з проясненнями"
+        "Хмарно з проясненнями",
+        "نیمه ابری"
     ],
     "overcast": [
         "Overcast",
@@ -286,7 +302,8 @@ const translations = {
         "Zamračené",
         "多云",
         "曇り",
-        "Похмуро"
+        "Похмуро",
+        "ابری"
     ],
     "fog": [
         "Fog",
@@ -303,7 +320,8 @@ const translations = {
         "Hmla",
         "雾",
         "霧",
-        "Туман"
+        "Туман",
+        "مه آلود"
     ],
     "drizzle": [
         "Drizzle",
@@ -320,7 +338,8 @@ const translations = {
         "Mrholenie",
         "细雨",
         "霧雨",
-        "Мряка"
+        "Мряка",
+        "نم‌نم باران"
     ],
     "freezing_drizzle": [
         "Freezing Drizzle",
@@ -337,7 +356,8 @@ const translations = {
         "Mrznúce mrholenie",
         "冰冻细雨",
         "着氷性の霧雨",
-        "Мокрий сніг"
+        "Мокрий сніг",
+        "نم‌نم باران همراه سرما"
     ],
     "moderate_rain": [
         "Moderate rain",
@@ -354,7 +374,8 @@ const translations = {
         "Mierny dážď",
         "中雨",
         "小雨",
-        "Помірний дощ"
+        "Помірний дощ",
+        "بارش باران ملایم"
     ],
     "heavy_intensity_rain": [
         "Heavy intensity rain",
@@ -371,7 +392,7 @@ const translations = {
         "Silný dážď",
         "强降雨",
         "激しい雨",
-        "Сильний дощ"
+        "Сильний дощ","باران با شدت زیاد"
     ],
     "freezing_rain": [
         "Freezing Rain",
@@ -388,7 +409,7 @@ const translations = {
         "Mrznúci dážď",
         "冻雨",
         "雨氷",
-        "Крижана буря"
+        "Крижана буря","تگرگ"
     ],
     "slight_snow": [
         "Slight snow",
@@ -405,7 +426,8 @@ const translations = {
         "Jemné sneženie",
         "小雪",
         "小雪",
-        "Легкий сніг"
+        "Легкий сніг",
+        "برف خفیف"
     ],
     "moderate_snow": [
         "Moderate snow",
@@ -422,7 +444,8 @@ const translations = {
         "Mierne sneženie",
         "中雪",
         "中程度の雪",
-        "Помірний сніг"
+        "Помірний сніг",
+        "برف ملایم"
     ],
     "heavy_intensity_snow": [
         "Heavy intensity snow",
@@ -439,7 +462,8 @@ const translations = {
         "Silné sneženie",
         "强降雪",
         "大雪",
-        "Снігопад"
+        "Снігопад",
+        "برف با شدت زیاد"
     ],
     "snow_grains": [
         "Snow grains",
@@ -456,7 +480,8 @@ const translations = {
         "Silné sneženie",
         "霰",
         "霧雪",
-        "Град"
+        "Град",
+        "دانه‌های برف"
     ],
     "rain_showers": [
         "Rain showers",
@@ -473,7 +498,8 @@ const translations = {
         "Prehánky",
         "阵雨",
         "にわか雨",
-        "Злива"
+        "Злива",
+        "باران رگباری"
     ],
     "heavy_rain_showers": [
         "Heavy rain showers",
@@ -490,7 +516,8 @@ const translations = {
         "Silné prehánky",
         "阵雨",
         "激しいにわか雨",
-        "Сильна злива"
+        "Сильна злива",
+        "باران رگباری شدید"
     ],
     "slight_snow_showers": [
         "Slight snow showers",
@@ -507,7 +534,8 @@ const translations = {
         "Mierne snehové prehánky",
         "小阵雨",
         "にわかに小雪",
-        "Снігопад"
+        "Снігопад",
+        "برف رگباری خفیف"
     ],
     "heavy_snow_showers": [
         "Heavy snow showers",
@@ -524,7 +552,7 @@ const translations = {
         "Silné snehové prehánky",
         "强降阵雨",
         "にわかに大雪",
-        "Сильний снігопад"
+        "Сильний снігопад","برف رگباری شدید"
     ],
     "thunderstorm": [
         "Thunderstorm",
@@ -541,7 +569,7 @@ const translations = {
         "Búrka",
         "雷阵雨",
         "雷雨",
-        "Гроза"
+        "Гроза","طوفان رعد و برق"
     ],
     "strong_thunderstorm": [
         "Strong thunderstorm",
@@ -558,7 +586,7 @@ const translations = {
         "Silná búrka",
         "强雷阵雨",
         "激しい雷雨",
-        "Сильна гроза"
+        "Сильна гроза","طوفان رعد و برق شدید"
     ],
     "save": [
         "Save",
@@ -575,7 +603,7 @@ const translations = {
         "Uložiť",
         "保存",
         "保存",
-        "Зберегти"
+        "Зберегти","ذخیره"
     ],
     "saved_locations": [
         "Saved locations",
@@ -592,7 +620,7 @@ const translations = {
         "Uložené miesta",
         "已保存位置",
         "地点を保存しました",
-        "Збережені місця"
+        "Збережені місця","مکان های ذخیره شده"
     ],
     "search": [
         "Search",
@@ -609,7 +637,7 @@ const translations = {
         "Hľadať",
         "搜索",
         "検索",
-        "Пошук"
+        "Пошук","جستجو"
     ],
     "good": [
         "Good",
@@ -626,7 +654,7 @@ const translations = {
         "Dobrý",
         "好",
         "良い",
-        "Хороша"
+        "Хороша","خوب"
     ],
     "fair": [
         "Fair",
@@ -643,7 +671,7 @@ const translations = {
         "Dostačujúci",
         "晴转多云",
         "ほどよい",
-        "Добра"
+        "Добра","خنک"
     ],
     "moderate": [
         "Moderate",
@@ -660,7 +688,8 @@ const translations = {
         "Mierny",
         "中等",
         "適度",
-        "Середня"
+        "Середня",
+        "ملایم"
     ],
     "poor": [
         "Poor",
@@ -677,7 +706,7 @@ const translations = {
         "Zlý",
         "差",
         "悪い",
-        "Погана"
+        "Погана","خفیف"
     ],
     "very_poor": [
         "Very poor",
@@ -694,7 +723,7 @@ const translations = {
         "Veľmi zlý",
         "非常差",
         "とても悪い",
-        "Дуже погана"
+        "Дуже погана","بسیار ضعیف"
     ],
     "pressure": [
         "Pressure",
@@ -711,7 +740,7 @@ const translations = {
         "Tlak",
         "气压",
         "気圧",
-        "Тиск"
+        "Тиск","فشار"
     ],
     "day": [
         "Day",
@@ -728,7 +757,7 @@ const translations = {
         "Deň",
         "天",
         "日",
-        "День"
+        "День","روز"
     ],
     "days": [
         "Days",
@@ -745,7 +774,7 @@ const translations = {
         "Dni",
         "天",
         "日数",
-        "Дні"
+        "Дні","روزها"
     ],
     "mon": [
         "Mon",
@@ -762,7 +791,7 @@ const translations = {
         "Pon",
         "周一",
         "月",
-        "Пн"
+        "Пн","دوشنبه"
     ],
     "tue": [
         "Tue",
@@ -779,7 +808,7 @@ const translations = {
         "Uto",
         "周二",
         "火",
-        "Вт"
+        "Вт","سه شنبه"
     ],
     "wed": [
         "Wed",
@@ -796,7 +825,7 @@ const translations = {
         "Str",
         "周三",
         "水",
-        "Ср"
+        "Ср","چهارشنبه"
     ],
     "thu": [
         "Thu",
@@ -813,7 +842,7 @@ const translations = {
         "Štv",
         "周四",
         "木",
-        "Чт"
+        "Чт","پنجشنبه"
     ],
     "fri": [
         "Fri",
@@ -830,7 +859,7 @@ const translations = {
         "Pia",
         "周五",
         "金",
-        "Пт"
+        "Пт","جمعه"
     ],
     "sat": [
         "Sat",
@@ -847,7 +876,7 @@ const translations = {
         "Sob",
         "周六",
         "土",
-        "Сб"
+        "Сб","شنبه"
     ],
     "sun": [
         "Sun",
@@ -864,7 +893,7 @@ const translations = {
         "Ned",
         "周日",
         "日",
-        "Нд"
+        "Нд","یکشنبه"
     ],
     "error": [
         "Error",
@@ -881,7 +910,7 @@ const translations = {
         "Chyba",
         "错误",
         "エラー",
-        "Помилка"
+        "Помилка","خطا"
     ],
     "uv_index": [
         "UV index",
@@ -898,7 +927,7 @@ const translations = {
         "UV index",
         "紫外线指数",
         "UV指数",
-        "УФ-індекс"
+        "УФ-індекс","شاخص یو وی"
     ],
     "new_app_version_available": [
         "New App Version is available!",
@@ -915,7 +944,8 @@ const translations = {
         "K dispozícii je nová verzia aplikácie!",
         "新的 App 版本已发布！",
         "新しいバージョンが利用可能です!",
-        "Нова версія застосунку доступна!"
+        "Нова версія застосунку доступна!",
+        "!نسخه جدید اپلیکیشن در دسترس است"
     ],
     "update": [
         "Update",
@@ -932,7 +962,8 @@ const translations = {
         "Aktualizovať",
         "更新",
         "アップデート",
-        "Оновити"
+        "Оновити",
+        "بروزرسانی"
     ],
     "air_quality": [
         "Air Quality",
@@ -949,7 +980,8 @@ const translations = {
         "Kvalita ovzdušia",
         "空气质量",
         "空気の質",
-        "Якість повітря"
+        "Якість повітря",
+        "کیفیت هوا"
     ],
     "dew_point": [
         "Dew point",
@@ -966,7 +998,7 @@ const translations = {
         "Rosný bod",
         "露点",
         "露点",
-        "Точка роси"
+        "Точка роси","نقطه شبنم"
     ],
     "sunset": [
         "Sunset",
@@ -983,7 +1015,7 @@ const translations = {
         "Západ slnka",
         "日落",
         "日の入",
-        "Захід сонця"
+        "Захід сонця","غروب آفتاب"
     ],
     "sunrise": [
         "Sunrise",
@@ -1000,7 +1032,7 @@ const translations = {
         "Východ slnka",
         "日出",
         "日の出",
-        "Схід сонця"
+        "Схід сонця","طلوع آفتاب"
     ],
     "moonrise": [
         "Moonrise",
@@ -1017,7 +1049,7 @@ const translations = {
         "Východ mesiaca",
         "月出",
         "月の出",
-        "Схід місяця"
+        "Схід місяця","طلوع ماه"
     ],
     "moonset": [
         "Moonset",
@@ -1034,7 +1066,7 @@ const translations = {
         "Západ mesiaca",
         "月落",
         "月の入り",
-        "Захід місяця"
+        "Захід місяця","غروب ماه"
     ],
     "amount": [
         "Amount",
@@ -1051,7 +1083,7 @@ const translations = {
         "Množstvo",
         "总量",
         "降水量",
-        "Кількість"
+        "Кількість","مقدار"
     ],
     "precipitation_chances": [
         "Precipitation chances",
@@ -1068,7 +1100,7 @@ const translations = {
         "Pravdepodobnosť zrážok",
         "降雨几率",
         "降水確率",
-        "Імовірність опадів"
+        "Імовірність опадів","شانس بارش"
     ],
     "precipitation_amount": [
         "Precipitation amount",
@@ -1085,7 +1117,7 @@ const translations = {
         "Množstvo zrážok",
         "降水量",
         "降水量",
-        "Кількість опадів"
+        "Кількість опадів","مقدار بارش"
     ],
     "wind_gust": [
         "Wind gust",
@@ -1102,7 +1134,7 @@ const translations = {
         "Náraz vetra",
         "阵风",
         "突風",
-        "Пориви вітру"
+        "Пориви вітру","وزش باد"
     ],
     "wind_speed": [
         "Wind speed",
@@ -1119,7 +1151,7 @@ const translations = {
         "Rýchlosť vetra",
         "风速",
         "風速",
-        "Швидкість вітру"
+        "Швидкість вітру","سرعت باد"
     ],
     "live_radar": [
         "Live radar",
@@ -1136,7 +1168,7 @@ const translations = {
         "Živý radar",
         "即时雷达",
         "雨雲レーダー",
-        "Радар"
+        "Радар","رادار زنده"
     ],
     "visibility": [
         "Visibility",
@@ -1153,7 +1185,7 @@ const translations = {
         "Viditeľnosť",
         "能见度",
         "視認性",
-        "Видимість"
+        "Видимість","دید"
     ],
     "minimal_risk": [
         "Minimal risk",
@@ -1170,7 +1202,7 @@ const translations = {
         "Minimálne riziko",
         "最低风险",
         "最小限のリスク",
-        "Мінімальний ризик"
+        "Мінімальний ризик","حداقل خطر"
     ],
     "low_risk": [
         "Low risk",
@@ -1187,7 +1219,7 @@ const translations = {
         "Nízke riziko",
         "低风险",
         "低リスク",
-        "Низький ризик"
+        "Низький ризик","خطر کم"
     ],
     "moderate_risk": [
         "Moderate risk",
@@ -1204,7 +1236,7 @@ const translations = {
         "Mierne riziko",
         "中等风险",
         "中リスク",
-        "Середній ризик"
+        "Середній ризик","خطر متوسط"
     ],
     "high_risk": [
         "High risk",
@@ -1221,7 +1253,7 @@ const translations = {
         "Vysoké riziko",
         "高风险",
         "高リスク",
-        "Високий ризик"
+        "Високий ризик","خطر زیاد"
     ],
     "very_high_risk": [
         "Very high risk",
@@ -1238,7 +1270,7 @@ const translations = {
         "Veľmi vysoké riziko",
         "很高危险",
         "非常に高いリスク",
-        "Дуже високий ризик"
+        "Дуже високий ризик","خطر بسیار زیاد"
     ],
     "extreme_risk": [
         "Extreme risk",
@@ -1255,7 +1287,7 @@ const translations = {
         "Extrémne riziko",
         "极度危险",
         "極度のリスク",
-        "Надзвичайний ризик"
+        "Надзвичайний ризик","خطر شدید"
     ],
     "uv_index_satisfactory": [
         "A UV index is satisfactory, indicating that there is little or no risk of harm from ultraviolet radiation.",
@@ -1272,7 +1304,7 @@ const translations = {
         "UV index je uspokojivý, čo naznačuje, že existuje malé alebo žiadne riziko poškodenia ultrafialovým žiarením.",
         "紫外线指数令人满意，表明来自紫外线辐射的危害风险很小或没有。",
         "UV指数は十分で、紫外線による害の危険性はほとんどありません。",
-        "Індекс УФ-випромінювання задовільний, отже ризик ураження незначний або відсутній."
+        "Індекс УФ-випромінювання задовільний, отже ризик ураження незначний або відсутній.","شاخص UV رضایت‌بخش است، که نشان می‌دهد خطر کمی یا هیچ‌گونه آسیبی از اشعه ماوراء بنفش وجود ندارد."
     ],
     "conditions_low_risk": [
         "Conditions are generally low-risk, indicating that exposure to ultraviolet radiation poses a minimal threat.",
@@ -1289,7 +1321,7 @@ const translations = {
         "Podmienky sú vo všeobecnosti nízkorizikové, čo znamená, že vystavenie ultrafialovému žiareniu predstavuje minimálnu hrozbu.",
         "情况通常属于低风险，表明暴露于紫外线辐射所构成的威胁极小。",
         "一般的にリスクは低く、紫外線を浴びても危険は少ないです。",
-        "Низький або мінімальний ризик укаження від УФ-випромінювання."
+        "Низький або мінімальний ризик укаження від УФ-випромінювання.","شرایط به‌طور کلی خطر کمی دارد، که نشان می‌دهد قرار گرفتن در معرض اشعه ماوراء بنفش تهدیدی حداقلی ایجاد می‌کند."
     ],
     "low_exposure_level": [
         "Low exposure level with minimal risk of harm from UV radiation, suitable for most people.",
@@ -1306,7 +1338,7 @@ const translations = {
         "Nízka úroveň vystavenia s minimálnym rizikom poškodenia UV žiarením, vhodné pre väčšinu ľudí.",
         "低暴露水平，紫外线危害风险极小，适合大多数人。",
         "紫外線による害のリスクは最小限で、ほとんどの人に害はありません。",
-        "Є мінімальний ризик ураження від УФ-випромінювання, терпимо для більшості людей."
+        "Є мінімальний ризик ураження від УФ-випромінювання, терпимо для більшості людей.","سطح قرارگیری کم با خطر حداقلی آسیب از اشعه ماوراء بنفش، مناسب برای اکثر افراد."
     ],
     "moderate_risk_sun_exposure": [
         "Moderate risk of harm from unprotected sun exposure, protective measures recommended.",
@@ -1323,7 +1355,7 @@ const translations = {
         "Mierne riziko poškodenia z nechráneného vystavenia slnku, odporúčajú sa ochranné opatrenia.",
         "无防护暴露于阳光下会造成中等程度的伤害，建议采取防护措施。",
         "無防備に日光にさらされることによる危害のリスクが少しあり、何かしらの措置を推奨します。",
-        "Перебування на відкритому сонці без захисту може нанести шкоду, рекомендуються захисні заходи."
+        "Перебування на відкритому сонці без захисту може нанести шкоду, рекомендуються захисні заходи.","خطر متوسط آسیب ناشی از قرارگیری در معرض آفتاب بدون محافظت، اتخاذ تدابیر حفاظتی توصیه می‌شود."
     ],
     "high_risk_sun_exposure": [
         "High risk of harm from unprotected sun exposure, protective measures required.",
@@ -1340,7 +1372,7 @@ const translations = {
         "Vysoké riziko poškodenia z nechráneného vystavenia sa slnku, potrebné ochranné opatrenia.",
         "无防护暴露在阳光下会造成伤害，风险很高，需要采取防护措施。",
         "無防備に日光にさらされることによる危害のリスクが高く、何かしらの措置が必要です。",
-        "Високий ризик ураження від перебування на сонці, використовуйте захисні засоби."
+        "Високий ризик ураження від перебування на сонці, використовуйте захисні засоби.","خطر زیاد آسیب ناشی از قرارگیری در معرض آفتاب بدون محافظت، اتخاذ تدابیر حفاظتی ضروری است."
     ],
     "very_high_risk_sun_exposure": [
         "Very high risk of harm from unprotected sun exposure, extra precautions required.",
@@ -1357,7 +1389,7 @@ const translations = {
         "Veľmi vysoké riziko poškodenia v dôsledku nechráneného vystavenia sa slnečnému žiareniu, sú potrebné mimoriadne bezpečnostné opatrenia.",
         "无防护地暴露在阳光下会造成伤害的风险非常高，需要采取额外的预防措施。",
         "無防備に日光にさらされることによる危害のリスクが非常に高く、特別な措置が必要です。",
-        "Дуже високий ризик ураження від перебування на сонці, використовуйте додаткові захисні засоби."
+        "Дуже високий ризик ураження від перебування на сонці, використовуйте додаткові захисні засоби.","خطر بسیار زیاد آسیب ناشی از قرارگیری در معرض آفتاب بدون محافظت، اتخاذ احتیاط‌های اضافی ضروری است."
     ],
     "extreme_risk_sun_exposure": [
         "Extreme risk of harm from unprotected sun exposure, full protection necessary.",
@@ -1374,7 +1406,7 @@ const translations = {
         "Extrémne riziko poškodenia z nechráneného vystavenia sa slnku, potrebná úplná ochrana.",
         "无防护地暴露在阳光下会造成极大伤害，需要全面防护。",
         "無防備に日光にさらされると非常に危険で、完全な措置が必要です。",
-        "Надзвичайно високий ризик ураження від перебування на сонці, необхідний повний захист."
+        "Надзвичайно високий ризик ураження від перебування на сонці, необхідний повний захист.","خطر شدید آسیب ناشی از قرارگیری در معرض آفتاب بدون محافظت، حفاظت کامل ضروری است."
     ],
     "air_quality_satisfactory": [
         "Air quality is considered satisfactory, and air pollution poses little or no risk.",
@@ -1391,7 +1423,7 @@ const translations = {
         "Kvalita ovzdušia sa považuje za uspokojivú a znečistenie ovzdušia predstavuje malé alebo žiadne riziko.",
         "空气质量令人满意，空气污染几乎没有或根本不存在危害。",
         "空気の質は十分で、空気による危害のリスクはありません。",
-        "Якість повітря вважається задовільною, а забруднення повітря становить незначний ризик або взагалі відсутній."
+        "Якість повітря вважається задовільною, а забруднення повітря становить незначний ризик або взагалі відсутній.","کیفیت هوا رضایت‌بخش است و آلودگی هوا خطر کمی یا هیچ‌گونه خطری ندارد."
     ],
     "air_quality_acceptable": [
         "Air quality is acceptable; however, for some pollutants there may be a moderate health concern for a very small number of people who are unusually sensitive to air pollution.",
@@ -1408,7 +1440,7 @@ const translations = {
         "Kvalita vzduchu je prijateľná; pri niektorých znečisťujúcich látkach však môže existovať mierny zdravotný problém u veľmi malého počtu ľudí, ktorí sú nezvyčajne citliví na znečistenie ovzdušia.",
         "空气质量可以接受；然而，对于某些污染物，对于极少数对空气污染异常敏感的人来说，可能会造成中等程度的健康问题。",
         "空気の質は十分ですが、大気汚染に非常に敏感な人には注意が必要です。",
-        "Якість повітря є прийнятною, проте деякі забруднювачі можуть викликати занепокоєння у надзвичайно чутливих до забруднення повітря людей."
+        "Якість повітря є прийнятною, проте деякі забруднювачі можуть викликати занепокоєння у надзвичайно чутливих до забруднення повітря людей.","کیفیت هوا قابل قبول است؛ با این حال، برای برخی از آلاینده‌ها ممکن است نگرانی متوسطی برای سلامتی گروه بسیار کمی از افراد که به آلودگی هوا حساسیت غیرعادی دارند، وجود داشته باشد."
     ],
     "sensitive_groups_health_effects": [
         "Member of sensitive groups may experience health effects. The general public is not likely to be affected.",
@@ -1425,7 +1457,7 @@ const translations = {
         "Členovia citlivých skupín môžu pociťovať zdravotné účinky. Širokej verejnosti sa to pravdepodobne nedotkne.",
         "敏感人群的健康可能会受到影响，普通公众不太可能受到影响。",
         "大気汚染に敏感な人は影響が出る可能性がありますが、通常の人にはあまり注意は必要ありません。",
-        "Чутливі люди можуть відчути вплив на здоров'я. Більшість людей навряд чи відчує який-небудь вплив на собі."
+        "Чутливі люди можуть відчути вплив на здоров'я. Більшість людей навряд чи відчує який-небудь вплив на собі.","اعضای گروه‌های حساس ممکن است تأثیرات بهداشتی را تجربه کنند. احتمالاً عموم مردم تحت تأثیر قرار نخواهند گرفت."
     ],
     "health_effects_public": [
         "Everyone may begin to experience health effects; member of sensitive groups may experience more serious health effects.",
@@ -1443,6 +1475,7 @@ const translations = {
         "每个人都可能开始受到健康影响；敏感群体的成员可能会受到更严重的健康影响。",
         "大気汚染に敏感な人に深刻な影響があるかもしれません。通常の人にも影響が出る可能性があります。",
         "Більшість людей може почати відчувати вплив на здоров'я, а більш чутливі люди можуть відчувати більш серйозні наслідки для здоров'я."
+        ,"همه ممکن است شروع به تجربه تأثیرات بهداشتی کنند؛ اعضای گروه‌های حساس ممکن است تأثیرات بهداشتی جدی‌تری را تجربه کنند."
     ],
     "emergency_conditions": [
         "Health warnings of emergency conditions. The entire population is more likely to be affected.",
@@ -1459,7 +1492,7 @@ const translations = {
         "Zdravotné varovania pred núdzovými podmienkami. Je pravdepodobnejšie, že bude postihnutá celá populácia.",
         "健康警告：紧急状况，全体人群都更有可能受到影响。",
         "ほぼすべての人が大気汚染による深刻な影響を受ける可能性があります。",
-        "Попередження про надзвичайні умови й пагубний вплив на здоров'я усього населення."
+        "Попередження про надзвичайні умови й пагубний вплив на здоров'я усього населення.","هشدارهای بهداشتی درباره شرایط اضطراری. احتمالاً تمام جمعیت تحت تأثیر قرار خواهند گرفت."
     ],
     "support": [
         "Support",
@@ -1477,6 +1510,7 @@ const translations = {
         "支持",
         "サポート",
         "Підтримка"
+        ,"پشتیبانی"
     ],
     "weather_notifications": [
         "Weather notifications",
@@ -1493,7 +1527,7 @@ const translations = {
         "Notifikácie o počasí",
         "天气通知",
         "天気の通知",
-        "Сповіщення про погоду"
+        "Сповіщення про погоду","اعلان های آب و هوا"
     ],
     "home_location": [
         "Home location",
@@ -1510,7 +1544,7 @@ const translations = {
         "Domovská lokalita",
         "家庭位置",
         "家の場所",
-        "Домашня адреса"
+        "Домашня адреса","محل سکونت"
     ],
     "save_locations_menu": [
         "You need to save locations to show in the menu",
@@ -1527,7 +1561,7 @@ const translations = {
         "Ak chcete zobraziť miesta v ponuke, musíte ich uložiť",
         "您需要保存菜单中显示的位置",
         "メニューに表示するには地点を登録する必要があります",
-        "Збережіть місця, щоб вони показувалися в меню"
+        "Збережіть місця, щоб вони показувалися в меню","شما باید مکان‌ها را ذخیره کنید تا در منو نمایش داده شوند."
     ],
     "temperature_unit": [
         "Temperature Unit",
@@ -1544,7 +1578,7 @@ const translations = {
         "Jednotka teploty",
         "温度单位",
         "気温の単位",
-        "Одиниця температури"
+        "Одиниця температури","واحد دما"
     ],
     "wind_unit": [
         "Wind Unit",
@@ -1561,7 +1595,7 @@ const translations = {
         "Jednotka vetra",
         "风速单位",
         "風速の単位",
-        "Одиниця вітру"
+        "Одиниця вітру","واحد باد"
     ],
     "visibility_unit": [
         "Visibility Unit",
@@ -1578,7 +1612,7 @@ const translations = {
         "Jednotka viditeľnosti",
         "能见度单位",
         "視認性の単位",
-        "Одиниця видимості"
+        "Одиниця видимості","واحد دید"
     ],
     "precipitation_unit": [
         "Precipitation Unit",
@@ -1595,7 +1629,7 @@ const translations = {
         "Jednotka zrážok",
         "降水量单位",
         "降水量の単位",
-        "Одиниця опадів"
+        "Одиниця опадів","واحد بارش"
     ],
     "pressure_unit": [
         "Pressure Unit",
@@ -1612,7 +1646,7 @@ const translations = {
         "Jednotka tlaku",
         "气压单位",
         "気圧の単位",
-        "Одиниця тиску"
+        "Одиниця тиску","واحد فشار"
     ],
     "app_language": [
         "App language",
@@ -1629,7 +1663,7 @@ const translations = {
         "Jazyk aplikácie",
         "应用程序语言",
         "アプリの言語",
-        "Мова застосунку"
+        "Мова застосунку","زبان اپلیکیشن"
     ],
     "additional": [
         "Additional",
@@ -1646,7 +1680,7 @@ const translations = {
         "Ostatné",
         "附加",
         "その他",
-        "Додатково"
+        "Додатково","اضافی"
     ],
     "about_weathermaster": [
         "About WeatherMaster",
@@ -1663,7 +1697,7 @@ const translations = {
         "O aplikácii WeatherMaster",
         "关于天气大师",
         "WeatherMasterについて",
-        "Про WeatherMaster"
+        "Про WeatherMaster","درباره weathermaster"
     ],
     "data_provided_by": [
         "Data provided by",
@@ -1680,7 +1714,7 @@ const translations = {
         "Údaje poskytlo",
         "数据来源",
         "データの提供元",
-        "Погодні дані надають"
+        "Погодні дані надають","داده‌های ارائه‌شده توسط"
     ],
     "map": [
         "Map",
@@ -1697,7 +1731,7 @@ const translations = {
         "Mapa",
         "地图",
         "地図",
-        "Мапа"
+        "Мапа","نقشه"
     ],
     "third_party_licenses": [
         "Third party licenses",
@@ -1714,7 +1748,7 @@ const translations = {
         "Licencie tretích strán",
         "第三方许可",
         "サードパーティライセンス",
-        "Ліцензії третіх сторін"
+        "Ліцензії третіх сторін","مجوزهای شخص ثالث"
     ],
     "privacy_policy": [
         "Privacy & Policy",
@@ -1731,7 +1765,7 @@ const translations = {
         "Ochrana osobných údajov a zásady",
         "隐私政策",
         "プライバシーポリシー",
-        "Політика конфіденційності"
+        "Політика конфіденційності","حریم خصوصی"
     ],
     "terms_conditions": [
         "Terms & Conditions",
@@ -1748,7 +1782,7 @@ const translations = {
         "Zmluvné podmienky",
         "条款和条件",
         "利用規約",
-        "Загальні положення та умови"
+        "Загальні положення та умови","شرایط و ضوابط"
     ],
     "latest_version": [
         "Latest version",
@@ -1765,7 +1799,7 @@ const translations = {
         "Najnovšia verzia",
         "最新版本",
         "最新バージョンを確認",
-        "Остання версія"
+        "Остання версія","آخرین نسخه"
     ],
     "app_version": [
         "App version",
@@ -1782,7 +1816,7 @@ const translations = {
         "Verzia aplikácie",
         "应用程序版本",
         "アプリのバージョン",
-        "Версія застосунку"
+        "Версія застосунку","نسخه اپلیکیشن"
     ],
     "view_source_code": [
         "View source code",
@@ -1799,7 +1833,7 @@ const translations = {
         "Zobraziť zdrojový kód",
         "查看源代码",
         "ソースコードを見る",
-        "Переглянути вихідний код"
+        "Переглянути вихідний код","مشاهده کد پروژه"
     ],
     "forecast": [
         "Forecast",
@@ -1816,7 +1850,7 @@ const translations = {
         "Predpoveď",
         "预报",
         "予報",
-        "Прогноз"
+        "Прогноз","پیش‌بینی"
     ],
     "more": [
         "More",
@@ -1833,7 +1867,7 @@ const translations = {
         "Viac",
         "更多",
         "もっと",
-        "Більше"
+        "Більше","بیشتر"
     ],
     "todays_amount": [
         "Today's amount",
@@ -1850,7 +1884,7 @@ const translations = {
         "Dnešné množstvo",
         "今日总量",
         "今日の降水量",
-        "Кількість на сьогодні"
+        "Кількість на сьогодні","مقدار امروز"
     ],
     "precipitation_hours": [
         "Precipitation hours",
@@ -1867,7 +1901,7 @@ const translations = {
         "Doba zrážok",
         "降水时数",
         "1時間降水量",
-        "Години опадів"
+        "Години опадів","ساعات بارش"
     ],
     "next": [
         "Next",
@@ -1884,7 +1918,7 @@ const translations = {
         "Ďalej",
         "下一个",
         "次",
-        "Далі"
+        "Далі","بعدی"
     ],
     "cloudiness": [
         "Cloudiness",
@@ -1901,7 +1935,7 @@ const translations = {
         "Oblačnosť",
         "云量",
         "曇り具合",
-        "Хмарність"
+        "Хмарність","ابری بودن"
     ],
     "weather_alerts": [
         "Weather alerts",
@@ -1918,7 +1952,7 @@ const translations = {
         "Upozornenia na počasie",
         "天气警报",
         "気象警報",
-        "Попередження про погоду"
+        "Попередження про погоду","هشدارهای آب و هوایی"
     ],
     "tap_to_see_more": [
         "Tap to see more...",
@@ -1935,7 +1969,7 @@ const translations = {
         "Klepnutím zobrazíte viac...",
         "点击查看更多",
         "タップしてさらに表示",
-        "Натисніть, щоб дізнатися більше"
+        "Натисніть, щоб дізнатися більше","برای مشاهده بیشتر ضربه بزنید"
     ],
     "weather": [
         "Weather",
@@ -1952,7 +1986,7 @@ const translations = {
         "Počasie",
         "天气",
         "天気",
-        "Погода"
+        "Погода","آب و هوا"
     ],
     "learn_about_the_app": [
         "Learn about the app",
@@ -1969,7 +2003,7 @@ const translations = {
         "Získajte informácie o aplikácii",
         "了解该应用",
         "このアプリについて",
-        "Дізнатися більше про застосунок"
+        "Дізнатися більше про застосунок","درباره اپلیکیشن بیاموزید"
     ],
     "translate_this_app": [
         "Translate this app",
@@ -1986,7 +2020,7 @@ const translations = {
         "Preložte túto aplikáciu",
         "翻译该应用",
         "アプリを翻訳する",
-        "Перекласти застосунок"
+        "Перекласти застосунок","این اپلیکیشن را ترجمه کنید"
     ],
     "join_POEditor_project_to_help": [
         "Join POEditor project to help",
@@ -2003,7 +2037,7 @@ const translations = {
         "Pripojte sa k projektu POEditor a pomôžte",
         "加入 POEditor 项目来帮助我们",
         "POEditorのプロジェクトに参加する",
-        "Приєднуйтеся до POEditor, щоб допомогти"
+        "Приєднуйтеся до POEditor, щоб допомогти","به پروژه POEditor بپیوندید تا کمک کنید"
     ],
     "notification_bar": [
         "Notification bar",
@@ -2020,7 +2054,7 @@ const translations = {
         "Notifikačná lišta",
         "通知栏",
         "エラーが発生しました！",
-        "Панель сповіщень"
+        "Панель сповіщень","نوار اعلان"
     ],
     "show_weather_information_in_the_notification_bar": [
         "Show weather information in the notification bar",
@@ -2037,7 +2071,7 @@ const translations = {
         "Zobraziť informácie o počasí na paneli upozornení",
         "在通知栏中显示天气信息",
         "インターネット接続を確認してやり直してください。",
-        "Показувати інформацію про погоду на панелі сповіщень"
+        "Показувати інформацію про погоду на панелі сповіщень","اطلاعات آب و هوا را در نوار اعلان نمایش دهید"
     ],
     "updated_just_now": [
         "Updated, just now",
@@ -2054,7 +2088,7 @@ const translations = {
         "Aktualizované, práve teraz",
         "刚刚更新",
         "APIエラーの可能性があります。",
-        "Щойно оновлено"
+        "Щойно оновлено","همین حالا به‌روزرسانی شد"
     ],
     "day_length": [
         "day length",
@@ -2071,7 +2105,7 @@ const translations = {
         "dĺžka dňa",
         "昼长",
         "日照時間",
-        "тривалість дня"
+        "тривалість дня","طول روز"
     ],
     "dont_miss_sunrise": [
         "Don't miss the sunrise! It will happen in 40 minutes or less.",
@@ -2088,7 +2122,7 @@ const translations = {
         "Nenechajte si ujsť východ slnka! Stane sa to za 40 minút alebo menej.",
         "不要错过日出！预计四十分钟。",
         "朝日をお見逃しなく！40分以内に昇ります。",
-        "Не пропустіть світанок! Він настане менш ніж за 40 хвилин"
+        "Не пропустіть світанок! Він настане менш ніж за 40 хвилин","طلوع آفتاب را از دست ندهید! در ۴۰ دقیقه یا کمتر اتفاق خواهد افتاد."
     ],
     "dont_miss_sunset": [
         "Don't miss the sunset! It will happen in 40 minutes or less.",
@@ -2105,7 +2139,7 @@ const translations = {
         "Nenechajte si ujsť západ slnka! Stane sa to za 40 minút alebo menej.",
         "不要错过日落！预计四十分钟。",
         "夕日をお見逃しなく！ 40分以内に沈みます。",
-        "Не пропустіть захід сонця! Він настане менш ніж за 40 хвилин"
+        "Не пропустіть захід сонця! Він настане менш ніж за 40 хвилин","غروب آفتاب را از دست ندهید! در ۴۰ دقیقه یا کمتر اتفاق خواهد افتاد."
     ],
     "hourly_precipitation": [
         "Hourly precipitation",
@@ -2122,7 +2156,7 @@ const translations = {
         "Hodinové zrážky",
         "每小时降水量",
         "1時間降水量",
-        "Опади погодинно"
+        "Опади погодинно","بارش ساعتی"
     ],
     "direction": [
         "Direction",
@@ -2139,7 +2173,7 @@ const translations = {
         "Smer",
         "方向",
         "方角",
-        "Напрям"
+        "Напрям","جهت"
     ],
     "calm": [
         "Calm",
@@ -2156,7 +2190,7 @@ const translations = {
         "Pokojne",
         "静风",
         "凪",
-        "Штиль"
+        "Штиль","آرام"
     ],
     "light_air": [
         "Light air",
@@ -2173,7 +2207,7 @@ const translations = {
         "Ľahký vzduch",
         "轻微风",
         "至軽風",
-        "Тихий вітер"
+        "Тихий вітер","باد سبک"
     ],
     "light_breeze": [
         "Light breeze",
@@ -2190,7 +2224,7 @@ const translations = {
         "Ľahký vánok",
         "轻风",
         "軽風",
-        "Легкий вітер"
+        "Легкий вітер","نسیم کمی ملایم"
     ],
     "gentle_breeze": [
         "Gentle breeze",
@@ -2207,7 +2241,7 @@ const translations = {
         "Jemný vánok",
         "微风",
         "軟風",
-        "Слабкий вітер"
+        "Слабкий вітер","نسیم ملایم"
     ],
     "moderate_breeze": [
         "Moderate breeze",
@@ -2224,7 +2258,7 @@ const translations = {
         "Mierny vánok",
         "和风",
         "和風",
-        "Помірний вітер"
+        "Помірний вітер","نسیم متوسط"
     ],
     "fresh_breeze": [
         "Fresh breeze",
@@ -2241,7 +2275,7 @@ const translations = {
         "Svieži vánok",
         "清新微风",
         "疾風",
-        "Свіжий вітер"
+        "Свіжий вітер","نسیم تازه"
     ],
     "strong_breeze": [
         "Strong breeze",
@@ -2258,7 +2292,7 @@ const translations = {
         "Silný vánok",
         "强风",
         "雄風",
-        "Сильний вітер"
+        "Сильний вітер","نسیم قوی"
     ],
     "high_wind": [
         "High wind",
@@ -2275,7 +2309,7 @@ const translations = {
         "Silný vietor",
         "大风",
         "非常に強い風",
-        "Дуже сильний вітер"
+        "Дуже сильний вітер","باد شدید"
     ],
     "gale": [
         "Gale",
@@ -2292,7 +2326,7 @@ const translations = {
         "Gale",
         "大风",
         "強風",
-        "Буря"
+        "Буря","طوفان"
     ],
     "strong_gale": [
         "Strong gale",
@@ -2309,7 +2343,7 @@ const translations = {
         "Silná víchrica",
         "烈风",
         "とても強い風",
-        "Сильна буря"
+        "Сильна буря","طوفان قوی"
     ],
     "storm": [
         "Storm",
@@ -2326,7 +2360,7 @@ const translations = {
         "búrka",
         "暴风",
         "嵐",
-        "Шторм"
+        "Шторм","طوفان"
     ],
     "violent_storm": [
         "Violent storm",
@@ -2343,7 +2377,7 @@ const translations = {
         "Prudká búrka",
         "强暴风",
         "激しい嵐",
-        "Буревій"
+        "Буревій","طوفان شدید"
     ],
     "hurricane": [
         "Hurricane",
@@ -2360,7 +2394,7 @@ const translations = {
         "Hurikán",
         "飓风",
         "台風",
-        "Ураган"
+        "Ураган","گردباد"
     ],
     "Warming expected over the next few days.": [
         "Warming expected over the next few days.",
@@ -2378,7 +2412,7 @@ const translations = {
         "预计未来几天气温将升高。",
         "今後数日間は暖かくなるでしょう。",
         "У найближчі кілька днів очікуєтсья потепління."
-    ],
+        ,"در روزهای آینده افزایش دما پیش‌بینی می‌شود."],
     "Temperatures will rise soon, get ready for some heat!": [
         "Temperatures will rise soon, get ready for some heat!",
         "Las temperaturas subirán pronto, ¡prepárate para el calor!",
@@ -2389,7 +2423,7 @@ const translations = {
         "A hőmérséklet hamarosan emelkedni fog, készüljön a melegre!",
         "Температура скоро повысится, приготовьтесь к жаре!",
         "Temperatury wkrótce wzrosną, przygotuj się na upały!",
-        "",
+        "در آینده‌ای نزدیک دما افزایش خواهد یافت، برای گرما آماده باشید!",
         "Temperaturile vor crește în curând, pregătiți-vă pentru puțină căldură!",
         "Teploty čoskoro stúpnu, pripravte sa na teplo!",
         "气温即将上升，做好迎接炎热的准备吧！",
@@ -2411,7 +2445,7 @@ const translations = {
         "Zdá sa, že tento týždeň sa oteplí.",
         "看起来这周天气会变暖。",
         "今週は暖かくなるようです。",
-        "Схоже, цього тижня буде тепліше."
+        "Схоже, цього тижня буде тепліше.","به نظر می‌رسد این هفته دما افزایش یابد."
     ],
     "Prepare for warmer weather ahead.": [
         "Prepare for warmer weather ahead.",
@@ -2428,7 +2462,7 @@ const translations = {
         "Pripravte sa na teplejšie počasie.",
         "准备好迎接即将到来的温暖天气。",
         "暖かい天気に備えましょう。",
-        "Готуйтеся до потепління попереду."
+        "Готуйтеся до потепління попереду.","برای هوای گرم‌تر آماده شوید."
     ],
     "Cooling expected over the next few days.": [
         "Cooling expected over the next few days.",
@@ -2445,7 +2479,7 @@ const translations = {
         "V najbližších dňoch sa očakáva ochladenie.",
         "预计未来几天气温将下降。",
         "今後数日間は冷え込むでしょう。",
-        "У наступні кілька днів очікується похолодання."
+        "У наступні кілька днів очікується похолодання.","در روزهای آینده کاهش دما پیش‌بینی می‌شود."
     ],
     "Temperatures are dropping soon, stay warm!": [
         "Temperatures are dropping soon, stay warm!",
@@ -2462,7 +2496,7 @@ const translations = {
         "Teploty čoskoro klesnú, zostaňte v teple!",
         "气温即将下降，注意保暖！",
         "これから気温が大きく下がるので、暖かくしましょう。",
-        "Температура скоро знизиться, не мерзніть!"
+        "Температура скоро знизиться, не мерзніть!","در آینده‌ای نزدیک دما کاهش می‌یابد، گرم بمانید!"
     ],
     "It's going to get cooler in the coming days.": [
         "It's going to get cooler in the coming days.",
@@ -2479,7 +2513,7 @@ const translations = {
         "V najbližších dňoch sa ochladí.",
         "未来几天天气将会变凉。",
         "これから涼しくなるでしょう。",
-        "Найближчими днями буде прохолодно."
+        "Найближчими днями буде прохолодно.","در روزهای آینده دما کاهش خواهد یافت."
     ],
     "Expect a chilly breeze over the next days.": [
         "Expect a chilly breeze over the next days.",
@@ -2496,7 +2530,7 @@ const translations = {
         "Počas nasledujúcich dní očakávajte chladný vánok.",
         "预计未来几天会有寒风。",
         "今後数日間は冷たい風が吹くでしょう。",
-        "У найближчі дні очікується прохолодний вітер."
+        "У найближчі дні очікується прохолодний вітер.","در روزهای آینده انتظار وزش نسیم خنک را داشته باشید."
     ],
     "Stable temperatures expected in the next few days.": [
         "Stable temperatures expected in the next few days.",
@@ -2513,7 +2547,7 @@ const translations = {
         "V najbližších dňoch sa očakávajú stabilné teploty.",
         "预计未来几天气温稳定。",
         "今後数日間は気温は安定しているでしょう。",
-        "У найближчі дні очікується стабільна температура."
+        "У найближчі дні очікується стабільна температура.","در روزهای آینده دماهای پایدار پیش‌بینی می‌شود."
     ],
     "No big temperature changes ahead, steady weather.": [
         "No big temperature changes ahead, steady weather.",
@@ -2530,7 +2564,7 @@ const translations = {
         "Žiadne veľké zmeny teplôt dopredu, stabilné počasie.",
         "未来气温无大变化，天气稳定。",
         "今後は大きな気温差はなく、安定した天気が続くでしょう。",
-        "Різких перепадів температури не передбачається."
+        "Різких перепадів температури не передбачається.","هیچ تغییر دمای بزرگی در پیش نیست، آب و هوای ثابت."
     ],
     "Temperatures are holding steady for now.": [
         "Temperatures are holding steady for now.",
@@ -2547,7 +2581,7 @@ const translations = {
         "Teploty sa zatiaľ držia na stabilnej úrovni.",
         "目前气温保持稳定。",
         "今のところ気温は安定しています。",
-        "Температура поки що тримається стабільно."
+        "Температура поки що тримається стабільно.","در حال حاضر دماها پایدار باقی مانده‌اند."
     ],
     "Expect stable weather without much change.": [
         "Expect stable weather without much change.",
@@ -2564,7 +2598,7 @@ const translations = {
         "Očakávajte stabilné počasie bez veľkých zmien.",
         "预计天气稳定，不会有太大变化。",
         "あまり変化のない安定した天気でしょう。",
-        "Очікується стабільна погода без значних змін."
+        "Очікується стабільна погода без значних змін.","انتظار آب و هوای پایدار بدون تغییرات زیاد را داشته باشید."
     ],
     "❄️ Freezing temperatures! Wear a heavy coat, gloves, a hat, and a scarf to stay warm.": [
         "❄️ Freezing temperatures! Wear a heavy coat, gloves, a hat, and a scarf to stay warm.",
@@ -2581,7 +2615,7 @@ const translations = {
         "❄️ Teploty pod bodom mrazu! Noste ťažký kabát, rukavice, čiapku a šál, aby ste zostali v teple.",
         "❄️ 冰冻温度！请穿上厚外套、戴手套、帽子和围巾以保暖。",
         "❄️ 氷点下です！とても厚いコート、手袋、帽子やスカーフを着けて暖かくしましょう。",
-        "❄️ Заморозки! Щоб не заледеніти, одягайте щільне пальто, рукавички, шапку та шарф."
+        "❄️ Заморозки! Щоб не заледеніти, одягайте щільне пальто, рукавички, шапку та шарф.","❄️سرمای زیاد! برای گرم ماندن، یک پالتو سنگین، دستکش، کلاه و شال بپوشید."
     ],
     "🧥 Very cold! Wear a thick coat, a hat, and gloves to keep warm.": [
         "🧥 Very cold! Wear a thick coat, a hat, and gloves to keep warm.",
@@ -2598,7 +2632,7 @@ const translations = {
         "🧥 Veľmi chladno! Noste hrubý kabát, čiapku a rukavice, aby ste sa udržali v teple.",
         "🧥 非常寒冷！请穿上厚外套、戴帽子和手套以保暖。",
         "🧥 とても寒いです！厚いコート、帽子、手袋を着けて暖かくしましょう。",
-        "🧥 Дуже холодно! Одягайте пальто з підкладом, шапку та рукавички, щоб не замерзнути."
+        "🧥 Дуже холодно! Одягайте пальто з підкладом, шапку та рукавички, щоб не замерзнути.","🧥 خیلی سرد است! برای گرم ماندن، یک پالتوی ضخیم، کلاه و دستکش بپوشید."
     ],
     "🧣 Cold weather. A coat and a sweater will keep you comfortable.": [
         "🧣 Cold weather. A coat and a sweater will keep you comfortable.",
@@ -2615,7 +2649,7 @@ const translations = {
         "🧣 Chladné počasie. Kabát a sveter vám zabezpečia pohodlie.",
         "🧣 寒冷的天气，穿一件外套和毛衣会令你感到舒适。",
         "🧣 寒いです。適度にコートやセーターを着ましょう。",
-        "🧣 Доволі холодно. Пальто та светр забезпечать вам комфорт."
+        "🧣 Доволі холодно. Пальто та светр забезпечать вам комфорт.","🧣 هوای سرد. یک پالتو و یک سویشرت شما را راحت نگه می‌دارد."
     ],
     "🧥 Cool temperatures. Wear a light jacket and long sleeves.": [
         "🧥 Cool temperatures. Wear a light jacket and long sleeves.",
@@ -2632,7 +2666,7 @@ const translations = {
         "🧥 Chladné teploty. Noste ľahkú bundu a dlhé rukávy.",
         "🧥 凉爽的气温，请穿轻薄夹克和长袖衣物。",
         "🧥 涼しいです。薄いジャケットや長袖の服を着ましょう。",
-        "🧥 Прохолодно. Одягайте легку куртку або вітровку з довгими рукавами."
+        "🧥 Прохолодно. Одягайте легку куртку або вітровку з довгими рукавами.","🧥 دمای خنک. یک ژاکت سبک و لباس آستین بلند بپوشید."
     ],
     "🌤️ Mild weather. A light jacket or a sweater should be enough.": [
         "🌤️ Mild weather. A light jacket or a sweater should be enough.",
@@ -2649,7 +2683,7 @@ const translations = {
         "🌤️ Mierne počasie. Mala by stačiť ľahká bunda alebo sveter.",
         "🌤️ 温和的天气。穿一件轻薄夹克或毛衣就足够了。",
         "🌤️ 穏やかな天気です。薄いジャケットやセーターがあるといいでしょう。",
-        "🌤️ Мінлива погода. Легкої куртки або светра буде достатньо."
+        "🌤️ Мінлива погода. Легкої куртки або светра буде достатньо.","🌤️ هوای معتدل. یک ژاکت سبک یا سویشرت کافی خواهد بود."
     ],
     "👕 Pleasantly warm. A t-shirt and jeans or pants are suitable.": [
         "👕 Pleasantly warm. A t-shirt and jeans or pants are suitable.",
@@ -2666,7 +2700,7 @@ const translations = {
         "👕 Teplý deň. Vhodné je tričko a džínsy alebo nohavice.",
         "👕 暖和的一天，T恤搭配牛仔裤或长裤是合适的。",
         "👕 暖かいです。シャツやジーンズが適しています。",
-        "👕 Досить теплий день. Підійде футболка та джинси або штани."
+        "👕 Досить теплий день. Підійде футболка та джинси або штани.","👕 هوای گرم و دلپذیر. یک تی‌شرت و شلوار جین یا شلوار مناسب است."
     ],
     "☀️ Hot! Opt for a t-shirt and light pants or shorts.": [
         "☀️ Hot! Opt for a t-shirt and light pants or shorts.",
@@ -2683,7 +2717,7 @@ const translations = {
         "☀️ Horúce! Rozhodnite sa pre tričko a svetlé nohavice alebo šortky.",
         "☀️ 炎热！请选择穿T恤和轻薄长裤或短裤。",
         "☀️ 暑いです！なるべく薄手の服を着て、水分補給をしましょう。",
-        "☀️ Доволі спекотно! Обирайте футболку та легкі штани або шорти."
+        "☀️ Доволі спекотно! Обирайте футболку та легкі штани або шорти.","☀️ گرم است! یک تی‌شرت و شلوار سبک یا شلوارک انتخاب کنید."
     ],
     "🌞 Very hot. Wear light, breathable clothing and stay hydrated.": [
         "🌞 Very hot. Wear light, breathable clothing and stay hydrated.",
@@ -2700,7 +2734,7 @@ const translations = {
         "🌞 Veľmi horúce. Noste ľahké, priedušné oblečenie a zostaňte hydratovaní.",
         "🌞 非常炎热，请穿着轻薄透气的衣物，并保持水分补充。",
         "🌞 とても暑いです。薄手の服を着て、水分補給をしながら安全に過ごしましょう。",
-        "🌞 Дуже спекотно. Одягайте легкий, дихаючий одяг та пийте достатньо води."
+        "🌞 Дуже спекотно. Одягайте легкий, дихаючий одяг та пийте достатньо води.","🌞 خیلی گرم. لباس‌های سبک و قابل تنفس بپوشید و هیدراته بمانید."
     ],
     "🔥 Extreme heat! Wear very light clothing, stay hydrated, and avoid direct sun exposure.": [
         "🔥 Extreme heat! Wear very light clothing, stay hydrated, and avoid direct sun exposure.",
@@ -2717,7 +2751,7 @@ const translations = {
         "🔥Extrémne teplo! Noste veľmi ľahké oblečenie, zostaňte hydratovaní a vyhýbajte sa priamemu slnečnému žiareniu.",
         "🔥 极端高温！请穿着非常轻薄的衣物，保持水分补充，并避免直接日晒。",
         "🔥 危ない暑さです！薄手の服を着て、直射日光を避けてください！",
-        "🔥 Екстремальна спека! Носіть дуже легкий одяг, пийте достатньо води та уникайте прямого контакту із сонцем."
+        "🔥 Екстремальна спека! Носіть дуже легкий одяг, пийте достатньо води та уникайте прямого контакту із сонцем.","🔥 گرمای شدید! لباس‌های خیلی سبک بپوشید، هیدراته بمانید و از قرار گرفتن مستقیم در معرض آفتاب خودداری کنید."
     ],
     "⚠️ Dangerously hot! Wear minimal clothing, stay indoors if possible, and drink plenty of water.": [
         "⚠️ Dangerously hot! Wear minimal clothing, stay indoors if possible, and drink plenty of water.",
@@ -2751,7 +2785,7 @@ const translations = {
         "🚨 Upozornenie na extrémne horúčavy! Noste minimálne oblečenie, zostaňte vnútri a pite veľa vody, aby ste zostali v bezpečí.",
         "🚨 极端高温警告！请穿着轻薄衣物，尽量待在室内，并多喝水以确保安全。",
         "🚨 とても暑いです！薄手の服を着て、なるべく室内で水分補給をしながら安全に過ごしましょう。",
-        "🚨 Екстремальна спека! Одягайте мінімум одягу, залишайтеся в приміщенні та пийте багато води."
+        "🚨 Екстремальна спека! Одягайте мінімум одягу, залишайтеся в приміщенні та пийте багато води.","⚠️ گرمای خطرناک! لباس‌های حداقلی بپوشید، در صورت امکان در داخل خانه بمانید و مقدار زیادی آب بنوشید."
     ],
     "current_location": [
         "Current location",
@@ -2785,7 +2819,7 @@ const translations = {
         "Hlavná teplota",
         "主要温度",
         "温度",
-        "Основна температура"
+        "Основна температура","موقعیت فعلی"
     ],
     "pick_a_location": [
         "Pick a location",
@@ -2802,7 +2836,7 @@ const translations = {
         "Vyberte miesto",
         "选择一个位置",
         "地点を選択",
-        "Вибрати місце"
+        "Вибрати місце","یک مکان انتخاب کنید"
     ],
     "Error occurred!": [
         "Error occurred!",
@@ -2819,7 +2853,7 @@ const translations = {
         "Vyskytla sa chyba!",
         "出错啦！",
         "エラーが発生しました！",
-        "Виникла помилка!"
+        "Виникла помилка!","خطا رخ داد!"
     ],
     "Check your internet connection and try again.": [
         "Check your internet connection and try again.",
@@ -2836,7 +2870,7 @@ const translations = {
         "Skontrolujte svoje internetové pripojenie a skúste to znova.",
         "检查您的互联网连接并重试。",
         "インターネット接続を確認してやり直してください。",
-        "Перевірте Ваше інтернет-з'єднання і спробуйте знову"
+        "Перевірте Ваше інтернет-з'єднання і спробуйте знову","اتصال اینترنت خود را بررسی کنید و دوباره تلاش کنید."
     ],
     "There might be an API error.": [
         "There might be an API error.",
@@ -2853,7 +2887,7 @@ const translations = {
         "Môže sa vyskytnúť chyba rozhrania API.",
         "可能存在 API 错误。",
         "APIエラーの可能性があります。",
-        "Можливо, сталася API-помилка"
+        "Можливо, сталася API-помилка","ممکن است یک خطای API وجود داشته باشد."
     ],
         "time_format": [
             "Time format",
@@ -2870,7 +2904,7 @@ const translations = {
             "Formát času",
             "时间格式",
             "時刻形式",
-            "Формат часу"
+            "Формат часу","فرمت زمان"
         ],
             "daily_conditions": [
                 "Daily conditions",
@@ -2887,7 +2921,7 @@ const translations = {
                 "Denné podmienky",
                 "日常状况",
                 "日々の状況",
-                "Щоденні умови"
+                "Щоденні умови","شرایط روزانه"
             ],
                 "Background card animation": [
                     "Background card animation",
@@ -2904,7 +2938,7 @@ const translations = {
                     "Animácia karty na pozadí",
                     "背景卡片动画",
                     "背景カードアニメーション",
-                    "Анімація фонової картки"
+                    "Анімація фонової картки","انیمیشن پس‌زمینه"
                 ],
                                 "Use system font": [
                                     "Use system font",
@@ -2921,7 +2955,7 @@ const translations = {
                                     "Použite systémové písmo",
                                     "使用系统字体",
                                     "システムフォントを使用する",
-                                    "Використовуйте системний шрифт"
+                                    "Використовуйте системний шрифт","استفاده از فونت سیستم"
                                 ],
                                 "Hide the 'New update available' toast after 5 seconds": [
                                     "Hide the 'New update available' toast after 5 seconds",
@@ -2938,7 +2972,7 @@ const translations = {
                                     "Po 5 sekundách skryte prípitok „K dispozícii je nová aktualizácia“.",
                                     "5 秒后隐藏“有新更新可用”提示",
                                     "5秒後に「新しいアップデートが利用可能」のトーストを非表示にする",
-                                    "Через 5 секунд приховати повідомлення «Доступне нове оновлення»."
+                                    "Через 5 секунд приховати повідомлення «Доступне нове оновлення».","پس از ۵ ثانیه پیام 'به‌روزرسانی جدید در دسترس است' را پنهان کنید."
                                 ],
 };
 
@@ -2961,6 +2995,7 @@ const langMap = {
     'zh-Hans': 12,
     'ja': 13,
     'uk': 14,
+    'fa':15,
 
 
 };
