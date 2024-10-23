@@ -28,7 +28,7 @@
             <span icon-outlined style="opacity: 0.8;">location_on</span>
         </button>
         <h2 id="city-name" style="margin-right: 3px;">
-            <md-circular-progress indeterminate style="--md-circular-progress-size: 30px;"></md-circular-progress>
+          Current location
         </h2>
     </div>
     <div class="header_actions">
@@ -119,7 +119,11 @@
         </div>
 
         <div class="froggie">
-            <img src="" id="froggie_imgs" alt="">
+            <img src="" id="froggie_imgs" alt="" hidden>
+
+            <div class="alt_text_frog" style="display: flex; align-items: center; justify-content: center;">
+                <p>Loading...</p>
+            </div>
         </div>
 
 
@@ -812,7 +816,11 @@ document.getElementById('clearCityInput').addEventListener('click', () =>{
 
 
 
+    document.getElementById('froggie_imgs').addEventListener('load', ()=>{
+        document.querySelector('.alt_text_frog').hidden = true;
+        document.getElementById('froggie_imgs').hidden = false;
 
+    })
 
     </script>
 

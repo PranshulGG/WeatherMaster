@@ -807,8 +807,29 @@ const DrizzleAnimation = createDrizzle();
 
 // display animations
 
+var anim1Drizzle
+
 function displayDrizzle(){
     DrizzleAnimation.startAnimationdrizzle()
+
+        var animationContainer1 = document.getElementById('background_animation');
+        var animationContainer2 = document.getElementById('foreground_animation');
+            animationContainer1.innerHTML = ''
+          animationContainer2.innerHTML = ''
+
+        var animationData1 = 'lottie_animations/mostly_cloudy_background.json';
+
+
+        anim1Drizzle = bodymovin.loadAnimation({
+            container: animationContainer1,
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: animationData1,
+            rendererSettings: {
+                preserveAspectRatio: 'xMidYMid slice'
+            }
+        });
 }
 
 
@@ -958,9 +979,13 @@ function removeThunder(){
   thunderAnimation.clearCanvas()
 }
 
+
 function removeDrizzle(){
     DrizzleAnimation.clearCanvas()
+
+    if (anim1Drizzle) anim1Drizzle.destroy();
   }
+
 
 function removeLeaves(){
     if (anim1) anim1.destroy();
