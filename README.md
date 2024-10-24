@@ -7,12 +7,19 @@
 <h1 align="center">
  WeatherMaster
 </h1>
+<br>
+   <div  align="center">
+      <img src="https://img.shields.io/github/repo-size/PranshulGG/WeatherMaster?style=for-the-badge">
+      <img src="https://img.shields.io/github/last-commit/PranshulGG/WeatherMaster?style=for-the-badge">
+      <img src="https://img.shields.io/github/release-date/PranshulGG/WeatherMaster?style=for-the-badge">
+      <img src="https://img.shields.io/github/stars/PranshulGG/WeatherMaster?style=for-the-badge">
+
+   </div>
+   <br>
 <div align="center">
  <a href="https://github.com/PranshulGG/WeatherMaster/releases"><img alt="GitHub" src="https://censorship.no/img/github-badge.png" height="80"/></a>
    <a href="https://apt.izzysoft.de/fdroid/index/apk/com.example.weathermaster"><img alt="GitHub" src="preview/download_Btn.png" height="80"/></a></div>
 <br>
-
-`(Last updated on 10-23-2024 at 4:24 AM UTC)`
 
 ![app_thumbnail](preview/thumbnail.png)
 
