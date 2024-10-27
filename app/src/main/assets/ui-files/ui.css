@@ -211,7 +211,7 @@ touch_search{
 .left_current_weather .temp_img p{
   color: var(--Primary);
   font-size: 60px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--google-mid);
   margin: 0;
   font-weight: 500;
 }
@@ -2508,4 +2508,28 @@ max-width: 150px;
   margin: 0;
   font-family: var(--outfit-mid);
 
+}
+
+@media screen and (min-width: 600px){
+  .weather {
+    max-width: 50%;
+    margin-left: auto;
+
+  }
+
+  #search-container{
+    display: block;
+    max-width: 50%;
+    height: calc(100% - 65px);
+    top: 65px;
+    left: 0;
+  }
+
+  touch_search{
+    pointer-events: none;
+  }
+
+  .close_search{
+  display: none !important;
+  }
 }

@@ -16,8 +16,8 @@ function ReportFromdaily(data) {
 }
 
 function GenerateSummary(data) {
-    let hourlyWeather = getWeatherLabelInLangNoAnimText(data.hourlyData,1 , localStorage.getItem('AppLanguageCode'));
-    let dailyWeather = getWeatherLabelInLangNoAnim(data.dailyData, 1, localStorage.getItem('AppLanguageCode'));
+    let hourlyWeather = getWeatherLabelInLangNoAnimText(data.hourlyData, 1, 'en');
+    let dailyWeather = getWeatherLabelInLangNoAnim(data.dailyData, 1, 'en');
 
     let weatherComment = '';
 

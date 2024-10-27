@@ -209,6 +209,7 @@ function GetWeatherLabel(iconCode, isDay) {
         if (iconCode === 0) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             removeRain()
@@ -223,6 +224,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 1) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             displayClouds()
             removeRain()
@@ -238,6 +240,7 @@ function GetWeatherLabel(iconCode, isDay) {
             }else{
             removeDrizzle()
             displayClouds()
+            removeCloudsFull()
             removeRain()
             removeFog()
             removeSnow()
@@ -250,7 +253,8 @@ function GetWeatherLabel(iconCode, isDay) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
             removeDrizzle()
-            displayClouds()
+            removeClouds()
+            displayCloudsFull()
             removeRain()
             removeLeaves()
             removeFog()
@@ -262,6 +266,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 45 || iconCode === 48) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             removeRain()
@@ -275,6 +280,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 51 || iconCode === 53 || iconCode === 55) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             displayDrizzle()
             removeClouds()
             removeRain()
@@ -288,6 +294,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 56 || iconCode === 57) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             displayDrizzle()
             removeClouds()
             removeRain()
@@ -301,6 +308,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 61 || iconCode === 63) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             displayRain()
@@ -314,6 +322,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 65) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             displayRain()
@@ -327,6 +336,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 66 || iconCode === 67) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             displayRain()
@@ -340,6 +350,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 71) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             removeRain()
@@ -353,6 +364,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 73) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             removeRain()
@@ -366,6 +378,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 75) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             removeRain()
@@ -379,6 +392,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 77) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             removeRain()
@@ -392,6 +406,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 80 || iconCode === 81) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             displayRain()
@@ -405,6 +420,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 82) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             displayRain()
@@ -418,6 +434,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 85) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             removeRain()
@@ -431,6 +448,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 86) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             removeRain()
@@ -444,6 +462,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 95) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             displayRain()
@@ -457,6 +476,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 96 || iconCode === 99) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             displayRain()
@@ -472,6 +492,7 @@ function GetWeatherLabel(iconCode, isDay) {
         if (iconCode === 0) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             removeRain()
@@ -500,6 +521,7 @@ function GetWeatherLabel(iconCode, isDay) {
             }else{
             removeDrizzle()
             displayClouds()
+            removeCloudsFull()
             removeRain()
             removeFog()
             removeSnow()
@@ -512,7 +534,8 @@ function GetWeatherLabel(iconCode, isDay) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
             removeDrizzle()
-            displayClouds()
+            removeClouds()
+            displayCloudsFull()
             removeRain()
             removeFog()
             removeLeaves()
@@ -524,6 +547,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 45 || iconCode === 48) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             removeLeaves()
@@ -537,6 +561,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 51 || iconCode === 53 || iconCode === 55) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             displayDrizzle()
             removeClouds()
             removeLeaves()
@@ -550,6 +575,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 56 || iconCode === 57) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             displayDrizzle()
             removeClouds()
             removeRain()
@@ -563,6 +589,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 61 || iconCode === 63) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             displayRain()
@@ -576,6 +603,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 65) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             displayRain()
@@ -589,6 +617,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 66 || iconCode === 67) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             removeLeaves()
@@ -602,6 +631,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 71) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             removeRain()
@@ -615,6 +645,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 73) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             removeRain()
@@ -628,6 +659,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 75) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             removeRain()
@@ -641,6 +673,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 77) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             removeRain()
@@ -654,6 +687,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 80 || iconCode === 81) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             displayRain()
@@ -667,6 +701,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 82) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             displayRain()
@@ -680,6 +715,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 85) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             removeRain()
@@ -693,6 +729,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 86) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             removeRain()
@@ -706,6 +743,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 95) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             displayRain()
@@ -719,6 +757,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 96 || iconCode === 99) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+            removeCloudsFull()
             removeDrizzle()
             removeClouds()
             displayRain()

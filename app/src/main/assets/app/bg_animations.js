@@ -882,7 +882,6 @@ function displayStars(){
 var anim1fog
 
 function displayFog(){
-  fogAnimation.startAnimation()
 
   var animationContainer1 = document.getElementById('background_animation');
   var animationContainer2 = document.getElementById('foreground_animation');
@@ -894,7 +893,7 @@ function displayFog(){
       animationContainer1.innerHTML = ''
       animationContainer2.innerHTML = ''
 
-  var animationData1 = 'lottie_animations/mostly_cloudy_background.json';
+  var animationData1 = 'lottie_animations/haze_smoke_foreground.json';
 
 
    anim1fog = bodymovin.loadAnimation({
@@ -951,6 +950,52 @@ function displayLeaves() {
     });
 }
 
+var anim1CloudFull
+  var anim2CloudFull
+
+  function displayCloudsFull(){
+    var animationContainer1 = document.getElementById('background_animation');
+    var animationContainer2 = document.getElementById('foreground_animation');
+
+
+        if (anim1CloudFull) {
+            anim1CloudFull.destroy();
+        }
+
+
+
+        animationContainer1.innerHTML = ''
+        animationContainer2.innerHTML = ''
+
+    var animationData1 = 'lottie_animations/mostly_cloudy_background.json';
+    var animationData2 = 'lottie_animations/mostly_cloudy_background.json';
+
+
+
+    anim1CloudFull = bodymovin.loadAnimation({
+        container: animationContainer1,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path: animationData1,
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid slice'
+        }
+    });
+
+    anim2CloudFull = bodymovin.loadAnimation({
+        container: animationContainer2,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path: animationData2,
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid slice'
+        }
+    });
+
+  }
+
 // remove animations
 
 
@@ -971,7 +1016,6 @@ function removeStars(){
 }
 
 function removeFog(){
-  fogAnimation.clearCanvas()
   if (anim1fog) anim1fog.destroy();
 }
 
@@ -992,3 +1036,7 @@ function removeLeaves(){
     if (anim2) anim2.destroy();
   }
 
+function removeCloudsFull(){
+    if (anim1CloudFull) anim1CloudFull.destroy();
+    if (anim2CloudFull) anim2CloudFull.destroy();
+}

@@ -83,6 +83,11 @@ if(DefaultLocation.name === 'CurrentDeviceLocation'){
 } else if(DefaultLocation.lat && DefaultLocation.lon){
     DecodeWeather(DefaultLocation.lat, DefaultLocation.lon)
     document.querySelector('.currentLocationdiv').hidden = true;
+
+        document.getElementById('city-name').innerHTML = DefaultLocation.name;
+        document.getElementById('SelectedLocationText').innerHTML = DefaultLocation.name;
+        localStorage.setItem('CurrentLocationName', DefaultLocation.name)
+         document.getElementById('currentLocationName').textContent = DefaultLocation.name
 }
 }
 else{
@@ -287,6 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     cityList.innerHTML = '';
                     cityInput.value = '';
                     document.getElementById('city-name').innerHTML = suggestionText;
+                      document.getElementById('currentLocationName').innerHTML = suggestionText;
                     document.querySelector('.focus-input').blur();
                     document.getElementById('forecast').scrollLeft = 0;
                     document.getElementById('weather_wrap').scrollTop = 0;
@@ -403,6 +409,7 @@ function loadSavedLocations() {
                 savelocationtouch.addEventListener('click', () => {
                     DecodeWeather(savedLocationItemLat, savedLocationItemLon)
             document.getElementById('city-name').innerHTML = location.locationName
+            document.getElementById('currentLocationName').innerHTML = location.locationName;
             document.getElementById('forecast').scrollLeft = 0;
             document.getElementById('weather_wrap').scrollTop = 0;
                     window.history.back();
@@ -600,7 +607,7 @@ function RenderSearhMap() {
 
         DecodeWeather(lat, lon);
 
-        document.getElementById('city-name').innerHTML = '<md-circular-progress indeterminate style="--md-circular-progress-size: 30px;"></md-circular-progress>';
+
         document.getElementById('forecast').scrollLeft = 0;
         document.getElementById('weather_wrap').scrollTop = 0;
     });
@@ -637,7 +644,7 @@ function checkNoInternet(){
 
     document.addEventListener('DOMContentLoaded', async function() {
 
-        const currentVersion = 'v1.7.2';
+        const currentVersion = 'v1.7.4';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
@@ -681,6 +688,18 @@ const scrollView = document.querySelector('.insights');
 
 const scrollIndicators = document.getElementById('scroll-indicators');
 
+function saveScrollPosition() {
+    const scrollPosition = scrollView.scrollLeft;
+    localStorage.setItem('scrollPosition', scrollPosition);
+  }
+
+  function restoreScrollPosition() {
+    const savedScrollPosition = localStorage.getItem('scrollPosition');
+    if (savedScrollPosition) {
+      scrollView.scrollLeft = savedScrollPosition;
+    }
+  }
+
 function createScrollDots(){
     const sections = document.querySelectorAll('.insights_item');
 
@@ -712,13 +731,14 @@ const updateActiveIndicator = () => {
 };
 
 
+window.addEventListener('beforeunload', saveScrollPosition);
+
 scrollView.addEventListener('scroll', updateActiveIndicator);
 
 document.addEventListener('DOMContentLoaded', ()=>{
 createScrollDots()
 updateActiveIndicator();
-
+restoreScrollPosition();
 });
-
 
 
