@@ -15,7 +15,10 @@
       <img src="https://img.shields.io/github/stars/PranshulGG/WeatherMaster?style=for-the-badge&color=ffb5a0&labelColor=561f0f">
 
    </div>
-   <br>
+   <div align="center">
+   <h3>WeatherMaster: inspired by the Google Pixel weather app.</h3>
+   </div>
+   
 <div align="center">
  <a href="https://github.com/PranshulGG/WeatherMaster/releases"><img alt="GitHub" src="https://censorship.no/img/github-badge.png" height="80"/></a>
    <a href="https://apt.izzysoft.de/fdroid/index/apk/com.example.weathermaster"><img alt="GitHub" src="preview/download_Btn.png" height="80"/></a></div>
