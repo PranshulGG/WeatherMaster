@@ -13,6 +13,9 @@
       <img src="https://img.shields.io/github/release-date/PranshulGG/WeatherMaster?style=for-the-badge&color=dbc66e&labelColor=3a3000">
       <br>
       <img src="https://img.shields.io/github/stars/PranshulGG/WeatherMaster?style=for-the-badge&color=ffb5a0&labelColor=561f0f">
+      <img src="https://img.shields.io/github/downloads/PranshulGG/WeatherMaster/total?label=Total%20downloads&style=for-the-badge&color=aac7ff&labelColor=0a305f">
+      
+
 
    </div>
    <div align="center">
