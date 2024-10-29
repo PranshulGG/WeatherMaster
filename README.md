@@ -10,7 +10,7 @@
    <div  align="center">
       <img src="https://img.shields.io/github/repo-size/PranshulGG/WeatherMaster?style=for-the-badge&color=cba6f7&labelColor=302D41">
       <img src="https://img.shields.io/github/last-commit/PranshulGG/WeatherMaster?style=for-the-badge&color=b1d18a&labelColor=1f3701">
-      <img src="https://img.shields.io/github/release-date/PranshulGG/WeatherMaster?style=for-the-badge&color=dbc66e&labelColor=3a3000">
+      <img src="https://img.shields.io/github/release/PranshulGG/WeatherMaster?style=for-the-badge&color=dbc66e&labelColor=3a3000">
       <br>
       <img src="https://img.shields.io/github/stars/PranshulGG/WeatherMaster?style=for-the-badge&color=ffb5a0&labelColor=561f0f">
       <img src="https://img.shields.io/github/downloads/PranshulGG/WeatherMaster/total?label=Total%20asset%20downloads&style=for-the-badge&color=aac7ff&labelColor=0a305f">
