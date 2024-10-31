@@ -105,6 +105,10 @@
 
 - <strong>Weather icons</strong>: <a href="https://gitlab.com/bignutty/google-weather-icons">Google weather icons
 
+# ⭐ Star history
+
+[![Star History Chart](https://api.star-history.com/svg?repos=PranshulGG/WeatherMaster&type=Date)](https://star-history.com/#PranshulGG/WeatherMaster&Date)
+
 # 📝 Todos:
 
 - ✅ Adding cache to reduce api requests
