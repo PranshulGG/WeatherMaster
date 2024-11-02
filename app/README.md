@@ -6,5 +6,5 @@
 
 ### Why is it made with JS?
 
-- I was more familiar with it, and it works much smoother and is easier to maintain. Even without optimization, it still runs like butter.
+- I was more familiar with it, and it works much smoother and is easier to maintain. Even without optimization, it still runs like butter. But I do have plans to convert it to Kotlin, though it's likely to happen. 🫠
 
