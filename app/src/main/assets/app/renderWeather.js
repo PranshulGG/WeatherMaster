@@ -465,22 +465,30 @@ function CurrentWeather(data, sunrise, sunset) {
 
     // -------------------------------
 
+        if(localStorage.getItem('selectedMainWeatherProvider') === 'Met norway'){
 
-    document.getElementById('temp').innerHTML = CurrentTemperature + '°';
-    document.getElementById('feels_like_now').innerHTML = `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'feels_like')} ` + FeelsLikeTemp + '°';
+        } else if(localStorage.getItem('ApiForAccu') && localStorage.getItem('selectedMainWeatherProvider') === 'Accuweather') {
+
+        } else{
+    animateTemp(CurrentTemperature)
+
     document.getElementById('weather-icon').src = GetWeatherIcon(CurrentWeatherCode, isDay);
     document.getElementById('weather-icon').alt = CurrentWeatherCode
     document.getElementById('description').innerHTML = getWeatherLabelInLang(CurrentWeatherCode, isDay,  localStorage.getItem('AppLanguageCode'));
+    document.getElementById('froggie_imgs').src = GetFroggieIcon(CurrentWeatherCode, isDay)
+    document.documentElement.setAttribute('iconcodetheme', GetWeatherTheme(CurrentWeatherCode, isDay))
+    sendThemeToAndroid(GetWeatherTheme(CurrentWeatherCode, 1))
+        document.getElementById('temPDiscCurrentLocation').innerHTML = `${CurrentTemperature}° • <span>${getWeatherLabelInLang(CurrentWeatherCode, isDay,  localStorage.getItem('AppLanguageCode'))}</span>`
+        document.getElementById('currentSearchImg').src = `${GetWeatherIcon(CurrentWeatherCode, isDay)}`;
+
+    }
+
+    document.getElementById('feels_like_now').innerHTML = `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'feels_like')} ` + FeelsLikeTemp + '°';
     document.getElementById('wind-speed').innerHTML = CurrentWindSpeed
     document.getElementById('WindGust').innerHTML = CurrentWindGust
     document.getElementById('clouds').innerHTML = CurrentCloudCover + '%'
-    document.getElementById('froggie_imgs').src = GetFroggieIcon(CurrentWeatherCode, isDay)
-    document.documentElement.setAttribute('iconcodetheme', GetWeatherTheme(CurrentWeatherCode, isDay))
-        sendThemeToAndroid(GetWeatherTheme(CurrentWeatherCode, 1))
 
-        document.getElementById('temPDiscCurrentLocation').innerHTML = `${CurrentTemperature}° • <span>${getWeatherLabelInLang(CurrentWeatherCode, isDay,  localStorage.getItem('AppLanguageCode'))}</span>`
 
-        document.getElementById('currentSearchImg').src = `${GetWeatherIcon(CurrentWeatherCode, isDay)}`;
 
 
     document.getElementById('humidity').innerHTML = CurrentHumidity + '%'
@@ -1040,7 +1048,7 @@ function UvIndex(uvIndexValue) {
 
 
 function MoreDetails(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/forecast.json?key= YOUR_KEY&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/forecast.json?key=KEY&q=${latSum},${lonSum}`)
         .then(response => response.json())
         .then(data => {
 
@@ -1193,7 +1201,7 @@ function MoreDetails(latSum, lonSum) {
 }
 
 function astronomyData(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/astronomy.json?key= YOUR_KEY&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=KEY&q=${latSum},${lonSum}`)
         .then(response => response.json())
         .then(data => {
 
@@ -1262,7 +1270,7 @@ function astronomyData(latSum, lonSum) {
 
 
 function FetchAlert(lat, lon){
-    fetch(`https://api.weatherapi.com/v1/alerts.json?key= YOUR_KEY&q=${lat},${lon}`)
+    fetch(`https://api.weatherapi.com/v1/alerts.json?key=KEY&q=${lat},${lon}`)
     .then(response => response.json())
     .then(data => {
 
@@ -1296,34 +1304,27 @@ function clickForecastItem(index){
 
         // ---------
 
-        function getOpenWeatherMainTemp(){
 
-        const mainTempProviderGet = localStorage.getItem('CustomApiKey')
-        const mainTempProviderValid = localStorage.getItem('ApiKeyValid')
-        const mainTempProvider = localStorage.getItem('MainTempProvider');
+        function applyRoundedUI(){
 
-        setTimeout(()=>{
-            if(mainTempProviderValid && mainTempProviderValid === 'Yes'){
-            if(mainTempProvider && mainTempProvider === 'OpenWeatherMap'){
-                fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${localStorage.getItem('currentLat')}&lon=${localStorage.getItem('currentLong')}&units=metric&appid=${mainTempProviderGet}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        let CurrentTemperature;
+        if(localStorage.getItem('UseRoundedUI') === 'true'){
+            document.documentElement.setAttribute('round-ui', 'true');
+        } else{
+            document.documentElement.setAttribute('round-ui', 'false');
 
-                        if (SelectedTempUnit === 'fahrenheit') {
-                            CurrentTemperature = Math.round(celsiusToFahrenheit(data.main.temp))
-                        } else {
-                            CurrentTemperature = Math.round(data.main.temp)
-                        }
-
-                        if (CurrentTemperature < 10 && CurrentTemperature >= 0) {
-                            CurrentTemperature = '0' + CurrentTemperature;
-                        }
-
-                        document.getElementById('temp').innerHTML = CurrentTemperature + '°';
-
-                    })
-            }
         }
-        }, 300);
+    }
+
+
+        function handleStorageChangeRoundUI(event) {
+            if (event.key === 'UseRoundedUI'){
+                setTimeout(()=>{
+                    applyRoundedUI()
+                }, 300);
         }
+    }
+
+
+    window.addEventListener('storage', handleStorageChangeRoundUI);
+
+    applyRoundedUI()

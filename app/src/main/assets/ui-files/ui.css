@@ -314,6 +314,10 @@ touch_search{
   overflow: hidden;
 }
 
+[round-ui="true"] .high-all{
+  border-radius: 0 0 18px 18px;
+}
+
 .high-mini {
   display: flex;
   align-items: center;
@@ -348,8 +352,18 @@ touch_search{
   margin-bottom: 0;
 }
 
+[round-ui="true"] .all-24,
+.all-5d{
+  border-radius: 18px;
+
+}
+
 .all-5d {
   border-radius: 5px 5px 5px 5px;
+
+}
+[round-ui="true"] .all-5d{
+  border-radius: 18px;
 
 }
 
@@ -854,6 +868,11 @@ touch_search{
   border-radius: 10px;
 }
 
+[round-ui="true"] .all_air_quality{
+  border-radius: 18px !important;
+
+}
+
 .all_text_air {
   display: flex;
   align-items: flex-start;
@@ -1056,6 +1075,11 @@ background: linear-gradient(0deg, rgba(255, 0, 0, 0), var(--Secondary-Container)
   padding: 10px;
   margin-top: 5px;
   margin-bottom: 5px;
+}
+
+[round-ui="true"] .cloths{
+  border-radius: 18px;
+
 }
 
 .cloths div{
@@ -1286,6 +1310,11 @@ rainMeter{
   padding-bottom: 10px;
 }
 
+[round-ui="true"] rainMeter{
+  border-radius: 18px;
+
+}
+
 rainMeter .todaysAmount{
   padding: 10px;
   padding-left: 20px;
@@ -1421,6 +1450,11 @@ height: 100%;
   pointer-events: none;
 }
 
+[round-ui="true"] .LiveMapWrap #livemapPreview img{
+  border-radius: 18px;
+
+}
+
 .LiveMapWrap #livemapPreview{
   height: 100px;
 }
@@ -1432,6 +1466,11 @@ height: 100%;
   border-radius: 5px 5px 10px 10px;
   position: relative;
   margin-top: 5px;
+}
+
+[round-ui="true"] .LiveMapWrap{
+  border-radius: 18px;
+
 }
 
 /* .LiveMapWrap::before{
@@ -1462,6 +1501,12 @@ height: 100%;
   border-radius: 10px 10px 0 0;
   margin-bottom: 0;
 }
+
+[round-ui="true"] .weatherComments{
+  border-radius: 18px 18px 0 0;
+
+}
+
 
 .weatherComments ul{
   padding-left: 20px;

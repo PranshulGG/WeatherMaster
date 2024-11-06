@@ -893,7 +893,7 @@ function displayFog(){
       animationContainer1.innerHTML = ''
       animationContainer2.innerHTML = ''
 
-  var animationData1 = 'lottie_animations/haze_smoke_foreground.json';
+  var animationData1 = 'lottie_animations/haze_smoke_background.json';
 
 
    anim1fog = bodymovin.loadAnimation({

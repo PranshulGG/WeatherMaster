@@ -506,6 +506,7 @@ function GetWeatherLabel(iconCode, isDay) {
         } else if (iconCode === 1) {
             if(localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false'){
             }else{
+           removeCloudsFull()
             removeDrizzle()
             displayClouds()
             removeRain()
@@ -1719,4 +1720,67 @@ function getWeatherLabelInLangNoAnimText(iconCode, isDay, langCode) {
     const translatedLabel = getTranslationByLang(langCode, translationKey);
 
     return translatedLabel || 'Unknown weather';
+}
+
+// -----------
+
+
+function animateTemp(temp_value) {
+    const SelectedTempUnit = localStorage.getItem('SelectedTempUnit');
+
+    let targetNum = temp_value;
+    let currentNum = 0;
+    let baseSpeed = 50;
+
+    if (SelectedTempUnit === 'fahrenheit') {
+        currentNum = 100
+
+    } else {
+        currentNum = 0
+
+    }
+
+    function animateNumber() {
+        let interval = setInterval(() => {
+
+            if (currentNum > targetNum) {
+                currentNum--;
+                document.getElementById('temp').innerHTML = currentNum + '°';
+
+                if (currentNum <= targetNum + 5 && currentNum > targetNum) {
+                    clearInterval(interval);
+
+                    interval = setInterval(() => {
+                        if (currentNum > targetNum) {
+                            currentNum--;
+                            document.getElementById('temp').innerHTML = currentNum + '°';
+                        } else {
+                            clearInterval(interval);
+                        }
+                    }, baseSpeed * 4);
+                }
+                // If the targetNum is positive, increment the currentNum
+            } else if (currentNum < targetNum) {
+                currentNum++;
+                document.getElementById('temp').innerHTML = currentNum + '°';
+
+                if (currentNum >= targetNum - 5 && currentNum < targetNum) {
+                    clearInterval(interval);
+
+                    interval = setInterval(() => {
+                        if (currentNum < targetNum) {
+                            currentNum++;
+                            document.getElementById('temp').innerHTML = currentNum + '°';
+                        } else {
+                            clearInterval(interval);
+                        }
+                    }, baseSpeed * 4);
+                }
+            } else {
+                clearInterval(interval);
+            }
+        }, baseSpeed);
+    }
+
+    animateNumber();
 }

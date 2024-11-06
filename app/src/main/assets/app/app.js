@@ -16,10 +16,12 @@ function handleStorageChange(event) {
         event.key === 'selectedPrecipitationUnit' ||
         event.key === 'DefaultLocation'||
         event.key === 'UseBackgroundAnimations'||
+        event.key === 'selectedMainWeatherProvider' ||
         event.key === 'selectedPressureUnit') {
 
             setTimeout(()=>{
                 window.location.reload();
+                sendThemeToAndroid('overcast')
             }, 1500);
 
     }
@@ -644,7 +646,7 @@ function checkNoInternet(){
 
     document.addEventListener('DOMContentLoaded', async function() {
 
-        const currentVersion = 'v1.7.4';
+        const currentVersion = 'v1.7.5';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
@@ -728,11 +730,20 @@ const updateActiveIndicator = () => {
 
     }
   });
+
 };
 
+function debounce(func, delay) {
+    let inDebounce;
+    return function() {
+      const context = this, args = arguments;
+      clearTimeout(inDebounce);
+      inDebounce = setTimeout(() => func.apply(context, args), delay);
+    };
+  }
 
-window.addEventListener('beforeunload', saveScrollPosition);
 
+scrollView.addEventListener('scroll', debounce(saveScrollPosition, 200));
 scrollView.addEventListener('scroll', updateActiveIndicator);
 
 document.addEventListener('DOMContentLoaded', ()=>{
