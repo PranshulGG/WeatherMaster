@@ -528,7 +528,7 @@ function getMetNorwayIcons(data_condition){
 
     } else if (data_condition === 'cloudy') {
 
-        return 'weather-icons/overcast.svg';
+        return 'weather-icons/cloudy.svg';
 
     } else if (data_condition === 'fog') {
 
