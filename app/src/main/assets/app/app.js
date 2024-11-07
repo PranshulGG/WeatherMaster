@@ -17,6 +17,7 @@ function handleStorageChange(event) {
         event.key === 'DefaultLocation'||
         event.key === 'UseBackgroundAnimations'||
         event.key === 'selectedMainWeatherProvider' ||
+        event.key === 'ApiForAccu' ||
         event.key === 'selectedPressureUnit') {
 
             setTimeout(()=>{
@@ -646,7 +647,7 @@ function checkNoInternet(){
 
     document.addEventListener('DOMContentLoaded', async function() {
 
-        const currentVersion = 'v1.7.5';
+        const currentVersion = 'v1.7.6';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 

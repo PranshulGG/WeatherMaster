@@ -116,7 +116,7 @@ function verifyKeyAccu(){
   const locationKey = '188524';
   const apiKey = document.getElementById('input_accuweather_field').value;
 
-  const weatherUrl = `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${apiKey}`;
+  const weatherUrl = `https://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${apiKey}`;
 
   fetch(weatherUrl)
     .then(response => {
@@ -133,7 +133,6 @@ function verifyKeyAccu(){
     })
     .catch(error => {
       console.error('There was a problem with the fetch operation:', error);
-      localStorage.setItem('ApiForAccu') = 'error'
       localStorage.removeItem('ApiForAccuTemp')
       localStorage.setItem('selectedMainWeatherProvider', 'open-meteo');
        ToastAndroidShow.ShowToast('Wrong API', 'long');

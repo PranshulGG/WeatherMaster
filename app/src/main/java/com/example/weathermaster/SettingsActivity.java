@@ -3,6 +3,7 @@ package com.example.weathermaster;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -55,6 +56,7 @@ public class SettingsActivity extends AppCompatActivity {
         webview.setWebViewClient(new WebViewClientDemo());
         AndroidInterface androidInterface = new AndroidInterface(this);
         webview.addJavascriptInterface(androidInterface, "AndroidInterface");
+        webview.addJavascriptInterface(new ShowToastInterface(this), "ToastAndroidShow");
         webview.setBackgroundColor(getResources().getColor(R.color.mainBG));
 
         webview.loadUrl("file:///android_asset/pages/settings.html");
@@ -63,7 +65,24 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
 
+    public class ShowToastInterface {
+        private final Context mContext;
 
+        public ShowToastInterface(Context context) {
+            this.mContext = context;
+        }
+
+        @JavascriptInterface
+        public void ShowToast(final String text, final String time) {
+            int duration = Toast.LENGTH_SHORT;
+            if (time.equals("long")) {
+                duration = Toast.LENGTH_LONG;
+            } else if(time.equals("short")){
+                duration = Toast.LENGTH_SHORT;
+            }
+            Toast.makeText(mContext, text, duration).show();
+        }
+    }
 
     public class AndroidInterface {
         private SettingsActivity sActivity;
