@@ -76,7 +76,8 @@
 - 🌾 **Pollen Data (Europe Only):** View pollen levels for grass, trees, and weeds in your area.
 
 # 🌞 Weather providers:
-- [**open-meteo**](https://open-meteo.com) (Main)
+- [**open-meteo**](https://open-meteo.com)
+- [**Met norway**](https://www.met.no/en)
 - [**WeatherApi**](https://www.weatherapi.com/)
 - [**OpenWeatherMap**](https://openweathermap.org/api)
 - [**accuweather**](https://www.accuweather.com/)
