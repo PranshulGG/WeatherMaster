@@ -20,6 +20,17 @@ function DisplayCurrentAccuweatherData(data){
     animateTemp(Temperature)
     document.getElementById('description').innerHTML = GetWeatherTextAccu(condition_text)
 
+                    checkNotificationAccu()
+
+                            function checkNotificationAccu(){
+
+                            if(localStorage.getItem('UseNotification') === 'true'){
+                                    UpdateNotificationInterface.updateNotification(`${Temperature}°`, GetWeatherTextAccu(condition_text));
+                            } else{
+                                UpdateNotificationInterface.destroyNotification();
+                            }
+                            }
+
     document.documentElement.setAttribute('iconcodetheme', GetWeatherIconAccuTheme(condition_text))
     sendThemeToAndroid(GetWeatherIconAccuTheme(condition_text))
     document.getElementById('froggie_imgs').src = GetWeatherIconAccuFrog(condition_text)
@@ -148,8 +159,8 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeRain()
                 removeFog()
                 removeSnow()
-                removeLeaves()
-                displayStars()
+                displayLeaves()
+                removeStars()
                 removeThunder()
             }
             return 'Mostly Sunny'
@@ -1064,13 +1075,13 @@ function GetWeatherIconAccuFrog(AccuweathericonFrog) {
         return ClearNightFrog[Math.floor(Math.random() * ClearNightFrog.length)];
 
     } else if (AccuweathericonFrog === 34 ) {
-        return mostlySunnyFrog[Math.floor(Math.random() * mostlySunnyFrog.length)];
+        return PartlyCloudyNightFrog[Math.floor(Math.random() * PartlyCloudyNightFrog.length)];
 
     } else if (AccuweathericonFrog === 35) {
         return PartlyCloudyNightFrog[Math.floor(Math.random() * PartlyCloudyNightFrog.length)];
 
     } else if (AccuweathericonFrog === 36) {
-        return mostlySunnyFrog[Math.floor(Math.random() * mostlySunnyFrog.length)];
+        return PartlyCloudyNightFrog[Math.floor(Math.random() * PartlyCloudyNightFrog.length)];
 
     } else if (AccuweathericonFrog === 37) {
         return FogFrog[Math.floor(Math.random() * FogFrog.length)];

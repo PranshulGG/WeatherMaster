@@ -23,51 +23,6 @@ function HourlyWeather(data) {
     const sunsetTimes = data.daily.sunset.map(time => new Date(time).getTime());
 
 
-    const weatherCodeGroups = {
-        "0": [0],
-        "1": [1],
-        "2": [2],
-        "3": [3],
-        "45": [45],
-        "48": [48],
-        "51": [51],
-        "53": [53],
-        "55": [55],
-        "56": [56],
-        "57": [57],
-        "61": [61],
-        "63": [63],
-        "65": [65],
-        "66": [66],
-        "67": [67],
-        "71": [71],
-        "73": [73],
-        "75": [75],
-        "77": [77],
-        "80": [80],
-        "81": [81],
-        "82": [82],
-        "85": [85],
-        "86": [86],
-        "95": [95],
-        "96": [96],
-        "99": [99]
-    };
-
-
-    let groupCounts = {};
-    Object.keys(weatherCodeGroups).forEach(group => {
-        groupCounts[group] = 0;
-    });
-
-    data.hourly.weather_code.forEach((code) => {
-        if (groupCounts[code] !== undefined) {
-            groupCounts[code]++;
-        }
-    });
-
-
-
 
     data.hourly.time.forEach((time, index) => {
 
@@ -132,36 +87,19 @@ function HourlyWeather(data) {
         }
 
 
-        let Visibility;
-        let VisibilityUnit;
 
 
-        if (SelectedVisibiltyUnit === 'mileV') {
-            Visibility = Math.round(data.hourly.visibility[0] / 1609.34);
-            VisibilityUnit = 'miles'
-        } else {
-            Visibility = Math.round(data.hourly.visibility[0] / 1000);
-            VisibilityUnit = 'km'
-
-        }
-
-
-        document.getElementById('unit_visibility').innerHTML = VisibilityUnit
-        document.getElementById('min-temp').innerHTML = Visibility
 
 
 
         let HourTemperature;
-        let DewPointTemp
 
 
         if (SelectedTempUnit === 'fahrenheit') {
             HourTemperature = Math.round(celsiusToFahrenheit(data.hourly.temperature_2m[index]));
-            DewPointTemp = Math.round(celsiusToFahrenheit(data.hourly.dew_point_2m[0]))
 
         } else {
             HourTemperature = Math.round(data.hourly.temperature_2m[index]);
-            DewPointTemp = Math.round(data.hourly.dew_point_2m[0])
 
         }
 
@@ -205,17 +143,12 @@ function HourlyWeather(data) {
             });
 
 
-        document.getElementById('dew_percentage').innerHTML = DewPointTemp + '°'
 
         RainBarsContainer.append(rainMeterBarItem)
         forecastContainer.appendChild(forecastItem);
     });
 
-    const mostFrequentGroup = Object.keys(groupCounts).reduce((a, b) => groupCounts[a] > groupCounts[b] ? a : b);
-    const selectedWeatherCode = mostFrequentGroup;
 
-
-    ReportFromhourly(selectedWeatherCode);
 }
 
 
@@ -465,7 +398,31 @@ function CurrentWeather(data, sunrise, sunset) {
 
     // -------------------------------
 
-        if(localStorage.getItem('selectedMainWeatherProvider') === 'Met norway'){
+
+    if (localStorage.getItem('DeviceOnline') === 'No'){
+        animateTemp(CurrentTemperature)
+
+        document.getElementById('weather-icon').src = GetWeatherIcon(CurrentWeatherCode, isDay);
+        document.getElementById('weather-icon').alt = CurrentWeatherCode
+        document.getElementById('description').innerHTML = getWeatherLabelInLang(CurrentWeatherCode, isDay,  localStorage.getItem('AppLanguageCode'));
+        document.getElementById('froggie_imgs').src = GetFroggieIcon(CurrentWeatherCode, isDay)
+        document.documentElement.setAttribute('iconcodetheme', GetWeatherTheme(CurrentWeatherCode, isDay))
+        sendThemeToAndroid(GetWeatherTheme(CurrentWeatherCode, 1))
+            document.getElementById('temPDiscCurrentLocation').innerHTML = `${CurrentTemperature}° • <span>${getWeatherLabelInLang(CurrentWeatherCode, isDay,  localStorage.getItem('AppLanguageCode'))}</span>`
+            document.getElementById('currentSearchImg').src = `${GetWeatherIcon(CurrentWeatherCode, isDay)}`;
+
+                checkNotification()
+
+                        function checkNotification(){
+
+                        if(localStorage.getItem('UseNotification') === 'true'){
+                                UpdateNotificationInterface.updateNotification(`${CurrentTemperature}°`, getWeatherLabelInLang(CurrentWeatherCode, isDay, 'en'));
+                        } else{
+                            UpdateNotificationInterface.destroyNotification();
+                        }
+                        }
+    }
+       else if(localStorage.getItem('selectedMainWeatherProvider') === 'Met norway'){
 
         } else if(localStorage.getItem('ApiForAccu') && localStorage.getItem('selectedMainWeatherProvider') === 'Accuweather') {
 
@@ -480,6 +437,17 @@ function CurrentWeather(data, sunrise, sunset) {
     sendThemeToAndroid(GetWeatherTheme(CurrentWeatherCode, 1))
         document.getElementById('temPDiscCurrentLocation').innerHTML = `${CurrentTemperature}° • <span>${getWeatherLabelInLang(CurrentWeatherCode, isDay,  localStorage.getItem('AppLanguageCode'))}</span>`
         document.getElementById('currentSearchImg').src = `${GetWeatherIcon(CurrentWeatherCode, isDay)}`;
+
+                checkNotification()
+
+                        function checkNotification(){
+
+                        if(localStorage.getItem('UseNotification') === 'true'){
+                                UpdateNotificationInterface.updateNotification(`${CurrentTemperature}°`, getWeatherLabelInLang(CurrentWeatherCode, isDay, 'en'));
+                        } else{
+                            UpdateNotificationInterface.destroyNotification();
+                        }
+                        }
 
     }
 
@@ -1047,10 +1015,7 @@ function UvIndex(uvIndexValue) {
 }
 
 
-function MoreDetails(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/forecast.json?key=KEY&q=${latSum},${lonSum}`)
-        .then(response => response.json())
-        .then(data => {
+        function MoreDetailsRender(data) {
 
             const mainData = data.forecast.forecastday[0].day
 
@@ -1192,18 +1157,9 @@ function MoreDetails(latSum, lonSum) {
             document.getElementById('summeryDay').innerHTML = `<li>${weatherReport}</li>`
 
 
-
-        })
-
-
-
-
 }
 
-function astronomyData(latSum, lonSum) {
-    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=KEY&q=${latSum},${lonSum}`)
-        .then(response => response.json())
-        .then(data => {
+function astronomyDataRender(data) {
 
 
             const MoonPhaseName = data.astronomy.astro.moon_phase
@@ -1262,15 +1218,11 @@ function astronomyData(latSum, lonSum) {
                 document.getElementById('moonriseTime').innerHTML = data.astronomy.astro.moonrise;
                 document.getElementById('moonSetTime').innerHTML = data.astronomy.astro.moonset;
             }
-
-
-        })
-
 }
 
 
 function FetchAlert(lat, lon){
-    fetch(`https://api.weatherapi.com/v1/alerts.json?key=KEY&q=${lat},${lon}`)
+    fetch(`https://api.weatherapi.com/v1/alerts.json?key=10baabdf43ea48d191075955241810&q=${lat},${lon}`)
     .then(response => response.json())
     .then(data => {
 

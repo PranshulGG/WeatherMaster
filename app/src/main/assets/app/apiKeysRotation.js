@@ -1,27 +1,27 @@
 const apiKeysDaily = [
-KEY
+KEYS
 
 ];
 
 
 const apiKeysAlerts = [
-KEY
+KEYS
 ];
 
 const apiKeysCityName = [
-KEY
+KEYS
 
 ];
 
 const apiKeysGeo = [
-KEY
+KEYS
 ];
 
 const apiKeysVisual = [
-KEY
+KEYS
   ];
 
 
   const astronomyApiKeys = [
-KEY
+KEYS
   ];

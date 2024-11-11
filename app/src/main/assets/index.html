@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css" />
     <script src="modules/lottie.js"></script>
     <script src="langs/langs.js"></script>
+    <script src="./bundle.js"></script>
 
 </head>
 
@@ -76,7 +77,7 @@
                 <div class="left_current_weather">
                     <now data-translate="now">Now</now>
                     <div class="temp_img">
-                        <p id="temp"></p>
+                        <p id="temp">0°</p>
                         <img id="weather-icon" src="weather-icons/not_available.svg" alt="Weather Icon">
                     </div>
 
@@ -101,17 +102,19 @@
                 <p id="last_updated"></p>
             </div>
 
-            <canvas id="bg_animation_rain" class="animation_canvas" ></canvas>
-            <canvas id="bg_animation_thunder" class="animation_canvas" ></canvas>
-            <canvas id="bg_animation_clouds" class="animation_canvas" ></canvas>
-            <canvas id="bg_animation_stars" class="animation_canvas"></canvas>
-            <canvas id="bg_animation_fog" class="animation_canvas" ></canvas>
-            <canvas id="bg_animation_snow" class="animation_canvas" ></canvas>
-            <canvas id="bg_animation_leaves" class="animation_canvas" ></canvas>
-            <canvas id="bg_animation_drizzle" class="animation_canvas" ></canvas>
+            <div class="animation_holder">
+                <canvas id="bg_animation_rain" class="animation_canvas" ></canvas>
+                <canvas id="bg_animation_thunder" class="animation_canvas" ></canvas>
+                <canvas id="bg_animation_clouds" class="animation_canvas" ></canvas>
+                <canvas id="bg_animation_stars" class="animation_canvas"></canvas>
+                <canvas id="bg_animation_fog" class="animation_canvas" ></canvas>
+                <canvas id="bg_animation_snow" class="animation_canvas" ></canvas>
+                <canvas id="bg_animation_leaves" class="animation_canvas" ></canvas>
+                <canvas id="bg_animation_drizzle" class="animation_canvas" ></canvas>
 
-            <div id="foreground_animation" class="animation_canvas animation_canvas_lottie"></div>
-            <div id="background_animation" class="animation_canvas animation_canvas_lottie"></div>
+                <div id="foreground_animation" class="animation_canvas animation_canvas_lottie"></div>
+                <div id="background_animation" class="animation_canvas animation_canvas_lottie"></div>
+            </div>
 
             <div class="control-panel-for-wind">
                 <input type="range" id="windSpeed" min="0" max="5" step="0.1" value="1" style="display: none; position: absolute; left: -99999px; pointer-events: none;">
@@ -616,7 +619,7 @@
 
 
             <div id="updated-div">
-                <p id="updated">open-meteo | weatherapi | openweathermap</p>
+                <p id="updated" class="data_provider_name_import">Loading...</p>
             </div>
 
 
@@ -816,11 +819,43 @@ document.getElementById('clearCityInput').addEventListener('click', () =>{
 
 
 
-    document.getElementById('froggie_imgs').addEventListener('load', ()=>{
-        document.querySelector('.alt_text_frog').hidden = true;
-        document.getElementById('froggie_imgs').hidden = false;
 
-    })
+document.getElementById('froggie_imgs').addEventListener('load', () => {
+    document.querySelector('.alt_text_frog').hidden = true;
+    document.getElementById('froggie_imgs').hidden = false;
+
+    const senderDivHeight = document.getElementById('froggie_imgs').offsetHeight;
+    console.log(senderDivHeight);
+
+
+    const adjustAnimationHolderHeight = () => {
+        if (
+            document.getElementById('foreground_animation').getAttribute('running_clouds') === 'true' ||
+            document.getElementById('background_animation').getAttribute('running_clouds') === 'true'||
+             document.getElementById('foreground_animation').getAttribute('running_clouds_full') === 'true' ||
+            document.getElementById('background_animation').getAttribute('running_clouds_full') === 'true'
+        ) {
+            document.querySelector('.animation_holder').style.height = `calc(100%)`;
+        } else {
+            document.querySelector('.animation_holder').style.height = `calc(100% + ${senderDivHeight}px - 30px)`;
+        }
+    };
+
+    adjustAnimationHolderHeight();
+
+    const observer = new MutationObserver(() => {
+        adjustAnimationHolderHeight();
+    });
+
+    const foregroundAnimation = document.getElementById('foreground_animation');
+    const backgroundAnimation = document.getElementById('background_animation');
+
+    observer.observe(foregroundAnimation, { attributes: true, attributeFilter: ['running_clouds'] });
+    observer.observe(backgroundAnimation, { attributes: true, attributeFilter: ['running_clouds'] });
+    observer.observe(foregroundAnimation, { attributes: true, attributeFilter: ['running_clouds_full'] });
+    observer.observe(backgroundAnimation, { attributes: true, attributeFilter: ['running_clouds_full'] });
+});
+
 
     </script>
 
@@ -829,7 +864,6 @@ document.getElementById('clearCityInput').addEventListener('click', () =>{
 <script src="providers/met-norway.js"></script>
 <script src="providers/accuweather.js"></script>
 <script type="module" src="./index.js"></script>
-<script src="./bundle.js"></script>
 <script src="components-script.js/components.js"></script>
 <script src="ripple-files/icon-ripple.js"></script>
 <script src="map/leaflet.js"></script>

@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="../components/modal-ver.css">
     <link rel="stylesheet" href="../ripple-files/ripple.css">
     <link rel="stylesheet" href="../components/segment-btns.css">
+    <script  src="../bundle.js"></script>
+
     <style>
         .activity-large-content::before {
             position: fixed;
@@ -67,7 +69,7 @@
 
 
             <md-list>
-                <md-list-item disabled hidden>
+                <md-list-item>
                     <md-icon icon-filled slot="start">notifications</md-icon>
                     <div slot="headline" data-translate="notification_bar">Notification bar</div>
                     <div slot="supporting-text" data-translate="show_weather_information_in_the_notification_bar">Show weather information in the notifications bar</div>
@@ -105,7 +107,7 @@
                     <div slot="headline">Provider</div>
                     <div slot="supporting-text">Main provider</div>
                     <md-outlined-select slot="end" style="min-width: max-content; --md-outlined-field-bottom-space: 10px;--md-outlined-field-top-space: 10px;" id="selectMainWeatherProvider">
-                        <md-select-option selected value="open-meteo" menu-type>
+                        <md-select-option value="open-meteo" menu-type>
                             <div slot="headline">open-meteo</div>
                         </md-select-option>
                         <md-select-option value="Accuweather" menu-type>
@@ -129,7 +131,7 @@
                     <div slot="headline">Alerts</div>
                     <div slot="supporting-text">Alerts provider</div>
                     <md-outlined-select slot="end" style="min-width: max-content; --md-outlined-field-bottom-space: 10px;--md-outlined-field-top-space: 10px;" id="selectMainAlertsProvider">
-                        <md-select-option selected value="weatherapi-alert" menu-type>
+                        <md-select-option  value="weatherapi-alert" menu-type>
                             <div slot="headline">weatherapi</div>
                         </md-select-option>
                         <md-select-option value="OpenWeather-alert" menu-type>
@@ -147,7 +149,7 @@
                     <div slot="supporting-text">Search provider</div>
 
                     <md-outlined-select slot="end" style="min-width: max-content; --md-outlined-field-bottom-space: 10px;--md-outlined-field-top-space: 10px;" id="selectMainSearchProvider">
-                        <md-select-option selected value="open-meteo-search" menu-type>
+                        <md-select-option  value="open-meteo-search" menu-type>
                             <div slot="headline">open-meteo</div>
                         </md-select-option>
                         <md-select-option value="weatherapi-search" menu-type>
@@ -162,6 +164,7 @@
                     <md-icon icon-filled slot="start">home_pin</md-icon>
                     <div slot="headline" data-translate="home_location">Home location</div>
                     <div slot="supporting-text" data-translate="save_locations_menu">You need to save locations to show in the menu</div>
+                    <div slot="supporting-text" id="you_cant_change_location" style="color: var(--Error);"></div>
                     <div slot="supporting-text" id="homeLocationSelectedText" style="color: var(--Primary); font-family: var(--outfit-mid);">Your device location</div>
 
                     <md-icon slot="end" icon-outlined>chevron_right</md-icon>
@@ -614,14 +617,6 @@ defaultMenuItem.addEventListener('click', () => {
 });
 
 
-document.getElementById('toggle_noti').addEventListener('change', ()=>{
-
-setTimeout(()=>{
-    sendThemeToAndroid('Enable_noti')
-}, 1400);
-
-});
-
 savedLocationsMenu.appendChild(defaultMenuItem);
 
 savedLocations.forEach(location => {
@@ -728,6 +723,25 @@ if(HideNewUpdateToast === 'true'){
     }
 
 
+    function checkNoInternet(){
+        if(navigator.onLine){
+
+        } else{
+            document.getElementById('usage-popover-anchor').style.pointerEvents = 'none'
+            document.getElementById('you_cant_change_location').innerHTML = "Option can't be changed without internet";
+        }
+    }
+    checkNoInternet()
+
+        document.getElementById('toggle_noti').addEventListener('change', ()=>{
+        localStorage.setItem('UseNotification', document.getElementById('toggle_noti').selected)
+    });
+
+    if(localStorage.getItem('UseNotification') && localStorage.getItem('UseNotification') === 'true'){
+        document.getElementById('toggle_noti').selected = true;
+    } else{
+        document.getElementById('toggle_noti').selected = false;
+    }
 
     </script>
 
@@ -736,7 +750,6 @@ if(HideNewUpdateToast === 'true'){
 <script src="../modules/scroll.js"></script>
 <script src="../modules/ripple_acc.js"></script>
 <script src="../app/navigate.js"></script>
-<script src="../bundle.js"></script>
 <script type="module" src="../index.js"></script>
 <script src="../modules/weather-sources.js"></script>
 

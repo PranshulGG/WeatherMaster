@@ -18,10 +18,12 @@ function handleStorageChange(event) {
         event.key === 'UseBackgroundAnimations'||
         event.key === 'selectedMainWeatherProvider' ||
         event.key === 'ApiForAccu' ||
+        event.key === 'UseNotification' ||
         event.key === 'selectedPressureUnit') {
 
             setTimeout(()=>{
                 window.location.reload();
+
                 sendThemeToAndroid('overcast')
             }, 1500);
 
@@ -77,7 +79,8 @@ function useAutoCurrentLocation(){
 }
 }
 
-
+if(navigator.onLine){
+    localStorage.setItem('DeviceOnline', 'Yes');
 if(DefaultLocation){
 if(DefaultLocation.name === 'CurrentDeviceLocation'){
     useAutoCurrentLocation()
@@ -98,6 +101,19 @@ else{
     sendThemeToAndroid("ReqLocation")
     document.querySelector('.currentLocationdiv').hidden = false;
 }
+} else{
+    localStorage.setItem('DeviceOnline', 'No');
+
+    document.addEventListener('DOMContentLoaded', function () {
+        renderOfflineData();
+        setTimeout(()=>{
+            renderOfflineData();
+        }, 300);
+      });
+
+}
+
+
 
 
 
@@ -118,29 +134,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const openMapPicker = document.getElementById('openMapPicker');
 
     cityopen.addEventListener("click", () => {
-  let savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
+
+            if(navigator.onLine){
+           let savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
 
 
-        searchContainer.style.display = 'block';
-        window.history.pushState({ SearchContainerOpen: true }, "");
-         document.querySelector('.header_hold').style.transform = 'scale(1.1)';
-                document.querySelector('.header_hold').style.opacity = '0';
+                 searchContainer.style.display = 'block';
+                 window.history.pushState({ SearchContainerOpen: true }, "");
+                  document.querySelector('.header_hold').style.transform = 'scale(1.1)';
+                         document.querySelector('.header_hold').style.opacity = '0';
 
-        setTimeout(() => {
-                                    document.querySelector('.header_hold').style.transform = '';
-                                    document.querySelector('.header_hold').style.opacity = '';
-
-
-            if (savedLocations.length === 0) {
-                cityInput.focus()
+                 setTimeout(() => {
+                                             document.querySelector('.header_hold').style.transform = '';
+                                             document.querySelector('.header_hold').style.opacity = '';
 
 
-            } else {
+                     if (savedLocations.length === 0) {
+                         cityInput.focus()
 
 
-            }
+                     } else {
 
-        }, 400);
+
+                     }
+
+                 }, 400);
+
+
+        } else{
+         ToastAndroidShow.ShowToast('No internet', 'long');
+        return;
+
+        }
     });
 
     closeButton.addEventListener('click', () => {
@@ -545,6 +570,7 @@ function hideLoader() {
 
 
 function refreshWeather(){
+    if(navigator.onLine){
     const latSend = localStorage.getItem('currentLat')
     const longSend = localStorage.getItem('currentLong')
 
@@ -557,8 +583,11 @@ function refreshWeather(){
         setTimeout(()=>{
             document.querySelector('.refresh_weat').disabled = false;
         }, 300000);
+    } else{
+     ToastAndroidShow.ShowToast('Cache refreshed', 'long');
+        return
+    }
 }
-
 
 function sendThemeToAndroid(theme) {
 
@@ -630,16 +659,18 @@ function removeMap() {
 
 
 
-function checkNoInternet(){
-        if(navigator.onLine){
-            document.querySelector('.no_internet_error').hidden = true;
-            document.getElementById('error_img_cat').innerHTML = ''
+function checkNoInternet() {
+    if (navigator.onLine) {
 
-        } else{
-            ShowError()
+    } else {
+        const offlineData = JSON.parse(localStorage.getItem('OfflineData'));
+        if (!offlineData) {
+            ShowError();
         }
     }
-    checkNoInternet()
+}
+
+   checkNoInternet()
 
 
 
@@ -647,7 +678,7 @@ function checkNoInternet(){
 
     document.addEventListener('DOMContentLoaded', async function() {
 
-        const currentVersion = 'v1.7.6';
+        const currentVersion = 'v1.7.7';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 

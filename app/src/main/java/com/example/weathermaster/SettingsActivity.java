@@ -137,7 +137,6 @@ public class SettingsActivity extends AppCompatActivity {
                     } else if (color.equals("ItsOff")) {
                         Toast.makeText(sActivity, "Your device will go to sleep at the default time", Toast.LENGTH_SHORT).show();
                         return;
-
                     } else {
                         Toast.makeText(sActivity, "not found", Toast.LENGTH_SHORT).show();
                         return;

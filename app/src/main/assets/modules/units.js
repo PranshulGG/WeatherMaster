@@ -790,83 +790,136 @@ function getWeatherLabelInLang(iconCode, isDay, langCode) {
 // froggie
 
 
-const sunnyFrog = [
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/01-sunny/01-sunny-creek-swimming.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/01-sunny/01-sunny-field-kite.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/01-sunny/01-sunny-orchard-picking.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/01-sunny/01-sunny-home-laundry_f.png?ref_type=heads",
-]
+let mostlySunnyFrog = [];
+let PartlyCloudyFrog = [];
+let OvercastFrog = [];
+let FogFrog = [];
+let RainFrog = [];
+let SnowFrog = [];
+let ThunderStormFrog = [];
+let ClearNightFrog = [];
+let PartlyCloudyNightFrog = [];
 
-const mostlySunnyFrog = [
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/02-mostly-sunny/02-mostly-sunny-citypark-picnic.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/02-mostly-sunny/02-mostly-sunny-beach-sunscreen.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/02-mostly-sunny/02-mostly-sunny-home-laundry.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/02-mostly-sunny/02-mostly-sunny-beach-sandcastle.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/02-mostly-sunny/02-mostly-sunny-rooftop-pinacolada.png?ref_type=heads",
-]
+if (navigator.onLine) {
 
-const PartlyCloudyFrog = [
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/03-partly-cloudy-day/03-partly-cloudy-day-field-hiking_f.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/03-partly-cloudy-day/03-partly-cloudy-day-home-flowers.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/03-partly-cloudy-day/03-partly-cloudy-day-creek-feet.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/03-partly-cloudy-day/03-partly-cloudy-day-field-biking_c.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/03-partly-cloudy-day/03-partly-cloudy-day-citypark-ukelele.png?ref_type=heads",
-]
+    sunnyFrog = [
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/01-sunny/01-sunny-creek-swimming.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/01-sunny/01-sunny-field-kite.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/01-sunny/01-sunny-orchard-picking.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/01-sunny/01-sunny-home-laundry_f.png?ref_type=heads"
+    ];
 
-const OvercastFrog = [
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/09-cloudy/09-cloudy-home-flowers.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/09-cloudy/09-cloudy-orchard-watching.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/04-mostly-cloudy-day/04-mostly-cloudy-day-home-flowers.png?ref_type=heads"
-]
+    mostlySunnyFrog = [
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/02-mostly-sunny/02-mostly-sunny-citypark-picnic.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/02-mostly-sunny/02-mostly-sunny-beach-sunscreen.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/02-mostly-sunny/02-mostly-sunny-home-laundry.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/02-mostly-sunny/02-mostly-sunny-beach-sandcastle.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/02-mostly-sunny/02-mostly-sunny-rooftop-pinacolada.png?ref_type=heads"
+    ];
 
-const FogFrog = [
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/26-haze-fog-dust-smoke/26-haze-fog-dust-smoke-bridge.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/26-haze-fog-dust-smoke/26-haze-fog-dust-smoke-fruit-stand.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/26-haze-fog-dust-smoke/26-haze-fog-dust-smoke-mountain.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/26-haze-fog-dust-smoke/26-haze-fog-dust-smoke-pier.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/26-haze-fog-dust-smoke/26-haze-fog-dust-smoke-field-lantern.png?ref_type=heads",
-]
+    PartlyCloudyFrog = [
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/03-partly-cloudy-day/03-partly-cloudy-day-field-hiking_f.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/03-partly-cloudy-day/03-partly-cloudy-day-home-flowers.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/03-partly-cloudy-day/03-partly-cloudy-day-creek-feet.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/03-partly-cloudy-day/03-partly-cloudy-day-field-biking_c.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/03-partly-cloudy-day/03-partly-cloudy-day-citypark-ukelele.png?ref_type=heads"
+    ];
 
-const RainFrog = [
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/11-rain/11-rain-creek-leaf.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/11-rain/11-rain-home-inside.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/04-mostly-cloudy-day/04-mostly-cloudy-day-orchard-treeswing_f.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/12-heavy-rain/12-heavy-rain-busstop-umbrella.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/12-heavy-rain/12-heavy-rain-cafe-sitting-singing.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/11-rain/11-shower-rain-field-leaf.png?ref_type=heads"
-]
+    OvercastFrog = [
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/09-cloudy/09-cloudy-home-flowers.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/09-cloudy/09-cloudy-orchard-watching.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/04-mostly-cloudy-day/04-mostly-cloudy-day-home-flowers.png?ref_type=heads"
+    ];
 
-const SnowFrog = [
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/15-snow-showers-snow/15-snow-showers-snow-citypark-snowman.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/15-snow-showers-snow/15-snow-showers-snow-home-shoveling.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/15-snow-showers-snow/15-snow-showers-snow-creek-iceskating.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/17-heavy-snow-blizzard/17-heavy-snow-blizzard-home-inside.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/16-blowing-snow/16-blowing-snow-field-snowman.png?ref_type=heads",
-]
+    FogFrog = [
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/26-haze-fog-dust-smoke/26-haze-fog-dust-smoke-bridge.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/26-haze-fog-dust-smoke/26-haze-fog-dust-smoke-fruit-stand.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/26-haze-fog-dust-smoke/26-haze-fog-dust-smoke-mountain.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/26-haze-fog-dust-smoke/26-haze-fog-dust-smoke-pier.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/26-haze-fog-dust-smoke/26-haze-fog-dust-smoke-field-lantern.png?ref_type=heads"
+    ];
 
-const ThunderStormFrog = [
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/22-iso-thunderstorms/22-iso-thunderstorms-home-inside.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/22-iso-thunderstorms/22-iso-thunderstorms-cafe-looking-outside.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/22-iso-thunderstorms/22-iso-thunderstorms-busstop-newspaper.png?ref_type=heads",
+    RainFrog = [
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/11-rain/11-rain-creek-leaf.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/11-rain/11-rain-home-inside.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/04-mostly-cloudy-day/04-mostly-cloudy-day-orchard-treeswing_f.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/12-heavy-rain/12-heavy-rain-busstop-umbrella.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/12-heavy-rain/12-heavy-rain-cafe-sitting-singing.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/11-rain/11-shower-rain-field-leaf.png?ref_type=heads"
+    ];
 
-]
+    SnowFrog = [
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/15-snow-showers-snow/15-snow-showers-snow-citypark-snowman.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/15-snow-showers-snow/15-snow-showers-snow-home-shoveling.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/15-snow-showers-snow/15-snow-showers-snow-creek-iceskating.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/17-heavy-snow-blizzard/17-heavy-snow-blizzard-home-inside.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/16-blowing-snow/16-blowing-snow-field-snowman.png?ref_type=heads"
+    ];
 
-// night ones
+    ThunderStormFrog = [
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/22-iso-thunderstorms/22-iso-thunderstorms-home-inside.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/22-iso-thunderstorms/22-iso-thunderstorms-cafe-looking-outside.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/22-iso-thunderstorms/22-iso-thunderstorms-busstop-newspaper.png?ref_type=heads"
+    ];
 
-const ClearNightFrog = [
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/05-clear/05-clear-creek-stars.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/05-clear/05-clear-field-lanterns.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/05-clear/05-clear-orchard-fireflies.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/05-clear/05-clear-home-lounging.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/05-clear/05-clear-hills-telescope.png?ref_type=heads",
-]
+    ClearNightFrog = [
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/05-clear/05-clear-creek-stars.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/05-clear/05-clear-field-lanterns.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/05-clear/05-clear-orchard-fireflies.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/05-clear/05-clear-home-lounging.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/05-clear/05-clear-hills-telescope.png?ref_type=heads"
+    ];
 
-const PartlyCloudyNightFrog = [
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/07-partly-cloudy-night/07-partly-cloudy-night-creek-fireflies.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/07-partly-cloudy-night/07-partly-cloudy-night-field-fireflies.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/07-partly-cloudy-night/07-partly-cloudy-night-hills-smores.png?ref_type=heads",
-    "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/07-partly-cloudy-night/07-partly-cloudy-night-orchard-eating.png?ref_type=heads",
-]
+    PartlyCloudyNightFrog = [
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/07-partly-cloudy-night/07-partly-cloudy-night-creek-fireflies.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/07-partly-cloudy-night/07-partly-cloudy-night-field-fireflies.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/07-partly-cloudy-night/07-partly-cloudy-night-hills-smores.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/07-partly-cloudy-night/07-partly-cloudy-night-orchard-eating.png?ref_type=heads"
+    ];
+} else {
+
+    sunnyFrog = [
+        'froggie/01d.png'
+    ];
+
+    mostlySunnyFrog = [
+        'froggie/02d.png'
+    ];
+
+    PartlyCloudyFrog = [
+        'froggie/03d.png'
+    ];
+
+    OvercastFrog = [
+        'froggie/04d.png'
+    ];
+
+    FogFrog = [
+        'froggie/50d.png'
+    ];
+
+    RainFrog = [
+        'froggie/09d.png'
+    ];
+
+    SnowFrog = [
+        'froggie/13d.png'
+    ];
+
+    ThunderStormFrog = [
+        'froggie/11d.png'
+    ];
+
+    ClearNightFrog = [
+        'froggie/01n.png'
+    ];
+
+    PartlyCloudyNightFrog = [
+        'froggie/02n.png'
+    ];
+
+}
+
 
 
 

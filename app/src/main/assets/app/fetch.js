@@ -5,7 +5,7 @@ function getCountryName(code) {
 
 
 async function DecodeWeather(lat, lon) {
-  const apiKey = 'KEY';
+  const apiKey = 'KEYS';
   const url = `https://api.timezonedb.com/v2.1/get-time-zone?key=${apiKey}&format=json&by=position&lat=${lat}&lng=${lon}`;
 
   try {
@@ -48,6 +48,9 @@ showLoader();
               localStorage.setItem('DailyWeatherCache', JSON.stringify(data.daily));
               UvIndex(data.hourly.uv_index[0])
               DailyWeather(data.daily)
+                       saveCache(lat, lon, timezone)
+           localStorage.setItem('CurrentHourlyCache', JSON.stringify(data.hourly))
+document.querySelector('.data_provider_name_import').innerHTML = 'Data by Met norway';
 
             } else if(localStorage.getItem('ApiForAccu') && localStorage.getItem('selectedMainWeatherProvider') === 'Accuweather') {
               FetchWeatherAccuweather(lat, lon)
@@ -55,6 +58,9 @@ showLoader();
               localStorage.setItem('DailyWeatherCache', JSON.stringify(data.daily));
               UvIndex(data.hourly.uv_index[0])
               DailyWeather(data.daily)
+                        saveCache(lat, lon, timezone)
+         localStorage.setItem('CurrentHourlyCache', JSON.stringify(data.hourly))
+          document.querySelector('.data_provider_name_import').innerHTML = 'Data by Accuweather';
             }
              else {
               DailyWeather(data.daily)
@@ -63,35 +69,97 @@ showLoader();
               localStorage.setItem('CurrentHourlyCache', JSON.stringify(data.hourly))
               saveCache(lat, lon, timezone)
               CurrentWeather(data.current, data.daily.sunrise[0], data.daily.sunset[0])
-
+            document.querySelector('.data_provider_name_import').innerHTML = 'Data by Open-Meteo';
             }
 
 
 
 
+    const checkIFitsSavedLocation = JSON.parse(localStorage.getItem('DefaultLocation'));
 
-      // send daily
+      function isApproxEqual(val1, val2, epsilon = 0.0001) {
+        return Math.abs(val1 - val2) < epsilon;
+      }
+
+      if (checkIFitsSavedLocation) {
+        const savedLat = parseFloat(checkIFitsSavedLocation.lat);
+        const savedLon = parseFloat(checkIFitsSavedLocation.lon);
+        const savedName = checkIFitsSavedLocation.name;
+
+        if ((savedLat !== undefined && savedLon !== undefined && isApproxEqual(lat, savedLat) && isApproxEqual(lon, savedLon)) ||
+            (savedName === "CurrentDeviceLocation")) {
+          cacheOfflineCurrentData(data, data.daily, data.current, data.daily.sunrise[0], data.daily.sunset[0]);
+        }
+      }
 
 
-
-      // Cache weather for different pages
-
-
-
-      // send current
-
-
-
-      // send airquality
 
       FetchAirQuality(lat, lon, timezone)
 
 
 
-      // send other data
 
-      MoreDetails(lat, lon)
-      astronomyData(lat, lon)
+
+MoreDetails(lat, lon)
+
+
+      function MoreDetails(latSum, lonSum) {
+        fetch(`https://api.weatherapi.com/v1/forecast.json?key=KEYS&q=${latSum},${lonSum}`)
+            .then(response => response.json())
+            .then(data => {
+              MoreDetailsRender(data)
+
+              const checkIFitsSavedLocation = JSON.parse(localStorage.getItem('DefaultLocation'));
+
+              function isApproxEqual(val1, val2, epsilon = 0.0001) {
+                return Math.abs(val1 - val2) < epsilon;
+              }
+
+              if (checkIFitsSavedLocation) {
+                const savedLat = parseFloat(checkIFitsSavedLocation.lat);
+                const savedLon = parseFloat(checkIFitsSavedLocation.lon);
+                const savedName = checkIFitsSavedLocation.name;
+
+                if ((savedLat !== undefined && savedLon !== undefined && isApproxEqual(lat, savedLat) && isApproxEqual(lon, savedLon)) ||
+                    (savedName === "CurrentDeviceLocation")) {
+            localStorage.setItem('OfflineMoreDetailsSummaryData', JSON.stringify(data));
+
+                }
+              }
+
+            });
+          }
+
+        astronomyData(lat, lon)
+
+
+          function astronomyData(latSum, lonSum) {
+            fetch(`https://api.weatherapi.com/v1/astronomy.json?key=KEYS&q=${latSum},${lonSum}`)
+                .then(response => response.json())
+                .then(data => {
+
+              astronomyDataRender(data)
+
+
+                  const checkIFitsSavedLocation = JSON.parse(localStorage.getItem('DefaultLocation'));
+
+                  function isApproxEqual(val1, val2, epsilon = 0.0001) {
+                    return Math.abs(val1 - val2) < epsilon;
+                  }
+
+                  if (checkIFitsSavedLocation) {
+                    const savedLat = parseFloat(checkIFitsSavedLocation.lat);
+                    const savedLon = parseFloat(checkIFitsSavedLocation.lon);
+                    const savedName = checkIFitsSavedLocation.name;
+
+                    if ((savedLat !== undefined && savedLon !== undefined && isApproxEqual(lat, savedLat) && isApproxEqual(lon, savedLon)) ||
+                        (savedName === "CurrentDeviceLocation")) {
+                localStorage.setItem('OfflineastronomyData', JSON.stringify(data));
+
+                    }
+                  }
+                });
+              }
       FetchAlert(lat, lon)
 
 
@@ -144,6 +212,37 @@ const weatherCodeGroups = {
 
     ReportFromhourly(selectedWeatherCode);
 
+            let Visibility;
+            let VisibilityUnit;
+
+
+            if (SelectedVisibiltyUnit === 'mileV') {
+                Visibility = Math.round(data.hourly.visibility[0] / 1609.34);
+                VisibilityUnit = 'miles'
+            } else {
+                Visibility = Math.round(data.hourly.visibility[0] / 1000);
+                VisibilityUnit = 'km'
+
+            }
+
+
+            document.getElementById('unit_visibility').innerHTML = VisibilityUnit
+    document.getElementById('min-temp').innerHTML = Visibility
+
+                let DewPointTemp
+
+
+                if (SelectedTempUnit === 'fahrenheit') {
+                    DewPointTemp = Math.round(celsiusToFahrenheit(data.hourly.dew_point_2m[0]))
+
+                } else {
+                    DewPointTemp = Math.round(data.hourly.dew_point_2m[0])
+
+                }
+
+        document.getElementById('dew_percentage').innerHTML = DewPointTemp + '°'
+
+
       hideLoader()
     }).catch(error =>{
       ShowError()
@@ -163,6 +262,25 @@ function FetchAirQuality(lat, lon, timezone) {
     .then(data => {
 
       AirQuaility(data)
+
+
+    const checkIFitsSavedLocation = JSON.parse(localStorage.getItem('DefaultLocation'));
+
+    function isApproxEqual(val1, val2, epsilon = 0.0001) {
+      return Math.abs(val1 - val2) < epsilon;
+    }
+
+    if (checkIFitsSavedLocation) {
+      const savedLat = parseFloat(checkIFitsSavedLocation.lat);
+      const savedLon = parseFloat(checkIFitsSavedLocation.lon);
+      const savedName = checkIFitsSavedLocation.name;
+
+      if ((savedLat !== undefined && savedLon !== undefined && isApproxEqual(lat, savedLat) && isApproxEqual(lon, savedLon)) ||
+          (savedName === "CurrentDeviceLocation")) {
+            localStorage.setItem('airQualityData', JSON.stringify(data));
+
+      }
+    }
 
     });
 
@@ -203,6 +321,24 @@ function saveCache(lat, lon, timezone) {
 
 
       localStorage.setItem('HourlyWeatherCache', JSON.stringify(data.hourly));
+
+            const checkIFitsSavedLocation = JSON.parse(localStorage.getItem('DefaultLocation'));
+
+            function isApproxEqual(val1, val2, epsilon = 0.0001) {
+              return Math.abs(val1 - val2) < epsilon;
+            }
+
+            if (checkIFitsSavedLocation) {
+              const savedLat = parseFloat(checkIFitsSavedLocation.lat);
+              const savedLon = parseFloat(checkIFitsSavedLocation.lon);
+              const savedName = checkIFitsSavedLocation.name;
+
+              if ((savedLat !== undefined && savedLon !== undefined && isApproxEqual(lat, savedLat) && isApproxEqual(lon, savedLon)) ||
+                  (savedName === "CurrentDeviceLocation")) {
+                    localStorage.setItem('OfflinesaveCache', JSON.stringify(data.hourly));
+
+              }
+            }
 
     });
 
@@ -247,7 +383,7 @@ function saveCache(lat, lon, timezone) {
     const apiKey = localStorage.getItem('ApiForAccu');
 
 
-    const geoPositionUrl = `http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${apiKey}&q=${lat},${lon}`;
+    const geoPositionUrl = `https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${apiKey}&q=${lat},${lon}`;
 
     fetch(geoPositionUrl)
       .then(response => {
@@ -259,7 +395,7 @@ function saveCache(lat, lon, timezone) {
       .then(locationData => {
         const locationKey = locationData.Key;
         FetchWeatherAccuweatherCurrent(locationKey)
-        const hourlyForecastUrl = `http://dataservice.accuweather.com/forecasts/v1/hourly/12hour/${locationKey}?apikey=${apiKey}&metric=true`;
+        const hourlyForecastUrl = `https://dataservice.accuweather.com/forecasts/v1/hourly/12hour/${locationKey}?apikey=${apiKey}&metric=true`;
 
         return fetch(hourlyForecastUrl);
       })
@@ -279,7 +415,7 @@ function saveCache(lat, lon, timezone) {
     const locationKey = location_key;
     const apiKey = localStorage.getItem('ApiForAccu');
 
-    const weatherUrl = `http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${apiKey}`;
+    const weatherUrl = `https://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${apiKey}`;
 
     fetch(weatherUrl)
       .then(response => {
@@ -294,5 +430,130 @@ function saveCache(lat, lon, timezone) {
       })
       .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
+                  ToastAndroidShow.ShowToast('API Error, switching to open-meteo', 'long');
+                        localStorage.setItem('selectedMainWeatherProvider', 'open-meteo');
+                        setTimeout(()=>{
+                          DecodeWeather(lat, lon)
+                        }, 200);
       });
   }
+
+// offline caching
+
+function cacheOfflineCurrentData(hourlyOffline, dailyOffline, dailyCurrent, dailySunrise, dailySunset){
+
+  localStorage.setItem('OfflineData', JSON.stringify({ hourlyOffline: hourlyOffline, dailyOffline: dailyOffline, dailyCurrent: dailyCurrent, dailySunrise: dailySunrise, dailySunset: dailySunset }));
+
+}
+
+
+function renderOfflineData(){
+  const OfflineDataTotal = JSON.parse(localStorage.getItem('OfflineData'))
+  const AirQuailityDataOffline = JSON.parse(localStorage.getItem('airQualityData'))
+  const OfflineMoreDetailsSummaryData = JSON.parse(localStorage.getItem('OfflineMoreDetailsSummaryData'));
+  const OfflineastronomyData = JSON.parse(localStorage.getItem('OfflineastronomyData'));
+  const OfflinesaveCache = JSON.parse(localStorage.getItem('OfflinesaveCache'));
+
+  const offlineDatalocationName = JSON.parse(localStorage.getItem('DefaultLocation'));
+
+  localStorage.setItem('DailyWeatherCache', JSON.stringify(OfflineDataTotal.dailyOffline));
+  localStorage.setItem('CurrentHourlyCache', JSON.stringify(OfflineDataTotal.hourlyOffline.hourly));
+  localStorage.setItem('HourlyWeatherCache', JSON.stringify(OfflinesaveCache));
+
+  document.getElementById('city-name').innerHTML = offlineDatalocationName.name;
+  document.getElementById('SelectedLocationText').innerHTML = offlineDatalocationName.name;
+  document.getElementById('currentLocationName').textContent = offlineDatalocationName.name;
+
+  HourlyWeather(OfflineDataTotal.hourlyOffline)
+  DailyWeather(OfflineDataTotal.dailyOffline)
+  CurrentWeather(OfflineDataTotal.dailyCurrent, OfflineDataTotal.dailySunrise, OfflineDataTotal.dailySunset)
+  AirQuaility(AirQuailityDataOffline)
+  MoreDetailsRender(OfflineMoreDetailsSummaryData)
+  astronomyDataRender(OfflineastronomyData)
+
+
+  let DewPointTemp
+
+
+  if (SelectedTempUnit === 'fahrenheit') {
+    DewPointTemp = Math.round(celsiusToFahrenheit(OfflineDataTotal.hourlyOffline.hourly.dew_point_2m[0]))
+
+  } else {
+    DewPointTemp = Math.round(OfflineDataTotal.hourlyOffline.hourly.dew_point_2m[0])
+
+  }
+
+  document.getElementById('dew_percentage').innerHTML = DewPointTemp + '°'
+
+
+  const weatherCodeGroups = {
+    "0": [0],
+    "1": [1],
+    "2": [2],
+    "3": [3],
+    "45": [45],
+    "48": [48],
+    "51": [51],
+    "53": [53],
+    "55": [55],
+    "56": [56],
+    "57": [57],
+    "61": [61],
+    "63": [63],
+    "65": [65],
+    "66": [66],
+    "67": [67],
+    "71": [71],
+    "73": [73],
+    "75": [75],
+    "77": [77],
+    "80": [80],
+    "81": [81],
+    "82": [82],
+    "85": [85],
+    "86": [86],
+    "95": [95],
+    "96": [96],
+    "99": [99]
+  };
+
+
+  let groupCounts = {};
+  Object.keys(weatherCodeGroups).forEach(group => {
+    groupCounts[group] = 0;
+  });
+
+  OfflineDataTotal.hourlyOffline.hourly.weather_code.forEach((code) => {
+    if (groupCounts[code] !== undefined) {
+      groupCounts[code]++;
+    }
+  });
+
+  const mostFrequentGroup = Object.keys(groupCounts).reduce((a, b) => groupCounts[a] > groupCounts[b] ? a : b);
+  const selectedWeatherCode = mostFrequentGroup;
+
+
+  ReportFromhourly(selectedWeatherCode);
+
+  let Visibility;
+  let VisibilityUnit;
+
+
+  if (SelectedVisibiltyUnit === 'mileV') {
+    Visibility = Math.round(OfflineDataTotal.hourlyOffline.hourly.visibility[0] / 1609.34);
+    VisibilityUnit = 'miles'
+  } else {
+    Visibility = Math.round(OfflineDataTotal.hourlyOffline.hourly.visibility[0] / 1000);
+    VisibilityUnit = 'km'
+
+  }
+
+
+  document.getElementById('unit_visibility').innerHTML = VisibilityUnit
+  document.getElementById('min-temp').innerHTML = Visibility
+
+   hideLoader()
+}
+
+
+

@@ -32,7 +32,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -90,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         AndroidInterface androidInterface = new AndroidInterface(this);
         webview.addJavascriptInterface(androidInterface, "AndroidInterface");
         webview.addJavascriptInterface(new ShowToastInterface(this), "ToastAndroidShow");
+        webview.addJavascriptInterface(new UpdateNotificationInterface(this), "UpdateNotificationInterface");
         webview.setBackgroundColor(getResources().getColor(R.color.diffDefault));
         webSettings.setTextZoom(100);
 
@@ -155,6 +155,8 @@ public class MainActivity extends AppCompatActivity {
         webview.loadUrl("file:///android_asset/index.html");
 
 
+
+
     }
 
 
@@ -181,6 +183,38 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+    public class UpdateNotificationInterface {
+        private final Context mContext;
+
+        public UpdateNotificationInterface(Context context) {
+            this.mContext = context;
+        }
+
+        @JavascriptInterface
+        public void updateNotification(final String temperature, final String condition) {
+            Intent intent = new Intent(mContext, ForegroundService.class);
+            intent.putExtra("temperature", temperature);
+            intent.putExtra("condition", condition);
+            mContext.startService(intent);
+        }
+
+        @JavascriptInterface
+        public void destroyNotification() {
+            Intent intent = new Intent(mContext, ForegroundService.class);
+            intent.setAction("com.example.weathermaster.ACTION_DESTROY_NOTIFICATION");
+            mContext.startService(intent);
+        }
+
+        @JavascriptInterface
+        public void destroyNotificationAppearance() {
+            // Use the correct action for appearance
+            Intent intent = new Intent(mContext, ForegroundService.class);
+            intent.setAction("com.example.weathermaster.ACTION_DESTROY_APPEARANCE");
+            mContext.startService(intent);
+        }
+    }
+
 
 
     public class ShowToastInterface {
@@ -279,6 +313,7 @@ public class MainActivity extends AppCompatActivity {
 
                     } else if (color.equals("OpenSettings")){
                         openSettingsActivity();
+
                         return;
                     } else if (color.equals("Open8Forecast")){
                         openForecastPage();

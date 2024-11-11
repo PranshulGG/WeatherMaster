@@ -128,11 +128,11 @@
             <div class="content-parent-large" style="padding-bottom: 32px;">
 
                 <md-list style="padding: 10px;">
-                    <md-list-item style="background-color: var(--Secondary-Container); border-radius: 15px;"
+                    <md-list-item style="background-color: var(--Secondary-Container); border-radius: 15px; pointer-events: none; opacity: 0.6;"
                         type="button" href="https://poeditor.com/join/project/DxrGXdoUGF">
                         <md-icon icon-outlined slot="start">translate</md-icon>
                         <div slot="headline" style="color: var(--On-Secondary-Container);" data-translate="translate_this_app">Translate this app</div>
-                        <div slot="supporting-text" data-translate="join_POEditor_project_to_help">Join POEditor project to help</div>
+                        <div slot="supporting-text">Not available</div>
                     </md-list-item>
                 </md-list>
 
@@ -142,7 +142,7 @@
                         <input checked name="app_language_radios" value="English" lang="en"
                                onclick="updateImgAreas()" type="radio">
                         <img_area>
-                            <i class="fas fi-us"></i>
+                            <i class="fas fi-us">US</i>
                         </img_area>
                         English
                         <md-ripple></md-ripple>
@@ -151,7 +151,7 @@
                     <label class="language_item">
                         <input name="app_language_radios" value="Español" lang="es" onclick="updateImgAreas()" type="radio">
                         <img_area>
-                            <i class="fas fi-es"></i>
+                            <i class="fas fi-es">ES</i>
                         </img_area>
                         Español
                         <md-ripple></md-ripple>
@@ -160,7 +160,7 @@
                     <label class="language_item" >
                         <input name="app_language_radios" value="Français" lang="fr" onclick="updateImgAreas()" type="radio">
                         <img_area>
-                            <i class="fas fi-fr"></i>
+                            <i class="fas fi-fr">FR</i>
                         </img_area>
                         Français
                         <md-ripple></md-ripple>
@@ -169,7 +169,7 @@
                     <label class="language_item">
                         <input name="app_language_radios" value="Deutsch" lang="de" onclick="updateImgAreas()" type="radio">
                         <img_area>
-                            <i class="fas fi-de"></i>
+                            <i class="fas fi-de">DE</i>
                         </img_area>
                         Deutsch
                         <md-ripple></md-ripple>
@@ -178,7 +178,7 @@
                     <label class="language_item">
                         <input name="app_language_radios" value="Italiano" lang="it" onclick="updateImgAreas()" type="radio">
                         <img_area>
-                            <i class="fas fi-it"></i>
+                            <i class="fas fi-it">IT</i>
                         </img_area>
                         Italiano
                         <md-ripple></md-ripple>
@@ -187,7 +187,7 @@
                     <label class="language_item">
                         <input name="app_language_radios" value="Português" lang="pt" onclick="updateImgAreas()" type="radio">
                         <img_area>
-                            <i class="fas fi-pt"></i>
+                            <i class="fas fi-pt">PT</i>
                         </img_area>
                         Português
                         <md-ripple></md-ripple>
@@ -196,7 +196,7 @@
                     <label class="language_item">
                         <input name="app_language_radios" value="Pусский" lang="ru" onclick="updateImgAreas()" type="radio">
                         <img_area>
-                            <i class="fas fi-ru"></i>
+                            <i class="fas fi-ru">RU</i>
                         </img_area>
                         Pусский
                         <md-ripple></md-ripple>
@@ -205,7 +205,7 @@
                     <label class="language_item">
                         <input name="app_language_radios" value="українець" lang="uk" onclick="updateImgAreas()" type="radio">
                         <img_area>
-                            <i class="fas fi-ua"></i>
+                            <i class="fas fi-ua">UA</i>
                         </img_area>
                         українець
                         <md-ripple></md-ripple>
@@ -214,7 +214,7 @@
                     <label class="language_item">
                         <input name="app_language_radios" value="Magyar" lang="hu" onclick="updateImgAreas()" type="radio">
                         <img_area>
-                            <i class="fas fi-hu"></i>
+                            <i class="fas fi-hu">HU</i>
                         </img_area>
                         Magyar
                         <md-ripple></md-ripple>
@@ -223,7 +223,7 @@
                     <label class="language_item">
                         <input name="app_language_radios" value="Polski" lang="pl" onclick="updateImgAreas()" type="radio">
                         <img_area>
-                            <i class="fas fi-pl"></i>
+                            <i class="fas fi-pl">PL</i>
                         </img_area>
                         Polski
                         <md-ripple></md-ripple>
@@ -232,7 +232,7 @@
                     <label class="language_item" disabled>
                         <input name="app_language_radios" value="Ελληνικά" lang="el" onclick="updateImgAreas()" type="radio">
                         <img_area>
-                            <i class="fas fi-gr"></i>
+                            <i class="fas fi-gr">GR</i>
                         </img_area>
                         Ελληνικά
                         <md-ripple></md-ripple>
@@ -241,7 +241,7 @@
                     <label class="language_item">
                         <input name="app_language_radios" value="Română" lang="ro" onclick="updateImgAreas()" type="radio">
                         <img_area>
-                            <i class="fas fi-ro"></i>
+                            <i class="fas fi-ro">RO</i>
                         </img_area>
                         Română
                         <md-ripple></md-ripple>
@@ -250,7 +250,7 @@
                     <label class="language_item">
                         <input name="app_language_radios" value="Slovenčina" lang="sk" onclick="updateImgAreas()" type="radio">
                         <img_area>
-                            <i class="fas fi-sk"></i>
+                            <i class="fas fi-sk">SK</i>
                         </img_area>
                         Slovenčina
                         <md-ripple></md-ripple>
@@ -261,7 +261,7 @@
                     <label class="language_item">
                         <input name="app_language_radios" value="简体中文" lang="zh-Hans" onclick="updateImgAreas()" type="radio">
                         <img_area>
-                            <i class="fas fi-cn"></i>
+                            <i class="fas fi-cn">CN</i>
                         </img_area>
                         简体中文
                         <md-ripple></md-ripple>
@@ -270,7 +270,7 @@
                     <label class="language_item">
                         <input name="app_language_radios" value="日本語" lang="ja" onclick="updateImgAreas()" type="radio">
                         <img_area>
-                            <i class="fas fi-jp"></i>
+                            <i class="fas fi-jp">JP</i>
                         </img_area>
                         日本語
                         <md-ripple></md-ripple>
@@ -279,7 +279,7 @@
                     <label class="language_item">
                         <input name="app_language_radios" value="Persian" lang="fa" onclick="updateImgAreas()" type="radio">
                         <img_area>
-                            <i class="fas fi-ir"></i>
+                            <i class="fas fi-ir">IR</i>
                         </img_area>
                         Persian
                         <md-ripple></md-ripple>

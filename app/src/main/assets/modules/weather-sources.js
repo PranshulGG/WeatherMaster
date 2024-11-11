@@ -106,8 +106,10 @@ const ApiForAccu = localStorage.getItem('ApiForAccu');
 
 if(ApiForAccu){
   document.getElementById('input_accuweather_field').value = ApiForAccu;
-} else{
+} else if (localStorage.getItem('ApiForAccuTemp')){
   document.getElementById('input_accuweather_field').value = localStorage.getItem('ApiForAccuTemp');;
+
+} else{
 
 }
 
