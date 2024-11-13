@@ -48,6 +48,7 @@
 
 # ✨ Features:
 
+- 🌍 **Offline Mode:** Access previously loaded weather data even without an internet connection.
 - 🌤️ **Current Weather:** Get real-time updates on weather conditions in your area.
 - 📢 **Government Weather Alerts:** Receive official alerts and warnings to stay safe.
 - ⏳ **24-Hour Forecast:** Plan your short-term activities with accurate forecasts for the next two days.
