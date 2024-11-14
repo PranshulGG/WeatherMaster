@@ -2,6 +2,7 @@ function createNotification(temperature, condition, locationWeather, uvindex, AQ
     if(localStorage.getItem('UseNotification') && localStorage.getItem('UseNotification') === 'true'){
         UpdateNotificationInterface.updateNotification(`${temperature}°`, condition, locationWeather, uvindex, AQI_value, iconCodeCondition, ISDAY);
     }
+//    updated & fixed
 }
 
 function removeNotification(){
