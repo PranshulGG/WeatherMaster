@@ -19,7 +19,11 @@
    <div align="center">
    <h3>WeatherMaster: inspired by the Google Pixel weather app.</h3>
    </div>
-   
+ <div align="center">
+    
+   [Features](https://github.com/PranshulGG/WeatherMaster?tab=readme-ov-file#-features) • [Contact](https://github.com/PranshulGG/WeatherMaster?tab=readme-ov-file#contact) • [License](https://github.com/PranshulGG/WeatherMaster?tab=readme-ov-file#license)
+    </div>
+    
 <div align="center">
  <a href="https://github.com/PranshulGG/WeatherMaster/releases"><img alt="GitHub" src="https://censorship.no/img/github-badge.png" height="80"/></a>
    <a href="https://apt.izzysoft.de/fdroid/index/apk/com.example.weathermaster"><img alt="GitHub" src="preview/download_Btn.png" height="80"/></a></div>
@@ -48,6 +52,7 @@
 
 # ✨ Features:
 
+- 🌍 **Offline Mode:** Access previously loaded weather data even without an internet connection.
 - 🌤️ **Current Weather:** Get real-time updates on weather conditions in your area.
 - 📢 **Government Weather Alerts:** Receive official alerts and warnings to stay safe.
 - ⏳ **24-Hour Forecast:** Plan your short-term activities with accurate forecasts for the next two days.
