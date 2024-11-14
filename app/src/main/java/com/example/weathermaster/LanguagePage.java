@@ -58,6 +58,7 @@ public class LanguagePage extends AppCompatActivity {
         webview.addJavascriptInterface(androidInterface, "AndroidInterface");
         webview.setBackgroundColor(getResources().getColor(R.color.mainBG));
         webview.loadUrl("file:///android_asset/pages/LanguagesPage.html");
+        webSettings.setAllowFileAccess(true);
         webSettings.setTextZoom(100);
 
     }

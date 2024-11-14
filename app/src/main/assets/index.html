@@ -619,7 +619,7 @@
 
 
             <div id="updated-div">
-                <p id="updated" class="data_provider_name_import">Loading...</p>
+                <p id="updated" class="data_provider_name_import">Using offline</p>
             </div>
 
 
@@ -669,7 +669,7 @@
 
         <div class="currentLocationdiv" style="margin-top: 20px; ">
             <p class="title" style="display: flex; align-items: center; gap: 10px;"><md-icon icon-outlined>location_on</md-icon><span data-translate="current_location">Current location</span><md-text-button id="saveLocationCurrent" onclick="saveLocationToContainer(document.getElementById('saveLocationCurrent').getAttribute('data-location-text'), document.getElementById('saveLocationCurrent').getAttribute('data-lat'), document.getElementById('saveLocationCurrent').getAttribute('data-long'))" hidden>Save?</md-text-button></p>
-            <div class="currentLocations ripple_btn_low" id="currentLocations" onclick="getCurrentLocationWeather(); window.history.back()">
+            <div class="currentLocations ripple_btn_low" id="currentLocations" style="pointer-events: none;">
                 <div class="currentSearchImg">
                     <img src="icons/error.png" id="currentSearchImg" alt=""> </div>
                 <currentLocationNames>
@@ -863,6 +863,8 @@ document.getElementById('froggie_imgs').addEventListener('load', () => {
 <script src="modules/units.js"></script>
 <script src="providers/met-norway.js"></script>
 <script src="providers/accuweather.js"></script>
+<script src="app/bg_animations.js"></script>
+<script src="modules/notification.js"></script>
 <script type="module" src="./index.js"></script>
 <script src="components-script.js/components.js"></script>
 <script src="ripple-files/icon-ripple.js"></script>
@@ -877,7 +879,6 @@ document.getElementById('froggie_imgs').addEventListener('load', () => {
 <script src="app/renderWeather.js"></script>
 <script src="modules/sun-tracker.js"></script>
 <script src="app/app.js"></script>
-<script src="app/bg_animations.js"></script>
 <script src="app/day_summary.js"></script>
 
 </body>

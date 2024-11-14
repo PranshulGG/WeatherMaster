@@ -1094,6 +1094,11 @@ background: linear-gradient(0deg, rgba(255, 0, 0, 0), var(--Secondary-Container)
   border-radius: 10px;
 }
 
+[round-ui="true"] .cloths div{
+  border-radius: 15px;
+
+}
+
 .insights_p{
   margin: 0;
   color: var(--On-Surface);

@@ -192,10 +192,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @JavascriptInterface
-        public void updateNotification(final String temperature, final String condition) {
+        public void updateNotification(final String temperature, final String condition, final String locationWeather, final String uvindex, final String AQI_value, final String iconCodeCondition, final String ISDAY) {
             Intent intent = new Intent(mContext, ForegroundService.class);
             intent.putExtra("temperature", temperature);
             intent.putExtra("condition", condition);
+            intent.putExtra("locationWeather", locationWeather);
+            intent.putExtra("uvindexValue", uvindex);
+            intent.putExtra("AQI_value", AQI_value);
+            intent.putExtra("ICONCODE", iconCodeCondition);
+            intent.putExtra("ISDAY", ISDAY);
             mContext.startService(intent);
         }
 

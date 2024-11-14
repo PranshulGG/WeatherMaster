@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../components/modal-ver.css">
     <link rel="stylesheet" href="../ripple-files/ripple.css">
     <link rel="stylesheet" href="../components/segment-btns.css">
-    <script  src="../bundle.js"></script>
+    <script  src="bundle.js"></script>
 
     <style>
         .activity-large-content::before {
@@ -606,14 +606,23 @@ defaultMenuItem.setAttribute('lat', 'defaultLat');
 defaultMenuItem.setAttribute('lon', 'defaultLon');
 defaultMenuItem.innerHTML = 'Your device location';
 defaultMenuItem.classList.add('selected-home-location');
-
+defaultMenuItem.setAttribute('name', 'CurrentDeviceLocation');
 
 defaultMenuItem.addEventListener('click', () => {
     clearSelection();
     document.getElementById('homeLocationSelectedText').innerHTML = 'Your device location';
     defaultMenuItem.classList.add('selected-home-location');
-    localStorage.setItem('DefaultLocation', JSON.stringify({ name: 'CurrentDeviceLocation' }));
 
+    if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition((position) => {
+            currentLocation = {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude
+            }
+            localStorage.setItem('DefaultLocation', JSON.stringify({ lat: currentLocation.latitude, lon: currentLocation.longitude, name: 'CurrentDeviceLocation' }));
+
+        })
+    }
 });
 
 
@@ -725,7 +734,7 @@ if(HideNewUpdateToast === 'true'){
 
     function checkNoInternet(){
         if(navigator.onLine){
-
+        localStorage.setItem('DeviceOnline', 'Yes');
         } else{
             document.getElementById('usage-popover-anchor').style.pointerEvents = 'none'
             document.getElementById('you_cant_change_location').innerHTML = "Option can't be changed without internet";
@@ -733,8 +742,20 @@ if(HideNewUpdateToast === 'true'){
     }
     checkNoInternet()
 
-        document.getElementById('toggle_noti').addEventListener('change', ()=>{
-        localStorage.setItem('UseNotification', document.getElementById('toggle_noti').selected)
+document.getElementById('toggle_noti').addEventListener('change', ()=>{
+
+            if(document.getElementById('toggle_noti').selected){
+                    setTimeout(()=>{
+                   sendThemeToAndroid('ReqNotification')
+            }, 1000);
+            localStorage.setItem('UseNotification', 'true')
+            } else{
+            localStorage.setItem('UseNotification', 'false')
+
+            }
+
+
+
     });
 
     if(localStorage.getItem('UseNotification') && localStorage.getItem('UseNotification') === 'true'){
@@ -742,6 +763,14 @@ if(HideNewUpdateToast === 'true'){
     } else{
         document.getElementById('toggle_noti').selected = false;
     }
+
+
+
+function handlePermissionDenied(){
+    localStorage.setItem('UseNotification', 'false')
+    document.getElementById('toggle_noti').click()
+}
+
 
     </script>
 

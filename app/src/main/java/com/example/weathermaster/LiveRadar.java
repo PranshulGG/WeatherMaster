@@ -58,7 +58,7 @@ public class LiveRadar extends AppCompatActivity {
         webview.addJavascriptInterface(androidInterface, "AndroidInterface");
         webview.setBackgroundColor(getResources().getColor(R.color.RadarPage));
         webSettings.setTextZoom(100);
-
+        webSettings.setAllowFileAccess(true);
         webview.loadUrl("file:///android_asset/pages/radar.html");
 
     }

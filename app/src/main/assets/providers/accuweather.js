@@ -20,16 +20,6 @@ function DisplayCurrentAccuweatherData(data){
     animateTemp(Temperature)
     document.getElementById('description').innerHTML = GetWeatherTextAccu(condition_text)
 
-                    checkNotificationAccu()
-
-                            function checkNotificationAccu(){
-
-                            if(localStorage.getItem('UseNotification') === 'true'){
-                                    UpdateNotificationInterface.updateNotification(`${Temperature}°`, GetWeatherTextAccu(condition_text));
-                            } else{
-                                UpdateNotificationInterface.destroyNotification();
-                            }
-                            }
 
     document.documentElement.setAttribute('iconcodetheme', GetWeatherIconAccuTheme(condition_text))
     sendThemeToAndroid(GetWeatherIconAccuTheme(condition_text))
@@ -120,9 +110,6 @@ function DisplayHourlyAccuweatherData(data) {
             <span>${hours}${period}</span>
         `;
 
-        forecastItem.addEventListener('click', () => {
-            ShowSnack(`<span style="text-transform: capitalize;">${GetWeatherTextAccu(weatherIcon)}</span>`, 2000, 3, 'none', ' ', 'no-up');
-        });
 
         RainBarsContainer.append(rainMeterBarItem);
         forecastContainer.appendChild(forecastItem);
@@ -364,11 +351,11 @@ function GetWeatherTextAccu(iconCodeAccu) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
             } else {
                 removeCloudsFull()
-                displayDrizzle()
+                removeDrizzle()
                 removeClouds()
                 removeRain()
                 removeFog()
-                removeSnow()
+                displaySnow()
                 removeLeaves()
                 removeStars()
                 removeThunder()
@@ -381,10 +368,10 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeCloudsFull()
                 removeDrizzle()
                 removeClouds()
-                displayRain()
+                removeRain()
                 removeFog()
                 removeLeaves()
-                removeSnow()
+                displaySnow()
                 removeStars()
                 removeThunder()
             }
@@ -396,10 +383,10 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeCloudsFull()
                 removeDrizzle()
                 removeClouds()
-                displayRain()
+                removeRain()
                 removeFog()
                 removeLeaves()
-                removeSnow()
+                displaySnow()
                 removeStars()
                 removeThunder()
             }
@@ -697,10 +684,10 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeCloudsFull()
                 removeDrizzle()
                 removeClouds()
-                displayRain()
+                removeRain()
                 removeFog()
                 removeLeaves()
-                removeSnow()
+                displaySnow()
                 removeStars()
                 removeThunder()
             }
@@ -906,13 +893,13 @@ function GetWeatherIconAccuTheme(AccuweathericonTheme) {
         return 'rain'
 
     } else if (AccuweathericonTheme === 19) {
-        return 'rain'
+        return 'snow'
 
     } else if (AccuweathericonTheme === 20) {
-        return 'rain'
+        return 'snow'
 
     } else if (AccuweathericonTheme === 21) {
-        return 'rain'
+        return 'snow'
 
     } else if (AccuweathericonTheme === 22) {
         return 'snow'
@@ -973,10 +960,10 @@ function GetWeatherIconAccuTheme(AccuweathericonTheme) {
         return 'thunder'
 
     } else if (AccuweathericonTheme === 43) {
-        return 'rain'
+        return 'snow'
 
     } else if (AccuweathericonTheme === 44) {
-        return 'rain'
+        return 'snow'
 
     }
 
@@ -1035,13 +1022,13 @@ function GetWeatherIconAccuFrog(AccuweathericonFrog) {
         return RainFrog[Math.floor(Math.random() * RainFrog.length)];
 
     } else if (AccuweathericonFrog === 19) {
-        return RainFrog[Math.floor(Math.random() * RainFrog.length)];
+        return SnowFrog[Math.floor(Math.random() * SnowFrog.length)];
 
     } else if (AccuweathericonFrog === 20) {
-        return RainFrog[Math.floor(Math.random() * RainFrog.length)];
+        return SnowFrog[Math.floor(Math.random() * SnowFrog.length)];
 
     } else if (AccuweathericonFrog === 21) {
-        return RainFrog[Math.floor(Math.random() * RainFrog.length)];
+        return SnowFrog[Math.floor(Math.random() * SnowFrog.length)];
 
     } else if (AccuweathericonFrog === 22) {
         return SnowFrog[Math.floor(Math.random() * SnowFrog.length)];
@@ -1102,10 +1089,10 @@ function GetWeatherIconAccuFrog(AccuweathericonFrog) {
         return ThunderStormFrog[Math.floor(Math.random() * ThunderStormFrog.length)];
 
     } else if (AccuweathericonFrog === 43) {
-        return RainFrog[Math.floor(Math.random() * RainFrog.length)];
+        return SnowFrog[Math.floor(Math.random() * SnowFrog.length)];
 
     } else if (AccuweathericonFrog === 44) {
-        return RainFrog[Math.floor(Math.random() * RainFrog.length)];
+        return SnowFrog[Math.floor(Math.random() * SnowFrog.length)];
 
     }
 

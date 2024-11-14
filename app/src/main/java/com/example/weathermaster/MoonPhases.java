@@ -58,6 +58,7 @@ public class MoonPhases extends AppCompatActivity {
         webview.addJavascriptInterface(androidInterface, "AndroidInterface");
         webview.setBackgroundColor(getResources().getColor(R.color.MoonPhase));
         webview.loadUrl("file:///android_asset/pages/MoonPhases.html");
+        webSettings.setAllowFileAccess(true);
         webSettings.setTextZoom(100);
 
     }

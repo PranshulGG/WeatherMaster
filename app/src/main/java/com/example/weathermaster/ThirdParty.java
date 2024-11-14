@@ -58,7 +58,7 @@ public class ThirdParty extends AppCompatActivity {
         webview.addJavascriptInterface(androidInterface, "AndroidInterface");
         webview.setBackgroundColor(getResources().getColor(R.color.mainBG));
         webSettings.setTextZoom(100);
-
+        webSettings.setAllowFileAccess(true);
         webview.loadUrl("file:///android_asset/pages/aboutPages/licenses.html");
 
     }

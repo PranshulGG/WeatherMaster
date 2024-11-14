@@ -74,6 +74,10 @@ function useAutoCurrentLocation(){
             localStorage.setItem('CurrentLocationName', 'Current location')
                   document.getElementById('currentLocationName').textContent = 'Current location';
 
+                                    if( !DefaultLocation || DefaultLocation.name === 'CurrentDeviceLocation'  ){
+                                      localStorage.setItem('DefaultLocation', JSON.stringify({ lat: currentLocation.latitude, lon: currentLocation.longitude, name: 'CurrentDeviceLocation' }));
+                                    }
+
     });
 }
 }
@@ -675,7 +679,7 @@ function checkNoInternet() {
 
     document.addEventListener('DOMContentLoaded', async function() {
 
-        const currentVersion = 'v1.7.7';
+        const currentVersion = 'v1.7.8';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 

@@ -28,8 +28,7 @@ async function DecodeWeather(lat, lon) {
 
 
 function FetchWeather(lat, lon, timezone) {
-
-showLoader();
+      showLoader();
 
         localStorage.setItem('currentLong', lon)
         localStorage.setItem('currentLat', lat)
@@ -86,9 +85,8 @@ document.querySelector('.data_provider_name_import').innerHTML = 'Data by Met no
         const savedLon = parseFloat(checkIFitsSavedLocation.lon);
         const savedName = checkIFitsSavedLocation.name;
 
-        if ((savedLat !== undefined && savedLon !== undefined && isApproxEqual(lat, savedLat) && isApproxEqual(lon, savedLon)) ||
-            (savedName === "CurrentDeviceLocation")) {
-          cacheOfflineCurrentData(data, data.daily, data.current, data.daily.sunrise[0], data.daily.sunset[0]);
+        if ((savedLat !== undefined && savedLon !== undefined && isApproxEqual(lat, savedLat) && isApproxEqual(lon, savedLon))) {
+          cacheOfflineCurrentData(data, data.daily, data.current, data.daily.sunrise[0], data.daily.sunset[0], new Date().toISOString());
         }
       }
 
@@ -120,8 +118,7 @@ MoreDetails(lat, lon)
                 const savedLon = parseFloat(checkIFitsSavedLocation.lon);
                 const savedName = checkIFitsSavedLocation.name;
 
-                if ((savedLat !== undefined && savedLon !== undefined && isApproxEqual(lat, savedLat) && isApproxEqual(lon, savedLon)) ||
-                    (savedName === "CurrentDeviceLocation")) {
+                if ((savedLat !== undefined && savedLon !== undefined && isApproxEqual(lat, savedLat) && isApproxEqual(lon, savedLon))) {
             localStorage.setItem('OfflineMoreDetailsSummaryData', JSON.stringify(data));
 
                 }
@@ -152,8 +149,7 @@ MoreDetails(lat, lon)
                     const savedLon = parseFloat(checkIFitsSavedLocation.lon);
                     const savedName = checkIFitsSavedLocation.name;
 
-                    if ((savedLat !== undefined && savedLon !== undefined && isApproxEqual(lat, savedLat) && isApproxEqual(lon, savedLon)) ||
-                        (savedName === "CurrentDeviceLocation")) {
+                    if ((savedLat !== undefined && savedLon !== undefined && isApproxEqual(lat, savedLat) && isApproxEqual(lon, savedLon))) {
                 localStorage.setItem('OfflineastronomyData', JSON.stringify(data));
 
                     }
@@ -275,8 +271,7 @@ function FetchAirQuality(lat, lon, timezone) {
       const savedLon = parseFloat(checkIFitsSavedLocation.lon);
       const savedName = checkIFitsSavedLocation.name;
 
-      if ((savedLat !== undefined && savedLon !== undefined && isApproxEqual(lat, savedLat) && isApproxEqual(lon, savedLon)) ||
-          (savedName === "CurrentDeviceLocation")) {
+      if ((savedLat !== undefined && savedLon !== undefined && isApproxEqual(lat, savedLat) && isApproxEqual(lon, savedLon))) {
             localStorage.setItem('airQualityData', JSON.stringify(data));
 
       }
@@ -333,8 +328,7 @@ function saveCache(lat, lon, timezone) {
               const savedLon = parseFloat(checkIFitsSavedLocation.lon);
               const savedName = checkIFitsSavedLocation.name;
 
-              if ((savedLat !== undefined && savedLon !== undefined && isApproxEqual(lat, savedLat) && isApproxEqual(lon, savedLon)) ||
-                  (savedName === "CurrentDeviceLocation")) {
+              if ((savedLat !== undefined && savedLon !== undefined && isApproxEqual(lat, savedLat) && isApproxEqual(lon, savedLon))) {
                     localStorage.setItem('OfflinesaveCache', JSON.stringify(data.hourly));
 
               }
@@ -440,9 +434,80 @@ function saveCache(lat, lon, timezone) {
 
 // offline caching
 
-function cacheOfflineCurrentData(hourlyOffline, dailyOffline, dailyCurrent, dailySunrise, dailySunset){
+function cacheOfflineCurrentData(hourlyOffline, dailyOffline, dailyCurrent, dailySunrise, dailySunset, timestamp){
 
-  localStorage.setItem('OfflineData', JSON.stringify({ hourlyOffline: hourlyOffline, dailyOffline: dailyOffline, dailyCurrent: dailyCurrent, dailySunrise: dailySunrise, dailySunset: dailySunset }));
+  localStorage.setItem('OfflineData', JSON.stringify({ hourlyOffline: hourlyOffline, dailyOffline: dailyOffline, dailyCurrent: dailyCurrent, dailySunrise: dailySunrise, dailySunset: dailySunset, timestamp: timestamp  }));
+
+  // create notification for current location
+
+    setTimeout(()=>{
+  sendNotificationData()
+    }, 670);
+
+
+
+  function sendNotificationData() {
+
+    const SelectedTempUnit = localStorage.getItem('SelectedTempUnit');
+    const NotificationlocationName = JSON.parse(localStorage.getItem('DefaultLocation'));
+    const AirQuailityDataNotification = JSON.parse(localStorage.getItem('airQualityData'))
+
+    let NotificationTemp;
+
+
+    if (SelectedTempUnit === 'fahrenheit') {
+      NotificationTemp = Math.round(celsiusToFahrenheit(dailyCurrent.temperature_2m))
+    } else {
+      NotificationTemp = Math.round(dailyCurrent.temperature_2m)
+    }
+
+
+    let location
+
+    if (NotificationlocationName.name === 'CurrentDeviceLocation') {
+      location = 'Device';
+    } else {
+      location = NotificationlocationName.name;
+
+    }
+
+        let TempMinNoti
+
+        if (SelectedTempUnit === 'fahrenheit') {
+          TempMinNoti = Math.round(celsiusToFahrenheit(dailyOffline.temperature_2m_min[0]))
+        } else {
+          TempMinNoti = Math.round(dailyOffline.temperature_2m_min[0])
+        }
+
+        let TempMaxNoti
+
+        if (SelectedTempUnit === 'fahrenheit') {
+          TempMaxNoti = Math.round(celsiusToFahrenheit(dailyOffline.temperature_2m_max[0]))
+        } else {
+          TempMaxNoti = Math.round(dailyOffline.temperature_2m_max[0])
+        }
+
+    const aqi = AirQuailityDataNotification.current.us_aqi
+
+
+
+    let aqiCategoryLevel;
+
+    if (aqi <= 50) {
+      aqiCategoryLevel = 'Good';
+    } else if (aqi <= 100) {
+      aqiCategoryLevel = 'Fair';
+    } else if (aqi <= 150) {
+      aqiCategoryLevel = 'Moderate';
+    } else if (aqi <= 200) {
+      aqiCategoryLevel = 'Poor';
+    } else {
+      aqiCategoryLevel = 'Very poor';
+    }
+
+
+    createNotification(NotificationTemp, getWeatherLabelInLangNoAnim(dailyCurrent.weather_code, 1, 'en'), location, `Max: ${TempMaxNoti}° Min: ${TempMinNoti}°`, aqiCategoryLevel, dailyCurrent.weather_code, dailyCurrent.is_day)
+  }
 
 }
 
@@ -460,9 +525,47 @@ function renderOfflineData(){
   localStorage.setItem('CurrentHourlyCache', JSON.stringify(OfflineDataTotal.hourlyOffline.hourly));
   localStorage.setItem('HourlyWeatherCache', JSON.stringify(OfflinesaveCache));
 
-  document.getElementById('city-name').innerHTML = offlineDatalocationName.name;
-  document.getElementById('SelectedLocationText').innerHTML = offlineDatalocationName.name;
-  document.getElementById('currentLocationName').textContent = offlineDatalocationName.name;
+    if(offlineDatalocationName.lon && offlineDatalocationName.lat){
+          localStorage.setItem('currentLong', offlineDatalocationName.lon)
+          localStorage.setItem('currentLat', offlineDatalocationName.lat)
+    }
+
+    function timeAgo(timestamp) {
+        const now = new Date();
+        const updatedTime = new Date(timestamp);
+        const diffInSeconds = Math.floor((now - updatedTime) / 1000);
+
+        const units = [
+            { name: "day", seconds: 86400 },
+            { name: "hour", seconds: 3600 },
+            { name: "minute", seconds: 60 },
+            { name: "second", seconds: 1 }
+        ];
+
+        for (let unit of units) {
+            const amount = Math.floor(diffInSeconds / unit.seconds);
+            if (amount >= 1) {
+                return `${amount} ${unit.name}${amount > 1 ? 's' : ''} ago`;
+            }
+        }
+
+        return "just now";
+    }
+
+  setTimeout(()=>{
+document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(timestamp)}`;
+  }, 500);
+
+
+  if (offlineDatalocationName.name === 'CurrentDeviceLocation') {
+    document.getElementById('city-name').innerHTML = 'Current location';
+    document.getElementById('SelectedLocationText').innerHTML = 'Current location';
+    document.getElementById('currentLocationName').textContent = 'Current location';
+  } else {
+    document.getElementById('city-name').innerHTML = offlineDatalocationName.name;
+    document.getElementById('SelectedLocationText').innerHTML = offlineDatalocationName.name;
+    document.getElementById('currentLocationName').textContent = offlineDatalocationName.name;
+  }
 
   HourlyWeather(OfflineDataTotal.hourlyOffline)
   DailyWeather(OfflineDataTotal.dailyOffline)
@@ -551,6 +654,73 @@ function renderOfflineData(){
 
   document.getElementById('unit_visibility').innerHTML = VisibilityUnit
   document.getElementById('min-temp').innerHTML = Visibility
+
+    // notification
+
+    sendNotificationData()
+
+    function sendNotificationData() {
+
+      const SelectedTempUnit = localStorage.getItem('SelectedTempUnit');
+      const NotificationlocationName = JSON.parse(localStorage.getItem('DefaultLocation'));
+      const AirQuailityDataNotification = JSON.parse(localStorage.getItem('airQualityData'))
+
+      let NotificationTemp;
+
+
+      if (SelectedTempUnit === 'fahrenheit') {
+        NotificationTemp = Math.round(celsiusToFahrenheit(OfflineDataTotal.dailyCurrent.temperature_2m))
+      } else {
+        NotificationTemp = Math.round(OfflineDataTotal.dailyCurrent.temperature_2m)
+      }
+
+
+      let location
+
+      if (NotificationlocationName.name === 'CurrentDeviceLocation') {
+        location = 'Device';
+      } else {
+        location = NotificationlocationName.name;
+
+      }
+
+          let TempMinNoti
+
+          if (SelectedTempUnit === 'fahrenheit') {
+            TempMinNoti = Math.round(celsiusToFahrenheit(OfflineDataTotal.dailyOffline.temperature_2m_min[0]))
+          } else {
+            TempMinNoti = Math.round(OfflineDataTotal.dailyOffline.temperature_2m_min[0])
+          }
+
+          let TempMaxNoti
+
+          if (SelectedTempUnit === 'fahrenheit') {
+            TempMaxNoti = Math.round(celsiusToFahrenheit(OfflineDataTotal.dailyOffline.temperature_2m_max[0]))
+          } else {
+            TempMaxNoti = Math.round(OfflineDataTotal.dailyOffline.temperature_2m_max[0])
+          }
+
+      const aqi = AirQuailityDataNotification.current.us_aqi
+
+
+
+      let aqiCategoryLevel;
+
+      if (aqi <= 50) {
+        aqiCategoryLevel = 'Good';
+      } else if (aqi <= 100) {
+        aqiCategoryLevel = 'Fair';
+      } else if (aqi <= 150) {
+        aqiCategoryLevel = 'Moderate';
+      } else if (aqi <= 200) {
+        aqiCategoryLevel = 'Poor';
+      } else {
+        aqiCategoryLevel = 'Very poor';
+      }
+
+
+      createNotification(NotificationTemp, getWeatherLabelInLangNoAnim(OfflineDataTotal.dailyCurrent.weather_code, 1, 'en'), location, `Max: ${TempMaxNoti}° Min: ${TempMinNoti}°`, aqiCategoryLevel, OfflineDataTotal.dailyCurrent.weather_code, OfflineDataTotal.dailyCurrent.is_day)
+    }
 
    hideLoader()
 }

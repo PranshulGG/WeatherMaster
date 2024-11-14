@@ -58,7 +58,7 @@ public class visibilityCondition extends AppCompatActivity {
         webview.addJavascriptInterface(androidInterface, "AndroidInterface");
         webview.setBackgroundColor(getResources().getColor(R.color.conditionBG));
         webSettings.setTextZoom(100);
-
+        webSettings.setAllowFileAccess(true);
         webview.loadUrl("file:///android_asset/pages/conditions_pages/visibility_forecast.html");
 
     }

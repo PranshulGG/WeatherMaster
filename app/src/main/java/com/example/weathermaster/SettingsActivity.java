@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -20,8 +21,11 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -62,6 +66,25 @@ public class SettingsActivity extends AppCompatActivity {
         webview.loadUrl("file:///android_asset/pages/settings.html");
         webSettings.setTextZoom(100);
 
+    }
+
+    private void requestNotificationPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 100);
+            }
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 100) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            } else {
+                webview.evaluateJavascript("handlePermissionDenied()", null);
+            }
+        }
     }
 
 
@@ -136,6 +159,9 @@ public class SettingsActivity extends AppCompatActivity {
                         return;
                     } else if (color.equals("ItsOff")) {
                         Toast.makeText(sActivity, "Your device will go to sleep at the default time", Toast.LENGTH_SHORT).show();
+                        return;
+                    } else if(color.equals("ReqNotification")) {
+                        requestNotificationPermissions();
                         return;
                     } else {
                         Toast.makeText(sActivity, "not found", Toast.LENGTH_SHORT).show();

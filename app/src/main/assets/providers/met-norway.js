@@ -17,16 +17,6 @@ function renderCurrentDataMetNorway(data){
         Temperature = Math.round(weatherDetails.air_temperature);
     }
 
-                        checkNotificationMetNorway()
-
-                                function checkNotificationMetNorway(){
-
-                                if(localStorage.getItem('UseNotification') === 'true'){
-                                        UpdateNotificationInterface.updateNotification(`${Temperature}°`, getMetNorwayWeatherLabelInLang(data.data.next_1_hours.summary.symbol_code, en));
-                                } else{
-                                    UpdateNotificationInterface.destroyNotification();
-                                }
-                                }
     
 
     animateTemp(Temperature)
@@ -137,9 +127,6 @@ function renderHourlyDataMetNorway(data) {
             <span>${hours}${period}</span>
         `;
 
-        forecastItem.addEventListener('click', () => {
-            ShowSnack(`<span style="text-transform: capitalize;">${getMetNorwayWeatherLabelInLang(HourWeatherCode, localStorage.getItem('AppLanguageCode'))}</span>`, 2000, 3, 'none', ' ', 'no-up');
-        });
 
         RainBarsContainer.append(rainMeterBarItem);
         forecastContainer.appendChild(forecastItem);

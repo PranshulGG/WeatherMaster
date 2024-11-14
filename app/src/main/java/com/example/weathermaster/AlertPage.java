@@ -59,7 +59,7 @@ public class AlertPage extends AppCompatActivity {
         webview.setBackgroundColor(getResources().getColor(R.color.mainBG));
         setTheme(R.style.blue_caret);
         webSettings.setTextZoom(100);
-
+        webSettings.setAllowFileAccess(true);
         webview.loadUrl("file:///android_asset/pages/alertPage.html");
 
     }

@@ -400,7 +400,6 @@ function CurrentWeather(data, sunrise, sunset) {
 
 
     if (localStorage.getItem('DeviceOnline') === 'No'){
-        animateTemp(CurrentTemperature)
 
         document.getElementById('weather-icon').src = GetWeatherIcon(CurrentWeatherCode, isDay);
         document.getElementById('weather-icon').alt = CurrentWeatherCode
@@ -410,17 +409,8 @@ function CurrentWeather(data, sunrise, sunset) {
         sendThemeToAndroid(GetWeatherTheme(CurrentWeatherCode, 1))
             document.getElementById('temPDiscCurrentLocation').innerHTML = `${CurrentTemperature}° • <span>${getWeatherLabelInLang(CurrentWeatherCode, isDay,  localStorage.getItem('AppLanguageCode'))}</span>`
             document.getElementById('currentSearchImg').src = `${GetWeatherIcon(CurrentWeatherCode, isDay)}`;
+        animateTemp(CurrentTemperature)
 
-                checkNotification()
-
-                        function checkNotification(){
-
-                        if(localStorage.getItem('UseNotification') === 'true'){
-                                UpdateNotificationInterface.updateNotification(`${CurrentTemperature}°`, getWeatherLabelInLang(CurrentWeatherCode, isDay, 'en'));
-                        } else{
-                            UpdateNotificationInterface.destroyNotification();
-                        }
-                        }
     }
        else if(localStorage.getItem('selectedMainWeatherProvider') === 'Met norway'){
 
@@ -438,16 +428,6 @@ function CurrentWeather(data, sunrise, sunset) {
         document.getElementById('temPDiscCurrentLocation').innerHTML = `${CurrentTemperature}° • <span>${getWeatherLabelInLang(CurrentWeatherCode, isDay,  localStorage.getItem('AppLanguageCode'))}</span>`
         document.getElementById('currentSearchImg').src = `${GetWeatherIcon(CurrentWeatherCode, isDay)}`;
 
-                checkNotification()
-
-                        function checkNotification(){
-
-                        if(localStorage.getItem('UseNotification') === 'true'){
-                                UpdateNotificationInterface.updateNotification(`${CurrentTemperature}°`, getWeatherLabelInLang(CurrentWeatherCode, isDay, 'en'));
-                        } else{
-                            UpdateNotificationInterface.destroyNotification();
-                        }
-                        }
 
     }
 

@@ -238,7 +238,7 @@ function aggregateHourlyData(hourlyData) {
         dayData.humidity += hourlyData.relative_humidity_2m[index];
         dayData.cloudCover += hourlyData.cloud_cover[index];
         dayData.dewPoint += hourlyData.dew_point_2m[index];
-        dayData.pressure +=  hourlyData.pressure_msl[index];
+        dayData.pressure += hourlyData.pressure_msl[index];
         dayData.count++;
     });
 
@@ -265,8 +265,8 @@ function displayDailyForecast(forecast, forecastDaily) {
     const today = new Date();
     const todayString = today.toISOString().split('T')[0];
     const sortedDates = Object.keys(forecastDaily)
-    .filter(date => date >= todayString)
-    .sort();
+        .filter(date => date >= todayString)
+        .sort();
 
 
     if (sortedDates.length === 0) {
@@ -286,7 +286,7 @@ function displayDailyForecast(forecast, forecastDaily) {
         const weekday = isToday ? 'today' : dateObj.toLocaleDateString('en-US', { weekday: 'short' }).toLowerCase();
 
 
-            const weekdayLang = getTranslationByLang(localStorage.getItem('AppLanguageCode'), weekday);
+        const weekdayLang = getTranslationByLang(localStorage.getItem('AppLanguageCode'), weekday);
 
 
         const dailyData = forecastDaily[date];
@@ -309,11 +309,11 @@ function displayDailyForecast(forecast, forecastDaily) {
         let SunsetTime
 
         if (timeFormat === '24 hour') {
-             SunriseTime = convertTo24Hour(forecast.sunrise[index])
-             SunsetTime = convertTo24Hour(forecast.sunset[index])
-        } else{
-             SunriseTime = convertTo12Hour(forecast.sunrise[index])
-             SunsetTime = convertTo12Hour(forecast.sunset[index])
+            SunriseTime = convertTo24Hour(forecast.sunrise[index])
+            SunsetTime = convertTo24Hour(forecast.sunset[index])
+        } else {
+            SunriseTime = convertTo12Hour(forecast.sunrise[index])
+            SunsetTime = convertTo12Hour(forecast.sunset[index])
         }
         const DailyWeatherCode = forecast.weather_code[index];
 
@@ -587,18 +587,18 @@ function displayDailyForecast(forecast, forecastDaily) {
                 forecastMainDetails.appendChild(forecastTempConditionMainContent);
             }
 
-                        const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
-                    if (AppLanguageCodeValue) {
-                        applyTranslations(AppLanguageCodeValue);
+            const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
+            if (AppLanguageCodeValue) {
+                applyTranslations(AppLanguageCodeValue);
 
-                    }
+            }
 
 
         }
 
 
         forecastDateHeaderContent.addEventListener('click', handleSelection);
-  const clickedForecastItem = localStorage.getItem('ClickedForecastItem') || '0';
+        const clickedForecastItem = localStorage.getItem('ClickedForecastItem') || '0';
         const selectedForecastIndex = parseInt(clickedForecastItem, 10);
 
 
@@ -610,6 +610,18 @@ function displayDailyForecast(forecast, forecastDaily) {
 
                 setTimeout(() => {
                     forecastDateHeaderContent.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+                    setTimeout(() => {
+                        if (clickedForecastItem >= '4') {
+                            const forecastDateHeader = document.querySelector('forecastDateHeader');
+                            forecastDateHeader.scrollBy({
+                                top: 0,
+                                left: 50,
+                                behavior: 'smooth'
+                            });
+                        }
+
+                    }, 600);
                 }, 500);
             }
         }
