@@ -18,7 +18,6 @@ function handleStorageChange(event) {
         event.key === 'UseBackgroundAnimations'||
         event.key === 'selectedMainWeatherProvider' ||
         event.key === 'ApiForAccu' ||
-        event.key === 'UseNotification' ||
         event.key === 'selectedPressureUnit') {
 
             setTimeout(()=>{
@@ -106,9 +105,6 @@ else{
 
     document.addEventListener('DOMContentLoaded', function () {
         renderOfflineData();
-        setTimeout(()=>{
-            renderOfflineData();
-        }, 300);
       });
 
 }
@@ -138,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if(navigator.onLine){
            let savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
 
-
+localStorage.setItem('DeviceOnline', 'Yes');
                  searchContainer.style.display = 'block';
                  window.history.pushState({ SearchContainerOpen: true }, "");
                   document.querySelector('.header_hold').style.transform = 'scale(1.1)';
@@ -436,6 +432,7 @@ function loadSavedLocations() {
 
                 savelocationtouch.addEventListener('click', () => {
                     DecodeWeather(savedLocationItemLat, savedLocationItemLon)
+                     showLoader();
             document.getElementById('city-name').innerHTML = location.locationName
             document.getElementById('currentLocationName').innerHTML = location.locationName;
             document.getElementById('forecast').scrollLeft = 0;
@@ -661,7 +658,7 @@ function removeMap() {
 
 function checkNoInternet() {
     if (navigator.onLine) {
-
+    localStorage.setItem('DeviceOnline', 'Yes');
     } else {
         const offlineData = JSON.parse(localStorage.getItem('OfflineData'));
         if (!offlineData) {
