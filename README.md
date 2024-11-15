@@ -121,7 +121,7 @@
 
 - ✅ Adding cache to reduce api requests
 - ✅ Translations
-- ⬛ Widgets / Notifications (under construction)
+- ✅ Notifications
 - ✅ Make it lightweight
 - ✅ Allows you to add multiple locations
 - ✅ Customization
