@@ -668,19 +668,20 @@
         </div>
 
         <div class="currentLocationdiv" style="margin-top: 20px; ">
-            <p class="title" style="display: flex; align-items: center; gap: 10px;"><md-icon icon-outlined>location_on</md-icon><span data-translate="current_location">Current location</span><md-text-button id="saveLocationCurrent" onclick="saveLocationToContainer(document.getElementById('saveLocationCurrent').getAttribute('data-location-text'), document.getElementById('saveLocationCurrent').getAttribute('data-lat'), document.getElementById('saveLocationCurrent').getAttribute('data-long'))" hidden>Save?</md-text-button></p>
-            <div class="currentLocations ripple_btn_low" id="currentLocations">
+            <p class="title" style="display: flex; align-items: center; gap: 10px;"><md-icon icon-outlined>location_on</md-icon><span data-translate="current_location">Home location</span><md-text-button id="saveLocationCurrent" onclick="saveLocationToContainer(document.getElementById('saveLocationCurrent').getAttribute('data-location-text'), document.getElementById('saveLocationCurrent').getAttribute('data-lat'), document.getElementById('saveLocationCurrent').getAttribute('data-long'))" hidden>Save?</md-text-button></p>
+            <div class="currentLocations ripple_btn_low" id="currentLocations" onclick="ReturnHomeLocation()">
                 <div class="currentSearchImg">
                     <img src="icons/error.png" id="currentSearchImg" alt=""> </div>
                 <currentLocationNames>
                     <p id="currentLocationName">-----------</p>
                     <span id="temPDiscCurrentLocation">--------</span>
+                    <mainCurrenttemp>--</mainCurrenttemp>
                 </currentLocationNames>
             </div>
         </div>
 
         <div class="savedLocations" hidden>
-            <p class="title" style="display: flex; align-items: center; gap: 10px;"><md-icon icon-outlined>star</md-icon><span data-translate="saved_locations">Saved locations</span></p>
+            <p class="title" style="display: flex; align-items: center; gap: 10px;"><md-icon icon-outlined>star</md-icon><span data-translate="saved_locations">Saved locations</span> <flex></flex> <md-icon-button style="margin-right: 10px;" toggle id="edit_saved_locations"><md-icon icon-filled>Edit</md-icon><md-icon icon-filled slot="selected">close</md-icon></md-icon-button></p>
 
             <savedLocationsHolder>
 

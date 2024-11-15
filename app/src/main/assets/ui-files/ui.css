@@ -1111,12 +1111,15 @@ background: linear-gradient(0deg, rgba(255, 0, 0, 0), var(--Secondary-Container)
   gap: 10px;
   padding: 10px;
   margin-top: 0px;
+  margin: 10px;
+  background-color: var(--Surface-Container-Low);
+  border-radius: 50px;
 }
 
 .currentSearchImg{
-  width: 40px;
-  height: 40px;
-  background-color: var(--Secondary-Container);
+  width: 45px;
+  height: 45px;
+  background-color: var(--Surface);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1125,27 +1128,44 @@ background: linear-gradient(0deg, rgba(255, 0, 0, 0), var(--Secondary-Container)
 }
 
 .currentSearchImg img{
-  width: 25px;
+  width: 28px;
 }
 
 currentLocationNames{
     display: flex;
     align-items: flex-start;
-    width: 100%;
+    width: calc(100% - 52px);
     flex-direction: column;
-    gap: 5px;
+    gap: 0px;
+    position: relative;
 }
 
 currentLocationNames p{
   margin: 0;
-  font-size: 18px;
+  font-size: 17px;
   color: var(--On-Surface);
+  width: calc(100% - 80px);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
+
 currentLocationNames span{
-  font-size: 16px;
+  font-size: 14px;
   color: var(--On-Surface-Variant);
     text-transform: capitalize;
+}
+
+currentLocationNames mainCurrenttemp{
+  position: absolute;
+  font-family: var(--google-normal);
+  font-size: 34px;
+  color: var(--On-Surface);
+  opacity: 0.9;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .fab-holder{
@@ -1638,7 +1658,6 @@ height: 100%;
 }
 
 savedLocationsHolder{
-  margin-top: 10px;
   display: flex;
   justify-content: center;
   padding: 10px;
@@ -1650,15 +1669,18 @@ savedLocationsHolder savedLocationItem{
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  border-radius: 50px;
+  background-color: var(--Surface-Container-Low);
   position: relative;
-
+  padding: 10px;
+  overflow: hidden;
 }
 
 savedLocationsHolder savedLocationItem savedlocationimg{
-  width: 40px;
-  height: 40px;
-  background-color: var(--Secondary-Container);
+  width: 45px;
+  height: 45px;
+  background-color: var(--Surface);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1667,21 +1689,23 @@ savedLocationsHolder savedLocationItem savedlocationimg{
 }
 
 savedLocationsHolder savedLocationItem savedlocationimg img{
-  width: 25px;
+  width: 28px;
 }
 
 savedLocationsHolder savedLocationItem div p{
   margin: 0;
-  font-size: 18px;
+  font-size: 17px;
   color: var(--On-Surface);
+  width: calc(100% - 80px);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 
 savedLocationsHolder savedLocationItem div span{
   margin: 0;
-  font-size: 18px;
-  color: var(--On-Surface);
-  font-size: 16px;
+  font-size: 14px;
   color: var(--On-Surface-Variant);
   text-transform: capitalize;
 }
@@ -1691,9 +1715,21 @@ savedLocationsHolder savedLocationItem div span{
 savedLocationsHolder savedLocationItem div{
   display: flex;
   align-items: flex-start;
-  width: 100%;
+  width: calc(100% - 52px);
   flex-direction: column;
-  gap: 5px;
+  position: relative;
+  gap: 0px;
+}
+
+savedLocationsHolder savedLocationItem div maincurrenttempsaved{
+  position: absolute;
+  font-family: var(--google-normal);
+  font-size: 34px;
+  color: var(--On-Surface);
+  opacity: 0.9;
+  right: 0px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 flex{
@@ -1703,6 +1739,7 @@ flex{
 savedLocationsHolder md-icon-button{
   flex-shrink: 0;
   z-index: 1;
+  display: none;
 }
 
 savelocationtouch{
@@ -2450,6 +2487,10 @@ moonPhaseProgress {
   padding-bottom: 20px;
   margin-top: 0px;
 }
+[round-ui="true"] .pollen_data{
+  border-radius: 18px;
+
+}
 
 .available_pollen{
   border-radius: 5px !important;
@@ -2487,6 +2528,8 @@ max-width: 150px;
   padding: 10px;
 
 }
+
+
 
 .pollen_data_divs .pollen_circles{
   position: relative;

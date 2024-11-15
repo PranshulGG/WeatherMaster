@@ -612,7 +612,7 @@ function displayDailyForecast(forecast, forecastDaily) {
                     forecastDateHeaderContent.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
                     setTimeout(() => {
-                        if (clickedForecastItem >= '4') {
+                        if (clickedForecastItem >= 4) {
                             const forecastDateHeader = document.querySelector('forecastDateHeader');
                             forecastDateHeader.scrollBy({
                                 top: 0,

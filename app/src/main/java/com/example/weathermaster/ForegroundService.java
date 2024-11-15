@@ -1,5 +1,6 @@
 package com.example.weathermaster;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -15,8 +16,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.VectorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.PowerManager;
+import android.provider.Settings;
 import android.widget.RemoteViews;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -30,12 +34,15 @@ public class ForegroundService extends Service {
 
     private static final String CHANNEL_ID = "ForegroundServiceChannel";
 
+
     @Override
     public void onCreate() {
         super.onCreate();
 
 
         createNotificationChannel();
+
+
 
     }
 
@@ -293,13 +300,13 @@ public class ForegroundService extends Service {
                     .setContentText(uvindex)
                     .setSubText(locationWeather + " • " + AQI_value + " AQI")
                     .setLargeIcon(BitmapFactory.decodeResource(getResources(), weathericon))
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setOngoing(true)
                     .setContentIntent(pendingIntent)
+                    .setAutoCancel(false)
                     .build();
         }
-
-        // Start the foreground service with the updated notification
+        notification.flags |= Notification.FLAG_NO_CLEAR;
         startForeground(1, notification);
     }
 

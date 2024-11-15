@@ -24,10 +24,28 @@ function DisplayCurrentAccuweatherData(data){
     document.documentElement.setAttribute('iconcodetheme', GetWeatherIconAccuTheme(condition_text))
     sendThemeToAndroid(GetWeatherIconAccuTheme(condition_text))
     document.getElementById('froggie_imgs').src = GetWeatherIconAccuFrog(condition_text)
-    document.getElementById('temPDiscCurrentLocation').innerHTML = `${Temperature}° • <span>${GetWeatherTextAccu(condition_text)}</span>`
-    document.getElementById('currentSearchImg').src = `${GetWeatherIconAccu(condition_text)}`;
-    console.log(data)
-    
+
+        renderHomeLocationSearchData()
+
+            function renderHomeLocationSearchData(){
+                const checkIFitsSavedLocation = JSON.parse(localStorage.getItem('DefaultLocation'));
+
+                  function isApproxEqual(val1, val2, epsilon = 0.0001) {
+                    return Math.abs(val1 - val2) < epsilon;
+                  }
+
+                  if (checkIFitsSavedLocation) {
+                    const savedLat = parseFloat(checkIFitsSavedLocation.lat);
+                    const savedLon = parseFloat(checkIFitsSavedLocation.lon);
+                    const savedName = checkIFitsSavedLocation.name;
+
+                    if ((savedLat !== undefined && savedLon !== undefined && isApproxEqual(lat, savedLat) && isApproxEqual(lon, savedLon))) {
+                     document.getElementById('temPDiscCurrentLocation').innerHTML = `${GetWeatherTextAccu(condition_text)}`
+                     document.getElementById('currentSearchImg').src = `${GetWeatherIconAccu(condition_text)}`;
+                    document.querySelector('mainCurrenttemp').innerHTML = `${Temperature}°`
+                    }
+                  }
+     }
 }
 
 function DisplayHourlyAccuweatherData(data) {

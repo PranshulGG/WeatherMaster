@@ -329,7 +329,7 @@ function DailyWeather(dailyForecast) {
 // current
 
 
-function CurrentWeather(data, sunrise, sunset) {
+function CurrentWeather(data, sunrise, sunset, lat, lon) {
     const CurrentCloudCover = data.cloud_cover;
     const CurrentHumidity = Math.round(data.relative_humidity_2m);
     const CurrentWeatherCode = data.weather_code;
@@ -407,9 +407,17 @@ function CurrentWeather(data, sunrise, sunset) {
         document.getElementById('froggie_imgs').src = GetFroggieIcon(CurrentWeatherCode, isDay)
         document.documentElement.setAttribute('iconcodetheme', GetWeatherTheme(CurrentWeatherCode, isDay))
         sendThemeToAndroid(GetWeatherTheme(CurrentWeatherCode, 1))
-            document.getElementById('temPDiscCurrentLocation').innerHTML = `${CurrentTemperature}° • <span>${getWeatherLabelInLang(CurrentWeatherCode, isDay,  localStorage.getItem('AppLanguageCode'))}</span>`
-            document.getElementById('currentSearchImg').src = `${GetWeatherIcon(CurrentWeatherCode, isDay)}`;
         animateTemp(CurrentTemperature)
+
+            renderHomeLocationSearchData()
+
+                function renderHomeLocationSearchData(){
+
+                         document.getElementById('temPDiscCurrentLocation').innerHTML = `${getWeatherLabelInLang(CurrentWeatherCode, isDay,  localStorage.getItem('AppLanguageCode'))}`
+                         document.getElementById('currentSearchImg').src = `${GetWeatherIcon(CurrentWeatherCode, isDay)}`;
+                        document.querySelector('mainCurrenttemp').innerHTML = `${CurrentTemperature}°`
+
+                      }
 
     }
        else if(localStorage.getItem('selectedMainWeatherProvider') === 'Met norway'){
@@ -425,9 +433,29 @@ function CurrentWeather(data, sunrise, sunset) {
     document.getElementById('froggie_imgs').src = GetFroggieIcon(CurrentWeatherCode, isDay)
     document.documentElement.setAttribute('iconcodetheme', GetWeatherTheme(CurrentWeatherCode, isDay))
     sendThemeToAndroid(GetWeatherTheme(CurrentWeatherCode, 1))
-        document.getElementById('temPDiscCurrentLocation').innerHTML = `${CurrentTemperature}° • <span>${getWeatherLabelInLang(CurrentWeatherCode, isDay,  localStorage.getItem('AppLanguageCode'))}</span>`
-        document.getElementById('currentSearchImg').src = `${GetWeatherIcon(CurrentWeatherCode, isDay)}`;
 
+
+    renderHomeLocationSearchData()
+
+        function renderHomeLocationSearchData(){
+            const checkIFitsSavedLocation = JSON.parse(localStorage.getItem('DefaultLocation'));
+
+              function isApproxEqual(val1, val2, epsilon = 0.0001) {
+                return Math.abs(val1 - val2) < epsilon;
+              }
+
+              if (checkIFitsSavedLocation) {
+                const savedLat = parseFloat(checkIFitsSavedLocation.lat);
+                const savedLon = parseFloat(checkIFitsSavedLocation.lon);
+                const savedName = checkIFitsSavedLocation.name;
+
+                if ((savedLat !== undefined && savedLon !== undefined && isApproxEqual(lat, savedLat) && isApproxEqual(lon, savedLon))) {
+                 document.getElementById('temPDiscCurrentLocation').innerHTML = `${getWeatherLabelInLang(CurrentWeatherCode, isDay,  localStorage.getItem('AppLanguageCode'))}`
+                 document.getElementById('currentSearchImg').src = `${GetWeatherIcon(CurrentWeatherCode, isDay)}`;
+                document.querySelector('mainCurrenttemp').innerHTML = `${CurrentTemperature}°`
+                }
+              }
+}
 
     }
 

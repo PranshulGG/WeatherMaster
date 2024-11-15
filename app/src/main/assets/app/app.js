@@ -91,7 +91,7 @@ if(DefaultLocation.name === 'CurrentDeviceLocation'){
     document.querySelector('.currentLocationdiv').hidden = false;
 } else if(DefaultLocation.lat && DefaultLocation.lon){
     DecodeWeather(DefaultLocation.lat, DefaultLocation.lon)
-    document.querySelector('.currentLocationdiv').hidden = true;
+
 
         document.getElementById('city-name').innerHTML = DefaultLocation.name;
         document.getElementById('SelectedLocationText').innerHTML = DefaultLocation.name;
@@ -320,7 +320,7 @@ localStorage.setItem('DeviceOnline', 'Yes');
                     cityList.innerHTML = '';
                     cityInput.value = '';
                     document.getElementById('city-name').innerHTML = suggestionText;
-                      document.getElementById('currentLocationName').innerHTML = suggestionText;
+
                     document.querySelector('.focus-input').blur();
                     document.getElementById('forecast').scrollLeft = 0;
                     document.getElementById('weather_wrap').scrollTop = 0;
@@ -380,86 +380,126 @@ function saveLocationToContainer(locationName, lat, lon) {
 }
 
 
+
 function loadSavedLocations() {
     const savedLocationsHolder = document.querySelector('savedLocationsHolder');
     const savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
-
-
 
     if (savedLocations.length === 0) {
         document.querySelector('.savedLocations').hidden = true;
     } else {
         document.querySelector('.savedLocations').hidden = false;
-
     }
+
+    const currentTime = new Date().getTime();
 
     savedLocations.forEach(location => {
         const savedLocationItem = document.createElement('savedLocationItem');
-
         savedLocationItem.setAttribute('lat', location.lat);
         savedLocationItem.setAttribute('lon', location.lon);
 
         const savedLocationItemLat = savedLocationItem.getAttribute('lat');
         const savedLocationItemLon = savedLocationItem.getAttribute('lon');
 
+        let tempSaved, conditionSaved, tempSavedMet, conditionSavedMet;
 
+        const cacheKey = `weatherData_${location.locationName}`;
+        const cachedData = JSON.parse(localStorage.getItem(cacheKey));
+        const cacheTime = localStorage.getItem(`${cacheKey}_timestamp`);
 
+        if (cachedData && cacheTime && (currentTime - cacheTime) < 1800000) { // 30 minutes in milliseconds
+            // Use cached data
+            displayWeatherData(cachedData, savedLocationItem, location.locationName);
+        } else {
+            // Fetch new data
+            if (localStorage.getItem('selectedMainWeatherProvider') === 'Met norway') {
+                fetch(`https://api.met.no/weatherapi/locationforecast/2.0/complete?lat=${savedLocationItemLat}&lon=${savedLocationItemLon}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const mainTempMet = data.properties.timeseries[0].data.instant.details;
 
+                        tempSavedMet = SelectedTempUnit === 'fahrenheit'
+                            ? Math.round(celsiusToFahrenheit(mainTempMet.air_temperature))
+                            : Math.round(mainTempMet.air_temperature);
 
-                    savedLocationItem.innerHTML = `
-                    <savedlocationimg>
-                      <md-icon icon-outlined>my_location</md-icon>
-                    </savedlocationimg>
-                    <div>
-                        <p>${location.locationName}</p>
-                    </div>
-                    <flex></flex>
-                    <md-icon-button class="delete-btn">
-                        <md-icon icon-filled>delete</md-icon>
-                    </md-icon-button>
-                `;
+                        conditionSavedMet = getMetNorwayWeatherLabelInLang(data.properties.timeseries[0].data.next_1_hours.summary.symbol_code, 'en');
 
+                        const weatherData = {
+                            temp: tempSavedMet,
+                            condition: conditionSavedMet,
+                            icon: getMetNorwayIcons(data.properties.timeseries[0].data.next_1_hours.summary.symbol_code)
+                        };
 
+                        // Cache data
+                        localStorage.setItem(cacheKey, JSON.stringify(weatherData));
+                        localStorage.setItem(`${cacheKey}_timestamp`, currentTime);
 
+                        displayWeatherData(weatherData, savedLocationItem, location.locationName);
+                    });
+            } else {
+                fetch(`https://api.open-meteo.com/v1/forecast?latitude=${savedLocationItemLat}&longitude=${savedLocationItemLon}&current=temperature_2m,is_day,weather_code`)
+                    .then(response => response.json())
+                    .then(data => {
+                        tempSaved = SelectedTempUnit === 'fahrenheit'
+                            ? Math.round(celsiusToFahrenheit(data.current.temperature_2m))
+                            : Math.round(data.current.temperature_2m);
 
+                        conditionSaved = getWeatherLabelInLangNoAnim(data.current.weather_code, data.current.is_day, localStorage.getItem('AppLanguageCode'));
 
-                savedLocationItem.querySelector('.delete-btn').addEventListener('click', () => {
-                    deleteLocation(location.locationName);
-                    savedLocationItem.remove();
-                });
+                        const weatherData = {
+                            temp: tempSaved,
+                            condition: conditionSaved,
+                            icon: GetWeatherIcon(data.current.weather_code, data.current.is_day)
+                        };
 
+                        // Cache data
+                        localStorage.setItem(cacheKey, JSON.stringify(weatherData));
+                        localStorage.setItem(`${cacheKey}_timestamp`, currentTime);
 
+                        displayWeatherData(weatherData, savedLocationItem, location.locationName);
+                    });
+            }
+        }
 
-                const savelocationtouch = document.createElement('savelocationtouch');
-                const md_rippleSaveLocationTouch = document.createElement('md-ripple');
-                savelocationtouch.appendChild(md_rippleSaveLocationTouch);
-
-                savelocationtouch.addEventListener('click', () => {
-                    DecodeWeather(savedLocationItemLat, savedLocationItemLon)
-                     showLoader();
-            document.getElementById('city-name').innerHTML = location.locationName
-            document.getElementById('currentLocationName').innerHTML = location.locationName;
-            document.getElementById('forecast').scrollLeft = 0;
-            document.getElementById('weather_wrap').scrollTop = 0;
-                    window.history.back();
-                });
-
-
-
-
-
-
-
-
-
-
-
-                savedLocationsHolder.append(savedLocationItem);
-                savedLocationItem.appendChild(savelocationtouch);
-            });
-
-
+        savedLocationsHolder.append(savedLocationItem);
+    });
 }
+
+function displayWeatherData(weatherData, savedLocationItem, locationName) {
+    savedLocationItem.innerHTML = `
+        <savedlocationimg>
+            <img src="${weatherData.icon}" alt="">
+        </savedlocationimg>
+        <div>
+            <p>${locationName}</p>
+            <span>${weatherData.condition}</span>
+            <mainCurrenttempSaved>${weatherData.temp}°</mainCurrenttempSaved>
+        </div>
+        <flex></flex>
+        <md-icon-button class="delete-btn">
+            <md-icon icon-filled>delete</md-icon>
+        </md-icon-button>`;
+
+    savedLocationItem.querySelector('.delete-btn').addEventListener('click', () => {
+        deleteLocation(locationName);
+        savedLocationItem.remove();
+    });
+
+    const savelocationtouch = document.createElement('savelocationtouch');
+    const md_rippleSaveLocationTouch = document.createElement('md-ripple');
+    savelocationtouch.appendChild(md_rippleSaveLocationTouch);
+
+    savelocationtouch.addEventListener('click', () => {
+        DecodeWeather(savedLocationItem.getAttribute('lat'), savedLocationItem.getAttribute('lon'));
+        document.getElementById('city-name').innerHTML = locationName;
+        document.getElementById('forecast').scrollLeft = 0;
+        document.getElementById('weather_wrap').scrollTop = 0;
+        window.history.back();
+    });
+
+    savedLocationItem.appendChild(savelocationtouch);
+}
+
 
 document.addEventListener('DOMContentLoaded', (event) => {
     loadSavedLocations();
@@ -474,6 +514,8 @@ function deleteLocation(locationName) {
 
     if (savedLocations.length === 0) {
         document.querySelector('.savedLocations').hidden = true;
+         document.getElementById('edit_saved_locations').selected = false;
+
     } else {
         document.querySelector('.savedLocations').hidden = false;
 
@@ -679,7 +721,7 @@ function checkNoInternet() {
 
     document.addEventListener('DOMContentLoaded', async function() {
 
-        const currentVersion = 'v1.7.8';
+        const currentVersion = 'v1.7.9';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
@@ -786,3 +828,53 @@ restoreScrollPosition();
 });
 
 
+document.getElementById('edit_saved_locations').addEventListener('click', ()=>{
+
+    const allDeleteBtns = document.querySelectorAll('.delete-btn');
+
+    const allTempsSaved = document.querySelectorAll('maincurrenttempsaved');
+
+    if(document.getElementById('edit_saved_locations').selected){
+
+        allDeleteBtns.forEach((deletebtns)=>{
+            deletebtns.style.display = 'flex'
+        })
+
+        allTempsSaved.forEach((TempsSaved)=>{
+            TempsSaved.style.display = 'none'
+        })
+
+    } else{
+        allDeleteBtns.forEach((deletebtns)=>{
+            deletebtns.style.display = 'none'
+        })
+
+        allTempsSaved.forEach((TempsSaved)=>{
+            TempsSaved.style.display = 'block'
+        })
+    }
+
+});
+
+
+function ReturnHomeLocation(){
+
+  const Locations = JSON.parse(localStorage.getItem('DefaultLocation'));
+
+    DecodeWeather(Locations.lat, Locations.lon)
+
+    document.getElementById('city-name').innerHTML = Locations.name;
+    document.getElementById('SelectedLocationText').innerHTML = Locations.name;
+    localStorage.setItem('CurrentLocationName', Locations.name)
+}
+
+if(localStorage.getItem('removedOldSavedLocations') && localStorage.getItem('removedOldSavedLocations') === 'removed'){
+    localStorage.removeItem('savedLocations');
+
+    setTimeout(()=>{
+        localStorage.getItem('removedOldSavedLocations', 'removed')
+    }, 300);
+} else{
+    localStorage.getItem('removedOldSavedLocations', 'removed')
+
+}

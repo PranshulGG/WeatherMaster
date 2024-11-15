@@ -1,5 +1,5 @@
 
-function renderCurrentDataMetNorway(data){
+function renderCurrentDataMetNorway(data, lat, lon){
     const SelectedTempUnit = localStorage.getItem('SelectedTempUnit');
 
     console.log(data)
@@ -26,12 +26,29 @@ function renderCurrentDataMetNorway(data){
   
     sendThemeToAndroid(getMetNorwayTheme(weather_icon))
     document.documentElement.setAttribute('iconcodetheme', getMetNorwayTheme(weather_icon))
-    document.getElementById('temPDiscCurrentLocation').innerHTML = `${Temperature}° • <span>${getMetNorwayWeatherLabelInLang(data.data.next_1_hours.summary.symbol_code,  localStorage.getItem('AppLanguageCode'))}</span>`
-    document.getElementById('currentSearchImg').src = `${getMetNorwayIcons(weather_icon)}`;
     document.getElementById('description').innerHTML = getMetNorwayWeatherLabelInLang(data.data.next_1_hours.summary.symbol_code, localStorage.getItem('AppLanguageCode'))
 
+    renderHomeLocationSearchData()
 
+        function renderHomeLocationSearchData(){
+            const checkIFitsSavedLocation = JSON.parse(localStorage.getItem('DefaultLocation'));
 
+              function isApproxEqual(val1, val2, epsilon = 0.0001) {
+                return Math.abs(val1 - val2) < epsilon;
+              }
+
+              if (checkIFitsSavedLocation) {
+                const savedLat = parseFloat(checkIFitsSavedLocation.lat);
+                const savedLon = parseFloat(checkIFitsSavedLocation.lon);
+                const savedName = checkIFitsSavedLocation.name;
+
+                if ((savedLat !== undefined && savedLon !== undefined && isApproxEqual(lat, savedLat) && isApproxEqual(lon, savedLon))) {
+                 document.getElementById('temPDiscCurrentLocation').innerHTML = `${getMetNorwayWeatherLabelInLang(data.data.next_1_hours.summary.symbol_code,  localStorage.getItem('AppLanguageCode'))}`
+                 document.getElementById('currentSearchImg').src = `${getMetNorwayIcons(weather_icon)}`;
+                document.querySelector('mainCurrenttemp').innerHTML = `${Temperature}°`
+                }
+              }
+ }
 }
 
 function renderHourlyDataMetNorway(data) {
