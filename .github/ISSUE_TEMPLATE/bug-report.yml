@@ -2,7 +2,7 @@ name: Bug Report
 description: Report a bug
 labels: ["bug"]
 body:
-  - type: markdown
+  - type: markdown 
     attributes:
       value: |
         Please fill out the sections below to help everyone identify and fix the bug
