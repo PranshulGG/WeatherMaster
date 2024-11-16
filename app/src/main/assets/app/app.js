@@ -1,7 +1,7 @@
 
 const DefaultLocation = JSON.parse(localStorage.getItem('DefaultLocation'));
 
-
+// createData();
 let currentApiKeyIndex = 0;
 
 let currentKeyMoonIndex = 0;
