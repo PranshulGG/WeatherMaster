@@ -1,37 +1,33 @@
-name: Bug Report
-description: Report a bug
-labels: ["bug"]
+name: Feature request
+description: Suggest an idea for this project
 body:
   - type: markdown 
     attributes:
       value: |
-        Please fill out the sections below to help everyone identify and fix the bug
+        Please fill out the sections below
   - type: textarea
     id: description
     attributes:
-      label: Describe your issue
-      placeholder: When I click here this happens
+      label: Problem Statement
+      placeholder: Describe the problem or limitation you're facing that the new feature would solve
     validations:
       required: true
   - type: textarea
-    id: steps
+    id: Solution
     attributes:
-      label: Steps to reproduce
-      placeholder: |
-        1. Go to page X
-        2. Click here
-        3. Click there
+      label: Proposed Solution
+      placeholder: Explain how you think the feature should work
     validations:
       required: true
   - type: textarea
-    id: expected
+    id: Alternatives
     attributes:
-      label: What was the expected result?
-      placeholder: I expected this to happen
+      label: Alternatives Considered
+      placeholder: Describe any alternative solutions or features you've considered
   - type: textarea
-    id: screenshots
+    id: Additional
     attributes:
-      label: Put here any screenshots or videos (optional)
+      label: Additional Context
   - type: dropdown
     id: assign
     attributes:
