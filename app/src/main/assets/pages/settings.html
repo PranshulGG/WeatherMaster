@@ -612,17 +612,7 @@ defaultMenuItem.addEventListener('click', () => {
     clearSelection();
     document.getElementById('homeLocationSelectedText').innerHTML = 'Your device location';
     defaultMenuItem.classList.add('selected-home-location');
-
-    if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition((position) => {
-            currentLocation = {
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude
-            }
-            localStorage.setItem('DefaultLocation', JSON.stringify({ lat: currentLocation.latitude, lon: currentLocation.longitude, name: 'CurrentDeviceLocation' }));
-
-        })
-    }
+    localStorage.setItem('DefaultLocation', JSON.stringify({ lat: localStorage.getItem('deviceLat'), lon: localStorage.getItem('devicelon'), name: 'CurrentDeviceLocation' }));
 });
 
 

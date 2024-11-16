@@ -1,1 +1,1 @@
-//STORE ALL KEYS
+// This file is no longer needed

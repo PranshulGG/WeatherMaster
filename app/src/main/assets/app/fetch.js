@@ -5,7 +5,7 @@ function getCountryName(code) {
 
 
 async function DecodeWeather(lat, lon) {
-  const apiKey = 'KEYS';
+  const apiKey = 'MAIN_KEY';
   const url = `https://api.timezonedb.com/v2.1/get-time-zone?key=${apiKey}&format=json&by=position&lat=${lat}&lng=${lon}`;
 
   try {
@@ -67,7 +67,7 @@ document.querySelector('.data_provider_name_import').innerHTML = 'Data by Met no
               localStorage.setItem('DailyWeatherCache', JSON.stringify(data.daily));
               localStorage.setItem('CurrentHourlyCache', JSON.stringify(data.hourly))
               saveCache(lat, lon, timezone)
-              CurrentWeather(data.current, data.daily.sunrise[0], data.daily.sunset[0])
+              CurrentWeather(data.current, data.daily.sunrise[0], data.daily.sunset[0], lat, lon)
             document.querySelector('.data_provider_name_import').innerHTML = 'Data by Open-Meteo';
             }
 
@@ -102,7 +102,7 @@ MoreDetails(lat, lon)
 
 
       function MoreDetails(latSum, lonSum) {
-        fetch(`https://api.weatherapi.com/v1/forecast.json?key=KEYS&q=${latSum},${lonSum}`)
+        fetch(`https://api.weatherapi.com/v1/forecast.json?key=MAIN_KEY&q=${latSum},${lonSum}`)
             .then(response => response.json())
             .then(data => {
               MoreDetailsRender(data)
@@ -131,7 +131,7 @@ MoreDetails(lat, lon)
 
 
           function astronomyData(latSum, lonSum) {
-            fetch(`https://api.weatherapi.com/v1/astronomy.json?key=KEYS&q=${latSum},${lonSum}`)
+            fetch(`https://api.weatherapi.com/v1/astronomy.json?key=MAIN_KEY&q=${latSum},${lonSum}`)
                 .then(response => response.json())
                 .then(data => {
 
@@ -237,7 +237,7 @@ const weatherCodeGroups = {
                 }
 
         document.getElementById('dew_percentage').innerHTML = DewPointTemp + '°'
-
+createTempTrends()
 
       hideLoader()
     }).catch(error =>{
@@ -352,7 +352,7 @@ function saveCache(lat, lon, timezone) {
         const hourlyData = data.properties.timeseries.slice(0, 24);
         const dailyData = data.properties.timeseries.filter((entry, index) => index % 24 === 0);
 
-        renderCurrentDataMetNorway(currentData);
+        renderCurrentDataMetNorway(currentData, lat, lon);
         renderHourlyDataMetNorway(hourlyData);
 
 
@@ -388,7 +388,7 @@ function saveCache(lat, lon, timezone) {
       })
       .then(locationData => {
         const locationKey = locationData.Key;
-        FetchWeatherAccuweatherCurrent(locationKey)
+        FetchWeatherAccuweatherCurrent(locationKey, lat, lon)
         const hourlyForecastUrl = `https://dataservice.accuweather.com/forecasts/v1/hourly/12hour/${locationKey}?apikey=${apiKey}&metric=true`;
 
         return fetch(hourlyForecastUrl);
@@ -405,7 +405,7 @@ function saveCache(lat, lon, timezone) {
 
   }
 
-  function FetchWeatherAccuweatherCurrent(location_key) {
+  function FetchWeatherAccuweatherCurrent(location_key, lat, lon) {
     const locationKey = location_key;
     const apiKey = localStorage.getItem('ApiForAccu');
 
@@ -419,7 +419,7 @@ function saveCache(lat, lon, timezone) {
         return response.json();
       })
       .then(data => {
-        DisplayCurrentAccuweatherData(data)
+        DisplayCurrentAccuweatherData(data, lat, lon)
 
       })
       .catch(error => {
@@ -537,25 +537,30 @@ function renderOfflineData(){
 
         const units = [
             { name: "day", seconds: 86400 },
-            { name: "hour", seconds: 3600 },
-            { name: "minute", seconds: 60 },
-            { name: "second", seconds: 1 }
+            { name: "hr.", seconds: 3600 },
+            { name: "min.", seconds: 60 },
+            { name: "sec.", seconds: 1 }
         ];
 
-        for (let unit of units) {
-            const amount = Math.floor(diffInSeconds / unit.seconds);
-            if (amount >= 1) {
-                return `${amount} ${unit.name}${amount > 1 ? 's' : ''} ago`;
-            }
+         for (let unit of units) {
+                const amount = Math.floor(diffInSeconds / unit.seconds);
+                if (amount >= 1) {
+                    return `${amount} ${unit.name} ago`;
+                }
         }
 
-        return "just now";
+        return "now";
     }
+
+    createTempTrends()
 
   setTimeout(()=>{
 document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(timestamp)}`;
-  }, 500);
+  }, 1000);
 
+  setTimeout(()=>{
+    document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(timestamp)}`;
+      }, 2000);
 
   if (offlineDatalocationName.name === 'CurrentDeviceLocation') {
     document.getElementById('city-name').innerHTML = 'Current location';

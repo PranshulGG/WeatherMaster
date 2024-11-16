@@ -1740,6 +1740,8 @@ savedLocationsHolder md-icon-button{
   flex-shrink: 0;
   z-index: 1;
   display: none;
+  position: absolute;
+  right: 15px;
 }
 
 savelocationtouch{
@@ -2649,4 +2651,93 @@ max-width: 150px;
 
 #bg_animation_clouds{
     height: 150px !important;
+}
+
+
+Tempmeterbaritem{
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+Tempforecastbars{
+  height: 110px;
+  width: 33px;
+  background-color: transparent;
+  border-radius: 50px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+}
+
+Tempforecastbars Tempbarprogress{
+  width: 100%;
+  background-color: var(--Secondary-Container);
+  border-radius: inherit;
+  height: 100%;
+  position: relative;
+}
+
+Tempforecastbars Tempbarprogress::before{
+  content: 'device_thermostat';
+  color: var(--On-Secondary-Container);
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+  font-family: 'Material symbols';
+  font-weight: normal !important;
+  font-style: normal !important;
+  font-variation-settings: 'FILL' 1;
+  line-height: 1;
+}
+
+Tempmeterbaritem p{
+  color: var(--On-Surface);
+  font-family: var(--outfit-mid);
+  padding: 10px 0 18px 0;
+  margin: 0;
+}
+
+Tempmeterbaritem span{
+  color: var(--On-Surface-Variant);
+  font-size: 15px;
+  font-family: var(--google-mid);
+}
+
+/* .humidity_block_todays > p{
+  color: var(--On-Surface);
+  font-family: var(--outfit-mid);
+  font-size: 20px;
+}
+
+#HumidityMain, #WindHighMain{
+  color: var(--Secondary);
+  font-size: 50px;
+  font-family: var(--google-mid);
+  padding-top: 10px;
+  display: block;
+} */
+
+.temp_trend_bars{
+  align-items: center;
+  overflow: auto;
+  gap: 10px;
+  padding-top: 0 !important;
+  max-height: 0;
+  transition: all 0.2s ease-in-out;
+  border-top: 1px solid transparent;
+  display: flex;
+  padding: 0;
+}
+
+.temp_trend_bars.trends_opened{
+  max-height: 500px;
+  padding: 10px;
+  border-top: 1px solid var(--Outline-Variant);
+
 }

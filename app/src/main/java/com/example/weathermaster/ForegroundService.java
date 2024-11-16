@@ -9,6 +9,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -318,7 +319,13 @@ public class ForegroundService extends Service {
         Canvas canvas = new Canvas(bitmap);
 
         Paint paint = new Paint();
-        paint.setColor(Color.WHITE);
+        int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
+            paint.setColor(Color.WHITE);
+        } else {
+            paint.setColor(Color.BLACK);
+        }
+
         paint.setTextSize(110);
         paint.setAntiAlias(true);
         paint.setTextAlign(Paint.Align.CENTER);

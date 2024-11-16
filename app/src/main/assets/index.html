@@ -274,11 +274,15 @@
             <div class="all-5d">
                 <div class="h2">
                     <p>14-<span data-translate="day">day</span> <span data-translate="forecast">forecast</span></p>
-                    <p class="" style="display: flex; align-items: center;"><span data-translate="more">More</span> <i icon-outlined
-                                                                                                                       style="font-size: 20px;">chevron_right</i></p>
+                    <p class="" style="display: flex; align-items: center;"><span id="open_temp_trend" style="display: flex; align-items: center;">Trends <i icon-outlined style="font-size: 20px;" class="trend_arrow_temp">keyboard_arrow_down</i></span></p>
                 </div>
                 <div class="forecast-5day" id="forecast-5day">
 
+
+                </div>
+
+
+                <div class="temp_trend_bars">
 
                 </div>
             </div>
@@ -813,7 +817,6 @@ document.getElementById('clearCityInput').addEventListener('click', () =>{
 
 
     document.getElementById('currentLocations').addEventListener('click', ()=>{
-        document.getElementById('city-name').innerHTML = 'Current location'
             document.getElementById('forecast').scrollLeft = 0;
             document.getElementById('weather_wrap').scrollTop = 0;
     });

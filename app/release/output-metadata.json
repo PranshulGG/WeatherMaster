@@ -11,8 +11,8 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 71,
-      "versionName": "1.7.9 (W)",
+      "versionCode": 72,
+      "versionName": "1.8.0 (W)",
       "outputFile": "app-release.apk"
     }
   ],

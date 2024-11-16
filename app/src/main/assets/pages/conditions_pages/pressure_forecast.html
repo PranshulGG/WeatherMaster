@@ -91,17 +91,17 @@
 
 
 
-                if(pressureBarValue < 1000){
-                    pressureBar.value = '0.2'
-                } else if (pressureBarValue > 1000 && pressureBarValue < 1010){
-                    pressureBar.value = '0.4'
-                } else if (pressureBarValue > 1010 && pressureBarValue < 1020){
-                    pressureBar.value = '0.5'
-                } else if (pressureBarValue > 1020 && pressureBarValue < 1030){
-                    pressureBar.value = '0.7'
-                } else if (pressureBarValue > 1030){
-                    pressureBar.value = '1'
-                }
+            if (pressureBarValue <= 1000) {
+                pressureBar.value = '0.2';
+            } else if (pressureBarValue > 1000 && pressureBarValue <= 1010) {
+                pressureBar.value = '0.4';
+            } else if (pressureBarValue > 1010 && pressureBarValue <= 1020) {
+                pressureBar.value = '0.5';
+            } else if (pressureBarValue > 1020 && pressureBarValue <= 1030) {
+                pressureBar.value = '0.7';
+            } else if (pressureBarValue > 1030) {
+                pressureBar.value = '1';
+            }
 
 
 

@@ -589,39 +589,39 @@ function CurrentWeather(data, sunrise, sunset, lat, lon) {
 
     
 
-    if (diffToSunrise <= 40 && diffToSunrise >= 0) {
-        document.getElementById('sunrise_insight').hidden = false;
-        document.getElementById('sunrise_insight').classList.add('insights_item')
-
-                document.getElementById('scroll-indicators').innerHTML = ''
-                setTimeout(()=>{
-                    document.querySelector('.insights').scrollLeft = 0
-
-                createScrollDots()
-                }, 1500);
-
-    } else{
-        document.getElementById('sunrise_insight').hidden = true;
-        document.getElementById('sunrise_insight').classList.remove('insights_item')
-
-    }
-
-    if (diffToSunset <= 40 && diffToSunset >= 0) {
-        document.getElementById('sunset_insight').hidden = false;
-        document.getElementById('sunset_insight').classList.add('insights_item')
-
-        document.getElementById('scroll-indicators').innerHTML = ''
-        setTimeout(()=>{
-            document.querySelector('.insights').scrollLeft = 0
-
-        createScrollDots()
-        }, 1500);
-
-    } else{
-        document.getElementById('sunset_insight').hidden = true;
-        document.getElementById('sunset_insight').classList.remove('insights_item')
-
-    }
+//    if (diffToSunrise <= 40 && diffToSunrise >= 0) {
+//        document.getElementById('sunrise_insight').hidden = false;
+//        document.getElementById('sunrise_insight').classList.add('insights_item')
+//
+//                document.getElementById('scroll-indicators').innerHTML = ''
+//                setTimeout(()=>{
+//                    document.querySelector('.insights').scrollLeft = 0
+//
+//                createScrollDots()
+//                }, 1500);
+//
+//    } else{
+//        document.getElementById('sunrise_insight').hidden = true;
+//        document.getElementById('sunrise_insight').classList.remove('insights_item')
+//
+//    }
+//
+//    if (diffToSunset <= 40 && diffToSunset >= 0) {
+//        document.getElementById('sunset_insight').hidden = false;
+//        document.getElementById('sunset_insight').classList.add('insights_item')
+//
+//        document.getElementById('scroll-indicators').innerHTML = ''
+//        setTimeout(()=>{
+//            document.querySelector('.insights').scrollLeft = 0
+//
+//        createScrollDots()
+//        }, 1500);
+//
+//    } else{
+//        document.getElementById('sunset_insight').hidden = true;
+//        document.getElementById('sunset_insight').classList.remove('insights_item')
+//
+//    }
 
 
     const now = new Date(data.time);
@@ -1288,3 +1288,35 @@ function clickForecastItem(index){
     window.addEventListener('storage', handleStorageChangeRoundUI);
 
     applyRoundedUI()
+
+
+    function createTempTrends() {
+        const cachedCurrentDataAvg = JSON.parse(localStorage.getItem('DailyWeatherCache'));
+        const tempTrendHolder = document.querySelector('.temp_trend_bars');
+
+        const allMinTemps = cachedCurrentDataAvg.temperature_2m_min;
+        const allMaxTemps = cachedCurrentDataAvg.temperature_2m_max;
+
+        const globalMinTemp = Math.min(...allMinTemps);
+        const globalMaxTemp = Math.max(...allMaxTemps);
+        const tempRange = globalMaxTemp - globalMinTemp;
+
+        cachedCurrentDataAvg.time.forEach((time, index) => {
+            const minTemp = cachedCurrentDataAvg.temperature_2m_min[index];
+            const maxTemp = cachedCurrentDataAvg.temperature_2m_max[index];
+
+            const avgTemp = (minTemp + maxTemp) / 2;
+            const normalizedHeight = ((avgTemp - globalMinTemp) / tempRange) * 100;
+
+            const tempTrendItem = document.createElement('TempMeterBarItem');
+            tempTrendItem.innerHTML = `
+                <TempforecastBars>
+                    <TempBarProgress style="height: ${normalizedHeight}%;"></TempBarProgress>
+                </TempforecastBars>
+            `;
+
+            tempTrendHolder.appendChild(tempTrendItem);
+        });
+    }
+
+

@@ -78,6 +78,8 @@ function useAutoCurrentLocation(){
                                       localStorage.setItem('DefaultLocation', JSON.stringify({ lat: currentLocation.latitude, lon: currentLocation.longitude, name: 'CurrentDeviceLocation' }));
                                     }
 
+                         localStorage.setItem('deviceLat', currentLocation.latitude)
+                         localStorage.setItem('devicelon', currentLocation.longitude)
     });
 }
 }
@@ -320,7 +322,7 @@ localStorage.setItem('DeviceOnline', 'Yes');
                     cityList.innerHTML = '';
                     cityInput.value = '';
                     document.getElementById('city-name').innerHTML = suggestionText;
-
+                    localStorage.setItem('CurrentLocationName', suggestionText)
                     document.querySelector('.focus-input').blur();
                     document.getElementById('forecast').scrollLeft = 0;
                     document.getElementById('weather_wrap').scrollTop = 0;
@@ -491,6 +493,8 @@ function displayWeatherData(weatherData, savedLocationItem, locationName) {
 
     savelocationtouch.addEventListener('click', () => {
         DecodeWeather(savedLocationItem.getAttribute('lat'), savedLocationItem.getAttribute('lon'));
+        localStorage.setItem('CurrentLocationName', locationName)
+
         document.getElementById('city-name').innerHTML = locationName;
         document.getElementById('forecast').scrollLeft = 0;
         document.getElementById('weather_wrap').scrollTop = 0;
@@ -721,7 +725,7 @@ function checkNoInternet() {
 
     document.addEventListener('DOMContentLoaded', async function() {
 
-        const currentVersion = 'v1.7.9';
+        const currentVersion = 'v1.8.0';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
@@ -863,9 +867,14 @@ function ReturnHomeLocation(){
 
     DecodeWeather(Locations.lat, Locations.lon)
 
-    document.getElementById('city-name').innerHTML = Locations.name;
+    if(Locations.name === 'CurrentDeviceLocation'){
+        document.getElementById('city-name').innerHTML = 'Current location';
+    } else{
+        document.getElementById('city-name').innerHTML = Locations.name;
+    }
     document.getElementById('SelectedLocationText').innerHTML = Locations.name;
     localStorage.setItem('CurrentLocationName', Locations.name)
+    window.history.back()
 }
 
 if(localStorage.getItem('removedOldSavedLocations') && localStorage.getItem('removedOldSavedLocations') === 'removed'){
@@ -878,3 +887,17 @@ if(localStorage.getItem('removedOldSavedLocations') && localStorage.getItem('rem
     localStorage.getItem('removedOldSavedLocations', 'removed')
 
 }
+
+
+document.getElementById('open_temp_trend').addEventListener('click', () =>{
+    document.querySelector('.temp_trend_bars').classList.toggle('trends_opened')
+
+    if(document.querySelector('.temp_trend_bars').classList.contains("trends_opened")){
+        document.querySelector('.trend_arrow_temp').innerHTML = 'keyboard_arrow_up'
+    } else{
+        document.querySelector('.trend_arrow_temp').innerHTML = 'keyboard_arrow_down'
+    }
+
+
+});
+

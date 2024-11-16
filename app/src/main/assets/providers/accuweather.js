@@ -1,5 +1,5 @@
 
-function DisplayCurrentAccuweatherData(data){
+function DisplayCurrentAccuweatherData(data, lat, lon){
     const SelectedTempUnit = localStorage.getItem('SelectedTempUnit');
 
     const condition_text = data[0].WeatherIcon;

@@ -234,120 +234,108 @@ body {
                 //    --------------------------------------
 
 
-                const GetAlerts = JSON.parse(localStorage.getItem('AlertCache'));
-
+                const GetAlerts = JSON.parse(localStorage.getItem('AlertCache')) || [];
                 const alertInfoDiv = document.getElementById('alert_info_div');
-                const locationText = localStorage.getItem('CurrentLocationName')
-                  const timeFormat = localStorage.getItem('selectedTimeMode');
-
+                const locationText = localStorage.getItem('CurrentLocationName') || 'Not available';
+                const timeFormat = localStorage.getItem('selectedTimeMode');
 
                 function RenderAlert() {
                     let isFirstAlert = true;
+                    const renderedAlerts = new Set();
 
+                    GetAlerts.forEach((alert) => {
 
-
-                    GetAlerts.forEach((alert, index) => {
-
+                        if (renderedAlerts.has(alert.headline)) return;
+                        renderedAlerts.add(alert.headline);
 
                         const alertInfoDivCreate = document.createElement('alertHolder');
                         alertInfoDivCreate.classList.add('alertHolder');
 
-
-
-                        let alerteffective
-                        let alertexpires
+                        let alerteffective, alertexpires;
 
                         if (timeFormat === '24 hour') {
-                            alerteffective  = convertTo24HourWithDate(alert.effective);
-                            alertexpires = convertTo24HourWithDate(alert.expires);
-                        } else{
-                            alerteffective  = convertTo12HourWithDate(alert.effective);
-                            alertexpires = convertTo12HourWithDate(alert.expires);
+                            alerteffective = isValidDate(alert.effective)
+                                ? convertTo24HourWithDate(alert.effective)
+                                : 'Not available';
+                            alertexpires = isValidDate(alert.expires)
+                                ? convertTo24HourWithDate(alert.expires)
+                                : 'Not available';
+                        } else {
+                            alerteffective = isValidDate(alert.effective)
+                                ? convertTo12HourWithDate(alert.effective)
+                                : 'Not available';
+                            alertexpires = isValidDate(alert.expires)
+                                ? convertTo12HourWithDate(alert.expires)
+                                : 'Not available';
                         }
 
                         alertInfoDivCreate.innerHTML = `
+            ${isFirstAlert ? `
+                <div class="location">
+                    <p id="alert_location">${locationText}</p>
+                </div>
+            ` : ''}
 
-                            ${isFirstAlert ? `
-                                <div class="location">
-                                    <p id="alert_location">${locationText || 'Not available'}</p>
-                                </div>
-                            ` : ''}
+            <div class="alert_event">
+                <md-icon icon-filled>warning</md-icon>
+                <p id="EventText">${alert.headline || 'Not available'}</p>
+            </div>
 
-                            <div class="alert_event">
-                            <md-icon icon-filled>warning</md-icon>
-                            <p id="EventText">${alert.headline || 'Not available'}</p>
-                            </div>
+            <div class="other_info_desc_time">
+                <div class="start_end">
+                    <p><span>Start:</span> ${alerteffective}</p>
+                    <p><span>End:</span> ${alertexpires}</p>
+                    <p><span>Severity:</span> ${alert.severity || 'Not available'}</p>
+                    <p><span>Urgency:</span> ${alert.urgency || 'Not available'}</p>
+                </div>
 
-                            <div class="other_info_desc_time">
-                            <div class="start_end">
-                            <p><span>Start:</span> ${alerteffective || 'Not available'}</p>
-                            <p><span>End:</span> ${alertexpires || 'Not available'}</p>
-                            <p><span>Severity:</span> ${alert.severity || 'Not available'}</p>
-                            <p><span>Urgency:</span> ${alert.urgency || 'Not available'}</p>
-                            </div>
-
-                            <div class="description">
-                            <ul>
-                                <li>${alert.desc || 'Not available'}<li>
-                                <li>${alert.instruction || 'Not available'}<li>
-                            </ul>
-                            </div>
-                            </div>
-                            `;
-
-
-
+                <div class="description">
+                    <ul>
+                        <li>${alert.desc || 'Not available'}</li>
+                        <li>${alert.instruction || 'Not available'}</li>
+                    </ul>
+                </div>
+            </div>
+        `;
 
                         alertInfoDiv.appendChild(alertInfoDivCreate);
                         isFirstAlert = false;
 
-                        document.getElementById('senderName').innerHTML = 'Sender: ' + (alert.category || 'N/A');
+                        if (isFirstAlert) {
+                            document.getElementById('senderName').innerHTML = 'Sender: ' + (alert.category || 'N/A');
+                        }
                     });
-
-
                 }
 
-
-
-
-                RenderAlert()
-
-
-
-
-
-                //    --------------------------------------
-
+                function isValidDate(dateString) {
+                    const date = new Date(dateString);
+                    return !isNaN(date.getTime());
+                }
 
                 function convertTo24HourWithDate(timeString) {
                     const date = new Date(timeString);
-
                     const day = date.getDate().toString().padStart(2, '0');
                     const month = (date.getMonth() + 1).toString().padStart(2, '0');
                     const year = date.getFullYear();
-
                     const hours = date.getHours().toString().padStart(2, '0');
                     const minutes = date.getMinutes().toString().padStart(2, '0');
-
                     return `${day}/${month}/${year} ${hours}:${minutes}`;
                 }
 
                 function convertTo12HourWithDate(timeString) {
                     const date = new Date(timeString);
-
                     const day = date.getDate().toString().padStart(2, '0');
                     const month = (date.getMonth() + 1).toString().padStart(2, '0');
                     const year = date.getFullYear();
-
                     let hours = date.getHours();
                     const minutes = date.getMinutes().toString().padStart(2, '0');
                     const ampm = hours >= 12 ? 'PM' : 'AM';
-
                     hours = hours % 12 || 12;
-                    const formattedHours = hours.toString().padStart(2, '0');
-
-                    return `${day}/${month}/${year} ${formattedHours}:${minutes} ${ampm}`;
+                    return `${day}/${month}/${year} ${hours.toString().padStart(2, '0')}:${minutes} ${ampm}`;
                 }
+
+                RenderAlert();
+
 
 
 
