@@ -12,6 +12,11 @@
       <br>
       <img src="https://img.shields.io/github/stars/PranshulGG/WeatherMaster?style=for-the-badge&color=ffb5a0&labelColor=561f0f">
       <img src="https://img.shields.io/github/downloads/PranshulGG/WeatherMaster/total?label=Downloads&style=for-the-badge&color=aac7ff&labelColor=0a305f">
+      <a href="https://discord.gg/sSW2E4nqmn">
+ <img src="https://img.shields.io/discord/1302477023410782229?label=Discord&style=for-the-badge&color=ffb0c8&labelColor=541d32">
+</a>
+      
+   
 
 
 
@@ -116,7 +121,7 @@
 
 - ✅ Adding cache to reduce api requests
 - ✅ Translations
-- ⬛ Widgets / Notifications (under construction)
+- ✅ Notifications
 - ✅ Make it lightweight
 - ✅ Allows you to add multiple locations
 - ✅ Customization
