@@ -28,12 +28,6 @@ body:
     id: Additional
     attributes:
       label: Additional Context
-  - type: dropdown
-    id: assign
-    attributes:
-      label: "Would you like to work on this issue?"
-      options:
-        - "Yes"
   - type: markdown
     attributes:
       value: |
