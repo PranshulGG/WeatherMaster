@@ -26,13 +26,10 @@ body:
       label: Key Features or Benefits
       placeholder: List specific features of the provider that you think would improve the app.
                    (e.g., Hourly forecasts, radar data, historical weather, etc.)
-  - type: textarea
-    id: screenshots
-    attributes:
-      label: Provider's API Information
   - type: checkboxes
     attributes:
-      label: Does the provider have a free API tier?
+      label: Provider's API Information
+      description: Does the provider have a free API tier?
       options:
         - label: "Yes"
         - label: "No"
