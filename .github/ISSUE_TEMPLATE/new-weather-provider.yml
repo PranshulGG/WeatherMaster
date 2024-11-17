@@ -48,3 +48,8 @@ body:
       label: Specify Regions
       description: List the regions where this provider is supported.
       placeholder: "Enter regions (e.g., Asia, Europe, etc.)"
+  - type: textarea
+    id: other_info
+    attributes:
+      label: Additional Notes
+      placeholder: Any other information or comments you'd like to add.
