@@ -5,7 +5,7 @@ body:
     attributes:
       value: |
         Please fill out the sections below
-  - type: textarea
+  - type: textarea 
     id: description
     attributes:
       label: Name of the provider
