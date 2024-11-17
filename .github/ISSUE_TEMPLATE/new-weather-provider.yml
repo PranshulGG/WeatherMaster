@@ -43,7 +43,6 @@ body:
       - label: "Regional (Specify Below)"
         value: regional
   key: regions_supported
-
 - type: textarea
   attributes:
     label: Specify Regions
