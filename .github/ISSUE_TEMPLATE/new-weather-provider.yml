@@ -41,16 +41,10 @@ body:
       description: Is this provider suitable for a global audience or specific regions?
       options:
         - label: "Global"
-          value: global
         - label: "Regional (Specify Below)"
-          value: regional
   - type: textarea
     id: specify_regions
     attributes:
       label: Specify Regions
       description: List the regions where this provider is supported.
       placeholder: "Enter regions (e.g., Asia, Europe, etc.)"
-    visibility:
-      depends_on:
-        key: regions_supported
-        value: regional
