@@ -34,5 +34,5 @@ body:
     attributes:
       label: Does the provider have a free API tier?
       options:
-        - label: **Yes**
-        - label: **No**
+        - label: "Yes"
+        - label: "No"
