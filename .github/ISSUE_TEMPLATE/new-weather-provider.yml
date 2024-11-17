@@ -1,7 +1,7 @@
 name: Add New Weather Provider
 description: Request Weather Provider
 body:
-  - type: markdown 
+  - type: markdown
     attributes:
       value: |
         Please fill out the sections below
@@ -36,5 +36,3 @@ body:
       options:
         - label: **Yes**
         - label: **No**
-  
-
