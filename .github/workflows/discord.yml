@@ -1,0 +1,18 @@
+name: Send Commit Messages to Discord
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  notify-discord:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Commit to Discord
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+          -d "{\"content\": \"New push to ${GITHUB_REPOSITORY} by ${GITHUB_ACTOR}: ${GITHUB_EVENT_NAME}\"}" \
+          $DISCORD_WEBHOOK
