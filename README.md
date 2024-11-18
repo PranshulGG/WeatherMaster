@@ -15,9 +15,6 @@
  <img src="https://img.shields.io/discord/1302477023410782229?label=Discord&style=for-the-badge&color=ffb0c8&labelColor=541d32">
 </a>
 
-
-
-
    </div>
    <div align="center">
    <h3>WeatherMaster: inspired by the Google Pixel weather app.</h3>
