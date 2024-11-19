@@ -1,7 +1,6 @@
 
 const DefaultLocation = JSON.parse(localStorage.getItem('DefaultLocation'));
 
-// createData();
 let currentApiKeyIndex = 0;
 
 let currentKeyMoonIndex = 0;
@@ -67,7 +66,6 @@ function useAutoCurrentLocation(){
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude
             };
-            DecodeWeather(currentLocation.latitude, currentLocation.longitude);
 
             document.getElementById('city-name').innerHTML = 'Current location';
             document.getElementById('SelectedLocationText').innerHTML = 'Current location';
@@ -80,20 +78,20 @@ function useAutoCurrentLocation(){
 
                          localStorage.setItem('deviceLat', currentLocation.latitude)
                          localStorage.setItem('devicelon', currentLocation.longitude)
+
+                                     DecodeWeather(currentLocation.latitude, currentLocation.longitude, 'CurrentDeviceLocation');
     });
 }
 }
 
-if(navigator.onLine){
-    localStorage.setItem('DeviceOnline', 'Yes');
+
 if(DefaultLocation){
 if(DefaultLocation.name === 'CurrentDeviceLocation'){
     useAutoCurrentLocation()
     sendThemeToAndroid("ReqLocation")
     document.querySelector('.currentLocationdiv').hidden = false;
 } else if(DefaultLocation.lat && DefaultLocation.lon){
-    DecodeWeather(DefaultLocation.lat, DefaultLocation.lon)
-
+    DecodeWeather(DefaultLocation.lat, DefaultLocation.lon, DefaultLocation.name)
 
         document.getElementById('city-name').innerHTML = DefaultLocation.name;
         document.getElementById('SelectedLocationText').innerHTML = DefaultLocation.name;
@@ -105,14 +103,6 @@ else{
     useAutoCurrentLocation()
     sendThemeToAndroid("ReqLocation")
     document.querySelector('.currentLocationdiv').hidden = false;
-}
-} else{
-    localStorage.setItem('DeviceOnline', 'No');
-
-    document.addEventListener('DOMContentLoaded', function () {
-        renderOfflineData();
-      });
-
 }
 
 
@@ -128,6 +118,9 @@ function handleGeolocationError(error) {
 
 
 document.addEventListener('DOMContentLoaded', () => {
+
+
+
     const cityInput = document.getElementById('city-input');
     const cityList = document.getElementById('city-list');
     const cityopen = document.getElementById('city-open');
@@ -137,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     cityopen.addEventListener("click", () => {
 
-            if(navigator.onLine){
+            sendThemeToAndroid("DisableSwipeRefresh")
            let savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
 
 localStorage.setItem('DeviceOnline', 'Yes');
@@ -163,11 +156,7 @@ localStorage.setItem('DeviceOnline', 'Yes');
                  }, 400);
 
 
-        } else{
-         ToastAndroidShow.ShowToast('No internet', 'long');
-        return;
 
-        }
     });
 
     closeButton.addEventListener('click', () => {
@@ -190,49 +179,26 @@ localStorage.setItem('DeviceOnline', 'Yes');
     let debounceTimeout;
 
     cityInput.addEventListener('input', () => {
-        const searchTerm = cityInput.value.trim();
-        document.querySelector('.currentLocationdiv').hidden = true;
-        document.querySelector('.savedLocations').hidden = true;
 
-        clearTimeout(debounceTimeout);
 
-        if (searchTerm && searchTerm.length > 2) {
-            document.getElementById('cityLoader').hidden = false;
 
-            debounceTimeout = setTimeout(() => {
-                getCitySuggestions(cityInput.value);
-            }, 500);
+
+        document.getElementById('cityLoader').hidden = true;
+        document.querySelector('.currentLocationdiv').hidden = false;
+        document.querySelector('.savedLocations').hidden = false;
+
+
+
+        let savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
+
+        if (savedLocations.length === 0) {
+            document.querySelector('.savedLocations').hidden = true;
         } else {
-            cityList.innerHTML = '';
-            document.getElementById('cityLoader').hidden = true;
-            document.querySelector('.currentLocationdiv').hidden = false;
             document.querySelector('.savedLocations').hidden = false;
 
-
-                        setTimeout(()=>{
-                        cityList.innerHTML = '';
-                        }, 200)
-
-                        setTimeout(()=>{
-                            cityList.innerHTML = '';
-                            }, 400)
-
-                            setTimeout(()=>{
-                                cityList.innerHTML = '';
-                                }, 600)
-
-
-            let savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
-
-            if (savedLocations.length === 0) {
-                document.querySelector('.savedLocations').hidden = true;
-            } else {
-                document.querySelector('.savedLocations').hidden = false;
-
-            }
-
-
         }
+
+
     });
 
 
@@ -242,10 +208,12 @@ localStorage.setItem('DeviceOnline', 'Yes');
 
         if (event.key === 'Enter') {
             if (searchTerm) {
+                document.querySelector('.currentLocationdiv').hidden = true;
+                document.querySelector('.savedLocations').hidden = true;
                 document.getElementById('cityLoader').hidden = false;
-                            setTimeout(()=>{
-                                getCitySuggestions(cityInput.value);
-                            }, 500);
+                setTimeout(() => {
+                    getCitySuggestions(cityInput.value);
+                }, 500);
             } else {
                 cityList.innerHTML = '';
                 document.getElementById('cityLoader').hidden = true;
@@ -272,7 +240,7 @@ localStorage.setItem('DeviceOnline', 'Yes');
         }
     }
 
-    function displaySuggestions(results) {
+function displaySuggestions(results) {
         const suggestionsContainer = document.getElementById('city-list');
         clearSuggestions();
 
@@ -295,14 +263,10 @@ localStorage.setItem('DeviceOnline', 'Yes');
 
                 const suggestionItem = document.createElement('div');
                 const clickLocation = document.createElement('savelocationtouch');
-                const saveBtnLocation = document.createElement('md-text-button');
-                saveBtnLocation.textContent = 'Save';
+                // const saveBtnLocation = document.createElement('md-text-button');
+                // saveBtnLocation.textContent = 'Save';
 
-                if (!savedLocationsSet.has(suggestionText)) {
-                    saveBtnLocation.hidden = false;
-                } else {
-                    saveBtnLocation.hidden = true;
-                }
+
 
                 const createGap = document.createElement('flex');
                 const countryIcon = document.createElement('span');
@@ -318,22 +282,12 @@ localStorage.setItem('DeviceOnline', 'Yes');
                 suggestionItem.setAttribute('data-lon', result.longitude);
 
                 clickLocation.addEventListener('click', function () {
-                    DecodeWeather(result.latitude, result.longitude);
+                    DecodeWeather(result.latitude, result.longitude, suggestionText);
                     cityList.innerHTML = '';
                     cityInput.value = '';
-                    document.getElementById('city-name').innerHTML = suggestionText;
-                    localStorage.setItem('CurrentLocationName', suggestionText)
                     document.querySelector('.focus-input').blur();
                     document.getElementById('forecast').scrollLeft = 0;
                     document.getElementById('weather_wrap').scrollTop = 0;
-                    window.history.back();
-
-                    setTimeout(() => {
-                        cityInput.dispatchEvent(new Event('input'));
-                    }, 200);
-                });
-
-                saveBtnLocation.addEventListener('click', () => {
                     saveLocationToContainer(suggestionText, result.latitude, result.longitude);
                     cityList.innerHTML = '';
                     cityInput.value = '';
@@ -343,10 +297,11 @@ localStorage.setItem('DeviceOnline', 'Yes');
                     }, 200);
                 });
 
+
                 suggestionItem.appendChild(countryIcon);
                 suggestionItem.appendChild(clickLocation);
                 suggestionItem.appendChild(createGap);
-                suggestionItem.appendChild(saveBtnLocation);
+                // suggestionItem.appendChild(saveBtnLocation);
                 suggestionsContainer.appendChild(suggestionItem);
 
                 setTimeout(() => {
@@ -356,6 +311,7 @@ localStorage.setItem('DeviceOnline', 'Yes');
         });
     }
 
+
     function clearSuggestions() {
         const suggestionsContainer = document.getElementById('city-list');
         while (suggestionsContainer.firstChild) {
@@ -364,6 +320,28 @@ localStorage.setItem('DeviceOnline', 'Yes');
     }
 });
 
+
+function GetSavedSearchLocation(){
+    const searchedItem = JSON.parse(localStorage.getItem(`SearchedItem`));
+
+    if(searchedItem){
+    DecodeWeather(searchedItem.latitude, searchedItem.longitude, searchedItem.LocationName);
+    saveLocationToContainer(searchedItem.LocationName, searchedItem.latitude, searchedItem.longitude)
+    }
+
+}
+
+function handleStorageChangeSearch(event) {
+    if (event.key === 'SearchedItem') {
+
+            setTimeout(()=>{
+            GetSavedSearchLocation()
+            }, 1000);
+
+    }
+}
+
+window.addEventListener('storage', handleStorageChangeSearch);
 
 function saveLocationToContainer(locationName, lat, lon) {
     let savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
@@ -387,6 +365,9 @@ function loadSavedLocations() {
     const savedLocationsHolder = document.querySelector('savedLocationsHolder');
     const savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
 
+    savedLocationsHolder.innerHTML = ''
+
+
     if (savedLocations.length === 0) {
         document.querySelector('.savedLocations').hidden = true;
     } else {
@@ -399,111 +380,345 @@ function loadSavedLocations() {
         const savedLocationItem = document.createElement('savedLocationItem');
         savedLocationItem.setAttribute('lat', location.lat);
         savedLocationItem.setAttribute('lon', location.lon);
-
+        savedLocationItem.setAttribute('locationLabel', location.locationName)
         const savedLocationItemLat = savedLocationItem.getAttribute('lat');
         const savedLocationItemLon = savedLocationItem.getAttribute('lon');
 
-        let tempSaved, conditionSaved, tempSavedMet, conditionSavedMet;
+        let temp = '0'
+        let icon = '../icons/error.png'
+        let conditionlabel = 'No data'
+        if (localStorage.getItem('selectedMainWeatherProvider') === 'Met norway' && JSON.parse(localStorage.getItem(`WeatherDataMetNorway_${location.locationName}`))) {
 
-        const cacheKey = `weatherData_${location.locationName}`;
-        const cachedData = JSON.parse(localStorage.getItem(cacheKey));
-        const cacheTime = localStorage.getItem(`${cacheKey}_timestamp`);
 
-        if (cachedData && cacheTime && (currentTime - cacheTime) < 1800000) { // 30 minutes in milliseconds
-            // Use cached data
-            displayWeatherData(cachedData, savedLocationItem, location.locationName);
-        } else {
-            // Fetch new data
-            if (localStorage.getItem('selectedMainWeatherProvider') === 'Met norway') {
-                fetch(`https://api.met.no/weatherapi/locationforecast/2.0/complete?lat=${savedLocationItemLat}&lon=${savedLocationItemLon}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        const mainTempMet = data.properties.timeseries[0].data.instant.details;
+            const data = JSON.parse(localStorage.getItem(`WeatherDataMetNorway_${location.locationName}`));
 
-                        tempSavedMet = SelectedTempUnit === 'fahrenheit'
-                            ? Math.round(celsiusToFahrenheit(mainTempMet.air_temperature))
-                            : Math.round(mainTempMet.air_temperature);
-
-                        conditionSavedMet = getMetNorwayWeatherLabelInLang(data.properties.timeseries[0].data.next_1_hours.summary.symbol_code, 'en');
-
-                        const weatherData = {
-                            temp: tempSavedMet,
-                            condition: conditionSavedMet,
-                            icon: getMetNorwayIcons(data.properties.timeseries[0].data.next_1_hours.summary.symbol_code)
-                        };
-
-                        // Cache data
-                        localStorage.setItem(cacheKey, JSON.stringify(weatherData));
-                        localStorage.setItem(`${cacheKey}_timestamp`, currentTime);
-
-                        displayWeatherData(weatherData, savedLocationItem, location.locationName);
-                    });
+            if (SelectedTempUnit === 'fahrenheit') {
+                temp = Math.round(celsiusToFahrenheit(data.properties.timeseries[0].data.instant.details.air_temperature));
             } else {
-                fetch(`https://api.open-meteo.com/v1/forecast?latitude=${savedLocationItemLat}&longitude=${savedLocationItemLon}&current=temperature_2m,is_day,weather_code`)
-                    .then(response => response.json())
-                    .then(data => {
-                        tempSaved = SelectedTempUnit === 'fahrenheit'
-                            ? Math.round(celsiusToFahrenheit(data.current.temperature_2m))
-                            : Math.round(data.current.temperature_2m);
-
-                        conditionSaved = getWeatherLabelInLangNoAnim(data.current.weather_code, data.current.is_day, localStorage.getItem('AppLanguageCode'));
-
-                        const weatherData = {
-                            temp: tempSaved,
-                            condition: conditionSaved,
-                            icon: GetWeatherIcon(data.current.weather_code, data.current.is_day)
-                        };
-
-                        // Cache data
-                        localStorage.setItem(cacheKey, JSON.stringify(weatherData));
-                        localStorage.setItem(`${cacheKey}_timestamp`, currentTime);
-
-                        displayWeatherData(weatherData, savedLocationItem, location.locationName);
-                    });
+                temp = Math.round(data.properties.timeseries[0].data.instant.details.air_temperature);
             }
+
+             icon = getMetNorwayIcons(data.properties.timeseries[0].data.next_1_hours.summary.symbol_code)
+
+            conditionlabel = getMetNorwayWeatherLabelInLang(data.properties.timeseries[0].data.next_1_hours.summary.symbol_code, localStorage.getItem('AppLanguageCode'))
+
+
+         } else if(localStorage.getItem('selectedMainWeatherProvider') === 'Met norway' && !JSON.parse(localStorage.getItem(`WeatherDataMetNorway_${location.locationName}`))){
+
+         }
+         else if (localStorage.getItem('ApiForAccu') && localStorage.getItem('selectedMainWeatherProvider') === 'Accuweather' && JSON.parse(localStorage.getItem(`WeatherDataAccuCurrent_${location.locationName}`))) {
+            const data = JSON.parse(localStorage.getItem(`WeatherDataAccuCurrent_${location.locationName}`));
+
+            if (SelectedTempUnit === 'fahrenheit') {
+                temp = Math.round(data[0].Temperature.Imperial.Value);
+
+            } else {
+                temp = Math.round(data[0].Temperature.Metric.Value);
+
+            }
+
+            icon = GetWeatherIconAccu(data[0].WeatherIcon)
+            conditionlabel = GetWeatherTextAccu(data[0].WeatherIcon)
+
+        }  else if(localStorage.getItem('ApiForAccu') && localStorage.getItem('selectedMainWeatherProvider') === 'Accuweather' && !JSON.parse(localStorage.getItem(`WeatherDataAccuCurrent_${location.locationName}`))){
+  const lastCallTimeKey = `DecodeWeatherLastCall_${location.locationName}`;
+    const currentTime = Date.now();
+    const lastCallTime = localStorage.getItem(lastCallTimeKey);
+
+    const timeLimit = 5 * 60 * 1000;
+
+    if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
+        DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName);
+                setTimeout(() => {
+                    loadSavedLocations()
+                }, 200)
+        localStorage.setItem(lastCallTimeKey, currentTime);
+    }
+
+        }
+            else {
+            const data = JSON.parse(localStorage.getItem(`WeatherDataOpenMeteo_${location.locationName}`));
+
+            if (SelectedTempUnit === 'fahrenheit') {
+                temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m))
+            } else {
+                temp = Math.round(data.current.temperature_2m)
+            }
+
+            icon = GetWeatherIcon(data.current.weather_code, data.current.is_day);
+
+             conditionlabel = getWeatherLabelInLangNoAnim(data.current.weather_code, data.current.is_day,  localStorage.getItem('AppLanguageCode'))
+
         }
 
-        savedLocationsHolder.append(savedLocationItem);
-    });
-}
 
-function displayWeatherData(weatherData, savedLocationItem, locationName) {
-    savedLocationItem.innerHTML = `
+
+
+        savedLocationItem.innerHTML = `
         <savedlocationimg>
-            <img src="${weatherData.icon}" alt="">
+            <img src='${icon}' alt="">
         </savedlocationimg>
         <div>
-            <p>${locationName}</p>
-            <span>${weatherData.condition}</span>
-            <mainCurrenttempSaved>${weatherData.temp}°</mainCurrenttempSaved>
+            <p>${location.locationName}</p>
+            <span>${conditionlabel}</span>
+            <mainCurrenttempSaved>${temp}°</mainCurrenttempSaved>
         </div>
         <flex></flex>
         <md-icon-button class="delete-btn">
             <md-icon icon-filled>delete</md-icon>
         </md-icon-button>`;
 
-    savedLocationItem.querySelector('.delete-btn').addEventListener('click', () => {
-        deleteLocation(locationName);
-        savedLocationItem.remove();
+        savedLocationItem.querySelector('.delete-btn').addEventListener('click', () => {
+            deleteLocation(location.locationName);
+             if(localStorage.getItem(`WeatherDataOpenMeteo_${location.locationName}`)){
+                            setTimeout(()=>{
+                                localStorage.removeItem(`WeatherDataOpenMeteo_${location.locationName}`)
+                            }, 400);
+                        }
+
+                        if(localStorage.getItem(`WeatherDataMetNorway_${location.locationName}`)){
+                            setTimeout(()=>{
+                                localStorage.removeItem(`WeatherDataMetNorway_${location.locationName}`)
+                            }, 400);
+                        }
+
+                        if(localStorage.getItem(`WeatherDataAccuCurrent_${location.locationName}`)){
+                            setTimeout(()=>{
+                                localStorage.removeItem(`WeatherDataAccuCurrent_${location.locationName}`)
+                            }, 400);
+                        }
+                        if(localStorage.getItem(`WeatherDataAccuHourly_${location.locationName}`)){
+                            setTimeout(()=>{
+                                localStorage.removeItem(`WeatherDataAccuHourly_${location.locationName}`)
+                            }, 400);
+                        }
+                        if(localStorage.getItem(`WeatherDataMetNorwayTimeStamp_${location.locationName}`)){
+                            setTimeout(()=>{
+                                localStorage.removeItem(`WeatherDataMetNorwayTimeStamp_${location.locationName}`)
+                            }, 400);
+                        }
+                        if(localStorage.getItem(`WeatherDataAccuTimeStamp_${location.locationName}`)){
+                            setTimeout(()=>{
+                                localStorage.removeItem(`WeatherDataAccuTimeStamp_${location.locationName}`)
+                            }, 400);
+                        }
+                        if(localStorage.getItem(`WeatherDataOpenMeteoTimeStamp_${location.locationName}`)){
+                            setTimeout(()=>{
+                                localStorage.removeItem(`WeatherDataOpenMeteoTimeStamp_${location.locationName}`)
+                            }, 400);
+                        }
+            savedLocationItem.remove();
+        });
+
+        const savelocationtouch = document.createElement('savelocationtouch');
+        const md_rippleSaveLocationTouch = document.createElement('md-ripple');
+        savelocationtouch.appendChild(md_rippleSaveLocationTouch);
+
+        savelocationtouch.addEventListener('click', () => {
+
+            if (localStorage.getItem('selectedMainWeatherProvider') === 'Met norway') {
+                const renderFromSavedData = JSON.parse(localStorage.getItem(`WeatherDataOpenMeteo_${location.locationName}`));
+                const renderFromSavedDataMet = JSON.parse(localStorage.getItem(`WeatherDataMetNorway_${location.locationName}`));
+                const dataHourlyFull = JSON.parse(localStorage.getItem(`HourlyWeatherCache_${location.locationName}`));
+                const MoreDetailsData = JSON.parse(localStorage.getItem(`MoreDetailsData_${location.locationName}`));
+                const AstronomyData = JSON.parse(localStorage.getItem(`AstronomyData_${location.locationName}`))
+                const renderFromSavedDataMetTimstamp = localStorage.getItem(`WeatherDataMetNorwayTimeStamp_${location.locationName}`)
+
+                localStorage.setItem('currentLong', savedLocationItemLon)
+                localStorage.setItem('currentLat', savedLocationItemLat)
+
+              astronomyDataRender(AstronomyData)
+              MoreDetailsRender(MoreDetailsData)
+
+                const currentData = renderFromSavedDataMet.properties.timeseries[0];
+                const hourlyData = renderFromSavedDataMet.properties.timeseries.slice(0, 24);
+
+                renderCurrentDataMetNorway(currentData, savedLocationItemLat, savedLocationItemLon);
+                renderHourlyDataMetNorway(hourlyData);
+                createHourlyDataCount(renderFromSavedData)
+
+                CurrentWeather(renderFromSavedData.current, renderFromSavedData.daily.sunrise[0], renderFromSavedData.daily.sunset[0])
+                localStorage.setItem('DailyWeatherCache', JSON.stringify(renderFromSavedData.daily));
+                UvIndex(renderFromSavedData.hourly.uv_index[0])
+                DailyWeather(renderFromSavedData.daily)
+                localStorage.setItem('CurrentHourlyCache', JSON.stringify(renderFromSavedData.hourly))
+                document.querySelector('.data_provider_name_import').innerHTML = 'Data by Met norway';
+
+                const AirQuailityData = JSON.parse(localStorage.getItem(`AirQuality_${location.locationName}`));
+
+                AirQuaility(AirQuailityData)
+
+    localStorage.setItem('DailyWeatherCache', JSON.stringify(renderFromSavedData.daily));
+    localStorage.setItem('CurrentHourlyCache', JSON.stringify(renderFromSavedData.hourly));
+    localStorage.setItem('HourlyWeatherCache', JSON.stringify(dataHourlyFull));
+
+                function timeAgo(timestamp) {
+                    const now = new Date();
+                    const updatedTime = new Date(timestamp);
+                    const diffInSeconds = Math.floor((now - updatedTime) / 1000);
+
+                    const units = [
+                        { name: "day", seconds: 86400 },
+                        { name: "hr.", seconds: 3600 },
+                        { name: "min.", seconds: 60 },
+                        { name: "sec.", seconds: 1 }
+                    ];
+
+                     for (let unit of units) {
+                            const amount = Math.floor(diffInSeconds / unit.seconds);
+                            if (amount >= 1) {
+                                return `${amount} ${unit.name} ago`;
+                            }
+                    }
+
+                    return "now";
+                }
+
+                setTimeout(()=>{
+                    document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataMetTimstamp)}`;
+                      }, 1000);
+
+
+            } else if (localStorage.getItem('ApiForAccu') && localStorage.getItem('selectedMainWeatherProvider') === 'Accuweather') {
+
+                const data = JSON.parse(localStorage.getItem(`WeatherDataAccuCurrent_${location.locationName}`));
+                const dataHourly = JSON.parse(localStorage.getItem(`WeatherDataAccuHourly_${location.locationName}`));
+                const renderFromSavedData = JSON.parse(localStorage.getItem(`WeatherDataOpenMeteo_${location.locationName}`));
+                const dataHourlyFull = JSON.parse(localStorage.getItem(`HourlyWeatherCache_${location.locationName}`));
+                const MoreDetailsData = JSON.parse(localStorage.getItem(`MoreDetailsData_${location.locationName}`));
+                const AstronomyData = JSON.parse(localStorage.getItem(`AstronomyData_${location.locationName}`))
+                const dataTimstamp = localStorage.getItem(`WeatherDataAccuTimeStamp_${location.locationName}`)
+
+
+                localStorage.setItem('currentLong', savedLocationItemLon)
+                localStorage.setItem('currentLat', savedLocationItemLat)
+
+              astronomyDataRender(AstronomyData)
+              MoreDetailsRender(MoreDetailsData)
+                DisplayCurrentAccuweatherData(data, savedLocationItemLat, savedLocationItemLon)
+                DisplayHourlyAccuweatherData(dataHourly)
+
+                const AirQuailityData = JSON.parse(localStorage.getItem(`AirQuality_${location.locationName}`));
+
+                AirQuaility(AirQuailityData)
+
+                createHourlyDataCount(renderFromSavedData)
+
+                CurrentWeather(renderFromSavedData.current, renderFromSavedData.daily.sunrise[0], renderFromSavedData.daily.sunset[0])
+                localStorage.setItem('DailyWeatherCache', JSON.stringify(renderFromSavedData.daily));
+                UvIndex(renderFromSavedData.hourly.uv_index[0])
+                DailyWeather(renderFromSavedData.daily)
+                localStorage.setItem('CurrentHourlyCache', JSON.stringify(renderFromSavedData.hourly))
+                document.querySelector('.data_provider_name_import').innerHTML = 'Data by Accuweather';
+
+    localStorage.setItem('DailyWeatherCache', JSON.stringify(renderFromSavedData.daily));
+    localStorage.setItem('CurrentHourlyCache', JSON.stringify(renderFromSavedData.hourly));
+    localStorage.setItem('HourlyWeatherCache', JSON.stringify(dataHourlyFull));
+
+                function timeAgo(timestamp) {
+                    const now = new Date();
+                    const updatedTime = new Date(timestamp);
+                    const diffInSeconds = Math.floor((now - updatedTime) / 1000);
+
+                    const units = [
+                        { name: "day", seconds: 86400 },
+                        { name: "hr.", seconds: 3600 },
+                        { name: "min.", seconds: 60 },
+                        { name: "sec.", seconds: 1 }
+                    ];
+
+                     for (let unit of units) {
+                            const amount = Math.floor(diffInSeconds / unit.seconds);
+                            if (amount >= 1) {
+                                return `${amount} ${unit.name} ago`;
+                            }
+                    }
+
+                    return "now";
+                }
+
+                setTimeout(()=>{
+                    document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(dataTimstamp)}`;
+                      }, 1000);
+
+
+
+            } else {
+                const renderFromSavedData = JSON.parse(localStorage.getItem(`WeatherDataOpenMeteo_${location.locationName}`));
+                const dataHourlyFull = JSON.parse(localStorage.getItem(`HourlyWeatherCache_${location.locationName}`));
+                const AirQuailityData = JSON.parse(localStorage.getItem(`AirQuality_${location.locationName}`));
+                const MoreDetailsData = JSON.parse(localStorage.getItem(`MoreDetailsData_${location.locationName}`));
+                const AstronomyData = JSON.parse(localStorage.getItem(`AstronomyData_${location.locationName}`))
+                const renderFromSavedDataTimstamp = localStorage.getItem(`WeatherDataOpenMeteoTimeStamp_${location.locationName}`)
+
+                function timeAgo(timestamp) {
+                    const now = new Date();
+                    const updatedTime = new Date(timestamp);
+                    const diffInSeconds = Math.floor((now - updatedTime) / 1000);
+
+                    const units = [
+                        { name: "day", seconds: 86400 },
+                        { name: "hr.", seconds: 3600 },
+                        { name: "min.", seconds: 60 },
+                        { name: "sec.", seconds: 1 }
+                    ];
+
+                     for (let unit of units) {
+                            const amount = Math.floor(diffInSeconds / unit.seconds);
+                            if (amount >= 1) {
+                                return `${amount} ${unit.name} ago`;
+                            }
+                    }
+
+                    return "now";
+                }
+
+
+              setTimeout(()=>{
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+              }, 1000);
+
+
+                localStorage.setItem('currentLong', savedLocationItemLon)
+                localStorage.setItem('currentLat', savedLocationItemLat)
+
+              astronomyDataRender(AstronomyData)
+              MoreDetailsRender(MoreDetailsData)
+
+                createHourlyDataCount(renderFromSavedData)
+                AirQuaility(AirQuailityData)
+
+                DailyWeather(renderFromSavedData.daily)
+                HourlyWeather(renderFromSavedData)
+                CurrentWeather(renderFromSavedData.current, renderFromSavedData.daily.sunrise[0], renderFromSavedData.daily.sunset[0], savedLocationItemLat, savedLocationItemLon)
+
+    localStorage.setItem('DailyWeatherCache', JSON.stringify(renderFromSavedData.daily));
+    localStorage.setItem('CurrentHourlyCache', JSON.stringify(renderFromSavedData.hourly));
+    localStorage.setItem('HourlyWeatherCache', JSON.stringify(dataHourlyFull));
+
+            }
+
+
+
+
+
+            localStorage.setItem('CurrentLocationName', location.locationName)
+
+            document.getElementById('city-name').innerHTML = location.locationName;
+            document.getElementById('forecast').scrollLeft = 0;
+            document.getElementById('weather_wrap').scrollTop = 0;
+            window.history.back();
+            hideLoader()
+
+        });
+        savedLocationItem.appendChild(savelocationtouch);
+
+
+
+
+        savedLocationsHolder.append(savedLocationItem);
     });
-
-    const savelocationtouch = document.createElement('savelocationtouch');
-    const md_rippleSaveLocationTouch = document.createElement('md-ripple');
-    savelocationtouch.appendChild(md_rippleSaveLocationTouch);
-
-    savelocationtouch.addEventListener('click', () => {
-        DecodeWeather(savedLocationItem.getAttribute('lat'), savedLocationItem.getAttribute('lon'));
-        localStorage.setItem('CurrentLocationName', locationName)
-
-        document.getElementById('city-name').innerHTML = locationName;
-        document.getElementById('forecast').scrollLeft = 0;
-        document.getElementById('weather_wrap').scrollTop = 0;
-        window.history.back();
-    });
-
-    savedLocationItem.appendChild(savelocationtouch);
 }
-
 
 document.addEventListener('DOMContentLoaded', (event) => {
     loadSavedLocations();
@@ -549,6 +764,9 @@ window.addEventListener('popstate', function (event) {
             document.getElementById('city-input').dispatchEvent(new Event('input'));
             document.getElementById('search-container').style.display = 'none'
             document.getElementById('search-container').style.opacity = '1'
+            sendThemeToAndroid("EnableSwipeRefresh")
+                    cityList.innerHTML = '';
+                    cityInput.value = '';
 
         }, 300);
     }
@@ -616,22 +834,22 @@ function hideLoader() {
 
 
 
-function refreshWeather(){
-    if(navigator.onLine){
-    const latSend = localStorage.getItem('currentLat')
-    const longSend = localStorage.getItem('currentLong')
+function refreshWeather() {
+    if (navigator.onLine) {
+        const latSend = localStorage.getItem('currentLat')
+        const longSend = localStorage.getItem('currentLong')
+        const CurrentLocationName = localStorage.getItem('CurrentLocationName');
 
-    DecodeWeather(latSend, longSend)
+        DecodeWeather(latSend, longSend, CurrentLocationName, `Refreshed_${CurrentLocationName}`)
 
-        setTimeout(()=>{
-            document.querySelector('.refresh_weat').disabled = true;
-        }, 200);
+//        setTimeout(() =>{
+//        sendThemeToAndroid('StopRefresh')
+//        }, 1000)
 
-        setTimeout(()=>{
-            document.querySelector('.refresh_weat').disabled = false;
-        }, 300000);
-    } else{
-     ToastAndroidShow.ShowToast('Cache refreshed', 'long');
+
+
+    } else {
+
         return
     }
 }
@@ -708,16 +926,30 @@ function removeMap() {
 
 function checkNoInternet() {
     if (navigator.onLine) {
-    localStorage.setItem('DeviceOnline', 'Yes');
+        localStorage.setItem('DeviceOnline', 'Yes');
     } else {
-        const offlineData = JSON.parse(localStorage.getItem('OfflineData'));
-        if (!offlineData) {
+        const offlineData = localStorage.getItem('DefaultLocation');
+        if (offlineData) {
+            const parsedOfflineData = JSON.parse(offlineData);
+            const weatherDataKey = `WeatherDataOpenMeteo_${parsedOfflineData.name}`;
+            const weatherData = localStorage.getItem(weatherDataKey);
+
+            if (weatherData) {
+                setTimeout(() => {
+                    document.getElementById('currentLocations').click();
+                }, 1000);
+            } else {
+                ShowError();
+            }
+        } else {
             ShowError();
         }
     }
 }
 
-   checkNoInternet()
+checkNoInternet();
+
+
 
 
 
@@ -865,7 +1097,191 @@ function ReturnHomeLocation(){
 
   const Locations = JSON.parse(localStorage.getItem('DefaultLocation'));
 
-    DecodeWeather(Locations.lat, Locations.lon)
+  if (localStorage.getItem('selectedMainWeatherProvider') === 'Met norway') {
+    const renderFromSavedData = JSON.parse(localStorage.getItem(`WeatherDataOpenMeteo_${Locations.name}`));
+    const renderFromSavedDataMet = JSON.parse(localStorage.getItem(`WeatherDataMetNorway_${Locations.name}`));
+    const dataHourlyFull = JSON.parse(localStorage.getItem(`HourlyWeatherCache_${Locations.name}`));
+    const MoreDetailsData = JSON.parse(localStorage.getItem(`MoreDetailsData_${Locations.name}`));
+    const AstronomyData = JSON.parse(localStorage.getItem(`AstronomyData_${Locations.name}`))
+    const renderFromSavedDataMetTimstamp = localStorage.getItem(`WeatherDataMetNorwayTimeStamp_${Locations.name}`)
+
+    localStorage.setItem('currentLong', Locations.lon)
+    localStorage.setItem('currentLat', Locations.lat)
+
+  astronomyDataRender(AstronomyData)
+  MoreDetailsRender(MoreDetailsData)
+
+    const currentData = renderFromSavedDataMet.properties.timeseries[0];
+    const hourlyData = renderFromSavedDataMet.properties.timeseries.slice(0, 24);
+
+    renderCurrentDataMetNorway(currentData, Locations.lat, Locations.lon);
+    renderHourlyDataMetNorway(hourlyData);
+    createHourlyDataCount(renderFromSavedData)
+
+    CurrentWeather(renderFromSavedData.current, renderFromSavedData.daily.sunrise[0], renderFromSavedData.daily.sunset[0])
+    localStorage.setItem('DailyWeatherCache', JSON.stringify(renderFromSavedData.daily));
+    UvIndex(renderFromSavedData.hourly.uv_index[0])
+    DailyWeather(renderFromSavedData.daily)
+    localStorage.setItem('CurrentHourlyCache', JSON.stringify(renderFromSavedData.hourly))
+    document.querySelector('.data_provider_name_import').innerHTML = 'Data by Met norway';
+
+    const AirQuailityData = JSON.parse(localStorage.getItem(`AirQuality_${Locations.name}`));
+
+    AirQuaility(AirQuailityData)
+
+    localStorage.setItem('DailyWeatherCache', JSON.stringify(renderFromSavedData.daily));
+    localStorage.setItem('CurrentHourlyCache', JSON.stringify(renderFromSavedData.hourly));
+    localStorage.setItem('HourlyWeatherCache', JSON.stringify(dataHourlyFull));
+
+    function timeAgo(timestamp) {
+        const now = new Date();
+        const updatedTime = new Date(timestamp);
+        const diffInSeconds = Math.floor((now - updatedTime) / 1000);
+
+        const units = [
+            { name: "day", seconds: 86400 },
+            { name: "hr.", seconds: 3600 },
+            { name: "min.", seconds: 60 },
+            { name: "sec.", seconds: 1 }
+        ];
+
+         for (let unit of units) {
+                const amount = Math.floor(diffInSeconds / unit.seconds);
+                if (amount >= 1) {
+                    return `${amount} ${unit.name} ago`;
+                }
+        }
+
+        return "now";
+    }
+
+    setTimeout(()=>{
+        document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataMetTimstamp)}`;
+          }, 1000);
+
+
+
+
+} else if (localStorage.getItem('ApiForAccu') && localStorage.getItem('selectedMainWeatherProvider') === 'Accuweather') {
+
+    const data = JSON.parse(localStorage.getItem(`WeatherDataAccuCurrent_${Locations.name}`));
+    const dataHourly = JSON.parse(localStorage.getItem(`WeatherDataAccuHourly_${Locations.name}`));
+    const renderFromSavedData = JSON.parse(localStorage.getItem(`WeatherDataOpenMeteo_${Locations.name}`));
+    const dataHourlyFull = JSON.parse(localStorage.getItem(`HourlyWeatherCache_${Locations.name}`));
+    const MoreDetailsData = JSON.parse(localStorage.getItem(`MoreDetailsData_${Locations.name}`));
+    const AstronomyData = JSON.parse(localStorage.getItem(`AstronomyData_${Locations.name}`))
+    const dataTimstamp = localStorage.getItem(`WeatherDataAccuTimeStamp_${Locations.name}`)
+
+    localStorage.setItem('currentLong', Locations.lon)
+    localStorage.setItem('currentLat', Locations.lat)
+
+  astronomyDataRender(AstronomyData)
+  MoreDetailsRender(MoreDetailsData)
+    DisplayCurrentAccuweatherData(data, Locations.lat, Locations.lon)
+    DisplayHourlyAccuweatherData(dataHourly)
+
+    const AirQuailityData = JSON.parse(localStorage.getItem(`AirQuality_${Locations.name}`));
+
+    AirQuaility(AirQuailityData)
+
+    createHourlyDataCount(renderFromSavedData)
+
+    CurrentWeather(renderFromSavedData.current, renderFromSavedData.daily.sunrise[0], renderFromSavedData.daily.sunset[0])
+    localStorage.setItem('DailyWeatherCache', JSON.stringify(renderFromSavedData.daily));
+    UvIndex(renderFromSavedData.hourly.uv_index[0])
+    DailyWeather(renderFromSavedData.daily)
+    localStorage.setItem('CurrentHourlyCache', JSON.stringify(renderFromSavedData.hourly))
+    document.querySelector('.data_provider_name_import').innerHTML = 'Data by Accuweather';
+
+    localStorage.setItem('DailyWeatherCache', JSON.stringify(renderFromSavedData.daily));
+    localStorage.setItem('CurrentHourlyCache', JSON.stringify(renderFromSavedData.hourly));
+    localStorage.setItem('HourlyWeatherCache', JSON.stringify(dataHourlyFull));
+
+    function timeAgo(timestamp) {
+        const now = new Date();
+        const updatedTime = new Date(timestamp);
+        const diffInSeconds = Math.floor((now - updatedTime) / 1000);
+
+        const units = [
+            { name: "day", seconds: 86400 },
+            { name: "hr.", seconds: 3600 },
+            { name: "min.", seconds: 60 },
+            { name: "sec.", seconds: 1 }
+        ];
+
+         for (let unit of units) {
+                const amount = Math.floor(diffInSeconds / unit.seconds);
+                if (amount >= 1) {
+                    return `${amount} ${unit.name} ago`;
+                }
+        }
+
+        return "now";
+    }
+
+    setTimeout(()=>{
+        document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(dataTimstamp)}`;
+          }, 1000);
+
+
+} else {
+    const renderFromSavedData = JSON.parse(localStorage.getItem(`WeatherDataOpenMeteo_${Locations.name}`));
+    const dataHourlyFull = JSON.parse(localStorage.getItem(`HourlyWeatherCache_${Locations.name}`));
+    const AirQuailityData = JSON.parse(localStorage.getItem(`AirQuality_${Locations.name}`));
+    const MoreDetailsData = JSON.parse(localStorage.getItem(`MoreDetailsData_${Locations.name}`));
+    const AstronomyData = JSON.parse(localStorage.getItem(`AstronomyData_${Locations.name}`))
+    const renderFromSavedDataTimstamp = localStorage.getItem(`WeatherDataOpenMeteoTimeStamp_${Locations.name}`)
+
+    function timeAgo(timestamp) {
+        const now = new Date();
+        const updatedTime = new Date(timestamp);
+        const diffInSeconds = Math.floor((now - updatedTime) / 1000);
+
+        const units = [
+            { name: "day", seconds: 86400 },
+            { name: "hr.", seconds: 3600 },
+            { name: "min.", seconds: 60 },
+            { name: "sec.", seconds: 1 }
+        ];
+
+         for (let unit of units) {
+                const amount = Math.floor(diffInSeconds / unit.seconds);
+                if (amount >= 1) {
+                    return `${amount} ${unit.name} ago`;
+                }
+        }
+
+        return "now";
+    }
+
+
+  setTimeout(()=>{
+document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+  }, 1000);
+
+
+
+    localStorage.setItem('currentLong', Locations.lon)
+    localStorage.setItem('currentLat', Locations.lat)
+
+  astronomyDataRender(AstronomyData)
+  MoreDetailsRender(MoreDetailsData)
+
+    createHourlyDataCount(renderFromSavedData)
+    AirQuaility(AirQuailityData)
+
+    DailyWeather(renderFromSavedData.daily)
+    HourlyWeather(renderFromSavedData)
+    CurrentWeather(renderFromSavedData.current, renderFromSavedData.daily.sunrise[0], renderFromSavedData.daily.sunset[0], Locations.lat, Locations.lon)
+
+    localStorage.setItem('DailyWeatherCache', JSON.stringify(renderFromSavedData.daily));
+    localStorage.setItem('CurrentHourlyCache', JSON.stringify(renderFromSavedData.hourly));
+    localStorage.setItem('HourlyWeatherCache', JSON.stringify(dataHourlyFull));
+
+}
+
+
+
 
     if(Locations.name === 'CurrentDeviceLocation'){
         document.getElementById('city-name').innerHTML = 'Current location';
@@ -875,7 +1291,11 @@ function ReturnHomeLocation(){
     document.getElementById('SelectedLocationText').innerHTML = Locations.name;
     localStorage.setItem('CurrentLocationName', Locations.name)
     window.history.back()
+
+    hideLoader()
+
 }
+
 
 if(localStorage.getItem('removedOldSavedLocations') && localStorage.getItem('removedOldSavedLocations') === 'removed'){
     localStorage.removeItem('savedLocations');
@@ -898,6 +1318,278 @@ document.getElementById('open_temp_trend').addEventListener('click', () =>{
         document.querySelector('.trend_arrow_temp').innerHTML = 'keyboard_arrow_down'
     }
 
-
 });
 
+
+function createHourlyDataCount(data) {
+
+
+    const weatherCodeGroups = {
+        "0": [0],
+        "1": [1],
+        "2": [2],
+        "3": [3],
+        "45": [45],
+        "48": [48],
+        "51": [51],
+        "53": [53],
+        "55": [55],
+        "56": [56],
+        "57": [57],
+        "61": [61],
+        "63": [63],
+        "65": [65],
+        "66": [66],
+        "67": [67],
+        "71": [71],
+        "73": [73],
+        "75": [75],
+        "77": [77],
+        "80": [80],
+        "81": [81],
+        "82": [82],
+        "85": [85],
+        "86": [86],
+        "95": [95],
+        "96": [96],
+        "99": [99]
+    };
+
+
+    let groupCounts = {};
+    Object.keys(weatherCodeGroups).forEach(group => {
+        groupCounts[group] = 0;
+    });
+
+    data.hourly.weather_code.forEach((code) => {
+        if (groupCounts[code] !== undefined) {
+            groupCounts[code]++;
+        }
+    });
+
+    const mostFrequentGroup = Object.keys(groupCounts).reduce((a, b) => groupCounts[a] > groupCounts[b] ? a : b);
+    const selectedWeatherCode = mostFrequentGroup;
+
+
+    ReportFromhourly(selectedWeatherCode);
+
+    let Visibility;
+    let VisibilityUnit;
+
+
+    if (SelectedVisibiltyUnit === 'mileV') {
+        Visibility = Math.round(data.hourly.visibility[0] / 1609.34);
+        VisibilityUnit = 'miles'
+    } else {
+        Visibility = Math.round(data.hourly.visibility[0] / 1000);
+        VisibilityUnit = 'km'
+
+    }
+
+
+    document.getElementById('unit_visibility').innerHTML = VisibilityUnit
+    document.getElementById('min-temp').innerHTML = Visibility
+
+    let DewPointTemp
+
+
+    if (SelectedTempUnit === 'fahrenheit') {
+        DewPointTemp = Math.round(celsiusToFahrenheit(data.hourly.dew_point_2m[0]))
+
+    } else {
+        DewPointTemp = Math.round(data.hourly.dew_point_2m[0])
+
+    }
+
+    document.getElementById('dew_percentage').innerHTML = DewPointTemp + '°'
+}
+
+
+// load location on request
+
+function LoadLocationOnRequest(lat, lon, name){
+
+
+    if (localStorage.getItem('selectedMainWeatherProvider') === 'Met norway') {
+      const renderFromSavedData = JSON.parse(localStorage.getItem(`WeatherDataOpenMeteo_${name}`));
+      const renderFromSavedDataMet = JSON.parse(localStorage.getItem(`WeatherDataMetNorway_${name}`));
+      const dataHourlyFull = JSON.parse(localStorage.getItem(`HourlyWeatherCache_${name}`));
+      const MoreDetailsData = JSON.parse(localStorage.getItem(`MoreDetailsData_${name}`));
+      const AstronomyData = JSON.parse(localStorage.getItem(`AstronomyData_${name}`))
+      const renderFromSavedDataMetTimstamp = localStorage.getItem(`WeatherDataMetNorwayTimeStamp_${name}`)
+
+      localStorage.setItem('currentLong', lon)
+      localStorage.setItem('currentLat', lat)
+
+    astronomyDataRender(AstronomyData)
+    MoreDetailsRender(MoreDetailsData)
+
+      const currentData = renderFromSavedDataMet.properties.timeseries[0];
+      const hourlyData = renderFromSavedDataMet.properties.timeseries.slice(0, 24);
+
+      renderCurrentDataMetNorway(currentData, lat, lon);
+      renderHourlyDataMetNorway(hourlyData);
+      createHourlyDataCount(renderFromSavedData)
+
+      CurrentWeather(renderFromSavedData.current, renderFromSavedData.daily.sunrise[0], renderFromSavedData.daily.sunset[0])
+      localStorage.setItem('DailyWeatherCache', JSON.stringify(renderFromSavedData.daily));
+      UvIndex(renderFromSavedData.hourly.uv_index[0])
+      DailyWeather(renderFromSavedData.daily)
+      localStorage.setItem('CurrentHourlyCache', JSON.stringify(renderFromSavedData.hourly))
+      document.querySelector('.data_provider_name_import').innerHTML = 'Data by Met norway';
+
+      const AirQuailityData = JSON.parse(localStorage.getItem(`AirQuality_${name}`));
+
+      AirQuaility(AirQuailityData)
+
+      localStorage.setItem('DailyWeatherCache', JSON.stringify(renderFromSavedData.daily));
+      localStorage.setItem('CurrentHourlyCache', JSON.stringify(renderFromSavedData.hourly));
+      localStorage.setItem('HourlyWeatherCache', JSON.stringify(dataHourlyFull));
+
+      function timeAgo(timestamp) {
+          const now = new Date();
+          const updatedTime = new Date(timestamp);
+          const diffInSeconds = Math.floor((now - updatedTime) / 1000);
+
+          const units = [
+              { name: "day", seconds: 86400 },
+              { name: "hr.", seconds: 3600 },
+              { name: "min.", seconds: 60 },
+              { name: "sec.", seconds: 1 }
+          ];
+
+           for (let unit of units) {
+                  const amount = Math.floor(diffInSeconds / unit.seconds);
+                  if (amount >= 1) {
+                      return `${amount} ${unit.name} ago`;
+                  }
+          }
+
+          return "now";
+      }
+
+      setTimeout(()=>{
+          document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataMetTimstamp)}`;
+            }, 1000);
+
+
+
+
+  } else if (localStorage.getItem('ApiForAccu') && localStorage.getItem('selectedMainWeatherProvider') === 'Accuweather') {
+
+      const data = JSON.parse(localStorage.getItem(`WeatherDataAccuCurrent_${name}`));
+      const dataHourly = JSON.parse(localStorage.getItem(`WeatherDataAccuHourly_${name}`));
+      const renderFromSavedData = JSON.parse(localStorage.getItem(`WeatherDataOpenMeteo_${name}`));
+      const dataHourlyFull = JSON.parse(localStorage.getItem(`HourlyWeatherCache_${name}`));
+      const MoreDetailsData = JSON.parse(localStorage.getItem(`MoreDetailsData_${name}`));
+      const AstronomyData = JSON.parse(localStorage.getItem(`AstronomyData_${name}`))
+      const dataTimstamp = localStorage.getItem(`WeatherDataAccuTimeStamp_${name}`)
+
+      localStorage.setItem('currentLong', lon)
+      localStorage.setItem('currentLat', lat)
+
+    astronomyDataRender(AstronomyData)
+    MoreDetailsRender(MoreDetailsData)
+      DisplayCurrentAccuweatherData(data, lat, lon)
+      DisplayHourlyAccuweatherData(dataHourly)
+
+      const AirQuailityData = JSON.parse(localStorage.getItem(`AirQuality_${name}`));
+
+      AirQuaility(AirQuailityData)
+
+      createHourlyDataCount(renderFromSavedData)
+
+      CurrentWeather(renderFromSavedData.current, renderFromSavedData.daily.sunrise[0], renderFromSavedData.daily.sunset[0])
+      localStorage.setItem('DailyWeatherCache', JSON.stringify(renderFromSavedData.daily));
+      UvIndex(renderFromSavedData.hourly.uv_index[0])
+      DailyWeather(renderFromSavedData.daily)
+      localStorage.setItem('CurrentHourlyCache', JSON.stringify(renderFromSavedData.hourly))
+      document.querySelector('.data_provider_name_import').innerHTML = 'Data by Accuweather';
+
+      localStorage.setItem('DailyWeatherCache', JSON.stringify(renderFromSavedData.daily));
+      localStorage.setItem('CurrentHourlyCache', JSON.stringify(renderFromSavedData.hourly));
+      localStorage.setItem('HourlyWeatherCache', JSON.stringify(dataHourlyFull));
+
+      function timeAgo(timestamp) {
+          const now = new Date();
+          const updatedTime = new Date(timestamp);
+          const diffInSeconds = Math.floor((now - updatedTime) / 1000);
+
+          const units = [
+              { name: "day", seconds: 86400 },
+              { name: "hr.", seconds: 3600 },
+              { name: "min.", seconds: 60 },
+              { name: "sec.", seconds: 1 }
+          ];
+
+           for (let unit of units) {
+                  const amount = Math.floor(diffInSeconds / unit.seconds);
+                  if (amount >= 1) {
+                      return `${amount} ${unit.name} ago`;
+                  }
+          }
+
+          return "now";
+      }
+
+      setTimeout(()=>{
+          document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(dataTimstamp)}`;
+            }, 1000);
+
+
+  } else {
+      const renderFromSavedData = JSON.parse(localStorage.getItem(`WeatherDataOpenMeteo_${name}`));
+      const dataHourlyFull = JSON.parse(localStorage.getItem(`HourlyWeatherCache_${name}`));
+      const AirQuailityData = JSON.parse(localStorage.getItem(`AirQuality_${name}`));
+      const MoreDetailsData = JSON.parse(localStorage.getItem(`MoreDetailsData_${name}`));
+      const AstronomyData = JSON.parse(localStorage.getItem(`AstronomyData_${name}`))
+      const renderFromSavedDataTimstamp = localStorage.getItem(`WeatherDataOpenMeteoTimeStamp_${name}`)
+
+      function timeAgo(timestamp) {
+          const now = new Date();
+          const updatedTime = new Date(timestamp);
+          const diffInSeconds = Math.floor((now - updatedTime) / 1000);
+
+          const units = [
+              { name: "day", seconds: 86400 },
+              { name: "hr.", seconds: 3600 },
+              { name: "min.", seconds: 60 },
+              { name: "sec.", seconds: 1 }
+          ];
+
+           for (let unit of units) {
+                  const amount = Math.floor(diffInSeconds / unit.seconds);
+                  if (amount >= 1) {
+                      return `${amount} ${unit.name} ago`;
+                  }
+          }
+
+          return "now";
+      }
+
+
+    setTimeout(()=>{
+  document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+    }, 1000);
+
+
+
+      localStorage.setItem('currentLong', lon)
+      localStorage.setItem('currentLat', lat)
+
+    astronomyDataRender(AstronomyData)
+    MoreDetailsRender(MoreDetailsData)
+
+      createHourlyDataCount(renderFromSavedData)
+      AirQuaility(AirQuailityData)
+
+      DailyWeather(renderFromSavedData.daily)
+      HourlyWeather(renderFromSavedData)
+      CurrentWeather(renderFromSavedData.current, renderFromSavedData.daily.sunrise[0], renderFromSavedData.daily.sunset[0], lat, lon)
+
+      localStorage.setItem('DailyWeatherCache', JSON.stringify(renderFromSavedData.daily));
+      localStorage.setItem('CurrentHourlyCache', JSON.stringify(renderFromSavedData.hourly));
+      localStorage.setItem('HourlyWeatherCache', JSON.stringify(dataHourlyFull));
+
+  }
+}
