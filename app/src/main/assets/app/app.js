@@ -404,7 +404,20 @@ function loadSavedLocations() {
 
 
          } else if(localStorage.getItem('selectedMainWeatherProvider') === 'Met norway' && !JSON.parse(localStorage.getItem(`WeatherDataMetNorway_${location.locationName}`))){
+            const lastCallTimeKey = `DecodeWeatherLastCallMet_${location.locationName}`;
+            const currentTime = Date.now();
+            const lastCallTime = localStorage.getItem(lastCallTimeKey);
 
+            const timeLimit = 5 * 60 * 1000;
+
+            if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
+                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName);
+                    savedLocationsHolder.innerHTML = ''
+                        setTimeout(() => {
+                            loadSavedLocations()
+                        }, 1000)
+                localStorage.setItem(lastCallTimeKey, currentTime);
+            }
          }
          else if (localStorage.getItem('ApiForAccu') && localStorage.getItem('selectedMainWeatherProvider') === 'Accuweather' && JSON.parse(localStorage.getItem(`WeatherDataAccuCurrent_${location.locationName}`))) {
             const data = JSON.parse(localStorage.getItem(`WeatherDataAccuCurrent_${location.locationName}`));
@@ -429,9 +442,10 @@ function loadSavedLocations() {
 
     if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
         DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName);
+            savedLocationsHolder.innerHTML = ''
                 setTimeout(() => {
                     loadSavedLocations()
-                }, 200)
+                }, 1000)
         localStorage.setItem(lastCallTimeKey, currentTime);
     }
 
@@ -538,7 +552,7 @@ function loadSavedLocations() {
                 const MoreDetailsData = JSON.parse(localStorage.getItem(`MoreDetailsData_${location.locationName}`));
                 const AstronomyData = JSON.parse(localStorage.getItem(`AstronomyData_${location.locationName}`))
                 const renderFromSavedDataMetTimstamp = localStorage.getItem(`WeatherDataMetNorwayTimeStamp_${location.locationName}`)
-    const SavedalertData = JSON.parse(localStorage.getItem(`AlertData_${location.locationName}`))
+             const SavedalertData = JSON.parse(localStorage.getItem(`AlertData_${location.locationName}`))
 
                 if(SavedalertData){
                 FetchAlertRender(SavedalertData)
@@ -553,8 +567,14 @@ function loadSavedLocations() {
                 const currentData = renderFromSavedDataMet.properties.timeseries[0];
                 const hourlyData = renderFromSavedDataMet.properties.timeseries.slice(0, 24);
 
-                renderCurrentDataMetNorway(currentData, savedLocationItemLat, savedLocationItemLon);
-                renderHourlyDataMetNorway(hourlyData);
+
+                              if(renderFromSavedDataMet){
+                        renderCurrentDataMetNorway(currentData, savedLocationItemLat, savedLocationItemLon);
+                        renderHourlyDataMetNorway(hourlyData);
+                              } else{
+                                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName);
+                              }
+
                 createHourlyDataCount(renderFromSavedData)
 
                 CurrentWeather(renderFromSavedData.current, renderFromSavedData.daily.sunrise[0], renderFromSavedData.daily.sunset[0])
@@ -619,8 +639,12 @@ function loadSavedLocations() {
 
               astronomyDataRender(AstronomyData)
               MoreDetailsRender(MoreDetailsData)
+              if(data){
                 DisplayCurrentAccuweatherData(data, savedLocationItemLat, savedLocationItemLon)
                 DisplayHourlyAccuweatherData(dataHourly)
+              } else{
+                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName);
+              }
 
                 const AirQuailityData = JSON.parse(localStorage.getItem(`AirQuality_${location.locationName}`));
 
@@ -985,7 +1009,7 @@ checkNoInternet();
 
     document.addEventListener('DOMContentLoaded', async function() {
 
-        const currentVersion = 'v1.8.1';
+        const currentVersion = 'v1.8.2';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 

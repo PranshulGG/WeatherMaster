@@ -10,10 +10,11 @@ android {
         applicationId "com.example.weathermaster"
         minSdk 22
         targetSdk 33
-        versionCode 73
-        versionName "1.8.1 (W)"
+        versionCode 74
+        versionName "1.8.2 (W)"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
 
     buildTypes {
         release {
