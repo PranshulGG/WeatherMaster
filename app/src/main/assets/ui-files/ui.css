@@ -642,7 +642,7 @@ touch_search{
   background-color: var(--Surface);
   z-index: 10000;
   transition: opacity 0.2s ease-in;
-  animation: search_container 0.4s ease-out;
+  animation: search_container 0.3s ease-out;
 }
 
 @keyframes search_container {
@@ -1185,20 +1185,25 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
   margin: 10px;
   display: flex;
   align-items: center;
-  border-radius: 10px 10px 5px 5px;
+  border-radius: 10px 10px 0 0;
   padding: 10px;
   gap: 15px;
   font-size: 16px;
   color: var(--On-Surface);
 }
 
+[round-ui="true"]  .excessiveHeat{
+  border-radius: 18px 18px 0 0;
+
+}
+
 .icon-container-rainnextHour, .icon-container-excessiveHeat{
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #284777;
-  color: #d6e3ff;
-  padding: 10px;
+  background-color: transparent;
+  color: var(--Error);
+  padding: 5px;
   border-radius: 10px;
   font-size: 24px;
 }
@@ -1216,21 +1221,18 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
 }
 
 .excessiveHeat{
-  background-color: var(--Error-Container) !important;
-  color: var(--On-Error-Container) !important;
+  background-color: var(--Surface) !important;
+  color: var(--On-Surface) !important;
   font-size: 18px;
 }
 
-.icon-container-excessiveHeat{
-  background-color: var(--Error) !important;
-  color: var(--On-Error) !important;
-}
+
 
 .excessiveHeat p{
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  font-size: 16px;
+  font-size: 18px;
   gap: 3px;
 }
 
@@ -1241,8 +1243,9 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
 }
 .excessiveHeat p span{
   font-size: 15px;
-  font-family: var(--google-normal);
+  font-family: var(--outfit);
   opacity: 0.9;
+  color: var(--Error);
 }
 
 suntrack, moontrack{
@@ -1559,7 +1562,7 @@ height: 100%;
 }
 
 .weatherComments.alertOpened{
-  border-radius: 5px 5px 0 0;
+  border-radius: 0px 0px 0 0;
 }
 
 .weatherComments::before{
@@ -2723,21 +2726,46 @@ Tempmeterbaritem span{
   display: block;
 } */
 
-.temp_trend_bars{
-  align-items: center;
-  overflow: auto;
-  gap: 10px;
-  padding-top: 0 !important;
-  max-height: 0;
-  transition: all 0.2s ease-in-out;
-  border-top: 1px solid transparent;
-  display: flex;
-  padding: 0;
+.temp_trend_wrapper {
+    overflow-x: auto;
+    width: 100%;
 }
 
+.temp_trend_bars {
+    width: 1200px;
+    position: relative;
+    padding: 0;
+    height: 0;
+    transition: all 0.2s ease-in;
+}
+
+
 .temp_trend_bars.trends_opened{
-  max-height: 500px;
+    height: 250px;
   padding: 10px;
   border-top: 1px solid var(--Outline-Variant);
 
+}
+
+.temp_trend_bars canvas{
+  width: 100%;
+  height: 100%;
+}
+
+#addlocationFab{
+  width: 100px;
+  height: 100px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: var(--Primary-Container);
+  color: var(--On-Primary-Container);
+  font-size: 30px;
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  z-index: 1;
+  transform: translateX(-50%);
 }

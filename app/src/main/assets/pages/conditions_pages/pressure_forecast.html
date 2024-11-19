@@ -77,17 +77,17 @@
                 let pressureMainUnit;
 
                 if (SelectedPressureUnit === 'inHg') {
-                    pressureMain = (data.pressure_msl[0] * 0.02953).toFixed(2);
+                    pressureMain = (data.pressure_msl[1] * 0.02953).toFixed(2);
                     pressureMainUnit = 'inHg';
                 } else if (SelectedPressureUnit === 'mmHg') {
-                    pressureMain = (data.pressure_msl[0] * 0.750062).toFixed(2);
+                    pressureMain = (data.pressure_msl[1] * 0.750062).toFixed(2);
                     pressureMainUnit = 'mmHg';
                 } else {
-                    pressureMain = data.pressure_msl[0];
+                    pressureMain = data.pressure_msl[1];
                     pressureMainUnit = 'hPa';
                 }
 
-                const pressureBarValue = Math.round(data.pressure_msl[0]);
+                const pressureBarValue = Math.round(data.pressure_msl[1]);
 
 
 

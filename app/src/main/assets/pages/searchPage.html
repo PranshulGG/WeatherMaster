@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en" Theme="default" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Search page</title>
+    <link rel="stylesheet" href="../ui-files/font-usage.css">
+    <link rel="stylesheet" href="../ui-files/variables.css">
+    <link rel="stylesheet" href="../components/components.css">
+    <link rel="stylesheet" href="../components/modal-ver.css">
+    <link rel="stylesheet" href="../ripple-files/ripple.css">
+    <link rel="stylesheet" href="../components/segment-btns.css">
+    <script src="../langs/langs.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css" />
+
+
+    <style>
+        input[type="search"]::-webkit-search-decoration,
+        input[type="search"]::-webkit-search-cancel-button,
+        input[type="search"]::-webkit-search-results-button,
+        input[type="search"]::-webkit-search-results-decoration {
+            display: none;
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            touch-action: manipulation;
+            -webkit-user-drag: none;
+            outline: none;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        body {
+            background-color: var(--Surface);
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            font-family: var(--outfit);
+            animation: opacity 0.3s ease-out;
+
+        }
+
+        @keyframes opacity {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        *::selection {
+            background-color: var(--Inverse-Primary);
+            color: white;
+        }
+
+        .search_header {
+            padding: 10px;
+            height: calc(65px - 20px - 2px);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border-bottom: 2px solid var(--Outline-Variant);
+            position: relative;
+        }
+
+        .search_header input {
+            width: 100%;
+            background-color: transparent;
+            color: var(--On-Surface);
+            font-family: var(--outfit);
+            font-size: 18px;
+            border: none;
+            caret-color: var(--Primary);
+        }
+
+        .search_header input::placeholder {
+            color: var(--On-Surface-Variant);
+        }
+
+        .location_container {
+            background-color: var(--Surface);
+            width: 100%;
+            height: calc(100% - 65px);
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            overflow: auto;
+        }
+
+        .city_loader {
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 100%;
+        }
+
+        .city-list .suggestion-item {
+            font-size: 18px;
+            color: var(--On-Surface);
+            position: relative;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        suggest-space {
+            flex: 1;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .city-list {
+            margin-top: 10px;
+        }
+
+        .city-list .suggestion-item::before {
+            content: 'pin_drop';
+            font-family: 'Material symbols';
+            font-weight: normal !important;
+            font-style: normal !important;
+            line-height: 1;
+            color: var(--Secondary);
+            font-size: 24px;
+            width: 40px;
+            height: 40px;
+            background-color: var(--Secondary-Container);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50px;
+            flex-shrink: 0;
+        }
+
+
+        .city-list .suggestion-item span {
+            width: 30px;
+            height: 30px;
+            margin-left: 5px;
+            background-size: cover;
+            background-position: center;
+            flex-shrink: 0;
+            display: flex;
+            border-radius: 50px;
+            position: absolute;
+            left: 10px;
+        }
+
+
+        savedLocationsHolder {
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+            flex-direction: column;
+
+        }
+
+        savedLocationsHolder savedLocationItem {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            border-radius: 50px;
+            background-color: var(--Surface-Container-Low);
+            position: relative;
+            padding: 10px;
+            overflow: hidden;
+        }
+
+        savedLocationsHolder savedLocationItem savedlocationimg {
+            width: 45px;
+            height: 45px;
+            background-color: var(--Surface);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50px;
+            flex-shrink: 0;
+        }
+
+        savedLocationsHolder savedLocationItem savedlocationimg img {
+            width: 28px;
+        }
+
+        savedLocationsHolder savedLocationItem div p {
+            margin: 0;
+            font-size: 17px;
+            color: var(--On-Surface);
+            width: calc(100% - 80px);
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+
+        savedLocationsHolder savedLocationItem div span {
+            margin: 0;
+            font-size: 14px;
+            color: var(--On-Surface-Variant);
+            text-transform: capitalize;
+        }
+
+
+
+        savedLocationsHolder savedLocationItem div {
+            display: flex;
+            align-items: flex-start;
+            width: calc(100% - 52px);
+            flex-direction: column;
+            position: relative;
+            gap: 0px;
+        }
+
+        savedLocationsHolder savedLocationItem div maincurrenttempsaved {
+            position: absolute;
+            font-family: var(--google-normal);
+            font-size: 34px;
+            color: var(--On-Surface);
+            opacity: 0.9;
+            right: 0px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        flex {
+            flex: 1;
+        }
+
+        savedLocationsHolder md-icon-button {
+            flex-shrink: 0;
+            z-index: 1;
+            display: none;
+            position: absolute;
+            right: 15px;
+        }
+
+        savelocationtouch {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+        }
+
+        savelocationtouch md-ripple {
+            --md-ripple-pressed-opacity: 0.1;
+        }
+    </style>
+
+</head>
+
+<body style="background-color: var(--Surface);">
+
+    <div class="search_header">
+        <md-icon-button style="flex-shrink: 0;" onclick="sendThemeToAndroid('GoBack')">
+            <md-icon icon-outlined>arrow_back</md-icon>
+        </md-icon-button>
+        <input type="search" placeholder="Search..." id="location_input" autocomplete="off">
+
+        <div class="city_loader">
+            <md-linear-progress id="cityLoader" indeterminate
+                style="width: 100%;  --md-linear-progress-track-height: 3px;" hidden></md-linear-progress>
+        </div>
+    </div>
+
+    <div class="location_container">
+
+        <div class="city-list" id="city-list" style="padding-bottom: 30px;">
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+function sendThemeToAndroid(theme) {
+
+AndroidInterface.updateStatusBarColor(theme);
+};
+
+
+        const cityList = document.getElementById('city-list');
+        const cityInput = document.getElementById('location_input');
+
+        cityInput.addEventListener('keypress', (event) => {
+            const searchTerm = cityInput.value.trim();
+
+            if (event.key === 'Enter') {
+                if (searchTerm) {
+                    document.getElementById('cityLoader').hidden = false;
+                    setTimeout(() => {
+                        getCitySuggestions(searchTerm);
+                    }, 500);
+                } else {
+                    cityList.innerHTML = '';
+                    document.getElementById('cityLoader').hidden = true;
+
+
+                }
+            }
+        });
+
+        async function getCitySuggestions(query) {
+            const url = `https://geocoding-api.open-meteo.com/v1/search?name=${query}&count=8`;
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                displaySuggestions(data.results);
+            } catch (error) {
+                console.error('Error fetching city suggestions:', error);
+            }
+        }
+
+        function displaySuggestions(results) {
+            const suggestionsContainer = document.getElementById('city-list');
+            clearSuggestions();
+
+            const displayedSuggestions = new Set();
+
+            const savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
+            const savedLocationsSet = new Set(savedLocations.map(location => location.locationName));
+
+            results.forEach(result => {
+                const city = result.name;
+                const state = result.admin1 || result.admin2 || result.admin3;
+                const country = result.country;
+                const countryCode = result.country_code.toLowerCase();
+
+                const uniqueComponents = [city, state, country].filter((value, index, self) => value && self.indexOf(value) === index);
+                const suggestionText = uniqueComponents.join(', ');
+
+                if (!displayedSuggestions.has(suggestionText)) {
+                    displayedSuggestions.add(suggestionText);
+
+                    const suggestionItem = document.createElement('div');
+                    const clickLocation = document.createElement('savelocationtouch');
+                    // const saveBtnLocation = document.createElement('md-text-button');
+                    // saveBtnLocation.textContent = 'Save';
+
+
+
+                    const createGap = document.createElement('flex');
+                    const countryIcon = document.createElement('span');
+                    countryIcon.classList.add('fi', 'fis', `fi-${countryCode}`);
+
+                    suggestionItem.classList.add('suggestion-item');
+                    const suggestRipple = document.createElement('md-ripple');
+                    suggestRipple.style = '--md-ripple-pressed-opacity: 0.1;';
+                    suggestionItem.textContent = suggestionText;
+
+                    clickLocation.appendChild(suggestRipple);
+                    suggestionItem.setAttribute('data-lat', result.latitude);
+                    suggestionItem.setAttribute('data-lon', result.longitude);
+
+                    if (savedLocationsSet.has(suggestionText)) {
+                        suggestionItem.setAttribute('disabled', 'true');
+                        suggestionItem.style.pointerEvents = 'none';
+                        suggestionItem.style.opacity = '0.5';
+                    } else {
+                        clickLocation.addEventListener('click', function () {
+
+                            localStorage.setItem('SearchedItem', JSON.stringify({ LocationName: suggestionText, latitude: result.latitude, longitude: result.longitude }))
+
+                            setTimeout(() => {
+                                sendThemeToAndroid('GoBack')
+                            }, 300);
+                        });
+
+                    }
+
+
+                    suggestionItem.appendChild(countryIcon);
+                    suggestionItem.appendChild(clickLocation);
+                    suggestionItem.appendChild(createGap);
+                    // suggestionItem.appendChild(saveBtnLocation);
+                    suggestionsContainer.appendChild(suggestionItem);
+
+                    setTimeout(() => {
+                        document.getElementById('cityLoader').hidden = true;
+                    }, 400);
+                }
+            });
+        }
+
+
+        function clearSuggestions() {
+            const suggestionsContainer = document.getElementById('city-list');
+            while (suggestionsContainer.firstChild) {
+                suggestionsContainer.removeChild(suggestionsContainer.firstChild);
+            }
+        }
+
+
+
+    </script>
+
+    <script src="../components-script.js/components.js"></script>
+    <script src="../ripple-files/icon-ripple.js"></script>
+    <script src="../modules/scroll.js"></script>
+    <script src="../modules/ripple_acc.js"></script>
+    <script src="../app/navigate.js"></script>
+    <script src="bundle.js"></script>
+    <script type="module" src="../index.js"></script>
+</body>
+
+</html>

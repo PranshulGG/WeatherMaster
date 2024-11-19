@@ -8,11 +8,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.provider.Settings;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.GeolocationPermissions;
@@ -32,6 +36,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -39,9 +44,11 @@ public class MainActivity extends AppCompatActivity {
 
     private WebView webview;
 
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private static final int PERMISSION_REQUEST_CODE = 1;
 
+    private boolean isPullToRefreshAllowed = true;
 
     private boolean doubleBackToExitPressedOnce = false;
 
@@ -69,7 +76,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main_page);
+        swipeRefreshLayout = findViewById(R.id.swipeContainer);
 
 
         webview = findViewById(R.id.webView);
@@ -144,19 +152,88 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
-                // Automatically grant permission
                 callback.invoke(origin, true, false);
             }
 
 
         });
 
+        webview.addJavascriptInterface(new Object() {
+            @JavascriptInterface
+            public void onScrollToTop(boolean isAtTop) {
+                runOnUiThread(() -> {
+                    if (isPullToRefreshAllowed) {
+                        swipeRefreshLayout.setEnabled(isAtTop);
+                    } else {
+                        swipeRefreshLayout.setEnabled(false);
+                    }
+                });
+            }
+        }, "AndroidBridge");
+
+
+        swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#88b4f9"));
+        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(Color.parseColor("#303134"));
+
+        webview.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+
+                webview.evaluateJavascript(
+                        "(function() {" +
+                                "  var container = document.getElementById('weather_wrap');" +
+                                "  function checkScroll() {" +
+                                "    var isAtTop = container.scrollTop === 0;" +
+                                "    AndroidBridge.onScrollToTop(isAtTop);" +
+                                "  }" +
+                                "  container.addEventListener('scroll', checkScroll);" +
+                                "  checkScroll();" +
+                                "})();",
+                        null
+                );
+            }
+        });
+
+
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            if (isPullToRefreshAllowed) {
+                isPullToRefreshAllowed = false;
+
+                // Trigger the refresh action
+                webview.evaluateJavascript("refreshWeather();", null);
+
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    swipeRefreshLayout.setRefreshing(false);
+                }, 1000);
+
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    isPullToRefreshAllowed = true;
+                }, 3000);
+            } else {
+
+                swipeRefreshLayout.setRefreshing(false);
+                Toast.makeText(MainActivity.this, "Please wait before refreshing again.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         webview.loadUrl("file:///android_asset/index.html");
 
 
+    }
 
 
+
+
+    private void enablePullToRefresh() {
+        isPullToRefreshAllowed = true;
+        swipeRefreshLayout.setEnabled(true);
+    }
+
+    private void disablePullToRefresh() {
+        isPullToRefreshAllowed = false;
+        swipeRefreshLayout.setEnabled(false);
     }
 
 
@@ -192,15 +269,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @JavascriptInterface
-        public void updateNotification(final String temperature, final String condition, final String locationWeather, final String uvindex, final String AQI_value, final String iconCodeCondition, final String ISDAY) {
+        public void updateNotification(final String condition, final String locationWeather, final String uvindex, final String iconCodeCondition, final String ISDAY, final String chanceOfRain) {
             Intent intent = new Intent(mContext, ForegroundService.class);
-            intent.putExtra("temperature", temperature);
             intent.putExtra("condition", condition);
             intent.putExtra("locationWeather", locationWeather);
             intent.putExtra("uvindexValue", uvindex);
-            intent.putExtra("AQI_value", AQI_value);
             intent.putExtra("ICONCODE", iconCodeCondition);
             intent.putExtra("ISDAY", ISDAY);
+            intent.putExtra("chanceOfRain", chanceOfRain);
             mContext.startService(intent);
         }
 
@@ -353,11 +429,20 @@ public class MainActivity extends AppCompatActivity {
                     } else if (color.equals("openUVcondition")){
                         openUVcondition();
                         return;
+                    } else if (color.equals("AddLocationPage")){
+                        OpenSearchPage();
+                        return;
                     } else if (color.equals("GoBack")) {
                         back();
                         return;
                     } else if  (color.equals("ReqLocation")) {
                         requestLocationPermissions();
+                        return;
+                    } else if  (color.equals("DisableSwipeRefresh")) {
+                        disablePullToRefresh();
+                        return;
+                    } else if  (color.equals("EnableSwipeRefresh")) {
+                        enablePullToRefresh();
                         return;
                     } else if (color.equals("bluesetDef")) {
 
@@ -477,6 +562,10 @@ public class MainActivity extends AppCompatActivity {
             mActivity.startActivity(intent);
         }
 
+        public void OpenSearchPage() {
+            Intent intent = new Intent(mActivity, SearchPage.class);
+            mActivity.startActivity(intent);
+        }
     }
 
     public void back() {

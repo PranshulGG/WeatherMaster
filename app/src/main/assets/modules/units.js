@@ -800,7 +800,7 @@ let ThunderStormFrog = [];
 let ClearNightFrog = [];
 let PartlyCloudyNightFrog = [];
 
-if (navigator.onLine) {
+function setOnlineIcons() {
 
     sunnyFrog = [
         "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/01-sunny/01-sunny-creek-swimming.png?ref_type=heads",
@@ -876,8 +876,8 @@ if (navigator.onLine) {
         "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/07-partly-cloudy-night/07-partly-cloudy-night-hills-smores.png?ref_type=heads",
         "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/07-partly-cloudy-night/07-partly-cloudy-night-orchard-eating.png?ref_type=heads"
     ];
-} else {
-
+}
+function setOfflineIcons() {
     sunnyFrog = [
         'froggie/01d.png'
     ];
@@ -920,7 +920,14 @@ if (navigator.onLine) {
 
 }
 
+if (navigator.onLine) {
+    setOnlineIcons();
+} else {
+    setOfflineIcons();
+}
 
+window.addEventListener('online', setOnlineIcons);
+window.addEventListener('offline', setOfflineIcons);
 
 
 function GetFroggieIcon(iconCode, isDay) {

@@ -1,6 +1,7 @@
 package com.example.weathermaster;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -21,9 +22,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.widget.RemoteViews;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
@@ -39,11 +44,7 @@ public class ForegroundService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-
-
         createNotificationChannel();
-
-
 
     }
 
@@ -54,19 +55,34 @@ public class ForegroundService extends Service {
         if (ACTION_DESTROY_NOTIFICATION.equals(action)) {
             destroyNotification();
         } else {
-            String temperature = intent.getStringExtra("temperature");
+            // Update the notification if the service is restarting
             String condition = intent.getStringExtra("condition");
             String locationWeather = intent.getStringExtra("locationWeather");
             String uvindex = intent.getStringExtra("uvindexValue");
-            String AQI_value = intent.getStringExtra("AQI_value");
             String iconCodeCondition = intent.getStringExtra("ICONCODE");
             String ISDAY = intent.getStringExtra("ISDAY");
+            String chanceOfRain = intent.getStringExtra("chanceOfRain");
 
-            updateNotification(temperature, condition, locationWeather, uvindex, AQI_value, iconCodeCondition, ISDAY);
+            if (condition == null) {
+                condition = "default_data";
+            } else if (locationWeather == null) {
+                locationWeather = "not found";
+            } else if (uvindex == null) {
+                uvindex = "not found";
+            } else if (iconCodeCondition == null) {
+                iconCodeCondition = "1";
+            } else if (ISDAY == null) {
+                ISDAY = "1";
+            } else if (chanceOfRain == null) {
+                chanceOfRain = "not found";
+            }
+
+            updateNotification(condition, locationWeather, uvindex, iconCodeCondition, ISDAY, chanceOfRain);
         }
 
         return START_STICKY;
     }
+
 
     public void destroyNotification() {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -77,13 +93,13 @@ public class ForegroundService extends Service {
     }
 
 
-
-
-
     @Override
     public void onDestroy() {
         super.onDestroy();
-        stopForeground(true);
+        Intent broadcastIntent = new Intent("com.example.weathermaster.RESTART_SERVICE");
+        sendBroadcast(broadcastIntent);
+        restartService();
+
     }
 
     @Nullable
@@ -93,8 +109,7 @@ public class ForegroundService extends Service {
     }
 
 
-    public void updateNotification(String temperature, String condition, String locationWeather, String uvindex, String AQI_value, String iconCodeCondition, String ISDAY) {
-        Bitmap tempIconBitmap = createTempIcon(temperature);
+    public void updateNotification(String condition, String locationWeather, String uvindex, String iconCodeCondition, String ISDAY, String chanceOfRain) {
 
         // Set the appropriate icon for the weather condition
         int weathericon = R.drawable.sunny;
@@ -296,10 +311,11 @@ public class ForegroundService extends Service {
         Notification notification = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                    .setSmallIcon(IconCompat.createWithBitmap(tempIconBitmap))
+                    .setSmallIcon(R.drawable.baseline_cloud_queue_24)
                     .setContentTitle(condition)
-                    .setContentText(uvindex)
-                    .setSubText(locationWeather + " • " + AQI_value + " AQI")
+                    .setStyle(new NotificationCompat.BigTextStyle()
+                            .bigText(uvindex + "\nPrecipitation chances: " + chanceOfRain))
+                    .setSubText(locationWeather)
                     .setLargeIcon(BitmapFactory.decodeResource(getResources(), weathericon))
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setOngoing(true)
@@ -354,9 +370,21 @@ public class ForegroundService extends Service {
     }
 
 
-    public void UpdateNotification(String temperature, String condition, String locationWeather, String uvindex, String AQI_value, String iconCodeCondition, String ISDAY) {
-        updateNotification(temperature, condition, locationWeather, uvindex, AQI_value, iconCodeCondition, ISDAY);
+    public void UpdateNotification(String condition, String locationWeather, String uvindex, String iconCodeCondition, String ISDAY, String chanceOfRain) {
+        updateNotification(condition, locationWeather, uvindex, iconCodeCondition, ISDAY, chanceOfRain);
     }
 
+
+    public void restartService() {
+        Intent intent = new Intent(this, ForegroundService.class);
+        PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager != null) {
+            long interval = 1000 * 60 * 15; // 15 minutes, for example
+            long triggerAtMillis = SystemClock.elapsedRealtime() + interval;
+            alarmManager.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAtMillis, pendingIntent);
+        }
+    }
 }
 

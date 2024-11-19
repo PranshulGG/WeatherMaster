@@ -159,6 +159,8 @@ function HourlyWeather(data) {
 
 function DailyWeather(dailyForecast) {
 
+setChart()
+
     const forecastContainer = document.getElementById('forecast-5day');
     forecastContainer.innerHTML = '';
 
@@ -399,28 +401,7 @@ function CurrentWeather(data, sunrise, sunset, lat, lon) {
     // -------------------------------
 
 
-    if (localStorage.getItem('DeviceOnline') === 'No'){
-
-        document.getElementById('weather-icon').src = GetWeatherIcon(CurrentWeatherCode, isDay);
-        document.getElementById('weather-icon').alt = CurrentWeatherCode
-        document.getElementById('description').innerHTML = getWeatherLabelInLang(CurrentWeatherCode, isDay,  localStorage.getItem('AppLanguageCode'));
-        document.getElementById('froggie_imgs').src = GetFroggieIcon(CurrentWeatherCode, isDay)
-        document.documentElement.setAttribute('iconcodetheme', GetWeatherTheme(CurrentWeatherCode, isDay))
-        sendThemeToAndroid(GetWeatherTheme(CurrentWeatherCode, 1))
-        animateTemp(CurrentTemperature)
-
-            renderHomeLocationSearchData()
-
-                function renderHomeLocationSearchData(){
-
-                         document.getElementById('temPDiscCurrentLocation').innerHTML = `${getWeatherLabelInLang(CurrentWeatherCode, isDay,  localStorage.getItem('AppLanguageCode'))}`
-                         document.getElementById('currentSearchImg').src = `${GetWeatherIcon(CurrentWeatherCode, isDay)}`;
-                        document.querySelector('mainCurrenttemp').innerHTML = `${CurrentTemperature}°`
-
-                      }
-
-    }
-       else if(localStorage.getItem('selectedMainWeatherProvider') === 'Met norway'){
+        if(localStorage.getItem('selectedMainWeatherProvider') === 'Met norway'){
 
         } else if(localStorage.getItem('ApiForAccu') && localStorage.getItem('selectedMainWeatherProvider') === 'Accuweather') {
 
@@ -1169,7 +1150,7 @@ function UvIndex(uvIndexValue) {
 
 function astronomyDataRender(data) {
 
-
+        if(data){
             const MoonPhaseName = data.astronomy.astro.moon_phase
             const moonillumination = Math.round(data.astronomy.astro.moon_illumination)
 
@@ -1226,13 +1207,13 @@ function astronomyDataRender(data) {
                 document.getElementById('moonriseTime').innerHTML = data.astronomy.astro.moonrise;
                 document.getElementById('moonSetTime').innerHTML = data.astronomy.astro.moonset;
             }
+            }
+
 }
 
 
-function FetchAlert(lat, lon){
-    fetch(`https://api.weatherapi.com/v1/alerts.json?key=10baabdf43ea48d191075955241810&q=${lat},${lon}`)
-    .then(response => response.json())
-    .then(data => {
+function FetchAlertRender(data){
+
 
         if(data.alerts.alert && data.alerts.alert.length > 0){
           document.querySelector('.weatherCommentsDiv').classList.add('alertOpened');
@@ -1248,7 +1229,6 @@ function FetchAlert(lat, lon){
       }
 
 
-  })
 }
 
 
@@ -1290,33 +1270,211 @@ function clickForecastItem(index){
     applyRoundedUI()
 
 
-    function createTempTrends() {
+
+    function createTempTrendsChart() {
         const cachedCurrentDataAvg = JSON.parse(localStorage.getItem('DailyWeatherCache'));
         const tempTrendHolder = document.querySelector('.temp_trend_bars');
 
-        const allMinTemps = cachedCurrentDataAvg.temperature_2m_min;
-        const allMaxTemps = cachedCurrentDataAvg.temperature_2m_max;
+    tempTrendHolder.innerHTML = ''
 
-        const globalMinTemp = Math.min(...allMinTemps);
-        const globalMaxTemp = Math.max(...allMaxTemps);
-        const tempRange = globalMaxTemp - globalMinTemp;
+        if (!cachedCurrentDataAvg || !cachedCurrentDataAvg.time) {
+            console.error('Weather data is not available in the cache.');
+            return;
+        }
 
-        cachedCurrentDataAvg.time.forEach((time, index) => {
-            const minTemp = cachedCurrentDataAvg.temperature_2m_min[index];
-            const maxTemp = cachedCurrentDataAvg.temperature_2m_max[index];
+        const labels = cachedCurrentDataAvg.time;
 
-            const avgTemp = (minTemp + maxTemp) / 2;
-            const normalizedHeight = ((avgTemp - globalMinTemp) / tempRange) * 100;
+        let Unit
 
-            const tempTrendItem = document.createElement('TempMeterBarItem');
-            tempTrendItem.innerHTML = `
-                <TempforecastBars>
-                    <TempBarProgress style="height: ${normalizedHeight}%;"></TempBarProgress>
-                </TempforecastBars>
-            `;
+        let minTemps = cachedCurrentDataAvg.temperature_2m_min;
+        let maxTemps = cachedCurrentDataAvg.temperature_2m_max;
 
-            tempTrendHolder.appendChild(tempTrendItem);
+        if (SelectedTempUnit === 'fahrenheit') {
+            minTemps = minTemps.map(temp => Math.round(celsiusToFahrenheit(temp)));
+            maxTemps = maxTemps.map(temp => Math.round(celsiusToFahrenheit(temp)));
+            Unit = '°F';
+        } else {
+            minTemps = minTemps.map(temp => Math.round(temp));
+            maxTemps = maxTemps.map(temp => Math.round(temp));
+            Unit = '°C';
+        }
+
+        const avgTemps = minTemps.map((min, index) => (min + maxTemps[index]) / 2);
+
+        tempTrendHolder.innerHTML = '';
+        const canvas = document.createElement('canvas');
+        canvas.id = 'tempTrendsChart';
+        tempTrendHolder.appendChild(canvas);
+
+        new Chart(canvas, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Min',
+                        data: minTemps,
+                        borderColor: 'blue',
+                        backgroundColor: 'rgba(0, 0, 255, 0.1)',
+                        fill: true,
+                        tension: 0.3,
+                    },
+                    {
+                        label: 'Max',
+                        data: maxTemps,
+                        borderColor: 'red',
+                        backgroundColor: 'rgba(255, 0, 0, 0.1)',
+                        fill: true,
+                        tension: 0.3,
+                    },
+                    {
+                        label: 'Avg',
+                        data: avgTemps,
+                        borderColor: 'green',
+                        backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                        fill: false,
+                        tension: 0.3,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        align: 'start',
+                        labels: {
+                            boxWidth: 20,
+                            padding: 5,
+                            marginBottom: 40,
+                        },
+
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                },
+                scales: {
+                    x: {
+                        display: false,
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: `Temperature (${Unit})`,
+                        },
+                        beginAtZero: true,
+                    },
+                },
+            }
         });
     }
 
+// bar charts
 
+    function createTempTrendsChartBar() {
+        const cachedCurrentDataAvg = JSON.parse(localStorage.getItem('DailyWeatherCache'));
+        const tempTrendHolder = document.querySelector('.temp_trend_bars');
+
+    tempTrendHolder.innerHTML = ''
+
+        if (!cachedCurrentDataAvg || !cachedCurrentDataAvg.time) {
+            console.error('Weather data is not available in the cache.');
+            return;
+        }
+
+        const labels = cachedCurrentDataAvg.time;
+
+        let Unit
+
+        let minTemps = cachedCurrentDataAvg.temperature_2m_min;
+        let maxTemps = cachedCurrentDataAvg.temperature_2m_max;
+
+        if (SelectedTempUnit === 'fahrenheit') {
+            minTemps = minTemps.map(temp => Math.round(celsiusToFahrenheit(temp)));
+            maxTemps = maxTemps.map(temp => Math.round(celsiusToFahrenheit(temp)));
+            Unit = '°F';
+        } else {
+            minTemps = minTemps.map(temp => Math.round(temp));
+            maxTemps = maxTemps.map(temp => Math.round(temp));
+            Unit = '°C';
+        }
+
+        const avgTemps = minTemps.map((min, index) => (min + maxTemps[index]) / 2);
+
+        tempTrendHolder.innerHTML = '';
+        const canvas = document.createElement('canvas');
+        canvas.id = 'tempTrendsChart';
+        tempTrendHolder.appendChild(canvas);
+
+        new Chart(canvas, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Min',
+                        data: minTemps,
+                        borderColor: 'blue',
+                        backgroundColor: 'rgba(0, 0, 255, 0.1)',
+                     borderRadius: 50,
+                    borderWidth: 1,
+                    fill: true,
+                    },
+                    {
+                        label: 'Max',
+                        data: maxTemps,
+                        borderColor: 'red',
+                        backgroundColor: 'rgba(255, 0, 0, 0.1)',
+                     borderRadius: 50,
+                    borderWidth: 1,
+                    fill: true,
+
+                    },
+                    {
+                        label: 'Avg',
+                        data: avgTemps,
+                        borderColor: 'green',
+                        backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                     borderRadius: 50,
+                    borderWidth: 1,
+                    fill: true,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        align: 'start',
+                        labels: {
+                            boxWidth: 20,
+                            padding: 5,
+                            marginBottom: 40,
+                        },
+
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                },
+                scales: {
+                    x: {
+                        display: false,
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: `Temperature (${Unit})`,
+                        },
+                        beginAtZero: true,
+                    },
+                },
+            }
+        });
+    }

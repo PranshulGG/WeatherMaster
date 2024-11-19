@@ -84,7 +84,7 @@ function useAutoCurrentLocation(){
 }
 }
 
-
+if(navigator.onLine){
 if(DefaultLocation){
 if(DefaultLocation.name === 'CurrentDeviceLocation'){
     useAutoCurrentLocation()
@@ -104,6 +104,7 @@ else{
     sendThemeToAndroid("ReqLocation")
     document.querySelector('.currentLocationdiv').hidden = false;
 }
+}
 
 
 
@@ -122,7 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     const cityInput = document.getElementById('city-input');
-    const cityList = document.getElementById('city-list');
     const cityopen = document.getElementById('city-open');
     const searchContainer = document.getElementById('search-container');
     const closeButton = document.querySelector('.close_search');
@@ -507,6 +507,21 @@ function loadSavedLocations() {
                                 localStorage.removeItem(`WeatherDataOpenMeteoTimeStamp_${location.locationName}`)
                             }, 400);
                         }
+                        if(localStorage.getItem(`AlertData_${location.locationName}`)){
+                            setTimeout(()=>{
+                                localStorage.removeItem(`AlertData_${location.locationName}`)
+                            }, 400);
+                        }
+                        if(localStorage.getItem(`AstronomyData_${location.locationName}`)){
+                            setTimeout(()=>{
+                                localStorage.removeItem(`AstronomyData_${location.locationName}`)
+                            }, 400);
+                        }
+                        if(localStorage.getItem(`MoreDetailsData_${location.locationName}`)){
+                            setTimeout(()=>{
+                                localStorage.removeItem(`MoreDetailsData_${location.locationName}`)
+                            }, 400);
+                        }
             savedLocationItem.remove();
         });
 
@@ -523,6 +538,11 @@ function loadSavedLocations() {
                 const MoreDetailsData = JSON.parse(localStorage.getItem(`MoreDetailsData_${location.locationName}`));
                 const AstronomyData = JSON.parse(localStorage.getItem(`AstronomyData_${location.locationName}`))
                 const renderFromSavedDataMetTimstamp = localStorage.getItem(`WeatherDataMetNorwayTimeStamp_${location.locationName}`)
+    const SavedalertData = JSON.parse(localStorage.getItem(`AlertData_${location.locationName}`))
+
+                if(SavedalertData){
+                FetchAlertRender(SavedalertData)
+                }
 
                 localStorage.setItem('currentLong', savedLocationItemLon)
                 localStorage.setItem('currentLat', savedLocationItemLat)
@@ -588,7 +608,11 @@ function loadSavedLocations() {
                 const MoreDetailsData = JSON.parse(localStorage.getItem(`MoreDetailsData_${location.locationName}`));
                 const AstronomyData = JSON.parse(localStorage.getItem(`AstronomyData_${location.locationName}`))
                 const dataTimstamp = localStorage.getItem(`WeatherDataAccuTimeStamp_${location.locationName}`)
+    const SavedalertData = JSON.parse(localStorage.getItem(`AlertData_${location.locationName}`))
 
+                if(SavedalertData){
+                FetchAlertRender(SavedalertData)
+                }
 
                 localStorage.setItem('currentLong', savedLocationItemLon)
                 localStorage.setItem('currentLat', savedLocationItemLat)
@@ -650,7 +674,11 @@ function loadSavedLocations() {
                 const MoreDetailsData = JSON.parse(localStorage.getItem(`MoreDetailsData_${location.locationName}`));
                 const AstronomyData = JSON.parse(localStorage.getItem(`AstronomyData_${location.locationName}`))
                 const renderFromSavedDataTimstamp = localStorage.getItem(`WeatherDataOpenMeteoTimeStamp_${location.locationName}`)
+    const SavedalertData = JSON.parse(localStorage.getItem(`AlertData_${location.locationName}`))
 
+                if(SavedalertData){
+                FetchAlertRender(SavedalertData)
+                }
                 function timeAgo(timestamp) {
                     const now = new Date();
                     const updatedTime = new Date(timestamp);
@@ -936,7 +964,7 @@ function checkNoInternet() {
 
             if (weatherData) {
                 setTimeout(() => {
-                    document.getElementById('currentLocations').click();
+                     ReturnHomeLocation()
                 }, 1000);
             } else {
                 ShowError();
@@ -957,7 +985,7 @@ checkNoInternet();
 
     document.addEventListener('DOMContentLoaded', async function() {
 
-        const currentVersion = 'v1.8.0';
+        const currentVersion = 'v1.8.1';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
@@ -1097,6 +1125,8 @@ function ReturnHomeLocation(){
 
   const Locations = JSON.parse(localStorage.getItem('DefaultLocation'));
 
+  document.getElementById('currentLocationName').textContent = Locations.name
+
   if (localStorage.getItem('selectedMainWeatherProvider') === 'Met norway') {
     const renderFromSavedData = JSON.parse(localStorage.getItem(`WeatherDataOpenMeteo_${Locations.name}`));
     const renderFromSavedDataMet = JSON.parse(localStorage.getItem(`WeatherDataMetNorway_${Locations.name}`));
@@ -1104,7 +1134,14 @@ function ReturnHomeLocation(){
     const MoreDetailsData = JSON.parse(localStorage.getItem(`MoreDetailsData_${Locations.name}`));
     const AstronomyData = JSON.parse(localStorage.getItem(`AstronomyData_${Locations.name}`))
     const renderFromSavedDataMetTimstamp = localStorage.getItem(`WeatherDataMetNorwayTimeStamp_${Locations.name}`)
+    const SavedalertData = JSON.parse(localStorage.getItem(`AlertData_${location.locationName}`))
 
+                if(SavedalertData){
+                FetchAlertRender(SavedalertData)
+                } else{
+                  document.querySelector('.weatherCommentsDiv').classList.remove('alertOpened');
+                  document.querySelector('.excessiveHeat').hidden = true;
+                }
     localStorage.setItem('currentLong', Locations.lon)
     localStorage.setItem('currentLat', Locations.lat)
 
@@ -1171,7 +1208,14 @@ function ReturnHomeLocation(){
     const MoreDetailsData = JSON.parse(localStorage.getItem(`MoreDetailsData_${Locations.name}`));
     const AstronomyData = JSON.parse(localStorage.getItem(`AstronomyData_${Locations.name}`))
     const dataTimstamp = localStorage.getItem(`WeatherDataAccuTimeStamp_${Locations.name}`)
+    const SavedalertData = JSON.parse(localStorage.getItem(`AlertData_${location.locationName}`))
 
+                if(SavedalertData){
+                FetchAlertRender(SavedalertData)
+                } else{
+                  document.querySelector('.weatherCommentsDiv').classList.remove('alertOpened');
+                  document.querySelector('.excessiveHeat').hidden = true;
+                }
     localStorage.setItem('currentLong', Locations.lon)
     localStorage.setItem('currentLat', Locations.lat)
 
@@ -1231,7 +1275,14 @@ function ReturnHomeLocation(){
     const MoreDetailsData = JSON.parse(localStorage.getItem(`MoreDetailsData_${Locations.name}`));
     const AstronomyData = JSON.parse(localStorage.getItem(`AstronomyData_${Locations.name}`))
     const renderFromSavedDataTimstamp = localStorage.getItem(`WeatherDataOpenMeteoTimeStamp_${Locations.name}`)
+    const SavedalertData = JSON.parse(localStorage.getItem(`AlertData_${location.locationName}`))
 
+                if(SavedalertData){
+                FetchAlertRender(SavedalertData)
+                } else{
+                  document.querySelector('.weatherCommentsDiv').classList.remove('alertOpened');
+                  document.querySelector('.excessiveHeat').hidden = true;
+                }
     function timeAgo(timestamp) {
         const now = new Date();
         const updatedTime = new Date(timestamp);
@@ -1290,7 +1341,7 @@ document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFr
     }
     document.getElementById('SelectedLocationText').innerHTML = Locations.name;
     localStorage.setItem('CurrentLocationName', Locations.name)
-    window.history.back()
+
 
     hideLoader()
 
@@ -1314,12 +1365,32 @@ document.getElementById('open_temp_trend').addEventListener('click', () =>{
 
     if(document.querySelector('.temp_trend_bars').classList.contains("trends_opened")){
         document.querySelector('.trend_arrow_temp').innerHTML = 'keyboard_arrow_up'
+
     } else{
         document.querySelector('.trend_arrow_temp').innerHTML = 'keyboard_arrow_down'
     }
 
 });
 
+function setChart(){
+            if(localStorage.getItem('useBarChart') && localStorage.getItem('useBarChart') === 'true'){
+                       createTempTrendsChartBar()
+            } else{
+                 createTempTrendsChart()
+            }
+}
+
+function handleStorageChangeChart(event) {
+    if (event.key === 'useBarChart') {
+
+            setTimeout(()=>{
+            setChart()
+            }, 500);
+
+    }
+}
+
+window.addEventListener('storage', handleStorageChangeChart);
 
 function createHourlyDataCount(data) {
 
@@ -1411,13 +1482,18 @@ function LoadLocationOnRequest(lat, lon, name){
 
 
     if (localStorage.getItem('selectedMainWeatherProvider') === 'Met norway') {
+    showLoader();
       const renderFromSavedData = JSON.parse(localStorage.getItem(`WeatherDataOpenMeteo_${name}`));
       const renderFromSavedDataMet = JSON.parse(localStorage.getItem(`WeatherDataMetNorway_${name}`));
       const dataHourlyFull = JSON.parse(localStorage.getItem(`HourlyWeatherCache_${name}`));
       const MoreDetailsData = JSON.parse(localStorage.getItem(`MoreDetailsData_${name}`));
       const AstronomyData = JSON.parse(localStorage.getItem(`AstronomyData_${name}`))
       const renderFromSavedDataMetTimstamp = localStorage.getItem(`WeatherDataMetNorwayTimeStamp_${name}`)
+    const SavedalertData = JSON.parse(localStorage.getItem(`AlertData_${location.locationName}`))
 
+                if(SavedalertData){
+                FetchAlertRender(SavedalertData)
+                }
       localStorage.setItem('currentLong', lon)
       localStorage.setItem('currentLat', lat)
 
@@ -1473,10 +1549,10 @@ function LoadLocationOnRequest(lat, lon, name){
             }, 1000);
 
 
-
+        hideLoader()
 
   } else if (localStorage.getItem('ApiForAccu') && localStorage.getItem('selectedMainWeatherProvider') === 'Accuweather') {
-
+showLoader();
       const data = JSON.parse(localStorage.getItem(`WeatherDataAccuCurrent_${name}`));
       const dataHourly = JSON.parse(localStorage.getItem(`WeatherDataAccuHourly_${name}`));
       const renderFromSavedData = JSON.parse(localStorage.getItem(`WeatherDataOpenMeteo_${name}`));
@@ -1484,7 +1560,11 @@ function LoadLocationOnRequest(lat, lon, name){
       const MoreDetailsData = JSON.parse(localStorage.getItem(`MoreDetailsData_${name}`));
       const AstronomyData = JSON.parse(localStorage.getItem(`AstronomyData_${name}`))
       const dataTimstamp = localStorage.getItem(`WeatherDataAccuTimeStamp_${name}`)
+    const SavedalertData = JSON.parse(localStorage.getItem(`AlertData_${location.locationName}`))
 
+                if(SavedalertData){
+                FetchAlertRender(SavedalertData)
+                }
       localStorage.setItem('currentLong', lon)
       localStorage.setItem('currentLat', lat)
 
@@ -1536,15 +1616,20 @@ function LoadLocationOnRequest(lat, lon, name){
           document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(dataTimstamp)}`;
             }, 1000);
 
-
+    hideLoader()
   } else {
+  showLoader();
       const renderFromSavedData = JSON.parse(localStorage.getItem(`WeatherDataOpenMeteo_${name}`));
       const dataHourlyFull = JSON.parse(localStorage.getItem(`HourlyWeatherCache_${name}`));
       const AirQuailityData = JSON.parse(localStorage.getItem(`AirQuality_${name}`));
       const MoreDetailsData = JSON.parse(localStorage.getItem(`MoreDetailsData_${name}`));
       const AstronomyData = JSON.parse(localStorage.getItem(`AstronomyData_${name}`))
       const renderFromSavedDataTimstamp = localStorage.getItem(`WeatherDataOpenMeteoTimeStamp_${name}`)
+    const SavedalertData = JSON.parse(localStorage.getItem(`AlertData_${location.locationName}`))
 
+                if(SavedalertData){
+                FetchAlertRender(SavedalertData)
+                }
       function timeAgo(timestamp) {
           const now = new Date();
           const updatedTime = new Date(timestamp);
@@ -1591,5 +1676,6 @@ function LoadLocationOnRequest(lat, lon, name){
       localStorage.setItem('CurrentHourlyCache', JSON.stringify(renderFromSavedData.hourly));
       localStorage.setItem('HourlyWeatherCache', JSON.stringify(dataHourlyFull));
 
+    hideLoader()
   }
 }

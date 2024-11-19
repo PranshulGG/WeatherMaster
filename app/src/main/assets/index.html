@@ -16,7 +16,7 @@
     <script src="modules/lottie.js"></script>
     <script src="langs/langs.js"></script>
     <script src="./bundle.js"></script>
-
+    <script src="modules/chart.js"></script>
 </head>
 
 <body>
@@ -122,7 +122,7 @@
         </div>
 
         <div class="froggie">
-            <img src="" id="froggie_imgs" alt="" hidden>
+            <img src="froggie/01n.png" id="froggie_imgs" alt="" hidden>
 
             <div class="alt_text_frog" style="display: flex; align-items: center; justify-content: center;">
                 <p>Loading...</p>
@@ -131,11 +131,11 @@
 
 
 
-        <div class="excessiveHeat ripple_btn_low" style="margin-bottom: 5px; margin-top: 5px !important;" onclick="sendThemeToAndroid('OpenAlertsPage')" hidden>
+        <div class="excessiveHeat ripple_btn_low" style="margin-bottom: 0px; margin-top: 5px !important;" onclick="sendThemeToAndroid('OpenAlertsPage')" hidden>
             <div class="icon-container-excessiveHeat">
                 <md-icon icon-outlined>info</md-icon>
             </div>
-            <p id="excessiveHeatText"><span data-translate="weather_alerts" style="font-size: 16px;">Weather alerts</span><text data-translate="tap_to_see_more">Tap to see more...</text></p>
+            <p id="excessiveHeatText"><span data-translate="weather_alerts" style="font-size: 18px;">Weather alerts</span></p>
 
         </div>
 
@@ -282,9 +282,10 @@
                 </div>
 
 
-                <div class="temp_trend_bars">
-
+                <div class="temp_trend_wrapper">
+                    <div class="temp_trend_bars"></div>
                 </div>
+
             </div>
 
             <div class="LiveMapWrap ripple_btn_low" onclick="sendThemeToAndroid('OpenRadar')">
@@ -641,13 +642,13 @@
 <!-- search-modal -->
 
 <div id="search-container" class="modal">
-    <div class="main-options" id="main-opt">
-        <button class="ripple-icon-btn focus regular close_search"  ontouchstart="playEffect(this)"
+    <div class="main-options" id="main-opt" style="border-bottom-color: transparent !important; padding-left: 10px !important;">
+        <button class="ripple-icon-btn focus regular close_search"  ontouchstart="playEffect(this)" hidden
                 ontouchend="playEffect2(this)">
             <span class="ripple-effect-icon"></span>
             <span icon-outlined>arrow_back</span>
         </button>
-        <input type="search" id="city-input" class="focus-input" placeholder="Search for a city..." style="width: 100%;"
+        <input type="search" id="city-input" class="focus-input" placeholder="Search for a city..." style="width: 100%;" hidden
                autocomplete="off">
 
         <div class="city_loader">
@@ -665,6 +666,7 @@
             <span class="ripple-effect-icon"></span>
             <span icon-outlined>map</span>
         </button>
+        <span style="font-size: 25px; width: 100%; display: flex; align-items: center; justify-content: center; color: var(--On-Surface-Variant);">Locations</span>
     </div>
     <div class="modal-content" id="modal-content">
         <div class="city-list" id="city-list">
@@ -673,7 +675,7 @@
 
         <div class="currentLocationdiv" style="margin-top: 20px; ">
             <p class="title" style="display: flex; align-items: center; gap: 10px;"><md-icon icon-outlined>location_on</md-icon><span data-translate="current_location">Home location</span><md-text-button id="saveLocationCurrent" onclick="saveLocationToContainer(document.getElementById('saveLocationCurrent').getAttribute('data-location-text'), document.getElementById('saveLocationCurrent').getAttribute('data-lat'), document.getElementById('saveLocationCurrent').getAttribute('data-long'))" hidden>Save?</md-text-button></p>
-            <div class="currentLocations ripple_btn_low" id="currentLocations" onclick="ReturnHomeLocation()">
+            <div class="currentLocations ripple_btn_low" id="currentLocations" onclick="ReturnHomeLocation();  window.history.back();">
                 <div class="currentSearchImg">
                     <img src="icons/error.png" id="currentSearchImg" alt=""> </div>
                 <currentLocationNames>
@@ -684,7 +686,7 @@
             </div>
         </div>
 
-        <div class="savedLocations" hidden>
+        <div class="savedLocations" hidden style="padding-bottom: 130px;">
             <p class="title" style="display: flex; align-items: center; gap: 10px;"><md-icon icon-outlined>star</md-icon><span data-translate="saved_locations">Saved locations</span> <flex></flex> <md-icon-button style="margin-right: 10px;" toggle id="edit_saved_locations"><md-icon icon-filled>Edit</md-icon><md-icon icon-filled slot="selected">close</md-icon></md-icon-button></p>
 
             <savedLocationsHolder>
@@ -694,6 +696,11 @@
             </savedLocationsHolder>
 
         </div>
+
+        <button id="addlocationFab" onclick="sendThemeToAndroid('AddLocationPage'); if(JSON.parse(localStorage.getItem(`SearchedItem`))){localStorage.removeItem(`SearchedItem`)}">
+            <i icon-outlined>add</i>
+            <md-ripple style="--md-sys-color-on-surface: var(--On-Primary); --md-ripple-pressed-opacity: 0.2;"></md-ripple>
+        </button>
 
     </div>
 </div>
@@ -880,10 +887,10 @@ document.getElementById('froggie_imgs').addEventListener('load', () => {
 <script src="app/apiKeysRotation.js"></script>
 <script src="modules/pixel-components.js"></script>
 <script src="app/fetch.js"></script>
-<script src="app/renderWeather.js"></script>
 <script src="modules/sun-tracker.js"></script>
 <script src="app/app.js"></script>
 <script src="app/day_summary.js"></script>
+<script src="app/renderWeather.js"></script>
 
 </body>
 

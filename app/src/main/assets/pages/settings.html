@@ -103,6 +103,12 @@
                 </md-list-item>
 
                 <md-list-item>
+                    <md-icon icon-filled slot="start">bar_chart</md-icon>
+                    <div slot="headline" >Use bar chart</div>
+                    <md-switch slot="end" id="useBarChart"></md-switch>
+                </md-list-item>
+
+                <md-list-item>
                     <md-icon slot="start" icon-filled>routine</md-icon>
                     <div slot="headline">Provider</div>
                     <div slot="supporting-text">Main provider</div>
@@ -761,7 +767,24 @@ function handlePermissionDenied(){
     document.getElementById('toggle_noti').click()
 }
 
+document.getElementById('useBarChart').addEventListener('change', ()=>{
 
+        if(document.getElementById('useBarChart').selected){
+        localStorage.setItem('useBarChart', 'true')
+        } else{
+        localStorage.setItem('useBarChart', 'false')
+
+    }
+
+
+
+});
+
+if(localStorage.getItem('useBarChart') && localStorage.getItem('useBarChart') === 'true'){
+document.getElementById('useBarChart').selected = true;
+} else{
+document.getElementById('useBarChart').selected = false;
+}
     </script>
 
 <script src="../components-script.js/components.js"></script>

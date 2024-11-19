@@ -111,6 +111,12 @@
             android:theme="@style/conditionMainPage"
             />
         <activity
+            android:name=".SearchPage"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/ScreensAll"
+            />
+        <activity
             android:name=".MainActivity"
             android:theme="@style/app_theme"
             android:screenOrientation="portrait"
@@ -124,7 +130,19 @@
         <service
             android:name=".ForegroundService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false"
+            android:foregroundServiceType="location"
+            android:permission="android.permission.FOREGROUND_SERVICE">
+            <intent-filter>
+                <action android:name="android.intent.action.START" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name=".RestartServiceReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="com.example.weathermaster.RESTART_SERVICE" />
+            </intent-filter>
+        </receiver>
 
     </application>
 
