@@ -1,0 +1,37 @@
+name: UI/UX Issue
+description: UI/UX issues highlight problems related to the user interface or experience
+body:
+  - type: markdown 
+    attributes:
+      value: |
+        Please fill out the sections below 
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe your issue
+      placeholder: A clear and concise description of the user interface or user experience problem
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. Observe the UI/UX issue.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What was the expected result?
+      placeholder: I expected this to happen
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Put here any screenshots or videos (optional)
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting this issue! We will get back to you as soon as possible.

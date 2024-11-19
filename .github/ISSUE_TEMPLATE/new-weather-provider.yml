@@ -1,0 +1,55 @@
+name: Add New Weather Provider
+description: Request Weather Provider
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please fill out the sections below
+  - type: textarea 
+    id: description
+    attributes:
+      label: Name of the provider
+      placeholder: Provider's website or API documentation link
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reason for Request
+      placeholder: Why do you want this provider to be added?
+                  (e.g., Better accuracy, additional features, regional coverage, etc.)
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Key Features or Benefits
+      placeholder: List specific features of the provider that you think would improve the app.
+                   (e.g., Hourly forecasts, radar data, historical weather, etc.)
+  - type: checkboxes
+    id: api_info
+    attributes:
+      label: Provider's API Information
+      description: Does the provider have a free API tier?
+      options:
+        - label: "Yes"
+        - label: "No"
+  - type: checkboxes
+    id: regions_supported
+    attributes:
+      label: Regions Supported
+      description: Is this provider suitable for a global audience or specific regions?
+      options:
+        - label: "Global"
+        - label: "Regional (Specify Below)"
+  - type: textarea
+    id: specify_regions
+    attributes:
+      label: Specify Regions
+      description: List the regions where this provider is supported.
+      placeholder: "Enter regions (e.g., Asia, Europe, etc.)"
+  - type: textarea
+    id: other_info
+    attributes:
+      label: Additional Notes
+      placeholder: Any other information or comments you'd like to add.

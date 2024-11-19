@@ -1,0 +1,34 @@
+name: Feature request
+description: Suggest an idea for this project
+body:
+  - type: markdown 
+    attributes:
+      value: |
+        Please fill out the sections below
+  - type: textarea
+    id: description
+    attributes:
+      label: Problem Statement
+      placeholder: Describe the problem or limitation you're facing that the new feature would solve
+    validations:
+      required: true
+  - type: textarea
+    id: Solution
+    attributes:
+      label: Proposed Solution
+      placeholder: Explain how you think the feature should work
+    validations:
+      required: true
+  - type: textarea
+    id: Alternatives
+    attributes:
+      label: Alternatives Considered
+      placeholder: Describe any alternative solutions or features you've considered
+  - type: textarea
+    id: Additional
+    attributes:
+      label: Additional Context
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting this issue! We will get back to you as soon as possible.
