@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
 
     <application
         android:hardwareAccelerated="true"
@@ -130,19 +129,9 @@
         <service
             android:name=".ForegroundService"
             android:enabled="true"
-            android:exported="false"
-            android:foregroundServiceType="location"
-            android:permission="android.permission.FOREGROUND_SERVICE">
-            <intent-filter>
-                <action android:name="android.intent.action.START" />
-            </intent-filter>
+            android:exported="false">
         </service>
 
-        <receiver android:name=".RestartServiceReceiver" android:exported="true">
-            <intent-filter>
-                <action android:name="com.example.weathermaster.RESTART_SERVICE" />
-            </intent-filter>
-        </receiver>
 
     </application>
 

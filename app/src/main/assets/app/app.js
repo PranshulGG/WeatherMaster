@@ -1009,7 +1009,7 @@ checkNoInternet();
 
     document.addEventListener('DOMContentLoaded', async function() {
 
-        const currentVersion = 'v1.8.2';
+        const currentVersion = 'v1.8.3';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 

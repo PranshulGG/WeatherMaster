@@ -55,27 +55,12 @@ public class ForegroundService extends Service {
         if (ACTION_DESTROY_NOTIFICATION.equals(action)) {
             destroyNotification();
         } else {
-            // Update the notification if the service is restarting
             String condition = intent.getStringExtra("condition");
             String locationWeather = intent.getStringExtra("locationWeather");
             String uvindex = intent.getStringExtra("uvindexValue");
             String iconCodeCondition = intent.getStringExtra("ICONCODE");
             String ISDAY = intent.getStringExtra("ISDAY");
             String chanceOfRain = intent.getStringExtra("chanceOfRain");
-
-            if (condition == null) {
-                condition = "default_data";
-            } else if (locationWeather == null) {
-                locationWeather = "not found";
-            } else if (uvindex == null) {
-                uvindex = "not found";
-            } else if (iconCodeCondition == null) {
-                iconCodeCondition = "1";
-            } else if (ISDAY == null) {
-                ISDAY = "1";
-            } else if (chanceOfRain == null) {
-                chanceOfRain = "not found";
-            }
 
             updateNotification(condition, locationWeather, uvindex, iconCodeCondition, ISDAY, chanceOfRain);
         }
@@ -96,10 +81,7 @@ public class ForegroundService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Intent broadcastIntent = new Intent("com.example.weathermaster.RESTART_SERVICE");
-        sendBroadcast(broadcastIntent);
-        restartService();
-
+        stopForeground(true);
     }
 
     @Nullable
