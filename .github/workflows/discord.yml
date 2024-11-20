@@ -25,12 +25,14 @@ jobs:
           LAST_COMMIT_AUTHOR=$(git log -1 --pretty=format:'%an')
           REPO_NAME=${{ github.repository }}
           BRANCH_NAME=${{ github.ref_name }}
+          COMMIT_URL=https://github.com/${{ github.repository }}/commit/${{ github.sha }}
 
           curl -X POST -H "Content-Type: application/json" \
           -d "{
                 \"embeds\": [
                   {
                     \"title\": \"${LAST_COMMIT_AUTHOR} pushed to ${REPO_NAME}\",
+                    \"url\": \"${COMMIT_URL}\",
                     \"description\": \"**Branch**: ${BRANCH_NAME}\n**Message**: ${LAST_COMMIT_MESSAGE}\",
                     \"color\": 3447003
                   }
@@ -46,6 +48,7 @@ jobs:
           ISSUE_TITLE=${{ github.event.issue.title }}
           ISSUE_NUMBER=${{ github.event.issue.number }}
           ISSUE_BODY=${{ github.event.issue.body }}
+          ISSUE_URL=${{ github.event.issue.html_url }}
           REPO_NAME=${{ github.repository }}
           ACTOR=${{ github.actor }}
 
@@ -53,8 +56,9 @@ jobs:
           -d "{
                 \"embeds\": [
                   {
-                    \"title\": \"New Issue in ${REPO_NAME}\",
-                    \"description\": \"**#${ISSUE_NUMBER} ${ISSUE_TITLE}**\n\n${ISSUE_BODY}\",
+                    \"title\": \"New Issue: #${ISSUE_NUMBER} - ${ISSUE_TITLE}\",
+                    \"url\": \"${ISSUE_URL}\",
+                    \"description\": \"${ISSUE_BODY}\",
                     \"color\": 16711680,
                     \"footer\": {
                       \"text\": \"Opened by ${ACTOR}\"
@@ -72,6 +76,7 @@ jobs:
           RELEASE_NAME=${{ github.event.release.name }}
           RELEASE_TAG=${{ github.event.release.tag_name }}
           RELEASE_BODY=${{ github.event.release.body }}
+          RELEASE_URL=${{ github.event.release.html_url }}
           REPO_NAME=${{ github.repository }}
           ACTOR=${{ github.actor }}
 
@@ -80,6 +85,7 @@ jobs:
                 \"embeds\": [
                   {
                     \"title\": \"New Release: ${RELEASE_NAME} (${RELEASE_TAG})\",
+                    \"url\": \"${RELEASE_URL}\",
                     \"description\": \"${RELEASE_BODY}\",
                     \"color\": 65280,
                     \"footer\": {
