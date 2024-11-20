@@ -3,6 +3,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="snackbar_background">#e3e2e8</color>
+    <color name="snackbar_text">#2f3035</color>
+
     <!--   bg-colors -->
     <color name="C01d">#001d33</color>
     <color name="C01n">#001d33</color>
