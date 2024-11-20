@@ -1,9 +1,13 @@
-name: Send Commit Messages to Discord
+name: Send Notifications to Discord
 
 on:
   push:
     branches:
       - master
+  issues:
+    types: [opened]
+  release:
+    types: [published]
 
 jobs:
   notify-discord:
@@ -12,29 +16,76 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Extract Commit Details and Send to Discord
+      - name: Notify Discord for Push
+        if: github.event_name == 'push'
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
-          # Ensure Git is installed and repository is checked out
-          git fetch --unshallow || true
-
-          # Extract details
           LAST_COMMIT_MESSAGE=$(git log -1 --pretty=format:'%s')
           LAST_COMMIT_AUTHOR=$(git log -1 --pretty=format:'%an')
           REPO_NAME=${{ github.repository }}
-          ACTOR=${{ github.actor }}
           BRANCH_NAME=${{ github.ref_name }}
 
-          # Debugging output (remove or comment in production)
-          echo "Commit Message: $LAST_COMMIT_MESSAGE"
-          echo "Commit Author: $LAST_COMMIT_AUTHOR"
-          echo "Repository Name: $REPO_NAME"
-          echo "Branch Name: $BRANCH_NAME"
-
-          # Send message to Discord
           curl -X POST -H "Content-Type: application/json" \
           -d "{
-                \"content\": \"${LAST_COMMIT_AUTHOR} pushed to ${REPO_NAME} on branch ${BRANCH_NAME}: ${LAST_COMMIT_MESSAGE}\"
+                \"embeds\": [
+                  {
+                    \"title\": \"${LAST_COMMIT_AUTHOR} pushed to ${REPO_NAME}\",
+                    \"description\": \"**Branch**: ${BRANCH_NAME}\n**Message**: ${LAST_COMMIT_MESSAGE}\",
+                    \"color\": 3447003
+                  }
+                ]
+              }" \
+          $DISCORD_WEBHOOK
+
+      - name: Notify Discord for Issues
+        if: github.event_name == 'issues'
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          ISSUE_TITLE=${{ github.event.issue.title }}
+          ISSUE_NUMBER=${{ github.event.issue.number }}
+          ISSUE_BODY=${{ github.event.issue.body }}
+          REPO_NAME=${{ github.repository }}
+          ACTOR=${{ github.actor }}
+
+          curl -X POST -H "Content-Type: application/json" \
+          -d "{
+                \"embeds\": [
+                  {
+                    \"title\": \"New Issue in ${REPO_NAME}\",
+                    \"description\": \"**#${ISSUE_NUMBER} ${ISSUE_TITLE}**\n\n${ISSUE_BODY}\",
+                    \"color\": 16711680,
+                    \"footer\": {
+                      \"text\": \"Opened by ${ACTOR}\"
+                    }
+                  }
+                ]
+              }" \
+          $DISCORD_WEBHOOK
+
+      - name: Notify Discord for Release
+        if: github.event_name == 'release'
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          RELEASE_NAME=${{ github.event.release.name }}
+          RELEASE_TAG=${{ github.event.release.tag_name }}
+          RELEASE_BODY=${{ github.event.release.body }}
+          REPO_NAME=${{ github.repository }}
+          ACTOR=${{ github.actor }}
+
+          curl -X POST -H "Content-Type: application/json" \
+          -d "{
+                \"embeds\": [
+                  {
+                    \"title\": \"New Release: ${RELEASE_NAME} (${RELEASE_TAG})\",
+                    \"description\": \"${RELEASE_BODY}\",
+                    \"color\": 65280,
+                    \"footer\": {
+                      \"text\": \"Released by ${ACTOR}\"
+                    }
+                  }
+                ]
               }" \
           $DISCORD_WEBHOOK
