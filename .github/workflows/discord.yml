@@ -9,17 +9,32 @@ jobs:
   notify-discord:
     runs-on: ubuntu-latest
     steps:
-      - name: Send Commit to Discord
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Extract Commit Details and Send to Discord
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
+          # Ensure Git is installed and repository is checked out
+          git fetch --unshallow || true
+
+          # Extract details
           LAST_COMMIT_MESSAGE=$(git log -1 --pretty=format:'%s')
           LAST_COMMIT_AUTHOR=$(git log -1 --pretty=format:'%an')
           REPO_NAME=${{ github.repository }}
           ACTOR=${{ github.actor }}
-          BRANCH=${{ github.ref_name }}
+          BRANCH_NAME=${{ github.ref_name }}
+
+          # Debugging output (remove or comment in production)
+          echo "Commit Message: $LAST_COMMIT_MESSAGE"
+          echo "Commit Author: $LAST_COMMIT_AUTHOR"
+          echo "Repository Name: $REPO_NAME"
+          echo "Branch Name: $BRANCH_NAME"
+
+          # Send message to Discord
           curl -X POST -H "Content-Type: application/json" \
           -d "{
-                \"content\": \"${LAST_COMMIT_AUTHOR} pushed to ${REPO_NAME} on branch ${BRANCH}: ${LAST_COMMIT_MESSAGE}\"
+                \"content\": \"${LAST_COMMIT_AUTHOR} pushed to ${REPO_NAME} on branch ${BRANCH_NAME}: ${LAST_COMMIT_MESSAGE}\"
               }" \
           $DISCORD_WEBHOOK
