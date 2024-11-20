@@ -289,7 +289,6 @@ public class ForegroundService extends Service {
 
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-        // Build the notification
         Notification notification = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             notification = new NotificationCompat.Builder(this, CHANNEL_ID)
@@ -306,6 +305,7 @@ public class ForegroundService extends Service {
                     .build();
         }
         notification.flags |= Notification.FLAG_NO_CLEAR;
+
         startForeground(1, notification);
     }
 
@@ -356,17 +356,4 @@ public class ForegroundService extends Service {
         updateNotification(condition, locationWeather, uvindex, iconCodeCondition, ISDAY, chanceOfRain);
     }
 
-
-    public void restartService() {
-        Intent intent = new Intent(this, ForegroundService.class);
-        PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        if (alarmManager != null) {
-            long interval = 1000 * 60 * 15; // 15 minutes, for example
-            long triggerAtMillis = SystemClock.elapsedRealtime() + interval;
-            alarmManager.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAtMillis, pendingIntent);
-        }
-    }
 }
-

@@ -104,6 +104,23 @@ else{
     sendThemeToAndroid("ReqLocation")
     document.querySelector('.currentLocationdiv').hidden = false;
 }
+} else{
+
+            if (localStorage.getItem('selectedMainWeatherProvider') === 'Met norway') {
+
+
+             document.querySelector('.data_provider_name_import').innerHTML = 'Data by Met norway';
+
+            } else if(localStorage.getItem('ApiForAccu') && localStorage.getItem('selectedMainWeatherProvider') === 'Accuweather') {
+
+          document.querySelector('.data_provider_name_import').innerHTML = 'Data by Accuweather';
+            }
+             else {
+
+
+            document.querySelector('.data_provider_name_import').innerHTML = 'Data by Open-Meteo';
+            }
+
 }
 
 
@@ -389,7 +406,7 @@ function loadSavedLocations() {
         let conditionlabel = 'No data'
         if (localStorage.getItem('selectedMainWeatherProvider') === 'Met norway' && JSON.parse(localStorage.getItem(`WeatherDataMetNorway_${location.locationName}`))) {
 
-
+            if(data){
             const data = JSON.parse(localStorage.getItem(`WeatherDataMetNorway_${location.locationName}`));
 
             if (SelectedTempUnit === 'fahrenheit') {
@@ -400,7 +417,8 @@ function loadSavedLocations() {
 
              icon = getMetNorwayIcons(data.properties.timeseries[0].data.next_1_hours.summary.symbol_code)
 
-            conditionlabel = getMetNorwayWeatherLabelInLang(data.properties.timeseries[0].data.next_1_hours.summary.symbol_code, localStorage.getItem('AppLanguageCode'))
+            conditionlabel = getMetNorwayWeatherLabelInLangNoAnim(data.properties.timeseries[0].data.next_1_hours.summary.symbol_code, localStorage.getItem('AppLanguageCode'))
+        }
 
 
          } else if(localStorage.getItem('selectedMainWeatherProvider') === 'Met norway' && !JSON.parse(localStorage.getItem(`WeatherDataMetNorway_${location.locationName}`))){
@@ -422,6 +440,7 @@ function loadSavedLocations() {
          else if (localStorage.getItem('ApiForAccu') && localStorage.getItem('selectedMainWeatherProvider') === 'Accuweather' && JSON.parse(localStorage.getItem(`WeatherDataAccuCurrent_${location.locationName}`))) {
             const data = JSON.parse(localStorage.getItem(`WeatherDataAccuCurrent_${location.locationName}`));
 
+  if(data){
             if (SelectedTempUnit === 'fahrenheit') {
                 temp = Math.round(data[0].Temperature.Imperial.Value);
 
@@ -431,8 +450,8 @@ function loadSavedLocations() {
             }
 
             icon = GetWeatherIconAccu(data[0].WeatherIcon)
-            conditionlabel = GetWeatherTextAccu(data[0].WeatherIcon)
-
+            conditionlabel = GetWeatherTextAccuNoAnim(data[0].WeatherIcon)
+    }
         }  else if(localStorage.getItem('ApiForAccu') && localStorage.getItem('selectedMainWeatherProvider') === 'Accuweather' && !JSON.parse(localStorage.getItem(`WeatherDataAccuCurrent_${location.locationName}`))){
   const lastCallTimeKey = `DecodeWeatherLastCall_${location.locationName}`;
     const currentTime = Date.now();
@@ -451,8 +470,10 @@ function loadSavedLocations() {
 
         }
             else {
+
             const data = JSON.parse(localStorage.getItem(`WeatherDataOpenMeteo_${location.locationName}`));
 
+if(data){
             if (SelectedTempUnit === 'fahrenheit') {
                 temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m))
             } else {
@@ -462,6 +483,7 @@ function loadSavedLocations() {
             icon = GetWeatherIcon(data.current.weather_code, data.current.is_day);
 
              conditionlabel = getWeatherLabelInLangNoAnim(data.current.weather_code, data.current.is_day,  localStorage.getItem('AppLanguageCode'))
+        }
 
         }
 
@@ -477,7 +499,6 @@ function loadSavedLocations() {
             <span>${conditionlabel}</span>
             <mainCurrenttempSaved>${temp}°</mainCurrenttempSaved>
         </div>
-        <flex></flex>
         <md-icon-button class="delete-btn">
             <md-icon icon-filled>delete</md-icon>
         </md-icon-button>`;
@@ -534,6 +555,16 @@ function loadSavedLocations() {
                         if(localStorage.getItem(`MoreDetailsData_${location.locationName}`)){
                             setTimeout(()=>{
                                 localStorage.removeItem(`MoreDetailsData_${location.locationName}`)
+                            }, 400);
+                        }
+                        if(localStorage.getItem(`DecodeWeatherLastCall_${location.locationName}`)){
+                            setTimeout(()=>{
+                                localStorage.removeItem(`DecodeWeatherLastCall_${location.locationName}`)
+                            }, 400);
+                        }
+                        if(localStorage.getItem(`DecodeWeatherLastCallMet_${location.locationName}`)){
+                            setTimeout(()=>{
+                                localStorage.removeItem(`DecodeWeatherLastCallMet_${location.locationName}`)
                             }, 400);
                         }
             savedLocationItem.remove();
@@ -1009,7 +1040,7 @@ checkNoInternet();
 
     document.addEventListener('DOMContentLoaded', async function() {
 
-        const currentVersion = 'v1.8.3';
+        const currentVersion = 'v1.8.4';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 

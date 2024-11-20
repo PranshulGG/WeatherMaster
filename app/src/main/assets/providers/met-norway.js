@@ -908,3 +908,110 @@ function getMetNorwayFrogy(data_condition){
 
     return 'weather-icons/not_available.svg'
 }
+
+// no animation labels
+
+
+function converMetNorwayConditionsNoAnim(condition_text) {
+
+    if (condition_text === 'clearsky_day') {
+
+        return 'clear_sky'
+
+    } else if (condition_text === 'clearsky_night') {
+
+        return 'clear_sky'
+
+
+    } else if (condition_text === 'fair_night') {
+
+        return 'mostly_clear'
+
+    } else if (condition_text === 'fair_day' || condition_text === 'fair_polartwilight') {
+
+        return 'mostly_clear'
+
+    } else if (condition_text === 'partlycloudy_day' || condition_text === 'partlycloudy_night' || condition_text === 'partlycloudy_polartwilight') {
+
+        return 'partly_cloudy'
+
+    } else if (condition_text === 'cloudy') {
+
+        return 'overcast'
+
+    } else if (condition_text === 'fog') {
+
+        return 'fog'
+
+    } else if (condition_text === 'lightrain' || condition_text === 'lightsleet') {
+
+        return 'drizzle'
+
+    } else if (condition_text === 'heavysleet' || condition_text === '') {
+
+        return 'freezing_drizzle'
+
+    } else if (condition_text === 'rain') {
+
+        return 'moderate_rain'
+
+    } else if (condition_text === 'heavyrain' || condition_text === 'lightrainandthunder') {
+
+        return 'heavy_intensity_rain'
+
+    } else if (condition_text === 'sleet' || condition_text === 'sleetshowersandthunder_day' || condition_text === 'sleetshowersandthunder_night' || condition_text === 'sleetshowersandthunder_polartwilight' || condition_text === 'lightssleetshowersandthunder_day' || condition_text === 'lightssleetshowersandthunder_night' || condition_text === 'lightssleetshowersandthunder_polartwilight' || condition_text === 'lightsleetandthunder' || condition_text === 'heavysleetshowers_day' || condition_text === 'heavysleetshowers_night' || condition_text === 'heavysleetshowers_polartwilight') {
+
+        return 'freezing_rain'
+
+    } else if (condition_text === 'snow' || condition_text === 'lightsnow' || condition_text === 'lightsnowshowers_day' || condition_text === 'lightsnowshowers_night' || condition_text === 'lightsnowshowers_polartwilight') {
+
+        return 'slight_snow'
+
+    } else if (condition_text === 'heavysnow' || condition_text === 'lightsnowandthunder') {
+
+        return 'moderate_snow'
+
+    } else if (condition_text === 'heavysnowandthunder' || condition_text === 'heavysnowshowers_day' || condition_text === 'heavysnowshowers_night' || condition_text === 'heavysnowshowers_polartwilight') {
+
+        return 'heavy_intensity_snow'
+
+    } else if (condition_text === 'sleetshowers_day' || condition_text === 'sleetshowers_night' || condition_text === 'sleetshowers_polartwilight' || condition_text === 'heavysleetshowersandthunder_day' || condition_text === 'heavysleetshowersandthunder_night' || condition_text === 'heavysleetshowersandthunder_polartwilight' || condition_text === 'heavysleetandthunder' || condition_text === 'lightsleetshowers_day' || condition_text === 'lightsleetshowers_night' || condition_text === 'lightsleetshowers_polartwilight') {
+
+        return 'snow_grains'
+
+    } else if (condition_text === 'rainshowers_day' || condition_text === 'rainshowers_night' || condition_text === 'rainshowers_polartwilight' || condition_text === 'lightrainshowersandthunder_day' || condition_text === 'lightrainshowersandthunder_night' || condition_text === 'lightrainshowersandthunder_polartwilight' || condition_text === 'lightrainshowers_day' || condition_text === 'lightrainshowers_night' || condition_text === 'lightrainshowers_polartwilight') {
+
+        return 'rain_showers'
+
+    } else if (condition_text === 'rainshowersandthunder_day' || condition_text === 'rainshowersandthunder_night' || condition_text === 'rainshowersandthunder_polartwilight' || condition_text === 'heavyrainshowersandthunder_day' || condition_text === 'heavyrainshowersandthunder_night' || condition_text === 'heavyrainshowersandthunder_polartwilight' || condition_text === 'heavyrainshowers_day' || condition_text === 'heavyrainshowers_night' || condition_text === 'heavyrainshowers_polartwilight') {
+
+        return 'heavy_rain_showers'
+
+    } else if (condition_text === 'snowshowers_day' || condition_text === 'snowshowers_night' || condition_text === 'snowshowers_polartwilight' || condition_text === 'lightssnowshowersandthunder_day' || condition_text === 'lightssnowshowersandthunder_night' || condition_text === 'lightssnowshowersandthunder_polartwilight') {
+
+        return 'slight_snow_showers'
+
+    } else if (condition_text === 'snowandthunder' || condition_text === 'snowshowersandthunder_day' || condition_text === 'snowshowersandthunder_night' || condition_text === 'snowshowersandthunder_polartwilight' || condition_text === 'heavysnowshowersandthunder_day' || condition_text === 'heavysnowshowersandthunder_night' || condition_text === 'heavysnowshowersandthunder_polartwilight') {
+
+        return 'heavy_snow_showers'
+
+    } else if (condition_text === 'heavyrainandthunder' || condition_text === 'rainandthunder' || condition_text === 'sleetandthunder') {
+        return 'thunderstorm'
+
+    } else if (condition_text === '' || condition_text === '') {
+        return 'strong_thunderstorm'
+
+    }
+
+    return 'Not found'
+
+}
+
+
+function getMetNorwayWeatherLabelInLangNoAnim(condition_text, langCode) {
+    const translationKey = converMetNorwayConditionsNoAnim(condition_text);
+
+    const translatedLabel = getTranslationByLang(langCode, translationKey);
+
+    return translatedLabel || 'Unknown weather';
+}

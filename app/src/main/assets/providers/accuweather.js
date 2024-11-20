@@ -1116,3 +1116,137 @@ function GetWeatherIconAccuFrog(AccuweathericonFrog) {
 
 return AccuweathericonFrog
 }
+
+
+// labels without animations
+
+
+function GetWeatherTextAccuNoAnim(iconCodeAccu) {
+
+
+        if (iconCodeAccu === 1) {
+            return 'Sunny'
+
+        } else if (iconCodeAccu === 2) {
+            return 'Mostly Sunny'
+
+        } else if (iconCodeAccu === 3 || iconCodeAccu === 4) {
+            return 'Partly Sunny'
+
+        } else if (iconCodeAccu === 5) {
+            return 'Hazy Sunshine'
+
+        } else if (iconCodeAccu === 6) {
+            return 'Mostly Cloudy'
+
+        } else if (iconCodeAccu === 7) {
+            return 'Cloudy'
+
+        } else if (iconCodeAccu === 8) {
+            return 'Overcast'
+
+        } else if (iconCodeAccu === 11) {
+            return 'Fog'
+
+        } else if (iconCodeAccu === 12) {
+            return 'Showers'
+
+        } else if (iconCodeAccu === 13) {
+            return 'Light rain'
+
+        } else if (iconCodeAccu === 14) {
+            return 'Rainy'
+
+        } else if (iconCodeAccu === 15) {
+            return 'T-Storms'
+
+        } else if (iconCodeAccu === 16) {
+            return 'Cloudy / T-Storms'
+
+        } else if (iconCodeAccu === 17) {
+            return 'Sunny / T-Storms'
+
+        } else if (iconCodeAccu === 18) {
+            return 'Rain'
+
+        } else if (iconCodeAccu === 19) {
+            return 'Flurries'
+
+        } else if (iconCodeAccu === 20) {
+            return 'Moderate Flurries'
+
+        } else if (iconCodeAccu === 21) {
+
+            return 'Slight Flurries'
+
+        } else if (iconCodeAccu === 22) {
+            return 'Snow'
+
+        } else if (iconCodeAccu === 23) {
+            return 'Cloudy / snow'
+
+        } else if (iconCodeAccu === 24) {
+            return 'Ice'
+
+        } else if (iconCodeAccu === 25) {
+            return 'Sleet'
+
+        } else if (iconCodeAccu === 26) {
+            return 'Freezing Rain'
+
+        } else if (iconCodeAccu === 29) {
+            return 'Rain and Snow'
+
+        }
+       else if (iconCodeAccu === 30) {
+            return 'Hot'
+
+        } else if (iconCodeAccu === 31) {
+
+            return 'Cold'
+
+        } else if (iconCodeAccu === 32) {
+            return 'Windy'
+
+        } else if (iconCodeAccu === 33) {
+            return 'Clear'
+
+        } else if (iconCodeAccu === 34 ) {
+            return 'Mostly Clear'
+
+        } else if (iconCodeAccu === 35) {
+            return 'Partly Cloudy'
+
+        } else if (iconCodeAccu === 36) {
+            return 'Intermittent Clouds'
+
+        } else if (iconCodeAccu === 37) {
+
+            return 'Hazy Moonlight'
+
+        } else if (iconCodeAccu === 38) {
+
+            return 'Mostly Cloudy'
+
+        } else if (iconCodeAccu === 39 ) {
+            return 'Light rain'
+
+        } else if (iconCodeAccu === 40) {
+            return 'Rainy'
+
+        } else if (iconCodeAccu === 41) {
+            return 'Light T-storms'
+
+        } else if (iconCodeAccu === 42) {
+            return 'Light T-storms'
+
+        } else if (iconCodeAccu === 43) {
+            return 'Light flurries'
+
+        } else if (iconCodeAccu === 44) {
+            return 'Light snow'
+
+        }
+
+    return 'Error'
+}

@@ -1730,7 +1730,7 @@ savedLocationsHolder savedLocationItem div maincurrenttempsaved{
   font-size: 34px;
   color: var(--On-Surface);
   opacity: 0.9;
-  right: 0px;
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
 }

@@ -728,15 +728,6 @@ if(HideNewUpdateToast === 'true'){
     }
 
 
-    function checkNoInternet(){
-        if(navigator.onLine){
-        localStorage.setItem('DeviceOnline', 'Yes');
-        } else{
-            document.getElementById('usage-popover-anchor').style.pointerEvents = 'none'
-            document.getElementById('you_cant_change_location').innerHTML = "Option can't be changed without internet";
-        }
-    }
-    checkNoInternet()
 
 document.getElementById('toggle_noti').addEventListener('change', ()=>{
 
