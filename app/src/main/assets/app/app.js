@@ -405,10 +405,9 @@ function loadSavedLocations() {
         let icon = '../icons/error.png'
         let conditionlabel = 'No data'
         if (localStorage.getItem('selectedMainWeatherProvider') === 'Met norway' && JSON.parse(localStorage.getItem(`WeatherDataMetNorway_${location.locationName}`))) {
-
-            if(data){
             const data = JSON.parse(localStorage.getItem(`WeatherDataMetNorway_${location.locationName}`));
 
+            if(data){
             if (SelectedTempUnit === 'fahrenheit') {
                 temp = Math.round(celsiusToFahrenheit(data.properties.timeseries[0].data.instant.details.air_temperature));
             } else {
@@ -440,7 +439,7 @@ function loadSavedLocations() {
          else if (localStorage.getItem('ApiForAccu') && localStorage.getItem('selectedMainWeatherProvider') === 'Accuweather' && JSON.parse(localStorage.getItem(`WeatherDataAccuCurrent_${location.locationName}`))) {
             const data = JSON.parse(localStorage.getItem(`WeatherDataAccuCurrent_${location.locationName}`));
 
-  if(data){
+       if(data){
             if (SelectedTempUnit === 'fahrenheit') {
                 temp = Math.round(data[0].Temperature.Imperial.Value);
 
