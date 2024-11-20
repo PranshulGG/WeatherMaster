@@ -1,5 +1,5 @@
 name: Send Commit Messages to Discord
- 
+
 on:
   push:
     branches:
@@ -13,6 +13,13 @@ jobs:
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
+          LAST_COMMIT_MESSAGE=$(git log -1 --pretty=format:'%s')
+          LAST_COMMIT_AUTHOR=$(git log -1 --pretty=format:'%an')
+          REPO_NAME=${{ github.repository }}
+          ACTOR=${{ github.actor }}
+          BRANCH=${{ github.ref_name }}
           curl -X POST -H "Content-Type: application/json" \
-          -d "{\"content\": \"New push to ${GITHUB_REPOSITORY} by ${GITHUB_ACTOR}: ${GITHUB_EVENT_NAME}\"}" \
+          -d "{
+                \"content\": \"${LAST_COMMIT_AUTHOR} pushed to ${REPO_NAME} on branch ${BRANCH}: ${LAST_COMMIT_MESSAGE}\"
+              }" \
           $DISCORD_WEBHOOK
