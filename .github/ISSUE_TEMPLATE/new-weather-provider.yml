@@ -26,22 +26,24 @@ body:
       label: Key Features or Benefits
       placeholder: List specific features of the provider that you think would improve the app.
                    (e.g., Hourly forecasts, radar data, historical weather, etc.)
-  - type: checkboxes
+  - type: input
     id: api_info
     attributes:
       label: Provider's API Information
       description: Does the provider have a free API tier?
-      options:
-        - label: "Yes"
-        - label: "No"
-  - type: checkboxes
+      placeholder: |
+        "Yes or no"
+    validations:
+      required: true
+  - type: input
     id: regions_supported
     attributes:
       label: Regions Supported
       description: Is this provider suitable for a global audience or specific regions?
-      options:
-        - label: "Global"
-        - label: "Regional (Specify Below)"
+      placeholder: |
+        "global or specific"
+    validations:
+      required: true
   - type: textarea
     id: specify_regions
     attributes:
