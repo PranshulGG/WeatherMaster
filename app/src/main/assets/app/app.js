@@ -1,5 +1,11 @@
 const DefaultLocation = JSON.parse(localStorage.getItem("DefaultLocation"));
 
+
+function showSnackbarMessage(data) {
+ShowSnackMessage.ShowSnack(data, "long");
+
+}
+
 let currentApiKeyIndex = 0;
 
 let currentKeyMoonIndex = 0;
@@ -93,46 +99,47 @@ function useAutoCurrentLocation() {
   }
 }
 
-if (navigator.onLine) {
-  if (DefaultLocation) {
-    if (DefaultLocation.name === "CurrentDeviceLocation") {
-      useAutoCurrentLocation();
-      sendThemeToAndroid("ReqLocation");
-      document.querySelector(".currentLocationdiv").hidden = false;
-    } else if (DefaultLocation.lat && DefaultLocation.lon) {
-      DecodeWeather(
-        DefaultLocation.lat,
-        DefaultLocation.lon,
-        DefaultLocation.name
-      );
+//if (navigator.onLine) {
+//  if (DefaultLocation) {
+//    if (DefaultLocation.name === "CurrentDeviceLocation") {
+//      useAutoCurrentLocation();
+//      sendThemeToAndroid("ReqLocation");
+//      document.querySelector(".currentLocationdiv").hidden = false;
+//    } else if (DefaultLocation.lat && DefaultLocation.lon) {
+//      DecodeWeather(
+//        DefaultLocation.lat,
+//        DefaultLocation.lon,
+//        DefaultLocation.name
+//      );
+//
+//      document.getElementById("city-name").innerHTML = DefaultLocation.name;
+//      document.getElementById("SelectedLocationText").innerHTML =
+//        DefaultLocation.name;
+//      localStorage.setItem("CurrentLocationName", DefaultLocation.name);
+//      document.getElementById("currentLocationName").textContent =
+//        DefaultLocation.name;
+//    }
+//  } else {
+//    useAutoCurrentLocation();
+//    sendThemeToAndroid("ReqLocation");
+//    document.querySelector(".currentLocationdiv").hidden = false;
+//  }
+//} else {
+//  if (localStorage.getItem("selectedMainWeatherProvider") === "Met norway") {
+//    document.querySelector(".data_provider_name_import").innerHTML =
+//      "Data by Met norway";
+//  } else if (
+//    localStorage.getItem("ApiForAccu") &&
+//    localStorage.getItem("selectedMainWeatherProvider") === "Accuweather"
+//  ) {
+//    document.querySelector(".data_provider_name_import").innerHTML =
+//      "Data by Accuweather";
+//  } else {
+//    document.querySelector(".data_provider_name_import").innerHTML =
+//      "Data by Open-Meteo";
+//  }
+//}
 
-      document.getElementById("city-name").innerHTML = DefaultLocation.name;
-      document.getElementById("SelectedLocationText").innerHTML =
-        DefaultLocation.name;
-      localStorage.setItem("CurrentLocationName", DefaultLocation.name);
-      document.getElementById("currentLocationName").textContent =
-        DefaultLocation.name;
-    }
-  } else {
-    useAutoCurrentLocation();
-    sendThemeToAndroid("ReqLocation");
-    document.querySelector(".currentLocationdiv").hidden = false;
-  }
-} else {
-  if (localStorage.getItem("selectedMainWeatherProvider") === "Met norway") {
-    document.querySelector(".data_provider_name_import").innerHTML =
-      "Data by Met norway";
-  } else if (
-    localStorage.getItem("ApiForAccu") &&
-    localStorage.getItem("selectedMainWeatherProvider") === "Accuweather"
-  ) {
-    document.querySelector(".data_provider_name_import").innerHTML =
-      "Data by Accuweather";
-  } else {
-    document.querySelector(".data_provider_name_import").innerHTML =
-      "Data by Open-Meteo";
-  }
-}
 
 function handleGeolocationError(error) {
   console.error("Error getting geolocation:", error);
