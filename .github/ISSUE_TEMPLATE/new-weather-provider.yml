@@ -34,7 +34,7 @@ body:
       options:
         - label: "Yes"
         - label: "No"
-      disabled: true  # Disable the checkboxes after issue creation
+      disable: true  
   - type: checkboxes
     id: regions_supported
     attributes:
@@ -43,7 +43,7 @@ body:
       options:
         - label: "Global"
         - label: "Regional (Specify Below)"
-      disabled: true  # Disable the checkboxes after issue creation
+      disable: true  
   - type: textarea
     id: specify_regions
     attributes:
