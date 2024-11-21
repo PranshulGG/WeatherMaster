@@ -626,3 +626,47 @@
 
 
 }
+
+/* clothing */
+
+[Theme="clothing"] {
+
+    --Primary: #dbc66e;
+    --On-Primary: #3a3000;
+    --Primary-Container: #534600;
+    --On-Primary-Container: #f8e287;
+    --Secondary: #d1c6a1;
+    --On-Secondary: #363016;
+    --Secondary-Container: #4e472a;
+    --On-Secondary-Container: #eee2bc;
+    --Tertiary: #a9d0b3;
+    --On-Tertiary: #143723;
+    --Tertiary-Container: #2c4e38;
+    --On-Tertiary-Container: #c5ecce;
+    --Error: #ffb4ab;
+    --On-Error: #690005;
+    --Error-Container: #93000a;
+    --On-Error-Container: #ffdad6;
+    --Surface-Dim: #15130b;
+    --Surface: #15130b;
+    --Surface-Bright: #3c3930;
+    --Surface-Container-Lowest: #100e07;
+    --Surface-Container-Low: #1e1b13;
+    --Surface-Container: #222017;
+    --Surface-Container-High: #2d2a21;
+    --Surface-Container-Highest: #38352b;
+    --Inverse-Surface: #e8e2d4;
+    --Inverse-On-Surface: #333027;
+    --Inverse-Primary: #6d5e0f;
+    --On-Surface: #e8e2d4;
+    --On-Surface-Variant: #cdc6b4;
+    --Outline: #969080;
+    --Outline-Variant: #4b4739;
+    --Scrim: #000000;
+    --Shadow: #000000;
+
+    --caret: #dbc66e;
+    --Top-bar: 64, 70, 89;
+
+
+}

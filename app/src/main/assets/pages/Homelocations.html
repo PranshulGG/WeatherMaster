@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" Theme="default" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Locations</title>
+    <link rel="stylesheet" href="../ui-files/font-usage.css">
+    <link rel="stylesheet" href="../ui-files/variables.css">
+    <link rel="stylesheet" href="../components/components.css">
+    <link rel="stylesheet" href="../components/modal-ver.css">
+    <link rel="stylesheet" href="../ripple-files/ripple.css">
+    <link rel="stylesheet" href="../components/segment-btns.css">
+    <script src="../langs/langs.js"></script>
+
+    <style>
+        * {
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            touch-action: manipulation;
+            -webkit-user-drag: none;
+            outline: none;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        body {
+            background-color: var(--Surface);
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            font-family: var(--outfit);
+            animation: opacity 0.3s ease-out;
+
+        }
+
+        @keyframes opacity {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        *::selection {
+            background-color: var(--Inverse-Primary);
+            color: white;
+        }
+
+        .location_item {
+            min-height: 65px;
+            display: flex;
+            align-items: center;
+            padding: 0px;
+            padding-left: 15px;
+            padding-right: 15px;
+            gap: 15px;
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .location_item .icon svg {
+            width: 45px;
+            height: 45px;
+            fill: var(--Surface-Container-Low);
+            transition: fill 0.2s ease-out;
+        }
+
+        .location_item p {
+            font-size: 18px;
+            color: var(--On-Surface);
+            font-family: var(--outfit);
+        }
+
+        .item_holder {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        .not-selected {
+            position: absolute;
+            font-size: 24px;
+            color: var(--On-Surface-Variant);
+            z-index: 1;
+
+        }
+
+        .selected {
+            position: absolute;
+            font-size: 24px;
+            color: var(--On-Primary);
+            display: none;
+            z-index: 1;
+        }
+
+        .location_item .icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .selected-home-location > .icon svg{
+            fill: var(--Primary);
+        }
+
+        .selected-home-location > .icon .selected{
+            display: flex;
+        }
+
+        .selected-home-location > .icon .not-selected{
+            display: none;
+        }
+
+        .selected-home-location{
+            background-color: var(--Surface-Container-Low);
+        }
+
+        .info_div{
+            padding-left: 13px;
+            padding-right: 13px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            display: flex;
+            align-items: flex-start;
+            gap: 3px;
+            color: var(--On-Surface-Variant);
+            opacity: 0.7;
+            font-size: 14px;
+        }
+
+        .info_div md-icon{
+            font-size: 18px;
+            width: max-content;
+            height: max-content;
+        }   
+
+    </style>
+</head>
+
+<body style="background-color: var(--Surface);">
+
+    <div class="activity-large open">
+        <div class="header-activity-large" id="head-1">
+            <button class="ripple-icon-btn regular" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)"
+                title="Go back" onclick="sendThemeToAndroid('GoBack')">
+                <span class="ripple-effect-icon"></span>
+                <span icon-outlined>arrow_back</span>
+            </button>
+            <p class="label-hidden-large" style="white-space: nowrap;">Home location</p>
+        </div>
+        <div class="activity-large-content" id="headUser-1">
+            <p class="label-large-main">Home location</p>
+            <div class="content-parent-large" style="padding-bottom: 32px;">
+
+                <div class="info_div">
+                    <md-icon icon-outlined>info</md-icon>
+                    <span>You need to save locations to use them as your default location</span>
+                </div>
+
+                <div class="item_holder" id="item_holder">
+
+                    
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+
+        const user1 = document.getElementById('headUser-1')
+
+        function changeColorOnScroll1() {
+            var container = document.getElementById('headUser-1');
+            var scrollY = container.scrollTop;
+
+            if (scrollY >= 50) {
+                document.getElementById('head-1').style.backgroundColor = 'var(--Surface-Container)';
+                document.getElementById('head-1').style.transition = '';
+
+                document.getElementById('headUser-1').style.scrollSnapType = 'unset';
+                container.removeEventListener('scroll', changeColorOnScroll1);
+                sendThemeToAndroid('Scrolled')
+
+
+            } else {
+
+            }
+        }
+
+        if (user1) {
+            document.getElementById('headUser-1').addEventListener('scroll', changeColorOnScroll1);
+        }
+
+
+
+        function changeColorOnScroll1A() {
+            var container = document.getElementById('headUser-1');
+            var scrollY = container.scrollTop;
+
+            if (scrollY <= 1) {
+                document.getElementById('head-1').style.backgroundColor = '';
+                document.getElementById('head-1').style.transition = 'background-color 0.2s ease-in';
+
+                sendThemeToAndroid('ScrollFalse')
+
+                container.addEventListener('scroll', changeColorOnScroll1);
+                if (scrollY <= 20); {
+                    document.getElementById('headUser-1').style.scrollSnapType = '';
+
+                }
+
+            } else {
+
+            }
+        }
+
+        if (user1) {
+            document.getElementById('headUser-1').addEventListener('scroll', changeColorOnScroll1A);
+        }
+
+        function sendThemeToAndroid(theme) {
+
+            AndroidInterface.updateStatusBarColor(theme);
+        };
+
+
+        // render locations
+
+        const savedLocationsMenu = document.getElementById('item_holder');
+        const savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
+
+        const clearSelection = () => {
+            const allMenuItems = savedLocationsMenu.querySelectorAll('div');
+            allMenuItems.forEach(item => item.classList.remove('selected-home-location'));
+        };
+
+        const defaultMenuItem = document.createElement('div');
+        defaultMenuItem.setAttribute('lat', 'defaultLat');
+        defaultMenuItem.setAttribute('lon', 'defaultLon');
+        defaultMenuItem.innerHTML = 'Your device location';
+        defaultMenuItem.classList.add('selected-home-location', 'location_item', 'device_location');
+        defaultMenuItem.setAttribute('name', 'CurrentDeviceLocation');
+
+        defaultMenuItem.innerHTML = `
+
+                <div class="icon">
+                <svg _ngcontent-dfa-c17="" width="100%" height="100%" viewBox="0 0 40 40" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" class="clover ng-star-inserted">
+                    <path _ngcontent-dfa-c17=""
+                        d="M.887 14.467C-2.845 5.875 5.875-2.845 14.467.887l1.42.617a10.323 10.323 0 0 0 8.225 0l1.42-.617c8.593-3.732 17.313 4.988 13.581 13.58l-.617 1.42a10.323 10.323 0 0 0 0 8.225l.617 1.42c3.732 8.593-4.989 17.313-13.58 13.581l-1.42-.617a10.323 10.323 0 0 0-8.225 0l-1.42.617C5.874 42.845-2.846 34.125.886 25.533l.617-1.42a10.323 10.323 0 0 0 0-8.225l-.617-1.42Z">
+                    </path>
+                </svg>
+                <i icon-filled class="not-selected">my_location</i>
+                <i icon-outlined class="selected">check</i>
+                </div>
+                <p>Your device location</p>
+
+                <md-ripple style="--md-ripple-pressed-opacity: 0.05 !important;"></md-ripple>
+                `
+
+        defaultMenuItem.addEventListener('click', () => {
+            clearSelection();
+            defaultMenuItem.classList.add('selected-home-location');
+            localStorage.setItem('DefaultLocation', JSON.stringify({ lat: localStorage.getItem('deviceLat'), lon: localStorage.getItem('devicelon'), name: 'CurrentDeviceLocation' }));
+        });
+
+
+        savedLocationsMenu.appendChild(defaultMenuItem);
+
+        savedLocations.forEach(location => {
+            const menuItemLocation = document.createElement('div');
+            menuItemLocation.classList.add("location_item")
+            menuItemLocation.setAttribute('lat', location.lat);
+            menuItemLocation.setAttribute('lon', location.lon);
+            menuItemLocation.setAttribute('name', location.locationName);
+
+            menuItemLocation.innerHTML = `
+
+                        <div class="icon">
+                            <svg _ngcontent-dfa-c17="" width="100%" height="100%" viewBox="0 0 40 40" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" class="clover ng-star-inserted">
+                                <path _ngcontent-dfa-c17=""
+                                    d="M.887 14.467C-2.845 5.875 5.875-2.845 14.467.887l1.42.617a10.323 10.323 0 0 0 8.225 0l1.42-.617c8.593-3.732 17.313 4.988 13.581 13.58l-.617 1.42a10.323 10.323 0 0 0 0 8.225l.617 1.42c3.732 8.593-4.989 17.313-13.58 13.581l-1.42-.617a10.323 10.323 0 0 0-8.225 0l-1.42.617C5.874 42.845-2.846 34.125.886 25.533l.617-1.42a10.323 10.323 0 0 0 0-8.225l-.617-1.42Z">
+                                </path>
+                            </svg>
+                            <i icon-filled class="not-selected">location_on</i>
+                            <i icon-outlined class="selected">check</i>
+                        </div>
+                        <p>${location.locationName}</p>
+
+                        <md-ripple style="--md-ripple-pressed-opacity: 0.05 !important;"></md-ripple>
+            `
+
+
+            menuItemLocation.addEventListener('click', () => {
+                clearSelection();
+                menuItemLocation.classList.add('selected-home-location');
+
+
+                localStorage.setItem('DefaultLocation', JSON.stringify({ lat: location.lat, lon: location.lon, name: location.locationName }));
+
+            });
+
+            savedLocationsMenu.appendChild(menuItemLocation);
+        });
+
+        const checkName = JSON.parse(localStorage.getItem('DefaultLocation'));
+
+        if (!localStorage.getItem('DefaultLocation')) {
+            localStorage.setItem('DefaultLocation', JSON.stringify({ name: 'CurrentDeviceLocation' }));
+        } else if (checkName.lat && checkName.lon) {
+            clearSelection();
+            document.querySelector(`[name="${checkName.name}"]`).classList.add('selected-home-location')
+        } else {
+
+        }
+
+        document.addEventListener('DOMContentLoaded', () =>{
+            function checkInterNetForDevice(){
+        if(navigator.onLine){
+            document.querySelector('.device_location').style.pointerEvents = ''
+            document.querySelector('.device_location').style.opacity = ''
+            document.querySelector('.device_location p').innerHTML = 'Your device location'
+
+        } else{
+            document.querySelector('.device_location').style.pointerEvents = 'none'
+            document.querySelector('.device_location').style.opacity = '0.5'
+            document.querySelector('.device_location p').innerHTML = 'Your device location (Internet needed)'
+        }
+    }
+
+    window.addEventListener('online', checkInterNetForDevice)
+    window.addEventListener('offline', checkInterNetForDevice)
+    checkInterNetForDevice()
+
+    });
+    </script>
+
+
+    <script src="../components-script.js/components.js"></script>
+    <script src="../ripple-files/icon-ripple.js"></script>
+    <script src="../modules/scroll.js"></script>
+    <script src="../modules/ripple_acc.js"></script>
+    <script src="../app/navigate.js"></script>
+    <script src="bundle.js"></script>
+    <script type="module" src="../index.js"></script>
+</body>
+
+</html>

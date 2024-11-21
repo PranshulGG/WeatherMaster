@@ -31,6 +31,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -266,6 +267,7 @@ public class MainActivity extends AppCompatActivity {
                 snackbar.getView().setLayoutParams(marginParams);
             }
 
+
             snackbar.show();
         }
     }
@@ -478,6 +480,9 @@ public class MainActivity extends AppCompatActivity {
                     } else if (color.equals("AddLocationPage")){
                         OpenSearchPage();
                         return;
+                    } else if (color.equals("OpenClothingPage")){
+                        OpenClothingPage();
+                        return;
                     } else if (color.equals("GoBack")) {
                         back();
                         return;
@@ -610,6 +615,10 @@ public class MainActivity extends AppCompatActivity {
 
         public void OpenSearchPage() {
             Intent intent = new Intent(mActivity, SearchPage.class);
+            mActivity.startActivity(intent);
+        }
+        public void OpenClothingPage() {
+            Intent intent = new Intent(mActivity, ClothingRecommendation.class);
             mActivity.startActivity(intent);
         }
     }

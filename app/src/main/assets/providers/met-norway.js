@@ -102,11 +102,11 @@ function renderHourlyDataMetNorway(data) {
 
         let barColor;
         if (hour.data.next_1_hours.details.precipitation_amount < 0.5) {
-            barColor = '#4c8df6';
+            barColor = 'var(--Primary-Container)';
         } else if (hour.data.next_1_hours.details.precipitation_amount > 0.5 && hour.data.next_1_hours.details.precipitation_amount <= 1) {
-            barColor = 'orange';
+            barColor = 'var(--Primary-Container)';
         } else if (hour.data.next_1_hours.details.precipitation_amount > 1) {
-            barColor = 'red';
+            barColor = 'var(--Primary)';
         }
 
         let Visibility = Math.round(hour.data.instant.details.visibility / 1000);
@@ -139,8 +139,8 @@ function renderHourlyDataMetNorway(data) {
             <rainPerBar>
               <rainPerBarProgress style="height: ${Math.round(rainAmountPercent)}%; background-color: ${barColor};">
             </rainPerBarProgress>
+              <p>${PrecAmount}</p>
             </rainPerBar>
-            <p>${PrecAmount}</p>
             <span>${hours}${period}</span>
         `;
 

@@ -1,4 +1,6 @@
 
+//E:\MYAPPS\WeatherMaster\app\release
+
 const DefaultLocation = JSON.parse(localStorage.getItem('DefaultLocation'));
 
 let currentApiKeyIndex = 0;
@@ -9,6 +11,8 @@ let currentAstronomyKeyIndex = 0;
 function WaitBeforeRefresh(){
 ShowSnackMessage.ShowSnack("Please wait before refreshing again.", "long");
 }
+
+
 
 
 function handleStorageChange(event) {
@@ -349,6 +353,8 @@ function GetSavedSearchLocation(){
     DecodeWeather(searchedItem.latitude, searchedItem.longitude, searchedItem.LocationName);
     saveLocationToContainer(searchedItem.LocationName, searchedItem.latitude, searchedItem.longitude)
     }
+
+    ShowSnackMessage.ShowSnack("Loading location data", "short");
 
 }
 
@@ -850,7 +856,7 @@ window.addEventListener('popstate', function (event) {
             document.getElementById('city-input').dispatchEvent(new Event('input'));
             document.getElementById('search-container').style.display = 'none'
             document.getElementById('search-container').style.opacity = '1'
-            sendThemeToAndroid("EnableSwipeRefresh")
+            checkTopScroll()
                     cityList.innerHTML = '';
                     cityInput.value = '';
 
@@ -1043,7 +1049,7 @@ checkNoInternet();
 
     document.addEventListener('DOMContentLoaded', async function() {
 
-        const currentVersion = 'v1.8.4';
+        const currentVersion = 'v1.8.5';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
@@ -1150,10 +1156,28 @@ scrollView.addEventListener('touchstart', () => {
 
 scrollView.addEventListener('touchend', () => {
     setTimeout(() => {
-        sendThemeToAndroid("EnableSwipeRefresh");
+        checkTopScroll()
         isSwipeDisabledHori = false;
     }, 400);
 });
+
+let isSwipeDisabledHoriForecast = false;
+
+document.getElementById('forecast').addEventListener('touchstart', () => {
+    if (!isSwipeDisabledHoriForecast) {
+        sendThemeToAndroid("DisableSwipeRefresh");
+        isSwipeDisabledHoriForecast = true;
+    }
+});
+
+document.getElementById('forecast').addEventListener('touchend', () => {
+    setTimeout(() => {
+        checkTopScroll()
+        isSwipeDisabledHoriForecast = false;
+    }, 400);
+});
+
+
 
 
 scrollView.addEventListener('scroll', debounce(saveScrollPosition, 200));
@@ -1752,4 +1776,12 @@ showLoader();
 
     hideLoader()
   }
+}
+
+function checkTopScroll(){
+    if(document.getElementById('weather_wrap').scrollTop === 0){
+        sendThemeToAndroid('EnableSwipeRefresh')
+    } else{
+           sendThemeToAndroid('DisableSwipeRefresh')
+    }
 }

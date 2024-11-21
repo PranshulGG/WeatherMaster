@@ -84,18 +84,28 @@ function DisplayHourlyAccuweatherData(data) {
 
         const rainMeterBarItem = document.createElement('rainMeterBarItem');
 
-        let PrecAmount = hour.HasPrecipitation ? `${hour.PrecipitationAmount.toFixed(1)} mm` : '0 mm';
 
-        const maxRain = 2;  
-        const rainAmountPercent = hour.HasPrecipitation ? (hour.PrecipitationAmount / maxRain) * 100 : 0;
+        let PrecAmount =
+        hour.HasPrecipitation && typeof hour.PrecipitationAmount === 'number'
+            ? `${hour.PrecipitationAmount.toFixed(1)} mm`
+            : '';
+
+        const isAmountAvailable = hour.HasPrecipitation && typeof hour.PrecipitationAmount === 'number';
+        const maxRain = 2;
+
+        const rainAmountPercent = isAmountAvailable
+            ? (hour.PrecipitationAmount / maxRain) * 100
+            : hour.PrecipitationProbability;
 
         let barColor;
-        if (!hour.HasPrecipitation || hour.PrecipitationAmount < 0.5) {
-            barColor = '#4c8df6';
-        } else if (hour.PrecipitationAmount >= 0.5 && hour.PrecipitationAmount <= 1) {
-            barColor = 'orange';
-        } else if (hour.PrecipitationAmount > 1) {
-            barColor = 'red';
+        if (!hour.HasPrecipitation || (isAmountAvailable && hour.PrecipitationAmount < 0.5)) {
+            barColor = 'var(--Primary-Container)';
+        } else if (isAmountAvailable && hour.PrecipitationAmount >= 0.5 && hour.PrecipitationAmount <= 1) {
+            barColor = 'var(--Primary-Container)';
+        } else if (isAmountAvailable && hour.PrecipitationAmount > 1) {
+            barColor = 'var(--Primary)';
+        } else if (!isAmountAvailable) {
+            barColor = hour.PrecipitationProbability > 50 ? 'var(--Primary-Container)' : 'var(--Primary-Container)';
         }
 
         let HourTemperature = Math.round(hour.Temperature.Value);
@@ -122,9 +132,8 @@ function DisplayHourlyAccuweatherData(data) {
             <rainPerBar>
               <rainPerBarProgress style="height: ${Math.round(rainAmountPercent)}%; background-color: ${barColor};">
             </rainPerBarProgress>
-            </rainPerBar>
-            <p>${PrecAmount}</p>
             <p>${Math.round(hour.PrecipitationProbability)}%</p>
+            </rainPerBar>
             <span>${hours}${period}</span>
         `;
 

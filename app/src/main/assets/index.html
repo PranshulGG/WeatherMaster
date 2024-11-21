@@ -24,7 +24,7 @@
     <div class="header_hold">
     <div class="main-city" id="main-city">
         <button class="ripple-icon-btn regular" onclick="seeSelectedLocation()" ontouchstart="playEffect(this)"
-                style="z-index: 1;" ontouchend="playEffect2(this)">
+                style="z-index: 1; pointer-events: none;" ontouchend="playEffect2(this)">
             <span class="ripple-effect-icon"></span>
             <span icon-outlined style="opacity: 0.8;">location_on</span>
         </button>
@@ -112,8 +112,8 @@
                 <canvas id="bg_animation_leaves" class="animation_canvas" ></canvas>
                 <canvas id="bg_animation_drizzle" class="animation_canvas" ></canvas>
 
-                <div id="foreground_animation" class="animation_canvas animation_canvas_lottie"></div>
-                <div id="background_animation" class="animation_canvas animation_canvas_lottie"></div>
+                <div id="foreground_animation" class="animation_canvas animation_canvas_lottie" style="z-index: 1;"></div>
+                <div id="background_animation" class="animation_canvas animation_canvas_lottie" style="z-index: 1;"></div>
             </div>
 
             <div class="control-panel-for-wind">
@@ -131,9 +131,9 @@
 
 
 
-        <div class="excessiveHeat ripple_btn_low" style="margin-bottom: 0px; margin-top: 5px !important;" onclick="sendThemeToAndroid('OpenAlertsPage')" hidden>
+        <div class="excessiveHeat ripple_btn_low" style="margin-bottom: 10px; margin-top: 5px !important;" onclick="sendThemeToAndroid('OpenAlertsPage')" hidden>
             <div class="icon-container-excessiveHeat">
-                <md-icon icon-outlined>info</md-icon>
+                <md-icon icon-filled>report</md-icon>
             </div>
             <p id="excessiveHeatText"><span data-translate="weather_alerts" style="font-size: 18px;">Weather alerts</span></p>
 
@@ -186,33 +186,20 @@
         <div class="insights_scroll">
             <div class="insights">
 
-                <div class="cloths " id="sunrise_insight" hidden>
-                    <div class="icon_container_cloths" >
-                        <md-icon icon-filled>wb_twilight</md-icon>
-                    </div>
-                    <p id="dont_miss_sunrsie_text" class="insights_p" data-translate="dont_miss_sunrise">Don't miss the sunrise! It will happen in 40 minutes or less.</p>
-                </div>
-
-                <div class="cloths " id="sunset_insight" hidden>
-                    <div class="icon_container_cloths" >
-                        <md-icon icon-filled>wb_twilight</md-icon>
-                    </div>
-                    <p id="dont_miss_sunset_text" class="insights_p" data-translate="dont_miss_sunset">Don't miss the sunset! It will happen in 40 minutes or less.</p>
-                </div>
-
-                <div class="cloths insights_item">
-                    <div class="icon_container_cloths">
-                        <md-icon icon-filled>apparel</md-icon>
-                    </div>
-                    <p id="cloth_recommended" class="insights_p">Wear a t-shirt and light pants or shorts.</p>
-                </div>
-
                 <div class="cloths insights_item">
                     <div class="icon_container_cloths">
                         <md-icon icon-filled id="temp_insight_icon">trending_down</md-icon>
                     </div>
                     <p id="temp_insight" class="insights_p">Cooling expected over the next 3 days</p>
                 </div>
+
+                <div class="cloths insights_item" onclick="sendThemeToAndroid('OpenClothingPage')">
+                    <div class="icon_container_cloths">
+                        <md-icon icon-filled>apparel</md-icon>
+                    </div>
+                    <p id="cloth_recommended" class="insights_p" style="display: flex; align-items: center; width: 80%;">Get your clothing recommendation <flex></flex> <md-icon icon-outlined>arrow_forward</md-icon></p>
+                </div>
+
 
                 <div class="cloths insights_item">
                     <div class="icon_container_cloths" style="position: relative;">

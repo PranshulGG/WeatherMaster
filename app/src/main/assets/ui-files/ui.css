@@ -1185,15 +1185,15 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
   margin: 10px;
   display: flex;
   align-items: center;
-  border-radius: 10px 10px 0 0;
-  padding: 10px;
-  gap: 15px;
+  border-radius: 10px;
+  padding: 15px;
+  gap: 13px;
+  min-height: 10px;
   font-size: 16px;
   color: var(--On-Surface);
 }
-
 [round-ui="true"]  .excessiveHeat{
-  border-radius: 18px 18px 0 0;
+  border-radius: 18px;
 
 }
 
@@ -1201,10 +1201,10 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: transparent;
-  color: var(--Error);
-  padding: 5px;
-  border-radius: 10px;
+  background-color: var(--Primary);
+  color: var(--On-Primary);
+  padding: 6px;
+  border-radius: 50px;
   font-size: 24px;
 }
 
@@ -1245,7 +1245,7 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
   font-size: 15px;
   font-family: var(--outfit);
   opacity: 0.9;
-  color: var(--Error);
+  color: var(--On-Surface);
 }
 
 suntrack, moontrack{
@@ -1380,34 +1380,15 @@ rainMeter noRain{
   margin-bottom: 10px;
 }
 
-rainMeterBar rainmeterbaritem{
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  gap: 5px;
-    transition: all 0.3s cubic-bezier(1, 0, 0, 1);
-
-}
-
 rainMeterBar rainmeterbaritem rainperbar{
-  height: 65px;
-  width: 100%;
-  background-color:var(--Surface-Container);
+  height: 80px;
+  width: 30px;
+  background-color: transparent;
   overflow: hidden;
   display: block;
-  border-radius: 0px;
+  border-radius: 50px;
   position: relative;
 
-}
-
-rainMeterBar rainmeterbaritem:first-child rainperbar{
-  border-radius: 5px 0 0px 5px;
-}
-
-rainMeterBar rainmeterbaritem:last-child rainperbar{
-  border-radius: 0 5px 5px 0px;
 }
 
 rainMeterBar rainmeterbaritem rainperbar rainperbarProgress{
@@ -1417,27 +1398,54 @@ rainMeterBar rainmeterbaritem rainperbar rainperbarProgress{
   background: #4c8df6;
   bottom: 0;
   left: 0;
+  border-radius: 50px;
 }
 
 
 
 
 rainMeterBar rainmeterbaritem span{
-  color: var(--On-Surface-Variant);
-  font-size: 14px;
+color: var(--On-Surface-Variant);
+    font-size: 11px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    /* width: 100%; */
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 5px;
+
 }
 
 rainMeterBar rainmeterbaritem p{
-  color: var(--On-Surface);
+  color: white;
   opacity: 0.8;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 10px;
   margin: 0;
-  width: 50px;
-  margin-left: 10px;
-  margin-right: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%);
   text-align: center;
+  mix-blend-mode: difference;
+}
+
+
+rainMeterBar rainmeterbaritem rainperbar .prec_amount_bar{
+  color: white;
+  opacity: 0.8;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  font-size: 10px;
+  margin: 0;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+
 }
 
 rainMeterBar{
@@ -1449,14 +1457,7 @@ rainMeterBar{
   padding-right: 15px;
   margin-left: 5px;
   margin-right: 5px;
-}
-
-rainMeterBar::-webkit-scrollbar {
-  height: 2px;
-}
-
-rainMeterBar::-webkit-scrollbar-thumb {
-  background-color: var(--Primary);
+    gap: 10px;
 
 }
 

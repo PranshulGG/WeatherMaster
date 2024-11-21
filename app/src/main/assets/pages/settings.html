@@ -109,6 +109,43 @@
                 </md-list-item>
 
                 <md-list-item>
+                    <md-icon icon-filled slot="start">globe</md-icon>
+                    <div slot="headline" >Regional filter</div>
+                    <div slot="supporting-text" id="view_supported" style="color: skyblue; text-decoration: underline;" onclick="document.querySelector('.supported_providers').classList.toggle('show')">Supported providers</div>
+                    <md-switch slot="end" id="useRegionalProvider"></md-switch>
+                </md-list-item>
+
+                <div class="supported_providers" style="padding: 10px; padding-top: 0; padding-left: 20px; gap: 5px;">
+
+                    <style>
+                        .supported_providers md-filter-chip{
+                            margin-bottom: 5px;
+                        }
+
+                        .supported_providers{
+                            display: none;
+                        }
+
+                        .supported_providers.show{
+                            display: block;
+                        }
+                    </style>
+
+                    <md-filter-chip id="dwdGermany" label="DWD Germany" elevated></md-filter-chip>
+                    <md-filter-chip id="noaaUS" label="NOAA U.S." elevated></md-filter-chip>
+                    <md-filter-chip id="meteoFrance" label="Météo-France" elevated></md-filter-chip>
+                    <md-filter-chip id="ecmwf" label="ECMWF" elevated></md-filter-chip>
+                    <md-filter-chip id="ukMetOffice" label="UK Met Office" elevated></md-filter-chip>
+                    <md-filter-chip id="jmaJapan" label="JMA Japan" elevated></md-filter-chip>
+                    <md-filter-chip id="gemCanada" label="GEM Canada" elevated></md-filter-chip>
+                    <md-filter-chip id="bomAustralia" label="BOM Australia" elevated></md-filter-chip>
+                    <md-filter-chip id="cmaChina" label="CMA China" elevated></md-filter-chip>
+                    <md-filter-chip id="knmiNetherlands" label="KNMI Netherlands" elevated></md-filter-chip>
+                    <md-filter-chip id="dmiDenmark" label="DMI Denmark" elevated></md-filter-chip>
+
+                </div>
+
+                <md-list-item>
                     <md-icon slot="start" icon-filled>routine</md-icon>
                     <div slot="headline">Provider</div>
                     <div slot="supporting-text">Main provider</div>
@@ -166,25 +203,15 @@
 
                 <md-divider></md-divider>
 
-                <md-list-item margin type="button" id="usage-popover-anchor">
+                <md-list-item margin type="button" onclick="sendThemeToAndroid('openHomelocationPage')">
                     <md-icon icon-filled slot="start">home_pin</md-icon>
                     <div slot="headline" data-translate="home_location">Home location</div>
-                    <div slot="supporting-text" data-translate="save_locations_menu">You need to save locations to show in the menu</div>
-                    <div slot="supporting-text" id="you_cant_change_location" style="color: var(--Error);"></div>
                     <div slot="supporting-text" id="homeLocationSelectedText" style="color: var(--Primary); font-family: var(--outfit-mid);">Your device location</div>
 
                     <md-icon slot="end" icon-outlined>chevron_right</md-icon>
-                    <script type="module">
-                        const anchorEl = document.body.querySelector('#usage-popover-anchor');
-                        const menuEl = document.body.querySelector('#usage-popover');
 
-                        anchorEl.addEventListener('click', () => { menuEl.open = !menuEl.open; });
-                      </script>
                 </md-list-item>
 
-                <md-menu positioning="popover" id="usage-popover" anchor="usage-popover-anchor" anchor-corner="start-start">
-
-                </md-menu>
 
                 <md-list-item margin>
                     <md-icon icon-filled slot="start">device_thermostat</md-icon>
@@ -594,70 +621,6 @@ if(localStorage.getItem('selectedTimeMode')){
         }
 
 
-// get saved locations
-
-
-
-const savedLocationsMenu = document.getElementById('usage-popover');
-const savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
-
-const clearSelection = () => {
-    const allMenuItems = savedLocationsMenu.querySelectorAll('md-menu-item');
-    allMenuItems.forEach(item => item.classList.remove('selected-home-location'));
-};
-
-const defaultMenuItem = document.createElement('md-menu-item');
-defaultMenuItem.setAttribute('menu-type', '');
-defaultMenuItem.setAttribute('lat', 'defaultLat');
-defaultMenuItem.setAttribute('lon', 'defaultLon');
-defaultMenuItem.innerHTML = 'Your device location';
-defaultMenuItem.classList.add('selected-home-location');
-defaultMenuItem.setAttribute('name', 'CurrentDeviceLocation');
-
-defaultMenuItem.addEventListener('click', () => {
-    clearSelection();
-    document.getElementById('homeLocationSelectedText').innerHTML = 'Your device location';
-    defaultMenuItem.classList.add('selected-home-location');
-    localStorage.setItem('DefaultLocation', JSON.stringify({ lat: localStorage.getItem('deviceLat'), lon: localStorage.getItem('devicelon'), name: 'CurrentDeviceLocation' }));
-});
-
-
-savedLocationsMenu.appendChild(defaultMenuItem);
-
-savedLocations.forEach(location => {
-    const menuItemLocation = document.createElement('md-menu-item');
-    menuItemLocation.setAttribute('menu-type', '');
-    menuItemLocation.setAttribute('lat', location.lat);
-    menuItemLocation.setAttribute('lon', location.lon);
-    menuItemLocation.setAttribute('name', location.locationName);
-
-    menuItemLocation.innerHTML = `${location.locationName}`;
-
-    menuItemLocation.addEventListener('click', () => {
-        clearSelection();
-        document.getElementById('homeLocationSelectedText').innerHTML = location.locationName;
-        menuItemLocation.classList.add('selected-home-location');
-
-
-        localStorage.setItem('DefaultLocation', JSON.stringify({ lat: location.lat, lon: location.lon, name: location.locationName }));
-
-    });
-
-    savedLocationsMenu.appendChild(menuItemLocation);
-});
-
-const checkName = JSON.parse(localStorage.getItem('DefaultLocation'));
-
-if(!localStorage.getItem('DefaultLocation')){
-      localStorage.setItem('DefaultLocation', JSON.stringify({ name: 'CurrentDeviceLocation' }));
-} else if (checkName.lat && checkName.lon){
-    clearSelection();
-    document.querySelector(`[name="${checkName.name}"]`).classList.add('selected-home-location')
-        document.getElementById('homeLocationSelectedText').innerHTML = checkName.name;
-} else{
-
-}
-
     const AppLanguageText = localStorage.getItem('AppLanguage');
     if(AppLanguageText){
         document.getElementById("selectedAppLang_text").innerHTML = AppLanguageText;
@@ -776,6 +739,89 @@ document.getElementById('useBarChart').selected = true;
 } else{
 document.getElementById('useBarChart').selected = false;
 }
+
+function ChangeDefaultLocationName(){
+    const checkName = JSON.parse(localStorage.getItem('DefaultLocation'));
+
+
+    if(checkName.name === 'CurrentDeviceLocation'){
+        document.getElementById('homeLocationSelectedText').innerHTML = 'Your device location'
+    } else if(checkName){
+        document.getElementById('homeLocationSelectedText').innerHTML = checkName.name;
+    } else{
+        document.getElementById('homeLocationSelectedText').innerHTML = 'Your device location'
+    }
+
+}
+
+function handleStorageChangeDefaultLocation(event) {
+    if (event.key === 'DefaultLocation') {
+
+            setTimeout(()=>{
+            ChangeDefaultLocationName()
+            }, 500);
+
+    }
+}
+
+window.addEventListener('storage', handleStorageChangeDefaultLocation);
+
+document.addEventListener('DOMContentLoaded', () =>{
+    ChangeDefaultLocationName()
+});
+
+    document.getElementById('useRegionalProvider').addEventListener('change', () =>{
+        localStorage.setItem('useRegionalProvider', document.getElementById('useRegionalProvider').selected)
+
+        if(document.getElementById('useRegionalProvider').selected){
+            document.getElementById('view_supported').style.opacity = ''
+            document.getElementById('view_supported').style.pointerEvents = ''
+        } else{
+            document.getElementById('view_supported').style.opacity = '0.5'
+            document.getElementById('view_supported').style.pointerEvents = 'none'
+            document.querySelector('.supported_providers').classList.remove('show')
+        }
+    });
+
+    const useRegionalProviderLocal = localStorage.getItem('useRegionalProvider')
+
+    if(useRegionalProviderLocal && useRegionalProviderLocal === 'true'){
+        document.getElementById('useRegionalProvider').selected = true;
+                    document.getElementById('view_supported').style.opacity = ''
+            document.getElementById('view_supported').style.pointerEvents = ''
+    } else{
+        document.getElementById('useRegionalProvider').selected = false;
+        document.getElementById('view_supported').style.opacity = '0.5'
+        document.getElementById('view_supported').style.pointerEvents = 'none'
+    }
+
+    const chips = [
+        'dwdGermany', 'noaaUS', 'meteoFrance', 'ecmwf', 'ukMetOffice',
+        'jmaJapan', 'gemCanada', 'bomAustralia', 'cmaChina', 'knmiNetherlands', 'dmiDenmark'
+    ];
+
+    chips.forEach(chipId => {
+        document.getElementById(chipId).addEventListener('click', () => {
+            const selectedChips = JSON.parse(localStorage.getItem('selectedChips')) || [];
+            if (selectedChips.includes(chipId)) {
+                const index = selectedChips.indexOf(chipId);
+                selectedChips.splice(index, 1);
+            } else {
+                selectedChips.push(chipId);
+            }
+            localStorage.setItem('selectedChips', JSON.stringify(selectedChips));
+        });
+    });
+
+    const selectedChips = JSON.parse(localStorage.getItem('selectedChips')) || [];
+    chips.forEach(chipId => {
+        const chipElement = document.getElementById(chipId);
+        if (selectedChips.includes(chipId)) {
+            chipElement.setAttribute('selected', true);
+        } else {
+            chipElement.removeAttribute('selected');
+        }
+    });
     </script>
 
 <script src="../components-script.js/components.js"></script>

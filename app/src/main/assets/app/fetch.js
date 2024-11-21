@@ -5,7 +5,7 @@ function getCountryName(code) {
 
 
 async function DecodeWeather(lat, lon, suggestionText, refreshValue){
-  const apiKey = 'Garbage';
+  const apiKey = 'API';
   const url = `https://api.timezonedb.com/v2.1/get-time-zone?key=${apiKey}&format=json&by=position&lat=${lat}&lng=${lon}`;
 
   try {
@@ -16,12 +16,16 @@ async function DecodeWeather(lat, lon, suggestionText, refreshValue){
       FetchWeather(lat, lon, data.zoneName, suggestionText, refreshValue)
     } else {
       console.error('Error fetching timezone:', data);
-      DecodeWeather(lat, lon, suggestionText, refreshValue)
+          setTimeout(() =>{
+          DecodeWeather(lat, lon, suggestionText, refreshValue)
+          }, 2500)
       return null;
     }
   } catch (error) {
     console.error('Error:', error);
+    setTimeout(() =>{
     DecodeWeather(lat, lon, suggestionText, refreshValue)
+    }, 2500)
     return null;
   }
 }
@@ -72,7 +76,7 @@ document.querySelector('.data_provider_name_import').innerHTML = 'Data by Met no
 
 
       function MoreDetails(latSum, lonSum, suggestionText) {
-        fetch(`https://api.weatherapi.com/v1/forecast.json?key=Garbage&q=${latSum},${lonSum}`)
+        fetch(`https://api.weatherapi.com/v1/forecast.json?key=API&q=${latSum},${lonSum}`)
             .then(response => response.json())
             .then(data => {
 
@@ -88,7 +92,7 @@ document.querySelector('.data_provider_name_import').innerHTML = 'Data by Met no
 
 
           function astronomyData(latSum, lonSum, suggestionText) {
-            fetch(`https://api.weatherapi.com/v1/astronomy.json?key=Garbage&q=${latSum},${lonSum}`)
+            fetch(`https://api.weatherapi.com/v1/astronomy.json?key=API&q=${latSum},${lonSum}`)
                 .then(response => response.json())
                 .then(data => {
 
@@ -101,7 +105,7 @@ document.querySelector('.data_provider_name_import').innerHTML = 'Data by Met no
       FetchAlert(lat, lon, suggestionText)
 
       function FetchAlert(lat, lon, suggestionText){
-        fetch(`https://api.weatherapi.com/v1/alerts.json?key=Garbage&q=${lat},${lon}`)
+        fetch(`https://api.weatherapi.com/v1/alerts.json?key=API&q=${lat},${lon}`)
         .then(response => response.json())
         .then(data => {
 
@@ -119,11 +123,14 @@ IFSavedLocation(lat, lon,suggestionText)
         const currentLocationName = localStorage.getItem('CurrentLocationName')
 
     if(suggestionText === SavedLocation.name || suggestionText === 'CurrentDeviceLocation' && suggestionText === currentLocationName || !refreshValue){
-            ReturnHomeLocation()
+      setTimeout(()=>{
+        ReturnHomeLocation()
+       }, 1000);
     } else if (refreshValue){
                 setTimeout(() =>{
                     LoadLocationOnRequest(lat, lon, suggestionText)
                      document.getElementById('last_updated').innerHTML = `Updated, just now`;
+                     ShowSnackMessage.ShowSnack("Latest data fetched", "short");
                 }, 1000)
                 setTimeout(() =>{
                      document.getElementById('last_updated').innerHTML = `Updated, just now`;
@@ -136,12 +143,17 @@ document.querySelector('savedLocationsHolder').innerHTML = ''
 
 setTimeout(() => {
     loadSavedLocations()
-}, 200)
+}, 1000)
 
 
 hideLoader()
     }).catch(error =>{
-      ShowError()
+document.querySelector('savedLocationsHolder').innerHTML = ''
+
+setTimeout(() => {
+    loadSavedLocations()
+            ReturnHomeLocation()
+}, 1000)
       document.getElementById('error_text_content').innerHTML = error
 
     })
@@ -229,7 +241,7 @@ function saveCache(lat, lon, timezone, suggestionText) {
 
         setTimeout(() => {
             loadSavedLocations()
-        }, 200)
+        }, 1000)
 
       });
   }
@@ -272,7 +284,7 @@ document.querySelector('savedLocationsHolder').innerHTML = ''
 
 setTimeout(() => {
     loadSavedLocations()
-}, 200)
+}, 1000)
 
       })
       .catch(error => {
@@ -304,7 +316,7 @@ document.querySelector('savedLocationsHolder').innerHTML = ''
 
 setTimeout(() => {
     loadSavedLocations()
-}, 200)
+}, 1000)
 
       })
       .catch(error => {

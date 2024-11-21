@@ -116,6 +116,18 @@
             android:theme="@style/ScreensAll"
             />
         <activity
+            android:name=".Homelocations"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/ScreensAll"
+            />
+        <activity
+            android:name=".ClothingRecommendation"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/clothingMainPage"
+            />
+        <activity
             android:name=".MainActivity"
             android:theme="@style/app_theme"
             android:screenOrientation="portrait"

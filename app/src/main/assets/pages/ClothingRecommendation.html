@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" Theme="clothing" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Locations</title>
+    <link rel="stylesheet" href="../ui-files/font-usage.css">
+    <link rel="stylesheet" href="../ui-files/variables.css">
+    <link rel="stylesheet" href="../components/components.css">
+    <link rel="stylesheet" href="../components/modal-ver.css">
+    <link rel="stylesheet" href="../ripple-files/ripple.css">
+    <link rel="stylesheet" href="../components/segment-btns.css">
+    <script src="../langs/langs.js"></script>
+
+    <style>
+        * {
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            touch-action: manipulation;
+            -webkit-user-drag: none;
+            outline: none;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        body {
+            background-color: var(--Surface);
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            font-family: var(--outfit);
+            animation: opacity 0.3s ease-out;
+
+        }
+
+        @keyframes opacity {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        *::selection {
+            background-color: var(--Inverse-Primary);
+            color: white;
+        }
+
+
+        .header{
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--On-Surface);
+            height: calc(65px - 20px);
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .header span{
+            color: var(--On-Surface-Variant);
+            font-size: 14px;
+        }
+
+        .data{
+            padding: 10px;
+        }
+
+        .data_text{
+            background-color: var(--Surface-Container-Low);
+            border-radius: 18px;
+            min-height: 80px;
+            padding: 10px;
+
+        }
+
+        .wrap_data{
+            overflow: auto;
+            height: calc(100% - 65px);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+
+             .wrap_data::before {
+            position: fixed;
+            bottom: 0;
+            content: '';
+            width: 100%;
+            background: linear-gradient(0deg, var(--Surface) 10%, rgba(255, 0, 0, 0));
+            height: 30px;
+            z-index: 1;
+        }
+
+        .data_text ul{
+            padding: 0;
+            list-style-type: none;
+            margin: 0;
+        }
+
+        .data_text li{
+            background-color: var(--Surface);
+            margin-bottom: 5px;
+            padding: 14px;
+            color: var(--On-Surface);
+            border-radius: 15px;
+            line-height: 1.4;
+            font-size: 18px;
+        }
+
+        .data_text li:last-child{
+            margin-bottom: 0;
+        }
+
+        #day_tip{
+            padding: 10px;
+        }
+
+        #day_tip div{
+            background-color: var(--Surface-Container-Low);
+            border-radius: 18px;
+            min-height: 80px;
+            padding: 10px;
+
+        }
+
+        #day_tip div li{
+            border-radius: 15px;
+            line-height: 1.4;
+            font-size: 18px;
+            padding: 0;
+            list-style-type: none;
+            margin: 0;
+            color: var(--On-Surface);
+            background-color: var(--Surface);
+            padding: 10px;
+
+
+        }
+
+        #day_tip div p{
+            color: var(--On-Surface);
+            line-height: 1.4;
+            margin-bottom: 10px;
+            font-size: 18px;
+            border-radius: 15px;
+            padding: 10px;
+            background-color: var(--Surface);
+        }
+
+        .label{
+            padding-left: 10px !important;
+            color: var(--Primary) !important;
+            font-family: var(--google-mid) !important;
+            font-size: 20px;
+            padding-bottom: 10px !important;
+        }
+
+    </style>
+</head>
+
+<body style="background-color: var(--Surface);">
+<div class="header">
+    <p>Clothing recommendation</p>
+    <span id="location_name">Error</span>
+</div>
+
+<div class="wrap_data">
+    <div id="recommendations"></div>
+
+    <div id="day_tip" style="margin-bottom: 35px;"></div>
+
+</div>
+
+<div class="loader_cloth" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; display: flex; align-items: center; justify-content: center; background-color: var(--Surface);">
+
+    <md-circular-progress indeterminate></md-circular-progress>
+
+</div>
+
+<script>
+
+setTimeout(() =>{
+    document.querySelector('.loader_cloth').hidden = true;
+
+}, 5000);
+
+</script>
+
+<script src="../modules/GenerateClothingReco.js"></script>
+<script src="../components-script.js/components.js"></script>
+<script src="../ripple-files/icon-ripple.js"></script>
+<script src="../modules/scroll.js"></script>
+<script src="../modules/ripple_acc.js"></script>
+<script src="../app/navigate.js"></script>
+<script src="bundle.js"></script>
+<script type="module" src="../index.js"></script>
+</body>
+
+</html>

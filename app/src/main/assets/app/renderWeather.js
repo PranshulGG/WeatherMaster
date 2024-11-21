@@ -50,9 +50,9 @@ function HourlyWeather(data) {
         let PrecAmount;
 
         if (SelectedPrecipitationUnit === 'in') {
-            PrecAmount = mmToInches(data.hourly.precipitation[index]).toFixed(2) + ' in';
+            PrecAmount = mmToInches(data.hourly.precipitation[index]).toFixed(2) + '';
         } else {
-            PrecAmount = data.hourly.precipitation[index].toFixed(1) + ' mm';
+            PrecAmount = data.hourly.precipitation[index].toFixed(1) + '';
         }
 
         const PrecProb = data.hourly.precipitation_probability[index]
@@ -72,18 +72,18 @@ function HourlyWeather(data) {
         }
 
         const maxRain = 2;
-        const rainAmountPercent = (data.hourly.precipitation[index] / maxRain) * 100;
-
-
+        const rainAmountPercent = data.hourly.precipitation[index]
+            ? (data.hourly.precipitation[index] / maxRain) * 100
+            : 0;
 
         let barColor;
 
         if (data.hourly.precipitation[index] < 0.5) {
-            barColor = '#4c8df6'
+            barColor = 'var(--Primary-Container)';
         } else if (data.hourly.precipitation[index] > 0.5 && data.hourly.precipitation[index] <= 1) {
-            barColor = 'orange'
+            barColor = 'var(--Primary-Container)';
         } else if (data.hourly.precipitation[index] > 1) {
-            barColor = 'red'
+            barColor = 'var(--Primary)';
         }
 
 
@@ -128,9 +128,9 @@ function HourlyWeather(data) {
                 <rainPerBar>
                   <rainPerBarProgress style="height: ${Math.round(rainAmountPercent)}%; background-color: ${barColor};"">
                 </rainPerBarProgress>
+                <p class="prec_amount_bar">${PrecAmount}</p>
+                <p>${data.hourly.precipitation_probability[index]}%</p>
                 </rainPerBar>
-                <p>${PrecAmount}</p>
-                 <p>${data.hourly.precipitation_probability[index]}%</p>
                  <span>${hours}${period}</span>
 
 
@@ -695,9 +695,9 @@ const percentageOfDaylight = Math.round(calculateDaylightPercentage(sunrise, sun
 
 
 
-    const recommendation = getClothingRecommendation(temperatureCLoths)
+//    const recommendation = getClothingRecommendation(temperatureCLoths)
 
-    document.getElementById('cloth_recommended').textContent = getTranslationByLang(localStorage.getItem('AppLanguageCode'), recommendation)
+//    document.getElementById('cloth_recommended').textContent = getTranslationByLang(localStorage.getItem('AppLanguageCode'), recommendation)
 
 }
 
@@ -1216,13 +1216,11 @@ function FetchAlertRender(data){
 
 
         if(data.alerts.alert && data.alerts.alert.length > 0){
-          document.querySelector('.weatherCommentsDiv').classList.add('alertOpened');
           document.querySelector('.excessiveHeat').hidden = false;
       localStorage.setItem('AlertCache', JSON.stringify(data.alerts.alert));
 
       } else {
           console.log('No alerts');
-          document.querySelector('.weatherCommentsDiv').classList.remove('alertOpened');
           document.querySelector('.excessiveHeat').hidden = true;
       localStorage.removeItem('AlertCache', JSON.stringify(data.alerts.alert));
 
