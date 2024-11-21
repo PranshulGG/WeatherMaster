@@ -18,6 +18,7 @@ import android.os.Looper;
 import android.provider.Settings;
 import android.text.InputType;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -218,10 +219,9 @@ public class MainActivity extends AppCompatActivity {
             } else {
 
                 swipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(MainActivity.this, "Please wait before refreshing again.", Toast.LENGTH_SHORT).show();
+                webview.evaluateJavascript("WaitBeforeRefresh();", null);
             }
         });
-
 
         webview.loadUrl("file:///android_asset/index.html");
 
@@ -260,7 +260,9 @@ public class MainActivity extends AppCompatActivity {
             ViewGroup.LayoutParams params = snackbar.getView().getLayoutParams();
             if (params instanceof ViewGroup.MarginLayoutParams) {
                 ViewGroup.MarginLayoutParams marginParams = (ViewGroup.MarginLayoutParams) params;
-                marginParams.bottomMargin = 24;
+                marginParams.bottomMargin = 34;
+                marginParams.leftMargin = 26;
+                marginParams.rightMargin = 26;
                 snackbar.getView().setLayoutParams(marginParams);
             }
 
