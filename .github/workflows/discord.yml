@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Notify Discord for Push
-        if: startsWith(github.event_name, 'push')
+        if: github.event_name == 'push'
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
@@ -41,13 +41,13 @@ jobs:
           $DISCORD_WEBHOOK
 
       - name: Notify Discord for Issues
-        if: startsWith(github.event_name, 'issues')
+        if: github.event_name == 'issues'
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
           ISSUE_TITLE=${{ github.event.issue.title }}
           ISSUE_NUMBER=${{ github.event.issue.number }}
-          ISSUE_BODY=${{ github.event.issue.body || "No description provided." }}
+          ISSUE_BODY=${{ github.event.issue.body }}
           ISSUE_URL=${{ github.event.issue.html_url }}
           REPO_NAME=${{ github.repository }}
           ACTOR=${{ github.actor }}
@@ -69,13 +69,13 @@ jobs:
           $DISCORD_WEBHOOK
 
       - name: Notify Discord for Release
-        if: startsWith(github.event_name, 'release')
+        if: github.event_name == 'release'
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
-          RELEASE_NAME=${{ github.event.release.name || "Untitled Release" }}
+          RELEASE_NAME=${{ github.event.release.name }}
           RELEASE_TAG=${{ github.event.release.tag_name }}
-          RELEASE_BODY=${{ github.event.release.body || "No release notes provided." }}
+          RELEASE_BODY=${{ github.event.release.body }}
           RELEASE_URL=${{ github.event.release.html_url }}
           REPO_NAME=${{ github.repository }}
           ACTOR=${{ github.actor }}
@@ -95,3 +95,4 @@ jobs:
                 ]
               }" \
           $DISCORD_WEBHOOK
+
