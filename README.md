@@ -5,7 +5,7 @@
  WeatherMaster
 </h1>
    <div  align="center">
-      <img src="https://img.shields.io/github/repo-size/PranshulGG/WeatherMaster?style=for-the-badge&color=cba6f7&labelColor=302D41">
+      <img src="https://img.shields.io/github/license/PranshulGG/WeatherMaster?style=for-the-badge&color=cba6f7&labelColor=302D41">
       <img src="https://img.shields.io/github/last-commit/PranshulGG/WeatherMaster?style=for-the-badge&color=b1d18a&labelColor=1f3701">
       <img src="https://img.shields.io/github/release/PranshulGG/WeatherMaster?style=for-the-badge&color=dbc66e&labelColor=3a3000">
       <br>
