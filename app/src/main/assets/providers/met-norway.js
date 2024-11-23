@@ -92,7 +92,14 @@ function renderHourlyDataMetNorway(data) {
         const rainMeterBarItem = document.createElement('rainMeterBarItem');
 
 
-        let PrecAmount = `${hour.data.next_1_hours.details.precipitation_amount.toFixed(1)} mm`; 
+
+                let PrecAmount;
+
+                if (SelectedPrecipitationUnit === 'in') {
+                    PrecAmount = mmToInches(hour.data.next_1_hours.details.precipitation_amount).toFixed(2) + '';
+                } else {
+                    PrecAmount = hour.data.next_1_hours.details.precipitation_amount.toFixed(1) + '';
+                }
 
 
 
@@ -139,8 +146,8 @@ function renderHourlyDataMetNorway(data) {
             <rainPerBar>
               <rainPerBarProgress style="height: ${Math.round(rainAmountPercent)}%; background-color: ${barColor};">
             </rainPerBarProgress>
-              <p>${PrecAmount}</p>
             </rainPerBar>
+              <p>${PrecAmount}</p>
             <span>${hours}${period}</span>
         `;
 
