@@ -109,43 +109,6 @@
                 </md-list-item>
 
                 <md-list-item>
-                    <md-icon icon-filled slot="start">globe</md-icon>
-                    <div slot="headline" >Regional filter</div>
-                    <div slot="supporting-text" id="view_supported" style="color: skyblue; text-decoration: underline;" onclick="document.querySelector('.supported_providers').classList.toggle('show')">Supported providers</div>
-                    <md-switch slot="end" id="useRegionalProvider"></md-switch>
-                </md-list-item>
-
-                <div class="supported_providers" style="padding: 10px; padding-top: 0; padding-left: 20px; gap: 5px;">
-
-                    <style>
-                        .supported_providers md-filter-chip{
-                            margin-bottom: 5px;
-                        }
-
-                        .supported_providers{
-                            display: none;
-                        }
-
-                        .supported_providers.show{
-                            display: block;
-                        }
-                    </style>
-
-                    <md-filter-chip id="dwdGermany" label="DWD Germany" elevated></md-filter-chip>
-                    <md-filter-chip id="noaaUS" label="NOAA U.S." elevated></md-filter-chip>
-                    <md-filter-chip id="meteoFrance" label="Météo-France" elevated></md-filter-chip>
-                    <md-filter-chip id="ecmwf" label="ECMWF" elevated></md-filter-chip>
-                    <md-filter-chip id="ukMetOffice" label="UK Met Office" elevated></md-filter-chip>
-                    <md-filter-chip id="jmaJapan" label="JMA Japan" elevated></md-filter-chip>
-                    <md-filter-chip id="gemCanada" label="GEM Canada" elevated></md-filter-chip>
-                    <md-filter-chip id="bomAustralia" label="BOM Australia" elevated></md-filter-chip>
-                    <md-filter-chip id="cmaChina" label="CMA China" elevated></md-filter-chip>
-                    <md-filter-chip id="knmiNetherlands" label="KNMI Netherlands" elevated></md-filter-chip>
-                    <md-filter-chip id="dmiDenmark" label="DMI Denmark" elevated></md-filter-chip>
-
-                </div>
-
-                <md-list-item>
                     <md-icon slot="start" icon-filled>routine</md-icon>
                     <div slot="headline">Provider</div>
                     <div slot="supporting-text">Main provider</div>
@@ -770,58 +733,6 @@ document.addEventListener('DOMContentLoaded', () =>{
     ChangeDefaultLocationName()
 });
 
-    document.getElementById('useRegionalProvider').addEventListener('change', () =>{
-        localStorage.setItem('useRegionalProvider', document.getElementById('useRegionalProvider').selected)
-
-        if(document.getElementById('useRegionalProvider').selected){
-            document.getElementById('view_supported').style.opacity = ''
-            document.getElementById('view_supported').style.pointerEvents = ''
-        } else{
-            document.getElementById('view_supported').style.opacity = '0.5'
-            document.getElementById('view_supported').style.pointerEvents = 'none'
-            document.querySelector('.supported_providers').classList.remove('show')
-        }
-    });
-
-    const useRegionalProviderLocal = localStorage.getItem('useRegionalProvider')
-
-    if(useRegionalProviderLocal && useRegionalProviderLocal === 'true'){
-        document.getElementById('useRegionalProvider').selected = true;
-                    document.getElementById('view_supported').style.opacity = ''
-            document.getElementById('view_supported').style.pointerEvents = ''
-    } else{
-        document.getElementById('useRegionalProvider').selected = false;
-        document.getElementById('view_supported').style.opacity = '0.5'
-        document.getElementById('view_supported').style.pointerEvents = 'none'
-    }
-
-    const chips = [
-        'dwdGermany', 'noaaUS', 'meteoFrance', 'ecmwf', 'ukMetOffice',
-        'jmaJapan', 'gemCanada', 'bomAustralia', 'cmaChina', 'knmiNetherlands', 'dmiDenmark'
-    ];
-
-    chips.forEach(chipId => {
-        document.getElementById(chipId).addEventListener('click', () => {
-            const selectedChips = JSON.parse(localStorage.getItem('selectedChips')) || [];
-            if (selectedChips.includes(chipId)) {
-                const index = selectedChips.indexOf(chipId);
-                selectedChips.splice(index, 1);
-            } else {
-                selectedChips.push(chipId);
-            }
-            localStorage.setItem('selectedChips', JSON.stringify(selectedChips));
-        });
-    });
-
-    const selectedChips = JSON.parse(localStorage.getItem('selectedChips')) || [];
-    chips.forEach(chipId => {
-        const chipElement = document.getElementById(chipId);
-        if (selectedChips.includes(chipId)) {
-            chipElement.setAttribute('selected', true);
-        } else {
-            chipElement.removeAttribute('selected');
-        }
-    });
     </script>
 
 <script src="../components-script.js/components.js"></script>
