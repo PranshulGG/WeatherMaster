@@ -2890,7 +2890,7 @@ const translations = {
       "⚠️ Perigosamente quente! Use poucas roupas, fique dentro de casa se possível, e beba bastante água.",
       "⚠️ Veszélyes forróság! Viseljen jól szellőző ruhát, amennyiben lehetséges, maradjon árnyékban és fogyasszon sok vizet.",
       "⚠️ Опасно жарко! Надевайте минимум одежды, по возможности оставайтесь в помещении и пейте много воды.",
-      "⚠️ Niebezpiecznie gorąco! Noś minimalną odzież, pozostań w domu jeśli to możliwe, i pij dużo wody.",
+      "⚠️ Niebezpiecznie gorąco! Noś minimalną odzież, pozostań w domu jeśli to możliwe i pij dużo wody.",
       "",
       "⚠️ Periculos de cald! Purtați haine minime, rămâneți în casă dacă este posibil și beți multă apă.",
       "⚠️ Nebezpečne horúco! Noste minimálne oblečenie, zostaňte vo vnútri, ak je to možné, a pite veľa vody.",
