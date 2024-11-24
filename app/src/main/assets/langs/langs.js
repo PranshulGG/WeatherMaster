@@ -2653,7 +2653,7 @@ const translations = {
     "Temperaturas estáveis são esperadas nos próximos dias.",
     "Stabil hőmérséklet várható a következő néhány nap folyamán.",
     "В ближайшие дни ожидается стабильная температура.",
-    "Stabilna temperatura, oczekiwana w ciągu najbliższych dni.",
+    "Stabilna temperatura oczekiwana w ciągu najbliższych dni.",
     "",
     "Temperaturi stabile așteptate în următoarele zile.",
     "V najbližších dňoch sa očakávajú stabilné teploty.",
