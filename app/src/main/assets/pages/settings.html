@@ -46,6 +46,20 @@
             transition: max-height .6s cubic-bezier(1, 0, 0, 1), opacity .7s ease-in-out;
         }
 
+                .main_provider_item {
+            font-size: 16px;
+            font-family: var(--google-mid);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-top: 13px;
+            padding-bottom: 13px;
+        }
+
+        .main_provider_item:first-child {
+            padding-top: 5px;
+        }
+
     </style>
 </head>
 
@@ -69,10 +83,10 @@
 
 
             <md-list>
-                <md-list-item>
+                <md-list-item disabled>
                     <md-icon icon-filled slot="start">notifications</md-icon>
                     <div slot="headline" data-translate="notification_bar">Notification bar</div>
-                    <div slot="supporting-text" data-translate="show_weather_information_in_the_notification_bar">Show weather information in the notifications bar</div>
+                    <div slot="supporting-text" data-translate="show_weather_information_in_the_notification_bar">(Needs some work done)</div>
                     <md-switch slot="end" id="toggle_noti"></md-switch>
                 </md-list-item>
 
@@ -108,54 +122,11 @@
                     <md-switch slot="end" id="useBarChart"></md-switch>
                 </md-list-item>
 
-                <md-list-item>
+                <md-list-item type="button" onclick="openMainProviderDialog()">
                     <md-icon slot="start" icon-filled>routine</md-icon>
-                    <div slot="headline">Provider</div>
-                    <div slot="supporting-text">Main provider</div>
-                    <md-outlined-select slot="end" style="min-width: max-content; --md-outlined-field-bottom-space: 10px;--md-outlined-field-top-space: 10px;" id="selectMainWeatherProvider">
-                        <md-select-option value="open-meteo" menu-type>
-                            <div slot="headline">open-meteo</div>
-                        </md-select-option>
-                        <md-select-option value="Accuweather" menu-type>
-                            <div slot="headline">Accuweather</div>
-                        </md-select-option>
-                        <md-select-option value="Met norway" menu-type>
-                            <div slot="headline">Met norway</div>
-                        </md-select-option>
-                        <md-select-option value="dwdGermany" menu-type>
-                            <div slot="headline">DWD Germany</div>
-                        </md-select-option>
-                        <md-select-option value="noaaUS" menu-type>
-                            <div slot="headline">NOAA U.S.</div>
-                        </md-select-option>
-                        <md-select-option value="meteoFrance" menu-type>
-                            <div slot="headline">Météo-France</div>
-                        </md-select-option>
-                        <md-select-option value="ecmwf" menu-type>
-                            <div slot="headline">ECMWF</div>
-                        </md-select-option>
-                        <md-select-option value="ukMetOffice" menu-type>
-                            <div slot="headline">UK Met Office</div>
-                        </md-select-option>
-                        <md-select-option value="jmaJapan" menu-type>
-                            <div slot="headline">JMA Japan</div>
-                        </md-select-option>
-                        <md-select-option value="gemCanada" menu-type>
-                            <div slot="headline">GEM Canada</div>
-                        </md-select-option>
-                        <md-select-option value="bomAustralia" menu-type>
-                            <div slot="headline">BOM Australia</div>
-                        </md-select-option>
-                        <md-select-option value="cmaChina" menu-type>
-                            <div slot="headline">CMA China</div>
-                        </md-select-option>
-                        <md-select-option value="knmiNetherlands" menu-type>
-                            <div slot="headline">KNMI Netherlands</div>
-                        </md-select-option>
-                        <md-select-option value="dmiDenmark" menu-type>
-                            <div slot="headline">DMI Denmark</div>
-                        </md-select-option>
-                    </md-outlined-select>
+                    <div slot="headline">Main provider</div>
+                    <div slot="supporting-text" id="mainProviderSelectedText"
+                         style="color: var(--Primary); font-family: var(--outfit-mid);">Open-meteo</div>
                 </md-list-item>
 
                 <md-list-item style="overflow: hidden; max-height: 0; transition: max-height 0.3s ease-out, opacity 0.8s ease-out" id="accuweatherAPI_input_item">
@@ -165,7 +136,7 @@
                     </div>
                 </md-list-item>
 
-                <md-list-item>
+                <md-list-item hidden>
                     <md-icon slot="start" icon-filled>warning</md-icon>
                     <div slot="headline">Alerts</div>
                     <div slot="supporting-text">Alerts provider</div>
@@ -182,7 +153,7 @@
                     </md-outlined-select>
                 </md-list-item>
 
-                <md-list-item>
+                <md-list-item hidden>
                     <md-icon slot="start" icon-filled>search</md-icon>
                     <div slot="headline">Search</div>
                     <div slot="supporting-text">Search provider</div>
@@ -357,6 +328,80 @@
                     <md-icon icon-filled slot="end">open_in_new</md-icon>
                 </md-list-item>
             </md-list>
+
+            <md-dialog id="chooseMainProviderDialog">
+                <div slot="headline">
+                    Main provider
+                </div>
+
+                <div slot="content">
+
+                    <label class="main_provider_item">
+                        <md-radio slot="start" value="open-meteo" name="main_provider_radio"></md-radio>
+                        Open-meteo
+                    </label>
+                    <label class="main_provider_item" style="position: relative; padding-bottom: 20px;">
+                        <md-radio slot="start" value="Accuweather" name="main_provider_radio"></md-radio>
+                        Accuweather
+                        <span style="color: var(--On-Surface-Variant);position: absolute;left: 30px;bottom: 0;font-size: 12px;">API required</span>
+                    </label>
+                    <label class="main_provider_item">
+                        <md-radio slot="start" value="Met norway" name="main_provider_radio"></md-radio>
+                        Met norway
+                    </label>
+                    <!-- New weather providers -->
+                    <label class="main_provider_item">
+                        <md-radio slot="start" value="dwdGermany" name="main_provider_radio"></md-radio>
+                        DWD Germany
+                    </label>
+                    <label class="main_provider_item">
+                        <md-radio slot="start" value="noaaUS" name="main_provider_radio"></md-radio>
+                        NOAA U.S.
+                    </label>
+                    <label class="main_provider_item">
+                        <md-radio slot="start" value="meteoFrance" name="main_provider_radio"></md-radio>
+                        Météo-France
+                    </label>
+                    <label class="main_provider_item">
+                        <md-radio slot="start" value="ecmwf" name="main_provider_radio"></md-radio>
+                        ECMWF
+                    </label>
+                    <label class="main_provider_item">
+                        <md-radio slot="start" value="ukMetOffice" name="main_provider_radio"></md-radio>
+                        UK Met Office
+                    </label>
+                    <label class="main_provider_item">
+                        <md-radio slot="start" value="jmaJapan" name="main_provider_radio"></md-radio>
+                        JMA Japan
+                    </label>
+                    <label class="main_provider_item">
+                        <md-radio slot="start" value="gemCanada" name="main_provider_radio"></md-radio>
+                        GEM Canada
+                    </label>
+                    <label class="main_provider_item">
+                        <md-radio slot="start" value="bomAustralia" name="main_provider_radio"></md-radio>
+                        BOM Australia
+                    </label>
+                    <label class="main_provider_item">
+                        <md-radio slot="start" value="cmaChina" name="main_provider_radio"></md-radio>
+                        CMA China
+                    </label>
+                    <label class="main_provider_item">
+                        <md-radio slot="start" value="knmiNetherlands" name="main_provider_radio"></md-radio>
+                        KNMI Netherlands
+                    </label>
+                    <label class="main_provider_item">
+                        <md-radio slot="start" value="dmiDenmark" name="main_provider_radio"></md-radio>
+                        DMI Denmark
+                    </label>
+                </div>
+
+                <div slot="actions">
+                    <md-text-button onclick="window.history.back()">Cancel</md-text-button>
+                    <md-text-button id="saveSelectedMainProvider">Save</md-text-button>
+                </div>
+            </md-dialog>
+
 
 
             <p style="margin-top: 110px;"></p>
@@ -766,6 +811,118 @@ document.addEventListener('DOMContentLoaded', () =>{
     ChangeDefaultLocationName()
 });
 
+
+        function openMainProviderDialog() {
+            document.getElementById('chooseMainProviderDialog').show();
+            window.history.pushState({ MainProviderDialogOpen: true }, "");
+
+            document.querySelector(`md-radio[value="${localStorage.getItem('selectedMainWeatherProvider') || 'open-meteo'}"]`).setAttribute('checked', 'true');
+
+            if(document.getElementById('headUser-1').scrollTop >= 50){
+                sendThemeToAndroid('DialogScrolled')
+            } else{
+                sendThemeToAndroid('DialogNotScrolled')
+
+            }
+
+        }
+
+        window.addEventListener('popstate', function (event) {
+            if (document.getElementById('chooseMainProviderDialog').open) {
+                document.getElementById('chooseMainProviderDialog').close();
+            }
+        })
+
+        document.getElementById('chooseMainProviderDialog').addEventListener('cancel', () => {
+            document.getElementById('chooseMainProviderDialog').addEventListener('closed', () => {
+                window.history.back()
+
+            });
+
+        });
+
+        document.getElementById('chooseMainProviderDialog').addEventListener('close', () => {
+
+
+            if(document.getElementById('headUser-1').scrollTop >= 50){
+                sendThemeToAndroid('Scrolled')
+            } else{
+                sendThemeToAndroid('ScrollFalse')
+            }
+
+            });
+
+        // ----------
+
+
+
+function ChangeSelectedMainProviderName() {
+            const checkName = localStorage.getItem('selectedMainWeatherProvider')
+
+            if (checkName === 'Met norway') {
+                 document.getElementById('mainProviderSelectedText').innerHTML = 'Met norway';
+
+            } else if (localStorage.getItem('ApiForAccu') && checkName === 'Accuweather') {
+                document.getElementById('mainProviderSelectedText').innerHTML = 'Accuweather';
+
+            } else if (checkName === 'meteoFrance') {
+                document.getElementById('mainProviderSelectedText').innerHTML = 'Météo-France';
+
+            } else if (checkName === 'dwdGermany') {
+            document.getElementById('mainProviderSelectedText').innerHTML = 'DWD Germany';
+
+
+            } else if (checkName === 'noaaUS') {
+            document.getElementById('mainProviderSelectedText').innerHTML = 'NOAA U.S.';
+
+
+            } else if (checkName === 'ecmwf') {
+            document.getElementById('mainProviderSelectedText').innerHTML = 'ECMWF';
+
+            } else if (checkName === 'ukMetOffice') {
+            document.getElementById('mainProviderSelectedText').innerHTML = 'UK Met Office';
+
+
+            } else if (checkName === 'jmaJapan') {
+            document.getElementById('mainProviderSelectedText').innerHTML = 'JMA Japan';
+
+
+            } else if (checkName === 'gemCanada') {
+            document.getElementById('mainProviderSelectedText').innerHTML = 'GEM Canada';
+
+            } else if (checkName === 'bomAustralia') {
+            document.getElementById('mainProviderSelectedText').innerHTML = 'BOM Australia';
+
+            } else if (checkName === 'cmaChina') {
+                document.getElementById('mainProviderSelectedText').innerHTML = 'CMA China';
+
+
+            } else if (checkName === 'knmiNetherlands') {
+                document.getElementById('mainProviderSelectedText').innerHTML = 'KNMI Netherlands';
+
+
+            } else if (checkName === 'dmiDenmark') {
+                document.getElementById('mainProviderSelectedText').innerHTML = 'DMI Denmark';
+
+            } else {
+                document.getElementById('mainProviderSelectedText').innerHTML = 'Open-Meteo';
+        }
+
+
+        }
+
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            ChangeSelectedMainProviderName()
+
+                if(localStorage.getItem('UseNotification')){
+                    setTimeout(() =>{
+                    localStorage.removeItem('UseNotification')
+                    document.getElementById('toggle_noti').selected = false;
+                    }, 500)
+                }
+        });
     </script>
 
 <script src="../components-script.js/components.js"></script>

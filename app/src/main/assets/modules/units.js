@@ -1785,6 +1785,8 @@ function getWeatherLabelInLangNoAnimText(iconCode, isDay, langCode) {
 // -----------
 
 
+
+
 function animateTemp(temp_value) {
     const SelectedTempUnit = localStorage.getItem('SelectedTempUnit');
 
@@ -1799,6 +1801,7 @@ function animateTemp(temp_value) {
         currentNum = 0
 
     }
+
 
     function animateNumber() {
         let interval = setInterval(() => {

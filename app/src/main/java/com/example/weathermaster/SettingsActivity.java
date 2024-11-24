@@ -33,7 +33,11 @@ public class SettingsActivity extends AppCompatActivity {
     private WebView webview;
 
     public void onBackPressed() {
-        super.onBackPressed();
+        if (webview.canGoBack()) {
+            webview.goBack();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -140,6 +144,16 @@ public class SettingsActivity extends AppCompatActivity {
                         navigationBarColor = 0xFF121317;
                         systemUiVisibilityFlags = 0;
 
+                    } else if (color.equals("DialogNotScrolled")) {
+                        statusBarColor = 0xFF070809;
+                        navigationBarColor = 0xFF070809;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("DialogScrolled")) {
+                        statusBarColor = 0xFF0c0d0e;
+                        navigationBarColor = 0xFF070809;
+                        systemUiVisibilityFlags = 0;
+
                     } else if (color.equals("GoBack")){
                         back();
                         return;
@@ -153,7 +167,6 @@ public class SettingsActivity extends AppCompatActivity {
                         openHomelocationPage();
                         return;
                     } else if (color.equals("bluesetDef")) {
-
                         return;
                     } else if (color.equals("keepiton")) {
                         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);

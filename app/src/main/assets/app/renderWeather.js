@@ -22,7 +22,15 @@ function HourlyWeather(data) {
     const sunriseTimes = data.daily.sunrise.map(time => new Date(time).getTime());
     const sunsetTimes = data.daily.sunset.map(time => new Date(time).getTime());
 
+    const rainThreshold = 0.5;
 
+    let rainStopping = null;
+    let rainComing = null;
+
+    const currentRainTime = data.hourly.time[0];
+    const currentRainAmount = data.hourly.precipitation[0];
+
+    const isRainingNow = currentRainAmount > rainThreshold;
 
     data.hourly.time.forEach((time, index) => {
 
@@ -45,6 +53,18 @@ function HourlyWeather(data) {
         const rainMeterBarItem = document.createElement('rainMeterBarItem');
 
             UvIndex(data.hourly.uv_index[0])
+
+                        const rainAmountALL = data.hourly.precipitation[index];
+
+                        if (isRainingNow) {
+                            if (!rainStopping && rainAmountALL <= rainThreshold && index > 0) {
+                                rainStopping = `Rain expected to stop at ${hours}${period}`;
+                            }
+                        }
+                        else if (!isRainingNow && !rainComing && rainAmountALL > rainThreshold) {
+                            rainComing = `Rain likely around ${time}`;
+                        }
+
 
 
         let PrecAmount;
@@ -128,9 +148,9 @@ function HourlyWeather(data) {
                 <rainPerBar>
                   <rainPerBarProgress style="height: ${Math.round(rainAmountPercent)}%; background-color: ${barColor};"">
                 </rainPerBarProgress>
-                <p class="prec_amount_bar">${PrecAmount}</p>
-                <p>${data.hourly.precipitation_probability[index]}%</p>
                 </rainPerBar>
+                <p class="prec_amount_bar">${PrecAmount}</p>
+                <p>${data.hourly.precipitation_probability[index] != null ? data.hourly.precipitation_probability[index] + "%" : "--"}</p>
                  <span>${hours}${period}</span>
 
 
@@ -148,7 +168,21 @@ function HourlyWeather(data) {
         forecastContainer.appendChild(forecastItem);
     });
 
+if (isRainingNow) {
+    if (rainStopping) {
+        document.getElementById('rainStopingText').innerHTML = rainStopping;
+            document.querySelector('.whenRain').hidden = false;
 
+    } else {
+        document.querySelector('.whenRain').hidden = true;
+    }
+} else if (rainComing) {
+    document.getElementById('rainStopingText').innerHTML = rainComing;
+            document.querySelector('.whenRain').hidden = false;
+
+} else{
+    document.querySelector('.whenRain').hidden = true;
+}
 }
 
 
@@ -290,7 +324,7 @@ setChart()
         <p class="disc-5d">${TempMax}°<span> ${TempMin}°</span></p>
 
         <img id="icon-5d" src="${GetWeatherIcon(DailyWeatherCode, 1)}" alt="Weather Icon">
-        <span class="daily_rain">${rainPercentage}%</span>
+        <span class="daily_rain">${rainPercentage != null ? rainPercentage + "%" : "--"}</span>
         <div class="d5-disc-text">
         <p class="time-5d">${weekdayLang}</p>
         </div>
@@ -312,6 +346,15 @@ setChart()
             TodaysPrecAmount = mmToInches(dailyForecast.precipitation_sum[0]).toFixed(2) + ' in';
         } else {
             TodaysPrecAmount = dailyForecast.precipitation_sum[0].toFixed(1) + ' mm';
+        }
+
+
+        if(dailyForecast.precipitation_sum[0] <= 0){
+            document.querySelector('rainmeterbar').hidden = true
+            document.querySelector('.whenRain').hidden = true;
+        } else{
+            document.querySelector('rainmeterbar').hidden = false
+
         }
 
         document.getElementById('AmountRainMM').innerHTML = TodaysPrecAmount
@@ -1338,17 +1381,10 @@ function clickForecastItem(index){
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        align: 'start',
-                        labels: {
-                            boxWidth: 20,
-                            padding: 5,
-                            marginBottom: 40,
-                        },
-
-                    },
+               plugins: {
+                   legend: {
+                       display: false
+                   },
                     tooltip: {
                         mode: 'index',
                         intersect: false,
@@ -1445,17 +1481,10 @@ function clickForecastItem(index){
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        align: 'start',
-                        labels: {
-                            boxWidth: 20,
-                            padding: 5,
-                            marginBottom: 40,
-                        },
-
-                    },
+               plugins: {
+                   legend: {
+                       display: false
+                   },
                     tooltip: {
                         mode: 'index',
                         intersect: false,

@@ -66,6 +66,7 @@
             height: calc(65px - 20px);
             flex-direction: column;
             gap: 3px;
+            background-color: var(--Surface-Container);
         }
 
         .header span{
@@ -112,16 +113,21 @@
 
         .data_text li{
             background-color: var(--Surface);
-            margin-bottom: 5px;
             padding: 14px;
             color: var(--On-Surface);
-            border-radius: 15px;
             line-height: 1.4;
             font-size: 18px;
         }
 
         .data_text li:last-child{
             margin-bottom: 0;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+
+        .data_text li:first-child{
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
         }
 
         #day_tip{
@@ -137,7 +143,6 @@
         }
 
         #day_tip div li{
-            border-radius: 15px;
             line-height: 1.4;
             font-size: 18px;
             padding: 0;
@@ -150,12 +155,21 @@
 
         }
 
+        #day_tip div p:first-child{
+            margin-bottom: 0;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+
+        #day_tip div li:last-child{
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+
         #day_tip div p{
             color: var(--On-Surface);
             line-height: 1.4;
-            margin-bottom: 10px;
             font-size: 18px;
-            border-radius: 15px;
             padding: 10px;
             background-color: var(--Surface);
         }
@@ -173,18 +187,20 @@
 
 <body style="background-color: var(--Surface);">
 <div class="header">
-    <p>Clothing recommendation</p>
+    <p>Clothing and Activity</p>
     <span id="location_name">Error</span>
 </div>
 
 <div class="wrap_data">
     <div id="recommendations"></div>
 
-    <div id="day_tip" style="margin-bottom: 35px;"></div>
+    <div id="day_tip"></div>
+
+    <div id="air_quality_details" style="margin-bottom: 35px; margin-left: 10px; margin-right:10px;"></div>
 
 </div>
 
-<div class="loader_cloth" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; display: flex; align-items: center; justify-content: center; background-color: var(--Surface);">
+<div class="loader_cloth" style="position: fixed; bottom: 0; left: 0; width: 100%; height: calc(100% - 65px); z-index: 2; display: flex; align-items: center; justify-content: center; background-color: var(--Surface);">
 
     <md-circular-progress indeterminate></md-circular-progress>
 
@@ -195,7 +211,7 @@
 setTimeout(() =>{
     document.querySelector('.loader_cloth').hidden = true;
 
-}, 5000);
+}, 2500);
 
 </script>
 

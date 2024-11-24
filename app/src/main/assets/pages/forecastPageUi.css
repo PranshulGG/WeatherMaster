@@ -232,6 +232,8 @@ weatherConditionText{
     height: 80px;
     width: 80px;
     flex-shrink: 0;
+        margin-top: 40px;
+
 }
 
 conditionicon{
@@ -249,7 +251,10 @@ conditionicon{
     font-family: var(--outfit);
     color: var(--On-Surface-Variant);
      padding-right: 15px;
-
+     position: absolute;
+     width: calc(100% - 30px);
+     text-overflow: ellipsis;
+     overflow: hidden;
 }
 
 .daily-conditions-wrap > div span{

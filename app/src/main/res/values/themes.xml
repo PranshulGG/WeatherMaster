@@ -59,7 +59,7 @@
 
     <style name="clothingMainPage" parent="Theme.AppCompat.NoActionBar">
         <item name="android:navigationBarColor">#15130b</item>
-        <item name="android:statusBarColor">#15130b</item>
+        <item name="android:statusBarColor">#222017</item>
         <item name="colorAccent">#dbc66e</item>
     </style>
 

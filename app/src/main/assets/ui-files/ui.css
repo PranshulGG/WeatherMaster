@@ -1180,7 +1180,7 @@ input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-results-button,
 input[type="search"]::-webkit-search-results-decoration { display: none; }
 
-.rainNextHour, .excessiveHeat{
+.rainNextHour, .excessiveHeat, .whenRain{
   background-color: var(--Surface);
   margin: 10px;
   display: flex;
@@ -1192,7 +1192,7 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
   font-size: 16px;
   color: var(--On-Surface);
 }
-[round-ui="true"]  .excessiveHeat{
+[round-ui="true"]  .excessiveHeat, [round-ui="true"] .whenRain{
   border-radius: 18px;
 
 }
@@ -1395,7 +1395,7 @@ rainMeterBar rainmeterbaritem rainperbar rainperbarProgress{
   position: absolute;
   width: 100%;
   height: 5%;
-  background: #4c8df6;
+  background: var(--Primary-Container);
   bottom: 0;
   left: 0;
   border-radius: 50px;
@@ -1405,7 +1405,7 @@ rainMeterBar rainmeterbaritem rainperbar rainperbarProgress{
 
 
 rainMeterBar rainmeterbaritem span{
-color: var(--On-Surface-Variant);
+color: var(--On-Surface);
     font-size: 11px;
     font-weight: bold;
     display: flex;
@@ -1418,32 +1418,24 @@ color: var(--On-Surface-Variant);
 }
 
 rainMeterBar rainmeterbaritem p{
-  color: white;
+  color: var(--On-Surface);
   opacity: 0.8;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--google-mid);
   font-weight: 600;
   font-size: 10px;
   margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%);
   text-align: center;
-  mix-blend-mode: difference;
+  margin-top: 10px;
 }
 
 
 rainMeterBar rainmeterbaritem rainperbar .prec_amount_bar{
   color: white;
   opacity: 0.8;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--google-mid);
   font-weight: 600;
   font-size: 10px;
   margin: 0;
-  position: absolute;
-  top: 20%;
-  left: 50%;
-  transform: translateX(-50%);
   text-align: center;
 
 }
@@ -2080,7 +2072,11 @@ savelocationtouch md-ripple{
   padding: 10px;
   padding-top: 0;
   padding-bottom: 0;
+  border-radius: 5px;
+}
 
+[round-ui="true"] .insights{
+ border-radius: 18px;
 }
 
 .insights::-webkit-scrollbar{
@@ -2769,4 +2765,9 @@ Tempmeterbaritem span{
   left: 50%;
   z-index: 1;
   transform: translateX(-50%);
+}
+
+
+.currentConditionItem {
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
 }

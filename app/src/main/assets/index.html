@@ -130,6 +130,13 @@
         </div>
 
 
+        <div class="whenRain" style="margin-bottom: 5px; margin-top: 5px !important;">
+            <div class="icon-container-excessiveHeat">
+                <md-icon icon-filled>rainy</md-icon>
+            </div>
+            <p id="rainStopingText" style="margin: 0 !important;"></p>
+
+        </div>
 
         <div class="excessiveHeat ripple_btn_low" style="margin-bottom: 10px; margin-top: 5px !important;" onclick="sendThemeToAndroid('OpenAlertsPage')" hidden>
             <div class="icon-container-excessiveHeat">
@@ -160,7 +167,7 @@
 
 
 
-        <div class="high-all">
+        <div class="high-all" style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);">
             <div class="high-mini">
 
                 <div class="mini wind ripple_btn_low" onclick="ShowSnack(`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'wind_speed')}`, 2000, 3, 'none', ' ', 'no-up')">
@@ -184,7 +191,7 @@
 
 
         <div class="insights_scroll">
-            <div class="insights">
+            <div class="insights" style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);">
 
                 <div class="cloths insights_item">
                     <div class="icon_container_cloths">
@@ -197,7 +204,7 @@
                     <div class="icon_container_cloths">
                         <md-icon icon-filled>apparel</md-icon>
                     </div>
-                    <p id="cloth_recommended" class="insights_p" style="display: flex; align-items: center; width: 80%;">Get your clothing recommendation <flex></flex> <md-icon icon-outlined>arrow_forward</md-icon></p>
+                    <p id="cloth_recommended" class="insights_p" style="display: flex; align-items: center; width: 80%;">Get your Clothing and Activity Suggestions <flex></flex> <md-icon icon-outlined>arrow_forward</md-icon></p>
                 </div>
 
 
@@ -219,7 +226,7 @@
 
         <div class="other-main">
 
-            <div class="all-24">
+            <div class="all-24" style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);">
                 <div class="h1">
                     <p class="today_Text"><span data-translate="next">Next</span> 24-hr</p>
                     <p class="date_Text_top" id="date_text_top">Mar, 19</p>
@@ -232,7 +239,7 @@
                 </div>
             </div>
 
-            <rainMeter>
+            <rainMeter style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);">
                 <div class="h1">
                     <p data-translate="hourly_precipitation">Hourly precipitation</p>
                 </div>
@@ -258,9 +265,9 @@
 
             </rainMeter>
 
-            <div class="all-5d">
+            <div class="all-5d" style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);">
                 <div class="h2">
-                    <p>14-<span data-translate="day">day</span> <span data-translate="forecast">forecast</span></p>
+                    <p>Daily forecast</p>
                     <p class="" style="display: flex; align-items: center;"><span id="open_temp_trend" style="display: flex; align-items: center;">Trends <i icon-outlined style="font-size: 20px;" class="trend_arrow_temp">keyboard_arrow_down</i></span></p>
                 </div>
                 <div class="forecast-5day" id="forecast-5day">
@@ -275,7 +282,7 @@
 
             </div>
 
-            <div class="LiveMapWrap ripple_btn_low" onclick="sendThemeToAndroid('OpenRadar')">
+            <div class="LiveMapWrap ripple_btn_low" onclick="sendThemeToAndroid('OpenRadar')" style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);">
                 <div class="radar_label"><md-icon icon-outlined>radar</md-icon> <span
                         data-translate="live_radar">Live radar</span></div>
                 <div id="livemapPreview">
@@ -455,7 +462,7 @@
 
             </div>
 
-            <div class="pollen_data " hidden>
+            <div class="pollen_data " hidden style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);">
                 <div class="pollen_heading">
                     <md-icon icon-filled>allergy</md-icon>
                     <p>Pollen</p>
@@ -518,7 +525,7 @@
 
 
 
-            <div class="all_air_quality" style="border-radius: 10px 10px 5px 5px; margin-bottom: 5px; overflow: hidden;" id="ifPollenIsThere">
+            <div class="all_air_quality" style="border-radius: 10px 10px 5px 5px; margin-bottom: 5px; overflow: hidden; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);" id="ifPollenIsThere">
                 <div class="sun_text">
                     <p data-translate="air_quality">Air Quality</p>
                     <space></space>
@@ -587,7 +594,7 @@
 
             </div>
 
-            <div class="all_air_quality ripple_btn_low" style="border-radius: 5px 5px 10px 10px; margin-top: 0px;" onclick="sendThemeToAndroid('openUVcondition')">
+            <div class="all_air_quality ripple_btn_low" style="border-radius: 5px 5px 10px 10px; margin-top: 0px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);"  onclick="sendThemeToAndroid('openUVcondition')">
                 <div class="sun_text">
                     <p data-translate="uv_index">UV Index</p>
                     <div class="air_text">
@@ -673,7 +680,7 @@
             </div>
         </div>
 
-        <div class="savedLocations" hidden style="padding-bottom: 130px;">
+        <div class="savedLocations" hidden style="padding-bottom: 130px; position: relative;">
             <p class="title" style="display: flex; align-items: center; gap: 10px;"><md-icon icon-outlined>star</md-icon><span data-translate="saved_locations">Saved locations</span> <flex></flex> <md-icon-button style="margin-right: 10px;" toggle id="edit_saved_locations"><md-icon icon-filled>Edit</md-icon><md-icon icon-filled slot="selected">close</md-icon></md-icon-button></p>
 
             <savedLocationsHolder>
@@ -681,6 +688,11 @@
 
 
             </savedLocationsHolder>
+
+            <div id="location_data_loader" style="position: absolute; left: 0; width: 100%; height: calc(100% - 45px); bottom: 0; background-color: var(--Surface); display: flex; align-items: center; justify-content: flex-start; flex-direction: column; gap: 5px;">
+                <md-circular-progress indeterminate></md-circular-progress>
+                <p>Loading location data...</p>
+            </div>
 
         </div>
 
@@ -861,6 +873,17 @@ document.getElementById('froggie_imgs').addEventListener('load', () => {
 <script src="modules/units.js"></script>
 <script src="providers/met-norway.js"></script>
 <script src="providers/accuweather.js"></script>
+<script src="providers/meteo-france.js"></script>
+<script src="providers/dwdGermany.js"></script>
+<script src="providers/noaaUS.js"></script>
+<script src="providers/bomAustralia.js"></script>
+<script src="providers/cmaChina.js"></script>
+<script src="providers/dmiDenmark.js"></script>
+<script src="providers/ecmwf.js"></script>
+<script src="providers/gemCanada.js"></script>
+<script src="providers/jmaJapan.js"></script>
+<script src="providers/knmiNetherlands.js"></script>
+<script src="providers/ukMetOffice.js"></script>
 <script src="app/bg_animations.js"></script>
 <script src="modules/notification.js"></script>
 <script type="module" src="./index.js"></script>

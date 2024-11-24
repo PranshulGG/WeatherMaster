@@ -1,7 +1,65 @@
 function GenerateRecommendation() {
     const currentLocationData = localStorage.getItem('CurrentLocationName');
-    const weatherData = JSON.parse(localStorage.getItem(`WeatherDataOpenMeteo_${currentLocationData}`));
     const airQualityData = JSON.parse(localStorage.getItem(`AirQuality_${currentLocationData}`));
+
+        let weatherData
+
+        if (selectedProvider === 'Met norway' || localStorage.getItem('ApiForAccu') && selectedProvider === 'Accuweather') {
+            weatherData = JSON.parse(localStorage.getItem(`WeatherDataOpenMeteo_${currentLocationData}`));
+
+
+       } else if (selectedProvider === 'meteoFrance') {
+           weatherData = JSON.parse(localStorage.getItem(`WeatherDataMeteoFrance_${currentLocationData}`));
+       } else if (selectedProvider === 'dwdGermany') {
+        weatherData = JSON.parse(localStorage.getItem(`WeatherDataDWDGermany_${currentLocationData}`));
+
+
+       } else if (selectedProvider === 'noaaUS') {
+        weatherData = JSON.parse(localStorage.getItem(`WeatherDataNOAAUS_${currentLocationData}`));
+
+
+
+       } else if (selectedProvider === 'ecmwf') {
+        weatherData = JSON.parse(localStorage.getItem(`WeatherDataECMWF_${currentLocationData}`));
+
+
+       } else if (selectedProvider === 'ukMetOffice') {
+        weatherData = JSON.parse(localStorage.getItem(`WeatherDataukMetOffice_${currentLocationData}`));
+
+
+
+       } else if (selectedProvider === 'jmaJapan') {
+        weatherData = JSON.parse(localStorage.getItem(`WeatherDataJMAJapan_${currentLocationData}`));
+
+
+
+       } else if (selectedProvider === 'gemCanada') {
+        weatherData = JSON.parse(localStorage.getItem(`WeatherDatagemCanada_${currentLocationData}`));
+
+
+       } else if (selectedProvider === 'bomAustralia') {
+        weatherData = JSON.parse(localStorage.getItem(`WeatherDatabomAustralia_${currentLocationData}`));
+
+
+       } else if (selectedProvider === 'cmaChina') {
+        weatherData = JSON.parse(localStorage.getItem(`WeatherDatacmaChina_${currentLocationData}`));
+
+
+
+       } else if (selectedProvider === 'knmiNetherlands') {
+        weatherData = JSON.parse(localStorage.getItem(`WeatherDataknmiNetherlands_${currentLocationData}`));
+
+
+
+       } else if (selectedProvider === 'dmiDenmark') {
+        weatherData = JSON.parse(localStorage.getItem(`WeatherDatadmiDenmark_${currentLocationData}`));
+
+
+       } else {
+        weatherData = JSON.parse(localStorage.getItem(`WeatherDataOpenMeteo_${currentLocationData}`));
+
+    }
+
 
     document.getElementById('location_name').innerHTML = currentLocationData
 
@@ -27,6 +85,16 @@ function GenerateRecommendation() {
     recommendationsContainer.innerHTML += generateClothingRecommendation('Evening', eveningAvg, aqi);
     recommendationsContainer.innerHTML += generateClothingRecommendation('Night', nightAvg, aqi);
 
+    const aqi_carbon_monoxide = airQualityData.current.carbon_monoxide
+    const aqi_nitrogen_dioxide = airQualityData.current.nitrogen_dioxide
+    const aqi_ozone = airQualityData.current.ozone
+    const aqi_pm2_5 = airQualityData.current.pm2_5
+    const aqi_pm10 = airQualityData.current.pm10
+    const aqi_sulphur_dioxide = airQualityData.current.sulphur_dioxide
+
+
+
+    generateAirQualityDetail(aqi_carbon_monoxide, aqi_nitrogen_dioxide, aqi_ozone, aqi_pm2_5, aqi_pm10, aqi_sulphur_dioxide)
 
 
     dayTipContainer.innerHTML = `
@@ -230,51 +298,143 @@ function generateDayTip(morningAvg, eveningAvg, nightAvg, aqi) {
     const overallAvgWind = (morningAvg.avgWindSpeed + eveningAvg.avgWindSpeed + nightAvg.avgWindSpeed) / 3;
     const overallAvgHumidity = (morningAvg.avgHumidity + eveningAvg.avgHumidity + nightAvg.avgHumidity) / 3;
 
-    let dayTip = `<p>Based on overall conditions, here’s your guide for the day</p>`;
+    let dayTip = "<p class='highlight'>🌟 Daily Highlights:</p>";
 
+    // Temperature Advice
     if (overallAvgTemp < 10) {
         dayTip += getRandomItem([
-            '<p>🌡️ The temperature is quite low today. Dress warmly with layers to stay comfortable. Consider wearing a thick jacket and thermal wear.</p>',
-            '<p>🌬️ It\'s cold outside, so layer up with sweaters, jackets, and scarves to keep cozy.</p>',
-            '<p>🧥 It\'s chilly today, so wear your warmest coat, gloves, and a scarf to protect yourself from the cold.</p>'
+            "<p>🥶 Bundle up! Cold weather calls for insulated jackets and accessories like scarves and gloves.</p>",
+            "<p>❄️ Expect chilly conditions throughout the day. Layer up with thermals for extra warmth.</p>"
         ]);
     } else if (overallAvgTemp >= 10 && overallAvgTemp < 20) {
         dayTip += getRandomItem([
-            '<p>🌤️ A light jacket or sweater will keep you comfortable throughout the day. Pair it with jeans or pants for the best comfort.</p>',
-            '<p>🍂 The temperatures are moderate, so a light jacket and breathable fabrics should be perfect.</p>',
-            '<p>🌤️ It\'s mild today, so dress in layers that you can adjust depending on how warm or cool it feels.</p>'
+            "<p>🍂 Mild and pleasant weather. A light jacket will keep you comfortable, especially in the evening.</p>",
+            "<p>🌤️ A great day for a stroll or light outdoor activities. Don’t forget to carry a sweater for cooler moments!</p>"
         ]);
     } else {
         dayTip += getRandomItem([
-            '<p>☀️ It’s a warm day, so lighter clothing like t-shirts and shorts will be ideal! Don\'t forget sunscreen if you\'ll be outside for a long time.</p>',
-            '<p>🌞 It\'s warm, so light and breathable clothing will keep you comfortable. A t-shirt and shorts will be your best bet.</p>',
-            '<p>🌅 Dress light today—perfect for t-shirts, shorts, and keeping cool during the sunny weather.</p>'
+            "<p>☀️ Warm and sunny. Opt for breathable fabrics and stay hydrated throughout the day.</p>",
+            "<p>🌞 Enjoy the warmth, but remember to apply sunscreen if you're heading out during peak sunlight hours.</p>"
         ]);
     }
 
-    // Wind-based tip
+    // Wind Advice
     if (overallAvgWind > 15) {
         dayTip += getRandomItem([
-            '<p>💨 It’s a windy day, so consider wearing wind-resistant clothing to stay warm and comfortable. A windbreaker or jacket will be helpful.</p>',
-            '<p>🌬️ With strong winds, make sure to wear something windproof to protect yourself and avoid feeling chilled.</p>',
-            '<p>💨 The wind is picking up, so wear windproof layers to stay warm, especially if you plan to be outside for a while.</p>'
+            "<p>💨 Windy conditions today. Secure loose items and wear wind-resistant clothing if you're outside.</p>",
+            "<p>🌬️ Gusty winds might make it feel cooler. A lightweight jacket can help protect against the breeze.</p>"
         ]);
     }
 
-    // Humidity-based tip
+    // Humidity Advice
     if (overallAvgHumidity > 75) {
         dayTip += getRandomItem([
-            '<p>💧 High humidity levels might make it feel warmer than it is, so stay hydrated and wear breathable fabrics like cotton or linen.</p>',
-            '<p>💦 The humidity is high, so make sure to stay hydrated and wear moisture-wicking clothes to stay cool and dry.</p>',
-            '<p>💧 Due to the humidity, opt for loose, light clothing to avoid feeling too sticky and ensure you stay cool.</p>'
+            "<p>💦 High humidity could make it feel warmer. Wear moisture-wicking clothing and stay hydrated.</p>",
+            "<p>💧 The air is humid—light, breathable fabrics will help you stay comfortable.</p>"
+        ]);
+    } else if (overallAvgHumidity < 20) {
+        dayTip += getRandomItem([
+            "<p>🧴 The air is dry. Moisturize your skin and drink plenty of water to stay hydrated.</p>",
+            "<p>💧 Low humidity may cause dry skin or irritation. Keep a water bottle handy and avoid overexposure.</p>"
         ]);
     }
 
-    // Air quality-based tip
+    // Air Quality Advice
     dayTip += getAirQualitySuggestion(aqi);
+
+    // Activity Suggestions
+    if (overallAvgTemp > 15 && aqi <= 50) {
+        dayTip += getRandomItem([
+            "<p>🌳 Perfect weather for outdoor activities like jogging or cycling. Head to a park and enjoy the fresh air!</p>",
+            "<p>🚶‍♂️ Consider a nature walk or picnic—today's conditions are great for some time outdoors.</p>"
+        ]);
+    } else if (overallAvgTemp <= 15 || aqi > 100) {
+        dayTip += getRandomItem([
+            "<p>🏠 It might be a good day to stay indoors and enjoy a warm beverage. Consider a cozy activity like reading.</p>",
+            "<p>📺 Plan indoor activities, especially if you’re sensitive to air quality or cold weather.</p>"
+        ]);
+    }
+
+    // Weather Breakdown
 
     return dayTip;
 }
 
+function generateAirQualityDetail(co, no2, o3, pm25, pm10, so2) {
+    const airQualityDetailsContainer = document.getElementById('air_quality_details');
+    airQualityDetailsContainer.innerHTML = `
+        <p class="label">Air Quality Details</p>
+        <div class="data_text">
+            <ul>
+                <li>💨 <strong>Carbon Monoxide (CO):</strong> ${co} μg/m³ - ${getCODescription(co)}</li>
+                <li>🌆 <strong>Nitrogen Dioxide (NO₂):</strong> ${no2} μg/m³ - ${getNO2Description(no2)}</li>
+                <li>☀️ <strong>Ozone (O₃):</strong> ${o3} μg/m³ - ${getOzoneDescription(o3)}</li>
+                <li>🌀 <strong>PM2.5:</strong> ${pm25} μg/m³ - ${getPM25Description(pm25)}</li>
+                <li>🌬️ <strong>PM10:</strong> ${pm10} μg/m³ - ${getPM10Description(pm10)}</li>
+                <li>🌋 <strong>Sulphur Dioxide (SO₂):</strong> ${so2} μg/m³ - ${getSO2Description(so2)}</li>
+            </ul>
+        </div>
+    `;
+}
+
+function getCODescription(value) {
+    if (value <= 5) {
+        return "Low risk. Safe levels of carbon monoxide for outdoor activities.";
+    } else if (value <= 10) {
+        return "Moderate risk. Sensitive groups may experience mild effects.";
+    } else {
+        return "High risk. Avoid prolonged exposure or heavy outdoor activity.";
+    }
+}
+
+function getNO2Description(value) {
+    if (value <= 40) {
+        return "Low risk. Nitrogen dioxide levels are within safe limits.";
+    } else if (value <= 100) {
+        return "Moderate risk. May irritate sensitive individuals.";
+    } else {
+        return "High risk. Prolonged exposure can cause respiratory issues.";
+    }
+}
+
+function getOzoneDescription(value) {
+    if (value <= 50) {
+        return "Low risk. Ozone levels are healthy for most people.";
+    } else if (value <= 100) {
+        return "Moderate risk. May cause mild irritation to sensitive groups.";
+    } else {
+        return "High risk. Limit outdoor activities to avoid breathing issues.";
+    }
+}
+
+function getPM25Description(value) {
+    if (value <= 12) {
+        return "Good. Air quality is safe for everyone.";
+    } else if (value <= 35) {
+        return "Moderate. Sensitive groups may want to limit outdoor exposure.";
+    } else {
+        return "Unhealthy. Avoid prolonged outdoor activities.";
+    }
+}
+
+function getPM10Description(value) {
+    if (value <= 50) {
+        return "Good. PM10 levels are safe for outdoor activities.";
+    } else if (value <= 150) {
+        return "Moderate. People with respiratory conditions should be cautious.";
+    } else {
+        return "Unhealthy. Consider staying indoors to avoid health risks.";
+    }
+}
+
+function getSO2Description(value) {
+    if (value <= 20) {
+        return "Low risk. Sulphur dioxide levels are well within safe limits.";
+    } else if (value <= 80) {
+        return "Moderate risk. Sensitive individuals might feel irritation.";
+    } else {
+        return "High risk. Prolonged exposure can cause respiratory discomfort.";
+    }
+}
 
 GenerateRecommendation()

@@ -293,7 +293,7 @@ function displayDailyForecast(forecast, forecastDaily) {
 
         const formattedDate = new Intl.DateTimeFormat('en-US', { day: 'numeric', month: 'short' }).format(dateObj);
 
-        const rainPercentage = Math.round(forecast.precipitation_probability_max[index]) || '0';
+        const rainPercentage = Math.round(forecast.precipitation_probability_max[index]) || '--';
 
         const convertTo12Hour = (time) => {
             const date = new Date(time);
@@ -361,10 +361,10 @@ function displayDailyForecast(forecast, forecastDaily) {
         let rainAmount;
 
         if (SelectedPrecipitationUnit === 'in') {
-            rainAmount = forecast.precipitation_sum[index] ? (forecast.precipitation_sum[index] * 0.0393701).toFixed(2) + 'in' : '0.00in';
+            rainAmount = forecast.precipitation_sum[index] ? (forecast.precipitation_sum[index] * 0.0393701).toFixed(2) + 'in' : 'Not available';
 
         } else {
-            rainAmount = forecast.precipitation_sum[index] ? forecast.precipitation_sum[index] + ' mm' : '0.0mm';
+            rainAmount = forecast.precipitation_sum[index] ? forecast.precipitation_sum[index] + ' mm' : 'Not available';
         }
 
 
@@ -429,6 +429,16 @@ function displayDailyForecast(forecast, forecastDaily) {
         }
 
 
+
+        if (
+            dailyData === undefined ||
+            DailyWeatherCode === undefined ||
+            TemperatureMax === undefined ||
+            TemperatureMin === undefined
+        ) {
+            console.warn(`Skipped index ${index} due to missing or invalid data.`);
+            return;
+        }
 
 
         const forecastDateHeaderContent = document.createElement('div');
@@ -621,7 +631,7 @@ function displayDailyForecast(forecast, forecastDaily) {
                             });
                         }
 
-                    }, 600);
+                    }, 1000);
                 }, 500);
             }
         }
