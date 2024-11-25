@@ -338,61 +338,61 @@
 
                     <label class="main_provider_item">
                         <md-radio slot="start" value="open-meteo" name="main_provider_radio"></md-radio>
-                        Open-meteo
+                        Open-Meteo (Global)
                     </label>
                     <label class="main_provider_item" style="position: relative; padding-bottom: 20px;">
                         <md-radio slot="start" value="Accuweather" name="main_provider_radio"></md-radio>
-                        Accuweather
+                        Accuweather (Global)
                         <span style="color: var(--On-Surface-Variant);position: absolute;left: 30px;bottom: 0;font-size: 12px;">API required</span>
                     </label>
                     <label class="main_provider_item">
                         <md-radio slot="start" value="Met norway" name="main_provider_radio"></md-radio>
-                        Met norway
+                        Met Norway (Global)
                     </label>
                     <!-- New weather providers -->
                     <label class="main_provider_item">
                         <md-radio slot="start" value="dwdGermany" name="main_provider_radio"></md-radio>
-                        DWD Germany
+                        DWD (Europe, Global)
                     </label>
                     <label class="main_provider_item">
                         <md-radio slot="start" value="noaaUS" name="main_provider_radio"></md-radio>
-                        NOAA U.S.
+                        NOAA (Americas, Global)
                     </label>
                     <label class="main_provider_item">
                         <md-radio slot="start" value="meteoFrance" name="main_provider_radio"></md-radio>
-                        Météo-France
+                        Météo-France (Europe, Global)
                     </label>
                     <label class="main_provider_item">
                         <md-radio slot="start" value="ecmwf" name="main_provider_radio"></md-radio>
-                        ECMWF
+                        ECMWF (Global)
                     </label>
                     <label class="main_provider_item">
                         <md-radio slot="start" value="ukMetOffice" name="main_provider_radio"></md-radio>
-                        UK Met Office
+                        UK Met Office (Europe, Global)
                     </label>
                     <label class="main_provider_item">
                         <md-radio slot="start" value="jmaJapan" name="main_provider_radio"></md-radio>
-                        JMA Japan
+                        JMA (Asia, Global)
                     </label>
                     <label class="main_provider_item">
                         <md-radio slot="start" value="gemCanada" name="main_provider_radio"></md-radio>
-                        GEM Canada
+                        GEM (Americas, Global)
                     </label>
                     <label class="main_provider_item">
                         <md-radio slot="start" value="bomAustralia" name="main_provider_radio"></md-radio>
-                        BOM Australia
+                        BOM (Oceania, Global)
                     </label>
                     <label class="main_provider_item">
                         <md-radio slot="start" value="cmaChina" name="main_provider_radio"></md-radio>
-                        CMA China
+                        CMA (Asia, Global)
                     </label>
                     <label class="main_provider_item">
                         <md-radio slot="start" value="knmiNetherlands" name="main_provider_radio"></md-radio>
-                        KNMI Netherlands
+                        KNMI (Europe, Global)
                     </label>
                     <label class="main_provider_item">
                         <md-radio slot="start" value="dmiDenmark" name="main_provider_radio"></md-radio>
-                        DMI Denmark
+                        DMI (Europe, Global)
                     </label>
                 </div>
 
@@ -860,53 +860,48 @@ function ChangeSelectedMainProviderName() {
             const checkName = localStorage.getItem('selectedMainWeatherProvider')
 
             if (checkName === 'Met norway') {
-                 document.getElementById('mainProviderSelectedText').innerHTML = 'Met norway';
+             document.getElementById('mainProviderSelectedText').innerHTML = 'Met Norway (Global)';
 
             } else if (localStorage.getItem('ApiForAccu') && checkName === 'Accuweather') {
-                document.getElementById('mainProviderSelectedText').innerHTML = 'Accuweather';
+                document.getElementById('mainProviderSelectedText').innerHTML = 'Accuweather (Global)';
 
             } else if (checkName === 'meteoFrance') {
-                document.getElementById('mainProviderSelectedText').innerHTML = 'Météo-France';
+                document.getElementById('mainProviderSelectedText').innerHTML = 'Météo-France (Europe, Global)';
 
-            } else if (checkName === 'dwdGermany') {
-            document.getElementById('mainProviderSelectedText').innerHTML = 'DWD Germany';
-
+            } else if (checkName === 'dwdEurope') {
+                document.getElementById('mainProviderSelectedText').innerHTML = 'DWD (Europe, Global)';
 
             } else if (checkName === 'noaaUS') {
-            document.getElementById('mainProviderSelectedText').innerHTML = 'NOAA U.S.';
-
+                document.getElementById('mainProviderSelectedText').innerHTML = 'NOAA (Americas, Global)';
 
             } else if (checkName === 'ecmwf') {
-            document.getElementById('mainProviderSelectedText').innerHTML = 'ECMWF';
+                document.getElementById('mainProviderSelectedText').innerHTML = 'ECMWF (Global)';
 
             } else if (checkName === 'ukMetOffice') {
-            document.getElementById('mainProviderSelectedText').innerHTML = 'UK Met Office';
-
+                document.getElementById('mainProviderSelectedText').innerHTML = 'UK Met Office (Europe, Global)';
 
             } else if (checkName === 'jmaJapan') {
-            document.getElementById('mainProviderSelectedText').innerHTML = 'JMA Japan';
-
+                document.getElementById('mainProviderSelectedText').innerHTML = 'JMA (Asia, Global)';
 
             } else if (checkName === 'gemCanada') {
-            document.getElementById('mainProviderSelectedText').innerHTML = 'GEM Canada';
+                document.getElementById('mainProviderSelectedText').innerHTML = 'GEM (Americas, Global)';
 
             } else if (checkName === 'bomAustralia') {
-            document.getElementById('mainProviderSelectedText').innerHTML = 'BOM Australia';
+                document.getElementById('mainProviderSelectedText').innerHTML = 'BOM (Oceania, Global)';
 
             } else if (checkName === 'cmaChina') {
-                document.getElementById('mainProviderSelectedText').innerHTML = 'CMA China';
+                document.getElementById('mainProviderSelectedText').innerHTML = 'CMA (Asia, Global)';
 
+            } else if (checkName === 'knmiEurope') {
+                document.getElementById('mainProviderSelectedText').innerHTML = 'KNMI (Europe, Global)';
 
-            } else if (checkName === 'knmiNetherlands') {
-                document.getElementById('mainProviderSelectedText').innerHTML = 'KNMI Netherlands';
-
-
-            } else if (checkName === 'dmiDenmark') {
-                document.getElementById('mainProviderSelectedText').innerHTML = 'DMI Denmark';
+            } else if (checkName === 'dmiEurope') {
+                document.getElementById('mainProviderSelectedText').innerHTML = 'DMI (Europe, Global)';
 
             } else {
-                document.getElementById('mainProviderSelectedText').innerHTML = 'Open-Meteo';
-        }
+                document.getElementById('mainProviderSelectedText').innerHTML = 'Open-Meteo (Global)';
+            }
+
 
 
         }
