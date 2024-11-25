@@ -1,6 +1,7 @@
 function GenerateRecommendation() {
     const currentLocationData = localStorage.getItem('CurrentLocationName');
     const airQualityData = JSON.parse(localStorage.getItem(`AirQuality_${currentLocationData}`));
+    const selectedProvider = localStorage.getItem("selectedMainWeatherProvider")
 
         let weatherData
 
