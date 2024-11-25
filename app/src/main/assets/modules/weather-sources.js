@@ -12,54 +12,49 @@ document.addEventListener("DOMContentLoaded", () => {
   saveButton.addEventListener('click', () => {
       const selectedProvider = Array.from(radioButtons).find(radio => radio.hasAttribute('checked'))?.value || 'open-meteo';
       localStorage.setItem('selectedMainWeatherProvider', selectedProvider);
-            if (selectedProvider === 'Met norway') {
-                 document.getElementById('mainProviderSelectedText').innerHTML = 'Met norway';
+        if (selectedProvider === 'Met norway') {
+            document.getElementById('mainProviderSelectedText').innerHTML = 'Met Norway (Global)';
 
-            } else if (localStorage.getItem('ApiForAccu') && selectedProvider === 'Accuweather') {
-                document.getElementById('mainProviderSelectedText').innerHTML = 'Accuweather';
+        } else if (localStorage.getItem('ApiForAccu') && selectedProvider === 'Accuweather') {
+            document.getElementById('mainProviderSelectedText').innerHTML = 'Accuweather (Global)';
 
-            } else if (selectedProvider === 'meteoFrance') {
-                document.getElementById('mainProviderSelectedText').innerHTML = 'Météo-France';
+        } else if (selectedProvider === 'meteoFrance') {
+            document.getElementById('mainProviderSelectedText').innerHTML = 'Météo-France (Europe, Global)';
 
-            } else if (selectedProvider === 'dwdGermany') {
-            document.getElementById('mainProviderSelectedText').innerHTML = 'DWD Germany';
+        } else if (selectedProvider === 'dwdEurope') {
+            document.getElementById('mainProviderSelectedText').innerHTML = 'DWD (Europe, Global)';
 
+        } else if (selectedProvider === 'noaaUS') {
+            document.getElementById('mainProviderSelectedText').innerHTML = 'NOAA (Americas, Global)';
 
-            } else if (selectedProvider === 'noaaUS') {
-            document.getElementById('mainProviderSelectedText').innerHTML = 'NOAA U.S.';
+        } else if (selectedProvider === 'ecmwf') {
+            document.getElementById('mainProviderSelectedText').innerHTML = 'ECMWF (Global)';
 
+        } else if (selectedProvider === 'ukMetOffice') {
+            document.getElementById('mainProviderSelectedText').innerHTML = 'UK Met Office (Europe, Global)';
 
-            } else if (selectedProvider === 'ecmwf') {
-            document.getElementById('mainProviderSelectedText').innerHTML = 'ECMWF';
+        } else if (selectedProvider === 'jmaJapan') {
+            document.getElementById('mainProviderSelectedText').innerHTML = 'JMA (Asia, Global)';
 
-            } else if (selectedProvider === 'ukMetOffice') {
-            document.getElementById('mainProviderSelectedText').innerHTML = 'UK Met Office';
+        } else if (selectedProvider === 'gemCanada') {
+            document.getElementById('mainProviderSelectedText').innerHTML = 'GEM (Americas, Global)';
 
+        } else if (selectedProvider === 'bomAustralia') {
+            document.getElementById('mainProviderSelectedText').innerHTML = 'BOM (Oceania, Global)';
 
-            } else if (selectedProvider === 'jmaJapan') {
-            document.getElementById('mainProviderSelectedText').innerHTML = 'JMA Japan';
+        } else if (selectedProvider === 'cmaChina') {
+            document.getElementById('mainProviderSelectedText').innerHTML = 'CMA (Asia, Global)';
 
+        } else if (selectedProvider === 'knmiEurope') {
+            document.getElementById('mainProviderSelectedText').innerHTML = 'KNMI (Europe, Global)';
 
-            } else if (selectedProvider === 'gemCanada') {
-            document.getElementById('mainProviderSelectedText').innerHTML = 'GEM Canada';
+        } else if (selectedProvider === 'dmiEurope') {
+            document.getElementById('mainProviderSelectedText').innerHTML = 'DMI (Europe, Global)';
 
-            } else if (selectedProvider === 'bomAustralia') {
-            document.getElementById('mainProviderSelectedText').innerHTML = 'BOM Australia';
-
-            } else if (selectedProvider === 'cmaChina') {
-                document.getElementById('mainProviderSelectedText').innerHTML = 'CMA China';
-
-
-            } else if (selectedProvider === 'knmiNetherlands') {
-                document.getElementById('mainProviderSelectedText').innerHTML = 'KNMI Netherlands';
-
-
-            } else if (selectedProvider === 'dmiDenmark') {
-                document.getElementById('mainProviderSelectedText').innerHTML = 'DMI Denmark';
-
-            } else {
-                document.getElementById('mainProviderSelectedText').innerHTML = 'Open-Meteo';
+        } else {
+            document.getElementById('mainProviderSelectedText').innerHTML = 'Open-Meteo (Global)';
         }
+
 
       toggleAccuweatherInput(selectedProvider);
       window.history.back();
