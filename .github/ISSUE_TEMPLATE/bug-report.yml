@@ -28,6 +28,13 @@ body:
     attributes:
       label: What was the expected result?
       placeholder: I expected this to happen
+  - type: input
+    id: provider_used
+    attributes:
+      label: What provider are you using?
+      placeholder: Provider name
+    validations:
+      required: true
   - type: textarea
     id: screenshots
     attributes:
