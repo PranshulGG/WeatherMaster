@@ -61,9 +61,17 @@ function HourlyWeather(data) {
                                 rainStopping = `Rain expected to stop at ${hours}${period}`;
                             }
                         }
-                        else if (!isRainingNow && !rainComing && rainAmountALL > rainThreshold) {
-                            rainComing = `Rain likely around ${hours}${period}`;
-                        }
+                else if (!isRainingNow && !rainComing && rainAmountALL > rainThreshold) {
+                    const currentTime = new Date(data.hourly.time[0]);
+                    const rainTime = new Date(time);
+
+                    const isTomorrow = rainTime.getDate() > currentTime.getDate() ||
+                                      (rainTime.getDate() < currentTime.getDate() && rainTime.getMonth() > currentTime.getMonth());
+
+                    rainComing = isTomorrow
+                        ? `Rain likely tomorrow around ${hours}${period}`
+                        : `Rain likely around ${hours}${period}`;
+                }
 
 
 
