@@ -62,7 +62,7 @@ function HourlyWeather(data) {
                             }
                         }
                         else if (!isRainingNow && !rainComing && rainAmountALL > rainThreshold) {
-                            rainComing = `Rain likely around ${time}`;
+                            rainComing = `Rain likely around ${hours}${period}`;
                         }
 
 
@@ -174,7 +174,8 @@ if (isRainingNow) {
             document.querySelector('.whenRain').hidden = false;
 
     } else {
-        document.querySelector('.whenRain').hidden = true;
+        document.querySelector('.whenRain').hidden = false;
+        document.getElementById('rainStopingText').innerHTML = 'Rain is expected to continue for the next few hours';
     }
 } else if (rainComing) {
     document.getElementById('rainStopingText').innerHTML = rainComing;
