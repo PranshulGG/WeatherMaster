@@ -379,7 +379,7 @@ function GetSavedSearchLocation() {
     const searchedItem = JSON.parse(localStorage.getItem(`SearchedItem`));
 
     if (searchedItem) {
-        DecodeWeather(searchedItem.latitude, searchedItem.longitude, searchedItem.LocationName);
+        DecodeWeather(searchedItem.latitude, searchedItem.longitude, searchedItem.LocationName, 'no_data_render');
         saveLocationToContainer(searchedItem.LocationName, searchedItem.latitude, searchedItem.longitude)
     }
 
@@ -469,7 +469,7 @@ function loadSavedLocations() {
             const timeLimit = 5 * 60 * 1000;
 
             if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName);
+                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
                 savedLocationsHolder.innerHTML = ''
                 setTimeout(() => {
                     loadSavedLocations()
@@ -501,7 +501,7 @@ function loadSavedLocations() {
             const timeLimit = 5 * 60 * 1000;
 
             if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName);
+                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
                 savedLocationsHolder.innerHTML = ''
                 setTimeout(() => {
                     loadSavedLocations()
@@ -534,7 +534,7 @@ function loadSavedLocations() {
             const timeLimit = 5 * 60 * 1000;
 
             if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName);
+                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
                 savedLocationsHolder.innerHTML = ''
                 setTimeout(() => {
                     loadSavedLocations()
@@ -565,7 +565,7 @@ function loadSavedLocations() {
             const timeLimit = 5 * 60 * 1000;
 
             if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName);
+                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
                 savedLocationsHolder.innerHTML = '';
                 setTimeout(() => {
                     loadSavedLocations();
@@ -595,7 +595,7 @@ function loadSavedLocations() {
             const timeLimit = 5 * 60 * 1000;
 
             if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName);
+                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
                 savedLocationsHolder.innerHTML = '';
                 setTimeout(() => {
                     loadSavedLocations();
@@ -625,7 +625,7 @@ function loadSavedLocations() {
             const timeLimit = 5 * 60 * 1000;
 
             if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName);
+                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
                 savedLocationsHolder.innerHTML = '';
                 setTimeout(() => {
                     loadSavedLocations();
@@ -655,7 +655,7 @@ function loadSavedLocations() {
             const timeLimit = 5 * 60 * 1000;
 
             if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName);
+                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
                 savedLocationsHolder.innerHTML = '';
                 setTimeout(() => {
                     loadSavedLocations();
@@ -685,7 +685,7 @@ function loadSavedLocations() {
             const timeLimit = 5 * 60 * 1000;
 
             if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName);
+                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
                 savedLocationsHolder.innerHTML = '';
                 setTimeout(() => {
                     loadSavedLocations();
@@ -716,7 +716,7 @@ function loadSavedLocations() {
             const timeLimit = 5 * 60 * 1000;
 
             if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName);
+                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
                 savedLocationsHolder.innerHTML = '';
                 setTimeout(() => {
                     loadSavedLocations();
@@ -746,7 +746,7 @@ function loadSavedLocations() {
             const timeLimit = 5 * 60 * 1000;
 
             if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName);
+                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
                 savedLocationsHolder.innerHTML = '';
                 setTimeout(() => {
                     loadSavedLocations();
@@ -776,7 +776,7 @@ function loadSavedLocations() {
             const timeLimit = 5 * 60 * 1000;
 
             if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName);
+                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
                 savedLocationsHolder.innerHTML = '';
                 setTimeout(() => {
                     loadSavedLocations();
@@ -806,7 +806,7 @@ function loadSavedLocations() {
             const timeLimit = 5 * 60 * 1000;
 
             if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName);
+                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
                 savedLocationsHolder.innerHTML = '';
                 setTimeout(() => {
                     loadSavedLocations();
@@ -836,7 +836,7 @@ function loadSavedLocations() {
             const timeLimit = 5 * 60 * 1000;
 
             if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName);
+                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
                 savedLocationsHolder.innerHTML = '';
                 setTimeout(() => {
                     loadSavedLocations();
