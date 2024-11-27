@@ -97,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
         webview.setVerticalScrollBarEnabled(false);
         webview.setHorizontalScrollBarEnabled(false);
         webview.setWebViewClient(new WebViewClientDemo());
-
         webSettings.setGeolocationEnabled(true);
 
         AndroidInterface androidInterface = new AndroidInterface(this);
@@ -297,7 +296,6 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted, proceed with enabling geolocation in WebView
                 webview.getSettings().setGeolocationEnabled(true);
                 webview.reload();
             } else {
@@ -317,32 +315,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @JavascriptInterface
-        public void updateNotification(final String condition, final String locationWeather, final String uvindex, final String iconCodeCondition, final String ISDAY, final String chanceOfRain) {
-            Intent intent = new Intent(mContext, ForegroundService.class);
-            intent.putExtra("condition", condition);
-            intent.putExtra("locationWeather", locationWeather);
-            intent.putExtra("uvindexValue", uvindex);
-            intent.putExtra("ICONCODE", iconCodeCondition);
-            intent.putExtra("ISDAY", ISDAY);
-            intent.putExtra("chanceOfRain", chanceOfRain);
-            mContext.startService(intent);
-        }
-
-        @JavascriptInterface
-        public void destroyNotification() {
-            Intent intent = new Intent(mContext, ForegroundService.class);
-            intent.setAction("com.example.weathermaster.ACTION_DESTROY_NOTIFICATION");
-            mContext.startService(intent);
-        }
-
-        @JavascriptInterface
-        public void destroyNotificationAppearance() {
-            // Use the correct action for appearance
-            Intent intent = new Intent(mContext, ForegroundService.class);
-            intent.setAction("com.example.weathermaster.ACTION_DESTROY_APPEARANCE");
-            mContext.startService(intent);
+        public void updateNotification(final String condition, final String locationWeather, final String mainTemp, final String iconData, final String highLow, final String hour_0_temp, final String hour_0_icon, final String hour_0_time, final String hour_1_temp, final String hour_1_icon, final String hour_1_time, final String hour_2_temp, final String hour_2_icon, final String hour_2_time, final String hour_3_temp, final String hour_3_icon, final String hour_3_time) {
+            WeatherWidgetProvider.updateWeatherWidget(mContext, condition, locationWeather, mainTemp, iconData, highLow, hour_0_temp, hour_0_icon, hour_0_time, hour_1_temp, hour_1_icon, hour_1_time, hour_2_temp, hour_2_icon, hour_2_time, hour_3_temp, hour_3_icon, hour_3_time);
         }
     }
+
 
 
 
