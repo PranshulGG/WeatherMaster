@@ -112,6 +112,15 @@
             padding: 10px;
             display: flex;
             align-items: center;
+            gap: 16px;
+        }
+
+        .city-list .suggestion-item p:last-child {
+            font-size: 15px;
+            color: var(--On-Surface-Variant);
+            position: relative;
+            display: flex;
+            align-items: center;
             gap: 10px;
         }
 
@@ -257,6 +266,31 @@
         savelocationtouch md-ripple {
             --md-ripple-pressed-opacity: 0.1;
         }
+
+        .change_search_provider_fab {
+            position: fixed;
+            padding-right: 16px;
+            padding-bottom: 16px;
+            width: 100%;
+            bottom: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            background-color: var(--Surface);
+        }
+
+        .data_by_text{
+            position: fixed;
+            bottom: 16px;
+            left: 16px;
+            opacity: 0.6;
+            color: var(--On-Surface-Variant);
+            z-index: 1;
+            width: calc(100% - 110px);
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     </style>
 
 </head>
@@ -277,9 +311,53 @@
 
     <div class="location_container">
 
-        <div class="city-list" id="city-list" style="padding-bottom: 30px;">
+        <div class="city-list" id="city-list" style="padding-bottom: 100px;">
 
         </div>
+
+
+        <p class="data_by_text">Data by Open-meteo</p>
+
+        <div class="change_search_provider_fab">
+            <md-fab style="--md-fab-primary-container-color: #284777; --md-fab-primary-icon-color: #d6e3ff;"
+                    variant="primary" onclick="openSearchProviderDialog()">
+                <md-icon icon-outlined slot="icon">tune</md-icon>
+            </md-fab>
+        </div>
+
+
+        <md-dialog id="selectSearchProviderDialog" style="min-width: 85%;">
+            <div slot="headline">Search Provider</div>
+
+            <div slot="content" style="padding-left: 0; padding-right: 0; padding-top: 15px;">
+                <div style="display: flex; flex-direction: column;">
+                    <label
+                            style="display: flex; align-items: center; gap: 13px; font-size: 17.5px; padding: 24px; padding-top: 14px; padding-bottom: 14px;"
+                            class="ripple_btn_low">
+                        <md-radio name="search_provider_group" value="searchProvider-open-meteo" style="flex-shrink: 0;"></md-radio>
+                        Open-meteo
+                    </label>
+                    <label
+                            style="display: flex; align-items: center; gap: 13px; font-size: 17.5px; padding: 24px; padding-top: 14px; padding-bottom: 14px;"
+                            class="ripple_btn_low">
+                        <md-radio name="search_provider_group" value="searchProvider-geonames" style="flex-shrink: 0;"></md-radio>
+                        GeoNames
+                    </label>
+                    <label
+                            style="display: flex; align-items: center; gap: 13px; font-size: 17.5px; padding: 24px; padding-top: 14px; padding-bottom: 14px;"
+                            class="ripple_btn_low">
+                        <md-radio name="search_provider_group" value="searchProvider-Nominatim" style="flex-shrink: 0;"></md-radio>
+                        Nominatim (OpenStreetMap data)
+                    </label>
+                </div>
+            </div>
+
+
+            <div slot="actions">
+                <md-text-button onclick="window.history.back()">Cancel</md-text-button>
+                <md-text-button id="saveSelectedSearchProviderBtn">OK</md-text-button>
+            </div>
+        </md-dialog>
 
     </div>
 
@@ -302,7 +380,13 @@ AndroidInterface.updateStatusBarColor(theme);
                 if (searchTerm) {
                     document.getElementById('cityLoader').hidden = false;
                     setTimeout(() => {
-                        getCitySuggestions(searchTerm);
+                        if (localStorage.getItem('selectedSearchProvider') === 'searchProvider-geonames') {
+                            getCitySuggestionsGeoNames(searchTerm);
+                        } else if (localStorage.getItem('selectedSearchProvider') === 'searchProvider-Nominatim'){
+                            getCitySuggestionsNominatim(searchTerm)
+                        } else {
+                            getCitySuggestions(searchTerm);
+                        }
                     }, 500);
                 } else {
                     cityList.innerHTML = '';
@@ -351,19 +435,25 @@ AndroidInterface.updateStatusBarColor(theme);
 
                     const suggestionItem = document.createElement('div');
                     const clickLocation = document.createElement('savelocationtouch');
-                    // const saveBtnLocation = document.createElement('md-text-button');
-                    // saveBtnLocation.textContent = 'Save';
-
-
+                    const stateCountryText = document.createElement('p')
+                    const cityText = document.createElement('p')
 
                     const createGap = document.createElement('flex');
                     const countryIcon = document.createElement('span');
                     countryIcon.classList.add('fi', 'fis', `fi-${countryCode}`);
+                    const textHolder = document.createElement('div');
 
                     suggestionItem.classList.add('suggestion-item');
                     const suggestRipple = document.createElement('md-ripple');
                     suggestRipple.style = '--md-ripple-pressed-opacity: 0.1;';
-                    suggestionItem.textContent = suggestionText;
+                    // suggestionItem.textContent = city;
+                    cityText.textContent = city;
+                    if (state || country) {
+                    stateCountryText.textContent = `${state ? state : ''}${state && country ? ', ' : ''}${country ? country : ''}`;
+                    } else {
+                    stateCountryText.textContent = '';
+                    }
+
 
                     clickLocation.appendChild(suggestRipple);
                     suggestionItem.setAttribute('data-lat', result.latitude);
@@ -387,9 +477,11 @@ AndroidInterface.updateStatusBarColor(theme);
 
 
                     suggestionItem.appendChild(countryIcon);
+                    textHolder.appendChild(cityText)
+                    textHolder.appendChild(stateCountryText)
+                    suggestionItem.appendChild(textHolder)
                     suggestionItem.appendChild(clickLocation);
                     suggestionItem.appendChild(createGap);
-                    // suggestionItem.appendChild(saveBtnLocation);
                     suggestionsContainer.appendChild(suggestionItem);
 
                     setTimeout(() => {
@@ -408,6 +500,305 @@ AndroidInterface.updateStatusBarColor(theme);
         }
 
 
+        // provider GeoNames ----------------------
+
+        async function getCitySuggestionsGeoNames(query) {
+            const username = 'pranshulgg'; // Replace with your GeoNames username
+            const url = `http://api.geonames.org/searchJSON?name_startsWith=${query}&maxRows=10&username=${username}`;
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                console.log('GeoNames results:', data);
+                displaySuggestionsGeoNames(data.geonames);
+            } catch (error) {
+                console.error('Error fetching city suggestions from GeoNames:', error);
+            }
+        }
+
+        function displaySuggestionsGeoNames(results) {
+            const suggestionsContainer = document.getElementById('city-list');
+            clearSuggestionsGeoNames();
+
+            const displayedSuggestions = new Set();
+
+            const savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
+            const savedLocationsSet = new Set(savedLocations.map(location => location.locationName));
+
+            results.forEach(result => {
+                const city = result.name;
+                const state = result.adminName1 || result.adminName2 || result.adminName3;
+                const country = result.countryName;
+                const countryCode = result.countryCode.toLowerCase();
+
+                const uniqueComponents = [city, state, country].filter((value, index, self) => value && self.indexOf(value) === index);
+                const suggestionText = uniqueComponents.join(', ');
+
+                if (!displayedSuggestions.has(suggestionText)) {
+                    displayedSuggestions.add(suggestionText);
+
+                    const suggestionItem = document.createElement('div');
+                    const clickLocation = document.createElement('savelocationtouch');
+                    const stateCountryText = document.createElement('p');
+                    const cityText = document.createElement('p');
+
+                    const createGap = document.createElement('flex');
+                    const countryIcon = document.createElement('span');
+                    countryIcon.classList.add('fi', 'fis', `fi-${countryCode}`);
+                    const textHolder = document.createElement('div');
+
+                    suggestionItem.classList.add('suggestion-item');
+                    const suggestRipple = document.createElement('md-ripple');
+                    suggestRipple.style = '--md-ripple-pressed-opacity: 0.1;';
+                    // suggestionItem.textContent = city;
+                    cityText.textContent = city;
+                    if (state || country) {
+                    stateCountryText.textContent = `${state ? state : ''}${state && country ? ', ' : ''}${country ? country : ''}`;
+                     } else {
+                    stateCountryText.textContent = '';
+                     }
+
+
+                    clickLocation.appendChild(suggestRipple);
+                    suggestionItem.setAttribute('data-lat', result.lat);
+                    suggestionItem.setAttribute('data-lon', result.lng);
+
+                    if (savedLocationsSet.has(suggestionText)) {
+                        suggestionItem.setAttribute('disabled', 'true');
+                        suggestionItem.style.pointerEvents = 'none';
+                        suggestionItem.style.opacity = '0.5';
+                    } else {
+                        clickLocation.addEventListener('click', function () {
+                            localStorage.setItem('SearchedItem', JSON.stringify({ LocationName: suggestionText, latitude: result.lat, longitude: result.lng }));
+
+                            setTimeout(() => {
+                                sendThemeToAndroid('GoBack');
+                            }, 300);
+                        });
+                    }
+
+                    suggestionItem.appendChild(countryIcon);
+                    textHolder.appendChild(cityText);
+                    textHolder.appendChild(stateCountryText);
+                    suggestionItem.appendChild(textHolder);
+                    suggestionItem.appendChild(clickLocation);
+                    suggestionItem.appendChild(createGap);
+                    suggestionsContainer.appendChild(suggestionItem);
+
+                    setTimeout(() => {
+                        document.getElementById('cityLoader').hidden = true;
+                    }, 400);
+                }
+            });
+        }
+
+        function clearSuggestionsGeoNames() {
+            const suggestionsContainer = document.getElementById('city-list');
+            while (suggestionsContainer.firstChild) {
+                suggestionsContainer.removeChild(suggestionsContainer.firstChild);
+            }
+        }
+
+
+
+     // provider Nominatim  ----------------------
+
+     async function getCitySuggestionsNominatim(query) {
+    const url = `https://nominatim.openstreetmap.org/search?q=${query}&format=json&addressdetails=1&limit=10`;
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        displaySuggestionsNominatim(data);
+    } catch (error) {
+        console.error('Error fetching city suggestions:', error);
+    }
+}
+
+function displaySuggestionsNominatim(results) {
+    const suggestionsContainer = document.getElementById('city-list');
+    clearSuggestionsNominatim();
+
+    const displayedSuggestions = new Set();
+
+    const savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
+    const savedLocationsSet = new Set(savedLocations.map(location => location.locationName));
+
+    results.forEach(result => {
+        const city = result.display_name.split(',')[0]; // Nominatim returns the full address in display_name
+        const state = result.address.state || result.address.county || result.address.district;
+        const country = result.address.country;
+        const countryCode = result.address.country_code.toLowerCase();
+
+        const uniqueComponents = [city, state, country].filter((value, index, self) => value && self.indexOf(value) === index);
+        const suggestionText = uniqueComponents.join(', ');
+
+        if (!displayedSuggestions.has(suggestionText)) {
+            displayedSuggestions.add(suggestionText);
+
+            const suggestionItem = document.createElement('div');
+            const clickLocation = document.createElement('savelocationtouch');
+            const stateCountryText = document.createElement('p');
+            const cityText = document.createElement('p');
+
+            const createGap = document.createElement('flex');
+            const countryIcon = document.createElement('span');
+            countryIcon.classList.add('fi', 'fis', `fi-${countryCode}`);
+            const textHolder = document.createElement('div');
+
+            suggestionItem.classList.add('suggestion-item');
+            const suggestRipple = document.createElement('md-ripple');
+            suggestRipple.style = '--md-ripple-pressed-opacity: 0.1;';
+            // suggestionItem.textContent = city;
+            cityText.textContent = city;
+            if (state || country) {
+            stateCountryText.textContent = `${state ? state : ''}${state && country ? ', ' : ''}${country ? country : ''}`;
+            } else {
+            stateCountryText.textContent = '';
+            }
+
+
+            clickLocation.appendChild(suggestRipple);
+            suggestionItem.setAttribute('data-lat', result.lat);
+            suggestionItem.setAttribute('data-lon', result.lon);
+
+            if (savedLocationsSet.has(suggestionText)) {
+                suggestionItem.setAttribute('disabled', 'true');
+                suggestionItem.style.pointerEvents = 'none';
+                suggestionItem.style.opacity = '0.5';
+            } else {
+                clickLocation.addEventListener('click', function () {
+                    localStorage.setItem('SearchedItem', JSON.stringify({ LocationName: suggestionText, latitude: result.lat, longitude: result.lon }));
+
+                    setTimeout(() => {
+                        sendThemeToAndroid('GoBack');
+                    }, 300);
+                });
+            }
+
+            suggestionItem.appendChild(countryIcon);
+            textHolder.appendChild(cityText);
+            textHolder.appendChild(stateCountryText);
+            suggestionItem.appendChild(textHolder);
+            suggestionItem.appendChild(clickLocation);
+            suggestionItem.appendChild(createGap);
+            suggestionsContainer.appendChild(suggestionItem);
+
+            setTimeout(() => {
+                document.getElementById('cityLoader').hidden = true;
+            }, 400);
+        }
+    });
+}
+
+function clearSuggestionsNominatim() {
+    const suggestionsContainer = document.getElementById('city-list');
+    while (suggestionsContainer.firstChild) {
+        suggestionsContainer.removeChild(suggestionsContainer.firstChild);
+    }
+}
+
+
+        // ------------------
+
+
+
+        function openSearchProviderDialog() {
+            restoreSelection();
+            document.getElementById('selectSearchProviderDialog').show()
+            window.history.pushState({ SearchProviderDialogOpen: true }, "");
+
+                sendThemeToAndroid('DialogNotScrolled')
+
+        }
+
+        window.addEventListener('popstate', function (event) {
+            if (document.getElementById('selectSearchProviderDialog').open) {
+                document.getElementById('selectSearchProviderDialog').close();
+            }
+        })
+
+        document.getElementById('selectSearchProviderDialog').addEventListener('cancel', () => {
+            document.getElementById('selectSearchProviderDialog').addEventListener('closed', () => {
+                window.history.back()
+
+            });
+
+        });
+
+      document.getElementById('selectSearchProviderDialog').addEventListener('close', () => {
+        sendThemeToAndroid('ScrollFalse')
+
+            });
+
+        //---------------------------------------------
+
+
+        function saveSelection() {
+            const radioButtonsSelectedSearchProvider = document.querySelectorAll('md-radio[name="search_provider_group"]');
+
+            const selectedRadio = Array.from(radioButtonsSelectedSearchProvider).find(radio => radio.hasAttribute('checked'))?.value || 'searchProvider-open-meteo';
+            localStorage.setItem('selectedSearchProvider', selectedRadio);
+
+
+            if(selectedRadio === 'searchProvider-geonames'){
+                document.querySelector('.data_by_text').innerHTML = 'Data by GeoNames'
+            } else if (selectedRadio === 'searchProvider-Nominatim'){
+                document.querySelector('.data_by_text').innerHTML = 'Data by Nominatim (OpenStreetMap data)'
+            } else{
+                document.querySelector('.data_by_text').innerHTML = 'Data by Open-meteo'
+            }
+
+
+
+            window.history.back()
+        }
+
+        function restoreSelection() {
+            const radioButtonsSelectedSearchProvider = document.querySelectorAll('md-radio[name="search_provider_group"]');
+
+            const savedValue = localStorage.getItem('selectedSearchProvider') || 'searchProvider-open-meteo';
+            if (savedValue) {
+                radioButtonsSelectedSearchProvider.forEach(radio => {
+                    if (radio.value === savedValue) {
+                        radio.checked = true
+                        if(savedValue === 'searchProvider-geonames'){
+                            document.querySelector('.data_by_text').innerHTML = 'Data by GeoNames'
+                        } else if (savedValue === 'searchProvider-Nominatim'){
+                            document.querySelector('.data_by_text').innerHTML = 'Data by Nominatim (OpenStreetMap data)'
+                        } else{
+                            document.querySelector('.data_by_text').innerHTML = 'Data by Open-meteo'
+                        }
+
+                    } else{
+                    }
+                });
+            }
+        }
+
+        const radioButtonsSelectedSearchProvider = document.querySelectorAll('md-radio[name="search_provider_group"]');
+
+        radioButtonsSelectedSearchProvider.forEach(radio => {
+            radio.addEventListener('input', () => {
+                radioButtonsSelectedSearchProvider.forEach(r => r.removeAttribute('checked'));
+                radio.setAttribute('checked', 'true');
+            });
+        });
+
+
+        document.getElementById('saveSelectedSearchProviderBtn').addEventListener('click', () => {
+            saveSelection()
+        })
+
+        document.addEventListener('DOMContentLoaded', () =>{
+            restoreSelection();
+        });
 
     </script>
 
