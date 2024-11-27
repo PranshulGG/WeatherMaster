@@ -36,34 +36,34 @@
     <color name="diffDefault">#0e1d2a</color>
 
 
-<!--  default fallback  -->
-        <color name="colorPrimary">#8f4c38</color>
-        <color name="colorOnPrimary">#ffffff</color>
-        <color name="colorPrimaryContainer">#ffdbd1</color>
-        <color name="colorOnPrimaryContainer">#3a0b01</color>
+    <!--  default fallback  -->
+    <color name="colorPrimary">#ffb5a0</color>
+    <color name="colorOnPrimary">#561f0f</color>
+    <color name="colorPrimaryContainer">#723523</color>
+    <color name="colorOnPrimaryContainer">#ffdbd1</color>
 
-        <color name="colorSecondary">#77574e</color>
-        <color name="colorOnSecondary">#ffffff</color>
-        <color name="colorSecondaryContainer">#ffdbd1</color>
-        <color name="colorOnSecondaryContainer">#2c150f</color>
+    <color name="colorSecondary">#e7bdb2</color>
+    <color name="colorOnSecondary">#442a22</color>
+    <color name="colorSecondaryContainer">#5d4037</color>
+    <color name="colorOnSecondaryContainer">#ffdbd1</color>
 
-        <color name="colorTertiary">#6c5d2f</color>
-        <color name="colorOnTertiary">#ffffff</color>
-        <color name="colorTertiaryContainer">#f5e1a7</color>
-        <color name="colorOnTertiaryContainer">#231b00</color>
+    <color name="colorTertiary">#d8c58d</color>
+    <color name="colorOnTertiary">#3b2f05</color>
+    <color name="colorTertiaryContainer">#534619</color>
+    <color name="colorOnTertiaryContainer">#f5e1a7</color>
 
-        <color name="colorBackground">#fff8f6</color>
-        <color name="colorOnBackground">#231917</color>
-        <color name="colorSurface">#fff8f6</color>
-        <color name="colorOnSurface">#231917</color>
+    <color name="colorBackground">#1a110f</color>
+    <color name="colorOnBackground">#f1dfda</color>
+    <color name="colorSurface">#1a110f</color>
+    <color name="colorOnSurface">#f1dfda</color>
 
-        <color name="colorSurfaceContainer">#fceae5</color>
+    <color name="colorSurfaceContainer">#271d1b</color>
 
-        <color name="colorSurfaceVariant">#e8d6d2</color>
-        <color name="colorOnSurfaceVariant">#53433f</color>
+    <color name="colorSurfaceVariant">#1a110f</color>
+    <color name="colorOnSurfaceVariant">#d8c2bc</color>
 
-        <color name="colorError">#ba1a1a</color>
-        <color name="colorOnError">#ffffff</color>
+    <color name="colorError">#ffb4ab</color>
+    <color name="colorOnError">#690005</color>
 
 
 

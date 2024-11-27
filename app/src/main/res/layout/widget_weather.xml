@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/widget_layout"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="8dp"
+    android:background="@drawable/widget_1_background_round">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+
+        android:orientation="horizontal"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="0dp"
+        >
+
+        <ImageView
+            android:id="@+id/weather_icon"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/showers_rain" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="vertical"
+            android:padding="8dp">
+            <TextView
+                android:id="@+id/location_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/product_sans"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="Falmouth Falmouth Falmouth Falmouth Falmouth Falmouth Falmouth Falmouth"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15.5sp"
+                android:ellipsize="end"
+                android:maxWidth="280dp"
+                android:maxLines="1" />
+
+
+            <TextView
+                android:id="@+id/weather_condition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/product_sans"
+                android:gravity="center"
+                android:text="Light Rain Showers"
+                android:textColor="@color/colorOnSurfaceVariant"
+                android:textSize="16.7sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp"
+        android:paddingTop="0dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="0dp">
+
+        <TextView
+            android:id="@+id/temp_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/product_sans"
+            android:text="14°"
+            android:textColor="@color/colorPrimary"
+            android:textSize="45sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="horizontal"
+            android:padding="0dp">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginEnd="10dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/hour_0_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/product_sans"
+                android:text="15°"
+                android:textColor="@color/colorSecondary"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/weather_icon_hour0"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/cloudy" />
+
+            <TextView
+                android:id="@+id/hour_0_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/product_sans"
+                android:textStyle="bold"
+                android:text="10PM"
+                android:textColor="@color/colorOnSurfaceVariant"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginEnd="10dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/hour_1_temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/product_sans"
+                    android:text="15°"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/weather_icon_hour1"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/mostly_clear_night" />
+
+                <TextView
+                    android:id="@+id/hour_1_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/product_sans"
+                    android:text="11PM"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorOnSurfaceVariant"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginEnd="10dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/hour_2_temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/product_sans"
+                    android:text="15°"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/weather_icon_hour2"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/mostly_cloudy_night" />
+
+                <TextView
+                    android:id="@+id/hour_2_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/product_sans"
+                    android:text="12PM"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorOnSurfaceVariant"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginEnd="10dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/hour_3_temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/product_sans"
+                    android:text="15°"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/weather_icon_hour3"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/mostly_cloudy_night" />
+
+                <TextView
+                    android:id="@+id/hour_3_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/product_sans"
+                    android:textStyle="bold"
+                    android:text="1AM"
+                    android:textColor="@color/colorOnSurfaceVariant"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+    </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="start"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        >
+
+        <TextView
+            android:id="@+id/high_temp_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:fontFamily="@font/product_sans"
+            android:text="High: 20°"
+            android:textColor="@color/colorOnBackground"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
