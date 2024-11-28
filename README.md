@@ -82,8 +82,19 @@
 - [**open-meteo**](https://open-meteo.com)
 - [**Met norway**](https://www.met.no/en)
 - [**WeatherApi**](https://www.weatherapi.com/)
-- [**OpenWeatherMap**](https://openweathermap.org/api)
 - [**accuweather**](https://www.accuweather.com/)
+- [**Météo-France**](https://www.meteofrance.com)
+- [**DWD**](https://www.dwd.de/EN/Home/home_node.html)
+- [**NOAA**](https://www.noaa.gov)
+- [**ECMWF**](https://www.ecmwf.int)
+- [**UK Met Office**](https://www.metoffice.gov.uk)
+- [**JMA**](https://www.jma.go.jp/jma/indexe.html)
+- [**GEM**](https://www.ec.gc.ca/meteo-weather/default.asp?lang=En&n=FB1BB3E4-1)
+- [**BOM**](http://www.bom.gov.au)
+- [**CMA**](http://www.cma.gov.cn/en/)
+- [**KNMI**](https://www.knmi.nl)
+- [**DMI**](https://www.dmi.dk/en/)
+
 
 # ⚙️ Other:
 
