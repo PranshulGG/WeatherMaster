@@ -9,6 +9,8 @@ function FetchMeteoFrance(lat, lon, timezone, suggestionText, refreshValue) {
       .then(data => {
   
         localStorage.setItem(`WeatherDataMeteoFrance_${suggestionText}`, JSON.stringify(data, new Date().toISOString()))
-  
+
+
+  renderLatestData(lat, lon, suggestionText, refreshValue)
     })
   }

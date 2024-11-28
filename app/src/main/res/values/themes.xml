@@ -24,6 +24,9 @@
         <item name="colorOnSurfaceVariant">@color/colorOnSurfaceVariant</item>
 
         <item name="colorSurfaceContainer">@color/colorSurfaceContainer</item>
+
+        <item name="fontFamily">@font/product_sans</item>
+        <item name="android:fontFamily">@font/product_sans</item>
     </style>
 
 

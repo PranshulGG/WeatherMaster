@@ -9,6 +9,7 @@ function FetchukMetOffice(lat, lon, timezone, suggestionText, refreshValue) {
       .then(data => {
   
         localStorage.setItem(`WeatherDataukMetOffice_${suggestionText}`, JSON.stringify(data, new Date().toISOString()))
-  
+
+  renderLatestData(lat, lon, suggestionText, refreshValue)
     })
   }

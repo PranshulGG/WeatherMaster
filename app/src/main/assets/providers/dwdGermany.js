@@ -8,6 +8,7 @@ function FetchDWDGermany(lat, lon, timezone, suggestionText, refreshValue) {
       .then(data => {
   
         localStorage.setItem(`WeatherDataDWDGermany_${suggestionText}`, JSON.stringify(data, new Date().toISOString()))
-  
+
+  renderLatestData(lat, lon, suggestionText, refreshValue)
     })
   }

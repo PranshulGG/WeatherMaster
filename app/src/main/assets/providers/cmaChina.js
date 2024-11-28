@@ -9,6 +9,7 @@ function FetchcmaChina(lat, lon, timezone, suggestionText, refreshValue) {
       .then(data => {
   
         localStorage.setItem(`WeatherDatacmaChina_${suggestionText}`, JSON.stringify(data, new Date().toISOString()))
-  
+
+  renderLatestData(lat, lon, suggestionText, refreshValue)
     })
   }

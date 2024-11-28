@@ -9,6 +9,7 @@ function FetchbomAustralia(lat, lon, timezone, suggestionText, refreshValue) {
       .then(data => {
   
         localStorage.setItem(`WeatherDatabomAustralia_${suggestionText}`, JSON.stringify(data, new Date().toISOString()))
-  
+
+  renderLatestData(lat, lon, suggestionText, refreshValue)
     })
   }

@@ -2090,20 +2090,24 @@ function hideLoader() {
 
 function refreshWeather() {
     if (navigator.onLine) {
+        document.querySelector('.no_touch_screen').hidden = false;
+
         const latSend = localStorage.getItem('currentLat')
         const longSend = localStorage.getItem('currentLong')
         const CurrentLocationName = localStorage.getItem('CurrentLocationName');
 
         DecodeWeather(latSend, longSend, CurrentLocationName, `Refreshed_${CurrentLocationName}`)
 
-        //        setTimeout(() =>{
-        //        sendThemeToAndroid('StopRefresh')
-        //        }, 1000)
+
 
 
 
     } else {
+                    setTimeout(() =>{
+                  document.querySelector('.no_touch_screen').hidden = true;
 
+                      sendThemeToAndroid("StopRefreshingLoader");
+                    }, 1000)
         return
     }
 }
@@ -2211,7 +2215,7 @@ checkNoInternet();
 
 document.addEventListener('DOMContentLoaded', async function () {
 
-    const currentVersion = 'v1.8.8';
+    const currentVersion = 'v1.8.8.2';
     const githubRepo = 'PranshulGG/WeatherMaster';
     const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
@@ -2453,8 +2457,12 @@ function ReturnHomeLocation() {
         }
 
         setTimeout(() => {
-            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataMetTimstamp)}`;
-        }, 1000);
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 1200);
+
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 2400);
 
 
 
@@ -2524,8 +2532,12 @@ function ReturnHomeLocation() {
         }
 
         setTimeout(() => {
-            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(dataTimstamp)}`;
-        }, 1000);
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 1200);
+
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 2400);
 
         } else if(localStorage.getItem('selectedMainWeatherProvider') === 'meteoFrance'){
             const renderFromSavedData = JSON.parse(localStorage.getItem(`WeatherDataMeteoFrance_${Locations.name}`));
@@ -2562,10 +2574,13 @@ function ReturnHomeLocation() {
             }
 
 
-            setTimeout(() => {
-                document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
-            }, 1000);
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 1200);
 
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 2400);
 
             localStorage.setItem('currentLong', Locations.lon)
             localStorage.setItem('currentLat', Locations.lat)
@@ -2619,9 +2634,13 @@ function ReturnHomeLocation() {
             }
 
 
-            setTimeout(() => {
-                document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
-            }, 1000);
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 1200);
+
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 2400);
 
 
             localStorage.setItem('currentLong', Locations.lon)
@@ -2676,9 +2695,13 @@ function ReturnHomeLocation() {
             }
 
 
-            setTimeout(() => {
-                document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
-            }, 1000);
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 1200);
+
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 2400);
 
 
             localStorage.setItem('currentLong', Locations.lon)
@@ -2733,9 +2756,13 @@ function ReturnHomeLocation() {
             }
 
 
-            setTimeout(() => {
-                document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
-            }, 1000);
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 1200);
+
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 2400);
 
 
             localStorage.setItem('currentLong', Locations.lon)
@@ -2790,9 +2817,13 @@ function ReturnHomeLocation() {
             }
 
 
-            setTimeout(() => {
-                document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
-            }, 1000);
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 1200);
+
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 2400);
 
 
             localStorage.setItem('currentLong', Locations.lon)
@@ -2847,9 +2878,13 @@ function ReturnHomeLocation() {
             }
 
 
-            setTimeout(() => {
-                document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
-            }, 1000);
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 1200);
+
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 2400);
 
 
             localStorage.setItem('currentLong', Locations.lon)
@@ -2904,9 +2939,13 @@ function ReturnHomeLocation() {
             }
 
 
-            setTimeout(() => {
-                document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
-            }, 1000);
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 1200);
+
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 2400);
 
 
             localStorage.setItem('currentLong', Locations.lon)
@@ -2961,9 +3000,13 @@ function ReturnHomeLocation() {
             }
 
 
-            setTimeout(() => {
-                document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
-            }, 1000);
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 1200);
+
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 2400);
 
 
             localStorage.setItem('currentLong', Locations.lon)
@@ -3018,9 +3061,13 @@ function ReturnHomeLocation() {
             }
 
 
-            setTimeout(() => {
-                document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
-            }, 1000);
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 1200);
+
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 2400);
 
 
             localStorage.setItem('currentLong', Locations.lon)
@@ -3075,9 +3122,13 @@ function ReturnHomeLocation() {
             }
 
 
-            setTimeout(() => {
-                document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
-            }, 1000);
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 1200);
+
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 2400);
 
 
             localStorage.setItem('currentLong', Locations.lon)
@@ -3132,9 +3183,13 @@ function ReturnHomeLocation() {
             }
 
 
-            setTimeout(() => {
-                document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
-            }, 1000);
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 1200);
+
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 2400);
 
 
             localStorage.setItem('currentLong', Locations.lon)
@@ -3189,9 +3244,13 @@ function ReturnHomeLocation() {
             }
 
 
-            setTimeout(() => {
-                document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
-            }, 1000);
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 1200);
+
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 2400);
 
 
             localStorage.setItem('currentLong', Locations.lon)
@@ -3254,7 +3313,11 @@ function ReturnHomeLocation() {
 
         setTimeout(() => {
             document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
-        }, 1000);
+        }, 1200);
+
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 2400);
 
 
 
@@ -3491,8 +3554,12 @@ function LoadLocationOnRequest(lat, lon, name) {
         }
 
         setTimeout(() => {
-            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataMetTimstamp)}`;
-        }, 1000);
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 1200);
+
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 2400);
 
 
         hideLoader()
@@ -3559,8 +3626,12 @@ function LoadLocationOnRequest(lat, lon, name) {
         }
 
         setTimeout(() => {
-            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(dataTimstamp)}`;
-        }, 1000);
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 1200);
+
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 2400);
 
         hideLoader()
 
@@ -3601,7 +3672,11 @@ function LoadLocationOnRequest(lat, lon, name) {
 
         setTimeout(() => {
             document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
-        }, 1000);
+        }, 1200);
+
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 2400);
 
 
 
@@ -3659,7 +3734,11 @@ function LoadLocationOnRequest(lat, lon, name) {
 
         setTimeout(() => {
             document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
-        }, 1000);
+        }, 1200);
+
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 2400);
 
 
 
@@ -3717,7 +3796,11 @@ function LoadLocationOnRequest(lat, lon, name) {
 
         setTimeout(() => {
             document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
-        }, 1000);
+        }, 1200);
+
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 2400);
 
 
 
@@ -3775,7 +3858,11 @@ function LoadLocationOnRequest(lat, lon, name) {
 
         setTimeout(() => {
             document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
-        }, 1000);
+        }, 1200);
+
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 2400);
 
 
 
@@ -3833,7 +3920,11 @@ function LoadLocationOnRequest(lat, lon, name) {
 
         setTimeout(() => {
             document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
-        }, 1000);
+        }, 1200);
+
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 2400);
 
 
 
@@ -3891,7 +3982,11 @@ function LoadLocationOnRequest(lat, lon, name) {
 
         setTimeout(() => {
             document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
-        }, 1000);
+        }, 1200);
+
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 2400);
 
 
         localStorage.setItem('currentLong', Locations.lon)
@@ -3948,7 +4043,11 @@ function LoadLocationOnRequest(lat, lon, name) {
 
         setTimeout(() => {
             document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
-        }, 1000);
+        }, 1200);
+
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 2400);
 
 
 
@@ -4006,8 +4105,11 @@ function LoadLocationOnRequest(lat, lon, name) {
 
         setTimeout(() => {
             document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
-        }, 1000);
+        }, 1200);
 
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 2400);
 
         localStorage.setItem('currentLong', lon)
         localStorage.setItem('currentLat', lat)
@@ -4063,7 +4165,11 @@ function LoadLocationOnRequest(lat, lon, name) {
 
         setTimeout(() => {
             document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
-        }, 1000);
+        }, 1200);
+
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 2400);
 
 
         localStorage.setItem('currentLong', lon)
@@ -4120,7 +4226,11 @@ function LoadLocationOnRequest(lat, lon, name) {
 
         setTimeout(() => {
             document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
-        }, 1000);
+        }, 1200);
+
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 2400);
 
 
 
@@ -4178,9 +4288,11 @@ function LoadLocationOnRequest(lat, lon, name) {
 
         setTimeout(() => {
             document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
-        }, 1000);
+        }, 1200);
 
-
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 2400);
 
         localStorage.setItem('currentLong', lon)
         localStorage.setItem('currentLat', lat)
@@ -4236,7 +4348,11 @@ function LoadLocationOnRequest(lat, lon, name) {
 
         setTimeout(() => {
             document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
-        }, 1000);
+        }, 1200);
+
+        setTimeout(() => {
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        }, 2400);
 
 
 

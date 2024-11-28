@@ -9,6 +9,8 @@ function FetchgemCanada(lat, lon, timezone, suggestionText, refreshValue) {
       .then(data => {
   
         localStorage.setItem(`WeatherDatagemCanada_${suggestionText}`, JSON.stringify(data, new Date().toISOString()))
-  
+
+
+  renderLatestData(lat, lon, suggestionText, refreshValue)
     })
   }

@@ -9,6 +9,7 @@ function FetchECMWF(lat, lon, timezone, suggestionText, refreshValue) {
       .then(data => {
   
         localStorage.setItem(`WeatherDataECMWF_${suggestionText}`, JSON.stringify(data, new Date().toISOString()))
-  
+
+  renderLatestData(lat, lon, suggestionText, refreshValue)
     })
   }

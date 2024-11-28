@@ -210,9 +210,6 @@ public class MainActivity extends AppCompatActivity {
                 // Trigger the refresh action
                 webview.evaluateJavascript("refreshWeather();", null);
 
-                new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                    swipeRefreshLayout.setRefreshing(false);
-                }, 1000);
 
                 new Handler(Looper.getMainLooper()).postDelayed(() -> {
                     isPullToRefreshAllowed = true;
@@ -282,6 +279,10 @@ public class MainActivity extends AppCompatActivity {
     private void disablePullToRefresh() {
         isPullToRefreshAllowed = false;
         swipeRefreshLayout.setEnabled(false);
+    }
+
+    private void stopRefreshLoader() {
+        swipeRefreshLayout.setRefreshing(false);
     }
 
 
@@ -472,6 +473,9 @@ public class MainActivity extends AppCompatActivity {
                         return;
                     } else if  (color.equals("EnableSwipeRefresh")) {
                         enablePullToRefresh();
+                        return;
+                    } else if  (color.equals("StopRefreshingLoader")) {
+                        stopRefreshLoader();
                         return;
                     } else if (color.equals("bluesetDef")) {
 
