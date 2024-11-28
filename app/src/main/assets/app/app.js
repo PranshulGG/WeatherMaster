@@ -157,7 +157,6 @@ if (navigator.onLine) {
             document.querySelector('.data_provider_name_import').innerHTML = 'Data by Open-Meteo (Global)';
         }
 
-
 }
 
 
@@ -2212,7 +2211,7 @@ checkNoInternet();
 
 document.addEventListener('DOMContentLoaded', async function () {
 
-    const currentVersion = 'v1.8.7';
+    const currentVersion = 'v1.8.8';
     const githubRepo = 'PranshulGG/WeatherMaster';
     const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 

@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
         webview.addJavascriptInterface(new UpdateNotificationInterface(this), "UpdateNotificationInterface");
         webview.addJavascriptInterface(new ShowSnackInterface(this), "ShowSnackMessage");
         webview.setBackgroundColor(getResources().getColor(R.color.diffDefault));
+        webview.getSettings().setGeolocationEnabled(true);
         webSettings.setTextZoom(100);
 
 

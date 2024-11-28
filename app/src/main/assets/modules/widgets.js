@@ -44,7 +44,9 @@ function createWidgetData() {
   const timeFormat = localStorage.getItem('selectedTimeMode');
   const selectedProvider = localStorage.getItem('selectedMainWeatherProvider')
 
-  const currentLocationData = localStorage.getItem("CurrentLocationName");
+const DefaultLocation = JSON.parse(localStorage.getItem('DefaultLocation'));
+
+    const currentLocationData = DefaultLocation.name
 
   let weatherData;
 
