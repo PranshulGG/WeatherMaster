@@ -18,7 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.WeatherMaster"
-        tools:targetApi="33">
+        android:debuggable="true"
+        tools:targetApi="33"
+        tools:ignore="HardcodedDebugMode">
         <activity
             android:name=".SettingsActivity"
             android:screenOrientation="portrait"
@@ -139,13 +141,40 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".WeatherWidgetProvider" android:exported="true">
+        <receiver android:name=".WeatherWidgetProvider" android:exported="true" android:label="@string/widget_description_1">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info" />
+        </receiver>
+
+        <receiver android:name=".WidgetProviderRound" android:exported="true" android:label="Current round">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info_round" />
+        </receiver>
+
+        <receiver android:name=".WidgetProviderPill" android:exported="true" android:label="Current pill">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info_pill" />
+        </receiver>
+
+        <receiver android:name=".WidgetProviderSquare" android:exported="true" android:label="Current square">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info_square" />
         </receiver>
 
     </application>
