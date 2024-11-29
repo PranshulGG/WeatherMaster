@@ -157,6 +157,8 @@ if (navigator.onLine) {
             document.querySelector('.data_provider_name_import').innerHTML = 'Data by Open-Meteo (Global)';
         }
 
+        ShowSnackMessage.ShowSnack("Network unavailable", "long");
+
 }
 
 
@@ -416,11 +418,11 @@ function saveLocationToContainer(locationName, lat, lon) {
 
 
 
-function loadSavedLocations() {
+async function loadSavedLocations() {
     const savedLocationsHolder = document.querySelector('savedLocationsHolder');
     const savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
 
-    CheckLocationDatas()
+ CheckLocationDatas()
 
     savedLocationsHolder.innerHTML = ''
 
@@ -433,7 +435,8 @@ function loadSavedLocations() {
 
     const currentTime = new Date().getTime();
 
-    savedLocations.forEach(location => {
+
+    for (const location of savedLocations) {
         const savedLocationItem = document.createElement('savedLocationItem');
         savedLocationItem.setAttribute('lat', location.lat);
         savedLocationItem.setAttribute('lon', location.lon);
@@ -468,12 +471,9 @@ function loadSavedLocations() {
             const timeLimit = 5 * 60 * 1000;
 
             if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
-                savedLocationsHolder.innerHTML = ''
-                setTimeout(() => {
-                    loadSavedLocations()
-                }, 1000)
+                await DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
                 localStorage.setItem(lastCallTimeKey, currentTime);
+                onAllLocationsLoaded()
             }
         }
         else if (localStorage.getItem('ApiForAccu') && localStorage.getItem('selectedMainWeatherProvider') === 'Accuweather' && JSON.parse(localStorage.getItem(`WeatherDataAccuCurrent_${location.locationName}`))) {
@@ -500,12 +500,10 @@ function loadSavedLocations() {
             const timeLimit = 5 * 60 * 1000;
 
             if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
-                savedLocationsHolder.innerHTML = ''
-                setTimeout(() => {
-                    loadSavedLocations()
-                }, 1000)
+                await DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
+                onAllLocationsLoaded()
                 localStorage.setItem(lastCallTimeKey, currentTime);
+
             }
 
         }
@@ -533,11 +531,8 @@ function loadSavedLocations() {
             const timeLimit = 5 * 60 * 1000;
 
             if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
-                savedLocationsHolder.innerHTML = ''
-                setTimeout(() => {
-                    loadSavedLocations()
-                }, 1000)
+                await DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
+
                 localStorage.setItem(lastCallTimeKey, currentTime);
             }
 
@@ -564,12 +559,9 @@ function loadSavedLocations() {
             const timeLimit = 5 * 60 * 1000;
 
             if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
-                savedLocationsHolder.innerHTML = '';
-                setTimeout(() => {
-                    loadSavedLocations();
-                }, 1000);
+                await DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
                 localStorage.setItem(lastCallTimeKey, currentTime);
+                onAllLocationsLoaded()
             }
         }
         else if (localStorage.getItem('selectedMainWeatherProvider') === 'meteoFrance' && JSON.parse(localStorage.getItem(`WeatherDataMeteoFrance_${location.locationName}`))) {
@@ -594,12 +586,9 @@ function loadSavedLocations() {
             const timeLimit = 5 * 60 * 1000;
 
             if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
-                savedLocationsHolder.innerHTML = '';
-                setTimeout(() => {
-                    loadSavedLocations();
-                }, 1000);
+                await DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
                 localStorage.setItem(lastCallTimeKey, currentTime);
+                onAllLocationsLoaded()
             }
         }
         else if (localStorage.getItem('selectedMainWeatherProvider') === 'ecmwf' && JSON.parse(localStorage.getItem(`WeatherDataECMWF_${location.locationName}`))) {
@@ -623,13 +612,11 @@ function loadSavedLocations() {
 
             const timeLimit = 5 * 60 * 1000;
 
+
             if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
-                savedLocationsHolder.innerHTML = '';
-                setTimeout(() => {
-                    loadSavedLocations();
-                }, 1000);
+                await DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
                 localStorage.setItem(lastCallTimeKey, currentTime);
+                onAllLocationsLoaded()
             }
         }
         else if (localStorage.getItem('selectedMainWeatherProvider') === 'ukMetOffice' && JSON.parse(localStorage.getItem(`WeatherDataukMetOffice_${location.locationName}`))) {
@@ -654,12 +641,9 @@ function loadSavedLocations() {
             const timeLimit = 5 * 60 * 1000;
 
             if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
-                savedLocationsHolder.innerHTML = '';
-                setTimeout(() => {
-                    loadSavedLocations();
-                }, 1000);
+                await DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
                 localStorage.setItem(lastCallTimeKey, currentTime);
+                onAllLocationsLoaded()
             }
         }
         else if (localStorage.getItem('selectedMainWeatherProvider') === 'jmaJapan' && JSON.parse(localStorage.getItem(`WeatherDataJMAJapan_${location.locationName}`))) {
@@ -684,12 +668,9 @@ function loadSavedLocations() {
             const timeLimit = 5 * 60 * 1000;
 
             if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
-                savedLocationsHolder.innerHTML = '';
-                setTimeout(() => {
-                    loadSavedLocations();
-                }, 1000);
+                await DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
                 localStorage.setItem(lastCallTimeKey, currentTime);
+                onAllLocationsLoaded()
             }
         }
 
@@ -714,13 +695,11 @@ function loadSavedLocations() {
 
             const timeLimit = 5 * 60 * 1000;
 
+
             if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
-                savedLocationsHolder.innerHTML = '';
-                setTimeout(() => {
-                    loadSavedLocations();
-                }, 1000);
+                await DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
                 localStorage.setItem(lastCallTimeKey, currentTime);
+                onAllLocationsLoaded()
             }
         }
         else if (localStorage.getItem('selectedMainWeatherProvider') === 'bomAustralia' && JSON.parse(localStorage.getItem(`WeatherDatabomAustralia_${location.locationName}`))) {
@@ -744,13 +723,11 @@ function loadSavedLocations() {
 
             const timeLimit = 5 * 60 * 1000;
 
+
             if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
-                savedLocationsHolder.innerHTML = '';
-                setTimeout(() => {
-                    loadSavedLocations();
-                }, 1000);
+                await DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
                 localStorage.setItem(lastCallTimeKey, currentTime);
+                onAllLocationsLoaded()
             }
         }
         else if (localStorage.getItem('selectedMainWeatherProvider') === 'cmaChina' && JSON.parse(localStorage.getItem(`WeatherDatacmaChina_${location.locationName}`))) {
@@ -774,13 +751,11 @@ function loadSavedLocations() {
 
             const timeLimit = 5 * 60 * 1000;
 
+
             if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
-                savedLocationsHolder.innerHTML = '';
-                setTimeout(() => {
-                    loadSavedLocations();
-                }, 1000);
+                await DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
                 localStorage.setItem(lastCallTimeKey, currentTime);
+                onAllLocationsLoaded()
             }
         }
         else if (localStorage.getItem('selectedMainWeatherProvider') === 'knmiNetherlands' && JSON.parse(localStorage.getItem(`WeatherDataknmiNetherlands_${location.locationName}`))) {
@@ -804,13 +779,11 @@ function loadSavedLocations() {
 
             const timeLimit = 5 * 60 * 1000;
 
+
             if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
-                savedLocationsHolder.innerHTML = '';
-                setTimeout(() => {
-                    loadSavedLocations();
-                }, 1000);
+                await DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
                 localStorage.setItem(lastCallTimeKey, currentTime);
+                onAllLocationsLoaded()
             }
         }
         else if (localStorage.getItem('selectedMainWeatherProvider') === 'dmiDenmark' && JSON.parse(localStorage.getItem(`WeatherDatadmiDenmark_${location.locationName}`))) {
@@ -834,13 +807,11 @@ function loadSavedLocations() {
 
             const timeLimit = 5 * 60 * 1000;
 
+
             if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
-                savedLocationsHolder.innerHTML = '';
-                setTimeout(() => {
-                    loadSavedLocations();
-                }, 1000);
+                await DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
                 localStorage.setItem(lastCallTimeKey, currentTime);
+                onAllLocationsLoaded()
             }
         }
 
@@ -861,7 +832,6 @@ function loadSavedLocations() {
             }
 
         }
-
 
 
 
@@ -1971,7 +1941,7 @@ function loadSavedLocations() {
 
 
         savedLocationsHolder.append(savedLocationItem);
-    });
+    };
 }
 
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -2014,13 +1984,9 @@ window.addEventListener('popstate', function (event) {
         document.getElementById('search-container').style.opacity = '0'
         setTimeout(() => {
             document.getElementById('modal-content').scrollTop = 0;
-            document.getElementById('city-input').value = ''
-            document.getElementById('city-input').dispatchEvent(new Event('input'));
             document.getElementById('search-container').style.display = 'none'
             document.getElementById('search-container').style.opacity = '1'
             checkTopScroll()
-            cityList.innerHTML = '';
-            cityInput.value = '';
 
         }, 300);
     }
@@ -2048,7 +2014,14 @@ function getCurrentLocationWeather() {
     }
 }
 
+function onAllLocationsLoaded() {
+  document.querySelector('savedLocationsHolder').innerHTML = ''
 
+
+  setTimeout(() => {
+    loadSavedLocations()
+  }, 1000)
+}
 
 
 
@@ -2215,7 +2188,7 @@ checkNoInternet();
 
 document.addEventListener('DOMContentLoaded', async function () {
 
-    const currentVersion = 'v1.8.8.2';
+    const currentVersion = 'v1.8.8.3';
     const githubRepo = 'PranshulGG/WeatherMaster';
     const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
