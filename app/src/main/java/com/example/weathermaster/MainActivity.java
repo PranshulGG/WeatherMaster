@@ -15,10 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.provider.Settings;
 import android.text.InputType;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -31,7 +28,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -102,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         AndroidInterface androidInterface = new AndroidInterface(this);
         webview.addJavascriptInterface(androidInterface, "AndroidInterface");
         webview.addJavascriptInterface(new ShowToastInterface(this), "ToastAndroidShow");
-        webview.addJavascriptInterface(new UpdateNotificationInterface(this), "UpdateNotificationInterface");
+        webview.addJavascriptInterface(new UpdateWidget1Interface(this), "UpdateWidget1Interface");
         webview.addJavascriptInterface(new ShowSnackInterface(this), "ShowSnackMessage");
         webview.setBackgroundColor(getResources().getColor(R.color.diffDefault));
         webview.getSettings().setGeolocationEnabled(true);
@@ -309,16 +305,23 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public class UpdateNotificationInterface {
+    public class UpdateWidget1Interface {
         private final Context mContext;
 
-        public UpdateNotificationInterface(Context context) {
+        public UpdateWidget1Interface(Context context) {
             this.mContext = context;
         }
 
         @JavascriptInterface
-        public void updateNotification(final String condition, final String locationWeather, final String mainTemp, final String iconData, final String highLow, final String hour_0_temp, final String hour_0_icon, final String hour_0_time, final String hour_1_temp, final String hour_1_icon, final String hour_1_time, final String hour_2_temp, final String hour_2_icon, final String hour_2_time, final String hour_3_temp, final String hour_3_icon, final String hour_3_time) {
+        public void UpdateWidget1(final String condition, final String locationWeather, final String mainTemp, final String iconData, final String highLow, final String hour_0_temp, final String hour_0_icon, final String hour_0_time, final String hour_1_temp, final String hour_1_icon, final String hour_1_time, final String hour_2_temp, final String hour_2_icon, final String hour_2_time, final String hour_3_temp, final String hour_3_icon, final String hour_3_time) {
             WeatherWidgetProvider.updateWeatherWidget(mContext, condition, locationWeather, mainTemp, iconData, highLow, hour_0_temp, hour_0_icon, hour_0_time, hour_1_temp, hour_1_icon, hour_1_time, hour_2_temp, hour_2_icon, hour_2_time, hour_3_temp, hour_3_icon, hour_3_time);
+
+            WidgetProviderRound.updateWeatherWidgetRound(mContext, mainTemp, iconData);
+
+            WidgetProviderPill.updateWeatherWidgetPill(mContext, mainTemp, iconData);
+
+            WidgetProviderSquare.updateWeatherWidgetSquare(mContext, condition, locationWeather, mainTemp, iconData, highLow, hour_0_temp, hour_0_icon, hour_0_time, hour_1_temp, hour_1_icon, hour_1_time, hour_2_temp, hour_2_icon, hour_2_time, hour_3_temp, hour_3_icon, hour_3_time);
+
         }
     }
 
