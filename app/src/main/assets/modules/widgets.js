@@ -18,7 +18,7 @@ function createWidget(
   hour_3_time
 ) {
 
-  UpdateNotificationInterface.updateNotification(  condition,
+  UpdateWidget1Interface.UpdateWidget1(  condition,
     locationWeather,
     mainTemp,
     iconData,
@@ -106,6 +106,8 @@ const DefaultLocation = JSON.parse(localStorage.getItem('DefaultLocation'));
       localStorage.getItem(`WeatherDataOpenMeteo_${currentLocationData}`)
     );
   }
+
+    if(weatherData){
 
   let CurrentTemperature;
 
@@ -304,6 +306,7 @@ weatherData.hourly.time.forEach((time, index) => {
   })
 
   createWidget(conditionMain, locationName, CurrentTemperature, conditionMainIcon, highLowTemp, hour0Temp, hour0Icon, hour0Time, hour1Temp, hour1Icon, hour1Time, hour2Temp, hour2Icon, hour2Time, hour3Temp, hour3Icon, hour3Time)
+}
 }
 
 function GetWeatherIconWidget(iconCode, isDay) {

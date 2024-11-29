@@ -24,7 +24,7 @@
             android:id="@+id/weather_icon"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:src="@drawable/showers_rain" />
+            android:src="@drawable/cloudy" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -40,7 +40,7 @@
                 android:layout_gravity="end"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:text="Falmouth Falmouth Falmouth Falmouth Falmouth Falmouth Falmouth Falmouth"
+                android:text="No location"
                 android:textColor="@color/colorPrimary"
                 android:textSize="15.5sp"
                 android:ellipsize="end"
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/product_sans"
                 android:gravity="center"
-                android:text="Light Rain Showers"
+                android:text="--"
                 android:textColor="@color/colorOnSurfaceVariant"
                 android:textSize="16.7sp" />
         </LinearLayout>
@@ -76,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/product_sans"
-            android:text="14°"
+            android:text="--°"
             android:textColor="@color/colorPrimary"
             android:textSize="45sp"
             android:textStyle="bold" />
@@ -99,7 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/product_sans"
-                android:text="15°"
+                android:text="--°"
                 android:textColor="@color/colorSecondary"
                 android:textSize="14sp" />
 
@@ -115,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/product_sans"
                 android:textStyle="bold"
-                android:text="10PM"
+                android:text="--"
                 android:textColor="@color/colorOnSurfaceVariant"
                 android:textSize="13sp" />
         </LinearLayout>
@@ -132,7 +132,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/product_sans"
-                    android:text="15°"
+                    android:text="--°"
                     android:textColor="@color/colorSecondary"
                     android:textSize="14sp" />
 
@@ -140,14 +140,14 @@
                     android:id="@+id/weather_icon_hour1"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/mostly_clear_night" />
+                    android:src="@drawable/cloudy" />
 
                 <TextView
                     android:id="@+id/hour_1_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/product_sans"
-                    android:text="11PM"
+                    android:text="--"
                     android:textStyle="bold"
                     android:textColor="@color/colorOnSurfaceVariant"
                     android:textSize="13sp" />
@@ -165,7 +165,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/product_sans"
-                    android:text="15°"
+                    android:text="--°"
                     android:textColor="@color/colorSecondary"
                     android:textSize="14sp" />
 
@@ -173,14 +173,14 @@
                     android:id="@+id/weather_icon_hour2"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/mostly_cloudy_night" />
+                    android:src="@drawable/cloudy" />
 
                 <TextView
                     android:id="@+id/hour_2_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/product_sans"
-                    android:text="12PM"
+                    android:text="--"
                     android:textStyle="bold"
                     android:textColor="@color/colorOnSurfaceVariant"
                     android:textSize="13sp" />
@@ -198,7 +198,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/product_sans"
-                    android:text="15°"
+                    android:text="--°"
                     android:textColor="@color/colorSecondary"
                     android:textSize="14sp" />
 
@@ -206,7 +206,7 @@
                     android:id="@+id/weather_icon_hour3"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/mostly_cloudy_night" />
+                    android:src="@drawable/cloudy" />
 
                 <TextView
                     android:id="@+id/hour_3_time"
@@ -214,7 +214,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/product_sans"
                     android:textStyle="bold"
-                    android:text="1AM"
+                    android:text="--"
                     android:textColor="@color/colorOnSurfaceVariant"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -236,7 +236,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
             android:fontFamily="@font/product_sans"
-            android:text="High: 20°"
+            android:text="--°"
             android:textColor="@color/colorOnBackground"
             android:textSize="14sp" />
 

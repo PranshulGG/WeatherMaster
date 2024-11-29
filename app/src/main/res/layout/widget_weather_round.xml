@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="140dp"
+    android:id="@+id/widget_layout_round"
+    android:layout_height="140dp"
+    android:padding="8dp"
+    android:orientation="vertical"
+    android:background="@drawable/widget_round_background_round">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+
+        android:orientation="vertical"
+        android:padding="8dp"
+        >
+
+        <ImageView
+            android:id="@+id/weather_icon_round"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/cloudy" />
+
+
+        <TextView
+            android:id="@+id/temp_text_round"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/product_sans"
+            android:text="--°"
+            android:textColor="@color/colorPrimary"
+            android:textSize="43sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
