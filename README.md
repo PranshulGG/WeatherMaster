@@ -125,7 +125,7 @@
 
 - ✅ Adding cache to reduce api requests
 - ✅ Translations
-- ✅ Notifications
+- ✅ Widgets
 - ✅ Make it lightweight
 - ✅ Allows you to add multiple locations
 - ✅ Customization
