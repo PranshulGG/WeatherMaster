@@ -83,15 +83,20 @@
             border-radius: 18px;
             min-height: 80px;
             padding: 10px;
-
         }
 
         .wrap_data{
             overflow: auto;
-            height: calc(100% - 65px);
+            height: calc(100% - 65px - 49px);
+            position: fixed;
+            left: 0;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        .wrap_data img{
             position: fixed;
             bottom: 0;
-            left: 0;
             width: 100%;
         }
 
@@ -105,82 +110,55 @@
             z-index: 1;
         }
 
-        .data_text ul{
+
+
+        .clothin_activity .data .label{
+            display: none;
+            align-items: center;
+            justify-content: center;
             padding: 0;
-            list-style-type: none;
-            margin: 0;
-        }
-
-        .data_text li{
-            background-color: var(--Surface);
-            padding: 14px;
-            color: var(--On-Surface);
-            line-height: 1.4;
-            font-size: 18px;
-        }
-
-        .data_text li:last-child{
-            margin-bottom: 0;
-            border-bottom-left-radius: 15px;
-            border-bottom-right-radius: 15px;
-        }
-
-        .data_text li:first-child{
-            border-top-left-radius: 15px;
-            border-top-right-radius: 15px;
-        }
-
-        #day_tip{
-            padding: 10px;
-        }
-
-        #day_tip div{
-            background-color: var(--Surface-Container-Low);
-            border-radius: 18px;
-            min-height: 80px;
-            padding: 10px;
+            color: var(--Secondary);
+            font-size: 24px;
+            border-radius: 50px;
+            margin-top: 10px;
 
         }
 
-        #day_tip div li{
-            line-height: 1.4;
-            font-size: 18px;
+        .clothin_activity .data ul{
+            list-style: none;
             padding: 0;
-            list-style-type: none;
-            margin: 0;
-            color: var(--On-Surface);
-            background-color: var(--Surface);
-            padding: 10px;
-
-
-        }
-
-        #day_tip div p:first-child{
             margin-bottom: 0;
-            border-top-left-radius: 15px;
-            border-top-right-radius: 15px;
+
         }
 
-        #day_tip div li:last-child{
-            border-bottom-left-radius: 15px;
-            border-bottom-right-radius: 15px;
-        }
-
-        #day_tip div p{
-            color: var(--On-Surface);
-            line-height: 1.4;
+        .clothin_activity .data ul li{
+            margin-bottom: 10px;
             font-size: 18px;
-            padding: 10px;
-            background-color: var(--Surface);
+            color: var(--On-Surface);
+            background-color: var(--Surface-Container);
+            border-radius: 10px;
+            padding: 15px;
         }
 
-        .label{
-            padding-left: 10px !important;
-            color: var(--Primary) !important;
-            font-family: var(--google-mid) !important;
-            font-size: 20px;
-            padding-bottom: 10px !important;
+        .clothin_activity .data .data_text{
+            background-color: transparent;
+            padding: 10px;
+            animation: jump 0.2s cubic-bezier(1,0,0,1);
+                padding-top: 0;
+
         }
+
+
+        @keyframes jump{
+            0%{
+                transform: scale(0);
+            }
+            100%{
+                transform: scale(1);
+            }
+        }
+
+
 
     </style>
 </head>
@@ -190,13 +168,33 @@
     <p>Clothing and Activity</p>
     <span id="location_name">Error</span>
 </div>
+<md-tabs id="change_type_tabs">
+    <md-primary-tab>Morning</md-primary-tab>
+    <md-primary-tab>Evening</md-primary-tab>
+    <md-primary-tab>Night</md-primary-tab>
+    <md-primary-tab>Day tip</md-primary-tab>
 
+</md-tabs>
 <div class="wrap_data">
-    <div id="recommendations"></div>
 
-    <div id="day_tip"></div>
 
-    <div id="air_quality_details" style="margin-bottom: 35px; margin-left: 10px; margin-right:10px;"></div>
+    <div id="morning" class="clothin_activity">
+
+    </div>
+
+    <div id="evening" class="clothin_activity" hidden>
+
+    </div>
+
+    <div id="night" class="clothin_activity" hidden>
+
+    </div>
+
+
+    <div id="day_tip" class="clothin_activity" hidden></div>
+
+    <div id="air_quality_details"  class="clothin_activity" hidden style="margin-bottom: 60px;"></div>
+
 
 </div>
 
