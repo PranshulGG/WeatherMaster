@@ -404,7 +404,7 @@ function CurrentWeather(data, sunrise, sunset, lat, lon) {
     }
 
         if (CurrentTemperature < 10 && CurrentTemperature >= 0) {
-            CurrentTemperature = '0' + CurrentTemperature;
+            CurrentTemperature = '' + CurrentTemperature;
         }
 
 
@@ -1114,17 +1114,50 @@ function UvIndex(uvIndexValue) {
         `;
             let weatherTips = "";
 
-            const hotWeatherTips = [
-                "🔥 It's going to be hot today! Stay hydrated and wear light, breathable clothing.",
-                "🥵 High temperatures ahead! Drink plenty of water and avoid the sun during peak hours.",
-                "☀️ The heat is on! Wear a hat and stay in the shade as much as possible."
-            ];
-            
-            const chillyWeatherTips = [
-                "🧥 It's going to be a bit chilly. Consider wearing a jacket if you're heading out.",
-                "🥶 Brr! It's cold today, so bundle up before heading out.",
-                "🌬️ The temperature is lower today, keep yourself warm with layers."
-            ];
+        const veryHotWeatherTips = [
+            "🌞 Scorching temperatures ahead! Stay indoors as much as possible and stay hydrated.",
+            "🥵 Extreme heat today! Avoid outdoor activities during peak hours, and make sure to stay cool.",
+            "🔥 It's dangerously hot today! Drink water constantly and stay in air-conditioned spaces if possible.",
+            "🌡️ It's a heatwave! Protect your skin with sunscreen and wear a wide-brimmed hat.",
+            "💦 Drink plenty of water and avoid strenuous activities in such high heat."
+        ];
+
+        const hotWeatherTips = [
+            "🔥 It's going to be hot today! Stay hydrated and wear light, breathable clothing.",
+            "🥵 High temperatures ahead! Drink plenty of water and avoid the sun during peak hours.",
+            "☀️ The heat is on! Wear a hat and stay in the shade as much as possible.",
+            "🌡️ Hot day ahead! Don’t forget sunscreen if you're going outside for an extended period.",
+            "🧴 Keep cool with refreshing drinks and take breaks in a cool place."
+        ];
+
+        const mildWeatherTips = [
+            "🌤️ The weather is mild today, perfect for outdoor activities. Don't forget sunscreen!",
+            "😊 A nice, mild day ahead! Ideal for a walk or enjoying time outdoors.",
+            "🌸 Mild temperatures mean it's great for layering. Dress comfortably for the day."
+        ];
+
+        const chillyWeatherTips = [
+            "🧥 It's going to be a bit chilly. Consider wearing a jacket if you're heading out.",
+            "🥶 Brr! It's cold today, so bundle up before heading out.",
+            "🌬️ The temperature is lower today, keep yourself warm with layers.",
+            "🧣 Don't forget a scarf if you're out and about in the cold!",
+            "❄️ Make sure to wear gloves if you're outside for long periods."
+        ];
+
+        const veryColdWeatherTips = [
+            "❄️ Freezing temperatures ahead! Dress in warm layers and keep your extremities covered.",
+            "🧤 Make sure you're bundled up—cold weather can be harsh on your skin.",
+            "⛄️ Extremely cold today—avoid spending too much time outside if possible.",
+            "🥶 Stay inside if you can, or make sure you're wearing a heavy coat, hat, and gloves."
+        ];
+
+        const extremeColdWeatherTips = [
+            "🥶 It's dangerously cold today! Stay indoors if you can, and bundle up in thick layers.",
+            "❄️ Temperatures below freezing! Keep your skin covered to avoid frostbite.",
+            "🌨️ If you must go outside, wear multiple layers and protect your face and hands.",
+            "🧣 Wind chills are intense—dress in a warm, insulated coat and stay warm.",
+            "☃️ Avoid any outdoor activities in this extreme cold unless absolutely necessary."
+        ];
             
             const rainTips = [
                 "☔ There's a chance of rain. Don't forget to carry an umbrella or raincoat.",
@@ -1167,12 +1200,20 @@ function UvIndex(uvIndexValue) {
                 "⚡ There's a risk of thunderstorms. Unplug sensitive electronics to avoid damage from lightning.",
                 "🌩️ Stormy weather today! Avoid driving during heavy rain and stay safe indoors."
             ];
-            
-            if (maxTemp > 29) {
-                weatherTips += hotWeatherTips[Math.floor(Math.random() * hotWeatherTips.length)] + " ";
-            } else if (maxTemp < 19) {
-                weatherTips += chillyWeatherTips[Math.floor(Math.random() * chillyWeatherTips.length)] + " ";
-            }
+
+    if (Math.round(mainData.maxtemp_c) > 35) {
+        weatherTips += veryHotWeatherTips[Math.floor(Math.random() * veryHotWeatherTips.length)] + " ";
+    } else if (Math.round(mainData.maxtemp_c) > 29) {
+        weatherTips += hotWeatherTips[Math.floor(Math.random() * hotWeatherTips.length)] + " ";
+    } else if (Math.round(mainData.maxtemp_c) >= 19 && Math.round(mainData.maxtemp_c) <= 29) {
+        weatherTips += mildWeatherTips[Math.floor(Math.random() * mildWeatherTips.length)] + " ";
+    } else if (Math.round(mainData.maxtemp_c) < -10) {
+        weatherTips += extremeColdWeatherTips[Math.floor(Math.random() * extremeColdWeatherTips.length)] + " ";
+    } else if (Math.round(mainData.maxtemp_c) < 0) {
+        weatherTips += veryColdWeatherTips[Math.floor(Math.random() * veryColdWeatherTips.length)] + " ";
+    } else if (Math.round(mainData.maxtemp_c) < 19) {
+        weatherTips += chillyWeatherTips[Math.floor(Math.random() * chillyWeatherTips.length)] + " ";
+    }
             
             if (precipitation > 0) {
                 weatherTips += rainTips[Math.floor(Math.random() * rainTips.length)] + " ";
