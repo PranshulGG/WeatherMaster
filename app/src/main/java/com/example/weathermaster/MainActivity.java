@@ -59,15 +59,8 @@ public class MainActivity extends AppCompatActivity {
         if (webview.canGoBack()) {
             webview.goBack();
         } else {
-            if (doubleBackToExitPressedOnce) {
                 super.onBackPressed();
-                return;
-            }
 
-            this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, "Press again to exit", Toast.LENGTH_SHORT).show();
-
-            new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
         }
     }
 

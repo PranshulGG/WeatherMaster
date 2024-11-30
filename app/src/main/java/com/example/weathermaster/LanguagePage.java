@@ -196,7 +196,7 @@ public class LanguagePage extends AppCompatActivity {
         }
 
         private boolean shouldOpenInBrowser(String url) {
-            return url.startsWith("https://poeditor.com/join/project/DxrGXdoUGF") ||
+            return url.startsWith("https://crowdin.com/project/weathermaster/invite?h=448278a9b1370f3c10d4336a091dae792286917") ||
                     url.startsWith("https://openweathermap.org/") ||
                     url.startsWith("https://fonts.google.com/specimen/Poppins?query=poppins") ||
                     url.startsWith("https://github.com/material-components/material-web") ||
