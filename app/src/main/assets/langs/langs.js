@@ -1533,7 +1533,7 @@ const translations = {
     "Health warnings of emergency conditions. The entire population is more likely to be affected.",
     "Alertas sanitarias de condiciones de emergencia. Es más probable que toda la población se vea afectada.",
     "Avertissements sanitaires concernant les situations d’urgence. L’ensemble de la population est plus susceptible d’être touchée.",
-    "Warnung vor gesundheitsgefährdenden Bedinghungen. Auswirkungen auf die gesamte Bevölkerung sind zu erwarten.",
+    "Warnung vor gesundheitsgefährdenden Bedingungen. Auswirkungen auf die gesamte Bevölkerung sind zu erwarten.",
     "Avvisi sanitari di condizioni di emergenza. L'intera popolazione ha maggiori probabilità di essere colpita.",
     "Avisos de saúde por condições emergenciais. É provável que toda a população seja afetada.",
     "Egészségügyi vészhelyzeti riasztás. A legtöbb ember valószínűleg érintett.",
