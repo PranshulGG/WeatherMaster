@@ -4,11 +4,6 @@
     touch-action: manipulation;
     -webkit-user-drag: none;
     outline: none;
-    --Surface: #334151;
-    --On-Surface: #e0e2e8;
-    --On-Surface-Variant: #b9c8da;
-    --Outline-Variant: #3f4955;
-    --Primary: #9ccbfb;
 }
 
 p{
@@ -16,7 +11,7 @@ p{
 }
 
 body {
-    background-color: #334150;
+    background-color: var(--Surface);
     padding: 0;
     margin: 0;
     overflow: hidden;
@@ -79,22 +74,35 @@ forecastDateHeader{
 
 forecastDateHeader .forecastDateHeaderContent{
     flex-shrink: 0;
-    height: 100px;
-    width: 65px;
+    height: 140px;
+    width: 55px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #253648;
+    background-color: var(--Surface-Container-Low);
     padding: 5px 5px;
     position: relative;
-    border-radius: 10px;
+    border-radius: 50px;
     gap: 10px;
 }
 
 forecastDateHeader .forecastDateHeaderContent.selected{
-    background-color: #011d33;
+    background-color: var(--Primary-Container);
     pointer-events: none;
+
+}
+
+forecastDateHeader .forecastDateHeaderContent.selected p{
+    color: var(--On-Primary-Container) !important;
+}
+
+forecastDateHeader .forecastDateHeaderContent.selected div span{
+    color: var(--On-Primary-Container) !important;
+    opacity: 0.8;
+}
+forecastDateHeader .forecastDateHeaderContent.selected span{
+    color: var(--On-Primary-Container) !important;
 }
 
 forecastDateHeader .forecastDateHeaderContent.selected::before{
@@ -119,17 +127,24 @@ forecastDateHeader .forecastDateHeaderContent img{
     width: 30px;
 }
 
+forecastDateHeader .forecastDateHeaderContent div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 forecastDateHeader .forecastDateHeaderContent div p{
     color: var(--On-Surface);
-    font-family: var(--google-normal);
-    font-size: 15px;
+    font-family: var(--google-mid);
+    font-size: 17px;
 
 }
 
 forecastDateHeader .forecastDateHeaderContent div span{
     color: var(--On-Surface-Variant);
-    font-family: var(--google-normal);
-    font-size: 15px;
+    font-family: var(--google-mid);
+    font-size: 17px;
 
 }
 
@@ -143,6 +158,7 @@ forecastDateHeader .forecastDateHeaderContent > span{
     width: 100%;
     text-align: center;
 }
+
 
 forecastMainDetails{
     display: flex;
@@ -159,18 +175,18 @@ forecastMainDetails .forecastTempConditionMainContent .top-details {
 }
 
 forecastMainDetails .forecastTempConditionMainContent .top-details > p{
-    color: #e9eef7;
+    color: var(--On-Surface);
     font-family: var(--google-mid);
     font-size: 20px;
     padding-bottom: 5px;
 }
 
 forecastMainDetails .forecastTempConditionMainContent .top-details > div > tempLarge p{
-    color: #e0e3ea;
+    color: var(--On-Surface);
 }
 
 forecastMainDetails .forecastTempConditionMainContent .top-details > div > tempLarge span{
-    color: #b9c8db;
+    color: var(--On-Surface-Variant);
 }
 
 forecastMainDetails .forecastTempConditionMainContent .top-details > div > tempLarge{
@@ -199,7 +215,7 @@ weatherConditionText{
 .daily-conditions-title{
     padding-left: 15px;
     font-weight: 600;
-    color: #d0e2f8;
+    color: var(--Secondary);
     margin-top: 40px;
     font-size: 20px;
   }
@@ -219,21 +235,43 @@ weatherConditionText{
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
     width: 100%;
+    justify-items: center;
 }
 
 .daily-conditions-wrap > div{
-    background-color: #0d1d2a8c;
-    border-radius: 10px;
-    padding-bottom: 45px;
+    /* background-color: var(--Surface-Container-Low); */
     position: relative;
+    border-radius: 9990px;
+    /* padding-bottom: 45px; */
+    position: relative;
+    height: calc(160px - 40px);
+    width: calc(160px - 40px);
+    display: flex;
+
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+
 }
 
-.daily-conditions-wrap > div svg{
-    height: 80px;
-    width: 80px;
-    flex-shrink: 0;
-        margin-top: 40px;
+.daily-conditions-wrap > div  svg{
+    height: 50px;
+    width: 50px;
+    flex-shrink: 0 ;
+        margin-top: 45px;
+        z-index: 1;
 
+}
+
+.daily-conditions-wrap > div .mat_shape_svg{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    margin: 0;
+    width: 100%;
+    z-index: 0;
 }
 
 conditionicon{
@@ -241,72 +279,104 @@ conditionicon{
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    z-index: 1;
 
 }
 
 .daily-conditions-wrap > div p{
-    padding: 10px;
     padding-left: 15px;
-    font-size: 18px;
+    font-size: 15px;
+    padding-top: 10px;
     font-family: var(--outfit);
     color: var(--On-Surface-Variant);
      padding-right: 15px;
      position: absolute;
-     width: calc(100% - 30px);
+     width: calc(100% - 100px);
      text-overflow: ellipsis;
+     text-align: center;
      overflow: hidden;
+     z-index: 1;
 }
 
 .daily-conditions-wrap > div span{
     padding: 10px;
     display: flex;
-    padding-left: 15px;
     color: var(--On-Surface);
-    font-size: 20px;
+    font-size: 17px;
     font-family: var(--outfit-mid);
     position: absolute;
-     bottom: 0;
+     bottom: 10px;
+     z-index: 1;
+
 }
 
 .sunrise-sunset-forecast{
-    padding: 15px;
-    display: grid;
+    display: grid
+;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
+    width: 100%;
+    justify-items: center;
 }
 
 .sunrise-sunset-forecast .sunrise-sunset-item{
-    background-color: #0d1d2a8c;
-    border-radius: 10px;
-    width: 100%;
-    margin-bottom: 20px;
+    /* background-color: var(--Surface-Container-Low); */
+    position: relative;
+    border-radius: 9990px;
+    /* padding-bottom: 45px; */
+    position: relative;
+    height: calc(160px - 40px);;
+    width: calc(160px - 40px);
+    display: flex;
 
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .sunrise-sunset-forecast .sunrise-sunset-item > div > svg{
-    width: 80px;
-    height: 80px;
+    width: 50px;
+    height: 50px;
+    z-index: 1;
+}
+
+.sunrise-sunset-forecast .sunrise-sunset-item > .mat_shape_svg{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    margin: 0;
+    width: 100%;
+    z-index: 0;
 }
 
 .sunrise-sunset-forecast .sunrise-sunset-item > div{
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1;
 }
 
 .sunrise-sunset-forecast .sunrise-sunset-item p{
-    padding: 10px;
     padding-left: 15px;
-    font-size: 18px;
+    font-size: 15px;
+    padding-top: 10px;
     font-family: var(--outfit);
     color: var(--On-Surface-Variant);
+     padding-right: 15px;
+     text-overflow: ellipsis;
+     text-align: center;
+     z-index: 1;
+     overflow: hidden;
 }
 
 .sunrise-sunset-forecast .sunrise-sunset-item span{
     padding: 10px;
     display: flex;
-    padding-left: 15px;
     color: var(--On-Surface);
-    font-size: 20px;
+    font-size: 17px;
     font-family: var(--outfit-mid);
+    z-index: 1;
 }
