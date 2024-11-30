@@ -56,7 +56,7 @@ public class ForecastPage extends AppCompatActivity {
         webview.setWebViewClient(new WebViewClientDemo());
         AndroidInterface androidInterface = new AndroidInterface(this);
         webview.addJavascriptInterface(androidInterface, "AndroidInterface");
-        webview.setBackgroundColor(getResources().getColor(R.color.forecastPageBg));
+        webview.setBackgroundColor(getResources().getColor(R.color.yellowBg));
         webSettings.setTextZoom(100);
         webSettings.setAllowFileAccess(true);
         webview.loadUrl("file:///android_asset/pages/forecastPage.html");
@@ -86,13 +86,13 @@ public class ForecastPage extends AppCompatActivity {
 
 
                     if(color.equals("Scrolled")){
-                        statusBarColor = 0xFF415161;
-                        navigationBarColor = 0xFF334151;
+                        statusBarColor = 0xFF222017;
+                        navigationBarColor = 0xFF15130b;
                         systemUiVisibilityFlags = 0;
 
                     } else if (color.equals("ScrollFalse")) {
-                        statusBarColor = 0xFF334151;
-                        navigationBarColor = 0xFF334151;
+                        statusBarColor = 0xFF15130b;
+                        navigationBarColor = 0xFF15130b;
                         systemUiVisibilityFlags = 0;
 
                     } else if (color.equals("GoBack")){
