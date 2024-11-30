@@ -157,7 +157,9 @@ if (navigator.onLine) {
             document.querySelector('.data_provider_name_import').innerHTML = 'Data by Open-Meteo (Global)';
         }
 
+    setTimeout(() =>{
         ShowSnackMessage.ShowSnack("Network unavailable", "long");
+    }, 2000)
 
 }
 
@@ -2062,8 +2064,9 @@ function hideLoader() {
 
 
 function refreshWeather() {
-    if (navigator.onLine) {
         document.querySelector('.no_touch_screen').hidden = false;
+
+    if (navigator.onLine) {
 
         const latSend = localStorage.getItem('currentLat')
         const longSend = localStorage.getItem('currentLong')
@@ -2078,7 +2081,7 @@ function refreshWeather() {
     } else {
                     setTimeout(() =>{
                   document.querySelector('.no_touch_screen').hidden = true;
-
+                   ShowSnackMessage.ShowSnack("Network unavailable", "long");
                       sendThemeToAndroid("StopRefreshingLoader");
                     }, 1000)
         return
@@ -2188,7 +2191,7 @@ checkNoInternet();
 
 document.addEventListener('DOMContentLoaded', async function () {
 
-    const currentVersion = 'v1.9.0';
+    const currentVersion = 'v1.9.1';
     const githubRepo = 'PranshulGG/WeatherMaster';
     const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
