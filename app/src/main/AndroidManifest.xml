@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.WeatherMaster"
         tools:targetApi="33"
-        tools:ignore="HardcodedDebugMode">
+        >
         <activity
             android:name=".SettingsActivity"
             android:screenOrientation="portrait"
