@@ -31,7 +31,7 @@ body:
   - type: input
     id: provider_used
     attributes:
-      label: What provider are you using?
+      label: Which weather source are you using?
       placeholder: Provider name
     validations:
       required: true
