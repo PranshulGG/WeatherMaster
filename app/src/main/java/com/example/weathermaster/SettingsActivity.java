@@ -283,7 +283,8 @@ public class SettingsActivity extends AppCompatActivity {
                     url.startsWith("https://leafletjs.com/")||
                     url.startsWith("https://www.rainviewer.com/")||
                     url.startsWith("https://carto.com/")||
-                    url.startsWith("https://github.com/PranshulGG/WeatherMaster/releases");
+                    url.startsWith("https://github.com/PranshulGG/WeatherMaster/releases") ||
+                    url.startsWith("https://discord.gg/sSW2E4nqmn");
 
 
         }
