@@ -7,6 +7,11 @@ const cachedDataHourly = JSON.parse(localStorage.getItem('HourlyWeatherCache'));
 const timeFormat = localStorage.getItem('selectedTimeMode');
 
 
+const mat_shape = `<svg class="mat_shape_svg" width="358" height="356" viewBox="0 0 358 356" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M164.715 4.57952C173.357 -1.21562 184.643 -1.21562 193.285 4.57952L200.409 9.35664C206.254 13.2763 213.453 14.622 220.319 13.0785L228.687 11.1974C238.839 8.91534 249.364 12.9925 255.328 21.5181L260.245 28.546C264.28 34.3125 270.506 38.1679 277.467 39.209L285.95 40.4779C296.24 42.0172 304.581 49.6209 307.063 59.7255L309.109 68.0551C310.788 74.8896 315.202 80.7339 321.316 84.2191L328.767 88.4666C337.807 93.6193 342.838 103.723 341.502 114.042L340.401 122.548C339.498 129.527 341.502 136.571 345.944 142.03L351.358 148.682C357.926 156.753 358.968 167.991 353.994 177.131L349.895 184.665C346.531 190.847 345.856 198.139 348.026 204.834L350.671 212.993C353.88 222.89 350.792 233.746 342.853 240.472L336.309 246.017C330.939 250.566 327.674 257.122 327.28 264.148L326.799 272.712C326.216 283.101 319.414 292.108 309.582 295.512L301.477 298.318C294.826 300.62 289.414 305.554 286.508 311.963L282.966 319.775C278.669 329.252 269.073 335.193 258.675 334.815L250.104 334.504C243.071 334.248 236.241 336.894 231.216 341.821L225.092 347.826C217.662 355.11 206.567 357.184 197.008 353.076L189.128 349.689C182.662 346.91 175.338 346.91 168.872 349.689L160.992 353.076C151.433 357.184 140.338 355.11 132.908 347.826L126.784 341.821C121.759 336.894 114.929 334.248 107.896 334.504L99.3249 334.815C88.9267 335.193 79.3307 329.252 75.034 319.775L71.4922 311.963C68.586 305.554 63.1738 300.62 56.5233 298.318L48.4182 295.512C38.5857 292.108 31.784 283.101 31.2008 272.712L30.72 264.148C30.3255 257.122 27.0611 250.566 21.6915 246.017L15.1472 240.472C7.20836 233.746 4.11963 222.89 7.32862 212.993L9.97387 204.834C12.1443 198.139 11.4686 190.847 8.10496 184.665L4.00552 177.131C-0.967549 167.991 0.0738511 156.753 6.64165 148.682L12.0557 142.03C16.498 136.571 18.5022 129.527 17.5988 122.548L16.4978 114.042C15.1621 103.723 20.193 93.6193 29.2326 88.4666L36.6842 84.2191C42.7983 80.7339 47.2118 74.8896 48.8907 68.0551L50.9369 59.7255C53.4191 49.6209 61.76 42.0172 72.0505 40.4779L80.5333 39.209C87.4935 38.1679 93.7202 34.3125 97.7546 28.546L102.672 21.5181C108.636 12.9925 119.161 8.91534 129.313 11.1974L137.681 13.0785C144.547 14.622 151.746 13.2763 157.591 9.35664L164.715 4.57952Z" fill="var(--Surface-Container-Low)"/>
+                    </svg>`
+
+
 // icons
 
 function GetWeatherIcon(iconCode, isDay) {
@@ -364,7 +369,7 @@ function displayDailyForecast(forecast, forecastDaily) {
             rainAmount = forecast.precipitation_sum[index] ? (forecast.precipitation_sum[index] * 0.0393701).toFixed(2) + 'in' : 'Not available';
 
         } else {
-            rainAmount = forecast.precipitation_sum[index] ? forecast.precipitation_sum[index] + ' mm' : 'Not available';
+            rainAmount = forecast.precipitation_sum[index] ? forecast.precipitation_sum[index] + ' mm' : '--';
         }
 
 
@@ -448,11 +453,12 @@ function displayDailyForecast(forecast, forecastDaily) {
 
         forecastDateHeaderContent.innerHTML = `
 
-            <span>${weekdayLang}</span>
-            <img src="${GetWeatherIcon(DailyWeatherCode, 1)}">
             <div>
-            <p>${TemperatureMax}°<span>/${TemperatureMin}°</span></p>
+            <p>${TemperatureMax}°</p>
+            <span>${TemperatureMin}°</span>
             </div>
+            <img src="${GetWeatherIcon(DailyWeatherCode, 1)}">
+            <span>${weekdayLang}</span>
 
             <md-ripple style="--md-ripple-pressed-opacity: 0.1;"></md-ripple>
 
@@ -507,6 +513,7 @@ function displayDailyForecast(forecast, forecastDaily) {
                     ${ConditionIcons.WindSockIcon}
                     </conditionIcon>
                     <span>${WindSpeed}</span>
+                    ${mat_shape}
                 </div>
 
 
@@ -516,6 +523,7 @@ function displayDailyForecast(forecast, forecastDaily) {
                     ${ConditionIcons.HumidityIcon}
                     </conditionIcon>
                     <span>${humidity}%</span>
+                    ${mat_shape}
                 </div>
 
 
@@ -525,6 +533,7 @@ function displayDailyForecast(forecast, forecastDaily) {
                 ${ConditionIcons.PrecipitationChancesIcon}
                 </conditionIcon>
                 <span>${rainPercentage}%</span>
+                ${mat_shape}
                 </div>
 
                 <div>
@@ -533,6 +542,7 @@ function displayDailyForecast(forecast, forecastDaily) {
                 ${ConditionIcons.PrecipitationAmountIcon}
                 </conditionIcon>
                 <span>${rainAmount}</span>
+                ${mat_shape}
                 </div>
 
                 <div>
@@ -541,6 +551,7 @@ function displayDailyForecast(forecast, forecastDaily) {
                 ${ConditionIcons.CloudCoverIcon}
                 </conditionIcon>
                 <span>${cloudCover}%</span>
+                ${mat_shape}
                 </div>
 
                 <div>
@@ -549,6 +560,7 @@ function displayDailyForecast(forecast, forecastDaily) {
                 ${ConditionIcons.PressureIcon}
                 </conditionIcon>
                 <span>${pressureMain} ${pressureMainUnit}</span>
+                ${mat_shape}
                 </div>
 
                 <div>
@@ -557,6 +569,7 @@ function displayDailyForecast(forecast, forecastDaily) {
                 ${ConditionIcons.DewPointIcon}
                 </conditionIcon>
                 <span>${dewPointTemp}°</span>
+                ${mat_shape}
                 </div>
 
                 <div>
@@ -565,6 +578,7 @@ function displayDailyForecast(forecast, forecastDaily) {
                 ${ConditionIcons.UVindexIcon}
                 </conditionIcon>
                 <span style="align-items: center; gap: 5px;">${uvIndex} <text style="color: var(--On-Surface-Variant);font-size: 13px;"> ${UVindexText}</text></span>
+                ${mat_shape}
                 </div>
 
                 </div>
@@ -579,6 +593,7 @@ function displayDailyForecast(forecast, forecastDaily) {
                 ${ConditionIcons.SunriseIcon}
                 </div>
                 <span>${SunriseTime}</span>
+                ${mat_shape}
                 </div>
 
                 <div class="sunrise-sunset-item">
@@ -587,6 +602,7 @@ function displayDailyForecast(forecast, forecastDaily) {
                 ${ConditionIcons.SunsetIcon}
                 </div>
                 <span>${SunsetTime}</span>
+                ${mat_shape}
                 </div>
 
                 </div>
