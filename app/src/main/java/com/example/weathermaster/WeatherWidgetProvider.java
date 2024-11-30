@@ -74,7 +74,7 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
 
             // Add click listener to open MainActivity
             Intent intent = new Intent(context, MainActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
             views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
 
             appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -149,6 +149,7 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
             views.setTextViewText(R.id.hour_3_temp, hour_3_temp);
             views.setImageViewResource(R.id.weather_icon_hour3, iconResIdHour3);
             views.setTextViewText(R.id.hour_3_time, hour_3_time);
+
 
             appWidgetManager.updateAppWidget(widgetId, views);
         }

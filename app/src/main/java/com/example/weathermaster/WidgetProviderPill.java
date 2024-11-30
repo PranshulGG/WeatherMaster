@@ -35,7 +35,7 @@ public class WidgetProviderPill extends AppWidgetProvider {
 
             // Add click listener to open MainActivity
             Intent intent = new Intent(context, MainActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
             views.setOnClickPendingIntent(R.id.widget_layout_pill, pendingIntent);
 
             appWidgetManager.updateAppWidget(appWidgetId, views);
