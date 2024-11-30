@@ -1,3 +1,6 @@
+
+
+
 function GenerateRecommendation() {
     const currentLocationData = localStorage.getItem('CurrentLocationName');
     const airQualityData = JSON.parse(localStorage.getItem(`AirQuality_${currentLocationData}`));
@@ -67,7 +70,6 @@ function GenerateRecommendation() {
 
     const recommendationsContainer = document.getElementById('recommendations');
     const dayTipContainer = document.getElementById('day_tip');
-    recommendationsContainer.innerHTML = '';
     dayTipContainer.innerHTML = '';
 
     const hourlyData = weatherData.hourly;
@@ -82,9 +84,12 @@ function GenerateRecommendation() {
 
     const aqi = airQualityData ? airQualityData.current.us_aqi : null;
 
-    recommendationsContainer.innerHTML += generateClothingRecommendation('Morning', morningAvg, aqi);
-    recommendationsContainer.innerHTML += generateClothingRecommendation('Evening', eveningAvg, aqi);
-    recommendationsContainer.innerHTML += generateClothingRecommendation('Night', nightAvg, aqi);
+
+
+    document.getElementById('morning').innerHTML += generateClothingRecommendation('Morning', morningAvg, aqi);
+    document.getElementById('evening').innerHTML += generateClothingRecommendation('Evening', eveningAvg, aqi);
+    document.getElementById('night').innerHTML += generateClothingRecommendation('Night', nightAvg, aqi);
+
 
     const aqi_carbon_monoxide = airQualityData.current.carbon_monoxide
     const aqi_nitrogen_dioxide = airQualityData.current.nitrogen_dioxide
@@ -99,9 +104,10 @@ function GenerateRecommendation() {
 
 
     dayTipContainer.innerHTML = `
+        <div class="data">
     <p class="label">Day tip</p>
-    <div>
-    ${generateDayTip(morningAvg, eveningAvg, nightAvg, aqi)}</div>
+    <div class="data_text"><ul>
+    ${generateDayTip(morningAvg, eveningAvg, nightAvg, aqi)}</ul></div></div>
     `
 
 
@@ -299,44 +305,44 @@ function generateDayTip(morningAvg, eveningAvg, nightAvg, aqi) {
     const overallAvgWind = (morningAvg.avgWindSpeed + eveningAvg.avgWindSpeed + nightAvg.avgWindSpeed) / 3;
     const overallAvgHumidity = (morningAvg.avgHumidity + eveningAvg.avgHumidity + nightAvg.avgHumidity) / 3;
 
-    let dayTip = "<p class='highlight'>🌟 Daily Highlights:</p>";
+    let dayTip = "";
 
     // Temperature Advice
     if (overallAvgTemp < 10) {
         dayTip += getRandomItem([
-            "<p>🥶 Bundle up! Cold weather calls for insulated jackets and accessories like scarves and gloves.</p>",
-            "<p>❄️ Expect chilly conditions throughout the day. Layer up with thermals for extra warmth.</p>"
+            "<li>🥶 Bundle up! Cold weather calls for insulated jackets and accessories like scarves and gloves.</li>",
+            "<li>❄️ Expect chilly conditions throughout the day. Layer up with thermals for extra warmth.</li>"
         ]);
     } else if (overallAvgTemp >= 10 && overallAvgTemp < 20) {
         dayTip += getRandomItem([
-            "<p>🍂 Mild and pleasant weather. A light jacket will keep you comfortable, especially in the evening.</p>",
-            "<p>🌤️ A great day for a stroll or light outdoor activities. Don’t forget to carry a sweater for cooler moments!</p>"
+            "<li>🍂 Mild and pleasant weather. A light jacket will keep you comfortable, especially in the evening.</li>",
+            "<li>🌤️ A great day for a stroll or light outdoor activities. Don’t forget to carry a sweater for cooler moments!</li>"
         ]);
     } else {
         dayTip += getRandomItem([
-            "<p>☀️ Warm and sunny. Opt for breathable fabrics and stay hydrated throughout the day.</p>",
-            "<p>🌞 Enjoy the warmth, but remember to apply sunscreen if you're heading out during peak sunlight hours.</p>"
+            "<li>☀️ Warm and sunny. Opt for breathable fabrics and stay hydrated throughout the day.</li>",
+            "<li>🌞 Enjoy the warmth, but remember to apply sunscreen if you're heading out during peak sunlight hours.</li>"
         ]);
     }
 
     // Wind Advice
     if (overallAvgWind > 15) {
         dayTip += getRandomItem([
-            "<p>💨 Windy conditions today. Secure loose items and wear wind-resistant clothing if you're outside.</p>",
-            "<p>🌬️ Gusty winds might make it feel cooler. A lightweight jacket can help protect against the breeze.</p>"
+            "<li>💨 Windy conditions today. Secure loose items and wear wind-resistant clothing if you're outside.</li>",
+            "<li>🌬️ Gusty winds might make it feel cooler. A lightweight jacket can help protect against the breeze.</li>"
         ]);
     }
 
     // Humidity Advice
     if (overallAvgHumidity > 75) {
         dayTip += getRandomItem([
-            "<p>💦 High humidity could make it feel warmer. Wear moisture-wicking clothing and stay hydrated.</p>",
-            "<p>💧 The air is humid—light, breathable fabrics will help you stay comfortable.</p>"
+            "<li>💦 High humidity could make it feel warmer. Wear moisture-wicking clothing and stay hydrated.</li>",
+            "<li>💧 The air is humid—light, breathable fabrics will help you stay comfortable.</li>"
         ]);
     } else if (overallAvgHumidity < 20) {
         dayTip += getRandomItem([
-            "<p>🧴 The air is dry. Moisturize your skin and drink plenty of water to stay hydrated.</p>",
-            "<p>💧 Low humidity may cause dry skin or irritation. Keep a water bottle handy and avoid overexposure.</p>"
+            "<li>🧴 The air is dry. Moisturize your skin and drink plenty of water to stay hydrated.</li>",
+            "<li>💧 Low humidity may cause dry skin or irritation. Keep a water bottle handy and avoid overexposure.</li>"
         ]);
     }
 
@@ -346,13 +352,13 @@ function generateDayTip(morningAvg, eveningAvg, nightAvg, aqi) {
     // Activity Suggestions
     if (overallAvgTemp > 15 && aqi <= 50) {
         dayTip += getRandomItem([
-            "<p>🌳 Perfect weather for outdoor activities like jogging or cycling. Head to a park and enjoy the fresh air!</p>",
-            "<p>🚶‍♂️ Consider a nature walk or picnic—today's conditions are great for some time outdoors.</p>"
+            "<li>🌳 Perfect weather for outdoor activities like jogging or cycling. Head to a park and enjoy the fresh air!</li>",
+            "<li>🚶‍♂️ Consider a nature walk or picnic—today's conditions are great for some time outdoors.</li>"
         ]);
     } else if (overallAvgTemp <= 15 || aqi > 100) {
         dayTip += getRandomItem([
-            "<p>🏠 It might be a good day to stay indoors and enjoy a warm beverage. Consider a cozy activity like reading.</p>",
-            "<p>📺 Plan indoor activities, especially if you’re sensitive to air quality or cold weather.</p>"
+            "<li>🏠 It might be a good day to stay indoors and enjoy a warm beverage. Consider a cozy activity like reading.</li>",
+            "<li>📺 Plan indoor activities, especially if you’re sensitive to air quality or cold weather.</li>"
         ]);
     }
 
@@ -364,7 +370,7 @@ function generateDayTip(morningAvg, eveningAvg, nightAvg, aqi) {
 function generateAirQualityDetail(co, no2, o3, pm25, pm10, so2) {
     const airQualityDetailsContainer = document.getElementById('air_quality_details');
     airQualityDetailsContainer.innerHTML = `
-        <p class="label">Air Quality Details</p>
+    <div class="data">
         <div class="data_text">
             <ul>
                 <li>💨 <strong>Carbon Monoxide (CO):</strong> ${co} μg/m³ - ${getCODescription(co)}</li>
@@ -374,6 +380,7 @@ function generateAirQualityDetail(co, no2, o3, pm25, pm10, so2) {
                 <li>🌬️ <strong>PM10:</strong> ${pm10} μg/m³ - ${getPM10Description(pm10)}</li>
                 <li>🌋 <strong>Sulphur Dioxide (SO₂):</strong> ${so2} μg/m³ - ${getSO2Description(so2)}</li>
             </ul>
+        </div>
         </div>
     `;
 }
@@ -439,3 +446,39 @@ function getSO2Description(value) {
 }
 
 GenerateRecommendation()
+
+
+// tabs
+
+
+document.getElementById('change_type_tabs').addEventListener('change', () => {
+    if (event.target.activeTabIndex === 0) {
+        document.getElementById('morning').hidden = false;
+        document.getElementById('evening').hidden = true;
+        document.getElementById('night').hidden = true;
+        document.getElementById('day_tip').hidden = true;
+        document.getElementById('air_quality_details').hidden = true;
+
+    } else if (event.target.activeTabIndex === 1){
+        document.getElementById('morning').hidden = true;
+        document.getElementById('evening').hidden = false;
+        document.getElementById('night').hidden = true;
+        document.getElementById('day_tip').hidden = true;
+        document.getElementById('air_quality_details').hidden = true;
+
+    } else if (event.target.activeTabIndex === 2){
+        document.getElementById('morning').hidden = true;
+        document.getElementById('evening').hidden = true;
+        document.getElementById('night').hidden = false;
+        document.getElementById('day_tip').hidden = true;
+        document.getElementById('air_quality_details').hidden = true;
+
+    } else if (event.target.activeTabIndex === 3){
+        document.getElementById('morning').hidden = true;
+        document.getElementById('evening').hidden = true;
+        document.getElementById('night').hidden = true;
+        document.getElementById('day_tip').hidden = false;
+        document.getElementById('air_quality_details').hidden = false;
+
+    }
+  });

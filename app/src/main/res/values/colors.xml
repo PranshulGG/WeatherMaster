@@ -34,7 +34,7 @@
     <color name="AboutBG">#101510</color>
     <color name="conditionBG">#191113</color>
     <color name="diffDefault">#0e1d2a</color>
-
+    <color name="yellowBg">#15130b</color>
 
 <!--  default fallback  -->
         <color name="colorPrimary">#8f4c38</color>
