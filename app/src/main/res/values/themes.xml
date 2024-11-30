@@ -67,9 +67,9 @@
     </style>
 
     <style name="ScreenForecastPage" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:navigationBarColor">@color/forecastPageBg</item>
-        <item name="android:statusBarColor">@color/forecastPageBg</item>
-        <item name="colorAccent">#afc6ff</item>
+        <item name="android:navigationBarColor">#15130b</item>
+        <item name="android:statusBarColor">#15130b</item>
+        <item name="colorAccent">#dbc66e</item>
     </style>
 
 
