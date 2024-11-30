@@ -1,0 +1,3 @@
+files:
+  - source: /app/src/main/assets/langs/languages.json
+    translation: translations/%language%/%original_file_name%_%two_letters_code%/%file_name%
