@@ -156,7 +156,7 @@
     "daily_condtions": "Daily_conditions",
     "wind_speed": "Windgeschwindigkeit",
     "precipitation_amount": "Precipitation amount",
-    "precipitation_chances": "Precipitation chances",
+    "precipitation_chances": "Niederschlagswahrscheinlichkeit",
     "cloudiness": "Cloudiness",
     "dew_point": "Taupunkt",
     "air_quality_satisfactory": "Die Luftqualität wird als zufriedenstellend erachtet und von der Luftverschmutzung geht nur ein geringes oder gar kein Risiko aus.",
