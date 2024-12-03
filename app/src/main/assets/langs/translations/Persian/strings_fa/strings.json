@@ -213,12 +213,12 @@
     "grass": "چمن",
     "tree": "درخت",
     "weed": "علف هرز",
-    "quick_summary": "Quick summary",
-    "temperature_animation": "Temperature animation",
-    "language": "Language",
-    "translate_this_app": "Translate this app",
-    "contributors": "Contributors",
-    "contributors_sub": "View people who contributed to this project",
-    "version": "Version",
-    "third_party_licenses": "Third party licenses"
+    "quick_summary": "مرور سریع",
+    "temperature_animation": "",
+    "language": "زبان",
+    "translate_this_app": "ترجمه این برنامه",
+    "contributors": "مشارکت‌کنندگان",
+    "contributors_sub": "مشاهده افرادی که در این پروژه مشارکت کرده‌اند",
+    "version": "نسخه",
+    "third_party_licenses": "مجوزهای شخص ثالث"
 }
