@@ -206,5 +206,11 @@
     "API_Error_Please_change_provider": "Erreur API, veuillez changer de fournisseur",
     "Please_wait_before_refreshing_again.": "Veuillez patienter avant d'actualiser à nouveau.",
     "network_unavailable": "Réseau indisponible",
-    "weather": "Météo"
+    "weather": "Météo",
+    "precipitation": "Precipitation",
+    "wind": "Wind",
+    "pollen": "Pollen",
+    "grass": "Grass",
+    "tree": "Tree",
+    "weed": "Weed"
 }
