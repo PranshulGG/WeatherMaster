@@ -206,5 +206,11 @@
     "API_Error_Please_change_provider": "Error sa API, Pakibago ang provider",
     "Please_wait_before_refreshing_again.": "Maghintay muna bago mag-refresh ulit.",
     "network_unavailable": "Walang network",
-    "weather": "Panahon"
+    "weather": "Panahon",
+    "precipitation": "Precipitation",
+    "wind": "Wind",
+    "pollen": "Pollen",
+    "grass": "Grass",
+    "tree": "Tree",
+    "weed": "Weed"
 }
