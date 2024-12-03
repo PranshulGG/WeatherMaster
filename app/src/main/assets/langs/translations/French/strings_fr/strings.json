@@ -207,10 +207,18 @@
     "Please_wait_before_refreshing_again.": "Veuillez patienter avant d'actualiser à nouveau.",
     "network_unavailable": "Réseau indisponible",
     "weather": "Météo",
-    "precipitation": "Precipitation",
-    "wind": "Wind",
+    "precipitation": "Précipitations ",
+    "wind": "Vent",
     "pollen": "Pollen",
-    "grass": "Grass",
-    "tree": "Tree",
-    "weed": "Weed"
+    "grass": "Gazon",
+    "tree": "Arbre",
+    "weed": "Herbe",
+    "quick_summary": "Quick summary",
+    "temperature_animation": "Temperature animation",
+    "language": "Language",
+    "translate_this_app": "Translate this app",
+    "contributors": "Contributors",
+    "contributors_sub": "View people who contributed to this project",
+    "version": "Version",
+    "third_party_licenses": "Third party licenses"
 }
