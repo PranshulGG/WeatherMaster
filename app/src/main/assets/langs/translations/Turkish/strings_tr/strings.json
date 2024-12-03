@@ -206,5 +206,11 @@
     "API_Error_Please_change_provider": "API Hatası, Lütfen sağlayıcıyı değiştirin",
     "Please_wait_before_refreshing_again.": "Biraz bekleyin ardından tekrar deneyin",
     "network_unavailable": "Ağ kullanılamıyor",
-    "weather": "Hava Durumu"
+    "weather": "Hava Durumu",
+    "precipitation": "Precipitation",
+    "wind": "Wind",
+    "pollen": "Pollen",
+    "grass": "Grass",
+    "tree": "Tree",
+    "weed": "Weed"
 }

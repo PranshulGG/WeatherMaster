@@ -206,5 +206,11 @@
     "API_Error_Please_change_provider": "خطای API، لطفاً ارائه‌دهنده را تغییر دهید",
     "Please_wait_before_refreshing_again.": "لطفاً قبل از بارگذاری مجدد صبر کنید.",
     "network_unavailable": "شبکه در دسترس نیست",
-    "weather": "وضعیت هوا"
+    "weather": "وضعیت هوا",
+    "precipitation": "Precipitation",
+    "wind": "Wind",
+    "pollen": "Pollen",
+    "grass": "Grass",
+    "tree": "Tree",
+    "weed": "Weed"
 }

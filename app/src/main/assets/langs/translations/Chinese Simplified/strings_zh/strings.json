@@ -206,5 +206,11 @@
     "API_Error_Please_change_provider": "API Error, Please change provider",
     "Please_wait_before_refreshing_again.": "请稍后再刷新。",
     "network_unavailable": "网络不可用",
-    "weather": "天气"
+    "weather": "天气",
+    "precipitation": "Precipitation",
+    "wind": "Wind",
+    "pollen": "Pollen",
+    "grass": "Grass",
+    "tree": "Tree",
+    "weed": "Weed"
 }
