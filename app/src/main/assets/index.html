@@ -30,7 +30,7 @@
             <span icon-outlined style="opacity: 0.8;">location_on</span>
         </button>
         <h2 id="city-name" style="margin-right: 3px;">
-          Current location
+          loading...
         </h2>
     </div>
     <div class="header_actions">
@@ -131,14 +131,6 @@
         </div>
 
 
-        <div class="whenRain" style="margin-bottom: 5px; margin-top: 5px !important; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);" hidden>
-            <div class="icon-container-excessiveHeat">
-                <md-icon icon-filled>rainy</md-icon>
-            </div>
-            <p id="rainStopingText" style="margin: 0 !important;">No data found</p>
-
-        </div>
-
         <div class="excessiveHeat ripple_btn_low" style="margin-bottom: 10px; margin-top: 5px !important; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);" onclick="sendThemeToAndroid('OpenAlertsPage')" hidden>
             <div class="icon-container-excessiveHeat">
                 <md-icon icon-filled>report</md-icon>
@@ -156,10 +148,14 @@
 
 
 
-        <div class="weatherComments weatherCommentsDiv" onclick="openSummery()">
-            <p id="weatherComments"> <space></space> <md-icon icon-outlined id="arrow_up_toggle">keyboard_arrow_down</md-icon></p>
-
-            <div class="summeryText">
+        <div class="weatherComments weatherCommentsDiv" onclick="openSummery()" style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);">
+            <div class="h2" style="padding: 10px;">
+                <p style="width: 100%; text-align: center; display: flex; align-items: center; justify-content: center;" data-translate="quick_summary">Quick summary</p>
+                <md-icon icon-outlined id="arrow_up_toggle">keyboard_arrow_down</md-icon>
+            </div>
+            <p id="rainStopingText" style="margin: 0 !important; padding: 12px; padding-top: 5px; padding-bottom: 0; color: var(--Tertiary); width: calc(100% - 24px);" class="whenRainPill" hidden>No data found</p>
+            <div id="weatherComments" style="color: var(--On-Surface); padding: 12px; padding-top: 5px; font-size: 15px; padding-bottom: 0;"></div>
+            <div class="summeryText" style="padding: 10px; padding-top: 0; padding-bottom: 0;">
                 <ul id="summeryDay"></ul>
                 <ul id="day_tips"></ul>
             </div>
@@ -168,7 +164,7 @@
 
 
 
-        <div class="high-all" style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);">
+        <div class="high-all" style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); z-index: 1; position: relative;">
             <div class="high-mini">
 
                 <div class="mini wind ripple_btn_low" onclick="ShowSnack(`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'wind_speed')}`, 2000, 3, 'none', ' ', 'no-up')">
@@ -192,7 +188,7 @@
 
 
         <div class="insights_scroll">
-            <div class="insights" style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);">
+            <div class="insights" style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); z-index: 2; position: relative;">
 
                 <div class="cloths insights_item">
                     <div class="icon_container_cloths">
@@ -229,7 +225,7 @@
 
             <div class="all-24" style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);">
                 <div class="h1">
-                    <p class="today_Text"><span data-translate="next">Next</span> 24-hr</p>
+                    <p class="today_Text" data-translate="next_24-hr">Next 24-hr</p>
                     <p class="date_Text_top" id="date_text_top">Mar, 19</p>
                 </div>
                 <div class="forecast" id="forecast">
@@ -247,7 +243,7 @@
 
                 <div class="wrap_cover_rain_meter" style="display: flex; align-items: center; justify-content: space-between;">
                     <div class="todaysAmount">
-                        <p data-translate="todays_amount">Today's amount</p>
+                        <p data-translate="today's_amount">Today's amount</p>
                         <span id="AmountRainMM">1.5 mm</span>
                     </div>
 
@@ -268,8 +264,8 @@
 
             <div class="all-5d" style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);">
                 <div class="h2">
-                    <p>Daily forecast</p>
-                    <p class="" style="display: flex; align-items: center;"><span id="open_temp_trend" style="display: flex; align-items: center;">Trends <i icon-outlined style="font-size: 20px;" class="trend_arrow_temp">keyboard_arrow_down</i></span></p>
+                    <p data-translate="daily_forecast" style="width: calc(100% - 150px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Daily forecast</p>
+                    <p class="" style="display: flex; align-items: center;"><span id="open_temp_trend" style="display: flex; align-items: center;" data-translate="trends">Trends </span><i icon-outlined style="font-size: 20px;" class="trend_arrow_temp">keyboard_arrow_down</i></p>
                 </div>
                 <div class="forecast-5day" id="forecast-5day">
 
@@ -366,7 +362,7 @@
 
                 <div class="currentConditionItem humidity ripple_btn_low" onclick="sendThemeToAndroid('openHumidityCondition')">
                     <div class="currentConditionItemTitle"><i icon-filled>humidity_high</i><span
-                            data-translate="humidity">Humidity</span></div>
+                            data-translate="humidity" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 105px;">Humidity</span></div>
 
                     <div class="current_condition_icon" id="humidity_icon_svg">
                         <svg viewBox="0 0 364.0 364.0" xmlns="http://www.w3.org/2000/svg">
@@ -383,7 +379,7 @@
 
                     <div class="currentConditionItemDewpointValue">
                         <p id="dew_percentage">-</p>
-                        <span data-translate="dew_point">Dew point</span>
+                        <span data-translate="dew_point" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 100px;">Dew point</span>
                     </div>
 
                 </div>
@@ -406,7 +402,7 @@
 
                     <div class="currentConditionItemPressureValue">
                         <div style="padding-top: 10px;"><i icon-filled>compress</i><span
-                                data-translate="pressure">Pressure</span></div>
+                                data-translate="pressure" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 80px;">Pressure</span></div>
                         <p id="pressure_text_main">29.96</p>
                         <span id="pressureMainUnit">inHG</span>
                     </div>
@@ -416,7 +412,7 @@
 
                 <div class="currentConditionItem visibility ripple_btn_low" onclick="sendThemeToAndroid('openVisibilityCondition')">
                     <div class="currentConditionItemTitle visibility"><i icon-filled>visibility</i><span
-                            data-translate="visibility">Visibility</span></div>
+                            data-translate="visibility" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 80px;">Visibility</span></div>
 
                     <div class="current_condition_icon">
                         <svg height="180.0dip" width="180.0dip" viewBox="0 0 180.0 180.0"
@@ -448,7 +444,7 @@
                     </div>
 
                     <div class="currentConditionItemWindDircValue">
-                        <div><i icon-filled>explore</i><span data-translate="direction">Direction</span></div>
+                        <div><i icon-filled>explore</i><span data-translate="direction" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 80px;">Direction</span></div>
                         <p id="directionWind">--</p>
                         <span id="windtype">---</span>
                     </div>
@@ -624,7 +620,7 @@
 
 
             <div class="new_ver_download" hidden>
-                <p data-translate="new_app_version_available">New App Version is available!</p>
+                <p data-translate="new_version_available!">New App Version is available!</p>
                 <md-text-button onclick="sendThemeToAndroid('OpenAboutPage')" data-translate="update">Update</md-text-button>
             </div>
 
@@ -661,7 +657,7 @@
             <span class="ripple-effect-icon"></span>
             <span icon-outlined>map</span>
         </button>
-        <span style="font-size: 25px; width: 100%; display: flex; align-items: center; justify-content: center; color: var(--On-Surface-Variant);">Locations</span>
+        <span style="font-size: 25px; width: 100%; display: flex; align-items: center; justify-content: center; color: var(--On-Surface-Variant);" data-translate="locations">Locations</span>
     </div>
     <div class="modal-content" id="modal-content">
         <div class="city-list" id="city-list">
@@ -736,8 +732,8 @@
 
     <div class="retry_btn_error">
         <button class="ripple_btn" onclick="window.location.reload(); sendThemeToAndroid('overcast')">Retry</button>
+        <button class="ripple_btn" onclick="sendThemeToAndroid('OpenSettings')" icon-outlined style="font-family: 'Material symbols'; width: 50px; margin-left: 10px;">settings</button>
     </div>
-
 </div>
 
 
@@ -774,11 +770,9 @@
     if (event.key === 'AppLanguageCode'){
 
             setTimeout(()=>{
-                const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
-    if(AppLanguageCodeValue){
-        applyTranslations(AppLanguageCodeValue);
-
-    }
+            loadTranslations(localStorage.getItem('AppLanguageCode')).then(() => {
+              applyTranslations(localStorage.getItem('AppLanguageCode'));
+            });
             }, 200);
 
     }
