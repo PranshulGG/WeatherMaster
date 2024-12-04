@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (selectedProvider === 'meteoFrance') {
             document.getElementById('mainProviderSelectedText').innerHTML = 'Météo-France (Europe, Global)';
 
-        } else if (selectedProvider === 'dwdEurope') {
+        } else if (selectedProvider === 'dwdGermany') {
             document.getElementById('mainProviderSelectedText').innerHTML = 'DWD (Europe, Global)';
 
         } else if (selectedProvider === 'noaaUS') {
@@ -163,13 +163,14 @@ function verifyKeyAccu(){
     .then(data => {
       localStorage.setItem('ApiForAccu', document.getElementById('input_accuweather_field').value)
       localStorage.removeItem('ApiForAccuTemp')
-       ToastAndroidShow.ShowToast('API was verified', 'long');
+        ShowSnackMessage.ShowSnack("API was verified", "long");
+
 
     })
     .catch(error => {
       console.error('There was a problem with the fetch operation:', error);
       localStorage.removeItem('ApiForAccuTemp')
       localStorage.setItem('selectedMainWeatherProvider', 'open-meteo');
-       ToastAndroidShow.ShowToast('Wrong API', 'long');
+        ShowSnackMessage.ShowSnack("API error", "long");
     });
 }
