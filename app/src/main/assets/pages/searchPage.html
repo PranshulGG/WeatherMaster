@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" Theme="default" data-theme="dark">
+<html lang="en" Theme="clothing" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -41,8 +41,8 @@
             margin: 0;
             overflow: hidden;
             font-family: var(--outfit);
-            animation: opacity 0.3s ease-out;
-
+            transition: all 0.3s ease-out;
+            opacity: 0;
         }
 
         @keyframes opacity {
@@ -319,7 +319,7 @@
         <p class="data_by_text">Data by Open-meteo</p>
 
         <div class="change_search_provider_fab">
-            <md-fab style="--md-fab-primary-container-color: #284777; --md-fab-primary-icon-color: #d6e3ff;"
+            <md-fab
                     variant="primary" onclick="openSearchProviderDialog()">
                 <md-icon icon-outlined slot="icon">tune</md-icon>
             </md-fab>
@@ -327,7 +327,7 @@
 
 
         <md-dialog id="selectSearchProviderDialog" style="min-width: 85%;">
-            <div slot="headline">Search Provider</div>
+            <div slot="headline" data-translate="search_provider">Search Provider</div>
 
             <div slot="content" style="padding-left: 0; padding-right: 0; padding-top: 15px;">
                 <div style="display: flex; flex-direction: column;">
@@ -354,8 +354,8 @@
 
 
             <div slot="actions">
-                <md-text-button onclick="window.history.back()">Cancel</md-text-button>
-                <md-text-button id="saveSelectedSearchProviderBtn">OK</md-text-button>
+                <md-text-button onclick="window.history.back()" data-translate="cancel">Cancel</md-text-button>
+                <md-text-button id="saveSelectedSearchProviderBtn" data-translate="ok">OK</md-text-button>
             </div>
         </md-dialog>
 
