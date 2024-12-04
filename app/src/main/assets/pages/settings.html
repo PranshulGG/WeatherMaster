@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" Theme="default" data-theme="dark">
+<html lang="en" Theme="clothing" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -87,44 +87,50 @@
                     <md-icon icon-filled slot="start">notifications</md-icon>
                     <div slot="headline" data-translate="notification_bar">Notification bar</div>
                     <div slot="supporting-text" data-translate="show_weather_information_in_the_notification_bar">(Needs some work done)</div>
-                    <md-switch slot="end" id="toggle_noti"></md-switch>
+                    <md-switch slot="end" id="toggle_noti" icons show-only-selected-icon></md-switch>
                 </md-list-item>
 
                 <md-list-item>
                     <md-icon icon-filled slot="start">animation</md-icon>
-                    <div slot="headline" data-translate="Background card animation">Background card animation</div>
-                    <md-switch slot="end" selected id="useAnimationBackground"></md-switch>
+                    <div slot="headline" data-translate="background_card_animation">Background card animation</div>
+                    <md-switch slot="end" selected id="useAnimationBackground" icons show-only-selected-icon></md-switch>
                 </md-list-item>
 
                 <md-list-item>
                     <md-icon icon-filled slot="start">font_download</md-icon>
-                    <div slot="headline" data-translate="Use system font">Use system font</div>
-                    <div slot="supporting-text" style="color: var(--Error);">Custom font isn’t supported</div>
-                    <md-switch slot="end" id="useSysFontSwitch"></md-switch>
+                    <div slot="headline" data-translate="Use system font" data-translate="use_system_font">Use system font</div>
+                    <div slot="supporting-text" style="color: var(--Error);" data-translate="custom_font_isn't_supported">Custom font isn’t supported</div>
+                    <md-switch slot="end" id="useSysFontSwitch" icons show-only-selected-icon></md-switch>
                 </md-list-item>
 
                 <md-list-item>
                     <md-icon icon-filled slot="start">toast</md-icon>
-                    <div slot="headline" data-translate="Hide the 'New update available' toast after 5 seconds">Hide the 'New update available' toast after 5 seconds</div>
-                    <md-switch slot="end" id="HideNewUpdateToastSwitch"></md-switch>
+                    <div slot="headline" data-translate="hide_the_new_update_snack">Hide the 'New update available' toast after 5 seconds</div>
+                    <md-switch slot="end" id="HideNewUpdateToastSwitch" icons show-only-selected-icon></md-switch>
                 </md-list-item>
 
                 <md-list-item>
                     <md-icon icon-filled slot="start">rounded_corner</md-icon>
-                    <div slot="headline" >Rounded UI</div>
-                    <div slot="supporting-text" >Use the default Material corner radius</div>
-                    <md-switch slot="end" id="useRoundedUI"></md-switch>
+                    <div slot="headline" data-translate="rounded_ui">Rounded UI</div>
+                    <div slot="supporting-text" data-translate="use_the_default_material_corner_radius">Use the default Material corner radius</div>
+                    <md-switch slot="end" id="useRoundedUI" icons show-only-selected-icon></md-switch>
+                </md-list-item>
+
+                <md-list-item>
+                    <md-icon icon-filled slot="start">thermometer_add</md-icon>
+                    <div slot="headline" data-translate="temperature_animation">Temperature animation</div>
+                    <md-switch slot="end" id="useTempAnimation" selected icons show-only-selected-icon></md-switch>
                 </md-list-item>
 
                 <md-list-item>
                     <md-icon icon-filled slot="start">bar_chart</md-icon>
-                    <div slot="headline" >Use bar chart</div>
-                    <md-switch slot="end" id="useBarChart"></md-switch>
+                    <div slot="headline" data-translate="use_bar_chart">Use bar chart</div>
+                    <md-switch slot="end" id="useBarChart" icons show-only-selected-icon></md-switch>
                 </md-list-item>
 
                 <md-list-item type="button" onclick="openMainProviderDialog()">
                     <md-icon slot="start" icon-filled>routine</md-icon>
-                    <div slot="headline">Main provider</div>
+                    <div slot="headline" data-translate="main_provider">Main provider</div>
                     <div slot="supporting-text" id="mainProviderSelectedText"
                          style="color: var(--Primary); font-family: var(--outfit-mid);">Open-meteo</div>
                 </md-list-item>
@@ -279,8 +285,8 @@
 
                 <md-list-item  onclick="sendThemeToAndroid('OpenAboutPage')" type="button">
                     <md-icon icon-filled slot="start">info</md-icon>
-                    <div slot="headline" data-translate="about_weathermaster">About WeatherMaster</div>
-                    <div slot="supporting-text" data-translate="learn_about_the_app">Learn about the app</div>
+                    <div slot="headline">About WeatherMaster</div>
+                    <div slot="supporting-text" >Learn about the app</div>
                     <md-icon icon-outlined slot="end">chevron_right</md-icon>
                 </md-list-item>
 
@@ -336,7 +342,7 @@
             </md-list>
 
             <md-dialog id="chooseMainProviderDialog" style="min-width: 85%;">
-                <div slot="headline">
+                <div slot="headline" data-translate="main_provider">
                     Main provider
                 </div>
 
@@ -403,8 +409,8 @@
                 </div>
 
                 <div slot="actions">
-                    <md-text-button onclick="window.history.back()">Cancel</md-text-button>
-                    <md-text-button id="saveSelectedMainProvider">Save</md-text-button>
+                    <md-text-button onclick="window.history.back()" data-translate="cancel">Cancel</md-text-button>
+                    <md-text-button id="saveSelectedMainProvider" data-translate="save">Save</md-text-button>
                 </div>
             </md-dialog>
 
@@ -429,20 +435,18 @@
 <script>
 
 
-    const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
-    if(AppLanguageCodeValue){
-        applyTranslations(AppLanguageCodeValue);
-
-    }
-
-
     function handleStorageChangeLang(event) {
     if (event.key === 'AppLanguageCode'){
 
             setTimeout(()=>{
-                const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
-    if(AppLanguageCodeValue){
-        applyTranslations(AppLanguageCodeValue);
+
+applyTranslations(localStorage.getItem('AppLanguageCode'));
+
+    const AppLanguageText = localStorage.getItem('AppLanguage');
+    if(AppLanguageText){
+        document.getElementById("selectedAppLang_text").innerHTML = AppLanguageText;
+    } else{
+        document.getElementById("selectedAppLang_text").innerHTML = 'English';
 
     }
             }, 200);
@@ -874,7 +878,7 @@ function ChangeSelectedMainProviderName() {
             } else if (checkName === 'meteoFrance') {
                 document.getElementById('mainProviderSelectedText').innerHTML = 'Météo-France (Europe, Global)';
 
-            } else if (checkName === 'dwdEurope') {
+            } else if (checkName === 'dwdGermany') {
                 document.getElementById('mainProviderSelectedText').innerHTML = 'DWD (Europe, Global)';
 
             } else if (checkName === 'noaaUS') {
@@ -923,6 +927,17 @@ function ChangeSelectedMainProviderName() {
                     document.getElementById('toggle_noti').selected = false;
                     }, 500)
                 }
+
+                                document.getElementById('useTempAnimation').addEventListener('change', () =>{
+                    localStorage.setItem('useTempAnimation', document.getElementById('useTempAnimation').selected)
+                });
+
+                if(localStorage.getItem('useTempAnimation') && localStorage.getItem('useTempAnimation') === 'false'){
+                    document.getElementById('useTempAnimation').selected = false;
+                } else{
+                    document.getElementById('useTempAnimation').selected = true;
+                }
+
         });
     </script>
 

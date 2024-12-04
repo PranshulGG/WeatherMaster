@@ -3,6 +3,7 @@ package com.example.weathermaster;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
@@ -27,6 +29,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import com.google.android.material.snackbar.Snackbar;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -66,7 +70,8 @@ public class SettingsActivity extends AppCompatActivity {
         AndroidInterface androidInterface = new AndroidInterface(this);
         webview.addJavascriptInterface(androidInterface, "AndroidInterface");
         webview.addJavascriptInterface(new ShowToastInterface(this), "ToastAndroidShow");
-        webview.setBackgroundColor(getResources().getColor(R.color.mainBG));
+        webview.addJavascriptInterface(new ShowSnackInterface(this), "ShowSnackMessage");
+        webview.setBackgroundColor(getResources().getColor(R.color.yellowBg));
 
         webview.loadUrl("file:///android_asset/pages/settings.html");
         webSettings.setTextZoom(100);
@@ -95,6 +100,47 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    public class ShowSnackInterface {
+        private final Context mContext;
+
+        public ShowSnackInterface(Context context) {
+            this.mContext = context;
+        }
+
+        @JavascriptInterface
+        public void ShowSnack(final String text, final String time) {
+            int duration = Snackbar.LENGTH_SHORT;
+            if ("long".equals(time)) {
+                duration = Snackbar.LENGTH_LONG;
+            } else if ("short".equals(time)){
+                duration = Snackbar.LENGTH_SHORT;
+            }
+
+
+            Snackbar snackbar = Snackbar.make(((Activity) mContext).findViewById(android.R.id.content), text, duration);
+
+            View snackbarView = snackbar.getView();
+
+
+            snackbarView.setBackgroundResource(R.drawable.snackbar_background);
+
+
+            snackbar.setTextColor(ContextCompat.getColor(mContext, R.color.snackbar_text));
+
+
+            ViewGroup.LayoutParams params = snackbar.getView().getLayoutParams();
+            if (params instanceof ViewGroup.MarginLayoutParams) {
+                ViewGroup.MarginLayoutParams marginParams = (ViewGroup.MarginLayoutParams) params;
+                marginParams.bottomMargin = 34;
+                marginParams.leftMargin = 26;
+                marginParams.rightMargin = 26;
+                snackbar.getView().setLayoutParams(marginParams);
+            }
+
+
+            snackbar.show();
+        }
+    }
 
     public class ShowToastInterface {
         private final Context mContext;
@@ -135,23 +181,23 @@ public class SettingsActivity extends AppCompatActivity {
 
 
                     if(color.equals("Scrolled")){
-                        statusBarColor = 0xFF1e2024;
-                        navigationBarColor = 0xFF121317;
+                        statusBarColor = 0xFF1d2024;
+                        navigationBarColor = 0xFF111318;
                         systemUiVisibilityFlags = 0;
 
                     } else if (color.equals("ScrollFalse")) {
-                        statusBarColor = 0xFF121317;
-                        navigationBarColor = 0xFF121317;
+                        statusBarColor = 0xFF111318;
+                        navigationBarColor = 0xFF111318;
                         systemUiVisibilityFlags = 0;
 
                     } else if (color.equals("DialogNotScrolled")) {
-                        statusBarColor = 0xFF070809;
-                        navigationBarColor = 0xFF070809;
+                        statusBarColor = 0xFF07080a;
+                        navigationBarColor = 0xFF07080a;
                         systemUiVisibilityFlags = 0;
 
                     } else if (color.equals("DialogScrolled")) {
                         statusBarColor = 0xFF0c0d0e;
-                        navigationBarColor = 0xFF070809;
+                        navigationBarColor = 0xFF07080a;
                         systemUiVisibilityFlags = 0;
 
                     } else if (color.equals("GoBack")){
