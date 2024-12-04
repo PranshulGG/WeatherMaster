@@ -220,5 +220,10 @@
     "contributors": "Katkıda bulunanlar",
     "contributors_sub": "Bu projeye katkıda bulunan kişileri görüntüleyin",
     "version": "Versiyon",
-    "third_party_licenses": "Üçüncü parti lisanslar"
+    "third_party_licenses": "Üçüncü parti lisanslar",
+    "clothing_activity": "Clothing and Activity",
+    "get_clothing_suggestions": "Get your Clothing and Activity Suggestions",
+    "day": "Day",
+    "evening": "Evening",
+    "night": "Night"
 }
