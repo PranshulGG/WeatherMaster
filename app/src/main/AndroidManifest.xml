@@ -24,43 +24,43 @@
             android:name=".SettingsActivity"
             android:screenOrientation="portrait"
             android:exported="true"
-            android:theme="@style/ScreensAll"
+            android:theme="@style/yelloMainPage"
             />
         <activity
             android:name=".AboutPage"
             android:screenOrientation="portrait"
             android:exported="true"
-            android:theme="@style/aboutMainPage"
+            android:theme="@style/yelloMainPage"
             />
         <activity
             android:name=".Terms_Conditions"
             android:screenOrientation="portrait"
             android:exported="true"
-            android:theme="@style/ScreensAll"
+            android:theme="@style/yelloMainPage"
             />
         <activity
             android:name=".PrivacyPolicy"
             android:screenOrientation="portrait"
             android:exported="true"
-            android:theme="@style/ScreensAll"
+            android:theme="@style/yelloMainPage"
             />
         <activity
             android:name=".ThirdParty"
             android:screenOrientation="portrait"
             android:exported="true"
-            android:theme="@style/ScreensAll"
+            android:theme="@style/yelloMainPage"
             />
         <activity
             android:name=".ForecastPage"
             android:screenOrientation="portrait"
             android:exported="true"
-            android:theme="@style/ScreenForecastPage"
+            android:theme="@style/yelloMainPage"
             />
         <activity
             android:name=".AlertPage"
             android:screenOrientation="portrait"
             android:exported="true"
-            android:theme="@style/ScreensAll"
+            android:theme="@style/yelloMainPage"
             />
         <activity
             android:name=".LiveRadar"
@@ -72,61 +72,67 @@
             android:name=".LanguagePage"
             android:screenOrientation="portrait"
             android:exported="true"
-            android:theme="@style/ScreensAll"
+            android:theme="@style/yelloMainPage"
             />
         <activity
             android:name=".humidityCondition"
             android:screenOrientation="portrait"
             android:exported="true"
-            android:theme="@style/conditionMainPage"
+            android:theme="@style/yelloMainPage"
             />
         <activity
             android:name=".pressureCondition"
             android:screenOrientation="portrait"
             android:exported="true"
-            android:theme="@style/conditionMainPage"
+            android:theme="@style/yelloMainPage"
             />
         <activity
             android:name=".sunCondition"
             android:screenOrientation="portrait"
             android:exported="true"
-            android:theme="@style/conditionMainPage"
+            android:theme="@style/yelloMainPage"
             />
         <activity
             android:name=".UVIndexCondition"
             android:screenOrientation="portrait"
             android:exported="true"
-            android:theme="@style/conditionMainPage"
+            android:theme="@style/yelloMainPage"
             />
         <activity
             android:name=".visibilityCondition"
             android:screenOrientation="portrait"
             android:exported="true"
-            android:theme="@style/conditionMainPage"
+            android:theme="@style/yelloMainPage"
             />
         <activity
             android:name=".WindCondition"
             android:screenOrientation="portrait"
             android:exported="true"
-            android:theme="@style/conditionMainPage"
+            android:theme="@style/yelloMainPage"
             />
         <activity
             android:name=".SearchPage"
             android:screenOrientation="portrait"
             android:exported="true"
-            android:theme="@style/ScreensAll"
+            android:theme="@style/yelloMainPage"
             />
         <activity
             android:name=".Homelocations"
             android:screenOrientation="portrait"
             android:exported="true"
-            android:theme="@style/ScreensAll"
+            android:theme="@style/yelloMainPage"
             />
         <activity
             android:name=".ClothingRecommendation"
             android:screenOrientation="portrait"
             android:exported="true"
             android:theme="@style/clothingMainPage"
+            />
+        <activity
+            android:name=".contributorsPage"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/yelloMainPage"
             />
         <activity
             android:name=".MainActivity"
@@ -174,6 +180,15 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info_square" />
+        </receiver>
+
+        <receiver android:name=".WidgetProviderSquareV2" android:exported="true" android:label="Square 3x3">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info_square_v2" />
         </receiver>
 
     </application>
