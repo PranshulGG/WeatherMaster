@@ -37,7 +37,7 @@ body {
     width: 100%;
     background: linear-gradient(0deg, var(--Surface) 10%, rgba(255, 0, 0, 0));
     height: 30px;
-    z-index: 1;
+    z-index: 9999;
 }
 
 [hidden]{
@@ -88,21 +88,21 @@ forecastDateHeader .forecastDateHeaderContent{
 }
 
 forecastDateHeader .forecastDateHeaderContent.selected{
-    background-color: var(--Primary-Container);
+    background-color: var(--Primary);
     pointer-events: none;
 
 }
 
 forecastDateHeader .forecastDateHeaderContent.selected p{
-    color: var(--On-Primary-Container) !important;
+    color: var(--On-Primary) !important;
 }
 
 forecastDateHeader .forecastDateHeaderContent.selected div span{
-    color: var(--On-Primary-Container) !important;
+    color: var(--On-Primary) !important;
     opacity: 0.8;
 }
 forecastDateHeader .forecastDateHeaderContent.selected span{
-    color: var(--On-Primary-Container) !important;
+    color: var(--On-Primary) !important;
 }
 
 forecastDateHeader .forecastDateHeaderContent.selected::before{
@@ -236,147 +236,290 @@ weatherConditionText{
     gap: 10px;
     width: 100%;
     justify-items: center;
+            padding-bottom: 30px;
 }
-
-.daily-conditions-wrap > div{
-    /* background-color: var(--Surface-Container-Low); */
-    position: relative;
-    border-radius: 9990px;
-    /* padding-bottom: 45px; */
-    position: relative;
-    height: calc(160px - 40px);
-    width: calc(160px - 40px);
-    display: flex;
-
-    align-items: center;
-    flex-direction: column;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-    padding: 20px;
-
-}
-
-.daily-conditions-wrap > div  svg{
-    height: 50px;
-    width: 50px;
-    flex-shrink: 0 ;
-        margin-top: 45px;
-        z-index: 1;
-
-}
-
-.daily-conditions-wrap > div .mat_shape_svg{
+.current_condition_icon{
     position: absolute;
-    top: 0;
-    left: 0;
+    bottom: 0;
     height: 100%;
-    margin: 0;
-    width: 100%;
-    z-index: 0;
-}
+    left: 0;
+  }
 
-conditionicon{
+  .current_condition_icon svg{
+    height: 100%;
+  }
+
+  .currentConditionItem .currentConditionItemTitle{
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    color: white;
+    padding: 15px;
+    font-size: 18px;
+    font-family: var(--outfit);
+    z-index: 2;
+  }
+
+  .currentConditionItem .currentConditionItemTitle i{
+    font-size: 23px;
+  }
+
+.currentConditionItem.sunRISESET{
+    background-color: var(--Surface-Container-Low);
+   display: flex;
+    overflow: hidden;
+    border-radius: 20px;
+    flex-direction: column;
+    position: relative;
+    width: 160px;
+    height: 160px;
+  }
+
+
+
+  .currentConditionItem.sunRISESET
+  .current_condition_icon {
+    bottom: -5px;
+     height: unset !important;
+  }
+
+
+
+  .sun_tracker img{
+    width: 30px;
+    height: 30px;
+  }
+
+
+
+  .sun_tracker {
+    position: absolute;
+    bottom: 20%;
+    left: 0;
+    transform: translateY(-20%);
+  }
+
+
+
+
+
+  .currentConditionItem.sunRISESET::before{
+    content: '';
+    background-color: rgba(0, 0, 0, 0.3);
+    height: 40%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border-top: 1.5px solid var(--Outline);
+    z-index: 1;
+  }
+
+
+
+  .sunset_sunrise_text_block{
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
+    flex-direction: column;
+    font-size: 13px;
+    color: white;
     z-index: 1;
+  }
 
-}
 
-.daily-conditions-wrap > div p{
-    padding-left: 15px;
-    font-size: 15px;
-    padding-top: 10px;
-    font-family: var(--outfit);
-    color: var(--On-Surface-Variant);
-     padding-right: 15px;
-     position: absolute;
-     width: calc(100% - 100px);
-     text-overflow: ellipsis;
-     text-align: center;
-     overflow: hidden;
-     z-index: 1;
-}
 
-.daily-conditions-wrap > div span{
-    padding: 10px;
+  .sunset_sunrise_text_block div md-icon{
+    font-size: 18px;
+  }
+
+
+
+  .sunset_sunrise_text_block div {
     display: flex;
+    align-items: center;
+  }
+
+
+
+  .sunset_sunrise_text_block div p{
+    margin: 0;
+  }
+
+
+
+.currentConditionItem.humidity{
+    background-color: var(--Surface-Container-Low);
+    display: flex;
+    overflow: hidden;
+    border-radius: 20px;
+    flex-direction: column;
+    position: relative;
+    width: 160px;
+    height: 160px;
+  }
+
+  .currentConditionItem .currentConditionItemHumidityValue{
     color: var(--On-Surface);
-    font-size: 17px;
-    font-family: var(--outfit-mid);
+    font-family: var(--google-mid);
+    font-size: 50px;
+    z-index: 1;
+    padding-left: 10px;
     position: absolute;
-     bottom: 10px;
-     z-index: 1;
+    top: 0px;
+    margin: 0;
+    left: 0;
+  }
 
-}
+  .currentConditionItem .currentConditionItemDewpointValue p{
+    width: 33px;
+    height: 33px;
+    border-radius: 50px;
+    margin: 0;
+    background-color: var(--Primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--On-Primary);
+    font-family: var(--outfit-mid);
 
-.sunrise-sunset-forecast{
-    display: grid
-;
-    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .currentConditionItem .currentConditionItemDewpointValue span{
+    color: var(--Primary);
+    font-family: var(--outfit-mid);
+    font-size: 14px;
+  }
+
+  .currentConditionItem .currentConditionItemDewpointValue{
+    position: absolute;
+    bottom: 10px;
+    left: 12px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* pressure */
+
+
+.currentConditionItem.pressure{
+    background-color: var(--Surface-Container-Low);
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    position: relative;
+    border-radius: 50%;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+    height: 160px;
+    width: 160px;
+  }
+
+  .currentConditionItem.pressure .currentConditionItemPressureValue{
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    gap: 8px;
+  }
+
+  .currentConditionItem.pressure .currentConditionItemPressureValue div{
+    color: var(--On-Surface-Variant);
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+
+  .currentConditionItem.pressure .currentConditionItemPressureValue div i{
+    font-size: 18px;
+  }
+
+
+  .currentConditionItem.pressure .currentConditionItemPressureValue  p{
+    font-family: var(--google-mid);
+    font-size: 34px;
+    color: var(--On-Surface);
+    margin: 0;
+  }
+
+  .currentConditionItem.pressure .currentConditionItemPressureValue span{
+      color: var(--On-Surface-Variant);
+  }
+
+  /* visiibility */
+
+.currentConditionItem.visibility{
+    background-color: var(--Surface-Container-Low);
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    position: relative;
+    border-radius: 50%;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+
+  }
+
+  .currentConditionItem.visibility .currentConditionItemVisibilityValue{
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 90%;
+    left: 0;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+
+  .currentConditionItem.visibility .currentConditionItemVisibilityValue p{
+    margin: 0;
+    color: var(--On-Primary-Inverse);
+    font-family: var(--google-mid);
+    font-size: 45px;
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+
+  }
+
+  .currentConditionItem.visibility .currentConditionItemTitle.visibility{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    color: var(--On-Primary-Inverse);
+    padding-top: 35px;
+    font-size: 16px;
+    font-family: var(--outfit-mid);
+  }
+
+  .currentConditionItem.visibility .currentConditionItemVisibilityValue span{
+    font-size: 18px;
+    padding-bottom: 5px;
+    position: absolute;
+    bottom: 17px;
+  }
+
+
+  @media screen and (min-width: 600px){
+
+.daily-conditions-wrap{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 10px;
     width: 100%;
     justify-items: center;
 }
 
-.sunrise-sunset-forecast .sunrise-sunset-item{
-    /* background-color: var(--Surface-Container-Low); */
-    position: relative;
-    border-radius: 9990px;
-    /* padding-bottom: 45px; */
-    position: relative;
-    height: calc(160px - 40px);;
-    width: calc(160px - 40px);
-    display: flex;
-
-    align-items: center;
-    flex-direction: column;
-    padding: 20px;
-    margin-bottom: 30px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-.sunrise-sunset-forecast .sunrise-sunset-item > div > svg{
-    width: 50px;
-    height: 50px;
-    z-index: 1;
-}
-
-.sunrise-sunset-forecast .sunrise-sunset-item > .mat_shape_svg{
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    margin: 0;
-    width: 100%;
-    z-index: 0;
-}
-
-.sunrise-sunset-forecast .sunrise-sunset-item > div{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1;
-}
-
-.sunrise-sunset-forecast .sunrise-sunset-item p{
-    padding-left: 15px;
-    font-size: 15px;
-    padding-top: 10px;
-    font-family: var(--outfit);
-    color: var(--On-Surface-Variant);
-     padding-right: 15px;
-     text-overflow: ellipsis;
-     text-align: center;
-     z-index: 1;
-     overflow: hidden;
-}
-
-.sunrise-sunset-forecast .sunrise-sunset-item span{
-    padding: 10px;
-    display: flex;
-    color: var(--On-Surface);
-    font-size: 17px;
-    font-family: var(--outfit-mid);
-    z-index: 1;
-}
+  }
