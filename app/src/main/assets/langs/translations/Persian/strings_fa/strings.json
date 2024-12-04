@@ -220,5 +220,10 @@
     "contributors": "مشارکت‌کنندگان",
     "contributors_sub": "مشاهده افرادی که در این پروژه مشارکت کرده‌اند",
     "version": "نسخه",
-    "third_party_licenses": "مجوزهای شخص ثالث"
+    "third_party_licenses": "مجوزهای شخص ثالث",
+    "clothing_activity": "Clothing and Activity",
+    "get_clothing_suggestions": "Get your Clothing and Activity Suggestions",
+    "day": "Day",
+    "evening": "Evening",
+    "night": "Night"
 }
