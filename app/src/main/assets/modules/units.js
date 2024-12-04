@@ -1804,6 +1804,9 @@ function animateTemp(temp_value) {
 
 
     function animateNumber() {
+        if(localStorage.getItem('useTempAnimation') === 'false'){
+            document.getElementById('temp').innerHTML = temp_value + '°';
+        } else{
         let interval = setInterval(() => {
 
             if (currentNum > targetNum) {
@@ -1843,6 +1846,7 @@ function animateTemp(temp_value) {
                 clearInterval(interval);
             }
         }, baseSpeed);
+    }
     }
 
     animateNumber();
