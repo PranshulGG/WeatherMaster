@@ -86,9 +86,15 @@
     </style>
 
     <style name="clothingMainPage" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:navigationBarColor">#15130b</item>
-        <item name="android:statusBarColor">#222017</item>
+        <item name="android:navigationBarColor">#111318</item>
+        <item name="android:statusBarColor">#1d2024</item>
         <item name="colorAccent">#dbc66e</item>
+    </style>
+
+    <style name="yelloMainPage" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:navigationBarColor">#111318</item>
+        <item name="android:statusBarColor">#111318</item>
+        <item name="colorAccent">#aac7ff</item>
     </style>
 
 
