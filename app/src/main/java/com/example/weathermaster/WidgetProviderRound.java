@@ -67,6 +67,10 @@ public class WidgetProviderRound extends AppWidgetProvider {
             views.setImageViewResource(R.id.weather_icon_round, iconResId);
             views.setTextViewText(R.id.temp_text_round, mainTemp);
 
+            Intent intent = new Intent(context, MainActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+            views.setOnClickPendingIntent(R.id.widget_layout_round, pendingIntent);
+
 
             appWidgetManager.updateAppWidget(widgetId, views);
         }

@@ -1,107 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="200dp"
+    android:layout_width="230dp"
     android:id="@+id/widget_layout_square"
-    android:layout_height="wrap_content"
+    android:layout_height="150dp"
+    android:padding="15dp"
     android:orientation="vertical"
-    android:paddingBottom="8dp"
     android:background="@drawable/widget_1_background_round">
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
         android:orientation="horizontal"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="0dp"
-        >
+        android:paddingBottom="5dp">
 
-        <ImageView
-            android:id="@+id/weather_icon_square"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:src="@drawable/cloudy" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingBottom="5dp">
+
+            <ImageView
+                android:id="@+id/weather_icon_square"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="start"
+                android:src="@drawable/cloudy" />
+
+
+            <TextView
+                android:id="@+id/temp_text_square"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:fontFamily="@font/product_sans"
+                android:text="22°"
+                android:textColor="@color/colorPrimary"
+                android:textSize="45sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:paddingBottom="0dp">
+
+            <TextView
+                android:id="@+id/locationName_square"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:fontFamily="@font/product_sans"
+                android:gravity="end"
+                android:maxWidth="280dp"
+                android:maxLines="1"
+                android:text="No location"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15.5sp" />
+
+
             <TextView
                 android:id="@+id/weather_condition_square"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/product_sans"
-                android:layout_gravity="end"
-                android:layout_weight="1"
                 android:gravity="end"
-                android:text="Clear "
-                android:textColor="@color/colorPrimary"
-                android:textSize="15.5sp"
-                android:ellipsize="end"
-                android:maxWidth="280dp"
-                android:maxLines="1" />
+                android:text="--"
+                android:textColor="@color/colorOnSurfaceVariant"
+                android:textSize="16.7sp" />
 
 
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:gravity="bottom"
+                android:orientation="vertical"
+                >
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="8dp"
-        android:paddingTop="0dp"
-        android:paddingRight="8dp"
-        android:paddingBottom="0dp">
-
-        <TextView
-            android:id="@+id/temp_text_square"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/product_sans"
-            android:text="--°"
-            android:textColor="@color/colorPrimary"
-            android:textSize="45sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:orientation="horizontal"
-            android:padding="0dp">
-
+                <TextView
+                    android:id="@+id/high_temp_text_square"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:fontFamily="@font/product_sans"
+                    android:text="3333"
+                    android:textColor="@color/colorOnSurfaceVariant"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
         </LinearLayout>
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="start"
-        android:orientation="horizontal"
-        android:paddingStart="10dp"
-        >
-
-        <TextView
-            android:id="@+id/high_temp_text_square"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            android:fontFamily="@font/product_sans"
-            android:text="--°"
-            android:textColor="@color/colorOnBackground"
-            android:textSize="14sp" />
 
     </LinearLayout>
 
 
-</LinearLayout>
+
+
+    </LinearLayout>

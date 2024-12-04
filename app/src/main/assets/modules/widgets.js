@@ -131,7 +131,7 @@ const DefaultLocation = JSON.parse(localStorage.getItem('DefaultLocation'));
 
   let conditionMain;
 
-  conditionMain = getWeatherLabelWidgetLang(weatherData.current.weather_code, localStorage.getItem('AppLanguageCode'));
+  conditionMain = getWeatherLabelWidgetLang(weatherData.current.weather_code, 'en');
 
   // ----------
 
@@ -492,9 +492,9 @@ function GetWeatherLabelWidget(iconCode, isDay) {
 }
 
 function getWeatherLabelWidgetLang(iconCode, isDay, langCode) {
-  const translationKey = GetWeatherLabelWidget(iconCode, isDay);
+    const translationKey = GetWeatherLabelNoAnim(iconCode, isDay);
 
-  const translatedLabel = getTranslationByLang(langCode, translationKey);
+    const translatedLabel = getTranslationByLang(langCode, translationKey);
 
   return translatedLabel || "Unknown weather";
 }

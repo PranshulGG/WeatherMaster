@@ -22,6 +22,7 @@ public class WidgetProviderSquare extends AppWidgetProvider {
         String mainTemp = prefs.getString("mainTemp", "--°");
         String iconData = prefs.getString("iconData", "cloudy");
         String highLow = prefs.getString("highLow", "--");
+        String LocationName = prefs.getString("locationWeather", "--");
 
         for (int appWidgetId : appWidgetIds) {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widgets_weather_square);
@@ -33,7 +34,7 @@ public class WidgetProviderSquare extends AppWidgetProvider {
             views.setImageViewResource(R.id.weather_icon_square, iconResId);
             views.setTextViewText(R.id.temp_text_square, mainTemp);
             views.setTextViewText(R.id.high_temp_text_square, highLow);
-
+            views.setTextViewText(R.id.locationName_square, locationWeather);
 
             Intent intent = new Intent(context, MainActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
@@ -57,6 +58,7 @@ public class WidgetProviderSquare extends AppWidgetProvider {
         editor.putString("mainTemp", mainTemp);
         editor.putString("iconData", iconData);
         editor.putString("highLow", highLow);
+        editor.putString("locationWeather", locationWeather);
 
         editor.apply();
 
@@ -74,6 +76,11 @@ public class WidgetProviderSquare extends AppWidgetProvider {
             views.setImageViewResource(R.id.weather_icon_square, iconResId);
             views.setTextViewText(R.id.temp_text_square, mainTemp);
             views.setTextViewText(R.id.high_temp_text_square, highLow);
+            views.setTextViewText(R.id.locationName_square, locationWeather);
+
+            Intent intent = new Intent(context, MainActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+            views.setOnClickPendingIntent(R.id.widget_layout_square, pendingIntent);
 
             appWidgetManager.updateAppWidget(widgetId, views);
         }

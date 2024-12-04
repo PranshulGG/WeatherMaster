@@ -68,6 +68,9 @@ public class WidgetProviderPill extends AppWidgetProvider {
             views.setImageViewResource(R.id.weather_icon_pill, iconResId);
             views.setTextViewText(R.id.temp_text_pill, mainTemp);
 
+            Intent intent = new Intent(context, MainActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+            views.setOnClickPendingIntent(R.id.widget_layout_pill, pendingIntent);
 
             appWidgetManager.updateAppWidget(widgetId, views);
         }
