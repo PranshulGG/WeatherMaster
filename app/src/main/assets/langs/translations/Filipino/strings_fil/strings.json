@@ -220,5 +220,10 @@
     "contributors": "Contributors",
     "contributors_sub": "View people who contributed to this project",
     "version": "Version",
-    "third_party_licenses": "Third party licenses"
+    "third_party_licenses": "Third party licenses",
+    "clothing_activity": "Clothing and Activity",
+    "get_clothing_suggestions": "Get your Clothing and Activity Suggestions",
+    "day": "Day",
+    "evening": "Evening",
+    "night": "Night"
 }
