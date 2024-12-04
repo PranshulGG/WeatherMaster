@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" Theme="default" data-theme="dark">
+<html lang="en" Theme="clothing" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -64,13 +64,14 @@
         img_area i {
             width: 40px;
             height: 40px;
-            background-position: center;
-            background-size: cover;
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            background-color: var(--Surface-Container-Low);
+            color: var(--On-Surface);
             border-radius: 50px;
-            background-repeat: no-repeat;
         }
-
 
         img_area::before {
             content: 'check';
@@ -137,154 +138,167 @@
                 </md-list>
 
                 <md-list>
-
                     <label class="language_item">
-                        <input checked name="app_language_radios" value="English" lang="en"
-                               onclick="updateImgAreas()" type="radio">
+                        <input checked name="app_language_radios" value="English" lang="en" onclick="updateImgAreas()" type="radio">
                         <img_area>
-                            <i class="fas fi-us"></i>
+                            <i icon-filled>globe</i>
                         </img_area>
                         English
                         <md-ripple></md-ripple>
                     </label>
 
                     <label class="language_item">
-                        <input name="app_language_radios" value="Español" lang="es" onclick="updateImgAreas()" type="radio">
+                        <input name="app_language_radios" value="Chinese (Simplified)" lang="zh" onclick="updateImgAreas()" type="radio">
                         <img_area>
-                            <i class="fas fi-es"></i>
+                            <i icon-filled>globe</i>
                         </img_area>
-                        Español
-                        <md-ripple></md-ripple>
-                    </label>
-
-                    <label class="language_item" >
-                        <input name="app_language_radios" value="Français" lang="fr" onclick="updateImgAreas()" type="radio">
-                        <img_area>
-                            <i class="fas fi-fr"></i>
-                        </img_area>
-                        Français
+                        Chinese (Simplified)
                         <md-ripple></md-ripple>
                     </label>
 
                     <label class="language_item">
-                        <input name="app_language_radios" value="Deutsch" lang="de" onclick="updateImgAreas()" type="radio">
+                        <input name="app_language_radios" value="Dutch" lang="nl" onclick="updateImgAreas()" type="radio">
                         <img_area>
-                            <i class="fas fi-de"></i>
+                            <i icon-filled>globe</i>
                         </img_area>
-                        Deutsch
+                        Dutch
                         <md-ripple></md-ripple>
                     </label>
 
                     <label class="language_item">
-                        <input name="app_language_radios" value="Italiano" lang="it" onclick="updateImgAreas()" type="radio">
+                        <input name="app_language_radios" value="Filipino" lang="fil" onclick="updateImgAreas()" type="radio">
                         <img_area>
-                            <i class="fas fi-it"></i>
+                            <i icon-filled>globe</i>
                         </img_area>
-                        Italiano
+                        Filipino
                         <md-ripple></md-ripple>
                     </label>
 
                     <label class="language_item">
-                        <input name="app_language_radios" value="Português" lang="pt" onclick="updateImgAreas()" type="radio">
+                        <input name="app_language_radios" value="French" lang="fr" onclick="updateImgAreas()" type="radio">
                         <img_area>
-                            <i class="fas fi-pt"></i>
+                            <i icon-filled>globe</i>
                         </img_area>
-                        Português
+                        French
                         <md-ripple></md-ripple>
                     </label>
 
                     <label class="language_item">
-                        <input name="app_language_radios" value="Pусский" lang="ru" onclick="updateImgAreas()" type="radio">
+                        <input name="app_language_radios" value="German" lang="de" onclick="updateImgAreas()" type="radio">
                         <img_area>
-                            <i class="fas fi-ru"></i>
+                            <i icon-filled>globe</i>
                         </img_area>
-                        Pусский
+                        German
                         <md-ripple></md-ripple>
                     </label>
 
                     <label class="language_item">
-                        <input name="app_language_radios" value="українець" lang="uk" onclick="updateImgAreas()" type="radio">
+                        <input name="app_language_radios" value="Greek" lang="el" onclick="updateImgAreas()" type="radio">
                         <img_area>
-                            <i class="fas fi-ua"></i>
+                            <i icon-filled>globe</i>
                         </img_area>
-                        українець
+                        Greek
                         <md-ripple></md-ripple>
                     </label>
 
                     <label class="language_item">
-                        <input name="app_language_radios" value="Magyar" lang="hu" onclick="updateImgAreas()" type="radio">
+                        <input name="app_language_radios" value="Italian" lang="it" onclick="updateImgAreas()" type="radio">
                         <img_area>
-                            <i class="fas fi-hu"></i>
+                            <i icon-filled>globe</i>
                         </img_area>
-                        Magyar
+                        Italian
                         <md-ripple></md-ripple>
                     </label>
 
                     <label class="language_item">
-                        <input name="app_language_radios" value="Polski" lang="pl" onclick="updateImgAreas()" type="radio">
+                        <input name="app_language_radios" value="Japanese" lang="ja" onclick="updateImgAreas()" type="radio">
                         <img_area>
-                            <i class="fas fi-pl"></i>
+                            <i icon-filled>globe</i>
                         </img_area>
-                        Polski
-                        <md-ripple></md-ripple>
-                    </label>
-
-                    <label class="language_item" disabled>
-                        <input name="app_language_radios" value="Ελληνικά" lang="el" onclick="updateImgAreas()" type="radio">
-                        <img_area>
-                            <i class="fas fi-gr"></i>
-                        </img_area>
-                        Ελληνικά
-                        <md-ripple></md-ripple>
-                    </label>
-
-                    <label class="language_item">
-                        <input name="app_language_radios" value="Română" lang="ro" onclick="updateImgAreas()" type="radio">
-                        <img_area>
-                            <i class="fas fi-ro"></i>
-                        </img_area>
-                        Română
-                        <md-ripple></md-ripple>
-                    </label>
-
-                    <label class="language_item">
-                        <input name="app_language_radios" value="Slovenčina" lang="sk" onclick="updateImgAreas()" type="radio">
-                        <img_area>
-                            <i class="fas fi-sk"></i>
-                        </img_area>
-                        Slovenčina
-                        <md-ripple></md-ripple>
-                    </label>
-
-
-
-                    <label class="language_item">
-                        <input name="app_language_radios" value="简体中文" lang="zh-Hans" onclick="updateImgAreas()" type="radio">
-                        <img_area>
-                            <i class="fas fi-cn"></i>
-                        </img_area>
-                        简体中文
-                        <md-ripple></md-ripple>
-                    </label>
-
-                    <label class="language_item">
-                        <input name="app_language_radios" value="日本語" lang="ja" onclick="updateImgAreas()" type="radio">
-                        <img_area>
-                            <i class="fas fi-jp"></i>
-                        </img_area>
-                        日本語
+                        Japanese
                         <md-ripple></md-ripple>
                     </label>
 
                     <label class="language_item">
                         <input name="app_language_radios" value="Persian" lang="fa" onclick="updateImgAreas()" type="radio">
                         <img_area>
-                            <i class="fas fi-ir"></i>
+                            <i icon-filled>globe</i>
                         </img_area>
                         Persian
                         <md-ripple></md-ripple>
                     </label>
 
+                    <label class="language_item">
+                        <input name="app_language_radios" value="Polish" lang="pl" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i icon-filled>globe</i>
+                        </img_area>
+                        Polish
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item">
+                        <input name="app_language_radios" value="Portuguese" lang="pt" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i icon-filled>globe</i>
+                        </img_area>
+                        Portuguese
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item">
+                        <input name="app_language_radios" value="Romanian" lang="ro" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i icon-filled>globe</i>
+                        </img_area>
+                        Romanian
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item">
+                        <input name="app_language_radios" value="Russian" lang="ru" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i icon-filled>globe</i>
+                        </img_area>
+                        Russian
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item">
+                        <input name="app_language_radios" value="Spanish" lang="es" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i icon-filled>globe</i>
+                        </img_area>
+                        Spanish
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item">
+                        <input name="app_language_radios" value="Turkish" lang="tr" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i icon-filled>globe</i>
+                        </img_area>
+                        Turkish
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item">
+                        <input name="app_language_radios" value="Ukrainian" lang="uk" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i icon-filled>globe</i>
+                        </img_area>
+                        Ukrainian
+                        <md-ripple></md-ripple>
+                    </label>
+
+                    <label class="language_item">
+                        <input name="app_language_radios" value="Vietnamese" lang="vi" onclick="updateImgAreas()" type="radio">
+                        <img_area>
+                            <i icon-filled>globe</i>
+                        </img_area>
+                        Vietnamese
+                        <md-ripple></md-ripple>
+                    </label>
                 </md-list>
 
                 <br>
@@ -378,7 +392,7 @@
                 const radio = document.querySelector(`input[value="${AppLanguageValue}"]`);
                 if (radio) {
                     radio.checked = true;
-                    applyTranslations(AppLanguageCodeValue);
+                   renderALLtranslations()
                 }
 
             }

@@ -40,6 +40,11 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -97,7 +102,9 @@ public class MainActivity extends AppCompatActivity {
         webview.getSettings().setGeolocationEnabled(true);
         webSettings.setTextZoom(100);
 
-
+        webview.getSettings().setAllowFileAccess(true);
+        webview.getSettings().setAllowContentAccess(true);
+        webview.getSettings().setDomStorageEnabled(true);
 
 
 
@@ -168,8 +175,10 @@ public class MainActivity extends AppCompatActivity {
         }, "AndroidBridge");
 
 
-        swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#88b4f9"));
-        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(Color.parseColor("#303134"));
+        swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#aac7ff"));
+        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(Color.parseColor("#282a2f"));
+
+
 
         webview.setWebViewClient(new WebViewClient() {
             @Override
@@ -314,6 +323,8 @@ public class MainActivity extends AppCompatActivity {
             WidgetProviderPill.updateWeatherWidgetPill(mContext, mainTemp, iconData);
 
             WidgetProviderSquare.updateWeatherWidgetSquare(mContext, condition, locationWeather, mainTemp, iconData, highLow, hour_0_temp, hour_0_icon, hour_0_time, hour_1_temp, hour_1_icon, hour_1_time, hour_2_temp, hour_2_icon, hour_2_time, hour_3_temp, hour_3_icon, hour_3_time);
+
+            WidgetProviderSquareV2.updateWeatherWidgetSquareV2(mContext, condition, locationWeather, mainTemp, iconData, highLow, hour_0_temp, hour_0_icon, hour_0_time, hour_1_temp, hour_1_icon, hour_1_time, hour_2_temp, hour_2_icon, hour_2_time, hour_3_temp, hour_3_icon, hour_3_time);
 
         }
     }
