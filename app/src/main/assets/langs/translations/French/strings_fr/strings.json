@@ -213,12 +213,12 @@
     "grass": "Gazon",
     "tree": "Arbre",
     "weed": "Herbe",
-    "quick_summary": "Quick summary",
-    "temperature_animation": "Temperature animation",
-    "language": "Language",
-    "translate_this_app": "Translate this app",
-    "contributors": "Contributors",
-    "contributors_sub": "View people who contributed to this project",
+    "quick_summary": "Rapide résumé",
+    "temperature_animation": "Animation de la température",
+    "language": "Langue",
+    "translate_this_app": "Traduire cette application",
+    "contributors": "Contributeurs",
+    "contributors_sub": "Voir les personnes ayant contribué à ce projet",
     "version": "Version",
-    "third_party_licenses": "Third party licenses"
+    "third_party_licenses": "Licences de tiers"
 }
