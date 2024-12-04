@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" Theme="about_page" data-theme="dark" >
+<html lang="en" Theme="clothing" data-theme="dark" >
 
 <head>
  <meta charset="UTF-8">
@@ -14,277 +14,209 @@
  <link rel="stylesheet" href="../components/md-buttons.css">
  <script src="../modules/lottie.js"></script>
  <style>
-        .top_header_area_app_about {
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            padding-top: 20px;
-
-        }
-
-        .top_header_area_app_about .app_icon_holder_about {
-            width: 100px;
-            height: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--Surface-Container);
-            border-radius: 20px;
-            padding: 15px;
-        }
-
-        test {
-            width: 100px;
-            height: 0;
-            display: flex;
-            opacity: 0;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--Surface-Container);
-            border-radius: 20px;
-            padding: 15px;
-        }
-
-        .top_header_area_app_about .app_icon_holder_about img {
-            width: 90px;
-        }
-
-
-        .top_header_area_app_about .app_label_about p {
-            margin: 0;
-            font-size: 40px;
-            font-family: var(--outfit-mid);
-            color: var(--On-Surface);
-            margin-bottom: 10px;
-            line-height: 1;
-        }
-
-        .top_header_area_app_about .app_label_about span {
-            border: 1.4px solid var(--Outline-Variant);
-            padding-left: 10px;
-            padding-right: 10px;
-            padding-top: 2px;
-            padding-bottom: 2px;
-            color: var(--On-Surface-Variant);
-            font-size: 15px;
-            font-family: var(--google-normal);
-            border-radius: 50px;
-        }
-
-        .top_header_area_app_about .app_label_about {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .check_update_btn_about_holder {
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            padding-top: 20px;
-        }
-
-        #version_check_loader {
-            position: absolute;
-            top: 0;
-            width: 100%;
-        }
-
-        .about_actions_main {
-            position: absolute;
-            bottom: 15px;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 5px;
-            width: calc(100% - 20px);
-            gap: 10px;
-            padding: 10px;
-            align-content: center;
-            justify-items: center;
-        }
-
-        .about_actions_main .bottom_action_btn_about div {
-            width: 50px;
-            height: 50px;
-            border-radius: 50px;
-            background-color: var(--Primary-Container);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            color: var(--On-Primary-Container);
-        }
-
-        .about_actions_main .bottom_action_btn_about {
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            position: relative;
-            padding: 10px;
-            background-color: var(--Surface-Container-Low);
-            justify-content: center;
-            gap: 5px;
-            border-radius: 15px;
-            max-width: 200px;
-            width: calc(100% - 20px);
-        }
-
-        .about_actions_main .bottom_action_btn_about p {
-            margin: 0;
-            color: var(--On-Surface);
-            font-family: var(--google-mid);
-            font-size: 15px;
-            text-align: center;
-        }
-
-        .about_actions_main .bottom_action_btn_about md-ripple {
-            --md-ripple-pressed-opacity: 0.1;
-        }
-
-        .top_animation_about{
-            position: absolute;
-            top: 10px;
-            z-index: -1;
-        }
-
-        @media screen and (min-width: 600px){
-            .all_about_wrap{
-                width:600px;
+            .padding_about_app{
+                padding: 15px;
+                overflow: auto;
+                height: calc(100vh - 30px - 71px);
+                padding-top: 0;
             }
 
-            .about_actions_main{
-                width: 600px;
+            .top_info_about_app{
+                background-color: var(--Surface-Container-Low);
+                border-radius: 18px;
+                padding: 10px;
             }
 
-            .center_all{
+            .item_with_img_app_name{
                 display: flex;
                 align-items: center;
+                gap: 10px;
+                color: var(--On-Surface);
+                font-size: 20px;
+                font-family: var(--outfit-mid);
+            }
+
+            p{
+                margin: 0;
+            }
+
+            .item_with_img_app_name div{
+                width: 40px;
+                height: 40px;
+                background-color: var(--Surface-Container);
+                padding: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50px;
+            }
+
+            .info_items_about_page{
+                display: flex;
+                align-items: center;
+                padding: 10px;
+                gap: 25px;
+                border-radius: 10px;
+                position: relative;
+            }
+
+            .info_items_about_page md-icon{
+                width: 35px;
+                height: 35px;
+                color: var(--Secondary);
+            }
+
+            .info_items_about_page div{
+                display: flex;
+                align-items: flex-start;
                 flex-direction: column;
+                gap: 2px;
             }
 
-            .top_animation_about{
-                width: 600px;
+            .info_items_about_page div p{
+                color: var(--On-Surface);
+                font-family: var(--google-normal);
             }
 
-            #version_check_loader{
-                width: 600px;
+            .info_items_about_page div span{
+                color: var(--On-Surface-Variant);
+                font-family: var(--outfit);
+                font-size: 14px;
             }
-        }
 
-        #updateMessageDiv {
-            position: absolute;
-            bottom: 220px;
-            left: 0;
-            color: var(--On-Surface-Variant);
-            animation: opacity 0.3s ease-out;
-            transition: opacity 0.2s ease-in;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-
-        @keyframes opacity {
-            0%{
-                opacity: 0;
+            md-ripple{
+                --md-ripple-pressed-opacity: 0.07;
             }
-            100%{
-                opacity: 1;
+
+            .head_area_about_page{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 30px;
+                color: var(--On-Surface);
+                font-family: var(--google-normal);
+                padding: 17px;
+                position: relative;
+                background-color: var(--Surface);
             }
-        }
+
+            .small_items_info_about_page{
+                background-color: var(--Surface-Container-Low);
+                padding: 15px;
+                border-radius: 18px;
+                position: relative;
+                display: flex;
+                align-items: flex-start;
+                flex-direction: column;
+                margin-top: 10px;
+            }
+
+            .small_items_info_about_page p{
+                font-family: var(--outfit-mid);
+                font-size: 18px;
+                width: calc(100% - 50px);
+                color: var(--On-Surface);
+            }
+
+            .small_items_info_about_page span{
+                font-family: var(--outfit-mid);
+                font-size: 14px;
+                width: calc(100% - 50px);
+                color: var(--On-Surface-Variant);
+            }
     </style>
 </head>
 
 <body class="center_all" style="--md-list-item-label-text-size: 1.15rem; --md-list-item-pressed-state-layer-opacity: 0.15; --md-ref-typeface-plain: var(--google-normal); background-color: var(--Surface);">
 
-<div class="all_about_wrap">
- <div class="top_header_area_app_about">
+      <div class="head_area_about_page">
+       <p data-translate="about">About</p>
+       <md-icon-button style="position: absolute; right: 10px;" onclick="sendThemeToAndroid('GoBack')"><md-icon icon-outlined>close</md-icon></md-icon-button>
+      </div>
+      <div class="padding_about_app">
 
-  <div class="app_label_about">
-   <p>Weather <br>Master</p>
+       <div class="top_info_about_app">
 
-   <span>1.9.1 (W)</span>
-  </div>
+        <div class="item_with_img_app_name">
+         <div>
+          <img src="../weather-icons/mostly_clear_day.svg" alt="" style="width: 35px; height: 35px;">
+         </div>
+         <p>Weather Master</p>
+        </div>
 
-  <div class="app_icon_holder_about">
-   <img src="../weather-icons/mostly_clear_day.svg" alt="">
-  </div>
- </div>
+        <div class="info_items_about_page">
+         <md-icon icon-outlined>info</md-icon>
+         <div style="position: relative; width: 100%;">
+          <p data-translate="version">Version</p>
+          <span>1.9.3 (W)</span>
+          <md-icon-button style="position: absolute; right: 5px;" id="checkUpdatesBtn"><md-icon icon-outlined>refresh</md-icon></md-icon-button>
+         </div>
+        </div>
 
- <div class="check_update_btn_about_holder">
-  <md-elevated-button trailing-icon id="checkUpdatesBtn"><span data-translate="latest_version">Latest
-                version</span> <md-icon icon-outlined slot="icon"
-                                        style="font-size: 22px;">refresh</md-icon></md-elevated-button>
+        <div class="info_items_about_page">
+         <md-icon icon-outlined>license</md-icon>
+         <div>
+          <p data-translate="licenses">License</p>
+          <span>GNU GPL-3.0</span>
+         </div>
+        </div>
 
-  <test></test>
- </div>
+        <div class="info_items_about_page" onclick="window.location.href='mailto:pranshul.devmain@gmail.com'">
+         <md-icon icon-outlined>mail</md-icon>
+         <div>
+          <p>Email</p>
+          <span>pranshul.devmain@gmail.com</span>
+         </div>
+         <md-ripple></md-ripple>
+        </div>
 
- <div class="check_update_btn_about_holder" onclick="window.location.href='https://github.com/PranshulGG/WeatherMaster/issues/new'">
-  <md-elevated-button trailing-icon><span>Create an issue</span> <md-icon
-          icon-outlined slot="icon" style="font-size: 22px;">bug_report</md-icon></md-elevated-button>
+        <div class="info_items_about_page" onclick="window.location.href='https://github.com/PranshulGG/WeatherMaster'">
+         <md-icon icon-outlined>code</md-icon>
+         <div>
+          <p data-translate="source_code">Source code</p>
+          <span>on Github</span>
+         </div>
+         <md-ripple></md-ripple>
+        </div>
 
-  <test></test>
- </div>
+        <div class="info_items_about_page" onclick="window.location.href='https://github.com/PranshulGG/WeatherMaster/issues/new'">
+         <md-icon icon-outlined>bug_report</md-icon>
+         <div>
+          <p data-translate="create_an_issue">Create an issue</p>
+          <span>on Github</span>
+         </div>
+         <md-ripple></md-ripple>
 
- <div class="about_actions_main">
+        </div>
 
-  <div class="bottom_action_btn_about" onclick="window.location.href='https://github.com/PranshulGG/WeatherMaster'">
-   <div>
-    <md-icon icon-filled>code</md-icon>
-   </div>
-   <p>Source code</p>
+       </div>
 
-   <md-ripple></md-ripple>
-  </div>
+       <div class="small_items_info_about_page" onclick="sendThemeToAndroid('OpenContributorsPage')">
+        <p>Contributors</p>
+        <span>View people who contributed to this project</span>
+        <md-icon-button style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);"><md-icon icon-outlined>chevron_right</md-icon></md-icon-button>
+        <md-ripple></md-ripple>
+       </div>
 
+       <div class="small_items_info_about_page" onclick="sendThemeToAndroid('OpenTermsConditions')">
+        <p data-translate="terms_&_conditions">Terms & Conditions</p>
+        <md-icon-button style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);"><md-icon icon-outlined>chevron_right</md-icon></md-icon-button>
+        <md-ripple></md-ripple>
+       </div>
 
-  <div class="bottom_action_btn_about" onclick="sendThemeToAndroid('OpenTermsConditions')">
-   <div>
-    <md-icon icon-filled>privacy_tip</md-icon>
-   </div>
-   <p>Terms & Conditions</p>
+       <div class="small_items_info_about_page" onclick="sendThemeToAndroid('OpenPrivacyPolicy')">
+        <p data-translate="privacy_policy">Privacy & Policy</p>
+        <md-icon-button style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);"><md-icon icon-outlined>chevron_right</md-icon></md-icon-button>
+        <md-ripple></md-ripple>
+       </div>
 
-   <md-ripple></md-ripple>
-  </div>
+       <div class="small_items_info_about_page" onclick="sendThemeToAndroid('OpenLicenses')">
+        <p data-translate="third_party_licenses">Third party licenses</p>
+        <md-icon-button style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);"><md-icon icon-outlined>chevron_right</md-icon></md-icon-button>
+        <md-ripple></md-ripple>
+       </div>
 
-  <div class="bottom_action_btn_about" onclick="sendThemeToAndroid('OpenPrivacyPolicy')">
-   <div>
-    <md-icon icon-filled>policy</md-icon>
-   </div>
-   <p>Privacy Policy</p>
-
-   <md-ripple></md-ripple>
-  </div>
-
-  <div class="bottom_action_btn_about" onclick="sendThemeToAndroid('OpenLicenses')">
-   <div>
-    <md-icon icon-filled>copyright</md-icon>
-   </div>
-   <p>Licenses</p>
-
-   <md-ripple></md-ripple>
-  </div>
-
- </div>
-
-
- <div id="version_check_loader" hidden>
-  <md-linear-progress indeterminate></md-linear-progress>
- </div>
-
- <div id="updateMessageDiv" hidden>
-  <p id="updateMessage">New version available!</p>
- </div>
-
- <div class="top_animation_about">
-
-  <div id="animation_main_about"></div>
-
- </div>
-
-
-</div>
+      </div>
 <script>
 
 
@@ -355,7 +287,7 @@
 
 
         document.getElementById('checkUpdatesBtn').addEventListener('click', async function () {
-            const currentVersion = 'v1.9.1';
+            const currentVersion = 'v1.9.3';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
@@ -366,15 +298,12 @@
                 const data = await response.json();
                 const latestVersion = data.tag_name;
 
-                document.getElementById('version_check_loader').hidden = false;
                 document.getElementById('checkUpdatesBtn').disabled = true;
 
                 setTimeout(() => {
                     if (latestVersion !== currentVersion) {
-                        document.getElementById('updateMessage').innerText = 'New version available!';
-                        document.getElementById('version_check_loader').hidden = true;
+                       ShowSnackMessage.ShowSnack("New version available!", "long");
                         document.getElementById('checkUpdatesBtn').disabled = false;
-                        document.querySelector('#updateMessageDiv').hidden = false;
 
                         setTimeout(() => {
                             window.location.href = 'https://github.com/PranshulGG/WeatherMaster/releases';
@@ -382,29 +311,18 @@
 
 
                     } else {
-                        document.getElementById('updateMessage').innerText = 'You are using the latest version!';
-                        document.getElementById('version_check_loader').hidden = true;
+                       ShowSnackMessage.ShowSnack("You are using the latest version!", "long");
                         document.getElementById('checkUpdatesBtn').disabled = false;
-                        document.querySelector('#updateMessageDiv').hidden = false;
                     }
 
                 }, 2000);
 
-
-                setTimeout(() => {
-                    document.querySelector('#updateMessageDiv').style.opacity = '0';
-                }, 3800);
-
-                setTimeout(() => {
-                    document.querySelector('#updateMessageDiv').hidden = true;
-                    document.querySelector('#updateMessageDiv').style.opacity = '';
-                }, 4000);
             } catch (error) {
-                document.getElementById('updateMessage').innerText = 'Error checking for updates.';
+                ShowSnackMessage.ShowSnack("Error checking for updates.", "long");
+                document.getElementById('checkUpdatesBtn').disabled = false;
                 console.error('Error:', error);
             }
         });
-
 
 
 
