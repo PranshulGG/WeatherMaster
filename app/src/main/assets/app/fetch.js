@@ -26,7 +26,7 @@ function processQueue() {
   isProcessingQueue = true;
   const { lat, lon, suggestionText, refreshValue, resolve, reject } = requestQueue.shift();
 
-  fetch(`https://api.timezonedb.com/v2.1/get-time-zone?key=J8HTH6P4YTGO&format=json&by=position&lat=${lat}&lng=${lon}`)
+  fetch(`https://api.timezonedb.com/v2.1/get-time-zone?key=__&format=json&by=position&lat=${lat}&lng=${lon}`)
     .then(response => response.json())
     .then(data => {
       if (data.status === 'OK') {
@@ -147,7 +147,7 @@ function FetchWeather(lat, lon, timezone, suggestionText, refreshValue) {
 
 
   function MoreDetails(latSum, lonSum, suggestionText) {
-    fetch(`https://api.weatherapi.com/v1/forecast.json?key=ef2cb48d90984d828a8140518240209&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/forecast.json?key=__&q=${latSum},${lonSum}`)
       .then(response => response.json())
       .then(data => {
 
@@ -163,7 +163,7 @@ function FetchWeather(lat, lon, timezone, suggestionText, refreshValue) {
 
 
   function astronomyData(latSum, lonSum, suggestionText) {
-    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=ef2cb48d90984d828a8140518240209&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=__&q=${latSum},${lonSum}`)
       .then(response => response.json())
       .then(data => {
 
@@ -176,7 +176,7 @@ function FetchWeather(lat, lon, timezone, suggestionText, refreshValue) {
   FetchAlert(lat, lon, suggestionText)
 
   function FetchAlert(lat, lon, suggestionText) {
-    fetch(`https://api.weatherapi.com/v1/alerts.json?key=10baabdf43ea48d191075955241810&q=${lat},${lon}`)
+    fetch(`https://api.weatherapi.com/v1/alerts.json?key=__&q=${lat},${lon}`)
       .then(response => response.json())
       .then(data => {
 
