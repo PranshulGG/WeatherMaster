@@ -3,8 +3,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="snackbar_background">#e3e2e8</color>
-    <color name="snackbar_text">#2f3035</color>
+    <color name="snackbar_background">#e2e2e9</color>
+    <color name="snackbar_text">#2e3036</color>
 
     <!--   bg-colors -->
     <color name="C01d">#001d33</color>
@@ -34,7 +34,7 @@
     <color name="AboutBG">#101510</color>
     <color name="conditionBG">#191113</color>
     <color name="diffDefault">#0e1d2a</color>
-    <color name="yellowBg">#15130b</color>
+    <color name="yellowBg">#111318</color>
 
 <!--  default fallback  -->
         <color name="colorPrimary">#8f4c38</color>
