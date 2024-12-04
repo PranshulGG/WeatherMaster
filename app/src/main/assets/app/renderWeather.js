@@ -179,18 +179,18 @@ function HourlyWeather(data) {
 if (isRainingNow) {
     if (rainStopping) {
         document.getElementById('rainStopingText').innerHTML = rainStopping;
-            document.querySelector('.whenRain').hidden = false;
+            document.querySelector('.whenRainPill').hidden = false;
 
     } else {
-        document.querySelector('.whenRain').hidden = false;
+        document.querySelector('.whenRainPill').hidden = false;
         document.getElementById('rainStopingText').innerHTML = 'Rain is expected to continue for the next few hours';
     }
 } else if (rainComing) {
     document.getElementById('rainStopingText').innerHTML = rainComing;
-            document.querySelector('.whenRain').hidden = false;
+            document.querySelector('.whenRainPill').hidden = false;
 
 } else{
-    document.querySelector('.whenRain').hidden = true;
+    document.querySelector('.whenRainPill').hidden = true;
 }
 }
 
@@ -211,24 +211,24 @@ setChart()
 
 
     const warmingComments = [
-        getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'Warming expected over the next few days.'),
-        getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'Temperatures will rise soon, get ready for some heat!'),
-        getTranslationByLang(localStorage.getItem('AppLanguageCode'), "Looks like it's going to get warmer this week."),
-        getTranslationByLang(localStorage.getItem('AppLanguageCode'), "Prepare for warmer weather ahead."),
+        getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'warming_temp_trend_1'),
+        getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'warming_temp_trend_2'),
+        getTranslationByLang(localStorage.getItem('AppLanguageCode'), "warming_temp_trend_3"),
+        getTranslationByLang(localStorage.getItem('AppLanguageCode'), "warming_temp_trend_4"),
     ];
 
     const coolingComments = [
-        getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'Cooling expected over the next few days.'),
-        getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'Temperatures are dropping soon, stay warm!'),
-        getTranslationByLang(localStorage.getItem('AppLanguageCode'), "It's going to get cooler in the coming days."),
-        getTranslationByLang(localStorage.getItem('AppLanguageCode'), "Expect a chilly breeze over the next days."),
+        getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'cooling_temp_trend_1'),
+        getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'cooling_temp_trend_2'),
+        getTranslationByLang(localStorage.getItem('AppLanguageCode'), "cooling_temp_trend_3"),
+        getTranslationByLang(localStorage.getItem('AppLanguageCode'), "cooling_temp_trend_4"),
     ];
 
     const stableComments = [
-        getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'Stable temperatures expected in the next few days.'),
-        getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'No big temperature changes ahead, steady weather.'),
-        getTranslationByLang(localStorage.getItem('AppLanguageCode'), "Temperatures are holding steady for now."),
-        getTranslationByLang(localStorage.getItem('AppLanguageCode'), "Expect stable weather without much change."),
+        getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'stable_temp_trend_1'),
+        getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'stable_temp_trend_1'),
+        getTranslationByLang(localStorage.getItem('AppLanguageCode'), "stable_temp_trend_1"),
+        getTranslationByLang(localStorage.getItem('AppLanguageCode'), "stable_temp_trend_1"),
     ];
 
     function getRandomComment(commentsArray) {
@@ -360,7 +360,7 @@ setChart()
 
         if(dailyForecast.precipitation_sum[0] <= 0){
             document.querySelector('rainmeterbar').hidden = true
-            document.querySelector('.whenRain').hidden = true;
+            document.querySelector('.whenRainPill').hidden = true;
         } else{
             document.querySelector('rainmeterbar').hidden = false
 
@@ -663,16 +663,16 @@ function CurrentWeather(data, sunrise, sunset, lat, lon) {
 
 document.getElementById('last_updated').innerHTML = ''
 
-setTimeout(()=>{
-    if (minutesAgo > 1) {
-        document.getElementById('last_updated').innerHTML = `Updated ${minutesAgo} mins ago`;
-    } else if (minutesAgo < 1) {
-        document.getElementById('last_updated').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'updated_just_now');;
-    } else {
-        document.getElementById('last_updated').innerHTML = `Updated ${minutesAgo} min ago`;
-    }
-}, 300)
-
+//setTimeout(()=>{
+//    if (minutesAgo > 1) {
+//        document.getElementById('last_updated').innerHTML = `Updated ${minutesAgo} mins ago`;
+//    } else if (minutesAgo < 1) {
+//        document.getElementById('last_updated').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'updated_just_now');;
+//    } else {
+//        document.getElementById('last_updated').innerHTML = `Updated ${minutesAgo} min ago`;
+//    }
+//}, 300)
+//
 
 
 
