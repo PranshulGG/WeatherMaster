@@ -4,6 +4,8 @@ package com.example.weathermaster;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -11,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
@@ -22,6 +25,9 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
+import com.google.android.material.snackbar.Snackbar;
 
 public class AboutPage extends AppCompatActivity {
 
@@ -56,7 +62,8 @@ public class AboutPage extends AppCompatActivity {
         webview.setWebViewClient(new WebViewClientDemo());
         AndroidInterface androidInterface = new AndroidInterface(this);
         webview.addJavascriptInterface(androidInterface, "AndroidInterface");
-        webview.setBackgroundColor(getResources().getColor(R.color.AboutBG));
+        webview.setBackgroundColor(getResources().getColor(R.color.yellowBg));
+        webview.addJavascriptInterface(new ShowSnackInterface(this), "ShowSnackMessage");
         webSettings.setTextZoom(100);
         webSettings.setAllowFileAccess(true);
         webview.loadUrl("file:///android_asset/pages/AboutPage.html");
@@ -64,6 +71,47 @@ public class AboutPage extends AppCompatActivity {
     }
 
 
+    public class ShowSnackInterface {
+        private final Context mContext;
+
+        public ShowSnackInterface(Context context) {
+            this.mContext = context;
+        }
+
+        @JavascriptInterface
+        public void ShowSnack(final String text, final String time) {
+            int duration = Snackbar.LENGTH_SHORT;
+            if ("long".equals(time)) {
+                duration = Snackbar.LENGTH_LONG;
+            } else if ("short".equals(time)){
+                duration = Snackbar.LENGTH_SHORT;
+            }
+
+
+            Snackbar snackbar = Snackbar.make(((Activity) mContext).findViewById(android.R.id.content), text, duration);
+
+            View snackbarView = snackbar.getView();
+
+
+            snackbarView.setBackgroundResource(R.drawable.snackbar_background);
+
+
+            snackbar.setTextColor(ContextCompat.getColor(mContext, R.color.snackbar_text));
+
+
+            ViewGroup.LayoutParams params = snackbar.getView().getLayoutParams();
+            if (params instanceof ViewGroup.MarginLayoutParams) {
+                ViewGroup.MarginLayoutParams marginParams = (ViewGroup.MarginLayoutParams) params;
+                marginParams.bottomMargin = 34;
+                marginParams.leftMargin = 26;
+                marginParams.rightMargin = 26;
+                snackbar.getView().setLayoutParams(marginParams);
+            }
+
+
+            snackbar.show();
+        }
+    }
 
 
     public class AndroidInterface {
@@ -86,13 +134,13 @@ public class AboutPage extends AppCompatActivity {
 
 
                     if(color.equals("Scrolled")){
-                        statusBarColor = 0xFF1e2024;
-                        navigationBarColor = 0xFF121317;
+                        statusBarColor = 0xFF1d2024;
+                        navigationBarColor = 0xFF111318;
                         systemUiVisibilityFlags = 0;
 
                     } else if (color.equals("ScrollFalse")) {
-                        statusBarColor = 0xFF121317;
-                        navigationBarColor = 0xFF121317;
+                        statusBarColor = 0xFF111318;
+                        navigationBarColor = 0xFF111318;
                         systemUiVisibilityFlags = 0;
 
                     } else if (color.equals("GoBack")){
@@ -103,6 +151,9 @@ public class AboutPage extends AppCompatActivity {
                         return;
                     } else if (color.equals("OpenPrivacyPolicy")){
                         openPrivacyPolicy();
+                        return;
+                    } else if (color.equals("OpenContributorsPage")){
+                        OpenContributorsPage();
                         return;
                     } else if (color.equals("OpenLicenses")){
                         openThirdParty();
@@ -181,6 +232,10 @@ public class AboutPage extends AppCompatActivity {
             aActivity.startActivity(intent);
         }
 
+        public void OpenContributorsPage() {
+            Intent intent = new Intent(aActivity, contributorsPage.class);
+            aActivity.startActivity(intent);
+        }
 
     }
 
