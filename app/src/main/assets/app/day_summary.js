@@ -67,8 +67,6 @@ function GenerateSummary(data) {
 
     document.getElementById('weatherComments').innerHTML = `
         ${weatherComment}
-        <space></space>
-        <md-icon icon-outlined id="arrow_up_toggle">keyboard_arrow_down</md-icon>
     `;
 }
 
