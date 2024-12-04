@@ -67,7 +67,7 @@
     "time_format": "Formato ora",
     "additional": "Aggiuntivo",
     "app_language": "Lingua app",
-    "about": "info",
+    "about": "Info",
     "about_app": "Informazioni app",
     "support": "Supporto",
     "data_provided_by": "Dati forniti da",
@@ -153,7 +153,7 @@
     "light_t_storms": "Temporali leggeri",
     "light_flurries": "Raffiche leggere",
     "light_snow": "Neve leggera",
-    "daily_condtions": "Condizioni_giornaliere",
+    "daily_condtions": "Condizioni giornaliere",
     "wind_speed": "Velocità del vento",
     "precipitation_amount": "Quantità precipitazioni",
     "precipitation_chances": "Probabilità precipitazioni",
@@ -221,9 +221,9 @@
     "contributors_sub": "Visualizza le persone che hanno contribuito a questo progetto",
     "version": "Versione",
     "third_party_licenses": "Licenze di terze parti",
-    "clothing_activity": "Clothing and Activity",
-    "get_clothing_suggestions": "Get your Clothing and Activity Suggestions",
-    "day": "Day",
-    "evening": "Evening",
-    "night": "Night"
+    "clothing_activity": "Vestiario e attività",
+    "get_clothing_suggestions": "Ricevi i tuoi consigli su vestiario e attività",
+    "day": "Giorno",
+    "evening": "Sera",
+    "night": "Notte"
 }
