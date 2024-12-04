@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" Theme="condition_forecast_pages" data-theme="dark">
+<html lang="en" Theme="clothing" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../../ripple-files/ripple.css">
     <link rel="stylesheet" href="../../components/modal-ver.css">
     <link rel="stylesheet" href="condition_pageUI.css">
+    <script src="../../langs/langs.js"></script>
 
     <style>
         .condition_info_content::before {
@@ -35,7 +36,7 @@
     <div class="condition_info_content">
         <div class="condition_label_forecast">
             <md-icon icon-outlined>wb_twilight</md-icon>
-            <p>Sun</p>
+            <p data-translate="sun">Sun</p>
         </div>
 
         <div class="top_sunSetRise_card">
@@ -51,12 +52,12 @@
         <div class="info_about_sun">
 
             <div>
-                <span>Sunrise</span>
+                <span data-translate="sunrise">Sunrise</span>
                 <p id="SunriseTime"></p>
             </div>
 
             <div>
-                <span>Sunset</span>
+                <span data-translate="sunset">Sunset</span>
                 <p id="SunsetTime"></p>
             </div>
 
@@ -64,13 +65,13 @@
 
 
         <div class="info__forecast">
-            <span>Sunrise: When the sun fully appears above the horizon. This varies depending on location, time of year, and time zone.</span>
+            <span data-translate="sunset_rise_info">Sunrise: When the sun fully appears above the horizon. This varies depending on location, time of year, and time zone.</span>
 
-            <span>Sunset: When the sun completely disappears below the horizon. This varies depending on location, time of year, and time zone.</span>
+            <span data-translate="sunset_rise_info_2">Sunset: When the sun completely disappears below the horizon. This varies depending on location, time of year, and time zone.</span>
 
-            <span>Dawn: When the first visible light of the day appears before sunrise.</span>
+            <span data-translate="sunset_rise_info_3">Dawn: When the first visible light of the day appears before sunrise.</span>
 
-            <span style="margin-bottom: 30px;">Dusk: The darkest stage of twilight before the last visible light disappears.</span>
+            <span style="margin-bottom: 30px;" data-translate="sunset_rise_info_3">Dusk: The darkest stage of twilight before the last visible light disappears.</span>
 
 
         </div>

@@ -56,7 +56,7 @@ public class PrivacyPolicy extends AppCompatActivity {
         webview.setWebViewClient(new WebViewClientDemo());
         AndroidInterface androidInterface = new AndroidInterface(this);
         webview.addJavascriptInterface(androidInterface, "AndroidInterface");
-        webview.setBackgroundColor(getResources().getColor(R.color.mainBG));
+        webview.setBackgroundColor(getResources().getColor(R.color.yellowBg));
         webSettings.setTextZoom(100);
         webSettings.setAllowFileAccess(true);
         webview.loadUrl("file:///android_asset/pages/aboutPages/PrivacyPolicy.html");
@@ -86,13 +86,13 @@ public class PrivacyPolicy extends AppCompatActivity {
 
 
                     if(color.equals("Scrolled")){
-                        statusBarColor = 0xFF1e2024;
-                        navigationBarColor = 0xFF121317;
+                        statusBarColor = 0xFF1d2024;
+                        navigationBarColor = 0xFF111318;
                         systemUiVisibilityFlags = 0;
 
                     } else if (color.equals("ScrollFalse")) {
-                        statusBarColor = 0xFF121317;
-                        navigationBarColor = 0xFF121317;
+                        statusBarColor = 0xFF111318;
+                        navigationBarColor = 0xFF111318;
                         systemUiVisibilityFlags = 0;
 
                     } else if (color.equals("GoBack")){

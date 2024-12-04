@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" Theme="condition_forecast_pages" data-theme="dark">
+<html lang="en" Theme="clothing" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../../ripple-files/ripple.css">
     <link rel="stylesheet" href="../../components/modal-ver.css">
     <link rel="stylesheet" href="condition_pageUI.css">
+    <script src="../../langs/langs.js"></script>
 
     <style>
         .condition_info_content::before {
@@ -35,14 +36,14 @@
     <div class="condition_info_content">
         <div class="condition_label_forecast">
             <md-icon icon-outlined>sunny</md-icon>
-            <p>UV index</p>
+            <p data-translate="uv_index">UV index</p>
         </div>
 
 
         <div class="UvCard">
 
             <div class="UvInfo">
-                <span style="color: var(--On-Surface); font-family: var(--outfit-mid); font-size: 16px;">Current condition</span>
+                <span style="color: var(--On-Surface); font-family: var(--outfit-mid); font-size: 16px;" data-translate="current_conditions">Current condition</span>
                 <p id="indexValue"></p>
                 <p id="indexDescrip"></p>
             </div>
@@ -129,19 +130,19 @@
 
         <div class="info__forecast">
 
-            <span>The UV index measures the strength of the sun's ultraviolet (UV) radiation. It is on a scale of 0 to
+            <span data-translate="uv_index_info">The UV index measures the strength of the sun's ultraviolet (UV) radiation. It is on a scale of 0 to
                 11, with the higher values indicating stronger UV radiation.</span>
 
-            <span>UV radiation can cause sunburn, skin cancer, and eye damage. The higher the UV index, the greater the
+            <span data-translate="uv_index_info_2">UV radiation can cause sunburn, skin cancer, and eye damage. The higher the UV index, the greater the
                 risk of these problems.</span>
 
-            <span>1-2: Low. no protection needed. You can safely stay outside using minimal sun protection.</span>
+            <span data-translate="uv_index_info_3">1-2: Low. no protection needed. You can safely stay outside using minimal sun protection.</span>
 
-            <span>3-7: Moderate to High. Protection needed. Seek shade during late morning through mid-afternoon. When
+            <span data-translate="uv_index_info_4">3-7: Moderate to High. Protection needed. Seek shade during late morning through mid-afternoon. When
                 outside, generously apply broad-spectrum SPF-15 or higher suncreen on exposed skin, and wear protective
                 clothing, a wide-brimmed hat, and sunglasses.</span>
 
-            <span style="margin-bottom: 30px;">8+: Very High to Extreme. Extra protection needed. Be carefull outside,
+            <span style="margin-bottom: 30px;" data-translate="uv_index_info_5">8+: Very High to Extreme. Extra protection needed. Be carefull outside,
                 especially during late morning through mid-afternoon. If your shadow is shorter than you, seek shade and
                 wear protective clothing, a wide-brimmed hat, and sunglasses, and generously apply a minimum of SPF-15,
                 broad-spectrum sunscreen on exposed skin.</span>

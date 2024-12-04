@@ -56,7 +56,7 @@ public class pressureCondition extends AppCompatActivity {
         webview.setWebViewClient(new WebViewClientDemo());
         AndroidInterface androidInterface = new AndroidInterface(this);
         webview.addJavascriptInterface(androidInterface, "AndroidInterface");
-        webview.setBackgroundColor(getResources().getColor(R.color.conditionBG));
+        webview.setBackgroundColor(getResources().getColor(R.color.yellowBg));
         webSettings.setTextZoom(100);
         webSettings.setAllowFileAccess(true);
         webview.loadUrl("file:///android_asset/pages/conditions_pages/pressure_forecast.html");

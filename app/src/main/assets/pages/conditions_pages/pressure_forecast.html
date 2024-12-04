@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" Theme="condition_forecast_pages" data-theme="dark">
+<html lang="en" Theme="clothing" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../../ripple-files/ripple.css">
     <link rel="stylesheet" href="../../components/modal-ver.css">
     <link rel="stylesheet" href="condition_pageUI.css">
+    <script src="../../langs/langs.js"></script>
 
     <style>
         .condition_info_content::before {
@@ -35,13 +36,13 @@
     <div class="condition_info_content">
         <div class="condition_label_forecast">
             <md-icon icon-outlined>compress</md-icon>
-            <p>Pressure</p>
+            <p data-translate="pressure">Pressure</p>
         </div>
 
         <div class="pressureCard">
             
             <div>
-                <span>Current condition</span>
+                <span data-translate="current_conditions">Current condition</span>
                 <div>
                     <p id="pressureValue">30.09</p>
                     <p id="pressureUnit">inHg</p>
@@ -53,9 +54,9 @@
 
         <div class="info__forecast">
 
-            <span>Atmospheric pressure, also known as air pressure or baromatic pressure, is the downward pressure exerted by the earth's atmosphere. This app uses Mean Sea Level Pressure (MSLP).</span>
+            <span data-translate="pressure_info">Atmospheric pressure, also known as air pressure or baromatic pressure, is the downward pressure exerted by the earth's atmosphere. This app uses Mean Sea Level Pressure (MSLP).</span>
 
-            <span>Abnormal atmospheric pressure may cause headaches, joint pain, fatigue, and other effects.</span>
+            <span data-translate="pressure_info_2">Abnormal atmospheric pressure may cause headaches, joint pain, fatigue, and other effects.</span>
 
         </div>
 
