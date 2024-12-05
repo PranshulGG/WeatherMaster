@@ -226,9 +226,9 @@
     "day": "روز",
     "evening": "عصر",
     "night": "شب",
-    "wind_gust": "Wind gust",
-    "rain_expected_to_continue": "Rain is expected to continue for the next few hours",
-    "rain_likely_tomorrow_around": "Rain likely tomorrow around",
-    "rain_likely_around": "Rain likely around",
-    "weather_alerts": "Weather alerts"
+    "wind_gust": "شدت ناگهانی باد",
+    "rain_expected_to_continue": "بارش باران در چند ساعت آینده ادامه خواهد داشت",
+    "rain_likely_tomorrow_around": "احتمال بارش باران در طول روز فردا وجود دارد",
+    "rain_likely_around": "احتمال بارش باران وجود دارد",
+    "weather_alerts": "هشدارهای هواشناسی"
 }
