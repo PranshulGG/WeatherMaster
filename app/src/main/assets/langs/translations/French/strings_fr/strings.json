@@ -226,9 +226,9 @@
     "day": "Journée ",
     "evening": "Soir",
     "night": "Nuit",
-    "wind_gust": "Wind gust",
-    "rain_expected_to_continue": "Rain is expected to continue for the next few hours",
-    "rain_likely_tomorrow_around": "Rain likely tomorrow around",
-    "rain_likely_around": "Rain likely around",
-    "weather_alerts": "Weather alerts"
+    "wind_gust": "Rafale",
+    "rain_expected_to_continue": "La pluie devrait continuer pendant les prochaines heures",
+    "rain_likely_tomorrow_around": "Il est probable qu'il pleuve demain vers",
+    "rain_likely_around": "Pluie probable aux alentours de",
+    "weather_alerts": "Alertes météorologiques"
 }
