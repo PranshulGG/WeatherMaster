@@ -220,5 +220,10 @@
     "contributors": "Contributeurs",
     "contributors_sub": "Voir les personnes ayant contribué à ce projet",
     "version": "Version",
-    "third_party_licenses": "Licences de tiers"
+    "third_party_licenses": "Licences de tiers",
+    "clothing_activity": "Habillage et activités",
+    "get_clothing_suggestions": "Suggestions d'habillage et d'activités ",
+    "day": "Journée ",
+    "evening": "Soir",
+    "night": "Nuit"
 }
