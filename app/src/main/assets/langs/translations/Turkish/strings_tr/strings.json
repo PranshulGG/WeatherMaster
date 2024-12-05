@@ -225,5 +225,10 @@
     "get_clothing_suggestions": "Kıyafet ve Etkinlik Önerileri",
     "day": "Gün",
     "evening": "Akşam",
-    "night": "Gece"
+    "night": "Gece",
+    "wind_gust": "Wind gust",
+    "rain_expected_to_continue": "Rain is expected to continue for the next few hours",
+    "rain_likely_tomorrow_around": "Rain likely tomorrow around",
+    "rain_likely_around": "Rain likely around",
+    "weather_alerts": "Weather alerts"
 }
