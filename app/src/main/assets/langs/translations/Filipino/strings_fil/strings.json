@@ -226,9 +226,9 @@
     "day": "Araw",
     "evening": "Gabi",
     "night": "Gabi",
-    "wind_gust": "Wind gust",
-    "rain_expected_to_continue": "Rain is expected to continue for the next few hours",
-    "rain_likely_tomorrow_around": "Rain likely tomorrow around",
-    "rain_likely_around": "Rain likely around",
-    "weather_alerts": "Weather alerts"
+    "wind_gust": "Bugso ng hangin",
+    "rain_expected_to_continue": "Inaasahan na magpapatuloy ang pag-ulan sa mga susunod na oras",
+    "rain_likely_tomorrow_around": "Maaaring may ulan sa paligid bukas",
+    "rain_likely_around": "Maaaring may ulan sa paligid",
+    "weather_alerts": "Mga alerto sa panahon"
 }

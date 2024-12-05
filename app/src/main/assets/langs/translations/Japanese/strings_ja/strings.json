@@ -56,7 +56,7 @@
     "custom_font_isn't_supported": "Custom font isn't supported",
     "hide_the_new_update_snack": "Hide the 'New update Available' Toast after 5 seconds",
     "rounded_ui": "丸みを帯びたUI",
-    "use_the_default_material_corner_radius": "Use the default Material corner radius",
+    "use_the_default_material_corner_radius": "デフォルトのマテリアルの角の半径を使う",
     "use_bar_chart": "棒グラフを使う",
     "main_provider": "メインのプロバイダー",
     "temperature_unit": "温度の単位",
@@ -70,7 +70,7 @@
     "about": "about",
     "about_app": "アプリについて",
     "support": "サポート",
-    "data_provided_by": "Data provided by",
+    "data_provided_by": "データの提供",
     "map": "地図",
     "live_radar": "ライブレーダー",
     "radar": "レーダー",
@@ -217,7 +217,7 @@
     "temperature_animation": "Temperature animation",
     "language": "言語",
     "translate_this_app": "このアプリを翻訳する",
-    "contributors": "Contributors",
+    "contributors": "貢献者",
     "contributors_sub": "View people who contributed to this project",
     "version": "バージョン",
     "third_party_licenses": "サードパーティーライセンス",
@@ -230,5 +230,5 @@
     "rain_expected_to_continue": "Rain is expected to continue for the next few hours",
     "rain_likely_tomorrow_around": "Rain likely tomorrow around",
     "rain_likely_around": "Rain likely around",
-    "weather_alerts": "Weather alerts"
+    "weather_alerts": "天気警報"
 }
