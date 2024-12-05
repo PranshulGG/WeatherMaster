@@ -100,7 +100,7 @@
     "sunset_rise_info_2": "Por do sol: quando o Sol se põe sob o horizonte. Este varia dependendo do local, tempo do ano e fuso horário.",
     "sunset_rise_info_3": "Alvorada: quando a primeira luz do dia aparece antes do amanhecer.",
     "sunset_rise_info_4": "Ocaso: o estagio mais escuro do crepúsculo vespertino, antes da última luz desaparecer.",
-    "pressure_info": "Pressão atmosférica, também conhecida como pressão barométrica, é a pressão exercida pela atmosfera terrestre. Este aplicativo usa a pressão a nível médio do mar (NMM).",
+    "pressure_info": "Pressão atmosférica, também conhecida como pressão barométrica, é a pressão exercida pela atmosfera terrestre. Este aplicativo usa a pressão a nível médio do mar (MSLP).",
     "pressure_info_2": "Pressão atmosférica anormal pode causar cefaleia, dor nas juntas, fadiga e outros sintomas.",
     "current_conditions": "Condições atuais",
     "clear_sky": "Céu limpo",
@@ -226,9 +226,9 @@
     "day": "Dia",
     "evening": "Entardecer",
     "night": "Noite",
-    "wind_gust": "Wind gust",
-    "rain_expected_to_continue": "Rain is expected to continue for the next few hours",
-    "rain_likely_tomorrow_around": "Rain likely tomorrow around",
-    "rain_likely_around": "Rain likely around",
-    "weather_alerts": "Weather alerts"
+    "wind_gust": "Rajada de vento",
+    "rain_expected_to_continue": "A chuva vai continuar durante as próximas horas",
+    "rain_likely_tomorrow_around": "Provavelmente chove amanhã",
+    "rain_likely_around": "Provavelmente chova",
+    "weather_alerts": "Alertas de tempo"
 }
