@@ -26,7 +26,7 @@ function processQueue() {
   isProcessingQueue = true;
   const { lat, lon, suggestionText, refreshValue, resolve, reject } = requestQueue.shift();
 
-  fetch(`https://api.timezonedb.com/v2.1/get-time-zone?key=__&format=json&by=position&lat=${lat}&lng=${lon}`)
+  fetch(`https://api.timezonedb.com/v2.1/get-time-zone?key=KEY&format=json&by=position&lat=${lat}&lng=${lon}`)
     .then(response => response.json())
     .then(data => {
       if (data.status === 'OK') {
@@ -147,7 +147,7 @@ function FetchWeather(lat, lon, timezone, suggestionText, refreshValue) {
 
 
   function MoreDetails(latSum, lonSum, suggestionText) {
-    fetch(`https://api.weatherapi.com/v1/forecast.json?key=__&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/forecast.json?key=KEY&q=${latSum},${lonSum}`)
       .then(response => response.json())
       .then(data => {
 
@@ -163,7 +163,7 @@ function FetchWeather(lat, lon, timezone, suggestionText, refreshValue) {
 
 
   function astronomyData(latSum, lonSum, suggestionText) {
-    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=__&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=KEY&q=${latSum},${lonSum}`)
       .then(response => response.json())
       .then(data => {
 
@@ -176,7 +176,7 @@ function FetchWeather(lat, lon, timezone, suggestionText, refreshValue) {
   FetchAlert(lat, lon, suggestionText)
 
   function FetchAlert(lat, lon, suggestionText) {
-    fetch(`https://api.weatherapi.com/v1/alerts.json?key=__&q=${lat},${lon}`)
+    fetch(`https://api.weatherapi.com/v1/alerts.json?key=KEY&q=${lat},${lon}`)
       .then(response => response.json())
       .then(data => {
 
@@ -205,12 +205,13 @@ function FetchWeather(lat, lon, timezone, suggestionText, refreshValue) {
 function FetchOpenMeteo(lat, lon, timezone, suggestionText, refreshValue) {
 
   const currentSelectedProvider = localStorage.getItem('selectedMainWeatherProvider');
+ const WeatherModel = localStorage.getItem('selectedWeatherModel') || 'best_match';
 
   if (currentSelectedProvider === 'dwdGermany' || currentSelectedProvider === 'noaaUS' || currentSelectedProvider === 'meteoFrance' || currentSelectedProvider === 'ecmwf' || currentSelectedProvider === 'ukMetOffice' || currentSelectedProvider === 'jmaJapan' || currentSelectedProvider === 'gemCanada' || currentSelectedProvider === 'bomAustralia' || currentSelectedProvider === 'cmaChina' || currentSelectedProvider === 'knmiNetherlands' || currentSelectedProvider === 'dmiDenmark') {
 
 
   } else {
-    fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,is_day,apparent_temperature,pressure_msl,relative_humidity_2m,precipitation,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m,wind_gusts_10m&hourly=wind_speed_10m,wind_direction_10m,relative_humidity_2m,pressure_msl,cloud_cover,temperature_2m,dew_point_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,visibility,uv_index&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,daylight_duration,uv_index_max,precipitation_sum,daylight_duration,precipitation_probability_max,precipitation_hours,wind_speed_10m_max,wind_gusts_10m_max&timezone=${timezone}&forecast_days=14&forecast_hours=24`)
+    fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,is_day,apparent_temperature,pressure_msl,relative_humidity_2m,precipitation,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m,wind_gusts_10m&hourly=wind_speed_10m,wind_direction_10m,relative_humidity_2m,pressure_msl,cloud_cover,temperature_2m,dew_point_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,visibility,uv_index&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,daylight_duration,uv_index_max,precipitation_sum,daylight_duration,precipitation_probability_max,precipitation_hours,wind_speed_10m_max,wind_gusts_10m_max&timezone=${timezone}&forecast_days=14&forecast_hours=24&models=${WeatherModel}`)
       .then(response => response.json())
       .then(data => {
 
@@ -413,14 +414,15 @@ function renderLatestData(lat, lon, suggestionText, refreshValue) {
 
   } else if (refreshValue) {
     if (refreshValue === 'no_data_render') {
-
+ onAllLocationsLoaded()
     } else if(refreshValue === `Refreshed_${suggestionText}`) {
       setTimeout(() => {
        AndroidInterface.updateStatusBarColor('StopRefreshingLoader');
         document.querySelector('.no_touch_screen').hidden = true;
         LoadLocationOnRequest(lat, lon, suggestionText)
         document.getElementById('last_updated').innerHTML = `Updated, just now`;
-        ShowSnackMessage.ShowSnack("Latest data fetched", "short");
+    ShowSnackMessage.ShowSnack(getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'latest_data_fetched'), "short");
+
                onAllLocationsLoaded()
         createWidgetData()
       }, 1500)
