@@ -18,7 +18,7 @@
             .padding_about_app{
                 padding: 15px;
                 overflow: auto;
-                height: calc(100vh - 30px - 71px);
+                height: calc(100vh - 0px - 71px);
                 padding-top: 0;
             }
 
@@ -92,11 +92,11 @@
             .head_area_about_page{
                 display: flex;
                 align-items: center;
-                justify-content: center;
+                justify-content: space-between;
                 font-size: 30px;
                 color: var(--On-Surface);
                 font-family: var(--google-normal);
-                padding: 17px;
+                padding: 15px;
                 position: relative;
                 background-color: var(--Surface);
             }
@@ -125,13 +125,17 @@
                 width: calc(100% - 50px);
                 color: var(--On-Surface-Variant);
             }
+
+         .small_items_info_about_page:last-child{
+                margin-bottom: 30px;
+            }
     </style>
 </head>
 
-<body class="center_all" style="--md-list-item-label-text-size: 1.15rem; --md-list-item-pressed-state-layer-opacity: 0.15; --md-ref-typeface-plain: var(--google-normal); background-color: var(--Surface);">
+<body class="center_all" style="--md-list-item-label-text-size: 1.15rem; --md-list-item-pressed-state-layer-opacity: 0.15; --md-ref-typeface-plain: var(--google-normal); background-color: var(--Surface); overflow: hidden;">
 <div class="head_area_about_page">
-    <p>Contributors</p>
-    <md-icon-button style="position: absolute; right: 5px;" onclick="sendThemeToAndroid('GoBack')"><md-icon icon-outlined>close</md-icon></md-icon-button>
+    <p data-translate="contributors">Contributors</p>
+    <md-icon-button onclick="sendThemeToAndroid('GoBack')"><md-icon icon-outlined>close</md-icon></md-icon-button>
 </div>
 <div class="padding_about_app">
 
@@ -186,95 +190,155 @@
 
     <p class="title" style="padding: 10px; margin: 0; font-size: 24px; color: var(--Primary); padding-bottom: 0; padding-top: 25px;">Translators</p>
 
-    <div class="small_items_info_about_page">
-        <p>Behnam Rostami</p>
-        <span>Translator</span>
+    <div id="translators-container">
+        <div style="display: flex; align-items: center; justify-content: center; padding: 20px;">
+            <md-circular-progress indeterminate></md-circular-progress>
+
+        </div>
     </div>
-
-    <div class="small_items_info_about_page">
-        <p>Kisyo Okuda</p>
-        <span>Translator</span>
-    </div>
-
-    <div class="small_items_info_about_page">
-        <p>Montero </p>
-        <span>Translator</span>
-    </div>
-
-    <div class="small_items_info_about_page">
-        <p>ÇAĞLAR AVCIOĞLU  </p>
-        <span>Translator</span>
-    </div>
-
-    <div class="small_items_info_about_page">
-        <p>maxitendo  </p>
-        <span>Translator</span>
-    </div>
-
-    <div class="small_items_info_about_page">
-        <p>Haruki   </p>
-        <span>Translator</span>
-    </div>
-
-    <div class="small_items_info_about_page">
-        <p>TenderGlow </p>
-        <span>Translator</span>
-    </div>
-
-    <div class="small_items_info_about_page">
-        <p>Serkan Şentürk  </p>
-        <span>Translator</span>
-    </div>
-
-    <div class="small_items_info_about_page">
-        <p>Lococint Lococint   </p>
-        <span>Translator</span>
-    </div>
-
-    <div class="small_items_info_about_page">
-        <p>Driving Cam530 </p>
-        <span>Translator</span>
-    </div>
-
-    <div class="small_items_info_about_page">
-        <p>나이수 </p>
-        <span>Translator</span>
-    </div>
-
-    <div class="small_items_info_about_page">
-        <p>Girl-lass </p>
-        <span>Translator</span>
-    </div>
-
-    <div class="small_items_info_about_page">
-        <p>Justus </p>
-        <span>Translator</span>
-    </div>
-
-    <div class="small_items_info_about_page">
-        <p>Sigma  </p>
-        <span>Translator</span>
-    </div>
-
-
-    <div class="small_items_info_about_page">
-        <p>Stzyxh</p>
-        <span>Translator</span>
-    </div>
-
-    <div class="small_items_info_about_page">
-        <p>Hussain </p>
-        <span>Translator</span>
-    </div>
-
-    <div class="small_items_info_about_page">
-        <p>Rammstein </p>
-        <span>Translator</span>
     </div>
 </div>
 
 <script>
 
+async function fetchTranslators() {
+    const projectId = 'ID';
+    const apiToken = 'ID';
+
+    try {
+        const response = await fetch(`https://api.crowdin.com/api/v2/projects/${projectId}/members`, {
+            headers: {
+                'Authorization': `Bearer ${apiToken}`,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error fetching members: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+
+        // Filter to get only Translators
+        const translators = data.data.filter(member => member.data.role === 'translator')
+                                      .map(member => ({
+                                          name: member.data.username,
+                                          fullName: member.data.fullName,
+                                          role: member.data.role,
+                                      }));
+
+        // Save only translators to localStorage
+        localStorage.setItem('translatorsData', JSON.stringify(translators));
+
+        return translators;
+    } catch (error) {
+        console.error('Error fetching translators:', error);
+
+        // Fallback to localStorage
+        const savedData = localStorage.getItem('translatorsData');
+        if (savedData) {
+            console.warn('Loading translators from localStorage due to API failure.');
+            return JSON.parse(savedData);
+        }
+
+        return [];
+    }
+}
+
+async function displayTranslators() {
+    const translators = await fetchTranslators();
+    const container = document.getElementById('translators-container'); // Parent div where the new divs will go
+
+    // Clear the container before adding translators
+    container.innerHTML = '';
+
+    translators.forEach(({ name, fullName, role }) => {
+        // Create a new div
+        const translatorDiv = document.createElement('div');
+        translatorDiv.className = 'small_items_info_about_page';
+
+        // Add content to the div
+        translatorDiv.innerHTML = `
+            <p>${fullName} (${name})</p>
+            <span>${capitalizeFirstLetter(role)}</span>
+        `;
+
+        // Append the div to the container
+        container.appendChild(translatorDiv);
+    });
+}
+
+// Utility function to capitalize the first letter of the role
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+// Call the function to fetch data and display translators
+displayTranslators();
+
+function hexToRgb(hex) {
+    const bigint = parseInt(hex.slice(1), 16);
+    return {
+        r: (bigint >> 16) & 255,
+        g: (bigint >> 8) & 255,
+        b: bigint & 255
+    };
+}
+
+function rgbToHsl({ r, g, b }) {
+    r /= 255;
+    g /= 255;
+    b /= 255;
+
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    let h, s, l = (max + min) / 2;
+
+    if (max === min) {
+        h = s = 0; // Achromatic
+    } else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+    }
+
+    return { h: h * 360, s: s * 100, l: l * 100 };
+}
+
+function CreateMaterialYouTheme(hex) {
+    const colors = {
+        orange_material: "#FFA500",
+        red_material: "#FF0000",
+        pink_material: "#FFC0CB",
+        purple_material: "#800080",
+        blue_material: "#0000FF",
+        yellow_material: "#FFFF00",
+        green_material: "#008000"
+    };
+
+    const targetHsl = rgbToHsl(hexToRgb(hex));
+    let closestColor = null;
+    let smallestHueDifference = Infinity;
+
+    for (const [color, colorHex] of Object.entries(colors)) {
+        const colorHsl = rgbToHsl(hexToRgb(colorHex));
+        const hueDifference = Math.abs(targetHsl.h - colorHsl.h);
+
+        if (hueDifference < smallestHueDifference) {
+            smallestHueDifference = hueDifference;
+            closestColor = color;
+        }
+    }
+
+    document.documentElement.setAttribute('Theme', closestColor);
+    sendThemeToAndroid(`${closestColor}_ScrollFalse`);
+}
 
         const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
         if (AppLanguageCodeValue) {
