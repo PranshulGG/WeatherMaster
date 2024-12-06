@@ -131,7 +131,7 @@ const DefaultLocation = JSON.parse(localStorage.getItem('DefaultLocation'));
 
   let conditionMain;
 
-  conditionMain = getWeatherLabelWidgetLang(weatherData.current.weather_code, 'en');
+  conditionMain = getWeatherLabelWidgetLang(weatherData.current.weather_code, weatherData.current.is_day,localStorage.getItem('AppLanguageCode'));
 
   // ----------
 

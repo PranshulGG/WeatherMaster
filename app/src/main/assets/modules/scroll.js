@@ -14,8 +14,8 @@ weatherWrap.addEventListener('scroll', function() {
             const scrollPosition = weatherWrap.scrollTop;
             const newHeight = Math.max(minHeight, maxHeight - scrollPosition);
             const newOpacity = Math.max(minOpacity, maxOpacity - (scrollPosition / maxHeight));
-            mainWeat.style.opacity = `${newOpacity}`;
-            mainWeat.style.opacity = newOpacity;
+//            mainWeat.style.opacity = `${newOpacity}`;
+//            mainWeat.style.opacity = newOpacity;
                         document.querySelector('.froggie').style.opacity = newOpacity;
 
                                               if(scrollPosition > 100){

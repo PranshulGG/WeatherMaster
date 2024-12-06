@@ -37,30 +37,30 @@
     <color name="yellowBg">#111318</color>
 
 <!--  default fallback  -->
-        <color name="colorPrimary">#8f4c38</color>
+        <color name="colorPrimary">#415f91</color>
         <color name="colorOnPrimary">#ffffff</color>
-        <color name="colorPrimaryContainer">#ffdbd1</color>
-        <color name="colorOnPrimaryContainer">#3a0b01</color>
+        <color name="colorPrimaryContainer">#d6e3ff</color>
+        <color name="colorOnPrimaryContainer">#001b3e</color>
 
-        <color name="colorSecondary">#77574e</color>
+        <color name="colorSecondary">#565f71</color>
         <color name="colorOnSecondary">#ffffff</color>
-        <color name="colorSecondaryContainer">#ffdbd1</color>
-        <color name="colorOnSecondaryContainer">#2c150f</color>
+        <color name="colorSecondaryContainer">#dae2f9</color>
+        <color name="colorOnSecondaryContainer">#131c2b</color>
 
-        <color name="colorTertiary">#6c5d2f</color>
+        <color name="colorTertiary">#705575</color>
         <color name="colorOnTertiary">#ffffff</color>
-        <color name="colorTertiaryContainer">#f5e1a7</color>
-        <color name="colorOnTertiaryContainer">#231b00</color>
+        <color name="colorTertiaryContainer">#fad8fd</color>
+        <color name="colorOnTertiaryContainer">#28132e</color>
 
-        <color name="colorBackground">#fff8f6</color>
-        <color name="colorOnBackground">#231917</color>
-        <color name="colorSurface">#fff8f6</color>
-        <color name="colorOnSurface">#231917</color>
+        <color name="colorBackground">#f9f9ff</color>
+        <color name="colorOnBackground">#191c20</color>
+        <color name="colorSurface">#f9f9ff</color>
+        <color name="colorOnSurface">#191c20</color>
 
-        <color name="colorSurfaceContainer">#fceae5</color>
+        <color name="colorSurfaceContainer">#ededf4</color>
 
-        <color name="colorSurfaceVariant">#e8d6d2</color>
-        <color name="colorOnSurfaceVariant">#53433f</color>
+        <color name="colorSurfaceVariant">#d9d9e0</color>
+        <color name="colorOnSurfaceVariant">#44474e</color>
 
         <color name="colorError">#ba1a1a</color>
         <color name="colorOnError">#ffffff</color>

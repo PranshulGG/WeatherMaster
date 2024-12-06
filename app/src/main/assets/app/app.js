@@ -9,7 +9,7 @@ let currentKeyMoonIndex = 0;
 let currentAstronomyKeyIndex = 0;
 
 function WaitBeforeRefresh() {
-    ShowSnackMessage.ShowSnack("Please wait before refreshing again.", "long");
+    ShowSnackMessage.ShowSnack(getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'Please_wait_before_refreshing_again.'), "long");
 }
 
 
@@ -158,7 +158,7 @@ if (navigator.onLine) {
         }
 
     setTimeout(() =>{
-        ShowSnackMessage.ShowSnack("Network unavailable", "long");
+      ShowSnackMessage.ShowSnack(getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'network_unavailable'), "long");
     }, 2000)
 
 }
@@ -386,7 +386,7 @@ function GetSavedSearchLocation() {
         saveLocationToContainer(searchedItem.LocationName, searchedItem.latitude, searchedItem.longitude)
     }
 
-    ShowSnackMessage.ShowSnack("Loading location data", "short");
+    ShowSnackMessage.ShowSnack(getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'loading_location_data'), "long");
 
 }
 
@@ -424,7 +424,6 @@ async function loadSavedLocations() {
     const savedLocationsHolder = document.querySelector('savedLocationsHolder');
     const savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
 
- CheckLocationDatas()
 
     savedLocationsHolder.innerHTML = ''
 
@@ -447,8 +446,9 @@ async function loadSavedLocations() {
         const savedLocationItemLon = savedLocationItem.getAttribute('lon');
 
         let temp = '0'
-        let icon = '../icons/error.png'
-        let conditionlabel = 'Loading, please wait..'
+        let icon = ''
+        let showReloadBtn = 'hidden';
+        let conditionlabel = 'Refresh the location'
         if (localStorage.getItem('selectedMainWeatherProvider') === 'Met norway' && JSON.parse(localStorage.getItem(`WeatherDataMetNorway_${location.locationName}`))) {
             const data = JSON.parse(localStorage.getItem(`WeatherDataMetNorway_${location.locationName}`));
 
@@ -462,20 +462,15 @@ async function loadSavedLocations() {
                 icon = getMetNorwayIcons(data.properties.timeseries[0].data.next_1_hours.summary.symbol_code)
 
                 conditionlabel = getMetNorwayWeatherLabelInLangNoAnim(data.properties.timeseries[0].data.next_1_hours.summary.symbol_code, localStorage.getItem('AppLanguageCode'))
+
+
+                showReloadBtn = 'hidden';
             }
+
 
 
         } else if (localStorage.getItem('selectedMainWeatherProvider') === 'Met norway' && !JSON.parse(localStorage.getItem(`WeatherDataMetNorway_${location.locationName}`))) {
-            const lastCallTimeKey = `DecodeWeatherLastCallMet_${location.locationName}`;
-            const currentTime = Date.now();
-            const lastCallTime = localStorage.getItem(lastCallTimeKey);
-
-            const timeLimit = 10 * 1000; // 10 seconds
-
-            if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                await DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
-                localStorage.setItem(lastCallTimeKey, currentTime);
-            }
+                 showReloadBtn = ' ';
         }
         else if (localStorage.getItem('ApiForAccu') && localStorage.getItem('selectedMainWeatherProvider') === 'Accuweather' && JSON.parse(localStorage.getItem(`WeatherDataAccuCurrent_${location.locationName}`))) {
             const data = JSON.parse(localStorage.getItem(`WeatherDataAccuCurrent_${location.locationName}`));
@@ -491,20 +486,14 @@ async function loadSavedLocations() {
 
                 icon = GetWeatherIconAccu(data[0].WeatherIcon)
                 conditionlabel = GetWeatherTextAccuNoAnim(data[0].WeatherIcon)
+                showReloadBtn = 'hidden';
+
             }
 
         } else if (localStorage.getItem('ApiForAccu') && localStorage.getItem('selectedMainWeatherProvider') === 'Accuweather' && !JSON.parse(localStorage.getItem(`WeatherDataAccuCurrent_${location.locationName}`))) {
-            const lastCallTimeKey = `DecodeWeatherLastCall_${location.locationName}`;
-            const currentTime = Date.now();
-            const lastCallTime = localStorage.getItem(lastCallTimeKey);
 
-            const timeLimit = 10 * 1000; // 10 seconds
+                 showReloadBtn = '';
 
-            if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                await DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
-                localStorage.setItem(lastCallTimeKey, currentTime);
-
-            }
 
         }
 
@@ -521,19 +510,14 @@ async function loadSavedLocations() {
                 icon = GetWeatherIcon(data.current.weather_code, data.current.is_day);
 
                 conditionlabel = getWeatherLabelInLangNoAnim(data.current.weather_code, data.current.is_day, localStorage.getItem('AppLanguageCode'))
+
+                showReloadBtn = 'hidden';
+
             }
 
         } else if (localStorage.getItem('selectedMainWeatherProvider') === 'dwdGermany' && !JSON.parse(localStorage.getItem(`WeatherDataDWDGermany_${location.locationName}`))) {
-            const lastCallTimeKey = `DecodeWeatherLastCalldwdGermany_${location.locationName}`;
-            const currentTime = Date.now();
-            const lastCallTime = localStorage.getItem(lastCallTimeKey);
 
-            const timeLimit = 10 * 1000; // 10 seconds
-
-            if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                await DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
-                localStorage.setItem(lastCallTimeKey, currentTime);
-            }
+                 showReloadBtn = '';
 
         }
         else if (localStorage.getItem('selectedMainWeatherProvider') === 'noaaUS' && JSON.parse(localStorage.getItem(`WeatherDataNOAAUS_${location.locationName}`))) {
@@ -549,18 +533,13 @@ async function loadSavedLocations() {
                 icon = GetWeatherIcon(data.current.weather_code, data.current.is_day);
 
                 conditionlabel = getWeatherLabelInLangNoAnim(data.current.weather_code, data.current.is_day, localStorage.getItem('AppLanguageCode'));
+
+                showReloadBtn = 'hidden';
+
             }
         } else if (localStorage.getItem('selectedMainWeatherProvider') === 'noaaUS' && !JSON.parse(localStorage.getItem(`WeatherDataNOAAUS_${location.locationName}`))) {
-            const lastCallTimeKey = `DecodeWeatherLastCallnoaaUS_${location.locationName}`;
-            const currentTime = Date.now();
-            const lastCallTime = localStorage.getItem(lastCallTimeKey);
+                 showReloadBtn = '';
 
-            const timeLimit = 10 * 1000; // 10 seconds
-
-            if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                await DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
-                localStorage.setItem(lastCallTimeKey, currentTime);
-            }
         }
         else if (localStorage.getItem('selectedMainWeatherProvider') === 'meteoFrance' && JSON.parse(localStorage.getItem(`WeatherDataMeteoFrance_${location.locationName}`))) {
             const data = JSON.parse(localStorage.getItem(`WeatherDataMeteoFrance_${location.locationName}`));
@@ -575,18 +554,13 @@ async function loadSavedLocations() {
                 icon = GetWeatherIcon(data.current.weather_code, data.current.is_day);
 
                 conditionlabel = getWeatherLabelInLangNoAnim(data.current.weather_code, data.current.is_day, localStorage.getItem('AppLanguageCode'));
+
+                showReloadBtn = 'hidden';
+
             }
         } else if (localStorage.getItem('selectedMainWeatherProvider') === 'meteoFrance' && !JSON.parse(localStorage.getItem(`WeatherDataMeteoFrance_${location.locationName}`))) {
-            const lastCallTimeKey = `DecodeWeatherLastCallmeteoFrance_${location.locationName}`;
-            const currentTime = Date.now();
-            const lastCallTime = localStorage.getItem(lastCallTimeKey);
+                 showReloadBtn = '';
 
-            const timeLimit = 10 * 1000; // 10 seconds
-
-            if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                await DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
-                localStorage.setItem(lastCallTimeKey, currentTime);
-            }
         }
         else if (localStorage.getItem('selectedMainWeatherProvider') === 'ecmwf' && JSON.parse(localStorage.getItem(`WeatherDataECMWF_${location.locationName}`))) {
             const data = JSON.parse(localStorage.getItem(`WeatherDataECMWF_${location.locationName}`));
@@ -601,19 +575,13 @@ async function loadSavedLocations() {
                 icon = GetWeatherIcon(data.current.weather_code, data.current.is_day);
 
                 conditionlabel = getWeatherLabelInLangNoAnim(data.current.weather_code, data.current.is_day, localStorage.getItem('AppLanguageCode'));
+
+                showReloadBtn = 'hidden';
+
             }
         } else if (localStorage.getItem('selectedMainWeatherProvider') === 'ecmwf' && !JSON.parse(localStorage.getItem(`WeatherDataECMWF_${location.locationName}`))) {
-            const lastCallTimeKey = `DecodeWeatherLastCallecmwf_${location.locationName}`;
-            const currentTime = Date.now();
-            const lastCallTime = localStorage.getItem(lastCallTimeKey);
+                 showReloadBtn = ' ';
 
-            const timeLimit = 10 * 1000; // 10 seconds
-
-
-            if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                await DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
-                localStorage.setItem(lastCallTimeKey, currentTime);
-            }
         }
         else if (localStorage.getItem('selectedMainWeatherProvider') === 'ukMetOffice' && JSON.parse(localStorage.getItem(`WeatherDataukMetOffice_${location.locationName}`))) {
             const data = JSON.parse(localStorage.getItem(`WeatherDataukMetOffice_${location.locationName}`));
@@ -628,18 +596,14 @@ async function loadSavedLocations() {
                 icon = GetWeatherIcon(data.current.weather_code, data.current.is_day);
 
                 conditionlabel = getWeatherLabelInLangNoAnim(data.current.weather_code, data.current.is_day, localStorage.getItem('AppLanguageCode'));
+
+                showReloadBtn = 'hidden';
+
             }
         } else if (localStorage.getItem('selectedMainWeatherProvider') === 'ukMetOffice' && !JSON.parse(localStorage.getItem(`WeatherDataukMetOffice_${location.locationName}`))) {
-            const lastCallTimeKey = `DecodeWeatherLastCallukMetOffice_${location.locationName}`;
-            const currentTime = Date.now();
-            const lastCallTime = localStorage.getItem(lastCallTimeKey);
+                 showReloadBtn = '';
 
-            const timeLimit = 10 * 1000; // 10 seconds
 
-            if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                await DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
-                localStorage.setItem(lastCallTimeKey, currentTime);
-            }
         }
         else if (localStorage.getItem('selectedMainWeatherProvider') === 'jmaJapan' && JSON.parse(localStorage.getItem(`WeatherDataJMAJapan_${location.locationName}`))) {
             const data = JSON.parse(localStorage.getItem(`WeatherDataJMAJapan_${location.locationName}`));
@@ -654,18 +618,13 @@ async function loadSavedLocations() {
                 icon = GetWeatherIcon(data.current.weather_code, data.current.is_day);
 
                 conditionlabel = getWeatherLabelInLangNoAnim(data.current.weather_code, data.current.is_day, localStorage.getItem('AppLanguageCode'));
+
+                showReloadBtn = 'hidden';
+
             }
         } else if (localStorage.getItem('selectedMainWeatherProvider') === 'jmaJapan' && !JSON.parse(localStorage.getItem(`WeatherDataJMAJapan_${location.locationName}`))) {
-            const lastCallTimeKey = `DecodeWeatherLastCalljmaJapan_${location.locationName}`;
-            const currentTime = Date.now();
-            const lastCallTime = localStorage.getItem(lastCallTimeKey);
+                 showReloadBtn = ' ';
 
-            const timeLimit = 10 * 1000; // 10 seconds
-
-            if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                await DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
-                localStorage.setItem(lastCallTimeKey, currentTime);
-            }
         }
 
         else if (localStorage.getItem('selectedMainWeatherProvider') === 'gemCanada' && JSON.parse(localStorage.getItem(`WeatherDatagemCanada_${location.locationName}`))) {
@@ -681,19 +640,13 @@ async function loadSavedLocations() {
                 icon = GetWeatherIcon(data.current.weather_code, data.current.is_day);
 
                 conditionlabel = getWeatherLabelInLangNoAnim(data.current.weather_code, data.current.is_day, localStorage.getItem('AppLanguageCode'));
+
+                showReloadBtn = 'hidden';
+
             }
         } else if (localStorage.getItem('selectedMainWeatherProvider') === 'gemCanada' && !JSON.parse(localStorage.getItem(`WeatherDatagemCanada_${location.locationName}`))) {
-            const lastCallTimeKey = `DecodeWeatherLastCallgemCanada_${location.locationName}`;
-            const currentTime = Date.now();
-            const lastCallTime = localStorage.getItem(lastCallTimeKey);
+                 showReloadBtn = ' ';
 
-            const timeLimit = 10 * 1000; // 10 seconds
-
-
-            if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                await DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
-                localStorage.setItem(lastCallTimeKey, currentTime);
-            }
         }
         else if (localStorage.getItem('selectedMainWeatherProvider') === 'bomAustralia' && JSON.parse(localStorage.getItem(`WeatherDatabomAustralia_${location.locationName}`))) {
             const data = JSON.parse(localStorage.getItem(`WeatherDatabomAustralia_${location.locationName}`));
@@ -708,20 +661,13 @@ async function loadSavedLocations() {
                 icon = GetWeatherIcon(data.current.weather_code, data.current.is_day);
 
                 conditionlabel = getWeatherLabelInLangNoAnim(data.current.weather_code, data.current.is_day, localStorage.getItem('AppLanguageCode'));
+
+                showReloadBtn = 'hidden';
+
             }
         } else if (localStorage.getItem('selectedMainWeatherProvider') === 'bomAustralia' && !JSON.parse(localStorage.getItem(`WeatherDatabomAustralia_${location.locationName}`))) {
-            const lastCallTimeKey = `DecodeWeatherLastCallbomAustralia_${location.locationName}`;
-            const currentTime = Date.now();
-            const lastCallTime = localStorage.getItem(lastCallTimeKey);
+                 showReloadBtn = ' ';
 
-            const timeLimit = 10 * 1000; // 10 seconds
-
-
-
-            if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                await DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
-                localStorage.setItem(lastCallTimeKey, currentTime);
-            }
         }
         else if (localStorage.getItem('selectedMainWeatherProvider') === 'cmaChina' && JSON.parse(localStorage.getItem(`WeatherDatacmaChina_${location.locationName}`))) {
             const data = JSON.parse(localStorage.getItem(`WeatherDatacmaChina_${location.locationName}`));
@@ -736,19 +682,13 @@ async function loadSavedLocations() {
                 icon = GetWeatherIcon(data.current.weather_code, data.current.is_day);
 
                 conditionlabel = getWeatherLabelInLangNoAnim(data.current.weather_code, data.current.is_day, localStorage.getItem('AppLanguageCode'));
+
+                showReloadBtn = 'hidden';
+
             }
         } else if (localStorage.getItem('selectedMainWeatherProvider') === 'cmaChina' && !JSON.parse(localStorage.getItem(`WeatherDatacmaChina_${location.locationName}`))) {
-            const lastCallTimeKey = `DecodeWeatherLastCallcmaChina_${location.locationName}`;
-            const currentTime = Date.now();
-            const lastCallTime = localStorage.getItem(lastCallTimeKey);
+                 showReloadBtn = ' ';
 
-            const timeLimit = 10 * 1000; // 10 seconds
-
-
-            if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                await DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
-                localStorage.setItem(lastCallTimeKey, currentTime);
-            }
         }
         else if (localStorage.getItem('selectedMainWeatherProvider') === 'knmiNetherlands' && JSON.parse(localStorage.getItem(`WeatherDataknmiNetherlands_${location.locationName}`))) {
             const data = JSON.parse(localStorage.getItem(`WeatherDataknmiNetherlands_${location.locationName}`));
@@ -763,19 +703,13 @@ async function loadSavedLocations() {
                 icon = GetWeatherIcon(data.current.weather_code, data.current.is_day);
 
                 conditionlabel = getWeatherLabelInLangNoAnim(data.current.weather_code, data.current.is_day, localStorage.getItem('AppLanguageCode'));
+
+                showReloadBtn = 'hidden';
+
             }
         } else if (localStorage.getItem('selectedMainWeatherProvider') === 'knmiNetherlands' && !JSON.parse(localStorage.getItem(`WeatherDataknmiNetherlands_${location.locationName}`))) {
-            const lastCallTimeKey = `DecodeWeatherLastCallknmiNetherlands_${location.locationName}`;
-            const currentTime = Date.now();
-            const lastCallTime = localStorage.getItem(lastCallTimeKey);
+                 showReloadBtn = '';
 
-            const timeLimit = 10 * 1000; // 10 seconds
-
-
-            if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                await DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
-                localStorage.setItem(lastCallTimeKey, currentTime);
-            }
         }
         else if (localStorage.getItem('selectedMainWeatherProvider') === 'dmiDenmark' && JSON.parse(localStorage.getItem(`WeatherDatadmiDenmark_${location.locationName}`))) {
             const data = JSON.parse(localStorage.getItem(`WeatherDatadmiDenmark_${location.locationName}`));
@@ -790,19 +724,13 @@ async function loadSavedLocations() {
                 icon = GetWeatherIcon(data.current.weather_code, data.current.is_day);
 
                 conditionlabel = getWeatherLabelInLangNoAnim(data.current.weather_code, data.current.is_day, localStorage.getItem('AppLanguageCode'));
+
+                showReloadBtn = 'hidden';
+
             }
         } else if (localStorage.getItem('selectedMainWeatherProvider') === 'dmiDenmark' && !JSON.parse(localStorage.getItem(`WeatherDatadmiDenmark_${location.locationName}`))) {
-            const lastCallTimeKey = `DecodeWeatherLastCalldmiDenmark_${location.locationName}`;
-            const currentTime = Date.now();
-            const lastCallTime = localStorage.getItem(lastCallTimeKey);
+                 showReloadBtn = ' ';
 
-            const timeLimit = 10 * 1000; // 10 seconds
-
-
-            if (!lastCallTime || currentTime - lastCallTime > timeLimit) {
-                await DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
-                localStorage.setItem(lastCallTimeKey, currentTime);
-            }
         }
 
         else {
@@ -819,6 +747,12 @@ async function loadSavedLocations() {
                 icon = GetWeatherIcon(data.current.weather_code, data.current.is_day);
 
                 conditionlabel = getWeatherLabelInLangNoAnim(data.current.weather_code, data.current.is_day, localStorage.getItem('AppLanguageCode'))
+
+                showReloadBtn = 'hidden';
+
+            } else{
+                 showReloadBtn = ' ';
+
             }
 
         }
@@ -828,6 +762,9 @@ async function loadSavedLocations() {
         savedLocationItem.innerHTML = `
         <savedlocationimg>
             <img src='${icon}' alt="">
+            <md-filled-icon-button class="refresh_saved_location" ${showReloadBtn}>
+                <md-icon icon-filled>refresh</md-icon>
+            </md-filled-icon-button>
         </savedlocationimg>
         <div>
             <p>${location.locationName}</p>
@@ -836,7 +773,21 @@ async function loadSavedLocations() {
         </div>
         <md-icon-button class="delete-btn">
             <md-icon icon-filled>delete</md-icon>
-        </md-icon-button>`;
+        </md-icon-button>
+
+        `;
+
+
+         savedLocationItem.querySelector('.refresh_saved_location').addEventListener('click', () => {
+            if(navigator.onLine){
+                 DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName, 'no_data_render');
+                 setTimeout(() =>{
+                        document.querySelector('savedLocationsHolder').innerHTML = '';
+                 }, 200)
+             } else{
+                        ShowSnackMessage.ShowSnack(getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'network_unavailable'), "long");
+             }
+         });
 
         savedLocationItem.querySelector('.delete-btn').addEventListener('click', () => {
             deleteLocation(location.locationName);
@@ -1051,12 +1002,9 @@ async function loadSavedLocations() {
                 const hourlyData = renderFromSavedDataMet.properties.timeseries.slice(0, 24);
 
 
-                if (renderFromSavedDataMet) {
                     renderCurrentDataMetNorway(currentData, savedLocationItemLat, savedLocationItemLon);
                     renderHourlyDataMetNorway(hourlyData);
-                } else {
-                    DecodeWeather(savedLocationItemLat, savedLocationItemLon, location.locationName);
-                }
+
 
                 createHourlyDataCount(renderFromSavedData)
 
@@ -2073,7 +2021,7 @@ function refreshWeather() {
     } else {
                     setTimeout(() =>{
                   document.querySelector('.no_touch_screen').hidden = true;
-                   ShowSnackMessage.ShowSnack("Network unavailable", "long");
+                   ShowSnackMessage.ShowSnack(getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'network_unavailable'), "long");
                       sendThemeToAndroid("StopRefreshingLoader");
                     }, 1000)
         return
@@ -2234,7 +2182,7 @@ checkNoInternet();
 
 document.addEventListener('DOMContentLoaded', async function () {
 
-    const currentVersion = 'v1.9.3';
+    const currentVersion = 'v1.9.4';
     const githubRepo = 'PranshulGG/WeatherMaster';
     const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
@@ -2416,7 +2364,7 @@ function ReturnHomeLocation() {
         const dataHourlyFull = JSON.parse(localStorage.getItem(`HourlyWeatherCache_${Locations.name}`));
         const MoreDetailsData = JSON.parse(localStorage.getItem(`MoreDetailsData_${Locations.name}`));
         const AstronomyData = JSON.parse(localStorage.getItem(`AstronomyData_${Locations.name}`))
-        const renderFromSavedDataMetTimstamp = localStorage.getItem(`WeatherDataMetNorwayTimeStamp_${Locations.name}`)
+       const renderFromSavedDataMetTimstamp = localStorage.getItem(`WeatherDataMetNorwayTimeStamp_${Locations.name}`)
         const SavedalertData = JSON.parse(localStorage.getItem(`AlertData_${Locations.name}`))
 
         if (SavedalertData) {
@@ -2476,11 +2424,11 @@ function ReturnHomeLocation() {
         }
 
         setTimeout(() => {
-            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataMetTimstamp)}`;
         }, 1200);
 
         setTimeout(() => {
-            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataMetTimstamp)}`;
         }, 2400);
 
 
@@ -2551,11 +2499,11 @@ function ReturnHomeLocation() {
         }
 
         setTimeout(() => {
-            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(dataTimstamp)}`;
         }, 1200);
 
         setTimeout(() => {
-            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            document.getElementById('last_updated').innerHTML = `Updated, ${timeAgo(dataTimstamp)}`;
         }, 2400);
 
         } else if(localStorage.getItem('selectedMainWeatherProvider') === 'meteoFrance'){
@@ -4466,119 +4414,5 @@ function checkTopScroll() {
     }
 }
 
-// check if the location data is available for saved locations
-
-function CheckLocationDatas(){
-    const allSavedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
-
-    allSavedLocations.forEach((allSavedLocation) =>{
-        if (localStorage.getItem('selectedMainWeatherProvider') === 'Met norway') {
-
-            if(JSON.parse(localStorage.getItem(`WeatherDataMetNorway_${allSavedLocation.locationName}`))){
-                document.getElementById('location_data_loader').hidden = true;
-            } else{
-                document.getElementById('location_data_loader').hidden = false;
-            }
-
-          } else if (localStorage.getItem('ApiForAccu') && localStorage.getItem('selectedMainWeatherProvider') === 'Accuweather') {
-            if(JSON.parse(localStorage.getItem(`WeatherDataAccuCurrent_${allSavedLocation.locationName}`))){
-                document.getElementById('location_data_loader').hidden = true;
-            } else{
-                document.getElementById('location_data_loader').hidden = false;
-            }
 
 
-          } else if (localStorage.getItem('selectedMainWeatherProvider') === 'meteoFrance') {
-            if(JSON.parse(localStorage.getItem(`WeatherDataMeteoFrance_${allSavedLocation.locationName}`))){
-                document.getElementById('location_data_loader').hidden = true;
-            } else{
-                document.getElementById('location_data_loader').hidden = false;
-            }
-
-          } else if (localStorage.getItem('selectedMainWeatherProvider') === 'dwdGermany') {
-            if(JSON.parse(localStorage.getItem(`WeatherDataDWDGermany_${allSavedLocation.locationName}`))){
-                document.getElementById('location_data_loader').hidden = true;
-            } else{
-                document.getElementById('location_data_loader').hidden = false;
-            }
-
-          } else if (localStorage.getItem('selectedMainWeatherProvider') === 'noaaUS') {
-            if(JSON.parse(localStorage.getItem(`WeatherDataNOAAUS_${allSavedLocation.locationName}`))){
-                document.getElementById('location_data_loader').hidden = true;
-            } else{
-                document.getElementById('location_data_loader').hidden = false;
-            }
-
-          } else if (localStorage.getItem('selectedMainWeatherProvider') === 'ecmwf') {
-            if(JSON.parse(localStorage.getItem(`WeatherDataECMWF_${allSavedLocation.locationName}`))){
-                document.getElementById('location_data_loader').hidden = true;
-            } else{
-                document.getElementById('location_data_loader').hidden = false;
-            }
-
-          } else if (localStorage.getItem('selectedMainWeatherProvider') === 'ukMetOffice') {
-            if(JSON.parse(localStorage.getItem(`WeatherDataukMetOffice_${allSavedLocation.locationName}`))){
-                document.getElementById('location_data_loader').hidden = true;
-            } else{
-                document.getElementById('location_data_loader').hidden = false;
-            }
-
-          } else if (localStorage.getItem('selectedMainWeatherProvider') === 'jmaJapan') {
-            if(JSON.parse(localStorage.getItem(`WeatherDataJMAJapan_${allSavedLocation.locationName}`))){
-                document.getElementById('location_data_loader').hidden = true;
-            } else{
-                document.getElementById('location_data_loader').hidden = false;
-            }
-
-          } else if (localStorage.getItem('selectedMainWeatherProvider') === 'gemCanada') {
-            if(JSON.parse(localStorage.getItem(`WeatherDatagemCanada_${allSavedLocation.locationName}`))){
-                document.getElementById('location_data_loader').hidden = true;
-            } else{
-                document.getElementById('location_data_loader').hidden = false;
-            }
-
-
-          } else if (localStorage.getItem('selectedMainWeatherProvider') === 'bomAustralia') {
-            if(JSON.parse(localStorage.getItem(`WeatherDatabomAustralia_${allSavedLocation.locationName}`))){
-                document.getElementById('location_data_loader').hidden = true;
-            } else{
-                document.getElementById('location_data_loader').hidden = false;
-            }
-
-          } else if (localStorage.getItem('selectedMainWeatherProvider') === 'cmaChina') {
-            if(JSON.parse(localStorage.getItem(`WeatherDatacmaChina_${allSavedLocation.locationName}`))){
-                document.getElementById('location_data_loader').hidden = true;
-            } else{
-                document.getElementById('location_data_loader').hidden = false;
-            }
-
-          } else if (localStorage.getItem('selectedMainWeatherProvider') === 'knmiNetherlands') {
-            if(JSON.parse(localStorage.getItem(`WeatherDataknmiNetherlands_${allSavedLocation.locationName}`))){
-                document.getElementById('location_data_loader').hidden = true;
-            } else{
-                document.getElementById('location_data_loader').hidden = false;
-            }
-
-          } else if (localStorage.getItem('selectedMainWeatherProvider') === 'dmiDenmark') {
-            if(JSON.parse(localStorage.getItem(`WeatherDatadmiDenmark_${allSavedLocation.locationName}`))){
-                document.getElementById('location_data_loader').hidden = true;
-            } else{
-                document.getElementById('location_data_loader').hidden = false;
-            }
-
-          } else {
-
-            if(JSON.parse(localStorage.getItem(`WeatherDataOpenMeteo_${allSavedLocation.locationName}`))){
-                document.getElementById('location_data_loader').hidden = true;
-            } else{
-                document.getElementById('location_data_loader').hidden = false;
-            }
-
-          }
-    })
-
-}
-
-document.addEventListener('DOMContentLoaded', () =>{
-    CheckLocationDatas()
-});

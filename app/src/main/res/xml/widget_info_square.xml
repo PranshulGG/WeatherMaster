@@ -4,6 +4,8 @@
     android:initialLayout="@layout/widgets_weather_square"
     android:minWidth="250dp"
     android:minHeight="150dp"
+    android:minResizeWidth="250dp"
+    android:minResizeHeight="60dp"
     android:resizeMode="horizontal|vertical"
     android:targetCellWidth="2"
     android:targetCellHeight="2"

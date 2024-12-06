@@ -69,8 +69,8 @@ function HourlyWeather(data) {
                                       (rainTime.getDate() < currentTime.getDate() && rainTime.getMonth() > currentTime.getMonth());
 
                     rainComing = isTomorrow
-                        ? `Rain likely tomorrow around ${hours}${period}`
-                        : `Rain likely around ${hours}${period}`;
+                        ? `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'rain_likely_tomorrow_around')} ${hours}${period}`
+                        : `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'rain_likely_around')} ${hours}${period}`;
                 }
 
 
@@ -183,7 +183,7 @@ if (isRainingNow) {
 
     } else {
         document.querySelector('.whenRainPill').hidden = false;
-        document.getElementById('rainStopingText').innerHTML = 'Rain is expected to continue for the next few hours';
+        document.getElementById('rainStopingText').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'rain_expected_to_continue');
     }
 } else if (rainComing) {
     document.getElementById('rainStopingText').innerHTML = rainComing;
@@ -441,6 +441,8 @@ function CurrentWeather(data, sunrise, sunset, lat, lon) {
         CurrentPressure = data.pressure_msl;
         pressureMainUnit = 'hPa';
     }
+
+    localStorage.setItem('CurrentPressurePage', data.pressure_msl)
 
     let CurrentPrecipitation;
 
@@ -978,6 +980,7 @@ function UvIndex(uvIndexValue) {
 
          const uvIndex = Math.round(uvIndexValue);
 
+        localStorage.setItem('CurrentUVIndexMain', uvIndex)
 
             if (uvIndex >= 0 && uvIndex <= 1) {
                 document.getElementById('uv-index').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'minimal_risk');
@@ -1050,6 +1053,7 @@ function UvIndex(uvIndexValue) {
                 document.getElementById('uv_img').src = 'uv-images/uv-13.png';
                 document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'extreme_risk_sun_exposure')
             }
+
 
 
 

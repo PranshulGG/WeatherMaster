@@ -18,8 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.WeatherMaster"
-        tools:targetApi="33"
-        >
+        tools:targetApi="33">
         <activity
             android:name=".SettingsActivity"
             android:screenOrientation="portrait"
@@ -66,7 +65,7 @@
             android:name=".LiveRadar"
             android:screenOrientation="portrait"
             android:exported="true"
-            android:theme="@style/ScreenLiveRadar"
+            android:theme="@style/yelloMainPage"
             />
         <activity
             android:name=".LanguagePage"
@@ -118,6 +117,12 @@
             />
         <activity
             android:name=".Homelocations"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/yelloMainPage"
+            />
+        <activity
+            android:name=".WeatherModels"
             android:screenOrientation="portrait"
             android:exported="true"
             android:theme="@style/yelloMainPage"

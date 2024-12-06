@@ -4,37 +4,42 @@ package com.example.weathermaster;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
-public class SearchPage extends AppCompatActivity {
+import com.google.android.material.snackbar.Snackbar;
+
+public class WeatherModels extends AppCompatActivity {
 
     private WebView webview;
     private boolean isFirstLoad = true;
-
     public void onBackPressed() {
-        if (webview.canGoBack()) {
-            webview.goBack();
-        } else {
-            super.onBackPressed();
-        }
+        super.onBackPressed();
     }
 
     @Override
@@ -62,11 +67,13 @@ public class SearchPage extends AppCompatActivity {
         webview.setWebViewClient(new WebViewClientDemo());
         AndroidInterface androidInterface = new AndroidInterface(this);
         webview.addJavascriptInterface(androidInterface, "AndroidInterface");
+        webview.addJavascriptInterface(new ShowSnackInterface(this), "ShowSnackMessage");
         webview.setBackgroundColor(getResources().getColor(R.color.yellowBg));
         setTheme(R.style.blue_caret);
         webSettings.setTextZoom(100);
         webSettings.setAllowFileAccess(true);
-        webview.loadUrl("file:///android_asset/pages/searchPage.html");
+        webview.loadUrl("file:///android_asset/pages/change_om_model.html");
+
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
@@ -76,7 +83,7 @@ public class SearchPage extends AppCompatActivity {
                 if (isFirstLoad) {
                     isFirstLoad = false;
 
-                    int primaryColor = new ContextThemeWrapper(SearchPage.this, R.style.Base_Theme_WeatherMaster)
+                    int primaryColor = new ContextThemeWrapper(WeatherModels.this, R.style.Base_Theme_WeatherMaster)
                             .getTheme()
                             .obtainStyledAttributes(new int[]{com.google.android.material.R.attr.colorPrimary})
                             .getColor(0, 0);
@@ -89,15 +96,61 @@ public class SearchPage extends AppCompatActivity {
                 }
             }
         });
+
     }
 
 
+    public class ShowSnackInterface {
+        private final Context mContext;
 
+        public ShowSnackInterface(Context context) {
+            this.mContext = context;
+        }
+
+        @JavascriptInterface
+        public void ShowSnack(final String text, final String time) {
+            int duration = Snackbar.LENGTH_SHORT;
+            if ("long".equals(time)) {
+                duration = Snackbar.LENGTH_LONG;
+            } else if ("short".equals(time)){
+                duration = Snackbar.LENGTH_SHORT;
+            }
+
+
+            Snackbar snackbar = Snackbar.make(((Activity) mContext).findViewById(android.R.id.content), text, duration);
+
+            View snackbarView = snackbar.getView();
+
+
+            snackbarView.setBackgroundResource(R.drawable.snackbar_background);
+
+            TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+            textView.setTextColor(ContextCompat.getColor(mContext, R.color.snackbar_text));
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+            Typeface typeface = ResourcesCompat.getFont(mContext, R.font.outfit_medium);
+            textView.setTypeface(typeface);
+
+            snackbar.setTextColor(ContextCompat.getColor(mContext, R.color.snackbar_text));
+
+
+            ViewGroup.LayoutParams params = snackbar.getView().getLayoutParams();
+            if (params instanceof ViewGroup.MarginLayoutParams) {
+                ViewGroup.MarginLayoutParams marginParams = (ViewGroup.MarginLayoutParams) params;
+                marginParams.bottomMargin = 34;
+                marginParams.leftMargin = 26;
+                marginParams.rightMargin = 26;
+                snackbar.getView().setLayoutParams(marginParams);
+            }
+
+
+            snackbar.show();
+        }
+    }
 
     public class AndroidInterface {
-        private SearchPage aActivity;
+        private WeatherModels aActivity;
 
-        AndroidInterface(SearchPage activity) {
+        AndroidInterface(WeatherModels activity) {
             aActivity = activity;
         }
 
@@ -121,16 +174,6 @@ public class SearchPage extends AppCompatActivity {
                     } else if (color.equals("ScrollFalse")) {
                         statusBarColor = 0xFF111318;
                         navigationBarColor = 0xFF111318;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if (color.equals("DialogNotScrolled")) {
-                        statusBarColor = 0xFF07080a;
-                        navigationBarColor = 0xFF07080a;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if (color.equals("DialogScrolled")) {
-                        statusBarColor = 0xFF0c0d0e;
-                        navigationBarColor = 0xFF07080a;
                         systemUiVisibilityFlags = 0;
 
                     } else if(color.equals("orange_material_Scrolled")){
@@ -272,7 +315,6 @@ public class SearchPage extends AppCompatActivity {
                         statusBarColor = 0xFF0c0d0a;
                         navigationBarColor = 0xFF070806;
                         systemUiVisibilityFlags = 0;
-
 
                     } else if (color.equals("GoBack")){
                         back();

@@ -37,30 +37,30 @@
 
 
     <!--  default fallback  -->
-    <color name="colorPrimary">#ffb5a0</color>
-    <color name="colorOnPrimary">#561f0f</color>
-    <color name="colorPrimaryContainer">#723523</color>
-    <color name="colorOnPrimaryContainer">#ffdbd1</color>
+    <color name="colorPrimary">#aac7ff</color>
+    <color name="colorOnPrimary">#0a305f</color>
+    <color name="colorPrimaryContainer">#284777</color>
+    <color name="colorOnPrimaryContainer">#d6e3ff</color>
 
-    <color name="colorSecondary">#e7bdb2</color>
-    <color name="colorOnSecondary">#442a22</color>
-    <color name="colorSecondaryContainer">#5d4037</color>
-    <color name="colorOnSecondaryContainer">#ffdbd1</color>
+    <color name="colorSecondary">#bec6dc</color>
+    <color name="colorOnSecondary">#283141</color>
+    <color name="colorSecondaryContainer">#3e4759</color>
+    <color name="colorOnSecondaryContainer">#dae2f9</color>
 
-    <color name="colorTertiary">#d8c58d</color>
-    <color name="colorOnTertiary">#3b2f05</color>
-    <color name="colorTertiaryContainer">#534619</color>
-    <color name="colorOnTertiaryContainer">#f5e1a7</color>
+    <color name="colorTertiary">#ddbce0</color>
+    <color name="colorOnTertiary">#3f2844</color>
+    <color name="colorTertiaryContainer">#573e5c</color>
+    <color name="colorOnTertiaryContainer">#fad8fd</color>
 
-    <color name="colorBackground">#1a110f</color>
-    <color name="colorOnBackground">#f1dfda</color>
-    <color name="colorSurface">#1a110f</color>
-    <color name="colorOnSurface">#f1dfda</color>
+    <color name="colorBackground">#111318</color>
+    <color name="colorOnBackground">#e2e2e9</color>
+    <color name="colorSurface">#111318</color>
+    <color name="colorOnSurface">#e2e2e9</color>
 
-    <color name="colorSurfaceContainer">#271d1b</color>
+    <color name="colorSurfaceContainer">#1d2024</color>
 
-    <color name="colorSurfaceVariant">#1a110f</color>
-    <color name="colorOnSurfaceVariant">#d8c2bc</color>
+    <color name="colorSurfaceVariant">#111318</color>
+    <color name="colorOnSurfaceVariant">#c4c6d0</color>
 
     <color name="colorError">#ffb4ab</color>
     <color name="colorOnError">#690005</color>

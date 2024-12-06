@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
@@ -26,6 +27,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class LiveRadar extends AppCompatActivity {
 
     private WebView webview;
+    private boolean isFirstLoad = true;
 
     public void onBackPressed() {
         super.onBackPressed();
@@ -60,7 +62,33 @@ public class LiveRadar extends AppCompatActivity {
         webSettings.setTextZoom(100);
         webSettings.setAllowFileAccess(true);
         webview.loadUrl("file:///android_asset/pages/radar.html");
+        webview.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                view.getContext().startActivity(intent);
+                return true;
+            }
 
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+
+                if (isFirstLoad) {
+                    isFirstLoad = false;
+
+                    int primaryColor = new ContextThemeWrapper(LiveRadar.this, R.style.Base_Theme_WeatherMaster)
+                            .getTheme()
+                            .obtainStyledAttributes(new int[]{com.google.android.material.R.attr.colorPrimary})
+                            .getColor(0, 0);
+
+                    String hexColor = String.format("#%06X", (0xFFFFFF & primaryColor));
+                    String jsCodePrimaryColor = "CreateMaterialYouTheme('" + hexColor + "');";
+
+                    webview.evaluateJavascript(jsCodePrimaryColor, null);
+                }
+            }
+        });
     }
 
 
@@ -93,6 +121,146 @@ public class LiveRadar extends AppCompatActivity {
                     } else if (color.equals("ScrollFalse")) {
                         statusBarColor = 0xFF334151;
                         navigationBarColor = 0xFF334151;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if(color.equals("orange_material_Scrolled")){
+                        navigationBarColor = 0xFF251e17;
+                        statusBarColor = 0xFF18120c;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("orange_material_ScrollFalse")) {
+                        navigationBarColor = 0xFF251e17;
+                        statusBarColor = 0xFF18120c;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if(color.equals("red_material_Scrolled")){
+                        navigationBarColor = 0xFF271d1b;
+                        statusBarColor = 0xFF1a110f;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("red_material_ScrollFalse")) {
+                        navigationBarColor = 0xFF271d1b;
+                        statusBarColor = 0xFF1a110f;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if(color.equals("pink_material_Scrolled")){
+                        navigationBarColor = 0xFF261d1f;
+                        statusBarColor = 0xFF191113;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("pink_material_ScrollFalse")) {
+                        navigationBarColor = 0xFF261d1f;
+                        statusBarColor = 0xFF191113;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if(color.equals("purple_material_Scrolled")){
+                        navigationBarColor = 0xFF241e22;
+                        statusBarColor = 0xFF171216;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("purple_material_ScrollFalse")) {
+                        navigationBarColor = 0xFF241e22;
+                        statusBarColor = 0xFF171216;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if(color.equals("blue_material_Scrolled")){
+                        navigationBarColor = 0xFF1d2024;
+                        statusBarColor = 0xFF111318;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("blue_material_ScrollFalse")) {
+                        navigationBarColor = 0xFF1d2024;
+                        statusBarColor = 0xFF111318;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if(color.equals("yellow_material_Scrolled")){
+                        navigationBarColor = 0xFF222017;
+                        statusBarColor = 0xFF15130b;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("yellow_material_ScrollFalse")) {
+                        navigationBarColor = 0xFF222017;
+                        statusBarColor = 0xFF15130b;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if(color.equals("green_material_Scrolled")){
+                        navigationBarColor = 0xFF1e201a;
+                        statusBarColor = 0xFF12140e;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("green_material_ScrollFalse")) {
+                        navigationBarColor = 0xFF1e201a;
+                        statusBarColor = 0xFF12140e;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("orange_material_DialogNotScrolled")){
+                        navigationBarColor = 0xFF0a0705;
+                        statusBarColor = 0xFF0a0705;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("orange_material_DialogScrolled")) {
+                        navigationBarColor = 0xFF0f0c09;
+                        statusBarColor = 0xFF0a0705;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if(color.equals("red_material_DialogNotScrolled")){
+                        navigationBarColor = 0xFF0b0706;
+                        statusBarColor = 0xFF0b0706;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("red_material_DialogScrolled")) {
+                        navigationBarColor = 0xFF100c0b;
+                        statusBarColor = 0xFF0b0706;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if(color.equals("pink_material_DialogNotScrolled")){
+                        navigationBarColor = 0xFF090708;
+                        statusBarColor = 0xFF090708;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("pink_material_DialogScrolled")) {
+                        navigationBarColor = 0xFF0e0d0b;
+                        statusBarColor = 0xFF090708;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if(color.equals("purple_material_DialogNotScrolled")){
+                        navigationBarColor = 0xFF090709;
+                        statusBarColor = 0xFF090709;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("purple_material_DialogScrolled")) {
+                        navigationBarColor = 0xFF0e0c0e;
+                        statusBarColor = 0xFF090709;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if(color.equals("blue_material_DialogNotScrolled")){
+                        navigationBarColor = 0xFF07080a;
+                        statusBarColor = 0xFF07080a;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("blue_material_DialogScrolled")) {
+                        navigationBarColor = 0xFF0c0d0e;
+                        statusBarColor = 0xFF07080a;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if(color.equals("yellow_material_DialogNotScrolled")){
+                        navigationBarColor = 0xFF080804;
+                        statusBarColor = 0xFF080804;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("yellow_material_DialogScrolled")) {
+                        navigationBarColor = 0xFF0e0d09;
+                        statusBarColor = 0xFF080804;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if(color.equals("green_material_DialogNotScrolled")){
+                        navigationBarColor = 0xFF070806;
+                        statusBarColor = 0xFF070806;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("green_material_DialogScrolled")) {
+                        navigationBarColor = 0xFF0c0d0a;
+                        statusBarColor = 0xFF070806;
                         systemUiVisibilityFlags = 0;
 
                     } else if (color.equals("GoBack")){

@@ -11,8 +11,8 @@ body {
     padding: 0;
     margin: 0;
     overflow: hidden;
-    animation: opacity 0.3s ease-out;
-
+    transition: opacity 0.3s ease-out;
+    opacity: 0;
 }
 
 [hidden]{

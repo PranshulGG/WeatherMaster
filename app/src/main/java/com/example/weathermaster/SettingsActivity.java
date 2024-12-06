@@ -8,11 +8,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
+import android.util.TypedValue;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -21,6 +25,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -29,12 +34,14 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 
 public class SettingsActivity extends AppCompatActivity {
 
     private WebView webview;
+    private boolean isFirstLoad = true;
 
     public void onBackPressed() {
         if (webview.canGoBack()) {
@@ -49,10 +56,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 
-
-
         setContentView(R.layout.activity_main);
-
 
 
         // Webview stuff
@@ -76,7 +80,38 @@ public class SettingsActivity extends AppCompatActivity {
         webview.loadUrl("file:///android_asset/pages/settings.html");
         webSettings.setTextZoom(100);
 
+
+        webview.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                view.getContext().startActivity(intent);
+                return true;
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+
+                if (isFirstLoad) {
+                    isFirstLoad = false;
+
+                    int primaryColor = new ContextThemeWrapper(SettingsActivity.this, R.style.Base_Theme_WeatherMaster)
+                            .getTheme()
+                            .obtainStyledAttributes(new int[]{com.google.android.material.R.attr.colorPrimary})
+                            .getColor(0, 0);
+
+                    String hexColor = String.format("#%06X", (0xFFFFFF & primaryColor));
+                    String jsCodePrimaryColor = "CreateMaterialYouTheme('" + hexColor + "');";
+
+                    webview.evaluateJavascript(jsCodePrimaryColor, null);
+                }
+            }
+        });
+
+
     }
+
 
     private void requestNotificationPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -124,6 +159,11 @@ public class SettingsActivity extends AppCompatActivity {
 
             snackbarView.setBackgroundResource(R.drawable.snackbar_background);
 
+            TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+            textView.setTextColor(ContextCompat.getColor(mContext, R.color.snackbar_text));
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+            Typeface typeface = ResourcesCompat.getFont(mContext, R.font.outfit_medium);
+            textView.setTypeface(typeface);
 
             snackbar.setTextColor(ContextCompat.getColor(mContext, R.color.snackbar_text));
 
@@ -180,24 +220,161 @@ public class SettingsActivity extends AppCompatActivity {
                     int systemUiVisibilityFlags = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
 
 
-                    if(color.equals("Scrolled")){
+                    if (color.equals("Scrolled")){
                         statusBarColor = 0xFF1d2024;
                         navigationBarColor = 0xFF111318;
-                        systemUiVisibilityFlags = 0;
 
                     } else if (color.equals("ScrollFalse")) {
                         statusBarColor = 0xFF111318;
                         navigationBarColor = 0xFF111318;
-                        systemUiVisibilityFlags = 0;
 
                     } else if (color.equals("DialogNotScrolled")) {
                         statusBarColor = 0xFF07080a;
                         navigationBarColor = 0xFF07080a;
-                        systemUiVisibilityFlags = 0;
 
                     } else if (color.equals("DialogScrolled")) {
                         statusBarColor = 0xFF0c0d0e;
                         navigationBarColor = 0xFF07080a;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if(color.equals("orange_material_Scrolled")){
+                        statusBarColor = 0xFF251e17;
+                        navigationBarColor = 0xFF18120c;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("orange_material_ScrollFalse")) {
+                        statusBarColor = 0xFF18120c;
+                        navigationBarColor = 0xFF18120c;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if(color.equals("red_material_Scrolled")){
+                        statusBarColor = 0xFF271d1b;
+                        navigationBarColor = 0xFF1a110f;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("red_material_ScrollFalse")) {
+                        statusBarColor = 0xFF1a110f;
+                        navigationBarColor = 0xFF1a110f;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if(color.equals("pink_material_Scrolled")){
+                        statusBarColor = 0xFF261d1f;
+                        navigationBarColor = 0xFF191113;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("pink_material_ScrollFalse")) {
+                        statusBarColor = 0xFF191113;
+                        navigationBarColor = 0xFF191113;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if(color.equals("purple_material_Scrolled")){
+                        statusBarColor = 0xFF241e22;
+                        navigationBarColor = 0xFF171216;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("purple_material_ScrollFalse")) {
+                        statusBarColor = 0xFF171216;
+                        navigationBarColor = 0xFF171216;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if(color.equals("blue_material_Scrolled")){
+                        statusBarColor = 0xFF1d2024;
+                        navigationBarColor = 0xFF111318;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("blue_material_ScrollFalse")) {
+                        statusBarColor = 0xFF111318;
+                        navigationBarColor = 0xFF111318;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if(color.equals("yellow_material_Scrolled")){
+                        statusBarColor = 0xFF222017;
+                        navigationBarColor = 0xFF15130b;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("yellow_material_ScrollFalse")) {
+                        statusBarColor = 0xFF15130b;
+                        navigationBarColor = 0xFF15130b;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if(color.equals("green_material_Scrolled")){
+                        statusBarColor = 0xFF1e201a;
+                        navigationBarColor = 0xFF12140e;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("green_material_ScrollFalse")) {
+                        statusBarColor = 0xFF12140e;
+                        navigationBarColor = 0xFF12140e;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("orange_material_DialogNotScrolled")){
+                        statusBarColor = 0xFF0a0705;
+                        navigationBarColor = 0xFF0a0705;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("orange_material_DialogScrolled")) {
+                        statusBarColor = 0xFF0f0c09;
+                        navigationBarColor = 0xFF0a0705;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if(color.equals("red_material_DialogNotScrolled")){
+                        statusBarColor = 0xFF0b0706;
+                        navigationBarColor = 0xFF0b0706;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("red_material_DialogScrolled")) {
+                        statusBarColor = 0xFF100c0b;
+                        navigationBarColor = 0xFF0b0706;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if(color.equals("pink_material_DialogNotScrolled")){
+                        statusBarColor = 0xFF090708;
+                        navigationBarColor = 0xFF090708;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("pink_material_DialogScrolled")) {
+                        statusBarColor = 0xFF0e0d0b;
+                        navigationBarColor = 0xFF090708;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if(color.equals("purple_material_DialogNotScrolled")){
+                        statusBarColor = 0xFF090709;
+                        navigationBarColor = 0xFF090709;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("purple_material_DialogScrolled")) {
+                        statusBarColor = 0xFF0e0c0e;
+                        navigationBarColor = 0xFF090709;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if(color.equals("blue_material_DialogNotScrolled")){
+                        statusBarColor = 0xFF07080a;
+                        navigationBarColor = 0xFF07080a;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("blue_material_DialogScrolled")) {
+                        statusBarColor = 0xFF0c0d0e;
+                        navigationBarColor = 0xFF07080a;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if(color.equals("yellow_material_DialogNotScrolled")){
+                        statusBarColor = 0xFF080804;
+                        navigationBarColor = 0xFF080804;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("yellow_material_DialogScrolled")) {
+                        statusBarColor = 0xFF0e0d09;
+                        navigationBarColor = 0xFF080804;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if(color.equals("green_material_DialogNotScrolled")){
+                        statusBarColor = 0xFF070806;
+                        navigationBarColor = 0xFF070806;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("green_material_DialogScrolled")) {
+                        statusBarColor = 0xFF0c0d0a;
+                        navigationBarColor = 0xFF070806;
                         systemUiVisibilityFlags = 0;
 
                     } else if (color.equals("GoBack")){
@@ -211,6 +388,9 @@ public class SettingsActivity extends AppCompatActivity {
                         return;
                     } else if (color.equals("openHomelocationPage")){
                         openHomelocationPage();
+                        return;
+                    } else if (color.equals("openWeatherModels")){
+                        openWeatherModels();
                         return;
                     } else if (color.equals("bluesetDef")) {
                         return;
@@ -285,6 +465,12 @@ public class SettingsActivity extends AppCompatActivity {
             Intent intent = new Intent(sActivity, Homelocations.class);
             sActivity.startActivity(intent);
         }
+
+        public void openWeatherModels() {
+            Intent intent = new Intent(sActivity, WeatherModels.class);
+            sActivity.startActivity(intent);
+        }
+
 
     }
 

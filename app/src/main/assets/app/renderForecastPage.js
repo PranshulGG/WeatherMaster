@@ -573,7 +573,7 @@ function displayDailyForecast(forecast, forecastDaily) {
             </div>
 
 
-            <p class="daily-conditions-title" data-translate="daily_condtions">Daily conditions</p>
+            <p class="daily-conditions-title" data-translate="daily_conditions">Daily conditions</p>
             <div class="daily-conditions">
             <div class="daily-conditions-wrap">
 
@@ -669,7 +669,7 @@ function displayDailyForecast(forecast, forecastDaily) {
 
                                         <div class="currentConditionItem visibility ripple_btn_low"
                         onclick="sendThemeToAndroid('openVisibilityCondition')">
-                        <div class="currentConditionItemTitle visibility"><i icon-filled>air</i><span
+                        <div class="currentConditionItemTitle visibility"><i icon-filled>air</i><span data-translate="wind"
                                 >Wind</span></div>
 
                         <div class="current_condition_icon">

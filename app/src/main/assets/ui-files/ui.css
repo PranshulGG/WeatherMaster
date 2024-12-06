@@ -231,6 +231,9 @@ touch_search{
 }
 
 
+.froggie img{
+  width: 120%;
+}
 
 @media screen and (min-width: 410px){
   .disc_main p{
@@ -239,6 +242,10 @@ touch_search{
 
   .left_current_weather .temp_img p{
     font-size: 70px;
+  }
+
+  .froggie img{
+    width: 100%;
   }
 }
 
@@ -1066,9 +1073,6 @@ suggest-space{
 
 
 
-.froggie img{
-  width: 120%;
-}
 
 .froggie {
 background: linear-gradient(0deg, rgba(255, 0, 0, 0), var(--Secondary-Container) 100%);
@@ -1731,12 +1735,18 @@ flex{
   flex: 1;
 }
 
-savedLocationsHolder md-icon-button{
+savedLocationsHolder .delete-btn{
   flex-shrink: 0;
   z-index: 1;
   display: none;
   position: absolute;
   right: 15px;
+}
+
+savedLocationsHolder .refresh_saved_location{
+  flex-shrink: 0;
+  z-index: 1;
+  position: absolute;
 }
 
 savelocationtouch{
@@ -2783,4 +2793,8 @@ Tempmeterbaritem span{
   position: fixed;
   left: 0;
   top: 0;
+}
+
+[round-ui="true"] #uvIndexMainDiv{
+    margin-bottom: 8px !important;
 }

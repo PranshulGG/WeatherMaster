@@ -52,7 +52,6 @@ function renderCurrentDataMetNorway(data, lat, lon){
 }
 
 function renderHourlyDataMetNorway(data) {
-    console.log("Hourly weather data:", data);
 
     const SelectedTempUnit = localStorage.getItem('SelectedTempUnit');
 

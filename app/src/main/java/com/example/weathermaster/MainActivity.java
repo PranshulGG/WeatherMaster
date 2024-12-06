@@ -10,12 +10,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.InputType;
+import android.util.TypedValue;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -28,6 +31,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -36,8 +40,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.color.DynamicColors;
+import com.google.android.material.color.MaterialColors;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.BufferedReader;
@@ -106,6 +113,8 @@ public class MainActivity extends AppCompatActivity {
         webview.getSettings().setAllowContentAccess(true);
         webview.getSettings().setDomStorageEnabled(true);
 
+
+        DynamicColors.applyToActivitiesIfAvailable(getApplication());
 
 
         webview.setWebChromeClient(new WebChromeClient() {
@@ -205,7 +214,6 @@ public class MainActivity extends AppCompatActivity {
             if (isPullToRefreshAllowed) {
                 isPullToRefreshAllowed = false;
 
-                // Trigger the refresh action
                 webview.evaluateJavascript("refreshWeather();", null);
 
 
@@ -249,6 +257,11 @@ public class MainActivity extends AppCompatActivity {
 
             snackbarView.setBackgroundResource(R.drawable.snackbar_background);
 
+            TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+            textView.setTextColor(ContextCompat.getColor(mContext, R.color.snackbar_text));
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+            Typeface typeface = ResourcesCompat.getFont(mContext, R.font.outfit_medium);
+            textView.setTypeface(typeface);
 
             snackbar.setTextColor(ContextCompat.getColor(mContext, R.color.snackbar_text));
 

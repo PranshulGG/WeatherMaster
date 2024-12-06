@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" Theme="default" data-theme="dark">
+<html lang="en" Theme="clothing" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -31,7 +31,7 @@
         }
 
         body {
-            background-color: #1a110f;
+            background-color: var(--Surface);
             padding: 0;
             margin: 0;
             overflow: hidden;
@@ -43,7 +43,7 @@
         .map_holder {
             height: 100%;
             width: 100%;
-            background-color: #1a110f;
+            background-color: var(--Surface);
             position: fixed;
             top: 0;
             left: 0;
@@ -52,7 +52,7 @@
         #mapRadar {
             /* height: calc(100% - 225px); */
             height: 100%;
-            background-color: #1a110f;
+            background-color: var(--Surface);
             position: fixed;
             width: 100%;
         }
@@ -67,7 +67,7 @@
 
         .header p {
             font-size: 22px;
-            color: #f1dfda;
+            color: var(--On-Surface);
             font-family: var(--google-normal);
         }
 
@@ -78,8 +78,7 @@
             justify-content: center;
             border-radius: 28px 28px 0 0;
             position: relative;
-            background-color: #271d1b;
-
+            background-color: var(--Surface-Container);
         }
 
         .controls>div>md-slider {
@@ -87,9 +86,9 @@
             --md-slider-inactive-track-height: 30px;
             --md-slider-active-track-height: 30px;
             --md-slider-with-tick-marks-container-size: 5px;
-            --md-slider-with-tick-marks-inactive-container-color: #d8c2bc;
-            --md-slider-with-tick-marks-active-container-color: #561f0f;
-            --md-sys-color-primary: #ffb5a0;
+            --md-slider-with-tick-marks-inactive-container-color: var(--Primary);
+            --md-slider-with-tick-marks-active-container-color: var(--On-Primary);
+            --md-sys-color-primary: var(--Primary);
             width: 100%;
             --md-slider-inactive-track-shape: 25px !important;
             --md-slider-active-track-shape: 8px !important;
@@ -112,7 +111,7 @@
             display: flex;
             justify-content: flex-end;
             font-size: 36px;
-            color: #e7bdb2;
+            color: var(--Primary);
             position: absolute;
             top: 15px;
             left: 50%;
@@ -139,8 +138,8 @@
             position: absolute;
             top: 10px;
             right: 15px;
-            --md-sys-color-primary-container: #723523;
-            --md-sys-color-on-primary-container: #ffdbd1;
+            --md-sys-color-primary-container: var(--Primary-Container);
+            --md-sys-color-on-primary-container: var(--On-Primary-Container);
             --md-fab-container-shape:999px;
         }
 
@@ -158,7 +157,7 @@
             height: 50px;
             display: flex;
             align-items: center;
-            background-color: #271d1b;
+            background-color: var(--Surface);
             position: fixed;
             width: 240px;
             z-index: 99;
@@ -172,7 +171,7 @@
 
         .amount_chip p{
             margin: 0;
-            color: #f1dfda;
+            color: var(--On-Surface);
         }
 
         .amount_chip .chips_low color_item{
@@ -187,11 +186,11 @@
             display: flex;
             align-items: center;
             overflow: hidden;
-            border: 2px solid #a08c87;
+            border: 2px solid var(--Outline-Variant);
         }
                 dot {
             display: flex;
-            background-color: #ffb5a0;
+            background-color: var(--Primary);
             width: 30px;
             height: 30px;
             position: absolute;
@@ -274,6 +273,71 @@
 
 
 <script>
+
+
+ function hexToRgb(hex) {
+    const bigint = parseInt(hex.slice(1), 16);
+    return {
+        r: (bigint >> 16) & 255,
+        g: (bigint >> 8) & 255,
+        b: bigint & 255
+    };
+}
+
+function rgbToHsl({ r, g, b }) {
+    r /= 255;
+    g /= 255;
+    b /= 255;
+
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    let h, s, l = (max + min) / 2;
+
+    if (max === min) {
+        h = s = 0; // Achromatic
+    } else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+    }
+
+    return { h: h * 360, s: s * 100, l: l * 100 };
+}
+
+function CreateMaterialYouTheme(hex) {
+    const colors = {
+        orange_material: "#FFA500",
+        red_material: "#FF0000",
+        pink_material: "#FFC0CB",
+        purple_material: "#800080",
+        blue_material: "#0000FF",
+        yellow_material: "#FFFF00",
+        green_material: "#008000"
+    };
+
+    const targetHsl = rgbToHsl(hexToRgb(hex));
+    let closestColor = null;
+    let smallestHueDifference = Infinity;
+
+    for (const [color, colorHex] of Object.entries(colors)) {
+        const colorHsl = rgbToHsl(hexToRgb(colorHex));
+        const hueDifference = Math.abs(targetHsl.h - colorHsl.h);
+
+        if (hueDifference < smallestHueDifference) {
+            smallestHueDifference = hueDifference;
+            closestColor = color;
+        }
+    }
+
+    document.documentElement.setAttribute('Theme', closestColor);
+    sendThemeToAndroid(`${closestColor}_ScrollFalse`);
+}
+
 
 const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
         if (AppLanguageCodeValue) {

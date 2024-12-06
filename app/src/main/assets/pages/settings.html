@@ -135,6 +135,13 @@
                          style="color: var(--Primary); font-family: var(--outfit-mid);">Open-meteo</div>
                 </md-list-item>
 
+                <md-list-item margin type="button" onclick="sendThemeToAndroid('openWeatherModels')" id="weatherModelBtn">
+                    <md-icon icon-filled slot="start"></md-icon>
+                    <div slot="headline">Weather models</div>
+                    <div slot="supporting-text">Open-Meteo Weather models</div>
+                    <md-icon slot="end" icon-outlined>chevron_right</md-icon>
+                </md-list-item>
+
                 <md-list-item style="overflow: hidden; max-height: 0; transition: max-height 0.3s ease-out, opacity 0.8s ease-out" id="accuweatherAPI_input_item">
                     <md-filled-tonal-icon-button slot="start" onclick="verifyKeyAccu()"><md-icon icon-outlined>check</md-icon></md-filled-tonal-icon-button>
                     <div slot="headline">
@@ -433,6 +440,68 @@
 </div>
 
 <script>
+function hexToRgb(hex) {
+    const bigint = parseInt(hex.slice(1), 16);
+    return {
+        r: (bigint >> 16) & 255,
+        g: (bigint >> 8) & 255,
+        b: bigint & 255
+    };
+}
+
+function rgbToHsl({ r, g, b }) {
+    r /= 255;
+    g /= 255;
+    b /= 255;
+
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    let h, s, l = (max + min) / 2;
+
+    if (max === min) {
+        h = s = 0; // Achromatic
+    } else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+    }
+
+    return { h: h * 360, s: s * 100, l: l * 100 };
+}
+
+function CreateMaterialYouTheme(hex) {
+    const colors = {
+        orange_material: "#FFA500",
+        red_material: "#FF0000",
+        pink_material: "#FFC0CB",
+        purple_material: "#800080",
+        blue_material: "#0000FF",
+        yellow_material: "#FFFF00",
+        green_material: "#008000"
+    };
+
+    const targetHsl = rgbToHsl(hexToRgb(hex));
+    let closestColor = null;
+    let smallestHueDifference = Infinity;
+
+    for (const [color, colorHex] of Object.entries(colors)) {
+        const colorHsl = rgbToHsl(hexToRgb(colorHex));
+        const hueDifference = Math.abs(targetHsl.h - colorHsl.h);
+
+        if (hueDifference < smallestHueDifference) {
+            smallestHueDifference = hueDifference;
+            closestColor = color;
+        }
+    }
+
+    document.documentElement.setAttribute('Theme', closestColor);
+    sendThemeToAndroid(`${closestColor}_ScrollFalse`);
+}
 
 
     function handleStorageChangeLang(event) {
@@ -468,7 +537,8 @@ function changeColorOnScroll1() {
 
       document.getElementById('headUser-1').style.scrollSnapType = 'unset';
       container.removeEventListener('scroll', changeColorOnScroll1);
-      sendThemeToAndroid('Scrolled')
+      sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_Scrolled`);
+
 
 
     } else {
@@ -490,7 +560,7 @@ function changeColorOnScroll1() {
       document.getElementById('head-1').style.backgroundColor = '';
       document.getElementById('head-1').style.transition = 'background-color 0.2s ease-in';
 
-      sendThemeToAndroid('ScrollFalse')
+      sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_ScrollFalse`);
 
       container.addEventListener('scroll', changeColorOnScroll1);
       if(scrollY <= 20); {
@@ -829,13 +899,15 @@ document.addEventListener('DOMContentLoaded', () =>{
             document.querySelector(`md-radio[value="${localStorage.getItem('selectedMainWeatherProvider') || 'open-meteo'}"]`).setAttribute('checked', 'true');
 
             if(document.getElementById('headUser-1').scrollTop >= 50){
-                sendThemeToAndroid('DialogScrolled')
+                sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_DialogScrolled`)
             } else{
-                sendThemeToAndroid('DialogNotScrolled')
+                sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_DialogNotScrolled`)
 
             }
 
         }
+
+
 
         window.addEventListener('popstate', function (event) {
             if (document.getElementById('chooseMainProviderDialog').open) {
@@ -855,9 +927,10 @@ document.addEventListener('DOMContentLoaded', () =>{
 
 
             if(document.getElementById('headUser-1').scrollTop >= 50){
-                sendThemeToAndroid('Scrolled')
+                sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_Scrolled`);
             } else{
-                sendThemeToAndroid('ScrollFalse')
+              sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_ScrollFalse`);
+
             }
 
             });
