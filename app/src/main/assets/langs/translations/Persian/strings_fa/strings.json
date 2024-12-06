@@ -220,5 +220,15 @@
     "contributors": "مشارکت‌کنندگان",
     "contributors_sub": "مشاهده افرادی که در این پروژه مشارکت کرده‌اند",
     "version": "نسخه",
-    "third_party_licenses": "مجوزهای شخص ثالث"
+    "third_party_licenses": "مجوزهای شخص ثالث",
+    "clothing_activity": "پوشاک و فعالیت",
+    "get_clothing_suggestions": "پیشنهادات مربوط به پوشاک و فعالیت خود را دریافت کنید.",
+    "day": "روز",
+    "evening": "عصر",
+    "night": "شب",
+    "wind_gust": "شدت ناگهانی باد",
+    "rain_expected_to_continue": "بارش باران در چند ساعت آینده ادامه خواهد داشت",
+    "rain_likely_tomorrow_around": "احتمال بارش باران در طول روز فردا وجود دارد",
+    "rain_likely_around": "احتمال بارش باران وجود دارد",
+    "weather_alerts": "هشدارهای هواشناسی"
 }
