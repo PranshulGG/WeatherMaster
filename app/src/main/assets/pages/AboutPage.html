@@ -91,11 +91,11 @@
             .head_area_about_page{
                 display: flex;
                 align-items: center;
-                justify-content: center;
+                justify-content: space-between;
                 font-size: 30px;
                 color: var(--On-Surface);
                 font-family: var(--google-normal);
-                padding: 17px;
+                padding: 15px;
                 position: relative;
                 background-color: var(--Surface);
             }
@@ -131,7 +131,7 @@
 
       <div class="head_area_about_page">
        <p data-translate="about">About</p>
-       <md-icon-button style="position: absolute; right: 10px;" onclick="sendThemeToAndroid('GoBack')"><md-icon icon-outlined>close</md-icon></md-icon-button>
+       <md-icon-button onclick="sendThemeToAndroid('GoBack')"><md-icon icon-outlined>close</md-icon></md-icon-button>
       </div>
       <div class="padding_about_app">
 
@@ -148,7 +148,7 @@
          <md-icon icon-outlined>info</md-icon>
          <div style="position: relative; width: 100%;">
           <p data-translate="version">Version</p>
-          <span>1.9.3 (W)</span>
+          <span>1.9.4 (W)</span>
           <md-icon-button style="position: absolute; right: 5px;" id="checkUpdatesBtn"><md-icon icon-outlined>refresh</md-icon></md-icon-button>
          </div>
         </div>
@@ -192,8 +192,8 @@
        </div>
 
        <div class="small_items_info_about_page" onclick="sendThemeToAndroid('OpenContributorsPage')">
-        <p>Contributors</p>
-        <span>View people who contributed to this project</span>
+        <p data-translate="contributors">Contributors</p>
+        <span data-translate="contributors_sub">View people who contributed to this project</span>
         <md-icon-button style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);"><md-icon icon-outlined>chevron_right</md-icon></md-icon-button>
         <md-ripple></md-ripple>
        </div>
@@ -220,6 +220,70 @@
 <script>
 
 
+ function hexToRgb(hex) {
+    const bigint = parseInt(hex.slice(1), 16);
+    return {
+        r: (bigint >> 16) & 255,
+        g: (bigint >> 8) & 255,
+        b: bigint & 255
+    };
+}
+
+function rgbToHsl({ r, g, b }) {
+    r /= 255;
+    g /= 255;
+    b /= 255;
+
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    let h, s, l = (max + min) / 2;
+
+    if (max === min) {
+        h = s = 0; // Achromatic
+    } else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+    }
+
+    return { h: h * 360, s: s * 100, l: l * 100 };
+}
+
+function CreateMaterialYouTheme(hex) {
+    const colors = {
+        orange_material: "#FFA500",
+        red_material: "#FF0000",
+        pink_material: "#FFC0CB",
+        purple_material: "#800080",
+        blue_material: "#0000FF",
+        yellow_material: "#FFFF00",
+        green_material: "#008000"
+    };
+
+    const targetHsl = rgbToHsl(hexToRgb(hex));
+    let closestColor = null;
+    let smallestHueDifference = Infinity;
+
+    for (const [color, colorHex] of Object.entries(colors)) {
+        const colorHsl = rgbToHsl(hexToRgb(colorHex));
+        const hueDifference = Math.abs(targetHsl.h - colorHsl.h);
+
+        if (hueDifference < smallestHueDifference) {
+            smallestHueDifference = hueDifference;
+            closestColor = color;
+        }
+    }
+
+    document.documentElement.setAttribute('Theme', closestColor);
+    sendThemeToAndroid(`${closestColor}_ScrollFalse`);
+}
+
+
         const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
         if (AppLanguageCodeValue) {
             applyTranslations(AppLanguageCodeValue);
@@ -241,7 +305,7 @@
 
                 document.getElementById('headUser-6').style.scrollSnapType = 'unset';
                 container.removeEventListener('scroll', changeColorOnScroll6);
-                sendThemeToAndroid('Scrolled')
+                sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_ScrollFalse`);
 
             } else {
 
@@ -287,7 +351,7 @@
 
 
         document.getElementById('checkUpdatesBtn').addEventListener('click', async function () {
-            const currentVersion = 'v1.9.3';
+            const currentVersion = 'v1.9.4';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
