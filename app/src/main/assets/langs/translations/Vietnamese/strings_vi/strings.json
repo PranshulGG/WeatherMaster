@@ -230,5 +230,15 @@
     "rain_expected_to_continue": "Dự kiến mưa sẽ tiếp tục trong vài giờ tới",
     "rain_likely_tomorrow_around": "Có khả năng mưa vào ngày mai",
     "rain_likely_around": "Có khả năng mưa vào",
-    "weather_alerts": "Cảnh báo thời tiết"
+    "weather_alerts": "Cảnh báo thời tiết",
+    "font": "Font",
+    "auto-hide_update_toast": "Auto-hide update toast",
+    "notification_will_disappear": "The notification will disappear after 5 seconds.",
+    "daily_conditions": "Daily conditions",
+    "sun_tile_page": "Sun",
+    "morning": "Morning",
+    "day_tip": "Day tip",
+    "translators": "Translators",
+    "change_apps_font": "Change app's font",
+    "app_font": "App font"
 }
