@@ -232,13 +232,13 @@
     "rain_likely_around": "Maaaring may ulan banda",
     "weather_alerts": "Mga alerto sa panahon",
     "font": "Font",
-    "auto-hide_update_toast": "Auto-hide update toast",
-    "notification_will_disappear": "The notification will disappear after 5 seconds.",
-    "daily_conditions": "Daily conditions",
-    "sun_tile_page": "Sun",
-    "morning": "Morning",
-    "day_tip": "Day tip",
-    "translators": "Translators",
-    "change_apps_font": "Change app's font",
-    "app_font": "App font"
+    "auto-hide_update_toast": "Awtomatikong itago ang pahayag ng pag-update",
+    "notification_will_disappear": "Mawawala ang notipikasyon makalipas ng 5 segundo.",
+    "daily_conditions": "Pang-araw-araw ng lagay",
+    "sun_tile_page": "Araw",
+    "morning": "Umaga",
+    "day_tip": "Payo ngayong araw",
+    "translators": "Mga Tagasalin",
+    "change_apps_font": "Palitang ang font ng app",
+    "app_font": "Font ng app"
 }
