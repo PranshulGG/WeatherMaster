@@ -96,16 +96,16 @@
                     <md-switch slot="end" selected id="useAnimationBackground" icons show-only-selected-icon></md-switch>
                 </md-list-item>
 
-                <md-list-item>
+                <md-list-item onclick="openAppFontDialog()">
                     <md-icon icon-filled slot="start">font_download</md-icon>
-                    <div slot="headline" data-translate="Use system font" data-translate="use_system_font">Use system font</div>
-                    <div slot="supporting-text" style="color: var(--Error);" data-translate="custom_font_isn't_supported">Custom font isn’t supported</div>
-                    <md-switch slot="end" id="useSysFontSwitch" icons show-only-selected-icon></md-switch>
+                    <div slot="headline">Font</div>
+                    <div slot="supporting-text">Change app's font</div>
                 </md-list-item>
 
                 <md-list-item>
                     <md-icon icon-filled slot="start">toast</md-icon>
-                    <div slot="headline" data-translate="hide_the_new_update_snack">Hide the 'New update available' toast after 5 seconds</div>
+                    <div slot="headline">Auto-hide update toast</div>
+                    <div slot="supporting-text">The notification will disappear after 5 seconds.</div>
                     <md-switch slot="end" id="HideNewUpdateToastSwitch" icons show-only-selected-icon></md-switch>
                 </md-list-item>
 
@@ -418,6 +418,27 @@
                 <div slot="actions">
                     <md-text-button onclick="window.history.back()" data-translate="cancel">Cancel</md-text-button>
                     <md-text-button id="saveSelectedMainProvider" data-translate="save">Save</md-text-button>
+                </div>
+            </md-dialog>
+
+
+            <md-dialog id="chooseAPPFontDialog" style="min-width: 85%;">
+                <div slot="headline">App font</div>
+
+                <div slot="content">
+                    <label class="main_provider_item">
+                        <md-radio slot="start" value="product_sans" name="app_font_radio"></md-radio>
+                        Product sans
+                    </label>
+                    <label class="main_provider_item">
+                        <md-radio slot="start" value="roboto" name="app_font_radio"></md-radio>
+                        Roboto
+                    </label>
+                </div>
+
+                <div slot="actions">
+                    <md-text-button onclick="window.history.back()">Cancel</md-text-button>
+                    <md-text-button id="saveSelectedFont">OK</md-text-button>
                 </div>
             </md-dialog>
 
@@ -754,27 +775,6 @@ if(localStorage.getItem('selectedTimeMode')){
         // ----------------------------------------------------------------------------------
 
 
-    const useSysFontSwitch = document.getElementById('useSysFontSwitch');
-
-    useSysFontSwitch.addEventListener('change', ()=>{
-        localStorage.setItem('useSysFont', useSysFontSwitch.selected)
-
-        if(useSysFontSwitch.selected){
-            document.documentElement.setAttribute('sys-font', 'true');
-        } else{
-            document.documentElement.setAttribute('sys-font', 'false');
-        }
-    });
-
-    const useSysFont = localStorage.getItem('useSysFont');
-
-    if(useSysFont === 'true'){
-        useSysFontSwitch.selected = true;
-    } else{
-        useSysFontSwitch.selected = false;
-
-    }
-
     // ---------------------------------------------------
 
     const HideNewUpdateToastSwitch = document.getElementById('HideNewUpdateToastSwitch');
@@ -1012,6 +1012,69 @@ function ChangeSelectedMainProviderName() {
                 }
 
         });
+
+
+                // ------------
+
+
+        function openAppFontDialog() {
+            document.getElementById('chooseAPPFontDialog').show();
+            window.history.pushState({ AppFontDialogOpen: true }, "");
+
+            document.querySelector(`md-radio[value="${localStorage.getItem('SelectedAPPfont') || 'product_sans'}"]`).setAttribute('checked', 'true');
+
+            if(document.getElementById('headUser-1').scrollTop >= 50){
+                sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_DialogScrolled`)
+            } else{
+                sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_DialogNotScrolled`)
+
+            }
+
+        }
+
+
+
+        window.addEventListener('popstate', function (event) {
+            if (document.getElementById('chooseAPPFontDialog').open) {
+                document.getElementById('chooseAPPFontDialog').close();
+            }
+        })
+
+        document.getElementById('chooseAPPFontDialog').addEventListener('cancel', () => {
+            document.getElementById('chooseAPPFontDialog').addEventListener('closed', () => {
+                window.history.back()
+
+            });
+
+        });
+
+        document.getElementById('chooseAPPFontDialog').addEventListener('close', () => {
+
+
+            if(document.getElementById('headUser-1').scrollTop >= 50){
+                sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_Scrolled`);
+            } else{
+              sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_ScrollFalse`);
+
+            }
+
+            });
+
+                document.getElementById('saveSelectedFont').addEventListener('click', () =>{
+
+
+                         if(document.querySelector('md-radio[value="product_sans"]').checked){
+                            localStorage.setItem('SelectedAPPfont', 'product_sans');
+                                document.documentElement.setAttribute('sys-font', '');
+
+                         } else{
+                            localStorage.setItem('SelectedAPPfont', 'roboto');
+                                document.documentElement.setAttribute('sys-font', 'roboto');
+                         }
+                         window.history.back()
+                         applyFontChanges()
+                });
+
     </script>
 
 <script src="../components-script.js/components.js"></script>

@@ -761,6 +761,28 @@
 
 <script>
 
+   function checkFontEventChange(){
+        const useSysFontPages = localStorage.getItem('SelectedAPPfont');
+
+        if(useSysFontPages === 'roboto'){
+            document.documentElement.setAttribute('sys-font', 'roboto');
+        } else{
+            document.documentElement.setAttribute('sys-font', ' ');
+        }
+    }
+
+function handleStorageChangeFontEvent(event) {
+    if (event.key === 'SelectedAPPfont') {
+
+            setTimeout(()=>{
+            checkFontEventChange()
+            }, 500);
+
+    }
+}
+
+window.addEventListener('storage', handleStorageChangeFontEvent);
+
     function handleStorageChangeLang(event) {
     if (event.key === 'AppLanguageCode'){
 
