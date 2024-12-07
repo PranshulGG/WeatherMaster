@@ -10,14 +10,15 @@
 
 }
 
-[sys-font="true"]{
-    --google-normal: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
-    --google-thin: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
-    --google-light: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
-    --google-mid: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
-    --poppins: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
-    --outfit: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
-     --outfit-mid: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+[sys-font="roboto"]{
+    --google-normal: 'Roboto' !important;
+    --google-mid: 'Roboto-medium' !important;
+    --poppins: 'Roboto' !important;
+    --outfit: 'Roboto' !important;
+     --outfit-mid: 'Roboto-medium' !important;
+    --Modal-Backdrop: rgb(0, 0, 0, 0.6);
+    --md-list-item-label-text-size: 18px !important;
+
 }
 
 

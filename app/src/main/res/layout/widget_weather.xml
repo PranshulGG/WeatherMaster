@@ -3,9 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:id="@+id/widget_layout"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingBottom="8dp"
+    android:padding="10dp"
     android:background="@drawable/widget_1_background_round">
 
     <LinearLayout
@@ -64,7 +64,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
+        android:gravity="start"
         android:orientation="horizontal"
         android:paddingLeft="8dp"
         android:paddingTop="0dp"
@@ -81,51 +81,52 @@
             android:textSize="45sp"
             android:textStyle="bold" />
 
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:orientation="horizontal"
-            android:padding="0dp">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginEnd="10dp"
-            android:gravity="center">
-
-            <TextView
-                android:id="@+id/hour_0_temp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/product_sans"
-                android:text="--°"
-                android:textColor="@color/colorSecondary"
-                android:textSize="14sp" />
-
-            <ImageView
-                android:id="@+id/weather_icon_hour0"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/cloudy" />
-
-            <TextView
-                android:id="@+id/hour_0_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/product_sans"
-                android:textStyle="bold"
-                android:text="--"
-                android:textColor="@color/colorOnSurfaceVariant"
-                android:textSize="13sp" />
-        </LinearLayout>
+            android:layout_height="106dp"
+            android:gravity="bottom|end"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginEnd="10dp"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/hour_0_temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/product_sans"
+                    android:text="--°"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/weather_icon_hour0"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/cloudy" />
+
+                <TextView
+                    android:id="@+id/hour_0_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/product_sans"
+                    android:text="--"
+                    android:textColor="@color/colorOnSurfaceVariant"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/hour_1_temp"
@@ -148,17 +149,17 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/product_sans"
                     android:text="--"
-                    android:textStyle="bold"
                     android:textColor="@color/colorOnSurfaceVariant"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginEnd="10dp"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/hour_2_temp"
@@ -181,17 +182,17 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/product_sans"
                     android:text="--"
-                    android:textStyle="bold"
                     android:textColor="@color/colorOnSurfaceVariant"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginEnd="10dp"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/hour_3_temp"
@@ -213,27 +214,29 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/product_sans"
-                    android:textStyle="bold"
                     android:text="--"
                     android:textColor="@color/colorOnSurfaceVariant"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
-    </LinearLayout>
+        </LinearLayout>
+
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="start"
         android:orientation="horizontal"
-        android:paddingLeft="10dp"
-        >
+        android:paddingLeft="10dp">
 
         <TextView
             android:id="@+id/high_temp_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
             android:layout_marginRight="8dp"
             android:fontFamily="@font/product_sans"
             android:text="--°"

@@ -22,7 +22,6 @@ public class WidgetProviderSquare extends AppWidgetProvider {
         String mainTemp = prefs.getString("mainTemp", "--°");
         String iconData = prefs.getString("iconData", "cloudy");
         String highLow = prefs.getString("highLow", "--");
-        String LocationName = prefs.getString("locationWeather", "--");
 
         for (int appWidgetId : appWidgetIds) {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widgets_weather_square);

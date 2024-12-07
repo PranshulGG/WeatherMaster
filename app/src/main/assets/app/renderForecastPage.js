@@ -391,7 +391,11 @@ function displayDailyForecast(forecast, forecastDaily) {
         if (SelectedPrecipitationUnit === 'in') {
             rainAmount = forecast.precipitation_sum[index] ? (forecast.precipitation_sum[index] * 0.0393701).toFixed(2) : '--';
             rainAmountUnit = 'in'
-
+        } else if (SelectedPrecipitationUnit === 'cm') {
+             rainAmount = forecast.precipitation_sum[index]
+                 ? (forecast.precipitation_sum[index] / 10).toFixed(2)
+                 : '--';
+            rainAmountUnit = 'cm'
         } else {
             rainAmount = forecast.precipitation_sum[index] ? forecast.precipitation_sum[index] : '--';
             rainAmountUnit = 'mm'

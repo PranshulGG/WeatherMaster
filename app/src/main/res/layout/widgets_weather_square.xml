@@ -1,109 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="230dp"
     android:id="@+id/widget_layout_square"
-    android:layout_height="150dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:padding="15dp"
-    android:orientation="vertical"
     android:background="@drawable/widget_1_background_round">
 
-
+    <!-- Weather Icon -->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:paddingBottom="5dp">
+        android:layout_width="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content">
 
+        <ImageView
+            android:id="@+id/weather_icon_square"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/cloudy"
+            android:layout_gravity="center"
+            android:layout_alignParentStart="true"
+ />
 
-        <LinearLayout
+        <!-- Temperature -->
+
+        <!-- Location Name -->
+
+        <TextView
+            android:id="@+id/temp_text_square"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingBottom="5dp">
+            android:layout_below="@id/weather_icon_square"
+            android:fontFamily="@font/product_sans"
+            android:layout_gravity="center"
+            android:text="22°"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18pt"
+            android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/weather_icon_square"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="start"
-                android:src="@drawable/cloudy" />
-
-
-            <TextView
-                android:id="@+id/temp_text_square"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:fontFamily="@font/product_sans"
-                android:text="22°"
-                android:textColor="@color/colorPrimary"
-                android:textSize="45sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/locationName_square"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/product_sans"
+            android:ellipsize="end"
             android:gravity="end"
-            android:orientation="vertical"
-            android:paddingBottom="0dp">
+            android:maxWidth="280dp"
+            android:maxLines="1"
+            android:text="No location"
+            android:textColor="@color/colorPrimary"
+            android:textSize="0sp"
+            android:layout_gravity="end"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="10dp" />
 
-            <TextView
-                android:id="@+id/locationName_square"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:fontFamily="@font/product_sans"
-                android:gravity="end"
-                android:maxWidth="280dp"
-                android:maxLines="1"
-                android:text="No location"
-                android:textColor="@color/colorPrimary"
-                android:textSize="15.5sp" />
-
-
-            <TextView
-                android:id="@+id/weather_condition_square"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/product_sans"
-                android:gravity="end"
-                android:text="--"
-                android:textColor="@color/colorOnSurfaceVariant"
-                android:textSize="16.7sp" />
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="75dp"
-                android:gravity="bottom"
-                android:orientation="vertical"
-                >
-
-                <TextView
-                    android:id="@+id/high_temp_text_square"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:fontFamily="@font/product_sans"
-                    android:text="3333"
-                    android:textColor="@color/colorOnSurfaceVariant"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-        </LinearLayout>
-
+        <!-- Weather Condition -->
 
     </LinearLayout>
-
-
-
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/weather_condition_square"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/product_sans"
+        android:text="Overcast"
+        android:layout_gravity="end"
+        android:textColor="@color/colorOnSurfaceVariant"
+        android:textSize="16.7sp"
+        />
+    <!-- High Temp Text -->
+    <TextView
+        android:id="@+id/high_temp_text_square"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/product_sans"
+        android:text="H: 22° L: 15°"
+        android:textColor="@color/colorOnSurfaceVariant"
+        android:layout_gravity="end"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:layout_marginTop="5dp" />
     </LinearLayout>
+</RelativeLayout>

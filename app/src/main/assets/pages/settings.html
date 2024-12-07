@@ -96,16 +96,11 @@
                     <md-switch slot="end" selected id="useAnimationBackground" icons show-only-selected-icon></md-switch>
                 </md-list-item>
 
-                <md-list-item onclick="openAppFontDialog()">
-                    <md-icon icon-filled slot="start">font_download</md-icon>
-                    <div slot="headline">Font</div>
-                    <div slot="supporting-text">Change app's font</div>
-                </md-list-item>
 
                 <md-list-item>
                     <md-icon icon-filled slot="start">toast</md-icon>
-                    <div slot="headline">Auto-hide update toast</div>
-                    <div slot="supporting-text">The notification will disappear after 5 seconds.</div>
+                    <div slot="headline" data-translate="auto-hide_update_toast">Auto-hide update toast</div>
+                    <div slot="supporting-text" data-translate="notification_will_disappear">The notification will disappear after 5 seconds.</div>
                     <md-switch slot="end" id="HideNewUpdateToastSwitch" icons show-only-selected-icon></md-switch>
                 </md-list-item>
 
@@ -127,6 +122,21 @@
                     <div slot="headline" data-translate="use_bar_chart">Use bar chart</div>
                     <md-switch slot="end" id="useBarChart" icons show-only-selected-icon></md-switch>
                 </md-list-item>
+
+                <md-list-item>
+                    <md-icon icon-filled slot="start">warning</md-icon>
+                    <div slot="headline">Weather alerts</div>
+                    <div slot="supporting-text">Hide weather alerts on the home page</div>
+                    <md-switch slot="end" id="useWeatherAlerts" icons show-only-selected-icon></md-switch>
+                </md-list-item>
+
+
+                <md-list-item onclick="openAppFontDialog()">
+                    <md-icon icon-filled slot="start">font_download</md-icon>
+                    <div slot="headline" data-translate="font">Font</div>
+                    <div slot="supporting-text" data-translate="change_apps_font">Change app's font</div>
+                </md-list-item>
+
 
                 <md-list-item type="button" onclick="openMainProviderDialog()">
                     <md-icon slot="start" icon-filled>routine</md-icon>
@@ -242,6 +252,9 @@
                     <md-outlined-select id="selectPrecipitationUnit" slot="end" style="min-width: max-content; --md-outlined-field-bottom-space: 10px;--md-outlined-field-top-space: 10px;">
                         <md-select-option value="mm" menu-type>
                             <div slot="headline">mm</div>
+                        </md-select-option>
+                        <md-select-option value="cm" menu-type>
+                            <div slot="headline">cm</div>
                         </md-select-option>
                         <md-select-option value="in" menu-type >
                             <div slot="headline">in</div>
@@ -423,7 +436,7 @@
 
 
             <md-dialog id="chooseAPPFontDialog" style="min-width: 85%;">
-                <div slot="headline">App font</div>
+                <div slot="headline" data-translate="app_font">App font</div>
 
                 <div slot="content">
                     <label class="main_provider_item">
@@ -437,8 +450,8 @@
                 </div>
 
                 <div slot="actions">
-                    <md-text-button onclick="window.history.back()">Cancel</md-text-button>
-                    <md-text-button id="saveSelectedFont">OK</md-text-button>
+                    <md-text-button onclick="window.history.back()" data-translate="cancel">Cancel</md-text-button>
+                    <md-text-button id="saveSelectedFont" data-translate="ok">OK</md-text-button>
                 </div>
             </md-dialog>
 
@@ -611,7 +624,6 @@ AndroidInterface.updateStatusBarColor(theme);
   });
 
   if(!localStorage.getItem('SelectedTempUnit')){
-    localStorage.setItem('SelectedTempUnit', 'celsius');
     document.querySelector(`[value="celsius"]`).selected = true;
 
   }
@@ -631,7 +643,6 @@ if(getSelectedTempUnit){
 });
 
 if(!localStorage.getItem('SelectedWindUnit')){
-  localStorage.setItem('SelectedWindUnit', 'kilometer');
   document.querySelector(`[value="kilometer"]`).selected = true;
 
 }
@@ -652,7 +663,6 @@ selectVisibilityUnit.addEventListener('input', () =>{
 });
 
 if(!localStorage.getItem('selectedVisibilityUnit')){
-localStorage.setItem('selectedVisibilityUnit', 'km');
 document.querySelector(`[value="km"]`).selected = true;
 
 }
@@ -673,7 +683,6 @@ selectPrecipitationUnit.addEventListener('input', () =>{
 
 
 if(!localStorage.getItem('selectedPrecipitationUnit')){
-localStorage.setItem('selectedPrecipitationUnit', 'mm');
 document.querySelector(`[value="mm"]`).selected = true;
 
 }
@@ -698,7 +707,6 @@ selectPressureUnit.addEventListener('input', () =>{
 
 
 if(!localStorage.getItem('selectedPressureUnit')){
-localStorage.setItem('selectedPressureUnit', 'hPa');
 document.querySelector(`[value="hPa"]`).selected = true;
 
 }
@@ -724,7 +732,6 @@ selectTimeformat.addEventListener('input', () =>{
 
 
 if(!localStorage.getItem('selectedTimeMode')){
-localStorage.setItem('selectedTimeMode', '12 hour');
 document.querySelector(`[value="12 hour"]`).selected = true;
 
 }
@@ -1075,7 +1082,19 @@ function ChangeSelectedMainProviderName() {
                          applyFontChanges()
                 });
 
+// ------------------
+
+                document.getElementById('useWeatherAlerts').addEventListener('change', () =>{
+                    localStorage.setItem('useWeatherAlerts', document.getElementById('useWeatherAlerts').selected);
+                });
+
+                if(localStorage.getItem('useWeatherAlerts') && localStorage.getItem('useWeatherAlerts') === 'false'){
+                    document.getElementById('useWeatherAlerts').selected = false
+                } else{
+                    document.getElementById('useWeatherAlerts').selected = true
+                }
     </script>
+</script>
 
 <script src="../components-script.js/components.js"></script>
 <script src="../ripple-files/icon-ripple.js"></script>

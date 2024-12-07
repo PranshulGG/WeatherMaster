@@ -1,233 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="230dp"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
     android:id="@+id/widget_layout_square_v2"
-    android:layout_height="250dp"
-    android:orientation="vertical"
-    android:padding="15dp"
+    android:layout_height="wrap_content"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp"
+    android:paddingLeft="15dp"
+    android:paddingEnd="15dp"
     android:background="@drawable/widget_1_background_round">
 
-    <LinearLayout
+    <!-- Main Weather Section -->
+
+    <!-- Weather Condition and High/Low Temp -->
+
+    <ImageView
+        android:id="@+id/weather_icon_square_v2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/cloudy" />
+
+    <TextView
+        android:id="@+id/temp_text_square_v2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingTop="10dp"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        >
+        android:layout_toEndOf="@id/weather_icon_square_v2"
+        android:gravity="end"
+        android:text="14°"
+        android:textColor="@color/colorPrimary"
+        android:textSize="45sp"
+        android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/weather_icon_square_v2"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/cloudy" />
+    <TextView
+        android:id="@+id/weather_condition_square_v2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/weather_icon_square_v2"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+        android:text="Clear sky"
+        android:textColor="@color/colorSecondary"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/high_temp_text_square_v2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/weather_condition_square_v2"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="5dp"
+        android:text="High: 22° Low: 23°"
+        android:textColor="@color/colorOnSurfaceVariant"
+        android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/temp_text_square_v2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/product_sans"
-            android:text="14°"
-            android:layout_marginStart="18dp"
-            android:textColor="@color/colorPrimary"
-            android:textSize="45sp"
-            android:textStyle="bold" />
-
-
-    </LinearLayout>
-
-
+    <!-- Hourly Forecast Section -->
     <LinearLayout
+        android:id="@+id/hourly_forecast_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
+        android:layout_below="@id/high_temp_text_square_v2"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-        android:orientation="vertical"
-        android:paddingLeft="5dp"
-        android:paddingBottom="0dp"
-        >
-
-        <TextView
-            android:id="@+id/weather_condition_square_v2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/product_sans"
-            android:gravity="center"
-            android:text="Clear sky"
-            android:textStyle="bold"
-            android:textColor="@color/colorSecondary"
-            android:textSize="20sp" />
-
-
-        <TextView
-            android:id="@+id/high_temp_text_square_v2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/product_sans"
-            android:paddingTop="3dp"
-            android:text="Hight: 22° Low: 23°"
-            android:textColor="@color/colorOnSurfaceVariant"
-            android:textSize="14sp" />
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="8dp"
-        android:paddingTop="0dp"
-        android:paddingRight="8dp"
-        android:paddingBottom="0dp">
-
-
+        <!-- Hourly Forecast Item 1 -->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/hour_0_temp_square_v2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="33°"
+                android:textColor="@color/colorSecondary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/weather_icon_hour0_square_v2"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/cloudy" />
+
+            <TextView
+                android:id="@+id/hour_0_time_square_v2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--"
+                android:textColor="@color/colorOnSurfaceVariant"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <!-- Hourly Forecast Item 2 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/hour_1_temp_square_v2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--°"
+                android:textColor="@color/colorSecondary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/weather_icon_hour1_square_v2"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/cloudy" />
+
+            <TextView
+                android:id="@+id/hour_1_time_square_v2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--"
+                android:textColor="@color/colorOnSurfaceVariant"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <!-- Hourly Forecast Item 3 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/hour_2_temp_square_v2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--°"
+                android:textColor="@color/colorSecondary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/weather_icon_hour2_square_v2"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/cloudy" />
+
+            <TextView
+                android:id="@+id/hour_2_time_square_v2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--"
+                android:textColor="@color/colorOnSurfaceVariant"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <!-- Hourly Forecast Item 4 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingTop="20dp">
-            <LinearLayout
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/hour_3_temp_square_v2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginEnd="18dp"
-                android:gravity="center">
+                android:text="--°"
+                android:textColor="@color/colorSecondary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/hour_0_temp_square_v2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/product_sans"
-                    android:text="33°"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorSecondary"
-                    android:textSize="16.5sp" />
+            <ImageView
+                android:id="@+id/weather_icon_hour3_square_v2"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/cloudy" />
 
-                <ImageView
-                    android:id="@+id/weather_icon_hour0_square_v2"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/cloudy" />
-
-                <TextView
-                    android:id="@+id/hour_0_time_square_v2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/product_sans"
-                    android:textStyle="bold"
-                    android:text="--"
-                    android:textColor="@color/colorOnSurfaceVariant"
-                    android:textSize="13sp" />
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/hour_3_time_square_v2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginEnd="18dp"
-                android:gravity="center">
-
-                <TextView
-                    android:id="@+id/hour_1_temp_square_v2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/product_sans"
-                    android:textStyle="bold"
-                    android:text="--°"
-                    android:textColor="@color/colorSecondary"
-                    android:textSize="16.5sp" />
-
-                <ImageView
-                    android:id="@+id/weather_icon_hour1_square_v2"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/cloudy" />
-
-                <TextView
-                    android:id="@+id/hour_1_time_square_v2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/product_sans"
-                    android:text="--"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorOnSurfaceVariant"
-                    android:textSize="13sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginEnd="18dp"
-                android:gravity="center">
-
-                <TextView
-                    android:id="@+id/hour_2_temp_square_v2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/product_sans"
-                    android:textStyle="bold"
-                    android:text="--°"
-                    android:textColor="@color/colorSecondary"
-                    android:textSize="16.5sp" />
-
-                <ImageView
-                    android:id="@+id/weather_icon_hour2_square_v2"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/cloudy" />
-
-                <TextView
-                    android:id="@+id/hour_2_time_square_v2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/product_sans"
-                    android:text="--"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorOnSurfaceVariant"
-                    android:textSize="13sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-
-                android:gravity="center">
-
-                <TextView
-                    android:id="@+id/hour_3_temp_square_v2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/product_sans"
-                    android:textStyle="bold"
-                    android:text="--°"
-                    android:textColor="@color/colorSecondary"
-                    android:textSize="16.5sp" />
-
-                <ImageView
-                    android:id="@+id/weather_icon_hour3_square_v2"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/cloudy" />
-
-                <TextView
-                    android:id="@+id/hour_3_time_square_v2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/product_sans"
-                    android:textStyle="bold"
-                    android:text="--"
-                    android:textColor="@color/colorOnSurfaceVariant"
-                    android:textSize="13sp" />
-            </LinearLayout>
-
+                android:text="--"
+                android:textColor="@color/colorOnSurfaceVariant"
+                android:textSize="11sp" />
         </LinearLayout>
+
     </LinearLayout>
 
-
-</LinearLayout>
+</RelativeLayout>

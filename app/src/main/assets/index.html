@@ -17,6 +17,7 @@
     <script src="langs/langs.js"></script>
     <script src="./bundle.js"></script>
     <script src="modules/chart.js"></script>
+    <script src="app/applySettings.js"></script>
 </head>
 
 <body>
@@ -295,7 +296,7 @@
 
 
                 <div class="currentConditionItem sunRISESET ripple_btn_low" onclick="sendThemeToAndroid('openSunCondition')">
-                    <div class="currentConditionItemTitle"><i icon-filled>wb_twilight</i><span data-translate="sun">Sun</span></div>
+                    <div class="currentConditionItemTitle"><i icon-filled>wb_twilight</i><span data-translate="sun_tile_page">Sun</span></div>
 
                     <div class="current_condition_icon">
                         <svg height="110.0dip" width="176.0dip" viewBox="0 0 176.0 110.0"
@@ -783,19 +784,6 @@ function handleStorageChangeFontEvent(event) {
 
 window.addEventListener('storage', handleStorageChangeFontEvent);
 
-    function handleStorageChangeLang(event) {
-    if (event.key === 'AppLanguageCode'){
-
-            setTimeout(()=>{
-            loadTranslations(localStorage.getItem('AppLanguageCode')).then(() => {
-              applyTranslations(localStorage.getItem('AppLanguageCode'));
-            });
-            }, 200);
-
-    }
-}
-
-window.addEventListener('storage', handleStorageChangeLang);
 
 
 

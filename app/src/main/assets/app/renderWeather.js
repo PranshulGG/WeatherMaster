@@ -39,7 +39,7 @@ function HourlyWeather(data) {
         let hours
         let period
 
-        if (timeFormat === '24 hour') {
+        if (localStorage.getItem('selectedTimeMode') === '24 hour') {
             hours = new Date(time).getHours().toString().padStart(2, '0') + ':';
             period = new Date(time).getMinutes().toString().padStart(2, '0');
         } else {
@@ -77,8 +77,10 @@ function HourlyWeather(data) {
 
         let PrecAmount;
 
-        if (SelectedPrecipitationUnit === 'in') {
+        if (localStorage.getItem('selectedPrecipitationUnit') === 'in') {
             PrecAmount = mmToInches(data.hourly.precipitation[index]).toFixed(2) + '';
+        } else if (localStorage.getItem('selectedPrecipitationUnit') === 'cm') {
+            PrecAmount = (Math.round(data.hourly.precipitation[index]) / 10).toFixed(2);
         } else {
             PrecAmount = data.hourly.precipitation[index].toFixed(1) + '';
         }
@@ -123,13 +125,14 @@ function HourlyWeather(data) {
         let HourTemperature;
 
 
-        if (SelectedTempUnit === 'fahrenheit') {
+        if (localStorage.getItem('SelectedTempUnit') === 'fahrenheit') {
             HourTemperature = Math.round(celsiusToFahrenheit(data.hourly.temperature_2m[index]));
 
         } else {
             HourTemperature = Math.round(data.hourly.temperature_2m[index]);
 
         }
+
 
 
 
@@ -289,7 +292,7 @@ setChart()
 
         let TempMin
 
-        if (SelectedTempUnit === 'fahrenheit') {
+        if (localStorage.getItem('SelectedTempUnit') === 'fahrenheit') {
             TempMin = Math.round(celsiusToFahrenheit(dailyForecast.temperature_2m_min[index]))
         } else {
             TempMin = Math.round(dailyForecast.temperature_2m_min[index])
@@ -297,7 +300,7 @@ setChart()
 
         let TempMax
 
-        if (SelectedTempUnit === 'fahrenheit') {
+        if (localStorage.getItem('SelectedTempUnit') === 'fahrenheit') {
             TempMax = Math.round(celsiusToFahrenheit(dailyForecast.temperature_2m_max[index]))
         } else {
             TempMax = Math.round(dailyForecast.temperature_2m_max[index])
@@ -305,7 +308,7 @@ setChart()
 
                 let TempMinCurrent
 
-                if (SelectedTempUnit === 'fahrenheit') {
+                if (localStorage.getItem('SelectedTempUnit') === 'fahrenheit') {
                     TempMinCurrent = Math.round(celsiusToFahrenheit(dailyForecast.temperature_2m_min[0]))
                 } else {
                     TempMinCurrent = Math.round(dailyForecast.temperature_2m_min[0])
@@ -313,7 +316,7 @@ setChart()
 
                 let TempMaxCurrent
 
-                if (SelectedTempUnit === 'fahrenheit') {
+                if (localStorage.getItem('SelectedTempUnit') === 'fahrenheit') {
                     TempMaxCurrent = Math.round(celsiusToFahrenheit(dailyForecast.temperature_2m_max[0]))
                 } else {
                     TempMaxCurrent = Math.round(dailyForecast.temperature_2m_max[0])
@@ -351,8 +354,10 @@ setChart()
 
         let TodaysPrecAmount;
 
-        if (SelectedPrecipitationUnit === 'in') {
+        if (localStorage.getItem('selectedPrecipitationUnit') === 'in') {
             TodaysPrecAmount = mmToInches(dailyForecast.precipitation_sum[0]).toFixed(2) + ' in';
+        } else if (localStorage.getItem('selectedPrecipitationUnit') === 'cm') {
+            TodaysPrecAmount = (Math.round(dailyForecast.precipitation_sum[0]) / 10).toFixed(2);
         } else {
             TodaysPrecAmount = dailyForecast.precipitation_sum[0].toFixed(1) + ' mm';
         }
@@ -395,7 +400,7 @@ function CurrentWeather(data, sunrise, sunset, lat, lon) {
     let CurrentTemperature;
     let FeelsLikeTemp;
 
-    if (SelectedTempUnit === 'fahrenheit') {
+    if (localStorage.getItem('SelectedTempUnit') === 'fahrenheit') {
         CurrentTemperature = Math.round(celsiusToFahrenheit(data.temperature_2m))
         FeelsLikeTemp = Math.round(celsiusToFahrenheit(data.apparent_temperature))
     } else {
@@ -410,9 +415,9 @@ function CurrentWeather(data, sunrise, sunset, lat, lon) {
 
     let CurrentWindGust;
 
-    if (SelectedWindUnit === 'mile') {
+    if (localStorage.getItem('SelectedWindUnit') === 'mile') {
         CurrentWindGust = Math.round(kmhToMph(data.wind_gusts_10m)) + ' mph';
-    } else if (SelectedWindUnit === 'M/s') {
+    } else if (localStorage.getItem('SelectedWindUnit') === 'M/s') {
         CurrentWindGust = (data.wind_gusts_10m / 3.6).toFixed(2) + ' m/s';
     } else {
         CurrentWindGust = Math.round(data.wind_gusts_10m) + ' km/h';
@@ -420,9 +425,9 @@ function CurrentWeather(data, sunrise, sunset, lat, lon) {
 
     let CurrentWindSpeed;
 
-    if (SelectedWindUnit === 'mile') {
+    if (localStorage.getItem('SelectedWindUnit') === 'mile') {
         CurrentWindSpeed = Math.round(kmhToMph(data.wind_speed_10m)) + ' mph';
-    } else if (SelectedWindUnit === 'M/s') {
+    } else if (localStorage.getItem('SelectedWindUnit') === 'M/s') {
         CurrentWindSpeed = (data.wind_speed_10m / 3.6).toFixed(2) + ' m/s';
     } else {
         CurrentWindSpeed = Math.round(data.wind_speed_10m) + ' km/h';
@@ -431,10 +436,10 @@ function CurrentWeather(data, sunrise, sunset, lat, lon) {
     let CurrentPressure;
     let pressureMainUnit;
 
-    if (SelectedPressureUnit === 'inHg') {
+    if (localStorage.getItem('selectedPressureUnit') === 'inHg') {
         CurrentPressure = hPaToInHg(data.pressure_msl).toFixed(2);
         pressureMainUnit = 'inHg';
-    } else if (SelectedPressureUnit === 'mmHg') {
+    } else if (localStorage.getItem('selectedPressureUnit') === 'mmHg') {
         CurrentPressure = hPaToMmHg(data.pressure_msl).toFixed(2);
         pressureMainUnit = 'mmHg';
     } else {
@@ -446,8 +451,10 @@ function CurrentWeather(data, sunrise, sunset, lat, lon) {
 
     let CurrentPrecipitation;
 
-    if (SelectedPrecipitationUnit === 'in') {
+    if (localStorage.getItem('selectedPrecipitationUnit') === 'in') {
         CurrentPrecipitation = mmToInches(Math.round(data.precipitation));
+    } else if (localStorage.getItem('selectedPrecipitationUnit') === 'cm') {
+        CurrentPrecipitation = (Math.round(data.precipitation) / 10).toFixed(2);
     } else {
         CurrentPrecipitation = Math.round(data.precipitation);
     }
@@ -613,7 +620,7 @@ function CurrentWeather(data, sunrise, sunset, lat, lon) {
     
 
 
-    if (timeFormat === '24 hour') {
+    if (localStorage.getItem('selectedTimeMode') === '24 hour') {
         document.getElementById('sunrise').innerHTML = convertTo24Hour(sunrise)
         document.getElementById('sunset').innerHTML = convertTo24Hour(sunset)
     } else{
@@ -663,7 +670,7 @@ function CurrentWeather(data, sunrise, sunset, lat, lon) {
     const lastUpdated = new Date(data.time);
     const minutesAgo = Math.floor((now - lastUpdated) / 60000);
 
-document.getElementById('last_updated').innerHTML = ''
+//document.getElementById('last_updated').innerHTML = ''
 
 //setTimeout(()=>{
 //    if (minutesAgo > 1) {
@@ -1081,7 +1088,7 @@ function UvIndex(uvIndexValue) {
 
             let maxTemp
 
-            if (SelectedTempUnit === 'fahrenheit') {
+            if (localStorage.getItem('SelectedTempUnit') === 'fahrenheit') {
                 maxTemp = Math.round(mainData.maxtemp_c * 9 / 5 + 32)
             } else {
                 maxTemp = Math.round(mainData.maxtemp_c)
@@ -1089,7 +1096,7 @@ function UvIndex(uvIndexValue) {
 
             let minTemp
 
-            if (SelectedTempUnit === 'fahrenheit') {
+            if (localStorage.getItem('SelectedTempUnit') === 'fahrenheit') {
                 minTemp = Math.round(mainData.mintemp_c * 9 / 5 + 32)
             } else {
                 minTemp = Math.round(mainData.mintemp_c)
@@ -1097,8 +1104,10 @@ function UvIndex(uvIndexValue) {
 
                     let Precipitation;
 
-                    if (SelectedPrecipitationUnit === 'in') {
+                    if (localStorage.getItem('selectedPrecipitationUnit') === 'in') {
                         Precipitation = mainData.totalprecip_in.toFixed(2) + ' in';
+                    } else if (localStorage.getItem('selectedPrecipitationUnit') === 'cm') {
+                        Precipitation = (mainData.totalprecip_in * 2.54).toFixed(2) + ' cm';
                     } else {
                         Precipitation = inchesToMm(mainData.totalprecip_in).toFixed(2) + ' mm'
                     }
@@ -1297,7 +1306,7 @@ function astronomyDataRender(data) {
 
 
 
-            if (timeFormat === '24 hour') {
+            if (localStorage.getItem('selectedTimeMode') === '24 hour') {
                 document.getElementById('moonriseTime').innerHTML = convertTo24Hour(data.astronomy.astro.moonrise);
                 document.getElementById('moonSetTime').innerHTML = convertTo24Hour(data.astronomy.astro.moonset);
             } else{
@@ -1312,17 +1321,20 @@ function astronomyDataRender(data) {
 function FetchAlertRender(data){
 
 
+    if(localStorage.getItem('useWeatherAlerts') === 'false'){
+
+    } else{
         if(data.alerts.alert && data.alerts.alert.length > 0){
-          document.querySelector('.excessiveHeat').hidden = false;
-      localStorage.setItem('AlertCache', JSON.stringify(data.alerts.alert));
+            document.querySelector('.excessiveHeat').hidden = false;
+        localStorage.setItem('AlertCache', JSON.stringify(data.alerts.alert));
 
-      } else {
-          console.log('No alerts');
-          document.querySelector('.excessiveHeat').hidden = true;
-      localStorage.removeItem('AlertCache', JSON.stringify(data.alerts.alert));
+        } else {
+            console.log('No alerts');
+            document.querySelector('.excessiveHeat').hidden = true;
+        localStorage.removeItem('AlertCache', JSON.stringify(data.alerts.alert));
 
-      }
-
+        }
+    }
 
 }
 
@@ -1559,3 +1571,4 @@ function clickForecastItem(index){
             }
         });
     }
+
