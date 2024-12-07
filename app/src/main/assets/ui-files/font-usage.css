@@ -1,44 +1,53 @@
-@font-face {
-  font-family: 'Poppins';
-  src: url('../fonts/Poppins-Regular.ttf') format('truetype');
-
-}
-
 
 @font-face {
   font-family: 'Google';
-  src: url('../fonts/ProductSans-Regular.ttf') format('truetype');
-
-}
-
-@font-face {
-  font-family: 'Google-thin';
-  src: url('../fonts/ProductSans-Thin.ttf') format('truetype');
-
-}
-
-@font-face {
-  font-family: 'Google-light';
-  src: url('../fonts/ProductSans-Light.ttf') format('truetype');
+  src: url('../fonts/Product-Regular.ttf') format('truetype');
 
 }
 
 @font-face {
   font-family: 'Outfit';
-  src: url('../fonts/Outfit-Regular.ttf') format('truetype');
+  src: url('../fonts/Product-Regular.ttf') format('truetype');
 
 }
 
 @font-face {
   font-family: 'Outfit-mid';
-  src: url('../fonts/Outfit-Medium.ttf') format('truetype');
+  src: url('../fonts/Product-Medium.ttf') format('truetype');
 
 }
 
 
 @font-face {
   font-family: 'Google-medium';
-  src: url('../fonts/ProductSans-Medium.ttf') format('truetype');
+  src: url('../fonts/Product-Medium.ttf') format('truetype');
+
+}
+
+/* ---------- */
+@font-face {
+  font-family: 'Roboto';
+  src: url('../fonts/Roboto-Regular.ttf') format('truetype');
+
+}
+
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('../fonts/Roboto-Regular.ttf') format('truetype');
+
+}
+
+@font-face {
+  font-family: 'Roboto-medium';
+  src: url('../fonts/Roboto-Medium.ttf') format('truetype');
+
+}
+
+
+@font-face {
+  font-family: 'Roboto-medium';
+  src: url('../fonts/Roboto-Medium.ttf') format('truetype');
 
 }
 
