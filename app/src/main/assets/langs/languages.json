@@ -239,5 +239,6 @@
     "morning": "Morning",
     "day_tip": "Day tip",
     "translators": "Translators",
-    "change_apps_font": "Change app's font"
+    "change_apps_font": "Change app's font",
+    "app_font": "App font"
 }
