@@ -411,11 +411,6 @@ function saveLocationToContainer(locationName, lat, lon) {
 
     savedLocationsHolder.innerHTML = ''
 
-
-    setTimeout(() => {
-        loadSavedLocations()
-    }, 200)
-
 }
 
 
@@ -425,7 +420,6 @@ async function loadSavedLocations() {
     const savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
 
 
-    savedLocationsHolder.innerHTML = ''
 
 
     if (savedLocations.length === 0) {
@@ -435,6 +429,7 @@ async function loadSavedLocations() {
     }
 
     const currentTime = new Date().getTime();
+    savedLocationsHolder.innerHTML = ''
 
 
     for (const location of savedLocations) {
@@ -2182,7 +2177,7 @@ checkNoInternet();
 
 document.addEventListener('DOMContentLoaded', async function () {
 
-    const currentVersion = 'v1.9.4';
+    const currentVersion = 'v1.9.5';
     const githubRepo = 'PranshulGG/WeatherMaster';
     const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
@@ -2279,37 +2274,54 @@ function debounce(func, delay) {
 }
 
 let isSwipeDisabledHori = false;
+let isDebouncingScroll = false; // For debouncing touch events on `scrollView`
+
+const debounceTouch = (func, delay) => {
+    let timer;
+    return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => func(...args), delay);
+    };
+};
 
 scrollView.addEventListener('touchstart', () => {
-    if (!isSwipeDisabledHori) {
+    if (!isSwipeDisabledHori && !isDebouncingScroll) {
         sendThemeToAndroid("DisableSwipeRefresh");
         isSwipeDisabledHori = true;
     }
 });
 
 scrollView.addEventListener('touchend', () => {
-    setTimeout(() => {
-        checkTopScroll()
-        isSwipeDisabledHori = false;
-    }, 400);
+    if (!isDebouncingScroll) {
+        isDebouncingScroll = true;
+        debounceTouch(() => {
+            checkTopScroll();
+            isSwipeDisabledHori = false;
+            isDebouncingScroll = false;
+        }, 400)();
+    }
 });
 
 let isSwipeDisabledHoriForecast = false;
+let isDebouncingForecast = false; // For debouncing touch events on `forecast`
 
 document.getElementById('forecast').addEventListener('touchstart', () => {
-    if (!isSwipeDisabledHoriForecast) {
+    if (!isSwipeDisabledHoriForecast && !isDebouncingForecast) {
         sendThemeToAndroid("DisableSwipeRefresh");
         isSwipeDisabledHoriForecast = true;
     }
 });
 
 document.getElementById('forecast').addEventListener('touchend', () => {
-    setTimeout(() => {
-        checkTopScroll()
-        isSwipeDisabledHoriForecast = false;
-    }, 400);
+    if (!isDebouncingForecast) {
+        isDebouncingForecast = true;
+        debounceTouch(() => {
+            checkTopScroll();
+            isSwipeDisabledHoriForecast = false;
+            isDebouncingForecast = false;
+        }, 400)();
+    }
 });
-
 
 
 
