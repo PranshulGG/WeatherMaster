@@ -228,7 +228,7 @@
     "night": "Gabi",
     "wind_gust": "Bugso ng hangin",
     "rain_expected_to_continue": "Inaasahan na magpapatuloy ang pag-ulan sa mga susunod na oras",
-    "rain_likely_tomorrow_around": "Maaaring may ulan sa paligid bukas",
-    "rain_likely_around": "Maaaring may ulan sa paligid",
+    "rain_likely_tomorrow_around": "Maaaring may ulan bukas banda",
+    "rain_likely_around": "Maaaring may ulan banda",
     "weather_alerts": "Mga alerto sa panahon"
 }
