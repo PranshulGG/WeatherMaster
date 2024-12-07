@@ -1086,6 +1086,7 @@ background: linear-gradient(0deg, rgba(255, 0, 0, 0), var(--Secondary-Container)
   margin: 10px;
   border-radius: 0px;
   padding: 10px;
+  padding-top: 5px;
   margin-top: 5px;
   margin-bottom: 5px;
 }
