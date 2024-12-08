@@ -14,47 +14,6 @@ function WaitBeforeRefresh() {
 
 
 
-
-//function handleStorageChange(event) {
-//    switch (event.key) {
-//        case 'SelectedTempUnit':
-//            handleSelectedTempUnitChange();
-//            break;
-//        case 'SelectedWindUnit':
-//            handleSelectedWindUnitChange();
-//            break;
-//        case 'selectedVisibilityUnit':
-//            handleSelectedVisibilityUnitChange();
-//            break;
-//        case 'selectedTimeMode':
-//            handleSelectedTimeModeChange();
-//            break;
-//        case 'selectedPrecipitationUnit':
-//            handleSelectedPrecipitationUnitChange();
-//            break;
-//        case 'DefaultLocation':
-//            handleDefaultLocationChange();
-//            break;
-//        case 'UseBackgroundAnimations':
-//            handleUseBackgroundAnimationsChange();
-//            break;
-//        case 'selectedMainWeatherProvider':
-//            handleSelectedMainWeatherProviderChange();
-//            break;
-//        case 'ApiForAccu':
-//            handleApiForAccuChange();
-//            break;
-//        case 'selectedPressureUnit':
-//            handleSelectedPressureUnitChange();
-//            break;
-//        default:
-//            console.log('Untracked key changed:', event.key);
-//    }
-//}
-//
-//window.addEventListener('storage', handleStorageChange);
-
-
 let anim = null;
 
 function ShowError() {
@@ -113,6 +72,8 @@ if (navigator.onLine) {
             useAutoCurrentLocation()
             sendThemeToAndroid("ReqLocation")
             document.querySelector('.currentLocationdiv').hidden = false;
+            document.getElementById('showDeviceLocation').hidden = false;
+
         } else if (DefaultLocation.lat && DefaultLocation.lon) {
             DecodeWeather(DefaultLocation.lat, DefaultLocation.lon, DefaultLocation.name)
 
@@ -120,6 +81,8 @@ if (navigator.onLine) {
             document.getElementById('SelectedLocationText').innerHTML = DefaultLocation.name;
             localStorage.setItem('CurrentLocationName', DefaultLocation.name)
             document.getElementById('currentLocationName').textContent = DefaultLocation.name
+            document.getElementById('showDeviceLocation').hidden = true;
+
         }
     }
     else {
@@ -201,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const openMapPicker = document.getElementById('openMapPicker');
 
     cityopen.addEventListener("click", () => {
-
+        document.querySelector('.view_device_location').hidden = true;
         sendThemeToAndroid("DisableSwipeRefresh")
         let savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
 
@@ -986,7 +949,7 @@ async function loadSavedLocations() {
                                 localStorage.removeItem(`DecodeWeatherLastCalldmiDenmark_${location.locationName}`)
                             }, 400);
                         }
-            savedLocationItem.remove();
+                  savedLocationItem.remove();
             }
         });
 
@@ -2390,7 +2353,6 @@ function ReturnHomeLocation() {
 
     const Locations = JSON.parse(localStorage.getItem('DefaultLocation'));
 
-    document.getElementById('currentLocationName').textContent = Locations.name
 
 
 
@@ -3348,8 +3310,12 @@ function ReturnHomeLocation() {
 
     if (Locations.name === 'CurrentDeviceLocation') {
         document.getElementById('city-name').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'current_location')
+         document.getElementById('currentLocationName').textContent = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'current_location')
+
     } else {
         document.getElementById('city-name').innerHTML = Locations.name;
+        document.getElementById('currentLocationName').textContent = Locations.name
+
     }
     document.getElementById('SelectedLocationText').innerHTML = Locations.name;
     localStorage.setItem('CurrentLocationName', Locations.name)
@@ -4456,3 +4422,51 @@ function checkTopScroll() {
 
 
 
+// display device location
+
+document.getElementById('showDeviceLocation').addEventListener('click', () =>{
+    setTimeout(() =>{
+        document.querySelector('.view_device_location').hidden = false;
+    }, 200);
+    if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition((position) => {
+            currentLocation = {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude
+            };
+
+        const url = `https://nominatim.openstreetmap.org/reverse?lat=${currentLocation.latitude}&lon=${currentLocation.longitude}&format=json`;
+
+         fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) {
+                document.getElementById("address").innerText = "No address found.";
+            } else {
+                const address = data.address;
+                const shortAddress = `${address.city || address.town || address.village || ''}, ${address.state || ''}, ${address.country || ''}`;
+               document.getElementById('device_address').innerHTML = shortAddress.trim()
+
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            document.getElementById("address").innerText = "Failed to retrieve address.";
+        });
+    });
+
+    }
+
+
+
+
+});
+
+document.querySelector('.view_device_location').addEventListener('click', () =>{
+    document.querySelector('.view_device_location').hidden = true;
+});

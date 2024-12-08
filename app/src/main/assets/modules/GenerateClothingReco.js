@@ -65,8 +65,14 @@ function GenerateRecommendation() {
     }
 
 
+
+    if (currentLocationData === 'CurrentDeviceLocation') {
+        document.getElementById('location_name').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'current_location')
+
+    } else {
     document.getElementById('location_name').innerHTML = currentLocationData
 
+    }
 
     const recommendationsContainer = document.getElementById('recommendations');
     const dayTipContainer = document.getElementById('day_tip');

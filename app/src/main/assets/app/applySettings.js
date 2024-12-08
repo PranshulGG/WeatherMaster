@@ -16,12 +16,6 @@ function handleStorageChange(event) {
         case 'selectedPrecipitationUnit':
             HandleNoReloadSettings()
             break;
-        case 'DefaultLocation':
-            setTimeout(() => {
-           window.location.reload();
-           sendThemeToAndroid('overcast')
-           }, 1500);
-            break;
         case 'UseBackgroundAnimations':
             RemoveDisplayedAnimations();
             HandleNoReloadSettings()
