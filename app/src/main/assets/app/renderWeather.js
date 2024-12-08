@@ -987,79 +987,107 @@ function UvIndex(uvIndexValue) {
 
          const uvIndex = Math.round(uvIndexValue);
 
-        localStorage.setItem('CurrentUVIndexMain', uvIndex)
 
             if (uvIndex >= 0 && uvIndex <= 1) {
                 document.getElementById('uv-index').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'minimal_risk');
                 document.getElementById('uv-index').style = 'background-color: #43b710';
                 document.getElementById('uv_img').src = 'uv-images/uv-0.png';
                 document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'uv_index_satisfactory')
+                  localStorage.setItem('CurrentUVIndexMain', '0')
+
             } else if (uvIndex > 1 && uvIndex <= 2) {
                 document.getElementById('uv-index').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'low_risk');
                 document.getElementById('uv-index').style = 'background-color: #43b710';
                 document.getElementById('uv_img').src = 'uv-images/uv-1.png';
                 document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'conditions_low_risk')
+                localStorage.setItem('CurrentUVIndexMain', '1')
+
             } else if (uvIndex > 2 && uvIndex <= 3) {
                 document.getElementById('uv-index').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'low_risk');
                 document.getElementById('uv-index').style = 'background-color: #43b710';
                 document.getElementById('uv_img').src = 'uv-images/uv-2.png';
                 document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'low_exposure_level')
+                localStorage.setItem('CurrentUVIndexMain', '2')
+
             } else if (uvIndex > 3 && uvIndex <= 4) {
                 document.getElementById('uv-index').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'moderate_risk');
                 document.getElementById('uv-index').style = 'background-color: #eaaf10';
                 document.getElementById('uv_img').src = 'uv-images/uv-3.png';
                 document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'moderate_risk_sun_exposure')
+                localStorage.setItem('CurrentUVIndexMain', '3')
+
             } else if (uvIndex > 4 && uvIndex <= 5) {
                 document.getElementById('uv-index').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'moderate_risk');
                 document.getElementById('uv-index').style = 'background-color: #eaaf10';
                 document.getElementById('uv_img').src = 'uv-images/uv-4.png';
                 document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'moderate_risk_sun_exposure')
+                localStorage.setItem('CurrentUVIndexMain', '4')
+
             } else if (uvIndex > 5 && uvIndex <= 6) {
                 document.getElementById('uv-index').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'moderate_risk');
                 document.getElementById('uv-index').style = 'background-color: #eaaf10';
                 document.getElementById('uv_img').src = 'uv-images/uv-5.png';
                 document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'moderate_risk_sun_exposure')
+                localStorage.setItem('CurrentUVIndexMain', '5')
+
             } else if (uvIndex > 6 && uvIndex <= 7) {
                 document.getElementById('uv-index').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'high_risk');
                 document.getElementById('uv-index').style = 'background-color: #eb8a11';
                 document.getElementById('uv_img').src = 'uv-images/uv-6.png';
                 document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'high_risk_sun_exposure')
+                localStorage.setItem('CurrentUVIndexMain', '6')
+
             } else if (uvIndex > 7 && uvIndex <= 8) {
                 document.getElementById('uv-index').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'high_risk');
                 document.getElementById('uv-index').style = 'background-color: #eb8a11';
                 document.getElementById('uv_img').src = 'uv-images/uv-7.png';
                 document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'high_risk_sun_exposure')
+                localStorage.setItem('CurrentUVIndexMain', '7')
+
             } else if (uvIndex > 8 && uvIndex <= 9) {
                 document.getElementById('uv-index').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'very_high_risk');
                 document.getElementById('uv-index').style = 'background-color: #e83f0f';
                 document.getElementById('uv_img').src = 'uv-images/uv-8.png';
                 document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'very_high_risk_sun_exposure')
+                localStorage.setItem('CurrentUVIndexMain', '8')
+
             } else if (uvIndex > 9 && uvIndex <= 10) {
                 document.getElementById('uv-index').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'very_high_risk');
                 document.getElementById('uv-index').style = 'background-color: #e83f0f';
                 document.getElementById('uv_img').src = 'uv-images/uv-9.png';
                 document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'very_high_risk_sun_exposure')
+                localStorage.setItem('CurrentUVIndexMain', '9')
+
             } else if (uvIndex > 10 && uvIndex <= 11) {
                 document.getElementById('uv-index').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'very_high_risk');
                 document.getElementById('uv-index').style = 'background-color: #e83f0f';
                 document.getElementById('uv_img').src = 'uv-images/uv-10.png';
                 document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'very_high_risk_sun_exposure')
+                localStorage.setItem('CurrentUVIndexMain', '10')
+
             } else if (uvIndex > 11 && uvIndex <= 12) {
                 document.getElementById('uv-index').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'extreme_risk');
                 document.getElementById('uv-index').style = 'background-color: #8e3acf';
                 document.getElementById('uv_img').src = 'uv-images/uv-11.png';
                 document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'extreme_risk_sun_exposure')
+                localStorage.setItem('CurrentUVIndexMain', '11')
+
             } else if (uvIndex > 12 && uvIndex <= 13) {
                 document.getElementById('uv-index').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'extreme_risk');
                 document.getElementById('uv-index').style = 'background-color: #ec0c8b';
                 document.getElementById('uv_img').src = 'uv-images/uv-12.png';
                 document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'extreme_risk_sun_exposure')
+                localStorage.setItem('CurrentUVIndexMain', '12')
+
             } else if (uvIndex > 13) {
                 document.getElementById('uv-index').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'extreme_risk');
                 document.getElementById('uv-index').style = 'background-color: #550ef9';
                 document.getElementById('uv_img').src = 'uv-images/uv-13.png';
                 document.getElementById('detail_uv').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'extreme_risk_sun_exposure')
+                localStorage.setItem('CurrentUVIndexMain', '13+')
+
             }
+
 
 
 
@@ -1322,6 +1350,7 @@ function FetchAlertRender(data){
 
 
     if(localStorage.getItem('useWeatherAlerts') === 'false'){
+            document.querySelector('.excessiveHeat').hidden = true;
 
     } else{
         if(data.alerts.alert && data.alerts.alert.length > 0){
