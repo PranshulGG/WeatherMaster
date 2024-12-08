@@ -800,6 +800,12 @@ async function loadSavedLocations() {
          });
 
         savedLocationItem.querySelector('.delete-btn').addEventListener('click', () => {
+        const checkDefault = JSON.parse(localStorage.getItem('DefaultLocation'));
+
+                    if(location.locationName === checkDefault.name){
+                        ShowSnackMessage.ShowSnack("You can't delete the default location", "long");
+                        return;
+                    } else{
             deleteLocation(location.locationName);
             if (localStorage.getItem(`WeatherDataOpenMeteo_${location.locationName}`)) {
                 setTimeout(() => {
@@ -981,6 +987,7 @@ async function loadSavedLocations() {
                             }, 400);
                         }
             savedLocationItem.remove();
+            }
         });
 
         const savelocationtouch = document.createElement('savelocationtouch');
