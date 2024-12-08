@@ -666,7 +666,7 @@
         </div>
 
         <div class="currentLocationdiv" style="margin-top: 20px; ">
-            <p class="title" style="display: flex; align-items: center; gap: 10px;"><md-icon icon-outlined>location_on</md-icon><span data-translate="current_location">Home location</span><md-text-button id="saveLocationCurrent" onclick="saveLocationToContainer(document.getElementById('saveLocationCurrent').getAttribute('data-location-text'), document.getElementById('saveLocationCurrent').getAttribute('data-lat'), document.getElementById('saveLocationCurrent').getAttribute('data-long'))" hidden>Save?</md-text-button></p>
+            <p class="title" style="display: flex; align-items: center; gap: 10px;"><md-icon icon-outlined>location_on</md-icon><span data-translate="current_location">Home location</span><md-text-button id="saveLocationCurrent" onclick="saveLocationToContainer(document.getElementById('saveLocationCurrent').getAttribute('data-location-text'), document.getElementById('saveLocationCurrent').getAttribute('data-lat'), document.getElementById('saveLocationCurrent').getAttribute('data-long'))" hidden>Save?</md-text-button><flex></flex><i id="showDeviceLocation" icon-outlined style="margin-right: 20px;">info</i></p>
             <div class="currentLocations ripple_btn_low" id="currentLocations" onclick="ReturnHomeLocation();  window.history.back();">
                 <div class="currentSearchImg">
                     <img src="icons/error.png" id="currentSearchImg" alt=""> </div>
