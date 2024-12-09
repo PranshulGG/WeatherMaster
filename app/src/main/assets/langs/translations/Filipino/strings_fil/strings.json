@@ -1,5 +1,5 @@
 {
-    "feels_like": "Pakiramdam ay",
+    "feels_like": "Parang",
     "hourly_precipitation": "Oras-oras na pag-ulan",
     "save": "I-save",
     "cancel": "Kanselahin",
@@ -159,7 +159,7 @@
     "precipitation_chances": "Tsansa ng ulan",
     "cloudiness": "Pagka-ulap",
     "dew_point": "Dew point",
-    "air_quality_satisfactory": "Ang kalidad ng hangin ay itinuturing kasiya-siya, at ang polusyon sa hanging ay nagdudulot ng kaunti o walang panganib.",
+    "air_quality_satisfactory": "Air quality is considered satisfactory, and air pollution poses little or no risk.",
     "air_quality_acceptable": "Ang kalidad ng hangin ay katanggap-tanggap; gayunpaman, para sa ilang mga pollutant maaaring may katamtamang pag-aalala sa kalusugan para sa maliit na numero ng mga tao na di-pangkaraniwang sensitibo sa polusyon sa hangin.",
     "sensitive_groups_health_effects": "Ang miyembrong sa mga sensitibong grupo ay maaaring makaranas ng epekto sa kalusugan. Ang pangkalahatang publiko ay malamang hindi maaapektuhan.",
     "health_effects_public": "Ang lahat ay maaaring makaranas ng mga epekto sa kalusugan; ang miyembro ng mga sensitibong grupo ay maaaring makaranas ng mga mas malalang epekto sa kalusugan.",
