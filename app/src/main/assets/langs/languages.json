@@ -240,5 +240,9 @@
     "day_tip": "Day tip",
     "translators": "Translators",
     "change_apps_font": "Change app's font",
-    "app_font": "App font"
+    "app_font": "App font",
+    "show_alerts_home_page_sub": "Show weather alerts on the home page",
+    "weather_models": "Weather Models",
+    "openmeteo_weather_models": "Open-Meteo Weather models"
+
 }
