@@ -324,6 +324,20 @@
                     <md-icon icon-outlined slot="end">open_in_new</md-icon>
                 </md-list-item>
 
+                <md-list-item type="button" id="exportAppData">
+                    <md-icon icon-filled slot="start">upgrade</md-icon>
+                    <div slot="headline">Export data</div>
+                    <div slot="supporting-text">Export all your settings, locations, and their last fetched weather data—literally everything!</div>
+                </md-list-item>
+
+
+                <md-list-item type="button" id="importAppData">
+                    <md-icon icon-filled slot="start">download</md-icon>
+                    <div slot="headline">Import data</div>
+                    <div slot="supporting-text" style="color: var(--Error);">Warning: Importing will erase your current app data</div>
+                </md-list-item>
+                <input type="file" id="ImportFile" style="display:none;" accept="application/json">
+
             </md-list>
 
 
@@ -1093,6 +1107,59 @@ function ChangeSelectedMainProviderName() {
                 } else{
                     document.getElementById('useWeatherAlerts').selected = true
                 }
+
+                document.getElementById("exportAppData").addEventListener("click", () => {
+
+
+
+    const data = { ...localStorage };
+
+    // Check if local storage has data
+    if (Object.keys(data).length > 0) {
+        // Convert data to JSON string
+        const jsonData = JSON.stringify(data, null, 2);
+
+        // Use Android interface to save the file
+        Android.saveFile(jsonData);
+    } else {
+        // Show toast message if no data is found
+        ShowSnackMessage.ShowSnack("No data found", "short");
+    }
+});
+
+document.getElementById('importAppData').addEventListener('click', () => {
+    Android.importFile();
+});
+
+function handleImportedData(importedData) {
+    try {
+        const data = JSON.parse(importedData);
+
+        if (typeof data !== "object" || data === null) {
+            throw new Error("Invalid data format");
+        }
+
+        localStorage.clear();
+
+
+      setTimeout(() => {
+        for (const [key, value] of Object.entries(data)) {
+            localStorage.setItem(key, value);
+
+        }
+        ShowSnackMessage.ShowSnack("Data imported successfully!", "short");
+
+}, 1000);
+      setTimeout(() => {
+      Android.reloadTheApp();
+}, 1500);
+
+    } catch (error) {
+        ShowSnackMessage.ShowSnack("Error parsing the imported JSON data. Please ensure it is valid and correctly formatted.", "long");
+        console.error(error);
+    }
+}
+
     </script>
 </script>
 

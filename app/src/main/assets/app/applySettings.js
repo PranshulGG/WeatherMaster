@@ -22,9 +22,12 @@ function handleStorageChange(event) {
             break;
         case 'selectedMainWeatherProvider':
             setTimeout(() => {
-           window.location.reload();
-           sendThemeToAndroid('overcast')
-           }, 1500);
+                if(localStorage.getItem('selectedMainWeatherProvider') === 'Accuweather' && !localStorage.getItem('ApiForAccu')){
+                } else{
+                    window.location.reload();
+                    sendThemeToAndroid('overcast')
+                }
+            }, 1500);
             break;
         case 'ApiForAccu':
             setTimeout(() => {
@@ -53,14 +56,18 @@ window.addEventListener('storage', handleStorageChange);
 
 // apply when options are changed
 
-function HandleNoReloadSettings() {
+let debounceTimer;
 
-    const renderLocation = localStorage.getItem('CurrentLocationName')
-        setTimeout(() =>{
-            LoadLocationOnRequest(localStorage.getItem('currentLat'), localStorage.getItem('currentLong'), renderLocation)
-           onAllLocationsLoaded()
-        }, 300);
-    }
+function HandleNoReloadSettings() {
+    const renderLocation = localStorage.getItem('CurrentLocationName');
+
+    clearTimeout(debounceTimer);
+
+    debounceTimer = setTimeout(() => {
+        LoadLocationOnRequest(localStorage.getItem('currentLat'), localStorage.getItem('currentLong'), renderLocation);
+        onAllLocationsLoaded();
+    }, 500);
+}
 
 
 function RemoveDisplayedAnimations() {
