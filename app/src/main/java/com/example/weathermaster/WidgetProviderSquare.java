@@ -7,10 +7,14 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.widget.RelativeLayout;
 import android.widget.RemoteViews;
+import android.widget.TextView;
 
 public class WidgetProviderSquare extends AppWidgetProvider {
     private static final String PREFS_NAME = "WeatherWidgetPrefsSquare";
+
+
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
