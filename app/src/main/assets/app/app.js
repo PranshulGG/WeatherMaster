@@ -4,7 +4,6 @@
 const DefaultLocation = JSON.parse(localStorage.getItem('DefaultLocation'));
 
 let currentApiKeyIndex = 0;
-
 let currentKeyMoonIndex = 0;
 let currentAstronomyKeyIndex = 0;
 

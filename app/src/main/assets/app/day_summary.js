@@ -11,7 +11,7 @@ function ReportFromhourly(data) {
 
 function ReportFromdaily(data) {
     combinedData.dailyData = data;
-    
+//    a summary
         GenerateSummary(combinedData);
 }
 
