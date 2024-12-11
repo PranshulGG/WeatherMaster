@@ -383,5 +383,6 @@
     "phase_full_moon": "Full Moon",
     "phase_waning_gibbous": "Waning Gibbous",
     "phase_last_quarter": "Last Quarter",
-    "phase_waning_crescent": "Waning Crescent"
+    "phase_waning_crescent": "Waning Crescent",
+    "weather_alerts_on_the_home_page_sub": "Show weather alerts on the home page"
 }
