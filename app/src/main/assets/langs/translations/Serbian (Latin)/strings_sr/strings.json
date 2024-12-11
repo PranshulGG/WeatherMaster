@@ -375,5 +375,13 @@
     "summary_phrase_5_part_1": "Vreme će početi sa",
     "summary_phrase_5_part_2": "ujutru, prelazeći u",
     "summary_phrase_5_part_3": "do popodneva",
-    "unpredictable_weather": "nepredvidivo vreme"
+    "unpredictable_weather": "nepredvidivo vreme",
+    "phase_new_moon": "Mlad mesec",
+    "phase_waxing_crescent": "Rastući polumesec",
+    "phase_first_quarter": "Prva četvrtina",
+    "phase_waxing_gibbous": "Rastući izbočeni mesec",
+    "phase_full_moon": "Pun mesec ",
+    "phase_waning_gibbous": "Padajući izbočeni mesec",
+    "phase_last_quarter": "Poslednja četvrtina",
+    "phase_waning_crescent": "Opadajući polumesec"
 }
