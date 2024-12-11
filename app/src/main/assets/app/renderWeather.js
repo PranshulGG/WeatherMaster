@@ -58,7 +58,7 @@ function HourlyWeather(data) {
 
                         if (isRainingNow) {
                             if (!rainStopping && rainAmountALL <= rainThreshold && index > 0) {
-                                rainStopping = `Rain expected to stop at ${hours}${period}`;
+                                rainStopping = `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'rain_to_stop_at')} ${hours}${period}`;
                             }
                         }
                 else if (!isRainingNow && !rainComing && rainAmountALL > rainThreshold) {
@@ -357,7 +357,7 @@ setChart()
         if (localStorage.getItem('selectedPrecipitationUnit') === 'in') {
             TodaysPrecAmount = mmToInches(dailyForecast.precipitation_sum[0]).toFixed(2) + ' in';
         } else if (localStorage.getItem('selectedPrecipitationUnit') === 'cm') {
-            TodaysPrecAmount = (Math.round(dailyForecast.precipitation_sum[0]) / 10).toFixed(2);
+            TodaysPrecAmount = (Math.round(dailyForecast.precipitation_sum[0]) / 10).toFixed(2) + ' cm'
         } else {
             TodaysPrecAmount = dailyForecast.precipitation_sum[0].toFixed(1) + ' mm';
         }
@@ -1141,14 +1141,14 @@ function UvIndex(uvIndexValue) {
                     }
                     let precipitationMessage;
         if (mainData.totalprecip_in > 0) {
-            precipitationMessage = `Expect around ${Precipitation} of precipitation today 🌧️. Make sure to carry an umbrella! ☔`;
+            precipitationMessage = `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'rain_report_tipPart_1')} ${Precipitation} ${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'rain_report_tipPart_2')} `;
         } else {
-            precipitationMessage = `No significant precipitation is expected today, so you can leave the umbrella at home! ☀️😊`;
+            precipitationMessage = `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'Norain_report_tipPart')}`;
         }
 
+
         let weatherReport = `
-         <li style="padding-bottom: 5px;">${willRain}</li>
-         <li style="padding-bottom: 5px;">Expect a high of ${maxTemp}° ☀️ with a maximum UV index of ${mainData.uv}. As the sun sets 🌅, temperatures will drop to a cozy ${minTemp}°. A lovely evening awaits! 🌙</li>
+         <li style="padding-bottom: 5px;">${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'temp_report_tipPart_1')} ${maxTemp}° ${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'temp_report_tipPart_2')} ${mainData.uv} ${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'temp_report_tipPart_3')} ${minTemp}° ${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'temp_report_tipPart_4')} </li>
          <li >${precipitationMessage}</li>
 
 
@@ -1156,90 +1156,90 @@ function UvIndex(uvIndexValue) {
             let weatherTips = "";
 
         const veryHotWeatherTips = [
-            "🌞 Scorching temperatures ahead! Stay indoors as much as possible and stay hydrated.",
-            "🥵 Extreme heat today! Avoid outdoor activities during peak hours, and make sure to stay cool.",
-            "🔥 It's dangerously hot today! Drink water constantly and stay in air-conditioned spaces if possible.",
-            "🌡️ It's a heatwave! Protect your skin with sunscreen and wear a wide-brimmed hat.",
-            "💦 Drink plenty of water and avoid strenuous activities in such high heat."
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'very_hot_weather_tips_1')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'very_hot_weather_tips_2')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'very_hot_weather_tips_3')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'very_hot_weather_tips_4')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'very_hot_weather_tips_5')}`,
         ];
 
         const hotWeatherTips = [
-            "🔥 It's going to be hot today! Stay hydrated and wear light, breathable clothing.",
-            "🥵 High temperatures ahead! Drink plenty of water and avoid the sun during peak hours.",
-            "☀️ The heat is on! Wear a hat and stay in the shade as much as possible.",
-            "🌡️ Hot day ahead! Don’t forget sunscreen if you're going outside for an extended period.",
-            "🧴 Keep cool with refreshing drinks and take breaks in a cool place."
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'hot_weather_tips_1')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'hot_weather_tips_2')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'hot_weather_tips_3')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'hot_weather_tips_4')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'hot_weather_tips_5')}`,
         ];
 
         const mildWeatherTips = [
-            "🌤️ The weather is mild today, perfect for outdoor activities. Don't forget sunscreen!",
-            "😊 A nice, mild day ahead! Ideal for a walk or enjoying time outdoors.",
-            "🌸 Mild temperatures mean it's great for layering. Dress comfortably for the day."
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'mild_weather_tips_1')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'mild_weather_tips_2')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'mild_weather_tips_3')}`,
         ];
 
         const chillyWeatherTips = [
-            "🧥 It's going to be a bit chilly. Consider wearing a jacket if you're heading out.",
-            "🥶 Brr! It's cold today, so bundle up before heading out.",
-            "🌬️ The temperature is lower today, keep yourself warm with layers.",
-            "🧣 Don't forget a scarf if you're out and about in the cold!",
-            "❄️ Make sure to wear gloves if you're outside for long periods."
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'chilly_weather_tips_1')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'chilly_weather_tips_2')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'chilly_weather_tips_3')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'chilly_weather_tips_4')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'chilly_weather_tips_5')}`,
         ];
 
         const veryColdWeatherTips = [
-            "❄️ Freezing temperatures ahead! Dress in warm layers and keep your extremities covered.",
-            "🧤 Make sure you're bundled up—cold weather can be harsh on your skin.",
-            "⛄️ Extremely cold today—avoid spending too much time outside if possible.",
-            "🥶 Stay inside if you can, or make sure you're wearing a heavy coat, hat, and gloves."
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'very_cold_weather_tips_1')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'very_cold_weather_tips_2')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'very_cold_weather_tips_3')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'very_cold_weather_tips_4')}`,
         ];
 
         const extremeColdWeatherTips = [
-            "🥶 It's dangerously cold today! Stay indoors if you can, and bundle up in thick layers.",
-            "❄️ Temperatures below freezing! Keep your skin covered to avoid frostbite.",
-            "🌨️ If you must go outside, wear multiple layers and protect your face and hands.",
-            "🧣 Wind chills are intense—dress in a warm, insulated coat and stay warm.",
-            "☃️ Avoid any outdoor activities in this extreme cold unless absolutely necessary."
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'extreme_cold_weather_tips_1')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'extreme_cold_weather_tips_2')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'extreme_cold_weather_tips_3')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'extreme_cold_weather_tips_4')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'extreme_cold_weather_tips_5')}`,
         ];
             
             const rainTips = [
-                "☔ There's a chance of rain. Don't forget to carry an umbrella or raincoat.",
-                "🌧️ Wet weather ahead! Be sure to stay dry with waterproof gear.",
-                "🌂 Expect rain showers today. Make sure to keep your umbrella handy."
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'rain_weather_tips_1')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'rain_weather_tips_2')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'rain_weather_tips_3')}`,
             ];
             
             const sunnyTips = [
-                "🌞 Enjoy the sunshine! Remember to apply sunscreen if you're spending time outdoors.",
-                "😎 It's sunny out there! Perfect day for outdoor activities, but don't forget your sunglasses.",
-                "☀️ Bright and sunny! Keep hydrated and protect yourself from the sun."
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'sunny_weather_tips_1')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'sunny_weather_tips_2')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'sunny_weather_tips_3')}`,
             ];
             
             const snowTips = [
-                "❄️ Snow is expected, so dress warmly and drive carefully.",
-                "🌨️ Heavy snow is on its way! Prepare for slippery roads and reduced visibility.",
-                "⛄ Snowy day ahead! A great time for winter fun, but stay safe on the roads."
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'snow_weather_tips_1')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'snow_weather_tips_2')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'snow_weather_tips_3')}`,
             ];
 
             const cloudyWeatherTips = [
-                "☁️ It's a cloudy day. Might be a good idea to carry a light jacket just in case.",
-                "🌥️ Overcast skies today. Perfect weather for a cozy indoor day or a walk in the park.",
-                "🌫️ Cloudy conditions ahead. Visibility might be reduced, so drive carefully."
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'cloudy_weather_tips_1')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'cloudy_weather_tips_2')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'cloudy_weather_tips_3')}`,
             ];
 
             const fogTips = [
-                "🌫️ Foggy conditions ahead. Reduce your speed and use low-beam headlights when driving.",
-                "👁️‍🗨️ Visibility will be reduced due to fog. Be cautious on the road.",
-                "🚶‍♂️ Foggy weather today. If you're walking or biking, wear bright, reflective clothing."
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'fog_weather_tips_1')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'fog_weather_tips_2')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'fog_weather_tips_3')}`,
             ];
 
             const windTips = [
-                "💨 It's going to be windy today. Secure loose objects outdoors and be cautious when driving.",
-                "🌬️ Strong winds ahead! Hold onto your hat and be aware of flying debris.",
-                "🌀 Windy day ahead. If you're outdoors, take care of gusty conditions, especially near tall structures."
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'wind_weather_tips_1')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'wind_weather_tips_2')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'wind_weather_tips_3')}`,
             ];
 
             const thunderstormTips = [
-                "⛈️ Thunderstorms expected. Stay indoors and avoid being near tall objects or open fields.",
-                "⚡ There's a risk of thunderstorms. Unplug sensitive electronics to avoid damage from lightning.",
-                "🌩️ Stormy weather today! Avoid driving during heavy rain and stay safe indoors."
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'thunder_weather_tips_1')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'thunder_weather_tips_2')}`,
+            `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'thunder_weather_tips_3')}`,
             ];
 
     if (Math.round(mainData.maxtemp_c) > 35) {
@@ -1261,7 +1261,7 @@ function UvIndex(uvIndexValue) {
             }
             
             if (weatherCondition.toLowerCase().includes("rain")) {
-                weatherTips += "🚗 Be cautious of slippery roads if you're driving. ";
+                weatherTips += `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'cautious_slippery_roads')} `;
             } else if (weatherCondition.toLowerCase().includes("sunny")) {
                 weatherTips += sunnyTips[Math.floor(Math.random() * sunnyTips.length)] + " ";
             } else if (weatherCondition.toLowerCase().includes("snow")) {

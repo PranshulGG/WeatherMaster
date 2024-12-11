@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:id="@+id/widget_layout_square_v2"
-    android:layout_height="wrap_content"
+    android:layout_height="220dp"
     android:paddingBottom="10dp"
     android:paddingTop="10dp"
     android:paddingLeft="15dp"

@@ -188,7 +188,7 @@
         <md-ripple></md-ripple>
     </div>
 
-    <p class="title" style="padding: 10px; margin: 0; font-size: 24px; color: var(--Primary); padding-bottom: 0; padding-top: 25px;">Translators</p>
+    <p class="title" style="padding: 10px; margin: 0; font-size: 24px; color: var(--Primary); padding-bottom: 0; padding-top: 25px;" data-translate="translators">Translators</p>
 
     <div id="translators-container">
         <div style="display: flex; align-items: center; justify-content: center; padding: 20px;">
@@ -202,8 +202,8 @@
 <script>
 
 async function fetchTranslators() {
-    const projectId = '--';
-    const apiToken = '--';
+    const projectId = 'MAIN_KEY_WM';
+    const apiToken = 'MAIN_KEY_WM';
 
     try {
         const response = await fetch(`https://api.crowdin.com/api/v2/projects/${projectId}/members`, {

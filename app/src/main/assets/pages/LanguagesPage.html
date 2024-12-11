@@ -240,7 +240,7 @@
                 <label class="language_item">
                     <input name="app_language_radios" value="Portuguese" lang="pt" onclick="updateImgAreas()" type="radio">
                     <img_area>
-                        <span id="lang-pt">--</span>
+                        <span id="lang-pt-PT">--</span>
                     </img_area>
                     Portuguese
                     <md-ripple></md-ripple>
@@ -267,7 +267,7 @@
                 <label class="language_item">
                     <input name="app_language_radios" value="Spanish" lang="es" onclick="updateImgAreas()" type="radio">
                     <img_area>
-                        <span id="lang-es">--</span>
+                        <span id="lang-es-ES">--</span>
                     </img_area>
                     Spanish
                     <md-ripple></md-ripple>
@@ -299,6 +299,16 @@
                     Vietnamese
                     <md-ripple></md-ripple>
                 </label>
+
+                <label class="language_item">
+                    <input name="app_language_radios" value="Serbian (Latin)" lang="sr" onclick="updateImgAreas()" type="radio">
+                    <img_area>
+                        <span id="lang-sr-CS">--</span>
+                    </img_area>
+                    Serbian (Latin)
+                    <md-ripple></md-ripple>
+                </label>
+
             </md-list>
 
             <br>
@@ -319,28 +329,45 @@
 <script>
 
 async function fetchTranslationProgress() {
-    const projectId = 'KEY'; // Replace with your Crowdin project ID
-    const apiToken = 'KEY';  // Replace with your Crowdin API token
+    const projectId = 'MAIN_KEY_WM';
+    const apiToken = 'MAIN_KEY_WM';
 
-    const response = await fetch(`https://api.crowdin.com/api/v2/projects/${projectId}/languages/progress`, {
-        headers: {
-            'Authorization': `Bearer ${apiToken}`,
-            'Content-Type': 'application/json',
-        },
-    });
+    try {
+        const response = await fetch(`https://api.crowdin.com/api/v2/projects/${projectId}/languages/progress`, {
+            headers: {
+                'Authorization': `Bearer ${apiToken}`,
+                'Content-Type': 'application/json',
+            },
+        });
 
-    if (!response.ok) {
-        console.error('Failed to fetch translation progress:', response.statusText);
-        return;
+        if (!response.ok) {
+            throw new Error(`Failed to fetch data: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+        // Transform and save data to localStorage
+        const progressData = data.data.map(lang => ({
+            language: lang.data.languageId,
+            translationProgress: lang.data.translationProgress,
+        }));
+
+        localStorage.setItem('translationProgress', JSON.stringify(progressData));
+        return progressData;
+
+    } catch (error) {
+        console.error('Error fetching translation progress:', error);
+
+        // Fallback to localStorage data
+        const savedData = localStorage.getItem('translationProgress');
+        if (savedData) {
+            console.warn('Using saved data from localStorage.');
+            return JSON.parse(savedData);
+        }
+
+        // If no data is available in localStorage
+        return [];
     }
-
-    const data = await response.json();
-    return data.data.map(lang => ({
-        language: lang.data.languageId,
-        translationProgress: lang.data.translationProgress,
-    }));
-    console.log(data)
-
 }
 
 async function updateProgressInDivs() {
@@ -350,11 +377,13 @@ async function updateProgressInDivs() {
         // Select the corresponding div based on the language
         const languageDiv = document.getElementById(`lang-${language}`);
         if (languageDiv) {
-                // Update the progress span with the translation progress
-                languageDiv.textContent = `${translationProgress}%`;
+            // Update the progress span with the translation progress
+            languageDiv.textContent = `${translationProgress}%`;
         }
     });
 }
+
+updateProgressInDivs();
 
 // Run the function to fetch data and update the divs
 updateProgressInDivs();

@@ -114,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
         webview.getSettings().setDomStorageEnabled(true);
 
 
+
+
         DynamicColors.applyToActivitiesIfAvailable(getApplication());
 
 

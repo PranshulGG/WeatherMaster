@@ -1787,66 +1787,58 @@ function getWeatherLabelInLangNoAnimText(iconCode, isDay, langCode) {
 
 
 
+
 function animateTemp(temp_value) {
     const SelectedTempUnit = localStorage.getItem('SelectedTempUnit');
+    const useTempAnimation = localStorage.getItem('useTempAnimation');
 
+    // Adjust the starting point to 75% of the target value or 0, whichever is higher
     let targetNum = temp_value;
-    let currentNum = 0;
+    let currentNum = Math.max(Math.floor(targetNum * 0.75), 0); // Start closer to the target
     let baseSpeed = 50;
 
-    if (SelectedTempUnit === 'fahrenheit') {
-        currentNum = 100
-
-    } else {
-        currentNum = 0
-
-    }
-
-
     function animateNumber() {
-        if(localStorage.getItem('useTempAnimation') === 'false'){
+        if (useTempAnimation === 'false') {
             document.getElementById('temp').innerHTML = temp_value + '°';
-        } else{
-        let interval = setInterval(() => {
+        } else {
+            let interval = setInterval(() => {
+                if (currentNum > targetNum) {
+                    currentNum--;
+                    document.getElementById('temp').innerHTML = currentNum + '°';
 
-            if (currentNum > targetNum) {
-                currentNum--;
-                document.getElementById('temp').innerHTML = currentNum + '°';
+                    if (currentNum <= targetNum + 5 && currentNum > targetNum) {
+                        clearInterval(interval);
 
-                if (currentNum <= targetNum + 5 && currentNum > targetNum) {
+                        interval = setInterval(() => {
+                            if (currentNum > targetNum) {
+                                currentNum--;
+                                document.getElementById('temp').innerHTML = currentNum + '°';
+                            } else {
+                                clearInterval(interval);
+                            }
+                        }, baseSpeed * 4);
+                    }
+                } else if (currentNum < targetNum) {
+                    currentNum++;
+                    document.getElementById('temp').innerHTML = currentNum + '°';
+
+                    if (currentNum >= targetNum - 5 && currentNum < targetNum) {
+                        clearInterval(interval);
+
+                        interval = setInterval(() => {
+                            if (currentNum < targetNum) {
+                                currentNum++;
+                                document.getElementById('temp').innerHTML = currentNum + '°';
+                            } else {
+                                clearInterval(interval);
+                            }
+                        }, baseSpeed * 4);
+                    }
+                } else {
                     clearInterval(interval);
-
-                    interval = setInterval(() => {
-                        if (currentNum > targetNum) {
-                            currentNum--;
-                            document.getElementById('temp').innerHTML = currentNum + '°';
-                        } else {
-                            clearInterval(interval);
-                        }
-                    }, baseSpeed * 4);
                 }
-                // If the targetNum is positive, increment the currentNum
-            } else if (currentNum < targetNum) {
-                currentNum++;
-                document.getElementById('temp').innerHTML = currentNum + '°';
-
-                if (currentNum >= targetNum - 5 && currentNum < targetNum) {
-                    clearInterval(interval);
-
-                    interval = setInterval(() => {
-                        if (currentNum < targetNum) {
-                            currentNum++;
-                            document.getElementById('temp').innerHTML = currentNum + '°';
-                        } else {
-                            clearInterval(interval);
-                        }
-                    }, baseSpeed * 4);
-                }
-            } else {
-                clearInterval(interval);
-            }
-        }, baseSpeed);
-    }
+            }, baseSpeed);
+        }
     }
 
     animateNumber();

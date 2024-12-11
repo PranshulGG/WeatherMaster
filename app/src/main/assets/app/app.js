@@ -1,5 +1,5 @@
 
-//E:\MYAPPS\WeatherMaster\app\release
+// Next step is to migrate the app from localstorage to IndexedDB 😭
 
 const DefaultLocation = JSON.parse(localStorage.getItem('DefaultLocation'));
 
@@ -166,6 +166,8 @@ document.addEventListener('DOMContentLoaded', () => {
     cityopen.addEventListener("click", () => {
         document.querySelector('.view_device_location').hidden = true;
         sendThemeToAndroid("DisableSwipeRefresh")
+        loadSavedLocations()
+
         let savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
 
         localStorage.setItem('DeviceOnline', 'Yes');
@@ -387,7 +389,7 @@ function saveLocationToContainer(locationName, lat, lon) {
 
     const savedLocationsHolder = document.querySelector('savedLocationsHolder');
 
-    savedLocationsHolder.innerHTML = ''
+//    savedLocationsHolder.innerHTML = ''
 
 }
 
@@ -949,6 +951,106 @@ async function loadSavedLocations() {
                                 localStorage.removeItem(`DecodeWeatherLastCalldmiDenmark_${location.locationName}`)
                             }, 400);
                         }
+
+                        // remove any other data
+                        if (localStorage.getItem(`HourlyWeatherCache_${location.locationName}`)) {
+                            setTimeout(() => {
+                                localStorage.removeItem(`HourlyWeatherCache_${location.locationName}`)
+                            }, 400);
+                        }
+
+                        if (localStorage.getItem(`AstronomyData_${location.locationName}`)) {
+                            setTimeout(() => {
+                                localStorage.removeItem(`AstronomyData_${location.locationName}`)
+                            }, 400);
+                        }
+
+                        if (localStorage.getItem(`MoreDetailsData_${location.locationName}`)) {
+                            setTimeout(() => {
+                                localStorage.removeItem(`MoreDetailsData_${location.locationName}`)
+                            }, 400);
+                        }
+
+
+                        if (localStorage.getItem(`AlertData_${location.locationName}`)) {
+                            setTimeout(() => {
+                                localStorage.removeItem(`AlertData_${location.locationName}`)
+                            }, 400);
+                        }
+
+                        if (localStorage.getItem(`AirQuality_${location.locationName}`)) {
+                            setTimeout(() => {
+                                localStorage.removeItem(`AirQuality_${location.locationName}`)
+                            }, 400);
+                        }
+
+                    // time stamps
+
+                    if (localStorage.getItem(`WeatherDataMeteoFranceTimeStamp_${location.locationName}`)) {
+                        setTimeout(() => {
+                            localStorage.removeItem(`WeatherDataMeteoFranceTimeStamp_${location.locationName}`)
+                        }, 400);
+                    }
+
+                    if (localStorage.getItem(`WeatherDataDWDGermanyTimeStamp_${location.locationName}`)) {
+                        setTimeout(() => {
+                            localStorage.removeItem(`WeatherDataDWDGermanyTimeStamp_${location.locationName}`)
+                        }, 400);
+                    }
+
+                    if (localStorage.getItem(`WeatherDataNOAAUSTimeStamp_${location.locationName}`)) {
+                        setTimeout(() => {
+                            localStorage.removeItem(`WeatherDataNOAAUSTimeStamp_${location.locationName}`)
+                        }, 400);
+                    }
+
+                    if (localStorage.getItem(`WeatherDataECMWFTimeStamp_${location.locationName}`)) {
+                        setTimeout(() => {
+                            localStorage.removeItem(`WeatherDataECMWFTimeStamp_${location.locationName}`)
+                        }, 400);
+                    }
+
+                    if (localStorage.getItem(`WeatherDataukMetOfficeTimeStamp_${location.locationName}`)) {
+                        setTimeout(() => {
+                            localStorage.removeItem(`WeatherDataukMetOfficeTimeStamp_${location.locationName}`)
+                        }, 400);
+                    }
+
+                    if (localStorage.getItem(`WeatherDataJMAJapanTimeStamp_${location.locationName}`)) {
+                        setTimeout(() => {
+                            localStorage.removeItem(`WeatherDataJMAJapanTimeStamp_${location.locationName}`)
+                        }, 400);
+                    }
+
+                    if (localStorage.getItem(`WeatherDatagemCanadaTimeStamp_${location.locationName}`)) {
+                        setTimeout(() => {
+                            localStorage.removeItem(`WeatherDatagemCanadaTimeStamp_${location.locationName}`)
+                        }, 400);
+                    }
+
+                    if (localStorage.getItem(`WeatherDatabomAustraliaTimeStamp_${location.locationName}`)) {
+                        setTimeout(() => {
+                            localStorage.removeItem(`WeatherDatabomAustraliaTimeStamp_${location.locationName}`)
+                        }, 400);
+                    }
+
+                    if (localStorage.getItem(`WeatherDatacmaChinaTimeStamp_${location.locationName}`)) {
+                        setTimeout(() => {
+                            localStorage.removeItem(`WeatherDatacmaChinaTimeStamp_${location.locationName}`)
+                        }, 400);
+                    }
+
+                    if (localStorage.getItem(`WeatherDataknmiNetherlandsTimeStamp_${location.locationName}`)) {
+                        setTimeout(() => {
+                            localStorage.removeItem(`WeatherDataknmiNetherlandsTimeStamp_${location.locationName}`)
+                        }, 400);
+                    }
+
+                    if (localStorage.getItem(`WeatherDatadmiDenmarkTimeStamp_${location.locationName}`)) {
+                        setTimeout(() => {
+                            localStorage.removeItem(`WeatherDatadmiDenmarkTimeStamp_${location.locationName}`)
+                        }, 400);
+                    }
                   savedLocationItem.remove();
             }
         });
@@ -1867,8 +1969,8 @@ async function loadSavedLocations() {
     };
 }
 
-document.addEventListener('DOMContentLoaded', (event) => {
-    loadSavedLocations();
+document.addEventListener('DOMContentLoaded', () =>{
+     loadSavedLocations()
 });
 
 function deleteLocation(locationName) {
@@ -1943,6 +2045,7 @@ function onAllLocationsLoaded() {
   clearTimeout(debounceTimeout);
     document.querySelector('savedLocationsHolder').innerHTML = '<empty_loader style="display: flex; align-items: center; justify-content: center;"><md-circular-progress indeterminate></md-circular-progress></empty_loader>';
   debounceTimeout = setTimeout(() => {
+  if(JSON.parse(localStorage.getItem(`SearchedItem`))){localStorage.removeItem(`SearchedItem`)}
     loadSavedLocations();
   }, 2500);
 }
@@ -2162,7 +2265,7 @@ checkNoInternet();
 
 document.addEventListener('DOMContentLoaded', async function () {
 
-    const currentVersion = 'v1.9.6';
+    const currentVersion = 'v1.9.8';
     const githubRepo = 'PranshulGG/WeatherMaster';
     const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
@@ -4470,3 +4573,4 @@ document.getElementById('showDeviceLocation').addEventListener('click', () =>{
 document.querySelector('.view_device_location').addEventListener('click', () =>{
     document.querySelector('.view_device_location').hidden = true;
 });
+

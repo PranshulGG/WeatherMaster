@@ -25,29 +25,39 @@ function GenerateSummary(data) {
     let weatherComment = '';
 
     function describeWeather(condition) {
-        const descriptions = {
-            'Clear sky': ["a bright and sunny day", "clear and beautiful skies", "perfectly sunny weather"],
-            'Mostly clear': ["mostly sunny with a few clouds", "sunshine with some clouds", "a mix of sun and clouds"],
-            'Partly cloudy': ["partly cloudy skies", "some clouds floating across the sky", "a nice balance of clouds and sun"],
-            'Overcast': ["cloudy and overcast conditions", "an overcast sky with no sunlight", "gray and cloudy weather"],
-            'Fog': ["foggy weather", "dense fog reducing visibility", "a misty, foggy atmosphere"],
-            'Drizzle': ["light drizzle", "gentle drizzle", "a soft, light rain"],
-            'Freezing Drizzle': ["freezing drizzle", "icy drizzle", "freezing rain that might accumulate"],
-            'Moderate rain': ["moderate rain showers", "steady rain throughout the day", "light to moderate rain"],
-            'Heavy intensity rain': ["heavy rainfall", "intense rain showers", "a downpour with heavy rain"],
-            'Freezing Rain': ["freezing rain", "rain turning to ice", "ice-covered conditions"],
-            'Slight snow': ["light snowfall", "gentle snowflakes falling", "a light dusting of snow"],
-            'Moderate snow': ["moderate snowfall", "steady snowfall", "a good amount of snow coming down"],
-            'Heavy intensity snow': ["heavy snowfall", "a snowstorm in full swing", "intense snowfall that might accumulate quickly"],
-            'Snow grains': ["occasional snow grains", "sporadic snow grains", "light snow grains drifting down"],
-            'Rain showers': ["intermittent rain showers", "sporadic rain showers", "on and off rain throughout the day"],
-            'Heavy rain showers': ["heavy rain showers", "frequent and intense rain showers", "a lot of rain throughout the day"],
-            'Slight snow showers': ["light snow showers", "occasional snowflakes", "intermittent light snow"],
-            'Heavy snow showers': ["heavy snow showers", "constant heavy snow", "snow showers with strong intensity"],
-            'Thunderstorm': ["a thunderstorm", "a storm with lightning", "thunder and lightning throughout the day"],
-            'Strong thunderstorm': ["strong thunderstorms", "severe thunderstorms", "intense thunderstorm activity"],
-        };
+            let descriptions
 
+            if(localStorage.getItem('UseFrogSummary') === 'true'){
+                descriptions = {
+
+                    ${GenerateFroggySummaryEng}
+                }
+
+
+            } else{
+        descriptions = {
+            'Clear sky': [`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_clear_sky_1')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_clear_sky_2')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_clear_sky_3')}`],
+            'Mostly clear': [`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_mostly_clear_1')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_mostly_clear_2')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_mostly_clear_3')}`],
+            'Partly cloudy': [`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_partly_cloudy_1')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_partly_cloudy_2')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_partly_cloudy_3')}`],
+            'Overcast': [`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_overcast_1')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_overcast_2')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_overcast_3')}`],
+            'Fog': [`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_fog_1')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_fog_2')}`,`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_fog_3')}`],
+            'Drizzle': [`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_drizzle_1')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_drizzle_2')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_drizzle_3')}`],
+            'Freezing Drizzle': [`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_freezing_drizzle_1')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_freezing_drizzle_2')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_freezing_drizzle_3')}`],
+            'Moderate rain': [`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_moderate_rain_1')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_moderate_rain_2')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_moderate_rain_3')}`],
+            'Heavy intensity rain': [`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_heavy_intensity_rain_1')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_heavy_intensity_rain_2')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_heavy_intensity_rain_3')}`],
+            'Freezing Rain': [`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_freezing_rain_1')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_freezing_rain_2')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_freezing_rain_3')}`],
+            'Slight snow': [`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_slight_snow_1')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_slight_snow_2')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_slight_snow_3')}`],
+            'Moderate snow': [`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_moderate_snow_1')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_moderate_snow_2')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_moderate_snow_3')}`],
+            'Heavy intensity snow': [`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_heavy_intensity_snow_1')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_heavy_intensity_snow_2')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_heavy_intensity_snow_3')}`],
+            'Snow grains': [`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_snow_grains_1')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_snow_grains_2')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_snow_grains_3')}`],
+            'Rain showers': [`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_rain_showers_1')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_rain_showers_2')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_rain_showers_3')}`],
+            'Heavy rain showers': [`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_heavy_rain_showers_1')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_heavy_rain_showers_2')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_heavy_rain_showers_3')}`],
+            'Slight snow showers': [`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_slight_snow_showers_1')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_slight_snow_showers_2')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_slight_snow_showers_3')}`],
+            'Heavy snow showers': [`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_heavy_snow_showers_1')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_heavy_snow_showers_2')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_heavy_snow_showers_3')}`],
+            'Thunderstorm': [`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_thunderstorm_1')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_thunderstorm_2')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_thunderstorm_3')}`],
+            'Strong thunderstorm': [`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_strong_thunderstorm_1')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_strong_thunderstorm_2')}`, `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_strong_thunderstorm_3')}`],
+        };
+}
         let randomDescriptions = descriptions[condition] || ["unpredictable weather"];
         return randomDescriptions[Math.floor(Math.random() * randomDescriptions.length)];
     }
@@ -55,14 +65,21 @@ function GenerateSummary(data) {
     let hourlyDescription = describeWeather(hourlyWeather);
     let dailyDescription = describeWeather(dailyWeather);
 
-    const weatherPhrases = [
-        `Expect ${hourlyDescription} in the morning, followed by ${dailyDescription} later in the day.`,
-        `In the morning, you'll experience ${hourlyDescription}, with ${dailyDescription} taking over as the day progresses.`,
-        `The morning will bring ${hourlyDescription}, and then you can expect ${dailyDescription} as the day unfolds.`,
-        `Start your day with ${hourlyDescription}, and then later on, look forward to ${dailyDescription}.`,
-        `The weather will begin with ${hourlyDescription} in the morning, transitioning to ${dailyDescription} by afternoon.`
-    ];
+    let weatherPhrases
 
+    if(localStorage.getItem('UseFrogSummary') === 'true'){
+        weatherPhrases = [
+                    ${GenerateFroggyPhraseEng}
+        ]
+    } else{
+     weatherPhrases = [
+        `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_phrase_1_part_1')} ${hourlyDescription} ${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_phrase_1_part_2')} ${dailyDescription} ${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_phrase_1_part_3')}`,
+        `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_phrase_2_part_1')} ${hourlyDescription}${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_phrase_2_part_2')} ${dailyDescription} ${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_phrase_2_part_3')}`,
+        `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_phrase_3_part_1')} ${hourlyDescription}${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_phrase_3_part_2')} ${dailyDescription} ${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_phrase_3_part_3')}`,
+        `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_phrase_4_part_1')} ${hourlyDescription}${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_phrase_4_part_2')} ${dailyDescription}.`,
+        `${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_phrase_5_part_1')} ${hourlyDescription} ${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_phrase_5_part_2')} ${dailyDescription} ${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'summary_phrase_5_part_3')}`
+    ];
+    }
     weatherComment = weatherPhrases[Math.floor(Math.random() * weatherPhrases.length)];
 
     document.getElementById('weatherComments').innerHTML = `

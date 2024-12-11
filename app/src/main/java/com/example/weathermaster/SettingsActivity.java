@@ -48,6 +48,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -169,14 +171,15 @@ public class SettingsActivity extends AppCompatActivity {
     private void restartApp() {
         Toast.makeText(this, "App is restarting...", Toast.LENGTH_SHORT).show();
 
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-        startActivity(intent);
-
-        finish();
-
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            }
+        }, 500);
     }
 
 
@@ -204,13 +207,14 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     private void openFilePickerExport() {
+        String currentDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        String fileName = "WeatherMasterData_" + currentDate + ".json";
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("application/json");
-        intent.putExtra(Intent.EXTRA_TITLE, "WeatherMasterData.json");
+        intent.putExtra(Intent.EXTRA_TITLE, fileName);
         startActivityForResult(intent, SAVE_DOCUMENT_REQUEST_CODE);
     }
-
     private void openFilePickerImport() {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);

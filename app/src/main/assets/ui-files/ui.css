@@ -372,7 +372,7 @@ touch_search{
 }
 
 .all-5d {
-  border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 10px 10px;
 
 }
 [round-ui="true"] .all-5d{
@@ -1473,21 +1473,22 @@ rainMeterBar{
 height: 100%;
 }
 
-.LiveMapWrap #livemapPreview img{
+
+.LiveMapWrap #livemapPreview{
   border-radius: 10px;
   width: 100%;
   height: 100px;
-  z-index: -1;
-  pointer-events: none;
+  /* z-index: -1; */
 }
 
-[round-ui="true"] .LiveMapWrap #livemapPreview img{
-  border-radius: 18px;
+[round-ui="true"] .LiveMapWrap #livemapPreview{
+  border-radius: 15px;
 
 }
 
 .LiveMapWrap #livemapPreview{
   height: 100px;
+  background-color: var(--Surface);
 }
 
 .LiveMapWrap{
@@ -2404,17 +2405,16 @@ moonPhaseProgress {
 
 
 #moonPhase_name{
-
-  font-size: 14px;
-
-  color: var(--On-Surface);
-
-  font-family: var(--outfit);
-
-  margin: 0;
-
-  width: 100%;
-
+    font-size: 14px;
+    color: var(--On-Surface);
+    font-family: var(--outfit);
+    margin: 0;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
 
@@ -2747,17 +2747,18 @@ Tempmeterbaritem span{
     position: relative;
     padding: 0;
     height: 0;
-    transition: all 0.2s ease-in;
+    transition: opacity 0.2s ease-in;
+    opacity: 0;
 }
 
 
 .temp_trend_bars.trends_opened{
     height: 250px;
   padding: 10px;
+  opacity: 1;
   border-top: 1px solid var(--Outline-Variant);
 
 }
-
 .temp_trend_bars canvas{
   width: 100%;
   height: 100%;
@@ -2798,4 +2799,36 @@ Tempmeterbaritem span{
 
 [round-ui="true"] #uvIndexMainDiv{
     margin-bottom: 8px !important;
+}
+
+
+.view_device_location{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--Surface);
+  flex-direction: column;
+  gap: 10px;
+}
+
+.view_device_location p{
+  color: var(--Secondary);
+  margin: 0;
+  font-family: var(--google-mid);
+}
+
+.view_device_location span{
+  color: var(--On-Surface-Variant);
+  font-family: var(--google-normal);
+}
+
+.controls{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

@@ -41,6 +41,9 @@ function handleStorageChange(event) {
         case 'useWeatherAlerts':
             HandleNoReloadSettings();
             break;
+        case 'UseFrogSummary':
+            HandleNoReloadSettings();
+            break;
         case 'AppLanguage':
             HandleNoReloadSettings();
             setTimeout(() =>{

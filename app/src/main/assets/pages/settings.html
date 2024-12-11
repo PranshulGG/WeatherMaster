@@ -90,10 +90,18 @@
                     <md-switch slot="end" id="toggle_noti" icons show-only-selected-icon></md-switch>
                 </md-list-item>
 
+
                 <md-list-item>
                     <md-icon icon-filled slot="start">animation</md-icon>
                     <div slot="headline" data-translate="background_card_animation">Background card animation</div>
                     <md-switch slot="end" selected id="useAnimationBackground" icons show-only-selected-icon></md-switch>
+                </md-list-item>
+
+                <md-list-item>
+                    <md-icon icon-filled slot="start">summarize</md-icon>
+                    <div slot="headline">Froggy summary</div>
+                    <div slot="supporting-text">Adds frog-related descriptions. Available only in English</div>
+                    <md-switch slot="end" id="useFroggySummarySwitch" icons show-only-selected-icon></md-switch>
                 </md-list-item>
 
 
@@ -125,13 +133,13 @@
 
                 <md-list-item>
                     <md-icon icon-filled slot="start">warning</md-icon>
-                    <div slot="headline">Weather alerts</div>
-                    <div slot="supporting-text">Hide weather alerts on the home page</div>
+                    <div slot="headline" data-translate="weather_alerts">Weather alerts</div>
+                    <div slot="supporting-text" data-translate="show_alerts_home_page_sub">Show weather alerts on the home page</div>
                     <md-switch slot="end" id="useWeatherAlerts" icons show-only-selected-icon></md-switch>
                 </md-list-item>
 
 
-                <md-list-item onclick="openAppFontDialog()">
+                <md-list-item onclick="openAppFontDialog()" type="button">
                     <md-icon icon-filled slot="start">font_download</md-icon>
                     <div slot="headline" data-translate="font">Font</div>
                     <div slot="supporting-text" data-translate="change_apps_font">Change app's font</div>
@@ -147,8 +155,8 @@
 
                 <md-list-item margin type="button" onclick="sendThemeToAndroid('openWeatherModels')" id="weatherModelBtn">
                     <md-icon icon-filled slot="start"></md-icon>
-                    <div slot="headline">Weather models</div>
-                    <div slot="supporting-text">Open-Meteo Weather models</div>
+                    <div slot="headline" data-translate="weather_models">Weather models</div>
+                    <div slot="supporting-text" data-translate="openmeteo_weather_models">Open-Meteo Weather models</div>
                     <md-icon slot="end" icon-outlined>chevron_right</md-icon>
                 </md-list-item>
 
@@ -325,7 +333,7 @@
                 </md-list-item>
 
                 <md-list-item type="button" id="exportAppData">
-                    <md-icon icon-filled slot="start">upgrade</md-icon>
+                    <md-icon icon-filled slot="start">upload</md-icon>
                     <div slot="headline">Export data</div>
                     <div slot="supporting-text">Export all your settings, locations, and their last fetched weather data—literally everything!</div>
                 </md-list-item>
@@ -1158,6 +1166,20 @@ function handleImportedData(importedData) {
         ShowSnackMessage.ShowSnack("Error parsing the imported JSON data. Please ensure it is valid and correctly formatted.", "long");
         console.error(error);
     }
+}
+
+
+//  ----------------
+
+
+document.getElementById('useFroggySummarySwitch').addEventListener('change', () =>{
+    localStorage.setItem('UseFrogSummary', document.getElementById('useFroggySummarySwitch').selected)
+});
+
+if(localStorage.getItem('UseFrogSummary') && localStorage.getItem('UseFrogSummary') === 'true'){
+    document.getElementById('useFroggySummarySwitch').selected = true;
+} else{
+    document.getElementById('useFroggySummarySwitch').selected = false;
 }
 
     </script>

@@ -5,8 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
 
     <application
         android:hardwareAccelerated="true"
@@ -152,6 +151,17 @@
         </activity>
 
 
+        <receiver android:name=".WeatherWidgetProvider" android:exported="true" android:label="Date + current">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.intent.action.DATE_CHANGED" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info" />
+        </receiver>
+
         <receiver android:name=".WidgetProviderPill" android:exported="true" android:label="Current pill">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -186,6 +196,9 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info_round" />
         </receiver>
+
+
+
     </application>
 
 </manifest>

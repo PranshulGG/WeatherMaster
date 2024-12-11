@@ -26,7 +26,7 @@ function processQueue() {
   isProcessingQueue = true;
   const { lat, lon, suggestionText, refreshValue, resolve, reject } = requestQueue.shift();
 
-  fetch(`https://api.timezonedb.com/v2.1/get-time-zone?key=KEY&format=json&by=position&lat=${lat}&lng=${lon}`)
+  fetch(`https://api.timezonedb.com/v2.1/get-time-zone?key=MAIN_KEY_WM&format=json&by=position&lat=${lat}&lng=${lon}`)
     .then(response => response.json())
     .then(data => {
       if (data.status === 'OK') {
@@ -147,7 +147,7 @@ function FetchWeather(lat, lon, timezone, suggestionText, refreshValue) {
 
 
   function MoreDetails(latSum, lonSum, suggestionText) {
-    fetch(`https://api.weatherapi.com/v1/forecast.json?key=KEY&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/forecast.json?key=MAIN_KEY_WM&q=${latSum},${lonSum}`)
       .then(response => response.json())
       .then(data => {
 
@@ -163,7 +163,7 @@ function FetchWeather(lat, lon, timezone, suggestionText, refreshValue) {
 
 
   function astronomyData(latSum, lonSum, suggestionText) {
-    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=KEY&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=MAIN_KEY_WM&q=${latSum},${lonSum}`)
       .then(response => response.json())
       .then(data => {
 
@@ -176,7 +176,7 @@ function FetchWeather(lat, lon, timezone, suggestionText, refreshValue) {
   FetchAlert(lat, lon, suggestionText)
 
   function FetchAlert(lat, lon, suggestionText) {
-    fetch(`https://api.weatherapi.com/v1/alerts.json?key=KEY&q=${lat},${lon}`)
+    fetch(`https://api.weatherapi.com/v1/alerts.json?key=MAIN_KEY_WM&q=${lat},${lon}`)
       .then(response => response.json())
       .then(data => {
 
@@ -188,12 +188,8 @@ function FetchWeather(lat, lon, timezone, suggestionText, refreshValue) {
   console.log(suggestionText)
 
 
-  document.querySelector('savedLocationsHolder').innerHTML = ''
+  document.querySelector('savedLocationsHolder').innerHTML = '<empty_loader style="display: flex; align-items: center; justify-content: center;"><md-circular-progress indeterminate></md-circular-progress></empty_loader>'
 
-
-  setTimeout(() => {
-    loadSavedLocations()
-  }, 1000)
 
 }
 
@@ -219,6 +215,12 @@ function FetchOpenMeteo(lat, lon, timezone, suggestionText, refreshValue) {
         localStorage.setItem(`WeatherDataOpenMeteo_${suggestionText}`, JSON.stringify(data, new Date().toISOString()))
         localStorage.setItem(`WeatherDataOpenMeteoTimeStamp_${suggestionText}`, new Date().toISOString())
 
+        if (currentSelectedProvider === 'dwdGermany' || currentSelectedProvider === 'noaaUS' || currentSelectedProvider === 'meteoFrance' || currentSelectedProvider === 'ecmwf' || currentSelectedProvider === 'ukMetOffice' || currentSelectedProvider === 'jmaJapan' || currentSelectedProvider === 'gemCanada' || currentSelectedProvider === 'bomAustralia' || currentSelectedProvider === 'cmaChina' || currentSelectedProvider === 'knmiNetherlands' || currentSelectedProvider === 'dmiDenmark' || currentSelectedProvider === 'Accuweather' || currentSelectedProvider === 'Met norway'){
+
+        } else{
+        renderLatestData(lat, lon, suggestionText, refreshValue)
+        }
+
       })
       .catch(error => {
         console.error('There was an error fetching the weather data:', error);
@@ -226,11 +228,6 @@ function FetchOpenMeteo(lat, lon, timezone, suggestionText, refreshValue) {
 
   }
 
- if (currentSelectedProvider === 'dwdGermany' || currentSelectedProvider === 'noaaUS' || currentSelectedProvider === 'meteoFrance' || currentSelectedProvider === 'ecmwf' || currentSelectedProvider === 'ukMetOffice' || currentSelectedProvider === 'jmaJapan' || currentSelectedProvider === 'gemCanada' || currentSelectedProvider === 'bomAustralia' || currentSelectedProvider === 'cmaChina' || currentSelectedProvider === 'knmiNetherlands' || currentSelectedProvider === 'dmiDenmark' || currentSelectedProvider === 'Accuweather' || currentSelectedProvider === 'Met norway'){
-
- } else{
- renderLatestData(lat, lon, suggestionText, refreshValue)
- }
 
 
 }
@@ -400,6 +397,8 @@ function renderLatestData(lat, lon, suggestionText, refreshValue) {
   const SavedLocation = JSON.parse(localStorage.getItem('DefaultLocation'));
   const currentLocationName = localStorage.getItem('CurrentLocationName')
 
+
+
   if (suggestionText === SavedLocation.name || suggestionText === 'CurrentDeviceLocation' && !refreshValue === 'no_data_render' && !refreshValue === `Refreshed_${suggestionText}`) {
 
     setTimeout(() => {
@@ -410,7 +409,9 @@ function renderLatestData(lat, lon, suggestionText, refreshValue) {
        onAllLocationsLoaded()
     hideLoader()
       console.log('LOADED')
-    }, 1500);
+        createWidgetData()
+
+    }, 300);
 
   } else if (refreshValue) {
     if (refreshValue === 'no_data_render') {

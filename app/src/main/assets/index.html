@@ -35,10 +35,10 @@
         </h2>
     </div>
     <div class="header_actions">
-        <button class="ripple-icon-btn focus regular refresh_weat" onclick="refreshWeather()" ontouchstart="playEffect(this)" id="usage-popover-anchor" style="z-index: 1;"
-                ontouchend="playEffect2(this)" hidden>
+        <button class="ripple-icon-btn focus regular refresh_weat" onclick="if (navigator.onLine){sendThemeToAndroid('OpenRadar');}else{ShowSnackMessage.ShowSnack(getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'network_unavailable'), 'short');}" ontouchstart="playEffect(this)" id="usage-popover-anchor" style="z-index: 1;"
+                ontouchend="playEffect2(this)">
             <span class="ripple-effect-icon"></span>
-            <span icon-outlined>refresh</span>
+            <span icon-outlined>radar</span>
         </button>
         <button class="ripple-icon-btn focus regular" onclick="sendThemeToAndroid('OpenSettings')" ontouchstart="playEffect(this)" style="z-index: 1;"
                 ontouchend="playEffect2(this)">
@@ -280,7 +280,7 @@
 
             </div>
 
-            <div class="LiveMapWrap ripple_btn_low" onclick="sendThemeToAndroid('OpenRadar')" style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);">
+            <div class="LiveMapWrap ripple_btn_low" onclick="sendThemeToAndroid('OpenRadar')" style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);" hidden>
                 <div class="radar_label"><md-icon icon-outlined>radar</md-icon> <span
                         data-translate="live_radar">Live radar</span></div>
                 <div id="livemapPreview">
@@ -292,7 +292,7 @@
 
 
 
-            <div class="currentConditions">
+            <div class="currentConditions" style="margin-top: 10px;">
 
 
                 <div class="currentConditionItem sunRISESET ripple_btn_low" onclick="sendThemeToAndroid('openSunCondition')">
@@ -445,9 +445,9 @@
                     </div>
 
                     <div class="currentConditionItemWindDircValue">
-                        <div><i icon-filled>explore</i><span data-translate="direction" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 80px;">Direction</span></div>
+                        <div><i icon-filled>explore</i><span data-translate="direction" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 80px; display: block;">Direction</span></div>
                         <p id="directionWind">--</p>
-                        <span id="windtype">---</span>
+                        <span id="windtype" style="display: block; overflow: hidden; text-overflow: ellipsis; width: calc(100% - 50px); white-space: nowrap; text-align: center;">---</span>
                     </div>
 
 
@@ -677,7 +677,7 @@
                 </currentLocationNames>
             </div>
             <div class="view_device_location" hidden>
-                <p id="device_address"><md-circular-progress indeterminate></md-circular-progress></p>
+                <p id="device_address" style="text-align: center;"><md-circular-progress indeterminate></md-circular-progress></p>
                 <span>From your device</span>
             </div>
         </div>
