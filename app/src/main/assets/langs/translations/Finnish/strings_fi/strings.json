@@ -375,5 +375,13 @@
     "summary_phrase_5_part_1": "Sää alkaa",
     "summary_phrase_5_part_2": "aamulla siirtyen",
     "summary_phrase_5_part_3": "iltapäivällä",
-    "unpredictable_weather": "ennalta arvaamaton sää"
+    "unpredictable_weather": "ennalta arvaamaton sää",
+    "phase_new_moon": "New Moon",
+    "phase_waxing_crescent": "Waxing Crescent",
+    "phase_first_quarter": "First Quarter",
+    "phase_waxing_gibbous": "Waxing Gibbous",
+    "phase_full_moon": "Full Moon",
+    "phase_waning_gibbous": "Waning Gibbous",
+    "phase_last_quarter": "Last Quarter",
+    "phase_waning_crescent": "Waning Crescent"
 }
