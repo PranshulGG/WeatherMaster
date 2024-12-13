@@ -33,7 +33,7 @@ function processQueue() {
     requestQueue.shift();
 
   fetch(
-    `https://api.timezonedb.com/v2.1/get-time-zone?key=J8HTH6P4YTGO&format=json&by=position&lat=${lat}&lng=${lon}`
+    `https://api.timezonedb.com/v2.1/get-time-zone?key=KEY&format=json&by=position&lat=${lat}&lng=${lon}`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -227,7 +227,7 @@ async function FetchWeather(lat, lon, timezone, suggestionText, refreshValue) {
   async function MoreDetails(latSum, lonSum, suggestionText) {
     try {
       const response = await fetch(
-        `https://api.weatherapi.com/v1/forecast.json?key=ef2cb48d90984d828a8140518240209&q=${latSum},${lonSum}`
+        `https://api.weatherapi.com/v1/forecast.json?key=KEY&q=${latSum},${lonSum}`
       );
       const data = await response.json();
       await customStorage.setItem(
@@ -244,7 +244,7 @@ async function FetchWeather(lat, lon, timezone, suggestionText, refreshValue) {
   async function astronomyData(latSum, lonSum, suggestionText) {
     try {
       const response = await fetch(
-        `https://api.weatherapi.com/v1/astronomy.json?key=ef2cb48d90984d828a8140518240209&q=${latSum},${lonSum}`
+        `https://api.weatherapi.com/v1/astronomy.json?key=KEY&q=${latSum},${lonSum}`
       );
       const data = await response.json();
       await customStorage.setItem(
@@ -261,7 +261,7 @@ async function FetchWeather(lat, lon, timezone, suggestionText, refreshValue) {
   async function FetchAlert(lat, lon, suggestionText) {
     try {
       const response = await fetch(
-        `https://api.weatherapi.com/v1/alerts.json?key=10baabdf43ea48d191075955241810&q=${lat},${lon}`
+        `https://api.weatherapi.com/v1/alerts.json?key=KEY&q=${lat},${lon}`
       );
       const data = await response.json();
       await customStorage.setItem(
