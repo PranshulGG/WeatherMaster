@@ -376,12 +376,12 @@
     "summary_phrase_5_part_2": "in the morning, transitioning to",
     "summary_phrase_5_part_3": "by afternoon",
     "unpredictable_weather": "unpredictable weather",
-    "phase_new_moon": "New Moon",
-    "phase_waxing_crescent": "Waxing Crescent",
-    "phase_first_quarter": "First Quarter",
-    "phase_waxing_gibbous": "Waxing Gibbous",
+    "phase_new_moon": "Neumond",
+    "phase_waxing_crescent": "Zunehmende Mondsichel",
+    "phase_first_quarter": "Erstes Viertel",
+    "phase_waxing_gibbous": "Zunehmender Halbmond",
     "phase_full_moon": "Vollmond",
-    "phase_waning_gibbous": "Waning Gibbous",
-    "phase_last_quarter": "Last Quarter",
-    "phase_waning_crescent": "Waning Crescent"
+    "phase_waning_gibbous": "Abnehmender Halbmond",
+    "phase_last_quarter": "Letztes Viertel",
+    "phase_waning_crescent": "Abnehmende Sichel"
 }
