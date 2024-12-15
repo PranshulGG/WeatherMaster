@@ -106,5 +106,35 @@
         <item name="colorAccent">#ffd5a5</item>
     </style>
 
+<!--    carets -->
+    <style name="orange_material_caret" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">#f7bb70</item>
+    </style>
+
+    <style name="red_material_caret" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">#ffb5a0</item>
+    </style>
+
+    <style name="pink_material_caret" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">#ffb1c0</item>
+    </style>
+
+    <style name="purple_material_caret" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">#f1b3e6</item>
+    </style>
+
+    <style name="blue_material_caret" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">#aac7ff</item>
+    </style>
+
+    <style name="yellow_material_caret" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">#dbc66e</item>
+    </style>
+
+    <style name="green_material_caret" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">#b1d18a</item>
+    </style>
+
+
 
 </resources>

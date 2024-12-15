@@ -142,6 +142,7 @@ public class SearchPage extends AppCompatActivity {
                         statusBarColor = 0xFF18120c;
                         navigationBarColor = 0xFF18120c;
                         systemUiVisibilityFlags = 0;
+                        setTheme(R.style.orange_material_caret);
 
                     } else if(color.equals("red_material_Scrolled")){
                         statusBarColor = 0xFF271d1b;
@@ -152,6 +153,7 @@ public class SearchPage extends AppCompatActivity {
                         statusBarColor = 0xFF1a110f;
                         navigationBarColor = 0xFF1a110f;
                         systemUiVisibilityFlags = 0;
+                        setTheme(R.style.red_material_caret);
 
                     } else if(color.equals("pink_material_Scrolled")){
                         statusBarColor = 0xFF261d1f;
@@ -162,6 +164,7 @@ public class SearchPage extends AppCompatActivity {
                         statusBarColor = 0xFF191113;
                         navigationBarColor = 0xFF191113;
                         systemUiVisibilityFlags = 0;
+                        setTheme(R.style.pink_material_caret);
 
                     } else if(color.equals("purple_material_Scrolled")){
                         statusBarColor = 0xFF241e22;
@@ -172,6 +175,7 @@ public class SearchPage extends AppCompatActivity {
                         statusBarColor = 0xFF171216;
                         navigationBarColor = 0xFF171216;
                         systemUiVisibilityFlags = 0;
+                        setTheme(R.style.purple_material_caret);
 
                     } else if(color.equals("blue_material_Scrolled")){
                         statusBarColor = 0xFF1d2024;
@@ -182,6 +186,7 @@ public class SearchPage extends AppCompatActivity {
                         statusBarColor = 0xFF111318;
                         navigationBarColor = 0xFF111318;
                         systemUiVisibilityFlags = 0;
+                        setTheme(R.style.blue_material_caret);
 
                     } else if(color.equals("yellow_material_Scrolled")){
                         statusBarColor = 0xFF222017;
@@ -192,6 +197,7 @@ public class SearchPage extends AppCompatActivity {
                         statusBarColor = 0xFF15130b;
                         navigationBarColor = 0xFF15130b;
                         systemUiVisibilityFlags = 0;
+                        setTheme(R.style.yellow_material_caret);
 
                     } else if(color.equals("green_material_Scrolled")){
                         statusBarColor = 0xFF1e201a;
@@ -202,6 +208,7 @@ public class SearchPage extends AppCompatActivity {
                         statusBarColor = 0xFF12140e;
                         navigationBarColor = 0xFF12140e;
                         systemUiVisibilityFlags = 0;
+                        setTheme(R.style.green_material_caret);
 
                     } else if (color.equals("orange_material_DialogNotScrolled")){
                         statusBarColor = 0xFF0a0705;
