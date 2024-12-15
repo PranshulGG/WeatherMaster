@@ -1,17 +1,13 @@
-async function HourlyWeather(data) {
-  const SelectedTempUnit = await customStorage.getItem("SelectedTempUnit");
-  const SelectedWindUnit = await customStorage.getItem("SelectedWindUnit");
-  const SelectedVisibiltyUnit = await customStorage.getItem(
-    "selectedVisibilityUnit"
-  );
-  const SelectedPrecipitationUnit = await customStorage.getItem(
-    "selectedPrecipitationUnit"
-  );
-  const SelectedPressureUnit = await customStorage.getItem(
-    "selectedPressureUnit"
-  );
-  const timeFormat = await customStorage.getItem("selectedTimeMode");
+const SelectedTempUnit = localStorage.getItem("SelectedTempUnit");
+const SelectedWindUnit = localStorage.getItem("SelectedWindUnit");
+const SelectedVisibiltyUnit = localStorage.getItem("selectedVisibilityUnit");
+const SelectedPrecipitationUnit = localStorage.getItem(
+  "selectedPrecipitationUnit"
+);
+const SelectedPressureUnit = localStorage.getItem("selectedPressureUnit");
+const timeFormat = localStorage.getItem("selectedTimeMode");
 
+function HourlyWeather(data) {
   const forecastContainer = document.getElementById("forecast");
   const RainBarsContainer = document.querySelector("rainMeterBar");
 
@@ -42,132 +38,124 @@ async function HourlyWeather(data) {
 
   const isRainingNow = currentRainAmount > rainThreshold;
 
-  await Promise.all(
-    data.hourly.time.map(async (time, index) => {
-      const forecastTime = new Date(time).getTime();
+  data.hourly.time.forEach((time, index) => {
+    const forecastTime = new Date(time).getTime();
 
-      let hours;
-      let period;
+    let hours;
+    let period;
 
-      if ((await customStorage.getItem("selectedTimeMode")) === "24 hour") {
-        hours = new Date(time).getHours().toString().padStart(2, "0") + ":";
-        period = new Date(time).getMinutes().toString().padStart(2, "0");
-      } else {
-        hours = new Date(time).getHours();
-        period = hours >= 12 ? "PM" : "AM";
-        hours = hours % 12 || 12;
+    if (localStorage.getItem("selectedTimeMode") === "24 hour") {
+      hours = new Date(time).getHours().toString().padStart(2, "0") + ":";
+      period = new Date(time).getMinutes().toString().padStart(2, "0");
+    } else {
+      hours = new Date(time).getHours();
+      period = hours >= 12 ? "PM" : "AM";
+      hours = hours % 12 || 12;
+    }
+
+    const HourWeatherCode = data.hourly.weather_code[index];
+
+    const rainMeterBarItem = document.createElement("rainMeterBarItem");
+
+    UvIndex(data.hourly.uv_index[0]);
+
+    const rainAmountALL = data.hourly.precipitation[index];
+
+    if (isRainingNow) {
+      if (!rainStopping && rainAmountALL <= rainThreshold && index > 0) {
+        rainStopping = `${getTranslationByLang(
+          localStorage.getItem("AppLanguageCode"),
+          "rain_to_stop_at"
+        )} ${hours}${period}`;
       }
+    } else if (!isRainingNow && !rainComing && rainAmountALL > rainThreshold) {
+      const currentTime = new Date(data.hourly.time[0]);
+      const rainTime = new Date(time);
 
-      const HourWeatherCode = data.hourly.weather_code[index];
+      const isTomorrow =
+        rainTime.getDate() > currentTime.getDate() ||
+        (rainTime.getDate() < currentTime.getDate() &&
+          rainTime.getMonth() > currentTime.getMonth());
 
-      const rainMeterBarItem = document.createElement("rainMeterBarItem");
-
-      UvIndex(data.hourly.uv_index[0]);
-
-      const rainAmountALL = data.hourly.precipitation[index];
-
-      if (isRainingNow) {
-        if (!rainStopping && rainAmountALL <= rainThreshold && index > 0) {
-          rainStopping = `${getTranslationByLang(
-            await customStorage.getItem("AppLanguageCode"),
-            "rain_to_stop_at"
+      rainComing = isTomorrow
+        ? `${getTranslationByLang(
+            localStorage.getItem("AppLanguageCode"),
+            "rain_likely_tomorrow_around"
+          )} ${hours}${period}`
+        : `${getTranslationByLang(
+            localStorage.getItem("AppLanguageCode"),
+            "rain_likely_around"
           )} ${hours}${period}`;
-        }
-      } else if (
-        !isRainingNow &&
-        !rainComing &&
-        rainAmountALL > rainThreshold
-      ) {
-        const currentTime = new Date(data.hourly.time[0]);
-        const rainTime = new Date(time);
+    }
 
-        const isTomorrow =
-          rainTime.getDate() > currentTime.getDate() ||
-          (rainTime.getDate() < currentTime.getDate() &&
-            rainTime.getMonth() > currentTime.getMonth());
+    let PrecAmount;
 
-        rainComing = isTomorrow
-          ? `${getTranslationByLang(
-              await customStorage.getItem("AppLanguageCode"),
-              "rain_likely_tomorrow_around"
-            )} ${hours}${period}`
-          : `${getTranslationByLang(
-              await customStorage.getItem("AppLanguageCode"),
-              "rain_likely_around"
-            )} ${hours}${period}`;
-      }
+    if (localStorage.getItem("selectedPrecipitationUnit") === "in") {
+      PrecAmount = mmToInches(data.hourly.precipitation[index]).toFixed(2) + "";
+    } else if (localStorage.getItem("selectedPrecipitationUnit") === "cm") {
+      PrecAmount = (Math.round(data.hourly.precipitation[index]) / 10).toFixed(
+        2
+      );
+    } else {
+      PrecAmount = data.hourly.precipitation[index].toFixed(1) + "";
+    }
 
-      let PrecAmount;
+    const PrecProb = data.hourly.precipitation_probability[index];
 
-      if ((await customStorage.getItem("selectedPrecipitationUnit")) === "in") {
-        PrecAmount =
-          mmToInches(data.hourly.precipitation[index]).toFixed(2) + "";
-      } else if (
-        (await customStorage.getItem("selectedPrecipitationUnit")) === "cm"
-      ) {
-        PrecAmount = (
-          Math.round(data.hourly.precipitation[index]) / 10
-        ).toFixed(2);
-      } else {
-        PrecAmount = data.hourly.precipitation[index].toFixed(1) + "";
-      }
-
-      const PrecProb = data.hourly.precipitation_probability[index];
-
-      let dayIndex = -1;
-      for (let i = 0; i < sunriseTimes.length; i++) {
-        if (
-          forecastTime >= sunriseTimes[i] &&
-          forecastTime < (sunriseTimes[i + 1] || Infinity)
-        ) {
-          dayIndex = i;
-          break;
-        }
-      }
-      let icon;
+    let dayIndex = -1;
+    for (let i = 0; i < sunriseTimes.length; i++) {
       if (
-        dayIndex !== -1 &&
-        forecastTime >= sunriseTimes[dayIndex] &&
-        forecastTime < sunsetTimes[dayIndex]
+        forecastTime >= sunriseTimes[i] &&
+        forecastTime < (sunriseTimes[i + 1] || Infinity)
       ) {
-        icon = GetWeatherIconDay(HourWeatherCode); // Day icon
-      } else {
-        icon = GetWeatherIconNight(HourWeatherCode); // Night icon
+        dayIndex = i;
+        break;
       }
+    }
+    let icon;
+    if (
+      dayIndex !== -1 &&
+      forecastTime >= sunriseTimes[dayIndex] &&
+      forecastTime < sunsetTimes[dayIndex]
+    ) {
+      icon = GetWeatherIconDay(HourWeatherCode); // Day icon
+    } else {
+      icon = GetWeatherIconNight(HourWeatherCode); // Night icon
+    }
 
-      const maxRain = 2;
-      const rainAmountPercent = data.hourly.precipitation[index]
-        ? (data.hourly.precipitation[index] / maxRain) * 100
-        : 0;
+    const maxRain = 2;
+    const rainAmountPercent = data.hourly.precipitation[index]
+      ? (data.hourly.precipitation[index] / maxRain) * 100
+      : 0;
 
-      let barColor;
+    let barColor;
 
-      if (data.hourly.precipitation[index] < 0.5) {
-        barColor = "var(--Primary-Container)";
-      } else if (
-        data.hourly.precipitation[index] > 0.5 &&
-        data.hourly.precipitation[index] <= 1
-      ) {
-        barColor = "var(--Primary-Container)";
-      } else if (data.hourly.precipitation[index] > 1) {
-        barColor = "var(--Primary)";
-      }
+    if (data.hourly.precipitation[index] < 0.5) {
+      barColor = "var(--Primary-Container)";
+    } else if (
+      data.hourly.precipitation[index] > 0.5 &&
+      data.hourly.precipitation[index] <= 1
+    ) {
+      barColor = "var(--Primary-Container)";
+    } else if (data.hourly.precipitation[index] > 1) {
+      barColor = "var(--Primary)";
+    }
 
-      let HourTemperature;
+    let HourTemperature;
 
-      if ((await customStorage.getItem("SelectedTempUnit")) === "fahrenheit") {
-        HourTemperature = Math.round(
-          celsiusToFahrenheit(data.hourly.temperature_2m[index])
-        );
-      } else {
-        HourTemperature = Math.round(data.hourly.temperature_2m[index]);
-      }
+    if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
+      HourTemperature = Math.round(
+        celsiusToFahrenheit(data.hourly.temperature_2m[index])
+      );
+    } else {
+      HourTemperature = Math.round(data.hourly.temperature_2m[index]);
+    }
 
-      const forecastItem = document.createElement("div");
-      forecastItem.classList.add("forecast-item");
-      forecastItem.id = "forecast24";
+    const forecastItem = document.createElement("div");
+    forecastItem.classList.add("forecast-item");
+    forecastItem.id = "forecast24";
 
-      forecastItem.innerHTML = `
+    forecastItem.innerHTML = `
                 <p class="temp-24">${HourTemperature}°</p>
  ${
    index === 0
@@ -184,7 +172,7 @@ async function HourlyWeather(data) {
                 <md-ripple style="--md-ripple-pressed-opacity: 0.1;"></md-ripple>
             `;
 
-      rainMeterBarItem.innerHTML = `
+    rainMeterBarItem.innerHTML = `
                 <rainPerBar>
                   <rainPerBarProgress style="height: ${Math.round(
                     rainAmountPercent
@@ -202,25 +190,24 @@ async function HourlyWeather(data) {
 
             `;
 
-      forecastItem.addEventListener("click", async () => {
-        ShowSnack(
-          `<span style="text-transform: capitalize;">${getWeatherLabelInLangNoAnim(
-            HourWeatherCode,
-            1,
-            await customStorage.getItem("AppLanguageCode")
-          )}</span>`,
-          2000,
-          3,
-          "none",
-          " ",
-          "no-up"
-        );
-      });
+    forecastItem.addEventListener("click", () => {
+      ShowSnack(
+        `<span style="text-transform: capitalize;">${getWeatherLabelInLangNoAnim(
+          HourWeatherCode,
+          1,
+          localStorage.getItem("AppLanguageCode")
+        )}</span>`,
+        2000,
+        3,
+        "none",
+        " ",
+        "no-up"
+      );
+    });
 
-      RainBarsContainer.append(rainMeterBarItem);
-      forecastContainer.appendChild(forecastItem);
-    })
-  );
+    RainBarsContainer.append(rainMeterBarItem);
+    forecastContainer.appendChild(forecastItem);
+  });
 
   if (isRainingNow) {
     if (rainStopping) {
@@ -230,7 +217,7 @@ async function HourlyWeather(data) {
       document.querySelector(".whenRainPill").hidden = false;
       document.getElementById("rainStopingText").innerHTML =
         getTranslationByLang(
-          await customStorage.getItem("AppLanguageCode"),
+          localStorage.getItem("AppLanguageCode"),
           "rain_expected_to_continue"
         );
     }
@@ -244,20 +231,7 @@ async function HourlyWeather(data) {
 
 // daily
 
-async function DailyWeather(dailyForecast) {
-  const SelectedTempUnit = await customStorage.getItem("SelectedTempUnit");
-  const SelectedWindUnit = await customStorage.getItem("SelectedWindUnit");
-  const SelectedVisibiltyUnit = await customStorage.getItem(
-    "selectedVisibilityUnit"
-  );
-  const SelectedPrecipitationUnit = await customStorage.getItem(
-    "selectedPrecipitationUnit"
-  );
-  const SelectedPressureUnit = await customStorage.getItem(
-    "selectedPressureUnit"
-  );
-  const timeFormat = await customStorage.getItem("selectedTimeMode");
-
+function DailyWeather(dailyForecast) {
   setChart();
 
   const forecastContainer = document.getElementById("forecast-5day");
@@ -267,57 +241,57 @@ async function DailyWeather(dailyForecast) {
 
   const warmingComments = [
     getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "warming_temp_trend_1"
     ),
     getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "warming_temp_trend_2"
     ),
     getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "warming_temp_trend_3"
     ),
     getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "warming_temp_trend_4"
     ),
   ];
 
   const coolingComments = [
     getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "cooling_temp_trend_1"
     ),
     getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "cooling_temp_trend_2"
     ),
     getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "cooling_temp_trend_3"
     ),
     getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "cooling_temp_trend_4"
     ),
   ];
 
   const stableComments = [
     getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "stable_temp_trend_1"
     ),
     getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "stable_temp_trend_1"
     ),
     getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "stable_temp_trend_1"
     ),
     getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "stable_temp_trend_1"
     ),
   ];
@@ -364,86 +338,87 @@ async function DailyWeather(dailyForecast) {
 
   document.getElementById("temp_insight").innerHTML = trendMessage;
 
-  await Promise.all(
-    dailyForecast.time.map(async (time, index) => {
-      const [year, month, day] = time.split("-").map(Number);
-      const dateObj = new Date(year, month - 1, day);
+  const weekDaysCache = [];
 
-      const today = new Date();
-      const isSameDay =
-        dateObj.getFullYear() === today.getFullYear() &&
-        dateObj.getMonth() === today.getMonth() &&
-        dateObj.getDate() === today.getDate();
+  dailyForecast.time.forEach((time, index) => {
+    const [year, month, day] = time.split("-").map(Number);
+    const dateObj = new Date(year, month - 1, day);
 
-      const weekday = isSameDay
-        ? "today"
-        : dateObj
-            .toLocaleDateString("en-US", { weekday: "short" })
-            .toLowerCase();
-      const weekdayLang = getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
-        weekday
+    const today = new Date();
+    const isSameDay =
+      dateObj.getFullYear() === today.getFullYear() &&
+      dateObj.getMonth() === today.getMonth() &&
+      dateObj.getDate() === today.getDate();
+
+    const weekday = isSameDay
+      ? "today"
+      : dateObj.toLocaleDateString("en-US", { weekday: "short" }).toLowerCase();
+    const weekdayLang = getTranslationByLang(
+      localStorage.getItem("AppLanguageCode"),
+      weekday
+    );
+
+    const send1stDay = dailyForecast.weather_code[0];
+
+    ReportFromdaily(send1stDay);
+
+    weekDaysCache.push(getTranslationByLang("en", weekday));
+
+    const rainPercentage = dailyForecast.precipitation_probability_max[index];
+    const DailyWeatherCode = dailyForecast.weather_code[index];
+
+    let TempMin;
+
+    if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
+      TempMin = Math.round(
+        celsiusToFahrenheit(dailyForecast.temperature_2m_min[index])
       );
+    } else {
+      TempMin = Math.round(dailyForecast.temperature_2m_min[index]);
+    }
 
-      const send1stDay = dailyForecast.weather_code[0];
+    let TempMax;
 
-      ReportFromdaily(send1stDay);
-
-      const rainPercentage = dailyForecast.precipitation_probability_max[index];
-      const DailyWeatherCode = dailyForecast.weather_code[index];
-
-      let TempMin;
-
-      if ((await customStorage.getItem("SelectedTempUnit")) === "fahrenheit") {
-        TempMin = Math.round(
-          celsiusToFahrenheit(dailyForecast.temperature_2m_min[index])
-        );
-      } else {
-        TempMin = Math.round(dailyForecast.temperature_2m_min[index]);
-      }
-
-      let TempMax;
-
-      if ((await customStorage.getItem("SelectedTempUnit")) === "fahrenheit") {
-        TempMax = Math.round(
-          celsiusToFahrenheit(dailyForecast.temperature_2m_max[index])
-        );
-      } else {
-        TempMax = Math.round(dailyForecast.temperature_2m_max[index]);
-      }
-
-      let TempMinCurrent;
-
-      if ((await customStorage.getItem("SelectedTempUnit")) === "fahrenheit") {
-        TempMinCurrent = Math.round(
-          celsiusToFahrenheit(dailyForecast.temperature_2m_min[0])
-        );
-      } else {
-        TempMinCurrent = Math.round(dailyForecast.temperature_2m_min[0]);
-      }
-
-      let TempMaxCurrent;
-
-      if ((await customStorage.getItem("SelectedTempUnit")) === "fahrenheit") {
-        TempMaxCurrent = Math.round(
-          celsiusToFahrenheit(dailyForecast.temperature_2m_max[0])
-        );
-      } else {
-        TempMaxCurrent = Math.round(dailyForecast.temperature_2m_max[0]);
-      }
-
-      document.getElementById("high_temp").innerHTML = TempMaxCurrent + "°";
-      document.getElementById("low_temp").innerHTML = TempMinCurrent + "°";
-
-      const forecastItem = document.createElement("div");
-      forecastItem.classList.add("forecast-item-forecast");
-
-      forecastItem.setAttribute(
-        "onclick",
-        `clickForecastItem(${index}); sendThemeToAndroid("Open8Forecast");`
+    if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
+      TempMax = Math.round(
+        celsiusToFahrenheit(dailyForecast.temperature_2m_max[index])
       );
+    } else {
+      TempMax = Math.round(dailyForecast.temperature_2m_max[index]);
+    }
 
-      forecastItem.innerHTML = `
+    let TempMinCurrent;
+
+    if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
+      TempMinCurrent = Math.round(
+        celsiusToFahrenheit(dailyForecast.temperature_2m_min[0])
+      );
+    } else {
+      TempMinCurrent = Math.round(dailyForecast.temperature_2m_min[0]);
+    }
+
+    let TempMaxCurrent;
+
+    if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
+      TempMaxCurrent = Math.round(
+        celsiusToFahrenheit(dailyForecast.temperature_2m_max[0])
+      );
+    } else {
+      TempMaxCurrent = Math.round(dailyForecast.temperature_2m_max[0]);
+    }
+
+    document.getElementById("high_temp").innerHTML = TempMaxCurrent + "°";
+    document.getElementById("low_temp").innerHTML = TempMinCurrent + "°";
+
+    const forecastItem = document.createElement("div");
+    forecastItem.classList.add("forecast-item-forecast");
+
+    forecastItem.setAttribute(
+      "onclick",
+      `clickForecastItem(${index}); sendThemeToAndroid("Open8Forecast");`
+    );
+
+    forecastItem.innerHTML = `
         <p class="disc-5d">${TempMax}°<span> ${TempMin}°</span></p>
 
         <img id="icon-5d" src="${GetWeatherIcon(
@@ -458,67 +433,55 @@ async function DailyWeather(dailyForecast) {
         </div>
       <md-ripple style="--md-ripple-pressed-opacity: 0.1;"></md-ripple>
         `;
-      const daylightDurationInSeconds = dailyForecast.daylight_duration[0];
-      const daylightHours = Math.floor(daylightDurationInSeconds / 3600);
-      const daylightMinutes = Math.floor(
-        (daylightDurationInSeconds % 3600) / 60
-      );
+    const daylightDurationInSeconds = dailyForecast.daylight_duration[0];
+    const daylightHours = Math.floor(daylightDurationInSeconds / 3600);
+    const daylightMinutes = Math.floor((daylightDurationInSeconds % 3600) / 60);
 
-      document.getElementById(
-        "day_length_text"
-      ).innerHTML = `${daylightHours} hrs ${daylightMinutes} mins ${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
-        "day_length"
-      )}`;
+    document.getElementById(
+      "day_length_text"
+    ).innerHTML = `${daylightHours} hrs ${daylightMinutes} mins ${getTranslationByLang(
+      localStorage.getItem("AppLanguageCode"),
+      "day_length"
+    )}`;
 
-      let TodaysPrecAmount;
+    let TodaysPrecAmount;
 
-      if ((await customStorage.getItem("selectedPrecipitationUnit")) === "in") {
-        TodaysPrecAmount =
-          mmToInches(dailyForecast.precipitation_sum[0]).toFixed(2) + " in";
-      } else if (
-        (await customStorage.getItem("selectedPrecipitationUnit")) === "cm"
-      ) {
-        TodaysPrecAmount =
-          (Math.round(dailyForecast.precipitation_sum[0]) / 10).toFixed(2) +
-          " cm";
-      } else {
-        TodaysPrecAmount =
-          dailyForecast.precipitation_sum[0].toFixed(1) + " mm";
-      }
+    if (localStorage.getItem("selectedPrecipitationUnit") === "in") {
+      TodaysPrecAmount =
+        mmToInches(dailyForecast.precipitation_sum[0]).toFixed(2) + " in";
+    } else if (localStorage.getItem("selectedPrecipitationUnit") === "cm") {
+      TodaysPrecAmount =
+        (Math.round(dailyForecast.precipitation_sum[0]) / 10).toFixed(2) +
+        " cm";
+    } else {
+      TodaysPrecAmount = dailyForecast.precipitation_sum[0].toFixed(1) + " mm";
+    }
 
-      if (dailyForecast.precipitation_sum[0] <= 0) {
-        document.querySelector("rainmeterbar").hidden = true;
-        document.querySelector(".whenRainPill").hidden = true;
-      } else {
-        document.querySelector("rainmeterbar").hidden = false;
-      }
+    if (dailyForecast.precipitation_sum[0] <= 0) {
+      document.querySelector("rainmeterbar").hidden = true;
+      document.querySelector(".whenRainPill").hidden = true;
+    } else {
+      document.querySelector("rainmeterbar").hidden = false;
+    }
 
-      document.getElementById("AmountRainMM").innerHTML = TodaysPrecAmount;
+    document.getElementById("AmountRainMM").innerHTML = TodaysPrecAmount;
 
-      document.getElementById("RainHours").innerHTML =
-        dailyForecast.precipitation_hours[0] + " hrs";
+    document.getElementById("RainHours").innerHTML =
+      dailyForecast.precipitation_hours[0] + " hrs";
 
-      forecastContainer.appendChild(forecastItem);
-    })
-  );
+    forecastContainer.appendChild(forecastItem);
+  });
+
+  async function saveWeekcache(){
+    await customStorage.setItem("forecastWeekdays", JSON.stringify(weekDaysCache));
+  }
+
+  saveWeekcache()
 }
 
 // current
 
-async function CurrentWeather(data, sunrise, sunset, lat, lon) {
-  const SelectedTempUnit = await customStorage.getItem("SelectedTempUnit");
-  const SelectedWindUnit = await customStorage.getItem("SelectedWindUnit");
-  const SelectedVisibiltyUnit = await customStorage.getItem(
-    "selectedVisibilityUnit"
-  );
-  const SelectedPrecipitationUnit = await customStorage.getItem(
-    "selectedPrecipitationUnit"
-  );
-  const SelectedPressureUnit = await customStorage.getItem(
-    "selectedPressureUnit"
-  );
-  const timeFormat = await customStorage.getItem("selectedTimeMode");
+function CurrentWeather(data, sunrise, sunset, lat, lon) {
   const CurrentCloudCover = data.cloud_cover;
   const CurrentHumidity = Math.round(data.relative_humidity_2m);
   const CurrentWeatherCode = data.weather_code;
@@ -528,7 +491,7 @@ async function CurrentWeather(data, sunrise, sunset, lat, lon) {
   let CurrentTemperature;
   let FeelsLikeTemp;
 
-  if ((await customStorage.getItem("SelectedTempUnit")) === "fahrenheit") {
+  if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
     CurrentTemperature = Math.round(celsiusToFahrenheit(data.temperature_2m));
     FeelsLikeTemp = Math.round(celsiusToFahrenheit(data.apparent_temperature));
   } else {
@@ -542,9 +505,9 @@ async function CurrentWeather(data, sunrise, sunset, lat, lon) {
 
   let CurrentWindGust;
 
-  if ((await customStorage.getItem("SelectedWindUnit")) === "mile") {
+  if (localStorage.getItem("SelectedWindUnit") === "mile") {
     CurrentWindGust = Math.round(kmhToMph(data.wind_gusts_10m)) + " mph";
-  } else if ((await customStorage.getItem("SelectedWindUnit")) === "M/s") {
+  } else if (localStorage.getItem("SelectedWindUnit") === "M/s") {
     CurrentWindGust = (data.wind_gusts_10m / 3.6).toFixed(2) + " m/s";
   } else {
     CurrentWindGust = Math.round(data.wind_gusts_10m) + " km/h";
@@ -552,9 +515,9 @@ async function CurrentWeather(data, sunrise, sunset, lat, lon) {
 
   let CurrentWindSpeed;
 
-  if ((await customStorage.getItem("SelectedWindUnit")) === "mile") {
+  if (localStorage.getItem("SelectedWindUnit") === "mile") {
     CurrentWindSpeed = Math.round(kmhToMph(data.wind_speed_10m)) + " mph";
-  } else if ((await customStorage.getItem("SelectedWindUnit")) === "M/s") {
+  } else if (localStorage.getItem("SelectedWindUnit") === "M/s") {
     CurrentWindSpeed = (data.wind_speed_10m / 3.6).toFixed(2) + " m/s";
   } else {
     CurrentWindSpeed = Math.round(data.wind_speed_10m) + " km/h";
@@ -563,10 +526,10 @@ async function CurrentWeather(data, sunrise, sunset, lat, lon) {
   let CurrentPressure;
   let pressureMainUnit;
 
-  if ((await customStorage.getItem("selectedPressureUnit")) === "inHg") {
+  if (localStorage.getItem("selectedPressureUnit") === "inHg") {
     CurrentPressure = hPaToInHg(data.pressure_msl).toFixed(2);
     pressureMainUnit = "inHg";
-  } else if ((await customStorage.getItem("selectedPressureUnit")) === "mmHg") {
+  } else if (localStorage.getItem("selectedPressureUnit") === "mmHg") {
     CurrentPressure = hPaToMmHg(data.pressure_msl).toFixed(2);
     pressureMainUnit = "mmHg";
   } else {
@@ -574,15 +537,13 @@ async function CurrentWeather(data, sunrise, sunset, lat, lon) {
     pressureMainUnit = "hPa";
   }
 
-  await customStorage.setItem("CurrentPressurePage", data.pressure_msl);
+  localStorage.setItem("CurrentPressurePage", data.pressure_msl);
 
   let CurrentPrecipitation;
 
-  if ((await customStorage.getItem("selectedPrecipitationUnit")) === "in") {
+  if (localStorage.getItem("selectedPrecipitationUnit") === "in") {
     CurrentPrecipitation = mmToInches(Math.round(data.precipitation));
-  } else if (
-    (await customStorage.getItem("selectedPrecipitationUnit")) === "cm"
-  ) {
+  } else if (localStorage.getItem("selectedPrecipitationUnit") === "cm") {
     CurrentPrecipitation = (Math.round(data.precipitation) / 10).toFixed(2);
   } else {
     CurrentPrecipitation = Math.round(data.precipitation);
@@ -590,14 +551,10 @@ async function CurrentWeather(data, sunrise, sunset, lat, lon) {
 
   // -------------------------------
 
-  if (
-    (await customStorage.getItem("selectedMainWeatherProvider")) ===
-    "Met norway"
-  ) {
+  if (localStorage.getItem("selectedMainWeatherProvider") === "Met norway") {
   } else if (
-    (await customStorage.getItem("ApiForAccu")) &&
-    (await customStorage.getItem("selectedMainWeatherProvider")) ===
-      "Accuweather"
+    localStorage.getItem("ApiForAccu") &&
+    localStorage.getItem("selectedMainWeatherProvider") === "Accuweather"
   ) {
   } else {
     animateTemp(CurrentTemperature);
@@ -610,7 +567,7 @@ async function CurrentWeather(data, sunrise, sunset, lat, lon) {
     document.getElementById("description").innerHTML = getWeatherLabelInLang(
       CurrentWeatherCode,
       isDay,
-      await customStorage.getItem("AppLanguageCode")
+      localStorage.getItem("AppLanguageCode")
     );
     document.getElementById("froggie_imgs").src = GetFroggieIcon(
       CurrentWeatherCode,
@@ -624,9 +581,9 @@ async function CurrentWeather(data, sunrise, sunset, lat, lon) {
 
     renderHomeLocationSearchData();
 
-    async function renderHomeLocationSearchData() {
+    function renderHomeLocationSearchData() {
       const checkIFitsSavedLocation = JSON.parse(
-        await customStorage.getItem("DefaultLocation")
+        localStorage.getItem("DefaultLocation")
       );
 
       function isApproxEqual(val1, val2, epsilon = 0.0001) {
@@ -649,7 +606,7 @@ async function CurrentWeather(data, sunrise, sunset, lat, lon) {
           ).innerHTML = `${getWeatherLabelInLang(
             CurrentWeatherCode,
             isDay,
-            await customStorage.getItem("AppLanguageCode")
+            localStorage.getItem("AppLanguageCode")
           )}`;
           document.getElementById("currentSearchImg").src = `${GetWeatherIcon(
             CurrentWeatherCode,
@@ -665,7 +622,7 @@ async function CurrentWeather(data, sunrise, sunset, lat, lon) {
 
   document.getElementById("feels_like_now").innerHTML =
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "feels_like"
     )} ` +
     FeelsLikeTemp +
@@ -702,67 +659,67 @@ async function CurrentWeather(data, sunrise, sunset, lat, lon) {
 
   if (data.wind_speed_10m < 1) {
     windspeedType.innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "calm"
     );
   } else if (data.wind_speed_10m < 5) {
     windspeedType.innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "light_air"
     );
   } else if (data.wind_speed_10m < 11) {
     windspeedType.innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "light_breeze"
     );
   } else if (data.wind_speed_10m < 19) {
     windspeedType.innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "gentle_breeze"
     );
   } else if (data.wind_speed_10m < 28) {
     windspeedType.innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "moderate_breeze"
     );
   } else if (data.wind_speed_10m < 38) {
     windspeedType.innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "fresh_breeze"
     );
   } else if (data.wind_speed_10m < 49) {
     windspeedType.innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "strong_breeze"
     );
   } else if (data.wind_speed_10m < 61) {
     windspeedType.innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "high_wind"
     );
   } else if (data.wind_speed_10m < 74) {
     windspeedType.innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "gale"
     );
   } else if (data.wind_speed_10m < 88) {
     windspeedType.innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "strong_gale"
     );
   } else if (data.wind_speed_10m < 102) {
     windspeedType.innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "storm"
     );
   } else if (data.wind_speed_10m < 117) {
     windspeedType.innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "violent_storm"
     );
   } else {
     windspeedType.innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "hurricane"
     );
   }
@@ -835,7 +792,7 @@ async function CurrentWeather(data, sunrise, sunset, lat, lon) {
   const diffToSunrise = calculateTimeDifference(sunrise);
   const diffToSunset = calculateTimeDifference(sunset);
 
-  if ((await customStorage.getItem("selectedTimeMode")) === "24 hour") {
+  if (localStorage.getItem("selectedTimeMode") === "24 hour") {
     document.getElementById("sunrise").innerHTML = convertTo24Hour(sunrise);
     document.getElementById("sunset").innerHTML = convertTo24Hour(sunset);
   } else {
@@ -887,7 +844,7 @@ async function CurrentWeather(data, sunrise, sunset, lat, lon) {
   //    if (minutesAgo > 1) {
   //        document.getElementById('last_updated').innerHTML = `Updated ${minutesAgo} mins ago`;
   //    } else if (minutesAgo < 1) {
-  //        document.getElementById('last_updated').innerHTML = getTranslationByLang(await customStorage.getItem('AppLanguageCode'), 'updated_just_now');;
+  //        document.getElementById('last_updated').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'updated_just_now');;
   //    } else {
   //        document.getElementById('last_updated').innerHTML = `Updated ${minutesAgo} min ago`;
   //    }
@@ -969,25 +926,12 @@ async function CurrentWeather(data, sunrise, sunset, lat, lon) {
 
   //    const recommendation = getClothingRecommendation(temperatureCLoths)
 
-  //    document.getElementById('cloth_recommended').textContent = getTranslationByLang(await customStorage.getItem('AppLanguageCode'), recommendation)
+  //    document.getElementById('cloth_recommended').textContent = getTranslationByLang(localStorage.getItem('AppLanguageCode'), recommendation)
 }
 
 // air quality
 
-async function AirQuaility(data) {
-  const SelectedTempUnit = await customStorage.getItem("SelectedTempUnit");
-  const SelectedWindUnit = await customStorage.getItem("SelectedWindUnit");
-  const SelectedVisibiltyUnit = await customStorage.getItem(
-    "selectedVisibilityUnit"
-  );
-  const SelectedPrecipitationUnit = await customStorage.getItem(
-    "selectedPrecipitationUnit"
-  );
-  const SelectedPressureUnit = await customStorage.getItem(
-    "selectedPressureUnit"
-  );
-  const timeFormat = await customStorage.getItem("selectedTimeMode");
-
+function AirQuaility(data) {
   const aqi = data.current.us_aqi;
   // const
 
@@ -1053,7 +997,7 @@ async function AirQuaility(data) {
 
   const aqiData = aqiText[aqiCategory];
 
-  const langCode = await customStorage.getItem("AppLanguageCode");
+  const langCode = localStorage.getItem("AppLanguageCode");
 
   const levelTranslation = getTranslationByLang(langCode, aqiData.level);
   const messageTranslation = getTranslationByLang(langCode, aqiData.message);
@@ -1246,207 +1190,181 @@ function getColor(value, type) {
 
 // uv index
 
-async function UvIndex(uvIndexValue) {
-  const SelectedTempUnit = await customStorage.getItem("SelectedTempUnit");
-  const SelectedWindUnit = await customStorage.getItem("SelectedWindUnit");
-  const SelectedVisibiltyUnit = await customStorage.getItem(
-    "selectedVisibilityUnit"
-  );
-  const SelectedPrecipitationUnit = await customStorage.getItem(
-    "selectedPrecipitationUnit"
-  );
-  const SelectedPressureUnit = await customStorage.getItem(
-    "selectedPressureUnit"
-  );
-  const timeFormat = await customStorage.getItem("selectedTimeMode");
-
+function UvIndex(uvIndexValue) {
   const uvIndex = Math.round(uvIndexValue);
 
   if (uvIndex >= 0 && uvIndex <= 1) {
     document.getElementById("uv-index").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "minimal_risk"
     );
     document.getElementById("uv-index").style = "background-color: #43b710";
     document.getElementById("uv_img").src = "uv-images/uv-0.png";
     document.getElementById("detail_uv").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "uv_index_satisfactory"
     );
-    await customStorage.setItem("CurrentUVIndexMain", "0");
+    localStorage.setItem("CurrentUVIndexMain", "0");
   } else if (uvIndex > 1 && uvIndex <= 2) {
     document.getElementById("uv-index").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "low_risk"
     );
     document.getElementById("uv-index").style = "background-color: #43b710";
     document.getElementById("uv_img").src = "uv-images/uv-1.png";
     document.getElementById("detail_uv").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "conditions_low_risk"
     );
-    await customStorage.setItem("CurrentUVIndexMain", "1");
+    localStorage.setItem("CurrentUVIndexMain", "1");
   } else if (uvIndex > 2 && uvIndex <= 3) {
     document.getElementById("uv-index").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "low_risk"
     );
     document.getElementById("uv-index").style = "background-color: #43b710";
     document.getElementById("uv_img").src = "uv-images/uv-2.png";
     document.getElementById("detail_uv").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "low_exposure_level"
     );
-    await customStorage.setItem("CurrentUVIndexMain", "2");
+    localStorage.setItem("CurrentUVIndexMain", "2");
   } else if (uvIndex > 3 && uvIndex <= 4) {
     document.getElementById("uv-index").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "moderate_risk"
     );
     document.getElementById("uv-index").style = "background-color: #eaaf10";
     document.getElementById("uv_img").src = "uv-images/uv-3.png";
     document.getElementById("detail_uv").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "moderate_risk_sun_exposure"
     );
-    await customStorage.setItem("CurrentUVIndexMain", "3");
+    localStorage.setItem("CurrentUVIndexMain", "3");
   } else if (uvIndex > 4 && uvIndex <= 5) {
     document.getElementById("uv-index").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "moderate_risk"
     );
     document.getElementById("uv-index").style = "background-color: #eaaf10";
     document.getElementById("uv_img").src = "uv-images/uv-4.png";
     document.getElementById("detail_uv").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "moderate_risk_sun_exposure"
     );
-    await customStorage.setItem("CurrentUVIndexMain", "4");
+    localStorage.setItem("CurrentUVIndexMain", "4");
   } else if (uvIndex > 5 && uvIndex <= 6) {
     document.getElementById("uv-index").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "moderate_risk"
     );
     document.getElementById("uv-index").style = "background-color: #eaaf10";
     document.getElementById("uv_img").src = "uv-images/uv-5.png";
     document.getElementById("detail_uv").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "moderate_risk_sun_exposure"
     );
-    await customStorage.setItem("CurrentUVIndexMain", "5");
+    localStorage.setItem("CurrentUVIndexMain", "5");
   } else if (uvIndex > 6 && uvIndex <= 7) {
     document.getElementById("uv-index").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "high_risk"
     );
     document.getElementById("uv-index").style = "background-color: #eb8a11";
     document.getElementById("uv_img").src = "uv-images/uv-6.png";
     document.getElementById("detail_uv").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "high_risk_sun_exposure"
     );
-    await customStorage.setItem("CurrentUVIndexMain", "6");
+    localStorage.setItem("CurrentUVIndexMain", "6");
   } else if (uvIndex > 7 && uvIndex <= 8) {
     document.getElementById("uv-index").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "high_risk"
     );
     document.getElementById("uv-index").style = "background-color: #eb8a11";
     document.getElementById("uv_img").src = "uv-images/uv-7.png";
     document.getElementById("detail_uv").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "high_risk_sun_exposure"
     );
-    await customStorage.setItem("CurrentUVIndexMain", "7");
+    localStorage.setItem("CurrentUVIndexMain", "7");
   } else if (uvIndex > 8 && uvIndex <= 9) {
     document.getElementById("uv-index").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "very_high_risk"
     );
     document.getElementById("uv-index").style = "background-color: #e83f0f";
     document.getElementById("uv_img").src = "uv-images/uv-8.png";
     document.getElementById("detail_uv").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "very_high_risk_sun_exposure"
     );
-    await customStorage.setItem("CurrentUVIndexMain", "8");
+    localStorage.setItem("CurrentUVIndexMain", "8");
   } else if (uvIndex > 9 && uvIndex <= 10) {
     document.getElementById("uv-index").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "very_high_risk"
     );
     document.getElementById("uv-index").style = "background-color: #e83f0f";
     document.getElementById("uv_img").src = "uv-images/uv-9.png";
     document.getElementById("detail_uv").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "very_high_risk_sun_exposure"
     );
-    await customStorage.setItem("CurrentUVIndexMain", "9");
+    localStorage.setItem("CurrentUVIndexMain", "9");
   } else if (uvIndex > 10 && uvIndex <= 11) {
     document.getElementById("uv-index").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "very_high_risk"
     );
     document.getElementById("uv-index").style = "background-color: #e83f0f";
     document.getElementById("uv_img").src = "uv-images/uv-10.png";
     document.getElementById("detail_uv").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "very_high_risk_sun_exposure"
     );
-    await customStorage.setItem("CurrentUVIndexMain", "10");
+    localStorage.setItem("CurrentUVIndexMain", "10");
   } else if (uvIndex > 11 && uvIndex <= 12) {
     document.getElementById("uv-index").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "extreme_risk"
     );
     document.getElementById("uv-index").style = "background-color: #8e3acf";
     document.getElementById("uv_img").src = "uv-images/uv-11.png";
     document.getElementById("detail_uv").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "extreme_risk_sun_exposure"
     );
-    await customStorage.setItem("CurrentUVIndexMain", "11");
+    localStorage.setItem("CurrentUVIndexMain", "11");
   } else if (uvIndex > 12 && uvIndex <= 13) {
     document.getElementById("uv-index").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "extreme_risk"
     );
     document.getElementById("uv-index").style = "background-color: #ec0c8b";
     document.getElementById("uv_img").src = "uv-images/uv-12.png";
     document.getElementById("detail_uv").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "extreme_risk_sun_exposure"
     );
-    await customStorage.setItem("CurrentUVIndexMain", "12");
+    localStorage.setItem("CurrentUVIndexMain", "12");
   } else if (uvIndex > 13) {
     document.getElementById("uv-index").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "extreme_risk"
     );
     document.getElementById("uv-index").style = "background-color: #550ef9";
     document.getElementById("uv_img").src = "uv-images/uv-13.png";
     document.getElementById("detail_uv").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "extreme_risk_sun_exposure"
     );
-    await customStorage.setItem("CurrentUVIndexMain", "13+");
+    localStorage.setItem("CurrentUVIndexMain", "13+");
   }
 }
 
-async function MoreDetailsRender(data) {
-  const SelectedTempUnit = await customStorage.getItem("SelectedTempUnit");
-  const SelectedWindUnit = await customStorage.getItem("SelectedWindUnit");
-  const SelectedVisibiltyUnit = await customStorage.getItem(
-    "selectedVisibilityUnit"
-  );
-  const SelectedPrecipitationUnit = await customStorage.getItem(
-    "selectedPrecipitationUnit"
-  );
-  const SelectedPressureUnit = await customStorage.getItem(
-    "selectedPressureUnit"
-  );
-  const timeFormat = await customStorage.getItem("selectedTimeMode");
-
+function MoreDetailsRender(data) {
   const mainData = data.forecast.forecastday[0].day;
 
   const weatherCondition = mainData.condition.text;
@@ -1465,7 +1383,7 @@ async function MoreDetailsRender(data) {
 
   let maxTemp;
 
-  if ((await customStorage.getItem("SelectedTempUnit")) === "fahrenheit") {
+  if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
     maxTemp = Math.round((mainData.maxtemp_c * 9) / 5 + 32);
   } else {
     maxTemp = Math.round(mainData.maxtemp_c);
@@ -1473,7 +1391,7 @@ async function MoreDetailsRender(data) {
 
   let minTemp;
 
-  if ((await customStorage.getItem("SelectedTempUnit")) === "fahrenheit") {
+  if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
     minTemp = Math.round((mainData.mintemp_c * 9) / 5 + 32);
   } else {
     minTemp = Math.round(mainData.mintemp_c);
@@ -1481,11 +1399,9 @@ async function MoreDetailsRender(data) {
 
   let Precipitation;
 
-  if ((await customStorage.getItem("selectedPrecipitationUnit")) === "in") {
+  if (localStorage.getItem("selectedPrecipitationUnit") === "in") {
     Precipitation = mainData.totalprecip_in.toFixed(2) + " in";
-  } else if (
-    (await customStorage.getItem("selectedPrecipitationUnit")) === "cm"
-  ) {
+  } else if (localStorage.getItem("selectedPrecipitationUnit") === "cm") {
     Precipitation = (mainData.totalprecip_in * 2.54).toFixed(2) + " cm";
   } else {
     Precipitation = inchesToMm(mainData.totalprecip_in).toFixed(2) + " mm";
@@ -1493,31 +1409,31 @@ async function MoreDetailsRender(data) {
   let precipitationMessage;
   if (mainData.totalprecip_in > 0) {
     precipitationMessage = `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "rain_report_tipPart_1"
     )} ${Precipitation} ${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "rain_report_tipPart_2"
     )} `;
   } else {
     precipitationMessage = `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "Norain_report_tipPart"
     )}`;
   }
 
   let weatherReport = `
          <li style="padding-bottom: 5px;">${getTranslationByLang(
-           await customStorage.getItem("AppLanguageCode"),
+           localStorage.getItem("AppLanguageCode"),
            "temp_report_tipPart_1"
          )} ${maxTemp}° ${getTranslationByLang(
-    await customStorage.getItem("AppLanguageCode"),
+    localStorage.getItem("AppLanguageCode"),
     "temp_report_tipPart_2"
   )} ${mainData.uv} ${getTranslationByLang(
-    await customStorage.getItem("AppLanguageCode"),
+    localStorage.getItem("AppLanguageCode"),
     "temp_report_tipPart_3"
   )} ${minTemp}° ${getTranslationByLang(
-    await customStorage.getItem("AppLanguageCode"),
+    localStorage.getItem("AppLanguageCode"),
     "temp_report_tipPart_4"
   )} </li>
          <li >${precipitationMessage}</li>
@@ -1528,231 +1444,231 @@ async function MoreDetailsRender(data) {
 
   const veryHotWeatherTips = [
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "very_hot_weather_tips_1"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "very_hot_weather_tips_2"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "very_hot_weather_tips_3"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "very_hot_weather_tips_4"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "very_hot_weather_tips_5"
     )}`,
   ];
 
   const hotWeatherTips = [
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "hot_weather_tips_1"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "hot_weather_tips_2"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "hot_weather_tips_3"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "hot_weather_tips_4"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "hot_weather_tips_5"
     )}`,
   ];
 
   const mildWeatherTips = [
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "mild_weather_tips_1"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "mild_weather_tips_2"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "mild_weather_tips_3"
     )}`,
   ];
 
   const chillyWeatherTips = [
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "chilly_weather_tips_1"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "chilly_weather_tips_2"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "chilly_weather_tips_3"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "chilly_weather_tips_4"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "chilly_weather_tips_5"
     )}`,
   ];
 
   const veryColdWeatherTips = [
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "very_cold_weather_tips_1"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "very_cold_weather_tips_2"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "very_cold_weather_tips_3"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "very_cold_weather_tips_4"
     )}`,
   ];
 
   const extremeColdWeatherTips = [
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "extreme_cold_weather_tips_1"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "extreme_cold_weather_tips_2"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "extreme_cold_weather_tips_3"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "extreme_cold_weather_tips_4"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "extreme_cold_weather_tips_5"
     )}`,
   ];
 
   const rainTips = [
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "rain_weather_tips_1"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "rain_weather_tips_2"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "rain_weather_tips_3"
     )}`,
   ];
 
   const sunnyTips = [
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "sunny_weather_tips_1"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "sunny_weather_tips_2"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "sunny_weather_tips_3"
     )}`,
   ];
 
   const snowTips = [
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "snow_weather_tips_1"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "snow_weather_tips_2"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "snow_weather_tips_3"
     )}`,
   ];
 
   const cloudyWeatherTips = [
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "cloudy_weather_tips_1"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "cloudy_weather_tips_2"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "cloudy_weather_tips_3"
     )}`,
   ];
 
   const fogTips = [
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "fog_weather_tips_1"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "fog_weather_tips_2"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "fog_weather_tips_3"
     )}`,
   ];
 
   const windTips = [
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "wind_weather_tips_1"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "wind_weather_tips_2"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "wind_weather_tips_3"
     )}`,
   ];
 
   const thunderstormTips = [
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "thunder_weather_tips_1"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "thunder_weather_tips_2"
     )}`,
     `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "thunder_weather_tips_3"
     )}`,
   ];
@@ -1793,7 +1709,7 @@ async function MoreDetailsRender(data) {
 
   if (weatherCondition.toLowerCase().includes("rain")) {
     weatherTips += `${getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "cautious_slippery_roads"
     )} `;
   } else if (weatherCondition.toLowerCase().includes("sunny")) {
@@ -1823,20 +1739,7 @@ async function MoreDetailsRender(data) {
   document.getElementById("summeryDay").innerHTML = `<li>${weatherReport}</li>`;
 }
 
-async function astronomyDataRender(data) {
-  const SelectedTempUnit = await customStorage.getItem("SelectedTempUnit");
-  const SelectedWindUnit = await customStorage.getItem("SelectedWindUnit");
-  const SelectedVisibiltyUnit = await customStorage.getItem(
-    "selectedVisibilityUnit"
-  );
-  const SelectedPrecipitationUnit = await customStorage.getItem(
-    "selectedPrecipitationUnit"
-  );
-  const SelectedPressureUnit = await customStorage.getItem(
-    "selectedPressureUnit"
-  );
-  const timeFormat = await customStorage.getItem("selectedTimeMode");
-
+function astronomyDataRender(data) {
   if (data) {
     const MoonPhaseName = data.astronomy.astro.moon_phase;
     const moonillumination = Math.round(data.astronomy.astro.moon_illumination);
@@ -1892,7 +1795,7 @@ async function astronomyDataRender(data) {
       return `${hours}:${minutes}`;
     }
 
-    if ((await customStorage.getItem("selectedTimeMode")) === "24 hour") {
+    if (localStorage.getItem("selectedTimeMode") === "24 hour") {
       document.getElementById("moonriseTime").innerHTML = convertTo24Hour(
         data.astronomy.astro.moonrise
       );
@@ -1908,40 +1811,34 @@ async function astronomyDataRender(data) {
   }
 }
 
-async function FetchAlertRender(data) {
-  if ((await customStorage.getItem("useWeatherAlerts")) === "false") {
+function FetchAlertRender(data) {
+  if (localStorage.getItem("useWeatherAlerts") === "false") {
     document.querySelector(".excessiveHeat").hidden = true;
   } else {
     if (data.alerts.alert && data.alerts.alert.length > 0) {
       document.querySelector(".excessiveHeat").hidden = false;
-      await customStorage.setItem(
-        "AlertCache",
-        JSON.stringify(data.alerts.alert)
-      );
+      localStorage.setItem("AlertCache", JSON.stringify(data.alerts.alert));
     } else {
       console.log("No alerts");
       document.querySelector(".excessiveHeat").hidden = true;
-      await customStorage.removeItem(
-        "AlertCache",
-        JSON.stringify(data.alerts.alert)
-      );
+      localStorage.removeItem("AlertCache", JSON.stringify(data.alerts.alert));
     }
   }
 }
 
-async function clickForecastItem(index) {
-  await customStorage.setItem("ClickedForecastItem", index);
+function clickForecastItem(index) {
+  localStorage.setItem("ClickedForecastItem", index);
 }
 
-const AppLanguageCodeValue = await customStorage.getItem("AppLanguageCode");
+const AppLanguageCodeValue = localStorage.getItem("AppLanguageCode");
 if (AppLanguageCodeValue) {
   applyTranslations(AppLanguageCodeValue);
 }
 
 // ---------
 
-async function applyRoundedUI() {
-  if ((await customStorage.getItem("UseRoundedUI")) === "true") {
+function applyRoundedUI() {
+  if (localStorage.getItem("UseRoundedUI") === "true") {
     document.documentElement.setAttribute("round-ui", "true");
   } else {
     document.documentElement.setAttribute("round-ui", "false");
@@ -1960,22 +1857,9 @@ window.addEventListener("storage", handleStorageChangeRoundUI);
 
 applyRoundedUI();
 
-async function createTempTrendsChart() {
-  const SelectedTempUnit = await customStorage.getItem("SelectedTempUnit");
-  const SelectedWindUnit = await customStorage.getItem("SelectedWindUnit");
-  const SelectedVisibiltyUnit = await customStorage.getItem(
-    "selectedVisibilityUnit"
-  );
-  const SelectedPrecipitationUnit = await customStorage.getItem(
-    "selectedPrecipitationUnit"
-  );
-  const SelectedPressureUnit = await customStorage.getItem(
-    "selectedPressureUnit"
-  );
-  const timeFormat = await customStorage.getItem("selectedTimeMode");
-
+function createTempTrendsChart() {
   const cachedCurrentDataAvg = JSON.parse(
-    await customStorage.getItem("DailyWeatherCache")
+    localStorage.getItem("DailyWeatherCache")
   );
   const tempTrendHolder = document.querySelector(".temp_trend_bars");
 
@@ -2071,21 +1955,9 @@ async function createTempTrendsChart() {
 
 // bar charts
 
-async function createTempTrendsChartBar() {
-  const SelectedTempUnit = await customStorage.getItem("SelectedTempUnit");
-  const SelectedWindUnit = await customStorage.getItem("SelectedWindUnit");
-  const SelectedVisibiltyUnit = await customStorage.getItem(
-    "selectedVisibilityUnit"
-  );
-  const SelectedPrecipitationUnit = await customStorage.getItem(
-    "selectedPrecipitationUnit"
-  );
-  const SelectedPressureUnit = await customStorage.getItem(
-    "selectedPressureUnit"
-  );
-  const timeFormat = await customStorage.getItem("selectedTimeMode");
+function createTempTrendsChartBar() {
   const cachedCurrentDataAvg = JSON.parse(
-    await customStorage.getItem("DailyWeatherCache")
+    localStorage.getItem("DailyWeatherCache")
   );
   const tempTrendHolder = document.querySelector(".temp_trend_bars");
 
