@@ -1,12 +1,16 @@
+// Next step is to migrate the app from localstorage to IndexedDB 😭
+
+const DefaultLocation = JSON.parse(localStorage.getItem("DefaultLocation"));
+
 let currentApiKeyIndex = 0;
 
 let currentKeyMoonIndex = 0;
 let currentAstronomyKeyIndex = 0;
 
-async function WaitBeforeRefresh() {
+function WaitBeforeRefresh() {
   ShowSnackMessage.ShowSnack(
     getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "Please_wait_before_refreshing_again."
     ),
     "long"
@@ -36,32 +40,28 @@ function ShowError() {
 
 let currentLocation = null;
 
-async function useAutoCurrentLocation() {
-  const DefaultLocation = JSON.parse(
-    await customStorage.getItem("DefaultLocation")
-  );
-
+function useAutoCurrentLocation() {
   showLoader();
   if ("geolocation" in navigator) {
-    navigator.geolocation.getCurrentPosition(async (position) => {
+    navigator.geolocation.getCurrentPosition((position) => {
       currentLocation = {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
       };
 
       document.getElementById("city-name").innerHTML = getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "current_location"
       );
       document.getElementById("SelectedLocationText").innerHTML =
         getTranslationByLang(
-          await customStorage.getItem("AppLanguageCode"),
+          localStorage.getItem("AppLanguageCode"),
           "current_location"
         );
-      await customStorage.setItem("CurrentLocationName", "Current location");
+      localStorage.setItem("CurrentLocationName", "Current location");
       document.getElementById("currentLocationName").textContent =
         getTranslationByLang(
-          await customStorage.getItem("AppLanguageCode"),
+          localStorage.getItem("AppLanguageCode"),
           "current_location"
         );
 
@@ -69,7 +69,7 @@ async function useAutoCurrentLocation() {
         !DefaultLocation ||
         DefaultLocation.name === "CurrentDeviceLocation"
       ) {
-        await customStorage.setItem(
+        localStorage.setItem(
           "DefaultLocation",
           JSON.stringify({
             lat: currentLocation.latitude,
@@ -79,8 +79,8 @@ async function useAutoCurrentLocation() {
         );
       }
 
-      await customStorage.setItem("deviceLat", currentLocation.latitude);
-      await customStorage.setItem("devicelon", currentLocation.longitude);
+      localStorage.setItem("deviceLat", currentLocation.latitude);
+      localStorage.setItem("devicelon", currentLocation.longitude);
 
       DecodeWeather(
         currentLocation.latitude,
@@ -91,134 +91,108 @@ async function useAutoCurrentLocation() {
   }
 }
 
-async function LoadFromNetwork() {
-  const DefaultLocation = JSON.parse(
-    await customStorage.getItem("DefaultLocation")
-  );
-
-  if (navigator.onLine) {
-    if (DefaultLocation) {
-      if (DefaultLocation.name === "CurrentDeviceLocation") {
-        useAutoCurrentLocation();
-        sendThemeToAndroid("ReqLocation");
-        document.querySelector(".currentLocationdiv").hidden = false;
-        document.getElementById("showDeviceLocation").hidden = false;
-      } else if (DefaultLocation.lat && DefaultLocation.lon) {
-        DecodeWeather(
-          DefaultLocation.lat,
-          DefaultLocation.lon,
-          DefaultLocation.name
-        );
-
-        document.getElementById("city-name").innerHTML = DefaultLocation.name;
-        document.getElementById("SelectedLocationText").innerHTML =
-          DefaultLocation.name;
-        await customStorage.setItem(
-          "CurrentLocationName",
-          DefaultLocation.name
-        );
-        document.getElementById("currentLocationName").textContent =
-          DefaultLocation.name;
-        document.getElementById("showDeviceLocation").hidden = true;
-      }
-    } else {
+if (navigator.onLine) {
+  if (DefaultLocation) {
+    if (DefaultLocation.name === "CurrentDeviceLocation") {
       useAutoCurrentLocation();
       sendThemeToAndroid("ReqLocation");
       document.querySelector(".currentLocationdiv").hidden = false;
+      document.getElementById("showDeviceLocation").hidden = false;
+    } else if (DefaultLocation.lat && DefaultLocation.lon) {
+      DecodeWeather(
+        DefaultLocation.lat,
+        DefaultLocation.lon,
+        DefaultLocation.name
+      );
+
+      document.getElementById("city-name").innerHTML = DefaultLocation.name;
+      document.getElementById("SelectedLocationText").innerHTML =
+        DefaultLocation.name;
+      localStorage.setItem("CurrentLocationName", DefaultLocation.name);
+      document.getElementById("currentLocationName").textContent =
+        DefaultLocation.name;
+      document.getElementById("showDeviceLocation").hidden = true;
     }
   } else {
-    if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-      "Met norway"
-    ) {
-      document.querySelector(".data_provider_name_import").innerHTML =
-        "Data by Met Norway (Global)";
-    } else if (
-      (await customStorage.getItem("ApiForAccu")) &&
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "Accuweather"
-    ) {
-      document.querySelector(".data_provider_name_import").innerHTML =
-        "Data by Accuweather (Global)";
-    } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-      "meteoFrance"
-    ) {
-      document.querySelector(".data_provider_name_import").innerHTML =
-        "Data by Météo-France (Europe, Global)";
-    } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-      "dwdGermany"
-    ) {
-      document.querySelector(".data_provider_name_import").innerHTML =
-        "Data by DWD (Europe, Global)";
-    } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) === "noaaUS"
-    ) {
-      document.querySelector(".data_provider_name_import").innerHTML =
-        "Data by NOAA (Americas, Global)";
-    } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) === "ecmwf"
-    ) {
-      document.querySelector(".data_provider_name_import").innerHTML =
-        "Data by ECMWF (Global)";
-    } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-      "ukMetOffice"
-    ) {
-      document.querySelector(".data_provider_name_import").innerHTML =
-        "Data by UK Met Office (Europe, Global)";
-    } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-      "jmaJapan"
-    ) {
-      document.querySelector(".data_provider_name_import").innerHTML =
-        "Data by JMA (Asia, Global)";
-    } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-      "gemCanada"
-    ) {
-      document.querySelector(".data_provider_name_import").innerHTML =
-        "Data by GEM (Americas, Global)";
-    } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-      "bomAustralia"
-    ) {
-      document.querySelector(".data_provider_name_import").innerHTML =
-        "Data by BOM (Oceania, Global)";
-    } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-      "cmaChina"
-    ) {
-      document.querySelector(".data_provider_name_import").innerHTML =
-        "Data by CMA (Asia, Global)";
-    } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-      "knmiEurope"
-    ) {
-      document.querySelector(".data_provider_name_import").innerHTML =
-        "Data by KNMI (Europe, Global)";
-    } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-      "dmiEurope"
-    ) {
-      document.querySelector(".data_provider_name_import").innerHTML =
-        "Data by DMI (Europe, Global)";
-    } else {
-      document.querySelector(".data_provider_name_import").innerHTML =
-        "Data by Open-Meteo (Global)";
-    }
-
-    setTimeout(async () => {
-      ShowSnackMessage.ShowSnack(
-        await getTranslationByLang(
-          await customStorage.getItem("AppLanguageCode"),
-          "network_unavailable"
-        ),
-        "long"
-      );
-    }, 2000);
+    useAutoCurrentLocation();
+    sendThemeToAndroid("ReqLocation");
+    document.querySelector(".currentLocationdiv").hidden = false;
   }
+} else {
+  if (localStorage.getItem("selectedMainWeatherProvider") === "Met norway") {
+    document.querySelector(".data_provider_name_import").innerHTML =
+      "Data by Met Norway (Global)";
+  } else if (
+    localStorage.getItem("ApiForAccu") &&
+    localStorage.getItem("selectedMainWeatherProvider") === "Accuweather"
+  ) {
+    document.querySelector(".data_provider_name_import").innerHTML =
+      "Data by Accuweather (Global)";
+  } else if (
+    localStorage.getItem("selectedMainWeatherProvider") === "meteoFrance"
+  ) {
+    document.querySelector(".data_provider_name_import").innerHTML =
+      "Data by Météo-France (Europe, Global)";
+  } else if (
+    localStorage.getItem("selectedMainWeatherProvider") === "dwdGermany"
+  ) {
+    document.querySelector(".data_provider_name_import").innerHTML =
+      "Data by DWD (Europe, Global)";
+  } else if (localStorage.getItem("selectedMainWeatherProvider") === "noaaUS") {
+    document.querySelector(".data_provider_name_import").innerHTML =
+      "Data by NOAA (Americas, Global)";
+  } else if (localStorage.getItem("selectedMainWeatherProvider") === "ecmwf") {
+    document.querySelector(".data_provider_name_import").innerHTML =
+      "Data by ECMWF (Global)";
+  } else if (
+    localStorage.getItem("selectedMainWeatherProvider") === "ukMetOffice"
+  ) {
+    document.querySelector(".data_provider_name_import").innerHTML =
+      "Data by UK Met Office (Europe, Global)";
+  } else if (
+    localStorage.getItem("selectedMainWeatherProvider") === "jmaJapan"
+  ) {
+    document.querySelector(".data_provider_name_import").innerHTML =
+      "Data by JMA (Asia, Global)";
+  } else if (
+    localStorage.getItem("selectedMainWeatherProvider") === "gemCanada"
+  ) {
+    document.querySelector(".data_provider_name_import").innerHTML =
+      "Data by GEM (Americas, Global)";
+  } else if (
+    localStorage.getItem("selectedMainWeatherProvider") === "bomAustralia"
+  ) {
+    document.querySelector(".data_provider_name_import").innerHTML =
+      "Data by BOM (Oceania, Global)";
+  } else if (
+    localStorage.getItem("selectedMainWeatherProvider") === "cmaChina"
+  ) {
+    document.querySelector(".data_provider_name_import").innerHTML =
+      "Data by CMA (Asia, Global)";
+  } else if (
+    localStorage.getItem("selectedMainWeatherProvider") === "knmiEurope"
+  ) {
+    document.querySelector(".data_provider_name_import").innerHTML =
+      "Data by KNMI (Europe, Global)";
+  } else if (
+    localStorage.getItem("selectedMainWeatherProvider") === "dmiEurope"
+  ) {
+    document.querySelector(".data_provider_name_import").innerHTML =
+      "Data by DMI (Europe, Global)";
+  } else {
+    document.querySelector(".data_provider_name_import").innerHTML =
+      "Data by Open-Meteo (Global)";
+  }
+
+  setTimeout(() => {
+    ShowSnackMessage.ShowSnack(
+      getTranslationByLang(
+        localStorage.getItem("AppLanguageCode"),
+        "network_unavailable"
+      ),
+      "long"
+    );
+  }, 2000);
 }
 
 function handleGeolocationError(error) {
@@ -228,24 +202,22 @@ function handleGeolocationError(error) {
   );
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
-  LoadFromNetwork();
-
+document.addEventListener("DOMContentLoaded", () => {
   const cityInput = document.getElementById("city-input");
   const cityopen = document.getElementById("city-open");
   const searchContainer = document.getElementById("search-container");
   const closeButton = document.querySelector(".close_search");
   const openMapPicker = document.getElementById("openMapPicker");
 
-  cityopen.addEventListener("click", async () => {
+  cityopen.addEventListener("click", () => {
     document.querySelector(".view_device_location").hidden = true;
     sendThemeToAndroid("DisableSwipeRefresh");
     loadSavedLocations();
 
     let savedLocations =
-      JSON.parse(await customStorage.getItem("savedLocations")) || [];
+      JSON.parse(localStorage.getItem("savedLocations")) || [];
 
-    await customStorage.setItem("DeviceOnline", "Yes");
+    localStorage.setItem("DeviceOnline", "Yes");
     searchContainer.style.display = "block";
     window.history.pushState({ SearchContainerOpen: true }, "");
     document.querySelector(".header_hold").style.transform = "scale(1.1)";
@@ -279,13 +251,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   let debounceTimeout;
 
-  cityInput.addEventListener("input", async () => {
+  cityInput.addEventListener("input", () => {
     document.getElementById("cityLoader").hidden = true;
     document.querySelector(".currentLocationdiv").hidden = false;
     document.querySelector(".savedLocations").hidden = false;
 
     let savedLocations =
-      JSON.parse(await customStorage.getItem("savedLocations")) || [];
+      JSON.parse(localStorage.getItem("savedLocations")) || [];
 
     if (savedLocations.length === 0) {
       document.querySelector(".savedLocations").hidden = true;
@@ -329,14 +301,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  async function displaySuggestions(results) {
+  function displaySuggestions(results) {
     const suggestionsContainer = document.getElementById("city-list");
     clearSuggestions();
 
     const displayedSuggestions = new Set();
 
     const savedLocations =
-      JSON.parse(await customStorage.getItem("savedLocations")) || [];
+      JSON.parse(localStorage.getItem("savedLocations")) || [];
     const savedLocationsSet = new Set(
       savedLocations.map((location) => location.locationName)
     );
@@ -414,8 +386,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-async function GetSavedSearchLocation() {
-  const searchedItem = JSON.parse(await customStorage.getItem(`SearchedItem`));
+function GetSavedSearchLocation() {
+  const searchedItem = JSON.parse(localStorage.getItem(`SearchedItem`));
 
   if (searchedItem) {
     DecodeWeather(
@@ -433,29 +405,27 @@ async function GetSavedSearchLocation() {
 
   ShowSnackMessage.ShowSnack(
     getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "loading_location_data"
     ),
     "long"
   );
 }
 
-
 function handleStorageChangeSearch(event) {
-    if (event.detail && event.detail.key === 'SearchedItem') {
-        setTimeout(() => {
-            GetSavedSearchLocation();
-          }, 1000);
-    }
+  if (event.key === "SearchedItem") {
+    setTimeout(() => {
+      GetSavedSearchLocation();
+    }, 1000);
+  }
 }
 
-window.addEventListener('indexedDBChange', handleStorageChangeSearch);
+window.addEventListener("storage", handleStorageChangeSearch);
 
-async function saveLocationToContainer(locationName, lat, lon) {
-  let savedLocations =
-    JSON.parse(await customStorage.getItem("savedLocations")) || [];
+function saveLocationToContainer(locationName, lat, lon) {
+  let savedLocations = JSON.parse(localStorage.getItem("savedLocations")) || [];
   savedLocations.push({ locationName, lat, lon });
-  await customStorage.setItem("savedLocations", JSON.stringify(savedLocations));
+  localStorage.setItem("savedLocations", JSON.stringify(savedLocations));
 
   const savedLocationsHolder = document.querySelector("savedLocationsHolder");
 
@@ -465,7 +435,7 @@ async function saveLocationToContainer(locationName, lat, lon) {
 async function loadSavedLocations() {
   const savedLocationsHolder = document.querySelector("savedLocationsHolder");
   const savedLocations =
-    JSON.parse(await customStorage.getItem("savedLocations")) || [];
+    JSON.parse(localStorage.getItem("savedLocations")) || [];
 
   if (savedLocations.length === 0) {
     document.querySelector(".savedLocations").hidden = true;
@@ -489,24 +459,17 @@ async function loadSavedLocations() {
     let showReloadBtn = "hidden";
     let conditionlabel = "Refresh the location";
     if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "Met norway" &&
+      localStorage.getItem("selectedMainWeatherProvider") === "Met norway" &&
       JSON.parse(
-        await customStorage.getItem(
-          `WeatherDataMetNorway_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDataMetNorway_${location.locationName}`)
       )
     ) {
       const data = JSON.parse(
-        await customStorage.getItem(
-          `WeatherDataMetNorway_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDataMetNorway_${location.locationName}`)
       );
 
       if (data) {
-        if (
-          (await customStorage.getItem("SelectedTempUnit")) === "fahrenheit"
-        ) {
+        if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
           temp = Math.round(
             celsiusToFahrenheit(
               data.properties.timeseries[0].data.instant.details.air_temperature
@@ -524,41 +487,31 @@ async function loadSavedLocations() {
 
         conditionlabel = getMetNorwayWeatherLabelInLangNoAnim(
           data.properties.timeseries[0].data.next_1_hours.summary.symbol_code,
-          await customStorage.getItem("AppLanguageCode")
+          localStorage.getItem("AppLanguageCode")
         );
 
         showReloadBtn = "hidden";
       }
     } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "Met norway" &&
+      localStorage.getItem("selectedMainWeatherProvider") === "Met norway" &&
       !JSON.parse(
-        await customStorage.getItem(
-          `WeatherDataMetNorway_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDataMetNorway_${location.locationName}`)
       )
     ) {
       showReloadBtn = " ";
     } else if (
-      (await customStorage.getItem("ApiForAccu")) &&
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "Accuweather" &&
+      localStorage.getItem("ApiForAccu") &&
+      localStorage.getItem("selectedMainWeatherProvider") === "Accuweather" &&
       JSON.parse(
-        await customStorage.getItem(
-          `WeatherDataAccuCurrent_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDataAccuCurrent_${location.locationName}`)
       )
     ) {
       const data = JSON.parse(
-        await customStorage.getItem(
-          `WeatherDataAccuCurrent_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDataAccuCurrent_${location.locationName}`)
       );
 
       if (data) {
-        if (
-          (await customStorage.getItem("SelectedTempUnit")) === "fahrenheit"
-        ) {
+        if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
           temp = Math.round(data[0].Temperature.Imperial.Value);
         } else {
           temp = Math.round(data[0].Temperature.Metric.Value);
@@ -569,35 +522,25 @@ async function loadSavedLocations() {
         showReloadBtn = "hidden";
       }
     } else if (
-      (await customStorage.getItem("ApiForAccu")) &&
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "Accuweather" &&
+      localStorage.getItem("ApiForAccu") &&
+      localStorage.getItem("selectedMainWeatherProvider") === "Accuweather" &&
       !JSON.parse(
-        await customStorage.getItem(
-          `WeatherDataAccuCurrent_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDataAccuCurrent_${location.locationName}`)
       )
     ) {
       showReloadBtn = "";
     } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "dwdGermany" &&
+      localStorage.getItem("selectedMainWeatherProvider") === "dwdGermany" &&
       JSON.parse(
-        await customStorage.getItem(
-          `WeatherDataDWDGermany_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDataDWDGermany_${location.locationName}`)
       )
     ) {
       const data = JSON.parse(
-        await customStorage.getItem(
-          `WeatherDataDWDGermany_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDataDWDGermany_${location.locationName}`)
       );
 
       if (data) {
-        if (
-          (await customStorage.getItem("SelectedTempUnit")) === "fahrenheit"
-        ) {
+        if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
           temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
         } else {
           temp = Math.round(data.current.temperature_2m);
@@ -608,40 +551,30 @@ async function loadSavedLocations() {
         conditionlabel = getWeatherLabelInLangNoAnim(
           data.current.weather_code,
           data.current.is_day,
-          await customStorage.getItem("AppLanguageCode")
+          localStorage.getItem("AppLanguageCode")
         );
 
         showReloadBtn = "hidden";
       }
     } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "dwdGermany" &&
+      localStorage.getItem("selectedMainWeatherProvider") === "dwdGermany" &&
       !JSON.parse(
-        await customStorage.getItem(
-          `WeatherDataDWDGermany_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDataDWDGermany_${location.locationName}`)
       )
     ) {
       showReloadBtn = "";
     } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "noaaUS" &&
+      localStorage.getItem("selectedMainWeatherProvider") === "noaaUS" &&
       JSON.parse(
-        await customStorage.getItem(
-          `WeatherDataNOAAUS_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDataNOAAUS_${location.locationName}`)
       )
     ) {
       const data = JSON.parse(
-        await customStorage.getItem(
-          `WeatherDataNOAAUS_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDataNOAAUS_${location.locationName}`)
       );
 
       if (data) {
-        if (
-          (await customStorage.getItem("SelectedTempUnit")) === "fahrenheit"
-        ) {
+        if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
           temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
         } else {
           temp = Math.round(data.current.temperature_2m);
@@ -652,40 +585,30 @@ async function loadSavedLocations() {
         conditionlabel = getWeatherLabelInLangNoAnim(
           data.current.weather_code,
           data.current.is_day,
-          await customStorage.getItem("AppLanguageCode")
+          localStorage.getItem("AppLanguageCode")
         );
 
         showReloadBtn = "hidden";
       }
     } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "noaaUS" &&
+      localStorage.getItem("selectedMainWeatherProvider") === "noaaUS" &&
       !JSON.parse(
-        await customStorage.getItem(
-          `WeatherDataNOAAUS_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDataNOAAUS_${location.locationName}`)
       )
     ) {
       showReloadBtn = "";
     } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "meteoFrance" &&
+      localStorage.getItem("selectedMainWeatherProvider") === "meteoFrance" &&
       JSON.parse(
-        await customStorage.getItem(
-          `WeatherDataMeteoFrance_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDataMeteoFrance_${location.locationName}`)
       )
     ) {
       const data = JSON.parse(
-        await customStorage.getItem(
-          `WeatherDataMeteoFrance_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDataMeteoFrance_${location.locationName}`)
       );
 
       if (data) {
-        if (
-          (await customStorage.getItem("SelectedTempUnit")) === "fahrenheit"
-        ) {
+        if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
           temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
         } else {
           temp = Math.round(data.current.temperature_2m);
@@ -696,36 +619,30 @@ async function loadSavedLocations() {
         conditionlabel = getWeatherLabelInLangNoAnim(
           data.current.weather_code,
           data.current.is_day,
-          await customStorage.getItem("AppLanguageCode")
+          localStorage.getItem("AppLanguageCode")
         );
 
         showReloadBtn = "hidden";
       }
     } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "meteoFrance" &&
+      localStorage.getItem("selectedMainWeatherProvider") === "meteoFrance" &&
       !JSON.parse(
-        await customStorage.getItem(
-          `WeatherDataMeteoFrance_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDataMeteoFrance_${location.locationName}`)
       )
     ) {
       showReloadBtn = "";
     } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "ecmwf" &&
+      localStorage.getItem("selectedMainWeatherProvider") === "ecmwf" &&
       JSON.parse(
-        await customStorage.getItem(`WeatherDataECMWF_${location.locationName}`)
+        localStorage.getItem(`WeatherDataECMWF_${location.locationName}`)
       )
     ) {
       const data = JSON.parse(
-        await customStorage.getItem(`WeatherDataECMWF_${location.locationName}`)
+        localStorage.getItem(`WeatherDataECMWF_${location.locationName}`)
       );
 
       if (data) {
-        if (
-          (await customStorage.getItem("SelectedTempUnit")) === "fahrenheit"
-        ) {
+        if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
           temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
         } else {
           temp = Math.round(data.current.temperature_2m);
@@ -736,38 +653,30 @@ async function loadSavedLocations() {
         conditionlabel = getWeatherLabelInLangNoAnim(
           data.current.weather_code,
           data.current.is_day,
-          await customStorage.getItem("AppLanguageCode")
+          localStorage.getItem("AppLanguageCode")
         );
 
         showReloadBtn = "hidden";
       }
     } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "ecmwf" &&
+      localStorage.getItem("selectedMainWeatherProvider") === "ecmwf" &&
       !JSON.parse(
-        await customStorage.getItem(`WeatherDataECMWF_${location.locationName}`)
+        localStorage.getItem(`WeatherDataECMWF_${location.locationName}`)
       )
     ) {
       showReloadBtn = " ";
     } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "ukMetOffice" &&
+      localStorage.getItem("selectedMainWeatherProvider") === "ukMetOffice" &&
       JSON.parse(
-        await customStorage.getItem(
-          `WeatherDataukMetOffice_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDataukMetOffice_${location.locationName}`)
       )
     ) {
       const data = JSON.parse(
-        await customStorage.getItem(
-          `WeatherDataukMetOffice_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDataukMetOffice_${location.locationName}`)
       );
 
       if (data) {
-        if (
-          (await customStorage.getItem("SelectedTempUnit")) === "fahrenheit"
-        ) {
+        if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
           temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
         } else {
           temp = Math.round(data.current.temperature_2m);
@@ -778,40 +687,30 @@ async function loadSavedLocations() {
         conditionlabel = getWeatherLabelInLangNoAnim(
           data.current.weather_code,
           data.current.is_day,
-          await customStorage.getItem("AppLanguageCode")
+          localStorage.getItem("AppLanguageCode")
         );
 
         showReloadBtn = "hidden";
       }
     } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "ukMetOffice" &&
+      localStorage.getItem("selectedMainWeatherProvider") === "ukMetOffice" &&
       !JSON.parse(
-        await customStorage.getItem(
-          `WeatherDataukMetOffice_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDataukMetOffice_${location.locationName}`)
       )
     ) {
       showReloadBtn = "";
     } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "jmaJapan" &&
+      localStorage.getItem("selectedMainWeatherProvider") === "jmaJapan" &&
       JSON.parse(
-        await customStorage.getItem(
-          `WeatherDataJMAJapan_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDataJMAJapan_${location.locationName}`)
       )
     ) {
       const data = JSON.parse(
-        await customStorage.getItem(
-          `WeatherDataJMAJapan_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDataJMAJapan_${location.locationName}`)
       );
 
       if (data) {
-        if (
-          (await customStorage.getItem("SelectedTempUnit")) === "fahrenheit"
-        ) {
+        if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
           temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
         } else {
           temp = Math.round(data.current.temperature_2m);
@@ -822,40 +721,30 @@ async function loadSavedLocations() {
         conditionlabel = getWeatherLabelInLangNoAnim(
           data.current.weather_code,
           data.current.is_day,
-          await customStorage.getItem("AppLanguageCode")
+          localStorage.getItem("AppLanguageCode")
         );
 
         showReloadBtn = "hidden";
       }
     } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "jmaJapan" &&
+      localStorage.getItem("selectedMainWeatherProvider") === "jmaJapan" &&
       !JSON.parse(
-        await customStorage.getItem(
-          `WeatherDataJMAJapan_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDataJMAJapan_${location.locationName}`)
       )
     ) {
       showReloadBtn = " ";
     } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "gemCanada" &&
+      localStorage.getItem("selectedMainWeatherProvider") === "gemCanada" &&
       JSON.parse(
-        await customStorage.getItem(
-          `WeatherDatagemCanada_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDatagemCanada_${location.locationName}`)
       )
     ) {
       const data = JSON.parse(
-        await customStorage.getItem(
-          `WeatherDatagemCanada_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDatagemCanada_${location.locationName}`)
       );
 
       if (data) {
-        if (
-          (await customStorage.getItem("SelectedTempUnit")) === "fahrenheit"
-        ) {
+        if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
           temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
         } else {
           temp = Math.round(data.current.temperature_2m);
@@ -866,40 +755,30 @@ async function loadSavedLocations() {
         conditionlabel = getWeatherLabelInLangNoAnim(
           data.current.weather_code,
           data.current.is_day,
-          await customStorage.getItem("AppLanguageCode")
+          localStorage.getItem("AppLanguageCode")
         );
 
         showReloadBtn = "hidden";
       }
     } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "gemCanada" &&
+      localStorage.getItem("selectedMainWeatherProvider") === "gemCanada" &&
       !JSON.parse(
-        await customStorage.getItem(
-          `WeatherDatagemCanada_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDatagemCanada_${location.locationName}`)
       )
     ) {
       showReloadBtn = " ";
     } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "bomAustralia" &&
+      localStorage.getItem("selectedMainWeatherProvider") === "bomAustralia" &&
       JSON.parse(
-        await customStorage.getItem(
-          `WeatherDatabomAustralia_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDatabomAustralia_${location.locationName}`)
       )
     ) {
       const data = JSON.parse(
-        await customStorage.getItem(
-          `WeatherDatabomAustralia_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDatabomAustralia_${location.locationName}`)
       );
 
       if (data) {
-        if (
-          (await customStorage.getItem("SelectedTempUnit")) === "fahrenheit"
-        ) {
+        if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
           temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
         } else {
           temp = Math.round(data.current.temperature_2m);
@@ -910,40 +789,30 @@ async function loadSavedLocations() {
         conditionlabel = getWeatherLabelInLangNoAnim(
           data.current.weather_code,
           data.current.is_day,
-          await customStorage.getItem("AppLanguageCode")
+          localStorage.getItem("AppLanguageCode")
         );
 
         showReloadBtn = "hidden";
       }
     } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "bomAustralia" &&
+      localStorage.getItem("selectedMainWeatherProvider") === "bomAustralia" &&
       !JSON.parse(
-        await customStorage.getItem(
-          `WeatherDatabomAustralia_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDatabomAustralia_${location.locationName}`)
       )
     ) {
       showReloadBtn = " ";
     } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "cmaChina" &&
+      localStorage.getItem("selectedMainWeatherProvider") === "cmaChina" &&
       JSON.parse(
-        await customStorage.getItem(
-          `WeatherDatacmaChina_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDatacmaChina_${location.locationName}`)
       )
     ) {
       const data = JSON.parse(
-        await customStorage.getItem(
-          `WeatherDatacmaChina_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDatacmaChina_${location.locationName}`)
       );
 
       if (data) {
-        if (
-          (await customStorage.getItem("SelectedTempUnit")) === "fahrenheit"
-        ) {
+        if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
           temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
         } else {
           temp = Math.round(data.current.temperature_2m);
@@ -954,40 +823,35 @@ async function loadSavedLocations() {
         conditionlabel = getWeatherLabelInLangNoAnim(
           data.current.weather_code,
           data.current.is_day,
-          await customStorage.getItem("AppLanguageCode")
+          localStorage.getItem("AppLanguageCode")
         );
 
         showReloadBtn = "hidden";
       }
     } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "cmaChina" &&
+      localStorage.getItem("selectedMainWeatherProvider") === "cmaChina" &&
       !JSON.parse(
-        await customStorage.getItem(
-          `WeatherDatacmaChina_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDatacmaChina_${location.locationName}`)
       )
     ) {
       showReloadBtn = " ";
     } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
+      localStorage.getItem("selectedMainWeatherProvider") ===
         "knmiNetherlands" &&
       JSON.parse(
-        await customStorage.getItem(
+        localStorage.getItem(
           `WeatherDataknmiNetherlands_${location.locationName}`
         )
       )
     ) {
       const data = JSON.parse(
-        await customStorage.getItem(
+        localStorage.getItem(
           `WeatherDataknmiNetherlands_${location.locationName}`
         )
       );
 
       if (data) {
-        if (
-          (await customStorage.getItem("SelectedTempUnit")) === "fahrenheit"
-        ) {
+        if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
           temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
         } else {
           temp = Math.round(data.current.temperature_2m);
@@ -998,40 +862,33 @@ async function loadSavedLocations() {
         conditionlabel = getWeatherLabelInLangNoAnim(
           data.current.weather_code,
           data.current.is_day,
-          await customStorage.getItem("AppLanguageCode")
+          localStorage.getItem("AppLanguageCode")
         );
 
         showReloadBtn = "hidden";
       }
     } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
+      localStorage.getItem("selectedMainWeatherProvider") ===
         "knmiNetherlands" &&
       !JSON.parse(
-        await customStorage.getItem(
+        localStorage.getItem(
           `WeatherDataknmiNetherlands_${location.locationName}`
         )
       )
     ) {
       showReloadBtn = "";
     } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "dmiDenmark" &&
+      localStorage.getItem("selectedMainWeatherProvider") === "dmiDenmark" &&
       JSON.parse(
-        await customStorage.getItem(
-          `WeatherDatadmiDenmark_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDatadmiDenmark_${location.locationName}`)
       )
     ) {
       const data = JSON.parse(
-        await customStorage.getItem(
-          `WeatherDatadmiDenmark_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDatadmiDenmark_${location.locationName}`)
       );
 
       if (data) {
-        if (
-          (await customStorage.getItem("SelectedTempUnit")) === "fahrenheit"
-        ) {
+        if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
           temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
         } else {
           temp = Math.round(data.current.temperature_2m);
@@ -1042,32 +899,25 @@ async function loadSavedLocations() {
         conditionlabel = getWeatherLabelInLangNoAnim(
           data.current.weather_code,
           data.current.is_day,
-          await customStorage.getItem("AppLanguageCode")
+          localStorage.getItem("AppLanguageCode")
         );
 
         showReloadBtn = "hidden";
       }
     } else if (
-      (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "dmiDenmark" &&
+      localStorage.getItem("selectedMainWeatherProvider") === "dmiDenmark" &&
       !JSON.parse(
-        await customStorage.getItem(
-          `WeatherDatadmiDenmark_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDatadmiDenmark_${location.locationName}`)
       )
     ) {
       showReloadBtn = " ";
     } else {
       const data = JSON.parse(
-        await customStorage.getItem(
-          `WeatherDataOpenMeteo_${location.locationName}`
-        )
+        localStorage.getItem(`WeatherDataOpenMeteo_${location.locationName}`)
       );
 
       if (data) {
-        if (
-          (await customStorage.getItem("SelectedTempUnit")) === "fahrenheit"
-        ) {
+        if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
           temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
         } else {
           temp = Math.round(data.current.temperature_2m);
@@ -1078,7 +928,7 @@ async function loadSavedLocations() {
         conditionlabel = getWeatherLabelInLangNoAnim(
           data.current.weather_code,
           data.current.is_day,
-          await customStorage.getItem("AppLanguageCode")
+          localStorage.getItem("AppLanguageCode")
         );
 
         showReloadBtn = "hidden";
@@ -1107,7 +957,7 @@ async function loadSavedLocations() {
 
     savedLocationItem
       .querySelector(".refresh_saved_location")
-      .addEventListener("click", async () => {
+      .addEventListener("click", () => {
         if (navigator.onLine) {
           DecodeWeather(
             savedLocationItemLat,
@@ -1121,7 +971,7 @@ async function loadSavedLocations() {
         } else {
           ShowSnackMessage.ShowSnack(
             getTranslationByLang(
-              await customStorage.getItem("AppLanguageCode"),
+              localStorage.getItem("AppLanguageCode"),
               "network_unavailable"
             ),
             "long"
@@ -1131,9 +981,9 @@ async function loadSavedLocations() {
 
     savedLocationItem
       .querySelector(".delete-btn")
-      .addEventListener("click", async () => {
+      .addEventListener("click", () => {
         const checkDefault = JSON.parse(
-          await customStorage.getItem("DefaultLocation")
+          localStorage.getItem("DefaultLocation")
         );
 
         if (location.locationName === checkDefault.name) {
@@ -1145,254 +995,234 @@ async function loadSavedLocations() {
         } else {
           deleteLocation(location.locationName);
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `WeatherDataOpenMeteo_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `WeatherDataOpenMeteo_${location.locationName}`
               );
             }, 400);
           }
 
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `WeatherDataMetNorway_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `WeatherDataMetNorway_${location.locationName}`
               );
             }, 400);
           }
 
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `WeatherDataAccuCurrent_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `WeatherDataAccuCurrent_${location.locationName}`
               );
             }, 400);
           }
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `WeatherDataAccuHourly_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `WeatherDataAccuHourly_${location.locationName}`
               );
             }, 400);
           }
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `WeatherDataMetNorwayTimeStamp_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `WeatherDataMetNorwayTimeStamp_${location.locationName}`
               );
             }, 400);
           }
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `WeatherDataAccuTimeStamp_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `WeatherDataAccuTimeStamp_${location.locationName}`
               );
             }, 400);
           }
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `WeatherDataOpenMeteoTimeStamp_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `WeatherDataOpenMeteoTimeStamp_${location.locationName}`
               );
             }, 400);
           }
-          if (
-            await customStorage.getItem(`AlertData_${location.locationName}`)
-          ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
-                `AlertData_${location.locationName}`
-              );
+          if (localStorage.getItem(`AlertData_${location.locationName}`)) {
+            setTimeout(() => {
+              localStorage.removeItem(`AlertData_${location.locationName}`);
+            }, 400);
+          }
+          if (localStorage.getItem(`AstronomyData_${location.locationName}`)) {
+            setTimeout(() => {
+              localStorage.removeItem(`AstronomyData_${location.locationName}`);
             }, 400);
           }
           if (
-            await customStorage.getItem(
-              `AstronomyData_${location.locationName}`
-            )
+            localStorage.getItem(`MoreDetailsData_${location.locationName}`)
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
-                `AstronomyData_${location.locationName}`
-              );
-            }, 400);
-          }
-          if (
-            await customStorage.getItem(
-              `MoreDetailsData_${location.locationName}`
-            )
-          ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `MoreDetailsData_${location.locationName}`
               );
             }, 400);
           }
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `DecodeWeatherLastCall_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `DecodeWeatherLastCall_${location.locationName}`
               );
             }, 400);
           }
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `DecodeWeatherLastCallMet_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `DecodeWeatherLastCallMet_${location.locationName}`
               );
             }, 400);
           }
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `WeatherDataDWDGermany_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `WeatherDataDWDGermany_${location.locationName}`
               );
             }, 400);
           }
           if (
-            await customStorage.getItem(
-              `WeatherDataNOAAUS_${location.locationName}`
-            )
+            localStorage.getItem(`WeatherDataNOAAUS_${location.locationName}`)
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `WeatherDataNOAAUS_${location.locationName}`
               );
             }, 400);
           }
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `WeatherDataMeteoFrance_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `WeatherDataMeteoFrance_${location.locationName}`
               );
             }, 400);
           }
           if (
-            await customStorage.getItem(
-              `WeatherDataECMWF_${location.locationName}`
-            )
+            localStorage.getItem(`WeatherDataECMWF_${location.locationName}`)
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `WeatherDataECMWF_${location.locationName}`
               );
             }, 400);
           }
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `WeatherDataukMetOffice_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `WeatherDataukMetOffice_${location.locationName}`
               );
             }, 400);
           }
           if (
-            await customStorage.getItem(
-              `WeatherDatajmaJapan_${location.locationName}`
-            )
+            localStorage.getItem(`WeatherDatajmaJapan_${location.locationName}`)
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `WeatherDatajmaJapan_${location.locationName}`
               );
             }, 400);
           }
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `WeatherDatagemCanada_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `WeatherDatagemCanada_${location.locationName}`
               );
             }, 400);
           }
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `WeatherDatabomAustralia_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `WeatherDatabomAustralia_${location.locationName}`
               );
             }, 400);
           }
           if (
-            await customStorage.getItem(
-              `WeatherDatacmaChina_${location.locationName}`
-            )
+            localStorage.getItem(`WeatherDatacmaChina_${location.locationName}`)
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `WeatherDatacmaChina_${location.locationName}`
               );
             }, 400);
           }
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `WeatherDataknmiNetherlands_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `WeatherDataknmiNetherlands_${location.locationName}`
               );
             }, 400);
           }
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `WeatherDatadmiDenmark_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `WeatherDatadmiDenmark_${location.locationName}`
               );
             }, 400);
@@ -1400,133 +1230,133 @@ async function loadSavedLocations() {
           // last call
 
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `DecodeWeatherLastCalldwdGermany_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `DecodeWeatherLastCalldwdGermany_${location.locationName}`
               );
             }, 400);
           }
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `DecodeWeatherLastCallopenmeteo_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `DecodeWeatherLastCallopenmeteo_${location.locationName}`
               );
             }, 400);
           }
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `DecodeWeatherLastCallnoaaUS_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `DecodeWeatherLastCallnoaaUS_${location.locationName}`
               );
             }, 400);
           }
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `DecodeWeatherLastCallmeteoFrance_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `DecodeWeatherLastCallmeteoFrance_${location.locationName}`
               );
             }, 400);
           }
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `DecodeWeatherLastCallecmwf_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `DecodeWeatherLastCallecmwf_${location.locationName}`
               );
             }, 400);
           }
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `DecodeWeatherLastCallukMetOffice_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `DecodeWeatherLastCallukMetOffice_${location.locationName}`
               );
             }, 400);
           }
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `DecodeWeatherLastCalljmaJapan_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `DecodeWeatherLastCalljmaJapan_${location.locationName}`
               );
             }, 400);
           }
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `DecodeWeatherLastCallgemCanada_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `DecodeWeatherLastCallgemCanada_${location.locationName}`
               );
             }, 400);
           }
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `DecodeWeatherLastCallbomAustralia_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `DecodeWeatherLastCallbomAustralia_${location.locationName}`
               );
             }, 400);
           }
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `DecodeWeatherLastCallcmaChina_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `DecodeWeatherLastCallcmaChina_${location.locationName}`
               );
             }, 400);
           }
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `DecodeWeatherLastCallknmiNetherlands_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `DecodeWeatherLastCallknmiNetherlands_${location.locationName}`
               );
             }, 400);
           }
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `DecodeWeatherLastCalldmiDenmark_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `DecodeWeatherLastCalldmiDenmark_${location.locationName}`
               );
             }, 400);
@@ -1534,190 +1364,172 @@ async function loadSavedLocations() {
 
           // remove any other data
           if (
-            await customStorage.getItem(
-              `HourlyWeatherCache_${location.locationName}`
-            )
+            localStorage.getItem(`HourlyWeatherCache_${location.locationName}`)
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `HourlyWeatherCache_${location.locationName}`
               );
             }, 400);
           }
 
-          if (
-            await customStorage.getItem(
-              `AstronomyData_${location.locationName}`
-            )
-          ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
-                `AstronomyData_${location.locationName}`
-              );
+          if (localStorage.getItem(`AstronomyData_${location.locationName}`)) {
+            setTimeout(() => {
+              localStorage.removeItem(`AstronomyData_${location.locationName}`);
             }, 400);
           }
 
           if (
-            await customStorage.getItem(
-              `MoreDetailsData_${location.locationName}`
-            )
+            localStorage.getItem(`MoreDetailsData_${location.locationName}`)
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `MoreDetailsData_${location.locationName}`
               );
             }, 400);
           }
 
-          if (
-            await customStorage.getItem(`AlertData_${location.locationName}`)
-          ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
-                `AlertData_${location.locationName}`
-              );
+          if (localStorage.getItem(`AlertData_${location.locationName}`)) {
+            setTimeout(() => {
+              localStorage.removeItem(`AlertData_${location.locationName}`);
             }, 400);
           }
 
-          if (
-            await customStorage.getItem(`AirQuality_${location.locationName}`)
-          ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
-                `AirQuality_${location.locationName}`
-              );
+          if (localStorage.getItem(`AirQuality_${location.locationName}`)) {
+            setTimeout(() => {
+              localStorage.removeItem(`AirQuality_${location.locationName}`);
             }, 400);
           }
 
           // time stamps
 
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `WeatherDataMeteoFranceTimeStamp_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `WeatherDataMeteoFranceTimeStamp_${location.locationName}`
               );
             }, 400);
           }
 
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `WeatherDataDWDGermanyTimeStamp_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `WeatherDataDWDGermanyTimeStamp_${location.locationName}`
               );
             }, 400);
           }
 
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `WeatherDataNOAAUSTimeStamp_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `WeatherDataNOAAUSTimeStamp_${location.locationName}`
               );
             }, 400);
           }
 
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `WeatherDataECMWFTimeStamp_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `WeatherDataECMWFTimeStamp_${location.locationName}`
               );
             }, 400);
           }
 
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `WeatherDataukMetOfficeTimeStamp_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `WeatherDataukMetOfficeTimeStamp_${location.locationName}`
               );
             }, 400);
           }
 
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `WeatherDataJMAJapanTimeStamp_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `WeatherDataJMAJapanTimeStamp_${location.locationName}`
               );
             }, 400);
           }
 
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `WeatherDatagemCanadaTimeStamp_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `WeatherDatagemCanadaTimeStamp_${location.locationName}`
               );
             }, 400);
           }
 
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `WeatherDatabomAustraliaTimeStamp_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `WeatherDatabomAustraliaTimeStamp_${location.locationName}`
               );
             }, 400);
           }
 
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `WeatherDatacmaChinaTimeStamp_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `WeatherDatacmaChinaTimeStamp_${location.locationName}`
               );
             }, 400);
           }
 
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `WeatherDataknmiNetherlandsTimeStamp_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `WeatherDataknmiNetherlandsTimeStamp_${location.locationName}`
               );
             }, 400);
           }
 
           if (
-            await customStorage.getItem(
+            localStorage.getItem(
               `WeatherDatadmiDenmarkTimeStamp_${location.locationName}`
             )
           ) {
-            setTimeout(async () => {
-              await customStorage.removeItem(
+            setTimeout(() => {
+              localStorage.removeItem(
                 `WeatherDatadmiDenmarkTimeStamp_${location.locationName}`
               );
             }, 400);
@@ -1730,47 +1542,38 @@ async function loadSavedLocations() {
     const md_rippleSaveLocationTouch = document.createElement("md-ripple");
     savelocationtouch.appendChild(md_rippleSaveLocationTouch);
 
-    savelocationtouch.addEventListener("click", async () => {
+    savelocationtouch.addEventListener("click", () => {
       if (
-        (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "Met norway"
+        localStorage.getItem("selectedMainWeatherProvider") === "Met norway"
       ) {
         const renderFromSavedData = JSON.parse(
-          await customStorage.getItem(
-            `WeatherDataOpenMeteo_${location.locationName}`
-          )
+          localStorage.getItem(`WeatherDataOpenMeteo_${location.locationName}`)
         );
         const renderFromSavedDataMet = JSON.parse(
-          await customStorage.getItem(
-            `WeatherDataMetNorway_${location.locationName}`
-          )
+          localStorage.getItem(`WeatherDataMetNorway_${location.locationName}`)
         );
         const dataHourlyFull = JSON.parse(
-          await customStorage.getItem(
-            `HourlyWeatherCache_${location.locationName}`
-          )
+          localStorage.getItem(`HourlyWeatherCache_${location.locationName}`)
         );
         const MoreDetailsData = JSON.parse(
-          await customStorage.getItem(
-            `MoreDetailsData_${location.locationName}`
-          )
+          localStorage.getItem(`MoreDetailsData_${location.locationName}`)
         );
         const AstronomyData = JSON.parse(
-          await customStorage.getItem(`AstronomyData_${location.locationName}`)
+          localStorage.getItem(`AstronomyData_${location.locationName}`)
         );
-        const renderFromSavedDataMetTimstamp = await customStorage.getItem(
+        const renderFromSavedDataMetTimstamp = localStorage.getItem(
           `WeatherDataMetNorwayTimeStamp_${location.locationName}`
         );
         const SavedalertData = JSON.parse(
-          await customStorage.getItem(`AlertData_${location.locationName}`)
+          localStorage.getItem(`AlertData_${location.locationName}`)
         );
 
         if (SavedalertData) {
           FetchAlertRender(SavedalertData);
         }
 
-        await customStorage.setItem("currentLong", savedLocationItemLon);
-        await customStorage.setItem("currentLat", savedLocationItemLat);
+        localStorage.setItem("currentLong", savedLocationItemLon);
+        localStorage.setItem("currentLat", savedLocationItemLat);
 
         astronomyDataRender(AstronomyData);
         MoreDetailsRender(MoreDetailsData);
@@ -1795,13 +1598,13 @@ async function loadSavedLocations() {
           renderFromSavedData.daily.sunrise[0],
           renderFromSavedData.daily.sunset[0]
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "DailyWeatherCache",
           JSON.stringify(renderFromSavedData.daily)
         );
         UvIndex(renderFromSavedData.hourly.uv_index[0]);
         DailyWeather(renderFromSavedData.daily);
-        await customStorage.setItem(
+        localStorage.setItem(
           "CurrentHourlyCache",
           JSON.stringify(renderFromSavedData.hourly)
         );
@@ -1809,20 +1612,20 @@ async function loadSavedLocations() {
           "Data by Met norway";
 
         const AirQuailityData = JSON.parse(
-          await customStorage.getItem(`AirQuality_${location.locationName}`)
+          localStorage.getItem(`AirQuality_${location.locationName}`)
         );
 
         AirQuaility(AirQuailityData);
 
-        await customStorage.setItem(
+        localStorage.setItem(
           "DailyWeatherCache",
           JSON.stringify(renderFromSavedData.daily)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "CurrentHourlyCache",
           JSON.stringify(renderFromSavedData.hourly)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "HourlyWeatherCache",
           JSON.stringify(dataHourlyFull)
         );
@@ -1849,60 +1652,51 @@ async function loadSavedLocations() {
           return "now";
         }
 
-        setTimeout(async () => {
+        setTimeout(() => {
           document.getElementById(
             "last_updated"
           ).innerHTML = `${getTranslationByLang(
-            await customStorage.getItem("AppLanguageCode"),
+            localStorage.getItem("AppLanguageCode"),
             "updated"
           )}, ${timeAgo(renderFromSavedDataMetTimstamp)}`;
         }, 1000);
       } else if (
-        (await customStorage.getItem("ApiForAccu")) &&
-        (await customStorage.getItem("selectedMainWeatherProvider")) ===
-          "Accuweather"
+        localStorage.getItem("ApiForAccu") &&
+        localStorage.getItem("selectedMainWeatherProvider") === "Accuweather"
       ) {
         const data = JSON.parse(
-          await customStorage.getItem(
+          localStorage.getItem(
             `WeatherDataAccuCurrent_${location.locationName}`
           )
         );
         const dataHourly = JSON.parse(
-          await customStorage.getItem(
-            `WeatherDataAccuHourly_${location.locationName}`
-          )
+          localStorage.getItem(`WeatherDataAccuHourly_${location.locationName}`)
         );
         const renderFromSavedData = JSON.parse(
-          await customStorage.getItem(
-            `WeatherDataOpenMeteo_${location.locationName}`
-          )
+          localStorage.getItem(`WeatherDataOpenMeteo_${location.locationName}`)
         );
         const dataHourlyFull = JSON.parse(
-          await customStorage.getItem(
-            `HourlyWeatherCache_${location.locationName}`
-          )
+          localStorage.getItem(`HourlyWeatherCache_${location.locationName}`)
         );
         const MoreDetailsData = JSON.parse(
-          await customStorage.getItem(
-            `MoreDetailsData_${location.locationName}`
-          )
+          localStorage.getItem(`MoreDetailsData_${location.locationName}`)
         );
         const AstronomyData = JSON.parse(
-          await customStorage.getItem(`AstronomyData_${location.locationName}`)
+          localStorage.getItem(`AstronomyData_${location.locationName}`)
         );
-        const dataTimstamp = await customStorage.getItem(
+        const dataTimstamp = localStorage.getItem(
           `WeatherDataAccuTimeStamp_${location.locationName}`
         );
         const SavedalertData = JSON.parse(
-          await customStorage.getItem(`AlertData_${location.locationName}`)
+          localStorage.getItem(`AlertData_${location.locationName}`)
         );
 
         if (SavedalertData) {
           FetchAlertRender(SavedalertData);
         }
 
-        await customStorage.setItem("currentLong", savedLocationItemLon);
-        await customStorage.setItem("currentLat", savedLocationItemLat);
+        localStorage.setItem("currentLong", savedLocationItemLon);
+        localStorage.setItem("currentLat", savedLocationItemLat);
 
         astronomyDataRender(AstronomyData);
         MoreDetailsRender(MoreDetailsData);
@@ -1922,7 +1716,7 @@ async function loadSavedLocations() {
         }
 
         const AirQuailityData = JSON.parse(
-          await customStorage.getItem(`AirQuality_${location.locationName}`)
+          localStorage.getItem(`AirQuality_${location.locationName}`)
         );
 
         AirQuaility(AirQuailityData);
@@ -1934,28 +1728,28 @@ async function loadSavedLocations() {
           renderFromSavedData.daily.sunrise[0],
           renderFromSavedData.daily.sunset[0]
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "DailyWeatherCache",
           JSON.stringify(renderFromSavedData.daily)
         );
         UvIndex(renderFromSavedData.hourly.uv_index[0]);
         DailyWeather(renderFromSavedData.daily);
-        await customStorage.setItem(
+        localStorage.setItem(
           "CurrentHourlyCache",
           JSON.stringify(renderFromSavedData.hourly)
         );
         document.querySelector(".data_provider_name_import").innerHTML =
           "Data by Accuweather";
 
-        await customStorage.setItem(
+        localStorage.setItem(
           "DailyWeatherCache",
           JSON.stringify(renderFromSavedData.daily)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "CurrentHourlyCache",
           JSON.stringify(renderFromSavedData.hourly)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "HourlyWeatherCache",
           JSON.stringify(dataHourlyFull)
         );
@@ -1982,44 +1776,39 @@ async function loadSavedLocations() {
           return "now";
         }
 
-        setTimeout(async () => {
+        setTimeout(() => {
           document.getElementById(
             "last_updated"
           ).innerHTML = `${getTranslationByLang(
-            await customStorage.getItem("AppLanguageCode"),
+            localStorage.getItem("AppLanguageCode"),
             "updated"
           )}, ${timeAgo(dataTimstamp)}`;
         }, 1000);
       } else if (
-        (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "meteoFrance"
+        localStorage.getItem("selectedMainWeatherProvider") === "meteoFrance"
       ) {
         const renderFromSavedData = JSON.parse(
-          await customStorage.getItem(
+          localStorage.getItem(
             `WeatherDataMeteoFrance_${location.locationName}`
           )
         );
         const dataHourlyFull = JSON.parse(
-          await customStorage.getItem(
-            `HourlyWeatherCache_${location.locationName}`
-          )
+          localStorage.getItem(`HourlyWeatherCache_${location.locationName}`)
         );
         const AirQuailityData = JSON.parse(
-          await customStorage.getItem(`AirQuality_${location.locationName}`)
+          localStorage.getItem(`AirQuality_${location.locationName}`)
         );
         const MoreDetailsData = JSON.parse(
-          await customStorage.getItem(
-            `MoreDetailsData_${location.locationName}`
-          )
+          localStorage.getItem(`MoreDetailsData_${location.locationName}`)
         );
         const AstronomyData = JSON.parse(
-          await customStorage.getItem(`AstronomyData_${location.locationName}`)
+          localStorage.getItem(`AstronomyData_${location.locationName}`)
         );
-        const renderFromSavedDataTimstamp = await customStorage.getItem(
+        const renderFromSavedDataTimstamp = localStorage.getItem(
           `WeatherDataMeteoFranceTimeStamp_${location.locationName}`
         );
         const SavedalertData = JSON.parse(
-          await customStorage.getItem(`AlertData_${location.locationName}`)
+          localStorage.getItem(`AlertData_${location.locationName}`)
         );
 
         if (SavedalertData) {
@@ -2047,17 +1836,17 @@ async function loadSavedLocations() {
           return "now";
         }
 
-        setTimeout(async () => {
+        setTimeout(() => {
           document.getElementById(
             "last_updated"
           ).innerHTML = `${getTranslationByLang(
-            await customStorage.getItem("AppLanguageCode"),
+            localStorage.getItem("AppLanguageCode"),
             "updated"
           )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
         }, 1000);
 
-        await customStorage.setItem("currentLong", savedLocationItemLon);
-        await customStorage.setItem("currentLat", savedLocationItemLat);
+        localStorage.setItem("currentLong", savedLocationItemLon);
+        localStorage.setItem("currentLat", savedLocationItemLat);
 
         astronomyDataRender(AstronomyData);
         MoreDetailsRender(MoreDetailsData);
@@ -2075,48 +1864,41 @@ async function loadSavedLocations() {
           savedLocationItemLon
         );
 
-        await customStorage.setItem(
+        localStorage.setItem(
           "DailyWeatherCache",
           JSON.stringify(renderFromSavedData.daily)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "CurrentHourlyCache",
           JSON.stringify(renderFromSavedData.hourly)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "HourlyWeatherCache",
           JSON.stringify(dataHourlyFull)
         );
       } else if (
-        (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "dwdGermany"
+        localStorage.getItem("selectedMainWeatherProvider") === "dwdGermany"
       ) {
         const renderFromSavedData = JSON.parse(
-          await customStorage.getItem(
-            `WeatherDataDWDGermany_${location.locationName}`
-          )
+          localStorage.getItem(`WeatherDataDWDGermany_${location.locationName}`)
         );
         const dataHourlyFull = JSON.parse(
-          await customStorage.getItem(
-            `HourlyWeatherCache_${location.locationName}`
-          )
+          localStorage.getItem(`HourlyWeatherCache_${location.locationName}`)
         );
         const AirQuailityData = JSON.parse(
-          await customStorage.getItem(`AirQuality_${location.locationName}`)
+          localStorage.getItem(`AirQuality_${location.locationName}`)
         );
         const MoreDetailsData = JSON.parse(
-          await customStorage.getItem(
-            `MoreDetailsData_${location.locationName}`
-          )
+          localStorage.getItem(`MoreDetailsData_${location.locationName}`)
         );
         const AstronomyData = JSON.parse(
-          await customStorage.getItem(`AstronomyData_${location.locationName}`)
+          localStorage.getItem(`AstronomyData_${location.locationName}`)
         );
-        const renderFromSavedDataTimstamp = await customStorage.getItem(
+        const renderFromSavedDataTimstamp = localStorage.getItem(
           `WeatherDataDWDGermanyTimeStamp_${location.locationName}`
         );
         const SavedalertData = JSON.parse(
-          await customStorage.getItem(`AlertData_${location.locationName}`)
+          localStorage.getItem(`AlertData_${location.locationName}`)
         );
 
         if (SavedalertData) {
@@ -2144,17 +1926,17 @@ async function loadSavedLocations() {
           return "now";
         }
 
-        setTimeout(async () => {
+        setTimeout(() => {
           document.getElementById(
             "last_updated"
           ).innerHTML = `${getTranslationByLang(
-            await customStorage.getItem("AppLanguageCode"),
+            localStorage.getItem("AppLanguageCode"),
             "updated"
           )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
         }, 1000);
 
-        await customStorage.setItem("currentLong", savedLocationItemLon);
-        await customStorage.setItem("currentLat", savedLocationItemLat);
+        localStorage.setItem("currentLong", savedLocationItemLon);
+        localStorage.setItem("currentLat", savedLocationItemLat);
 
         astronomyDataRender(AstronomyData);
         MoreDetailsRender(MoreDetailsData);
@@ -2172,48 +1954,41 @@ async function loadSavedLocations() {
           savedLocationItemLon
         );
 
-        await customStorage.setItem(
+        localStorage.setItem(
           "DailyWeatherCache",
           JSON.stringify(renderFromSavedData.daily)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "CurrentHourlyCache",
           JSON.stringify(renderFromSavedData.hourly)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "HourlyWeatherCache",
           JSON.stringify(dataHourlyFull)
         );
       } else if (
-        (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "noaaUS"
+        localStorage.getItem("selectedMainWeatherProvider") === "noaaUS"
       ) {
         const renderFromSavedData = JSON.parse(
-          await customStorage.getItem(
-            `WeatherDataNOAAUS_${location.locationName}`
-          )
+          localStorage.getItem(`WeatherDataNOAAUS_${location.locationName}`)
         );
         const dataHourlyFull = JSON.parse(
-          await customStorage.getItem(
-            `HourlyWeatherCache_${location.locationName}`
-          )
+          localStorage.getItem(`HourlyWeatherCache_${location.locationName}`)
         );
         const AirQuailityData = JSON.parse(
-          await customStorage.getItem(`AirQuality_${location.locationName}`)
+          localStorage.getItem(`AirQuality_${location.locationName}`)
         );
         const MoreDetailsData = JSON.parse(
-          await customStorage.getItem(
-            `MoreDetailsData_${location.locationName}`
-          )
+          localStorage.getItem(`MoreDetailsData_${location.locationName}`)
         );
         const AstronomyData = JSON.parse(
-          await customStorage.getItem(`AstronomyData_${location.locationName}`)
+          localStorage.getItem(`AstronomyData_${location.locationName}`)
         );
-        const renderFromSavedDataTimstamp = await customStorage.getItem(
+        const renderFromSavedDataTimstamp = localStorage.getItem(
           `WeatherDataNOAAUSTimeStamp_${location.locationName}`
         );
         const SavedalertData = JSON.parse(
-          await customStorage.getItem(`AlertData_${location.locationName}`)
+          localStorage.getItem(`AlertData_${location.locationName}`)
         );
 
         if (SavedalertData) {
@@ -2241,17 +2016,17 @@ async function loadSavedLocations() {
           return "now";
         }
 
-        setTimeout(async () => {
+        setTimeout(() => {
           document.getElementById(
             "last_updated"
           ).innerHTML = `${getTranslationByLang(
-            await customStorage.getItem("AppLanguageCode"),
+            localStorage.getItem("AppLanguageCode"),
             "updated"
           )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
         }, 1000);
 
-        await customStorage.setItem("currentLong", savedLocationItemLon);
-        await customStorage.setItem("currentLat", savedLocationItemLat);
+        localStorage.setItem("currentLong", savedLocationItemLon);
+        localStorage.setItem("currentLat", savedLocationItemLat);
 
         astronomyDataRender(AstronomyData);
         MoreDetailsRender(MoreDetailsData);
@@ -2269,47 +2044,41 @@ async function loadSavedLocations() {
           savedLocationItemLon
         );
 
-        await customStorage.setItem(
+        localStorage.setItem(
           "DailyWeatherCache",
           JSON.stringify(renderFromSavedData.daily)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "CurrentHourlyCache",
           JSON.stringify(renderFromSavedData.hourly)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "HourlyWeatherCache",
           JSON.stringify(dataHourlyFull)
         );
       } else if (
-        (await customStorage.getItem("selectedMainWeatherProvider")) === "ecmwf"
+        localStorage.getItem("selectedMainWeatherProvider") === "ecmwf"
       ) {
         const renderFromSavedData = JSON.parse(
-          await customStorage.getItem(
-            `WeatherDataECMWF_${location.locationName}`
-          )
+          localStorage.getItem(`WeatherDataECMWF_${location.locationName}`)
         );
         const dataHourlyFull = JSON.parse(
-          await customStorage.getItem(
-            `HourlyWeatherCache_${location.locationName}`
-          )
+          localStorage.getItem(`HourlyWeatherCache_${location.locationName}`)
         );
         const AirQuailityData = JSON.parse(
-          await customStorage.getItem(`AirQuality_${location.locationName}`)
+          localStorage.getItem(`AirQuality_${location.locationName}`)
         );
         const MoreDetailsData = JSON.parse(
-          await customStorage.getItem(
-            `MoreDetailsData_${location.locationName}`
-          )
+          localStorage.getItem(`MoreDetailsData_${location.locationName}`)
         );
         const AstronomyData = JSON.parse(
-          await customStorage.getItem(`AstronomyData_${location.locationName}`)
+          localStorage.getItem(`AstronomyData_${location.locationName}`)
         );
-        const renderFromSavedDataTimstamp = await customStorage.getItem(
+        const renderFromSavedDataTimstamp = localStorage.getItem(
           `WeatherDataECMWFTimeStamp_${location.locationName}`
         );
         const SavedalertData = JSON.parse(
-          await customStorage.getItem(`AlertData_${location.locationName}`)
+          localStorage.getItem(`AlertData_${location.locationName}`)
         );
 
         if (SavedalertData) {
@@ -2337,17 +2106,17 @@ async function loadSavedLocations() {
           return "now";
         }
 
-        setTimeout(async () => {
+        setTimeout(() => {
           document.getElementById(
             "last_updated"
           ).innerHTML = `${getTranslationByLang(
-            await customStorage.getItem("AppLanguageCode"),
+            localStorage.getItem("AppLanguageCode"),
             "updated"
           )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
         }, 1000);
 
-        await customStorage.setItem("currentLong", savedLocationItemLon);
-        await customStorage.setItem("currentLat", savedLocationItemLat);
+        localStorage.setItem("currentLong", savedLocationItemLon);
+        localStorage.setItem("currentLat", savedLocationItemLat);
 
         astronomyDataRender(AstronomyData);
         MoreDetailsRender(MoreDetailsData);
@@ -2365,48 +2134,43 @@ async function loadSavedLocations() {
           savedLocationItemLon
         );
 
-        await customStorage.setItem(
+        localStorage.setItem(
           "DailyWeatherCache",
           JSON.stringify(renderFromSavedData.daily)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "CurrentHourlyCache",
           JSON.stringify(renderFromSavedData.hourly)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "HourlyWeatherCache",
           JSON.stringify(dataHourlyFull)
         );
       } else if (
-        (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "ukMetOffice"
+        localStorage.getItem("selectedMainWeatherProvider") === "ukMetOffice"
       ) {
         const renderFromSavedData = JSON.parse(
-          await customStorage.getItem(
+          localStorage.getItem(
             `WeatherDataukMetOffice_${location.locationName}`
           )
         );
         const dataHourlyFull = JSON.parse(
-          await customStorage.getItem(
-            `HourlyWeatherCache_${location.locationName}`
-          )
+          localStorage.getItem(`HourlyWeatherCache_${location.locationName}`)
         );
         const AirQuailityData = JSON.parse(
-          await customStorage.getItem(`AirQuality_${location.locationName}`)
+          localStorage.getItem(`AirQuality_${location.locationName}`)
         );
         const MoreDetailsData = JSON.parse(
-          await customStorage.getItem(
-            `MoreDetailsData_${location.locationName}`
-          )
+          localStorage.getItem(`MoreDetailsData_${location.locationName}`)
         );
         const AstronomyData = JSON.parse(
-          await customStorage.getItem(`AstronomyData_${location.locationName}`)
+          localStorage.getItem(`AstronomyData_${location.locationName}`)
         );
-        const renderFromSavedDataTimstamp = await customStorage.getItem(
+        const renderFromSavedDataTimstamp = localStorage.getItem(
           `WeatherDataukMetOfficeTimeStamp_${location.locationName}`
         );
         const SavedalertData = JSON.parse(
-          await customStorage.getItem(`AlertData_${location.locationName}`)
+          localStorage.getItem(`AlertData_${location.locationName}`)
         );
 
         if (SavedalertData) {
@@ -2434,17 +2198,17 @@ async function loadSavedLocations() {
           return "now";
         }
 
-        setTimeout(async () => {
+        setTimeout(() => {
           document.getElementById(
             "last_updated"
           ).innerHTML = `${getTranslationByLang(
-            await customStorage.getItem("AppLanguageCode"),
+            localStorage.getItem("AppLanguageCode"),
             "updated"
           )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
         }, 1000);
 
-        await customStorage.setItem("currentLong", savedLocationItemLon);
-        await customStorage.setItem("currentLat", savedLocationItemLat);
+        localStorage.setItem("currentLong", savedLocationItemLon);
+        localStorage.setItem("currentLat", savedLocationItemLat);
 
         astronomyDataRender(AstronomyData);
         MoreDetailsRender(MoreDetailsData);
@@ -2462,48 +2226,41 @@ async function loadSavedLocations() {
           savedLocationItemLon
         );
 
-        await customStorage.setItem(
+        localStorage.setItem(
           "DailyWeatherCache",
           JSON.stringify(renderFromSavedData.daily)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "CurrentHourlyCache",
           JSON.stringify(renderFromSavedData.hourly)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "HourlyWeatherCache",
           JSON.stringify(dataHourlyFull)
         );
       } else if (
-        (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "jmaJapan"
+        localStorage.getItem("selectedMainWeatherProvider") === "jmaJapan"
       ) {
         const renderFromSavedData = JSON.parse(
-          await customStorage.getItem(
-            `WeatherDataJMAJapan_${location.locationName}`
-          )
+          localStorage.getItem(`WeatherDataJMAJapan_${location.locationName}`)
         );
         const dataHourlyFull = JSON.parse(
-          await customStorage.getItem(
-            `HourlyWeatherCache_${location.locationName}`
-          )
+          localStorage.getItem(`HourlyWeatherCache_${location.locationName}`)
         );
         const AirQuailityData = JSON.parse(
-          await customStorage.getItem(`AirQuality_${location.locationName}`)
+          localStorage.getItem(`AirQuality_${location.locationName}`)
         );
         const MoreDetailsData = JSON.parse(
-          await customStorage.getItem(
-            `MoreDetailsData_${location.locationName}`
-          )
+          localStorage.getItem(`MoreDetailsData_${location.locationName}`)
         );
         const AstronomyData = JSON.parse(
-          await customStorage.getItem(`AstronomyData_${location.locationName}`)
+          localStorage.getItem(`AstronomyData_${location.locationName}`)
         );
-        const renderFromSavedDataTimstamp = await customStorage.getItem(
+        const renderFromSavedDataTimstamp = localStorage.getItem(
           `WeatherDataJMAJapanTimeStamp_${location.locationName}`
         );
         const SavedalertData = JSON.parse(
-          await customStorage.getItem(`AlertData_${location.locationName}`)
+          localStorage.getItem(`AlertData_${location.locationName}`)
         );
 
         if (SavedalertData) {
@@ -2531,17 +2288,17 @@ async function loadSavedLocations() {
           return "now";
         }
 
-        setTimeout(async () => {
+        setTimeout(() => {
           document.getElementById(
             "last_updated"
           ).innerHTML = `${getTranslationByLang(
-            await customStorage.getItem("AppLanguageCode"),
+            localStorage.getItem("AppLanguageCode"),
             "updated"
           )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
         }, 1000);
 
-        await customStorage.setItem("currentLong", savedLocationItemLon);
-        await customStorage.setItem("currentLat", savedLocationItemLat);
+        localStorage.setItem("currentLong", savedLocationItemLon);
+        localStorage.setItem("currentLat", savedLocationItemLat);
 
         astronomyDataRender(AstronomyData);
         MoreDetailsRender(MoreDetailsData);
@@ -2559,48 +2316,41 @@ async function loadSavedLocations() {
           savedLocationItemLon
         );
 
-        await customStorage.setItem(
+        localStorage.setItem(
           "DailyWeatherCache",
           JSON.stringify(renderFromSavedData.daily)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "CurrentHourlyCache",
           JSON.stringify(renderFromSavedData.hourly)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "HourlyWeatherCache",
           JSON.stringify(dataHourlyFull)
         );
       } else if (
-        (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "gemCanada"
+        localStorage.getItem("selectedMainWeatherProvider") === "gemCanada"
       ) {
         const renderFromSavedData = JSON.parse(
-          await customStorage.getItem(
-            `WeatherDatagemCanada_${location.locationName}`
-          )
+          localStorage.getItem(`WeatherDatagemCanada_${location.locationName}`)
         );
         const dataHourlyFull = JSON.parse(
-          await customStorage.getItem(
-            `HourlyWeatherCache_${location.locationName}`
-          )
+          localStorage.getItem(`HourlyWeatherCache_${location.locationName}`)
         );
         const AirQuailityData = JSON.parse(
-          await customStorage.getItem(`AirQuality_${location.locationName}`)
+          localStorage.getItem(`AirQuality_${location.locationName}`)
         );
         const MoreDetailsData = JSON.parse(
-          await customStorage.getItem(
-            `MoreDetailsData_${location.locationName}`
-          )
+          localStorage.getItem(`MoreDetailsData_${location.locationName}`)
         );
         const AstronomyData = JSON.parse(
-          await customStorage.getItem(`AstronomyData_${location.locationName}`)
+          localStorage.getItem(`AstronomyData_${location.locationName}`)
         );
-        const renderFromSavedDataTimstamp = await customStorage.getItem(
+        const renderFromSavedDataTimstamp = localStorage.getItem(
           `WeatherDatagemCanadaTimeStamp_${location.locationName}`
         );
         const SavedalertData = JSON.parse(
-          await customStorage.getItem(`AlertData_${location.locationName}`)
+          localStorage.getItem(`AlertData_${location.locationName}`)
         );
 
         if (SavedalertData) {
@@ -2628,17 +2378,17 @@ async function loadSavedLocations() {
           return "now";
         }
 
-        setTimeout(async () => {
+        setTimeout(() => {
           document.getElementById(
             "last_updated"
           ).innerHTML = `${getTranslationByLang(
-            await customStorage.getItem("AppLanguageCode"),
+            localStorage.getItem("AppLanguageCode"),
             "updated"
           )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
         }, 1000);
 
-        await customStorage.setItem("currentLong", savedLocationItemLon);
-        await customStorage.setItem("currentLat", savedLocationItemLat);
+        localStorage.setItem("currentLong", savedLocationItemLon);
+        localStorage.setItem("currentLat", savedLocationItemLat);
 
         astronomyDataRender(AstronomyData);
         MoreDetailsRender(MoreDetailsData);
@@ -2656,48 +2406,43 @@ async function loadSavedLocations() {
           savedLocationItemLon
         );
 
-        await customStorage.setItem(
+        localStorage.setItem(
           "DailyWeatherCache",
           JSON.stringify(renderFromSavedData.daily)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "CurrentHourlyCache",
           JSON.stringify(renderFromSavedData.hourly)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "HourlyWeatherCache",
           JSON.stringify(dataHourlyFull)
         );
       } else if (
-        (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "bomAustralia"
+        localStorage.getItem("selectedMainWeatherProvider") === "bomAustralia"
       ) {
         const renderFromSavedData = JSON.parse(
-          await customStorage.getItem(
+          localStorage.getItem(
             `WeatherDatabomAustralia_${location.locationName}`
           )
         );
         const dataHourlyFull = JSON.parse(
-          await customStorage.getItem(
-            `HourlyWeatherCache_${location.locationName}`
-          )
+          localStorage.getItem(`HourlyWeatherCache_${location.locationName}`)
         );
         const AirQuailityData = JSON.parse(
-          await customStorage.getItem(`AirQuality_${location.locationName}`)
+          localStorage.getItem(`AirQuality_${location.locationName}`)
         );
         const MoreDetailsData = JSON.parse(
-          await customStorage.getItem(
-            `MoreDetailsData_${location.locationName}`
-          )
+          localStorage.getItem(`MoreDetailsData_${location.locationName}`)
         );
         const AstronomyData = JSON.parse(
-          await customStorage.getItem(`AstronomyData_${location.locationName}`)
+          localStorage.getItem(`AstronomyData_${location.locationName}`)
         );
-        const renderFromSavedDataTimstamp = await customStorage.getItem(
+        const renderFromSavedDataTimstamp = localStorage.getItem(
           `WeatherDatabomAustraliaTimeStamp_${location.locationName}`
         );
         const SavedalertData = JSON.parse(
-          await customStorage.getItem(`AlertData_${location.locationName}`)
+          localStorage.getItem(`AlertData_${location.locationName}`)
         );
 
         if (SavedalertData) {
@@ -2725,17 +2470,17 @@ async function loadSavedLocations() {
           return "now";
         }
 
-        setTimeout(async () => {
+        setTimeout(() => {
           document.getElementById(
             "last_updated"
           ).innerHTML = `${getTranslationByLang(
-            await customStorage.getItem("AppLanguageCode"),
+            localStorage.getItem("AppLanguageCode"),
             "updated"
           )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
         }, 1000);
 
-        await customStorage.setItem("currentLong", savedLocationItemLon);
-        await customStorage.setItem("currentLat", savedLocationItemLat);
+        localStorage.setItem("currentLong", savedLocationItemLon);
+        localStorage.setItem("currentLat", savedLocationItemLat);
 
         astronomyDataRender(AstronomyData);
         MoreDetailsRender(MoreDetailsData);
@@ -2753,48 +2498,41 @@ async function loadSavedLocations() {
           savedLocationItemLon
         );
 
-        await customStorage.setItem(
+        localStorage.setItem(
           "DailyWeatherCache",
           JSON.stringify(renderFromSavedData.daily)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "CurrentHourlyCache",
           JSON.stringify(renderFromSavedData.hourly)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "HourlyWeatherCache",
           JSON.stringify(dataHourlyFull)
         );
       } else if (
-        (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "gemCanada"
+        localStorage.getItem("selectedMainWeatherProvider") === "gemCanada"
       ) {
         const renderFromSavedData = JSON.parse(
-          await customStorage.getItem(
-            `WeatherDatagemCanada_${location.locationName}`
-          )
+          localStorage.getItem(`WeatherDatagemCanada_${location.locationName}`)
         );
         const dataHourlyFull = JSON.parse(
-          await customStorage.getItem(
-            `HourlyWeatherCache_${location.locationName}`
-          )
+          localStorage.getItem(`HourlyWeatherCache_${location.locationName}`)
         );
         const AirQuailityData = JSON.parse(
-          await customStorage.getItem(`AirQuality_${location.locationName}`)
+          localStorage.getItem(`AirQuality_${location.locationName}`)
         );
         const MoreDetailsData = JSON.parse(
-          await customStorage.getItem(
-            `MoreDetailsData_${location.locationName}`
-          )
+          localStorage.getItem(`MoreDetailsData_${location.locationName}`)
         );
         const AstronomyData = JSON.parse(
-          await customStorage.getItem(`AstronomyData_${location.locationName}`)
+          localStorage.getItem(`AstronomyData_${location.locationName}`)
         );
-        const renderFromSavedDataTimstamp = await customStorage.getItem(
+        const renderFromSavedDataTimstamp = localStorage.getItem(
           `WeatherDatagemCanadaTimeStamp_${location.locationName}`
         );
         const SavedalertData = JSON.parse(
-          await customStorage.getItem(`AlertData_${location.locationName}`)
+          localStorage.getItem(`AlertData_${location.locationName}`)
         );
 
         if (SavedalertData) {
@@ -2822,17 +2560,17 @@ async function loadSavedLocations() {
           return "now";
         }
 
-        setTimeout(async () => {
+        setTimeout(() => {
           document.getElementById(
             "last_updated"
           ).innerHTML = `${getTranslationByLang(
-            await customStorage.getItem("AppLanguageCode"),
+            localStorage.getItem("AppLanguageCode"),
             "updated"
           )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
         }, 1000);
 
-        await customStorage.setItem("currentLong", savedLocationItemLon);
-        await customStorage.setItem("currentLat", savedLocationItemLat);
+        localStorage.setItem("currentLong", savedLocationItemLon);
+        localStorage.setItem("currentLat", savedLocationItemLat);
 
         astronomyDataRender(AstronomyData);
         MoreDetailsRender(MoreDetailsData);
@@ -2850,48 +2588,41 @@ async function loadSavedLocations() {
           savedLocationItemLon
         );
 
-        await customStorage.setItem(
+        localStorage.setItem(
           "DailyWeatherCache",
           JSON.stringify(renderFromSavedData.daily)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "CurrentHourlyCache",
           JSON.stringify(renderFromSavedData.hourly)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "HourlyWeatherCache",
           JSON.stringify(dataHourlyFull)
         );
       } else if (
-        (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "cmaChina"
+        localStorage.getItem("selectedMainWeatherProvider") === "cmaChina"
       ) {
         const renderFromSavedData = JSON.parse(
-          await customStorage.getItem(
-            `WeatherDatacmaChina_${location.locationName}`
-          )
+          localStorage.getItem(`WeatherDatacmaChina_${location.locationName}`)
         );
         const dataHourlyFull = JSON.parse(
-          await customStorage.getItem(
-            `HourlyWeatherCache_${location.locationName}`
-          )
+          localStorage.getItem(`HourlyWeatherCache_${location.locationName}`)
         );
         const AirQuailityData = JSON.parse(
-          await customStorage.getItem(`AirQuality_${location.locationName}`)
+          localStorage.getItem(`AirQuality_${location.locationName}`)
         );
         const MoreDetailsData = JSON.parse(
-          await customStorage.getItem(
-            `MoreDetailsData_${location.locationName}`
-          )
+          localStorage.getItem(`MoreDetailsData_${location.locationName}`)
         );
         const AstronomyData = JSON.parse(
-          await customStorage.getItem(`AstronomyData_${location.locationName}`)
+          localStorage.getItem(`AstronomyData_${location.locationName}`)
         );
-        const renderFromSavedDataTimstamp = await customStorage.getItem(
+        const renderFromSavedDataTimstamp = localStorage.getItem(
           `WeatherDatacmaChinaTimeStamp_${location.locationName}`
         );
         const SavedalertData = JSON.parse(
-          await customStorage.getItem(`AlertData_${location.locationName}`)
+          localStorage.getItem(`AlertData_${location.locationName}`)
         );
 
         if (SavedalertData) {
@@ -2919,14 +2650,14 @@ async function loadSavedLocations() {
           return "now";
         }
 
-        setTimeout(async () => {
+        setTimeout(() => {
           document.getElementById(
             "last_updated"
           ).innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
         }, 1000);
 
-        await customStorage.setItem("currentLong", savedLocationItemLon);
-        await customStorage.setItem("currentLat", savedLocationItemLat);
+        localStorage.setItem("currentLong", savedLocationItemLon);
+        localStorage.setItem("currentLat", savedLocationItemLat);
 
         astronomyDataRender(AstronomyData);
         MoreDetailsRender(MoreDetailsData);
@@ -2944,48 +2675,44 @@ async function loadSavedLocations() {
           savedLocationItemLon
         );
 
-        await customStorage.setItem(
+        localStorage.setItem(
           "DailyWeatherCache",
           JSON.stringify(renderFromSavedData.daily)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "CurrentHourlyCache",
           JSON.stringify(renderFromSavedData.hourly)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "HourlyWeatherCache",
           JSON.stringify(dataHourlyFull)
         );
       } else if (
-        (await customStorage.getItem("selectedMainWeatherProvider")) ===
+        localStorage.getItem("selectedMainWeatherProvider") ===
         "knmiNetherlands"
       ) {
         const renderFromSavedData = JSON.parse(
-          await customStorage.getItem(
+          localStorage.getItem(
             `WeatherDataknmiNetherlands_${location.locationName}`
           )
         );
         const dataHourlyFull = JSON.parse(
-          await customStorage.getItem(
-            `HourlyWeatherCache_${location.locationName}`
-          )
+          localStorage.getItem(`HourlyWeatherCache_${location.locationName}`)
         );
         const AirQuailityData = JSON.parse(
-          await customStorage.getItem(`AirQuality_${location.locationName}`)
+          localStorage.getItem(`AirQuality_${location.locationName}`)
         );
         const MoreDetailsData = JSON.parse(
-          await customStorage.getItem(
-            `MoreDetailsData_${location.locationName}`
-          )
+          localStorage.getItem(`MoreDetailsData_${location.locationName}`)
         );
         const AstronomyData = JSON.parse(
-          await customStorage.getItem(`AstronomyData_${location.locationName}`)
+          localStorage.getItem(`AstronomyData_${location.locationName}`)
         );
-        const renderFromSavedDataTimstamp = await customStorage.getItem(
+        const renderFromSavedDataTimstamp = localStorage.getItem(
           `WeatherDataknmiNetherlandsTimeStamp_${location.locationName}`
         );
         const SavedalertData = JSON.parse(
-          await customStorage.getItem(`AlertData_${location.locationName}`)
+          localStorage.getItem(`AlertData_${location.locationName}`)
         );
 
         if (SavedalertData) {
@@ -3013,17 +2740,17 @@ async function loadSavedLocations() {
           return "now";
         }
 
-        setTimeout(async () => {
+        setTimeout(() => {
           document.getElementById(
             "last_updated"
           ).innerHTML = `${getTranslationByLang(
-            await customStorage.getItem("AppLanguageCode"),
+            localStorage.getItem("AppLanguageCode"),
             "updated"
           )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
         }, 1000);
 
-        await customStorage.setItem("currentLong", savedLocationItemLon);
-        await customStorage.setItem("currentLat", savedLocationItemLat);
+        localStorage.setItem("currentLong", savedLocationItemLon);
+        localStorage.setItem("currentLat", savedLocationItemLat);
 
         astronomyDataRender(AstronomyData);
         MoreDetailsRender(MoreDetailsData);
@@ -3041,48 +2768,41 @@ async function loadSavedLocations() {
           savedLocationItemLon
         );
 
-        await customStorage.setItem(
+        localStorage.setItem(
           "DailyWeatherCache",
           JSON.stringify(renderFromSavedData.daily)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "CurrentHourlyCache",
           JSON.stringify(renderFromSavedData.hourly)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "HourlyWeatherCache",
           JSON.stringify(dataHourlyFull)
         );
       } else if (
-        (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "dmiDenmark"
+        localStorage.getItem("selectedMainWeatherProvider") === "dmiDenmark"
       ) {
         const renderFromSavedData = JSON.parse(
-          await customStorage.getItem(
-            `WeatherDatadmiDenmark_${location.locationName}`
-          )
+          localStorage.getItem(`WeatherDatadmiDenmark_${location.locationName}`)
         );
         const dataHourlyFull = JSON.parse(
-          await customStorage.getItem(
-            `HourlyWeatherCache_${location.locationName}`
-          )
+          localStorage.getItem(`HourlyWeatherCache_${location.locationName}`)
         );
         const AirQuailityData = JSON.parse(
-          await customStorage.getItem(`AirQuality_${location.locationName}`)
+          localStorage.getItem(`AirQuality_${location.locationName}`)
         );
         const MoreDetailsData = JSON.parse(
-          await customStorage.getItem(
-            `MoreDetailsData_${location.locationName}`
-          )
+          localStorage.getItem(`MoreDetailsData_${location.locationName}`)
         );
         const AstronomyData = JSON.parse(
-          await customStorage.getItem(`AstronomyData_${location.locationName}`)
+          localStorage.getItem(`AstronomyData_${location.locationName}`)
         );
-        const renderFromSavedDataTimstamp = await customStorage.getItem(
+        const renderFromSavedDataTimstamp = localStorage.getItem(
           `WeatherDatadmiDenmarkTimeStamp_${location.locationName}`
         );
         const SavedalertData = JSON.parse(
-          await customStorage.getItem(`AlertData_${location.locationName}`)
+          localStorage.getItem(`AlertData_${location.locationName}`)
         );
 
         if (SavedalertData) {
@@ -3110,17 +2830,17 @@ async function loadSavedLocations() {
           return "now";
         }
 
-        setTimeout(async () => {
+        setTimeout(() => {
           document.getElementById(
             "last_updated"
           ).innerHTML = `${getTranslationByLang(
-            await customStorage.getItem("AppLanguageCode"),
+            localStorage.getItem("AppLanguageCode"),
             "updated"
           )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
         }, 1000);
 
-        await customStorage.setItem("currentLong", savedLocationItemLon);
-        await customStorage.setItem("currentLat", savedLocationItemLat);
+        localStorage.setItem("currentLong", savedLocationItemLon);
+        localStorage.setItem("currentLat", savedLocationItemLat);
 
         astronomyDataRender(AstronomyData);
         MoreDetailsRender(MoreDetailsData);
@@ -3138,45 +2858,39 @@ async function loadSavedLocations() {
           savedLocationItemLon
         );
 
-        await customStorage.setItem(
+        localStorage.setItem(
           "DailyWeatherCache",
           JSON.stringify(renderFromSavedData.daily)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "CurrentHourlyCache",
           JSON.stringify(renderFromSavedData.hourly)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "HourlyWeatherCache",
           JSON.stringify(dataHourlyFull)
         );
       } else {
         const renderFromSavedData = JSON.parse(
-          await customStorage.getItem(
-            `WeatherDataOpenMeteo_${location.locationName}`
-          )
+          localStorage.getItem(`WeatherDataOpenMeteo_${location.locationName}`)
         );
         const dataHourlyFull = JSON.parse(
-          await customStorage.getItem(
-            `HourlyWeatherCache_${location.locationName}`
-          )
+          localStorage.getItem(`HourlyWeatherCache_${location.locationName}`)
         );
         const AirQuailityData = JSON.parse(
-          await customStorage.getItem(`AirQuality_${location.locationName}`)
+          localStorage.getItem(`AirQuality_${location.locationName}`)
         );
         const MoreDetailsData = JSON.parse(
-          await customStorage.getItem(
-            `MoreDetailsData_${location.locationName}`
-          )
+          localStorage.getItem(`MoreDetailsData_${location.locationName}`)
         );
         const AstronomyData = JSON.parse(
-          await customStorage.getItem(`AstronomyData_${location.locationName}`)
+          localStorage.getItem(`AstronomyData_${location.locationName}`)
         );
-        const renderFromSavedDataTimstamp = await customStorage.getItem(
+        const renderFromSavedDataTimstamp = localStorage.getItem(
           `WeatherDataOpenMeteoTimeStamp_${location.locationName}`
         );
         const SavedalertData = JSON.parse(
-          await customStorage.getItem(`AlertData_${location.locationName}`)
+          localStorage.getItem(`AlertData_${location.locationName}`)
         );
 
         if (SavedalertData) {
@@ -3204,17 +2918,17 @@ async function loadSavedLocations() {
           return "now";
         }
 
-        setTimeout(async () => {
+        setTimeout(() => {
           document.getElementById(
             "last_updated"
           ).innerHTML = `${getTranslationByLang(
-            await customStorage.getItem("AppLanguageCode"),
+            localStorage.getItem("AppLanguageCode"),
             "updated"
           )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
         }, 1000);
 
-        await customStorage.setItem("currentLong", savedLocationItemLon);
-        await customStorage.setItem("currentLat", savedLocationItemLat);
+        localStorage.setItem("currentLong", savedLocationItemLon);
+        localStorage.setItem("currentLat", savedLocationItemLat);
 
         astronomyDataRender(AstronomyData);
         MoreDetailsRender(MoreDetailsData);
@@ -3232,21 +2946,21 @@ async function loadSavedLocations() {
           savedLocationItemLon
         );
 
-        await customStorage.setItem(
+        localStorage.setItem(
           "DailyWeatherCache",
           JSON.stringify(renderFromSavedData.daily)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "CurrentHourlyCache",
           JSON.stringify(renderFromSavedData.hourly)
         );
-        await customStorage.setItem(
+        localStorage.setItem(
           "HourlyWeatherCache",
           JSON.stringify(dataHourlyFull)
         );
       }
 
-      await customStorage.setItem("CurrentLocationName", location.locationName);
+      localStorage.setItem("CurrentLocationName", location.locationName);
 
       document.getElementById("city-name").innerHTML = location.locationName;
       document.getElementById("forecast").scrollLeft = 0;
@@ -3264,15 +2978,14 @@ document.addEventListener("DOMContentLoaded", () => {
   loadSavedLocations();
 });
 
-async function deleteLocation(locationName) {
-  let savedLocations =
-    JSON.parse(await customStorage.getItem("savedLocations")) || [];
+function deleteLocation(locationName) {
+  let savedLocations = JSON.parse(localStorage.getItem("savedLocations")) || [];
 
   savedLocations = savedLocations.filter(
     (location) => location.locationName !== locationName
   );
 
-  await customStorage.setItem("savedLocations", JSON.stringify(savedLocations));
+  localStorage.setItem("savedLocations", JSON.stringify(savedLocations));
 
   if (savedLocations.length === 0) {
     document.querySelector(".savedLocations").hidden = true;
@@ -3321,13 +3034,13 @@ function getCurrentLocationWeather() {
 
 let debounceTimeout;
 
-async function onAllLocationsLoaded() {
+function onAllLocationsLoaded() {
   clearTimeout(debounceTimeout);
   document.querySelector("savedLocationsHolder").innerHTML =
     '<empty_loader style="display: flex; align-items: center; justify-content: center;"><md-circular-progress indeterminate></md-circular-progress></empty_loader>';
-  debounceTimeout = setTimeout(async () => {
-    if (JSON.parse(await customStorage.getItem(`SearchedItem`))) {
-      await customStorage.removeItem(`SearchedItem`);
+  debounceTimeout = setTimeout(() => {
+    if (JSON.parse(localStorage.getItem(`SearchedItem`))) {
+      localStorage.removeItem(`SearchedItem`);
     }
     loadSavedLocations();
   }, 2500);
@@ -3341,7 +3054,7 @@ function showLoader() {
 }
 
 // Hide the loader
-async function hideLoader() {
+function hideLoader() {
   const loaderContainer = document.getElementById("loader-container");
 
   loaderContainer.style.opacity = "0";
@@ -3350,8 +3063,7 @@ async function hideLoader() {
     loaderContainer.style.display = "none";
   }, 300);
 
-  let savedLocations =
-    JSON.parse(await customStorage.getItem("savedLocations")) || [];
+  let savedLocations = JSON.parse(localStorage.getItem("savedLocations")) || [];
 
   if (savedLocations.length === 0) {
     document.querySelector(".savedLocations").hidden = true;
@@ -3360,15 +3072,13 @@ async function hideLoader() {
   }
 }
 
-async function refreshWeather() {
+function refreshWeather() {
   document.querySelector(".no_touch_screen").hidden = false;
 
   if (navigator.onLine) {
-    const latSend = await customStorage.getItem("currentLat");
-    const longSend = await customStorage.getItem("currentLong");
-    const CurrentLocationName = await customStorage.getItem(
-      "CurrentLocationName"
-    );
+    const latSend = localStorage.getItem("currentLat");
+    const longSend = localStorage.getItem("currentLong");
+    const CurrentLocationName = localStorage.getItem("CurrentLocationName");
 
     DecodeWeather(
       latSend,
@@ -3377,11 +3087,11 @@ async function refreshWeather() {
       `Refreshed_${CurrentLocationName}`
     );
   } else {
-    setTimeout(async () => {
+    setTimeout(() => {
       document.querySelector(".no_touch_screen").hidden = true;
       ShowSnackMessage.ShowSnack(
         getTranslationByLang(
-          await customStorage.getItem("AppLanguageCode"),
+          localStorage.getItem("AppLanguageCode"),
           "network_unavailable"
         ),
         "long"
@@ -3412,9 +3122,9 @@ function darkModeTileLayer(urlTemplate) {
     .getContainer().style.filter = filterStyle);
 }
 
-async function RenderSearhMap() {
-  const latDif = await customStorage.getItem("currentLat");
-  const longDif = await customStorage.getItem("currentLong");
+function RenderSearhMap() {
+  const latDif = localStorage.getItem("currentLat");
+  const longDif = localStorage.getItem("currentLong");
 
   map = window.L.map("map", {
     center: [latDif, longDif],
@@ -3453,85 +3163,74 @@ function removeMap() {
   }
 }
 
-async function checkNoInternet() {
+function checkNoInternet() {
   if (navigator.onLine) {
-    await customStorage.setItem("DeviceOnline", "Yes");
+    localStorage.setItem("DeviceOnline", "Yes");
   } else {
-    const offlineData = await customStorage.getItem("DefaultLocation");
+    const offlineData = localStorage.getItem("DefaultLocation");
     if (offlineData) {
       const parsedOfflineData = JSON.parse(offlineData);
       let weatherDataKey;
 
       if (
-        (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "Met norway"
+        localStorage.getItem("selectedMainWeatherProvider") === "Met norway"
       ) {
         weatherDataKey = `WeatherDataMetNorway_${parsedOfflineData.name}`;
       } else if (
-        (await customStorage.getItem("ApiForAccu")) &&
-        (await customStorage.getItem("selectedMainWeatherProvider")) ===
-          "Accuweather"
+        localStorage.getItem("ApiForAccu") &&
+        localStorage.getItem("selectedMainWeatherProvider") === "Accuweather"
       ) {
         weatherDataKey = `WeatherDataAccuCurrent_${parsedOfflineData.name}`;
       } else if (
-        (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "meteoFrance"
+        localStorage.getItem("selectedMainWeatherProvider") === "meteoFrance"
       ) {
         weatherDataKey = `WeatherDataMeteoFrance_${parsedOfflineData.name}`;
       } else if (
-        (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "dwdGermany"
+        localStorage.getItem("selectedMainWeatherProvider") === "dwdGermany"
       ) {
         weatherDataKey = `WeatherDataDWDGermany_${parsedOfflineData.name}`;
       } else if (
-        (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "noaaUS"
+        localStorage.getItem("selectedMainWeatherProvider") === "noaaUS"
       ) {
         weatherDataKey = `WeatherDataNOAAUS_${parsedOfflineData.name}`;
       } else if (
-        (await customStorage.getItem("selectedMainWeatherProvider")) === "ecmwf"
+        localStorage.getItem("selectedMainWeatherProvider") === "ecmwf"
       ) {
         weatherDataKey = `WeatherDataECMWF_${parsedOfflineData.name}`;
       } else if (
-        (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "ukMetOffice"
+        localStorage.getItem("selectedMainWeatherProvider") === "ukMetOffice"
       ) {
         weatherDataKey = `WeatherDataukMetOffice_${parsedOfflineData.name}`;
       } else if (
-        (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "jmaJapan"
+        localStorage.getItem("selectedMainWeatherProvider") === "jmaJapan"
       ) {
         weatherDataKey = `WeatherDataJMAJapan_${parsedOfflineData.name}`;
       } else if (
-        (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "gemCanada"
+        localStorage.getItem("selectedMainWeatherProvider") === "gemCanada"
       ) {
         weatherDataKey = `WeatherDatagemCanada_${parsedOfflineData.name}`;
       } else if (
-        (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "bomAustralia"
+        localStorage.getItem("selectedMainWeatherProvider") === "bomAustralia"
       ) {
         weatherDataKey = `WeatherDatabomAustralia_${parsedOfflineData.name}`;
       } else if (
-        (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "cmaChina"
+        localStorage.getItem("selectedMainWeatherProvider") === "cmaChina"
       ) {
         weatherDataKey = `WeatherDatacmaChina_${parsedOfflineData.name}`;
       } else if (
-        (await customStorage.getItem("selectedMainWeatherProvider")) ===
+        localStorage.getItem("selectedMainWeatherProvider") ===
         "knmiNetherlands"
       ) {
         weatherDataKey = `WeatherDataknmiNetherlands_${parsedOfflineData.name}`;
       } else if (
-        (await customStorage.getItem("selectedMainWeatherProvider")) ===
-        "dmiDenmark"
+        localStorage.getItem("selectedMainWeatherProvider") === "dmiDenmark"
       ) {
         weatherDataKey = `WeatherDatadmiDenmark_${parsedOfflineData.name}`;
       } else {
         weatherDataKey = `WeatherDataOpenMeteo_${parsedOfflineData.name}`;
       }
 
-      const weatherData = await customStorage.getItem(weatherDataKey);
+      const weatherData = localStorage.getItem(weatherDataKey);
 
       if (weatherData) {
         setTimeout(() => {
@@ -3551,7 +3250,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", async function () {
-  const currentVersion = "v1.9.8";
+  const currentVersion = "v1.10.0";
   const githubRepo = "PranshulGG/WeatherMaster";
   const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
@@ -3563,7 +3262,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const latestVersion = data.tag_name;
 
     if (latestVersion !== currentVersion) {
-      if ((await customStorage.getItem("HideNewUpdateToast")) === "true") {
+      if (localStorage.getItem("HideNewUpdateToast") === "true") {
         document.querySelector(".new_ver_download").hidden = false;
 
         setTimeout(() => {
@@ -3583,13 +3282,13 @@ const scrollView = document.querySelector(".insights");
 
 const scrollIndicators = document.getElementById("scroll-indicators");
 
-async function saveScrollPosition() {
+function saveScrollPosition() {
   const scrollPosition = scrollView.scrollLeft;
-  await customStorage.setItem("scrollPosition", scrollPosition);
+  localStorage.setItem("scrollPosition", scrollPosition);
 }
 
-async function restoreScrollPosition() {
-  const savedScrollPosition = await customStorage.getItem("scrollPosition");
+function restoreScrollPosition() {
+  const savedScrollPosition = localStorage.getItem("scrollPosition");
   if (savedScrollPosition) {
     scrollView.scrollLeft = savedScrollPosition;
   }
@@ -3720,33 +3419,30 @@ document
     }
   });
 
-async function ReturnHomeLocation() {
-  const Locations = JSON.parse(await customStorage.getItem("DefaultLocation"));
+function ReturnHomeLocation() {
+  const Locations = JSON.parse(localStorage.getItem("DefaultLocation"));
 
-  if (
-    (await customStorage.getItem("selectedMainWeatherProvider")) ===
-    "Met norway"
-  ) {
+  if (localStorage.getItem("selectedMainWeatherProvider") === "Met norway") {
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(`WeatherDataOpenMeteo_${Locations.name}`)
+      localStorage.getItem(`WeatherDataOpenMeteo_${Locations.name}`)
     );
     const renderFromSavedDataMet = JSON.parse(
-      await customStorage.getItem(`WeatherDataMetNorway_${Locations.name}`)
+      localStorage.getItem(`WeatherDataMetNorway_${Locations.name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
+      localStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${Locations.name}`)
+      localStorage.getItem(`MoreDetailsData_${Locations.name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${Locations.name}`)
+      localStorage.getItem(`AstronomyData_${Locations.name}`)
     );
-    const renderFromSavedDataMetTimstamp = await customStorage.getItem(
+    const renderFromSavedDataMetTimstamp = localStorage.getItem(
       `WeatherDataMetNorwayTimeStamp_${Locations.name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${Locations.name}`)
+      localStorage.getItem(`AlertData_${Locations.name}`)
     );
 
     if (SavedalertData) {
@@ -3757,8 +3453,8 @@ async function ReturnHomeLocation() {
         .classList.remove("alertOpened");
       document.querySelector(".excessiveHeat").hidden = true;
     }
-    await customStorage.setItem("currentLong", Locations.lon);
-    await customStorage.setItem("currentLat", Locations.lat);
+    localStorage.setItem("currentLong", Locations.lon);
+    localStorage.setItem("currentLat", Locations.lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -3778,13 +3474,13 @@ async function ReturnHomeLocation() {
       renderFromSavedData.daily.sunrise[0],
       renderFromSavedData.daily.sunset[0]
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
     UvIndex(renderFromSavedData.hourly.uv_index[0]);
     DailyWeather(renderFromSavedData.daily);
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
@@ -3792,23 +3488,20 @@ async function ReturnHomeLocation() {
       "Data by Met norway";
 
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${Locations.name}`)
+      localStorage.getItem(`AirQuality_${Locations.name}`)
     );
 
     AirQuaility(AirQuailityData);
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
 
     function timeAgo(timestamp) {
       const now = new Date();
@@ -3832,51 +3525,50 @@ async function ReturnHomeLocation() {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataMetTimstamp)}`;
     }, 1200);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataMetTimstamp)}`;
     }, 2400);
   } else if (
-    (await customStorage.getItem("ApiForAccu")) &&
-    (await customStorage.getItem("selectedMainWeatherProvider")) ===
-      "Accuweather"
+    localStorage.getItem("ApiForAccu") &&
+    localStorage.getItem("selectedMainWeatherProvider") === "Accuweather"
   ) {
     const data = JSON.parse(
-      await customStorage.getItem(`WeatherDataAccuCurrent_${Locations.name}`)
+      localStorage.getItem(`WeatherDataAccuCurrent_${Locations.name}`)
     );
     const dataHourly = JSON.parse(
-      await customStorage.getItem(`WeatherDataAccuHourly_${Locations.name}`)
+      localStorage.getItem(`WeatherDataAccuHourly_${Locations.name}`)
     );
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(`WeatherDataOpenMeteo_${Locations.name}`)
+      localStorage.getItem(`WeatherDataOpenMeteo_${Locations.name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
+      localStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${Locations.name}`)
+      localStorage.getItem(`MoreDetailsData_${Locations.name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${Locations.name}`)
+      localStorage.getItem(`AstronomyData_${Locations.name}`)
     );
-    const dataTimstamp = await customStorage.getItem(
+    const dataTimstamp = localStorage.getItem(
       `WeatherDataAccuTimeStamp_${Locations.name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${Locations.name}`)
+      localStorage.getItem(`AlertData_${Locations.name}`)
     );
 
     if (SavedalertData) {
@@ -3887,8 +3579,8 @@ async function ReturnHomeLocation() {
         .classList.remove("alertOpened");
       document.querySelector(".excessiveHeat").hidden = true;
     }
-    await customStorage.setItem("currentLong", Locations.lon);
-    await customStorage.setItem("currentLat", Locations.lat);
+    localStorage.setItem("currentLong", Locations.lon);
+    localStorage.setItem("currentLat", Locations.lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -3896,7 +3588,7 @@ async function ReturnHomeLocation() {
     DisplayHourlyAccuweatherData(dataHourly);
 
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${Locations.name}`)
+      localStorage.getItem(`AirQuality_${Locations.name}`)
     );
 
     AirQuaility(AirQuailityData);
@@ -3908,31 +3600,28 @@ async function ReturnHomeLocation() {
       renderFromSavedData.daily.sunrise[0],
       renderFromSavedData.daily.sunset[0]
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
     UvIndex(renderFromSavedData.hourly.uv_index[0]);
     DailyWeather(renderFromSavedData.daily);
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
     document.querySelector(".data_provider_name_import").innerHTML =
       "Data by Accuweather";
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
 
     function timeAgo(timestamp) {
       const now = new Date();
@@ -3956,47 +3645,46 @@ async function ReturnHomeLocation() {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(dataTimstamp)}`;
     }, 1200);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(dataTimstamp)}`;
     }, 2400);
   } else if (
-    (await customStorage.getItem("selectedMainWeatherProvider")) ===
-    "meteoFrance"
+    localStorage.getItem("selectedMainWeatherProvider") === "meteoFrance"
   ) {
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(`WeatherDataMeteoFrance_${Locations.name}`)
+      localStorage.getItem(`WeatherDataMeteoFrance_${Locations.name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
+      localStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
     );
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${Locations.name}`)
+      localStorage.getItem(`AirQuality_${Locations.name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${Locations.name}`)
+      localStorage.getItem(`MoreDetailsData_${Locations.name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${Locations.name}`)
+      localStorage.getItem(`AstronomyData_${Locations.name}`)
     );
-    const renderFromSavedDataTimstamp = await customStorage.getItem(
+    const renderFromSavedDataTimstamp = localStorage.getItem(
       `WeatherDataMeteoFranceTimeStamp_${Locations.name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${Locations.name}`)
+      localStorage.getItem(`AlertData_${Locations.name}`)
     );
 
     if (SavedalertData) {
@@ -4024,26 +3712,26 @@ async function ReturnHomeLocation() {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 1200);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
-    await customStorage.setItem("currentLong", Locations.lon);
-    await customStorage.setItem("currentLat", Locations.lat);
+    localStorage.setItem("currentLong", Locations.lon);
+    localStorage.setItem("currentLat", Locations.lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -4061,42 +3749,38 @@ async function ReturnHomeLocation() {
       Locations.lon
     );
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
   } else if (
-    (await customStorage.getItem("selectedMainWeatherProvider")) ===
-    "dwdGermany"
+    localStorage.getItem("selectedMainWeatherProvider") === "dwdGermany"
   ) {
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(`WeatherDataDWDGermany_${Locations.name}`)
+      localStorage.getItem(`WeatherDataDWDGermany_${Locations.name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
+      localStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
     );
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${Locations.name}`)
+      localStorage.getItem(`AirQuality_${Locations.name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${Locations.name}`)
+      localStorage.getItem(`MoreDetailsData_${Locations.name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${Locations.name}`)
+      localStorage.getItem(`AstronomyData_${Locations.name}`)
     );
-    const renderFromSavedDataTimstamp = await customStorage.getItem(
+    const renderFromSavedDataTimstamp = localStorage.getItem(
       `WeatherDataDWDGermanyTimeStamp_${Locations.name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${Locations.name}`)
+      localStorage.getItem(`AlertData_${Locations.name}`)
     );
 
     if (SavedalertData) {
@@ -4124,26 +3808,26 @@ async function ReturnHomeLocation() {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 1200);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
-    await customStorage.setItem("currentLong", Locations.lon);
-    await customStorage.setItem("currentLat", Locations.lat);
+    localStorage.setItem("currentLong", Locations.lon);
+    localStorage.setItem("currentLat", Locations.lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -4161,41 +3845,36 @@ async function ReturnHomeLocation() {
       Locations.lon
     );
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
-  } else if (
-    (await customStorage.getItem("selectedMainWeatherProvider")) === "noaaUS"
-  ) {
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
+  } else if (localStorage.getItem("selectedMainWeatherProvider") === "noaaUS") {
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(`WeatherDataNOAAUS_${Locations.name}`)
+      localStorage.getItem(`WeatherDataNOAAUS_${Locations.name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
+      localStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
     );
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${Locations.name}`)
+      localStorage.getItem(`AirQuality_${Locations.name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${Locations.name}`)
+      localStorage.getItem(`MoreDetailsData_${Locations.name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${Locations.name}`)
+      localStorage.getItem(`AstronomyData_${Locations.name}`)
     );
-    const renderFromSavedDataTimstamp = await customStorage.getItem(
+    const renderFromSavedDataTimstamp = localStorage.getItem(
       `WeatherDataNOAAUSTimeStamp_${Locations.name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${Locations.name}`)
+      localStorage.getItem(`AlertData_${Locations.name}`)
     );
 
     if (SavedalertData) {
@@ -4223,26 +3902,26 @@ async function ReturnHomeLocation() {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 1200);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
-    await customStorage.setItem("currentLong", Locations.lon);
-    await customStorage.setItem("currentLat", Locations.lat);
+    localStorage.setItem("currentLong", Locations.lon);
+    localStorage.setItem("currentLat", Locations.lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -4260,41 +3939,36 @@ async function ReturnHomeLocation() {
       Locations.lon
     );
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
-  } else if (
-    (await customStorage.getItem("selectedMainWeatherProvider")) === "ecmwf"
-  ) {
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
+  } else if (localStorage.getItem("selectedMainWeatherProvider") === "ecmwf") {
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(`WeatherDataECMWF_${Locations.name}`)
+      localStorage.getItem(`WeatherDataECMWF_${Locations.name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
+      localStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
     );
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${Locations.name}`)
+      localStorage.getItem(`AirQuality_${Locations.name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${Locations.name}`)
+      localStorage.getItem(`MoreDetailsData_${Locations.name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${Locations.name}`)
+      localStorage.getItem(`AstronomyData_${Locations.name}`)
     );
-    const renderFromSavedDataTimstamp = await customStorage.getItem(
+    const renderFromSavedDataTimstamp = localStorage.getItem(
       `WeatherDataECMWFTimeStamp_${Locations.name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${Locations.name}`)
+      localStorage.getItem(`AlertData_${Locations.name}`)
     );
 
     if (SavedalertData) {
@@ -4322,26 +3996,26 @@ async function ReturnHomeLocation() {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 1200);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
-    await customStorage.setItem("currentLong", Locations.lon);
-    await customStorage.setItem("currentLat", Locations.lat);
+    localStorage.setItem("currentLong", Locations.lon);
+    localStorage.setItem("currentLat", Locations.lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -4359,42 +4033,38 @@ async function ReturnHomeLocation() {
       Locations.lon
     );
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
   } else if (
-    (await customStorage.getItem("selectedMainWeatherProvider")) ===
-    "ukMetOffice"
+    localStorage.getItem("selectedMainWeatherProvider") === "ukMetOffice"
   ) {
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(`WeatherDataukMetOffice_${Locations.name}`)
+      localStorage.getItem(`WeatherDataukMetOffice_${Locations.name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
+      localStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
     );
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${Locations.name}`)
+      localStorage.getItem(`AirQuality_${Locations.name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${Locations.name}`)
+      localStorage.getItem(`MoreDetailsData_${Locations.name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${Locations.name}`)
+      localStorage.getItem(`AstronomyData_${Locations.name}`)
     );
-    const renderFromSavedDataTimstamp = await customStorage.getItem(
+    const renderFromSavedDataTimstamp = localStorage.getItem(
       `WeatherDataukMetOfficeTimeStamp_${Locations.name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${Locations.name}`)
+      localStorage.getItem(`AlertData_${Locations.name}`)
     );
 
     if (SavedalertData) {
@@ -4422,26 +4092,26 @@ async function ReturnHomeLocation() {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 1200);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
-    await customStorage.setItem("currentLong", Locations.lon);
-    await customStorage.setItem("currentLat", Locations.lat);
+    localStorage.setItem("currentLong", Locations.lon);
+    localStorage.setItem("currentLat", Locations.lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -4459,41 +4129,38 @@ async function ReturnHomeLocation() {
       Locations.lon
     );
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
   } else if (
-    (await customStorage.getItem("selectedMainWeatherProvider")) === "jmaJapan"
+    localStorage.getItem("selectedMainWeatherProvider") === "jmaJapan"
   ) {
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(`WeatherDataJMAJapan_${Locations.name}`)
+      localStorage.getItem(`WeatherDataJMAJapan_${Locations.name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
+      localStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
     );
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${Locations.name}`)
+      localStorage.getItem(`AirQuality_${Locations.name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${Locations.name}`)
+      localStorage.getItem(`MoreDetailsData_${Locations.name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${Locations.name}`)
+      localStorage.getItem(`AstronomyData_${Locations.name}`)
     );
-    const renderFromSavedDataTimstamp = await customStorage.getItem(
+    const renderFromSavedDataTimstamp = localStorage.getItem(
       `WeatherDataJMAJapanTimeStamp_${Locations.name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${Locations.name}`)
+      localStorage.getItem(`AlertData_${Locations.name}`)
     );
 
     if (SavedalertData) {
@@ -4521,26 +4188,26 @@ async function ReturnHomeLocation() {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 1200);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
-    await customStorage.setItem("currentLong", Locations.lon);
-    await customStorage.setItem("currentLat", Locations.lat);
+    localStorage.setItem("currentLong", Locations.lon);
+    localStorage.setItem("currentLat", Locations.lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -4558,41 +4225,38 @@ async function ReturnHomeLocation() {
       Locations.lon
     );
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
   } else if (
-    (await customStorage.getItem("selectedMainWeatherProvider")) === "gemCanada"
+    localStorage.getItem("selectedMainWeatherProvider") === "gemCanada"
   ) {
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(`WeatherDatagemCanada_${Locations.name}`)
+      localStorage.getItem(`WeatherDatagemCanada_${Locations.name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
+      localStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
     );
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${Locations.name}`)
+      localStorage.getItem(`AirQuality_${Locations.name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${Locations.name}`)
+      localStorage.getItem(`MoreDetailsData_${Locations.name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${Locations.name}`)
+      localStorage.getItem(`AstronomyData_${Locations.name}`)
     );
-    const renderFromSavedDataTimstamp = await customStorage.getItem(
+    const renderFromSavedDataTimstamp = localStorage.getItem(
       `WeatherDatagemCanadaTimeStamp_${Locations.name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${Locations.name}`)
+      localStorage.getItem(`AlertData_${Locations.name}`)
     );
 
     if (SavedalertData) {
@@ -4620,26 +4284,26 @@ async function ReturnHomeLocation() {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 1200);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
-    await customStorage.setItem("currentLong", Locations.lon);
-    await customStorage.setItem("currentLat", Locations.lat);
+    localStorage.setItem("currentLong", Locations.lon);
+    localStorage.setItem("currentLat", Locations.lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -4657,42 +4321,38 @@ async function ReturnHomeLocation() {
       Locations.lon
     );
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
   } else if (
-    (await customStorage.getItem("selectedMainWeatherProvider")) ===
-    "bomAustralia"
+    localStorage.getItem("selectedMainWeatherProvider") === "bomAustralia"
   ) {
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(`WeatherDatabomAustralia_${Locations.name}`)
+      localStorage.getItem(`WeatherDatabomAustralia_${Locations.name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
+      localStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
     );
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${Locations.name}`)
+      localStorage.getItem(`AirQuality_${Locations.name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${Locations.name}`)
+      localStorage.getItem(`MoreDetailsData_${Locations.name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${Locations.name}`)
+      localStorage.getItem(`AstronomyData_${Locations.name}`)
     );
-    const renderFromSavedDataTimstamp = await customStorage.getItem(
+    const renderFromSavedDataTimstamp = localStorage.getItem(
       `WeatherDatabomAustraliaTimeStamp_${Locations.name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${Locations.name}`)
+      localStorage.getItem(`AlertData_${Locations.name}`)
     );
 
     if (SavedalertData) {
@@ -4720,26 +4380,26 @@ async function ReturnHomeLocation() {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 1200);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
-    await customStorage.setItem("currentLong", Locations.lon);
-    await customStorage.setItem("currentLat", Locations.lat);
+    localStorage.setItem("currentLong", Locations.lon);
+    localStorage.setItem("currentLat", Locations.lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -4757,41 +4417,38 @@ async function ReturnHomeLocation() {
       Locations.lon
     );
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
   } else if (
-    (await customStorage.getItem("selectedMainWeatherProvider")) === "gemCanada"
+    localStorage.getItem("selectedMainWeatherProvider") === "gemCanada"
   ) {
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(`WeatherDatagemCanada_${Locations.name}`)
+      localStorage.getItem(`WeatherDatagemCanada_${Locations.name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
+      localStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
     );
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${Locations.name}`)
+      localStorage.getItem(`AirQuality_${Locations.name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${Locations.name}`)
+      localStorage.getItem(`MoreDetailsData_${Locations.name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${Locations.name}`)
+      localStorage.getItem(`AstronomyData_${Locations.name}`)
     );
-    const renderFromSavedDataTimstamp = await customStorage.getItem(
+    const renderFromSavedDataTimstamp = localStorage.getItem(
       `WeatherDatagemCanadaTimeStamp_${Locations.name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${Locations.name}`)
+      localStorage.getItem(`AlertData_${Locations.name}`)
     );
 
     if (SavedalertData) {
@@ -4819,26 +4476,26 @@ async function ReturnHomeLocation() {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 1200);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
-    await customStorage.setItem("currentLong", Locations.lon);
-    await customStorage.setItem("currentLat", Locations.lat);
+    localStorage.setItem("currentLong", Locations.lon);
+    localStorage.setItem("currentLat", Locations.lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -4856,41 +4513,38 @@ async function ReturnHomeLocation() {
       Locations.lon
     );
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
   } else if (
-    (await customStorage.getItem("selectedMainWeatherProvider")) === "cmaChina"
+    localStorage.getItem("selectedMainWeatherProvider") === "cmaChina"
   ) {
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(`WeatherDatacmaChina_${Locations.name}`)
+      localStorage.getItem(`WeatherDatacmaChina_${Locations.name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
+      localStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
     );
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${Locations.name}`)
+      localStorage.getItem(`AirQuality_${Locations.name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${Locations.name}`)
+      localStorage.getItem(`MoreDetailsData_${Locations.name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${Locations.name}`)
+      localStorage.getItem(`AstronomyData_${Locations.name}`)
     );
-    const renderFromSavedDataTimstamp = await customStorage.getItem(
+    const renderFromSavedDataTimstamp = localStorage.getItem(
       `WeatherDatacmaChinaTimeStamp_${Locations.name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${Locations.name}`)
+      localStorage.getItem(`AlertData_${Locations.name}`)
     );
 
     if (SavedalertData) {
@@ -4918,26 +4572,26 @@ async function ReturnHomeLocation() {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 1200);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
-    await customStorage.setItem("currentLong", Locations.lon);
-    await customStorage.setItem("currentLat", Locations.lat);
+    localStorage.setItem("currentLong", Locations.lon);
+    localStorage.setItem("currentLat", Locations.lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -4955,44 +4609,38 @@ async function ReturnHomeLocation() {
       Locations.lon
     );
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
   } else if (
-    (await customStorage.getItem("selectedMainWeatherProvider")) ===
-    "knmiNetherlands"
+    localStorage.getItem("selectedMainWeatherProvider") === "knmiNetherlands"
   ) {
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(
-        `WeatherDataknmiNetherlands_${Locations.name}`
-      )
+      localStorage.getItem(`WeatherDataknmiNetherlands_${Locations.name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
+      localStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
     );
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${Locations.name}`)
+      localStorage.getItem(`AirQuality_${Locations.name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${Locations.name}`)
+      localStorage.getItem(`MoreDetailsData_${Locations.name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${Locations.name}`)
+      localStorage.getItem(`AstronomyData_${Locations.name}`)
     );
-    const renderFromSavedDataTimstamp = await customStorage.getItem(
+    const renderFromSavedDataTimstamp = localStorage.getItem(
       `WeatherDataknmiNetherlandsTimeStamp_${Locations.name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${Locations.name}`)
+      localStorage.getItem(`AlertData_${Locations.name}`)
     );
 
     if (SavedalertData) {
@@ -5020,26 +4668,26 @@ async function ReturnHomeLocation() {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 1200);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
-    await customStorage.setItem("currentLong", Locations.lon);
-    await customStorage.setItem("currentLat", Locations.lat);
+    localStorage.setItem("currentLong", Locations.lon);
+    localStorage.setItem("currentLat", Locations.lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -5057,42 +4705,38 @@ async function ReturnHomeLocation() {
       Locations.lon
     );
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
   } else if (
-    (await customStorage.getItem("selectedMainWeatherProvider")) ===
-    "dmiDenmark"
+    localStorage.getItem("selectedMainWeatherProvider") === "dmiDenmark"
   ) {
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(`WeatherDatadmiDenmark_${Locations.name}`)
+      localStorage.getItem(`WeatherDatadmiDenmark_${Locations.name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
+      localStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
     );
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${Locations.name}`)
+      localStorage.getItem(`AirQuality_${Locations.name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${Locations.name}`)
+      localStorage.getItem(`MoreDetailsData_${Locations.name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${Locations.name}`)
+      localStorage.getItem(`AstronomyData_${Locations.name}`)
     );
-    const renderFromSavedDataTimstamp = await customStorage.getItem(
+    const renderFromSavedDataTimstamp = localStorage.getItem(
       `WeatherDatadmiDenmarkTimeStamp_${Locations.name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${Locations.name}`)
+      localStorage.getItem(`AlertData_${Locations.name}`)
     );
 
     if (SavedalertData) {
@@ -5120,26 +4764,26 @@ async function ReturnHomeLocation() {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 1200);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
-    await customStorage.setItem("currentLong", Locations.lon);
-    await customStorage.setItem("currentLat", Locations.lat);
+    localStorage.setItem("currentLong", Locations.lon);
+    localStorage.setItem("currentLat", Locations.lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -5157,39 +4801,36 @@ async function ReturnHomeLocation() {
       Locations.lon
     );
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
   } else {
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(`WeatherDataOpenMeteo_${Locations.name}`)
+      localStorage.getItem(`WeatherDataOpenMeteo_${Locations.name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
+      localStorage.getItem(`HourlyWeatherCache_${Locations.name}`)
     );
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${Locations.name}`)
+      localStorage.getItem(`AirQuality_${Locations.name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${Locations.name}`)
+      localStorage.getItem(`MoreDetailsData_${Locations.name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${Locations.name}`)
+      localStorage.getItem(`AstronomyData_${Locations.name}`)
     );
-    const renderFromSavedDataTimstamp = await customStorage.getItem(
+    const renderFromSavedDataTimstamp = localStorage.getItem(
       `WeatherDataOpenMeteoTimeStamp_${Locations.name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${Locations.name}`)
+      localStorage.getItem(`AlertData_${Locations.name}`)
     );
 
     if (SavedalertData) {
@@ -5222,26 +4863,26 @@ async function ReturnHomeLocation() {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 1200);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
-    await customStorage.setItem("currentLong", Locations.lon);
-    await customStorage.setItem("currentLat", Locations.lat);
+    localStorage.setItem("currentLong", Locations.lon);
+    localStorage.setItem("currentLat", Locations.lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -5259,28 +4900,25 @@ async function ReturnHomeLocation() {
       Locations.lon
     );
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
   }
 
   if (Locations.name === "CurrentDeviceLocation") {
     document.getElementById("city-name").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "current_location"
     );
     document.getElementById("currentLocationName").textContent =
       getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "current_location"
       );
   } else {
@@ -5288,9 +4926,22 @@ async function ReturnHomeLocation() {
     document.getElementById("currentLocationName").textContent = Locations.name;
   }
   document.getElementById("SelectedLocationText").innerHTML = Locations.name;
-  await customStorage.setItem("CurrentLocationName", Locations.name);
+  localStorage.setItem("CurrentLocationName", Locations.name);
 
   hideLoader();
+}
+
+if (
+  localStorage.getItem("removedOldSavedLocations") &&
+  localStorage.getItem("removedOldSavedLocations") === "removed"
+) {
+  localStorage.removeItem("savedLocations");
+
+  setTimeout(() => {
+    localStorage.getItem("removedOldSavedLocations", "removed");
+  }, 300);
+} else {
+  localStorage.getItem("removedOldSavedLocations", "removed");
 }
 
 document.getElementById("open_temp_trend").addEventListener("click", () => {
@@ -5308,10 +4959,10 @@ document.getElementById("open_temp_trend").addEventListener("click", () => {
   }
 });
 
-async function setChart() {
+function setChart() {
   if (
-    (await customStorage.getItem("useBarChart")) &&
-    (await customStorage.getItem("useBarChart")) === "true"
+    localStorage.getItem("useBarChart") &&
+    localStorage.getItem("useBarChart") === "true"
   ) {
     createTempTrendsChartBar();
   } else {
@@ -5320,16 +4971,16 @@ async function setChart() {
 }
 
 function handleStorageChangeChart(event) {
-  if (event.detail && event.detail.key === "useBarChart") {
+  if (event.key === "useBarChart") {
     setTimeout(() => {
       setChart();
     }, 500);
   }
 }
 
-window.addEventListener("indexedDBChange", handleStorageChangeChart);
+window.addEventListener("storage", handleStorageChangeChart);
 
-async function createHourlyDataCount(data) {
+function createHourlyDataCount(data) {
   const weatherCodeGroups = {
     0: [0],
     1: [1],
@@ -5382,7 +5033,7 @@ async function createHourlyDataCount(data) {
   let Visibility;
   let VisibilityUnit;
 
-  if ((await customStorage.getItem("selectedVisibilityUnit")) === "mileV") {
+  if (localStorage.getItem("selectedVisibilityUnit") === "mileV") {
     Visibility = Math.round(data.hourly.visibility[0] / 1609.34);
     VisibilityUnit = "miles";
   } else {
@@ -5395,7 +5046,7 @@ async function createHourlyDataCount(data) {
 
   let DewPointTemp;
 
-  if ((await customStorage.getItem("SelectedTempUnit")) === "fahrenheit") {
+  if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
     DewPointTemp = Math.round(celsiusToFahrenheit(data.hourly.dew_point_2m[0]));
   } else {
     DewPointTemp = Math.round(data.hourly.dew_point_2m[0]);
@@ -5406,39 +5057,36 @@ async function createHourlyDataCount(data) {
 
 // load location on request
 
-async function LoadLocationOnRequest(lat, lon, name) {
-  if (
-    (await customStorage.getItem("selectedMainWeatherProvider")) ===
-    "Met norway"
-  ) {
+function LoadLocationOnRequest(lat, lon, name) {
+  if (localStorage.getItem("selectedMainWeatherProvider") === "Met norway") {
     showLoader();
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(`WeatherDataOpenMeteo_${name}`)
+      localStorage.getItem(`WeatherDataOpenMeteo_${name}`)
     );
     const renderFromSavedDataMet = JSON.parse(
-      await customStorage.getItem(`WeatherDataMetNorway_${name}`)
+      localStorage.getItem(`WeatherDataMetNorway_${name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${name}`)
+      localStorage.getItem(`HourlyWeatherCache_${name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${name}`)
+      localStorage.getItem(`MoreDetailsData_${name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${name}`)
+      localStorage.getItem(`AstronomyData_${name}`)
     );
-    const renderFromSavedDataMetTimstamp = await customStorage.getItem(
+    const renderFromSavedDataMetTimstamp = localStorage.getItem(
       `WeatherDataMetNorwayTimeStamp_${name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${name}`)
+      localStorage.getItem(`AlertData_${name}`)
     );
 
     if (SavedalertData) {
       FetchAlertRender(SavedalertData);
     }
-    await customStorage.setItem("currentLong", lon);
-    await customStorage.setItem("currentLat", lat);
+    localStorage.setItem("currentLong", lon);
+    localStorage.setItem("currentLat", lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -5458,13 +5106,13 @@ async function LoadLocationOnRequest(lat, lon, name) {
       renderFromSavedData.daily.sunrise[0],
       renderFromSavedData.daily.sunset[0]
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
     UvIndex(renderFromSavedData.hourly.uv_index[0]);
     DailyWeather(renderFromSavedData.daily);
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
@@ -5472,23 +5120,20 @@ async function LoadLocationOnRequest(lat, lon, name) {
       "Data by Met norway";
 
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${name}`)
+      localStorage.getItem(`AirQuality_${name}`)
     );
 
     AirQuaility(AirQuailityData);
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
 
     function timeAgo(timestamp) {
       const now = new Date();
@@ -5512,61 +5157,60 @@ async function LoadLocationOnRequest(lat, lon, name) {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 1200);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
     hideLoader();
   } else if (
-    (await customStorage.getItem("ApiForAccu")) &&
-    (await customStorage.getItem("selectedMainWeatherProvider")) ===
-      "Accuweather"
+    localStorage.getItem("ApiForAccu") &&
+    localStorage.getItem("selectedMainWeatherProvider") === "Accuweather"
   ) {
     showLoader();
     const data = JSON.parse(
-      await customStorage.getItem(`WeatherDataAccuCurrent_${name}`)
+      localStorage.getItem(`WeatherDataAccuCurrent_${name}`)
     );
     const dataHourly = JSON.parse(
-      await customStorage.getItem(`WeatherDataAccuHourly_${name}`)
+      localStorage.getItem(`WeatherDataAccuHourly_${name}`)
     );
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(`WeatherDataOpenMeteo_${name}`)
+      localStorage.getItem(`WeatherDataOpenMeteo_${name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${name}`)
+      localStorage.getItem(`HourlyWeatherCache_${name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${name}`)
+      localStorage.getItem(`MoreDetailsData_${name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${name}`)
+      localStorage.getItem(`AstronomyData_${name}`)
     );
-    const dataTimstamp = await customStorage.getItem(
+    const dataTimstamp = localStorage.getItem(
       `WeatherDataAccuTimeStamp_${name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${name}`)
+      localStorage.getItem(`AlertData_${name}`)
     );
 
     if (SavedalertData) {
       FetchAlertRender(SavedalertData);
     }
-    await customStorage.setItem("currentLong", lon);
-    await customStorage.setItem("currentLat", lat);
+    localStorage.setItem("currentLong", lon);
+    localStorage.setItem("currentLat", lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -5574,7 +5218,7 @@ async function LoadLocationOnRequest(lat, lon, name) {
     DisplayHourlyAccuweatherData(dataHourly);
 
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${name}`)
+      localStorage.getItem(`AirQuality_${name}`)
     );
 
     AirQuaility(AirQuailityData);
@@ -5586,31 +5230,28 @@ async function LoadLocationOnRequest(lat, lon, name) {
       renderFromSavedData.daily.sunrise[0],
       renderFromSavedData.daily.sunset[0]
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
     UvIndex(renderFromSavedData.hourly.uv_index[0]);
     DailyWeather(renderFromSavedData.daily);
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
     document.querySelector(".data_provider_name_import").innerHTML =
       "Data by Accuweather";
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
 
     function timeAgo(timestamp) {
       const now = new Date();
@@ -5634,49 +5275,48 @@ async function LoadLocationOnRequest(lat, lon, name) {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 1200);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
     hideLoader();
   } else if (
-    (await customStorage.getItem("selectedMainWeatherProvider")) ===
-    "meteoFrance"
+    localStorage.getItem("selectedMainWeatherProvider") === "meteoFrance"
   ) {
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(`WeatherDataMeteoFrance_${name}`)
+      localStorage.getItem(`WeatherDataMeteoFrance_${name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${name}`)
+      localStorage.getItem(`HourlyWeatherCache_${name}`)
     );
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${name}`)
+      localStorage.getItem(`AirQuality_${name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${name}`)
+      localStorage.getItem(`MoreDetailsData_${name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${name}`)
+      localStorage.getItem(`AstronomyData_${name}`)
     );
-    const renderFromSavedDataTimstamp = await customStorage.getItem(
+    const renderFromSavedDataTimstamp = localStorage.getItem(
       `WeatherDataMeteoFranceTimeStamp_${name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${name}`)
+      localStorage.getItem(`AlertData_${name}`)
     );
 
     if (SavedalertData) {
@@ -5704,26 +5344,26 @@ async function LoadLocationOnRequest(lat, lon, name) {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 1200);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
-    await customStorage.setItem("currentLong", lon);
-    await customStorage.setItem("currentLat", lat);
+    localStorage.setItem("currentLong", lon);
+    localStorage.setItem("currentLat", lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -5741,42 +5381,38 @@ async function LoadLocationOnRequest(lat, lon, name) {
       lon
     );
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
   } else if (
-    (await customStorage.getItem("selectedMainWeatherProvider")) ===
-    "dwdGermany"
+    localStorage.getItem("selectedMainWeatherProvider") === "dwdGermany"
   ) {
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(`WeatherDataDWDGermany_${name}`)
+      localStorage.getItem(`WeatherDataDWDGermany_${name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${name}`)
+      localStorage.getItem(`HourlyWeatherCache_${name}`)
     );
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${name}`)
+      localStorage.getItem(`AirQuality_${name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${name}`)
+      localStorage.getItem(`MoreDetailsData_${name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${name}`)
+      localStorage.getItem(`AstronomyData_${name}`)
     );
-    const renderFromSavedDataTimstamp = await customStorage.getItem(
+    const renderFromSavedDataTimstamp = localStorage.getItem(
       `WeatherDataDWDGermanyTimeStamp_${name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${name}`)
+      localStorage.getItem(`AlertData_${name}`)
     );
 
     if (SavedalertData) {
@@ -5804,26 +5440,26 @@ async function LoadLocationOnRequest(lat, lon, name) {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 1200);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
-    await customStorage.setItem("currentLong", lon);
-    await customStorage.setItem("currentLat", lat);
+    localStorage.setItem("currentLong", lon);
+    localStorage.setItem("currentLat", lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -5841,41 +5477,36 @@ async function LoadLocationOnRequest(lat, lon, name) {
       lon
     );
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
-  } else if (
-    (await customStorage.getItem("selectedMainWeatherProvider")) === "noaaUS"
-  ) {
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
+  } else if (localStorage.getItem("selectedMainWeatherProvider") === "noaaUS") {
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(`WeatherDataNOAAUS_${name}`)
+      localStorage.getItem(`WeatherDataNOAAUS_${name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${name}`)
+      localStorage.getItem(`HourlyWeatherCache_${name}`)
     );
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${name}`)
+      localStorage.getItem(`AirQuality_${name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${name}`)
+      localStorage.getItem(`MoreDetailsData_${name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${name}`)
+      localStorage.getItem(`AstronomyData_${name}`)
     );
-    const renderFromSavedDataTimstamp = await customStorage.getItem(
+    const renderFromSavedDataTimstamp = localStorage.getItem(
       `WeatherDataNOAAUSTimeStamp_${name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${name}`)
+      localStorage.getItem(`AlertData_${name}`)
     );
 
     if (SavedalertData) {
@@ -5903,26 +5534,26 @@ async function LoadLocationOnRequest(lat, lon, name) {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 1200);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
-    await customStorage.setItem("currentLong", lon);
-    await customStorage.setItem("currentLat", lat);
+    localStorage.setItem("currentLong", lon);
+    localStorage.setItem("currentLat", lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -5940,41 +5571,36 @@ async function LoadLocationOnRequest(lat, lon, name) {
       lon
     );
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
-  } else if (
-    (await customStorage.getItem("selectedMainWeatherProvider")) === "ecmwf"
-  ) {
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
+  } else if (localStorage.getItem("selectedMainWeatherProvider") === "ecmwf") {
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(`WeatherDataECMWF_${name}`)
+      localStorage.getItem(`WeatherDataECMWF_${name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${name}`)
+      localStorage.getItem(`HourlyWeatherCache_${name}`)
     );
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${name}`)
+      localStorage.getItem(`AirQuality_${name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${name}`)
+      localStorage.getItem(`MoreDetailsData_${name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${name}`)
+      localStorage.getItem(`AstronomyData_${name}`)
     );
-    const renderFromSavedDataTimstamp = await customStorage.getItem(
+    const renderFromSavedDataTimstamp = localStorage.getItem(
       `WeatherDataECMWFTimeStamp_${name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${name}`)
+      localStorage.getItem(`AlertData_${name}`)
     );
 
     if (SavedalertData) {
@@ -6002,26 +5628,26 @@ async function LoadLocationOnRequest(lat, lon, name) {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 1200);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
-    await customStorage.setItem("currentLong", lon);
-    await customStorage.setItem("currentLat", lat);
+    localStorage.setItem("currentLong", lon);
+    localStorage.setItem("currentLat", lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -6039,42 +5665,38 @@ async function LoadLocationOnRequest(lat, lon, name) {
       lon
     );
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
   } else if (
-    (await customStorage.getItem("selectedMainWeatherProvider")) ===
-    "ukMetOffice"
+    localStorage.getItem("selectedMainWeatherProvider") === "ukMetOffice"
   ) {
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(`WeatherDataukMetOffice_${name}`)
+      localStorage.getItem(`WeatherDataukMetOffice_${name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${name}`)
+      localStorage.getItem(`HourlyWeatherCache_${name}`)
     );
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${name}`)
+      localStorage.getItem(`AirQuality_${name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${name}`)
+      localStorage.getItem(`MoreDetailsData_${name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${name}`)
+      localStorage.getItem(`AstronomyData_${name}`)
     );
-    const renderFromSavedDataTimstamp = await customStorage.getItem(
+    const renderFromSavedDataTimstamp = localStorage.getItem(
       `WeatherDataukMetOfficeTimeStamp_${name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${name}`)
+      localStorage.getItem(`AlertData_${name}`)
     );
 
     if (SavedalertData) {
@@ -6102,26 +5724,26 @@ async function LoadLocationOnRequest(lat, lon, name) {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 1200);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
-    await customStorage.setItem("currentLong", lon);
-    await customStorage.setItem("currentLat", lat);
+    localStorage.setItem("currentLong", lon);
+    localStorage.setItem("currentLat", lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -6139,41 +5761,38 @@ async function LoadLocationOnRequest(lat, lon, name) {
       lon
     );
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
   } else if (
-    (await customStorage.getItem("selectedMainWeatherProvider")) === "jmaJapan"
+    localStorage.getItem("selectedMainWeatherProvider") === "jmaJapan"
   ) {
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(`WeatherDataJMAJapan_${name}`)
+      localStorage.getItem(`WeatherDataJMAJapan_${name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${name}`)
+      localStorage.getItem(`HourlyWeatherCache_${name}`)
     );
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${name}`)
+      localStorage.getItem(`AirQuality_${name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${name}`)
+      localStorage.getItem(`MoreDetailsData_${name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${name}`)
+      localStorage.getItem(`AstronomyData_${name}`)
     );
-    const renderFromSavedDataTimstamp = await customStorage.getItem(
+    const renderFromSavedDataTimstamp = localStorage.getItem(
       `WeatherDataJMAJapanTimeStamp_${name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${name}`)
+      localStorage.getItem(`AlertData_${name}`)
     );
 
     if (SavedalertData) {
@@ -6201,26 +5820,26 @@ async function LoadLocationOnRequest(lat, lon, name) {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 1200);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
-    await customStorage.setItem("currentLong", Locations.lon);
-    await customStorage.setItem("currentLat", Locations.lat);
+    localStorage.setItem("currentLong", Locations.lon);
+    localStorage.setItem("currentLat", Locations.lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -6238,41 +5857,38 @@ async function LoadLocationOnRequest(lat, lon, name) {
       lon
     );
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
   } else if (
-    (await customStorage.getItem("selectedMainWeatherProvider")) === "gemCanada"
+    localStorage.getItem("selectedMainWeatherProvider") === "gemCanada"
   ) {
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(`WeatherDatagemCanada_${name}`)
+      localStorage.getItem(`WeatherDatagemCanada_${name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${name}`)
+      localStorage.getItem(`HourlyWeatherCache_${name}`)
     );
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${name}`)
+      localStorage.getItem(`AirQuality_${name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${name}`)
+      localStorage.getItem(`MoreDetailsData_${name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${name}`)
+      localStorage.getItem(`AstronomyData_${name}`)
     );
-    const renderFromSavedDataTimstamp = await customStorage.getItem(
+    const renderFromSavedDataTimstamp = localStorage.getItem(
       `WeatherDatagemCanadaTimeStamp_${name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${name}`)
+      localStorage.getItem(`AlertData_${name}`)
     );
 
     if (SavedalertData) {
@@ -6300,26 +5916,26 @@ async function LoadLocationOnRequest(lat, lon, name) {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 1200);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
-    await customStorage.setItem("currentLong", lon);
-    await customStorage.setItem("currentLat", lat);
+    localStorage.setItem("currentLong", lon);
+    localStorage.setItem("currentLat", lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -6337,42 +5953,38 @@ async function LoadLocationOnRequest(lat, lon, name) {
       lon
     );
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
   } else if (
-    (await customStorage.getItem("selectedMainWeatherProvider")) ===
-    "bomAustralia"
+    localStorage.getItem("selectedMainWeatherProvider") === "bomAustralia"
   ) {
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(`WeatherDatabomAustralia_${name}`)
+      localStorage.getItem(`WeatherDatabomAustralia_${name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${name}`)
+      localStorage.getItem(`HourlyWeatherCache_${name}`)
     );
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${name}`)
+      localStorage.getItem(`AirQuality_${name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${name}`)
+      localStorage.getItem(`MoreDetailsData_${name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${name}`)
+      localStorage.getItem(`AstronomyData_${name}`)
     );
-    const renderFromSavedDataTimstamp = await customStorage.getItem(
+    const renderFromSavedDataTimstamp = localStorage.getItem(
       `WeatherDatabomAustraliaTimeStamp_${name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${name}`)
+      localStorage.getItem(`AlertData_${name}`)
     );
 
     if (SavedalertData) {
@@ -6400,26 +6012,26 @@ async function LoadLocationOnRequest(lat, lon, name) {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 1200);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
-    await customStorage.setItem("currentLong", lon);
-    await customStorage.setItem("currentLat", lat);
+    localStorage.setItem("currentLong", lon);
+    localStorage.setItem("currentLat", lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -6437,41 +6049,38 @@ async function LoadLocationOnRequest(lat, lon, name) {
       lon
     );
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
   } else if (
-    (await customStorage.getItem("selectedMainWeatherProvider")) === "gemCanada"
+    localStorage.getItem("selectedMainWeatherProvider") === "gemCanada"
   ) {
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(`WeatherDatagemCanada_${name}`)
+      localStorage.getItem(`WeatherDatagemCanada_${name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${name}`)
+      localStorage.getItem(`HourlyWeatherCache_${name}`)
     );
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${name}`)
+      localStorage.getItem(`AirQuality_${name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${name}`)
+      localStorage.getItem(`MoreDetailsData_${name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${name}`)
+      localStorage.getItem(`AstronomyData_${name}`)
     );
-    const renderFromSavedDataTimstamp = await customStorage.getItem(
+    const renderFromSavedDataTimstamp = localStorage.getItem(
       `WeatherDatagemCanadaTimeStamp_${name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${name}`)
+      localStorage.getItem(`AlertData_${name}`)
     );
 
     if (SavedalertData) {
@@ -6499,26 +6108,26 @@ async function LoadLocationOnRequest(lat, lon, name) {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 1200);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
-    await customStorage.setItem("currentLong", lon);
-    await customStorage.setItem("currentLat", lat);
+    localStorage.setItem("currentLong", lon);
+    localStorage.setItem("currentLat", lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -6536,41 +6145,38 @@ async function LoadLocationOnRequest(lat, lon, name) {
       lon
     );
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
   } else if (
-    (await customStorage.getItem("selectedMainWeatherProvider")) === "cmaChina"
+    localStorage.getItem("selectedMainWeatherProvider") === "cmaChina"
   ) {
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(`WeatherDatacmaChina_${name}`)
+      localStorage.getItem(`WeatherDatacmaChina_${name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${name}`)
+      localStorage.getItem(`HourlyWeatherCache_${name}`)
     );
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${name}`)
+      localStorage.getItem(`AirQuality_${name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${name}`)
+      localStorage.getItem(`MoreDetailsData_${name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${name}`)
+      localStorage.getItem(`AstronomyData_${name}`)
     );
-    const renderFromSavedDataTimstamp = await customStorage.getItem(
+    const renderFromSavedDataTimstamp = localStorage.getItem(
       `WeatherDatacmaChinaTimeStamp_${name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${name}`)
+      localStorage.getItem(`AlertData_${name}`)
     );
 
     if (SavedalertData) {
@@ -6598,26 +6204,26 @@ async function LoadLocationOnRequest(lat, lon, name) {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 1200);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
-    await customStorage.setItem("currentLong", lon);
-    await customStorage.setItem("currentLat", lat);
+    localStorage.setItem("currentLong", lon);
+    localStorage.setItem("currentLat", lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -6635,42 +6241,38 @@ async function LoadLocationOnRequest(lat, lon, name) {
       lon
     );
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
   } else if (
-    (await customStorage.getItem("selectedMainWeatherProvider")) ===
-    "knmiNetherlands"
+    localStorage.getItem("selectedMainWeatherProvider") === "knmiNetherlands"
   ) {
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(`WeatherDataknmiNetherlands_${name}`)
+      localStorage.getItem(`WeatherDataknmiNetherlands_${name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${name}`)
+      localStorage.getItem(`HourlyWeatherCache_${name}`)
     );
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${name}`)
+      localStorage.getItem(`AirQuality_${name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${name}`)
+      localStorage.getItem(`MoreDetailsData_${name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${name}`)
+      localStorage.getItem(`AstronomyData_${name}`)
     );
-    const renderFromSavedDataTimstamp = await customStorage.getItem(
+    const renderFromSavedDataTimstamp = localStorage.getItem(
       `WeatherDataknmiNetherlandsTimeStamp_${name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${name}`)
+      localStorage.getItem(`AlertData_${name}`)
     );
 
     if (SavedalertData) {
@@ -6698,26 +6300,26 @@ async function LoadLocationOnRequest(lat, lon, name) {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 1200);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
-    await customStorage.setItem("currentLong", lon);
-    await customStorage.setItem("currentLat", lat);
+    localStorage.setItem("currentLong", lon);
+    localStorage.setItem("currentLat", lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -6735,42 +6337,38 @@ async function LoadLocationOnRequest(lat, lon, name) {
       lon
     );
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
   } else if (
-    (await customStorage.getItem("selectedMainWeatherProvider")) ===
-    "dmiDenmark"
+    localStorage.getItem("selectedMainWeatherProvider") === "dmiDenmark"
   ) {
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(`WeatherDatadmiDenmark_${name}`)
+      localStorage.getItem(`WeatherDatadmiDenmark_${name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${name}`)
+      localStorage.getItem(`HourlyWeatherCache_${name}`)
     );
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${name}`)
+      localStorage.getItem(`AirQuality_${name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${name}`)
+      localStorage.getItem(`MoreDetailsData_${name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${name}`)
+      localStorage.getItem(`AstronomyData_${name}`)
     );
-    const renderFromSavedDataTimstamp = await customStorage.getItem(
+    const renderFromSavedDataTimstamp = localStorage.getItem(
       `WeatherDatadmiDenmarkTimeStamp_${name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${name}`)
+      localStorage.getItem(`AlertData_${name}`)
     );
 
     if (SavedalertData) {
@@ -6798,26 +6396,26 @@ async function LoadLocationOnRequest(lat, lon, name) {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 1200);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
-    await customStorage.setItem("currentLong", lon);
-    await customStorage.setItem("currentLat", lat);
+    localStorage.setItem("currentLong", lon);
+    localStorage.setItem("currentLat", lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -6835,40 +6433,37 @@ async function LoadLocationOnRequest(lat, lon, name) {
       lon
     );
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
   } else {
     showLoader();
     const renderFromSavedData = JSON.parse(
-      await customStorage.getItem(`WeatherDataOpenMeteo_${name}`)
+      localStorage.getItem(`WeatherDataOpenMeteo_${name}`)
     );
     const dataHourlyFull = JSON.parse(
-      await customStorage.getItem(`HourlyWeatherCache_${name}`)
+      localStorage.getItem(`HourlyWeatherCache_${name}`)
     );
     const AirQuailityData = JSON.parse(
-      await customStorage.getItem(`AirQuality_${name}`)
+      localStorage.getItem(`AirQuality_${name}`)
     );
     const MoreDetailsData = JSON.parse(
-      await customStorage.getItem(`MoreDetailsData_${name}`)
+      localStorage.getItem(`MoreDetailsData_${name}`)
     );
     const AstronomyData = JSON.parse(
-      await customStorage.getItem(`AstronomyData_${name}`)
+      localStorage.getItem(`AstronomyData_${name}`)
     );
-    const renderFromSavedDataTimstamp = await customStorage.getItem(
+    const renderFromSavedDataTimstamp = localStorage.getItem(
       `WeatherDataOpenMeteoTimeStamp_${name}`
     );
     const SavedalertData = JSON.parse(
-      await customStorage.getItem(`AlertData_${name}`)
+      localStorage.getItem(`AlertData_${name}`)
     );
 
     if (SavedalertData) {
@@ -6896,17 +6491,17 @@ async function LoadLocationOnRequest(lat, lon, name) {
       return "now";
     }
 
-    setTimeout(async () => {
+    setTimeout(() => {
       document.getElementById(
         "last_updated"
       ).innerHTML = `${getTranslationByLang(
-        await customStorage.getItem("AppLanguageCode"),
+        localStorage.getItem("AppLanguageCode"),
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 1000);
 
-    await customStorage.setItem("currentLong", lon);
-    await customStorage.setItem("currentLat", lat);
+    localStorage.setItem("currentLong", lon);
+    localStorage.setItem("currentLat", lat);
 
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
@@ -6924,25 +6519,22 @@ async function LoadLocationOnRequest(lat, lon, name) {
       lon
     );
 
-    await customStorage.setItem(
+    localStorage.setItem(
       "DailyWeatherCache",
       JSON.stringify(renderFromSavedData.daily)
     );
-    await customStorage.setItem(
+    localStorage.setItem(
       "CurrentHourlyCache",
       JSON.stringify(renderFromSavedData.hourly)
     );
-    await customStorage.setItem(
-      "HourlyWeatherCache",
-      JSON.stringify(dataHourlyFull)
-    );
+    localStorage.setItem("HourlyWeatherCache", JSON.stringify(dataHourlyFull));
 
     hideLoader();
   }
 
   if (name === "CurrentDeviceLocation") {
     document.getElementById("city-name").innerHTML = getTranslationByLang(
-      await customStorage.getItem("AppLanguageCode"),
+      localStorage.getItem("AppLanguageCode"),
       "current_location"
     );
   }
@@ -7004,33 +6596,3 @@ document
   .addEventListener("click", () => {
     document.querySelector(".view_device_location").hidden = true;
   });
-
-// Move app data to DataBase
-
-async function migrateLocalStorageToIndexedDB() {
-  const storage = new StorageDB();
-
-  // Check if migration has already been completed
-  const migrationFlag = await storage.getItem("migrationComplete");
-  if (migrationFlag) {
-    console.log("Migration already completed.");
-    return;
-  }
-
-  const keys = Object.keys(localStorage);
-
-  for (const key of keys) {
-    const value = localStorage.getItem(key);
-    // Save data to IndexedDB
-    await storage.setItem(key, value);
-  }
-
-  localStorage.clear();
-
-  // Set migration complete flag in IndexedDB
-  await storage.setItem("migrationComplete", true);
-
-  console.log("Migration complete!");
-}
-
-migrateLocalStorageToIndexedDB();
