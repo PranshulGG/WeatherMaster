@@ -1,4 +1,4 @@
-// Finally no more storage issue
+//  Isn't implemented to work yet
 
 class StorageDB {
     constructor(dbName = 'WeatherDB', storeName = 'WeatherMasterDataStore') {
@@ -115,3 +115,4 @@ channel.addEventListener('message', (event) => {
         window.dispatchEvent(customEvent);
     }
 });
+
