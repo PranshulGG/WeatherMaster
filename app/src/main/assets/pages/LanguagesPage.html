@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>Select language</title>
+    <script src="../database/MainDataBase.js"></script>
     <link rel="stylesheet" href="../ui-files/ui.css">
     <link rel="stylesheet" href="../ui-files/font-usage.css">
     <link rel="stylesheet" href="../ui-files/variables.css">
@@ -22,21 +23,25 @@
             width: 100%;
             background: linear-gradient(0deg, var(--Surface) 10%, rgba(255, 0, 0, 0));
             height: 30px;
-            z-index: 1;
+            z-index: 10;
         }
 
 
         .language_item {
             padding: 10px;
-            padding-left: 20px;
+            padding-left: 10px;
             display: flex;
             align-items: center;
-            margin-bottom: 5px;
-            gap: 25px;
+            border-radius: 50px;
+            margin-bottom: 10px;
+            gap: 20px;
             font-family: var(--outfit);
-            font-size: 18px;
+            font-size: 16px;
+            color: var(--On-Primary-Container);
             position: relative;
             --md-ripple-pressed-opacity: 0.12;
+            overflow: hidden;
+
         }
 
         .language_item[disabled] {
@@ -50,6 +55,15 @@
 
 
 
+        .language_item p{
+            margin: 0;
+            position: absolute;
+            right: 15px;
+            color: var(--Secondary);
+            opacity: 0.8;
+            font-family: var(--google-normal);
+            z-index: 1;
+        }
 
 
         img_area {
@@ -59,6 +73,8 @@
             border-radius: 50px;
             flex-shrink: 0;
             position: relative;
+            z-index: 1;
+
         }
 
         img_area span {
@@ -67,9 +83,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
-            background-color: var(--Surface-Container-Low);
-            color: var(--Primary);
+            font-size: 15px;
+            background-color: var(--Tertiary);
+            color: var(--On-Tertiary);
+            font-family: var(--google-mid);
             border-radius: 50px;
         }
 
@@ -94,6 +111,7 @@
             color: var(--On-Primary);
             animation: scaleUp 0.2s ease-out;
             display: var(--display-before, none);
+
         }
 
         @keyframes scaleUp {
@@ -110,6 +128,35 @@
         .hidden {
             display: none !important;
         }
+
+        progress-lang{
+            position: absolute;
+            width: 0%;
+            background-color: var(--Primary-Container);
+            height: 100%;
+            left: 0;
+            border-radius: inherit;
+            top: 0;
+            transition: width 1.4s ease-out;
+        }
+
+        lang_label{
+            z-index: 1;
+        }
+
+        .selected_lang  {
+           background-color: var(--Primary);
+           color: var(--On-Primary);
+        }
+        .selected_lang progress-lang{
+            z-index: -1;
+        }
+        .selected_lang p{
+            color: var(--On-Primary);
+        }
+
+
+
     </style>
 </head>
 
@@ -126,9 +173,9 @@
     </div>
     <div class="activity-large-content" id="headUser-1">
         <p class="label-large-main" data-translate="language">Language</p>
-        <div class="content-parent-large" style="padding-bottom: 32px;">
+        <div class="content-parent-large" style="padding-bottom: 32px; padding-left: 10px; padding-right: 10px;">
 
-            <md-list style="padding: 10px;">
+            <md-list style="padding: 5px;">
                 <md-list-item style="background-color: var(--Secondary-Container); border-radius: 15px;"
                               type="button" href="https://crowdin.com/project/weathermaster/invite?h=448278a9b1370f3c10d4336a091dae792286917">
                     <md-icon icon-outlined slot="start">translate</md-icon>
@@ -136,177 +183,256 @@
                     <div slot="supporting-text">On Crowdin</div>
                 </md-list-item>
             </md-list>
+            <br>
 
             <md-list>
                 <label class="language_item">
                     <input checked name="app_language_radios" value="English" lang="en" onclick="updateImgAreas()" type="radio">
                     <img_area>
-                        <span>100%</span>
+                        <span>EN</span>
                     </img_area>
-                    English
-                    <md-ripple></md-ripple>
+                    <lang_label>English</lang_label>
+
+                    <progress-lang class="progress-lang-en-full"></progress-lang>
+                    <p>100%</p>
                 </label>
 
                 <label class="language_item">
                     <input name="app_language_radios" value="Chinese (Simplified)" lang="zh" onclick="updateImgAreas()" type="radio">
                     <img_area>
-                        <span id="lang-zh-CN">--</span>
+                        <span>ZH</span>
                     </img_area>
-                    Chinese (Simplified)
-                    <md-ripple></md-ripple>
+                    <lang_label>Chinese (Simplified)</lang_label>
+
+
+                    <progress-lang class="progress-lang-zh-CN"></progress-lang>
+                    <p id="lang-zh-CN">--</p>
                 </label>
 
                 <label class="language_item">
                     <input name="app_language_radios" value="Dutch" lang="nl" onclick="updateImgAreas()" type="radio">
                     <img_area>
-                        <span id="lang-nl">--</span>
+                        <span>NL</span>
                     </img_area>
-                    Dutch
-                    <md-ripple></md-ripple>
+
+                    <lang_label>Dutch</lang_label>
+
+                    <progress-lang class="progress-lang-nl"></progress-lang>
+                    <p id="lang-nl">--</p>
                 </label>
 
                 <label class="language_item">
                     <input name="app_language_radios" value="Filipino" lang="fil" onclick="updateImgAreas()" type="radio">
                     <img_area>
-                        <span id="lang-fil">--</span>
+                        <span>FIL</span>
                     </img_area>
-                    Filipino
-                    <md-ripple></md-ripple>
+
+                    <lang_label>Filipino</lang_label>
+
+                    <progress-lang class="progress-lang-fil"></progress-lang>
+                    <p id="lang-fil">--</p>
                 </label>
 
                 <label class="language_item">
                     <input name="app_language_radios" value="French" lang="fr" onclick="updateImgAreas()" type="radio">
                     <img_area>
-                        <span id="lang-fr">--</span>
+                        <span>FR</span>
                     </img_area>
-                    French
-                    <md-ripple></md-ripple>
+
+                    <lang_label>French</lang_label>
+
+                    <progress-lang class="progress-lang-fr"></progress-lang>
+                    <p id="lang-fr">--</p>
                 </label>
 
                 <label class="language_item">
                     <input name="app_language_radios" value="German" lang="de" onclick="updateImgAreas()" type="radio">
                     <img_area>
-                        <span id="lang-de">--</span>
+                        <span>DE</span>
                     </img_area>
-                    German
-                    <md-ripple></md-ripple>
+
+                    <lang_label>German</lang_label>
+
+                    <progress-lang class="progress-lang-de"></progress-lang>
+                    <p id="lang-de">--</p>
                 </label>
 
                 <label class="language_item">
                     <input name="app_language_radios" value="Greek" lang="el" onclick="updateImgAreas()" type="radio">
                     <img_area>
-                        <span id="lang-el">--</span>
+                        <span>EL</span>
                     </img_area>
-                    Greek
-                    <md-ripple></md-ripple>
+
+                    <lang_label>Greek</lang_label>
+
+                    <progress-lang class="progress-lang-el"></progress-lang>
+                    <p id="lang-el">--</p>
                 </label>
 
                 <label class="language_item">
                     <input name="app_language_radios" value="Italian" lang="it" onclick="updateImgAreas()" type="radio">
                     <img_area>
-                        <span id="lang-it">--</span>
+                        <span>IT</span>
                     </img_area>
-                    Italian
-                    <md-ripple></md-ripple>
+
+                    <lang_label>Italian</lang_label>
+
+                    <progress-lang class="progress-lang-it"></progress-lang>
+                    <p id="lang-it">--</p>
                 </label>
 
                 <label class="language_item">
                     <input name="app_language_radios" value="Japanese" lang="ja" onclick="updateImgAreas()" type="radio">
                     <img_area>
-                        <span id="lang-ja">--</span>
+                        <span>JA</span>
                     </img_area>
-                    Japanese
-                    <md-ripple></md-ripple>
+
+                    <lang_label>Japanese</lang_label>
+
+                    <progress-lang class="progress-lang-ja"></progress-lang>
+                    <p id="lang-ja">--</p>
                 </label>
 
                 <label class="language_item">
                     <input name="app_language_radios" value="Persian" lang="fa" onclick="updateImgAreas()" type="radio">
                     <img_area>
-                        <span id="lang-fa">--</span>
+                        <span>FA</span>
                     </img_area>
-                    Persian
-                    <md-ripple></md-ripple>
+
+                    <lang_label>Persian</lang_label>
+
+                    <progress-lang class="progress-lang-fa"></progress-lang>
+                    <p id="lang-fa">--</p>
                 </label>
 
                 <label class="language_item">
                     <input name="app_language_radios" value="Polish" lang="pl" onclick="updateImgAreas()" type="radio">
                     <img_area>
-                        <span id="lang-pl">--</span>
+                        <span>PL</span>
                     </img_area>
-                    Polish
-                    <md-ripple></md-ripple>
+
+                    <lang_label>Polish</lang_label>
+
+                    <progress-lang class="progress-lang-pl"></progress-lang>
+                    <p id="lang-pl">--</p>
                 </label>
 
                 <label class="language_item">
                     <input name="app_language_radios" value="Portuguese" lang="pt" onclick="updateImgAreas()" type="radio">
                     <img_area>
-                        <span id="lang-pt-PT">--</span>
+                        <span>PT</span>
                     </img_area>
-                    Portuguese
-                    <md-ripple></md-ripple>
+
+                    <lang_label>Portuguese</lang_label>
+
+                    <progress-lang class="progress-lang-pt-PT"></progress-lang>
+                    <p id="lang-pt-PT">--</p>
                 </label>
 
                 <label class="language_item">
                     <input name="app_language_radios" value="Romanian" lang="ro" onclick="updateImgAreas()" type="radio">
                     <img_area>
-                        <span id="lang-ro">--</span>
+                        <span>RO</span>
                     </img_area>
-                    Romanian
-                    <md-ripple></md-ripple>
+
+                    <lang_label>Romanian</lang_label>
+
+                    <progress-lang class="progress-lang-ro"></progress-lang>
+                    <p id="lang-ro">--</p>
                 </label>
 
                 <label class="language_item">
                     <input name="app_language_radios" value="Russian" lang="ru" onclick="updateImgAreas()" type="radio">
                     <img_area>
-                        <span id="lang-ru">--</span>
+                        <span>RU</span>
                     </img_area>
-                    Russian
-                    <md-ripple></md-ripple>
+
+                    <lang_label>Russian</lang_label>
+
+                    <progress-lang class="progress-lang-ru"></progress-lang>
+                    <p id="lang-ru">--</p>
                 </label>
 
                 <label class="language_item">
                     <input name="app_language_radios" value="Spanish" lang="es" onclick="updateImgAreas()" type="radio">
                     <img_area>
-                        <span id="lang-es-ES">--</span>
+                        <span>ES</span>
                     </img_area>
-                    Spanish
-                    <md-ripple></md-ripple>
+
+                    <lang_label>Spanish</lang_label>
+                    <progress-lang class="progress-lang-es-ES"></progress-lang>
+                    <p id="lang-es-ES">--</p>
                 </label>
 
                 <label class="language_item">
                     <input name="app_language_radios" value="Turkish" lang="tr" onclick="updateImgAreas()" type="radio">
                     <img_area>
-                        <span id="lang-tr">--</span>
+                        <span>TR</span>
                     </img_area>
-                    Turkish
-                    <md-ripple></md-ripple>
+
+                    <lang_label>Turkish</lang_label>
+                    <progress-lang class="progress-lang-tr"></progress-lang>
+                    <p id="lang-tr">--</p>
                 </label>
 
                 <label class="language_item">
                     <input name="app_language_radios" value="Ukrainian" lang="uk" onclick="updateImgAreas()" type="radio">
                     <img_area>
-                        <span id="lang-uk">--</span>
+                        <span>UK</span>
                     </img_area>
-                    Ukrainian
-                    <md-ripple></md-ripple>
+
+                    <lang_label>Ukrainian</lang_label>
+
+                    <progress-lang class="progress-lang-uk"></progress-lang>
+                    <p id="lang-uk">--</p>
                 </label>
 
                 <label class="language_item">
                     <input name="app_language_radios" value="Vietnamese" lang="vi" onclick="updateImgAreas()" type="radio">
                     <img_area>
-                        <span id="lang-vi">--</span>
+                        <span>VI</span>
                     </img_area>
-                    Vietnamese
-                    <md-ripple></md-ripple>
+
+                    <lang_label>Vietnamese</lang_label>
+
+                    <progress-lang class="progress-lang-vi"></progress-lang>
+                    <p id="lang-vi">--</p>
                 </label>
 
                 <label class="language_item">
                     <input name="app_language_radios" value="Serbian (Latin)" lang="sr" onclick="updateImgAreas()" type="radio">
                     <img_area>
-                        <span id="lang-sr-CS">--</span>
+                        <span>SR</span>
                     </img_area>
-                    Serbian (Latin)
-                    <md-ripple></md-ripple>
+
+                    <lang_label>Serbian (Latin)</lang_label>
+
+                    <progress-lang class="progress-lang-sr-CS"></progress-lang>
+                    <p id="lang-sr-CS">--</p>
+                </label>
+
+                <label class="language_item">
+                    <input name="app_language_radios" value="Azerbaijani" lang="az" onclick="updateImgAreas()" type="radio">
+                    <img_area>
+                        <span>AZ</span>
+                    </img_area>
+
+                    <lang_label>Azerbaijani</lang_label>
+
+                    <progress-lang class="progress-lang-az"></progress-lang>
+                    <p id="lang-az">--</p>
+                </label>
+
+                <label class="language_item">
+                    <input name="app_language_radios" value="Slovenian" lang="sl" onclick="updateImgAreas()" type="radio">
+                    <img_area>
+                        <span>SL</span>
+                    </img_area>
+
+                    <lang_label>Slovenian</lang_label>
+
+                    <progress-lang class="progress-lang-sl"></progress-lang>
+                    <p id="lang-sl">--</p>
                 </label>
 
             </md-list>
@@ -328,9 +454,12 @@
 
 <script>
 
+
 async function fetchTranslationProgress() {
-    const projectId = 'MAIN_KEY_WM';
-    const apiToken = 'MAIN_KEY_WM';
+    const projectId = '';
+    const apiToken = '';
+
+    document.querySelector('.progress-lang-en-full').style.width = '100%'
 
     try {
         const response = await fetch(`https://api.crowdin.com/api/v2/projects/${projectId}/languages/progress`, {
@@ -352,16 +481,18 @@ async function fetchTranslationProgress() {
             translationProgress: lang.data.translationProgress,
         }));
 
-        localStorage.setItem('translationProgress', JSON.stringify(progressData));
+       await customStorage.setItem('translationProgress', JSON.stringify(progressData));
+       localStorage.removeItem('translationProgress')
         return progressData;
 
     } catch (error) {
         console.error('Error fetching translation progress:', error);
 
         // Fallback to localStorage data
-        const savedData = localStorage.getItem('translationProgress');
+        const savedData = await customStorage.getItem('translationProgress');
         if (savedData) {
-            console.warn('Using saved data from localStorage.');
+           localStorage.removeItem('translationProgress')
+            console.warn('Using saved data from database.');
             return JSON.parse(savedData);
         }
 
@@ -376,12 +507,16 @@ async function updateProgressInDivs() {
     progressData.forEach(({ language, translationProgress }) => {
         // Select the corresponding div based on the language
         const languageDiv = document.getElementById(`lang-${language}`);
+
         if (languageDiv) {
             // Update the progress span with the translation progress
             languageDiv.textContent = `${translationProgress}%`;
+            document.querySelector(`.progress-lang-${language}`).style.width = `${translationProgress}%`;
         }
     });
 }
+
+
 
 updateProgressInDivs();
 
@@ -544,13 +679,17 @@ function CreateMaterialYouTheme(hex) {
 
     radios.forEach(radio => {
         const imgArea = radio.closest('.language_item').querySelector('img_area');
+        const selectedLangDiv = radio.closest('.language_item')
+
 
         const beforeStyle = window.getComputedStyle(imgArea, '::before');
 
         if (radio.checked) {
             imgArea.style.setProperty('--display-before', 'flex');
+            selectedLangDiv.classList.add('selected_lang')
         } else {
             imgArea.style.setProperty('--display-before', 'none');
+            selectedLangDiv.classList.remove('selected_lang')
         }
     });
 }
