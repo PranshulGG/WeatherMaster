@@ -2314,6 +2314,7 @@ space{
 
 
 
+
 .currentConditionItem.moonSetRise{
 
   background-color: var(--Surface);
@@ -2338,65 +2339,37 @@ space{
 
 
 
-.currentConditionItem.moonSetRise .current_condition_icon{
+.currentConditionItem.moonSetRise
 
-  display: flex;
+.current_condition_icon {
 
-  align-self: center;
+  bottom: -5px;
 
-  justify-content: center;
-
-  width: 100%;
-
-  position: unset;
+  height: unset !important;
 
 }
 
 
 
+.moon_tracker img{
 
+  width: 30px;
 
-moonPhase {
-
-  width: 50px;
-
-  height: 50px;
-
-  display: block;
-
-  background: url(../icons/moon_texture.png);
-
-  border-radius: 9999px;
-
-  position: relative;
-
-  background-size: cover;
-
-  overflow: hidden;
-
-  background-position: center;
-
-  box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.3);
+  height: 30px;
 
 }
 
 
 
-moonPhaseProgress {
+.moon_tracker {
 
   position: absolute;
 
-  top: 0;
+  bottom: 20%;
 
-  width: 100%;
+  left: 0;
 
-  transition: width 0.2s ease-out;
-
-  height: 100%;
-
-  border-radius: 50%;
-
-  background-color: rgba(0, 0, 0, 0.65);
+  transform: translateY(-20%);
 
 }
 
@@ -2404,60 +2377,60 @@ moonPhaseProgress {
 
 
 
-#moonPhase_name{
-    font-size: 14px;
-    color: var(--On-Surface);
-    font-family: var(--outfit);
-    margin: 0;
-    width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-}
+.currentConditionItem.moonSetRise::before{
 
+  content: '';
 
+  background-color: rgba(0, 0, 0, 0.3);
 
-.moondata_holder .moon_set_rise{
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
+  height: 40%;
 
   position: absolute;
 
   bottom: 0;
 
-  width: calc(100% - 20px);
+  left: 0;
 
-  padding: 10px;
+  width: 100%;
+
+  border-top: 1.5px solid var(--Outline);
+
+  z-index: 1;
 
 }
 
 
 
-.moondata_holder .moon_set_rise div{
+.moonset_moonrise_text_block{
+
+  position: absolute;
+
+  bottom: 10px;
+
+  left: 0;
+
+  width: 100%;
 
   display: flex;
 
   align-items: center;
 
-  flex-direction: column;
+  justify-content: center;
 
-  color: var(--On-Surface);
+  flex-direction: column;
 
   font-size: 13px;
 
+  color: white;
+  height: 38px;
 
+  z-index: 1;
 
 }
 
 
 
-.moondata_holder .moon_set_rise div md-icon{
+.moonset_moonrise_text_block div md-icon{
 
   font-size: 18px;
 
@@ -2465,12 +2438,30 @@ moonPhaseProgress {
 
 
 
-.moondata_holder .moon_set_rise div p{
+.moonset_moonrise_text_block div {
 
+  display: flex;
+
+  align-items: center;
+
+
+
+}
+
+
+
+.moonset_moonrise_text_block p{
+  color: var(--On-Surface);
+  font-family: var(--outfit);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  font-size: 16px;
   margin: 0;
-
-  text-align: center;
-
+text-align: center;
+max-width: 80%;
 }
 
 
@@ -2831,4 +2822,60 @@ Tempmeterbaritem span{
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+/* move data  */
+
+.moving_data{
+  width: 100%;
+  height: 100%;
+  background-color: var(--Surface);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+
+}
+
+.moving_data .info_text_migrate_data{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 100px;
+  flex-direction: column;
+}
+
+.moving_data .info_text_migrate_data p{
+  margin: 0;
+  font-size: 24px;
+  text-align: center;
+  color: var(--Primary);
+}
+
+.moving_data .info_text_migrate_data span{
+  color: var(--On-Surface-Variant);
+  margin-top: 5px;
+}
+
+.moving_data .info_text_migrate_data md-circular-progress{
+  margin-top: 20px;
+}
+
+.moving_data .data_base_created{
+    position: absolute;
+    bottom: 100px;
+    width: calc(100% - 20px);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  font-size: 18px;
+  color: var(--On-Surface);
+  padding-left: 20px;
+
+}
+
+
+.moving_data .data_base_created p{
+  margin: 0;
+  text-align: start;
 }

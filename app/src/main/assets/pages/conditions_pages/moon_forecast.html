@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en" Theme="clothing" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>SunRise set Forecast</title>
+    <link rel="stylesheet" href="../../ui-files/font-usage.css">
+    <link rel="stylesheet" href="../../ui-files/variables.css">
+    <link rel="stylesheet" href="../../components/components.css">
+    <link rel="stylesheet" href="../../ripple-files/ripple.css">
+    <link rel="stylesheet" href="../../components/modal-ver.css">
+    <link rel="stylesheet" href="condition_pageUI.css">
+    <script src="../../langs/langs.js"></script>
+
+    <style>
+        .condition_info_content::before {
+            position: fixed;
+            bottom: 0;
+            content: '';
+            width: 100%;
+            background: linear-gradient(0deg, var(--Surface) 10%, rgba(255, 0, 0, 0));
+            height: 30px;
+            z-index: 1;
+        }
+        moonPhase {
+        width: 100px;
+        height: 100px;
+        display: block;
+        background: url(../../FullMoon.png);
+        border-radius: 9999px;
+        position: relative;
+        background-size: cover;
+        overflow: hidden;
+        background-position: center;
+        box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.3);
+        transform: rotate(10deg);
+        }
+
+        .moon_wrap{
+            width: 100px;
+            height: 100px;
+            border-radius: 9999px;
+              overflow: hidden;
+              flex-shrink: 0;
+        }
+
+
+
+        moonPhaseProgress {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        transition: width 0.2s ease-out;
+        height: 100%;
+        border-radius: 50%;
+        background-color: rgba(0, 0, 0, 0.65);
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 1);
+
+        }
+
+        .top_info_moon{
+            display: flex;
+            justify-content: space-between;
+            background-color: var(--Surface-Container);
+            margin: 10px;
+            border-radius: 20px;
+            padding: 20px;
+            padding-left: 15px;
+            padding-right: 15px;
+
+        }
+        .moon_data_info{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .moon_data_info p{
+            color: var(--Primary);
+            font-family: var(--google-mid);
+            font-size: 18px;
+        }
+        .moon_data_info{
+            color: var(--On-Surface-Variant);
+            font-family: var(--google-normal);
+
+        }
+
+        .moon_set_rise{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 3px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="top_conditions_for_header">
+    <md-icon-button onclick="sendThemeToAndroid('GoBack')">
+        <md-icon icon-outlined>arrow_back</md-icon>
+    </md-icon-button>
+</div>
+
+<div class="condition_info_content">
+    <div class="condition_label_forecast">
+        <md-icon icon-outlined>nightlight</md-icon>
+        <p data-translate="moon">Moon</p>
+    </div>
+
+    <div class="top_info_moon">
+
+        <div class="moon_data_info">
+
+            <p id="moonPhase_name">--</p>
+            <div class="moon_set_rise">
+                <span id="moonIlli">--</span>
+                <span id="moonSetTime">--</span>
+                <span id="moonriseTime">--</span>
+            </div>
+        </div>
+
+        <div class="moon_wrap">
+            <moonPhase>
+                <moonPhaseProgress>
+
+                </moonPhaseProgress>
+            </moonPhase>
+        </div>
+
+    </div>
+
+
+
+    <div class="info__forecast">
+
+        <span data-translate="moon_info">New Moon: When the moon is not visible because it is located between the Earth and the Sun. Illumination: 0%.</span>
+
+        <span data-translate="moon_info_2">Waxing Crescent: When a small sliver of the moon becomes visible, growing larger each night after the new moon. Illumination: 1%–49%.</span>
+
+        <span data-translate="moon_info_3">First Quarter: When half of the moon's face is illuminated, occurring approximately one week after the new moon. Illumination: ~50%.</span>
+
+        <span data-translate="moon_info_4">Waxing Gibbous: When more than half of the moon is illuminated, leading up to a full moon. Illumination: 51%–99%.</span>
+
+        <span data-translate="moon_info_5">Full Moon: When the entire face of the moon is illuminated by the Sun, appearing as a complete circle. Illumination: 100%.</span>
+
+        <span data-translate="moon_info_6">Waning Gibbous: When the moon begins to shrink after a full moon, but more than half of it remains illuminated. Illumination: 99%–51%.</span>
+
+        <span data-translate="moon_info_7">Last Quarter: When half of the moon's face is illuminated again, occurring approximately one week after the full moon. Illumination: ~50%.</span>
+
+        <span data-translate="moon_info_8">Waning Crescent: When only a small sliver of the moon remains visible before the new moon. Illumination: 49%–1%.</span>
+
+        <span style="margin-bottom: 30px;" data-translate="moon_info_9">Illumination: The percentage of the moon’s surface that is lit by the Sun, which varies depending on the phase of the moon.</span>
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+    function hexToRgb(hex) {
+    const bigint = parseInt(hex.slice(1), 16);
+    return {
+        r: (bigint >> 16) & 255,
+        g: (bigint >> 8) & 255,
+        b: bigint & 255
+    };
+}
+
+function rgbToHsl({ r, g, b }) {
+    r /= 255;
+    g /= 255;
+    b /= 255;
+
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    let h, s, l = (max + min) / 2;
+
+    if (max === min) {
+        h = s = 0; // Achromatic
+    } else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+    }
+
+    return { h: h * 360, s: s * 100, l: l * 100 };
+}
+
+function CreateMaterialYouTheme(hex) {
+    const colors = {
+        orange_material: "#FFA500",
+        red_material: "#FF0000",
+        pink_material: "#FFC0CB",
+        purple_material: "#800080",
+        blue_material: "#0000FF",
+        yellow_material: "#FFFF00",
+        green_material: "#008000"
+    };
+
+    const targetHsl = rgbToHsl(hexToRgb(hex));
+    let closestColor = null;
+    let smallestHueDifference = Infinity;
+
+    for (const [color, colorHex] of Object.entries(colors)) {
+        const colorHsl = rgbToHsl(hexToRgb(colorHex));
+        const hueDifference = Math.abs(targetHsl.h - colorHsl.h);
+
+        if (hueDifference < smallestHueDifference) {
+            smallestHueDifference = hueDifference;
+            closestColor = color;
+        }
+    }
+
+    document.documentElement.setAttribute('Theme', closestColor);
+    sendThemeToAndroid(`${closestColor}_ScrollFalse`);
+}
+
+          function sendThemeToAndroid(theme) {
+
+AndroidInterface.updateStatusBarColor(theme);
+};
+
+// phase
+
+function renderMoonData(data) {
+    const MoonPhaseName = data.astronomy.astro.moon_phase;
+    const moonillumination = Math.round(data.astronomy.astro.moon_illumination);
+
+    console.log(moonillumination)
+
+    if (MoonPhaseName.includes("New Moon")) {
+      document.querySelector("moonPhaseProgress").style.right =
+        moonillumination + "%";
+        document.getElementById("moonPhase_name").innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'phase_new_moon');
+    } else if (MoonPhaseName.includes("Waxing Crescent")) {
+      document.querySelector("moonPhaseProgress").style.right =
+        moonillumination + "%";
+        document.getElementById("moonPhase_name").innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'phase_waxing_crescent');
+    } else if (MoonPhaseName.includes("First Quarter")) {
+      document.querySelector("moonPhaseProgress").style.right =
+        moonillumination + "%";
+        document.getElementById("moonPhase_name").innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'phase_first_quarter');
+      document.querySelector("moonPhaseProgress").style.borderRadius = "0%";
+    } else if (MoonPhaseName.includes("Waxing Gibbous")) {
+      document.querySelector("moonPhaseProgress").style.right =
+        moonillumination + "%";
+        document.getElementById("moonPhase_name").innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'phase_waxing_gibbous');
+      document.querySelector("moonPhaseProgress").style.borderRadius = "";
+    } else if (MoonPhaseName.includes("Full Moon")) {
+      document.querySelector("moonPhaseProgress").style.left =
+        moonillumination + "%";
+        document.getElementById("moonPhase_name").innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'phase_full_moon');
+      document.querySelector("moonPhaseProgress").style.borderRadius = "";
+    } else if (MoonPhaseName.includes("Waning Gibbous")) {
+      document.querySelector("moonPhaseProgress").style.left =
+        moonillumination + "%";
+        document.getElementById("moonPhase_name").innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'phase_waning_gibbous');
+      document.querySelector("moonPhaseProgress").style.borderRadius = "";
+    } else if (MoonPhaseName.includes("Last Quarter")) {
+      document.querySelector("moonPhaseProgress").style.left =
+        moonillumination + "%";
+        document.getElementById("moonPhase_name").innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'phase_last_quarter');
+      document.querySelector("moonPhaseProgress").style.borderRadius = "0%";
+    } else if (MoonPhaseName.includes("Waning Crescent")) {
+      document.querySelector("moonPhaseProgress").style.left =
+        moonillumination + "%";
+        document.getElementById("moonPhase_name").innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'phase_waning_crescent');
+      document.querySelector("moonPhaseProgress").style.borderRadius = "";
+    }
+
+    document.getElementById("moonIlli").innerHTML = "<span data-translate='illumination_moon_text'>Illumination</span>: "+ moonillumination + "%";
+
+
+    function convertTo24Hour(time) {
+      const [timePart, modifier] = time.split(" ");
+      let [hours, minutes] = timePart.split(":");
+
+      if (hours === "12") {
+        hours = "00";
+      }
+
+      if (modifier === "PM") {
+        hours = parseInt(hours, 10) + 12;
+      }
+
+      return `${hours}:${minutes}`;
+    }
+
+    if (localStorage.getItem("selectedTimeMode") === "24 hour") {
+      document.getElementById("moonriseTime").innerHTML = "<span data-translate='moonrise'>Moonrise</span>: " + convertTo24Hour(
+        data.astronomy.astro.moonrise
+      );
+      document.getElementById("moonSetTime").innerHTML = "<span data-translate='moonset'>Moonset</span>: " + convertTo24Hour(
+        data.astronomy.astro.moonset
+      );
+    } else {
+      document.getElementById("moonriseTime").innerHTML = "<span data-translate='moonrise'>Moonrise</span>: " +
+        data.astronomy.astro.moonrise;
+      document.getElementById("moonSetTime").innerHTML = "<span data-translate='moonset'>Moonset</span>: " +
+        data.astronomy.astro.moonset;
+    }
+  }
+
+  renderMoonData(JSON.parse(localStorage.getItem(`AstronomyData_${localStorage.getItem('CurrentLocationName')}`)))
+
+
+    </script>
+
+<script src="../../app/navigate.js"></script>
+<script src="../../components-script.js/components.js"></script>
+<script src="../../ripple-files/icon-ripple.js"></script>
+<script src="../../modules/scroll.js"></script>
+<script src="../../bundle.js"></script>
+<script type="module" src="../../index.js"></script>
+<script src="../../modules/ripple_acc.js"></script>
+</body>
+
+</html>

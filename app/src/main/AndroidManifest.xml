@@ -109,6 +109,12 @@
             android:theme="@style/yelloMainPage"
             />
         <activity
+            android:name=".MoonPhases"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:theme="@style/yelloMainPage"
+            />
+        <activity
             android:name=".SearchPage"
             android:screenOrientation="portrait"
             android:exported="true"

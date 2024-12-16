@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" internet="true" data-theme="dark"iconCodeTheme="overcast">
+<html lang="en" internet="true" data-theme="dark" iconCodeTheme="overcast">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>Weather Home</title>
+    <script src="database/MainDataBase.js"></script>
     <link rel="stylesheet" href="ui-files/ui.css">
     <link rel="stylesheet" href="ui-files/font-usage.css">
     <link rel="stylesheet" href="ui-files/variables.css">
@@ -24,34 +25,36 @@
 <div class="no_touch_screen" hidden></div>
 <div class="header-top" id="main-Header-Top">
     <div class="header_hold">
-    <div class="main-city" id="main-city">
-        <button class="ripple-icon-btn regular" onclick="seeSelectedLocation()" ontouchstart="playEffect(this)"
-                style="z-index: 1; pointer-events: none;" ontouchend="playEffect2(this)">
-            <span class="ripple-effect-icon"></span>
-            <span icon-outlined style="opacity: 0.8;">location_on</span>
-        </button>
-        <h2 id="city-name" style="margin-right: 3px;">
-          loading...
-        </h2>
-    </div>
-    <div class="header_actions">
-        <button class="ripple-icon-btn focus regular refresh_weat" onclick="if (navigator.onLine){sendThemeToAndroid('OpenRadar');}else{ShowSnackMessage.ShowSnack(getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'network_unavailable'), 'short');}" ontouchstart="playEffect(this)" id="usage-popover-anchor" style="z-index: 1;"
-                ontouchend="playEffect2(this)">
-            <span class="ripple-effect-icon"></span>
-            <span icon-outlined>radar</span>
-        </button>
-        <button class="ripple-icon-btn focus regular" onclick="sendThemeToAndroid('OpenSettings')" ontouchstart="playEffect(this)" style="z-index: 1;"
-                ontouchend="playEffect2(this)">
-            <span class="ripple-effect-icon"></span>
-            <span icon-outlined>Settings</span>
-        </button>
+        <div class="main-city" id="main-city">
+            <button class="ripple-icon-btn regular" onclick="seeSelectedLocation()" ontouchstart="playEffect(this)"
+                    style="z-index: 1; pointer-events: none;" ontouchend="playEffect2(this)">
+                <span class="ripple-effect-icon"></span>
+                <span icon-outlined style="opacity: 0.8;">location_on</span>
+            </button>
+            <h2 id="city-name" style="margin-right: 3px;">
+                loading...
+            </h2>
+        </div>
+        <div class="header_actions">
+            <button class="ripple-icon-btn focus regular refresh_weat"
+                    onclick="if (navigator.onLine){sendThemeToAndroid('OpenRadar');}else{ShowSnackMessage.ShowSnack(getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'network_unavailable'), 'short');}"
+                    ontouchstart="playEffect(this)" id="usage-popover-anchor" style="z-index: 1;"
+                    ontouchend="playEffect2(this)">
+                <span class="ripple-effect-icon"></span>
+                <span icon-outlined>radar</span>
+            </button>
+            <button class="ripple-icon-btn focus regular" onclick="sendThemeToAndroid('OpenSettings')"
+                    ontouchstart="playEffect(this)" style="z-index: 1;" ontouchend="playEffect2(this)">
+                <span class="ripple-effect-icon"></span>
+                <span icon-outlined>Settings</span>
+            </button>
 
 
-    </div>
+        </div>
 
-        <touch_search  id="city-open">
+        <touch_search id="city-open">
         </touch_search>
-</div>
+    </div>
 
     <selectLocationText hidden>
         <button class="ripple-icon-btn regular" onclick="seeSelectedLocationClose()" ontouchstart="playEffect(this)"
@@ -66,7 +69,7 @@
 </div>
 </div>
 <!-- current -->
-<div class="weather_wrap"  id="weather_wrap">
+<div class="weather_wrap" id="weather_wrap">
     <div class="weather">
         <div class="main-weat" id="main-weather">
 
@@ -105,21 +108,24 @@
             </div>
 
             <div class="animation_holder">
-                <canvas id="bg_animation_rain" class="animation_canvas" ></canvas>
-                <canvas id="bg_animation_thunder" class="animation_canvas" ></canvas>
-                <canvas id="bg_animation_clouds" class="animation_canvas" ></canvas>
+                <canvas id="bg_animation_rain" class="animation_canvas"></canvas>
+                <canvas id="bg_animation_thunder" class="animation_canvas"></canvas>
+                <canvas id="bg_animation_clouds" class="animation_canvas"></canvas>
                 <canvas id="bg_animation_stars" class="animation_canvas"></canvas>
-                <canvas id="bg_animation_fog" class="animation_canvas" ></canvas>
-                <canvas id="bg_animation_snow" class="animation_canvas" ></canvas>
-                <canvas id="bg_animation_leaves" class="animation_canvas" ></canvas>
-                <canvas id="bg_animation_drizzle" class="animation_canvas" ></canvas>
+                <canvas id="bg_animation_fog" class="animation_canvas"></canvas>
+                <canvas id="bg_animation_snow" class="animation_canvas"></canvas>
+                <canvas id="bg_animation_leaves" class="animation_canvas"></canvas>
+                <canvas id="bg_animation_drizzle" class="animation_canvas"></canvas>
 
-                <div id="foreground_animation" class="animation_canvas animation_canvas_lottie" style="z-index: 1;"></div>
-                <div id="background_animation" class="animation_canvas animation_canvas_lottie" style="z-index: 1;"></div>
+                <div id="foreground_animation" class="animation_canvas animation_canvas_lottie" style="z-index: 1;">
+                </div>
+                <div id="background_animation" class="animation_canvas animation_canvas_lottie" style="z-index: 1;">
+                </div>
             </div>
 
             <div class="control-panel-for-wind">
-                <input type="range" id="windSpeed" min="0" max="5" step="0.1" value="1" style="display: none; position: absolute; left: -99999px; pointer-events: none;">
+                <input type="range" id="windSpeed" min="0" max="5" step="0.1" value="1"
+                       style="display: none; position: absolute; left: -99999px; pointer-events: none;">
             </div>
         </div>
 
@@ -132,30 +138,39 @@
         </div>
 
 
-        <div class="excessiveHeat ripple_btn_low" style="margin-bottom: 10px; margin-top: 5px !important; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);" onclick="sendThemeToAndroid('OpenAlertsPage')" hidden>
+        <div class="excessiveHeat ripple_btn_low"
+             style="margin-bottom: 10px; margin-top: 5px !important; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);"
+             onclick="sendThemeToAndroid('OpenAlertsPage')" hidden>
             <div class="icon-container-excessiveHeat">
                 <md-icon icon-filled>report</md-icon>
             </div>
-            <p id="excessiveHeatText"><span data-translate="weather_alerts" style="font-size: 18px;">Weather alerts</span></p>
+            <p id="excessiveHeatText"><span data-translate="weather_alerts" style="font-size: 18px;">Weather
+                        alerts</span></p>
 
         </div>
 
-<!--        <div class="rainNextHour"style="">-->
-<!--            <div class="icon-container-rainnextHour">-->
-<!--                <md-icon icon-filled id="icon-next-Hour">circle</md-icon>-->
-<!--            </div>-->
-<!--            <p id="rainNextHourText"></p>-->
-<!--        </div>-->
+        <!--        <div class="rainNextHour"style="">-->
+        <!--            <div class="icon-container-rainnextHour">-->
+        <!--                <md-icon icon-filled id="icon-next-Hour">circle</md-icon>-->
+        <!--            </div>-->
+        <!--            <p id="rainNextHourText"></p>-->
+        <!--        </div>-->
 
 
 
-        <div class="weatherComments weatherCommentsDiv" onclick="openSummery()" style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);">
+        <div class="weatherComments weatherCommentsDiv" onclick="openSummery()"
+             style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);">
             <div class="h2" style="padding: 10px;">
-                <p style="width: 100%; text-align: center; display: flex; align-items: center; justify-content: center;" data-translate="quick_summary">Quick summary</p>
+                <p style="width: 100%; text-align: center; display: flex; align-items: center; justify-content: center;"
+                   data-translate="quick_summary">Quick summary</p>
                 <md-icon icon-outlined id="arrow_up_toggle">keyboard_arrow_down</md-icon>
             </div>
-            <p id="rainStopingText" style="margin: 0 !important; padding: 12px; padding-top: 5px; padding-bottom: 0; color: var(--Tertiary); width: calc(100% - 24px);" class="whenRainPill" hidden>No data found</p>
-            <div id="weatherComments" style="color: var(--On-Surface); padding: 12px; padding-top: 5px; font-size: 15px; padding-bottom: 0;"></div>
+            <p id="rainStopingText"
+               style="margin: 0 !important; padding: 12px; padding-top: 5px; padding-bottom: 0; color: var(--Tertiary); width: calc(100% - 24px);"
+               class="whenRainPill" hidden>No data found</p>
+            <div id="weatherComments"
+                 style="color: var(--On-Surface); padding: 12px; padding-top: 5px; font-size: 15px; padding-bottom: 0;">
+            </div>
             <div class="summeryText" style="padding: 10px; padding-top: 0; padding-bottom: 0;">
                 <ul id="summeryDay"></ul>
                 <ul id="day_tips"></ul>
@@ -168,18 +183,21 @@
         <div class="high-all" style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); z-index: 1; position: relative;">
             <div class="high-mini">
 
-                <div class="mini wind ripple_btn_low" onclick="ShowSnack(`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'wind_speed')}`, 2000, 3, 'none', ' ', 'no-up')">
+                <div class="mini wind ripple_btn_low"
+                     onclick="ShowSnack(`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'wind_speed')}`, 2000, 3, 'none', ' ', 'no-up')">
                     <span icon-outlined>air</span>
                     <p id="wind-speed"></p>
                 </div>
 
-                <div class="mini snowAmount ripple_btn_low" onclick="ShowSnack(`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'wind_gust')}`, 2000, 3, 'none', ' ', 'no-up')">
+                <div class="mini snowAmount ripple_btn_low"
+                     onclick="ShowSnack(`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'wind_gust')}`, 2000, 3, 'none', ' ', 'no-up')">
                     <span icon-outlined>wind_power</span>
                     <p id="WindGust"></p>
                 </div>
 
 
-                <div class="mini clouds ripple_btn_low" onclick="ShowSnack(`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'cloudiness')}`, 2000, 3, 'none', ' ', 'no-up')">
+                <div class="mini clouds ripple_btn_low"
+                     onclick="ShowSnack(`${getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'cloudiness')}`, 2000, 3, 'none', ' ', 'no-up')">
                     <span icon-outlined>cloud</span>
                     <p id="clouds"></p>
                 </div>
@@ -189,7 +207,8 @@
 
 
         <div class="insights_scroll">
-            <div class="insights" style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); z-index: 2; position: relative;">
+            <div class="insights"
+                 style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); z-index: 2; position: relative;">
 
                 <div class="cloths insights_item">
                     <div class="icon_container_cloths">
@@ -202,7 +221,12 @@
                     <div class="icon_container_cloths">
                         <md-icon icon-filled>apparel</md-icon>
                     </div>
-                    <p id="cloth_recommended" class="insights_p" style="display: flex; align-items: center; width: 80%;"><span data-translate="get_clothing_suggestions">Get your Clothing and Activity Suggestions</span> <flex></flex> <md-icon icon-outlined>arrow_forward</md-icon></p>
+                    <p id="cloth_recommended" class="insights_p"
+                       style="display: flex; align-items: center; width: 80%;"><span
+                            data-translate="get_clothing_suggestions">Get your Clothing and Activity
+                                Suggestions</span>
+                        <flex></flex> <md-icon icon-outlined>arrow_forward</md-icon>
+                    </p>
                 </div>
 
 
@@ -210,7 +234,9 @@
                     <div class="icon_container_cloths" style="position: relative;">
                         <md-icon icon-filled style="z-index: 1; font-size: 20px;">hourglass_top</md-icon>
                         <div style="position: absolute;">
-                            <md-circular-progress id="day_value" style="--md-circular-progress-active-indicator-width: 7; opacity: 0.7;"></md-circular-progress></div>
+                            <md-circular-progress id="day_value"
+                                                  style="--md-circular-progress-active-indicator-width: 7; opacity: 0.7;"></md-circular-progress>
+                        </div>
                     </div>
                     <p id="day_length_text" class="insights_p">Cooling expected over the next 3 days</p>
                 </div>
@@ -232,7 +258,8 @@
                 <div class="forecast" id="forecast">
 
                     <div style="display: flex; align-items: center; justify-content: center; width: 100%;">
-                        <md-circular-progress indeterminate ></md-circular-progress></div>
+                        <md-circular-progress indeterminate></md-circular-progress>
+                    </div>
 
                 </div>
             </div>
@@ -242,7 +269,8 @@
                     <p data-translate="hourly_precipitation">Hourly precipitation</p>
                 </div>
 
-                <div class="wrap_cover_rain_meter" style="display: flex; align-items: center; justify-content: space-between;">
+                <div class="wrap_cover_rain_meter"
+                     style="display: flex; align-items: center; justify-content: space-between;">
                     <div class="todaysAmount">
                         <p data-translate="today's_amount">Today's amount</p>
                         <span id="AmountRainMM">1.5 mm</span>
@@ -265,8 +293,13 @@
 
             <div class="all-5d" style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);">
                 <div class="h2">
-                    <p data-translate="daily_forecast" style="width: calc(100% - 150px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Daily forecast</p>
-                    <p class="" style="display: flex; align-items: center;"><span id="open_temp_trend" style="display: flex; align-items: center;" data-translate="trends">Trends </span><i icon-outlined style="font-size: 20px;" class="trend_arrow_temp">keyboard_arrow_down</i></p>
+                    <p data-translate="daily_forecast"
+                       style="width: calc(100% - 150px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        Daily forecast</p>
+                    <p class="" style="display: flex; align-items: center;"><span id="open_temp_trend"
+                                                                                  style="display: flex; align-items: center;" data-translate="trends">Trends </span><i
+                            icon-outlined style="font-size: 20px;" class="trend_arrow_temp">keyboard_arrow_down</i>
+                    </p>
                 </div>
                 <div class="forecast-5day" id="forecast-5day">
 
@@ -280,7 +313,8 @@
 
             </div>
 
-            <div class="LiveMapWrap ripple_btn_low" onclick="sendThemeToAndroid('OpenRadar')" style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);" hidden>
+            <div class="LiveMapWrap ripple_btn_low" onclick="sendThemeToAndroid('OpenRadar')"
+                 style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);" hidden>
                 <div class="radar_label"><md-icon icon-outlined>radar</md-icon> <span
                         data-translate="live_radar">Live radar</span></div>
                 <div id="livemapPreview">
@@ -295,8 +329,10 @@
             <div class="currentConditions" style="margin-top: 10px;">
 
 
-                <div class="currentConditionItem sunRISESET ripple_btn_low" onclick="sendThemeToAndroid('openSunCondition')">
-                    <div class="currentConditionItemTitle"><i icon-filled>wb_twilight</i><span data-translate="sun_tile_page">Sun</span></div>
+                <div class="currentConditionItem sunRISESET ripple_btn_low"
+                     onclick="sendThemeToAndroid('openSunCondition')">
+                    <div class="currentConditionItemTitle"><i icon-filled>wb_twilight</i><span
+                            data-translate="sun_tile_page">Sun</span></div>
 
                     <div class="current_condition_icon">
                         <svg height="110.0dip" width="176.0dip" viewBox="0 0 176.0 110.0"
@@ -325,45 +361,13 @@
                     </div>
                 </div>
 
-                <div class="currentConditionItem moonSetRise">
-                    <div class="currentConditionItemTitle">
-                        <p id="moonPhase_name"></p><span id="moonIlli"></span>
-                    </div>
 
-                    <div class="current_condition_icon">
-                        <div class="rightWrapMoon">
-                            <moonPhase>
-                                <moonPhaseProgress>
-
-                                </moonPhaseProgress>
-                            </moonPhase>
-                        </div>
-                    </div>
-
-
-                    <div class="moondata_holder">
-
-
-                        <div class="moon_set_rise">
-                            <div>
-                                <md-icon icon-outlined>vertical_align_top</md-icon>
-                                <p id="moonriseTime"></p>
-                            </div>
-                            <div>
-                                <md-icon icon-outlined>vertical_align_bottom</md-icon>
-                                <p id="moonSetTime"></p>
-                            </div>
-                        </div>
-
-
-                    </div>
-
-                </div>
-
-
-                <div class="currentConditionItem humidity ripple_btn_low" onclick="sendThemeToAndroid('openHumidityCondition')">
+                <div class="currentConditionItem humidity ripple_btn_low"
+                     onclick="sendThemeToAndroid('openHumidityCondition')">
                     <div class="currentConditionItemTitle"><i icon-filled>humidity_high</i><span
-                            data-translate="humidity" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 105px;">Humidity</span></div>
+                            data-translate="humidity"
+                            style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 105px;">Humidity</span>
+                    </div>
 
                     <div class="current_condition_icon" id="humidity_icon_svg">
                         <svg viewBox="0 0 364.0 364.0" xmlns="http://www.w3.org/2000/svg">
@@ -380,14 +384,17 @@
 
                     <div class="currentConditionItemDewpointValue">
                         <p id="dew_percentage">-</p>
-                        <span data-translate="dew_point" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 100px;">Dew point</span>
+                        <span data-translate="dew_point"
+                              style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 100px;">Dew
+                                point</span>
                     </div>
 
                 </div>
 
 
 
-                <div class="currentConditionItem pressure ripple_btn_low" onclick="sendThemeToAndroid('openPressureCondition')">
+                <div class="currentConditionItem pressure ripple_btn_low"
+                     onclick="sendThemeToAndroid('openPressureCondition')">
 
                     <div class="current_condition_icon" id="pressure_icon_svg">
                         <svg height="176.0dip" width="176.0dip" android:autoMirrored="true"
@@ -402,8 +409,9 @@
                     </div>
 
                     <div class="currentConditionItemPressureValue">
-                        <div style="padding-top: 10px;"><i icon-filled>compress</i><span
-                                data-translate="pressure" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 80px;">Pressure</span></div>
+                        <div style="padding-top: 10px;"><i icon-filled>compress</i><span data-translate="pressure"
+                                                                                         style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 80px;">Pressure</span>
+                        </div>
                         <p id="pressure_text_main">29.96</p>
                         <span id="pressureMainUnit">inHG</span>
                     </div>
@@ -411,9 +419,42 @@
 
                 </div>
 
-                <div class="currentConditionItem visibility ripple_btn_low" onclick="sendThemeToAndroid('openVisibilityCondition')">
+
+                <div class="currentConditionItem WindDirc ripple_btn_low"
+                     onclick="sendThemeToAndroid('openWindCondition')">
+
+                    <div class="current_condition_icon" id="windDirectionArrow">
+                        <svg viewBox="0 0 176.0 176.0" xmlns="http://www.w3.org/2000/svg">
+                            <g> <clip-path
+                                    d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" />
+                                <path fill="var(--Surface)"
+                                      d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" />
+                                <path fill="var(--Secondary-Container)"
+                                      d="M108.04,151.24C99.97,168.05 76.03,168.05 67.96,151.24L27.21,66.3C18.79,48.75 35.4,29.63 53.96,35.5L81.29,44.15C85.66,45.54 90.34,45.54 94.71,44.15L122.04,35.5C140.6,29.63 157.21,48.75 148.79,66.3L108.04,151.24Z" />
+                            </g>
+                        </svg>
+                    </div>
+
+                    <div class="currentConditionItemWindDircValue">
+                        <div><i icon-filled>explore</i><span data-translate="direction"
+                                                             style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 80px; display: block;">Direction</span>
+                        </div>
+                        <p id="directionWind">--</p>
+                        <span id="windtype"
+                              style="display: block; overflow: hidden; text-overflow: ellipsis; width: calc(100% - 50px); white-space: nowrap; text-align: center;">---</span>
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="currentConditionItem visibility ripple_btn_low"
+                     onclick="sendThemeToAndroid('openVisibilityCondition')">
                     <div class="currentConditionItemTitle visibility"><i icon-filled>visibility</i><span
-                            data-translate="visibility" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 80px;">Visibility</span></div>
+                            data-translate="visibility"
+                            style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 80px;">Visibility</span>
+                    </div>
 
                     <div class="current_condition_icon">
                         <svg height="180.0dip" width="180.0dip" viewBox="0 0 180.0 180.0"
@@ -438,24 +479,32 @@
                 </div>
 
 
-                <div class="currentConditionItem WindDirc ripple_btn_low" onclick="sendThemeToAndroid('openWindCondition')">
 
-                    <div class="current_condition_icon" id="windDirectionArrow">
-                        <svg  viewBox="0 0 176.0 176.0" xmlns="http://www.w3.org/2000/svg"> <g> <clip-path d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" /> <path fill="var(--Surface)" d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" /> <path fill="var(--Secondary-Container)" d="M108.04,151.24C99.97,168.05 76.03,168.05 67.96,151.24L27.21,66.3C18.79,48.75 35.4,29.63 53.96,35.5L81.29,44.15C85.66,45.54 90.34,45.54 94.71,44.15L122.04,35.5C140.6,29.63 157.21,48.75 148.79,66.3L108.04,151.24Z" /> </g> </svg>
+
+                <div class="currentConditionItem moonSetRise ripple_btn_low" onclick="sendThemeToAndroid('openMoonCondition')">
+                    <div class="currentConditionItemTitle"><i icon-filled>bedtime</i><span data-translate="moon">Sun</span></div>
+
+                    <div class="current_condition_icon">
+                        <svg height="110.0dip" width="176.0dip" viewBox="0 0 176.0 110.0"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path style="fill: var(--Secondary-Container);"
+                                  d="M176.5,54.44V89.86C176.5,100.91 167.52,109.86 156.44,109.86H20.06C8.98,109.86 0,100.91 0,89.86V52.57C7.79,51.81 15.41,48.77 21.78,43.46L62.06,9.91C76.95,-2.49 98.6,-2.49 113.49,9.91L156.22,45.51C162.18,50.47 169.23,53.45 176.49,54.44H176.5Z"
+                                  fill-rule="evenodd" />
+                        </svg>
+                        <moonPhaseProgress hidden></moonPhaseProgress>
+                        <div id="moonIlli" hidden></div>
+                        <div id="moonSetTime" hidden></div>
+                        <div id="moonriseTime" hidden></div>
+
                     </div>
 
-                    <div class="currentConditionItemWindDircValue">
-                        <div><i icon-filled>explore</i><span data-translate="direction" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 80px; display: block;">Direction</span></div>
-                        <p id="directionWind">--</p>
-                        <span id="windtype" style="display: block; overflow: hidden; text-overflow: ellipsis; width: calc(100% - 50px); white-space: nowrap; text-align: center;">---</span>
+                    <div class="moon_tracker"><img src="weather-icons/clear_night.svg " alt=""></div>
+
+
+                    <div class="moonset_moonrise_text_block">
+                        <p id="moonPhase_name"></p>
                     </div>
-
-
                 </div>
-
-
-
-
 
 
             </div>
@@ -475,7 +524,15 @@
                         </div>
 
                         <div class="Pollen_Icon_slot_grass Pollen_Icon_slot">
-                            <svg  android:autoMirrored="true" viewBox="0 0 176.0 176.0" xmlns="http://www.w3.org/2000/svg"> <path fill="transparent" d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" /> <path fill="var(--Surface-Container-Highest)" d="M34.26,141.74C32.7,143.3 30.16,143.31 28.67,141.67C18.99,130.96 12.36,117.82 9.54,103.61C6.45,88.09 8.03,72 14.09,57.39C20.14,42.77 30.4,30.27 43.55,21.48C56.71,12.69 72.18,8 88,8C103.82,8 119.29,12.69 132.45,21.48C145.6,30.27 155.85,42.77 161.91,57.39C167.96,72 169.55,88.09 166.46,103.61C163.64,117.82 157.01,130.96 147.32,141.67C145.84,143.31 143.3,143.3 141.74,141.74V141.74C140.18,140.18 140.19,137.65 141.66,136.01C150.23,126.43 156.1,114.7 158.62,102.05C161.4,88.08 159.97,73.6 154.52,60.45C149.07,47.29 139.84,36.05 128,28.13C116.16,20.22 102.24,16 88,16C73.76,16 59.84,20.22 48,28.13C36.16,36.05 26.93,47.29 21.48,60.45C16.03,73.6 14.61,88.08 17.38,102.05C19.9,114.7 25.77,126.43 34.34,136.01C35.81,137.65 35.82,140.18 34.26,141.74V141.74Z" /> <path fill="#0ec70e" d="M34.26,141.74C32.7,143.3 30.16,143.31 28.67,141.67C16.29,127.98 8.99,110.39 8.09,91.87C7.2,73.35 12.76,55.14 23.76,40.32C25.08,38.54 27.61,38.3 29.32,39.71V39.71C31.02,41.11 31.26,43.63 29.95,45.41C20.2,58.69 15.28,74.95 16.08,91.49C16.89,108.02 23.36,123.73 34.34,136.01C35.81,137.65 35.82,140.18 34.26,141.74V141.74Z" /> </svg>
+                            <svg android:autoMirrored="true" viewBox="0 0 176.0 176.0"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path fill="transparent"
+                                      d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" />
+                                <path fill="var(--Surface-Container-Highest)"
+                                      d="M34.26,141.74C32.7,143.3 30.16,143.31 28.67,141.67C18.99,130.96 12.36,117.82 9.54,103.61C6.45,88.09 8.03,72 14.09,57.39C20.14,42.77 30.4,30.27 43.55,21.48C56.71,12.69 72.18,8 88,8C103.82,8 119.29,12.69 132.45,21.48C145.6,30.27 155.85,42.77 161.91,57.39C167.96,72 169.55,88.09 166.46,103.61C163.64,117.82 157.01,130.96 147.32,141.67C145.84,143.31 143.3,143.3 141.74,141.74V141.74C140.18,140.18 140.19,137.65 141.66,136.01C150.23,126.43 156.1,114.7 158.62,102.05C161.4,88.08 159.97,73.6 154.52,60.45C149.07,47.29 139.84,36.05 128,28.13C116.16,20.22 102.24,16 88,16C73.76,16 59.84,20.22 48,28.13C36.16,36.05 26.93,47.29 21.48,60.45C16.03,73.6 14.61,88.08 17.38,102.05C19.9,114.7 25.77,126.43 34.34,136.01C35.81,137.65 35.82,140.18 34.26,141.74V141.74Z" />
+                                <path fill="#0ec70e"
+                                      d="M34.26,141.74C32.7,143.3 30.16,143.31 28.67,141.67C16.29,127.98 8.99,110.39 8.09,91.87C7.2,73.35 12.76,55.14 23.76,40.32C25.08,38.54 27.61,38.3 29.32,39.71V39.71C31.02,41.11 31.26,43.63 29.95,45.41C20.2,58.69 15.28,74.95 16.08,91.49C16.89,108.02 23.36,123.73 34.34,136.01C35.81,137.65 35.82,140.18 34.26,141.74V141.74Z" />
+                            </svg>
                         </div>
 
                         <div class="pollen_values">
@@ -492,7 +549,15 @@
                         </div>
                         <div class="Pollen_Icon_slot_tree Pollen_Icon_slot">
 
-                            <svg  android:autoMirrored="true" viewBox="0 0 176.0 176.0" xmlns="http://www.w3.org/2000/svg"> <path fill="transparent" d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" /> <path fill="var(--Surface-Container-Highest)" d="M34.26,141.74C32.7,143.3 30.16,143.31 28.67,141.67C18.99,130.96 12.36,117.82 9.54,103.61C6.45,88.09 8.03,72 14.09,57.39C20.14,42.77 30.4,30.27 43.55,21.48C56.71,12.69 72.18,8 88,8C103.82,8 119.29,12.69 132.45,21.48C145.6,30.27 155.85,42.77 161.91,57.39C167.96,72 169.55,88.09 166.46,103.61C163.64,117.82 157.01,130.96 147.32,141.67C145.84,143.31 143.3,143.3 141.74,141.74V141.74C140.18,140.18 140.19,137.65 141.66,136.01C150.23,126.43 156.1,114.7 158.62,102.05C161.4,88.08 159.97,73.6 154.52,60.45C149.07,47.29 139.84,36.05 128,28.13C116.16,20.22 102.24,16 88,16C73.76,16 59.84,20.22 48,28.13C36.16,36.05 26.93,47.29 21.48,60.45C16.03,73.6 14.61,88.08 17.38,102.05C19.9,114.7 25.77,126.43 34.34,136.01C35.81,137.65 35.82,140.18 34.26,141.74V141.74Z" /> <path fill="#e0b700" d="M34.26,141.74C32.7,143.3 30.16,143.31 28.67,141.67C18.99,130.96 12.36,117.82 9.54,103.61C6.45,88.09 8.03,72 14.09,57.39C20.14,42.77 30.4,30.27 43.55,21.48C55.6,13.43 69.58,8.82 84,8.1C86.21,7.99 88,9.79 88,12V12C88,14.21 86.21,15.99 84,16.11C71.17,16.82 58.73,20.96 48,28.13C36.16,36.05 26.93,47.29 21.48,60.45C16.03,73.6 14.61,88.08 17.38,102.05C19.9,114.7 25.77,126.43 34.34,136.01C35.81,137.65 35.82,140.18 34.26,141.74V141.74Z" /> </svg>
+                            <svg android:autoMirrored="true" viewBox="0 0 176.0 176.0"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path fill="transparent"
+                                      d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" />
+                                <path fill="var(--Surface-Container-Highest)"
+                                      d="M34.26,141.74C32.7,143.3 30.16,143.31 28.67,141.67C18.99,130.96 12.36,117.82 9.54,103.61C6.45,88.09 8.03,72 14.09,57.39C20.14,42.77 30.4,30.27 43.55,21.48C56.71,12.69 72.18,8 88,8C103.82,8 119.29,12.69 132.45,21.48C145.6,30.27 155.85,42.77 161.91,57.39C167.96,72 169.55,88.09 166.46,103.61C163.64,117.82 157.01,130.96 147.32,141.67C145.84,143.31 143.3,143.3 141.74,141.74V141.74C140.18,140.18 140.19,137.65 141.66,136.01C150.23,126.43 156.1,114.7 158.62,102.05C161.4,88.08 159.97,73.6 154.52,60.45C149.07,47.29 139.84,36.05 128,28.13C116.16,20.22 102.24,16 88,16C73.76,16 59.84,20.22 48,28.13C36.16,36.05 26.93,47.29 21.48,60.45C16.03,73.6 14.61,88.08 17.38,102.05C19.9,114.7 25.77,126.43 34.34,136.01C35.81,137.65 35.82,140.18 34.26,141.74V141.74Z" />
+                                <path fill="#e0b700"
+                                      d="M34.26,141.74C32.7,143.3 30.16,143.31 28.67,141.67C18.99,130.96 12.36,117.82 9.54,103.61C6.45,88.09 8.03,72 14.09,57.39C20.14,42.77 30.4,30.27 43.55,21.48C55.6,13.43 69.58,8.82 84,8.1C86.21,7.99 88,9.79 88,12V12C88,14.21 86.21,15.99 84,16.11C71.17,16.82 58.73,20.96 48,28.13C36.16,36.05 26.93,47.29 21.48,60.45C16.03,73.6 14.61,88.08 17.38,102.05C19.9,114.7 25.77,126.43 34.34,136.01C35.81,137.65 35.82,140.18 34.26,141.74V141.74Z" />
+                            </svg>
                         </div>
 
                         <div class="pollen_values">
@@ -508,7 +573,15 @@
                         </div>
                         <div class="Pollen_Icon_slot_weed Pollen_Icon_slot">
 
-                            <svg  android:autoMirrored="true" viewBox="0 0 176.0 176.0" xmlns="http://www.w3.org/2000/svg"> <path fill="transparent" d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" /> <path fill="var(--Surface-Container-Highest)" d="M34.26,141.74C32.7,143.3 30.16,143.31 28.67,141.67C18.99,130.96 12.36,117.82 9.54,103.61C6.45,88.09 8.03,72 14.09,57.39C20.14,42.77 30.4,30.27 43.55,21.48C56.71,12.69 72.18,8 88,8C103.82,8 119.29,12.69 132.45,21.48C145.6,30.27 155.85,42.77 161.91,57.39C167.96,72 169.55,88.09 166.46,103.61C163.64,117.82 157.01,130.96 147.32,141.67C145.84,143.31 143.3,143.3 141.74,141.74V141.74C140.18,140.18 140.19,137.65 141.66,136.01C150.23,126.43 156.1,114.7 158.62,102.05C161.4,88.08 159.97,73.6 154.52,60.45C149.07,47.29 139.84,36.05 128,28.13C116.16,20.22 102.24,16 88,16C73.76,16 59.84,20.22 48,28.13C36.16,36.05 26.93,47.29 21.48,60.45C16.03,73.6 14.61,88.08 17.38,102.05C19.9,114.7 25.77,126.43 34.34,136.01C35.81,137.65 35.82,140.18 34.26,141.74V141.74Z" /> <path fill="red" d="M34.26,141.74C32.7,143.3 30.16,143.31 28.67,141.67C20.18,132.27 14.01,120.98 10.73,108.71C7.09,95.14 7.09,80.86 10.73,67.29C14.36,53.73 21.5,41.36 31.43,31.43C41.36,21.5 53.73,14.36 67.29,10.73C80.86,7.09 95.14,7.09 108.71,10.73C122.27,14.36 134.64,21.5 144.57,31.43C154.5,41.36 161.64,53.73 165.27,67.29C168.56,79.57 168.88,92.43 166.21,104.82C165.75,106.98 163.54,108.24 161.41,107.67V107.67C159.28,107.1 158.02,104.91 158.47,102.74C160.78,91.72 160.47,80.28 157.55,69.36C154.28,57.16 147.85,46.03 138.91,37.09C129.98,28.15 118.84,21.72 106.64,18.45C94.43,15.18 81.57,15.18 69.36,18.45C57.16,21.72 46.03,28.15 37.09,37.09C28.15,46.03 21.72,57.16 18.45,69.36C15.18,81.57 15.18,94.43 18.45,106.64C21.38,117.55 26.83,127.61 34.34,136.01C35.81,137.65 35.82,140.18 34.26,141.74V141.74Z" /> </svg>
+                            <svg android:autoMirrored="true" viewBox="0 0 176.0 176.0"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path fill="transparent"
+                                      d="M88,0L88,0A88,88 0,0 1,176 88L176,88A88,88 0,0 1,88 176L88,176A88,88 0,0 1,0 88L0,88A88,88 0,0 1,88 0z" />
+                                <path fill="var(--Surface-Container-Highest)"
+                                      d="M34.26,141.74C32.7,143.3 30.16,143.31 28.67,141.67C18.99,130.96 12.36,117.82 9.54,103.61C6.45,88.09 8.03,72 14.09,57.39C20.14,42.77 30.4,30.27 43.55,21.48C56.71,12.69 72.18,8 88,8C103.82,8 119.29,12.69 132.45,21.48C145.6,30.27 155.85,42.77 161.91,57.39C167.96,72 169.55,88.09 166.46,103.61C163.64,117.82 157.01,130.96 147.32,141.67C145.84,143.31 143.3,143.3 141.74,141.74V141.74C140.18,140.18 140.19,137.65 141.66,136.01C150.23,126.43 156.1,114.7 158.62,102.05C161.4,88.08 159.97,73.6 154.52,60.45C149.07,47.29 139.84,36.05 128,28.13C116.16,20.22 102.24,16 88,16C73.76,16 59.84,20.22 48,28.13C36.16,36.05 26.93,47.29 21.48,60.45C16.03,73.6 14.61,88.08 17.38,102.05C19.9,114.7 25.77,126.43 34.34,136.01C35.81,137.65 35.82,140.18 34.26,141.74V141.74Z" />
+                                <path fill="red"
+                                      d="M34.26,141.74C32.7,143.3 30.16,143.31 28.67,141.67C20.18,132.27 14.01,120.98 10.73,108.71C7.09,95.14 7.09,80.86 10.73,67.29C14.36,53.73 21.5,41.36 31.43,31.43C41.36,21.5 53.73,14.36 67.29,10.73C80.86,7.09 95.14,7.09 108.71,10.73C122.27,14.36 134.64,21.5 144.57,31.43C154.5,41.36 161.64,53.73 165.27,67.29C168.56,79.57 168.88,92.43 166.21,104.82C165.75,106.98 163.54,108.24 161.41,107.67V107.67C159.28,107.1 158.02,104.91 158.47,102.74C160.78,91.72 160.47,80.28 157.55,69.36C154.28,57.16 147.85,46.03 138.91,37.09C129.98,28.15 118.84,21.72 106.64,18.45C94.43,15.18 81.57,15.18 69.36,18.45C57.16,21.72 46.03,28.15 37.09,37.09C28.15,46.03 21.72,57.16 18.45,69.36C15.18,81.57 15.18,94.43 18.45,106.64C21.38,117.55 26.83,127.61 34.34,136.01C35.81,137.65 35.82,140.18 34.26,141.74V141.74Z" />
+                            </svg>
                         </div>
 
                         <div class="pollen_values">
@@ -523,7 +596,9 @@
 
 
 
-            <div class="all_air_quality" style="border-radius: 10px 10px 5px 5px; margin-bottom: 5px; overflow: hidden; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);" id="ifPollenIsThere">
+            <div class="all_air_quality"
+                 style="border-radius: 10px 10px 5px 5px; margin-bottom: 5px; overflow: hidden; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);"
+                 id="ifPollenIsThere">
                 <div class="sun_text">
                     <p data-translate="air_quality">Air Quality</p>
                     <space></space>
@@ -592,7 +667,9 @@
 
             </div>
 
-            <div class="all_air_quality ripple_btn_low" style="border-radius: 5px 5px 10px 10px; margin-top: 0px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);"  onclick="sendThemeToAndroid('openUVcondition')" id="uvIndexMainDiv">
+            <div class="all_air_quality ripple_btn_low"
+                 style="border-radius: 5px 5px 10px 10px; margin-top: 0px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);"
+                 onclick="sendThemeToAndroid('openUVcondition')" id="uvIndexMainDiv">
                 <div class="sun_text">
                     <p data-translate="uv_index">UV Index</p>
                     <div class="air_text">
@@ -622,7 +699,8 @@
 
             <div class="new_ver_download" hidden>
                 <p data-translate="new_version_available!">New App Version is available!</p>
-                <md-text-button onclick="sendThemeToAndroid('OpenAboutPage')" data-translate="update">Update</md-text-button>
+                <md-text-button onclick="sendThemeToAndroid('OpenAboutPage')"
+                                data-translate="update">Update</md-text-button>
             </div>
 
         </div>
@@ -634,20 +712,22 @@
 <!-- search-modal -->
 
 <div id="search-container" class="modal">
-    <div class="main-options" id="main-opt" style="border-bottom-color: transparent !important; padding-left: 10px !important;">
-        <button class="ripple-icon-btn focus regular close_search"  ontouchstart="playEffect(this)" hidden
+    <div class="main-options" id="main-opt"
+         style="border-bottom-color: transparent !important; padding-left: 10px !important;">
+        <button class="ripple-icon-btn focus regular close_search" ontouchstart="playEffect(this)" hidden
                 ontouchend="playEffect2(this)">
             <span class="ripple-effect-icon"></span>
             <span icon-outlined>arrow_back</span>
         </button>
-        <input type="search" id="city-input" class="focus-input" placeholder="Search for a city..." style="width: 100%;" hidden
-               autocomplete="off">
+        <input type="search" id="city-input" class="focus-input" placeholder="Search for a city..."
+               style="width: 100%;" hidden autocomplete="off">
 
         <div class="city_loader">
-            <md-linear-progress id="cityLoader" indeterminate style="width: 100%;  --md-linear-progress-track-height: 2px;" hidden></md-linear-progress>
+            <md-linear-progress id="cityLoader" indeterminate
+                                style="width: 100%;  --md-linear-progress-track-height: 2px;" hidden></md-linear-progress>
         </div>
 
-        <button class="ripple-icon-btn focus regular"id="clearCityInput"  ontouchstart="playEffect(this)" hidden
+        <button class="ripple-icon-btn focus regular" id="clearCityInput" ontouchstart="playEffect(this)" hidden
                 ontouchend="playEffect2(this)">
             <span class="ripple-effect-icon"></span>
             <span icon-outlined>close</span>
@@ -658,7 +738,9 @@
             <span class="ripple-effect-icon"></span>
             <span icon-outlined>map</span>
         </button>
-        <span style="font-size: 25px; width: 100%; display: flex; align-items: center; justify-content: center; color: var(--On-Surface-Variant);" data-translate="locations">Locations</span>
+        <span
+                style="font-size: 25px; width: 100%; display: flex; align-items: center; justify-content: center; color: var(--On-Surface-Variant);"
+                data-translate="locations">Locations</span>
     </div>
     <div class="modal-content" id="modal-content">
         <div class="city-list" id="city-list">
@@ -666,10 +748,18 @@
         </div>
 
         <div class="currentLocationdiv" style="margin-top: 20px; position: relative;">
-            <p class="title" style="display: flex; align-items: center; gap: 10px;"><md-icon icon-outlined>location_on</md-icon><span data-translate="current_location">Home location</span><md-text-button id="saveLocationCurrent" onclick="saveLocationToContainer(document.getElementById('saveLocationCurrent').getAttribute('data-location-text'), document.getElementById('saveLocationCurrent').getAttribute('data-lat'), document.getElementById('saveLocationCurrent').getAttribute('data-long'))" hidden>Save?</md-text-button><flex></flex><i id="showDeviceLocation" icon-outlined style="margin-right: 20px;" hidden>info</i></p>
-            <div class="currentLocations ripple_btn_low" id="currentLocations" onclick="ReturnHomeLocation();  window.history.back();">
+            <p class="title" style="display: flex; align-items: center; gap: 10px;"><md-icon
+                    icon-outlined>location_on</md-icon><span data-translate="current_location">Home
+                        location</span><md-text-button id="saveLocationCurrent"
+                                                       onclick="saveLocationToContainer(document.getElementById('saveLocationCurrent').getAttribute('data-location-text'), document.getElementById('saveLocationCurrent').getAttribute('data-lat'), document.getElementById('saveLocationCurrent').getAttribute('data-long'))"
+                                                       hidden>Save?</md-text-button>
+                <flex></flex><i id="showDeviceLocation" icon-outlined style="margin-right: 20px;" hidden>info</i>
+            </p>
+            <div class="currentLocations ripple_btn_low" id="currentLocations"
+                 onclick="ReturnHomeLocation();  window.history.back();">
                 <div class="currentSearchImg">
-                    <img src="icons/error.png" id="currentSearchImg" alt=""> </div>
+                    <img src="icons/error.png" id="currentSearchImg" alt="">
+                </div>
                 <currentLocationNames>
                     <p id="currentLocationName">-----------</p>
                     <span id="temPDiscCurrentLocation">--------</span>
@@ -677,13 +767,19 @@
                 </currentLocationNames>
             </div>
             <div class="view_device_location" hidden>
-                <p id="device_address" style="text-align: center;"><md-circular-progress indeterminate></md-circular-progress></p>
+                <p id="device_address" style="text-align: center;"><md-circular-progress
+                        indeterminate></md-circular-progress></p>
                 <span>From your device</span>
             </div>
         </div>
 
         <div class="savedLocations" hidden style="padding-bottom: 130px; position: relative;">
-            <p class="title" style="display: flex; align-items: center; gap: 10px;"><md-icon icon-outlined>star</md-icon><span data-translate="saved_locations">Saved locations</span> <flex></flex> <md-icon-button style="margin-right: 10px;" toggle id="edit_saved_locations"><md-icon icon-filled>Edit</md-icon><md-icon icon-filled slot="selected">close</md-icon></md-icon-button></p>
+            <p class="title" style="display: flex; align-items: center; gap: 10px;"><md-icon
+                    icon-outlined>star</md-icon><span data-translate="saved_locations">Saved locations</span>
+                <flex></flex> <md-icon-button style="margin-right: 10px;" toggle id="edit_saved_locations"><md-icon
+                        icon-filled>Edit</md-icon><md-icon icon-filled
+                                                           slot="selected">close</md-icon></md-icon-button>
+            </p>
 
             <savedLocationsHolder>
 
@@ -693,9 +789,11 @@
 
         </div>
 
-        <button id="addlocationFab" onclick="sendThemeToAndroid('AddLocationPage'); if(JSON.parse(localStorage.getItem(`SearchedItem`))){localStorage.removeItem(`SearchedItem`)}">
+        <button id="addlocationFab"
+                onclick="sendThemeToAndroid('AddLocationPage'); if(JSON.parse(localStorage.getItem(`SearchedItem`))){localStorage.removeItem(`SearchedItem`)}">
             <i icon-outlined>add</i>
-            <md-ripple style="--md-sys-color-on-surface: var(--On-Primary); --md-ripple-pressed-opacity: 0.2;"></md-ripple>
+            <md-ripple
+                    style="--md-sys-color-on-surface: var(--On-Primary); --md-ripple-pressed-opacity: 0.2;"></md-ripple>
         </button>
 
     </div>
@@ -716,7 +814,7 @@
 <div id="toast-container" class="toast-container"></div>
 
 <div class="no_internet_error" hidden>
-    <div class="img_wrap404" >
+    <div class="img_wrap404">
         <!-- <img src="icons/404.svg" alt=""> -->
         <div id="error_img_cat" style="height: 280px;"></div>
     </div>
@@ -726,13 +824,17 @@
         <p data-translate="Error occurred!">Error occurred!</p>
 
         <span data-translate="Check your internet connection and try again.">Check your internet connection and try again.</span>
-        <span>OR</span>
-        <span id="error_text_content">There might be an API error.</span>
+        <md-divider></md-divider>
+        <span id="error_text_content" style="margin-top: 10px;">There might be an API error.</span>
+        <md-divider></md-divider>
+        <span style="margin-top: 10px;">You can open the settings and import your saved backup.</span>
+
     </div>
 
     <div class="retry_btn_error">
         <button class="ripple_btn" onclick="window.location.reload(); sendThemeToAndroid('overcast')">Retry</button>
-        <button class="ripple_btn" onclick="sendThemeToAndroid('OpenSettings')" icon-outlined style="font-family: 'Material symbols'; width: 50px; margin-left: 10px;">settings</button>
+        <button class="ripple_btn" onclick="sendThemeToAndroid('OpenSettings')" icon-outlined
+                style="font-family: 'Material symbols'; width: 50px; margin-left: 10px;">settings</button>
     </div>
 </div>
 
@@ -764,29 +866,46 @@
 </div>
 
 
+<div class="moving_data" hidden>
+    <div class="info_text_migrate_data">
+
+        <p>Moving data to the new database</p>
+        <span>The app will reload automatically</span>
+
+        <md-circular-progress indeterminate four-color></md-circular-progress>
+    </div>
+
+    <div class="data_base_created" hidden>
+        <span>Database created</span>
+        <p>Name: WeatherMasterDataStore</p>
+        <p>Wrapper: WeatherDB</p>
+    </div>
+</div>
+
+
 <script>
 
-   function checkFontEventChange(){
-        const useSysFontPages = localStorage.getItem('SelectedAPPfont');
+        function checkFontEventChange() {
+            const useSysFontPages = localStorage.getItem('SelectedAPPfont');
 
-        if(useSysFontPages === 'roboto'){
-            document.documentElement.setAttribute('sys-font', 'roboto');
-        } else{
-            document.documentElement.setAttribute('sys-font', ' ');
+            if (useSysFontPages === 'roboto') {
+                document.documentElement.setAttribute('sys-font', 'roboto');
+            } else {
+                document.documentElement.setAttribute('sys-font', ' ');
+            }
         }
-    }
 
-function handleStorageChangeFontEvent(event) {
-    if (event.key === 'SelectedAPPfont') {
+        function handleStorageChangeFontEvent(event) {
+            if (event.key === 'SelectedAPPfont') {
 
-            setTimeout(()=>{
-            checkFontEventChange()
-            }, 500);
+                setTimeout(() => {
+                    checkFontEventChange()
+                }, 500);
 
-    }
-}
+            }
+        }
 
-window.addEventListener('storage', handleStorageChangeFontEvent);
+        window.addEventListener('storage', handleStorageChangeFontEvent);
 
 
 
@@ -805,70 +924,70 @@ window.addEventListener('storage', handleStorageChangeFontEvent);
         const CitySearchInput = document.getElementById('city-input')
 
         function CityInputClearBtn() {
-    if (CitySearchInput.value.trim() === ""){
-            document.getElementById('clearCityInput').hidden = true;
-    } else {
-        document.getElementById('clearCityInput').hidden = false;
-    }
-}
+            if (CitySearchInput.value.trim() === "") {
+                document.getElementById('clearCityInput').hidden = true;
+            } else {
+                document.getElementById('clearCityInput').hidden = false;
+            }
+        }
 
-CitySearchInput.addEventListener('input', CityInputClearBtn);
-
-
-document.getElementById('clearCityInput').addEventListener('click', () =>{
-    CitySearchInput.value = ''
-    CitySearchInput.focus()
-    CitySearchInput.dispatchEvent(new Event('input'));
-});
+        CitySearchInput.addEventListener('input', CityInputClearBtn);
 
 
+        document.getElementById('clearCityInput').addEventListener('click', () => {
+            CitySearchInput.value = ''
+            CitySearchInput.focus()
+            CitySearchInput.dispatchEvent(new Event('input'));
+        });
 
 
 
 
-    document.getElementById('currentLocations').addEventListener('click', ()=>{
+
+
+        document.getElementById('currentLocations').addEventListener('click', () => {
             document.getElementById('forecast').scrollLeft = 0;
             document.getElementById('weather_wrap').scrollTop = 0;
-    });
+        });
 
 
 
 
-document.getElementById('froggie_imgs').addEventListener('load', () => {
-    document.querySelector('.alt_text_frog').hidden = true;
-    document.getElementById('froggie_imgs').hidden = false;
+        document.getElementById('froggie_imgs').addEventListener('load', () => {
+            document.querySelector('.alt_text_frog').hidden = true;
+            document.getElementById('froggie_imgs').hidden = false;
 
-    const senderDivHeight = document.getElementById('froggie_imgs').offsetHeight;
-    console.log(senderDivHeight);
+            const senderDivHeight = document.getElementById('froggie_imgs').offsetHeight;
+            console.log(senderDivHeight);
 
 
-    const adjustAnimationHolderHeight = () => {
-        if (
-            document.getElementById('foreground_animation').getAttribute('running_clouds') === 'true' ||
-            document.getElementById('background_animation').getAttribute('running_clouds') === 'true'||
-             document.getElementById('foreground_animation').getAttribute('running_clouds_full') === 'true' ||
-            document.getElementById('background_animation').getAttribute('running_clouds_full') === 'true'
-        ) {
-            document.querySelector('.animation_holder').style.height = `calc(100%)`;
-        } else {
-            document.querySelector('.animation_holder').style.height = `calc(100% + ${senderDivHeight}px - 30px)`;
-        }
-    };
+            const adjustAnimationHolderHeight = () => {
+                if (
+                    document.getElementById('foreground_animation').getAttribute('running_clouds') === 'true' ||
+                    document.getElementById('background_animation').getAttribute('running_clouds') === 'true' ||
+                    document.getElementById('foreground_animation').getAttribute('running_clouds_full') === 'true' ||
+                    document.getElementById('background_animation').getAttribute('running_clouds_full') === 'true'
+                ) {
+                    document.querySelector('.animation_holder').style.height = `calc(100%)`;
+                } else {
+                    document.querySelector('.animation_holder').style.height = `calc(100% + ${senderDivHeight}px - 30px)`;
+                }
+            };
 
-    adjustAnimationHolderHeight();
+            adjustAnimationHolderHeight();
 
-    const observer = new MutationObserver(() => {
-        adjustAnimationHolderHeight();
-    });
+            const observer = new MutationObserver(() => {
+                adjustAnimationHolderHeight();
+            });
 
-    const foregroundAnimation = document.getElementById('foreground_animation');
-    const backgroundAnimation = document.getElementById('background_animation');
+            const foregroundAnimation = document.getElementById('foreground_animation');
+            const backgroundAnimation = document.getElementById('background_animation');
 
-    observer.observe(foregroundAnimation, { attributes: true, attributeFilter: ['running_clouds'] });
-    observer.observe(backgroundAnimation, { attributes: true, attributeFilter: ['running_clouds'] });
-    observer.observe(foregroundAnimation, { attributes: true, attributeFilter: ['running_clouds_full'] });
-    observer.observe(backgroundAnimation, { attributes: true, attributeFilter: ['running_clouds_full'] });
-});
+            observer.observe(foregroundAnimation, { attributes: true, attributeFilter: ['running_clouds'] });
+            observer.observe(backgroundAnimation, { attributes: true, attributeFilter: ['running_clouds'] });
+            observer.observe(foregroundAnimation, { attributes: true, attributeFilter: ['running_clouds_full'] });
+            observer.observe(backgroundAnimation, { attributes: true, attributeFilter: ['running_clouds_full'] });
+        });
 
 
     </script>

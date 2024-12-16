@@ -1,4 +1,3 @@
-// Next step is to migrate the app from localstorage to IndexedDB 😭
 
 const DefaultLocation = JSON.parse(localStorage.getItem("DefaultLocation"));
 
@@ -6596,3 +6595,30 @@ document
   .addEventListener("click", () => {
     document.querySelector(".view_device_location").hidden = true;
   });
+
+
+
+async function moveDatatoDb() {
+  if(await customStorage.getItem('dataMoved')){
+      document.querySelector('.moving_data').hidden = true;
+  } else{
+    document.querySelector('.moving_data').hidden = false;
+
+    setTimeout(async() =>{
+        document.querySelector('.data_base_created').hidden = false;
+        await customStorage.setItem('dataMoved', 'true')
+    }, 3000);
+
+    setTimeout(async() =>{
+      moveDatatoDb()
+      LoadLocationOnRequest(localStorage.getItem('currentLat'), localStorage.getItem('currentLong'), renderLocation);
+  }, 5000);
+  }
+
+
+
+}
+
+document.addEventListener('DOMContentLoaded', () =>{
+  moveDatatoDb()
+});

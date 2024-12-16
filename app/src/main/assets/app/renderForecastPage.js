@@ -275,7 +275,7 @@ function aggregateHourlyData(hourlyData) {
 }
 
 
-function displayDailyForecast(forecast, forecastDaily) {
+async function displayDailyForecast(forecast, forecastDaily) {
     const forecastContainer = document.getElementById('foreCastList');
     const forecastDateHeader = document.createElement('forecastDateHeader');
     const forecastMainDetails = document.createElement('forecastMainDetails');
@@ -294,6 +294,7 @@ function displayDailyForecast(forecast, forecastDaily) {
         forecastContainer.innerHTML = '<p>No upcoming forecast data available.</p>';
         return;
     }
+    const weekDaysCache = JSON.parse(await customStorage.getItem('forecastWeekdays') || []);
 
 
     sortedDates.forEach((date, index) => {
@@ -307,7 +308,11 @@ function displayDailyForecast(forecast, forecastDaily) {
         const weekday = isToday ? 'today' : dateObj.toLocaleDateString('en-US', { weekday: 'short' }).toLowerCase();
 
 
-        const weekdayLang = getTranslationByLang(localStorage.getItem('AppLanguageCode'), weekday);
+         const weekdayLang = isToday
+             ? getTranslationByLang(localStorage.getItem('AppLanguageCode'), ["Today"])[0] // Translate "Today"
+             : getTranslationByLang(localStorage.getItem('AppLanguageCode'), weekDaysCache).find(
+                   day => day.toLowerCase() === weekday.toLowerCase()
+               );
 
 
         const dailyData = forecastDaily[date];

@@ -1747,38 +1747,45 @@ function astronomyDataRender(data) {
     if (MoonPhaseName.includes("New Moon")) {
       document.querySelector("moonPhaseProgress").style.right =
         moonillumination + "%";
+        document.getElementById("moonPhase_name").innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'phase_new_moon');
     } else if (MoonPhaseName.includes("Waxing Crescent")) {
       document.querySelector("moonPhaseProgress").style.right =
         moonillumination + "%";
+        document.getElementById("moonPhase_name").innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'phase_waxing_crescent');
     } else if (MoonPhaseName.includes("First Quarter")) {
       document.querySelector("moonPhaseProgress").style.right =
         moonillumination + "%";
+        document.getElementById("moonPhase_name").innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'phase_first_quarter');
       document.querySelector("moonPhaseProgress").style.borderRadius = "0%";
     } else if (MoonPhaseName.includes("Waxing Gibbous")) {
       document.querySelector("moonPhaseProgress").style.right =
         moonillumination + "%";
+        document.getElementById("moonPhase_name").innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'phase_waxing_gibbous');
       document.querySelector("moonPhaseProgress").style.borderRadius = "";
     } else if (MoonPhaseName.includes("Full Moon")) {
       document.querySelector("moonPhaseProgress").style.left =
         moonillumination + "%";
+        document.getElementById("moonPhase_name").innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'phase_full_moon');
       document.querySelector("moonPhaseProgress").style.borderRadius = "";
     } else if (MoonPhaseName.includes("Waning Gibbous")) {
       document.querySelector("moonPhaseProgress").style.left =
         moonillumination + "%";
+        document.getElementById("moonPhase_name").innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'phase_waning_gibbous');
       document.querySelector("moonPhaseProgress").style.borderRadius = "";
     } else if (MoonPhaseName.includes("Last Quarter")) {
       document.querySelector("moonPhaseProgress").style.left =
         moonillumination + "%";
+        document.getElementById("moonPhase_name").innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'phase_last_quarter');
       document.querySelector("moonPhaseProgress").style.borderRadius = "0%";
     } else if (MoonPhaseName.includes("Waning Crescent")) {
       document.querySelector("moonPhaseProgress").style.left =
         moonillumination + "%";
+        document.getElementById("moonPhase_name").innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'phase_waning_crescent');
       document.querySelector("moonPhaseProgress").style.borderRadius = "";
     }
 
     document.getElementById("moonIlli").innerHTML = moonillumination + "%";
 
-    document.getElementById("moonPhase_name").innerHTML = MoonPhaseName;
 
     function convertTo24Hour(time) {
       const [timePart, modifier] = time.split(" ");
@@ -1808,6 +1815,81 @@ function astronomyDataRender(data) {
       document.getElementById("moonSetTime").innerHTML =
         data.astronomy.astro.moonset;
     }
+  }
+
+  function convertToISOFormat(timeStr) {
+    // Get the current date
+    const today = new Date();
+    const [time, modifier] = timeStr.split(' '); // Split time and AM/PM
+    let [hours, minutes] = time.split(':').map(Number); // Split hours and minutes
+
+    // Convert to 24-hour format
+    if (modifier === 'PM' && hours !== 12) {
+      hours += 12;
+    } else if (modifier === 'AM' && hours === 12) {
+      hours = 0;
+    }
+
+    // Construct ISO format string
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+    const day = String(today.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}T${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+  }
+
+  function calculateTimeDifference(targetTime) {
+    const now = new Date(); // Use the current time dynamically
+    const targetDate = new Date(targetTime);
+
+    const diffInMilliseconds = targetDate - now;
+
+    return Math.round(diffInMilliseconds / 60000);
+  }
+
+  const moonriseISO = convertToISOFormat(data.astronomy.astro.moonrise);
+  const moonsetISO = convertToISOFormat(data.astronomy.astro.moonset);
+
+  const diffToMoonrise = calculateTimeDifference(moonriseISO);
+  const diffToMoonset = calculateTimeDifference(moonsetISO);
+
+  function calculateDaylightPercentage(moonrise, moonset) {
+    const now = new Date(); // Use the current time dynamically
+    const moonriseTime = new Date(moonrise);
+    const moonsetTime = new Date(moonset);
+
+    if (now < moonriseTime) return 0; // Before moonrise
+    if (now > moonsetTime) return 100; // After moonset
+
+    const totalDaylight = moonsetTime - moonriseTime;
+    const timeSinceMoonrise = now - moonriseTime;
+
+    return (timeSinceMoonrise / totalDaylight) * 100;
+  }
+
+  const percentageOfDaylight = Math.round(calculateDaylightPercentage(moonriseISO, moonsetISO));
+
+
+  if (percentageOfDaylight > 1 && percentageOfDaylight <= 10) {
+    moveMoon(10);
+  } else if (percentageOfDaylight > 10 && percentageOfDaylight <= 20) {
+    moveMoon(20);
+  } else if (percentageOfDaylight > 20 && percentageOfDaylight <= 30) {
+    moveMoon(30);
+  } else if (percentageOfDaylight > 30 && percentageOfDaylight <= 40) {
+    moveMoon(40);
+  } else if (percentageOfDaylight > 40 && percentageOfDaylight <= 50) {
+    moveMoon(50);
+  } else if (percentageOfDaylight > 50 && percentageOfDaylight <= 60) {
+    moveMoon(60);
+  } else if (percentageOfDaylight > 60 && percentageOfDaylight <= 70) {
+    moveMoon(70);
+  } else if (percentageOfDaylight > 70 && percentageOfDaylight <= 80) {
+    moveMoon(80);
+  } else if (percentageOfDaylight > 80 && percentageOfDaylight <= 90) {
+    moveMoon(90);
+  } else if (percentageOfDaylight > 90 && percentageOfDaylight <= 100) {
+    moveMoon(100);
   }
 }
 

@@ -1,78 +1,33 @@
-
-
-
 function GenerateRecommendation() {
     const currentLocationData = localStorage.getItem('CurrentLocationName');
     const airQualityData = JSON.parse(localStorage.getItem(`AirQuality_${currentLocationData}`));
-    const selectedProvider = localStorage.getItem("selectedMainWeatherProvider")
+    const selectedProvider = localStorage.getItem("selectedMainWeatherProvider");
 
-        let weatherData
+    let weatherData;
 
-        if (selectedProvider === 'Met norway' || localStorage.getItem('ApiForAccu') && selectedProvider === 'Accuweather') {
-            weatherData = JSON.parse(localStorage.getItem(`WeatherDataOpenMeteo_${currentLocationData}`));
+    // Simplify weather data retrieval
+    const providerMapping = {
+        'Met norway': `WeatherDataOpenMeteo_${currentLocationData}`,
+        'Accuweather': `WeatherDataOpenMeteo_${currentLocationData}`,
+        'meteoFrance': `WeatherDataMeteoFrance_${currentLocationData}`,
+        'dwdGermany': `WeatherDataDWDGermany_${currentLocationData}`,
+        'noaaUS': `WeatherDataNOAAUS_${currentLocationData}`,
+        'ecmwf': `WeatherDataECMWF_${currentLocationData}`,
+        'ukMetOffice': `WeatherDataukMetOffice_${currentLocationData}`,
+        'jmaJapan': `WeatherDataJMAJapan_${currentLocationData}`,
+        'gemCanada': `WeatherDatagemCanada_${currentLocationData}`,
+        'bomAustralia': `WeatherDatabomAustralia_${currentLocationData}`,
+        'cmaChina': `WeatherDatacmaChina_${currentLocationData}`,
+        'knmiNetherlands': `WeatherDataknmiNetherlands_${currentLocationData}`,
+        'dmiDenmark': `WeatherDatadmiDenmark_${currentLocationData}`
+    };
 
+    weatherData = JSON.parse(localStorage.getItem(providerMapping[selectedProvider] || `WeatherDataOpenMeteo_${currentLocationData}`));
 
-       } else if (selectedProvider === 'meteoFrance') {
-           weatherData = JSON.parse(localStorage.getItem(`WeatherDataMeteoFrance_${currentLocationData}`));
-       } else if (selectedProvider === 'dwdGermany') {
-        weatherData = JSON.parse(localStorage.getItem(`WeatherDataDWDGermany_${currentLocationData}`));
-
-
-       } else if (selectedProvider === 'noaaUS') {
-        weatherData = JSON.parse(localStorage.getItem(`WeatherDataNOAAUS_${currentLocationData}`));
-
-
-
-       } else if (selectedProvider === 'ecmwf') {
-        weatherData = JSON.parse(localStorage.getItem(`WeatherDataECMWF_${currentLocationData}`));
-
-
-       } else if (selectedProvider === 'ukMetOffice') {
-        weatherData = JSON.parse(localStorage.getItem(`WeatherDataukMetOffice_${currentLocationData}`));
-
-
-
-       } else if (selectedProvider === 'jmaJapan') {
-        weatherData = JSON.parse(localStorage.getItem(`WeatherDataJMAJapan_${currentLocationData}`));
-
-
-
-       } else if (selectedProvider === 'gemCanada') {
-        weatherData = JSON.parse(localStorage.getItem(`WeatherDatagemCanada_${currentLocationData}`));
-
-
-       } else if (selectedProvider === 'bomAustralia') {
-        weatherData = JSON.parse(localStorage.getItem(`WeatherDatabomAustralia_${currentLocationData}`));
-
-
-       } else if (selectedProvider === 'cmaChina') {
-        weatherData = JSON.parse(localStorage.getItem(`WeatherDatacmaChina_${currentLocationData}`));
-
-
-
-       } else if (selectedProvider === 'knmiNetherlands') {
-        weatherData = JSON.parse(localStorage.getItem(`WeatherDataknmiNetherlands_${currentLocationData}`));
-
-
-
-       } else if (selectedProvider === 'dmiDenmark') {
-        weatherData = JSON.parse(localStorage.getItem(`WeatherDatadmiDenmark_${currentLocationData}`));
-
-
-       } else {
-        weatherData = JSON.parse(localStorage.getItem(`WeatherDataOpenMeteo_${currentLocationData}`));
-
-    }
-
-
-
-    if (currentLocationData === 'CurrentDeviceLocation') {
-        document.getElementById('location_name').innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'current_location')
-
-    } else {
-    document.getElementById('location_name').innerHTML = currentLocationData
-
-    }
+    const locationElement = document.getElementById('location_name');
+    locationElement.innerHTML = currentLocationData === 'CurrentDeviceLocation'
+        ? getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'current_location')
+        : currentLocationData;
 
     const recommendationsContainer = document.getElementById('recommendations');
     const dayTipContainer = document.getElementById('day_tip');
@@ -80,43 +35,36 @@ function GenerateRecommendation() {
 
     const hourlyData = weatherData.hourly;
 
-    const morningData = extractTimePeriodData(hourlyData, 6, 9);
-    const eveningData = extractTimePeriodData(hourlyData, 16, 19);
-    const nightData = extractTimePeriodData(hourlyData, 21, 24);
+    // Extract and calculate averages for different time periods
+    const timePeriods = {
+        Morning: extractTimePeriodData(hourlyData, 6, 9),
+        Evening: extractTimePeriodData(hourlyData, 16, 19),
+        Night: extractTimePeriodData(hourlyData, 21, 24)
+    };
 
-    const morningAvg = calculateAverage(morningData);
-    const eveningAvg = calculateAverage(eveningData);
-    const nightAvg = calculateAverage(nightData);
+    const averages = Object.fromEntries(
+        Object.entries(timePeriods).map(([key, data]) => [key, calculateAverage(data)])
+    );
 
     const aqi = airQualityData ? airQualityData.current.us_aqi : null;
 
+    // Generate recommendations for each period
+    for (const [period, avgData] of Object.entries(averages)) {
+        document.getElementById(period.toLowerCase()).innerHTML += generateClothingRecommendation(period, avgData, aqi);
+    }
 
+    // Air quality details
+    const { carbon_monoxide, nitrogen_dioxide, ozone, pm2_5, pm10, sulphur_dioxide } = airQualityData.current || {};
+    generateAirQualityDetail(carbon_monoxide, nitrogen_dioxide, ozone, pm2_5, pm10, sulphur_dioxide);
 
-    document.getElementById('morning').innerHTML += generateClothingRecommendation('Morning', morningAvg, aqi);
-    document.getElementById('evening').innerHTML += generateClothingRecommendation('Evening', eveningAvg, aqi);
-    document.getElementById('night').innerHTML += generateClothingRecommendation('Night', nightAvg, aqi);
-
-
-    const aqi_carbon_monoxide = airQualityData.current.carbon_monoxide
-    const aqi_nitrogen_dioxide = airQualityData.current.nitrogen_dioxide
-    const aqi_ozone = airQualityData.current.ozone
-    const aqi_pm2_5 = airQualityData.current.pm2_5
-    const aqi_pm10 = airQualityData.current.pm10
-    const aqi_sulphur_dioxide = airQualityData.current.sulphur_dioxide
-
-
-
-    generateAirQualityDetail(aqi_carbon_monoxide, aqi_nitrogen_dioxide, aqi_ozone, aqi_pm2_5, aqi_pm10, aqi_sulphur_dioxide)
-
-
-    dayTipContainer.innerHTML = `
-        <div class="data">
-    <p class="label">Day tip</p>
-    <div class="data_text"><ul>
-    ${generateDayTip(morningAvg, eveningAvg, nightAvg, aqi)}</ul></div></div>
-    `
-
-
+    // Day Tip
+    dayTipContainer.innerHTML =
+        `<div class="data">
+            <p class="label">Day tip</p>
+            <div class="data_text">
+                <ul>${generateDayTip(averages.Morning, averages.Evening, averages.Night, aqi)}</ul>
+            </div>
+        </div>`;
 }
 
 function extractTimePeriodData(hourlyData, startHour, endHour) {
@@ -142,128 +90,104 @@ function calculateAverage(data) {
     const avgWindSpeed = data.reduce((acc, item) => acc + item.wind_speed_10m, 0) / data.length;
     const avgHumidity = data.reduce((acc, item) => acc + item.relative_humidity_2m, 0) / data.length;
     const avgWeatherCode = data[0] ? data[0].weather_code : null;
-    return { avgTemp, avgWindSpeed, avgHumidity, avgWeatherCode };
+    const avgUVIndex = data.reduce((acc, item) => acc + item.uv_index, 0) / data.length;
+    return { avgTemp, avgWindSpeed, avgHumidity, avgWeatherCode, avgUVIndex };
 }
 
 function generateClothingRecommendation(timeOfDay, avgData, aqi) {
     const clothingTips = [];
-    let description = `Clothing recommendations for ${timeOfDay}:`;
 
-function getRandomItem(arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
-}
+    if (avgData.avgTemp < -40) {
+        clothingTips.push('<li>🥶 In extreme cold, wear a high-insulation parka, thermal underwear, and thick wool socks. Insulated boots and a balaclava are essential.</li>');
+        clothingTips.push('<li>🧤 Wear insulated gloves, a thick wool hat, and a face mask to protect against frostbite.</li>');
+        clothingTips.push('<li>❄️ Avoid prolonged exposure to the cold. Layering is key, and all exposed skin should be covered.</li>');
+    } else if (avgData.avgTemp >= -40 && avgData.avgTemp < -20) {
+        clothingTips.push('<li>🧥 Wear a heavy down coat or parka, layered with thermal clothing underneath. Insulated gloves and boots are a must.</li>');
+        clothingTips.push('<li>🧣 A wool scarf, thick socks, and a knit hat will help keep you warm in these frigid conditions.</li>');
+    } else if (avgData.avgTemp >= -20 && avgData.avgTemp < 0) {
+        clothingTips.push('<li>🧥 Layer with a heavy winter coat, a sweater, and thermal leggings. Don’t forget thermal gloves and boots.</li>');
+        clothingTips.push('<li>🧣 A wool scarf and insulated hat will help keep your head and neck warm.</li>');
+    } else if (avgData.avgTemp >= 0 && avgData.avgTemp < 10) {
+        clothingTips.push('<li>🧥 Layer with a thick jacket or puffer coat, a warm sweater, and a hat to stay cozy in cold weather.</li>');
+        clothingTips.push('<li>🧣 Consider wearing a scarf and thermal socks for added warmth.</li>');
+    } else if (avgData.avgTemp >= 10 && avgData.avgTemp < 20) {
+        clothingTips.push('<li>🧳 A light jacket, cardigan, or sweater is perfect for cool weather. Pair with jeans or trousers for comfort.</li>');
+        clothingTips.push('<li>🌬️ If it’s a bit breezy, a windbreaker will provide extra protection without overheating.</li>');
+    } else if (avgData.avgTemp >= 20 && avgData.avgTemp < 30) {
+        clothingTips.push('<li>👕 Opt for breathable fabrics like cotton or linen. Pair with shorts or a light skirt to stay comfortable.</li>');
+        clothingTips.push('<li>👒 Don’t forget to bring a hat and sunglasses to protect yourself from the sun.</li>');
+    } else {
+        clothingTips.push('<li>🌞 Wear lightweight, moisture-wicking clothing, and stay hydrated in the heat.</li>');
+        clothingTips.push('<li>💦 Consider lightweight, long-sleeve shirts to protect against UV rays while staying cool.</li>');
+    }
 
-if (avgData.avgTemp < 0) {
-    clothingTips.push(getRandomItem([
-        '<li>🧥 Wear a heavy winter coat or down jacket for extreme cold to keep yourself insulated and protected from the harsh weather.</li>',
-        '<li>❄️ Layer up with thermal wear, including insulated gloves, a warm scarf, and a knitted hat to prevent heat loss from extremities.</li>',
-        '<li>🧣 A thick wool scarf and insulated boots are essential for freezing temperatures, especially if you plan on spending time outside.</li>'
-    ]));
-} else if (avgData.avgTemp < 10) {
-    clothingTips.push(getRandomItem([
-        '<li>🧥 Wear a warm jacket or coat to stay insulated against the cold temperatures. A thicker, padded coat may be necessary for prolonged exposure.</li>',
-        '<li>❄️ Consider wearing thermal wear (such as base layers) underneath your clothes for additional warmth, especially if you’ll be outside for extended periods.</li>',
-        '<li>🧣 Don’t forget a scarf to keep your neck warm, and perhaps gloves and a hat to prevent heat loss from extremities.</li>'
-    ]));
-} else if (avgData.avgTemp >= 10 && avgData.avgTemp < 20) {
-    clothingTips.push(getRandomItem([
-        '<li>🧳 A light jacket or sweater should suffice for the cooler temperatures, but ensure it’s breathable to prevent overheating during the day.</li>',
-        '<li>👖 Pair your jacket with comfortable jeans or pants. Consider layering with a long-sleeve shirt if you’re out in the evening when temperatures drop.</li>',
-        '<li>🧢 Consider wearing a hat or light beanie to protect from the wind and keep the warmth in during cooler parts of the day.</li>'
-    ]));
-} else {
-    clothingTips.push(getRandomItem([
-        '<li>👕 Light clothing such as t-shirts or dresses is ideal for warmer conditions. Choose breathable fabrics like cotton to stay cool.</li>',
-        '<li>🩳 Opt for shorts or breathable pants for maximum comfort. Lightweight materials like linen or cotton are great for hot days.</li>',
-        '<li>🧴 Remember to apply sunscreen to avoid sunburn, especially if you’re outside for long periods during peak sunlight hours.</li>'
-    ]));
-}
+    // Wind recommendations
+    if (avgData.avgWindSpeed > 20) {
+        clothingTips.push('<li>🌬️ Strong winds call for a wind-resistant jacket, sturdy shoes, and a secure hat to prevent it from blowing away.</li>');
+    }
 
-if (avgData.avgWindSpeed > 20) {
-    clothingTips.push(getRandomItem([
-        '<li>🌬️ Wear wind-resistant clothing to protect yourself from strong gusts. A windbreaker or a jacket with a windproof layer would be ideal.</li>',
-        '<li>💨 Wind can make cold temperatures feel even chillier, so make sure your outer layer is adequate to shield you from the wind chill.</li>'
-    ]));
-}
+    // Humidity-based clothing recommendations
+    if (avgData.avgHumidity > 80) {
+        clothingTips.push('<li>💦 Choose moisture-wicking clothes and carry a hand towel for humid conditions.</li>');
+        clothingTips.push('<li>💧 Keep your skin fresh with a cooling spray or face mist.</li>');
+    } else if (avgData.avgHumidity < 20) {
+        clothingTips.push('<li>💧 Use a hydrating moisturizer to prevent dry skin and opt for breathable fabrics like cotton.</li>');
+        clothingTips.push('<li>🌬️ Stay protected from dry air with a scarf or shawl to cover your neck.</li>');
+    }
 
-if (avgData.avgHumidity > 80) {
-    clothingTips.push(getRandomItem([
-        '<li>💦 Wear moisture-wicking clothes to keep sweat away from your skin, helping you stay dry and comfortable in humid conditions.</li>',
-        '<li>🧴 A light, breathable fabric like moisture-wicking synthetics or merino wool is great for keeping cool and dry in high humidity.</li>',
-        '<li>🌞 Keep hydrated and apply sunscreen to protect your skin from UV rays, which can be more intense in humid conditions.</li>'
-    ]));
-} else if (avgData.avgHumidity < 20) {
-    clothingTips.push(getRandomItem([
-        '<li>💧 Moisturize your skin regularly to prevent dryness, as low humidity can cause skin to lose moisture quickly.</li>',
-        '<li>🧴 Consider using a hydrating face mist throughout the day to refresh your skin in dry conditions.</li>',
-        '<li>👟 Wear lightweight, breathable fabrics to prevent overheating and discomfort, and avoid heavy clothing that can trap moisture.</li>'
-    ]));
-}
+    // UV index-based recommendations
+    if (avgData.avgUVIndex > 0 && avgData.avgUVIndex <= 2) {
+        clothingTips.push('<li>🕶️ UV levels are low; wear sunglasses to reduce glare and feel comfortable.</li>');
+    } else if (avgData.avgUVIndex > 2 && avgData.avgUVIndex <= 5) {
+        clothingTips.push('<li>🧴 Use sunscreen (SPF 30+), wear sunglasses, and consider a wide-brimmed hat.</li>');
+    } else {
+        clothingTips.push('<li>🧴 Use sunscreen (SPF 50+), wear UV-blocking clothing, and stay in the shade as much as possible.</li>');
+    }
 
+    // Nighttime recommendations
+    if (timeOfDay === 'Night') {
+        clothingTips.push('<li>🌙 Opt for reflective clothing or accessories for better visibility in low light.</li>');
+    }
 
     clothingTips.push(getWeatherDescription(avgData.avgWeatherCode));
-
     clothingTips.push(getAirQualitySuggestion(aqi));
 
     return `
         <div class="data_${timeOfDay.toLowerCase()} data">
             <p class="label">${timeOfDay}</p>
             <div class="data_text">
-                <ul>
-                    ${clothingTips.join('')}
-                </ul>
+                <ul>${clothingTips.join('')}</ul>
             </div>
-        </div>
-    `;
-
-
+        </div>`;
 }
-
 function getWeatherDescription(weatherCode) {
     switch (weatherCode) {
         case 0:
-            return '<li>🌞 Clear sky - Perfect for outdoor activities!</li>';
         case 1:
         case 2:
         case 3:
-            return '<li>🌤️ Mainly clear or partly cloudy - A light jacket is enough.</li>';
+            return '<li>🌤️ Clear to partly cloudy. Comfortable weather overall.</li>';
         case 45:
         case 48:
-            return '<li>🌫️ Fog or rime fog - Visibility low, wear bright colors!</li>';
+            return '<li>🌫️ Foggy conditions. Drive safely and use fog lights.</li>';
         case 51:
         case 53:
         case 55:
-            return '<li>🌧️ Drizzle - Light rain, carry an umbrella or wear a raincoat.</li>';
-        case 56:
-        case 57:
-            return '<li>❄️ Freezing drizzle - Wear a waterproof jacket.</li>';
+            return '<li>🌦️ Light drizzle expected. Carry a waterproof jacket or umbrella.</li>';
         case 61:
         case 63:
         case 65:
-            return '<li>🌧️ Rain - Moderate to heavy rain, wear waterproof clothing!</li>';
-        case 66:
-        case 67:
-            return '<li>❄️ Freezing rain - Wear insulated clothing.</li>';
+            return '<li>🌧️ Rainy weather. A raincoat or umbrella is essential.</li>';
         case 71:
         case 73:
         case 75:
-            return '<li>❄️ Snowfall - Heavy snow, wear a winter coat and gloves.</li>';
-        case 77:
-            return '<li>❄️ Snow grains - Wear warm clothing.</li>';
-        case 80:
-        case 81:
-        case 82:
-            return '<li>🌧️ Rain showers - Carry an umbrella.</li>';
-        case 85:
-        case 86:
-            return '<li>❄️ Snow showers - Wear warm winter clothing.</li>';
+            return '<li>❄️ Snowfall expected. Wear thermal clothing and snow boots.</li>';
         case 95:
-            return '<li>⛈️ Thunderstorm - Stay indoors, avoid outdoor activities!</li>';
         case 96:
         case 99:
-            return '<li>⛈️ Thunderstorm with hail - Stay indoors, hail is dangerous!</li>';
+            return '<li>⛈️ Thunderstorms likely. Stay indoors if possible.</li>';
         default:
-            return '<li>🌤️ Weather conditions unclear, dress according to the current temperature.</li>';
+            return '<li>🌍 Weather conditions are normal. Enjoy your day!</li>';
     }
 }
 

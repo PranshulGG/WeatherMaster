@@ -478,6 +478,9 @@ public class MainActivity extends AppCompatActivity {
                     } else if (color.equals("openUVcondition")){
                         openUVcondition();
                         return;
+                    } else if (color.equals("openMoonCondition")){
+                        openMoonCondition();
+                        return;
                     } else if (color.equals("AddLocationPage")){
                         OpenSearchPage();
                         return;
@@ -623,6 +626,11 @@ public class MainActivity extends AppCompatActivity {
         }
         public void OpenClothingPage() {
             Intent intent = new Intent(mActivity, ClothingRecommendation.class);
+            mActivity.startActivity(intent);
+        }
+
+        public void openMoonCondition() {
+            Intent intent = new Intent(mActivity, MoonPhases.class);
             mActivity.startActivity(intent);
         }
     }
