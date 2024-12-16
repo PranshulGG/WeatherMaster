@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>Contributors Page</title>
+    <script src="../database/MainDataBase.js"></script>
     <script src="../langs/langs.js"></script>
     <link rel="stylesheet" href="../ui-files/ui.css">
     <link rel="stylesheet" href="../ui-files/font-usage.css">
@@ -138,7 +139,14 @@
     <md-icon-button onclick="sendThemeToAndroid('GoBack')"><md-icon icon-outlined>close</md-icon></md-icon-button>
 </div>
 <div class="padding_about_app">
-
+    <p class="title" style="padding: 10px; margin: 0; font-size: 24px; color: var(--Primary); padding-bottom: 0;">Creator</p>
+    <div class="small_items_info_about_page" onclick="window.location.href='https://github.com/PranshulGG/WeatherMaster'">
+        <p>PranshulGG</p>
+        <span>Github</span>
+        <md-icon-button style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);"><md-icon icon-outlined>chevron_right</md-icon></md-icon-button>
+        <md-ripple></md-ripple>
+    </div>
+    <p class="title" style="padding: 10px; margin: 0; font-size: 24px; color: var(--Primary); padding-bottom: 0; padding-top: 25px;" data-translate="contributors">Contributors</p>
     <div class="small_items_info_about_page" onclick="window.location.href='https://github.com/ak47m91'">
         <p>ak47m91</p>
         <span>Github</span>
@@ -202,8 +210,8 @@
 <script>
 
 async function fetchTranslators() {
-    const projectId = 'MAIN_KEY_WM';
-    const apiToken = 'MAIN_KEY_WM';
+    const projectId = '';
+    const apiToken = '';
 
     try {
         const response = await fetch(`https://api.crowdin.com/api/v2/projects/${projectId}/members`, {
@@ -224,21 +232,25 @@ async function fetchTranslators() {
         const translators = data.data.filter(member => member.data.role === 'translator')
                                       .map(member => ({
                                           name: member.data.username,
-                                          fullName: member.data.fullName,
+                                          fullName: member.data.fullName || '',
                                           role: member.data.role,
                                       }));
 
         // Save only translators to localStorage
-        localStorage.setItem('translatorsData', JSON.stringify(translators));
+        await customStorage.setItem('translatorsData', JSON.stringify(translators));
+        localStorage.removeItem('translatorsData')
 
         return translators;
     } catch (error) {
         console.error('Error fetching translators:', error);
 
+        localStorage.removeItem('translatorsData')
+
         // Fallback to localStorage
-        const savedData = localStorage.getItem('translatorsData');
+        const savedData = await customStorage.getItem('translatorsData');
         if (savedData) {
-            console.warn('Loading translators from localStorage due to API failure.');
+            console.warn('Loading translators from database due to API failure.');
+        localStorage.removeItem('translatorsData')
             return JSON.parse(savedData);
         }
 
