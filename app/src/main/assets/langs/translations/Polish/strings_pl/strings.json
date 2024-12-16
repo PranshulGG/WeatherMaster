@@ -383,5 +383,17 @@
     "phase_full_moon": "Pełnia",
     "phase_waning_gibbous": "Księżyc ubywający",
     "phase_last_quarter": "Ostatnia kwadra",
-    "phase_waning_crescent": "Ubywający sierp"
+    "phase_waning_crescent": "Ubywający sierp",
+    "moon_info": "New Moon: When the moon is not visible because it is located between the Earth and the Sun. Illumination: 0%.",
+    "moon_info_2": "Waxing Crescent: When a small sliver of the moon becomes visible, growing larger each night after the new moon. Illumination: 1%–49%.",
+    "moon_info_3": "First Quarter: When half of the moon's face is illuminated, occurring approximately one week after the new moon. Illumination: ~50%.",
+    "moon_info_4": "Waxing Gibbous: When more than half of the moon is illuminated, leading up to a full moon. Illumination: 51%–99%.",
+    "moon_info_5": "Full Moon: When the entire face of the moon is illuminated by the Sun, appearing as a complete circle. Illumination: 100%.",
+    "moon_info_6": "Waning Gibbous: When the moon begins to shrink after a full moon, but more than half of it remains illuminated. Illumination: 99%–51%.",
+    "moon_info_7": "Last Quarter: When half of the moon's face is illuminated again, occurring approximately one week after the full moon. Illumination: ~50%.",
+    "moon_info_8": "Waning Crescent: When only a small sliver of the moon remains visible before the new moon. Illumination: 49%–1%.",
+    "moon_info_9": "Illumination: The percentage of the moon’s surface that is lit by the Sun, which varies depending on the phase of the moon.",
+    "illumination_moon_text": "Illumination",
+    "moonrise": "Moonrise",
+    "moonset": "Moonset"
 }
