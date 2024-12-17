@@ -394,6 +394,6 @@
     "moon_info_8": "Waning Crescent: When only a small sliver of the moon remains visible before the new moon. Illumination: 49%–1%.",
     "moon_info_9": "Illumination: The percentage of the moon’s surface that is lit by the Sun, which varies depending on the phase of the moon.",
     "illumination_moon_text": "Illumination",
-    "moonrise": "Moonrise",
-    "moonset": "Moonset"
+    "moonrise": "月の出",
+    "moonset": "月の入り"
 }
