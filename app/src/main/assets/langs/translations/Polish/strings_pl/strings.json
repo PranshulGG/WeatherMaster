@@ -393,7 +393,7 @@
     "moon_info_7": "Last Quarter: When half of the moon's face is illuminated again, occurring approximately one week after the full moon. Illumination: ~50%.",
     "moon_info_8": "Waning Crescent: When only a small sliver of the moon remains visible before the new moon. Illumination: 49%–1%.",
     "moon_info_9": "Illumination: The percentage of the moon’s surface that is lit by the Sun, which varies depending on the phase of the moon.",
-    "illumination_moon_text": "Illumination",
-    "moonrise": "Moonrise",
-    "moonset": "Moonset"
+    "illumination_moon_text": "Rozświetlenie",
+    "moonrise": "Wschód księżyca",
+    "moonset": "Zachód księżyca"
 }
