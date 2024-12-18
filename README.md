@@ -29,7 +29,7 @@
    <a href="https://apt.izzysoft.de/fdroid/index/apk/com.example.weathermaster"><img alt="GitHub" src="preview/download_Btn.png" height="80"/></a></div>
 <br>
 
-![app_thumbnail](preview/thumbnail_mat.png)
+![app_thumbnail](preview/thumbnail_new_mat.png)
 
 # 👁️ Screenshots
 
