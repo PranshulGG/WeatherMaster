@@ -1,5 +1,5 @@
 <div align="center">
-   <img src="https://github.com/PranshulGG/WeatherMaster/blob/master/preview/partly_cloudy_day.svg" alt="" width="120px">
+   <img src="https://github.com/PranshulGG/WeatherMaster/blob/master/preview/readme_app_icon.svg" alt="" width="120px">
 </div>
 <h1 align="center">
  WeatherMaster
