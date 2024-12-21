@@ -3249,7 +3249,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", async function () {
-  const currentVersion = "v1.10.0";
+  const currentVersion = "v1.11.0";
   const githubRepo = "PranshulGG/WeatherMaster";
   const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
@@ -6596,29 +6596,3 @@ document
     document.querySelector(".view_device_location").hidden = true;
   });
 
-
-
-async function moveDatatoDb() {
-  if(await customStorage.getItem('dataMoved')){
-      document.querySelector('.moving_data').hidden = true;
-  } else{
-    document.querySelector('.moving_data').hidden = false;
-
-    setTimeout(async() =>{
-        document.querySelector('.data_base_created').hidden = false;
-        await customStorage.setItem('dataMoved', 'true')
-    }, 3000);
-
-    setTimeout(async() =>{
-      moveDatatoDb()
-      LoadLocationOnRequest(localStorage.getItem('currentLat'), localStorage.getItem('currentLong'), renderLocation);
-  }, 5000);
-  }
-
-
-
-}
-
-document.addEventListener('DOMContentLoaded', () =>{
-  moveDatatoDb()
-});

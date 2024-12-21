@@ -20,8 +20,10 @@ window.transitionToPage = function(href) {
 
 
 document.addEventListener('DOMContentLoaded', function(event) {
+    setTimeout(function() {
 
     document.querySelector('body').style.opacity = '1';
+    }, 100);
 
 });
 

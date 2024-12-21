@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>Settings</title>
+    <script src="../database/MainDataBase.js"></script>
     <script src="../langs/langs.js"></script>
     <link rel="stylesheet" href="../ui-files/ui.css">
     <link rel="stylesheet" href="../ui-files/font-usage.css">
@@ -60,6 +61,76 @@
             padding-top: 5px;
         }
 
+                .list_one md-list-item, .list_second md-list-item, .list_third md-list-item{
+            background-color: var(--Surface-Container-Lowest);
+            margin-bottom: 6px;
+            border-radius: 8px;
+        }
+
+
+        .list_second md-list-item:nth-child(1), .list_third md-list-item:nth-child(1){
+            border-radius: 18px 18px 10px 10px;
+        }
+
+        .list_one md-list-item:nth-child(2){
+            border-radius: 18px 18px 10px 10px;
+        }
+
+        .list_one md-list-item:last-child, .list_third md-list-item:last-child{
+            border-radius: 10px 10px 18px 18px ;
+        }
+
+        .list_second md-list-item:nth-last-child(2){
+            border-radius: 10px 10px 18px 18px ;
+        }
+
+        md-list{
+            padding: 8px;
+        }
+
+        .custom_theme .color-item{
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--clr);
+            border-radius: 50px;
+            flex-shrink: 0;
+        }
+
+        .custom_theme .color-item::before{
+            content: 'check';
+            font-family: 'Material symbols';
+            font-weight: normal !important;
+            font-style: normal !important;
+            line-height: 1;
+            font-size: 24px;
+            color: var(--clr-check);
+            display: var(--display-style, none);
+        }
+
+        .custom_theme{
+            display: flex;
+            overflow: auto;
+            gap: 10px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+
+        .custom_theme_items.hidden{
+            height: 0px;
+            padding: 0;
+            margin: 0;
+            opacity: 0;
+        }
+
+        .custom_theme_items{
+            opacity: 1;
+            height: 79px;
+            overflow: hidden;
+        }
+
     </style>
 </head>
 
@@ -78,64 +149,43 @@
         <p class="label-large-main" data-translate="settings">Settings</p>
         <div class="content-parent-large" style="padding-bottom: 32px;">
 
-            <p class="title" style="margin-top: 5px;" data-translate="weather">Weather</p>
+            <p class="title" style="margin-top: 5px;">App looks</p>
 
+            <md-list class="list_third">
+                <md-list-item>
+                    <md-icon icon-filled slot="start">palette</md-icon>
+                    <div slot="headline">Dynamic colors</div>
+                    <div slot="supporting-text">Use wallpaper colors</div>
+                    <md-switch slot="end" selected id="useDynamicColors"></md-switch>
 
-
-            <md-list>
-                <md-list-item disabled hidden>
-                    <md-icon icon-filled slot="start">notifications</md-icon>
-                    <div slot="headline" data-translate="notification_bar">Notification bar</div>
-                    <div slot="supporting-text" data-translate="show_weather_information_in_the_notification_bar">(Needs some work done)</div>
-                    <md-switch slot="end" id="toggle_noti" icons show-only-selected-icon></md-switch>
                 </md-list-item>
 
-
-                <md-list-item>
-                    <md-icon icon-filled slot="start">animation</md-icon>
-                    <div slot="headline" data-translate="background_card_animation">Background card animation</div>
-                    <md-switch slot="end" selected id="useAnimationBackground" icons show-only-selected-icon></md-switch>
-                </md-list-item>
-
-                <md-list-item>
-                    <md-icon icon-filled slot="start">summarize</md-icon>
-                    <div slot="headline">Froggy summary</div>
-                    <div slot="supporting-text">Adds frog-related descriptions. Available only in English</div>
-                    <md-switch slot="end" id="useFroggySummarySwitch" icons show-only-selected-icon></md-switch>
-                </md-list-item>
-
-
-                <md-list-item>
-                    <md-icon icon-filled slot="start">toast</md-icon>
-                    <div slot="headline" data-translate="auto-hide_update_toast">Auto-hide update toast</div>
-                    <div slot="supporting-text" data-translate="notification_will_disappear">The notification will disappear after 5 seconds.</div>
-                    <md-switch slot="end" id="HideNewUpdateToastSwitch" icons show-only-selected-icon></md-switch>
+                <md-list-item class="custom_theme_items hidden">
+                    <div class="custom_theme_wrap" slot="headline">
+                        <div class="custom_theme">
+                            <div class="color-item" style="--clr:  #2196f3; --clr-check: rgb(255, 255, 255);" theme-value="blue_material"></div>
+                            <div class="color-item" style="--clr: #673ab7; --clr-check: rgb(255, 255, 255);" theme-value="purple_material"></div>
+                            <div class="color-item" style="--clr: #ffeb3b; --clr-check: rgb(0, 0, 0);" theme-value="yellow_material"></div>
+                            <div class="color-item" style="--clr:  #4caf50; --clr-check: rgb(255, 255, 255);" theme-value="green_material"></div>
+                            <div class="color-item" style="--clr: #e92315; --clr-check: rgb(255, 255, 255);"  theme-value="red_material"></div>
+                            <div class="color-item" style="--clr: #e91e63; --clr-check: rgb(255, 255, 255);"  theme-value="pink_material"></div>
+                            <div class="color-item" style="--clr:  #da7e07; --clr-check: rgb(255, 255, 255);"theme-value="orange_material"></div>
+                        </div>
+                    </div>
                 </md-list-item>
 
                 <md-list-item>
                     <md-icon icon-filled slot="start">rounded_corner</md-icon>
                     <div slot="headline" data-translate="rounded_ui">Rounded UI</div>
                     <div slot="supporting-text" data-translate="use_the_default_material_corner_radius">Use the default Material corner radius</div>
-                    <md-switch slot="end" id="useRoundedUI" icons show-only-selected-icon></md-switch>
+                    <md-switch slot="end" id="useRoundedUI" ></md-switch>
                 </md-list-item>
 
                 <md-list-item>
                     <md-icon icon-filled slot="start">thermometer_add</md-icon>
                     <div slot="headline" data-translate="temperature_animation">Temperature animation</div>
-                    <md-switch slot="end" id="useTempAnimation" selected icons show-only-selected-icon></md-switch>
-                </md-list-item>
-
-                <md-list-item>
-                    <md-icon icon-filled slot="start">bar_chart</md-icon>
-                    <div slot="headline" data-translate="use_bar_chart">Use bar chart</div>
-                    <md-switch slot="end" id="useBarChart" icons show-only-selected-icon></md-switch>
-                </md-list-item>
-
-                <md-list-item>
-                    <md-icon icon-filled slot="start">warning</md-icon>
-                    <div slot="headline" data-translate="weather_alerts">Weather alerts</div>
-                    <div slot="supporting-text" data-translate="show_alerts_home_page_sub">Show weather alerts on the home page</div>
-                    <md-switch slot="end" id="useWeatherAlerts" icons show-only-selected-icon></md-switch>
+                    <div slot="supporting-text">Counts the temperature from start to end</div>
+                    <md-switch slot="end" id="useTempAnimation" selected ></md-switch>
                 </md-list-item>
 
 
@@ -145,6 +195,76 @@
                     <div slot="supporting-text" data-translate="change_apps_font">Change app's font</div>
                 </md-list-item>
 
+                <md-list-item onclick="openAppFontSizeDialog()" type="button">
+                    <md-icon icon-filled slot="start">format_size</md-icon>
+                    <div slot="headline">Font size</div>
+                    <div slot="supporting-text">Font size will only affect where it is needed</div>
+                </md-list-item>
+
+                <md-list-item>
+                    <md-icon icon-filled slot="start">swipe_left</md-icon>
+                    <div slot="headline">Swipe between locations</div>
+                    <div slot="supporting-text">Swipe left or right to change location</div>
+                    <md-switch slot="end" id="useGestureLocation"></md-switch>
+                    <md-icon-button slot="end" onclick="openSwipeThresholdDialog()"><md-icon icon-outlined>settings</md-icon></md-icon-button>
+                </md-list-item>
+
+            </md-list>
+
+
+            <p class="title" style="margin-top: 5px;" data-translate="weather">Weather</p>
+
+
+
+            <md-list class="list_one">
+                <md-list-item disabled hidden>
+                    <md-icon icon-filled slot="start">notifications</md-icon>
+                    <div slot="headline" data-translate="notification_bar">Notification bar</div>
+                    <div slot="supporting-text" data-translate="show_weather_information_in_the_notification_bar">(Needs some work done)</div>
+                    <md-switch slot="end" id="toggle_noti"></md-switch>
+                </md-list-item>
+
+
+                <md-list-item>
+                    <md-icon icon-filled slot="start">animation</md-icon>
+                    <div slot="headline" data-translate="background_card_animation">Background card animation</div>
+                    <md-switch slot="end" selected id="useAnimationBackground"></md-switch>
+                </md-list-item>
+
+                <md-list-item>
+                    <md-icon icon-filled slot="start">summarize</md-icon>
+                    <div slot="headline">Froggy summary</div>
+                    <div slot="supporting-text">Adds frog-related descriptions. Available only in English</div>
+                    <md-switch slot="end" id="useFroggySummarySwitch"></md-switch>
+                </md-list-item>
+
+
+                <md-list-item>
+                    <md-icon icon-filled slot="start">toast</md-icon>
+                    <div slot="headline" data-translate="auto-hide_update_toast">Auto-hide update toast</div>
+                    <div slot="supporting-text" data-translate="notification_will_disappear">The notification will disappear after 5 seconds.</div>
+                    <md-switch slot="end" id="HideNewUpdateToastSwitch"></md-switch>
+                </md-list-item>
+
+                <md-list-item>
+                    <md-icon icon-filled slot="start">rounded_corner</md-icon>
+                    <div slot="headline" data-translate="rounded_ui">Rounded UI</div>
+                    <div slot="supporting-text" data-translate="use_the_default_material_corner_radius">Use the default Material corner radius</div>
+                    <md-switch slot="end" id="useRoundedUI"></md-switch>
+                </md-list-item>
+
+                <md-list-item>
+                    <md-icon icon-filled slot="start">bar_chart</md-icon>
+                    <div slot="headline" data-translate="use_bar_chart">Use bar chart</div>
+                    <md-switch slot="end" id="useBarChart"></md-switch>
+                </md-list-item>
+
+                <md-list-item>
+                    <md-icon icon-filled slot="start">warning</md-icon>
+                    <div slot="headline" data-translate="weather_alerts">Weather alerts</div>
+                    <div slot="supporting-text" data-translate="show_alerts_home_page_sub">Show weather alerts on the home page</div>
+                    <md-switch slot="end" id="useWeatherAlerts"></md-switch>
+                </md-list-item>
 
                 <md-list-item type="button" onclick="openMainProviderDialog()">
                     <md-icon slot="start" icon-filled>routine</md-icon>
@@ -199,9 +319,8 @@
                     </md-outlined-select>
                 </md-list-item>
 
-                <md-divider></md-divider>
 
-                <md-list-item margin type="button" onclick="sendThemeToAndroid('openHomelocationPage')">
+                <md-list-item type="button" onclick="sendThemeToAndroid('openHomelocationPage')">
                     <md-icon icon-filled slot="start">home_pin</md-icon>
                     <div slot="headline" data-translate="home_location">Home location</div>
                     <div slot="supporting-text" id="homeLocationSelectedText" style="color: var(--Primary); font-family: var(--outfit-mid);">Your device location</div>
@@ -303,7 +422,7 @@
             </md-list>
 
             <p class="title" style="margin-top: 5px;" data-translate="additional">Additional</p>
-            <md-list>
+            <md-list class="list_second">
 
                 <md-list-item margin type="button" onclick="sendThemeToAndroid('OpenLanguagesPage')">
                     <md-icon slot="start" icon-filled>language</md-icon>
@@ -350,7 +469,7 @@
 
 
             <p class="title" style="margin-top: 5px;" data-translate="data_provided_by">Data provided by</p>
-            <md-list>
+            <md-list class="list_third">
                 <md-list-item margin href="https://openweathermap.org/">
                     <div slot="headline">OpenWeatherMap</div>
                     <md-icon icon-filled slot="end">open_in_new</md-icon>
@@ -368,7 +487,7 @@
 
 
             <p class="title" style="margin-top: 5px;" data-translate="map">Map</p>
-            <md-list>
+            <md-list class="list_third">
                 <md-list-item margin href="https://leafletjs.com/">
                     <div slot="headline">Leaflet</div>
                     <md-icon icon-filled slot="end">open_in_new</md-icon>
@@ -477,6 +596,42 @@
                 </div>
             </md-dialog>
 
+            <md-dialog id="chooseAPPFontSizeDialog" style="min-width: 85%;" quick>
+                <div slot="headline">App font size</div>
+
+                <div slot="content">
+                    <label class="main_provider_item">
+                        <md-radio slot="start" value="normal_fontSize" name="app_font_size_radio"></md-radio>
+                        Normal
+                    </label>
+                    <label class="main_provider_item">
+                        <md-radio slot="start" value="medium_fontSize" name="app_font_size_radio"></md-radio>
+                        Medium
+                    </label>
+                    <label class="main_provider_item">
+                        <md-radio slot="start" value="large_fontSize" name="app_font_size_radio"></md-radio>
+                        Large
+                    </label>
+                </div>
+
+                <div slot="actions">
+                    <md-text-button onclick="window.history.back()" data-translate="cancel">Cancel</md-text-button>
+                    <md-text-button id="saveSelectedFontSize" data-translate="save">Save</md-text-button>
+                </div>
+            </md-dialog>
+
+            <md-dialog id="chooseSwipeThresholdDialog" style="min-width: 85%;">
+                <span slot="headline">
+                    <span style="flex: 1;">Swipe Threshold</span>
+                    <div slot="supporting-text" id="ThresholdValueText" style="font-size: 15px; right: 20px; color: var(--On-Surface-Variant); width: 30px; height: 30px; background-color: var(--Primary-Container); display: flex; align-items: center; justify-content: center; border-radius: 50px; padding: 2px; color: var(--On-Primary-Container);">100</div>
+                  </span>
+
+                <div slot="content" style="padding-left: 0; padding-right: 0;">
+                    <md-slider style="width: 100%;" ticks min="50" max="350" value="100"  step="50" id="ThresholdSlider"></md-slider>
+
+                    <p style="margin-bottom: 0; margin-left: 15px; margin-right: 15px; margin-top: 0;">The threshold defines the minimum distance a swipe gesture must cover to be recognized. A lower threshold makes swipe gestures easier to trigger, while a higher threshold requires more deliberate swipes.</p>
+                </div>
+            </md-dialog>
 
 
             <p style="margin-top: 110px;"></p>
@@ -555,636 +710,19 @@ function CreateMaterialYouTheme(hex) {
         }
     }
 
-    document.documentElement.setAttribute('Theme', closestColor);
-    sendThemeToAndroid(`${closestColor}_ScrollFalse`);
-}
 
+ if(localStorage.getItem("useDynamicColors") && localStorage.getItem("useDynamicColors") === "false"){
 
-    function handleStorageChangeLang(event) {
-    if (event.key === 'AppLanguageCode'){
-
-            setTimeout(()=>{
-
-applyTranslations(localStorage.getItem('AppLanguageCode'));
-
-    const AppLanguageText = localStorage.getItem('AppLanguage');
-    if(AppLanguageText){
-        document.getElementById("selectedAppLang_text").innerHTML = AppLanguageText;
-    } else{
-        document.getElementById("selectedAppLang_text").innerHTML = 'English';
-
-    }
-            }, 200);
-
-    }
-}
-
-window.addEventListener('storage', handleStorageChangeLang);
-
-const user1 = document.getElementById('headUser-1')
-
-function changeColorOnScroll1() {
-    var container = document.getElementById('headUser-1');
-    var scrollY = container.scrollTop;
-
-    if (scrollY >= 50) {
-      document.getElementById('head-1').style.backgroundColor = 'var(--Surface-Container)';
-      document.getElementById('head-1').style.transition = '';
-
-      document.getElementById('headUser-1').style.scrollSnapType = 'unset';
-      container.removeEventListener('scroll', changeColorOnScroll1);
-      sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_Scrolled`);
-
-
-
-    } else {
-
-    }
+  } else{
+  document.documentElement.setAttribute('Theme', closestColor);
+  sendThemeToAndroid(`${closestColor}_ScrollFalse`);
   }
-
-  if(user1){
-    document.getElementById('headUser-1').addEventListener('scroll', changeColorOnScroll1);
-    }
-
-
-
-  function changeColorOnScroll1A() {
-    var container = document.getElementById('headUser-1');
-    var scrollY = container.scrollTop;
-
-    if (scrollY <= 1) {
-      document.getElementById('head-1').style.backgroundColor = '';
-      document.getElementById('head-1').style.transition = 'background-color 0.2s ease-in';
-
-      sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_ScrollFalse`);
-
-      container.addEventListener('scroll', changeColorOnScroll1);
-      if(scrollY <= 20); {
-        document.getElementById('headUser-1').style.scrollSnapType = '';
-
-      }
-
-    } else{
-
-    }
-  }
-
-  if(user1){
-  document.getElementById('headUser-1').addEventListener('scroll', changeColorOnScroll1A);
-  }
-
-  function sendThemeToAndroid(theme) {
-
-AndroidInterface.updateStatusBarColor(theme);
-};
-
-
-  const selectTempUnit = document.getElementById('selectTempUnit');
-
-  selectTempUnit.addEventListener('input', () =>{
-        localStorage.setItem('SelectedTempUnit', selectTempUnit.value)
-  });
-
-  if(!localStorage.getItem('SelectedTempUnit')){
-    document.querySelector(`[value="celsius"]`).selected = true;
-
-  }
-
-  const getSelectedTempUnit = localStorage.getItem('SelectedTempUnit')
-
-if(getSelectedTempUnit){
-    document.querySelector(`[value="${getSelectedTempUnit}"]`).selected = true;
-}
-
-
-  const selectWindUnit = document.getElementById('selectWindUnit');
-
-  selectWindUnit.addEventListener('input', () =>{
-      localStorage.setItem('SelectedWindUnit', selectWindUnit.value)
-
-});
-
-if(!localStorage.getItem('SelectedWindUnit')){
-  document.querySelector(`[value="kilometer"]`).selected = true;
-
-}
-
-const getSelectedWindUnit = localStorage.getItem('SelectedWindUnit')
-
-if(getSelectedWindUnit){
-    document.querySelector(`[value="${getSelectedWindUnit}"]`).selected = true;
-}
-
-
-
-const selectVisibilityUnit = document.getElementById('selectVisibilityUnit');
-
-selectVisibilityUnit.addEventListener('input', () =>{
-    localStorage.setItem('selectedVisibilityUnit', selectVisibilityUnit.value)
-
-});
-
-if(!localStorage.getItem('selectedVisibilityUnit')){
-document.querySelector(`[value="km"]`).selected = true;
-
-}
-
-const getSelectedVisibilityUnit = localStorage.getItem('selectedVisibilityUnit')
-
-if(getSelectedVisibilityUnit){
-  document.querySelector(`[value="${getSelectedVisibilityUnit}"]`).selected = true;
-}
-
-const selectPrecipitationUnit = document.getElementById('selectPrecipitationUnit');
-
-
-selectPrecipitationUnit.addEventListener('input', () =>{
-    localStorage.setItem('selectedPrecipitationUnit', selectPrecipitationUnit.value)
-
-});
-
-
-if(!localStorage.getItem('selectedPrecipitationUnit')){
-document.querySelector(`[value="mm"]`).selected = true;
-
-}
-
-const getSelectedPrecipitationUnit = localStorage.getItem('selectedPrecipitationUnit')
-
-
-if(localStorage.getItem('selectedPrecipitationUnit')){
-  document.querySelector(`[value="${getSelectedPrecipitationUnit}"]`).selected = true;
-}
-
-// -----------------------
-
-
-const selectPressureUnit = document.getElementById('selectPressureUnit');
-
-
-selectPressureUnit.addEventListener('input', () =>{
-    localStorage.setItem('selectedPressureUnit', selectPressureUnit.value)
-
-});
-
-
-if(!localStorage.getItem('selectedPressureUnit')){
-document.querySelector(`[value="hPa"]`).selected = true;
-
-}
-
-const getSelectedPressureUnit = localStorage.getItem('selectedPressureUnit')
-
-
-if(localStorage.getItem('selectedPressureUnit')){
-  document.querySelector(`[value="${getSelectedPressureUnit}"]`).selected = true;
-}
-
-
-// time format
-
-
-const selectTimeformat = document.getElementById('selectTimeformat');
-
-
-selectTimeformat.addEventListener('input', () =>{
-    localStorage.setItem('selectedTimeMode', selectTimeformat.value)
-
-});
-
-
-if(!localStorage.getItem('selectedTimeMode')){
-document.querySelector(`[value="12 hour"]`).selected = true;
-
-}
-
-const getSelectedTimeFormat = localStorage.getItem('selectedTimeMode')
-
-
-if(localStorage.getItem('selectedTimeMode')){
-  document.querySelector(`[value="${getSelectedTimeFormat}"]`).selected = true;
-}
-
-
-        // background animations
-
-
-        const useAnimationBackgroundSwitch = document.getElementById('useAnimationBackground');
-
-        useAnimationBackgroundSwitch.addEventListener('change', () => {
-            if (useAnimationBackgroundSwitch.selected) {
-                localStorage.setItem('UseBackgroundAnimations', 'true');
-            } else {
-                localStorage.setItem('UseBackgroundAnimations', 'false');
-            }
-        });
-
-        const getUseBackgroundAnimations = localStorage.getItem('UseBackgroundAnimations');
-
-        if (getUseBackgroundAnimations) {
-            if (getUseBackgroundAnimations === 'true') {
-                useAnimationBackgroundSwitch.selected = true;
-            } else {
-                useAnimationBackgroundSwitch.selected = false;
-            }
-        } else {
-            localStorage.setItem('UseBackgroundAnimations', 'true');
-        }
-
-
-    const AppLanguageText = localStorage.getItem('AppLanguage');
-    if(AppLanguageText){
-        document.getElementById("selectedAppLang_text").innerHTML = AppLanguageText;
-    } else{
-        document.getElementById("selectedAppLang_text").innerHTML = 'English';
-
-    }
-
-
-        // ----------------------------------------------------------------------------------
-
-
-    // ---------------------------------------------------
-
-    const HideNewUpdateToastSwitch = document.getElementById('HideNewUpdateToastSwitch');
-
-    HideNewUpdateToastSwitch.addEventListener('change', ()=>{
-    localStorage.setItem('HideNewUpdateToast', HideNewUpdateToastSwitch.selected)
-
-});
-
-const HideNewUpdateToast = localStorage.getItem('HideNewUpdateToast');
-
-if(HideNewUpdateToast === 'true'){
-    HideNewUpdateToastSwitch.selected = true;
-} else{
-    HideNewUpdateToastSwitch.selected = false;
-
-}
-// -------------------------------------
-
-
-    const useRoundedUISwitch = document.getElementById('useRoundedUI');
-
-
-    useRoundedUISwitch.addEventListener('change', ()=>{
-        localStorage.setItem('UseRoundedUI', useRoundedUISwitch.selected)
-    });
-
-    const UseRoundedUI = localStorage.getItem('UseRoundedUI');
-
-    if(UseRoundedUI && UseRoundedUI === 'true'){
-        useRoundedUISwitch.selected = true
-    } else{
-        useRoundedUISwitch.selected = false
-
-    }
-
-
-
-document.getElementById('toggle_noti').addEventListener('change', ()=>{
-
-            if(document.getElementById('toggle_noti').selected){
-                    setTimeout(()=>{
-                   sendThemeToAndroid('ReqNotification')
-            }, 1000);
-            localStorage.setItem('UseNotification', 'true')
-            } else{
-            localStorage.setItem('UseNotification', 'false')
-
-            }
-
-
-
-    });
-
-    if(localStorage.getItem('UseNotification') && localStorage.getItem('UseNotification') === 'true'){
-        document.getElementById('toggle_noti').selected = true;
-    } else{
-        document.getElementById('toggle_noti').selected = false;
-    }
-
-
-
-function handlePermissionDenied(){
-    localStorage.setItem('UseNotification', 'false')
-    document.getElementById('toggle_noti').click()
-}
-
-document.getElementById('useBarChart').addEventListener('change', ()=>{
-
-        if(document.getElementById('useBarChart').selected){
-        localStorage.setItem('useBarChart', 'true')
-        } else{
-        localStorage.setItem('useBarChart', 'false')
-
-    }
-
-
-
-});
-
-if(localStorage.getItem('useBarChart') && localStorage.getItem('useBarChart') === 'true'){
-document.getElementById('useBarChart').selected = true;
-} else{
-document.getElementById('useBarChart').selected = false;
-}
-
-function ChangeDefaultLocationName(){
-    const checkName = JSON.parse(localStorage.getItem('DefaultLocation'));
-
-
-    if(checkName.name === 'CurrentDeviceLocation'){
-        document.getElementById('homeLocationSelectedText').innerHTML = 'Your device location'
-    } else if(checkName){
-        document.getElementById('homeLocationSelectedText').innerHTML = checkName.name;
-    } else{
-        document.getElementById('homeLocationSelectedText').innerHTML = 'Your device location'
-    }
-
-}
-
-function handleStorageChangeDefaultLocation(event) {
-    if (event.key === 'DefaultLocation') {
-
-            setTimeout(()=>{
-            ChangeDefaultLocationName()
-            }, 500);
-
-    }
-}
-
-window.addEventListener('storage', handleStorageChangeDefaultLocation);
-
-document.addEventListener('DOMContentLoaded', () =>{
-    ChangeDefaultLocationName()
-});
-
-
-        function openMainProviderDialog() {
-            document.getElementById('chooseMainProviderDialog').show();
-            window.history.pushState({ MainProviderDialogOpen: true }, "");
-
-            document.querySelector(`md-radio[value="${localStorage.getItem('selectedMainWeatherProvider') || 'open-meteo'}"]`).setAttribute('checked', 'true');
-
-            if(document.getElementById('headUser-1').scrollTop >= 50){
-                sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_DialogScrolled`)
-            } else{
-                sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_DialogNotScrolled`)
-
-            }
-
-        }
-
-
-
-        window.addEventListener('popstate', function (event) {
-            if (document.getElementById('chooseMainProviderDialog').open) {
-                document.getElementById('chooseMainProviderDialog').close();
-            }
-        })
-
-        document.getElementById('chooseMainProviderDialog').addEventListener('cancel', () => {
-            document.getElementById('chooseMainProviderDialog').addEventListener('closed', () => {
-                window.history.back()
-
-            });
-
-        });
-
-        document.getElementById('chooseMainProviderDialog').addEventListener('close', () => {
-
-
-            if(document.getElementById('headUser-1').scrollTop >= 50){
-                sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_Scrolled`);
-            } else{
-              sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_ScrollFalse`);
-
-            }
-
-            });
-
-        // ----------
-
-
-
-function ChangeSelectedMainProviderName() {
-            const checkName = localStorage.getItem('selectedMainWeatherProvider')
-
-            if (checkName === 'Met norway') {
-             document.getElementById('mainProviderSelectedText').innerHTML = 'Met Norway (Global)';
-
-            } else if (localStorage.getItem('ApiForAccu') && checkName === 'Accuweather') {
-                document.getElementById('mainProviderSelectedText').innerHTML = 'Accuweather (Global)';
-
-            } else if (checkName === 'meteoFrance') {
-                document.getElementById('mainProviderSelectedText').innerHTML = 'Météo-France (Europe, Global)';
-
-            } else if (checkName === 'dwdGermany') {
-                document.getElementById('mainProviderSelectedText').innerHTML = 'DWD (Europe, Global)';
-
-            } else if (checkName === 'noaaUS') {
-                document.getElementById('mainProviderSelectedText').innerHTML = 'NOAA (Americas, Global)';
-
-            } else if (checkName === 'ecmwf') {
-                document.getElementById('mainProviderSelectedText').innerHTML = 'ECMWF (Global)';
-
-            } else if (checkName === 'ukMetOffice') {
-                document.getElementById('mainProviderSelectedText').innerHTML = 'UK Met Office (Europe, Global)';
-
-            } else if (checkName === 'jmaJapan') {
-                document.getElementById('mainProviderSelectedText').innerHTML = 'JMA (Asia, Global)';
-
-            } else if (checkName === 'gemCanada') {
-                document.getElementById('mainProviderSelectedText').innerHTML = 'GEM (Americas, Global)';
-
-            } else if (checkName === 'bomAustralia') {
-                document.getElementById('mainProviderSelectedText').innerHTML = 'BOM (Oceania, Global)';
-
-            } else if (checkName === 'cmaChina') {
-                document.getElementById('mainProviderSelectedText').innerHTML = 'CMA (Asia, Global)';
-
-            } else if (checkName === 'knmiEurope') {
-                document.getElementById('mainProviderSelectedText').innerHTML = 'KNMI (Europe, Global)';
-
-            } else if (checkName === 'dmiEurope') {
-                document.getElementById('mainProviderSelectedText').innerHTML = 'DMI (Europe, Global)';
-
-            } else {
-                document.getElementById('mainProviderSelectedText').innerHTML = 'Open-Meteo (Global)';
-            }
-
-
-
-        }
-
-
-
-        document.addEventListener('DOMContentLoaded', () => {
-            ChangeSelectedMainProviderName()
-
-                if(localStorage.getItem('UseNotification')){
-                    setTimeout(() =>{
-                    localStorage.removeItem('UseNotification')
-                    document.getElementById('toggle_noti').selected = false;
-                    }, 500)
-                }
-
-                                document.getElementById('useTempAnimation').addEventListener('change', () =>{
-                    localStorage.setItem('useTempAnimation', document.getElementById('useTempAnimation').selected)
-                });
-
-                if(localStorage.getItem('useTempAnimation') && localStorage.getItem('useTempAnimation') === 'false'){
-                    document.getElementById('useTempAnimation').selected = false;
-                } else{
-                    document.getElementById('useTempAnimation').selected = true;
-                }
-
-        });
-
-
-                // ------------
-
-
-        function openAppFontDialog() {
-            document.getElementById('chooseAPPFontDialog').show();
-            window.history.pushState({ AppFontDialogOpen: true }, "");
-
-            document.querySelector(`md-radio[value="${localStorage.getItem('SelectedAPPfont') || 'product_sans'}"]`).setAttribute('checked', 'true');
-
-            if(document.getElementById('headUser-1').scrollTop >= 50){
-                sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_DialogScrolled`)
-            } else{
-                sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_DialogNotScrolled`)
-
-            }
-
-        }
-
-
-
-        window.addEventListener('popstate', function (event) {
-            if (document.getElementById('chooseAPPFontDialog').open) {
-                document.getElementById('chooseAPPFontDialog').close();
-            }
-        })
-
-        document.getElementById('chooseAPPFontDialog').addEventListener('cancel', () => {
-            document.getElementById('chooseAPPFontDialog').addEventListener('closed', () => {
-                window.history.back()
-
-            });
-
-        });
-
-        document.getElementById('chooseAPPFontDialog').addEventListener('close', () => {
-
-
-            if(document.getElementById('headUser-1').scrollTop >= 50){
-                sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_Scrolled`);
-            } else{
-              sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_ScrollFalse`);
-
-            }
-
-            });
-
-                document.getElementById('saveSelectedFont').addEventListener('click', () =>{
-
-
-                         if(document.querySelector('md-radio[value="product_sans"]').checked){
-                            localStorage.setItem('SelectedAPPfont', 'product_sans');
-                                document.documentElement.setAttribute('sys-font', '');
-
-                         } else{
-                            localStorage.setItem('SelectedAPPfont', 'roboto');
-                                document.documentElement.setAttribute('sys-font', 'roboto');
-                         }
-                         window.history.back()
-                         applyFontChanges()
-                });
-
-// ------------------
-
-                document.getElementById('useWeatherAlerts').addEventListener('change', () =>{
-                    localStorage.setItem('useWeatherAlerts', document.getElementById('useWeatherAlerts').selected);
-                });
-
-                if(localStorage.getItem('useWeatherAlerts') && localStorage.getItem('useWeatherAlerts') === 'false'){
-                    document.getElementById('useWeatherAlerts').selected = false
-                } else{
-                    document.getElementById('useWeatherAlerts').selected = true
-                }
-
-                document.getElementById("exportAppData").addEventListener("click", () => {
-
-
-
-    const data = { ...localStorage };
-
-    // Check if local storage has data
-    if (Object.keys(data).length > 0) {
-        // Convert data to JSON string
-        const jsonData = JSON.stringify(data, null, 2);
-
-        // Use Android interface to save the file
-        Android.saveFile(jsonData);
-    } else {
-        // Show toast message if no data is found
-        ShowSnackMessage.ShowSnack("No data found", "short");
-    }
-});
-
-document.getElementById('importAppData').addEventListener('click', () => {
-    Android.importFile();
-});
-
-function handleImportedData(importedData) {
-    try {
-        const data = JSON.parse(importedData);
-
-        if (typeof data !== "object" || data === null) {
-            throw new Error("Invalid data format");
-        }
-
-        localStorage.clear();
-
-
-      setTimeout(() => {
-        for (const [key, value] of Object.entries(data)) {
-            localStorage.setItem(key, value);
-
-        }
-        ShowSnackMessage.ShowSnack("Data imported successfully!", "short");
-
-}, 1000);
-      setTimeout(() => {
-      Android.reloadTheApp();
-}, 1500);
-
-    } catch (error) {
-        ShowSnackMessage.ShowSnack("Error parsing the imported JSON data. Please ensure it is valid and correctly formatted.", "long");
-        console.error(error);
-    }
-}
-
-
-//  ----------------
-
-
-document.getElementById('useFroggySummarySwitch').addEventListener('change', () =>{
-    localStorage.setItem('UseFrogSummary', document.getElementById('useFroggySummarySwitch').selected)
-});
-
-if(localStorage.getItem('UseFrogSummary') && localStorage.getItem('UseFrogSummary') === 'true'){
-    document.getElementById('useFroggySummarySwitch').selected = true;
-} else{
-    document.getElementById('useFroggySummarySwitch').selected = false;
 }
 
     </script>
 </script>
 
+<script src="../modules/settingsModule.js"></script>
 <script src="../components-script.js/components.js"></script>
 <script src="../ripple-files/icon-ripple.js"></script>
 <script src="../modules/scroll.js"></script>

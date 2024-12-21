@@ -71,9 +71,13 @@ document.addEventListener("DOMContentLoaded", () => {
       if (provider === 'Accuweather') {
           accuweatherInputItem.style.maxHeight = '200px';
           accuweatherInputItem.style.opacity = '1';
+          accuweatherInputItem.style.margin = '';
+
       } else {
           accuweatherInputItem.style.maxHeight = '0';
           accuweatherInputItem.style.opacity = '0';
+          accuweatherInputItem.style.margin = '0';
+
       }
   }
 });

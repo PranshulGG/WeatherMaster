@@ -584,9 +584,9 @@ async function displayDailyForecast(forecast, forecastDaily) {
 
             <p class="daily-conditions-title" data-translate="daily_conditions">Daily conditions</p>
             <div class="daily-conditions">
-            <div class="daily-conditions-wrap">
+            <div class="daily-conditions-wrap" id="sortableContainer">
 
-                     <div class="currentConditionItem sunRISESET ripple_btn_low"
+                     <div class="currentConditionItem sunRISESET ripple_btn_low" data-id="1"
                         >
                         <div class="currentConditionItemTitle"><i icon-filled>wb_twilight</i><span
                                 data-translate="sun">Sun</span></div>
@@ -620,7 +620,7 @@ async function displayDailyForecast(forecast, forecastDaily) {
 
 
 
-                    <div class="currentConditionItem pressure ripple_btn_low"
+                    <div class="currentConditionItem pressure ripple_btn_low" data-id="2"
                        >
 
                         <div class="current_condition_icon" id="pressure_icon_svg">
@@ -639,7 +639,7 @@ async function displayDailyForecast(forecast, forecastDaily) {
 
 
 
-                                       <div class="currentConditionItem humidity ripple_btn_low"
+                                       <div class="currentConditionItem humidity ripple_btn_low" data-id="3"
                         >
                         <div class="currentConditionItemTitle"><i icon-filled>rainy_light</i><span style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 105px;"
                                 data-translate="precipitation">Precipitation</span></div>
@@ -657,7 +657,7 @@ async function displayDailyForecast(forecast, forecastDaily) {
 
                     </div>
 
-                                        <div class="currentConditionItem pressure ripple_btn_low" style="background-color: transparent;"
+                                        <div class="currentConditionItem pressure ripple_btn_low" style="background-color: transparent;" data-id="4"
                        >
 
                         <div class="current_condition_icon" id="pressure_icon_svg">
@@ -676,8 +676,8 @@ async function displayDailyForecast(forecast, forecastDaily) {
 
 
 
-                                        <div class="currentConditionItem visibility ripple_btn_low"
-                        onclick="sendThemeToAndroid('openVisibilityCondition')">
+                                        <div class="currentConditionItem visibility ripple_btn_low" data-id="5"
+                        >
                         <div class="currentConditionItemTitle visibility"><i icon-filled>air</i><span data-translate="wind"
                                 >Wind</span></div>
 
@@ -704,7 +704,7 @@ async function displayDailyForecast(forecast, forecastDaily) {
                     </div>
 
 
-                   <div class="currentConditionItem humidity ripple_btn_low"
+                   <div class="currentConditionItem humidity ripple_btn_low" data-id="6"
                         >
                         <div class="currentConditionItemTitle"><i icon-filled>humidity_high</i><span
                                 data-translate="humidity" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 105px;">Humidity</span></div>
@@ -725,7 +725,7 @@ async function displayDailyForecast(forecast, forecastDaily) {
                     </div>
 
 
-                         <div class="currentConditionItem pressure ripple_btn_low" style="background-color: transparent;"
+                         <div class="currentConditionItem pressure ripple_btn_low" style="background-color: transparent;" data-id="7"
                        >
 
                         <div class="current_condition_icon" id="pressure_icon_svg">
@@ -751,6 +751,7 @@ async function displayDailyForecast(forecast, forecastDaily) {
     </div>
 
             `
+
 
             if (!forecastMainDetails.contains(forecastTempConditionMainContent)) {
                 forecastMainDetails.appendChild(forecastTempConditionMainContent);
@@ -795,6 +796,10 @@ async function displayDailyForecast(forecast, forecastDaily) {
             }
         }
     });
+          setTimeout(() =>{
+                    initializeDragAndDrop();
+                }, 300);
+
 }
 
 
@@ -827,7 +832,47 @@ setTimeout(() => {
 
 
 
+async function initializeDragAndDrop() {
+    const draggableContainer = document.getElementById('sortableContainer');
+    const storageKey = 'dragAndDropStateForecast';
 
+    async function saveOrder() {
+        const itemsOrder = Array.from(draggableContainer.children).map(element => element.dataset.id);
+        await customStorage.setItem(storageKey, JSON.stringify(itemsOrder));
+    }
 
+    async function loadOrder() {
+        const storedState = await customStorage.getItem(storageKey);
+        if (storedState) {
+            const itemsOrder = JSON.parse(storedState);
+            const elements = Array.from(draggableContainer.children);
 
+            itemsOrder.forEach(id => {
+                const element = elements.find(el => el.dataset.id === id);
+                if (element) {
+                    draggableContainer.appendChild(element);
+                }
+            });
+        }
+    }
+  let timeoutID;
+    const sortableInstance = new Sortable(draggableContainer, {
+        animation: 250,
+        ghostClass: 'sortable-ghost',
+        delay: 500,
+        onStart(evt) {
 
+          evt.item.classList.add('noSwipe');
+      },
+        onEnd(evt) {
+          clearTimeout(timeoutID);
+
+          timeoutID = setTimeout(() => {
+            evt.item.classList.remove('noSwipe');
+          }, 200);
+            saveOrder();
+        },
+    });
+
+    await loadOrder();
+  }

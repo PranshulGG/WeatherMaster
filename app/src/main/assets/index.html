@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="ripple-files/ripple.css">
     <link rel="stylesheet" href="map/leaflet.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css" />
+    <script src="modules/Sortable.min.js"></script>
     <script src="modules/lottie.js"></script>
     <script src="langs/langs.js"></script>
     <script src="./bundle.js"></script>
@@ -23,6 +24,7 @@
 
 <body>
 <div class="no_touch_screen" hidden></div>
+<swipeCooldown hidden></swipeCooldown>
 <div class="header-top" id="main-Header-Top">
     <div class="header_hold">
         <div class="main-city" id="main-city">
@@ -137,6 +139,13 @@
             </div>
         </div>
 
+        <div class="floating_indications" hidden>
+            <div id="indicatorContainer" class="indicator-container">
+                <!-- Indicator balls 💀 will be dynamically added here -->
+            </div>
+
+        </div>
+
 
         <div class="excessiveHeat ripple_btn_low"
              style="margin-bottom: 10px; margin-top: 5px !important; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);"
@@ -206,7 +215,7 @@
 
 
 
-        <div class="insights_scroll">
+        <div class="insights_scroll noSwipe">
             <div class="insights"
                  style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); z-index: 2; position: relative;">
 
@@ -255,7 +264,7 @@
                     <p class="today_Text" data-translate="next_24-hr">Next 24-hr</p>
                     <p class="date_Text_top" id="date_text_top">Mar, 19</p>
                 </div>
-                <div class="forecast" id="forecast">
+                <div class="forecast noSwipe" id="forecast">
 
                     <div style="display: flex; align-items: center; justify-content: center; width: 100%;">
                         <md-circular-progress indeterminate></md-circular-progress>
@@ -285,7 +294,7 @@
                 </div>
 
 
-                <rainMeterBar>
+                <rainMeterBar class="noSwipe">
 
                 </rainMeterBar>
 
@@ -301,13 +310,13 @@
                             icon-outlined style="font-size: 20px;" class="trend_arrow_temp">keyboard_arrow_down</i>
                     </p>
                 </div>
-                <div class="forecast-5day" id="forecast-5day">
+                <div class="forecast-5day noSwipe" id="forecast-5day">
 
 
                 </div>
 
 
-                <div class="temp_trend_wrapper">
+                <div class="temp_trend_wrapper noSwipe">
                     <div class="temp_trend_bars"></div>
                 </div>
 
@@ -326,10 +335,10 @@
 
 
 
-            <div class="currentConditions" style="margin-top: 10px;">
+            <div class="currentConditions" style="margin-top: 10px;" id="sortableContainer">
 
 
-                <div class="currentConditionItem sunRISESET ripple_btn_low"
+                <div class="currentConditionItem sunRISESET ripple_btn_low" data-id="1"
                      onclick="sendThemeToAndroid('openSunCondition')">
                     <div class="currentConditionItemTitle"><i icon-filled>wb_twilight</i><span
                             data-translate="sun_tile_page">Sun</span></div>
@@ -362,7 +371,7 @@
                 </div>
 
 
-                <div class="currentConditionItem humidity ripple_btn_low"
+                <div class="currentConditionItem humidity ripple_btn_low" data-id="2"
                      onclick="sendThemeToAndroid('openHumidityCondition')">
                     <div class="currentConditionItemTitle"><i icon-filled>humidity_high</i><span
                             data-translate="humidity"
@@ -393,7 +402,7 @@
 
 
 
-                <div class="currentConditionItem pressure ripple_btn_low"
+                <div class="currentConditionItem pressure ripple_btn_low" data-id="3"
                      onclick="sendThemeToAndroid('openPressureCondition')">
 
                     <div class="current_condition_icon" id="pressure_icon_svg">
@@ -420,7 +429,7 @@
                 </div>
 
 
-                <div class="currentConditionItem WindDirc ripple_btn_low"
+                <div class="currentConditionItem WindDirc ripple_btn_low" data-id="4"
                      onclick="sendThemeToAndroid('openWindCondition')">
 
                     <div class="current_condition_icon" id="windDirectionArrow">
@@ -449,7 +458,7 @@
 
 
 
-                <div class="currentConditionItem visibility ripple_btn_low"
+                <div class="currentConditionItem visibility ripple_btn_low" data-id="5"
                      onclick="sendThemeToAndroid('openVisibilityCondition')">
                     <div class="currentConditionItemTitle visibility"><i icon-filled>visibility</i><span
                             data-translate="visibility"
@@ -481,7 +490,7 @@
 
 
 
-                <div class="currentConditionItem moonSetRise ripple_btn_low" onclick="sendThemeToAndroid('openMoonCondition')">
+                <div class="currentConditionItem moonSetRise ripple_btn_low" onclick="sendThemeToAndroid('openMoonCondition')" data-id="6">
                     <div class="currentConditionItemTitle"><i icon-filled>bedtime</i><span data-translate="moon">Sun</span></div>
 
                     <div class="current_condition_icon">
@@ -866,8 +875,55 @@
 </div>
 
 
-
 <script>
+async function initializeDragAndDrop() {
+  const draggableContainer = document.getElementById('sortableContainer');
+  const storageKey = 'dragAndDropState';
+
+  async function saveOrder() {
+      const itemsOrder = Array.from(draggableContainer.children).map(element => element.dataset.id);
+      await customStorage.setItem(storageKey, JSON.stringify(itemsOrder));
+  }
+
+  async function loadOrder() {
+      const storedState = await customStorage.getItem(storageKey);
+      if (storedState) {
+          const itemsOrder = JSON.parse(storedState);
+          const elements = Array.from(draggableContainer.children);
+
+          itemsOrder.forEach(id => {
+              const element = elements.find(el => el.dataset.id === id);
+              if (element) {
+                  draggableContainer.appendChild(element);
+              }
+          });
+      }
+  }
+let timeoutID;
+  const sortableInstance = new Sortable(draggableContainer, {
+      animation: 250,
+      ghostClass: 'sortable-ghost',
+      delay: 500,
+      onStart(evt) {
+
+        evt.item.classList.add('noSwipe');
+    },
+      onEnd(evt) {
+        clearTimeout(timeoutID);
+
+        timeoutID = setTimeout(() => {
+          evt.item.classList.remove('noSwipe');
+        }, 200);
+          saveOrder();
+      },
+  });
+
+  await loadOrder();
+}
+
+initializeDragAndDrop();
+
+
 
         function checkFontEventChange() {
             const useSysFontPages = localStorage.getItem('SelectedAPPfont');
@@ -891,6 +947,32 @@
 
         window.addEventListener('storage', handleStorageChangeFontEvent);
 
+        // ------------
+
+
+        function checkFontSizeEventChange() {
+            const useFontSizePages = localStorage.getItem('SelectedAPPfontSize');
+
+            if (useFontSizePages === 'large_fontSize') {
+            document.documentElement.setAttribute("sys-font-size", "large_fontSize");
+            } else if (useFontSizePages === 'medium_fontSize') {
+            document.documentElement.setAttribute("sys-font-size", "medium_fontSize");
+            } else {
+            document.documentElement.setAttribute("sys-font-size", "");
+            }
+        }
+
+        function handleStorageChangeFontSizeEvent(event) {
+            if (event.key === 'SelectedAPPfontSize') {
+
+                setTimeout(() => {
+                    checkFontSizeEventChange()
+                }, 500);
+
+            }
+        }
+
+        window.addEventListener('storage', handleStorageChangeFontSizeEvent);
 
 
 

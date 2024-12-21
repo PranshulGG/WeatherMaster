@@ -5,6 +5,7 @@
  <meta charset="UTF-8">
  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
  <title>about Page</title>
+ <script src="../database/MainDataBase.js"></script>
  <script src="../langs/langs.js"></script>
  <link rel="stylesheet" href="../ui-files/ui.css">
  <link rel="stylesheet" href="../ui-files/font-usage.css">
@@ -148,7 +149,7 @@
          <md-icon icon-outlined>info</md-icon>
          <div style="position: relative; width: 100%;">
           <p data-translate="version">Version</p>
-          <span>1.10.0 (W)</span>
+          <span>1.11.0 (W)</span>
           <md-icon-button style="position: absolute; right: 5px;" id="checkUpdatesBtn"><md-icon icon-outlined>refresh</md-icon></md-icon-button>
          </div>
         </div>
@@ -254,7 +255,7 @@ function rgbToHsl({ r, g, b }) {
     return { h: h * 360, s: s * 100, l: l * 100 };
 }
 
-function CreateMaterialYouTheme(hex) {
+async function CreateMaterialYouTheme(hex) {
     const colors = {
         orange_material: "#FFA500",
         red_material: "#FF0000",
@@ -279,8 +280,20 @@ function CreateMaterialYouTheme(hex) {
         }
     }
 
-    document.documentElement.setAttribute('Theme', closestColor);
-    sendThemeToAndroid(`${closestColor}_ScrollFalse`);
+ if(localStorage.getItem("useDynamicColors") && localStorage.getItem("useDynamicColors") === "false"){
+        if (await customStorage.getItem("customTheme")) {
+      document.documentElement.setAttribute(
+        "Theme",
+        await customStorage.getItem("customTheme")
+      );
+            sendThemeToAndroid(
+        `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
+      );
+    }
+  } else{
+  document.documentElement.setAttribute('Theme', closestColor);
+  sendThemeToAndroid(`${closestColor}_ScrollFalse`);
+  }
 }
 
 
@@ -351,7 +364,7 @@ function CreateMaterialYouTheme(hex) {
 
 
         document.getElementById('checkUpdatesBtn').addEventListener('click', async function () {
-            const currentVersion = 'v1.10.0';
+            const currentVersion = 'v1.11.0';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 

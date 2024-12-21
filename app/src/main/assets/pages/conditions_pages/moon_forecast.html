@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>SunRise set Forecast</title>
+    <script src="../../database/MainDataBase.js"></script>
     <link rel="stylesheet" href="../../ui-files/font-usage.css">
     <link rel="stylesheet" href="../../ui-files/variables.css">
     <link rel="stylesheet" href="../../components/components.css">
@@ -118,8 +119,8 @@
             <p id="moonPhase_name">--</p>
             <div class="moon_set_rise">
                 <span id="moonIlli">--</span>
-                <span id="moonSetTime">--</span>
                 <span id="moonriseTime">--</span>
+                <span id="moonSetTime">--</span>
             </div>
         </div>
 
@@ -197,7 +198,7 @@ function rgbToHsl({ r, g, b }) {
     return { h: h * 360, s: s * 100, l: l * 100 };
 }
 
-function CreateMaterialYouTheme(hex) {
+async function CreateMaterialYouTheme(hex) {
     const colors = {
         orange_material: "#FFA500",
         red_material: "#FF0000",
@@ -222,8 +223,20 @@ function CreateMaterialYouTheme(hex) {
         }
     }
 
-    document.documentElement.setAttribute('Theme', closestColor);
-    sendThemeToAndroid(`${closestColor}_ScrollFalse`);
+ if(localStorage.getItem("useDynamicColors") && localStorage.getItem("useDynamicColors") === "false"){
+        if (await customStorage.getItem("customTheme")) {
+      document.documentElement.setAttribute(
+        "Theme",
+        await customStorage.getItem("customTheme")
+      );
+            sendThemeToAndroid(
+        `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
+      );
+    }
+  } else{
+  document.documentElement.setAttribute('Theme', closestColor);
+  sendThemeToAndroid(`${closestColor}_ScrollFalse`);
+  }
 }
 
           function sendThemeToAndroid(theme) {

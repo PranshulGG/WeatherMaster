@@ -136,6 +136,7 @@ function generateClothingRecommendation(timeOfDay, avgData, aqi) {
     }
 
     // UV index-based recommendations
+    if (timeOfDay !== 'Night') {
     if (avgData.avgUVIndex > 0 && avgData.avgUVIndex <= 2) {
         clothingTips.push('<li>🕶️ UV levels are low; wear sunglasses to reduce glare and feel comfortable.</li>');
     } else if (avgData.avgUVIndex > 2 && avgData.avgUVIndex <= 5) {
@@ -143,7 +144,7 @@ function generateClothingRecommendation(timeOfDay, avgData, aqi) {
     } else {
         clothingTips.push('<li>🧴 Use sunscreen (SPF 50+), wear UV-blocking clothing, and stay in the shade as much as possible.</li>');
     }
-
+    }
     // Nighttime recommendations
     if (timeOfDay === 'Night') {
         clothingTips.push('<li>🌙 Opt for reflective clothing or accessories for better visibility in low light.</li>');

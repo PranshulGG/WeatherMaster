@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>Pressure Forecast</title>
+    <script src="../../database/MainDataBase.js"></script>
     <link rel="stylesheet" href="../../ui-files/font-usage.css">
     <link rel="stylesheet" href="../../ui-files/variables.css">
     <link rel="stylesheet" href="../../components/components.css">
@@ -99,7 +100,7 @@ function rgbToHsl({ r, g, b }) {
     return { h: h * 360, s: s * 100, l: l * 100 };
 }
 
-function CreateMaterialYouTheme(hex) {
+async function CreateMaterialYouTheme(hex) {
     const colors = {
         orange_material: "#FFA500",
         red_material: "#FF0000",
@@ -124,8 +125,20 @@ function CreateMaterialYouTheme(hex) {
         }
     }
 
-    document.documentElement.setAttribute('Theme', closestColor);
-    sendThemeToAndroid(`${closestColor}_ScrollFalse`);
+ if(localStorage.getItem("useDynamicColors") && localStorage.getItem("useDynamicColors") === "false"){
+        if (await customStorage.getItem("customTheme")) {
+      document.documentElement.setAttribute(
+        "Theme",
+        await customStorage.getItem("customTheme")
+      );
+            sendThemeToAndroid(
+        `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
+      );
+    }
+  } else{
+  document.documentElement.setAttribute('Theme', closestColor);
+  sendThemeToAndroid(`${closestColor}_ScrollFalse`);
+  }
 }
         const cachedCurrentDataAvg = JSON.parse(localStorage.getItem('CurrentHourlyCache'));
         const SelectedPressureUnit = localStorage.getItem('selectedPressureUnit');

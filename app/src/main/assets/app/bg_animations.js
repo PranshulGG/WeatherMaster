@@ -351,32 +351,35 @@ function createRain() {
 
   // ------------
 
-
   function createStars() {
     const canvas = document.getElementById('bg_animation_stars');
     const ctx = canvas.getContext('2d');
 
-
     function adjustCanvasSize() {
+        const parent = canvas.parentElement; // Get the parent element
         const devicePixelRatio = window.devicePixelRatio || 1;
-        canvas.width = window.innerWidth * devicePixelRatio;
-        canvas.height = window.innerHeight * devicePixelRatio;
-        canvas.style.width = window.innerWidth + 'px';
-        canvas.style.height = window.innerHeight + 'px';
+        const parentWidth = parent.offsetWidth;
+        const parentHeight = parent.offsetHeight;
+
+        canvas.width = parentWidth * devicePixelRatio;
+        canvas.height = parentHeight * devicePixelRatio;
+        canvas.style.width = parentWidth + 'px';
+        canvas.style.height = parentHeight + 'px';
+        ctx.scale(devicePixelRatio, devicePixelRatio);
     }
 
-
     let starsArray = [];
+    let meteorsArray = [];
     const numberOfStars = 300;
     const twinkleInterval = 10000;
+    const starMinY = -10; // Minimum Y-position for stars
     let animationFrameId;
 
     class Star {
         constructor(isGolden = false) {
-            const devicePixelRatio = window.devicePixelRatio || 1;
             this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.size = isGolden ? Math.random() * 2 + 6 : Math.random() * 3 + 1;
+            this.y = Math.random() * (canvas.height - starMinY) + starMinY; // Ensure stars appear above 191px
+            this.size = (Math.random() * 0.6 + 0.4) * (isGolden ? 3 : 1.5);
             this.color = isGolden ? 'gold' : '#fffbd4';
             this.opacity = Math.random();
             this.isGolden = isGolden;
@@ -402,6 +405,64 @@ function createRain() {
         }
     }
 
+class Meteor {
+    constructor() {
+        this.startBuffer = canvas.width * 0.05; // Ensure meteors start within 20% buffer of the screen width
+        this.x = Math.random() * (canvas.width - this.startBuffer) + this.startBuffer / 2; // Constrain starting x
+        this.y = Math.random() * canvas.height * 0.2; // Start in the top 20% of the canvas height
+        this.size = Math.random() * 1.5 + 2; // Larger size for glow effect
+        this.speedX = Math.random() * 2 + 4; // Adjusted horizontal speed
+        this.speedY = Math.random() * 2 + 3; // Adjusted vertical speed
+        this.opacity = 0.8; // Initial opacity
+        this.trail = []; // Array to store trail points
+        this.maxTrailLength = 8; // Limit the trail's length
+        this.endY = canvas.height * 0.5;
+    }
+
+    draw() {
+        // Draw the trail
+        ctx.globalAlpha = 0.8;
+        ctx.beginPath();
+        this.trail.forEach((point, index) => {
+            const alpha = (index + 1) / this.trail.length; // Gradually fade the trail
+            ctx.globalAlpha = alpha;
+            ctx.lineTo(point.x, point.y);
+        });
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+        ctx.lineWidth = this.size / 2;
+        ctx.stroke();
+        ctx.closePath();
+
+        // Draw the meteor head
+        ctx.globalAlpha = this.opacity;
+        const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 2);
+        gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+        gradient.addColorStop(0.5, 'rgba(255, 200, 100, 0.8)');
+        gradient.addColorStop(1, 'rgba(255, 150, 50, 0)');
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+    }
+
+    update(deltaTime) {
+        if (this.y >= this.endY) return false;
+
+        this.x += this.speedX * deltaTime / 25; // Slower animation
+        this.y += this.speedY * deltaTime / 25;
+
+        this.trail.push({ x: this.x, y: this.y });
+        if (this.trail.length > this.maxTrailLength) this.trail.shift();
+
+        this.opacity -= 0.005;
+        if (this.opacity <= 0) return false;
+
+        this.draw();
+        return true;
+    }
+}
+
 
     function initStars() {
         starsArray = [];
@@ -421,7 +482,16 @@ function createRain() {
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         starsArray.forEach(star => star.update(deltaTime));
+
+        meteorsArray = meteorsArray.filter(meteor => meteor.update(deltaTime));
         animationFrameId = requestAnimationFrame(animateStars);
+    }
+
+    function startMeteorShower() {
+        setTimeout(() => {
+            meteorsArray.push(new Meteor());
+            setInterval(() => meteorsArray.push(new Meteor()), 3000); // New meteor every 3 seconds
+        }, 3000); // Initial delay of 3 seconds
     }
 
     window.addEventListener('resize', () => {
@@ -431,26 +501,29 @@ function createRain() {
 
     let animationRunning = false;
 
+    function startAnimation() {
+        if (!animationRunning) {
+            animationRunning = true;
 
-    function startAnimation(){
-      if (!animationRunning) {
-          animationRunning = true;
-
-    adjustCanvasSize();
-    initStars();
-    animationFrameId = requestAnimationFrame(animateStars);
-  }
+            adjustCanvasSize();
+            initStars();
+            startMeteorShower();
+            animationFrameId = requestAnimationFrame(animateStars);
+        }
     }
 
     function clearCanvas() {
         cancelAnimationFrame(animationFrameId);
         starsArray = [];
+        meteorsArray = [];
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         animationRunning = false;
     }
 
     return { clearCanvas, startAnimation };
-  }
+}
+
+
 
 
   // --------------------

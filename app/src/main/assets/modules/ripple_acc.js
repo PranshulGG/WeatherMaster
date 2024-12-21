@@ -52,3 +52,14 @@ if(useSysFontPages === 'roboto'){
     document.documentElement.setAttribute('sys-font', ' ');
 }
 
+const useFontSizePages = localStorage.getItem('SelectedAPPfontSize');
+
+
+
+if (useFontSizePages === 'large_fontSize') {
+    document.documentElement.setAttribute("sys-font-size", "large_fontSize");
+  } else if (useFontSizePages === 'medium_fontSize') {
+    document.documentElement.setAttribute("sys-font-size", "medium_fontSize");
+  } else {
+    document.documentElement.setAttribute("sys-font-size", "");
+  }

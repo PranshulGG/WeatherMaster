@@ -78,13 +78,14 @@ class StorageDB {
     }
 
     triggerStorageChangeEvent(key) {
-        const eventDetail = key ? { key } : { message: 'store cleared' };
+        const eventDetail = key !== null ? { key } : { key: null, message: 'store cleared' };
         const event = new CustomEvent('indexedDBChange', { detail: eventDetail });
         window.dispatchEvent(event);  // Dispatch event globally
     }
     broadcastChange(key) {
         const channel = new BroadcastChannel('indexedDB_channel');
-        channel.postMessage({ key });
+        const message = key !== null ? { key } : { key: null, message: 'store cleared' };
+        channel.postMessage(message);
     }
 }
 
@@ -114,4 +115,5 @@ channel.addEventListener('message', (event) => {
         window.dispatchEvent(customEvent);
     }
 });
+
 

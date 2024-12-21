@@ -2593,6 +2593,10 @@ max-width: 150px;
 
   }
 
+    .floating_indications{
+      width: 50% !important;
+    }
+
   #search-container{
     display: block !important;
     max-width: 50%;
@@ -2878,4 +2882,85 @@ Tempmeterbaritem span{
 .moving_data .data_base_created p{
   margin: 0;
   text-align: start;
+}
+
+/* Styling for the indicator container */
+.indicator-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--Inverse-Primary);
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 50px;
+  gap: 5px;
+}
+
+.indicator-ball {
+  width: 10px;
+  height: 10px;
+  background-color: var(--Surface-Container-Low);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.indicator-ball.active {
+  background-color: var(--Primary);
+}
+
+
+.floating_indications{
+  position: fixed;
+  bottom: 20px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100000000000000000000000000000000000;
+  pointer-events: none;
+  animation: floating_indications 0.3s cubic-bezier(1,0,0,1);
+  transition: all 0.2s ease-out;
+
+}
+
+@keyframes floating_indications{
+  0%{
+    opacity: 0;
+    bottom: 0;
+  }
+  100%{
+    opacity: 1;
+    bottom: 20px;
+  }
+
+}
+
+/* font sizes */
+
+
+[sys-font-size="medium_fontSize"] #weatherComments{
+  font-size: 16.5px !important;
+}
+
+[sys-font-size="medium_fontSize"] .weatherComments .summeryText{
+  font-size: 16.5px !important;
+}
+
+/* large */
+
+[sys-font-size="large_fontSize"] #weatherComments{
+  font-size: 17px !important;
+}
+
+[sys-font-size="large_fontSize"] .weatherComments .summeryText{
+  font-size: 17px !important;
+
 }
