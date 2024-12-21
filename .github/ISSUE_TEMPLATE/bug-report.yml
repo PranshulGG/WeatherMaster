@@ -2,7 +2,7 @@ name: Bug Report
 description: Report a bug
 labels: ["bug"]
 body:
-  - type: markdown 
+  - type: markdown
     attributes:
       value: |
         Please fill out the sections below to help everyone identify and fix the bug
@@ -39,7 +39,13 @@ body:
     id: screenshots
     attributes:
       label: Put here any screenshots or videos (optional)
-  - type: markdown
+  - type: checkboxes
+    id: acknowledgementsCheck
     attributes:
-      value: |
-        Thanks for reporting this issue! We will get back to you as soon as possible.
+      label: Acknowledgements
+      description: Your issue will be closed if you don’t read this carefully.
+      options:
+        - label: I have reviewed the existing issues to confirm that this is a unique report and not related to any currently open or closed tickets.
+          required: true
+        - label: I understand that this app is provided as-is, without any guarantees, and I might not receive a response to my request. Sometimes you might not get the response you want.
+          required: true

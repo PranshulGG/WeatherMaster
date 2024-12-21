@@ -1,34 +1,51 @@
-name: Feature request
-description: Suggest an idea for this project
+name: Feature Request
+description: Suggest an idea to improve this project
 body:
-  - type: markdown 
+  - type: markdown
     attributes:
       value: |
-        Please fill out the sections below
+        Please provide detailed information to help us understand your idea and its potential impact.
   - type: textarea
     id: description
     attributes:
       label: Problem Statement
-      placeholder: Describe the problem or limitation you're facing that the new feature would solve
+      placeholder: Describe the problem or limitation you're facing that the new feature would solve.
+      description: Clearly explain the challenge or issue you're encountering to help us understand the context.
     validations:
       required: true
   - type: textarea
-    id: Solution
+    id: solution
     attributes:
       label: Proposed Solution
-      placeholder: Explain how you think the feature should work
+      placeholder: Explain how you think the feature should work and address the problem.
+      description: Describe the solution in detail, including any specific behaviors or functionality it should have.
     validations:
       required: true
   - type: textarea
-    id: Alternatives
+    id: alternatives
     attributes:
       label: Alternatives Considered
-      placeholder: Describe any alternative solutions or features you've considered
+      placeholder: Describe any alternative solutions or features you've considered.
+      description: If there are other ways to solve the issue, please share them here.
   - type: textarea
-    id: Additional
+    id: additional
     attributes:
       label: Additional Context
+      placeholder: Provide any extra details, links, or examples that might help clarify your request.
+      description: This field is optional but highly encouraged if you have additional information.
+  - type: checkboxes
+    id: acknowledgementsCheck
+    attributes:
+      label: Acknowledgements
+      description: Please confirm the following before submitting your feature request
+      options:
+        - label: I have searched the existing issues and discussions to ensure this feature has not already been requested.
+          required: true
+        - label: I understand that submitting a request does not guarantee it will be implemented.
+          required: true
+        - label: I have provided all necessary information to clearly explain my request.
+          required: true
   - type: markdown
     attributes:
       value: |
-        Thanks for reporting this issue! We will get back to you as soon as possible.
+        Thank you for suggesting an improvement! Your feedback is valuable, and we will review it as soon as possible.
