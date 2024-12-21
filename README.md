@@ -34,15 +34,15 @@
 # 👁️ Screenshots
 
 <div align="center">
-<img src="preview/current.png"  width="320">
-<img src="preview/24hr.png"  width="320">
-<img src="preview/radar_condi.png"  width="320">
-<img src="preview/uv_aqi.png"  width="320">
-<img src="preview/forecast_page.png"  width="320">
-<img src="preview/gov_alerts.png"  width="320">
-<img src="preview/settings.png"  width="320">
-<img src="preview/radar_page.png"  width="320">
-<img src="preview/condi_forecast.png"  width="320">
+<img src="preview/1.png"  width="320">
+<img src="preview/2.png"  width="320">
+<img src="preview/3.png"  width="320">
+<img src="preview/4.png"  width="320">
+<img src="preview/5.png"  width="320">
+<img src="preview/6.png"  width="320">
+<img src="preview/7.png"  width="320">
+<img src="preview/8.png"  width="320">
+<img src="preview/9.png"  width="320">
 
 </div>
 
