@@ -362,7 +362,7 @@ function DailyWeather(dailyForecast) {
 
     ReportFromdaily(send1stDay);
 
-    weekDaysCache.push(getTranslationByLang("en", weekday));
+    weekDaysCache.push(getTranslationByLang(localStorage.getItem("AppLanguageCode"), weekday));
 
     const rainPercentage = dailyForecast.precipitation_probability_max[index];
     const DailyWeatherCode = dailyForecast.weather_code[index];

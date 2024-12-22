@@ -42,7 +42,6 @@ weatherWrap.addEventListener('scroll', function() {
     const Locations = JSON.parse(localStorage.getItem("DefaultLocation"));
 
         if(weatherWrap){
-            if(await customStorage.getItem('useGestureLocation') && await customStorage.getItem('useGestureLocation') === true){
     const savedLocations = [...savedLocationsFromStorage];
     if (Locations?.name === "CurrentDeviceLocation") {
         savedLocations.unshift({ locationName: "CurrentDeviceLocation", lat: null, lon: null });
@@ -236,7 +235,7 @@ weatherWrap.addEventListener('scroll', function() {
     });
 }
         }
-    }
+
 
 
 

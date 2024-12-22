@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en" Theme="clothing" data-theme="dark" >
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Arrange items Page</title>
+    <script src="../database/MainDataBase.js"></script>
+    <script src="../langs/langs.js"></script>
+    <script src="../modules/Sortable.min.js"></script>
+    <link rel="stylesheet" href="../ui-files/ui.css">
+    <link rel="stylesheet" href="../ui-files/font-usage.css">
+    <link rel="stylesheet" href="../ui-files/variables.css">
+    <link rel="stylesheet" href="../components/components.css">
+    <link rel="stylesheet" href="../ripple-files/ripple.css">
+    <link rel="stylesheet" href="../components/md-buttons.css">
+    <script src="../modules/lottie.js"></script>
+    <style>
+            .padding_about_app{
+                padding: 15px;
+                overflow: auto;
+                height: calc(100vh - 0px - 70px - 90px);
+                padding-top: 10px;
+                padding-bottom: 80px !important;
+            }
+
+            .head_area_about_page{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                font-size: 26px;
+                color: var(--On-Surface);
+                font-family: var(--google-normal);
+                padding: 15px;
+                position: relative;
+                background-color: var(--Surface);
+            }
+            p{
+                margin: 0;
+            }
+    </style>
+</head>
+
+<body class="center_all" style="--md-list-item-label-text-size: 1.15rem; --md-list-item-pressed-state-layer-opacity: 0.15; --md-ref-typeface-plain: var(--google-normal); background-color: var(--Surface); overflow: hidden;">
+<div class="head_area_about_page">
+    <p data-translate="arrange_items">Arrange items</p>
+    <md-icon-button onclick="sendThemeToAndroid('GoBack')"><md-icon icon-outlined>close</md-icon></md-icon-button>
+</div>
+<div class="padding_about_app" id="all_el">
+
+    <div class="drag_handle" data-id="1">
+        <md-icon icon-outlined>drag_handle</md-icon>
+        <p>Hourly forecast</p>
+    </div>
+
+    <div class="drag_handle" data-id="2">
+        <md-icon icon-outlined>drag_handle</md-icon>
+        <p>Daily forecast</p>
+    </div>
+
+    <div class="drag_handle" data-id="3">
+        <md-icon icon-outlined>drag_handle</md-icon>
+        <p>Current conditions</p>
+
+    </div>
+
+    <div class="drag_handle" data-id="4">
+        <md-icon icon-outlined>drag_handle</md-icon>
+        <p>Pollen data</p>
+
+    </div>
+
+    <div class="drag_handle" data-id="5">
+        <md-icon icon-outlined>drag_handle</md-icon>
+        <p>Air quality index</p>
+
+    </div>
+
+    <div class="drag_handle" data-id="6">
+        <md-icon icon-outlined>drag_handle</md-icon>
+        <p>UV index</p>
+
+    </div>
+</div>
+
+<div class="save_btn_arranged">
+    <md-filled-tonal-button onclick="ResetOrder()">Reset</md-filled-tonal-button>
+    <md-filled-button data-translate="save" onclick="saveOrder()">Save</md-filled-button>
+</div>
+<script>
+
+    // -------------------
+    let sortableInstance;
+
+async function initializeDragAndDropAllELDrag() {
+  const draggableContainer = document.getElementById('all_el');
+  const storageKey = 'dragAndDropStateAllEL';
+
+  async function loadOrder() {
+      const storedState = await customStorage.getItem(storageKey);
+      if (storedState) {
+          const itemsOrder = JSON.parse(storedState);
+          const elements = Array.from(draggableContainer.children);
+
+          itemsOrder.forEach(id => {
+              const element = elements.find(el => el.dataset.id === id);
+              if (element) {
+                  draggableContainer.appendChild(element);
+              }
+          });
+      }
+  }
+  let timeoutID;
+
+    if (sortableInstance) {
+    sortableInstance.destroy();
+  }
+  sortableInstance = new Sortable(draggableContainer, {
+      animation: 250,
+    //   handle: 'drag_handle',
+      ghostClass: 'sortable-ghost',
+      delay: 200,
+      onStart(evt) {
+
+        evt.item.classList.add('drag');
+    },
+      onEnd(evt) {
+        clearTimeout(timeoutID);
+
+        timeoutID = setTimeout(() => {
+          evt.item.classList.remove('drag');
+        }, 200);
+      },
+  });
+  await loadOrder();
+}
+initializeDragAndDropAllELDrag()
+
+
+function hexToRgb(hex) {
+    const bigint = parseInt(hex.slice(1), 16);
+    return {
+        r: (bigint >> 16) & 255,
+        g: (bigint >> 8) & 255,
+        b: bigint & 255
+    };
+}
+
+function rgbToHsl({ r, g, b }) {
+    r /= 255;
+    g /= 255;
+    b /= 255;
+
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    let h, s, l = (max + min) / 2;
+
+    if (max === min) {
+        h = s = 0; // Achromatic
+    } else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+    }
+
+    return { h: h * 360, s: s * 100, l: l * 100 };
+}
+
+async function CreateMaterialYouTheme(hex) {
+    const colors = {
+        orange_material: "#FFA500",
+        red_material: "#FF0000",
+        pink_material: "#FFC0CB",
+        purple_material: "#800080",
+        blue_material: "#0000FF",
+        yellow_material: "#FFFF00",
+        green_material: "#008000"
+    };
+
+    const targetHsl = rgbToHsl(hexToRgb(hex));
+    let closestColor = null;
+    let smallestHueDifference = Infinity;
+
+    for (const [color, colorHex] of Object.entries(colors)) {
+        const colorHsl = rgbToHsl(hexToRgb(colorHex));
+        const hueDifference = Math.abs(targetHsl.h - colorHsl.h);
+
+        if (hueDifference < smallestHueDifference) {
+            smallestHueDifference = hueDifference;
+            closestColor = color;
+        }
+    }
+
+ if(localStorage.getItem("useDynamicColors") && localStorage.getItem("useDynamicColors") === "false"){
+        if (await customStorage.getItem("customTheme")) {
+      document.documentElement.setAttribute(
+        "Theme",
+        await customStorage.getItem("customTheme")
+      );
+            sendThemeToAndroid(
+        `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
+      );
+    }
+  } else{
+  document.documentElement.setAttribute('Theme', closestColor);
+  sendThemeToAndroid(`${closestColor}_ScrollFalse`);
+  }
+}
+
+
+        const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
+        if (AppLanguageCodeValue) {
+            applyTranslations(AppLanguageCodeValue);
+
+        }
+
+                function sendThemeToAndroid(theme) {
+
+            AndroidInterface.updateStatusBarColor(theme);
+        };
+
+
+        async function saveOrder() {
+            const draggableContainer = document.getElementById('all_el');
+            const storageKey = 'dragAndDropStateAllEL';
+            const itemsOrder = Array.from(draggableContainer.children).map(element => element.dataset.id);
+            await customStorage.setItem(storageKey, JSON.stringify(itemsOrder));
+
+            await customStorage.setItem('LoadNewOrder', new Date().getTime())
+
+            setTimeout( async() =>{
+                sendThemeToAndroid('GoBack')
+            }, 100);
+        }
+
+        async function ResetOrder() {
+        const draggableContainer = document.getElementById('all_el');
+        const storageKey = 'dragAndDropStateAllEL';
+
+const itemsOrder = Array.from(draggableContainer.children).map((_, index) => (index + 1).toString());
+await customStorage.setItem(storageKey, JSON.stringify(itemsOrder));
+
+
+
+            draggableContainer.innerHTML = `
+                <div class="drag_handle" data-id="1">
+    <md-icon icon-outlined>drag_handle</md-icon>
+    <p>Hourly forecast</p>
+    </div>
+
+    <div class="drag_handle" data-id="2">
+    <md-icon icon-outlined>drag_handle</md-icon>
+    <p>Daily forecast</p>
+    </div>
+
+    <div class="drag_handle" data-id="3">
+    <md-icon icon-outlined>drag_handle</md-icon>
+     <p>Current conditions</p>
+
+    </div>
+
+    <div class="drag_handle" data-id="4">
+    <md-icon icon-outlined>drag_handle</md-icon>
+     <p>Pollen data</p>
+
+    </div>
+
+    <div class="drag_handle" data-id="5">
+    <md-icon icon-outlined>drag_handle</md-icon>
+     <p>Air quality index</p>
+
+    </div>
+
+    <div class="drag_handle" data-id="6">
+    <md-icon icon-outlined>drag_handle</md-icon>
+     <p>UV index</p>
+
+    </div>
+            `
+
+
+            setTimeout(async() =>{
+                initializeDragAndDropAllELDrag()
+                 await customStorage.setItem('LoadNewOrder', new Date().getTime())
+            }, 100);
+        }
+
+
+    </script>
+
+
+<script src="../app/navigate.js"></script>
+<script src="../modules/ripple_acc.js"></script>
+<script src="../components-script.js/components.js"></script>
+<script src="../ripple-files/icon-ripple.js"></script>
+<script src="../modules/scroll.js"></script>
+<script  src="bundle.js"></script>
+<script type="module" src="../index.js"></script>
+<script src="../ripple-files/ripples.js"></script>
+<script src="../app/apply.js"></script>
+</body>
+
+</html>

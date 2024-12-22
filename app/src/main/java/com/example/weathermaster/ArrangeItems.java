@@ -1,76 +1,42 @@
 package com.example.weathermaster;
 
+
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
-import android.provider.Settings;
-import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
-import android.webkit.ValueCallback;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-public class SettingsActivity extends AppCompatActivity {
+public class ArrangeItems extends AppCompatActivity {
 
     private WebView webview;
-
-    private ValueCallback<Uri[]> filePathCallback;
-    private final static int FILECHOOSER_RESULTCODE = 1;
-    private final static int EXPORT_REQUEST_CODE = 2;
-    private static final int PERMISSION_REQUEST_CODE = 1;
-    private static final int SAVE_DOCUMENT_REQUEST_CODE = 2;
-    private static final int IMPORT_REQUEST_CODE = 3;
-
-    private String dataToSave;
     private boolean isFirstLoad = true;
 
     public void onBackPressed() {
-        if (webview.canGoBack()) {
-            webview.goBack();
-        } else {
-            super.onBackPressed();
-        }
+        super.onBackPressed();
     }
 
     @Override
@@ -78,7 +44,10 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 
+
+
         setContentView(R.layout.activity_main);
+
 
 
         // Webview stuff
@@ -89,20 +58,17 @@ public class SettingsActivity extends AppCompatActivity {
         webSettings.setAllowFileAccessFromFileURLs(true);
         webSettings.setAllowUniversalAccessFromFileURLs(true);
         webSettings.setAllowContentAccess(true);
-        webview.setVerticalScrollBarEnabled(true);
+        webview.setVerticalScrollBarEnabled(false);
         webview.setHorizontalScrollBarEnabled(false);
         webview.setOverScrollMode(WebView.OVER_SCROLL_NEVER);
         webview.setWebViewClient(new WebViewClientDemo());
         AndroidInterface androidInterface = new AndroidInterface(this);
         webview.addJavascriptInterface(androidInterface, "AndroidInterface");
-        webview.addJavascriptInterface(new ShowToastInterface(this), "ToastAndroidShow");
-        webview.addJavascriptInterface(new ShowSnackInterface(this), "ShowSnackMessage");
-        webview.addJavascriptInterface(new WebAppInterface(), "Android");
         webview.setBackgroundColor(getResources().getColor(R.color.yellowBg));
-
-        webview.loadUrl("file:///android_asset/pages/settings.html");
+        webview.addJavascriptInterface(new ShowSnackInterface(this), "ShowSnackMessage");
         webSettings.setTextZoom(100);
-
+        webSettings.setAllowFileAccess(true);
+        webview.loadUrl("file:///android_asset/pages/ArrangeItems.html");
 
         webview.setWebViewClient(new WebViewClient() {
             @Override
@@ -119,7 +85,7 @@ public class SettingsActivity extends AppCompatActivity {
                 if (isFirstLoad) {
                     isFirstLoad = false;
 
-                    int primaryColor = new ContextThemeWrapper(SettingsActivity.this, R.style.Base_Theme_WeatherMaster)
+                    int primaryColor = new ContextThemeWrapper(ArrangeItems.this, R.style.Base_Theme_WeatherMaster)
                             .getTheme()
                             .obtainStyledAttributes(new int[]{com.google.android.material.R.attr.colorPrimary})
                             .getColor(0, 0);
@@ -130,164 +96,10 @@ public class SettingsActivity extends AppCompatActivity {
                     webview.evaluateJavascript(jsCodePrimaryColor, null);
                 }
             }
-
         });
-        }
 
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == FILECHOOSER_RESULTCODE) {
-            if (filePathCallback != null) {
-                Uri[] results = null;
-                if (resultCode == RESULT_OK && data != null) {
-                    String dataString = data.getDataString();
-                    if (dataString != null) {
-                        results = new Uri[]{Uri.parse(dataString)};
-                    }
-                }
-                filePathCallback.onReceiveValue(results);
-                filePathCallback = null;
-            }
-        } else if (requestCode == SAVE_DOCUMENT_REQUEST_CODE) {
-            if (resultCode == RESULT_OK && data != null && data.getData() != null) {
-                saveToUri(data.getData());
-            } else {
-                Toast.makeText(this, "Error exporting", Toast.LENGTH_SHORT).show();
-            }
-        } else if (requestCode == IMPORT_REQUEST_CODE) {
-            if (resultCode == RESULT_OK && data != null && data.getData() != null) {
-                importFromUri(data.getData());
-            } else {
-                Toast.makeText(this, "Error importing file", Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 
-
-    private void restartApp() {
-        Toast.makeText(this, "App is restarting...", Toast.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
-            }
-        }, 500);
-    }
-
-
-
-    public class WebAppInterface {
-        @JavascriptInterface
-        public void saveFile(String data) {
-            dataToSave = data;
-            openFilePickerExport();
-        }
-
-        @JavascriptInterface
-        public void importFile() {
-            openFilePickerImport();  // Open file picker for importing JSON data
-        }
-
-        @JavascriptInterface
-        public void reloadTheApp() {
-            restartApp();  // Open file picker for importing JSON data
-        }
-    }
-
-
-
-
-
-    private void openFilePickerExport() {
-        String currentDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        String fileName = "WeatherMasterData_" + currentDate + ".json";
-        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("application/json");
-        intent.putExtra(Intent.EXTRA_TITLE, fileName);
-        startActivityForResult(intent, SAVE_DOCUMENT_REQUEST_CODE);
-    }
-    private void openFilePickerImport() {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("application/json");
-        startActivityForResult(intent, IMPORT_REQUEST_CODE);
-    }
-
-    private void importFromUri(Uri uri) {
-        try {
-            InputStream inputStream = getContentResolver().openInputStream(uri);
-            if (inputStream != null) {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-                StringBuilder stringBuilder = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    stringBuilder.append(line);
-                }
-                reader.close();
-                inputStream.close();
-
-                String importedData = stringBuilder.toString();
-
-                String escapedData = importedData.replace("'", "\\'").replace("\"", "\\\"");
-
-                runOnUiThread(() -> {
-                    String jsCode = "handleImportedData('" + escapedData + "');";
-                    webview.evaluateJavascript(jsCode, null);
-                });
-            }
-        } catch (Exception e) {
-            Toast.makeText(this, "Error reading file", Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-        }
-    }
-
-
-
-    private void saveToUri(Uri uri) {
-        try {
-            OutputStream outputStream = getContentResolver().openOutputStream(uri);
-            if (outputStream != null) {
-                outputStream.write(dataToSave.getBytes());
-                outputStream.close();
-                Toast.makeText(this, "Backup saved", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
-            }
-        } catch (Exception e) {
-            Toast.makeText(this, "Error saving file", Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-        }
-    }
-    private void requestNotificationPermissions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 100);
-            }
-        }
-    }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 100) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-
-            } else {
-                webview.evaluateJavascript("handlePermissionDenied()", null);
-
-            }
-        }
-    }
 
     public class ShowSnackInterface {
         private final Context mContext;
@@ -313,11 +125,6 @@ public class SettingsActivity extends AppCompatActivity {
 
             snackbarView.setBackgroundResource(R.drawable.snackbar_background);
 
-            TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
-            textView.setTextColor(ContextCompat.getColor(mContext, R.color.snackbar_text));
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
-            Typeface typeface = ResourcesCompat.getFont(mContext, R.font.outfit_medium);
-            textView.setTypeface(typeface);
 
             snackbar.setTextColor(ContextCompat.getColor(mContext, R.color.snackbar_text));
 
@@ -336,39 +143,17 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    public class ShowToastInterface {
-        private final Context mContext;
-
-        public ShowToastInterface(Context context) {
-            this.mContext = context;
-        }
-
-        @JavascriptInterface
-        public void ShowToast(final String text, final String time) {
-            int duration = Toast.LENGTH_SHORT;
-            if (time.equals("long")) {
-                duration = Toast.LENGTH_LONG;
-            } else if(time.equals("short")){
-                duration = Toast.LENGTH_SHORT;
-            }
-            Toast.makeText(mContext, text, duration).show();
-        }
-    }
-
-//    export or import data
-
-
 
     public class AndroidInterface {
-        private SettingsActivity sActivity;
+        private ArrangeItems aActivity;
 
-        AndroidInterface(SettingsActivity activity) {
-            sActivity = activity;
+        AndroidInterface(ArrangeItems activity) {
+            aActivity = activity;
         }
 
         @JavascriptInterface
         public void updateStatusBarColor(final String color) {
-            sActivity.runOnUiThread(new Runnable() {
+            aActivity.runOnUiThread(new Runnable() {
                 @SuppressLint("ResourceType")
                 @RequiresApi(api = Build.VERSION_CODES.O)
                 @Override
@@ -378,21 +163,14 @@ public class SettingsActivity extends AppCompatActivity {
                     int systemUiVisibilityFlags = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
 
 
-                    if (color.equals("Scrolled")){
-                        statusBarColor = 0xFF1d2024;
-                        navigationBarColor = 0xFF111318;
+                    if(color.equals("Scrolled")){
+                        statusBarColor = 0xFF1e2024;
+                        navigationBarColor = 0xFF121317;
+                        systemUiVisibilityFlags = 0;
 
                     } else if (color.equals("ScrollFalse")) {
-                        statusBarColor = 0xFF111318;
-                        navigationBarColor = 0xFF111318;
-
-                    } else if (color.equals("DialogNotScrolled")) {
-                        statusBarColor = 0xFF07080a;
-                        navigationBarColor = 0xFF07080a;
-
-                    } else if (color.equals("DialogScrolled")) {
-                        statusBarColor = 0xFF0c0d0e;
-                        navigationBarColor = 0xFF07080a;
+                        statusBarColor = 0xFF121317;
+                        navigationBarColor = 0xFF121317;
                         systemUiVisibilityFlags = 0;
 
                     } else if(color.equals("orange_material_Scrolled")){
@@ -534,34 +312,23 @@ public class SettingsActivity extends AppCompatActivity {
                         statusBarColor = 0xFF0c0d0a;
                         navigationBarColor = 0xFF070806;
                         systemUiVisibilityFlags = 0;
-                    } else if (color.equals("amoled_theme")) {
-                        statusBarColor = 0xFF000000;
-                        navigationBarColor = 0xFF000000;
-                        systemUiVisibilityFlags = 0;
-                    } else  if (color.equals("ReloadDynamicColors")){
-                        isFirstLoad = true;
-                        webview.reload();
-                        return;
+
 
                     } else if (color.equals("GoBack")){
                         back();
                         return;
-                    } else if (color.equals("OpenAboutPage")){
-                        openAboutPage();
+                    } else if (color.equals("OpenTermsConditions")){
+                        openTermsConditions();
                         return;
-                    } else if (color.equals("OpenLanguagesPage")){
-                        openLanguagesPage();
+                    } else if (color.equals("OpenPrivacyPolicy")){
+                        openPrivacyPolicy();
                         return;
-                    } else if (color.equals("openHomelocationPage")){
-                        openHomelocationPage();
+                    } else if (color.equals("OpenLicenses")){
+                        openThirdParty();
                         return;
-                    } else if (color.equals("openWeatherModels")){
-                        openWeatherModels();
-                        return;
-                    } else if (color.equals("EditAppLayoutPage")){
-                        EditAppLayoutPage();
-                        return;
+
                     } else if (color.equals("bluesetDef")) {
+
                         return;
                     } else if (color.equals("keepiton")) {
                         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -570,25 +337,24 @@ public class SettingsActivity extends AppCompatActivity {
                         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                         return;
                     } else if (color.equals("itsOn")) {
-                        Toast.makeText(sActivity, "Your device will stay awake", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(aActivity, "Your device will stay awake", Toast.LENGTH_SHORT).show();
                         return;
                     } else if (color.equals("ItsOff")) {
-                        Toast.makeText(sActivity, "Your device will go to sleep at the default time", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(aActivity, "Your device will go to sleep at the default time", Toast.LENGTH_SHORT).show();
                         return;
-                    } else if(color.equals("ReqNotification")) {
-                        requestNotificationPermissions();
-                        return;
+
+
                     } else {
-                        Toast.makeText(sActivity, "not found", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(aActivity, "not found", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
 
-                    int currentStatusBarColor = sActivity.getWindow().getStatusBarColor();
-                    int currentNavigationBarColor = sActivity.getWindow().getNavigationBarColor();
+                    int currentStatusBarColor = aActivity.getWindow().getStatusBarColor();
+                    int currentNavigationBarColor = aActivity.getWindow().getNavigationBarColor();
 
                     ObjectAnimator statusBarAnimator = ObjectAnimator.ofObject(
-                            sActivity.getWindow(),
+                            aActivity.getWindow(),
                             "statusBarColor",
                             new ArgbEvaluator(),
                             currentStatusBarColor,
@@ -599,7 +365,7 @@ public class SettingsActivity extends AppCompatActivity {
                     statusBarAnimator.start();
 
                     ObjectAnimator navBarAnimator = ObjectAnimator.ofObject(
-                            sActivity.getWindow(),
+                            aActivity.getWindow(),
                             "navigationBarColor",
                             new ArgbEvaluator(),
                             currentNavigationBarColor,
@@ -609,9 +375,9 @@ public class SettingsActivity extends AppCompatActivity {
                     navBarAnimator.setDuration(200);
                     navBarAnimator.start();
 
-                    sActivity.getWindow().setNavigationBarColor(navigationBarColor);
+                    aActivity.getWindow().setNavigationBarColor(navigationBarColor);
 
-                    View decorView = sActivity.getWindow().getDecorView();
+                    View decorView = aActivity.getWindow().getDecorView();
                     decorView.setSystemUiVisibility(systemUiVisibilityFlags);
 
 
@@ -621,28 +387,17 @@ public class SettingsActivity extends AppCompatActivity {
 
 
 
-        public void openAboutPage() {
-            Intent intent = new Intent(sActivity, AboutPage.class);
-            sActivity.startActivity(intent);
+        public void openTermsConditions() {
+            Intent intent = new Intent(aActivity, Terms_Conditions.class);
+            aActivity.startActivity(intent);
         }
-        public void openLanguagesPage() {
-            Intent intent = new Intent(sActivity, LanguagePage.class);
-            sActivity.startActivity(intent);
+        public void openPrivacyPolicy() {
+            Intent intent = new Intent(aActivity, PrivacyPolicy.class);
+            aActivity.startActivity(intent);
         }
-
-        public void openHomelocationPage() {
-            Intent intent = new Intent(sActivity, Homelocations.class);
-            sActivity.startActivity(intent);
-        }
-
-        public void openWeatherModels() {
-            Intent intent = new Intent(sActivity, WeatherModels.class);
-            sActivity.startActivity(intent);
-        }
-
-        public void EditAppLayoutPage() {
-            Intent intent = new Intent(sActivity, ArrangeItems.class);
-            sActivity.startActivity(intent);
+        public void openThirdParty() {
+            Intent intent = new Intent(aActivity, ThirdParty.class);
+            aActivity.startActivity(intent);
         }
 
 
@@ -675,22 +430,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         private boolean shouldOpenInBrowser(String url) {
             return url.startsWith("https://fonts.google.com/specimen/Outfit?query=outfit") ||
-                    url.startsWith("https://openweathermap.org/") ||
-                    url.startsWith("https://www.visualcrossing.com/") ||
-                    url.startsWith("https://open-meteo.com/") ||
-                    url.startsWith("https://opencagedata.com/api") ||
-                    url.startsWith("https://fonts.google.com/specimen/Poppins?query=poppins") ||
-                    url.startsWith("https://github.com/material-components/material-web") ||
-                    url.startsWith("https://app-privacy-policy-generator.nisrulz.com/") ||
-                    url.startsWith("https://github.com/PranshulGG/WeatherMaster") ||
-                    url.startsWith("mailto:pranshul.devmain@gmail.com")||
-                    url.startsWith("https://ko-fi.com/pranshulgg")||
-                    url.startsWith("https://www.openstreetmap.org/") ||
-                    url.startsWith("https://leafletjs.com/")||
-                    url.startsWith("https://www.rainviewer.com/")||
-                    url.startsWith("https://carto.com/")||
-                    url.startsWith("https://github.com/PranshulGG/WeatherMaster/releases") ||
-                    url.startsWith("https://discord.gg/sSW2E4nqmn");
+                    url.startsWith("https://github.com/");
 
 
         }

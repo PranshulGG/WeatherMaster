@@ -350,8 +350,8 @@ touch_search{
 .all-5d {
   background-color: var(--Surface);
   margin: 10px;
-   margin-top: 5px;
-  border-radius: 5px 5px 5px 5px;
+   margin-top: 0px;
+  border-radius: 10px 10px 10px 10px;
   overflow: hidden;
   margin-bottom: 0;
 }
@@ -359,11 +359,10 @@ touch_search{
 [round-ui="true"] .all-24,
 [round-ui="true"] .all-5d{
   border-radius: 18px;
-       margin-top: 8px;
 }
 
 .all-24{
-  border-radius: 5px 5px  0 0 !important;
+  border-radius: 10px 10px  0 0 !important;
 }
 
 [round-ui="true"] .all-24{
@@ -372,7 +371,7 @@ touch_search{
 }
 
 .all-5d {
-  border-radius: 5px 5px 10px 10px;
+  border-radius: 10px;
 
 }
 [round-ui="true"] .all-5d{
@@ -855,7 +854,7 @@ touch_search{
 .all_air_quality {
   background-color: var(--Surface);
   margin: 10px;
-  margin-bottom: 5px;
+  margin-bottom: 0px;
     margin-top: 0px;
 
 }
@@ -1334,6 +1333,7 @@ sun{
   padding-top: 0;
   align-content: center;
   justify-items: center;
+  padding-bottom: 5px;
   gap: 10px;
 }
 
@@ -1343,7 +1343,7 @@ rainMeter{
   margin-top: 0px;
   margin-bottom: 0;
   background-color: var(--Surface);
-  border-radius: 0 0 5px 5px;
+  border-radius: 0 0 10px 10px;
   display: block;
   padding-bottom: 10px;
 }
@@ -2083,7 +2083,7 @@ savelocationtouch md-ripple{
   padding: 10px;
   padding-top: 0;
   padding-bottom: 0;
-  border-radius: 0 0 5px 5px;
+  border-radius: 0 0 10px 10px;
 }
 
 [round-ui="true"] .insights{
@@ -2485,18 +2485,16 @@ max-width: 80%;
 .pollen_data{
   margin: 10px;
   background-color: var(--Surface);
-  margin-bottom: 5px;
-  border-radius: 10px 10px 5px 5px;
+  margin-bottom: 0px;
+  border-radius: 10px;
   padding-bottom: 20px;
   margin-top: 0px;
 }
 [round-ui="true"] .pollen_data{
   border-radius: 18px;
-  margin-bottom: 8px !important;
 }
 
 [round-ui="true"] #ifPollenIsThere{
-      margin-bottom: 8px !important;
 }
 
 .available_pollen{
@@ -2793,7 +2791,6 @@ Tempmeterbaritem span{
 }
 
 [round-ui="true"] #uvIndexMainDiv{
-    margin-bottom: 8px !important;
 }
 
 
@@ -2963,4 +2960,51 @@ Tempmeterbaritem span{
 [sys-font-size="large_fontSize"] .weatherComments .summeryText{
   font-size: 17px !important;
 
+}
+
+.sortHolder{
+  gap: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+[round-ui="true"] .sortHolder{
+  gap: 8px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+
+.drag_handle{
+  width: calc(100% - 30px);
+  height: 40px;
+  background-color: var(--Surface-Container);
+  color: var(--Inverse-On-Primary);
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  z-index: 1;
+  gap: 10px;
+  font-family: var(--google-mid);
+  font-size: 18px;
+  color: var(--On-Surface);
+  transition: background-color 0.2s ease-out;
+}
+
+.drag_handle.drag{
+  background-color: var(--Secondary-Container);
+}
+
+.save_btn_arranged{
+  position: fixed;
+  z-index: 99;
+  bottom: 20px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }

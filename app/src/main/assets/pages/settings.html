@@ -154,8 +154,8 @@
             <md-list class="list_third">
                 <md-list-item>
                     <md-icon icon-filled slot="start">palette</md-icon>
-                    <div slot="headline">Dynamic colors</div>
-                    <div slot="supporting-text">Use wallpaper colors</div>
+                    <div slot="headline" data-translate="dynamic_colors">Dynamic colors</div>
+                    <div slot="supporting-text" data-translate="dynamic_colors_sub">Use wallpaper colors</div>
                     <md-switch slot="end" selected id="useDynamicColors"></md-switch>
 
                 </md-list-item>
@@ -197,16 +197,22 @@
 
                 <md-list-item onclick="openAppFontSizeDialog()" type="button">
                     <md-icon icon-filled slot="start">format_size</md-icon>
-                    <div slot="headline">Font size</div>
-                    <div slot="supporting-text">Font size will only affect where it is needed</div>
+                    <div slot="headline"data-translate="font_size">Font size</div>
+                    <div slot="supporting-text" data-translate="font_size_sub">Font size will only affect where it is needed</div>
                 </md-list-item>
 
                 <md-list-item>
                     <md-icon icon-filled slot="start">swipe_left</md-icon>
-                    <div slot="headline">Swipe between locations</div>
-                    <div slot="supporting-text">Swipe left or right to change location</div>
+                    <div slot="headline" data-translate="swipe_between_locations">Swipe between locations</div>
+                    <div slot="supporting-text" data-translate="swipe_between_locations_sub">Swipe left or right to change location</div>
                     <md-switch slot="end" id="useGestureLocation"></md-switch>
                     <md-icon-button slot="end" onclick="openSwipeThresholdDialog()"><md-icon icon-outlined>settings</md-icon></md-icon-button>
+                </md-list-item>
+
+                <md-list-item onclick="sendThemeToAndroid('EditAppLayoutPage')" type="button">
+                    <md-icon icon-filled slot="start">view_agenda</md-icon>
+                    <div slot="headline" data-translate="edit_layout">Edit app layout</div>
+                    <md-icon icon-filled slot="end">chevron_right</md-icon>
                 </md-list-item>
 
             </md-list>
@@ -244,13 +250,6 @@
                     <div slot="headline" data-translate="auto-hide_update_toast">Auto-hide update toast</div>
                     <div slot="supporting-text" data-translate="notification_will_disappear">The notification will disappear after 5 seconds.</div>
                     <md-switch slot="end" id="HideNewUpdateToastSwitch"></md-switch>
-                </md-list-item>
-
-                <md-list-item>
-                    <md-icon icon-filled slot="start">rounded_corner</md-icon>
-                    <div slot="headline" data-translate="rounded_ui">Rounded UI</div>
-                    <div slot="supporting-text" data-translate="use_the_default_material_corner_radius">Use the default Material corner radius</div>
-                    <md-switch slot="end" id="useRoundedUI"></md-switch>
                 </md-list-item>
 
                 <md-list-item>
@@ -433,7 +432,7 @@
                 <md-list-item  onclick="sendThemeToAndroid('OpenAboutPage')" type="button">
                     <md-icon icon-filled slot="start">info</md-icon>
                     <div slot="headline">About WeatherMaster</div>
-                    <div slot="supporting-text" >Learn about the app</div>
+                    <div slot="supporting-text" data-translate="learn_about_app">Learn about the app</div>
                     <md-icon icon-outlined slot="end">chevron_right</md-icon>
                 </md-list-item>
 
@@ -447,21 +446,21 @@
 
                 <md-list-item  href="https://discord.gg/sSW2E4nqmn" type="button">
                     <md-icon icon-filled slot="start">chat</md-icon>
-                    <div slot="headline" >Join the Discord server</div>
+                    <div slot="headline" data-translate="join_discord">Join the Discord server</div>
                     <md-icon icon-outlined slot="end">open_in_new</md-icon>
                 </md-list-item>
 
                 <md-list-item type="button" id="exportAppData">
                     <md-icon icon-filled slot="start">upload</md-icon>
-                    <div slot="headline">Export data</div>
-                    <div slot="supporting-text">Export all your settings, locations, and their last fetched weather data—literally everything!</div>
+                    <div slot="headline" data-translate="export_data">Export data</div>
+                    <div slot="supporting-text" data-translate="export_data_sub">Export all your settings, locations, and their last fetched weather data—literally everything!</div>
                 </md-list-item>
 
 
                 <md-list-item type="button" id="importAppData">
                     <md-icon icon-filled slot="start">download</md-icon>
-                    <div slot="headline">Import data</div>
-                    <div slot="supporting-text" style="color: var(--Error);">Warning: Importing will erase your current app data</div>
+                    <div slot="headline" data-translate="import_data">Import data</div>
+                    <div slot="supporting-text" style="color: var(--Error);" data-translate="import_data_sub">Warning: Importing will erase your current app data</div>
                 </md-list-item>
                 <input type="file" id="ImportFile" style="display:none;" accept="application/json">
 
@@ -622,14 +621,14 @@
 
             <md-dialog id="chooseSwipeThresholdDialog" style="min-width: 85%;">
                 <span slot="headline">
-                    <span style="flex: 1;">Swipe Threshold</span>
+                    <span style="flex: 1;" data-translate="swipe_threshold">Swipe Threshold</span>
                     <div slot="supporting-text" id="ThresholdValueText" style="font-size: 15px; right: 20px; color: var(--On-Surface-Variant); width: 30px; height: 30px; background-color: var(--Primary-Container); display: flex; align-items: center; justify-content: center; border-radius: 50px; padding: 2px; color: var(--On-Primary-Container);">100</div>
                   </span>
 
                 <div slot="content" style="padding-left: 0; padding-right: 0;">
                     <md-slider style="width: 100%;" ticks min="50" max="350" value="100"  step="50" id="ThresholdSlider"></md-slider>
 
-                    <p style="margin-bottom: 0; margin-left: 15px; margin-right: 15px; margin-top: 0;">The threshold defines the minimum distance a swipe gesture must cover to be recognized. A lower threshold makes swipe gestures easier to trigger, while a higher threshold requires more deliberate swipes.</p>
+                    <p style="margin-bottom: 0; margin-left: 15px; margin-right: 15px; margin-top: 0;" data-translate="swipe_threshold_help_sub">The threshold defines the minimum distance a swipe gesture must cover to be recognized. A lower threshold makes swipe gestures easier to trigger, while a higher threshold requires more deliberate swipes.</p>
                 </div>
             </md-dialog>
 

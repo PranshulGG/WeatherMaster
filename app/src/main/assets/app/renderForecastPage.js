@@ -305,14 +305,12 @@ async function displayDailyForecast(forecast, forecastDaily) {
         const dateObj = new Date(date + 'T00:00:00');
 
         const isToday = date === todayString;
-        const weekday = isToday ? 'today' : dateObj.toLocaleDateString('en-US', { weekday: 'short' }).toLowerCase();
+        const translatedWeekDays = weekDaysCache.map(day => {
+            return  [day][0];
+        });
 
+        const weekdayLang  = translatedWeekDays[index % translatedWeekDays.length];
 
-         const weekdayLang = isToday
-             ? getTranslationByLang(localStorage.getItem('AppLanguageCode'), ["Today"])[0] // Translate "Today"
-             : getTranslationByLang(localStorage.getItem('AppLanguageCode'), weekDaysCache).find(
-                   day => day.toLowerCase() === weekday.toLowerCase()
-               );
 
 
         const dailyData = forecastDaily[date];

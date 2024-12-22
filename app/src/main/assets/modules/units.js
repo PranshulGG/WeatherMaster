@@ -1786,7 +1786,7 @@ function getWeatherLabelInLangNoAnimText(iconCode, isDay, langCode) {
 
 
 
-
+let currentInterval = null; // Track the current interval
 
 function animateTemp(temp_value) {
     const SelectedTempUnit = localStorage.getItem('SelectedTempUnit');
@@ -1797,48 +1797,69 @@ function animateTemp(temp_value) {
     let currentNum = Math.max(Math.floor(targetNum * 0.75), 0); // Start closer to the target
     let baseSpeed = 50;
 
+    const tempElement = document.getElementById('temp');
+
+    // Set initial opacity to 0
+    tempElement.style.opacity = 0;
+
     function animateNumber() {
         if (useTempAnimation === 'false') {
-            document.getElementById('temp').innerHTML = temp_value + '°';
+            tempElement.innerHTML = temp_value + '°';
+            tempElement.style.opacity = 1;  // Ensure opacity is 1 when no animation is used
         } else {
-            let interval = setInterval(() => {
+            // Clear any existing interval to prevent overlapping animations
+            if (currentInterval) {
+                clearInterval(currentInterval);
+            }
+
+            currentInterval = setInterval(() => {
                 if (currentNum > targetNum) {
                     currentNum--;
-                    document.getElementById('temp').innerHTML = currentNum + '°';
+                    tempElement.innerHTML = currentNum + '°';
 
                     if (currentNum <= targetNum + 5 && currentNum > targetNum) {
-                        clearInterval(interval);
+                        clearInterval(currentInterval);
 
-                        interval = setInterval(() => {
+                        currentInterval = setInterval(() => {
                             if (currentNum > targetNum) {
                                 currentNum--;
-                                document.getElementById('temp').innerHTML = currentNum + '°';
+                                tempElement.innerHTML = currentNum + '°';
                             } else {
-                                clearInterval(interval);
+                                clearInterval(currentInterval);
                             }
                         }, baseSpeed * 4);
                     }
                 } else if (currentNum < targetNum) {
                     currentNum++;
-                    document.getElementById('temp').innerHTML = currentNum + '°';
+                    tempElement.innerHTML = currentNum + '°';
 
                     if (currentNum >= targetNum - 5 && currentNum < targetNum) {
-                        clearInterval(interval);
+                        clearInterval(currentInterval);
 
-                        interval = setInterval(() => {
+                        currentInterval = setInterval(() => {
                             if (currentNum < targetNum) {
                                 currentNum++;
-                                document.getElementById('temp').innerHTML = currentNum + '°';
+                                tempElement.innerHTML = currentNum + '°';
                             } else {
-                                clearInterval(interval);
+                                clearInterval(currentInterval);
                             }
                         }, baseSpeed * 4);
                     }
                 } else {
-                    clearInterval(interval);
+                    clearInterval(currentInterval);
                 }
             }, baseSpeed);
         }
+
+        // Animate opacity to 1
+        let opacityInterval = setInterval(() => {
+            let currentOpacity = parseFloat(tempElement.style.opacity);
+            if (currentOpacity < 1) {
+                tempElement.style.opacity = currentOpacity + 0.05;
+            } else {
+                clearInterval(opacityInterval);
+            }
+        }, baseSpeed);
     }
 
     animateNumber();

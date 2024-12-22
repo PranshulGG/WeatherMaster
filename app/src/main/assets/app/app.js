@@ -93,24 +93,313 @@ function useAutoCurrentLocation() {
 if (navigator.onLine) {
   if (DefaultLocation) {
     if (DefaultLocation.name === "CurrentDeviceLocation") {
-      useAutoCurrentLocation();
-      sendThemeToAndroid("ReqLocation");
+      const offlineData = localStorage.getItem("DefaultLocation");
+      const parsedOfflineData = JSON.parse(offlineData);
+      let weatherDataKey;
+      if (
+        localStorage.getItem("selectedMainWeatherProvider") === "Met norway"
+      ) {
+        weatherDataKey = `WeatherDataMetNorwayTimeStamp_${parsedOfflineData.name}`;
+      } else if (
+        localStorage.getItem("ApiForAccu") &&
+        localStorage.getItem("selectedMainWeatherProvider") === "Accuweather"
+      ) {
+        weatherDataKey = `WeatherDataAccuCurrentTimeStamp_${parsedOfflineData.name}`;
+      } else if (
+        localStorage.getItem("selectedMainWeatherProvider") === "meteoFrance"
+      ) {
+        weatherDataKey = `WeatherDataMeteoFranceTimeStamp_${parsedOfflineData.name}`;
+      } else if (
+        localStorage.getItem("selectedMainWeatherProvider") === "dwdGermany"
+      ) {
+        weatherDataKey = `WeatherDataDWDGermanyTimeStamp_${parsedOfflineData.name}`;
+      } else if (
+        localStorage.getItem("selectedMainWeatherProvider") === "noaaUS"
+      ) {
+        weatherDataKey = `WeatherDataNOAAUSTimeStamp_${parsedOfflineData.name}`;
+      } else if (
+        localStorage.getItem("selectedMainWeatherProvider") === "ecmwf"
+      ) {
+        weatherDataKey = `WeatherDataECMWFTimeStamp_${parsedOfflineData.name}`;
+      } else if (
+        localStorage.getItem("selectedMainWeatherProvider") === "ukMetOffice"
+      ) {
+        weatherDataKey = `WeatherDataukMetOfficeTimeStamp_${parsedOfflineData.name}`;
+      } else if (
+        localStorage.getItem("selectedMainWeatherProvider") === "jmaJapan"
+      ) {
+        weatherDataKey = `WeatherDataJMAJapanTimeStamp_${parsedOfflineData.name}`;
+      } else if (
+        localStorage.getItem("selectedMainWeatherProvider") === "gemCanada"
+      ) {
+        weatherDataKey = `WeatherDatagemCanadaTimeStamp_${parsedOfflineData.name}`;
+      } else if (
+        localStorage.getItem("selectedMainWeatherProvider") === "bomAustralia"
+      ) {
+        weatherDataKey = `WeatherDatabomAustraliaTimeStamp_${parsedOfflineData.name}`;
+      } else if (
+        localStorage.getItem("selectedMainWeatherProvider") === "cmaChina"
+      ) {
+        weatherDataKey = `WeatherDatacmaChinaTimeStamp_${parsedOfflineData.name}`;
+      } else if (
+        localStorage.getItem("selectedMainWeatherProvider") ===
+        "knmiNetherlands"
+      ) {
+        weatherDataKey = `WeatherDataknmiNetherlandsTimeStamp_${parsedOfflineData.name}`;
+      } else if (
+        localStorage.getItem("selectedMainWeatherProvider") === "dmiDenmark"
+      ) {
+        weatherDataKey = `WeatherDatadmiDenmarkTimeStamp_${parsedOfflineData.name}`;
+      } else {
+        weatherDataKey = `WeatherDataOpenMeteoTimeStamp_${parsedOfflineData.name}`;
+      }
+
+      const weatherData = localStorage.getItem(weatherDataKey);
+
+
+      const providedDate = new Date(weatherData);
+
+      const currentDate = new Date();
+
+      const timeDifference = currentDate - providedDate;
+
+      const timeDifferenceInMinutes = timeDifference / (1000 * 60);
+
+      if (timeDifferenceInMinutes < 30) {
+
+        setTimeout(() => {
+          ReturnHomeLocation();
+        }, 1000);
+          if (localStorage.getItem("selectedMainWeatherProvider") === "Met norway") {
+            document.querySelector(".data_provider_name_import").innerHTML =
+              "Data by Met Norway (Global)";
+          } else if (
+            localStorage.getItem("ApiForAccu") &&
+            localStorage.getItem("selectedMainWeatherProvider") === "Accuweather"
+          ) {
+            document.querySelector(".data_provider_name_import").innerHTML =
+              "Data by Accuweather (Global)";
+          } else if (
+            localStorage.getItem("selectedMainWeatherProvider") === "meteoFrance"
+          ) {
+            document.querySelector(".data_provider_name_import").innerHTML =
+              "Data by Météo-France (Europe, Global)";
+          } else if (
+            localStorage.getItem("selectedMainWeatherProvider") === "dwdGermany"
+          ) {
+            document.querySelector(".data_provider_name_import").innerHTML =
+              "Data by DWD (Europe, Global)";
+          } else if (localStorage.getItem("selectedMainWeatherProvider") === "noaaUS") {
+            document.querySelector(".data_provider_name_import").innerHTML =
+              "Data by NOAA (Americas, Global)";
+          } else if (localStorage.getItem("selectedMainWeatherProvider") === "ecmwf") {
+            document.querySelector(".data_provider_name_import").innerHTML =
+              "Data by ECMWF (Global)";
+          } else if (
+            localStorage.getItem("selectedMainWeatherProvider") === "ukMetOffice"
+          ) {
+            document.querySelector(".data_provider_name_import").innerHTML =
+              "Data by UK Met Office (Europe, Global)";
+          } else if (
+            localStorage.getItem("selectedMainWeatherProvider") === "jmaJapan"
+          ) {
+            document.querySelector(".data_provider_name_import").innerHTML =
+              "Data by JMA (Asia, Global)";
+          } else if (
+            localStorage.getItem("selectedMainWeatherProvider") === "gemCanada"
+          ) {
+            document.querySelector(".data_provider_name_import").innerHTML =
+              "Data by GEM (Americas, Global)";
+          } else if (
+            localStorage.getItem("selectedMainWeatherProvider") === "bomAustralia"
+          ) {
+            document.querySelector(".data_provider_name_import").innerHTML =
+              "Data by BOM (Oceania, Global)";
+          } else if (
+            localStorage.getItem("selectedMainWeatherProvider") === "cmaChina"
+          ) {
+            document.querySelector(".data_provider_name_import").innerHTML =
+              "Data by CMA (Asia, Global)";
+          } else if (
+            localStorage.getItem("selectedMainWeatherProvider") === "knmiEurope"
+          ) {
+            document.querySelector(".data_provider_name_import").innerHTML =
+              "Data by KNMI (Europe, Global)";
+          } else if (
+            localStorage.getItem("selectedMainWeatherProvider") === "dmiEurope"
+          ) {
+            document.querySelector(".data_provider_name_import").innerHTML =
+              "Data by DMI (Europe, Global)";
+          } else {
+            document.querySelector(".data_provider_name_import").innerHTML =
+              "Data by Open-Meteo (Global)";
+          }
+      } else{
+        useAutoCurrentLocation();
+        sendThemeToAndroid("ReqLocation");
+      }
       document.querySelector(".currentLocationdiv").hidden = false;
       document.getElementById("showDeviceLocation").hidden = false;
     } else if (DefaultLocation.lat && DefaultLocation.lon) {
-      DecodeWeather(
-        DefaultLocation.lat,
-        DefaultLocation.lon,
-        DefaultLocation.name
-      );
+      const offlineData = localStorage.getItem("DefaultLocation");
+        const parsedOfflineData = JSON.parse(offlineData);
+        let weatherDataKey;
+        if (
+          localStorage.getItem("selectedMainWeatherProvider") === "Met norway"
+        ) {
+          weatherDataKey = `WeatherDataMetNorwayTimeStamp_${parsedOfflineData.name}`;
+        } else if (
+          localStorage.getItem("ApiForAccu") &&
+          localStorage.getItem("selectedMainWeatherProvider") === "Accuweather"
+        ) {
+          weatherDataKey = `WeatherDataAccuCurrentTimeStamp_${parsedOfflineData.name}`;
+        } else if (
+          localStorage.getItem("selectedMainWeatherProvider") === "meteoFrance"
+        ) {
+          weatherDataKey = `WeatherDataMeteoFranceTimeStamp_${parsedOfflineData.name}`;
+        } else if (
+          localStorage.getItem("selectedMainWeatherProvider") === "dwdGermany"
+        ) {
+          weatherDataKey = `WeatherDataDWDGermanyTimeStamp_${parsedOfflineData.name}`;
+        } else if (
+          localStorage.getItem("selectedMainWeatherProvider") === "noaaUS"
+        ) {
+          weatherDataKey = `WeatherDataNOAAUSTimeStamp_${parsedOfflineData.name}`;
+        } else if (
+          localStorage.getItem("selectedMainWeatherProvider") === "ecmwf"
+        ) {
+          weatherDataKey = `WeatherDataECMWFTimeStamp_${parsedOfflineData.name}`;
+        } else if (
+          localStorage.getItem("selectedMainWeatherProvider") === "ukMetOffice"
+        ) {
+          weatherDataKey = `WeatherDataukMetOfficeTimeStamp_${parsedOfflineData.name}`;
+        } else if (
+          localStorage.getItem("selectedMainWeatherProvider") === "jmaJapan"
+        ) {
+          weatherDataKey = `WeatherDataJMAJapanTimeStamp_${parsedOfflineData.name}`;
+        } else if (
+          localStorage.getItem("selectedMainWeatherProvider") === "gemCanada"
+        ) {
+          weatherDataKey = `WeatherDatagemCanadaTimeStamp_${parsedOfflineData.name}`;
+        } else if (
+          localStorage.getItem("selectedMainWeatherProvider") === "bomAustralia"
+        ) {
+          weatherDataKey = `WeatherDatabomAustraliaTimeStamp_${parsedOfflineData.name}`;
+        } else if (
+          localStorage.getItem("selectedMainWeatherProvider") === "cmaChina"
+        ) {
+          weatherDataKey = `WeatherDatacmaChinaTimeStamp_${parsedOfflineData.name}`;
+        } else if (
+          localStorage.getItem("selectedMainWeatherProvider") ===
+          "knmiNetherlands"
+        ) {
+          weatherDataKey = `WeatherDataknmiNetherlandsTimeStamp_${parsedOfflineData.name}`;
+        } else if (
+          localStorage.getItem("selectedMainWeatherProvider") === "dmiDenmark"
+        ) {
+          weatherDataKey = `WeatherDatadmiDenmarkTimeStamp_${parsedOfflineData.name}`;
+        } else {
+          weatherDataKey = `WeatherDataOpenMeteoTimeStamp_${parsedOfflineData.name}`;
+        }
 
-      document.getElementById("city-name").innerHTML = DefaultLocation.name;
-      document.getElementById("SelectedLocationText").innerHTML =
-        DefaultLocation.name;
-      localStorage.setItem("CurrentLocationName", DefaultLocation.name);
-      document.getElementById("currentLocationName").textContent =
-        DefaultLocation.name;
-      document.getElementById("showDeviceLocation").hidden = true;
+        const weatherData = localStorage.getItem(weatherDataKey);
+
+
+        const providedDate = new Date(weatherData);
+
+        const currentDate = new Date();
+
+        const timeDifference = currentDate - providedDate;
+
+        const timeDifferenceInMinutes = timeDifference / (1000 * 60);
+
+        if (timeDifferenceInMinutes < 30) {
+        setTimeout(() => {
+          ReturnHomeLocation();
+        }, 1000);
+          if (localStorage.getItem("selectedMainWeatherProvider") === "Met norway") {
+            document.querySelector(".data_provider_name_import").innerHTML =
+              "Data by Met Norway (Global)";
+          } else if (
+            localStorage.getItem("ApiForAccu") &&
+            localStorage.getItem("selectedMainWeatherProvider") === "Accuweather"
+          ) {
+            document.querySelector(".data_provider_name_import").innerHTML =
+              "Data by Accuweather (Global)";
+          } else if (
+            localStorage.getItem("selectedMainWeatherProvider") === "meteoFrance"
+          ) {
+            document.querySelector(".data_provider_name_import").innerHTML =
+              "Data by Météo-France (Europe, Global)";
+          } else if (
+            localStorage.getItem("selectedMainWeatherProvider") === "dwdGermany"
+          ) {
+            document.querySelector(".data_provider_name_import").innerHTML =
+              "Data by DWD (Europe, Global)";
+          } else if (localStorage.getItem("selectedMainWeatherProvider") === "noaaUS") {
+            document.querySelector(".data_provider_name_import").innerHTML =
+              "Data by NOAA (Americas, Global)";
+          } else if (localStorage.getItem("selectedMainWeatherProvider") === "ecmwf") {
+            document.querySelector(".data_provider_name_import").innerHTML =
+              "Data by ECMWF (Global)";
+          } else if (
+            localStorage.getItem("selectedMainWeatherProvider") === "ukMetOffice"
+          ) {
+            document.querySelector(".data_provider_name_import").innerHTML =
+              "Data by UK Met Office (Europe, Global)";
+          } else if (
+            localStorage.getItem("selectedMainWeatherProvider") === "jmaJapan"
+          ) {
+            document.querySelector(".data_provider_name_import").innerHTML =
+              "Data by JMA (Asia, Global)";
+          } else if (
+            localStorage.getItem("selectedMainWeatherProvider") === "gemCanada"
+          ) {
+            document.querySelector(".data_provider_name_import").innerHTML =
+              "Data by GEM (Americas, Global)";
+          } else if (
+            localStorage.getItem("selectedMainWeatherProvider") === "bomAustralia"
+          ) {
+            document.querySelector(".data_provider_name_import").innerHTML =
+              "Data by BOM (Oceania, Global)";
+          } else if (
+            localStorage.getItem("selectedMainWeatherProvider") === "cmaChina"
+          ) {
+            document.querySelector(".data_provider_name_import").innerHTML =
+              "Data by CMA (Asia, Global)";
+          } else if (
+            localStorage.getItem("selectedMainWeatherProvider") === "knmiEurope"
+          ) {
+            document.querySelector(".data_provider_name_import").innerHTML =
+              "Data by KNMI (Europe, Global)";
+          } else if (
+            localStorage.getItem("selectedMainWeatherProvider") === "dmiEurope"
+          ) {
+            document.querySelector(".data_provider_name_import").innerHTML =
+              "Data by DMI (Europe, Global)";
+          } else {
+            document.querySelector(".data_provider_name_import").innerHTML =
+              "Data by Open-Meteo (Global)";
+          }
+        } else{
+          DecodeWeather(
+            DefaultLocation.lat,
+            DefaultLocation.lon,
+            DefaultLocation.name
+          );
+
+          document.getElementById("city-name").innerHTML = DefaultLocation.name;
+          document.getElementById("SelectedLocationText").innerHTML =
+            DefaultLocation.name;
+          localStorage.setItem("CurrentLocationName", DefaultLocation.name);
+          document.getElementById("currentLocationName").textContent =
+            DefaultLocation.name;
+          document.getElementById("showDeviceLocation").hidden = true;
+        }
+
+
+
+
     }
   } else {
     useAutoCurrentLocation();
@@ -212,6 +501,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".view_device_location").hidden = true;
     sendThemeToAndroid("DisableSwipeRefresh");
     loadSavedLocations();
+initializeDragAndDropLocations();
 
     let savedLocations =
       JSON.parse(localStorage.getItem("savedLocations")) || [];
@@ -444,14 +734,17 @@ async function loadSavedLocations() {
 
   const currentTime = new Date().getTime();
   savedLocationsHolder.innerHTML = "";
+  let dataIdCounter = 1;
 
   for (const location of savedLocations) {
     const savedLocationItem = document.createElement("savedLocationItem");
+    savedLocationItem.setAttribute("data-id", dataIdCounter++);
     savedLocationItem.setAttribute("lat", location.lat);
     savedLocationItem.setAttribute("lon", location.lon);
     savedLocationItem.setAttribute("locationLabel", location.locationName);
     const savedLocationItemLat = savedLocationItem.getAttribute("lat");
     const savedLocationItemLon = savedLocationItem.getAttribute("lon");
+
 
     let temp = "0";
     let icon = "";
@@ -3079,12 +3372,97 @@ function refreshWeather() {
     const longSend = localStorage.getItem("currentLong");
     const CurrentLocationName = localStorage.getItem("CurrentLocationName");
 
+    let weatherDataKey;
+    if (
+      localStorage.getItem("selectedMainWeatherProvider") === "Met norway"
+    ) {
+      weatherDataKey = `WeatherDataMetNorwayTimeStamp_${CurrentLocationName}`;
+    } else if (
+      localStorage.getItem("ApiForAccu") &&
+      localStorage.getItem("selectedMainWeatherProvider") === "Accuweather"
+    ) {
+      weatherDataKey = `WeatherDataAccuCurrentTimeStamp_${CurrentLocationName}`;
+    } else if (
+      localStorage.getItem("selectedMainWeatherProvider") === "meteoFrance"
+    ) {
+      weatherDataKey = `WeatherDataMeteoFranceTimeStamp_${CurrentLocationName}`;
+    } else if (
+      localStorage.getItem("selectedMainWeatherProvider") === "dwdGermany"
+    ) {
+      weatherDataKey = `WeatherDataDWDGermanyTimeStamp_${CurrentLocationName}`;
+    } else if (
+      localStorage.getItem("selectedMainWeatherProvider") === "noaaUS"
+    ) {
+      weatherDataKey = `WeatherDataNOAAUSTimeStamp_${CurrentLocationName}`;
+    } else if (
+      localStorage.getItem("selectedMainWeatherProvider") === "ecmwf"
+    ) {
+      weatherDataKey = `WeatherDataECMWFTimeStamp_${CurrentLocationName}`;
+    } else if (
+      localStorage.getItem("selectedMainWeatherProvider") === "ukMetOffice"
+    ) {
+      weatherDataKey = `WeatherDataukMetOfficeTimeStamp_${CurrentLocationName}`;
+    } else if (
+      localStorage.getItem("selectedMainWeatherProvider") === "jmaJapan"
+    ) {
+      weatherDataKey = `WeatherDataJMAJapanTimeStamp_${CurrentLocationName}`;
+    } else if (
+      localStorage.getItem("selectedMainWeatherProvider") === "gemCanada"
+    ) {
+      weatherDataKey = `WeatherDatagemCanadaTimeStamp_${CurrentLocationName}`;
+    } else if (
+      localStorage.getItem("selectedMainWeatherProvider") === "bomAustralia"
+    ) {
+      weatherDataKey = `WeatherDatabomAustraliaTimeStamp_${CurrentLocationName}`;
+    } else if (
+      localStorage.getItem("selectedMainWeatherProvider") === "cmaChina"
+    ) {
+      weatherDataKey = `WeatherDatacmaChinaTimeStamp_${CurrentLocationName}`;
+    } else if (
+      localStorage.getItem("selectedMainWeatherProvider") ===
+      "knmiNetherlands"
+    ) {
+      weatherDataKey = `WeatherDataknmiNetherlandsTimeStamp_${CurrentLocationName}`;
+    } else if (
+      localStorage.getItem("selectedMainWeatherProvider") === "dmiDenmark"
+    ) {
+      weatherDataKey = `WeatherDatadmiDenmarkTimeStamp_${CurrentLocationName}`;
+    } else {
+      weatherDataKey = `WeatherDataOpenMeteoTimeStamp_${CurrentLocationName}`;
+    }
+
+    const weatherData = localStorage.getItem(weatherDataKey);
+
+
+    const providedDate = new Date(weatherData);
+
+    const currentDate = new Date();
+
+    const timeDifference = currentDate - providedDate;
+
+    const timeDifferenceInMinutes = timeDifference / (1000 * 60);
+
+    if (timeDifferenceInMinutes < 10) {
+
+      setTimeout(() => {
+        document.querySelector(".no_touch_screen").hidden = true;
+        ShowSnackMessage.ShowSnack(
+            "Please wait 10 minutes before refreshing again.",
+          "long"
+        );
+        sendThemeToAndroid("StopRefreshingLoader");
+      }, 1000);
+    } else{
+
     DecodeWeather(
       latSend,
       longSend,
       CurrentLocationName,
       `Refreshed_${CurrentLocationName}`
     );
+    }
+
+
   } else {
     setTimeout(() => {
       document.querySelector(".no_touch_screen").hidden = true;
@@ -3249,7 +3627,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", async function () {
-  const currentVersion = "v1.11.0";
+  const currentVersion = "v1.12.0";
   const githubRepo = "PranshulGG/WeatherMaster";
   const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 

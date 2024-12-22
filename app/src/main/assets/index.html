@@ -84,7 +84,7 @@
                 <div class="left_current_weather">
                     <now data-translate="now">Now</now>
                     <div class="temp_img">
-                        <p id="temp">0°</p>
+                        <p id="temp" style="transition: opacity 0.1s ease-in;">0°</p>
                         <img id="weather-icon" src="weather-icons/not_available.svg" alt="Weather Icon">
                     </div>
 
@@ -141,7 +141,7 @@
 
         <div class="floating_indications" hidden>
             <div id="indicatorContainer" class="indicator-container">
-                <!-- Indicator balls 💀 will be dynamically added here -->
+                <!-- Indicator's balls 💀 will be dynamically added here -->
             </div>
 
         </div>
@@ -186,6 +186,7 @@
             </div>
 
         </div>
+
 
 
 
@@ -258,8 +259,10 @@
 
 
         <div class="other-main">
+            <div class="sortHolder" id="sortHolder" style="display: flex; flex-direction: column;">
 
-            <div class="all-24" style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);">
+                <div data-id="1">
+            <div class="all-24" style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);" >
                 <div class="h1">
                     <p class="today_Text" data-translate="next_24-hr">Next 24-hr</p>
                     <p class="date_Text_top" id="date_text_top">Mar, 19</p>
@@ -299,8 +302,8 @@
                 </rainMeterBar>
 
             </rainMeter>
-
-            <div class="all-5d" style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);">
+                </div>
+            <div class="all-5d" style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);" data-id="2">
                 <div class="h2">
                     <p data-translate="daily_forecast"
                        style="width: calc(100% - 150px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
@@ -322,20 +325,20 @@
 
             </div>
 
-            <div class="LiveMapWrap ripple_btn_low" onclick="sendThemeToAndroid('OpenRadar')"
-                 style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);" hidden>
-                <div class="radar_label"><md-icon icon-outlined>radar</md-icon> <span
-                        data-translate="live_radar">Live radar</span></div>
-                <div id="livemapPreview">
-                    <img src="icons/prevmap.png" alt="">
-                </div>
-            </div>
+<!--            <div class="LiveMapWrap ripple_btn_low" onclick="sendThemeToAndroid('OpenRadar')"-->
+<!--                 style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);" hidden>-->
+<!--                <div class="radar_label"><md-icon icon-outlined>radar</md-icon> <span-->
+<!--                        data-translate="live_radar">Live radar</span></div>-->
+<!--                <div id="livemapPreview">-->
+<!--                    <img src="icons/prevmap.png" alt="">-->
+<!--                </div>-->
+<!--            </div>-->
 
 
 
 
 
-            <div class="currentConditions" style="margin-top: 10px;" id="sortableContainer">
+            <div class="currentConditions" style="margin-top: 5px;" id="sortableContainer" data-id="3">
 
 
                 <div class="currentConditionItem sunRISESET ripple_btn_low" data-id="1"
@@ -518,7 +521,7 @@
 
             </div>
 
-            <div class="pollen_data " hidden style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);">
+            <div class="pollen_data " hidden style="box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);" data-id="4">
                 <div class="pollen_heading">
                     <md-icon icon-filled>allergy</md-icon>
                     <p data-translate="pollen">Pollen</p>
@@ -554,7 +557,7 @@
                     <div class="pollen_circles">
                         <div class="pollen_icon">
                             <i icon-outlined>nature</i>
-                            <span data-translate="Tree">Tree</span>
+                            <span data-translate="tree">Tree</span>
                         </div>
                         <div class="Pollen_Icon_slot_tree Pollen_Icon_slot">
 
@@ -605,8 +608,8 @@
 
 
 
-            <div class="all_air_quality"
-                 style="border-radius: 10px 10px 5px 5px; margin-bottom: 5px; overflow: hidden; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);"
+            <div class="all_air_quality" data-id="5"
+                 style="border-radius: 10px; margin-bottom: 0px; overflow: hidden; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);"
                  id="ifPollenIsThere">
                 <div class="sun_text">
                     <p data-translate="air_quality">Air Quality</p>
@@ -676,8 +679,8 @@
 
             </div>
 
-            <div class="all_air_quality ripple_btn_low"
-                 style="border-radius: 5px 5px 10px 10px; margin-top: 0px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);"
+            <div class="all_air_quality ripple_btn_low" data-id="6"
+                 style="border-radius: 10px; margin-top: 0px; margin-bottom: 0; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);"
                  onclick="sendThemeToAndroid('openUVcondition')" id="uvIndexMainDiv">
                 <div class="sun_text">
                     <p data-translate="uv_index">UV Index</p>
@@ -697,6 +700,7 @@
                     </div>
                 </div>
 
+            </div>
             </div>
 
 
@@ -913,7 +917,7 @@ let timeoutID;
 
         timeoutID = setTimeout(() => {
           evt.item.classList.remove('noSwipe');
-        }, 200);
+        }, 350);
           saveOrder();
       },
   });
@@ -922,6 +926,103 @@ let timeoutID;
 }
 
 initializeDragAndDrop();
+
+// -----------------------------------------------------------------------------------------------------------------------------
+
+async function initializeDragAndDropAllEL() {
+  const draggableContainer = document.getElementById('sortHolder');
+  const storageKey = 'dragAndDropStateAllEL';
+
+  async function saveOrder() {
+      const itemsOrder = Array.from(draggableContainer.children).map(element => element.dataset.id);
+      await customStorage.setItem(storageKey, JSON.stringify(itemsOrder));
+  }
+
+  async function loadOrder() {
+      const storedState = await customStorage.getItem(storageKey);
+      if (storedState) {
+          const itemsOrder = JSON.parse(storedState);
+          const elements = Array.from(draggableContainer.children);
+
+          itemsOrder.forEach(id => {
+              const element = elements.find(el => el.dataset.id === id);
+              if (element) {
+                  draggableContainer.appendChild(element);
+              }
+          });
+      }
+  }
+  await loadOrder();
+}
+initializeDragAndDropAllEL()
+
+// ------------------------------------------------------------------------------
+    let sortableInstanceLocations;
+
+async function initializeDragAndDropLocations() {
+  const draggableContainer = document.querySelector('savedlocationsholder');
+  const storageKey = 'dragAndDropStateLocations';
+
+  async function saveOrder() {
+      const itemsOrder = Array.from(draggableContainer.children).map(element => element.dataset.id);
+      await customStorage.setItem(storageKey, JSON.stringify(itemsOrder));
+  }
+
+  async function loadOrder() {
+      const storedState = await customStorage.getItem(storageKey);
+      if (storedState) {
+          const itemsOrder = JSON.parse(storedState);
+          const elements = Array.from(draggableContainer.children);
+
+          itemsOrder.forEach(id => {
+              const element = elements.find(el => el.dataset.id === id);
+              if (element) {
+                  draggableContainer.appendChild(element);
+              }
+          });
+      }
+  }
+let timeoutID;
+        if (sortableInstanceLocations) {
+    sortableInstanceLocations.destroy();
+  }
+
+  sortableInstanceLocations = new Sortable(draggableContainer, {
+      animation: 250,
+      ghostClass: 'sortable-ghost',
+      delay: 500,
+      onStart(evt) {
+
+        evt.item.classList.add('noSwipe');
+    },
+      onEnd(evt) {
+        clearTimeout(timeoutID);
+
+        timeoutID = setTimeout(() => {
+          evt.item.classList.remove('noSwipe');
+        }, 350);
+          saveOrder();
+      },
+  });
+
+  await loadOrder();
+}
+
+
+
+
+
+        function handleStorageChangeLayoutEvent(event) {
+            if (event.detail && event.detail.key === 'LoadNewOrder') {
+
+                setTimeout(() => {
+                    initializeDragAndDropAllEL()
+                }, 500);
+
+            }
+        }
+
+        window.addEventListener('indexedDBChange', handleStorageChangeLayoutEvent);
 
 
 
