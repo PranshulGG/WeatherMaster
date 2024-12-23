@@ -2610,6 +2610,15 @@ max-width: 150px;
   .close_search{
   display: none !important;
   }
+  .behind_search_animation_wrap .behind_search_animation{
+    position: fixed;
+    z-index: 0;
+    height: auto !important;
+    width: 50% !important;
+    opacity: 0.7;
+    left: 50% !important;
+    top: -25px;
+  }
 }
 
 .animation_canvas{
@@ -2777,7 +2786,7 @@ Tempmeterbaritem span{
 
 
 .currentConditionItem {
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
 }
 
 .no_touch_screen{
@@ -3007,4 +3016,32 @@ Tempmeterbaritem span{
   align-items: center;
   justify-content: center;
   gap: 10px;
+}
+
+.behind_search_animation_wrap .behind_search_animation{
+  position: fixed;
+  z-index: 0;
+  height: auto !important;
+  opacity: 0.7;
+  top: -25px;
+}
+
+.behind_search_animation_wrap .behind_search_animation.default_opacity{
+  opacity: 1 !important;
+}
+
+.behind_search_animation_wrap .behind_search_animation::after{
+  position: absolute;
+  top: 25px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  content: '';
+  background: linear-gradient(0deg, transparent 80%, var(--Surface));
+}
+
+
+.behind_search_animation_wrap .header_hold{
+z-index: 5;
+box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
 }
