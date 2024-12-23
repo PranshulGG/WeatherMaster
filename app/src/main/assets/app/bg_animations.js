@@ -1057,6 +1057,7 @@ class Meteor {
 
 
       document.getElementById('background_animation').setAttribute('running_fog', 'true')
+      document.getElementById('background_animation').setAttribute('running_fog_fullframe', 'true')
 
         animationContainer1.classList.add('behind_search_animation');
         animationContainer2.classList.add('behind_search_animation');
@@ -1245,9 +1246,13 @@ class Meteor {
 
 
     document.getElementById('background_animation').style = 'z-index: 1;'
+    if(document.getElementById('background_animation').getAttribute('running_fog_fullframe')){
+                        document.getElementById('foreground_animation').removeAttribute('running_fog_fullframe');
       document.getElementById('background_animation').classList.remove('behind_search_animation');
       document.getElementById('foreground_animation').classList.remove('behind_search_animation');
       document.documentElement.classList.remove('behind_search_animation_wrap')
+    }
+
 
 
   }
