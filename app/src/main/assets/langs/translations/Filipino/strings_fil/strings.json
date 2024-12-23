@@ -403,7 +403,7 @@
     "swipe_between_locations": "Mag-swipe para mag-iba ng lokasyon",
     "swipe_between_locations_sub": "Mag-swipe sa kaliwa o kanan para ibahin ang lokasyon",
     "swipe_threshold": "Threshold ng Pag-swipe",
-    "swipe_threshold_help_sub": "The threshold defines the minimum distance a swipe gesture must cover to be recognized. A lower threshold makes swipe gestures easier to trigger, while a higher threshold requires more deliberate swipes.",
+    "swipe_threshold_help_sub": "Ang threshold ay ang pinakamaliit na distansiya na kailangang gawin ng isang swipe gesture para ma-recognize. Ang mas mababang threshold ay mas madali ma-trigger habang ang mas mataas na threshold ay kinakailangan ng mas mahahabang swipe.",
     "todays_avg": "Ang average na temperatura ngayong araw",
     "todays_high": "Ang pinakamataas ngayong araw",
     "learn_about_app": "Matuto tungkol sa app",
@@ -415,6 +415,6 @@
     "import_data_sub": "Babala: Ang pag-import ng data ay buburahin ang kasalukuyang data ng iyong app",
     "froggy_summary": "Buod ni Froggy",
     "froggy_summary_sub": "Nagdadagdag ng mga frog-related na paglalarawan. Available lang sa Ingles",
-    "arrange_items": "Arrange items",
-    "edit_layout": "Edit app layout"
+    "arrange_items": "Ayusin ang mga item",
+    "edit_layout": "I-edit ang layout ng app"
 }
