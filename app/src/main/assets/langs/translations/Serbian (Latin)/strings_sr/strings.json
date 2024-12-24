@@ -416,5 +416,9 @@
     "froggy_summary": "Rezime žabca",
     "froggy_summary_sub": "Dodajte opise u vezi sa žabcem. Dostupno samo na engleskom",
     "arrange_items": "Rasporedite predmete",
-    "edit_layout": "Izmenite izgled aplikacije"
+    "edit_layout": "Izmenite izgled aplikacije",
+    "reset": "Reset",
+    "hourly_forecast": "Hourly forecast",
+    "air_quality_index": "Air quality index",
+    "pollen_data": "Pollen data"
 }
