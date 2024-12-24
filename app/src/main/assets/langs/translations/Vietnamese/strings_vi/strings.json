@@ -417,8 +417,10 @@
     "froggy_summary_sub": "Thêm mô tả liên quan đến Ếch Xanh. Chỉ có sẵn bằng tiếng Anh.",
     "arrange_items": "Sắp xếp các mục",
     "edit_layout": "Chỉnh sửa bố cục ứng dụng",
-    "reset": "Reset",
-    "hourly_forecast": "Hourly forecast",
-    "air_quality_index": "Air quality index",
-    "pollen_data": "Pollen data"
+    "reset": "Đặt lại",
+    "hourly_forecast": "Dự báo hàng giờ",
+    "air_quality_index": "Chỉ số chất lượng không khí",
+    "pollen_data": "Dữ liệu về phấn hoa",
+    "wait_10_mins": "Vui lòng đợi 10 phút trước khi làm mới",
+    "default_location_delete_snack": "Bạn không thể xóa vị trí mặc định"
 }
