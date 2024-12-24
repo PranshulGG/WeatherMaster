@@ -416,5 +416,9 @@
     "froggy_summary": "Краткое содержание",
     "froggy_summary_sub": "Добавляет описания, связанные с лягушками. Доступно только на английском языке",
     "arrange_items": "Расставьте предметы",
-    "edit_layout": "Изменить макет главного меню"
+    "edit_layout": "Изменить макет главного меню",
+    "reset": "Reset",
+    "hourly_forecast": "Hourly forecast",
+    "air_quality_index": "Air quality index",
+    "pollen_data": "Pollen data"
 }
