@@ -416,5 +416,11 @@
     "froggy_summary": "青蛙摘要",
     "froggy_summary_sub": "添加与青蛙相关的描述。仅提供英语版本",
     "arrange_items": "排列项目",
-    "edit_layout": "编辑应用布局"
+    "edit_layout": "编辑应用布局",
+    "reset": "Reset",
+    "hourly_forecast": "Hourly forecast",
+    "air_quality_index": "Air quality index",
+    "pollen_data": "Pollen data",
+    "wait_10_mins": "Please wait 10 minutes before refreshing again",
+    "default_location_delete_snack": "You can't delete the default location"
 }
