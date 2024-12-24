@@ -416,5 +416,9 @@
     "froggy_summary": "Buod ni Froggy",
     "froggy_summary_sub": "Nagdadagdag ng mga frog-related na paglalarawan. Available lang sa Ingles",
     "arrange_items": "Ayusin ang mga item",
-    "edit_layout": "I-edit ang layout ng app"
+    "edit_layout": "I-edit ang layout ng app",
+    "reset": "Reset",
+    "hourly_forecast": "Hourly forecast",
+    "air_quality_index": "Air quality index",
+    "pollen_data": "Pollen data"
 }
