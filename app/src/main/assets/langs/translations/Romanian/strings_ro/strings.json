@@ -416,5 +416,9 @@
     "froggy_summary": "Froggy summary",
     "froggy_summary_sub": "Adds frog-related descriptions. Available only in English",
     "arrange_items": "Aranjează elementele",
-    "edit_layout": "Editează aspectul aplicației"
+    "edit_layout": "Editează aspectul aplicației",
+    "reset": "Reset",
+    "hourly_forecast": "Hourly forecast",
+    "air_quality_index": "Air quality index",
+    "pollen_data": "Pollen data"
 }
