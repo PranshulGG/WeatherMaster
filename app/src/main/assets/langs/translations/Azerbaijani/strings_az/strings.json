@@ -416,5 +416,9 @@
     "froggy_summary": "Qurbağalı xülasə",
     "froggy_summary_sub": "Qurbağa ilə əlaqəli təsvirlər əlavə edir. Yalnız ingilis dilində mövcuddur",
     "arrange_items": "Elementləri təşkil edin",
-    "edit_layout": "Tətbiqin görünüşünü dəyişdir"
+    "edit_layout": "Tətbiqin görünüşünü dəyişdir",
+    "reset": "Reset",
+    "hourly_forecast": "Hourly forecast",
+    "air_quality_index": "Air quality index",
+    "pollen_data": "Pollen data"
 }
