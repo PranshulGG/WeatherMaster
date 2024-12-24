@@ -416,5 +416,9 @@
     "froggy_summary": "Résumé de la grenouille",
     "froggy_summary_sub": "Ajoute des descriptions liées à la grenouille. Disponible uniquement en anglais",
     "arrange_items": "Organiser les éléments",
-    "edit_layout": "Modifier la mise en page de l'application"
+    "edit_layout": "Modifier la mise en page de l'application",
+    "reset": "Reset",
+    "hourly_forecast": "Hourly forecast",
+    "air_quality_index": "Air quality index",
+    "pollen_data": "Pollen data"
 }
