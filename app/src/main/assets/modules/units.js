@@ -244,7 +244,7 @@ function GetWeatherLabel(iconCode, isDay) {
             removeRain()
             removeFog()
             removeSnow()
-            removeLeaves()
+            displayLeaves()
             removeStars()
             removeThunder()}
             return 'partly_cloudy'
@@ -527,7 +527,7 @@ function GetWeatherLabel(iconCode, isDay) {
             removeFog()
             removeSnow()
             removeLeaves()
-            removeStars()
+            displayStars()
             removeThunder()}
             return 'partly_cloudy'
 
@@ -1800,12 +1800,12 @@ function animateTemp(temp_value) {
     const tempElement = document.getElementById('temp');
 
     // Set initial opacity to 0
-    tempElement.style.opacity = 0;
+    tempElement.style.scale = 0.7;
 
     function animateNumber() {
         if (useTempAnimation === 'false') {
             tempElement.innerHTML = temp_value + '°';
-            tempElement.style.opacity = 1;  // Ensure opacity is 1 when no animation is used
+            tempElement.style.scale = 1;  // Ensure opacity is 1 when no animation is used
         } else {
             // Clear any existing interval to prevent overlapping animations
             if (currentInterval) {
@@ -1853,9 +1853,9 @@ function animateTemp(temp_value) {
 
         // Animate opacity to 1
         let opacityInterval = setInterval(() => {
-            let currentOpacity = parseFloat(tempElement.style.opacity);
+            let currentOpacity = parseFloat(tempElement.style.scale);
             if (currentOpacity < 1) {
-                tempElement.style.opacity = currentOpacity + 0.05;
+                tempElement.style.scale = currentOpacity + 0.05;
             } else {
                 clearInterval(opacityInterval);
             }

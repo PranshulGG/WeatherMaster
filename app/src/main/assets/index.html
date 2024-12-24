@@ -123,6 +123,11 @@
                 </div>
                 <div id="background_animation" class="animation_canvas animation_canvas_lottie" style="z-index: 1;">
                 </div>
+
+                <div id="foreground_animation_sunny" class="animation_canvas animation_canvas_lottie" style="z-index: 1;">
+                </div>
+                <div id="background_animation_sunny" class="animation_canvas animation_canvas_lottie" style="z-index: 1;">
+                </div>
             </div>
 
             <div class="control-panel-for-wind">
@@ -168,7 +173,7 @@
 
 
         <div class="weatherComments weatherCommentsDiv" onclick="openSummery()"
-             style="box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);">
+             style="box-shadow: 0px 5px 6px rgba(0, 0, 0, 0);">
             <div class="h2" style="padding: 10px;">
                 <p style="width: 100%; text-align: center; display: flex; align-items: center; justify-content: center;"
                    data-translate="quick_summary">Quick summary</p>
@@ -189,7 +194,7 @@
 
 
 
-        <div class="high-all" style="box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2); z-index: 1; position: relative;">
+        <div class="high-all" style="box-shadow: 0px 5px 6px rgba(0, 0, 0, 0); z-index: 1; position: relative;">
             <div class="high-mini">
 
                 <div class="mini wind ripple_btn_low"
@@ -217,7 +222,7 @@
 
         <div class="insights_scroll noSwipe">
             <div class="insights"
-                 style="box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2); z-index: 2; position: relative;">
+                 style="box-shadow: 0px 5px 6px rgba(0, 0, 0, 0.2); z-index: 2; position: relative;">
 
                 <div class="cloths insights_item">
                     <div class="icon_container_cloths">
@@ -261,7 +266,7 @@
             <div class="sortHolder" id="sortHolder" style="display: flex; flex-direction: column;">
 
                 <div data-id="1">
-            <div class="all-24" style="box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);" >
+            <div class="all-24" style="box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.2);" >
                 <div class="h1">
                     <p class="today_Text" data-translate="next_24-hr">Next 24-hr</p>
                     <p class="date_Text_top" id="date_text_top">Mar, 19</p>
@@ -302,7 +307,7 @@
 
             </rainMeter>
                 </div>
-            <div class="all-5d" style="box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);" data-id="2">
+            <div class="all-5d" style="box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.2);" data-id="2">
                 <div class="h2">
                     <p data-translate="daily_forecast"
                        style="width: calc(100% - 150px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
@@ -520,7 +525,7 @@
 
             </div>
 
-            <div class="pollen_data " hidden style="box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);" data-id="4">
+            <div class="pollen_data " hidden style="box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.2);" data-id="4">
                 <div class="pollen_heading">
                     <md-icon icon-filled>allergy</md-icon>
                     <p data-translate="pollen">Pollen</p>
@@ -608,7 +613,7 @@
 
 
             <div class="all_air_quality" data-id="5"
-                 style="border-radius: 10px; margin-bottom: 0px; overflow: hidden; box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);"
+                 style="border-radius: 10px; margin-bottom: 0px; overflow: hidden; box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.2);"
                  id="ifPollenIsThere">
                 <div class="sun_text">
                     <p data-translate="air_quality">Air Quality</p>
@@ -679,7 +684,7 @@
             </div>
 
             <div class="all_air_quality ripple_btn_low" data-id="6"
-                 style="border-radius: 10px; margin-top: 0px; margin-bottom: 0; box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);"
+                 style="border-radius: 10px; margin-top: 0px; margin-bottom: 0; box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.2);"
                  onclick="sendThemeToAndroid('openUVcondition')" id="uvIndexMainDiv">
                 <div class="sun_text">
                     <p data-translate="uv_index">UV Index</p>
@@ -1154,6 +1159,13 @@ let timeoutID;
             observer.observe(foregroundAnimation, { attributes: true, attributeFilter: ['running_clouds_full'] });
             observer.observe(backgroundAnimation, { attributes: true, attributeFilter: ['running_clouds_full'] });
         });
+
+
+        document.addEventListener('DOMContentLoaded', async () => {
+        setTimeout(() =>{
+    document.querySelector('body').classList.add('loaded')
+        }, 200)
+})
 
 
     </script>

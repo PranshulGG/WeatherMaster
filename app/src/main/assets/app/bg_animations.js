@@ -1017,7 +1017,7 @@ class Meteor {
         animationContainer1.setAttribute('running_clouds', 'true');
 
         animationContainer1.classList.add('behind_search_animation', 'default_opacity');
-        animationContainer2.classList.add('behind_search_animation', 'default_opacity');
+//        animationContainer2.classList.add('behind_search_animation', 'default_opacity');
         document.documentElement.classList.add('behind_search_animation_wrap')
 
           animationContainer1.innerHTML = ''
@@ -1059,15 +1059,15 @@ class Meteor {
       document.getElementById('background_animation').setAttribute('running_fog', 'true')
       document.getElementById('background_animation').setAttribute('running_fog_fullframe', 'true')
 
-        animationContainer1.classList.add('behind_search_animation');
-        animationContainer2.classList.add('behind_search_animation');
+        animationContainer1.classList.add('behind_search_animation_fog');
+        animationContainer2.classList.add('behind_search_animation_fog');
         document.documentElement.classList.add('behind_search_animation_wrap')
 
         animationContainer1.innerHTML = ''
         animationContainer2.innerHTML = ''
 
     var animationData1 = 'lottie_animations/haze_smoke_foreground.json';
-    animationContainer1.style = 'z-index: 1; opacity: 0.4; height: 40% !important;'
+    animationContainer1.style = 'z-index: 1; opacity: 0.4; height: 35% !important;'
 
      anim1fog = bodymovin.loadAnimation({
         container: animationContainer1,
@@ -1090,6 +1090,10 @@ class Meteor {
     var animationContainer2 = document.getElementById('foreground_animation');
 
     // animationContainer1.classList.add('running_clouds')
+
+                          document.getElementById('background_animation').classList.remove('behind_search_animation');
+                          document.getElementById('foreground_animation').classList.remove('behind_search_animation');
+                          document.documentElement.classList.remove('behind_search_animation_wrap')
 
         if (anim1Thunder) {
             anim1Thunder.destroy();
@@ -1120,8 +1124,8 @@ class Meteor {
   var anim2;
 
   function displayLeaves() {
-      var animationContainer1 = document.getElementById('background_animation');
-      var animationContainer2 = document.getElementById('foreground_animation');
+      var animationContainer1 = document.getElementById('background_animation_sunny');
+      var animationContainer2 = document.getElementById('foreground_animation_sunny');
 
           if (anim1) {
               anim1.destroy();
@@ -1130,6 +1134,8 @@ class Meteor {
           if (anim2) {
               anim2.destroy();
           }
+
+
 
           animationContainer1.innerHTML = ''
           animationContainer2.innerHTML = ''
@@ -1248,9 +1254,8 @@ class Meteor {
     document.getElementById('background_animation').style = 'z-index: 1;'
     if(document.getElementById('background_animation').getAttribute('running_fog_fullframe')){
                         document.getElementById('foreground_animation').removeAttribute('running_fog_fullframe');
-      document.getElementById('background_animation').classList.remove('behind_search_animation');
-      document.getElementById('foreground_animation').classList.remove('behind_search_animation');
-      document.documentElement.classList.remove('behind_search_animation_wrap')
+      document.getElementById('background_animation').classList.remove('behind_search_animation_fog');
+      document.getElementById('foreground_animation').classList.remove('behind_search_animation_fog');
     }
 
 

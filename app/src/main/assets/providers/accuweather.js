@@ -187,7 +187,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeRain()
                 removeFog()
                 removeSnow()
-                removeLeaves()
+                displayLeaves()
                 removeStars()
                 removeThunder()
             }
@@ -594,7 +594,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeFog()
                 removeSnow()
                 removeLeaves()
-                removeStars()
+                displayStars()
                 removeThunder()
             }
             return 'partly_cloudy'

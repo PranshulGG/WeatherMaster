@@ -165,7 +165,7 @@ if (navigator.onLine) {
 
       const timeDifferenceInMinutes = timeDifference / (1000 * 60);
 
-      if (timeDifferenceInMinutes < 30) {
+      if (timeDifferenceInMinutes < 40) {
 
         setTimeout(() => {
           ReturnHomeLocation();
@@ -3627,7 +3627,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", async function () {
-  const currentVersion = "v1.12.0";
+  const currentVersion = "v1.12.2";
   const githubRepo = "PranshulGG/WeatherMaster";
   const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 

@@ -1,3 +1,5 @@
+
+
 :root {
     --google-normal: 'Google';
     --google-thin: 'Google-thin';
@@ -252,10 +254,10 @@
     --Error-Container: #93000a;
     --On-Error-Container: #ffdad6;
     --Surface-Dim:#121317 ;
-    --Surface: #001d33;
+    --Surface: #081938;
     --Surface-Bright: #38393e;
     --Surface-Container-Lowest:#0d0e12 ;
-    --Surface-Container-Low: #012438;
+    --Surface-Container-Low: #04203f;
     --Surface-Container: #112d44;
     --Surface-Container-High: #292a2e;
     --Surface-Container-Highest: #343439;
@@ -319,13 +321,13 @@
 
 [iconCodeTheme="overcast"] {
 
-    --Primary: #d2dbff;
-    --On-Primary: #122c6c;
-    --Primary-Container: #9bb0f8;
-    --On-Primary-Container: #042162;
+    --Primary: #bac8d9;
+    --On-Primary: #25323f;
+    --Primary-Container: #00233c;
+    --On-Primary-Container: #8eb0d3;
     --Secondary: #9dcbf9;
     --On-Secondary: #003353;
-    --Secondary-Container: #243240;
+    --Secondary-Container: #1e2b38;
     --On-Secondary-Container: #97c4f1;
     --Tertiary: #ffcef9;
     --On-Tertiary: #4f1a51;
@@ -336,16 +338,16 @@
     --Error-Container: #93000a;
     --On-Error-Container: #ffdad6;
     --Surface-Dim:#121317 ;
-    --Surface: #0e1d2a;
+    --Surface: #0c1822;
     --Surface-Bright: #38393e;
     --Surface-Container-Lowest:#0d0e12 ;
-    --Surface-Container-Low: #012438;
-    --Surface-Container: #112535;
+    --Surface-Container-Low: #061c29;
+    --Surface-Container: #1e2a35;
     --Surface-Container-High: #292a2e;
     --Surface-Container-Highest: #343439;
     --Inverse-Surface: #e3e2e8;
     --Inverse-On-Surface: #2f3035;
-    --Inverse-Primary: #465b9d;
+    --Inverse-Primary: #52606e;
     --On-Surface: #e3e2e8;
     --On-Surface-Variant: #c5c6d2;
     --Outline: #8f909b;
@@ -411,7 +413,7 @@
     --On-Primary-Container: #042162;
     --Secondary: #9dcbf9;
     --On-Secondary: #003353;
-    --Secondary-Container: #41465f;
+    --Secondary-Container: #323646;
     --On-Secondary-Container: #cdd3ff;
     --Tertiary: #ffcef9;
     --On-Tertiary: #4f1a51;
@@ -422,11 +424,11 @@
     --Error-Container: #93000a;
     --On-Error-Container: #ffdad6;
     --Surface-Dim:#121317 ;
-    --Surface: #1f1f30;
+    --Surface: #16161d;
     --Surface-Bright: #38393e;
     --Surface-Container-Lowest:#0d0e12 ;
-    --Surface-Container-Low: #222936;
-    --Surface-Container: #2a3641;
+    --Surface-Container-Low: #1a1f29;
+    --Surface-Container: #222a31;
     --Surface-Container-High: #292a2e;
     --Surface-Container-Highest: #343439;
     --Inverse-Surface: #e3e2e8;

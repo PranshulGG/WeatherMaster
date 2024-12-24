@@ -36,8 +36,8 @@
 
 
     <style name="app_theme" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:navigationBarColor">#0e1d2a</item>
-        <item name="android:statusBarColor">#0e1d2a</item>
+        <item name="android:navigationBarColor">#0c1822</item>
+        <item name="android:statusBarColor">#0c1822</item>
         <item name="colorAccent">#afc6ff</item>
 
 

@@ -400,15 +400,15 @@ public class MainActivity extends AppCompatActivity {
                         setTheme(R.style.blue_caret);
 
                     } else if(color.equals("cloudy")){
-                            statusBarColor = 0xFF001d33;
-                            navigationBarColor = 0xFF001d33;
+                            statusBarColor = 0xFF081938;
+                            navigationBarColor = 0xFF081938;
                             systemUiVisibilityFlags = 0;
                         webview.setBackgroundColor(getResources().getColor(R.color.C02d));
                         setTheme(R.style.blue_caret);
 
                     } else if(color.equals("overcast")){
-                        statusBarColor = 0xFF0e1d2a;
-                        navigationBarColor = 0xFF0e1d2a;
+                        statusBarColor = 0xFF0c1822;
+                        navigationBarColor = 0xFF0c1822;
                         systemUiVisibilityFlags = 0;
                         webview.setBackgroundColor(getResources().getColor(R.color.C03d));
                         setTheme(R.style.blue_caret);
@@ -428,8 +428,8 @@ public class MainActivity extends AppCompatActivity {
                         setTheme(R.style.blue_caret);
 
                     } else if(color.equals("snow")){
-                        statusBarColor = 0xFF1f1f30;
-                        navigationBarColor = 0xFF1f1f30;
+                        statusBarColor = 0xFF16161d;
+                        navigationBarColor = 0xFF16161d;
                         systemUiVisibilityFlags = 0;
                         webview.setBackgroundColor(getResources().getColor(R.color.C09d));
                         setTheme(R.style.blue_caret);

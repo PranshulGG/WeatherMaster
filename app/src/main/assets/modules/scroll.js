@@ -18,13 +18,44 @@ weatherWrap.addEventListener('scroll', function() {
 //            mainWeat.style.opacity = newOpacity;
                         document.querySelector('.froggie').style.opacity = newOpacity;
 
-                                              if(scrollPosition > 100){
-                                                    document.querySelector('.header-top').classList.add('use');
+                  if(scrollPosition > 100){
+                        document.querySelector('.header-top').classList.add('use');
 
-                                                } else{
-                                                    document.querySelector('.header-top').classList.remove('use');
+                    } else{
+                        document.querySelector('.header-top').classList.remove('use');
 
-                                                }
+                    }
+                if(scrollPosition > 10){
+                    const allClassesAnimation = document.querySelectorAll('.behind_search_animation');
+                    const allClassesAnimationFog = document.querySelectorAll('.behind_search_animation_fog');
+
+                    if(allClassesAnimation){
+                        allClassesAnimation.forEach((classAnimation) =>{
+                            classAnimation.hidden = true
+                        })
+                    }
+
+                    if(allClassesAnimationFog){
+                        allClassesAnimationFog.forEach((classAnimationFog) =>{
+                            classAnimationFog.hidden = true
+                        })
+                    }
+
+                } else{
+                    const allClassesAnimation = document.querySelectorAll('.behind_search_animation');
+                    const allClassesAnimationFog = document.querySelectorAll('.behind_search_animation_fog');
+
+                    if(allClassesAnimation){
+                        allClassesAnimation.forEach((classAnimation) =>{
+                            classAnimation.hidden = false
+                        })
+                    }
+                    if(allClassesAnimationFog){
+                        allClassesAnimationFog.forEach((classAnimationFog) =>{
+                            classAnimationFog.hidden = false
+                        })
+                    }
+                }
             ticking = false;
         });
         ticking = true;

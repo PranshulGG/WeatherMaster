@@ -20,7 +20,7 @@
 
 
 body {
-  background-color: var(--Secondary-Container);
+  background-color: var(--Surface);
   padding: 0;
   margin: 0;
   overflow: hidden;
@@ -28,6 +28,10 @@ body {
   transition: opacity 0.3s ease-out;
   opacity: 0;
 
+}
+
+body.loaded{
+  background-color: var(--Secondary-Container);
 }
 
 
@@ -2619,6 +2623,15 @@ max-width: 150px;
     left: 50% !important;
     top: -25px;
   }
+  .behind_search_animation_wrap .behind_search_animation_fog{
+    position: fixed;
+    z-index: 0;
+    height: auto !important;
+    width: 50% !important;
+    left: 50% !important;
+    opacity: 0.8;
+    top: 10px;
+  }
 }
 
 .animation_canvas{
@@ -2786,7 +2799,7 @@ Tempmeterbaritem span{
 
 
 .currentConditionItem {
-  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.2);
 }
 
 .no_touch_screen{
@@ -3021,8 +3034,8 @@ Tempmeterbaritem span{
 .behind_search_animation_wrap .behind_search_animation{
   position: fixed;
   z-index: 0;
-  height: auto !important;
-  opacity: 0.7;
+  height: 35% !important;
+  opacity: 0.8;
   top: -25px;
 }
 
@@ -3043,5 +3056,33 @@ Tempmeterbaritem span{
 
 .behind_search_animation_wrap .header_hold{
 z-index: 5;
-box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
+box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.2);
+}
+
+
+.behind_search_animation_wrap .behind_search_animation_fog{
+  position: fixed;
+  z-index: 0;
+  height: auto !important;
+  opacity: 0.8;
+  top: 10px;
+}
+
+.behind_search_animation_wrap .behind_search_animation_fog::after{
+  position: absolute;
+  top: 25px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  content: '';
+  background: linear-gradient(0deg, transparent 80%, var(--Surface));
+}
+
+#foreground_animation_sunny::before{
+  height: 0;
+  width: 0;
+}
+#background_animation_sunny::before{
+  height: 0;
+  width: 0;
 }

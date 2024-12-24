@@ -236,7 +236,22 @@ function converMetNorwayConditions(condition_text) {
         }
         return 'mostly_clear'
 
-    } else if (condition_text === 'partlycloudy_day' || condition_text === 'partlycloudy_night' || condition_text === 'partlycloudy_polartwilight') {
+    } else if (condition_text === 'partlycloudy_day' || condition_text === 'partlycloudy_polartwilight') {
+        if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
+        } else {
+            removeDrizzle()
+            displayClouds()
+            removeCloudsFull()
+            removeRain()
+            removeFog()
+            removeSnow()
+            displayLeaves()
+            removeStars()
+            removeThunder()
+        }
+        return 'partly_cloudy'
+
+    } else if (condition_text === 'partlycloudy_night') {
         if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
         } else {
             removeDrizzle()
@@ -246,7 +261,7 @@ function converMetNorwayConditions(condition_text) {
             removeFog()
             removeSnow()
             removeLeaves()
-            removeStars()
+            displayStars()
             removeThunder()
         }
         return 'partly_cloudy'

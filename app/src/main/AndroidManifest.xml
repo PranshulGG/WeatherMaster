@@ -17,9 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.WeatherMaster"
-        android:debuggable="true"
-        tools:targetApi="33"
-        tools:ignore="HardcodedDebugMode">
+        tools:targetApi="33">
         <activity
             android:name=".SettingsActivity"
             android:screenOrientation="portrait"
