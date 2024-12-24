@@ -417,8 +417,10 @@
     "froggy_summary_sub": "Dodajte opise u vezi sa žabcem. Dostupno samo na engleskom",
     "arrange_items": "Rasporedite predmete",
     "edit_layout": "Izmenite izgled aplikacije",
-    "reset": "Reset",
-    "hourly_forecast": "Hourly forecast",
-    "air_quality_index": "Air quality index",
-    "pollen_data": "Pollen data"
+    "reset": "Resetovati",
+    "hourly_forecast": "Prognoza po satu",
+    "air_quality_index": "Indeks kvaliteta vazduha",
+    "pollen_data": "Podaci o polenu",
+    "wait_10_mins": "Sačekajte 10 minuta pre nego što ponovo osvežite",
+    "default_location_delete_snack": "Ne možete izbrisati podrazumevanu lokaciju"
 }
