@@ -227,9 +227,9 @@
     "evening": "Hapon",
     "night": "Gabi",
     "wind_gust": "Bugso ng hangin",
-    "rain_expected_to_continue": "Inaasahan na magpapatuloy ang pag-ulan sa mga susunod na oras",
-    "rain_likely_tomorrow_around": "Maaaring may ulan bukas banda",
-    "rain_likely_around": "Maaaring may ulan banda",
+    "rain_expected_to_continue": "Inaasahang magpapatuloy ang ulan sa mga susunod na oras",
+    "rain_likely_tomorrow_around": "Maaaring umulan bukas banda",
+    "rain_likely_around": "Maaaring umulan banda",
     "weather_alerts": "Mga alerto sa panahon",
     "font": "Pont",
     "auto-hide_update_toast": "Awtomatikong itago ang pahayag ng pag-update",
@@ -295,7 +295,7 @@
     "temp_report_tipPart_1": "Umasa ng temperatura na aabot hanggang",
     "temp_report_tipPart_2": "☀️na may maksimum na UV index ng",
     "temp_report_tipPart_3": ". Sa paglubog ng araw 🌅, bababa ang temperatura sa isang komportableng lebel.",
-    "temp_report_tipPart_4": ". Isang magandang gabi'y naghihintay! 🌙",
+    "temp_report_tipPart_4": ". Isang magandang hapon ay naghihintay! 🌙",
     "rain_report_tipPart_1": "Asahan ang higit kumulang",
     "rain_report_tipPart_2": "ng ulan ngayong araw 🌧️. Siguraduhing magdala ng payong! ☔",
     "Norain_report_tipPart": "Wala namang inaasahang pag-ulan ngayong araw, maaari mong iwanan ang iyong payong sa bahay! ☀️😊",
@@ -421,6 +421,6 @@
     "hourly_forecast": "Oras-oras na forecast",
     "air_quality_index": "Indise ng kalidad ng hangin",
     "pollen_data": "Datos sa bulo",
-    "wait_10_mins": "Please wait 10 minutes before refreshing again",
-    "default_location_delete_snack": "You can't delete the default location"
+    "wait_10_mins": "Maghintay muna ng 10 minuto bago mag-refresh muli",
+    "default_location_delete_snack": "Hindi mo puwede burahin ang default na lokasyon"
 }
