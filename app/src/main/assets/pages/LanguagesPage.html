@@ -494,7 +494,7 @@ async function fetchTranslationProgress() {
 
             // Calculate the time difference in milliseconds
             const currentTime = Date.now();
-            if (currentTime - timestamp < 5 * 60 * 60 * 1000) {
+            if (currentTime - timestamp < 24 * 60 * 60 * 1000) {
                 console.warn('Using cached data (within 5 hours).');
                 return progressData;
             }

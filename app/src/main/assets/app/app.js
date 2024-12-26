@@ -472,6 +472,8 @@ if (navigator.onLine) {
       "Data by Open-Meteo (Global)";
   }
 
+
+
   setTimeout(() => {
     ShowSnackMessage.ShowSnack(
       getTranslationByLang(
@@ -1279,10 +1281,13 @@ async function loadSavedLocations() {
         );
 
         if (location.locationName === checkDefault.name) {
-          ShowSnackMessage.ShowSnack(
-            "You can't delete the default location",
-            "long"
-          );
+            ShowSnackMessage.ShowSnack(
+              getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "default_location_delete_snack"
+              ),
+              "long"
+            );
           return;
         } else {
           deleteLocation(location.locationName);
@@ -3446,10 +3451,7 @@ function refreshWeather() {
 
       setTimeout(() => {
         document.querySelector(".no_touch_screen").hidden = true;
-        ShowSnackMessage.ShowSnack(
-            "Please wait 10 minutes before refreshing again.",
-          "long"
-        );
+          LoadLocationOnRequest(latSend, longSend, CurrentLocationName)
         sendThemeToAndroid("StopRefreshingLoader");
       }, 1000);
     } else{
@@ -3627,7 +3629,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", async function () {
-  const currentVersion = "v1.12.2";
+  const currentVersion = "v1.12.3";
   const githubRepo = "PranshulGG/WeatherMaster";
   const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
@@ -3701,27 +3703,13 @@ const updateActiveIndicator = () => {
   });
 };
 
-function debounce(func, delay) {
-  let inDebounce;
-  return function () {
-    const context = this,
-      args = arguments;
-    clearTimeout(inDebounce);
-    inDebounce = setTimeout(() => func.apply(context, args), delay);
-  };
-}
+const debouncedCheckTopScroll = debounce(() => {
+  checkTopScroll();
+  isSwipeDisabledHori = false;
+  isDebouncingScroll = false;
+}, 400);
 
-let isSwipeDisabledHori = false;
-let isDebouncingScroll = false; // For debouncing touch events on `scrollView`
-
-const debounceTouch = (func, delay) => {
-  let timer;
-  return (...args) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => func(...args), delay);
-  };
-};
-
+// Touchstart for `scrollView`
 scrollView.addEventListener("touchstart", () => {
   if (!isSwipeDisabledHori && !isDebouncingScroll) {
     sendThemeToAndroid("DisableSwipeRefresh");
@@ -3729,19 +3717,20 @@ scrollView.addEventListener("touchstart", () => {
   }
 });
 
+// Touchend for `scrollView`
 scrollView.addEventListener("touchend", () => {
   if (!isDebouncingScroll) {
     isDebouncingScroll = true;
-    debounceTouch(() => {
-      checkTopScroll();
-      isSwipeDisabledHori = false;
-      isDebouncingScroll = false;
-    }, 400)();
+    debouncedCheckTopScroll(); // Use the stable debounced function
   }
 });
 
-let isSwipeDisabledHoriForecast = false;
-let isDebouncingForecast = false; // For debouncing touch events on `forecast`
+// Same logic for `forecast`
+const debouncedCheckTopScrollForecast = debounce(() => {
+  checkTopScroll();
+  isSwipeDisabledHoriForecast = false;
+  isDebouncingForecast = false;
+}, 400);
 
 document.getElementById("forecast").addEventListener("touchstart", () => {
   if (!isSwipeDisabledHoriForecast && !isDebouncingForecast) {
@@ -3753,13 +3742,18 @@ document.getElementById("forecast").addEventListener("touchstart", () => {
 document.getElementById("forecast").addEventListener("touchend", () => {
   if (!isDebouncingForecast) {
     isDebouncingForecast = true;
-    debounceTouch(() => {
-      checkTopScroll();
-      isSwipeDisabledHoriForecast = false;
-      isDebouncingForecast = false;
-    }, 400)();
+    debouncedCheckTopScrollForecast(); // Use the stable debounced function
   }
 });
+
+// Helper debounce function
+function debounce(func, delay) {
+  let timer;
+  return function (...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => func.apply(this, args), delay);
+  };
+}
 
 scrollView.addEventListener("scroll", debounce(saveScrollPosition, 200));
 scrollView.addEventListener("scroll", updateActiveIndicator);

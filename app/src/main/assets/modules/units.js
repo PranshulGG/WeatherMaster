@@ -804,7 +804,7 @@ function setOnlineIcons() {
 
     sunnyFrog = [
         "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/01-sunny/01-sunny-creek-swimming.png?ref_type=heads",
-        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/01-sunny/01-sunny-field-kite.png?ref_type=heads",
+        "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/01-sunny/01-sunny-home-laundry_c.png?ref_type=heads",
         "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/01-sunny/01-sunny-orchard-picking.png?ref_type=heads",
         "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/01-sunny/01-sunny-home-laundry_f.png?ref_type=heads"
     ];

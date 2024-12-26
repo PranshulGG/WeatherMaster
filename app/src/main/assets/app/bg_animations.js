@@ -1016,10 +1016,11 @@ class Meteor {
 
         animationContainer1.setAttribute('running_clouds', 'true');
 
+                setTimeout(() =>{
         animationContainer1.classList.add('behind_search_animation', 'default_opacity');
 //        animationContainer2.classList.add('behind_search_animation', 'default_opacity');
         document.documentElement.classList.add('behind_search_animation_wrap')
-
+    }, 200);
           animationContainer1.innerHTML = ''
           animationContainer2.innerHTML = ''
 
@@ -1179,10 +1180,11 @@ class Meteor {
 
           animationContainer1.setAttribute('running_clouds_full', 'true');
           animationContainer2.setAttribute('running_clouds_full', 'true');
-
+            setTimeout(() =>{
           animationContainer1.classList.add('behind_search_animation');
           animationContainer2.classList.add('behind_search_animation');
           document.documentElement.classList.add('behind_search_animation_wrap')
+        }, 200);
 
 
           animationContainer1.innerHTML = ''

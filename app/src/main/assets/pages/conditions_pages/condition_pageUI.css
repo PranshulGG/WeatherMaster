@@ -216,7 +216,7 @@ humiditymeterbaritem span{
     align-items: center;
     justify-content: space-between;
     padding: 20px;
-    height: 100px;
+    min-height: 100px;
     border-radius: 20px;
 }
 

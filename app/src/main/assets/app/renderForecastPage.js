@@ -581,7 +581,12 @@ async function displayDailyForecast(forecast, forecastDaily) {
 
 
             <p class="daily-conditions-title" data-translate="daily_conditions">Daily conditions</p>
-            <div class="daily-conditions">
+            <div class="daily-conditions" style="position: relative;">
+                                <div class="loader_content" hidden>
+                        <md-circular-progress indeterminate></md-circular-progress>
+
+                    </div>
+
             <div class="daily-conditions-wrap" id="sortableContainer">
 
                      <div class="currentConditionItem sunRISESET ripple_btn_low" data-id="1"
@@ -765,7 +770,27 @@ async function displayDailyForecast(forecast, forecastDaily) {
         }
 
 
-        forecastDateHeaderContent.addEventListener('click', handleSelection);
+        let debounceTimeout;
+        let debounceTimeout2;
+
+
+forecastDateHeaderContent.addEventListener('click', (event) =>{
+    handleSelection(event)
+    document.querySelector('.loader_content').hidden = false;
+    clearTimeout(debounceTimeout);
+    clearTimeout(debounceTimeout2);
+
+        debounceTimeout2 = setTimeout(() =>{
+            initializeDragAndDrop();
+        }, 250);
+
+    debounceTimeout = setTimeout(() =>{
+        initializeDragAndDrop();
+        document.querySelector('.loader_content').hidden = true;
+
+    }, 500);
+
+});
         const clickedForecastItem = localStorage.getItem('ClickedForecastItem') || '0';
         const selectedForecastIndex = parseInt(clickedForecastItem, 10);
 
@@ -829,6 +854,7 @@ setTimeout(() => {
 }, 2300);
 
 
+let sortableInstanceContent;
 
 async function initializeDragAndDrop() {
     const draggableContainer = document.getElementById('sortableContainer');
@@ -854,7 +880,11 @@ async function initializeDragAndDrop() {
         }
     }
   let timeoutID;
-    const sortableInstance = new Sortable(draggableContainer, {
+  if (sortableInstanceContent) {
+    sortableInstanceContent.destroy();
+  }
+
+     sortableInstanceContent = new Sortable(draggableContainer, {
         animation: 250,
         ghostClass: 'sortable-ghost',
         delay: 500,

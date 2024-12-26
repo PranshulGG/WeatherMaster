@@ -244,7 +244,10 @@ async function CreateMaterialYouTheme(hex) {
                 let UVindexText;
 
                 if (uvIndex >= 0 && uvIndex <= 1) {
-                    UVindexText = 'Minimal';
+                    UVindexText = getTranslationByLang(
+                      localStorage.getItem("AppLanguageCode"),
+                      "minimal_risk"
+                    );
                     lowSvg.hidden = false;
                     midSvg.hidden = true;
                     highSvg.hidden = true;
@@ -252,7 +255,10 @@ async function CreateMaterialYouTheme(hex) {
                     extremeSvg.hidden = true;
 
                 } else if (uvIndex > 1 && uvIndex <= 2) {
-                    UVindexText = 'Low';
+                    UVindexText = getTranslationByLang(
+      localStorage.getItem("AppLanguageCode"),
+      "low_risk"
+    );
                     lowSvg.hidden = false;
                     midSvg.hidden = true;
                     highSvg.hidden = true;
@@ -260,7 +266,10 @@ async function CreateMaterialYouTheme(hex) {
                     extremeSvg.hidden = true;
 
                 } else if (uvIndex > 2 && uvIndex <= 3) {
-                    UVindexText = 'Low';
+                    UVindexText = getTranslationByLang(
+      localStorage.getItem("AppLanguageCode"),
+      "low_risk"
+    );
                     lowSvg.hidden = false;
                     midSvg.hidden = true;
                     highSvg.hidden = true;
@@ -268,7 +277,10 @@ async function CreateMaterialYouTheme(hex) {
                     extremeSvg.hidden = true;
 
                 } else if (uvIndex > 3 && uvIndex <= 4) {
-                    UVindexText = 'Moderate';
+                    UVindexText = getTranslationByLang(
+      localStorage.getItem("AppLanguageCode"),
+      "moderate_risk"
+    );
                     lowSvg.hidden = true;
                     midSvg.hidden = false;
                     highSvg.hidden = true;
@@ -276,7 +288,10 @@ async function CreateMaterialYouTheme(hex) {
                     extremeSvg.hidden = true;
 
                 } else if (uvIndex > 4 && uvIndex <= 5) {
-                    UVindexText = 'Moderate';
+                    UVindexText = getTranslationByLang(
+      localStorage.getItem("AppLanguageCode"),
+      "moderate_risk"
+    );
                     lowSvg.hidden = true;
                     midSvg.hidden = false;
                     highSvg.hidden = true;
@@ -284,7 +299,10 @@ async function CreateMaterialYouTheme(hex) {
                     extremeSvg.hidden = true;
 
                 } else if (uvIndex > 5 && uvIndex <= 6) {
-                    UVindexText = 'Moderate';
+                    UVindexText = getTranslationByLang(
+      localStorage.getItem("AppLanguageCode"),
+      "moderate_risk"
+    );
                     lowSvg.hidden = true;
                     midSvg.hidden = false;
                     highSvg.hidden = true;
@@ -292,7 +310,10 @@ async function CreateMaterialYouTheme(hex) {
                     extremeSvg.hidden = true;
 
                 } else if (uvIndex > 6 && uvIndex <= 7) {
-                    UVindexText = 'High';
+                    UVindexText = getTranslationByLang(
+      localStorage.getItem("AppLanguageCode"),
+      "high_risk"
+    );
                     lowSvg.hidden = true;
                     midSvg.hidden = true;
                     highSvg.hidden = false;
@@ -300,7 +321,10 @@ async function CreateMaterialYouTheme(hex) {
                     extremeSvg.hidden = true;
 
                 } else if (uvIndex > 7 && uvIndex <= 8) {
-                    UVindexText = 'High';
+                    UVindexText = getTranslationByLang(
+      localStorage.getItem("AppLanguageCode"),
+      "high_risk"
+    );
                     lowSvg.hidden = true;
                     midSvg.hidden = true;
                     highSvg.hidden = false;
@@ -308,7 +332,10 @@ async function CreateMaterialYouTheme(hex) {
                     extremeSvg.hidden = true;
 
                 } else if (uvIndex > 8 && uvIndex <= 9) {
-                    UVindexText = 'Very high';
+                    UVindexText = getTranslationByLang(
+      localStorage.getItem("AppLanguageCode"),
+      "very_high_risk"
+    );
                     lowSvg.hidden = true;
                     midSvg.hidden = true;
                     highSvg.hidden = true;
@@ -316,7 +343,10 @@ async function CreateMaterialYouTheme(hex) {
                     extremeSvg.hidden = true;
 
                 } else if (uvIndex > 9 && uvIndex <= 10) {
-                    UVindexText = 'Very high';
+                    UVindexText = getTranslationByLang(
+      localStorage.getItem("AppLanguageCode"),
+      "very_high_risk"
+    );
                     lowSvg.hidden = true;
                     midSvg.hidden = true;
                     highSvg.hidden = true;
@@ -324,7 +354,10 @@ async function CreateMaterialYouTheme(hex) {
                     extremeSvg.hidden = true;
 
                 } else if (uvIndex > 10 && uvIndex <= 11) {
-                    UVindexText = 'Extreme';
+                    UVindexText = getTranslationByLang(
+      localStorage.getItem("AppLanguageCode"),
+      "very_high_risk"
+    );
                     lowSvg.hidden = true;
                     midSvg.hidden = true;
                     highSvg.hidden = true;
@@ -332,7 +365,10 @@ async function CreateMaterialYouTheme(hex) {
                     extremeSvg.hidden = false;
 
                 } else if (uvIndex > 11 && uvIndex <= 12) {
-                    UVindexText = 'Extreme';
+                    UVindexText = getTranslationByLang(
+      localStorage.getItem("AppLanguageCode"),
+      "extreme_risk"
+    );
                     lowSvg.hidden = true;
                     midSvg.hidden = true;
                     highSvg.hidden = true;
@@ -340,7 +376,10 @@ async function CreateMaterialYouTheme(hex) {
                     extremeSvg.hidden = false;
 
                 } else if (uvIndex > 12 && uvIndex <= 13) {
-                    UVindexText = 'Extreme';
+                    UVindexText = getTranslationByLang(
+      localStorage.getItem("AppLanguageCode"),
+      "extreme_risk"
+    );
                     lowSvg.hidden = true;
                     midSvg.hidden = true;
                     highSvg.hidden = true;
@@ -348,7 +387,10 @@ async function CreateMaterialYouTheme(hex) {
                     extremeSvg.hidden = false;
 
                 } else if (uvIndex > 13) {
-                    UVindexText = 'Extreme';
+                    UVindexText = getTranslationByLang(
+      localStorage.getItem("AppLanguageCode"),
+      "extreme_risk"
+    );
                     lowSvg.hidden = true;
                     midSvg.hidden = true;
                     highSvg.hidden = true;

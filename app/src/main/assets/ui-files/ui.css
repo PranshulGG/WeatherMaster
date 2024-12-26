@@ -1952,6 +1952,7 @@ savelocationtouch md-ripple{
   display: flex;
   align-items: flex-end;
   gap: 5px;
+  margin-bottom: 6px;
 
 }
 
@@ -1964,13 +1965,14 @@ savelocationtouch md-ripple{
   padding-top: 35px;
   font-size: 16px;
   font-family: var(--outfit-mid);
+  padding-bottom: 0px;
 }
 
 .currentConditionItem.visibility .currentConditionItemVisibilityValue span{
   font-size: 18px;
   padding-bottom: 5px;
   position: absolute;
-  bottom: 17px;
+  bottom: 20px;
 }
 
 /* pressure */
@@ -3056,7 +3058,7 @@ Tempmeterbaritem span{
 
 .behind_search_animation_wrap .header_hold{
 z-index: 5;
-box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.2);
+box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
 }
 
 

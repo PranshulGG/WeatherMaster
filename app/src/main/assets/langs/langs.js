@@ -419,7 +419,13 @@ const translations = {
       "froggy_summary": "Froggy summary",
       "froggy_summary_sub": "Adds frog-related descriptions. Available only in English",
       "arrange_items": "Arrange items",
-      "edit_layout": "Edit app layout"
+    "edit_layout": "Edit app layout",
+    "reset": "Reset",
+    "hourly_forecast": "Hourly forecast",
+    "air_quality_index": "Air quality index",
+    "pollen_data": "Pollen data",
+    "wait_10_mins": "Please wait 10 minutes before refreshing again",
+    "default_location_delete_snack": "You can't delete the default location"
   },
   zh: {
     "feels_like": "体感温度",
@@ -839,7 +845,13 @@ const translations = {
     "froggy_summary": "青蛙摘要",
     "froggy_summary_sub": "添加与青蛙相关的描述。仅提供英语版本",
     "arrange_items": "排列项目",
-    "edit_layout": "编辑应用布局"
+    "edit_layout": "编辑应用布局",
+    "reset": "Reset",
+    "hourly_forecast": "Hourly forecast",
+    "air_quality_index": "Air quality index",
+    "pollen_data": "Pollen data",
+    "wait_10_mins": "Please wait 10 minutes before refreshing again",
+    "default_location_delete_snack": "You can't delete the default location"
   },
   nl: {
     "feels_like": "Voelt aan als",
@@ -1259,7 +1271,13 @@ const translations = {
     "froggy_summary": "Froggy samenvatting",
     "froggy_summary_sub": "Voegt kikkergerelateerde omschrijvingen toe. Alleen maar beschikbaar in het Engels.",
     "arrange_items": "Sorteer items",
-    "edit_layout": "App layout bewerken"
+    "edit_layout": "App layout bewerken",
+    "reset": "Reset",
+    "hourly_forecast": "Hourly forecast",
+    "air_quality_index": "Air quality index",
+    "pollen_data": "Pollen data",
+    "wait_10_mins": "Please wait 10 minutes before refreshing again",
+    "default_location_delete_snack": "You can't delete the default location"
   },
   fil: {
     "feels_like": "Parang",
@@ -1276,7 +1294,7 @@ const translations = {
     "now": "Ngayon",
     "next_24-hr": "Susunod na 24-o",
     "trends": "Mga trends",
-    "today": "Ngayong araw",
+    "today": "Ngayong Araw",
     "sun": "Lin",
     "mon": "Lun",
     "tue": "Mar",
@@ -1302,7 +1320,7 @@ const translations = {
     "low_risk": "Mababang panganib",
     "moderate_risk": "Katamtamang panganib",
     "high_risk": "Mataas na panganib",
-    "very_high_risk": "Sobrang taas na panganib",
+    "very_high_risk": "Napakataas na panganib",
     "extreme_risk": "Sukdulang panganib",
     "day_length": "Haba ng araw",
     "updated": "Na-update",
@@ -1465,7 +1483,7 @@ const translations = {
     "There_might_be_an_API_error.": "Maaring may error sa API.",
     "retry": "Subukang muli",
     "loading_location_data": "Ni-lo-load ang data ng lokasyon...",
-    "latest_data_fetched": "Kinuha ang pinakabagong data",
+    "latest_data_fetched": "Na-fetch na ang pinakabagong datos",
     "API_Error_Please_change_provider": "Error sa API, Pakibago ang provider",
     "Please_wait_before_refreshing_again.": "Maghintay muna bago mag-refresh ulit.",
     "network_unavailable": "Walang network",
@@ -1481,18 +1499,18 @@ const translations = {
     "language": "Wika",
     "translate_this_app": "Isalin ang app na ito",
     "contributors": "Mga Kontributor",
-    "contributors_sub": "Mga taong nag-ambag sa proyektong ito",
+    "contributors_sub": "Tingan ang mga taong tumulong sa proyektong ito.",
     "version": "Bersyon",
     "third_party_licenses": "Mga third party license",
     "clothing_activity": "Pananamit at Aktibidad",
     "get_clothing_suggestions": "Kunin ang iyong mga Mungkahi sa Pananamit at Aktibidad",
     "day": "Araw",
-    "evening": "Gabi",
+    "evening": "Hapon",
     "night": "Gabi",
     "wind_gust": "Bugso ng hangin",
-    "rain_expected_to_continue": "Inaasahan na magpapatuloy ang pag-ulan sa mga susunod na oras",
-    "rain_likely_tomorrow_around": "Maaaring may ulan bukas banda",
-    "rain_likely_around": "Maaaring may ulan banda",
+    "rain_expected_to_continue": "Inaasahang magpapatuloy ang ulan sa mga susunod na oras",
+    "rain_likely_tomorrow_around": "Maaaring umulan bukas banda",
+    "rain_likely_around": "Maaaring umulan banda",
     "weather_alerts": "Mga alerto sa panahon",
     "font": "Pont",
     "auto-hide_update_toast": "Awtomatikong itago ang pahayag ng pag-update",
@@ -1502,11 +1520,11 @@ const translations = {
     "morning": "Umaga",
     "day_tip": "Payo ngayong araw",
     "translators": "Mga Tagasalin",
-    "change_apps_font": "Palitang ang font ng app",
-    "app_font": "Font ng app",
+    "change_apps_font": "Palitan ang pont ng app",
+    "app_font": "Pont ng app",
     "show_alerts_home_page_sub": "Ipakita ang mga alerto sa panahon sa home page",
     "weather_models": "Mga Weather Model",
-    "openmeteo_weather_models": "Mga Open-Meteo Weather model",
+    "openmeteo_weather_models": "Mga modelo ng Open Weather",
     "very_hot_weather_tips_1": "🌞 Inaasahan ang napakainit na temperatura! Manatili sa loob hangga't kaya at manatiling hydrated.",
     "very_hot_weather_tips_2": "🥵 Sobrang init ngayong araw! Iwasan ang mga panlabas na aktibidad tuwing kasukdulan ng init, at siguraduhing uminom ng tubig.",
     "very_hot_weather_tips_3": "🔥 Mapanganib na init ngayong araw! Siguraduhing uminom ng tubig at manatili sa loob ng mga lugar na air-conditioned hangga't posible.",
@@ -1558,7 +1576,7 @@ const translations = {
     "temp_report_tipPart_1": "Umasa ng temperatura na aabot hanggang",
     "temp_report_tipPart_2": "☀️na may maksimum na UV index ng",
     "temp_report_tipPart_3": ". Sa paglubog ng araw 🌅, bababa ang temperatura sa isang komportableng lebel.",
-    "temp_report_tipPart_4": ". Isang magandang gabi'y naghihintay! 🌙",
+    "temp_report_tipPart_4": ". Isang magandang hapon ay naghihintay! 🌙",
     "rain_report_tipPart_1": "Asahan ang higit kumulang",
     "rain_report_tipPart_2": "ng ulan ngayong araw 🌧️. Siguraduhing magdala ng payong! ☔",
     "Norain_report_tipPart": "Wala namang inaasahang pag-ulan ngayong araw, maaari mong iwanan ang iyong payong sa bahay! ☀️😊",
@@ -1679,7 +1697,13 @@ const translations = {
     "froggy_summary": "Buod ni Froggy",
     "froggy_summary_sub": "Nagdadagdag ng mga frog-related na paglalarawan. Available lang sa Ingles",
     "arrange_items": "Ayusin ang mga item",
-    "edit_layout": "I-edit ang layout ng app"
+    "edit_layout": "I-edit ang layout ng app",
+    "reset": "I-reset",
+    "hourly_forecast": "Oras-oras na forecast",
+    "air_quality_index": "Indise ng kalidad ng hangin",
+    "pollen_data": "Datos sa bulo",
+    "wait_10_mins": "Maghintay muna ng 10 minuto bago mag-refresh muli",
+    "default_location_delete_snack": "Hindi mo puwede burahin ang default na lokasyon"
   },
   fr: {
     "feels_like": "Ressenti",
@@ -2099,7 +2123,13 @@ const translations = {
     "froggy_summary": "Résumé de la grenouille",
     "froggy_summary_sub": "Ajoute des descriptions liées à la grenouille. Disponible uniquement en anglais",
     "arrange_items": "Organiser les éléments",
-    "edit_layout": "Modifier la mise en page de l'application"
+    "edit_layout": "Modifier la mise en page de l'application",
+    "reset": "Réinitialiser",
+    "hourly_forecast": "Prévisions par heure",
+    "air_quality_index": "Index de la qualité de l'air",
+    "pollen_data": "Données du pollen",
+    "wait_10_mins": "Veuillez patienter 10 minutes avant d'actualiser à nouveau",
+    "default_location_delete_snack": "Vous ne pouvez pas supprimer l'emplacement par défaut"
   },
   de: {
     "feels_like": "Fühlt sich an wie",
@@ -2519,7 +2549,13 @@ const translations = {
     "froggy_summary": "Froggy summary",
     "froggy_summary_sub": "Adds frog-related descriptions. Available only in English",
     "arrange_items": "Arrange items",
-    "edit_layout": "Edit app layout"
+    "edit_layout": "Edit app layout",
+    "reset": "Reset",
+    "hourly_forecast": "Hourly forecast",
+    "air_quality_index": "Air quality index",
+    "pollen_data": "Pollen data",
+    "wait_10_mins": "Please wait 10 minutes before refreshing again",
+    "default_location_delete_snack": "You can't delete the default location"
   },
   el: {
     "feels_like": "Αισθάνεται σαν",
@@ -2939,7 +2975,13 @@ const translations = {
     "froggy_summary": "Froggy summary",
     "froggy_summary_sub": "Adds frog-related descriptions. Available only in English",
     "arrange_items": "Arrange items",
-    "edit_layout": "Edit app layout"
+    "edit_layout": "Edit app layout",
+    "reset": "Reset",
+    "hourly_forecast": "Hourly forecast",
+    "air_quality_index": "Air quality index",
+    "pollen_data": "Pollen data",
+    "wait_10_mins": "Please wait 10 minutes before refreshing again",
+    "default_location_delete_snack": "You can't delete the default location"
   },
   it: {
     "feels_like": "percepita",
@@ -3359,7 +3401,13 @@ const translations = {
     "froggy_summary": "Sommario di Froggy",
     "froggy_summary_sub": "",
     "arrange_items": "Organizza elementi",
-    "edit_layout": "Modifica disposizione app"
+    "edit_layout": "Modifica disposizione app",
+    "reset": "Reset",
+    "hourly_forecast": "Hourly forecast",
+    "air_quality_index": "Air quality index",
+    "pollen_data": "Pollen data",
+    "wait_10_mins": "Please wait 10 minutes before refreshing again",
+    "default_location_delete_snack": "You can't delete the default location"
   },
   ja: {
     "feels_like": "体感温度",
@@ -3759,27 +3807,33 @@ const translations = {
     "illumination_moon_text": "Illumination",
     "moonrise": "月の出",
     "moonset": "月の入り",
-    "dynamic_colors": "Dynamic colors",
-    "dynamic_colors_sub": "Use wallpaper colors",
-    "font_size": "Font size",
+    "dynamic_colors": "動的な色",
+    "dynamic_colors_sub": "壁紙の色を使う",
+    "font_size": "フォントの大きさ",
     "font_size_sub": "Font size will only affect where it is needed",
-    "swipe_between_locations": "Swipe between locations",
+    "swipe_between_locations": "場所間をスワイプする",
     "swipe_between_locations_sub": "Swipe left or right to change location",
     "swipe_threshold": "Swipe Threshold",
     "swipe_threshold_help_sub": "The threshold defines the minimum distance a swipe gesture must cover to be recognized. A lower threshold makes swipe gestures easier to trigger, while a higher threshold requires more deliberate swipes.",
     "todays_avg": "Today's average",
     "todays_high": "Today's high",
-    "learn_about_app": "Learn about the app",
-    "creator": "Creator",
-    "join_discord": "Join the Discord server",
-    "export_data": "Export data",
+    "learn_about_app": "アプリについて学ぶ",
+    "creator": "作成者",
+    "join_discord": "Discordサーバーに参加する",
+    "export_data": "データをエクスポート",
     "export_data_sub": "Export all your settings, locations, and their last fetched weather data—literally everything!",
-    "import_data": "Import data",
+    "import_data": "データをインポート",
     "import_data_sub": "Warning: Importing will erase your current app data",
-    "froggy_summary": "Froggy summary",
+    "froggy_summary": "カエルの概要",
     "froggy_summary_sub": "Adds frog-related descriptions. Available only in English",
     "arrange_items": "Arrange items",
-    "edit_layout": "Edit app layout"
+    "edit_layout": "アプリのレイアウトを編集する",
+    "reset": "リセット",
+    "hourly_forecast": "Hourly forecast",
+    "air_quality_index": "Air quality index",
+    "pollen_data": "Pollen data",
+    "wait_10_mins": "Please wait 10 minutes before refreshing again",
+    "default_location_delete_snack": "You can't delete the default location"
   },
   fa: {
     "feels_like": "دمای محسوس",
@@ -4199,7 +4253,13 @@ const translations = {
     "froggy_summary": "Froggy summary",
     "froggy_summary_sub": "Adds frog-related descriptions. Available only in English",
     "arrange_items": "Arrange items",
-    "edit_layout": "Edit app layout"
+    "edit_layout": "Edit app layout",
+    "reset": "Reset",
+    "hourly_forecast": "Hourly forecast",
+    "air_quality_index": "Air quality index",
+    "pollen_data": "Pollen data",
+    "wait_10_mins": "Please wait 10 minutes before refreshing again",
+    "default_location_delete_snack": "You can't delete the default location"
   },
   pl: {
     "feels_like": "Odczuwalna",
@@ -4619,7 +4679,13 @@ const translations = {
     "froggy_summary": "Żabie podsumowanie",
     "froggy_summary_sub": "Dodaje opisy związane z żabami. Dostępne tylko po angielsku",
     "arrange_items": "Ułóż elementy",
-    "edit_layout": "Edytuj układ aplikacji"
+    "edit_layout": "Edytuj układ aplikacji",
+    "reset": "Reset",
+    "hourly_forecast": "Hourly forecast",
+    "air_quality_index": "Air quality index",
+    "pollen_data": "Pollen data",
+    "wait_10_mins": "Please wait 10 minutes before refreshing again",
+    "default_location_delete_snack": "You can't delete the default location"
   },
   pt: {
     "feels_like": "Sensação térmica",
@@ -5039,7 +5105,13 @@ const translations = {
     "froggy_summary": "Froggy summary",
     "froggy_summary_sub": "Adds frog-related descriptions. Available only in English",
     "arrange_items": "Arrange items",
-    "edit_layout": "Edit app layout"
+    "edit_layout": "Edit app layout",
+    "reset": "Reset",
+    "hourly_forecast": "Hourly forecast",
+    "air_quality_index": "Air quality index",
+    "pollen_data": "Pollen data",
+    "wait_10_mins": "Please wait 10 minutes before refreshing again",
+    "default_location_delete_snack": "You can't delete the default location"
   },
   ro: {
     "feels_like": "Temperatura resimțită",
@@ -5459,7 +5531,13 @@ const translations = {
     "froggy_summary": "Froggy summary",
     "froggy_summary_sub": "Adds frog-related descriptions. Available only in English",
     "arrange_items": "Aranjează elementele",
-    "edit_layout": "Editează aspectul aplicației"
+    "edit_layout": "Editează aspectul aplicației",
+    "reset": "Reset",
+    "hourly_forecast": "Hourly forecast",
+    "air_quality_index": "Air quality index",
+    "pollen_data": "Pollen data",
+    "wait_10_mins": "Please wait 10 minutes before refreshing again",
+    "default_location_delete_snack": "You can't delete the default location"
   },
   ru: {
     "feels_like": "Ощущается",
@@ -5879,7 +5957,13 @@ const translations = {
     "froggy_summary": "Краткое содержание",
     "froggy_summary_sub": "Добавляет описания, связанные с лягушками. Доступно только на английском языке",
     "arrange_items": "Расставьте предметы",
-    "edit_layout": "Изменить макет главного меню"
+    "edit_layout": "Изменить макет главного меню",
+    "reset": "Reset",
+    "hourly_forecast": "Hourly forecast",
+    "air_quality_index": "Air quality index",
+    "pollen_data": "Pollen data",
+    "wait_10_mins": "Please wait 10 minutes before refreshing again",
+    "default_location_delete_snack": "You can't delete the default location"
   },
   es: {
     "feels_like": "Sensación térmica",
@@ -6299,7 +6383,13 @@ const translations = {
     "froggy_summary": "Froggy summary",
     "froggy_summary_sub": "Adds frog-related descriptions. Available only in English",
     "arrange_items": "Arrange items",
-    "edit_layout": "Edit app layout"
+    "edit_layout": "Edit app layout",
+    "reset": "Reset",
+    "hourly_forecast": "Hourly forecast",
+    "air_quality_index": "Air quality index",
+    "pollen_data": "Pollen data",
+    "wait_10_mins": "Please wait 10 minutes before refreshing again",
+    "default_location_delete_snack": "You can't delete the default location"
   },
   tr: {
     "feels_like": "Hissedilen",
@@ -6719,7 +6809,13 @@ const translations = {
     "froggy_summary": "Froggy summary",
     "froggy_summary_sub": "Adds frog-related descriptions. Available only in English",
     "arrange_items": "Arrange items",
-    "edit_layout": "Edit app layout"
+    "edit_layout": "Edit app layout",
+    "reset": "Reset",
+    "hourly_forecast": "Hourly forecast",
+    "air_quality_index": "Air quality index",
+    "pollen_data": "Pollen data",
+    "wait_10_mins": "Please wait 10 minutes before refreshing again",
+    "default_location_delete_snack": "You can't delete the default location"
   },
   uk: {
     "feels_like": "Feels like",
@@ -7139,7 +7235,13 @@ const translations = {
     "froggy_summary": "Froggy summary",
     "froggy_summary_sub": "Adds frog-related descriptions. Available only in English",
     "arrange_items": "Arrange items",
-    "edit_layout": "Edit app layout"
+    "edit_layout": "Edit app layout",
+    "reset": "Reset",
+    "hourly_forecast": "Hourly forecast",
+    "air_quality_index": "Air quality index",
+    "pollen_data": "Pollen data",
+    "wait_10_mins": "Please wait 10 minutes before refreshing again",
+    "default_location_delete_snack": "You can't delete the default location"
   },
   vi: {
     "feels_like": "Cảm giác như",
@@ -7232,11 +7334,11 @@ const translations = {
     "visibility_info": "Tầm nhìn đo khoảng cách mà các vật thể nổi bật có thể được nhìn thấy trên bầu trời hoặc đường chân trời. Tầm nhìn có thể bị ảnh hưởng bởi lượng mưa, sương mù, bụi, khói hoặc khói mù.",
     "humidity_info": "Độ ẩm tương đối là tỷ lệ phần trăm hơi nước có trong không khí so với lượng hơi nước tối đa mà không khí có thể chứa ở một nhiệt độ nhất định.",
     "humidity_info_2": "Điểm sương là nhiệt độ cần phải được làm mát xuống mức đó để đạt được độ ẩm tương đối là 100%.",
-    "uv_index_info": "Chỉ số UV đo cường độ bức xạ cực tím (UV) của mặt trời. Chỉ số này nằm trong thang điểm từ 0 đến 11, với giá trị cao hơn biểu thị bức xạ UV mạnh hơn.",
-    "uv_index_info_2": "Bức xạ UV có thể gây cháy nắng, ung thư da và tổn thương mắt. Chỉ số UV càng cao thì nguy cơ mắc các vấn đề này càng lớn",
-    "uv_index_info_3": "1-2: Thấp. không cần bảo vệ. Bạn có thể ở ngoài trời an toàn bằng cách sử dụng biện pháp bảo vệ tối thiểu khỏi ánh nắng mặt trời",
-    "uv_index_info_4": "3-7: Trung bình đến Cao. Cần bảo vệ. Tìm bóng râm vào cuối buổi sáng đến giữa buổi chiều. Khi ra ngoài, hãy thoa kem chống nắng phổ rộng SPF-15 hoặc cao hơn lên vùng da hở và mặc quần áo bảo hộ, đội mũ rộng vành và đeo kính râm.",
-    "uv_index_info_5": "8+: Rất cao đến Cực cao. Cần bảo vệ thêm. Cẩn thận khi ra ngoài, đặc biệt là vào cuối buổi sáng đến giữa buổi chiều. Nếu bóng râm của bạn ngắn hơn bạn, hãy tìm bóng râm và mặc quần áo bảo hộ, đội mũ rộng vành, đeo kính râm và thoa kem chống nắng phổ rộng SPF-15 lên vùng da hở.",
+    "uv_index_info": "Chỉ số UV đo cường độ bức xạ tia cực tím (UV) của mặt trời. Chỉ số này được tính theo thang điểm từ O đến 11+, giá trị càng cao thì bức xạ UV càng mạnh.",
+    "uv_index_info_2": "Bức xạ UV có thể gây cháy nắng, ung thư da và tồn thương mắt. Chỉ số UV càng cao thì nguy cơ gặp phải các vấn để trên càng lớn.",
+    "uv_index_info_3": "1 – 2: Thấp. Không cần biện pháp chống nắng. Bạn chỉ cần dùng biện pháp chống nắng ở mức tối thiều là có thể an toàn khi ra ngoài trời.",
+    "uv_index_info_4": "3 - 7: Trung bình đến Cao. Cần có biện pháp chống nắng. Tìm nơi có bóng râm trong khoảng thời gian từ gần cuối buổi sáng đến giữa buổi chiều. Khi ra ngoài, hãy thoa thật nhiều kem chống nắng phổ rộng có chỉ số SPF từ 15 trở lên trên vùng da để lộ, mặc quần áo chống nắng, đội mũ rộng vành và đeo kính râm.",
+    "uv_index_info_5": "Trên 8: Rất cao đến Cực cao. Cần có thêm biện pháp chống nắng. Hãy thận trọng khi ra ngoài, đặc biệt là trong khoảng thời gian từ gần cuối buổi sáng đến giữa buổi chiều. Nếu bạn thấy bóng của mình ngắn hơn chiều cao thực, hãy tìm nơi có bóng râm cũng như mặc quần áo chống nắng, đội mũ rộng vành và đeo kính râm, đồng thời thoa thật nhiều kem chống nắng phổ rộng có SPF từ 15 trở lên trên vùng da để lộ.",
     "sunset": "Mặt trời lặn",
     "sunrise": "Mặt trời mọc",
     "sunset_rise_info": "Mặt trời mọc: Khi mặt trời xuất hiện hoàn toàn trên đường chân trời. Điều này thay đổi tùy theo vị trí, thời gian trong năm và múi giờ.",
@@ -7559,7 +7661,13 @@ const translations = {
     "froggy_summary": "Tóm tắt với Ếch Xanh",
     "froggy_summary_sub": "Thêm mô tả liên quan đến Ếch Xanh. Chỉ có sẵn bằng tiếng Anh.",
     "arrange_items": "Sắp xếp các mục",
-    "edit_layout": "Chỉnh sửa bố cục ứng dụng"
+    "edit_layout": "Chỉnh sửa bố cục ứng dụng",
+    "reset": "Đặt lại",
+    "hourly_forecast": "Dự báo hàng giờ",
+    "air_quality_index": "Chỉ số chất lượng không khí",
+    "pollen_data": "Dữ liệu về phấn hoa",
+    "wait_10_mins": "Vui lòng đợi 10 phút trước khi làm mới",
+    "default_location_delete_snack": "Bạn không thể xóa vị trí mặc định"
   },
   sr:{
     "feels_like": "Subjektivni osećaj",
@@ -7979,7 +8087,13 @@ const translations = {
     "froggy_summary": "Rezime žabca",
     "froggy_summary_sub": "Dodajte opise u vezi sa žabcem. Dostupno samo na engleskom",
     "arrange_items": "Rasporedite predmete",
-    "edit_layout": "Izmenite izgled aplikacije"
+    "edit_layout": "Izmenite izgled aplikacije",
+    "reset": "Resetovati",
+    "hourly_forecast": "Prognoza po satu",
+    "air_quality_index": "Indeks kvaliteta vazduha",
+    "pollen_data": "Podaci o polenu",
+    "wait_10_mins": "Sačekajte 10 minuta pre nego što ponovo osvežite",
+    "default_location_delete_snack": "Ne možete izbrisati podrazumevanu lokaciju"
   },
   az:{
     "feels_like": "Hiss edilən",
@@ -8399,7 +8513,13 @@ const translations = {
     "froggy_summary": "Qurbağalı xülasə",
     "froggy_summary_sub": "Qurbağa ilə əlaqəli təsvirlər əlavə edir. Yalnız ingilis dilində mövcuddur",
     "arrange_items": "Elementləri təşkil edin",
-    "edit_layout": "Tətbiqin görünüşünü dəyişdir"
+    "edit_layout": "Tətbiqin görünüşünü dəyişdir",
+    "reset": "Reset",
+    "hourly_forecast": "Hourly forecast",
+    "air_quality_index": "Air quality index",
+    "pollen_data": "Pollen data",
+    "wait_10_mins": "Please wait 10 minutes before refreshing again",
+    "default_location_delete_snack": "You can't delete the default location"
   },
  sl: {
   "feels_like": "Feels like",
@@ -8819,7 +8939,13 @@ const translations = {
   "froggy_summary": "Froggy summary",
   "froggy_summary_sub": "Adds frog-related descriptions. Available only in English",
   "arrange_items": "Arrange items",
-  "edit_layout": "Edit app layout"
+  "edit_layout": "Edit app layout",
+  "reset": "Reset",
+  "hourly_forecast": "Hourly forecast",
+  "air_quality_index": "Air quality index",
+  "pollen_data": "Pollen data",
+  "wait_10_mins": "Please wait 10 minutes before refreshing again",
+  "default_location_delete_snack": "You can't delete the default location"
  },
 fi:{
   "feels_like": "Tuntuu kuin",
@@ -9239,7 +9365,13 @@ fi:{
   "froggy_summary": "Froggy summary",
   "froggy_summary_sub": "Adds frog-related descriptions. Available only in English",
   "arrange_items": "Arrange items",
-  "edit_layout": "Edit app layout"
+  "edit_layout": "Edit app layout",
+  "reset": "Reset",
+  "hourly_forecast": "Hourly forecast",
+  "air_quality_index": "Air quality index",
+  "pollen_data": "Pollen data",
+  "wait_10_mins": "Please wait 10 minutes before refreshing again",
+  "default_location_delete_snack": "You can't delete the default location"
 },
 hu:{
   "feels_like": "Hőérzet",
@@ -9659,7 +9791,13 @@ hu:{
   "froggy_summary": "Froggy summary",
   "froggy_summary_sub": "Adds frog-related descriptions. Available only in English",
   "arrange_items": "Arrange items",
-  "edit_layout": "Edit app layout"
+  "edit_layout": "Edit app layout",
+  "reset": "Reset",
+  "hourly_forecast": "Hourly forecast",
+  "air_quality_index": "Air quality index",
+  "pollen_data": "Pollen data",
+  "wait_10_mins": "Please wait 10 minutes before refreshing again",
+  "default_location_delete_snack": "You can't delete the default location"
 },
 };
 

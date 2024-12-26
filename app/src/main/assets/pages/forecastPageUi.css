@@ -490,7 +490,7 @@ weatherConditionText{
     display: flex;
     align-items: flex-end;
     gap: 5px;
-
+    margin-bottom: 6px;
   }
 
   .currentConditionItem.visibility .currentConditionItemTitle.visibility{
@@ -502,13 +502,14 @@ weatherConditionText{
     padding-top: 35px;
     font-size: 16px;
     font-family: var(--outfit-mid);
+    padding-bottom: 0px;
   }
 
   .currentConditionItem.visibility .currentConditionItemVisibilityValue span{
     font-size: 18px;
     padding-bottom: 5px;
     position: absolute;
-    bottom: 17px;
+    bottom: 20px;
   }
 
 
@@ -523,3 +524,22 @@ weatherConditionText{
 }
 
   }
+
+    .loader_content{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--Surface);
+      z-index: 9;
+
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+
+    .loader_content md-circular-progress{
+        margin-top: 10px;
+    }
