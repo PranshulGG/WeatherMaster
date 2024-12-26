@@ -310,7 +310,7 @@
     "summary_partly_cloudy_1": "promenljivo oblačno",
     "summary_partly_cloudy_2": "malo oblaka",
     "summary_partly_cloudy_3": "dobar balans oblaka i sunca",
-    "summary_overcast_1": "oblačnim uslovima",
+    "summary_overcast_1": "oblačne uslove ",
     "summary_overcast_2": "oblačno bez sunca ",
     "summary_overcast_3": "oblačnim vremenom",
     "summary_fog_1": "maglovito vreme",
@@ -422,5 +422,15 @@
     "air_quality_index": "Indeks kvaliteta vazduha",
     "pollen_data": "Podaci o polenu",
     "wait_10_mins": "Sačekajte 10 minuta pre nego što ponovo osvežite",
-    "default_location_delete_snack": "Ne možete izbrisati podrazumevanu lokaciju"
+    "default_location_delete_snack": "Ne možete izbrisati podrazumevanu lokaciju",
+    "low_pollen": "Nisko",
+    "medium_pollen": "Srednje",
+    "high_pollen": "Visoko",
+    "severe_pollen": "Teško",
+    "minimal_forecast_uv": "Minimalno",
+    "low_forecast_uv": "Nisko",
+    "moderate_forecast_uv": "Umereno",
+    "high_forecast_uv": "Visoko",
+    "very_high_forecast_uv": "Veoma visoko",
+    "extreme_forecast_uv": "Ekstremno"
 }

@@ -422,5 +422,15 @@
     "air_quality_index": "Index de la qualité de l'air",
     "pollen_data": "Données du pollen",
     "wait_10_mins": "Veuillez patienter 10 minutes avant d'actualiser à nouveau",
-    "default_location_delete_snack": "Vous ne pouvez pas supprimer l'emplacement par défaut"
+    "default_location_delete_snack": "Vous ne pouvez pas supprimer l'emplacement par défaut",
+    "low_pollen": "Low",
+    "medium_pollen": "Medium",
+    "high_pollen": "High",
+    "severe_pollen": "Severe",
+    "minimal_forecast_uv": "Minimal",
+    "low_forecast_uv": "Low",
+    "moderate_forecast_uv": "Moderate",
+    "high_forecast_uv": "High",
+    "very_high_forecast_uv": "Very high",
+    "extreme_forecast_uv": "Extreme"
 }
