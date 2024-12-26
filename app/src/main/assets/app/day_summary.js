@@ -29,7 +29,8 @@ function GenerateSummary(data) {
 
             if(localStorage.getItem('UseFrogSummary') === 'true'){
                 descriptions = {
-                    ${getFroggyDesc}
+
+                        ${getFrogDesc}
                 }
 
 
@@ -68,7 +69,7 @@ function GenerateSummary(data) {
 
     if(localStorage.getItem('UseFrogSummary') === 'true'){
         weatherPhrases = [
-            ${getFroggyPhrases}
+                        ${getFrogweatherPhrases}
         ]
     } else{
      weatherPhrases = [
