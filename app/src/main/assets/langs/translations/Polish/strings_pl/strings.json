@@ -416,5 +416,11 @@
     "froggy_summary": "Żabie podsumowanie",
     "froggy_summary_sub": "Dodaje opisy związane z żabami. Dostępne tylko po angielsku",
     "arrange_items": "Ułóż elementy",
-    "edit_layout": "Edytuj układ aplikacji"
+    "edit_layout": "Edytuj układ aplikacji",
+    "reset": "Reset",
+    "hourly_forecast": "Hourly forecast",
+    "air_quality_index": "Air quality index",
+    "pollen_data": "Pollen data",
+    "wait_10_mins": "Please wait 10 minutes before refreshing again",
+    "default_location_delete_snack": "You can't delete the default location"
 }
