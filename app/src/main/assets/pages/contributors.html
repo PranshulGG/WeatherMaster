@@ -94,7 +94,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                font-size: 30px;
+                font-size: 26px;
                 color: var(--On-Surface);
                 font-family: var(--google-normal);
                 padding: 15px;
@@ -139,7 +139,7 @@
     <md-icon-button onclick="sendThemeToAndroid('GoBack')"><md-icon icon-outlined>close</md-icon></md-icon-button>
 </div>
 <div class="padding_about_app">
-    <p class="title" style="padding: 10px; margin: 0; font-size: 24px; color: var(--Primary); padding-bottom: 0;">Creator</p>
+    <p class="title" style="padding: 10px; margin: 0; font-size: 24px; color: var(--Primary); padding-bottom: 0;" data-translate="creator">Creator</p>
     <div class="small_items_info_about_page" onclick="window.location.href='https://github.com/PranshulGG/WeatherMaster'">
         <p>PranshulGG</p>
         <span>Github</span>
@@ -214,6 +214,19 @@ async function fetchTranslators() {
     const apiToken = '';
 
     try {
+        // Check if data exists and is within 5 hours in customStorage
+        const savedData = await customStorage.getItem('translatorsData');
+        if (savedData) {
+            const { timestamp, translators } = JSON.parse(savedData);
+
+            // Calculate the time difference in milliseconds
+            const currentTime = Date.now();
+            if (currentTime - timestamp < 24 * 60 * 60 * 1000) {
+                return translators;
+            }
+        }
+
+        // Fetch fresh data from the API
         const response = await fetch(`https://api.crowdin.com/api/v2/projects/${projectId}/members`, {
             headers: {
                 'Authorization': `Bearer ${apiToken}`,
@@ -227,31 +240,32 @@ async function fetchTranslators() {
 
         const data = await response.json();
 
-
         // Filter to get only Translators
-        const translators = data.data.filter(member => member.data.role === 'translator')
-                                      .map(member => ({
-                                          name: member.data.username,
-                                          fullName: member.data.fullName || '',
-                                          role: member.data.role,
-                                      }));
+        const translators = data.data
+            .filter(member => member.data.role === 'translator')
+            .map(member => ({
+                name: member.data.username,
+                fullName: member.data.fullName || '',
+                role: member.data.role,
+            }));
 
-        // Save only translators to localStorage
-        await customStorage.setItem('translatorsData', JSON.stringify(translators));
-        localStorage.removeItem('translatorsData')
+        // Save translators and timestamp to customStorage
+        const newCache = {
+            timestamp: Date.now(),
+            translators,
+        };
 
+        await customStorage.setItem('translatorsData', JSON.stringify(newCache));
         return translators;
+
     } catch (error) {
         console.error('Error fetching translators:', error);
 
-        localStorage.removeItem('translatorsData')
-
-        // Fallback to localStorage
+        // Fallback to saved data
         const savedData = await customStorage.getItem('translatorsData');
         if (savedData) {
             console.warn('Loading translators from database due to API failure.');
-        localStorage.removeItem('translatorsData')
-            return JSON.parse(savedData);
+            return JSON.parse(savedData).translators;
         }
 
         return [];
@@ -323,7 +337,7 @@ function rgbToHsl({ r, g, b }) {
     return { h: h * 360, s: s * 100, l: l * 100 };
 }
 
-function CreateMaterialYouTheme(hex) {
+async function CreateMaterialYouTheme(hex) {
     const colors = {
         orange_material: "#FFA500",
         red_material: "#FF0000",
@@ -348,8 +362,20 @@ function CreateMaterialYouTheme(hex) {
         }
     }
 
-    document.documentElement.setAttribute('Theme', closestColor);
-    sendThemeToAndroid(`${closestColor}_ScrollFalse`);
+ if(localStorage.getItem("useDynamicColors") && localStorage.getItem("useDynamicColors") === "false"){
+        if (await customStorage.getItem("customTheme")) {
+      document.documentElement.setAttribute(
+        "Theme",
+        await customStorage.getItem("customTheme")
+      );
+            sendThemeToAndroid(
+        `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
+      );
+    }
+  } else{
+  document.documentElement.setAttribute('Theme', closestColor);
+  sendThemeToAndroid(`${closestColor}_ScrollFalse`);
+  }
 }
 
         const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
