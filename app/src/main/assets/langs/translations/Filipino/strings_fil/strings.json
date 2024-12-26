@@ -422,5 +422,15 @@
     "air_quality_index": "Indise ng kalidad ng hangin",
     "pollen_data": "Datos sa bulo",
     "wait_10_mins": "Maghintay muna ng 10 minuto bago mag-refresh muli",
-    "default_location_delete_snack": "Hindi mo puwede burahin ang default na lokasyon"
+    "default_location_delete_snack": "Hindi mo puwede burahin ang default na lokasyon",
+    "low_pollen": "Mababa",
+    "medium_pollen": "Katamtaman",
+    "high_pollen": "Mataas",
+    "severe_pollen": "Malala",
+    "minimal_forecast_uv": "Minimo",
+    "low_forecast_uv": "Mababa",
+    "moderate_forecast_uv": "Katamtaman",
+    "high_forecast_uv": "Mataas",
+    "very_high_forecast_uv": "Napakataas",
+    "extreme_forecast_uv": "Sukdulan"
 }
