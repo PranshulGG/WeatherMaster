@@ -433,11 +433,11 @@
     "high_forecast_uv": "Hoog",
     "very_high_forecast_uv": "Zeer hoog",
     "extreme_forecast_uv": "Extreem",
-    "app_looks": "App looks",
-    "temp_animation_sub_pref": "Counts the temperatures from start to end",
-    "hide_condition_widgets": "Hide condition widgets",
-    "info_home_location_tip": "You need to save locations to use them as your default location",
-    "your_device_location": "Your device location",
-    "weather_model_info_1": "Combines the best weather models",
-    "weather_model_info_2": "Combines all weather models from this into a seamless prediction"
+    "app_looks": "App-weergave",
+    "temp_animation_sub_pref": "Meet de temperatuur van begin tot einde",
+    "hide_condition_widgets": "Verberg weersvoorspellingswidgets",
+    "info_home_location_tip": "Je moet locaties opslaan om ze te kunnen gebruiken als standaardlocatie",
+    "your_device_location": "Je apparaatlocatie",
+    "weather_model_info_1": "Combineert de beste weermodellen",
+    "weather_model_info_2": "Combineert alle weermodellen in een naadloze voorspelling"
 }
