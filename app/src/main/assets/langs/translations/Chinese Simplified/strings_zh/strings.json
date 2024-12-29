@@ -432,5 +432,12 @@
     "moderate_forecast_uv": "中",
     "high_forecast_uv": "高",
     "very_high_forecast_uv": "非常高",
-    "extreme_forecast_uv": "极高"
+    "extreme_forecast_uv": "极高",
+    "app_looks": "App looks",
+    "temp_animation_sub_pref": "Counts the temperatures from start to end",
+    "hide_condition_widgets": "Hide condition widgets",
+    "info_home_location_tip": "You need to save locations to use them as your default location",
+    "your_device_location": "Your device location",
+    "weather_model_info_1": "Combines the best weather models",
+    "weather_model_info_2": "Combines all weather models from this into a seamless prediction"
 }
