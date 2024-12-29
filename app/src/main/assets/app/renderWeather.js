@@ -7,9 +7,18 @@ const SelectedPrecipitationUnit = localStorage.getItem(
 const SelectedPressureUnit = localStorage.getItem("selectedPressureUnit");
 const timeFormat = localStorage.getItem("selectedTimeMode");
 
+let timezone = ''
+let utcOffsetSeconds = ''
+
 function HourlyWeather(data) {
   const forecastContainer = document.getElementById("forecast");
   const RainBarsContainer = document.querySelector("rainMeterBar");
+
+  timezone = data.timezone
+  utcOffsetSeconds = data.utc_offset_seconds
+
+  const timezoneMain = data.timezone
+   const utcOffsetSecondsMain = data.utc_offset_seconds
 
   forecastContainer.innerHTML = "";
   RainBarsContainer.innerHTML = "";
@@ -38,8 +47,42 @@ function HourlyWeather(data) {
 
   const isRainingNow = currentRainAmount > rainThreshold;
 
-  data.hourly.time.forEach((time, index) => {
-    const forecastTime = new Date(time).getTime();
+
+  function getTimeInISOFormat(timezone, utcOffsetSeconds) {
+    const currentDate = new Date();
+
+    const localDate = new Date(currentDate.getTime() + utcOffsetSeconds * 1000);
+
+    const year = localDate.getUTCFullYear();
+    const month = String(localDate.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(localDate.getUTCDate()).padStart(2, '0');
+    const hours = String(localDate.getUTCHours()).padStart(2, '0');
+    const minutes = String(localDate.getUTCMinutes()).padStart(2, '0');
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
+
+
+const currentTime = new Date(getTimeInISOFormat(timezoneMain, utcOffsetSecondsMain));
+
+const currentHour = currentTime.getHours();
+
+const filteredData = data.hourly.time
+  .map((time, index) => {
+    const forecastTime = new Date(time);
+    return { time: forecastTime, index };
+  })
+  .filter(({ time }) => {
+    if (time.getHours() === currentHour) {
+      return true;
+    }
+    return time >= currentTime;
+  });
+
+
+
+  filteredData.forEach(({ time, index }, i) => {
+    const forecastTime = time;
 
     let hours;
     let period;
@@ -158,7 +201,7 @@ function HourlyWeather(data) {
     forecastItem.innerHTML = `
                 <p class="temp-24">${HourTemperature}°</p>
  ${
-   index === 0
+   i === 0
      ? `
         <svg height="33.0dip" width="33.0dip" viewBox="0 0 33.0 33.0"
             xmlns="http://www.w3.org/2000/svg" class="hourly_forecast_star">
@@ -851,24 +894,51 @@ function CurrentWeather(data, sunrise, sunset, lat, lon) {
   //}, 300)
   //
 
-  const calculateDaylightPercentage = (sunrise, sunset, nowTime) => {
-    const now = new Date(nowTime);
-    const sunriseTime = new Date(sunrise);
-    const sunsetTime = new Date(sunset);
+function getTimeInISOFormat(utcOffsetSeconds) {
+    const currentDate = new Date();
+    const localDate = new Date(currentDate.getTime() + utcOffsetSeconds * 1000);
 
-    if (now < sunriseTime) return 0;
-    if (now > sunsetTime) return 100;
 
+    const year = localDate.getUTCFullYear();
+    const month = String(localDate.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(localDate.getUTCDate()).padStart(2, '0');
+    const hours = String(localDate.getUTCHours()).padStart(2, '0');
+    const minutes = String(localDate.getUTCMinutes()).padStart(2, '0');
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
+
+const calculateDaylightPercentage = (sunrise, sunset, utcOffsetSeconds) => {
+    // Get the current time in the required format
+    const nowString = getTimeInISOFormat(utcOffsetSeconds);
+    const now = new Date(`${nowString}:00`);
+
+    // Parse sunrise and sunset times
+    const sunriseTime = new Date(`${sunrise}:00`);
+    const sunsetTime = new Date(`${sunset}:00`);
+
+
+    if (now < sunriseTime) {
+        return 0;
+    }
+    if (now > sunsetTime) {
+        return 100;
+    }
+
+    // Calculate daylight percentages
     const totalDaylight = sunsetTime - sunriseTime;
-
     const timeSinceSunrise = now - sunriseTime;
 
-    return (timeSinceSunrise / totalDaylight) * 100;
-  };
 
-  const percentageOfDaylight = Math.round(
-    calculateDaylightPercentage(sunrise, sunset, data.time)
-  );
+    const percentage = (timeSinceSunrise / totalDaylight) * 100;
+
+    return percentage;
+};
+
+setTimeout(() =>{
+const percentageOfDaylight = Math.round(
+  calculateDaylightPercentage(sunrise, sunset, utcOffsetSeconds)
+);
 
   if (percentageOfDaylight > 1 && percentageOfDaylight <= 10) {
     moveSun(10);
@@ -891,10 +961,16 @@ function CurrentWeather(data, sunrise, sunset, lat, lon) {
   } else if (percentageOfDaylight > 90 && percentageOfDaylight <= 100) {
     moveSun(100);
   }
-
   document.getElementById("day_value").value = (
     percentageOfDaylight / 100
   ).toFixed(2);
+
+if(percentageOfDaylight < 100){
+  document.getElementById('hourglass_top_icon_length').innerHTML = 'clear_day'
+} else{
+  document.getElementById('hourglass_top_icon_length').innerHTML = 'bedtime'
+}
+}, 500);
 
   const temperatureCLoths = Math.round(data.temperature_2m);
 
@@ -1034,19 +1110,19 @@ function AirQuaility(data) {
 
   function getPollenLevel(pollenCount) {
     if (pollenCount < 20) {
-      return { fraction: "1/4", level: "Low", icon: WidgetsPollen.LowPollen };
+      return { fraction: "1/4", level: getTranslationByLang(localStorage.getItem("AppLanguageCode"), "low_pollen"), icon: WidgetsPollen.LowPollen };
     } else if (pollenCount < 50) {
       return {
         fraction: "2/4",
-        level: "Medium",
+        level: getTranslationByLang(localStorage.getItem("AppLanguageCode"), "medium_pollen"),
         icon: WidgetsPollen.MediumPollen,
       };
     } else if (pollenCount < 100) {
-      return { fraction: "3/4", level: "High", icon: WidgetsPollen.HighPollen };
+      return { fraction: "3/4", level: getTranslationByLang(localStorage.getItem("AppLanguageCode"), "high_pollen"), icon: WidgetsPollen.HighPollen };
     } else {
       return {
         fraction: "4/4",
-        level: "Severe",
+        level: getTranslationByLang(localStorage.getItem("AppLanguageCode"), "severe_pollen"),
         icon: WidgetsPollen.SeverePollen,
       };
     }
@@ -1232,13 +1308,13 @@ function UvIndex(uvIndexValue) {
   } else if (uvIndex > 3 && uvIndex <= 4) {
     document.getElementById("uv-index").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
-      "moderate_risk"
+      "low_risk"
     );
-    document.getElementById("uv-index").style = "background-color: #eaaf10";
+    document.getElementById("uv-index").style = "background-color: #43b710";
     document.getElementById("uv_img").src = "uv-images/uv-3.png";
     document.getElementById("detail_uv").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
-      "moderate_risk_sun_exposure"
+      "low_exposure_level"
     );
     localStorage.setItem("CurrentUVIndexMain", "3");
   } else if (uvIndex > 4 && uvIndex <= 5) {
@@ -1816,81 +1892,95 @@ function astronomyDataRender(data) {
         data.astronomy.astro.moonset;
     }
   }
+setTimeout(() =>{
 
   function convertToISOFormat(timeStr) {
-    // Get the current date
     const today = new Date();
-    const [time, modifier] = timeStr.split(' '); // Split time and AM/PM
-    let [hours, minutes] = time.split(':').map(Number); // Split hours and minutes
+    const [time, modifier] = timeStr.split(' ');
+    let [hours, minutes] = time.split(':').map(Number);
 
-    // Convert to 24-hour format
     if (modifier === 'PM' && hours !== 12) {
-      hours += 12;
+        hours += 12;
     } else if (modifier === 'AM' && hours === 12) {
-      hours = 0;
+        hours = 0;
     }
 
-    // Construct ISO format string
     const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+    const month = String(today.getMonth() + 1).padStart(2, '0');
     const day = String(today.getDate()).padStart(2, '0');
 
     return `${year}-${month}-${day}T${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
-  }
+}
 
-  function calculateTimeDifference(targetTime) {
-    const now = new Date(); // Use the current time dynamically
-    const targetDate = new Date(targetTime);
+function calculateMoonVisibilityPercentage(moonrise, moonset, utcOffsetSeconds) {
+    const nowString = getTimeInISOFormat(utcOffsetSeconds);
+    const now = new Date(`${nowString}:00`);
 
-    const diffInMilliseconds = targetDate - now;
+    const moonriseISO = convertToISOFormat(moonrise);
+    const moonsetISO = convertToISOFormat(moonset);
 
-    return Math.round(diffInMilliseconds / 60000);
-  }
+    const moonriseTime = new Date(`${moonriseISO}:00`);
+    const moonsetTime = new Date(`${moonsetISO}:00`);
 
-  const moonriseISO = convertToISOFormat(data.astronomy.astro.moonrise);
-  const moonsetISO = convertToISOFormat(data.astronomy.astro.moonset);
+    if (now < moonriseTime) {
+        return 0;
+    }
+    if (now > moonsetTime) {
+        return 100;
+    }
 
-  const diffToMoonrise = calculateTimeDifference(moonriseISO);
-  const diffToMoonset = calculateTimeDifference(moonsetISO);
-
-  function calculateDaylightPercentage(moonrise, moonset) {
-    const now = new Date(); // Use the current time dynamically
-    const moonriseTime = new Date(moonrise);
-    const moonsetTime = new Date(moonset);
-
-    if (now < moonriseTime) return 0; // Before moonrise
-    if (now > moonsetTime) return 100; // After moonset
-
-    const totalDaylight = moonsetTime - moonriseTime;
+    const totalNighttime = moonsetTime - moonriseTime;
     const timeSinceMoonrise = now - moonriseTime;
 
-    return (timeSinceMoonrise / totalDaylight) * 100;
-  }
+    const percentage = (timeSinceMoonrise / totalNighttime) * 100;
 
-  const percentageOfDaylight = Math.round(calculateDaylightPercentage(moonriseISO, moonsetISO));
+    return percentage;
+}
+
+function getTimeInISOFormat(utcOffsetSeconds) {
+    const currentDate = new Date();
+    const localDate = new Date(currentDate.getTime() + utcOffsetSeconds * 1000);
+
+    const year = localDate.getUTCFullYear();
+    const month = String(localDate.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(localDate.getUTCDate()).padStart(2, '0');
+    const hours = String(localDate.getUTCHours()).padStart(2, '0');
+    const minutes = String(localDate.getUTCMinutes()).padStart(2, '0');
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
+
+const moonrise = data.astronomy.astro.moonrise
+const moonset =  data.astronomy.astro.moonset
 
 
-  if (percentageOfDaylight > 1 && percentageOfDaylight <= 10) {
+const percentageOfMoonVisibility = Math.round(
+    calculateMoonVisibilityPercentage(moonrise, moonset, utcOffsetSeconds)
+);
+
+if (percentageOfMoonVisibility > 1 && percentageOfMoonVisibility <= 10) {
     moveMoon(10);
-  } else if (percentageOfDaylight > 10 && percentageOfDaylight <= 20) {
+} else if (percentageOfMoonVisibility > 10 && percentageOfMoonVisibility <= 20) {
     moveMoon(20);
-  } else if (percentageOfDaylight > 20 && percentageOfDaylight <= 30) {
+} else if (percentageOfMoonVisibility > 20 && percentageOfMoonVisibility <= 30) {
     moveMoon(30);
-  } else if (percentageOfDaylight > 30 && percentageOfDaylight <= 40) {
+} else if (percentageOfMoonVisibility > 30 && percentageOfMoonVisibility <= 40) {
     moveMoon(40);
-  } else if (percentageOfDaylight > 40 && percentageOfDaylight <= 50) {
+} else if (percentageOfMoonVisibility > 40 && percentageOfMoonVisibility <= 50) {
     moveMoon(50);
-  } else if (percentageOfDaylight > 50 && percentageOfDaylight <= 60) {
+} else if (percentageOfMoonVisibility > 50 && percentageOfMoonVisibility <= 60) {
     moveMoon(60);
-  } else if (percentageOfDaylight > 60 && percentageOfDaylight <= 70) {
+} else if (percentageOfMoonVisibility > 60 && percentageOfMoonVisibility <= 70) {
     moveMoon(70);
-  } else if (percentageOfDaylight > 70 && percentageOfDaylight <= 80) {
+} else if (percentageOfMoonVisibility > 70 && percentageOfMoonVisibility <= 80) {
     moveMoon(80);
-  } else if (percentageOfDaylight > 80 && percentageOfDaylight <= 90) {
+} else if (percentageOfMoonVisibility > 80 && percentageOfMoonVisibility <= 90) {
     moveMoon(90);
-  } else if (percentageOfDaylight > 90 && percentageOfDaylight <= 100) {
+} else if (percentageOfMoonVisibility > 90 && percentageOfMoonVisibility <= 100) {
     moveMoon(100);
-  }
+}
+}, 500);
+
 }
 
 function FetchAlertRender(data) {

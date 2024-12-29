@@ -455,58 +455,58 @@ async function displayDailyForecast(forecast, forecastDaily) {
         let UVindexIcon;
 
         if (uvIndex >= 0 && uvIndex <= 1) {
-            UVindexText = 'Minimal';
+            UVindexText = getTranslationByLang(localStorage.getItem("AppLanguageCode"), "minimal_forecast_uv");
             UVindexIcon = WidgetsUVindex.LowUV
         } else if (uvIndex > 1 && uvIndex <= 2) {
-            UVindexText = 'Low';
+            UVindexText = getTranslationByLang(localStorage.getItem("AppLanguageCode"), "low_forecast_uv");
             UVindexIcon = WidgetsUVindex.LowUV
 
         } else if (uvIndex > 2 && uvIndex <= 3) {
-            UVindexText = 'Low';
+            UVindexText = getTranslationByLang(localStorage.getItem("AppLanguageCode"), "low_forecast_uv");
             UVindexIcon = WidgetsUVindex.LowUV
 
         } else if (uvIndex > 3 && uvIndex <= 4) {
-            UVindexText = 'Moderate';
+            UVindexText = getTranslationByLang(localStorage.getItem("AppLanguageCode"), "moderate_forecast_uv");
             UVindexIcon = WidgetsUVindex.MidUV
 
         } else if (uvIndex > 4 && uvIndex <= 5) {
-            UVindexText = 'Moderate';
+            UVindexText = getTranslationByLang(localStorage.getItem("AppLanguageCode"), "moderate_forecast_uv");
             UVindexIcon = WidgetsUVindex.MidUV
 
         } else if (uvIndex > 5 && uvIndex <= 6) {
-            UVindexText = 'Moderate';
+            UVindexText = getTranslationByLang(localStorage.getItem("AppLanguageCode"), "moderate_forecast_uv");
             UVindexIcon = WidgetsUVindex.MidUV
 
         } else if (uvIndex > 6 && uvIndex <= 7) {
-            UVindexText = 'High';
+            UVindexText = getTranslationByLang(localStorage.getItem("AppLanguageCode"), "high_forecast_uv");
             UVindexIcon = WidgetsUVindex.HighUV
 
         } else if (uvIndex > 7 && uvIndex <= 8) {
-            UVindexText = 'High';
+            UVindexText = getTranslationByLang(localStorage.getItem("AppLanguageCode"), "high_forecast_uv");
             UVindexIcon = WidgetsUVindex.HighUV
 
         } else if (uvIndex > 8 && uvIndex <= 9) {
-            UVindexText = 'Very high';
+            UVindexText = getTranslationByLang(localStorage.getItem("AppLanguageCode"), "very_high_forecast_uv");
             UVindexIcon = WidgetsUVindex.VeryHighUV
 
         } else if (uvIndex > 9 && uvIndex <= 10) {
-            UVindexText = 'Very high';
+            UVindexText = getTranslationByLang(localStorage.getItem("AppLanguageCode"), "very_high_forecast_uv");
             UVindexIcon = WidgetsUVindex.VeryHighUV
 
         } else if (uvIndex > 10 && uvIndex <= 11) {
-            UVindexText = 'Very high';
+            UVindexText = getTranslationByLang(localStorage.getItem("AppLanguageCode"), "very_high_forecast_uv");
             UVindexIcon = WidgetsUVindex.VeryHighUV
 
         } else if (uvIndex > 11 && uvIndex <= 12) {
-            UVindexText = 'Extreme';
+            UVindexText = getTranslationByLang(localStorage.getItem("AppLanguageCode"), "extreme_forecast_uv");
             UVindexIcon = WidgetsUVindex.ExtremeUV
 
         } else if (uvIndex > 12 && uvIndex <= 13) {
-            UVindexText = 'Extreme';
+            UVindexText = getTranslationByLang(localStorage.getItem("AppLanguageCode"), "extreme_forecast_uv");
             UVindexIcon = WidgetsUVindex.ExtremeUV
 
         } else if (uvIndex > 13) {
-            UVindexText = 'Extreme';
+            UVindexText = getTranslationByLang(localStorage.getItem("AppLanguageCode"), "extreme_forecast_uv");
             UVindexIcon = WidgetsUVindex.ExtremeUV
 
         }
@@ -671,7 +671,7 @@ async function displayDailyForecast(forecast, forecastDaily) {
                             <div style="padding-bottom: 0px;"><i icon-filled>light_mode</i><span
                                     data-translate="uv_index" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 80px;">UV index</span></div>
                             <p id="pressure_text_main">${uvIndex}</p>
-                            <span id="pressureMainUnit" style="padding-bottom: 10px; font-size: 14px;">${UVindexText}</span>
+                            <span id="pressureMainUnit" style="padding-bottom: 10px; font-size: 14px; overflow: hidden; text-overflow: ellipsis; width: 65px; text-align: center; white-space: nowrap;">${UVindexText}</span>
                         </div>
 
 

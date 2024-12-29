@@ -97,6 +97,7 @@
                 <div class="disc_main">
                     <p id="description"></p>
                     <span id="feels_like_now">Feels like 30°</span>
+
                 </div>
 
 
@@ -107,6 +108,7 @@
             <div class="dew_per">
                 <i icon-outlined>schedule</i>
                 <p id="last_updated"></p>
+                <md-ripple style="--md-ripple-pressed-opacity: 0.2;"></md-ripple>
             </div>
 
             <div class="animation_holder">
@@ -146,7 +148,7 @@
 
         <div class="floating_indications" hidden>
             <div id="indicatorContainer" class="indicator-container">
-                <!-- Indicator's balls 💀 will be dynamically added here -->
+                <!-- Indicator balls 💀 will be dynamically added here -->
             </div>
 
         </div>
@@ -246,7 +248,7 @@
 
                 <div class="cloths insights_item">
                     <div class="icon_container_cloths" style="position: relative;">
-                        <md-icon icon-filled style="z-index: 1; font-size: 20px;">hourglass_top</md-icon>
+                        <md-icon icon-filled style="z-index: 1; font-size: 20px;" id="hourglass_top_icon_length">hourglass_top</md-icon>
                         <div style="position: absolute;">
                             <md-circular-progress id="day_value"
                                                   style="--md-circular-progress-active-indicator-width: 7; opacity: 0.7;"></md-circular-progress>
@@ -265,7 +267,7 @@
         <div class="other-main">
             <div class="sortHolder" id="sortHolder" style="display: flex; flex-direction: column;">
 
-                <div data-id="1">
+                <div data-id="1" class="hourly_card_selector">
             <div class="all-24" style="box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.2);" >
                 <div class="h1">
                     <p class="today_Text" data-translate="next_24-hr">Next 24-hr</p>
@@ -612,7 +614,7 @@
 
 
 
-            <div class="all_air_quality" data-id="5"
+            <div class="all_air_quality air_selector" data-id="5"
                  style="border-radius: 10px; margin-bottom: 0px; overflow: hidden; box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.2);"
                  id="ifPollenIsThere">
                 <div class="sun_text">
@@ -683,7 +685,7 @@
 
             </div>
 
-            <div class="all_air_quality ripple_btn_low" data-id="6"
+            <div class="all_air_quality ripple_btn_low uv_selector" data-id="6"
                  style="border-radius: 10px; margin-top: 0px; margin-bottom: 0; box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.2);"
                  onclick="sendThemeToAndroid('openUVcondition')" id="uvIndexMainDiv">
                 <div class="sun_text">
@@ -1166,6 +1168,62 @@ let timeoutID;
     document.querySelector('body').classList.add('loaded')
         }, 200)
 })
+
+async function checkRemovedItems() {
+    const getAddedItems = JSON.parse(await customStorage.getItem('hidden_cards'));
+
+    if (Array.isArray(getAddedItems)) { // Ensure it is an array
+        document.querySelector('.hourly_card_selector').hidden = getAddedItems.includes('hourly_forecast_box');
+        document.querySelector('.all-5d').hidden = getAddedItems.includes('daily_forecast_box');
+        document.querySelector('.currentConditions').hidden = getAddedItems.includes('current_conditions_box');
+        document.querySelector('.pollen_data').style.display = getAddedItems.includes('pollen_data_box') ? 'none' : '';
+        document.querySelector('.air_selector').hidden = getAddedItems.includes('air_quality_index_box');
+        document.querySelector('.uv_selector').hidden = getAddedItems.includes('uv_index_box');
+    }
+}
+
+    checkRemovedItems();
+
+
+//
+
+async function checkRemovedWidgetItems() {
+    const getAddedItems = JSON.parse(await customStorage.getItem('hidden_widget_cards'));
+
+    if (Array.isArray(getAddedItems)) { // Ensure it is an array
+        document.querySelector('.sunRISESET').hidden = getAddedItems.includes('sun_widget_box');
+        document.querySelector('.moonSetRise').hidden = getAddedItems.includes('moon_widget_box');
+        document.querySelector('.humidity').hidden = getAddedItems.includes('humidity_widget_box');
+        document.querySelector('.visibility').hidden = getAddedItems.includes('visibility_widget_box');
+        document.querySelector('.WindDirc').hidden = getAddedItems.includes('direction_widget_box');
+        document.querySelector('.pressure').hidden = getAddedItems.includes('pressure_widget_box');
+    }
+}
+
+checkRemovedWidgetItems()
+
+
+function handleStorageChangeHiddenLayoutEvent(event) {
+    const key = event?.detail?.key;
+
+    if (!key) return;
+
+    if (key === 'hidden_cards' || key === 'hidden_widget_cards') {
+        setTimeout(() => {
+            if (key === 'hidden_cards') {
+                checkRemovedItems();
+            }
+            if (key === 'hidden_widget_cards') {
+                checkRemovedWidgetItems();
+            }
+            if (key === 'hidden_cards' && key === 'hidden_widget_cards') {
+            }
+        }, 500);
+    }
+}
+
+
+        window.addEventListener('indexedDBChange', handleStorageChangeHiddenLayoutEvent);
 
 
     </script>

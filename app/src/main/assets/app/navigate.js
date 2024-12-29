@@ -23,6 +23,8 @@ document.addEventListener('DOMContentLoaded', function(event) {
     setTimeout(function() {
 
     document.querySelector('body').style.opacity = '1';
+        document.querySelector('body').style.pointerEvents = 'auto';
+
     }, 100);
 
 });

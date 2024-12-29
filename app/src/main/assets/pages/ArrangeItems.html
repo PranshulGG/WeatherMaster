@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="../ripple-files/ripple.css">
     <link rel="stylesheet" href="../components/md-buttons.css">
     <script src="../modules/lottie.js"></script>
+    <link rel="stylesheet" href="../components/modal-ver.css">
+
     <style>
             .padding_about_app{
                 padding: 15px;
@@ -38,6 +40,64 @@
             p{
                 margin: 0;
             }
+
+
+        .remove_item_main_cards, .remove_item_main_widget_cards {
+            transition: all 0.2s ease-in;
+        }
+
+        .remove_item_main_cards.hidden-item, .remove_item_main_widget_cards.hidden-item {
+            background-color: var(--Error);
+            --md-icon-button-icon-color: var(--On-Error);
+            --md-icon-button-focus-icon-color: var(--On-Error);
+            --md-icon-button-hover-icon-color: var(--On-Error);
+            --md-icon-button-pressed-icon-color: var(--On-Error);
+            border-radius: 50px;
+        }
+
+        .drag_handle, .drag_handle_remove_widget{
+            width: calc(100% - 30px);
+            height: 40px;
+            background-color: var(--Surface-Container);
+            color: var(--Inverse-On-Primary);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            z-index: 1;
+            gap: 10px;
+            font-family: var(--google-mid);
+            font-size: 18px;
+            color: var(--On-Surface);
+            transition: background-color 0.2s ease-out, border-radius 0.2s ease-out;
+        }
+
+        .drag_handle div, .drag_handle_remove_widget div {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .drag_handle.drag {
+            background-color: var(--Secondary-Container);
+            border-radius: 5px;
+        }
+
+        .save_btn_arranged {
+            position: fixed;
+            z-index: 99;
+            bottom: 20px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+
+
     </style>
 </head>
 
@@ -46,46 +106,189 @@
     <p data-translate="arrange_items">Arrange items</p>
     <md-icon-button onclick="sendThemeToAndroid('GoBack')"><md-icon icon-outlined>close</md-icon></md-icon-button>
 </div>
-<div class="padding_about_app" id="all_el">
+<div class="padding_about_app">
 
-    <div class="drag_handle" data-id="1">
-        <md-icon icon-outlined>drag_handle</md-icon>
-        <p data-translate="hourly_forecast">Hourly forecast</p>
+    <div id="all_el">
+        <div class="drag_handle" data-id="1">
+            <div>
+                <md-icon icon-outlined>drag_handle</md-icon>
+                <p data-translate="hourly_forecast">Hourly forecast</p>
+            </div>
+            <div>
+                <md-icon-button hide-value="hourly_forecast_box" class="remove_item_main_cards">
+                    <md-icon icon-filled>
+                        remove
+                    </md-icon>
+                </md-icon-button>
+            </div>
+        </div>
+
+        <div class="drag_handle" data-id="2">
+            <div>
+
+                <md-icon icon-outlined>drag_handle</md-icon>
+                <p data-translate="daily_forecast">Daily forecast</p>
+            </div>
+            <div>
+                <md-icon-button hide-value="daily_forecast_box" class="remove_item_main_cards">
+                    <md-icon icon-filled>
+                        remove
+                    </md-icon>
+                </md-icon-button>
+            </div>
+        </div>
+
+        <div class="drag_handle" data-id="3">
+            <div>
+                <md-icon icon-outlined>drag_handle</md-icon>
+                <p data-translate="current_conditions">Current conditions</p>
+            </div>
+            <div>
+                <md-icon-button hide-value="current_conditions_box" class="remove_item_main_cards">
+                    <md-icon icon-filled>
+                        remove
+                    </md-icon>
+                </md-icon-button>
+            </div>
+
+        </div>
+
+        <div class="drag_handle" data-id="4">
+            <div>
+                <md-icon icon-outlined>drag_handle</md-icon>
+                <p data-translate="pollen_data">Pollen data</p>
+            </div>
+            <div>
+                <md-icon-button hide-value="pollen_data_box" class="remove_item_main_cards">
+                    <md-icon icon-filled>
+                        remove
+                    </md-icon>
+                </md-icon-button>
+            </div>
+
+        </div>
+
+        <div class="drag_handle" data-id="5">
+            <div>
+                <md-icon icon-outlined>drag_handle</md-icon>
+                <p data-translate="air_quality_index">Air quality index</p>
+            </div>
+            <div>
+                <md-icon-button hide-value="air_quality_index_box" class="remove_item_main_cards">
+                    <md-icon icon-filled>
+                        remove
+                    </md-icon>
+                </md-icon-button>
+            </div>
+        </div>
+
+        <div class="drag_handle" data-id="6">
+            <div>
+                <md-icon icon-outlined>drag_handle</md-icon>
+                <p data-translate="uv_index">UV index</p>
+            </div>
+            <div>
+                <md-icon-button hide-value="uv_index_box" class="remove_item_main_cards">
+                    <md-icon icon-filled>
+                        remove
+                    </md-icon>
+                </md-icon-button>
+            </div>
+        </div>
     </div>
+    <md-divider></md-divider>
+    <div class="arrange_condition_widgets_wrap">
+        <p class="title" style="margin-bottom: 5px;">Hide condition widgets</p>
 
-    <div class="drag_handle" data-id="2">
-        <md-icon icon-outlined>drag_handle</md-icon>
-        <p data-translate="daily_forecast">Daily forecast</p>
-    </div>
+        <div class="drag_handle_remove_widget">
+            <div>
+                <md-icon icon-outlined>wb_twilight</md-icon>
+                <p data-translate="sun_tile_page">Sun</p>
+            </div>
+            <div>
+                <md-icon-button hide-value="sun_widget_box" class="remove_item_main_widget_cards">
+                    <md-icon icon-filled>
+                        remove
+                    </md-icon>
+                </md-icon-button>
+            </div>
+        </div>
 
-    <div class="drag_handle" data-id="3">
-        <md-icon icon-outlined>drag_handle</md-icon>
-        <p data-translate="current_conditions">Current conditions</p>
+        <div class="drag_handle_remove_widget">
+            <div>
+                <md-icon icon-outlined>bedtime</md-icon>
+                <p data-translate="moon">Moon</p>
+            </div>
+            <div>
+                <md-icon-button hide-value="moon_widget_box" class="remove_item_main_widget_cards">
+                    <md-icon icon-filled>
+                        remove
+                    </md-icon>
+                </md-icon-button>
+            </div>
+        </div>
 
-    </div>
+        <div class="drag_handle_remove_widget">
+            <div>
+                <md-icon icon-outlined>humidity_low</md-icon>
+                <p data-translate="humidity">Humidity</p>
+            </div>
+            <div>
+                <md-icon-button hide-value="humidity_widget_box" class="remove_item_main_widget_cards">
+                    <md-icon icon-filled>
+                        remove
+                    </md-icon>
+                </md-icon-button>
+            </div>
+        </div>
 
-    <div class="drag_handle" data-id="4">
-        <md-icon icon-outlined>drag_handle</md-icon>
-        <p data-translate="pollen_data">Pollen data</p>
+        <div class="drag_handle_remove_widget">
+            <div>
+                <md-icon icon-outlined>visibility</md-icon>
+                <p data-translate="visibility">Visibility</p>
+            </div>
+            <div>
+                <md-icon-button hide-value="visibility_widget_box" class="remove_item_main_widget_cards">
+                    <md-icon icon-filled>
+                        remove
+                    </md-icon>
+                </md-icon-button>
+            </div>
+        </div>
 
-    </div>
+        <div class="drag_handle_remove_widget">
+            <div>
+                <md-icon icon-outlined>explore</md-icon>
+                <p data-translate="direction">Direction</p>
+            </div>
+            <div>
+                <md-icon-button hide-value="direction_widget_box" class="remove_item_main_widget_cards">
+                    <md-icon icon-filled>
+                        remove
+                    </md-icon>
+                </md-icon-button>
+            </div>
+        </div>
 
-    <div class="drag_handle" data-id="5">
-        <md-icon icon-outlined>drag_handle</md-icon>
-        <p data-translate="air_quality_index">Air quality index</p>
-
-    </div>
-
-    <div class="drag_handle" data-id="6">
-        <md-icon icon-outlined>drag_handle</md-icon>
-        <p data-translate="uv_index">UV index</p>
-
+        <div class="drag_handle_remove_widget">
+            <div>
+                <md-icon icon-outlined>compress</md-icon>
+                <p data-translate="pressure">Pressure</p>
+            </div>
+            <div>
+                <md-icon-button hide-value="pressure_widget_box" class="remove_item_main_widget_cards">
+                    <md-icon icon-filled>
+                        remove
+                    </md-icon>
+                </md-icon-button>
+            </div>
+        </div>
     </div>
 </div>
 
 <div class="save_btn_arranged">
     <md-filled-tonal-button onclick="ResetOrder()" data-translate="reset">Reset</md-filled-tonal-button>
-    <md-filled-button data-translate="save" onclick="saveOrder()">Save</md-filled-button>
+    <md-filled-button data-translate="save" onclick="saveOrder()" id="saveHiddenItems">Save</md-filled-button>
 </div>
 <script>
 
@@ -247,41 +450,87 @@ await customStorage.setItem(storageKey, JSON.stringify(itemsOrder));
 
 
 
+
             draggableContainer.innerHTML = `
-                <div class="drag_handle" data-id="1">
-    <md-icon icon-outlined>drag_handle</md-icon>
-    <p>Hourly forecast</p>
+    <div class="drag_handle" data-id="1">
+        <div>
+        <md-icon icon-outlined>drag_handle</md-icon>
+        <p data-translate="hourly_forecast">Hourly forecast</p></div>
+        <div >
+            <md-icon-button hide-value="hourly_forecast_box" class="remove_item_main_cards">
+                <md-icon icon-filled>
+                    remove
+                </md-icon>
+            </md-icon-button></div>
     </div>
 
     <div class="drag_handle" data-id="2">
-    <md-icon icon-outlined>drag_handle</md-icon>
-    <p>Daily forecast</p>
+        <div>
+
+        <md-icon icon-outlined>drag_handle</md-icon>
+        <p data-translate="daily_forecast">Daily forecast</p></div>
+        <div >
+            <md-icon-button hide-value="daily_forecast_box" class="remove_item_main_cards">
+                <md-icon icon-filled>
+                    remove
+                </md-icon>
+            </md-icon-button></div>
     </div>
 
     <div class="drag_handle" data-id="3">
-    <md-icon icon-outlined>drag_handle</md-icon>
-     <p>Current conditions</p>
+        <div>
+            <md-icon icon-outlined>drag_handle</md-icon>
+        <p data-translate="current_conditions">Current conditions</p></div>
+        <div >
+            <md-icon-button hide-value="current_conditions_box" class="remove_item_main_cards">
+                <md-icon icon-filled>
+                    remove
+                </md-icon>
+            </md-icon-button></div>
 
     </div>
 
     <div class="drag_handle" data-id="4">
-    <md-icon icon-outlined>drag_handle</md-icon>
-     <p>Pollen data</p>
+        <div>
+            <md-icon icon-outlined>drag_handle</md-icon>
+        <p data-translate="pollen_data">Pollen data</p></div>
+        <div >
+            <md-icon-button hide-value="pollen_data_box" class="remove_item_main_cards">
+                <md-icon icon-filled>
+                    remove
+                </md-icon>
+            </md-icon-button></div>
 
     </div>
 
     <div class="drag_handle" data-id="5">
-    <md-icon icon-outlined>drag_handle</md-icon>
-     <p>Air quality index</p>
-
+        <div>
+            <md-icon icon-outlined>drag_handle</md-icon>
+        <p data-translate="air_quality_index">Air quality index</p></div>
+        <div>
+            <md-icon-button hide-value="air_quality_index_box" class="remove_item_main_cards">
+                <md-icon icon-filled>
+                    remove
+                </md-icon>
+            </md-icon-button></div>
     </div>
 
     <div class="drag_handle" data-id="6">
-    <md-icon icon-outlined>drag_handle</md-icon>
-     <p>UV index</p>
-
+        <div>
+            <md-icon icon-outlined>drag_handle</md-icon>
+        <p data-translate="uv_index">UV index</p></div>
+        <div>
+            <md-icon-button hide-value="uv_index_box" class="remove_item_main_cards">
+                <md-icon icon-filled>
+                    remove
+                </md-icon>
+            </md-icon-button></div>
     </div>
             `
+
+                        applyTranslations(AppLanguageCodeValue);
+
+    initializeHiddenCards();
 
 
             setTimeout(async() =>{
@@ -289,6 +538,114 @@ await customStorage.setItem(storageKey, JSON.stringify(itemsOrder));
                  await customStorage.setItem('LoadNewOrder', new Date().getTime())
             }, 100);
         }
+
+
+               async function initializeHiddenCards() {
+    const remove_item_main_cards_btns = document.querySelectorAll('.remove_item_main_cards');
+    let hiddenCards = [];
+
+    try {
+        const storedValue = await customStorage.getItem('hidden_cards');
+        hiddenCards = JSON.parse(storedValue) || [];
+        if (!Array.isArray(hiddenCards)) {
+            hiddenCards = [];
+        }
+    } catch (error) {
+        hiddenCards = [];
+    }
+
+    remove_item_main_cards_btns.forEach(remove_item_main_cards_btn => {
+        const hideValue = remove_item_main_cards_btn.getAttribute('hide-value');
+        if (hiddenCards.includes(hideValue)) {
+            remove_item_main_cards_btn.classList.add('hidden-item');
+            remove_item_main_cards_btn.innerHTML = '<md-icon icon-filled>add</md-icon>';
+        }
+
+        remove_item_main_cards_btn.addEventListener('click', async () => {
+            const valueIndex = hiddenCards.indexOf(hideValue);
+
+            if (valueIndex === -1) {
+                if (hiddenCards.length < 3) {
+                    hiddenCards.push(hideValue);
+                    remove_item_main_cards_btn.classList.add('hidden-item');
+                    remove_item_main_cards_btn.innerHTML = '<md-icon icon-filled>add</md-icon>';
+                } else {
+                        ShowSnackMessage.ShowSnack("You can only hide up to 3 items", "short");
+
+                }
+            } else {
+                hiddenCards.splice(valueIndex, 1);
+                remove_item_main_cards_btn.classList.remove('hidden-item');
+                remove_item_main_cards_btn.innerHTML = '<md-icon icon-filled>remove</md-icon>';
+            }
+        });
+    });
+
+    const saveButton = document.getElementById('saveHiddenItems');
+    if (saveButton) {
+        saveButton.addEventListener('click', async () => {
+            await customStorage.setItem('hidden_cards', JSON.stringify(hiddenCards));
+        });
+    }
+}
+
+initializeHiddenCards();
+
+        // ----------------
+
+
+        async function initializeHiddenWidgetCards() {
+            const remove_item_main_cards_btns = document.querySelectorAll('.remove_item_main_widget_cards');
+            let hiddenCards = [];
+
+            try {
+                const storedValue = await customStorage.getItem('hidden_widget_cards');
+                hiddenCards = JSON.parse(storedValue) || [];
+                if (!Array.isArray(hiddenCards)) {
+                    hiddenCards = [];
+                }
+            } catch (error) {
+                hiddenCards = [];
+            }
+
+            remove_item_main_cards_btns.forEach(remove_item_main_cards_btn => {
+                const hideValue = remove_item_main_cards_btn.getAttribute('hide-value');
+                if (hiddenCards.includes(hideValue)) {
+                    remove_item_main_cards_btn.classList.add('hidden-item');
+                    remove_item_main_cards_btn.innerHTML = '<md-icon icon-filled>add</md-icon>';
+                }
+
+                remove_item_main_cards_btn.addEventListener('click', async () => {
+                    const valueIndex = hiddenCards.indexOf(hideValue);
+
+                    if (valueIndex === -1) {
+                        if (hiddenCards.length < 4) {
+                            hiddenCards.push(hideValue);
+                            remove_item_main_cards_btn.classList.add('hidden-item');
+                            remove_item_main_cards_btn.innerHTML = '<md-icon icon-filled>add</md-icon>';
+                        } else {
+                            ShowSnackMessage.ShowSnack("You can only hide up to 4 items", "short");
+
+                        }
+                    } else {
+                        hiddenCards.splice(valueIndex, 1);
+                        remove_item_main_cards_btn.classList.remove('hidden-item');
+                        remove_item_main_cards_btn.innerHTML = '<md-icon icon-filled>remove</md-icon>';
+                    }
+                });
+            });
+
+            const saveButton = document.getElementById('saveHiddenItems');
+            if (saveButton) {
+                saveButton.addEventListener('click', async () => {
+                    await customStorage.setItem('hidden_widget_cards', JSON.stringify(hiddenCards));
+                });
+            }
+        }
+
+
+            initializeHiddenWidgetCards();
+
 
 
     </script>

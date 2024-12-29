@@ -25,6 +25,11 @@ weatherWrap.addEventListener('scroll', function() {
                         document.querySelector('.header-top').classList.remove('use');
 
                     }
+                      if (document.getElementById("weather_wrap").scrollTop === 0) {
+                        sendThemeToAndroid("EnableSwipeRefresh");
+                      } else {
+                      }
+
                 if(scrollPosition > 10){
                     const allClassesAnimation = document.querySelectorAll('.behind_search_animation');
                     const allClassesAnimationFog = document.querySelectorAll('.behind_search_animation_fog');

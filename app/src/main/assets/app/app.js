@@ -313,7 +313,7 @@ if (navigator.onLine) {
 
         const timeDifferenceInMinutes = timeDifference / (1000 * 60);
 
-        if (timeDifferenceInMinutes < 30) {
+        if (timeDifferenceInMinutes < 40) {
         setTimeout(() => {
           ReturnHomeLocation();
         }, 1000);
@@ -1886,7 +1886,7 @@ async function loadSavedLocations() {
           savedLocationItemLat,
           savedLocationItemLon
         );
-        renderHourlyDataMetNorway(hourlyData);
+        HourlyWeather(renderFromSavedData);
 
         createHourlyDataCount(renderFromSavedData);
 
@@ -1957,6 +1957,16 @@ async function loadSavedLocations() {
             "updated"
           )}, ${timeAgo(renderFromSavedDataMetTimstamp)}`;
         }, 1000);
+
+                document.getElementById('last_updated').addEventListener('click', () =>{
+                  document.getElementById(
+                    "last_updated"
+                  ).innerHTML = `${getTranslationByLang(
+                    localStorage.getItem("AppLanguageCode"),
+                    "updated"
+                  )}, ${timeAgo(renderFromSavedDataMetTimstamp)}`;
+                });
+
       } else if (
         localStorage.getItem("ApiForAccu") &&
         localStorage.getItem("selectedMainWeatherProvider") === "Accuweather"
@@ -2003,13 +2013,13 @@ async function loadSavedLocations() {
             savedLocationItemLat,
             savedLocationItemLon
           );
-          DisplayHourlyAccuweatherData(dataHourly);
+        HourlyWeather(renderFromSavedData);
         } else {
-          DecodeWeather(
-            savedLocationItemLat,
-            savedLocationItemLon,
-            location.locationName
-          );
+//          DecodeWeather(
+//            savedLocationItemLat,
+//            savedLocationItemLon,
+//            location.locationName
+//          );
         }
 
         const AirQuailityData = JSON.parse(
@@ -2081,6 +2091,16 @@ async function loadSavedLocations() {
             "updated"
           )}, ${timeAgo(dataTimstamp)}`;
         }, 1000);
+
+            document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(dataTimstamp)}`;
+            });
+
       } else if (
         localStorage.getItem("selectedMainWeatherProvider") === "meteoFrance"
       ) {
@@ -2141,6 +2161,15 @@ async function loadSavedLocations() {
             "updated"
           )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
         }, 1000);
+
+        document.getElementById('last_updated').addEventListener('click', () =>{
+          document.getElementById(
+            "last_updated"
+          ).innerHTML = `${getTranslationByLang(
+            localStorage.getItem("AppLanguageCode"),
+            "updated"
+          )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        });
 
         localStorage.setItem("currentLong", savedLocationItemLon);
         localStorage.setItem("currentLat", savedLocationItemLat);
@@ -2232,6 +2261,15 @@ async function loadSavedLocations() {
           )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
         }, 1000);
 
+            document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            });
+
         localStorage.setItem("currentLong", savedLocationItemLon);
         localStorage.setItem("currentLat", savedLocationItemLat);
 
@@ -2322,6 +2360,15 @@ async function loadSavedLocations() {
           )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
         }, 1000);
 
+            document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            });
+
         localStorage.setItem("currentLong", savedLocationItemLon);
         localStorage.setItem("currentLat", savedLocationItemLat);
 
@@ -2411,6 +2458,15 @@ async function loadSavedLocations() {
             "updated"
           )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
         }, 1000);
+
+                document.getElementById('last_updated').addEventListener('click', () =>{
+                  document.getElementById(
+                    "last_updated"
+                  ).innerHTML = `${getTranslationByLang(
+                    localStorage.getItem("AppLanguageCode"),
+                    "updated"
+                  )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+                });
 
         localStorage.setItem("currentLong", savedLocationItemLon);
         localStorage.setItem("currentLat", savedLocationItemLat);
@@ -2504,6 +2560,15 @@ async function loadSavedLocations() {
           )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
         }, 1000);
 
+        document.getElementById('last_updated').addEventListener('click', () =>{
+          document.getElementById(
+            "last_updated"
+          ).innerHTML = `${getTranslationByLang(
+            localStorage.getItem("AppLanguageCode"),
+            "updated"
+          )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        });
+
         localStorage.setItem("currentLong", savedLocationItemLon);
         localStorage.setItem("currentLat", savedLocationItemLat);
 
@@ -2594,6 +2659,15 @@ async function loadSavedLocations() {
           )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
         }, 1000);
 
+        document.getElementById('last_updated').addEventListener('click', () =>{
+          document.getElementById(
+            "last_updated"
+          ).innerHTML = `${getTranslationByLang(
+            localStorage.getItem("AppLanguageCode"),
+            "updated"
+          )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        });
+
         localStorage.setItem("currentLong", savedLocationItemLon);
         localStorage.setItem("currentLat", savedLocationItemLat);
 
@@ -2683,6 +2757,15 @@ async function loadSavedLocations() {
             "updated"
           )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
         }, 1000);
+
+                document.getElementById('last_updated').addEventListener('click', () =>{
+                  document.getElementById(
+                    "last_updated"
+                  ).innerHTML = `${getTranslationByLang(
+                    localStorage.getItem("AppLanguageCode"),
+                    "updated"
+                  )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+                });
 
         localStorage.setItem("currentLong", savedLocationItemLon);
         localStorage.setItem("currentLat", savedLocationItemLat);
@@ -2776,6 +2859,15 @@ async function loadSavedLocations() {
           )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
         }, 1000);
 
+                document.getElementById('last_updated').addEventListener('click', () =>{
+                  document.getElementById(
+                    "last_updated"
+                  ).innerHTML = `${getTranslationByLang(
+                    localStorage.getItem("AppLanguageCode"),
+                    "updated"
+                  )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+                });
+
         localStorage.setItem("currentLong", savedLocationItemLon);
         localStorage.setItem("currentLat", savedLocationItemLat);
 
@@ -2866,6 +2958,15 @@ async function loadSavedLocations() {
           )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
         }, 1000);
 
+                document.getElementById('last_updated').addEventListener('click', () =>{
+                  document.getElementById(
+                    "last_updated"
+                  ).innerHTML = `${getTranslationByLang(
+                    localStorage.getItem("AppLanguageCode"),
+                    "updated"
+                  )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+                });
+
         localStorage.setItem("currentLong", savedLocationItemLon);
         localStorage.setItem("currentLat", savedLocationItemLat);
 
@@ -2952,6 +3053,15 @@ async function loadSavedLocations() {
             "last_updated"
           ).innerHTML = `Updated, ${timeAgo(renderFromSavedDataTimstamp)}`;
         }, 1000);
+
+                document.getElementById('last_updated').addEventListener('click', () =>{
+                  document.getElementById(
+                    "last_updated"
+                  ).innerHTML = `${getTranslationByLang(
+                    localStorage.getItem("AppLanguageCode"),
+                    "updated"
+                  )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+                });
 
         localStorage.setItem("currentLong", savedLocationItemLon);
         localStorage.setItem("currentLat", savedLocationItemLat);
@@ -3046,6 +3156,15 @@ async function loadSavedLocations() {
           )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
         }, 1000);
 
+                document.getElementById('last_updated').addEventListener('click', () =>{
+                  document.getElementById(
+                    "last_updated"
+                  ).innerHTML = `${getTranslationByLang(
+                    localStorage.getItem("AppLanguageCode"),
+                    "updated"
+                  )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+                });
+
         localStorage.setItem("currentLong", savedLocationItemLon);
         localStorage.setItem("currentLat", savedLocationItemLat);
 
@@ -3136,6 +3255,15 @@ async function loadSavedLocations() {
           )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
         }, 1000);
 
+        document.getElementById('last_updated').addEventListener('click', () =>{
+          document.getElementById(
+            "last_updated"
+          ).innerHTML = `${getTranslationByLang(
+            localStorage.getItem("AppLanguageCode"),
+            "updated"
+          )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        });
+
         localStorage.setItem("currentLong", savedLocationItemLon);
         localStorage.setItem("currentLat", savedLocationItemLat);
 
@@ -3224,6 +3352,14 @@ async function loadSavedLocations() {
           )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
         }, 1000);
 
+        document.getElementById('last_updated').addEventListener('click', () =>{
+          document.getElementById(
+            "last_updated"
+          ).innerHTML = `${getTranslationByLang(
+            localStorage.getItem("AppLanguageCode"),
+            "updated"
+          )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        });
         localStorage.setItem("currentLong", savedLocationItemLon);
         localStorage.setItem("currentLat", savedLocationItemLat);
 
@@ -3629,7 +3765,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", async function () {
-  const currentVersion = "v1.12.3";
+  const currentVersion = "v1.13.1";
   const githubRepo = "PranshulGG/WeatherMaster";
   const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
@@ -3703,48 +3839,44 @@ const updateActiveIndicator = () => {
   });
 };
 
-const debouncedCheckTopScroll = debounce(() => {
-  checkTopScroll();
-  isSwipeDisabledHori = false;
-  isDebouncingScroll = false;
-}, 400);
+const no_refresh_elements = document.querySelectorAll('.noSwipe');
 
-// Touchstart for `scrollView`
-scrollView.addEventListener("touchstart", () => {
-  if (!isSwipeDisabledHori && !isDebouncingScroll) {
+no_refresh_elements.forEach((no_refresh_element) =>{
+  no_refresh_element.addEventListener('touchstart', () =>{
+    sendThemeToAndroid("DisableSwipeRefresh")
+  });
+  no_refresh_element.addEventListener('touchend', () =>{
+//  clearTimeout(debounceTimeoutTouch1);
+    checkTopScroll()
+});
+
+})
+
+// ------------------------
+
+const no_refresh_element2 = document.getElementById('sortableContainer');
+
+
+no_refresh_element2.addEventListener('touchstart', () =>{
+  sendThemeToAndroid("DisableSwipeRefresh")
+});
+
+
+no_refresh_element2.addEventListener('touchend', () =>{
+  if (document.getElementById("weather_wrap").scrollTop === 0) {
+    sendThemeToAndroid("EnableSwipeRefresh");
+  } else {
     sendThemeToAndroid("DisableSwipeRefresh");
-    isSwipeDisabledHori = true;
   }
 });
 
-// Touchend for `scrollView`
-scrollView.addEventListener("touchend", () => {
-  if (!isDebouncingScroll) {
-    isDebouncingScroll = true;
-    debouncedCheckTopScroll(); // Use the stable debounced function
-  }
-});
-
-// Same logic for `forecast`
-const debouncedCheckTopScrollForecast = debounce(() => {
-  checkTopScroll();
-  isSwipeDisabledHoriForecast = false;
-  isDebouncingForecast = false;
-}, 400);
-
-document.getElementById("forecast").addEventListener("touchstart", () => {
-  if (!isSwipeDisabledHoriForecast && !isDebouncingForecast) {
+function checkTopScroll() {
+  if (document.getElementById("weather_wrap").scrollTop === 0) {
+    sendThemeToAndroid("EnableSwipeRefresh");
+  } else {
     sendThemeToAndroid("DisableSwipeRefresh");
-    isSwipeDisabledHoriForecast = true;
   }
-});
-
-document.getElementById("forecast").addEventListener("touchend", () => {
-  if (!isDebouncingForecast) {
-    isDebouncingForecast = true;
-    debouncedCheckTopScrollForecast(); // Use the stable debounced function
-  }
-});
+}
 
 // Helper debounce function
 function debounce(func, delay) {
@@ -3837,7 +3969,7 @@ function ReturnHomeLocation() {
     );
 
     renderCurrentDataMetNorway(currentData, Locations.lat, Locations.lon);
-    renderHourlyDataMetNorway(hourlyData);
+        HourlyWeather(renderFromSavedData);
     createHourlyDataCount(renderFromSavedData);
 
     CurrentWeather(
@@ -3913,6 +4045,16 @@ function ReturnHomeLocation() {
         "updated"
       )}, ${timeAgo(renderFromSavedDataMetTimstamp)}`;
     }, 2400);
+
+    document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            });
+
   } else if (
     localStorage.getItem("ApiForAccu") &&
     localStorage.getItem("selectedMainWeatherProvider") === "Accuweather"
@@ -3956,7 +4098,7 @@ function ReturnHomeLocation() {
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
     DisplayCurrentAccuweatherData(data, Locations.lat, Locations.lon);
-    DisplayHourlyAccuweatherData(dataHourly);
+        HourlyWeather(renderFromSavedData);
 
     const AirQuailityData = JSON.parse(
       localStorage.getItem(`AirQuality_${Locations.name}`)
@@ -4033,6 +4175,15 @@ function ReturnHomeLocation() {
         "updated"
       )}, ${timeAgo(dataTimstamp)}`;
     }, 2400);
+
+    document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            });
   } else if (
     localStorage.getItem("selectedMainWeatherProvider") === "meteoFrance"
   ) {
@@ -4100,6 +4251,15 @@ function ReturnHomeLocation() {
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
+
+document.getElementById('last_updated').addEventListener('click', () =>{
+          document.getElementById(
+            "last_updated"
+          ).innerHTML = `${getTranslationByLang(
+            localStorage.getItem("AppLanguageCode"),
+            "updated"
+          )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        });
 
     localStorage.setItem("currentLong", Locations.lon);
     localStorage.setItem("currentLat", Locations.lat);
@@ -4197,6 +4357,15 @@ function ReturnHomeLocation() {
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
+    document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            });
+
     localStorage.setItem("currentLong", Locations.lon);
     localStorage.setItem("currentLat", Locations.lat);
 
@@ -4291,6 +4460,15 @@ function ReturnHomeLocation() {
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
+    document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            });
+
     localStorage.setItem("currentLong", Locations.lon);
     localStorage.setItem("currentLat", Locations.lat);
 
@@ -4384,6 +4562,15 @@ function ReturnHomeLocation() {
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
+
+    document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            });
 
     localStorage.setItem("currentLong", Locations.lon);
     localStorage.setItem("currentLat", Locations.lat);
@@ -4481,6 +4668,15 @@ function ReturnHomeLocation() {
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
+    document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            });
+
     localStorage.setItem("currentLong", Locations.lon);
     localStorage.setItem("currentLat", Locations.lat);
 
@@ -4577,6 +4773,15 @@ function ReturnHomeLocation() {
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
+    document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            });
+
     localStorage.setItem("currentLong", Locations.lon);
     localStorage.setItem("currentLat", Locations.lat);
 
@@ -4672,6 +4877,15 @@ function ReturnHomeLocation() {
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
+
+    document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            });
 
     localStorage.setItem("currentLong", Locations.lon);
     localStorage.setItem("currentLat", Locations.lat);
@@ -4769,6 +4983,15 @@ function ReturnHomeLocation() {
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
+    document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            });
+
     localStorage.setItem("currentLong", Locations.lon);
     localStorage.setItem("currentLat", Locations.lat);
 
@@ -4864,6 +5087,15 @@ function ReturnHomeLocation() {
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
+
+    document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            });
 
     localStorage.setItem("currentLong", Locations.lon);
     localStorage.setItem("currentLat", Locations.lat);
@@ -4961,6 +5193,15 @@ function ReturnHomeLocation() {
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
+    document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            });
+
     localStorage.setItem("currentLong", Locations.lon);
     localStorage.setItem("currentLat", Locations.lat);
 
@@ -5057,6 +5298,15 @@ function ReturnHomeLocation() {
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
+    document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            });
+
     localStorage.setItem("currentLong", Locations.lon);
     localStorage.setItem("currentLat", Locations.lat);
 
@@ -5152,6 +5402,15 @@ function ReturnHomeLocation() {
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
+
+    document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            });
 
     localStorage.setItem("currentLong", Locations.lon);
     localStorage.setItem("currentLat", Locations.lat);
@@ -5252,6 +5511,15 @@ function ReturnHomeLocation() {
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
+    document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            });
+
     localStorage.setItem("currentLong", Locations.lon);
     localStorage.setItem("currentLat", Locations.lat);
 
@@ -5297,7 +5565,6 @@ function ReturnHomeLocation() {
     document.getElementById("currentLocationName").textContent = Locations.name;
   }
   document.getElementById("SelectedLocationText").innerHTML = Locations.name;
-  localStorage.setItem("CurrentLocationName", Locations.name);
 
   hideLoader();
 }
@@ -5469,7 +5736,7 @@ function LoadLocationOnRequest(lat, lon, name) {
     );
 
     renderCurrentDataMetNorway(currentData, lat, lon);
-    renderHourlyDataMetNorway(hourlyData);
+        HourlyWeather(renderFromSavedData);
     createHourlyDataCount(renderFromSavedData);
 
     CurrentWeather(
@@ -5546,6 +5813,15 @@ function LoadLocationOnRequest(lat, lon, name) {
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
+    document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            });
+
     hideLoader();
   } else if (
     localStorage.getItem("ApiForAccu") &&
@@ -5586,7 +5862,7 @@ function LoadLocationOnRequest(lat, lon, name) {
     astronomyDataRender(AstronomyData);
     MoreDetailsRender(MoreDetailsData);
     DisplayCurrentAccuweatherData(data, lat, lon);
-    DisplayHourlyAccuweatherData(dataHourly);
+        HourlyWeather(renderFromSavedData);
 
     const AirQuailityData = JSON.parse(
       localStorage.getItem(`AirQuality_${name}`)
@@ -5663,6 +5939,15 @@ function LoadLocationOnRequest(lat, lon, name) {
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
+
+    document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            });
 
     hideLoader();
   } else if (
@@ -5829,6 +6114,15 @@ function LoadLocationOnRequest(lat, lon, name) {
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
+    document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            });
+
     localStorage.setItem("currentLong", lon);
     localStorage.setItem("currentLat", lat);
 
@@ -5923,6 +6217,15 @@ function LoadLocationOnRequest(lat, lon, name) {
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
+    document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            });
+
     localStorage.setItem("currentLong", lon);
     localStorage.setItem("currentLat", lat);
 
@@ -6016,6 +6319,15 @@ function LoadLocationOnRequest(lat, lon, name) {
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
+
+    document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            });
 
     localStorage.setItem("currentLong", lon);
     localStorage.setItem("currentLat", lat);
@@ -6113,6 +6425,15 @@ function LoadLocationOnRequest(lat, lon, name) {
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
+document.getElementById('last_updated').addEventListener('click', () =>{
+          document.getElementById(
+            "last_updated"
+          ).innerHTML = `${getTranslationByLang(
+            localStorage.getItem("AppLanguageCode"),
+            "updated"
+          )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+        });
+
     localStorage.setItem("currentLong", lon);
     localStorage.setItem("currentLat", lat);
 
@@ -6208,6 +6529,15 @@ function LoadLocationOnRequest(lat, lon, name) {
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
+
+    document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            });
 
     localStorage.setItem("currentLong", Locations.lon);
     localStorage.setItem("currentLat", Locations.lat);
@@ -6305,6 +6635,15 @@ function LoadLocationOnRequest(lat, lon, name) {
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
+    document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            });
+
     localStorage.setItem("currentLong", lon);
     localStorage.setItem("currentLat", lat);
 
@@ -6400,6 +6739,15 @@ function LoadLocationOnRequest(lat, lon, name) {
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
+
+    document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            });
 
     localStorage.setItem("currentLong", lon);
     localStorage.setItem("currentLat", lat);
@@ -6497,6 +6845,15 @@ function LoadLocationOnRequest(lat, lon, name) {
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
+    document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            });
+
     localStorage.setItem("currentLong", lon);
     localStorage.setItem("currentLat", lat);
 
@@ -6592,6 +6949,15 @@ function LoadLocationOnRequest(lat, lon, name) {
         "updated"
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
+
+    document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            });
 
     localStorage.setItem("currentLong", lon);
     localStorage.setItem("currentLat", lat);
@@ -6689,6 +7055,15 @@ function LoadLocationOnRequest(lat, lon, name) {
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
+    document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            });
+
     localStorage.setItem("currentLong", lon);
     localStorage.setItem("currentLat", lat);
 
@@ -6785,6 +7160,15 @@ function LoadLocationOnRequest(lat, lon, name) {
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 2400);
 
+    document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            });
+
     localStorage.setItem("currentLong", lon);
     localStorage.setItem("currentLat", lat);
 
@@ -6871,6 +7255,15 @@ function LoadLocationOnRequest(lat, lon, name) {
       )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
     }, 1000);
 
+    document.getElementById('last_updated').addEventListener('click', () =>{
+              document.getElementById(
+                "last_updated"
+              ).innerHTML = `${getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "updated"
+              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+            });
+
     localStorage.setItem("currentLong", lon);
     localStorage.setItem("currentLat", lat);
 
@@ -6911,13 +7304,7 @@ function LoadLocationOnRequest(lat, lon, name) {
   }
 }
 
-function checkTopScroll() {
-  if (document.getElementById("weather_wrap").scrollTop === 0) {
-    sendThemeToAndroid("EnableSwipeRefresh");
-  } else {
-    sendThemeToAndroid("DisableSwipeRefresh");
-  }
-}
+
 
 // display device location
 

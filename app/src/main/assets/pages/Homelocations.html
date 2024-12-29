@@ -65,18 +65,20 @@
             padding-right: 15px;
             gap: 15px;
             position: relative;
-            margin-bottom: 10px;
+            margin: 10px 12px;
+            background-color: var(--Surface-Container-Low);
+            border-radius: 50px;
         }
 
         .location_item .icon svg {
-            width: 45px;
-            height: 45px;
-            fill: var(--Surface-Container-Low);
+            width: 42px;
+            height: 42px;
+            fill: var(--Tertiary);
             transition: fill 0.2s ease-out;
         }
 
         .location_item p {
-            font-size: 18px;
+            font-size: 17px;
             color: var(--On-Surface);
             font-family: var(--outfit);
         }
@@ -89,7 +91,7 @@
         .not-selected {
             position: absolute;
             font-size: 24px;
-            color: var(--On-Surface-Variant);
+            color: var(--On-Tertiary);
             z-index: 1;
 
         }
@@ -122,7 +124,12 @@
         }
 
         .selected-home-location{
-            background-color: var(--Surface-Container-Low);
+            background-color: var(--Primary-Container);
+        }
+                .selected-home-location p {
+            font-size: 17px;
+            color: var(--On-Primary-Container);
+            font-family: var(--outfit);
         }
 
         .info_div{

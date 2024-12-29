@@ -1,4 +1,6 @@
-
+body{
+    pointer-events: none;
+}
 
 :root {
     --google-normal: 'Google';

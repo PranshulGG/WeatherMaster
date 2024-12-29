@@ -4,7 +4,7 @@
 
 .title{
   color: var(--Primary);
-  font-family: 'Google';
+  font-family: var(--google-normal);
   margin: 0;
   margin-top: 20px;
   font-weight: 900;
