@@ -433,11 +433,11 @@
     "high_forecast_uv": "Cao",
     "very_high_forecast_uv": "Rất cao",
     "extreme_forecast_uv": "Cực cao",
-    "app_looks": "App looks",
-    "temp_animation_sub_pref": "Counts the temperatures from start to end",
-    "hide_condition_widgets": "Hide condition widgets",
-    "info_home_location_tip": "You need to save locations to use them as your default location",
-    "your_device_location": "Your device location",
-    "weather_model_info_1": "Combines the best weather models",
-    "weather_model_info_2": "Combines all weather models from this into a seamless prediction"
+    "app_looks": "Giao diện",
+    "temp_animation_sub_pref": "Đếm dần nhiệt độ từ lúc bắt đầu đến lúc kết thúc",
+    "hide_condition_widgets": "Ẩn các tiện ích điều kiện",
+    "info_home_location_tip": "Bạn cần lưu các địa điểm để sử dụng chúng làm vị trí mặc định của mình",
+    "your_device_location": "Vị trí thiết bị của bạn",
+    "weather_model_info_1": "Kết hợp các mô hình thời tiết tốt nhất",
+    "weather_model_info_2": "Kết hợp tất cả các mô hình thời tiết từ đây thành một dự đoán liền mạch"
 }
