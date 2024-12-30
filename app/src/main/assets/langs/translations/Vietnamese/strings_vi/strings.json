@@ -89,7 +89,7 @@
     "visibility_info": "Tầm nhìn đo khoảng cách có thể nhìn thấy các vật thể nổi bật trên bầu trời hoặc đường chân trời. Các yếu tố như mưa, tuyết, sương mù, bụi, khói hoặc sương mù mỏng có thể ảnh hưởng đến tầm nhìn.",
     "humidity_info": "Độ ẩm tương đối là tỷ lệ phần trăm hơi nước có trong không khí so với lượng hơi nước tối đa mà không khí có thể giữ lại ở một nhiệt độ nhất định.",
     "humidity_info_2": "Điểm sương là mức nhiệt độ cần làm mát để đạt được độ ẩm tương đối ở mức 100%.",
-    "uv_index_info": "Chỉ số UV đo cường độ bức xạ tia cực tím (UV) của mặt trời. Chỉ số này được tính theo thang điểm từ O đến 11, giá trị càng cao thì bức xạ UV càng mạnh.",
+    "uv_index_info": "Chỉ số UV đo cường độ bức xạ tia cực tím (UV) của mặt trời. Chỉ số này được tính theo thang điểm từ 0 đến 11, giá trị càng cao thì bức xạ UV càng mạnh.",
     "uv_index_info_2": "Bức xạ UV có thể gây cháy nắng, ung thư da và tồn thương mắt. Chỉ số UV càng cao thì nguy cơ gặp phải các vấn để trên càng lớn.",
     "uv_index_info_3": "1-2: Thấp. Không cần biện pháp chống nắng. Bạn chỉ cần dùng biện pháp chống nắng ở mức tối thiểu là có thể an toàn khi ra ngoài trời.",
     "uv_index_info_4": "3-7: Trung bình đến Cao. Cần có biện pháp chống nắng. Tìm nơi có bóng râm trong khoảng thời gian từ gần cuối buổi sáng đến giữa buổi chiều. Khi ra ngoài, hãy thoa thật nhiều kem chống nắng phổ rộng có chỉ số SPF từ 15 trở lên trên vùng da để lộ, mặc quần áo chống nắng, đội mũ rộng vành và đeo kính râm.",
