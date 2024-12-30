@@ -3445,6 +3445,38 @@ window.addEventListener("popstate", function (event) {
       document.getElementById("search-container").style.display = "none";
       document.getElementById("search-container").style.opacity = "1";
       checkTopScroll();
+
+            if(document.getElementById('weather_wrap').scrollTop > 10){
+              const allClassesAnimation = document.querySelectorAll('.behind_search_animation');
+              const allClassesAnimationFog = document.querySelectorAll('.behind_search_animation_fog');
+
+              if(allClassesAnimation){
+                  allClassesAnimation.forEach((classAnimation) =>{
+                      classAnimation.hidden = true
+                  })
+              }
+
+              if(allClassesAnimationFog){
+                  allClassesAnimationFog.forEach((classAnimationFog) =>{
+                      classAnimationFog.hidden = true
+                  })
+              }
+
+          } else{
+              const allClassesAnimation = document.querySelectorAll('.behind_search_animation');
+              const allClassesAnimationFog = document.querySelectorAll('.behind_search_animation_fog');
+
+              if(allClassesAnimation){
+                  allClassesAnimation.forEach((classAnimation) =>{
+                      classAnimation.hidden = false
+                  })
+              }
+              if(allClassesAnimationFog){
+                  allClassesAnimationFog.forEach((classAnimationFog) =>{
+                      classAnimationFog.hidden = false
+                  })
+              }
+          }
     }, 300);
   }
 });
@@ -3765,7 +3797,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", async function () {
-  const currentVersion = "v1.13.1";
+  const currentVersion = "v1.13.2";
   const githubRepo = "PranshulGG/WeatherMaster";
   const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 

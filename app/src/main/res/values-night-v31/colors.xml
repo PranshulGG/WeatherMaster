@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Primary Colors -->
-    <color name="colorPrimary">@android:color/system_accent1_300</color>
+    <color name="colorPrimary">@android:color/system_accent1_100</color>
     <color name="colorOnPrimary">@android:color/system_accent1_900</color>
     <color name="colorPrimaryContainer">@android:color/system_accent1_700</color>
     <color name="colorOnPrimaryContainer">@android:color/system_accent1_100</color>

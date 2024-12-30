@@ -151,6 +151,41 @@ weatherWrap.addEventListener('scroll', function() {
         debounceTimer3 = setTimeout(() => {
             document.querySelector('swipeCooldown').hidden = true;
         }, 2500);
+
+
+        setTimeout(() =>{
+                    if(document.getElementById('weather_wrap').scrollTop > 10){
+                      const allClassesAnimation = document.querySelectorAll('.behind_search_animation');
+                      const allClassesAnimationFog = document.querySelectorAll('.behind_search_animation_fog');
+
+                      if(allClassesAnimation){
+                          allClassesAnimation.forEach((classAnimation) =>{
+                              classAnimation.hidden = true
+                          })
+                      }
+
+                      if(allClassesAnimationFog){
+                          allClassesAnimationFog.forEach((classAnimationFog) =>{
+                              classAnimationFog.hidden = true
+                          })
+                      }
+
+                  } else{
+                      const allClassesAnimation = document.querySelectorAll('.behind_search_animation');
+                      const allClassesAnimationFog = document.querySelectorAll('.behind_search_animation_fog');
+
+                      if(allClassesAnimation){
+                          allClassesAnimation.forEach((classAnimation) =>{
+                              classAnimation.hidden = false
+                          })
+                      }
+                      if(allClassesAnimationFog){
+                          allClassesAnimationFog.forEach((classAnimationFog) =>{
+                              classAnimationFog.hidden = false
+                          })
+                      }
+                  }
+        }, 300)
     }
 
 
