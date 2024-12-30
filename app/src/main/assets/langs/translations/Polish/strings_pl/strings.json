@@ -433,11 +433,11 @@
     "high_forecast_uv": "Wysokie",
     "very_high_forecast_uv": "Bardzo wysokie",
     "extreme_forecast_uv": "Ekstremalne",
-    "app_looks": "App looks",
-    "temp_animation_sub_pref": "Counts the temperatures from start to end",
-    "hide_condition_widgets": "Hide condition widgets",
-    "info_home_location_tip": "You need to save locations to use them as your default location",
-    "your_device_location": "Your device location",
-    "weather_model_info_1": "Combines the best weather models",
-    "weather_model_info_2": "Combines all weather models from this into a seamless prediction"
+    "app_looks": "Wygląd aplikacji",
+    "temp_animation_sub_pref": "Oblicza temperatury od początku do końca",
+    "hide_condition_widgets": "Ukryj widżety warunków",
+    "info_home_location_tip": "Musisz zapisać lokalizacje, aby używać ich jako swoje domyślne lokalizacje",
+    "your_device_location": "Lokalizacja urządzenia",
+    "weather_model_info_1": "Łączy najlepsze modele pogodowe",
+    "weather_model_info_2": "Łączy wszystkie modele pogodowe w płynną prognozę"
 }
