@@ -1808,33 +1808,41 @@ savelocationtouch md-ripple{
   color: var(--On-Surface);
 }
 
-        .new_ver_download{
-            position: fixed;
-            bottom: 0;
-            z-index: 100000000000000000000000000000000000;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin: 10px;
-            width: calc(100% - 40px);
-            background-color:var(--Inverse-Surface);
-            padding: 10px;
-            padding-top: 5px;
-            padding-bottom: 5px;
-            border-radius: 5px;
-        }
+  .new_ver_download{
+    color: rgb(236, 172, 51) !important;
+    opacity: 1;
+    animation: new_update 2s ease-out;
+  }
 
-        .new_ver_download md-text-button{
-            --md-sys-color-primary: var(--Inverse-Primary);
-        }
+  @keyframes new_update{
+    0%, 100%{
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    20%{
+      opacity: 1;
+      transform: scale(1);
 
-        .new_ver_download p{
-            color: var(--Inverse-On-Surface);
-            margin: 0;
-            font-size: 18px;
-            font-family: var(--outfit);
+    }
+    40%{
+      opacity: 0;
+      transform: scale(0.9);
 
-        }
+    }
+    60%{
+      opacity: 1;
+      transform: scale(1);
+    }
+    80%{
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    100%{
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
 
 
 .currentConditionItem.humidity{

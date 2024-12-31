@@ -55,6 +55,7 @@ import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String FIXED_URL = "https://github.com/PranshulGG/WeatherMaster/releases";
 
     private WebView webview;
 
@@ -487,6 +488,9 @@ public class MainActivity extends AppCompatActivity {
                     } else if (color.equals("OpenClothingPage")){
                         OpenClothingPage();
                         return;
+                    } else if (color.equals("OpenGithubReleaseLatest")){
+                        openGithubReleases();
+                        return;
                     } else if (color.equals("GoBack")) {
                         back();
                         return;
@@ -632,6 +636,15 @@ public class MainActivity extends AppCompatActivity {
         public void openMoonCondition() {
             Intent intent = new Intent(mActivity, MoonPhases.class);
             mActivity.startActivity(intent);
+        }
+    }
+
+    private void openGithubReleases() {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(FIXED_URL));
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "No application available to open the link.", Toast.LENGTH_SHORT).show();
         }
     }
 

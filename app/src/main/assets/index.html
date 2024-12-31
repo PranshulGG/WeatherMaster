@@ -38,6 +38,13 @@
             </h2>
         </div>
         <div class="header_actions">
+            <button class="ripple-icon-btn focus regular new_ver_download" onclick="sendThemeToAndroid('OpenGithubReleaseLatest')"
+
+                    ontouchstart="playEffect(this)"style="z-index: 1;"
+                    ontouchend="playEffect2(this)" hidden>
+                <span class="ripple-effect-icon"></span>
+                <span icon-outlined>downloading</span>
+            </button>
             <button class="ripple-icon-btn focus regular refresh_weat"
                     onclick="if (navigator.onLine){sendThemeToAndroid('OpenRadar');}else{ShowSnackMessage.ShowSnack(getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'network_unavailable'), 'short');}"
                     ontouchstart="playEffect(this)" id="usage-popover-anchor" style="z-index: 1;"
@@ -717,11 +724,6 @@
             </div>
 
 
-            <div class="new_ver_download" hidden>
-                <p data-translate="new_version_available!">New App Version is available!</p>
-                <md-text-button onclick="sendThemeToAndroid('OpenAboutPage')"
-                                data-translate="update">Update</md-text-button>
-            </div>
 
         </div>
     </div>
