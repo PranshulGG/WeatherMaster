@@ -433,11 +433,11 @@
     "high_forecast_uv": "高",
     "very_high_forecast_uv": "非常高",
     "extreme_forecast_uv": "极高",
-    "app_looks": "App looks",
-    "temp_animation_sub_pref": "Counts the temperatures from start to end",
+    "app_looks": "应用程序外观",
+    "temp_animation_sub_pref": "计算从开始到结束的温度",
     "hide_condition_widgets": "Hide condition widgets",
-    "info_home_location_tip": "You need to save locations to use them as your default location",
-    "your_device_location": "Your device location",
-    "weather_model_info_1": "Combines the best weather models",
-    "weather_model_info_2": "Combines all weather models from this into a seamless prediction"
+    "info_home_location_tip": "您需要保存位置，才能将其用作默认位置",
+    "your_device_location": "您的设备位置",
+    "weather_model_info_1": "结合最佳天气模式",
+    "weather_model_info_2": "将其中的所有天气模型整合到无缝预测中"
 }
