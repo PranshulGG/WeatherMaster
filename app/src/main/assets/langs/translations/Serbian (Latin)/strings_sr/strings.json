@@ -433,11 +433,11 @@
     "high_forecast_uv": "Visoko",
     "very_high_forecast_uv": "Veoma visoko",
     "extreme_forecast_uv": "Ekstremno",
-    "app_looks": "App looks",
-    "temp_animation_sub_pref": "Counts the temperatures from start to end",
-    "hide_condition_widgets": "Hide condition widgets",
-    "info_home_location_tip": "You need to save locations to use them as your default location",
-    "your_device_location": "Your device location",
-    "weather_model_info_1": "Combines the best weather models",
-    "weather_model_info_2": "Combines all weather models from this into a seamless prediction"
+    "app_looks": "Izgled aplikacije",
+    "temp_animation_sub_pref": "Broji temperature od početka do kraja",
+    "hide_condition_widgets": "Sakrij vidžete uslova",
+    "info_home_location_tip": "Morate da sačuvate lokacije da biste ih koristili kao podrazumevanu lokaciju",
+    "your_device_location": "Lokacija vašeg uređaja",
+    "weather_model_info_1": "Kombinuje najbolje vremenske modele",
+    "weather_model_info_2": "Kombinuje sve vremenske modele iz ovoga u besprekorno predviđanje"
 }
