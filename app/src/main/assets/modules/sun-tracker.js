@@ -39,18 +39,24 @@ function moveSun(percent) {
 
 // toggle summary
 
-function openSummery(){
+async function openSummery(){
     document.querySelector('.summeryText').classList.toggle('openSummery');
 
     if(document.querySelector('.summeryText').classList.contains('openSummery')){
         document.querySelector('#arrow_up_toggle').innerHTML = 'keyboard_arrow_up'
+        document.getElementById('lock_summary').style.width = '24px';
+
 
     } else{
         document.querySelector('#arrow_up_toggle').innerHTML = 'keyboard_arrow_down';
+        document.getElementById('lock_summary').style.width = '0';
+
+
 
     }
-}
 
+
+}
 // moon
 
 function moveMoon(percent) {
@@ -90,3 +96,56 @@ function moveMoon(percent) {
       circle.style.transform = `translate(${x}px, ${y - 15}px)`;
     }
   }
+
+//   --------
+
+async function lockSummaryToggle(){
+
+
+ document.getElementById('lock_summary').classList.toggle('lockedSummaryClass')
+
+ if(document.getElementById('lock_summary').classList.contains('lockedSummaryClass')){
+    document.getElementById('lock_summary').innerHTML = 'lock'
+    document.getElementById('lock_summary').style.color = 'var(--Secondary)'
+    await customStorage.setItem('SummaryLocked', 'true');
+
+ } else{
+
+ document.getElementById('lock_summary').innerHTML = 'lock_open'
+ document.getElementById('lock_summary').style.color = ''
+ await customStorage.setItem('SummaryLocked', 'false');
+ setTimeout(() =>{
+    document.getElementById('lock_summary').style.width = '0';
+    openSummery()
+ }, 100)
+
+ }
+
+
+
+}
+
+async function ChecklockSummaryToggle(){
+
+
+    if(await customStorage.getItem('SummaryLocked') === 'true'){
+        document.getElementById('lock_summary').innerHTML = 'lock'
+        document.getElementById('lock_summary').style.color = 'var(--Secondary)'
+        await customStorage.setItem('SummaryLocked', 'true');
+        document.getElementById('lock_summary').style.width = '24px';
+        document.getElementById('lock_summary').classList.add('lockedSummaryClass')
+
+        openSummery()
+
+    } else{
+        await customStorage.setItem('SummaryLocked', 'false');
+        document.getElementById('lock_summary').innerHTML = 'lock_open'
+        document.getElementById('lock_summary').style.color = ''
+        document.getElementById('lock_summary').style.width = '0';
+
+    }
+
+
+   }
+
+   ChecklockSummaryToggle()
