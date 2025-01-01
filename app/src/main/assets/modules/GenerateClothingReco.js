@@ -96,54 +96,65 @@ function calculateAverage(data) {
 
 function generateClothingRecommendation(timeOfDay, avgData, aqi) {
     const clothingTips = [];
+        const roundedUVIndex = Math.round(avgData.avgUVIndex);
 
-    if (avgData.avgTemp < -40) {
-        clothingTips.push('<li>🥶 In extreme cold, wear a high-insulation parka, thermal underwear, and thick wool socks. Insulated boots and a balaclava are essential.</li>');
-        clothingTips.push('<li>🧤 Wear insulated gloves, a thick wool hat, and a face mask to protect against frostbite.</li>');
-        clothingTips.push('<li>❄️ Avoid prolonged exposure to the cold. Layering is key, and all exposed skin should be covered.</li>');
-    } else if (avgData.avgTemp >= -40 && avgData.avgTemp < -20) {
-        clothingTips.push('<li>🧥 Wear a heavy down coat or parka, layered with thermal clothing underneath. Insulated gloves and boots are a must.</li>');
-        clothingTips.push('<li>🧣 A wool scarf, thick socks, and a knit hat will help keep you warm in these frigid conditions.</li>');
-    } else if (avgData.avgTemp >= -20 && avgData.avgTemp < 0) {
-        clothingTips.push('<li>🧥 Layer with a heavy winter coat, a sweater, and thermal leggings. Don’t forget thermal gloves and boots.</li>');
-        clothingTips.push('<li>🧣 A wool scarf and insulated hat will help keep your head and neck warm.</li>');
-    } else if (avgData.avgTemp >= 0 && avgData.avgTemp < 10) {
-        clothingTips.push('<li>🧥 Layer with a thick jacket or puffer coat, a warm sweater, and a hat to stay cozy in cold weather.</li>');
-        clothingTips.push('<li>🧣 Consider wearing a scarf and thermal socks for added warmth.</li>');
-    } else if (avgData.avgTemp >= 10 && avgData.avgTemp < 20) {
-        clothingTips.push('<li>🧳 A light jacket, cardigan, or sweater is perfect for cool weather. Pair with jeans or trousers for comfort.</li>');
-        clothingTips.push('<li>🌬️ If it’s a bit breezy, a windbreaker will provide extra protection without overheating.</li>');
-    } else if (avgData.avgTemp >= 20 && avgData.avgTemp < 30) {
-        clothingTips.push('<li>👕 Opt for breathable fabrics like cotton or linen. Pair with shorts or a light skirt to stay comfortable.</li>');
-        clothingTips.push('<li>👒 Don’t forget to bring a hat and sunglasses to protect yourself from the sun.</li>');
-    } else {
-        clothingTips.push('<li>🌞 Wear lightweight, moisture-wicking clothing, and stay hydrated in the heat.</li>');
-        clothingTips.push('<li>💦 Consider lightweight, long-sleeve shirts to protect against UV rays while staying cool.</li>');
-    }
 
-    // Wind recommendations
-    if (avgData.avgWindSpeed > 20) {
-        clothingTips.push('<li>🌬️ Strong winds call for a wind-resistant jacket, sturdy shoes, and a secure hat to prevent it from blowing away.</li>');
-    }
 
-    // Humidity-based clothing recommendations
-    if (avgData.avgHumidity > 80) {
-        clothingTips.push('<li>💦 Choose moisture-wicking clothes and carry a hand towel for humid conditions.</li>');
-        clothingTips.push('<li>💧 Keep your skin fresh with a cooling spray or face mist.</li>');
-    } else if (avgData.avgHumidity < 20) {
-        clothingTips.push('<li>💧 Use a hydrating moisturizer to prevent dry skin and opt for breathable fabrics like cotton.</li>');
-        clothingTips.push('<li>🌬️ Stay protected from dry air with a scarf or shawl to cover your neck.</li>');
-    }
+        if (avgData.avgTemp < -40) {
+            clothingTips.push('<li>🥶 Extreme cold: In temperatures below -40°C (-40°F), you need high-insulation gear. Wear a heavy-duty down parka with windproof outer layers, a balaclava, thermal base layers, thick wool socks, insulated boots, and a face mask. All exposed skin must be covered to avoid frostbite.</li>');
+        } else if (avgData.avgTemp >= -40 && avgData.avgTemp < -30) {
+            clothingTips.push('<li>🥶 Extreme cold: Layer with thermal base layers (top and bottom), a down or synthetic coat, thick wool socks, insulated boots, and a wool hat. Make sure to wear insulated gloves and a scarf to cover exposed skin.</li>');
+        } else if (avgData.avgTemp >= -30 && avgData.avgTemp < -20) {
+            clothingTips.push('<li>🥶 Very cold: A heavy-duty winter jacket is necessary. Wear thermal leggings, thick wool socks, and insulated boots. Insulated gloves and a wool hat will keep you warm. Layering is key in these frigid temperatures.</li>');
+        } else if (avgData.avgTemp >= -20 && avgData.avgTemp < -10) {
+            clothingTips.push('<li>🧥 Very cold: Layer with a heavy winter coat, sweater, and long underwear. Thermal gloves, insulated boots, and a scarf are essential. A wool hat or beanie will provide extra warmth for your head.</li>');
+        } else if (avgData.avgTemp >= -10 && avgData.avgTemp < 0) {
+            clothingTips.push('<li>🧥 Cold weather: Wear a thick winter coat or puffer jacket with a sweater underneath. Insulated gloves, wool socks, a scarf, and a hat are necessary for comfort in these temperatures.</li>');
+        } else if (avgData.avgTemp >= 0 && avgData.avgTemp < 5) {
+            clothingTips.push('<li>🧥 Cold weather: A heavy jacket or coat is recommended. Pair with thermal gloves, a wool scarf, and thick socks. Opt for boots to keep your feet warm and dry.</li>');
+        } else if (avgData.avgTemp >= 5 && avgData.avgTemp < 10) {
+            clothingTips.push('<li>🧥 Cool weather: Layer with a warm jacket or puffer coat. Consider wearing thermal socks and boots, as well as gloves for extra protection from the chill. A scarf will also add warmth around your neck.</li>');
+        } else if (avgData.avgTemp >= 10 && avgData.avgTemp < 15) {
+            clothingTips.push('<li>🧳 Mild weather: A light jacket or sweater should suffice. Pair with jeans or trousers, and consider a hat to protect against mild wind or sun exposure.</li>');
+        } else if (avgData.avgTemp >= 15 && avgData.avgTemp < 20) {
+            clothingTips.push('<li>🧳 Mild weather: Dress in layers with a light jacket or sweater. You can wear long sleeves, but consider switching to short sleeves if it feels warm. A scarf can help if the wind picks up.</li>');
+        } else if (avgData.avgTemp >= 20 && avgData.avgTemp < 25) {
+            clothingTips.push('<li>🌞 Warm weather: Opt for breathable fabrics like cotton or linen. A short-sleeve shirt, shorts, or a skirt will keep you comfortable. Don’t forget sunglasses and sunscreen to protect against UV rays.</li>');
+        } else if (avgData.avgTemp >= 25 && avgData.avgTemp < 30) {
+            clothingTips.push('<li>🌞 Hot weather: Wear lightweight, moisture-wicking clothing like cotton or linen. A wide-brimmed hat and sunglasses are essential to shield from the sun. Stay hydrated and wear sunscreen, especially if you’ll be outside for long periods.</li>');
+        } else if (avgData.avgTemp >= 30 && avgData.avgTemp < 35) {
+            clothingTips.push('<li>🔥 Hot weather: Dress in lightweight, breathable clothing. Lightweight, loose-fitting shirts and shorts or skirts will help you stay cool. Don’t forget to hydrate regularly and apply sunscreen to avoid sunburn.</li>');
+        } else if (avgData.avgTemp >= 35) {
+            clothingTips.push('<li>🔥 Extremely hot: Wear loose-fitting, moisture-wicking fabrics to stay cool. Avoid dark colors as they absorb heat. A wide-brimmed hat, sunglasses, and plenty of sunscreen are crucial. Stay in shaded areas as much as possible and drink water constantly.</li>');
+        }
+
+
+        // Humidity-based recommendations
+        if (avgData.avgHumidity > 80 && avgData.avgTemp > 20) {
+            clothingTips.push('<li>💦 High humidity: Wear moisture-wicking clothes and carry a towel to stay dry.</li>');
+        } else if (avgData.avgHumidity < 30 && avgData.avgTemp < 10) {
+            clothingTips.push('<li>💧 Low humidity: Use a hydrating moisturizer to avoid dry skin.</li>');
+        }
+
+        if (avgData.avgWindSpeed > 20) {
+            clothingTips.push('<li>🌬️ Strong winds: Wear windproof clothing and secure loose items.</li>');
+        }
 
     // UV index-based recommendations
     if (timeOfDay !== 'Night') {
-    if (avgData.avgUVIndex > 0 && avgData.avgUVIndex <= 2) {
-        clothingTips.push('<li>🕶️ UV levels are low; wear sunglasses to reduce glare and feel comfortable.</li>');
-    } else if (avgData.avgUVIndex > 2 && avgData.avgUVIndex <= 5) {
-        clothingTips.push('<li>🧴 Use sunscreen (SPF 30+), wear sunglasses, and consider a wide-brimmed hat.</li>');
-    } else {
-        clothingTips.push('<li>🧴 Use sunscreen (SPF 50+), wear UV-blocking clothing, and stay in the shade as much as possible.</li>');
-    }
+        if (roundedUVIndex <= 1) {
+            clothingTips.push('<li>🕶️ UV is very low. Sunglasses for comfort are sufficient.</li>');
+        } else if (roundedUVIndex >= 2 && roundedUVIndex <= 3) {
+            clothingTips.push('<li>🧴 UV is low. Wear sunglasses and apply SPF 15-30 sunscreen.</li>');
+        } else if (roundedUVIndex >= 4 && roundedUVIndex <= 5) {
+            clothingTips.push('<li>🧴 Moderate UV. Use SPF 30 sunscreen, wear sunglasses, and a hat.</li>');
+        } else if (roundedUVIndex >= 6 && roundedUVIndex <= 7) {
+            clothingTips.push('<li>🧴 High UV. SPF 50+, sunglasses, UV-blocking clothing, and stay in shade when possible.</li>');
+        } else if (roundedUVIndex >= 8 && roundedUVIndex <= 10) {
+            clothingTips.push('<li>⚠️ Very high UV! Avoid direct sun, use SPF 50+, UV-blocking clothing, and sunglasses.</li>');
+        } else {
+            clothingTips.push('<li>🚨 Extreme UV! Stay indoors if possible. SPF 50+, sunglasses, and protective clothing are mandatory.</li>');
+        }
     }
     // Nighttime recommendations
     if (timeOfDay === 'Night') {
