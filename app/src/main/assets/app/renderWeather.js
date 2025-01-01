@@ -9,6 +9,7 @@ const timeFormat = localStorage.getItem("selectedTimeMode");
 
 let timezone = ''
 let utcOffsetSeconds = ''
+let summaryData = []
 
 function HourlyWeather(data) {
   const forecastContainer = document.getElementById("forecast");
@@ -382,6 +383,8 @@ function DailyWeather(dailyForecast) {
   document.getElementById("temp_insight").innerHTML = trendMessage;
 
   const weekDaysCache = [];
+    summaryData = []
+
 
   dailyForecast.time.forEach((time, index) => {
     const [year, month, day] = time.split("-").map(Number);
@@ -449,6 +452,9 @@ function DailyWeather(dailyForecast) {
     } else {
       TempMaxCurrent = Math.round(dailyForecast.temperature_2m_max[0]);
     }
+
+        summaryData.push({tempMax: TempMaxCurrent, tempMin: TempMinCurrent, uvIndexMax: dailyForecast.uv_index_max[0]});
+
 
     document.getElementById("high_temp").innerHTML = TempMaxCurrent + "°";
     document.getElementById("low_temp").innerHTML = TempMinCurrent + "°";
@@ -1440,7 +1446,12 @@ function UvIndex(uvIndexValue) {
   }
 }
 
+
+let debounceMoreDetails
+
 function MoreDetailsRender(data) {
+  clearTimeout(debounceMoreDetails)
+  debounceMoreDetails = setTimeout(() =>{
   const mainData = data.forecast.forecastday[0].day;
 
   const weatherCondition = mainData.condition.text;
@@ -1498,17 +1509,21 @@ function MoreDetailsRender(data) {
     )}`;
   }
 
+      const globalTempMax = summaryData[0].tempMax
+      const globalTempMin = summaryData[0].tempMin
+      const globalUVmax = summaryData[0].uvIndexMax.toFixed(2)
+
   let weatherReport = `
          <li style="padding-bottom: 5px;">${getTranslationByLang(
            localStorage.getItem("AppLanguageCode"),
            "temp_report_tipPart_1"
-         )} ${maxTemp}° ${getTranslationByLang(
+         )} ${globalTempMax}° ${getTranslationByLang(
     localStorage.getItem("AppLanguageCode"),
     "temp_report_tipPart_2"
-  )} ${mainData.uv} ${getTranslationByLang(
+  )} ${globalUVmax} ${getTranslationByLang(
     localStorage.getItem("AppLanguageCode"),
     "temp_report_tipPart_3"
-  )} ${minTemp}° ${getTranslationByLang(
+  )} ${globalTempMin}° ${getTranslationByLang(
     localStorage.getItem("AppLanguageCode"),
     "temp_report_tipPart_4"
   )} </li>
@@ -1813,6 +1828,7 @@ function MoreDetailsRender(data) {
 
   document.getElementById("day_tips").innerHTML = `<li>${weatherTips}</li>`;
   document.getElementById("summeryDay").innerHTML = `<li>${weatherReport}</li>`;
+  }, 300);
 }
 
 function astronomyDataRender(data) {
@@ -2008,26 +2024,6 @@ if (AppLanguageCodeValue) {
 }
 
 // ---------
-
-function applyRoundedUI() {
-  if (localStorage.getItem("UseRoundedUI") === "true") {
-    document.documentElement.setAttribute("round-ui", "true");
-  } else {
-    document.documentElement.setAttribute("round-ui", "false");
-  }
-}
-
-function handleStorageChangeRoundUI(event) {
-  if (event.key === "UseRoundedUI") {
-    setTimeout(() => {
-      applyRoundedUI();
-    }, 300);
-  }
-}
-
-window.addEventListener("storage", handleStorageChangeRoundUI);
-
-applyRoundedUI();
 
 function createTempTrendsChart() {
   const cachedCurrentDataAvg = JSON.parse(
