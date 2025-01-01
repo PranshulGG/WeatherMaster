@@ -390,14 +390,6 @@ touch_search{
   margin: 10px;
 }
 
-.forecast::-webkit-scrollbar {
-  height: 2px;
-}
-
-.forecast::-webkit-scrollbar-thumb {
-  background-color: var(--Primary);
-
-}
 
 
 .forecast #forecast24 {
@@ -473,7 +465,8 @@ touch_search{
   padding-left: 20px;
   padding-right: 20px;
   color: var(--On-Surface-Variant);
-  border-bottom: 1px solid var(--Outline-Variant);
+  border-bottom: 1px solid rgba(192, 192, 192, 0.25);
+
 
 }
 
@@ -1089,7 +1082,7 @@ background: linear-gradient(0deg, rgba(255, 0, 0, 0), var(--Secondary-Container)
   margin: 10px;
   border-radius: 0px;
   padding: 10px;
-  padding-top: 5px;
+  padding-top: 0px;
   margin-top: 5px;
   margin-bottom: 5px;
 }
@@ -1108,7 +1101,7 @@ background: linear-gradient(0deg, rgba(255, 0, 0, 0), var(--Secondary-Container)
 }
 
 [round-ui="true"] .cloths div{
-  border-radius: 15px;
+  border-radius: 50px;
 
 }
 
@@ -1116,6 +1109,8 @@ background: linear-gradient(0deg, rgba(255, 0, 0, 0), var(--Secondary-Container)
   margin: 0;
   color: var(--On-Surface);
   margin-left: 10px;
+  margin-right: 10px;
+
 }
 
 .currentLocations{
@@ -2139,7 +2134,7 @@ savelocationtouch md-ripple{
 
 .holder_scroll_indi{
   position: absolute;
-  bottom: -2px;
+  bottom: 0;
   z-index: 99;
   left: 0;
   width: 100%;
@@ -2248,7 +2243,7 @@ space{
 
   content: '';
 
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.5);
 
   height: 40%;
 
@@ -2605,9 +2600,6 @@ max-width: 150px;
 
   }
 
-    .floating_indications{
-      width: 50% !important;
-    }
 
   #search-container{
     display: block !important;
@@ -2947,14 +2939,11 @@ Tempmeterbaritem span{
 
 
 .floating_indications{
-  position: fixed;
-  bottom: 20px;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 100000000000000000000000000000000000;
-  pointer-events: none;
   animation: floating_indications 0.3s cubic-bezier(1,0,0,1);
   transition: all 0.2s ease-out;
 
@@ -2963,11 +2952,9 @@ Tempmeterbaritem span{
 @keyframes floating_indications{
   0%{
     opacity: 0;
-    bottom: 0;
   }
   100%{
     opacity: 1;
-    bottom: 20px;
   }
 
 }

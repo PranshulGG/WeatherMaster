@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" internet="true" data-theme="dark" iconCodeTheme="overcast">
+<html lang="en" internet="true" data-theme="dark" iconCodeTheme="overcast" round-ui="true">
 
 <head>
     <meta charset="UTF-8">
@@ -153,13 +153,6 @@
             </div>
         </div>
 
-        <div class="floating_indications" hidden>
-            <div id="indicatorContainer" class="indicator-container">
-                <!-- Indicator balls 💀 will be dynamically added here -->
-            </div>
-
-        </div>
-
 
         <div class="excessiveHeat ripple_btn_low"
              style="margin-bottom: 10px; margin-top: 5px !important; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);"
@@ -181,6 +174,14 @@
 
 
 
+        <div class="floating_indications" hidden>
+            <div id="indicatorContainer" class="indicator-container">
+                <!-- Indicator balls 💀 will be dynamically added here -->
+            </div>
+
+        </div>
+
+
         <div class="weatherComments weatherCommentsDiv" onclick="openSummery()"
              style="box-shadow: 0px 5px 6px rgba(0, 0, 0, 0);">
             <div class="h2" style="padding: 10px;">
@@ -193,7 +194,7 @@
                style="margin: 0 !important; padding: 12px; padding-top: 5px; padding-bottom: 0; color: var(--Tertiary); width: calc(100% - 24px);"
                class="whenRainPill" hidden>No data found</p>
             <div id="weatherComments"
-                 style="color: var(--On-Surface); padding: 12px; padding-top: 5px; font-size: 15px; padding-bottom: 0;">
+                 style="color: var(--On-Surface); padding: 12px; padding-top: 6px; font-size: 15px; padding-bottom: 0;">
             </div>
             <div class="summeryText" style="padding: 10px; padding-top: 0; padding-bottom: 0;">
                 <ul id="summeryDay"></ul>
@@ -1172,7 +1173,7 @@ document.getElementById('date_text_top').innerText = formattedDate;
         document.addEventListener('DOMContentLoaded', async () => {
         setTimeout(() =>{
     document.querySelector('body').classList.add('loaded')
-        }, 200)
+        }, 400)
 })
 
 async function checkRemovedItems() {
