@@ -175,13 +175,6 @@
                 </md-list-item>
 
                 <md-list-item>
-                    <md-icon icon-filled slot="start">rounded_corner</md-icon>
-                    <div slot="headline" data-translate="rounded_ui">Rounded UI</div>
-                    <div slot="supporting-text" data-translate="use_the_default_material_corner_radius">Use the default Material corner radius</div>
-                    <md-switch slot="end" id="useRoundedUI" ></md-switch>
-                </md-list-item>
-
-                <md-list-item>
                     <md-icon icon-filled slot="start">thermometer_add</md-icon>
                     <div slot="headline" data-translate="temperature_animation">Temperature animation</div>
                     <div slot="supporting-text">Counts the temperature from start to end</div>
@@ -328,6 +321,19 @@
 
                 </md-list-item>
 
+
+                <md-list-item margin>
+                    <md-icon icon-filled slot="start">air</md-icon>
+                    <div slot="headline">AQI type</div>
+                    <md-outlined-select id="selectAQItype" slot="end" style="min-width: max-content; --md-outlined-field-bottom-space: 10px;--md-outlined-field-top-space: 10px;">
+                        <md-select-option value="us_aqi" menu-type>
+                            <div slot="headline">United States</div>
+                        </md-select-option>
+                        <md-select-option value="eu_aqi" menu-type>
+                            <div slot="headline">European</div>
+                        </md-select-option>
+                    </md-outlined-select>
+                </md-list-item>
 
                 <md-list-item margin>
                     <md-icon icon-filled slot="start">device_thermostat</md-icon>

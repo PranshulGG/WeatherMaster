@@ -55,7 +55,6 @@ function GenerateRecommendation() {
 
     // Air quality details
     const { carbon_monoxide, nitrogen_dioxide, ozone, pm2_5, pm10, sulphur_dioxide } = airQualityData.current || {};
-    generateAirQualityDetail(carbon_monoxide, nitrogen_dioxide, ozone, pm2_5, pm10, sulphur_dioxide);
 
     // Day Tip
     dayTipContainer.innerHTML =

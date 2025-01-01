@@ -245,20 +245,6 @@ if (HideNewUpdateToast === "true") {
 }
 // -------------------------------------
 
-const useRoundedUISwitch = document.getElementById("useRoundedUI");
-
-useRoundedUISwitch.addEventListener("change", () => {
-  localStorage.setItem("UseRoundedUI", useRoundedUISwitch.selected);
-});
-
-const UseRoundedUI = localStorage.getItem("UseRoundedUI");
-
-if (UseRoundedUI && UseRoundedUI === "true") {
-  useRoundedUISwitch.selected = true;
-} else {
-  useRoundedUISwitch.selected = false;
-}
-
 document.getElementById("toggle_noti").addEventListener("change", () => {
   if (document.getElementById("toggle_noti").selected) {
     setTimeout(() => {
@@ -889,3 +875,22 @@ document
       );
     }
   });
+
+
+    // aqi type
+
+  const selectAQItype = document.getElementById("selectAQItype");
+
+  selectAQItype.addEventListener("input", () => {
+    localStorage.setItem("selectedAQItype", selectAQItype.value);
+  });
+
+  if (!localStorage.getItem("selectedAQItype")) {
+    document.querySelector(`[value="us_aqi"]`).selected = true;
+  }
+
+  const getSelectedAQItype = localStorage.getItem("selectedAQItype");
+
+  if (localStorage.getItem("selectedAQItype")) {
+    document.querySelector(`[value="${getSelectedAQItype}"]`).selected = true;
+  }

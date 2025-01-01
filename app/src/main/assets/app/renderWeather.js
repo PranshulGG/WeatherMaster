@@ -1015,23 +1015,42 @@ if(percentageOfDaylight < 100){
 
 function AirQuaility(data) {
   const aqi = data.current.us_aqi;
-  // const
+  const aqiEU = data.current.european_aqi || 'N/A';
+
 
   let aqiCategory;
 
-  if (aqi <= 50) {
-    aqiCategory = 1;
-  } else if (aqi <= 100) {
+  if(localStorage.getItem('selectedAQItype') === 'eu_aqi'){
+    if (aqiEU <= 25) {
+      aqiCategory = 1;
+  } else if (aqiEU <= 50) {
     aqiCategory = 2;
-  } else if (aqi <= 150) {
+  } else if (aqiEU <= 75) {
     aqiCategory = 3;
-  } else if (aqi <= 200) {
+  } else if (aqiEU <= 100) {
     aqiCategory = 4;
   } else {
     aqiCategory = 5;
   }
+  document.getElementById("aqi-level-value").innerHTML = aqiEU;
 
+
+  } else{
+    if (aqi <= 50) {
+      aqiCategory = 1;
+    } else if (aqi <= 100) {
+      aqiCategory = 2;
+    } else if (aqi <= 150) {
+      aqiCategory = 3;
+    } else if (aqi <= 200) {
+      aqiCategory = 4;
+    } else {
+      aqiCategory = 5;
+    }
   document.getElementById("aqi-level-value").innerHTML = aqi;
+
+  }
+
 
   document.getElementById("pm25_air").innerHTML = Math.round(
     data.current.pm2_5

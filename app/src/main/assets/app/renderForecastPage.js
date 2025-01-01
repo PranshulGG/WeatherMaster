@@ -315,7 +315,13 @@ async function displayDailyForecast(forecast, forecastDaily) {
 
         const dailyData = forecastDaily[date];
 
-        const formattedDate = new Intl.DateTimeFormat('en-US', { day: 'numeric', month: 'short' }).format(dateObj);
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+
+        const day = dateObj.getDate();
+        const month = months[dateObj.getMonth()];
+
+        const formattedDate = `${day} ${month}`;
 
         const rainPercentage = Math.round(forecast.precipitation_probability_max[index]) || '--';
 
@@ -571,7 +577,7 @@ async function displayDailyForecast(forecast, forecastDaily) {
             forecastTempConditionMainContent.innerHTML = `
 
             <div class="top-details">
-                <p>${weekdayLang}, ${formattedDate}</p>
+                <p>${weekdayLang}</p>
                 <div>
                 <tempLarge><p>${TemperatureMax}° </p> <span>/${TemperatureMin}°</span></tempLarge>
                 <img src="${GetWeatherIcon(DailyWeatherCode, 1)}">
@@ -592,7 +598,7 @@ async function displayDailyForecast(forecast, forecastDaily) {
                      <div class="currentConditionItem sunRISESET ripple_btn_low" data-id="1"
                         >
                         <div class="currentConditionItemTitle"><i icon-filled>wb_twilight</i><span
-                                data-translate="sun">Sun</span></div>
+                                data-translate="sun_tile_page">Sun</span></div>
 
                         <div class="current_condition_icon">
                             <svg height="110.0dip" width="176.0dip" viewBox="0 0 176.0 110.0"

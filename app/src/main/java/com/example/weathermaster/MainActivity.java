@@ -488,6 +488,9 @@ public class MainActivity extends AppCompatActivity {
                     } else if (color.equals("OpenClothingPage")){
                         OpenClothingPage();
                         return;
+                    } else if (color.equals("OpenAirQualityCondition")){
+                        openAirQualityCondition();
+                        return;
                     } else if (color.equals("OpenGithubReleaseLatest")){
                         openGithubReleases();
                         return;
@@ -635,6 +638,10 @@ public class MainActivity extends AppCompatActivity {
 
         public void openMoonCondition() {
             Intent intent = new Intent(mActivity, MoonPhases.class);
+            mActivity.startActivity(intent);
+        }
+        public void openAirQualityCondition() {
+            Intent intent = new Intent(mActivity, AirQualityConditions.class);
             mActivity.startActivity(intent);
         }
     }
