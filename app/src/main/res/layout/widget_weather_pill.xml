@@ -4,8 +4,8 @@
     android:layout_width="180dp"
     android:layout_height="180dp"
     android:id="@+id/widget_layout_pill"
-    android:scaleY="0.9"
-    android:scaleX="0.9"
+    android:scaleY="1"
+    android:scaleX="1"
     >
 
 

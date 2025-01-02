@@ -13,9 +13,14 @@ public class WidgetProviderRound extends AppWidgetProvider {
 
     private static final String PREFS_NAME = "WeatherWidgetPrefsRound";
 
+
+
+
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+
+
 
         // Retrieve persisted data
         String mainTemp = prefs.getString("mainTemp", "--°");
@@ -24,6 +29,8 @@ public class WidgetProviderRound extends AppWidgetProvider {
 
         for (int appWidgetId : appWidgetIds) {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_weather_round);
+
+
 
             // Set widget data
             int iconResId = context.getResources().getIdentifier(iconData, "drawable", context.getPackageName());
@@ -38,8 +45,12 @@ public class WidgetProviderRound extends AppWidgetProvider {
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
             views.setOnClickPendingIntent(R.id.widget_layout_round, pendingIntent);
 
+
+
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
+
+
     }
 
     public static void updateWeatherWidgetRound(Context context, String mainTemp, String iconData) {
@@ -74,5 +85,9 @@ public class WidgetProviderRound extends AppWidgetProvider {
 
             appWidgetManager.updateAppWidget(widgetId, views);
         }
+
+
     }
+
+
 }
