@@ -5597,6 +5597,7 @@ document.getElementById('last_updated').addEventListener('click', () =>{
     document.getElementById("currentLocationName").textContent = Locations.name;
   }
   document.getElementById("SelectedLocationText").innerHTML = Locations.name;
+  localStorage.setItem("CurrentLocationName", Locations.name);
 
   hideLoader();
 }

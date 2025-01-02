@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="../../components/modal-ver.css">
     <link rel="stylesheet" href="condition_pageUI.css">
     <script src="../../langs/langs.js"></script>
+    <script src="../../modules/pixel-components.js"></script>
 
     <style>
         .condition_info_content::before {
@@ -331,7 +332,20 @@ AndroidInterface.updateStatusBarColor(theme);
         document.getElementById('us_aqi_value').innerHTML = `United States AQI: ${aqi}`
         document.getElementById('eu_aqi_value').innerHTML = `European AQI: ${aqiEU}`
 
+        let aqiData
 
+        if(localStorage.getItem('selectedAQItype') === 'eu_aqi'){
+            aqiData = aqiText[aqiCategoryEU];
+
+        } else{
+         aqiData = aqiText[aqiCategory];
+        }
+
+        const langCode = localStorage.getItem("AppLanguageCode");
+
+        const levelTranslation = getTranslationByLang(langCode, aqiData.level);
+
+        document.getElementById("aqi_name").textContent = levelTranslation;
 
     }
 
@@ -345,9 +359,9 @@ AndroidInterface.updateStatusBarColor(theme);
         }
     });
 
-
+document.addEventListener("DOMContentLoaded", async function () {
     renderAqiData(JSON.parse(localStorage.getItem(`AirQuality_${localStorage.getItem('CurrentLocationName')}`)))
-
+});
     </script>
 
 <script src="../../app/navigate.js"></script>

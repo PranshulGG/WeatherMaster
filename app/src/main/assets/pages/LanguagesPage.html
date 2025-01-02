@@ -160,7 +160,7 @@
     </style>
 </head>
 
-<body style="background-color: var(--Surface);">
+<body style="background-color: var(--Surface);   -webkit-user-drag: none;">
 
 <div class="activity-large open">
     <div class="header-activity-large" id="head-1">
@@ -175,8 +175,8 @@
         <p class="label-large-main" data-translate="language">Language</p>
         <div class="content-parent-large" style="padding-bottom: 32px; padding-left: 10px; padding-right: 10px;">
 
-            <md-list style="padding: 5px;">
-                <md-list-item style="background-color: var(--Secondary-Container); border-radius: 15px;"
+            <md-list style="padding: 5px; padding-left: 0; padding-right: 0;">
+                <md-list-item style="background-color: var(--Secondary-Container); border-radius: 50px; padding-left: 5px; padding-right: 5px;"
                               type="button" href="https://crowdin.com/project/weathermaster/invite?h=448278a9b1370f3c10d4336a091dae792286917">
                     <md-icon icon-outlined slot="start">translate</md-icon>
                     <div slot="headline" style="color: var(--On-Secondary-Container);" data-translate="translate_this_app">Translate this app</div>
@@ -481,13 +481,13 @@
 
 
 async function fetchTranslationProgress() {
-    const projectId = 'BASE';
-    const apiToken = 'BASE';
+    const projectId = '741419';
+    const apiToken = '22439bfa72878c3ecb9a1b17ea8d2f9379f800b616856c4647219af7da462632fb325abd32815ace';
 
     document.querySelector('.progress-lang-en-full').style.width = '100%';
 
     try {
-        // Check if data exists and is within 5 hours in customStorage
+        // Check if data exists and is within 24 hours in customStorage
         const savedData = await customStorage.getItem('translationProgress');
         if (savedData) {
             const { timestamp, progressData } = JSON.parse(savedData);
@@ -495,7 +495,7 @@ async function fetchTranslationProgress() {
             // Calculate the time difference in milliseconds
             const currentTime = Date.now();
             if (currentTime - timestamp < 24 * 60 * 60 * 1000) {
-                console.warn('Using cached data (within 5 hours).');
+                console.warn('Using cached data (within 24 hours).');
                 return progressData;
             }
         }
@@ -531,14 +531,19 @@ async function fetchTranslationProgress() {
     } catch (error) {
         console.error('Error fetching translation progress:', error);
 
-        // Fallback to localStorage data
+        // Fallback to cached data
+        const savedData = await customStorage.getItem('translationProgress');
         if (savedData) {
-            console.warn('Using saved data from database.');
-            return JSON.parse(savedData).progressData;
+            try {
+                const { progressData } = JSON.parse(savedData);
+                console.warn('Using saved data from customStorage.');
+                return progressData;
+            } catch (parseError) {
+                console.error('Error parsing saved data:', parseError);
+            }
         }
 
-        // If no data is available in localStorage
-        return [];
+        return []; // Fallback if no valid data is available
     }
 }
 

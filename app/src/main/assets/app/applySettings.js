@@ -3,6 +3,12 @@ function handleStorageChange(event) {
     switch (event.key) {
         case 'SelectedTempUnit':
             HandleNoReloadSettings()
+            if(localStorage.getItem("SelectedTempUnit") === 'fahrenheit'){
+                 document.querySelector('now').innerHTML = `<span>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'now')}</span> - °F`
+
+            } else{
+                document.querySelector('now').innerHTML = `<span>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'now')}</span> - °C`
+            }
             break;
         case 'SelectedWindUnit':
            HandleNoReloadSettings()
@@ -11,6 +17,9 @@ function handleStorageChange(event) {
             HandleNoReloadSettings()
             break;
         case 'selectedTimeMode':
+            HandleNoReloadSettings()
+            break;
+        case 'selectedAQItype':
             HandleNoReloadSettings()
             break;
         case 'selectedPrecipitationUnit':

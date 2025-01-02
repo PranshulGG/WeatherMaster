@@ -491,6 +491,7 @@ touch_search{
 
 .icon-24 {
   width: 30px;
+  -webkit-user-drag: none;
   margin-top: 5px;
 }
 
@@ -575,6 +576,7 @@ touch_search{
 
 .forecast-5day div img {
   width: 35px;
+    -webkit-user-drag: none;
 }
 
 .disc-5d {
@@ -1770,7 +1772,7 @@ savelocationtouch md-ripple{
   padding-right: 10px;
   padding-bottom: 15px;
   background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 5px;
+  border-radius: 10px;
   padding-top: 15px;
   margin: 10px;
 }
@@ -2084,6 +2086,8 @@ savelocationtouch md-ripple{
   background-color: transparent;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
+    scroll-snap-align: start; /* Or center, depending on your layout */
+  scroll-snap-stop: always;
   overflow-x: auto;
   display: flex;
   margin: 10px;

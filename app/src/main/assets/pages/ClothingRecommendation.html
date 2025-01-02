@@ -77,6 +77,8 @@
 
         .data{
             padding: 10px;
+            padding-left: 0;
+            padding-right: 0;
         }
 
         .data_text{
@@ -133,12 +135,20 @@
         }
 
         .clothin_activity .data ul li{
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-size: 18px;
             color: var(--On-Surface);
-            background-color: var(--Surface-Container);
+            background-color: var(--Surface-Container-Low);
             border-radius: 10px;
             padding: 15px;
+        }
+
+        .clothin_activity .data ul li:first-child{
+            border-radius: 18px 18px 10px 10px;
+        }
+
+        .clothin_activity .data ul li:last-child{
+            border-radius: 10px 10px 18px 18px;
         }
 
         .clothin_activity .data .data_text{

@@ -92,7 +92,7 @@
                     <now data-translate="now">Now</now>
                     <div class="temp_img">
                         <p id="temp" style="transition: scale 0.1s ease-in;">0°</p>
-                        <img id="weather-icon" src="weather-icons/not_available.svg" alt="Weather Icon">
+                        <img id="weather-icon" src="weather-icons/not_available.svg" alt="Weather Icon" style="-webkit-user-drag: none;">
                     </div>
 
                     <div class="high_low_temp">
@@ -146,7 +146,7 @@
         </div>
 
         <div class="froggie">
-            <img src="froggie/01n.png" id="froggie_imgs" alt="" hidden>
+            <img src="froggie/01n.png" id="froggie_imgs" alt="" hidden style="-webkit-user-drag: none;">
 
             <div class="alt_text_frog" style="display: flex; align-items: center; justify-content: center;">
                 <p>Loading...</p>
@@ -627,7 +627,7 @@
                  style="border-radius: 10px; margin-bottom: 0px; overflow: hidden; box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.2);"
                  id="ifPollenIsThere">
                 <div class="sun_text">
-                    <p data-translate="air_quality">Air Quality</p>
+                    <p data-translate="air_quality" style="width: calc(100% - 150px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }">Air Quality</p>
                     <space></space>
                     <div class="air_text air_text_value_aqi">
                         <p id="aqi-level-value">33</p>
@@ -639,7 +639,7 @@
                 <div class="air-quality">
 
                     <div class="img-div_air">
-                        <img src="icons/error.png" id="aqi_img" alt="">
+                        <img src="icons/error.png" id="aqi_img" alt="" style="-webkit-user-drag: none;">
                     </div>
                     <div class="all_text_air">
                         <div class="detail">
@@ -706,7 +706,7 @@
                 <div class="air-quality">
 
                     <div class="img-div_air">
-                        <img src=" " id="uv_img" alt="">
+                        <img src=" " id="uv_img" alt="" style="-webkit-user-drag: none;">
                     </div>
                     <div class="all_text_air">
                         <div class="detail">
@@ -781,7 +781,7 @@
             <div class="currentLocations ripple_btn_low" id="currentLocations"
                  onclick="ReturnHomeLocation();  window.history.back();">
                 <div class="currentSearchImg">
-                    <img src="icons/error.png" id="currentSearchImg" alt="">
+                    <img src="icons/error.png" id="currentSearchImg" alt="" style="-webkit-user-drag: none;">
                 </div>
                 <currentLocationNames>
                     <p id="currentLocationName">-----------</p>
@@ -1088,8 +1088,19 @@ let timeoutID;
 
 
         const customMonths = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+        getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'month_jan'),
+        getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'month_feb'),
+        getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'month_mar'),
+        getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'month_apr'),
+        getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'month_may'),
+        getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'month_june'),
+        getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'month_july'),
+        getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'month_aug'),
+        getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'month_sep'),
+        getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'month_oct'),
+        getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'month_nov'),
+        getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'month_Dec'),
+
 ];
 
 const currentDate = new Date();
@@ -1174,6 +1185,13 @@ document.getElementById('date_text_top').innerText = formattedDate;
         setTimeout(() =>{
     document.querySelector('body').classList.add('loaded')
         }, 400)
+
+                if(localStorage.getItem("SelectedTempUnit") === 'fahrenheit'){
+             document.querySelector('now').innerHTML = `<span>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'now')}</span> - °F`
+
+        } else{
+            document.querySelector('now').innerHTML = `<span>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'now')}</span> - °C`
+        }
 })
 
 async function checkRemovedItems() {

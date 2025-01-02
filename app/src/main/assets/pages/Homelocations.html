@@ -171,7 +171,7 @@
 
                 <div class="info_div">
                     <md-icon icon-outlined>info</md-icon>
-                    <span>You need to save locations to use them as your default location</span>
+                    <span data-translate="info_home_location_tip">You need to save locations to use them as your default location</span>
                 </div>
 
                 <div class="item_holder" id="item_holder">
@@ -333,7 +333,7 @@ async function CreateMaterialYouTheme(hex) {
         const defaultMenuItem = document.createElement('div');
         defaultMenuItem.setAttribute('lat', 'defaultLat');
         defaultMenuItem.setAttribute('lon', 'defaultLon');
-        defaultMenuItem.innerHTML = 'Your device location';
+        defaultMenuItem.innerHTML = getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'your_device_location');
         defaultMenuItem.classList.add('selected-home-location', 'location_item', 'device_location');
         defaultMenuItem.setAttribute('name', 'CurrentDeviceLocation');
 
@@ -349,7 +349,7 @@ async function CreateMaterialYouTheme(hex) {
                 <i icon-filled class="not-selected">my_location</i>
                 <i icon-outlined class="selected">check</i>
                 </div>
-                <p>Your device location</p>
+                <p data-translate="your_device_location">Your device location</p>
 
                 <md-ripple style="--md-ripple-pressed-opacity: 0.05 !important;"></md-ripple>
                 `
@@ -416,12 +416,14 @@ async function CreateMaterialYouTheme(hex) {
         if(navigator.onLine){
             document.querySelector('.device_location').style.pointerEvents = ''
             document.querySelector('.device_location').style.opacity = ''
-            document.querySelector('.device_location p').innerHTML = 'Your device location'
+             document.querySelector('.device_location p').innerHTML = getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'your_device_location');
+
 
         } else{
             document.querySelector('.device_location').style.pointerEvents = 'none'
             document.querySelector('.device_location').style.opacity = '0.5'
-            document.querySelector('.device_location p').innerHTML = 'Your device location (Internet needed)'
+            document.querySelector('.device_location p').innerHTML = getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'your_device_location'); + ` (${getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'network_unavailable')})`
+
         }
     }
 

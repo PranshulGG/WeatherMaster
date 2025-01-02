@@ -692,13 +692,13 @@ function CurrentWeather(data, sunrise, sunset, lat, lon) {
   function getWindDirection(degree) {
     if ((degree >= 0 && degree <= 22.5) || (degree > 337.5 && degree <= 360))
       return "N";
-    if (degree > 22.5 && degree <= 67.5) return "NE";
-    if (degree > 67.5 && degree <= 112.5) return "E";
-    if (degree > 112.5 && degree <= 157.5) return "SE";
-    if (degree > 157.5 && degree <= 202.5) return "S";
-    if (degree > 202.5 && degree <= 247.5) return "SW";
-    if (degree > 247.5 && degree <= 292.5) return "W";
-    if (degree > 292.5 && degree <= 337.5) return "NW";
+    if (degree > 22.5 && degree <= 67.5) return getTranslationByLang(localStorage.getItem("AppLanguageCode"), "wind_dir_ne");
+    if (degree > 67.5 && degree <= 112.5) return getTranslationByLang(localStorage.getItem("AppLanguageCode"), "wind_dir_e");
+    if (degree > 112.5 && degree <= 157.5) return getTranslationByLang(localStorage.getItem("AppLanguageCode"), "wind_dir_se");
+    if (degree > 157.5 && degree <= 202.5) return getTranslationByLang(localStorage.getItem("AppLanguageCode"), "wind_dir_s");
+    if (degree > 202.5 && degree <= 247.5) return getTranslationByLang(localStorage.getItem("AppLanguageCode"), "wind_dir_sw");
+    if (degree > 247.5 && degree <= 292.5) return getTranslationByLang(localStorage.getItem("AppLanguageCode"), "wind_dir_w");
+    if (degree > 292.5 && degree <= 337.5) return getTranslationByLang(localStorage.getItem("AppLanguageCode"), "wind_dir_nw");
   }
 
   document.getElementById("directionWind").innerHTML =

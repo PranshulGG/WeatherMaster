@@ -38,6 +38,8 @@ public class WidgetProviderPill extends AppWidgetProvider {
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
             views.setOnClickPendingIntent(R.id.widget_layout_pill, pendingIntent);
 
+
+
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
     }

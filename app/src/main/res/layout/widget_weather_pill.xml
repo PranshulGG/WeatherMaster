@@ -2,9 +2,11 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="180dp"
-    android:layout_height="wrap_content"
+    android:layout_height="180dp"
     android:id="@+id/widget_layout_pill"
-   >
+    android:scaleY="0.9"
+    android:scaleX="0.9"
+    >
 
 
 
@@ -18,8 +20,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="top"
-            android:background="@drawable/widget_round_background_round">
+            android:gravity="center"
+            >
 
 
             <TextView
@@ -27,13 +29,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
-                android:rotation="-50"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="25dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="30dp"
                 android:fontFamily="@font/product_sans"
-                android:text="33°"
+                android:rotation="-50"
+                android:text="-75°"
                 android:textColor="@color/colorPrimary"
-                android:textSize="55sp"
+                android:textSize="50sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -41,11 +43,11 @@
 
     <ImageView
         android:id="@+id/weather_icon_pill"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginBottom="28dp"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginBottom="35dp"
         android:layout_gravity="bottom"
-        android:src="@drawable/showers_rain" />
+        android:src="@drawable/cloudy" />
 
 </FrameLayout>

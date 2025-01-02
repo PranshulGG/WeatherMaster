@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
         DynamicColors.applyToActivitiesIfAvailable(getApplication());
 
 
@@ -342,7 +343,9 @@ public class MainActivity extends AppCompatActivity {
 
             WidgetProviderSquareV2.updateWeatherWidgetSquareV2(mContext, condition, locationWeather, mainTemp, iconData, highLow, hour_0_temp, hour_0_icon, hour_0_time, hour_1_temp, hour_1_icon, hour_1_time, hour_2_temp, hour_2_icon, hour_2_time, hour_3_temp, hour_3_icon, hour_3_time);
 
+
         }
+
     }
 
 
@@ -571,6 +574,8 @@ public class MainActivity extends AppCompatActivity {
                 public void openSettingsActivity() {
             Intent intent = new Intent(mActivity, SettingsActivity.class);
                     mActivity.startActivity(intent);
+
+
         }
 
         public void openForecastPage(){

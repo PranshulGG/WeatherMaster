@@ -198,7 +198,7 @@
     </div>
     <md-divider></md-divider>
     <div class="arrange_condition_widgets_wrap">
-        <p class="title" style="margin-bottom: 5px;">Hide condition widgets</p>
+        <p class="title" style="margin-bottom: 5px;" data-translate="hide_condition_widgets">Hide condition widgets</p>
 
         <div class="drag_handle_remove_widget">
             <div>
@@ -570,9 +570,10 @@ await customStorage.setItem(storageKey, JSON.stringify(itemsOrder));
                     remove_item_main_cards_btn.classList.add('hidden-item');
                     remove_item_main_cards_btn.innerHTML = '<md-icon icon-filled>add</md-icon>';
                 } else {
-                        ShowSnackMessage.ShowSnack("You can only hide up to 3 items", "short");
+                        ShowSnackMessage.ShowSnack(getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'max_items_3'), "short");
 
                 }
+
             } else {
                 hiddenCards.splice(valueIndex, 1);
                 remove_item_main_cards_btn.classList.remove('hidden-item');
@@ -624,7 +625,7 @@ initializeHiddenCards();
                             remove_item_main_cards_btn.classList.add('hidden-item');
                             remove_item_main_cards_btn.innerHTML = '<md-icon icon-filled>add</md-icon>';
                         } else {
-                            ShowSnackMessage.ShowSnack("You can only hide up to 4 items", "short");
+                            ShowSnackMessage.ShowSnack(getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'max_items_4'), "short");
 
                         }
                     } else {

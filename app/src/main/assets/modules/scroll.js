@@ -114,6 +114,7 @@ weatherWrap.addEventListener('scroll', function() {
             ball.classList.add('indicator-ball');
             ball.dataset.index = index;
             indicatorContainer.appendChild(ball);
+
         });
 
 
