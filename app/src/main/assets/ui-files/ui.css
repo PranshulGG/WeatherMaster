@@ -2603,6 +2603,9 @@ max-width: 150px;
     margin-left: auto;
 
   }
+    .floating_indications{
+      width: 50% !important;
+    }
 
 
   #search-container{
@@ -2943,11 +2946,14 @@ Tempmeterbaritem span{
 
 
 .floating_indications{
+  position: fixed;
+  bottom: 20px;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 100000000000000000000000000000000000;
+  pointer-events: none;
   animation: floating_indications 0.3s cubic-bezier(1,0,0,1);
   transition: all 0.2s ease-out;
 
