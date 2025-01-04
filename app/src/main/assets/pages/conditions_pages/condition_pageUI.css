@@ -149,9 +149,9 @@ humiditymeterbaritem span{
 }
 
 .info__forecast{
-    padding: 13px;
+    padding: 15px;
     color: var(--On-Surface-Variant);
-    font-size: 18px;
+    font-size: 17px;
     font-family: var(--google-mid);
     display: flex;
     padding-top: 20px;

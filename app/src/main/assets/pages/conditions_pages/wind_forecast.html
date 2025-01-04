@@ -138,27 +138,67 @@ async function CreateMaterialYouTheme(hex) {
         const SelectedWindUnit = localStorage.getItem('SelectedWindUnit');
         const cachedDailyData = JSON.parse(localStorage.getItem('DailyWeatherCache'));
 
-        function loadwindForecast(data) {
+        function loadwindForecast(data, timezone) {
             const WindBarsContainer = document.querySelector('.WindBars');
             WindBarsContainer.innerHTML = '';
 
             const maxWindSpeed = Math.max(...data.wind_speed_10m);
 
 
-            data.time.forEach((time, index) => {
-                const forecastTime = new Date(time).getTime();
 
-                let hours
-                let period
+            const timezoneMain = timezone.timezone
+            const utcOffsetSecondsMain = timezone.utc_offset_seconds
 
-                if (timeFormat === '24 hour') {
-                    hours = new Date(time).getHours().toString().padStart(2, '0') + ':';
-                    period = new Date(time).getMinutes().toString().padStart(2, '0');
-                } else {
-                    hours = new Date(time).getHours();
-                    period = hours >= 12 ? "PM" : "AM";
-                    hours = hours % 12 || 12;
-                }
+            function getTimeInISOFormat(timezone, utcOffsetSeconds) {
+    const currentDate = new Date();
+
+    const localDate = new Date(currentDate.getTime() + utcOffsetSeconds * 1000);
+
+    const year = localDate.getUTCFullYear();
+    const month = String(localDate.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(localDate.getUTCDate()).padStart(2, '0');
+    const hours = String(localDate.getUTCHours()).padStart(2, '0');
+    const minutes = String(localDate.getUTCMinutes()).padStart(2, '0');
+
+    console.log(`${hours}:${minutes}`)
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
+
+
+const currentTime = new Date(getTimeInISOFormat(timezoneMain, utcOffsetSecondsMain));
+
+const currentHour = currentTime.getHours();
+
+const filteredData = data.time
+  .map((time, index) => {
+    const forecastTime = new Date(time);
+    return { time: forecastTime, index };
+  })
+  .filter(({ time }) => {
+    if (time.getHours() === currentHour) {
+      return true;
+    }
+    return time >= currentTime;
+  });
+
+
+
+  filteredData.forEach(({ time, index }, i) => {
+    const forecastTime = time;
+
+    let hours;
+    let period;
+
+    if (localStorage.getItem("selectedTimeMode") === "24 hour") {
+      hours = new Date(time).getHours().toString().padStart(2, "0") + ":";
+      period = new Date(time).getMinutes().toString().padStart(2, "0");
+    } else {
+      hours = new Date(time).getHours();
+      period = hours >= 12 ? "PM" : "AM";
+      hours = hours % 12 || 12;
+    }
+
 
 
 
@@ -226,7 +266,7 @@ async function CreateMaterialYouTheme(hex) {
         }
 
 
-        loadwindForecast(cachedCurrentDataHourly)
+        loadwindForecast(cachedCurrentDataHourly, JSON.parse(localStorage.getItem(`WeatherDataOpenMeteo_${localStorage.getItem('CurrentLocationName')}`)))
         getTodaysHigh(cachedDailyData)
 
 

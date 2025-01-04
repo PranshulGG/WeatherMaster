@@ -487,12 +487,19 @@ class Meteor {
         animationFrameId = requestAnimationFrame(animateStars);
     }
 
-    function startMeteorShower() {
-        setTimeout(() => {
+let meteorIntervalId; // Keep track of the interval
+
+function startMeteorShower() {
+    if (meteorIntervalId) return; // Prevent multiple intervals
+
+    setTimeout(() => {
+        meteorsArray.push(new Meteor());
+        meteorIntervalId = setInterval(() => {
             meteorsArray.push(new Meteor());
-            setInterval(() => meteorsArray.push(new Meteor()), 3000); // New meteor every 3 seconds
-        }, 3000); // Initial delay of 3 seconds
-    }
+        }, 3000); // New meteor every 3 seconds
+    }, 3000); // Initial delay of 3 seconds
+}
+
 
     window.addEventListener('resize', () => {
         adjustCanvasSize();
@@ -518,6 +525,8 @@ class Meteor {
         meteorsArray = [];
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         animationRunning = false;
+         clearInterval(meteorIntervalId);
+            meteorIntervalId = null;
     }
 
     return { clearCanvas, startAnimation };

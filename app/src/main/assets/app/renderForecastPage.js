@@ -598,7 +598,7 @@ async function displayDailyForecast(forecast, forecastDaily) {
                      <div class="currentConditionItem sunRISESET ripple_btn_low" data-id="1"
                         >
                         <div class="currentConditionItemTitle"><i icon-filled>wb_twilight</i><span
-                                data-translate="sun_tile_page">Sun</span></div>
+                                data-translate="sun_tile_page" style="width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 17px;">Sun</span></div>
 
                         <div class="current_condition_icon">
                             <svg height="110.0dip" width="176.0dip" viewBox="0 0 176.0 110.0"
@@ -650,7 +650,7 @@ async function displayDailyForecast(forecast, forecastDaily) {
 
                                        <div class="currentConditionItem humidity ripple_btn_low" data-id="3"
                         >
-                        <div class="currentConditionItemTitle"><i icon-filled>rainy_light</i><span style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 105px;"
+                        <div class="currentConditionItemTitle"><i icon-filled>rainy_light</i><span style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 105px; font-size: 17px;"
                                 data-translate="precipitation">Precipitation</span></div>
 
 
@@ -716,7 +716,7 @@ async function displayDailyForecast(forecast, forecastDaily) {
                    <div class="currentConditionItem humidity ripple_btn_low" data-id="6"
                         >
                         <div class="currentConditionItemTitle"><i icon-filled>humidity_high</i><span
-                                data-translate="humidity" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 105px;">Humidity</span></div>
+                                data-translate="humidity" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 105px; font-size: 17px;">Humidity</span></div>
 
                         <div class="current_condition_icon" id="humidity_icon_svg">
                             ${humidityValue}

@@ -3797,7 +3797,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", async function () {
-  const currentVersion = "v1.14.1";
+  const currentVersion = "v1.14.3";
   const githubRepo = "PranshulGG/WeatherMaster";
   const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
@@ -3814,7 +3814,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         setTimeout(() => {
           document.querySelector(".new_ver_download").hidden = true;
-        }, 5000);
+        }, 8000);
       } else {
         document.querySelector(".new_ver_download").hidden = false;
       }

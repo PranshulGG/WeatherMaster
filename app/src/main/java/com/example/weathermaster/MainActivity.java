@@ -5,6 +5,7 @@ import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -55,7 +56,6 @@ import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String FIXED_URL = "https://github.com/PranshulGG/WeatherMaster/releases";
 
     private WebView webview;
 
@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         webview = findViewById(R.id.webView);
+        webview.setBackgroundColor(getResources().getColor(R.color.diffDefault));
         WebSettings webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
@@ -106,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
         webview.addJavascriptInterface(new ShowToastInterface(this), "ToastAndroidShow");
         webview.addJavascriptInterface(new UpdateWidget1Interface(this), "UpdateWidget1Interface");
         webview.addJavascriptInterface(new ShowSnackInterface(this), "ShowSnackMessage");
-        webview.setBackgroundColor(getResources().getColor(R.color.diffDefault));
         webview.getSettings().setGeolocationEnabled(true);
         webSettings.setTextZoom(100);
 
@@ -652,13 +652,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openGithubReleases() {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(FIXED_URL));
-        if (intent.resolveActivity(getPackageManager()) != null) {
+        String fixedUrl = "https://github.com/PranshulGG/WeatherMaster/releases";
+
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(fixedUrl));
+        try {
             startActivity(intent);
-        } else {
+        } catch (ActivityNotFoundException e) {
             Toast.makeText(this, "No application available to open the link.", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     public void back() {
         onBackPressed();

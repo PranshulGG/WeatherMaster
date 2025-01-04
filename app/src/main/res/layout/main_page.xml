@@ -9,7 +9,6 @@ tools:context=".MainActivity">
     <WebView
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-
     android:id="@+id/webView"
     android:layout_alignParentTop="true"
     android:layout_alignParentLeft="true"

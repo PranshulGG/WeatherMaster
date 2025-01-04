@@ -542,7 +542,6 @@ public class SettingsActivity extends AppCompatActivity {
                         isFirstLoad = true;
                         webview.reload();
                         return;
-
                     } else if (color.equals("GoBack")){
                         back();
                         return;
