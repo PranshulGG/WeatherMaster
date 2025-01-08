@@ -81,11 +81,14 @@ function useAutoCurrentLocation() {
       localStorage.setItem("deviceLat", currentLocation.latitude);
       localStorage.setItem("devicelon", currentLocation.longitude);
 
-      DecodeWeather(
-        currentLocation.latitude,
-        currentLocation.longitude,
-        "CurrentDeviceLocation"
-      );
+
+      setTimeout(() =>{
+        DecodeWeather(
+          currentLocation.latitude,
+          currentLocation.longitude,
+          "CurrentDeviceLocation"
+        );
+      }, 200);
     });
   }
 }
@@ -402,9 +405,9 @@ if (navigator.onLine) {
 
     }
   } else {
-    useAutoCurrentLocation();
-    sendThemeToAndroid("ReqLocation");
-    document.querySelector(".currentLocationdiv").hidden = false;
+        document.querySelector('.start_up_screen').hidden = false
+            sendThemeToAndroid("DisableSwipeRefresh");
+
   }
 } else {
   if (localStorage.getItem("selectedMainWeatherProvider") === "Met norway") {
@@ -692,6 +695,27 @@ function GetSavedSearchLocation() {
       searchedItem.latitude,
       searchedItem.longitude
     );
+
+        if(!DefaultLocation){
+          if (JSON.parse(localStorage.getItem("savedLocations")).length > 0) {
+            const makeFirstDefault = JSON.parse(localStorage.getItem("savedLocations"))[0];
+            localStorage.setItem(
+              "DefaultLocation",
+              JSON.stringify({
+                lat: makeFirstDefault.lat,
+                lon: makeFirstDefault.lon,
+                name: makeFirstDefault.locationName,
+              })
+            );
+        sessionStorage.setItem('usedFirstAsDefault', 'true');
+
+                document.querySelector('.start_up_screen').hidden = true;
+
+
+          } else {
+            console.log("No saved locations found.");
+          }
+        }
   }
 
   ShowSnackMessage.ShowSnack(
@@ -1840,6 +1864,8 @@ async function loadSavedLocations() {
     savelocationtouch.appendChild(md_rippleSaveLocationTouch);
 
     savelocationtouch.addEventListener("click", () => {
+      document.getElementById("search-container").style.display = "none";
+
       if (
         localStorage.getItem("selectedMainWeatherProvider") === "Met norway"
       ) {
@@ -3411,6 +3437,7 @@ document.addEventListener("DOMContentLoaded", () => {
   loadSavedLocations();
 });
 
+
 function deleteLocation(locationName) {
   let savedLocations = JSON.parse(localStorage.getItem("savedLocations")) || [];
 
@@ -3509,6 +3536,9 @@ function onAllLocationsLoaded() {
     }
     loadSavedLocations();
   }, 2500);
+    if(sessionStorage.getItem('usedFirstAsDefault')){
+      sessionStorage.removeItem('usedFirstAsDefault')
+    }
 }
 
 function showLoader() {
@@ -3797,7 +3827,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", async function () {
-  const currentVersion = "v1.14.3";
+  const currentVersion = "v1.15.2";
   const githubRepo = "PranshulGG/WeatherMaster";
   const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
@@ -7388,3 +7418,32 @@ document
     document.querySelector(".view_device_location").hidden = true;
   });
 
+
+
+function startUpBackUp(importedData){
+  try {
+    const data = JSON.parse(importedData);
+
+    if (typeof data !== "object" || data === null) {
+      throw new Error("Invalid data format");
+    }
+
+    localStorage.clear();
+
+    setTimeout(() => {
+      for (const [key, value] of Object.entries(data)) {
+        localStorage.setItem(key, value);
+      }
+      ShowSnackMessage.ShowSnack("Data imported successfully!", "short");
+    }, 1000);
+    setTimeout(() => {
+      Android.reloadTheApp();
+    }, 1500);
+  } catch (error) {
+    ShowSnackMessage.ShowSnack(
+      "Error parsing the imported JSON data. Please ensure it is valid and correctly formatted.",
+      "long"
+    );
+    console.error(error);
+  }
+}

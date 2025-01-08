@@ -138,6 +138,36 @@ async function CreateMaterialYouTheme(hex) {
         const SelectedWindUnit = localStorage.getItem('SelectedWindUnit');
         const cachedDailyData = JSON.parse(localStorage.getItem('DailyWeatherCache'));
 
+                  let local
+
+  if (
+    localStorage.getItem("AppLanguageCode") === '' ||
+    localStorage.getItem("AppLanguageCode") === 'nl' || // Dutch
+    localStorage.getItem("AppLanguageCode") === 'fr' || // French
+    localStorage.getItem("AppLanguageCode") === 'de' || // German
+    localStorage.getItem("AppLanguageCode") === 'el' || // Greek
+    localStorage.getItem("AppLanguageCode") === 'it' || // Italian
+    localStorage.getItem("AppLanguageCode") === 'fa' || // Persian
+    localStorage.getItem("AppLanguageCode") === 'pl' || // Polish
+    localStorage.getItem("AppLanguageCode") === 'pt' || // Portuguese
+    localStorage.getItem("AppLanguageCode") === 'ro' || // Romanian
+    localStorage.getItem("AppLanguageCode") === 'ru' || // Russian
+    localStorage.getItem("AppLanguageCode") === 'es' || // Spanish
+    localStorage.getItem("AppLanguageCode") === 'tr' || // Turkish
+    localStorage.getItem("AppLanguageCode") === 'uk' || // Ukrainian
+    localStorage.getItem("AppLanguageCode") === 'sr' || // Serbian
+    localStorage.getItem("AppLanguageCode") === 'az' || // Azerbaijani
+    localStorage.getItem("AppLanguageCode") === 'sl' || // Slovenian
+    localStorage.getItem("AppLanguageCode") === 'fi' || // Finnish
+    localStorage.getItem("AppLanguageCode") === 'hu'    // Hungarian
+  ) {
+    local = ','
+  } else{
+    local = '.'
+
+  }
+
+
         function loadwindForecast(data, timezone) {
             const WindBarsContainer = document.querySelector('.WindBars');
             WindBarsContainer.innerHTML = '';
@@ -207,7 +237,7 @@ const filteredData = data.time
                 if (SelectedWindUnit === 'mile') {
                     WindSpeedForecast = Math.round(data.wind_speed_10m[index] / 1.60934) + '';
                 } else if (SelectedWindUnit === 'M/s') {
-                    WindSpeedForecast = (data.wind_speed_10m[index] / 3.6).toFixed(2) + '';
+                    WindSpeedForecast = (data.wind_speed_10m[index] / 3.6).toFixed(1).replace('.', local) + '';
                 } else {
                     WindSpeedForecast = Math.round(data.wind_speed_10m[index]) + '';
                 }
@@ -255,7 +285,7 @@ const filteredData = data.time
                 if (SelectedWindUnit === 'mile') {
                     WindSpeed = Math.round(data.wind_speed_10m_max[0] / 1.60934) + ' mph';
                 } else if (SelectedWindUnit === 'M/s') {
-                    WindSpeed = (data.wind_speed_10m_max[0] / 3.6).toFixed(2) + ' m/s';
+                    WindSpeed = (data.wind_speed_10m_max[0] / 3.6).toFixed(1).replace('.', local) + ' m/s';
                 } else {
                     WindSpeed = Math.round(data.wind_speed_10m_max[0]) + ' km/h';
                 }

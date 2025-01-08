@@ -543,3 +543,8 @@ weatherConditionText{
     .loader_content md-circular-progress{
         margin-top: 10px;
     }
+
+
+.sortable-ghost{
+  opacity: 0;
+}

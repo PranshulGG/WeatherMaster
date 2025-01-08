@@ -144,6 +144,36 @@ async function CreateMaterialYouTheme(hex) {
         const SelectedPressureUnit = localStorage.getItem('selectedPressureUnit');
         const pressureBar = document.getElementById('pressureBar');
 
+          let local
+
+  if (
+    localStorage.getItem("AppLanguageCode") === '' ||
+    localStorage.getItem("AppLanguageCode") === 'nl' || // Dutch
+    localStorage.getItem("AppLanguageCode") === 'fr' || // French
+    localStorage.getItem("AppLanguageCode") === 'de' || // German
+    localStorage.getItem("AppLanguageCode") === 'el' || // Greek
+    localStorage.getItem("AppLanguageCode") === 'it' || // Italian
+    localStorage.getItem("AppLanguageCode") === 'fa' || // Persian
+    localStorage.getItem("AppLanguageCode") === 'pl' || // Polish
+    localStorage.getItem("AppLanguageCode") === 'pt' || // Portuguese
+    localStorage.getItem("AppLanguageCode") === 'ro' || // Romanian
+    localStorage.getItem("AppLanguageCode") === 'ru' || // Russian
+    localStorage.getItem("AppLanguageCode") === 'es' || // Spanish
+    localStorage.getItem("AppLanguageCode") === 'tr' || // Turkish
+    localStorage.getItem("AppLanguageCode") === 'uk' || // Ukrainian
+    localStorage.getItem("AppLanguageCode") === 'sr' || // Serbian
+    localStorage.getItem("AppLanguageCode") === 'az' || // Azerbaijani
+    localStorage.getItem("AppLanguageCode") === 'sl' || // Slovenian
+    localStorage.getItem("AppLanguageCode") === 'fi' || // Finnish
+    localStorage.getItem("AppLanguageCode") === 'hu'    // Hungarian
+  ) {
+    local = ','
+  } else{
+    local = '.'
+
+  }
+
+
         function getpressure(data) {
 
 
@@ -151,13 +181,13 @@ async function CreateMaterialYouTheme(hex) {
                 let pressureMainUnit;
 
                 if (SelectedPressureUnit === 'inHg') {
-                    pressureMain = (data * 0.02953).toFixed(2);
+                    pressureMain = (data * 0.02953).toFixed(2).replace('.', local);
                     pressureMainUnit = 'inHg';
                 } else if (SelectedPressureUnit === 'mmHg') {
-                    pressureMain = (data * 0.750062).toFixed(2);
+                    pressureMain = (data * 0.750062).toFixed(2).replace('.', local);
                     pressureMainUnit = 'mmHg';
                 } else {
-                    pressureMain = data;
+                    pressureMain = Math.round(data);
                     pressureMainUnit = 'hPa';
                 }
 

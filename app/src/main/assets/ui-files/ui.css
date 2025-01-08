@@ -879,7 +879,7 @@ touch_search{
   justify-content: center;
   margin: 10px;
   margin-right: 0;
-  border-radius: 10px;
+  border-radius: 50px;
 }
 
 [round-ui="true"] .all_air_quality{
@@ -1224,6 +1224,7 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
   padding-right: 5px;
   border-radius: 5px;
   color: var(--On-Surface);
+
 }
 
 .rainNextHour p, .excessiveHeat p{
@@ -1677,6 +1678,7 @@ savedLocationsHolder savedLocationItem{
   position: relative;
   padding: 10px;
   overflow: hidden;
+   transition: background-color 0.2s ease-in;
 }
 
 savedLocationsHolder savedLocationItem savedlocationimg{
@@ -2808,7 +2810,7 @@ Tempmeterbaritem span{
 
 
 .currentConditionItem {
-  box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.3);
 }
 
 .no_touch_screen{
@@ -3057,4 +3059,68 @@ box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
 #background_animation_sunny::before{
   height: 0;
   width: 0;
+}
+
+.sortable-ghost{
+  opacity: 0;
+}
+
+.start_up_screen{
+  width: 100%;
+  height: 100%;
+  z-index:9999999999999999999910101001010;
+  background-color: var(--Surface);
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+.start_up_screen .start_up_screen_screen .startup_location_icon_mat svg{
+ height: 400px;
+ flex-shrink: 0;
+}
+
+
+.start_up_screen .start_up_screen_screen .startup_location_icon_mat{
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+    position: absolute;
+    top: 100px;
+}
+
+
+.start_up_screen .start_up_screen_screen .select_location_type{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+  position: absolute;
+  width: 100%;
+  bottom: 20px;
+}
+
+.start_up_screen .start_up_screen_screen .top_start_up_info{
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  gap: 10px;
+}
+
+.start_up_screen .start_up_screen_screen .top_start_up_info p{
+  margin: 0;
+  color: rgb(248, 214, 142);
+  font-family: var(--google-mid);
+  font-size: 30px;
+}
+
+.start_up_screen .start_up_screen_screen .top_start_up_info span{
+  color: var(--On-Surface);
+  font-family: var(--google-normal);
+  font-size: 18px;
+}
+
+a{
+  -webkit-user-drag: none;
 }

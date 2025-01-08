@@ -23,6 +23,37 @@ function HourlyWeather(data) {
 
   forecastContainer.innerHTML = "";
   RainBarsContainer.innerHTML = "";
+
+  let local
+
+  if (
+    localStorage.getItem("AppLanguageCode") === '' ||
+    localStorage.getItem("AppLanguageCode") === 'nl' || // Dutch
+    localStorage.getItem("AppLanguageCode") === 'fr' || // French
+    localStorage.getItem("AppLanguageCode") === 'de' || // German
+    localStorage.getItem("AppLanguageCode") === 'el' || // Greek
+    localStorage.getItem("AppLanguageCode") === 'it' || // Italian
+    localStorage.getItem("AppLanguageCode") === 'fa' || // Persian
+    localStorage.getItem("AppLanguageCode") === 'pl' || // Polish
+    localStorage.getItem("AppLanguageCode") === 'pt' || // Portuguese
+    localStorage.getItem("AppLanguageCode") === 'ro' || // Romanian
+    localStorage.getItem("AppLanguageCode") === 'ru' || // Russian
+    localStorage.getItem("AppLanguageCode") === 'es' || // Spanish
+    localStorage.getItem("AppLanguageCode") === 'tr' || // Turkish
+    localStorage.getItem("AppLanguageCode") === 'uk' || // Ukrainian
+    localStorage.getItem("AppLanguageCode") === 'sr' || // Serbian
+    localStorage.getItem("AppLanguageCode") === 'az' || // Azerbaijani
+    localStorage.getItem("AppLanguageCode") === 'sl' || // Slovenian
+    localStorage.getItem("AppLanguageCode") === 'fi' || // Finnish
+    localStorage.getItem("AppLanguageCode") === 'hu'    // Hungarian
+  ) {
+    local = ','
+  } else{
+    local = '.'
+
+  }
+
+
   if (
     !data ||
     !data.hourly ||
@@ -135,13 +166,13 @@ const filteredData = data.hourly.time
     let PrecAmount;
 
     if (localStorage.getItem("selectedPrecipitationUnit") === "in") {
-      PrecAmount = mmToInches(data.hourly.precipitation[index]).toFixed(2) + "";
+      PrecAmount = mmToInches(data.hourly.precipitation[index]).toFixed(2).replace('.', local) + "";
     } else if (localStorage.getItem("selectedPrecipitationUnit") === "cm") {
       PrecAmount = (Math.round(data.hourly.precipitation[index]) / 10).toFixed(
         2
-      );
+      ).replace('.', local);
     } else {
-      PrecAmount = data.hourly.precipitation[index].toFixed(1) + "";
+      PrecAmount = data.hourly.precipitation[index].toFixed(1).replace('.', local) + "";
     }
 
     const PrecProb = data.hourly.precipitation_probability[index];
@@ -276,6 +307,36 @@ const filteredData = data.hourly.time
 // daily
 
 function DailyWeather(dailyForecast) {
+
+  let local
+
+  if (
+    localStorage.getItem("AppLanguageCode") === '' ||
+    localStorage.getItem("AppLanguageCode") === 'nl' || // Dutch
+    localStorage.getItem("AppLanguageCode") === 'fr' || // French
+    localStorage.getItem("AppLanguageCode") === 'de' || // German
+    localStorage.getItem("AppLanguageCode") === 'el' || // Greek
+    localStorage.getItem("AppLanguageCode") === 'it' || // Italian
+    localStorage.getItem("AppLanguageCode") === 'fa' || // Persian
+    localStorage.getItem("AppLanguageCode") === 'pl' || // Polish
+    localStorage.getItem("AppLanguageCode") === 'pt' || // Portuguese
+    localStorage.getItem("AppLanguageCode") === 'ro' || // Romanian
+    localStorage.getItem("AppLanguageCode") === 'ru' || // Russian
+    localStorage.getItem("AppLanguageCode") === 'es' || // Spanish
+    localStorage.getItem("AppLanguageCode") === 'tr' || // Turkish
+    localStorage.getItem("AppLanguageCode") === 'uk' || // Ukrainian
+    localStorage.getItem("AppLanguageCode") === 'sr' || // Serbian
+    localStorage.getItem("AppLanguageCode") === 'az' || // Azerbaijani
+    localStorage.getItem("AppLanguageCode") === 'sl' || // Slovenian
+    localStorage.getItem("AppLanguageCode") === 'fi' || // Finnish
+    localStorage.getItem("AppLanguageCode") === 'hu'    // Hungarian
+  ) {
+    local = ','
+  } else{
+    local = '.'
+
+  }
+
   setChart();
 
   const forecastContainer = document.getElementById("forecast-5day");
@@ -497,13 +558,13 @@ function DailyWeather(dailyForecast) {
 
     if (localStorage.getItem("selectedPrecipitationUnit") === "in") {
       TodaysPrecAmount =
-        mmToInches(dailyForecast.precipitation_sum[0]).toFixed(2) + " in";
+        mmToInches(dailyForecast.precipitation_sum[0]).toFixed(2).replace('.', local) + " in";
     } else if (localStorage.getItem("selectedPrecipitationUnit") === "cm") {
       TodaysPrecAmount =
-        (Math.round(dailyForecast.precipitation_sum[0]) / 10).toFixed(2) +
+        (Math.round(dailyForecast.precipitation_sum[0]) / 10).toFixed(2).replace('.', local) +
         " cm";
     } else {
-      TodaysPrecAmount = dailyForecast.precipitation_sum[0].toFixed(1) + " mm";
+      TodaysPrecAmount = dailyForecast.precipitation_sum[0].toFixed(1).replace('.', local) + " mm";
     }
 
     if (dailyForecast.precipitation_sum[0] <= 0) {
@@ -531,6 +592,35 @@ function DailyWeather(dailyForecast) {
 // current
 
 function CurrentWeather(data, sunrise, sunset, lat, lon) {
+  let local
+
+  if (
+    localStorage.getItem("AppLanguageCode") === '' ||
+    localStorage.getItem("AppLanguageCode") === 'nl' || // Dutch
+    localStorage.getItem("AppLanguageCode") === 'fr' || // French
+    localStorage.getItem("AppLanguageCode") === 'de' || // German
+    localStorage.getItem("AppLanguageCode") === 'el' || // Greek
+    localStorage.getItem("AppLanguageCode") === 'it' || // Italian
+    localStorage.getItem("AppLanguageCode") === 'fa' || // Persian
+    localStorage.getItem("AppLanguageCode") === 'pl' || // Polish
+    localStorage.getItem("AppLanguageCode") === 'pt' || // Portuguese
+    localStorage.getItem("AppLanguageCode") === 'ro' || // Romanian
+    localStorage.getItem("AppLanguageCode") === 'ru' || // Russian
+    localStorage.getItem("AppLanguageCode") === 'es' || // Spanish
+    localStorage.getItem("AppLanguageCode") === 'tr' || // Turkish
+    localStorage.getItem("AppLanguageCode") === 'uk' || // Ukrainian
+    localStorage.getItem("AppLanguageCode") === 'sr' || // Serbian
+    localStorage.getItem("AppLanguageCode") === 'az' || // Azerbaijani
+    localStorage.getItem("AppLanguageCode") === 'sl' || // Slovenian
+    localStorage.getItem("AppLanguageCode") === 'fi' || // Finnish
+    localStorage.getItem("AppLanguageCode") === 'hu'    // Hungarian
+  ) {
+    local = ','
+  } else{
+    local = '.'
+
+  }
+
   const CurrentCloudCover = data.cloud_cover;
   const CurrentHumidity = Math.round(data.relative_humidity_2m);
   const CurrentWeatherCode = data.weather_code;
@@ -557,7 +647,7 @@ function CurrentWeather(data, sunrise, sunset, lat, lon) {
   if (localStorage.getItem("SelectedWindUnit") === "mile") {
     CurrentWindGust = Math.round(kmhToMph(data.wind_gusts_10m)) + " mph";
   } else if (localStorage.getItem("SelectedWindUnit") === "M/s") {
-    CurrentWindGust = (data.wind_gusts_10m / 3.6).toFixed(2) + " m/s";
+    CurrentWindGust = (data.wind_gusts_10m / 3.6).toFixed(1).replace('.', local) + " m/s";
   } else {
     CurrentWindGust = Math.round(data.wind_gusts_10m) + " km/h";
   }
@@ -567,7 +657,7 @@ function CurrentWeather(data, sunrise, sunset, lat, lon) {
   if (localStorage.getItem("SelectedWindUnit") === "mile") {
     CurrentWindSpeed = Math.round(kmhToMph(data.wind_speed_10m)) + " mph";
   } else if (localStorage.getItem("SelectedWindUnit") === "M/s") {
-    CurrentWindSpeed = (data.wind_speed_10m / 3.6).toFixed(2) + " m/s";
+    CurrentWindSpeed = (data.wind_speed_10m / 3.6).toFixed(1).replace('.', local) + " m/s";
   } else {
     CurrentWindSpeed = Math.round(data.wind_speed_10m) + " km/h";
   }
@@ -576,13 +666,13 @@ function CurrentWeather(data, sunrise, sunset, lat, lon) {
   let pressureMainUnit;
 
   if (localStorage.getItem("selectedPressureUnit") === "inHg") {
-    CurrentPressure = hPaToInHg(data.pressure_msl).toFixed(2);
+    CurrentPressure = hPaToInHg(data.pressure_msl).toFixed(2).replace('.', local);
     pressureMainUnit = "inHg";
   } else if (localStorage.getItem("selectedPressureUnit") === "mmHg") {
-    CurrentPressure = hPaToMmHg(data.pressure_msl).toFixed(2);
+    CurrentPressure = hPaToMmHg(data.pressure_msl).toFixed(2).replace('.', local);
     pressureMainUnit = "mmHg";
   } else {
-    CurrentPressure = data.pressure_msl;
+    CurrentPressure = Math.round(data.pressure_msl);
     pressureMainUnit = "hPa";
   }
 
@@ -593,7 +683,7 @@ function CurrentWeather(data, sunrise, sunset, lat, lon) {
   if (localStorage.getItem("selectedPrecipitationUnit") === "in") {
     CurrentPrecipitation = mmToInches(Math.round(data.precipitation));
   } else if (localStorage.getItem("selectedPrecipitationUnit") === "cm") {
-    CurrentPrecipitation = (Math.round(data.precipitation) / 10).toFixed(2);
+    CurrentPrecipitation = (Math.round(data.precipitation) / 10).toFixed(2).replace('.', local);
   } else {
     CurrentPrecipitation = Math.round(data.precipitation);
   }
@@ -1469,6 +1559,35 @@ function UvIndex(uvIndexValue) {
 let debounceMoreDetails
 
 function MoreDetailsRender(data) {
+  let local
+
+  if (
+    localStorage.getItem("AppLanguageCode") === '' ||
+    localStorage.getItem("AppLanguageCode") === 'nl' || // Dutch
+    localStorage.getItem("AppLanguageCode") === 'fr' || // French
+    localStorage.getItem("AppLanguageCode") === 'de' || // German
+    localStorage.getItem("AppLanguageCode") === 'el' || // Greek
+    localStorage.getItem("AppLanguageCode") === 'it' || // Italian
+    localStorage.getItem("AppLanguageCode") === 'fa' || // Persian
+    localStorage.getItem("AppLanguageCode") === 'pl' || // Polish
+    localStorage.getItem("AppLanguageCode") === 'pt' || // Portuguese
+    localStorage.getItem("AppLanguageCode") === 'ro' || // Romanian
+    localStorage.getItem("AppLanguageCode") === 'ru' || // Russian
+    localStorage.getItem("AppLanguageCode") === 'es' || // Spanish
+    localStorage.getItem("AppLanguageCode") === 'tr' || // Turkish
+    localStorage.getItem("AppLanguageCode") === 'uk' || // Ukrainian
+    localStorage.getItem("AppLanguageCode") === 'sr' || // Serbian
+    localStorage.getItem("AppLanguageCode") === 'az' || // Azerbaijani
+    localStorage.getItem("AppLanguageCode") === 'sl' || // Slovenian
+    localStorage.getItem("AppLanguageCode") === 'fi' || // Finnish
+    localStorage.getItem("AppLanguageCode") === 'hu'    // Hungarian
+  ) {
+    local = ','
+  } else{
+    local = '.'
+
+  }
+
   clearTimeout(debounceMoreDetails)
   debounceMoreDetails = setTimeout(() =>{
   const mainData = data.forecast.forecastday[0].day;
@@ -1506,11 +1625,11 @@ function MoreDetailsRender(data) {
   let Precipitation;
 
   if (localStorage.getItem("selectedPrecipitationUnit") === "in") {
-    Precipitation = mainData.totalprecip_in.toFixed(2) + " in";
+    Precipitation = mainData.totalprecip_in.toFixed(2).replace('.', local) + " in";
   } else if (localStorage.getItem("selectedPrecipitationUnit") === "cm") {
-    Precipitation = (mainData.totalprecip_in * 2.54).toFixed(2) + " cm";
+    Precipitation = (mainData.totalprecip_in * 2.54).toFixed(2).replace('.', local) + " cm";
   } else {
-    Precipitation = inchesToMm(mainData.totalprecip_in).toFixed(2) + " mm";
+    Precipitation = inchesToMm(mainData.totalprecip_in).toFixed(2).replace('.', local) + " mm";
   }
   let precipitationMessage;
   if (mainData.totalprecip_in > 0) {
@@ -1530,7 +1649,7 @@ function MoreDetailsRender(data) {
 
       const globalTempMax = summaryData[0].tempMax
       const globalTempMin = summaryData[0].tempMin
-      const globalUVmax = summaryData[0].uvIndexMax.toFixed(2)
+      const globalUVmax = summaryData[0].uvIndexMax.toFixed(2).replace('.', local)
 
   let weatherReport = `
          <li style="padding-bottom: 5px;">${getTranslationByLang(

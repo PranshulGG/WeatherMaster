@@ -11,4 +11,11 @@ function FetchDWDGermany(lat, lon, timezone, suggestionText, refreshValue) {
 
   renderLatestData(lat, lon, suggestionText, refreshValue)
     })
+    .catch(error => {
+      console.error('There was an error fetching the weather data:', error);
+          ShowSnackMessage.ShowSnack('Failed to fetch the data', 'long');
+     AndroidInterface.updateStatusBarColor('StopRefreshingLoader');
+      document.querySelector('.no_touch_screen').hidden = true;
+      return
+    });
   }

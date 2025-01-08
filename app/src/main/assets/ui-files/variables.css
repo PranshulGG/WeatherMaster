@@ -11,6 +11,7 @@ body{
     --outfit: 'Outfit';
      --outfit-mid: 'Outfit-mid';
     --Modal-Backdrop: rgb(0, 0, 0, 0.6);
+    --md-list-item-label-text-size: 17px !important;
 
 }
 

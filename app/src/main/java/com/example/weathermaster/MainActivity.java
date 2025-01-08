@@ -27,6 +27,7 @@ import android.webkit.GeolocationPermissions;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsPromptResult;
 import android.webkit.JsResult;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -36,6 +37,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,6 +54,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -66,6 +71,14 @@ public class MainActivity extends AppCompatActivity {
     private boolean isPullToRefreshAllowed = true;
 
     private boolean doubleBackToExitPressedOnce = false;
+    private ValueCallback<Uri[]> filePathCallback;
+
+    private final static int FILECHOOSER_RESULTCODE = 1;
+    private final static int EXPORT_REQUEST_CODE = 2;
+    private static final int SAVE_DOCUMENT_REQUEST_CODE = 2;
+    private static final int IMPORT_REQUEST_CODE = 3;
+
+    private String dataToSave;
 
     @Override
     public void onBackPressed() {
@@ -107,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
         webview.addJavascriptInterface(new ShowToastInterface(this), "ToastAndroidShow");
         webview.addJavascriptInterface(new UpdateWidget1Interface(this), "UpdateWidget1Interface");
         webview.addJavascriptInterface(new ShowSnackInterface(this), "ShowSnackMessage");
+        webview.addJavascriptInterface(new WebAppInterface(), "Android");
+
         webview.getSettings().setGeolocationEnabled(true);
         webSettings.setTextZoom(100);
 
@@ -172,6 +187,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
+
+
         });
 
         webview.addJavascriptInterface(new Object() {
@@ -234,9 +251,138 @@ public class MainActivity extends AppCompatActivity {
         webview.loadUrl("file:///android_asset/index.html");
 
 
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == FILECHOOSER_RESULTCODE) {
+            if (filePathCallback != null) {
+                Uri[] results = null;
+                if (resultCode == RESULT_OK && data != null) {
+                    String dataString = data.getDataString();
+                    if (dataString != null) {
+                        results = new Uri[]{Uri.parse(dataString)};
+                    }
+                }
+                filePathCallback.onReceiveValue(results);
+                filePathCallback = null;
+            }
+        } else if (requestCode == SAVE_DOCUMENT_REQUEST_CODE) {
+            if (resultCode == RESULT_OK && data != null && data.getData() != null) {
+                saveToUri(data.getData());
+            } else {
+                Toast.makeText(this, "Error exporting", Toast.LENGTH_SHORT).show();
+            }
+        } else if (requestCode == IMPORT_REQUEST_CODE) {
+            if (resultCode == RESULT_OK && data != null && data.getData() != null) {
+                importFromUri(data.getData());
+            } else {
+                Toast.makeText(this, "Error importing file", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    private void restartApp() {
+        Toast.makeText(this, "App is restarting...", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            }
+        }, 500);
     }
 
 
+
+    public class WebAppInterface {
+        @JavascriptInterface
+        public void saveFile(String data) {
+            dataToSave = data;
+            openFilePickerExport();
+        }
+
+        @JavascriptInterface
+        public void importFile() {
+            openFilePickerImport();  // Open file picker for importing JSON data
+        }
+
+        @JavascriptInterface
+        public void reloadTheApp() {
+            restartApp();  // Open file picker for importing JSON data
+        }
+    }
+
+
+
+
+
+    private void openFilePickerExport() {
+        String currentDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        String fileName = "WeatherMasterData_" + currentDate + ".json";
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("application/json");
+        intent.putExtra(Intent.EXTRA_TITLE, fileName);
+        startActivityForResult(intent, SAVE_DOCUMENT_REQUEST_CODE);
+    }
+    private void openFilePickerImport() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("application/json");
+        startActivityForResult(intent, IMPORT_REQUEST_CODE);
+    }
+
+    private void importFromUri(Uri uri) {
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(uri);
+            if (inputStream != null) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                StringBuilder stringBuilder = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    stringBuilder.append(line);
+                }
+                reader.close();
+                inputStream.close();
+
+                String importedData = stringBuilder.toString();
+
+                String escapedData = importedData.replace("'", "\\'").replace("\"", "\\\"");
+
+                runOnUiThread(() -> {
+                    String jsCode = "startUpBackUp('" + escapedData + "');";
+                    webview.evaluateJavascript(jsCode, null);
+                });
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "Error reading file", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
+
+
+
+    private void saveToUri(Uri uri) {
+        try {
+            OutputStream outputStream = getContentResolver().openOutputStream(uri);
+            if (outputStream != null) {
+                outputStream.write(dataToSave.getBytes());
+                outputStream.close();
+                Toast.makeText(this, "Backup saved", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "Error saving file", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
     public class ShowSnackInterface {
         private final Context mContext;
 
@@ -300,6 +446,9 @@ public class MainActivity extends AppCompatActivity {
         swipeRefreshLayout.setRefreshing(false);
     }
 
+    private void startRefreshLoader() {
+        swipeRefreshLayout.setRefreshing(true);
+    }
 
     private void requestLocationPermissions() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -314,7 +463,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 webview.getSettings().setGeolocationEnabled(true);
-                webview.reload();
+                webview.evaluateJavascript("saveLocationDataOnReload();", null);
             } else {
 
 
@@ -511,6 +660,12 @@ public class MainActivity extends AppCompatActivity {
                         return;
                     } else if  (color.equals("StopRefreshingLoader")) {
                         stopRefreshLoader();
+                        return;
+                    } else if  (color.equals("StartRefreshingLoader")) {
+                        startRefreshLoader();
+                        return;
+                    } else if  (color.equals("reloadWebview")) {
+                        webview.reload();
                         return;
                     } else if (color.equals("bluesetDef")) {
 

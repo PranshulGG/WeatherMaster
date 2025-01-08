@@ -154,7 +154,7 @@
 
 
         <div class="excessiveHeat ripple_btn_low"
-             style="margin-bottom: 10px; margin-top: 5px !important; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);"
+             style="margin-bottom: 10px; margin-top: 5px !important; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);"
              onclick="sendThemeToAndroid('OpenAlertsPage')" hidden>
             <div class="icon-container-excessiveHeat">
                 <md-icon icon-filled>report</md-icon>
@@ -182,10 +182,10 @@
 
 
         <div class="weatherComments weatherCommentsDiv" onclick="openSummery()"
-             style="box-shadow: 0px 5px 6px rgba(0, 0, 0, 0);">
+             style="box-shadow: 0px 3px 6px rgba(0, 0, 0, 0);">
             <div class="h2" style="padding: 10px;">
                 <md-icon icon-outlined id="lock_summary" style="font-size: 20px; width: 0; transition: all 0.2s ease-in;" onclick="lockSummaryToggle();  event.stopPropagation()">lock_open</md-icon>
-                <p style="width: 100%; text-align: center; display: flex; align-items: center; justify-content: center;"
+                <p style="width: 100%; text-align: center; display: flex; align-items: center; justify-content: flex-start; padding-left: 10px; color: var(--On-Surface-Variant);"
                    data-translate="quick_summary">Quick summary</p>
                 <md-icon icon-outlined id="arrow_up_toggle">keyboard_arrow_down</md-icon>
             </div>
@@ -193,7 +193,7 @@
                style="margin: 0 !important; padding: 12px; padding-top: 5px; padding-bottom: 0; color: var(--Tertiary); width: calc(100% - 24px);"
                class="whenRainPill" hidden>No data found</p>
             <div id="weatherComments"
-                 style="color: var(--On-Surface); padding: 12px; padding-top: 6px; font-size: 15px; padding-bottom: 0;">
+                 style="color: var(--On-Surface); padding: 17px; padding-top: 6px; font-size: 15px; padding-bottom: 0;">
             </div>
             <div class="summeryText" style="padding: 10px; padding-top: 0; padding-bottom: 0;">
                 <ul id="summeryDay"></ul>
@@ -204,7 +204,7 @@
 
 
 
-        <div class="high-all" style="box-shadow: 0px 5px 6px rgba(0, 0, 0, 0); z-index: 1; position: relative;">
+        <div class="high-all" style="box-shadow: 0px 3px 6px rgba(0, 0, 0, 0); z-index: 1; position: relative;">
             <div class="high-mini">
 
                 <div class="mini wind ripple_btn_low"
@@ -232,7 +232,7 @@
 
         <div class="insights_scroll noSwipe">
             <div class="insights"
-                 style="box-shadow: 0px 5px 6px rgba(0, 0, 0, 0.2); z-index: 2; position: relative;">
+                 style="box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3); z-index: 2; position: relative;">
 
                 <div class="cloths insights_item">
                     <div class="icon_container_cloths">
@@ -276,7 +276,7 @@
             <div class="sortHolder" id="sortHolder" style="display: flex; flex-direction: column;">
 
                 <div data-id="1" class="hourly_card_selector">
-            <div class="all-24" style="box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.2);" >
+            <div class="all-24" style="box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);" >
                 <div class="h1">
                     <p class="today_Text" data-translate="next_24-hr">Next 24-hr</p>
                     <p class="date_Text_top" id="date_text_top">Mar, 19</p>
@@ -290,7 +290,7 @@
                 </div>
             </div>
 
-            <rainMeter style="box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.2);">
+            <rainMeter style="box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);">
                 <div class="h1">
                     <p data-translate="hourly_precipitation">Hourly precipitation</p>
                 </div>
@@ -317,7 +317,7 @@
 
             </rainMeter>
                 </div>
-            <div class="all-5d" style="box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.2);" data-id="2">
+            <div class="all-5d" style="box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);" data-id="2">
                 <div class="h2">
                     <p data-translate="daily_forecast"
                        style="width: calc(100% - 150px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
@@ -535,7 +535,7 @@
 
             </div>
 
-            <div class="pollen_data " hidden style="box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.2);" data-id="4">
+            <div class="pollen_data " hidden style="box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);" data-id="4">
                 <div class="pollen_heading">
                     <md-icon icon-filled>allergy</md-icon>
                     <p data-translate="pollen">Pollen</p>
@@ -623,10 +623,10 @@
 
 
             <div class="all_air_quality air_selector ripple_btn_low" data-id="5" onclick="sendThemeToAndroid('OpenAirQualityCondition')"
-                 style="border-radius: 10px; margin-bottom: 0px; overflow: hidden; box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.2);"
+                 style="border-radius: 10px; margin-bottom: 0px; overflow: hidden; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);"
                  id="ifPollenIsThere">
                 <div class="sun_text">
-                    <p data-translate="air_quality" style="width: calc(100% - 150px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }">Air Quality</p>
+                    <p data-translate="air_quality" style="width: calc(100% - 150px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Air Quality</p>
                     <space></space>
                     <div class="air_text air_text_value_aqi">
                         <p id="aqi-level-value">33</p>
@@ -694,7 +694,7 @@
             </div>
 
             <div class="all_air_quality ripple_btn_low uv_selector" data-id="6"
-                 style="border-radius: 10px; margin-top: 0px; margin-bottom: 0; box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.2);"
+                 style="border-radius: 10px; margin-top: 0px; margin-bottom: 0; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);"
                  onclick="sendThemeToAndroid('openUVcondition')" id="uvIndexMainDiv">
                 <div class="sun_text">
                     <p data-translate="uv_index">UV Index</p>
@@ -849,14 +849,14 @@
         <md-divider></md-divider>
         <span id="error_text_content" style="margin-top: 10px;">There might be an API error.</span>
         <md-divider></md-divider>
-        <span style="margin-top: 10px;">You can open the settings and import your saved backup.</span>
+        <span style="margin-top: 10px;">You can import your saved backup.</span>
 
     </div>
 
     <div class="retry_btn_error">
         <button class="ripple_btn" onclick="window.location.reload(); sendThemeToAndroid('overcast')">Retry</button>
-        <button class="ripple_btn" onclick="sendThemeToAndroid('OpenSettings')" icon-outlined
-                style="font-family: 'Material symbols'; width: 50px; margin-left: 10px;">settings</button>
+        <button class="ripple_btn" onclick="Android.importFile();" icon-outlined
+                style="font-family: 'Material symbols'; width: 50px; margin-left: 10px;">download</button>
     </div>
 </div>
 
@@ -888,7 +888,73 @@
 </div>
 
 
+<div class="start_up_screen" hidden>
+
+    <div class="start_up_screen_screen">
+
+        <div class="top_start_up_info">
+
+            <p>Welcome to <br> WeatherMaster!</p>
+
+            <span>Please search for a location or use your device's location to get the weather for your area.</span>
+
+        </div>
+
+        <div class="startup_location_icon_mat">
+            <svg viewBox="0 0 412 300"
+                 xmlns="http://www.w3.org/2000/svg">
+                <g>
+                    <clip-path d="M0,0h412v300h-412z" />
+                    <path fill="transparent" d="M384.2,300H27.8C12.5,300 0,287.2 0,271.5V28.5C0,12.8 12.5,0 27.8,0H384.3C399.5,0 412,12.8 412,28.5V271.7C412,287.2 399.5,300 384.2,300Z" />
+                    <path fill="#f9ab00" d="M236.83,79.07C238.35,77.64 240.78,77.64 242.31,79.07C243.18,79.88 244.4,80.26 245.6,80.1C247.7,79.81 249.67,81.19 250.03,83.2C250.24,84.36 250.99,85.35 252.07,85.9C253.95,86.86 254.69,89.09 253.76,90.93C253.23,91.98 253.23,93.21 253.76,94.26C254.69,96.1 253.95,98.33 252.07,99.29C250.99,99.84 250.24,100.83 250.03,101.99C249.67,104 247.7,105.38 245.6,105.09C244.4,104.93 243.18,105.31 242.31,106.12C240.78,107.54 238.35,107.54 236.83,106.12C235.95,105.31 234.74,104.93 233.54,105.09C231.43,105.38 229.47,104 229.1,101.99C228.89,100.83 228.14,99.84 227.07,99.29C225.19,98.33 224.44,96.1 225.37,94.26C225.91,93.21 225.91,91.98 225.37,90.93C224.44,89.09 225.19,86.86 227.07,85.9C228.14,85.35 228.89,84.36 229.1,83.2C229.47,81.19 231.43,79.81 233.54,80.1C234.74,80.26 235.95,79.88 236.83,79.07Z" />
+                    <path fill="#000000" d="M177.96,169.46C170.17,169.46 163.59,174.91 160.91,182.54C159.08,181.17 156.89,180.49 154.57,180.49C149.21,180.49 144.71,184.44 143.24,189.89H208.43" stroke="#dadce0" stroke-width="2.0" android:strokeLineCap="square" />
+                    <path fill="#000000" d="M190.56,140.95H137.41C138.94,135.84 143.67,132.13 149.29,132.13C151.72,132.13 154.02,132.77 155.93,134.05C158.75,126.89 165.65,121.78 173.82,121.78C182.33,121.78 188.74,126.31 191.2,134.11" stroke="#dadce0" stroke-width="2.0" />
+                    <path fill="#000000" d="M262.15,117.86C264.75,117.86 267.01,119.24 268.24,121.28C268.76,121.1 269.32,121.02 269.88,121.02C272.08,121.02 273.96,122.42 274.58,124.4L274.98,125.7H273.62H256.11H255.11V124.7C255.11,120.88 258.33,117.86 262.15,117.86Z" stroke="#dadce0" stroke-width="2.0" />
+                    <path fill="#000000" d="M237.58,218.87C236.99,218.87 236.41,218.97 235.87,219.16C234.57,215.71 231.37,213.22 227.59,213.22C224,213.22 220.98,215.44 219.54,218.57C218.69,218.16 217.75,217.92 216.75,217.92C213.8,217.92 211.34,219.92 210.4,222.65L209.95,223.97H211.35H241.51H242.82L242.48,222.71C241.88,220.49 239.93,218.87 237.58,218.87Z" stroke="#dadce0" stroke-width="2.0" />
+                    <path fill="#8ab4f8" d="M184.32,97.59C183.78,97.59 183.25,97.67 182.75,97.84C181.49,94.75 178.48,92.57 174.97,92.57C171.64,92.57 168.8,94.52 167.42,97.31C166.63,96.96 165.76,96.75 164.83,96.75C162.07,96.75 159.74,98.53 158.84,101.01L158.36,102.35H159.78H188H189.32L188.96,101.08C188.38,99.04 186.51,97.59 184.32,97.59Z" stroke="#8ab4f8" stroke-width="2.0" />
+                    <path fill="#8ab4f8" d="M150.68,163.37C149.56,163.37 148.48,163.72 147.62,164.35C146.5,159.46 142.36,155.84 137.48,155.84C132.8,155.84 128.89,159.12 127.49,163.6C126.25,162.68 124.75,162.11 123.14,162.11C119.87,162.11 117.07,164.35 116,167.51H155.89C155.25,165.1 153.15,163.37 150.68,163.37Z" />
+                    <path fill="#000000" d="M214.88,146.54C219.15,146.21 222,147.56 224.27,149.17C226.84,141.29 234.05,135.53 242.65,135.53C251.64,135.53 259.25,141.9 261.33,150.49C262.91,149.38 264.88,148.77 266.96,148.77C271.5,148.77 275.36,151.8 276.54,156.04H214.27" stroke="#dadce0" stroke-width="2.0" />
+                    <path fill="#000000" d="M218.68,173.46C227.04,173.46 238.68,178.53 238.68,188.93C240.35,188.06 242.64,187.19 244.53,187.19C252.9,187.19 256.24,192.39 257.08,196.6L203.57,196.6" stroke="#dadce0" stroke-width="2.0" android:strokeLineCap="square" />
+                    <path fill="#8ab4f8" d="M268.59,147.08C274.74,147.08 279.94,150.97 282.05,156.42C283.5,155.45 285.23,154.96 287.05,154.96C291.29,154.96 294.85,157.78 296,161.68H254.16C254.16,153.6 260.7,147.08 268.59,147.08Z" />
+                    <path fill="#1a73e8" d="M203.09,206.43C202.11,206.46 201.15,206.14 200.38,205.53C199.61,204.9 199.02,204.08 198.68,203.15C197.3,199.03 195.5,195.06 193.32,191.3C190.61,186.78 187.61,182.44 184.35,178.31C180.84,173.84 177.72,169.08 175.03,164.08C172.53,158.99 171.31,153.37 171.47,147.7C171.46,143.54 172.26,139.41 173.84,135.56C175.42,131.71 177.75,128.21 180.69,125.25C183.63,122.3 187.12,119.96 190.96,118.37C194.8,116.77 198.93,115.95 203.09,115.95C207.25,115.95 211.37,116.77 215.22,118.37C219.06,119.96 222.55,122.3 225.49,125.25C228.43,128.21 230.75,131.71 232.33,135.56C233.91,139.41 234.72,143.54 234.7,147.7C234.7,154.55 233.4,160.26 230.81,164.81C228.12,169.5 225.12,174.01 221.83,178.31C218.51,182.63 215.44,187.13 212.63,191.8C210.55,195.41 208.82,199.21 207.49,203.16C207.18,204.13 206.56,204.98 205.74,205.58C204.97,206.14 204.04,206.44 203.09,206.43ZM203.09,158.99C205.67,158.97 208.16,158.05 210.15,156.4C212.13,154.74 213.47,152.45 213.96,149.91C214.44,147.38 214.04,144.75 212.8,142.48C211.57,140.21 209.6,138.43 207.21,137.46C204.82,136.48 202.16,136.36 199.69,137.12C197.22,137.88 195.1,139.47 193.67,141.62C192.24,143.77 191.6,146.35 191.85,148.92C192.11,151.49 193.25,153.89 195.07,155.72C196.11,156.78 197.36,157.62 198.74,158.19C200.12,158.75 201.6,159.02 203.09,158.99Z" />
+                    <path fill="#dadce0" d="M259.4,195.11C258.5,195.11 257.62,195.29 256.81,195.65C255.17,190.63 250.78,186.95 245.55,186.95C240.58,186.95 236.42,190.25 234.56,194.82C233.35,194.15 231.98,193.74 230.52,193.74C226.58,193.74 223.31,196.52 222.08,200.28L221.65,201.6H223.03H264.86H266.16L265.83,200.35C265.06,197.34 262.51,195.11 259.4,195.11Z" stroke="#dadce0" stroke-width="2.0" />
+                    <path fill="#dadce0" d="M182.28,207.79C181.05,207.79 179.87,208.16 178.93,208.84C177.69,203.55 173.15,199.62 167.79,199.62C162.66,199.62 158.36,203.17 156.83,208.03C155.47,207.04 153.82,206.41 152.05,206.41C148.46,206.41 145.39,208.84 144.22,212.27H188C187.29,209.65 184.99,207.79 182.28,207.79Z" />
+                </g>
+            </svg>
+        </div>
+
+
+        <div class="select_location_type">
+            <md-outlined-button onclick="sendThemeToAndroid('ReqLocation');">
+                <md-icon icon-outlined slot="icon">my_location</md-icon>
+                Current location
+            </md-outlined-button>
+
+            <md-filled-button onclick="sendThemeToAndroid('AddLocationPage')">
+                <md-icon icon-outlined slot="icon">search</md-icon>
+                Search location
+            </md-filled-button>
+
+            <md-outlined-button onclick="Android.importFile();">
+                <md-icon icon-outlined slot="icon">download</md-icon>
+                Import backup
+            </md-outlined-button>
+        </div>
+
+    </div>
+</div>
+
+
 <script>
+    function saveLocationDataOnReload(){
+                setTimeout(() =>{
+                    sendThemeToAndroid('ReqLocation');
+                document.querySelector('.start_up_screen').hidden = true;
+                useAutoCurrentLocation();
+
+    }, 500);
+    }
+
 async function initializeDragAndDrop() {
   const draggableContainer = document.getElementById('sortableContainer');
   const storageKey = 'dragAndDropState';
@@ -998,11 +1064,12 @@ let timeoutID;
 
   sortableInstanceLocations = new Sortable(draggableContainer, {
       animation: 250,
-      ghostClass: 'sortable-ghost',
       delay: 500,
       onStart(evt) {
 
         evt.item.classList.add('noSwipe');
+                evt.item.classList.add('sortable-ghost-locations');
+
     },
       onEnd(evt) {
         clearTimeout(timeoutID);
@@ -1010,6 +1077,7 @@ let timeoutID;
         timeoutID = setTimeout(() => {
           evt.item.classList.remove('noSwipe');
         }, 350);
+        evt.item.classList.remove('sortable-ghost-locations');
           saveOrder();
       },
   });

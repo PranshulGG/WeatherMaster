@@ -365,6 +365,9 @@
 
     <script>
 
+    document.getElementById('location_input').setAttribute('placeholder', getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'search') + '...')
+
+
     function hexToRgb(hex) {
     const bigint = parseInt(hex.slice(1), 16);
     return {
@@ -683,7 +686,15 @@ AndroidInterface.updateStatusBarColor(theme);
      // provider Nominatim  ----------------------
 
      async function getCitySuggestionsNominatim(query) {
-    const url = `https://nominatim.openstreetmap.org/search?q=${query}&format=json&addressdetails=1&limit=10`;
+    let url;
+
+    const latLonPattern = /^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/;
+    if (latLonPattern.test(query)) {
+        const [lat, lon] = query.split(',');
+        url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&addressdetails=1`;
+    } else {
+        url = `https://nominatim.openstreetmap.org/search?q=${query}&format=json&addressdetails=1&limit=10`;
+    }
 
     try {
         const response = await fetch(url);
@@ -696,7 +707,6 @@ AndroidInterface.updateStatusBarColor(theme);
         console.error('Error fetching city suggestions:', error);
     }
 }
-
 function displaySuggestionsNominatim(results) {
     const suggestionsContainer = document.getElementById('city-list');
     clearSuggestionsNominatim();
