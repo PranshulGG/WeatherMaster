@@ -447,6 +447,8 @@
     "united_states_aqi": "United States AQI",
     "european_aqi": "European AQI",
     "data_by": "Data by",
-    "data_fetch_error": "Failed to fetch the data"
+    "data_fetch_error": "Failed to fetch the data",
+    "aqi_info_us": "The US AQI (Air Quality Index) is a measurement used to communicate the level of air pollution. It ranges from 0 to 500, with higher values indicating worse air quality.",
+    "aqi_info_eu": "The EU AQI (Air Quality Index) is a measurement used to communicate the level of air pollution in the European Union. It is divided into five levels, from 'Good' to 'Very Poor,' based on the concentration of key pollutants.",
 
 }
