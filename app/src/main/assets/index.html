@@ -89,7 +89,7 @@
 
 
                 <div class="left_current_weather">
-                    <now data-translate="now">Now</now>
+                    <now>Now</now>
                     <div class="temp_img">
                         <p id="temp" style="transition: scale 0.1s ease-in;">0°</p>
                         <img id="weather-icon" src="weather-icons/not_available.svg" alt="Weather Icon" style="-webkit-user-drag: none;">
@@ -175,7 +175,7 @@
 
         <div class="floating_indications" hidden>
             <div id="indicatorContainer" class="indicator-container">
-                <!-- Indicator balls 💀 will be dynamically added here -->
+                <!-- Indicator's balls 💀 will be dynamically added here -->
             </div>
 
         </div>
@@ -185,7 +185,7 @@
              style="box-shadow: 0px 3px 6px rgba(0, 0, 0, 0);">
             <div class="h2" style="padding: 10px;">
                 <md-icon icon-outlined id="lock_summary" style="font-size: 20px; width: 0; transition: all 0.2s ease-in;" onclick="lockSummaryToggle();  event.stopPropagation()">lock_open</md-icon>
-                <p style="width: 100%; text-align: center; display: flex; align-items: center; justify-content: flex-start; padding-left: 10px; color: var(--On-Surface-Variant);"
+                <p style="width: 100%; text-align: center; display: flex; align-items: center; justify-content: flex-start; padding-left: 5px; color: var(--On-Surface-Variant);"
                    data-translate="quick_summary">Quick summary</p>
                 <md-icon icon-outlined id="arrow_up_toggle">keyboard_arrow_down</md-icon>
             </div>
@@ -193,7 +193,7 @@
                style="margin: 0 !important; padding: 12px; padding-top: 5px; padding-bottom: 0; color: var(--Tertiary); width: calc(100% - 24px);"
                class="whenRainPill" hidden>No data found</p>
             <div id="weatherComments"
-                 style="color: var(--On-Surface); padding: 17px; padding-top: 6px; font-size: 15px; padding-bottom: 0;">
+                 style="color: var(--On-Surface); padding: 12px; padding-top: 6px; font-size: 15px; padding-bottom: 0;">
             </div>
             <div class="summeryText" style="padding: 10px; padding-top: 0; padding-bottom: 0;">
                 <ul id="summeryDay"></ul>
@@ -302,7 +302,7 @@
                         <span id="AmountRainMM">1.5 mm</span>
                     </div>
 
-                    <div class="todaysAmount" style="padding-left: 0; padding-right: 20px;">
+                    <div class="todaysAmount" style="padding-left: 0; padding-right: 15px;">
                         <p data-translate="precipitation_hours">Precipitation hours</p>
                         <span id="RainHours">1.5 mm</span>
                     </div>
@@ -778,7 +778,7 @@
                 <flex></flex><i id="showDeviceLocation" icon-outlined style="margin-right: 20px;" hidden>info</i>
             </p>
             <div class="currentLocations ripple_btn_low" id="currentLocations"
-                 onclick="ReturnHomeLocation();  window.history.back();">
+                 onclick="ReturnHomeLocation();document.getElementById('search-container').style.display = 'none';  window.history.back();">
                 <div class="currentSearchImg">
                     <img src="icons/error.png" id="currentSearchImg" alt="" style="-webkit-user-drag: none;">
                 </div>
@@ -948,7 +948,6 @@
 <script>
     function saveLocationDataOnReload(){
                 setTimeout(() =>{
-                    sendThemeToAndroid('ReqLocation');
                 document.querySelector('.start_up_screen').hidden = true;
                 useAutoCurrentLocation();
 

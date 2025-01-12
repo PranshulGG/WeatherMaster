@@ -642,12 +642,19 @@ function CurrentWeather(data, sunrise, sunset, lat, lon) {
     CurrentTemperature = "" + CurrentTemperature;
   }
 
+  function getBeaufort(speedKmh) {
+    const levels = [1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117];
+    return levels.findIndex(level => speedKmh <= level) + 1 || 12;
+}
+
   let CurrentWindGust;
 
   if (localStorage.getItem("SelectedWindUnit") === "mile") {
     CurrentWindGust = Math.round(kmhToMph(data.wind_gusts_10m)) + " mph";
   } else if (localStorage.getItem("SelectedWindUnit") === "M/s") {
     CurrentWindGust = (data.wind_gusts_10m / 3.6).toFixed(1).replace('.', local) + " m/s";
+  } else if (localStorage.getItem("SelectedWindUnit") === "Beaufort") {
+    CurrentWindGust = getBeaufort(data.wind_speed_10m) + " Bft";
   } else {
     CurrentWindGust = Math.round(data.wind_gusts_10m) + " km/h";
   }
@@ -658,6 +665,8 @@ function CurrentWeather(data, sunrise, sunset, lat, lon) {
     CurrentWindSpeed = Math.round(kmhToMph(data.wind_speed_10m)) + " mph";
   } else if (localStorage.getItem("SelectedWindUnit") === "M/s") {
     CurrentWindSpeed = (data.wind_speed_10m / 3.6).toFixed(1).replace('.', local) + " m/s";
+  } else if (localStorage.getItem("SelectedWindUnit") === "Beaufort") {
+    CurrentWindSpeed = getBeaufort(data.wind_speed_10m) + " Bft";
   } else {
     CurrentWindSpeed = Math.round(data.wind_speed_10m) + " km/h";
   }
@@ -2075,6 +2084,10 @@ function calculateMoonVisibilityPercentage(moonrise, moonset, utcOffsetSeconds) 
 
     const moonriseTime = new Date(`${moonriseISO}:00`);
     const moonsetTime = new Date(`${moonsetISO}:00`);
+
+    if (moonsetTime < moonriseTime) {
+      moonsetTime.setDate(moonsetTime.getDate() + 1);
+    }
 
     if (now < moonriseTime) {
         return 0;

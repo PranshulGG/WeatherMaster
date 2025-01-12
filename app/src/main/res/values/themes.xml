@@ -38,7 +38,7 @@
         <item name="android:navigationBarColor">#0c1822</item>
         <item name="android:statusBarColor">#0c1822</item>
         <item name="colorAccent">#afc6ff</item>
-
+        <item name="android:windowBackground">#0c1822</item>
     </style>
 
     <style name="ScreensAll" parent="Theme.AppCompat.NoActionBar">
@@ -94,6 +94,13 @@
         <item name="android:statusBarColor">#111318</item>
         <item name="colorAccent">#aac7ff</item>
     </style>
+
+    <style name="yelloMainPageLight" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:navigationBarColor">#fff</item>
+        <item name="android:statusBarColor">#fff</item>
+        <item name="colorAccent">#aac7ff</item>
+    </style>
+
 
 
     <style name="blue_caret" parent="Theme.AppCompat.NoActionBar">

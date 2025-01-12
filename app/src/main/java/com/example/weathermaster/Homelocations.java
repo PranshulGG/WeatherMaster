@@ -30,8 +30,13 @@ public class Homelocations extends AppCompatActivity {
     private boolean isFirstLoad = true;
 
     public void onBackPressed() {
-        super.onBackPressed();
+        if (webview.canGoBack()) {
+            webview.goBack();
+        } else {
+            super.onBackPressed();
+        }
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

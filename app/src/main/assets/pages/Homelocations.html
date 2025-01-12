@@ -149,7 +149,79 @@
             font-size: 18px;
             width: max-content;
             height: max-content;
-        }   
+        }
+
+                .used_storage{
+            display: flex;
+            padding: 12px;
+            padding-bottom: 0;
+        }
+
+        .used_storage.lowStorage .storage_container{
+            border: 2px solid rgb(0, 255, 0);
+        }
+
+        .used_storage.lowStorage .storage_container .storage_progress{
+            background-color: rgba(84, 245, 84, 0.438);
+        }
+
+        /* mid */
+
+
+        .used_storage.midStorage .storage_container{
+            border: 2px solid rgb(255, 230, 0);
+        }
+
+        .used_storage.midStorage .storage_container .storage_progress{
+            background-color: rgba(245, 221, 84, 0.438);
+        }
+
+        /* high */
+
+        .used_storage.highStorage .storage_container{
+            border: 2px solid rgb(255, 0, 0);
+        }
+
+        .used_storage.highStorage .storage_container .storage_progress{
+            background-color: rgba(245, 84, 84, 0.438);
+        }
+
+        .used_storage .storage_container{
+            background-color: var(--Surface-Container-Low);
+            width: 100%;
+            height: calc(55px - 3px);
+            border-radius: 50px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid;
+
+
+        }
+
+        .used_storage .storage_container .storage_progress{
+            position: absolute;
+            height: 100%;
+            transition: all 1s ease-out;
+            left: 0;
+            top: 0;
+            width: 0%;
+        }
+
+        #storage_progress_text{
+            position: absolute;
+            font-size: 24px;
+            font-family: var(--google-mid);
+            top: 50%;
+            left: 20px;
+            color: white;
+            transform: translateY(-50%);
+        }
+
+        .used_span_supporting{
+            font-size: 14px;
+            font-family: var(--google-normal);
+            color: rgba(255, 255, 255, 0.671);
+        }
 
     </style>
 </head>
@@ -174,12 +246,41 @@
                     <span data-translate="info_home_location_tip">You need to save locations to use them as your default location</span>
                 </div>
 
+                <div class="used_storage">
+                    <div class="storage_container">
+                        <div class="storage_progress"></div>
+                        <p id="storage_progress_text"></p>
+                        <div style="position: absolute; top: 50%; transform: translateY(-50%); right: 10px;">
+                            <md-icon-button onclick="openInfoDialog()"><md-icon icon-outlined>info</md-icon></md-icon-button></div>
+                    </div>
+                </div>
+
                 <div class="item_holder" id="item_holder">
 
                     
 
                 </div>
 
+
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+
+                <md-dialog style="min-width: 85%;" id="storage_info_dialog">
+                    <div slot="headline">Used app storage</div>
+                    <div slot="content">
+                        Storage shows how much of the available space the app is using for saved locations. If it reaches 100%, you can no longer save additional locations
+                    </div>
+                    <div slot="actions">
+                        <md-text-button data-translate="ok" onclick="window.history.back()">OK</md-text-button>
+                    </div>
+                </md-dialog>
 
             </div>
         </div>
@@ -422,7 +523,7 @@ async function CreateMaterialYouTheme(hex) {
         } else{
             document.querySelector('.device_location').style.pointerEvents = 'none'
             document.querySelector('.device_location').style.opacity = '0.5'
-            document.querySelector('.device_location p').innerHTML = getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'your_device_location'); + ` (${getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'network_unavailable')})`
+            document.querySelector('.device_location p').innerHTML = getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'your_device_location') + ' (' + getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'network_unavailable') + ')';
 
         }
     }
@@ -432,6 +533,102 @@ async function CreateMaterialYouTheme(hex) {
     checkInterNetForDevice()
 
     });
+
+        function openInfoDialog() {
+  document.getElementById("storage_info_dialog").show();
+  window.history.pushState({ AppStorageInfoDialogOpen: true }, "");
+
+  if (document.getElementById("headUser-1").scrollTop >= 50) {
+    sendThemeToAndroid(
+      `${document.documentElement.getAttribute("Theme")}_DialogScrolled`
+    );
+  } else {
+    sendThemeToAndroid(
+      `${document.documentElement.getAttribute("Theme")}_DialogNotScrolled`
+    );
+  }
+}
+
+window.addEventListener("popstate", function (event) {
+  if (document.getElementById("storage_info_dialog").open) {
+    document.getElementById("storage_info_dialog").close();
+  }
+});
+
+document
+  .getElementById("storage_info_dialog")
+  .addEventListener("cancel", () => {
+    document
+      .getElementById("storage_info_dialog")
+      .addEventListener("closed", () => {
+        window.history.back();
+      });
+  });
+
+document
+  .getElementById("storage_info_dialog")
+  .addEventListener("close", () => {
+    if (document.getElementById("headUser-1").scrollTop >= 50) {
+      sendThemeToAndroid(
+        `${document.documentElement.getAttribute("Theme")}_Scrolled`
+      );
+    } else {
+      sendThemeToAndroid(
+        `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
+      );
+    }
+  });
+
+        function calculateLocalStorageUsageInMB() {
+    let totalUsed = 0;
+
+    // Calculate total size of all items in local storage
+    for (let key in localStorage) {
+        if (localStorage.hasOwnProperty(key)) {
+            totalUsed += (localStorage[key].length + key.length) * 2; // 2 bytes per character
+        }
+    }
+
+    const maxStorageLimitMB = 5;
+    const maxStorageLimitBytes = 5 * 1024 * 1024;
+
+    const totalUsedMB = totalUsed / (1024 * 1024);
+    const usagePercentage = (totalUsed / maxStorageLimitBytes) * 100;
+
+    return {
+        totalUsedMB: totalUsedMB.toFixed(2),
+        maxStorageLimitMB: maxStorageLimitMB,
+        usagePercentage: usagePercentage.toFixed(2)
+    };
+}
+
+const usageInfo = calculateLocalStorageUsageInMB();
+
+
+if(usageInfo.usagePercentage < 30){
+    document.querySelector('.used_storage').classList.add('lowStorage');
+    document.querySelector('.used_storage').classList.remove('highStorage');
+    document.querySelector('.used_storage').classList.remove('midStorage');
+
+} else if (usageInfo.usagePercentage > 30 && usageInfo.usagePercentage < 70){
+    document.querySelector('.used_storage').classList.add('midStorage');
+    document.querySelector('.used_storage').classList.remove('lowStorage');
+    document.querySelector('.used_storage').classList.remove('highStorage');
+
+} else{
+    document.querySelector('.used_storage').classList.add('highStorage');
+    document.querySelector('.used_storage').classList.remove('midStorage');
+    document.querySelector('.used_storage').classList.remove('lowStorage');
+
+}
+
+
+setTimeout(() =>{
+    document.querySelector('.storage_progress').style.width = `${usageInfo.usagePercentage}%`;
+document.getElementById('storage_progress_text').innerHTML = `${usageInfo.usagePercentage}% <span class="used_span_supporting">Used app storage</span>`
+
+}, 200);
+
     </script>
 
 

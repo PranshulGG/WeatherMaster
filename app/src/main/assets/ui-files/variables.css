@@ -246,7 +246,7 @@ body{
     --On-Primary-Container: #042162;
     --Secondary: #9dcbf9;
     --On-Secondary: #003353;
-    --Secondary-Container: #003353;
+    --Secondary-Container: #06314d;
     --On-Secondary-Container: #97c4f1;
     --Tertiary: #ffcef9;
     --On-Tertiary: #4f1a51;
@@ -257,7 +257,7 @@ body{
     --Error-Container: #93000a;
     --On-Error-Container: #ffdad6;
     --Surface-Dim:#121317 ;
-    --Surface: #081938;
+    --Surface: #04122e;
     --Surface-Bright: #38393e;
     --Surface-Container-Lowest:#0d0e12 ;
     --Surface-Container-Low: #04203f;
@@ -344,7 +344,7 @@ body{
     --Surface: #0c1822;
     --Surface-Bright: #38393e;
     --Surface-Container-Lowest:#0d0e12 ;
-    --Surface-Container-Low: #061c29;
+    --Surface-Container-Low: #051e2c;
     --Surface-Container: #1e2a35;
     --Surface-Container-High: #292a2e;
     --Surface-Container-Highest: #343439;
@@ -410,13 +410,13 @@ body{
 
 
 
-    --Primary: #bdc4f1;
-    --On-Primary: #262e52;
-    --Primary-Container: #9bb0f8;
-    --On-Primary-Container: #042162;
-    --Secondary: #9dcbf9;
-    --On-Secondary: #003353;
-    --Secondary-Container: #323646;
+    --Primary: #c9d8f3;
+    --On-Primary: #2f3131;
+    --Primary-Container: #d4d4d4;
+    --On-Primary-Container: #3e4040;
+    --Secondary: #a5ced5;
+    --On-Secondary: #08363c;
+    --Secondary-Container: #1c1d22;
     --On-Secondary-Container: #cdd3ff;
     --Tertiary: #ffcef9;
     --On-Tertiary: #4f1a51;
@@ -427,16 +427,16 @@ body{
     --Error-Container: #93000a;
     --On-Error-Container: #ffdad6;
     --Surface-Dim:#121317 ;
-    --Surface: #16161d;
+    --Surface: #0b0b0c;
     --Surface-Bright: #38393e;
-    --Surface-Container-Lowest:#0d0e12 ;
-    --Surface-Container-Low: #1a1f29;
+    --Surface-Container-Lowest:#0d0e12;
+    --Surface-Container-Low: #161616;
     --Surface-Container: #222a31;
     --Surface-Container-High: #292a2e;
     --Surface-Container-Highest: #343439;
     --Inverse-Surface: #e3e2e8;
     --Inverse-On-Surface: #2f3035;
-    --Inverse-Primary: #465b9d;
+    --Inverse-Primary: #5d5f5f;
     --On-Surface: #e3e2e8;
     --On-Surface-Variant: #c5c6d2;
     --Outline: #8f909b;

@@ -79,6 +79,13 @@ function HandleNoReloadSettings() {
         LoadLocationOnRequest(localStorage.getItem('currentLat'), localStorage.getItem('currentLong'), renderLocation);
         onAllLocationsLoaded();
     }, 500);
+
+                    if(localStorage.getItem("SelectedTempUnit") === 'fahrenheit'){
+                 document.querySelector('now').innerHTML = `<span>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'now')}</span> - °F`
+
+            } else{
+                document.querySelector('now').innerHTML = `<span>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'now')}</span> - °C`
+            }
 }
 
 

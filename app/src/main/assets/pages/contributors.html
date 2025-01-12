@@ -210,11 +210,11 @@
 <script>
 
 async function fetchTranslators() {
-    const projectId = '';
-    const apiToken = '';
+    const projectId = '741419';
+    const apiToken = '22439bfa72878c3ecb9a1b17ea8d2f9379f800b616856c4647219af7da462632fb325abd32815ace';
 
     try {
-        // Check if data exists and is within 5 hours in customStorage
+        // Check if data exists and is within 24 hours in customStorage
         const savedData = await customStorage.getItem('translatorsData');
         if (savedData) {
             const { timestamp, translators } = JSON.parse(savedData);
@@ -222,6 +222,7 @@ async function fetchTranslators() {
             // Calculate the time difference in milliseconds
             const currentTime = Date.now();
             if (currentTime - timestamp < 24 * 60 * 60 * 1000) {
+                console.warn('Using cached translators data (within 24 hours).');
                 return translators;
             }
         }
@@ -264,11 +265,16 @@ async function fetchTranslators() {
         // Fallback to saved data
         const savedData = await customStorage.getItem('translatorsData');
         if (savedData) {
-            console.warn('Loading translators from database due to API failure.');
-            return JSON.parse(savedData).translators;
+            try {
+                const { translators } = JSON.parse(savedData);
+                console.warn('Using saved translators data from customStorage.');
+                return translators;
+            } catch (parseError) {
+                console.error('Error parsing saved translators data:', parseError);
+            }
         }
 
-        return [];
+        return []; // Return an empty array if no valid data is available
     }
 }
 

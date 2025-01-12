@@ -380,6 +380,11 @@ async function displayDailyForecast(forecast, forecastDaily) {
 
         const humidity = dailyData.humidity;
 
+  function getBeaufort(speedKmh) {
+    const levels = [1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117];
+    return levels.findIndex(level => speedKmh <= level) + 1 || 12;
+}
+
 
         let WindSpeed;
         let WindSpeedUnit;
@@ -390,6 +395,10 @@ async function displayDailyForecast(forecast, forecastDaily) {
         } else if (SelectedWindUnit === 'M/s') {
             WindSpeed = (forecast.wind_speed_10m_max[index] / 3.6).toFixed(1).replace('.', local)
             WindSpeedUnit = 'm/s'
+      } else if (SelectedWindUnit === "Beaufort") {
+             WindSpeed = getBeaufort(forecast.wind_speed_10m_max[index]);
+            WindSpeedUnit = 'Bft'
+
         } else {
             WindSpeed = Math.round(forecast.wind_speed_10m_max[index]);
             WindSpeedUnit = 'km/h'

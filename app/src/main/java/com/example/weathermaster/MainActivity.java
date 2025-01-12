@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         webview = findViewById(R.id.webView);
-        webview.setBackgroundColor(getResources().getColor(R.color.diffDefault));
+        webview.setBackgroundColor(getResources().getColor(R.color.C03d));
         WebSettings webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
@@ -453,6 +453,8 @@ public class MainActivity extends AppCompatActivity {
     private void requestLocationPermissions() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
+        } else{
+            webview.evaluateJavascript("saveLocationDataOnReload();", null);
         }
     }
 
@@ -553,8 +555,8 @@ public class MainActivity extends AppCompatActivity {
                         setTheme(R.style.blue_caret);
 
                     } else if(color.equals("cloudy")){
-                            statusBarColor = 0xFF081938;
-                            navigationBarColor = 0xFF081938;
+                            statusBarColor = 0xFF04122e;
+                            navigationBarColor = 0xFF04122e;
                             systemUiVisibilityFlags = 0;
                         webview.setBackgroundColor(getResources().getColor(R.color.C02d));
                         setTheme(R.style.blue_caret);
@@ -581,8 +583,8 @@ public class MainActivity extends AppCompatActivity {
                         setTheme(R.style.blue_caret);
 
                     } else if(color.equals("snow")){
-                        statusBarColor = 0xFF16161d;
-                        navigationBarColor = 0xFF16161d;
+                        statusBarColor = 0xFF0b0b0c;
+                        navigationBarColor = 0xFF0b0b0c;
                         systemUiVisibilityFlags = 0;
                         webview.setBackgroundColor(getResources().getColor(R.color.C09d));
                         setTheme(R.style.blue_caret);

@@ -106,6 +106,7 @@
     <md-icon-button onclick="sendThemeToAndroid('GoBack')">
         <md-icon icon-outlined>arrow_back</md-icon>
     </md-icon-button>
+    <p data-translate="air_quality" style="font-size: 18px; color: var(--On-Surface); font-family: var(--google-normal); height: 0; overflow: hidden; transition: all 0.2s ease-in; padding-left: 5px;" id="hidden_anim_p">UV index</p>
 </div>
 
 <div class="condition_info_content">
@@ -363,6 +364,19 @@ AndroidInterface.updateStatusBarColor(theme);
 document.addEventListener("DOMContentLoaded", async function () {
     renderAqiData(JSON.parse(localStorage.getItem(`AirQuality_${localStorage.getItem('CurrentLocationName')}`)))
 });
+
+
+    document.querySelector('.condition_info_content').addEventListener('scroll', () =>{
+
+        if(document.querySelector('.condition_info_content').scrollTop > 50){
+            document.getElementById('hidden_anim_p').style.height = '22px'
+        } else{
+            document.getElementById('hidden_anim_p').style.height = '0'
+
+        }
+
+    });
+
     </script>
 
 <script src="../../app/navigate.js"></script>

@@ -534,6 +534,9 @@ public class SettingsActivity extends AppCompatActivity {
                         statusBarColor = 0xFF0c0d0a;
                         navigationBarColor = 0xFF070806;
                         systemUiVisibilityFlags = 0;
+
+//                        Light colors 😭 EWWW
+
                     } else if (color.equals("amoled_theme")) {
                         statusBarColor = 0xFF000000;
                         navigationBarColor = 0xFF000000;

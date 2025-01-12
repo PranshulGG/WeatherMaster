@@ -32,6 +32,7 @@
         <md-icon-button onclick="sendThemeToAndroid('GoBack')">
             <md-icon icon-outlined>arrow_back</md-icon>
         </md-icon-button>
+        <p data-translate="wind" style="padding-left: 5px; font-size: 18px; color: var(--On-Surface); font-family: var(--google-normal); height: 0; overflow: hidden; transition: all 0.2s ease-in;" id="hidden_anim_p">UV index</p>
     </div>
 
     <div class="condition_info_content">
@@ -168,6 +169,12 @@ async function CreateMaterialYouTheme(hex) {
   }
 
 
+
+  function getBeaufort(speedKmh) {
+    const levels = [1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117];
+    return levels.findIndex(level => speedKmh <= level) + 1 || 12;
+}
+
         function loadwindForecast(data, timezone) {
             const WindBarsContainer = document.querySelector('.WindBars');
             WindBarsContainer.innerHTML = '';
@@ -238,6 +245,8 @@ const filteredData = data.time
                     WindSpeedForecast = Math.round(data.wind_speed_10m[index] / 1.60934) + '';
                 } else if (SelectedWindUnit === 'M/s') {
                     WindSpeedForecast = (data.wind_speed_10m[index] / 3.6).toFixed(1).replace('.', local) + '';
+                      } else if (localStorage.getItem("SelectedWindUnit") === "Beaufort") {
+                    WindSpeedForecast = getBeaufort(data.wind_speed_10m[index]) + "";
                 } else {
                     WindSpeedForecast = Math.round(data.wind_speed_10m[index]) + '';
                 }
@@ -286,6 +295,8 @@ const filteredData = data.time
                     WindSpeed = Math.round(data.wind_speed_10m_max[0] / 1.60934) + ' mph';
                 } else if (SelectedWindUnit === 'M/s') {
                     WindSpeed = (data.wind_speed_10m_max[0] / 3.6).toFixed(1).replace('.', local) + ' m/s';
+                                          } else if (localStorage.getItem("SelectedWindUnit") === "Beaufort") {
+                    WindSpeed = getBeaufort(data.wind_speed_10m_max[0]) + " Bft";
                 } else {
                     WindSpeed = Math.round(data.wind_speed_10m_max[0]) + ' km/h';
                 }
@@ -304,6 +315,19 @@ const filteredData = data.time
 
 AndroidInterface.updateStatusBarColor(theme);
 };
+
+
+    document.querySelector('.condition_info_content').addEventListener('scroll', () =>{
+
+        if(document.querySelector('.condition_info_content').scrollTop > 50){
+            document.getElementById('hidden_anim_p').style.height = '22px'
+        } else{
+            document.getElementById('hidden_anim_p').style.height = '0'
+
+        }
+
+    });
+
     </script>
 
 

@@ -131,6 +131,8 @@ weatherWrap.addEventListener('scroll', function() {
             balls[currentIndex].classList.add('active');
         }
 
+        document.querySelector('swipeCooldown').hidden = false;
+
         document.querySelector('.floating_indications').hidden = false
 
         clearTimeout(debounceTimer2);
@@ -151,7 +153,7 @@ weatherWrap.addEventListener('scroll', function() {
         clearTimeout(debounceTimer3);
         debounceTimer3 = setTimeout(() => {
             document.querySelector('swipeCooldown').hidden = true;
-        }, 2500);
+        }, 500);
 
 
         setTimeout(() =>{
@@ -266,7 +268,7 @@ weatherWrap.addEventListener('scroll', function() {
                   localStorage.setItem("CurrentLocationName", savedLocations[currentIndex]?.locationName);
 
             updateIndicator()
-        document.querySelector('swipeCooldown').hidden = false;
+
 
         }
         // Move to previous location on swipe left
@@ -295,7 +297,7 @@ weatherWrap.addEventListener('scroll', function() {
             document.getElementById("weather_wrap").scrollTop = 0;
               localStorage.setItem("CurrentLocationName", savedLocations[currentIndex]?.locationName);
             updateIndicator()
-        document.querySelector('swipeCooldown').hidden = false;
+
 
         }
 

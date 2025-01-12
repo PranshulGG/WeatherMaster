@@ -239,7 +239,6 @@ if (navigator.onLine) {
           }
       } else{
         useAutoCurrentLocation();
-        sendThemeToAndroid("ReqLocation");
       }
       document.querySelector(".currentLocationdiv").hidden = false;
       document.getElementById("showDeviceLocation").hidden = false;
@@ -3472,6 +3471,7 @@ window.addEventListener("popstate", function (event) {
       document.getElementById("search-container").style.display = "none";
       document.getElementById("search-container").style.opacity = "1";
       checkTopScroll();
+    document.getElementById("edit_saved_locations").selected = false;
 
             if(document.getElementById('weather_wrap').scrollTop > 10){
               const allClassesAnimation = document.querySelectorAll('.behind_search_animation');
@@ -3827,7 +3827,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", async function () {
-  const currentVersion = "v1.15.2";
+  const currentVersion = "v1.15.3";
   const githubRepo = "PranshulGG/WeatherMaster";
   const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
@@ -4114,7 +4114,7 @@ function ReturnHomeLocation() {
               ).innerHTML = `${getTranslationByLang(
                 localStorage.getItem("AppLanguageCode"),
                 "updated"
-              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+              )}, ${timeAgo(renderFromSavedDataMetTimstamp)}`;
             });
 
   } else if (
@@ -4244,7 +4244,7 @@ function ReturnHomeLocation() {
               ).innerHTML = `${getTranslationByLang(
                 localStorage.getItem("AppLanguageCode"),
                 "updated"
-              )}, ${timeAgo(renderFromSavedDataTimstamp)}`;
+              )}, ${timeAgo(dataTimstamp)}`;
             });
   } else if (
     localStorage.getItem("selectedMainWeatherProvider") === "meteoFrance"

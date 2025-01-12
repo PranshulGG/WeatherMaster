@@ -149,7 +149,7 @@
          <md-icon icon-outlined>info</md-icon>
          <div style="position: relative; width: 100%;">
           <p data-translate="version">Version</p>
-          <span>1.15.2 (W)</span>
+          <span>1.15.3 (W)</span>
           <md-icon-button style="position: absolute; right: 5px;" id="checkUpdatesBtn"><md-icon icon-outlined>refresh</md-icon></md-icon-button>
          </div>
         </div>
@@ -364,7 +364,7 @@ async function CreateMaterialYouTheme(hex) {
 
 
         document.getElementById('checkUpdatesBtn').addEventListener('click', async function () {
-            const currentVersion = 'v1.15.2';
+            const currentVersion = 'v1.15.3';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
@@ -379,7 +379,9 @@ async function CreateMaterialYouTheme(hex) {
 
                 setTimeout(() => {
                     if (latestVersion !== currentVersion) {
-                       ShowSnackMessage.ShowSnack("New version available!", "long");
+                  ShowSnackMessage.ShowSnack(getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'new_version_available!'), "long");
+
+
                         document.getElementById('checkUpdatesBtn').disabled = false;
 
                         setTimeout(() => {
@@ -388,14 +390,15 @@ async function CreateMaterialYouTheme(hex) {
 
 
                     } else {
-                       ShowSnackMessage.ShowSnack("You are using the latest version!", "long");
+                  ShowSnackMessage.ShowSnack(getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'you_are_using_the_latest_version!'), "long");
                         document.getElementById('checkUpdatesBtn').disabled = false;
                     }
 
                 }, 2000);
 
             } catch (error) {
-                ShowSnackMessage.ShowSnack("Error checking for updates.", "long");
+                  ShowSnackMessage.ShowSnack(getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'error_checking_for_updates'), "long");
+
                 document.getElementById('checkUpdatesBtn').disabled = false;
                 console.error('Error:', error);
             }

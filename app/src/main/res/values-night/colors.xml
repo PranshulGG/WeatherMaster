@@ -7,15 +7,15 @@
     <color name="snackbar_text">#2f3035</color>
 
     <!--   bg-colors -->
-    <color name="C01d">#00043d</color>
-    <color name="C01n">#01023d</color>
-    <color name="C02d">#081938</color>
+    <color name="C01d">#001d33</color>
+    <color name="C01n">#001d33</color>
+    <color name="C02d">#04122e</color>
     <color name="C02n">#001d33</color>
     <color name="C03d">#0c1822</color>
     <color name="C03n">#0e1d2a</color>
     <color name="C04d">#0e1d2a</color>
-    <color name="C04n">#231225</color>
-    <color name="C09d">#16161d</color>
+    <color name="C04n">#0e1d2a</color>
+    <color name="C09d">#0b0b0c</color>
     <color name="C09n">#0e1d2a</color>
     <color name="C10d">#0e1d2a</color>
     <color name="C10n">#0e1d2a</color>
@@ -33,7 +33,8 @@
     <color name="RadarPage">#1a110f</color>
     <color name="AboutBG">#101510</color>
     <color name="conditionBG">#191113</color>
-    <color name="diffDefault">#0e1d2a</color>
+    <color name="diffDefault">#0c1822</color>
+    <color name="yellowBg">#111318</color>
 
 
     <!--  default fallback  -->

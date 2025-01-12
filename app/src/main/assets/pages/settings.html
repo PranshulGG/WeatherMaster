@@ -216,11 +216,22 @@
 
 
             <md-list class="list_one">
+
+
                 <md-list-item disabled hidden>
                     <md-icon icon-filled slot="start">notifications</md-icon>
                     <div slot="headline" data-translate="notification_bar">Notification bar</div>
                     <div slot="supporting-text" data-translate="show_weather_information_in_the_notification_bar">(Needs some work done)</div>
                     <md-switch slot="end" id="toggle_noti"></md-switch>
+                </md-list-item>
+
+                <md-list-item type="button" onclick="sendThemeToAndroid('openHomelocationPage')">
+                    <md-icon icon-filled slot="start">home_pin</md-icon>
+                    <div slot="headline" data-translate="home_location">Home location</div>
+                    <div slot="supporting-text" id="homeLocationSelectedText" style="color: var(--Primary); font-family: var(--outfit-mid);">Your device location</div>
+
+                    <md-icon slot="end" icon-outlined>chevron_right</md-icon>
+
                 </md-list-item>
 
 
@@ -312,14 +323,6 @@
                 </md-list-item>
 
 
-                <md-list-item type="button" onclick="sendThemeToAndroid('openHomelocationPage')">
-                    <md-icon icon-filled slot="start">home_pin</md-icon>
-                    <div slot="headline" data-translate="home_location">Home location</div>
-                    <div slot="supporting-text" id="homeLocationSelectedText" style="color: var(--Primary); font-family: var(--outfit-mid);">Your device location</div>
-
-                    <md-icon slot="end" icon-outlined>chevron_right</md-icon>
-
-                </md-list-item>
 
 
                 <md-list-item margin>
@@ -361,6 +364,9 @@
                         </md-select-option>
                         <md-select-option value="M/s" menu-type>
                             <div slot="headline">M/s</div>
+                        </md-select-option>
+                        <md-select-option value="Beaufort" menu-type>
+                            <div slot="headline">Beaufort</div>
                         </md-select-option>
                     </md-outlined-select>
                 </md-list-item>
@@ -461,7 +467,6 @@
                     <div slot="supporting-text" style="color: var(--Error);" data-translate="import_data_sub">Warning: Importing will erase your current app data</div>
                 </md-list-item>
                 <input type="file" id="ImportFile" style="display:none;" accept="application/json">
-
             </md-list>
 
 
@@ -711,8 +716,8 @@ function CreateMaterialYouTheme(hex) {
  if(localStorage.getItem("useDynamicColors") && localStorage.getItem("useDynamicColors") === "false"){
 
   } else{
-  document.documentElement.setAttribute('Theme', closestColor);
-  sendThemeToAndroid(`${closestColor}_ScrollFalse`);
+        document.documentElement.setAttribute('Theme', closestColor);
+        sendThemeToAndroid(`${closestColor}_ScrollFalse`);
   }
 }
 
