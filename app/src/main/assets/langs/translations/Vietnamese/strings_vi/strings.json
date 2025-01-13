@@ -444,8 +444,8 @@
     "aqi_type": "Đơn vi AQI",
     "used_app_storage_info_sub": "Bộ nhớ hiển thị dung lượng không gian khả dụng mà ứng dụng đang sử dụng cho các vị trí đã lưu. Nếu đạt 100%, bạn không thể lưu thêm vị trí nữa.",
     "used_app_storage": "Đã sử dụng bộ nhớ ứng dụng",
-    "united_states_aqi": "United States AQI",
-    "european_aqi": "European AQI",
-    "data_by": "Data by",
-    "data_fetch_error": "Failed to fetch the data"
+    "united_states_aqi": "AQI Hoa Kỳ",
+    "european_aqi": "AQI Châu Âu",
+    "data_by": "Dữ liệu bởi",
+    "data_fetch_error": "Lấy dữ liệu không thành công"
 }
