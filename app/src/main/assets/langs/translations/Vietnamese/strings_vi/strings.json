@@ -448,6 +448,6 @@
     "european_aqi": "AQI Châu Âu",
     "data_by": "Dữ liệu bởi",
     "data_fetch_error": "Lấy dữ liệu không thành công",
-    "aqi_info_us": "The US AQI (Air Quality Index) is a measurement used to communicate the level of air pollution. It ranges from 0 to 500, with higher values indicating worse air quality.",
-    "aqi_info_eu": "The EU AQI (Air Quality Index) is a measurement used to communicate the level of air pollution in the European Union. It is divided into five levels, from 'Good' to 'Very Poor,' based on the concentration of key pollutants."
+    "aqi_info_us": "Chỉ số AQI Không khí Hoa Kỳ (Chất lượng không khí) là một phép đo được sử dụng để truyền đạt mức độ ô nhiễm không khí. Nó nằm trong khoảng từ 0 đến 500, với giá trị càng cao cho thấy chất lượng không khí càng kém.",
+    "aqi_info_eu": "Chỉ số AQI EU (Chất lượng không khí) là một phép đo được sử dụng để truyền đạt mức độ ô nhiễm không khí ở Liên minh Châu Âu. Nó được chia thành năm mức, từ 'Tốt' đến 'Rất kém', dựa trên nồng độ của các chất ô nhiễm chính."
 }
