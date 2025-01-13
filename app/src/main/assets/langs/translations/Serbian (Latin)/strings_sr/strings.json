@@ -447,5 +447,7 @@
     "united_states_aqi": "AQI Sjedinjenih Država",
     "european_aqi": "Evropski AQI",
     "data_by": "Podaci od",
-    "data_fetch_error": "Preuzimanje podataka nije uspelo"
+    "data_fetch_error": "Preuzimanje podataka nije uspelo",
+    "aqi_info_us": "Američki AQI (indeks kvaliteta vazduha) je merenje koje se koristi za saopštavanje nivoa zagađenja vazduha. Ona se kreće od 0 do 500, pri čemu veće vrednosti ukazuju na lošiji kvalitet vazduha.",
+    "aqi_info_eu": "EU AQI (indeks kvaliteta vazduha) je merenje koje se koristi za saopštavanje nivoa zagađenja vazduha u Evropskoj uniji. Podeljen je na pet nivoa, od „dobrog“ do „veoma lošeg“, na osnovu koncentracije ključnih zagađivača."
 }
