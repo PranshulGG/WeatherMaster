@@ -443,7 +443,7 @@
     "updated_time_format_sec": "Đã cập nhật, X giây trước",
     "aqi_type": "Đơn vi AQI",
     "used_app_storage_info_sub": "Bộ nhớ hiển thị dung lượng không gian khả dụng mà ứng dụng đang sử dụng cho các vị trí đã lưu. Nếu đạt 100%, bạn không thể lưu thêm vị trí nữa.",
-    "used_app_storage": "Đã sử dụng bộ nhớ ứng dụng",
+    "used_app_storage": "Dung lượng ứng dụng đã sử dụng",
     "united_states_aqi": "AQI Hoa Kỳ",
     "european_aqi": "AQI Châu Âu",
     "data_by": "Dữ liệu bởi",
