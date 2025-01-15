@@ -261,7 +261,7 @@
     "thunder_weather_tips_1": "⛈️ Onweer verwacht. Blijf binnen en vermijd aanwezigheid van hoge objecten of open velden.",
     "thunder_weather_tips_2": "⚡ Er is kans op onweer. Haal de stekker van gevoelige elektronica uit het stopcontact om schade door bliksem te voorkomen.",
     "thunder_weather_tips_3": "🌩️ Stormachtig weer vandaag! Vermijd rijden tijdens hevige regen en blijf binnen.",
-    "temp_report_tipPart_1": "Verwacht maxima van ",
+    "temp_report_tipPart_1": "Maxima van ",
     "temp_report_tipPart_2": "☀️ met een maximale UV-index van",
     "temp_report_tipPart_3": ". Als de zon ondergaat 🌅 zullen de temperaturen dalen tot ",
     "temp_report_tipPart_4": ". Een mooie avond op komst! 🌙",
@@ -442,12 +442,12 @@
     "updated_time_format_day": "Bijgewerkt, X dag(en) geleden.",
     "updated_time_format_sec": "Bijgewerkt, X sec. geleden.",
     "aqi_type": "Type AQI",
-    "used_app_storage_info_sub": "Storage shows how much of the available space the app is using for saved locations. If it reaches 100%, you can no longer save additional locations",
+    "used_app_storage_info_sub": "Opslag toont hoeveel van de beschikbare ruimte de app gebruikt voor opgeslagen locaties. Als het 100% bereikt, kun je geen extra locaties meer opslaan.",
     "used_app_storage": "Gebruikte appopslag",
     "united_states_aqi": "Amerikaanse AQI",
     "european_aqi": "Europese AQI",
     "data_by": "Date door ",
-    "data_fetch_error": "Failed to fetch the data",
+    "data_fetch_error": "Fout bij het ophalen van de gegevens",
     "aqi_info_us": "The US AQI (Air Quality Index) is a measurement used to communicate the level of air pollution. It ranges from 0 to 500, with higher values indicating worse air quality.",
-    "aqi_info_eu": "The EU AQI (Air Quality Index) is a measurement used to communicate the level of air pollution in the European Union. It is divided into five levels, from 'Good' to 'Very Poor,' based on the concentration of key pollutants."
+    "aqi_info_eu": "De EU AQI (Air Quality Index) is een meting die wordt gebruikt om het niveau van luchtvervuiling in de Europese Unie aan te geven. Deze is verdeeld in vijf niveaus, van 'goed' tot 'zeer slecht', gebaseerd op de concentratie van belangrijke luchtvervuilende stoffen."
 }
