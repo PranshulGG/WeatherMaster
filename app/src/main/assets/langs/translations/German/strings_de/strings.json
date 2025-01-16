@@ -437,7 +437,7 @@
     "time_hour": "",
     "time_day": "",
     "time_sec": "",
-    "updated_time_format_min": "Updated, X min. ago",
+    "updated_time_format_min": "",
     "updated_time_format_hour": "Updated, X hr. ago",
     "updated_time_format_day": "Updated, X day ago",
     "updated_time_format_sec": "Updated, X sec. ago",
