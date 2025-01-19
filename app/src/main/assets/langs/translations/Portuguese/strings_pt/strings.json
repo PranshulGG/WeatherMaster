@@ -449,5 +449,7 @@
     "data_by": "Dados por",
     "data_fetch_error": "Falha ao buscar os dados",
     "aqi_info_us": "O IQA dos EUA (Índice de Qualidade do Ar) é uma medida usada para comunicar o nível de poluição do ar. Ele varia de 0 a 500, com valores mais altos indicando pior qualidade do ar.",
-    "aqi_info_eu": "O IQA da UE (Índice de Qualidade do Ar) é uma medida usada para comunicar o nível de poluição do ar na União Europeia. Ele é dividido em cinco níveis, de 'Bom' a 'Muito Ruim', com base na concentração dos principais poluentes."
+    "aqi_info_eu": "O IQA da UE (Índice de Qualidade do Ar) é uma medida usada para comunicar o nível de poluição do ar na União Europeia. Ele é dividido em cinco níveis, de 'Bom' a 'Muito Ruim', com base na concentração dos principais poluentes.",
+    "update_weather_data": "Update weather data",
+    "update_weather_data_sub": "Automatically update the weather data if it's outdated when a location is clicked"
 }
