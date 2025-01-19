@@ -449,5 +449,7 @@
     "data_by": "Données par",
     "data_fetch_error": "Échec de la récupération des données",
     "aqi_info_us": "L'indice de qualité de l'air (IQA) aux États-Unis est une mesure utilisée pour communiquer le niveau de pollution de l'air. Il varie de 0 à 500, les valeurs les plus élevées indiquant une qualité de l'air plus mauvaise.",
-    "aqi_info_eu": "L'indice de qualité de l'air (IQA) de l'UE est une mesure utilisée pour communiquer le niveau de pollution de l'air dans l'Union européenne. Il est divisé en cinq niveaux, de \"Bon\" à \"Très mauvais\", en fonction de la concentration des principaux polluants."
+    "aqi_info_eu": "L'indice de qualité de l'air (IQA) de l'UE est une mesure utilisée pour communiquer le niveau de pollution de l'air dans l'Union européenne. Il est divisé en cinq niveaux, de \"Bon\" à \"Très mauvais\", en fonction de la concentration des principaux polluants.",
+    "update_weather_data": "Update weather data",
+    "update_weather_data_sub": "Automatically update the weather data if it's outdated when a location is clicked"
 }
