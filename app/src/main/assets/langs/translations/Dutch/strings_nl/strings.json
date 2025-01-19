@@ -449,5 +449,7 @@
     "data_by": "Date door ",
     "data_fetch_error": "Fout bij het ophalen van de gegevens",
     "aqi_info_us": "The US AQI (Air Quality Index) is a measurement used to communicate the level of air pollution. It ranges from 0 to 500, with higher values indicating worse air quality.",
-    "aqi_info_eu": "De EU AQI (Air Quality Index) is een meting die wordt gebruikt om het niveau van luchtvervuiling in de Europese Unie aan te geven. Deze is verdeeld in vijf niveaus, van 'goed' tot 'zeer slecht', gebaseerd op de concentratie van belangrijke luchtvervuilende stoffen."
+    "aqi_info_eu": "De EU AQI (Air Quality Index) is een meting die wordt gebruikt om het niveau van luchtvervuiling in de Europese Unie aan te geven. Deze is verdeeld in vijf niveaus, van 'goed' tot 'zeer slecht', gebaseerd op de concentratie van belangrijke luchtvervuilende stoffen.",
+    "update_weather_data": "Update weather data",
+    "update_weather_data_sub": "Automatically update the weather data if it's outdated when a location is clicked"
 }
