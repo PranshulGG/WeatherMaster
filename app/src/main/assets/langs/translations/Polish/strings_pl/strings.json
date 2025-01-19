@@ -437,19 +437,13 @@
     "time_hour": "godz.",
     "time_day": "dzień",
     "time_sec": "sek.",
-    "updated_time_format_min": "Zaktualizowano X min. temu",
-    "updated_time_format_hour": "Zaktualizowano X godz. temu",
-    "updated_time_format_day": "Zaktualizowano X dni temu",
-    "updated_time_format_sec": "Zaktualizowano X sek. temu",
     "aqi_type": "Typ AQI",
     "used_app_storage_info_sub": "Pamięć pokazuje, ile dostępnej pamięci telefonu aplikacja wykorzystuje na zapisane lokalizacje. Jeśli osiągnie 100%, nie można już zapisywać dodatkowych lokalizacji",
     "used_app_storage": "Używana pamięć aplikacji",
-    "united_states_aqi": "AQI Stanów Zjednoczonych",
-    "european_aqi": "AQI Europejskie",
     "data_by": "Dane dostarczane przez",
     "data_fetch_error": "Nie udało się pobrać danych",
     "aqi_info_us": "AQI USA (Indeks jakości powietrza) jest pomiarem używanym do wyrażenia poziomu zanieczyszczenia powietrza. Waha się on od 0 do 500, gdzie im wyższa wartość, tym gorsza jakość powietrza.",
     "aqi_info_eu": "AQI EU (Indeks jakości powietrza) jest pomiarem używanym do wyrażenia poziomu zanieczyszczenia powietrza w Unii Europejskiej. Jest on podzielony na pięć poziomów, od 'Dobra' do 'Bardzo niska'. Bazuje on na koncentracji kluczowych zanieczyszczeń.",
-    "update_weather_data": "Update weather data",
-    "update_weather_data_sub": "Automatically update the weather data if it's outdated when a location is clicked"
+    "update_weather_data": "Zaktualizuj dane pogodowe",
+    "update_weather_data_sub": "Automatycznie aktualizuje dane pogodowe, jeśli są one przestarzałe, kiedy klikniesz lokalizację"
 }
