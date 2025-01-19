@@ -449,5 +449,7 @@
     "data_by": "Datos ng",
     "data_fetch_error": "Nag-fail sa pag-fetch ng datos",
     "aqi_info_us": "Ang EU AQI (Air Quality Index) ay pagsusukat na ipinapakita ang level ng polusyon sa hangin. Ito ay sinusukat mula 0 hanggang 500, at ang mga mas matataas na halaga'y nangangahulugan ng mas malalang kalidad ng hangin.",
-    "aqi_info_eu": "Ang UE AQ (Air Quality Index) ay pagsusukat na ginagamit para ipakita ang lebel ng polusyon sa hangin sa Unyong Europa. Ito ay hinahati sa limang lebel, mula 'Maganda' hanggang 'Sobrang Baba,' base sa dami ng mga pollutant o dumi sa hangin."
+    "aqi_info_eu": "Ang UE AQ (Air Quality Index) ay pagsusukat na ginagamit para ipakita ang lebel ng polusyon sa hangin sa Unyong Europa. Ito ay hinahati sa limang lebel, mula 'Maganda' hanggang 'Sobrang Baba,' base sa dami ng mga pollutant o dumi sa hangin.",
+    "update_weather_data": "Update weather data",
+    "update_weather_data_sub": "Automatically update the weather data if it's outdated when a location is clicked"
 }
