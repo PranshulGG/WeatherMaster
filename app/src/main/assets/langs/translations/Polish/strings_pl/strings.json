@@ -449,5 +449,7 @@
     "data_by": "Dane dostarczane przez",
     "data_fetch_error": "Nie udało się pobrać danych",
     "aqi_info_us": "AQI USA (Indeks jakości powietrza) jest pomiarem używanym do wyrażenia poziomu zanieczyszczenia powietrza. Waha się on od 0 do 500, gdzie im wyższa wartość, tym gorsza jakość powietrza.",
-    "aqi_info_eu": "AQI EU (Indeks jakości powietrza) jest pomiarem używanym do wyrażenia poziomu zanieczyszczenia powietrza w Unii Europejskiej. Jest on podzielony na pięć poziomów, od 'Dobra' do 'Bardzo niska'. Bazuje on na koncentracji kluczowych zanieczyszczeń."
+    "aqi_info_eu": "AQI EU (Indeks jakości powietrza) jest pomiarem używanym do wyrażenia poziomu zanieczyszczenia powietrza w Unii Europejskiej. Jest on podzielony na pięć poziomów, od 'Dobra' do 'Bardzo niska'. Bazuje on na koncentracji kluczowych zanieczyszczeń.",
+    "update_weather_data": "Update weather data",
+    "update_weather_data_sub": "Automatically update the weather data if it's outdated when a location is clicked"
 }
