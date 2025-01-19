@@ -449,5 +449,7 @@
     "data_by": "Data tərəfindən",
     "data_fetch_error": "Datanı əldə etmək alınmadı",
     "aqi_info_us": "ABŞ HKI (Air Quality Index) havanın çirklənməsi səviyyəsini bildirmək üçün istifadə edilən bir ölçüdür. 0-dan 500-ə qədər dəyişir, daha yüksək dəyərlər pis hava keyfiyyətini göstərir.",
-    "aqi_info_eu": "AB HKI (Air Quality Index) Avropa İttifaqında havanın çirklənməsi səviyyəsini bildirmək üçün istifadə edilən bir ölçüdür. Konsentrə əsasən, \"Yaxşı\"dan \"Çox zəif\"ə qədər beş səviyyəyə bölünür."
+    "aqi_info_eu": "AB HKI (Air Quality Index) Avropa İttifaqında havanın çirklənməsi səviyyəsini bildirmək üçün istifadə edilən bir ölçüdür. Konsentrə əsasən, \"Yaxşı\"dan \"Çox zəif\"ə qədər beş səviyyəyə bölünür.",
+    "update_weather_data": "Update weather data",
+    "update_weather_data_sub": "Automatically update the weather data if it's outdated when a location is clicked"
 }
