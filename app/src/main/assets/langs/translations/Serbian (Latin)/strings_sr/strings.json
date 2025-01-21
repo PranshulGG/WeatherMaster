@@ -187,7 +187,7 @@
     "version": "Verzija",
     "third_party_licenses": "Licenca treće strane",
     "clothing_activity": "Oblačenje i aktivnosti ",
-    "get_clothing_suggestions": "Dobijajte svoje predloge za oblačenje i aktivnosti.",
+    "get_clothing_suggestions": "Dobijte svoje predloge za odeću i aktivnosti.",
     "day": "Dan",
     "evening": "Veče",
     "night": "Noć",
@@ -439,6 +439,6 @@
     "data_fetch_error": "Preuzimanje podataka nije uspelo",
     "aqi_info_us": "Američki AQI (indeks kvaliteta vazduha) je merenje koje se koristi za saopštavanje nivoa zagađenja vazduha. Ona se kreće od 0 do 500, pri čemu veće vrednosti ukazuju na lošiji kvalitet vazduha.",
     "aqi_info_eu": "EU AQI (indeks kvaliteta vazduha) je merenje koje se koristi za saopštavanje nivoa zagađenja vazduha u Evropskoj uniji. Podeljen je na pet nivoa, od „dobrog“ do „veoma lošeg“, na osnovu koncentracije ključnih zagađivača.",
-    "update_weather_data": "Update weather data",
-    "update_weather_data_sub": "Automatically update the weather data if it's outdated when a location is clicked"
+    "update_weather_data": "Ažurirajte podatke o vremenu",
+    "update_weather_data_sub": "Automatski ažurirajte podatke o vremenu ako su zastareli kada se klikne na lokaciju"
 }
