@@ -432,7 +432,7 @@
     "time_hour": "oras",
     "time_day": "araw",
     "time_sec": "segundo",
-    "aqi_type": "Klasen ng AQI",
+    "aqi_type": "Klase ng AQI",
     "used_app_storage_info_sub": "Ipinapakita ng storage kung gaano karami ang natitirang espasyo ang ginagamit ng app para sa mga naka-save na lokasyon. Kapag ito'y umabot ng 100%, hindi kana puwedeng mag-save pa ng ibang mga lokasyon.",
     "used_app_storage": "Nagamit na storage ng app",
     "data_by": "Datos ng",
