@@ -433,12 +433,12 @@
     "time_day": "",
     "time_sec": "",
     "aqi_type": "AQI Typ",
-    "used_app_storage_info_sub": "Storage shows how much of the available space the app is using for saved locations. If it reaches 100%, you can no longer save additional locations",
+    "used_app_storage_info_sub": "Der Speicher zeigt, wie viel verfügbarer Platz die App für gespeicherte Standorte benutzt. Wenn dieser Wert 100 % erreicht, kannst du keine weiteren Standorte hinzufügen.",
     "used_app_storage": "Benutzter App Speicherplatz",
     "data_by": "Daten vom",
     "data_fetch_error": "Die Daten konnten nicht aktualisiert werden",
-    "aqi_info_us": "The US AQI (Air Quality Index) is a measurement used to communicate the level of air pollution. It ranges from 0 to 500, with higher values indicating worse air quality.",
-    "aqi_info_eu": "The EU AQI (Air Quality Index) is a measurement used to communicate the level of air pollution in the European Union. It is divided into five levels, from 'Good' to 'Very Poor,' based on the concentration of key pollutants.",
-    "update_weather_data": "Update weather data",
-    "update_weather_data_sub": "Automatically update the weather data if it's outdated when a location is clicked"
+    "aqi_info_us": "Der US AQI (Luftqualitätsindex) ist ein Maß welches genutzt wird, um die Luftverschmutzung zu vermitteln. Der Wert reicht von 0 bis 500, wobei höhere Werte auf eine schlechtere Luftqualität hinweisen.",
+    "aqi_info_eu": "Der EU AQI (Luftqualitätsindex) ist ein Maß welches genutzt wird, um die Luftverschmutzung in der Europäischen Union zu vermitteln. Es ist in fünf Level unterteilt von \"Gut\" bis \"Sehr schlecht\"; basierend auf die Konzentration der wichtigsten Schadstoffen.",
+    "update_weather_data": "Wetterdaten aktualisieren",
+    "update_weather_data_sub": "Aktualisiere automatisch die Wetterdaten, wenn diese veraltet sind und ein Standort angeklickt wird"
 }
