@@ -6,8 +6,10 @@ function getCountryName(code) {
 
 let requestQueue = [];
 let isProcessingQueue = false;
+let errorShownFirst = false;
 
 async function DecodeWeather(lat, lon, suggestionText, refreshValue) {
+errorShownFirst = false
   return new Promise((resolve, reject) => {
     requestQueue.push({ lat, lon, suggestionText, refreshValue, resolve, reject });
 
@@ -26,7 +28,7 @@ function processQueue() {
   isProcessingQueue = true;
   const { lat, lon, suggestionText, refreshValue, resolve, reject } = requestQueue.shift();
 
-  fetch(`https://api.timezonedb.com/v2.1/get-time-zone?key=KEY&format=json&by=position&lat=${lat}&lng=${lon}`)
+  fetch(`https://api.timezonedb.com/v2.1/get-time-zone?key=&format=json&by=position&lat=${lat}&lng=${lon}`)
     .then(response => response.json())
     .then(data => {
       if (data.status === 'OK') {
@@ -34,18 +36,48 @@ function processQueue() {
         resolve(data);
       } else {
         console.error('Error fetching timezone:', data);
-        setTimeout(() => {
-          DecodeWeather(lat, lon, suggestionText, refreshValue);
-        }, 2500);
         reject(new Error('Failed to fetch timezone'));
       }
     })
     .catch(error => {
       console.error('Error:', error);
-      setTimeout(() => {
-        DecodeWeather(lat, lon, suggestionText, refreshValue); // Retry request
-      }, 2500);
+            setOfflineIcons();
+
       reject(error);
+      if(!errorShownFirst){
+      errorShownFirst = true
+            setOfflineIcons();
+
+            ShowSnackMessage.ShowSnack(
+              getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "data_fetch_error"
+              ),
+              "long"
+            );
+           const SavedLocation = JSON.parse(localStorage.getItem('DefaultLocation'));
+          if(suggestionText === SavedLocation.name || suggestionText === 'CurrentDeviceLocation'){
+            setTimeout(() =>{
+              ReturnHomeLocation()
+              onAllLocationsLoaded()
+            }, 400)
+
+
+          } else{
+
+               setTimeout(() =>{
+                LoadLocationOnRequest(lat, lon, suggestionText)
+                onAllLocationsLoaded()
+              }, 400)
+
+          }
+           AndroidInterface.updateStatusBarColor('StopRefreshingLoader');
+            document.querySelector('.no_touch_screen').hidden = true;
+        hideLoader()
+        document.querySelector('auto-update').hidden = true;
+
+            return
+      }
     })
     .finally(() => {
       // Process next request after 1 second
@@ -62,77 +94,76 @@ function FetchWeather(lat, lon, timezone, suggestionText, refreshValue) {
   // send hour
 
   if (localStorage.getItem('selectedMainWeatherProvider') === 'Met norway') {
-    FetchWeatherMetNorway(lat, lon, suggestionText, refreshValue)
+    FetchWeatherMetNorway(lat, lon, timezone, suggestionText, refreshValue)
 
     saveCache(lat, lon, timezone, suggestionText)
-    FetchOpenMeteo(lat, lon, timezone, suggestionText)
-    document.querySelector('.data_provider_name_import').innerHTML = 'Data by Met norway';
+    document.querySelector('.data_provider_name_import').innerHTML = `${getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'data_by')} Met norway`;
 
   } else if (localStorage.getItem('ApiForAccu') && localStorage.getItem('selectedMainWeatherProvider') === 'Accuweather') {
     FetchWeatherAccuweather(lat, lon, suggestionText, refreshValue)
     saveCache(lat, lon, timezone, suggestionText)
     FetchOpenMeteo(lat, lon, timezone, suggestionText)
 
-    document.querySelector('.data_provider_name_import').innerHTML = 'Data by Accuweather';
+    document.querySelector('.data_provider_name_import').innerHTML = `${getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'data_by')} Accuweather`;
   } else if (localStorage.getItem('selectedMainWeatherProvider') === 'meteoFrance') {
     FetchMeteoFrance(lat, lon, timezone, suggestionText, refreshValue)
     saveCache(lat, lon, timezone, suggestionText)
     localStorage.setItem(`WeatherDataMeteoFranceTimeStamp_${suggestionText}`, new Date().toISOString())
 
-    document.querySelector('.data_provider_name_import').innerHTML = 'Data by Météo-France';
+    document.querySelector('.data_provider_name_import').innerHTML = `${getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'data_by')} Météo-France`;
   } else if (localStorage.getItem('selectedMainWeatherProvider') === 'dwdGermany') {
     FetchDWDGermany(lat, lon, timezone, suggestionText, refreshValue)
     saveCache(lat, lon, timezone, suggestionText)
     localStorage.setItem(`WeatherDataDWDGermanyTimeStamp_${suggestionText}`, new Date().toISOString())
 
-    document.querySelector('.data_provider_name_import').innerHTML = 'Data by DWD Germany';
+    document.querySelector('.data_provider_name_import').innerHTML = `${getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'data_by')} DWD Germany`;
   } else if (localStorage.getItem('selectedMainWeatherProvider') === 'noaaUS') {
     FetchNOAAUS(lat, lon, timezone, suggestionText, refreshValue)
     saveCache(lat, lon, timezone, suggestionText)
     localStorage.setItem(`WeatherDataNOAAUSTimeStamp_${suggestionText}`, new Date().toISOString())
-    document.querySelector('.data_provider_name_import').innerHTML = 'Data by NOAA U.S.';
+    document.querySelector('.data_provider_name_import').innerHTML = `${getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'data_by')} NOAA U.S.`;
   } else if (localStorage.getItem('selectedMainWeatherProvider') === 'ecmwf') {
     FetchECMWF(lat, lon, timezone, suggestionText, refreshValue)
     saveCache(lat, lon, timezone, suggestionText)
     localStorage.setItem(`WeatherDataECMWFTimeStamp_${suggestionText}`, new Date().toISOString())
-    document.querySelector('.data_provider_name_import').innerHTML = 'Data by ECMWF';
+    document.querySelector('.data_provider_name_import').innerHTML = `${getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'data_by')} ECMWF`;
   } else if (localStorage.getItem('selectedMainWeatherProvider') === 'ukMetOffice') {
     FetchukMetOffice(lat, lon, timezone, suggestionText, refreshValue)
     saveCache(lat, lon, timezone, suggestionText)
     localStorage.setItem(`WeatherDataukMetOfficeTimeStamp_${suggestionText}`, new Date().toISOString())
-    document.querySelector('.data_provider_name_import').innerHTML = 'Data by UK Met Office';
+    document.querySelector('.data_provider_name_import').innerHTML = `${getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'data_by')} UK Met Office`;
   } else if (localStorage.getItem('selectedMainWeatherProvider') === 'jmaJapan') {
     FetchJMAJapan(lat, lon, timezone, suggestionText, refreshValue)
     saveCache(lat, lon, timezone, suggestionText)
     localStorage.setItem(`WeatherDataJMAJapanTimeStamp_${suggestionText}`, new Date().toISOString())
-    document.querySelector('.data_provider_name_import').innerHTML = 'Data by JMA Japan';
+    document.querySelector('.data_provider_name_import').innerHTML = `${getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'data_by')} JMA Japan`;
   } else if (localStorage.getItem('selectedMainWeatherProvider') === 'gemCanada') {
     FetchgemCanada(lat, lon, timezone, suggestionText, refreshValue)
     saveCache(lat, lon, timezone, suggestionText)
     localStorage.setItem(`WeatherDatagemCanadaTimeStamp_${suggestionText}`, new Date().toISOString())
-    document.querySelector('.data_provider_name_import').innerHTML = 'Data by GEM Canada';
+    document.querySelector('.data_provider_name_import').innerHTML = `${getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'data_by')} GEM Canada`;
   } else if (localStorage.getItem('selectedMainWeatherProvider') === 'bomAustralia') {
     FetchbomAustralia(lat, lon, timezone, suggestionText, refreshValue)
     saveCache(lat, lon, timezone, suggestionText)
     localStorage.setItem(`WeatherDatabomAustraliaTimeStamp_${suggestionText}`, new Date().toISOString())
-    document.querySelector('.data_provider_name_import').innerHTML = 'Data by BOM Australia';
+    document.querySelector('.data_provider_name_import').innerHTML = `${getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'data_by')} BOM Australia`;
   } else if (localStorage.getItem('selectedMainWeatherProvider') === 'cmaChina') {
     FetchcmaChina(lat, lon, timezone, suggestionText, refreshValue)
     saveCache(lat, lon, timezone, suggestionText)
     localStorage.setItem(`WeatherDatacmaChinaTimeStamp_${suggestionText}`, new Date().toISOString())
-    document.querySelector('.data_provider_name_import').innerHTML = 'Data by CMA China';
+    document.querySelector('.data_provider_name_import').innerHTML = `${getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'data_by')} CMA China`;
   } else if (localStorage.getItem('selectedMainWeatherProvider') === 'knmiNetherlands') {
     FetchknmiNetherlands(lat, lon, timezone, suggestionText, refreshValue)
     saveCache(lat, lon, timezone, suggestionText)
     localStorage.setItem(`WeatherDataknmiNetherlandsTimeStamp_${suggestionText}`, new Date().toISOString())
-    document.querySelector('.data_provider_name_import').innerHTML = 'Data by KNMI Netherlands';
+    document.querySelector('.data_provider_name_import').innerHTML = `${getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'data_by')} KNMI Netherlands`;
   } else if (localStorage.getItem('selectedMainWeatherProvider') === 'dmiDenmark') {
     FetchdmiDenmark(lat, lon, timezone, suggestionText, refreshValue)
     saveCache(lat, lon, timezone, suggestionText)
     localStorage.setItem(`WeatherDatadmiDenmarkTimeStamp_${suggestionText}`, new Date().toISOString())
-    document.querySelector('.data_provider_name_import').innerHTML = 'Data by DMI Denmark';
+    document.querySelector('.data_provider_name_import').innerHTML = `${getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'data_by')} DMI Denmark`;
   } else {
-    document.querySelector('.data_provider_name_import').innerHTML = 'Data by Open-meteo';
+    document.querySelector('.data_provider_name_import').innerHTML = `${getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'data_by')} Open-meteo`;
     FetchOpenMeteo(lat, lon, timezone, suggestionText, refreshValue)
   }
 
@@ -147,7 +178,7 @@ function FetchWeather(lat, lon, timezone, suggestionText, refreshValue) {
 
 
   function MoreDetails(latSum, lonSum, suggestionText) {
-    fetch(`https://api.weatherapi.com/v1/forecast.json?key=KEY&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/forecast.json?key=&q=${latSum},${lonSum}`)
       .then(response => response.json())
       .then(data => {
 
@@ -163,7 +194,7 @@ function FetchWeather(lat, lon, timezone, suggestionText, refreshValue) {
 
 
   function astronomyData(latSum, lonSum, suggestionText) {
-    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=KEY&q=${latSum},${lonSum}`)
+    fetch(`https://api.weatherapi.com/v1/astronomy.json?key=&q=${latSum},${lonSum}`)
       .then(response => response.json())
       .then(data => {
 
@@ -176,7 +207,7 @@ function FetchWeather(lat, lon, timezone, suggestionText, refreshValue) {
   FetchAlert(lat, lon, suggestionText)
 
   function FetchAlert(lat, lon, suggestionText) {
-    fetch(`https://api.weatherapi.com/v1/alerts.json?key=KEY&q=${lat},${lon}`)
+    fetch(`https://api.weatherapi.com/v1/alerts.json?key=&q=${lat},${lon}`)
       .then(response => response.json())
       .then(data => {
 
@@ -221,10 +252,20 @@ function FetchOpenMeteo(lat, lon, timezone, suggestionText, refreshValue) {
         renderLatestData(lat, lon, suggestionText, refreshValue)
         }
 
-      })
-      .catch(error => {
-        console.error('There was an error fetching the weather data:', error);
-      });
+    })
+    .catch(error => {
+      console.error('There was an error fetching the weather data:', error);
+            ShowSnackMessage.ShowSnack(
+              getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "data_fetch_error"
+              ),
+              "long"
+            );
+     AndroidInterface.updateStatusBarColor('StopRefreshingLoader');
+      document.querySelector('.no_touch_screen').hidden = true;
+      return
+    });
 
   }
 
@@ -237,13 +278,12 @@ function FetchOpenMeteo(lat, lon, timezone, suggestionText, refreshValue) {
 
 function FetchAirQuality(lat, lon, timezone, suggestionText) {
 
-  fetch(`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&current=us_aqi,pm10,pm2_5,carbon_monoxide,nitrogen_dioxide,sulphur_dioxide,ozone,alder_pollen,birch_pollen,grass_pollen,mugwort_pollen,olive_pollen,ragweed_pollen&timezone=${timezone}&forecast_hours=1`)
+  fetch(`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&current=us_aqi,european_aqi,pm10,pm2_5,carbon_monoxide,nitrogen_dioxide,sulphur_dioxide,ozone,alder_pollen,birch_pollen,grass_pollen,mugwort_pollen,olive_pollen,ragweed_pollen&timezone=${timezone}&forecast_hours=1`)
     .then(response => response.json())
     .then(data => {
 
 
       localStorage.setItem(`AirQuality_${suggestionText}`, JSON.stringify(data));
-
 
     });
 
@@ -297,20 +337,29 @@ function saveCache(lat, lon, timezone, suggestionText) {
 
 
 
-function FetchWeatherMetNorway(lat, lon, suggestionText, refreshValue) {
-  fetch(`https://api.met.no/weatherapi/locationforecast/2.0/complete?lat=${lat}&lon=${lon}`)
+function FetchWeatherMetNorway(lat, lon, timezone, suggestionText, refreshValue) {
+    fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,is_day,apparent_temperature,pressure_msl,relative_humidity_2m,precipitation,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m,wind_gusts_10m&hourly=wind_speed_10m,wind_direction_10m,relative_humidity_2m,pressure_msl,cloud_cover,temperature_2m,dew_point_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,visibility,uv_index&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,daylight_duration,uv_index_max,precipitation_sum,daylight_duration,precipitation_probability_max,precipitation_hours,wind_speed_10m_max,wind_gusts_10m_max&timezone=${timezone}&models=metno_seamless&forecast_days=3&forecast_hours=24`)
     .then(response => response.json())
     .then(data => {
-      console.log('Suggestion Text:', suggestionText);
 
       localStorage.setItem(`WeatherDataMetNorway_${suggestionText}`, JSON.stringify(data, new Date().toISOString()))
       localStorage.setItem(`WeatherDataMetNorwayTimeStamp_${suggestionText}`, new Date().toISOString())
-      const dailyData = data.properties.timeseries.filter((entry, index) => index % 24 === 0);
 
-
-      renderLatestData(lat, lon, suggestionText, refreshValue)
-
-    });
+renderLatestData(lat, lon, suggestionText, refreshValue)
+  })
+  .catch(error => {
+    console.error('There was an error fetching the weather data:', error);
+            ShowSnackMessage.ShowSnack(
+              getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "data_fetch_error"
+              ),
+              "long"
+            );
+     AndroidInterface.updateStatusBarColor('StopRefreshingLoader');
+      document.querySelector('.no_touch_screen').hidden = true;
+      return
+  });
 }
 
 
@@ -350,7 +399,17 @@ function FetchWeatherAccuweather(lat, lon, suggestionText, refreshValue) {
 
     })
     .catch(error => {
-      console.error('There was a problem with the fetch operation:', error);
+      console.error('There was an error fetching the weather data:', error);
+            ShowSnackMessage.ShowSnack(
+              getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "data_fetch_error"
+              ),
+              "long"
+            );
+     AndroidInterface.updateStatusBarColor('StopRefreshingLoader');
+      document.querySelector('.no_touch_screen').hidden = true;
+      return
     });
 
 }
@@ -378,8 +437,17 @@ function FetchWeatherAccuweatherCurrent(location_key, lat, lon, suggestionText, 
 
     })
     .catch(error => {
-      console.error('There was a problem with the fetch operation:', error);
-      ShowSnackMessage.ShowSnack("API Error, Please change provider", "long");
+      console.error('There was an error fetching the weather data:', error);
+            ShowSnackMessage.ShowSnack(
+              getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "data_fetch_error"
+              ),
+              "long"
+            );
+     AndroidInterface.updateStatusBarColor('StopRefreshingLoader');
+      document.querySelector('.no_touch_screen').hidden = true;
+      return
     });
 }
 
@@ -397,6 +465,18 @@ function renderLatestData(lat, lon, suggestionText, refreshValue) {
   const SavedLocation = JSON.parse(localStorage.getItem('DefaultLocation'));
   const currentLocationName = localStorage.getItem('CurrentLocationName')
 
+      if(sessionStorage.getItem('usedFirstAsDefault') && sessionStorage.getItem('usedFirstAsDefault') === 'true'){
+        setTimeout(() => {
+          hideLoader()
+          onAllLocationsLoaded()
+          ReturnHomeLocation()
+          createWidgetData()
+
+      setTimeout(() =>{
+        sessionStorage.removeItem('usedFirstAsDefault');
+      }, 500);
+        }, 300);
+      }
 
 
   if (suggestionText === SavedLocation.name || suggestionText === 'CurrentDeviceLocation' && !refreshValue === 'no_data_render' && !refreshValue === `Refreshed_${suggestionText}`) {
@@ -410,12 +490,15 @@ function renderLatestData(lat, lon, suggestionText, refreshValue) {
     hideLoader()
       console.log('LOADED')
         createWidgetData()
+                document.querySelector('auto-update').hidden = true;
 
     }, 300);
 
   } else if (refreshValue) {
     if (refreshValue === 'no_data_render') {
  onAllLocationsLoaded()
+   localStorage.removeItem('SearchedItem');
+loadSwipeGestures()
     } else if(refreshValue === `Refreshed_${suggestionText}`) {
       setTimeout(() => {
        AndroidInterface.updateStatusBarColor('StopRefreshingLoader');
@@ -426,6 +509,9 @@ function renderLatestData(lat, lon, suggestionText, refreshValue) {
 
                onAllLocationsLoaded()
         createWidgetData()
+
+        document.querySelector('auto-update').hidden = true;
+
       }, 1500)
 
 

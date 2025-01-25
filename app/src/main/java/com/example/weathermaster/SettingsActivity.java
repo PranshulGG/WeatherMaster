@@ -1,5 +1,6 @@
 package com.example.weathermaster;
 
+import android.Manifest;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
@@ -19,6 +20,7 @@ import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
@@ -38,6 +40,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -58,7 +63,7 @@ public class SettingsActivity extends AppCompatActivity {
     private ValueCallback<Uri[]> filePathCallback;
     private final static int FILECHOOSER_RESULTCODE = 1;
     private final static int EXPORT_REQUEST_CODE = 2;
-    private static final int PERMISSION_REQUEST_CODE = 1;
+    private static final int PERMISSION_REQUEST_CODE_SETTINGS = 3;
     private static final int SAVE_DOCUMENT_REQUEST_CODE = 2;
     private static final int IMPORT_REQUEST_CODE = 3;
 
@@ -76,10 +81,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         setContentView(R.layout.activity_main);
-
 
         // Webview stuff
         webview = findViewById(R.id.webView);
@@ -102,8 +104,6 @@ public class SettingsActivity extends AppCompatActivity {
 
         webview.loadUrl("file:///android_asset/pages/settings.html");
         webSettings.setTextZoom(100);
-
-
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -133,7 +133,6 @@ public class SettingsActivity extends AppCompatActivity {
 
         });
     }
-
 
 
     @Override
@@ -183,7 +182,6 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
 
-
     public class WebAppInterface {
         @JavascriptInterface
         public void saveFile(String data) {
@@ -203,9 +201,6 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
 
-
-
-
     private void openFilePickerExport() {
         String currentDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         String fileName = "WeatherMasterData_" + currentDate + ".json";
@@ -215,6 +210,7 @@ public class SettingsActivity extends AppCompatActivity {
         intent.putExtra(Intent.EXTRA_TITLE, fileName);
         startActivityForResult(intent, SAVE_DOCUMENT_REQUEST_CODE);
     }
+
     private void openFilePickerImport() {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -251,7 +247,6 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
 
-
     private void saveToUri(Uri uri) {
         try {
             OutputStream outputStream = getContentResolver().openOutputStream(uri);
@@ -267,6 +262,7 @@ public class SettingsActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
     private void requestNotificationPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS)
@@ -275,6 +271,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -301,7 +298,7 @@ public class SettingsActivity extends AppCompatActivity {
             int duration = Snackbar.LENGTH_SHORT;
             if ("long".equals(time)) {
                 duration = Snackbar.LENGTH_LONG;
-            } else if ("short".equals(time)){
+            } else if ("short".equals(time)) {
                 duration = Snackbar.LENGTH_SHORT;
             }
 
@@ -348,7 +345,7 @@ public class SettingsActivity extends AppCompatActivity {
             int duration = Toast.LENGTH_SHORT;
             if (time.equals("long")) {
                 duration = Toast.LENGTH_LONG;
-            } else if(time.equals("short")){
+            } else if (time.equals("short")) {
                 duration = Toast.LENGTH_SHORT;
             }
             Toast.makeText(mContext, text, duration).show();
@@ -356,6 +353,10 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
 //    export or import data
+
+
+
+
 
 
 
@@ -692,6 +693,8 @@ public class SettingsActivity extends AppCompatActivity {
                     url.startsWith("https://www.rainviewer.com/")||
                     url.startsWith("https://carto.com/")||
                     url.startsWith("https://github.com/PranshulGG/WeatherMaster/releases") ||
+                    url.startsWith("https://www.geonames.org/")||
+                    url.startsWith("https://nominatim.org/") ||
                     url.startsWith("https://discord.gg/sSW2E4nqmn");
 
 

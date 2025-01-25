@@ -160,7 +160,8 @@ async function CreateMaterialYouTheme(hex) {
     localStorage.getItem("AppLanguageCode") === 'az' || // Azerbaijani
     localStorage.getItem("AppLanguageCode") === 'sl' || // Slovenian
     localStorage.getItem("AppLanguageCode") === 'fi' || // Finnish
-    localStorage.getItem("AppLanguageCode") === 'hu'    // Hungarian
+    localStorage.getItem("AppLanguageCode") === 'hu' ||  // Hungarian
+    localStorage.getItem("AppLanguageCode") === 'cs'    // Czech
   ) {
     local = ','
   } else{
@@ -254,7 +255,7 @@ const filteredData = data.time
 
                 function degreesToCompass(degrees) {
                     const compassDirections = [
-                        "N", "NE", "E", "SE", "S", "SW", "W", "NW"
+                        getTranslationByLang(localStorage.getItem("AppLanguageCode"), "wind_dir_n"), getTranslationByLang(localStorage.getItem("AppLanguageCode"), "wind_dir_ne"), getTranslationByLang(localStorage.getItem("AppLanguageCode"), "wind_dir_e"), getTranslationByLang(localStorage.getItem("AppLanguageCode"), "wind_dir_se"), getTranslationByLang(localStorage.getItem("AppLanguageCode"), "wind_dir_s"), getTranslationByLang(localStorage.getItem("AppLanguageCode"), "wind_dir_sw"), getTranslationByLang(localStorage.getItem("AppLanguageCode"), "wind_dir_w"), getTranslationByLang(localStorage.getItem("AppLanguageCode"), "wind_dir_nw")
                     ];
                     const index = Math.round(degrees / 45) % 8;
                     return compassDirections[index];

@@ -183,6 +183,7 @@ humiditymeterbaritem span{
 .visibility_graphic svg{
     width: 100%;
     height: 100%;
+    max-width: 600px;
 }
 
 .visibility_values{
@@ -303,6 +304,7 @@ WindMeterBarItem span{
     border-radius: 40px;
     overflow: hidden;
     position: relative;
+    max-width: 400px;
 }
 
 .top_sunSetRise_card svg{
@@ -396,3 +398,10 @@ WindMeterBarItem span{
     padding-bottom: 6px;
     font-family: var(--google-mid);
 }
+
+@media screen and (min-width: 450px){
+    .top_sunSetRise_card{
+        margin: auto;
+    }
+}
+

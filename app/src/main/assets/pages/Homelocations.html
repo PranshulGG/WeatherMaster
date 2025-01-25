@@ -223,6 +223,16 @@
             color: rgba(255, 255, 255, 0.671);
         }
 
+                .activity-large-content::before {
+            position: fixed;
+            bottom: 0;
+            content: '';
+            width: 100%;
+            background: linear-gradient(0deg, var(--Surface) 10%, rgba(255, 0, 0, 0));
+            height: 30px;
+            z-index: 1;
+        }
+
     </style>
 </head>
 
@@ -236,6 +246,13 @@
                 <span icon-outlined>arrow_back</span>
             </button>
             <p class="label-hidden-large" style="white-space: nowrap;" data-translate="home_location">Home location</p>
+            <flex style="flex: 1;"></flex>
+
+            <button class="ripple-icon-btn regular" onclick="openDeletelocationsDialog()" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)"
+                    title="Delete locations">
+                <span class="ripple-effect-icon"></span>
+                <span icon-outlined>delete</span>
+            </button>
         </div>
         <div class="activity-large-content" id="headUser-1">
             <p class="label-large-main" data-translate="home_location">Home location</p>
@@ -249,7 +266,7 @@
                 <div class="used_storage">
                     <div class="storage_container">
                         <div class="storage_progress"></div>
-                        <p id="storage_progress_text"></p>
+                        <p id="storage_progress_text" style="display: flex ; justify-content: flex-start; align-items: flex-end; width: calc(100% - 80px); gap: 2.5px;"><span id="storage_progress_text_span"></span><span class="used_span_supporting" data-translate="used_app_storage" style="overflow: hidden; display: block; width: calc(100% - 70px); text-overflow: ellipsis; white-space: nowrap; padding-bottom: 2px;">Used app storage</span></p>
                         <div style="position: absolute; top: 50%; transform: translateY(-50%); right: 10px;">
                             <md-icon-button onclick="openInfoDialog()"><md-icon icon-outlined>info</md-icon></md-icon-button></div>
                     </div>
@@ -273,14 +290,27 @@
                 <br>
 
                 <md-dialog style="min-width: 85%;" id="storage_info_dialog">
-                    <div slot="headline">Used app storage</div>
-                    <div slot="content">
+                    <div slot="headline" data-translate="used_app_storage">Used app storage</div>
+                    <div slot="content" data-translate="used_app_storage_info_sub">
                         Storage shows how much of the available space the app is using for saved locations. If it reaches 100%, you can no longer save additional locations
                     </div>
                     <div slot="actions">
                         <md-text-button data-translate="ok" onclick="window.history.back()">OK</md-text-button>
                     </div>
                 </md-dialog>
+
+
+                <md-dialog style="min-width: 85%;" id="delete_all_locations_dialog">
+                    <div slot="headline">Delete locations</div>
+                    <div slot="content">
+                        This action removes every saved location except your default location. Use this if your saved locations are not visible, are duplicating, or experiencing any other bugs
+                    </div>
+                    <div slot="actions">
+                        <md-text-button onclick="window.history.back()" style="font-size: 16px;">Cancel</md-text-button>
+                        <md-filled-button onclick="deleteSavedLocations();" style="font-size: 16px;" id="delete_all_locations_btn">Delete</md-filled-button>
+                    </div>
+                </md-dialog>
+
 
             </div>
         </div>
@@ -423,6 +453,37 @@ async function CreateMaterialYouTheme(hex) {
 
         // render locations
 
+                          let local
+
+  if (
+    localStorage.getItem("AppLanguageCode") === '' ||
+    localStorage.getItem("AppLanguageCode") === 'nl' || // Dutch
+    localStorage.getItem("AppLanguageCode") === 'fr' || // French
+    localStorage.getItem("AppLanguageCode") === 'de' || // German
+    localStorage.getItem("AppLanguageCode") === 'el' || // Greek
+    localStorage.getItem("AppLanguageCode") === 'it' || // Italian
+    localStorage.getItem("AppLanguageCode") === 'fa' || // Persian
+    localStorage.getItem("AppLanguageCode") === 'pl' || // Polish
+    localStorage.getItem("AppLanguageCode") === 'pt' || // Portuguese
+    localStorage.getItem("AppLanguageCode") === 'ro' || // Romanian
+    localStorage.getItem("AppLanguageCode") === 'ru' || // Russian
+    localStorage.getItem("AppLanguageCode") === 'es' || // Spanish
+    localStorage.getItem("AppLanguageCode") === 'tr' || // Turkish
+    localStorage.getItem("AppLanguageCode") === 'uk' || // Ukrainian
+    localStorage.getItem("AppLanguageCode") === 'sr' || // Serbian
+    localStorage.getItem("AppLanguageCode") === 'az' || // Azerbaijani
+    localStorage.getItem("AppLanguageCode") === 'sl' || // Slovenian
+    localStorage.getItem("AppLanguageCode") === 'fi' || // Finnish
+    localStorage.getItem("AppLanguageCode") === 'hu' ||  // Hungarian
+    localStorage.getItem("AppLanguageCode") === 'cs'    // Czech
+  ) {
+    local = ','
+  } else{
+    local = '.'
+
+  }
+
+
         const savedLocationsMenu = document.getElementById('item_holder');
         const savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
 
@@ -437,7 +498,9 @@ async function CreateMaterialYouTheme(hex) {
         defaultMenuItem.innerHTML = getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'your_device_location');
         defaultMenuItem.classList.add('selected-home-location', 'location_item', 'device_location');
         defaultMenuItem.setAttribute('name', 'CurrentDeviceLocation');
-
+        defaultMenuItem.addEventListener('click', () =>{
+            sendThemeToAndroid('homeLocationLocationReq');
+        })
         defaultMenuItem.innerHTML = `
 
                 <div class="icon">
@@ -455,11 +518,11 @@ async function CreateMaterialYouTheme(hex) {
                 <md-ripple style="--md-ripple-pressed-opacity: 0.05 !important;"></md-ripple>
                 `
 
-        defaultMenuItem.addEventListener('click', () => {
+        function turnOnCurrentLocation(){
             clearSelection();
             defaultMenuItem.classList.add('selected-home-location');
             localStorage.setItem('DefaultLocation', JSON.stringify({ lat: localStorage.getItem('deviceLat'), lon: localStorage.getItem('devicelon'), name: 'CurrentDeviceLocation' }));
-        });
+        }
 
 
         savedLocationsMenu.appendChild(defaultMenuItem);
@@ -596,21 +659,23 @@ document
     const usagePercentage = (totalUsed / maxStorageLimitBytes) * 100;
 
     return {
-        totalUsedMB: totalUsedMB.toFixed(2),
+        totalUsedMB: totalUsedMB.toFixed(2).replace('.', local),
         maxStorageLimitMB: maxStorageLimitMB,
-        usagePercentage: usagePercentage.toFixed(2)
+        usagePercentage: usagePercentage.toFixed(2).replace('.', local),
+        usagePercentageRegular: usagePercentage.toFixed(2)
+
     };
 }
 
 const usageInfo = calculateLocalStorageUsageInMB();
 
 
-if(usageInfo.usagePercentage < 30){
+if(usageInfo.usagePercentageRegular < 30){
     document.querySelector('.used_storage').classList.add('lowStorage');
     document.querySelector('.used_storage').classList.remove('highStorage');
     document.querySelector('.used_storage').classList.remove('midStorage');
 
-} else if (usageInfo.usagePercentage > 30 && usageInfo.usagePercentage < 70){
+} else if (usageInfo.usagePercentageRegular > 30 && usageInfo.usagePercentageRegular < 70){
     document.querySelector('.used_storage').classList.add('midStorage');
     document.querySelector('.used_storage').classList.remove('lowStorage');
     document.querySelector('.used_storage').classList.remove('highStorage');
@@ -624,10 +689,636 @@ if(usageInfo.usagePercentage < 30){
 
 
 setTimeout(() =>{
-    document.querySelector('.storage_progress').style.width = `${usageInfo.usagePercentage}%`;
-document.getElementById('storage_progress_text').innerHTML = `${usageInfo.usagePercentage}% <span class="used_span_supporting">Used app storage</span>`
+    document.querySelector('.storage_progress').style.width = `${usageInfo.usagePercentageRegular}%`;
+document.getElementById('storage_progress_text_span').innerHTML = `${usageInfo.usagePercentage}%`
 
 }, 200);
+
+// prompt
+
+
+function openDeletelocationsDialog() {
+  document.getElementById("delete_all_locations_dialog").show();
+  window.history.pushState({ DeleteAllLocationsDialogOpen: true }, "");
+
+  if (document.getElementById("headUser-1").scrollTop >= 50) {
+    sendThemeToAndroid(
+      `${document.documentElement.getAttribute("Theme")}_DialogScrolled`
+    );
+  } else {
+    sendThemeToAndroid(
+      `${document.documentElement.getAttribute("Theme")}_DialogNotScrolled`
+    );
+  }
+}
+
+window.addEventListener("popstate", function (event) {
+  if (document.getElementById("delete_all_locations_dialog").open) {
+    document.getElementById("delete_all_locations_dialog").close();
+  }
+});
+
+document
+  .getElementById("delete_all_locations_dialog")
+  .addEventListener("cancel", () => {
+    document
+      .getElementById("delete_all_locations_dialog")
+      .addEventListener("closed", () => {
+        window.history.back();
+      });
+  });
+
+document
+  .getElementById("delete_all_locations_dialog")
+  .addEventListener("close", () => {
+    if (document.getElementById("headUser-1").scrollTop >= 50) {
+      sendThemeToAndroid(
+        `${document.documentElement.getAttribute("Theme")}_Scrolled`
+      );
+    } else {
+      sendThemeToAndroid(
+        `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
+      );
+    }
+  });
+
+function deleteSavedLocations(){
+
+        setTimeout(() =>{
+        document.getElementById('delete_all_locations_btn').disabled = true
+    }, 100);
+
+    let savedLocations = JSON.parse(localStorage.getItem('savedLocations') || '[]');
+    let RemovedsavedLocations = JSON.parse(localStorage.getItem('savedLocations') || '[]');
+
+    const defaultLocation = JSON.parse(localStorage.getItem('DefaultLocation'));
+
+
+savedLocations = savedLocations.filter(location => location.locationName === defaultLocation.name);
+RemovedsavedLocations = RemovedsavedLocations.filter(location => location.locationName !== defaultLocation.name);
+
+
+
+localStorage.setItem('savedLocations', JSON.stringify(savedLocations));
+
+
+RemovedsavedLocations.forEach((RemovedsavedLocation) =>{
+
+
+if (
+            localStorage.getItem(
+              `WeatherDataOpenMeteo_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `WeatherDataOpenMeteo_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+
+          if (
+            localStorage.getItem(
+              `WeatherDataMetNorway_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `WeatherDataMetNorway_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+
+          if (
+            localStorage.getItem(
+              `WeatherDataAccuCurrent_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `WeatherDataAccuCurrent_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+          if (
+            localStorage.getItem(
+              `WeatherDataAccuHourly_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `WeatherDataAccuHourly_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+          if (
+            localStorage.getItem(
+              `WeatherDataMetNorwayTimeStamp_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `WeatherDataMetNorwayTimeStamp_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+          if (
+            localStorage.getItem(
+              `WeatherDataAccuTimeStamp_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `WeatherDataAccuTimeStamp_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+          if (
+            localStorage.getItem(
+              `WeatherDataOpenMeteoTimeStamp_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `WeatherDataOpenMeteoTimeStamp_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+          if (localStorage.getItem(`AlertData_${RemovedsavedLocation.locationName}`)) {
+            setTimeout(() => {
+              localStorage.removeItem(`AlertData_${RemovedsavedLocation.locationName}`);
+            }, 400);
+          }
+          if (localStorage.getItem(`AstronomyData_${RemovedsavedLocation.locationName}`)) {
+            setTimeout(() => {
+              localStorage.removeItem(`AstronomyData_${RemovedsavedLocation.locationName}`);
+            }, 400);
+          }
+          if (
+            localStorage.getItem(`MoreDetailsData_${RemovedsavedLocation.locationName}`)
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `MoreDetailsData_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+          if (
+            localStorage.getItem(
+              `DecodeWeatherLastCall_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `DecodeWeatherLastCall_${location.locationName}`
+              );
+            }, 400);
+          }
+          if (
+            localStorage.getItem(
+              `DecodeWeatherLastCallMet_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `DecodeWeatherLastCallMet_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+          if (
+            localStorage.getItem(
+              `WeatherDataDWDGermany_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `WeatherDataDWDGermany_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+          if (
+            localStorage.getItem(`WeatherDataNOAAUS_${RemovedsavedLocation.locationName}`)
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `WeatherDataNOAAUS_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+          if (
+            localStorage.getItem(
+              `WeatherDataMeteoFrance_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `WeatherDataMeteoFrance_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+          if (
+            localStorage.getItem(`WeatherDataECMWF_${RemovedsavedLocation.locationName}`)
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `WeatherDataECMWF_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+          if (
+            localStorage.getItem(
+              `WeatherDataukMetOffice_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `WeatherDataukMetOffice_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+          if (
+            localStorage.getItem(`WeatherDatajmaJapan_${RemovedsavedLocation.locationName}`)
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `WeatherDatajmaJapan_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+          if (
+            localStorage.getItem(
+              `WeatherDatagemCanada_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `WeatherDatagemCanada_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+          if (
+            localStorage.getItem(
+              `WeatherDatabomAustralia_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `WeatherDatabomAustralia_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+          if (
+            localStorage.getItem(`WeatherDatacmaChina_${RemovedsavedLocation.locationName}`)
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `WeatherDatacmaChina_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+          if (
+            localStorage.getItem(
+              `WeatherDataknmiNetherlands_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `WeatherDataknmiNetherlands_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+          if (
+            localStorage.getItem(
+              `WeatherDatadmiDenmark_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `WeatherDatadmiDenmark_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+          // last call
+
+          if (
+            localStorage.getItem(
+              `DecodeWeatherLastCalldwdGermany_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `DecodeWeatherLastCalldwdGermany_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+          if (
+            localStorage.getItem(
+              `DecodeWeatherLastCallopenmeteo_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `DecodeWeatherLastCallopenmeteo_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+          if (
+            localStorage.getItem(
+              `DecodeWeatherLastCallnoaaUS_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `DecodeWeatherLastCallnoaaUS_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+          if (
+            localStorage.getItem(
+              `DecodeWeatherLastCallmeteoFrance_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `DecodeWeatherLastCallmeteoFrance_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+          if (
+            localStorage.getItem(
+              `DecodeWeatherLastCallecmwf_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `DecodeWeatherLastCallecmwf_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+          if (
+            localStorage.getItem(
+              `DecodeWeatherLastCallukMetOffice_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `DecodeWeatherLastCallukMetOffice_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+          if (
+            localStorage.getItem(
+              `DecodeWeatherLastCalljmaJapan_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `DecodeWeatherLastCalljmaJapan_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+          if (
+            localStorage.getItem(
+              `DecodeWeatherLastCallgemCanada_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `DecodeWeatherLastCallgemCanada_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+          if (
+            localStorage.getItem(
+              `DecodeWeatherLastCallbomAustralia_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `DecodeWeatherLastCallbomAustralia_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+          if (
+            localStorage.getItem(
+              `DecodeWeatherLastCallcmaChina_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `DecodeWeatherLastCallcmaChina_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+          if (
+            localStorage.getItem(
+              `DecodeWeatherLastCallknmiNetherlands_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `DecodeWeatherLastCallknmiNetherlands_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+          if (
+            localStorage.getItem(
+              `DecodeWeatherLastCalldmiDenmark_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `DecodeWeatherLastCalldmiDenmark_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+
+          // remove any other data
+          if (
+            localStorage.getItem(`HourlyWeatherCache_${RemovedsavedLocation.locationName}`)
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `HourlyWeatherCache_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+
+          if (localStorage.getItem(`AstronomyData_${RemovedsavedLocation.locationName}`)) {
+            setTimeout(() => {
+              localStorage.removeItem(`AstronomyData_${RemovedsavedLocation.locationName}`);
+            }, 400);
+          }
+
+          if (
+            localStorage.getItem(`MoreDetailsData_${RemovedsavedLocation.locationName}`)
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `MoreDetailsData_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+
+          if (localStorage.getItem(`AlertData_${RemovedsavedLocation.locationName}`)) {
+            setTimeout(() => {
+              localStorage.removeItem(`AlertData_${RemovedsavedLocation.locationName}`);
+            }, 400);
+          }
+
+          if (localStorage.getItem(`AirQuality_${RemovedsavedLocation.locationName}`)) {
+            setTimeout(() => {
+              localStorage.removeItem(`AirQuality_${RemovedsavedLocation.locationName}`);
+            }, 400);
+          }
+
+          // time stamps
+
+          if (
+            localStorage.getItem(
+              `WeatherDataMeteoFranceTimeStamp_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `WeatherDataMeteoFranceTimeStamp_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+
+          if (
+            localStorage.getItem(
+              `WeatherDataDWDGermanyTimeStamp_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `WeatherDataDWDGermanyTimeStamp_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+
+          if (
+            localStorage.getItem(
+              `WeatherDataNOAAUSTimeStamp_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `WeatherDataNOAAUSTimeStamp_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+
+          if (
+            localStorage.getItem(
+              `WeatherDataECMWFTimeStamp_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `WeatherDataECMWFTimeStamp_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+
+          if (
+            localStorage.getItem(
+              `WeatherDataukMetOfficeTimeStamp_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `WeatherDataukMetOfficeTimeStamp_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+
+          if (
+            localStorage.getItem(
+              `WeatherDataJMAJapanTimeStamp_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `WeatherDataJMAJapanTimeStamp_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+
+          if (
+            localStorage.getItem(
+              `WeatherDatagemCanadaTimeStamp_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `WeatherDatagemCanadaTimeStamp_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+
+          if (
+            localStorage.getItem(
+              `WeatherDatabomAustraliaTimeStamp_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `WeatherDatabomAustraliaTimeStamp_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+
+          if (
+            localStorage.getItem(
+              `WeatherDatacmaChinaTimeStamp_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `WeatherDatacmaChinaTimeStamp_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+
+          if (
+            localStorage.getItem(
+              `WeatherDataknmiNetherlandsTimeStamp_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `WeatherDataknmiNetherlandsTimeStamp_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+
+          if (
+            localStorage.getItem(
+              `WeatherDatadmiDenmarkTimeStamp_${RemovedsavedLocation.locationName}`
+            )
+          ) {
+            setTimeout(() => {
+              localStorage.removeItem(
+                `WeatherDatadmiDenmarkTimeStamp_${RemovedsavedLocation.locationName}`
+              );
+            }, 400);
+          }
+
+        })
+
+        setTimeout(() =>{
+            window.history.back()
+        }, 400);
+
+    setTimeout(() =>{
+        sendThemeToAndroid('ReloadLocations');
+    }, 600);
+
+
+}
+
 
     </script>
 

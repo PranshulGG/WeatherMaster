@@ -51,12 +51,16 @@ const DefaultLocation = JSON.parse(localStorage.getItem('DefaultLocation'));
   let weatherData;
 
   if (
-    selectedProvider === "Met norway" ||
     (localStorage.getItem("ApiForAccu") && selectedProvider === "Accuweather")
   ) {
     weatherData = JSON.parse(
       localStorage.getItem(`WeatherDataOpenMeteo_${currentLocationData}`)
     );
+  }
+    else if (selectedProvider === "Met norway"){
+      weatherData = JSON.parse(
+        localStorage.getItem(`WeatherDataMetNorway_${currentLocationData}`)
+      );
   } else if (selectedProvider === "meteoFrance") {
     weatherData = JSON.parse(
       localStorage.getItem(`WeatherDataMeteoFrance_${currentLocationData}`)

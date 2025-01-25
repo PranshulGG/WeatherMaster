@@ -156,6 +156,8 @@ weatherWrap.addEventListener('scroll', function() {
         }, 500);
 
 
+
+
         setTimeout(() =>{
                     if(document.getElementById('weather_wrap').scrollTop > 10){
                       const allClassesAnimation = document.querySelectorAll('.behind_search_animation');
@@ -243,7 +245,7 @@ weatherWrap.addEventListener('scroll', function() {
 
         const diffX = touch.clientX - startX;
 
-        if (diffX > swipeThreshold) {
+        if (diffX < -swipeThreshold) {
             let nextIndex = (currentIndex + 1) % savedLocations.length;
 
             // Ensure the next location is not the same as the current location
@@ -269,10 +271,23 @@ weatherWrap.addEventListener('scroll', function() {
 
             updateIndicator()
 
+            if(savedLocations[currentIndex]?.locationName === 'CurrentDeviceLocation'){
+
+            } else{
+                if(localStorage.getItem('updateOldData') === 'true'){
+                    if (navigator.onLine) {
+                    setTimeout(() =>{
+                      updateOldData(savedLocations[currentIndex]?.lat, savedLocations[currentIndex]?.lon, savedLocations[currentIndex]?.locationName)
+                    }, 200);
+                    }
+                  }
+            }
+
+
 
         }
         // Move to previous location on swipe left
-        else if (diffX < -swipeThreshold) {
+        else if (diffX > swipeThreshold) {
             let prevIndex = (currentIndex - 1 + savedLocations.length) % savedLocations.length;
 
             // Ensure the previous location is not the same as the current location
@@ -297,6 +312,19 @@ weatherWrap.addEventListener('scroll', function() {
             document.getElementById("weather_wrap").scrollTop = 0;
               localStorage.setItem("CurrentLocationName", savedLocations[currentIndex]?.locationName);
             updateIndicator()
+
+            if(savedLocations[currentIndex]?.locationName === 'CurrentDeviceLocation'){
+
+            } else{
+                if(localStorage.getItem('updateOldData') === 'true'){
+                    if (navigator.onLine) {
+                    setTimeout(() =>{
+                      updateOldData(savedLocations[currentIndex]?.lat, savedLocations[currentIndex]?.lon, savedLocations[currentIndex]?.locationName)
+                    }, 200);
+                    }
+                  }
+            }
+
 
 
         }

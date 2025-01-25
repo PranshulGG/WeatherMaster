@@ -66,7 +66,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeThunder()
                 displayLeaves()
             }
-            return 'sunny'
+            return 'clear_sky'
 
         } else if (iconCodeAccu === 2) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -81,7 +81,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeStars()
                 removeThunder()
             }
-            return 'mostly_sunny'
+            return 'mostly_clear'
 
         } else if (iconCodeAccu === 3 || iconCodeAccu === 4) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -92,11 +92,11 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeRain()
                 removeFog()
                 removeSnow()
-                displayLeaves()
+                removeLeaves()
                 removeStars()
                 removeThunder()
             }
-            return 'partly_sunny'
+            return 'partly_cloudy'
 
         } else if (iconCodeAccu === 5) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -111,7 +111,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeStars()
                 removeThunder()
             }
-            return 'hazy_sunshine'
+            return 'fog'
 
         } else if (iconCodeAccu === 6) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -126,7 +126,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeStars()
                 removeThunder()
             }
-            return 'mostly_cloudy'
+            return 'partly_cloudy'
 
         } else if (iconCodeAccu === 7) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -141,7 +141,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeStars()
                 removeThunder()
             }
-            return 'cloudy'
+            return 'overcast'
 
         } else if (iconCodeAccu === 8) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -186,7 +186,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeStars()
                 removeThunder()
             }
-            return 'showers'
+            return 'rain_showers'
 
         } else if (iconCodeAccu === 13) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -201,7 +201,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeStars()
                 removeThunder()
             }
-            return 'light_rain'
+            return 'drizzle'
 
         } else if (iconCodeAccu === 14) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -216,7 +216,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeStars()
                 removeThunder()
             }
-            return 'rainy'
+            return 'moderate_rain'
 
         } else if (iconCodeAccu === 15) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -231,7 +231,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeStars()
                 displayThunder()
             }
-            return 't_storms'
+            return 'thunderstorm'
 
         } else if (iconCodeAccu === 16) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -246,7 +246,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeStars()
                 displayThunder()
             }
-            return 'cloudy_t_storms'
+            return 'thunderstorm'
 
         } else if (iconCodeAccu === 17) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -261,7 +261,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeStars()
                 removeThunder()
             }
-            return 'sunny_t_storms'
+            return 'thunderstorm'
 
         } else if (iconCodeAccu === 18) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -276,7 +276,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeStars()
                 removeThunder()
             }
-            return 'rain'
+            return 'moderate_rain'
 
         } else if (iconCodeAccu === 19) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -291,7 +291,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeStars()
                 removeThunder()
             }
-            return 'flurries'
+            return 'slight_snow'
 
         } else if (iconCodeAccu === 20) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -306,7 +306,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeStars()
                 removeThunder()
             }
-            return 'moderate_flurries'
+            return 'freezing_rain'
 
         } else if (iconCodeAccu === 21) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -321,7 +321,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeStars()
                 removeThunder()
             }
-            return 'slight_flurries'
+            return 'slight_snow'
 
         } else if (iconCodeAccu === 22) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -336,7 +336,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeStars()
                 removeThunder()
             }
-            return 'snow'
+            return 'moderate_snow'
 
         } else if (iconCodeAccu === 23) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -351,7 +351,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeStars()
                 removeThunder()
             }
-            return 'cloudy_snow'
+            return 'moderate_snow'
 
         } else if (iconCodeAccu === 24) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -366,7 +366,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeStars()
                 removeThunder()
             }
-            return 'ice'
+            return 'freezing_rain'
 
         } else if (iconCodeAccu === 25) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -381,7 +381,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeStars()
                 removeThunder()
             }
-            return 'sleet'
+            return 'freezing_rain'
 
         } else if (iconCodeAccu === 26) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -411,7 +411,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeStars()
                 removeThunder()
             }
-            return 'rain_and_snow'
+            return 'slight_snow_showers'
 
         }
        else if (iconCodeAccu === 30) {
@@ -427,7 +427,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
             removeThunder()
             displayLeaves()
         }
-            return 'hot'
+            return 'clear_sky'
 
         } else if (iconCodeAccu === 31) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -442,7 +442,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeThunder()
                 displayStars()
             }
-            return 'cold'
+            return 'clear_sky'
 
         } else if (iconCodeAccu === 32) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -457,7 +457,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 displayStars()
                 removeThunder()
             }
-            return 'windy'
+            return 'clear_sky'
 
         } else if (iconCodeAccu === 33) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -499,7 +499,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeFog()
                 removeSnow()
                 removeLeaves()
-                displayStars()
+                removeStars()
                 removeThunder()
             }
             return 'partly_cloudy'
@@ -517,7 +517,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeStars()
                 removeThunder()
             }
-            return 'intermittent_clouds'
+            return 'overcast'
 
         } else if (iconCodeAccu === 37) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -532,7 +532,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeStars()
                 removeThunder()
             }
-            return 'hazy_moonlight'
+            return 'fog'
 
         } else if (iconCodeAccu === 38) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -547,7 +547,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeStars()
                 removeThunder()
             }
-            return 'mostly_cloudy'
+            return 'partly_cloudy'
 
         } else if (iconCodeAccu === 39 ) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -562,7 +562,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeStars()
                 removeThunder()
             }
-            return 'light_rain'
+            return 'drizzle'
 
         } else if (iconCodeAccu === 40) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -577,7 +577,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeStars()
                 removeThunder()
             }
-            return 'rainy'
+            return 'moderate_rain'
 
         } else if (iconCodeAccu === 41) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -592,7 +592,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeStars()
                 displayThunder()
             }
-            return 'light_t_storms'
+            return 'thunderstorm'
 
         } else if (iconCodeAccu === 42) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -607,7 +607,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeStars()
                 displayThunder()
             }
-            return 'light_t_storms'
+            return 'thunderstorm'
 
         } else if (iconCodeAccu === 43) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -622,7 +622,7 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeStars()
                 removeThunder()
             }
-            return 'light_flurries'
+            return 'slight_snow'
 
         } else if (iconCodeAccu === 44) {
             if (localStorage.getItem('UseBackgroundAnimations') && localStorage.getItem('UseBackgroundAnimations') === 'false') {
@@ -637,10 +637,9 @@ function GetWeatherTextAccu(iconCodeAccu) {
                 removeStars()
                 removeThunder()
             }
-            return 'light_snow'
+            return 'slight_snow_showers'
 
         }
-
     return iconCodeAccu
 }
 

@@ -45,7 +45,9 @@ function HourlyWeather(data) {
     localStorage.getItem("AppLanguageCode") === 'az' || // Azerbaijani
     localStorage.getItem("AppLanguageCode") === 'sl' || // Slovenian
     localStorage.getItem("AppLanguageCode") === 'fi' || // Finnish
-    localStorage.getItem("AppLanguageCode") === 'hu'    // Hungarian
+    localStorage.getItem("AppLanguageCode") === 'hu' ||  // Hungarian
+    localStorage.getItem("AppLanguageCode") === 'cs'    // Czech
+
   ) {
     local = ','
   } else{
@@ -329,7 +331,8 @@ function DailyWeather(dailyForecast) {
     localStorage.getItem("AppLanguageCode") === 'az' || // Azerbaijani
     localStorage.getItem("AppLanguageCode") === 'sl' || // Slovenian
     localStorage.getItem("AppLanguageCode") === 'fi' || // Finnish
-    localStorage.getItem("AppLanguageCode") === 'hu'    // Hungarian
+    localStorage.getItem("AppLanguageCode") === 'hu' ||  // Hungarian
+    localStorage.getItem("AppLanguageCode") === 'cs'    // Czech
   ) {
     local = ','
   } else{
@@ -613,7 +616,8 @@ function CurrentWeather(data, sunrise, sunset, lat, lon) {
     localStorage.getItem("AppLanguageCode") === 'az' || // Azerbaijani
     localStorage.getItem("AppLanguageCode") === 'sl' || // Slovenian
     localStorage.getItem("AppLanguageCode") === 'fi' || // Finnish
-    localStorage.getItem("AppLanguageCode") === 'hu'    // Hungarian
+    localStorage.getItem("AppLanguageCode") === 'hu' ||  // Hungarian
+    localStorage.getItem("AppLanguageCode") === 'cs'    // Czech
   ) {
     local = ','
   } else{
@@ -698,9 +702,7 @@ function CurrentWeather(data, sunrise, sunset, lat, lon) {
   }
 
   // -------------------------------
-
-  if (localStorage.getItem("selectedMainWeatherProvider") === "Met norway") {
-  } else if (
+ if (
     localStorage.getItem("ApiForAccu") &&
     localStorage.getItem("selectedMainWeatherProvider") === "Accuweather"
   ) {
@@ -790,7 +792,7 @@ function CurrentWeather(data, sunrise, sunset, lat, lon) {
 
   function getWindDirection(degree) {
     if ((degree >= 0 && degree <= 22.5) || (degree > 337.5 && degree <= 360))
-      return "N";
+      return getTranslationByLang(localStorage.getItem("AppLanguageCode"), "wind_dir_n");
     if (degree > 22.5 && degree <= 67.5) return getTranslationByLang(localStorage.getItem("AppLanguageCode"), "wind_dir_ne");
     if (degree > 67.5 && degree <= 112.5) return getTranslationByLang(localStorage.getItem("AppLanguageCode"), "wind_dir_e");
     if (degree > 112.5 && degree <= 157.5) return getTranslationByLang(localStorage.getItem("AppLanguageCode"), "wind_dir_se");
@@ -1165,11 +1167,11 @@ function AirQuaility(data) {
     "PM10"
   );
 
-  document.getElementById("CO_air").innerHTML = Math.round(
-    data.current.carbon_monoxide
-  );
+  document.getElementById("CO_air").innerHTML =
+  (data.current.carbon_monoxide * 0.000799).toFixed(2);
+
   document.getElementById("CO_air_color").style.backgroundColor = getColor(
-    Math.round(data.current.carbon_monoxide),
+    (data.current.carbon_monoxide * 0.000799).toFixed(2),
     "CO"
   );
 
@@ -1342,11 +1344,12 @@ function getColor(value, type) {
       if (value <= 50) return "#9000ff";
       return "maroon";
     case "CO":
-      if (value <= 500) return "#20fc03";
-      if (value <= 1000) return "yellow";
-      if (value <= 1500) return "orange";
-      if (value <= 2000) return "#fc606d";
-      if (value <= 5000) return "#9000ff";
+      if (value <= 4.5) return "#20fc03";
+      if (value <= 9.5) return "yellow";
+      if (value <= 12.5) return "orange";
+      if (value <= 15.5) return "#fc606d";
+      if (value <= 30.5) return "#9000ff";
+      if (value <= 50.5) return "maroon";
       return "maroon";
     case "NO2":
       if (value <= 40) return "#20fc03";
@@ -1589,7 +1592,8 @@ function MoreDetailsRender(data) {
     localStorage.getItem("AppLanguageCode") === 'az' || // Azerbaijani
     localStorage.getItem("AppLanguageCode") === 'sl' || // Slovenian
     localStorage.getItem("AppLanguageCode") === 'fi' || // Finnish
-    localStorage.getItem("AppLanguageCode") === 'hu'    // Hungarian
+    localStorage.getItem("AppLanguageCode") === 'hu' ||  // Hungarian
+    localStorage.getItem("AppLanguageCode") === 'cs'    // Czech
   ) {
     local = ','
   } else{

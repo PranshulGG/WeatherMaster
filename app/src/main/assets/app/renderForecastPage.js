@@ -246,7 +246,8 @@ const WidgetsUVindex = {
     localStorage.getItem("AppLanguageCode") === 'az' || // Azerbaijani
     localStorage.getItem("AppLanguageCode") === 'sl' || // Slovenian
     localStorage.getItem("AppLanguageCode") === 'fi' || // Finnish
-    localStorage.getItem("AppLanguageCode") === 'hu'    // Hungarian
+    localStorage.getItem("AppLanguageCode") === 'hu' ||  // Hungarian
+    localStorage.getItem("AppLanguageCode") === 'cs'    // Czech
   ) {
     local = ','
   } else{

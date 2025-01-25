@@ -7,7 +7,7 @@ function GenerateRecommendation() {
 
     // Simplify weather data retrieval
     const providerMapping = {
-        'Met norway': `WeatherDataOpenMeteo_${currentLocationData}`,
+        'Met norway': `WeatherDataMetNorway_${currentLocationData}`,
         'Accuweather': `WeatherDataOpenMeteo_${currentLocationData}`,
         'meteoFrance': `WeatherDataMeteoFrance_${currentLocationData}`,
         'dwdGermany': `WeatherDataDWDGermany_${currentLocationData}`,

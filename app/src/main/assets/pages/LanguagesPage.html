@@ -34,8 +34,8 @@
             align-items: center;
             border-radius: 50px;
             margin-bottom: 10px;
-            gap: 20px;
-            font-family: var(--outfit);
+            gap: 16px;
+            font-family: var(--google-mid);
             font-size: 16px;
             color: var(--On-Primary-Container);
             position: relative;
@@ -63,6 +63,7 @@
             opacity: 0.8;
             font-family: var(--google-normal);
             z-index: 1;
+            font-weight: bold;
         }
 
 
@@ -173,7 +174,7 @@
     </div>
     <div class="activity-large-content" id="headUser-1">
         <p class="label-large-main" data-translate="language">Language</p>
-        <div class="content-parent-large" style="padding-bottom: 32px; padding-left: 10px; padding-right: 10px;">
+        <div class="content-parent-large" style="padding-bottom: 32px; padding-left: 12px; padding-right: 12px;">
 
             <md-list style="padding: 5px; padding-left: 0; padding-right: 0;">
                 <md-list-item style="background-color: var(--Secondary-Container); border-radius: 50px; padding-left: 5px; padding-right: 5px;"
@@ -219,6 +220,31 @@
 
                     <progress-lang class="progress-lang-nl"></progress-lang>
                     <p id="lang-nl">--</p>
+                </label>
+
+
+                <label class="language_item">
+                    <input name="app_language_radios" value="Russian" lang="ru" onclick="updateImgAreas()" type="radio">
+                    <img_area>
+                        <span>RU</span>
+                    </img_area>
+
+                    <lang_label>Russian</lang_label>
+
+                    <progress-lang class="progress-lang-ru"></progress-lang>
+                    <p id="lang-ru">--</p>
+                </label>
+
+                <label class="language_item">
+                    <input name="app_language_radios" value="Czech" lang="cs" onclick="updateImgAreas()" type="radio">
+                    <img_area>
+                        <span>CS</span>
+                    </img_area>
+
+                    <lang_label>Czech</lang_label>
+
+                    <progress-lang class="progress-lang-cs"></progress-lang>
+                    <p id="lang-cs">--</p>
                 </label>
 
                 <label class="language_item">
@@ -341,17 +367,6 @@
                     <p id="lang-ro">--</p>
                 </label>
 
-                <label class="language_item">
-                    <input name="app_language_radios" value="Russian" lang="ru" onclick="updateImgAreas()" type="radio">
-                    <img_area>
-                        <span>RU</span>
-                    </img_area>
-
-                    <lang_label>Russian</lang_label>
-
-                    <progress-lang class="progress-lang-ru"></progress-lang>
-                    <p id="lang-ru">--</p>
-                </label>
 
                 <label class="language_item">
                     <input name="app_language_radios" value="Spanish" lang="es" onclick="updateImgAreas()" type="radio">
@@ -481,8 +496,8 @@
 
 
 async function fetchTranslationProgress() {
-    const projectId = '741419';
-    const apiToken = '22439bfa72878c3ecb9a1b17ea8d2f9379f800b616856c4647219af7da462632fb325abd32815ace';
+    const projectId = '';
+    const apiToken = '';
 
     document.querySelector('.progress-lang-en-full').style.width = '100%';
 

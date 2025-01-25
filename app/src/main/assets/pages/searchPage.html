@@ -292,6 +292,56 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
+                /* error */
+
+        .no_internet_error_search {
+            z-index: 10000;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: var(--Surface);
+
+            }
+
+            .no_internet_error_search .error_info_holder_search{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            }
+
+            .no_internet_error_search .error_info_holder_search .top_error_info_icon_search{
+            font-size: 45px;
+            color: var(--On-Surface-Variant);
+            opacity: 0.6;
+            }
+
+            .no_internet_error_search .error_info_holder_search .info_content_error_search p{
+            margin: 0;
+            color: var(--On-Surface);
+            font-family: var(--google-mid);
+            font-family: 18px;
+            text-align: center;
+            margin-bottom: 5px;
+            }
+
+            .no_internet_error_search .error_info_holder_search .info_content_error_search span{
+            color: var(--On-Surface-Variant);
+            font-size: 15px;
+            font-family: var(--google-normal);
+            }
+
+            .no_internet_error_search .error_info_holder_search .retry_btn_error_search{
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            justify-content: center;
+            padding-top: 28px;
+            }
     </style>
 
 </head>
@@ -317,7 +367,7 @@
         </div>
 
 
-        <p class="data_by_text">Data by Open-meteo</p>
+        <p class="data_by_text"><span data-translate="data_by">Data by</span> Open-meteo</p>
 
         <div class="change_search_provider_fab">
             <md-fab
@@ -362,7 +412,31 @@
 
     </div>
 
+    <div class="no_internet_error_search" hidden>
 
+        <div class="error_info_holder_search">
+            <div class="top_error_info_icon_search">
+                <i icon-outlined>info</i>
+            </div>
+
+            <div class="info_content_error_search">
+                <p>Can't reach the internet</p>
+                <span>Check your connection and try again.</span>
+            </div>
+
+
+            <div class="retry_btn_error_search">
+                <md-filled-button onclick="checkInternetBeforeSearch()" style="--md-filled-button-label-text-size: 16px;">
+                    <md-icon icon-outlined slot="icon">refresh</md-icon>
+                    Try again
+                </md-filled-button>
+
+            </div>
+
+        </div>
+
+
+    </div>
     <script>
 
     document.getElementById('location_input').setAttribute('placeholder', getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'search') + '...')
@@ -488,6 +562,7 @@ AndroidInterface.updateStatusBarColor(theme);
                 displaySuggestions(data.results);
             } catch (error) {
                 console.error('Error fetching city suggestions:', error);
+                checkInternetBeforeSearch()
             }
         }
 
@@ -582,7 +657,7 @@ AndroidInterface.updateStatusBarColor(theme);
         // provider GeoNames ----------------------
 
         async function getCitySuggestionsGeoNames(query) {
-            const username = 'pranshulgg'; // Replace with your GeoNames username
+            const username = ''; // Replace with your GeoNames username
             const url = `https://secure.geonames.org/searchJSON?name_startsWith=${query}&maxRows=10&username=${username}`;
 
             try {
@@ -595,6 +670,7 @@ AndroidInterface.updateStatusBarColor(theme);
                 displaySuggestionsGeoNames(data.geonames);
             } catch (error) {
                 console.error('Error fetching city suggestions from GeoNames:', error);
+                 checkInternetBeforeSearch()
             }
         }
 
@@ -705,6 +781,7 @@ AndroidInterface.updateStatusBarColor(theme);
         displaySuggestionsNominatim(data);
     } catch (error) {
         console.error('Error fetching city suggestions:', error);
+        checkInternetBeforeSearch()
     }
 }
 function displaySuggestionsNominatim(results) {
@@ -834,11 +911,11 @@ function clearSuggestionsNominatim() {
 
 
             if(selectedRadio === 'searchProvider-geonames'){
-                document.querySelector('.data_by_text').innerHTML = 'Data by GeoNames'
+                document.querySelector('.data_by_text').innerHTML = getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'data_by') + ' GeoNames'
             } else if (selectedRadio === 'searchProvider-Nominatim'){
-                document.querySelector('.data_by_text').innerHTML = 'Data by Nominatim (OpenStreetMap data)'
+                document.querySelector('.data_by_text').innerHTML = getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'data_by') + ' Nominatim (OpenStreetMap data)'
             } else{
-                document.querySelector('.data_by_text').innerHTML = 'Data by Open-meteo'
+                document.querySelector('.data_by_text').innerHTML = getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'data_by') + ' Open-meteo'
             }
 
 
@@ -855,11 +932,11 @@ function clearSuggestionsNominatim() {
                     if (radio.value === savedValue) {
                         radio.checked = true
                         if(savedValue === 'searchProvider-geonames'){
-                            document.querySelector('.data_by_text').innerHTML = 'Data by GeoNames'
+                            document.querySelector('.data_by_text').innerHTML = getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'data_by') + ' GeoNames'
                         } else if (savedValue === 'searchProvider-Nominatim'){
-                            document.querySelector('.data_by_text').innerHTML = 'Data by Nominatim (OpenStreetMap data)'
+                            document.querySelector('.data_by_text').innerHTML = getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'data_by') + ' Nominatim (OpenStreetMap data)'
                         } else{
-                            document.querySelector('.data_by_text').innerHTML = 'Data by Open-meteo'
+                            document.querySelector('.data_by_text').innerHTML = getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'data_by') + ' Open-meteo'
                         }
 
                     } else{
@@ -899,7 +976,21 @@ function clearSuggestionsNominatim() {
 
         document.addEventListener('DOMContentLoaded', () =>{
             restoreSelection();
+             checkInternetBeforeSearch()
         });
+
+                function checkInternetBeforeSearch(){
+            if(navigator.onLine){
+                document.querySelector('.no_internet_error_search').hidden = true;
+            } else{
+                document.getElementById('location_input').blur()
+                document.querySelector('.no_internet_error_search').hidden = false;
+                 document.getElementById('location_input').value = '';
+                document.getElementById('cityLoader').hidden = true;
+                document.getElementById('city-list').innerHTML = ''
+            }
+        }
+
 
     </script>
 

@@ -15,7 +15,13 @@ function FetchNOAAUS(lat, lon, timezone, suggestionText, refreshValue) {
     })
     .catch(error => {
       console.error('There was an error fetching the weather data:', error);
-          ShowSnackMessage.ShowSnack('Failed to fetch the data', 'long');
+            ShowSnackMessage.ShowSnack(
+              getTranslationByLang(
+                localStorage.getItem("AppLanguageCode"),
+                "data_fetch_error"
+              ),
+              "long"
+            );
      AndroidInterface.updateStatusBarColor('StopRefreshingLoader');
       document.querySelector('.no_touch_screen').hidden = true;
       return

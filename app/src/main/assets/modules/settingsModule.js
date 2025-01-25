@@ -894,3 +894,22 @@ document
   if (localStorage.getItem("selectedAQItype")) {
     document.querySelector(`[value="${getSelectedAQItype}"]`).selected = true;
   }
+
+
+// auto update data setting
+
+const autoUpdateOldWeatherSwitch = document.getElementById(
+  "autoUpdateOldWeather"
+);
+
+autoUpdateOldWeatherSwitch.addEventListener("change", () => {
+  localStorage.setItem("updateOldData", autoUpdateOldWeatherSwitch.selected);
+});
+
+const autoUpdateOldWeatherSwitchData = localStorage.getItem("updateOldData");
+
+if (autoUpdateOldWeatherSwitchData === "true") {
+  autoUpdateOldWeatherSwitch.selected = true;
+} else {
+  autoUpdateOldWeatherSwitch.selected = false;
+}

@@ -1,10 +1,12 @@
 package com.example.weathermaster;
 
 
+import android.Manifest;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -21,13 +23,17 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class Homelocations extends AppCompatActivity {
 
     private WebView webview;
     private boolean isFirstLoad = true;
+    private static final int PERMISSION_REQUEST_CODE_HOME = 2;
 
     public void onBackPressed() {
         if (webview.canGoBack()) {
@@ -100,7 +106,30 @@ public class Homelocations extends AppCompatActivity {
     }
 
 
+    private void requestLocationPermissionsHome() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE_HOME);
 
+        } else {
+            webview.evaluateJavascript("turnOnCurrentLocation();", null);
+
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_CODE_HOME) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                webview.evaluateJavascript("turnOnCurrentLocation();", null);
+            } else {
+
+
+
+            }
+        }
+
+    }
 
     public class AndroidInterface {
         private Homelocations aActivity;
@@ -286,7 +315,13 @@ public class Homelocations extends AppCompatActivity {
                     } else if (color.equals("OpenLicenses")){
 
                         return;
-
+                    } else if (color.equals("homeLocationLocationReq")){
+                        requestLocationPermissionsHome();
+                        return;
+                    } else if (color.equals("ReloadLocations")){
+                        isFirstLoad = true;
+                        webview.reload();
+                        return;
                     } else if (color.equals("bluesetDef")) {
 
                         return;

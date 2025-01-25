@@ -89,7 +89,7 @@
 
 
                 <div class="left_current_weather">
-                    <now>Now</now>
+                    <now data-translate="now">Now</now>
                     <div class="temp_img">
                         <p id="temp" style="transition: scale 0.1s ease-in;">0°</p>
                         <img id="weather-icon" src="weather-icons/not_available.svg" alt="Weather Icon" style="-webkit-user-drag: none;">
@@ -259,7 +259,7 @@
                         <md-icon icon-filled style="z-index: 1; font-size: 20px;" id="hourglass_top_icon_length">hourglass_top</md-icon>
                         <div style="position: absolute;">
                             <md-circular-progress id="day_value"
-                                                  style="--md-circular-progress-active-indicator-width: 7; opacity: 0.7;"></md-circular-progress>
+                                                  style="--md-circular-progress-active-indicator-width: 7; opacity: 0.7; --md-sys-color-primary: var(--Secondary);"></md-circular-progress>
                         </div>
                     </div>
                     <p id="day_length_text" class="insights_p">Cooling expected over the next 3 days</p>
@@ -836,27 +836,30 @@
 <div id="toast-container" class="toast-container"></div>
 
 <div class="no_internet_error" hidden>
-    <div class="img_wrap404">
-        <!-- <img src="icons/404.svg" alt=""> -->
-        <div id="error_img_cat" style="height: 280px;"></div>
-    </div>
+
+    <div class="error_info_holder">
+        <div class="top_error_info_icon">
+            <i icon-outlined>info</i>
+        </div>
+
+        <div class="info_content_error">
+            <p>Can't reach the internet</p>
+            <span>Check your connection and try again.</span>
+        </div>
 
 
-    <div class="text_content_error">
-        <p data-translate="Error occurred!">Error occurred!</p>
+        <div class="retry_btn_error">
+            <md-filled-button onclick="window.location.reload(); sendThemeToAndroid('overcast')" style="--md-filled-button-label-text-size: 16px;">
+                <md-icon icon-outlined slot="icon">refresh</md-icon>
+                Try again
+            </md-filled-button>
+            <md-outlined-button onclick="Android.importFile();" style="--md-outlined-button-label-text-size: 16px;">
+                <md-icon icon-outlined slot="icon">download</md-icon>
+                Import backup
+            </md-outlined-button>
 
-        <span data-translate="Check your internet connection and try again.">Check your internet connection and try again.</span>
-        <md-divider></md-divider>
-        <span id="error_text_content" style="margin-top: 10px;">There might be an API error.</span>
-        <md-divider></md-divider>
-        <span style="margin-top: 10px;">You can import your saved backup.</span>
+        </div>
 
-    </div>
-
-    <div class="retry_btn_error">
-        <button class="ripple_btn" onclick="window.location.reload(); sendThemeToAndroid('overcast')">Retry</button>
-        <button class="ripple_btn" onclick="Android.importFile();" icon-outlined
-                style="font-family: 'Material symbols'; width: 50px; margin-left: 10px;">download</button>
     </div>
 </div>
 
@@ -864,6 +867,10 @@
 <div class="not_made_for_pc">
     <p>UI isn't made for Desktop devices</p>
 </div>
+
+<auto-update hidden>
+    <md-circular-progress indeterminate></md-circular-progress>
+</auto-update>
 
 
 
@@ -1063,7 +1070,8 @@ let timeoutID;
 
   sortableInstanceLocations = new Sortable(draggableContainer, {
       animation: 250,
-      delay: 500,
+     chosenClass: 'location-chosen-class',
+  delay: 500,
       onStart(evt) {
 
         evt.item.classList.add('noSwipe');
@@ -1252,13 +1260,6 @@ document.getElementById('date_text_top').innerText = formattedDate;
     document.querySelector('body').classList.add('loaded')
         }, 400)
 
-                if(localStorage.getItem("SelectedTempUnit") === 'fahrenheit'){
-             document.querySelector('now').innerHTML = `<span>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'now')}</span> - °F`
-
-        } else{
-            document.querySelector('now').innerHTML = `<span>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'now')}</span> - °C`
-        }
-
         let lastUpdatedTimerValid;
 
 function lastUpdatedTimer() {
@@ -1363,6 +1364,7 @@ function handleStorageChangeHiddenLayoutEvent(event) {
 <script src="app/app.js"></script>
 <script src="app/day_summary.js"></script>
 <script src="app/renderWeather.js"></script>
+<script src="app/auto-update.js"></script>
 
 </body>
 
