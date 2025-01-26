@@ -425,7 +425,7 @@
     "wind_dir_sw": "Пд-Зх",
     "wind_dir_w": "Зх",
     "wind_dir_nw": "Пн-Зх",
-    "wind_dir_n": "N",
+    "wind_dir_n": "П",
     "time_pm": "PM",
     "time_am": "AM",
     "time_min": "min.",
@@ -443,7 +443,7 @@
     "update_weather_data_sub": "Automatically update the weather data if it's outdated when a location is clicked",
     "delete_locations": "Delete locations",
     "delete_locations_support_sub": "This action removes every saved location except your default location. Use this if your saved locations are not visible, are duplicating, or experiencing any other bugs",
-    "delete": "Delete",
+    "delete": "Видалити",
     "united_states_aqi": "United States AQI",
     "european_aqi": "European AQI",
     "chances": "Chances",
@@ -506,5 +506,5 @@
     "activity_suggestions_daytip_aqi_2": "🚶‍♂️ Consider a nature walk or picnic—today's conditions are great for some time outdoors.",
     "activity_suggestions_daytip_aqi_3": "🏠 It might be a good day to stay indoors and enjoy a warm beverage. Consider a cozy activity like reading.",
     "activity_suggestions_daytip_aqi_4": "📺 Plan indoor activities, especially if you’re sensitive to air quality or cold weather.",
-    "temperature": "Temperature"
+    "temperature": "Температура"
 }
