@@ -241,6 +241,12 @@ weatherWrap.addEventListener('scroll', function() {
                         return;
                     }
 
+                                        if(savedLocations.length <= 1) {
+                                            isSwiping = false;
+                                            return; // Exit early if there's only one location
+                                        }
+
+
         if (!isSwiping) return;
 
         const diffX = touch.clientX - startX;
