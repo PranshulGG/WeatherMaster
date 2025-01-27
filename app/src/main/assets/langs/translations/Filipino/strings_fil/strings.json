@@ -441,12 +441,12 @@
     "aqi_info_eu": "Ang UE AQ (Air Quality Index) ay pagsusukat na ginagamit para ipakita ang lebel ng polusyon sa hangin sa Unyong Europa. Ito ay hinahati sa limang lebel, mula 'Maganda' hanggang 'Sobrang Baba,' base sa dami ng mga pollutant o dumi sa hangin.",
     "update_weather_data": "I-update ang datos ng panahon",
     "update_weather_data_sub": "Awtomatikong i-update ang datos ng panahon kapag outdated na ito kapag pinindot ang isang lokasyon.",
-    "delete_locations": "Delete locations",
-    "delete_locations_support_sub": "This action removes every saved location except your default location. Use this if your saved locations are not visible, are duplicating, or experiencing any other bugs",
-    "delete": "Delete",
-    "united_states_aqi": "United States AQI",
-    "european_aqi": "European AQI",
-    "chances": "Chances",
+    "delete_locations": "I-delete ang mga lokasyon",
+    "delete_locations_support_sub": "Tatanggalin nitong aksiyon ang lahat ng mga naka-save na lokasyon maliban sa iyong default na lokasyon. Gamitin mo ito kapag ang iyong mga na-save na lokasyon ay hindi nagpapakita, nag-du-duplicate, o nakakaranas ng mga bug.",
+    "delete": "I-delete",
+    "united_states_aqi": "AQI ng Estados Unidos",
+    "european_aqi": "Europeong AQI",
+    "chances": "Mga tsansa",
     "activity_suggestions_temp_1": "🥶 Extreme cold: In temperatures below -40°C (-40°F), you need high-insulation gear. Wear a heavy-duty down parka with windproof outer layers, a balaclava, thermal base layers, thick wool socks, insulated boots, and a face mask. All exposed skin must be covered to avoid frostbite.",
     "activity_suggestions_temp_2": "🥶 Extreme cold: Layer with thermal base layers (top and bottom), a down or synthetic coat, thick wool socks, insulated boots, and a wool hat. Make sure to wear insulated gloves and a scarf to cover exposed skin.",
     "activity_suggestions_temp_3": "🥶 Very cold: A heavy-duty winter jacket is necessary. Wear thermal leggings, thick wool socks, and insulated boots. Insulated gloves and a wool hat will keep you warm. Layering is key in these frigid temperatures.",
@@ -506,5 +506,5 @@
     "activity_suggestions_daytip_aqi_2": "🚶‍♂️ Consider a nature walk or picnic—today's conditions are great for some time outdoors.",
     "activity_suggestions_daytip_aqi_3": "🏠 It might be a good day to stay indoors and enjoy a warm beverage. Consider a cozy activity like reading.",
     "activity_suggestions_daytip_aqi_4": "📺 Plan indoor activities, especially if you’re sensitive to air quality or cold weather.",
-    "temperature": "Temperature"
+    "temperature": "Temperatura"
 }
