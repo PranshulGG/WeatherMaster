@@ -334,6 +334,9 @@ async function displayDailyForecast(forecast, forecastDaily) {
 
         const dateObj = new Date(date + 'T00:00:00');
 
+        const dateObjMonth = new Date(date + 'T00:00:00');
+
+
         const isToday = date === todayString;
         const translatedWeekDays = weekDaysCache.map(day => {
             return  [day][0];
@@ -345,13 +348,24 @@ async function displayDailyForecast(forecast, forecastDaily) {
 
         const dailyData = forecastDaily[date];
 
-        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const months = [getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'month_jan'),
+            getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'month_feb'),
+            getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'month_mar'),
+            getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'month_apr'),
+            getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'month_may'),
+            getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'month_june'),
+            getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'month_july'),
+            getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'month_aug'),
+            getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'month_sep'),
+            getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'month_oct'),
+            getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'month_nov'),
+            getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'month_Dec'),];
 
 
-        const day = dateObj.getDate();
-        const month = months[dateObj.getMonth()];
+        const day = dateObjMonth.getDate();
+        const month = months[dateObjMonth.getMonth()];
 
-        const formattedDate = `${day} ${month}`;
+        const formattedDate = `${month}, ${day}`;
 
         const rainPercentage = Math.round(forecast.precipitation_probability_max[index]) || '--';
 
@@ -616,7 +630,7 @@ async function displayDailyForecast(forecast, forecastDaily) {
             forecastTempConditionMainContent.innerHTML = `
 
             <div class="top-details">
-                <p>${weekdayLang}</p>
+                <p>${weekdayLang} - ${formattedDate}</p>
                 <div>
                 <tempLarge><p>${TemperatureMax}° </p> <span>/${TemperatureMin}°</span></tempLarge>
                 <img src="${GetWeatherIcon(DailyWeatherCode, 1)}">
@@ -700,7 +714,7 @@ async function displayDailyForecast(forecast, forecastDaily) {
 
                         <div class="currentConditionItemDewpointValue">
                             <p id="dew_percentage" style="width: 45px; border-radius: 50px;">${rainPercentage}%</p>
-                            <span>Chances</span>
+                            <span data-translate="chances" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 80px;">Chances</span>
                         </div>
 
                     </div>
@@ -847,19 +861,14 @@ forecastDateHeaderContent.addEventListener('click', (event) =>{
                 firstForecastIndex = index;
 
                 setTimeout(() => {
-                    forecastDateHeaderContent.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                const parent = forecastDateHeaderContent.parentElement;
 
-                    setTimeout(() => {
-                        if (clickedForecastItem >= 4) {
-                            const forecastDateHeader = document.querySelector('forecastDateHeader');
-                            forecastDateHeader.scrollBy({
-                                top: 0,
-                                left: 50,
-                                behavior: 'smooth'
-                            });
-                        }
+                const rect = forecastDateHeaderContent.getBoundingClientRect();
+                const parentRect = parent.getBoundingClientRect();
 
-                    }, 1000);
+                const offset = rect.right - parentRect.right + parent.scrollLeft;
+
+                parent.scrollTo({ left: offset + 15, behavior: 'smooth' });
                 }, 500);
             }
         }

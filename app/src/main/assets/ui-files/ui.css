@@ -657,19 +657,22 @@ touch_search{
   display: none;
   background-color: var(--Surface);
   z-index: 10000;
-  transition: opacity 0.2s ease-in;
-  animation: search_container 0.3s ease-out;
+  transition: all 0.3s cubic-bezier(1,0,0,1);
+  animation: search_container 0.4s cubic-bezier(0,1,0,1);
 }
 
 @keyframes search_container {
   0% {
+    transform: translateY(100%);
    opacity: 0;
   }
 
   100% {
+    transform: translateY(0%);
     opacity: 1;
   }
 }
+
 
 #search-container .modal-content{
   overflow: auto;
@@ -2531,7 +2534,7 @@ max-width: 80%;
 }
 
 .available_pollen{
-  border-radius: 5px !important;
+  border-radius: 18px !important;
 }
 
 .pollen_data .pollen_heading{
@@ -2643,6 +2646,7 @@ max-width: 150px;
     height: calc(100% - 65px);
     top: 65px;
     left: 0;
+    animation: none !important;
   }
 
   touch_search{
@@ -3188,3 +3192,101 @@ auto-update{
   background-color: transparent;
   z-index: 999999999999999910;
 }
+
+/* new air quality */
+
+
+.air_quality_new_div{
+  background-color: var(--Surface);
+  margin: 10px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    border-radius: 18px;
+}
+
+.air_quality_info_desc p{
+  margin: 0;
+  padding: 15px;
+  padding-bottom: 5px;
+}
+
+.air_quality_bar {
+  width: calc(100% - 30px);
+  height: 8px;
+  background: linear-gradient(to right,
+      #00e400,  /* Good (Green) */
+      #ffff00,  /* Moderate (Yellow) */
+      #ff7e00,  /* Unhealthy for Sensitive Groups (Orange) */
+      #ff0000,  /* Unhealthy (Red) */
+      #8f3f97,  /* Very Unhealthy (Purple) */
+      #7e0023   /* Hazardous (Dark Purple) */
+  );
+  border-radius: 50px;
+  margin: 15px;
+  display: flex;
+  margin-bottom: 0;
+  position: relative;
+
+
+}
+
+.uv_index_bar{
+  width: calc(100% - 30px);
+  height: 8px;
+  background: linear-gradient(to right,
+      #00e400,
+      #ffff00,
+      #ff7e00,
+      #ff0000,
+      #8f3f97,
+      #7e0023
+  );
+  border-radius: 50px;
+  margin: 15px;
+  display: flex;
+  margin-bottom: 0;
+  position: relative;
+}
+
+
+air_quality_bar_progress, uv_index_bar_progress{
+  position: absolute;
+  left: 0;
+  width: 5%;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  top: 0;
+
+}
+
+air_quality_bar_progress::before{
+  content: '';
+  width: 13px;
+  height: 13px;
+  position: absolute;
+  right: 0;
+  background-color: transparent;
+  border-radius: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 2px solid white;
+  background-color: var(--percentageColor);
+}
+
+uv_index_bar_progress::before{
+  content: '';
+  width: 13px;
+  height: 13px;
+  position: absolute;
+  right: 0;
+  background-color: transparent;
+  border-radius: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 2px solid white;
+  background-color: var(--percentageColorUV);
+}
+
+

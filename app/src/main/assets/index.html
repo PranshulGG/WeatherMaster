@@ -622,92 +622,92 @@
 
 
 
-            <div class="all_air_quality air_selector ripple_btn_low" data-id="5" onclick="sendThemeToAndroid('OpenAirQualityCondition')"
-                 style="border-radius: 10px; margin-bottom: 0px; overflow: hidden; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);"
-                 id="ifPollenIsThere">
-                <div class="sun_text">
-                    <p data-translate="air_quality" style="width: calc(100% - 150px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Air Quality</p>
-                    <space></space>
-                    <div class="air_text air_text_value_aqi">
-                        <p id="aqi-level-value">33</p>
-                    </div>
-                    <div class="air_text">
-                        <p id="aqi-level">Error</p>
-                    </div>
-                </div>
-                <div class="air-quality">
-
-                    <div class="img-div_air">
-                        <img src="icons/error.png" id="aqi_img" alt="" style="-webkit-user-drag: none;">
-                    </div>
-                    <div class="all_text_air">
-                        <div class="detail">
-                            <span id="detail_air">Air quality not found!</span>
+                <div class="air_selector ripple_btn_low air_quality_new_div" data-id="5" onclick="sendThemeToAndroid('OpenAirQualityCondition')" id="ifPollenIsThere" style="box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);">
+                    <div class="sun_text">
+                        <p data-translate="air_quality" style="width: calc(100% - 150px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Air Quality</p>
+                        <space></space>
+                        <div class="air_text air_text_value_aqi">
+                            <p id="aqi-level-value">33</p>
+                        </div>
+                        <div class="air_text">
+                            <p id="aqi-level">Error</p>
                         </div>
                     </div>
+
+                    <div class="air_quality_bar">
+                        <air_quality_bar_progress>
+
+                        </air_quality_bar_progress>
+                    </div>
+
+                    <div class="air_quality_info_desc">
+                        <p id="detail_air"></p>
+                    </div>
+
+
+                    <div class="air_quality_key_details">
+
+                        <div class="air_quality_key_item">
+                            <span>PM2.5</span>
+                            <air_key_color id="pm25_air_color" style="--key_air_color: red;"></air_key_color>
+                            <p id="pm25_air"></p>
+                        </div>
+
+                        <div class="air_quality_key_item">
+                            <span>CO</span>
+                            <air_key_color id="CO_air_color"></air_key_color>
+                            <p id="CO_air"></p>
+                        </div>
+
+                        <div class="air_quality_key_item">
+                            <span>NO2</span>
+                            <air_key_color id="NO2_air_color"></air_key_color>
+                            <p id="NO2_air"></p>
+                        </div>
+
+                        <div class="air_quality_key_item">
+                            <span>SO2</span>
+                            <air_key_color id="SO2_air_color"></air_key_color>
+                            <p id="SO2_air"></p>
+                        </div>
+
+                        <div class="air_quality_key_item">
+                            <span>O3</span>
+                            <air_key_color id="O3_air_color"></air_key_color>
+                            <p id="O3_air"></p>
+                        </div>
+
+
+                        <div class="air_quality_key_item">
+                            <span>PM10</span>
+                            <air_key_color id="pm10_air_color"></air_key_color>
+                            <p id="pm10_air"></p>
+                        </div>
+
+                    </div>
+
                 </div>
-
-
-
-                <div class="air_quality_key_details">
-
-                    <div class="air_quality_key_item">
-                        <span>PM2.5</span>
-                        <air_key_color id="pm25_air_color" style="--key_air_color: red;"></air_key_color>
-                        <p id="pm25_air"></p>
-                    </div>
-
-                    <div class="air_quality_key_item">
-                        <span>CO</span>
-                        <air_key_color id="CO_air_color"></air_key_color>
-                        <p id="CO_air"></p>
-                    </div>
-
-                    <div class="air_quality_key_item">
-                        <span>NO2</span>
-                        <air_key_color id="NO2_air_color"></air_key_color>
-                        <p id="NO2_air"></p>
-                    </div>
-
-                    <div class="air_quality_key_item">
-                        <span>SO2</span>
-                        <air_key_color id="SO2_air_color"></air_key_color>
-                        <p id="SO2_air"></p>
-                    </div>
-
-                    <div class="air_quality_key_item">
-                        <span>O3</span>
-                        <air_key_color id="O3_air_color"></air_key_color>
-                        <p id="O3_air"></p>
-                    </div>
-
-
-                    <div class="air_quality_key_item">
-                        <span>PM10</span>
-                        <air_key_color id="pm10_air_color"></air_key_color>
-                        <p id="pm10_air"></p>
-                    </div>
-
-                </div>
-
-
-            </div>
 
             <div class="all_air_quality ripple_btn_low uv_selector" data-id="6"
                  style="border-radius: 10px; margin-top: 0px; margin-bottom: 0; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);"
                  onclick="sendThemeToAndroid('openUVcondition')" id="uvIndexMainDiv">
                 <div class="sun_text">
                     <p data-translate="uv_index">UV Index</p>
+                    <space></space>
+                    <div class="air_text air_text_value_aqi">
+                        <p id="uv-level-value">33</p>
+                    </div>
                     <div class="air_text">
                         <p id="uv-index"></p>
                     </div>
                 </div>
-                <div class="air-quality">
+                <div class="uv_index_bar">
+                    <uv_index_bar_progress>
 
-                    <div class="img-div_air">
-                        <img src=" " id="uv_img" alt="" style="-webkit-user-drag: none;">
-                    </div>
-                    <div class="all_text_air">
+                    </uv_index_bar_progress>
+                </div>
+                <div class="air-quality">
+                    <div class="all_text_air" style="padding: 15px;">
                         <div class="detail">
                             <span id="detail_uv"></span>
                         </div>
@@ -736,7 +736,7 @@
 <div id="search-container" class="modal">
     <div class="main-options" id="main-opt"
          style="border-bottom-color: transparent !important; padding-left: 10px !important;">
-        <button class="ripple-icon-btn focus regular close_search" ontouchstart="playEffect(this)" hidden
+        <button class="ripple-icon-btn focus regular close_search" ontouchstart="playEffect(this)" style="pointer-events: none;"
                 ontouchend="playEffect2(this)">
             <span class="ripple-effect-icon"></span>
             <span icon-outlined>arrow_back</span>
@@ -761,7 +761,7 @@
             <span icon-outlined>map</span>
         </button>
         <span
-                style="font-size: 25px; width: 100%; display: flex; align-items: center; justify-content: center; color: var(--On-Surface-Variant);"
+                style="font-size: 25px; width: calc(100% - 80px); display: flex; align-items: center; justify-content: center; color: var(--On-Surface-Variant);"
                 data-translate="locations">Locations</span>
     </div>
     <div class="modal-content" id="modal-content">

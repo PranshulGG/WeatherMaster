@@ -1120,37 +1120,61 @@ function AirQuaility(data) {
 
 
   let aqiCategory;
+  let percentage = 0;
+  let percentageColor = ''
 
-  if(localStorage.getItem('selectedAQItype') === 'eu_aqi'){
+  if (localStorage.getItem('selectedAQItype') === 'eu_aqi') {
     if (aqiEU <= 25) {
       aqiCategory = 1;
-  } else if (aqiEU <= 50) {
-    aqiCategory = 2;
-  } else if (aqiEU <= 75) {
-    aqiCategory = 3;
-  } else if (aqiEU <= 100) {
-    aqiCategory = 4;
-  } else {
-    aqiCategory = 5;
-  }
-  document.getElementById("aqi-level-value").innerHTML = aqiEU;
-
-
-  } else{
-    if (aqi <= 50) {
-      aqiCategory = 1;
-    } else if (aqi <= 100) {
+       percentage = 10 + ((aqiEU / 25) * 16); // Lowest danger
+      percentageColor = '#00e400'
+    } else if (aqiEU <= 50) {
       aqiCategory = 2;
-    } else if (aqi <= 150) {
+      percentage = 20 + (((aqiEU - 25) / 25) * 16);
+      percentageColor = '#ffff00'
+    } else if (aqiEU <= 75) {
       aqiCategory = 3;
-    } else if (aqi <= 200) {
+      percentage = 42 + (((aqiEU - 50) / 25) * 16);
+      percentageColor = '#ff7e00'
+
+    } else if (aqiEU <= 100) {
       aqiCategory = 4;
+     percentage = 58 + (((aqiEU - 75) / 25) * 16);
+      percentageColor = '#ff0000'
     } else {
       aqiCategory = 5;
+      percentage = 74 + (((aqiEU - 100) / 100) * 16); // Highest danger
+      percentageColor = '#8f3f97'
     }
-  document.getElementById("aqi-level-value").innerHTML = aqi;
-
+    document.getElementById("aqi-level-value").innerHTML = aqiEU;
+  } else {
+    if (aqi <= 50) {
+      aqiCategory = 1;
+       percentage = 10 + ((aqi / 50) * 16);
+      percentageColor = '#00e400'
+    } else if (aqi <= 100) {
+      aqiCategory = 2;
+       percentage = 20 + (((aqi - 50) / 50) * 16);
+      percentageColor = '#ffff00'
+    } else if (aqi <= 150) {
+      aqiCategory = 3;
+      percentage = 42 + (((aqi - 100) / 50) * 16);
+      percentageColor = '#ff7e00'
+    } else if (aqi <= 200) {
+      aqiCategory = 4;
+       percentage = 58 + (((aqi - 150) / 50) * 16);
+      percentageColor = '#ff0000'
+    } else {
+      aqiCategory = 5;
+      percentage = 74 + (((aqi - 200) / 100) * 16); // Highest danger
+      percentageColor = '#8f3f97'
+    }
+    document.getElementById("aqi-level-value").innerHTML = aqi;
   }
+
+
+percentage = Math.min(90, Math.max(10, percentage.toFixed(2)));
+document.querySelector('air_quality_bar_progress').style = `--percentageColor: ${percentageColor}; width: ${percentage}%;`
 
 
   document.getElementById("pm25_air").innerHTML = Math.round(
@@ -1207,14 +1231,6 @@ function AirQuaility(data) {
   document.getElementById("aqi-level").textContent = levelTranslation;
   document.getElementById("detail_air").textContent = messageTranslation;
 
-  const backgroundImage = {
-    1: "air-pop-imgs/good.png",
-    2: "air-pop-imgs/fair.png",
-    3: "air-pop-imgs/moderate.png",
-    4: "air-pop-imgs/poor.png",
-    5: "air-pop-imgs/very_poor.png",
-  };
-
   const backgroundColor = {
     1: "#43b710",
     2: "#eaaf10",
@@ -1223,7 +1239,6 @@ function AirQuaility(data) {
     5: "#8e3acf",
   };
 
-  document.getElementById("aqi_img").src = backgroundImage[aqiCategory];
   document.getElementById("aqi-level").style.backgroundColor =
     backgroundColor[aqiCategory];
 
@@ -1396,174 +1411,204 @@ function getColor(value, type) {
 function UvIndex(uvIndexValue) {
   const uvIndex = Math.round(uvIndexValue);
 
+let uvPercentageProg = 10;
+let uvColor = "#00e400";
+
+
+if (uvIndex >= 0 && uvIndex <= 4) {
+  uvColor = "#00e400";
+  uvPercentageProg = 8
+} else if (uvIndex > 4 && uvIndex <= 6) {
+  uvColor = "#ffff00";
+  uvPercentageProg = 30
+} else if (uvIndex > 6 && uvIndex <= 8) {
+  uvColor = "#ff7e00";
+  uvPercentageProg = 50
+} else if (uvIndex > 8 && uvIndex <= 11) {
+  uvColor = "#ff0000";
+  uvPercentageProg = 70
+} else if (uvIndex > 11 && uvIndex <= 13) {
+  uvColor = "#8f3f97";
+  uvPercentageProg = 80
+} else if (uvIndex > 13) {
+  uvColor = "#7e0023";
+  uvPercentageProg = 95
+}
+
+
+
+document.querySelector('uv_index_bar_progress').style = `--percentageColorUV: ${uvColor}; width: ${uvPercentageProg}%;`
+
+
+
   if (uvIndex >= 0 && uvIndex <= 1) {
     document.getElementById("uv-index").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
       "minimal_risk"
     );
     document.getElementById("uv-index").style = "background-color: #43b710";
-    document.getElementById("uv_img").src = "uv-images/uv-0.png";
     document.getElementById("detail_uv").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
       "uv_index_satisfactory"
     );
     localStorage.setItem("CurrentUVIndexMain", "0");
+    document.getElementById("uv-level-value").innerHTML = '0';
   } else if (uvIndex > 1 && uvIndex <= 2) {
     document.getElementById("uv-index").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
       "low_risk"
     );
     document.getElementById("uv-index").style = "background-color: #43b710";
-    document.getElementById("uv_img").src = "uv-images/uv-1.png";
     document.getElementById("detail_uv").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
       "conditions_low_risk"
     );
     localStorage.setItem("CurrentUVIndexMain", "1");
+    document.getElementById("uv-level-value").innerHTML = '1';
   } else if (uvIndex > 2 && uvIndex <= 3) {
     document.getElementById("uv-index").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
       "low_risk"
     );
     document.getElementById("uv-index").style = "background-color: #43b710";
-    document.getElementById("uv_img").src = "uv-images/uv-2.png";
     document.getElementById("detail_uv").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
       "low_exposure_level"
     );
     localStorage.setItem("CurrentUVIndexMain", "2");
+    document.getElementById("uv-level-value").innerHTML = '2';
   } else if (uvIndex > 3 && uvIndex <= 4) {
     document.getElementById("uv-index").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
       "low_risk"
     );
     document.getElementById("uv-index").style = "background-color: #43b710";
-    document.getElementById("uv_img").src = "uv-images/uv-3.png";
     document.getElementById("detail_uv").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
       "low_exposure_level"
     );
     localStorage.setItem("CurrentUVIndexMain", "3");
+    document.getElementById("uv-level-value").innerHTML = '3';
   } else if (uvIndex > 4 && uvIndex <= 5) {
     document.getElementById("uv-index").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
       "moderate_risk"
     );
     document.getElementById("uv-index").style = "background-color: #eaaf10";
-    document.getElementById("uv_img").src = "uv-images/uv-4.png";
     document.getElementById("detail_uv").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
       "moderate_risk_sun_exposure"
     );
     localStorage.setItem("CurrentUVIndexMain", "4");
+    document.getElementById("uv-level-value").innerHTML = '4';
   } else if (uvIndex > 5 && uvIndex <= 6) {
     document.getElementById("uv-index").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
       "moderate_risk"
     );
     document.getElementById("uv-index").style = "background-color: #eaaf10";
-    document.getElementById("uv_img").src = "uv-images/uv-5.png";
     document.getElementById("detail_uv").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
       "moderate_risk_sun_exposure"
     );
     localStorage.setItem("CurrentUVIndexMain", "5");
+    document.getElementById("uv-level-value").innerHTML = '5';
   } else if (uvIndex > 6 && uvIndex <= 7) {
     document.getElementById("uv-index").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
       "high_risk"
     );
     document.getElementById("uv-index").style = "background-color: #eb8a11";
-    document.getElementById("uv_img").src = "uv-images/uv-6.png";
     document.getElementById("detail_uv").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
       "high_risk_sun_exposure"
     );
     localStorage.setItem("CurrentUVIndexMain", "6");
+    document.getElementById("uv-level-value").innerHTML = '6';
   } else if (uvIndex > 7 && uvIndex <= 8) {
     document.getElementById("uv-index").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
       "high_risk"
     );
     document.getElementById("uv-index").style = "background-color: #eb8a11";
-    document.getElementById("uv_img").src = "uv-images/uv-7.png";
     document.getElementById("detail_uv").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
       "high_risk_sun_exposure"
     );
     localStorage.setItem("CurrentUVIndexMain", "7");
+    document.getElementById("uv-level-value").innerHTML = '7';
   } else if (uvIndex > 8 && uvIndex <= 9) {
     document.getElementById("uv-index").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
       "very_high_risk"
     );
     document.getElementById("uv-index").style = "background-color: #e83f0f";
-    document.getElementById("uv_img").src = "uv-images/uv-8.png";
     document.getElementById("detail_uv").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
       "very_high_risk_sun_exposure"
     );
     localStorage.setItem("CurrentUVIndexMain", "8");
+    document.getElementById("uv-level-value").innerHTML = '8';
   } else if (uvIndex > 9 && uvIndex <= 10) {
     document.getElementById("uv-index").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
       "very_high_risk"
     );
     document.getElementById("uv-index").style = "background-color: #e83f0f";
-    document.getElementById("uv_img").src = "uv-images/uv-9.png";
     document.getElementById("detail_uv").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
       "very_high_risk_sun_exposure"
     );
     localStorage.setItem("CurrentUVIndexMain", "9");
+    document.getElementById("uv-level-value").innerHTML = '9';
   } else if (uvIndex > 10 && uvIndex <= 11) {
     document.getElementById("uv-index").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
       "very_high_risk"
     );
     document.getElementById("uv-index").style = "background-color: #e83f0f";
-    document.getElementById("uv_img").src = "uv-images/uv-10.png";
     document.getElementById("detail_uv").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
       "very_high_risk_sun_exposure"
     );
     localStorage.setItem("CurrentUVIndexMain", "10");
+    document.getElementById("uv-level-value").innerHTML = '10';
   } else if (uvIndex > 11 && uvIndex <= 12) {
     document.getElementById("uv-index").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
       "extreme_risk"
     );
     document.getElementById("uv-index").style = "background-color: #8e3acf";
-    document.getElementById("uv_img").src = "uv-images/uv-11.png";
     document.getElementById("detail_uv").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
       "extreme_risk_sun_exposure"
     );
     localStorage.setItem("CurrentUVIndexMain", "11");
+    document.getElementById("uv-level-value").innerHTML = '11';
   } else if (uvIndex > 12 && uvIndex <= 13) {
     document.getElementById("uv-index").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
       "extreme_risk"
     );
     document.getElementById("uv-index").style = "background-color: #ec0c8b";
-    document.getElementById("uv_img").src = "uv-images/uv-12.png";
     document.getElementById("detail_uv").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
       "extreme_risk_sun_exposure"
     );
     localStorage.setItem("CurrentUVIndexMain", "12");
+    document.getElementById("uv-level-value").innerHTML = '12';
   } else if (uvIndex > 13) {
     document.getElementById("uv-index").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
       "extreme_risk"
     );
     document.getElementById("uv-index").style = "background-color: #550ef9";
-    document.getElementById("uv_img").src = "uv-images/uv-13.png";
     document.getElementById("detail_uv").innerHTML = getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
       "extreme_risk_sun_exposure"
     );
     localStorage.setItem("CurrentUVIndexMain", "13+");
+    document.getElementById("uv-level-value").innerHTML = '13+';
   }
 }
 
@@ -2267,7 +2312,7 @@ function createTempTrendsChart() {
         y: {
           title: {
             display: true,
-            text: `Temperature (${Unit})`,
+            text: `${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "temperature")} (${Unit})`,
           },
           beginAtZero: true,
         },
@@ -2368,7 +2413,7 @@ function createTempTrendsChartBar() {
         y: {
           title: {
             display: true,
-            text: `Temperature (${Unit})`,
+            text: `${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "temperature")} (${Unit})`,
           },
           beginAtZero: true,
         },

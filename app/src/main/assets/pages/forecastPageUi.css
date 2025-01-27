@@ -1,4 +1,5 @@
 * {
+* {
     -webkit-tap-highlight-color: transparent;
     user-select: none;
     touch-action: manipulation;
@@ -169,7 +170,7 @@ forecastMainDetails .forecastTempConditionMainContent .top-details {
     display: flex;
     align-items: flex-start;
     flex-direction: column;
-    padding-top: 40px;
+    padding-top: 30px;
     padding-left: 15px;
     padding-right: 15px;
 }

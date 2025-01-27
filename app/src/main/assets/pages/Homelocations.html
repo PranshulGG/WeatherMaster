@@ -301,13 +301,13 @@
 
 
                 <md-dialog style="min-width: 85%;" id="delete_all_locations_dialog">
-                    <div slot="headline">Delete locations</div>
-                    <div slot="content">
+                    <div slot="headline" data-translate="delete_locations">Delete locations</div>
+                    <div slot="content" data-translate="delete_locations_support_sub">
                         This action removes every saved location except your default location. Use this if your saved locations are not visible, are duplicating, or experiencing any other bugs
                     </div>
                     <div slot="actions">
-                        <md-text-button onclick="window.history.back()" style="font-size: 16px;">Cancel</md-text-button>
-                        <md-filled-button onclick="deleteSavedLocations();" style="font-size: 16px;" id="delete_all_locations_btn">Delete</md-filled-button>
+                        <md-text-button onclick="window.history.back()" style="font-size: 16px;" data-translate="cancel">Cancel</md-text-button>
+                        <md-filled-button onclick="deleteSavedLocations();" style="font-size: 16px;" id="delete_all_locations_btn" data-translate="delete">Delete</md-filled-button>
                     </div>
                 </md-dialog>
 
@@ -1318,6 +1318,7 @@ if (
 
 
 }
+
 
 
     </script>

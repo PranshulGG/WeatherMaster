@@ -100,64 +100,63 @@ function generateClothingRecommendation(timeOfDay, avgData, aqi) {
 
 
         if (avgData.avgTemp < -40) {
-            clothingTips.push('<li>🥶 Extreme cold: In temperatures below -40°C (-40°F), you need high-insulation gear. Wear a heavy-duty down parka with windproof outer layers, a balaclava, thermal base layers, thick wool socks, insulated boots, and a face mask. All exposed skin must be covered to avoid frostbite.</li>');
+            clothingTips.push(`<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_temp_1")}</li>`);
         } else if (avgData.avgTemp >= -40 && avgData.avgTemp < -30) {
-            clothingTips.push('<li>🥶 Extreme cold: Layer with thermal base layers (top and bottom), a down or synthetic coat, thick wool socks, insulated boots, and a wool hat. Make sure to wear insulated gloves and a scarf to cover exposed skin.</li>');
+            clothingTips.push(`<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_temp_2")}</li>`);
         } else if (avgData.avgTemp >= -30 && avgData.avgTemp < -20) {
-            clothingTips.push('<li>🥶 Very cold: A heavy-duty winter jacket is necessary. Wear thermal leggings, thick wool socks, and insulated boots. Insulated gloves and a wool hat will keep you warm. Layering is key in these frigid temperatures.</li>');
+            clothingTips.push(`<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_temp_3")}</li>`);
         } else if (avgData.avgTemp >= -20 && avgData.avgTemp < -10) {
-            clothingTips.push('<li>🧥 Very cold: Layer with a heavy winter coat, sweater, and long underwear. Thermal gloves, insulated boots, and a scarf are essential. A wool hat or beanie will provide extra warmth for your head.</li>');
+            clothingTips.push(`<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_temp_4")}</li>`);
         } else if (avgData.avgTemp >= -10 && avgData.avgTemp < 0) {
-            clothingTips.push('<li>🧥 Cold weather: Wear a thick winter coat or puffer jacket with a sweater underneath. Insulated gloves, wool socks, a scarf, and a hat are necessary for comfort in these temperatures.</li>');
+            clothingTips.push(`<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_temp_5")}</li>`);
         } else if (avgData.avgTemp >= 0 && avgData.avgTemp < 5) {
-            clothingTips.push('<li>🧥 Cold weather: A heavy jacket or coat is recommended. Pair with thermal gloves, a wool scarf, and thick socks. Opt for boots to keep your feet warm and dry.</li>');
+            clothingTips.push(`<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_temp_6")}</li>`);
         } else if (avgData.avgTemp >= 5 && avgData.avgTemp < 10) {
-            clothingTips.push('<li>🧥 Cool weather: Layer with a warm jacket or puffer coat. Consider wearing thermal socks and boots, as well as gloves for extra protection from the chill. A scarf will also add warmth around your neck.</li>');
+            clothingTips.push(`<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_temp_7")}</li>`);
         } else if (avgData.avgTemp >= 10 && avgData.avgTemp < 15) {
-            clothingTips.push('<li>🧳 Mild weather: A light jacket or sweater should suffice. Pair with jeans or trousers, and consider a hat to protect against mild wind or sun exposure.</li>');
+            clothingTips.push(`<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_temp_8")}</li>`);
         } else if (avgData.avgTemp >= 15 && avgData.avgTemp < 20) {
-            clothingTips.push('<li>🧳 Mild weather: Dress in layers with a light jacket or sweater. You can wear long sleeves, but consider switching to short sleeves if it feels warm. A scarf can help if the wind picks up.</li>');
+            clothingTips.push(`<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_temp_9")}</li>`);
         } else if (avgData.avgTemp >= 20 && avgData.avgTemp < 25) {
-            clothingTips.push('<li>🌞 Warm weather: Opt for breathable fabrics like cotton or linen. A short-sleeve shirt, shorts, or a skirt will keep you comfortable. Don’t forget sunglasses and sunscreen to protect against UV rays.</li>');
+            clothingTips.push(`<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_temp_10")}</li>`);
         } else if (avgData.avgTemp >= 25 && avgData.avgTemp < 30) {
-            clothingTips.push('<li>🌞 Hot weather: Wear lightweight, moisture-wicking clothing like cotton or linen. A wide-brimmed hat and sunglasses are essential to shield from the sun. Stay hydrated and wear sunscreen, especially if you’ll be outside for long periods.</li>');
+            clothingTips.push(`<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_temp_11")}</li>`);
         } else if (avgData.avgTemp >= 30 && avgData.avgTemp < 35) {
-            clothingTips.push('<li>🔥 Hot weather: Dress in lightweight, breathable clothing. Lightweight, loose-fitting shirts and shorts or skirts will help you stay cool. Don’t forget to hydrate regularly and apply sunscreen to avoid sunburn.</li>');
+            clothingTips.push(`<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_temp_12")}</li>`);
         } else if (avgData.avgTemp >= 35) {
-            clothingTips.push('<li>🔥 Extremely hot: Wear loose-fitting, moisture-wicking fabrics to stay cool. Avoid dark colors as they absorb heat. A wide-brimmed hat, sunglasses, and plenty of sunscreen are crucial. Stay in shaded areas as much as possible and drink water constantly.</li>');
+            clothingTips.push(`<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_temp_13")}</li>`);
         }
-
 
         // Humidity-based recommendations
         if (avgData.avgHumidity > 80 && avgData.avgTemp > 20) {
-            clothingTips.push('<li>💦 High humidity: Wear moisture-wicking clothes and carry a towel to stay dry.</li>');
+            clothingTips.push(`<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_humidity_1")}</li>`);
         } else if (avgData.avgHumidity < 30 && avgData.avgTemp < 10) {
-            clothingTips.push('<li>💧 Low humidity: Use a hydrating moisturizer to avoid dry skin.</li>');
+            clothingTips.push(`<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_humidity_2")}</li>`);
         }
 
         if (avgData.avgWindSpeed > 20) {
-            clothingTips.push('<li>🌬️ Strong winds: Wear windproof clothing and secure loose items.</li>');
+            clothingTips.push(`<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_wind_1")}</li>`);
         }
 
     // UV index-based recommendations
     if (timeOfDay !== 'Night') {
         if (roundedUVIndex <= 1) {
-            clothingTips.push('<li>🕶️ UV is very low. Sunglasses for comfort are sufficient.</li>');
+            clothingTips.push(`<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_uvIndex_1")}</li>`);
         } else if (roundedUVIndex >= 2 && roundedUVIndex <= 3) {
-            clothingTips.push('<li>🧴 UV is low. Wear sunglasses and apply SPF 15-30 sunscreen.</li>');
+            clothingTips.push(`<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_uvIndex_2")}</li>`);
         } else if (roundedUVIndex >= 4 && roundedUVIndex <= 5) {
-            clothingTips.push('<li>🧴 Moderate UV. Use SPF 30 sunscreen, wear sunglasses, and a hat.</li>');
+            clothingTips.push(`<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_uvIndex_3")}</li>`);
         } else if (roundedUVIndex >= 6 && roundedUVIndex <= 7) {
-            clothingTips.push('<li>🧴 High UV. SPF 50+, sunglasses, UV-blocking clothing, and stay in shade when possible.</li>');
+            clothingTips.push(`<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_uvIndex_4")}</li>`);
         } else if (roundedUVIndex >= 8 && roundedUVIndex <= 10) {
-            clothingTips.push('<li>⚠️ Very high UV! Avoid direct sun, use SPF 50+, UV-blocking clothing, and sunglasses.</li>');
+            clothingTips.push(`<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_uvIndex_5")}</li>`);
         } else {
-            clothingTips.push('<li>🚨 Extreme UV! Stay indoors if possible. SPF 50+, sunglasses, and protective clothing are mandatory.</li>');
+            clothingTips.push(`<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_uvIndex_6")}</li>`);
         }
     }
     // Nighttime recommendations
     if (timeOfDay === 'Night') {
-        clothingTips.push('<li>🌙 Opt for reflective clothing or accessories for better visibility in low light.</li>');
+        clothingTips.push(`<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_uvIndex_7")}</li>`);
     }
 
     clothingTips.push(getWeatherDescription(avgData.avgWeatherCode));
@@ -177,28 +176,28 @@ function getWeatherDescription(weatherCode) {
         case 1:
         case 2:
         case 3:
-            return '<li>🌤️ Clear to partly cloudy. Comfortable weather overall.</li>';
+            return `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_weatherDescription_1")}</li>`;
         case 45:
         case 48:
-            return '<li>🌫️ Foggy conditions. Drive safely and use fog lights.</li>';
+            return `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_weatherDescription_2")}</li>`;
         case 51:
         case 53:
         case 55:
-            return '<li>🌦️ Light drizzle expected. Carry a waterproof jacket or umbrella.</li>';
+            return `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_weatherDescription_3")}</li>`;
         case 61:
         case 63:
         case 65:
-            return '<li>🌧️ Rainy weather. A raincoat or umbrella is essential.</li>';
+            return `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_weatherDescription_4")}</li>`;
         case 71:
         case 73:
         case 75:
-            return '<li>❄️ Snowfall expected. Wear thermal clothing and snow boots.</li>';
+            return `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_weatherDescription_5")}</li>`;
         case 95:
         case 96:
         case 99:
-            return '<li>⛈️ Thunderstorms likely. Stay indoors if possible.</li>';
+            return `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_weatherDescription_6")}</li>`;
         default:
-            return '<li>🌍 Weather conditions are normal. Enjoy your day!</li>';
+            return `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_weatherDescription_7")}</li>`;
     }
 }
 
@@ -208,33 +207,33 @@ function getRandomItem(arr) {
 function getAirQualitySuggestion(aqi) {
     if (aqi <= 50) {
         return getRandomItem([
-            '<li>👍 Air quality is good today. It\'s safe to be outdoors and breathe easy. 🌿 Perfect day for a walk in the park, jogging, or other outdoor activities!</li>',
-            '<li>👌 The air is fresh, so it\'s a great time to enjoy outdoor activities like hiking or biking. Stay active and enjoy the clear skies!</li>',
-            '<li>🌞 With great air quality, it\'s the perfect time to engage in outdoor sports or simply relax outside. Go for a jog or picnic!</li>'
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_airQualityDescription_1")}</li>`,
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_airQualityDescription_2")}</li>`,
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_airQualityDescription_3")}</li>`
         ]);
     } else if (aqi <= 100) {
         return getRandomItem([
-            '<li>👌 Air quality is moderate. It\'s okay for most people, but sensitive individuals (children, elderly, or those with respiratory conditions) might want to limit prolonged outdoor exposure. 🌳 Consider taking it easy if you have allergies or asthma.</li>',
-            '<li>🌿 Air quality is acceptable for most people, but be cautious if you have respiratory issues. Opt for light outdoor activities like walking or stretching.</li>',
-            '<li>🌥️ It\'s a good day for outdoor activities if you\'re generally healthy. However, individuals with asthma or other respiratory concerns should limit time outdoors.</li>'
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_airQualityDescription_4")}</li>`,
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_airQualityDescription_5")}</li>`,
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_airQualityDescription_6")}</li>`
         ]);
     } else if (aqi <= 150) {
         return getRandomItem([
-            '<li>⚠️ Air quality is unhealthy for sensitive groups. Those with respiratory or heart conditions should avoid strenuous outdoor activities. 🏠 If possible, stay indoors or wear a mask if you\'re heading outside.</li>',
-            '<li>🚶‍♀️ Sensitive individuals should reduce outdoor exposure. It might be best to stay indoors or use a mask if you need to go outside. Consider limiting outdoor exercise.</li>',
-            '<li>💨 If you have a pre-existing health condition, avoid outdoor activities and stay indoors to minimize exposure. Make sure to wear a mask if you must go outside.</li>'
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_airQualityDescription_7")}</li>`,
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_airQualityDescription_8")}</li>`,
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_airQualityDescription_9")}</li>`
         ]);
     } else if (aqi <= 200) {
         return getRandomItem([
-            '<li>🚷 Air quality is unhealthy. Limit outdoor exposure as much as possible. 🏃‍♂️ For outdoor workers or athletes, consider rescheduling activities or using an N95 mask. 🚫 Avoid physical activities outdoors, especially for children and people with health concerns.</li>',
-            '<li>⚠️ Due to unhealthy air quality, it\'s recommended to stay indoors. Reschedule outdoor activities or use an N95 mask if you need to go outside.</li>',
-            '<li>💨 Limit outdoor exposure and take precautions if you must be outside. People with respiratory or heart conditions should stay indoors and avoid exertion.</li>'
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_airQualityDescription_10")}</li>`,
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_airQualityDescription_11")}</li>`,
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_airQualityDescription_12")}</li>`
         ]);
     } else {
         return getRandomItem([
-            '<li>🚨 Hazardous air quality! It\'s best to stay indoors at all costs. 🌫️ If you must go outside, make sure to wear a high-quality face mask and minimize outdoor exposure. 🛑 People with heart or lung conditions should remain indoors and take necessary precautions.</li>',
-            '<li>☠️ The air quality is hazardous, so stay indoors to protect your health. If you need to leave, wear a high-quality mask and limit exposure. People with pre-existing conditions should avoid outdoor activities.</li>',
-            '<li>🚷 Extremely hazardous air quality! Stay indoors to avoid serious health risks. If you must go out, wear a respirator mask and minimize time outdoors. People with respiratory issues should not leave the house.</li>'
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_airQualityDescription_13")}</li>`,
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_airQualityDescription_14")}</li>`,
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_airQualityDescription_15")}</li>`
         ]);
     }
 }
@@ -251,34 +250,35 @@ function generateDayTip(morningAvg, eveningAvg, nightAvg, aqi) {
     // Temperature Advice
     if (overallAvgTemp < 10) {
         dayTip += getRandomItem([
-            "<li>🥶 Bundle up! Cold weather calls for insulated jackets and accessories like scarves and gloves.</li>",
-            "<li>❄️ Expect chilly conditions throughout the day. Layer up with thermals for extra warmth.</li>"
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_daytip_temp_1")}</li>`,
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_daytip_temp_2")}</li>`
         ]);
     } else if (overallAvgTemp >= 10 && overallAvgTemp < 20) {
         dayTip += getRandomItem([
-            "<li>🍂 Mild and pleasant weather. A light jacket will keep you comfortable, especially in the evening.</li>",
-            "<li>🌤️ A great day for a stroll or light outdoor activities. Don’t forget to carry a sweater for cooler moments!</li>"
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_daytip_temp_3")}</li>`,
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_daytip_temp_4")}</li>`
         ]);
     } else {
         dayTip += getRandomItem([
-            "<li>☀️ Warm and sunny. Opt for breathable fabrics and stay hydrated throughout the day.</li>",
-            "<li>🌞 Enjoy the warmth, but remember to apply sunscreen if you're heading out during peak sunlight hours.</li>"
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_daytip_temp_5")}</li>`,
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_daytip_temp_6")}</li>`
         ]);
     }
 
     // Wind Advice
     if (overallAvgWind > 15) {
         dayTip += getRandomItem([
-            "<li>💨 Windy conditions today. Secure loose items and wear wind-resistant clothing if you're outside.</li>",
-            "<li>🌬️ Gusty winds might make it feel cooler. A lightweight jacket can help protect against the breeze.</li>"
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_daytip_wind_1")}</li>`,
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_daytip_wind_2")}</li>`
         ]);
     }
+
 
     // Humidity Advice
     if (overallAvgHumidity > 75) {
         dayTip += getRandomItem([
-            "<li>💦 High humidity could make it feel warmer. Wear moisture-wicking clothing and stay hydrated.</li>",
-            "<li>💧 The air is humid—light, breathable fabrics will help you stay comfortable.</li>"
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_daytip_humidity_1")}</li>`,
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_daytip_humidity_2")}</li>`
         ]);
     } else if (overallAvgHumidity < 20) {
         dayTip += getRandomItem([
@@ -293,15 +293,16 @@ function generateDayTip(morningAvg, eveningAvg, nightAvg, aqi) {
     // Activity Suggestions
     if (overallAvgTemp > 15 && aqi <= 50) {
         dayTip += getRandomItem([
-            "<li>🌳 Perfect weather for outdoor activities like jogging or cycling. Head to a park and enjoy the fresh air!</li>",
-            "<li>🚶‍♂️ Consider a nature walk or picnic—today's conditions are great for some time outdoors.</li>"
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_daytip_aqi_1")}</li>`,
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_daytip_aqi_2")}</li>`
         ]);
     } else if (overallAvgTemp <= 15 || aqi > 100) {
         dayTip += getRandomItem([
-            "<li>🏠 It might be a good day to stay indoors and enjoy a warm beverage. Consider a cozy activity like reading.</li>",
-            "<li>📺 Plan indoor activities, especially if you’re sensitive to air quality or cold weather.</li>"
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_daytip_aqi_3")}</li>`,
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_daytip_aqi_4")}</li>`
         ]);
     }
+
 
     // Weather Breakdown
 
@@ -392,34 +393,72 @@ GenerateRecommendation()
 // tabs
 
 
-document.getElementById('change_type_tabs').addEventListener('change', () => {
-    if (event.target.activeTabIndex === 0) {
-        document.getElementById('morning').hidden = false;
-        document.getElementById('evening').hidden = true;
-        document.getElementById('night').hidden = true;
-        document.getElementById('day_tip').hidden = true;
-        document.getElementById('air_quality_details').hidden = true;
+document.addEventListener("DOMContentLoaded", function () {
+    const tabsContainer = document.getElementById("change_type_tabs");
+    const sections = document.querySelectorAll(".clothin_activity");
+    let isUserScrolling = true;
 
-    } else if (event.target.activeTabIndex === 1){
-        document.getElementById('morning').hidden = true;
-        document.getElementById('evening').hidden = false;
-        document.getElementById('night').hidden = true;
-        document.getElementById('day_tip').hidden = true;
-        document.getElementById('air_quality_details').hidden = true;
+    const updateActiveTabOnScroll = (sectionIndex) => {
+        if (isUserScrolling) {
+            tabsContainer.activeTabIndex = sectionIndex;
+        }
+    };
 
-    } else if (event.target.activeTabIndex === 2){
-        document.getElementById('morning').hidden = true;
-        document.getElementById('evening').hidden = true;
-        document.getElementById('night').hidden = false;
-        document.getElementById('day_tip').hidden = true;
-        document.getElementById('air_quality_details').hidden = true;
 
-    } else if (event.target.activeTabIndex === 3){
-        document.getElementById('morning').hidden = true;
-        document.getElementById('evening').hidden = true;
-        document.getElementById('night').hidden = true;
-        document.getElementById('day_tip').hidden = false;
-        document.getElementById('air_quality_details').hidden = false;
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const sectionIndex = Array.from(sections).indexOf(entry.target);
+                    updateActiveTabOnScroll(sectionIndex);
+                }
+            });
+        },
+        {
+            root: null,
+            threshold: 0.5,
+        }
+    );
 
-    }
-  });
+    // Observe each section
+    sections.forEach((section) => {
+        observer.observe(section);
+    });
+
+    // Listen for tab clicks
+    tabsContainer.addEventListener("click", (e) => {
+        if (e.target.tagName === "MD-SECONDARY-TAB") {
+            isUserScrolling = false;
+
+
+            setTimeout(() => {
+                isUserScrolling = true;
+            }, 500);
+        }
+    });
+});
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const tabsContainer = document.getElementById("change_type_tabs");
+    const tabs = tabsContainer.querySelectorAll("md-secondary-tab");
+
+    tabs.forEach((tab) => {
+        tab.addEventListener("click", (e) => {
+            const targetId = tab.getAttribute("data-target");
+            const targetSection = document.getElementById(targetId);
+
+            if (targetSection) {
+                // Programmatically scroll to the section
+                targetSection.scrollIntoView({
+                    behavior: "smooth", // Smooth scrolling
+                    block: "start", // Align section to the top
+                });
+
+                // Update activeTabIndex based on the clicked tab
+                tabsContainer.activeTabIndex = Array.from(tabs).indexOf(tab);
+            }
+        });
+    });
+});

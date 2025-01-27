@@ -79,6 +79,7 @@
             padding: 10px;
             padding-left: 0;
             padding-right: 0;
+            padding-top: 8px;
         }
 
         .data_text{
@@ -94,7 +95,11 @@
             position: fixed;
             left: 0;
             width: 100%;
-            overflow-x: hidden;
+            scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+    scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
         }
 
         .wrap_data img{
@@ -143,32 +148,31 @@
             padding: 15px;
         }
 
-        .clothin_activity .data ul li:first-child{
-            border-radius: 18px 18px 10px 10px;
-        }
-
-        .clothin_activity .data ul li:last-child{
-            border-radius: 10px 10px 18px 18px;
-        }
-
         .clothin_activity .data .data_text{
             background-color: transparent;
             padding: 10px;
-            animation: jump 0.2s cubic-bezier(1,0,0,1);
                 padding-top: 0;
 
+        }
+
+        .clothin_activity{
+            width: 100%;
+            flex-shrink: 0;
+            scroll-snap-align: start;
         }
 
 
         @keyframes jump{
             0%{
-                transform: scale(0);
+                transform: translateY(100%);
+                opacity: 0;
             }
             100%{
-                transform: scale(1);
+                transform: translateY(0%);
+                opacity: 1;
+
             }
         }
-
 
 
     </style>
@@ -176,14 +180,21 @@
 
 <body style="background-color: var(--Surface);">
 <div class="header">
-    <p data-translate="clothing_activity">Clothing and Activity</p>
-    <span id="location_name">Error</span>
+    <backbtn style="position: absolute; left: 10px; flex-shrink: 0;">
+        <button class="ripple-icon-btn regular" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)"
+                title="Go back" onclick="sendThemeToAndroid('GoBack')">
+            <span class="ripple-effect-icon"></span>
+            <span icon-outlined style="font-size: 24px;">arrow_back</span>
+        </button>
+    </backbtn>
+    <p data-translate="clothing_activity" style="max-width: 60%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Clothing and Activity</p>
+    <span id="location_name" style="max-width: 60%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Error</span>
 </div>
 <md-tabs id="change_type_tabs">
-    <md-primary-tab data-translate="morning">Morning</md-primary-tab>
-    <md-primary-tab data-translate="evening">Evening</md-primary-tab>
-    <md-primary-tab data-translate="night">Night</md-primary-tab>
-    <md-primary-tab data-translate="day_tip">Day tip</md-primary-tab>
+    <md-secondary-tab id="morning-tab" data-target="morning"><span data-translate="morning" style="font-family: var(--google-mid);">Morning</md-secondary-tab>
+    <md-secondary-tab id="evening-tab" data-target="evening"><span data-translate="evening" style="font-family: var(--google-mid);">Evening</span></md-secondary-tab>
+    <md-secondary-tab id="night-tab" data-target="night"><span data-translate="night" style="font-family: var(--google-mid);">Night</span></md-secondary-tab>
+    <md-secondary-tab id="day-tip-tab" data-target="day_tip"><span data-translate="day_tip" style="font-family: var(--google-mid);">Day tip</span></md-secondary-tab>
 
 </md-tabs>
 <div class="wrap_data">
@@ -193,16 +204,16 @@
 
     </div>
 
-    <div id="evening" class="clothin_activity" hidden>
+    <div id="evening" class="clothin_activity" >
 
     </div>
 
-    <div id="night" class="clothin_activity" hidden>
+    <div id="night" class="clothin_activity" >
 
     </div>
 
 
-    <div id="day_tip" class="clothin_activity" hidden></div>
+    <div id="day_tip" class="clothin_activity" ></div>
 
     <div id="air_quality_details"  class="clothin_activity" hidden style="margin-bottom: 60px;"></div>
 

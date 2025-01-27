@@ -193,7 +193,10 @@ weatherWrap.addEventListener('scroll', function() {
         }, 300)
     }
 
+let touchEventAdded = false; // Flag to track if touch events are added
 
+if (!touchEventAdded) {
+    touchEventAdded = true;
     weatherWrap.addEventListener('touchstart', async (e) => {
             if(await customStorage.getItem('useGestureLocation') && await customStorage.getItem('useGestureLocation') === true){
         const touch = e.touches[0];
@@ -204,6 +207,7 @@ weatherWrap.addEventListener('scroll', function() {
             return;
         }
 
+
         startX = touch.clientX;
         startY = touch.clientY;
         isSwiping = true; // Allow swipe detection
@@ -213,6 +217,7 @@ weatherWrap.addEventListener('scroll', function() {
     weatherWrap.addEventListener('touchmove', async (e) => {
         if(await customStorage.getItem('useGestureLocation') && await customStorage.getItem('useGestureLocation') === true){
         if (!isSwiping) return; // Ignore if not swiping
+
 
         const touch = e.touches[0];
         const diffX = touch.clientX - startX;
@@ -232,6 +237,7 @@ weatherWrap.addEventListener('scroll', function() {
     });
 
     weatherWrap.addEventListener('touchend', async (e) => {
+            if(JSON.parse(localStorage.getItem("savedLocations")).length > 1){
         if(await customStorage.getItem('useGestureLocation') && await customStorage.getItem('useGestureLocation') === true){
         const touch = e.changedTouches[0];
 
@@ -241,11 +247,6 @@ weatherWrap.addEventListener('scroll', function() {
                         return;
                     }
 
-                                        if(savedLocations.length <= 1) {
-                                            isSwiping = false;
-                                            return; // Exit early if there's only one location
-                                        }
-
 
         if (!isSwiping) return;
 
@@ -254,7 +255,6 @@ weatherWrap.addEventListener('scroll', function() {
         if (diffX < -swipeThreshold) {
             let nextIndex = (currentIndex + 1) % savedLocations.length;
 
-            // Ensure the next location is not the same as the current location
             while (savedLocations[nextIndex]?.locationName === savedLocations[currentIndex]?.locationName) {
                 nextIndex = (nextIndex + 1) % savedLocations.length;
             }
@@ -287,8 +287,7 @@ weatherWrap.addEventListener('scroll', function() {
                     }, 200);
                     }
                   }
-            }
-
+    }
 
 
         }
@@ -302,7 +301,6 @@ weatherWrap.addEventListener('scroll', function() {
             }
 
             currentIndex = prevIndex;
-
 
             if(savedLocations[currentIndex]?.locationName === 'CurrentDeviceLocation'){
                 ReturnHomeLocation()
@@ -332,15 +330,16 @@ weatherWrap.addEventListener('scroll', function() {
             }
 
 
-
         }
 
 
 
 
         isSwiping = false; // Reset
+               }
     }
     });
+    }
 }
         }
 

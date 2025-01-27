@@ -494,16 +494,16 @@ initializeDragAndDropLocations();
 
     localStorage.setItem("DeviceOnline", "Yes");
     searchContainer.style.display = "block";
+        document.querySelector(".header_hold").style.pointerEvents = 'none'
     window.history.pushState({ SearchContainerOpen: true }, "");
-    document.querySelector(".header_hold").style.transform = "scale(1.1)";
-    document.querySelector(".header_hold").style.opacity = "0";
 
     setTimeout(() => {
-      document.querySelector(".header_hold").style.transform = "";
-      document.querySelector(".header_hold").style.opacity = "";
+document.querySelector(".close_search").style.pointerEvents = 'auto'
 
       if (savedLocations.length === 0) {
-        cityInput.focus();
+
+
+//        cityInput.focus();
       } else {
       }
     }, 400);
@@ -3448,11 +3448,18 @@ window.addEventListener("popstate", function (event) {
       document.querySelector(".map_picker").style.transform = "";
     }, 300);
   } else {
+    document.getElementById("search-container").style.transform = "translateY(20%)";
     document.getElementById("search-container").style.opacity = "0";
+
     setTimeout(() => {
+document.querySelector(".close_search").style.pointerEvents = 'none'
+
       document.getElementById("modal-content").scrollTop = 0;
       document.getElementById("search-container").style.display = "none";
       document.getElementById("search-container").style.opacity = "1";
+          document.getElementById("search-container").style.transform = "";
+    document.querySelector(".header_hold").style.pointerEvents = ''
+
       checkTopScroll();
     document.getElementById("edit_saved_locations").selected = false;
 
@@ -3811,7 +3818,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", async function () {
-  const currentVersion = "v1.16.1";
+  const currentVersion = "v1.17.0";
   const githubRepo = "PranshulGG/WeatherMaster";
   const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
