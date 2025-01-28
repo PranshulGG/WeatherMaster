@@ -506,5 +506,6 @@
     "activity_suggestions_daytip_aqi_2": "🚶‍♂️ Ziehe in Erwägung heute für einen Spaziergang oder ein Picknick rauszugehen - die heutigen Wetterbedingungen sind gut um Zeit draußen zu verbringen.",
     "activity_suggestions_daytip_aqi_3": "🏠 Es ist wohl möglich ein guter Tag um drinnen zu bleiben und ein heißes Getränk zu genießen. Plane am besten eine gemütliche Aktivität wie zum Beispiel lesen.",
     "activity_suggestions_daytip_aqi_4": "📺 Plane Indoor-Aktivitäten, vor allem wenn du sensitiv gegenüber Luftverschmutzung oder kaltem Wetter regierst.",
-    "temperature": "Temperatur"
+    "temperature": "Temperatur",
+    "show_summary_toggle_sub": "Show a brief summary of the weather"
 }
