@@ -507,5 +507,6 @@
     "activity_suggestions_daytip_aqi_3": "🏠 Hôm nay có thể là một ngày tốt để ở trong nhà và thưởng thức đồ uống nóng. Hãy cân nhắc một hoạt động ấm cúng như đọc sách.",
     "activity_suggestions_daytip_aqi_4": "📺 Lên kế hoạch cho các hoạt động trong nhà, đặc biệt nếu bạn nhạy cảm với chất lượng không khí hoặc thời tiết lạnh.",
     "temperature": "Nhiệt độ",
-    "show_summary_toggle_sub": "Show a brief summary of the weather"
+    "show_summary_toggle_sub": "Show a brief summary of the weather",
+    "insights": "Insights"
 }
