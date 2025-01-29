@@ -507,5 +507,6 @@
     "activity_suggestions_daytip_aqi_3": "🏠 It might be a good day to stay indoors and enjoy a warm beverage. Consider a cozy activity like reading.",
     "activity_suggestions_daytip_aqi_4": "📺 Plan indoor activities, especially if you’re sensitive to air quality or cold weather.",
     "temperature": "Temperatura",
-    "show_summary_toggle_sub": "Show a brief summary of the weather"
+    "show_summary_toggle_sub": "Show a brief summary of the weather",
+    "insights": "Insights"
 }
