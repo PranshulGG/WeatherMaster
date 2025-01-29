@@ -1,1 +1,1 @@
-
+### I suggest using [Crowdin](https://crowdin.com/project/weathermaster/invite?h=448278a9b1370f3c10d4336a091dae792286917) to translate the project rather than making a pull request. It's easier to maintain, and Crowdin will revert any changes made directly to the file.
