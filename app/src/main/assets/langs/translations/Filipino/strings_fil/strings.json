@@ -447,8 +447,8 @@
     "united_states_aqi": "AQI ng Estados Unidos",
     "european_aqi": "Europeong AQI",
     "chances": "Mga tsansa",
-    "activity_suggestions_temp_1": "🥶 Extreme cold: In temperatures below -40°C (-40°F), you need high-insulation gear. Wear a heavy-duty down parka with windproof outer layers, a balaclava, thermal base layers, thick wool socks, insulated boots, and a face mask. All exposed skin must be covered to avoid frostbite.",
-    "activity_suggestions_temp_2": "🥶 Extreme cold: Layer with thermal base layers (top and bottom), a down or synthetic coat, thick wool socks, insulated boots, and a wool hat. Make sure to wear insulated gloves and a scarf to cover exposed skin.",
+    "activity_suggestions_temp_1": "🥶 Matinding lamig: Sa mga temperaturang mas mababa pa sa -40°C (-40°F), kailangan mo ng high-insulation na kagamitan. Magsuot ng heavy-duty down na parka na may windproof outer layer, isang balaclava, mga thermal base layer, mga makakapal na lapang medyas, mga naka-insulate na bota, at isang face mask. Lahat ng naka-expose na balat ay dapat takpan para maiwasan ang frosbite.",
+    "activity_suggestions_temp_2": "Matinding lamig: Mag-layer gamit ang mga thermal base na layer (itaas at ibaba), isang down o sintetikong tsaketa, makakapal na lamang medyas, mga naka-insulate na bota, at isang lamang sombrero. Siguraduhing magsuot ng naka-insulate na guwantes at isang scarf para takpan ang naka-expose na balat.",
     "activity_suggestions_temp_3": "🥶 Very cold: A heavy-duty winter jacket is necessary. Wear thermal leggings, thick wool socks, and insulated boots. Insulated gloves and a wool hat will keep you warm. Layering is key in these frigid temperatures.",
     "activity_suggestions_temp_4": "🧥 Very cold: Layer with a heavy winter coat, sweater, and long underwear. Thermal gloves, insulated boots, and a scarf are essential. A wool hat or beanie will provide extra warmth for your head.",
     "activity_suggestions_temp_5": "🧥 Cold weather: Wear a thick winter coat or puffer jacket with a sweater underneath. Insulated gloves, wool socks, a scarf, and a hat are necessary for comfort in these temperatures.",
@@ -506,5 +506,7 @@
     "activity_suggestions_daytip_aqi_2": "🚶‍♂️ Consider a nature walk or picnic—today's conditions are great for some time outdoors.",
     "activity_suggestions_daytip_aqi_3": "🏠 It might be a good day to stay indoors and enjoy a warm beverage. Consider a cozy activity like reading.",
     "activity_suggestions_daytip_aqi_4": "📺 Plan indoor activities, especially if you’re sensitive to air quality or cold weather.",
-    "temperature": "Temperatura"
+    "temperature": "Temperatura",
+    "show_summary_toggle_sub": "Magpakita ng isang maikling buod ng panahon",
+    "insights": "Insights"
 }

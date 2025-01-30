@@ -506,5 +506,7 @@
     "activity_suggestions_daytip_aqi_2": "🚶‍♂ Razmislite o šetnji prirodom ili pikniku — današnji uslovi su odlični za neko vreme na otvorenom.",
     "activity_suggestions_daytip_aqi_3": "🏠 Možda je dobar dan da ostanete u kući i uživate u toplom napitku. Razmislite o prijatnoj aktivnosti poput čitanja.",
     "activity_suggestions_daytip_aqi_4": "📺 Planirajte aktivnosti u zatvorenom prostoru, posebno ako ste osetljivi na kvalitet vazduha ili hladno vreme.",
-    "temperature": "Temperatura"
+    "temperature": "Temperatura",
+    "show_summary_toggle_sub": "Pokažite kratak rezime vremena",
+    "insights": "Uvid"
 }
