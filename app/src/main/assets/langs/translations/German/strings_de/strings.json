@@ -284,7 +284,7 @@
     "summary_drizzle_2": "sanfter Nieselregen",
     "summary_drizzle_3": "ein sanfter, leichter Regen",
     "summary_freezing_drizzle_1": "Gefrierender Nieselregen",
-    "summary_freezing_drizzle_2": "",
+    "summary_freezing_drizzle_2": "eisiger Nieselregen",
     "summary_freezing_drizzle_3": "Gefrierender Regen, der sich ansammeln kann",
     "summary_moderate_rain_1": "mäßige Regenschauer",
     "summary_moderate_rain_2": "Beständiger Regen den ganzen Tag",
@@ -447,7 +447,7 @@
     "united_states_aqi": "US AQI",
     "european_aqi": "Europäischer AQI",
     "chances": "Chancen",
-    "activity_suggestions_temp_1": "",
+    "activity_suggestions_temp_1": "🥶 Extreme Kälte: Bei Temperaturen unter -40°C (-40°F) benötigen Sie hochisolierende Ausrüstung. Tragen Sie einen strapazierfähigen Daunenparka mit winddichten Außenschichten, eine Sturmhaube, thermische Basisschichten, dicke Wollsocken, isolierte Stiefel und eine Gesichtsmaske. Alle exponierten Hautstellen müssen abgedeckt werden, um Erfrierungen zu vermeiden.",
     "activity_suggestions_temp_2": "🥶 Extreme Kälte: Tragen Sie mehrere Schichten Thermounterwäsche (oben und unten), einen Daunen- oder Kunstfasermantel, dicke Wollsocken, gefütterte Stiefel und eine Wollmütze. Tragen Sie unbedingt gefütterte Handschuhe und einen Schal, um freiliegende Haut zu bedecken.",
     "activity_suggestions_temp_3": "🥶 Sehr kalt: Eine robuste Winterjacke ist erforderlich. Tragen Sie Thermo-Leggings, dicke Wollsocken und gefütterte Stiefel. Gefütterte Handschuhe und eine Wollmütze halten Sie warm. Bei diesen eisigen Temperaturen ist das Tragen mehrerer Schichten entscheidend.",
     "activity_suggestions_temp_4": "🧥 Sehr kalt: Tragen Sie einen dicken Wintermantel, einen Pullover und lange Unterwäsche. Thermohandschuhe, gefütterte Stiefel und ein Schal sind unverzichtbar. Eine Wollmütze oder Beanie hält Ihren Kopf zusätzlich warm.",
@@ -481,7 +481,7 @@
     "activity_suggestions_airQualityDescription_2": "👌 Die Luft ist frisch, also ist es eine tolle Zeit für Outdoor-Aktivitäten wie Wandern oder Radfahren. Bleiben Sie aktiv und genießen Sie den klaren Himmel!",
     "activity_suggestions_airQualityDescription_3": "Bei der tollen Luftqualität ist es die perfekte Zeit, um Outdoor-Sport zu treiben oder einfach draußen zu entspannen. Gehen Sie joggen oder machen Sie ein Picknick!",
     "activity_suggestions_airQualityDescription_4": "👌 Die Luftqualität ist mäßig. Für die meisten Menschen ist sie in Ordnung, aber empfindliche Personen (Kinder, ältere Menschen oder Menschen mit Atemwegserkrankungen) sollten längere Aufenthalte im Freien vermeiden. 🌳 Wenn Sie Allergien oder Asthma haben, sollten Sie es ruhig angehen lassen.",
-    "activity_suggestions_airQualityDescription_5": "",
+    "activity_suggestions_airQualityDescription_5": "🌿 Die Luftqualität ist für die meisten Menschen akzeptabel, aber seien Sie vorsichtig, wenn Sie Atembeschwerden haben. Entscheiden Sie sich für leichte Outdoor-Aktivitäten wie Spazierengehen oder Dehnübungen.",
     "activity_suggestions_airQualityDescription_6": "🌥️ Es ist ein guter Tag für Aktivitäten im Freien, wenn Sie allgemein gesund sind.  Personen mit Asthma oder anderen Atemwegsbeschwerden sollten jedoch den Aufenthalt im Freien begrenzen.",
     "activity_suggestions_airQualityDescription_7": "⚠️ Die Luftqualität ist für empfindliche Gruppen ungesund.  Personen mit Atemwegs- oder Herzerkrankungen sollten anstrengende Aktivitäten im Freien vermeiden.  🏠 Bleiben Sie nach Möglichkeit drinnen oder tragen Sie eine Maske, wenn Sie nach draußen gehen.",
     "activity_suggestions_airQualityDescription_8": "🚶 Empfindliche Personen sollten den Aufenthalt im Freien reduzieren. Es ist vielleicht am besten, drinnen zu bleiben oder eine Maske zu tragen, wenn Sie nach draußen müssen. Erwägen Sie, die körperliche Betätigung im Freien einzuschränken.",
@@ -507,6 +507,6 @@
     "activity_suggestions_daytip_aqi_3": "🏠 Es ist wohl möglich ein guter Tag um drinnen zu bleiben und ein heißes Getränk zu genießen. Plane am besten eine gemütliche Aktivität wie zum Beispiel lesen.",
     "activity_suggestions_daytip_aqi_4": "📺 Plane Indoor-Aktivitäten, vor allem wenn du sensitiv gegenüber Luftverschmutzung oder kaltem Wetter regierst.",
     "temperature": "Temperatur",
-    "show_summary_toggle_sub": "Show a brief summary of the weather",
-    "insights": "Insights"
+    "show_summary_toggle_sub": "Zusammenfassung des Wetters ansehen",
+    "insights": "Einsichten"
 }
