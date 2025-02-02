@@ -508,5 +508,7 @@
     "activity_suggestions_daytip_aqi_4": "📺 Planeje atividades em ambientes fechados, especialmente se você for sensível à qualidade do ar ou ao clima frio.",
     "temperature": "Temperatura",
     "show_summary_toggle_sub": "Mostrar um breve resumo do clima",
-    "insights": "Percepções"
+    "insights": "Percepções",
+    "app_units": "App units",
+    "temperature_wind_pressure_visibility_precipitation_time_aqi": "Temperature, wind, pressure, visibility, precipitation, time, AQI"
 }
