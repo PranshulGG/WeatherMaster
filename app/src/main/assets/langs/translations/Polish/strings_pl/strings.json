@@ -508,5 +508,7 @@
     "activity_suggestions_daytip_aqi_4": "📺 Zaplanuj aktywności w domu, szczególnie jeśli jesteś wrażliwy na jakość powietrza lub zimną pogodę.",
     "temperature": "Temperatura",
     "show_summary_toggle_sub": "Pokaż krótkie podsumowanie pogody",
-    "insights": "Wgląd"
+    "insights": "Wgląd",
+    "app_units": "App units",
+    "temperature_wind_pressure_visibility_precipitation_time_aqi": "Temperature, wind, pressure, visibility, precipitation, time, AQI"
 }
