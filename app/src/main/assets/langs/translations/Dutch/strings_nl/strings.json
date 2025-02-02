@@ -508,5 +508,7 @@
     "activity_suggestions_daytip_aqi_4": "📺 Plan binnenactiviteiten, vooral als je gevoelig bent voor de luchtkwaliteit of koud weer.\n",
     "temperature": "Temperatuur",
     "show_summary_toggle_sub": "Laat een korte weersamenvatting zien",
-    "insights": "Inzichten"
+    "insights": "Inzichten",
+    "app_units": "App units",
+    "temperature_wind_pressure_visibility_precipitation_time_aqi": "Temperature, wind, pressure, visibility, precipitation, time, AQI"
 }
