@@ -508,5 +508,7 @@
     "activity_suggestions_daytip_aqi_4": "📺 计划室内活动，尤其是如果你对空气质量或寒冷天气敏感。",
     "temperature": "温度",
     "show_summary_toggle_sub": "显示天气的简短摘要",
-    "insights": "见解"
+    "insights": "见解",
+    "app_units": "App units",
+    "temperature_wind_pressure_visibility_precipitation_time_aqi": "Temperature, wind, pressure, visibility, precipitation, time, AQI"
 }
