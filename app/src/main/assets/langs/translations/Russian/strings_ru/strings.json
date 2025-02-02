@@ -508,5 +508,7 @@
     "activity_suggestions_daytip_aqi_4": "📺 Планируйте занятия в помещении, особенно если вы чувствительны к качеству воздуха или холодной погоде.",
     "temperature": "Температура",
     "show_summary_toggle_sub": "Показать краткий обзор погоды",
-    "insights": "Insights"
+    "insights": "Insights",
+    "app_units": "App units",
+    "temperature_wind_pressure_visibility_precipitation_time_aqi": "Temperature, wind, pressure, visibility, precipitation, time, AQI"
 }
