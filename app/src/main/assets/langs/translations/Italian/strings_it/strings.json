@@ -441,11 +441,11 @@
     "aqi_info_eu": "L'EU AQI (Air Quality Index) è una misura utilizzata per comunicare il livello di inquinamento atmosferico nell'Unione Europea. È diviso in cinque livelli, da ‘Buono’ a ‘Molto Povero’, in base alla concentrazione di inquinanti chiave",
     "update_weather_data": "Aggiorna dati meteo",
     "update_weather_data_sub": "Aggiorna automaticamente i dati meteorologici se sono obsoleti quando si fa clic su una posizione",
-    "delete_locations": "Delete locations",
-    "delete_locations_support_sub": "This action removes every saved location except your default location. Use this if your saved locations are not visible, are duplicating, or experiencing any other bugs",
-    "delete": "Delete",
-    "united_states_aqi": "United States AQI",
-    "european_aqi": "European AQI",
+    "delete_locations": "Elimina posizioni",
+    "delete_locations_support_sub": "Questa azione rimuove ogni posizione salvata, tranne quella predefinita. Usa quest'azione se le tue posizioni salvate non sono visibili, sono doppie o se stai sperimentando altri bug",
+    "delete": "Elimina",
+    "united_states_aqi": "AQI degli Stati Uniti",
+    "european_aqi": "AQI dell'Europa",
     "chances": "Chances",
     "activity_suggestions_temp_1": "🥶 Extreme cold: In temperatures below -40°C (-40°F), you need high-insulation gear. Wear a heavy-duty down parka with windproof outer layers, a balaclava, thermal base layers, thick wool socks, insulated boots, and a face mask. All exposed skin must be covered to avoid frostbite.",
     "activity_suggestions_temp_2": "🥶 Extreme cold: Layer with thermal base layers (top and bottom), a down or synthetic coat, thick wool socks, insulated boots, and a wool hat. Make sure to wear insulated gloves and a scarf to cover exposed skin.",
@@ -508,5 +508,7 @@
     "activity_suggestions_daytip_aqi_4": "📺 Plan indoor activities, especially if you’re sensitive to air quality or cold weather.",
     "temperature": "Temperature",
     "show_summary_toggle_sub": "Show a brief summary of the weather",
-    "insights": "Insights"
+    "insights": "Insights",
+    "app_units": "App units",
+    "temperature_wind_pressure_visibility_precipitation_time_aqi": "Temperature, wind, pressure, visibility, precipitation, time, AQI"
 }

@@ -508,5 +508,7 @@
     "activity_suggestions_daytip_aqi_4": "📺 Lên kế hoạch cho các hoạt động trong nhà, đặc biệt nếu bạn nhạy cảm với chất lượng không khí hoặc thời tiết lạnh.",
     "temperature": "Nhiệt độ",
     "show_summary_toggle_sub": "Hiển thị tóm tắt ngắn gọn về thời tiết",
-    "insights": "Thông tin chi tiết"
+    "insights": "Thông tin chi tiết",
+    "app_units": "App units",
+    "temperature_wind_pressure_visibility_precipitation_time_aqi": "Temperature, wind, pressure, visibility, precipitation, time, AQI"
 }

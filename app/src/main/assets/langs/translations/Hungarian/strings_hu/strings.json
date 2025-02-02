@@ -508,5 +508,7 @@
     "activity_suggestions_daytip_aqi_4": "📺 Plan indoor activities, especially if you’re sensitive to air quality or cold weather.",
     "temperature": "Temperature",
     "show_summary_toggle_sub": "Show a brief summary of the weather",
-    "insights": "Insights"
+    "insights": "Insights",
+    "app_units": "App units",
+    "temperature_wind_pressure_visibility_precipitation_time_aqi": "Temperature, wind, pressure, visibility, precipitation, time, AQI"
 }
