@@ -508,5 +508,7 @@
     "activity_suggestions_daytip_aqi_4": "📺 Plan indoor activities, especially if you’re sensitive to air quality or cold weather.",
     "temperature": "Temperatura",
     "show_summary_toggle_sub": "Magpakita ng isang maikling buod ng panahon",
-    "insights": "Insights"
+    "insights": "Insights",
+    "app_units": "App units",
+    "temperature_wind_pressure_visibility_precipitation_time_aqi": "Temperature, wind, pressure, visibility, precipitation, time, AQI"
 }
