@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="../components/segment-btns.css">
     <script src="../langs/langs.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css" />
-
+    <script src="../configSource.js"></script>
 
     <style>
         input[type="search"]::-webkit-search-decoration,
@@ -426,7 +426,7 @@
 
 
             <div class="retry_btn_error_search">
-                <md-filled-button onclick="checkInternetBeforeSearch()" style="--md-filled-button-label-text-size: 16px;">
+                <md-filled-button onclick="checkInternetBeforeSearch()">
                     <md-icon icon-outlined slot="icon">refresh</md-icon>
                     Try again
                 </md-filled-button>
@@ -657,7 +657,7 @@ AndroidInterface.updateStatusBarColor(theme);
         // provider GeoNames ----------------------
 
         async function getCitySuggestionsGeoNames(query) {
-            const username = 'pranshulgg'; // Replace with your GeoNames username
+            const username = 'geo_search_pranshulgg';
             const url = `https://secure.geonames.org/searchJSON?name_startsWith=${query}&maxRows=10&username=${username}`;
 
             try {
