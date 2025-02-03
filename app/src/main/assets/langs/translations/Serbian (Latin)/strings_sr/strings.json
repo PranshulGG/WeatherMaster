@@ -511,6 +511,6 @@
     "insights": "Uvid",
     "app_units": "Jedinice aplikacije",
     "temperature_wind_pressure_visibility_precipitation_time_aqi": "Temperatura, vetar, pritisak, vidljivost, padavine, vreme, AQI",
-    "activity_suggestions_daytip_humidity_3": "🧴 The air is dry. Moisturize your skin and drink plenty of water to stay hydrated.",
-    "activity_suggestions_daytip_humidity_4": "💧 Low humidity may cause dry skin or irritation. Keep a water bottle handy and avoid overexposure."
+    "activity_suggestions_daytip_humidity_3": "🧴 Vazduh je suv. Vlažite kožu i pijte puno vode da ostanete hidrirani.",
+    "activity_suggestions_daytip_humidity_4": "💧 Niska vlažnost može izazvati suvu kožu ili iritaciju. Držite bocu vode pri ruci i izbegavajte prekomerno izlaganje."
 }
