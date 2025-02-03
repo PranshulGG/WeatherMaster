@@ -509,6 +509,6 @@
     "temperature": "Temperatura",
     "show_summary_toggle_sub": "Mostrar um breve resumo do clima",
     "insights": "Percepções",
-    "app_units": "App units",
-    "temperature_wind_pressure_visibility_precipitation_time_aqi": "Temperature, wind, pressure, visibility, precipitation, time, AQI"
+    "app_units": "Unidades de aplicativo",
+    "temperature_wind_pressure_visibility_precipitation_time_aqi": "Temperatura, vento, pressão, visibilidade, precipitação, tempo, IQA"
 }
