@@ -146,10 +146,18 @@ async function CreateMaterialYouTheme(hex) {
 
             if (SelectedVisibiltyUnit === 'mileV') {
                 visibility = Math.round(metersToMiles(data.visibility[0]));
-                unit = 'mi';
+                if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+                    unit = '英里';
+                } else{
+                    unit = 'mi';
+                }
             } else {
                 visibility = Math.round(metersToKilometers(data.visibility[0]));
+                if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+                    unit = '公里';
+                } else{
                 unit = 'km';
+                }
             }
 
             document.getElementById('visibility_value').innerHTML = visibility
@@ -175,8 +183,11 @@ AndroidInterface.updateStatusBarColor(theme);
 
         if(document.querySelector('.condition_info_content').scrollTop > 50){
             document.getElementById('hidden_anim_p').style.height = '22px'
+            document.querySelector('.top_conditions_for_header').classList.add('scroll');
+
         } else{
             document.getElementById('hidden_anim_p').style.height = '0'
+            document.querySelector('.top_conditions_for_header').classList.remove('scroll');
 
         }
 

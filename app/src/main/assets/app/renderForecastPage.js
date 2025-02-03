@@ -406,17 +406,33 @@ async function displayDailyForecast(forecast, forecastDaily) {
 
         if (SelectedWindUnit === 'mile') {
             WindSpeed = Math.round(forecast.wind_speed_10m_max[index] / 1.60934) ;
-            WindSpeedUnit = 'mph'
+            if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+                WindSpeedUnit = '英里/时'
+            } else{
+                WindSpeedUnit = 'mph'
+            }
         } else if (SelectedWindUnit === 'M/s') {
             WindSpeed = (forecast.wind_speed_10m_max[index] / 3.6).toFixed(1).replace('.', local)
+            if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+                WindSpeedUnit = '米/秒'
+            } else{
             WindSpeedUnit = 'm/s'
+            }
       } else if (SelectedWindUnit === "Beaufort") {
              WindSpeed = getBeaufort(forecast.wind_speed_10m_max[index]);
-            WindSpeedUnit = 'Bft'
+             if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+                WindSpeedUnit = '蒲福风级'
+            } else{
+                WindSpeedUnit = 'Bft'
+            }
 
         } else {
             WindSpeed = Math.round(forecast.wind_speed_10m_max[index]);
+            if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+                WindSpeedUnit = '公里/时'
+            } else{
             WindSpeedUnit = 'km/h'
+            }
         }
 
 
@@ -452,15 +468,27 @@ async function displayDailyForecast(forecast, forecastDaily) {
 
         if (SelectedPrecipitationUnit === 'in') {
             rainAmount = forecast.precipitation_sum[index] ? (forecast.precipitation_sum[index] * 0.0393701).toFixed(2).replace('.', local) : '--';
+            if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+                rainAmountUnit = '英寸'
+            } else{
             rainAmountUnit = 'in'
+            }
         } else if (SelectedPrecipitationUnit === 'cm') {
              rainAmount = forecast.precipitation_sum[index]
                  ? (forecast.precipitation_sum[index] / 10).toFixed(2).replace('.', local)
                  : '--';
+                 if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+                    rainAmountUnit = '厘米'
+                } else{
             rainAmountUnit = 'cm'
+                }
         } else {
             rainAmount = forecast.precipitation_sum[index] ? forecast.precipitation_sum[index].toFixed(1).replace('.', local) : '--';
+            if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+                rainAmountUnit = '厘米'
+            } else{
             rainAmountUnit = 'mm'
+            }
 
         }
 
@@ -470,13 +498,25 @@ async function displayDailyForecast(forecast, forecastDaily) {
 
         if (SelectedPressureUnit === 'inHg') {
             pressureMain = (dailyData.pressure * 0.02953).toFixed(2).replace('.', local);
-            pressureMainUnit = 'inHg';
+            if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+                pressureMainUnit = '英寸汞柱';
+            } else{
+                pressureMainUnit = 'inHg';
+            }
         } else if (SelectedPressureUnit === 'mmHg') {
             pressureMain = (dailyData.pressure * 0.750062).toFixed(2).replace('.', local);
+            if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+                pressureMainUnit = '毫米汞柱';
+            } else{
             pressureMainUnit = 'mmHg';
+            }
         } else {
             pressureMain = Math.round(dailyData.pressure);
+            if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+                pressureMainUnit = '百帕';
+            } else{
             pressureMainUnit = 'hPa';
+            }
         }
                 let humidityValue
 

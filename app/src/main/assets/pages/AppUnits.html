@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en" Theme="clothing" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Locations</title>
+    <script src="../database/MainDataBase.js"></script>
+    <link rel="stylesheet" href="../ui-files/font-usage.css">
+    <link rel="stylesheet" href="../ui-files/variables.css">
+    <link rel="stylesheet" href="../components/components.css">
+    <link rel="stylesheet" href="../components/modal-ver.css">
+    <link rel="stylesheet" href="../ripple-files/ripple.css">
+    <link rel="stylesheet" href="../components/segment-btns.css">
+    <script src="../langs/langs.js"></script>
+
+
+    <style>
+                * {
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            touch-action: manipulation;
+            -webkit-user-drag: none;
+            outline: none;
+        }
+
+        body {
+            background-color: var(--Surface);
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            font-family: var(--outfit);
+            animation: opacity 0.3s ease-out;
+
+        }
+
+        @keyframes opacity {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        *::selection {
+            background-color: var(--Inverse-Primary);
+            color: white;
+        }
+
+         md-list-item{
+            background-color: var(--Surface-Container-Lowest);
+            margin-bottom: 6px;
+            border-radius: 8px;
+        }
+
+
+       md-list-item:nth-child(1){
+            border-radius: 18px 18px 10px 10px;
+        }
+
+         md-list-item:last-child{
+            border-radius: 10px 10px 18px 18px ;
+        }
+
+        md-list{
+            padding: 8px;
+        }
+
+        .radios_units_dialog label{
+            display: flex;
+            font-family: var(--google-normal);
+            display: flex; align-items: center; gap: 13px; font-size: 17.5px; padding: 24px; padding-top: 14px; padding-bottom: 14px;
+        }
+
+        .radios_units_dialog {
+            padding-left: 0; padding-right: 0; padding-top: 15px;
+            padding-bottom: 0;
+        }
+
+        [slot="actions"]{
+            padding-top: 5px;
+        }
+    </style>
+
+<body style="background-color: var(--Surface); --md-list-item-pressed-state-layer-opacity: 0.07;">
+
+<div class="activity-large open">
+    <div class="header-activity-large" id="head-1">
+        <button class="ripple-icon-btn regular" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)"
+                title="Go back" onclick="sendThemeToAndroid('GoBack')">
+            <span class="ripple-effect-icon"></span>
+            <span icon-outlined>arrow_back</span>
+        </button>
+        <p class="label-hidden-large" style="white-space: nowrap;" data-translate="app_units">App units</p>
+    </div>
+    <div class="activity-large-content" id="headUser-1">
+        <p class="label-large-main" data-translate="app_units">App units</p>
+        <div class="content-parent-large" style="padding-bottom: 32px;">
+
+            <md-list>
+                <md-list-item type="button" onclick="changeUnit('Temperature')">
+                    <md-icon icon-filled slot="start">device_thermostat</md-icon>
+                    <div slot="headline" data-translate="temperature_unit">Temperature unit</div>
+                    <div slot="supporting-text" id="data_selected_temp_unit_text" style="color: var(--Secondary); font-family: var(--google-mid); font-size: 14px;">°C</div>
+                </md-list-item>
+
+                <md-list-item type="button" onclick="changeUnit('Wind')">
+                    <md-icon icon-filled slot="start">air</md-icon>
+                    <div slot="headline" data-translate="wind_unit">Wind Unit</div>
+                    <div slot="supporting-text" id="data_selected_wind_unit_text" style="color: var(--Secondary); font-family: var(--google-mid); font-size: 14px;">Km/h</div>
+                </md-list-item>
+
+                <md-list-item type="button" onclick="changeUnit('Visibility')">
+                    <md-icon icon-filled slot="start">visibility</md-icon>
+                    <div slot="headline" data-translate="visibility_unit">Visibility Unit</div>
+                    <div slot="supporting-text" id="data_selected_visibility_unit_text" style="color: var(--Secondary); font-family: var(--google-mid); font-size: 14px;">km</div>
+                </md-list-item>
+
+                <md-list-item type="button" onclick="changeUnit('Precipitation')">
+                    <md-icon icon-filled slot="start">rainy_light</md-icon>
+                    <div slot="headline" data-translate="precipitation_unit">Precipitation Unit</div>
+                    <div slot="supporting-text" id="data_selected_precipitation_unit_text" style="color: var(--Secondary); font-family: var(--google-mid); font-size: 14px;">mm</div>
+                </md-list-item>
+
+                <md-list-item type="button" onclick="changeUnit('Pressure')">
+                    <md-icon icon-filled slot="start">av_timer</md-icon>
+                    <div slot="headline" data-translate="pressure_unit">Pressure Unit</div>
+                    <div slot="supporting-text" id="data_selected_pressure_unit_text" style="color: var(--Secondary); font-family: var(--google-mid); font-size: 14px;">hPa</div>
+                </md-list-item>
+
+                <md-list-item type="button" onclick="changeUnit('Time')">
+                    <md-icon icon-filled slot="start">schedule</md-icon>
+                    <div slot="headline" data-translate="time_format">Time format</div>
+                    <div slot="supporting-text" id="data_selected_time_unit_text" style="color: var(--Secondary); font-family: var(--google-mid); font-size: 14px;">12 hr</div>
+                </md-list-item>
+
+                <md-list-item type="button" onclick="changeUnit('AQI')">
+                    <md-icon icon-filled slot="start">airwave</md-icon>
+                    <div slot="headline" data-translate="aqi_type">AQI type</div>
+                    <div slot="supporting-text" id="data_selected_aqi_unit_text" style="color: var(--Secondary); font-family: var(--google-mid); font-size: 14px;">United States</div>
+                </md-list-item>
+
+            </md-list>
+
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+
+            <!-- temp dialog -->
+
+            <md-dialog id="temp_unit_selection_dialog">
+                <div slot="headline" data-translate="temperature_unit">Temperature Unit</div>
+
+                <div slot="content" class="radios_units_dialog">
+                    <label class="ripple_btn_low">
+                        <md-radio name="temperature_unit_group" value="celsius"></md-radio>
+                        <span class="unit_group_text_celsius">°C</span>
+                    </label>
+                    <label class="ripple_btn_low">
+                        <md-radio name="temperature_unit_group" value="fahrenheit"></md-radio>
+                        <span class="unit_group_text_fahrenheit">°F</span>
+                    </label>
+                </div>
+                <div slot="actions">
+                    <md-text-button onclick="window.history.back();" data-translate="cancel">Cancel</md-text-button>
+                </div>
+            </md-dialog>
+
+            <!-- wind dialog -->
+
+            <md-dialog id="wind_unit_selection_dialog">
+                <div slot="headline" data-translate="wind_unit">Wind Unit</div>
+
+                <div slot="content" class="radios_units_dialog">
+                    <label class="ripple_btn_low">
+                        <md-radio name="wind_unit_group" value="kilometer"></md-radio>
+                        <span class="unit_group_text_kilometer">Km/h</span>
+                    </label>
+                    <label class="ripple_btn_low">
+                        <md-radio name="wind_unit_group" value="mile"></md-radio>
+                        <span class="unit_group_text_mile">Mph</span>
+                    </label>
+                    <label class="ripple_btn_low">
+                        <md-radio name="wind_unit_group" value="M/s"></md-radio>
+                        <span class="unit_group_text_Ms">M/s</span>
+                    </label>
+                    <label class="ripple_btn_low">
+                        <md-radio name="wind_unit_group" value="Beaufort"></md-radio>
+                        <span class="unit_group_text_Beaufort">Beaufort</span>
+                    </label>
+                </div>
+                <div slot="actions">
+                    <md-text-button onclick="window.history.back();" data-translate="cancel">Cancel</md-text-button>
+                </div>
+            </md-dialog>
+
+            <!-- visibility dialog -->
+
+            <md-dialog id="visibility_unit_selection_dialog">
+                <div slot="headline" data-translate="visibility_unit">Visibility Unit</div>
+
+                <div slot="content" class="radios_units_dialog">
+                    <label class="ripple_btn_low">
+                        <md-radio name="visibility_unit_group" value="km"></md-radio>
+                        <span class="unit_group_text_km">km</span>
+                    </label>
+                    <label class="ripple_btn_low">
+                        <md-radio name="visibility_unit_group" value="mileV"></md-radio>
+                        <span class="unit_group_text_mileV">mile</span>
+                    </label>
+                </div>
+                <div slot="actions">
+                    <md-text-button onclick="window.history.back();" data-translate="cancel">Cancel</md-text-button>
+                </div>
+            </md-dialog>
+
+            <!-- precipitation dialog -->
+
+            <md-dialog id="precipitation_unit_selection_dialog">
+                <div slot="headline" data-translate="precipitation_unit">Precipitation Unit</div>
+
+                <div slot="content" class="radios_units_dialog">
+                    <label class="ripple_btn_low">
+                        <md-radio name="precipitation_unit_group" value="mm"></md-radio>
+                        <span class="unit_group_text_mm">mm</span>
+                    </label>
+                    <label class="ripple_btn_low">
+                        <md-radio name="precipitation_unit_group" value="cm"></md-radio>
+                        <span class="unit_group_text_cm">cm</span>
+                    </label>
+                    <label class="ripple_btn_low">
+                        <md-radio name="precipitation_unit_group" value="in"></md-radio>
+                        <span class="unit_group_text_in">in</span>
+                    </label>
+                </div>
+                <div slot="actions">
+                    <md-text-button onclick="window.history.back();" data-translate="cancel">Cancel</md-text-button>
+                </div>
+            </md-dialog>
+
+            <!-- pressure dialog -->
+
+            <md-dialog id="pressure_unit_selection_dialog">
+                <div slot="headline" data-translate="pressure_unit">Pressure Unit</div>
+
+                <div slot="content" class="radios_units_dialog">
+                    <label class="ripple_btn_low">
+                        <md-radio name="pressure_unit_group" value="hPa"></md-radio>
+                        <span class="unit_group_text_hPa">hPa</span>
+                    </label>
+                    <label class="ripple_btn_low">
+                        <md-radio name="pressure_unit_group" value="inHg"></md-radio>
+                        <span class="unit_group_text_inHg">inHg</span>
+                    </label>
+                    <label class="ripple_btn_low">
+                        <md-radio name="pressure_unit_group" value="mmHg"></md-radio>
+                        <span class="unit_group_text_mmHg">mmHg</span>
+                    </label>
+                </div>
+                <div slot="actions">
+                    <md-text-button onclick="window.history.back();" data-translate="cancel">Cancel</md-text-button>
+                </div>
+            </md-dialog>
+
+            <!-- time dialog -->
+
+            <md-dialog id="time_unit_selection_dialog">
+                <div slot="headline" data-translate="time_format">Time format</div>
+
+                <div slot="content" class="radios_units_dialog">
+                    <label class="ripple_btn_low">
+                        <md-radio name="time_unit_group" value="12 hour"></md-radio>
+                        <span>12 hr</span>
+                    </label>
+                    <label class="ripple_btn_low">
+                        <md-radio name="time_unit_group" value="24 hour"></md-radio>
+                        <span>24 hr</span>
+                    </label>
+                </div>
+                <div slot="actions">
+                    <md-text-button onclick="window.history.back();" data-translate="cancel">Cancel</md-text-button>
+                </div>
+            </md-dialog>
+
+            <!-- aqi dialog -->
+
+            <md-dialog id="aqi_unit_selection_dialog">
+                <div slot="headline" data-translate="aqi_type">AQI type</div>
+
+                <div slot="content" class="radios_units_dialog">
+                    <label class="ripple_btn_low">
+                        <md-radio name="aqi_unit_group" value="us_aqi"></md-radio>
+                        <span data-translate="united_states_aqi">United States AQI</span>
+                    </label>
+                    <label class="ripple_btn_low">
+                        <md-radio name="aqi_unit_group" value="eu_aqi"></md-radio>
+                        <span data-translate="european_aqi">European AQI</span>
+                    </label>
+                </div>
+                <div slot="actions">
+                    <md-text-button onclick="window.history.back();" data-translate="cancel">Cancel</md-text-button>
+                </div>
+            </md-dialog>
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+
+function hexToRgb(hex) {
+    const bigint = parseInt(hex.slice(1), 16);
+    return {
+        r: (bigint >> 16) & 255,
+        g: (bigint >> 8) & 255,
+        b: bigint & 255
+    };
+}
+
+function rgbToHsl({ r, g, b }) {
+    r /= 255;
+    g /= 255;
+    b /= 255;
+
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    let h, s, l = (max + min) / 2;
+
+    if (max === min) {
+        h = s = 0; // Achromatic
+    } else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+    }
+
+    return { h: h * 360, s: s * 100, l: l * 100 };
+}
+
+async function CreateMaterialYouTheme(hex) {
+    const colors = {
+        orange_material: "#FFA500",
+        red_material: "#FF0000",
+        pink_material: "#FFC0CB",
+        purple_material: "#800080",
+        blue_material: "#0000FF",
+        yellow_material: "#FFFF00",
+        green_material: "#008000"
+    };
+
+    const targetHsl = rgbToHsl(hexToRgb(hex));
+    let closestColor = null;
+    let smallestHueDifference = Infinity;
+
+    for (const [color, colorHex] of Object.entries(colors)) {
+        const colorHsl = rgbToHsl(hexToRgb(colorHex));
+        const hueDifference = Math.abs(targetHsl.h - colorHsl.h);
+
+        if (hueDifference < smallestHueDifference) {
+            smallestHueDifference = hueDifference;
+            closestColor = color;
+        }
+    }
+
+ if(localStorage.getItem("useDynamicColors") && localStorage.getItem("useDynamicColors") === "false"){
+        if (await customStorage.getItem("customTheme")) {
+      document.documentElement.setAttribute(
+        "Theme",
+        await customStorage.getItem("customTheme")
+      );
+            sendThemeToAndroid(
+        `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
+      );
+    }
+  } else{
+  document.documentElement.setAttribute('Theme', closestColor);
+  sendThemeToAndroid(`${closestColor}_ScrollFalse`);
+  }
+}
+
+        const user1 = document.getElementById('headUser-1')
+
+        function changeColorOnScroll1() {
+            var container = document.getElementById('headUser-1');
+            var scrollY = container.scrollTop;
+
+            if (scrollY >= 50) {
+                document.getElementById('head-1').style.backgroundColor = 'var(--Surface-Container)';
+                document.getElementById('head-1').style.transition = '';
+
+                document.getElementById('headUser-1').style.scrollSnapType = 'unset';
+                container.removeEventListener('scroll', changeColorOnScroll1);
+      sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_Scrolled`);
+
+
+            } else {
+
+            }
+        }
+
+        if (user1) {
+            document.getElementById('headUser-1').addEventListener('scroll', changeColorOnScroll1);
+        }
+
+
+
+        function changeColorOnScroll1A() {
+            var container = document.getElementById('headUser-1');
+            var scrollY = container.scrollTop;
+
+            if (scrollY <= 1) {
+                document.getElementById('head-1').style.backgroundColor = '';
+                document.getElementById('head-1').style.transition = 'background-color 0.2s ease-in';
+
+                      sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_ScrollFalse`);
+
+                container.addEventListener('scroll', changeColorOnScroll1);
+                if (scrollY <= 20); {
+                    document.getElementById('headUser-1').style.scrollSnapType = '';
+
+                }
+
+            } else {
+
+            }
+        }
+
+        if (user1) {
+            document.getElementById('headUser-1').addEventListener('scroll', changeColorOnScroll1A);
+        }
+
+        function sendThemeToAndroid(theme) {
+
+            AndroidInterface.updateStatusBarColor(theme);
+        };
+
+        // open dialogs
+
+        const temp_unit_selection_dialog = document.getElementById('temp_unit_selection_dialog');
+        const wind_unit_selection_dialog = document.getElementById('wind_unit_selection_dialog');
+        const visibility_unit_selection_dialog = document.getElementById('visibility_unit_selection_dialog');
+        const precipitation_unit_selection_dialog = document.getElementById('precipitation_unit_selection_dialog');
+        const pressure_unit_selection_dialog = document.getElementById('pressure_unit_selection_dialog');
+        const time_unit_selection_dialog = document.getElementById('time_unit_selection_dialog');
+        const aqi_unit_selection_dialog = document.getElementById('aqi_unit_selection_dialog');
+
+        const data_selected_temp_unit_text = document.getElementById('data_selected_temp_unit_text');
+        const data_selected_wind_unit_text = document.getElementById('data_selected_wind_unit_text');
+        const data_selected_visibility_unit_text = document.getElementById('data_selected_visibility_unit_text');
+        const data_selected_precipitation_unit_text = document.getElementById('data_selected_precipitation_unit_text');
+        const data_selected_pressure_unit_text = document.getElementById('data_selected_pressure_unit_text');
+        const data_selected_time_unit_text = document.getElementById('data_selected_time_unit_text');
+        const data_selected_aqi_unit_text = document.getElementById('data_selected_aqi_unit_text');
+
+
+        window.addEventListener("popstate", function (event) {
+        if (temp_unit_selection_dialog.open) {
+            temp_unit_selection_dialog.close();
+        } else if(wind_unit_selection_dialog.open){
+            wind_unit_selection_dialog.close();
+        } else if(visibility_unit_selection_dialog.open){
+            visibility_unit_selection_dialog.close();
+        } else if(precipitation_unit_selection_dialog.open){
+            precipitation_unit_selection_dialog.close();
+        } else if(pressure_unit_selection_dialog.open){
+            pressure_unit_selection_dialog.close();
+        } else if(time_unit_selection_dialog.open){
+            time_unit_selection_dialog.close();
+        } else if(aqi_unit_selection_dialog.open){
+            aqi_unit_selection_dialog.close();
+        }
+    });
+
+
+    temp_unit_selection_dialog.addEventListener('cancel', () =>{
+        temp_unit_selection_dialog.addEventListener('closed', () =>{
+            window.history.back();
+        })
+    });
+    wind_unit_selection_dialog.addEventListener('cancel', () =>{
+        wind_unit_selection_dialog.addEventListener('closed', () =>{
+            window.history.back();
+        })
+    });
+    visibility_unit_selection_dialog.addEventListener('cancel', () =>{
+        visibility_unit_selection_dialog.addEventListener('closed', () =>{
+            window.history.back();
+        })
+    });
+    precipitation_unit_selection_dialog.addEventListener('cancel', () =>{
+        precipitation_unit_selection_dialog.addEventListener('closed', () =>{
+            window.history.back();
+        })
+    });
+    pressure_unit_selection_dialog.addEventListener('cancel', () =>{
+        pressure_unit_selection_dialog.addEventListener('closed', () =>{
+            window.history.back();
+        })
+    });
+    time_unit_selection_dialog.addEventListener('cancel', () =>{
+        time_unit_selection_dialog.addEventListener('closed', () =>{
+            window.history.back();
+        })
+    });
+    aqi_unit_selection_dialog.addEventListener('cancel', () =>{
+        aqi_unit_selection_dialog.addEventListener('closed', () =>{
+            window.history.back();
+        })
+    });
+
+    const SelectedTempUnit = localStorage.getItem('SelectedTempUnit');
+    const SelectedWindUnit = localStorage.getItem('SelectedWindUnit');
+    const selectedVisibilityUnit = localStorage.getItem('selectedVisibilityUnit');
+    const selectedPrecipitationUnit = localStorage.getItem('selectedPrecipitationUnit');
+    const selectedPressureUnit = localStorage.getItem('selectedPressureUnit');
+    const selectedTimeMode = localStorage.getItem('selectedTimeMode');
+    const selectedAQItype = localStorage.getItem('selectedAQItype');
+
+    if(SelectedTempUnit){
+        document.querySelector(`[value="${SelectedTempUnit}"]`).checked = true;
+
+    } else{
+        document.querySelector(`[value="celsius"]`).checked = true;
+
+
+    }
+
+    if(SelectedWindUnit){
+        document.querySelector(`[value="${SelectedWindUnit}"]`).checked = true;
+    } else{
+        document.querySelector(`[value="kilometer"]`).checked = true;
+    }
+
+    if(selectedVisibilityUnit){
+        document.querySelector(`[value="${selectedVisibilityUnit}"]`).checked = true;
+    } else{
+        document.querySelector(`[value="km"]`).checked = true;
+    }
+
+    if(selectedPrecipitationUnit){
+        document.querySelector(`[value="${selectedPrecipitationUnit}"]`).checked = true;
+    } else{
+        document.querySelector(`[value="mm"]`).checked = true;
+    }
+
+    if(selectedPressureUnit){
+        document.querySelector(`[value="${selectedPressureUnit}"]`).checked = true;
+    } else{
+        document.querySelector(`[value="hPa"]`).checked = true;
+    }
+
+    if(selectedTimeMode){
+        document.querySelector(`[value="${selectedTimeMode}"]`).checked = true;
+    } else{
+        document.querySelector(`[value="12 hour"]`).checked = true;
+    }
+
+    if(selectedAQItype){
+        document.querySelector(`[value="${selectedAQItype}"]`).checked = true;
+    } else{
+        document.querySelector(`[value="us_aqi"]`).checked = true;
+    }
+
+    if(SelectedTempUnit === 'fahrenheit'){
+        data_selected_temp_unit_text.innerHTML = '°F';
+    } else{
+        data_selected_temp_unit_text.innerHTML = '°C';
+    }
+
+    if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+            if(SelectedTempUnit === 'Beaufort'){
+        data_selected_wind_unit_text.innerHTML = '蒲福风级'
+        } else if(SelectedTempUnit === 'mile'){
+            data_selected_wind_unit_text.innerHTML = '英里/时';
+        } else if(SelectedTempUnit === 'M/s'){
+            data_selected_wind_unit_text.innerHTML = '米/秒';
+        }else{
+            data_selected_wind_unit_text.innerHTML = '公里/时'
+        }
+        } else{
+        if(SelectedTempUnit === 'Beaufort'){
+        data_selected_wind_unit_text.innerHTML = 'Beaufort'
+        } else if(SelectedTempUnit === 'mile'){
+            data_selected_wind_unit_text.innerHTML = 'Mph';
+        } else if(SelectedTempUnit === 'M/s'){
+            data_selected_wind_unit_text.innerHTML = 'M/s';
+        }else{
+            data_selected_wind_unit_text.innerHTML = 'Km/h'
+        }
+        }
+
+
+        if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+            if(SelectedTempUnit === 'mileV'){
+            data_selected_visibility_unit_text.innerHTML = '英里'
+        } else{
+            data_selected_visibility_unit_text.innerHTML = '公里';
+        }
+        } else{
+            if(SelectedTempUnit === 'mileV'){
+            data_selected_visibility_unit_text.innerHTML = 'Mile'
+        } else{
+            data_selected_visibility_unit_text.innerHTML = 'Km';
+        }
+        }
+
+        if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+            if(SelectedTempUnit === 'cm'){
+            data_selected_precipitation_unit_text.innerHTML = '厘米'
+        } else if(SelectedTempUnit === 'in'){
+            data_selected_precipitation_unit_text.innerHTML = '英寸';
+        }else{
+            data_selected_precipitation_unit_text.innerHTML = '毫米'
+        }
+        } else{
+            if(SelectedTempUnit === 'cm'){
+            data_selected_precipitation_unit_text.innerHTML = 'cm'
+        } else if(SelectedTempUnit === 'in'){
+            data_selected_precipitation_unit_text.innerHTML = 'in';
+        }else{
+            data_selected_precipitation_unit_text.innerHTML = 'mm'
+        }
+        }
+
+        if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+            if(SelectedTempUnit === 'inHg'){
+            data_selected_pressure_unit_text.innerHTML = '英寸汞柱'
+        } else if(SelectedTempUnit === 'mmHg'){
+            data_selected_pressure_unit_text.innerHTML = '毫米汞柱';
+        }else{
+            data_selected_pressure_unit_text.innerHTML = '百帕'
+        }
+        } else{
+            if(SelectedTempUnit === 'inHg'){
+            data_selected_pressure_unit_text.innerHTML = 'inHg'
+        } else if(SelectedTempUnit === 'mmHg'){
+            data_selected_pressure_unit_text.innerHTML = 'mmHg';
+        }else{
+            data_selected_pressure_unit_text.innerHTML = 'hPa'
+        }
+        }
+
+        if(SelectedTempUnit === '24 hour'){
+            data_selected_time_unit_text.innerHTML = '24 hour'
+        } else{
+            data_selected_time_unit_text.innerHTML = '12 hour';
+        }
+
+        if(SelectedTempUnit === 'eu_aqi'){
+            data_selected_aqi_unit_text.innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'european_aqi')
+        } else{
+            data_selected_aqi_unit_text.innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'united_states_aqi')
+        }
+
+    function changeUnit(dialog_data){
+            window.history.pushState({ UnitDialogOpen: true }, "");
+            if(dialog_data === 'Temperature'){
+                temp_unit_selection_dialog.show();
+
+            } else if(dialog_data === 'Wind'){
+                wind_unit_selection_dialog.show();
+
+            } else if(dialog_data === 'Visibility'){
+                visibility_unit_selection_dialog.show();
+
+            } else if(dialog_data === 'Precipitation'){
+                precipitation_unit_selection_dialog.show();
+
+            } else if(dialog_data === 'Pressure'){
+                pressure_unit_selection_dialog.show();
+
+            } else if(dialog_data === 'Time'){
+                time_unit_selection_dialog.show();
+
+            } else if(dialog_data === 'AQI'){
+                aqi_unit_selection_dialog.show();
+
+            }
+          if (document.getElementById("headUser-1").scrollTop >= 50) {
+            sendThemeToAndroid(
+              `${document.documentElement.getAttribute("Theme")}_DialogScrolled`
+            );
+          } else {
+            sendThemeToAndroid(
+              `${document.documentElement.getAttribute("Theme")}_DialogNotScrolled`
+            );
+          }
+        }
+
+            temp_unit_selection_dialog.addEventListener('close', () =>{
+            if (document.getElementById("headUser-1").scrollTop >= 50) {
+            sendThemeToAndroid(
+                `${document.documentElement.getAttribute("Theme")}_Scrolled`
+            );
+            } else {
+            sendThemeToAndroid(
+                `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
+            );
+            }
+        })
+            wind_unit_selection_dialog.addEventListener('close', () =>{
+                if (document.getElementById("headUser-1").scrollTop >= 50) {
+            sendThemeToAndroid(
+                `${document.documentElement.getAttribute("Theme")}_Scrolled`
+            );
+            } else {
+            sendThemeToAndroid(
+                `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
+            );
+            }
+            })
+            visibility_unit_selection_dialog.addEventListener('close', () =>{
+                if (document.getElementById("headUser-1").scrollTop >= 50) {
+            sendThemeToAndroid(
+                `${document.documentElement.getAttribute("Theme")}_Scrolled`
+            );
+            } else {
+            sendThemeToAndroid(
+                `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
+            );
+            }
+            })
+            precipitation_unit_selection_dialog.addEventListener('close', () =>{
+                if (document.getElementById("headUser-1").scrollTop >= 50) {
+            sendThemeToAndroid(
+                `${document.documentElement.getAttribute("Theme")}_Scrolled`
+            );
+            } else {
+            sendThemeToAndroid(
+                `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
+            );
+            }
+            })
+            pressure_unit_selection_dialog.addEventListener('close', () =>{
+                if (document.getElementById("headUser-1").scrollTop >= 50) {
+            sendThemeToAndroid(
+                `${document.documentElement.getAttribute("Theme")}_Scrolled`
+            );
+            } else {
+            sendThemeToAndroid(
+                `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
+            );
+            }
+            })
+            time_unit_selection_dialog.addEventListener('close', () =>{
+                if (document.getElementById("headUser-1").scrollTop >= 50) {
+            sendThemeToAndroid(
+                `${document.documentElement.getAttribute("Theme")}_Scrolled`
+            );
+            } else {
+            sendThemeToAndroid(
+                `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
+            );
+            }
+            })
+            aqi_unit_selection_dialog.addEventListener('close', () =>{
+                if (document.getElementById("headUser-1").scrollTop >= 50) {
+            sendThemeToAndroid(
+                `${document.documentElement.getAttribute("Theme")}_Scrolled`
+            );
+            } else {
+            sendThemeToAndroid(
+                `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
+            );
+            }
+            })
+
+        const temperature_unit_group = document.querySelectorAll('[name="temperature_unit_group"]');
+        const wind_unit_group = document.querySelectorAll('[name="wind_unit_group"]');
+        const visibility_unit_group = document.querySelectorAll('[name="visibility_unit_group"]');
+        const precipitation_unit_group = document.querySelectorAll('[name="precipitation_unit_group"]');
+        const pressure_unit_group = document.querySelectorAll('[name="pressure_unit_group"]');
+        const time_unit_group = document.querySelectorAll('[name="time_unit_group"]');
+        const aqi_unit_group = document.querySelectorAll('[name="aqi_unit_group"]');
+
+        temperature_unit_group.forEach((temperature_unit_radio) =>{
+            temperature_unit_radio.addEventListener('input', () =>{
+                localStorage.setItem('SelectedTempUnit', temperature_unit_radio.value)
+                window.history.back();
+
+                if(temperature_unit_radio.value === 'fahrenheit'){
+                    data_selected_temp_unit_text.innerHTML = '°F';
+                } else{
+                    data_selected_temp_unit_text.innerHTML = '°C';
+                }
+            })
+        });
+
+        wind_unit_group.forEach((wind_unit_radio) =>{
+            wind_unit_radio.addEventListener('input', () =>{
+                localStorage.setItem('SelectedWindUnit', wind_unit_radio.value)
+                window.history.back();
+
+                if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+                    if(wind_unit_radio.value === 'Beaufort'){
+                data_selected_wind_unit_text.innerHTML = '蒲福风级'
+                } else if(wind_unit_radio.value === 'mile'){
+                    data_selected_wind_unit_text.innerHTML = '英里/时';
+                } else if(wind_unit_radio.value === 'M/s'){
+                    data_selected_wind_unit_text.innerHTML = '米/秒';
+                }else{
+                    data_selected_wind_unit_text.innerHTML = '公里/时'
+                }
+                } else{
+                if(wind_unit_radio.value === 'Beaufort'){
+                data_selected_wind_unit_text.innerHTML = 'Beaufort'
+                } else if(wind_unit_radio.value === 'mile'){
+                    data_selected_wind_unit_text.innerHTML = 'Mph';
+                } else if(wind_unit_radio.value === 'M/s'){
+                    data_selected_wind_unit_text.innerHTML = 'M/s';
+                }else{
+                    data_selected_wind_unit_text.innerHTML = 'Km/h'
+                }
+                }
+
+
+
+
+            })
+        });
+
+        visibility_unit_group.forEach((visibility_unit_radio) =>{
+            visibility_unit_radio.addEventListener('input', () =>{
+                localStorage.setItem('selectedVisibilityUnit', visibility_unit_radio.value)
+                window.history.back();
+
+                if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+                    if(visibility_unit_radio.value === 'mileV'){
+                    data_selected_visibility_unit_text.innerHTML = '英里'
+                } else{
+                    data_selected_visibility_unit_text.innerHTML = '公里';
+                }
+                } else{
+                    if(visibility_unit_radio.value === 'mileV'){
+                    data_selected_visibility_unit_text.innerHTML = 'Mile'
+                } else{
+                    data_selected_visibility_unit_text.innerHTML = 'Km';
+                }
+                }
+
+            })
+        });
+
+        precipitation_unit_group.forEach((precipitation_unit_radio) =>{
+            precipitation_unit_radio.addEventListener('input', () =>{
+                localStorage.setItem('selectedPrecipitationUnit', precipitation_unit_radio.value)
+                window.history.back();
+
+                if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+                    if(precipitation_unit_radio.value === 'cm'){
+                    data_selected_precipitation_unit_text.innerHTML = '厘米'
+                } else if(precipitation_unit_radio.value === 'in'){
+                    data_selected_precipitation_unit_text.innerHTML = '英寸';
+                }else{
+                    data_selected_precipitation_unit_text.innerHTML = '毫米'
+                }
+                } else{
+                    if(precipitation_unit_radio.value === 'cm'){
+                    data_selected_precipitation_unit_text.innerHTML = 'cm'
+                } else if(precipitation_unit_radio.value === 'in'){
+                    data_selected_precipitation_unit_text.innerHTML = 'in';
+                }else{
+                    data_selected_precipitation_unit_text.innerHTML = 'mm'
+                }
+                }
+
+            })
+        });
+
+        pressure_unit_group.forEach((pressure_unit_radio) =>{
+            pressure_unit_radio.addEventListener('input', () =>{
+                localStorage.setItem('selectedPressureUnit', pressure_unit_radio.value)
+                window.history.back();
+
+                if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+                    if(pressure_unit_radio.value === 'inHg'){
+                    data_selected_pressure_unit_text.innerHTML = '英寸汞柱'
+                } else if(pressure_unit_radio.value === 'mmHg'){
+                    data_selected_pressure_unit_text.innerHTML = '毫米汞柱';
+                }else{
+                    data_selected_pressure_unit_text.innerHTML = '百帕'
+                }
+                } else{
+                    if(pressure_unit_radio.value === 'inHg'){
+                    data_selected_pressure_unit_text.innerHTML = 'inHg'
+                } else if(pressure_unit_radio.value === 'mmHg'){
+                    data_selected_pressure_unit_text.innerHTML = 'mmHg';
+                }else{
+                    data_selected_pressure_unit_text.innerHTML = 'hPa'
+                }
+                }
+
+            })
+        });
+
+        time_unit_group.forEach((time_unit_radio) =>{
+            time_unit_radio.addEventListener('input', () =>{
+                localStorage.setItem('selectedTimeMode', time_unit_radio.value)
+                window.history.back();
+
+                if(time_unit_radio.value === '24 hour'){
+                    data_selected_time_unit_text.innerHTML = '24 hour'
+                } else{
+                    data_selected_time_unit_text.innerHTML = '12 hour';
+                }
+            })
+        });
+
+        aqi_unit_group.forEach((aqi_unit_radio) =>{
+            aqi_unit_radio.addEventListener('input', () =>{
+                localStorage.setItem('selectedAQItype', aqi_unit_radio.value)
+                window.history.back();
+
+                if(aqi_unit_radio.value === 'eu_aqi'){
+                    data_selected_aqi_unit_text.innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'european_aqi')
+                } else{
+                    data_selected_aqi_unit_text.innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'united_states_aqi')
+                }
+            })
+        });
+
+        if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+        document.querySelector('.unit_group_text_kilometer').textContent = '公里/时'
+        document.querySelector('.unit_group_text_mile').textContent = '英里/时'
+        document.querySelector('.unit_group_text_Ms').textContent = '米/秒'
+        document.querySelector('.unit_group_text_Beaufort').textContent = '蒲福风级'
+        document.querySelector('.unit_group_text_km').textContent = '公里'
+        document.querySelector('.unit_group_text_mileV').textContent = '英里'
+        document.querySelector('.unit_group_text_mm').textContent = '毫米'
+        document.querySelector('.unit_group_text_cm').textContent = '厘米'
+        document.querySelector('.unit_group_text_in').textContent = '英寸'
+        document.querySelector('.unit_group_text_hPa').textContent = '百帕'
+        document.querySelector('.unit_group_text_inHg').textContent = '英寸汞柱'
+        document.querySelector('.unit_group_text_mmHg').textContent = '毫米汞柱'
+
+      }
+
+        </script>
+
+<script src="../components-script.js/components.js"></script>
+<script src="../ripple-files/icon-ripple.js"></script>
+<script src="../modules/scroll.js"></script>
+<script src="../modules/ripple_acc.js"></script>
+<script src="../app/navigate.js"></script>
+<script src="bundle.js"></script>
+<script type="module" src="../index.js"></script>
+</body>
+
+</html>

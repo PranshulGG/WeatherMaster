@@ -466,7 +466,11 @@ if (navigator.onLine) {
       ),
       "long"
     );
+
   }, 2000);
+
+
+
 }
 
 function handleGeolocationError(error) {
@@ -732,6 +736,8 @@ function saveLocationToContainer(locationName, lat, lon) {
 
 async function loadSavedLocations() {
   const savedLocationsHolder = document.querySelector("savedLocationsHolder");
+  savedLocationsHolder.innerHTML = "";
+
   const savedLocations =
     JSON.parse(localStorage.getItem("savedLocations")) || [];
 
@@ -742,10 +748,21 @@ async function loadSavedLocations() {
   }
 
   const currentTime = new Date().getTime();
-  savedLocationsHolder.innerHTML = "";
   let dataIdCounter = 1;
 
-  for (const location of savedLocations) {
+      const uniqueLocations = {};
+
+      const uniqueSavedLocations = savedLocations.filter(location => {
+        if (!uniqueLocations[location.locationName]) {
+          uniqueLocations[location.locationName] = true;
+          return true;
+        }
+        return false;
+      });
+
+        localStorage.setItem("savedLocations", JSON.stringify(uniqueSavedLocations));
+
+  for (const location of uniqueSavedLocations) {
     const savedLocationItem = document.createElement("savedLocationItem");
     savedLocationItem.setAttribute("data-id", dataIdCounter++);
     savedLocationItem.setAttribute("lat", location.lat);
@@ -3818,7 +3835,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", async function () {
-  const currentVersion = "v1.17.0";
+  const currentVersion = "v1.17.1";
   const githubRepo = "PranshulGG/WeatherMaster";
   const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
 
@@ -5728,10 +5745,18 @@ function createHourlyDataCount(data) {
 
   if (localStorage.getItem("selectedVisibilityUnit") === "mileV") {
     Visibility = Math.round(data.hourly.visibility[0] / 1609.34);
+        if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+        VisibilityUnit = "英里";
+        } else{
     VisibilityUnit = "miles";
+    }
   } else {
     Visibility = Math.round(data.hourly.visibility[0] / 1000);
+    if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+    VisibilityUnit = "公里";
+    } else{
     VisibilityUnit = "km";
+    }
   }
 
   document.getElementById("unit_visibility").innerHTML = VisibilityUnit;

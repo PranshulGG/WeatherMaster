@@ -184,13 +184,25 @@ async function CreateMaterialYouTheme(hex) {
 
                 if (SelectedPressureUnit === 'inHg') {
                     pressureMain = (data * 0.02953).toFixed(2).replace('.', local);
-                    pressureMainUnit = 'inHg';
+                    if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+                        pressureMainUnit = '英寸汞柱';
+                    } else{
+                        pressureMainUnit = 'inHg';
+                    }
                 } else if (SelectedPressureUnit === 'mmHg') {
                     pressureMain = (data * 0.750062).toFixed(2).replace('.', local);
+                    if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+                        pressureMainUnit = '毫米汞柱';
+                    } else{
                     pressureMainUnit = 'mmHg';
+                    }
                 } else {
                     pressureMain = Math.round(data);
+                    if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+                        pressureMainUnit = '百帕';
+                    } else{
                     pressureMainUnit = 'hPa';
+                    }
                 }
 
                 const pressureBarValue = Math.round(data);
@@ -231,8 +243,11 @@ AndroidInterface.updateStatusBarColor(theme);
 
         if(document.querySelector('.condition_info_content').scrollTop > 50){
             document.getElementById('hidden_anim_p').style.height = '22px'
+            document.querySelector('.top_conditions_for_header').classList.add('scroll');
+
         } else{
             document.getElementById('hidden_anim_p').style.height = '0'
+            document.querySelector('.top_conditions_for_header').classList.remove('scroll');
 
         }
 

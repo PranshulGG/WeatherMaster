@@ -234,6 +234,12 @@
 
         </md-list-item>
 
+        <md-list-item type="button" onclick="sendThemeToAndroid('AppUnitsActivity')">
+          <md-icon icon-filled slot="start">thermostat</md-icon>
+          <div slot="headline" data-translate="app_units">App units</div>
+          <div slot="supporting-text" data-translate="temperature_wind_pressure_visibility_precipitation_time_aqi">Temperature, wind, pressure, visibility, precipitation, time, AQI</div>
+          <md-icon slot="end" icon-outlined>chevron_right</md-icon>
+        </md-list-item>
 
         <md-list-item>
           <md-icon icon-filled slot="start">animation</md-icon>
@@ -329,114 +335,6 @@
           </md-outlined-select>
         </md-list-item>
 
-
-
-
-        <md-list-item margin>
-          <md-icon icon-filled slot="start">airwave</md-icon>
-          <div slot="headline" data-translate="aqi_type">AQI type</div>
-          <md-outlined-select id="selectAQItype" slot="end" style="min-width: max-content; --md-outlined-field-bottom-space: 10px;--md-outlined-field-top-space: 10px;">
-            <md-select-option value="us_aqi" menu-type>
-              <div slot="headline">United States</div>
-            </md-select-option>
-            <md-select-option value="eu_aqi" menu-type>
-              <div slot="headline">European</div>
-            </md-select-option>
-          </md-outlined-select>
-        </md-list-item>
-
-        <md-list-item margin>
-          <md-icon icon-filled slot="start">device_thermostat</md-icon>
-          <div slot="headline" data-translate="temperature_unit">Temperature Unit</div>
-          <md-outlined-select id="selectTempUnit" slot="end" style="min-width: max-content; --md-outlined-field-bottom-space: 10px;--md-outlined-field-top-space: 10px;">
-            <md-select-option value="fahrenheit" menu-type>
-              <div slot="headline">°F</div>
-            </md-select-option>
-            <md-select-option value="celsius" menu-type>
-              <div slot="headline">°C</div>
-            </md-select-option>
-          </md-outlined-select>
-        </md-list-item>
-
-
-        <md-list-item>
-          <md-icon icon-filled slot="start">air</md-icon>
-          <div slot="headline" data-translate="wind_unit">Wind Unit</div>
-          <md-outlined-select id="selectWindUnit" slot="end" style="min-width: max-content; --md-outlined-field-bottom-space: 10px;--md-outlined-field-top-space: 10px;">
-            <md-select-option value="kilometer" menu-type>
-              <div slot="headline">Km/h</div>
-            </md-select-option>
-            <md-select-option value="mile" menu-type >
-              <div slot="headline">Mph</div>
-            </md-select-option>
-            <md-select-option value="M/s" menu-type>
-              <div slot="headline">M/s</div>
-            </md-select-option>
-            <md-select-option value="Beaufort" menu-type>
-              <div slot="headline">Beaufort</div>
-            </md-select-option>
-          </md-outlined-select>
-        </md-list-item>
-
-        <md-list-item>
-          <md-icon icon-filled slot="start">visibility</md-icon>
-          <div slot="headline" data-translate="visibility_unit">Visibility Unit</div>
-          <md-outlined-select id="selectVisibilityUnit" slot="end" style="min-width: max-content; --md-outlined-field-bottom-space: 10px;--md-outlined-field-top-space: 10px;">
-            <md-select-option value="km" menu-type>
-              <div slot="headline">km</div>
-            </md-select-option>
-            <md-select-option value="mileV" menu-type >
-              <div slot="headline">mile</div>
-            </md-select-option>
-          </md-outlined-select>
-        </md-list-item>
-
-        <md-list-item>
-          <md-icon icon-filled slot="start">rainy_light</md-icon>
-          <div slot="headline" data-translate="precipitation_unit">Precipitation Unit</div>
-          <md-outlined-select id="selectPrecipitationUnit" slot="end" style="min-width: max-content; --md-outlined-field-bottom-space: 10px;--md-outlined-field-top-space: 10px;">
-            <md-select-option value="mm" menu-type>
-              <div slot="headline">mm</div>
-            </md-select-option>
-            <md-select-option value="cm" menu-type>
-              <div slot="headline">cm</div>
-            </md-select-option>
-            <md-select-option value="in" menu-type >
-              <div slot="headline">in</div>
-            </md-select-option>
-          </md-outlined-select>
-        </md-list-item>
-
-
-        <md-list-item>
-          <md-icon icon-filled slot="start">av_timer</md-icon>
-          <div slot="headline" data-translate="pressure_unit">Pressure Unit</div>
-          <md-outlined-select id="selectPressureUnit" slot="end" style="min-width: max-content; --md-outlined-field-bottom-space: 10px;--md-outlined-field-top-space: 10px;">
-            <md-select-option value="hPa" menu-type>
-              <div slot="headline">hPa</div>
-            </md-select-option>
-            <md-select-option value="inHg" menu-type >
-              <div slot="headline">inHg</div>
-            </md-select-option>
-            <md-select-option value="mmHg" menu-type >
-              <div slot="headline">mmHg</div>
-            </md-select-option>
-          </md-outlined-select>
-        </md-list-item>
-
-        <md-list-item>
-          <md-icon icon-filled slot="start">schedule</md-icon>
-          <div slot="headline" data-translate="time_format">Time format</div>
-          <md-outlined-select id="selectTimeformat" slot="end" style="min-width: max-content; --md-outlined-field-bottom-space: 10px;--md-outlined-field-top-space: 10px;">
-            <md-select-option value="12 hour" menu-type>
-              <div slot="headline">12 hr</div>
-            </md-select-option>
-            <md-select-option value="24 hour" menu-type >
-              <div slot="headline">24 hr</div>
-            </md-select-option>
-          </md-outlined-select>
-        </md-list-item>
-
       </md-list>
 
       <p class="title" style="margin-top: 5px;" data-translate="additional">Additional</p>
@@ -450,7 +348,7 @@
 
         <md-list-item  onclick="sendThemeToAndroid('OpenAboutPage')" type="button">
           <md-icon icon-filled slot="start">info</md-icon>
-          <div slot="headline">About WeatherMaster</div>
+          <div slot="headline"><span data-translate="about">About</span> WeatherMaster</div>
           <div slot="supporting-text" data-translate="learn_about_app">Learn about the app</div>
           <md-icon icon-outlined slot="end">chevron_right</md-icon>
         </md-list-item>
@@ -632,7 +530,7 @@
       <md-dialog id="chooseSwipeThresholdDialog" style="min-width: 85%;">
                 <span slot="headline">
                     <span style="flex: 1;" data-translate="swipe_threshold">Swipe Threshold</span>
-                    <div slot="supporting-text" id="ThresholdValueText" style="font-size: 15px; right: 20px; color: var(--On-Surface-Variant); width: 30px; height: 30px; background-color: var(--Primary-Container); display: flex; align-items: center; justify-content: center; border-radius: 50px; padding: 2px; color: var(--On-Primary-Container);">100</div>
+                    <div slot="supporting-text" id="ThresholdValueText" style="font-size: 15px; right: 20px; color: var(--On-Surface-Variant); width: 35px; height: 30px; background-color: var(--Primary-Container); display: flex; align-items: center; justify-content: center; border-radius: 50px; padding: 2px; color: var(--On-Primary-Container); font-family: var(--google-mid);">100</div>
                   </span>
 
         <div slot="content" style="padding-left: 0; padding-right: 0;">

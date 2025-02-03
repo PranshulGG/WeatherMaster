@@ -31,11 +31,11 @@
             justify-content: space-between;
             background-color: var(--Surface-Container);
             margin: 10px;
-            border-radius: 20px;
+            border-radius: 20px 20px 0 0;
             padding: 20px;
             padding-left: 15px;
             padding-right: 15px;
-
+            margin-bottom: 0;
         }
 
         .svg_mat_icon_aqi svg{
@@ -58,6 +58,7 @@
         .aqi_data_info{
             color: var(--On-Surface-Variant);
             font-family: var(--google-normal);
+            width: 55%;
 
         }
 
@@ -67,6 +68,7 @@
             justify-content: space-between;
             align-items: flex-start;
             gap: 3px;
+                margin-top: 5px;
         }
 
         #aqi_value_point{
@@ -97,7 +99,49 @@
                 opacity: 1;
             }
         }
+        .air_quality_bar {
+        width: 100%;
+        height: 8px;
+        background: linear-gradient(to right,
+            #00e400,  /* Good (Green) */
+            #ffff00,  /* Moderate (Yellow) */
+            #ff7e00,  /* Unhealthy for Sensitive Groups (Orange) */
+            #ff0000,  /* Unhealthy (Red) */
+            #8f3f97,  /* Very Unhealthy (Purple) */
+            #7e0023   /* Hazardous (Dark Purple) */
+        );
+        border-radius: 50px;
+        display: flex;
+        margin-bottom: 0;
+        position: relative;
 
+
+        }
+        air_quality_bar_progress{
+        position: absolute;
+        left: 0;
+        width: 5%;
+        z-index: 1;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        top: 0;
+
+        }
+
+        air_quality_bar_progress::before{
+        content: '';
+        width: 13px;
+        height: 13px;
+        position: absolute;
+        right: 0;
+        background-color: transparent;
+        border-radius: 50px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: 2px solid white;
+        background-color: var(--percentageColor);
+        }
     </style>
 </head>
 
@@ -120,7 +164,11 @@
 
         <div class="aqi_data_info">
             <p id="aqi_name">Good</p>
+            <div class="air_quality_bar">
+                <air_quality_bar_progress>
 
+                </air_quality_bar_progress>
+            </div>
             <div class="aqi_full">
                 <span id="us_aqi_value">US AQI: </span>
                 <span id="eu_aqi_value">EU AQI:</span>
@@ -142,9 +190,9 @@
 
     <div class="eq_us_Switcher" style="padding-bottom: 20px;">
 
-        <md-tabs id="change_aqi_type_tabs">
-            <md-primary-tab>United States</md-primary-tab>
-            <md-primary-tab>European</md-primary-tab>
+        <md-tabs id="change_aqi_type_tabs" style="--md-primary-tab-container-color: var(--Surface-Container); --md-divider-color: transparent; margin-left: 10px; margin-right: 10px; border-radius: 0px 0 20px 20px;">
+            <md-primary-tab style="font-family: var(--google-mid);">United States</md-primary-tab>
+            <md-primary-tab style="font-family: var(--google-mid);">European</md-primary-tab>
 
         </md-tabs>
 
@@ -277,33 +325,57 @@ AndroidInterface.updateStatusBarColor(theme);
         const aqi = data.current.us_aqi;
 
         let aqiCategory;
+        let percentage = 0;
+        let percentageColor = ''
 
         if (aqi <= 50) {
             aqiCategory = 1;
+            percentage = Math.min(5 + ((aqi / 50) * 16), 10);
+            percentageColor = '#00e400';
         } else if (aqi <= 100) {
             aqiCategory = 2;
+            percentage = Math.min(20 + (((aqi - 50) / 50) * 16), 42);
+            percentageColor = '#ffff00';
         } else if (aqi <= 150) {
             aqiCategory = 3;
+            percentage = Math.min(42 + (((aqi - 100) / 50) * 16), 50);
+            percentageColor = '#ff0000';
         } else if (aqi <= 200) {
             aqiCategory = 4;
+            percentage = Math.min(58 + (((aqi - 150) / 50) * 16), 74);
+            percentageColor = '#ff0000';
         } else {
             aqiCategory = 5;
+            percentage = Math.min(74 + (((aqi - 200) / 100) * 16), 95);
+            percentageColor = '#8f3f97';
         }
 
         const aqiEU = data.current.european_aqi || 'No data';
 
         let aqiCategoryEU;
+        let percentageEu = 0;
+        let percentageColorEu = ''
 
         if (aqiEU <= 25) {
             aqiCategoryEU = 1;
+            percentageEu = Math.min(5 + ((aqiEU / 25) * 16), 10);
+            percentageColorEu = '#00e400'
         } else if (aqiEU <= 50) {
             aqiCategoryEU = 2; // Fair
+            percentageEu = Math.min(20 + (((aqiEU - 25) / 25) * 16), 42);
+            percentageColorEu = '#ffff00'
         } else if (aqiEU <= 75) {
             aqiCategoryEU = 3; // Moderate
+            percentageEu = Math.min(40 + (((aqiEU - 50) / 50) * 16), 50);
+            percentageColorEu = '#ff7e00'
         } else if (aqiEU <= 100) {
             aqiCategoryEU = 4; // Poor
+            percentageEu = Math.min(58 + (((aqiEU - 75) / 50) * 16), 74);
+            percentageColorEu = '#ff0000'
         } else {
             aqiCategoryEU = 5; // Very Poor
+            percentageEu = Math.min(74 + (((aqiEU - 100) / 100) * 16), 95);
+            percentageColorEu = '#8f3f97'
         }
 
 
@@ -321,10 +393,13 @@ AndroidInterface.updateStatusBarColor(theme);
         if(localStorage.getItem('selectedAQItype') === 'eu_aqi'){
             document.getElementById('aqi_value_point').innerHTML = aqiCategoryEU;
             document.getElementById("aqi-level-color").style.fill = backgroundColor[aqiCategoryEU];
-
+            percentageEu = Math.min(95, Math.max(5, percentageEu.toFixed(2)));
+            document.querySelector('air_quality_bar_progress').style = `--percentageColor: ${percentageColorEu}; width: ${percentageEu}%;`
         } else{
             document.getElementById('aqi_value_point').innerHTML = aqiCategory;
              document.getElementById("aqi-level-color").style.fill = backgroundColor[aqiCategory];
+            percentage = Math.min(95, Math.max(5, percentage.toFixed(2)));
+            document.querySelector('air_quality_bar_progress').style = `--percentageColor: ${percentageColor}; width: ${percentage}%;`
         }
 
 
@@ -368,8 +443,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         if(document.querySelector('.condition_info_content').scrollTop > 50){
             document.getElementById('hidden_anim_p').style.height = '22px'
+            document.querySelector('.top_conditions_for_header').classList.add('scroll');
+
         } else{
             document.getElementById('hidden_anim_p').style.height = '0'
+            document.querySelector('.top_conditions_for_header').classList.remove('scroll');
 
         }
 

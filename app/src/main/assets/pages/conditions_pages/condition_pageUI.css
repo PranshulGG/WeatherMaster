@@ -35,7 +35,7 @@ p{
 
 .top_conditions_for_header{
     padding: 10px;
-    height: calc(65px - 10px);
+    height: calc(65px - 20px);
     display: flex;
     align-items: center;
 }

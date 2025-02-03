@@ -560,14 +560,28 @@ function DailyWeather(dailyForecast) {
     let TodaysPrecAmount;
 
     if (localStorage.getItem("selectedPrecipitationUnit") === "in") {
-      TodaysPrecAmount =
-        mmToInches(dailyForecast.precipitation_sum[0]).toFixed(2).replace('.', local) + " in";
+      if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+        TodaysPrecAmount = mmToInches(dailyForecast.precipitation_sum[0]).toFixed(2).replace('.', local) + " 英寸";
+      } else{
+      TodaysPrecAmount = mmToInches(dailyForecast.precipitation_sum[0]).toFixed(2).replace('.', local) + " in";
+      }
     } else if (localStorage.getItem("selectedPrecipitationUnit") === "cm") {
-      TodaysPrecAmount =
+      if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+        TodaysPrecAmount =
         (Math.round(dailyForecast.precipitation_sum[0]) / 10).toFixed(2).replace('.', local) +
-        " cm";
+        " 厘米";
+      } else{
+        TodaysPrecAmount =
+          (Math.round(dailyForecast.precipitation_sum[0]) / 10).toFixed(2).replace('.', local) +
+          " cm";
+      }
     } else {
-      TodaysPrecAmount = dailyForecast.precipitation_sum[0].toFixed(1).replace('.', local) + " mm";
+      if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+        TodaysPrecAmount = dailyForecast.precipitation_sum[0].toFixed(1).replace('.', local) + " 毫米";
+      } else{
+         TodaysPrecAmount = dailyForecast.precipitation_sum[0].toFixed(1).replace('.', local) + " mm";
+
+      }
     }
 
     if (dailyForecast.precipitation_sum[0] <= 0) {
@@ -654,25 +668,58 @@ function CurrentWeather(data, sunrise, sunset, lat, lon) {
   let CurrentWindGust;
 
   if (localStorage.getItem("SelectedWindUnit") === "mile") {
-    CurrentWindGust = Math.round(kmhToMph(data.wind_gusts_10m)) + " mph";
+      if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+        CurrentWindGust = Math.round(kmhToMph(data.wind_gusts_10m)) + " 英里/时";
+      } else{
+        CurrentWindGust = Math.round(kmhToMph(data.wind_gusts_10m)) + " mph";
+      }
   } else if (localStorage.getItem("SelectedWindUnit") === "M/s") {
-    CurrentWindGust = (data.wind_gusts_10m / 3.6).toFixed(1).replace('.', local) + " m/s";
+      if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+        CurrentWindGust = (data.wind_gusts_10m / 3.6).toFixed(1).replace('.', local) + " 米/秒";
+      } else{
+        CurrentWindGust = (data.wind_gusts_10m / 3.6).toFixed(1).replace('.', local) + " m/s";
+      }
   } else if (localStorage.getItem("SelectedWindUnit") === "Beaufort") {
-    CurrentWindGust = getBeaufort(data.wind_speed_10m) + " Bft";
+      if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+        CurrentWindGust = getBeaufort(data.wind_speed_10m) + " 蒲福风级";
+      } else{
+        CurrentWindGust = getBeaufort(data.wind_speed_10m) + " Bft";
+      }
   } else {
-    CurrentWindGust = Math.round(data.wind_gusts_10m) + " km/h";
+      if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+        CurrentWindGust = Math.round(data.wind_gusts_10m) + " 公里/时";
+      } else{
+             CurrentWindGust = Math.round(data.wind_gusts_10m) + " km/h";
+      }
   }
 
   let CurrentWindSpeed;
 
   if (localStorage.getItem("SelectedWindUnit") === "mile") {
-    CurrentWindSpeed = Math.round(kmhToMph(data.wind_speed_10m)) + " mph";
+    if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+      CurrentWindSpeed = Math.round(kmhToMph(data.wind_speed_10m)) + " 英里/时";
+    } else{
+      CurrentWindSpeed = Math.round(kmhToMph(data.wind_speed_10m)) + " mph";
+
+    }
   } else if (localStorage.getItem("SelectedWindUnit") === "M/s") {
-    CurrentWindSpeed = (data.wind_speed_10m / 3.6).toFixed(1).replace('.', local) + " m/s";
+      if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+        CurrentWindSpeed = (data.wind_speed_10m / 3.6).toFixed(1).replace('.', local) + " 米/秒";
+      } else{
+        CurrentWindSpeed = (data.wind_speed_10m / 3.6).toFixed(1).replace('.', local) + " m/s";
+      }
   } else if (localStorage.getItem("SelectedWindUnit") === "Beaufort") {
+    if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+      CurrentWindSpeed = getBeaufort(data.wind_speed_10m) + " 蒲福风级";
+    } else{
     CurrentWindSpeed = getBeaufort(data.wind_speed_10m) + " Bft";
+    }
   } else {
+  if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+    CurrentWindSpeed = Math.round(data.wind_speed_10m) + " 公里/时";
+  } else{
     CurrentWindSpeed = Math.round(data.wind_speed_10m) + " km/h";
+    }
   }
 
   let CurrentPressure;
@@ -680,13 +727,25 @@ function CurrentWeather(data, sunrise, sunset, lat, lon) {
 
   if (localStorage.getItem("selectedPressureUnit") === "inHg") {
     CurrentPressure = hPaToInHg(data.pressure_msl).toFixed(2).replace('.', local);
+    if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+    pressureMainUnit = "英寸汞柱";
+    } else{
     pressureMainUnit = "inHg";
+    }
   } else if (localStorage.getItem("selectedPressureUnit") === "mmHg") {
     CurrentPressure = hPaToMmHg(data.pressure_msl).toFixed(2).replace('.', local);
+    if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+    pressureMainUnit = "毫米汞柱";
+    } else{
     pressureMainUnit = "mmHg";
+    }
   } else {
     CurrentPressure = Math.round(data.pressure_msl);
+    if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+    pressureMainUnit = "百帕";
+    } else{
     pressureMainUnit = "hPa";
+    }
   }
 
   localStorage.setItem("CurrentPressurePage", data.pressure_msl);
@@ -1126,54 +1185,54 @@ function AirQuaility(data) {
   if (localStorage.getItem('selectedAQItype') === 'eu_aqi') {
     if (aqiEU <= 25) {
       aqiCategory = 1;
-       percentage = 10 + ((aqiEU / 25) * 16); // Lowest danger
+      percentage = Math.min(5 + ((aqiEU / 25) * 16), 10);
       percentageColor = '#00e400'
     } else if (aqiEU <= 50) {
       aqiCategory = 2;
-      percentage = 20 + (((aqiEU - 25) / 25) * 16);
+      percentage = Math.min(20 + (((aqiEU - 25) / 25) * 16), 42);
       percentageColor = '#ffff00'
     } else if (aqiEU <= 75) {
       aqiCategory = 3;
-      percentage = 42 + (((aqiEU - 50) / 25) * 16);
+      percentage = Math.min(40 + (((aqiEU - 50) / 50) * 16), 50);
       percentageColor = '#ff7e00'
 
     } else if (aqiEU <= 100) {
       aqiCategory = 4;
-     percentage = 58 + (((aqiEU - 75) / 25) * 16);
+      percentage = Math.min(58 + (((aqiEU - 75) / 50) * 16), 74);
       percentageColor = '#ff0000'
     } else {
       aqiCategory = 5;
-      percentage = 74 + (((aqiEU - 100) / 100) * 16); // Highest danger
+      percentage = Math.min(74 + (((aqiEU - 100) / 100) * 16), 95);
       percentageColor = '#8f3f97'
     }
     document.getElementById("aqi-level-value").innerHTML = aqiEU;
   } else {
     if (aqi <= 50) {
       aqiCategory = 1;
-       percentage = 10 + ((aqi / 50) * 16);
-      percentageColor = '#00e400'
+      percentage = Math.min(5 + ((aqi / 50) * 16), 10);
+      percentageColor = '#00e400';
     } else if (aqi <= 100) {
       aqiCategory = 2;
-       percentage = 20 + (((aqi - 50) / 50) * 16);
-      percentageColor = '#ffff00'
+      percentage = Math.min(20 + (((aqi - 50) / 50) * 16), 42);
+      percentageColor = '#ffff00';
     } else if (aqi <= 150) {
       aqiCategory = 3;
-      percentage = 42 + (((aqi - 100) / 50) * 16);
-      percentageColor = '#ff7e00'
+      percentage = Math.min(42 + (((aqi - 100) / 50) * 16), 50);
+      percentageColor = '#ff0000';
     } else if (aqi <= 200) {
       aqiCategory = 4;
-       percentage = 58 + (((aqi - 150) / 50) * 16);
-      percentageColor = '#ff0000'
+      percentage = Math.min(58 + (((aqi - 150) / 50) * 16), 74);
+      percentageColor = '#ff0000';
     } else {
       aqiCategory = 5;
-      percentage = 74 + (((aqi - 200) / 100) * 16); // Highest danger
-      percentageColor = '#8f3f97'
+      percentage = Math.min(74 + (((aqi - 200) / 100) * 16), 95);
+      percentageColor = '#8f3f97';
     }
     document.getElementById("aqi-level-value").innerHTML = aqi;
   }
 
 
-percentage = Math.min(90, Math.max(10, percentage.toFixed(2)));
+  percentage = Math.min(95, Math.max(5, percentage.toFixed(2)));
 document.querySelector('air_quality_bar_progress').style = `--percentageColor: ${percentageColor}; width: ${percentage}%;`
 
 
@@ -1415,25 +1474,53 @@ let uvPercentageProg = 10;
 let uvColor = "#00e400";
 
 
-if (uvIndex >= 0 && uvIndex <= 4) {
-  uvColor = "#00e400";
-  uvPercentageProg = 8
-} else if (uvIndex > 4 && uvIndex <= 6) {
-  uvColor = "#ffff00";
-  uvPercentageProg = 30
-} else if (uvIndex > 6 && uvIndex <= 8) {
-  uvColor = "#ff7e00";
-  uvPercentageProg = 50
-} else if (uvIndex > 8 && uvIndex <= 11) {
-  uvColor = "#ff0000";
-  uvPercentageProg = 70
-} else if (uvIndex > 11 && uvIndex <= 13) {
-  uvColor = "#8f3f97";
-  uvPercentageProg = 80
-} else if (uvIndex > 13) {
-  uvColor = "#7e0023";
-  uvPercentageProg = 95
-}
+    if (uvIndex === 0) {
+      uvColor = "#00e400";
+      uvPercentageProg = 8;
+    } else if (uvIndex === 1) {
+      uvColor = "#00e400";
+      uvPercentageProg = 8;
+    } else if (uvIndex === 2) {
+      uvColor = "#00e400";
+      uvPercentageProg = 8;
+    } else if (uvIndex === 3) {
+      uvColor = "#00e400";
+      uvPercentageProg = 8;
+    } else if (uvIndex === 4) {
+      uvColor = "#00e400";
+      uvPercentageProg = 8;
+    } else if (uvIndex === 5) {
+      uvColor = "#ffff00";
+      uvPercentageProg = 30;
+    } else if (uvIndex === 6) {
+      uvColor = "#ffff00";
+      uvPercentageProg = 30;
+    } else if (uvIndex === 7) {
+      uvColor = "#ff7e00";
+      uvPercentageProg = 45;
+    } else if (uvIndex === 8) {
+      uvColor = "#ff0000";
+      uvPercentageProg = 50;
+    } else if (uvIndex === 9) {
+      uvColor = "#ff0000";
+      uvPercentageProg = 70;
+    } else if (uvIndex === 10) {
+      uvColor = "#ff0000";
+      uvPercentageProg = 70;
+    } else if (uvIndex === 11) {
+      uvColor = "#ff0000";
+      uvPercentageProg = 70;
+    } else if (uvIndex === 12) {
+      uvColor = "#8f3f97";
+      uvPercentageProg = 80;
+    } else if (uvIndex === 13) {
+      uvColor = "#8f3f97";
+      uvPercentageProg = 80;
+    } else if (uvIndex >= 14) {
+      uvColor = "#7e0023";
+      uvPercentageProg = 95;
+    }
+
 
 
 
@@ -1683,11 +1770,23 @@ function MoreDetailsRender(data) {
   let Precipitation;
 
   if (localStorage.getItem("selectedPrecipitationUnit") === "in") {
+  if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+    Precipitation = mainData.totalprecip_in.toFixed(2).replace('.', local) + " 英寸";
+  } else{
     Precipitation = mainData.totalprecip_in.toFixed(2).replace('.', local) + " in";
+  }
   } else if (localStorage.getItem("selectedPrecipitationUnit") === "cm") {
+    if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+      Precipitation = (mainData.totalprecip_in * 2.54).toFixed(2).replace('.', local) + " 厘米";
+    } else{
     Precipitation = (mainData.totalprecip_in * 2.54).toFixed(2).replace('.', local) + " cm";
+    }
   } else {
+  if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+    Precipitation = inchesToMm(mainData.totalprecip_in).toFixed(2).replace('.', local) + " 英寸";
+  } else{
     Precipitation = inchesToMm(mainData.totalprecip_in).toFixed(2).replace('.', local) + " mm";
+    }
   }
   let precipitationMessage;
   if (mainData.totalprecip_in > 0) {

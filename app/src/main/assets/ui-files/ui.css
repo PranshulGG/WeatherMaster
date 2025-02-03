@@ -343,6 +343,10 @@ touch_search{
 .high-mini .mini p {
   font-size: 16px;
   color: var(--On-Surface);
+    max-width: 75px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .high-mini .mini span {
@@ -2620,10 +2624,32 @@ max-width: 150px;
 
 }
 
+@media screen and (min-width: 400px){
+  .currentConditions{
+    padding-top: 13px;
+    padding-bottom: 14px;
+    row-gap: 30px;
+  }
+
+  .currentConditionItem{
+    transform: scale(1.1);
+  }
+}
+
 @media screen and (min-width: 600px){
   .currentConditions{
     grid-template-columns: repeat(3, 1fr);
   }
+
+    .currentConditions{
+      padding-top: 0;
+      padding-bottom: 5px;
+      gap: 10px;
+    }
+
+    .currentConditionItem{
+      transform: scale(1);
+    }
 }
 
 /* ------------------------- */
@@ -3049,15 +3075,15 @@ swipecooldown{
 }
 
 .sortHolder{
-  gap: 5px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  gap: 8.5px;
+  padding-top: 8.5px;
+  padding-bottom: 8.5px;
 }
 
 [round-ui="true"] .sortHolder{
-  gap: 8px;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  gap: 8.5px;
+  padding-top: 8.5px;
+  padding-bottom: 8.5px;
 }
 
 .behind_search_animation_wrap .behind_search_animation{

@@ -393,72 +393,35 @@ GenerateRecommendation()
 // tabs
 
 
-document.addEventListener("DOMContentLoaded", function () {
-    const tabsContainer = document.getElementById("change_type_tabs");
-    const sections = document.querySelectorAll(".clothin_activity");
-    let isUserScrolling = true;
 
-    const updateActiveTabOnScroll = (sectionIndex) => {
-        if (isUserScrolling) {
-            tabsContainer.activeTabIndex = sectionIndex;
-        }
-    };
+document.getElementById('change_type_tabs').addEventListener('change', () => {
+    if (event.target.activeTabIndex === 0) {
+        document.getElementById('morning').hidden = false;
+        document.getElementById('evening').hidden = true;
+        document.getElementById('night').hidden = true;
+        document.getElementById('day_tip').hidden = true;
+        document.getElementById('air_quality_details').hidden = true;
 
+    } else if (event.target.activeTabIndex === 1){
+        document.getElementById('morning').hidden = true;
+        document.getElementById('evening').hidden = false;
+        document.getElementById('night').hidden = true;
+        document.getElementById('day_tip').hidden = true;
+        document.getElementById('air_quality_details').hidden = true;
 
-    const observer = new IntersectionObserver(
-        (entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    const sectionIndex = Array.from(sections).indexOf(entry.target);
-                    updateActiveTabOnScroll(sectionIndex);
-                }
-            });
-        },
-        {
-            root: null,
-            threshold: 0.5,
-        }
-    );
+    } else if (event.target.activeTabIndex === 2){
+        document.getElementById('morning').hidden = true;
+        document.getElementById('evening').hidden = true;
+        document.getElementById('night').hidden = false;
+        document.getElementById('day_tip').hidden = true;
+        document.getElementById('air_quality_details').hidden = true;
 
-    // Observe each section
-    sections.forEach((section) => {
-        observer.observe(section);
-    });
+    } else if (event.target.activeTabIndex === 3){
+        document.getElementById('morning').hidden = true;
+        document.getElementById('evening').hidden = true;
+        document.getElementById('night').hidden = true;
+        document.getElementById('day_tip').hidden = false;
+        document.getElementById('air_quality_details').hidden = false;
 
-    // Listen for tab clicks
-    tabsContainer.addEventListener("click", (e) => {
-        if (e.target.tagName === "MD-SECONDARY-TAB") {
-            isUserScrolling = false;
-
-
-            setTimeout(() => {
-                isUserScrolling = true;
-            }, 500);
-        }
-    });
-});
-
-
-
-document.addEventListener("DOMContentLoaded", function () {
-    const tabsContainer = document.getElementById("change_type_tabs");
-    const tabs = tabsContainer.querySelectorAll("md-secondary-tab");
-
-    tabs.forEach((tab) => {
-        tab.addEventListener("click", (e) => {
-            const targetId = tab.getAttribute("data-target");
-            const targetSection = document.getElementById(targetId);
-
-            if (targetSection) {
-                // Programmatically scroll to the section
-                targetSection.scrollIntoView({
-                    behavior: "smooth", // Smooth scrolling
-                    block: "start", // Align section to the top
-                });
-
-                // Update activeTabIndex based on the clicked tab
-                tabsContainer.activeTabIndex = Array.from(tabs).indexOf(tab);
-            }
-        });
-    });
-});
+    }
+  });

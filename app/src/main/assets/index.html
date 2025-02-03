@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>Weather Home</title>
+    <script src="configSource.js"></script>
     <script src="database/MainDataBase.js"></script>
     <link rel="stylesheet" href="ui-files/ui.css">
     <link rel="stylesheet" href="ui-files/font-usage.css">
@@ -352,7 +353,7 @@
 
 
 
-            <div class="currentConditions" style="margin-top: 5px;" id="sortableContainer" data-id="3">
+            <div class="currentConditions" style="margin-top: 2px;" id="sortableContainer" data-id="3">
 
 
                 <div class="currentConditionItem sunRISESET ripple_btn_low" data-id="1"
@@ -849,11 +850,11 @@
 
 
         <div class="retry_btn_error">
-            <md-filled-button onclick="window.location.reload(); sendThemeToAndroid('overcast')" style="--md-filled-button-label-text-size: 16px;">
+            <md-filled-button onclick="window.location.reload(); sendThemeToAndroid('overcast')">
                 <md-icon icon-outlined slot="icon">refresh</md-icon>
                 Try again
             </md-filled-button>
-            <md-outlined-button onclick="Android.importFile();" style="--md-outlined-button-label-text-size: 16px;">
+            <md-outlined-button onclick="Android.importFile();">
                 <md-icon icon-outlined slot="icon">download</md-icon>
                 Import backup
             </md-outlined-button>

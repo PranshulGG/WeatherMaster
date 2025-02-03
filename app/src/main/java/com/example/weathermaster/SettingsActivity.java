@@ -564,6 +564,9 @@ public class SettingsActivity extends AppCompatActivity {
                     } else if (color.equals("EditAppLayoutPage")){
                         EditAppLayoutPage();
                         return;
+                    } else if (color.equals("AppUnitsActivity")){
+                        AppUnitsActivity();
+                        return;
                     } else if (color.equals("bluesetDef")) {
                         return;
                     } else if (color.equals("keepiton")) {
@@ -645,6 +648,10 @@ public class SettingsActivity extends AppCompatActivity {
 
         public void EditAppLayoutPage() {
             Intent intent = new Intent(sActivity, ArrangeItems.class);
+            sActivity.startActivity(intent);
+        }
+        public void AppUnitsActivity() {
+            Intent intent = new Intent(sActivity, AppUnitsActivity.class);
             sActivity.startActivity(intent);
         }
 

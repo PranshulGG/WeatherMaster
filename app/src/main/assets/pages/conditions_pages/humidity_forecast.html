@@ -228,8 +228,11 @@ AndroidInterface.updateStatusBarColor(theme);
 
         if(document.querySelector('.condition_info_content').scrollTop > 50){
             document.getElementById('hidden_anim_p').style.height = '22px'
+            document.querySelector('.top_conditions_for_header').classList.add('scroll');
+
         } else{
             document.getElementById('hidden_anim_p').style.height = '0'
+            document.querySelector('.top_conditions_for_header').classList.remove('scroll');
 
         }
 

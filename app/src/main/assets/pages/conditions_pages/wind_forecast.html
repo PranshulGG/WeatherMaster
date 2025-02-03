@@ -293,13 +293,29 @@ const filteredData = data.time
                 let WindSpeed;
 
                 if (SelectedWindUnit === 'mile') {
+                  if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+                    WindSpeed = Math.round(data.wind_speed_10m_max[0] / 1.60934) + ' 英里/时';
+                } else{
                     WindSpeed = Math.round(data.wind_speed_10m_max[0] / 1.60934) + ' mph';
+                    }
                 } else if (SelectedWindUnit === 'M/s') {
+                  if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+                    WindSpeed = (data.wind_speed_10m_max[0] / 3.6).toFixed(1).replace('.', local) + ' 米/秒';
+                } else{
                     WindSpeed = (data.wind_speed_10m_max[0] / 3.6).toFixed(1).replace('.', local) + ' m/s';
-                                          } else if (localStorage.getItem("SelectedWindUnit") === "Beaufort") {
+                    }
+                } else if (localStorage.getItem("SelectedWindUnit") === "Beaufort") {
+                  if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+                    WindSpeed = getBeaufort(data.wind_speed_10m_max[0]) + ' 蒲福风级';
+                } else{
                     WindSpeed = getBeaufort(data.wind_speed_10m_max[0]) + " Bft";
+                }
                 } else {
+                if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
+                    WindSpeed = Math.round(data.wind_speed_10m_max[0]) + ' 公里/时';
+                } else{
                     WindSpeed = Math.round(data.wind_speed_10m_max[0]) + ' km/h';
+                }
                 }
 
                 document.getElementById('WindHighMain').innerHTML = WindSpeed
@@ -322,8 +338,11 @@ AndroidInterface.updateStatusBarColor(theme);
 
         if(document.querySelector('.condition_info_content').scrollTop > 50){
             document.getElementById('hidden_anim_p').style.height = '22px'
+            document.querySelector('.top_conditions_for_header').classList.add('scroll');
+
         } else{
             document.getElementById('hidden_anim_p').style.height = '0'
+            document.querySelector('.top_conditions_for_header').classList.remove('scroll');
 
         }
 

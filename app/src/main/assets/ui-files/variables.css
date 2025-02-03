@@ -108,13 +108,24 @@ body{
     --md-filled-tonal-button-pressed-state-layer-opacity: 0.25;
     --md-elevated-button-pressed-state-layer-opacity: 0.25;
 
-    --md-text-button-label-text-size: 18px;
-    --md-filled-button-label-text-size: 18px;
-    --md-outlined-button-label-text-size: 18px;
-    --md-filled-tonal-button-label-text-size: 18px;
-    --md-elevated-button-label-text-size: 18px;
+    --md-text-button-label-text-size: 1rem;;
+    --md-filled-button-label-text-size: 1rem;;
+    --md-outlined-button-label-text-size: 1rem;;
+    --md-filled-tonal-button-label-text-size: 1rem;;
+    --md-elevated-button-label-text-size: 1rem;
 
 
+    --md-text-button-label-text-font: var(--google-mid);
+    --md-filled-button-label-text-font: var(--google-mid);
+    --md-outlined-button-label-text-font: var(--google-mid);
+    --md-filled-tonal-button-label-text-font: var(--google-mid);
+    --md-elevated-button-label-text-font: var(--google-mid);
+
+    --md-filled-button-icon-size: 21px;
+    --md-text-button-icon-size: 21px;
+    --md-outlined-button-icon-size: 21px;
+    --md-filled-tonal-button-icon-size: 21px;
+    --md-elevated-button-icon-size: 21px;
 }
 
 [margin] {
@@ -302,7 +313,7 @@ body{
     --Surface: #0e1d2a;
     --Surface-Bright: #38393e;
     --Surface-Container-Lowest:#0d0e12 ;
-    --Surface-Container-Low: #012438;
+    --Surface-Container-Low: #042030;
     --Surface-Container: #112535;
     --Surface-Container-High: #292a2e;
     --Surface-Container-Highest: #343439;
