@@ -509,8 +509,8 @@
     "temperature": "Температура",
     "show_summary_toggle_sub": "Показать краткий обзор погоды",
     "insights": "Insights",
-    "app_units": "App units",
-    "temperature_wind_pressure_visibility_precipitation_time_aqi": "Temperature, wind, pressure, visibility, precipitation, time, AQI",
-    "activity_suggestions_daytip_humidity_3": "🧴 The air is dry. Moisturize your skin and drink plenty of water to stay hydrated.",
-    "activity_suggestions_daytip_humidity_4": "💧 Low humidity may cause dry skin or irritation. Keep a water bottle handy and avoid overexposure."
+    "app_units": "Единицы измерения в приложении",
+    "temperature_wind_pressure_visibility_precipitation_time_aqi": "Температура, ветер, давление, видимость, осадки, время, AQI",
+    "activity_suggestions_daytip_humidity_3": "🧴 Воздух сухой. Увлажняйте кожу и пейте много воды, чтобы сохранить ее увлажненной.",
+    "activity_suggestions_daytip_humidity_4": "💧 Низкая влажность может вызвать сухость кожи или раздражение. Держите под рукой бутылку с водой и избегайте чрезмерного воздействия."
 }
