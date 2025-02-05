@@ -192,9 +192,6 @@
     "evening": "Atardecer",
     "night": "Noche",
     "wind_gust": "Ráfaga de viento",
-    "rain_expected_to_continue": "Se espera que la lluvia continúe por las próximas horas",
-    "rain_likely_tomorrow_around": "Probable lluvia por mañana",
-    "rain_likely_around": "Probable lluvia en breve",
     "weather_alerts": "Alertas de tiempo",
     "font": "Fuente",
     "daily_conditions": "Condiciones diarias",
@@ -512,5 +509,8 @@
     "activity_suggestions_daytip_humidity_3": "🧴 The air is dry. Moisturize your skin and drink plenty of water to stay hydrated.",
     "activity_suggestions_daytip_humidity_4": "💧 Low humidity may cause dry skin or irritation. Keep a water bottle handy and avoid overexposure.",
     "hide_update_icon": "Hide update icon",
-    "no_notification_when_a_new_version_is_released": "Don't show a notification when a new version is released."
+    "no_notification_when_a_new_version_is_released": "Don't show a notification when a new version is released.",
+    "precipitation_expected_to_continue": "Precipitation is expected to continue for the next few hours",
+    "Precipitation_likely_tomorrow_around": "Precipitation likely tomorrow around",
+    "precipitation_likely_around": "Precipitation likely around"
 }
