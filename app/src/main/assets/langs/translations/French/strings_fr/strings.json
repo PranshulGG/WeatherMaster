@@ -197,7 +197,6 @@
     "rain_likely_around": "Pluie probable aux alentours de",
     "weather_alerts": "Alertes météorologiques",
     "font": "Police de caractères",
-    "notification_will_disappear": "N'affichez pas de notification lorsqu'une nouvelle version est disponible.",
     "daily_conditions": "Conditions quotidiennes",
     "sun_tile_page": "Soleil",
     "morning": "Matinée",
@@ -405,7 +404,6 @@
     "weather_model_info_2": "Combine tous les modèles météo en une prédiction homogène.",
     "max_items_4": "Vous ne pouvez cacher que jusqu'à 4 objets",
     "max_items_3": "Vous ne pouvez cacher que jusqu'à 3 objets",
-    "auto-hide_update_icon": "Cachez l'icône de mise à jour",
     "month_jan": "Janvier",
     "month_feb": "Février",
     "month_mar": "Mars",
@@ -512,5 +510,7 @@
     "app_units": "Unités de mesure de l'appli.",
     "temperature_wind_pressure_visibility_precipitation_time_aqi": "Température, vent, pression, visibilité, précipitation, heure, IQA",
     "activity_suggestions_daytip_humidity_3": "🧴 L'air est sec. Hydratez votre peau et buvez beaucoup d'eau pour rester hydraté.",
-    "activity_suggestions_daytip_humidity_4": " 💧 L'humidité basse peut causer une peau sèche ou des irritations. Gardez une bouteille d'eau à portée de main et évitez une surexposition."
+    "activity_suggestions_daytip_humidity_4": " 💧 L'humidité basse peut causer une peau sèche ou des irritations. Gardez une bouteille d'eau à portée de main et évitez une surexposition.",
+    "hide_update_icon": "Hide update icon",
+    "no_notification_when_a_new_version_is_released": "Don't show a notification when a new version is released."
 }

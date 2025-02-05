@@ -197,7 +197,6 @@
     "rain_likely_around": "Déšť očekáván kolem",
     "weather_alerts": "Meteorologické výstrahy",
     "font": "Písmo",
-    "notification_will_disappear": "Don't show a notification when a new version is released.",
     "daily_conditions": "Denní podmínky",
     "sun_tile_page": "Slunce",
     "morning": "Ráno",
@@ -405,7 +404,6 @@
     "weather_model_info_2": "Spojí všechny modely počasí z této oblasti do jednotné předpovědi",
     "max_items_4": "Můžete skrýt maximálně 4 položky",
     "max_items_3": "Můžete skrýt maximálně 3 položky",
-    "auto-hide_update_icon": "Hide update icon",
     "month_jan": "Leden",
     "month_feb": "Únor",
     "month_mar": "Březen",
@@ -512,5 +510,7 @@
     "app_units": "App units",
     "temperature_wind_pressure_visibility_precipitation_time_aqi": "Temperature, wind, pressure, visibility, precipitation, time, AQI",
     "activity_suggestions_daytip_humidity_3": "🧴 The air is dry. Moisturize your skin and drink plenty of water to stay hydrated.",
-    "activity_suggestions_daytip_humidity_4": "💧 Low humidity may cause dry skin or irritation. Keep a water bottle handy and avoid overexposure."
+    "activity_suggestions_daytip_humidity_4": "💧 Low humidity may cause dry skin or irritation. Keep a water bottle handy and avoid overexposure.",
+    "hide_update_icon": "Hide update icon",
+    "no_notification_when_a_new_version_is_released": "Don't show a notification when a new version is released."
 }
