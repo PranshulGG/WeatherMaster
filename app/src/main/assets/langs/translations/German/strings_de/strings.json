@@ -197,7 +197,6 @@
     "rain_likely_around": "Regen erwartet",
     "weather_alerts": "Wetterwarnungen",
     "font": "Schriftart",
-    "notification_will_disappear": "Don't show a notification when a new version is released.",
     "daily_conditions": "Tagesbedingungen",
     "sun_tile_page": "Sonne",
     "morning": "Morgen",
@@ -405,7 +404,6 @@
     "weather_model_info_2": "Vereint die Daten aller Wetter-Modelle zu einer nahtlosen Vorhersage",
     "max_items_4": "Du kannst nur bis zu 4 Elementen verstecken",
     "max_items_3": "Du kannst nur bis zu 3 Elementen verstecken",
-    "auto-hide_update_icon": "Hide update icon",
     "month_jan": "Jan",
     "month_feb": "Feb",
     "month_mar": "Mär",
@@ -512,5 +510,7 @@
     "app_units": "App-Einheiten",
     "temperature_wind_pressure_visibility_precipitation_time_aqi": "Temperatur, Wind, Druck, Sichtweite, Niederschlag, Tageszeit, Luftqualitätsindex",
     "activity_suggestions_daytip_humidity_3": "🧴 Die Luft ist trocken. Versorgen Sie Ihre Haut mit Feuchtigkeit und trinken Sie viel Wasser, um hydriert zu bleiben.",
-    "activity_suggestions_daytip_humidity_4": "💧 Niedrige Luftfeuchtigkeit kann zu trockener Haut oder Reizungen führen. Halten Sie eine Wasserflasche bereit und vermeiden Sie dauerhafte Sonneneinstrahlung."
+    "activity_suggestions_daytip_humidity_4": "💧 Niedrige Luftfeuchtigkeit kann zu trockener Haut oder Reizungen führen. Halten Sie eine Wasserflasche bereit und vermeiden Sie dauerhafte Sonneneinstrahlung.",
+    "hide_update_icon": "Hide update icon",
+    "no_notification_when_a_new_version_is_released": "Don't show a notification when a new version is released."
 }
