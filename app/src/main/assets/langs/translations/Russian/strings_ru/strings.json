@@ -192,9 +192,6 @@
     "evening": "Вечер",
     "night": "Ночь",
     "wind_gust": "Порыв ветра",
-    "rain_expected_to_continue": "Ожидается, что дождь продолжится в течение следующих нескольких часов",
-    "rain_likely_tomorrow_around": "Скорее всего дождь завтра вокруг",
-    "rain_likely_around": "Скорее всего дождь вокруг",
     "weather_alerts": "Погодные предупреждения",
     "font": "Шрифт",
     "daily_conditions": "Повседневные условия",
@@ -512,5 +509,8 @@
     "activity_suggestions_daytip_humidity_3": "🧴 Воздух сухой. Увлажняйте кожу и пейте много воды, чтобы сохранить ее увлажненной.",
     "activity_suggestions_daytip_humidity_4": "💧 Низкая влажность может вызвать сухость кожи или раздражение. Держите под рукой бутылку с водой и избегайте чрезмерного воздействия.",
     "hide_update_icon": "Hide update icon",
-    "no_notification_when_a_new_version_is_released": "Don't show a notification when a new version is released."
+    "no_notification_when_a_new_version_is_released": "Don't show a notification when a new version is released.",
+    "precipitation_expected_to_continue": "Precipitation is expected to continue for the next few hours",
+    "Precipitation_likely_tomorrow_around": "Precipitation likely tomorrow around",
+    "precipitation_likely_around": "Precipitation likely around"
 }
