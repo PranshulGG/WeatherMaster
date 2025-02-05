@@ -192,9 +192,6 @@
     "evening": "Veče",
     "night": "Noć",
     "wind_gust": "Nalet vetra ",
-    "rain_expected_to_continue": "U narednih nekoliko sati očekuje se nastavak padavina ",
-    "rain_likely_tomorrow_around": "Kiša verovatno sutra oko",
-    "rain_likely_around": "Kiša verovatno oko",
     "weather_alerts": "Vremenska upozorenja ",
     "font": "Font",
     "daily_conditions": "Dnevni uslovi",
@@ -512,5 +509,8 @@
     "activity_suggestions_daytip_humidity_3": "🧴 Vazduh je suv. Vlažite kožu i pijte puno vode da ostanete hidrirani.",
     "activity_suggestions_daytip_humidity_4": "💧 Niska vlažnost može izazvati suvu kožu ili iritaciju. Držite bocu vode pri ruci i izbegavajte prekomerno izlaganje.",
     "hide_update_icon": "Hide update icon",
-    "no_notification_when_a_new_version_is_released": "Don't show a notification when a new version is released."
+    "no_notification_when_a_new_version_is_released": "Don't show a notification when a new version is released.",
+    "precipitation_expected_to_continue": "Precipitation is expected to continue for the next few hours",
+    "Precipitation_likely_tomorrow_around": "Precipitation likely tomorrow around",
+    "precipitation_likely_around": "Precipitation likely around"
 }
