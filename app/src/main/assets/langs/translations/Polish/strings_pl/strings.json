@@ -197,7 +197,7 @@
     "rain_likely_around": "Prawdopodobnie deszcz około",
     "weather_alerts": "Alerty pogodowe",
     "font": "Czcionka",
-    "notification_will_disappear": "Powiadomienie zniknie po 5 sekundach.",
+    "notification_will_disappear": "Don't show a notification when a new version is released.",
     "daily_conditions": "Warunki dzienne",
     "sun_tile_page": "Słońce",
     "morning": "Poranek",
@@ -405,7 +405,7 @@
     "weather_model_info_2": "Łączy wszystkie modele pogodowe w płynną prognozę",
     "max_items_4": "Możesz ukryć maksymalnie 4 elementy",
     "max_items_3": "Możesz ukryć maksymalnie 3 elementy",
-    "auto-hide_update_icon": "Automatycznie ukrywaj ikonę aktualizacji",
+    "auto-hide_update_icon": "Hide update icon",
     "month_jan": "Sty",
     "month_feb": "Lut",
     "month_mar": "Mar",
@@ -509,8 +509,8 @@
     "temperature": "Temperatura",
     "show_summary_toggle_sub": "Pokaż krótkie podsumowanie pogody",
     "insights": "Wgląd",
-    "app_units": "App units",
-    "temperature_wind_pressure_visibility_precipitation_time_aqi": "Temperature, wind, pressure, visibility, precipitation, time, AQI",
-    "activity_suggestions_daytip_humidity_3": "🧴 The air is dry. Moisturize your skin and drink plenty of water to stay hydrated.",
-    "activity_suggestions_daytip_humidity_4": "💧 Low humidity may cause dry skin or irritation. Keep a water bottle handy and avoid overexposure."
+    "app_units": "Jednostki w aplikacji",
+    "temperature_wind_pressure_visibility_precipitation_time_aqi": "Temperatura, wiatr, ciśnienie, widoczność, opady, czas, AQI",
+    "activity_suggestions_daytip_humidity_3": "🧴 Powietrze jest zimne. Nawilżaj swoją skórę i pij dużo wody, aby pozostać nawodnionym.",
+    "activity_suggestions_daytip_humidity_4": "💧 Niska wilgotność powietrza może powodować suchość skóry lub podrażnienie. Miej przy sobie butelkę wody i unikaj nadmiernej ekspozycji."
 }
