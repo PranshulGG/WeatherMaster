@@ -192,9 +192,6 @@
     "evening": "晚上",
     "night": "夜间",
     "wind_gust": "阵风",
-    "rain_expected_to_continue": "预计未来几个小时降雨还会持续",
-    "rain_likely_tomorrow_around": "明天周边可能有雨",
-    "rain_likely_around": "周边可能有雨",
     "weather_alerts": "天气预警",
     "font": "字体",
     "daily_conditions": "每日天气状况",
@@ -512,5 +509,8 @@
     "activity_suggestions_daytip_humidity_3": "🧴 空气干燥。请滋润皮肤，多喝水来保持水分。",
     "activity_suggestions_daytip_humidity_4": "💧 湿度过低可能会导致皮肤干燥或发炎。请随身携带水瓶，避免过度暴露。",
     "hide_update_icon": "Hide update icon",
-    "no_notification_when_a_new_version_is_released": "Don't show a notification when a new version is released."
+    "no_notification_when_a_new_version_is_released": "Don't show a notification when a new version is released.",
+    "precipitation_expected_to_continue": "Precipitation is expected to continue for the next few hours",
+    "Precipitation_likely_tomorrow_around": "Precipitation likely tomorrow around",
+    "precipitation_likely_around": "Precipitation likely around"
 }
