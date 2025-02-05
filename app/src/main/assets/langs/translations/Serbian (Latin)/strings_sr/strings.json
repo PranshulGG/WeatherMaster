@@ -508,9 +508,9 @@
     "temperature_wind_pressure_visibility_precipitation_time_aqi": "Temperatura, vetar, pritisak, vidljivost, padavine, vreme, AQI",
     "activity_suggestions_daytip_humidity_3": "🧴 Vazduh je suv. Vlažite kožu i pijte puno vode da ostanete hidrirani.",
     "activity_suggestions_daytip_humidity_4": "💧 Niska vlažnost može izazvati suvu kožu ili iritaciju. Držite bocu vode pri ruci i izbegavajte prekomerno izlaganje.",
-    "hide_update_icon": "Hide update icon",
-    "no_notification_when_a_new_version_is_released": "Don't show a notification when a new version is released.",
-    "precipitation_expected_to_continue": "Precipitation is expected to continue for the next few hours",
-    "Precipitation_likely_tomorrow_around": "Precipitation likely tomorrow around",
-    "precipitation_likely_around": "Precipitation likely around"
+    "hide_update_icon": "Sakrij ikonu ažuriranja",
+    "no_notification_when_a_new_version_is_released": "Ne prikazuj obaveštenje kada se objavi nova verzija.",
+    "precipitation_expected_to_continue": "U narednih nekoliko sati očekuje se nastavak padavina",
+    "Precipitation_likely_tomorrow_around": "Padavine verovatno sutra oko",
+    "precipitation_likely_around": "Padavine verovatno oko"
 }
