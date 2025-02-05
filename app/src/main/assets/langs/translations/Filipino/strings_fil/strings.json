@@ -197,7 +197,6 @@
     "rain_likely_around": "Puwedeng umulan banda",
     "weather_alerts": "Mga alerto sa panahon",
     "font": "Pont",
-    "notification_will_disappear": "Don't show a notification when a new version is released.",
     "daily_conditions": "Pang-araw-araw ng lagay",
     "sun_tile_page": "Araw",
     "morning": "Umaga",
@@ -405,7 +404,6 @@
     "weather_model_info_2": "Ipinagsasama ang lahat ng mga weather model dito sa isang seamless prediction",
     "max_items_4": "Puwede ka lang magtago hanggang 4 na mga item",
     "max_items_3": "Puwede ka lang magtago hnaggang 3 mga item",
-    "auto-hide_update_icon": "Hide update icon",
     "month_jan": "Ene",
     "month_feb": "Peb",
     "month_mar": "Mar",
@@ -512,5 +510,7 @@
     "app_units": "App units",
     "temperature_wind_pressure_visibility_precipitation_time_aqi": "Temperature, wind, pressure, visibility, precipitation, time, AQI",
     "activity_suggestions_daytip_humidity_3": "🧴 The air is dry. Moisturize your skin and drink plenty of water to stay hydrated.",
-    "activity_suggestions_daytip_humidity_4": "💧 Low humidity may cause dry skin or irritation. Keep a water bottle handy and avoid overexposure."
+    "activity_suggestions_daytip_humidity_4": "💧 Low humidity may cause dry skin or irritation. Keep a water bottle handy and avoid overexposure.",
+    "hide_update_icon": "Hide update icon",
+    "no_notification_when_a_new_version_is_released": "Don't show a notification when a new version is released."
 }
