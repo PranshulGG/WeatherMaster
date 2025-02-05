@@ -197,7 +197,6 @@
     "rain_likely_around": "Có khả năng mưa vào",
     "weather_alerts": "Cảnh báo thời tiết",
     "font": "Phông chữ",
-    "notification_will_disappear": "Don't show a notification when a new version is released.",
     "daily_conditions": "Tình trạng hàng ngày",
     "sun_tile_page": "Mặt trời mọc và lặn",
     "morning": "Buổi sáng",
@@ -405,7 +404,6 @@
     "weather_model_info_2": "Kết hợp tất cả các mô hình thời tiết dưới đây thành một dự đoán liền mạch",
     "max_items_4": "Bạn chỉ có thể ẩn tối đa 4 mục",
     "max_items_3": "Bạn chỉ có thể ẩn tối đa 3 mục",
-    "auto-hide_update_icon": "Hide update icon",
     "month_jan": "Tháng 1",
     "month_feb": "Tháng 2",
     "month_mar": "Tháng 3",
@@ -512,5 +510,7 @@
     "app_units": "App units",
     "temperature_wind_pressure_visibility_precipitation_time_aqi": "Temperature, wind, pressure, visibility, precipitation, time, AQI",
     "activity_suggestions_daytip_humidity_3": "🧴 The air is dry. Moisturize your skin and drink plenty of water to stay hydrated.",
-    "activity_suggestions_daytip_humidity_4": "💧 Low humidity may cause dry skin or irritation. Keep a water bottle handy and avoid overexposure."
+    "activity_suggestions_daytip_humidity_4": "💧 Low humidity may cause dry skin or irritation. Keep a water bottle handy and avoid overexposure.",
+    "hide_update_icon": "Hide update icon",
+    "no_notification_when_a_new_version_is_released": "Don't show a notification when a new version is released."
 }
