@@ -192,9 +192,6 @@
     "evening": "Tối",
     "night": "Đêm",
     "wind_gust": "Gió giật",
-    "rain_expected_to_continue": "Dự kiến mưa sẽ tiếp tục trong vài giờ tới",
-    "rain_likely_tomorrow_around": "Có khả năng mưa vào ngày mai",
-    "rain_likely_around": "Có khả năng mưa vào",
     "weather_alerts": "Cảnh báo thời tiết",
     "font": "Phông chữ",
     "daily_conditions": "Tình trạng hàng ngày",
@@ -512,5 +509,8 @@
     "activity_suggestions_daytip_humidity_3": "🧴 The air is dry. Moisturize your skin and drink plenty of water to stay hydrated.",
     "activity_suggestions_daytip_humidity_4": "💧 Low humidity may cause dry skin or irritation. Keep a water bottle handy and avoid overexposure.",
     "hide_update_icon": "Hide update icon",
-    "no_notification_when_a_new_version_is_released": "Don't show a notification when a new version is released."
+    "no_notification_when_a_new_version_is_released": "Don't show a notification when a new version is released.",
+    "precipitation_expected_to_continue": "Precipitation is expected to continue for the next few hours",
+    "Precipitation_likely_tomorrow_around": "Precipitation likely tomorrow around",
+    "precipitation_likely_around": "Precipitation likely around"
 }
