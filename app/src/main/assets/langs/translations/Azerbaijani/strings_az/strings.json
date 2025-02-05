@@ -197,7 +197,6 @@
     "rain_likely_around": "Yağış yağacağı ehtimalı var",
     "weather_alerts": "Hava xəbərdarlıqları",
     "font": "Şrift",
-    "notification_will_disappear": "Don't show a notification when a new version is released.",
     "daily_conditions": "Günlük şərtlər",
     "sun_tile_page": "Günəş",
     "morning": "Səhər",
@@ -405,7 +404,6 @@
     "weather_model_info_2": "Bütün hava modellərini qüsursuz bir proqnoza birləşdirir",
     "max_items_4": "Siz yalnız 4 elementi gizlədə bilərsiniz",
     "max_items_3": "You can only hide up to 3 items",
-    "auto-hide_update_icon": "Hide update icon",
     "month_jan": "Yanvar",
     "month_feb": "Fevral",
     "month_mar": "Mart",
@@ -512,5 +510,7 @@
     "app_units": "App units",
     "temperature_wind_pressure_visibility_precipitation_time_aqi": "Temperature, wind, pressure, visibility, precipitation, time, AQI",
     "activity_suggestions_daytip_humidity_3": "🧴 The air is dry. Moisturize your skin and drink plenty of water to stay hydrated.",
-    "activity_suggestions_daytip_humidity_4": "💧 Low humidity may cause dry skin or irritation. Keep a water bottle handy and avoid overexposure."
+    "activity_suggestions_daytip_humidity_4": "💧 Low humidity may cause dry skin or irritation. Keep a water bottle handy and avoid overexposure.",
+    "hide_update_icon": "Hide update icon",
+    "no_notification_when_a_new_version_is_released": "Don't show a notification when a new version is released."
 }
