@@ -197,7 +197,6 @@
     "rain_likely_around": "Πιθανή βροχή τριγύρω",
     "weather_alerts": "Ειδοποιήσεις καιρού",
     "font": "Γραμματοσειρά",
-    "notification_will_disappear": "Don't show a notification when a new version is released.",
     "daily_conditions": "Καθημερινές συνθήκες",
     "sun_tile_page": "Ηλιοφάνεια",
     "morning": "Πρωί",
@@ -405,7 +404,6 @@
     "weather_model_info_2": "Συνδυάζει όλα τα μοντέλα καιρού από αυτό σε μια απρόσκοπτη πρόβλεψη",
     "max_items_4": "Μπορείτε να αποκρύψετε μόνο έως και 4 στοιχεία",
     "max_items_3": "Μπορείτε να αποκρύψετε μόνο έως 3 στοιχεία",
-    "auto-hide_update_icon": "Hide update icon",
     "month_jan": "Ιαν.",
     "month_feb": "Φεβ.",
     "month_mar": "Μάρ.",
@@ -512,5 +510,7 @@
     "app_units": "App units",
     "temperature_wind_pressure_visibility_precipitation_time_aqi": "Temperature, wind, pressure, visibility, precipitation, time, AQI",
     "activity_suggestions_daytip_humidity_3": "🧴 The air is dry. Moisturize your skin and drink plenty of water to stay hydrated.",
-    "activity_suggestions_daytip_humidity_4": "💧 Low humidity may cause dry skin or irritation. Keep a water bottle handy and avoid overexposure."
+    "activity_suggestions_daytip_humidity_4": "💧 Low humidity may cause dry skin or irritation. Keep a water bottle handy and avoid overexposure.",
+    "hide_update_icon": "Hide update icon",
+    "no_notification_when_a_new_version_is_released": "Don't show a notification when a new version is released."
 }
