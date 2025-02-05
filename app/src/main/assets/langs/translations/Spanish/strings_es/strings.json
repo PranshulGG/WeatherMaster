@@ -197,7 +197,6 @@
     "rain_likely_around": "Probable lluvia en breve",
     "weather_alerts": "Alertas de tiempo",
     "font": "Fuente",
-    "notification_will_disappear": "Don't show a notification when a new version is released.",
     "daily_conditions": "Condiciones diarias",
     "sun_tile_page": "Sol",
     "morning": "Mañana",
@@ -405,7 +404,6 @@
     "weather_model_info_2": "Combina todos los modelos meteorológicos de estos a una predicción perfecta",
     "max_items_4": "Puedes ocultar hasta 4 elementos",
     "max_items_3": "Puedes ocultar hasta 3 elementos",
-    "auto-hide_update_icon": "Hide update icon",
     "month_jan": "Enero",
     "month_feb": "Febrero",
     "month_mar": "Marzo ",
@@ -512,5 +510,7 @@
     "app_units": "App units",
     "temperature_wind_pressure_visibility_precipitation_time_aqi": "Temperature, wind, pressure, visibility, precipitation, time, AQI",
     "activity_suggestions_daytip_humidity_3": "🧴 The air is dry. Moisturize your skin and drink plenty of water to stay hydrated.",
-    "activity_suggestions_daytip_humidity_4": "💧 Low humidity may cause dry skin or irritation. Keep a water bottle handy and avoid overexposure."
+    "activity_suggestions_daytip_humidity_4": "💧 Low humidity may cause dry skin or irritation. Keep a water bottle handy and avoid overexposure.",
+    "hide_update_icon": "Hide update icon",
+    "no_notification_when_a_new_version_is_released": "Don't show a notification when a new version is released."
 }
