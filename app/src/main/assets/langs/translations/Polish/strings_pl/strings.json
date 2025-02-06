@@ -508,11 +508,11 @@
     "temperature_wind_pressure_visibility_precipitation_time_aqi": "Temperatura, wiatr, ciśnienie, widoczność, opady, czas, AQI",
     "activity_suggestions_daytip_humidity_3": "🧴 Powietrze jest zimne. Nawilżaj swoją skórę i pij dużo wody, aby pozostać nawodnionym.",
     "activity_suggestions_daytip_humidity_4": "💧 Niska wilgotność powietrza może powodować suchość skóry lub podrażnienie. Miej przy sobie butelkę wody i unikaj nadmiernej ekspozycji.",
-    "hide_update_icon": "Hide update icon",
-    "no_notification_when_a_new_version_is_released": "Don't show a notification when a new version is released.",
-    "precipitation_expected_to_continue": "Precipitation is expected to continue for the next few hours",
-    "Precipitation_likely_tomorrow_around": "Precipitation likely tomorrow around",
-    "precipitation_likely_around": "Precipitation likely around",
-    "hrs_sub_text": "hrs",
-    "mins_sub_text": "mins"
+    "hide_update_icon": "Ukryj ikonę aktualizacji",
+    "no_notification_when_a_new_version_is_released": "Nie pokazuje powiadomienia, kiedy wydana jest nowa wersja.",
+    "precipitation_expected_to_continue": "Przewiduje się, że opady będą trwać przez następne kilka godzin",
+    "Precipitation_likely_tomorrow_around": "Opady prawdopodobnie jutro około",
+    "precipitation_likely_around": "Opady prawdopodobnie około",
+    "hrs_sub_text": "godz",
+    "mins_sub_text": "min"
 }
