@@ -513,6 +513,6 @@
     "precipitation_expected_to_continue": "U narednih nekoliko sati očekuje se nastavak padavina",
     "Precipitation_likely_tomorrow_around": "Padavine verovatno sutra oko",
     "precipitation_likely_around": "Padavine verovatno oko",
-    "hrs_sub_text": "hrs",
-    "mins_sub_text": "mins"
+    "hrs_sub_text": "sati",
+    "mins_sub_text": "min"
 }
