@@ -506,13 +506,13 @@
     "insights": "Einsichten",
     "app_units": "App-Einheiten",
     "temperature_wind_pressure_visibility_precipitation_time_aqi": "Temperatur, Wind, Druck, Sichtweite, Niederschlag, Tageszeit, Luftqualitätsindex",
-    "activity_suggestions_daytip_humidity_3": "🧴 Die Luft ist trocken. Versorgen Sie Ihre Haut mit Feuchtigkeit und trinken Sie viel Wasser, um hydriert zu bleiben.",
-    "activity_suggestions_daytip_humidity_4": "💧 Niedrige Luftfeuchtigkeit kann zu trockener Haut oder Reizungen führen. Halten Sie eine Wasserflasche bereit und vermeiden Sie dauerhafte Sonneneinstrahlung.",
-    "hide_update_icon": "Hide update icon",
-    "no_notification_when_a_new_version_is_released": "Don't show a notification when a new version is released.",
-    "precipitation_expected_to_continue": "Precipitation is expected to continue for the next few hours",
-    "Precipitation_likely_tomorrow_around": "Precipitation likely tomorrow around",
-    "precipitation_likely_around": "Precipitation likely around",
-    "hrs_sub_text": "hrs",
-    "mins_sub_text": "mins"
+    "activity_suggestions_daytip_humidity_3": "🧴 Die Luft ist trocken. Versorge deine Haut mit Feuchtigkeit und trinken Sie viel Wasser, um hydriert zu bleiben.",
+    "activity_suggestions_daytip_humidity_4": "💧 Niedrige Luftfeuchtigkeit kann zu trockener Haut oder Reizungen führen. Halte eine Wasserflasche bereit und vermeide dauerhafte Sonneneinstrahlung.",
+    "hide_update_icon": "Update ausblenden (Icon)",
+    "no_notification_when_a_new_version_is_released": "Zeige keine Benachrichtigung an, wenn eine neue Version veröffentlicht wird.",
+    "precipitation_expected_to_continue": "Der Niederschlag wird voraussichtlich in den nächsten Stunden fortgesetzt",
+    "Precipitation_likely_tomorrow_around": "Niederschlag wahrscheinlich morgen",
+    "precipitation_likely_around": "Niederschlag wahrscheinlich morgen",
+    "hrs_sub_text": "Std",
+    "mins_sub_text": "Min"
 }
