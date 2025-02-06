@@ -192,9 +192,6 @@
     "evening": "夕方",
     "night": "夜",
     "wind_gust": "突風",
-    "rain_expected_to_continue": "雨は今後数時間続くと予想されます",
-    "rain_likely_tomorrow_around": "明日は雨の可能性があります",
-    "rain_likely_around": "雨が降る可能性があります",
     "weather_alerts": "天気警報",
     "font": "フォント",
     "daily_conditions": "毎日の状況",
@@ -512,5 +509,8 @@
     "activity_suggestions_daytip_humidity_3": "🧴 The air is dry. Moisturize your skin and drink plenty of water to stay hydrated.",
     "activity_suggestions_daytip_humidity_4": "💧 Low humidity may cause dry skin or irritation. Keep a water bottle handy and avoid overexposure.",
     "hide_update_icon": "Hide update icon",
-    "no_notification_when_a_new_version_is_released": "Don't show a notification when a new version is released."
+    "no_notification_when_a_new_version_is_released": "Don't show a notification when a new version is released.",
+    "precipitation_expected_to_continue": "Precipitation is expected to continue for the next few hours",
+    "Precipitation_likely_tomorrow_around": "Precipitation likely tomorrow around",
+    "precipitation_likely_around": "Precipitation likely around"
 }

@@ -192,9 +192,6 @@
     "evening": "Abends",
     "night": "Nachts",
     "wind_gust": "Windböen",
-    "rain_expected_to_continue": "In den nächsten Stunden wird weiterhin Regen erwartet",
-    "rain_likely_tomorrow_around": "Morgen wird Regen erwartet",
-    "rain_likely_around": "Regen erwartet",
     "weather_alerts": "Wetterwarnungen",
     "font": "Schriftart",
     "daily_conditions": "Tagesbedingungen",
@@ -512,5 +509,8 @@
     "activity_suggestions_daytip_humidity_3": "🧴 Die Luft ist trocken. Versorgen Sie Ihre Haut mit Feuchtigkeit und trinken Sie viel Wasser, um hydriert zu bleiben.",
     "activity_suggestions_daytip_humidity_4": "💧 Niedrige Luftfeuchtigkeit kann zu trockener Haut oder Reizungen führen. Halten Sie eine Wasserflasche bereit und vermeiden Sie dauerhafte Sonneneinstrahlung.",
     "hide_update_icon": "Hide update icon",
-    "no_notification_when_a_new_version_is_released": "Don't show a notification when a new version is released."
+    "no_notification_when_a_new_version_is_released": "Don't show a notification when a new version is released.",
+    "precipitation_expected_to_continue": "Precipitation is expected to continue for the next few hours",
+    "Precipitation_likely_tomorrow_around": "Precipitation likely tomorrow around",
+    "precipitation_likely_around": "Precipitation likely around"
 }
