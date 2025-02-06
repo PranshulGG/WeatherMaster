@@ -512,5 +512,8 @@
     "no_notification_when_a_new_version_is_released": "Don't show a notification when a new version is released.",
     "precipitation_expected_to_continue": "Precipitation is expected to continue for the next few hours",
     "Precipitation_likely_tomorrow_around": "Precipitation likely tomorrow around",
-    "precipitation_likely_around": "Precipitation likely around"
+    "precipitation_likely_around": "Precipitation likely around",
+    "hrs_sub_text": "hrs",
+    "mins_sub_text": "mins"
+    
 }
