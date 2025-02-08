@@ -513,6 +513,6 @@
     "precipitation_expected_to_continue": "Ожидается, что осадки продолжатся в течение следующих нескольких часов",
     "Precipitation_likely_tomorrow_around": "Вероятность осадков завтра около",
     "precipitation_likely_around": "Вероятность осадков около",
-    "hrs_sub_text": "hrs",
-    "mins_sub_text": "mins"
+    "hrs_sub_text": "часы",
+    "mins_sub_text": "минуты"
 }
