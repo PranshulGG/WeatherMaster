@@ -392,7 +392,7 @@
     "high_forecast_uv": "زیاد",
     "very_high_forecast_uv": "خیلی زیاد",
     "extreme_forecast_uv": "شدید",
-    "app_looks": "App looks",
+    "app_looks": "",
     "temp_animation_sub_pref": "Counts the temperatures from start to end",
     "hide_condition_widgets": "Hide condition widgets",
     "info_home_location_tip": "You need to save locations to use them as your default location",
