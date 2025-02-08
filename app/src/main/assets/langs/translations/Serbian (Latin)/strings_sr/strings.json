@@ -512,5 +512,7 @@
     "no_notification_when_a_new_version_is_released": "Ne prikazuj obaveštenje kada se objavi nova verzija.",
     "precipitation_expected_to_continue": "U narednih nekoliko sati očekuje se nastavak padavina",
     "Precipitation_likely_tomorrow_around": "Padavine verovatno sutra oko",
-    "precipitation_likely_around": "Padavine verovatno oko"
+    "precipitation_likely_around": "Padavine verovatno oko",
+    "hrs_sub_text": "sati",
+    "mins_sub_text": "min"
 }
