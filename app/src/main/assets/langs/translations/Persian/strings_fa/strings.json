@@ -392,7 +392,7 @@
     "high_forecast_uv": "زیاد",
     "very_high_forecast_uv": "خیلی زیاد",
     "extreme_forecast_uv": "شدید",
-    "app_looks": "App looks",
+    "app_looks": "",
     "temp_animation_sub_pref": "Counts the temperatures from start to end",
     "hide_condition_widgets": "Hide condition widgets",
     "info_home_location_tip": "You need to save locations to use them as your default location",
@@ -512,5 +512,7 @@
     "no_notification_when_a_new_version_is_released": "Don't show a notification when a new version is released.",
     "precipitation_expected_to_continue": "Precipitation is expected to continue for the next few hours",
     "Precipitation_likely_tomorrow_around": "Precipitation likely tomorrow around",
-    "precipitation_likely_around": "Precipitation likely around"
+    "precipitation_likely_around": "Precipitation likely around",
+    "hrs_sub_text": "hrs",
+    "mins_sub_text": "mins"
 }
