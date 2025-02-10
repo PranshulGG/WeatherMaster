@@ -441,7 +441,7 @@
     "delete": "Elimina",
     "united_states_aqi": "AQI degli Stati Uniti",
     "european_aqi": "AQI dell'Europa",
-    "chances": "Chances",
+    "chances": "Possibilità",
     "activity_suggestions_temp_1": "🥶Freddo estremo: a temperature inferiori a -40°C (-40°F), è necessario un dispositivo ad alto isolamento. Indossa un parka in piuma con strati esterni antivento, passamontagna, strati di base termici, calzini di lana spessa, stivali isolati e una maschera per il viso. Tutta la pelle esposta deve essere coperta per evitare il congelamento.",
     "activity_suggestions_temp_2": "🥶 Freddo estremo: Indossare strati di base termici (sopra e sotto), un cappotto in piuma o sintetico, calze di lana spesse, stivali isolati e un cappello di lana. Assicuratevi d'indossare guanti e una sciarpa per coprire la pelle esposta.",
     "activity_suggestions_temp_3": "🥶 Molto freddo: È necessaria una giacca invernale pesante. Indossate leggings termici, calze di lana spesse e stivali isolati. Guanti e un cappello di lana vi terranno al caldo. La stratificazione è fondamentale a queste temperature rigide.",
@@ -467,7 +467,7 @@
     "activity_suggestions_uvIndex_7": "🌙 Optate per indumenti o accessori riflettenti per una migliore visibilità in condizioni di scarsa illuminazione.",
     "activity_suggestions_weatherDescription_1": "🌤️️ Da sereno a parzialmente nuvoloso. Tempo complessivamente confortevole.",
     "activity_suggestions_weatherDescription_2": "🌫️ Condizioni di nebbia. Guidare con prudenza e usare i fari antinebbia.",
-    "activity_suggestions_weatherDescription_3": "🌦️️ Light drizzle expected. Carry a waterproof jacket or umbrella.",
+    "activity_suggestions_weatherDescription_3": "🌦️️ È prevista una leggera pioggerellina. Portare con sé una giacca impermeabile o un ombrello.",
     "activity_suggestions_weatherDescription_4": "🌧️️Tempo piovoso. È indispensabile portare con sé un impermeabile o un ombrello.",
     "activity_suggestions_weatherDescription_5": "❄️Previste nevicate. Indossare abbigliamento termico e stivali da neve.",
     "activity_suggestions_weatherDescription_6": "⛈️ Probabili temporali. Rimanere in casa se possibile.",
@@ -501,7 +501,7 @@
     "activity_suggestions_daytip_aqi_2": " 🚶‍♂️Prendete in considerazione una passeggiata nella natura o un picnic: le condizioni odierne sono ideali per trascorrere del tempo all'aria aperta.",
     "activity_suggestions_daytip_aqi_3": "🏠 Potrebbe essere una buona giornata per stare in casa e godersi una bevanda calda. Considerate un'attività accogliente come la lettura.",
     "activity_suggestions_daytip_aqi_4": "📺 Pianificate le attività al chiuso, soprattutto se siete sensibili alla qualità dell'aria o al freddo.",
-    "temperature": "Temperature",
+    "temperature": "Temperatura",
     "show_summary_toggle_sub": "Mostra un breve riepilogo del tempo",
     "insights": "Approfondimenti",
     "app_units": "Unità app",
@@ -514,5 +514,5 @@
     "Precipitation_likely_tomorrow_around": "Precipitazioni probabili domani intorno a",
     "precipitation_likely_around": "Precipitazioni probabili intorno a",
     "hrs_sub_text": "ore",
-    "mins_sub_text": "min"
+    "mins_sub_text": "minuti"
 }
