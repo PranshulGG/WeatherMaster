@@ -508,11 +508,11 @@
     "temperature_wind_pressure_visibility_precipitation_time_aqi": "Température, vent, pression, visibilité, précipitation, heure, IQA",
     "activity_suggestions_daytip_humidity_3": "🧴 L'air est sec. Hydratez votre peau et buvez beaucoup d'eau pour rester hydraté.",
     "activity_suggestions_daytip_humidity_4": " 💧 L'humidité basse peut causer une peau sèche ou des irritations. Gardez une bouteille d'eau à portée de main et évitez une surexposition.",
-    "hide_update_icon": "Hide update icon",
-    "no_notification_when_a_new_version_is_released": "Don't show a notification when a new version is released.",
-    "precipitation_expected_to_continue": "Precipitation is expected to continue for the next few hours",
-    "Precipitation_likely_tomorrow_around": "Precipitation likely tomorrow around",
-    "precipitation_likely_around": "Precipitation likely around",
-    "hrs_sub_text": "hrs",
-    "mins_sub_text": "mins"
+    "hide_update_icon": "Masquer l'icône de mise à jour",
+    "no_notification_when_a_new_version_is_released": "Ne pas afficher de notification lorsqu'une nouvelle version est publiée.",
+    "precipitation_expected_to_continue": "Les précipitations devraient se poursuivre pendant les prochaines heures.",
+    "Precipitation_likely_tomorrow_around": "Précipitations probables demain autour de",
+    "precipitation_likely_around": "Précipitations probables autour de",
+    "hrs_sub_text": "h",
+    "mins_sub_text": "min"
 }
