@@ -514,5 +514,8 @@
     "Precipitation_likely_tomorrow_around": "Padavine verovatno sutra oko",
     "precipitation_likely_around": "Padavine verovatno oko",
     "hrs_sub_text": "sati",
-    "mins_sub_text": "min"
+    "mins_sub_text": "min",
+    "loading_text": "Loading...",
+    "edit_location_headline": "Edit location",
+    "edit_location_error_sub": "Please fill in the field or reset it"
 }
