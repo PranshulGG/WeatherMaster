@@ -515,7 +515,7 @@
     "precipitation_likely_around": "Πιθανή βροχόπτωση στην γύρω περιοχή",
     "hrs_sub_text": "ώρες",
     "mins_sub_text": "λεπτά",
-    "loading_text": "Loading...",
-    "edit_location_headline": "Edit location",
-    "edit_location_error_sub": "Please fill in the field or reset it"
+    "loading_text": "Φορτώνει...",
+    "edit_location_headline": "Επεξεργασία τοποθεσίας",
+    "edit_location_error_sub": "Παρακαλώ συμπληρώστε το πεδίο ή κάνετε επαναφορά"
 }
