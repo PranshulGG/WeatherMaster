@@ -514,5 +514,8 @@
     "Precipitation_likely_tomorrow_around": "明天周边可能有降水",
     "precipitation_likely_around": "周边可能有降水",
     "hrs_sub_text": "小时",
-    "mins_sub_text": "分钟"
+    "mins_sub_text": "分钟",
+    "loading_text": "Loading...",
+    "edit_location_headline": "Edit location",
+    "edit_location_error_sub": "Please fill in the field or reset it"
 }
