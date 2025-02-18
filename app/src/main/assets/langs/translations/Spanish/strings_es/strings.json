@@ -514,5 +514,8 @@
     "Precipitation_likely_tomorrow_around": "Probabilidad de precipitación mañana alrededor de",
     "precipitation_likely_around": "Probabilidad de precipitación alrededor de",
     "hrs_sub_text": "hrs",
-    "mins_sub_text": "min."
+    "mins_sub_text": "min.",
+    "loading_text": "Loading...",
+    "edit_location_headline": "Edit location",
+    "edit_location_error_sub": "Please fill in the field or reset it"
 }
