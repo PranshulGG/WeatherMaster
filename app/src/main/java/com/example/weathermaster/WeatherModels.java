@@ -53,7 +53,6 @@ public class WeatherModels extends AppCompatActivity {
 
 
 
-        // Webview stuff
         webview = findViewById(R.id.webView);
         WebSettings webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true);
