@@ -515,7 +515,7 @@
     "precipitation_likely_around": "Có khả năng trời sẽ mưa vào khoảng",
     "hrs_sub_text": "giờ",
     "mins_sub_text": "phút",
-    "loading_text": "Loading...",
+    "loading_text": "Đang tải...",
     "edit_location_headline": "Edit location",
     "edit_location_error_sub": "Please fill in the field or reset it"
 }
