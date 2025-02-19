@@ -170,6 +170,8 @@
               <div class="color-item" style="--clr: #e92315; --clr-check: rgb(255, 255, 255);"  theme-value="red_material"></div>
               <div class="color-item" style="--clr: #e91e63; --clr-check: rgb(255, 255, 255);"  theme-value="pink_material"></div>
               <div class="color-item" style="--clr:  #da7e07; --clr-check: rgb(255, 255, 255);"theme-value="orange_material"></div>
+              <div class="color-item" style="--clr:  #414141; --clr-check: rgb(255, 255, 255);" theme-value="mono_material"></div>
+
             </div>
           </div>
         </md-list-item>
@@ -254,7 +256,7 @@
           <md-switch slot="end" id="autoUpdateOldWeather"></md-switch>
         </md-list-item>
 
-        <md-list-item>
+        <md-list-item id="froggy_summary_item">
           <md-icon icon-filled slot="start">summarize</md-icon>
           <div slot="headline" data-translate="froggy_summary">Froggy summary</div>
           <div slot="supporting-text" data-translate="froggy_summary_sub">Adds frog-related descriptions. Available only in English</div>
@@ -263,9 +265,17 @@
 
 
         <md-list-item>
+          <md-icon icon-filled slot="start">summarize</md-icon>
+          <div slot="headline" data-translate="quick_summary">Quick summary</div>
+          <div slot="supporting-text" data-translate="show_summary_toggle_sub">Show a brief summary of the weather</div>
+          <md-switch slot="end" id="useQuickSummarySwitch" selected></md-switch>
+        </md-list-item>
+
+
+        <md-list-item>
           <md-icon icon-filled slot="start">notifications_unread</md-icon>
-          <div slot="headline" data-translate="auto-hide_update_icon">Auto-hide update icon</div>
-          <div slot="supporting-text" data-translate="notification_will_disappear">The notification will disappear after 5 seconds.</div>
+          <div slot="headline" data-translate="hide_update_icon">Hide update icon</div>
+          <div slot="supporting-text" data-translate="no_notification_when_a_new_version_is_released">Don't show a notification when a new version is released.</div>
           <md-switch slot="end" id="HideNewUpdateToastSwitch"></md-switch>
         </md-list-item>
 
@@ -567,6 +577,7 @@ function hexToRgb(hex) {
     };
 }
 
+
 function rgbToHsl({ r, g, b }) {
     r /= 255;
     g /= 255;
@@ -600,8 +611,11 @@ function CreateMaterialYouTheme(hex) {
         purple_material: "#800080",
         blue_material: "#0000FF",
         yellow_material: "#FFFF00",
-        green_material: "#008000"
+        green_material: "#008000",
+        mono_material: "#e2e2e2"
     };
+
+
 
     const targetHsl = rgbToHsl(hexToRgb(hex));
     let closestColor = null;
@@ -610,13 +624,16 @@ function CreateMaterialYouTheme(hex) {
     for (const [color, colorHex] of Object.entries(colors)) {
         const colorHsl = rgbToHsl(hexToRgb(colorHex));
         const hueDifference = Math.abs(targetHsl.h - colorHsl.h);
-
+        if (targetHsl.s < 10) {
+            closestColor = "mono_material";
+            break;
+        }
         if (hueDifference < smallestHueDifference) {
             smallestHueDifference = hueDifference;
             closestColor = color;
         }
-    }
 
+}
 
  if(localStorage.getItem("useDynamicColors") && localStorage.getItem("useDynamicColors") === "false"){
 

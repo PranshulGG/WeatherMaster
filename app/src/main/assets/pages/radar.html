@@ -318,7 +318,8 @@ async function CreateMaterialYouTheme(hex) {
         purple_material: "#800080",
         blue_material: "#0000FF",
         yellow_material: "#FFFF00",
-        green_material: "#008000"
+        green_material: "#008000",
+        mono_material: "#e2e2e2"
     };
 
     const targetHsl = rgbToHsl(hexToRgb(hex));
@@ -328,7 +329,10 @@ async function CreateMaterialYouTheme(hex) {
     for (const [color, colorHex] of Object.entries(colors)) {
         const colorHsl = rgbToHsl(hexToRgb(colorHex));
         const hueDifference = Math.abs(targetHsl.h - colorHsl.h);
-
+        if (targetHsl.s < 10) {
+            closestColor = "mono_material";
+            break;
+        }
         if (hueDifference < smallestHueDifference) {
             smallestHueDifference = hueDifference;
             closestColor = color;

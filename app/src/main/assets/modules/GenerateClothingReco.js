@@ -27,7 +27,7 @@ function GenerateRecommendation() {
     const locationElement = document.getElementById('location_name');
     locationElement.innerHTML = currentLocationData === 'CurrentDeviceLocation'
         ? getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'current_location')
-        : currentLocationData;
+        : JSON.parse(localStorage.getItem("savedLocationsCustomName"))?.[currentLocationData] || currentLocationData;
 
     const recommendationsContainer = document.getElementById('recommendations');
     const dayTipContainer = document.getElementById('day_tip');
@@ -282,10 +282,12 @@ function generateDayTip(morningAvg, eveningAvg, nightAvg, aqi) {
         ]);
     } else if (overallAvgHumidity < 20) {
         dayTip += getRandomItem([
-            "<li>🧴 The air is dry. Moisturize your skin and drink plenty of water to stay hydrated.</li>",
-            "<li>💧 Low humidity may cause dry skin or irritation. Keep a water bottle handy and avoid overexposure.</li>"
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_daytip_humidity_3")}</li>`,
+            `<li>${getTranslationByLang(localStorage.getItem("AppLanguageCode"), "activity_suggestions_daytip_humidity_4")}</li>`
         ]);
     }
+
+
 
     // Air Quality Advice
     dayTip += getAirQualitySuggestion(aqi);

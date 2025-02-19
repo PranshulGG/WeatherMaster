@@ -326,6 +326,22 @@ touch_search{
 }
 
 
+.high-all.no_summary{
+  border-radius: 18px 18px 0 0;
+  margin-top: 10px;
+}
+
+ .high-all.no_summary .high-mini{
+    background-color: rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  margin: 8px;
+  margin-bottom: 8px;
+  margin-top: 10px;
+  border-radius: 50px;
+}
+
+
+
 .high-mini {
   display: flex;
   align-items: center;

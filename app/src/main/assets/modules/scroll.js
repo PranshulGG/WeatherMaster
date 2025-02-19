@@ -267,7 +267,7 @@ if (!touchEventAdded) {
                  document.getElementById("city-name").innerHTML = getTranslationByLang(localStorage.getItem("AppLanguageCode"), "current_location");
             } else{
                 LoadLocationOnRequest(savedLocations[currentIndex]?.lat, savedLocations[currentIndex]?.lon, savedLocations[currentIndex]?.locationName)
-            document.getElementById("city-name").innerHTML = savedLocations[currentIndex]?.locationName;
+            document.getElementById("city-name").innerHTML = JSON.parse(localStorage.getItem("savedLocationsCustomName"))?.[savedLocations[currentIndex]?.locationName] || savedLocations[currentIndex]?.locationName;
 
             }
 
@@ -308,7 +308,7 @@ if (!touchEventAdded) {
 
             } else{
                 LoadLocationOnRequest(savedLocations[currentIndex]?.lat, savedLocations[currentIndex]?.lon, savedLocations[currentIndex]?.locationName)
-            document.getElementById("city-name").innerHTML = savedLocations[currentIndex]?.locationName;
+            document.getElementById("city-name").innerHTML = JSON.parse(localStorage.getItem("savedLocationsCustomName"))?.[savedLocations[currentIndex]?.locationName] || savedLocations[currentIndex]?.locationName;
 
             }
 

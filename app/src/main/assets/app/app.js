@@ -1,5 +1,6 @@
 
 const DefaultLocation = JSON.parse(localStorage.getItem("DefaultLocation"));
+const savedLocationsNameCustom = JSON.parse(localStorage.getItem("savedLocationsCustomName"));
 
 let currentApiKeyIndex = 0;
 
@@ -1256,7 +1257,7 @@ async function loadSavedLocations() {
             </md-filled-icon-button>
         </savedlocationimg>
         <div>
-            <p>${location.locationName}</p>
+            <p>${JSON.parse(localStorage.getItem("savedLocationsCustomName"))?.[location.locationName] ||location.locationName}</p>
             <span>${conditionlabel}</span>
             <mainCurrenttempSaved>${temp}°</mainCurrenttempSaved>
         </div>
@@ -3412,7 +3413,7 @@ async function loadSavedLocations() {
 
       localStorage.setItem("CurrentLocationName", location.locationName);
 
-      document.getElementById("city-name").innerHTML = location.locationName;
+      document.getElementById("city-name").innerHTML = JSON.parse(localStorage.getItem("savedLocationsCustomName"))?.[location.locationName] || location.locationName;
       document.getElementById("forecast").scrollLeft = 0;
       document.getElementById("weather_wrap").scrollTop = 0;
       window.history.back();
@@ -3537,6 +3538,7 @@ function onAllLocationsLoaded() {
   clearTimeout(debounceTimeout);
   document.querySelector("savedLocationsHolder").innerHTML =
     '<empty_loader style="display: flex; align-items: center; justify-content: center;"><md-circular-progress indeterminate></md-circular-progress></empty_loader>';
+
   debounceTimeout = setTimeout(() => {
       localStorage.removeItem(`SearchedItem`);
     loadSavedLocations();
@@ -3834,34 +3836,35 @@ document.addEventListener("DOMContentLoaded", () => {
   checkNoInternet();
 });
 
+
 document.addEventListener("DOMContentLoaded", async function () {
-  const currentVersion = "v1.17.1";
+  if (localStorage.getItem("HideNewUpdateToast") === "true") {
+    return;
+  }
+
+  const currentVersion = "v1.18.0";
   const githubRepo = "PranshulGG/WeatherMaster";
-  const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
+  const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases`;
 
   try {
     const response = await fetch(releasesUrl);
     if (!response.ok) throw new Error("Network response was not ok.");
 
     const data = await response.json();
-    const latestVersion = data.tag_name;
 
-    if (latestVersion !== currentVersion) {
-      if (localStorage.getItem("HideNewUpdateToast") === "true") {
-        document.querySelector(".new_ver_download").hidden = false;
+    const stableRelease = data.find(release => !release.prerelease);
 
-        setTimeout(() => {
-          document.querySelector(".new_ver_download").hidden = true;
-        }, 8000);
-      } else {
-        document.querySelector(".new_ver_download").hidden = false;
-      }
+    if (stableRelease && stableRelease.tag_name !== currentVersion) {
+      document.querySelector(".new_ver_download").hidden = false;
     } else {
       document.querySelector(".new_ver_download").hidden = true;
-      return;
     }
-  } catch (error) {}
+
+  } catch (error) {
+    console.error("Error checking for updates:", error);
+  }
 });
+
 
 const scrollView = document.querySelector(".insights");
 
@@ -5632,8 +5635,8 @@ document.getElementById('last_updated').addEventListener('click', () =>{
         "current_location"
       );
   } else {
-    document.getElementById("city-name").innerHTML = Locations.name;
-    document.getElementById("currentLocationName").textContent = Locations.name;
+    document.getElementById("city-name").innerHTML = JSON.parse(localStorage.getItem("savedLocationsCustomName"))?.[Locations.name] || Locations.name;
+    document.getElementById("currentLocationName").textContent = JSON.parse(localStorage.getItem("savedLocationsCustomName"))?.[Locations.name] || Locations.name;
   }
   document.getElementById("SelectedLocationText").innerHTML = Locations.name;
   localStorage.setItem("CurrentLocationName", Locations.name);
@@ -7502,3 +7505,32 @@ const handleWidthChange = (mq) => {
 handleWidthChange(mediaQuery);
 
 mediaQuery.addListener(handleWidthChange);
+
+//-----------------------------
+
+async function applySummaryConfig(){
+  if(await customStorage.getItem('UseQuickSummary') === false){
+    document.querySelector('.weatherCommentsDiv').hidden = true;
+    document.querySelector('.high-all').classList.add('no_summary')
+
+  } else{
+    document.querySelector('.weatherCommentsDiv').hidden = false;
+    document.querySelector('.high-all').classList.remove('no_summary')
+
+  }
+}
+
+applySummaryConfig()
+
+
+function handleStorageSummaryConfigEvent(event) {
+  if (event.detail && event.detail.key === 'UseQuickSummary') {
+
+      setTimeout(() => {
+        applySummaryConfig()()
+      }, 200);
+
+  }
+}
+
+window.addEventListener('indexedDBChange', handleStorageSummaryConfigEvent);

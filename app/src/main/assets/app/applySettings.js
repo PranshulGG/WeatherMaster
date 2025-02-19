@@ -4,6 +4,13 @@ function handleStorageChange(event) {
         case 'SelectedTempUnit':
             HandleNoReloadSettings()
             break;
+        case 'savedLocationsCustomName':
+          HandleNoReloadSettings()
+        document.getElementById("city-name").innerHTML = JSON.parse(localStorage.getItem("savedLocationsCustomName"))?.[localStorage.getItem('CurrentLocationName')] || localStorage.getItem('CurrentLocationName');
+
+        document.getElementById("currentLocationName").textContent = JSON.parse(localStorage.getItem("savedLocationsCustomName"))?.[JSON.parse(localStorage.getItem('DefaultLocation')).name] || JSON.parse(localStorage.getItem('DefaultLocation')).name;
+
+          break;
         case 'SelectedWindUnit':
            HandleNoReloadSettings()
             break;

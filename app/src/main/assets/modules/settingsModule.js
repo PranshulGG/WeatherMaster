@@ -779,3 +779,31 @@ if (autoUpdateOldWeatherSwitchData === "true") {
 } else {
   autoUpdateOldWeatherSwitch.selected = false;
 }
+
+// use quick summary
+
+document.getElementById('useQuickSummarySwitch').addEventListener('change', async () =>{
+  await customStorage.setItem('UseQuickSummary', document.getElementById('useQuickSummarySwitch').selected);
+  if(!document.getElementById('useQuickSummarySwitch').selected){
+    document.getElementById('froggy_summary_item').disabled = true;
+  } else{
+    document.getElementById('froggy_summary_item').disabled = false;
+  }
+})
+
+
+async function retrieveQuickSummarySwitch(){
+  if(await customStorage.getItem('UseQuickSummary') === false){
+    document.getElementById('useQuickSummarySwitch').selected = false
+    document.getElementById('froggy_summary_item').disabled = true;
+  } else{
+    document.getElementById('useQuickSummarySwitch').selected = true
+    document.getElementById('froggy_summary_item').disabled = false;
+
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () =>{
+  retrieveQuickSummarySwitch()
+});
+

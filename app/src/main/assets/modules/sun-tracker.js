@@ -51,8 +51,6 @@ async function openSummery(){
         document.querySelector('#arrow_up_toggle').innerHTML = 'keyboard_arrow_down';
         document.getElementById('lock_summary').style.width = '0';
 
-
-
     }
 
 

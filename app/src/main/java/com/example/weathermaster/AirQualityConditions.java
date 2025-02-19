@@ -194,6 +194,16 @@ public class AirQualityConditions extends AppCompatActivity {
                         navigationBarColor = 0xFF12140e;
                         systemUiVisibilityFlags = 0;
 
+                    } else if(color.equals("mono_material_Scrolled")){
+                        statusBarColor = 0xFF201f1f;
+                        navigationBarColor = 0xFF141313;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("mono_material_ScrollFalse")) {
+                        statusBarColor = 0xFF141313;
+                        navigationBarColor = 0xFF141313;
+                        systemUiVisibilityFlags = 0;
+
                     } else if (color.equals("orange_material_DialogNotScrolled")){
                         statusBarColor = 0xFF0a0705;
                         navigationBarColor = 0xFF0a0705;
@@ -264,6 +274,15 @@ public class AirQualityConditions extends AppCompatActivity {
                         navigationBarColor = 0xFF070806;
                         systemUiVisibilityFlags = 0;
 
+                    } else if(color.equals("mono_material_DialogNotScrolled")){
+                        statusBarColor = 0xFF060606;
+                        navigationBarColor = 0xFF060606;
+                        systemUiVisibilityFlags = 0;
+
+                    } else if (color.equals("mono_material_DialogScrolled")) {
+                        statusBarColor = 0xFF0d0c0c;
+                        navigationBarColor = 0xFF060606;
+                        systemUiVisibilityFlags = 0;
 
                     } else if (color.equals("GoBack")){
                         back();

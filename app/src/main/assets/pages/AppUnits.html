@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <title>Locations</title>
+    <title>App units</title>
     <script src="../database/MainDataBase.js"></script>
     <link rel="stylesheet" href="../ui-files/font-usage.css">
     <link rel="stylesheet" href="../ui-files/variables.css">
@@ -160,7 +160,7 @@
 
             <!-- temp dialog -->
 
-            <md-dialog id="temp_unit_selection_dialog">
+            <md-dialog id="temp_unit_selection_dialog" style="min-width: 85%;">
                 <div slot="headline" data-translate="temperature_unit">Temperature Unit</div>
 
                 <div slot="content" class="radios_units_dialog">
@@ -180,7 +180,7 @@
 
             <!-- wind dialog -->
 
-            <md-dialog id="wind_unit_selection_dialog">
+            <md-dialog id="wind_unit_selection_dialog" style="min-width: 85%;">
                 <div slot="headline" data-translate="wind_unit">Wind Unit</div>
 
                 <div slot="content" class="radios_units_dialog">
@@ -208,7 +208,7 @@
 
             <!-- visibility dialog -->
 
-            <md-dialog id="visibility_unit_selection_dialog">
+            <md-dialog id="visibility_unit_selection_dialog" style="min-width: 85%;">
                 <div slot="headline" data-translate="visibility_unit">Visibility Unit</div>
 
                 <div slot="content" class="radios_units_dialog">
@@ -228,7 +228,7 @@
 
             <!-- precipitation dialog -->
 
-            <md-dialog id="precipitation_unit_selection_dialog">
+            <md-dialog id="precipitation_unit_selection_dialog" style="min-width: 85%;">
                 <div slot="headline" data-translate="precipitation_unit">Precipitation Unit</div>
 
                 <div slot="content" class="radios_units_dialog">
@@ -252,7 +252,7 @@
 
             <!-- pressure dialog -->
 
-            <md-dialog id="pressure_unit_selection_dialog">
+            <md-dialog id="pressure_unit_selection_dialog" style="min-width: 85%;">
                 <div slot="headline" data-translate="pressure_unit">Pressure Unit</div>
 
                 <div slot="content" class="radios_units_dialog">
@@ -276,7 +276,7 @@
 
             <!-- time dialog -->
 
-            <md-dialog id="time_unit_selection_dialog">
+            <md-dialog id="time_unit_selection_dialog" style="min-width: 85%;">
                 <div slot="headline" data-translate="time_format">Time format</div>
 
                 <div slot="content" class="radios_units_dialog">
@@ -296,7 +296,7 @@
 
             <!-- aqi dialog -->
 
-            <md-dialog id="aqi_unit_selection_dialog">
+            <md-dialog id="aqi_unit_selection_dialog" style="min-width: 85%;">
                 <div slot="headline" data-translate="aqi_type">AQI type</div>
 
                 <div slot="content" class="radios_units_dialog">
@@ -363,7 +363,8 @@ async function CreateMaterialYouTheme(hex) {
         purple_material: "#800080",
         blue_material: "#0000FF",
         yellow_material: "#FFFF00",
-        green_material: "#008000"
+        green_material: "#008000",
+        mono_material: "#e2e2e2"
     };
 
     const targetHsl = rgbToHsl(hexToRgb(hex));
@@ -373,7 +374,10 @@ async function CreateMaterialYouTheme(hex) {
     for (const [color, colorHex] of Object.entries(colors)) {
         const colorHsl = rgbToHsl(hexToRgb(colorHex));
         const hueDifference = Math.abs(targetHsl.h - colorHsl.h);
-
+        if (targetHsl.s < 10) {
+            closestColor = "mono_material";
+            break;
+        }
         if (hueDifference < smallestHueDifference) {
             smallestHueDifference = hueDifference;
             closestColor = color;
@@ -586,21 +590,21 @@ async function CreateMaterialYouTheme(hex) {
     }
 
     if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
-            if(SelectedTempUnit === 'Beaufort'){
+            if(SelectedWindUnit === 'Beaufort'){
         data_selected_wind_unit_text.innerHTML = '蒲福风级'
-        } else if(SelectedTempUnit === 'mile'){
+        } else if(SelectedWindUnit === 'mile'){
             data_selected_wind_unit_text.innerHTML = '英里/时';
-        } else if(SelectedTempUnit === 'M/s'){
+        } else if(SelectedWindUnit === 'M/s'){
             data_selected_wind_unit_text.innerHTML = '米/秒';
         }else{
             data_selected_wind_unit_text.innerHTML = '公里/时'
         }
         } else{
-        if(SelectedTempUnit === 'Beaufort'){
+        if(SelectedWindUnit === 'Beaufort'){
         data_selected_wind_unit_text.innerHTML = 'Beaufort'
-        } else if(SelectedTempUnit === 'mile'){
+        } else if(SelectedWindUnit === 'mile'){
             data_selected_wind_unit_text.innerHTML = 'Mph';
-        } else if(SelectedTempUnit === 'M/s'){
+        } else if(SelectedWindUnit === 'M/s'){
             data_selected_wind_unit_text.innerHTML = 'M/s';
         }else{
             data_selected_wind_unit_text.innerHTML = 'Km/h'
@@ -609,13 +613,13 @@ async function CreateMaterialYouTheme(hex) {
 
 
         if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
-            if(SelectedTempUnit === 'mileV'){
+            if(selectedVisibilityUnit === 'mileV'){
             data_selected_visibility_unit_text.innerHTML = '英里'
         } else{
             data_selected_visibility_unit_text.innerHTML = '公里';
         }
         } else{
-            if(SelectedTempUnit === 'mileV'){
+            if(selectedVisibilityUnit === 'mileV'){
             data_selected_visibility_unit_text.innerHTML = 'Mile'
         } else{
             data_selected_visibility_unit_text.innerHTML = 'Km';
@@ -623,17 +627,17 @@ async function CreateMaterialYouTheme(hex) {
         }
 
         if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
-            if(SelectedTempUnit === 'cm'){
+            if(selectedPrecipitationUnit === 'cm'){
             data_selected_precipitation_unit_text.innerHTML = '厘米'
-        } else if(SelectedTempUnit === 'in'){
+        } else if(selectedPrecipitationUnit === 'in'){
             data_selected_precipitation_unit_text.innerHTML = '英寸';
         }else{
             data_selected_precipitation_unit_text.innerHTML = '毫米'
         }
         } else{
-            if(SelectedTempUnit === 'cm'){
+            if(selectedPrecipitationUnit === 'cm'){
             data_selected_precipitation_unit_text.innerHTML = 'cm'
-        } else if(SelectedTempUnit === 'in'){
+        } else if(selectedPrecipitationUnit === 'in'){
             data_selected_precipitation_unit_text.innerHTML = 'in';
         }else{
             data_selected_precipitation_unit_text.innerHTML = 'mm'
@@ -641,30 +645,30 @@ async function CreateMaterialYouTheme(hex) {
         }
 
         if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
-            if(SelectedTempUnit === 'inHg'){
+            if(selectedPressureUnit === 'inHg'){
             data_selected_pressure_unit_text.innerHTML = '英寸汞柱'
-        } else if(SelectedTempUnit === 'mmHg'){
+        } else if(selectedPressureUnit === 'mmHg'){
             data_selected_pressure_unit_text.innerHTML = '毫米汞柱';
         }else{
             data_selected_pressure_unit_text.innerHTML = '百帕'
         }
         } else{
-            if(SelectedTempUnit === 'inHg'){
+            if(selectedPressureUnit === 'inHg'){
             data_selected_pressure_unit_text.innerHTML = 'inHg'
-        } else if(SelectedTempUnit === 'mmHg'){
+        } else if(selectedPressureUnit === 'mmHg'){
             data_selected_pressure_unit_text.innerHTML = 'mmHg';
         }else{
             data_selected_pressure_unit_text.innerHTML = 'hPa'
         }
         }
 
-        if(SelectedTempUnit === '24 hour'){
+        if(selectedTimeMode === '24 hour'){
             data_selected_time_unit_text.innerHTML = '24 hour'
         } else{
             data_selected_time_unit_text.innerHTML = '12 hour';
         }
 
-        if(SelectedTempUnit === 'eu_aqi'){
+        if(selectedAQItype === 'eu_aqi'){
             data_selected_aqi_unit_text.innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'european_aqi')
         } else{
             data_selected_aqi_unit_text.innerHTML = getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'united_states_aqi')

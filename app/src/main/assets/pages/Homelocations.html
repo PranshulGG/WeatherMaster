@@ -57,31 +57,53 @@
         }
 
         .location_item {
-            min-height: 65px;
+            min-height: calc(65px - 20px);
             display: flex;
             align-items: center;
-            padding: 0px;
-            padding-left: 15px;
-            padding-right: 15px;
+            padding: 10px;
+            padding-left: 16px;
+            padding-right: 16px;
             gap: 15px;
             position: relative;
             margin: 10px 12px;
             background-color: var(--Surface-Container-Low);
             border-radius: 50px;
+             overflow: hidden;
         }
 
         .location_item .icon svg {
-            width: 42px;
-            height: 42px;
+            width: 40px;
+            height: 40px;
             fill: var(--Tertiary);
             transition: fill 0.2s ease-out;
         }
 
-        .location_item p {
-            font-size: 17px;
-            color: var(--On-Surface);
-            font-family: var(--outfit);
+        .location_item edit-option{
+          z-index: 1;
+          position: absolute;
+          right: 16px;
         }
+
+        .location_item p {
+            font-size: 16px;
+            color: var(--On-Surface);
+            font-family: var(--google-mid);
+            max-width: calc(100% - 120px);
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .location_item p customNameText{
+          font-size: 13px;
+          font-family: var(--outfit);
+          opacity: 0.7;
+          white-space: nowrap;
+        width: calc(100% - 0px);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        }
+
 
         .item_holder {
             padding-top: 20px;
@@ -127,9 +149,13 @@
             background-color: var(--Primary-Container);
         }
                 .selected-home-location p {
-            font-size: 17px;
+            font-size: 16px;
             color: var(--On-Primary-Container);
-            font-family: var(--outfit);
+            font-family: var(--google-mid);
+            max-width: calc(100% - 120px);
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
         }
 
         .info_div{
@@ -233,6 +259,15 @@
             z-index: 1;
         }
 
+                ripple-container_fake{
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+        }
+
+
     </style>
 </head>
 
@@ -288,6 +323,9 @@
                 <br>
                 <br>
                 <br>
+                <br>
+                <br>
+                <br>
 
                 <md-dialog style="min-width: 85%;" id="storage_info_dialog">
                     <div slot="headline" data-translate="used_app_storage">Used app storage</div>
@@ -311,6 +349,23 @@
                     </div>
                 </md-dialog>
 
+                <md-dialog style="min-width: 85%;" id="editLocationNameDialog">
+                    <div slot="headline">Edit location</div>
+
+                    <div slot="content">
+                        <md-outlined-text-field id="inputLocationName" style="width: 100%;" error-text="Please fill in the field or reset it">
+                            <md-icon-button slot="trailing-icon" onclick="resetLocationCustomName()">
+                                <md-icon icon-outlined style="color: var(--Secondary);">refresh</md-icon>
+                            </md-icon-button>
+
+                        </md-outlined-text-field>
+                    </div>
+
+                    <div slot="actions">
+                        <md-text-button  data-translate="cancel" onclick="window.history.back()">Cancel</md-text-button>
+                        <md-text-button data-translate="save" onclick="saveCustomLocatioName()">Save</md-text-button>
+                    </div>
+                </md-dialog>
 
             </div>
         </div>
@@ -318,6 +373,7 @@
 
 
     <script>
+        renderSavedLocationsHome();
 
     function hexToRgb(hex) {
     const bigint = parseInt(hex.slice(1), 16);
@@ -361,7 +417,8 @@ async function CreateMaterialYouTheme(hex) {
         purple_material: "#800080",
         blue_material: "#0000FF",
         yellow_material: "#FFFF00",
-        green_material: "#008000"
+        green_material: "#008000",
+        mono_material: "#e2e2e2"
     };
 
     const targetHsl = rgbToHsl(hexToRgb(hex));
@@ -371,7 +428,10 @@ async function CreateMaterialYouTheme(hex) {
     for (const [color, colorHex] of Object.entries(colors)) {
         const colorHsl = rgbToHsl(hexToRgb(colorHex));
         const hueDifference = Math.abs(targetHsl.h - colorHsl.h);
-
+        if (targetHsl.s < 10) {
+            closestColor = "mono_material";
+            break;
+        }
         if (hueDifference < smallestHueDifference) {
             smallestHueDifference = hueDifference;
             closestColor = color;
@@ -484,8 +544,11 @@ async function CreateMaterialYouTheme(hex) {
   }
 
 
+      function renderSavedLocationsHome(){
         const savedLocationsMenu = document.getElementById('item_holder');
         const savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
+
+        savedLocationsMenu.innerHTML = ''
 
         const clearSelection = () => {
             const allMenuItems = savedLocationsMenu.querySelectorAll('div');
@@ -513,7 +576,7 @@ async function CreateMaterialYouTheme(hex) {
                 <i icon-filled class="not-selected">my_location</i>
                 <i icon-outlined class="selected">check</i>
                 </div>
-                <p data-translate="your_device_location">Your device location</p>
+                <p data-translate="your_device_location" style="max-width: unset;">Your device location</p>
 
                 <md-ripple style="--md-ripple-pressed-opacity: 0.05 !important;"></md-ripple>
                 `
@@ -527,12 +590,24 @@ async function CreateMaterialYouTheme(hex) {
 
         savedLocationsMenu.appendChild(defaultMenuItem);
 
-        savedLocations.forEach(location => {
+
+        const uniqueLocations = {};
+
+      const uniqueSavedLocations = savedLocations.filter(location => {
+        if (!uniqueLocations[location.locationName]) {
+          uniqueLocations[location.locationName] = true;
+          return true;
+        }
+        return false;
+      });
+
+        uniqueSavedLocations.forEach(location => {
             const menuItemLocation = document.createElement('div');
             menuItemLocation.classList.add("location_item")
             menuItemLocation.setAttribute('lat', location.lat);
             menuItemLocation.setAttribute('lon', location.lon);
             menuItemLocation.setAttribute('name', location.locationName);
+            const savedLocationsCustom = JSON.parse(localStorage.getItem("savedLocationsCustomName"));
 
             menuItemLocation.innerHTML = `
 
@@ -546,9 +621,18 @@ async function CreateMaterialYouTheme(hex) {
                             <i icon-filled class="not-selected">location_on</i>
                             <i icon-outlined class="selected">check</i>
                         </div>
-                        <p>${location.locationName}</p>
+                        <p>${location.locationName}
+                        <customNameText>${savedLocationsCustom?.[location.locationName] || ''}</customNameText>
+                        </p>
 
+                        <ripple-container_fake>
                         <md-ripple style="--md-ripple-pressed-opacity: 0.05 !important;"></md-ripple>
+                          </ripple-container_fake>
+                        <edit-option>
+                          <md-icon-button editLocationName="${location.locationName}" customName="${savedLocationsCustom?.[location.locationName] || location.locationName}" OriginaleditLocationName="${location.locationName}" onclick="editLocationName(event)">
+                            <md-icon icon-outlined>edit</md-icon>
+                            </md-icon-button>
+                          </edit-option>
             `
 
 
@@ -574,7 +658,7 @@ async function CreateMaterialYouTheme(hex) {
         } else {
 
         }
-
+}
         document.addEventListener('DOMContentLoaded', () =>{
             function checkInterNetForDevice(){
         if(navigator.onLine){
@@ -1319,6 +1403,104 @@ if (
 
 }
 
+    let OriginalsavedLocationName
+
+function editLocationName(event){
+  event.stopPropagation();
+  document.getElementById('editLocationNameDialog').show();
+       document.getElementById('inputLocationName').error = false;
+
+  window.history.pushState({ editLocationNameDialogOpen: true }, "");
+
+if (document.getElementById("headUser-1").scrollTop >= 50) {
+  sendThemeToAndroid(
+    `${document.documentElement.getAttribute("Theme")}_DialogScrolled`
+  );
+} else {
+  sendThemeToAndroid(
+    `${document.documentElement.getAttribute("Theme")}_DialogNotScrolled`
+  );
+}
+
+
+
+  document.getElementById('inputLocationName').value = event.srcElement.attributes.customName.nodeValue
+
+  OriginalsavedLocationName = event.srcElement.attributes.OriginaleditLocationName.nodeValue;
+
+
+}
+
+function saveCustomLocatioName() {
+
+  if(!document.getElementById('inputLocationName').value.trim()){
+    console.log('empty')
+    document.getElementById('inputLocationName').error = true;
+    return
+  }
+
+  let savedLocations = JSON.parse(localStorage.getItem("savedLocationsCustomName")) || {};
+  let originalName = OriginalsavedLocationName;
+  let customName = document.getElementById('inputLocationName').value;
+
+  if(customName !== originalName){
+    savedLocations[originalName] = customName;
+  } else{
+    console.log('same name')
+  }
+
+  localStorage.setItem("savedLocationsCustomName", JSON.stringify(savedLocations));
+
+    window.history.back();
+
+renderSavedLocationsHome();
+}
+
+
+function resetLocationCustomName() {
+    let savedLocations = JSON.parse(localStorage.getItem("savedLocationsCustomName")) || {};
+    let originalName = OriginalsavedLocationName;
+
+    delete savedLocations[originalName];
+
+    localStorage.setItem("savedLocationsCustomName", JSON.stringify(savedLocations));
+
+    document.getElementById('inputLocationName').value = OriginalsavedLocationName;
+
+    window.history.back();
+
+renderSavedLocationsHome();
+}
+
+document
+  .getElementById("editLocationNameDialog")
+  .addEventListener("cancel", () => {
+    document
+      .getElementById("editLocationNameDialog")
+      .addEventListener("closed", () => {
+        window.history.back();
+      });
+  });
+
+document
+  .getElementById("editLocationNameDialog")
+  .addEventListener("close", () => {
+    if (document.getElementById("headUser-1").scrollTop >= 50) {
+      sendThemeToAndroid(
+        `${document.documentElement.getAttribute("Theme")}_Scrolled`
+      );
+    } else {
+      sendThemeToAndroid(
+        `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
+      );
+    }
+  });
+
+  window.addEventListener("popstate", function (event) {
+  if (document.getElementById("editLocationNameDialog").open) {
+    document.getElementById("editLocationNameDialog").close();
+  }
+});
 
 
     </script>

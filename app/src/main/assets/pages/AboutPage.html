@@ -149,7 +149,7 @@
          <md-icon icon-outlined>info</md-icon>
          <div style="position: relative; width: 100%;">
           <p data-translate="version">Version</p>
-          <span>1.17.1 (W)</span>
+          <span>1.18.0 (W)</span>
           <md-icon-button style="position: absolute; right: 5px;" id="checkUpdatesBtn"><md-icon icon-outlined>refresh</md-icon></md-icon-button>
          </div>
         </div>
@@ -263,7 +263,8 @@ async function CreateMaterialYouTheme(hex) {
         purple_material: "#800080",
         blue_material: "#0000FF",
         yellow_material: "#FFFF00",
-        green_material: "#008000"
+        green_material: "#008000",
+        mono_material: "#e2e2e2"
     };
 
     const targetHsl = rgbToHsl(hexToRgb(hex));
@@ -273,7 +274,10 @@ async function CreateMaterialYouTheme(hex) {
     for (const [color, colorHex] of Object.entries(colors)) {
         const colorHsl = rgbToHsl(hexToRgb(colorHex));
         const hueDifference = Math.abs(targetHsl.h - colorHsl.h);
-
+        if (targetHsl.s < 10) {
+            closestColor = "mono_material";
+            break;
+        }
         if (hueDifference < smallestHueDifference) {
             smallestHueDifference = hueDifference;
             closestColor = color;
@@ -364,21 +368,21 @@ async function CreateMaterialYouTheme(hex) {
 
 
         document.getElementById('checkUpdatesBtn').addEventListener('click', async function () {
-            const currentVersion = 'v1.17.1';
+            const currentVersion = 'v1.18.0';
             const githubRepo = 'PranshulGG/WeatherMaster';
-            const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases/latest`;
+            const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases`;
 
             try {
                 const response = await fetch(releasesUrl);
                 if (!response.ok) throw new Error('Network response was not ok.');
 
                 const data = await response.json();
-                const latestVersion = data.tag_name;
+                const stableRelease = data.find(release => !release.prerelease);
 
                 document.getElementById('checkUpdatesBtn').disabled = true;
 
                 setTimeout(() => {
-                    if (latestVersion !== currentVersion) {
+                    if (stableRelease && stableRelease.tag_name !== currentVersion) {
                   ShowSnackMessage.ShowSnack(getTranslationByLang(localStorage.getItem('AppLanguageCode'), 'new_version_available!'), "long");
 
 

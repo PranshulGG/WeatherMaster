@@ -140,6 +140,10 @@
         <item name="colorAccent">#b1d18a</item>
     </style>
 
+    <style name="mono_material_caret" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">#ffffff</item>
+    </style>
+
 
 
 </resources>

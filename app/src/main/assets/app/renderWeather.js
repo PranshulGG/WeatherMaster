@@ -157,11 +157,11 @@ const filteredData = data.hourly.time
       rainComing = isTomorrow
         ? `${getTranslationByLang(
             localStorage.getItem("AppLanguageCode"),
-            "rain_likely_tomorrow_around"
+            "Precipitation_likely_tomorrow_around"
           )} ${hours}${period}`
         : `${getTranslationByLang(
             localStorage.getItem("AppLanguageCode"),
-            "rain_likely_around"
+            "precipitation_likely_around"
           )} ${hours}${period}`;
     }
 
@@ -295,7 +295,7 @@ const filteredData = data.hourly.time
       document.getElementById("rainStopingText").innerHTML =
         getTranslationByLang(
           localStorage.getItem("AppLanguageCode"),
-          "rain_expected_to_continue"
+          "precipitation_expected_to_continue"
         );
     }
   } else if (rainComing) {
@@ -451,6 +451,14 @@ function DailyWeather(dailyForecast) {
 
 
   dailyForecast.time.forEach((time, index) => {
+
+        if (
+          dailyForecast.weather_code[index] == null
+      ) {
+          // Skip this iteration if any essential data is null
+          return;
+      }
+
     const [year, month, day] = time.split("-").map(Number);
     const dateObj = new Date(year, month - 1, day);
 
@@ -552,7 +560,8 @@ function DailyWeather(dailyForecast) {
 
     document.getElementById(
       "day_length_text"
-    ).innerHTML = `${daylightHours} hrs ${daylightMinutes} mins ${getTranslationByLang(
+    ).innerHTML = `${daylightHours} ${getTranslationByLang(localStorage.getItem("AppLanguageCode"),"hrs_sub_text")} ${daylightMinutes} ${getTranslationByLang(localStorage.getItem("AppLanguageCode"),"mins_sub_text")}
+  ${getTranslationByLang(
       localStorage.getItem("AppLanguageCode"),
       "day_length"
     )}`;
@@ -681,7 +690,7 @@ function CurrentWeather(data, sunrise, sunset, lat, lon) {
       }
   } else if (localStorage.getItem("SelectedWindUnit") === "Beaufort") {
       if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
-        CurrentWindGust = getBeaufort(data.wind_speed_10m) + " 蒲福风级";
+        CurrentWindGust = getBeaufort(data.wind_speed_10m) + " 级";
       } else{
         CurrentWindGust = getBeaufort(data.wind_speed_10m) + " Bft";
       }
@@ -710,7 +719,7 @@ function CurrentWeather(data, sunrise, sunset, lat, lon) {
       }
   } else if (localStorage.getItem("SelectedWindUnit") === "Beaufort") {
     if(localStorage.getItem('AppLanguage') === 'Chinese (Simplified)'){
-      CurrentWindSpeed = getBeaufort(data.wind_speed_10m) + " 蒲福风级";
+      CurrentWindSpeed = getBeaufort(data.wind_speed_10m) + " 级";
     } else{
     CurrentWindSpeed = getBeaufort(data.wind_speed_10m) + " Bft";
     }

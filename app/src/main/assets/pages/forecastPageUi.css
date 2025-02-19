@@ -217,7 +217,7 @@ weatherConditionText{
     padding-left: 15px;
     font-weight: 600;
     color: var(--Secondary);
-    margin-top: 40px;
+    margin-top: 30px;
     font-size: 20px;
   }
 
@@ -548,4 +548,12 @@ weatherConditionText{
 
 .sortable-ghost{
   opacity: 0;
+}
+
+comment{
+  font-family: var(--google-normal);
+  font-size: 15px;
+  color: var(--On-Surface-Variant);
+  opacity: 0.8;
+  padding-top: 10px;
 }
