@@ -504,9 +504,9 @@
     "temperature": "Temperatur",
     "show_summary_toggle_sub": "Zusammenfassung des Wetters ansehen",
     "insights": "Einsichten",
-    "app_units": "App-Einheiten",
+    "app_units": "App Einheiten",
     "temperature_wind_pressure_visibility_precipitation_time_aqi": "Temperatur, Wind, Druck, Sichtweite, Niederschlag, Tageszeit, Luftqualitätsindex",
-    "activity_suggestions_daytip_humidity_3": "🧴 Die Luft ist trocken. Versorge deine Haut mit Feuchtigkeit und trinken Sie viel Wasser, um hydriert zu bleiben.",
+    "activity_suggestions_daytip_humidity_3": "🧴 Die Luft ist trocken. Versorge deine Haut mit Feuchtigkeit und trinke viel Wasser, um hydriert zu bleiben.",
     "activity_suggestions_daytip_humidity_4": "💧 Niedrige Luftfeuchtigkeit kann zu trockener Haut oder Reizungen führen. Halte eine Wasserflasche bereit und vermeide dauerhafte Sonneneinstrahlung.",
     "hide_update_icon": "Update ausblenden (Icon)",
     "no_notification_when_a_new_version_is_released": "Zeige keine Benachrichtigung an, wenn eine neue Version veröffentlicht wird.",
@@ -515,7 +515,7 @@
     "precipitation_likely_around": "Niederschlag wahrscheinlich morgen",
     "hrs_sub_text": "Std",
     "mins_sub_text": "Min",
-    "loading_text": "Loading...",
-    "edit_location_headline": "Edit location",
-    "edit_location_error_sub": "Please fill in the field or reset it"
+    "loading_text": "Text laden",
+    "edit_location_headline": "Standort bearbeiten ",
+    "edit_location_error_sub": "Fülle bitte das Feld aus oder lösche es"
 }

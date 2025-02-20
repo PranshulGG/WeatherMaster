@@ -515,7 +515,7 @@
     "precipitation_likely_around": "Precipitazioni probabili intorno a",
     "hrs_sub_text": "ore",
     "mins_sub_text": "minuti",
-    "loading_text": "Loading...",
-    "edit_location_headline": "Edit location",
-    "edit_location_error_sub": "Please fill in the field or reset it"
+    "loading_text": "Caricamento…",
+    "edit_location_headline": "Modifica posizione",
+    "edit_location_error_sub": "Compila il campo o ripristinalo"
 }
