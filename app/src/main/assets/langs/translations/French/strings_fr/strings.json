@@ -91,8 +91,8 @@
     "uv_index_info_5": "8+ : Très Haute à Extrême. Une protection supplémentaire est nécessaire : faites attention à l'extérieur, surtout en fin de matinée et dans l'après-midi. Si votre ombre est plus courte que vous, cherchez de l'ombre et portez des vêtements protecteurs, un chapeau à large bord, et lunettes de soleil, et appliquer généreusement un minimum de SPF-15, écran solaire à large spectre sur la peau exposée.",
     "sunset": "Coucher du soleil",
     "sunrise": "Lever du soleil",
-    "sunset_rise_info": "Lever du soleil : Lorsque le soleil apparaît complètement au-dessus de l'horizon, cela varie selon l'emplacement, l'heure de l'année et le fuseau horaire.",
-    "sunset_rise_info_2": "Coucher du soleil : Lorsque le soleil disparaît complètement sous l'horizon, cela varie selon l'emplacement, l'heure de l'année et le fuseau horaire.",
+    "sunset_rise_info": "Lever du soleil : Lorsque le soleil apparaît complètement au-dessus de l'horizon, cela varie selon le lieu, l'heure de l'année et le fuseau horaire.",
+    "sunset_rise_info_2": "Coucher du soleil : Lorsque le soleil disparaît complètement sous l'horizon, cela varie selon le lieu, l'heure de l'année et le fuseau horaire.",
     "sunset_rise_info_3": "Aube : Lorsque la première lumière visible de la journée apparaît avant le lever du soleil.",
     "sunset_rise_info_4": "Crépuscule : Le stade le plus sombre avant que la dernière lumière visible ne disparaisse.",
     "pressure_info": "La pression atmosphérique, également connue sous le nom de pression barométrique, est la pression descendante exercée par l'atmosphère terrestre. Cette application utilise la pression moyenne de niveau de la mer (MSLP).",
@@ -360,7 +360,7 @@
     "dynamic_colors_sub": "Utiliser les couleurs du fond d'écran",
     "font_size": "Taille de la fonte",
     "font_size_sub": "La taille de la police n'affectera que là où elle est nécessaire",
-    "swipe_between_locations": "Glisser entre les emplacements",
+    "swipe_between_locations": "Balaye entre les lieux",
     "swipe_between_locations_sub": "Glisser vers la gauche ou la droite pour changer d'emplacement",
     "swipe_threshold": "Seuil de glissement",
     "swipe_threshold_help_sub": "Le seuil définit la distance minimale qu'un geste de glissement doit couvrir pour être reconnu. Un seuil inférieur rend les gestes de balayage plus faciles à déclencher, tandis qu'un seuil plus élevé nécessite des balayages plus délibérés.",
@@ -515,7 +515,7 @@
     "precipitation_likely_around": "Précipitations probables autour de",
     "hrs_sub_text": "h",
     "mins_sub_text": "min",
-    "loading_text": "Loading...",
-    "edit_location_headline": "Edit location",
-    "edit_location_error_sub": "Please fill in the field or reset it"
+    "loading_text": "Chargement",
+    "edit_location_headline": "Modifier le lieu",
+    "edit_location_error_sub": "Veuillez remplir le champ ou le réinitialiser."
 }
