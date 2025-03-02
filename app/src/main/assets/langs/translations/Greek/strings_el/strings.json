@@ -517,5 +517,8 @@
     "mins_sub_text": "λεπτά",
     "loading_text": "Φορτώνει...",
     "edit_location_headline": "Επεξεργασία τοποθεσίας",
-    "edit_location_error_sub": "Παρακαλώ συμπληρώστε το πεδίο ή κάνετε επαναφορά"
+    "edit_location_error_sub": "Παρακαλώ συμπληρώστε το πεδίο ή κάνετε επαναφορά",
+    "app_theme_dark_light": "App theme",
+    "theme_dark": "Dark",
+    "theme_light": "Light"
 }
