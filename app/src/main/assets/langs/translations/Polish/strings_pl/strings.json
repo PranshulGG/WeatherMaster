@@ -517,5 +517,8 @@
     "mins_sub_text": "min",
     "loading_text": "Ładowanie...",
     "edit_location_headline": "Edytuj lokalizację",
-    "edit_location_error_sub": "Proszę wypełnić pole lub je zresetować"
+    "edit_location_error_sub": "Proszę wypełnić pole lub je zresetować",
+    "app_theme_dark_light": "App theme",
+    "theme_dark": "Dark",
+    "theme_light": "Light"
 }
