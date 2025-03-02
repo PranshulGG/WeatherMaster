@@ -517,5 +517,8 @@
     "mins_sub_text": "分钟",
     "loading_text": "加载中…",
     "edit_location_headline": "编辑位置",
-    "edit_location_error_sub": "请填写或重置"
+    "edit_location_error_sub": "请填写或重置",
+    "app_theme_dark_light": "App theme",
+    "theme_dark": "Dark",
+    "theme_light": "Light"
 }
