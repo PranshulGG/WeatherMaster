@@ -517,5 +517,8 @@
     "mins_sub_text": "минуты",
     "loading_text": "Загрузка...",
     "edit_location_headline": "Изменить местоположение",
-    "edit_location_error_sub": "Пожалуйста, заполните поле или сбросьте его"
+    "edit_location_error_sub": "Пожалуйста, заполните поле или сбросьте его",
+    "app_theme_dark_light": "App theme",
+    "theme_dark": "Dark",
+    "theme_light": "Light"
 }

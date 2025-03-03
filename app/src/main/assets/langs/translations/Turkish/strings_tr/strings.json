@@ -517,5 +517,8 @@
     "mins_sub_text": "dakika",
     "loading_text": "Yükleniyor...",
     "edit_location_headline": "Konumu düzenle",
-    "edit_location_error_sub": "Lütfen alanı doldurun veya sıfırlayın"
+    "edit_location_error_sub": "Lütfen alanı doldurun veya sıfırlayın",
+    "app_theme_dark_light": "Uygulama teması",
+    "theme_dark": "Karanlık",
+    "theme_light": "Aydınlık"
 }
