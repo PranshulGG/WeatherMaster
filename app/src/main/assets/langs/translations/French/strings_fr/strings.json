@@ -518,7 +518,7 @@
     "loading_text": "Chargement",
     "edit_location_headline": "Modifier le lieu",
     "edit_location_error_sub": "Veuillez remplir le champ ou le réinitialiser.",
-    "app_theme_dark_light": "App theme",
-    "theme_dark": "Dark",
-    "theme_light": "Light"
+    "app_theme_dark_light": "Thème de l'application ",
+    "theme_dark": "Sombre",
+    "theme_light": "Clair"
 }
