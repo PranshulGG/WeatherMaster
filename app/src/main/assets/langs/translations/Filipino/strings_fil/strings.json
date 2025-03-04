@@ -515,10 +515,10 @@
     "precipitation_likely_around": "Baka umulan",
     "hrs_sub_text": "oras",
     "mins_sub_text": "minuto",
-    "loading_text": "Loading...",
-    "edit_location_headline": "Edit location",
+    "loading_text": "Nag-lo-load...",
+    "edit_location_headline": "I-edit ang lokasyon",
     "edit_location_error_sub": "Please fill in the field or reset it",
-    "app_theme_dark_light": "App theme",
-    "theme_dark": "Dark",
-    "theme_light": "Light"
+    "app_theme_dark_light": "Tema ng app",
+    "theme_dark": "Madilim",
+    "theme_light": "Maliwanag"
 }
