@@ -254,7 +254,7 @@
     "thunder_weather_tips_3": "🌩️ Tempête aujourd'hui ! Évitez de conduire pendant les fortes pluies et restez en sécurité à l'intérieur.",
     "temp_report_tipPart_1": "Attendez-vous à un niveau élevé de",
     "temp_report_tipPart_2": "☀️ avec un indice UV maximum de",
-    "temp_report_tipPart_3": ". À mesure que le soleil se couche :sunrise :, les températures chuteront pour atteindre un niveau confortable",
+    "temp_report_tipPart_3": ". À mesure que le soleil se couche 🌅, les températures chuteront pour atteindre un niveau confortable",
     "temp_report_tipPart_4": ". Une belle soirée vous attend ! 🌙",
     "rain_report_tipPart_1": "Attendez-vous aux alentours",
     "rain_report_tipPart_2": "des précipitations aujourd'hui 🌧️. Assurez-vous de vous munir d'un parapluie ! ☔",
@@ -517,5 +517,8 @@
     "mins_sub_text": "min",
     "loading_text": "Chargement",
     "edit_location_headline": "Modifier le lieu",
-    "edit_location_error_sub": "Veuillez remplir le champ ou le réinitialiser."
+    "edit_location_error_sub": "Veuillez remplir le champ ou le réinitialiser.",
+    "app_theme_dark_light": "Thème de l'application ",
+    "theme_dark": "Sombre",
+    "theme_light": "Clair"
 }

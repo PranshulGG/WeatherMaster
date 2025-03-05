@@ -517,5 +517,8 @@
     "mins_sub_text": "minuti",
     "loading_text": "Caricamento…",
     "edit_location_headline": "Modifica posizione",
-    "edit_location_error_sub": "Compila il campo o ripristinalo"
+    "edit_location_error_sub": "Compila il campo o ripristinalo",
+    "app_theme_dark_light": "App theme",
+    "theme_dark": "Dark",
+    "theme_light": "Light"
 }
