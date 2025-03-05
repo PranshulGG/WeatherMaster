@@ -518,7 +518,7 @@
     "loading_text": "Đang tải...",
     "edit_location_headline": "Chỉnh sửa vị trí",
     "edit_location_error_sub": "Vui lòng điền vào trường hợp này hoặc đặt lại nó",
-    "app_theme_dark_light": "App theme",
-    "theme_dark": "Dark",
-    "theme_light": "Light"
+    "app_theme_dark_light": "Giao diện ứng dụng",
+    "theme_dark": "Tối",
+    "theme_light": "Sáng"
 }
