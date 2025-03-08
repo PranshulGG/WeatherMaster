@@ -515,10 +515,10 @@
     "precipitation_likely_around": "Neerslag waarschijnlijk rond",
     "hrs_sub_text": "uur",
     "mins_sub_text": "min.",
-    "loading_text": "Loading...",
-    "edit_location_headline": "Edit location",
-    "edit_location_error_sub": "Please fill in the field or reset it",
-    "app_theme_dark_light": "App theme",
-    "theme_dark": "Dark",
-    "theme_light": "Light"
+    "loading_text": "Laden...",
+    "edit_location_headline": "Locatie aanpassen",
+    "edit_location_error_sub": "Vul het veld in of reset het",
+    "app_theme_dark_light": "Appthema",
+    "theme_dark": "Donker",
+    "theme_light": "Licht"
 }

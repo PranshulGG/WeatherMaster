@@ -518,7 +518,7 @@
     "loading_text": "載入中…",
     "edit_location_headline": "編輯位置",
     "edit_location_error_sub": "請填寫或重置",
-    "app_theme_dark_light": "App theme",
-    "theme_dark": "Dark",
-    "theme_light": "Light"
+    "app_theme_dark_light": "應用程式主題",
+    "theme_dark": "深色",
+    "theme_light": "亮色"
 }
