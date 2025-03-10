@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" Theme="clothing" data-theme="dark">
+<html lang="en" Theme="blue_material" data-theme="dark">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
   <title>Settings</title>
+  <script src="../bridge/android.js"></script>
   <script src="../database/MainDataBase.js"></script>
   <script src="../langs/langs.js"></script>
   <link rel="stylesheet" href="../ui-files/ui.css">
@@ -16,6 +17,11 @@
   <link rel="stylesheet" href="../components/segment-btns.css">
   <script  src="bundle.js"></script>
 
+  <script>
+          if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
+        document.documentElement.setAttribute('colorTheme', 'light');
+        }
+  </script>
   <style>
         .activity-large-content::before {
             position: fixed;
@@ -61,7 +67,7 @@
             padding-top: 5px;
         }
 
-                .list_one md-list-item, .list_second md-list-item, .list_third md-list-item{
+            .list_one md-list-item, .list_second md-list-item, .list_third md-list-item{
             background-color: var(--Surface-Container-Lowest);
             margin-bottom: 6px;
             border-radius: 8px;
@@ -69,23 +75,23 @@
 
 
         .list_second md-list-item:nth-child(1), .list_third md-list-item:nth-child(1){
-            border-radius: 18px 18px 10px 10px;
+            border-radius: 16px 16px 8px 8px;
         }
 
         .list_one md-list-item:nth-child(2){
-            border-radius: 18px 18px 10px 10px;
+            border-radius: 16px 16px 8px 8px;
         }
 
         .list_one md-list-item:last-child, .list_third md-list-item:last-child{
-            border-radius: 10px 10px 18px 18px ;
+            border-radius: 8px 8px 16px 16px ;
         }
 
         .list_second md-list-item:nth-last-child(2){
-            border-radius: 10px 10px 18px 18px ;
+            border-radius: 8px 8px 16px 16px ;
         }
 
         md-list{
-            padding: 8px;
+            padding: 10px;
         }
 
         .custom_theme .color-item{
@@ -114,8 +120,6 @@
             display: flex;
             overflow: auto;
             gap: 10px;
-            padding-top: 5px;
-            padding-bottom: 5px;
         }
 
         .custom_theme_items.hidden{
@@ -130,16 +134,24 @@
             height: 79px;
             overflow: hidden;
         }
-
+      load_theme{
+          z-index: 9909999;
+          width: 100%;
+          height: 100%;
+          background-color: var(--Surface);
+          position: fixed;
+          left: 0;
+          top: 0;
+      }
     </style>
 </head>
 
-<body style="background-color: var(--Surface);">
+<body hidden>
 
 <div class="activity-large open">
   <div class="header-activity-large" id="head-1">
     <button class="ripple-icon-btn regular" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)"
-            title="Go back" onclick="sendThemeToAndroid('GoBack')">
+            title="Go back" onclick="ActivityBack()">
       <span class="ripple-effect-icon"></span>
       <span icon-outlined>arrow_back</span>
     </button>
@@ -157,10 +169,17 @@
           <div slot="headline" data-translate="dynamic_colors">Dynamic colors</div>
           <div slot="supporting-text" data-translate="dynamic_colors_sub">Use wallpaper colors</div>
           <md-switch slot="end" selected id="useDynamicColors"></md-switch>
+        </md-list-item>
 
+        <md-list-item>
+          <md-icon icon-filled slot="start">contrast</md-icon>
+          <div slot="headline">Light theme</div>
+          <div slot="supporting-text">BETA</div>
+          <md-switch slot="end" id="useLightThemeSwitch"></md-switch>
         </md-list-item>
 
         <md-list-item class="custom_theme_items hidden">
+          <md-icon icon-filled slot="start"></md-icon>
           <div class="custom_theme_wrap" slot="headline">
             <div class="custom_theme">
               <div class="color-item" style="--clr:  #2196f3; --clr-check: rgb(255, 255, 255);" theme-value="blue_material"></div>
@@ -204,7 +223,7 @@
           <md-icon-button slot="end" onclick="openSwipeThresholdDialog()"><md-icon icon-outlined>settings</md-icon></md-icon-button>
         </md-list-item>
 
-        <md-list-item onclick="sendThemeToAndroid('EditAppLayoutPage')" type="button">
+        <md-list-item onclick="navigateActivity('EditAppLayoutPage')" type="button">
           <md-icon icon-filled slot="start">view_agenda</md-icon>
           <div slot="headline" data-translate="edit_layout">Edit app layout</div>
           <md-icon icon-filled slot="end">chevron_right</md-icon>
@@ -227,7 +246,7 @@
           <md-switch slot="end" id="toggle_noti"></md-switch>
         </md-list-item>
 
-        <md-list-item type="button" onclick="sendThemeToAndroid('openHomelocationPage')">
+        <md-list-item type="button" onclick="navigateActivity('openHomelocationPage')">
           <md-icon icon-filled slot="start">home_pin</md-icon>
           <div slot="headline" data-translate="home_location">Home location</div>
           <div slot="supporting-text" id="homeLocationSelectedText" style="color: var(--Primary); font-family: var(--outfit-mid);">Your device location</div>
@@ -236,7 +255,7 @@
 
         </md-list-item>
 
-        <md-list-item type="button" onclick="sendThemeToAndroid('AppUnitsActivity')">
+        <md-list-item type="button" onclick="navigateActivity('AppUnitsActivity')">
           <md-icon icon-filled slot="start">thermostat</md-icon>
           <div slot="headline" data-translate="app_units">App units</div>
           <div slot="supporting-text" data-translate="temperature_wind_pressure_visibility_precipitation_time_aqi">Temperature, wind, pressure, visibility, precipitation, time, AQI</div>
@@ -299,7 +318,7 @@
                style="color: var(--Primary); font-family: var(--outfit-mid);">Open-meteo</div>
         </md-list-item>
 
-        <md-list-item margin type="button" onclick="sendThemeToAndroid('openWeatherModels')" id="weatherModelBtn">
+        <md-list-item margin type="button" onclick="navigateActivity('openWeatherModels')" id="weatherModelBtn">
           <md-icon icon-filled slot="start"></md-icon>
           <div slot="headline" data-translate="weather_models">Weather models</div>
           <div slot="supporting-text" data-translate="openmeteo_weather_models">Open-Meteo Weather models</div>
@@ -350,13 +369,13 @@
       <p class="title" style="margin-top: 5px;" data-translate="additional">Additional</p>
       <md-list class="list_second">
 
-        <md-list-item margin type="button" onclick="sendThemeToAndroid('OpenLanguagesPage')">
+        <md-list-item margin type="button" onclick="navigateActivity('OpenLanguagesPage')">
           <md-icon slot="start" icon-filled>language</md-icon>
           <div slot="headline" data-translate="app_language">App language</div>
           <div slot="supporting-text" id="selectedAppLang_text">English</div>
         </md-list-item>
 
-        <md-list-item  onclick="sendThemeToAndroid('OpenAboutPage')" type="button">
+        <md-list-item  onclick="navigateActivity('OpenAboutPage')" type="button">
           <md-icon icon-filled slot="start">info</md-icon>
           <div slot="headline"><span data-translate="about">About</span> WeatherMaster</div>
           <div slot="supporting-text" data-translate="learn_about_app">Learn about the app</div>
@@ -567,7 +586,11 @@
   <md-circular-progress id="theme_loader"></md-circular-progress>
 </div>
 
+<load_theme hidden></load_theme>
+
+
 <script>
+
 function hexToRgb(hex) {
     const bigint = parseInt(hex.slice(1), 16);
     return {
@@ -603,7 +626,7 @@ function rgbToHsl({ r, g, b }) {
     return { h: h * 360, s: s * 100, l: l * 100 };
 }
 
-function CreateMaterialYouTheme(hex) {
+async function CreateMaterialYouTheme(hex) {
     const colors = {
         orange_material: "#FFA500",
         red_material: "#FF0000",
@@ -637,9 +660,40 @@ function CreateMaterialYouTheme(hex) {
 
  if(localStorage.getItem("useDynamicColors") && localStorage.getItem("useDynamicColors") === "false"){
 
+      if (await customStorage.getItem("customTheme")) {
+    document.documentElement.setAttribute(
+      "Theme",
+      await customStorage.getItem("customTheme")
+    );
+  } else{
+    document.documentElement.setAttribute(
+     "Theme",
+        "blue_material"
+   );
+     await customStorage.setItem("customTheme", "blue_material");
+  }
+
+      if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
+        document.documentElement.setAttribute('colorTheme', 'light');
+        sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '1')
+
+      } else{
+        document.documentElement.setAttribute('colorTheme', 'dark');
+        sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '0')
+      }
+        document.querySelector('body').hidden = false
   } else{
         document.documentElement.setAttribute('Theme', closestColor);
-        sendThemeToAndroid(`${closestColor}_ScrollFalse`);
+
+      if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
+        document.documentElement.setAttribute('colorTheme', 'light');
+        sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '1')
+
+      } else{
+        document.documentElement.setAttribute('colorTheme', 'dark');
+        sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '0')
+      }
+        document.querySelector('body').hidden = false
   }
 }
 

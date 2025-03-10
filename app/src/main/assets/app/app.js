@@ -3842,7 +3842,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     return;
   }
 
-  const currentVersion = "v1.18.0";
+  const currentVersion = "v1.19.0";
   const githubRepo = "PranshulGG/WeatherMaster";
   const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases`;
 

@@ -893,7 +893,7 @@ async function displayDailyForecast(forecast, forecastDaily) {
 
                      <div class="currentConditionItem sunRISESET ripple_btn_low" data-id="1"
                         >
-                        <div class="currentConditionItemTitle"><i icon-filled>wb_twilight</i><span
+                        <div class="currentConditionItemTitle" style="color: var(--On-Surface-Variant);"><i icon-filled>wb_twilight</i><span
                                 data-translate="sun_tile_page" style="width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 17px;">Sun</span></div>
 
                         <div class="current_condition_icon">
@@ -946,7 +946,7 @@ async function displayDailyForecast(forecast, forecastDaily) {
 
                                        <div class="currentConditionItem humidity ripple_btn_low" data-id="3"
                         >
-                        <div class="currentConditionItemTitle"><i icon-filled>rainy_light</i><span style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 105px; font-size: 17px;"
+                        <div class="currentConditionItemTitle" style="color: var(--On-Surface-Variant);"><i icon-filled>rainy_light</i><span style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 105px; font-size: 17px;"
                                 data-translate="precipitation">Precipitation</span></div>
 
 
@@ -1011,7 +1011,7 @@ async function displayDailyForecast(forecast, forecastDaily) {
 
                    <div class="currentConditionItem humidity ripple_btn_low" data-id="6"
                         >
-                        <div class="currentConditionItemTitle"><i icon-filled>humidity_high</i><span
+                        <div class="currentConditionItemTitle" style="color: var(--On-Surface-Variant);"><i icon-filled>humidity_high</i><span
                                 data-translate="humidity" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 105px; font-size: 17px;">Humidity</span></div>
 
                         <div class="current_condition_icon" id="humidity_icon_svg">
@@ -1127,7 +1127,7 @@ forecastDateHeaderContent.addEventListener('click', (event) =>{
 
 setTimeout(() => {
     getDailyForecast()
-}, 1500);
+}, 800);
 
 
 function convertTo12HourFormat(unixTimestamp) {
@@ -1144,12 +1144,12 @@ function convertTo12HourFormat(unixTimestamp) {
 
 setTimeout(() => {
     document.querySelector('.loader_holder').style.opacity = '0'
-}, 2000);
+}, 1300);
 
 
 setTimeout(() => {
     document.querySelector('.loader_holder').hidden = true
-}, 2300);
+}, 1500);
 
 
 let sortableInstanceContent;

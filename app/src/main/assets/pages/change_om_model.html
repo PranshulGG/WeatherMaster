@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" Theme="clothing" data-theme="dark">
+<html lang="en" Theme="blue_material" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>Weather models</title>
+    <script src="../bridge/android.js"></script>
     <script src="../database/MainDataBase.js"></script>
     <link rel="stylesheet" href="../ui-files/font-usage.css">
     <link rel="stylesheet" href="../ui-files/variables.css">
@@ -13,7 +14,11 @@
     <link rel="stylesheet" href="../ripple-files/ripple.css">
     <link rel="stylesheet" href="../components/segment-btns.css">
     <script src="../langs/langs.js"></script>
-
+    <script>
+          if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
+        document.documentElement.setAttribute('colorTheme', 'light');
+        }
+  </script>
     <style>
 
         * {
@@ -88,12 +93,12 @@ body {
     </style>
 </head>
 
-<body style="background-color: var(--Surface);">
+<body style="background-color: var(--Surface);" hidden>
 
 <div class="full-activity open">
     <div class="full-activity-header transparent round" id="head-2">
         <button class="ripple-icon-btn close" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)"
-                onclick="sendThemeToAndroid('GoBack')">
+                onclick="ActivityBack()">
             <span class="ripple-effect-icon"></span>
             <span icon-outlined style="font-size: 24px !important;">arrow_back</span>
         </button>
@@ -340,20 +345,44 @@ async function CreateMaterialYouTheme(hex) {
     }
 
  if(localStorage.getItem("useDynamicColors") && localStorage.getItem("useDynamicColors") === "false"){
-        if (await customStorage.getItem("customTheme")) {
-      document.documentElement.setAttribute(
-        "Theme",
-        await customStorage.getItem("customTheme")
-      );
-            sendThemeToAndroid(
-        `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
-      );
-    }
+  if (await customStorage.getItem("customTheme")) {
+    document.documentElement.setAttribute(
+      "Theme",
+      await customStorage.getItem("customTheme")
+    );
   } else{
-  document.documentElement.setAttribute('Theme', closestColor);
-  sendThemeToAndroid(`${closestColor}_ScrollFalse`);
+    document.documentElement.setAttribute(
+     "Theme",
+        "blue_material"
+   );
+     await customStorage.setItem("customTheme", "blue_material");
+  }
+
+      if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
+        document.documentElement.setAttribute('colorTheme', 'light');
+        sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '1')
+
+      } else{
+        document.documentElement.setAttribute('colorTheme', 'dark');
+        sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '0')
+      }
+        document.querySelector('body').hidden = false
+
+  } else{
+    document.documentElement.setAttribute('Theme', closestColor);
+
+if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
+  document.documentElement.setAttribute('colorTheme', 'light');
+  sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '1')
+
+} else{
+  document.documentElement.setAttribute('colorTheme', 'dark');
+  sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '0')
+}
+  document.querySelector('body').hidden = false
   }
 }
+
 
 document.querySelectorAll('[data-model-switch]').forEach(switchElement => {
         switchElement.addEventListener('change', () => {
@@ -388,10 +417,6 @@ document.querySelectorAll('[data-model-switch]').forEach(switchElement => {
         }
 })
 
-                function sendThemeToAndroid(theme) {
-
-                    AndroidInterface.updateStatusBarColor(theme);
-                };
 
                 //    --------------------------------------
 
@@ -408,7 +433,8 @@ document.querySelectorAll('[data-model-switch]').forEach(switchElement => {
 
 
                         container.removeEventListener('scroll', changeColorOnScroll2);
-                  sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_Scrolled`);
+                    sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface-Container'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), Themeflag, '220')
+
                     } else {
 
                     }
@@ -430,7 +456,8 @@ document.querySelectorAll('[data-model-switch]').forEach(switchElement => {
                         document.getElementById('head-2').style.backgroundColor = '';
                         document.getElementById('head-2').style.transition = 'background-color 0.2s ease-in';
 
-                          sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_ScrollFalse`);
+                                     sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), Themeflag, '220')
+
                         container.addEventListener('scroll', changeColorOnScroll2);
                         if (scrollY <= 20); {
 

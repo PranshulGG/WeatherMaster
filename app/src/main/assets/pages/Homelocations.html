@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" Theme="clothing" data-theme="dark">
+<html lang="en" Theme="blue_material" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>Locations</title>
+    <script src="../bridge/android.js"></script>
     <script src="../database/MainDataBase.js"></script>
     <link rel="stylesheet" href="../ui-files/font-usage.css">
     <link rel="stylesheet" href="../ui-files/variables.css">
@@ -13,7 +14,11 @@
     <link rel="stylesheet" href="../ripple-files/ripple.css">
     <link rel="stylesheet" href="../components/segment-btns.css">
     <script src="../langs/langs.js"></script>
-
+    <script>
+          if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
+        document.documentElement.setAttribute('colorTheme', 'light');
+        }
+  </script>
     <style>
         * {
             -webkit-tap-highlight-color: transparent;
@@ -239,14 +244,15 @@
             font-family: var(--google-mid);
             top: 50%;
             left: 20px;
-            color: white;
+            color: var(--On-Surface);
             transform: translateY(-50%);
         }
 
         .used_span_supporting{
             font-size: 14px;
             font-family: var(--google-normal);
-            color: rgba(255, 255, 255, 0.671);
+            color: var(--On-Surface-Variant);
+            opacity: 0.69;
         }
 
                 .activity-large-content::before {
@@ -271,12 +277,12 @@
     </style>
 </head>
 
-<body style="background-color: var(--Surface);">
+<body hidden>
 
     <div class="activity-large open">
         <div class="header-activity-large" id="head-1">
             <button class="ripple-icon-btn regular" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)"
-                title="Go back" onclick="sendThemeToAndroid('GoBack')">
+                title="Go back" onclick="ActivityBack()">
                 <span class="ripple-effect-icon"></span>
                 <span icon-outlined>arrow_back</span>
             </button>
@@ -350,7 +356,7 @@
                 </md-dialog>
 
                 <md-dialog style="min-width: 85%;" id="editLocationNameDialog">
-                    <div slot="headline">Edit location</div>
+                    <div slot="headline" data-translate="edit_location_headline">Edit location</div>
 
                     <div slot="content">
                         <md-outlined-text-field id="inputLocationName" style="width: 100%;" error-text="Please fill in the field or reset it">
@@ -439,18 +445,41 @@ async function CreateMaterialYouTheme(hex) {
     }
 
  if(localStorage.getItem("useDynamicColors") && localStorage.getItem("useDynamicColors") === "false"){
-        if (await customStorage.getItem("customTheme")) {
-      document.documentElement.setAttribute(
-        "Theme",
-        await customStorage.getItem("customTheme")
-      );
-            sendThemeToAndroid(
-        `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
-      );
-    }
+  if (await customStorage.getItem("customTheme")) {
+    document.documentElement.setAttribute(
+      "Theme",
+      await customStorage.getItem("customTheme")
+    );
   } else{
-  document.documentElement.setAttribute('Theme', closestColor);
-  sendThemeToAndroid(`${closestColor}_ScrollFalse`);
+    document.documentElement.setAttribute(
+     "Theme",
+        "blue_material"
+   );
+     await customStorage.setItem("customTheme", "blue_material");
+  }
+
+      if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
+        document.documentElement.setAttribute('colorTheme', 'light');
+        sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '1')
+
+      } else{
+        document.documentElement.setAttribute('colorTheme', 'dark');
+        sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '0')
+      }
+        document.querySelector('body').hidden = false
+
+  } else{
+    document.documentElement.setAttribute('Theme', closestColor);
+
+if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
+  document.documentElement.setAttribute('colorTheme', 'light');
+  sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '1')
+
+} else{
+  document.documentElement.setAttribute('colorTheme', 'dark');
+  sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '0')
+}
+  document.querySelector('body').hidden = false
   }
 }
 
@@ -466,7 +495,8 @@ async function CreateMaterialYouTheme(hex) {
 
                 document.getElementById('headUser-1').style.scrollSnapType = 'unset';
                 container.removeEventListener('scroll', changeColorOnScroll1);
-      sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_Scrolled`);
+            sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface-Container'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), Themeflag, '220')
+
 
 
             } else {
@@ -488,7 +518,8 @@ async function CreateMaterialYouTheme(hex) {
                 document.getElementById('head-1').style.backgroundColor = '';
                 document.getElementById('head-1').style.transition = 'background-color 0.2s ease-in';
 
-                      sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_ScrollFalse`);
+              sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), Themeflag, '220')
+
 
                 container.addEventListener('scroll', changeColorOnScroll1);
                 if (scrollY <= 20); {
@@ -504,11 +535,6 @@ async function CreateMaterialYouTheme(hex) {
         if (user1) {
             document.getElementById('headUser-1').addEventListener('scroll', changeColorOnScroll1A);
         }
-
-        function sendThemeToAndroid(theme) {
-
-            AndroidInterface.updateStatusBarColor(theme);
-        };
 
 
         // render locations
@@ -544,7 +570,11 @@ async function CreateMaterialYouTheme(hex) {
   }
 
 
-      function renderSavedLocationsHome(){
+  function setCurrentLocation(value){
+    renderSavedLocationsHome(value)
+  }
+
+      function renderSavedLocationsHome(value){
         const savedLocationsMenu = document.getElementById('item_holder');
         const savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
 
@@ -562,7 +592,7 @@ async function CreateMaterialYouTheme(hex) {
         defaultMenuItem.classList.add('selected-home-location', 'location_item', 'device_location');
         defaultMenuItem.setAttribute('name', 'CurrentDeviceLocation');
         defaultMenuItem.addEventListener('click', () =>{
-            sendThemeToAndroid('homeLocationLocationReq');
+            AndroidFunctionActivityInterface.androidFunction('homeLocationLocationReq');
         })
         defaultMenuItem.innerHTML = `
 
@@ -580,6 +610,14 @@ async function CreateMaterialYouTheme(hex) {
 
                 <md-ripple style="--md-ripple-pressed-opacity: 0.05 !important;"></md-ripple>
                 `
+
+
+                if(value){
+                  turnOnCurrentLocation()
+                  console.log("value is available")
+                } else{
+                  console.log("value isn't available")
+                }
 
         function turnOnCurrentLocation(){
             clearSelection();
@@ -685,14 +723,10 @@ async function CreateMaterialYouTheme(hex) {
   document.getElementById("storage_info_dialog").show();
   window.history.pushState({ AppStorageInfoDialogOpen: true }, "");
 
-  if (document.getElementById("headUser-1").scrollTop >= 50) {
-    sendThemeToAndroid(
-      `${document.documentElement.getAttribute("Theme")}_DialogScrolled`
-    );
+      if (document.getElementById("headUser-1").scrollTop >= 50) {
+    sendThemeToAndroid(colorsDialogsOpenContainer[GetDialogOverlayContainerColor()], colorsDialogsOpenSurface[GetDialogOverlayContainerColor()], '0', '200');
   } else {
-    sendThemeToAndroid(
-      `${document.documentElement.getAttribute("Theme")}_DialogNotScrolled`
-    );
+    sendThemeToAndroid(colorsDialogsOpenSurface[GetDialogOverlayContainerColor()], colorsDialogsOpenSurface[GetDialogOverlayContainerColor()], '0', '200');
   }
 }
 
@@ -715,15 +749,11 @@ document
 document
   .getElementById("storage_info_dialog")
   .addEventListener("close", () => {
-    if (document.getElementById("headUser-1").scrollTop >= 50) {
-      sendThemeToAndroid(
-        `${document.documentElement.getAttribute("Theme")}_Scrolled`
-      );
-    } else {
-      sendThemeToAndroid(
-        `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
-      );
-    }
+  if (document.getElementById("headUser-1").scrollTop >= 50) {
+    sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface-Container'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), Themeflag, '210')
+  } else {
+    sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), Themeflag, '210')
+  }
   });
 
         function calculateLocalStorageUsageInMB() {
@@ -786,13 +816,9 @@ function openDeletelocationsDialog() {
   window.history.pushState({ DeleteAllLocationsDialogOpen: true }, "");
 
   if (document.getElementById("headUser-1").scrollTop >= 50) {
-    sendThemeToAndroid(
-      `${document.documentElement.getAttribute("Theme")}_DialogScrolled`
-    );
+    sendThemeToAndroid(colorsDialogsOpenContainer[GetDialogOverlayContainerColor()], colorsDialogsOpenSurface[GetDialogOverlayContainerColor()], '0', '200');
   } else {
-    sendThemeToAndroid(
-      `${document.documentElement.getAttribute("Theme")}_DialogNotScrolled`
-    );
+    sendThemeToAndroid(colorsDialogsOpenSurface[GetDialogOverlayContainerColor()], colorsDialogsOpenSurface[GetDialogOverlayContainerColor()], '0', '200');
   }
 }
 
@@ -815,15 +841,11 @@ document
 document
   .getElementById("delete_all_locations_dialog")
   .addEventListener("close", () => {
-    if (document.getElementById("headUser-1").scrollTop >= 50) {
-      sendThemeToAndroid(
-        `${document.documentElement.getAttribute("Theme")}_Scrolled`
-      );
-    } else {
-      sendThemeToAndroid(
-        `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
-      );
-    }
+  if (document.getElementById("headUser-1").scrollTop >= 50) {
+    sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface-Container'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), Themeflag, '210')
+  } else {
+    sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), Themeflag, '210')
+  }
   });
 
 function deleteSavedLocations(){
@@ -1412,15 +1434,11 @@ function editLocationName(event){
 
   window.history.pushState({ editLocationNameDialogOpen: true }, "");
 
-if (document.getElementById("headUser-1").scrollTop >= 50) {
-  sendThemeToAndroid(
-    `${document.documentElement.getAttribute("Theme")}_DialogScrolled`
-  );
-} else {
-  sendThemeToAndroid(
-    `${document.documentElement.getAttribute("Theme")}_DialogNotScrolled`
-  );
-}
+  if (document.getElementById("headUser-1").scrollTop >= 50) {
+    sendThemeToAndroid(colorsDialogsOpenContainer[GetDialogOverlayContainerColor()], colorsDialogsOpenSurface[GetDialogOverlayContainerColor()], '0', '200');
+  } else {
+    sendThemeToAndroid(colorsDialogsOpenSurface[GetDialogOverlayContainerColor()], colorsDialogsOpenSurface[GetDialogOverlayContainerColor()], '0', '200');
+  }
 
 
 
@@ -1435,6 +1453,7 @@ function saveCustomLocatioName() {
 
   if(!document.getElementById('inputLocationName').value.trim()){
     console.log('empty')
+    document.getElementById('inputLocationName').setAttribute('error', getTranslationByLang(localStorage.getItem("AppLanguageCode"),"edit_location_error_sub"))
     document.getElementById('inputLocationName').error = true;
     return
   }
@@ -1485,15 +1504,11 @@ document
 document
   .getElementById("editLocationNameDialog")
   .addEventListener("close", () => {
-    if (document.getElementById("headUser-1").scrollTop >= 50) {
-      sendThemeToAndroid(
-        `${document.documentElement.getAttribute("Theme")}_Scrolled`
-      );
-    } else {
-      sendThemeToAndroid(
-        `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
-      );
-    }
+  if (document.getElementById("headUser-1").scrollTop >= 50) {
+    sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface-Container'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), Themeflag, '210')
+  } else {
+    sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), Themeflag, '210')
+  }
   });
 
   window.addEventListener("popstate", function (event) {

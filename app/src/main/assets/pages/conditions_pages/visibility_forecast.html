@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" Theme="clothing" data-theme="dark">
+<html lang="en" Theme="blue_material" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>Visibility Forecast</title>
+    <script src="../../bridge/android.js"></script>
     <script src="../../database/MainDataBase.js"></script>
     <link rel="stylesheet" href="../../ui-files/font-usage.css">
     <link rel="stylesheet" href="../../ui-files/variables.css">
@@ -13,11 +14,16 @@
     <link rel="stylesheet" href="../../components/modal-ver.css">
     <link rel="stylesheet" href="condition_pageUI.css">
     <script src="../../langs/langs.js"></script>
+    <script>
+          if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
+        document.documentElement.setAttribute('colorTheme', 'light');
+        }
+  </script>
 </head>
 
-<body>
+<body hidden>
     <div class="top_conditions_for_header">
-        <md-icon-button onclick="sendThemeToAndroid('GoBack')">
+        <md-icon-button onclick="ActivityBack()">
             <md-icon icon-outlined>arrow_back</md-icon>
         </md-icon-button>
         <p data-translate="visibility" style="padding-left: 5px; font-size: 18px; color: var(--On-Surface); font-family: var(--google-mid); height: 0; overflow: hidden; transition: all 0.2s ease-in;" id="hidden_anim_p">UV index</p>
@@ -122,18 +128,41 @@ async function CreateMaterialYouTheme(hex) {
     }
 
  if(localStorage.getItem("useDynamicColors") && localStorage.getItem("useDynamicColors") === "false"){
-        if (await customStorage.getItem("customTheme")) {
-      document.documentElement.setAttribute(
-        "Theme",
-        await customStorage.getItem("customTheme")
-      );
-            sendThemeToAndroid(
-        `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
-      );
-    }
+  if (await customStorage.getItem("customTheme")) {
+    document.documentElement.setAttribute(
+      "Theme",
+      await customStorage.getItem("customTheme")
+    );
   } else{
-  document.documentElement.setAttribute('Theme', closestColor);
-  sendThemeToAndroid(`${closestColor}_ScrollFalse`);
+    document.documentElement.setAttribute(
+     "Theme",
+        "blue_material"
+   );
+     await customStorage.setItem("customTheme", "blue_material");
+  }
+
+      if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
+        document.documentElement.setAttribute('colorTheme', 'light');
+        sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '1')
+
+      } else{
+        document.documentElement.setAttribute('colorTheme', 'dark');
+        sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '0')
+      }
+        document.querySelector('body').hidden = false
+
+  } else{
+    document.documentElement.setAttribute('Theme', closestColor);
+
+if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
+  document.documentElement.setAttribute('colorTheme', 'light');
+  sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '1')
+
+} else{
+  document.documentElement.setAttribute('colorTheme', 'dark');
+  sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '0')
+}
+  document.querySelector('body').hidden = false
   }
 }
         const cachedCurrentDataHourly = JSON.parse(localStorage.getItem('CurrentHourlyCache'));
@@ -175,12 +204,6 @@ async function CreateMaterialYouTheme(hex) {
 
 
         loadVisibilityForecast(cachedCurrentDataHourly)
-
-
-  function sendThemeToAndroid(theme) {
-
-AndroidInterface.updateStatusBarColor(theme);
-};
 
 
     document.querySelector('.condition_info_content').addEventListener('scroll', () =>{

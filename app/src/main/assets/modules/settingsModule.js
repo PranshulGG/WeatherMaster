@@ -29,9 +29,8 @@ function changeColorOnScroll1() {
 
     document.getElementById("headUser-1").style.scrollSnapType = "unset";
     container.removeEventListener("scroll", changeColorOnScroll1);
-    sendThemeToAndroid(
-      `${document.documentElement.getAttribute("Theme")}_Scrolled`
-    );
+            sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface-Container'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), Themeflag, '220')
+
   } else {
   }
 }
@@ -51,9 +50,8 @@ function changeColorOnScroll1A() {
     document.getElementById("head-1").style.transition =
       "background-color 0.2s ease-in";
 
-    sendThemeToAndroid(
-      `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
-    );
+            sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), Themeflag, '220')
+
 
     container.addEventListener("scroll", changeColorOnScroll1);
     if (scrollY <= 20);
@@ -70,9 +68,6 @@ if (user1) {
     .addEventListener("scroll", changeColorOnScroll1A);
 }
 
-function sendThemeToAndroid(theme) {
-  AndroidInterface.updateStatusBarColor(theme);
-}
 
 // background animations
 
@@ -214,13 +209,9 @@ function openMainProviderDialog() {
     .setAttribute("checked", "true");
 
   if (document.getElementById("headUser-1").scrollTop >= 50) {
-    sendThemeToAndroid(
-      `${document.documentElement.getAttribute("Theme")}_DialogScrolled`
-    );
+    sendThemeToAndroid(colorsDialogsOpenContainer[GetDialogOverlayContainerColor()], colorsDialogsOpenSurface[GetDialogOverlayContainerColor()], '0colorOnly', '200');
   } else {
-    sendThemeToAndroid(
-      `${document.documentElement.getAttribute("Theme")}_DialogNotScrolled`
-    );
+    sendThemeToAndroid(colorsDialogsOpenSurface[GetDialogOverlayContainerColor()], colorsDialogsOpenSurface[GetDialogOverlayContainerColor()], '0colorOnly', '200');
   }
 }
 
@@ -243,15 +234,11 @@ document
 document
   .getElementById("chooseMainProviderDialog")
   .addEventListener("close", () => {
-    if (document.getElementById("headUser-1").scrollTop >= 50) {
-      sendThemeToAndroid(
-        `${document.documentElement.getAttribute("Theme")}_Scrolled`
-      );
-    } else {
-      sendThemeToAndroid(
-        `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
-      );
-    }
+  if (document.getElementById("headUser-1").scrollTop >= 50) {
+    sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface-Container'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), Themeflag, '210')
+  } else {
+    sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), Themeflag, '210')
+  }
   });
 
 // ----------
@@ -349,13 +336,9 @@ function openAppFontDialog() {
     .setAttribute("checked", "true");
 
   if (document.getElementById("headUser-1").scrollTop >= 50) {
-    sendThemeToAndroid(
-      `${document.documentElement.getAttribute("Theme")}_DialogScrolled`
-    );
+    sendThemeToAndroid(colorsDialogsOpenContainer[GetDialogOverlayContainerColor()], colorsDialogsOpenSurface[GetDialogOverlayContainerColor()], '0colorOnly', '200');
   } else {
-    sendThemeToAndroid(
-      `${document.documentElement.getAttribute("Theme")}_DialogNotScrolled`
-    );
+    sendThemeToAndroid(colorsDialogsOpenSurface[GetDialogOverlayContainerColor()], colorsDialogsOpenSurface[GetDialogOverlayContainerColor()], '0colorOnly', '200');
   }
 }
 
@@ -377,13 +360,9 @@ document
 
 document.getElementById("chooseAPPFontDialog").addEventListener("close", () => {
   if (document.getElementById("headUser-1").scrollTop >= 50) {
-    sendThemeToAndroid(
-      `${document.documentElement.getAttribute("Theme")}_Scrolled`
-    );
+    sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface-Container'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), Themeflag, '210')
   } else {
-    sendThemeToAndroid(
-      `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
-    );
+    sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), Themeflag, '210')
   }
 });
 
@@ -505,24 +484,16 @@ async function setCustomTheme(item) {
   await customStorage.setItem("customTheme", item);
 
   setTimeout(() => {
-        if (document.getElementById("headUser-1").scrollTop >= 50) {
-          sendThemeToAndroid(
-            `${document.documentElement.getAttribute("Theme")}_Scrolled`
-          );
-        } else {
-          sendThemeToAndroid(
-            `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
-          );
-        }
+    if(document.getElementById("headUser-1").scrollTop >= 50){
+    sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface-Container'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), Themeflag, '220')
+    } else{
+    sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), Themeflag, '220')
+    }
   }, 100);
 }
 
 async function LoadCustomTheme() {
   if (await customStorage.getItem("customTheme")) {
-    document.documentElement.setAttribute(
-      "Theme",
-      await customStorage.getItem("customTheme")
-    );
     document
       .querySelector(
         `[theme-value="${await customStorage.getItem("customTheme")}"]`
@@ -530,10 +501,6 @@ async function LoadCustomTheme() {
       .style.setProperty("--display-style", "block");
 
   } else {
-   document.documentElement.setAttribute(
-     "Theme",
-        "blue_material"
-   );
      await customStorage.setItem("customTheme", "blue_material");
 
      document
@@ -549,11 +516,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     LoadCustomTheme();
 
     setTimeout(async() => {
-     if (await customStorage.getItem("customTheme")) {
-            sendThemeToAndroid(
-              `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
-            );
-       }
+//     if (await customStorage.getItem("customTheme")) {
+//            sendThemeToAndroid(
+//              `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
+//            );
+//       }
     }, 100);
   }
 });
@@ -567,30 +534,36 @@ document.getElementById("useDynamicColors").addEventListener("change", () => {
   if (document.getElementById("useDynamicColors").selected) {
     document.querySelector(".custom_theme_items").classList.add("hidden");
     setTimeout(() => {
-     sendThemeToAndroid('ReloadDynamicColors');
+     navigateActivity('ReloadDynamicColors');
     }, 250);
   } else {
     document.querySelector(".custom_theme_items").classList.remove("hidden");
-
-     setTimeout(() => {
-           if (document.getElementById("headUser-1").scrollTop >= 50) {
-             sendThemeToAndroid(
-               `${document.documentElement.getAttribute("Theme")}_Scrolled`
-             );
-           } else {
-             sendThemeToAndroid(
-               `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
-             );
-           }
-
-
-     }, 100);
-
-    LoadCustomTheme();
+    LoadCustomThemeSwitchType();
 
 
   }
 });
+
+async function LoadCustomThemeSwitchType(){
+  if (await customStorage.getItem("customTheme")) {
+    document.documentElement.setAttribute(
+      "Theme",
+      await customStorage.getItem("customTheme")
+    );
+  } else{
+    document.documentElement.setAttribute(
+     "Theme",
+        "blue_material"
+   );
+     await customStorage.setItem("customTheme", "blue_material");
+  }
+
+  if(document.getElementById("headUser-1").scrollTop >= 50){
+    sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface-Container'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), Themeflag)
+    } else{
+    sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), Themeflag)
+    }
+}
 
 if (
   localStorage.getItem("useDynamicColors") &&
@@ -618,13 +591,9 @@ function openAppFontSizeDialog() {
     .setAttribute("checked", "true");
 
   if (document.getElementById("headUser-1").scrollTop >= 50) {
-    sendThemeToAndroid(
-      `${document.documentElement.getAttribute("Theme")}_DialogScrolled`
-    );
+    sendThemeToAndroid(colorsDialogsOpenContainer[GetDialogOverlayContainerColor()], colorsDialogsOpenSurface[GetDialogOverlayContainerColor()], '0colorOnly', '200');
   } else {
-    sendThemeToAndroid(
-      `${document.documentElement.getAttribute("Theme")}_DialogNotScrolled`
-    );
+    sendThemeToAndroid(colorsDialogsOpenSurface[GetDialogOverlayContainerColor()], colorsDialogsOpenSurface[GetDialogOverlayContainerColor()], '0colorOnly', '200');
   }
 }
 
@@ -647,15 +616,11 @@ document
 document
   .getElementById("chooseAPPFontSizeDialog")
   .addEventListener("close", () => {
-    if (document.getElementById("headUser-1").scrollTop >= 50) {
-      sendThemeToAndroid(
-        `${document.documentElement.getAttribute("Theme")}_Scrolled`
-      );
-    } else {
-      sendThemeToAndroid(
-        `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
-      );
-    }
+  if (document.getElementById("headUser-1").scrollTop >= 50) {
+    sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface-Container'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), Themeflag, '210')
+  } else {
+    sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), Themeflag, '210')
+  }
   });
 
 document
@@ -721,13 +686,9 @@ function openSwipeThresholdDialog() {
   window.history.pushState({ AppSwipeThresholdDialogOpen: true }, "");
 
   if (document.getElementById("headUser-1").scrollTop >= 50) {
-    sendThemeToAndroid(
-      `${document.documentElement.getAttribute("Theme")}_DialogScrolled`
-    );
+    sendThemeToAndroid(colorsDialogsOpenContainer[GetDialogOverlayContainerColor()], colorsDialogsOpenSurface[GetDialogOverlayContainerColor()], '0colorOnly', '200');
   } else {
-    sendThemeToAndroid(
-      `${document.documentElement.getAttribute("Theme")}_DialogNotScrolled`
-    );
+    sendThemeToAndroid(colorsDialogsOpenSurface[GetDialogOverlayContainerColor()], colorsDialogsOpenSurface[GetDialogOverlayContainerColor()], '0colorOnly', '200');
   }
 }
 
@@ -750,15 +711,11 @@ document
 document
   .getElementById("chooseSwipeThresholdDialog")
   .addEventListener("close", () => {
-    if (document.getElementById("headUser-1").scrollTop >= 50) {
-      sendThemeToAndroid(
-        `${document.documentElement.getAttribute("Theme")}_Scrolled`
-      );
-    } else {
-      sendThemeToAndroid(
-        `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
-      );
-    }
+  if (document.getElementById("headUser-1").scrollTop >= 50) {
+    sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface-Container'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), Themeflag, '210')
+  } else {
+    sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), Themeflag, '210')
+  }
   });
 
 
@@ -807,3 +764,30 @@ document.addEventListener('DOMContentLoaded', () =>{
   retrieveQuickSummarySwitch()
 });
 
+// use light theme
+
+document.getElementById('useLightThemeSwitch').addEventListener('change', () =>{
+  localStorage.setItem('useLightTheme', document.getElementById('useLightThemeSwitch').selected);
+
+  if(document.getElementById('useLightThemeSwitch').selected){
+    document.documentElement.setAttribute('colorTheme', 'light');
+    sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '1')
+  } else{
+    document.documentElement.setAttribute('colorTheme', 'dark');
+    sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '0')
+  }
+  document.querySelector('load_theme').hidden = false;
+  document.getElementById("headUser-1").scrollTop = 0
+
+  setTimeout(() =>{
+    document.querySelector('load_theme').hidden = true;
+  }, 500);
+checkThemeFlag()
+});
+
+
+if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
+  document.getElementById('useLightThemeSwitch').selected = true;
+} else{
+  document.getElementById('useLightThemeSwitch').selected = false;
+}

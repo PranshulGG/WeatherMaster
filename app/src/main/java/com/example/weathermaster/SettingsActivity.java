@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -16,6 +17,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.View;
@@ -37,6 +39,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
@@ -80,6 +83,9 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences prefs = getSharedPreferences("theme_prefs", MODE_PRIVATE);
+        boolean isDarkMode = prefs.getBoolean("theme_mode", false);
+        setAppTheme(this, isDarkMode);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -100,7 +106,8 @@ public class SettingsActivity extends AppCompatActivity {
         webview.addJavascriptInterface(new ShowToastInterface(this), "ToastAndroidShow");
         webview.addJavascriptInterface(new ShowSnackInterface(this), "ShowSnackMessage");
         webview.addJavascriptInterface(new WebAppInterface(), "Android");
-        webview.setBackgroundColor(getResources().getColor(R.color.yellowBg));
+        webview.addJavascriptInterface(new BackActivityInterface(this), "BackActivityInterface");
+        webview.addJavascriptInterface(new NavigateActivityInterface(this), "OpenActivityInterface");
 
         webview.loadUrl("file:///android_asset/pages/settings.html");
         webSettings.setTextZoom(100);
@@ -286,6 +293,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+
     public class ShowSnackInterface {
         private final Context mContext;
 
@@ -298,7 +306,7 @@ public class SettingsActivity extends AppCompatActivity {
             int duration = Snackbar.LENGTH_SHORT;
             if ("long".equals(time)) {
                 duration = Snackbar.LENGTH_LONG;
-            } else if ("short".equals(time)) {
+            } else if ("short".equals(time)){
                 duration = Snackbar.LENGTH_SHORT;
             }
 
@@ -308,15 +316,11 @@ public class SettingsActivity extends AppCompatActivity {
             View snackbarView = snackbar.getView();
 
 
-            snackbarView.setBackgroundResource(R.drawable.snackbar_background);
 
             TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
-            textView.setTextColor(ContextCompat.getColor(mContext, R.color.snackbar_text));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
             Typeface typeface = ResourcesCompat.getFont(mContext, R.font.outfit_medium);
             textView.setTypeface(typeface);
-
-            snackbar.setTextColor(ContextCompat.getColor(mContext, R.color.snackbar_text));
 
 
             ViewGroup.LayoutParams params = snackbar.getView().getLayoutParams();
@@ -354,22 +358,85 @@ public class SettingsActivity extends AppCompatActivity {
 
 //    export or import data
 
+    public class NavigateActivityInterface {
+        private final Context mContext;
 
-
-
-
-
-
-    public class AndroidInterface {
-        private SettingsActivity sActivity;
-
-        AndroidInterface(SettingsActivity activity) {
-            sActivity = activity;
+        public NavigateActivityInterface(Context context) {
+            this.mContext = context;
         }
 
         @JavascriptInterface
-        public void updateStatusBarColor(final String color) {
-            sActivity.runOnUiThread(new Runnable() {
+        public void OpenActivity(final String activityName) {
+            Intent intent = null;
+
+            switch (activityName) {
+                case "AboutPage":
+                    intent = new Intent(mContext, AboutPage.class);
+                    break;
+                case "ReloadDynamicColors":
+                    if (mContext instanceof Activity) {
+                        Activity activity = (Activity) mContext;
+                        Intent reloadIntent = activity.getIntent();
+                        activity.finish();
+                        activity.startActivity(reloadIntent);
+                        activity.overridePendingTransition(0, 0);
+                    }
+                    return;
+                case "EditAppLayoutPage":
+                    intent = new Intent(mContext, ArrangeItems.class);
+                    break;
+                case "openHomelocationPage":
+                    intent = new Intent(mContext, Homelocations.class);
+                    break;
+                case "AppUnitsActivity":
+                    intent = new Intent(mContext, AppUnitsActivity.class);
+                    break;
+                case "openWeatherModels":
+                    intent = new Intent(mContext, WeatherModels.class);
+                    break;
+                case "OpenLanguagesPage":
+                    intent = new Intent(mContext, LanguagePage.class);
+                    break;
+                case "OpenAboutPage":
+                    intent = new Intent(mContext, AboutPage.class);
+                    break;
+                default:
+                    Toast.makeText(mContext, "Activity not found", Toast.LENGTH_SHORT).show();
+                    return;
+            }
+
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(intent);
+
+        }
+    }
+
+    public class BackActivityInterface {
+        private final Activity gActivity;
+
+        public BackActivityInterface(Activity activity) {
+            this.gActivity = activity;
+        }
+
+        @JavascriptInterface
+        public void CloseActivity() {
+            gActivity.runOnUiThread(() -> gActivity.onBackPressed());
+        }
+    }
+    public void goBack() {
+        runOnUiThread(this::onBackPressed);
+    }
+
+    public class AndroidInterface {
+        private SettingsActivity mActivity;
+
+        AndroidInterface(SettingsActivity activity) {
+            mActivity = activity;
+        }
+
+        @JavascriptInterface
+        public void updateStatusBarColor(final String colorStatus, final String colorNav, final String UiFlag, final String FlagAnim) {
+            mActivity.runOnUiThread(new Runnable() {
                 @SuppressLint("ResourceType")
                 @RequiresApi(api = Build.VERSION_CODES.O)
                 @Override
@@ -378,310 +445,66 @@ public class SettingsActivity extends AppCompatActivity {
                     int navigationBarColor;
                     int systemUiVisibilityFlags = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
 
-
-                    if (color.equals("Scrolled")){
-                        statusBarColor = 0xFF1d2024;
-                        navigationBarColor = 0xFF111318;
-
-                    } else if (color.equals("ScrollFalse")) {
-                        statusBarColor = 0xFF111318;
-                        navigationBarColor = 0xFF111318;
-
-                    } else if (color.equals("DialogNotScrolled")) {
-                        statusBarColor = 0xFF07080a;
-                        navigationBarColor = 0xFF07080a;
-
-                    } else if (color.equals("DialogScrolled")) {
-                        statusBarColor = 0xFF0c0d0e;
-                        navigationBarColor = 0xFF07080a;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if(color.equals("orange_material_Scrolled")){
-                        statusBarColor = 0xFF251e17;
-                        navigationBarColor = 0xFF18120c;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if (color.equals("orange_material_ScrollFalse")) {
-                        statusBarColor = 0xFF18120c;
-                        navigationBarColor = 0xFF18120c;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if(color.equals("red_material_Scrolled")){
-                        statusBarColor = 0xFF271d1b;
-                        navigationBarColor = 0xFF1a110f;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if (color.equals("red_material_ScrollFalse")) {
-                        statusBarColor = 0xFF1a110f;
-                        navigationBarColor = 0xFF1a110f;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if(color.equals("pink_material_Scrolled")){
-                        statusBarColor = 0xFF261d1f;
-                        navigationBarColor = 0xFF191113;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if (color.equals("pink_material_ScrollFalse")) {
-                        statusBarColor = 0xFF191113;
-                        navigationBarColor = 0xFF191113;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if(color.equals("purple_material_Scrolled")){
-                        statusBarColor = 0xFF241e22;
-                        navigationBarColor = 0xFF171216;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if (color.equals("purple_material_ScrollFalse")) {
-                        statusBarColor = 0xFF171216;
-                        navigationBarColor = 0xFF171216;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if(color.equals("blue_material_Scrolled")){
-                        statusBarColor = 0xFF1d2024;
-                        navigationBarColor = 0xFF111318;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if (color.equals("blue_material_ScrollFalse")) {
-                        statusBarColor = 0xFF111318;
-                        navigationBarColor = 0xFF111318;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if(color.equals("yellow_material_Scrolled")){
-                        statusBarColor = 0xFF222017;
-                        navigationBarColor = 0xFF15130b;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if (color.equals("yellow_material_ScrollFalse")) {
-                        statusBarColor = 0xFF15130b;
-                        navigationBarColor = 0xFF15130b;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if(color.equals("green_material_Scrolled")){
-                        statusBarColor = 0xFF1e201a;
-                        navigationBarColor = 0xFF12140e;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if (color.equals("green_material_ScrollFalse")) {
-                        statusBarColor = 0xFF12140e;
-                        navigationBarColor = 0xFF12140e;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if(color.equals("mono_material_Scrolled")){
-                        statusBarColor = 0xFF201f1f;
-                        navigationBarColor = 0xFF141313;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if (color.equals("mono_material_ScrollFalse")) {
-                        statusBarColor = 0xFF141313;
-                        navigationBarColor = 0xFF141313;
-                        systemUiVisibilityFlags = 0;
-
-
-                    } else if (color.equals("orange_material_DialogNotScrolled")){
-                        statusBarColor = 0xFF0a0705;
-                        navigationBarColor = 0xFF0a0705;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if (color.equals("orange_material_DialogScrolled")) {
-                        statusBarColor = 0xFF0f0c09;
-                        navigationBarColor = 0xFF0a0705;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if(color.equals("red_material_DialogNotScrolled")){
-                        statusBarColor = 0xFF0b0706;
-                        navigationBarColor = 0xFF0b0706;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if (color.equals("red_material_DialogScrolled")) {
-                        statusBarColor = 0xFF100c0b;
-                        navigationBarColor = 0xFF0b0706;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if(color.equals("pink_material_DialogNotScrolled")){
-                        statusBarColor = 0xFF090708;
-                        navigationBarColor = 0xFF090708;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if (color.equals("pink_material_DialogScrolled")) {
-                        statusBarColor = 0xFF0e0d0b;
-                        navigationBarColor = 0xFF090708;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if(color.equals("purple_material_DialogNotScrolled")){
-                        statusBarColor = 0xFF090709;
-                        navigationBarColor = 0xFF090709;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if (color.equals("purple_material_DialogScrolled")) {
-                        statusBarColor = 0xFF0e0c0e;
-                        navigationBarColor = 0xFF090709;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if(color.equals("blue_material_DialogNotScrolled")){
-                        statusBarColor = 0xFF07080a;
-                        navigationBarColor = 0xFF07080a;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if (color.equals("blue_material_DialogScrolled")) {
-                        statusBarColor = 0xFF0c0d0e;
-                        navigationBarColor = 0xFF07080a;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if(color.equals("yellow_material_DialogNotScrolled")){
-                        statusBarColor = 0xFF080804;
-                        navigationBarColor = 0xFF080804;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if (color.equals("yellow_material_DialogScrolled")) {
-                        statusBarColor = 0xFF0e0d09;
-                        navigationBarColor = 0xFF080804;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if(color.equals("green_material_DialogNotScrolled")){
-                        statusBarColor = 0xFF070806;
-                        navigationBarColor = 0xFF070806;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if (color.equals("green_material_DialogScrolled")) {
-                        statusBarColor = 0xFF0c0d0a;
-                        navigationBarColor = 0xFF070806;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if(color.equals("mono_material_DialogNotScrolled")){
-                        statusBarColor = 0xFF060606;
-                        navigationBarColor = 0xFF060606;
-                        systemUiVisibilityFlags = 0;
-
-                    } else if (color.equals("mono_material_DialogScrolled")) {
-                        statusBarColor = 0xFF0d0c0c;
-                        navigationBarColor = 0xFF060606;
-                        systemUiVisibilityFlags = 0;
-
-//                        Light colors 😭 EWWW
-
-                    } else if (color.equals("amoled_theme")) {
-                        statusBarColor = 0xFF000000;
-                        navigationBarColor = 0xFF000000;
-                        systemUiVisibilityFlags = 0;
-                    } else  if (color.equals("ReloadDynamicColors")){
-                        isFirstLoad = true;
-                        webview.reload();
-                        return;
-                    } else if (color.equals("GoBack")){
-                        back();
-                        return;
-                    } else if (color.equals("OpenAboutPage")){
-                        openAboutPage();
-                        return;
-                    } else if (color.equals("OpenLanguagesPage")){
-                        openLanguagesPage();
-                        return;
-                    } else if (color.equals("openHomelocationPage")){
-                        openHomelocationPage();
-                        return;
-                    } else if (color.equals("openWeatherModels")){
-                        openWeatherModels();
-                        return;
-                    } else if (color.equals("EditAppLayoutPage")){
-                        EditAppLayoutPage();
-                        return;
-                    } else if (color.equals("AppUnitsActivity")){
-                        AppUnitsActivity();
-                        return;
-                    } else if (color.equals("bluesetDef")) {
-                        return;
-                    } else if (color.equals("keepiton")) {
-                        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-                        return;
-                    } else if (color.equals("keepitoff")) {
-                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-                        return;
-                    } else if (color.equals("itsOn")) {
-                        Toast.makeText(sActivity, "Your device will stay awake", Toast.LENGTH_SHORT).show();
-                        return;
-                    } else if (color.equals("ItsOff")) {
-                        Toast.makeText(sActivity, "Your device will go to sleep at the default time", Toast.LENGTH_SHORT).show();
-                        return;
-                    } else if(color.equals("ReqNotification")) {
-                        requestNotificationPermissions();
-                        return;
+                    if (colorStatus != null && !colorStatus.isEmpty()) {
+                        statusBarColor = Color.parseColor(colorStatus);
+                        navigationBarColor = Color.parseColor(colorNav);
+                        if ("0colorOnly".equals(UiFlag)){
+                            systemUiVisibilityFlags = 0;
+                        }else if ("1".equals(UiFlag)) {
+                            systemUiVisibilityFlags = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+                            setAppTheme(mActivity, false);
+                        } else {
+                            systemUiVisibilityFlags = 0;
+                            setAppTheme(mActivity, true);
+                        }
                     } else {
-                        Toast.makeText(sActivity, "not found", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "not found", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
+                    int currentStatusBarColor = mActivity.getWindow().getStatusBarColor();
+                    int currentNavigationBarColor = mActivity.getWindow().getNavigationBarColor();
 
-                    int currentStatusBarColor = sActivity.getWindow().getStatusBarColor();
-                    int currentNavigationBarColor = sActivity.getWindow().getNavigationBarColor();
+                    int animationDuration = 0;
+                    try {
+                        animationDuration = Integer.parseInt(FlagAnim);
+                    } catch (NumberFormatException e) {
+                        animationDuration = 0;
+                    }
+
 
                     ObjectAnimator statusBarAnimator = ObjectAnimator.ofObject(
-                            sActivity.getWindow(),
+                            mActivity.getWindow(),
                             "statusBarColor",
                             new ArgbEvaluator(),
                             currentStatusBarColor,
                             statusBarColor
                     );
 
-                    statusBarAnimator.setDuration(200);
+                    statusBarAnimator.setDuration(animationDuration);
                     statusBarAnimator.start();
 
                     ObjectAnimator navBarAnimator = ObjectAnimator.ofObject(
-                            sActivity.getWindow(),
+                            mActivity.getWindow(),
                             "navigationBarColor",
                             new ArgbEvaluator(),
                             currentNavigationBarColor,
                             navigationBarColor
                     );
 
-                    navBarAnimator.setDuration(200);
+                    navBarAnimator.setDuration(animationDuration);
                     navBarAnimator.start();
 
-                    sActivity.getWindow().setNavigationBarColor(navigationBarColor);
+                    mActivity.getWindow().setNavigationBarColor(navigationBarColor);
 
-                    View decorView = sActivity.getWindow().getDecorView();
+                    View decorView = mActivity.getWindow().getDecorView();
                     decorView.setSystemUiVisibility(systemUiVisibilityFlags);
-
 
                 }
             });
         }
-
-
-
-        public void openAboutPage() {
-            Intent intent = new Intent(sActivity, AboutPage.class);
-            sActivity.startActivity(intent);
-        }
-        public void openLanguagesPage() {
-            Intent intent = new Intent(sActivity, LanguagePage.class);
-            sActivity.startActivity(intent);
-        }
-
-        public void openHomelocationPage() {
-            Intent intent = new Intent(sActivity, Homelocations.class);
-            sActivity.startActivity(intent);
-        }
-
-        public void openWeatherModels() {
-            Intent intent = new Intent(sActivity, WeatherModels.class);
-            sActivity.startActivity(intent);
-        }
-
-        public void EditAppLayoutPage() {
-            Intent intent = new Intent(sActivity, ArrangeItems.class);
-            sActivity.startActivity(intent);
-        }
-        public void AppUnitsActivity() {
-            Intent intent = new Intent(sActivity, AppUnitsActivity.class);
-            sActivity.startActivity(intent);
-        }
-
-
     }
 
-    public void back() {
-        onBackPressed();
-    }
 
 
 
@@ -729,5 +552,20 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    public void setAppTheme(Context context, boolean isDarkMode) {
+        // Save theme preference
+        SharedPreferences prefs = context.getSharedPreferences("theme_prefs", Context.MODE_PRIVATE);
+        prefs.edit().putBoolean("theme_mode", isDarkMode).apply();
+
+        // Apply the theme
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            context.setTheme(R.style.ThemeMainBlackDark);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            context.setTheme(R.style.ThemeMainBlackLight);
+        }
     }
 }

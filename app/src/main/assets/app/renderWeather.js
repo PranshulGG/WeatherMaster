@@ -140,10 +140,7 @@ const filteredData = data.hourly.time
 
     if (isRainingNow) {
       if (!rainStopping && rainAmountALL <= rainThreshold && index > 0) {
-        rainStopping = `${getTranslationByLang(
-          localStorage.getItem("AppLanguageCode"),
-          "rain_to_stop_at"
-        )} ${hours}${period}`;
+        rainStopping = `Precipitation to stop at ${hours}${period}`;
       }
     } else if (!isRainingNow && !rainComing && rainAmountALL > rainThreshold) {
       const currentTime = new Date(data.hourly.time[0]);

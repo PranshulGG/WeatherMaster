@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" Theme="clothing" data-theme="dark" >
+<html lang="en" Theme="blue_material" data-theme="dark" >
 
 <head>
  <meta charset="UTF-8">
  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
  <title>about Page</title>
+ <script src="../bridge/android.js"></script>
  <script src="../database/MainDataBase.js"></script>
  <script src="../langs/langs.js"></script>
  <link rel="stylesheet" href="../ui-files/ui.css">
@@ -14,6 +15,11 @@
  <link rel="stylesheet" href="../ripple-files/ripple.css">
  <link rel="stylesheet" href="../components/md-buttons.css">
  <script src="../modules/lottie.js"></script>
+ <script>
+          if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
+        document.documentElement.setAttribute('colorTheme', 'light');
+        }
+  </script>
  <style>
             .padding_about_app{
                 padding: 15px;
@@ -128,11 +134,11 @@
     </style>
 </head>
 
-<body class="center_all" style="--md-list-item-label-text-size: 1.15rem; --md-list-item-pressed-state-layer-opacity: 0.15; --md-ref-typeface-plain: var(--google-normal); background-color: var(--Surface);">
+<body class="center_all" style="--md-list-item-label-text-size: 1.15rem; --md-list-item-pressed-state-layer-opacity: 0.15; --md-ref-typeface-plain: var(--google-normal); background-color: var(--Surface);" hidden>
 
       <div class="head_area_about_page">
        <p data-translate="about">About</p>
-       <md-icon-button onclick="sendThemeToAndroid('GoBack')"><md-icon icon-outlined>close</md-icon></md-icon-button>
+       <md-icon-button onclick="ActivityBack()"><md-icon icon-outlined>close</md-icon></md-icon-button>
       </div>
       <div class="padding_about_app">
 
@@ -149,7 +155,7 @@
          <md-icon icon-outlined>info</md-icon>
          <div style="position: relative; width: 100%;">
           <p data-translate="version">Version</p>
-          <span>1.18.0 (W)</span>
+          <span>1.19.0 (W)</span>
           <md-icon-button style="position: absolute; right: 5px;" id="checkUpdatesBtn"><md-icon icon-outlined>refresh</md-icon></md-icon-button>
          </div>
         </div>
@@ -192,26 +198,26 @@
 
        </div>
 
-       <div class="small_items_info_about_page" onclick="sendThemeToAndroid('OpenContributorsPage')">
+       <div class="small_items_info_about_page" onclick="navigateActivity('OpenContributorsPage')">
         <p data-translate="contributors">Contributors</p>
         <span data-translate="contributors_sub">View people who contributed to this project</span>
         <md-icon-button style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);"><md-icon icon-outlined>chevron_right</md-icon></md-icon-button>
         <md-ripple></md-ripple>
        </div>
 
-       <div class="small_items_info_about_page" onclick="sendThemeToAndroid('OpenTermsConditions')">
+       <div class="small_items_info_about_page" onclick="navigateActivity('OpenTermsConditions')">
         <p data-translate="terms_&_conditions">Terms & Conditions</p>
         <md-icon-button style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);"><md-icon icon-outlined>chevron_right</md-icon></md-icon-button>
         <md-ripple></md-ripple>
        </div>
 
-       <div class="small_items_info_about_page" onclick="sendThemeToAndroid('OpenPrivacyPolicy')">
+       <div class="small_items_info_about_page" onclick="navigateActivity('OpenPrivacyPolicy')">
         <p data-translate="privacy_policy">Privacy & Policy</p>
         <md-icon-button style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);"><md-icon icon-outlined>chevron_right</md-icon></md-icon-button>
         <md-ripple></md-ripple>
        </div>
 
-       <div class="small_items_info_about_page" onclick="sendThemeToAndroid('OpenLicenses')">
+       <div class="small_items_info_about_page" onclick="navigateActivity('OpenLicenses')">
         <p data-translate="third_party_licenses">Third party licenses</p>
         <md-icon-button style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);"><md-icon icon-outlined>chevron_right</md-icon></md-icon-button>
         <md-ripple></md-ripple>
@@ -285,18 +291,41 @@ async function CreateMaterialYouTheme(hex) {
     }
 
  if(localStorage.getItem("useDynamicColors") && localStorage.getItem("useDynamicColors") === "false"){
-        if (await customStorage.getItem("customTheme")) {
-      document.documentElement.setAttribute(
-        "Theme",
-        await customStorage.getItem("customTheme")
-      );
-            sendThemeToAndroid(
-        `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
-      );
-    }
+  if (await customStorage.getItem("customTheme")) {
+    document.documentElement.setAttribute(
+      "Theme",
+      await customStorage.getItem("customTheme")
+    );
   } else{
-  document.documentElement.setAttribute('Theme', closestColor);
-  sendThemeToAndroid(`${closestColor}_ScrollFalse`);
+    document.documentElement.setAttribute(
+     "Theme",
+        "blue_material"
+   );
+     await customStorage.setItem("customTheme", "blue_material");
+  }
+
+      if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
+        document.documentElement.setAttribute('colorTheme', 'light');
+        sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '1')
+
+      } else{
+        document.documentElement.setAttribute('colorTheme', 'dark');
+        sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '0')
+      }
+        document.querySelector('body').hidden = false
+
+  } else{
+    document.documentElement.setAttribute('Theme', closestColor);
+
+if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
+  document.documentElement.setAttribute('colorTheme', 'light');
+  sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '1')
+
+} else{
+  document.documentElement.setAttribute('colorTheme', 'dark');
+  sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '0')
+}
+  document.querySelector('body').hidden = false
   }
 }
 
@@ -322,7 +351,8 @@ async function CreateMaterialYouTheme(hex) {
 
                 document.getElementById('headUser-6').style.scrollSnapType = 'unset';
                 container.removeEventListener('scroll', changeColorOnScroll6);
-                sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_ScrollFalse`);
+                 sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface-Container'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), Themeflag, '220')
+
 
             } else {
 
@@ -343,7 +373,7 @@ async function CreateMaterialYouTheme(hex) {
                 document.getElementById('head-6').style.backgroundColor = '';
                 document.getElementById('head-6').style.transition = 'background-color 0.2s ease-in';
 
-                sendThemeToAndroid('ScrollFalse')
+                sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), Themeflag, '220')
 
                 container.addEventListener('scroll', changeColorOnScroll6);
                 if (scrollY <= 20); {
@@ -360,15 +390,9 @@ async function CreateMaterialYouTheme(hex) {
             document.getElementById('headUser-6').addEventListener('scroll', changeColorOnScroll6A);
         }
 
-        function sendThemeToAndroid(theme) {
-
-            AndroidInterface.updateStatusBarColor(theme);
-        };
-
-
 
         document.getElementById('checkUpdatesBtn').addEventListener('click', async function () {
-            const currentVersion = 'v1.18.0';
+            const currentVersion = 'v1.19.0';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases`;
 

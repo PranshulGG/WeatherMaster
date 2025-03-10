@@ -162,7 +162,11 @@ body{
     --main-bg: #011d33;
 }
 
-
+[colorTheme="light"] {
+    --ripple-unbounded: var(--On-Surface) !important;
+    --ripple-bounded: black !important;
+    color-scheme: light !important;
+}
 
 [iconCodeTheme="clear-day"] {
 
@@ -1208,7 +1212,7 @@ body{
     --Surface-Bright: #f9f9ff;
     --Surface-Container-Lowest: #ffffff;
     --Surface-Container-Low: #f3f3fa;
-    --Surface-Container: rgb(237, 237, 244);
+    --Surface-Container: #ededf4;
     --Surface-Container-High: #e7e8ee;
     --Surface-Container-Highest: #e2e2e9;
     --Inverse-Surface: #2e3036;
@@ -1307,4 +1311,44 @@ body{
     --caret: #4c662b;
     --Top-bar: 237, 237, 244;
 
+}
+
+[colorTheme="light"][Theme="mono_material"]{
+
+    --Primary: #000000;
+    --On-Primary: #ffffff;
+    --Primary-Container: #c5c3c3;
+    --On-Primary-Container: #515051;
+    --Secondary: #5f5e5e;
+    --On-Secondary: #ffffff;
+    --Secondary-Container: #e5e2e1;
+    --On-Secondary-Container: #656464;
+    --Tertiary: #525e7d;
+    --On-Tertiary: #ffffff;
+    --Tertiary-Container: #dae2ff;
+    --On-Tertiary-Container: #3b4664;
+    --Error: #ba1a1a;
+    --On-Error: #ffffff;
+    --Error-Container: #ffdad6;
+    --On-Error-Container: #93000a;
+    --Surface-Dim: #ddd9d8;
+    --Surface: #fdf8f8;
+    --Surface-Bright: #fdf8f8;
+    --Surface-Container-Lowest: #ffffff;
+    --Surface-Container-Low: #f7f3f2;
+    --Surface-Container: #f1edec;
+    --Surface-Container-High: #ebe7e7;
+    --Surface-Container-Highest: #e5e2e1;
+    --Inverse-Surface: #313030;
+    --Inverse-On-Surface: #f4f0ef;
+    --Inverse-Primary: #c8c6c6;
+    --On-Surface: #1c1b1b;
+    --On-Surface-Variant: #444748;
+    --Outline: #747878;
+    --Outline-Variant: #c4c7c7;
+    --Scrim: #000000;
+    --Shadow: #000000;
+
+    --caret: #2a2a2a;
+    --Top-bar: 237, 237, 244;
 }

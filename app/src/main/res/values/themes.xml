@@ -31,6 +31,15 @@
 
 
 
+    <style name="ThemeMainBlackLight" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:statusBarColor">#fcfcfc</item>
+        <item name="android:windowBackground">#fcfcfc</item>
+        <item name="android:navigationBarColor">#fcfcfc</item>
+        <item name="colorAccent">#000000</item>
+    </style>
+
+
+
     <style name="Theme.WeatherMaster" parent="Base.Theme.WeatherMaster" />
 
 
@@ -143,7 +152,6 @@
     <style name="mono_material_caret" parent="Theme.AppCompat.NoActionBar">
         <item name="colorAccent">#ffffff</item>
     </style>
-
 
 
 </resources>

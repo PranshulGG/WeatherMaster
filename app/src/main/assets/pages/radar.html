@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" Theme="clothing" data-theme="dark">
+<html lang="en" Theme="blue_material" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live rader</title>
+    <script src="../bridge/android.js"></script>
     <script src="../database/MainDataBase.js"></script>
     <script src="../langs/langs.js"></script>
     <link rel="stylesheet" href="../ui-files/font-usage.css">
@@ -16,7 +17,11 @@
     <link rel="stylesheet" href="../map/leaflet.css">
     <script src="../map/leaflet.js"></script>
 
-
+    <script>
+          if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
+        document.documentElement.setAttribute('colorTheme', 'light');
+        }
+  </script>
     <style>
         * {
             -webkit-tap-highlight-color: transparent;
@@ -203,15 +208,15 @@
     </style>
 </head>
 
-<body>
+<body hidden>
 
 <div class="map_holder">
 
     <div class="header">
         <button class="ripple-icon-btn regular" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)"
-                onclick="sendThemeToAndroid('GoBack')" style="--ripple-unbounded: white">
+                onclick="ActivityBack()" style="--ripple-unbounded: white;">
             <span class="ripple-effect-icon"></span>
-            <span icon-outlined style="font-size: 24px !important; color: white;">arrow_back</span>
+            <span icon-outlined style="font-size: 24px !important;  color: var(--On-Surface);">arrow_back</span>
         </button>
 
         <p data-translate="live_radar">Live Radar</p>
@@ -340,21 +345,45 @@ async function CreateMaterialYouTheme(hex) {
     }
 
  if(localStorage.getItem("useDynamicColors") && localStorage.getItem("useDynamicColors") === "false"){
-        if (await customStorage.getItem("customTheme")) {
-      document.documentElement.setAttribute(
-        "Theme",
-        await customStorage.getItem("customTheme")
-      );
-            sendThemeToAndroid(
-        `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
-      );
-    }
+  if (await customStorage.getItem("customTheme")) {
+    document.documentElement.setAttribute(
+      "Theme",
+      await customStorage.getItem("customTheme")
+    );
   } else{
-  document.documentElement.setAttribute('Theme', closestColor);
-  sendThemeToAndroid(`${closestColor}_ScrollFalse`);
+    document.documentElement.setAttribute(
+     "Theme",
+        "blue_material"
+   );
+     await customStorage.setItem("customTheme", "blue_material");
   }
-}
 
+      if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
+        document.documentElement.setAttribute('colorTheme', 'light');
+        sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface-Container'), '1')
+
+      } else{
+        document.documentElement.setAttribute('colorTheme', 'dark');
+        sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface-Container'), '0')
+      }
+        document.querySelector('body').hidden = false
+
+  } else{
+    document.documentElement.setAttribute('Theme', closestColor);
+
+if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
+  document.documentElement.setAttribute('colorTheme', 'light');
+  sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface-Container'), '1')
+
+} else{
+  document.documentElement.setAttribute('colorTheme', 'dark');
+  sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface-Container'), '0')
+}
+  document.querySelector('body').hidden = false
+  }
+        loadMapRainView()
+
+}
 
 const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
         if (AppLanguageCodeValue) {
@@ -366,8 +395,15 @@ const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
 
        const timeFormat = localStorage.getItem('selectedTimeMode');
 
+       let filterStyle
+
        function darkModeTileLayer(urlTemplate) {
-    const filterStyle = 'invert(100%) hue-rotate(180deg) brightness(0.6) contrast(90%)';
+
+            if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
+            filterStyle = '';
+        }else{
+            filterStyle = 'invert(100%) hue-rotate(180deg) brightness(0.6) contrast(90%)';
+        }
 
     return window.L.tileLayer(urlTemplate, {
     }).addTo(map).getContainer().style.filter = filterStyle;
@@ -496,7 +532,6 @@ const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
         }
 
 
-        loadMapRainView()
 
 
 
@@ -517,10 +552,6 @@ const AppLanguageCodeValue = localStorage.getItem('AppLanguageCode');
             }
         }
 
-                function sendThemeToAndroid(theme) {
-
-                    AndroidInterface.updateStatusBarColor(theme);
-                };
     </script>
 
 

@@ -9,6 +9,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -41,6 +42,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
@@ -94,6 +96,9 @@ public class MainActivity extends AppCompatActivity {
     //    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences prefs = getSharedPreferences("theme_prefs", MODE_PRIVATE);
+        boolean isDarkMode = prefs.getBoolean("theme_mode", true);
+        setAppTheme(this, isDarkMode);
         super.onCreate(savedInstanceState);
 
 
@@ -109,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         webSettings.setAllowFileAccessFromFileURLs(true);
         webSettings.setAllowUniversalAccessFromFileURLs(true);
         webSettings.setAllowContentAccess(true);
-        webview.setOverScrollMode(WebView.OVER_SCROLL_NEVER);
+        webview.setOverScrollMode(WebView.OVER_SCROLL_ALWAYS);
         webview.setVerticalScrollBarEnabled(false);
         webview.setHorizontalScrollBarEnabled(false);
         webview.setWebViewClient(new WebViewClientDemo());
@@ -451,8 +456,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void requestLocationPermissions() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    PERMISSION_REQUEST_CODE);
         } else{
             webview.evaluateJavascript("saveLocationDataOnReload();", null);
         }
@@ -463,7 +471,8 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.length > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED ||
+                    grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
                 webview.getSettings().setGeolocationEnabled(true);
                 webview.evaluateJavascript("saveLocationDataOnReload();", null);
             } else {
@@ -545,56 +554,48 @@ public class MainActivity extends AppCompatActivity {
                         navigationBarColor = 0xFF00043d;
                         systemUiVisibilityFlags = 0;
                         webview.setBackgroundColor(getResources().getColor(R.color.C01d));
-                        setTheme(R.style.blue_caret);
 
                     } else if (color.equals("clear-night")) {
                         statusBarColor = 0xFF01023d;
                         navigationBarColor = 0xFF01023d;
                         systemUiVisibilityFlags = 0;
                         webview.setBackgroundColor(getResources().getColor(R.color.C01n));
-                        setTheme(R.style.blue_caret);
 
                     } else if(color.equals("cloudy")){
                             statusBarColor = 0xFF04122e;
                             navigationBarColor = 0xFF04122e;
                             systemUiVisibilityFlags = 0;
                         webview.setBackgroundColor(getResources().getColor(R.color.C02d));
-                        setTheme(R.style.blue_caret);
 
                     } else if(color.equals("overcast")){
                         statusBarColor = 0xFF0c1822;
                         navigationBarColor = 0xFF0c1822;
                         systemUiVisibilityFlags = 0;
                         webview.setBackgroundColor(getResources().getColor(R.color.C03d));
-                        setTheme(R.style.blue_caret);
 
                     } else if(color.equals("rain")){
                         statusBarColor = 0xFF0e1d2a;
                         navigationBarColor = 0xFF0e1d2a;
                         systemUiVisibilityFlags = 0;
                         webview.setBackgroundColor(getResources().getColor(R.color.C04d));
-                        setTheme(R.style.blue_caret);
 
                     } else if (color.equals("thunder")) {
                         statusBarColor = 0xFF231225;
                         navigationBarColor = 0xFF231225;
                         systemUiVisibilityFlags = 0;
                         webview.setBackgroundColor(getResources().getColor(R.color.C04n));
-                        setTheme(R.style.blue_caret);
 
                     } else if(color.equals("snow")){
                         statusBarColor = 0xFF0b0b0c;
                         navigationBarColor = 0xFF0b0b0c;
                         systemUiVisibilityFlags = 0;
                         webview.setBackgroundColor(getResources().getColor(R.color.C09d));
-                        setTheme(R.style.blue_caret);
 
                     } else if (color.equals("fog")) {
                         statusBarColor = 0xFF191209;
                         navigationBarColor = 0xFF191209;
                         systemUiVisibilityFlags = 0;
                         webview.setBackgroundColor(getResources().getColor(R.color.C09n));
-                        setTheme(R.style.orange_caret);
 
                     } else if (color.equals("OpenSettings")){
                         openSettingsActivity();
@@ -859,6 +860,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+    }
+    public void setAppTheme(Context context, boolean isDarkMode) {
+        SharedPreferences prefs = context.getSharedPreferences("theme_prefs", Context.MODE_PRIVATE);
+        prefs.edit().putBoolean("theme_mode", isDarkMode).apply();
+
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 }
 

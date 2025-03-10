@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" Theme="clothing" data-theme="dark" >
+<html lang="en" Theme="blue_material" data-theme="dark" >
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>Arrange items Page</title>
+    <script src="../bridge/android.js"></script>
     <script src="../database/MainDataBase.js"></script>
     <script src="../langs/langs.js"></script>
     <script src="../modules/Sortable.min.js"></script>
@@ -16,7 +17,11 @@
     <link rel="stylesheet" href="../components/md-buttons.css">
     <script src="../modules/lottie.js"></script>
     <link rel="stylesheet" href="../components/modal-ver.css">
-
+    <script>
+          if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
+        document.documentElement.setAttribute('colorTheme', 'light');
+        }
+  </script>
     <style>
             .padding_about_app{
                 padding: 15px;
@@ -132,10 +137,10 @@
     </style>
 </head>
 
-<body class="center_all" style="--md-list-item-label-text-size: 1.15rem; --md-list-item-pressed-state-layer-opacity: 0.15; --md-ref-typeface-plain: var(--google-normal); background-color: var(--Surface); overflow: hidden;">
+<body class="center_all" style="--md-list-item-label-text-size: 1.15rem; --md-list-item-pressed-state-layer-opacity: 0.15; --md-ref-typeface-plain: var(--google-normal); background-color: var(--Surface); overflow: hidden;" hidden>
 <div class="head_area_about_page">
     <p data-translate="arrange_items">Arrange items</p>
-    <md-icon-button onclick="sendThemeToAndroid('GoBack')"><md-icon icon-outlined>close</md-icon></md-icon-button>
+    <md-icon-button onclick="ActivityBack()"><md-icon icon-outlined>close</md-icon></md-icon-button>
 </div>
 <div class="padding_about_app">
 
@@ -435,18 +440,41 @@ async function CreateMaterialYouTheme(hex) {
     }
 
  if(localStorage.getItem("useDynamicColors") && localStorage.getItem("useDynamicColors") === "false"){
-        if (await customStorage.getItem("customTheme")) {
-      document.documentElement.setAttribute(
-        "Theme",
-        await customStorage.getItem("customTheme")
-      );
-            sendThemeToAndroid(
-        `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
-      );
-    }
+  if (await customStorage.getItem("customTheme")) {
+    document.documentElement.setAttribute(
+      "Theme",
+      await customStorage.getItem("customTheme")
+    );
   } else{
-  document.documentElement.setAttribute('Theme', closestColor);
-  sendThemeToAndroid(`${closestColor}_ScrollFalse`);
+    document.documentElement.setAttribute(
+     "Theme",
+        "blue_material"
+   );
+     await customStorage.setItem("customTheme", "blue_material");
+  }
+
+      if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
+        document.documentElement.setAttribute('colorTheme', 'light');
+        sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '1')
+
+      } else{
+        document.documentElement.setAttribute('colorTheme', 'dark');
+        sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '0')
+      }
+        document.querySelector('body').hidden = false
+
+  } else{
+    document.documentElement.setAttribute('Theme', closestColor);
+
+if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
+  document.documentElement.setAttribute('colorTheme', 'light');
+  sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '1')
+
+} else{
+  document.documentElement.setAttribute('colorTheme', 'dark');
+  sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '0')
+}
+  document.querySelector('body').hidden = false
   }
 }
 
@@ -457,10 +485,6 @@ async function CreateMaterialYouTheme(hex) {
 
         }
 
-                function sendThemeToAndroid(theme) {
-
-            AndroidInterface.updateStatusBarColor(theme);
-        };
 
 
         async function saveOrder() {
@@ -472,7 +496,7 @@ async function CreateMaterialYouTheme(hex) {
             await customStorage.setItem('LoadNewOrder', new Date().getTime())
 
             setTimeout( async() =>{
-                sendThemeToAndroid('GoBack')
+                ActivityBack();
             }, 100);
         }
 
