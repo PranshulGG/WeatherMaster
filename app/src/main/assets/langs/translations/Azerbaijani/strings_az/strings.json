@@ -517,5 +517,8 @@
     "mins_sub_text": "mins",
     "loading_text": "Loading...",
     "edit_location_headline": "Edit location",
-    "edit_location_error_sub": "Please fill in the field or reset it"
+    "edit_location_error_sub": "Please fill in the field or reset it",
+    "app_theme_dark_light": "App theme",
+    "theme_dark": "Dark",
+    "theme_light": "Light"
 }

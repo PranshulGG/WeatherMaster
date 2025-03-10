@@ -62,11 +62,11 @@
     "time_format": "Format vremena",
     "additional": "Dodatni",
     "app_language": "Jezik aplikacije ",
-    "about": "O",
+    "about": "O aplikaciji",
     "about_app": "O aplikaciji ",
     "support": "Podrška ",
     "data_provided_by": "Dostavljači podataka",
-    "map": "Mape",
+    "map": "Mapa",
     "live_radar": "Uživo radar",
     "radar": "radar",
     "source_code": "Izvorni kod",
@@ -515,7 +515,10 @@
     "precipitation_likely_around": "Padavine verovatno oko",
     "hrs_sub_text": "sati",
     "mins_sub_text": "min",
-    "loading_text": "Loading...",
-    "edit_location_headline": "Edit location",
-    "edit_location_error_sub": "Please fill in the field or reset it"
+    "loading_text": "Učitavanje...",
+    "edit_location_headline": "Uredite lokaciju",
+    "edit_location_error_sub": "Popunite polje ili ga resetujte",
+    "app_theme_dark_light": "Tema aplikacije",
+    "theme_dark": "Tamna",
+    "theme_light": "Svetla"
 }

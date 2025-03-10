@@ -515,7 +515,10 @@
     "precipitation_likely_around": "Вероятность осадков около",
     "hrs_sub_text": "часы",
     "mins_sub_text": "минуты",
-    "loading_text": "Loading...",
-    "edit_location_headline": "Edit location",
-    "edit_location_error_sub": "Please fill in the field or reset it"
+    "loading_text": "Загрузка...",
+    "edit_location_headline": "Изменить местоположение",
+    "edit_location_error_sub": "Пожалуйста, заполните поле или сбросьте его",
+    "app_theme_dark_light": "",
+    "theme_dark": "",
+    "theme_light": "Light"
 }
