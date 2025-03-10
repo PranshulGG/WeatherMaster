@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" Theme="clothing" data-theme="dark">
+<html lang="en" Theme="blue_material" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>Select language</title>
+    <script src="../bridge/android.js"></script>
     <script src="../database/MainDataBase.js"></script>
     <link rel="stylesheet" href="../ui-files/ui.css">
     <link rel="stylesheet" href="../ui-files/font-usage.css">
@@ -14,7 +15,13 @@
     <link rel="stylesheet" href="../ripple-files/ripple.css">
     <link rel="stylesheet" href="../components/segment-btns.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css" />
-
+    <script src="../langs/langs.js"></script>
+    <script src="../configSource.js"></script>
+    <script>
+          if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
+        document.documentElement.setAttribute('colorTheme', 'light');
+        }
+  </script>
     <style>
  .activity-large-content::before {
             position: fixed;
@@ -108,8 +115,8 @@
             align-items: center;
             flex-shrink: 0;
             justify-content: center;
-            background-color: var(--Primary);
-            color: var(--On-Primary);
+            background-color: var(--Tertiary-Container);
+            color: var(--On-Tertiary-Container);
             animation: scaleUp 0.2s ease-out;
             display: var(--display-before, none);
 
@@ -117,12 +124,13 @@
 
         @keyframes scaleUp {
             0% {
+                transform: scale(1.3);
                 opacity: 0;
             }
 
             100% {
+                transform: scale(1);
                 opacity: 1;
-
             }
         }
 
@@ -143,7 +151,19 @@
 
         lang_label{
             z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2px;
         }
+
+        lang_label lang_label_sub{
+            color: var(--On-Surface);
+            opacity: 0.7;
+            font-family: var(--google-normal);
+            font-size: 14px;
+        }
+
 
         .selected_lang  {
            background-color: var(--Primary);
@@ -156,21 +176,58 @@
             color: var(--On-Primary);
         }
 
+        .selected_lang lang_label lang_label_sub{
+            color: var(--On-Primary);
+            opacity: 0.8;
 
+        }
 
+        #searchLanguageInput{
+            font-size: 18px;
+            color: var(--On-Surface);
+            background-color: transparent;
+            caret-color: var(--Primary);
+            width: 100%;
+            border: none;
+            padding-left: 8px;
+            padding-top: 4px;
+            padding-bottom: 3px;
+        }
+
+        #searchLanguageInput::placeholder{
+            color: var(--On-Surface-Variant);
+            opacity: 0.7;
+        }
+                #searchLanguageInput::selection{
+            background-color: var(--Secondary-Container);
+
+        }
     </style>
 </head>
 
-<body style="background-color: var(--Surface);   -webkit-user-drag: none;">
+<body style="background-color: var(--Surface);   -webkit-user-drag: none;" hidden>
 
 <div class="activity-large open">
     <div class="header-activity-large" id="head-1">
         <button class="ripple-icon-btn regular" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)"
-                title="Go back" onclick="sendThemeToAndroid('GoBack')">
+                title="Go back" onclick="ActivityBack()" id="btn_go_back_page">
+            <span class="ripple-effect-icon"></span>
+            <span icon-outlined>arrow_back</span>
+        </button>
+        <button class="ripple-icon-btn regular" ontouchstart="playEffect(this)" ontouchend="playEffect2(this)"
+                onclick="window.history.back()" hidden id="btn_set_back">
             <span class="ripple-effect-icon"></span>
             <span icon-outlined>arrow_back</span>
         </button>
         <p class="label-hidden-large" style="white-space: nowrap;" data-translate="language">Language</p>
+        <input type="text" id="searchLanguageInput" placeholder="Search..." hidden onkeyup="filterLanguages()">
+        <flex style="flex: 1;"></flex>
+
+        <button class="ripple-icon-btn regular searchLangbtn" onclick="searchLanguage()"  ontouchstart="playEffect(this)" ontouchend="playEffect2(this)"
+                title="Delete locations">
+            <span class="ripple-effect-icon"></span>
+            <span icon-outlined>search</span>
+        </button>
     </div>
     <div class="activity-large-content" id="headUser-1">
         <p class="label-large-main" data-translate="language">Language</p>
@@ -192,7 +249,7 @@
                     <img_area>
                         <span>EN</span>
                     </img_area>
-                    <lang_label>English</lang_label>
+                    <lang_label>English <lang_label_sub>United states</lang_label_sub></lang_label>
 
                     <progress-lang class="progress-lang-en-full"></progress-lang>
                     <p>100%</p>
@@ -203,11 +260,21 @@
                     <img_area>
                         <span>ZH</span>
                     </img_area>
-                    <lang_label>Chinese (Simplified)</lang_label>
+                    <lang_label>中文 (简体) <lang_label_sub>Chinese (Simplified)</lang_label_sub></lang_label>
 
 
                     <progress-lang class="progress-lang-zh-CN"></progress-lang>
                     <p id="lang-zh-CN">--</p>
+                </label>
+
+                <label class="language_item">
+                    <input name="app_language_radios" value="Chinese (Traditional)" lang="zh-TW" onclick="updateImgAreas()" type="radio">
+                    <img_area>
+                        <span>TW</span>
+                    </img_area>
+                    <lang_label>中文 (繁體) <lang_label_sub>Chinese (Traditional)</lang_label_sub></lang_label>
+                    <progress-lang class="progress-lang-zh-TW"></progress-lang>
+                    <p id="lang-zh-TW">No data</p>
                 </label>
 
                 <label class="language_item">
@@ -216,7 +283,7 @@
                         <span>NL</span>
                     </img_area>
 
-                    <lang_label>Dutch</lang_label>
+                    <lang_label>Nederlands <lang_label_sub>Dutch</lang_label_sub></lang_label>
 
                     <progress-lang class="progress-lang-nl"></progress-lang>
                     <p id="lang-nl">--</p>
@@ -229,7 +296,7 @@
                         <span>RU</span>
                     </img_area>
 
-                    <lang_label>Russian</lang_label>
+                    <lang_label>русский <lang_label_sub>Russian</lang_label_sub></lang_label>
 
                     <progress-lang class="progress-lang-ru"></progress-lang>
                     <p id="lang-ru">--</p>
@@ -241,7 +308,7 @@
                         <span>CS</span>
                     </img_area>
 
-                    <lang_label>Czech</lang_label>
+                    <lang_label>čeština <lang_label_sub>Czech</lang_label_sub></lang_label>
 
                     <progress-lang class="progress-lang-cs"></progress-lang>
                     <p id="lang-cs">--</p>
@@ -253,7 +320,7 @@
                         <span>FIL</span>
                     </img_area>
 
-                    <lang_label>Filipino</lang_label>
+                    <lang_label>Filipino <lang_label_sub>Filipino</lang_label_sub></lang_label>
 
                     <progress-lang class="progress-lang-fil"></progress-lang>
                     <p id="lang-fil">--</p>
@@ -265,7 +332,7 @@
                         <span>FR</span>
                     </img_area>
 
-                    <lang_label>French</lang_label>
+                    <lang_label>français <lang_label_sub>French</lang_label_sub></lang_label>
 
                     <progress-lang class="progress-lang-fr"></progress-lang>
                     <p id="lang-fr">--</p>
@@ -277,7 +344,7 @@
                         <span>DE</span>
                     </img_area>
 
-                    <lang_label>German</lang_label>
+                    <lang_label>Deutsch <lang_label_sub>German</lang_label_sub></lang_label>
 
                     <progress-lang class="progress-lang-de"></progress-lang>
                     <p id="lang-de">--</p>
@@ -289,7 +356,7 @@
                         <span>EL</span>
                     </img_area>
 
-                    <lang_label>Greek</lang_label>
+                    <lang_label>Ελληνικά <lang_label_sub>Greek</lang_label_sub></lang_label>
 
                     <progress-lang class="progress-lang-el"></progress-lang>
                     <p id="lang-el">--</p>
@@ -301,7 +368,7 @@
                         <span>IT</span>
                     </img_area>
 
-                    <lang_label>Italian</lang_label>
+                    <lang_label>italiano <lang_label_sub>Italian</lang_label_sub></lang_label>
 
                     <progress-lang class="progress-lang-it"></progress-lang>
                     <p id="lang-it">--</p>
@@ -313,7 +380,7 @@
                         <span>JA</span>
                     </img_area>
 
-                    <lang_label>Japanese</lang_label>
+                    <lang_label>日本語 <lang_label_sub>Japanese</lang_label_sub></lang_label>
 
                     <progress-lang class="progress-lang-ja"></progress-lang>
                     <p id="lang-ja">--</p>
@@ -325,7 +392,7 @@
                         <span>FA</span>
                     </img_area>
 
-                    <lang_label>Persian</lang_label>
+                    <lang_label>فارسی  <lang_label_sub>Persian</lang_label_sub></lang_label>
 
                     <progress-lang class="progress-lang-fa"></progress-lang>
                     <p id="lang-fa">--</p>
@@ -337,7 +404,7 @@
                         <span>PL</span>
                     </img_area>
 
-                    <lang_label>Polish</lang_label>
+                    <lang_label>Polski <lang_label_sub>Polish</lang_label_sub></lang_label>
 
                     <progress-lang class="progress-lang-pl"></progress-lang>
                     <p id="lang-pl">--</p>
@@ -349,7 +416,7 @@
                         <span>PT</span>
                     </img_area>
 
-                    <lang_label>Portuguese</lang_label>
+                    <lang_label>português <lang_label_sub>Portuguese</lang_label_sub></lang_label>
 
                     <progress-lang class="progress-lang-pt-PT"></progress-lang>
                     <p id="lang-pt-PT">--</p>
@@ -361,7 +428,7 @@
                         <span>RO</span>
                     </img_area>
 
-                    <lang_label>Romanian</lang_label>
+                    <lang_label>română <lang_label_sub>Romanian</lang_label_sub></lang_label>
 
                     <progress-lang class="progress-lang-ro"></progress-lang>
                     <p id="lang-ro">--</p>
@@ -374,7 +441,7 @@
                         <span>ES</span>
                     </img_area>
 
-                    <lang_label>Spanish</lang_label>
+                    <lang_label>español <lang_label_sub>Spanish</lang_label_sub></lang_label>
                     <progress-lang class="progress-lang-es-ES"></progress-lang>
                     <p id="lang-es-ES">--</p>
                 </label>
@@ -385,7 +452,7 @@
                         <span>TR</span>
                     </img_area>
 
-                    <lang_label>Turkish</lang_label>
+                    <lang_label>Türkçe <lang_label_sub>Turkish</lang_label_sub></lang_label>
                     <progress-lang class="progress-lang-tr"></progress-lang>
                     <p id="lang-tr">--</p>
                 </label>
@@ -396,7 +463,7 @@
                         <span>UK</span>
                     </img_area>
 
-                    <lang_label>Ukrainian</lang_label>
+                    <lang_label>українська <lang_label_sub>Ukrainian</lang_label_sub></lang_label>
 
                     <progress-lang class="progress-lang-uk"></progress-lang>
                     <p id="lang-uk">--</p>
@@ -408,7 +475,7 @@
                         <span>VI</span>
                     </img_area>
 
-                    <lang_label>Vietnamese</lang_label>
+                    <lang_label>Tiếng Việt <lang_label_sub>Vietnamese</lang_label_sub></lang_label>
 
                     <progress-lang class="progress-lang-vi"></progress-lang>
                     <p id="lang-vi">--</p>
@@ -420,10 +487,22 @@
                         <span>SR</span>
                     </img_area>
 
-                    <lang_label>Serbian (Latin)</lang_label>
+                    <lang_label>srpski (Latin) <lang_label_sub>Serbian (Latin)</lang_label_sub></lang_label>
 
                     <progress-lang class="progress-lang-sr-CS"></progress-lang>
                     <p id="lang-sr-CS">--</p>
+                </label>
+
+                <label class="language_item">
+                    <input name="app_language_radios" value="Serbian (Cyrillic)" lang="sr-CY" onclick="updateImgAreas()" type="radio">
+                    <img_area>
+                        <span>SR</span>
+                    </img_area>
+
+                    <lang_label>srpski (Cyrillic) <lang_label_sub>Serbian (Cyrillic)</lang_label_sub></lang_label>
+
+                    <progress-lang class="progress-lang-sr"></progress-lang>
+                    <p id="lang-sr">--</p>
                 </label>
 
                 <label class="language_item">
@@ -432,7 +511,7 @@
                         <span>AZ</span>
                     </img_area>
 
-                    <lang_label>Azerbaijani</lang_label>
+                    <lang_label>Azərbaycan dili <lang_label_sub>Azerbaijani</lang_label_sub></lang_label>
 
                     <progress-lang class="progress-lang-az"></progress-lang>
                     <p id="lang-az">--</p>
@@ -444,7 +523,7 @@
                         <span>SL</span>
                     </img_area>
 
-                    <lang_label>Slovenian</lang_label>
+                    <lang_label>slovenščina <lang_label_sub>Slovenian</lang_label_sub></lang_label>
 
                     <progress-lang class="progress-lang-sl"></progress-lang>
                     <p id="lang-sl">--</p>
@@ -456,7 +535,7 @@
                         <span>FI</span>
                     </img_area>
 
-                    <lang_label>Finnish</lang_label>
+                    <lang_label>suomi <lang_label_sub>Finnish</lang_label_sub></lang_label>
 
                     <progress-lang class="progress-lang-fi"></progress-lang>
                     <p id="lang-fi">--</p>
@@ -468,12 +547,23 @@
                         <span>HU</span>
                     </img_area>
 
-                    <lang_label>Hungarian</lang_label>
+                    <lang_label>magyar <lang_label_sub>Hungarian</lang_label_sub></lang_label>
 
                     <progress-lang class="progress-lang-hu"></progress-lang>
                     <p id="lang-hu">--</p>
                 </label>
 
+                <label class="language_item">
+                    <input name="app_language_radios" value="Arabic, Saudi Arabia" lang="ar-SA" onclick="updateImgAreas()" type="radio">
+                    <img_area>
+                        <span>AR</span>
+                    </img_area>
+
+                    <lang_label>العربية (السعودية) <lang_label_sub>Arabic, Saudi Arabia</lang_label_sub></lang_label>
+
+                    <progress-lang class="progress-lang-ar-SA"></progress-lang>
+                    <p id="lang-ar-SA">--</p>
+                </label>
 
             </md-list>
 
@@ -493,6 +583,95 @@
 
 
 <script>
+
+// toggle search language
+
+    document.getElementById('searchLanguageInput').setAttribute('placeholder', getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'search') + '...')
+
+
+function searchLanguage() {
+    document.getElementById('headUser-1').style = 'scroll-snap-type: unset !important;'
+    document.getElementById('btn_go_back_page').hidden = true;
+    document.getElementById('btn_set_back').hidden =  false
+    window.history.pushState({ SearchOpen: true }, "");
+
+    setTimeout(() =>{
+        smoothScrollTo(document.getElementById('headUser-1'), 200);
+        document.querySelector('.label-hidden-large').hidden = true;
+        document.getElementById('searchLanguageInput').hidden = false;
+        document.querySelector('.searchLangbtn').hidden = true
+        setTimeout(() => {
+        document.getElementById('searchLanguageInput').focus()
+        }, 300);
+    }, 200);
+}
+
+function resetEveryThingOnHeader(){
+    document.getElementById('searchLanguageInput').value = ''
+    document.getElementById('searchLanguageInput').onkeyup()
+    setTimeout(() =>{
+        document.querySelector('.label-hidden-large').hidden = false;
+        document.getElementById('searchLanguageInput').hidden = true;
+        document.querySelector('.searchLangbtn').hidden = false
+        document.getElementById('btn_go_back_page').hidden = false;
+        document.getElementById('btn_set_back').hidden =  true
+    document.getElementById('searchLanguageInput').setAttribute('placeholder', getTranslationByLang(localStorage.getItem("AppLanguageCode"), 'search') + '...')
+
+
+    }, 200);
+}
+
+document.getElementById('searchLanguageInput').addEventListener('blur', () =>{
+    window.history.back()
+})
+
+window.addEventListener("popstate", function (event) {
+    if(!document.getElementById('searchLanguageInput').hidden){
+        resetEveryThingOnHeader()
+    }
+});
+
+function filterLanguages() {
+        var searchInput = document.getElementById('searchLanguageInput').value.toLowerCase();
+
+        var languageItems = document.querySelectorAll('.language_item');
+
+        languageItems.forEach(function(item) {
+            var languageName = item.querySelector('lang_label').innerText.toLowerCase();
+
+            if (languageName.includes(searchInput)) {
+                item.style.display = '';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+
+    function smoothScrollTo(element, targetPosition, duration = 300) {
+    const startPosition = element.scrollTop;
+    const distance = targetPosition - startPosition;
+    let startTime = null;
+
+    function scrollStep(currentTime) {
+        if (!startTime) startTime = currentTime; // Initial timestamp
+        const timeElapsed = currentTime - startTime;
+        const progress = timeElapsed / duration; // Calculate the progress (0 to 1)
+
+        // Apply easing to make the scroll smoother (ease-in-out effect)
+        const easeProgress = Math.min(progress * (2 - progress), 1); // Ease-in-out curve
+
+        // Set the scroll position based on progress
+        element.scrollTop = startPosition + distance * easeProgress;
+
+        if (timeElapsed < duration) {
+            requestAnimationFrame(scrollStep); // Continue scrolling
+        } else {
+            element.scrollTop = targetPosition; // Ensure the final position is set
+        }
+    }
+
+    requestAnimationFrame(scrollStep); // Start the animation
+}
 
 
 async function fetchTranslationProgress() {
@@ -577,9 +756,6 @@ async function updateProgressInDivs() {
     });
 }
 
-// Run the function to fetch data and update the divs
-updateProgressInDivs();
-
 
     function hexToRgb(hex) {
     const bigint = parseInt(hex.slice(1), 16);
@@ -623,7 +799,8 @@ async function CreateMaterialYouTheme(hex) {
         purple_material: "#800080",
         blue_material: "#0000FF",
         yellow_material: "#FFFF00",
-        green_material: "#008000"
+        green_material: "#008000",
+        mono_material: "#e2e2e2"
     };
 
     const targetHsl = rgbToHsl(hexToRgb(hex));
@@ -633,7 +810,10 @@ async function CreateMaterialYouTheme(hex) {
     for (const [color, colorHex] of Object.entries(colors)) {
         const colorHsl = rgbToHsl(hexToRgb(colorHex));
         const hueDifference = Math.abs(targetHsl.h - colorHsl.h);
-
+        if (targetHsl.s < 10) {
+            closestColor = "mono_material";
+            break;
+        }
         if (hueDifference < smallestHueDifference) {
             smallestHueDifference = hueDifference;
             closestColor = color;
@@ -641,19 +821,45 @@ async function CreateMaterialYouTheme(hex) {
     }
 
  if(localStorage.getItem("useDynamicColors") && localStorage.getItem("useDynamicColors") === "false"){
-        if (await customStorage.getItem("customTheme")) {
-      document.documentElement.setAttribute(
-        "Theme",
-        await customStorage.getItem("customTheme")
-      );
-            sendThemeToAndroid(
-        `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
-      );
-    }
+  if (await customStorage.getItem("customTheme")) {
+    document.documentElement.setAttribute(
+      "Theme",
+      await customStorage.getItem("customTheme")
+    );
   } else{
-  document.documentElement.setAttribute('Theme', closestColor);
-  sendThemeToAndroid(`${closestColor}_ScrollFalse`);
+    document.documentElement.setAttribute(
+     "Theme",
+        "blue_material"
+   );
+     await customStorage.setItem("customTheme", "blue_material");
   }
+
+      if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
+        document.documentElement.setAttribute('colorTheme', 'light');
+        sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '1')
+
+      } else{
+        document.documentElement.setAttribute('colorTheme', 'dark');
+        sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '0')
+      }
+        document.querySelector('body').hidden = false
+
+  } else{
+    document.documentElement.setAttribute('Theme', closestColor);
+
+if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
+  document.documentElement.setAttribute('colorTheme', 'light');
+  sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '1')
+
+} else{
+  document.documentElement.setAttribute('colorTheme', 'dark');
+  sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '0')
+}
+  document.querySelector('body').hidden = false
+  }
+
+updateProgressInDivs();
+
 }
 
         const user1 = document.getElementById('headUser-1')
@@ -668,7 +874,8 @@ async function CreateMaterialYouTheme(hex) {
 
                 document.getElementById('headUser-1').style.scrollSnapType = 'unset';
                 container.removeEventListener('scroll', changeColorOnScroll1);
-      sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_Scrolled`);
+                        sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface-Container'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), Themeflag, '220')
+
 
 
             } else {
@@ -690,7 +897,8 @@ async function CreateMaterialYouTheme(hex) {
                 document.getElementById('head-1').style.backgroundColor = '';
                 document.getElementById('head-1').style.transition = 'background-color 0.2s ease-in';
 
-                  sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_ScrollFalse`);
+              sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), Themeflag, '220')
+
 
                 container.addEventListener('scroll', changeColorOnScroll1);
                 if (scrollY <= 20); {
@@ -706,12 +914,6 @@ async function CreateMaterialYouTheme(hex) {
         if (user1) {
             document.getElementById('headUser-1').addEventListener('scroll', changeColorOnScroll1A);
         }
-
-        function sendThemeToAndroid(theme) {
-
-            AndroidInterface.updateStatusBarColor(theme);
-        };
-
 
 
             document.querySelectorAll('input[name="app_language_radios"]').forEach((radio) => {
@@ -773,7 +975,6 @@ async function CreateMaterialYouTheme(hex) {
 <script src="../app/navigate.js"></script>
 <script  src="bundle.js"></script>
 <script type="module" src="../index.js"></script>
-<script src="../langs/langs.js"></script>
 </body>
 
 </html>

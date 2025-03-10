@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" Theme="clothing" data-theme="dark">
+<html lang="en" Theme="blue_material" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>Search page</title>
+    <script src="../bridge/android.js"></script>
     <script src="../database/MainDataBase.js"></script>
     <link rel="stylesheet" href="../ui-files/font-usage.css">
     <link rel="stylesheet" href="../ui-files/variables.css">
@@ -15,7 +16,11 @@
     <script src="../langs/langs.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css" />
     <script src="../configSource.js"></script>
-
+    <script>
+          if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
+        document.documentElement.setAttribute('colorTheme', 'light');
+        }
+  </script>
     <style>
         input[type="search"]::-webkit-search-decoration,
         input[type="search"]::-webkit-search-cancel-button,
@@ -346,10 +351,10 @@
 
 </head>
 
-<body style="background-color: var(--Surface);">
+<body style="background-color: var(--Surface);" hidden>
 
     <div class="search_header">
-        <md-icon-button style="flex-shrink: 0;" onclick="sendThemeToAndroid('GoBack')">
+        <md-icon-button style="flex-shrink: 0;" onclick="ActivityBack()">
             <md-icon icon-outlined>arrow_back</md-icon>
         </md-icon-button>
         <input type="search" placeholder="Search..." id="location_input" autocomplete="off">
@@ -484,7 +489,8 @@ async function CreateMaterialYouTheme(hex) {
         purple_material: "#800080",
         blue_material: "#0000FF",
         yellow_material: "#FFFF00",
-        green_material: "#008000"
+        green_material: "#008000",
+        mono_material: "#e2e2e2"
     };
 
     const targetHsl = rgbToHsl(hexToRgb(hex));
@@ -494,7 +500,10 @@ async function CreateMaterialYouTheme(hex) {
     for (const [color, colorHex] of Object.entries(colors)) {
         const colorHsl = rgbToHsl(hexToRgb(colorHex));
         const hueDifference = Math.abs(targetHsl.h - colorHsl.h);
-
+        if (targetHsl.s < 10) {
+            closestColor = "mono_material";
+            break;
+        }
         if (hueDifference < smallestHueDifference) {
             smallestHueDifference = hueDifference;
             closestColor = color;
@@ -502,25 +511,45 @@ async function CreateMaterialYouTheme(hex) {
     }
 
  if(localStorage.getItem("useDynamicColors") && localStorage.getItem("useDynamicColors") === "false"){
-        if (await customStorage.getItem("customTheme")) {
-      document.documentElement.setAttribute(
-        "Theme",
-        await customStorage.getItem("customTheme")
-      );
-            sendThemeToAndroid(
-        `${document.documentElement.getAttribute("Theme")}_ScrollFalse`
-      );
-    }
+  if (await customStorage.getItem("customTheme")) {
+    document.documentElement.setAttribute(
+      "Theme",
+      await customStorage.getItem("customTheme")
+    );
   } else{
-  document.documentElement.setAttribute('Theme', closestColor);
-  sendThemeToAndroid(`${closestColor}_ScrollFalse`);
+    document.documentElement.setAttribute(
+     "Theme",
+        "blue_material"
+   );
+     await customStorage.setItem("customTheme", "blue_material");
+  }
+
+      if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
+        document.documentElement.setAttribute('colorTheme', 'light');
+        sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '1')
+
+      } else{
+        document.documentElement.setAttribute('colorTheme', 'dark');
+        sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '0')
+      }
+        document.querySelector('body').hidden = false
+
+  } else{
+    document.documentElement.setAttribute('Theme', closestColor);
+
+if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
+  document.documentElement.setAttribute('colorTheme', 'light');
+  sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '1')
+
+} else{
+  document.documentElement.setAttribute('colorTheme', 'dark');
+  sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '0')
+}
+  document.querySelector('body').hidden = false
   }
 }
 
-function sendThemeToAndroid(theme) {
 
-AndroidInterface.updateStatusBarColor(theme);
-};
 
 
         const cityList = document.getElementById('city-list');
@@ -657,7 +686,7 @@ AndroidInterface.updateStatusBarColor(theme);
         // provider GeoNames ----------------------
 
         async function getCitySuggestionsGeoNames(query) {
-            const username = 'geo_search_pranshulgg';
+            const username = '';
             const url = `https://secure.geonames.org/searchJSON?name_startsWith=${query}&maxRows=10&username=${username}`;
 
             try {
@@ -877,7 +906,8 @@ function clearSuggestionsNominatim() {
             document.getElementById('selectSearchProviderDialog').show()
             window.history.pushState({ SearchProviderDialogOpen: true }, "");
 
-         sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_DialogNotScrolled`)
+          sendThemeToAndroid(colorsDialogsOpenSurface[GetDialogOverlayContainerColor()], colorsDialogsOpenSurface[GetDialogOverlayContainerColor()], '0', '200');
+
 
         }
 
@@ -896,7 +926,8 @@ function clearSuggestionsNominatim() {
         });
 
       document.getElementById('selectSearchProviderDialog').addEventListener('close', () => {
-         sendThemeToAndroid(`${document.documentElement.getAttribute('Theme')}_ScrollFalse`);
+         sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), Themeflag, '210')
+
 
             });
 
