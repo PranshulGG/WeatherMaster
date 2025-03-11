@@ -518,7 +518,7 @@
     "loading_text": "Text laden",
     "edit_location_headline": "Standort bearbeiten ",
     "edit_location_error_sub": "Fülle bitte das Feld aus oder lösche es",
-    "app_theme_dark_light": "App theme",
-    "theme_dark": "Dark",
-    "theme_light": "Light"
+    "app_theme_dark_light": "Farbschema der Anwendung",
+    "theme_dark": "Dunkel",
+    "theme_light": "Hell"
 }
