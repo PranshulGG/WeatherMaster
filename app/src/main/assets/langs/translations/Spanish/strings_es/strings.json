@@ -515,10 +515,10 @@
     "precipitation_likely_around": "Probabilidad de precipitación alrededor de",
     "hrs_sub_text": "hrs",
     "mins_sub_text": "min.",
-    "loading_text": "Loading...",
-    "edit_location_headline": "Edit location",
-    "edit_location_error_sub": "Please fill in the field or reset it",
-    "app_theme_dark_light": "App theme",
-    "theme_dark": "Dark",
-    "theme_light": "Light"
+    "loading_text": "Cargando...",
+    "edit_location_headline": "Editar ubicación",
+    "edit_location_error_sub": "Por favor, complete el campo o restablézcalo.",
+    "app_theme_dark_light": "Tema de la aplicación",
+    "theme_dark": "Oscuro",
+    "theme_light": "Claro"
 }
