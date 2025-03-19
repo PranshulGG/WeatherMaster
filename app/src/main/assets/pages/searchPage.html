@@ -533,9 +533,14 @@ async function CreateMaterialYouTheme(hex) {
         sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '0')
       }
         document.querySelector('body').hidden = false
+        AndroidFunctionActivityInterface.androidFunction('hideSurfaceOverlay');
+
 
   } else{
-    document.documentElement.setAttribute('Theme', closestColor);
+          document.documentElement.setAttribute(
+      "Theme",
+      await customStorage.getItem("customTheme")
+    );
 
 if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
   document.documentElement.setAttribute('colorTheme', 'light');
@@ -546,6 +551,8 @@ if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme'
   sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '0')
 }
   document.querySelector('body').hidden = false
+    AndroidFunctionActivityInterface.androidFunction('hideSurfaceOverlay');
+
   }
 }
 
@@ -652,7 +659,7 @@ if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme'
                             localStorage.setItem('SearchedItem', JSON.stringify({ LocationName: suggestionText, latitude: result.latitude, longitude: result.longitude }))
 
                             setTimeout(() => {
-                                sendThemeToAndroid('GoBack')
+                               ActivityBack()
                             }, 300);
                         });
 
@@ -686,7 +693,7 @@ if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme'
         // provider GeoNames ----------------------
 
         async function getCitySuggestionsGeoNames(query) {
-            const username = '';
+            const username = ;
             const url = `https://secure.geonames.org/searchJSON?name_startsWith=${query}&maxRows=10&username=${username}`;
 
             try {
@@ -759,7 +766,7 @@ if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme'
                             localStorage.setItem('SearchedItem', JSON.stringify({ LocationName: suggestionText, latitude: result.lat, longitude: result.lng }));
 
                             setTimeout(() => {
-                                sendThemeToAndroid('GoBack');
+                               ActivityBack()
                             }, 300);
                         });
                     }
@@ -869,7 +876,7 @@ function displaySuggestionsNominatim(results) {
                     localStorage.setItem('SearchedItem', JSON.stringify({ LocationName: suggestionText, latitude: result.lat, longitude: result.lon }));
 
                     setTimeout(() => {
-                        sendThemeToAndroid('GoBack');
+                        ActivityBack();
                     }, 300);
                 });
             }
