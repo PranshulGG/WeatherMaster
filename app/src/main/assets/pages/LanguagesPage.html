@@ -235,7 +235,7 @@
 
             <md-list style="padding: 5px; padding-left: 0; padding-right: 0;">
                 <md-list-item style="background-color: var(--Secondary-Container); border-radius: 50px; padding-left: 5px; padding-right: 5px;"
-                              type="button" href="https://crowdin.com/project/weathermaster/invite?h=448278a9b1370f3c10d4336a091dae792286917">
+                              type="button" href="https://crowdin.com/project/weathermaster/invite?h=5604412991199b933170cf62cf38b6c32380631">
                     <md-icon icon-outlined slot="start">translate</md-icon>
                     <div slot="headline" style="color: var(--On-Secondary-Container);" data-translate="translate_this_app">Translate this app</div>
                     <div slot="supporting-text">On Crowdin</div>
@@ -274,7 +274,7 @@
                     </img_area>
                     <lang_label>中文 (繁體) <lang_label_sub>Chinese (Traditional)</lang_label_sub></lang_label>
                     <progress-lang class="progress-lang-zh-TW"></progress-lang>
-                    <p id="lang-zh-TW">No data</p>
+                    <p id="lang-zh-TW">--</p>
                 </label>
 
                 <label class="language_item">
@@ -423,6 +423,18 @@
                 </label>
 
                 <label class="language_item">
+                    <input name="app_language_radios" value="Portuguese, Brazilian" lang="pt-BR" onclick="updateImgAreas()" type="radio">
+                    <img_area>
+                        <span>BR</span>
+                    </img_area>
+
+                    <lang_label>português brasileiro <lang_label_sub>Portuguese, Brazilian</lang_label_sub></lang_label>
+
+                    <progress-lang class="progress-lang-pt-BR"></progress-lang>
+                    <p id="lang-pt-BR">--</p>
+                </label>
+
+                <label class="language_item">
                     <input name="app_language_radios" value="Romanian" lang="ro" onclick="updateImgAreas()" type="radio">
                     <img_area>
                         <span>RO</span>
@@ -554,6 +566,18 @@
                 </label>
 
                 <label class="language_item">
+                    <input name="app_language_radios" value="Korean" lang="ko" onclick="updateImgAreas()" type="radio">
+                    <img_area>
+                        <span>KO</span>
+                    </img_area>
+
+                    <lang_label>한국어 <lang_label_sub>Korean</lang_label_sub></lang_label>
+
+                    <progress-lang class="progress-lang-ko"></progress-lang>
+                    <p id="lang-ko">--</p>
+                </label>
+
+                <label class="language_item">
                     <input name="app_language_radios" value="Arabic, Saudi Arabia" lang="ar-SA" onclick="updateImgAreas()" type="radio">
                     <img_area>
                         <span>AR</span>
@@ -675,8 +699,8 @@ function filterLanguages() {
 
 
 async function fetchTranslationProgress() {
-    const projectId = '';
-    const apiToken = '';
+    const projectId = ;
+    const apiToken = ;
 
     document.querySelector('.progress-lang-en-full').style.width = '100%';
 
@@ -695,7 +719,7 @@ async function fetchTranslationProgress() {
         }
 
         // Fetch fresh data from the API
-        const response = await fetch(`https://api.crowdin.com/api/v2/projects/${projectId}/languages/progress`, {
+        const response = await fetch(`https://api.crowdin.com/api/v2/projects/${projectId}/languages/progress?limit=28&offset=0`, {
             headers: {
                 'Authorization': `Bearer ${apiToken}`,
                 'Content-Type': 'application/json',
@@ -843,9 +867,14 @@ async function CreateMaterialYouTheme(hex) {
         sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '0')
       }
         document.querySelector('body').hidden = false
+        AndroidFunctionActivityInterface.androidFunction('hideSurfaceOverlay');
+
 
   } else{
-    document.documentElement.setAttribute('Theme', closestColor);
+          document.documentElement.setAttribute(
+      "Theme",
+      await customStorage.getItem("customTheme")
+    );
 
 if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
   document.documentElement.setAttribute('colorTheme', 'light');
@@ -856,6 +885,8 @@ if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme'
   sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '0')
 }
   document.querySelector('body').hidden = false
+        AndroidFunctionActivityInterface.androidFunction('hideSurfaceOverlay');
+
   }
 
 updateProgressInDivs();
