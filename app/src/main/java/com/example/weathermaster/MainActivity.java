@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences prefs = getSharedPreferences("theme_prefs", MODE_PRIVATE);
         boolean isDarkMode = prefs.getBoolean("theme_mode", true);
-        setAppTheme(this, isDarkMode);
+        setAppTheme(this, true);
         super.onCreate(savedInstanceState);
 
 

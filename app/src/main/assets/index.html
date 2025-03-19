@@ -955,6 +955,20 @@
 
 
 <script>
+
+    if(localStorage.getItem('useLightTheme')){
+        localStorage.removeItem('useLightTheme')
+        }
+
+
+        document.addEventListener('DOMContentLoaded', async() => {
+        if(await customStorage.getItem("customTheme")){
+
+        } else{
+            await customStorage.setItem("customTheme", 'overcast_page')
+        }
+        });
+
     function saveLocationDataOnReload(){
                 setTimeout(() =>{
                 document.querySelector('.start_up_screen').hidden = true;

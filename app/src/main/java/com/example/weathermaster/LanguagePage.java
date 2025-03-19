@@ -20,6 +20,7 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ public class LanguagePage extends AppCompatActivity {
 
     private WebView webview;
     private boolean isFirstLoad = true;
+    private FrameLayout overlayLayout;
 
     public void onBackPressed() {
         if (webview.canGoBack()) {
@@ -64,12 +66,14 @@ public class LanguagePage extends AppCompatActivity {
         webSettings.setAllowContentAccess(true);
         webview.setVerticalScrollBarEnabled(true);
         webview.setHorizontalScrollBarEnabled(false);
-        webview.setOverScrollMode(WebView.OVER_SCROLL_NEVER);
+        webview.setOverScrollMode(WebView.OVER_SCROLL_ALWAYS);
         webview.setWebViewClient(new WebViewClientDemo());
         AndroidInterface androidInterface = new AndroidInterface(this);
         webview.addJavascriptInterface(androidInterface, "AndroidInterface");
         webview.addJavascriptInterface(new BackActivityInterface(this), "BackActivityInterface");
         webview.addJavascriptInterface(new NavigateActivityInterface(this), "OpenActivityInterface");
+        overlayLayout = findViewById(R.id.overlayLayout);
+        webview.addJavascriptInterface(new AndroidFunctionActivityInterface(this), "AndroidFunctionActivityInterface");
         webview.loadUrl("file:///android_asset/pages/LanguagesPage.html");
         webSettings.setAllowFileAccess(true);
         webSettings.setTextZoom(100);
@@ -103,6 +107,9 @@ public class LanguagePage extends AppCompatActivity {
         });
     }
 
+    public void hideOverlay() {
+        overlayLayout.setVisibility(View.GONE);
+    }
 
 
 
@@ -145,6 +152,29 @@ public class LanguagePage extends AppCompatActivity {
     }
     public void goBack() {
         runOnUiThread(this::onBackPressed);
+    }
+
+    public class AndroidFunctionActivityInterface {
+        private LanguagePage mActivity;
+
+        AndroidFunctionActivityInterface(LanguagePage activity) {
+            mActivity = activity;
+        }
+
+        @JavascriptInterface
+        public void androidFunction(final String functiontype) {
+            mActivity.runOnUiThread(new Runnable() {
+                @SuppressLint("ResourceType")
+                @RequiresApi(api = Build.VERSION_CODES.O)
+                @Override
+                public void run() {
+                    if (functiontype.equals("hideSurfaceOverlay")){
+                        hideOverlay();
+                        return;
+                    }
+                }
+            });
+        }
     }
 
     public class AndroidInterface {
@@ -245,7 +275,7 @@ public class LanguagePage extends AppCompatActivity {
         }
 
         private boolean shouldOpenInBrowser(String url) {
-            return url.startsWith("https://crowdin.com/project/weathermaster/invite?h=448278a9b1370f3c10d4336a091dae792286917") ||
+            return url.startsWith("https://crowdin.com/project/weathermaster/invite?h=5604412991199b933170cf62cf38b6c32380631") ||
                     url.startsWith("https://openweathermap.org/") ||
                     url.startsWith("https://fonts.google.com/specimen/Poppins?query=poppins") ||
                     url.startsWith("https://github.com/material-components/material-web") ||

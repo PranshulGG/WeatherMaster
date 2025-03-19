@@ -155,7 +155,7 @@
          <md-icon icon-outlined>info</md-icon>
          <div style="position: relative; width: 100%;">
           <p data-translate="version">Version</p>
-          <span>1.19.0 (W)</span>
+          <span>1.20.1 (W)</span>
           <md-icon-button style="position: absolute; right: 5px;" id="checkUpdatesBtn"><md-icon icon-outlined>refresh</md-icon></md-icon-button>
          </div>
         </div>
@@ -313,9 +313,13 @@ async function CreateMaterialYouTheme(hex) {
         sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '0')
       }
         document.querySelector('body').hidden = false
+        AndroidFunctionActivityInterface.androidFunction('hideSurfaceOverlay');
 
   } else{
-    document.documentElement.setAttribute('Theme', closestColor);
+          document.documentElement.setAttribute(
+      "Theme",
+      await customStorage.getItem("customTheme")
+    );
 
 if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
   document.documentElement.setAttribute('colorTheme', 'light');
@@ -326,6 +330,8 @@ if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme'
   sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '0')
 }
   document.querySelector('body').hidden = false
+        AndroidFunctionActivityInterface.androidFunction('hideSurfaceOverlay');
+
   }
 }
 
@@ -392,7 +398,7 @@ if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme'
 
 
         document.getElementById('checkUpdatesBtn').addEventListener('click', async function () {
-            const currentVersion = 'v1.19.0';
+            const currentVersion = 'v1.20.1';
             const githubRepo = 'PranshulGG/WeatherMaster';
             const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases`;
 

@@ -30,7 +30,7 @@
             width: 100%;
             background: linear-gradient(0deg, var(--Surface) 10%, rgba(255, 0, 0, 0));
             height: 30px;
-            z-index: 1;
+            z-index: 2;
         }
 
                 md-menu-item.selected-home-location{
@@ -67,7 +67,7 @@
             padding-top: 5px;
         }
 
-            .list_one md-list-item, .list_second md-list-item, .list_third md-list-item{
+          /*  .list_one md-list-item, .list_second md-list-item, .list_third md-list-item{
             background-color: var(--Surface-Container-Lowest);
             margin-bottom: 6px;
             border-radius: 8px;
@@ -92,7 +92,7 @@
 
         md-list{
             padding: 10px;
-        }
+        } */
 
         .custom_theme .color-item{
             width: 45px;
@@ -143,6 +143,10 @@
           left: 0;
           top: 0;
       }
+
+    md-switch{
+      z-index: 1;
+    }
     </style>
 </head>
 
@@ -164,34 +168,23 @@
       <p class="title" style="margin-top: 5px;" data-translate="app_looks">App looks</p>
 
       <md-list class="list_third">
-        <md-list-item>
-          <md-icon icon-filled slot="start">palette</md-icon>
-          <div slot="headline" data-translate="dynamic_colors">Dynamic colors</div>
-          <div slot="supporting-text" data-translate="dynamic_colors_sub">Use wallpaper colors</div>
-          <md-switch slot="end" selected id="useDynamicColors"></md-switch>
-        </md-list-item>
 
-        <md-list-item>
+        <md-list-item disabled>
           <md-icon icon-filled slot="start">contrast</md-icon>
-          <div slot="headline">Light theme</div>
-          <div slot="supporting-text">BETA</div>
-          <md-switch slot="end" id="useLightThemeSwitch"></md-switch>
-        </md-list-item>
+          <div slot="headline">App theme</div>
+          <div slot="supporting-text">Not available yet</div>
+          <div class="radio-div-set-icon" slot="end">
 
-        <md-list-item class="custom_theme_items hidden">
-          <md-icon icon-filled slot="start"></md-icon>
-          <div class="custom_theme_wrap" slot="headline">
-            <div class="custom_theme">
-              <div class="color-item" style="--clr:  #2196f3; --clr-check: rgb(255, 255, 255);" theme-value="blue_material"></div>
-              <div class="color-item" style="--clr: #673ab7; --clr-check: rgb(255, 255, 255);" theme-value="purple_material"></div>
-              <div class="color-item" style="--clr: #ffeb3b; --clr-check: rgb(0, 0, 0);" theme-value="yellow_material"></div>
-              <div class="color-item" style="--clr:  #4caf50; --clr-check: rgb(255, 255, 255);" theme-value="green_material"></div>
-              <div class="color-item" style="--clr: #e92315; --clr-check: rgb(255, 255, 255);"  theme-value="red_material"></div>
-              <div class="color-item" style="--clr: #e91e63; --clr-check: rgb(255, 255, 255);"  theme-value="pink_material"></div>
-              <div class="color-item" style="--clr:  #da7e07; --clr-check: rgb(255, 255, 255);"theme-value="orange_material"></div>
-              <div class="color-item" style="--clr:  #414141; --clr-check: rgb(255, 255, 255);" theme-value="mono_material"></div>
-
+            <div class="radio-option-settings-icon">
+              <input type="radio" name="options-1" id="dark_radioSeg">
+              <label for="dark_radioSeg" class="md-ripples" data-icon="dark_mode" style="font-family: var(--google-normal);">Dark <md-ripple></md-ripple></label>
             </div>
+
+            <div class="radio-option-settings-icon">
+              <input type="radio" name="options-1" id="light_radioSeg">
+              <label for="light_radioSeg" class="md-ripples" data-icon="light_mode" style="font-family: var(--google-normal);">Light <md-ripple></md-ripple></label>
+            </div>
+
           </div>
         </md-list-item>
 
@@ -200,6 +193,7 @@
           <div slot="headline" data-translate="temperature_animation">Temperature animation</div>
           <div slot="supporting-text" data-translate="temp_animation_sub_pref">Counts the temperature from start to end</div>
           <md-switch slot="end" id="useTempAnimation" selected ></md-switch>
+          <label for="useTempAnimation" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%;" slot="end"><md-ripple></md-ripple></label>
         </md-list-item>
 
 
@@ -220,7 +214,8 @@
           <div slot="headline" data-translate="swipe_between_locations">Swipe between locations</div>
           <div slot="supporting-text" data-translate="swipe_between_locations_sub">Swipe left or right to change location</div>
           <md-switch slot="end" id="useGestureLocation"></md-switch>
-          <md-icon-button slot="end" onclick="openSwipeThresholdDialog()"><md-icon icon-outlined>settings</md-icon></md-icon-button>
+          <md-icon-button slot="end" onclick="openSwipeThresholdDialog()" style="z-index: 1;"><md-icon icon-outlined>settings</md-icon></md-icon-button>
+          <label for="useGestureLocation" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%;" slot="end"><md-ripple></md-ripple></label>
         </md-list-item>
 
         <md-list-item onclick="navigateActivity('EditAppLayoutPage')" type="button">
@@ -244,6 +239,7 @@
           <div slot="headline" data-translate="notification_bar">Notification bar</div>
           <div slot="supporting-text" data-translate="show_weather_information_in_the_notification_bar">(Needs some work done)</div>
           <md-switch slot="end" id="toggle_noti"></md-switch>
+
         </md-list-item>
 
         <md-list-item type="button" onclick="navigateActivity('openHomelocationPage')">
@@ -266,6 +262,7 @@
           <md-icon icon-filled slot="start">animation</md-icon>
           <div slot="headline" data-translate="background_card_animation">Background card animation</div>
           <md-switch slot="end" selected id="useAnimationBackground"></md-switch>
+          <label for="useAnimationBackground" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%;" slot="end"><md-ripple></md-ripple></label>
         </md-list-item>
 
         <md-list-item>
@@ -273,6 +270,7 @@
           <div slot="headline" data-translate="update_weather_data">Update weather data</div>
           <div slot="supporting-text" data-translate="update_weather_data_sub">Automatically update the weather data if it's outdated when a location is clicked</div>
           <md-switch slot="end" id="autoUpdateOldWeather"></md-switch>
+          <label for="autoUpdateOldWeather" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%;" slot="end"><md-ripple></md-ripple></label>
         </md-list-item>
 
         <md-list-item id="froggy_summary_item">
@@ -280,6 +278,7 @@
           <div slot="headline" data-translate="froggy_summary">Froggy summary</div>
           <div slot="supporting-text" data-translate="froggy_summary_sub">Adds frog-related descriptions. Available only in English</div>
           <md-switch slot="end" id="useFroggySummarySwitch"></md-switch>
+          <label for="useFroggySummarySwitch" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%;" slot="end"><md-ripple></md-ripple></label>
         </md-list-item>
 
 
@@ -288,6 +287,7 @@
           <div slot="headline" data-translate="quick_summary">Quick summary</div>
           <div slot="supporting-text" data-translate="show_summary_toggle_sub">Show a brief summary of the weather</div>
           <md-switch slot="end" id="useQuickSummarySwitch" selected></md-switch>
+          <label for="useQuickSummarySwitch" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%;" slot="end"><md-ripple></md-ripple></label>
         </md-list-item>
 
 
@@ -296,12 +296,14 @@
           <div slot="headline" data-translate="hide_update_icon">Hide update icon</div>
           <div slot="supporting-text" data-translate="no_notification_when_a_new_version_is_released">Don't show a notification when a new version is released.</div>
           <md-switch slot="end" id="HideNewUpdateToastSwitch"></md-switch>
+          <label for="HideNewUpdateToastSwitch" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%;" slot="end"><md-ripple></md-ripple></label>
         </md-list-item>
 
         <md-list-item>
           <md-icon icon-filled slot="start">bar_chart</md-icon>
           <div slot="headline" data-translate="use_bar_chart">Use bar chart</div>
           <md-switch slot="end" id="useBarChart"></md-switch>
+          <label for="useBarChart" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%;" slot="end"><md-ripple></md-ripple></label>
         </md-list-item>
 
         <md-list-item>
@@ -309,6 +311,7 @@
           <div slot="headline" data-translate="weather_alerts">Weather alerts</div>
           <div slot="supporting-text" data-translate="show_alerts_home_page_sub">Show weather alerts on the home page</div>
           <md-switch slot="end" id="useWeatherAlerts"></md-switch>
+          <label for="useWeatherAlerts" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%;" slot="end"><md-ripple></md-ripple></label>
         </md-list-item>
 
         <md-list-item type="button" onclick="openMainProviderDialog()">
@@ -369,7 +372,7 @@
       <p class="title" style="margin-top: 5px;" data-translate="additional">Additional</p>
       <md-list class="list_second">
 
-        <md-list-item margin type="button" onclick="navigateActivity('OpenLanguagesPage')">
+        <md-list-item type="button" onclick="navigateActivity('OpenLanguagesPage')">
           <md-icon slot="start" icon-filled>language</md-icon>
           <div slot="headline" data-translate="app_language">App language</div>
           <div slot="supporting-text" id="selectedAppLang_text">English</div>
@@ -579,7 +582,23 @@
 </div>
 
 
+<script>
+  document.addEventListener('DOMContentLoaded', () =>{
 
+const dialogsShadow = document.querySelectorAll('md-dialog');
+
+dialogsShadow.forEach(dialog => {
+    const shadowRoot = dialog.shadowRoot;
+    if (shadowRoot) {
+        const scrimElement = shadowRoot.querySelector('.scrim');
+        if (scrimElement) {
+            scrimElement.style.zIndex = '2';
+        }
+    }
+});
+})
+
+</script>
 
 <!-- theme-overlay -->
 <div class="theme_overlay" hidden>
@@ -682,8 +701,13 @@ async function CreateMaterialYouTheme(hex) {
         sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '0')
       }
         document.querySelector('body').hidden = false
+        AndroidFunctionActivityInterface.androidFunction('hideSurfaceOverlay');
+
   } else{
-        document.documentElement.setAttribute('Theme', closestColor);
+          document.documentElement.setAttribute(
+      "Theme",
+      await customStorage.getItem("customTheme")
+    );
 
       if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
         document.documentElement.setAttribute('colorTheme', 'light');
@@ -694,6 +718,8 @@ async function CreateMaterialYouTheme(hex) {
         sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '0')
       }
         document.querySelector('body').hidden = false
+        AndroidFunctionActivityInterface.androidFunction('hideSurfaceOverlay');
+
   }
 }
 

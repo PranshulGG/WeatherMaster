@@ -31,42 +31,43 @@ function ActivityBack(){
 
 
 const colorsDialogsOpenSurface = {
-    blue_materialDialog : "#646466",
-    blue_materialDialog_dark : "#07080a",
-    purple_materialDialog : "#666364",
-    purple_materialDialog_dark : "#090709",
-    orange_materialDialog: "#666362",
-    orange_materialDialog_dark: "#0a0705",
-    red_materialDialog: "#666362",
-    red_materialDialog_dark: "#0a0706",
-    pink_materialDialog: "#666363",
-    pink_materialDialog_dark: "#0a0708",
-    green_materialDialog: "#646460",
-    green_materialDialog_dark: "#070806",
-    yellow_materialDialog: "#66645f",
-    yellow_materialDialog_dark: "#080804",
-    mono_materialDialog: "#656363",
-    mono_materialDialog_dark: "#080808"
+    clear_night_pageDialog : "",
+    clear_night_pageDialog_dark : "#010209",
+    clear_day_pageDialog : "",
+    clear_day_pageDialog_dark : "#00060a",
+    overcast_pageDialog: "",
+    overcast_pageDialog_dark: "#070708",
+    cloudy_pageDialog: "",
+    cloudy_pageDialog_dark: "#05060a",
+    rain_pageDialog: "",
+    rain_pageDialog_dark: "#07080a",
+    thunder_pageDialog: "",
+    thunder_pageDialog_dark: "#08010a",
+    fog_pageDialog: "",
+    fog_pageDialog_dark: "#0a0501",
+    snow_pageDialog: "",
+    snow_pageDialog_dark: "#000505"
 }
 
 const colorsDialogsOpenContainer = {
-    blue_materialDialog : "#5f5f62",
-    blue_materialDialog_dark : "#0c0d0e",
-    purple_materialDialog : "#635e60",
-    purple_materialDialog_dark : "#0e0c0e",
-    orange_materialDialog: "#645e5a",
-    orange_materialDialog_dark: "#0f0c09",
-    red_materialDialog: "#655e5c",
-    red_materialDialog_dark: "#100c0b",
-    pink_materialDialog: "#645e5e",
-    pink_materialDialog_dark: "#0f0c0c",
-    green_materialDialog: "#5f605b",
-    green_materialDialog_dark: "#0c0d0a",
-    yellow_materialDialog: "#625f59",
-    yellow_materialDialog_dark: "#0e0d09",
-    mono_materialDialog: "#605f5e",
-    mono_materialDialog_dark: "#0d0c0c"
+    clear_night_pageDialog : "",
+    clear_night_pageDialog_dark : "#080911",
+    clear_day_pageDialog : "",
+    clear_day_pageDialog_dark : "#00080e",
+    overcast_pageDialog: "",
+    overcast_pageDialog_dark: "#0a0a0a",
+    cloudy_pageDialog: "",
+    cloudy_pageDialog_dark: "#070a0d",
+    rain_pageDialog: "",
+    rain_pageDialog_dark: "#0a0a0c",
+    thunder_pageDialog: "",
+    thunder_pageDialog_dark: "#0c080c",
+    fog_pageDialog: "",
+    fog_pageDialog_dark: "#0c0805",
+    snow_pageDialog: "",
+    snow_pageDialog_dark: "#080808"
 }
+
 
 
 // get colors

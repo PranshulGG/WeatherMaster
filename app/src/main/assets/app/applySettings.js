@@ -52,6 +52,7 @@ function handleStorageChange(event) {
             HandleNoReloadSettings();
             break;
         case 'UseFrogSummary':
+        case 'useAutomaticUnitsSwitch':
             HandleNoReloadSettings();
             break;
         case 'AppLanguage':

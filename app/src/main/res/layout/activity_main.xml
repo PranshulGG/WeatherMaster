@@ -18,5 +18,7 @@
         tools:ignore="MissingConstraints" />
 
 
+    <include
+        layout="@layout/overlay_layout"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

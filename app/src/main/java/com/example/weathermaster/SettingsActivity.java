@@ -30,6 +30,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -72,7 +73,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private String dataToSave;
     private boolean isFirstLoad = true;
-
+    private FrameLayout overlayLayout;
     public void onBackPressed() {
         if (webview.canGoBack()) {
             webview.goBack();
@@ -85,12 +86,14 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences prefs = getSharedPreferences("theme_prefs", MODE_PRIVATE);
         boolean isDarkMode = prefs.getBoolean("theme_mode", false);
-        setAppTheme(this, isDarkMode);
+        setAppTheme(this, true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         // Webview stuff
         webview = findViewById(R.id.webView);
+        overlayLayout = findViewById(R.id.overlayLayout);
+
         WebSettings webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
@@ -99,7 +102,7 @@ public class SettingsActivity extends AppCompatActivity {
         webSettings.setAllowContentAccess(true);
         webview.setVerticalScrollBarEnabled(true);
         webview.setHorizontalScrollBarEnabled(false);
-        webview.setOverScrollMode(WebView.OVER_SCROLL_NEVER);
+        webview.setOverScrollMode(WebView.OVER_SCROLL_ALWAYS);
         webview.setWebViewClient(new WebViewClientDemo());
         AndroidInterface androidInterface = new AndroidInterface(this);
         webview.addJavascriptInterface(androidInterface, "AndroidInterface");
@@ -108,7 +111,7 @@ public class SettingsActivity extends AppCompatActivity {
         webview.addJavascriptInterface(new WebAppInterface(), "Android");
         webview.addJavascriptInterface(new BackActivityInterface(this), "BackActivityInterface");
         webview.addJavascriptInterface(new NavigateActivityInterface(this), "OpenActivityInterface");
-
+        webview.addJavascriptInterface(new AndroidFunctionActivityInterface(this), "AndroidFunctionActivityInterface");
         webview.loadUrl("file:///android_asset/pages/settings.html");
         webSettings.setTextZoom(100);
         webview.setWebViewClient(new WebViewClient() {
@@ -140,7 +143,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         });
     }
-
+    public void hideOverlay() {
+        overlayLayout.setVisibility(View.GONE);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -357,6 +362,29 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
 //    export or import data
+
+    public class AndroidFunctionActivityInterface {
+        private SettingsActivity mActivity;
+
+        AndroidFunctionActivityInterface(SettingsActivity activity) {
+            mActivity = activity;
+        }
+
+        @JavascriptInterface
+        public void androidFunction(final String functiontype) {
+            mActivity.runOnUiThread(new Runnable() {
+                @SuppressLint("ResourceType")
+                @RequiresApi(api = Build.VERSION_CODES.O)
+                @Override
+                public void run() {
+                    if (functiontype.equals("hideSurfaceOverlay")){
+                        hideOverlay();
+                        return;
+                    }
+                }
+            });
+        }
+    }
 
     public class NavigateActivityInterface {
         private final Context mContext;

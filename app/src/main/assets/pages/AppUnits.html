@@ -21,6 +21,15 @@
   </script>
 
     <style>
+            .activity-large-content::before {
+            position: fixed;
+            bottom: 0;
+            content: '';
+            width: 100%;
+            background: linear-gradient(0deg, var(--Surface) 10%, rgba(255, 0, 0, 0));
+            height: 30px;
+            z-index: 1;
+        }
                 * {
             -webkit-tap-highlight-color: transparent;
             user-select: none;
@@ -58,7 +67,7 @@
             color: white;
         }
 
-         md-list-item{
+       /*  md-list-item{
             background-color: var(--Surface-Container-Lowest);
             margin-bottom: 6px;
             border-radius: 8px;
@@ -75,7 +84,7 @@
 
         md-list{
             padding: 10px;
-        }
+        }*/
 
         .radios_units_dialog label{
             display: flex;
@@ -90,6 +99,9 @@
 
         [slot="actions"]{
             padding-top: 5px;
+        }
+        md-switch{
+            z-index: 1;
         }
     </style>
 
@@ -108,44 +120,86 @@
         <p class="label-large-main" data-translate="app_units">App units</p>
         <div class="content-parent-large" style="padding-bottom: 32px;">
 
+            <md-list-item  style="background-color: var(--Primary-Container); margin-left: 16px; margin-right: 16px; border-radius: 20px; margin-bottom: 10px;">
+                <div slot="headline" style="color: var(--On-Primary-Container);">Automatic units</div>
+                <div slot="supporting-text">Units will adjust automatically based on the location</div>
+                <md-switch slot="end" id="useAutomaticUnitsSwitch"></md-switch>
+                <label for="useAutomaticUnitsSwitch" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%;" slot="end"><md-ripple></md-ripple></label>
+            </md-list-item>
+
+            <script>
+
+                document.getElementById('useAutomaticUnitsSwitch').addEventListener('change', async () =>{
+                localStorage.setItem('UseAutomaticUnits', document.getElementById('useAutomaticUnitsSwitch').selected);
+                                if(document.getElementById('useAutomaticUnitsSwitch').selected){
+                    document.querySelectorAll('.unitoption_item').forEach((itm) =>{
+                        itm.disabled = true
+                    })
+                } else{
+                    document.querySelectorAll('.unitoption_item').forEach((itm) =>{
+                        itm.disabled = false
+                    })
+                }
+                })
+                async function retrieveAutomaticUnitsSwitch(){
+            if(localStorage.getItem('UseAutomaticUnits') === 'true'){
+                document.getElementById('useAutomaticUnitsSwitch').selected = true
+                document.querySelectorAll('.unitoption_item').forEach((itm) =>{
+                    itm.disabled = true
+                })
+
+            } else{
+                document.getElementById('useAutomaticUnitsSwitch').selected = false
+                document.querySelectorAll('.unitoption_item').forEach((itm) =>{
+                        itm.disabled = false
+                    })
+            }
+            }
+
+            document.addEventListener('DOMContentLoaded', () =>{
+                retrieveAutomaticUnitsSwitch()
+            });
+            </script>
+
+
             <md-list>
-                <md-list-item type="button" onclick="changeUnit('Temperature')">
+                <md-list-item type="button" onclick="changeUnit('Temperature')" class="unitoption_item">
                     <md-icon icon-filled slot="start">device_thermostat</md-icon>
                     <div slot="headline" data-translate="temperature_unit">Temperature unit</div>
                     <div slot="supporting-text" id="data_selected_temp_unit_text" style="color: var(--Secondary); font-family: var(--google-mid); font-size: 14px;">°C</div>
                 </md-list-item>
 
-                <md-list-item type="button" onclick="changeUnit('Wind')">
+                <md-list-item type="button" onclick="changeUnit('Wind')" class="unitoption_item">
                     <md-icon icon-filled slot="start">air</md-icon>
                     <div slot="headline" data-translate="wind_unit">Wind Unit</div>
                     <div slot="supporting-text" id="data_selected_wind_unit_text" style="color: var(--Secondary); font-family: var(--google-mid); font-size: 14px;">Km/h</div>
                 </md-list-item>
 
-                <md-list-item type="button" onclick="changeUnit('Visibility')">
+                <md-list-item type="button" onclick="changeUnit('Visibility')" class="unitoption_item">
                     <md-icon icon-filled slot="start">visibility</md-icon>
                     <div slot="headline" data-translate="visibility_unit">Visibility Unit</div>
                     <div slot="supporting-text" id="data_selected_visibility_unit_text" style="color: var(--Secondary); font-family: var(--google-mid); font-size: 14px;">km</div>
                 </md-list-item>
 
-                <md-list-item type="button" onclick="changeUnit('Precipitation')">
+                <md-list-item type="button" onclick="changeUnit('Precipitation')" class="unitoption_item">
                     <md-icon icon-filled slot="start">rainy_light</md-icon>
                     <div slot="headline" data-translate="precipitation_unit">Precipitation Unit</div>
                     <div slot="supporting-text" id="data_selected_precipitation_unit_text" style="color: var(--Secondary); font-family: var(--google-mid); font-size: 14px;">mm</div>
                 </md-list-item>
 
-                <md-list-item type="button" onclick="changeUnit('Pressure')">
+                <md-list-item type="button" onclick="changeUnit('Pressure')" class="unitoption_item">
                     <md-icon icon-filled slot="start">av_timer</md-icon>
                     <div slot="headline" data-translate="pressure_unit">Pressure Unit</div>
                     <div slot="supporting-text" id="data_selected_pressure_unit_text" style="color: var(--Secondary); font-family: var(--google-mid); font-size: 14px;">hPa</div>
                 </md-list-item>
 
-                <md-list-item type="button" onclick="changeUnit('Time')">
+                <md-list-item type="button" onclick="changeUnit('Time')" class="unitoption_item">
                     <md-icon icon-filled slot="start">schedule</md-icon>
                     <div slot="headline" data-translate="time_format">Time format</div>
                     <div slot="supporting-text" id="data_selected_time_unit_text" style="color: var(--Secondary); font-family: var(--google-mid); font-size: 14px;">12 hr</div>
                 </md-list-item>
 
-                <md-list-item type="button" onclick="changeUnit('AQI')">
+                <md-list-item type="button" onclick="changeUnit('AQI')" class="unitoption_item">
                     <md-icon icon-filled slot="start">airwave</md-icon>
                     <div slot="headline" data-translate="aqi_type">AQI type</div>
                     <div slot="supporting-text" id="data_selected_aqi_unit_text" style="color: var(--Secondary); font-family: var(--google-mid); font-size: 14px;">United States</div>
@@ -412,9 +466,13 @@ async function CreateMaterialYouTheme(hex) {
         sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '0')
       }
         document.querySelector('body').hidden = false
+        AndroidFunctionActivityInterface.androidFunction('hideSurfaceOverlay');
 
   } else{
-    document.documentElement.setAttribute('Theme', closestColor);
+          document.documentElement.setAttribute(
+      "Theme",
+      await customStorage.getItem("customTheme")
+    );
 
 if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
   document.documentElement.setAttribute('colorTheme', 'light');
@@ -425,6 +483,8 @@ if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme'
   sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '0')
 }
   document.querySelector('body').hidden = false
+        AndroidFunctionActivityInterface.androidFunction('hideSurfaceOverlay');
+
   }
 }
 

@@ -20,6 +20,7 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ public class ClothingRecommendation extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
     }
+    private FrameLayout overlayLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,8 @@ public class ClothingRecommendation extends AppCompatActivity {
         webview.addJavascriptInterface(androidInterface, "AndroidInterface");
         webview.addJavascriptInterface(new BackActivityInterface(this), "BackActivityInterface");
         webview.addJavascriptInterface(new NavigateActivityInterface(this), "OpenActivityInterface");
+        overlayLayout = findViewById(R.id.overlayLayout);
+        webview.addJavascriptInterface(new AndroidFunctionActivityInterface(this), "AndroidFunctionActivityInterface");
         webSettings.setTextZoom(100);
         webSettings.setAllowFileAccess(true);
         webview.loadUrl("file:///android_asset/pages/ClothingRecommendation.html");
@@ -99,6 +103,9 @@ public class ClothingRecommendation extends AppCompatActivity {
     }
 
 
+    public void hideOverlay() {
+        overlayLayout.setVisibility(View.GONE);
+    }
 
 
     public class NavigateActivityInterface {
@@ -140,6 +147,29 @@ public class ClothingRecommendation extends AppCompatActivity {
     }
     public void goBack() {
         runOnUiThread(this::onBackPressed);
+    }
+
+    public class AndroidFunctionActivityInterface {
+        private ClothingRecommendation mActivity;
+
+        AndroidFunctionActivityInterface(ClothingRecommendation activity) {
+            mActivity = activity;
+        }
+
+        @JavascriptInterface
+        public void androidFunction(final String functiontype) {
+            mActivity.runOnUiThread(new Runnable() {
+                @SuppressLint("ResourceType")
+                @RequiresApi(api = Build.VERSION_CODES.O)
+                @Override
+                public void run() {
+                    if (functiontype.equals("hideSurfaceOverlay")){
+                        hideOverlay();
+                        return;
+                    }
+                }
+            });
+        }
     }
 
     public class AndroidInterface {

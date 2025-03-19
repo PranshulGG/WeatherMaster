@@ -788,12 +788,23 @@ async function loadSavedLocations() {
       );
 
       if (data) {
+              if(localStorage.getItem('UseAutomaticUnits') === 'true'){
+                if (location.locationName.toLowerCase().includes("united states")) {
+                  temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
+              } else if (location.locationName.toLowerCase().includes("united kingdom") || location.locationName.toLowerCase().includes("england")){
+                temp = Math.round(data.current.temperature_2m);
+
+              } else{
+                temp = Math.round(data.current.temperature_2m);
+
+              }
+            } else{
         if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
           temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
         } else {
           temp = Math.round(data.current.temperature_2m);
         }
-
+    }
         icon = GetWeatherIcon(data.current.weather_code, data.current.is_day);
 
         conditionlabel = getWeatherLabelInLangNoAnim(
@@ -823,12 +834,23 @@ async function loadSavedLocations() {
       );
 
       if (data) {
+              if(localStorage.getItem('UseAutomaticUnits') === 'true'){
+                if (location.locationName.toLowerCase().includes("united states")) {
+                  temp = Math.round(data[0].Temperature.Imperial.Value);
+              } else if (location.locationName.toLowerCase().includes("united kingdom") || location.locationName.toLowerCase().includes("england")){
+                temp = Math.round(data[0].Temperature.Metric.Value);
+
+              } else{
+                temp = Math.round(data[0].Temperature.Metric.Value);
+
+              }
+            } else{
         if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
           temp = Math.round(data[0].Temperature.Imperial.Value);
         } else {
           temp = Math.round(data[0].Temperature.Metric.Value);
         }
-
+    }
         icon = GetWeatherIconAccu(data[0].WeatherIcon);
         conditionlabel = GetWeatherTextAccuNoAnim(data[0].WeatherIcon);
         showReloadBtn = "hidden";
@@ -852,12 +874,23 @@ async function loadSavedLocations() {
       );
 
       if (data) {
+              if(localStorage.getItem('UseAutomaticUnits') === 'true'){
+                if (location.locationName.toLowerCase().includes("united states")) {
+                  temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
+              } else if (location.locationName.toLowerCase().includes("united kingdom") || location.locationName.toLowerCase().includes("england")){
+                temp = Math.round(data.current.temperature_2m);
+
+              } else{
+                temp = Math.round(data.current.temperature_2m);
+
+              }
+            } else{
         if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
           temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
         } else {
           temp = Math.round(data.current.temperature_2m);
         }
-
+    }
         icon = GetWeatherIcon(data.current.weather_code, data.current.is_day);
 
         conditionlabel = getWeatherLabelInLangNoAnim(
@@ -886,12 +919,23 @@ async function loadSavedLocations() {
       );
 
       if (data) {
+              if(localStorage.getItem('UseAutomaticUnits') === 'true'){
+                if (location.locationName.toLowerCase().includes("united states")) {
+                  temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
+              } else if (location.locationName.toLowerCase().includes("united kingdom") || location.locationName.toLowerCase().includes("england")){
+                temp = Math.round(data.current.temperature_2m);
+
+              } else{
+                temp = Math.round(data.current.temperature_2m);
+
+              }
+            } else{
         if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
           temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
         } else {
           temp = Math.round(data.current.temperature_2m);
         }
-
+    }
         icon = GetWeatherIcon(data.current.weather_code, data.current.is_day);
 
         conditionlabel = getWeatherLabelInLangNoAnim(
@@ -920,12 +964,23 @@ async function loadSavedLocations() {
       );
 
       if (data) {
+              if(localStorage.getItem('UseAutomaticUnits') === 'true'){
+                if (location.locationName.toLowerCase().includes("united states")) {
+                  temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
+              } else if (location.locationName.toLowerCase().includes("united kingdom") || location.locationName.toLowerCase().includes("england")){
+                temp = Math.round(data.current.temperature_2m);
+
+              } else{
+                temp = Math.round(data.current.temperature_2m);
+
+              }
+            } else{
         if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
           temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
         } else {
           temp = Math.round(data.current.temperature_2m);
         }
-
+    }
         icon = GetWeatherIcon(data.current.weather_code, data.current.is_day);
 
         conditionlabel = getWeatherLabelInLangNoAnim(
@@ -954,12 +1009,23 @@ async function loadSavedLocations() {
       );
 
       if (data) {
+              if(localStorage.getItem('UseAutomaticUnits') === 'true'){
+                if (location.locationName.toLowerCase().includes("united states")) {
+                  temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
+              } else if (location.locationName.toLowerCase().includes("united kingdom") || location.locationName.toLowerCase().includes("england")){
+                temp = Math.round(data.current.temperature_2m);
+
+              } else{
+                temp = Math.round(data.current.temperature_2m);
+
+              }
+            } else{
         if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
           temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
         } else {
           temp = Math.round(data.current.temperature_2m);
         }
-
+    }
         icon = GetWeatherIcon(data.current.weather_code, data.current.is_day);
 
         conditionlabel = getWeatherLabelInLangNoAnim(
@@ -988,12 +1054,23 @@ async function loadSavedLocations() {
       );
 
       if (data) {
+              if(localStorage.getItem('UseAutomaticUnits') === 'true'){
+                if (location.locationName.toLowerCase().includes("united states")) {
+                  temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
+              } else if (location.locationName.toLowerCase().includes("united kingdom") || location.locationName.toLowerCase().includes("england")){
+                temp = Math.round(data.current.temperature_2m);
+
+              } else{
+                temp = Math.round(data.current.temperature_2m);
+
+              }
+            } else{
         if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
           temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
         } else {
           temp = Math.round(data.current.temperature_2m);
         }
-
+    }
         icon = GetWeatherIcon(data.current.weather_code, data.current.is_day);
 
         conditionlabel = getWeatherLabelInLangNoAnim(
@@ -1022,12 +1099,23 @@ async function loadSavedLocations() {
       );
 
       if (data) {
+              if(localStorage.getItem('UseAutomaticUnits') === 'true'){
+                if (location.locationName.toLowerCase().includes("united states")) {
+                  temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
+              } else if (location.locationName.toLowerCase().includes("united kingdom") || location.locationName.toLowerCase().includes("england")){
+                temp = Math.round(data.current.temperature_2m);
+
+              } else{
+                temp = Math.round(data.current.temperature_2m);
+
+              }
+            } else{
         if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
           temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
         } else {
           temp = Math.round(data.current.temperature_2m);
         }
-
+    }
         icon = GetWeatherIcon(data.current.weather_code, data.current.is_day);
 
         conditionlabel = getWeatherLabelInLangNoAnim(
@@ -1056,12 +1144,23 @@ async function loadSavedLocations() {
       );
 
       if (data) {
+              if(localStorage.getItem('UseAutomaticUnits') === 'true'){
+                if (location.locationName.toLowerCase().includes("united states")) {
+                  temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
+              } else if (location.locationName.toLowerCase().includes("united kingdom") || location.locationName.toLowerCase().includes("england")){
+                temp = Math.round(data.current.temperature_2m);
+
+              } else{
+                temp = Math.round(data.current.temperature_2m);
+
+              }
+            } else{
         if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
           temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
         } else {
           temp = Math.round(data.current.temperature_2m);
         }
-
+    }
         icon = GetWeatherIcon(data.current.weather_code, data.current.is_day);
 
         conditionlabel = getWeatherLabelInLangNoAnim(
@@ -1090,12 +1189,23 @@ async function loadSavedLocations() {
       );
 
       if (data) {
+              if(localStorage.getItem('UseAutomaticUnits') === 'true'){
+                if (location.locationName.toLowerCase().includes("united states")) {
+                  temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
+              } else if (location.locationName.toLowerCase().includes("united kingdom") || location.locationName.toLowerCase().includes("england")){
+                temp = Math.round(data.current.temperature_2m);
+
+              } else{
+                temp = Math.round(data.current.temperature_2m);
+
+              }
+            } else{
         if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
           temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
         } else {
           temp = Math.round(data.current.temperature_2m);
         }
-
+    }
         icon = GetWeatherIcon(data.current.weather_code, data.current.is_day);
 
         conditionlabel = getWeatherLabelInLangNoAnim(
@@ -1124,12 +1234,23 @@ async function loadSavedLocations() {
       );
 
       if (data) {
+              if(localStorage.getItem('UseAutomaticUnits') === 'true'){
+                if (location.locationName.toLowerCase().includes("united states")) {
+                  temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
+              } else if (location.locationName.toLowerCase().includes("united kingdom") || location.locationName.toLowerCase().includes("england")){
+                temp = Math.round(data.current.temperature_2m);
+
+              } else{
+                temp = Math.round(data.current.temperature_2m);
+
+              }
+            } else{
         if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
           temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
         } else {
           temp = Math.round(data.current.temperature_2m);
         }
-
+    }
         icon = GetWeatherIcon(data.current.weather_code, data.current.is_day);
 
         conditionlabel = getWeatherLabelInLangNoAnim(
@@ -1163,12 +1284,23 @@ async function loadSavedLocations() {
       );
 
       if (data) {
+              if(localStorage.getItem('UseAutomaticUnits') === 'true'){
+                if (location.locationName.toLowerCase().includes("united states")) {
+                  temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
+              } else if (location.locationName.toLowerCase().includes("united kingdom") || location.locationName.toLowerCase().includes("england")){
+                temp = Math.round(data.current.temperature_2m);
+
+              } else{
+                temp = Math.round(data.current.temperature_2m);
+
+              }
+            } else{
         if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
           temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
         } else {
           temp = Math.round(data.current.temperature_2m);
         }
-
+    }
         icon = GetWeatherIcon(data.current.weather_code, data.current.is_day);
 
         conditionlabel = getWeatherLabelInLangNoAnim(
@@ -1200,10 +1332,22 @@ async function loadSavedLocations() {
       );
 
       if (data) {
+              if(localStorage.getItem('UseAutomaticUnits') === 'true'){
+                if (location.locationName.toLowerCase().includes("united states")) {
+                  temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
+              } else if (location.locationName.toLowerCase().includes("united kingdom") || location.locationName.toLowerCase().includes("england")){
+                temp = Math.round(data.current.temperature_2m);
+
+              } else{
+                temp = Math.round(data.current.temperature_2m);
+
+              }
+            } else{
         if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
           temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
         } else {
           temp = Math.round(data.current.temperature_2m);
+        }
         }
 
         icon = GetWeatherIcon(data.current.weather_code, data.current.is_day);
@@ -1229,12 +1373,23 @@ async function loadSavedLocations() {
       );
 
       if (data) {
+              if(localStorage.getItem('UseAutomaticUnits') === 'true'){
+                if (location.locationName.toLowerCase().includes("united states")) {
+                  temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
+              } else if (location.locationName.toLowerCase().includes("united kingdom") || location.locationName.toLowerCase().includes("england")){
+                temp = Math.round(data.current.temperature_2m);
+
+              } else{
+                temp = Math.round(data.current.temperature_2m);
+
+              }
+            } else{
         if (localStorage.getItem("SelectedTempUnit") === "fahrenheit") {
           temp = Math.round(celsiusToFahrenheit(data.current.temperature_2m));
         } else {
           temp = Math.round(data.current.temperature_2m);
         }
-
+}
         icon = GetWeatherIcon(data.current.weather_code, data.current.is_day);
 
         conditionlabel = getWeatherLabelInLangNoAnim(
@@ -1860,6 +2015,34 @@ async function loadSavedLocations() {
 
     savelocationtouch.addEventListener("click", () => {
       document.getElementById("search-container").style.display = "none";
+
+            if(localStorage.getItem('UseAutomaticUnits') === 'true'){
+            if (location.locationName.toLowerCase().includes("united states")) {
+              localStorage.setItem('SelectedTempUnit', 'fahrenheit')
+              localStorage.setItem('SelectedWindUnit', 'mile')
+              localStorage.setItem('selectedVisibilityUnit', 'mileV')
+              localStorage.setItem('selectedPrecipitationUnit', 'in')
+              localStorage.setItem('selectedPressureUnit', 'mmHg')
+              localStorage.setItem('selectedTimeMode', '12 hour')
+              localStorage.setItem('selectedAQItype', 'us_aqi')
+          } else if (location.locationName.toLowerCase().includes("united kingdom") || location.locationName.toLowerCase().includes("england")){
+            localStorage.setItem('SelectedTempUnit', 'celsius')
+            localStorage.setItem('SelectedWindUnit', 'mile')
+            localStorage.setItem('selectedVisibilityUnit', 'mileV')
+            localStorage.setItem('selectedPrecipitationUnit', 'mm')
+            localStorage.setItem('selectedPressureUnit', 'hPa')
+            localStorage.setItem('selectedTimeMode', '24 hour')
+            localStorage.setItem('selectedAQItype', 'eu_aqi')
+          } else{
+            localStorage.setItem('SelectedTempUnit', 'celsius')
+            localStorage.setItem('SelectedWindUnit', 'kilometer')
+            localStorage.setItem('selectedVisibilityUnit', 'km')
+            localStorage.setItem('selectedPrecipitationUnit', 'mm')
+            localStorage.setItem('selectedPressureUnit', 'hPa')
+            localStorage.setItem('selectedTimeMode', '24 hour')
+            localStorage.setItem('selectedAQItype', 'us_aqi')
+          }
+        }
 
       if (
         localStorage.getItem("selectedMainWeatherProvider") === "Met norway"
@@ -3842,7 +4025,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     return;
   }
 
-  const currentVersion = "v1.19.0";
+  const currentVersion = "v1.20.1";
   const githubRepo = "PranshulGG/WeatherMaster";
   const releasesUrl = `https://api.github.com/repos/${githubRepo}/releases`;
 
@@ -3996,6 +4179,33 @@ document
   });
 
 function ReturnHomeLocation() {
+    if(localStorage.getItem('UseAutomaticUnits') === 'true'){
+      if (JSON.parse(localStorage.getItem("DefaultLocation")).name.toLowerCase().includes("united states")) {
+        localStorage.setItem('SelectedTempUnit', 'fahrenheit')
+        localStorage.setItem('SelectedWindUnit', 'mile')
+        localStorage.setItem('selectedVisibilityUnit', 'mileV')
+        localStorage.setItem('selectedPrecipitationUnit', 'in')
+        localStorage.setItem('selectedPressureUnit', 'mmHg')
+        localStorage.setItem('selectedTimeMode', '12 hour')
+        localStorage.setItem('selectedAQItype', 'us_aqi')
+    } else if (JSON.parse(localStorage.getItem("DefaultLocation")).name.toLowerCase().includes("united kingdom") || JSON.parse(localStorage.getItem("DefaultLocation")).name.toLowerCase().includes("england")){
+      localStorage.setItem('SelectedTempUnit', 'celsius')
+      localStorage.setItem('SelectedWindUnit', 'mile')
+      localStorage.setItem('selectedVisibilityUnit', 'mileV')
+      localStorage.setItem('selectedPrecipitationUnit', 'mm')
+      localStorage.setItem('selectedPressureUnit', 'hPa')
+      localStorage.setItem('selectedTimeMode', '24 hour')
+      localStorage.setItem('selectedAQItype', 'eu_aqi')
+    } else{
+      localStorage.setItem('SelectedTempUnit', 'celsius')
+      localStorage.setItem('SelectedWindUnit', 'kilometer')
+      localStorage.setItem('selectedVisibilityUnit', 'km')
+      localStorage.setItem('selectedPrecipitationUnit', 'mm')
+      localStorage.setItem('selectedPressureUnit', 'hPa')
+      localStorage.setItem('selectedTimeMode', '24 hour')
+      localStorage.setItem('selectedAQItype', 'us_aqi')
+    }
+  }
   const Locations = JSON.parse(localStorage.getItem("DefaultLocation"));
 
   if (localStorage.getItem("selectedMainWeatherProvider") === "Met norway") {
@@ -7534,3 +7744,47 @@ function handleStorageSummaryConfigEvent(event) {
 }
 
 window.addEventListener('indexedDBChange', handleStorageSummaryConfigEvent);
+
+const targetElement = document.documentElement;
+
+if (targetElement) {
+  console.log('Observer attached to:', targetElement);
+
+  const observer = new MutationObserver((mutationsList) => {
+    for (const mutation of mutationsList) {
+    console.log(mutation.target.getAttribute('iconCodeTheme'))
+
+      if(mutation.target.getAttribute('iconCodeTheme') === 'clear-day'){
+        setPageTheme('clear_day_page')
+      } else if (mutation.target.getAttribute('iconCodeTheme') === 'clear-night'){
+        setPageTheme('clear_night_page');
+      } else if (mutation.target.getAttribute('iconCodeTheme') === 'cloudy'){
+        setPageTheme('cloudy_page');
+      } else if (mutation.target.getAttribute('iconCodeTheme') === 'rain'){
+        setPageTheme('rain_page');
+      } else if (mutation.target.getAttribute('iconCodeTheme') === 'overcast'){
+        setPageTheme('overcast_page');
+      } else if (mutation.target.getAttribute('iconCodeTheme') === 'thunder'){
+        setPageTheme('thunder_page');
+      } else if (mutation.target.getAttribute('iconCodeTheme') === 'snow'){
+        setPageTheme('snow_page');
+      } else if (mutation.target.getAttribute('iconCodeTheme') === 'fog'){
+        setPageTheme('fog_page');
+      }
+    }
+
+  });
+
+  observer.observe(targetElement, { attributes: true });
+
+
+
+} else {
+  console.error('HTML element not found!');
+}
+
+async function setPageTheme(name) {
+  await customStorage.setItem("customTheme", name);
+}
+
+

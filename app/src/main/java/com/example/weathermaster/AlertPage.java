@@ -20,6 +20,7 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ public class AlertPage extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
     }
+    private FrameLayout overlayLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,12 +61,14 @@ public class AlertPage extends AppCompatActivity {
         webSettings.setAllowContentAccess(true);
         webview.setVerticalScrollBarEnabled(true);
         webview.setHorizontalScrollBarEnabled(false);
-        webview.setOverScrollMode(WebView.OVER_SCROLL_NEVER);
+        webview.setOverScrollMode(WebView.OVER_SCROLL_ALWAYS);
         webview.setWebViewClient(new WebViewClientDemo());
         AndroidInterface androidInterface = new AndroidInterface(this);
         webview.addJavascriptInterface(androidInterface, "AndroidInterface");
         webview.addJavascriptInterface(new BackActivityInterface(this), "BackActivityInterface");
         webview.addJavascriptInterface(new NavigateActivityInterface(this), "OpenActivityInterface");
+        overlayLayout = findViewById(R.id.overlayLayout);
+        webview.addJavascriptInterface(new AndroidFunctionActivityInterface(this), "AndroidFunctionActivityInterface");
         webSettings.setTextZoom(100);
         webSettings.setAllowFileAccess(true);
         webview.loadUrl("file:///android_asset/pages/alertPage.html");
@@ -100,6 +104,9 @@ public class AlertPage extends AppCompatActivity {
     }
 
 
+    public void hideOverlay() {
+        overlayLayout.setVisibility(View.GONE);
+    }
 
 
     public class NavigateActivityInterface {
@@ -124,6 +131,29 @@ public class AlertPage extends AppCompatActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(intent);
 
+        }
+    }
+
+    public class AndroidFunctionActivityInterface {
+        private AlertPage mActivity;
+
+        AndroidFunctionActivityInterface(AlertPage activity) {
+            mActivity = activity;
+        }
+
+        @JavascriptInterface
+        public void androidFunction(final String functiontype) {
+            mActivity.runOnUiThread(new Runnable() {
+                @SuppressLint("ResourceType")
+                @RequiresApi(api = Build.VERSION_CODES.O)
+                @Override
+                public void run() {
+                    if (functiontype.equals("hideSurfaceOverlay")){
+                        hideOverlay();
+                        return;
+                    }
+                }
+            });
         }
     }
 

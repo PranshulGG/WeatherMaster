@@ -37,6 +37,8 @@
         <item name="android:statusBarColor">#111111</item>
         <item name="android:windowBackground">#111111</item>
         <item name="android:navigationBarColor">#111111</item>
+        <item name="overlayBackgroundColor">#111111</item>
+
         <item name="colorAccent">#FFFFFF</item>
     </style>
 

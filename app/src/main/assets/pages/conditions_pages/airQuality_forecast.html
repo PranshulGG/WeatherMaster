@@ -330,9 +330,14 @@ async function CreateMaterialYouTheme(hex) {
         sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '0')
       }
         document.querySelector('body').hidden = false
+        AndroidFunctionActivityInterface.androidFunction('hideSurfaceOverlay');
+
 
   } else{
-    document.documentElement.setAttribute('Theme', closestColor);
+          document.documentElement.setAttribute(
+      "Theme",
+      await customStorage.getItem("customTheme")
+    );
 
 if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme') === 'true'){
   document.documentElement.setAttribute('colorTheme', 'light');
@@ -343,6 +348,8 @@ if(localStorage.getItem('useLightTheme') && localStorage.getItem('useLightTheme'
   sendThemeToAndroid(getComputedStyle(document.documentElement).getPropertyValue('--Surface'), getComputedStyle(document.documentElement).getPropertyValue('--Surface'), '0')
 }
   document.querySelector('body').hidden = false
+    AndroidFunctionActivityInterface.androidFunction('hideSurfaceOverlay');
+
   }
 }
 

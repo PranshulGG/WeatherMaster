@@ -23,6 +23,7 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +40,7 @@ public class ArrangeItems extends AppCompatActivity {
 
     private WebView webview;
     private boolean isFirstLoad = true;
+    private FrameLayout overlayLayout;
 
     public void onBackPressed() {
         super.onBackPressed();
@@ -68,13 +70,15 @@ public class ArrangeItems extends AppCompatActivity {
         webSettings.setAllowContentAccess(true);
         webview.setVerticalScrollBarEnabled(false);
         webview.setHorizontalScrollBarEnabled(false);
-        webview.setOverScrollMode(WebView.OVER_SCROLL_NEVER);
+        webview.setOverScrollMode(WebView.OVER_SCROLL_ALWAYS);
         webview.setWebViewClient(new WebViewClientDemo());
         AndroidInterface androidInterface = new AndroidInterface(this);
         webview.addJavascriptInterface(androidInterface, "AndroidInterface");
         webview.addJavascriptInterface(new ShowSnackInterface(this), "ShowSnackMessage");
         webview.addJavascriptInterface(new BackActivityInterface(this), "BackActivityInterface");
         webview.addJavascriptInterface(new NavigateActivityInterface(this), "OpenActivityInterface");
+        overlayLayout = findViewById(R.id.overlayLayout);
+        webview.addJavascriptInterface(new AndroidFunctionActivityInterface(this), "AndroidFunctionActivityInterface");
         webSettings.setTextZoom(100);
         webSettings.setAllowFileAccess(true);
         webview.loadUrl("file:///android_asset/pages/ArrangeItems.html");
@@ -109,6 +113,9 @@ public class ArrangeItems extends AppCompatActivity {
 
     }
 
+    public void hideOverlay() {
+        overlayLayout.setVisibility(View.GONE);
+    }
 
     public class ShowSnackInterface {
         private final Context mContext;
@@ -193,6 +200,29 @@ public class ArrangeItems extends AppCompatActivity {
     }
     public void goBack() {
         runOnUiThread(this::onBackPressed);
+    }
+
+    public class AndroidFunctionActivityInterface {
+        private ArrangeItems mActivity;
+
+        AndroidFunctionActivityInterface(ArrangeItems activity) {
+            mActivity = activity;
+        }
+
+        @JavascriptInterface
+        public void androidFunction(final String functiontype) {
+            mActivity.runOnUiThread(new Runnable() {
+                @SuppressLint("ResourceType")
+                @RequiresApi(api = Build.VERSION_CODES.O)
+                @Override
+                public void run() {
+                    if (functiontype.equals("hideSurfaceOverlay")){
+                        hideOverlay();
+                        return;
+                    }
+                }
+            });
+        }
     }
 
     public class AndroidInterface {

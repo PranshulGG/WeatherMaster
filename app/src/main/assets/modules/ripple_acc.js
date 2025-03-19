@@ -63,3 +63,67 @@ if (useFontSizePages === 'large_fontSize') {
   } else {
     document.documentElement.setAttribute("sys-font-size", "");
   }
+
+
+  document.addEventListener('DOMContentLoaded', () =>{
+
+
+
+    const customOpenAnimation = {
+      dialog: [
+          [
+              // Dialog fades in
+              [{ 'transform': 'scale(1.1)' }, { 'transform': 'scale(1)' }],
+              { duration: 150, easing: 'ease-out' },
+          ],
+      ],
+      scrim: [
+          [
+              // Scrim fades in
+              [{ opacity: 0 }, { opacity: 0.6 }],
+              { duration: 170, easing: 'ease-in' },
+          ],
+      ],
+      container: [
+          [
+              // Container fades in
+              [{ opacity: 0 }, { opacity: 1 }],
+              { duration: 170, easing: 'ease-in' },
+          ],
+      ],
+  };
+
+  const customCloseAnimation = {
+      dialog: [
+          [
+              // Dialog fades out
+              [{ 'transform': 'scale(1)' }, { 'transform': 'scale(1.1)' }],
+              { duration: 190, easing: 'ease-in' },
+          ],
+      ],
+      scrim: [
+          [
+              // Scrim fades out
+              [{ opacity: 0.6 }, { opacity: 0 }],
+              { duration: 190, easing: 'ease-out' },
+          ],
+      ],
+      container: [
+          [
+              [{ opacity: 1 }, { opacity: 0 }],
+              { duration: 190, easing: 'ease-in' },
+          ],
+      ],
+  };
+
+  const dialogs = document.querySelectorAll('md-dialog');
+
+  dialogs.forEach((dialog) => {
+      dialog.getOpenAnimation = () => customOpenAnimation;
+      dialog.getCloseAnimation = () => customCloseAnimation;
+  });
+
+
+  });
+
+
