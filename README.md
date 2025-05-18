@@ -25,7 +25,7 @@
     </div>
     
 <div align="center">
- <a href="https://github.com/PranshulGG/WeatherMaster/releases"><img alt="GitHub" src="https://censorship.no/img/github-badge.png" height="80"/></a>
+ <a href="https://github.com/PranshulGG/WeatherMaster/releases"><img alt="GitHub" src="https://user-images.githubusercontent.com/69304392/148696068-0cfea65d-b18f-4685-82b5-329a330b1c0d.png" height="80"/></a>
    <a href="https://apt.izzysoft.de/fdroid/index/apk/com.example.weathermaster"><img alt="GitHub" src="preview/download_Btn.png" height="80"/></a></div>
 <br>
 
