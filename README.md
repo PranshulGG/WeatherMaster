@@ -21,8 +21,9 @@
    </div>
  <div align="center">
     
-   [Features](https://github.com/PranshulGG/WeatherMaster?tab=readme-ov-file#-features) • [Contact](https://github.com/PranshulGG/WeatherMaster?tab=readme-ov-file#contact) • [License](https://github.com/PranshulGG/WeatherMaster?tab=readme-ov-file#license) • [Translate](https://github.com/PranshulGG/WeatherMaster?tab=readme-ov-file#-translate-the-app-on-crowdin)
-    </div>
+   [Features](https://github.com/PranshulGG/WeatherMaster?tab=readme-ov-file#-features) • [Contact](https://github.com/PranshulGG/WeatherMaster?tab=readme-ov-file#contact) • [License](https://github.com/PranshulGG/WeatherMaster?tab=readme-ov-file#license) • [Translate](https://github.com/PranshulGG/WeatherMaster?tab=readme-ov-file#-translate-the-app-on-crowdin) • [WIDGETS](https://github.com/PranshulGG/WeatherMaster/edit/master/README.md#widgetsss)
+   
+ </div>
     
 <div align="center">
  <a href="https://github.com/PranshulGG/WeatherMaster/releases"><img alt="GitHub" src="https://user-images.githubusercontent.com/69304392/148696068-0cfea65d-b18f-4685-82b5-329a330b1c0d.png" height="80"/></a>
@@ -52,6 +53,12 @@
 - **Feel free to open an issue if you want to request a language** 
 
 <a href="https://crowdin.com/project/weathermaster/invite?h=448278a9b1370f3c10d4336a091dae792286917"><img src="https://badges.crowdin.net/weathermaster/localized.svg" width="200"> </a>
+
+# WIDGETSSS!!
+
+> [!NOTE]
+> This app is built using WebView tech. That means features like **widgets**, **background sync**, or **push notifications** aren't currently supported — WebViews just don't play nice with those.
+> I've tried *many* times to get around it, but honestly... it just didn’t work out.
 
 # ✨ Features:
 
