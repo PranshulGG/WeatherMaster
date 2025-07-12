@@ -515,10 +515,10 @@
     "precipitation_likely_around": "Precipitation likely around",
     "hrs_sub_text": "hrs",
     "mins_sub_text": "mins",
-    "loading_text": "Loading...",
-    "edit_location_headline": "Edit location",
+    "loading_text": "Memuat...",
+    "edit_location_headline": "Ubah lokasi",
     "edit_location_error_sub": "Please fill in the field or reset it",
-    "app_theme_dark_light": "App theme",
-    "theme_dark": "Dark",
-    "theme_light": "Light"
+    "app_theme_dark_light": "Tema aplikasi",
+    "theme_dark": "Gelap",
+    "theme_light": "Terang"
 }
