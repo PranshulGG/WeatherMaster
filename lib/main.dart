@@ -157,8 +157,7 @@ class MyApp extends StatelessWidget {
       supportedLocales: flutterSupportedLocales, 
       localizationsDelegates: context.localizationDelegates,
       localeResolutionCallback: (locale, supportedLocales) {
-        final easyLocale = context.locale;
-        return Locale(easyLocale.languageCode);
+        return context.locale; 
       },
 
   theme: ThemeData.from(

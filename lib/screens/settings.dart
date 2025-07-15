@@ -287,7 +287,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     SettingActionTile(
                     icon: Icon(Symbols.language, fill: 1, weight: 500),
                     title: Text('app_language'.tr()),
-                    description: Text(getLanguageNamesSettingsView(context.locale.languageCode.toLocale())['native'].toString()),
+                    description: Text(getLanguageNamesSettingsView(context.locale)['english'].toString()),
                     trailing: Icon(Icons.chevron_right),
                     onTap: () {
                     Navigator.of(context).push(
@@ -327,36 +327,101 @@ Map<String, String> getLanguageNamesSettingsView(Locale locale) {
   final lang = locale.languageCode;
   final country = locale.countryCode;
 
-  if (lang == 'pt' && country == 'BR') return {'native': 'Português (Brasil)', 'english': 'Portuguese (Brazil)'};
-  if (lang == 'pt') return {'native': 'Português', 'english': 'Portuguese'};
-  if (lang == 'en') return {'native': 'English', 'english': 'English'};
-  if (lang == 'zh' && country == 'TW') return {'native': '繁體中文', 'english': 'Traditional Chinese'};
-  if (lang == 'zh') return {'native': '中文', 'english': 'Chinese'};
-  if (lang == 'nl') return {'native': 'Nederlands', 'english': 'Dutch'};
-  if (lang == 'fil') return {'native': 'Filipino', 'english': 'Filipino'};
-  if (lang == 'fr') return {'native': 'Français', 'english': 'French'};
-  if (lang == 'de') return {'native': 'Deutsch', 'english': 'German'};
-  if (lang == 'el') return {'native': 'Ελληνικά', 'english': 'Greek'};
-  if (lang == 'it') return {'native': 'Italiano', 'english': 'Italian'};
-  if (lang == 'ja') return {'native': '日本語', 'english': 'Japanese'};
-  if (lang == 'fa') return {'native': 'فارسی', 'english': 'Persian'};
-  if (lang == 'pl') return {'native': 'Polski', 'english': 'Polish'};
-  if (lang == 'ro') return {'native': 'Română', 'english': 'Romanian'};
-  if (lang == 'ru') return {'native': 'Русский', 'english': 'Russian'};
-  if (lang == 'es') return {'native': 'Español', 'english': 'Spanish'};
-  if (lang == 'tr') return {'native': 'Türkçe', 'english': 'Turkish'};
-  if (lang == 'uk') return {'native': 'Українська', 'english': 'Ukrainian'};
-  if (lang == 'vi') return {'native': 'Tiếng Việt', 'english': 'Vietnamese'};
-  if (lang == 'sr' && country == 'CY') return {'native': 'Српски (Ћирилица)', 'english': 'Serbian (Cyrillic)'};
-  if (lang == 'sr') return {'native': 'Српски', 'english': 'Serbian'};
-  if (lang == 'az') return {'native': 'Azərbaycanca', 'english': 'Azerbaijani'};
-  if (lang == 'sl') return {'native': 'Slovenščina', 'english': 'Slovenian'};
-  if (lang == 'fi') return {'native': 'Suomi', 'english': 'Finnish'};
-  if (lang == 'hu') return {'native': 'Magyar', 'english': 'Hungarian'};
-  if (lang == 'cs') return {'native': 'Čeština', 'english': 'Czech'};
-  if (lang == 'ar' && country == 'SA') return {'native': 'العربية (السعودية)', 'english': 'Arabic, Saudi Arabia'};
-  if (lang == 'ko') return {'native': '한국어', 'english': 'Korean'};
-  if (lang == 'id') return {'native': 'Bahasa Indonesia', 'english': 'Indonesian'};
+  print("${lang}, ${country}");
+
+  if (lang == 'ar' && country == 'SA') {
+    return {'native': 'العربية (السعودية)', 'english': 'Arabic (Saudi Arabia)'};
+  }
+  if (lang == 'az' && country == 'AZ') {
+    return {'native': 'Azərbaycanca', 'english': 'Azerbaijani'};
+  }
+  if (lang == 'cs' && country == 'CZ') {
+    return {'native': 'Čeština', 'english': 'Czech'};
+  }
+  if (lang == 'de' && country == 'DE') {
+    return {'native': 'Deutsch', 'english': 'German'};
+  }
+  if (lang == 'el' && country == 'GR') {
+    return {'native': 'Ελληνικά', 'english': 'Greek'};
+  }
+  if (lang == 'en') {
+    return {'native': 'English', 'english': 'English (US)'};
+  }
+  if (lang == 'es' && country == 'ES') {
+    return {'native': 'Español', 'english': 'Spanish'};
+  }
+  if (lang == 'fa' && country == 'IR') {
+    return {'native': 'فارسی', 'english': 'Persian'};
+  }
+  if (lang == 'fi' && country == 'FI') {
+    return {'native': 'Suomi', 'english': 'Finnish'};
+  }
+  if (lang == 'fil' && country == 'PH') {
+    return {'native': 'Filipino', 'english': 'Filipino'};
+  }
+  if (lang == 'fr' && country == 'FR') {
+    return {'native': 'Français', 'english': 'French'};
+  }
+  if (lang == 'hu' && country == 'HU') {
+    return {'native': 'Magyar', 'english': 'Hungarian'};
+  }
+  if (lang == 'id' && country == 'ID') {
+    return {'native': 'Bahasa Indonesia', 'english': 'Indonesian'};
+  }
+  if (lang == 'it' && country == 'IT') {
+    return {'native': 'Italiano', 'english': 'Italian'};
+  }
+  if (lang == 'ja' && country == 'JP') {
+    return {'native': '日本語', 'english': 'Japanese'};
+  }
+  if (lang == 'ko' && country == 'KR') {
+    return {'native': '한국어', 'english': 'Korean'};
+  }
+  if (lang == 'nl' && country == 'NL') {
+    return {'native': 'Nederlands', 'english': 'Dutch'};
+  }
+  if (lang == 'pl' && country == 'PL') {
+    return {'native': 'Polski', 'english': 'Polish'};
+  }
+  if (lang == 'pt' && country == 'BR') {
+    return {'native': 'Português (Brasil)', 'english': 'Portuguese (Brazil)'};
+  }
+  if (lang == 'pt' && country == 'PT') {
+    return {'native': 'Português (Portugal)', 'english': 'Portuguese (Portugal)'};
+  }
+  if (lang == 'ro' && country == 'RO') {
+    return {'native': 'Română', 'english': 'Romanian'};
+  }
+  if (lang == 'ru' && country == 'RU') {
+    return {'native': 'Русский', 'english': 'Russian'};
+  }
+  if (lang == 'sl' && country == 'SI') {
+    return {'native': 'Slovenščina', 'english': 'Slovenian'};
+  }
+  if (lang == 'sr' && country == 'CS') {
+    return {'native': 'Српски (Ћирилица)', 'english': 'Serbian (Cyrillic)'};
+  }
+  if (lang == 'sr'&& country == 'SP') {
+    return {'native': 'Српски', 'english': 'Serbian'};
+  }
+  if (lang == 'sv' && country == 'SE') {
+    return {'native': 'Svenska', 'english': 'Swedish'};
+  }
+  if (lang == 'tr' && country == 'TR') {
+    return {'native': 'Türkçe', 'english': 'Turkish'};
+  }
+  if (lang == 'uk' && country == 'UA') {
+    return {'native': 'Українська', 'english': 'Ukrainian'};
+  }
+  if (lang == 'vi' && country == 'VN') {
+    return {'native': 'Tiếng Việt', 'english': 'Vietnamese'};
+  }
+  if (lang == 'zh' && country == 'CN') {
+    return {'native': '简体中文', 'english': 'Simplified Chinese'};
+  }
+  if (lang == 'zh' && country == 'TW') {
+    return {'native': '繁體中文', 'english': 'Traditional Chinese'};
+  }
 
   return {'native': '$lang${country != null ? "_$country" : ""}', 'english': 'Unknown'};
 }
