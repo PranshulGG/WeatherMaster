@@ -25,10 +25,13 @@ import 'dart:math';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import '../models/loading_me.dart';
 import '../notifiers/unit_settings_notifier.dart';
+import '../notifiers/layout_provider.dart';
 import '../utils/geoLocation.dart'; 
 import '../models/saved_location.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
+import '../widgets/pollen_card.dart';
+import '../models/layout_config.dart';
 
 class WeatherHome extends StatefulWidget {
 
@@ -56,6 +59,9 @@ const WeatherHome({
 }
 
 class _WeatherHomeState extends State<WeatherHome> {
+
+  List<LayoutBlockConfig> layoutConfig = [];
+
 
   // late Future<Map<String, dynamic>?>? weatherFuture;
   Future<Map<String, dynamic>?>? weatherFuture;
@@ -87,9 +93,9 @@ class _WeatherHomeState extends State<WeatherHome> {
 
     final WeatherFroggyManager _weatherManager = WeatherFroggyManager();
 
-    String? _iconUrlFroggy;
+  String? _iconUrlFroggy;
   bool _isLoadingFroggy = true;
-
+  bool layoutCreated = false;
 
 Map<int, int> dayGradients = {
   0: 2,   // Clear sky
@@ -174,11 +180,19 @@ Map<int, int> nightGradients = {
   @override
   void initState() {
     super.initState();
-  // weatherFuture = getWeatherFromCache();
-    
- WidgetsBinding.instance.addPostFrameCallback((_) {
-    _initAfterLoad();
-  });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final layoutProvider = Provider.of<LayoutProvider>(context, listen: false);
+
+      layoutProvider.addListener(() {
+        loadLayoutConfig();
+      });
+
+      layoutProvider.loadLayout(); 
+    });
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _initAfterLoad();
+      });
     cityName = widget.cityName;
     countryName = widget.countryName;
     cacheKey = widget.cacheKey;
@@ -207,6 +221,45 @@ Map<int, int> nightGradients = {
 void _initAfterLoad() async {
   weatherFuture = getWeatherFromCache();
 }
+
+Future<void> loadLayoutConfig() async {
+  final prefs = await SharedPreferences.getInstance();
+  final jsonStringList = prefs.getStringList('layout_config');
+
+  if (jsonStringList != null) {
+    layoutConfig = jsonStringList
+        .map((json) => LayoutBlockConfig.fromJson(jsonDecode(json)))
+        .toList();
+  } else {
+    layoutConfig = [
+      LayoutBlockConfig(type: LayoutBlockType.rain),
+      LayoutBlockConfig(type: LayoutBlockType.insights),
+      LayoutBlockConfig(type: LayoutBlockType.summary),
+      LayoutBlockConfig(type: LayoutBlockType.hourly),
+      LayoutBlockConfig(type: LayoutBlockType.daily),
+      LayoutBlockConfig(type: LayoutBlockType.conditions),
+      LayoutBlockConfig(type: LayoutBlockType.pollen),
+    ];
+  }
+
+
+    if(layoutCreated){
+    setState(() {
+    });
+  }
+    layoutCreated = true;
+}
+
+Future<void> saveLayoutConfig() async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setStringList(
+    'layout_config',
+    layoutConfig.map((e) => jsonEncode(e.toJson())).toList(),
+  );
+}
+
+
+
 
  Future<void> setHomeasCurrent() async{
       final prefs = await SharedPreferences.getInstance();
@@ -242,6 +295,12 @@ void _initAfterLoad() async {
       lastUpdated = map['last_updated'];
     }
 
+  if(lat == PreferencesHelper.getJson('homeLocation')?['lat'] && lon == PreferencesHelper.getJson('homeLocation')?['lon']){
+    isHomeLocation = true;
+  } else{
+    isHomeLocation = false;
+  }
+
   final hasInternet = await hasRealInternet();
 
 
@@ -254,6 +313,7 @@ void _initAfterLoad() async {
       _isAppFullyLoaded = true; 
     } else{
     checkAndUpdateHomeLocation();
+
     }
   }
 
@@ -286,7 +346,6 @@ Future<void> _loadWeatherIconFroggy(int weatherCode, bool isDay, newindex) async
   await _weatherManager.initializeIcons();
   final icon = _weatherManager.getFroggieIcon(weatherCode, isDay);
   if (mounted && _isLoadingFroggy == true) {
-    // setState(() {
 
     if ((PreferencesHelper.getBool("DynamicColors") ?? false) || (PreferencesHelper.getBool("usingCustomSeed") ?? false)) {
         setState(() {
@@ -301,6 +360,7 @@ Future<void> _loadWeatherIconFroggy(int weatherCode, bool isDay, newindex) async
       }
 
       if (!(PreferencesHelper.getBool("DynamicColors") ?? false) && !(PreferencesHelper.getBool("usingCustomSeed") ?? false)) {
+
         if(themeCalled == false){
 
           themeCalled = true;
@@ -366,7 +426,8 @@ Future<void> _refreshWeatherData() async {
   setState(() {
   _isAppFullyLoaded = false;
   _istriggeredFromLocations = true;
-  themeCalled = false;
+  _isLoadingFroggy = true;
+    themeCalled = false;
   });
 }
 
@@ -381,15 +442,6 @@ Future<void> _refreshWeatherData() async {
 }
 
 
-        Future<void> _setLatLonNoState() async {
-  final prefs = await SharedPreferences.getInstance();
-  final jsonString = prefs.getString('currentLocation');
-  if (jsonString != null) {
-    final jsonMap = json.decode(jsonString);
-      lat = jsonMap['latitude'];
-      lon = jsonMap['longitude'];
-  }
-}
 
 
 
@@ -397,6 +449,8 @@ Future<void> checkAndUpdateHomeLocation() async {
   final prefs = await SharedPreferences.getInstance();
   final storedJson = prefs.getString('homeLocation');
   final storedLocation = storedJson != null ? jsonDecode(storedJson) : null;
+
+    print('checked');
 
 
 if(storedLocation['isGPS'] ?? false){
@@ -480,6 +534,8 @@ if(storedLocation['isGPS'] ?? false){
 
   }
   } else{
+    print('called refresh');
+
       _refreshWeatherData();
   }
 }
@@ -523,7 +579,6 @@ void didChangeDependencies() {
 
   @override
   Widget build(BuildContext context) {
-
 
 
 
@@ -1063,17 +1118,12 @@ void maybeUpdateWeatherAnimation(Map<String, dynamic> current) {
 }
 
 
+
 WidgetsBinding.instance.addPostFrameCallback((_) {
   maybeUpdateWeatherAnimation(current);
 });
 
 
-
-  if(lat == PreferencesHelper.getJson('homeLocation')?['lat'] && lon == PreferencesHelper.getJson('homeLocation')?['lon']){
-    isHomeLocation = true;
-  } else{
-    isHomeLocation = false;
-  }
 
 
       final Map<String, (DateTime, DateTime)> daylightMap = {
@@ -1132,10 +1182,16 @@ if (lastWeatherCode != weatherCode || lastIsDay != isDay) {
 
   _isLoadingFroggy == true;
   _loadWeatherIconFroggy(weatherCodeFroggy, isDayFroggy, newIndex);
+
 }
 
 
-
+    final double? alderPollen = weather['air_quality']['current']['alder_pollen'];
+    final double? birchPollen = weather['air_quality']['current']['birch_pollen'];
+    final double? grassPollen = weather['air_quality']['current']['grass_pollen'];
+    final double? mugwortPollen = weather['air_quality']['current']['mugwort_pollen'];
+    final double? olivePollen = weather['air_quality']['current']['olive_pollen'];
+    final double? ragweedPollen = weather['air_quality']['current']['ragweed_pollen'];
 
 const double rainThreshold = 0.5;
 
@@ -1212,6 +1268,112 @@ if (rainStart != null) {
 final bool shouldShowRainBlock = bestStart != null && bestEnd != null;
 
 
+
+Widget buildLayoutBlock(LayoutBlockType type) {
+  switch (type) {
+    case LayoutBlockType.rain:
+      return shouldShowRainBlock ?
+          RainBlock(
+            key: const ValueKey('RainBlock'),
+            hourlyTime: (hourly['time'] as List).cast<String>(),
+            hourlyPrecp: (hourly['precipitation'] as List).cast<double>(),
+            selectedContainerBgIndex: useFullMaterialScheme ? Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32() : weatherContainerColors[selectedContainerBgIndex],
+            timezone: weather['timezone'].toString(),
+            utcOffsetSeconds: weather['utc_offset_seconds'].toString(),
+          ) : const SizedBox.shrink();
+
+    case LayoutBlockType.insights:
+      return !shouldShowRainBlock &&
+           showInsightsRandomly ?
+            ShowInsights(
+               key: const ValueKey('ShowInsights'),
+              hourlyData: convertToListOfMaps(weather['hourly']),
+              dailyData: convertToListOfMaps(weather['daily']),
+              currentData: [Map<String, dynamic>.from(weather['current'])],
+              selectedContainerBgIndex: useFullMaterialScheme ? Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32() : weatherContainerColors[selectedContainerBgIndex],
+            )
+          : const SizedBox.shrink();
+
+    case LayoutBlockType.summary:
+      return SummaryCard(
+            selectedContainerBgIndex: useFullMaterialScheme ? Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32() : weatherContainerColors[selectedContainerBgIndex],
+            hourlyData: hourly,
+            dailyData: daily,
+            currentData: current,
+            airQualityData: weather['air_quality'],
+            
+            );
+
+    case LayoutBlockType.hourly:
+      return HourlyCard(hourlyTime: hourlyTime,
+            hourlyTemps: hourlyTemps,
+            hourlyWeatherCodes: hourlyWeatherCodes,
+            isHourDuringDaylightOptimized: isHourDuringDaylightOptimized,
+            selectedContainerBgIndex: useFullMaterialScheme ? Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32() : weatherContainerColors[selectedContainerBgIndex],
+            timezone: weather['timezone'].toString(),
+            utcOffsetSeconds: weather['utc_offset_seconds'].toString(),
+            hourlyPrecpProb: hourlyPrecpProb,
+          );
+
+    case LayoutBlockType.daily:
+      return DailyCard(dailyTime: dailyDates, 
+            dailyTempsMin: dailyTempsMin, 
+            dailyWeatherCodes: dailyWeatherCodes, 
+            dailyTempsMax: dailyTempsMax, 
+            dailyPrecProb: dailyPrecProb, 
+            selectedContainerBgIndex: useFullMaterialScheme ?  Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32() : weatherContainerColors[selectedContainerBgIndex]);
+         
+    case LayoutBlockType.conditions:
+    return SizedBox(
+              // width: 380,
+              child: ConditionsWidgets(
+                selectedContainerBgIndex: useFullMaterialScheme ? Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32() : weatherContainerColors[selectedContainerBgIndex],
+                currentHumidity: current['relative_humidity_2m'],
+                currentDewPoint: hourly['dew_point_2m'][getStartIndex(weather['utc_offset_seconds'].toString(), hourlyTime)].toDouble(),
+                currentSunrise: daily['sunrise'][0],
+                currentSunset: daily['sunset'][0],
+                currentPressure: current['pressure_msl'],
+                currentVisibility: hourly['visibility'][getStartIndex(weather['utc_offset_seconds'].toString(), hourlyTime)],
+                currentWindSpeed: current['wind_speed_10m'],
+                currentWindDirc: current['wind_direction_10m'],
+                timezone: weather['timezone'].toString(),
+                utcOffsetSeconds: weather['utc_offset_seconds'].toString(),
+                currentUvIndex: hourly['uv_index'][getStartIndex(weather['utc_offset_seconds'].toString(), hourlyTime)],
+                currentAQIUSA: weather['air_quality']['current']['us_aqi'],
+                currentAQIEURO: weather['air_quality']['current']['european_aqi'],
+                currentTotalPrec: daily['precipitation_sum'][0],
+                currentDayLength: daily['daylight_duration'][0],
+                isFromHome: true,
+              ),
+          );
+
+    case LayoutBlockType.pollen:
+      return      _isPollenDataAvailable([
+          alderPollen,
+          birchPollen,
+          olivePollen,
+          grassPollen,
+          mugwortPollen,
+          ragweedPollen,
+        ])
+            ? Column(
+                children: [
+                  PollenCard(
+                    pollenData: weather['air_quality']['current'],
+                    selectedContainerBgIndex: useFullMaterialScheme
+                        ? Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32()
+                        : weatherContainerColors[selectedContainerBgIndex],
+                  ),
+                  const SizedBox(height: 8.5),
+                ],
+              )
+            : const SizedBox.shrink();
+  }
+}
+
+
+
+
     return Column(
       children: [
             Stack(
@@ -1223,7 +1385,7 @@ final bool shouldShowRainBlock = bestStart != null && bestEnd != null;
         else
           const SizedBox.shrink(),
 
-    GestureDetector(
+      GestureDetector(
           onTap: () async {
             final result =
                 await Navigator.of(context).push<Map<String, dynamic>>(
@@ -1269,6 +1431,8 @@ final bool shouldShowRainBlock = bestStart != null && bestEnd != null;
                 _isAppFullyLoaded = false;
                 _istriggeredFromLocations = true;
                 themeCalled = false;
+                _isLoadingFroggy = true;
+
               });
 
               weatherFuture = getWeatherFromCache();
@@ -1343,78 +1507,123 @@ final bool shouldShowRainBlock = bestStart != null && bestEnd != null;
                 ),
         WeatherFrogIconWidget(iconUrl: _iconUrlFroggy),
          const SizedBox(height: 12),
+Column(
+  children: () {
+    final visibleBlocks = layoutConfig.where((block) => block.isVisible).toList();
 
-        if (shouldShowRainBlock)
-          RainBlock(
-            key: const ValueKey('RainBlock'),
-            hourlyTime: (hourly['time'] as List).cast<String>(),
-            hourlyPrecp: (hourly['precipitation'] as List).cast<double>(),
-            selectedContainerBgIndex: useFullMaterialScheme ? Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32() : weatherContainerColors[selectedContainerBgIndex],
-            timezone: weather['timezone'].toString(),
-            utcOffsetSeconds: weather['utc_offset_seconds'].toString(),
-          ),
-          if (!shouldShowRainBlock)
-           if (showInsightsRandomly)
-            ShowInsights(
-               key: const ValueKey('ShowInsights'),
-              hourlyData: convertToListOfMaps(weather['hourly']),
-              dailyData: convertToListOfMaps(weather['daily']),
-              currentData: [Map<String, dynamic>.from(weather['current'])],
-              selectedContainerBgIndex: useFullMaterialScheme ? Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32() : weatherContainerColors[selectedContainerBgIndex],
-            ),
+    final List<Widget> children = [];
+    for (int i = 0; i < visibleBlocks.length; i++) {
+      final currentBlock = visibleBlocks[i];
+      children.add(buildLayoutBlock(currentBlock.type));
+
+      // Only add spacing if NOT between RainBlock and ShowInsights
+      final isRainThenInsights = currentBlock.type == LayoutBlockType.rain &&
+          i + 1 < visibleBlocks.length &&
+          visibleBlocks[i + 1].type == LayoutBlockType.insights;
+
+      if (!isRainThenInsights && i < visibleBlocks.length - 1) {
+        children.add(const SizedBox(height: 8.5));
+      }
+    }
+    return children;
+  }(),
+),
+
+
+        // if (shouldShowRainBlock)
+        //   RainBlock(
+        //     key: const ValueKey('RainBlock'),
+        //     hourlyTime: (hourly['time'] as List).cast<String>(),
+        //     hourlyPrecp: (hourly['precipitation'] as List).cast<double>(),
+        //     selectedContainerBgIndex: useFullMaterialScheme ? Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32() : weatherContainerColors[selectedContainerBgIndex],
+        //     timezone: weather['timezone'].toString(),
+        //     utcOffsetSeconds: weather['utc_offset_seconds'].toString(),
+        //   ),
+          // if (!shouldShowRainBlock)
+          //  if (showInsightsRandomly)
+          //   ShowInsights(
+          //      key: const ValueKey('ShowInsights'),
+          //     hourlyData: convertToListOfMaps(weather['hourly']),
+          //     dailyData: convertToListOfMaps(weather['daily']),
+          //     currentData: [Map<String, dynamic>.from(weather['current'])],
+          //     selectedContainerBgIndex: useFullMaterialScheme ? Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32() : weatherContainerColors[selectedContainerBgIndex],
+          //   ),
             
-         const SizedBox(height: 8.5),
-          SummaryCard(
-            selectedContainerBgIndex: useFullMaterialScheme ? Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32() : weatherContainerColors[selectedContainerBgIndex],
-            hourlyData: hourly,
-            dailyData: daily,
-            currentData: current,
-            airQualityData: weather['air_quality'],
+    //      const SizedBox(height: 8.5),
+          // SummaryCard(
+          //   selectedContainerBgIndex: useFullMaterialScheme ? Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32() : weatherContainerColors[selectedContainerBgIndex],
+          //   hourlyData: hourly,
+          //   dailyData: daily,
+          //   currentData: current,
+          //   airQualityData: weather['air_quality'],
             
-            ),
-         const SizedBox(height: 8.5),
-          HourlyCard(hourlyTime: hourlyTime,
-            hourlyTemps: hourlyTemps,
-            hourlyWeatherCodes: hourlyWeatherCodes,
-            isHourDuringDaylightOptimized: isHourDuringDaylightOptimized,
-            selectedContainerBgIndex: useFullMaterialScheme ? Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32() : weatherContainerColors[selectedContainerBgIndex],
-            timezone: weather['timezone'].toString(),
-            utcOffsetSeconds: weather['utc_offset_seconds'].toString(),
-            hourlyPrecpProb: hourlyPrecpProb,
-            ),
-         const SizedBox(height: 8.5),
-          DailyCard(dailyTime: dailyDates, 
-            dailyTempsMin: dailyTempsMin, 
-            dailyWeatherCodes: dailyWeatherCodes, 
-            dailyTempsMax: dailyTempsMax, 
-            dailyPrecProb: dailyPrecProb, 
-            selectedContainerBgIndex: useFullMaterialScheme ?  Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32() : weatherContainerColors[selectedContainerBgIndex]),
-         SizedBox(height: 8.5 ),
-          SizedBox(
-              // width: 380,
-              child: ConditionsWidgets(
-                selectedContainerBgIndex: useFullMaterialScheme ? Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32() : weatherContainerColors[selectedContainerBgIndex],
-                currentHumidity: current['relative_humidity_2m'],
-                currentDewPoint: hourly['dew_point_2m'][getStartIndex(weather['utc_offset_seconds'].toString(), hourlyTime)].toDouble(),
-                currentSunrise: daily['sunrise'][0],
-                currentSunset: daily['sunset'][0],
-                currentPressure: current['pressure_msl'],
-                currentVisibility: hourly['visibility'][getStartIndex(weather['utc_offset_seconds'].toString(), hourlyTime)],
-                currentWindSpeed: current['wind_speed_10m'],
-                currentWindDirc: current['wind_direction_10m'],
-                timezone: weather['timezone'].toString(),
-                utcOffsetSeconds: weather['utc_offset_seconds'].toString(),
-                currentUvIndex: hourly['uv_index'][getStartIndex(weather['utc_offset_seconds'].toString(), hourlyTime)],
-                currentAQIUSA: weather['air_quality']['current']['us_aqi'],
-                currentAQIEURO: weather['air_quality']['current']['european_aqi'],
-                currentTotalPrec: daily['precipitation_sum'][0],
-                currentDayLength: daily['daylight_duration'][0],
-                isFromHome: true,
-              ),
-          ),
+          //   ),
+    //      const SizedBox(height: 8.5),
+          // HourlyCard(hourlyTime: hourlyTime,
+          //   hourlyTemps: hourlyTemps,
+          //   hourlyWeatherCodes: hourlyWeatherCodes,
+          //   isHourDuringDaylightOptimized: isHourDuringDaylightOptimized,
+          //   selectedContainerBgIndex: useFullMaterialScheme ? Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32() : weatherContainerColors[selectedContainerBgIndex],
+          //   timezone: weather['timezone'].toString(),
+          //   utcOffsetSeconds: weather['utc_offset_seconds'].toString(),
+          //   hourlyPrecpProb: hourlyPrecpProb,
+          //   ),
+    //      const SizedBox(height: 8.5),
+        //   DailyCard(dailyTime: dailyDates, 
+        //     dailyTempsMin: dailyTempsMin, 
+        //     dailyWeatherCodes: dailyWeatherCodes, 
+        //     dailyTempsMax: dailyTempsMax, 
+        //     dailyPrecProb: dailyPrecProb, 
+        //     selectedContainerBgIndex: useFullMaterialScheme ?  Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32() : weatherContainerColors[selectedContainerBgIndex]),
+        //  SizedBox(height: 8.5 ),
+          // SizedBox(
+          //     // width: 380,
+          //     child: ConditionsWidgets(
+          //       selectedContainerBgIndex: useFullMaterialScheme ? Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32() : weatherContainerColors[selectedContainerBgIndex],
+          //       currentHumidity: current['relative_humidity_2m'],
+          //       currentDewPoint: hourly['dew_point_2m'][getStartIndex(weather['utc_offset_seconds'].toString(), hourlyTime)].toDouble(),
+          //       currentSunrise: daily['sunrise'][0],
+          //       currentSunset: daily['sunset'][0],
+          //       currentPressure: current['pressure_msl'],
+          //       currentVisibility: hourly['visibility'][getStartIndex(weather['utc_offset_seconds'].toString(), hourlyTime)],
+          //       currentWindSpeed: current['wind_speed_10m'],
+          //       currentWindDirc: current['wind_direction_10m'],
+          //       timezone: weather['timezone'].toString(),
+          //       utcOffsetSeconds: weather['utc_offset_seconds'].toString(),
+          //       currentUvIndex: hourly['uv_index'][getStartIndex(weather['utc_offset_seconds'].toString(), hourlyTime)],
+          //       currentAQIUSA: weather['air_quality']['current']['us_aqi'],
+          //       currentAQIEURO: weather['air_quality']['current']['european_aqi'],
+          //       currentTotalPrec: daily['precipitation_sum'][0],
+          //       currentDayLength: daily['daylight_duration'][0],
+          //       isFromHome: true,
+          //     ),
+          // ),
 
-         SizedBox(height: 8.5 ),
+    //      SizedBox(height: 8.5 ),
 
+    //  _isPollenDataAvailable([
+    //       alderPollen,
+    //       birchPollen,
+    //       olivePollen,
+    //       grassPollen,
+    //       mugwortPollen,
+    //       ragweedPollen,
+    //     ])
+    //         ? Column(
+    //             children: [
+    //               PollenCard(
+    //                 pollenData: weather['air_quality']['current'],
+    //                 selectedContainerBgIndex: useFullMaterialScheme
+    //                     ? Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32()
+    //                     : weatherContainerColors[selectedContainerBgIndex],
+    //               ),
+    //               const SizedBox(height: 8.5),
+    //             ],
+    //           )
+    //         : const SizedBox.shrink(),
+
+          
+            
             Container(
               width: double.infinity,
               padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 5, top: 16),
@@ -1579,3 +1788,7 @@ int getStartIndex(utc_offset_seconds, hourlyTime) {
 
     return startIndex;
 }
+
+  bool _isPollenDataAvailable(List<double?> values) {
+    return values.every((value) => value != null);
+  }

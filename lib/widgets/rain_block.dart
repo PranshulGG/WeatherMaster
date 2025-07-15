@@ -95,6 +95,10 @@ List<double> get next12Precp => hourlyPrecp.skip(_currentIndex).take(12).toList(
 String _generateTitle(int? start) {
   if (start == null) return "No rain expected";
 
+  if (start == 0 && next12Precp[0] > 0.2) {
+    return willRainStopSoon() ? "Rain will stop soon" : "It's currently raining";
+  }
+
   final hour = DateTime.parse(next12Time[start]).hour;
 
   if (hour >= 0 && hour <= 5) return "Rain expected overnight";
@@ -102,8 +106,26 @@ String _generateTitle(int? start) {
   if (hour >= 12 && hour < 17) return "Rain expected this afternoon";
   if (hour >= 17 && hour <= 22) return "Rain expected this evening";
 
-  return "Rain expected later today"; // fallback
+  return "Rain expected later today";
 }
+
+
+
+bool willRainStopSoon() {
+  if (next12Precp[0] <= 0.2) return false;
+
+  int dryCount = 0;
+  for (int i = 1; i < next12Precp.length; i++) {
+    if (next12Precp[i] <= 0.2) {
+      dryCount++;
+      if (dryCount >= 2) return true;
+    } else {
+      dryCount = 0;
+    }
+  }
+  return false;
+}
+
 
 
   Color _barColor(double mm, context) {

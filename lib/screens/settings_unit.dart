@@ -32,6 +32,7 @@ class _AppUnitsPageState extends State<AppUnitsPage> {
             child: Column(
               children: [
             SettingSection(
+              styleTile: true,
               tiles: [
                 SettingSingleOptionTile(
                     icon: Icon(Icons.device_thermostat),

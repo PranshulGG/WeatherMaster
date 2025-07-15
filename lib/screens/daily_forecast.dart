@@ -197,7 +197,7 @@ class _DailyForecastPageState extends State<DailyForecastPage> {
                 currentWindDirc: current['wind_direction_10m'],
                 timezone: weather['timezone'].toString(),
                 utcOffsetSeconds: weather['utc_offset_seconds'].toString(),
-                currentUvIndex: hourly['uv_index'][0],
+                currentUvIndex: daily['uv_index_max'][0],
                 currentAQIUSA: weather['air_quality']['current']['us_aqi'],
                 currentAQIEURO: weather['air_quality']['current']['european_aqi'],
                 currentTotalPrec: daily['precipitation_sum'][0],

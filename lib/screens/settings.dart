@@ -13,7 +13,7 @@ import 'package:restart_app/restart_app.dart';
 import '../utils/snack_util.dart';
 import 'about_page.dart';
 import 'meteo_models.dart';
-
+import 'edit_layout_page.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -72,10 +72,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: Column(
                 children: [
           SettingSection(
-            title: SettingSectionTitle("app_looks".tr()),
+            styleTile: true,
+            title: SettingSectionTitle("app_looks".tr(), noPadding: true,),
             tiles: [
             SettingSingleOptionTile(
-                    icon: Icon(Icons.av_timer),
+                    icon: Icon(Symbols.routine),
                     title: Text('app_theme_dark_light'.tr()),
                     dialogTitle: 'app_theme_dark_light'.tr(),
                     value: SettingTileValue(optionsTheme[currentMode == ThemeMode.light ? "Light" : "Dark"]!),
@@ -115,14 +116,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       } else{
                       Provider.of<ThemeController>(context, listen: false).setSeedColor(PreferencesHelper.getColor("weatherThemeColor") ?? Colors.blue);
                       }
-                      _showTile = value;
                     });
+                      _showTile = value;
                   }, 
                   ),
 
-
-                SettingColorTile(
-                  visible: _showTile,
+                
+                SettingColorTile( 
+                  enabled: _showTile,
                   icon: Icon(Symbols.colors, fill: 1, weight: 500),
                   title: Text('Primary color'),
                   description: Text('Select a seed color to generate the theme'),
@@ -136,6 +137,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       });
                   },
                 ),
+
 
                   SettingSwitchTile(
                     enabled: isSupported ? _showTile ? false : true : false,
@@ -168,12 +170,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                 SettingSwitchTile(
                     icon: Icon(Symbols.palette, fill: 1, weight: 500),
-                    title: Text("Use Material Scheme Only"),
-                    description: Text('Disables weather-based themes and animations. Uses the default Material scheme instead'),
+                    title: Text("Material Scheme Only"),
+                    description: Text('Disables weather effects; uses default Material theme'),
                     toggled: PreferencesHelper.getBool("OnlyMaterialScheme") ?? false,
                     onChanged: (value) {
-                    setState(() {
                       PreferencesHelper.setBool("OnlyMaterialScheme", value);
+                    setState(() {
                       SnackUtil.showSnackBar(
                       context: context,
                       message: "Restarting app",
@@ -186,7 +188,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
 
                  SettingSwitchTile(
-                    icon: Icon(null, fill: 1, weight: 500),
+                    icon: Icon(Symbols.temp_preferences_eco, fill: 1, weight: 500),
                     title: Text("Show froggy"),
                     description: Text("Display Froggy images based on weather conditions"),
                     toggled: PreferencesHelper.getBool("showFroggy") ?? true,
@@ -196,13 +198,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     });
                   }, 
                   ),
+
+                  SettingActionTile(
+                    icon: Icon(Symbols.view_agenda, fill: 1, weight: 500),
+                    title: Text('edit_layout'.tr()),
+                    trailing: Icon(Icons.chevron_right),
+                    onTap: () {
+                    Navigator.of(context).push(
+                        
+                        MaterialPageRoute(builder: (_) =>  EditLayoutPage(), fullscreenDialog: true),
+                      );                      
+                    }, 
+                  ),  
             ],
           ),
      
           SizedBox(height: 10,),
           Divider(),
             SettingSection(
-              title: SettingSectionTitle('weather'.tr()),
+            styleTile: true,
+              title: SettingSectionTitle('weather'.tr(), noPadding: true,),
                 tiles: [
                   SettingActionTile(
                     icon: Icon(Symbols.home_pin, fill: 1, weight: 500),
@@ -282,7 +297,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               SizedBox(height: 10,),
                 Divider(),
                   SettingSection(
-                    title: SettingSectionTitle('additional'.tr()),
+                    styleTile: true,
+                    title: SettingSectionTitle('additional'.tr(), noPadding: true,),
                     tiles: [
                     SettingActionTile(
                     icon: Icon(Symbols.language, fill: 1, weight: 500),
@@ -445,4 +461,3 @@ class MyHeaderDelegate extends SliverPersistentHeaderDelegate {
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>
       true;
 }
-
