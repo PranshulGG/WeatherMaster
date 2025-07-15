@@ -227,7 +227,7 @@ final categorizedModels = {
                         contentPadding: EdgeInsets.only(left : 16, right: 16),
                         horizontalTitleGap: 10,
                         shape: RoundedRectangleBorder(
-                            borderRadius: model['key'] == 'best_match' ? BorderRadius.all(Radius.circular(6))
+                            borderRadius: model['key'] == 'best_match' ? BorderRadius.all(Radius.circular(16))
                             : isFirst ? BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16), bottomLeft: Radius.circular(6), bottomRight: Radius.circular(6))
                             : isLast ? BorderRadius.only(topLeft: Radius.circular(6), topRight: Radius.circular(6), bottomLeft: Radius.circular(16), bottomRight: Radius.circular(16)) : BorderRadius.all(Radius.circular(6))
                           ),

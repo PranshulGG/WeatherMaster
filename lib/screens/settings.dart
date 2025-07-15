@@ -214,7 +214,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
      
           SizedBox(height: 10,),
-          Divider(),
             SettingSection(
             styleTile: true,
               title: SettingSectionTitle('weather'.tr(), noPadding: true,),
@@ -295,7 +294,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ],
               ),
               SizedBox(height: 10,),
-                Divider(),
                   SettingSection(
                     styleTile: true,
                     title: SettingSectionTitle('additional'.tr(), noPadding: true,),
