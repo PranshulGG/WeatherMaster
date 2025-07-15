@@ -53,11 +53,13 @@ class _DailyForecastPageState extends State<DailyForecastPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
         appBar: AppBar(
           title: Text("daily_forecast".tr()),
           titleSpacing: 0,
           toolbarHeight: 65,
-          scrolledUnderElevation: 0,
+          scrolledUnderElevation: 1,
+          backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
         ),
         body: SingleChildScrollView(
        child: FutureBuilder<Map<String, dynamic>?>(
@@ -164,7 +166,7 @@ class _DailyForecastPageState extends State<DailyForecastPage> {
                 hourlyTemps: hourlyTemps,
                 hourlyWeatherCodes: hourlyWeatherCodes,
                 isHourDuringDaylightOptimized: isHourDuringDaylightOptimized,
-                selectedContainerBgIndex: Theme.of(context).brightness == Brightness.light ? Theme.of(context).colorScheme.surfaceContainer.toARGB32() : Theme.of(context).colorScheme.surfaceContainerLow.toARGB32(),
+                selectedContainerBgIndex: Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32(),
                 timezone: weather['timezone'].toString(),
                 utcOffsetSeconds: weather['utc_offset_seconds'].toString(),
                 hourlyPrecpProb: hourlyPrecpProb,
@@ -175,7 +177,7 @@ class _DailyForecastPageState extends State<DailyForecastPage> {
             hourlyTemps: hourlyTemps,
             hourlyWeatherCodes: hourlyWeatherCodes,
             isHourDuringDaylightOptimized: isHourDuringDaylightOptimized,
-            selectedContainerBgIndex: Theme.of(context).brightness == Brightness.light ? Theme.of(context).colorScheme.surfaceContainer.toARGB32() : Theme.of(context).colorScheme.surfaceContainerLow.toARGB32(),
+            selectedContainerBgIndex: Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32(),
             timezone: weather['timezone'].toString(),
             utcOffsetSeconds: weather['utc_offset_seconds'].toString(),
             hourlyPrecpProb: hourlyPrecpProb,
@@ -186,7 +188,7 @@ class _DailyForecastPageState extends State<DailyForecastPage> {
           isSameDay(selectedDate!, DateTime.now().toUtc().add(Duration(seconds: int.parse(weather['utc_offset_seconds'].toString()))))?
                     SizedBox(
               child: ConditionsWidgets(
-                selectedContainerBgIndex: Theme.of(context).brightness == Brightness.light ? Theme.of(context).colorScheme.surfaceContainer.toARGB32() : Theme.of(context).colorScheme.surfaceContainerLow.toARGB32(),
+                selectedContainerBgIndex: Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32(),
                 currentHumidity: current['relative_humidity_2m'],
                 currentDewPoint: hourly['dew_point_2m'][0].toDouble(),
                 currentSunrise: daily['sunrise'][0],
@@ -208,7 +210,7 @@ class _DailyForecastPageState extends State<DailyForecastPage> {
               :
             SizedBox(
               child: ConditionsWidgetsForecast(
-              selectedContainerBgIndex: Theme.of(context).brightness == Brightness.light ? Theme.of(context).colorScheme.surfaceContainer.toARGB32() : Theme.of(context).colorScheme.surfaceContainerLow.toARGB32(),
+              selectedContainerBgIndex: Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32(),
               currentSunrise: daily['sunrise']?[selectedIndex] ?? '',
               currentSunset: daily['sunset']?[selectedIndex] ?? '',
               currentPressure: hourly['pressure_msl']?[firstIndex] ?? 0,
@@ -333,7 +335,7 @@ class _DailyForecastCardState extends State<DailyForecastCard> {
           scrollDirection: Axis.horizontal,
           physics:BouncingScrollPhysics() ,
           itemCount: widget.dailyTime.length,
-          separatorBuilder: (context, index) => const SizedBox(width: 5),
+          separatorBuilder: (context, index) => const SizedBox(width: 4.5),
           itemBuilder: (context, index) {
             final time = DateTime.parse(widget.dailyTime[index]);
             final tempMax = convert(widget.dailyTempsMax[index].toDouble());
@@ -369,7 +371,7 @@ class _DailyForecastCardState extends State<DailyForecastCard> {
                  : index == widget.dailyTime.length - 1 ? BorderRadius.only(bottomRight: Radius.circular(18), topRight: Radius.circular(18), topLeft: Radius.circular(6), bottomLeft: Radius.circular(6)) : BorderRadius.circular(6),
                 color: isSelected
                     ? Theme.of(context).colorScheme.primary
-                    : Theme.of(context).colorScheme.surfaceContainerLow
+                    : Theme.of(context).colorScheme.surfaceContainerLowest
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
