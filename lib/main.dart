@@ -14,6 +14,7 @@ import '../services/fetch_data.dart';
 import '../models/saved_location.dart';
 import '../utils/preferences_helper.dart';
 import 'notifiers/unit_settings_notifier.dart';
+import 'notifiers/layout_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 const easySupportedLocales = [
@@ -113,6 +114,7 @@ runApp(
         providers: [
           ChangeNotifierProvider(create: (_) => themeController),
           ChangeNotifierProvider(create: (_) => UnitSettingsNotifier()),
+          ChangeNotifierProvider(create: (_) => LayoutProvider()),
         ],
         child: MyApp(
           cacheKey: cacheKey,
