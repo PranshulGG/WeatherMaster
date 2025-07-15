@@ -1,0 +1,23 @@
+# Gradle
+.gradle/
+gradlew
+gradlew.bat
+local.properties
+/captures/
+.cxx/
+GeneratedPluginRegistrant.java
+
+# Keystore & signing
+# Never share this publicly
+android/key.properties
+weathermaster.jks
+**/*.jks
+**/*.keystore
+
+# Flutter-specific
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.dart_tool/
+.packages
+pubspec.lock
