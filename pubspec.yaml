@@ -59,7 +59,7 @@ dependencies:
   reorderable_grid_view: ^2.2.6
   custom_refresh_indicator: ^4.0.1
   flutter_markdown: ^0.7.7+1
-  geocoding: ^4.0.0
+  geocoding: ^4.0.0 
   solar_calculator: ^1.0.3
 
   settings_tiles:
