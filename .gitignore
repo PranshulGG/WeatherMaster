@@ -49,6 +49,7 @@ app.*.map.json
 *.keystore
 android/*.jks
 android/*.keystore
+android/key.properties
 
 /settings_tiles_custom/
  
