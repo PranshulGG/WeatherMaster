@@ -118,12 +118,12 @@
 
 <br>
 
-# Contact
+# ✉️ Contact
 For any questions or feedback, feel free to open an issue on GitHub or contact pranshul.devmain@gmail.com
 
 <br>
 
-# License
+# ©️ License
 This project is licensed under the GPL-3.0 license. See the `LICENSE` file for details.
 
 
