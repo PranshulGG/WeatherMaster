@@ -537,7 +537,6 @@ if(storedLocation['isGPS'] ?? false){
   _refreshWeatherData();
   }
   } else{
-    print('called refresh');
 
       _refreshWeatherData();
   }
