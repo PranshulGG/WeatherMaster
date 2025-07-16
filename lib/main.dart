@@ -70,6 +70,16 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
+
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: Colors.transparent,
+      ),
+    );
+
   final dir = await getApplicationDocumentsDirectory();
   Hive.init(dir.path);
  await PreferencesHelper.init();
@@ -231,15 +241,6 @@ class LocationPromptScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        systemNavigationBarColor: Colors.transparent,
-      ),
-    );
-
   ColorScheme customDarkScheme = ColorScheme(
       brightness: Brightness.dark,
       primary: Color(paletteStartScreen.primary.get(80)),
@@ -272,6 +273,16 @@ class LocationPromptScreen extends StatelessWidget {
       surfaceContainerHighest: Color(paletteStartScreen.neutral.get(22)),
       surfaceContainerLowest: Color(paletteStartScreen.neutral.get(4))
 );
+
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
+    // SystemChrome.setSystemUIOverlayStyle(
+    //   const SystemUiOverlayStyle(
+    //     statusBarColor: Colors.transparent,
+    //     systemNavigationBarColor: Colors.transparent,
+    //   ),
+    // );
+
 
 
     Future<void> saveLocation(SavedLocation newLocation) async {
