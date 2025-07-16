@@ -1,0 +1,10 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  language:
+    strict-inference: true # Force to specify generic types
+
+linter:
+  rules:
+    - always_put_control_body_on_new_line
+    - curly_braces_in_flow_control_structures

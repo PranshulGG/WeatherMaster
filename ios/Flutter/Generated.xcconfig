@@ -1,0 +1,14 @@
+// This is a generated file; do not edit or check into version control.
+FLUTTER_ROOT=C:\flutter\flutter
+FLUTTER_APPLICATION_PATH=C:\Users\hukam\OneDrive\Documents\MyOwnApps\MyFlutterApps\weather_master_app
+COCOAPODS_PARALLEL_CODE_SIGN=true
+FLUTTER_TARGET=lib\main.dart
+FLUTTER_BUILD_DIR=build
+FLUTTER_BUILD_NAME=2.0.0.4
+FLUTTER_BUILD_NUMBER=5
+EXCLUDED_ARCHS[sdk=iphonesimulator*]=i386
+EXCLUDED_ARCHS[sdk=iphoneos*]=armv7
+DART_OBFUSCATION=false
+TRACK_WIDGET_CREATION=true
+TREE_SHAKE_ICONS=false
+PACKAGE_CONFIG=.dart_tool/package_config.json
