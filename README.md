@@ -36,7 +36,7 @@
 
 <div align="center">
 
-   **This is the Flutter rewrite of the original WeatherMaster app.**
+   **This is the Flutter rewrite of the [original WeatherMaster app](https://github.com/PranshulGG/WeatherMaster/tree/legacy-code-js-original).**
    
 </div>
 
