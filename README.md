@@ -18,10 +18,11 @@
    </div>
    <div align="center">
    <h3>WeatherMaster: inspired by the Google Pixel weather app.</h3>
+   
    </div>
  <div align="center">
     
-   [Features](https://github.com/PranshulGG/WeatherMaster?tab=readme-ov-file#-features) • [Contact](https://github.com/PranshulGG/WeatherMaster?tab=readme-ov-file#contact) • [License](https://github.com/PranshulGG/WeatherMaster?tab=readme-ov-file#license) • [Translate](https://github.com/PranshulGG/WeatherMaster?tab=readme-ov-file#-translate-the-app-on-crowdin) • [WIDGETS](https://github.com/PranshulGG/WeatherMaster?tab=readme-ov-file#widgetsss)
+   [Features](https://github.com/PranshulGG/WeatherMaster?tab=readme-ov-file#-features) • [Contact](https://github.com/PranshulGG/WeatherMaster?tab=readme-ov-file#contact) • [License](https://github.com/PranshulGG/WeatherMaster?tab=readme-ov-file#license) • [Translate](https://github.com/PranshulGG/WeatherMaster?tab=readme-ov-file#-translate-the-app-on-crowdin)
    
  </div>
     
@@ -31,6 +32,13 @@
 <br>
 
 ![app_thumbnail](preview/thumbnail_mat.png)
+
+
+<div align="center">
+
+   **This is the Flutter rewrite of the original WeatherMaster app.**
+   
+</div>
 
 # 👁️ Screenshots
 
@@ -54,11 +62,6 @@
 
 <a href="https://crowdin.com/project/weathermaster/invite?h=448278a9b1370f3c10d4336a091dae792286917"><img src="https://badges.crowdin.net/weathermaster/localized.svg" width="200"> </a>
 
-# WIDGETSSS!!
-
-> [!NOTE]
-> This app is built using WebView tech. That means features like **widgets**, **background sync**, or **push notifications** aren't currently supported — WebViews just don't play nice with those.
-> I've tried *many* times to get around it, but honestly... it just didn’t work out.
 
 # ✨ Features:
 
@@ -109,28 +112,11 @@
 - [**DMI**](https://www.dmi.dk/en/)
 
 
-# ⚙️ Other:
-
-- 📱<strong>Native Android Experience: </stronge>Enjoy a user interface and interaction that closely resemble a native Android Weather app.
-
-- 🎨<strong>Material Design: </stronge>The app is built using Material Web Components, ensuring a clean, consistent, and visually appealing design.
-
-- ⚙️<strong>Customization Options: </stronge>Enjoy a ton of customization options. Adjust themes, Units.
-
-- 📐<strong>Responsive Design: </stronge>WeatherMaster is fully responsive for all mobile devices.
-
-- 🧩<strong>User-Friendly Interface: </stronge>The app's interface is designed to be straightforward and user-friendly.
-
 
 # 🛠️ Built With:
 
-- <strong>HTML & CSS: </stronge> For the basic structure and styling of the app.
 
-- <strong>JavaScript: </stronge>To handle the app's logic and interactivity.
-
-- <strong>Java: </stronge>Mainly used for JavaScript interface and permissions, allowing the app to run on Android devices.
-
-- <strong>Material Web Components: </stronge>Utilized to create a consistent and attractive Material Design look and feel.
+- <strong>Flutter: </stronge>Completely rebuilt from web-based JS to native Flutter.
 
 - <strong>Weather icons</strong>: <a href="https://gitlab.com/bignutty/google-weather-icons">Google weather icons
 
