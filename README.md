@@ -116,12 +116,9 @@
 
 - <strong>Weather icons</strong>: <a href="https://gitlab.com/bignutty/google-weather-icons">Google weather icons
 
-<br>
-
 # ✉️ Contact
 For any questions or feedback, feel free to open an issue on GitHub or contact pranshul.devmain@gmail.com
 
-<br>
 
 # ©️ License
 This project is licensed under the GPL-3.0 license. See the `LICENSE` file for details.
