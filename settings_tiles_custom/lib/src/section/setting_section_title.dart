@@ -4,16 +4,17 @@ import 'package:settings_tiles/settings_tiles.dart';
 /// Setting section title.
 class SettingSectionTitle extends StatelessWidget {
   /// A styled title of a [SettingSection].
-  const SettingSectionTitle(this.title, {super.key});
+  const SettingSectionTitle(this.title, {this.noPadding = false, super.key});
 
   /// The title to display.
   final String title;
+  final bool noPadding;
 
   @override
   Widget build(BuildContext context) {
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: noPadding ? 8 : 16),
       child: Text(
         title,
         style:
