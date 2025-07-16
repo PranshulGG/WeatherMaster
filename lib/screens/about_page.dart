@@ -333,7 +333,7 @@ class CheckUpdateButton extends StatefulWidget {
 }
 
 class _CheckUpdateButtonState extends State<CheckUpdateButton> {
-  final String currentVersion = 'v2.0.0-beta.4';
+  final String currentVersion = 'v2.0.0';
   final String githubRepo = 'PranshulGG/WeatherMaster';
   bool isChecking = false;
 
@@ -388,8 +388,7 @@ class _CheckUpdateButtonState extends State<CheckUpdateButton> {
   Widget build(BuildContext context) {
     return 
       FilledButton.icon(
-    // onPressed: isChecking ? null : checkForUpdates,
-    onPressed: null,
+    onPressed: isChecking ? null : checkForUpdates,
     icon: Icon(Symbols.refresh, weight: 700,),
     label: Text(isChecking ? 'Checking...' : currentVersion, style: TextStyle(fontWeight: FontWeight.w700)),
     style: ButtonStyle(

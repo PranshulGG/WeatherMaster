@@ -274,14 +274,16 @@ class LocationPromptScreen extends StatelessWidget {
       surfaceContainerLowest: Color(paletteStartScreen.neutral.get(4))
 );
 
-    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
-    // SystemChrome.setSystemUIOverlayStyle(
-    //   const SystemUiOverlayStyle(
-    //     statusBarColor: Colors.transparent,
-    //     systemNavigationBarColor: Colors.transparent,
-    //   ),
-    // );
+        SystemChrome.setSystemUIOverlayStyle(
+         SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Theme.of(context).brightness == Brightness.light ? Brightness.dark : Brightness.light,
+          systemNavigationBarColor: Colors.transparent,
+          
+        ),
+      );
 
 
 
@@ -327,8 +329,7 @@ class LocationPromptScreen extends StatelessWidget {
             ]
            ),
       ),
-      body: SafeArea(
-      child: 
+      body:
        Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -372,13 +373,13 @@ class LocationPromptScreen extends StatelessWidget {
           ],
         ),
         
-        ),
         bottomNavigationBar: 
         
       BottomAppBar(
         height: 160,
         clipBehavior: Clip.hardEdge,
         color: customDarkScheme.surfaceContainerLow,
+        
         child: Column(
           spacing: 10,
           children: [
