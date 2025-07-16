@@ -528,10 +528,12 @@ if(storedLocation['isGPS'] ?? false){
       );
 
 
- weatherFuture = getWeatherFromCache();
+  weatherFuture = getWeatherFromCache();
 
-      _isAppFullyLoaded = true;
+  _isAppFullyLoaded = true;
 
+  } else{
+  _refreshWeatherData();
   }
   } else{
     print('called refresh');
@@ -1194,7 +1196,7 @@ if (lastWeatherCode != weatherCode || lastIsDay != isDay) {
     final double? ragweedPollen = weather['air_quality']['current']['ragweed_pollen'];
 
 const double rainThreshold = 0.5;
-
+const int probThreshold = 40;
     int offsetSeconds = int.parse(weather['utc_offset_seconds'].toString());
     DateTime utcNow = DateTime.now().toUtc();
     DateTime nowPrecip = utcNow.add(Duration(seconds: offsetSeconds));
@@ -1215,15 +1217,18 @@ const double rainThreshold = 0.5;
 
 final List<String> allTimeStrings = (hourly['time'] as List).cast<String>();
 final List<double> allPrecip = (hourly['precipitation'] as List).cast<double>();
+final List<int> allPrecipProb = (hourly['precipitation_probability'] as List).cast<int>();
 
 final List<String> timeNext12h = [];
 final List<double> precpNext12h = [];
+final List<int> precipProbNext12h = [];
 
 for (int i = 0; i < allTimeStrings.length; i++) {
   final time = DateTime.parse(allTimeStrings[i]);
   if (time.isAfter(nowPrecip) && time.isBefore(nowPrecip.add(Duration(hours: 12)))) {
     timeNext12h.add(allTimeStrings[i]);
     precpNext12h.add(allPrecip[i]);
+    precipProbNext12h.add(allPrecipProb[i]);
   }
 }
 
@@ -1242,7 +1247,7 @@ int? bestStart;
 int? bestEnd;
 
 for (int i = 0; i < precpNext12h.length; i++) {
-  if (precpNext12h[i] >= rainThreshold) {
+  if (precpNext12h[i] >= rainThreshold && precipProbNext12h[i] >= probThreshold) {
     rainStart ??= i;
   } else {
     if (rainStart != null) {
@@ -1252,7 +1257,7 @@ for (int i = 0; i < precpNext12h.length; i++) {
         bestStart = rainStart;
         bestEnd = i - 1;
       }
-      rainStart = null; // reset
+      rainStart = null;
     }
   }
 }
@@ -1277,6 +1282,7 @@ Widget buildLayoutBlock(LayoutBlockType type) {
             key: const ValueKey('RainBlock'),
             hourlyTime: (hourly['time'] as List).cast<String>(),
             hourlyPrecp: (hourly['precipitation'] as List).cast<double>(),
+            hourlyPrecpProb: hourly['precipitation_probability'],
             selectedContainerBgIndex: useFullMaterialScheme ? Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32() : weatherContainerColors[selectedContainerBgIndex],
             timezone: weather['timezone'].toString(),
             utcOffsetSeconds: weather['utc_offset_seconds'].toString(),
