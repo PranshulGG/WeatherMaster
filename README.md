@@ -43,15 +43,11 @@
 # 👁️ Screenshots
 
 <div align="center">
-<img src="preview/1.png"  width="250">
-<img src="preview/2.png"  width="250">
-<img src="preview/3.png"  width="250">
 <img src="preview/4.png"  width="250">
+<img src="preview/1.png"  width="250">
+<img src="preview/3.png"  width="250">
+<img src="preview/2.png"  width="250">
 <img src="preview/5.png"  width="250">
-<img src="preview/6.png"  width="250">
-<img src="preview/7.png"  width="250">
-<img src="preview/8.png"  width="250">
-<img src="preview/9.png"  width="250">
 
 </div>
 
@@ -120,24 +116,6 @@
 
 - <strong>Weather icons</strong>: <a href="https://gitlab.com/bignutty/google-weather-icons">Google weather icons
 
-# 📝 Todos:
-
-- ✅ Adding cache to reduce api requests
-- ✅ Translations
-- ✅ Widgets
-- ✅ Make it lightweight
-- ✅ Allows you to add multiple locations
-- ✅ Customization
-- ✅ More detailed weather
-- ✅ Live weather map
-- ✅ Pick locations using map
-- ✅ Change app colors according to the weather
--  Any user suggestions :)
-   <br>
-   <br>
-
-> [!NOTE]
-> The app is designed to run on Android devices and does not support web browsers. Attempting to open the app in a browser will not work.
 <br>
 
 # Contact

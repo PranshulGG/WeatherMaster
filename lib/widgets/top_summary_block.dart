@@ -30,6 +30,18 @@ class SummaryCard extends StatefulWidget {
 
 class _SummaryCardState extends State<SummaryCard> {
 
+  String? _headline;
+  List<String>? _bullets;
+  String? _readableDayLengthTime;
+
+  bool isSummaryLoaded = false;
+
+@override
+void initState() {
+  super.initState();
+ isSummaryLoaded = false;
+}
+
   Map<String, dynamic> findPeakUv(Map<String, dynamic> hourly) {
   final times = hourly['time'] as List<dynamic>;
   final uvs = hourly['uv_index'] as List<dynamic>;
@@ -82,6 +94,7 @@ Map<String, dynamic> getEveningHumidityAndDew(Map<String, dynamic> hourly) {
   };
 }
 
+
 String generateHeadline(
   double temp,
   double uv,
@@ -94,23 +107,59 @@ String generateHeadline(
   String base;
 
   if (isStormy(weatherCode)) {
-    base = "Stormy conditions expected";
+    base = _random([
+      "Stormy weather on the horizon",
+      "Thunderstorms expected — stay safe",
+      "Rough weather ahead with storms likely",
+    ]);
   } else if (isRainy(weatherCode)) {
-    base = "Cloudy with a chance of rain";
+    base = _random([
+      "Rain showers likely through the day",
+      "Pack an umbrella — rain is on the way",
+      "Expect a damp and drizzly forecast",
+    ]);
   } else if (isCloudy(cloudCover)) {
-    base = "Overcast skies with muted sunlight";
+    base = _random([
+      "Gray skies and little sunshine",
+      "Cloudy and cool throughout the day",
+      "Overcast start with filtered light",
+    ]);
   } else if (uv > 7 && temp > 23 && isClear(cloudCover)) {
-    base = "Hot and sunny with strong UV";
+    base = _random([
+      "Scorching sun with intense UV",
+      "Hot and blazing under clear skies",
+      "Heat and sunshine dominate the forecast",
+    ]);
   } else if (uv > 7 && isClear(cloudCover)) {
-    base = "Bright and sunny with strong UV";
+    base = _random([
+      "Bright and sunny — UV is high",
+      "Sun’s out strong today",
+      "Clear skies with a UV warning",
+    ]);
   } else if (humidity > 75) {
-    base = "Warm start to a sticky day";
+    base = _random([
+      "A muggy and warm start",
+      "Sticky weather sets the tone",
+      "Expect a humid, clingy morning",
+    ]);
   } else if (wind > 15) {
-    base = "A brisk and breezy morning";
+    base = _random([
+      "Gusty winds early on",
+      "Windy and brisk as the day begins",
+      "Hold onto your hat — it's breezy",
+    ]);
   } else if (temp < 15) {
-    base = "Cool and calm start to the day";
+    base = _random([
+      "Chilly start to the day",
+      "Cool and crisp morning ahead",
+      "Bundle up — it's brisk outside",
+    ]);
   } else {
-    base = "Pleasant start to the day";
+    base = _random([
+      "Pleasant and calm start to the day",
+      "Fair weather to kick things off",
+      "A mild and comfortable morning",
+    ]);
   }
 
   final suffix = getHeadlineSuffix(
@@ -124,6 +173,7 @@ String generateHeadline(
   return "$base$suffix";
 }
 
+
 String getHeadlineSuffix({
   required double uv,
   required double wind,
@@ -133,10 +183,38 @@ String getHeadlineSuffix({
 }) {
   final suffixes = <String>[];
 
-  if (uv >= 7) suffixes.add("high UV midday");
-  if (wind >= 15) suffixes.add("breezy afternoon ahead");
-  if ((airQuality ?? 0) > 100) suffixes.add("poor air quality");
-  if (humidity > 70 && temp > 23) suffixes.add("humid conditions later");
+  if (uv >= 7) {
+    suffixes.add(_random([
+      "UV levels peak around midday",
+      "take care in the sun",
+      "sunburn risk is high",
+      "strong UV rays later on",
+    ]));
+  }
+
+  if (wind >= 15) {
+    suffixes.add(_random([
+      "winds picking up by afternoon",
+      "expect gusts later in the day",
+      "breezy conditions to continue",
+    ]));
+  }
+
+  if ((airQuality ?? 0) > 100) {
+    suffixes.add(_random([
+      "air quality may be unhealthy",
+      "watch for pollution levels",
+      "smog could be a concern",
+    ]));
+  }
+
+  if (humidity > 70 && temp > 23) {
+    suffixes.add(_random([
+      "humidity builds throughout the day",
+      "sweaty conditions expected",
+      "feels hotter than it is",
+    ]));
+  }
 
   if (suffixes.isEmpty) return ".";
 
@@ -144,19 +222,18 @@ String getHeadlineSuffix({
   return " — $selected.";
 }
 
+String _random(List<String> options) {
+  return options[Random().nextInt(options.length)];
+}
 
-Widget buildWeatherSummaryWidget(BuildContext context, bool isExpanded) {
-  final currentTemp =  widget.currentData['temperature_2m']?.toDouble() ?? 0;
+
+void computeWeatherSummary() {
+  final currentTemp = widget.currentData['temperature_2m']?.toDouble() ?? 0;
   final windSpeed = widget.currentData['wind_speed_10m']?.toDouble() ?? 0;
   final airQuality = widget.airQualityData['current']['us_aqi']?.toInt();
-
-
   final tempMin = widget.dailyData['temperature_2m_min']?[0]?.toDouble() ?? 0;
   final tempMax = widget.dailyData['temperature_2m_max']?[0]?.toDouble() ?? 0;
 
-
-
-  // Analyze hourly data
   final uvData = findPeakUv(widget.hourlyData);
   final peakUv = uvData['value'] as double;
   final uvHour = DateTime.parse(uvData['time']).hour;
@@ -166,38 +243,43 @@ Widget buildWeatherSummaryWidget(BuildContext context, bool isExpanded) {
   final dewPoint = evening['dewPoint'] as double;
   final dewHour = DateTime.parse(evening['time']).hour;
 
-final weatherCodeNow = widget.currentData['weather_code']?.toInt() ?? 0;
-final cloudCoverNow = widget.currentData['cloud_cover']?.toDouble() ?? 100;
+  final weatherCodeNow = widget.currentData['weather_code']?.toInt() ?? 0;
+  final cloudCoverNow = widget.currentData['cloud_cover']?.toDouble() ?? 100;
 
   final currentDayLength = widget.dailyData['daylight_duration'][0];
+  final secondsDayLength = currentDayLength.toInt();
+  final dayLengthDuration = Duration(seconds: secondsDayLength);
+  final readableDayLengthTime =
+      "${dayLengthDuration.inHours} hrs ${dayLengthDuration.inMinutes.remainder(60)} min";
 
-      int secondsDayLength = currentDayLength.toInt();
-    Duration dayLengthduration = Duration(seconds: secondsDayLength);
+  setState(() {
+    _headline = generateHeadline(
+      currentTemp,
+      peakUv,
+      windSpeed,
+      humidity,
+      cloudCoverNow,
+      weatherCodeNow,
+      airQuality: airQuality,
+    );
 
-  String readableDayLengthTime = "${dayLengthduration.inHours} hrs ${dayLengthduration.inMinutes.remainder(60)} min";
+    _bullets = generateBulletPoints(
+      tempMin: tempMin,
+      tempMax: tempMax,
+      uvIndex: peakUv,
+      uvHour: uvHour,
+      humidity: humidity,
+      dewPoint: dewPoint,
+      dewHour: dewHour,
+      windSpeed: windSpeed,
+      airQuality: airQuality,
+    );
 
+    _readableDayLengthTime = readableDayLengthTime;
+  });
+}
 
-final headline = generateHeadline(
-  currentTemp.toDouble(),
-  peakUv.toDouble(),
-  windSpeed.toDouble(),
-  humidity.toDouble(),
-  cloudCoverNow.toDouble(),
-  weatherCodeNow,
-  airQuality: airQuality
-);
-
-  final bullets = generateBulletPoints(
-    tempMin: tempMin,
-    tempMax: tempMax,
-    uvIndex: peakUv,
-    uvHour: uvHour,
-    humidity: humidity,
-    dewPoint: dewPoint,
-    dewHour: dewHour,
-    windSpeed: windSpeed.toDouble(),
-    airQuality: airQuality,
-  );
+Widget buildWeatherSummaryWidget(BuildContext context, bool isExpanded) {
 
 
   return Padding(
@@ -208,7 +290,7 @@ final headline = generateHeadline(
     children: [
       SizedBox(width: 8),
       Text(
-        headline,
+        _headline ?? '',
         style: TextStyle(
           fontWeight: FontWeight.w500,
           color: Theme.of(context).colorScheme.onSurface,
@@ -228,12 +310,12 @@ final headline = generateHeadline(
   },
   child: isExpanded
       ? Column(
-          key: ValueKey(true), // Important for AnimatedSwitcher
+          key: ValueKey(true), 
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          ...bullets.map(
+          ...?_bullets?.map(
             (b) => Padding(
-              padding: const EdgeInsets.only(bottom: 8, left: 10),
+              padding: const EdgeInsets.only(bottom: 8, left: 5, right: 5),
               child: Text(
                 '• $b',
                 style: TextStyle(
@@ -244,9 +326,9 @@ final headline = generateHeadline(
           ),
 
           Padding(
-            padding: const EdgeInsets.only(bottom: 8, left: 10),
+            padding: const EdgeInsets.only(bottom: 8, left: 5, right: 5),
             child: Text(
-              '• ${"day_length".tr()}: $readableDayLengthTime',
+              '• ${"day_length".tr()}: $_readableDayLengthTime',
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
@@ -354,6 +436,12 @@ bool isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
+
+  if(!isSummaryLoaded){
+    computeWeatherSummary();
+    isSummaryLoaded = true;
+  }
+
 
     final windUnit = context.watch<UnitSettingsNotifier>().windUnit;
 

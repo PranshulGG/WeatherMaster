@@ -585,11 +585,11 @@ List<Widget> gridItems = itemOrder.map((i) {
                     ],
                   ),
                 ),
-                // onTap: () {
-                //     widget.isFromHome ?  Navigator.of(context).push(
-                //         MaterialPageRoute(builder: (_) => const ExtendWidget('precip_widget'), fullscreenDialog: true),
-                //       ) : null;
-                //   },
+                onTap: () {
+                    widget.isFromHome ?  Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const ExtendWidget('precip_widget'), fullscreenDialog: true),
+                      ) : null;
+                  },
               );
                     default:
       return const SizedBox();

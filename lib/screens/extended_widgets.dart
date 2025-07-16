@@ -77,6 +77,10 @@ class _ExtendWidgetState extends State<ExtendWidget> {
       child = buildAQIExtended();
       extendedTitle = 'air_quality'.tr();
       iconData = Symbols.airwave;  
+    } else if (widget.widgetType == 'precip_widget'){
+      child = buildPrecipExtended();
+      extendedTitle =  'precipitation'.tr();
+      iconData = Symbols.rainy_heavy;
     } else {
       child = const Center(child: Text('Unknown widget type'));
       extendedTitle = 'Error';
@@ -231,10 +235,22 @@ final int avgHumidity = todayHumidities.isNotEmpty
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  Stack(
+                  alignment: Alignment.bottomCenter,
+                  clipBehavior: Clip.none, 
+                  children: [
+                  Container(
+                    width: 20,
+                    height: 160,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surface,
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                  ),
                   Container(
                     clipBehavior: Clip.none,
                         width: 43,
-                        height: math.max((humidityPercentage / 100) * 160, 48), 
+                        height: math.max((humidityPercentage / 100) * 160, 45), 
                         decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.primary,
                           borderRadius: BorderRadius.circular(50),
@@ -265,6 +281,8 @@ final int avgHumidity = todayHumidities.isNotEmpty
                         ),
                       ),
                     ),
+                  ),
+                  ]
                   ),
                   const SizedBox(height: 10),
 
@@ -474,7 +492,7 @@ final duskFormatted = formatInstantToLocalTime(dusk, timeUnit: timeFormatDUSKDAW
                         decoration: BoxDecoration(
                             border: Border(
                             top: BorderSide(
-                              color: Theme.of(context).colorScheme.outline, // Or any color you need
+                              color: Theme.of(context).colorScheme.outline, 
                               width: 1.5,
                             ),
                           ),
@@ -677,10 +695,22 @@ final duskFormatted = formatInstantToLocalTime(dusk, timeUnit: timeFormatDUSKDAW
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  Stack(
+                  alignment: Alignment.bottomCenter,
+                  clipBehavior: Clip.none, 
+                  children: [
+                  Container(
+                    width: 20,
+                    height: 160,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surface,
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                  ),
                   Container(
                     clipBehavior: Clip.none,
                         width: 43,
-                        height: math.max((pressurePercentage / 100) * 160, 48), 
+                        height: math.max((pressurePercentage / 100) * 160, 45), 
                         decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.primary,
                           borderRadius: BorderRadius.circular(50),
@@ -712,6 +742,8 @@ final duskFormatted = formatInstantToLocalTime(dusk, timeUnit: timeFormatDUSKDAW
                         ),
                       ),
                     ),
+                  ),
+                  ]
                   ),
                   const SizedBox(height: 10),
 
@@ -1005,6 +1037,18 @@ final duskFormatted = formatInstantToLocalTime(dusk, timeUnit: timeFormatDUSKDAW
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  Stack(
+                  alignment: Alignment.bottomCenter,
+                  clipBehavior: Clip.none, 
+                  children: [
+                  Container(
+                    width: 20,
+                    height: 160,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surface,
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                  ),
                   Container(
                     clipBehavior: Clip.none,
                         width: 43,
@@ -1040,6 +1084,8 @@ final duskFormatted = formatInstantToLocalTime(dusk, timeUnit: timeFormatDUSKDAW
                         ),
                       ),
                     ),
+                  ),
+                  ]
                   ),
                   const SizedBox(height: 10),
 
@@ -1218,6 +1264,18 @@ final double maxUv = uvIndexes.reduce((a, b) => a > b ? a : b);
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  Stack(
+                  alignment: Alignment.bottomCenter,
+                  clipBehavior: Clip.none, 
+                  children: [
+                  Container(
+                    width: 20,
+                    height: 160,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surface,
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                  ),
                   Container(
                     clipBehavior: Clip.none,
                         width: 43,
@@ -1253,6 +1311,8 @@ final double maxUv = uvIndexes.reduce((a, b) => a > b ? a : b);
                         ),
                       ),
                     ),
+                  ),
+                  ]
                   ),
                   const SizedBox(height: 10),
 
@@ -1296,7 +1356,7 @@ final double maxUv = uvIndexes.reduce((a, b) => a > b ? a : b);
     );
   }
 
-      Widget buildAQIExtended(){
+  Widget buildAQIExtended(){
     return FutureBuilder<Map<String, dynamic>?>(
     future: getWeatherWidgets(),
     builder: (context, snapshot) {
@@ -1480,6 +1540,226 @@ final double maxUv = uvIndexes.reduce((a, b) => a > b ? a : b);
      }
     );
 }
+
+
+Widget buildPrecipExtended(){
+    return FutureBuilder<Map<String, dynamic>?>(
+    future: getWeatherWidgets(),
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return const Center(child: CircularProgressIndicator());
+      } else if (snapshot.hasError) {
+        return Center(child: Text('Error: ${snapshot.error}'));
+      } else if (!snapshot.hasData || snapshot.data == null) {
+        return const Center(child: Text('No data available'));
+      }
+
+      final data = snapshot.data!;
+      final weather = data['data'];
+
+
+
+    final hourly = weather['hourly'];
+    final daily = weather['daily'];
+    final List<dynamic> hourlyTime = hourly['time'];
+    final List<dynamic> precipProb = hourly['precipitation_probability'];
+    final List<dynamic> precipAmount = hourly['precipitation'];
+    final double precipHours = daily['precipitation_hours'][0];
+    final double todaysAMOUNT = daily['precipitation_sum'][0];
+
+    
+    final offset = Duration(seconds: int.parse(weather['utc_offset_seconds'].toString()));
+    final nowUtc = DateTime.now().toUtc();
+    final nowLocal = nowUtc.add(offset);
+
+    final timeUnit = PreferencesHelper.getString("selectedTimeUnit") ?? '12 hr';
+
+    final precipitationUnit = PreferencesHelper.getString("selectedPrecipitationUnit") ?? 'mm';
+
+    final convertedPrecip = precipitationUnit == 'cm'
+        ? UnitConverter.mmToCm(todaysAMOUNT)
+        : precipitationUnit == 'in'
+            ? UnitConverter.mmToIn(todaysAMOUNT)
+            : todaysAMOUNT;
+
+
+    final roundedNow = DateTime(nowLocal.year, nowLocal.month, nowLocal.day, nowLocal.hour);
+
+    int startIndex = hourlyTime.indexWhere((timeStr) {
+      final forecastLocal = DateTime.parse(timeStr); 
+      return !forecastLocal.isBefore(roundedNow);
+    });
+
+    if (startIndex == -1) startIndex = 0;
+
+final double minprecipAmount = precipAmount.reduce((a, b) => a < b ? a : b);
+final double maxprecipAmount = precipAmount.reduce((a, b) => a > b ? a : b);
+
+
+     return Column(
+   children: [ 
+
+       Container(
+      height: 360,
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surfaceContainer,
+          borderRadius: BorderRadius.circular(18),
+        ),
+        padding: EdgeInsets.only(top: 12, bottom: 0),
+        margin: EdgeInsets.fromLTRB(12, 0, 12, 0),
+        child: Column(
+        children: [
+        Container(
+          padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+          alignment: Alignment.centerLeft,
+       child:  Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("today's_amount".tr(), style: TextStyle(fontSize: 20,  color: Theme.of(context).colorScheme.onSurface, fontWeight: FontWeight.w500)),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text("${double.parse(convertedPrecip.toStringAsFixed(2))}", style: TextStyle(fontSize: 50,  color: Theme.of(context).colorScheme.secondary, fontWeight: FontWeight.w500),),
+                Padding(padding: EdgeInsets.only(bottom: 11, left: 8),
+               child: Text('$precipitationUnit • ${precipHours.round()} hrs', style: TextStyle(fontSize: 20,  color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500),))
+              ],
+            )
+            
+          ],
+      ),
+      ),
+
+
+    SizedBox(
+        height: 216,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          physics: BouncingScrollPhysics(),
+          itemCount: 24 + 24 - startIndex,
+          itemBuilder: (context, index) {
+          final dataIndex = startIndex + index;
+
+          if (dataIndex >= hourlyTime.length) return const SizedBox();
+          final forecastLocal = DateTime.parse(hourlyTime[dataIndex]);
+
+          final roundedDisplayTime = DateTime(
+            forecastLocal.year,
+            forecastLocal.month,
+            forecastLocal.day,
+            forecastLocal.hour,
+          );
+            final hour = timeUnit == '24 hr' ? "${roundedDisplayTime.hour.toString().padLeft(2, '0')}:00" : UnitConverter.formatTo12Hour(roundedDisplayTime);
+
+
+
+          final precipAmountMain = precipAmount[dataIndex];
+          final precipProbMain = precipProb[dataIndex];
+
+
+          final double rainValue = (precipAmountMain is num) ? precipAmountMain.toDouble() : 0;
+          final double rainPercentage = ((rainValue - minprecipAmount) / (maxprecipAmount - minprecipAmount)) * 100;
+
+
+          EdgeInsets itemMargin = EdgeInsets.only(
+              left: index == 0 ? 10 : 0,
+              right: index == 24 + 24 - startIndex - 1 ? 10 : 0,
+
+            );
+
+            return Container(
+              width: 53,
+              margin: itemMargin,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                Stack(
+                  alignment: Alignment.bottomCenter,
+                  clipBehavior: Clip.none, 
+                  children: [
+                  Container(
+                    width: 20,
+                    height: 160,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surface,
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                  ),
+                  Container(
+                    clipBehavior: Clip.none,
+                        width: 43,
+                        height: math.max((rainPercentage / 100) * 160, 45), 
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primary,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                      child:  Align(
+                      alignment: Alignment.topCenter, 
+                      child: SizedBox(
+                        width: 60,
+                        height: 60,
+                        child: Stack(
+                           alignment: Alignment.center,
+                          children: [
+                            Positioned(
+                              top: 3,
+                              child:
+                            CircleAvatar(
+                                child:  Text("$precipProbMain%", style: TextStyle(fontWeight: FontWeight.w500),),
+                            )
+                            ),
+                          ]
+                        ),
+                      ),
+                    ),
+                  ),
+                  ]
+                ),
+                  const SizedBox(height: 10),
+
+                  Text("${double.parse(convertedPrecip.toStringAsFixed(2))}", style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
+                  Text(hour, style: TextStyle(fontSize: 15, color: Theme.of(context).colorScheme.onSurface, fontWeight: FontWeight.w500)),
+                ],
+              ),
+              );
+          },
+        ),
+       ),
+
+
+      ],
+      ),
+      ),
+      Container(
+              margin: EdgeInsets.fromLTRB(12, 20, 12, MediaQuery.of(context).padding.bottom + 26),
+              padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+              border: Border.all(
+                width: 1,
+                color: Theme.of(context).colorScheme.outlineVariant,
+              ),
+              borderRadius: BorderRadius.circular(18),
+              ),
+              child:  Column(  
+              spacing: 20,
+                children: [
+                  Text("Rain amount describes how much rain is expected, typically given in millimeters (mm) or inches. It helps indicate the intensity of rainfall — from light showers to heavy downpours.", style: TextStyle(fontSize: 17, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
+                  Text("Rain probability shows the chance of precipitation occurring at a given time and location, expressed as a percentage. For example, a 70% chance means rain is likely in that area.", style: TextStyle(fontSize: 17, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
+                  Text("Rain duration indicates the total number of hours during the day that rain is expected. This helps estimate how long the weather might stay wet or overcast.", style: TextStyle(fontSize: 17, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
+                  Text("Rain intensity measures how heavy the rain is during a given period, typically classified as light, moderate, or heavy. Heavier rainfall can lead to flooding or reduced visibility.", style: TextStyle(fontSize: 17, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
+                ],
+              )
+          )
+        ]
+      );
+     }
+    );
+  }
+
+
+
 }
 
 

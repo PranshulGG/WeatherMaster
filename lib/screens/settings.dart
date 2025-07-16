@@ -170,7 +170,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                 SettingSwitchTile(
                     icon: Icon(Symbols.palette, fill: 1, weight: 500),
-                    title: Text("Material Scheme Only"),
+                    title: Text("Material scheme only"),
                     description: Text('Disables weather effects; uses default Material theme'),
                     toggled: PreferencesHelper.getBool("OnlyMaterialScheme") ?? false,
                     onChanged: (value) {

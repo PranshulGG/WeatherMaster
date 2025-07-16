@@ -136,8 +136,9 @@ class _DailyForecastPageState extends State<DailyForecastPage> {
           selectedDayHourIndexes.add(i);
         }
       }
-
       final int firstIndex = selectedDayHourIndexes.isNotEmpty ? selectedDayHourIndexes.first : 0;
+
+      print(selectedDate);
 
             return Column(
                 children: [
@@ -472,7 +473,8 @@ class HourlyCardForecast extends StatelessWidget {
 
     final offset = Duration(seconds: int.parse(utcOffsetSeconds));
 
-    final localSelectedDate = selectedDate.toUtc().add(offset);
+    // final localSelectedDate = selectedDate.toUtc().add(offset);
+    final localSelectedDate = selectedDate;
 
     final roundedSelectedDate = DateTime(localSelectedDate.year, localSelectedDate.month, localSelectedDate.day);
 
@@ -482,6 +484,10 @@ class HourlyCardForecast extends StatelessWidget {
     });
 
     if (startIndex == -1) startIndex = 0;
+
+
+
+    print(startIndex);
 
     return Container(
         decoration: BoxDecoration(
@@ -555,7 +561,7 @@ class HourlyCardForecast extends StatelessWidget {
               ),
             );
           },
-        ),
+        )
       ),
       ],
       ),

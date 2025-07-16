@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 class RainBlock extends StatelessWidget {
   final List<String> hourlyTime;
   final List<double> hourlyPrecp;
+  final List<dynamic> hourlyPrecpProb;
   final int selectedContainerBgIndex;
  final String timezone;
  final String utcOffsetSeconds;
@@ -19,6 +20,7 @@ class RainBlock extends StatelessWidget {
     required this.selectedContainerBgIndex,
     required this.timezone,
     required this.utcOffsetSeconds,
+    required this.hourlyPrecpProb
   });
 
   
@@ -51,6 +53,8 @@ int get _currentIndex {
 List<String> get next12Time => hourlyTime.skip(_currentIndex).take(12).toList();
 List<double> get next12Precp => hourlyPrecp.skip(_currentIndex).take(12).toList();
 
+List<String> get next12TimeProb => hourlyTime.skip(_currentIndex).take(12).toList();
+List get next12PrecpProb => hourlyPrecpProb.skip(_currentIndex).take(12).toList();
 
 
   double get maxRain {
@@ -66,7 +70,9 @@ List<double> get next12Precp => hourlyPrecp.skip(_currentIndex).take(12).toList(
   int? currentStart;
 
   for (int i = 0; i < next12Precp.length; i++) {
-    if (next12Precp[i] > 0.2) {
+     final double precp = next12Precp[i];
+     final int prob = next12PrecpProb[i] ?? 0;
+    if (precp > 0.2 && prob >= 40) {
       currentStart ??= i;
     } else {
       if (currentStart != null) {
@@ -112,11 +118,14 @@ String _generateTitle(int? start) {
 
 
 bool willRainStopSoon() {
-  if (next12Precp[0] <= 0.2) return false;
+  if (next12Precp[0] <= 0.2 || (next12PrecpProb[0] ?? 0) < 30) return false;
 
   int dryCount = 0;
   for (int i = 1; i < next12Precp.length; i++) {
-    if (next12Precp[i] <= 0.2) {
+    final double precp = next12Precp[i];
+    final int prob = next12PrecpProb[i] ?? 0;
+
+    if (precp <= 0.2 || prob < 30) {
       dryCount++;
       if (dryCount >= 2) return true;
     } else {

@@ -71,7 +71,8 @@ class _WeatherHomeState extends State<WeatherHome> {
     Widget? weatherAnimationWidget;
     int? _cachedWeatherCode;
     int? _cachedIsDay;
-
+bool _showHeader = false;
+final ValueNotifier<bool> _showHeaderNotifier = ValueNotifier(false);
   late bool isHomeLocation;
   final ScrollController _scrollController = ScrollController();
 
@@ -917,6 +918,7 @@ void didChangeDependencies() {
         scrollController: _scrollController,
         baseGradient: gradients[selectedGradientIndex],
         scrolledGradient: gradientsScrolled[selectedGradientIndex],
+        headerVisibilityNotifier: _showHeaderNotifier,
       ),
        Scaffold(
         extendBodyBehindAppBar: true,
@@ -933,6 +935,36 @@ void didChangeDependencies() {
           ),
         ),
       ),
+
+ValueListenableBuilder<bool>(
+  valueListenable: _showHeaderNotifier,
+  builder: (context, show, child) {
+    return Positioned(
+      top: 0,
+      left: 0,
+      right: 0,
+      child: AnimatedSlide(
+        offset: show ? Offset.zero : const Offset(0, -1),
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeOut,
+        child: AnimatedOpacity(
+          duration: const Duration(milliseconds: 250),
+          opacity: show ? 1 : 0,
+          child: IgnorePointer(
+            ignoring: !show,
+            child: Container(
+              height: MediaQuery.of(context).padding.top,
+              color: isLight ? Colors.white.withValues(alpha: 0.5) : Colors.black.withValues(alpha: 0.5),
+            ),
+          ),
+        ),
+      ),
+    );
+  },
+),
+
+
+
   ],
 );
         
@@ -1034,7 +1066,7 @@ Widget _buildWeatherContent() {
          isLight ? 0xFFfcfcff : paletteWeather.secondary.get(6),
 
           // clear day
-         isLight ? 0xFFfcfcff : paletteWeather.primary.get(7),
+         isLight ? 0xFFfcfcff : paletteWeather.primary.get(8),
 
           // clear night
          isLight ? CorePalette.of(const Color.fromARGB(255, 58, 77, 141).toARGB32()).primary.get(98) : CorePalette.of(const Color.fromARGB(255, 58, 77, 141).toARGB32()).primary.get(5),
@@ -1272,7 +1304,7 @@ if (rainStart != null) {
 
 final bool shouldShowRainBlock = bestStart != null && bestEnd != null;
 
-
+print('builded');
 
 Widget buildLayoutBlock(LayoutBlockType type) {
   switch (type) {
@@ -1565,11 +1597,13 @@ class ScrollReactiveGradient extends StatefulWidget {
   final ScrollController scrollController;
   final LinearGradient baseGradient;
   final LinearGradient scrolledGradient;
+  final ValueNotifier<bool>? headerVisibilityNotifier;
 
   const ScrollReactiveGradient({
     required this.scrollController,
     required this.baseGradient,
     required this.scrolledGradient,
+    this.headerVisibilityNotifier,
     super.key,
   });
 
@@ -1604,8 +1638,15 @@ class _ScrollReactiveGradientState extends State<ScrollReactiveGradient> {
     if (_isScrolled != isNowScrolled) {
       setState(() {
         _isScrolled = isNowScrolled;
+
       });
+
+if (widget.headerVisibilityNotifier != null &&
+        widget.headerVisibilityNotifier!.value != isNowScrolled) {
+      widget.headerVisibilityNotifier!.value = isNowScrolled;
     }
+    }
+
   }
 
   @override

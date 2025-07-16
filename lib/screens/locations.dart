@@ -134,9 +134,29 @@ Future<String?> getWeatherLastUpdatedFromCache(cacheKey) async {
             SizedBox(width: 5,)
           ],
           ),
-            body: isEditing
-        ? buildReorderableListView()
-        : buildDismissibleListView(),
+body: AnimatedSwitcher(
+  duration: Duration(milliseconds: 300),
+  switchInCurve: Curves.easeIn,
+  switchOutCurve: Curves.easeOut,
+transitionBuilder: (Widget child, Animation<double> animation) {
+  return SlideTransition(
+    position: Tween<Offset>(
+      begin: Offset(0.0, 0.1),
+      end: Offset.zero,
+    ).animate(animation),
+    child: FadeTransition(
+      opacity: animation,
+      child: child,
+    ),
+  );
+},
+
+
+  child: isEditing
+      ? buildReorderableListView(key: ValueKey('reorderable'))
+      : buildDismissibleListView(key: ValueKey('dismissible')),
+),
+
 
                   floatingActionButton: FloatingActionButton.large(
             onPressed: () async {
@@ -165,13 +185,14 @@ Future<String?> getWeatherLastUpdatedFromCache(cacheKey) async {
 
     
 }
-Widget buildDismissibleListView() {
+Widget buildDismissibleListView({Key? key}) {
           return savedLocations.isEmpty
               ? const Center(child: Text("No saved locations."))
               : ListView.builder(
+                key: key,
                   itemCount: savedLocations.length + 1,
                   itemBuilder: (context, index) {
-
+                  
                 final onlyhomeLocation = PreferencesHelper.getJson('homeLocation');
 
                 bool isOnlyHomeLocation = false;
@@ -400,13 +421,13 @@ Widget buildDismissibleListView() {
                               child: Row(
                                 spacing: 5,
                                 children: [
-                                  // isOnlyHomeLocation ? Text("") :
+                                  isOnlyHomeLocation ? Text("") :
                                   Icon(
                                     Symbols.star,
                                     color:
                                         Theme.of(context).colorScheme.primary,
                                   ),
-                                  // isOnlyHomeLocation ? Text("") :
+                                  isOnlyHomeLocation ? Text("") :
                                   Text(
                                     "saved_locations".tr(),
                                     style: TextStyle(
@@ -709,8 +730,9 @@ Widget buildDismissibleListView() {
   
 
   }
-  Widget buildReorderableListView() {
+  Widget buildReorderableListView({Key? key}) {
   return ReorderableListView.builder(
+    key: key,
     itemCount: savedLocations.length,
     
     onReorder: (oldIndex, newIndex) {
@@ -747,8 +769,8 @@ proxyDecorator: (child, index, animation) {
         borderRadius: BorderRadius.circular(50), 
       ),
       child: ListTile(
-        minTileHeight: 65,
-        contentPadding: EdgeInsets.only(right: 10, left: 16),
+        minTileHeight: 70,
+        contentPadding: EdgeInsets.only(right: 16, left: 16),
         leading: Icon(Symbols.location_on),
         tileColor: Colors.transparent,
         title: Text(loc.city, style: TextStyle(fontSize: 15),),
