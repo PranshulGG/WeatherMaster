@@ -171,7 +171,7 @@ floatingActionButton: Row(
       onPressed: () async {
         await layoutProvider.saveLayout(layoutConfig);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Layout saved')),
+          SnackBar(content: Text('layout_saved'.tr())),
         );
         Navigator.pop(context);
       },

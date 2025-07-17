@@ -442,7 +442,7 @@ final tempOptions = [
         final convertedwindSpeed = windUnit == 'Mph'
         ? UnitConverter.kmhToMph(windSpeed)
         : windUnit == 'M/s'
-            ? UnitConverter.kmhToMs(windSpeed)
+            ? UnitConverter.kmhToMs(windSpeed) : windUnit == 'Bft' ? UnitConverter.kmhToBeaufort(windSpeed)
             : windSpeed.toStringAsFixed(0);
     final windOptions = [
       "bulletsWINDOptions_1".tr(namedArgs: {
@@ -498,14 +498,14 @@ bool isExpanded = false;
     final formattedWindGust = windUnit == 'Mph'
         ? UnitConverter.kmhToMph(widget.currentData['wind_gusts_10m'])
         : windUnit == 'M/s'
-            ? UnitConverter.kmhToMs(widget.currentData['wind_gusts_10m'])
+            ? UnitConverter.kmhToMs(widget.currentData['wind_gusts_10m']) : windUnit == 'Bft' ? UnitConverter.kmhToBeaufort(widget.currentData['wind_gusts_10m'])
             : widget.currentData['wind_gusts_10m'];
 
 
   final formattedWindSpeed =  windUnit == 'Mph'
         ? UnitConverter.kmhToMph(widget.currentData['wind_speed_10m'])
         : windUnit == 'M/s'
-            ? UnitConverter.kmhToMs(widget.currentData['wind_speed_10m'])
+            ? UnitConverter.kmhToMs(widget.currentData['wind_speed_10m']) : windUnit == 'Bft' ? UnitConverter.kmhToBeaufort(widget.currentData['wind_speed_10m'])
             : widget.currentData['wind_speed_10m'];
 
     return Container(

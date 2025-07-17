@@ -985,9 +985,9 @@ String _formatLastUpdated(String isoTime) {
   final now = DateTime.now();
   final difference = now.difference(dt);
 
-  if (difference.inMinutes < 1) return 'just now';
-  if (difference.inMinutes < 60) return '${difference.inMinutes} min. ${'ago'.tr()}';
-  if (difference.inHours < 24) return '${difference.inHours} hr. ${'ago'.tr()}';
+  if (difference.inMinutes < 1) return 'just_now'.tr();
+  if (difference.inMinutes < 60) return '${difference.inMinutes} ${'min'.tr()} ${'ago'.tr()}';
+  if (difference.inHours < 24) return '${difference.inHours} ${'hr'.tr()} ${'ago'.tr()}';
   return '${dt.month}/${dt.day} at ${dt.hour}:${dt.minute.toString().padLeft(2, '0')}';
 }
 

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -99,20 +100,20 @@ List get next12PrecpProb => hourlyPrecpProb.skip(_currentIndex).take(12).toList(
 }
 
 String _generateTitle(int? start) {
-  if (start == null) return "No rain expected";
+  if (start == null) return "rain_card_no_rain_exp".tr();
 
   if (start == 0 && next12Precp[0] > 0.2) {
-    return willRainStopSoon() ? "Rain will stop soon" : "It's currently raining";
+    return willRainStopSoon() ? "rain_will_stop_soon".tr() : "its_currently_raining".tr();
   }
 
   final hour = DateTime.parse(next12Time[start]).hour;
 
-  if (hour >= 0 && hour <= 5) return "Rain expected overnight";
-  if (hour >= 6 && hour < 12) return "Rain expected this morning";
-  if (hour >= 12 && hour < 17) return "Rain expected this afternoon";
-  if (hour >= 17 && hour <= 22) return "Rain expected this evening";
+  if (hour >= 0 && hour <= 5) return "rain_expected_overnight".tr();
+  if (hour >= 6 && hour < 12) return "rain_expected_this_morning".tr();
+  if (hour >= 12 && hour < 17) return "rain_expected_this_afternoon".tr();
+  if (hour >= 17 && hour <= 22) return "rain_expected_later_today".tr();
 
-  return "Rain expected later today";
+  return "rain_expected_later_today".tr();
 }
 
 
@@ -154,9 +155,9 @@ bool willRainStopSoon() {
     final max = segment.reduce((a, b) => a > b ? a : b);
 
     String label = switch (max) {
-      > 5 => "Heavy rain",
-      > 2 => "Moderate rain",
-      _ => "Light rain"
+      > 5 => "heavy_rain".tr(),
+      > 2 => "moderate_rain".tr(),
+      _ => "light_rain".tr()
     };
 
     final timeUnit = context.watch<UnitSettingsNotifier>().timeUnit;
@@ -165,7 +166,7 @@ bool willRainStopSoon() {
     final startStr = timeUnit == '24 hr' ? DateFormat.Hm().format(DateTime.parse(next12Time[start])) :  DateFormat.jm().format(DateTime.parse(next12Time[start]));
     final endStr = timeUnit == '24 hr' ? DateFormat.Hm().format(DateTime.parse(next12Time[end])) :  DateFormat.jm().format(DateTime.parse(next12Time[end]));
 
-    return "$label from $startStr to $endStr";
+    return "$label ${'from_text'.tr()} $startStr ${'to_text'.tr()} $endStr";
   }
 
 

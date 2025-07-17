@@ -108,7 +108,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 SettingSwitchTile(
                     enabled: _useCustomTile,
                     icon: Icon(Symbols.colorize, fill: 1, weight: 500),
-                    title: Text("Use custom color"),
+                    title: Text("use_custom_color".tr()),
                     toggled: PreferencesHelper.getBool("usingCustomSeed") ?? false,
                     onChanged: (value) {
                     setState(() {
@@ -127,8 +127,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 SettingColorTile( 
                   enabled: _showTile,
                   icon: Icon(Symbols.colors, fill: 1, weight: 500),
-                  title: Text('Primary color'),
-                  description: Text('Select a seed color to generate the theme'),
+                  title: Text('primary_color'.tr()),
+                  description: Text('primary_color_sub'.tr()),
                   dialogTitle: 'Color',
                   initialColor: PreferencesHelper.getColor("CustomMaterialColor") ?? Colors.blue,
                   colorPickers: [ColorPickerType.primary],
@@ -172,8 +172,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                 SettingSwitchTile(
                     icon: Icon(Symbols.palette, fill: 1, weight: 500),
-                    title: Text("Material scheme only"),
-                    description: Text('Disables weather effects; uses default Material theme'),
+                    title: Text("material_scheme_only".tr()),
+                    description: Text('material_scheme_only_sub'.tr()),
                     toggled: PreferencesHelper.getBool("OnlyMaterialScheme") ?? false,
                     onChanged: (value) {
                       PreferencesHelper.setBool("OnlyMaterialScheme", value);
@@ -191,8 +191,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                  SettingSwitchTile(
                     icon: Icon(Symbols.temp_preferences_eco, fill: 1, weight: 500),
-                    title: Text("Show froggy"),
-                    description: Text("Display Froggy images based on weather conditions"),
+                    title: Text("show_froggy".tr()),
+                    description: Text("show_froggy_sub".tr()),
                     toggled: PreferencesHelper.getBool("showFroggy") ?? true,
                     onChanged: (value) {
                       context.read<UnitSettingsNotifier>().updateShowFroggy(value);
@@ -251,8 +251,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   
                   SettingSwitchTile(
                     icon: Icon(Symbols.assistant_navigation, fill: 1, weight: 500),
-                    title: Text("Use Device Compass"),
-                    description: Text("Rotate wind arrow based on your phone's real-world orientation"),
+                    title: Text("use_device_compass".tr()),
+                    description: Text("use_device_compass_sub".tr()),
                     toggled: PreferencesHelper.getBool("useDeviceCompass") ?? false,
                     onChanged: (value) {
                       context.read<UnitSettingsNotifier>().updateUseDeviceCompass(value);
@@ -263,8 +263,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                 SettingSwitchTile(
                     icon: Icon(Symbols.taunt, fill: 1, weight: 500),
-                    title: Text('Froggy insights'),
-                    description: Text('Shows insights in a playfull format'),
+                    title: Text('froggy_insights'.tr()),
+                    description: Text('froggy_insights_sub'.tr()),
                     toggled: PreferencesHelper.getBool("useFroggyInsights") ?? false,
                     onChanged: (value) {
                     setState(() {
