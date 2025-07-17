@@ -799,8 +799,9 @@ final duskFormatted = formatInstantToLocalTime(dusk, timeUnit: timeFormatDUSKDAW
       final data = snapshot.data!;
      final weather = data['data'];
     final hourly = weather['hourly'];
+    final List<dynamic> hourlyTime = hourly['time'];
 
-      final currentVisibility = hourly['visibility'][0];
+      final currentVisibility = hourly['visibility'][getStartIndex(weather['utc_offset_seconds'].toString(), hourlyTime)] ?? 0.0;
     final visibilityUnit = PreferencesHelper.getString("selectedVisibilityUnit") ?? "Km";
 
           final convertedVisibility = visibilityUnit == 'Mile'
@@ -1145,7 +1146,8 @@ Widget buildUVExtended(){
 
     final hourly = weather['hourly'];
     final List<dynamic> hourlyTime = hourly['time'];
-    final List<dynamic> uvIndexes = hourly['uv_index'];
+final List<dynamic> uvIndexes = hourly['uv_index'];
+
 
 
     final offset = Duration(seconds: int.parse(weather['utc_offset_seconds'].toString()));
@@ -1164,8 +1166,11 @@ Widget buildUVExtended(){
 
     if (startIndex == -1) startIndex = 0;
 
-final double minUv = uvIndexes.reduce((a, b) => a < b ? a : b);
-final double maxUv = uvIndexes.reduce((a, b) => a > b ? a : b);
+
+final nonNullUvIndexes = uvIndexes.whereType<num>().toList();
+final double minUv = nonNullUvIndexes.isNotEmpty ? nonNullUvIndexes.reduce((a, b) => a < b ? a : b).toDouble() : 0;
+final double maxUv = nonNullUvIndexes.isNotEmpty ? nonNullUvIndexes.reduce((a, b) => a > b ? a : b).toDouble() : 1;
+
 
   List<double> todayUvIndexes = [];
 
@@ -1202,9 +1207,9 @@ final double maxUv = uvIndexes.reduce((a, b) => a > b ? a : b);
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text("${avgUv.round()}", style: TextStyle(fontSize: 50,  color: Theme.of(context).colorScheme.secondary, fontWeight: FontWeight.w500),),
+                Text(avgUv != null ? "${avgUv.round()}" : "--", style: TextStyle(fontSize: 50,  color: Theme.of(context).colorScheme.secondary, fontWeight: FontWeight.w500),),
                 Padding(padding: EdgeInsets.only(bottom: 11, left: 8),
-               child: Text(getUvIndexType(avgUv.round()), style: TextStyle(fontSize: 20,  color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500),))
+               child: Text(avgUv != null ? getUvIndexType(avgUv.round()) : "Not available", style: TextStyle(fontSize: 20,  color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500),))
               ],
             )
             
@@ -1236,9 +1241,11 @@ final double maxUv = uvIndexes.reduce((a, b) => a > b ? a : b);
 
 
           final uv = uvIndexes[dataIndex];
-
-          final double uvValue = (uv is num) ? uv.toDouble() : 0;
-          final double uvPercentage = ((uvValue - minUv) / (maxUv - minUv)) * 100;
+          final bool isValidUv = uv is num;
+          final double? uvValue = isValidUv ? uv.toDouble() : null;
+          final double uvPercentage = uvValue != null && maxUv != minUv
+              ? ((uvValue - minUv) / (maxUv - minUv)) * 100
+              : 0;
 
 
           EdgeInsets itemMargin = EdgeInsets.only(
@@ -1281,7 +1288,7 @@ final double maxUv = uvIndexes.reduce((a, b) => a > b ? a : b);
                         width: 43,
                         height: math.max((uvPercentage / 100) * 160, 48), 
                         decoration: BoxDecoration(
-                          color: getUvColor(uvValue, context),
+                          color: getUvColor(uvValue ?? 0, context),
                           borderRadius: BorderRadius.circular(50),
                         ),
                       child:  Align(
@@ -1316,7 +1323,7 @@ final double maxUv = uvIndexes.reduce((a, b) => a > b ? a : b);
                   ),
                   const SizedBox(height: 10),
 
-                  Text("${uv.round()}", style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
+                  Text(uvValue != null ? "${uvValue.round()}" : "--", style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
                   Text(hour, style: TextStyle(fontSize: 15, color: Theme.of(context).colorScheme.onSurface, fontWeight: FontWeight.w500)),
                 ],
               ),
@@ -1985,4 +1992,24 @@ class AQISliderBar extends StatelessWidget {
       // ],
     );
   }
+}
+
+int getStartIndex(utc_offset_seconds, hourlyTime) {
+    final offset = Duration(seconds: int.parse(utc_offset_seconds));
+    final nowUtc = DateTime.now().toUtc();
+    final nowLocal = nowUtc.add(offset);
+
+    final timeUnit = PreferencesHelper.getString("selectedTimeUnit") ?? '12 hr';
+
+
+    final roundedNow = DateTime(nowLocal.year, nowLocal.month, nowLocal.day, nowLocal.hour);
+
+    int startIndex = hourlyTime.indexWhere((timeStr) {
+      final forecastLocal = DateTime.parse(timeStr); 
+      return !forecastLocal.isBefore(roundedNow);
+    });
+
+    if (startIndex == -1) startIndex = 0;
+
+    return startIndex;
 }

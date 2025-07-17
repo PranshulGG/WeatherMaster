@@ -70,15 +70,10 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
+//  WebViewPlatform.instance ??= SurfaceAndroidWebView();;
 
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        systemNavigationBarColor: Colors.transparent,
-      ),
-    );
+
 
   final dir = await getApplicationDocumentsDirectory();
   Hive.init(dir.path);
@@ -164,8 +159,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
   final themeController = Provider.of<ThemeController>(context);
 
+  final isLight = Theme.of(context).brightness == Brightness.light;
 
-  
+      SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(
+      statusBarColor: Color(0x01000000),
+      statusBarIconBrightness: isLight ? Brightness.dark : Brightness.light,
+      systemNavigationBarIconBrightness: isLight ? Brightness.dark : Brightness.light,
+      systemNavigationBarColor: MediaQuery.of(context).systemGestureInsets.left > 0 ? Color(0x01000000) : isLight ? Color(0x01000000) : Color.fromRGBO(0, 0, 0, 0.3)
+          
+        ),
+      );
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
+
+
     return MaterialApp(
       title: 'WeatherMaster',
       debugShowCheckedModeBanner: false,
@@ -235,13 +243,7 @@ class MyApp extends StatelessWidget {
   }
 
 
-class LocationPromptScreen extends StatelessWidget {
-  const LocationPromptScreen({super.key});
-
-
-  @override
-  Widget build(BuildContext context) {
-  ColorScheme customDarkScheme = ColorScheme(
+ColorScheme customDarkScheme = ColorScheme(
       brightness: Brightness.dark,
       primary: Color(paletteStartScreen.primary.get(80)),
       onPrimary: Color(paletteStartScreen.primary.get(20)),
@@ -274,16 +276,14 @@ class LocationPromptScreen extends StatelessWidget {
       surfaceContainerLowest: Color(paletteStartScreen.neutral.get(4))
 );
 
-      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+class LocationPromptScreen extends StatelessWidget {
+  const LocationPromptScreen({super.key});
 
-        SystemChrome.setSystemUIOverlayStyle(
-         SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Theme.of(context).brightness == Brightness.light ? Brightness.dark : Brightness.light,
-          systemNavigationBarColor: Colors.transparent,
-          
-        ),
-      );
+
+  @override
+  Widget build(BuildContext context) {
+
+
 
 
 
@@ -307,6 +307,8 @@ class LocationPromptScreen extends StatelessWidget {
             jsonEncode(current.map((e) => e.toJson()).toList()));
       }
 }
+
+
 
 
     return
@@ -389,7 +391,20 @@ class LocationPromptScreen extends StatelessWidget {
               minimumSize: WidgetStateProperty.all(const Size(300, 60)), 
             ),
              onPressed: () async {
+
+              final dialogKey = GlobalKey<LoadingDialogState>();
+
             try {
+
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (_) => LoadingDialog(
+              key: dialogKey,
+              initialMessage: "Getting your location...",
+            ),
+          );
+
 
               final position = await getCurrentPosition();
 
@@ -401,6 +416,9 @@ class LocationPromptScreen extends StatelessWidget {
                 city: geoData['city']!,
                 country: geoData['country']!,
               );
+
+              dialogKey.currentState?.updateMessage("Found\n ${geoData['city']}, ${geoData['country']}\n Loading weather...");
+
 
               saveLocation(saved);
 
@@ -418,12 +436,17 @@ class LocationPromptScreen extends StatelessWidget {
 
               }));
 
+
+
               final weatherService = WeatherService();
               await weatherService.fetchWeather(
                 saved.latitude,
                 saved.longitude,
                 locationName: cacheKey,
               );
+
+
+        Navigator.of(context, rootNavigator: true).pop();
 
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
@@ -438,6 +461,7 @@ class LocationPromptScreen extends StatelessWidget {
                 ),
               );
             } catch (e) {
+        Navigator.of(context, rootNavigator: true).pop();
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('Error: ${e.toString()}')),
               );
@@ -465,6 +489,56 @@ class LocationPromptScreen extends StatelessWidget {
           ],
       ),
     ),
+    );
+  }
+}
+
+
+class LoadingDialog extends StatefulWidget {
+  final String initialMessage;
+  final GlobalKey<LoadingDialogState> key; 
+
+  const LoadingDialog({
+    required this.key,
+    required this.initialMessage,
+  }) : super(key: key);
+
+  @override
+  LoadingDialogState createState() => LoadingDialogState();
+}
+
+
+class LoadingDialogState extends State<LoadingDialog> {
+  late String message;
+
+  @override
+  void initState() {
+    super.initState();
+    message = widget.initialMessage;
+  }
+
+  void updateMessage(String newMessage) {
+    if (mounted) {
+      setState(() {
+        message = newMessage;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: customDarkScheme.surfaceContainerHigh,
+      
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        spacing: 10,
+        children: [
+          const SizedBox(height: 6,),
+           CircularProgressIndicator(color: customDarkScheme.primary, year2023: false,),
+           Text(message, style: TextStyle(color: customDarkScheme.onSurface,), textAlign: TextAlign.center,),
+        ],
+      ),
     );
   }
 }

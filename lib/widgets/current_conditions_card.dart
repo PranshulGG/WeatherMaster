@@ -64,6 +64,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
 List<int> itemOrder = [];
 
 
+
 final String orderPrefsKey = 'tile_order';
 
 @override
@@ -193,7 +194,7 @@ List<Widget> gridItems = itemOrder.map((i) {
                       padding: EdgeInsets.only(left: 10),
                       child: Align(
                         alignment: Alignment.centerLeft,
-                        child: Text("${widget.currentHumidity}%", 
+                        child: Text("${widget.currentHumidity == 0.0000001 ? '--' : widget.currentHumidity}%", 
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onTertiaryContainer, fontSize: MediaQuery.of(context).size.width * 0.13, fontWeight: FontWeight.w500),
                           ),
@@ -213,7 +214,7 @@ List<Widget> gridItems = itemOrder.map((i) {
                             color: Theme.of(context).colorScheme.tertiary,
                             borderRadius: BorderRadius.circular(50),
                             ),
-                              child: Center(child: Text("$dewpointConverted°", style: TextStyle(color: Theme.of(context).colorScheme.onTertiary, fontSize: 16))),
+                              child: Center(child: Text(widget.currentDewPoint == 0.0000001 ? '--' : "$dewpointConverted°", style: TextStyle(color: Theme.of(context).colorScheme.onTertiary, fontSize: 16))),
                              ),
                             Text("dew_point".tr(), style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontWeight: FontWeight.w500))
                             ],
@@ -225,11 +226,20 @@ List<Widget> gridItems = itemOrder.map((i) {
                   ),
                   ),
                   onTap: () {
-                    widget.isFromHome ?  Navigator.of(context).push(
+                  if(widget.isFromHome){
+                   if(widget.currentPressure == 0.0000001){
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Row(spacing: 10, children: [Icon(Symbols.error, color: Theme.of(context).colorScheme.onInverseSurface,), Text("No data available")],))
+                    );
+                   } else{
+                      Navigator.of(context).push(
                         MaterialPageRoute(builder: (_) => const ExtendWidget('humidity_widget'), fullscreenDialog: true),
-                      ) : null;
-                  },
-                );
+                    );
+                   }
+                  }                      
+                },
+              );
             case 1:
               return 
               GestureDetector(
@@ -280,7 +290,7 @@ List<Widget> gridItems = itemOrder.map((i) {
                         decoration: BoxDecoration(
                             border: Border(
                             top: BorderSide(
-                              color: Theme.of(context).colorScheme.outline, // Or any color you need
+                              color: Theme.of(context).colorScheme.outline, 
                               width: 1.5,
                             ),
                           ),
@@ -342,7 +352,7 @@ List<Widget> gridItems = itemOrder.map((i) {
 
                 Align(
                   alignment: Alignment.center,
-                  child: Text("${convertedPressure.round()}", style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: MediaQuery.of(context).size.width * 0.1, fontWeight: FontWeight.w500),),
+                  child: Text(widget.currentPressure == 0.0000001 ? '--' : "${convertedPressure.round()}", style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: MediaQuery.of(context).size.width * 0.1, fontWeight: FontWeight.w500),),
                 ),
                 Padding(
                   padding: EdgeInsets.only(bottom: 30),
@@ -355,10 +365,19 @@ List<Widget> gridItems = itemOrder.map((i) {
                 ),
 
               onTap: () {
-                    widget.isFromHome ?  Navigator.of(context).push(
+                  if(widget.isFromHome){
+                   if(widget.currentPressure == 0.0000001){
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Row(spacing: 10, children: [Icon(Symbols.error, color: Theme.of(context).colorScheme.onInverseSurface,), Text("No data available")],))
+                    );
+                   } else{
+                      Navigator.of(context).push(
                         MaterialPageRoute(builder: (_) => const ExtendWidget('pressure_widget'), fullscreenDialog: true),
-                      ) : null;
-                  },
+                    );
+                   }
+                  }
+                },
               );
 
     case 3:
@@ -387,7 +406,7 @@ List<Widget> gridItems = itemOrder.map((i) {
           
                 Align(
                   alignment: Alignment.center,
-                  child: Text("${convertedVisibility.round()}", style: TextStyle(color: Theme.of(context).colorScheme.onTertiaryContainer, fontSize: MediaQuery.of(context).size.width * 0.1, fontWeight: FontWeight.w500),),
+                  child: Text(widget.currentVisibility == 0.0000001 ? '--' : "${convertedVisibility.round()}", style: TextStyle(color: Theme.of(context).colorScheme.onTertiaryContainer, fontSize: MediaQuery.of(context).size.width * 0.1, fontWeight: FontWeight.w500),),
                 ),
                 Padding(
                   padding: EdgeInsets.only(bottom: 30),
@@ -401,10 +420,19 @@ List<Widget> gridItems = itemOrder.map((i) {
                 ),
                 ),
                 onTap: () {
-                    widget.isFromHome ?  Navigator.of(context).push(
+                if(widget.isFromHome){
+                   if(widget.currentVisibility== 0.0000001){
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Row(spacing: 10, children: [Icon(Symbols.error, color: Theme.of(context).colorScheme.onInverseSurface,), Text("No data available")],))
+                    );
+                   } else{
+                      Navigator.of(context).push(
                         MaterialPageRoute(builder: (_) => const ExtendWidget('visibility_widget'), fullscreenDialog: true),
-                      ) : null;
-                  },
+                    );
+                   }
+                  }
+                }
             );
 
       case 4:
@@ -425,7 +453,7 @@ List<Widget> gridItems = itemOrder.map((i) {
                     headerWidgetConditions(headerText: "direction".tr(), headerIcon: Symbols.explore,),
                     Align(
                       alignment: Alignment.center,
-                      child: Text(getCompassDirection(widget.currentWindDirc), style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: MediaQuery.of(context).size.width * 0.1, fontWeight: FontWeight.w500),),
+                      child: Text(widget.currentWindDirc == 0.0000001 ? '--' : getCompassDirection(widget.currentWindDirc), style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: MediaQuery.of(context).size.width * 0.1, fontWeight: FontWeight.w500),),
                     ),
 
                  Align(
@@ -433,7 +461,7 @@ List<Widget> gridItems = itemOrder.map((i) {
                   child:  Container(
                   margin: EdgeInsets.only(left: 20, right: 20),
                   height: 55,
-                  child: Text(getWindSpeedType(widget.currentWindSpeed), style: 
+                  child: Text(widget.currentWindSpeed == 0.0000001 ? '--' : getWindSpeedType(widget.currentWindSpeed), style: 
                   TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 16), maxLines: 1, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center,),
                 ),
                 ),
@@ -442,10 +470,19 @@ List<Widget> gridItems = itemOrder.map((i) {
                  )      
                 ),
                 onTap: () {
-                    widget.isFromHome ?  Navigator.of(context).push(
+                  if(widget.isFromHome){
+                   if(widget.currentWindSpeed == 0.0000001){
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Row(spacing: 10, children: [Icon(Symbols.error, color: Theme.of(context).colorScheme.onInverseSurface,), Text("No data available")],))
+                    );
+                   } else{
+                      Navigator.of(context).push(
                         MaterialPageRoute(builder: (_) => const ExtendWidget('winddirc_widget'), fullscreenDialog: true),
-                      ) : null;
-                  },
+                    );
+                   }
+                  }
+                },
             );
 
         case 5:
@@ -472,13 +509,13 @@ List<Widget> gridItems = itemOrder.map((i) {
           
                 Align(
                   alignment: Alignment.center,
-                  child: Text("${widget.currentUvIndex.round()}", style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: MediaQuery.of(context).size.width * 0.1, fontWeight: FontWeight.w500),),
+                  child: Text("${widget.currentUvIndex == 0.0000001 ? '--' : widget.currentUvIndex.round()}", style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: MediaQuery.of(context).size.width * 0.1, fontWeight: FontWeight.w500),),
                 ),
                 Padding(
                   padding: EdgeInsets.only(bottom: 40),
                child: Align(
                   alignment: Alignment.bottomCenter,
-                  child: Text(getUvIndexType(widget.currentUvIndex.round()), style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 15),),
+                  child: Text(widget.currentUvIndex == 0.0000001 ? '--' : getUvIndexType(widget.currentUvIndex.round()), style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 15),),
                 ),
                 ),
                 ],
@@ -486,10 +523,19 @@ List<Widget> gridItems = itemOrder.map((i) {
                 ),
                 ),
                 onTap: () {
-                    widget.isFromHome ?  Navigator.of(context).push(
+                  if(widget.isFromHome){
+                   if(widget.currentUvIndex == 0.0000001){
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Row(spacing: 10, children: [Icon(Symbols.error, color: Theme.of(context).colorScheme.onInverseSurface,), Text("No data available")],))
+                    );
+                   } else{
+                      Navigator.of(context).push(
                         MaterialPageRoute(builder: (_) => const ExtendWidget('uv_widget'), fullscreenDialog: true),
-                      ) : null;
-                  },
+                    );
+                   }
+                  }
+                }
             );
                 
           case 6:
@@ -512,7 +558,7 @@ List<Widget> gridItems = itemOrder.map((i) {
                         alignment: Alignment.centerRight,
                         child: Padding(
                         padding: EdgeInsets.only(right: 10, bottom: 12),
-                        child: Text(aqiFormat.toString(), style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.11, fontWeight: FontWeight.w500, color: Theme.of(context).colorScheme.onSurface),),
+                        child: Text(aqiFormat == 0.0000001 ? '--' : aqiFormat.toString(), style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.11, fontWeight: FontWeight.w500, color: Theme.of(context).colorScheme.onSurface),),
                       ),
                       ),
                     AQISliderBar(
@@ -523,17 +569,26 @@ List<Widget> gridItems = itemOrder.map((i) {
                         alignment: Alignment.bottomRight,
                         child: Padding(
                         padding: EdgeInsets.only(right: 10, bottom: 25),
-                        child: Text(getAQIIndexType(aqiFormat, aqiUnit == 'European' ? true : false), style: TextStyle(fontSize: 17, color: Theme.of(context).colorScheme.onSurfaceVariant),),
+                        child: Text(aqiFormat == 0.0000001 ? '--' : getAQIIndexType(aqiFormat, aqiUnit == 'European' ? true : false), style: TextStyle(fontSize: 17, color: Theme.of(context).colorScheme.onSurfaceVariant),),
                       ),
                       ),
                     ],
                   ),
                 ),
                 onTap: () {
-                    widget.isFromHome ?  Navigator.of(context).push(
+                  if(widget.isFromHome){
+                   if(aqiFormat == 0.0000001){
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Row(spacing: 10, children: [Icon(Symbols.error, color: Theme.of(context).colorScheme.onInverseSurface,), Text("No data available")],))
+                    );
+                   } else{
+                      Navigator.of(context).push(
                         MaterialPageRoute(builder: (_) => const ExtendWidget('aqi_widget'), fullscreenDialog: true),
-                      ) : null;
-                  },
+                    );
+                   }
+                  }
+                },
             );
 
       case 7:
@@ -558,7 +613,7 @@ List<Widget> gridItems = itemOrder.map((i) {
                        child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                         Text("${double.parse(convertedPrecip.toStringAsFixed(2))}", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.11, fontWeight: FontWeight.w500, color: Theme.of(context).colorScheme.onSurface),),
+                         Text(widget.currentTotalPrec == 0.0000001 ? '--' : "${double.parse(convertedPrecip.toStringAsFixed(2))}", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.11, fontWeight: FontWeight.w500, color: Theme.of(context).colorScheme.onSurface),),
                          Padding(
                           padding: EdgeInsets.only(top: 15),
                           child: Text(precipitationUnit, style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.secondary),),
@@ -586,10 +641,19 @@ List<Widget> gridItems = itemOrder.map((i) {
                   ),
                 ),
                 onTap: () {
-                    widget.isFromHome ?  Navigator.of(context).push(
+                  if(widget.isFromHome){
+                   if(widget.currentTotalPrec == 0.0000001){
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Row(spacing: 10, children: [Icon(Symbols.error, color: Theme.of(context).colorScheme.onInverseSurface,), Text("No data available")],))
+                    );
+                   } else{
+                      Navigator.of(context).push(
                         MaterialPageRoute(builder: (_) => const ExtendWidget('precip_widget'), fullscreenDialog: true),
-                      ) : null;
-                  },
+                    );
+                   }
+                  }
+                },
               );
                     default:
       return const SizedBox();
@@ -1025,7 +1089,7 @@ String buildUVSvg(Color colorSurface, uvValue) {
         <path fill="#af5cf7" d="M143,121m8,-0a8,8 0,1 1,-16 -0a8,8 0,1 1,16 -0" />
     </svg>
     ''';    
-  }
+  } 
 
 
  return returnSvg;

@@ -4,8 +4,6 @@ import 'package:hive/hive.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/unit_converter.dart';
-import 'package:provider/provider.dart';
-import '../notifiers/unit_settings_notifier.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import '../utils/icon_map.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -190,21 +188,21 @@ class _DailyForecastPageState extends State<DailyForecastPage> {
                     SizedBox(
               child: ConditionsWidgets(
                 selectedContainerBgIndex: Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32(),
-                currentHumidity: current['relative_humidity_2m'],
-                currentDewPoint: hourly['dew_point_2m'][0].toDouble(),
-                currentSunrise: daily['sunrise'][0],
-                currentSunset: daily['sunset'][0],
-                currentPressure: current['pressure_msl'],
-                currentVisibility: hourly['visibility'][0],
-                currentWindSpeed: current['wind_speed_10m'],
-                currentWindDirc: current['wind_direction_10m'],
+                currentHumidity: current['relative_humidity_2m'] ?? 0.0000001,
+                currentDewPoint: hourly['dew_point_2m'][0].toDouble() ?? 0.0000001,
+                currentSunrise: daily['sunrise'][0] ?? 0.0000001,
+                currentSunset: daily['sunset'][0] ?? 0.0000001,
+                currentPressure: current['pressure_msl'] ?? 0.0000001,
+                currentVisibility: hourly['visibility'][0] ?? 0.0000001,
+                currentWindSpeed: current['wind_speed_10m'] ?? 0.0000001,
+                currentWindDirc: current['wind_direction_10m'] ?? 0.0000001,
                 timezone: weather['timezone'].toString(),
                 utcOffsetSeconds: weather['utc_offset_seconds'].toString(),
-                currentUvIndex: daily['uv_index_max'][0],
-                currentAQIUSA: weather['air_quality']['current']['us_aqi'],
-                currentAQIEURO: weather['air_quality']['current']['european_aqi'],
-                currentTotalPrec: daily['precipitation_sum'][0],
-                currentDayLength: daily['daylight_duration'][0],
+                currentUvIndex: daily['uv_index_max'][0] ?? 0.0000001,
+                currentAQIUSA: weather['air_quality']['current']['us_aqi'] ?? 0.0000001,
+                currentAQIEURO: weather['air_quality']['current']['european_aqi'] ?? 0.0000001,
+                currentTotalPrec: daily['precipitation_sum'][0] ?? 0.0000001,
+                currentDayLength: daily['daylight_duration'][0] ?? 0.0000001,
                 isFromHome: false,
               ),
             )
@@ -214,15 +212,15 @@ class _DailyForecastPageState extends State<DailyForecastPage> {
               selectedContainerBgIndex: Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32(),
               currentSunrise: daily['sunrise']?[selectedIndex] ?? '',
               currentSunset: daily['sunset']?[selectedIndex] ?? '',
-              currentPressure: hourly['pressure_msl']?[firstIndex] ?? 0,
-              currentVisibility: hourly['visibility']?[firstIndex] ?? 0,
-              currentWindSpeed: daily['wind_speed_10m_max']?[selectedIndex] ?? 0,
-              currentWindDirc: hourly['wind_direction_10m']?[firstIndex] ?? 0,
+              currentPressure: hourly['pressure_msl']?[firstIndex] ?? 0.0000001,
+              currentVisibility: hourly['visibility']?[firstIndex] ?? 0.0000001,
+              currentWindSpeed: daily['wind_speed_10m_max']?[selectedIndex] ?? 0.0000001,
+              currentWindDirc: hourly['wind_direction_10m']?[firstIndex] ?? 0.0000001,
               timezone: weather['timezone'].toString(),
               utcOffsetSeconds: weather['utc_offset_seconds'].toString(),
-              currentUvIndex: daily['uv_index_max']?[selectedIndex] ?? 0,
-              currentTotalPrec: daily['precipitation_sum']?[selectedIndex] ?? 0,
-              currentTotalPrecProb: daily['precipitation_probability_max']?[selectedIndex] ?? 0,
+              currentUvIndex: daily['uv_index_max']?[selectedIndex] ?? 0.0000001,
+              currentTotalPrec: daily['precipitation_sum']?[selectedIndex] ?? 0.0000001,
+              currentTotalPrecProb: daily['precipitation_probability_max']?[selectedIndex] ?? 0.0000001,
             )
             ),
               SizedBox(height: MediaQuery.of(context).padding.bottom + 16,)
@@ -315,7 +313,7 @@ class _DailyForecastCardState extends State<DailyForecastCard> {
 
 
 
-    final tempUnit = context.watch<UnitSettingsNotifier>().tempUnit;
+    final tempUnit = PreferencesHelper.getString("selectedTempUnit") ?? "Celsius";
 
     num convert(num celsius) => tempUnit == "Fahrenheit"
         ? UnitConverter.celsiusToFahrenheit(celsius.toDouble()).round()
@@ -485,9 +483,10 @@ class HourlyCardForecast extends StatelessWidget {
 
     if (startIndex == -1) startIndex = 0;
 
+    final timeUnit = PreferencesHelper.getString("selectedTimeUnit") ?? '12 hr';
+    final tempUnit = PreferencesHelper.getString("selectedTempUnit") ?? "Celsius";
 
 
-    print(startIndex);
 
     return Container(
         decoration: BoxDecoration(
@@ -532,8 +531,8 @@ class HourlyCardForecast extends StatelessWidget {
                   forecastLocal.hour,
                 );
 
-            final hour = context.watch<UnitSettingsNotifier>().timeUnit == '24 hr' ? "${roundedDisplayTime.hour.toString().padLeft(2, '0')}:00" : UnitConverter.formatTo12Hour(roundedDisplayTime);
-            final temp = context.watch<UnitSettingsNotifier>().tempUnit == 'Fahrenheit' ? UnitConverter.celsiusToFahrenheit(hourlyTemps[dataIndex].toDouble()).round() : hourlyTemps[dataIndex].toDouble().round(); 
+            final hour = timeUnit == '24 hr' ? "${roundedDisplayTime.hour.toString().padLeft(2, '0')}:00" : UnitConverter.formatTo12Hour(roundedDisplayTime);
+            final temp = tempUnit == 'Fahrenheit' ? UnitConverter.celsiusToFahrenheit(hourlyTemps[dataIndex].toDouble()).round() : hourlyTemps[dataIndex].toDouble().round(); 
             final code = hourlyWeatherCodes[dataIndex];
             final precipProb = hourlyPrecpProb[dataIndex];
               
@@ -588,6 +587,11 @@ class ForecastDetailsHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    
+    final tempUnit = PreferencesHelper.getString("selectedTempUnit") ?? "Celsius";
+
+
   if (selectedDayData == null) {
       return const Text('No data selected.');
     }
@@ -599,8 +603,8 @@ class ForecastDetailsHeader extends StatelessWidget {
         Padding(padding: EdgeInsets.only(left: 12, right: 12, top: 3),
         child: Text(getCityFromPreferences(), style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 22, fontWeight: FontWeight.w500),)),
         Padding(padding: EdgeInsets.only(left: 12, right: 12),
-        child: Row(children: [Text(context.watch<UnitSettingsNotifier>().tempUnit == 'Fahrenheit' ? "${UnitConverter.celsiusToFahrenheit(selectedDayData!['maxTemp']).round()}°/" : "${selectedDayData!['maxTemp'].round()}°/", style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 56, fontWeight: FontWeight.w500)), 
-        Text(context.watch<UnitSettingsNotifier>().tempUnit == 'Fahrenheit' ? "${UnitConverter.celsiusToFahrenheit(selectedDayData!['minTemp']).round()}°" : "${selectedDayData!['minTemp'].round()}°", style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 56, fontWeight: FontWeight.w500)),
+        child: Row(children: [Text(tempUnit == 'Fahrenheit' ? "${UnitConverter.celsiusToFahrenheit(selectedDayData!['maxTemp']).round()}°/" : "${selectedDayData!['maxTemp'].round()}°/", style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 56, fontWeight: FontWeight.w500)), 
+        Text(tempUnit == 'Fahrenheit' ? "${UnitConverter.celsiusToFahrenheit(selectedDayData!['minTemp']).round()}°" : "${selectedDayData!['minTemp'].round()}°", style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 56, fontWeight: FontWeight.w500)),
         SizedBox(width: 10,),
         SvgPicture.asset(
             WeatherIconMapper.getIcon(selectedDayData!['weatherCode'], 1),
@@ -692,23 +696,30 @@ class ConditionsWidgetsForecast extends StatelessWidget {
       now.microsecond,
     );
 
-    final sunriseFormat = context.watch<UnitSettingsNotifier>().timeUnit == '24 hr' ? DateFormat.Hm().format(sunrise) : DateFormat.jm().format(sunrise);
-    final sunsetFormat = context.watch<UnitSettingsNotifier>().timeUnit == '24 hr' ? DateFormat.Hm().format(sunset) : DateFormat.jm().format(sunset);
+    final timeUnit = PreferencesHelper.getString("selectedTimeUnit") ?? '12 hr';
+    final pressureUnit = PreferencesHelper.getString("selectedPressureUnit") ?? "hPa";
+    final precipUnit = PreferencesHelper.getString("selectedPrecipitationUnit") ?? "mm";
+    final visibilityUnit = PreferencesHelper.getString("selectedVisibilityUnit") ?? "Km";
+    final windUnit = PreferencesHelper.getString("selectedWindUnit") ?? "Km/h";
 
-    final convertedPressure = context.watch<UnitSettingsNotifier>().pressureUnit == 'inHg'
+
+    final sunriseFormat = timeUnit == '24 hr' ? DateFormat.Hm().format(sunrise) : DateFormat.jm().format(sunrise);
+    final sunsetFormat = timeUnit == '24 hr' ? DateFormat.Hm().format(sunset) : DateFormat.jm().format(sunset);
+
+    final convertedPressure = pressureUnit == 'inHg'
         ? UnitConverter.hPaToInHg(currentPressure)
-        : context.watch<UnitSettingsNotifier>().pressureUnit == 'mmHg'
+        : pressureUnit == 'mmHg'
             ? UnitConverter.hPaToMmHg(currentPressure)
             : currentPressure;
 
-    final convertedPrecip = context.watch<UnitSettingsNotifier>().precipitationUnit == 'cm'
+    final convertedPrecip = precipUnit == 'cm'
         ? UnitConverter.mmToCm(currentTotalPrec)
-        : context.watch<UnitSettingsNotifier>().precipitationUnit == 'in'
+        : precipUnit == 'in'
             ? UnitConverter.mmToIn(currentTotalPrec)
             : currentTotalPrec;
 
 
-    final convertedVisibility = context.watch<UnitSettingsNotifier>().visibilityUnit == 'Mile'
+    final convertedVisibility = visibilityUnit == 'Mile'
         ? UnitConverter.mToMiles(currentVisibility.toDouble()) : UnitConverter.mToKm(currentVisibility.toDouble());
 
 
@@ -717,9 +728,9 @@ class ConditionsWidgetsForecast extends StatelessWidget {
     }
 
 
-        final convertedwindSpeed = context.watch<UnitSettingsNotifier>().windUnit == 'Mph'
+        final convertedwindSpeed = windUnit == 'Mph'
         ? UnitConverter.kmhToMph(currentWindSpeed)
-        : context.watch<UnitSettingsNotifier>().windUnit == 'M/s'
+        : windUnit == 'M/s'
             ? UnitConverter.kmhToMs(currentWindSpeed)
             : currentWindSpeed.toStringAsFixed(0);
 
@@ -825,13 +836,13 @@ class ConditionsWidgetsForecast extends StatelessWidget {
 
                 Align(
                   alignment: Alignment.center,
-                  child: Text("${convertedPressure.round()}", style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: MediaQuery.of(context).size.width * 0.1, fontWeight: FontWeight.w500),),
+                  child: Text(currentPressure == 0.0000001 ? '--' : "${convertedPressure.round()}", style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: MediaQuery.of(context).size.width * 0.1, fontWeight: FontWeight.w500),),
                 ),
                 Padding(
                   padding: EdgeInsets.only(bottom: 30),
                child: Align(
                   alignment: Alignment.bottomCenter,
-                  child: Text(context.watch<UnitSettingsNotifier>().pressureUnit, style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 18),),
+                  child: Text(pressureUnit, style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 18),),
                 ),
                 ),
                 ]
@@ -859,13 +870,13 @@ class ConditionsWidgetsForecast extends StatelessWidget {
           
                 Align(
                   alignment: Alignment.center,
-                  child: Text("${convertedVisibility.round()}", style: TextStyle(color: Theme.of(context).colorScheme.onTertiaryContainer, fontSize: MediaQuery.of(context).size.width * 0.1, fontWeight: FontWeight.w500),),
+                  child: Text(currentVisibility == 0.0000001 ? '--' : "${convertedVisibility.round()}", style: TextStyle(color: Theme.of(context).colorScheme.onTertiaryContainer, fontSize: MediaQuery.of(context).size.width * 0.1, fontWeight: FontWeight.w500),),
                 ),
                 Padding(
                   padding: EdgeInsets.only(bottom: 30),
                child: Align(
                   alignment: Alignment.bottomCenter,
-                  child: Text(context.watch<UnitSettingsNotifier>().visibilityUnit, style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 18),),
+                  child: Text(visibilityUnit, style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 18),),
                 ),
                 ),
                 ],
@@ -882,12 +893,12 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                     ),
                     child: Stack(
                       children: [
-              WindCompassWidget(currentWindDirc: currentWindDirc, backgroundColor: Color(selectedContainerBgIndex)),
+                   WindCompassWidget(currentWindDirc: currentWindDirc, backgroundColor: Color(selectedContainerBgIndex)),
 
                     headerWidgetConditions(headerText: "direction".tr(), headerIcon: Symbols.explore,),
                     Align(
                       alignment: Alignment.center,
-                      child: Text(getCompassDirection(currentWindDirc), style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: MediaQuery.of(context).size.width * 0.1, fontWeight: FontWeight.w500),),
+                      child: Text(currentWindDirc == 0.0000001 ? '--' : getCompassDirection(currentWindDirc), style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: MediaQuery.of(context).size.width * 0.1, fontWeight: FontWeight.w500),),
                     ),
 
                  Align(
@@ -895,7 +906,7 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                   child:  Container(
                   margin: EdgeInsets.only(left: 20, right: 20),
                   height: 55,
-                  child: Text("$convertedwindSpeed ${context.watch<UnitSettingsNotifier>().windUnit}", style: 
+                  child: Text(currentWindSpeed == 0.0000001 ? '--' : "$convertedwindSpeed $windUnit", style: 
                   TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 16), maxLines: 1, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center,),
                 ),
                 ),
@@ -926,13 +937,13 @@ class ConditionsWidgetsForecast extends StatelessWidget {
           
                 Align(
                   alignment: Alignment.center,
-                  child: Text("${currentUvIndex.round()}", style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: MediaQuery.of(context).size.width * 0.1, fontWeight: FontWeight.w500),),
+                  child: Text(currentUvIndex == 0.0000001 ? '--' : "${currentUvIndex.round()}", style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: MediaQuery.of(context).size.width * 0.1, fontWeight: FontWeight.w500),),
                 ),
                 Padding(
                   padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.width * 0.11),
                child: Align(
                   alignment: Alignment.bottomCenter,
-                  child: Text(getUvIndexType(currentUvIndex.round()), style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 15),),
+                  child: Text(currentUvIndex == 0.0000001 ? '--' : getUvIndexType(currentUvIndex.round()), style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 15),),
                 ),
                 ),
                 ],
@@ -960,10 +971,10 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                        child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                         Text("${double.parse(convertedPrecip.toStringAsFixed(2))}", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.11, fontWeight: FontWeight.w500, color: Theme.of(context).colorScheme.onSurface),),
+                         Text(currentTotalPrec == 0.0000001 ? '--' : "${double.parse(convertedPrecip.toStringAsFixed(2))}", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.11, fontWeight: FontWeight.w500, color: Theme.of(context).colorScheme.onSurface),),
                          Padding(
                           padding: EdgeInsets.only(top: 15),
-                          child: Text(context.watch<UnitSettingsNotifier>().precipitationUnit, style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.secondary),),
+                          child: Text(precipUnit, style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.secondary),),
                          ),
                           ],
                         ),
@@ -979,7 +990,7 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                       SizedBox(
                         width: 100,
                          child: Text("Total rain for the day", style: TextStyle(height: 1.2, color: Theme.of(context).colorScheme.onSurfaceVariant))),
-                          Text("$currentTotalPrecProb%", style: TextStyle(fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.primary),)
+                          Text(currentTotalPrecProb == 0.0000001 ? '--' : "$currentTotalPrecProb%", style: TextStyle(fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.primary),)
                         ],
                       )
                       )
