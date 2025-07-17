@@ -53,7 +53,7 @@ class _AppUnitsPageState extends State<AppUnitsPage> {
                     title: Text('wind_unit'.tr()),
                     value: SettingTileValue(PreferencesHelper.getString("selectedWindUnit") ?? "Km/h"),
                     dialogTitle: 'wind_unit'.tr(),
-                    options: const ['Km/h', 'Mph', 'M/s'],
+                    options: const ['Km/h', 'Mph', 'M/s', 'Bft'],
                     initialOption: PreferencesHelper.getString("selectedWindUnit") ?? "Km/h",
                     onSubmitted: (value) {
                       context.read<UnitSettingsNotifier>().updateWindUnit(value);

@@ -8,7 +8,7 @@ class ThemeController extends ChangeNotifier {
   CorePalette? _corePalette;
 
   ThemeMode _themeMode = PreferencesHelper.getString("AppTheme") == "Light"
-      ? ThemeMode.light
+      ? ThemeMode.light : PreferencesHelper.getString("AppTheme") == "Auto" ? ThemeMode.system
       : ThemeMode.dark;
 
   bool isCustom = PreferencesHelper.getBool("usingCustomSeed") ?? false;
