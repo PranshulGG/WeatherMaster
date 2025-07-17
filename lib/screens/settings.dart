@@ -15,6 +15,7 @@ import 'about_page.dart';
 import 'meteo_models.dart';
 import 'edit_layout_page.dart';
 
+
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
@@ -54,7 +55,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       "Light": "theme_light".tr()
     };
 
-
+  final String urlString =
+      'https://embed.windy.com/embed.html?type=map&location=coordinates&zoom=5&overlay=rain&product=ecmwf&level=surface&lat=28.576&lon=77.335';
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
@@ -210,6 +212,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       );                      
                     }, 
                   ),  
+
+                                    
             ],
           ),
      

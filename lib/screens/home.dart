@@ -32,6 +32,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import '../widgets/pollen_card.dart';
 import '../models/layout_config.dart';
+import '../utils/snack_util.dart';
 
 class WeatherHome extends StatefulWidget {
 
@@ -387,6 +388,15 @@ Future<void> _loadWeatherIconFroggy(int weatherCode, bool isDay, newindex) async
 
 
 Future<void> _refreshWeatherData() async {
+
+  final hasInternet = await hasRealInternet();
+
+  if (!hasInternet) {
+    if (!mounted) return;
+      SnackUtil.showSnackBar(context: context, message: 'network_unavailable.'.tr());
+    return;
+  }
+  
   if (lat == null || lon == null) {
     return;
   }
@@ -407,7 +417,7 @@ Future<void> _refreshWeatherData() async {
     final difference = now.difference(lastUpdated);
     if (difference.inMinutes < 10) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Weather is already up to date.',)),
+       SnackBar(content: Text('Please_wait_before_refreshing_again.'.tr(),)),
       );
       return;
     }
@@ -582,21 +592,17 @@ void didChangeDependencies() {
   @override
   Widget build(BuildContext context) {
 
-
-
-    
-
-      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-
         SystemChrome.setSystemUIOverlayStyle(
          SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
+          statusBarColor: Color(0x01000000),
           statusBarIconBrightness: isLight ? Brightness.dark : Brightness.light,
-          systemNavigationBarColor: Colors.transparent,
+          systemNavigationBarIconBrightness: isLight ? Brightness.dark : Brightness.light,
+          systemNavigationBarColor: MediaQuery.of(context).systemGestureInsets.left > 0 ? Color(0x01000000) : isLight ? Color(0x01000000) : Color.fromRGBO(0, 0, 0, 0.3)
           
         ),
       );
 
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
       
 
 
@@ -980,8 +986,8 @@ String _formatLastUpdated(String isoTime) {
   final difference = now.difference(dt);
 
   if (difference.inMinutes < 1) return 'just now';
-  if (difference.inMinutes < 60) return '${difference.inMinutes} min. ago';
-  if (difference.inHours < 24) return '${difference.inHours} hr. ago';
+  if (difference.inMinutes < 60) return '${difference.inMinutes} min. ${'ago'.tr()}';
+  if (difference.inHours < 24) return '${difference.inHours} hr. ${'ago'.tr()}';
   return '${dt.month}/${dt.day} at ${dt.hour}:${dt.minute.toString().padLeft(2, '0')}';
 }
 
@@ -1059,7 +1065,7 @@ Widget _buildWeatherContent() {
 
       final List<int> weatherContainerColors = [
         // cloudy
-        isLight ? paletteWeather.secondary.get(98) : paletteWeather.secondary.get(12),
+        isLight ? paletteWeather.secondary.get(98) : 0xff0e1d2a,
 
           // overcast
          isLight ? 0xFFfcfcff : paletteWeather.secondary.get(6),
@@ -1182,17 +1188,19 @@ WidgetsBinding.instance.addPostFrameCallback((_) {
     final useFullMaterialScheme = PreferencesHelper.getBool("OnlyMaterialScheme") ?? false;
 
 
-      final int newIndex = isDay
-          ? dayGradients[weatherCode] ?? 0
-          : nightGradients[weatherCode] ?? 0;
+
 
 
     String formattedTime = lastUpdated != null
         ? _formatLastUpdated(lastUpdated)
         : 'Unknown';
-
+        final int newIndex = isDay
+          ? dayGradients[weatherCode] ?? 0
+          : nightGradients[weatherCode] ?? 0;
 
 if (lastWeatherCode != weatherCode || lastIsDay != isDay) {
+
+
         lastWeatherCode = weatherCode;
         lastIsDay = isDay;
 
@@ -1365,21 +1373,21 @@ Widget buildLayoutBlock(LayoutBlockType type) {
               // width: 380,
               child: ConditionsWidgets(
                 selectedContainerBgIndex: useFullMaterialScheme ? Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32() : weatherContainerColors[selectedContainerBgIndex],
-                currentHumidity: current['relative_humidity_2m'],
-                currentDewPoint: hourly['dew_point_2m'][getStartIndex(weather['utc_offset_seconds'].toString(), hourlyTime)].toDouble(),
-                currentSunrise: daily['sunrise'][0],
-                currentSunset: daily['sunset'][0],
-                currentPressure: current['pressure_msl'],
-                currentVisibility: hourly['visibility'][getStartIndex(weather['utc_offset_seconds'].toString(), hourlyTime)],
-                currentWindSpeed: current['wind_speed_10m'],
-                currentWindDirc: current['wind_direction_10m'],
+                currentHumidity: current['relative_humidity_2m'] ?? 0.0000001,
+                currentDewPoint: hourly['dew_point_2m'][getStartIndex(weather['utc_offset_seconds'].toString(), hourlyTime)].toDouble() ?? 0.0000001,
+                currentSunrise: daily['sunrise'][0] ?? 0.0000001,
+                currentSunset: daily['sunset'][0] ?? 0.0000001,
+                currentPressure: current['pressure_msl'] ?? 0.0000001,
+                currentVisibility: hourly['visibility'][getStartIndex(weather['utc_offset_seconds'].toString(), hourlyTime)] ?? 0.0000001,
+                currentWindSpeed: current['wind_speed_10m'] ?? 0.0000001,
+                currentWindDirc: current['wind_direction_10m'] ?? 0.0000001,
                 timezone: weather['timezone'].toString(),
                 utcOffsetSeconds: weather['utc_offset_seconds'].toString(),
-                currentUvIndex: hourly['uv_index'][getStartIndex(weather['utc_offset_seconds'].toString(), hourlyTime)],
-                currentAQIUSA: weather['air_quality']['current']['us_aqi'],
-                currentAQIEURO: weather['air_quality']['current']['european_aqi'],
-                currentTotalPrec: daily['precipitation_sum'][0],
-                currentDayLength: daily['daylight_duration'][0],
+                currentUvIndex: hourly['uv_index'][getStartIndex(weather['utc_offset_seconds'].toString(), hourlyTime)] ?? 0.0000001,
+                currentAQIUSA: weather['air_quality']['current']['us_aqi'] ?? 0.0000001,
+                currentAQIEURO: weather['air_quality']['current']['european_aqi'] ?? 0.0000001,
+                currentTotalPrec: daily['precipitation_sum'][0] ?? 0.0000001,
+                currentDayLength: daily['daylight_duration'][0] ?? 0.0000001,
                 isFromHome: true,
               ),
           );
@@ -1544,27 +1552,26 @@ Widget buildLayoutBlock(LayoutBlockType type) {
                 ),
         WeatherFrogIconWidget(iconUrl: _iconUrlFroggy),
          const SizedBox(height: 12),
-Column(
-  children: () {
-    final visibleBlocks = layoutConfig.where((block) => block.isVisible).toList();
+      Column(
+        children: () {
+          final visibleBlocks = layoutConfig.where((block) => block.isVisible).toList();
 
-    final List<Widget> children = [];
-    for (int i = 0; i < visibleBlocks.length; i++) {
-      final currentBlock = visibleBlocks[i];
-      children.add(buildLayoutBlock(currentBlock.type));
+          final List<Widget> children = [];
+          for (int i = 0; i < visibleBlocks.length; i++) {
+            final currentBlock = visibleBlocks[i];
+            children.add(buildLayoutBlock(currentBlock.type));
 
-      // Only add spacing if NOT between RainBlock and ShowInsights
-      final isRainThenInsights = currentBlock.type == LayoutBlockType.rain &&
-          i + 1 < visibleBlocks.length &&
-          visibleBlocks[i + 1].type == LayoutBlockType.insights;
+            final isRainThenInsights = currentBlock.type == LayoutBlockType.rain &&
+                i + 1 < visibleBlocks.length &&
+                visibleBlocks[i + 1].type == LayoutBlockType.insights;
 
-      if (!isRainThenInsights && i < visibleBlocks.length - 1) {
-        children.add(const SizedBox(height: 8.5));
-      }
-    }
-    return children;
-  }(),
-),
+            if (!isRainThenInsights && i < visibleBlocks.length - 1) {
+              children.add(const SizedBox(height: 8.5));
+            }
+          }
+          return children;
+        }(),
+      ),
 
 
           

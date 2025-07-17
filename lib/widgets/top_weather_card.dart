@@ -41,7 +41,6 @@ class _WeatherTopCardState extends State<WeatherTopCard> {
   @override
   void initState() {
     super.initState();
-    // Wait for the widget to render to get its size
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _updateLabelHeight();
     });
@@ -52,7 +51,6 @@ void _updateLabelHeight() {
   if (context != null) {
     final box = context.findRenderObject() as RenderBox;
     final height = box.size.height;
-    print("Measured label height: $height"); // <-- ADD THIS
     setState(() {
       _labelHeight = height;
     });
@@ -77,11 +75,14 @@ void _updateLabelHeight() {
 
     return  Padding(
       padding: const EdgeInsets.fromLTRB(16, 5, 16, 10),
+      
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
+      
         children: [
             Column(
+              
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("now".tr(), style: TextStyle(color: Theme.of(context).colorScheme.secondary, fontSize: 18, fontWeight: FontWeight.w400),),

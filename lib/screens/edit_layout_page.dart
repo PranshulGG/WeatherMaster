@@ -189,19 +189,19 @@ floatingActionButton: Row(
 String getTitle(String type){
 
   if(type == 'rain'){
-    return 'Rain card';
+    return 'rain_card'.tr();
   } else if (type == 'insights'){
-    return 'Insights';
+    return 'insights'.tr();
   } else if (type == 'summary'){
-    return 'Summary card';
+    return 'summary_card'.tr();
   } else if (type == 'hourly'){
-    return 'Hourly card';
+    return 'hourly_card'.tr();
   } else if (type == 'daily'){
-    return 'Daily card';  
+    return 'daily_card'.tr();  
   } else if (type == 'conditions'){
-    return 'Current conditions';  
+    return 'current_conditions'.tr();  
   } else if (type == 'pollen'){
-    return 'Pollen card';  
+    return 'pollen_card'.tr();  
   } else{
     return 'Not found';
   }

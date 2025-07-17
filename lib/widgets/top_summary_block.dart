@@ -108,57 +108,57 @@ String generateHeadline(
 
   if (isStormy(weatherCode)) {
     base = _random([
-      "Stormy weather on the horizon",
-      "Thunderstorms expected — stay safe",
-      "Rough weather ahead with storms likely",
+      "summary_headlines_1".tr(),
+      "summary_headlines_2".tr(),
+      "summary_headlines_3".tr(),
     ]);
   } else if (isRainy(weatherCode)) {
     base = _random([
-      "Rain showers likely through the day",
-      "Pack an umbrella — rain is on the way",
-      "Expect a damp and drizzly forecast",
+      "summary_headlines_4".tr(),
+      "summary_headlines_5".tr(),
+      "summary_headlines_6".tr(),
     ]);
   } else if (isCloudy(cloudCover)) {
     base = _random([
-      "Gray skies and little sunshine",
-      "Cloudy and cool throughout the day",
-      "Overcast start with filtered light",
+      "summary_headlines_7".tr(),
+      "summary_headlines_8".tr(),
+      "summary_headlines_9".tr(),
     ]);
   } else if (uv > 7 && temp > 23 && isClear(cloudCover)) {
     base = _random([
-      "Scorching sun with intense UV",
-      "Hot and blazing under clear skies",
-      "Heat and sunshine dominate the forecast",
+      "summary_headlines_10".tr(),
+      "summary_headlines_11".tr(),
+      "summary_headlines_12".tr(),
     ]);
   } else if (uv > 7 && isClear(cloudCover)) {
     base = _random([
-      "Bright and sunny — UV is high",
-      "Sun’s out strong today",
-      "Clear skies with a UV warning",
+      "summary_headlines_13".tr(),
+      "summary_headlines_14".tr(),
+      "summary_headlines_15".tr(),
     ]);
   } else if (humidity > 75) {
     base = _random([
-      "A muggy and warm start",
-      "Sticky weather sets the tone",
-      "Expect a humid, clingy morning",
+      "summary_headlines_16".tr(),
+      "summary_headlines_17".tr(),
+      "summary_headlines_18".tr(),
     ]);
   } else if (wind > 15) {
     base = _random([
-      "Gusty winds early on",
-      "Windy and brisk as the day begins",
-      "Hold onto your hat — it's breezy",
+      "summary_headlines_19".tr(),
+      "summary_headlines_20".tr(),
+      "summary_headlines_21".tr(),
     ]);
   } else if (temp < 15) {
     base = _random([
-      "Chilly start to the day",
-      "Cool and crisp morning ahead",
-      "Bundle up — it's brisk outside",
+      "summary_headlines_22".tr(),
+      "summary_headlines_23".tr(),
+      "summary_headlines_24".tr(),
     ]);
   } else {
     base = _random([
-      "Pleasant and calm start to the day",
-      "Fair weather to kick things off",
-      "A mild and comfortable morning",
+      "summary_headlines_25".tr(),
+      "summary_headlines_26".tr(),
+      "summary_headlines_27".tr(),
     ]);
   }
 
@@ -185,40 +185,40 @@ String getHeadlineSuffix({
 
   if (uv >= 7) {
     suffixes.add(_random([
-      "UV levels peak around midday",
-      "take care in the sun",
-      "sunburn risk is high",
-      "strong UV rays later on",
+      "summary_suffixes_1".tr(),
+      "summary_suffixes_2".tr(),
+      "summary_suffixes_3".tr(),
+      "summary_suffixes_4".tr(),
     ]));
   }
 
   if (wind >= 15) {
     suffixes.add(_random([
-      "winds picking up by afternoon",
-      "expect gusts later in the day",
-      "breezy conditions to continue",
+      "summary_suffixes_5".tr(),
+      "summary_suffixes_6".tr(),
+      "summary_suffixes_7".tr(),
     ]));
   }
 
   if ((airQuality ?? 0) > 100) {
     suffixes.add(_random([
-      "air quality may be unhealthy",
-      "watch for pollution levels",
-      "smog could be a concern",
+      "summary_suffixes_8".tr(),
+      "summary_suffixes_9".tr(),
+      "summary_suffixes_10".tr(),
     ]));
   }
 
   if (humidity > 70 && temp > 23) {
     suffixes.add(_random([
-      "humidity builds throughout the day",
-      "sweaty conditions expected",
-      "feels hotter than it is",
+      "summary_suffixes_11".tr(),
+      "summary_suffixes_12".tr(),
+      "summary_suffixes_13".tr(),
     ]));
   }
 
   if (suffixes.isEmpty) return ".";
 
-  final selected = suffixes.take(2).join(" and ");
+  final selected = suffixes.take(2).join(" ${"summary_suffixes_and".tr()} ");
   return " — $selected.";
 }
 
@@ -280,7 +280,6 @@ void computeWeatherSummary() {
 }
 
 Widget buildWeatherSummaryWidget(BuildContext context, bool isExpanded) {
-
 
   return Padding(
    padding: EdgeInsets.only(left: 16, right: 12), 
@@ -367,29 +366,74 @@ final windUnit = context.watch<UnitSettingsNotifier>().windUnit;
 final isFahrenheit = tempUnit == 'Fahrenheit';
 
 final tempOptions = [
-  "Temperatures ranging between ${isFahrenheit ? UnitConverter.celsiusToFahrenheit(tempMin).round() : tempMin.toStringAsFixed(0)}° and ${isFahrenheit ? UnitConverter.celsiusToFahrenheit(tempMax).round() : tempMax.toStringAsFixed(0)}°.",
-  "Expect a daytime range from ${isFahrenheit ? UnitConverter.celsiusToFahrenheit(tempMin).round() : tempMin.toStringAsFixed(0)}° to ${isFahrenheit ? UnitConverter.celsiusToFahrenheit(tempMax).round() : tempMax.toStringAsFixed(0)}°.",
-  "Today's high will reach around ${isFahrenheit ? UnitConverter.celsiusToFahrenheit(tempMax).round() : tempMax.toStringAsFixed(0)}° after a cooler start.",
+  "bulletstempOptions_1".tr(namedArgs: {
+    'min': isFahrenheit
+        ? UnitConverter.celsiusToFahrenheit(tempMin).round().toString()
+        : tempMin.toStringAsFixed(0),
+    'max': isFahrenheit
+        ? UnitConverter.celsiusToFahrenheit(tempMax).round().toString()
+        : tempMax.toStringAsFixed(0),
+  }),
+
+    "bulletstempOptions_2".tr(namedArgs: {
+    'min': isFahrenheit
+        ? UnitConverter.celsiusToFahrenheit(tempMin).round().toString()
+        : tempMin.toStringAsFixed(0),
+    'max': isFahrenheit
+        ? UnitConverter.celsiusToFahrenheit(tempMax).round().toString()
+        : tempMax.toStringAsFixed(0),
+  }),
+
+
+    "bulletstempOptions_3".tr(namedArgs: {
+    'max': isFahrenheit
+        ? UnitConverter.celsiusToFahrenheit(tempMax).round().toString()
+        : tempMax.toStringAsFixed(0),
+  }),
+
 ];
 
   bullets.add(tempOptions[rand.nextInt(tempOptions.length)]);
 
   if (uvIndex > 2) {
     final uvTime = context.watch<UnitSettingsNotifier>().timeUnit == '24 hr' ? "$uvHour:00" : formatHour(uvHour);
-    final uvOptions = [
-      "UV index peaks around $uvTime at ${uvIndex.toStringAsFixed(0)}.",
-      "Strong UV expected near $uvTime — sun protection recommended.",
-      "High UV levels around $uvTime could pose a risk outdoors.",
-    ];
+      final uvOptions = [
+      "bulletsUVOptions_1".tr(namedArgs: {
+      'uvTime': uvTime.toString(),
+      'uvIndex': uvIndex.toStringAsFixed(0),
+    }),
+
+      "bulletsUVOptions_2".tr(namedArgs: {
+        'uvTime': uvTime.toString(),
+    }),
+      "bulletsUVOptions_3".tr(namedArgs: {
+      'uvTime': uvTime.toString(),
+    }),
+  ];
     bullets.add(uvOptions[rand.nextInt(uvOptions.length)]);
   }
 
   if (humidity > 60) {
     final time = context.watch<UnitSettingsNotifier>().timeUnit == '24 hr' ? "$dewHour:00" : formatHour(dewHour);
     final humidityOptions = [
-      "${humidity.toStringAsFixed(0)}% humidity with a dew point of ${tempUnit == 'Fahrenheit' ? UnitConverter.celsiusToFahrenheit(dewPoint).round() : dewPoint.toStringAsFixed(0)}° by $time.",
-      "Feels humid later — dew point near ${tempUnit == 'Fahrenheit' ? UnitConverter.celsiusToFahrenheit(dewPoint).round() : dewPoint.toStringAsFixed(0)}° at $time.",
-      "Sticky conditions expected by $time with ${humidity.toStringAsFixed(0)}% humidity.",
+      "bulletsHUMIDITYOptions_1".tr(namedArgs: {
+        'humidity': humidity.toStringAsFixed(0),
+        'dewpoint': tempUnit == 'Fahrenheit'
+            ? UnitConverter.celsiusToFahrenheit(dewPoint).round().toString() : dewPoint.toStringAsFixed(0),
+        'time': time.toString()
+      }),
+
+        "bulletsHUMIDITYOptions_2".tr(namedArgs: {
+        'dewpoint': tempUnit == 'Fahrenheit'
+            ? UnitConverter.celsiusToFahrenheit(dewPoint).round().toString() : dewPoint.toStringAsFixed(0),
+        'time': time.toString()
+      }),
+
+
+        "bulletsHUMIDITYOptions_3".tr(namedArgs: {
+        'time': time.toString(),
+        'humidity': humidity.toStringAsFixed(0),
+      }),
     ];
     bullets.add(humidityOptions[rand.nextInt(humidityOptions.length)]);
   }
@@ -401,20 +445,26 @@ final tempOptions = [
             ? UnitConverter.kmhToMs(windSpeed)
             : windSpeed.toStringAsFixed(0);
     final windOptions = [
-      "Breezy conditions with winds up to $convertedwindSpeed $windUnit.",
-      "Wind picks up during the day, reaching $convertedwindSpeed $windUnit.",
+      "bulletsWINDOptions_1".tr(namedArgs: {
+        'windSpeed': convertedwindSpeed.toString(),
+        'windUnit': windUnit.toString(),
+      }),
+      "bulletsWINDOptions_2".tr(namedArgs: {
+        'windSpeed': convertedwindSpeed.toString(),
+        'windUnit': windUnit.toString(),
+      }),
     ];
     bullets.add(windOptions[rand.nextInt(windOptions.length)]);
   }
 
   if (airQuality != null) {
     if (airQuality > 100) {
-      bullets.add("Air quality is poor right now — consider limiting time outside.");
+      bullets.add("bulletsAQIOptions_1".tr());
     } else {
       final airOptions = [
-        "Good air quality at the moment.",
-        "No air quality concerns currently.",
-        "Breathable conditions outdoors today.",
+        "bulletsAQIOptions_2".tr(),
+        "bulletsAQIOptions_3".tr(),
+        "bulletsAQIOptions_4".tr(),
       ];
       bullets.add(airOptions[rand.nextInt(airOptions.length)]);
     }

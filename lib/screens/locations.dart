@@ -25,11 +25,13 @@ final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
 
 class _LocationsScreenState extends State<LocationsScreen> {
   List<SavedLocation> savedLocations = [];
+  bool _isFirstBuild = true;
 
   @override
   void initState() {
     super.initState();
     loadSavedLocations();
+
   }
 
   Future<void> loadSavedLocations() async {
@@ -110,7 +112,7 @@ Future<String?> getWeatherLastUpdatedFromCache(cacheKey) async {
 }
   bool? isOnlyHomeLocation = false;
   bool isEditing = false;
-
+  
   @override
   Widget build(BuildContext context) {
     return 
@@ -126,6 +128,7 @@ Future<String?> getWeatherLastUpdatedFromCache(cacheKey) async {
             IconButton(
               icon: Icon(isEditing ? Icons.check : Icons.edit),
               onPressed: () {
+                _isFirstBuild = false;
                 setState(() {
                   isEditing = !isEditing;
                 });
@@ -134,22 +137,22 @@ Future<String?> getWeatherLastUpdatedFromCache(cacheKey) async {
             SizedBox(width: 5,)
           ],
           ),
-body: AnimatedSwitcher(
-  duration: Duration(milliseconds: 300),
-  switchInCurve: Curves.easeIn,
-  switchOutCurve: Curves.easeOut,
-transitionBuilder: (Widget child, Animation<double> animation) {
-  return SlideTransition(
-    position: Tween<Offset>(
-      begin: Offset(0.0, 0.1),
-      end: Offset.zero,
-    ).animate(animation),
-    child: FadeTransition(
-      opacity: animation,
-      child: child,
-    ),
-  );
-},
+        body: AnimatedSwitcher(
+          duration: _isFirstBuild ? Duration.zero : Duration(milliseconds: 300),
+          switchInCurve: Curves.easeIn,
+          switchOutCurve: Curves.easeOut,
+        transitionBuilder: (Widget child, Animation<double> animation) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: Offset(0.0, 0.1),
+              end: Offset.zero,
+            ).animate(animation),
+            child: FadeTransition(
+              opacity: animation,
+              child: child,
+            ),
+          );
+        },
 
 
   child: isEditing

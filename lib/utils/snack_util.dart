@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class SnackUtil {
-  /// Shows a reusable SnackBar with optional action.
   static void showSnackBar({
     required BuildContext context,
     required String message,
