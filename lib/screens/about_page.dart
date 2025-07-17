@@ -333,7 +333,7 @@ class CheckUpdateButton extends StatefulWidget {
 }
 
 class _CheckUpdateButtonState extends State<CheckUpdateButton> {
-  final String currentVersion = 'v2.0.0';
+  final String currentVersion = 'v2.1.0';
   final String githubRepo = 'PranshulGG/WeatherMaster';
   bool isChecking = false;
 

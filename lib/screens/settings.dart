@@ -51,6 +51,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final isSupported = themeController.isDynamicColorSupported;
 
     final optionsTheme = {
+      "Auto": "Auto",
       "Dark": "theme_dark".tr(),
       "Light": "theme_light".tr()
     };
@@ -81,14 +82,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     icon: Icon(Symbols.routine),
                     title: Text('app_theme_dark_light'.tr()),
                     dialogTitle: 'app_theme_dark_light'.tr(),
-                    value: SettingTileValue(optionsTheme[currentMode == ThemeMode.light ? "Light" : "Dark"]!),
+                    value: SettingTileValue(optionsTheme[currentMode == ThemeMode.light ? "Light" : currentMode == ThemeMode.system ? "Auto" : "Dark"]!),
                     options: optionsTheme.values.toList(),
-                    initialOption: optionsTheme[currentMode == ThemeMode.light ? "Light" : "Dark"]!,
+                    initialOption: optionsTheme[currentMode == ThemeMode.light ? "Light" : currentMode == ThemeMode.system ? "Auto" : "Dark"]!,
                     onSubmitted: (value) {
                       setState(() {
                       final selectedKey = optionsTheme.entries.firstWhere((e) => e.value == value).key;
                       PreferencesHelper.setString("AppTheme", selectedKey);
-                      themeController.setThemeMode(selectedKey == "Dark" ? ThemeMode.dark : ThemeMode.light);
+                      themeController.setThemeMode(selectedKey == "Dark" ? ThemeMode.dark : selectedKey == "Auto" ? ThemeMode.system :  ThemeMode.light);
                       });
                     },
                   ),

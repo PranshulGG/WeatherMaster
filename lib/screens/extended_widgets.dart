@@ -940,8 +940,13 @@ final duskFormatted = formatInstantToLocalTime(dusk, timeUnit: timeFormatDUSKDAW
   final double avgWind = todayWindSpeeds.isNotEmpty
       ? todayWindSpeeds.reduce((a, b) => a + b) / todayWindSpeeds.length
       : 0;
+    final windUnit = PreferencesHelper.getString("selectedWindUnit") ?? 'Km/h';
 
-
+      final formattedAvgWindSpeed =  windUnit == 'Mph'
+        ? UnitConverter.kmhToMph(avgWind)
+        : windUnit == 'M/s'
+            ? UnitConverter.kmhToMs(avgWind)  : windUnit == 'Bft' ? UnitConverter.kmhToBeaufort(avgWind)
+            : avgWind;
 
      return Column(
    children: [ 
@@ -966,7 +971,7 @@ final duskFormatted = formatInstantToLocalTime(dusk, timeUnit: timeFormatDUSKDAW
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text("${PreferencesHelper.getString("selectedWindUnit") == 'M/s' ? avgWind.toStringAsFixed(1) : avgWind.round()}", style: TextStyle(fontSize: 50,  color: Theme.of(context).colorScheme.secondary, fontWeight: FontWeight.w500),),
+                Text("${PreferencesHelper.getString("selectedWindUnit") == 'M/s' ? formattedAvgWindSpeed.toStringAsFixed(1) : formattedAvgWindSpeed.round()}", style: TextStyle(fontSize: 50,  color: Theme.of(context).colorScheme.secondary, fontWeight: FontWeight.w500),),
                 Padding(padding: EdgeInsets.only(bottom: 11, left: 8),
                child: Text(PreferencesHelper.getString("selectedWindUnit") ?? 'Km/h', style: TextStyle(fontSize: 20,  color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500),))
               ],
@@ -1008,7 +1013,7 @@ final duskFormatted = formatInstantToLocalTime(dusk, timeUnit: timeFormatDUSKDAW
       final formattedWindSpeed =  windUnit == 'Mph'
         ? UnitConverter.kmhToMph(windSpeed)
         : windUnit == 'M/s'
-            ? UnitConverter.kmhToMs(windSpeed)
+            ? UnitConverter.kmhToMs(windSpeed)  : windUnit == 'Bft' ? UnitConverter.kmhToBeaufort(windSpeed)
             : windSpeed;
 
 
