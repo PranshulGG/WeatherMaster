@@ -63,7 +63,6 @@ class _WeatherHomeState extends State<WeatherHome> {
 
   List<LayoutBlockConfig> layoutConfig = [];
 
-
   // late Future<Map<String, dynamic>?>? weatherFuture;
   Future<Map<String, dynamic>?>? weatherFuture;
 
@@ -178,7 +177,6 @@ Map<int, int> nightGradients = {
 
   double? homeLat;
   double? homeLon;
-
   @override
   void initState() {
     super.initState();
@@ -216,8 +214,7 @@ Map<int, int> nightGradients = {
   } else {
     _setLatLon();
   }
-
-}
+  }
 
 
 void _initAfterLoad() async {
@@ -311,7 +308,7 @@ Future<void> saveLayoutConfig() async {
   } else if (isHomeLocation && lastUpdated != null) {
     final lastUpdateTime = DateTime.tryParse(lastUpdated);
     final now = DateTime.now();
-    if (lastUpdateTime != null && now.difference(lastUpdateTime).inMinutes < 45) {
+    if (lastUpdateTime != null && now.difference(lastUpdateTime).inMinutes < 450) {
       _isAppFullyLoaded = true; 
     } else{
     checkAndUpdateHomeLocation();
@@ -416,9 +413,11 @@ Future<void> _refreshWeatherData() async {
     final now = DateTime.now();
     final difference = now.difference(lastUpdated);
     if (difference.inMinutes < 10) {
-      ScaffoldMessenger.of(context).showSnackBar(
-       SnackBar(content: Text('Please_wait_before_refreshing_again.'.tr(),)),
-      );
+      if (!mounted) return;
+    SnackUtil.showSnackBar(
+      context: context,
+      message: 'Please_wait_before_refreshing_again.'.tr(),
+    );
       return;
     }
   }
@@ -461,7 +460,6 @@ Future<void> checkAndUpdateHomeLocation() async {
   final storedJson = prefs.getString('homeLocation');
   final storedLocation = storedJson != null ? jsonDecode(storedJson) : null;
 
-    print('checked');
 
 
 if(storedLocation['isGPS'] ?? false){
@@ -1254,15 +1252,17 @@ const int probThreshold = 40;
 
 
 
-final List<String> allTimeStrings = (hourly['time'] as List).cast<String>();
-final List<double> allPrecip = (hourly['precipitation'] as List).cast<double>();
-final List<int> allPrecipProb = (hourly['precipitation_probability'] as List).cast<int>();
+final List<String> allTimeStrings = (hourly['time'] as List?)?.cast<String>() ?? [];
+final List<double> allPrecip = (hourly['precipitation'] as List?)?.map((e) => (e as num?)?.toDouble() ?? 0.0).toList() ?? [];
+final List<int> allPrecipProb = (hourly['precipitation_probability'] as List?)?.map((e) => (e as num?)?.toInt() ?? 0).toList() ?? [];
 
 final List<String> timeNext12h = [];
 final List<double> precpNext12h = [];
 final List<int> precipProbNext12h = [];
 
 for (int i = 0; i < allTimeStrings.length; i++) {
+  if (i >= allPrecip.length || i >= allPrecipProb.length) break;
+
   final time = DateTime.parse(allTimeStrings[i]);
   if (time.isAfter(nowPrecip) && time.isBefore(nowPrecip.add(Duration(hours: 12)))) {
     timeNext12h.add(allTimeStrings[i]);
@@ -1311,7 +1311,6 @@ if (rainStart != null) {
 
 final bool shouldShowRainBlock = bestStart != null && bestEnd != null;
 
-print('builded');
 
 Widget buildLayoutBlock(LayoutBlockType type) {
   switch (type) {
@@ -1574,8 +1573,8 @@ Widget buildLayoutBlock(LayoutBlockType type) {
       ),
 
 
-          
-            
+      
+
             Container(
               width: double.infinity,
               padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 5, top: 16),

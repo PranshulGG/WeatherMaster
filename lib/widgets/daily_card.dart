@@ -34,6 +34,27 @@ class DailyCard extends StatelessWidget {
         ? UnitConverter.celsiusToFahrenheit(celsius.toDouble()).round()
         : celsius.round();
 
+        final List<Map<String, dynamic>> validDailyData = [];
+
+  for (int i = 0; i < dailyTime.length; i++) {
+    if (i < dailyTempsMin.length &&
+        i < dailyTempsMax.length &&
+        i < dailyWeatherCodes.length &&
+        i < dailyPrecProb.length &&
+        dailyTime[i] != null &&
+        dailyTempsMin[i] != null &&
+        dailyTempsMax[i] != null &&
+        dailyWeatherCodes[i] != null) {
+      validDailyData.add({
+        "time": dailyTime[i],
+        "tempMin": dailyTempsMin[i],
+        "tempMax": dailyTempsMax[i],
+        "weatherCode": dailyWeatherCodes[i],
+        "precipProb": (dailyPrecProb[i] as num?)?.toDouble() ?? 0.0000111111,
+      });
+    }
+  }
+
     return Container(
         decoration: BoxDecoration(
           color: Color(selectedContainerBgIndex),
@@ -58,14 +79,15 @@ class DailyCard extends StatelessWidget {
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
           physics:BouncingScrollPhysics() ,
-          itemCount: dailyTime.length,
+          itemCount: validDailyData.length,
           separatorBuilder: (context, index) => const SizedBox(width: 5),
           itemBuilder: (context, index) {
-            final time = DateTime.parse(dailyTime[index]);
-            final tempMax = convert(dailyTempsMax[index].toDouble());
-            final tempMin = convert(dailyTempsMin[index].toDouble());
-            final code = dailyWeatherCodes[index];
-            final precipProb = dailyPrecProb[index].toDouble();
+              final item = validDailyData[index];
+              final time = DateTime.parse(item["time"]);
+              final tempMax = convert(item["tempMax"]);
+              final tempMin = convert(item["tempMin"]);
+              final code = item["weatherCode"];
+              final precipProb = item["precipProb"];
 
           EdgeInsets itemMargin = EdgeInsets.only(
               left: index == 0 ? 10 : 0,
@@ -107,7 +129,7 @@ class DailyCard extends StatelessWidget {
                 ),
                   Column(
                 children: [
-                  Text("${precipProb.round()}%", style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w500)),
+                  Text(precipProb == 0.0000111111 ? '--' : "${precipProb.round()}%", style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w500)),
                   SizedBox(height: 5,),
                   Text(DateFormat('dd/MM').format(time), style: const TextStyle(fontSize: 14)),
                 ]

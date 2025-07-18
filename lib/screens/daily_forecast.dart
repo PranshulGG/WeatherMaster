@@ -136,7 +136,6 @@ class _DailyForecastPageState extends State<DailyForecastPage> {
       }
       final int firstIndex = selectedDayHourIndexes.isNotEmpty ? selectedDayHourIndexes.first : 0;
 
-      print(selectedDate);
 
             return Column(
                 children: [
@@ -220,7 +219,7 @@ class _DailyForecastPageState extends State<DailyForecastPage> {
               utcOffsetSeconds: weather['utc_offset_seconds'].toString(),
               currentUvIndex: daily['uv_index_max']?[selectedIndex] ?? 0.0000001,
               currentTotalPrec: daily['precipitation_sum']?[selectedIndex] ?? 0.0000001,
-              currentTotalPrecProb: daily['precipitation_probability_max']?[selectedIndex] ?? 0.0000001,
+              currentTotalPrecProb: daily['precipitation_probability_max']?[selectedIndex] ?? 0,
             )
             ),
               SizedBox(height: MediaQuery.of(context).padding.bottom + 16,)
@@ -319,6 +318,27 @@ class _DailyForecastCardState extends State<DailyForecastCard> {
         ? UnitConverter.celsiusToFahrenheit(celsius.toDouble()).round()
         : celsius.round();
 
+          
+        final List<Map<String, dynamic>> validDailyData = [];
+
+      for (int i = 0; i < widget.dailyTime.length; i++) {
+        if (i < widget.dailyTempsMin.length &&
+            i < widget.dailyTempsMax.length &&
+            i < widget.dailyWeatherCodes.length &&
+            widget.dailyTime[i] != null &&
+            widget.dailyTempsMin[i] != null &&
+            widget.dailyTempsMax[i] != null &&
+            widget.dailyWeatherCodes[i] != null) {
+          validDailyData.add({
+            "time": widget.dailyTime[i],
+            "tempMin": widget.dailyTempsMin[i],
+            "tempMax": widget.dailyTempsMax[i],
+            "weatherCode": widget.dailyWeatherCodes[i],
+          });
+        }
+      }
+
+
     return  Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(18),
@@ -333,13 +353,16 @@ class _DailyForecastCardState extends State<DailyForecastCard> {
           controller: _scrollController,
           scrollDirection: Axis.horizontal,
           physics:BouncingScrollPhysics() ,
-          itemCount: widget.dailyTime.length,
+          itemCount: validDailyData.length,
           separatorBuilder: (context, index) => const SizedBox(width: 4.5),
           itemBuilder: (context, index) {
-            final time = DateTime.parse(widget.dailyTime[index]);
-            final tempMax = convert(widget.dailyTempsMax[index].toDouble());
-            final tempMin = convert(widget.dailyTempsMin[index].toDouble());
-            final code = widget.dailyWeatherCodes[index];
+
+
+                  final item = validDailyData[index];
+              final time = DateTime.parse(item["time"]);
+              final tempMax = convert(item["tempMax"]);
+              final tempMin = convert(item["tempMin"]);
+              final code = item["weatherCode"];
 
               EdgeInsets itemMargin = EdgeInsets.only(
               left: index == 0 ? 10 : 0,
@@ -534,7 +557,7 @@ class HourlyCardForecast extends StatelessWidget {
             final hour = timeUnit == '24 hr' ? "${roundedDisplayTime.hour.toString().padLeft(2, '0')}:00" : UnitConverter.formatTo12Hour(roundedDisplayTime);
             final temp = tempUnit == 'Fahrenheit' ? UnitConverter.celsiusToFahrenheit(hourlyTemps[dataIndex].toDouble()).round() : hourlyTemps[dataIndex].toDouble().round(); 
             final code = hourlyWeatherCodes[dataIndex];
-            final precipProb = hourlyPrecpProb[dataIndex];
+            final precipProb = hourlyPrecpProb[dataIndex] ?? 0.1111111;
               
 
             final isDay = isHourDuringDaylightOptimized(roundedDisplayTime);
@@ -554,7 +577,7 @@ class HourlyCardForecast extends StatelessWidget {
                   WeatherIconMapper.getIcon(code, isDay ? 1 : 0),
                   width: 26,
                 ),
-                  Text(precipProb > 10 ? "${precipProb.round()}%" : "0%", style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w700)),
+                  Text(precipProb == 0.1111111 ? '--' : precipProb > 10 ? "${precipProb.round()}%" : "0%", style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w700)),
                   Text(hour, style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
                 ],
               ),

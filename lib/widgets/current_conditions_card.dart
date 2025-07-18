@@ -938,18 +938,27 @@ double lowPassFilter(double newValue, double? oldValue, double alpha) {
           final rawHeading = snapshot.data?.heading;
           if (rawHeading == null) return const SizedBox();
 
+          double normalizeAngle(double angle) {
+          while (angle > pi) angle -= 2 * pi;
+          while (angle < -pi) angle += 2 * pi;
+          return angle;
+        }
+
+
         _lastHeading = lowPassFilter(rawHeading, _lastHeading, 0.2);
         final smoothedHeading = _lastHeading!;
 
         final targetRotation = (widget.currentWindDirc - smoothedHeading) * (pi / 180);
+        double delta = normalizeAngle(targetRotation - _previousRotation);
+        final newRotation = _previousRotation + delta;
 
-        final currentRotation = _previousRotation;
-        _previousRotation = targetRotation;
+        final animatedRotation = _previousRotation;
+        _previousRotation = newRotation;
 
-      return TweenAnimationBuilder<double>(
+        return TweenAnimationBuilder<double>(
           tween: Tween<double>(
-            begin: _previousRotation,
-            end: targetRotation,
+            begin: animatedRotation,
+            end: newRotation,
           ),
           duration: Duration(milliseconds: 300),
           builder: (context, angle, child) {

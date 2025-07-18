@@ -127,7 +127,12 @@ String _coldTrendInsight() {
   }
 
   String _heatwaveInsight() {
-    final maxTemps = widget.dailyData.map((d) => d['temperature_2m_max']).cast<double>().toList();
+ final rawTemps = widget.dailyData.map((d) => d['temperature_2m_max']).toList();
+
+  final maxTemps = rawTemps
+      .where((t) => t != null && t is num)
+      .map((t) => (t as num).toDouble())
+      .toList();
     final hotDays = maxTemps.where((t) => t >= 35).length;
    final tempUnit = context.watch<UnitSettingsNotifier>().tempUnit;
 

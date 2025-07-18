@@ -495,11 +495,17 @@ bool isExpanded = false;
 
     final windUnit = context.watch<UnitSettingsNotifier>().windUnit;
 
-    final formattedWindGust = windUnit == 'Mph'
-        ? UnitConverter.kmhToMph(widget.currentData['wind_gusts_10m'])
-        : windUnit == 'M/s'
-            ? UnitConverter.kmhToMs(widget.currentData['wind_gusts_10m']) : windUnit == 'Bft' ? UnitConverter.kmhToBeaufort(widget.currentData['wind_gusts_10m'])
-            : widget.currentData['wind_gusts_10m'];
+final gustRaw = widget.currentData['wind_gusts_10m'];
+final gustValue = (gustRaw is num) ? gustRaw.toDouble() : 0.000000001;
+
+final formattedWindGust = windUnit == 'Mph'
+    ? UnitConverter.kmhToMph(gustValue)
+    : windUnit == 'M/s'
+        ? UnitConverter.kmhToMs(gustValue)
+        : windUnit == 'Bft'
+            ? UnitConverter.kmhToBeaufort(gustValue)
+            : gustValue;
+
 
 
   final formattedWindSpeed =  windUnit == 'Mph'
@@ -558,9 +564,10 @@ bool isExpanded = false;
       child:  buildWeatherSummaryWidget(context, isExpanded),
     ),
     Padding(
-      padding: EdgeInsets.only(left: 10, right: 10, top: 8, bottom: 8),
+      padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 8),
      child: Row(
         children: [
+          
         Expanded(
          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -571,14 +578,14 @@ bool isExpanded = false;
             ],
           ),),
 
-          
+         
           Expanded(
          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             spacing: 6,
             children: [
               Icon(Symbols.wind_power, weight: 500, color: Theme.of(context).colorScheme.onSurface, size: 19),
-              Text("${windUnit == 'M/s' ? formattedWindGust.toStringAsFixed(1) : formattedWindGust.round()} $windUnit", style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 15))
+              Text(gustValue == 0.000000001 ? '--' : "${windUnit == 'M/s' ? formattedWindGust.toStringAsFixed(1) : formattedWindGust.round()} $windUnit", style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 15))
             ],
           ),),
           Expanded(

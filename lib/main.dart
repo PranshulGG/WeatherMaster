@@ -70,14 +70,13 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
-//  WebViewPlatform.instance ??= SurfaceAndroidWebView();;
 
-
+  
+await PreferencesHelper.init(); 
 
 
   final dir = await getApplicationDocumentsDirectory();
   Hive.init(dir.path);
- await PreferencesHelper.init();
 
   final themeController = ThemeController();
   await themeController.initialize();

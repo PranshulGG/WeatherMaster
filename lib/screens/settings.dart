@@ -56,8 +56,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       "Light": "theme_light".tr()
     };
 
-  final String urlString =
-      'https://embed.windy.com/embed.html?type=map&location=coordinates&zoom=5&overlay=rain&product=ecmwf&level=surface&lat=28.576&lon=77.335';
+
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,

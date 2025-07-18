@@ -51,30 +51,20 @@ class HourlyCard extends StatelessWidget {
     });
 
     if (startIndex == -1) startIndex = 0;
+      final scale = MediaQuery.of(context).textScaler.scale(1.0);
+      final extraHeight = (scale - 1.0) * 30;
 
     return Container(
         decoration: BoxDecoration(
           color: Color(selectedContainerBgIndex),
           borderRadius: BorderRadius.circular(18),
-          // boxShadow: [
-          //     BoxShadow(
-          //     color: Colors.black.withOpacity(0.1),
-          //     blurRadius: 3,
-          //     offset: Offset(0, 1),
-          //   ),
-          //   BoxShadow(
-          //     color: Colors.black.withOpacity(0.06),
-          //     blurRadius: 6,
-          //     offset: Offset(0, 2),
-          //   ),
-          // ]
         ),
-        padding: EdgeInsets.only(top: 12, bottom: 10),
+        padding: EdgeInsets.only(top: 12, bottom: 0),
         margin: EdgeInsets.fromLTRB(12, 0, 12, 0),
         child: Column(
         children: [
         Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(width: 20,),
             Icon(Symbols.schedule, weight: 500, color: Theme.of(context).colorScheme.secondary, size: 20,),
@@ -84,11 +74,12 @@ class HourlyCard extends StatelessWidget {
         ),
         Divider(height: 20, color: Theme.of(context).colorScheme.outlineVariant,),
        SizedBox(
-        height: 98,
+        
+        height: 98 + extraHeight + 10, 
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           physics: BouncingScrollPhysics(),
-          itemCount: 24 + 24 - startIndex,
+          itemCount: startIndex != null ? (48 - startIndex).clamp(0, 48) : 0,
           
           itemBuilder: (context, index) {
             // final time = DateTime.parse(hourlyTime[index]);
@@ -112,13 +103,13 @@ class HourlyCard extends StatelessWidget {
             final hour = timeUnit == '24 hr' ? "${roundedDisplayTime.hour.toString().padLeft(2, '0')}:00" : UnitConverter.formatTo12Hour(roundedDisplayTime);
             final temp = tempUnit == 'Fahrenheit' ? UnitConverter.celsiusToFahrenheit(hourlyTemps[dataIndex].toDouble()).round() : hourlyTemps[dataIndex].toDouble().round(); 
             final code = hourlyWeatherCodes[dataIndex];
-            final precipProb = hourlyPrecpProb[dataIndex];
+            final precipProb = hourlyPrecpProb[dataIndex] ?? 0.1111111;
 
 
             final isDay = isHourDuringDaylightOptimized(roundedDisplayTime);
             
             return Container(
-              width: 70,
+              width: 65,
               
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
@@ -132,7 +123,8 @@ class HourlyCard extends StatelessWidget {
                   WeatherIconMapper.getIcon(code, isDay ? 1 : 0),
                   width: 26,
                 ),
-                  Text(precipProb > 10 ? "${precipProb.round()}%" : "0%", style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w700)),
+                  Text(precipProb == 0.1111111 ? '--%' : precipProb > 10 ? "${precipProb.round()}%" : "0%", style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w700)),
+                  
                   Text(hour, style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
                 ],
               ),
