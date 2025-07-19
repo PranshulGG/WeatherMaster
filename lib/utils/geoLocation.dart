@@ -31,10 +31,21 @@ Future<Map<String, String>> reverseGeocode(double latitude, double longitude) as
 
     if (placemarks.isNotEmpty) {
       final Placemark place = placemarks.first;
+      String city = place.locality?.isNotEmpty == true
+          ? place.locality!
+          : place.subAdministrativeArea?.isNotEmpty == true
+              ? place.subAdministrativeArea!
+              : place.administrativeArea?.isNotEmpty == true
+                  ? place.administrativeArea!
+                  : place.name?.isNotEmpty == true
+                      ? place.name!
+                      : 'Current location';
+
+      String country = place.country ?? '';
 
       return {
-        'city': place.locality ?? place.subAdministrativeArea ?? '',
-        'country': place.country ?? '',
+        'city': city,
+        'country': country,
       };
     } else {
       return {
