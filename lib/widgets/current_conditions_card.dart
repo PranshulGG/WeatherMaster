@@ -631,7 +631,7 @@ List<Widget> gridItems = itemOrder.map((i) {
                         children: [
                       SizedBox(
                         width: 100,
-                         child: Text("Total rain for the day", style: TextStyle(height: 1.2, color: Theme.of(context).colorScheme.onSurfaceVariant))),
+                         child: Text("total_precip_sub".tr(), style: TextStyle(height: 1.2, color: Theme.of(context).colorScheme.onSurfaceVariant), maxLines: 2, overflow: TextOverflow.ellipsis,)),
                           SvgPicture.asset('assets/weather-icons/showers_rain.svg', width: 30, height: 30,)
                         ],
                       )
