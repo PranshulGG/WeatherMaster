@@ -344,7 +344,6 @@
     "material_scheme_only_sub": "Hava durumu efektlerini devre dışı bırakır; varsayılan Materyal temasını kullanır",
     "current_location_tile_sub": "GPS'e dayalı mevcut konum",
     "layout_saved": "Düzen kaydedildi",
-    "model_saved": "Model kaydedildi",
     "rain_card_no_rain_exp": "Yağmur beklenmiyor",
     "rain_will_stop_soon": "Yağmur yakında dinecek",
     "its_currently_raining": "Şu anda yağmur yağıyor",
@@ -420,5 +419,12 @@
     "pollen_card": "Polen Kartı",
     "min": "dk.",
     "hr": "sa.",
-    "just_now": "az önce"
+    "just_now": "az önce",
+    "total_precip_sub": "Günün toplam yağışı",
+    "precip_info": "Yağış miktarı, beklenen yağmurun ne kadar olacağını ifade eder ve genellikle milimetre (mm) veya inç cinsinden verilir. Bu değer, yağmurun şiddetini — hafif sağanaklardan şiddetli yağışlara kadar gösterir.",
+    "precip_info_2": "Yağmur olasılığı, belirli bir zamanda ve yerde yağış gerçekleşme ihtimalini gösterir ve yüzde (%) olarak ifade edilir. Örneğin %70 olasılık, o bölgede yağmurun muhtemel olduğu anlamına gelir.",
+    "precip_info_3": "Yağmur süresi, gün boyunca yağmurun beklenildiği toplam saat sayısını gösterir. Bu, havanın ne kadar süreyle yağışlı veya kapalı kalabileceğini tahmin etmeye yardımcı olur.",
+    "precip_info_4": "Yağmur şiddeti, belirli bir zaman diliminde yağmurun ne kadar kuvvetli olduğunu ölçer ve genellikle hafif, orta veya şiddetli olarak sınıflandırılır. Daha yoğun yağışlar, su baskınlarına veya görüş mesafesinde azalmaya yol açabilir.",
+    "theme_auto": "Otomatik",
+    "model_saved_snack": "Model kaydedildi. Lütfen hava durumunu yenileyin"
 }
