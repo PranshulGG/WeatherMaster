@@ -367,11 +367,13 @@ class LocationPromptScreen extends StatelessWidget {
           '''),
       ),
 
-          Align(
+        Padding(padding: EdgeInsets.only(left: 10, right: 10),
+         child:  Align(
             alignment: Alignment.bottomCenter,
             child: Center(
               child: Text("Please search for a location or use your device's location to get the weather for your area.", textAlign: TextAlign.center, style: TextStyle(color: customDarkScheme.onSurface),),
             ),
+          )
           )
           ],
         ),

@@ -345,7 +345,6 @@ Map<String, String> getLanguageNamesSettingsView(Locale locale) {
   final lang = locale.languageCode;
   final country = locale.countryCode;
 
-  print("${lang}, ${country}");
 
   if (lang == 'ar' && country == 'SA') {
     return {'native': 'العربية (السعودية)', 'english': 'Arabic (Saudi Arabia)'};

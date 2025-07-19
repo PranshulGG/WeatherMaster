@@ -307,3 +307,78 @@ List<LinearGradient> getGradientsScrolled(bool isLight) {
 
  ];
 }
+
+
+Map<int, int> dayGradients = {
+  0: 2,   // Clear sky
+  1: 0,   // Mainly clear
+  2: 0,   // Partly cloudy
+  3: 1,   // Overcast
+
+  45: 4,  // Fog
+  48: 4,  // Depositing rime fog
+
+  51: 5,  // Drizzle: Light
+  53: 5,  // Drizzle: Moderate
+  55: 5,  // Drizzle: Dense
+  56: 5,  // Freezing Drizzle: Light
+  57: 5,  // Freezing Drizzle: Dense
+  61: 5,  // Rain: Slight
+  63: 5,  // Rain: Moderate
+  65: 5,  // Rain: Heavy
+  66: 5,  // Freezing Rain: Light
+  67: 5,  // Freezing Rain: Heavy
+  80: 5,  // Rain showers: Slight
+  81: 5,  // Rain showers: Moderate
+  82: 5,  // Rain showers: Violent
+
+  95: 6,  // Thunderstorm
+  96: 6,  // Thunderstorm with hail
+  99: 6,  // Thunderstorm with heavy hail
+
+  71: 7,  // Snow fall: Slight
+  73: 7,  // Snow fall: Moderate
+  75: 7,  // Snow fall: Heavy
+  77: 7,  // Snow grains
+  85: 7,  // Snow showers: Slight
+  86: 7,  // Snow showers: Heavy
+};
+
+
+Map<int, int> nightGradients = {
+  0: 3,   // Clear sky night
+  1: 0,   // Mainly clear
+  2: 0,   // Partly cloudy
+  3: 1,   // Overcast
+
+  45: 4,  // Fog
+  48: 4,  // Depositing rime fog
+
+  51: 5,  // Drizzle: Light
+  53: 5,  // Drizzle: Moderate
+  55: 5,  // Drizzle: Dense
+  56: 5,  // Freezing Drizzle: Light
+  57: 5,  // Freezing Drizzle: Dense
+  61: 5,  // Rain: Slight
+  63: 5,  // Rain: Moderate
+  65: 5,  // Rain: Heavy
+  66: 5,  // Freezing Rain: Light
+  67: 5,  // Freezing Rain: Heavy
+  80: 5,  // Rain showers: Slight
+  81: 5,  // Rain showers: Moderate
+  82: 5,  // Rain showers: Violent
+
+  95: 6,  // Thunderstorm
+  96: 6,  // Thunderstorm with hail
+  99: 6,  // Thunderstorm with heavy hail
+
+  71: 7,  // Snow fall: Slight
+  73: 7,  // Snow fall: Moderate
+  75: 7,  // Snow fall: Heavy
+  77: 7,  // Snow grains
+  85: 7,  // Snow showers: Slight
+  86: 7,  // Snow showers: Heavy
+};
+
+
+

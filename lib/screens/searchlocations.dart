@@ -279,7 +279,7 @@ Future<int> getLocationCount() async {
                           );
                         }
 
-                        if (snapshot.hasData && snapshot.data! > 1) {
+                        if (snapshot.hasData && snapshot.data! >= 1) {
                           return  IconButton.filled(onPressed: () async {
                           showDialog(
                           context: context,
@@ -354,8 +354,54 @@ Future<int> getLocationCount() async {
                           city: location['city'] ?? '',
                           country: location['country'] ?? '',
                         );
-                        
-                    final cacheKey = "${saved.city}_${saved.country}".toLowerCase().replaceAll(' ', '_');
+
+                        final count = await getLocationCount();
+
+                        if(count == 0){
+                          showDialog(
+                          context: context,
+                          barrierDismissible: false, 
+                          barrierColor: Theme.of(context).colorScheme.surface,
+                          builder: (context) => const Center(child: LoaderWidget(size: 60, isContained: false,)),
+                        );
+
+                        saveLocation(saved);
+                        final cacheKey = "${saved.city}_${saved.country}".toLowerCase().replaceAll(' ', '_');
+                        final weatherService = WeatherService();
+                        await weatherService.fetchWeather(lat, lon, locationName: cacheKey, context: context);
+
+
+                        final prefs = await SharedPreferences.getInstance();
+                        final jsonString = prefs.getString('saved_locations');
+                        if (jsonString != null) {
+                          final List<dynamic> jsonList = jsonDecode(jsonString);
+                          final locations = jsonList.map((json) => SavedLocation.fromJson(json)).toList();
+                            if (locations.length == 1) {
+                            
+                                final loc = locations.first;
+
+                              WidgetsBinding.instance.addPostFrameCallback((_) async {
+                                    final prefs = await SharedPreferences.getInstance();
+                            final cacheKey = "${loc.city}_${loc.country}".toLowerCase().replaceAll(' ', '_');
+
+                            await prefs.setString('homeLocation', jsonEncode({
+                              'city': loc.city,
+                              'country': loc.country,
+                              'cacheKey': cacheKey,
+                              'lat': loc.latitude,
+                              'lon': loc.longitude,
+                            }));
+                              });
+
+                            }
+
+                              Navigator.pop(context);
+
+                              Navigator.pop(context, true);
+                            }
+
+                      } else{                        
+                       final cacheKey = "${saved.city}_${saved.country}".toLowerCase().replaceAll(' ', '_');
 
 
                     final prefs = await SharedPreferences.getInstance();
@@ -368,6 +414,14 @@ Future<int> getLocationCount() async {
                         'isGPS': false,
                       }));
                       Navigator.pop(context, false);
+                      }
+
+                        
+
+
+
+
+
                         }
                     );
                   },

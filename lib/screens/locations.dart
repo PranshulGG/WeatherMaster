@@ -161,8 +161,11 @@ Future<String?> getWeatherLastUpdatedFromCache(cacheKey) async {
       ),
 
 
-                  floatingActionButton: FloatingActionButton.large(
+        floatingActionButton: FloatingActionButton.large(           
             onPressed: () async {
+
+                PreferencesHelper.remove("selectedViewLocation");
+
               final updated = await Navigator.of(context).push<bool>(
                 MaterialPageRoute(
                     builder: (_) => const SearchLocationsScreen()),
@@ -173,13 +176,13 @@ Future<String?> getWeatherLastUpdatedFromCache(cacheKey) async {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Location saved')),
                 );
-              } else{
-                Navigator.pop(context,{'viewLocaton': true}
+              } else if(updated == false && PreferencesHelper.getString("selectedViewLocation") != null){
+                Navigator.pop(context, {'viewLocaton': true}
                 );
-              }
+              } 
             },
             shape: const CircleBorder(),
-            child: const Icon(Icons.add),
+            child: Icon(PreferencesHelper.getString("homeLocation") != null ? Icons.search : Icons.add),
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
