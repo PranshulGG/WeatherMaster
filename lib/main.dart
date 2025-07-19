@@ -9,7 +9,7 @@ import 'screens/locations.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../utils/theme_controller.dart'; 
-import '../utils/geoLocation.dart'; 
+import 'utils/geo_location.dart'; 
 import '../services/fetch_data.dart';
 import '../models/saved_location.dart';
 import '../utils/preferences_helper.dart';
@@ -53,6 +53,8 @@ const easySupportedLocales = [
   Locale('vi', 'VN'),
   Locale('zh', 'CN'),
   Locale('zh', 'TW'),
+  Locale('ca', 'ES'),
+
 ];
 
 
