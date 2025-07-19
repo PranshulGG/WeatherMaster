@@ -1633,7 +1633,7 @@ final double maxprecipAmount = precipAmount.reduce((a, b) => a > b ? a : b);
               children: [
                 Text("${double.parse(convertedPrecip.toStringAsFixed(2))}", style: TextStyle(fontSize: 50,  color: Theme.of(context).colorScheme.secondary, fontWeight: FontWeight.w500),),
                 Padding(padding: EdgeInsets.only(bottom: 11, left: 8),
-               child: Text('$precipitationUnit • ${precipHours.round()} hrs', style: TextStyle(fontSize: 20,  color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500),))
+               child: Text('$precipitationUnit • ${precipHours.round()} ${'hrs_sub_text'.tr()}', style: TextStyle(fontSize: 20,  color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500),))
               ],
             )
             
@@ -1757,10 +1757,10 @@ final double maxprecipAmount = precipAmount.reduce((a, b) => a > b ? a : b);
               child:  Column(  
               spacing: 20,
                 children: [
-                  Text("Rain amount describes how much rain is expected, typically given in millimeters (mm) or inches. It helps indicate the intensity of rainfall — from light showers to heavy downpours.", style: TextStyle(fontSize: 17, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
-                  Text("Rain probability shows the chance of precipitation occurring at a given time and location, expressed as a percentage. For example, a 70% chance means rain is likely in that area.", style: TextStyle(fontSize: 17, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
-                  Text("Rain duration indicates the total number of hours during the day that rain is expected. This helps estimate how long the weather might stay wet or overcast.", style: TextStyle(fontSize: 17, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
-                  Text("Rain intensity measures how heavy the rain is during a given period, typically classified as light, moderate, or heavy. Heavier rainfall can lead to flooding or reduced visibility.", style: TextStyle(fontSize: 17, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
+                  Text("precip_info".tr(), style: TextStyle(fontSize: 17, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
+                  Text("precip_info_2".tr(), style: TextStyle(fontSize: 17, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
+                  Text("precip_info_3".tr(), style: TextStyle(fontSize: 17, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
+                  Text("precip_info_4".tr(), style: TextStyle(fontSize: 17, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
                 ],
               )
           )
