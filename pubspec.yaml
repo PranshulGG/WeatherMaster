@@ -65,6 +65,13 @@ dependencies:
   settings_tiles:
     path: ./settings_tiles_custom
 
+dependency_overrides:
+  geolocator_android:
+    git:
+      url: https://github.com/Zverik/flutter-geolocator.git
+      ref: floss
+      path: geolocator_android
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
