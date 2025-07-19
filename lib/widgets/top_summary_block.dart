@@ -285,7 +285,7 @@ Widget buildWeatherSummaryWidget(BuildContext context, bool isExpanded) {
    padding: EdgeInsets.only(left: 16, right: 12), 
   
    child: Column(
-    crossAxisAlignment: CrossAxisAlignment.stretch,
+    crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       SizedBox(width: 8),
       Text(
@@ -294,6 +294,7 @@ Widget buildWeatherSummaryWidget(BuildContext context, bool isExpanded) {
           fontWeight: FontWeight.w500,
           color: Theme.of(context).colorScheme.onSurface,
         ),
+        textAlign: TextAlign.left,
       ),
       // ),
       SizedBox(height: 8),
@@ -495,10 +496,10 @@ bool isExpanded = false;
 
     final windUnit = context.watch<UnitSettingsNotifier>().windUnit;
 
-final gustRaw = widget.currentData['wind_gusts_10m'];
-final gustValue = (gustRaw is num) ? gustRaw.toDouble() : 0.000000001;
+    final gustRaw = widget.currentData['wind_gusts_10m'];
+    final gustValue = (gustRaw is num) ? gustRaw.toDouble() : 0.000000001;
 
-final formattedWindGust = windUnit == 'Mph'
+    final formattedWindGust = windUnit == 'Mph'
     ? UnitConverter.kmhToMph(gustValue)
     : windUnit == 'M/s'
         ? UnitConverter.kmhToMs(gustValue)
