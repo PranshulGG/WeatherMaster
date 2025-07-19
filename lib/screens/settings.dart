@@ -51,7 +51,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final isSupported = themeController.isDynamicColorSupported;
 
     final optionsTheme = {
-      "Auto": "Auto",
+      "Auto": "theme_auto".tr(),
       "Dark": "theme_dark".tr(),
       "Light": "theme_light".tr()
     };
