@@ -669,7 +669,7 @@ final Map<String, Map<String, String>> dialogContent = {
        floatingActionButton: FloatingActionButton(onPressed: () {
           PreferencesHelper.setString("selectedWeatherModel", selectedModelKey.toString());
                  _scaffoldMessengerKey.currentState?.showSnackBar(
-            SnackBar(content: Text('Model saved. Please refresh the weather')),
+            SnackBar(content: Text('model_saved_snack'.tr())),
           );
        }, backgroundColor: Theme.of(context).colorScheme.tertiaryContainer, foregroundColor: Theme.of(context).colorScheme.onTertiaryContainer, child: Icon(Symbols.save)),
     ),
