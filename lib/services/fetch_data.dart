@@ -59,7 +59,9 @@ class WeatherService {
     if (context != null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(reason),
+          duration: Duration(seconds: 10),
+          content: Text("$reason. Please change your model"),
+          
           action: SnackBarAction(
             label: 'Change model',
             onPressed: () {
