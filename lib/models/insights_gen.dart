@@ -5,6 +5,7 @@ import '../notifiers/unit_settings_notifier.dart';
 import '../utils/unit_converter.dart';
 import 'package:provider/provider.dart';
 import '../utils/preferences_helper.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ShowInsights extends StatefulWidget {
   final List<Map<String, dynamic>> hourlyData;
@@ -93,12 +94,16 @@ String _coldTrendInsight() {
   }
 
   if (diff < -3) {
-    return "It's getting colder this week — temperatures drop by ${tempUnit == 'Fahrenheit' ? UnitConverter.celsiusToFahrenheit(diff.abs().toDouble()) : diff.abs()}° by the weekend.";
+    return  "insights_sub_1".tr(namedArgs: {
+              'tempDiff': "${tempUnit == 'Fahrenheit' ? UnitConverter.celsiusToFahrenheit(diff.abs().toDouble()) : diff.abs()}"
+            });
   } else if (diff > 3) {
-    return "Warming up ahead! Expect a rise of ${tempUnit == 'Fahrenheit' ? UnitConverter.celsiusToFahrenheit(diff.toDouble()) : "$diff"}° by the weekend.";
+    return "insights_sub_2".tr(namedArgs: {
+              'tempDiff': "${tempUnit == 'Fahrenheit' ? UnitConverter.celsiusToFahrenheit(diff.toDouble()) : "$diff"}"
+            });
   }
 
-  return "Temperatures stay mostly stable this week.";
+  return "insights_sub_3".tr();
 }
 
 
@@ -119,11 +124,13 @@ String _coldTrendInsight() {
 
 
     if (rainChances[peakDayIndex] > 60) {
-      return "High chance of rain mid-week — especially on ${_weekdayName(peakDay)}.";
+      return "insights_sub_4".tr(namedArgs: {
+              'peakDay': _weekdayName(peakDay)
+            });
     } else if (rainChances.any((r) => r > 40)) {
-      return "Scattered showers possible on a few days this week.";
+      return "insights_sub_5".tr();
     }
-    return "Low rain chances all week — enjoy the dry spell!";
+    return "insights_sub_6".tr();
   }
 
   String _heatwaveInsight() {
@@ -146,11 +153,17 @@ String _coldTrendInsight() {
       }
 
     if (hotDays >= 3) {
-      return "Heatwave alert: $hotDays days over ${tempUnit == 'Fahrenheit' ? UnitConverter.celsiusToFahrenheit(35) : "35"}° are coming this week.";
+      // return "Heatwave alert: $hotDays days over ${tempUnit == 'Fahrenheit' ? UnitConverter.celsiusToFahrenheit(35) : "35"}° are coming this week.";
+      return "insights_sub_7".tr(namedArgs: {
+              'hotDays': "$hotDays",
+              'heatTemp': "${tempUnit == 'Fahrenheit' ? UnitConverter.celsiusToFahrenheit(35) : "35"}"
+            });
     } else if (hotDays >= 1) {
-      return "Expect a hot day or two — highs reaching ${tempUnit == 'Fahrenheit' ? UnitConverter.celsiusToFahrenheit(35) : "35"}°.";
+      return "insights_sub_8".tr(namedArgs: {
+              'heatTemp': "${tempUnit == 'Fahrenheit' ? UnitConverter.celsiusToFahrenheit(35) : "35"}"
+            });
     }
-    return "No extreme heat expected this week.";
+    return "insights_sub_9".tr();
   }
 
   String _humidityTrendInsight() {
@@ -169,11 +182,11 @@ String _coldTrendInsight() {
 
     
     if (end > start + 10) {
-      return "It will feel stickier later this week as humidity climbs.";
+      return "insights_sub_10".tr();
     } else if (start > end + 10) {
-      return "A drier air mass is moving in — humidity levels drop.";
+      return "insights_sub_11".tr();
     }
-    return "Humidity remains fairly consistent this week.";
+    return "insights_sub_12".tr();
   }
 
   String _windInsight() {
@@ -191,11 +204,14 @@ String _coldTrendInsight() {
   }
     
     if (maxWind > 30) {
-      return "Windy conditions expected — especially on ${_weekdayName(winds.indexOf(maxWind) + 1)}.";
+      // return "Windy conditions expected — especially on ${_weekdayName(winds.indexOf(maxWind) + 1)}.";
+      return "insights_sub_13".tr(namedArgs: {
+              'weekdays': _weekdayName(winds.indexOf(maxWind) + 1)
+            });
     } else if (maxWind > 20) {
-      return "Breezy days ahead — nothing too wild though.";
+      return "insights_sub_14".tr();
     }
-    return "Calm winds for most of the week.";
+    return "insights_sub_15".tr();
   }
 
   String _pleasantWeatherInsight() {
@@ -213,9 +229,12 @@ String _coldTrendInsight() {
   }
 
     if (sunnyDays >= 4) {
-      return "Pleasant week ahead — $sunnyDays days of clear, comfortable weather!";
+      // return "Pleasant week ahead — $sunnyDays days of clear, comfortable weather!";
+      return "insights_sub_16".tr(namedArgs: {
+              'sunnyDays': "$sunnyDays"
+            });
     }
-    return "Mixed skies this week, but still decent for outdoor plans.";
+    return "insights_sub_17".tr();
   }
 
   String _randomFunFact() {
@@ -224,10 +243,13 @@ String _coldTrendInsight() {
 
 
     final facts = [
-      "Cloudy skies can trap heat overnight — warmer mornings ahead.",
-      "Wind chill can make ${tempUnit == 'Fahrenheit' ? UnitConverter.celsiusToFahrenheit(10) : "10"}° feel like ${tempUnit == 'Fahrenheit' ? UnitConverter.celsiusToFahrenheit(5) : "5"}° — dress accordingly.",
-      "A single thunderstorm can drop over 30 million gallons of water.",
-      "Sunlight can be more intense after a rainy day — wear sunscreen.",
+      "insights_sub_18".tr(),
+      "insights_sub_19".tr(namedArgs: {
+              'temp': "${tempUnit == 'Fahrenheit' ? UnitConverter.celsiusToFahrenheit(10) : "10"}",
+              'feelliketemp': "${tempUnit == 'Fahrenheit' ? UnitConverter.celsiusToFahrenheit(5) : "5"}"
+      }),
+      "insights_sub_20",
+      "insights_sub_21",
     ];
 
 
@@ -236,8 +258,8 @@ String _coldTrendInsight() {
   }
 
   String _weekdayName(int weekdayNumber) {
-    const weekdays = [
-      "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+     final weekdays = [
+      "weekdays_1".tr(), "weekdays_2".tr(), "weekdays_3".tr(), "weekdays_4".tr(), "weekdays_5".tr(), "weekdays_6".tr(), "weekdays_7".tr()
     ];
     return weekdays[(weekdayNumber - 1) % 7];
   }
@@ -258,9 +280,11 @@ String _coldTrendInsight() {
   }
 
   if (diff >= 10) {
-    return "Big temperature swings expected today — dress in layers! (Δ ${tempUnit == 'Fahrenheit' ? UnitConverter.celsiusToFahrenheit(diff.toDouble()) : "$diff"}°)";
+    return "insights_sub_22".tr(namedArgs: {
+              'tempdiff': "Δ ${tempUnit == 'Fahrenheit' ? UnitConverter.celsiusToFahrenheit(diff.toDouble()) : "$diff"}"
+            });
   } else {
-    return "Temperatures stay fairly stable through the day.";
+    return "insights_sub_23".tr();
   }
 }
 
@@ -278,11 +302,11 @@ String _uvIndexInsight() {
   }
 
   if (peakUV >= 7) {
-    return "High UV levels expected — especially around midday. Don’t forget sunscreen!";
+    return "insights_sub_24".tr();
   } else if (peakUV >= 4) {
-    return "Moderate UV levels today — still good to take precautions.";
+    return "insights_sub_25".tr();
   }
-  return "Low UV risk today — enjoy the outdoors!";
+  return "insights_sub_26".tr();
 }
 
 String _windFluctuationInsight() {
@@ -302,11 +326,11 @@ String _windFluctuationInsight() {
 
 
   if (maxWind > 30) {
-    return "Strong winds expected during certain hours — secure loose items outside.";
+    return "insights_sub_27".tr();
   } else if (diff > 15) {
-    return "Wind speeds will fluctuate a lot today — keep an extra layer handy.";
+    return "insights_sub_28".tr();
   }
-    return "Mostly calm winds throughout the day.";
+    return "insights_sub_29".tr();
 }
 
 
@@ -324,9 +348,9 @@ String _hourlyHumidityInsight() {
 
 
   if ((maxH - minH) > 20) {
-    return "Humidity levels will vary significantly today — it may feel muggy at times.";
+    return "insights_sub_30".tr();
   }
-  return "Consistent humidity levels expected — comfortable air throughout the day.";
+  return "insights_sub_31".tr();
 }
 
 String _cloudPatternInsight() {
@@ -344,11 +368,11 @@ String _cloudPatternInsight() {
   }
 
   if (avgCloud > 70) {
-    return "Mostly cloudy skies for most of the day — limited sunshine.";
+    return "insights_sub_32".tr();
   } else if (avgCloud < 30) {
-    return "Clear skies dominate — great day for outdoor activities!";
+    return "insights_sub_33".tr();
   }
-  return "Mixed clouds and sun throughout the day.";
+  return "insights_sub_34".tr();
 }
 
 String _precipitationWindowInsight() {
@@ -365,11 +389,11 @@ String _precipitationWindowInsight() {
   }
 
   if (peak > 70) {
-    return "High chance of rain during some hours — keep an umbrella nearby!";
+    return "insights_sub_35".tr();
   } else if (peak > 40) {
-    return "Spotty rain showers possible during parts of the day.";
+    return "insights_sub_36".tr();
   }
-  return "Very low chance of rain in the next 24 hours.";
+  return "insights_sub_37".tr();
 }
 
 
