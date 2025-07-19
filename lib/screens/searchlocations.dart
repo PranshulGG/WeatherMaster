@@ -206,11 +206,25 @@ void openProviderDialog() async {
   }
 }
 
+Future<int> getLocationCount() async {
+  final prefs = await SharedPreferences.getInstance();
+  final jsonString = prefs.getString('saved_locations');
+  if (jsonString != null) {
+    final List<dynamic> jsonList = jsonDecode(jsonString);
+    final locations = jsonList.map((json) => SavedLocation.fromJson(json)).toList();
+    return locations.length;
+  }
+  return 0;
+}
 
   @override
   Widget build(BuildContext context) {
+
+
+
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         title: 
         TextField(
           style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.onSurface),
@@ -225,23 +239,26 @@ void openProviderDialog() async {
           ), 
           ),
         titleSpacing: 0,     
-        toolbarHeight: 65,
+        toolbarHeight: 65 + 10,
         scrolledUnderElevation: 0,
-        bottom: PreferredSize(preferredSize:Size(0, 16) , child: Divider(thickness: 2, color: Theme.of(context).colorScheme.outline.withOpacity(0.8),)),
-
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        shape: Border(
+          bottom: BorderSide(color: Theme.of(context).colorScheme.outline.withOpacity(0.8), width: 2))
       ),
 
       body: isLoading
           ? const Center(child: LoaderWidget(size: 60, isContained: false,))
           : results.isEmpty
               ? const Center(child: Text("No results"))
-              : ListView.builder(
+              : ListView.builder( 
                   itemCount: results.length,
-                  itemBuilder: (context, index) {
+                  itemBuilder: (context, index)  {
                     final city = results[index]['city'] ?? '';
                     final country = results[index]['country'] ?? '';
                     final code = results[index]['country_code'] ?? '';
+
                     return ListTile(
+                        contentPadding: EdgeInsets.only(left: 16, right: 16),
                        leading: code.isNotEmpty
                     ? CircleAvatar(
                         radius: 18,
@@ -251,8 +268,20 @@ void openProviderDialog() async {
                     : const Icon(Icons.location_on),
                       title: Text(city, style: TextStyle(fontWeight: FontWeight.w500),),
                       subtitle: country.isNotEmpty ? Text(country) : null,
-                      onTap: () async {
-                      showDialog(
+                      trailing:  FutureBuilder<int>(
+                      future: getLocationCount(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const SizedBox(
+                            height: 24,
+                            width: 24,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          );
+                        }
+
+                        if (snapshot.hasData && snapshot.data! > 1) {
+                          return  IconButton.filled(onPressed: () async {
+                          showDialog(
                           context: context,
                           barrierDismissible: false, 
                           barrierColor: Theme.of(context).colorScheme.surface,
@@ -300,10 +329,45 @@ void openProviderDialog() async {
 
                         }
 
-                      Navigator.pop(context);
+                          Navigator.pop(context);
 
-                      Navigator.pop(context, true);
+                          Navigator.pop(context, true);
                         }
+                        },
+                       icon: Icon(Icons.add, color: Theme.of(context).colorScheme.onTertiaryContainer,),
+                         constraints: BoxConstraints(
+                        minWidth: 53,  
+                        minHeight: 40,
+                      ),
+                       style: ButtonStyle(
+                        backgroundColor: WidgetStateProperty.all(Theme.of(context).colorScheme.tertiaryContainer) 
+                        ));}   return  const SizedBox.shrink(); } ),
+                      onTap: () async {
+
+                        final location = results[index];
+                        final lat = double.tryParse(location['lat'] ?? '') ?? 0.0;
+                        final lon = double.tryParse(location['lon'] ?? '') ?? 0.0;
+
+                        final saved = SavedLocation(
+                          latitude: lat,
+                          longitude: lon,
+                          city: location['city'] ?? '',
+                          country: location['country'] ?? '',
+                        );
+                        
+                    final cacheKey = "${saved.city}_${saved.country}".toLowerCase().replaceAll(' ', '_');
+
+
+                    final prefs = await SharedPreferences.getInstance();
+                      await prefs.setString('selectedViewLocation', jsonEncode({
+                        'city': saved.city,
+                        'country': saved.country,
+                        'cacheKey': cacheKey,
+                        'lat': lat,
+                        'lon': lon,
+                        'isGPS': false,
+                      }));
+                      Navigator.pop(context, false);
                         }
                     );
                   },

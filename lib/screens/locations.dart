@@ -155,10 +155,10 @@ Future<String?> getWeatherLastUpdatedFromCache(cacheKey) async {
         },
 
 
-  child: isEditing
-      ? buildReorderableListView(key: ValueKey('reorderable'))
-      : buildDismissibleListView(key: ValueKey('dismissible')),
-),
+        child: isEditing
+            ? buildReorderableListView(key: ValueKey('reorderable'))
+            : buildDismissibleListView(key: ValueKey('dismissible')),
+      ),
 
 
                   floatingActionButton: FloatingActionButton.large(
@@ -169,9 +169,12 @@ Future<String?> getWeatherLastUpdatedFromCache(cacheKey) async {
               );
 
               if (updated == true) {
-                await loadSavedLocations(); // <- this refreshes your saved locations
+                await loadSavedLocations(); 
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Location saved')),
+                );
+              } else{
+                Navigator.pop(context,{'viewLocaton': true}
                 );
               }
             },

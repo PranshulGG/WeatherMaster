@@ -19,7 +19,7 @@ class WeatherService {
   
 
 
-  Future<Map<String, dynamic>?> fetchWeather(double lat, double lon, {String? locationName, BuildContext? context,}) async {
+  Future<Map<String, dynamic>?> fetchWeather(double lat, double lon, {String? locationName, BuildContext? context, bool isOnlyView = false}) async {
     final timezone = tzmap.latLngToTimezoneString(lat, lon);
     final key = locationName ?? 'loc_${lat}_${lon}';
     final box = await _openBox();
@@ -78,6 +78,23 @@ class WeatherService {
     return null; 
   }
 
+
+  final combinedDataForView = {
+    ...weatherData,
+    'air_quality': airQualityData,
+  };
+
+  final nowForView = DateTime.now().toIso8601String();
+
+ if (isOnlyView) {
+    log("Only viewing data for $key. Not saving to cache.");
+    return {
+      'data': combinedDataForView,
+      'last_updated': nowForView,
+      'from_cache': false,
+    };
+  }
+
   final existingJson = box.get(key);
   if (existingJson != null) {
     final cachedMap = json.decode(existingJson);
@@ -94,6 +111,9 @@ class WeatherService {
       };
     }
   }
+
+
+
 
   final now = DateTime.now().toIso8601String();
   final combinedData = {

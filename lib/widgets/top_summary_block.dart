@@ -523,6 +523,7 @@ bool isExpanded = false;
         padding: EdgeInsets.only(top: 12, bottom: 10),
         margin: EdgeInsets.fromLTRB(12, 0, 12, 0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
         children: [
       GestureDetector(
         onTap: () {

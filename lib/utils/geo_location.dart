@@ -39,7 +39,7 @@ Future<Map<String, String>> reverseGeocode(double latitude, double longitude) as
                   ? place.administrativeArea!
                   : place.name?.isNotEmpty == true
                       ? place.name!
-                      : 'Current location';
+                      : 'Current';
 
       String country = place.country ?? '';
 
