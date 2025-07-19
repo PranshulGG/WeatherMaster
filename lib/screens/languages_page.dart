@@ -154,13 +154,12 @@ class TranslationProgressService {
       final timestamp = DateTime.fromMillisecondsSinceEpoch(parsed['timestamp']);
 
       if (now.difference(timestamp).inHours < 24) {
-        print("Using cached data. ${parsed}" );
         return Map<String, int>.from(parsed['progressData']);
       }
     }
 
     final response = await http.get(
-      Uri.parse('https://api.crowdin.com/api/v2/projects/$projectId/languages/progress?limit=30&offset=0'),
+      Uri.parse('https://api.crowdin.com/api/v2/projects/$projectId/languages/progress?limit=31&offset=0'),
       headers: {
         'Authorization': 'Bearer $apiToken',
         'Content-Type': 'application/json',
@@ -168,7 +167,6 @@ class TranslationProgressService {
     );
 
 
-    print(response);
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
@@ -459,7 +457,9 @@ Map<String, String> getLanguageNames(Locale locale) {
   if (lang == 'zh' && country == 'TW') {
     return {'native': '繁體中文', 'english': 'Traditional Chinese'};
   }
-
+  if (lang == 'ca' && country == 'ES') {
+    return {'native': 'Català', 'english': 'Catalan'};
+  }
   return {'native': '$lang${country != null ? "_$country" : ""}', 'english': 'Unknown'};
 }
 
