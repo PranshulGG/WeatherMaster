@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/saved_location.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../utils/geoLocation.dart'; 
+import '../utils/geo_location.dart'; 
 import '../services/fetch_data.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '../models/loading_me.dart';
@@ -88,9 +88,9 @@ Widget build(BuildContext context) {
           future: _getCurrentHomeInfo(),
           builder: (context, homeSnapshot) {
 
-final homeData = homeSnapshot.data ?? {'cacheKey': '', 'isGPS': false};
-    final currentCacheKey = homeData['cacheKey'] ?? '';
-    final isGPS = homeData['isGPS'] ?? false;
+    final homeData = homeSnapshot.data ?? {'cacheKey': '', 'isGPS': false};
+        final currentCacheKey = homeData['cacheKey'] ?? '';
+        final isGPS = homeData['isGPS'] ?? false;
 
             return CustomScrollView(
               slivers: [

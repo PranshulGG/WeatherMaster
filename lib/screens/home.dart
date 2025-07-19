@@ -1,38 +1,63 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import '../utils/theme.dart';
-import 'package:hive/hive.dart';
-import '../screens/settings.dart';
-import '../screens/locations.dart';
-import '../widgets/top_weather_card.dart';
-import '../widgets/hourly_card.dart';
-import '../widgets/daily_card.dart';
-import 'package:flutter/services.dart';
-import 'dart:convert';
-import '../utils/animation_map.dart';
-import '../services/fetch_data.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:material_color_utilities/material_color_utilities.dart';
-import '../utils/froggy_map.dart';
-import '../utils/theme_controller.dart';
-import 'package:provider/provider.dart';
-import '../utils/preferences_helper.dart';
-import '../widgets/top_summary_block.dart';
-import '../widgets/current_conditions_card.dart';
-import '../widgets/rain_block.dart';
-import '../models/insights_gen.dart';
-import 'dart:math';
-import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
-import '../models/loading_me.dart';
-import '../notifiers/unit_settings_notifier.dart';
-import '../notifiers/layout_provider.dart';
-import '../utils/geoLocation.dart'; 
-import '../models/saved_location.dart';
-import 'package:http/http.dart' as http;
+// Dart core libraries
 import 'dart:async';
-import '../widgets/pollen_card.dart';
-import '../models/layout_config.dart';
+import 'dart:convert';
+import 'dart:math';
+
+// Flutter packages
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+// Third-party packages
+import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:hive/hive.dart';
+import 'package:http/http.dart' as http;
+import 'package:material_color_utilities/material_color_utilities.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+// App utilities
+import '../utils/animation_map.dart';
+import '../utils/froggy_map.dart';
+import '../utils/geo_location.dart';
+import '../utils/preferences_helper.dart';
 import '../utils/snack_util.dart';
+import '../utils/theme.dart';
+import '../utils/theme_controller.dart';
+
+// App models
+import '../models/insights_gen.dart';
+import '../models/layout_config.dart';
+import '../models/loading_me.dart';
+import '../models/saved_location.dart';
+
+// App screens
+import '../screens/locations.dart';
+import '../screens/settings.dart';
+
+// App controllers
+import '../controllers/froggy_img.dart';
+import '../controllers/gradient.dart';
+import '../controllers/gradient_list.dart';
+import '../controllers/home_f.dart';
+import '../controllers/view_location.dart';
+
+// App notifiers
+import '../notifiers/layout_provider.dart';
+import '../notifiers/unit_settings_notifier.dart';
+
+// App services
+import '../services/fetch_data.dart';
+
+// App widgets
+import '../widgets/current_conditions_card.dart';
+import '../widgets/daily_card.dart';
+import '../widgets/hourly_card.dart';
+import '../widgets/pollen_card.dart';
+import '../widgets/rain_block.dart';
+import '../widgets/top_summary_block.dart';
+import '../widgets/top_weather_card.dart';
+
 
 class WeatherHome extends StatefulWidget {
 
@@ -71,10 +96,10 @@ class _WeatherHomeState extends State<WeatherHome> {
     Widget? weatherAnimationWidget;
     int? _cachedWeatherCode;
     int? _cachedIsDay;
-bool _showHeader = false;
-final ValueNotifier<bool> _showHeaderNotifier = ValueNotifier(false);
-  late bool isHomeLocation;
-  final ScrollController _scrollController = ScrollController();
+    bool isViewLocation = false;
+    final ValueNotifier<bool> _showHeaderNotifier = ValueNotifier(false);
+    late bool isHomeLocation;
+    final ScrollController _scrollController = ScrollController();
 
   bool _isAppFullyLoaded = false;
   bool shouldSkipAppFullyLoaded = false;
@@ -308,7 +333,7 @@ Future<void> saveLayoutConfig() async {
   } else if (isHomeLocation && lastUpdated != null) {
     final lastUpdateTime = DateTime.tryParse(lastUpdated);
     final now = DateTime.now();
-    if (lastUpdateTime != null && now.difference(lastUpdateTime).inMinutes < 45) {
+    if (lastUpdateTime != null && now.difference(lastUpdateTime).inMinutes < 450) {
       _isAppFullyLoaded = true; 
     } else{
     checkAndUpdateHomeLocation();
@@ -387,6 +412,13 @@ Future<void> _loadWeatherIconFroggy(int weatherCode, bool isDay, newindex) async
 Future<void> _refreshWeatherData() async {
 
   final hasInternet = await hasRealInternet();
+
+
+  if(isViewLocation){
+    if (!mounted) return;
+      SnackUtil.showSnackBar(context: context, message: "Location is not saved");
+    return;
+  }
 
   if (!hasInternet) {
     if (!mounted) return;
@@ -606,310 +638,8 @@ void didChangeDependencies() {
       
 
 
-  final List<LinearGradient> gradients = [ 
-
-      // cloudy
-   isLight ? 
-   LinearGradient(
-    colors: [
-      Color(0xFFc6d3e4),
-      Color(0xFFd5e4f7)
-    ],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    stops: [0, 0.5],
-    )
-   : LinearGradient(
-      colors: [Color(paletteWeather.neutral.get(10)), Color(paletteWeather.secondary.get(25))],
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
-      stops: [0, 0.5]
-    ),
-
-
-    // overcast
-  isLight ? 
-    LinearGradient(
-    colors: [
-      Color(0xFFc9d3e0),
-      Color(0xFFcfdef1)
-    ],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    stops: [0, 0.5],
-    )
-   :
-     LinearGradient(
-      colors: [Color(paletteWeather.neutral.get(20)), Color(paletteWeather.secondary.get(15))],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      stops: [0, 0.5]
-    ),
-    
-    // clear day
-       isLight ? 
-   LinearGradient(
-    colors: [
-      Color(0xFF9dceff),
-      Color(0xFFcee5ff)
-    ],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    stops: [0, 0.5],
-    )
-   :
-     LinearGradient(
-      colors: [const Color.fromARGB(255, 4, 36, 83), Color(0xFF004a76)],
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
-      stops: [0, 0.5]
-    ),
-
-    // clear night
-       isLight ? 
-   LinearGradient(
-    colors: [
-    Color.fromARGB(255, 227, 232, 255), Color.fromARGB(255, 189, 197, 236)
-    ],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    stops: [0, 0.5],
-    )
-   :
-     LinearGradient(
-      colors: [Color.fromARGB(255, 0, 0, 0), Color(0xFF162155)],
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
-      stops: [0, 0.5]
-    ),
-
-    // fog
-      isLight ? 
-   LinearGradient(
-    colors: [
-    Color.fromARGB(255, 245, 237, 219), Color.fromARGB(255, 255, 236, 192)
-    ],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    stops: [0, 0.5],
-    )
-   :
-    const LinearGradient(
-      colors: [Color(0xFF191209), Color(0xFF352603)],
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
-      stops: [0, 0.5]
-    ),
-
-
-    // rain
-      isLight ? 
-    LinearGradient(
-    colors: [
-      Color(0xFFaab8ca),
-      Color(0xFFc4d3e5)
-    ],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    stops: [0, 0.5],
-    )
-   :
-     LinearGradient(
-      colors: [Color(0xFF050709), Color(0xFF1e2c3a)],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      stops: [0, 0.5]
-    ),
-
-    // thunder
-  isLight ? 
-    LinearGradient(
-    colors: [
-  Color.fromARGB(255, 231, 201, 243), Color.fromARGB(255, 223, 196, 229)
-    ],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    stops: [0, 0.5],
-    )
-   :
-    const LinearGradient(
-      colors: [Color(0xFF15021a), Color.fromARGB(255, 76, 40, 88)],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      stops: [0, 0.5]
-    ),
-
-      isLight ? 
-    LinearGradient(
-    colors: [
-      Color.fromARGB(255, 170, 200, 202),
-      Color.fromARGB(255, 196, 225, 229)
-    ],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    stops: [0, 0.5],
-    )
-   :
-    const LinearGradient(
-      colors: [Color.fromARGB(255, 0, 0, 0), Color.fromARGB(255, 17, 23, 29)],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      stops: [0, 0.5]
-    ),
-
-  ];
-
-  final List<LinearGradient> gradientsScrolled = [ 
-
-      // cloudy
-         isLight ? 
-   LinearGradient(
-    colors: [
-      Color(0xFFd5e4f7),
-      Color(0xFFd5e4f7)
-    ],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    stops: [0, 0.5],
-    )
-   : LinearGradient(
-      colors: [Color(paletteWeather.secondary.get(25)), Color(paletteWeather.secondary.get(25))],
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
-      stops: [0, 0.5]
-    ),
-
-    // overcast
-    isLight ? 
-    LinearGradient(
-    colors: [
-      Color(0xFFcfdef1),
-      Color(0xFFcfdef1)
-    ],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    stops: [0, 0.5],
-    )
-   :
-     LinearGradient(
-      colors: [Color(paletteWeather.secondary.get(15)), Color(paletteWeather.secondary.get(15))],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      stops: [0, 0.5]
-    ),
-    
-    // clear day
-
-           isLight ? 
-   LinearGradient(
-    colors: [
-      Color(0xFFcee5ff),
-      Color(0xFFcee5ff)
-    ],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    stops: [0, 0.5],
-    )
-   :
-     LinearGradient(
-      colors: [Color(0xFF004a76), Color(0xFF004a76)],
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
-      stops: [0, 0.5]
-    ),
-
-    // clear night
-           isLight ? 
-   LinearGradient(
-    colors: [
-    Color.fromARGB(255, 189, 197, 236), Color.fromARGB(255, 189, 197, 236)
-    ],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    stops: [0, 0.5],
-    )
-   :
-     LinearGradient(
-      colors: [Color(0xFF162155), Color(0xFF162155)],
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
-      stops: [0, 0.5]
-    ),
-
-    // fog
-          isLight ? 
-   LinearGradient(
-    colors: [
-    Color.fromARGB(255, 255, 236, 192), Color.fromARGB(255, 255, 236, 192)
-    ],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    stops: [0, 0.5],
-    )
-   :
-    const LinearGradient(
-      colors: [Color(0xFF352603), Color(0xFF352603)],
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
-      stops: [0, 0.5]
-    ),
-
-    // rain
-        isLight ? 
-    LinearGradient(
-    colors: [
-      Color(0xFFc4d3e5),
-      Color(0xFFc4d3e5)
-    ],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    stops: [0, 0.5],
-    )
-   :
-     LinearGradient(
-      colors: [Color(0xFF1e2c3a), Color(0xFF1e2c3a)],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      stops: [0, 0.5]
-    ),
-
-    // thunder
-      isLight ? 
-    LinearGradient(
-    colors: [
-  Color.fromARGB(255, 171, 145, 180), Color.fromARGB(255, 223, 196, 229)
-    ],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    stops: [0, 0.5],
-    )
-   :
-    const LinearGradient(
-      colors: [Color.fromARGB(255, 76, 40, 88), Color.fromARGB(255, 76, 40, 88)],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      stops: [0, 0.5]
-    ),
-
-      isLight ? 
-    LinearGradient(
-    colors: [
-      Color.fromARGB(255, 196, 225, 229),
-      Color.fromARGB(255, 196, 225, 229)
-    ],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    stops: [0, 0.5],
-    )
-   :
-    const LinearGradient(
-      colors: [Color.fromARGB(255, 17, 23, 29), Color.fromARGB(255, 17, 23, 29)],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      stops: [0, 0.5]
-    ),
-
-  ];
+final gradients = getGradients(isLight);
+final gradientsScrolled = getGradientsScrolled(isLight);
 
 
     return Stack(
@@ -1391,7 +1121,7 @@ Widget buildLayoutBlock(LayoutBlockType type) {
           );
 
     case LayoutBlockType.pollen:
-      return      _isPollenDataAvailable([
+      return   isPollenDataAvailable([
           alderPollen,
           birchPollen,
           olivePollen,
@@ -1449,6 +1179,30 @@ Widget buildLayoutBlock(LayoutBlockType type) {
             );
 
             if (result != null) {
+              if(result['viewLocaton'] == true){
+                    setState(() {
+                    cityName = PreferencesHelper.getJson('selectedViewLocation')?['city'];
+                    countryName = PreferencesHelper.getJson('selectedViewLocation')?['country'];
+                    cacheKey = PreferencesHelper.getJson('selectedViewLocation')?['cacheKey'];
+                    lat = PreferencesHelper.getJson('selectedViewLocation')?['lat'];
+                    lon = PreferencesHelper.getJson('selectedViewLocation')?['lon'];
+                    isViewLocation = true;
+                    _isAppFullyLoaded = false;
+                    _istriggeredFromLocations = true;
+                    themeCalled = false;
+                    _isLoadingFroggy = true;
+                  });
+
+                   weatherFuture = WeatherService().fetchWeather(
+                        PreferencesHelper.getJson('selectedViewLocation')?['lat'], 
+                        PreferencesHelper.getJson('selectedViewLocation')?['lon'], 
+                        locationName: "${PreferencesHelper.getJson('selectedViewLocation')?['city']}, ${PreferencesHelper.getJson('selectedViewLocation')?['country']}",
+                        context: context,
+                        isOnlyView: true,
+                      );
+                return;
+              }
+
             final newCity = result['city'];
             final newCountry = result['country'];
             final newCacheKey = result['cacheKey'];
@@ -1474,8 +1228,8 @@ Widget buildLayoutBlock(LayoutBlockType type) {
                 _isAppFullyLoaded = false;
                 _istriggeredFromLocations = true;
                 themeCalled = false;
+                isViewLocation = false;
                 _isLoadingFroggy = true;
-
               });
 
               weatherFuture = getWeatherFromCache();
@@ -1529,6 +1283,22 @@ Widget buildLayoutBlock(LayoutBlockType type) {
                       icon: const Icon(Icons.settings_outlined),
                     ),
 
+                  if(isViewLocation) 
+                    FilledButton(
+                      onPressed: () => handleSaveLocationView(
+                        context: context,
+                        updateUIState: () {
+                          setState(() {
+                            isViewLocation = false;
+                            _isAppFullyLoaded = false;
+                            _istriggeredFromLocations = true;
+                            themeCalled = false;
+                            _isLoadingFroggy = true;
+                          });
+                        },
+                      ),
+                    style: ButtonStyle(backgroundColor: WidgetStateProperty.all(Theme.of(context).colorScheme.tertiary)),
+                     child: Text("Save", style: TextStyle(color: Theme.of(context).colorScheme.onTertiary, fontWeight: FontWeight.w600),),)
                   ],
                 ),
               )
@@ -1548,28 +1318,28 @@ Widget buildLayoutBlock(LayoutBlockType type) {
                   currentisDay: current['is_day'],
                   currentLastUpdated: formattedTime,
                 ),
-        WeatherFrogIconWidget(iconUrl: _iconUrlFroggy),
-         const SizedBox(height: 12),
-      Column(
-        children: () {
-          final visibleBlocks = layoutConfig.where((block) => block.isVisible).toList();
+              WeatherFrogIconWidget(iconUrl: _iconUrlFroggy),
+              const SizedBox(height: 12),
+          Column(
+            children: () {
+              final visibleBlocks = layoutConfig.where((block) => block.isVisible).toList();
 
-          final List<Widget> children = [];
-          for (int i = 0; i < visibleBlocks.length; i++) {
-            final currentBlock = visibleBlocks[i];
-            children.add(buildLayoutBlock(currentBlock.type));
+              final List<Widget> children = [];
+              for (int i = 0; i < visibleBlocks.length; i++) {
+                final currentBlock = visibleBlocks[i];
+                children.add(buildLayoutBlock(currentBlock.type));
 
-            final isRainThenInsights = currentBlock.type == LayoutBlockType.rain &&
-                i + 1 < visibleBlocks.length &&
-                visibleBlocks[i + 1].type == LayoutBlockType.insights;
+                final isRainThenInsights = currentBlock.type == LayoutBlockType.rain &&
+                    i + 1 < visibleBlocks.length &&
+                    visibleBlocks[i + 1].type == LayoutBlockType.insights;
 
-            if (!isRainThenInsights && i < visibleBlocks.length - 1) {
-              children.add(const SizedBox(height: 8.5));
-            }
-          }
-          return children;
-        }(),
-      ),
+                if (!isRainThenInsights && i < visibleBlocks.length - 1) {
+                  children.add(const SizedBox(height: 8.5));
+                }
+              }
+              return children;
+            }(),
+          ),
 
 
       
@@ -1595,159 +1365,3 @@ Widget buildLayoutBlock(LayoutBlockType type) {
     
   }
 }
-
-
-class ScrollReactiveGradient extends StatefulWidget {
-  final ScrollController scrollController;
-  final LinearGradient baseGradient;
-  final LinearGradient scrolledGradient;
-  final ValueNotifier<bool>? headerVisibilityNotifier;
-
-  const ScrollReactiveGradient({
-    required this.scrollController,
-    required this.baseGradient,
-    required this.scrolledGradient,
-    this.headerVisibilityNotifier,
-    super.key,
-  });
-
-  @override
-  State<ScrollReactiveGradient> createState() => _ScrollReactiveGradientState();
-}
-
-class _ScrollReactiveGradientState extends State<ScrollReactiveGradient> {
-  bool _isScrolled = false;
-
-  @override
-  void initState() {
-    super.initState();
-    widget.scrollController.addListener(_onScroll);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _checkScroll();
-    });
-  }
-
-  @override
-  void didUpdateWidget(covariant ScrollReactiveGradient oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _checkScroll(); 
-  }
-
-  void _onScroll() {
-    _checkScroll();
-  }
-
-  void _checkScroll() {
-    final isNowScrolled = widget.scrollController.offset > 300;
-    if (_isScrolled != isNowScrolled) {
-      setState(() {
-        _isScrolled = isNowScrolled;
-
-      });
-
-if (widget.headerVisibilityNotifier != null &&
-        widget.headerVisibilityNotifier!.value != isNowScrolled) {
-      widget.headerVisibilityNotifier!.value = isNowScrolled;
-    }
-    }
-
-  }
-
-  @override
-  void dispose() {
-    widget.scrollController.removeListener(_onScroll);
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    final useFullMaterialScheme = PreferencesHelper.getBool("OnlyMaterialScheme") ?? false;
-
-    return Stack(
-      children: [
-        AnimatedOpacity(
-          duration: const Duration(milliseconds: 0),
-          opacity: _isScrolled ? 0 : 1,
-          child: Container(
-            decoration:!useFullMaterialScheme ? BoxDecoration(
-              gradient: widget.baseGradient,
-            ) : BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceContainerLow
-            )
-          ),
-        ),
-        AnimatedOpacity(
-          duration: const Duration(milliseconds: 0),
-          opacity: _isScrolled ? 1 : 0,
-          child: Container(
-            decoration: !useFullMaterialScheme ? BoxDecoration(
-              gradient: widget.scrolledGradient,
-            ) : BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceContainerLow
-            )
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-
-List<Map<String, dynamic>> convertToListOfMaps(Map<String, dynamic> data) {
-  final length = (data.values.first as List).length;
-  return List.generate(length, (index) {
-    return data.map((key, valueList) => MapEntry(key, valueList[index]));
-  });
-}
-
-
-
-class WeatherFrogIconWidget extends StatelessWidget {
-  final String? iconUrl;
-
-  const WeatherFrogIconWidget({super.key, required this.iconUrl});
-
-  @override
-  Widget build(BuildContext context) {
-    if (iconUrl == null) {
-      return const Text("");
-    }
-    
-    final isShowFrog = context.read<UnitSettingsNotifier>().showFrog;
-
-    return isShowFrog ? iconUrl!.startsWith('http')
-        ? Image.network(
-            iconUrl!,
-            loadingBuilder: (context, child, loadingProgress) {
-              if (loadingProgress == null) return child;
-              return const Text("Loading...");
-            },
-          )
-        : Image.asset(iconUrl!) : SizedBox.shrink() ;
-  }
-}
-
-int getStartIndex(utc_offset_seconds, hourlyTime) {
-    final offset = Duration(seconds: int.parse(utc_offset_seconds));
-    final nowUtc = DateTime.now().toUtc();
-    final nowLocal = nowUtc.add(offset);
-
-    final timeUnit = PreferencesHelper.getString("selectedTimeUnit") ?? '12 hr';
-
-
-    final roundedNow = DateTime(nowLocal.year, nowLocal.month, nowLocal.day, nowLocal.hour);
-
-    int startIndex = hourlyTime.indexWhere((timeStr) {
-      final forecastLocal = DateTime.parse(timeStr); 
-      return !forecastLocal.isBefore(roundedNow);
-    });
-
-    if (startIndex == -1) startIndex = 0;
-
-    return startIndex;
-}
-
-  bool _isPollenDataAvailable(List<double?> values) {
-    return values.every((value) => value != null);
-  }
