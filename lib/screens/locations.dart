@@ -234,7 +234,7 @@ Widget buildDismissibleListView({Key? key}) {
                                         Theme.of(context).colorScheme.primary,
                                   ),
                                   Text(
-                                    "current_location".tr(),
+                                    "default_location".tr(),
                                     style: TextStyle(
                                         color: Theme.of(context)
                                             .colorScheme
