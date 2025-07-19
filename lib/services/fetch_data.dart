@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:hive/hive.dart';
 import 'package:lat_lng_to_timezone/lat_lng_to_timezone.dart' as tzmap;
 import '../utils/preferences_helper.dart';
+import 'package:flutter/material.dart';
+import '../screens/meteo_models.dart';
 
 class WeatherService {
   static const String _boxName = 'weatherMasterCache';
@@ -17,7 +19,7 @@ class WeatherService {
   
 
 
-  Future<Map<String, dynamic>> fetchWeather(double lat, double lon, {String? locationName}) async {
+  Future<Map<String, dynamic>?> fetchWeather(double lat, double lon, {String? locationName, BuildContext? context,}) async {
     final timezone = tzmap.latLngToTimezoneString(lat, lon);
     final key = locationName ?? 'loc_${lat}_${lon}';
     final box = await _openBox();
@@ -50,6 +52,29 @@ class WeatherService {
 
   final weatherData = json.decode(responses[0].body) as Map<String, dynamic>;
   final airQualityData = json.decode(responses[1].body) as Map<String, dynamic>;
+
+   if (weatherData['error'] == true || airQualityData['error'] == true) {
+    final reason = weatherData['reason'] ?? airQualityData['reason'] ?? 'Unknown error';
+    
+    if (context != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(reason),
+          action: SnackBarAction(
+            label: 'Change model',
+            onPressed: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const MeteoModelsPage()),
+                );
+            },
+          ),
+        ),
+      );
+    }
+
+
+    return null; 
+  }
 
   final existingJson = box.get(key);
   if (existingJson != null) {

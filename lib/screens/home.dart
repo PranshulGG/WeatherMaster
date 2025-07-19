@@ -308,7 +308,7 @@ Future<void> saveLayoutConfig() async {
   } else if (isHomeLocation && lastUpdated != null) {
     final lastUpdateTime = DateTime.tryParse(lastUpdated);
     final now = DateTime.now();
-    if (lastUpdateTime != null && now.difference(lastUpdateTime).inMinutes < 45) {
+    if (lastUpdateTime != null && now.difference(lastUpdateTime).inMinutes < 450) {
       _isAppFullyLoaded = true; 
     } else{
     checkAndUpdateHomeLocation();
@@ -427,11 +427,11 @@ Future<void> _refreshWeatherData() async {
     lat!,
     lon!,
     locationName: cacheKey,
+    context: context
   );
 
 
 
- weatherFuture = getWeatherFromCache();
 
   setState(() {
   _isAppFullyLoaded = false;
@@ -439,6 +439,7 @@ Future<void> _refreshWeatherData() async {
   _isLoadingFroggy = true;
     themeCalled = false;
   });
+ weatherFuture = getWeatherFromCache();
 }
 
         Future<void> _setLatLon() async {
@@ -534,6 +535,7 @@ if(storedLocation['isGPS'] ?? false){
         currentLat,
         currentLon,
         locationName: currentCacheKey,
+        context: context
       );
 
 
@@ -1156,12 +1158,6 @@ void maybeUpdateWeatherAnimation(Map<String, dynamic> current) {
 
 
 
-WidgetsBinding.instance.addPostFrameCallback((_) {
-  maybeUpdateWeatherAnimation(current);
-});
-
-
-
 
       final Map<String, (DateTime, DateTime)> daylightMap = {
         for (int i = 0; i < dailyDates.length; i++)
@@ -1213,6 +1209,7 @@ if (lastWeatherCode != weatherCode || lastIsDay != isDay) {
               _isLoadingFroggy = true;
               showInsightsRandomly = Random().nextInt(100) < 40;
               PreferencesHelper.setColor("weatherThemeColor", weatherConditionColors[newIndex]);
+               maybeUpdateWeatherAnimation(current);
             _loadWeatherIconFroggy(weatherCodeFroggy, isDayFroggy, newIndex);
 
           }
@@ -1223,6 +1220,8 @@ if (lastWeatherCode != weatherCode || lastIsDay != isDay) {
   _loadWeatherIconFroggy(weatherCodeFroggy, isDayFroggy, newIndex);
 
 }
+
+
 
 
     final double? alderPollen = weather['air_quality']['current']['alder_pollen'];

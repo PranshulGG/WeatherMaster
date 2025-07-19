@@ -273,7 +273,7 @@ void openProviderDialog() async {
                         saveLocation(saved);
                     final cacheKey = "${saved.city}_${saved.country}".toLowerCase().replaceAll(' ', '_');
                     final weatherService = WeatherService();
-                    await weatherService.fetchWeather(lat, lon, locationName: cacheKey);
+                    await weatherService.fetchWeather(lat, lon, locationName: cacheKey, context: context);
 
 
                     final prefs = await SharedPreferences.getInstance();
