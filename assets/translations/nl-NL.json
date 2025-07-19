@@ -448,7 +448,7 @@
     "insights_sub_19": "Wind chill can make {temp}° feel like {feelliketemp}° — dress accordingly.",
     "insights_sub_20": "A single thunderstorm can drop over 30 million gallons of water.",
     "insights_sub_21": "Sunlight can be more intense after a rainy day — wear sunscreen.",
-    "insights_sub_22": "Big temperature swings expected today — dress in layers! (tempdiff}°)",
+    "insights_sub_22": "Big temperature swings expected today — dress in layers! ({tempdiff}°)",
     "insights_sub_23": "Temperatures stay fairly stable through the day.",
     "insights_sub_24": "High UV levels expected — especially around midday. Don’t forget sunscreen!",
     "insights_sub_25": "Moderate UV levels today — still good to take precautions.",
