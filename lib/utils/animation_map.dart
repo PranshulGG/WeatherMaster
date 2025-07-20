@@ -58,6 +58,7 @@ class WeatherConditionAnimationMapper {
       case 56:
       case 57:
         animationUrl = 'assets/foreground-animations/rain_foreground.json';
+          topMain = 15;
         break;
 
       case 61:
@@ -66,13 +67,13 @@ class WeatherConditionAnimationMapper {
         animationUrl = isDay == 1
             ? 'assets/foreground-animations/rain_foreground.json'
             : 'assets/foreground-animations/rain_foreground.json';
-
+          topMain = 15;
         break;
 
       case 66:
       case 67:
         animationUrl = 'assets/foreground-animations/rain_foreground.json';
-        
+          topMain = 15;
         break;
 
       case 71:
@@ -91,7 +92,7 @@ class WeatherConditionAnimationMapper {
       case 81:
       case 82:
         animationUrl = 'assets/foreground-animations/rain_foreground.json';
-
+          topMain = 15;
         break;
 
       case 85:

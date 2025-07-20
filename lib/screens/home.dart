@@ -114,6 +114,7 @@ class _WeatherHomeState extends State<WeatherHome> {
   bool _istriggeredFromLocations = false;
   bool showInsightsRandomly = false;
   int? lastWeatherCode;
+  bool isfirstStart = true;
 
   bool? lastIsDay;
 
@@ -260,7 +261,7 @@ Future<void> saveLayoutConfig() async {
   } else if (isHomeLocation && lastUpdated != null) {
     final lastUpdateTime = DateTime.tryParse(lastUpdated);
     final now = DateTime.now();
-    if (lastUpdateTime != null && now.difference(lastUpdateTime).inMinutes < 450) {
+    if (lastUpdateTime != null && now.difference(lastUpdateTime).inMinutes < 45) {
       _isAppFullyLoaded = true; 
     } else{
     checkAndUpdateHomeLocation();
@@ -278,13 +279,14 @@ Future<bool> hasRealInternet() async {
         .timeout(Duration(seconds: 5));
     return response.statusCode == 200;
   }  catch (e) {
-    if (mounted) {
+    if (mounted && isfirstStart) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('network_unavailable'.tr()),
           duration: Duration(seconds: 3),
         ),
       );
+      isfirstStart = false;
     }
     return false;
   }
@@ -385,7 +387,7 @@ Future<void> _refreshWeatherData() async {
   }
 
   final weatherService = WeatherService();
-  await weatherService.fetchWeather(
+  final result = await weatherService.fetchWeather(
     lat!,
     lon!,
     locationName: cacheKey,
@@ -393,7 +395,9 @@ Future<void> _refreshWeatherData() async {
   );
 
 
-
+if (result == null) {
+  return;
+}
 
   setState(() {
   _isAppFullyLoaded = false;
@@ -662,20 +666,25 @@ Widget _buildMainBody() {
         child,
         
         AnimatedBuilder(
-          animation: controller,
-          builder: (_, __) {
-            final val = controller.value.clamp(0.0, 1.0);
-            return Positioned(
-              top: -30 + 120 * val,
-              child: Opacity(
-                opacity: val,
-                child: RepaintBoundary(
-                child: LoaderWidget(size: 50, isContained: true,), 
-                )
+  animation: controller,
+  builder: (_, __) {
+    final val = controller.value.clamp(0.0, 1.0);
+    final isVisible = val > 0.0;
+
+    return isVisible
+        ? Positioned(
+            top: -30 + 120 * val,
+            child: Opacity(
+              opacity: val,
+              child: RepaintBoundary(
+                child: LoaderWidget(size: 50, isContained: true),
               ),
-            );
-          },
-        ),
+            ),
+          )
+        : const SizedBox.shrink();
+  },
+),
+
       ],
     );
   },
@@ -752,8 +761,9 @@ Widget _buildWeatherContent() {
 
       ];
 
+ 
 
-
+ 
   return  FutureBuilder<Map<String, dynamic>?>(
       future: weatherFuture,
       builder: (context, snapshot) {
@@ -781,7 +791,6 @@ Widget _buildWeatherContent() {
 
   final int weatherCodeFroggy = current['weather_code'] ?? 0;
   final bool isDayFroggy = current['is_day'] == 1;
-
 
 
 
@@ -887,7 +896,6 @@ if (lastWeatherCode != weatherCode || lastIsDay != isDay) {
 
 
 
-
     final double? alderPollen = weather['air_quality']['current']['alder_pollen'];
     final double? birchPollen = weather['air_quality']['current']['birch_pollen'];
     final double? grassPollen = weather['air_quality']['current']['grass_pollen'];
@@ -973,7 +981,6 @@ if (rainStart != null) {
 }
 
 final bool shouldShowRainBlock = bestStart != null && bestEnd != null;
-
 
 
 
@@ -1083,7 +1090,7 @@ Widget buildLayoutBlock(LayoutBlockType type) {
 
 
 
-    return Column(
+    return _isAppFullyLoaded ?   Column(
       children: [
             Stack(
             clipBehavior: Clip.none,
@@ -1293,7 +1300,8 @@ Widget buildLayoutBlock(LayoutBlockType type) {
             )
 
             ]
-          );  
+            
+          ) : const SizedBox.shrink();  
         }
 
         
