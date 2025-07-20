@@ -1012,7 +1012,7 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                         children: [
                       SizedBox(
                         width: 100,
-                         child: Text("Total rain for the day", style: TextStyle(height: 1.2, color: Theme.of(context).colorScheme.onSurfaceVariant))),
+                         child: Text("total_precip_sub".tr(), style: TextStyle(height: 1.2, color: Theme.of(context).colorScheme.onSurfaceVariant))),
                           Text(currentTotalPrecProb == 0.0000001 ? '--' : "$currentTotalPrecProb%", style: TextStyle(fontWeight: FontWeight.w700, color: Theme.of(context).colorScheme.primary),)
                         ],
                       )
