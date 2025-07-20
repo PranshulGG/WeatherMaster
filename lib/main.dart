@@ -18,6 +18,7 @@ import 'notifiers/layout_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:material_color_utilities/material_color_utilities.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../services/data_backup_service.dart';
 
 final CorePalette paletteStartScreen = CorePalette.of(const Color.fromARGB(255, 255, 196, 0).toARGB32());
 
@@ -338,7 +339,7 @@ class LocationPromptScreen extends StatelessWidget {
           children: [
 
             Container(
-              padding: EdgeInsets.only(top: 40),
+              padding: EdgeInsets.only(top: 20),
               child: SvgPicture.string('''
           <svg height="300.0dip" width="412.0dip" viewBox="0 0 412.0 300.0"
             xmlns:android="http://schemas.android.com/apk/res/android">
@@ -381,7 +382,7 @@ class LocationPromptScreen extends StatelessWidget {
         bottomNavigationBar: 
         
       BottomAppBar(
-        height: 160,
+        height: 215,
         clipBehavior: Clip.hardEdge,
         color: customDarkScheme.surfaceContainerLow,
         
@@ -391,7 +392,7 @@ class LocationPromptScreen extends StatelessWidget {
           FilledButton.icon(
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all(customDarkScheme.primary),
-              minimumSize: WidgetStateProperty.all(const Size(300, 60)), 
+              minimumSize: WidgetStateProperty.all(const Size(300, 55)), 
             ),
              onPressed: () async {
 
@@ -476,7 +477,7 @@ class LocationPromptScreen extends StatelessWidget {
             ),
           OutlinedButton.icon(
             style: ButtonStyle(              
-              minimumSize: WidgetStateProperty.all(const Size(300, 60)), 
+              minimumSize: WidgetStateProperty.all(const Size(100, 55)), 
             side: WidgetStateProperty.all(
               BorderSide(color: customDarkScheme.outline, width: 2), 
             ),
@@ -489,6 +490,23 @@ class LocationPromptScreen extends StatelessWidget {
               },
             icon: Icon(Icons.search, color: customDarkScheme.primary, size: 25,),
             label: Text("Search location", style: TextStyle(color: customDarkScheme.primary, fontSize: 20, fontFamily: 'sans-serif', fontWeight: FontWeight.w400),),
+            ),
+
+
+                      OutlinedButton.icon(
+            style: ButtonStyle(              
+              minimumSize: WidgetStateProperty.all(const Size(100, 55)), 
+            side: WidgetStateProperty.all(
+              BorderSide(color: customDarkScheme.outline, width: 2), 
+            ),
+            ),
+
+           onPressed: () async {
+            await Hive.openBox('weatherMasterCache');
+                await DataBackupService.importAndReplaceAllData(context);
+              },
+            icon: Icon(Icons.download_outlined, color: customDarkScheme.primary, size: 25,),
+            label: Text("Import backup", style: TextStyle(color: customDarkScheme.primary, fontSize: 20, fontFamily: 'sans-serif', fontWeight: FontWeight.w400),),
             ),
           ],
       ),

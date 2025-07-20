@@ -14,7 +14,7 @@ import '../utils/snack_util.dart';
 import 'about_page.dart';
 import 'meteo_models.dart';
 import 'edit_layout_page.dart';
-
+import '../services/data_backup_service.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -314,6 +314,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     }, 
                   ),  
 
+                  SettingActionTile(
+                    icon: Icon(Symbols.upload, fill: 1, weight: 500),
+                    title: Text("export_data".tr()),
+                    trailing: Icon(Icons.chevron_right),
+                    onTap: () async {
+                      await DataBackupService.exportData();                  
+                    }, 
+                  ),  
+
+                SettingActionTile(
+                    icon: Icon(Symbols.download, fill: 1, weight: 500),
+                    title: Text("import_data".tr()),
+                    trailing: Icon(Icons.chevron_right),
+                    onTap: () async {
+                      await DataBackupService.importAndReplaceAllData(context);              
+                    }, 
+                  ), 
+
                     SettingActionTile(
                     icon: Icon(Symbols.info, fill: 1, weight: 500),
                     title: Text('${"about".tr()} WeatherMaster'),
@@ -330,6 +348,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
 
                   SizedBox(height: 200,),
+
+
                 ]
               ),
           ),

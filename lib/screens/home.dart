@@ -260,7 +260,7 @@ Future<void> saveLayoutConfig() async {
   } else if (isHomeLocation && lastUpdated != null) {
     final lastUpdateTime = DateTime.tryParse(lastUpdated);
     final now = DateTime.now();
-    if (lastUpdateTime != null && now.difference(lastUpdateTime).inMinutes < 45) {
+    if (lastUpdateTime != null && now.difference(lastUpdateTime).inMinutes < 450) {
       _isAppFullyLoaded = true; 
     } else{
     checkAndUpdateHomeLocation();
@@ -294,6 +294,7 @@ Future<bool> hasRealInternet() async {
  
 
 Future<void> _loadWeatherIconFroggy(int weatherCode, bool isDay, newindex) async {
+
   await _weatherManager.initializeIcons();
   final icon = _weatherManager.getFroggieIcon(weatherCode, isDay);
   if (mounted && _isLoadingFroggy == true) {
@@ -307,6 +308,7 @@ Future<void> _loadWeatherIconFroggy(int weatherCode, bool isDay, newindex) async
             _isAppFullyLoaded = true;
 
         }
+
         });
       }
 
@@ -314,7 +316,6 @@ Future<void> _loadWeatherIconFroggy(int weatherCode, bool isDay, newindex) async
 
         if(themeCalled == false){
 
-          themeCalled = true;
           _iconUrlFroggy = icon;
           _isLoadingFroggy = false;
         if(_istriggeredFromLocations){
@@ -325,6 +326,7 @@ Future<void> _loadWeatherIconFroggy(int weatherCode, bool isDay, newindex) async
             .setSeedColor(weatherConditionColors[newindex]);
 
 
+          themeCalled = true;
 
       }
     
@@ -333,6 +335,7 @@ Future<void> _loadWeatherIconFroggy(int weatherCode, bool isDay, newindex) async
   
 
   }
+
 }
 
 
@@ -571,10 +574,7 @@ final gradientsScrolled = getGradientsScrolled(isLight);
 
     return Stack(
   children: [
-    // Container(
-    //   decoration: BoxDecoration(
-    //     gradient: gradients[selectedGradientIndex],
-    //   ),
+
     
          ScrollReactiveGradient(
         scrollController: _scrollController,
@@ -652,6 +652,7 @@ String _formatLastUpdated(String isoTime) {
 Widget _buildMainBody() {
   
   final padding = MediaQuery.of(context).padding;
+
   return CustomRefreshIndicator(
   onRefresh: _refreshWeatherData, 
   builder: (context, child, controller) {
@@ -659,6 +660,7 @@ Widget _buildMainBody() {
       alignment: Alignment.topCenter,
       children: [
         child,
+        
         AnimatedBuilder(
           animation: controller,
           builder: (_, __) {
@@ -667,7 +669,9 @@ Widget _buildMainBody() {
               top: -30 + 120 * val,
               child: Opacity(
                 opacity: val,
+                child: RepaintBoundary(
                 child: LoaderWidget(size: 50, isContained: true,), 
+                )
               ),
             );
           },
@@ -776,7 +780,9 @@ Widget _buildWeatherContent() {
     final String? lastUpdated = raw['last_updated'];
 
   final int weatherCodeFroggy = current['weather_code'] ?? 0;
-final bool isDayFroggy = current['is_day'] == 1;
+  final bool isDayFroggy = current['is_day'] == 1;
+
+
 
 
     final hourly = weather['hourly'];
@@ -793,6 +799,7 @@ final bool isDayFroggy = current['is_day'] == 1;
     final List<dynamic> dailyTempsMax = daily['temperature_2m_max'];
     final List<dynamic> dailyPrecProb = daily['precipitation_probability_max'];
     final List<dynamic> dailyWeatherCodes = daily['weather_code'];
+
 
 void maybeUpdateWeatherAnimation(Map<String, dynamic> current) {
   final int weatherCode = current['weather_code'];
@@ -966,6 +973,8 @@ if (rainStart != null) {
 }
 
 final bool shouldShowRainBlock = bestStart != null && bestEnd != null;
+
+
 
 
 Widget buildLayoutBlock(LayoutBlockType type) {
@@ -1215,13 +1224,13 @@ Widget buildLayoutBlock(LayoutBlockType type) {
                       onPressed: () => handleSaveLocationView(
                         context: context,
                         updateUIState: () {
-                          setState(() {
-                            isViewLocation = false;
-                            _isAppFullyLoaded = false;
-                            _istriggeredFromLocations = true;
-                            themeCalled = false;
-                            _isLoadingFroggy = true;
-                          });
+                          // setState(() {
+                          //   isViewLocation = false;
+                          //   _isAppFullyLoaded = false;
+                          //   _istriggeredFromLocations = true;
+                          //   themeCalled = false;
+                          //   _isLoadingFroggy = true;
+                          // });
                         },
                       ),
                     style: ButtonStyle(backgroundColor: WidgetStateProperty.all(Theme.of(context).colorScheme.tertiary)),
@@ -1287,8 +1296,10 @@ Widget buildLayoutBlock(LayoutBlockType type) {
           );  
         }
 
+        
       );
-
+  
     
   }
 }
+
