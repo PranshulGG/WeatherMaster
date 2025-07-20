@@ -470,5 +470,7 @@
     "weekdays_4": "Četvrtak",
     "weekdays_5": "Petak",
     "weekdays_6": "Subota",
-    "weekdays_7": "Nedelja"
+    "weekdays_7": "Nedelja",
+    "dawn": "Dawn",
+    "dusk": "Dusk"
 }
