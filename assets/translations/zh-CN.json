@@ -470,5 +470,7 @@
     "weekdays_4": "周四",
     "weekdays_5": "周五",
     "weekdays_6": "周六",
-    "weekdays_7": "周日"
+    "weekdays_7": "周日",
+    "dawn": "Dawn",
+    "dusk": "Dusk"
 }
