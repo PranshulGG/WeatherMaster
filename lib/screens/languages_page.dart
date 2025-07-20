@@ -5,7 +5,7 @@ import '../utils/open_links.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 class LanguagesScreen extends StatefulWidget {
   const LanguagesScreen({super.key});
 
@@ -84,7 +84,7 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
           FutureBuilder<Map<String, int>>(
         future: TranslationProgressService(
           projectId: '741419',
-          apiToken: '22439bfa72878c3ecb9a1b17ea8d2f9379f800b616856c4647219af7da462632fb325abd32815ace',
+          apiToken: dotenv.env['API_TOKEN']!.toString(),
         ).fetchTranslationProgress(),
         builder: (context, snapshot) {
           final progressMap = snapshot.data ?? {};
@@ -509,6 +509,7 @@ String getLanguageCodeCrodwin(Locale locale) {
     'tr', // Turkish
     'uk', // Ukrainian
     'vi', // Vietnamese
+    'ca'
   ].contains(lang)) {
     return lang;
   }

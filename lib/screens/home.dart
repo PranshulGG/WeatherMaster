@@ -1231,13 +1231,13 @@ Widget buildLayoutBlock(LayoutBlockType type) {
                       onPressed: () => handleSaveLocationView(
                         context: context,
                         updateUIState: () {
-                          // setState(() {
-                          //   isViewLocation = false;
-                          //   _isAppFullyLoaded = false;
-                          //   _istriggeredFromLocations = true;
-                          //   themeCalled = false;
-                          //   _isLoadingFroggy = true;
-                          // });
+                          setState(() {
+                            isViewLocation = false;
+                            _isAppFullyLoaded = false;
+                            _istriggeredFromLocations = true;
+                            themeCalled = false;
+                            _isLoadingFroggy = true;
+                          });
                         },
                       ),
                     style: ButtonStyle(backgroundColor: WidgetStateProperty.all(Theme.of(context).colorScheme.tertiary)),

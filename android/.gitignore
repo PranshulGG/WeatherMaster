@@ -22,4 +22,5 @@ build/
 .packages
 pubspec.lock
 
-
+# Environment files
+.env

@@ -62,7 +62,8 @@ dependencies:
   geocoding: ^4.0.0 
   solar_calculator: ^1.0.3
   file_picker: ^10.2.0
-
+  flutter_dotenv: ^5.2.1
+  
   settings_tiles:
     path: ./settings_tiles_custom
 

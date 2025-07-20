@@ -19,6 +19,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:material_color_utilities/material_color_utilities.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../services/data_backup_service.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final CorePalette paletteStartScreen = CorePalette.of(const Color.fromARGB(255, 255, 196, 0).toARGB32());
 
@@ -76,7 +77,7 @@ void main() async {
 
   
 await PreferencesHelper.init(); 
-
+ await dotenv.load(fileName: ".env");
 
   final dir = await getApplicationDocumentsDirectory();
   Hive.init(dir.path);
