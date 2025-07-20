@@ -868,9 +868,6 @@ void maybeUpdateWeatherAnimation(Map<String, dynamic> current) {
 if (lastWeatherCode != weatherCode || lastIsDay != isDay) {
 
 
-        lastWeatherCode = weatherCode;
-        lastIsDay = isDay;
-
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (mounted) {
             // setState(() {
@@ -883,10 +880,14 @@ if (lastWeatherCode != weatherCode || lastIsDay != isDay) {
               showInsightsRandomly = Random().nextInt(100) < 40;
               PreferencesHelper.setColor("weatherThemeColor", weatherConditionColors[newIndex]);
                maybeUpdateWeatherAnimation(current);
-            _loadWeatherIconFroggy(weatherCodeFroggy, isDayFroggy, newIndex);
+               _loadWeatherIconFroggy(weatherCodeFroggy, isDayFroggy, newIndex);
 
           }
         });
+
+      
+        lastWeatherCode = weatherCode;
+        lastIsDay = isDay;
 } else{
 
   _isLoadingFroggy == true;
@@ -1092,14 +1093,24 @@ Widget buildLayoutBlock(LayoutBlockType type) {
 
     return _isAppFullyLoaded ?   Column(
       children: [
+
             Stack(
             clipBehavior: Clip.none,
             children: [
-           
-        if (weatherAnimationWidget != null)
-         useFullMaterialScheme ? const SizedBox.shrink() : usAnimations ? weatherAnimationWidget! : const SizedBox.shrink()
-        else
-          const SizedBox.shrink(),
+           if (weatherAnimationWidget != null)
+  useFullMaterialScheme
+      ? const SizedBox.shrink()
+      : usAnimations
+          ? ValueListenableBuilder<bool>(
+              valueListenable: _showHeaderNotifier,
+              builder: (context, show, child) {
+                return !show ? weatherAnimationWidget! : const SizedBox.shrink();
+              },
+            )
+          : const SizedBox.shrink()
+else
+  const SizedBox.shrink(),
+
 
       GestureDetector(
           onTap: () async {
@@ -1266,13 +1277,17 @@ Widget buildLayoutBlock(LayoutBlockType type) {
           Column(
             children: () {
               final visibleBlocks = layoutConfig.where((block) => block.isVisible).toList();
-
               final List<Widget> children = [];
+
               for (int i = 0; i < visibleBlocks.length; i++) {
                 final currentBlock = visibleBlocks[i];
-                children.add(buildLayoutBlock(currentBlock.type));
 
-                final isRainThenInsights = currentBlock.type == LayoutBlockType.rain &&
+                children.add(RepaintBoundary(
+                  child: buildLayoutBlock(currentBlock.type),
+                ));
+
+                final isRainThenInsights =
+                    currentBlock.type == LayoutBlockType.rain &&
                     i + 1 < visibleBlocks.length &&
                     visibleBlocks[i + 1].type == LayoutBlockType.insights;
 
@@ -1280,12 +1295,10 @@ Widget buildLayoutBlock(LayoutBlockType type) {
                   children.add(const SizedBox(height: 8.5));
                 }
               }
+
               return children;
             }(),
           ),
-
-
-      
 
             Container(
               width: double.infinity,
