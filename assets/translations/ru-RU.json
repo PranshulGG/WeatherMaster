@@ -470,5 +470,7 @@
     "weekdays_4": "Четверг",
     "weekdays_5": "Пятница",
     "weekdays_6": "Суббота",
-    "weekdays_7": "Воскресенье"
+    "weekdays_7": "Воскресенье",
+    "dawn": "Dawn",
+    "dusk": "Dusk"
 }
