@@ -470,5 +470,7 @@
     "weekdays_4": "Perşembe",
     "weekdays_5": "Cuma",
     "weekdays_6": "Cumartesi",
-    "weekdays_7": "Pazar"
+    "weekdays_7": "Pazar",
+    "dawn": "Şafak",
+    "dusk": "Alacakaranlık"
 }

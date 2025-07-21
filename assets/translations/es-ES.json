@@ -470,5 +470,7 @@
     "weekdays_4": "Jueves",
     "weekdays_5": "Viernes",
     "weekdays_6": "Sábado",
-    "weekdays_7": "Domingo"
+    "weekdays_7": "Domingo",
+    "dawn": "Dawn",
+    "dusk": "Dusk"
 }
