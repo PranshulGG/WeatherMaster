@@ -459,26 +459,11 @@ Map<String, String> getLanguageNamesSettingsView(Locale locale) {
   if (lang == 'zh' && country == 'TW') {
     return {'native': '繁體中文', 'english': 'Traditional Chinese'};
   }
+  if (lang == 'ca' && country == 'ES') {
+    return {'native': 'Català', 'english': 'Catalan'};
+  }
 
   return {'native': '$lang${country != null ? "_$country" : ""}', 'english': 'Unknown'};
 }
 
 
-class MyHeaderDelegate extends SliverPersistentHeaderDelegate {
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
-
-  @override
-  double get maxExtent => 264;
-
-  @override
-  double get minExtent => 84;
-
-  @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>
-      true;
-}

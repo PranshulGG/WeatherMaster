@@ -638,19 +638,42 @@ ValueListenableBuilder<bool>(
 
 
 }
-
-String _formatLastUpdated(String isoTime) {
+String _formatLastUpdated(String isoTime, Locale locale) {
   final dt = DateTime.tryParse(isoTime)?.toLocal();
   if (dt == null) return 'Invalid time';
 
   final now = DateTime.now();
   final difference = now.difference(dt);
 
+  final lang = locale.languageCode;
+  final country = locale.countryCode;
+
+  String formatRelativeTime(String unit, int value) {
+    final ago = 'ago'.tr(); 
+    final valueUnit = '$value ${unit.tr()}';
+
+    
+    final prependAgoLangs = {
+      'ca': ['ES'],
+      'es': ['ES'], 
+      'fr': ['FR'],
+      'it': ['IT'], 
+      'ro': ['RO'], 
+      'pt': ['PT', 'BR'], 
+    };
+
+    final shouldPrependAgo = prependAgoLangs[lang]?.contains(country) ?? false;
+
+    return shouldPrependAgo ? '${ago.tr()} $valueUnit' : '$valueUnit ${ago.tr()}';
+  }
+
   if (difference.inMinutes < 1) return 'just_now'.tr();
-  if (difference.inMinutes < 60) return '${difference.inMinutes} ${'min'.tr()} ${'ago'.tr()}';
-  if (difference.inHours < 24) return '${difference.inHours} ${'hr'.tr()} ${'ago'.tr()}';
+  if (difference.inMinutes < 60) return formatRelativeTime('min', difference.inMinutes);
+  if (difference.inHours < 24) return formatRelativeTime('hr', difference.inHours);
+
   return '${dt.month}/${dt.day} at ${dt.hour}:${dt.minute.toString().padLeft(2, '0')}';
 }
+
 
 
 Widget _buildMainBody() {
@@ -860,7 +883,7 @@ void maybeUpdateWeatherAnimation(Map<String, dynamic> current) {
 
 
     String formattedTime = lastUpdated != null
-        ? _formatLastUpdated(lastUpdated)
+        ? _formatLastUpdated(lastUpdated, Locale(context.locale.languageCode, context.locale.countryCode))
         : 'Unknown';
         final int newIndex = isDay
           ? dayGradients[weatherCode] ?? 0
@@ -1135,7 +1158,21 @@ else
 
             if (result != null) {
               if(result['viewLocaton'] == true){
-                    setState(() {
+
+
+                  final weatherService = WeatherService();
+                  final result = await weatherService.fetchWeather(
+                        PreferencesHelper.getJson('selectedViewLocation')?['lat'], 
+                        PreferencesHelper.getJson('selectedViewLocation')?['lon'], 
+                        locationName: "${PreferencesHelper.getJson('selectedViewLocation')?['city']}, ${PreferencesHelper.getJson('selectedViewLocation')?['country']}",
+                        context: context,
+                        isOnlyView: true,
+                  );
+
+                  if(result == null){
+                    
+                  } else{
+                setState(() {
                     cityName = PreferencesHelper.getJson('selectedViewLocation')?['city'];
                     countryName = PreferencesHelper.getJson('selectedViewLocation')?['country'];
                     cacheKey = PreferencesHelper.getJson('selectedViewLocation')?['cacheKey'];
@@ -1146,15 +1183,9 @@ else
                     _istriggeredFromLocations = true;
                     themeCalled = false;
                     _isLoadingFroggy = true;
+                    weatherFuture = getWeatherFromCache();
                   });
-
-                   weatherFuture = WeatherService().fetchWeather(
-                        PreferencesHelper.getJson('selectedViewLocation')?['lat'], 
-                        PreferencesHelper.getJson('selectedViewLocation')?['lon'], 
-                        locationName: "${PreferencesHelper.getJson('selectedViewLocation')?['city']}, ${PreferencesHelper.getJson('selectedViewLocation')?['country']}",
-                        context: context,
-                        isOnlyView: true,
-                      );
+                  }
                 return;
               }
 

@@ -33,3 +33,4 @@ int getStartIndex(utc_offset_seconds, hourlyTime) {
   bool isPollenDataAvailable(List<double?> values) {
     return values.every((value) => value != null);
   }
+

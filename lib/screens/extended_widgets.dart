@@ -22,7 +22,6 @@ class _ExtendWidgetState extends State<ExtendWidget> {
 
 
 
-
   Future<Map<String, dynamic>?> getWeatherWidgets() async {
 
       final cacheKey = PreferencesHelper.getJson('currentLocation')?['cacheKey'];
@@ -1369,6 +1368,10 @@ final double maxUv = nonNullUvIndexes.isNotEmpty ? nonNullUvIndexes.reduce((a, b
   }
 
   Widget buildAQIExtended(){
+    int selectedIndex = 0;
+final ValueNotifier<int> tabIndexNotifier = ValueNotifier<int>(0);
+
+
     return FutureBuilder<Map<String, dynamic>?>(
     future: getWeatherWidgets(),
     builder: (context, snapshot) {
@@ -1389,13 +1392,11 @@ final double maxUv = nonNullUvIndexes.isNotEmpty ? nonNullUvIndexes.reduce((a, b
     final aqiFormat = aqiUnit == 'European' ? airQualityData['european_aqi'] : airQualityData['us_aqi'];
 
 
-      return DefaultTabController(
-      length: 2,
-      child: Column(
+      return Column(
         children: [ 
         Container(
         clipBehavior: Clip.hardEdge,
-         height: 297,
+         height: 300,
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surfaceContainer,
           borderRadius: BorderRadius.circular(18),
@@ -1477,82 +1478,175 @@ final double maxUv = nonNullUvIndexes.isNotEmpty ? nonNullUvIndexes.reduce((a, b
       ),
 
       SizedBox(height: 20,),
-      Material(
-      color: Theme.of(context).colorScheme.surfaceContainer, 
-      child:TabBar(
-          dividerHeight: 0,
-            tabs: [
-              Tab(text: 'United States'),
-              Tab(text: 'European'),
-            ],
+            ValueListenableBuilder<int>(
+                  valueListenable: tabIndexNotifier,
+                  builder: (context, selectedIndex, _) {
+                    return Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        children: [
+                          _buildTabButton(context, "United States", 0, selectedIndex, tabIndexNotifier),
+                          _buildTabButton(context, "European", 1, selectedIndex, tabIndexNotifier),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
-          ),
+      SizedBox(height: 20,),
 
-        ],
-      )
-    ),
- 
-
-      ConstrainedBox(
-          constraints: BoxConstraints(
-            maxHeight: 880, 
-          ),
-          child: TabBarView(
-          children: [
-            Container(
-              margin: EdgeInsets.fromLTRB(12, 20, 12, MediaQuery.of(context).padding.bottom + 26),
-              padding: EdgeInsets.all(20),
-              decoration: BoxDecoration(
-              border: Border.all(
-                width: 1,
-                color: Theme.of(context).colorScheme.outlineVariant,
-              ),
-              borderRadius: BorderRadius.circular(18),
-              ),
-              child:  Column(  
-              spacing: 20,
-                children: [
-                  Text("aqi_info_us".tr(), style: TextStyle(fontSize: 17, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
-                  Text("0–50: ${"air_quality_satisfactory".tr()}", style: TextStyle(fontSize: 17, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
-                  Text("51–100: ${"air_quality_acceptable".tr()}", style: TextStyle(fontSize: 17, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
-                  Text("101–150: ${"sensitive_groups_health_effects".tr()}", style: TextStyle(fontSize: 17, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
-                  Text("151–200: ${"health_effects_public".tr()}", style: TextStyle(fontSize: 17, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
-                  Text("201–300: ${"emergency_conditions".tr()}", style: TextStyle(fontSize: 17, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
-                ],
-              )
-          ),
-            Container(
-              margin: EdgeInsets.fromLTRB(12, 20, 12, MediaQuery.of(context).padding.bottom + 26),
-              padding: EdgeInsets.all(20),
-              decoration: BoxDecoration(
-              border: Border.all(
-                width: 1,
-                color: Theme.of(context).colorScheme.outlineVariant,
-              ),
-              borderRadius: BorderRadius.circular(18),
-              ),
-              child:  Column(  
-              spacing: 20,
-                children: [
-                  Text("aqi_info_eu".tr(), style: TextStyle(fontSize: 17, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
-                  Text("0–25: ${"air_quality_satisfactory".tr()}", style: TextStyle(fontSize: 17, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
-                  Text("26–50: ${"air_quality_acceptable".tr()}", style: TextStyle(fontSize: 17, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
-                  Text("51–75: ${"sensitive_groups_health_effects".tr()}", style: TextStyle(fontSize: 17, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
-                  Text("76–100: ${"health_effects_public".tr()}", style: TextStyle(fontSize: 17, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
-                  Text("100+: ${"emergency_conditions".tr()}", style: TextStyle(fontSize: 17, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
-                ],
-              )
+        ValueListenableBuilder<int>(
+            valueListenable: tabIndexNotifier,
+            builder: (context, selectedIndex, _) {
+              return AnimatedSwitcher(
+                duration: const Duration(milliseconds: 250),
+                child: selectedIndex == 0
+                    ? _buildAQIDetailsCard(
+                        context,
+                        "aqi_info_us".tr(),
+                        [
+                          "0–50: ${"air_quality_satisfactory".tr()}",
+                          "51–100: ${"air_quality_acceptable".tr()}",
+                          "101–150: ${"sensitive_groups_health_effects".tr()}",
+                          "151–200: ${"health_effects_public".tr()}",
+                          "201–300: ${"emergency_conditions".tr()}",
+                        ],
+                        key: const ValueKey('us'),
+                      )
+                    : _buildAQIDetailsCard(
+                        context,
+                        "aqi_info_eu".tr(),
+                        [
+                          "0–25: ${"air_quality_satisfactory".tr()}",
+                          "26–50: ${"air_quality_acceptable".tr()}",
+                          "51–75: ${"sensitive_groups_health_effects".tr()}",
+                          "76–100: ${"health_effects_public".tr()}",
+                          "100+: ${"emergency_conditions".tr()}",
+                        ],
+                        key: const ValueKey('eu'),
+                        )
+                      );
+            },
           ),
           ],
-        ),
-      ),
             
-  ]),);
+  );
 
      }
     );
 }
 
+Widget _buildTabButton(
+  BuildContext context,
+  String label,
+  int index,
+  int selectedIndex,
+  ValueNotifier<int> tabIndexNotifier,
+) {
+  final isSelected = selectedIndex == index;
+  final isFirst = index == 0;
+  final isLast = index == 1; 
+
+  BorderRadius borderRadius;
+
+  if (isSelected) {
+    borderRadius = BorderRadius.circular(50); 
+  } else if (isFirst) {
+    borderRadius = const BorderRadius.only(
+      topLeft: Radius.circular(50),
+      bottomLeft: Radius.circular(50),
+      bottomRight: Radius.circular(10),
+      topRight: Radius.circular(10)
+    );
+  } else if (isLast) {
+    borderRadius = const BorderRadius.only(
+      topRight: Radius.circular(50),
+      bottomRight: Radius.circular(50),
+      bottomLeft: Radius.circular(10),
+      topLeft: Radius.circular(10)
+    );
+  } else {
+    borderRadius = BorderRadius.zero;
+  }
+
+  return Expanded(
+  child: GestureDetector(
+    onTap: () => tabIndexNotifier.value = index,
+    child: TweenAnimationBuilder<BorderRadius>(
+      duration: const Duration(milliseconds: 1000),
+      curve: Curves.elasticOut,
+      tween: Tween<BorderRadius>(begin: BorderRadius.zero, end: borderRadius),
+      builder: (context, radius, child) {
+        return Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          decoration: BoxDecoration(
+            color: isSelected
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.primaryContainer,
+            borderRadius: radius,
+          ),
+          child: Text(
+            label,
+            style: TextStyle(
+              color: isSelected
+                  ? Theme.of(context).colorScheme.onPrimary
+                  : Theme.of(context).colorScheme.onPrimaryContainer,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        );
+      },
+    ),
+  ),
+);
+
+}
+
+
+
+
+Widget _buildAQIDetailsCard(
+  BuildContext context,
+  String title,
+  List<String> lines, {
+  required Key key,
+}) {
+  return Container(
+    key: key,
+    margin: EdgeInsets.fromLTRB(12, 0, 12, MediaQuery.of(context).padding.bottom + 26),
+    padding: const EdgeInsets.all(20),
+    decoration: BoxDecoration(
+      border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
+      borderRadius: BorderRadius.circular(18),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(title,
+            style: TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            )),
+        const SizedBox(height: 10),
+        for (var line in lines)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 6),
+            child: Text(
+              line,
+              style: TextStyle(
+                fontSize: 16,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ),
+      ],
+    ),
+  );
+}
 
 Widget buildPrecipExtended(){
     return FutureBuilder<Map<String, dynamic>?>(
@@ -2018,3 +2112,5 @@ int getStartIndex(utc_offset_seconds, hourlyTime) {
 
     return startIndex;
 }
+
+
