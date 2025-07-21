@@ -13,11 +13,19 @@ class AppUnitsPage extends StatefulWidget {
 }
 
 class _AppUnitsPageState extends State<AppUnitsPage> {
+    final currentAqiMode = PreferencesHelper.getString("selectedAQIUnit") ?? "United States";
 
+    final optionsAQI = {
+      "United States": "united_states_aqi".tr(),
+      "European": "european_aqi".tr()
+    };
 
   @override
   Widget build(BuildContext context) {
      
+
+
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: CustomScrollView(
@@ -116,12 +124,16 @@ class _AppUnitsPageState extends State<AppUnitsPage> {
                   SettingSingleOptionTile(
                     icon: Icon(Icons.waves),
                     title: Text('aqi_type'.tr()),
-                    value: SettingTileValue(PreferencesHelper.getString("selectedAQIUnit") ?? "United States"),
+                    // value: SettingTileValue(PreferencesHelper.getString("selectedAQIUnit") ?? "United States"),
+                    value: SettingTileValue(optionsAQI[currentAqiMode == "European" ? "European" : "United States"]!),
                     dialogTitle: 'aqi_type'.tr(),
-                    options: const ['United States', 'European'],
-                    initialOption: PreferencesHelper.getString("selectedAQIUnit") ?? "United States",
+                    // options: const ['United States', 'European'],
+                    options: optionsAQI.values.toList(),
+                    // initialOption: PreferencesHelper.getString("selectedAQIUnit") ?? "United States",
+                    initialOption: optionsAQI[currentAqiMode == "European" ? "European" : "United States"],
                     onSubmitted: (value) {
-                      context.read<UnitSettingsNotifier>().updateAQIUnit(value);
+                      final selectedKey = optionsAQI.entries.firstWhere((e) => e.value == value).key;
+                      context.read<UnitSettingsNotifier>().updateAQIUnit(selectedKey);
                       setState(() {
                       });
                     },

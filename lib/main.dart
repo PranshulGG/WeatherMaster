@@ -20,7 +20,6 @@ import 'package:material_color_utilities/material_color_utilities.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../services/data_backup_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 final CorePalette paletteStartScreen = CorePalette.of(const Color.fromARGB(255, 255, 196, 0).toARGB32());
 
 const easySupportedLocales = [
@@ -75,8 +74,10 @@ void main() async {
   ]);
 
 
-  
-await PreferencesHelper.init(); 
+
+  final prefs = await SharedPreferences.getInstance();
+    
+  await PreferencesHelper.init(); 
  await dotenv.load(fileName: ".env");
 
   final dir = await getApplicationDocumentsDirectory();
@@ -89,9 +90,9 @@ await PreferencesHelper.init();
   PaintingBinding.instance.imageCache.maximumSize = 1000;
   PaintingBinding.instance.imageCache.maximumSizeBytes = 200 << 20;
 
-  final prefs = await SharedPreferences.getInstance();
   final homeLocationJson = prefs.getString('homeLocation');
   final currentLocationJson = prefs.getString('currentLocation');
+
 
   String? cityName;
   String? countryName;

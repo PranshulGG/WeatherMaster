@@ -1509,6 +1509,7 @@ final ValueNotifier<int> tabIndexNotifier = ValueNotifier<int>(0);
             builder: (context, selectedIndex, _) {
               return AnimatedSwitcher(
                 duration: const Duration(milliseconds: 250),
+                
                 child: selectedIndex == 0
                     ? _buildAQIDetailsCard(
                         context,
