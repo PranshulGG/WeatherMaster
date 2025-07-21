@@ -377,6 +377,7 @@ Future<void> _refreshWeatherData() async {
   } else {
     final now = DateTime.now();
     final difference = now.difference(lastUpdated);
+    if(PreferencesHelper.getBool("ModelChanged") != true){
     if (difference.inMinutes < 10) {
       if (!mounted) return;
     SnackUtil.showSnackBar(
@@ -384,6 +385,7 @@ Future<void> _refreshWeatherData() async {
       message: 'Please_wait_before_refreshing_again.'.tr(),
     );
       return;
+    }
     }
   }
 
@@ -407,6 +409,7 @@ if (result == null) {
     themeCalled = false;
   });
  weatherFuture = getWeatherFromCache();
+ PreferencesHelper.setBool("ModelChanged", false);
 }
 
         Future<void> _setLatLon() async {

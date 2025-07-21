@@ -668,6 +668,7 @@ final Map<String, Map<String, String>> dialogContent = {
 
        floatingActionButton: FloatingActionButton(onPressed: () {
           PreferencesHelper.setString("selectedWeatherModel", selectedModelKey.toString());
+          PreferencesHelper.setBool("ModelChanged", true);
                  _scaffoldMessengerKey.currentState?.showSnackBar(
             SnackBar(content: Text('model_saved_snack'.tr())),
           );
