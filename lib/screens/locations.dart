@@ -351,7 +351,7 @@ Widget buildDismissibleListView({Key? key}) {
                                           leadingWidgetCurrent =
                                               SvgPicture.asset(
                                             WeatherIconMapper.getIcon(
-                                                codeCurrent, isDayCurrent),
+                                                codeCurrent.toInt(), isDayCurrent),
                                             width: 26,
                                             height: 26,
                                           );

@@ -261,7 +261,7 @@ Future<void> saveLayoutConfig() async {
   } else if (isHomeLocation && lastUpdated != null) {
     final lastUpdateTime = DateTime.tryParse(lastUpdated);
     final now = DateTime.now();
-    if (lastUpdateTime != null && now.difference(lastUpdateTime).inMinutes < 45) {
+    if (lastUpdateTime != null && now.difference(lastUpdateTime).inMinutes < 450) {
       _isAppFullyLoaded = true; 
     } else{
     checkAndUpdateHomeLocation();
@@ -794,7 +794,7 @@ Widget _buildWeatherContent() {
 
 
 
-    final hourly = weather['hourly'];
+    final hourly = weather['hourly'] ?? {};
     final List<dynamic> hourlyTime = hourly['time'];
     final List<dynamic> hourlyTemps = hourly['temperature_2m'];
     final List<dynamic> hourlyWeatherCodes = hourly['weather_code'];
@@ -808,6 +808,7 @@ Widget _buildWeatherContent() {
     final List<dynamic> dailyTempsMax = daily['temperature_2m_max'];
     final List<dynamic> dailyPrecProb = daily['precipitation_probability_max'];
     final List<dynamic> dailyWeatherCodes = daily['weather_code'];
+
 
 
 void maybeUpdateWeatherAnimation(Map<String, dynamic> current) {

@@ -50,10 +50,11 @@ class DailyCard extends StatelessWidget {
         "tempMin": dailyTempsMin[i],
         "tempMax": dailyTempsMax[i],
         "weatherCode": dailyWeatherCodes[i],
-        "precipProb": (dailyPrecProb[i] as num?)?.toDouble() ?? 0.0000111111,
+        "precipProb": (dailyPrecProb[i] as num?)?.toDouble() ?? 0.0000001,
       });
     }
   }
+
 
     return Container(
         decoration: BoxDecoration(
@@ -88,6 +89,7 @@ class DailyCard extends StatelessWidget {
               final tempMin = convert(item["tempMin"]);
               final code = item["weatherCode"];
               final precipProb = item["precipProb"];
+
 
           EdgeInsets itemMargin = EdgeInsets.only(
               left: index == 0 ? 10 : 0,
@@ -129,7 +131,7 @@ class DailyCard extends StatelessWidget {
                 ),
                   Column(
                 children: [
-                  Text(precipProb == 0.0000111111 ? '--' : "${precipProb.round()}%", style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w500)),
+                  Text(precipProb == 0.0000001 ? '--' : "${precipProb.round()}%", style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w500)),
                   SizedBox(height: 5,),
                   Text(DateFormat('dd/MM').format(time), style: const TextStyle(fontSize: 14)),
                 ]

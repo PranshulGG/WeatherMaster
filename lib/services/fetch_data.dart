@@ -44,6 +44,8 @@ class WeatherService {
 
     // final response = await http.get(uri);
     // final data = json.decode(response.body) as Map<String, dynamic>;
+  
+    
 
   final responses = await Future.wait([
     http.get(uri),
@@ -52,6 +54,10 @@ class WeatherService {
 
   final weatherData = json.decode(responses[0].body) as Map<String, dynamic>;
   final airQualityData = json.decode(responses[1].body) as Map<String, dynamic>;
+
+    weatherData['current'] = sanitizeCurrent(weatherData['current']);
+    weatherData['hourly'] = sanitizeHourly(weatherData['hourly']);
+    weatherData['daily'] = sanitizeDaily(weatherData['daily']);
 
    if (weatherData['error'] == true || airQualityData['error'] == true) {
     final reason = weatherData['reason'] ?? airQualityData['reason'] ?? 'Unknown error';
@@ -134,5 +140,80 @@ class WeatherService {
     'last_updated': now,
     'from_cache': false,
   };
+  }
+T nullSafeValue<T extends num>(dynamic value) {
+  if (value == null) {
+    if (T == int) return 0000 as T;
+    if (T == double) return 0.0000001 as T;
+    return 0 as T;
+  }
+
+  if (value is T) return value;
+
+  if (value is num) {
+    if (T == int) return value.toInt() as T;
+    if (T == double) return value.toDouble() as T;
+  }
+
+  return T == int ? 0 as T : 0.0000001 as T;
+}
+
+
+
+
+  Map<String, dynamic> sanitizeCurrent(Map? current) {
+    current ??= {};
+    return {
+      'temperature_2m': nullSafeValue<double>(current['temperature_2m']),
+      'apparent_temperature': nullSafeValue<double>(current['apparent_temperature']),
+      'pressure_msl': nullSafeValue<double>(current['pressure_msl']),
+      'relative_humidity_2m': nullSafeValue(current['relative_humidity_2m']),
+      'precipitation': nullSafeValue<double>(current['precipitation']),
+      'weather_code': nullSafeValue<int>(current['weather_code']),
+      'cloud_cover': nullSafeValue<int>(current['cloud_cover']),
+      'wind_speed_10m': nullSafeValue<double>(current['wind_speed_10m']),
+      'wind_direction_10m': nullSafeValue<int>(current['wind_direction_10m']),
+      'wind_gusts_10m': nullSafeValue<double>(current['wind_gusts_10m']),
+      'is_day': nullSafeValue<int>(current['is_day']),
+    };
+  }
+
+  Map<String, dynamic> sanitizeHourly(Map? hourly) {
+    hourly ??= {};
+    return {
+      'time': (hourly['time'] as List?) ?? [],
+      'wind_speed_10m': (hourly['wind_speed_10m'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
+      'wind_direction_10m': (hourly['wind_direction_10m'] as List?)?.map((v) => nullSafeValue<int>(v)).toList() ?? [],
+      'relative_humidity_2m': (hourly['relative_humidity_2m'] as List?)?.map((v) => nullSafeValue<int>(v)).toList() ?? [],
+      'pressure_msl': (hourly['pressure_msl'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
+      'cloud_cover': (hourly['cloud_cover'] as List?)?.map((v) => nullSafeValue<int>(v)).toList() ?? [],
+      'temperature_2m': (hourly['temperature_2m'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
+      'dew_point_2m': (hourly['dew_point_2m'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
+      'apparent_temperature': (hourly['apparent_temperature'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
+      'precipitation_probability': (hourly['precipitation_probability'] as List?)?.map((v) => nullSafeValue<int>(v)).toList() ?? [],
+      'precipitation': (hourly['precipitation'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
+      'weather_code': (hourly['weather_code'] as List?)?.map((v) => nullSafeValue<int>(v)).toList() ?? [],
+      'visibility': (hourly['visibility'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
+      'uv_index': (hourly['uv_index'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
+    };
+  }
+
+  Map<String, dynamic> sanitizeDaily(Map? daily) {
+    daily ??= {};
+    return {
+      'time': (daily['time'] as List?) ?? [],
+      'weather_code': (daily['weather_code'] as List?)?.map((v) => nullSafeValue<int>(v)).toList() ?? [],
+      'temperature_2m_max': (daily['temperature_2m_max'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
+      'temperature_2m_min': (daily['temperature_2m_min'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
+      'sunrise': (daily['sunrise'] as List?) ?? [],
+      'sunset': (daily['sunset'] as List?) ?? [],
+      'daylight_duration': (daily['daylight_duration'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
+      'uv_index_max': (daily['uv_index_max'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
+      'precipitation_sum': (daily['precipitation_sum'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
+      'precipitation_probability_max': (daily['precipitation_probability_max'] as List?)?.map((v) => nullSafeValue<int>(v)).toList() ?? [],
+      'precipitation_hours': (daily['precipitation_hours'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
+      'wind_speed_10m_max': (daily['wind_speed_10m_max'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
+      'wind_gusts_10m_max': (daily['wind_gusts_10m_max'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
+    };
   }
 }

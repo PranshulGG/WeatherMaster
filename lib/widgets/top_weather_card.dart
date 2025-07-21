@@ -154,7 +154,7 @@ void _updateLabelHeight() {
                       top: _labelHeight, 
                       right: 0,
                       child: Text(
-                        "${'feels_like'.tr()} $convertedfeelsLikeTemp°",
+                        "${'feels_like'.tr()}  ${widget.currentFeelsLike == 0000 ? '--' : '$convertedfeelsLikeTemp°'} ",
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                           fontSize: 15,
