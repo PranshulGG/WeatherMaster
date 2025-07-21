@@ -20,6 +20,7 @@ import 'package:material_color_utilities/material_color_utilities.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../services/data_backup_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'dart:ui' as ui;
 final CorePalette paletteStartScreen = CorePalette.of(const Color.fromARGB(255, 255, 196, 0).toARGB32());
 
 const easySupportedLocales = [
@@ -178,7 +179,8 @@ class MyApp extends StatelessWidget {
 
 
 
-    return MaterialApp(
+    return 
+    MaterialApp(
       title: 'WeatherMaster',
       debugShowCheckedModeBanner: false,
       locale: context.locale,
@@ -187,6 +189,13 @@ class MyApp extends StatelessWidget {
       localeResolutionCallback: (locale, supportedLocales) {
         return context.locale; 
       },
+
+       builder: (context, child) {
+    return Directionality(
+      textDirection: ui.TextDirection.ltr,
+      child: child!,
+    );
+  },
 
   theme: ThemeData.from(
       colorScheme: ColorScheme.fromSeed(

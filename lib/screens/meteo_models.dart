@@ -22,7 +22,7 @@ final categorizedModels = {
       {
         'key': 'best_match',
         'name': 'Best match',
-        'desc': 'Combines the best weather models',
+        'desc': 'weather_model_info_1'.tr(),
       },
     ],
     'Main': [

@@ -472,7 +472,39 @@
     "weekdays_6": "Saturday",
     "weekdays_7": "Sunday",
     "dawn": "Dawn",
-    "dusk": "Dusk"
+    "dusk": "Dusk",
+    "model_disc_2": "Global forecast by ECMWF, slightly lower resolution, highly reliable worldwide.",
+    "model_disc_3": "High-resolution version of ECMWF’s global model. Known for top accuracy globally.",
+    "model_disc_4": "Chinese national model from CMA. Good for Asia-Pacific, less accurate globally.",
+    "model_disc_5": "Global model from Australia's Bureau of Meteorology. Best for Australia & Oceania.",
+    "model_disc_6": "Regional model optimized for Norway and Scandinavia. Very accurate for the Nordic region.",
+    "model_disc_7": "NOAA’s blended high-res + global forecast. Balanced accuracy with faster updates.",
+    "model_disc_8": "NOAA’s global model. Fast, free, decent worldwide but less precise locally.",
+    "model_disc_9": "Ultra high-res short-range US model. Best for hyperlocal US forecasts (0–18h).",
+    "model_disc_10": "AI-powered forecast by Google DeepMind. Experimental, smooth & cutting-edge globally.",
+    "model_disc_11": "Blended Japan Meteorological Agency model. Accurate in Japan & East Asia.",
+    "model_disc_12": "High-res short-range forecast for Japan. Great for 0–36h predictions in Japan.",
+    "model_disc_13": "Japan’s global forecast model. Lower res but reliable in Asia-Pacific.",
+    "model_disc_14": "German Weather Service’s blended ICON model. Good balance for Europe",
+    "model_disc_15": "Global version of ICON. Precise forecasts worldwide, especially Europe.",
+    "model_disc_16": "High-res regional ICON for Europe. Best for central & western Europe.",
+    "model_disc_17": "Ultra high-res short-term forecast for Germany. Ideal for next 24–48h in DE.",
+    "model_disc_18": "Environment Canada’s blended forecast. Good across North America.",
+    "model_disc_19": "Canada’s global model. Reliable for global forecasts, better in northern latitudes.",
+    "model_disc_20": "Canadian regional model. High detail for local areas in Canada.",
+    "model_disc_21": "Ultra high-res Canadian model. Best for pinpoint weather in Canada & nearby US.",
+    "model_disc_22": "Blended national model. Accurate in France & nearby countries.",
+    "model_disc_23": "Global model from France. Decent worldwide, especially for French territories.",
+    "model_disc_24": "Europe-focused ARPEGE. More precise than global version.",
+    "model_disc_25": "High-res national model. Best for local French forecasts.",
+    "model_disc_27": "High-resolution ICON model tailored by ARPAE for Italy. Ideal for detailed regional forecasts.",
+    "model_disc_28": "Integrated multi-scale forecast system combining global and regional models for smooth transitions.",
+    "model_disc_29": "Global model with 10km resolution. Suitable for medium-range international forecasts.",
+    "model_disc_30": "High-resolution 2km model focused on the UK. Excellent for local short-term forecasting.",
+    "default_text": "Default",
+    "main_text": "Main"
+
+
 
 
 }

@@ -133,7 +133,7 @@ class DailyCard extends StatelessWidget {
                 children: [
                   Text(precipProb == 0.0000001 ? '--' : "${precipProb.round()}%", style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w500)),
                   SizedBox(height: 5,),
-                  Text(DateFormat('dd/MM').format(time), style: const TextStyle(fontSize: 14)),
+                  Text(getLocalizedDateFormat(time, Localizations.localeOf(context)), style: const TextStyle(fontSize: 14), textAlign: TextAlign.center,),
                 ]
               ),
                   SizedBox(height: 10,),
@@ -148,4 +148,23 @@ class DailyCard extends StatelessWidget {
       ),
     );
   }
+}
+
+String getLocalizedDateFormat(DateTime time, Locale locale) {
+  final lang = locale.languageCode;
+  final country = locale.countryCode;
+
+  if (lang == 'en' && country == 'US') {
+    return DateFormat('MM/dd').format(time); 
+  } else if (lang == 'ja') {
+    return DateFormat('MM月dd日', 'ja').format(time); 
+  } else if (lang == 'zh' && country == 'CN') {
+    return DateFormat('MM月dd日', 'zh_CN').format(time); 
+  } else if (lang == 'fa') {
+    return DateFormat('yyyy/MM/dd', 'fa').format(time); 
+  } else if (lang == 'de') {
+    return DateFormat('dd.MM').format(time);
+  }
+
+  return DateFormat('dd/MM').format(time);
 }

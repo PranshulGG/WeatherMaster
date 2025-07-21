@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../notifiers/unit_settings_notifier.dart';
 import '../utils/unit_converter.dart';
 import 'package:provider/provider.dart';
+import '../helper/locale_helper.dart';
 
 class RainBlock extends StatelessWidget {
   final List<String> hourlyTime;
@@ -264,7 +264,7 @@ bool willRainStopSoon() {
 
               if (value == 0 || value == step || value == roundedMax) {
                 return Text(
-                  '${double.parse(convertedPrecip.toStringAsFixed(1))} $precipitationUnit',
+                  '${double.parse(convertedPrecip.toStringAsFixed(1))} ${localizePrecipUnit(precipitationUnit, context.locale)}',
                   style: TextStyle(fontSize: 10, color: Theme.of(context).colorScheme.onSurfaceVariant),
                 );
               }

@@ -9,6 +9,7 @@ import '../utils/unit_converter.dart';
 import 'dart:math';
 import 'package:solar_calculator/solar_calculator.dart';
 import 'dart:math' as math;
+import '../helper/locale_helper.dart';
 
 class ExtendWidget extends StatefulWidget {
   final String widgetType;
@@ -630,7 +631,7 @@ final duskFormatted = formatInstantToLocalTime(dusk, timeUnit: timeFormatDUSKDAW
               children: [
                 Text("${convertedPressure.round()}", style: TextStyle(fontSize: 50,  color: Theme.of(context).colorScheme.secondary, fontWeight: FontWeight.w500),),
                 Padding(padding: EdgeInsets.only(bottom: 11, left: 8),
-               child: Text(PreferencesHelper.getString("selectedPressureUnit") ?? 'hPa', style: TextStyle(fontSize: 20,  color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500),))
+               child: Text(localizePressureUnit(PreferencesHelper.getString("selectedPressureUnit") ?? 'hPa', context.locale), style: TextStyle(fontSize: 20,  color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500),))
               ],
             )
             
@@ -851,7 +852,7 @@ final duskFormatted = formatInstantToLocalTime(dusk, timeUnit: timeFormatDUSKDAW
               children: [
                 Text("${convertedVisibility.round()}", style: TextStyle(fontSize: 50,  color: Theme.of(context).colorScheme.onTertiaryContainer, fontWeight: FontWeight.w500),),
                 Padding(padding: EdgeInsets.only(bottom: 11, left: 8),
-               child: Text(visibilityUnit, style: TextStyle(fontSize: 20,  color: Theme.of(context).colorScheme.onTertiaryContainer, fontWeight: FontWeight.w500),))
+               child: Text(localizeVisibilityUnit(visibilityUnit, context.locale), style: TextStyle(fontSize: 20,  color: Theme.of(context).colorScheme.onTertiaryContainer, fontWeight: FontWeight.w500),))
               ],
             ),
 
@@ -1492,8 +1493,8 @@ final ValueNotifier<int> tabIndexNotifier = ValueNotifier<int>(0);
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         children: [
-                          _buildTabButton(context, "United States", 0, selectedIndex, tabIndexNotifier),
-                          _buildTabButton(context, "European", 1, selectedIndex, tabIndexNotifier),
+                          _buildTabButton(context, "united_states_aqi".tr(), 0, selectedIndex, tabIndexNotifier),
+                          _buildTabButton(context, "european_aqi".tr(), 1, selectedIndex, tabIndexNotifier),
                         ],
                       ),
                     );
@@ -1738,7 +1739,7 @@ final double maxprecipAmount = precipAmount.reduce((a, b) => a > b ? a : b);
               children: [
                 Text("${double.parse(convertedPrecip.toStringAsFixed(2))}", style: TextStyle(fontSize: 50,  color: Theme.of(context).colorScheme.secondary, fontWeight: FontWeight.w500),),
                 Padding(padding: EdgeInsets.only(bottom: 11, left: 8),
-               child: Text('$precipitationUnit • ${precipHours.round()} ${'hrs_sub_text'.tr()}', style: TextStyle(fontSize: 20,  color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500),))
+               child: Text('${localizePrecipUnit(precipitationUnit, context.locale)} • ${precipHours.round()} ${'hrs_sub_text'.tr()}', style: TextStyle(fontSize: 20,  color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500),))
               ],
             )
             
@@ -1775,6 +1776,13 @@ final double maxprecipAmount = precipAmount.reduce((a, b) => a > b ? a : b);
 
           final double rainValue = (precipAmountMain is num) ? precipAmountMain.toDouble() : 0;
           final double rainPercentage = ((rainValue - minprecipAmount) / (maxprecipAmount - minprecipAmount)) * 100;
+
+          
+    final convertedPrecipAmount = precipitationUnit == 'cm'
+        ? UnitConverter.mmToCm(rainValue)
+        : precipitationUnit == 'in'
+            ? UnitConverter.mmToIn(rainValue)
+            : rainValue;
 
 
           EdgeInsets itemMargin = EdgeInsets.only(
@@ -1836,7 +1844,7 @@ final double maxprecipAmount = precipAmount.reduce((a, b) => a > b ? a : b);
                 ),
                   const SizedBox(height: 10),
 
-                  Text("${double.parse(convertedPrecip.toStringAsFixed(2))}", style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
+                  Text("${double.parse(convertedPrecipAmount.toStringAsFixed(2))}", style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
                   Text(hour, style: TextStyle(fontSize: 15, color: Theme.of(context).colorScheme.onSurface, fontWeight: FontWeight.w500)),
                 ],
               ),

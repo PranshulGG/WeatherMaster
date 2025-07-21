@@ -5,7 +5,7 @@ import '../notifiers/unit_settings_notifier.dart';
 import '../utils/unit_converter.dart';
 import 'package:provider/provider.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
-
+import '../helper/locale_helper.dart';
 
 class SummaryCard extends StatefulWidget {
   final int selectedContainerBgIndex;
@@ -448,11 +448,11 @@ final tempOptions = [
     final windOptions = [
       "bulletsWINDOptions_1".tr(namedArgs: {
         'windSpeed': convertedwindSpeed.toString(),
-        'windUnit': windUnit.toString(),
+        'windUnit': localizeWindUnit(windUnit.toString(), context.locale),
       }),
       "bulletsWINDOptions_2".tr(namedArgs: {
         'windSpeed': convertedwindSpeed.toString(),
-        'windUnit': windUnit.toString(),
+        'windUnit': localizeWindUnit(windUnit.toString(), context.locale),
       }),
     ];
     bullets.add(windOptions[rand.nextInt(windOptions.length)]);
@@ -576,24 +576,25 @@ bool isExpanded = false;
             spacing: 4,
             children: [
               Icon(Symbols.air, weight: 500, color: Theme.of(context).colorScheme.onSurface, size: 19,),
-              Text('${windUnit == 'M/s' ? formattedWindSpeed.toStringAsFixed(1) : formattedWindSpeed.round()} $windUnit', style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 15))
+              Text('${windUnit == 'M/s' ? formattedWindSpeed.toStringAsFixed(1) : formattedWindSpeed.round()} ${localizeWindUnit(windUnit, context.locale)}', style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 15))
             ],
           ),),
 
          
           Expanded(
+            
          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            spacing: 6,
+            spacing: 4,
             children: [
               Icon(Symbols.wind_power, weight: 500, color: Theme.of(context).colorScheme.onSurface, size: 19),
-              Text(gustValue == 0.000000001 ? '--' : "${windUnit == 'M/s' ? formattedWindGust.toStringAsFixed(1) : formattedWindGust.round()} $windUnit", style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 15))
+              Text(gustValue == 0.000000001 ? '--' : "${windUnit == 'M/s' ? formattedWindGust.toStringAsFixed(1) : formattedWindGust.round()} ${localizeWindUnit(windUnit, context.locale)}", style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 15), maxLines: 1, overflow: TextOverflow.ellipsis,)
             ],
           ),),
           Expanded(
          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            spacing: 6,
+            spacing: 4,
             children: [
               Icon(Symbols.cloud, weight: 500, color: Theme.of(context).colorScheme.onSurface, size: 19),
               Text("${widget.currentData['cloud_cover']}%", style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 15))

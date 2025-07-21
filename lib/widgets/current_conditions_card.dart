@@ -13,7 +13,7 @@ import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import '../screens/extended_widgets.dart';
-
+import '../helper/locale_helper.dart';
 
 class ConditionsWidgets extends StatefulWidget {
   final int selectedContainerBgIndex;
@@ -358,7 +358,7 @@ List<Widget> gridItems = itemOrder.map((i) {
                   padding: EdgeInsets.only(bottom: 30),
                child: Align(
                   alignment: Alignment.bottomCenter,
-                  child: Text(pressureUnit, style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 18),),
+                  child: Text(localizePressureUnit(pressureUnit, context.locale), style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 18),),
                 ),
                 ),
                 ]
@@ -412,7 +412,7 @@ List<Widget> gridItems = itemOrder.map((i) {
                   padding: EdgeInsets.only(bottom: 30),
                child: Align(
                   alignment: Alignment.bottomCenter,
-                  child: Text(visibilityUnit, style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 18),),
+                  child: Text(localizeVisibilityUnit(visibilityUnit, context.locale), style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 18),),
                 ),
                 ),
                 ],
@@ -613,10 +613,10 @@ List<Widget> gridItems = itemOrder.map((i) {
                        child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                         Text(widget.currentTotalPrec == 0.0000001 ? '--' : "${double.parse(convertedPrecip.toStringAsFixed(2))}", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.11, fontWeight: FontWeight.w500, color: Theme.of(context).colorScheme.onSurface),),
+                         Text(widget.currentTotalPrec == 0.0000001 ? '--' : "${double.parse(convertedPrecip.toStringAsFixed(2))}", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.10 + 0.5, fontWeight: FontWeight.w500, color: Theme.of(context).colorScheme.onSurface),),
                          Padding(
                           padding: EdgeInsets.only(top: 15),
-                          child: Text(precipitationUnit, style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.secondary),),
+                          child: Text(localizePrecipUnit(precipitationUnit, context.locale), style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.secondary),),
                          ),
                           ],
                         ),
@@ -856,9 +856,12 @@ class headerWidgetConditions extends StatelessWidget {
           right: 0,
           top: 35,
         child: Center(
+          child: Padding(
+            padding: EdgeInsets.only(left: 16, right: 16),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
+
               Icon(
                 headerIcon,
                 weight: 500,
@@ -869,7 +872,8 @@ class headerWidgetConditions extends StatelessWidget {
                 size: 18,
               ),
               SizedBox(width: 3),
-              Text(
+          Flexible(
+           child:  Text(
                 headerText,
                 style: TextStyle(
                   color: Theme.of(context).brightness == Brightness.dark
@@ -878,11 +882,14 @@ class headerWidgetConditions extends StatelessWidget {
                   fontSize: 14,
                   fontWeight: FontWeight.w500
                 ),
+                textAlign: TextAlign.center,
                 maxLines: 1, overflow: TextOverflow.ellipsis
               ),
+             ),
             ],
+            ),  
           ),
-        ),
+          ),
       );
   }
 }

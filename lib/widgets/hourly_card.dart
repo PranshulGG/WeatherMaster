@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../notifiers/unit_settings_notifier.dart';
 
 
+
 class HourlyCard extends StatelessWidget {
   final List<dynamic> hourlyTime;
   final List<dynamic> hourlyTemps;

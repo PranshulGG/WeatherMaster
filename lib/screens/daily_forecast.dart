@@ -11,6 +11,7 @@ import '../widgets/hourly_card.dart';
 import '../widgets/current_conditions_card.dart';
 import '../utils/preferences_helper.dart';
 import '../utils/condition_label_map.dart';
+import '../helper/locale_helper.dart';
 
 class DailyForecastPage extends StatefulWidget {
   final DateTime? initialSelectedDate;
@@ -865,7 +866,7 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                   padding: EdgeInsets.only(bottom: 30),
                child: Align(
                   alignment: Alignment.bottomCenter,
-                  child: Text(pressureUnit, style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 18),),
+                  child: Text(localizePressureUnit(pressureUnit, context.locale), style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 18),),
                 ),
                 ),
                 ]
@@ -899,7 +900,7 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                   padding: EdgeInsets.only(bottom: 30),
                child: Align(
                   alignment: Alignment.bottomCenter,
-                  child: Text(visibilityUnit, style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 18),),
+                  child: Text(localizeVisibilityUnit(visibilityUnit, context.locale), style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 18),),
                 ),
                 ),
                 ],
@@ -929,7 +930,7 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                   child:  Container(
                   margin: EdgeInsets.only(left: 20, right: 20),
                   height: 55,
-                  child: Text(currentWindSpeed == 0.0000001 ? '--' : "$convertedwindSpeed $windUnit", style: 
+                  child: Text(currentWindSpeed == 0.0000001 ? '--' : "$convertedwindSpeed ${localizeWindUnit(windUnit, context.locale)}", style: 
                   TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 16), maxLines: 1, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center,),
                 ),
                 ),
@@ -994,10 +995,10 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                        child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                         Text(currentTotalPrec == 0.0000001 ? '--' : "${double.parse(convertedPrecip.toStringAsFixed(2))}", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.11, fontWeight: FontWeight.w500, color: Theme.of(context).colorScheme.onSurface),),
+                         Text(currentTotalPrec == 0.0000001 ? '--' : "${double.parse(convertedPrecip.toStringAsFixed(2))}", style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.10 + 0.5, fontWeight: FontWeight.w500, color: Theme.of(context).colorScheme.onSurface),),
                          Padding(
                           padding: EdgeInsets.only(top: 15),
-                          child: Text(precipUnit, style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.secondary),),
+                          child: Text(localizePrecipUnit(precipUnit, context.locale), style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.secondary),),
                          ),
                           ],
                         ),
