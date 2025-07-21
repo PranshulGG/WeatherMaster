@@ -24,6 +24,7 @@ import '../utils/preferences_helper.dart';
 import '../utils/snack_util.dart';
 import '../utils/theme.dart';
 import '../utils/theme_controller.dart';
+import '../utils/bottom_provider.dart';
 
 // App models
 import '../models/insights_gen.dart';
@@ -1023,7 +1024,7 @@ Widget buildLayoutBlock(LayoutBlockType type) {
             utcOffsetSeconds: weather['utc_offset_seconds'].toString(),
           ) : const SizedBox.shrink();
 
-    case LayoutBlockType.insights:
+    case  LayoutBlockType.insights:
       return !shouldShowRainBlock &&
            showInsightsRandomly ?
             ShowInsights(
@@ -1172,7 +1173,7 @@ else
                   if(result == null){
                     
                   } else{
-                setState(() {
+                  setState(() {
                     cityName = PreferencesHelper.getJson('selectedViewLocation')?['city'];
                     countryName = PreferencesHelper.getJson('selectedViewLocation')?['country'];
                     cacheKey = PreferencesHelper.getJson('selectedViewLocation')?['cacheKey'];
@@ -1183,7 +1184,7 @@ else
                     _istriggeredFromLocations = true;
                     themeCalled = false;
                     _isLoadingFroggy = true;
-                    weatherFuture = getWeatherFromCache();
+                    weatherFuture = Future.value(result);
                   });
                   }
                 return;
@@ -1332,18 +1333,7 @@ else
             }(),
           ),
 
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 5, top: 16),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(topRight: Radius.circular(28), topLeft: Radius.circular(28)),
-                color:  Color(useFullMaterialScheme ? Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32() : weatherContainerColors[selectedContainerBgIndex]),
-              ),
-              child: Center(
-                child: Text("Data provided by Open-Meteo"),
-              ),
-            )
-
+            homeBottomBar(context, isLight)
             ]
             
           ) : const SizedBox.shrink();  

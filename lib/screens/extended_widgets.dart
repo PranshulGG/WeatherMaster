@@ -578,7 +578,11 @@ final duskFormatted = formatInstantToLocalTime(dusk, timeUnit: timeFormatDUSKDAW
 
     final hourly = weather['hourly'];
     final List<dynamic> hourlyTime = hourly['time'];
-    final List<dynamic> hourlyPressure = hourly['pressure_msl'];
+    final List<double> hourlyPressure = 
+    (hourly['pressure_msl'] as List<dynamic>)
+        .map((e) => (e as num).toDouble())
+        .toList();
+
 
 
     final offset = Duration(seconds: int.parse(weather['utc_offset_seconds'].toString()));
@@ -903,7 +907,10 @@ final duskFormatted = formatInstantToLocalTime(dusk, timeUnit: timeFormatDUSKDAW
 
     final hourly = weather['hourly'];
     final List<dynamic> hourlyTime = hourly['time'];
-    final List<dynamic> windSpeeds = hourly['wind_speed_10m'];
+    final List<double> windSpeeds = 
+    (hourly['wind_speed_10m'] as List<dynamic>)
+        .map((e) => (e as num).toDouble())
+        .toList();
     final List<dynamic> windDirections = hourly['wind_direction_10m'];
 
 
@@ -1669,7 +1676,10 @@ Widget buildPrecipExtended(){
     final daily = weather['daily'];
     final List<dynamic> hourlyTime = hourly['time'];
     final List<dynamic> precipProb = hourly['precipitation_probability'];
-    final List<dynamic> precipAmount = hourly['precipitation'];
+    final List<double> precipAmount = 
+    (hourly['precipitation'] as List<dynamic>)
+        .map((e) => (e as num).toDouble())
+        .toList();
     final double precipHours = daily['precipitation_hours'][0];
     final double todaysAMOUNT = daily['precipitation_sum'][0];
 
