@@ -491,7 +491,6 @@ String getLanguageCodeCrodwin(Locale locale) {
   if ([
     'az', // Azerbaijani
     'cs', // Czech
-    'ca' // Catalan
     'de', // German
     'el', // Greek
     'fa', // Persian
@@ -512,6 +511,7 @@ String getLanguageCodeCrodwin(Locale locale) {
     'tr', // Turkish
     'uk', // Ukrainian
     'vi', // Vietnamese
+    'ca'
   ].contains(lang)) {
     return lang;
   }
