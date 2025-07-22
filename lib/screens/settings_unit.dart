@@ -4,6 +4,7 @@ import 'package:settings_tiles/settings_tiles.dart';
 import '../utils/preferences_helper.dart';
 import 'package:provider/provider.dart';
 import '../notifiers/unit_settings_notifier.dart';
+import '../helper/locale_helper.dart';
 
 class AppUnitsPage extends StatefulWidget {
   const AppUnitsPage({super.key});
@@ -13,16 +14,52 @@ class AppUnitsPage extends StatefulWidget {
 }
 
 class _AppUnitsPageState extends State<AppUnitsPage> {
-    final currentAqiMode = PreferencesHelper.getString("selectedAQIUnit") ?? "United States";
 
-    final optionsAQI = {
+ 
+  @override
+  Widget build(BuildContext context) {
+
+    final currentAqiMode = PreferencesHelper.getString("selectedAQIUnit") ?? "United States";
+    final currentTempMode = PreferencesHelper.getString("selectedTempUnit") ?? "Celsius";
+    final currentWindMode = PreferencesHelper.getString("selectedWindUnit") ?? "Km/h";
+    final currentVisibilityMode = PreferencesHelper.getString("selectedVisibilityUnit") ?? "Km";
+    final currentPrecipMode = PreferencesHelper.getString("selectedPrecipitationUnit") ?? "mm";
+    final currentPressureMode = PreferencesHelper.getString("selectedPressureUnit") ?? "hPa";
+
+     
+   final optionsAQI = {
       "United States": "united_states_aqi".tr(),
       "European": "european_aqi".tr()
     };
 
-  @override
-  Widget build(BuildContext context) {
-     
+    final optionsTemp = {
+      "Celsius": localizeTempUnit("Celsius", context.locale),
+      "Fahrenheit": localizeTempUnit("Fahrenheit", context.locale)
+    };
+
+    final optionsWind = {
+      "Km/h": localizeWindUnit("Km/h", context.locale),
+      "Mph": localizeWindUnit("Mph", context.locale),
+      "M/s": localizeWindUnit("M/s", context.locale),
+      "Bft": localizeWindUnit("Bft", context.locale),
+
+    };
+    final optionsVisibility = {
+      "Km": localizeVisibilityUnit("Km", context.locale),
+      "Mile": localizeVisibilityUnit("Mile", context.locale),      
+    };
+
+    final optionsPrecip = {
+      "mm": localizePrecipUnit("mm", context.locale),
+      "cm": localizePrecipUnit("cm", context.locale),
+      "in": localizePrecipUnit("in", context.locale),
+    };
+
+    final optionsPressure = {
+      "hPa": localizePressureUnit("hPa", context.locale),
+      "inHg": localizePrecipUnit("inHg", context.locale),
+      "mmHg": localizePrecipUnit("mmHg", context.locale)
+    };
 
 
 
@@ -45,12 +82,13 @@ class _AppUnitsPageState extends State<AppUnitsPage> {
                 SettingSingleOptionTile(
                     icon: Icon(Icons.device_thermostat),
                     title: Text('temperature_unit'.tr()),
-                    value: SettingTileValue(PreferencesHelper.getString("selectedTempUnit") ?? "Celsius"),
+                    value: SettingTileValue(optionsTemp[currentTempMode == "Fahrenheit" ? "Fahrenheit" : "Celsius"]!),
                     dialogTitle: 'temperature_unit'.tr(),
-                    options: const ['Celsius', 'Fahrenheit'],
-                    initialOption: PreferencesHelper.getString("selectedTempUnit") ?? "Celsius",
+                    options: optionsTemp.values.toList(),
+                    initialOption: optionsTemp[currentTempMode == "Fahrenheit" ? "Fahrenheit" : "Celsius"],
                     onSubmitted: (value) {
-                      context.read<UnitSettingsNotifier>().updateTempUnit(value);
+                      final selectedKey = optionsTemp.entries.firstWhere((e) => e.value == value).key;
+                      context.read<UnitSettingsNotifier>().updateTempUnit(selectedKey);
                       setState(() {
                       });
                     },
@@ -59,12 +97,19 @@ class _AppUnitsPageState extends State<AppUnitsPage> {
                 SettingSingleOptionTile(
                     icon: Icon(Icons.air),
                     title: Text('wind_unit'.tr()),
-                    value: SettingTileValue(PreferencesHelper.getString("selectedWindUnit") ?? "Km/h"),
+                    value: SettingTileValue(optionsWind[currentWindMode == "Mph" ? "Mph"
+                     : currentWindMode == "M/s" ? "M/s"
+                     : currentWindMode == "Bft" ? "Bft"
+                     : "Km/h"]!),
                     dialogTitle: 'wind_unit'.tr(),
-                    options: const ['Km/h', 'Mph', 'M/s', 'Bft'],
-                    initialOption: PreferencesHelper.getString("selectedWindUnit") ?? "Km/h",
+                    options: optionsWind.values.toList(),
+                    initialOption: optionsWind[currentWindMode == "Mph" ? "Mph"
+                     : currentWindMode == "M/s" ? "M/s"
+                     : currentWindMode == "Bft" ? "Bft"
+                     : "Km/h"],
                     onSubmitted: (value) {
-                      context.read<UnitSettingsNotifier>().updateWindUnit(value);
+                      final selectedKey = optionsWind.entries.firstWhere((e) => e.value == value).key;
+                      context.read<UnitSettingsNotifier>().updateWindUnit(selectedKey);
                       setState(() {
                       });
                     },
@@ -72,12 +117,13 @@ class _AppUnitsPageState extends State<AppUnitsPage> {
                 SettingSingleOptionTile(
                     icon: Icon(Icons.visibility),
                     title: Text('visibility_unit'.tr()),
-                    value: SettingTileValue(PreferencesHelper.getString("selectedVisibilityUnit") ?? "Km"),
+                    value: SettingTileValue(optionsVisibility[currentVisibilityMode == "Mile" ? "Mile" : "Km"]!),
                     dialogTitle: 'visibility_unit'.tr(),
-                    options: const ['Km', 'Mile'],
-                    initialOption: PreferencesHelper.getString("selectedVisibilityUnit") ?? "Km",
+                    options: optionsVisibility.values.toList(),
+                    initialOption: optionsVisibility[currentVisibilityMode == "Mile" ? "Mile" : "Km"],
                     onSubmitted: (value) {
-                      context.read<UnitSettingsNotifier>().updateVisibilityUnit(value);
+                      final selectedKey = optionsVisibility.entries.firstWhere((e) => e.value == value).key;
+                      context.read<UnitSettingsNotifier>().updateVisibilityUnit(selectedKey);
                       setState(() {
                       });
                     },
@@ -85,12 +131,17 @@ class _AppUnitsPageState extends State<AppUnitsPage> {
                   SettingSingleOptionTile(
                     icon: Icon(Icons.water_drop),
                     title: Text('precipitation_unit'.tr()),
-                    value: SettingTileValue(PreferencesHelper.getString("selectedPrecipitationUnit") ?? "mm"),
+                      value: SettingTileValue(optionsPrecip[currentPrecipMode == "cm" ? "cm"
+                     : currentPrecipMode == "in" ? "in"
+                     : "mm"]!),
                     dialogTitle: 'precipitation_unit'.tr(),
-                    options: const ['mm', 'cm', 'in'],
-                    initialOption: PreferencesHelper.getString("selectedPrecipitationUnit") ?? "mm",
+                    options: optionsPrecip.values.toList(),
+                    initialOption: optionsPrecip[currentPrecipMode == "cm" ? "cm"
+                     : currentPrecipMode == "in" ? "in"
+                     : "mm"],
                     onSubmitted: (value) {
-                      context.read<UnitSettingsNotifier>().updatePrecipitationUnit(value);
+                      final selectedKey = optionsPrecip.entries.firstWhere((e) => e.value == value).key;
+                      context.read<UnitSettingsNotifier>().updatePrecipitationUnit(selectedKey);
                       setState(() {
                       });
                     },
@@ -98,12 +149,19 @@ class _AppUnitsPageState extends State<AppUnitsPage> {
                   SettingSingleOptionTile(
                     icon: Icon(Icons.av_timer),
                     title: Text('pressure_unit'.tr()),
-                    value: SettingTileValue(PreferencesHelper.getString("selectedPressureUnit") ?? "hPa"),
+                    // value: SettingTileValue(PreferencesHelper.getString("selectedPressureUnit") ?? "hPa"),
+                     value: SettingTileValue(optionsPressure[currentPressureMode == "inHg" ? "inHg"
+                     : currentPressureMode == "mmHg" ? "mmHg"
+                     : "hPa"]!),
                     dialogTitle: 'pressure_unit'.tr(),
-                    options: const ['hPa', 'inHg', 'mmHg'],
-                    initialOption: PreferencesHelper.getString("selectedPressureUnit") ?? "hPa",
+                    // options: const ['hPa', 'inHg', 'mmHg'],
+                    options: optionsPressure.values.toList(),
+                    initialOption: optionsPressure[currentPressureMode == "inHg" ? "inHg"
+                     : currentPressureMode == "mmHg" ? "mmHg"
+                     : "hPa"],
                     onSubmitted: (value) {
-                      context.read<UnitSettingsNotifier>().updatePressureUnit(value);
+                      final selectedKey = optionsPressure.entries.firstWhere((e) => e.value == value).key;
+                      context.read<UnitSettingsNotifier>().updatePressureUnit(selectedKey);
                       setState(() {
                       });
                     },
@@ -124,12 +182,10 @@ class _AppUnitsPageState extends State<AppUnitsPage> {
                   SettingSingleOptionTile(
                     icon: Icon(Icons.waves),
                     title: Text('aqi_type'.tr()),
-                    // value: SettingTileValue(PreferencesHelper.getString("selectedAQIUnit") ?? "United States"),
                     value: SettingTileValue(optionsAQI[currentAqiMode == "European" ? "European" : "United States"]!),
                     dialogTitle: 'aqi_type'.tr(),
                     // options: const ['United States', 'European'],
                     options: optionsAQI.values.toList(),
-                    // initialOption: PreferencesHelper.getString("selectedAQIUnit") ?? "United States",
                     initialOption: optionsAQI[currentAqiMode == "European" ? "European" : "United States"],
                     onSubmitted: (value) {
                       final selectedKey = optionsAQI.entries.firstWhere((e) => e.value == value).key;

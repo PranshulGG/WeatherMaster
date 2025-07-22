@@ -559,7 +559,6 @@ Widget buildDismissibleListView({Key? key}) {
                             .replaceAll(' ', '_');
                         final box = await Hive.openBox('weatherMasterCache');
                         await box.delete(cacheKey);
-
                         _scaffoldMessengerKey.currentState?.showSnackBar(
                           SnackBar(
                             content: Text(

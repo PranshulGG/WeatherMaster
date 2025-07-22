@@ -55,3 +55,15 @@ String localizePrecipUnit(String unit, Locale locale) {
   }
   return unit; 
 }
+
+String localizeTempUnit(String unit, Locale locale) {
+  if (locale.languageCode == "zh") {
+    switch (unit) {
+      case 'Celsius':
+        return '摄氏度';
+      case 'Fahrenheit':
+        return '华氏度';
+    }
+  }
+  return unit; 
+}

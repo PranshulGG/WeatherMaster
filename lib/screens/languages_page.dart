@@ -89,6 +89,7 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
         builder: (context, snapshot) {
           final progressMap = snapshot.data ?? {};
 
+
       return  SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
@@ -373,6 +374,9 @@ Map<String, String> getLanguageNames(Locale locale) {
   if (lang == 'cs' && country == 'CZ') {
     return {'native': 'Čeština', 'english': 'Czech'};
   }
+  if (lang == 'ca' && country == 'ES') {
+    return {'native': 'Català', 'english': 'Catalan'};
+  }
   if (lang == 'de' && country == 'DE') {
     return {'native': 'Deutsch', 'english': 'German'};
   }
@@ -457,9 +461,7 @@ Map<String, String> getLanguageNames(Locale locale) {
   if (lang == 'zh' && country == 'TW') {
     return {'native': '繁體中文', 'english': 'Traditional Chinese'};
   }
-  if (lang == 'ca' && country == 'ES') {
-    return {'native': 'Català', 'english': 'Catalan'};
-  }
+
   return {'native': '$lang${country != null ? "_$country" : ""}', 'english': 'Unknown'};
 }
 
@@ -489,6 +491,7 @@ String getLanguageCodeCrodwin(Locale locale) {
   if ([
     'az', // Azerbaijani
     'cs', // Czech
+    'ca' // Catalan
     'de', // German
     'el', // Greek
     'fa', // Persian
@@ -509,7 +512,6 @@ String getLanguageCodeCrodwin(Locale locale) {
     'tr', // Turkish
     'uk', // Ukrainian
     'vi', // Vietnamese
-    'ca'
   ].contains(lang)) {
     return lang;
   }

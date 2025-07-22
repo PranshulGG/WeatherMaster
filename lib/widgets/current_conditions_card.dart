@@ -216,7 +216,8 @@ List<Widget> gridItems = itemOrder.map((i) {
                             ),
                               child: Center(child: Text(widget.currentDewPoint == 0.0000001 ? '--' : "$dewpointConverted°", style: TextStyle(color: Theme.of(context).colorScheme.onTertiary, fontSize: 16))),
                              ),
-                            Text("dew_point".tr(), style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontWeight: FontWeight.w500))
+                             Flexible(child: 
+                            Text("dew_point".tr(), style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontWeight: FontWeight.w500), overflow: TextOverflow.ellipsis,))
                             ],
                           ),
                         )
