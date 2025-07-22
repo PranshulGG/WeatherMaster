@@ -423,7 +423,7 @@ final duskFormatted = formatInstantToLocalTime(dusk, timeUnit: timeFormatDUSKDAW
   final dawnWidget = Column(
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
-      Text("Dawn", style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w500, fontSize: 15)),
+      Text("dawn".tr(), style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w500, fontSize: 15)),
       Text(dawnFormatted, style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w500, fontSize: 18)),
     ],
   );
@@ -439,7 +439,7 @@ final duskFormatted = formatInstantToLocalTime(dusk, timeUnit: timeFormatDUSKDAW
   final duskWidget = Column(
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
-      Text("Dusk", style: TextStyle(color: Theme.of(context).colorScheme.secondary, fontWeight: FontWeight.w500, fontSize: 15)),
+      Text("dusk".tr(), style: TextStyle(color: Theme.of(context).colorScheme.secondary, fontWeight: FontWeight.w500, fontSize: 15)),
       Text(duskFormatted, style: TextStyle(color: Theme.of(context).colorScheme.secondary, fontWeight: FontWeight.w500, fontSize: 18)),
     ],
   );

@@ -18,167 +18,167 @@ final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey = GlobalKey<Scaffo
 
 
 final categorizedModels = {
-    'Default': [
+    'default_text'.tr(): [
       {
         'key': 'best_match',
         'name': 'Best match',
         'desc': 'weather_model_info_1'.tr(),
       },
     ],
-    'Main': [
+    'main_text'.tr(): [
       {
         'key': 'ecmwf_ifs04',
         'name': 'ECMWF IFS 0.4°',
-        'desc': 'Global forecast by ECMWF, slightly lower resolution, highly reliable worldwide.',
+        'desc': 'model_disc_2'.tr(),
       },
       {
         'key': 'ecmwf_ifs025',
         'name': 'ECMWF IFS 0.25°',
-        'desc': 'High-resolution version of ECMWF’s global model. Known for top accuracy globally.',
+        'desc': 'model_disc_3',
       },
       {
         'key': 'cma_grapes_global',
         'name': 'CMA GRAPES Global',
-        'desc': 'Chinese national model from CMA. Good for Asia-Pacific, less accurate globally.',
+        'desc': 'model_disc_4',
       },
       {
         'key': 'bom_access_global',
         'name': 'BOM ACCESS Global',
-        'desc': "Global model from Australia's Bureau of Meteorology. Best for Australia & Oceania.",
+        'desc': "model_disc_5",
       },
       {
         'key': 'metno_nordic',
         'name': 'MET Norway Nordic',
-        'desc': 'Regional model optimized for Norway and Scandinavia. Very accurate for the Nordic region.',
+        'desc': 'model_disc_6',
       },
     ],
       'GFS': [
       {
         'key': 'gfs_seamless',
         'name': 'GFS Seamless',
-        'desc': 'NOAA’s blended high-res + global forecast. Balanced accuracy with faster updates.',
+        'desc': 'model_disc_7',
       },
       {
         'key': 'gfs_global',
         'name': 'GFS Global',
-        'desc': 'NOAA’s global model. Fast, free, decent worldwide but less precise locally.',
+        'desc': 'model_disc_8',
       },
       {
         'key': 'gfs_hrrr',
         'name': 'GFS HRRR',
-        'desc': 'Ultra high-res short-range US model. Best for hyperlocal US forecasts (0–18h).',
+        'desc': 'model_disc_9',
       },
       {
         'key': 'gfs_graphcast025',
         'name': 'GFS GraphCast',
-        'desc': "AI-powered forecast by Google DeepMind. Experimental, smooth & cutting-edge globally.",
+        'desc': "model_disc_10",
       },
     ],
       'JMA': [
       {
         'key': 'jma_seamless',
         'name': 'JMA Seamless',
-        'desc': 'Blended Japan Meteorological Agency model. Accurate in Japan & East Asia.',
+        'desc': 'model_disc_11',
       },
       {
         'key': 'jma_msm',
         'name': 'JMA MSM',
-        'desc': 'High-res short-range forecast for Japan. Great for 0–36h predictions in Japan.',
+        'desc': 'model_disc_12',
       },
       {
         'key': 'jma_gsm',
         'name': 'JMA GSM',
-        'desc': 'Japan’s global forecast model. Lower res but reliable in Asia-Pacific.',
+        'desc': 'model_disc_13',
       },
     ],
     'DWD': [
       {
         'key': 'icon_seamless',
         'name': 'DWD ICON Seamless',
-        'desc': 'German Weather Service’s blended ICON model. Good balance for Europe',
+        'desc': 'model_disc_14',
       },
       {
         'key': 'icon_global',
         'name': 'DWD ICON Global',
-        'desc': 'Global version of ICON. Precise forecasts worldwide, especially Europe.',
+        'desc': 'model_disc_15',
       },
       {
         'key': 'icon_eu',
         'name': 'DWD ICON EU',
-        'desc': 'High-res regional ICON for Europe. Best for central & western Europe.',
+        'desc': 'model_disc_16',
       },
       {
         'key': 'icon_d2',
         'name': 'DWD ICON D2',
-        'desc': 'Ultra high-res short-term forecast for Germany. Ideal for next 24–48h in DE.',
+        'desc': 'model_disc_17',
       },
     ],
     'GEM': [
       {
         'key': 'gem_seamless',
         'name': 'GEM Seamless',
-        'desc': 'Environment Canada’s blended forecast. Good across North America.',
+        'desc': 'model_disc_18',
       },
       {
         'key': 'gem_global',
         'name': 'GEM Global',
-        'desc': 'Canada’s global model. Reliable for global forecasts, better in northern latitudes.',
+        'desc': 'model_disc_19',
       },
       {
         'key': 'gem_regional',
         'name': 'GEM Regional',
-        'desc': 'Canadian regional model. High detail for local areas in Canada.',
+        'desc': 'model_disc_20',
       },
       {
         'key': 'gem_hrdps_continental',
         'name': 'GEM HRDPS Continental',
-        'desc': 'Ultra high-res Canadian model. Best for pinpoint weather in Canada & nearby US.',
+        'desc': 'model_disc_21',
       },
     ],
     'Météo-France': [
       {
         'key': 'meteofrance_seamless',
         'name': 'Météo-France Seamless',
-        'desc': 'Blended national model. Accurate in France & nearby countries.',
+        'desc': 'model_disc_22',
       },
       {
         'key': 'meteofrance_arpege_world',
         'name': 'Météo-France ARPEGE World',
-        'desc': 'Global model from France. Decent worldwide, especially for French territories.',
+        'desc': 'model_disc_23',
       },
       {
         'key': 'meteofrance_arpege_europe',
         'name': 'Météo-France ARPEGE Europe',
-        'desc': 'Europe-focused ARPEGE. More precise than global version.',
+        'desc': 'model_disc_24',
       },
       {
         'key': 'meteofrance_arome_france_hd',
         'name': 'Météo-France ARPEGE France HD',
-        'desc': 'High-res national model. Best for local French forecasts.',
+        'desc': 'model_disc_25',
       },
     ],
     'ARPAE': [
       {
         'key': 'italia_meteo_arpae_icon_2i',
         'name': 'ItaliaMeteo ARPAE ICON 2I',
-        'desc': 'High-resolution ICON model tailored by ARPAE for Italy. Ideal for detailed regional forecasts.',
+        'desc': 'model_disc_27',
       },
     ],
     'UKMO': [
       {
         'key': 'ukmo_seamless',
         'name': 'UK Met Office Seamless',
-        'desc': 'Integrated multi-scale forecast system combining global and regional models for smooth transitions.',
+        'desc': 'model_disc_28',
       },
       {
         'key': 'ukmo_global_deterministic_10km',
         'name': 'UK Met Office Global 10km',
-        'desc': 'Global model with 10km resolution. Suitable for medium-range international forecasts.',
+        'desc': 'model_disc_29',
       },
       {
         'key': 'ukmo_uk_deterministic_2km',
         'name': 'UK Met Office UK 2km',
-        'desc': 'High-resolution 2km model focused on the UK. Excellent for local short-term forecasting.',
+        'desc': 'model_disc_30',
       },
     ],
   };
