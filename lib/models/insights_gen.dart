@@ -248,8 +248,8 @@ String _coldTrendInsight() {
               'temp': "${tempUnit == 'Fahrenheit' ? UnitConverter.celsiusToFahrenheit(10) : "10"}",
               'feelliketemp': "${tempUnit == 'Fahrenheit' ? UnitConverter.celsiusToFahrenheit(5) : "5"}"
       }),
-      "insights_sub_20",
-      "insights_sub_21",
+      "insights_sub_20".tr(),
+      "insights_sub_21".tr(),
     ];
 
 
