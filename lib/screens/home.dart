@@ -58,6 +58,7 @@ import '../widgets/pollen_card.dart';
 import '../widgets/rain_block.dart';
 import '../widgets/top_summary_block.dart';
 import '../widgets/top_weather_card.dart';
+import '../widgets/alert_block.dart';
 
 
 class WeatherHome extends StatefulWidget {
@@ -895,6 +896,8 @@ void maybeUpdateWeatherAnimation(Map<String, dynamic> current) {
 
 if (lastWeatherCode != weatherCode || lastIsDay != isDay) {
 
+        lastWeatherCode = weatherCode;
+        lastIsDay = isDay;
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (mounted) {
@@ -914,8 +917,7 @@ if (lastWeatherCode != weatherCode || lastIsDay != isDay) {
         });
 
       
-        lastWeatherCode = weatherCode;
-        lastIsDay = isDay;
+
 } else{
 
   _isLoadingFroggy == true;
@@ -1010,6 +1012,11 @@ if (rainStart != null) {
 }
 
 final bool shouldShowRainBlock = bestStart != null && bestEnd != null;
+
+final alerts = weather['alerts']?['alert'];
+
+final bool showAlerts = alerts != null && alerts is List && alerts.isNotEmpty;
+
 
 
 
@@ -1310,6 +1317,13 @@ else
                 ),
               WeatherFrogIconWidget(iconUrl: _iconUrlFroggy),
               const SizedBox(height: 12),
+                
+                if(showAlerts)
+                alertCard( weather['alerts']!, context),
+
+                shouldShowRainBlock ? SizedBox(height: 8.5,) : showInsightsRandomly ? SizedBox(height: 8.5,) : SizedBox.shrink(),
+
+
           Column(
             children: () {
               final visibleBlocks = layoutConfig.where((block) => block.isVisible).toList();

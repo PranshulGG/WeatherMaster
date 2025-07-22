@@ -6,6 +6,7 @@ import 'package:lat_lng_to_timezone/lat_lng_to_timezone.dart' as tzmap;
 import '../utils/preferences_helper.dart';
 import 'package:flutter/material.dart';
 import '../screens/meteo_models.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class WeatherService {
   static const String _boxName = 'weatherMasterCache';
@@ -42,6 +43,11 @@ class WeatherService {
     'forecast_hours': '1',
   });
 
+    final alertUri = Uri.parse('https://api.weatherapi.com/v1/alerts.json').replace(queryParameters: {
+    'key': dotenv.env['API_KEY_WEATHERAPI']!.toString(),
+    'q': '$lat,$lon',
+  });
+
     // final response = await http.get(uri);
     // final data = json.decode(response.body) as Map<String, dynamic>;
   
@@ -50,10 +56,13 @@ class WeatherService {
   final responses = await Future.wait([
     http.get(uri),
     http.get(airQualityUri),
+    http.get(alertUri),
   ]);
 
   final weatherData = json.decode(responses[0].body) as Map<String, dynamic>;
   final airQualityData = json.decode(responses[1].body) as Map<String, dynamic>;
+  final alertData = json.decode(responses[2].body) as Map<String, dynamic>;
+
 
     weatherData['current'] = sanitizeCurrent(weatherData['current']);
     weatherData['hourly'] = sanitizeHourly(weatherData['hourly']);
@@ -88,6 +97,7 @@ class WeatherService {
   final combinedDataForView = {
     ...weatherData,
     'air_quality': airQualityData,
+    'alerts': alertData['alerts'] ?? [],
   };
 
   final nowForView = DateTime.now().toIso8601String();
@@ -125,6 +135,7 @@ class WeatherService {
   final combinedData = {
     ...weatherData,
     'air_quality': airQualityData,
+     'alerts': alertData['alerts'] ?? [],
   };
 
   final wrappedData = {
