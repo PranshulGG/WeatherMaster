@@ -51,8 +51,6 @@ android/*.jks
 android/*.keystore
 android/key.properties
 
-/settings_tiles_custom/
-
 
 # Environment files
 .env

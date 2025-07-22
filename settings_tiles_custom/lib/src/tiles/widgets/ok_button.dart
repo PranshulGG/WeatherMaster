@@ -1,0 +1,25 @@
+// ignore_for_file: public_member_api_docs private class
+
+import 'package:flutter/material.dart';
+
+class OkButton extends StatelessWidget {
+  const OkButton({
+    required this.onPressed,
+    super.key,
+  });
+
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: onPressed,
+      child: Text(
+        Localizations.of<MaterialLocalizations>(context, MaterialLocalizations)
+                ?.okButtonLabel ??
+            'OK' , style: 
+            const TextStyle(fontWeight: FontWeight.w500, fontSize: 16)
+      ),
+    );
+  }
+}
