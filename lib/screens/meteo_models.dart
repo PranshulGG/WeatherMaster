@@ -29,7 +29,7 @@ final categorizedModels = {
       {
         'key': 'ecmwf_ifs04',
         'name': 'ECMWF IFS 0.4°',
-        'desc': 'model_disc_2'.tr(),
+        'desc': 'model_disc_2',
       },
       {
         'key': 'ecmwf_ifs025',
@@ -185,7 +185,7 @@ final categorizedModels = {
 
 
 final Map<String, Map<String, String>> dialogContent = {
-  'Default': {
+  'default_text'.tr(): {
   'content': '''
 ## Best match  
 - **Where to use:** Anywhere  
@@ -195,7 +195,7 @@ final Map<String, Map<String, String>> dialogContent = {
 - **Notes:** Automatically selects the most appropriate model based on location and forecast range.
 '''
   },
-  'Main': {
+  'main_text'.tr(): {
   'content': '''
 ## ECMWF IFS 0.4°
 - **Where to use:** Global  
@@ -636,7 +636,7 @@ final Map<String, Map<String, String>> dialogContent = {
                             fontSize: 15
                           ),
                         ),
-                        subtitle: Text(model['desc'].toString(), style: TextStyle(
+                        subtitle: Text(model['desc'].toString().tr(), style: TextStyle(
                           color: isSelected
                             ? Theme.of(context).colorScheme.onSurfaceVariant
                             : null,
