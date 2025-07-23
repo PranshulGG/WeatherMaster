@@ -152,6 +152,10 @@ void _updateLabelHeight() {
                     Positioned(
                       top: _labelHeight, 
                       right: 0,
+                      child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: 150,
+                    ),
                       child: Text(
                         "${'feels_like'.tr()}  ${widget.currentFeelsLike == 0000 ? '--' : '$convertedfeelsLikeTemp°'} ",
                         style: TextStyle(
@@ -159,7 +163,10 @@ void _updateLabelHeight() {
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
                         ),
+                        textAlign: TextAlign.right,
                       ),
+                      
+                    ),
                     ),
                       ],
                     ),
