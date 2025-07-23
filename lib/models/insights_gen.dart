@@ -153,7 +153,6 @@ String _coldTrendInsight() {
       }
 
     if (hotDays >= 3) {
-      // return "Heatwave alert: $hotDays days over ${tempUnit == 'Fahrenheit' ? UnitConverter.celsiusToFahrenheit(35) : "35"}° are coming this week.";
       return "insights_sub_7".tr(namedArgs: {
               'hotDays': "$hotDays",
               'heatTemp': "${tempUnit == 'Fahrenheit' ? UnitConverter.celsiusToFahrenheit(35) : "35"}"
@@ -204,7 +203,6 @@ String _coldTrendInsight() {
   }
     
     if (maxWind > 30) {
-      // return "Windy conditions expected — especially on ${_weekdayName(winds.indexOf(maxWind) + 1)}.";
       return "insights_sub_13".tr(namedArgs: {
               'weekdays': _weekdayName(winds.indexOf(maxWind) + 1)
             });
@@ -229,7 +227,6 @@ String _coldTrendInsight() {
   }
 
     if (sunnyDays >= 4) {
-      // return "Pleasant week ahead — $sunnyDays days of clear, comfortable weather!";
       return "insights_sub_16".tr(namedArgs: {
               'sunnyDays': "$sunnyDays"
             });

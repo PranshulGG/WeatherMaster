@@ -120,7 +120,7 @@ class _WeatherHomeState extends State<WeatherHome> {
 
   bool? lastIsDay;
 
-    final WeatherFroggyManager _weatherManager = WeatherFroggyManager();
+  final WeatherFroggyManager _weatherManager = WeatherFroggyManager();
 
   String? _iconUrlFroggy;
   bool _isLoadingFroggy = true;
@@ -263,7 +263,7 @@ Future<void> saveLayoutConfig() async {
   } else if (isHomeLocation && lastUpdated != null) {
     final lastUpdateTime = DateTime.tryParse(lastUpdated);
     final now = DateTime.now();
-    if (lastUpdateTime != null && now.difference(lastUpdateTime).inMinutes < 45) {
+    if (lastUpdateTime != null && now.difference(lastUpdateTime).inMinutes < 450) {
       _isAppFullyLoaded = true; 
     } else{
     checkAndUpdateHomeLocation();
@@ -402,6 +402,7 @@ Future<void> _refreshWeatherData() async {
 if (result == null) {
   return;
 }
+ weatherFuture = getWeatherFromCache();
 
   setState(() {
   _isAppFullyLoaded = false;
@@ -409,7 +410,6 @@ if (result == null) {
   _isLoadingFroggy = true;
     themeCalled = false;
   });
- weatherFuture = getWeatherFromCache();
  PreferencesHelper.setBool("ModelChanged", false);
 }
 
@@ -894,9 +894,9 @@ void maybeUpdateWeatherAnimation(Map<String, dynamic> current) {
           ? dayGradients[weatherCode] ?? 0
           : nightGradients[weatherCode] ?? 0;
 
-if (lastWeatherCode != weatherCode || lastIsDay != isDay) {
+if (lastWeatherCode != current['weather_code'] || lastIsDay != isDay) {
 
-        lastWeatherCode = weatherCode;
+        lastWeatherCode = current['weather_code'];
         lastIsDay = isDay;
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -910,9 +910,14 @@ if (lastWeatherCode != weatherCode || lastIsDay != isDay) {
               _isLoadingFroggy = true;
               showInsightsRandomly = Random().nextInt(100) < 40;
               PreferencesHelper.setColor("weatherThemeColor", weatherConditionColors[newIndex]);
-               maybeUpdateWeatherAnimation(current);
                _loadWeatherIconFroggy(weatherCodeFroggy, isDayFroggy, newIndex);
+               maybeUpdateWeatherAnimation(current);
 
+               print("Current: ${current['weather_code']}");
+               print("CurrentIsDay: $isDay");
+
+               print("lastWeaterCode: $lastWeatherCode");
+               print("lasIsDay: $lastIsDay");
           }
         });
 
