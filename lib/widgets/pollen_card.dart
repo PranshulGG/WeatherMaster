@@ -78,7 +78,7 @@ class PollenCard extends StatelessWidget {
           color: Color(selectedContainerBgIndex),
           borderRadius: BorderRadius.circular(28),
         ),
-        padding: EdgeInsets.only(top: 12, bottom: 10),
+        padding: EdgeInsets.only(top: 12, bottom: 12),
         margin: EdgeInsets.fromLTRB(12, 0, 12, 0),
         child: Column(
         children: [

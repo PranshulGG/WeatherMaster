@@ -20,6 +20,8 @@ class DataBackupService {
   final hiveData = Map<String, dynamic>.from(hiveBox.toMap());
 
   final allData = {
+    'app': 'WeatherMaster',
+    'version': 1,
     'hive': hiveData,
     'sharedPreferences': sharedPrefsData,
   };
@@ -95,6 +97,14 @@ class DataBackupService {
 
     final jsonString = utf8.decode(fileBytes);
     final Map<String, dynamic> data = jsonDecode(jsonString);
+
+    if (data['app'] != 'WeatherMaster' ||
+        !data.containsKey('hive') ||
+        !data.containsKey('sharedPreferences')) {
+      SnackUtil.showSnackBar(context: context, message: "Invalid backup file format.");
+      return;
+    }
+
 
     await prefs.clear();
     await hiveBox.clear();

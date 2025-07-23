@@ -1285,6 +1285,7 @@ else
                       icon: const Icon(Icons.settings_outlined),
                     ),
 
+
                   if(isViewLocation) 
                     FilledButton(
                       onPressed: () => handleSaveLocationView(
