@@ -441,9 +441,9 @@ final tempOptions = [
 
   if (windSpeed > 19) {
         final convertedwindSpeed = windUnit == 'Mph'
-        ? UnitConverter.kmhToMph(windSpeed)
+        ? UnitConverter.kmhToMph(windSpeed).round()
         : windUnit == 'M/s'
-            ? UnitConverter.kmhToMs(windSpeed) : windUnit == 'Bft' ? UnitConverter.kmhToBeaufort(windSpeed)
+            ? UnitConverter.kmhToMs(windSpeed).toStringAsFixed(2) : windUnit == 'Bft' ? UnitConverter.kmhToBeaufort(windSpeed).round()
             : windSpeed.toStringAsFixed(0);
     final windOptions = [
       "bulletsWINDOptions_1".tr(namedArgs: {

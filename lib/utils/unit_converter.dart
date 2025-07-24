@@ -10,7 +10,7 @@ class UnitConverter {
     for (int i = 0; i < thresholds.length; i++) {
       if (kmh < thresholds[i]) return i.toDouble();
     }
-    return 12; // Hurricane force
+    return 12;
   }
 
   static double mphToKmh(double mph) => mph / 0.621371;

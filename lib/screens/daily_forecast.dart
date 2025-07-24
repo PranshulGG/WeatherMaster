@@ -753,9 +753,9 @@ class ConditionsWidgetsForecast extends StatelessWidget {
 
 
         final convertedwindSpeed = windUnit == 'Mph'
-        ? UnitConverter.kmhToMph(currentWindSpeed)
+        ? UnitConverter.kmhToMph(currentWindSpeed).round()
         : windUnit == 'M/s'
-            ? UnitConverter.kmhToMs(currentWindSpeed) : windUnit == 'Bft' ? UnitConverter.kmhToBeaufort(currentWindSpeed)
+            ? UnitConverter.kmhToMs(currentWindSpeed).toStringAsFixed(2) : windUnit == 'Bft' ? UnitConverter.kmhToBeaufort(currentWindSpeed).round()
             : currentWindSpeed.toStringAsFixed(0);
 
     return Container(
