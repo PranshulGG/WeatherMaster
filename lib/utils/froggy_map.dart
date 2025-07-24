@@ -19,7 +19,7 @@ Future<bool> isOnline() async {
   try {
     if (kIsWeb) return true; 
 
-    final response = await http.get(Uri.parse('https://www.google.com'))
+    final response = await http.get(Uri.parse('http://www.baidu.com/'))
         .timeout(Duration(seconds: 5));
     return response.statusCode == 200;
   } catch (e) {
