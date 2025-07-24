@@ -1,3 +1,5 @@
+// home.dart is a bitch for sure, tried to clean it up but gave up
+
 // Dart core libraries
 import 'dart:async';
 import 'dart:convert';
@@ -277,7 +279,7 @@ Future<void> saveLayoutConfig() async {
 
 Future<bool> hasRealInternet() async {
   try {
-    final response = await http.get(Uri.parse('https://www.google.com'))
+    final response = await http.get(Uri.parse('http://www.baidu.com/')) 
         .timeout(Duration(seconds: 5));
     return response.statusCode == 200;
   }  catch (e) {
@@ -913,11 +915,6 @@ if (lastWeatherCode != current['weather_code'] || lastIsDay != isDay) {
                _loadWeatherIconFroggy(weatherCodeFroggy, isDayFroggy, newIndex);
                maybeUpdateWeatherAnimation(current);
 
-               print("Current: ${current['weather_code']}");
-               print("CurrentIsDay: $isDay");
-
-               print("lastWeaterCode: $lastWeatherCode");
-               print("lasIsDay: $lastIsDay");
           }
         });
 
@@ -926,7 +923,7 @@ if (lastWeatherCode != current['weather_code'] || lastIsDay != isDay) {
 } else{
 
   _isLoadingFroggy == true;
-  _loadWeatherIconFroggy(weatherCodeFroggy, isDayFroggy, newIndex);
+  _loadWeatherIconFroggy(weatherCodeFroggy, isDayFroggy, newIndex); // idk, call it anyway
 
 }
 
