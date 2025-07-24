@@ -515,9 +515,15 @@ if(storedLocation['isGPS'] ?? false){
       );
 
 
-  weatherFuture = getWeatherFromCache();
+  setState(() {
+  _isAppFullyLoaded = false;
+  _istriggeredFromLocations = true;
+  _isLoadingFroggy = true;
+    themeCalled = false;
+  });
 
-  _isAppFullyLoaded = true;
+ weatherFuture = getWeatherFromCache();
+
 
   } else{
   _refreshWeatherData();
