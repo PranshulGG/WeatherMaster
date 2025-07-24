@@ -471,8 +471,8 @@
     "weekdays_5": "Петак",
     "weekdays_6": "Субота",
     "weekdays_7": "Недеља",
-    "dawn": "Dawn",
-    "dusk": "Dusk",
+    "dawn": "Зора",
+    "dusk": "Сумрак",
     "model_disc_2": "Global forecast by ECMWF, slightly lower resolution, highly reliable worldwide.",
     "model_disc_3": "High-resolution version of ECMWF’s global model. Known for top accuracy globally.",
     "model_disc_4": "Chinese national model from CMA. Good for Asia-Pacific, less accurate globally.",
@@ -501,6 +501,6 @@
     "model_disc_28": "Integrated multi-scale forecast system combining global and regional models for smooth transitions.",
     "model_disc_29": "Global model with 10km resolution. Suitable for medium-range international forecasts.",
     "model_disc_30": "High-resolution 2km model focused on the UK. Excellent for local short-term forecasting.",
-    "default_text": "Default",
-    "main_text": "Main"
+    "default_text": "Подразумевано",
+    "main_text": "Главни"
 }
