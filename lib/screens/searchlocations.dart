@@ -17,11 +17,13 @@ class SearchLocationsScreen extends StatefulWidget {
 }
 
 class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
+  List<SavedLocation> savedLocations = [];
 
 Future<void> saveLocation(SavedLocation newLocation) async {
   final prefs = await SharedPreferences.getInstance();
   final existing = prefs.getString('saved_locations');
   List<SavedLocation> current = [];
+
 
   if (existing != null) {
     final decoded = jsonDecode(existing) as List;
@@ -40,6 +42,19 @@ Future<void> saveLocation(SavedLocation newLocation) async {
   }
 }
 
+Future<void> loadSavedLocations() async {
+  final prefs = await SharedPreferences.getInstance();
+  final jsonString = prefs.getString('saved_locations');
+  if (jsonString != null) {
+    final List<dynamic> jsonList = jsonDecode(jsonString);
+    setState(() {
+      savedLocations = jsonList.map((json) => SavedLocation.fromJson(json)).toList();
+    });
+  } else {
+    savedLocations = [];
+  }
+}
+
 GeoProvider selectedProvider = GeoProvider.nominatim;
 bool isLoading = false;
 List<Map<String, String>> results = [];
@@ -55,7 +70,7 @@ final providerLabels = {
 void initState() {
   super.initState();
   loadSavedProvider();
-
+loadSavedLocations(); 
 
 }
 
@@ -257,7 +272,13 @@ Future<int> getLocationCount() async {
                     final country = results[index]['country'] ?? '';
                     final code = results[index]['country_code'] ?? '';
 
+                    final isSaved = savedLocations.any((loc) =>
+                      loc.city.toLowerCase() == city.toLowerCase() &&
+                      loc.country.toLowerCase() == country.toLowerCase());
+
+
                     return ListTile(
+                      enabled: !isSaved,
                         contentPadding: EdgeInsets.only(left: 16, right: 16),
                        leading: code.isNotEmpty
                     ? CircleAvatar(

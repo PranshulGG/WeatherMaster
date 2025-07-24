@@ -404,7 +404,6 @@ Future<void> _refreshWeatherData() async {
 if (result == null) {
   return;
 }
- weatherFuture = getWeatherFromCache();
 
   setState(() {
   _isAppFullyLoaded = false;
@@ -412,6 +411,10 @@ if (result == null) {
   _isLoadingFroggy = true;
     themeCalled = false;
   });
+
+ weatherFuture = getWeatherFromCache();
+
+
  PreferencesHelper.setBool("ModelChanged", false);
 }
 
