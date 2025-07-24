@@ -101,9 +101,32 @@ class AlertsPage extends StatelessWidget {
 
            SliverToBoxAdapter(
             child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      if (alerts.isNotEmpty)
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Opacity(
+          opacity: 0.7,
+                     child: Padding(padding: EdgeInsets.only(bottom: 10, left: 16, right: 16),
+                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                       children: [
+                        Container(
+                          padding: EdgeInsets.only(top: 2),
+                          child: Icon(Icons.info_outline, color: Theme.of(context).colorScheme.onSurfaceVariant, size: 17,),
+                        ),
+                        SizedBox(width: 5,),
+                        Expanded(
+                        child: Text(
+                          "Due to the API being in beta, alerts from other regions may occasionally appear",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurfaceVariant
+                          ),
+                        ),
+                        ),
+                       ],
+                      ),
+                      ),  
+                    ),
+          if (alerts.isNotEmpty)
           ...alerts.map<Widget>((alert) {
             return Container(
               margin: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12),

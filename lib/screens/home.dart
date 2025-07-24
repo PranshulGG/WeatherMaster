@@ -147,9 +147,7 @@ class _WeatherHomeState extends State<WeatherHome> {
 
       layoutProvider.loadLayout(); 
     });
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _initAfterLoad();
-      });
+
     cityName = widget.cityName;
     countryName = widget.countryName;
     cacheKey = widget.cacheKey;
@@ -167,6 +165,10 @@ class _WeatherHomeState extends State<WeatherHome> {
     homeLon = widget.lon;
 
     setHomeasCurrent();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+        _initAfterLoad();
+    });
 
   } else {
     _setLatLon();
