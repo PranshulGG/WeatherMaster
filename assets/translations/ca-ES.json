@@ -501,6 +501,6 @@
     "model_disc_28": "Integrated multi-scale forecast system combining global and regional models for smooth transitions.",
     "model_disc_29": "Global model with 10km resolution. Suitable for medium-range international forecasts.",
     "model_disc_30": "High-resolution 2km model focused on the UK. Excellent for local short-term forecasting.",
-    "default_text": "Default",
-    "main_text": "Main"
+    "default_text": "Per defecte",
+    "main_text": "Principal"
 }
