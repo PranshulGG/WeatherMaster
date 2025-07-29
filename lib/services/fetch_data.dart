@@ -25,6 +25,8 @@ class WeatherService {
     final key = locationName ?? 'loc_${lat}_${lon}';
     final box = await _openBox();
 
+    final selectedModel = PreferencesHelper.getString("selectedWeatherModel") ?? "best_match";
+    
     final uri = Uri.parse('https://api.open-meteo.com/v1/forecast').replace(queryParameters: {
       'latitude': lat.toString(),
       'longitude': lon.toString(),
@@ -33,7 +35,7 @@ class WeatherService {
       'daily': 'weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,daylight_duration,uv_index_max,precipitation_sum,precipitation_probability_max,precipitation_hours,wind_speed_10m_max,wind_gusts_10m_max',
       'timezone': timezone,
       'forecast_days': '14',
-      'models': PreferencesHelper.getString("selectedWeatherModel") ?? "best_match"
+      'models': selectedModel
     });
     final airQualityUri = Uri.parse('https://air-quality-api.open-meteo.com/v1/air-quality').replace(queryParameters: {
     'latitude': lat.toString(),
@@ -63,13 +65,18 @@ class WeatherService {
   final airQualityData = json.decode(responses[1].body) as Map<String, dynamic>;
   final alertData = json.decode(responses[2].body) as Map<String, dynamic>;
 
+  // Check if we need fallback data for missing fields
+  Map<String, dynamic> finalWeatherData = weatherData;
+  if (selectedModel != "best_match" && _hasIncompleteData(weatherData)) {
+    finalWeatherData = await _fetchWithFallback(lat, lon, timezone, weatherData, selectedModel);
+  }
 
-    weatherData['current'] = sanitizeCurrent(weatherData['current']);
-    weatherData['hourly'] = sanitizeHourly(weatherData['hourly']);
-    weatherData['daily'] = sanitizeDaily(weatherData['daily']);
+  finalWeatherData['current'] = sanitizeCurrent(finalWeatherData['current']);
+  finalWeatherData['hourly'] = sanitizeHourly(finalWeatherData['hourly']);
+  finalWeatherData['daily'] = sanitizeDaily(finalWeatherData['daily']);
 
-   if (weatherData['error'] == true || airQualityData['error'] == true) {
-    final reason = weatherData['reason'] ?? airQualityData['reason'] ?? 'Unknown error';
+   if (finalWeatherData['error'] == true || airQualityData['error'] == true) {
+    final reason = finalWeatherData['reason'] ?? airQualityData['reason'] ?? 'Unknown error';
     
     if (context != null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -95,7 +102,7 @@ class WeatherService {
 
 
   final combinedDataForView = {
-    ...weatherData,
+    ...finalWeatherData,
     'air_quality': airQualityData,
     'alerts': alertData['alerts'] ?? [],
   };
@@ -117,7 +124,7 @@ class WeatherService {
     final cachedData = cachedMap['data'];
     final lastUpdated = cachedMap['last_updated'];
 
-    if (json.encode(cachedData['current']) == json.encode(weatherData['current']) &&
+    if (json.encode(cachedData['current']) == json.encode(finalWeatherData['current']) &&
         json.encode(cachedData['air_quality'] ?? {}) == json.encode(airQualityData)) {
       log("Hive: No update needed for $key");
       return {
@@ -133,7 +140,7 @@ class WeatherService {
 
   final now = DateTime.now().toIso8601String();
   final combinedData = {
-    ...weatherData,
+    ...finalWeatherData,
     'air_quality': airQualityData,
      'alerts': alertData['alerts'] ?? [],
   };
@@ -152,6 +159,174 @@ class WeatherService {
     'from_cache': false,
   };
   }
+
+  /// Check if weather data has missing or incomplete fields
+  bool _hasIncompleteData(Map<String, dynamic> weatherData) {
+    // Check current data completeness
+    final current = weatherData['current'] as Map<String, dynamic>?;
+    if (current == null) return true;
+    
+    // All fields requested in the API call that should be available
+    final allCurrentFields = [
+      'temperature_2m', 'is_day', 'apparent_temperature', 'pressure_msl', 
+      'relative_humidity_2m', 'precipitation', 'weather_code', 'cloud_cover', 
+      'wind_speed_10m', 'wind_direction_10m', 'wind_gusts_10m'
+    ];
+    
+    // Check for missing current fields
+    int missingCurrentFields = 0;
+    for (final field in allCurrentFields) {
+      if (current[field] == null) {
+        missingCurrentFields++;
+      }
+    }
+    
+    // Check hourly data completeness
+    final hourly = weatherData['hourly'] as Map<String, dynamic>?;
+    if (hourly == null) return true;
+    
+    final allHourlyFields = [
+      'wind_speed_10m', 'wind_direction_10m', 'relative_humidity_2m', 'pressure_msl', 
+      'cloud_cover', 'temperature_2m', 'dew_point_2m', 'apparent_temperature', 
+      'precipitation_probability', 'precipitation', 'weather_code', 'visibility', 'uv_index'
+    ];
+    
+    // Check for missing hourly fields
+    int missingHourlyFields = 0;
+    for (final field in allHourlyFields) {
+      final data = hourly[field] as List?;
+      if (data == null || data.isEmpty || !data.any((value) => value != null)) {
+        missingHourlyFields++;
+      }
+    }
+    
+    // Check daily data completeness
+    final daily = weatherData['daily'] as Map<String, dynamic>?;
+    if (daily == null) return true;
+    
+    final allDailyFields = [
+      'weather_code', 'temperature_2m_max', 'temperature_2m_min', 'sunrise', 'sunset', 
+      'daylight_duration', 'uv_index_max', 'precipitation_sum', 'precipitation_probability_max', 
+      'precipitation_hours', 'wind_speed_10m_max', 'wind_gusts_10m_max'
+    ];
+    
+    // Check for missing daily fields
+    int missingDailyFields = 0;
+    for (final field in allDailyFields) {
+      final data = daily[field] as List?;
+      if (data == null || data.isEmpty || !data.any((value) => value != null)) {
+        missingDailyFields++;
+      }
+    }
+    
+    // Trigger fallback if any fields are missing
+    final totalMissing = missingCurrentFields + missingHourlyFields + missingDailyFields;
+    return totalMissing > 0;
+  }
+
+  /// Fetch weather data with fallback to best_match for missing fields
+  Future<Map<String, dynamic>> _fetchWithFallback(
+    double lat, 
+    double lon, 
+    String timezone, 
+    Map<String, dynamic> primaryData, 
+    String selectedModel
+  ) async {
+    try {
+      // Fetch fallback data using best_match
+      final fallbackUri = Uri.parse('https://api.open-meteo.com/v1/forecast').replace(queryParameters: {
+        'latitude': lat.toString(),
+        'longitude': lon.toString(),
+        'current': 'temperature_2m,is_day,apparent_temperature,pressure_msl,relative_humidity_2m,precipitation,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m,wind_gusts_10m',
+        'hourly': 'wind_speed_10m,wind_direction_10m,relative_humidity_2m,pressure_msl,cloud_cover,temperature_2m,dew_point_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,visibility,uv_index',
+        'daily': 'weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,daylight_duration,uv_index_max,precipitation_sum,precipitation_probability_max,precipitation_hours,wind_speed_10m_max,wind_gusts_10m_max',
+        'timezone': timezone,
+        'forecast_days': '14',
+        'models': 'best_match'
+      });
+
+      final fallbackResponse = await http.get(fallbackUri);
+      final fallbackData = json.decode(fallbackResponse.body) as Map<String, dynamic>;
+
+      if (fallbackData['error'] == true) {
+        return primaryData;
+      }
+
+      // Merge data: primary model takes precedence, fallback fills gaps
+      return _mergeWeatherData(primaryData, fallbackData);
+    } catch (e) {
+      return primaryData;
+    }
+  }
+
+  /// Merge primary weather data with fallback data, prioritizing primary data
+  Map<String, dynamic> _mergeWeatherData(
+    Map<String, dynamic> primary, 
+    Map<String, dynamic> fallback
+  ) {
+    final merged = Map<String, dynamic>.from(primary);
+    
+    // Merge current data
+    merged['current'] = _mergeSection(
+      primary['current'] as Map<String, dynamic>?, 
+      fallback['current'] as Map<String, dynamic>?
+    );
+    
+    // Merge hourly data
+    merged['hourly'] = _mergeSection(
+      primary['hourly'] as Map<String, dynamic>?, 
+      fallback['hourly'] as Map<String, dynamic>?
+    );
+    
+    // Merge daily data
+    merged['daily'] = _mergeSection(
+      primary['daily'] as Map<String, dynamic>?, 
+      fallback['daily'] as Map<String, dynamic>?
+    );
+    
+    // Keep other fields from primary, fallback if missing
+    for (final key in fallback.keys) {
+      if (!merged.containsKey(key) || merged[key] == null) {
+        merged[key] = fallback[key];
+      }
+    }
+    
+    return merged;
+  }
+
+  /// Merge a specific section (current/hourly/daily) with fallback data
+  Map<String, dynamic> _mergeSection(
+    Map<String, dynamic>? primary, 
+    Map<String, dynamic>? fallback
+  ) {
+    if (primary == null && fallback == null) return {};
+    if (primary == null) return Map<String, dynamic>.from(fallback!);
+    if (fallback == null) return Map<String, dynamic>.from(primary);
+    
+    final merged = Map<String, dynamic>.from(primary);
+    
+    for (final key in fallback.keys) {
+      if (!merged.containsKey(key) || merged[key] == null) {
+        merged[key] = fallback[key];
+      } else if (merged[key] is List) {
+        // For array fields, use primary if it has valid data, otherwise use fallback
+        final primaryList = merged[key] as List;
+        final fallbackList = fallback[key] as List;
+        
+        // Check if primary list has any non-null values
+        final primaryHasValidData = primaryList.isNotEmpty && primaryList.any((value) => value != null);
+        final fallbackHasValidData = fallbackList.isNotEmpty && fallbackList.any((value) => value != null);
+        
+        // Use fallback if primary has no valid data but fallback does
+        if (!primaryHasValidData && fallbackHasValidData) {
+          merged[key] = fallbackList;
+        }
+      }
+    }
+    
+    return merged;
+  }
+
 T nullSafeValue<T extends num>(dynamic value) {
   if (value == null) {
     if (T == int) return 0000 as T;
