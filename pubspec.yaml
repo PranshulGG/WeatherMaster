@@ -20,7 +20,7 @@ version: 2.2.4+13
 
 environment:
   sdk: '>=3.0.6 <4.0.0'
-
+  flutter: '3.32.4'
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
 # consider running `flutter pub upgrade --major-versions`. Alternatively,
