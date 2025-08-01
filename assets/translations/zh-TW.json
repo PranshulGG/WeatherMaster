@@ -502,5 +502,14 @@
     "model_disc_29": "Global model with 10km resolution. Suitable for medium-range international forecasts.",
     "model_disc_30": "以英國為中心的 2 千米模型。非常適合當地的短期天氣預報。",
     "default_text": "預設",
-    "main_text": "主要"
+    "main_text": "主要",
+    "location_saved": "Location saved",
+    "alerts_api_caution": "Due to the API being in beta, alerts from other regions may occasionally appear",
+    "effective": "Effective",
+    "expires": "Expires",
+    "no_data_available": "No data available",
+    "email_text": "Email",
+    "on_github": "On Github",
+    "checking": "Checking...",
+    "best_match": "Best match"
 }
