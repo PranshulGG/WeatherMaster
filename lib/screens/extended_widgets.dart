@@ -6,10 +6,10 @@ import '../utils/preferences_helper.dart';
 import 'package:hive/hive.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import '../utils/unit_converter.dart';
-import 'dart:math';
 import 'package:solar_calculator/solar_calculator.dart';
 import 'dart:math' as math;
 import '../helper/locale_helper.dart';
+import '../utils/visual_utils.dart';
 
 class ExtendWidget extends StatefulWidget {
   final String widgetType;
@@ -1903,53 +1903,9 @@ final double maxprecipAmount = precipAmount.reduce((a, b) => a > b ? a : b);
     );
   }
 
-String buildSunPathWithIcon({
-  required Color pathColor,
-  required double percent,
-  required Color outLineColor,
-  bool showSun = true,
-}) {
-  final hexColor = '#${pathColor.value.toRadixString(16).padLeft(8, '0').substring(2)}';
-  final hexColoroutLine = '#${outLineColor.value.toRadixString(16).padLeft(8, '0').substring(2)}';
 
 
-  const svgWidth = 176.0;
 
-  final shift = -0.0;
-  final stretch = 1.0;
-  final t = ((percent + shift) * stretch).clamp(0.0, 1.0);
-  final sunX = t * svgWidth;
-  final sunY = 70 - 70 * sin(pi * t); 
-  final sunYEndStart = 60 - 70 * sin(pi * t); 
-
-  return '''
-<svg width="176" height="110" viewBox="0 0 176 110"  style="overflow: visible;"  xmlns="http://www.w3.org/2000/svg">
-  <path fill="$hexColor" d="M176.5,54.44V89.86C176.5,100.91 167.52,109.86 156.44,109.86H20.06C8.98,109.86 0,100.91 0,89.86V52.57C7.79,51.81 15.41,48.77 21.78,43.46L62.06,9.91C76.95,-2.49 98.6,-2.49 113.49,9.91L156.22,45.51C162.18,50.47 169.23,53.45 176.49,54.44H176.5Z"/>
-  
-  <!-- Sun icon (circle or image) -->
-<circle cx="$sunX" cy="${percent == 0 || percent == 1 ? '$sunYEndStart' : '$sunY'} "  fill="${showSun ? 'orange' : 'transparent'}" r="10" stroke="$hexColoroutLine"
-  stroke-width="${showSun ? '3' : '0'} "/>
-</svg>
-
-''';
-}
-
-
-String getUvIndexType(int uvIndex) {
-  if(uvIndex >= 0 && uvIndex <= 3){
-    return "low_forecast_uv".tr();
-  } else if (uvIndex > 3 && uvIndex <= 6){
-    return "moderate_forecast_uv".tr();
-  } else if (uvIndex > 6 && uvIndex <= 8){
-    return "high_forecast_uv".tr();
-  } else if (uvIndex > 8 && uvIndex <= 10){
-    return "very_high_forecast_uv".tr();
-  } else if (uvIndex > 10){
-    return "extreme_forecast_uv".tr();
-  } else{
-    return "error";
-  }
-}
 
 Color getColor(double value, String type) {
   switch (type) {

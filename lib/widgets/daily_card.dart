@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../notifiers/unit_settings_notifier.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import '../screens/daily_forecast.dart';
+import '../controllers/home_f.dart';
 
 class DailyCard extends StatelessWidget {
   final List<dynamic> dailyTime;
@@ -15,7 +16,7 @@ class DailyCard extends StatelessWidget {
   final List<dynamic> dailyTempsMax;
   final List<dynamic> dailyPrecProb;
   final int selectedContainerBgIndex;
-
+  final String utcOffsetSeconds;
 
    DailyCard({super.key, 
    required this.dailyTime, 
@@ -23,6 +24,7 @@ class DailyCard extends StatelessWidget {
    required this.dailyWeatherCodes, 
    required this.dailyTempsMax, 
    required this.dailyPrecProb, 
+   required this.utcOffsetSeconds,
    required this.selectedContainerBgIndex});
 
   @override
@@ -133,7 +135,7 @@ class DailyCard extends StatelessWidget {
                 children: [
                   Text(precipProb == 0.0000001 ? '--' : "${precipProb.round()}%", style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w500)),
                   SizedBox(height: 5,),
-                  Text(getLocalizedDateFormat(time, Localizations.localeOf(context)), style: const TextStyle(fontSize: 14), textAlign: TextAlign.center,),
+                  Text(getDayLabel(time, index, utcOffsetSeconds).toLowerCase().tr(), style: const TextStyle(fontSize: 14), textAlign: TextAlign.center,),
                 ]
               ),
                   SizedBox(height: 10,),

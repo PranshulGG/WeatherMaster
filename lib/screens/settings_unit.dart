@@ -196,6 +196,7 @@ class _AppUnitsPageState extends State<AppUnitsPage> {
                   ),
                 ],
              ),
+              SizedBox(height: MediaQuery.of(context).padding.bottom + 30,),
             ],
             ),
           ),

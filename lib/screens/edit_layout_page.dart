@@ -48,13 +48,13 @@ Future<void> loadLayoutConfig() async {
 
 Future<void> resetLayout() async {
   layoutConfig = [
-    LayoutBlockConfig(type: LayoutBlockType.rain),
-    LayoutBlockConfig(type: LayoutBlockType.insights),
-    LayoutBlockConfig(type: LayoutBlockType.summary),
-    LayoutBlockConfig(type: LayoutBlockType.hourly),
-    LayoutBlockConfig(type: LayoutBlockType.daily),
-    LayoutBlockConfig(type: LayoutBlockType.conditions),
-    LayoutBlockConfig(type: LayoutBlockType.pollen),
+      LayoutBlockConfig(type: LayoutBlockType.rain),
+      LayoutBlockConfig(type: LayoutBlockType.insights),
+      LayoutBlockConfig(type: LayoutBlockType.summary),
+      LayoutBlockConfig(type: LayoutBlockType.hourly),
+      LayoutBlockConfig(type: LayoutBlockType.daily),
+      LayoutBlockConfig(type: LayoutBlockType.conditions),
+      LayoutBlockConfig(type: LayoutBlockType.pollen),
   ];
   setState(() {});
 }
@@ -164,6 +164,9 @@ floatingActionButton: Row(
         resetLayout();
         await layoutProvider.saveLayout(layoutConfig);
       },
+      shape: const CircleBorder(),
+      backgroundColor: Theme.of(context).colorScheme.error,
+      foregroundColor: Theme.of(context).colorScheme.onError,
       child: Icon(Icons.refresh), 
     ),
     FloatingActionButton(

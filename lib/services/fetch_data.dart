@@ -68,6 +68,7 @@ class WeatherService {
 
   // Execute all HTTP requests in parallel
   final responses = await Future.wait(requests);
+  
 
   // Parse responses
   final weatherData = json.decode(responses[0].body) as Map<String, dynamic>;

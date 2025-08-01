@@ -12,6 +12,8 @@ import '../widgets/current_conditions_card.dart';
 import '../utils/preferences_helper.dart';
 import '../utils/condition_label_map.dart';
 import '../helper/locale_helper.dart';
+import '../controllers/home_f.dart';
+import '../utils/visual_utils.dart';
 
 class DailyForecastPage extends StatefulWidget {
   final DateTime? initialSelectedDate;
@@ -413,7 +415,7 @@ class _DailyForecastCardState extends State<DailyForecastCard> {
                   Column(
                 children: [
                   Text(
-                _getDayLabel(time, index, widget.utcOffsetSeconds).toLowerCase().tr(),
+                  getDayLabel(time, index, widget.utcOffsetSeconds).toLowerCase().tr(),
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: isSelected ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSurface),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -431,35 +433,6 @@ class _DailyForecastCardState extends State<DailyForecastCard> {
         ]
       ),  
     );
-  }
-}
-
-
-String _getDayLabel(DateTime date, int index, utcOffsetSeconds) {
-      int offsetSeconds = int.parse(utcOffsetSeconds.toString());
-    DateTime utcNow = DateTime.now().toUtc();
-    DateTime now = utcNow.add(Duration(seconds: offsetSeconds));
-
-
-    now = DateTime(
-      now.year,
-      now.month,
-      now.day,
-      now.hour,
-      now.minute,
-      now.second,
-      now.millisecond,
-      now.microsecond,
-    );
-
-
-  final today = DateTime(now.year, now.month, now.day);
-  final target = DateTime(date.year, date.month, date.day);
-
-  if (target == today) {
-    return "Today";
-  } else {
-    return DateFormat('E').format(date); 
   }
 }
 

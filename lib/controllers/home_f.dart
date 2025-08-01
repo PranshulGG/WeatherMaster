@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import '../utils/preferences_helper.dart';
 
 List<Map<String, dynamic>> convertToListOfMaps(Map<String, dynamic> data) {
@@ -34,3 +35,31 @@ int getStartIndex(utc_offset_seconds, hourlyTime) {
     return values.every((value) => value != null);
   }
 
+
+String getDayLabel(DateTime date, int index, utcOffsetSeconds) {
+      int offsetSeconds = int.parse(utcOffsetSeconds.toString());
+    DateTime utcNow = DateTime.now().toUtc();
+    DateTime now = utcNow.add(Duration(seconds: offsetSeconds));
+
+
+    now = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      now.hour,
+      now.minute,
+      now.second,
+      now.millisecond,
+      now.microsecond,
+    );
+
+
+  final today = DateTime(now.year, now.month, now.day);
+  final target = DateTime(date.year, date.month, date.day);
+
+  if (target == today) {
+    return "Today";
+  } else {
+    return DateFormat('E').format(date); 
+  }
+}

@@ -1068,7 +1068,9 @@ Widget buildLayoutBlock(LayoutBlockType type) {
             dailyWeatherCodes: dailyWeatherCodes, 
             dailyTempsMax: dailyTempsMax, 
             dailyPrecProb: dailyPrecProb, 
+            utcOffsetSeconds: weather['utc_offset_seconds'].toString(),
             selectedContainerBgIndex: useFullMaterialScheme ?  Theme.of(context).colorScheme.surfaceContainerLowest.toARGB32() : weatherContainerColors[selectedContainerBgIndex]);
+            
          
     case LayoutBlockType.conditions:
     return SizedBox(
