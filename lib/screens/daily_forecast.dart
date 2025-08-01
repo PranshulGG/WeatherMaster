@@ -745,6 +745,7 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                   mainAxisSpacing: 10,
                 children: [
                   Container(
+                    clipBehavior: Clip.hardEdge,
                     decoration: BoxDecoration(
                     color: Color(selectedContainerBgIndex),
                     borderRadius: BorderRadius.circular(20),
@@ -775,20 +776,20 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                         ),
                       ),
                 Positioned(
-                      left: 0,
-                      bottom: -1,
+                      left: -1,
+                      bottom: 0,
                       right: 0,
                       child: Container(
                       height: 70,
                         decoration: BoxDecoration(
                             border: Border(
                             top: BorderSide(
-                              color: Theme.of(context).colorScheme.outline, // Or any color you need
+                              color: Theme.of(context).colorScheme.outline, 
                               width: 1.5,
                             ),
                           ),
                           color: const Color.fromRGBO(0, 0, 0, 0.5),
-                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))
+                          // borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))
                         ),
                       ),
                     ),
