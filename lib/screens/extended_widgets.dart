@@ -1018,10 +1018,10 @@ final duskFormatted = formatInstantToLocalTime(dusk, timeUnit: timeFormatDUSKDAW
 
 
       final formattedWindSpeed =  windUnit == 'Mph'
-        ? UnitConverter.kmhToMph(windSpeed)
+        ? UnitConverter.kmhToMph(windSpeed).toStringAsFixed(1)
         : windUnit == 'M/s'
-            ? UnitConverter.kmhToMs(windSpeed)  : windUnit == 'Bft' ? UnitConverter.kmhToBeaufort(windSpeed)
-            : windSpeed;
+            ? UnitConverter.kmhToMs(windSpeed).toStringAsFixed(1)  : windUnit == 'Bft' ? UnitConverter.kmhToBeaufort(windSpeed).round()
+            : windSpeed.toStringAsFixed(1);
 
 
           Widget windArrow = Transform.rotate(
@@ -1102,7 +1102,7 @@ final duskFormatted = formatInstantToLocalTime(dusk, timeUnit: timeFormatDUSKDAW
                   ),
                   const SizedBox(height: 10),
 
-                  Text("${formattedWindSpeed.toStringAsFixed(1)}", style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
+                  Text("$formattedWindSpeed", style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500)),
                   Text(hour, style: TextStyle(fontSize: 15, color: Theme.of(context).colorScheme.onSurface, fontWeight: FontWeight.w500)),
                 ],
               ),
