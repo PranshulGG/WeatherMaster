@@ -164,6 +164,24 @@ final categorizedModels = {
         'desc': 'model_disc_27',
       },
     ],
+    'KNMI': [
+      {
+        'key': 'knmi_seamless',
+        'name': 'KNMI Seamless (with ECMWF)',
+        'desc': 'Blended system integrating KNMI and ECMWF data for seamless global-to-local forecasts across scales.',
+      },
+      {
+        'key': 'knmi_harmonie_arome_europe',
+        'name': 'KNMI Harmonie Arome Europe',
+        'desc': 'High-resolution convection-permitting model covering Europe. Ideal for regional weather events and mesoscale features.',
+      },
+      {
+        'key': 'knmi_harmonie_arome_netherlands',
+        'name': 'KNMI Harmonie Arome Netherlands',
+        'desc': 'Ultra-high-resolution model focused on the Netherlands. Excellent for detailed local forecasts including precipitation and wind.',
+      },
+    ],
+
     'UKMO': [
       {
         'key': 'ukmo_seamless',
@@ -538,6 +556,43 @@ final Map<String, Map<String, String>> dialogContent = {
 
 '''
   },
+
+  'KNMI': {
+  'content': '''
+## KNMI Seamless (with ECMWF)
+- **Where to use:** Netherlands + Europe + global routes
+
+- **Best for:** Smooth transition across forecast scales
+
+- **Countries:** Netherlands, broader Europe, global
+
+- **Notes:** Combines KNMI short-range and ECMWF global models. Useful for aviation, marine, and national-level planning.
+
+---
+
+## KNMI Harmonie Arome Europe
+- **Where to use:** Continental Europe
+
+- **Best for:** Mesoscale weather features (e.g. thunderstorms, wind gusts)
+
+- **Countries:** European countries including Netherlands, Belgium, Germany, France
+
+- **Notes:** Convection-permitting resolution. Very good for regional forecasting across European terrain.
+
+---
+
+## KNMI Harmonie Arome Netherlands
+- **Where to use:** Netherlands (urban and coastal areas)
+
+- **Best for:** High-resolution local forecasting (0–48 hours)
+
+- **Countries:** Netherlands
+
+- **Notes:** Ultra-fine resolution. Excellent for precipitation, wind, and local effects like sea breezes or fog.
+
+'''
+},
+
 
 };
 

@@ -263,7 +263,7 @@ List<Widget> gridItems = itemOrder.map((i) {
                       ),
                       Positioned(
                         
-                        bottom: 0,
+                        bottom: -1,
                         left: 0,
                         right: 0,
                         child: SizedBox(

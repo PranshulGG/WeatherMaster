@@ -108,7 +108,7 @@ Future<void> resetLayout() async {
       child: ListTile(
       contentPadding: EdgeInsets.only(left: 16, right: 16),
       minTileHeight: 65,
-      leading: CircleAvatar(foregroundColor: Theme.of(context).colorScheme.onTertiaryContainer, backgroundColor: Theme.of(context).colorScheme.tertiaryContainer, child: Icon(Symbols.drag_handle)),
+      leading: CircleAvatar(foregroundColor: Theme.of(context).colorScheme.primary, backgroundColor: Theme.of(context).colorScheme.surface, child: Icon(Symbols.drag_handle)),
       title: Text(getTitle(block.type.name.replaceAll(RegExp(r'([a-z])([A-Z])'), r'$1 $2')), style: TextStyle(fontWeight: FontWeight.w500, color: Theme.of(context).colorScheme.onSurface),),
       trailing: IconButton.filled(
       style: ButtonStyle(
@@ -165,8 +165,8 @@ floatingActionButton: Row(
         await layoutProvider.saveLayout(layoutConfig);
       },
       shape: const CircleBorder(),
-      backgroundColor: Theme.of(context).colorScheme.error,
-      foregroundColor: Theme.of(context).colorScheme.onError,
+      backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
+      foregroundColor: Theme.of(context).colorScheme.onTertiaryContainer,
       child: Icon(Icons.refresh), 
     ),
     FloatingActionButton(
