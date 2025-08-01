@@ -502,5 +502,14 @@
     "model_disc_29": "Глобални модел са резолуцијом од 10 км. Погодан за средњорочне међународне прогнозе.",
     "model_disc_30": "Модел високе резолуције од 2 км фокусиран на Уједињено Краљевство. Одличан за локално краткорочно прогнозирање.",
     "default_text": "Подразумевано",
-    "main_text": "Главни"
+    "main_text": "Главни",
+    "location_saved": "Location saved",
+    "alerts_api_caution": "Due to the API being in beta, alerts from other regions may occasionally appear",
+    "effective": "Effective",
+    "expires": "Expires",
+    "no_data_available": "No data available",
+    "email_text": "Email",
+    "on_github": "On Github",
+    "checking": "Checking...",
+    "best_match": "Best match"
 }
