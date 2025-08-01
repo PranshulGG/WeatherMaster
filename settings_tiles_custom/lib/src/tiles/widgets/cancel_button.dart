@@ -13,7 +13,7 @@ class CancelButton extends StatelessWidget {
         Localizations.of<MaterialLocalizations>(context, MaterialLocalizations)
                 ?.cancelButtonLabel ??
             'Cancel', style: 
-            const TextStyle(fontWeight: FontWeight.w500, fontSize: 16)
+            const TextStyle(fontWeight: FontWeight.w600, fontSize: 16)
       ),
     );
   }

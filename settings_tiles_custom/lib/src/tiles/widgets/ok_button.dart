@@ -18,7 +18,7 @@ class OkButton extends StatelessWidget {
         Localizations.of<MaterialLocalizations>(context, MaterialLocalizations)
                 ?.okButtonLabel ??
             'OK' , style: 
-            const TextStyle(fontWeight: FontWeight.w500, fontSize: 16)
+            const TextStyle(fontWeight: FontWeight.w600, fontSize: 16)
       ),
     );
   }

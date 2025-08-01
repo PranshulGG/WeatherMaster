@@ -119,6 +119,7 @@ class _WeatherHomeState extends State<WeatherHome> {
   bool showInsightsRandomly = false;
   int? lastWeatherCode;
   bool isfirstStart = true;
+  bool showAlertsPref = PreferencesHelper.getBool("showAlerts") ?? true;
 
   bool? lastIsDay;
 
@@ -1316,7 +1317,7 @@ else
               WeatherFrogIconWidget(iconUrl: _iconUrlFroggy),
               const SizedBox(height: 12),
                 
-                if(showAlerts)
+                if(showAlerts && showAlertsPref)
                 alertCard( weather['alerts']!, context),
 
                 shouldShowRainBlock ? SizedBox(height: 8.5,) : showInsightsRandomly ? SizedBox(height: 8.5,) : SizedBox.shrink(),

@@ -203,11 +203,11 @@ void openProviderDialog() async {
         ),
         actions: [
           TextButton(
-            child: Text("cancel".tr(), style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),),
+            child: Text("cancel".tr(), style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),),
             onPressed: () => Navigator.pop(context, false),
           ),
           TextButton(
-            child: Text("save".tr(), style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),),
+            child: Text("save".tr(), style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),),
             onPressed: () => Navigator.pop(context, true),
           ),
         ],
