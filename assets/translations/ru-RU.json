@@ -502,5 +502,14 @@
     "model_disc_29": "Глобальная модель с разрешением в 10км. Подходит для международных прогнозов на средней дистанции.",
     "model_disc_30": "Высокоточная 2км-модель для Великобритании. Отличная для локальных краткосрочных прогнозов. ",
     "default_text": "По умолчанию",
-    "main_text": "Главная"
+    "main_text": "Главная",
+    "location_saved": "Location saved",
+    "alerts_api_caution": "Due to the API being in beta, alerts from other regions may occasionally appear",
+    "effective": "Effective",
+    "expires": "Expires",
+    "no_data_available": "No data available",
+    "email_text": "Email",
+    "on_github": "On Github",
+    "checking": "Checking...",
+    "best_match": "Best match"
 }
