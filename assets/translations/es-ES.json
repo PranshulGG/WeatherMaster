@@ -502,5 +502,14 @@
     "model_disc_29": "Modelo global con resolución de 10 km. Adecuado para pronósticos internacionales de alcance medio.",
     "model_disc_30": "Modelo de alta resolución de 2 km centrado en el Reino Unido. Excelente para pronósticos locales a corto plazo.",
     "default_text": "Predeterminado",
-    "main_text": "Principal"
+    "main_text": "Principal",
+    "location_saved": "Location saved",
+    "alerts_api_caution": "Due to the API being in beta, alerts from other regions may occasionally appear",
+    "effective": "Effective",
+    "expires": "Expires",
+    "no_data_available": "No data available",
+    "email_text": "Email",
+    "on_github": "On Github",
+    "checking": "Checking...",
+    "best_match": "Best match"
 }
