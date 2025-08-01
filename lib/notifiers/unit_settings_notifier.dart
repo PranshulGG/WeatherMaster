@@ -17,6 +17,7 @@ class UnitSettingsNotifier extends ChangeNotifier {
 
 
 
+
   // Getters
   String get tempUnit => _tempUnit;
   String get windUnit => _windUnit;
@@ -29,6 +30,7 @@ class UnitSettingsNotifier extends ChangeNotifier {
   bool get useCardBackgroundAnimations => _useCardBackgroundAnimations;
   bool get useOnlyMaterialScheme => _useOnlyMaterialScheme;
   bool get showFrog => _showFrog;
+
 
 
 
@@ -48,6 +50,7 @@ class UnitSettingsNotifier extends ChangeNotifier {
     _useCardBackgroundAnimations = await PreferencesHelper.getBool("CardBackgroundAnimations") ?? _useCardBackgroundAnimations;
     _useOnlyMaterialScheme = await PreferencesHelper.getBool("OnlyMaterialScheme") ?? _useOnlyMaterialScheme;
     _showFrog = await PreferencesHelper.getBool("showFroggy") ?? _showFrog;
+
 
 
 
@@ -134,7 +137,6 @@ class UnitSettingsNotifier extends ChangeNotifier {
     PreferencesHelper.setBool("showFroggy", value);
     notifyListeners();
   }
-  
   
   
 }

@@ -980,7 +980,7 @@ final duskFormatted = formatInstantToLocalTime(dusk, timeUnit: timeFormatDUSKDAW
               children: [
                 Text("${PreferencesHelper.getString("selectedWindUnit") == 'M/s' ? formattedAvgWindSpeed.toStringAsFixed(1) : formattedAvgWindSpeed.round()}", style: TextStyle(fontSize: 50,  color: Theme.of(context).colorScheme.secondary, fontWeight: FontWeight.w500),),
                 Padding(padding: EdgeInsets.only(bottom: 11, left: 8),
-               child: Text(PreferencesHelper.getString("selectedWindUnit") ?? 'Km/h', style: TextStyle(fontSize: 20,  color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500),))
+               child: Text(localizeWindUnit(windUnit, context.locale), style: TextStyle(fontSize: 20,  color: Theme.of(context).colorScheme.onSurfaceVariant, fontWeight: FontWeight.w500),))
               ],
             )
             

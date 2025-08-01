@@ -284,6 +284,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   }, 
                   ),
 
+                SettingSwitchTile(
+                    icon: Icon(Symbols.warning, fill: 1, weight: 500),
+                    title: Text("weather_alerts".tr()),
+                    description: Text("show_alerts_home_page_sub".tr()),
+                    toggled: PreferencesHelper.getBool("showAlerts") ?? true,
+                    onChanged: (value) {
+                     PreferencesHelper.setBool("showAlerts", value);
+                    setState(() {
+                    });
+                  }, 
+                  ),
+
                   SettingActionTile(
                     icon: Icon(Symbols.nest_farsight_weather, fill: 1, weight: 500),
                     title: Text('weather_models'.tr()),
