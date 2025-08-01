@@ -46,8 +46,7 @@ class WeatherService {
   });
 
 
-    // final response = await http.get(uri);
-    // final data = json.decode(response.body) as Map<String, dynamic>;
+
   
   bool showAlerts = PreferencesHelper.getBool("showAlerts") ?? true;
 

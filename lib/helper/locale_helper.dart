@@ -67,3 +67,15 @@ String localizeTempUnit(String unit, Locale locale) {
   }
   return unit; 
 }
+
+String localizeTimeFormat(String unit, Locale locale) {
+  if (locale.languageCode == "zh") {
+    switch (unit) {
+      case '24 hr':
+        return '24 小时';
+      case '12 hr':
+        return '12 小时';
+    }
+  }
+  return unit; 
+}

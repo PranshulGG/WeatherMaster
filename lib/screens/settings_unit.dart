@@ -25,6 +25,8 @@ class _AppUnitsPageState extends State<AppUnitsPage> {
     final currentVisibilityMode = PreferencesHelper.getString("selectedVisibilityUnit") ?? "Km";
     final currentPrecipMode = PreferencesHelper.getString("selectedPrecipitationUnit") ?? "mm";
     final currentPressureMode = PreferencesHelper.getString("selectedPressureUnit") ?? "hPa";
+    final currentTimeFormat = PreferencesHelper.getString("selectedTimeUnit") ?? "12 hr";
+
 
      
    final optionsAQI = {
@@ -61,7 +63,10 @@ class _AppUnitsPageState extends State<AppUnitsPage> {
       "mmHg": localizePrecipUnit("mmHg", context.locale)
     };
 
-
+    final optionsTimeFormat = {
+      "12 hr": localizeTimeFormat("12 hr", context.locale),
+      "24 hr": localizeTimeFormat("24 hr", context.locale)
+    };
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
@@ -149,12 +154,10 @@ class _AppUnitsPageState extends State<AppUnitsPage> {
                   SettingSingleOptionTile(
                     icon: Icon(Icons.av_timer),
                     title: Text('pressure_unit'.tr()),
-                    // value: SettingTileValue(PreferencesHelper.getString("selectedPressureUnit") ?? "hPa"),
                      value: SettingTileValue(optionsPressure[currentPressureMode == "inHg" ? "inHg"
                      : currentPressureMode == "mmHg" ? "mmHg"
                      : "hPa"]!),
                     dialogTitle: 'pressure_unit'.tr(),
-                    // options: const ['hPa', 'inHg', 'mmHg'],
                     options: optionsPressure.values.toList(),
                     initialOption: optionsPressure[currentPressureMode == "inHg" ? "inHg"
                      : currentPressureMode == "mmHg" ? "mmHg"
@@ -169,12 +172,15 @@ class _AppUnitsPageState extends State<AppUnitsPage> {
                   SettingSingleOptionTile(
                     icon: Icon(Icons.schedule),
                     title: Text('time_format'.tr()),
-                    value: SettingTileValue(PreferencesHelper.getString("selectedTimeUnit") ?? "12 hr"),
+                    value: SettingTileValue(optionsTimeFormat[currentTimeFormat == "24 hr" ? "24 hr"
+                     : "12 hr"]!),
                     dialogTitle: 'time_format'.tr(),
-                    options: const ['12 hr', '24 hr'],
-                    initialOption: PreferencesHelper.getString("selectedTimeUnit") ?? "12 hr",
+                    options: optionsTimeFormat.values.toList(),
+                    initialOption: optionsTimeFormat[currentTimeFormat == "24 hr" ? "24 hr"
+                     : "12 hr"],
                     onSubmitted: (value) {
-                      context.read<UnitSettingsNotifier>().updateTimeUnit(value);
+                      final selectedKey = optionsTimeFormat.entries.firstWhere((e) => e.value == value).key;
+                      context.read<UnitSettingsNotifier>().updateTimeUnit(selectedKey);
                       setState(() {
                       });
                     },
@@ -184,7 +190,6 @@ class _AppUnitsPageState extends State<AppUnitsPage> {
                     title: Text('aqi_type'.tr()),
                     value: SettingTileValue(optionsAQI[currentAqiMode == "European" ? "European" : "United States"]!),
                     dialogTitle: 'aqi_type'.tr(),
-                    // options: const ['United States', 'European'],
                     options: optionsAQI.values.toList(),
                     initialOption: optionsAQI[currentAqiMode == "European" ? "European" : "United States"],
                     onSubmitted: (value) {
