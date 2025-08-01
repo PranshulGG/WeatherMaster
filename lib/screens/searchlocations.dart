@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -167,7 +168,7 @@ final data = json.decode(res.body);
   } catch (e) {
     setState(() => results = []);
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Failed to load.")),
+     SnackBar(content: Text("data_fetch_error".tr())),
     );
   }
 
@@ -181,7 +182,7 @@ void openProviderDialog() async {
     context: context,
     builder: (_) {
       return AlertDialog(
-        title: const Text("Choose Provider"),
+        title:  Text("search_provider".tr()),
         contentPadding: EdgeInsets.only(left: 0, right: 0, top: 16, bottom: 5),
         content: StatefulBuilder(
           builder: (context, setState) {
@@ -202,11 +203,11 @@ void openProviderDialog() async {
         ),
         actions: [
           TextButton(
-            child: Text("Cancel", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),),
+            child: Text("cancel".tr(), style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),),
             onPressed: () => Navigator.pop(context, false),
           ),
           TextButton(
-            child: Text("Save", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),),
+            child: Text("save".tr(), style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),),
             onPressed: () => Navigator.pop(context, true),
           ),
         ],
@@ -245,12 +246,12 @@ Future<int> getLocationCount() async {
           style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.onSurface),
           onChanged: (value) => query = value,
           onSubmitted: searchLocation,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             border: InputBorder.none,
             focusedBorder: InputBorder.none,
             enabledBorder: InputBorder.none,
             disabledBorder: InputBorder.none,
-            hintText: "Search...",
+            hintText: "${"search".tr()}...",
           ), 
           ),
         titleSpacing: 0,     
@@ -264,7 +265,7 @@ Future<int> getLocationCount() async {
       body: isLoading
           ? const Center(child: LoaderWidget(size: 60, isContained: false,))
           : results.isEmpty
-              ? const Center(child: Text("No results"))
+              ? const Center(child: Text(""))
               : ListView.builder( 
                   itemCount: results.length,
                   itemBuilder: (context, index)  {
@@ -454,8 +455,8 @@ Future<int> getLocationCount() async {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Provider:", style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 15),),
-                 Text("${providerLabels[selectedProvider]}", style: TextStyle(color: Theme.of(context).colorScheme.secondary, fontWeight: FontWeight.w500, fontSize: 18)),
+                  Text("${"search_provider".tr()}:", style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 18, fontWeight: FontWeight.w500),),
+                 Text("${providerLabels[selectedProvider]}", style: TextStyle(color: Theme.of(context).colorScheme.secondary, fontSize: 14)),
                 ],
               ),
               FloatingActionButton(

@@ -250,7 +250,7 @@ void computeWeatherSummary() {
   final secondsDayLength = currentDayLength.toInt();
   final dayLengthDuration = Duration(seconds: secondsDayLength);
   final readableDayLengthTime =
-      "${dayLengthDuration.inHours} hrs ${dayLengthDuration.inMinutes.remainder(60)} min";
+      "${dayLengthDuration.inHours} ${"hrs_sub_text".tr()} ${dayLengthDuration.inMinutes.remainder(60)} ${"mins_sub_text".tr()}";
 
   setState(() {
     _headline = generateHeadline(

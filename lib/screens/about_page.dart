@@ -360,7 +360,7 @@ class _CheckUpdateButtonState extends State<CheckUpdateButton> {
 
       if (latestStable != null && latestStable['tag_name'] != currentVersion) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('New version available!'), behavior: SnackBarBehavior.floating,),
+          SnackBar(content: Text('new_version_available!'.tr()), behavior: SnackBarBehavior.floating,),
         );
 
         await Future.delayed(Duration(seconds: 1));
@@ -369,12 +369,12 @@ class _CheckUpdateButtonState extends State<CheckUpdateButton> {
           openLink(url);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('You are using the latest version!'), behavior: SnackBarBehavior.floating),
+          SnackBar(content: Text('you_are_using_the_latest_version!'.tr()), behavior: SnackBarBehavior.floating),
         );
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error checking for updates'), behavior: SnackBarBehavior.floating),
+        SnackBar(content: Text('error_checking_for_updates'.tr()), behavior: SnackBarBehavior.floating),
       );
       print('Error: $e');
     }

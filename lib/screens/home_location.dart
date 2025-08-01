@@ -185,7 +185,7 @@ Widget build(BuildContext context) {
                       : null,
                 ),
               ),
-              subtitle: isSelected ? Text("${homeData['city']}, ${homeData['country']}") : const Text("Current location based on GPS"),
+              subtitle: isSelected ? Text("${homeData['city']}, ${homeData['country']}") : Text("current_location_tile_sub".tr()),
               onTap: () async {
                 if (!isSelected) {
           bool serviceEnabled;
