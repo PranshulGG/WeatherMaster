@@ -13,7 +13,6 @@ import 'package:flutter/services.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:hive/hive.dart';
-import 'package:http/http.dart' as http;
 import 'package:material_color_utilities/material_color_utilities.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,6 +26,7 @@ import '../utils/snack_util.dart';
 import '../utils/theme.dart';
 import '../utils/theme_controller.dart';
 import '../utils/bottom_provider.dart';
+import '../utils/is_online.dart';
 
 // App models
 import '../models/insights_gen.dart';
@@ -279,24 +279,6 @@ Future<void> saveLayoutConfig() async {
     return json.decode(cached);
   }
 
-Future<bool> hasRealInternet() async {
-  try {
-    final response = await http.get(Uri.parse('http://www.baidu.com/')) 
-        .timeout(Duration(seconds: 5));
-    return response.statusCode == 200;
-  }  catch (e) {
-    if (mounted && isfirstStart) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('network_unavailable'.tr()),
-          duration: Duration(seconds: 3),
-        ),
-      );
-      isfirstStart = false;
-    }
-    return false;
-  }
-}
 
 
  

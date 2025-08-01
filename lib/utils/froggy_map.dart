@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
+import 'is_online.dart';
 
 class WeatherFroggyManager {
   List<String> sunnyFrog = [];
@@ -15,22 +14,9 @@ class WeatherFroggyManager {
   List<String> clearNightFrog = [];
   List<String> partlyCloudyNightFrog = [];
 
-Future<bool> isOnline() async {
-  try {
-    if (kIsWeb) return true; 
-
-    final response = await http.get(Uri.parse('http://www.baidu.com/'))
-        .timeout(Duration(seconds: 5));
-    return response.statusCode == 200;
-  } catch (e) {
-    return false;
-  }
-
-
-}
 
 Future<void> initializeIcons() async {
-  final online = await isOnline();
+  final online = await hasRealInternet();
   if (online) {
     _setOnlineIcons();
 
@@ -39,7 +25,7 @@ Future<void> initializeIcons() async {
   }
 
   Connectivity().onConnectivityChanged.listen((event) async {
-    if (await isOnline()) {
+    if (await hasRealInternet()) {
       _setOnlineIcons();
     } else {
       _setOfflineIcons();
