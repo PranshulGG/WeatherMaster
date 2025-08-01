@@ -502,5 +502,14 @@
     "model_disc_29": "Globales Modell mit einer Detailgenauigkeit von 10 km. Geeignet für mittelfristige internationale Vorhersagen.",
     "model_disc_30": "Sehr detailgenaues 2-km-Modell mit Schwerpunkt auf Großbritannien. Hervorragend geeignet für lokale Kurzzeitvorhersagen.",
     "default_text": "Standard",
-    "main_text": "Primär"
+    "main_text": "Primär",
+    "location_saved": "Location saved",
+    "alerts_api_caution": "Due to the API being in beta, alerts from other regions may occasionally appear",
+    "effective": "Effective",
+    "expires": "Expires",
+    "no_data_available": "No data available",
+    "email_text": "Email",
+    "on_github": "On Github",
+    "checking": "Checking...",
+    "best_match": "Best match"
 }

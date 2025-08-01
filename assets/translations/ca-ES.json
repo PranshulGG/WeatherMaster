@@ -502,5 +502,14 @@
     "model_disc_29": "Model global amb 10 km de resolució. Adequat per a pronòstics internacionals d'abast mitjà.",
     "model_disc_30": "Model de 2 km d'alta resolució centrat en el Regne Unit. Excel·lent per a pronòstics locals a curt termini.",
     "default_text": "Per defecte",
-    "main_text": "Principal"
+    "main_text": "Principal",
+    "location_saved": "S'ha desat la ubicació",
+    "alerts_api_caution": "Com que l'API es troba en estat beta, hi podrien aparèixer alertes d'altres regions",
+    "effective": "Efectiu",
+    "expires": "Caduca",
+    "no_data_available": "No hi ha dades disponibles",
+    "email_text": "Correu electrònic",
+    "on_github": "A Github",
+    "checking": "S'està comprovant...",
+    "best_match": "Millor resultat"
 }

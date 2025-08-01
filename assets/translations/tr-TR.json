@@ -502,5 +502,14 @@
     "model_disc_29": "10 km çözünürlüklü küresel model. Orta menzilli uluslararası tahminler için uygun.",
     "model_disc_30": "Birleşik Krallık'a odaklanmış yüksek çözünürlüklü 2 km'lik model. Yerel kısa vadeli tahminler için mükemmel.",
     "default_text": "Varsayılan",
-    "main_text": "Ana"
+    "main_text": "Ana",
+    "location_saved": "Location saved",
+    "alerts_api_caution": "Due to the API being in beta, alerts from other regions may occasionally appear",
+    "effective": "Effective",
+    "expires": "Expires",
+    "no_data_available": "No data available",
+    "email_text": "Email",
+    "on_github": "On Github",
+    "checking": "Checking...",
+    "best_match": "Best match"
 }

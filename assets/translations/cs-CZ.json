@@ -502,5 +502,14 @@
     "model_disc_29": "Globální model s rozlišením 10 km. Vhodný pro mezinárodní předpovědi středního rozsahu.",
     "model_disc_30": "Dvoukilometrový model s vysokým rozlišením zaměřený na Spojené království. Vynikající pro místní krátkodobé předpovědi.",
     "default_text": "Výchozí",
-    "main_text": "Hlavní"
+    "main_text": "Hlavní",
+    "location_saved": "Location saved",
+    "alerts_api_caution": "Due to the API being in beta, alerts from other regions may occasionally appear",
+    "effective": "Effective",
+    "expires": "Expires",
+    "no_data_available": "No data available",
+    "email_text": "Email",
+    "on_github": "On Github",
+    "checking": "Checking...",
+    "best_match": "Best match"
 }
