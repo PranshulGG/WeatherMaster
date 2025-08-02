@@ -683,28 +683,28 @@ List<Widget> gridItems = itemOrder.map((i) {
             },
             dragWidgetBuilder: (index, child) {
               return Material(
-      type: MaterialType.transparency,
-      child: child,
-    );
+            type: MaterialType.transparency,
+            child: child,
+          );
 
+       },    
+
+
+            onReorder: (oldIndex, newIndex) async {
+              setState(() {
+                final item = itemOrder.removeAt(oldIndex);
+                itemOrder.insert(newIndex, item);
+              });
+
+              final prefs = await SharedPreferences.getInstance();
+              prefs.setStringList(orderPrefsKey, itemOrder.map((e) => e.toString()).toList());
             },
 
 
-onReorder: (oldIndex, newIndex) async {
-  setState(() {
-    final item = itemOrder.removeAt(oldIndex);
-    itemOrder.insert(newIndex, item);
-  });
-
-  final prefs = await SharedPreferences.getInstance();
-  prefs.setStringList(orderPrefsKey, itemOrder.map((e) => e.toString()).toList());
-},
-
-
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.only(top: 0),
-        )
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.only(top: 0),
+            )
 
             ),
           ],
@@ -812,7 +812,7 @@ double lowPassFilter(double newValue, double? oldValue, double alpha) {
     if (useDeviceCompass  &&
         !kIsWeb &&
         (Platform.isAndroid || Platform.isIOS)) {
-      return StreamBuilder<CompassEvent>(
+        return StreamBuilder<CompassEvent>(
         stream: FlutterCompass.events,
         builder: (context, snapshot) {
           final rawHeading = snapshot.data?.heading;
@@ -820,7 +820,7 @@ double lowPassFilter(double newValue, double? oldValue, double alpha) {
 
           double normalizeAngle(double angle) {
           while (angle > pi) angle -= 2 * pi;
-          while (angle < -pi) angle += 2 * pi;
+          while (angle < -pi) angle += 2 * pi; 
           return angle;
         }
 
