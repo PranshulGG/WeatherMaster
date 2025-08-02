@@ -34,12 +34,6 @@
 ![app_thumbnail](preview/thumbnail_mat.png)
 
 
-<div align="center">
-
-   **This is the Flutter rewrite of the [original WeatherMaster app](https://github.com/PranshulGG/WeatherMaster/tree/legacy-code-js-original).**
-   
-</div>
-
 # 👁️ Screenshots
 
 <div align="center">
