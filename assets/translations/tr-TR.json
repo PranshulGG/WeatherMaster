@@ -503,13 +503,13 @@
     "model_disc_30": "Birleşik Krallık'a odaklanmış yüksek çözünürlüklü 2 km'lik model. Yerel kısa vadeli tahminler için mükemmel.",
     "default_text": "Varsayılan",
     "main_text": "Ana",
-    "location_saved": "Location saved",
-    "alerts_api_caution": "Due to the API being in beta, alerts from other regions may occasionally appear",
-    "effective": "Effective",
-    "expires": "Expires",
-    "no_data_available": "No data available",
-    "email_text": "Email",
-    "on_github": "On Github",
-    "checking": "Checking...",
-    "best_match": "Best match"
+    "location_saved": "Konum kaydedildi",
+    "alerts_api_caution": "API beta aşamasında olduğundan zaman zaman diğer bölgelerden de uyarılar görünebilir.",
+    "effective": "Etkili",
+    "expires": "Sona erme",
+    "no_data_available": "Veri yok",
+    "email_text": "E-Posta",
+    "on_github": "Github'da",
+    "checking": "Denetleniyor...",
+    "best_match": "Size en uygun"
 }
