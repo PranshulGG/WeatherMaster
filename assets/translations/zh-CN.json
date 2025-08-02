@@ -507,9 +507,9 @@
     "alerts_api_caution": "由于 API 处于测试阶段，可能会偶尔出现其他地区的预警",
     "effective": "生效期",
     "expires": "到期于",
-    "no_data_available": "No data available",
-    "email_text": "Email",
-    "on_github": "On Github",
-    "checking": "Checking...",
-    "best_match": "Best match"
+    "no_data_available": "无可用数据",
+    "email_text": "电子邮箱",
+    "on_github": "在 Github 上",
+    "checking": "检查中…",
+    "best_match": "最佳匹配"
 }
