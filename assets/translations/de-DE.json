@@ -503,13 +503,13 @@
     "model_disc_30": "Sehr detailgenaues 2-km-Modell mit Schwerpunkt auf Großbritannien. Hervorragend geeignet für lokale Kurzzeitvorhersagen.",
     "default_text": "Standard",
     "main_text": "Primär",
-    "location_saved": "Location saved",
-    "alerts_api_caution": "Due to the API being in beta, alerts from other regions may occasionally appear",
+    "location_saved": "Standort gespeichert",
+    "alerts_api_caution": "Da sich die API noch in der Beta-Phase befindet, können gelegentlich Wetterwarnungen aus anderen Regionen auftauchen.",
     "effective": "effektiv",
     "expires": "läuft ab",
     "no_data_available": "keine Daten vorhanden",
     "email_text": "E-Mail",
     "on_github": "auf Github",
     "checking": "überprüfen...",
-    "best_match": "Best match"
+    "best_match": "Beste Übereinstimmung"
 }
