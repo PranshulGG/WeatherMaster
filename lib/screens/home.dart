@@ -716,7 +716,6 @@ String _formatLastUpdated(String isoTime, Locale locale) {
       'ca': ['ES'],
       'es': ['ES'], 
       'fr': ['FR'],
-      'it': ['IT'], 
       'ro': ['RO'], 
       'pt': ['PT', 'BR'], 
     };
