@@ -503,13 +503,13 @@
     "model_disc_30": "Модел високе резолуције од 2 км фокусиран на Уједињено Краљевство. Одличан за локално краткорочно прогнозирање.",
     "default_text": "Подразумевано",
     "main_text": "Главни",
-    "location_saved": "Location saved",
-    "alerts_api_caution": "Due to the API being in beta, alerts from other regions may occasionally appear",
-    "effective": "Effective",
-    "expires": "Expires",
-    "no_data_available": "No data available",
-    "email_text": "Email",
-    "on_github": "On Github",
-    "checking": "Checking...",
-    "best_match": "Best match"
+    "location_saved": "Локација сачувана",
+    "alerts_api_caution": "Због тога што је АПИ у бета верзији, упозорења из других региона могу повремено да се појављују",
+    "effective": "Ефикасно",
+    "expires": "Истиче",
+    "no_data_available": "Нема доступних података",
+    "email_text": "Имејл",
+    "on_github": "На Github-у",
+    "checking": "Провера...",
+    "best_match": "Најбоље слагање"
 }
