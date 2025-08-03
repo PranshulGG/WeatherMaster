@@ -63,6 +63,60 @@ import '../widgets/top_weather_card.dart';
 import '../widgets/alert_block.dart';
 
 
+const platform = MethodChannel('weather.widget/channel');
+
+int mapWeatherCodeToDrawable(int code) {
+  if ([0, 1].contains(code)) return 1; // sunny
+  if ([2, 3].contains(code)) return 2; // cloudy
+  if ([61, 63, 65].contains(code)) return 3; // rain
+  return 0;
+}
+
+Future<void> updateCurrentWidgetFromFlutter(Map<String, dynamic> result) async {
+  final current = result['data']['current'];
+  final temp = current['temperature_2m'].toInt();
+  final code = current['weather_code'];
+  final iconCode = mapWeatherCodeToDrawable(code);
+
+
+  try {
+    await platform.invokeMethod('updateCurrentWidget', {
+      'temp': temp,
+      'iconCode': iconCode,
+    });
+    print("✅ Widget update sent");
+  } catch (e) {
+    print("Error updating widget: $e");
+  }
+}
+
+Future<void> updateBg(BuildContext? context) async{
+
+  final weatherService = WeatherService();
+final result = await weatherService.fetchWeather(
+  PreferencesHelper.getJson('homeLocation')?['lat']!,
+  PreferencesHelper.getJson('homeLocation')?['lon']!,
+  locationName: PreferencesHelper.getJson('homeLocation')?['cacheKey'],
+  context: context,
+);
+
+    final current = result!['data']['current'];
+  final temp = current['temperature_2m'].toInt();
+  final code = current['weather_code'];
+  final iconCode = mapWeatherCodeToDrawable(code);
+
+
+  try {
+    await platform.invokeMethod('updateCurrentWidget', {
+      'temp': temp,
+      'iconCode': iconCode,
+    });
+    print("✅ Widget update sent");
+  } catch (e) {
+    print("Error updating widget: $e");
+  }
+}
+
 class WeatherHome extends StatefulWidget {
 
   final String cacheKey;
@@ -90,6 +144,8 @@ const WeatherHome({
 
 class _WeatherHomeState extends State<WeatherHome> {
 
+
+
   List<LayoutBlockConfig> layoutConfig = [];
 
   // late Future<Map<String, dynamic>?>? weatherFuture;
@@ -103,12 +159,12 @@ class _WeatherHomeState extends State<WeatherHome> {
     bool isViewLocation = false;
     final ValueNotifier<bool> _showHeaderNotifier = ValueNotifier(false);
     late bool isHomeLocation;
-    final ScrollController _scrollController = ScrollController();
+    final ScrollController _scrollController = ScrollController(); 
 
   bool _isAppFullyLoaded = false;
   bool shouldSkipAppFullyLoaded = false;
   bool themeCalled = false;
-  late String cityName;
+  late String cityName; 
   late String countryName;
   late String cacheKey;
   int selectedGradientIndex = 2;
@@ -268,7 +324,7 @@ Future<void> saveLayoutConfig() async {
   } else if (isHomeLocation && lastUpdated != null) {
     final lastUpdateTime = DateTime.tryParse(lastUpdated);
     final now = DateTime.now();
-    if (lastUpdateTime != null && now.difference(lastUpdateTime).inMinutes < 45) {
+    if (lastUpdateTime != null && now.difference(lastUpdateTime).inMinutes < 450) {
       _isAppFullyLoaded = true; 
     } else{
     checkAndUpdateHomeLocation();
@@ -559,6 +615,8 @@ void didChangeDependencies() {
   @override
   Widget build(BuildContext context) {
 
+
+
         SystemChrome.setSystemUIOverlayStyle(
          SystemUiOverlayStyle(
           statusBarColor: Color(0x01000000),
@@ -816,7 +874,7 @@ Widget _buildWeatherContent() {
   final int weatherCodeFroggy = current['weather_code'] ?? 0;
   final bool isDayFroggy = current['is_day'] == 1;
 
-
+ updateCurrentWidgetFromFlutter(raw);
 
     final hourly = weather['hourly'] ?? {};
     final List<dynamic> hourlyTime = hourly['time'];
@@ -882,7 +940,6 @@ void maybeUpdateWeatherAnimation(Map<String, dynamic> current) {
 
 
 
-
     String formattedTime = lastUpdated != null
         ? _formatLastUpdated(lastUpdated, Locale(context.locale.languageCode, context.locale.countryCode))
         : 'Unknown';
@@ -920,7 +977,6 @@ if (lastWeatherCode != current['weather_code'] || lastIsDay != isDay) {
   _loadWeatherIconFroggy(weatherCodeFroggy, isDayFroggy, newIndex); // idk, call it anyway
 
 }
-
 
 
     final double? alderPollen = weather['air_quality']['current']['alder_pollen'];
@@ -1147,6 +1203,7 @@ else
 
       GestureDetector(
           onTap: () async {
+
             final result =
                 await Navigator.of(context).push<Map<String, dynamic>>(
               PageRouteBuilder(
@@ -1270,13 +1327,16 @@ else
                       ),
                     ),
                     IconButton(
-                      onPressed: () {
+                      onPressed: () async{
+                  
+
                         Navigator.of(context).push(
                           MaterialPageRoute(builder: (_) => const SettingsScreen()),
                         );
                       },
                       icon: const Icon(Icons.settings_outlined),
                     ),
+
 
 
                   if(isViewLocation) 

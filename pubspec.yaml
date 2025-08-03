@@ -63,6 +63,7 @@ dependencies:
   solar_calculator: ^1.0.3
   file_picker: ^10.2.0
   flutter_dotenv: ^5.2.1
+  workmanager: ^0.9.0
 
   settings_tiles:
     path: ./settings_tiles_custom

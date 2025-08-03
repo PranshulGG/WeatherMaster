@@ -1,16 +1,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
->
+    xmlns:tools="http://schemas.android.com/tools">
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:label="Weather Master"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
-            orientation="portrait"
             android:exported="true"
             android:launchMode="singleTop"
             android:taskAffinity=""
@@ -36,6 +39,21 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+
+<receiver android:name=".CurrentWeatherWidget" android:exported="true">
+    <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+    </intent-filter>
+    <meta-data
+        android:name="android.appwidget.provider"
+        android:resource="@xml/widget_current_info" />
+</receiver>
+
+<receiver
+    android:name="be.tramckrijte.workmanager.BackgroundWorker"
+    android:exported="true" />
+
 
 
     </application>

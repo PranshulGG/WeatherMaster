@@ -1,0 +1,22 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:orientation="vertical"
+    android:background="#000000"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/weather_icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/sunny" />
+
+    <TextView
+        android:id="@+id/current_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="--°C"
+        android:textSize="20sp"
+        android:textColor="#FFFFFF" />
+</LinearLayout>

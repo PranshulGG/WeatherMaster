@@ -819,7 +819,7 @@ double lowPassFilter(double newValue, double? oldValue, double alpha) {
           if (rawHeading == null) return const SizedBox();
 
           double normalizeAngle(double angle) {
-          while (angle > pi) angle -= 2 * pi;
+          while (angle > pi) angle -= 2 * pi; 
           while (angle < -pi) angle += 2 * pi;
           return angle;
         }
