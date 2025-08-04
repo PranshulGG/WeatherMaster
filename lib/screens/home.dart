@@ -1009,19 +1009,8 @@ if (rainStart != null) {
 
 final bool shouldShowRainBlock = bestStart != null && bestEnd != null;
 
-final alerts = weather['alerts'];
-
-if (alerts != null && alerts is List && alerts.isNotEmpty) {
-  for (var alert in alerts) {
-    print(alert['alert']); // Or however you want to use it
-  }
-} else {
-  print('No alerts found.');
-}
-
-
-final bool showAlerts = alerts != null && alerts is List && alerts.isNotEmpty;
-
+final List<dynamic> alerts = (weather['alerts']?['alert'] as List?) ?? []; // Get alerts list or empty list if null
+final bool showAlerts = alerts.isNotEmpty; // True if there are any alerts
 
 
 
