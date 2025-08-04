@@ -23,31 +23,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:ui' as ui;
 import 'package:workmanager/workmanager.dart';
 
-@pragma('vm:entry-point')
-void callbackDispatcher() {
-  Workmanager().executeTask((taskName, inputData) async {
-    print("⚙️ Background task running: $taskName");
-
-    
-    WidgetsFlutterBinding.ensureInitialized();
-
-    final dir = await getApplicationDocumentsDirectory();
-    Hive.init(dir.path);
-
-
-    await PreferencesHelper.init(); 
-
-    try {
-      await updateBg(null); 
-      print("✅ Widget auto-updated");
-    } catch (e) {
-      print("❌ Error in background: $e");
-    }
-
-    return Future.value(true);
-  });
-}
-
 final CorePalette paletteStartScreen = CorePalette.of(const Color.fromARGB(255, 255, 196, 0).toARGB32());
 
 
@@ -106,16 +81,6 @@ void main() async {
 
   final prefs = await SharedPreferences.getInstance();
 
-    await Workmanager().initialize(
-    callbackDispatcher,
-    isInDebugMode: true, // change to false in production
-  );
-
-  await Workmanager().registerPeriodicTask(
-    "weatherAutoUpdateTask",
-    "weatherUpdate",
-    frequency: Duration(minutes: 15), // ⏰ Every 30 mins
-  );
     
   await PreferencesHelper.init(); 
  await dotenv.load(fileName: ".env");

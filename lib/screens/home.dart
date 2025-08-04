@@ -63,60 +63,6 @@ import '../widgets/top_weather_card.dart';
 import '../widgets/alert_block.dart';
 
 
-const platform = MethodChannel('weather.widget/channel');
-
-int mapWeatherCodeToDrawable(int code) {
-  if ([0, 1].contains(code)) return 1; // sunny
-  if ([2, 3].contains(code)) return 2; // cloudy
-  if ([61, 63, 65].contains(code)) return 3; // rain
-  return 0;
-}
-
-Future<void> updateCurrentWidgetFromFlutter(Map<String, dynamic> result) async {
-  final current = result['data']['current'];
-  final temp = current['temperature_2m'].toInt();
-  final code = current['weather_code'];
-  final iconCode = mapWeatherCodeToDrawable(code);
-
-
-  try {
-    await platform.invokeMethod('updateCurrentWidget', {
-      'temp': temp,
-      'iconCode': iconCode,
-    });
-    print("✅ Widget update sent");
-  } catch (e) {
-    print("Error updating widget: $e");
-  }
-}
-
-Future<void> updateBg(BuildContext? context) async{
-
-  final weatherService = WeatherService();
-final result = await weatherService.fetchWeather(
-  PreferencesHelper.getJson('homeLocation')?['lat']!,
-  PreferencesHelper.getJson('homeLocation')?['lon']!,
-  locationName: PreferencesHelper.getJson('homeLocation')?['cacheKey'],
-  context: context,
-);
-
-    final current = result!['data']['current'];
-  final temp = current['temperature_2m'].toInt();
-  final code = current['weather_code'];
-  final iconCode = mapWeatherCodeToDrawable(code);
-
-
-  try {
-    await platform.invokeMethod('updateCurrentWidget', {
-      'temp': temp,
-      'iconCode': iconCode,
-    });
-    print("✅ Widget update sent");
-  } catch (e) {
-    print("Error updating widget: $e");
-  }
-}
-
 class WeatherHome extends StatefulWidget {
 
   final String cacheKey;
@@ -873,7 +819,6 @@ Widget _buildWeatherContent() {
   final int weatherCodeFroggy = current['weather_code'] ?? 0;
   final bool isDayFroggy = current['is_day'] == 1;
 
- updateCurrentWidgetFromFlutter(raw);
 
     final hourly = weather['hourly'] ?? {};
     final List<dynamic> hourlyTime = hourly['time'];
@@ -1064,7 +1009,16 @@ if (rainStart != null) {
 
 final bool shouldShowRainBlock = bestStart != null && bestEnd != null;
 
-final alerts = weather['alerts']?['alert'];
+final alerts = weather['alerts'];
+
+if (alerts != null && alerts is List && alerts.isNotEmpty) {
+  for (var alert in alerts) {
+    print(alert['alert']); // Or however you want to use it
+  }
+} else {
+  print('No alerts found.');
+}
+
 
 final bool showAlerts = alerts != null && alerts is List && alerts.isNotEmpty;
 

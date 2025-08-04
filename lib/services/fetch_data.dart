@@ -20,7 +20,7 @@ class WeatherService {
   
 
 
-  Future<Map<String, dynamic>?> fetchWeather(double lat, double lon, {String? locationName, BuildContext? context, bool isOnlyView = false}) async {
+  Future<Map<String, dynamic>?> fetchWeather(double lat, double lon, {String? locationName, BuildContext? context, bool isOnlyView = false, bool isBackground = false}) async {
     final timezone = tzmap.latLngToTimezoneString(lat, lon);
     final key = locationName ?? 'loc_${lat}_${lon}';
     final box = await _openBox();
@@ -57,13 +57,13 @@ class WeatherService {
   ];
 
   // Conditionally add alerts request only if user wants them
-  if (showAlerts) {
+  if (showAlerts && !isBackground) {
     final alertUri = Uri.parse('https://api.weatherapi.com/v1/alerts.json').replace(queryParameters: {
       'key': dotenv.env['API_KEY_WEATHERAPI']!.toString(),
       'q': '$lat,$lon',
     });
     requests.add(http.get(alertUri));
-  }
+  } 
 
   // Execute all HTTP requests in parallel
   final responses = await Future.wait(requests);
