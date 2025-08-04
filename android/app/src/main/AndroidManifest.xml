@@ -55,6 +55,9 @@
     android:exported="true" />
 
 
+    <receiver android:name=".WidgetUpdateReceiver" android:exported="true"/>
+
+
 
     </application>
     <!-- Required to query activities that can process text, see:
