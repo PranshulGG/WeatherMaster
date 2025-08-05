@@ -4,7 +4,6 @@ import 'package:material_symbols_icons/material_symbols_icons.dart';
 import '../utils/preferences_helper.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
-
 class MeteoModelsPage extends StatefulWidget {
   const MeteoModelsPage({super.key});
 
@@ -13,11 +12,10 @@ class MeteoModelsPage extends StatefulWidget {
 }
 
 class _MeteoModelsPageState extends State<MeteoModelsPage> {
+  final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
+      GlobalKey<ScaffoldMessengerState>();
 
-final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
-
-
-final categorizedModels = {
+  final categorizedModels = {
     'default_text'.tr(): [
       {
         'key': 'best_match',
@@ -52,7 +50,7 @@ final categorizedModels = {
         'desc': 'model_disc_6',
       },
     ],
-      'GFS': [
+    'GFS': [
       {
         'key': 'gfs_seamless',
         'name': 'GFS Seamless',
@@ -74,7 +72,7 @@ final categorizedModels = {
         'desc': "model_disc_10",
       },
     ],
-      'JMA': [
+    'JMA': [
       {
         'key': 'jma_seamless',
         'name': 'JMA Seamless',
@@ -168,20 +166,22 @@ final categorizedModels = {
       {
         'key': 'knmi_seamless',
         'name': 'KNMI Seamless (with ECMWF)',
-        'desc': 'Blended system integrating KNMI and ECMWF data for seamless global-to-local forecasts across scales.',
+        'desc':
+            'Blended system integrating KNMI and ECMWF data for seamless global-to-local forecasts across scales.',
       },
       {
         'key': 'knmi_harmonie_arome_europe',
         'name': 'KNMI Harmonie Arome Europe',
-        'desc': 'High-resolution convection-permitting model covering Europe. Ideal for regional weather events and mesoscale features.',
+        'desc':
+            'High-resolution convection-permitting model covering Europe. Ideal for regional weather events and mesoscale features.',
       },
       {
         'key': 'knmi_harmonie_arome_netherlands',
         'name': 'KNMI Harmonie Arome Netherlands',
-        'desc': 'Ultra-high-resolution model focused on the Netherlands. Excellent for detailed local forecasts including precipitation and wind.',
+        'desc':
+            'Ultra-high-resolution model focused on the Netherlands. Excellent for detailed local forecasts including precipitation and wind.',
       },
     ],
-
     'UKMO': [
       {
         'key': 'ukmo_seamless',
@@ -201,10 +201,9 @@ final categorizedModels = {
     ],
   };
 
-
-final Map<String, Map<String, String>> dialogContent = {
-  'default_text'.tr(): {
-  'content': '''
+  final Map<String, Map<String, String>> dialogContent = {
+    'default_text'.tr(): {
+      'content': '''
 ## Best match  
 - **Where to use:** Anywhere  
 
@@ -212,9 +211,9 @@ final Map<String, Map<String, String>> dialogContent = {
 
 - **Notes:** Automatically selects the most appropriate model based on location and forecast range.
 '''
-  },
-  'main_text'.tr(): {
-  'content': '''
+    },
+    'main_text'.tr(): {
+      'content': '''
 ## ECMWF IFS 0.4°
 - **Where to use:** Global  
 
@@ -272,10 +271,9 @@ final Map<String, Map<String, String>> dialogContent = {
 
 - **Notes:** Uses MET Norway’s in-house regional models. Very accurate in Nordic terrain.
 '''
-  },
-
-'GFS': {
-  'content': '''
+    },
+    'GFS': {
+      'content': '''
 ## GFS Seamless
 - **Where to use:** Global  
 
@@ -322,10 +320,9 @@ final Map<String, Map<String, String>> dialogContent = {
 - **Notes:** DeepMind’s AI forecast. Still experimental. Very good for visual consistency but not battle-tested yet.
 
 '''
-  },
-
-  'JMA': {
-  'content': '''
+    },
+    'JMA': {
+      'content': '''
 ## JMA Seamless
 - **Where to use:** Japan, East Asia  
 
@@ -360,10 +357,9 @@ final Map<String, Map<String, String>> dialogContent = {
 - **Notes:** Not as sharp as ECMWF or GFS, but stable in East Asia.
 
 '''
-  },
-
-  'DWD': {
-  'content': '''
+    },
+    'DWD': {
+      'content': '''
 ## ICON Seamless
 - **Where to use:** Europe (broad), global  
 
@@ -407,10 +403,9 @@ final Map<String, Map<String, String>> dialogContent = {
 - **Notes:** Very detailed — cities, valleys, small regions.
 
 '''
-  },
-
-  'GEM': {
-  'content': '''
+    },
+    'GEM': {
+      'content': '''
 ## GEM Seamless
 - **Where to use:** North America  
 
@@ -455,10 +450,9 @@ final Map<String, Map<String, String>> dialogContent = {
 - **Notes:** Very high-res (2.5km). Focused on precision forecasting.
 
 '''
-  },
-
-  'Météo-France': {
-  'content': '''
+    },
+    'Météo-France': {
+      'content': '''
 ## Météo-France Seamless
 - **Where to use:** France and surroundings  
 
@@ -503,10 +497,9 @@ final Map<String, Map<String, String>> dialogContent = {
 - **Notes:** Excellent detail — rain, fog, wind, storm.
 
 '''
-  },
-
-  'ARPAE': {
-  'content': '''
+    },
+    'ARPAE': {
+      'content': '''
 ## ItaliaMeteo ARPAE ICON 2I
 - **Where to use:** Italy only  
 
@@ -517,10 +510,9 @@ final Map<String, Map<String, String>> dialogContent = {
 - **Notes:** Based on ICON with ARPAE tuning. Strong for mountainous terrain.
 
 '''
-  },
-
-'UKMO': {
-  'content': '''
+    },
+    'UKMO': {
+      'content': '''
 ## UKMO Seamless
 - **Where to use:** UK + international routes  
 
@@ -555,10 +547,9 @@ final Map<String, Map<String, String>> dialogContent = {
 - **Notes:** One of the best models for dense urban UK settings.
 
 '''
-  },
-
-  'KNMI': {
-  'content': '''
+    },
+    'KNMI': {
+      'content': '''
 ## KNMI Seamless (with ECMWF)
 - **Where to use:** Netherlands + Europe + global routes
 
@@ -591,28 +582,24 @@ final Map<String, Map<String, String>> dialogContent = {
 - **Notes:** Ultra-fine resolution. Excellent for precipitation, wind, and local effects like sea breezes or fog.
 
 '''
-},
+    },
+  };
 
+  String? selectedModelKey =
+      PreferencesHelper.getString("selectedWeatherModel") ?? 'best_match';
 
-};
-
-  String? selectedModelKey = PreferencesHelper.getString("selectedWeatherModel") ?? 'best_match';
-  
   @override
   Widget build(BuildContext context) {
     return ScaffoldMessenger(
-    key: _scaffoldMessengerKey,
-    child:  Scaffold(
-    body: 
-       CustomScrollView(
-        slivers: [
+      key: _scaffoldMessengerKey,
+      child: Scaffold(
+        body: CustomScrollView(slivers: [
           SliverAppBar.large(
             title: Text('weather_models'.tr()),
             titleSpacing: 0,
             backgroundColor: Theme.of(context).colorScheme.surface,
             scrolledUnderElevation: 1,
           ),
-
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
@@ -620,186 +607,221 @@ final Map<String, Map<String, String>> dialogContent = {
                 final categoryName = categoryKeys[index];
                 final models = categorizedModels[categoryName]!;
 
-          
-
                 return Padding(
-                padding: EdgeInsets.only(left: 10, right: 10),
-               child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 3,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: models[0]['key'] == 'best_match' ? 0 : 24, bottom: 0),
-                      child: Row(
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 3,
                       children: [
-                       Text(
-                        categoryName,
-                        style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w500, fontSize: 18),
-                      ),
-                      IconButton(onPressed: () {
-
-                  if (dialogContent.containsKey(categoryName)) {
-                    final modelInfo = dialogContent[categoryName]!;
-
-                            Navigator.of(context).push( 
-                                PageRouteBuilder(
-                                  opaque: true,
-                                  fullscreenDialog: true,
-                                  reverseTransitionDuration: Duration(milliseconds: 200),
-                                  pageBuilder: (context, animation, secondaryAnimation) {
-                                return ShowModelsInfo(markdownData: modelInfo['content']!.trimLeft(), heading: categoryName ,);
-                              },
-                              transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: child,
-                                  
-                                );
-                              }, 
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: models[0]['key'] == 'best_match' ? 0 : 24,
+                              bottom: 0),
+                          child: Row(children: [
+                            Text(
+                              categoryName,
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18),
                             ),
-            
-                          );
-                        }
-                    },
-                    icon: Icon(Icons.info_outline))
-                      ]
-                    ),
-                  ),
+                            IconButton(
+                                onPressed: () {
+                                  if (dialogContent.containsKey(categoryName)) {
+                                    final modelInfo =
+                                        dialogContent[categoryName]!;
 
-                     ...models.asMap().entries.map((entry) {
-                      final i = entry.key;
-                      final model = entry.value;
-                      final isSelected = model['key'] == selectedModelKey;
-
-                      final isFirst = i == 0;
-                      final isLast = i == models.length - 1;
-
-                      return ListTile(
-                        contentPadding: EdgeInsets.only(left : 16, right: 16),
-                        horizontalTitleGap: 10,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: model['key'] == 'best_match' ? BorderRadius.all(Radius.circular(16))
-                            : isFirst ? BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16), bottomLeft: Radius.circular(6), bottomRight: Radius.circular(6))
-                            : isLast ? BorderRadius.only(topLeft: Radius.circular(6), topRight: Radius.circular(6), bottomLeft: Radius.circular(16), bottomRight: Radius.circular(16)) : BorderRadius.all(Radius.circular(6))
-                          ),
-                        trailing: isSelected ? Icon(Symbols.check, size: 28,) : Icon(Symbols.nest_farsight_weather, size: 28),
-                        title: Text(
-                          model['name'].toString(),
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: isSelected ? Theme.of(context).colorScheme.onPrimaryContainer : null,
-                            fontSize: 15
-                          ),
+                                    Navigator.of(context).push(
+                                      PageRouteBuilder(
+                                        opaque: true,
+                                        fullscreenDialog: true,
+                                        reverseTransitionDuration:
+                                            Duration(milliseconds: 200),
+                                        pageBuilder: (context, animation,
+                                            secondaryAnimation) {
+                                          return ShowModelsInfo(
+                                            markdownData: modelInfo['content']!
+                                                .trimLeft(),
+                                            heading: categoryName,
+                                          );
+                                        },
+                                        transitionsBuilder: (context, animation,
+                                            secondaryAnimation, child) {
+                                          return FadeTransition(
+                                            opacity: animation,
+                                            child: child,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  }
+                                },
+                                icon: Icon(Icons.info_outline))
+                          ]),
                         ),
-                        subtitle: Text(model['desc'].toString().tr(), style: TextStyle(
-                          color: isSelected
-                            ? Theme.of(context).colorScheme.onSurfaceVariant
-                            : null,
-                        ),),
-                        tileColor: isSelected
-                            ? Theme.of(context).colorScheme.primaryContainer
-                            : Theme.of(context).colorScheme.surfaceContainerLowest,
-                        onTap: () {
-                          setState(() {
-                            selectedModelKey = model['key'].toString();
-                          });
-                        },
-                      );
-                    }),
+                        ...models.asMap().entries.map((entry) {
+                          final i = entry.key;
+                          final model = entry.value;
+                          final isSelected = model['key'] == selectedModelKey;
 
-                  ],
-                  )
-                );
+                          final isFirst = i == 0;
+                          final isLast = i == models.length - 1;
+
+                          return ListTile(
+                            contentPadding:
+                                EdgeInsets.only(left: 16, right: 16),
+                            horizontalTitleGap: 10,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: model['key'] == 'best_match'
+                                    ? BorderRadius.all(Radius.circular(16))
+                                    : isFirst
+                                        ? BorderRadius.only(
+                                            topLeft: Radius.circular(16),
+                                            topRight: Radius.circular(16),
+                                            bottomLeft: Radius.circular(6),
+                                            bottomRight: Radius.circular(6))
+                                        : isLast
+                                            ? BorderRadius.only(
+                                                topLeft: Radius.circular(6),
+                                                topRight: Radius.circular(6),
+                                                bottomLeft: Radius.circular(16),
+                                                bottomRight:
+                                                    Radius.circular(16))
+                                            : BorderRadius.all(
+                                                Radius.circular(6))),
+                            trailing: isSelected
+                                ? Icon(
+                                    Symbols.check,
+                                    size: 28,
+                                  )
+                                : Icon(Symbols.nest_farsight_weather, size: 28),
+                            title: Text(
+                              model['name'].toString(),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: isSelected
+                                      ? Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer
+                                      : null,
+                                  fontSize: 15),
+                            ),
+                            subtitle: Text(
+                              model['desc'].toString().tr(),
+                              style: TextStyle(
+                                color: isSelected
+                                    ? Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant
+                                    : null,
+                              ),
+                            ),
+                            tileColor: isSelected
+                                ? Theme.of(context).colorScheme.primaryContainer
+                                : Theme.of(context)
+                                    .colorScheme
+                                    .surfaceContainerLowest,
+                            onTap: () {
+                              setState(() {
+                                selectedModelKey = model['key'].toString();
+                              });
+                            },
+                          );
+                        }),
+                      ],
+                    ));
               },
               childCount: categorizedModels.length,
             ),
           ),
-
           SliverToBoxAdapter(
-            child: SizedBox(height: MediaQuery.of(context).padding.bottom + 100),
+            child:
+                SizedBox(height: MediaQuery.of(context).padding.bottom + 100),
           )
-        ]
-       ),
-
-       floatingActionButton: FloatingActionButton(onPressed: () {
-          PreferencesHelper.setString("selectedWeatherModel", selectedModelKey.toString());
-          PreferencesHelper.setBool("ModelChanged", true);
-                 _scaffoldMessengerKey.currentState?.showSnackBar(
-            SnackBar(content: Text('model_saved_snack'.tr())),
-          );
-       }, backgroundColor: Theme.of(context).colorScheme.tertiaryContainer, foregroundColor: Theme.of(context).colorScheme.onTertiaryContainer, child: Icon(Symbols.save)),
-    ),
+        ]),
+        floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              PreferencesHelper.setString(
+                  "selectedWeatherModel", selectedModelKey.toString());
+              PreferencesHelper.setBool("ModelChanged", true);
+              _scaffoldMessengerKey.currentState?.showSnackBar(
+                SnackBar(content: Text('model_saved_snack'.tr())),
+              );
+            },
+            backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
+            foregroundColor: Theme.of(context).colorScheme.onTertiaryContainer,
+            child: Icon(Symbols.save)),
+      ),
     );
   }
 }
-
 
 class ShowModelsInfo extends StatelessWidget {
   final markdownData;
   final heading;
 
-  const ShowModelsInfo({super.key, required this.markdownData, required this.heading});
+  const ShowModelsInfo(
+      {super.key, required this.markdownData, required this.heading});
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar.large(
-            titleSpacing: 0,
-            automaticallyImplyLeading: false,
-            flexibleSpace: FlexibleSpaceBar(
-              title: Row(
-                spacing: 5,
-                children: [
-                  Text(heading.toString())
-                ],
-              ),
-              expandedTitleScale: 1.3,
-              titlePadding: EdgeInsets.all(16),
-            ),
-            backgroundColor: Theme.of(context).colorScheme.surface,
-            expandedHeight: 100,
-            scrolledUnderElevation: 1,
-            actions: [
-              IconButton(onPressed: () {Navigator.pop(context);}, icon: Icon(Symbols.close, weight: 600,)),
-              SizedBox(width: 5)
-            ],
+        body: CustomScrollView(slivers: [
+      SliverAppBar.large(
+        titleSpacing: 0,
+        automaticallyImplyLeading: false,
+        flexibleSpace: FlexibleSpaceBar(
+          title: Row(
+            spacing: 5,
+            children: [Text(heading.toString())],
           ),
-
-           SliverToBoxAdapter(
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: 0,
-                    bottom: MediaQuery.of(context).padding.bottom + 10,
-                    left: 16,
-                    right: 16,
-                  ),
-                  child: MarkdownBody(
-                    data: markdownData,
-                    styleSheet: MarkdownStyleSheet(
-                      h2: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w500),
-                     
-                      horizontalRuleDecoration: BoxDecoration(
-                          border: Border(
-                            top: BorderSide(
-                              color: Colors.transparent,
-                              width: 2,
-                            ),
-                          )
-                      ),
+          expandedTitleScale: 1.3,
+          titlePadding: EdgeInsets.all(16),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        expandedHeight: 100,
+        scrolledUnderElevation: 1,
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(
+                Symbols.close,
+                weight: 600,
+              )),
+          SizedBox(width: 5)
+        ],
+      ),
+      SliverToBoxAdapter(
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(
+                top: 0,
+                bottom: MediaQuery.of(context).padding.bottom + 10,
+                left: 16,
+                right: 16,
+              ),
+              child: MarkdownBody(
+                data: markdownData,
+                styleSheet: MarkdownStyleSheet(
+                  h2: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.w500),
+                  horizontalRuleDecoration: BoxDecoration(
+                      border: Border(
+                    top: BorderSide(
+                      color: Colors.transparent,
+                      width: 2,
                     ),
-                  ),
-                )
-              ],
-            ),
-          )
-
-        ]
+                  )),
+                ),
+              ),
+            )
+          ],
+        ),
       )
-    );
+    ]));
   }
 }

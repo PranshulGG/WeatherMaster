@@ -25,7 +25,9 @@ Widget homeBottomBar(BuildContext context, bool isLight) {
             child: Text("Open-Meteo", style: commonTextStyle),
           ),
           const SizedBox(width: 4),
-          Text("•", style: TextStyle(color: textColor, fontWeight: FontWeight.bold, fontSize: 18)),
+          Text("•",
+              style: TextStyle(
+                  color: textColor, fontWeight: FontWeight.bold, fontSize: 18)),
           const SizedBox(width: 4),
           GestureDetector(
             onTap: () => openLink("https://www.weatherapi.com/"),

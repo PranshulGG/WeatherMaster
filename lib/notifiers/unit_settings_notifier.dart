@@ -15,9 +15,6 @@ class UnitSettingsNotifier extends ChangeNotifier {
   bool _useOnlyMaterialScheme = false;
   bool _showFrog = true;
 
-
-
-
   // Getters
   String get tempUnit => _tempUnit;
   String get windUnit => _windUnit;
@@ -31,28 +28,35 @@ class UnitSettingsNotifier extends ChangeNotifier {
   bool get useOnlyMaterialScheme => _useOnlyMaterialScheme;
   bool get showFrog => _showFrog;
 
-
-
-
   UnitSettingsNotifier() {
     _loadAllUnits();
   }
 
   Future<void> _loadAllUnits() async {
-    _tempUnit = await PreferencesHelper.getString("selectedTempUnit") ?? _tempUnit;
-    _windUnit = await PreferencesHelper.getString("selectedWindUnit") ?? _windUnit;
-    _visibilityUnit = await PreferencesHelper.getString("selectedVisibilityUnit") ?? _visibilityUnit;
-    _precipitationUnit = await PreferencesHelper.getString("selectedPrecipitationUnit") ?? _precipitationUnit;
-    _pressureUnit = await PreferencesHelper.getString("selectedPressureUnit") ?? _pressureUnit;
-    _timeUnit = await PreferencesHelper.getString("selectedTimeUnit") ?? _timeUnit;
+    _tempUnit =
+        await PreferencesHelper.getString("selectedTempUnit") ?? _tempUnit;
+    _windUnit =
+        await PreferencesHelper.getString("selectedWindUnit") ?? _windUnit;
+    _visibilityUnit =
+        await PreferencesHelper.getString("selectedVisibilityUnit") ??
+            _visibilityUnit;
+    _precipitationUnit =
+        await PreferencesHelper.getString("selectedPrecipitationUnit") ??
+            _precipitationUnit;
+    _pressureUnit = await PreferencesHelper.getString("selectedPressureUnit") ??
+        _pressureUnit;
+    _timeUnit =
+        await PreferencesHelper.getString("selectedTimeUnit") ?? _timeUnit;
     _aqiUnit = await PreferencesHelper.getString("selectedAQIUnit") ?? _aqiUnit;
-    _useDeviceCompass = await PreferencesHelper.getBool("useDeviceCompass") ?? _useDeviceCompass;
-    _useCardBackgroundAnimations = await PreferencesHelper.getBool("CardBackgroundAnimations") ?? _useCardBackgroundAnimations;
-    _useOnlyMaterialScheme = await PreferencesHelper.getBool("OnlyMaterialScheme") ?? _useOnlyMaterialScheme;
+    _useDeviceCompass = await PreferencesHelper.getBool("useDeviceCompass") ??
+        _useDeviceCompass;
+    _useCardBackgroundAnimations =
+        await PreferencesHelper.getBool("CardBackgroundAnimations") ??
+            _useCardBackgroundAnimations;
+    _useOnlyMaterialScheme =
+        await PreferencesHelper.getBool("OnlyMaterialScheme") ??
+            _useOnlyMaterialScheme;
     _showFrog = await PreferencesHelper.getBool("showFroggy") ?? _showFrog;
-
-
-
 
     notifyListeners();
   }
@@ -119,8 +123,8 @@ class UnitSettingsNotifier extends ChangeNotifier {
     PreferencesHelper.setBool("useDeviceCompass", value);
     notifyListeners();
   }
-  
-    void updateuseCardBackgroundAnimations(bool value) {
+
+  void updateuseCardBackgroundAnimations(bool value) {
     _useCardBackgroundAnimations = value;
     PreferencesHelper.setBool("CardBackgroundAnimations", value);
     notifyListeners();
@@ -137,6 +141,4 @@ class UnitSettingsNotifier extends ChangeNotifier {
     PreferencesHelper.setBool("showFroggy", value);
     notifyListeners();
   }
-  
-  
 }

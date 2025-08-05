@@ -8,7 +8,6 @@ class SnackUtil {
     String? actionLabel,
     VoidCallback? onActionPressed,
   }) {
-
     final snackBar = SnackBar(
       content: Text(
         message,

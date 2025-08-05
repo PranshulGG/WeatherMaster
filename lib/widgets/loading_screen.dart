@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class LoadingScreen extends StatelessWidget {
@@ -8,8 +7,9 @@ class LoadingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        
-        child: CircularProgressIndicator(year2023: false,),
+        child: CircularProgressIndicator(
+          year2023: false,
+        ),
       ),
     );
   }

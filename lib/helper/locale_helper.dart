@@ -10,10 +10,10 @@ String localizeWindUnit(String unit, Locale locale) {
       case 'M/s':
         return '米/秒';
       case 'Bft':
-      return '级';
+        return '级';
     }
   }
-  return unit; 
+  return unit;
 }
 
 String localizeVisibilityUnit(String unit, Locale locale) {
@@ -25,7 +25,7 @@ String localizeVisibilityUnit(String unit, Locale locale) {
         return '英里';
     }
   }
-  return unit; 
+  return unit;
 }
 
 String localizePressureUnit(String unit, Locale locale) {
@@ -39,7 +39,7 @@ String localizePressureUnit(String unit, Locale locale) {
         return '毫米汞柱';
     }
   }
-  return unit; 
+  return unit;
 }
 
 String localizePrecipUnit(String unit, Locale locale) {
@@ -53,7 +53,7 @@ String localizePrecipUnit(String unit, Locale locale) {
         return '英寸';
     }
   }
-  return unit; 
+  return unit;
 }
 
 String localizeTempUnit(String unit, Locale locale) {
@@ -65,7 +65,7 @@ String localizeTempUnit(String unit, Locale locale) {
         return '华氏度';
     }
   }
-  return unit; 
+  return unit;
 }
 
 String localizeTimeFormat(String unit, Locale locale) {
@@ -77,5 +77,5 @@ String localizeTimeFormat(String unit, Locale locale) {
         return '12 小时';
     }
   }
-  return unit; 
+  return unit;
 }

@@ -34,7 +34,7 @@ class _ScrollReactiveGradientState extends State<ScrollReactiveGradient> {
   @override
   void didUpdateWidget(covariant ScrollReactiveGradient oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _checkScroll(); 
+    _checkScroll();
   }
 
   void _onScroll() {
@@ -46,15 +46,13 @@ class _ScrollReactiveGradientState extends State<ScrollReactiveGradient> {
     if (_isScrolled != isNowScrolled) {
       setState(() {
         _isScrolled = isNowScrolled;
-
       });
 
-if (widget.headerVisibilityNotifier != null &&
-        widget.headerVisibilityNotifier!.value != isNowScrolled) {
-      widget.headerVisibilityNotifier!.value = isNowScrolled;
+      if (widget.headerVisibilityNotifier != null &&
+          widget.headerVisibilityNotifier!.value != isNowScrolled) {
+        widget.headerVisibilityNotifier!.value = isNowScrolled;
+      }
     }
-    }
-
   }
 
   @override
@@ -65,10 +63,8 @@ if (widget.headerVisibilityNotifier != null &&
 
   @override
   Widget build(BuildContext context) {
-
-    
-
-    final useFullMaterialScheme = PreferencesHelper.getBool("OnlyMaterialScheme") ?? false;
+    final useFullMaterialScheme =
+        PreferencesHelper.getBool("OnlyMaterialScheme") ?? false;
 
     return Stack(
       children: [
@@ -76,23 +72,25 @@ if (widget.headerVisibilityNotifier != null &&
           duration: const Duration(milliseconds: 0),
           opacity: _isScrolled ? 0 : 1,
           child: Container(
-            decoration:!useFullMaterialScheme ? BoxDecoration(
-              gradient: widget.baseGradient,
-            ) : BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceContainerLow
-            )
-          ),
+              decoration: !useFullMaterialScheme
+                  ? BoxDecoration(
+                      gradient: widget.baseGradient,
+                    )
+                  : BoxDecoration(
+                      color:
+                          Theme.of(context).colorScheme.surfaceContainerLow)),
         ),
         AnimatedOpacity(
           duration: const Duration(milliseconds: 0),
           opacity: _isScrolled ? 1 : 0,
           child: Container(
-            decoration: !useFullMaterialScheme ? BoxDecoration(
-              gradient: widget.scrolledGradient,
-            ) : BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceContainerLow
-            )
-          ),
+              decoration: !useFullMaterialScheme
+                  ? BoxDecoration(
+                      gradient: widget.scrolledGradient,
+                    )
+                  : BoxDecoration(
+                      color:
+                          Theme.of(context).colorScheme.surfaceContainerLow)),
         ),
       ],
     );

@@ -33,7 +33,6 @@ import 'package:http/http.dart' as http;
 //   }
 // }
 
-
 Future<bool> hasRealInternet() async {
   return true;
 }

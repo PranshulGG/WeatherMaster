@@ -16,7 +16,7 @@ class LayoutProvider extends ChangeNotifier {
           .toList();
     }
 
-    notifyListeners(); 
+    notifyListeners();
   }
 
   Future<void> saveLayout(List<LayoutBlockConfig> newConfig) async {

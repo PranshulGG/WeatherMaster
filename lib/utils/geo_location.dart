@@ -20,16 +20,15 @@ Future<Position> getCurrentPosition() async {
   }
 
   return await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-      
-      );
+    desiredAccuracy: LocationAccuracy.high,
+  );
 }
 
-
-
-Future<Map<String, String>> reverseGeocode(double latitude, double longitude) async {
+Future<Map<String, String>> reverseGeocode(
+    double latitude, double longitude) async {
   try {
-    List<Placemark> placemarks = await placemarkFromCoordinates(latitude, longitude);
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(latitude, longitude);
 
     if (placemarks.isNotEmpty) {
       final Placemark place = placemarks.first;
@@ -63,4 +62,3 @@ Future<Map<String, String>> reverseGeocode(double latitude, double longitude) as
     };
   }
 }
-
