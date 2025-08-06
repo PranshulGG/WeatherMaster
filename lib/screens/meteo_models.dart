@@ -628,19 +628,36 @@ final Map<String, Map<String, String>> dialogContent = {
 
   Future<void> _loadLocationAndFetchWeather() async {
     try {
-      // Try different location sources in order of preference
-      final selectedLocation = PreferencesHelper.getJson('selectedViewLocation');
+      // Use the same current location that the main weather app is displaying
+      final currentLocation = PreferencesHelper.getString('currentLocation');
       final homeLocation = PreferencesHelper.getJson('homeLocation');
       
+      if (currentLocation != null && currentLocation.isNotEmpty) {
+        try {
+          final locationData = json.decode(currentLocation);
+          // currentLocation uses 'latitude'/'longitude', homeLocation uses 'lat'/'lon'
+          if (locationData['latitude'] != null && locationData['longitude'] != null) {
+            _currentLat = locationData['latitude'];
+            _currentLon = locationData['longitude'];
+          } else if (locationData['lat'] != null && locationData['lon'] != null) {
+            _currentLat = locationData['lat'];
+            _currentLon = locationData['lon'];
+          } else {
+            throw Exception('Invalid currentLocation data');
+          }
+        } catch (e) {
+          // Fall through to homeLocation
+        }
+      }
       
-      if (selectedLocation != null && selectedLocation['lat'] != null && selectedLocation['lon'] != null) {
-        _currentLat = selectedLocation['lat'];
-        _currentLon = selectedLocation['lon'];
-      } else if (homeLocation != null && homeLocation['lat'] != null && homeLocation['lon'] != null) {
-        _currentLat = homeLocation['lat'];
-        _currentLon = homeLocation['lon'];
-      } else {
-        return; // No saved locations available
+      // If currentLocation failed or is null, use homeLocation
+      if (_currentLat == null || _currentLon == null) {
+        if (homeLocation != null && homeLocation['lat'] != null && homeLocation['lon'] != null) {
+          _currentLat = homeLocation['lat'];
+          _currentLon = homeLocation['lon'];
+        } else {
+          return; // No location data available
+        }
       }
 
       if (_currentLat != null && _currentLon != null) {
