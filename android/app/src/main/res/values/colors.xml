@@ -1,0 +1,35 @@
+<resources>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+
+    <!--  default fallback  -->
+    <color name="colorPrimary">#415f91</color>
+    <color name="colorOnPrimary">#ffffff</color>
+    <color name="colorPrimaryContainer">#d6e3ff</color>
+    <color name="colorOnPrimaryContainer">#001b3e</color>
+
+    <color name="colorSecondary">#565f71</color>
+    <color name="colorOnSecondary">#ffffff</color>
+    <color name="colorSecondaryContainer">#dae2f9</color>
+    <color name="colorOnSecondaryContainer">#131c2b</color>
+
+    <color name="colorTertiary">#705575</color>
+    <color name="colorOnTertiary">#ffffff</color>
+    <color name="colorTertiaryContainer">#fad8fd</color>
+    <color name="colorOnTertiaryContainer">#28132e</color>
+
+    <color name="colorBackground">#f9f9ff</color>
+    <color name="colorOnBackground">#191c20</color>
+    <color name="colorSurface">#f9f9ff</color>
+    <color name="colorOnSurface">#191c20</color>
+
+    <color name="colorSurfaceContainer">#ededf4</color>
+
+    <color name="colorSurfaceVariant">#d9d9e0</color>
+    <color name="colorOnSurfaceVariant">#44474e</color>
+
+    <color name="colorError">#ba1a1a</color>
+    <color name="colorOnError">#ffffff</color>
+</resources>

@@ -60,7 +60,11 @@ import '../widgets/pollen_card.dart';
 import '../widgets/rain_block.dart';
 import '../widgets/top_summary_block.dart';
 import '../widgets/top_weather_card.dart';
-import '../widgets/alert_block.dart';
+
+
+// home widget
+import '../widget_background.dart';
+import 'package:workmanager/workmanager.dart';
 
 
 class WeatherHome extends StatefulWidget {
@@ -270,7 +274,7 @@ Future<void> saveLayoutConfig() async {
   } else if (isHomeLocation && lastUpdated != null) {
     final lastUpdateTime = DateTime.tryParse(lastUpdated);
     final now = DateTime.now();
-    if (lastUpdateTime != null && now.difference(lastUpdateTime).inMinutes < 450) {
+    if (lastUpdateTime != null && now.difference(lastUpdateTime).inMinutes < 4500) {
       _isAppFullyLoaded = true; 
     } else{
     checkAndUpdateHomeLocation();
@@ -811,6 +815,9 @@ Widget _buildWeatherContent() {
     }
 
 
+
+
+
     final raw = snapshot.data!;
     final weather = raw['data'];
     final current = weather['current'];
@@ -881,7 +888,7 @@ void maybeUpdateWeatherAnimation(Map<String, dynamic> current) {
 
     final useFullMaterialScheme = PreferencesHelper.getBool("OnlyMaterialScheme") ?? false;
 
-
+// updateHomeWidget();
 
 
     String formattedTime = lastUpdated != null
@@ -969,6 +976,10 @@ for (int i = 0; i < allTimeStrings.length; i++) {
   }
 }
 
+// updateHomeWidget();
+
+
+
 final List<double> next2hPrecip = [];
 
 for (int i = 0; i < timeNext12h.length; i++) {
@@ -1008,10 +1019,6 @@ if (rainStart != null) {
 }
 
 final bool shouldShowRainBlock = bestStart != null && bestEnd != null;
-
-final List<dynamic> alerts = (weather['alerts']?['alert'] as List?) ?? []; // Get alerts list or empty list if null
-final bool showAlerts = alerts.isNotEmpty; // True if there are any alerts
-
 
 
 Widget buildLayoutBlock(LayoutBlockType type) {
@@ -1145,6 +1152,7 @@ else
 
       GestureDetector(
           onTap: () async {
+await Workmanager().cancelAll();
 
             final result =
                 await Navigator.of(context).push<Map<String, dynamic>>(
@@ -1318,12 +1326,7 @@ else
                 ),
               WeatherFrogIconWidget(iconUrl: _iconUrlFroggy),
               const SizedBox(height: 12),
-                
-                if(showAlerts && showAlertsPref)
-                alertCard( weather['alerts']!, context),
-
-                shouldShowRainBlock ? SizedBox(height: 8.5,) : showInsightsRandomly ? SizedBox(height: 8.5,) : SizedBox.shrink(),
-
+              
 
           Column(
             children: () {

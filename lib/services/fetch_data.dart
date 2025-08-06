@@ -46,26 +46,12 @@ class WeatherService {
   });
 
 
-
-  
-  bool showAlerts = PreferencesHelper.getBool("showAlerts") ?? true;
-
   // Prepare list of HTTP requests (always include weather and air quality)
   final requests = <Future<http.Response>>[
     http.get(uri),
     http.get(airQualityUri),
   ];
 
-  // Conditionally add alerts request only if user wants them
-  if (showAlerts && !isBackground) {
-    final alertUri = Uri.parse('https://api.weatherapi.com/v1/alerts.json').replace(queryParameters: {
-      'key': dotenv.env['API_KEY_WEATHERAPI']!.toString(),
-      'q': '$lat,$lon',
-    });
-    requests.add(http.get(alertUri));
-  } 
-
-  // Execute all HTTP requests in parallel
   final responses = await Future.wait(requests);
   
 
@@ -73,10 +59,6 @@ class WeatherService {
   final weatherData = json.decode(responses[0].body) as Map<String, dynamic>;
   final airQualityData = json.decode(responses[1].body) as Map<String, dynamic>;
 
-  // Conditionally decode alert data if it was fetched
-  final alertData = showAlerts && responses.length > 2
-      ? json.decode(responses[2].body) as Map<String, dynamic>
-      : {};
 
   // Check if we need fallback data for missing fields
   Map<String, dynamic> finalWeatherData = weatherData;
@@ -117,7 +99,6 @@ class WeatherService {
   final combinedDataForView = {
     ...finalWeatherData,
     'air_quality': airQualityData,
-    'alerts': alertData['alerts'] ?? [],
   };
 
   final nowForView = DateTime.now().toIso8601String();
@@ -155,7 +136,6 @@ class WeatherService {
   final combinedData = {
     ...finalWeatherData,
     'air_quality': airQualityData,
-     'alerts': alertData['alerts'] ?? [],
   };
 
   final wrappedData = {

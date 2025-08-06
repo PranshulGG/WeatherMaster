@@ -22,6 +22,8 @@ import '../services/data_backup_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:ui' as ui;
 import 'package:workmanager/workmanager.dart';
+import 'widget_background.dart';
+import 'package:home_widget/home_widget.dart';
 
 final CorePalette paletteStartScreen = CorePalette.of(const Color.fromARGB(255, 255, 196, 0).toARGB32());
 
@@ -69,6 +71,7 @@ final flutterSupportedLocales = easySupportedLocales
     .toList();
 
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
@@ -87,6 +90,26 @@ void main() async {
 
   final dir = await getApplicationDocumentsDirectory();
   Hive.init(dir.path);
+
+  // widget------
+
+    Workmanager().initialize(
+    callbackDispatcherBG,
+  );
+
+   Workmanager().registerPeriodicTask(
+    "weatherAutoUpdateTask",
+    "weatherUpdate",
+    frequency: Duration(minutes: 15), 
+    constraints: Constraints(
+      networkType: NetworkType.connected,
+    ),
+  );
+
+
+
+  // widget ------
+
 
   final themeController = ThemeController();
   await themeController.initialize();

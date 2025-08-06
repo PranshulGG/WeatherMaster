@@ -64,7 +64,9 @@ dependencies:
   file_picker: ^10.2.0
   flutter_dotenv: ^5.2.1
   workmanager: ^0.9.0
-  android_intent_plus: ^5.3.0
+  home_widget: ^0.8.0
+
+
 
   settings_tiles:
     path: ./settings_tiles_custom
