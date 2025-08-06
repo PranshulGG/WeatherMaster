@@ -3,6 +3,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import '../utils/preferences_helper.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import '../utils/geo_location.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:lat_lng_to_timezone/lat_lng_to_timezone.dart' as tzmap;
 
 
 class MeteoModelsPage extends StatefulWidget {
@@ -16,6 +20,24 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
 
 final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
+// State for current weather data for each model
+final Map<String, Map<String, dynamic>?> _modelWeatherData = {};
+final Map<String, bool> _modelLoadingStates = {};
+double? _currentLat;
+double? _currentLon;
+
+// Model limitations mapping - forecast days available
+final Map<String, int> _modelForecastDays = {
+  'icon_d2': 2,
+  'jma_msm': 2,
+  'gem_hrdps_continental': 2,
+  'meteofrance_arome_france_hd': 2,
+  'ukmo_uk_deterministic_2km': 2,
+  'knmi_harmonie_arome_netherlands': 2,
+  'knmi_harmonie_arome_europe': 2,
+  'gfs_hrrr': 1,
+  // Most other models provide 7+ days, so we don't need to list them all
+};
 
 final categorizedModels = {
     'default_text'.tr(): [
@@ -597,6 +619,183 @@ final Map<String, Map<String, String>> dialogContent = {
 };
 
   String? selectedModelKey = PreferencesHelper.getString("selectedWeatherModel") ?? 'best_match';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadLocationAndFetchWeather();
+  }
+
+  Future<void> _loadLocationAndFetchWeather() async {
+    try {
+      // Try different location sources in order of preference
+      final selectedLocation = PreferencesHelper.getJson('selectedViewLocation');
+      final homeLocation = PreferencesHelper.getJson('homeLocation');
+      
+      if (selectedLocation != null && selectedLocation['lat'] != null && selectedLocation['lon'] != null) {
+        _currentLat = selectedLocation['lat'];
+        _currentLon = selectedLocation['lon'];
+      } else if (homeLocation != null && homeLocation['lat'] != null && homeLocation['lon'] != null) {
+        _currentLat = homeLocation['lat'];
+        _currentLon = homeLocation['lon'];
+      } else {
+        return; // No saved locations available
+      }
+
+      if (_currentLat != null && _currentLon != null) {
+        await _fetchWeatherForAllModels();
+      }
+    } catch (e) {
+      // Handle errors silently
+    }
+  }
+
+  Future<void> _fetchWeatherForAllModels() async {
+    if (_currentLat == null || _currentLon == null) return;
+    
+    // Get all unique model keys from all categories
+    Set<String> allModelKeys = {};
+    for (final models in categorizedModels.values) {
+      for (final model in models) {
+        allModelKeys.add(model['key'].toString());
+      }
+    }
+
+    // Initialize loading states
+    for (final modelKey in allModelKeys) {
+      _modelLoadingStates[modelKey] = true;
+    }
+    if (mounted) setState(() {});
+
+    // Fetch weather data for each model with delays to avoid rate limiting
+    int delay = 0;
+    final futures = allModelKeys.map((modelKey) async {
+      delay += 500; // 500ms delay between requests
+      await Future.delayed(Duration(milliseconds: delay));
+      
+      try {
+        final specificModelData = await _fetchWeatherForSpecificModel(modelKey);
+        _modelWeatherData[modelKey] = specificModelData;
+      } catch (e) {
+        // Log error silently - don't use print in production
+        _modelWeatherData[modelKey] = null;
+      } finally {
+        _modelLoadingStates[modelKey] = false;
+        if (mounted) setState(() {}); // Update UI as each model completes
+      }
+    });
+
+    await Future.wait(futures);
+    if (mounted) setState(() {});
+  }
+
+  Future<Map<String, dynamic>?> _fetchWeatherForSpecificModel(String modelKey) async {
+    if (_currentLat == null || _currentLon == null) return null;
+
+    try {
+      // Use proper timezone detection like the original WeatherService
+      final timezone = tzmap.latLngToTimezoneString(_currentLat!, _currentLon!);
+      
+      // Make direct HTTP request with same parameters as original WeatherService
+      final uri = Uri.parse('https://api.open-meteo.com/v1/forecast').replace(queryParameters: {
+        'latitude': _currentLat!.toString(),
+        'longitude': _currentLon!.toString(),
+        'current': 'temperature_2m,is_day,apparent_temperature,pressure_msl,relative_humidity_2m,precipitation,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m,wind_gusts_10m',
+        'hourly': 'wind_speed_10m,wind_direction_10m,relative_humidity_2m,pressure_msl,cloud_cover,temperature_2m,dew_point_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,visibility,uv_index',
+        'daily': 'weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,daylight_duration,uv_index_max,precipitation_sum,precipitation_probability_max,precipitation_hours,wind_speed_10m_max,wind_gusts_10m_max',
+        'timezone': timezone,
+        'forecast_days': '7',
+        'models': modelKey
+      });
+
+      final response = await http.get(uri);
+      
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+        
+        // Check for API errors
+        if (data['error'] == true) {
+          return null;
+        }
+        
+        return data;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Widget _buildTemperatureWidget(String modelKey) {
+    final isLoading = _modelLoadingStates[modelKey] ?? false;
+    final weatherData = _modelWeatherData[modelKey];
+    
+    if (isLoading) {
+      return SizedBox(
+        width: 16,
+        height: 16,
+        child: CircularProgressIndicator(
+          strokeWidth: 2,
+          color: Theme.of(context).colorScheme.primary,
+        ),
+      );
+    }
+    
+    // Check if model has no data
+    if (weatherData == null || weatherData['current'] == null) {
+      return Container(
+        padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.errorContainer.withValues(alpha: 0.7),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Text(
+          'No data',
+          style: TextStyle(
+            fontSize: 10,
+            fontWeight: FontWeight.w600,
+            color: Theme.of(context).colorScheme.onErrorContainer,
+          ),
+        ),
+      );
+    }
+    
+    final temperature = weatherData['current']['temperature_2m'] as double?;
+    if (temperature == null) {
+      return Container(
+        padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.errorContainer.withValues(alpha: 0.7),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Text(
+          'No temp',
+          style: TextStyle(
+            fontSize: 10,
+            fontWeight: FontWeight.w600,
+            color: Theme.of(context).colorScheme.onErrorContainer,
+          ),
+        ),
+      );
+    }
+    
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.7),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Text(
+        '${temperature.round()}°',
+        style: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
+      ),
+    );
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -682,7 +881,14 @@ final Map<String, Map<String, String>> dialogContent = {
                             : isFirst ? BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16), bottomLeft: Radius.circular(6), bottomRight: Radius.circular(6))
                             : isLast ? BorderRadius.only(topLeft: Radius.circular(6), topRight: Radius.circular(6), bottomLeft: Radius.circular(16), bottomRight: Radius.circular(16)) : BorderRadius.all(Radius.circular(6))
                           ),
-                        trailing: isSelected ? Icon(Symbols.check, size: 28,) : Icon(Symbols.nest_farsight_weather, size: 28),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          spacing: 8,
+                          children: [
+                            _buildTemperatureWidget(model['key'].toString()),
+                            isSelected ? Icon(Symbols.check, size: 28,) : Icon(Symbols.nest_farsight_weather, size: 28),
+                          ],
+                        ),
                         title: Text(
                           model['name'].toString(),
                           style: TextStyle(
@@ -691,11 +897,40 @@ final Map<String, Map<String, String>> dialogContent = {
                             fontSize: 15
                           ),
                         ),
-                        subtitle: Text(model['desc'].toString().tr(), style: TextStyle(
-                          color: isSelected
-                            ? Theme.of(context).colorScheme.onSurfaceVariant
-                            : null,
-                        ),),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(model['desc'].toString().tr(), style: TextStyle(
+                              color: isSelected
+                                ? Theme.of(context).colorScheme.onSurfaceVariant
+                                : null,
+                            )),
+                            if (_modelForecastDays.containsKey(model['key']))
+                              Padding(
+                                padding: EdgeInsets.only(top: 4),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Symbols.warning,
+                                      size: 14,
+                                      color: Theme.of(context).colorScheme.tertiary,
+                                    ),
+                                    SizedBox(width: 4),
+                                    Flexible(
+                                      child: Text(
+                                        '${_modelForecastDays[model['key']]} day${_modelForecastDays[model['key']] == 1 ? '' : 's'} forecast only',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Theme.of(context).colorScheme.tertiary,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                          ],
+                        ),
                         tileColor: isSelected
                             ? Theme.of(context).colorScheme.primaryContainer
                             : Theme.of(context).colorScheme.surfaceContainerLowest,
@@ -735,8 +970,8 @@ final Map<String, Map<String, String>> dialogContent = {
 
 
 class ShowModelsInfo extends StatelessWidget {
-  final markdownData;
-  final heading;
+  final String markdownData;
+  final String heading;
 
   const ShowModelsInfo({super.key, required this.markdownData, required this.heading});
 
