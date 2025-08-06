@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root_cast"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:padding="18dp"
+    android:background="@drawable/rounded_square_bg"
+    >
+
+
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="end|center_vertical">
+        <ImageView
+            android:id="@+id/widget_icon_hourly_cast"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/clear_night" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+
+            android:layout_gravity="end">
+
+            <TextView
+                android:id="@+id/current_widget_locationName"
+                android:layout_height="wrap_content"
+                android:text="Los angeles, United states"
+                android:textColor="@color/colorSecondary"
+                android:layout_width="200dp"
+                android:textSize="24sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                 />
+
+                <TextView
+                    android:id="@+id/weather_condition_current"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Haze"
+                    android:layout_gravity="end"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20sp"
+                    />
+
+        </LinearLayout>
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="start|bottom">
+
+            <TextView
+                android:id="@+id/current_widget_temp_cast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="28°"
+                android:textColor="@color/colorPrimary"
+                android:textSize="50sp"
+                android:textStyle="bold" />
+
+            <!-- High and Low Temperature -->
+            <LinearLayout
+                android:id="@+id/temp_range_cast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <TextView
+                    android:id="@+id/temp_high_cast"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="30°"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="20sp"
+                    />
+
+                <TextView
+                    android:id="@+id/temp_low_cast"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" 21°"
+                    android:textColor="@color/colorOnSurface"
+                    android:textSize="20sp" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/hourly_cast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="end|bottom"
+            >
+
+
+
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    </FrameLayout>
+
+
+
+</LinearLayout>
+

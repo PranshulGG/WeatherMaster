@@ -91,21 +91,29 @@ void main() async {
   final dir = await getApplicationDocumentsDirectory();
   Hive.init(dir.path);
 
+
+
   // widget------
+
+  bool isTaskRegistered = prefs.getBool("weatherTaskRegistered") ?? false;
+  bool useBackgroundUpdates = prefs.getBool("useBackgroundUpdates") ?? true;
+
 
     Workmanager().initialize(
     callbackDispatcherBG,
   );
 
-   Workmanager().registerPeriodicTask(
+if (!isTaskRegistered && useBackgroundUpdates) {
+  await Workmanager().registerPeriodicTask(
     "weatherAutoUpdateTask",
     "weatherUpdate",
-    frequency: Duration(minutes: 15), 
+    frequency: Duration(minutes: 30),
     constraints: Constraints(
       networkType: NetworkType.connected,
     ),
   );
-
+  prefs.setBool("weatherTaskRegistered", true);
+}
 
 
   // widget ------

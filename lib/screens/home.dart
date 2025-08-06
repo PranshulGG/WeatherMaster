@@ -64,7 +64,6 @@ import '../widgets/top_weather_card.dart';
 
 // home widget
 import '../widget_background.dart';
-import 'package:workmanager/workmanager.dart';
 
 
 class WeatherHome extends StatefulWidget {
@@ -126,6 +125,7 @@ class _WeatherHomeState extends State<WeatherHome> {
   int? lastWeatherCode;
   bool isfirstStart = true;
   bool showAlertsPref = PreferencesHelper.getBool("showAlerts") ?? true;
+  bool widgetsUpdated = false;
 
   bool? lastIsDay;
 
@@ -274,7 +274,7 @@ Future<void> saveLayoutConfig() async {
   } else if (isHomeLocation && lastUpdated != null) {
     final lastUpdateTime = DateTime.tryParse(lastUpdated);
     final now = DateTime.now();
-    if (lastUpdateTime != null && now.difference(lastUpdateTime).inMinutes < 4500) {
+    if (lastUpdateTime != null && now.difference(lastUpdateTime).inMinutes < 450) {
       _isAppFullyLoaded = true; 
     } else{
     checkAndUpdateHomeLocation();
@@ -396,6 +396,11 @@ if (result == null) {
   return;
 }
 
+if(isHomeLocation){
+  widgetsUpdated = false;
+} else{
+  widgetsUpdated = true;
+}
   setState(() {
   _isAppFullyLoaded = false;
   _istriggeredFromLocations = true;
@@ -888,7 +893,6 @@ void maybeUpdateWeatherAnimation(Map<String, dynamic> current) {
 
     final useFullMaterialScheme = PreferencesHelper.getBool("OnlyMaterialScheme") ?? false;
 
-// updateHomeWidget();
 
 
     String formattedTime = lastUpdated != null
@@ -976,7 +980,6 @@ for (int i = 0; i < allTimeStrings.length; i++) {
   }
 }
 
-// updateHomeWidget();
 
 
 
@@ -1019,6 +1022,12 @@ if (rainStart != null) {
 }
 
 final bool shouldShowRainBlock = bestStart != null && bestEnd != null;
+
+
+// if(!widgetsUpdated){
+  updateHomeWidget(weather); // update once on start
+  // widgetsUpdated = true;
+// }
 
 
 Widget buildLayoutBlock(LayoutBlockType type) {
@@ -1136,7 +1145,7 @@ Widget buildLayoutBlock(LayoutBlockType type) {
             clipBehavior: Clip.none,
             children: [
            if (weatherAnimationWidget != null)
-  useFullMaterialScheme
+      useFullMaterialScheme
       ? const SizedBox.shrink()
       : usAnimations
           ? ValueListenableBuilder<bool>(
@@ -1152,7 +1161,6 @@ else
 
       GestureDetector(
           onTap: () async {
-await Workmanager().cancelAll();
 
             final result =
                 await Navigator.of(context).push<Map<String, dynamic>>(

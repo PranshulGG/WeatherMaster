@@ -18,7 +18,7 @@
         <item name="android:windowBackground">?android:colorBackground</item>
     </style>
 
-    <!-- <style name="Theme.widgetsTheme" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.widgetsTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorOnPrimary">@color/colorOnPrimary</item>
         <item name="colorPrimaryContainer">@color/colorPrimaryContainer</item>
@@ -42,7 +42,7 @@
         <item name="colorOnSurfaceVariant">@color/colorOnSurfaceVariant</item>
 
         <item name="colorSurfaceContainer">@color/colorSurfaceContainer</item>
-    </style> -->
+    </style>
 
 
 </resources>

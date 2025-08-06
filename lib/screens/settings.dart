@@ -15,6 +15,7 @@ import 'about_page.dart';
 import 'meteo_models.dart';
 import 'edit_layout_page.dart';
 import '../services/data_backup_service.dart';
+import 'package:workmanager/workmanager.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -285,13 +286,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
 
                 SettingSwitchTile(
-                    icon: Icon(Symbols.warning, fill: 1, weight: 500),
-                    title: Text("weather_alerts".tr()),
-                    description: Text("show_alerts_home_page_sub".tr()),
-                    toggled: PreferencesHelper.getBool("showAlerts") ?? true,
+                    icon: Icon(Symbols.update, fill: 1, weight: 500),
+                    title: Text("Background updates"),
+                    description: Text("Allow background activity. Turning it off may stop widget updates"),
+                    toggled: PreferencesHelper.getBool("useBackgroundUpdates") ?? true,
                     onChanged: (value) {
-                     PreferencesHelper.setBool("showAlerts", value);
+                     PreferencesHelper.setBool("useBackgroundUpdates", value);
+                      triggerBgUpdates(value);
                     setState(() {
+
                     });
                   }, 
                   ),
@@ -479,3 +482,19 @@ Map<String, String> getLanguageNamesSettingsView(Locale locale) {
 }
 
 
+Future<void> triggerBgUpdates(value) async {
+    if(value == false){
+    await Workmanager().cancelAll();
+    PreferencesHelper.setBool('weatherTaskRegistered', value);
+    } else{
+    await Workmanager().registerPeriodicTask(
+    "weatherAutoUpdateTask",
+    "weatherUpdate",
+    frequency: Duration(minutes: 15),
+    constraints: Constraints(
+      networkType: NetworkType.connected,
+    ),
+  );
+    PreferencesHelper.setBool('weatherTaskRegistered', value);
+  }
+}
