@@ -20,11 +20,15 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
 
 final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
-// State for current weather data for each model
-final Map<String, Map<String, dynamic>?> _modelWeatherData = {};
-final Map<String, bool> _modelLoadingStates = {};
+// State for current weather data for each model - static to persist across widget rebuilds
+static final Map<String, Map<String, dynamic>?> _modelWeatherData = {};
+static final Map<String, bool> _modelLoadingStates = {};
 double? _currentLat;
 double? _currentLon;
+
+// Cache management - static to persist across widget rebuilds
+static DateTime? _lastFetchTime;
+static String? _cachedLocationKey;
 
 // Model limitations mapping - forecast days available
 final Map<String, int> _modelForecastDays = {
@@ -661,11 +665,67 @@ final Map<String, Map<String, String>> dialogContent = {
       }
 
       if (_currentLat != null && _currentLon != null) {
-        await _fetchWeatherForAllModels();
+        await _checkCacheAndFetchWeather();
       }
     } catch (e) {
       // Handle errors silently
     }
+  }
+
+  Future<void> _checkCacheAndFetchWeather() async {
+    if (_currentLat == null || _currentLon == null) return;
+
+    final currentLocationKey = '${_currentLat}_$_currentLon';
+    final now = DateTime.now();
+    
+    // Get total number of models to check cache completeness
+    final allModelKeys = <String>{};
+    for (final models in categorizedModels.values) {
+      for (final model in models) {
+        allModelKeys.add(model['key'].toString());
+      }
+    }
+    
+    // Count how many models have cached data (not null)
+    final cachedModelCount = _modelWeatherData.values.where((data) => data != null).length;
+    final totalModelCount = allModelKeys.length;
+    final hasReasonableCache = cachedModelCount >= (totalModelCount * 0.5); // At least 50% of models have data
+    
+    // Check if we have valid cached data (same location, less than 10 minutes old, and reasonably complete)
+    final bool shouldRefresh = _lastFetchTime == null ||
+        _cachedLocationKey != currentLocationKey ||
+        now.difference(_lastFetchTime!).inMinutes >= 10 ||
+        !hasReasonableCache;
+
+    if (shouldRefresh) {
+      // Cache is stale or location changed - fetch new data
+      print('🔄 CACHE DEBUG: Fetching fresh data - ${_lastFetchTime == null ? "No cache" : _cachedLocationKey != currentLocationKey ? "Location changed" : now.difference(_lastFetchTime!).inMinutes >= 10 ? "Cache expired (${now.difference(_lastFetchTime!).inMinutes}min old)" : "Incomplete cache ($cachedModelCount/$totalModelCount models)"}');
+      _lastFetchTime = now;
+      _cachedLocationKey = currentLocationKey;
+      await _fetchWeatherForAllModels();
+    } else {
+      // Use cached data - no API calls needed
+      final cacheAge = now.difference(_lastFetchTime!).inMinutes;
+      print('⚡ CACHE DEBUG: Using cached data (${cacheAge}min old) - $cachedModelCount/$totalModelCount models cached - No API calls made');
+      
+      // Ensure loading states are set to false for cached data
+      
+      for (final modelKey in allModelKeys) {
+        _modelLoadingStates[modelKey] = false;
+      }
+      
+      if (mounted) setState(() {}); // Update UI with cached data
+    }
+  }
+
+  Future<void> _forceRefresh() async {
+    if (_currentLat == null || _currentLon == null) return;
+    
+    // Force refresh by invalidating cache
+    print('🔄 CACHE DEBUG: Manual refresh triggered - Forcing fresh API calls');
+    _lastFetchTime = DateTime.now();
+    _cachedLocationKey = '${_currentLat}_$_currentLon';
+    await _fetchWeatherForAllModels();
   }
 
   Future<void> _fetchWeatherForAllModels() async {
@@ -830,6 +890,13 @@ final Map<String, Map<String, String>> dialogContent = {
             titleSpacing: 0,
             backgroundColor: Theme.of(context).colorScheme.surface,
             scrolledUnderElevation: 1,
+            actions: [
+              IconButton(
+                icon: Icon(Icons.refresh),
+                onPressed: _forceRefresh,
+                tooltip: 'Refresh temperatures',
+              ),
+            ],
           ),
 
           SliverList(
