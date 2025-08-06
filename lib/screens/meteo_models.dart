@@ -699,14 +699,12 @@ final Map<String, Map<String, String>> dialogContent = {
 
     if (shouldRefresh) {
       // Cache is stale or location changed - fetch new data
-      print('🔄 CACHE DEBUG: Fetching fresh data - ${_lastFetchTime == null ? "No cache" : _cachedLocationKey != currentLocationKey ? "Location changed" : now.difference(_lastFetchTime!).inMinutes >= 10 ? "Cache expired (${now.difference(_lastFetchTime!).inMinutes}min old)" : "Incomplete cache ($cachedModelCount/$totalModelCount models)"}');
       _lastFetchTime = now;
       _cachedLocationKey = currentLocationKey;
       await _fetchWeatherForAllModels();
     } else {
       // Use cached data - no API calls needed
       final cacheAge = now.difference(_lastFetchTime!).inMinutes;
-      print('⚡ CACHE DEBUG: Using cached data (${cacheAge}min old) - $cachedModelCount/$totalModelCount models cached - No API calls made');
       
       // Ensure loading states are set to false for cached data
       
@@ -722,7 +720,6 @@ final Map<String, Map<String, String>> dialogContent = {
     if (_currentLat == null || _currentLon == null) return;
     
     // Force refresh by invalidating cache
-    print('🔄 CACHE DEBUG: Manual refresh triggered - Forcing fresh API calls');
     _lastFetchTime = DateTime.now();
     _cachedLocationKey = '${_currentLat}_$_currentLon';
     await _fetchWeatherForAllModels();
