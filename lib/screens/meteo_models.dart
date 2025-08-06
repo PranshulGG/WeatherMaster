@@ -632,6 +632,7 @@ final Map<String, Map<String, String>> dialogContent = {
       final selectedLocation = PreferencesHelper.getJson('selectedViewLocation');
       final homeLocation = PreferencesHelper.getJson('homeLocation');
       
+      
       if (selectedLocation != null && selectedLocation['lat'] != null && selectedLocation['lon'] != null) {
         _currentLat = selectedLocation['lat'];
         _currentLon = selectedLocation['lon'];
@@ -708,6 +709,7 @@ final Map<String, Map<String, String>> dialogContent = {
         'models': modelKey
       });
 
+      
       final response = await http.get(uri);
       
       if (response.statusCode == 200) {
@@ -717,6 +719,7 @@ final Map<String, Map<String, String>> dialogContent = {
         if (data['error'] == true) {
           return null;
         }
+        
         
         return data;
       } else {
