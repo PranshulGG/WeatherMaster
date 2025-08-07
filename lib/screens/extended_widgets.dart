@@ -1832,7 +1832,7 @@ final double maxprecipAmount = precipAmount.reduce((a, b) => a > b ? a : b);
                               top: 3,
                               child:
                             CircleAvatar(
-                                child:  Text("$precipProbMain%", style: TextStyle(fontWeight: FontWeight.w500),),
+                                child:  Text("100%", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),),
                             )
                             ),
                           ]
