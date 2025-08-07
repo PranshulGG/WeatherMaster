@@ -302,18 +302,23 @@ class WeatherService {
       if (!merged.containsKey(key) || merged[key] == null) {
         merged[key] = fallback[key];
       } else if (merged[key] is List) {
-        // For array fields, use primary if it has valid data, otherwise use fallback
+        // For array fields, merge element by element, filling null values from fallback
         final primaryList = merged[key] as List;
         final fallbackList = fallback[key] as List;
         
-        // Check if primary list has any non-null values
-        final primaryHasValidData = primaryList.isNotEmpty && primaryList.any((value) => value != null);
-        final fallbackHasValidData = fallbackList.isNotEmpty && fallbackList.any((value) => value != null);
+        // Create a new list with the same length as primary, filling nulls from fallback
+        final mergedList = <dynamic>[];
+        final maxLength = primaryList.length > fallbackList.length ? primaryList.length : fallbackList.length;
         
-        // Use fallback if primary has no valid data but fallback does
-        if (!primaryHasValidData && fallbackHasValidData) {
-          merged[key] = fallbackList;
+        for (int i = 0; i < maxLength; i++) {
+          final primaryValue = i < primaryList.length ? primaryList[i] : null;
+          final fallbackValue = i < fallbackList.length ? fallbackList[i] : null;
+          
+          // Use primary value if not null, otherwise use fallback
+          mergedList.add(primaryValue ?? fallbackValue);
         }
+        
+        merged[key] = mergedList;
       }
     }
     
