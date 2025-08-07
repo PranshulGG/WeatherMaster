@@ -24,6 +24,7 @@ import 'dart:ui' as ui;
 import 'widget_background.dart';
 import 'package:workmanager/workmanager.dart';
 
+
 final CorePalette paletteStartScreen = CorePalette.of(const Color.fromARGB(255, 255, 196, 0).toARGB32());
 
 
@@ -89,9 +90,6 @@ void main() async {
 
   final dir = await getApplicationDocumentsDirectory();
   Hive.init(dir.path);
-
-
-
   // widget------
 
   bool isTaskRegistered = prefs.getBool("weatherTaskRegistered") ?? false;

@@ -278,6 +278,7 @@ Widget build(BuildContext context) {
       }
 
                         final loc = snapshot.data![index - 1];
+                        final isLast = index == snapshot.data!.length;
                         final currentCacheKey =
                             homeSnapshot.data?['cacheKey'] ?? ''; 
                         final thisCacheKey =
@@ -285,8 +286,9 @@ Widget build(BuildContext context) {
 
                          final isSelected = thisCacheKey == currentCacheKey && !isGPS;
 
-                  return Padding(
+                  return Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                    margin:  EdgeInsets.only(bottom: isLast ? MediaQuery.of(context).padding.bottom + 20 : 0),
                     child: Container(
                       decoration: BoxDecoration(
                         color: isSelected ? Theme.of(context).colorScheme.primaryContainer : Theme.of(context).colorScheme.surfaceContainerLow,
@@ -330,6 +332,7 @@ Widget build(BuildContext context) {
                       childCount: snapshot.data!.length + 1,
                     ),
                   ),
+
 
               ],
             );

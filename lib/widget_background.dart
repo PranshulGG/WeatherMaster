@@ -11,11 +11,16 @@ import 'package:workmanager/workmanager.dart';
 import 'utils/unit_converter.dart';
 import 'utils/condition_label_map.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 @pragma('vm:entry-point')
 void callbackDispatcherBG() {
   Workmanager().executeTask((task, inputData) async {
+    WidgetsFlutterBinding.ensureInitialized();
 
 
     final dir = await getApplicationDocumentsDirectory();
@@ -23,7 +28,20 @@ void callbackDispatcherBG() {
 
 
     await PreferencesHelper.init(); 
-    await updateHomeWidget(null);
+
+    // Initialize the notification plugin
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+
+    final InitializationSettings initializationSettings =
+        InitializationSettings(android: initializationSettingsAndroid);
+
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+    // Show the notification
+    await showBackgroundNotification();
+
+    await updateHomeWidget(null, updatedFromHome: false);
 
 
     return Future.value(true);
@@ -33,7 +51,7 @@ void callbackDispatcherBG() {
 
 
 @pragma('vm:entry-point')
-Future<void> updateHomeWidget(weather) async {
+Future<void> updateHomeWidget(weather, {bool updatedFromHome = false}) async {
    try {
 
 
@@ -52,7 +70,7 @@ Future<void> updateHomeWidget(weather) async {
   final timeUnit = PreferencesHelper.getString("selectedTimeUnit") ?? "12 hr";
   final tempUnit = PreferencesHelper.getString("selectedTempUnit") ?? "Celsius";
 
-  if(weather == null){
+  if(updatedFromHome == false && weather == null){
   final weatherService = WeatherService();
   final homeLocation = PreferencesHelper.getJson('homeLocation');
 
@@ -194,3 +212,30 @@ final conditionKey = WeatherConditionMapper.getConditionLabel(code, isDay);
   }
 }
 
+Future<void> showBackgroundNotification() async {
+  const AndroidNotificationDetails androidPlatformChannelSpecifics =
+    AndroidNotificationDetails(
+  'weather_updates_channel',
+  'Weather Updates',
+  channelDescription: 'Updating your weather widget',
+  importance: Importance.high,
+  priority: Priority.high,
+  icon: 'ic_stat_cloud_download', 
+  showProgress: true,
+  indeterminate: true,
+  ongoing: true,
+);
+
+  const NotificationDetails platformChannelSpecifics =
+      NotificationDetails(android: androidPlatformChannelSpecifics);
+
+  await flutterLocalNotificationsPlugin.show(
+    0, 
+    'Weather Updated',
+    '',
+    platformChannelSpecifics,
+  );
+  
+    await Future.delayed(const Duration(seconds: 5));
+    await flutterLocalNotificationsPlugin.cancel(0);
+}
