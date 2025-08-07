@@ -5,6 +5,8 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.widget.RemoteViews
 import com.pranshulgg.weather_master_app.util.WeatherIconMapper
+
+
 class WeatherWidgetProvider : AppWidgetProvider() {
     override fun onUpdate(context: Context, manager: AppWidgetManager, ids: IntArray) {
         for (id in ids) {

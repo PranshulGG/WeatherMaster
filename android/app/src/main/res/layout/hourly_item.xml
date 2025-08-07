@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:layout_marginBottom="5dp"
-        android:textColor="@color/colorOnSurface" />
+        android:textColor="@color/colorOnBackground" />
 
     <ImageView
         android:id="@+id/hourly_icon"

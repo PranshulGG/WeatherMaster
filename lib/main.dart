@@ -23,7 +23,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:ui' as ui;
 import 'package:workmanager/workmanager.dart';
 import 'widget_background.dart';
-import 'package:home_widget/home_widget.dart';
 
 final CorePalette paletteStartScreen = CorePalette.of(const Color.fromARGB(255, 255, 196, 0).toARGB32());
 
@@ -99,15 +98,16 @@ void main() async {
   bool useBackgroundUpdates = prefs.getBool("useBackgroundUpdates") ?? true;
 
 
-    Workmanager().initialize(
+   await Workmanager().initialize(
     callbackDispatcherBG,
+    isInDebugMode: false,
   );
 
 if (!isTaskRegistered && useBackgroundUpdates) {
   await Workmanager().registerPeriodicTask(
     "weatherAutoUpdateTask",
     "weatherUpdate",
-    frequency: Duration(minutes: 30),
+    frequency: Duration(minutes: 15),
     constraints: Constraints(
       networkType: NetworkType.connected,
     ),

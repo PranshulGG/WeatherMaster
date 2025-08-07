@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" 21°"
-                android:textColor="@color/colorOnSurface"
+                android:textColor="@color/colorOnBackground"
                 android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>

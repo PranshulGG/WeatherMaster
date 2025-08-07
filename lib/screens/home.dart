@@ -274,7 +274,7 @@ Future<void> saveLayoutConfig() async {
   } else if (isHomeLocation && lastUpdated != null) {
     final lastUpdateTime = DateTime.tryParse(lastUpdated);
     final now = DateTime.now();
-    if (lastUpdateTime != null && now.difference(lastUpdateTime).inMinutes < 450) {
+    if (lastUpdateTime != null && now.difference(lastUpdateTime).inMinutes < 4500) {
       _isAppFullyLoaded = true; 
     } else{
     checkAndUpdateHomeLocation();
@@ -1024,10 +1024,10 @@ if (rainStart != null) {
 final bool shouldShowRainBlock = bestStart != null && bestEnd != null;
 
 
-// if(!widgetsUpdated){
+if(!widgetsUpdated){
   updateHomeWidget(weather); // update once on start
-  // widgetsUpdated = true;
-// }
+  widgetsUpdated = true;
+}
 
 
 Widget buildLayoutBlock(LayoutBlockType type) {
