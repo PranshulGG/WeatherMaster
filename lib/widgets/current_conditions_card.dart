@@ -671,7 +671,7 @@ List<Widget> gridItems = itemOrder.map((i) {
           itemCount: gridItems.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            crossAxisSpacing: 16,
+            crossAxisSpacing: 10,
             mainAxisSpacing: 10,
             childAspectRatio: 1,
           ),
