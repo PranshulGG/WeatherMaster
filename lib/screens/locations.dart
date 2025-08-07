@@ -223,7 +223,6 @@ Widget buildDismissibleListView({Key? key}) {
                           PreferencesHelper.getJson(
                               'homeLocation')?['cacheKey']);
 
-
                 
                       return Column(
                         key: const ValueKey("list-title"),
@@ -470,7 +469,8 @@ Widget buildDismissibleListView({Key? key}) {
                         </svg>
 
                         ''', width: 250,
-                              )) : SizedBox.shrink()
+                              )) : SizedBox.shrink(),
+
                         ],
                       );
                     }
@@ -499,6 +499,7 @@ Widget buildDismissibleListView({Key? key}) {
                     }
 
 
+                      final isLastItem = index == savedLocations.length;
 
 
                     return Dismissible(
@@ -569,7 +570,7 @@ Widget buildDismissibleListView({Key? key}) {
                       },
                       child: Container(
                         padding: EdgeInsets.only(left: 14, right: 14),
-                        margin: EdgeInsets.only(bottom: 8),
+                        margin: EdgeInsets.only(bottom: isLastItem ? 150 : 8),
                         decoration: BoxDecoration(
                           color: Colors.transparent
                         ),
@@ -743,11 +744,18 @@ Widget buildDismissibleListView({Key? key}) {
     key: key,
     itemCount: savedLocations.length,
     
-    onReorder: (oldIndex, newIndex) {
+    onReorder: (oldIndex, newIndex) async {
       if (newIndex > oldIndex) newIndex--;
       final item = savedLocations.removeAt(oldIndex);
       savedLocations.insert(newIndex, item);
       setState(() {}); 
+
+        // SAVE NEW ORDER
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(
+        'saved_locations',
+        jsonEncode(savedLocations.map((e) => e.toJson()).toList()),
+      );
     },
 proxyDecorator: (child, index, animation) {
   return Material(
