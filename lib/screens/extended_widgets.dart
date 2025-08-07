@@ -1377,7 +1377,11 @@ final double maxUv = nonNullUvIndexes.isNotEmpty ? nonNullUvIndexes.reduce((a, b
 
   Widget buildAQIExtended(){
     int selectedIndex = 0;
-final ValueNotifier<int> tabIndexNotifier = ValueNotifier<int>(0);
+
+    final aqiUnit = PreferencesHelper.getString("selectedAQIUnit") ?? "United States";
+
+
+    final ValueNotifier<int> tabIndexNotifier = ValueNotifier<int>(aqiUnit == 'European' ? 1 : 0);
 
 
     return FutureBuilder<Map<String, dynamic>?>(
@@ -1395,7 +1399,6 @@ final ValueNotifier<int> tabIndexNotifier = ValueNotifier<int>(0);
       final weather = data['data'];
       final airQualityData = weather['air_quality']['current'];
 
-    final aqiUnit = PreferencesHelper.getString("selectedAQIUnit") ?? "United States";
 
     final aqiFormat = aqiUnit == 'European' ? airQualityData['european_aqi'] : airQualityData['us_aqi'];
 
@@ -1832,7 +1835,7 @@ final double maxprecipAmount = precipAmount.reduce((a, b) => a > b ? a : b);
                               top: 3,
                               child:
                             CircleAvatar(
-                                child:  Text("100%", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),),
+                                child:  Text("$precipProbMain%", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),),
                             )
                             ),
                           ]
