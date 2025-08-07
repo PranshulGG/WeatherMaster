@@ -148,6 +148,9 @@ bool willRainStopSoon() {
   @override
   Widget build(BuildContext context) {
 
+    final timeUnit = context.watch<UnitSettingsNotifier>().timeUnit;
+
+
   String? generateSummary(int? start, int? end) {
     if (start == null || end == null) return null;
 
@@ -160,7 +163,6 @@ bool willRainStopSoon() {
       _ => "light_rain".tr()
     };
 
-    final timeUnit = context.watch<UnitSettingsNotifier>().timeUnit;
 
 
     final startStr = timeUnit == '24 hr' ? DateFormat.Hm().format(DateTime.parse(next12Time[start])) :  DateFormat.jm().format(DateTime.parse(next12Time[start]));
@@ -285,7 +287,7 @@ bool willRainStopSoon() {
               return
               Padding(padding: EdgeInsets.only(left: 8),
               child: Text(
-                unitSettings.timeUnit == '24 hr' ? DateFormat.Hm().format(dt) : DateFormat.jm().format(dt),
+                timeUnit == '24 hr' ? DateFormat.Hm().format(dt) : DateFormat.jm().format(dt),
                 
                 style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 9),
               )
