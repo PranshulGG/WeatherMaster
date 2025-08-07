@@ -12,6 +12,7 @@ class SettingTextTile extends SettingTile {
     super.value,
     super.description,
     super.trailing,
+    super.fullempty
   });
 
   @override

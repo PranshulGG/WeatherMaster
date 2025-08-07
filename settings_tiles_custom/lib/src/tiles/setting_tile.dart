@@ -18,6 +18,7 @@ abstract class SettingTile extends StatelessWidget {
     this.title,
     this.description,
     this.trailing,
+    this.fullempty = false,
   });
 
   /// Whether the tile is visible.
@@ -25,6 +26,9 @@ abstract class SettingTile extends StatelessWidget {
 
   /// Whether the tile is enabled.
   final bool enabled;
+
+  final bool fullempty;
+
 
   /// The icon of the tile.
   ///
@@ -54,7 +58,7 @@ abstract class SettingTile extends StatelessWidget {
     }
 
     return ListTile(
-      contentPadding: const EdgeInsets.only(right: 16, left: 16),
+      contentPadding: fullempty ? const EdgeInsets.all(0) : const EdgeInsets.only(right: 16, left: 16),
       enabled: enabled,
       leading: icon,
       title: title,

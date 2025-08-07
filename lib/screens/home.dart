@@ -274,7 +274,7 @@ Future<void> saveLayoutConfig() async {
   } else if (isHomeLocation && lastUpdated != null) {
     final lastUpdateTime = DateTime.tryParse(lastUpdated);
     final now = DateTime.now();
-    if (lastUpdateTime != null && now.difference(lastUpdateTime).inMinutes < 4500) {
+    if (lastUpdateTime != null && now.difference(lastUpdateTime).inMinutes < 45) {
       _isAppFullyLoaded = true; 
     } else{
     checkAndUpdateHomeLocation();

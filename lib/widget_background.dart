@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:easy_localization/easy_localization.dart';
 import 'services/fetch_data.dart';
 import 'utils/preferences_helper.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +10,26 @@ import 'package:hive/hive.dart';
 import 'package:workmanager/workmanager.dart';
 import 'utils/unit_converter.dart';
 import 'utils/condition_label_map.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/services.dart' show rootBundle;
+
+
+@pragma('vm:entry-point')
+void callbackDispatcherBG() {
+  Workmanager().executeTask((task, inputData) async {
+
+
+    final dir = await getApplicationDocumentsDirectory();
+    Hive.init(dir.path);
+
+
+    await PreferencesHelper.init(); 
+    await updateHomeWidget(null);
+
+
+    return Future.value(true);
+  });
+}
+
 
 
 @pragma('vm:entry-point')
@@ -135,6 +157,20 @@ for (int i = 0; i < 4; i++) {
     final currentTempFormatted = "${convertedTemp.round()}";
     final maxTempFormatted = "${convertedMaxTemp.round()}";
     final minTempFormatted = "${convertedMinTemp.round()}";
+
+final conditionKey = WeatherConditionMapper.getConditionLabel(code, isDay);
+
+    // Load user's locale
+    final localeString = PreferencesHelper.getString('locale') ?? 'en';
+    final locale = Locale(localeString);
+
+    // Load the JSON translation manually
+    final String data = await rootBundle.loadString('assets/translations/${locale.languageCode}.json');
+    final Map<String, dynamic> translations = jsonDecode(data);
+
+    // Fallback to key if not found
+    final conditionName = translations[conditionKey] ?? conditionKey;
+
      
   await HomeWidget.saveWidgetData<String>('temperatureCurrentPill', currentTempFormatted);
   await HomeWidget.saveWidgetData<String>('weather_codeCurrentPill', code.toString());
@@ -142,8 +178,8 @@ for (int i = 0; i < 4; i++) {
   await HomeWidget.saveWidgetData<String>('todayMin', minTempFormatted);
   await HomeWidget.saveWidgetData<String>('locationNameWidget',
    "${PreferencesHelper.getJson('homeLocation')?['city']}, ${PreferencesHelper.getJson('homeLocation')?['country']}");
-  await HomeWidget.saveWidgetData<String>('locationCurrentConditon',
-   WeatherConditionMapper.getConditionLabel(code, isDay).tr());
+    await HomeWidget.saveWidgetData<String>('locationCurrentConditon', conditionName
+   );
 
 
   await HomeWidget.saveWidgetData<String>('isDayWidget', isDay.toString());
@@ -156,24 +192,5 @@ for (int i = 0; i < 4; i++) {
     print('[WidgetUpdate][ERROR] $e');
     print(stack);
   }
-}
-
-@pragma('vm:entry-point')
-void callbackDispatcherBG() {
-  Workmanager().executeTask((task, inputData) async {
-    WidgetsFlutterBinding.ensureInitialized();
-  await EasyLocalization.ensureInitialized();
-
-
-    final dir = await getApplicationDocumentsDirectory();
-    Hive.init(dir.path);
-
-
-    await PreferencesHelper.init(); 
-    await updateHomeWidget(null);
-
-
-    return Future.value(true);
-  });
 }
 
