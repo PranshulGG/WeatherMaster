@@ -511,5 +511,8 @@
     "email_text": "电子邮箱",
     "on_github": "在 Github 上",
     "checking": "检查中…",
-    "best_match": "最佳匹配"
+    "best_match": "最佳匹配",
+    "disable_battery_optimizations": "Disable battery optimizations",
+    "disable_battery_optimizations_sub": "Disabling battery optimization is required for background updates to function properly",
+    "disable_battery_optimizations_done": "Battery optimization already disabled"
 }
