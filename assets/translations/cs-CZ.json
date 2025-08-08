@@ -512,7 +512,7 @@
     "on_github": "Na webu Github",
     "checking": "Kontrola...",
     "best_match": "Nejlepší volba",
-    "disable_battery_optimizations": "Disable battery optimizations",
-    "disable_battery_optimizations_sub": "Disabling battery optimization is required for background updates to function properly",
-    "disable_battery_optimizations_done": "Battery optimization already disabled"
+    "disable_battery_optimizations": "Vypnutí optimalizace baterie",
+    "disable_battery_optimizations_sub": "Pro správnou funkci aktualizací na pozadí je nutné vypnout optimalizaci baterie",
+    "disable_battery_optimizations_done": "Optimalizace baterie je již vypnutá"
 }
