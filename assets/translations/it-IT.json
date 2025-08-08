@@ -511,5 +511,8 @@
     "email_text": "Email",
     "on_github": "Su Github",
     "checking": "Controllo...",
-    "best_match": "Corrispondenza migliore"
+    "best_match": "Corrispondenza migliore",
+    "disable_battery_optimizations": "Disable battery optimizations",
+    "disable_battery_optimizations_sub": "Disabling battery optimization is required for background updates to function properly",
+    "disable_battery_optimizations_done": "Battery optimization already disabled"
 }
