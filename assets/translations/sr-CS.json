@@ -512,7 +512,7 @@
     "on_github": "Na GitHubu",
     "checking": "Provera...",
     "best_match": "Najbolja podudarnost",
-    "disable_battery_optimizations": "Disable battery optimizations",
-    "disable_battery_optimizations_sub": "Disabling battery optimization is required for background updates to function properly",
-    "disable_battery_optimizations_done": "Battery optimization already disabled"
+    "disable_battery_optimizations": "Onemogući optimizaciju baterije",
+    "disable_battery_optimizations_sub": "Onemogućavanje optimizacije baterije je potrebno da bi pozadinske ažuriranja pravilno funkcionisala",
+    "disable_battery_optimizations_done": "Optimizacija baterije već isključena"
 }
