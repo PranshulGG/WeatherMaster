@@ -511,5 +511,8 @@
     "email_text": "Correu electrònic",
     "on_github": "A Github",
     "checking": "S'està comprovant...",
-    "best_match": "Millor resultat"
+    "best_match": "Millor resultat",
+    "disable_battery_optimizations": "Desactiva les optimitzacions de la bateria",
+    "disable_battery_optimizations_sub": "Cal desactivar l'optimització de la bateria perquè les actualitzacions en segon pla funcionin correctament",
+    "disable_battery_optimizations_done": "L'optimització de la bateria ja està desactivada"
 }

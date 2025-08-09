@@ -511,5 +511,8 @@
     "email_text": "Имејл",
     "on_github": "На Github-у",
     "checking": "Провера...",
-    "best_match": "Најбоље слагање"
+    "best_match": "Најбоље слагање",
+    "disable_battery_optimizations": "Искључи оптимизацију батерије",
+    "disable_battery_optimizations_sub": "Деактивирање оптимизације батерије је потребно да би ажурирања у позадини функционисала правилно",
+    "disable_battery_optimizations_done": "Оптимизација батерије већ искључена"
 }
