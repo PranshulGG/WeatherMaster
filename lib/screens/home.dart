@@ -1065,6 +1065,7 @@ Widget buildLayoutBlock(LayoutBlockType type) {
             dailyData: daily,
             currentData: current,
             airQualityData: weather['air_quality'],
+            utcOffsetSeconds: weather['utc_offset_seconds'].toString()
             
             );
 

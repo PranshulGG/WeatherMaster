@@ -7,19 +7,23 @@ import 'package:provider/provider.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import '../helper/locale_helper.dart';
 
+
 class SummaryCard extends StatefulWidget {
   final int selectedContainerBgIndex;
   final Map<String, dynamic> hourlyData;
   final Map<String, dynamic> dailyData;
   final Map<String, dynamic> currentData;
   final Map<String, dynamic> airQualityData;
+  final String utcOffsetSeconds;
+
 
   const SummaryCard({super.key, 
   required this.selectedContainerBgIndex,
   required this.hourlyData,
   required this.dailyData,
   required this.currentData,
-  required this.airQualityData
+  required this.airQualityData,
+  required this.utcOffsetSeconds
   });
 
 
@@ -29,6 +33,8 @@ class SummaryCard extends StatefulWidget {
 
 
 class _SummaryCardState extends State<SummaryCard> {
+
+
 
   String? _headline;
   List<String>? _bullets;
@@ -95,6 +101,8 @@ Map<String, dynamic> getEveningHumidityAndDew(Map<String, dynamic> hourly) {
 }
 
 
+
+
 String generateHeadline(
   double temp,
   double uv,
@@ -102,65 +110,94 @@ String generateHeadline(
   double humidity,
   double cloudCover,
   int weatherCode,
+  TimeOfDayPeriod period,
   {int? airQuality}
 ) {
-  String base;
+  List<String> options;
 
   if (isStormy(weatherCode)) {
-    base = _random([
+    options = [
       "summary_headlines_1".tr(),
       "summary_headlines_2".tr(),
       "summary_headlines_3".tr(),
-    ]);
+    ];
   } else if (isRainy(weatherCode)) {
-    base = _random([
+    options = [
       "summary_headlines_4".tr(),
       "summary_headlines_5".tr(),
       "summary_headlines_6".tr(),
-    ]);
+    ];
   } else if (isCloudy(cloudCover)) {
-    base = _random([
-      "summary_headlines_7".tr(),
-      "summary_headlines_8".tr(),
-      "summary_headlines_9".tr(),
-    ]);
-  } else if (uv > 7 && temp > 23 && isClear(cloudCover)) {
-    base = _random([
+    // Adjust cloudy phrases by time of day:
+    switch (period) {
+      case TimeOfDayPeriod.morning:
+        options = [
+          "summary_headlines_9".tr(),  
+          "summary_headlines_8".tr(),
+          "summary_headlines_7".tr(),
+        ];
+        break;
+      case TimeOfDayPeriod.afternoon:
+        options = [
+          "Cloudy and cool this afternoon",
+          "Gray skies and little sunshine",
+          "Expect some cloud cover later today",
+        ];
+        break;
+      case TimeOfDayPeriod.evening:
+        options = [
+          "Cloudy evening with calm winds",
+          "Overcast skies at sunset",
+          "Cloud cover lingering tonight",
+        ];
+        break;
+      case TimeOfDayPeriod.night:
+        options = [
+          "Cloudy overnight skies",
+          "Overcast night ahead",
+          "Clouds holding through the night",
+        ];
+        break;
+    }
+  } else if ((period == TimeOfDayPeriod.morning || period == TimeOfDayPeriod.afternoon) && uv > 7 && temp > 23 && isClear(cloudCover)) {
+    options = [
       "summary_headlines_10".tr(),
       "summary_headlines_11".tr(),
       "summary_headlines_12".tr(),
-    ]);
-  } else if (uv > 7 && isClear(cloudCover)) {
-    base = _random([
+    ];
+  } else if ((period == TimeOfDayPeriod.morning || period == TimeOfDayPeriod.afternoon) && uv > 7 && isClear(cloudCover)) {
+    options = [
       "summary_headlines_13".tr(),
       "summary_headlines_14".tr(),
       "summary_headlines_15".tr(),
-    ]);
+    ];
   } else if (humidity > 75) {
-    base = _random([
+    options = [
       "summary_headlines_16".tr(),
       "summary_headlines_17".tr(),
       "summary_headlines_18".tr(),
-    ]);
+    ];
   } else if (wind > 15) {
-    base = _random([
+    options = [
       "summary_headlines_19".tr(),
       "summary_headlines_20".tr(),
       "summary_headlines_21".tr(),
-    ]);
+    ];
   } else if (temp < 15) {
-    base = _random([
+    options = [
       "summary_headlines_22".tr(),
       "summary_headlines_23".tr(),
       "summary_headlines_24".tr(),
-    ]);
+    ];
   } else {
-    base = _random([
+    options = [
       "summary_headlines_25".tr(),
       "summary_headlines_26".tr(),
       "summary_headlines_27".tr(),
-    ]);
+    ];
   }
+
+  final base = _random(options);
 
   final suffix = getHeadlineSuffix(
     uv: uv,
@@ -168,6 +205,7 @@ String generateHeadline(
     airQuality: airQuality,
     temp: temp,
     humidity: humidity,
+    period: period,
   );
 
   return "$base$suffix";
@@ -180,10 +218,11 @@ String getHeadlineSuffix({
   required int? airQuality,
   required double temp,
   required double humidity,
+  required TimeOfDayPeriod period
 }) {
   final suffixes = <String>[];
 
-  if (uv >= 7) {
+  if ((period == TimeOfDayPeriod.morning || period == TimeOfDayPeriod.afternoon) && uv >= 7) {
     suffixes.add(_random([
       "summary_suffixes_1".tr(),
       "summary_suffixes_2".tr(),
@@ -227,6 +266,7 @@ String _random(List<String> options) {
 }
 
 
+
 void computeWeatherSummary() {
   final currentTemp = widget.currentData['temperature_2m']?.toDouble() ?? 0;
   final windSpeed = widget.currentData['wind_speed_10m']?.toDouble() ?? 0;
@@ -252,6 +292,24 @@ void computeWeatherSummary() {
   final readableDayLengthTime =
       "${dayLengthDuration.inHours} ${"hrs_sub_text".tr()} ${dayLengthDuration.inMinutes.remainder(60)} ${"mins_sub_text".tr()}";
 
+
+    int offsetSeconds = int.parse(widget.utcOffsetSeconds);
+    DateTime utcNow = DateTime.now().toUtc();
+    DateTime now = utcNow.add(Duration(seconds: offsetSeconds));
+
+    now = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      now.hour,
+      now.minute,
+      now.second,
+      now.millisecond,
+      now.microsecond,
+    );
+
+final period = getTimeOfDayPeriod(now);
+
   setState(() {
     _headline = generateHeadline(
       currentTemp,
@@ -260,6 +318,7 @@ void computeWeatherSummary() {
       humidity,
       cloudCoverNow,
       weatherCodeNow,
+       period,
       airQuality: airQuality,
     );
 
@@ -611,4 +670,19 @@ bool isExpanded = false;
 
 
 
-// widget.currentData['wind_speed_10m']
+
+
+enum TimeOfDayPeriod { morning, afternoon, evening, night }
+
+TimeOfDayPeriod getTimeOfDayPeriod(DateTime now) {
+  final hour = now.hour;
+  if (hour >= 5 && hour < 11) {
+    return TimeOfDayPeriod.morning;
+  } else if (hour >= 11 && hour < 17) {
+    return TimeOfDayPeriod.afternoon;
+  } else if (hour >= 17 && hour < 21) {
+    return TimeOfDayPeriod.evening;
+  } else {
+    return TimeOfDayPeriod.night;
+  }
+}
