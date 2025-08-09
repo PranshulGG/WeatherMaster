@@ -514,5 +514,21 @@
     "best_match": "Najbolja podudarnost",
     "disable_battery_optimizations": "Onemogući optimizaciju baterije",
     "disable_battery_optimizations_sub": "Onemogućavanje optimizacije baterije je potrebno da bi pozadinske ažuriranja pravilno funkcionisala",
-    "disable_battery_optimizations_done": "Optimizacija baterije već isključena"
+    "disable_battery_optimizations_done": "Optimizacija baterije već isključena",
+    "background_updates": "Background updates",
+    "refresh_interval": "Refresh interval",
+    "hours": "hours",
+    "minutes": "minutes",
+    "allow_notification_permission": "Allow notification permission",
+    "allow_notification_permission_sub": "Permission is required for background app updates",
+    "scheduled_updates": "Scheduled updates",
+    "summary_headlines_28": "Cloudy and cool this afternoon",
+    "summary_headlines_29": "Sivo nebo i malo sunca",
+    "summary_headlines_30": "Expect some cloud cover later today",
+    "summary_headlines_31": "Cloudy evening with calm winds",
+    "summary_headlines_32": "Overcast skies at sunset",
+    "summary_headlines_33": "Cloud cover lingering tonight",
+    "summary_headlines_34": "Cloudy overnight skies",
+    "summary_headlines_35": "Overcast night ahead",
+    "summary_headlines_36": "Clouds holding through the night"
 }
