@@ -514,5 +514,21 @@
     "best_match": "最適",
     "disable_battery_optimizations": "Disable battery optimizations",
     "disable_battery_optimizations_sub": "Disabling battery optimization is required for background updates to function properly",
-    "disable_battery_optimizations_done": "Battery optimization already disabled"
+    "disable_battery_optimizations_done": "Battery optimization already disabled",
+    "background_updates": "Background updates",
+    "refresh_interval": "Refresh interval",
+    "hours": "hours",
+    "minutes": "minutes",
+    "allow_notification_permission": "Allow notification permission",
+    "allow_notification_permission_sub": "Permission is required for background app updates",
+    "scheduled_updates": "Scheduled updates",
+    "summary_headlines_28": "Cloudy and cool this afternoon",
+    "summary_headlines_29": "Gray skies and little sunshine",
+    "summary_headlines_30": "Expect some cloud cover later today",
+    "summary_headlines_31": "Cloudy evening with calm winds",
+    "summary_headlines_32": "Overcast skies at sunset",
+    "summary_headlines_33": "Cloud cover lingering tonight",
+    "summary_headlines_34": "Cloudy overnight skies",
+    "summary_headlines_35": "Overcast night ahead",
+    "summary_headlines_36": "Clouds holding through the night"
 }
