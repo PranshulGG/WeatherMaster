@@ -1,52 +1,13 @@
 import 'dart:convert';
-
-import 'package:easy_localization/easy_localization.dart';
 import 'services/fetch_data.dart';
 import 'utils/preferences_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:hive/hive.dart';
-import 'package:workmanager/workmanager.dart';
 import 'utils/unit_converter.dart';
 import 'utils/condition_label_map.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
-
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
-
-@pragma('vm:entry-point')
-void callbackDispatcherBG() {
-  Workmanager().executeTask((task, inputData) async {
-    WidgetsFlutterBinding.ensureInitialized();
-
-
-    final dir = await getApplicationDocumentsDirectory();
-    Hive.init(dir.path);
-
-
-    await PreferencesHelper.init(); 
-
-    // Initialize the notification plugin
-    const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
-
-    final InitializationSettings initializationSettings =
-        InitializationSettings(android: initializationSettingsAndroid);
-
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-
-    // Show the notification
-    await showBackgroundNotification();
-
-    await updateHomeWidget(null, updatedFromHome: false);
-
-
-    return Future.value(true);
-  });
-}
 
 
 
@@ -55,7 +16,21 @@ Future<void> updateHomeWidget(weather, {bool updatedFromHome = false}) async {
    try {
 
 
+    WidgetsFlutterBinding.ensureInitialized();
+
+
+    final dir = await getApplicationDocumentsDirectory();
+    Hive.init(dir.path);
+
+
+    await PreferencesHelper.init(); 
   await HomeWidget.setAppGroupId('com.pranshulgg.weather_master_app');
+
+  double _safeToDouble(dynamic value, [double fallback = 0.0]) {
+  if (value == null) return fallback;
+  if (value is num) return value.toDouble();
+  return double.tryParse(value.toString()) ?? fallback;
+}
 
   final dynamic temp;
   final dynamic code;
@@ -70,9 +45,33 @@ Future<void> updateHomeWidget(weather, {bool updatedFromHome = false}) async {
   final timeUnit = PreferencesHelper.getString("selectedTimeUnit") ?? "12 hr";
   final tempUnit = PreferencesHelper.getString("selectedTempUnit") ?? "Celsius";
 
-  if(updatedFromHome == false && weather == null){
+  final triggerFromWorker = PreferencesHelper.getBool("triggerfromWorker") ?? false;
+  String? lastUpdatedString = PreferencesHelper.getString('lastUpdatedFromHome');
+
+  if(weather == null && updatedFromHome == false){
+
+    if(triggerFromWorker == false){
+      PreferencesHelper.setBool('triggerfromWorker', true);
+      return;
+    }
+
+
+    if (lastUpdatedString != null) {
+          DateTime lastUpdated = DateTime.parse(lastUpdatedString);
+
+          Duration difference = DateTime.now().difference(lastUpdated);
+
+          if (difference.inMinutes < 45) {
+           return;
+          } 
+    }
+
   final weatherService = WeatherService();
   final homeLocation = PreferencesHelper.getJson('homeLocation');
+
+  if(homeLocation == null){
+    return;
+  }
 
   final result = await weatherService.fetchWeather(
     homeLocation?['lat']!,
@@ -83,7 +82,7 @@ Future<void> updateHomeWidget(weather, {bool updatedFromHome = false}) async {
   );
 
    final current = result!['data']['current'];
-   temp = current['temperature_2m'].toDouble();
+   temp = _safeToDouble(current['temperature_2m'].toDouble());
    code = current['weather_code'];
   final dailyData = result!['data']['daily'];
   final hourly = result!['data']['hourly'] ?? {};
@@ -93,8 +92,8 @@ Future<void> updateHomeWidget(weather, {bool updatedFromHome = false}) async {
   hourlyWeatherCodes = hourly['weather_code'];
 
 
-   maxTemp = dailyData['temperature_2m_max'][0];
-   minTemp = dailyData['temperature_2m_min'][0];
+   maxTemp = _safeToDouble(dailyData['temperature_2m_max'][0]);
+   minTemp = _safeToDouble(dailyData['temperature_2m_min'][0]);
    isDay = current['is_day'];
 
    utcOffsetSeconds = result!['data']['utc_offset_seconds'].toString();
@@ -204,38 +203,12 @@ final conditionKey = WeatherConditionMapper.getConditionLabel(code, isDay);
 
   await HomeWidget.updateWidget(name: 'WeatherWidgetProvider', iOSName: null);
   await HomeWidget.updateWidget(name: 'WeatherWidgetCastProvider', iOSName: null);
+  await HomeWidget.updateWidget(name: 'PillWidgetProvider', iOSName: null);
+
 
    print('[WidgetUpdate] Called updateWidget');
    } catch (e, stack) {
     print('[WidgetUpdate][ERROR] $e');
     print(stack);
   }
-}
-
-Future<void> showBackgroundNotification() async {
-  const AndroidNotificationDetails androidPlatformChannelSpecifics =
-    AndroidNotificationDetails(
-  'weather_updates_channel',
-  'Weather Updates',
-  channelDescription: 'Updating your weather widget',
-  importance: Importance.high,
-  priority: Priority.high,
-  icon: 'ic_stat_cloud_download', 
-  showProgress: true,
-  indeterminate: true,
-  ongoing: true,
-);
-
-  const NotificationDetails platformChannelSpecifics =
-      NotificationDetails(android: androidPlatformChannelSpecifics);
-
-  await flutterLocalNotificationsPlugin.show(
-    0, 
-    'Weather Updated',
-    '',
-    platformChannelSpecifics,
-  );
-  
-    await Future.delayed(const Duration(seconds: 5));
-    await flutterLocalNotificationsPlugin.cancel(0);
 }

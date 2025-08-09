@@ -63,9 +63,7 @@ dependencies:
   solar_calculator: ^1.0.3
   file_picker: ^10.2.0
   flutter_dotenv: ^5.2.1
-  workmanager: ^0.9.0
   home_widget: ^0.8.0
-  flutter_local_notifications: ^19.4.0
 
 
 

@@ -21,11 +21,18 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../services/data_backup_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:ui' as ui;
+import 'services/widget_service.dart';
 import 'widget_background.dart';
-import 'package:workmanager/workmanager.dart';
 
 
 final CorePalette paletteStartScreen = CorePalette.of(const Color.fromARGB(255, 255, 196, 0).toARGB32());
+
+@pragma('vm:entry-point')
+Future<void> workerUpdateWidget() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await updateHomeWidget(null, updatedFromHome: false);
+}
+
 
 
 const easySupportedLocales = [
@@ -74,6 +81,7 @@ final flutterSupportedLocales = easySupportedLocales
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+    listenForServiceEvents();
   await EasyLocalization.ensureInitialized();
 
   await SystemChrome.setPreferredOrientations([
@@ -86,35 +94,25 @@ void main() async {
 
     
   await PreferencesHelper.init(); 
+
+  PreferencesHelper.setBool('triggerfromWorker', false);
+
+
  await dotenv.load(fileName: ".env");
 
   final dir = await getApplicationDocumentsDirectory();
   Hive.init(dir.path);
+
+
   // widget------
 
-  bool isTaskRegistered = prefs.getBool("weatherTaskRegistered") ?? false;
-  bool useBackgroundUpdates = prefs.getBool("useBackgroundUpdates") ?? true;
+  bool useBackgroundUpdates = prefs.getBool("useBackgroundUpdates") ?? false;
+  bool isTaskRunning = prefs.getBool("runningTaskBackground") ?? false;
 
-
-   await Workmanager().initialize(
-    callbackDispatcherBG,
-    isInDebugMode: false,
-  );
-
-
-if (!isTaskRegistered && useBackgroundUpdates) {
-  await Workmanager().registerPeriodicTask(
-    "weatherAutoUpdateTask",
-    "weatherUpdate",
-    frequency: Duration(minutes: 90),
-    constraints: Constraints(
-      networkType: NetworkType.connected,
-    ),
-  );
-  prefs.setBool("weatherTaskRegistered", true);
-}
-
-
+  if (isTaskRunning == false && useBackgroundUpdates) {
+    startWeatherService();
+    prefs.setBool("runningTaskBackground", true);
+  }
   // widget ------
 
 

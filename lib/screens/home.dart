@@ -1025,7 +1025,9 @@ final bool shouldShowRainBlock = bestStart != null && bestEnd != null;
 
 
 if(!widgetsUpdated){
-  updateHomeWidget(weather); // update once on start
+  updateHomeWidget(weather, updatedFromHome: true); // update once on start
+  PreferencesHelper.setBool('triggerfromWorker', false);
+  PreferencesHelper.setString('lastUpdatedFromHome', DateTime.now().toIso8601String());
   widgetsUpdated = true;
 }
 

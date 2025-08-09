@@ -3,8 +3,8 @@
     android:minWidth="100dp"
     android:minHeight="100dp"
     android:updatePeriodMillis="0"
-    android:initialLayout="@layout/widget_hourly_current"
+    android:initialLayout="@layout/pill_widget"
     android:resizeMode="horizontal|vertical"
-    android:previewImage="@drawable/current_hourly_prev"
-    android:label="Current + hourly"
+    android:previewImage="@drawable/pill_prev"
+    android:label="Current pill"
     android:widgetCategory="home_screen" />

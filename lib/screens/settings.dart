@@ -15,8 +15,7 @@ import 'about_page.dart';
 import 'meteo_models.dart';
 import 'edit_layout_page.dart';
 import '../services/data_backup_service.dart';
-import 'package:workmanager/workmanager.dart';
-import 'package:flutter/services.dart';
+import '../screens/background_updates.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -250,6 +249,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       );
                     }, 
                   ),  
+
+                SettingActionTile(
+                    icon: Icon(Symbols.update, fill: 1, weight: 500),
+                    title: Text('Background updates'),
+                    trailing: Icon(Icons.chevron_right),
+                    onTap: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) =>  BackgroundUpdatesPage()),
+                      );
+                    }, 
+                  ),  
                   
                   SettingSwitchTile(
                     icon: Icon(Symbols.assistant_navigation, fill: 1, weight: 500),
@@ -286,26 +296,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   }, 
                   ),
 
-                SettingSwitchTile(
-                    icon: Icon(Symbols.update, fill: 1, weight: 500),
-                    title: Text("Background updates"),
-                    description: Text("Allow background activity. Turning it off may stop widget updates"),
-                    
-                    toggled: PreferencesHelper.getBool("useBackgroundUpdates") ?? true,
-                    
-                    onChanged: (value) {
-                     PreferencesHelper.setBool("useBackgroundUpdates", value);
-                      triggerBgUpdates(value);
-                    setState(() {
-
-                    });
-                  }, 
-                  ),
-
-               SettingTextTile(
-                fullempty: true,
-                title: BatteryOptWidget(),
-              ),        
 
                   SettingActionTile(
                     icon: Icon(Symbols.nest_farsight_weather, fill: 1, weight: 500),
@@ -488,87 +478,3 @@ Map<String, String> getLanguageNamesSettingsView(Locale locale) {
 }
 
 
-Future<void> triggerBgUpdates(value) async {
-    if(value == false){
-    await Workmanager().cancelAll();
-    PreferencesHelper.setBool('weatherTaskRegistered', value);
-    } else{
-    await Workmanager().registerPeriodicTask(
-    "weatherAutoUpdateTask",
-    "weatherUpdate",
-    frequency: Duration(minutes: 90),
-    constraints: Constraints(
-      networkType: NetworkType.connected,
-    ),
-  );
-    PreferencesHelper.setBool('weatherTaskRegistered', value);
-  }
-}
-
-class BatteryOptimization {
-  static const _channel = MethodChannel('com.pranshulgg.battery_optimization');
-
-  /// Checks if the app is ignoring battery optimizations
-  static Future<bool> isIgnoringBatteryOptimizations() async {
-    try {
-      final bool result =
-          await _channel.invokeMethod('isIgnoringBatteryOptimizations');
-      return result;
-    } catch (_) {
-      return false;
-    }
-  }
-
-  /// Shows the system dialog to request battery optimization exemption
-  static Future<void> requestIgnoreBatteryOptimizations() async {
-    try {
-      await _channel.invokeMethod('requestIgnoreBatteryOptimizations');
-    } catch (e) {
-      print("Error requesting battery optimization: $e");
-    }
-  }
-}
-
-
-class BatteryOptWidget extends StatefulWidget {
-  @override
-  _BatteryOptWidgetState createState() => _BatteryOptWidgetState();
-}
-
-class _BatteryOptWidgetState extends State<BatteryOptWidget> {
-  bool? _isWhitelisted;
-
-  @override
-  void initState() {
-    super.initState();
-    _checkBatteryStatus();
-  }
-
-  Future<void> _checkBatteryStatus() async {
-    final isWhitelisted = await BatteryOptimization.isIgnoringBatteryOptimizations();
-    setState(() {
-      _isWhitelisted = isWhitelisted;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (_isWhitelisted == null) {
-      return const CircularProgressIndicator();
-    }
-
-    return _isWhitelisted!
-        ?  Padding(padding: EdgeInsets.only(left: 16, right: 16),
-          child: Text("Battery optimization already disabled", style: TextStyle(color: Theme.of(context).colorScheme.tertiary)),
-         )
-        : SettingActionTile(
-                  icon: null,
-                  title: Text('Disable battery optimizations', style: TextStyle(color: Theme.of(context).colorScheme.error),),
-                  description: Text('Disabling battery optimization is required for background updates to function properly', style: TextStyle(color: Theme.of(context).colorScheme.error)),
-            onTap: () async {
-              await BatteryOptimization.requestIgnoreBatteryOptimizations();
-              _checkBatteryStatus();
-            },
-        );
-  }
-}

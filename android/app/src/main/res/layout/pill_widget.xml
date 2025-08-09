@@ -1,0 +1,33 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root_pill"
+    android:layout_width="200dp"
+    android:layout_height="200dp"
+    android:background="@drawable/shape_set">
+
+
+
+    <ImageView
+        android:id="@+id/widget_icon_current_pill_pixel"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginBottom="37dp"
+        android:src="@drawable/heavy_rain" />
+
+
+    <TextView
+        android:id="@+id/current_widget_temp_pill_pixel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="45dp"
+        android:layout_marginRight="35dp"
+        android:text="13°"
+        android:textColor="@color/colorPrimary"
+        android:textSize="55sp"
+        android:textStyle="bold" />
+</RelativeLayout>

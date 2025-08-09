@@ -62,11 +62,11 @@ class WeatherWidgetCastProvider : AppWidgetProvider() {
         // Get widget size information
         val options = newOptions ?: manager.getAppWidgetOptions(id)
         val minWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
-        
+
         // Determine widget size category
         val widgetSize = when {
-            minWidth > 250 -> WidgetSize.LARGE  // Show all elements
-            minWidth > 150 -> WidgetSize.MEDIUM // Hide location name
+            minWidth > 300 -> WidgetSize.LARGE  // Show all elements
+            minWidth > 250 -> WidgetSize.MEDIUM // Hide location name
             else -> WidgetSize.SMALL           // Hide both location and condition
         }
 

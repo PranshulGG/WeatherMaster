@@ -5,4 +5,6 @@
     android:updatePeriodMillis="0"
     android:initialLayout="@layout/weather_widget"
     android:resizeMode="horizontal|vertical"
+    android:previewImage="@drawable/current_horiz_pill_prev"
+    android:label="Current horizontal pill"
     android:widgetCategory="home_screen" />

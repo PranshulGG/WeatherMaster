@@ -12,6 +12,8 @@ class SettingSection extends StatelessWidget {
     this.title,
     this.divider,
     this.styleTile = false,
+    this.PrimarySwitch = false,
+    this.errorTile = false,
   });
 
   /// The title of the setting section.
@@ -23,6 +25,10 @@ class SettingSection extends StatelessWidget {
   /// A divider displayed between the setting tiles.
   final Divider? divider;
   final bool styleTile;
+  final bool PrimarySwitch;
+  final bool errorTile;
+
+
 
 Widget _wrapStyledTile(BuildContext context, Widget tile,
     {required bool isFirst, required bool isLast, required bool isOnly}) {
@@ -45,7 +51,7 @@ Widget _wrapStyledTile(BuildContext context, Widget tile,
               : BorderRadius.circular(6);
 
   return Material(
-    color: Theme.of(context).colorScheme.surfaceContainerLowest,
+    color: PrimarySwitch ? Theme.of(context).colorScheme.primaryContainer : errorTile ? Theme.of(context).colorScheme.errorContainer : Theme.of(context).colorScheme.surfaceContainerLowest,
     shape: RoundedRectangleBorder(borderRadius: borderRadius),
     clipBehavior: Clip.hardEdge,
     child: tile,
