@@ -57,7 +57,9 @@ class WeatherUpdateWorker(
                 flutterEngine?.destroy()
             }
 
-
+        // Update last_weather_update timestamp after successful update
+        val prefs = applicationContext.getSharedPreferences("weather_prefs", Context.MODE_PRIVATE)
+        prefs.edit().putLong("last_weather_update", System.currentTimeMillis()).apply()
              delay(6000)
             Result.success()
 

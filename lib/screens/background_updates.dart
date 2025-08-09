@@ -7,7 +7,6 @@ import '../services/notificationservice_native.dart';
 import '../services/widget_service.dart';
 import 'package:flutter/services.dart';
 import '../screens/worker_log_page.dart';
-import '../services/widget_service.dart';
 
 class BackgroundUpdatesPage extends StatefulWidget {
   const BackgroundUpdatesPage({super.key});
@@ -42,14 +41,14 @@ class _BackgroundUpdatesPageState extends State<BackgroundUpdatesPage> {
 
 
     final optionsInterval = {
-      30: "30 minutes",
-      60: "1 hour",
-      90: "1.5 hours",
-      120: "2 hours",
-      180: "3 hours",
-      240: "4 hours",
-      300: "5 hours",
-      360: "6 hours",
+      30: "30 ${"minutes".tr()}",
+      60: "1 ${"hours".tr()}",
+      90: "1.5 ${"hours".tr()}",
+      120: "2 ${"hours".tr()}",
+      180: "3 ${"hours".tr()}",
+      240: "4 ${"hours".tr()}",
+      300: "5 ${"hours".tr()}",
+      360: "6 ${"hours".tr()}",
     };
 
 
@@ -60,7 +59,7 @@ class _BackgroundUpdatesPageState extends State<BackgroundUpdatesPage> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar.large(
-            title: Text('Background updates'),
+            title: Text('background_updates'.tr()),
             titleSpacing: 0,
             backgroundColor: Theme.of(context).colorScheme.surface,
             scrolledUnderElevation: 1,            
@@ -73,8 +72,8 @@ class _BackgroundUpdatesPageState extends State<BackgroundUpdatesPage> {
                   errorTile: true,
                   tiles: [
                     SettingActionTile(
-                     title: Text("Allow notification permission", style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer),), 
-                     description: Text("Permission is required for background app updates"),
+                     title: Text("allow_notification_permission".tr(), style: TextStyle(color: Theme.of(context).colorScheme.onErrorContainer),), 
+                     description: Text("allow_notification_permission_sub".tr()),
                      visible:  !_permissionGranted,
                       onTap: () async {
                         _RequestloadPermission();
@@ -110,9 +109,9 @@ class _BackgroundUpdatesPageState extends State<BackgroundUpdatesPage> {
                     title: SettingSectionTitle('additional'.tr(), noPadding: true,),
                     tiles: [
                     SettingSingleOptionTile(
-                          title: Text('Refresh Interval'),
+                          title: Text('refresh_interval'.tr()),
                           value: SettingTileValue(optionsInterval[refreshInterval]!),
-                          dialogTitle: 'Refresh Interval',
+                          dialogTitle: 'refresh_interval'.tr(),
                           options: optionsInterval.values.toList(),
                           initialOption: optionsInterval[refreshInterval]!,
                           onSubmitted: (value) {
@@ -131,7 +130,7 @@ class _BackgroundUpdatesPageState extends State<BackgroundUpdatesPage> {
                     title: BatteryOptWidget(), // 0%
                   ),      
                   SettingActionTile(
-                  title: Text('Scheduled updates',),
+                  title: Text('scheduled_updates'.tr(),),
                   trailing: Icon(Symbols.chevron_right),
                     onTap: () async {
                       Navigator.of(context).push(
@@ -230,12 +229,12 @@ class _BatteryOptWidgetState extends State<BatteryOptWidget> with WidgetsBinding
 
     return _isWhitelisted!
         ?  Padding(padding: EdgeInsets.only(left: 16, right: 16),
-          child: Text("Battery optimization already disabled", style: TextStyle(color: Theme.of(context).colorScheme.tertiary)),
+          child: Text("disable_battery_optimizations_done".tr(), style: TextStyle(color: Theme.of(context).colorScheme.tertiary)),
          )
         : SettingActionTile(
                   icon: null,
-                  title: Text('Disable battery optimizations', style: TextStyle(color: Theme.of(context).colorScheme.error),),
-                  description: Text('Disabling battery optimization is required for background updates to function properly', style: TextStyle(color: Theme.of(context).colorScheme.error)),
+                  title: Text('disable_battery_optimizations'.tr(), style: TextStyle(color: Theme.of(context).colorScheme.error),),
+                  description: Text('disable_battery_optimizations_sub'.tr(), style: TextStyle(color: Theme.of(context).colorScheme.error)),
             onTap: () async {
               await BatteryOptimization.requestIgnoreBatteryOptimizations();
             },

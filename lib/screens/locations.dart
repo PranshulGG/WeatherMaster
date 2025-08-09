@@ -174,7 +174,7 @@ Future<String?> getWeatherLastUpdatedFromCache(cacheKey) async {
               if (updated == true) {
                 await loadSavedLocations(); 
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Location saved')),
+                  SnackBar(content: Text('location_saved'.tr())),
                 );
               } else if(updated == false && PreferencesHelper.getString("selectedViewLocation") != null){
                 Navigator.pop(context, {'viewLocaton': true}

@@ -51,7 +51,7 @@ class AboutPage extends StatelessWidget {
             ),
             ListTile(
               leading: CircleAvatar(radius: 23,child: Icon(Symbols.mail),),
-              title: Text("Email"),
+              title: Text("email_text".tr()),
               subtitle: Text("pranshul.devmain@gmail.com"),
               onTap: () {
                 openLink("mailto:pranshul.devmain@gmail.com");
@@ -60,7 +60,7 @@ class AboutPage extends StatelessWidget {
             ListTile(
               leading: CircleAvatar(radius: 23,child: Icon(Symbols.code),),
               title: Text("source_code".tr()),
-              subtitle: Text("On Github"),
+              subtitle: Text("on_github".tr()),
               onTap: () {
                 openLink("https://github.com/PranshulGG/WeatherMaster");
               },
@@ -68,7 +68,7 @@ class AboutPage extends StatelessWidget {
             ListTile(
               leading: CircleAvatar(radius: 23,child: Icon(Symbols.bug_report),),
               title: Text("create_an_issue".tr()),
-              subtitle: Text("On Github"),
+              subtitle: Text("on_github".tr()),
               onTap: () {
                 openLink("https://github.com/PranshulGG/WeatherMaster/issues/");
               },
@@ -390,7 +390,7 @@ class _CheckUpdateButtonState extends State<CheckUpdateButton> {
       FilledButton.icon(
     onPressed: isChecking ? null : checkForUpdates,
     icon: Icon(Symbols.refresh, weight: 700,),
-    label: Text(isChecking ? 'Checking...' : currentVersion, style: TextStyle(fontWeight: FontWeight.w700)),
+    label: Text(isChecking ? 'checking'.tr() : currentVersion, style: TextStyle(fontWeight: FontWeight.w700)),
     style: ButtonStyle(
       padding: WidgetStateProperty.all(
         EdgeInsets.symmetric(horizontal: 12, vertical: 5),

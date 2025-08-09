@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../utils/preferences_helper.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class WorkInfoWidget extends StatefulWidget {
   @override
@@ -41,14 +42,17 @@ Future<void> _getWorkInfo() async {
 }
 
 
+
 @override
 Widget build(BuildContext context) {
+  
+
   return Scaffold(
     backgroundColor: Theme.of(context).colorScheme.surface,
     body: CustomScrollView(
       slivers: [
         SliverAppBar.large(
-          title: Text('Scheduled updates'),
+          title: Text('scheduled_updates'.tr()),
           titleSpacing: 0,
           backgroundColor: Theme.of(context).colorScheme.surface,
           scrolledUnderElevation: 1,

@@ -129,7 +129,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
       } else if (snapshot.hasError) {
         return Center(child: Text('Error: ${snapshot.error}'));
       } else if (!snapshot.hasData || snapshot.data == null) {
-        return const Center(child: Text('No data available'));
+        return Center(child: Text('no_data_available'.tr()));
       }
 
       final data = snapshot.data!;
@@ -336,7 +336,7 @@ final int avgHumidity = todayHumidities.isNotEmpty
       } else if (snapshot.hasError) {
         return Center(child: Text('Error: ${snapshot.error}'));
       } else if (!snapshot.hasData || snapshot.data == null) {
-        return const Center(child: Text('No data available'));
+        return Center(child: Text('no_data_available'.tr()));
       }
 
       final data = snapshot.data!;
@@ -560,7 +560,7 @@ final duskFormatted = formatInstantToLocalTime(dusk, timeUnit: timeFormatDUSKDAW
       } else if (snapshot.hasError) {
         return Center(child: Text('Error: ${snapshot.error}'));
       } else if (!snapshot.hasData || snapshot.data == null) {
-        return const Center(child: Text('No data available'));
+        return Center(child: Text('no_data_available'.tr()));
       }
 
       final data = snapshot.data!;
@@ -797,7 +797,7 @@ final duskFormatted = formatInstantToLocalTime(dusk, timeUnit: timeFormatDUSKDAW
       } else if (snapshot.hasError) {
         return Center(child: Text('Error: ${snapshot.error}'));
       } else if (!snapshot.hasData || snapshot.data == null) {
-        return const Center(child: Text('No data available'));
+        return Center(child: Text('no_data_available'.tr()));
       }
 
       final data = snapshot.data!;
@@ -898,7 +898,7 @@ final duskFormatted = formatInstantToLocalTime(dusk, timeUnit: timeFormatDUSKDAW
       } else if (snapshot.hasError) {
         return Center(child: Text('Error: ${snapshot.error}'));
       } else if (!snapshot.hasData || snapshot.data == null) {
-        return const Center(child: Text('No data available'));
+        return Center(child: Text('no_data_available'.tr()));
       }
 
       final data = snapshot.data!;
@@ -1148,7 +1148,7 @@ Widget buildUVExtended(){
       } else if (snapshot.hasError) {
         return Center(child: Text('Error: ${snapshot.error}'));
       } else if (!snapshot.hasData || snapshot.data == null) {
-        return const Center(child: Text('No data available'));
+        return Center(child: Text('no_data_available'.tr()));
       }
 
       final data = snapshot.data!;
@@ -1392,7 +1392,7 @@ final double maxUv = nonNullUvIndexes.isNotEmpty ? nonNullUvIndexes.reduce((a, b
       } else if (snapshot.hasError) {
         return Center(child: Text('Error: ${snapshot.error}'));
       } else if (!snapshot.hasData || snapshot.data == null) {
-        return const Center(child: Text('No data available'));
+        return Center(child: Text('no_data_available'.tr()));
       }
 
       final data = snapshot.data!;
@@ -1669,7 +1669,7 @@ Widget buildPrecipExtended(){
       } else if (snapshot.hasError) {
         return Center(child: Text('Error: ${snapshot.error}'));
       } else if (!snapshot.hasData || snapshot.data == null) {
-        return const Center(child: Text('No data available'));
+        return Center(child: Text('no_data_available'.tr()));
       }
 
       final data = snapshot.data!;

@@ -139,23 +139,23 @@ String generateHeadline(
         break;
       case TimeOfDayPeriod.afternoon:
         options = [
-          "Cloudy and cool this afternoon",
-          "Gray skies and little sunshine",
-          "Expect some cloud cover later today",
+          "summary_headlines_28".tr(),
+          "summary_headlines_29".tr(),
+          "summary_headlines_30".tr(),
         ];
         break;
       case TimeOfDayPeriod.evening:
         options = [
-          "Cloudy evening with calm winds",
-          "Overcast skies at sunset",
-          "Cloud cover lingering tonight",
+          "summary_headlines_31".tr(),
+          "summary_headlines_32".tr(),
+          "summary_headlines_33".tr(),
         ];
         break;
       case TimeOfDayPeriod.night:
         options = [
-          "Cloudy overnight skies",
-          "Overcast night ahead",
-          "Clouds holding through the night",
+          "summary_headlines_34".tr(),
+          "summary_headlines_35".tr(),
+          "summary_headlines_36".tr(),
         ];
         break;
     }
