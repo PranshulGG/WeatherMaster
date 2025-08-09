@@ -44,10 +44,17 @@ private fun getWorkInfoSummary(uniqueWorkName: String, intervalMinutes: Long): M
     val prefs = context.getSharedPreferences("weather_prefs", Context.MODE_PRIVATE)
     val lastRunMillis = prefs.getLong("last_weather_update", System.currentTimeMillis())
 
+    val selectedTimeUnit = prefs.getString("selectedTimeUnit", "12 hr") ?: "12 hr"
+
+
     val nextRunMillis = lastRunMillis + intervalMinutes * 60 * 1000
 
-    val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+    // Select time format based on preference
+    val timePattern = if (selectedTimeUnit == "24 hr") "yyyy-MM-dd HH:mm" else "yyyy-MM-dd hh:mm a"
+
+    val sdf = SimpleDateFormat(timePattern, Locale.getDefault())
     val nextRunFormatted = sdf.format(Date(nextRunMillis))
+
 
     return mapOf(
         "Enqueued" to true,

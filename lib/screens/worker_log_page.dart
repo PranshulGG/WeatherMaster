@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../utils/preferences_helper.dart';
 
 class WorkInfoWidget extends StatefulWidget {
   @override
@@ -22,7 +23,7 @@ Future<void> _getWorkInfo() async {
   try {
     final Map<dynamic, dynamic> result = await platform.invokeMethod('getWorkInfoSummary', {
       'uniqueWorkName': 'weather_update_work',
-      'intervalMinutes': 15,
+      'intervalMinutes': PreferencesHelper.getInt("savedRefreshInterval") ?? 90,
     });
 
     setState(() {

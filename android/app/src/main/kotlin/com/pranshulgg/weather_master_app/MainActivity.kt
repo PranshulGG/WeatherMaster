@@ -43,7 +43,13 @@ class MainActivity : FlutterActivity() {
                         requestNotificationPermission(result)
                     }
                     "startService" -> {
-                    scheduleWeatherUpdates(this)
+                        val intervalMinutes = when (val value = call.argument<Any>("intervalMinutes")) {
+                            is Int -> value.toLong()
+                            is Long -> value
+                            else -> 90L
+                        }
+
+                    scheduleWeatherUpdates(this, intervalMinutes)
                     result.success(true)
                     }
                     "stopService" -> {
@@ -92,7 +98,6 @@ class MainActivity : FlutterActivity() {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 permissionResultPending?.success(true)
             } else {
-                Log.w("MainActivity", "Notification permission denied.")
                 permissionResultPending?.success(false)
             }
             permissionResultPending = null
@@ -100,7 +105,7 @@ class MainActivity : FlutterActivity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
-    private fun scheduleWeatherUpdates(context: Context) {
+    private fun scheduleWeatherUpdates(context: Context, intervalMinutes: Long) {
         // Cancel existing work first to avoid duplicates
         WorkManager.getInstance(context).cancelUniqueWork("weather_update_work")
 
@@ -112,7 +117,7 @@ class MainActivity : FlutterActivity() {
 
         // Create periodic work request
         val periodicWorkRequest = PeriodicWorkRequestBuilder<WeatherUpdateWorker>(
-            15, TimeUnit.MINUTES
+            intervalMinutes, TimeUnit.MINUTES
         )
             .setConstraints(constraints)
             .setInitialDelay(5, TimeUnit.SECONDS) // initial quick start delay 
@@ -124,11 +129,9 @@ class MainActivity : FlutterActivity() {
             periodicWorkRequest
         )
 
-        Log.d("MainActivity", "WorkManager periodic weather update scheduled")
     }
 
     private fun cancelWeatherUpdates(context: Context) {
         WorkManager.getInstance(context).cancelUniqueWork("weather_update_work")
-        Log.d("MainActivity", "WorkManager periodic weather update cancelled")
     }
 }

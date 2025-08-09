@@ -7,6 +7,7 @@ import '../services/notificationservice_native.dart';
 import '../services/widget_service.dart';
 import 'package:flutter/services.dart';
 import '../screens/worker_log_page.dart';
+import '../services/widget_service.dart';
 
 class BackgroundUpdatesPage extends StatefulWidget {
   const BackgroundUpdatesPage({super.key});
@@ -18,11 +19,13 @@ class BackgroundUpdatesPage extends StatefulWidget {
 class _BackgroundUpdatesPageState extends State<BackgroundUpdatesPage> {
 
   bool _permissionGranted = false;
+  int refreshInterval = 90;
 
   @override
   void initState() {
     super.initState();
     _loadPermission();
+    refreshInterval = PreferencesHelper.getInt("savedRefreshInterval") ?? 90;
   }
 
   Future<void> _loadPermission() async {
@@ -36,6 +39,19 @@ class _BackgroundUpdatesPageState extends State<BackgroundUpdatesPage> {
     final bool granted = await NotificationService.requestPermission();
     _loadPermission();
   }
+
+
+    final optionsInterval = {
+      30: "30 minutes",
+      60: "1 hour",
+      90: "1.5 hours",
+      120: "2 hours",
+      180: "3 hours",
+      240: "4 hours",
+      300: "5 hours",
+      360: "6 hours",
+    };
+
 
   @override
   Widget build(BuildContext context) {
@@ -87,10 +103,29 @@ class _BackgroundUpdatesPageState extends State<BackgroundUpdatesPage> {
                   ],
                 ),
               SizedBox(height: 20,),
+
+              
                   SettingSection(
                     styleTile: true,
                     title: SettingSectionTitle('additional'.tr(), noPadding: true,),
                     tiles: [
+                    SettingSingleOptionTile(
+                          title: Text('Refresh Interval'),
+                          value: SettingTileValue(optionsInterval[refreshInterval]!),
+                          dialogTitle: 'Refresh Interval',
+                          options: optionsInterval.values.toList(),
+                          initialOption: optionsInterval[refreshInterval]!,
+                          onSubmitted: (value) {
+                           final selectedKey = optionsInterval.entries.firstWhere((e) => e.value == value).key;
+                          PreferencesHelper.setInt("savedRefreshInterval", selectedKey);
+                          if(selectedKey != refreshInterval){
+                            startWeatherService();
+                          }
+                            setState(() {
+                              refreshInterval = selectedKey;
+                            });
+                          },
+                        ),
                   SettingTextTile(
                     fullempty: true,
                     title: BatteryOptWidget(), // 0%

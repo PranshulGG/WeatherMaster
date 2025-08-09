@@ -37,7 +37,6 @@ class WeatherUpdateWorker(
         setForeground(createForegroundInfo())
     
 
-        Log.d("WeatherUpdateWorker", "Starting weather update in foreground")
 
 
         return try {
@@ -58,13 +57,11 @@ class WeatherUpdateWorker(
                 flutterEngine?.destroy()
             }
 
-            Log.d("WeatherUpdateWorker", "Weather update completed")
 
              delay(6000)
             Result.success()
 
         } catch (e: Exception) {
-            Log.e("WeatherUpdateWorker", "Error during weather update", e)
             flutterEngine?.destroy()
             Result.retry()
         }
@@ -97,7 +94,7 @@ class WeatherUpdateWorker(
             val channel = NotificationChannel(
                 CHANNEL_ID,
                 "Weather Updates",
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_LOW
             )
             val manager = applicationContext.getSystemService(NotificationManager::class.java)
             manager.createNotificationChannel(channel)
