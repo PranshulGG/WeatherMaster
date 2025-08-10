@@ -6,6 +6,8 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.RemoteViews
+import android.app.PendingIntent
+import android.content.Intent
 import com.pranshulgg.weather_master_app.util.WeatherIconMapper
 
 class WeatherWidgetCastProvider : AppWidgetProvider() {
@@ -111,6 +113,17 @@ class WeatherWidgetCastProvider : AppWidgetProvider() {
 
             views.addView(containerId, itemView)
         }
+
+        
+            val intent = Intent(context, io.flutter.embedding.android.FlutterActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+
+            val pendingIntent = PendingIntent.getActivity(
+                context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+
+            views.setOnClickPendingIntent(R.id.widget_hourly_current, pendingIntent)
 
         manager.updateAppWidget(id, views)
     }
