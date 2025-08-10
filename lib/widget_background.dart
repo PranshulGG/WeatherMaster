@@ -176,17 +176,39 @@ for (int i = 0; i < 4; i++) {
     final minTempFormatted = "${convertedMinTemp.round()}";
 
 final conditionKey = WeatherConditionMapper.getConditionLabel(code, isDay);
+final localeString = PreferencesHelper.getString('locale') ?? 'en';
 
-    // Load user's locale
-    final localeString = PreferencesHelper.getString('locale') ?? 'en';
-    final locale = Locale(localeString);
+Locale locale;
 
-    // Load the JSON translation manually
-    final String data = await rootBundle.loadString('assets/translations/${locale.languageCode}.json');
-    final Map<String, dynamic> translations = jsonDecode(data);
+if (localeString.contains('-')) {
+  var parts = localeString.split('-');
+  locale = Locale(parts[0], parts[1]);
+} else if (localeString.contains('_')) {
+  var parts = localeString.split('_');
+  locale = Locale(parts[0], parts[1]);
+} else {
+  locale = Locale(localeString);
+}
 
-    // Fallback to key if not found
-    final conditionName = translations[conditionKey] ?? conditionKey;
+String translationFileName = locale.languageCode;
+if (locale.countryCode != null && locale.countryCode!.isNotEmpty) {
+  translationFileName += '-${locale.countryCode}';
+}
+
+Map<String, dynamic> translations;
+
+try {
+  final String data = await rootBundle.loadString('assets/translations/$translationFileName.json');
+  translations = jsonDecode(data);
+} catch (e) {
+  print('[Translation] Could not load $translationFileName.json, falling back to en.json');
+  final String data = await rootBundle.loadString('assets/translations/en.json');
+  translations = jsonDecode(data);
+}
+
+final conditionName = translations[conditionKey] ?? conditionKey;
+
+
 
      
   await HomeWidget.saveWidgetData<String>('temperatureCurrentPill', currentTempFormatted);
