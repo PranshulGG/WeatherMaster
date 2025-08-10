@@ -260,6 +260,7 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.dark,
         ),
         useMaterial3: true,
+        
       ).copyWith(
         textTheme: ThemeData.dark().textTheme.apply(fontFamily: 'OpenSans'),
         highlightColor: Colors.transparent,
@@ -273,6 +274,9 @@ class MyApp extends StatelessWidget {
           ),
         },
       ),
+        progressIndicatorTheme: ProgressIndicatorThemeData(
+          color: Theme.of(context).colorScheme.primary,
+        ),
       ),
 
       themeMode: themeController.themeMode,
