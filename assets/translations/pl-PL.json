@@ -357,7 +357,7 @@
     "heavy_rain": "Ulewa",
     "light_rain": "Lekki deszcz",
     "bulletstempOptions_1": "Można się spodziewać temperatury w ciągu dnia od {min}° do {max}°.",
-    "bulletstempOptions_2": "Temperatures ranging between {min}° and {max}°.",
+    "bulletstempOptions_2": "Temperatura waha się między {min} ° a {max}°",
     "bulletstempOptions_3": "Today's high will reach around {max}° after a cooler start.",
     "bulletsUVOptions_1": "UV index peaks around {uvTime} at {uvIndex}.",
     "bulletsUVOptions_2": "Strong UV expected near {uvTime} — sun protection recommended.",
