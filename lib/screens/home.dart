@@ -18,6 +18,7 @@ import 'package:hive/hive.dart';
 import 'package:material_color_utilities/material_color_utilities.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:animations/animations.dart';
 
 // App utilities
 import '../utils/animation_map.dart';
@@ -257,7 +258,7 @@ class _WeatherHomeState extends State<WeatherHome> {
       final lastUpdateTime = DateTime.tryParse(lastUpdated);
       final now = DateTime.now();
       if (lastUpdateTime != null &&
-          now.difference(lastUpdateTime).inMinutes < 45) {
+          now.difference(lastUpdateTime).inMinutes < 450) {
         _isAppFullyLoaded = true;
       } else {
         checkAndUpdateHomeLocation();
@@ -1000,6 +1001,7 @@ class _WeatherHomeState extends State<WeatherHome> {
           }
 
           final bool shouldShowRainBlock = bestStart != null && bestEnd != null;
+          final colorTheme = Theme.of(context).colorScheme;
 
           if (!widgetsUpdated) {
             updateHomeWidget(weather,
@@ -1190,184 +1192,185 @@ class _WeatherHomeState extends State<WeatherHome> {
                                 : const SizedBox.shrink()
                       else
                         const SizedBox.shrink(),
-                      GestureDetector(
-                          onTap: () async {
-                            final result = await Navigator.of(context)
-                                .push<Map<String, dynamic>>(PageRouteBuilder(
-                              opaque: true,
-                              reverseTransitionDuration:
-                                  Duration(milliseconds: 200),
-                              pageBuilder:
-                                  (context, animation, secondaryAnimation) {
-                                return const LocationsScreen();
-                              },
-                              transitionsBuilder: (context, animation,
-                                  secondaryAnimation, child) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: child,
-                                );
-                              },
-                            ));
+                      Container(
+                          margin: const EdgeInsets.only(left: 14, right: 14),
+                          child: OpenContainer<Map<String, dynamic>?>(
+                            transitionType: ContainerTransitionType.fadeThrough,
+                            openBuilder: (context, _) =>
+                                const LocationsScreen(),
+                            closedElevation: 0,
+                            closedShape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            closedColor: !useFullMaterialScheme
+                                ? searchBgColors[selectedSearchBgIndex]
+                                : Color(Theme.of(context)
+                                    .colorScheme
+                                    .surfaceContainerHigh
+                                    .toARGB32()),
+                            openColor: colorTheme.surface,
+                            closedBuilder: (context, openContainer) {
+                              return Container(
+                                width: double.infinity,
+                                height: 56,
+                                padding:
+                                    const EdgeInsets.only(left: 10, right: 10),
+                                decoration: BoxDecoration(
+                                  color: !useFullMaterialScheme
+                                      ? searchBgColors[selectedSearchBgIndex]
+                                      : Color(Theme.of(context)
+                                          .colorScheme
+                                          .surfaceContainerHigh
+                                          .toARGB32()),
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Row(
+                                        children: [
+                                          CircleAvatar(
+                                            radius: 20,
+                                            backgroundColor: Colors.transparent,
+                                            child: Icon(
+                                              Icons.location_on_outlined,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSurfaceVariant,
+                                            ),
+                                          ),
+                                          // const SizedBox(width: 8),
+                                          Expanded(
+                                            child: Text(
+                                              "$cityName, $countryName",
+                                              style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onSurfaceVariant,
+                                                fontSize: 18,
+                                              ),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    IconButton(
+                                      onPressed: () async {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (_) =>
+                                                  const SettingsScreen()),
+                                        );
+                                      },
+                                      icon: const Icon(Icons.settings_outlined),
+                                    ),
+                                    if (isViewLocation)
+                                      FilledButton(
+                                        onPressed: () => handleSaveLocationView(
+                                          context: context,
+                                          updateUIState: () {
+                                            setState(() {
+                                              isViewLocation = false;
+                                              _isAppFullyLoaded = false;
+                                              _istriggeredFromLocations = true;
+                                              themeCalled = false;
+                                              _isLoadingFroggy = true;
+                                            });
+                                          },
+                                        ),
+                                        style: ButtonStyle(
+                                            backgroundColor:
+                                                WidgetStateProperty.all(
+                                                    Theme.of(context)
+                                                        .colorScheme
+                                                        .tertiary)),
+                                        child: Text(
+                                          "Save",
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onTertiary,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      )
+                                  ],
+                                ),
+                              );
+                            },
+                            onClosed: (result) async {
+                              if (result != null) {
+                                if (result['viewLocaton'] == true) {
+                                  final weatherService = WeatherService();
+                                  final result =
+                                      await weatherService.fetchWeather(
+                                    PreferencesHelper.getJson(
+                                        'selectedViewLocation')?['lat'],
+                                    PreferencesHelper.getJson(
+                                        'selectedViewLocation')?['lon'],
+                                    locationName:
+                                        "${PreferencesHelper.getJson('selectedViewLocation')?['city']}, ${PreferencesHelper.getJson('selectedViewLocation')?['country']}",
+                                    context: context,
+                                    isOnlyView: true,
+                                  );
 
-                            if (result != null) {
-                              if (result['viewLocaton'] == true) {
-                                final weatherService = WeatherService();
-                                final result =
-                                    await weatherService.fetchWeather(
-                                  PreferencesHelper.getJson(
-                                      'selectedViewLocation')?['lat'],
-                                  PreferencesHelper.getJson(
-                                      'selectedViewLocation')?['lon'],
-                                  locationName:
-                                      "${PreferencesHelper.getJson('selectedViewLocation')?['city']}, ${PreferencesHelper.getJson('selectedViewLocation')?['country']}",
-                                  context: context,
-                                  isOnlyView: true,
-                                );
+                                  if (result == null) {
+                                  } else {
+                                    setState(() {
+                                      cityName = PreferencesHelper.getJson(
+                                          'selectedViewLocation')?['city'];
+                                      countryName = PreferencesHelper.getJson(
+                                          'selectedViewLocation')?['country'];
+                                      cacheKey = PreferencesHelper.getJson(
+                                          'selectedViewLocation')?['cacheKey'];
+                                      lat = PreferencesHelper.getJson(
+                                          'selectedViewLocation')?['lat'];
+                                      lon = PreferencesHelper.getJson(
+                                          'selectedViewLocation')?['lon'];
+                                      isViewLocation = true;
+                                      _isAppFullyLoaded = false;
+                                      _istriggeredFromLocations = true;
+                                      themeCalled = false;
+                                      _isLoadingFroggy = true;
+                                      weatherFuture = Future.value(result);
+                                    });
+                                  }
+                                  return;
+                                }
 
-                                if (result == null) {
-                                } else {
+                                final newCity = result['city'];
+                                final newCountry = result['country'];
+                                final newCacheKey = result['cacheKey'];
+                                final newLat =
+                                    result['latitude'] ?? result['lat'];
+                                final newLon =
+                                    result['longitude'] ?? result['lon'];
+
+                                final isDifferent = cityName != newCity ||
+                                    countryName != newCountry ||
+                                    cacheKey != newCacheKey ||
+                                    lat != newLat ||
+                                    lon != newLon;
+
+                                if (isDifferent) {
                                   setState(() {
-                                    cityName = PreferencesHelper.getJson(
-                                        'selectedViewLocation')?['city'];
-                                    countryName = PreferencesHelper.getJson(
-                                        'selectedViewLocation')?['country'];
-                                    cacheKey = PreferencesHelper.getJson(
-                                        'selectedViewLocation')?['cacheKey'];
-                                    lat = PreferencesHelper.getJson(
-                                        'selectedViewLocation')?['lat'];
-                                    lon = PreferencesHelper.getJson(
-                                        'selectedViewLocation')?['lon'];
-                                    isViewLocation = true;
+                                    cityName = newCity;
+                                    countryName = newCountry;
+                                    cacheKey = newCacheKey;
+                                    lat = newLat;
+                                    lon = newLon;
                                     _isAppFullyLoaded = false;
                                     _istriggeredFromLocations = true;
                                     themeCalled = false;
+                                    isViewLocation = false;
                                     _isLoadingFroggy = true;
-                                    weatherFuture = Future.value(result);
                                   });
+
+                                  weatherFuture = getWeatherFromCache();
                                 }
-                                return;
                               }
-
-                              final newCity = result['city'];
-                              final newCountry = result['country'];
-                              final newCacheKey = result['cacheKey'];
-                              final newLat =
-                                  result['latitude'] ?? result['lat'];
-                              final newLon =
-                                  result['longitude'] ?? result['lon'];
-
-                              final isDifferent = cityName != newCity ||
-                                  countryName != newCountry ||
-                                  cacheKey != newCacheKey ||
-                                  lat != newLat ||
-                                  lon != newLon;
-
-                              if (isDifferent) {
-                                setState(() {
-                                  cityName = newCity;
-                                  countryName = newCountry;
-                                  cacheKey = newCacheKey;
-                                  lat = newLat;
-                                  lon = newLon;
-                                  _isAppFullyLoaded = false;
-                                  _istriggeredFromLocations = true;
-                                  themeCalled = false;
-                                  isViewLocation = false;
-                                  _isLoadingFroggy = true;
-                                });
-
-                                weatherFuture = getWeatherFromCache();
-                              }
-                            }
-                          },
-                          child: Container(
-                            width: double.infinity,
-                            margin: const EdgeInsets.only(left: 16, right: 16),
-                            height: 56,
-                            padding: const EdgeInsets.only(left: 10, right: 10),
-                            decoration: BoxDecoration(
-                              color: !useFullMaterialScheme
-                                  ? searchBgColors[selectedSearchBgIndex]
-                                  : Color(Theme.of(context)
-                                      .colorScheme
-                                      .surfaceContainerHigh
-                                      .toARGB32()),
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Row(
-                                    children: [
-                                      CircleAvatar(
-                                        radius: 20,
-                                        backgroundColor: Colors.transparent,
-                                        child: Icon(
-                                          Icons.location_on_outlined,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSurfaceVariant,
-                                        ),
-                                      ),
-                                      // const SizedBox(width: 8),
-                                      Expanded(
-                                        child: Text(
-                                          "$cityName, $countryName",
-                                          style: TextStyle(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSurfaceVariant,
-                                            fontSize: 18,
-                                          ),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                IconButton(
-                                  onPressed: () async {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (_) =>
-                                              const SettingsScreen()),
-                                    );
-                                  },
-                                  icon: const Icon(Icons.settings_outlined),
-                                ),
-                                if (isViewLocation)
-                                  FilledButton(
-                                    onPressed: () => handleSaveLocationView(
-                                      context: context,
-                                      updateUIState: () {
-                                        setState(() {
-                                          isViewLocation = false;
-                                          _isAppFullyLoaded = false;
-                                          _istriggeredFromLocations = true;
-                                          themeCalled = false;
-                                          _isLoadingFroggy = true;
-                                        });
-                                      },
-                                    ),
-                                    style: ButtonStyle(
-                                        backgroundColor:
-                                            WidgetStateProperty.all(
-                                                Theme.of(context)
-                                                    .colorScheme
-                                                    .tertiary)),
-                                    child: Text(
-                                      "Save",
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onTertiary,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  )
-                              ],
-                            ),
+                            },
                           ))
                     ],
                   ),

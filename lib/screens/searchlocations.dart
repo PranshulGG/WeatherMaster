@@ -7,7 +7,6 @@ import '../models/saved_location.dart';
 import '../services/fetch_data.dart';
 import '../models/loading_me.dart';
 
-
 enum GeoProvider { nominatim, geonames, openMeteo }
 
 class SearchLocationsScreen extends StatefulWidget {
@@ -20,78 +19,74 @@ class SearchLocationsScreen extends StatefulWidget {
 class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
   List<SavedLocation> savedLocations = [];
 
-Future<void> saveLocation(SavedLocation newLocation) async {
-  final prefs = await SharedPreferences.getInstance();
-  final existing = prefs.getString('saved_locations');
-  List<SavedLocation> current = [];
+  Future<void> saveLocation(SavedLocation newLocation) async {
+    final prefs = await SharedPreferences.getInstance();
+    final existing = prefs.getString('saved_locations');
+    List<SavedLocation> current = [];
 
+    if (existing != null) {
+      final decoded = jsonDecode(existing) as List;
+      current = decoded.map((e) => SavedLocation.fromJson(e)).toList();
+    }
 
-  if (existing != null) {
-    final decoded = jsonDecode(existing) as List;
-    current = decoded.map((e) => SavedLocation.fromJson(e)).toList();
+    // Optionally avoid duplicates
+    bool alreadyExists = current.any((loc) =>
+        loc.city == newLocation.city && loc.country == newLocation.country);
+
+    if (!alreadyExists) {
+      current.add(newLocation);
+      await prefs.setString('saved_locations',
+          jsonEncode(current.map((e) => e.toJson()).toList()));
+    }
   }
 
-  // Optionally avoid duplicates
-  bool alreadyExists = current.any((loc) =>
-      loc.city == newLocation.city && loc.country == newLocation.country);
-
-  if (!alreadyExists) {
-    current.add(newLocation);
-    await prefs.setString(
-        'saved_locations',
-        jsonEncode(current.map((e) => e.toJson()).toList()));
+  Future<void> loadSavedLocations() async {
+    final prefs = await SharedPreferences.getInstance();
+    final jsonString = prefs.getString('saved_locations');
+    if (jsonString != null) {
+      final List<dynamic> jsonList = jsonDecode(jsonString);
+      setState(() {
+        savedLocations =
+            jsonList.map((json) => SavedLocation.fromJson(json)).toList();
+      });
+    } else {
+      savedLocations = [];
+    }
   }
-}
 
-Future<void> loadSavedLocations() async {
-  final prefs = await SharedPreferences.getInstance();
-  final jsonString = prefs.getString('saved_locations');
-  if (jsonString != null) {
-    final List<dynamic> jsonList = jsonDecode(jsonString);
+  GeoProvider selectedProvider = GeoProvider.nominatim;
+  bool isLoading = false;
+  List<Map<String, String>> results = [];
+  String query = '';
+
+  final providerLabels = {
+    GeoProvider.nominatim: "OpenStreetMap",
+    GeoProvider.geonames: "GeoNames",
+    GeoProvider.openMeteo: "Open-Meteo"
+  };
+
+  @override
+  void initState() {
+    super.initState();
+    loadSavedProvider();
+    loadSavedLocations();
+  }
+
+  Future<void> loadSavedProvider() async {
+    final prefs = await SharedPreferences.getInstance();
+    final index = prefs.getInt('geo_provider_index') ?? 0;
     setState(() {
-      savedLocations = jsonList.map((json) => SavedLocation.fromJson(json)).toList();
+      selectedProvider = GeoProvider.values[index];
     });
-  } else {
-    savedLocations = [];
   }
-}
 
-GeoProvider selectedProvider = GeoProvider.nominatim;
-bool isLoading = false;
-List<Map<String, String>> results = [];
-String query = '';
+  Future<void> saveProvider(GeoProvider provider) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('geo_provider_index', provider.index);
+  }
 
-final providerLabels = {
-  GeoProvider.nominatim: "OpenStreetMap",
-  GeoProvider.geonames: "GeoNames",
-  GeoProvider.openMeteo: "Open-Meteo"
-};
-
-@override
-void initState() {
-  super.initState();
-  loadSavedProvider();
-loadSavedLocations(); 
-
-}
-
-
-Future<void> loadSavedProvider() async {
-  final prefs = await SharedPreferences.getInstance();
-  final index = prefs.getInt('geo_provider_index') ?? 0;
-  setState(() {
-    selectedProvider = GeoProvider.values[index];
-  });
-}
-
-Future<void> saveProvider(GeoProvider provider) async {
-  final prefs = await SharedPreferences.getInstance();
-  await prefs.setInt('geo_provider_index', provider.index);
-}
-
-
-Future<void> searchLocation(String input) async {
-  if (input.isEmpty) return;
+  Future<void> searchLocation(String input) async {
+    if (input.isEmpty) return;
 
     setState(() {
       isLoading = true;
@@ -109,365 +104,436 @@ Future<void> searchLocation(String input) async {
         'https://geocoding-api.open-meteo.com/v1/search?name=$encodedQuery&count=8',
     };
 
-  try {
-    final res = await http.get(Uri.parse(url));
-if (res.statusCode != 200) {
-  throw Exception("Failed to load data: ${res.statusCode}");
-}
+    try {
+      final res = await http.get(Uri.parse(url));
+      if (res.statusCode != 200) {
+        throw Exception("Failed to load data: ${res.statusCode}");
+      }
 
-final contentType = res.headers['content-type'];
-if (contentType == null || !contentType.contains('application/json')) {
-  throw Exception("Invalid response format. Expected JSON.");
-}
+      final contentType = res.headers['content-type'];
+      if (contentType == null || !contentType.contains('application/json')) {
+        throw Exception("Invalid response format. Expected JSON.");
+      }
 
-final data = json.decode(res.body);
+      final data = json.decode(res.body);
 
-    final locations = switch (selectedProvider) {
-      GeoProvider.nominatim => (data as List).map<Map<String, String>>((e) {
-        final address = e['address'] ?? {};
-        return {
-          'city': e['name'] ?? e['display_name'] ?? '',
-          'country': address['country'] ?? '',
-          'country_code': address['country_code'] ?? '',
-          'lat': e['lat'] ?? '',
-          'lon': e['lon'] ?? '',
-        };
-      }).toList(),
+      final locations = switch (selectedProvider) {
+        GeoProvider.nominatim => (data as List).map<Map<String, String>>((e) {
+            final address = e['address'] ?? {};
+            return {
+              'city': e['name'] ?? e['display_name'] ?? '',
+              'country': address['country'] ?? '',
+              'country_code': address['country_code'] ?? '',
+              'lat': e['lat'] ?? '',
+              'lon': e['lon'] ?? '',
+            };
+          }).toList(),
+        GeoProvider.geonames =>
+          (data['geonames'] as List).map<Map<String, String>>((e) {
+            return {
+              'city': e['name'],
+              'country': e['countryName'] ?? '',
+              'country_code': e['countryCode'] ?? '',
+              'lat': e['lat']?.toString() ?? '',
+              'lon': e['lng']?.toString() ?? '',
+            };
+          }).toList(),
+        GeoProvider.openMeteo =>
+          (data['results'] as List).map<Map<String, String>>((e) {
+            return {
+              'city': e['name'],
+              'country': e['country'] ?? '',
+              'country_code': e['country_code'] ?? '',
+              'lat': e['latitude']?.toString() ?? '',
+              'lon': e['longitude']?.toString() ?? '',
+            };
+          }).toList(),
+      };
 
-      GeoProvider.geonames => (data['geonames'] as List).map<Map<String, String>>((e) {
-        return {
-          'city': e['name'],
-          'country': e['countryName'] ?? '',
-          'country_code': e['countryCode'] ?? '',
-          'lat': e['lat']?.toString() ?? '',
-          'lon': e['lng']?.toString() ?? '', 
-        };
-      }).toList(),
+      // Remove duplicates
+      final unique = {
+        for (var loc in locations) "${loc['city']},${loc['country']}": loc
+      }.values.toList();
 
-      GeoProvider.openMeteo => (data['results'] as List).map<Map<String, String>>((e) {
-        return {
-          'city': e['name'],
-          'country': e['country'] ?? '',
-          'country_code': e['country_code'] ?? '',
-          'lat': e['latitude']?.toString() ?? '',
-          'lon': e['longitude']?.toString() ?? '',
-        };
-      }).toList(),
-    };
-
-
-
-
-    // Remove duplicates
-    final unique = {
-      for (var loc in locations)
-        "${loc['city']},${loc['country']}": loc
-    }.values.toList();
-
-    setState(() => results = unique);
-  } catch (e) {
-    setState(() => results = []);
-    ScaffoldMessenger.of(context).showSnackBar(
-     SnackBar(content: Text("data_fetch_error".tr())),
-    );
-  }
-
-  setState(() => isLoading = false);
-}
-
-void openProviderDialog() async {
-  GeoProvider tempProvider = selectedProvider;
-
-  final confirmed = await showDialog<bool>(
-    context: context,
-    builder: (_) {
-      return AlertDialog(
-        title:  Text("search_provider".tr()),
-        contentPadding: EdgeInsets.only(left: 0, right: 0, top: 16, bottom: 5),
-        content: StatefulBuilder(
-          builder: (context, setState) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: GeoProvider.values.map((provider) {
-                return RadioListTile<GeoProvider>(
-                  dense: true,
-                  title: Text(providerLabels[provider]!, style: TextStyle(fontSize: 15),),
-
-                  value: provider,
-                  groupValue: tempProvider,
-                  onChanged: (val) => setState(() => tempProvider = val!),
-                );
-              }).toList(),
-            );
-          },
-        ),
-        actions: [
-          TextButton(
-            child: Text("cancel".tr(), style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),),
-            onPressed: () => Navigator.pop(context, false),
-          ),
-          TextButton(
-            child: Text("save".tr(), style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),),
-            onPressed: () => Navigator.pop(context, true),
-          ),
-        ],
+      setState(() => results = unique);
+    } catch (e) {
+      setState(() => results = []);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("data_fetch_error".tr())),
       );
-    },
-  );
+    }
 
-  if (confirmed == true && tempProvider != selectedProvider) {
-    setState(() => selectedProvider = tempProvider);
-    saveProvider(tempProvider);
-    if (query.isNotEmpty) searchLocation(query); // refresh search
+    setState(() => isLoading = false);
   }
-}
 
-Future<int> getLocationCount() async {
-  final prefs = await SharedPreferences.getInstance();
-  final jsonString = prefs.getString('saved_locations');
-  if (jsonString != null) {
-    final List<dynamic> jsonList = jsonDecode(jsonString);
-    final locations = jsonList.map((json) => SavedLocation.fromJson(json)).toList();
-    return locations.length;
+  void openProviderDialog() async {
+    GeoProvider tempProvider = selectedProvider;
+
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          title: Text("search_provider".tr()),
+          contentPadding:
+              EdgeInsets.only(left: 0, right: 0, top: 16, bottom: 5),
+          content: StatefulBuilder(
+            builder: (context, setState) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: GeoProvider.values.map((provider) {
+                  return RadioListTile<GeoProvider>(
+                    dense: true,
+                    title: Text(
+                      providerLabels[provider]!,
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    value: provider,
+                    groupValue: tempProvider,
+                    onChanged: (val) => setState(() => tempProvider = val!),
+                  );
+                }).toList(),
+              );
+            },
+          ),
+          actions: [
+            TextButton(
+              child: Text(
+                "cancel".tr(),
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+              ),
+              onPressed: () => Navigator.pop(context, false),
+            ),
+            TextButton(
+              child: Text(
+                "save".tr(),
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+              ),
+              onPressed: () => Navigator.pop(context, true),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmed == true && tempProvider != selectedProvider) {
+      setState(() => selectedProvider = tempProvider);
+      saveProvider(tempProvider);
+      if (query.isNotEmpty) searchLocation(query); // refresh search
+    }
   }
-  return 0;
-}
+
+  Future<int> getLocationCount() async {
+    final prefs = await SharedPreferences.getInstance();
+    final jsonString = prefs.getString('saved_locations');
+    if (jsonString != null) {
+      final List<dynamic> jsonList = jsonDecode(jsonString);
+      final locations =
+          jsonList.map((json) => SavedLocation.fromJson(json)).toList();
+      return locations.length;
+    }
+    return 0;
+  }
 
   @override
   Widget build(BuildContext context) {
-
-
+    final colorTheme = Theme.of(context).colorScheme;
 
     return Scaffold(
+      backgroundColor: colorTheme.surfaceContainerHigh,
       appBar: AppBar(
-        elevation: 0,
-        title: 
-        TextField(
-          style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.onSurface),
-          onChanged: (value) => query = value,
-          onSubmitted: searchLocation,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            focusedBorder: InputBorder.none,
-            enabledBorder: InputBorder.none,
-            disabledBorder: InputBorder.none,
-            hintText: "${"search".tr()}...",
-          ), 
+          elevation: 0,
+          title: TextField(
+            style: TextStyle(
+                fontSize: 16, color: Theme.of(context).colorScheme.onSurface),
+            onChanged: (value) => query = value,
+            onSubmitted: searchLocation,
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              focusedBorder: InputBorder.none,
+              enabledBorder: InputBorder.none,
+              disabledBorder: InputBorder.none,
+              hintText: "${"search".tr()}...",
+            ),
           ),
-        titleSpacing: 0,     
-        toolbarHeight: 65 + 10,
-        scrolledUnderElevation: 0,
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        shape: Border(
-          bottom: BorderSide(color: Theme.of(context).colorScheme.outline.withOpacity(0.8), width: 2))
-      ),
-
+          titleSpacing: 0,
+          toolbarHeight: 65 + 10,
+          scrolledUnderElevation: 0,
+          backgroundColor: colorTheme.surfaceContainerHigh,
+          shape: Border(
+              bottom: BorderSide(
+                  color: Theme.of(context).colorScheme.outline.withOpacity(0.8),
+                  width: 2))),
       body: isLoading
-          ? const Center(child: LoaderWidget(size: 60, isContained: false,))
+          ? const Center(
+              child: LoaderWidget(
+              size: 60,
+              isContained: false,
+            ))
           : results.isEmpty
               ? const Center(child: Text(""))
-              : ListView.builder( 
+              : ListView.builder(
                   itemCount: results.length,
-                  itemBuilder: (context, index)  {
+                  itemBuilder: (context, index) {
                     final city = results[index]['city'] ?? '';
                     final country = results[index]['country'] ?? '';
                     final code = results[index]['country_code'] ?? '';
 
                     final isSaved = savedLocations.any((loc) =>
-                      loc.city.toLowerCase() == city.toLowerCase() &&
-                      loc.country.toLowerCase() == country.toLowerCase());
-
+                        loc.city.toLowerCase() == city.toLowerCase() &&
+                        loc.country.toLowerCase() == country.toLowerCase());
 
                     return ListTile(
-                      enabled: !isSaved,
+                        enabled: !isSaved,
                         contentPadding: EdgeInsets.only(left: 16, right: 16),
-                       leading: code.isNotEmpty
-                    ? CircleAvatar(
-                        radius: 18,
-                        backgroundColor: Colors.transparent,
-                        backgroundImage: NetworkImage("https://flagcdn.com/w80/${code.toLowerCase()}.png"),
-                      )
-                    : const Icon(Icons.location_on),
-                      title: Text(city, style: TextStyle(fontWeight: FontWeight.w500),),
-                      subtitle: country.isNotEmpty ? Text(country) : null,
-                      trailing:  FutureBuilder<int>(
-                      future: getLocationCount(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const SizedBox(
-                            height: 24,
-                            width: 24,
-                            child: CircularProgressIndicator(strokeWidth: 2),
+                        leading: code.isNotEmpty
+                            ? CircleAvatar(
+                                radius: 18,
+                                backgroundColor: Colors.transparent,
+                                backgroundImage: NetworkImage(
+                                    "https://flagcdn.com/w80/${code.toLowerCase()}.png"),
+                              )
+                            : const Icon(Icons.location_on),
+                        title: Text(
+                          city,
+                          style: TextStyle(fontWeight: FontWeight.w500),
+                        ),
+                        subtitle: country.isNotEmpty ? Text(country) : null,
+                        trailing: FutureBuilder<int>(
+                            future: getLocationCount(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const SizedBox(
+                                  height: 24,
+                                  width: 24,
+                                  child:
+                                      CircularProgressIndicator(strokeWidth: 2),
+                                );
+                              }
+
+                              if (snapshot.hasData && snapshot.data! >= 1) {
+                                return IconButton.filled(
+                                    onPressed: () async {
+                                      showDialog(
+                                        context: context,
+                                        barrierDismissible: false,
+                                        barrierColor: Theme.of(context)
+                                            .colorScheme
+                                            .surface,
+                                        builder: (context) => const Center(
+                                            child: LoaderWidget(
+                                          size: 60,
+                                          isContained: false,
+                                        )),
+                                      );
+
+                                      final location = results[index];
+                                      final lat = double.tryParse(
+                                              location['lat'] ?? '') ??
+                                          0.0;
+                                      final lon = double.tryParse(
+                                              location['lon'] ?? '') ??
+                                          0.0;
+
+                                      final saved = SavedLocation(
+                                        latitude: lat,
+                                        longitude: lon,
+                                        city: location['city'] ?? '',
+                                        country: location['country'] ?? '',
+                                      );
+
+                                      saveLocation(saved);
+                                      final cacheKey =
+                                          "${saved.city}_${saved.country}"
+                                              .toLowerCase()
+                                              .replaceAll(' ', '_');
+                                      final weatherService = WeatherService();
+                                      await weatherService.fetchWeather(
+                                          lat, lon,
+                                          locationName: cacheKey,
+                                          context: context);
+
+                                      final prefs =
+                                          await SharedPreferences.getInstance();
+                                      final jsonString =
+                                          prefs.getString('saved_locations');
+                                      if (jsonString != null) {
+                                        final List<dynamic> jsonList =
+                                            jsonDecode(jsonString);
+                                        final locations = jsonList
+                                            .map((json) =>
+                                                SavedLocation.fromJson(json))
+                                            .toList();
+                                        if (locations.length == 1) {
+                                          final loc = locations.first;
+
+                                          WidgetsBinding.instance
+                                              .addPostFrameCallback((_) async {
+                                            final prefs =
+                                                await SharedPreferences
+                                                    .getInstance();
+                                            final cacheKey =
+                                                "${loc.city}_${loc.country}"
+                                                    .toLowerCase()
+                                                    .replaceAll(' ', '_');
+
+                                            await prefs.setString(
+                                                'homeLocation',
+                                                jsonEncode({
+                                                  'city': loc.city,
+                                                  'country': loc.country,
+                                                  'cacheKey': cacheKey,
+                                                  'lat': loc.latitude,
+                                                  'lon': loc.longitude,
+                                                }));
+                                          });
+                                        }
+
+                                        Navigator.pop(context);
+
+                                        Navigator.pop(context, true);
+                                      }
+                                    },
+                                    icon: Icon(
+                                      Icons.add,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onTertiaryContainer,
+                                    ),
+                                    constraints: BoxConstraints(
+                                      minWidth: 53,
+                                      minHeight: 40,
+                                    ),
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            WidgetStateProperty.all(
+                                                Theme.of(context)
+                                                    .colorScheme
+                                                    .tertiaryContainer)));
+                              }
+                              return const SizedBox.shrink();
+                            }),
+                        onTap: () async {
+                          final location = results[index];
+                          final lat =
+                              double.tryParse(location['lat'] ?? '') ?? 0.0;
+                          final lon =
+                              double.tryParse(location['lon'] ?? '') ?? 0.0;
+
+                          final saved = SavedLocation(
+                            latitude: lat,
+                            longitude: lon,
+                            city: location['city'] ?? '',
+                            country: location['country'] ?? '',
                           );
-                        }
 
-                        if (snapshot.hasData && snapshot.data! >= 1) {
-                          return  IconButton.filled(onPressed: () async {
-                          showDialog(
-                          context: context,
-                          barrierDismissible: false, 
-                          barrierColor: Theme.of(context).colorScheme.surface,
-                          builder: (context) => const Center(child: LoaderWidget(size: 60, isContained: false,)),
-                        );
+                          final count = await getLocationCount();
 
-                        final location = results[index];
-                        final lat = double.tryParse(location['lat'] ?? '') ?? 0.0;
-                        final lon = double.tryParse(location['lon'] ?? '') ?? 0.0;
+                          if (count == 0) {
+                            showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              barrierColor:
+                                  Theme.of(context).colorScheme.surface,
+                              builder: (context) => const Center(
+                                  child: LoaderWidget(
+                                size: 60,
+                                isContained: false,
+                              )),
+                            );
 
-                        final saved = SavedLocation(
-                          latitude: lat,
-                          longitude: lon,
-                          city: location['city'] ?? '',
-                          country: location['country'] ?? '',
-                        );
-                        
-                        saveLocation(saved);
-                    final cacheKey = "${saved.city}_${saved.country}".toLowerCase().replaceAll(' ', '_');
-                    final weatherService = WeatherService();
-                    await weatherService.fetchWeather(lat, lon, locationName: cacheKey, context: context);
+                            saveLocation(saved);
+                            final cacheKey = "${saved.city}_${saved.country}"
+                                .toLowerCase()
+                                .replaceAll(' ', '_');
+                            final weatherService = WeatherService();
+                            await weatherService.fetchWeather(lat, lon,
+                                locationName: cacheKey, context: context);
 
-
-                    final prefs = await SharedPreferences.getInstance();
-                    final jsonString = prefs.getString('saved_locations');
-                    if (jsonString != null) {
-                      final List<dynamic> jsonList = jsonDecode(jsonString);
-                      final locations = jsonList.map((json) => SavedLocation.fromJson(json)).toList();
-                        if (locations.length == 1) {
-                        
-                            final loc = locations.first;
-
-                          WidgetsBinding.instance.addPostFrameCallback((_) async {
-                                final prefs = await SharedPreferences.getInstance();
-                        final cacheKey = "${loc.city}_${loc.country}".toLowerCase().replaceAll(' ', '_');
-
-                        await prefs.setString('homeLocation', jsonEncode({
-                          'city': loc.city,
-                          'country': loc.country,
-                          'cacheKey': cacheKey,
-                          'lat': loc.latitude,
-                          'lon': loc.longitude,
-                        }));
-                          });
-
-                        }
-
-                          Navigator.pop(context);
-
-                          Navigator.pop(context, true);
-                        }
-                        },
-                       icon: Icon(Icons.add, color: Theme.of(context).colorScheme.onTertiaryContainer,),
-                         constraints: BoxConstraints(
-                        minWidth: 53,  
-                        minHeight: 40,
-                      ),
-                       style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all(Theme.of(context).colorScheme.tertiaryContainer) 
-                        ));}   return  const SizedBox.shrink(); } ),
-                      onTap: () async {
-
-                        final location = results[index];
-                        final lat = double.tryParse(location['lat'] ?? '') ?? 0.0;
-                        final lon = double.tryParse(location['lon'] ?? '') ?? 0.0;
-
-                        final saved = SavedLocation(
-                          latitude: lat,
-                          longitude: lon,
-                          city: location['city'] ?? '',
-                          country: location['country'] ?? '',
-                        );
-
-                        final count = await getLocationCount();
-
-                        if(count == 0){
-                          showDialog(
-                          context: context,
-                          barrierDismissible: false, 
-                          barrierColor: Theme.of(context).colorScheme.surface,
-                          builder: (context) => const Center(child: LoaderWidget(size: 60, isContained: false,)),
-                        );
-
-                        saveLocation(saved);
-                        final cacheKey = "${saved.city}_${saved.country}".toLowerCase().replaceAll(' ', '_');
-                        final weatherService = WeatherService();
-                        await weatherService.fetchWeather(lat, lon, locationName: cacheKey, context: context);
-
-
-                        final prefs = await SharedPreferences.getInstance();
-                        final jsonString = prefs.getString('saved_locations');
-                        if (jsonString != null) {
-                          final List<dynamic> jsonList = jsonDecode(jsonString);
-                          final locations = jsonList.map((json) => SavedLocation.fromJson(json)).toList();
-                            if (locations.length == 1) {
-                            
+                            final prefs = await SharedPreferences.getInstance();
+                            final jsonString =
+                                prefs.getString('saved_locations');
+                            if (jsonString != null) {
+                              final List<dynamic> jsonList =
+                                  jsonDecode(jsonString);
+                              final locations = jsonList
+                                  .map((json) => SavedLocation.fromJson(json))
+                                  .toList();
+                              if (locations.length == 1) {
                                 final loc = locations.first;
 
-                              WidgetsBinding.instance.addPostFrameCallback((_) async {
-                                    final prefs = await SharedPreferences.getInstance();
-                            final cacheKey = "${loc.city}_${loc.country}".toLowerCase().replaceAll(' ', '_');
+                                WidgetsBinding.instance
+                                    .addPostFrameCallback((_) async {
+                                  final prefs =
+                                      await SharedPreferences.getInstance();
+                                  final cacheKey = "${loc.city}_${loc.country}"
+                                      .toLowerCase()
+                                      .replaceAll(' ', '_');
 
-                            await prefs.setString('homeLocation', jsonEncode({
-                              'city': loc.city,
-                              'country': loc.country,
-                              'cacheKey': cacheKey,
-                              'lat': loc.latitude,
-                              'lon': loc.longitude,
-                            }));
-                              });
-
-                            }
+                                  await prefs.setString(
+                                      'homeLocation',
+                                      jsonEncode({
+                                        'city': loc.city,
+                                        'country': loc.country,
+                                        'cacheKey': cacheKey,
+                                        'lat': loc.latitude,
+                                        'lon': loc.longitude,
+                                      }));
+                                });
+                              }
 
                               Navigator.pop(context);
 
                               Navigator.pop(context, true);
                             }
+                          } else {
+                            final cacheKey = "${saved.city}_${saved.country}"
+                                .toLowerCase()
+                                .replaceAll(' ', '_');
 
-                      } else{                        
-                       final cacheKey = "${saved.city}_${saved.country}".toLowerCase().replaceAll(' ', '_');
-
-
-                    final prefs = await SharedPreferences.getInstance();
-                      await prefs.setString('selectedViewLocation', jsonEncode({
-                        'city': saved.city,
-                        'country': saved.country,
-                        'cacheKey': cacheKey,
-                        'lat': lat,
-                        'lon': lon,
-                        'isGPS': false,
-                      }));
-                      Navigator.pop(context, false);
-                      }
-
-                        
-
-
-
-
-
-                        }
-                    );
+                            final prefs = await SharedPreferences.getInstance();
+                            await prefs.setString(
+                                'selectedViewLocation',
+                                jsonEncode({
+                                  'city': saved.city,
+                                  'country': saved.country,
+                                  'cacheKey': cacheKey,
+                                  'lat': lat,
+                                  'lon': lon,
+                                  'isGPS': false,
+                                }));
+                            Navigator.pop(context, false);
+                          }
+                        });
                   },
+                ),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "${"search_provider".tr()}:",
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurface,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500),
+                ),
+                Text("${providerLabels[selectedProvider]}",
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.secondary,
+                        fontSize: 14)),
+              ],
+            ),
+            FloatingActionButton(
+              onPressed: openProviderDialog,
+              child: Icon(Icons.tune),
+            )
+          ],
         ),
-        bottomNavigationBar: BottomAppBar(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("${"search_provider".tr()}:", style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 18, fontWeight: FontWeight.w500),),
-                 Text("${providerLabels[selectedProvider]}", style: TextStyle(color: Theme.of(context).colorScheme.secondary, fontSize: 14)),
-                ],
-              ),
-              FloatingActionButton(
-                onPressed: openProviderDialog,
-                child: Icon(Icons.tune),
-              )
-            ],
-          ),
-        ),
+      ),
     );
   }
 }
-
-
