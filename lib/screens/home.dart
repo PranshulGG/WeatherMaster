@@ -391,8 +391,8 @@ class _WeatherHomeState extends State<WeatherHome> {
     final storedLocation = storedJson != null ? jsonDecode(storedJson) : null;
 
     if (storedLocation['isGPS'] ?? false) {
-      final currentPosition = await getCurrentPosition();
-      final currentGeo = await reverseGeocode(
+      final currentPosition = await NativeLocation.getCurrentPosition();
+      final currentGeo = await NativeLocation.reverseGeocode(
           currentPosition.latitude, currentPosition.longitude);
 
       final currentCacheKey = "${currentGeo['city']!}_${currentGeo['country']!}"

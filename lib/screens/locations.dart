@@ -174,6 +174,7 @@ class _LocationsScreenState extends State<LocationsScreen> {
             openColor: colorTheme.surface,
             closedBuilder: (context, openContainer) {
               return FloatingActionButton.large(
+                backgroundColor: Colors.transparent,
                 onPressed: () {
                   PreferencesHelper.remove("selectedViewLocation");
                   openContainer();

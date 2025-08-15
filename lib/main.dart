@@ -253,9 +253,6 @@ class MyApp extends StatelessWidget {
             ),
           },
         ),
-        progressIndicatorTheme: ProgressIndicatorThemeData(
-          color: Theme.of(context).colorScheme.primary,
-        ),
       ),
       themeMode: themeController.themeMode,
       home: (hasHomeLocation &&
@@ -435,9 +432,9 @@ class LocationPromptScreen extends StatelessWidget {
                     ),
                   );
 
-                  final position = await getCurrentPosition();
+                  final position = await NativeLocation.getCurrentPosition();
 
-                  final geoData = await reverseGeocode(
+                  final geoData = await NativeLocation.reverseGeocode(
                       position.latitude, position.longitude);
 
                   final saved = SavedLocation(

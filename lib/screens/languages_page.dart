@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
-import '../utils/open_links.dart'; 
+import '../utils/open_links.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class LanguagesScreen extends StatefulWidget {
   const LanguagesScreen({super.key});
 
@@ -16,128 +17,123 @@ class LanguagesScreen extends StatefulWidget {
 class _LanguagesScreenState extends State<LanguagesScreen> {
   Locale? _selectedLocale;
 
-  
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _selectedLocale ??= context.locale;
   }
 
-
   @override
   Widget build(BuildContext context) {
     final locales = EasyLocalization.of(context)!.supportedLocales;
-    
 
     return Scaffold(
-     backgroundColor: Theme.of(context).colorScheme.surface,
-      body: 
-       CustomScrollView(
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      body: CustomScrollView(
         slivers: [
           SliverAppBar.large(
             title: Text('app_language'.tr()),
             titleSpacing: 0,
             backgroundColor: Theme.of(context).colorScheme.surface,
             scrolledUnderElevation: 1,
-             actions: [
-            IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () async {
-                final selectedLocale = await showSearch<Locale?>(
-                  context: context,
-                  delegate: LanguageSearchDelegate(locales: locales),
-                  
-                );
+            actions: [
+              IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () async {
+                    final selectedLocale = await showSearch<Locale?>(
+                      context: context,
+                      delegate: LanguageSearchDelegate(locales: locales),
+                    );
 
-                if (selectedLocale != null) {
-                  await context.setLocale(selectedLocale);
-                  setState(() {
-                    _selectedLocale = selectedLocale;
-                  });
-                }
-              }
-            ),
-            SizedBox(width: 5,)
-          ],
+                    if (selectedLocale != null) {
+                      await context.setLocale(selectedLocale);
+                      setState(() {
+                        _selectedLocale = selectedLocale;
+                      });
+                    }
+                  }),
+              SizedBox(
+                width: 5,
+              )
+            ],
           ),
-           SliverToBoxAdapter(
-      child: Padding(
-        padding: EdgeInsets.only(left: 10, right: 10, bottom: 20),
-          child: ListTile(
-          contentPadding: EdgeInsets.only(left: 26, right: 24),
-          
-          horizontalTitleGap: 14,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50), 
-          ),
-          tileColor: Theme.of(context).colorScheme.tertiaryContainer, 
-          leading: Icon(Symbols.translate),
-          title: Text('translate_this_app'.tr()),
-          subtitle: Text('On Crowdin'),
-          trailing: Icon(Symbols.open_in_new, weight: 500,),
-          onTap: () {
-            openLink("https://crowdin.com/project/weathermaster/invite?h=448278a9b1370f3c10d4336a091dae792286917");
-          },
-        ),
-      ),
-    ),
-          FutureBuilder<Map<String, int>>(
-        future: TranslationProgressService(
-          projectId: '741419',
-          apiToken: dotenv.env['API_TOKEN']!.toString(),
-        ).fetchTranslationProgress(),
-        builder: (context, snapshot) {
-          final progressMap = snapshot.data ?? {};
-
-
-      return  SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-
-                final locale = locales[index];
-                final languageName = getLanguageNames(locale);
-                final languageCode = getLanguageCodeCrodwin(locale);
-                final progress = (languageCode == 'en' || languageCode == 'en-US') ? 100 : (progressMap[languageCode] ?? 0);
-                final isLast = index == locales.length - 1;
-                final isFirst = index == 0;
-
-
-              return 
-              
-               Container(
-              padding: EdgeInsets.only(left: 10, right: 10),
-              margin: EdgeInsets.only(bottom: isLast ? MediaQuery.of(context).padding.bottom + 20 : 5,),
-              child: LanguageTile(
-                locale: locale,
-                selectedLocale: _selectedLocale,
-                languageName: languageName,
-                progress: progress,
-                isFirst: isFirst,
-                isLast: isLast,
-                onTap: () async {
-                  await context.setLocale(locale);
-                  setState(() {
-                    _selectedLocale = locale;
-                  });
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.only(left: 10, right: 10, bottom: 20),
+              child: ListTile(
+                contentPadding: EdgeInsets.only(left: 26, right: 24),
+                horizontalTitleGap: 14,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                tileColor: Theme.of(context).colorScheme.tertiaryContainer,
+                leading: Icon(Symbols.translate),
+                title: Text('translate_this_app'.tr()),
+                subtitle: Text('On Crowdin'),
+                trailing: Icon(
+                  Symbols.open_in_new,
+                  weight: 500,
+                ),
+                onTap: () {
+                  openLink(
+                      "https://crowdin.com/project/weathermaster/invite?h=448278a9b1370f3c10d4336a091dae792286917");
                 },
               ),
-            );
-                 
-              },
-              childCount: locales.length,
-              
             ),
-          );
-          }
           ),
+          FutureBuilder<Map<String, int>>(
+              future: TranslationProgressService(
+                projectId: '741419',
+                apiToken: dotenv.env['API_TOKEN']!.toString(),
+              ).fetchTranslationProgress(),
+              builder: (context, snapshot) {
+                final progressMap = snapshot.data ?? {};
+
+                return SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      final locale = locales[index];
+                      final languageName = getLanguageNames(locale);
+                      final languageCode = getLanguageCodeCrodwin(locale);
+                      final progress =
+                          (languageCode == 'en' || languageCode == 'en-US')
+                              ? 100
+                              : (progressMap[languageCode] ?? 0);
+                      final isLast = index == locales.length - 1;
+                      final isFirst = index == 0;
+
+                      return Container(
+                        padding: EdgeInsets.only(left: 10, right: 10),
+                        margin: EdgeInsets.only(
+                          bottom: isLast
+                              ? MediaQuery.of(context).padding.bottom + 20
+                              : 2,
+                        ),
+                        child: LanguageTile(
+                          locale: locale,
+                          selectedLocale: _selectedLocale,
+                          languageName: languageName,
+                          progress: progress,
+                          isFirst: isFirst,
+                          isLast: isLast,
+                          onTap: () async {
+                            await context.setLocale(locale);
+                            setState(() {
+                              _selectedLocale = locale;
+                            });
+                          },
+                        ),
+                      );
+                    },
+                    childCount: locales.length,
+                  ),
+                );
+              }),
         ],
       ),
     );
   }
-
 }
-
-
 
 class TranslationProgressService {
   final String projectId;
@@ -152,7 +148,8 @@ class TranslationProgressService {
 
     if (cachedData != null) {
       final parsed = jsonDecode(cachedData);
-      final timestamp = DateTime.fromMillisecondsSinceEpoch(parsed['timestamp']);
+      final timestamp =
+          DateTime.fromMillisecondsSinceEpoch(parsed['timestamp']);
 
       if (now.difference(timestamp).inHours < 24) {
         return Map<String, int>.from(parsed['progressData']);
@@ -160,14 +157,13 @@ class TranslationProgressService {
     }
 
     final response = await http.get(
-      Uri.parse('https://api.crowdin.com/api/v2/projects/$projectId/languages/progress?limit=31&offset=0'),
+      Uri.parse(
+          'https://api.crowdin.com/api/v2/projects/$projectId/languages/progress?limit=31&offset=0'),
       headers: {
         'Authorization': 'Bearer $apiToken',
         'Content-Type': 'application/json',
       },
     );
-
-
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
@@ -179,10 +175,12 @@ class TranslationProgressService {
         progressData[lang] = progress;
       }
 
-      await prefs.setString('translationProgress', jsonEncode({
-        'timestamp': now.millisecondsSinceEpoch,
-        'progressData': progressData,
-      }));
+      await prefs.setString(
+          'translationProgress',
+          jsonEncode({
+            'timestamp': now.millisecondsSinceEpoch,
+            'progressData': progressData,
+          }));
 
       return progressData;
     } else {
@@ -191,7 +189,6 @@ class TranslationProgressService {
     }
   }
 }
-
 
 class LanguageTile extends StatefulWidget {
   final Locale locale;
@@ -230,11 +227,25 @@ class _LanguageTileState extends State<LanguageTile> {
   Widget build(BuildContext context) {
     _isSelected = widget.locale == widget.selectedLocale;
 
-    final radiusEnd = _isSelected ? BorderRadius.circular(50) : widget.isFirst ? BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10), topLeft: Radius.circular(20), topRight: Radius.circular(20)) : widget.isLast ? BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20), topLeft: Radius.circular(10), topRight: Radius.circular(10)) : BorderRadius.circular(10);
+    final radiusEnd = _isSelected
+        ? BorderRadius.circular(50)
+        : widget.isFirst
+            ? BorderRadius.only(
+                bottomLeft: Radius.circular(0),
+                bottomRight: Radius.circular(0),
+                topLeft: Radius.circular(18),
+                topRight: Radius.circular(18))
+            : widget.isLast
+                ? BorderRadius.only(
+                    bottomLeft: Radius.circular(18),
+                    bottomRight: Radius.circular(18),
+                    topLeft: Radius.circular(0),
+                    topRight: Radius.circular(0))
+                : BorderRadius.circular(0);
 
     return TweenAnimationBuilder<BorderRadius>(
       tween: Tween<BorderRadius>(
-        begin: BorderRadius.circular(10),
+        begin: BorderRadius.circular(0),
         end: radiusEnd,
       ),
       duration: const Duration(milliseconds: 400),
@@ -245,39 +256,67 @@ class _LanguageTileState extends State<LanguageTile> {
           child: child,
         );
       },
-        child:Material(   
-            color: _isSelected ? Theme.of(context).colorScheme.primaryContainer : Theme.of(context).colorScheme.surfaceContainerLow,
-          child:  ListTile( 
+      child: Material(
+        color: _isSelected
+            ? Theme.of(context).colorScheme.primaryContainer
+            : Theme.of(context).colorScheme.surfaceContainerLowest,
+        child: ListTile(
             minTileHeight: 66,
             splashColor: Colors.transparent,
             contentPadding: EdgeInsets.only(left: 8, right: 14),
-            leading: Stack(
-              alignment: Alignment.center,
-              children: [
-              CircleAvatar(backgroundColor:  _isSelected ? Theme.of(context).colorScheme.primary : null, foregroundColor: _isSelected ? Theme.of(context).colorScheme.onPrimary : null, child: _isSelected ? Icon(Symbols.check, size: 30,) : Text(getLanguageCode(widget.locale))),
+            leading: Stack(alignment: Alignment.center, children: [
+              CircleAvatar(
+                  backgroundColor: _isSelected
+                      ? Theme.of(context).colorScheme.primary
+                      : null,
+                  foregroundColor: _isSelected
+                      ? Theme.of(context).colorScheme.onPrimary
+                      : null,
+                  child: _isSelected
+                      ? Icon(
+                          Symbols.check,
+                          size: 30,
+                        )
+                      : Text(getLanguageCode(widget.locale))),
               SizedBox(
-              width: 56,
-              height: 60,
-              child: CircularProgressIndicator(value: widget.progress / 100, year2023: false, backgroundColor: Colors.red,))
-            ]
+                  width: 56,
+                  height: 60,
+                  child: CircularProgressIndicator(
+                    value: widget.progress / 100,
+                    year2023: false,
+                    backgroundColor: Colors.red,
+                  ))
+            ]),
+            title: Text(
+              widget.languageName['native']!,
+              style: TextStyle(
+                  color: _isSelected
+                      ? Theme.of(context).colorScheme.onPrimaryContainer
+                      : Theme.of(context).colorScheme.onSurface),
             ),
-            title: Text(widget.languageName['native']!, style: TextStyle(color: _isSelected ? Theme.of(context).colorScheme.onPrimaryContainer : Theme.of(context).colorScheme.onSurface),),
             subtitle: Text(widget.languageName['english']!),
             trailing: Container(
               padding: EdgeInsets.only(left: 6, right: 6, top: 2, bottom: 2),
               decoration: BoxDecoration(
-                color: _isSelected ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.primaryContainer,
-                borderRadius: BorderRadius.circular(50)
+                  color: _isSelected
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(50)),
+              child: Text(
+                "${widget.progress}%",
+                style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color: _isSelected
+                        ? Theme.of(context).colorScheme.onPrimary
+                        : null),
               ),
-              child: Text("${widget.progress}%", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: _isSelected ? Theme.of(context).colorScheme.onPrimary : null),),
             ),
-            onTap: widget.onTap
-          ),
-        ),
+            onTap: widget.onTap),
+      ),
     );
   }
 }
-
 
 class LanguageSearchDelegate extends SearchDelegate<Locale?> {
   final List<Locale> locales;
@@ -293,7 +332,9 @@ class LanguageSearchDelegate extends SearchDelegate<Locale?> {
           query = '';
         },
       ),
-      SizedBox(width: 5,)
+      SizedBox(
+        width: 5,
+      )
     ];
   }
 
@@ -313,53 +354,51 @@ class LanguageSearchDelegate extends SearchDelegate<Locale?> {
   }
 
   @override
-ThemeData appBarTheme(BuildContext context) {
-  final baseTheme = Theme.of(context);
-  return baseTheme.copyWith(
-    appBarTheme: AppBarTheme(
-      scrolledUnderElevation: 0,
-      titleSpacing: 0,
-      elevation: 1      
-    ),
-    inputDecorationTheme: InputDecorationTheme(
-       border: OutlineInputBorder(
-        borderSide: BorderSide.none,
+  ThemeData appBarTheme(BuildContext context) {
+    final baseTheme = Theme.of(context);
+    return baseTheme.copyWith(
+      appBarTheme:
+          AppBarTheme(scrolledUnderElevation: 0, titleSpacing: 0, elevation: 1),
+      inputDecorationTheme: InputDecorationTheme(
+        border: OutlineInputBorder(
+          borderSide: BorderSide.none,
+        ),
+        hintStyle: TextStyle(
+            fontSize: 16,
+            color: Theme.of(context).colorScheme.onSurfaceVariant),
       ),
-      hintStyle: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.onSurfaceVariant),
-    ),
-    
-  );
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    final queryLower = query.toLowerCase();
+    final suggestions = query.isEmpty
+        ? locales
+        : locales.where((locale) {
+            final languageNames = getLanguageNames(locale);
+            return languageNames['native']!
+                    .toLowerCase()
+                    .contains(queryLower) ||
+                languageNames['english']!.toLowerCase().contains(queryLower);
+          }).toList();
+
+    return ListView.builder(
+      itemCount: suggestions.length,
+      itemBuilder: (context, index) {
+        final locale = suggestions[index];
+        final languageNames = getLanguageNames(locale);
+        return ListTile(
+          title: Text(languageNames['native']!),
+          subtitle: Text(languageNames['english']!),
+          onTap: () {
+            close(context, locale);
+          },
+        );
+      },
+    );
+  }
 }
-
-@override
-Widget buildSuggestions(BuildContext context) {
-  final queryLower = query.toLowerCase();
-  final suggestions = query.isEmpty
-      ? locales
-      : locales.where((locale) {
-          final languageNames = getLanguageNames(locale);
-          return languageNames['native']!.toLowerCase().contains(queryLower) ||
-                 languageNames['english']!.toLowerCase().contains(queryLower);
-        }).toList();
-
-  return ListView.builder(
-    itemCount: suggestions.length,
-    itemBuilder: (context, index) {
-      final locale = suggestions[index];
-      final languageNames = getLanguageNames(locale);
-      return ListTile(
-        title: Text(languageNames['native']!),
-        subtitle: Text(languageNames['english']!),
-        onTap: () {
-          close(context, locale); 
-        },
-      );
-    },
-  );
-}
-
-}
-
 
 Map<String, String> getLanguageNames(Locale locale) {
   final lang = locale.languageCode;
@@ -426,7 +465,10 @@ Map<String, String> getLanguageNames(Locale locale) {
     return {'native': 'Português (Brasil)', 'english': 'Portuguese (Brazil)'};
   }
   if (lang == 'pt' && country == 'PT') {
-    return {'native': 'Português (Portugal)', 'english': 'Portuguese (Portugal)'};
+    return {
+      'native': 'Português (Portugal)',
+      'english': 'Portuguese (Portugal)'
+    };
   }
   if (lang == 'ro' && country == 'RO') {
     return {'native': 'Română', 'english': 'Romanian'};
@@ -440,7 +482,7 @@ Map<String, String> getLanguageNames(Locale locale) {
   if (lang == 'sr' && country == 'CS') {
     return {'native': 'Српски (Ћирилица)', 'english': 'Serbian (Cyrillic)'};
   }
-  if (lang == 'sr'&& country == 'SP') {
+  if (lang == 'sr' && country == 'SP') {
     return {'native': 'Српски', 'english': 'Serbian'};
   }
   if (lang == 'sv' && country == 'SE') {
@@ -462,23 +504,21 @@ Map<String, String> getLanguageNames(Locale locale) {
     return {'native': '繁體中文', 'english': 'Traditional Chinese'};
   }
 
-  return {'native': '$lang${country != null ? "_$country" : ""}', 'english': 'Unknown'};
+  return {
+    'native': '$lang${country != null ? "_$country" : ""}',
+    'english': 'Unknown'
+  };
 }
-
-
-
 
 String getLanguageCode(Locale locale) {
   return locale.languageCode.toUpperCase();
 }
 
-
-
 String getLanguageCodeCrodwin(Locale locale) {
   final lang = locale.languageCode.toLowerCase();
   final country = locale.countryCode?.toUpperCase();
 
-  if (lang == 'sr' && country == 'CS') return 'sr-CS'; 
+  if (lang == 'sr' && country == 'CS') return 'sr-CS';
   if (lang == 'sr') return 'sr';
   if (lang == 'pt' && country == 'BR') return 'pt-BR';
   if (lang == 'pt' && country == 'PT') return 'pt-PT';

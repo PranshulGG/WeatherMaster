@@ -16,6 +16,7 @@ class MainActivity : FlutterActivity() {
     private val BATTERY_CHANNEL = "com.pranshulgg.battery_optimization"
     private val SERVICE_CHANNEL = "com.pranshulgg.weather_master_app/service"
 
+    private val LOCATION_CHANNEL = "native_location"
     private val REQUEST_CODE_POST_NOTIFICATIONS = 1001
 
     private var permissionResultPending: MethodChannel.Result? = null
@@ -31,6 +32,41 @@ class MainActivity : FlutterActivity() {
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, BATTERY_CHANNEL)
             .setMethodCallHandler(BatteryOptimizationHandler(this))
 
+
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, LOCATION_CHANNEL).setMethodCallHandler { call, result ->
+            val helper = LocationHelper(this)
+
+            when (call.method) {
+                "getCurrentPosition" -> {
+                    helper.getCurrentPosition(object : LocationHelper.LocationResult  {
+                        override fun onSuccess(latitude: Double, longitude: Double) {
+                            result.success(mapOf(
+                                "latitude" to latitude.toString(),
+                                "longitude" to longitude.toString()
+                            ))
+                        }
+
+                        override fun onFailure(error: String) {
+                            // Send error to Flutter as PlatformException
+                            result.error("LOCATION_ERROR", error, null)
+                        }
+                    })
+                }
+
+                "reverseGeocode" -> {
+                    val lat = call.argument<Double>("latitude") ?: 0.0
+                    val lon = call.argument<Double>("longitude") ?: 0.0
+
+                    // Use the new async callback version
+                    GeocodeHelper.reverseGeocode(this, lat, lon) { geo ->
+                        result.success(geo)
+                    }
+                }
+
+
+                else -> result.notImplemented()
+            }
+        }
 
         
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, SERVICE_CHANNEL)
