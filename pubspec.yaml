@@ -2,7 +2,7 @@ name: weather_master_app
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -19,8 +19,8 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 2.3.1+17
 
 environment:
-  sdk: '>=3.0.6 <4.0.0'
-  flutter: '3.32.4'
+  sdk: ">=3.0.6 <4.0.0"
+  flutter: "3.32.4"
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
 # consider running `flutter pub upgrade --major-versions`. Alternatively,
@@ -48,7 +48,7 @@ dependencies:
   geolocator: ^14.0.1
   connectivity_plus: ^6.1.4
   restart_app: ^1.2.1
-  intl: ^0.20.2 
+  intl: ^0.20.2
   material_symbols_icons: ^4.2815.1
   flutter_compass: ^0.8.1
   dynamic_color: ^1.7.0
@@ -59,25 +59,22 @@ dependencies:
   reorderable_grid_view: ^2.2.6
   custom_refresh_indicator: ^4.0.1
   flutter_markdown: ^0.7.7+1
-  geocoding: ^4.0.0 
+  geocoding: ^4.0.0
   solar_calculator: ^1.0.3
   file_picker: ^10.2.0
   flutter_dotenv: ^5.2.1
   home_widget: ^0.8.0
 
-
-
   settings_tiles:
     path: ./settings_tiles_custom
 
-
 # Uncomment this for publishing FLOSS variant
-dependency_overrides:
-  geolocator_android:
-    git:
-      url: https://github.com/Zverik/flutter-geolocator.git
-      ref: floss
-      path: geolocator_android
+# dependency_overrides:
+#   geolocator_android:
+#     git:
+#       url: https://github.com/Zverik/flutter-geolocator.git
+#       ref: floss
+#       path: geolocator_android
 
 dev_dependencies:
   flutter_test:
@@ -90,18 +87,15 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
 
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
 
   assets:
     - assets/weather-icons/
@@ -109,14 +103,14 @@ flutter:
     - assets/translations/
     - assets/froggie/
     - .env
-    
+
   fonts:
-  - family: OpenSans
-    fonts:
-      - asset: assets/fonts/Regular.ttf
-        weight: 400
-      - asset: assets/fonts/Medium.ttf
-        weight: 500
+    - family: OpenSans
+      fonts:
+        - asset: assets/fonts/Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Medium.ttf
+          weight: 500
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
