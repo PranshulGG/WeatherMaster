@@ -28,61 +28,61 @@ class SettingSection extends StatelessWidget {
   final bool PrimarySwitch;
   final bool errorTile;
 
+  Widget _wrapStyledTile(BuildContext context, Widget tile,
+      {required bool isFirst, required bool isLast, required bool isOnly}) {
+    final borderRadius = isOnly
+        ? BorderRadius.circular(18)
+        : isFirst
+            ? const BorderRadius.only(
+                topLeft: Radius.circular(18),
+                topRight: Radius.circular(18),
+                bottomLeft: Radius.circular(0),
+                bottomRight: Radius.circular(0),
+              )
+            : isLast
+                ? const BorderRadius.only(
+                    topLeft: Radius.circular(0),
+                    topRight: Radius.circular(0),
+                    bottomLeft: Radius.circular(18),
+                    bottomRight: Radius.circular(18),
+                  )
+                : BorderRadius.circular(0);
 
-
-Widget _wrapStyledTile(BuildContext context, Widget tile,
-    {required bool isFirst, required bool isLast, required bool isOnly}) {
-  final borderRadius = isOnly
-      ? BorderRadius.circular(18)
-      : isFirst
-          ? const BorderRadius.only(
-              topLeft: Radius.circular(18),
-              topRight: Radius.circular(18),
-              bottomLeft: Radius.circular(6),
-              bottomRight: Radius.circular(6),
-            )
-          : isLast
-              ? const BorderRadius.only(
-                  topLeft: Radius.circular(6),
-                  topRight: Radius.circular(6),
-                  bottomLeft: Radius.circular(18),
-                  bottomRight: Radius.circular(18),
-                )
-              : BorderRadius.circular(6);
-
-  return Material(
-    color: PrimarySwitch ? Theme.of(context).colorScheme.primaryContainer : errorTile ? Theme.of(context).colorScheme.errorContainer : Theme.of(context).colorScheme.surfaceContainerLowest,
-    shape: RoundedRectangleBorder(borderRadius: borderRadius),
-    clipBehavior: Clip.hardEdge,
-    child: tile,
-  );
-}
-
+    return Material(
+      color: PrimarySwitch
+          ? Theme.of(context).colorScheme.primaryContainer
+          : errorTile
+              ? Theme.of(context).colorScheme.errorContainer
+              : Theme.of(context).colorScheme.surfaceContainerLowest,
+      shape: RoundedRectangleBorder(borderRadius: borderRadius),
+      clipBehavior: Clip.hardEdge,
+      child: tile,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-  padding: EdgeInsets.fromLTRB(styleTile ? 10 : 0, 0, styleTile ? 10 : 0, 0),
-  child: Column(
-      spacing: styleTile ? 4 : 0,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (title != null) title!,
-        for (final (index, tile) in tiles.indexed) ...[
-          if (divider != null && index != 0) divider!,
-      if (styleTile)
-           _wrapStyledTile(
-            context,
-            tile,
-            isFirst: index == 0,
-            isLast: index == tiles.length - 1,
-            isOnly: tiles.length == 1,
-          )
-        else
-          tile,
-        ],
-      ],
-      )
-    );
+        padding: EdgeInsets.fromLTRB(styleTile ? 10 : 0, 0, styleTile ? 10 : 0, 0),
+        child: Column(
+          spacing: styleTile ? 2 : 0,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (title != null) title!,
+            for (final (index, tile) in tiles.indexed) ...[
+              if (divider != null && index != 0) divider!,
+              if (styleTile)
+                _wrapStyledTile(
+                  context,
+                  tile,
+                  isFirst: index == 0,
+                  isLast: index == tiles.length - 1,
+                  isOnly: tiles.length == 1,
+                )
+              else
+                tile,
+            ],
+          ],
+        ));
   }
 }

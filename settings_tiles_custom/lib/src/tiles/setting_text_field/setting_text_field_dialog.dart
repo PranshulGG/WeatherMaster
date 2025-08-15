@@ -34,11 +34,14 @@ class _SettingTextFieldDialogState extends State<SettingTextFieldDialog> {
     return AlertDialog.adaptive(
       title: Text(widget.title),
       content: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(0),
         child: SingleChildScrollView(
           child: TextField(
             controller: _textEditingController,
             autofocus: true,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+            ),
           ),
         ),
       ),
