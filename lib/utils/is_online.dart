@@ -5,9 +5,9 @@ import 'package:http/http.dart' as http;
 Future<bool> hasRealInternet() async {
   final testUrls = [
     'http://connect.rom.miui.com/generate_204', // MIUI (good in China)
-    'http://captive.apple.com',                // Apple (globally reachable)
-    'http://example.com',                      // Very lightweight
-    'http://baidu.com',                        // Works in China
+    'http://captive.apple.com', // Apple (globally reachable)
+    'http://example.com', // Very lightweight
+    'http://baidu.com', // Works in China
   ];
 
   try {
@@ -17,7 +17,8 @@ Future<bool> hasRealInternet() async {
 
     for (final url in testUrls) {
       try {
-        final response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 3));
+        final response =
+            await http.get(Uri.parse(url)).timeout(const Duration(seconds: 3));
         if (response.statusCode == 204 ||
             response.statusCode == 200 ||
             response.statusCode == 302) {
@@ -32,5 +33,3 @@ Future<bool> hasRealInternet() async {
     return false;
   }
 }
-
-

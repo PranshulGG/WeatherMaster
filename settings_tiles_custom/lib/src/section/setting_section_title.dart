@@ -12,17 +12,15 @@ class SettingSectionTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: noPadding ? 8 : 16),
+      padding: EdgeInsets.only(left: noPadding ? 10 : 16, right: noPadding ? 10 : 16, bottom: noPadding ? 5 : 0),
       child: Text(
         title,
-        style:
-            TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 16,
-              color: Theme.of(context).colorScheme.primary,
-            ),
+        style: TextStyle(
+          fontWeight: FontWeight.w600,
+          fontSize: 16,
+          color: Theme.of(context).colorScheme.primary,
+        ),
       ),
     );
   }

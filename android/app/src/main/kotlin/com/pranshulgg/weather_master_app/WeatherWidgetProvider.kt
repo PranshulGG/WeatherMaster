@@ -20,6 +20,7 @@ class WeatherWidgetProvider : AppWidgetProvider() {
 
             // Prevents crash when isDayWidget was stored as Boolean instead of String
             val rawIsDay = prefs.all["isDayWidget"]
+
             val isDay = when (rawIsDay) {
                 is String -> rawIsDay
                 is Boolean -> if (rawIsDay) "1" else "0"

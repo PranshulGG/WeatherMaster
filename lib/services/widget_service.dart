@@ -12,10 +12,12 @@ const MethodChannel _bgChannel =
 //     MethodChannel("com.pranshulgg.weather_master_app/debug");
 
 Future<void> startWeatherService() async {
-  final int selectedInterval = PreferencesHelper.getInt("savedRefreshInterval") ?? 90;;
+  final int selectedInterval =
+      PreferencesHelper.getInt("savedRefreshInterval") ?? 90;
+  ;
   await _serviceChannel.invokeMethod('startService', {
-  'intervalMinutes': selectedInterval,
-});
+    'intervalMinutes': selectedInterval,
+  });
 }
 
 Future<void> stopWeatherService() async {
@@ -29,5 +31,4 @@ void listenForServiceEvents() {
       await updateHomeWidget(null, updatedFromHome: false);
     }
   });
-
 }

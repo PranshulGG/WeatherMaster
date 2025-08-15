@@ -8,8 +8,8 @@ import 'screens/home.dart';
 import 'screens/locations.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import '../utils/theme_controller.dart'; 
-import 'utils/geo_location.dart'; 
+import '../utils/theme_controller.dart';
+import 'utils/geo_location.dart';
 import '../services/fetch_data.dart';
 import '../models/saved_location.dart';
 import '../utils/preferences_helper.dart';
@@ -24,16 +24,14 @@ import 'dart:ui' as ui;
 import 'services/widget_service.dart';
 import 'widget_background.dart';
 
-
-final CorePalette paletteStartScreen = CorePalette.of(const Color.fromARGB(255, 255, 196, 0).toARGB32());
+final CorePalette paletteStartScreen =
+    CorePalette.of(const Color.fromARGB(255, 255, 196, 0).toARGB32());
 
 @pragma('vm:entry-point')
 Future<void> workerUpdateWidget() async {
   WidgetsFlutterBinding.ensureInitialized();
   await updateHomeWidget(null, updatedFromHome: false);
 }
-
-
 
 const easySupportedLocales = [
   Locale('ar', 'SA'),
@@ -59,8 +57,8 @@ const easySupportedLocales = [
   Locale('ro', 'RO'),
   Locale('ru', 'RU'),
   Locale('sl', 'SI'),
-  Locale('sr', 'CS'), 
-  Locale('sr', 'SP'), 
+  Locale('sr', 'CS'),
+  Locale('sr', 'SP'),
   Locale('sv', 'SE'),
   Locale('tr', 'TR'),
   Locale('uk', 'UA'),
@@ -68,20 +66,14 @@ const easySupportedLocales = [
   Locale('zh', 'CN'),
   Locale('zh', 'TW'),
   Locale('ca', 'ES'),
-
 ];
 
-
-final flutterSupportedLocales = easySupportedLocales
-    .map((l) => Locale(l.languageCode))
-    .toSet()
-    .toList();
-
-
+final flutterSupportedLocales =
+    easySupportedLocales.map((l) => Locale(l.languageCode)).toSet().toList();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-    listenForServiceEvents();
+  listenForServiceEvents();
   await EasyLocalization.ensureInitialized();
 
   await SystemChrome.setPreferredOrientations([
@@ -89,20 +81,16 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
-
   final prefs = await SharedPreferences.getInstance();
 
-    
-  await PreferencesHelper.init(); 
+  await PreferencesHelper.init();
 
   PreferencesHelper.setBool('triggerfromWorker', false);
 
-
- await dotenv.load(fileName: ".env");
+  await dotenv.load(fileName: ".env");
 
   final dir = await getApplicationDocumentsDirectory();
   Hive.init(dir.path);
-
 
   // widget------
 
@@ -115,7 +103,6 @@ void main() async {
   }
   // widget ------
 
-
   final themeController = ThemeController();
   await themeController.initialize();
   await themeController.checkDynamicColorSupport();
@@ -123,12 +110,8 @@ void main() async {
   PaintingBinding.instance.imageCache.maximumSize = 1000;
   PaintingBinding.instance.imageCache.maximumSizeBytes = 200 << 20;
 
-
-
   final homeLocationJson = prefs.getString('homeLocation');
   final currentLocationJson = prefs.getString('currentLocation');
-
-
 
   String? cityName;
   String? countryName;
@@ -152,13 +135,12 @@ void main() async {
     lon = locationData['lon'];
   }
 
-runApp(
+  runApp(
     EasyLocalization(
       supportedLocales: easySupportedLocales,
       path: 'assets/translations',
       fallbackLocale: Locale('en'),
       saveLocale: true,
-
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => themeController),
@@ -177,6 +159,7 @@ runApp(
     ),
   );
 }
+
 class MyApp extends StatelessWidget {
   final String? cacheKey;
   final String? cityName;
@@ -197,148 +180,138 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  final themeController = Provider.of<ThemeController>(context);
+    final themeController = Provider.of<ThemeController>(context);
 
-  final isLight = Theme.of(context).brightness == Brightness.light;
+    final isLight = Theme.of(context).brightness == Brightness.light;
 
-      SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(
-      statusBarColor: Color(0x01000000),
-      statusBarIconBrightness: isLight ? Brightness.dark : Brightness.light,
-      systemNavigationBarIconBrightness: isLight ? Brightness.dark : Brightness.light,
-      systemNavigationBarColor: MediaQuery.of(context).systemGestureInsets.left > 0 ? Color(0x01000000) : isLight ? Color(0x01000000) : Color.fromRGBO(0, 0, 0, 0.3)
-          
-        ),
-      );
-      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+          statusBarColor: Color(0x01000000),
+          statusBarIconBrightness: isLight ? Brightness.dark : Brightness.light,
+          systemNavigationBarIconBrightness:
+              isLight ? Brightness.dark : Brightness.light,
+          systemNavigationBarColor:
+              MediaQuery.of(context).systemGestureInsets.left > 0
+                  ? Color(0x01000000)
+                  : isLight
+                      ? Color(0x01000000)
+                      : Color.fromRGBO(0, 0, 0, 0.3)),
+    );
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
-
-
-    return 
-    MaterialApp(
+    return MaterialApp(
       title: 'WeatherMaster',
       debugShowCheckedModeBanner: false,
       locale: context.locale,
-      supportedLocales: flutterSupportedLocales, 
+      supportedLocales: flutterSupportedLocales,
       localizationsDelegates: context.localizationDelegates,
       localeResolutionCallback: (locale, supportedLocales) {
-        return context.locale; 
+        return context.locale;
       },
-
-       builder: (context, child) {
-    return Directionality(
-      textDirection: ui.TextDirection.ltr,
-      child: child!,
-    );
-  },
-
-  theme: ThemeData.from(
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: themeController.seedColor,
-        brightness: Brightness.light,
+      builder: (context, child) {
+        return Directionality(
+          textDirection: ui.TextDirection.ltr,
+          child: child!,
+        );
+      },
+      theme: ThemeData.from(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: themeController.seedColor,
+          brightness: Brightness.light,
+        ),
+        useMaterial3: true,
+      ).copyWith(
+        textTheme: ThemeData.light().textTheme.apply(fontFamily: 'OpenSans'),
+        highlightColor: Colors.transparent,
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: {
+            TargetPlatform.android: SharedAxisPageTransitionsBuilder(
+              transitionType: SharedAxisTransitionType.horizontal,
+            ),
+            TargetPlatform.iOS: SharedAxisPageTransitionsBuilder(
+              transitionType: SharedAxisTransitionType.horizontal,
+            ),
+          },
+        ),
       ),
-      useMaterial3: true,
-    ).copyWith(
-      textTheme: ThemeData.light().textTheme.apply(fontFamily: 'OpenSans'),
-      highlightColor: Colors.transparent,
-      
-      pageTransitionsTheme: const PageTransitionsTheme(
-        builders: {
-          TargetPlatform.android: SharedAxisPageTransitionsBuilder(
-            transitionType: SharedAxisTransitionType.horizontal,
-          ),
-          TargetPlatform.iOS: SharedAxisPageTransitionsBuilder(
-            transitionType: SharedAxisTransitionType.horizontal,
-          ),
-        },
-      ),
-    ),
-
-    darkTheme: ThemeData.from(
+      darkTheme: ThemeData.from(
         colorScheme: ColorScheme.fromSeed(
           seedColor: themeController.seedColor,
           brightness: Brightness.dark,
         ),
         useMaterial3: true,
-        
       ).copyWith(
         textTheme: ThemeData.dark().textTheme.apply(fontFamily: 'OpenSans'),
         highlightColor: Colors.transparent,
         pageTransitionsTheme: const PageTransitionsTheme(
-        builders: {
-          TargetPlatform.android: SharedAxisPageTransitionsBuilder(
-            transitionType: SharedAxisTransitionType.horizontal,
-          ),
-          TargetPlatform.iOS: SharedAxisPageTransitionsBuilder(
-            transitionType: SharedAxisTransitionType.horizontal,
-          ),
-        },
-      ),
+          builders: {
+            TargetPlatform.android: SharedAxisPageTransitionsBuilder(
+              transitionType: SharedAxisTransitionType.horizontal,
+            ),
+            TargetPlatform.iOS: SharedAxisPageTransitionsBuilder(
+              transitionType: SharedAxisTransitionType.horizontal,
+            ),
+          },
+        ),
         progressIndicatorTheme: ProgressIndicatorThemeData(
           color: Theme.of(context).colorScheme.primary,
         ),
       ),
-
       themeMode: themeController.themeMode,
-      home: (hasHomeLocation && cacheKey != null && cityName != null && countryName != null)
-            ? WeatherHome(
-                cacheKey: cacheKey!,
-                cityName: cityName!,
-                countryName: countryName!,
-                isHomeLocation: true,
-                lat: lat!,
-                lon: lon!,
-              )
-            : const LocationPromptScreen(),
-      );
-    }
+      home: (hasHomeLocation &&
+              cacheKey != null &&
+              cityName != null &&
+              countryName != null)
+          ? WeatherHome(
+              cacheKey: cacheKey!,
+              cityName: cityName!,
+              countryName: countryName!,
+              isHomeLocation: true,
+              lat: lat!,
+              lon: lon!,
+            )
+          : const LocationPromptScreen(),
+    );
   }
-
+}
 
 ColorScheme customDarkScheme = ColorScheme(
-      brightness: Brightness.dark,
-      primary: Color(paletteStartScreen.primary.get(80)),
-      onPrimary: Color(paletteStartScreen.primary.get(20)),
-      primaryContainer: Color(paletteStartScreen.primary.get(30)),
-      onPrimaryContainer: Color(paletteStartScreen.primary.get(90)),
-      secondary: Color(paletteStartScreen.secondary.get(80)),
-      onSecondary: Color(paletteStartScreen.secondary.get(20)),
-      secondaryContainer: Color(paletteStartScreen.secondary.get(30)),
-      onSecondaryContainer: Color(paletteStartScreen.secondary.get(90)),
-      tertiary: Color(paletteStartScreen.tertiary.get(80)),
-      onTertiary: Color(paletteStartScreen.tertiary.get(20)),
-      tertiaryContainer: Color(paletteStartScreen.tertiary.get(30)),
-      onTertiaryContainer: Color(paletteStartScreen.tertiary.get(90)),
-      surface: Color(paletteStartScreen.neutral.get(6)),
-      onSurface: Color(paletteStartScreen.neutral.get(90)),
-      onSurfaceVariant: Color(paletteStartScreen.neutralVariant.get(80)),
-      error: Color(paletteStartScreen.error.get(80)),
-      onError: Color(paletteStartScreen.error.get(20)),
-      errorContainer: Color(paletteStartScreen.error.get(30)),
-      onErrorContainer: Color(paletteStartScreen.error.get(90)),
-      inversePrimary: Color(paletteStartScreen.primary.get(40)),
-      inverseSurface: Color(paletteStartScreen.neutral.get(90)),
-      outline: Color(paletteStartScreen.neutralVariant.get(60)),
-      outlineVariant: Color(paletteStartScreen.neutralVariant.get(30)),
-      shadow: Color(paletteStartScreen.neutral.get(0)),
-      surfaceContainerHigh: Color(paletteStartScreen.neutral.get(17)),
-      surfaceContainerLow: Color(paletteStartScreen.neutral.get(10)),
-      surfaceContainer: Color(paletteStartScreen.neutral.get(12)),
-      surfaceContainerHighest: Color(paletteStartScreen.neutral.get(22)),
-      surfaceContainerLowest: Color(paletteStartScreen.neutral.get(4))
-);
+    brightness: Brightness.dark,
+    primary: Color(paletteStartScreen.primary.get(80)),
+    onPrimary: Color(paletteStartScreen.primary.get(20)),
+    primaryContainer: Color(paletteStartScreen.primary.get(30)),
+    onPrimaryContainer: Color(paletteStartScreen.primary.get(90)),
+    secondary: Color(paletteStartScreen.secondary.get(80)),
+    onSecondary: Color(paletteStartScreen.secondary.get(20)),
+    secondaryContainer: Color(paletteStartScreen.secondary.get(30)),
+    onSecondaryContainer: Color(paletteStartScreen.secondary.get(90)),
+    tertiary: Color(paletteStartScreen.tertiary.get(80)),
+    onTertiary: Color(paletteStartScreen.tertiary.get(20)),
+    tertiaryContainer: Color(paletteStartScreen.tertiary.get(30)),
+    onTertiaryContainer: Color(paletteStartScreen.tertiary.get(90)),
+    surface: Color(paletteStartScreen.neutral.get(6)),
+    onSurface: Color(paletteStartScreen.neutral.get(90)),
+    onSurfaceVariant: Color(paletteStartScreen.neutralVariant.get(80)),
+    error: Color(paletteStartScreen.error.get(80)),
+    onError: Color(paletteStartScreen.error.get(20)),
+    errorContainer: Color(paletteStartScreen.error.get(30)),
+    onErrorContainer: Color(paletteStartScreen.error.get(90)),
+    inversePrimary: Color(paletteStartScreen.primary.get(40)),
+    inverseSurface: Color(paletteStartScreen.neutral.get(90)),
+    outline: Color(paletteStartScreen.neutralVariant.get(60)),
+    outlineVariant: Color(paletteStartScreen.neutralVariant.get(30)),
+    shadow: Color(paletteStartScreen.neutral.get(0)),
+    surfaceContainerHigh: Color(paletteStartScreen.neutral.get(17)),
+    surfaceContainerLow: Color(paletteStartScreen.neutral.get(10)),
+    surfaceContainer: Color(paletteStartScreen.neutral.get(12)),
+    surfaceContainerHighest: Color(paletteStartScreen.neutral.get(22)),
+    surfaceContainerLowest: Color(paletteStartScreen.neutral.get(4)));
 
 class LocationPromptScreen extends StatelessWidget {
   const LocationPromptScreen({super.key});
 
-
   @override
   Widget build(BuildContext context) {
-
-
-
-
-
     Future<void> saveLocation(SavedLocation newLocation) async {
       final prefs = await SharedPreferences.getInstance();
       final existing = prefs.getString('saved_locations');
@@ -354,43 +327,48 @@ class LocationPromptScreen extends StatelessWidget {
 
       if (!alreadyExists) {
         current.add(newLocation);
-        await prefs.setString(
-            'saved_locations',
+        await prefs.setString('saved_locations',
             jsonEncode(current.map((e) => e.toJson()).toList()));
       }
-}
+    }
 
-
-
-
-    return
-    Scaffold(
+    return Scaffold(
       backgroundColor: customDarkScheme.surfaceContainerLow,
       appBar: AppBar(
         toolbarHeight: 130,
         backgroundColor: customDarkScheme.tertiaryContainer,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(28), bottomRight: Radius.circular(28))
-        ),
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(28),
+                bottomRight: Radius.circular(28))),
         title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 0,
             children: [
-              Text("Welcome!", style: TextStyle(fontFamily: 'fantasy', color: customDarkScheme.tertiary, fontSize: 44, height: 0),),
-              Text("WeatherMaster", style: TextStyle(fontFamily: 'fantasy', color: customDarkScheme.onTertiaryContainer, fontSize: 30, height: 0),),
-              
-
-            ]
-           ),
+              Text(
+                "Welcome!",
+                style: TextStyle(
+                    fontFamily: 'fantasy',
+                    color: customDarkScheme.tertiary,
+                    fontSize: 44,
+                    height: 0),
+              ),
+              Text(
+                "WeatherMaster",
+                style: TextStyle(
+                    fontFamily: 'fantasy',
+                    color: customDarkScheme.onTertiaryContainer,
+                    fontSize: 30,
+                    height: 0),
+              ),
+            ]),
       ),
-      body:
-       Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-
-            Container(
-              padding: EdgeInsets.only(top: 20),
-              child: SvgPicture.string('''
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            padding: EdgeInsets.only(top: 20),
+            child: SvgPicture.string('''
           <svg height="300.0dip" width="412.0dip" viewBox="0 0 412.0 300.0"
             xmlns:android="http://schemas.android.com/apk/res/android">
               <g>
@@ -416,159 +394,181 @@ class LocationPromptScreen extends StatelessWidget {
               </g>
           </svg>
           '''),
+          ),
+          Padding(
+              padding: EdgeInsets.only(left: 10, right: 10),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Center(
+                  child: Text(
+                    "Please search for a location or use your device's location to get the weather for your area.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: customDarkScheme.onSurface),
+                  ),
+                ),
+              ))
+        ],
       ),
-
-        Padding(padding: EdgeInsets.only(left: 10, right: 10),
-         child:  Align(
-            alignment: Alignment.bottomCenter,
-            child: Center(
-              child: Text("Please search for a location or use your device's location to get the weather for your area.", textAlign: TextAlign.center, style: TextStyle(color: customDarkScheme.onSurface),),
-            ),
-          )
-          )
-          ],
-        ),
-        
-        bottomNavigationBar: 
-        
-      BottomAppBar(
+      bottomNavigationBar: BottomAppBar(
         height: 215,
         clipBehavior: Clip.hardEdge,
         color: customDarkScheme.surfaceContainerLow,
-        
         child: Column(
           spacing: 10,
           children: [
-          FilledButton.icon(
-            style: ButtonStyle(
-              backgroundColor: WidgetStateProperty.all(customDarkScheme.primary),
-              minimumSize: WidgetStateProperty.all(const Size(300, 55)), 
-            ),
-             onPressed: () async {
+            FilledButton.icon(
+              style: ButtonStyle(
+                backgroundColor:
+                    WidgetStateProperty.all(customDarkScheme.primary),
+                minimumSize: WidgetStateProperty.all(const Size(300, 55)),
+              ),
+              onPressed: () async {
+                final dialogKey = GlobalKey<LoadingDialogState>();
 
-              final dialogKey = GlobalKey<LoadingDialogState>();
+                try {
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (_) => LoadingDialog(
+                      key: dialogKey,
+                      initialMessage: "Getting your location...",
+                    ),
+                  );
 
-            try {
+                  final position = await getCurrentPosition();
 
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (_) => LoadingDialog(
-              key: dialogKey,
-              initialMessage: "Getting your location...",
-            ),
-          );
+                  final geoData = await reverseGeocode(
+                      position.latitude, position.longitude);
 
+                  final saved = SavedLocation(
+                    latitude: position.latitude,
+                    longitude: position.longitude,
+                    city: geoData['city']!,
+                    country: geoData['country']!,
+                  );
 
-              final position = await getCurrentPosition();
+                  dialogKey.currentState?.updateMessage(
+                      "Found\n ${geoData['city']}, ${geoData['country']}\n Loading weather...");
 
-              final geoData = await reverseGeocode(position.latitude, position.longitude);
+                  saveLocation(saved);
 
-              final saved = SavedLocation(
-                latitude: position.latitude,
-                longitude: position.longitude,
-                city: geoData['city']!,
-                country: geoData['country']!,
-              );
+                  final cacheKey = "${saved.city}_${saved.country}"
+                      .toLowerCase()
+                      .replaceAll(' ', '_');
 
-              dialogKey.currentState?.updateMessage("Found\n ${geoData['city']}, ${geoData['country']}\n Loading weather...");
+                  final prefs = await SharedPreferences.getInstance();
+                  prefs.setString(
+                      'homeLocation',
+                      jsonEncode({
+                        'city': saved.city,
+                        'country': saved.country,
+                        'cacheKey': cacheKey,
+                        'lat': saved.latitude,
+                        'lon': saved.longitude,
+                        'isGPS': true,
+                      }));
 
+                  final weatherService = WeatherService();
+                  await weatherService.fetchWeather(
+                      saved.latitude, saved.longitude,
+                      locationName: cacheKey, context: context);
 
-              saveLocation(saved);
+                  Navigator.of(context, rootNavigator: true).pop();
 
-              final cacheKey =
-                  "${saved.city}_${saved.country}".toLowerCase().replaceAll(' ', '_');
-
-              final prefs = await SharedPreferences.getInstance();
-              prefs.setString('homeLocation', jsonEncode({
-                'city': saved.city,
-                'country': saved.country,
-                'cacheKey': cacheKey,
-                'lat': saved.latitude,
-                'lon': saved.longitude,
-                'isGPS': true,
-
-              }));
-
-
-
-              final weatherService = WeatherService();
-              await weatherService.fetchWeather(
-                saved.latitude,
-                saved.longitude,
-                locationName: cacheKey,
-                context: context
-              );
-
-
-        Navigator.of(context, rootNavigator: true).pop();
-
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (_) => WeatherHome(
-                    cacheKey: cacheKey,
-                    cityName: saved.city,
-                    countryName: saved.country,
-                    isHomeLocation: true,
-                    lat: saved.latitude,
-                    lon: saved.longitude,
-                  ),
-                ),
-              );
-            } catch (e) {
-        Navigator.of(context, rootNavigator: true).pop();
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Error: ${e.toString()}')),
-              );
-            }
-          },
-            icon: Icon(Icons.my_location, color: customDarkScheme.onPrimary, size: 25,),
-            label: Text("Use Current Location", style: TextStyle(color: customDarkScheme.onPrimary, fontSize: 20, fontFamily: 'sans-serif', fontWeight: FontWeight.w400),),
-            ),
-          OutlinedButton.icon(
-            style: ButtonStyle(              
-              minimumSize: WidgetStateProperty.all(const Size(100, 55)), 
-            side: WidgetStateProperty.all(
-              BorderSide(color: customDarkScheme.outline, width: 2), 
-            ),
-            ),
-
-           onPressed: () async {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const LocationsScreen()),
-                    );
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (_) => WeatherHome(
+                        cacheKey: cacheKey,
+                        cityName: saved.city,
+                        countryName: saved.country,
+                        isHomeLocation: true,
+                        lat: saved.latitude,
+                        lon: saved.longitude,
+                      ),
+                    ),
+                  );
+                } catch (e) {
+                  Navigator.of(context, rootNavigator: true).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Error: ${e.toString()}')),
+                  );
+                }
               },
-            icon: Icon(Icons.search, color: customDarkScheme.primary, size: 25,),
-            label: Text("Search location", style: TextStyle(color: customDarkScheme.primary, fontSize: 20, fontFamily: 'sans-serif', fontWeight: FontWeight.w400),),
+              icon: Icon(
+                Icons.my_location,
+                color: customDarkScheme.onPrimary,
+                size: 25,
+              ),
+              label: Text(
+                "Use Current Location",
+                style: TextStyle(
+                    color: customDarkScheme.onPrimary,
+                    fontSize: 20,
+                    fontFamily: 'sans-serif',
+                    fontWeight: FontWeight.w400),
+              ),
             ),
-
-
-                      OutlinedButton.icon(
-            style: ButtonStyle(              
-              minimumSize: WidgetStateProperty.all(const Size(100, 55)), 
-            side: WidgetStateProperty.all(
-              BorderSide(color: customDarkScheme.outline, width: 2), 
+            OutlinedButton.icon(
+              style: ButtonStyle(
+                minimumSize: WidgetStateProperty.all(const Size(100, 55)),
+                side: WidgetStateProperty.all(
+                  BorderSide(color: customDarkScheme.outline, width: 2),
+                ),
+              ),
+              onPressed: () async {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const LocationsScreen()),
+                );
+              },
+              icon: Icon(
+                Icons.search,
+                color: customDarkScheme.primary,
+                size: 25,
+              ),
+              label: Text(
+                "Search location",
+                style: TextStyle(
+                    color: customDarkScheme.primary,
+                    fontSize: 20,
+                    fontFamily: 'sans-serif',
+                    fontWeight: FontWeight.w400),
+              ),
             ),
-            ),
-
-           onPressed: () async {
-            await Hive.openBox('weatherMasterCache');
+            OutlinedButton.icon(
+              style: ButtonStyle(
+                minimumSize: WidgetStateProperty.all(const Size(100, 55)),
+                side: WidgetStateProperty.all(
+                  BorderSide(color: customDarkScheme.outline, width: 2),
+                ),
+              ),
+              onPressed: () async {
+                await Hive.openBox('weatherMasterCache');
                 await DataBackupService.importAndReplaceAllData(context);
               },
-            icon: Icon(Icons.download_outlined, color: customDarkScheme.primary, size: 25,),
-            label: Text("Import backup", style: TextStyle(color: customDarkScheme.primary, fontSize: 20, fontFamily: 'sans-serif', fontWeight: FontWeight.w400),),
+              icon: Icon(
+                Icons.download_outlined,
+                color: customDarkScheme.primary,
+                size: 25,
+              ),
+              label: Text(
+                "Import backup",
+                style: TextStyle(
+                    color: customDarkScheme.primary,
+                    fontSize: 20,
+                    fontFamily: 'sans-serif',
+                    fontWeight: FontWeight.w400),
+              ),
             ),
           ],
+        ),
       ),
-    ),
     );
   }
 }
 
-
 class LoadingDialog extends StatefulWidget {
   final String initialMessage;
-  final GlobalKey<LoadingDialogState> key; 
+  final GlobalKey<LoadingDialogState> key;
 
   const LoadingDialog({
     required this.key,
@@ -578,7 +578,6 @@ class LoadingDialog extends StatefulWidget {
   @override
   LoadingDialogState createState() => LoadingDialogState();
 }
-
 
 class LoadingDialogState extends State<LoadingDialog> {
   late String message;
@@ -601,14 +600,24 @@ class LoadingDialogState extends State<LoadingDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: customDarkScheme.surfaceContainerHigh,
-      
       content: Column(
         mainAxisSize: MainAxisSize.min,
         spacing: 10,
         children: [
-          const SizedBox(height: 6,),
-           CircularProgressIndicator(color: customDarkScheme.primary, year2023: false,),
-           Text(message, style: TextStyle(color: customDarkScheme.onSurface,), textAlign: TextAlign.center,),
+          const SizedBox(
+            height: 6,
+          ),
+          CircularProgressIndicator(
+            color: customDarkScheme.primary,
+            year2023: false,
+          ),
+          Text(
+            message,
+            style: TextStyle(
+              color: customDarkScheme.onSurface,
+            ),
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );

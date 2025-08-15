@@ -8,3 +8,4 @@
     android:previewImage="@drawable/current_hourly_prev"
     android:label="Current + hourly"
     android:widgetCategory="home_screen" />
+
