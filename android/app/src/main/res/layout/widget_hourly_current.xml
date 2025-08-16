@@ -31,6 +31,7 @@
                 android:layout_height="wrap_content"
                 android:text="Paid"
                 android:textColor="@color/colorSecondary"
+                android:fontFamily="@font/regular"
                 android:gravity="end"
                 android:layout_width="200dp"
                 android:textSize="24sp"
@@ -42,6 +43,7 @@
                     android:id="@+id/weather_condition_current"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/regular"
                     android:text="Haze"
                     android:layout_gravity="end"
                     android:textColor="@color/colorPrimary"
@@ -65,6 +67,7 @@
                 android:id="@+id/current_widget_temp_cast"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/medium"
                 android:text="28°"
                 android:textColor="@color/colorPrimary"
                 android:textSize="50sp"
@@ -83,6 +86,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="30°"
+                    android:fontFamily="@font/regular"
                     android:textColor="@color/colorSecondary"
                     android:textSize="20sp"
                     />
@@ -92,6 +96,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=" 21°"
+                    android:fontFamily="@font/regular"
                     android:textColor="@color/colorOnBackground"
                     android:textSize="20sp" />
 

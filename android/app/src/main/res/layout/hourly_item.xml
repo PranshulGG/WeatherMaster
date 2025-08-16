@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:layout_marginBottom="5dp"
+        android:fontFamily="@font/medium"
         android:textColor="@color/colorOnBackground" />
 
     <ImageView
@@ -25,6 +26,7 @@
         android:id="@+id/hourly_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/regular"
         android:text="12pm"
         android:textSize="14sp"
         android:textColor="@color/colorOnSurfaceVariant" />

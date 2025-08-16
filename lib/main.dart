@@ -23,7 +23,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:ui' as ui;
 import 'services/widget_service.dart';
 import 'widget_background.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 final CorePalette paletteStartScreen =
     CorePalette.of(const Color.fromARGB(255, 255, 196, 0).toARGB32());
