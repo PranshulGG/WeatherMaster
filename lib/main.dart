@@ -23,6 +23,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:ui' as ui;
 import 'services/widget_service.dart';
 import 'widget_background.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 final CorePalette paletteStartScreen =
     CorePalette.of(const Color.fromARGB(255, 255, 196, 0).toARGB32());
@@ -423,6 +424,10 @@ class LocationPromptScreen extends StatelessWidget {
                 final dialogKey = GlobalKey<LoadingDialogState>();
 
                 try {
+                  bool ready =
+                      await LocationPermissionHelper.checkServicesAndPermission(
+                          context);
+                  if (!ready) return;
                   showDialog(
                     context: context,
                     barrierDismissible: false,
