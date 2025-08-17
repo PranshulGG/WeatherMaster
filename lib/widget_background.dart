@@ -219,6 +219,9 @@ Future<void> updateHomeWidget(weather, {bool updatedFromHome = false}) async {
     await HomeWidget.updateWidget(
         name: 'WeatherWidgetCastProvider', iOSName: null);
     await HomeWidget.updateWidget(name: 'PillWidgetProvider', iOSName: null);
+    await HomeWidget.updateWidget(name: 'GlanceWidgetProvider', iOSName: null);
+    await HomeWidget.updateWidget(
+        name: 'DateCurrentWidgetProvider', iOSName: null);
 
     print('[WidgetUpdate] Called updateWidget');
   } catch (e, stack) {

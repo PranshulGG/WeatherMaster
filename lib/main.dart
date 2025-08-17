@@ -438,9 +438,8 @@ class LocationPromptScreen extends StatelessWidget {
 
                   final position = await NativeLocation.getCurrentPosition();
 
-                  final geoData = await NativeLocation.reverseGeocode(
-                      position.latitude, position.longitude);
-
+                  final geoData =
+                      await getGeoData(position.latitude, position.longitude);
                   final saved = SavedLocation(
                     latitude: position.latitude,
                     longitude: position.longitude,
@@ -623,4 +622,25 @@ class LoadingDialogState extends State<LoadingDialog> {
       ),
     );
   }
+}
+
+Future<Map<String, String>> getGeoData(double lat, double lon) async {
+  const maxRetries = 3;
+  int attempt = 0;
+  Map<String, String>? geoData;
+
+  while (attempt < maxRetries) {
+    geoData = await NativeLocation.reverseGeocode(lat, lon);
+    if ((geoData['city']?.isNotEmpty ?? false) &&
+        (geoData['country']?.isNotEmpty ?? false)) {
+      return geoData;
+    }
+    attempt++;
+    await Future.delayed(Duration(seconds: 1));
+  }
+
+  return {
+    'city': geoData?['city'] ?? 'Unknown City',
+    'country': geoData?['country'] ?? 'Unknown Country',
+  };
 }

@@ -26,4 +26,7 @@
 
     <color name="colorError">#ffb4ab</color>
     <color name="colorOnError">#690005</color>
+
+    <color name="colorGlanceWidgetTextClock">#EEF0FF</color>
+
 </resources>

@@ -7,7 +7,6 @@ import '../utils/geo_location.dart';
 import '../services/fetch_data.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '../models/loading_me.dart';
-import 'package:geolocator/geolocator.dart';
 
 class HomeLocationScreen extends StatelessWidget {
   const HomeLocationScreen({super.key});
@@ -172,98 +171,59 @@ class HomeLocationScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(99.0),
                                 ),
                                 child: ListTile(
-                                  contentPadding:
-                                      EdgeInsets.only(left: 5, right: 20),
-                                  minTileHeight: 68,
-                                  splashColor: Colors.transparent,
-                                  leading: isSelected
-                                      ? Stack(
-                                          alignment: Alignment.center,
-                                          children: [
-                                            SvgPicture.string(buildSvg(
-                                                Theme.of(context)
-                                                    .colorScheme
-                                                    .primary)),
-                                            Icon(Icons.check,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .onPrimary),
-                                          ],
-                                        )
-                                      : Stack(
-                                          alignment: Alignment.center,
-                                          children: [
-                                            SvgPicture.string(buildSvg(
-                                                Theme.of(context)
-                                                    .colorScheme
-                                                    .tertiary)),
-                                            Icon(Icons.my_location,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .onTertiary),
-                                          ],
-                                        ),
-                                  title: Text(
-                                    "your_device_location".tr(),
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      color: isSelected
-                                          ? Theme.of(context)
-                                              .colorScheme
-                                              .onPrimaryContainer
-                                          : null,
+                                    contentPadding:
+                                        EdgeInsets.only(left: 5, right: 20),
+                                    minTileHeight: 68,
+                                    splashColor: Colors.transparent,
+                                    leading: isSelected
+                                        ? Stack(
+                                            alignment: Alignment.center,
+                                            children: [
+                                              SvgPicture.string(buildSvg(
+                                                  Theme.of(context)
+                                                      .colorScheme
+                                                      .primary)),
+                                              Icon(Icons.check,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .onPrimary),
+                                            ],
+                                          )
+                                        : Stack(
+                                            alignment: Alignment.center,
+                                            children: [
+                                              SvgPicture.string(buildSvg(
+                                                  Theme.of(context)
+                                                      .colorScheme
+                                                      .tertiary)),
+                                              Icon(Icons.my_location,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .onTertiary),
+                                            ],
+                                          ),
+                                    title: Text(
+                                      "your_device_location".tr(),
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        color: isSelected
+                                            ? Theme.of(context)
+                                                .colorScheme
+                                                .onPrimaryContainer
+                                            : null,
+                                      ),
                                     ),
-                                  ),
-                                  subtitle: isSelected
-                                      ? Text(
-                                          "${homeData['city']}, ${homeData['country']}")
-                                      : Text("current_location_tile_sub".tr()),
-                                  onTap: () async {
-                                    if (!isSelected) {
-                                      bool serviceEnabled;
-                                      LocationPermission permission;
-
-                                      serviceEnabled = await Geolocator
-                                          .isLocationServiceEnabled();
-                                      if (!serviceEnabled) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                              content: Text(
-                                                  'Location services are disabled. Please enable them.')),
-                                        );
-                                        return;
-                                      }
-
-                                      // Check location permission
-                                      permission =
-                                          await Geolocator.checkPermission();
-                                      if (permission ==
-                                          LocationPermission.denied) {
-                                        permission = await Geolocator
-                                            .requestPermission();
-                                        if (permission ==
-                                            LocationPermission.denied) {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            const SnackBar(
-                                                content: Text(
-                                                    'Location permission denied.')),
-                                          );
-                                          return;
-                                        }
-                                      }
-
-                                      if (permission ==
-                                          LocationPermission.deniedForever) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                              content: Text(
-                                                  'Location permission permanently denied. Please enable it in settings.')),
-                                        );
-                                        return;
-                                      }
+                                    subtitle: isSelected
+                                        ? Text(
+                                            "${homeData['city']}, ${homeData['country']}")
+                                        : Text(
+                                            "current_location_tile_sub".tr()),
+                                    onTap: () async {
+                                      bool ready =
+                                          await LocationPermissionHelper
+                                              .checkServicesAndPermission(
+                                                  context);
+                                      if (!ready) return;
                                       showDialog(
                                         context: context,
                                         barrierDismissible: false,
@@ -328,9 +288,7 @@ class HomeLocationScreen extends StatelessWidget {
                                                   'Error: ${e.toString()}')),
                                         );
                                       }
-                                    }
-                                  },
-                                ),
+                                    }),
                               ),
                             );
                           }

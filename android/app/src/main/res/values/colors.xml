@@ -32,4 +32,7 @@
 
     <color name="colorError">#ba1a1a</color>
     <color name="colorOnError">#ffffff</color>
+
+    <color name="colorGlanceWidgetTextClock">#EEF0FF</color>
+
 </resources>

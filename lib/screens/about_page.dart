@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
-import '../utils/open_links.dart'; 
+import '../utils/open_links.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -18,167 +18,174 @@ class AboutPage extends StatelessWidget {
         elevation: 0,
         toolbarHeight: 120,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(28), bottomRight: Radius.circular(28))
-        ),
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(28),
+                bottomRight: Radius.circular(28))),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
+          children: [
+            Column(
                 spacing: 10,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                Text("WeatherMaster", style: TextStyle(color: Theme.of(context).colorScheme.secondary, fontSize: 24),),
+                  Text(
+                    "WeatherMaster",
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.secondary,
+                        fontSize: 24),
+                  ),
                   CheckUpdateButton()
-              ]
-              ),
-              Container(
+                ]),
+            Container(
                 clipBehavior: Clip.hardEdge,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50)
-                ),
-               child: Image.asset("assets/weather-icons/new_icon.png", width: 80, height: 80,)
-              )
-            ],
-          ),
-        ),
-
-        body: ListView(
-          children: [
-            ListTile(
-              leading: CircleAvatar(radius: 23, child: Icon(Symbols.license)),
-              title: Text("licenses".tr()),
-              subtitle: Text("GNU GPL-3.0"),
-            ),
-            ListTile(
-              leading: CircleAvatar(radius: 23,child: Icon(Symbols.mail),),
-              title: Text("email_text".tr()),
-              subtitle: Text("pranshul.devmain@gmail.com"),
-              onTap: () {
-                openLink("mailto:pranshul.devmain@gmail.com");
-              },
-            ),
-            ListTile(
-              leading: CircleAvatar(radius: 23,child: Icon(Symbols.code),),
-              title: Text("source_code".tr()),
-              subtitle: Text("on_github".tr()),
-              onTap: () {
-                openLink("https://github.com/PranshulGG/WeatherMaster");
-              },
-            ),
-            ListTile(
-              leading: CircleAvatar(radius: 23,child: Icon(Symbols.bug_report),),
-              title: Text("create_an_issue".tr()),
-              subtitle: Text("on_github".tr()),
-              onTap: () {
-                openLink("https://github.com/PranshulGG/WeatherMaster/issues/");
-              },
-            ),
-
-            
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(50)),
+                child: Image.asset(
+                  "assets/weather-icons/new_icon.png",
+                  width: 80,
+                  height: 80,
+                ))
           ],
         ),
-
-          bottomNavigationBar: ClipRRect(
-    borderRadius: BorderRadius.only(
-      topLeft: Radius.circular(28),
-      topRight: Radius.circular(28),
-      
-    ),
-    child: BottomAppBar(
-      elevation: 0,
-      height: 180,
-      
-      padding: EdgeInsets.only(top: 10),
-      color: Theme.of(context).colorScheme.surfaceContainer,
-     child:  ListView(
-          physics: NeverScrollableScrollPhysics(),
-          children: [
-            ListTile(
-              leading: CircleAvatar(radius: 23, child: Icon(Symbols.license)),
-              title: Text("third_party_licenses".tr()),
-              onTap: () {
-              showLicensePage(
-              context: context,
-              applicationName: 'WeatherMaster',
-              applicationVersion: 'v2.3.1 (F)',
-              applicationIcon: Container(
-                clipBehavior: Clip.hardEdge,
-                margin: EdgeInsets.only(bottom: 16, top: 16),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                  child: Image.asset(
-                    'assets/weather-icons/new_icon.png',
-                    width: 60,
-                    height: 60,
-                  ),
-                ),
-
-            );
-              },
+      ),
+      body: ListView(
+        children: [
+          ListTile(
+            leading: CircleAvatar(radius: 23, child: Icon(Symbols.license)),
+            title: Text("licenses".tr()),
+            subtitle: Text("GNU GPL-3.0"),
+          ),
+          ListTile(
+            leading: CircleAvatar(
+              radius: 23,
+              child: Icon(Symbols.mail),
             ),
-            ListTile(
-              leading: CircleAvatar(radius: 23,child: Icon(Symbols.mail),),
-              title: Text("terms_&_conditions".tr()),
-              onTap: () {
-                  Navigator.of(context).push(
-                  PageRouteBuilder(
-                    opaque: true,
-                    fullscreenDialog: true,
-                    reverseTransitionDuration: Duration(milliseconds: 200),
-                    pageBuilder: (context, animation, secondaryAnimation) {
-                  return TermsPage();
-                },
-                transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                  return FadeTransition(
-                    opacity: animation,
-                    child: child,
-                    
-                  );
-                }, 
-              ),
-            );
+            title: Text("email_text".tr()),
+            subtitle: Text("pranshul.devmain@gmail.com"),
+            onTap: () {
+              openLink("mailto:pranshul.devmain@gmail.com");
             },
+          ),
+          ListTile(
+            leading: CircleAvatar(
+              radius: 23,
+              child: Icon(Symbols.code),
             ),
-            ListTile(
-              leading: CircleAvatar(radius: 23,child: Icon(Symbols.code),),
-              title: Text("privacy_policy".tr()),
-              onTap: () {
-                  Navigator.of(context).push(
-                  PageRouteBuilder(
-                    opaque: true,
-                    fullscreenDialog: true,
-                    reverseTransitionDuration: Duration(milliseconds: 200),
-                    pageBuilder: (context, animation, secondaryAnimation) {
-                  return PolicyPage();
-                },
-                transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                  return FadeTransition(
-                    opacity: animation,
-                    child: child,
-                    
-                  );
-                }, 
-              ),
-            );
+            title: Text("source_code".tr()),
+            subtitle: Text("on_github".tr()),
+            onTap: () {
+              openLink("https://github.com/PranshulGG/WeatherMaster");
             },
+          ),
+          ListTile(
+            leading: CircleAvatar(
+              radius: 23,
+              child: Icon(Symbols.bug_report),
             ),
-          ]
-          )
+            title: Text("create_an_issue".tr()),
+            subtitle: Text("on_github".tr()),
+            onTap: () {
+              openLink("https://github.com/PranshulGG/WeatherMaster/issues/");
+            },
+          ),
+        ],
+      ),
+      bottomNavigationBar: ClipRRect(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(28),
+          topRight: Radius.circular(28),
         ),
-
-    ),
-        
+        child: BottomAppBar(
+            elevation: 0,
+            height: 180,
+            padding: EdgeInsets.only(top: 10),
+            color: Theme.of(context).colorScheme.surfaceContainer,
+            child: ListView(physics: NeverScrollableScrollPhysics(), children: [
+              ListTile(
+                leading: CircleAvatar(radius: 23, child: Icon(Symbols.license)),
+                title: Text("third_party_licenses".tr()),
+                onTap: () {
+                  showLicensePage(
+                    context: context,
+                    applicationName: 'WeatherMaster',
+                    applicationVersion: 'v2.4.0 (F)',
+                    applicationIcon: Container(
+                      clipBehavior: Clip.hardEdge,
+                      margin: EdgeInsets.only(bottom: 16, top: 16),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: Image.asset(
+                        'assets/weather-icons/new_icon.png',
+                        width: 60,
+                        height: 60,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                leading: CircleAvatar(
+                  radius: 23,
+                  child: Icon(Symbols.mail),
+                ),
+                title: Text("terms_&_conditions".tr()),
+                onTap: () {
+                  Navigator.of(context).push(
+                    PageRouteBuilder(
+                      opaque: true,
+                      fullscreenDialog: true,
+                      reverseTransitionDuration: Duration(milliseconds: 200),
+                      pageBuilder: (context, animation, secondaryAnimation) {
+                        return TermsPage();
+                      },
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        return FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                leading: CircleAvatar(
+                  radius: 23,
+                  child: Icon(Symbols.code),
+                ),
+                title: Text("privacy_policy".tr()),
+                onTap: () {
+                  Navigator.of(context).push(
+                    PageRouteBuilder(
+                      opaque: true,
+                      fullscreenDialog: true,
+                      reverseTransitionDuration: Duration(milliseconds: 200),
+                      pageBuilder: (context, animation, secondaryAnimation) {
+                        return PolicyPage();
+                      },
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        return FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+            ])),
+      ),
     );
   }
 }
 
-
-
 class TermsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-  final markdownData = '''
+    final markdownData = '''
   **Terms & Conditions**  
 
   These terms and conditions apply to the WeatherMaster app (hereby referred to as "Application") for mobile devices that was created by Pranshul (hereby referred to as "Service Provider") as an Open Source service.
@@ -219,23 +226,30 @@ class TermsPage extends StatelessWidget {
 ''';
 
     return Scaffold(
-      appBar: AppBar(title: Text('terms_&_conditions'.tr()), titleSpacing: 0, scrolledUnderElevation: 0,),
+      appBar: AppBar(
+        title: Text('terms_&_conditions'.tr()),
+        titleSpacing: 0,
+        scrolledUnderElevation: 0,
+      ),
       body: Markdown(
         data: markdownData,
-        padding: EdgeInsets.only(top: 16, bottom: MediaQuery.of(context).padding.bottom + 10, left: 16, right: 16),
-          onTapLink: (text, href, title) async {
-              openLink(href.toString());
-          },
+        padding: EdgeInsets.only(
+            top: 16,
+            bottom: MediaQuery.of(context).padding.bottom + 10,
+            left: 16,
+            right: 16),
+        onTapLink: (text, href, title) async {
+          openLink(href.toString());
+        },
       ),
     );
   }
 }
 
-
 class PolicyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-  final markdownData = '''
+    final markdownData = '''
   **Privacy Policy**
 
   This privacy policy applies to the WeatherMaster app (hereby referred to as "Application") for mobile devices that was created by Pranshul (hereby referred to as "Service Provider") as an Open Source service. This service is intended for use "AS IS".
@@ -313,19 +327,25 @@ class PolicyPage extends StatelessWidget {
 ''';
 
     return Scaffold(
-      appBar: AppBar(title: Text('privacy_policy'.tr()), titleSpacing: 0, scrolledUnderElevation: 0,),
+      appBar: AppBar(
+        title: Text('privacy_policy'.tr()),
+        titleSpacing: 0,
+        scrolledUnderElevation: 0,
+      ),
       body: Markdown(
         data: markdownData,
-        padding: EdgeInsets.only(top: 16, bottom: MediaQuery.of(context).padding.bottom + 10, left: 16, right: 16),
-          onTapLink: (text, href, title) async {
-              openLink(href.toString());
-          },
+        padding: EdgeInsets.only(
+            top: 16,
+            bottom: MediaQuery.of(context).padding.bottom + 10,
+            left: 16,
+            right: 16),
+        onTapLink: (text, href, title) async {
+          openLink(href.toString());
+        },
       ),
     );
   }
 }
-
-
 
 class CheckUpdateButton extends StatefulWidget {
   @override
@@ -333,7 +353,7 @@ class CheckUpdateButton extends StatefulWidget {
 }
 
 class _CheckUpdateButtonState extends State<CheckUpdateButton> {
-  final String currentVersion = 'v2.3.1';
+  final String currentVersion = 'v2.4.0';
   final String githubRepo = 'PranshulGG/WeatherMaster';
   bool isChecking = false;
 
@@ -342,7 +362,8 @@ class _CheckUpdateButtonState extends State<CheckUpdateButton> {
       isChecking = true;
     });
 
-    final String releasesUrl = 'https://api.github.com/repos/$githubRepo/releases';
+    final String releasesUrl =
+        'https://api.github.com/repos/$githubRepo/releases';
 
     try {
       final response = await http.get(Uri.parse(releasesUrl));
@@ -360,21 +381,28 @@ class _CheckUpdateButtonState extends State<CheckUpdateButton> {
 
       if (latestStable != null && latestStable['tag_name'] != currentVersion) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('new_version_available!'.tr()), behavior: SnackBarBehavior.floating,),
+          SnackBar(
+            content: Text('new_version_available!'.tr()),
+            behavior: SnackBarBehavior.floating,
+          ),
         );
 
         await Future.delayed(Duration(seconds: 1));
 
         final url = 'https://github.com/$githubRepo/releases';
-          openLink(url);
+        openLink(url);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('you_are_using_the_latest_version!'.tr()), behavior: SnackBarBehavior.floating),
+          SnackBar(
+              content: Text('you_are_using_the_latest_version!'.tr()),
+              behavior: SnackBarBehavior.floating),
         );
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('error_checking_for_updates'.tr()), behavior: SnackBarBehavior.floating),
+        SnackBar(
+            content: Text('error_checking_for_updates'.tr()),
+            behavior: SnackBarBehavior.floating),
       );
       print('Error: $e');
     }
@@ -386,20 +414,22 @@ class _CheckUpdateButtonState extends State<CheckUpdateButton> {
 
   @override
   Widget build(BuildContext context) {
-    return 
-      FilledButton.icon(
-    onPressed: isChecking ? null : checkForUpdates,
-    icon: Icon(Symbols.refresh, weight: 700,),
-    label: Text(isChecking ? 'checking'.tr() : currentVersion, style: TextStyle(fontWeight: FontWeight.w700)),
-    style: ButtonStyle(
-      padding: WidgetStateProperty.all(
-        EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+    return FilledButton.icon(
+      onPressed: isChecking ? null : checkForUpdates,
+      icon: Icon(
+        Symbols.refresh,
+        weight: 700,
       ),
-      minimumSize: WidgetStateProperty.all(Size(0, 30)),
-      iconAlignment: IconAlignment.end,
-      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-    ),
-
-  );
+      label: Text(isChecking ? 'checking'.tr() : currentVersion,
+          style: TextStyle(fontWeight: FontWeight.w700)),
+      style: ButtonStyle(
+        padding: WidgetStateProperty.all(
+          EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+        ),
+        minimumSize: WidgetStateProperty.all(Size(0, 30)),
+        iconAlignment: IconAlignment.end,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      ),
+    );
   }
 }

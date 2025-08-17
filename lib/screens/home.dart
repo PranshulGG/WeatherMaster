@@ -254,17 +254,18 @@ class _WeatherHomeState extends State<WeatherHome> {
 
     if (!hasInternet) {
       _isAppFullyLoaded = true;
-    } else if (isHomeLocation && lastUpdated != null) {
+      SnackUtil.showSnackBar(
+          context: context, message: "network_unavailable".tr());
+    } else if (lastUpdated != null) {
       final lastUpdateTime = DateTime.tryParse(lastUpdated);
       final now = DateTime.now();
       if (lastUpdateTime != null &&
-          now.difference(lastUpdateTime).inMinutes < 450) {
+          now.difference(lastUpdateTime).inMinutes < 45) {
         _isAppFullyLoaded = true;
       } else {
         checkAndUpdateHomeLocation();
       }
     }
-
     return json.decode(cached);
   }
 
@@ -1300,6 +1301,10 @@ class _WeatherHomeState extends State<WeatherHome> {
                               );
                             },
                             onClosed: (result) async {
+                              PreferencesHelper.setBool(
+                                  "firstLoadedLocations", true);
+
+                              await Future.delayed(Duration(milliseconds: 300));
                               if (result != null) {
                                 if (result['viewLocaton'] == true) {
                                   final weatherService = WeatherService();
@@ -1314,7 +1319,6 @@ class _WeatherHomeState extends State<WeatherHome> {
                                     context: context,
                                     isOnlyView: true,
                                   );
-
                                   if (result == null) {
                                   } else {
                                     setState(() {
@@ -1428,3 +1432,30 @@ class _WeatherHomeState extends State<WeatherHome> {
         });
   }
 }
+
+// Workaround for flickering
+// OverlayEntry? _loaderOverlay;
+
+// void showLoader(BuildContext context) {
+//   if (_loaderOverlay != null) return;
+//   _loaderOverlay = OverlayEntry(
+//     builder: (context) => Positioned.fill(
+//       child: Container(
+//         color: Theme.of(context).colorScheme.surface,
+//         child: const Center(
+//           child: LoaderWidget(
+//             size: 60,
+//             isContained: false,
+//           ),
+//         ),
+//       ),
+//     ),
+//   );
+
+//   Overlay.of(context)?.insert(_loaderOverlay!);
+// }
+
+// void hideLoader() {
+//   _loaderOverlay?.remove();
+//   _loaderOverlay = null;
+// }

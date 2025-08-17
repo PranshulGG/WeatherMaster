@@ -12,34 +12,6 @@ class Position {
   });
 }
 
-class LocationServiceDisabledException implements Exception {
-  final String message;
-  LocationServiceDisabledException(
-      [this.message = "Location services are disabled."]);
-
-  @override
-  String toString() => "LocationServiceDisabledException: $message";
-}
-
-class LocationPermissionDeniedException implements Exception {
-  final String message;
-  LocationPermissionDeniedException(
-      [this.message = "Location permission denied."]);
-
-  @override
-  String toString() => "LocationPermissionDeniedException: $message";
-}
-
-class LocationPermissionPermanentlyDeniedException implements Exception {
-  final String message;
-  LocationPermissionPermanentlyDeniedException(
-      [this.message =
-          "Location permission permanently denied. Open settings to enable."]);
-
-  @override
-  String toString() => "LocationPermissionPermanentlyDeniedException: $message";
-}
-
 class NativeLocation {
   static const platform = MethodChannel('native_location');
 

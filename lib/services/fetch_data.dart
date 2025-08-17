@@ -17,140 +17,147 @@ class WeatherService {
     }
     return Hive.box(_boxName);
   }
-  
 
-
-  Future<Map<String, dynamic>?> fetchWeather(double lat, double lon, {String? locationName, BuildContext? context, bool isOnlyView = false, bool isBackground = false}) async {
+  Future<Map<String, dynamic>?> fetchWeather(double lat, double lon,
+      {String? locationName,
+      BuildContext? context,
+      bool isOnlyView = false,
+      bool isBackground = false}) async {
     final timezone = tzmap.latLngToTimezoneString(lat, lon);
     final key = locationName ?? 'loc_${lat}_${lon}';
     final box = await _openBox();
 
-    final selectedModel = PreferencesHelper.getString("selectedWeatherModel") ?? "best_match";
-    
-    final uri = Uri.parse('https://api.open-meteo.com/v1/forecast').replace(queryParameters: {
+    final selectedModel =
+        PreferencesHelper.getString("selectedWeatherModel") ?? "best_match";
+
+    final uri = Uri.parse('https://api.open-meteo.com/v1/forecast')
+        .replace(queryParameters: {
       'latitude': lat.toString(),
       'longitude': lon.toString(),
-      'current': 'temperature_2m,is_day,apparent_temperature,pressure_msl,relative_humidity_2m,precipitation,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m,wind_gusts_10m',
-      'hourly': 'wind_speed_10m,wind_direction_10m,relative_humidity_2m,pressure_msl,cloud_cover,temperature_2m,dew_point_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,visibility,uv_index',
-      'daily': 'weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,daylight_duration,uv_index_max,precipitation_sum,precipitation_probability_max,precipitation_hours,wind_speed_10m_max,wind_gusts_10m_max',
+      'current':
+          'temperature_2m,is_day,apparent_temperature,pressure_msl,relative_humidity_2m,precipitation,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m,wind_gusts_10m',
+      'hourly':
+          'wind_speed_10m,wind_direction_10m,relative_humidity_2m,pressure_msl,cloud_cover,temperature_2m,dew_point_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,visibility,uv_index',
+      'daily':
+          'weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,daylight_duration,uv_index_max,precipitation_sum,precipitation_probability_max,precipitation_hours,wind_speed_10m_max,wind_gusts_10m_max',
       'timezone': timezone,
       'forecast_days': '7',
       'models': selectedModel
     });
-    final airQualityUri = Uri.parse('https://air-quality-api.open-meteo.com/v1/air-quality').replace(queryParameters: {
-    'latitude': lat.toString(),
-    'longitude': lon.toString(),
-    'current': 'us_aqi,european_aqi,pm10,pm2_5,carbon_monoxide,nitrogen_dioxide,sulphur_dioxide,ozone,alder_pollen,birch_pollen,grass_pollen,mugwort_pollen,olive_pollen,ragweed_pollen',
-    'timezone': timezone,
-    'forecast_hours': '1',
-  });
+    final airQualityUri =
+        Uri.parse('https://air-quality-api.open-meteo.com/v1/air-quality')
+            .replace(queryParameters: {
+      'latitude': lat.toString(),
+      'longitude': lon.toString(),
+      'current':
+          'us_aqi,european_aqi,pm10,pm2_5,carbon_monoxide,nitrogen_dioxide,sulphur_dioxide,ozone,alder_pollen,birch_pollen,grass_pollen,mugwort_pollen,olive_pollen,ragweed_pollen',
+      'timezone': timezone,
+      'forecast_hours': '1',
+    });
 
+    // Prepare list of HTTP requests (always include weather and air quality)
+    final requests = <Future<http.Response>>[
+      http.get(uri),
+      http.get(airQualityUri),
+    ];
 
-  // Prepare list of HTTP requests (always include weather and air quality)
-  final requests = <Future<http.Response>>[
-    http.get(uri),
-    http.get(airQualityUri),
-  ];
+    final responses = await Future.wait(requests);
 
-  final responses = await Future.wait(requests);
-  
+    // Parse responses
+    final weatherData = json.decode(responses[0].body) as Map<String, dynamic>;
+    final airQualityData =
+        json.decode(responses[1].body) as Map<String, dynamic>;
 
-  // Parse responses
-  final weatherData = json.decode(responses[0].body) as Map<String, dynamic>;
-  final airQualityData = json.decode(responses[1].body) as Map<String, dynamic>;
+    // Check if we need fallback data for missing fields
+    Map<String, dynamic> finalWeatherData = weatherData;
+    if (selectedModel != "best_match" && _hasIncompleteData(weatherData)) {
+      finalWeatherData = await _fetchWithFallback(
+          lat, lon, timezone, weatherData, selectedModel);
+    }
 
+    finalWeatherData['current'] = sanitizeCurrent(finalWeatherData['current']);
+    finalWeatherData['hourly'] = sanitizeHourly(finalWeatherData['hourly']);
+    finalWeatherData['daily'] = sanitizeDaily(finalWeatherData['daily']);
 
-  // Check if we need fallback data for missing fields
-  Map<String, dynamic> finalWeatherData = weatherData;
-  if (selectedModel != "best_match" && _hasIncompleteData(weatherData)) {
-    finalWeatherData = await _fetchWithFallback(lat, lon, timezone, weatherData, selectedModel);
-  }
+    if (finalWeatherData['error'] == true || airQualityData['error'] == true) {
+      final reason = finalWeatherData['reason'] ??
+          airQualityData['reason'] ??
+          'Unknown error';
 
-  finalWeatherData['current'] = sanitizeCurrent(finalWeatherData['current']);
-  finalWeatherData['hourly'] = sanitizeHourly(finalWeatherData['hourly']);
-  finalWeatherData['daily'] = sanitizeDaily(finalWeatherData['daily']);
-
-   if (finalWeatherData['error'] == true || airQualityData['error'] == true) {
-    final reason = finalWeatherData['reason'] ?? airQualityData['reason'] ?? 'Unknown error';
-    
-    if (context != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          duration: Duration(seconds: 10),
-          content: Text("$reason. Please change your model"),
-          
-          action: SnackBarAction(
-            label: 'Change model',
-            onPressed: () {
-              Navigator.of(context).push(
+      if (context != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            duration: Duration(seconds: 10),
+            content: Text("$reason. Please change your model"),
+            action: SnackBarAction(
+              label: 'Change model',
+              onPressed: () {
+                Navigator.of(context).push(
                   MaterialPageRoute(builder: (_) => const MeteoModelsPage()),
                 );
-            },
+              },
+            ),
           ),
-        ),
-      );
+        );
+      }
+
+      return null;
     }
 
-
-    return null; 
-  }
-
-
-  final combinedDataForView = {
-    ...finalWeatherData,
-    'air_quality': airQualityData,
-  };
-
-  final nowForView = DateTime.now().toIso8601String();
-
- if (isOnlyView) {
-    log("Only viewing data for $key. Not saving to cache.");
-    return {
-      'data': combinedDataForView,
-      'last_updated': nowForView,
-      'from_cache': false,
+    final combinedDataForView = {
+      ...finalWeatherData,
+      'air_quality': airQualityData,
     };
-  }
 
-  final existingJson = box.get(key);
-  if (existingJson != null) {
-    final cachedMap = json.decode(existingJson);
-    final cachedData = cachedMap['data'];
-    final lastUpdated = cachedMap['last_updated'];
+    final nowForView = DateTime.now().toIso8601String();
 
-    if (json.encode(cachedData['current']) == json.encode(finalWeatherData['current']) &&
-        json.encode(cachedData['air_quality'] ?? {}) == json.encode(airQualityData)) {
-      log("Hive: No update needed for $key");
+    if (isOnlyView) {
+      log("Only viewing data for $key. Not saving to cache.");
       return {
-        'data': cachedData,
-        'last_updated': lastUpdated,
-        'from_cache': true,
+        'data': combinedDataForView,
+        'last_updated': nowForView,
+        'from_cache': false,
       };
     }
-  }
 
+    final existingJson = box.get(key);
+    if (existingJson != null) {
+      final cachedMap = json.decode(existingJson);
+      final cachedData = cachedMap['data'];
+      final lastUpdated = cachedMap['last_updated'];
 
+      if (json.encode(cachedData['current']) ==
+              json.encode(finalWeatherData['current']) &&
+          json.encode(cachedData['air_quality'] ?? {}) ==
+              json.encode(airQualityData)) {
+        log("Hive: No update needed for $key");
+        return {
+          'data': cachedData,
+          'last_updated': lastUpdated,
+          'from_cache': true,
+        };
+      }
+    }
 
+    final now = DateTime.now().toIso8601String();
+    final combinedData = {
+      ...finalWeatherData,
+      'air_quality': airQualityData,
+    };
 
-  final now = DateTime.now().toIso8601String();
-  final combinedData = {
-    ...finalWeatherData,
-    'air_quality': airQualityData,
-  };
+    final wrappedData = {
+      'data': combinedData,
+      'last_updated': now,
+    };
 
-  final wrappedData = {
-    'data': combinedData,
-    'last_updated': now,
-  };
+    await box.put(key, json.encode(wrappedData));
+    log("Hive: Updated cache for $key at $now");
 
-  await box.put(key, json.encode(wrappedData));
-  log("Hive: Updated cache for $key at $now");
-
-  return {
-    'data': combinedData,
-    'last_updated': now,
-    'from_cache': false,
-  };
+    return {
+      'data': combinedData,
+      'last_updated': now,
+      'from_cache': false,
+    };
   }
 
   /// Check if weather data has missing or incomplete fields
@@ -158,14 +165,22 @@ class WeatherService {
     // Check current data completeness
     final current = weatherData['current'] as Map<String, dynamic>?;
     if (current == null) return true;
-    
+
     // All fields requested in the API call that should be available
     final allCurrentFields = [
-      'temperature_2m', 'is_day', 'apparent_temperature', 'pressure_msl', 
-      'relative_humidity_2m', 'precipitation', 'weather_code', 'cloud_cover', 
-      'wind_speed_10m', 'wind_direction_10m', 'wind_gusts_10m'
+      'temperature_2m',
+      'is_day',
+      'apparent_temperature',
+      'pressure_msl',
+      'relative_humidity_2m',
+      'precipitation',
+      'weather_code',
+      'cloud_cover',
+      'wind_speed_10m',
+      'wind_direction_10m',
+      'wind_gusts_10m'
     ];
-    
+
     // Check for missing current fields
     int missingCurrentFields = 0;
     for (final field in allCurrentFields) {
@@ -173,17 +188,27 @@ class WeatherService {
         missingCurrentFields++;
       }
     }
-    
+
     // Check hourly data completeness
     final hourly = weatherData['hourly'] as Map<String, dynamic>?;
     if (hourly == null) return true;
-    
+
     final allHourlyFields = [
-      'wind_speed_10m', 'wind_direction_10m', 'relative_humidity_2m', 'pressure_msl', 
-      'cloud_cover', 'temperature_2m', 'dew_point_2m', 'apparent_temperature', 
-      'precipitation_probability', 'precipitation', 'weather_code', 'visibility', 'uv_index'
+      'wind_speed_10m',
+      'wind_direction_10m',
+      'relative_humidity_2m',
+      'pressure_msl',
+      'cloud_cover',
+      'temperature_2m',
+      'dew_point_2m',
+      'apparent_temperature',
+      'precipitation_probability',
+      'precipitation',
+      'weather_code',
+      'visibility',
+      'uv_index'
     ];
-    
+
     // Check for missing hourly fields
     int missingHourlyFields = 0;
     for (final field in allHourlyFields) {
@@ -192,17 +217,26 @@ class WeatherService {
         missingHourlyFields++;
       }
     }
-    
+
     // Check daily data completeness
     final daily = weatherData['daily'] as Map<String, dynamic>?;
     if (daily == null) return true;
-    
+
     final allDailyFields = [
-      'weather_code', 'temperature_2m_max', 'temperature_2m_min', 'sunrise', 'sunset', 
-      'daylight_duration', 'uv_index_max', 'precipitation_sum', 'precipitation_probability_max', 
-      'precipitation_hours', 'wind_speed_10m_max', 'wind_gusts_10m_max'
+      'weather_code',
+      'temperature_2m_max',
+      'temperature_2m_min',
+      'sunrise',
+      'sunset',
+      'daylight_duration',
+      'uv_index_max',
+      'precipitation_sum',
+      'precipitation_probability_max',
+      'precipitation_hours',
+      'wind_speed_10m_max',
+      'wind_gusts_10m_max'
     ];
-    
+
     // Check for missing daily fields
     int missingDailyFields = 0;
     for (final field in allDailyFields) {
@@ -211,35 +245,40 @@ class WeatherService {
         missingDailyFields++;
       }
     }
-    
+
     // Trigger fallback if any fields are missing
-    final totalMissing = missingCurrentFields + missingHourlyFields + missingDailyFields;
+    final totalMissing =
+        missingCurrentFields + missingHourlyFields + missingDailyFields;
     return totalMissing > 0;
   }
 
   /// Fetch weather data with fallback to best_match for missing fields
   Future<Map<String, dynamic>> _fetchWithFallback(
-    double lat, 
-    double lon, 
-    String timezone, 
-    Map<String, dynamic> primaryData, 
-    String selectedModel
-  ) async {
+      double lat,
+      double lon,
+      String timezone,
+      Map<String, dynamic> primaryData,
+      String selectedModel) async {
     try {
       // Fetch fallback data using best_match
-      final fallbackUri = Uri.parse('https://api.open-meteo.com/v1/forecast').replace(queryParameters: {
+      final fallbackUri = Uri.parse('https://api.open-meteo.com/v1/forecast')
+          .replace(queryParameters: {
         'latitude': lat.toString(),
         'longitude': lon.toString(),
-        'current': 'temperature_2m,is_day,apparent_temperature,pressure_msl,relative_humidity_2m,precipitation,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m,wind_gusts_10m',
-        'hourly': 'wind_speed_10m,wind_direction_10m,relative_humidity_2m,pressure_msl,cloud_cover,temperature_2m,dew_point_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,visibility,uv_index',
-        'daily': 'weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,daylight_duration,uv_index_max,precipitation_sum,precipitation_probability_max,precipitation_hours,wind_speed_10m_max,wind_gusts_10m_max',
+        'current':
+            'temperature_2m,is_day,apparent_temperature,pressure_msl,relative_humidity_2m,precipitation,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m,wind_gusts_10m',
+        'hourly':
+            'wind_speed_10m,wind_direction_10m,relative_humidity_2m,pressure_msl,cloud_cover,temperature_2m,dew_point_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,visibility,uv_index',
+        'daily':
+            'weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,daylight_duration,uv_index_max,precipitation_sum,precipitation_probability_max,precipitation_hours,wind_speed_10m_max,wind_gusts_10m_max',
         'timezone': timezone,
         'forecast_days': '7',
         'models': 'best_match'
       });
 
       final fallbackResponse = await http.get(fallbackUri);
-      final fallbackData = json.decode(fallbackResponse.body) as Map<String, dynamic>;
+      final fallbackData =
+          json.decode(fallbackResponse.body) as Map<String, dynamic>;
 
       if (fallbackData['error'] == true) {
         return primaryData;
@@ -254,50 +293,41 @@ class WeatherService {
 
   /// Merge primary weather data with fallback data, prioritizing primary data
   Map<String, dynamic> _mergeWeatherData(
-    Map<String, dynamic> primary, 
-    Map<String, dynamic> fallback
-  ) {
+      Map<String, dynamic> primary, Map<String, dynamic> fallback) {
     final merged = Map<String, dynamic>.from(primary);
-    
+
     // Merge current data
     merged['current'] = _mergeSection(
-      primary['current'] as Map<String, dynamic>?, 
-      fallback['current'] as Map<String, dynamic>?
-    );
-    
+        primary['current'] as Map<String, dynamic>?,
+        fallback['current'] as Map<String, dynamic>?);
+
     // Merge hourly data
-    merged['hourly'] = _mergeSection(
-      primary['hourly'] as Map<String, dynamic>?, 
-      fallback['hourly'] as Map<String, dynamic>?
-    );
-    
+    merged['hourly'] = _mergeSection(primary['hourly'] as Map<String, dynamic>?,
+        fallback['hourly'] as Map<String, dynamic>?);
+
     // Merge daily data
-    merged['daily'] = _mergeSection(
-      primary['daily'] as Map<String, dynamic>?, 
-      fallback['daily'] as Map<String, dynamic>?
-    );
-    
+    merged['daily'] = _mergeSection(primary['daily'] as Map<String, dynamic>?,
+        fallback['daily'] as Map<String, dynamic>?);
+
     // Keep other fields from primary, fallback if missing
     for (final key in fallback.keys) {
       if (!merged.containsKey(key) || merged[key] == null) {
         merged[key] = fallback[key];
       }
     }
-    
+
     return merged;
   }
 
   /// Merge a specific section (current/hourly/daily) with fallback data
   Map<String, dynamic> _mergeSection(
-    Map<String, dynamic>? primary, 
-    Map<String, dynamic>? fallback
-  ) {
+      Map<String, dynamic>? primary, Map<String, dynamic>? fallback) {
     if (primary == null && fallback == null) return {};
     if (primary == null) return Map<String, dynamic>.from(fallback!);
     if (fallback == null) return Map<String, dynamic>.from(primary);
-    
+
     final merged = Map<String, dynamic>.from(primary);
-    
+
     for (final key in fallback.keys) {
       if (!merged.containsKey(key) || merged[key] == null) {
         merged[key] = fallback[key];
@@ -305,51 +335,52 @@ class WeatherService {
         // For array fields, merge element by element, filling null values from fallback
         final primaryList = merged[key] as List;
         final fallbackList = fallback[key] as List;
-        
+
         // Create a new list with the same length as primary, filling nulls from fallback
         final mergedList = <dynamic>[];
-        final maxLength = primaryList.length > fallbackList.length ? primaryList.length : fallbackList.length;
-        
+        final maxLength = primaryList.length > fallbackList.length
+            ? primaryList.length
+            : fallbackList.length;
+
         for (int i = 0; i < maxLength; i++) {
           final primaryValue = i < primaryList.length ? primaryList[i] : null;
-          final fallbackValue = i < fallbackList.length ? fallbackList[i] : null;
-          
+          final fallbackValue =
+              i < fallbackList.length ? fallbackList[i] : null;
+
           // Use primary value if not null, otherwise use fallback
           mergedList.add(primaryValue ?? fallbackValue);
         }
-        
+
         merged[key] = mergedList;
       }
     }
-    
+
     return merged;
   }
 
-T nullSafeValue<T extends num>(dynamic value) {
-  if (value == null) {
-    if (T == int) return 0000 as T;
-    if (T == double) return 0.0000001 as T;
-    return 0 as T;
+  T nullSafeValue<T extends num>(dynamic value) {
+    if (value == null) {
+      if (T == int) return 0000 as T;
+      if (T == double) return 0.0000001 as T;
+      return 0 as T;
+    }
+
+    if (value is T) return value;
+
+    if (value is num) {
+      if (T == int) return value.toInt() as T;
+      if (T == double) return value.toDouble() as T;
+    }
+
+    return T == int ? 0 as T : 0.0000001 as T;
   }
-
-  if (value is T) return value;
-
-  if (value is num) {
-    if (T == int) return value.toInt() as T;
-    if (T == double) return value.toDouble() as T;
-  }
-
-  return T == int ? 0 as T : 0.0000001 as T;
-}
-
-
-
 
   Map<String, dynamic> sanitizeCurrent(Map? current) {
     current ??= {};
     return {
       'temperature_2m': nullSafeValue<double>(current['temperature_2m']),
-      'apparent_temperature': nullSafeValue<double>(current['apparent_temperature']),
+      'apparent_temperature':
+          nullSafeValue<double>(current['apparent_temperature']),
       'pressure_msl': nullSafeValue<double>(current['pressure_msl']),
       'relative_humidity_2m': nullSafeValue(current['relative_humidity_2m']),
       'precipitation': nullSafeValue<double>(current['precipitation']),
@@ -366,19 +397,59 @@ T nullSafeValue<T extends num>(dynamic value) {
     hourly ??= {};
     return {
       'time': (hourly['time'] as List?) ?? [],
-      'wind_speed_10m': (hourly['wind_speed_10m'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
-      'wind_direction_10m': (hourly['wind_direction_10m'] as List?)?.map((v) => nullSafeValue<int>(v)).toList() ?? [],
-      'relative_humidity_2m': (hourly['relative_humidity_2m'] as List?)?.map((v) => nullSafeValue<int>(v)).toList() ?? [],
-      'pressure_msl': (hourly['pressure_msl'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
-      'cloud_cover': (hourly['cloud_cover'] as List?)?.map((v) => nullSafeValue<int>(v)).toList() ?? [],
-      'temperature_2m': (hourly['temperature_2m'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
-      'dew_point_2m': (hourly['dew_point_2m'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
-      'apparent_temperature': (hourly['apparent_temperature'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
-      'precipitation_probability': (hourly['precipitation_probability'] as List?)?.map((v) => nullSafeValue<int>(v)).toList() ?? [],
-      'precipitation': (hourly['precipitation'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
-      'weather_code': (hourly['weather_code'] as List?)?.map((v) => nullSafeValue<int>(v)).toList() ?? [],
-      'visibility': (hourly['visibility'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
-      'uv_index': (hourly['uv_index'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
+      'wind_speed_10m': (hourly['wind_speed_10m'] as List?)
+              ?.map((v) => nullSafeValue<double>(v))
+              .toList() ??
+          [],
+      'wind_direction_10m': (hourly['wind_direction_10m'] as List?)
+              ?.map((v) => nullSafeValue<int>(v))
+              .toList() ??
+          [],
+      'relative_humidity_2m': (hourly['relative_humidity_2m'] as List?)
+              ?.map((v) => nullSafeValue<int>(v))
+              .toList() ??
+          [],
+      'pressure_msl': (hourly['pressure_msl'] as List?)
+              ?.map((v) => nullSafeValue<double>(v))
+              .toList() ??
+          [],
+      'cloud_cover': (hourly['cloud_cover'] as List?)
+              ?.map((v) => nullSafeValue<int>(v))
+              .toList() ??
+          [],
+      'temperature_2m': (hourly['temperature_2m'] as List?)
+              ?.map((v) => nullSafeValue<double>(v))
+              .toList() ??
+          [],
+      'dew_point_2m': (hourly['dew_point_2m'] as List?)
+              ?.map((v) => nullSafeValue<double>(v))
+              .toList() ??
+          [],
+      'apparent_temperature': (hourly['apparent_temperature'] as List?)
+              ?.map((v) => nullSafeValue<double>(v))
+              .toList() ??
+          [],
+      'precipitation_probability':
+          (hourly['precipitation_probability'] as List?)
+                  ?.map((v) => nullSafeValue<int>(v))
+                  .toList() ??
+              [],
+      'precipitation': (hourly['precipitation'] as List?)
+              ?.map((v) => nullSafeValue<double>(v))
+              .toList() ??
+          [],
+      'weather_code': (hourly['weather_code'] as List?)
+              ?.map((v) => nullSafeValue<int>(v))
+              .toList() ??
+          [],
+      'visibility': (hourly['visibility'] as List?)
+              ?.map((v) => nullSafeValue<double>(v))
+              .toList() ??
+          [],
+      'uv_index': (hourly['uv_index'] as List?)
+              ?.map((v) => nullSafeValue<double>(v))
+              .toList() ??
+          [],
     };
   }
 
@@ -386,18 +457,49 @@ T nullSafeValue<T extends num>(dynamic value) {
     daily ??= {};
     return {
       'time': (daily['time'] as List?) ?? [],
-      'weather_code': (daily['weather_code'] as List?)?.map((v) => nullSafeValue<int>(v)).toList() ?? [],
-      'temperature_2m_max': (daily['temperature_2m_max'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
-      'temperature_2m_min': (daily['temperature_2m_min'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
+      'weather_code': (daily['weather_code'] as List?)
+              ?.map((v) => nullSafeValue<int>(v))
+              .toList() ??
+          [],
+      'temperature_2m_max': (daily['temperature_2m_max'] as List?)
+              ?.map((v) => nullSafeValue<double>(v))
+              .toList() ??
+          [],
+      'temperature_2m_min': (daily['temperature_2m_min'] as List?)
+              ?.map((v) => nullSafeValue<double>(v))
+              .toList() ??
+          [],
       'sunrise': (daily['sunrise'] as List?) ?? [],
       'sunset': (daily['sunset'] as List?) ?? [],
-      'daylight_duration': (daily['daylight_duration'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
-      'uv_index_max': (daily['uv_index_max'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
-      'precipitation_sum': (daily['precipitation_sum'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
-      'precipitation_probability_max': (daily['precipitation_probability_max'] as List?)?.map((v) => nullSafeValue<int>(v)).toList() ?? [],
-      'precipitation_hours': (daily['precipitation_hours'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
-      'wind_speed_10m_max': (daily['wind_speed_10m_max'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
-      'wind_gusts_10m_max': (daily['wind_gusts_10m_max'] as List?)?.map((v) => nullSafeValue<double>(v)).toList() ?? [],
+      'daylight_duration': (daily['daylight_duration'] as List?)
+              ?.map((v) => nullSafeValue<double>(v))
+              .toList() ??
+          [],
+      'uv_index_max': (daily['uv_index_max'] as List?)
+              ?.map((v) => nullSafeValue<double>(v))
+              .toList() ??
+          [],
+      'precipitation_sum': (daily['precipitation_sum'] as List?)
+              ?.map((v) => nullSafeValue<double>(v))
+              .toList() ??
+          [],
+      'precipitation_probability_max':
+          (daily['precipitation_probability_max'] as List?)
+                  ?.map((v) => nullSafeValue<int>(v))
+                  .toList() ??
+              [],
+      'precipitation_hours': (daily['precipitation_hours'] as List?)
+              ?.map((v) => nullSafeValue<double>(v))
+              .toList() ??
+          [],
+      'wind_speed_10m_max': (daily['wind_speed_10m_max'] as List?)
+              ?.map((v) => nullSafeValue<double>(v))
+              .toList() ??
+          [],
+      'wind_gusts_10m_max': (daily['wind_gusts_10m_max'] as List?)
+              ?.map((v) => nullSafeValue<double>(v))
+              .toList() ??
+          [],
     };
   }
 }

@@ -27,11 +27,17 @@ final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
 class _LocationsScreenState extends State<LocationsScreen> {
   List<SavedLocation> savedLocations = [];
   bool _isFirstBuild = true;
+  final bool _isFirstTrueBuild =
+      PreferencesHelper.getBool("firstLoadedLocations") ?? true;
 
   @override
   void initState() {
     super.initState();
-    loadSavedLocations();
+
+    if (_isFirstTrueBuild) {
+      loadSavedLocations();
+      PreferencesHelper.setBool("firstLoadedLocations", false);
+    }
   }
 
   Future<void> loadSavedLocations() async {
@@ -199,8 +205,6 @@ class _LocationsScreenState extends State<LocationsScreen> {
               }
             },
           ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
         ));
   }
 

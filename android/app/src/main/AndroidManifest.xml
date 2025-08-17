@@ -56,7 +56,7 @@
     </receiver>
 
 
-        <receiver android:name=".WeatherWidgetProvider" android:exported="true">
+        <receiver android:name=".WeatherWidgetProvider" android:exported="true" android:label="Current horizontal pill">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -66,7 +66,7 @@
                 android:resource="@xml/weather_widget_info" />
         </receiver>
 
-        <receiver android:name=".WeatherWidgetCastProvider" android:exported="true">
+        <receiver android:name=".WeatherWidgetCastProvider" android:exported="true" android:label="Current + hourly">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -76,7 +76,7 @@
                 android:resource="@xml/weather_widget_info_cast" />
         </receiver>
 
-        <receiver android:name=".PillWidgetProvider" android:exported="true">
+        <receiver android:name=".PillWidgetProvider" android:exported="true" android:label="Current pill">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -86,7 +86,7 @@
                 android:resource="@xml/pill_widget_info" />
         </receiver>
 
-        <receiver android:name=".DateCurrentWidgetProvider" android:exported="true">
+        <receiver android:name=".DateCurrentWidgetProvider" android:exported="true" android:label="Date + Current">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -94,6 +94,20 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/date_temp_widget_info" />
+        </receiver>
+
+        <activity android:name=".GlanceWidgetConfigActivity"
+            android:theme="@style/Theme.widgetsThemeConfigs"
+            android:exported="true">
+        </activity>
+        <receiver android:name=".GlanceWidgetProvider" android:exported="true" android:label="Glance">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/glance_widget_info" />
         </receiver>
 
         <service

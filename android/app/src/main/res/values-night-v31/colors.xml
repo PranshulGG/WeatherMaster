@@ -32,4 +32,7 @@
     <!-- Surface Variant -->
     <color name="colorSurfaceVariant">@android:color/system_neutral2_700</color>
     <color name="colorOnSurfaceVariant">@android:color/system_neutral2_100</color>
+
+    <color name="colorGlanceWidgetTextClock">@android:color/system_accent2_50</color>
+
 </resources>

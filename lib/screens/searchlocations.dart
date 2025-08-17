@@ -239,7 +239,7 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
     final colorTheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      backgroundColor: colorTheme.surfaceContainerHigh,
+      backgroundColor: colorTheme.surface,
       appBar: AppBar(
           elevation: 0,
           title: TextField(
@@ -258,7 +258,7 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
           titleSpacing: 0,
           toolbarHeight: 65 + 10,
           scrolledUnderElevation: 0,
-          backgroundColor: colorTheme.surfaceContainerHigh,
+          backgroundColor: colorTheme.surface,
           shape: Border(
               bottom: BorderSide(
                   color: Theme.of(context).colorScheme.outline.withOpacity(0.8),
