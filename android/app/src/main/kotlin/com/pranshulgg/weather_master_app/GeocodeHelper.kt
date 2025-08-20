@@ -17,19 +17,24 @@ object GeocodeHelper {
         Thread {
             val geocoder = Geocoder(context)
             val result = try {
-                // Ask Android to convert lat/lon → address
-                val addresses = geocoder.getFromLocation(latitude, longitude, 1)  // we just need the first match
-                if (!addresses.isNullOrEmpty()) {
-                    val address = addresses[0]
-                    val city = address.locality ?: address.subAdminArea ?: address.adminArea ?: "Current"
-                    val country = address.countryName ?: ""
-                    mapOf("city" to city, "country" to country)
+                // Check if Geocoder is available (might not work on some microG setups)
+                if (!Geocoder.isPresent()) {
+                    mapOf("city" to "Location", "country" to "Unknown")
                 } else {
-                    mapOf("city" to "", "country" to "")
+                    // Ask Android to convert lat/lon → address
+                    val addresses = geocoder.getFromLocation(latitude, longitude, 1)  // we just need the first match
+                    if (!addresses.isNullOrEmpty()) {
+                        val address = addresses[0]
+                        val city = address.locality ?: address.subAdminArea ?: address.adminArea ?: "Location"
+                        val country = address.countryName ?: "Unknown"
+                        mapOf("city" to city, "country" to country)
+                    } else {
+                        mapOf("city" to "Location", "country" to "Unknown")
+                    }
                 }
             } catch (e: Exception) {
-                e.printStackTrace()
-                mapOf("city" to "", "country" to "")
+                // Geocoding failed (common on microG), provide fallback
+                mapOf("city" to "Location", "country" to "Unknown")
             }
 
             // Back to main thread so Flutter doesn't cry

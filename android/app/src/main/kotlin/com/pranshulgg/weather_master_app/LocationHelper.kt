@@ -20,14 +20,19 @@ class LocationHelper(private val activity: Activity) {
 
     private var pendingCallback: LocationResult? = null
     private val handler = Handler(Looper.getMainLooper())
+    private var timeoutRunnable: Runnable? = null
+    private var currentListener: LocationListener? = null
 
     companion object {
         private const val LOCATION_REQUEST_CODE = 999
-        private const val TIMEOUT_MS = 10_000L // Max wait 10 seconds
+        private const val TIMEOUT_MS = 30_000L // Extended to 30 seconds for microG
     }
 
     // Public method to get location
     fun getCurrentPosition(callback: LocationResult) {
+        // Clean up any previous request
+        cleanupLocationRequest()
+        
         // Step 0: Permission check
         if (ActivityCompat.checkSelfPermission(
                 activity,
@@ -38,6 +43,23 @@ class LocationHelper(private val activity: Activity) {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
+            // Store callback and request permissions
+            pendingCallback = callback
+            ActivityCompat.requestPermissions(
+                activity,
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ),
+                LOCATION_REQUEST_CODE
+            )
+            return
+        }
+        
+        // Check if location services are enabled
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && 
+            !locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            callback.onFailure("Location services are disabled")
             return
         }
 
@@ -54,44 +76,79 @@ class LocationHelper(private val activity: Activity) {
         pendingCallback = callback
         val listener = object : LocationListener {
             override fun onLocationChanged(location: Location) {
+                // Cancel timeout and clean up
+                timeoutRunnable?.let { handler.removeCallbacks(it) }
+                timeoutRunnable = null
+                
                 // Pass it on
                 pendingCallback?.onSuccess(location.latitude, location.longitude)
-                removeUpdates(this)
+                cleanupLocationRequest()
             }
 
             override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
             override fun onProviderEnabled(provider: String) {}
             override fun onProviderDisabled(provider: String) {}
         }
+        
+        currentListener = listener
 
         // Ask GPS and Network (network usually faster indoors)
-        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            locationManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER,
-                0L,
-                0f,
-                listener
-            )
+        var requestCount = 0
+        
+        try {
+            if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+                locationManager.requestLocationUpdates(
+                    LocationManager.NETWORK_PROVIDER,
+                    0L,
+                    0f,
+                    listener
+                )
+                requestCount++
+            }
+        } catch (e: Exception) {
+            // Network provider failed, continue
         }
-        if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            locationManager.requestLocationUpdates(
-                LocationManager.NETWORK_PROVIDER,
-                0L,
-                0f,
-                listener
-            )
+        
+        try {
+            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                locationManager.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER,
+                    0L,
+                    0f,
+                    listener
+                )
+                requestCount++
+            }
+        } catch (e: Exception) {
+            // GPS provider failed, continue
+        }
+        
+        // If no providers could be started, fail immediately
+        if (requestCount == 0) {
+            callback.onFailure("No location providers available")
+            return
         }
 
         // Step 3: Timeout in case nothing arrives
-        handler.postDelayed({
-            pendingCallback?.onFailure("Location timeout")
-            removeUpdates(listener)
-        }, TIMEOUT_MS)
+        timeoutRunnable = Runnable {
+            pendingCallback?.onFailure("Location timeout - no location received within ${TIMEOUT_MS/1000} seconds")
+            cleanupLocationRequest()
+        }
+        handler.postDelayed(timeoutRunnable!!, TIMEOUT_MS)
     }
 
-    private fun removeUpdates(listener: LocationListener) {
-        locationManager.removeUpdates(listener)
+    private fun cleanupLocationRequest() {
+        currentListener?.let { listener ->
+            try {
+                locationManager.removeUpdates(listener)
+            } catch (e: Exception) {
+                // Ignore cleanup errors
+            }
+        }
+        currentListener = null
         pendingCallback = null
+        timeoutRunnable?.let { handler.removeCallbacks(it) }
+        timeoutRunnable = null
     }
 
     // Forward Activity permission result
@@ -106,6 +163,7 @@ class LocationHelper(private val activity: Activity) {
             } else {
                 // User said no → sad face
                 callback?.onFailure("Location permission denied")
+                cleanupLocationRequest()
             }
         }
     }

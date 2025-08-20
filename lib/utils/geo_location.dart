@@ -20,14 +20,30 @@ class NativeLocation {
     try {
       final result = await platform.invokeMethod('getCurrentPosition');
 
-      final latitude = double.parse(result['latitude'] ?? '0');
-      final longitude = double.parse(result['longitude'] ?? '0');
+      final latitudeStr = result['latitude'] as String?;
+      final longitudeStr = result['longitude'] as String?;
+      
+      if (latitudeStr == null || longitudeStr == null) {
+        throw Exception("Invalid location data received");
+      }
 
-      print(latitude + longitude);
+      final latitude = double.tryParse(latitudeStr);
+      final longitude = double.tryParse(longitudeStr);
+      
+      if (latitude == null || longitude == null) {
+        throw Exception("Could not parse location coordinates");
+      }
+      
+      // Validate coordinates are reasonable
+      if (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
+        throw Exception("Invalid location coordinates received");
+      }
 
       return Position(latitude: latitude, longitude: longitude);
     } on PlatformException catch (e) {
-      throw Exception(e.message ?? "Unknown error");
+      throw Exception(e.message ?? "Unknown location error");
+    } catch (e) {
+      throw Exception("Failed to get location: ${e.toString()}");
     }
   }
 
@@ -39,13 +55,20 @@ class NativeLocation {
         'latitude': lat,
         'longitude': lon,
       });
+      
+      final city = result['city'] as String? ?? '';
+      final country = result['country'] as String? ?? '';
+      
       return {
-        'city': result['city'] ?? '',
-        'country': result['country'] ?? '',
+        'city': city.isEmpty ? 'Unknown Location' : city,
+        'country': country.isEmpty ? 'Unknown Country' : country,
       };
     } on PlatformException catch (e) {
-      // Return empty strings on failure
-      return {'city': '', 'country': ''};
+      // Return fallback values on failure
+      return {
+        'city': 'Unknown Location', 
+        'country': 'Unknown Country'
+      };
     }
   }
 }
@@ -55,9 +78,11 @@ class LocationPermissionHelper {
   static Future<bool> checkServicesAndPermission(BuildContext context) async {
     final serviceStatus = await Permission.location.serviceStatus;
     if (serviceStatus != ServiceStatus.enabled) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enable location services')),
-      );
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please enable location services')),
+        );
+      }
       return false;
     }
 
@@ -65,9 +90,11 @@ class LocationPermissionHelper {
     if (!status.isGranted) {
       status = await Permission.location.request();
       if (!status.isGranted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Location permission denied')),
-        );
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Location permission denied')),
+          );
+        }
         return false;
       }
     }

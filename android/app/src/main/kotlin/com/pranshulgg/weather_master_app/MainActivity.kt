@@ -20,6 +20,7 @@ class MainActivity : FlutterActivity() {
     private val REQUEST_CODE_POST_NOTIFICATIONS = 1001
 
     private var permissionResultPending: MethodChannel.Result? = null
+    private var locationHelper: LocationHelper? = null
 
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
@@ -34,7 +35,10 @@ class MainActivity : FlutterActivity() {
 
 
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, LOCATION_CHANNEL).setMethodCallHandler { call, result ->
-            val helper = LocationHelper(this)
+            if (locationHelper == null) {
+                locationHelper = LocationHelper(this)
+            }
+            val helper = locationHelper!!
 
             when (call.method) {
                 "getCurrentPosition" -> {
@@ -137,6 +141,9 @@ class MainActivity : FlutterActivity() {
                 permissionResultPending?.success(false)
             }
             permissionResultPending = null
+        } else {
+            // Forward location permission results to LocationHelper
+            locationHelper?.onRequestPermissionsResult(requestCode, grantResults)
         }
     }
 
