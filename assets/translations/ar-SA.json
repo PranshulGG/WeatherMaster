@@ -1,534 +1,543 @@
 {
-    "feels_like": "يبدو وكأنه",
-    "hourly_precipitation": "التوقعات كل ساعة",
-    "save": "حفظ",
-    "cancel": "الغاء",
-    "daily_forecast": "التوقعات اليومية ",
-    "locations": "الموقع",
-    "home_location": "موقع المنزل ",
-    "default_locations": "المواقع الافتراضية ",
-    "default_location": "الموقع الافتراضي ",
-    "today's_amount": "كمية اليوم ",
-    "precipitation_hours": "ساعات هطول الأمطار ",
-    "now": "الان",
-    "next_24-hr": "24 ساعة التالية",
-    "trends": "الاتجاهات ",
-    "today": "اليوم ",
-    "sun": "الأحد ",
-    "mon": "الاثنين ",
-    "tue": "الثلاثاء ",
-    "wed": "الأربعاء ",
-    "thu": "الخميس ",
-    "fri": "الجمعة",
-    "sat": "السبت ",
-    "error": "خطأ ",
-    "not_available": "غير متوفر ",
-    "moon": "القمر",
-    "humidity": "الرطوبة ",
-    "pressure": "الضغط ",
-    "direction": "اتجاه الرياح",
-    "visibility": "الرؤية ",
-    "air_quality": "جودة الهواء ",
-    "fair": "مقبول",
-    "poor": "ملوث",
-    "very_poor": "ملوث للغاية",
-    "good": "جيد",
-    "moderate": "معتدل",
-    "uv_index": "مؤشر الأشعة فوق البنفسجية ",
-    "minimal_risk": "الحد الأدنى من المخاطر ",
-    "low_risk": "القليل من المخاطر",
-    "moderate_risk": "مخاطر متوسطة",
-    "high_risk": "مخاطر عالية ",
-    "very_high_risk": "مخاطر عالية جدًا ",
-    "extreme_risk": "خطر شديد ",
-    "day_length": "طول اليوم ",
-    "updated": "تم تحديثها",
-    "update": "تحديث",
-    "ago": "منذ ",
-    "saved_locations": "المواقع المحفوظة",
-    "current_location": "الموقع الحالي ",
-    "search": "بحث",
-    "search_provider": "مزود البحث ",
-    "ok": "تمام",
-    "settings": "إعدادات ",
-    "background_card_animation": "الرسوم المتحركة لبطاقة الخلفية ",
-    "use_bar_chart": "استخدام الرسم البياني بالعرض",
-    "main_provider": "المزود الرئيسي ",
-    "temperature_unit": "وحدة درجة الحرارة ",
-    "wind_unit": "وحدة الرياح ",
-    "visibility_unit": "وحدة الرؤية ",
-    "precipitation_unit": "وحدة هطول الأمطار ",
-    "pressure_unit": "وحدة الضغط ",
-    "time_format": "تنسيق الوقت ",
-    "additional": "إضافي ",
-    "app_language": "لغة التطبيق ",
-    "about": "حول",
-    "about_app": "حول التطبيق ",
-    "support": "الدعم",
-    "data_provided_by": "البيانات المقدمة من ",
-    "map": "الخريطة ",
-    "live_radar": "رادار مباشر",
-    "radar": "رادار",
-    "source_code": "كود المصدر ",
-    "terms_&_conditions": "الشروط والأحكام ",
-    "privacy_policy": "سياسة الخصوصية ",
-    "licenses": "التراخيص ",
-    "latest_version": "أحدث إصدار ",
-    "create_an_issue": " إبلاغ عن مشكلة",
-    "new_version_available!": "إصدار جديد متاح",
-    "you_are_using_the_latest_version!": "انت تستخدم احدث نسخة",
-    "error_checking_for_updates": "خطأ في التحقق من تحديثات",
-    "light": "ضوء ",
-    "heavy": "قوي",
-    "wind_info": "يتم قياس سرعة الرياح من خلال حساب متوسط ​​سرعة الرياح خلال فترة زمنية. العواصف عبارة عن هبوب رياح مفاجئة تدوم عادةً أقل من عشرين ثانية. ",
-    "visibility_info": "تقيس الرؤية المسافة التي يمكن من خلالها رؤية الأجسام البارزة مقابل السماء أو الأفق. يمكن أن تتأثر الرؤية بهطول الأمطار أو الضباب أو الغبار أو الدخان أو الضباب. ",
-    "humidity_info": "الرطوبة النسبية هي النسبة المئوية لبخار الماء الموجود في الهواء مقارنة بالكمية القصوى التي يمكن للهواء الاحتفاظ بها عند درجة حرارة معينة. ",
-    "humidity_info_2": "\n1. درجة الرطوبة هي الدرجة التي يجب أن تصل إليها درجة الحرارة لتحقيق رطوبة 100%. ",
-    "uv_index_info": "يقيس مؤشر الأشعة فوق البنفسجية قوة الأشعة فوق البنفسجية الصادرة عن الشمس. وهو على مقياس من 0 إلى 11، وتشير القيم الأعلى إلى إشعاع فوق بنفسجي أقوى. ",
-    "uv_index_info_2": "يمكن أن تسبب الأشعة فوق البنفسجية حروق الشمس وسرطان الجلد وتلف العين. كلما ارتفع مؤشر الأشعة فوق البنفسجية، زادت خطورة هذه المشاكل ",
-    "uv_index_info_3": "1-2: منخفض. لا حاجة للحماية. يمكنك البقاء بالخارج بأمان باستخدام الحد الأدنى من الحماية من أشعة الشمس. ",
-    "uv_index_info_4": "3-7: متوسط ​​إلى مرتفع. الحماية مطلوبة. ابحث عن الظل في وقت متأخر من الصباح وحتى منتصف بعد الظهر. عندما تكون بالخارج، استخدم بوفرة كريم الوقاية من الشمس واسع النطاق SPF-15 أو أعلى على الجلد المكشوف ، وارتدِ ملابس واقية وقبعة واسعة الحواف ونظارات شمسية. ",
-    "uv_index_info_5": "8+: مرتفع جدًا إلى أقصى حد. الحماية الإضافية مطلوبة. كن حذرًا في الخارج، خاصة في وقت متأخر من الصباح إلى منتصف ما بعد الظهر. إذا كان ظلك أقصر منك، فابحث عن الظل وارتدي ملابس واقية وقبعة واسعة الحواف ونظارات شمسية، واستخدم كريمًا واقيًا من الشمس واسع النطاق بحد أدنى SPF-15 على الجلد المكشوف. ",
-    "sunset": "الغروب ",
-    "sunrise": "الشروق ",
-    "sunset_rise_info": "الشروق: عندما تظهر الشمس بشكل كامل فوق الأفق. ويختلف هذا حسب الموقع والوقت من السنة والمنطقة الزمنية. ",
-    "sunset_rise_info_2": "الغروب: عندما تختفي الشمس تماماً تحت الأفق. ويختلف هذا حسب الموقع والوقت من السنة والمنطقة الزمنية. ",
-    "sunset_rise_info_3": "الفجر: عندما يظهر أول ضوء مرئي من النهار قبل شروق الشمس. ",
-    "sunset_rise_info_4": "الغسق: أحلك مرحلة من الشفق قبل اختفاء آخر ضوء مرئي. ",
-    "pressure_info": "الضغط الجوي، المعروف أيضًا باسم ضغط الهواء أو الضغط الجوي، هو الضغط الهبوطي الذي يمارسه الغلاف الجوي للأرض. يستخدم هذا التطبيق متوسط ​​ضغط مستوى سطح البحر (MSLP). ",
-    "pressure_info_2": "قد يسبب الضغط الجوي غير الطبيعي الصداع، وآلام المفاصل، والتعب، وغيرها من التأثيرات. ",
-    "current_conditions": "الظروف الحالية ",
-    "clear_sky": "سماء صافية ",
-    "mostly_clear": "صاف عموما",
-    "partly_cloudy": "غائم جزئيًا ",
-    "overcast": "ملبد بالغيوم ",
-    "fog": "ضباب ",
-    "drizzle": "رذاذ ",
-    "freezing_drizzle": "رذاذ متجمد ",
-    "moderate_rain": "أمطار متوسطة ",
-    "heavy_intensity_rain": "أمطار غزيرة  ",
-    "freezing_rain": "مطر متجمد ",
-    "slight_snow": "ثلوج خفيفة ",
-    "moderate_snow": "ثلوج معتدلة ",
-    "heavy_intensity_snow": "ثلوج كثيفة جدا",
-    "snow_grains": "حبيبات الثلج ",
-    "rain_showers": "زخات المطر ",
-    "heavy_rain_showers": "زخات مطر غزيرة ",
-    "slight_snow_showers": "زخات ثلجية خفيفة ",
-    "heavy_snow_showers": "زخات ثلجية كثيفة ",
-    "thunderstorm": "عاصفة رعدية ",
-    "strong_thunderstorm": "عاصفة رعدية قوية ",
-    "clear": "صاف",
-    "wind_speed": "سرعة الرياح",
-    "precipitation_amount": "كَمّيّة الهطول",
-    "precipitation_chances": "توقعات هطول الأمطار",
-    "cloudiness": "الغيوم",
-    "dew_point": "درجة الندى",
-    "air_quality_satisfactory": "جودة الهواء مقبولة، ولا يمثل تلوث الهواء خطراً يُذكر أو لا يمثل أي خطر.",
-    "air_quality_acceptable": "جودة الهواء مقبولة؛ ومع ذلك، قد يكون هناك قلق صحي معتدل بشأن بعض الملوثات لعدد قليل جدًا من الأشخاص الذين لديهم حساسية غير عادية للتلوث الهوائي.",
-    "sensitive_groups_health_effects": "قد يواجه أعضاء الفئات الحساسة تأثيرات صحية. من غير المحتمل أن يتأثر عموم الناس.",
-    "health_effects_public": "قد يختبر الجميع تأثيرات صحية؛ وقد يواجه أعضاء الفئات الحساسة تأثيرات صحية أكثر خطورة.",
-    "emergency_conditions": "تحذيرات صحية لحالات الطوارئ. من المرجح أن يتأثر جميع السكان.",
-    "uv_index_satisfactory": "مؤشر الأشعة فوق البنفسجية مرضٍ، مما يعني أن هناك خطرًا ضئيلًا أو لا يوجد خطر من الإشعاع فوق البنفسجي.",
-    "conditions_low_risk": "الظروف عمومًا منخفضة المخاطر، مما يعني أن التعرض للأشعة فوق البنفسجية يشكل تهديدًا ضئيلًا.",
-    "low_exposure_level": "مستوى التعرض منخفض مع خطر ضئيل من الأشعة فوق البنفسجية، مناسب لمعظم الناس.",
-    "moderate_risk_sun_exposure": "خطر معتدل من التعرض لأشعة الشمس دون حماية، يوصى باتخاذ تدابير وقائية.",
-    "high_risk_sun_exposure": "خطر مرتفع من التعرض لأشعة الشمس دون حماية؛ لذا يجب اتخاذ التدابير الوقائية.",
-    "very_high_risk_sun_exposure": "خطر شديد من التعرض لأشعة الشمس دون حماية؛ لذا يجب اتخاذ احتياطات إضافية.",
-    "extreme_risk_sun_exposure": "خطر شديد للغاية من التعرض لأشعة الشمس دون حماية؛ لذا فمن الضروري اتخاذ حماية كاملة.",
-    "calm": "هادئ",
-    "light_air": "ريح خفيفة (نسيم)",
-    "light_breeze": "نسيم خفيف ",
-    "gentle_breeze": "نسيم لطيف ",
-    "moderate_breeze": "رياح معتدلة ",
-    "fresh_breeze": "رياح نشيطة ",
-    "strong_breeze": "رياح قوية ",
-    "high_wind": "رياح شديدة ",
-    "gale": "رياح عاصفة ",
-    "strong_gale": "رياح عاصفة جدًا",
-    "storm": "عاصفة ",
-    "violent_storm": "عاصفة هوجاء ",
-    "hurricane": "إعصار",
-    "warming_temp_trend_1": "تشير التوقعات إلى ارتفاع درجات الحرارة في الأيام المقبلة.",
-    "warming_temp_trend_2": "سترتفع درجات الحرارة قريباً، استعد للحر!",
-    "warming_temp_trend_3": "يبدو أن الجو سيصبح أدفئ هذا الأسبوع.",
-    "warming_temp_trend_4": "استعدوا لطقس أدفئ في هذه الأيام.",
-    "cooling_temp_trend_1": "التوقعات تشير إلى انخفاض درجات الحرارة في هذه الأيام.",
-    "cooling_temp_trend_2": "ستنخفض درجات الحرارة قريبًا، حاول البقاء دافئًا!",
-    "cooling_temp_trend_3": "سيكون الجو أبرد في الايام القادمة .",
-    "cooling_temp_trend_4": "توقع نسيمًا باردًا في هذه الأيام.",
-    "stable_temp_trend_1": "من المتوقع أن تظل درجات الحرارة مستقرة في الأيام القليلة القادمة.",
-    "stable_temp_trend_2": "لا توجد تغييرات كبيرة في درجات الحرارة في هذه الأيام، الطقس مستقر.",
-    "stable_temp_trend_3": "درجات الحرارة مستقرة في الوقت الحالي.",
-    "stable_temp_trend_4": "توقع طقسًا مستقرًا دون تغييرات كبيرة.",
-    "back": "رجوع",
-    "error_occurred": "حدث خطأ!",
-    "check_your_internet_connection_try_again": "تحقق من اتصالك بشبكة الإنترنت ثم اعد المحاولة.",
-    "There_might_be_an_API_error.": "قد يكون هناك خطأ في واجهة البرمجة (API).",
-    "retry": "حاول مجددًا",
-    "loading_location_data": "جارٍ تحميل بيانات الموقع...",
-    "latest_data_fetched": "البيانات محدثة",
-    "API_Error_Please_change_provider": "خطأ في واجهة البرمجة (API)، غَيّر المزود.",
-    "Please_wait_before_refreshing_again.": "انتظر قبل إعادة التحديث.",
-    "network_unavailable": "الشبكة غير متاحة",
-    "weather": "الطقس",
-    "precipitation": "الهطول",
-    "wind": "الرياح",
-    "pollen": "حبوب اللقاح ",
-    "grass": "عشب",
-    "tree": "شجر",
-    "weed": "حشائش",
-    "quick_summary": "تلخيص سريع",
-    "temperature_animation": "درجة الحرارة الديناميكية",
-    "language": "اللغة",
-    "translate_this_app": "ترجم التطبيق",
-    "contributors": "المساهمون",
-    "contributors_sub": "الإطلاع على المساهمين في هذا المشروع ",
-    "version": "الإصدار",
-    "third_party_licenses": "رخص الأطراف الثالثة",
-    "clothing_activity": "الملبس والنشاطات",
-    "get_clothing_suggestions": "احصل على اقتراحات الملبس والنشاطات.",
-    "day": "يوم",
-    "evening": "مساءً",
-    "night": "ليلًا",
-    "wind_gust": "العَصْفة",
-    "weather_alerts": "تنبيهات الطقس",
-    "font": "الخط",
-    "daily_conditions": "حالة الطقس اليومية",
-    "sun_tile_page": "الأحد ",
-    "morning": "صباحًا",
-    "day_tip": "نصيحة اليوم",
-    "translators": "المترجمون",
-    "change_apps_font": "تبديل خط التطبيق",
-    "app_font": "خط التطبيق",
-    "show_alerts_home_page_sub": "اظهار تنبيهات الطقس في الصفحة الرئيسة.",
-    "weather_models": "نماذج توقعات الطقس",
-    "openmeteo_weather_models": "نماذج الطقس (open-meteo)",
-    "unpredictable_weather": "طقس غير متوقع",
-    "phase_new_moon": "مَحَاق",
-    "phase_waxing_crescent": "هلال مُتزايد",
-    "phase_first_quarter": "التربيع الأول",
-    "phase_waxing_gibbous": "أحدب مُتزايد",
-    "phase_full_moon": "بدر",
-    "phase_waning_gibbous": "أحدب مُتناقص",
-    "phase_last_quarter": "التربيع الأخير",
-    "phase_waning_crescent": "هلال مُتناقص",
-    "moon_info": "المَحَاق: (القمر الجديد) هي مرحلة قمرية لا يُرى فيها القمر لأنه يقع بين الأرض والشمس. إضاءة: 0٪.",
-    "moon_info_2": "هلال مُتزايد: هي مرحلة قمرية يبدأ فيها ظهور شريط رفيع من القمر (بعد مرحلة المَحَاق)، حيث يتزايد حجم الجزء المضيء تدريجيًا كل ليلة. إضاءة: 1٪–49٪.",
-    "moon_info_3": "التربيع الأول: مرحلة قمرية يُضاء فيها نصف وجه القمر، وتحدث بعد حوالي أسبوع من مرحلة القمر الجديد. إضاءة: ~50٪.",
-    "moon_info_4": "أحدب مُتزايد: مرحلة قمرية تُضاء فيها أكثر من نصف وجه القمر (وليس كاملاً)، وتأتي بعد مرحلة التربيع الأول وتسبق اكتمال القمر (البدر). إضاءة: 51٪–99٪.",
-    "moon_info_5": "بدر: مرحلة قمرية يُضاء وجه القمر بالكامل بواسطة الشمس، فيظهر كدائرة مكتملة. إضاءة: 100٪.",
-    "moon_info_6": "أحدب مُتناقص: مرحلة قمرية يبدأ فيها الجزء المضيء من القمر في التناقص بعد مرحلة البدر، ولكن يبقى أكثر من نصفه مضاءً (وليس كاملاً). إضاءة: 99٪–51٪.",
-    "moon_info_7": "التربيع الأخير: مرحلة قمرية يُضاء فيها نصف وجه القمر مرة أخرى، وتحدث بعد حوالي أسبوع من مرحلة البدر. إضاءة: ~50٪",
-    "moon_info_8": "هلال مُتناقص: مرحلة قمرية لا يظهر فيها سوى شريط رفيع من القمر قبل وصوله إلى مرحلة المَحَاق (القمر الجديد) إضاءة: 49٪–1٪",
-    "moon_info_9": "الإضاءة: النسبة المئوية لسطح القمر المضاء بنور الشمس، التي تختلف حَسَبَ مرحلة القمر.",
-    "illumination_moon_text": "الإضاءة",
-    "moonrise": "شروق القمر ",
-    "moonset": "غروب القمر",
-    "dynamic_colors": "ألوان تفاعلية",
-    "dynamic_colors_sub": "استخدم ألوان الخلفية",
-    "font_size": "حجم الخط",
-    "font_size_sub": "لن يؤثر حجم الخط إلا عند الحاجة إليه فقط",
-    "swipe_between_locations": "مرر بين المواقع",
-    "swipe_between_locations_sub": "مرر لليسار أو لليمين لتغيير الموقع",
-    "swipe_threshold": "عتبة التمرير",
-    "swipe_threshold_help_sub": "يُحدد الحد الأدنى للمسافة التي يجب أن تقطعها إيماءة التمرير ليتم التعرف عليها. يُسهّل الحد الأدنى المنخفض تفعيل إيماءات التمرير، بينما يتطلب الحد الأعلى تمريرات أكثر تعمدًا.",
-    "todays_avg": "متوسط اليوم",
-    "todays_high": "أعلى مستوى اليوم",
-    "learn_about_app": "تعرّف على التطبيق",
-    "creator": "المنشئ",
-    "join_discord": "انضم إلى خادم Discord",
-    "export_data": "تصدير البيانات",
-    "export_data_sub": "تصدير جميع إعداداتك ومواقعك وآخر بيانات الطقس التي تم جلبها - كل شيء حرفيًا!",
-    "import_data": "استيراد البيانات",
-    "import_data_sub": "تحذير: سيؤدي الاستيراد إلى مسح بيانات تطبيقك الحالية",
-    "froggy_summary": "مُلخص ضِفْدَعِي",
-    "froggy_summary_sub": "يضيف أوصافًا متعلقة بالضفادع. متاح بالإنجليزية فقط",
-    "arrange_items": "ترتيب العناصر",
-    "edit_layout": "تعديل تخطيط التطبيق",
-    "reset": "إعادة تعيين",
-    "hourly_forecast": "توقعات كل ساعة",
-    "air_quality_index": "مؤشر جودة الهواء",
-    "pollen_data": "بيانات حبوب اللِّقاح",
-    "default_location_delete_snack": "لا يمكنك حذف الموقع الافتراضي",
-    "low_pollen": "منخفض",
-    "medium_pollen": "متوسط",
-    "high_pollen": "عالي",
-    "severe_pollen": "شديد",
-    "minimal_forecast_uv": "الحد الأدنى",
-    "low_forecast_uv": "منخفض",
-    "moderate_forecast_uv": "معتدل",
-    "high_forecast_uv": "عالي",
-    "very_high_forecast_uv": "عالي جداً",
-    "extreme_forecast_uv": "الحد الأقصى",
-    "app_looks": "مظهر التطبيق",
-    "temp_animation_sub_pref": "يحسب درجات الحرارة من البداية إلى النهاية",
-    "hide_condition_widgets": "إخفاء عناصر واجهة التطبيقات المصغرة",
-    "info_home_location_tip": "تحتاج إلى حفظ المواقع لاستخدامها كموقعك الافتراضي",
-    "your_device_location": "موقع جهازك",
-    "weather_model_info_1": "يُجمع أفضل نماذج الطقس",
-    "weather_model_info_2": "يُجمع كل نماذج الطقس من هذا في تنبؤ سلس",
-    "max_items_4": "يمكنك إخفاء ما يصل إلى 4 عناصر فقط",
-    "max_items_3": "يمكنك إخفاء ما يصل إلى 3 عناصر فقط",
-    "month_jan": "يناير",
-    "month_feb": "فبراير",
-    "month_mar": "مارس",
-    "month_apr": "أبريل",
-    "month_may": "مايو",
-    "month_june": "يونيو",
-    "month_july": "يوليو",
-    "month_aug": "أغسطس",
-    "month_sep": "سبتمبر",
-    "month_oct": "أكتوبر",
-    "month_nov": "نوفمبر",
-    "month_Dec": "ديسمبر",
-    "wind_dir_ne": "ش.ق",
-    "wind_dir_e": "ق",
-    "wind_dir_se": "ج.ق",
-    "wind_dir_s": "ج",
-    "wind_dir_sw": "ج.غ",
-    "wind_dir_w": "غ",
-    "wind_dir_nw": "ش.غ",
-    "wind_dir_n": "ش",
-    "time_pm": "م",
-    "time_am": "ص",
-    "time_min": "د",
-    "time_hour": "س",
-    "time_day": "يوم",
-    "time_sec": "ث",
-    "aqi_type": "نوع مؤشر جودة الهواء",
-    "used_app_storage_info_sub": "تُظهر مساحة التخزين مقدار المساحة المتوفرة التي يستخدمها التطبيق لحفظ المواقع. إذا وصلت إلى ١٠٠٪، فلن تتمكن من حفظ مواقع إضافية.",
-    "used_app_storage": "المساحة المستخدمة للتطبيق",
-    "data_by": "البيانات حسب",
-    "data_fetch_error": "فشل جلب البيانات",
-    "aqi_info_us": "مؤشر جودة الهواء الأمريكي (AQI) هو مقياس يُستخدم لرصد مستوى تلوث الهواء. يتراوح بين ٠ و٥٠٠، وتشير القيم الأعلى إلى انخفاض جودة الهواء.",
-    "aqi_info_eu": "مؤشر جودة الهواء في الاتحاد الأوروبي (AQI) هو مقياس يُستخدم لرصد مستوى تلوث الهواء في الاتحاد الأوروبي. وينقسم إلى خمس مستويات، من 'جيد' إلى 'ضعيف جدًا'، بناءً على تركيز الملوثات الرئيسية.",
-    "update_weather_data": "تحديث بيانات الطقس",
-    "update_weather_data_sub": "تحديث بيانات الطقس تلقائيًا إذا كانت قديمة عند النقر فوق الموقع",
-    "delete_locations": "حذف المواقع",
-    "delete_locations_support_sub": "يزيل هذا الإجراء جميع المواقع المحفوظة باستثناء موقعك الافتراضي. استخدمه إذا كانت مواقعك المحفوظة غير مرئية، أو مكررة، أو تواجه أي أخطاء أخرى.",
-    "delete": "حذف",
-    "united_states_aqi": "مؤشر جودة الهواء الأمريكي",
-    "european_aqi": "مؤشر جودة الهواء الأوروبي",
-    "chances": "التغييرات",
-    "temperature": "درجة الحرارة",
-    "show_summary_toggle_sub": "اعرض ملخصًا موجزًا للطقس",
-    "insights": "التحليلات",
-    "app_units": "وحدات التطبيق",
-    "temperature_wind_pressure_visibility_precipitation_time_aqi": "درجة الحرارة، الرياح، الضغط، الرؤية، الهطول، الوقت، مؤشر جودة الهواء",
-    "activity_suggestions_daytip_humidity_3": "🧴 الهواء جاف. رطب بشرتك واشرب الكثير من الماء للحفاظ على رطوبة جسمك.",
-    "activity_suggestions_daytip_humidity_4": "💧قد تُسبب الرطوبة المنخفضة جفافًا أو تهيجًا للبشرة. احتفظ بزجاجة ماء في متناول يدك وتجنب التعرض المفرط للشمس.",
-    "hide_update_icon": "إخفاء أيقونة التحديث",
-    "no_notification_when_a_new_version_is_released": "لا تُظهر إشعارًا عند إصدار نسخة جديدة.",
-    "precipitation_expected_to_continue": "من المتوقع استمرار الهطول خلال الساعات القليلة القادمة.",
-    "Precipitation_likely_tomorrow_around": "من المُتوقع الهطول غدًا حوالي",
-    "precipitation_likely_around": "احتمالية الهطول حوالي",
-    "hrs_sub_text": "س",
-    "mins_sub_text": "د",
-    "loading_text": "تحميل...",
-    "edit_location_headline": "تعديل الموقع",
-    "edit_location_error_sub": "يرجى ملء الحقل أو إعادة تعيينه",
-    "app_theme_dark_light": "مظهر التطبيق",
-    "theme_dark": "مظلم",
-    "theme_light": "ضوء ",
-    "use_device_compass": "استخدام بوصلة الجهاز",
-    "use_device_compass_sub": " سرعة الرياح استنادًا إلى الاتجاه الحقيقي لهاتفك",
-    "froggy_insights": "Froggy insights",
-    "froggy_insights_sub": "يعرض الأفكار في شكل مرح",
-    "show_froggy": "Show froggy",
-    "show_froggy_sub": "Display Froggy images based on weather conditions",
-    "primary_color": "Primary color",
-    "primary_color_sub": "حدد اختيار لون للسمة",
-    "use_custom_color": "استخدم اللون الاساسي",
-    "material_scheme_only": "Material scheme only",
-    "material_scheme_only_sub": "Disables weather effects; uses default Material theme",
-    "current_location_tile_sub": "Current location based on GPS",
-    "layout_saved": "Layout saved",
-    "rain_card_no_rain_exp": "No rain expected",
-    "rain_will_stop_soon": "Rain will stop soon",
-    "its_currently_raining": "It's currently raining",
-    "rain_expected_overnight": "Rain expected overnight",
-    "rain_expected_this_morning": "Rain expected this morning",
-    "rain_expected_this_afternoon": "Rain expected this afternoon",
-    "rain_expected_this_evening": "Rain expected this evening",
-    "rain_expected_later_today": "Rain expected later today",
-    "from_text": "From",
-    "to_text": "to",
-    "heavy_rain": "Heavy rain",
-    "light_rain": "Light rain",
-    "bulletstempOptions_1": "Expect a daytime range from {min}° to {max}°.",
-    "bulletstempOptions_2": "Temperatures ranging between {min}° and {max}°.",
-    "bulletstempOptions_3": "Today's high will reach around {max}° after a cooler start.",
-    "bulletsUVOptions_1": "UV index peaks around {uvTime} at {uvIndex}.",
-    "bulletsUVOptions_2": "Strong UV expected near {uvTime} — sun protection recommended.",
-    "bulletsUVOptions_3": "High UV levels around {uvTime} could pose a risk outdoors.",
-    "bulletsHUMIDITYOptions_1": "{humidity}% humidity with a dew point of {dewpoint}° by {time}.",
-    "bulletsHUMIDITYOptions_2": "Feels humid later — dew point near {dewpoint}° at {time}.",
-    "bulletsHUMIDITYOptions_3": "Sticky conditions expected by {time} with {humidity}% humidity.",
-    "bulletsWINDOptions_1": "Breezy conditions with winds up to {windSpeed} {windUnit}.",
-    "bulletsWINDOptions_2": "Wind picks up during the day, reaching {windSpeed} {windUnit}.",
-    "bulletsAQIOptions_1": "Air quality is poor right now — consider limiting time outside.",
-    "bulletsAQIOptions_2": "Good air quality at the moment.",
-    "bulletsAQIOptions_3": "No air quality concerns currently.",
-    "bulletsAQIOptions_4": "Breathable conditions outdoors today.",
-    "summary_headlines_1": "Stormy weather on the horizon",
-    "summary_headlines_2": "Thunderstorms expected — stay safe",
-    "summary_headlines_3": "Rough weather ahead with storms likely",
-    "summary_headlines_4": "Rain showers likely through the day",
-    "summary_headlines_5": "Pack an umbrella — rain is on the way",
-    "summary_headlines_6": "Expect a damp and drizzly forecast",
-    "summary_headlines_7": "Gray skies and little sunshine",
-    "summary_headlines_8": "Cloudy and cool throughout the day",
-    "summary_headlines_9": "Overcast start with filtered light",
-    "summary_headlines_10": "Scorching sun with intense UV",
-    "summary_headlines_11": "Hot and blazing under clear skies",
-    "summary_headlines_12": "Heat and sunshine dominate the forecast",
-    "summary_headlines_13": "Bright and sunny — UV is high",
-    "summary_headlines_14": "Sun’s out strong today",
-    "summary_headlines_15": "Clear skies with a UV warning",
-    "summary_headlines_16": "A muggy and warm start",
-    "summary_headlines_17": "Sticky weather sets the tone",
-    "summary_headlines_18": "Expect a humid, clingy morning",
-    "summary_headlines_19": "Gusty winds early on",
-    "summary_headlines_20": "Windy and brisk as the day begins",
-    "summary_headlines_21": "Hold onto your hat — it's breezy",
-    "summary_headlines_22": "Chilly start to the day",
-    "summary_headlines_23": "Cool and crisp morning ahead",
-    "summary_headlines_24": "Bundle up — it's brisk outside",
-    "summary_headlines_25": "Pleasant and calm start to the day",
-    "summary_headlines_26": "Fair weather to kick things off",
-    "summary_headlines_27": "A mild and comfortable morning",
-    "summary_suffixes_1": "UV levels peak around midday",
-    "summary_suffixes_2": "take care in the sun",
-    "summary_suffixes_3": "sunburn risk is high",
-    "summary_suffixes_4": "strong UV rays later on",
-    "summary_suffixes_5": "winds picking up by afternoon",
-    "summary_suffixes_6": "expect gusts later in the day",
-    "summary_suffixes_7": "breezy conditions to continue",
-    "summary_suffixes_8": "air quality may be unhealthy",
-    "summary_suffixes_9": "watch for pollution levels",
-    "summary_suffixes_10": "smog could be a concern",
-    "summary_suffixes_11": "humidity builds throughout the day",
-    "summary_suffixes_12": "sweaty conditions expected",
-    "summary_suffixes_13": "feels hotter than it is",
-    "summary_suffixes_and": "and",
-    "rain_card": "Rain card",
-    "summary_card": "Summary card",
-    "hourly_card": "Hourly card",
-    "daily_card": "Daily card",
-    "pollen_card": "Pollen card",
-    "min": "د",
-    "hr": "س",
-    "just_now": "just now",
-    "total_precip_sub": "Total rain for the day",
-    "precip_info": "Rain amount describes how much rain is expected, typically given in millimeters (mm) or inches. It helps indicate the intensity of rainfall — from light showers to heavy downpours.",
-    "precip_info_2": "Rain probability shows the chance of precipitation occurring at a given time and location, expressed as a percentage. For example, a 70% chance means rain is likely in that area.",
-    "precip_info_3": "Rain duration indicates the total number of hours during the day that rain is expected. This helps estimate how long the weather might stay wet or overcast.",
-    "precip_info_4": "Rain intensity measures how heavy the rain is during a given period, typically classified as light, moderate, or heavy. Heavier rainfall can lead to flooding or reduced visibility.",
-    "theme_auto": "Auto",
-    "model_saved_snack": "Model saved. Please refresh the weather",
-    "insights_sub_1": "It's getting colder this week — temperatures drop by {tempDiff}° by the weekend.",
-    "insights_sub_2": "Warming up ahead! Expect a rise of {tempDiff}° by the weekend.",
-    "insights_sub_3": "Temperatures stay mostly stable this week.",
-    "insights_sub_4": "High chance of rain mid-week — especially on {peakDay}.",
-    "insights_sub_5": "Scattered showers possible on a few days this week.",
-    "insights_sub_6": "Low rain chances all week — enjoy the dry spell!",
-    "insights_sub_7": "Heatwave alert: {hotDays} days over {heatTemp}° are coming this week.",
-    "insights_sub_8": "Expect a hot day or two — highs reaching {heatTemp}°.",
-    "insights_sub_9": "No extreme heat expected this week.",
-    "insights_sub_10": "It will feel stickier later this week as humidity climbs.",
-    "insights_sub_11": "A drier air mass is moving in — humidity levels drop.",
-    "insights_sub_12": "Humidity remains fairly consistent this week.",
-    "insights_sub_13": "Windy conditions expected — especially on {weekdays}.",
-    "insights_sub_14": "Breezy days ahead — nothing too wild though.",
-    "insights_sub_15": "Calm winds for most of the week.",
-    "insights_sub_16": "Pleasant week ahead — {sunnyDays} days of clear, comfortable weather!",
-    "insights_sub_17": "Mixed skies this week, but still decent for outdoor plans.",
-    "insights_sub_18": "Cloudy skies can trap heat overnight — warmer mornings ahead.",
-    "insights_sub_19": "Wind chill can make {temp}° feel like {feelliketemp}° — dress accordingly.",
-    "insights_sub_20": "A single thunderstorm can drop over 30 million gallons of water.",
-    "insights_sub_21": "Sunlight can be more intense after a rainy day — wear sunscreen.",
-    "insights_sub_22": "Big temperature swings expected today — dress in layers! ({tempdiff}°)",
-    "insights_sub_23": "Temperatures stay fairly stable through the day.",
-    "insights_sub_24": "High UV levels expected — especially around midday. Don’t forget sunscreen!",
-    "insights_sub_25": "Moderate UV levels today — still good to take precautions.",
-    "insights_sub_26": "Low UV risk today — enjoy the outdoors!",
-    "insights_sub_27": "Strong winds expected during certain hours — secure loose items outside.",
-    "insights_sub_28": "Wind speeds will fluctuate a lot today — keep an extra layer handy.",
-    "insights_sub_29": "Mostly calm winds throughout the day.",
-    "insights_sub_30": "Humidity levels will vary significantly today — it may feel muggy at times.",
-    "insights_sub_31": "Consistent humidity levels expected — comfortable air throughout the day.",
-    "insights_sub_32": "Mostly cloudy skies for most of the day — limited sunshine.",
-    "insights_sub_33": "Clear skies dominate — great day for outdoor activities!",
-    "insights_sub_34": "Mixed clouds and sun throughout the day.",
-    "insights_sub_35": "High chance of rain during some hours — keep an umbrella nearby!",
-    "insights_sub_36": "Spotty rain showers possible during parts of the day.",
-    "insights_sub_37": "Very low chance of rain in the next 24 hours.",
-    "weekdays_1": "Monday",
-    "weekdays_2": "Tuesday",
-    "weekdays_3": "Wednesday",
-    "weekdays_4": "Thursday",
-    "weekdays_5": "Friday",
-    "weekdays_6": "Saturday",
-    "weekdays_7": "Sunday",
-    "dawn": "Dawn",
-    "dusk": "Dusk",
-    "model_disc_2": "Global forecast by ECMWF, slightly lower resolution, highly reliable worldwide.",
-    "model_disc_3": "High-resolution version of ECMWF’s global model. Known for top accuracy globally.",
-    "model_disc_4": "Chinese national model from CMA. Good for Asia-Pacific, less accurate globally.",
-    "model_disc_5": "Global model from Australia's Bureau of Meteorology. Best for Australia & Oceania.",
-    "model_disc_6": "Regional model optimized for Norway and Scandinavia. Very accurate for the Nordic region.",
-    "model_disc_7": "NOAA’s blended high-res + global forecast. Balanced accuracy with faster updates.",
-    "model_disc_8": "NOAA’s global model. Fast, free, decent worldwide but less precise locally.",
-    "model_disc_9": "Ultra high-res short-range US model. Best for hyperlocal US forecasts (0–18h).",
-    "model_disc_10": "AI-powered forecast by Google DeepMind. Experimental, smooth & cutting-edge globally.",
-    "model_disc_11": "Blended Japan Meteorological Agency model. Accurate in Japan & East Asia.",
-    "model_disc_12": "High-res short-range forecast for Japan. Great for 0–36h predictions in Japan.",
-    "model_disc_13": "Japan’s global forecast model. Lower res but reliable in Asia-Pacific.",
-    "model_disc_14": "German Weather Service’s blended ICON model. Good balance for Europe",
-    "model_disc_15": "Global version of ICON. Precise forecasts worldwide, especially Europe.",
-    "model_disc_16": "High-res regional ICON for Europe. Best for central & western Europe.",
-    "model_disc_17": "Ultra high-res short-term forecast for Germany. Ideal for next 24–48h in DE.",
-    "model_disc_18": "Environment Canada’s blended forecast. Good across North America.",
-    "model_disc_19": "Canada’s global model. Reliable for global forecasts, better in northern latitudes.",
-    "model_disc_20": "Canadian regional model. High detail for local areas in Canada.",
-    "model_disc_21": "Ultra high-res Canadian model. Best for pinpoint weather in Canada & nearby US.",
-    "model_disc_22": "Blended national model. Accurate in France & nearby countries.",
-    "model_disc_23": "Global model from France. Decent worldwide, especially for French territories.",
-    "model_disc_24": "Europe-focused ARPEGE. More precise than global version.",
-    "model_disc_25": "High-res national model. Best for local French forecasts.",
-    "model_disc_27": "High-resolution ICON model tailored by ARPAE for Italy. Ideal for detailed regional forecasts.",
-    "model_disc_28": "Integrated multi-scale forecast system combining global and regional models for smooth transitions.",
-    "model_disc_29": "Global model with 10km resolution. Suitable for medium-range international forecasts.",
-    "model_disc_30": "High-resolution 2km model focused on the UK. Excellent for local short-term forecasting.",
-    "default_text": "Default",
-    "main_text": "Main",
-    "location_saved": "Location saved",
-    "alerts_api_caution": "Due to the API being in beta, alerts from other regions may occasionally appear",
-    "effective": "Effective",
-    "expires": "Expires",
-    "no_data_available": "No data available",
-    "email_text": "Email",
-    "on_github": "On Github",
-    "checking": "Checking...",
-    "best_match": "Best match",
-    "disable_battery_optimizations": "Disable battery optimizations",
-    "disable_battery_optimizations_sub": "Disabling battery optimization is required for background updates to function properly",
-    "disable_battery_optimizations_done": "Battery optimization already disabled",
-    "background_updates": "Background updates",
-    "refresh_interval": "Refresh interval",
-    "hours": "hours",
-    "minutes": "minutes",
-    "allow_notification_permission": "Allow notification permission",
-    "allow_notification_permission_sub": "Permission is required for background app updates",
-    "scheduled_updates": "Scheduled updates",
-    "summary_headlines_28": "Cloudy and cool this afternoon",
-    "summary_headlines_29": "Gray skies and little sunshine",
-    "summary_headlines_30": "Expect some cloud cover later today",
-    "summary_headlines_31": "Cloudy evening with calm winds",
-    "summary_headlines_32": "Overcast skies at sunset",
-    "summary_headlines_33": "Cloud cover lingering tonight",
-    "summary_headlines_34": "Cloudy overnight skies",
-    "summary_headlines_35": "Overcast night ahead",
-    "summary_headlines_36": "Clouds holding through the night"
+  "feels_like": "يبدو وكأنه",
+  "hourly_precipitation": "التوقعات كل ساعة",
+  "save": "حفظ",
+  "cancel": "الغاء",
+  "daily_forecast": "التوقعات اليومية ",
+  "locations": "الموقع",
+  "home_location": "موقع المنزل ",
+  "default_locations": "المواقع الافتراضية ",
+  "default_location": "الموقع الافتراضي ",
+  "today's_amount": "كمية اليوم ",
+  "precipitation_hours": "ساعات هطول الأمطار ",
+  "now": "الان",
+  "next_24-hr": "24 ساعة التالية",
+  "trends": "الاتجاهات ",
+  "today": "اليوم ",
+  "sun": "الأحد ",
+  "mon": "الاثنين ",
+  "tue": "الثلاثاء ",
+  "wed": "الأربعاء ",
+  "thu": "الخميس ",
+  "fri": "الجمعة",
+  "sat": "السبت ",
+  "error": "خطأ ",
+  "not_available": "غير متوفر ",
+  "moon": "القمر",
+  "humidity": "الرطوبة ",
+  "pressure": "الضغط ",
+  "direction": "اتجاه الرياح",
+  "visibility": "الرؤية ",
+  "air_quality": "جودة الهواء ",
+  "fair": "مقبول",
+  "poor": "ملوث",
+  "very_poor": "ملوث للغاية",
+  "good": "جيد",
+  "moderate": "معتدل",
+  "uv_index": "مؤشر الأشعة فوق البنفسجية ",
+  "minimal_risk": "الحد الأدنى من المخاطر ",
+  "low_risk": "القليل من المخاطر",
+  "moderate_risk": "مخاطر متوسطة",
+  "high_risk": "مخاطر عالية ",
+  "very_high_risk": "مخاطر عالية جدًا ",
+  "extreme_risk": "خطر شديد ",
+  "day_length": "طول اليوم ",
+  "updated": "تم تحديثها",
+  "update": "تحديث",
+  "ago": "منذ ",
+  "saved_locations": "المواقع المحفوظة",
+  "current_location": "الموقع الحالي ",
+  "search": "بحث",
+  "search_provider": "مزود البحث ",
+  "ok": "تمام",
+  "settings": "إعدادات ",
+  "background_card_animation": "الرسوم المتحركة لبطاقة الخلفية ",
+  "use_bar_chart": "استخدام الرسم البياني بالعرض",
+  "main_provider": "المزود الرئيسي ",
+  "temperature_unit": "وحدة درجة الحرارة ",
+  "wind_unit": "وحدة الرياح ",
+  "visibility_unit": "وحدة الرؤية ",
+  "precipitation_unit": "وحدة هطول الأمطار ",
+  "pressure_unit": "وحدة الضغط ",
+  "time_format": "تنسيق الوقت ",
+  "additional": "إضافي ",
+  "app_language": "لغة التطبيق ",
+  "about": "حول",
+  "about_app": "حول التطبيق ",
+  "support": "الدعم",
+  "data_provided_by": "البيانات المقدمة من ",
+  "map": "الخريطة ",
+  "live_radar": "رادار مباشر",
+  "radar": "رادار",
+  "source_code": "كود المصدر ",
+  "terms_&_conditions": "الشروط والأحكام ",
+  "privacy_policy": "سياسة الخصوصية ",
+  "licenses": "التراخيص ",
+  "latest_version": "أحدث إصدار ",
+  "create_an_issue": " إبلاغ عن مشكلة",
+  "new_version_available!": "إصدار جديد متاح",
+  "you_are_using_the_latest_version!": "انت تستخدم احدث نسخة",
+  "error_checking_for_updates": "خطأ في التحقق من تحديثات",
+  "light": "ضوء ",
+  "heavy": "قوي",
+  "wind_info": "يتم قياس سرعة الرياح من خلال حساب متوسط ​​سرعة الرياح خلال فترة زمنية. العواصف عبارة عن هبوب رياح مفاجئة تدوم عادةً أقل من عشرين ثانية. ",
+  "visibility_info": "تقيس الرؤية المسافة التي يمكن من خلالها رؤية الأجسام البارزة مقابل السماء أو الأفق. يمكن أن تتأثر الرؤية بهطول الأمطار أو الضباب أو الغبار أو الدخان أو الضباب. ",
+  "humidity_info": "الرطوبة النسبية هي النسبة المئوية لبخار الماء الموجود في الهواء مقارنة بالكمية القصوى التي يمكن للهواء الاحتفاظ بها عند درجة حرارة معينة. ",
+  "humidity_info_2": "\n1. درجة الرطوبة هي الدرجة التي يجب أن تصل إليها درجة الحرارة لتحقيق رطوبة 100%. ",
+  "uv_index_info": "يقيس مؤشر الأشعة فوق البنفسجية قوة الأشعة فوق البنفسجية الصادرة عن الشمس. وهو على مقياس من 0 إلى 11، وتشير القيم الأعلى إلى إشعاع فوق بنفسجي أقوى. ",
+  "uv_index_info_2": "يمكن أن تسبب الأشعة فوق البنفسجية حروق الشمس وسرطان الجلد وتلف العين. كلما ارتفع مؤشر الأشعة فوق البنفسجية، زادت خطورة هذه المشاكل ",
+  "uv_index_info_3": "1-2: منخفض. لا حاجة للحماية. يمكنك البقاء بالخارج بأمان باستخدام الحد الأدنى من الحماية من أشعة الشمس. ",
+  "uv_index_info_4": "3-7: متوسط ​​إلى مرتفع. الحماية مطلوبة. ابحث عن الظل في وقت متأخر من الصباح وحتى منتصف بعد الظهر. عندما تكون بالخارج، استخدم بوفرة كريم الوقاية من الشمس واسع النطاق SPF-15 أو أعلى على الجلد المكشوف ، وارتدِ ملابس واقية وقبعة واسعة الحواف ونظارات شمسية. ",
+  "uv_index_info_5": "8+: مرتفع جدًا إلى أقصى حد. الحماية الإضافية مطلوبة. كن حذرًا في الخارج، خاصة في وقت متأخر من الصباح إلى منتصف ما بعد الظهر. إذا كان ظلك أقصر منك، فابحث عن الظل وارتدي ملابس واقية وقبعة واسعة الحواف ونظارات شمسية، واستخدم كريمًا واقيًا من الشمس واسع النطاق بحد أدنى SPF-15 على الجلد المكشوف. ",
+  "sunset": "الغروب ",
+  "sunrise": "الشروق ",
+  "sunset_rise_info": "الشروق: عندما تظهر الشمس بشكل كامل فوق الأفق. ويختلف هذا حسب الموقع والوقت من السنة والمنطقة الزمنية. ",
+  "sunset_rise_info_2": "الغروب: عندما تختفي الشمس تماماً تحت الأفق. ويختلف هذا حسب الموقع والوقت من السنة والمنطقة الزمنية. ",
+  "sunset_rise_info_3": "الفجر: عندما يظهر أول ضوء مرئي من النهار قبل شروق الشمس. ",
+  "sunset_rise_info_4": "الغسق: أحلك مرحلة من الشفق قبل اختفاء آخر ضوء مرئي. ",
+  "pressure_info": "الضغط الجوي، المعروف أيضًا باسم ضغط الهواء أو الضغط الجوي، هو الضغط الهبوطي الذي يمارسه الغلاف الجوي للأرض. يستخدم هذا التطبيق متوسط ​​ضغط مستوى سطح البحر (MSLP). ",
+  "pressure_info_2": "قد يسبب الضغط الجوي غير الطبيعي الصداع، وآلام المفاصل، والتعب، وغيرها من التأثيرات. ",
+  "current_conditions": "الظروف الحالية ",
+  "clear_sky": "سماء صافية ",
+  "mostly_clear": "صاف عموما",
+  "partly_cloudy": "غائم جزئيًا ",
+  "overcast": "ملبد بالغيوم ",
+  "fog": "ضباب ",
+  "drizzle": "رذاذ ",
+  "freezing_drizzle": "رذاذ متجمد ",
+  "moderate_rain": "أمطار متوسطة ",
+  "heavy_intensity_rain": "أمطار غزيرة  ",
+  "freezing_rain": "مطر متجمد ",
+  "slight_snow": "ثلوج خفيفة ",
+  "moderate_snow": "ثلوج معتدلة ",
+  "heavy_intensity_snow": "ثلوج كثيفة جدا",
+  "snow_grains": "حبيبات الثلج ",
+  "rain_showers": "زخات المطر ",
+  "heavy_rain_showers": "زخات مطر غزيرة ",
+  "slight_snow_showers": "زخات ثلجية خفيفة ",
+  "heavy_snow_showers": "زخات ثلجية كثيفة ",
+  "thunderstorm": "عاصفة رعدية ",
+  "strong_thunderstorm": "عاصفة رعدية قوية ",
+  "clear": "صاف",
+  "wind_speed": "سرعة الرياح",
+  "precipitation_amount": "كَمّيّة الهطول",
+  "precipitation_chances": "توقعات هطول الأمطار",
+  "cloudiness": "الغيوم",
+  "dew_point": "درجة الندى",
+  "air_quality_satisfactory": "جودة الهواء مقبولة، ولا يمثل تلوث الهواء خطراً يُذكر أو لا يمثل أي خطر.",
+  "air_quality_acceptable": "جودة الهواء مقبولة؛ ومع ذلك، قد يكون هناك قلق صحي معتدل بشأن بعض الملوثات لعدد قليل جدًا من الأشخاص الذين لديهم حساسية غير عادية للتلوث الهوائي.",
+  "sensitive_groups_health_effects": "قد يواجه أعضاء الفئات الحساسة تأثيرات صحية. من غير المحتمل أن يتأثر عموم الناس.",
+  "health_effects_public": "قد يختبر الجميع تأثيرات صحية؛ وقد يواجه أعضاء الفئات الحساسة تأثيرات صحية أكثر خطورة.",
+  "emergency_conditions": "تحذيرات صحية لحالات الطوارئ. من المرجح أن يتأثر جميع السكان.",
+  "uv_index_satisfactory": "مؤشر الأشعة فوق البنفسجية مرضٍ، مما يعني أن هناك خطرًا ضئيلًا أو لا يوجد خطر من الإشعاع فوق البنفسجي.",
+  "conditions_low_risk": "الظروف عمومًا منخفضة المخاطر، مما يعني أن التعرض للأشعة فوق البنفسجية يشكل تهديدًا ضئيلًا.",
+  "low_exposure_level": "مستوى التعرض منخفض مع خطر ضئيل من الأشعة فوق البنفسجية، مناسب لمعظم الناس.",
+  "moderate_risk_sun_exposure": "خطر معتدل من التعرض لأشعة الشمس دون حماية، يوصى باتخاذ تدابير وقائية.",
+  "high_risk_sun_exposure": "خطر مرتفع من التعرض لأشعة الشمس دون حماية؛ لذا يجب اتخاذ التدابير الوقائية.",
+  "very_high_risk_sun_exposure": "خطر شديد من التعرض لأشعة الشمس دون حماية؛ لذا يجب اتخاذ احتياطات إضافية.",
+  "extreme_risk_sun_exposure": "خطر شديد للغاية من التعرض لأشعة الشمس دون حماية؛ لذا فمن الضروري اتخاذ حماية كاملة.",
+  "calm": "هادئ",
+  "light_air": "ريح خفيفة (نسيم)",
+  "light_breeze": "نسيم خفيف ",
+  "gentle_breeze": "نسيم لطيف ",
+  "moderate_breeze": "رياح معتدلة ",
+  "fresh_breeze": "رياح نشيطة ",
+  "strong_breeze": "رياح قوية ",
+  "high_wind": "رياح شديدة ",
+  "gale": "رياح عاصفة ",
+  "strong_gale": "رياح عاصفة جدًا",
+  "storm": "عاصفة ",
+  "violent_storm": "عاصفة هوجاء ",
+  "hurricane": "إعصار",
+  "warming_temp_trend_1": "تشير التوقعات إلى ارتفاع درجات الحرارة في الأيام المقبلة.",
+  "warming_temp_trend_2": "سترتفع درجات الحرارة قريباً، استعد للحر!",
+  "warming_temp_trend_3": "يبدو أن الجو سيصبح أدفئ هذا الأسبوع.",
+  "warming_temp_trend_4": "استعدوا لطقس أدفئ في هذه الأيام.",
+  "cooling_temp_trend_1": "التوقعات تشير إلى انخفاض درجات الحرارة في هذه الأيام.",
+  "cooling_temp_trend_2": "ستنخفض درجات الحرارة قريبًا، حاول البقاء دافئًا!",
+  "cooling_temp_trend_3": "سيكون الجو أبرد في الايام القادمة .",
+  "cooling_temp_trend_4": "توقع نسيمًا باردًا في هذه الأيام.",
+  "stable_temp_trend_1": "من المتوقع أن تظل درجات الحرارة مستقرة في الأيام القليلة القادمة.",
+  "stable_temp_trend_2": "لا توجد تغييرات كبيرة في درجات الحرارة في هذه الأيام، الطقس مستقر.",
+  "stable_temp_trend_3": "درجات الحرارة مستقرة في الوقت الحالي.",
+  "stable_temp_trend_4": "توقع طقسًا مستقرًا دون تغييرات كبيرة.",
+  "back": "رجوع",
+  "error_occurred": "حدث خطأ!",
+  "check_your_internet_connection_try_again": "تحقق من اتصالك بشبكة الإنترنت ثم اعد المحاولة.",
+  "There_might_be_an_API_error.": "قد يكون هناك خطأ في واجهة البرمجة (API).",
+  "retry": "حاول مجددًا",
+  "loading_location_data": "جارٍ تحميل بيانات الموقع...",
+  "latest_data_fetched": "البيانات محدثة",
+  "API_Error_Please_change_provider": "خطأ في واجهة البرمجة (API)، غَيّر المزود.",
+  "Please_wait_before_refreshing_again.": "انتظر قبل إعادة التحديث.",
+  "network_unavailable": "الشبكة غير متاحة",
+  "weather": "الطقس",
+  "precipitation": "الهطول",
+  "wind": "الرياح",
+  "pollen": "حبوب اللقاح ",
+  "grass": "عشب",
+  "tree": "شجر",
+  "weed": "حشائش",
+  "quick_summary": "تلخيص سريع",
+  "temperature_animation": "درجة الحرارة الديناميكية",
+  "language": "اللغة",
+  "translate_this_app": "ترجم التطبيق",
+  "contributors": "المساهمون",
+  "contributors_sub": "الإطلاع على المساهمين في هذا المشروع ",
+  "version": "الإصدار",
+  "third_party_licenses": "رخص الأطراف الثالثة",
+  "clothing_activity": "الملبس والنشاطات",
+  "get_clothing_suggestions": "احصل على اقتراحات الملبس والنشاطات.",
+  "day": "يوم",
+  "evening": "مساءً",
+  "night": "ليلًا",
+  "wind_gust": "العَصْفة",
+  "weather_alerts": "تنبيهات الطقس",
+  "font": "الخط",
+  "daily_conditions": "حالة الطقس اليومية",
+  "sun_tile_page": "الأحد ",
+  "morning": "صباحًا",
+  "day_tip": "نصيحة اليوم",
+  "translators": "المترجمون",
+  "change_apps_font": "تبديل خط التطبيق",
+  "app_font": "خط التطبيق",
+  "show_alerts_home_page_sub": "اظهار تنبيهات الطقس في الصفحة الرئيسة.",
+  "weather_models": "نماذج توقعات الطقس",
+  "openmeteo_weather_models": "نماذج الطقس (open-meteo)",
+  "unpredictable_weather": "طقس غير متوقع",
+  "phase_new_moon": "مَحَاق",
+  "phase_waxing_crescent": "هلال مُتزايد",
+  "phase_first_quarter": "التربيع الأول",
+  "phase_waxing_gibbous": "أحدب مُتزايد",
+  "phase_full_moon": "بدر",
+  "phase_waning_gibbous": "أحدب مُتناقص",
+  "phase_last_quarter": "التربيع الأخير",
+  "phase_waning_crescent": "هلال مُتناقص",
+  "moon_info": "المَحَاق: (القمر الجديد) هي مرحلة قمرية لا يُرى فيها القمر لأنه يقع بين الأرض والشمس. إضاءة: 0٪.",
+  "moon_info_2": "هلال مُتزايد: هي مرحلة قمرية يبدأ فيها ظهور شريط رفيع من القمر (بعد مرحلة المَحَاق)، حيث يتزايد حجم الجزء المضيء تدريجيًا كل ليلة. إضاءة: 1٪–49٪.",
+  "moon_info_3": "التربيع الأول: مرحلة قمرية يُضاء فيها نصف وجه القمر، وتحدث بعد حوالي أسبوع من مرحلة القمر الجديد. إضاءة: ~50٪.",
+  "moon_info_4": "أحدب مُتزايد: مرحلة قمرية تُضاء فيها أكثر من نصف وجه القمر (وليس كاملاً)، وتأتي بعد مرحلة التربيع الأول وتسبق اكتمال القمر (البدر). إضاءة: 51٪–99٪.",
+  "moon_info_5": "بدر: مرحلة قمرية يُضاء وجه القمر بالكامل بواسطة الشمس، فيظهر كدائرة مكتملة. إضاءة: 100٪.",
+  "moon_info_6": "أحدب مُتناقص: مرحلة قمرية يبدأ فيها الجزء المضيء من القمر في التناقص بعد مرحلة البدر، ولكن يبقى أكثر من نصفه مضاءً (وليس كاملاً). إضاءة: 99٪–51٪.",
+  "moon_info_7": "التربيع الأخير: مرحلة قمرية يُضاء فيها نصف وجه القمر مرة أخرى، وتحدث بعد حوالي أسبوع من مرحلة البدر. إضاءة: ~50٪",
+  "moon_info_8": "هلال مُتناقص: مرحلة قمرية لا يظهر فيها سوى شريط رفيع من القمر قبل وصوله إلى مرحلة المَحَاق (القمر الجديد) إضاءة: 49٪–1٪",
+  "moon_info_9": "الإضاءة: النسبة المئوية لسطح القمر المضاء بنور الشمس، التي تختلف حَسَبَ مرحلة القمر.",
+  "illumination_moon_text": "الإضاءة",
+  "moonrise": "شروق القمر ",
+  "moonset": "غروب القمر",
+  "dynamic_colors": "ألوان تفاعلية",
+  "dynamic_colors_sub": "استخدم ألوان الخلفية",
+  "font_size": "حجم الخط",
+  "font_size_sub": "لن يؤثر حجم الخط إلا عند الحاجة إليه فقط",
+  "swipe_between_locations": "مرر بين المواقع",
+  "swipe_between_locations_sub": "مرر لليسار أو لليمين لتغيير الموقع",
+  "swipe_threshold": "عتبة التمرير",
+  "swipe_threshold_help_sub": "يُحدد الحد الأدنى للمسافة التي يجب أن تقطعها إيماءة التمرير ليتم التعرف عليها. يُسهّل الحد الأدنى المنخفض تفعيل إيماءات التمرير، بينما يتطلب الحد الأعلى تمريرات أكثر تعمدًا.",
+  "todays_avg": "متوسط اليوم",
+  "todays_high": "أعلى مستوى اليوم",
+  "learn_about_app": "تعرّف على التطبيق",
+  "creator": "المنشئ",
+  "join_discord": "انضم إلى خادم Discord",
+  "export_data": "تصدير البيانات",
+  "export_data_sub": "تصدير جميع إعداداتك ومواقعك وآخر بيانات الطقس التي تم جلبها - كل شيء حرفيًا!",
+  "import_data": "استيراد البيانات",
+  "import_data_sub": "تحذير: سيؤدي الاستيراد إلى مسح بيانات تطبيقك الحالية",
+  "froggy_summary": "مُلخص ضِفْدَعِي",
+  "froggy_summary_sub": "يضيف أوصافًا متعلقة بالضفادع. متاح بالإنجليزية فقط",
+  "arrange_items": "ترتيب العناصر",
+  "edit_layout": "تعديل تخطيط التطبيق",
+  "reset": "إعادة تعيين",
+  "hourly_forecast": "توقعات كل ساعة",
+  "air_quality_index": "مؤشر جودة الهواء",
+  "pollen_data": "بيانات حبوب اللِّقاح",
+  "default_location_delete_snack": "لا يمكنك حذف الموقع الافتراضي",
+  "low_pollen": "منخفض",
+  "medium_pollen": "متوسط",
+  "high_pollen": "عالي",
+  "severe_pollen": "شديد",
+  "minimal_forecast_uv": "الحد الأدنى",
+  "low_forecast_uv": "منخفض",
+  "moderate_forecast_uv": "معتدل",
+  "high_forecast_uv": "عالي",
+  "very_high_forecast_uv": "عالي جداً",
+  "extreme_forecast_uv": "الحد الأقصى",
+  "app_looks": "مظهر التطبيق",
+  "temp_animation_sub_pref": "يحسب درجات الحرارة من البداية إلى النهاية",
+  "hide_condition_widgets": "إخفاء عناصر واجهة التطبيقات المصغرة",
+  "info_home_location_tip": "تحتاج إلى حفظ المواقع لاستخدامها كموقعك الافتراضي",
+  "your_device_location": "موقع جهازك",
+  "weather_model_info_1": "يُجمع أفضل نماذج الطقس",
+  "weather_model_info_2": "يُجمع كل نماذج الطقس من هذا في تنبؤ سلس",
+  "max_items_4": "يمكنك إخفاء ما يصل إلى 4 عناصر فقط",
+  "max_items_3": "يمكنك إخفاء ما يصل إلى 3 عناصر فقط",
+  "month_jan": "يناير",
+  "month_feb": "فبراير",
+  "month_mar": "مارس",
+  "month_apr": "أبريل",
+  "month_may": "مايو",
+  "month_june": "يونيو",
+  "month_july": "يوليو",
+  "month_aug": "أغسطس",
+  "month_sep": "سبتمبر",
+  "month_oct": "أكتوبر",
+  "month_nov": "نوفمبر",
+  "month_Dec": "ديسمبر",
+  "wind_dir_ne": "ش.ق",
+  "wind_dir_e": "ق",
+  "wind_dir_se": "ج.ق",
+  "wind_dir_s": "ج",
+  "wind_dir_sw": "ج.غ",
+  "wind_dir_w": "غ",
+  "wind_dir_nw": "ش.غ",
+  "wind_dir_n": "ش",
+  "time_pm": "م",
+  "time_am": "ص",
+  "time_min": "د",
+  "time_hour": "س",
+  "time_day": "يوم",
+  "time_sec": "ث",
+  "aqi_type": "نوع مؤشر جودة الهواء",
+  "used_app_storage_info_sub": "تُظهر مساحة التخزين مقدار المساحة المتوفرة التي يستخدمها التطبيق لحفظ المواقع. إذا وصلت إلى ١٠٠٪، فلن تتمكن من حفظ مواقع إضافية.",
+  "used_app_storage": "المساحة المستخدمة للتطبيق",
+  "data_by": "البيانات حسب",
+  "data_fetch_error": "فشل جلب البيانات",
+  "aqi_info_us": "مؤشر جودة الهواء الأمريكي (AQI) هو مقياس يُستخدم لرصد مستوى تلوث الهواء. يتراوح بين ٠ و٥٠٠، وتشير القيم الأعلى إلى انخفاض جودة الهواء.",
+  "aqi_info_eu": "مؤشر جودة الهواء في الاتحاد الأوروبي (AQI) هو مقياس يُستخدم لرصد مستوى تلوث الهواء في الاتحاد الأوروبي. وينقسم إلى خمس مستويات، من 'جيد' إلى 'ضعيف جدًا'، بناءً على تركيز الملوثات الرئيسية.",
+  "update_weather_data": "تحديث بيانات الطقس",
+  "update_weather_data_sub": "تحديث بيانات الطقس تلقائيًا إذا كانت قديمة عند النقر فوق الموقع",
+  "delete_locations": "حذف المواقع",
+  "delete_locations_support_sub": "يزيل هذا الإجراء جميع المواقع المحفوظة باستثناء موقعك الافتراضي. استخدمه إذا كانت مواقعك المحفوظة غير مرئية، أو مكررة، أو تواجه أي أخطاء أخرى.",
+  "delete": "حذف",
+  "united_states_aqi": "مؤشر جودة الهواء الأمريكي",
+  "european_aqi": "مؤشر جودة الهواء الأوروبي",
+  "chances": "التغييرات",
+  "temperature": "درجة الحرارة",
+  "show_summary_toggle_sub": "اعرض ملخصًا موجزًا للطقس",
+  "insights": "التحليلات",
+  "app_units": "وحدات التطبيق",
+  "temperature_wind_pressure_visibility_precipitation_time_aqi": "درجة الحرارة، الرياح، الضغط، الرؤية، الهطول، الوقت، مؤشر جودة الهواء",
+  "activity_suggestions_daytip_humidity_3": "🧴 الهواء جاف. رطب بشرتك واشرب الكثير من الماء للحفاظ على رطوبة جسمك.",
+  "activity_suggestions_daytip_humidity_4": "💧قد تُسبب الرطوبة المنخفضة جفافًا أو تهيجًا للبشرة. احتفظ بزجاجة ماء في متناول يدك وتجنب التعرض المفرط للشمس.",
+  "hide_update_icon": "إخفاء أيقونة التحديث",
+  "no_notification_when_a_new_version_is_released": "لا تُظهر إشعارًا عند إصدار نسخة جديدة.",
+  "precipitation_expected_to_continue": "من المتوقع استمرار الهطول خلال الساعات القليلة القادمة.",
+  "Precipitation_likely_tomorrow_around": "من المُتوقع الهطول غدًا حوالي",
+  "precipitation_likely_around": "احتمالية الهطول حوالي",
+  "hrs_sub_text": "س",
+  "mins_sub_text": "د",
+  "loading_text": "تحميل...",
+  "edit_location_headline": "تعديل الموقع",
+  "edit_location_error_sub": "يرجى ملء الحقل أو إعادة تعيينه",
+  "app_theme_dark_light": "مظهر التطبيق",
+  "theme_dark": "مظلم",
+  "theme_light": "ضوء ",
+  "use_device_compass": "استخدام بوصلة الجهاز",
+  "use_device_compass_sub": " سرعة الرياح استنادًا إلى الاتجاه الحقيقي لهاتفك",
+  "froggy_insights": "Froggy insights",
+  "froggy_insights_sub": "يعرض الأفكار في شكل مرح",
+  "show_froggy": "Show froggy",
+  "show_froggy_sub": "Display Froggy images based on weather conditions",
+  "primary_color": "Primary color",
+  "primary_color_sub": "حدد اختيار لون للسمة",
+  "use_custom_color": "استخدم اللون الاساسي",
+  "material_scheme_only": "Material scheme only",
+  "material_scheme_only_sub": "Disables weather effects; uses default Material theme",
+  "current_location_tile_sub": "Current location based on GPS",
+  "layout_saved": "Layout saved",
+  "rain_card_no_rain_exp": "No rain expected",
+  "rain_will_stop_soon": "Rain will stop soon",
+  "its_currently_raining": "It's currently raining",
+  "rain_expected_overnight": "Rain expected overnight",
+  "rain_expected_this_morning": "Rain expected this morning",
+  "rain_expected_this_afternoon": "Rain expected this afternoon",
+  "rain_expected_this_evening": "Rain expected this evening",
+  "rain_expected_later_today": "Rain expected later today",
+  "from_text": "From",
+  "to_text": "to",
+  "heavy_rain": "Heavy rain",
+  "light_rain": "Light rain",
+  "bulletstempOptions_1": "Expect a daytime range from {min}° to {max}°.",
+  "bulletstempOptions_2": "Temperatures ranging between {min}° and {max}°.",
+  "bulletstempOptions_3": "Today's high will reach around {max}° after a cooler start.",
+  "bulletsUVOptions_1": "UV index peaks around {uvTime} at {uvIndex}.",
+  "bulletsUVOptions_2": "Strong UV expected near {uvTime} — sun protection recommended.",
+  "bulletsUVOptions_3": "High UV levels around {uvTime} could pose a risk outdoors.",
+  "bulletsHUMIDITYOptions_1": "{humidity}% humidity with a dew point of {dewpoint}° by {time}.",
+  "bulletsHUMIDITYOptions_2": "Feels humid later — dew point near {dewpoint}° at {time}.",
+  "bulletsHUMIDITYOptions_3": "Sticky conditions expected by {time} with {humidity}% humidity.",
+  "bulletsWINDOptions_1": "Breezy conditions with winds up to {windSpeed} {windUnit}.",
+  "bulletsWINDOptions_2": "Wind picks up during the day, reaching {windSpeed} {windUnit}.",
+  "bulletsAQIOptions_1": "Air quality is poor right now — consider limiting time outside.",
+  "bulletsAQIOptions_2": "Good air quality at the moment.",
+  "bulletsAQIOptions_3": "No air quality concerns currently.",
+  "bulletsAQIOptions_4": "Breathable conditions outdoors today.",
+  "summary_headlines_1": "Stormy weather on the horizon",
+  "summary_headlines_2": "Thunderstorms expected — stay safe",
+  "summary_headlines_3": "Rough weather ahead with storms likely",
+  "summary_headlines_4": "Rain showers likely through the day",
+  "summary_headlines_5": "Pack an umbrella — rain is on the way",
+  "summary_headlines_6": "Expect a damp and drizzly forecast",
+  "summary_headlines_7": "Gray skies and little sunshine",
+  "summary_headlines_8": "Cloudy and cool throughout the day",
+  "summary_headlines_9": "Overcast start with filtered light",
+  "summary_headlines_10": "Scorching sun with intense UV",
+  "summary_headlines_11": "Hot and blazing under clear skies",
+  "summary_headlines_12": "Heat and sunshine dominate the forecast",
+  "summary_headlines_13": "Bright and sunny — UV is high",
+  "summary_headlines_14": "Sun’s out strong today",
+  "summary_headlines_15": "Clear skies with a UV warning",
+  "summary_headlines_16": "A muggy and warm start",
+  "summary_headlines_17": "Sticky weather sets the tone",
+  "summary_headlines_18": "Expect a humid, clingy morning",
+  "summary_headlines_19": "Gusty winds early on",
+  "summary_headlines_20": "Windy and brisk as the day begins",
+  "summary_headlines_21": "Hold onto your hat — it's breezy",
+  "summary_headlines_22": "Chilly start to the day",
+  "summary_headlines_23": "Cool and crisp morning ahead",
+  "summary_headlines_24": "Bundle up — it's brisk outside",
+  "summary_headlines_25": "Pleasant and calm start to the day",
+  "summary_headlines_26": "Fair weather to kick things off",
+  "summary_headlines_27": "A mild and comfortable morning",
+  "summary_suffixes_1": "UV levels peak around midday",
+  "summary_suffixes_2": "take care in the sun",
+  "summary_suffixes_3": "sunburn risk is high",
+  "summary_suffixes_4": "strong UV rays later on",
+  "summary_suffixes_5": "winds picking up by afternoon",
+  "summary_suffixes_6": "expect gusts later in the day",
+  "summary_suffixes_7": "breezy conditions to continue",
+  "summary_suffixes_8": "air quality may be unhealthy",
+  "summary_suffixes_9": "watch for pollution levels",
+  "summary_suffixes_10": "smog could be a concern",
+  "summary_suffixes_11": "humidity builds throughout the day",
+  "summary_suffixes_12": "sweaty conditions expected",
+  "summary_suffixes_13": "feels hotter than it is",
+  "summary_suffixes_and": "and",
+  "rain_card": "Rain card",
+  "summary_card": "Summary card",
+  "hourly_card": "Hourly card",
+  "daily_card": "Daily card",
+  "pollen_card": "Pollen card",
+  "min": "د",
+  "hr": "س",
+  "just_now": "just now",
+  "total_precip_sub": "Total rain for the day",
+  "precip_info": "Rain amount describes how much rain is expected, typically given in millimeters (mm) or inches. It helps indicate the intensity of rainfall — from light showers to heavy downpours.",
+  "precip_info_2": "Rain probability shows the chance of precipitation occurring at a given time and location, expressed as a percentage. For example, a 70% chance means rain is likely in that area.",
+  "precip_info_3": "Rain duration indicates the total number of hours during the day that rain is expected. This helps estimate how long the weather might stay wet or overcast.",
+  "precip_info_4": "Rain intensity measures how heavy the rain is during a given period, typically classified as light, moderate, or heavy. Heavier rainfall can lead to flooding or reduced visibility.",
+  "theme_auto": "Auto",
+  "model_saved_snack": "Model saved. Please refresh the weather",
+  "insights_sub_1": "It's getting colder this week — temperatures drop by {tempDiff}° by the weekend.",
+  "insights_sub_2": "Warming up ahead! Expect a rise of {tempDiff}° by the weekend.",
+  "insights_sub_3": "Temperatures stay mostly stable this week.",
+  "insights_sub_4": "High chance of rain mid-week — especially on {peakDay}.",
+  "insights_sub_5": "Scattered showers possible on a few days this week.",
+  "insights_sub_6": "Low rain chances all week — enjoy the dry spell!",
+  "insights_sub_7": "Heatwave alert: {hotDays} days over {heatTemp}° are coming this week.",
+  "insights_sub_8": "Expect a hot day or two — highs reaching {heatTemp}°.",
+  "insights_sub_9": "No extreme heat expected this week.",
+  "insights_sub_10": "It will feel stickier later this week as humidity climbs.",
+  "insights_sub_11": "A drier air mass is moving in — humidity levels drop.",
+  "insights_sub_12": "Humidity remains fairly consistent this week.",
+  "insights_sub_13": "Windy conditions expected — especially on {weekdays}.",
+  "insights_sub_14": "Breezy days ahead — nothing too wild though.",
+  "insights_sub_15": "Calm winds for most of the week.",
+  "insights_sub_16": "Pleasant week ahead — {sunnyDays} days of clear, comfortable weather!",
+  "insights_sub_17": "Mixed skies this week, but still decent for outdoor plans.",
+  "insights_sub_18": "Cloudy skies can trap heat overnight — warmer mornings ahead.",
+  "insights_sub_19": "Wind chill can make {temp}° feel like {feelliketemp}° — dress accordingly.",
+  "insights_sub_20": "A single thunderstorm can drop over 30 million gallons of water.",
+  "insights_sub_21": "Sunlight can be more intense after a rainy day — wear sunscreen.",
+  "insights_sub_22": "Big temperature swings expected today — dress in layers! ({tempdiff}°)",
+  "insights_sub_23": "Temperatures stay fairly stable through the day.",
+  "insights_sub_24": "High UV levels expected — especially around midday. Don’t forget sunscreen!",
+  "insights_sub_25": "Moderate UV levels today — still good to take precautions.",
+  "insights_sub_26": "Low UV risk today — enjoy the outdoors!",
+  "insights_sub_27": "Strong winds expected during certain hours — secure loose items outside.",
+  "insights_sub_28": "Wind speeds will fluctuate a lot today — keep an extra layer handy.",
+  "insights_sub_29": "Mostly calm winds throughout the day.",
+  "insights_sub_30": "Humidity levels will vary significantly today — it may feel muggy at times.",
+  "insights_sub_31": "Consistent humidity levels expected — comfortable air throughout the day.",
+  "insights_sub_32": "Mostly cloudy skies for most of the day — limited sunshine.",
+  "insights_sub_33": "Clear skies dominate — great day for outdoor activities!",
+  "insights_sub_34": "Mixed clouds and sun throughout the day.",
+  "insights_sub_35": "High chance of rain during some hours — keep an umbrella nearby!",
+  "insights_sub_36": "Spotty rain showers possible during parts of the day.",
+  "insights_sub_37": "Very low chance of rain in the next 24 hours.",
+  "weekdays_1": "Monday",
+  "weekdays_2": "Tuesday",
+  "weekdays_3": "Wednesday",
+  "weekdays_4": "Thursday",
+  "weekdays_5": "Friday",
+  "weekdays_6": "Saturday",
+  "weekdays_7": "Sunday",
+  "dawn": "Dawn",
+  "dusk": "Dusk",
+  "model_disc_2": "Global forecast by ECMWF, slightly lower resolution, highly reliable worldwide.",
+  "model_disc_3": "High-resolution version of ECMWF’s global model. Known for top accuracy globally.",
+  "model_disc_4": "Chinese national model from CMA. Good for Asia-Pacific, less accurate globally.",
+  "model_disc_5": "Global model from Australia's Bureau of Meteorology. Best for Australia & Oceania.",
+  "model_disc_6": "Regional model optimized for Norway and Scandinavia. Very accurate for the Nordic region.",
+  "model_disc_7": "NOAA’s blended high-res + global forecast. Balanced accuracy with faster updates.",
+  "model_disc_8": "NOAA’s global model. Fast, free, decent worldwide but less precise locally.",
+  "model_disc_9": "Ultra high-res short-range US model. Best for hyperlocal US forecasts (0–18h).",
+  "model_disc_10": "AI-powered forecast by Google DeepMind. Experimental, smooth & cutting-edge globally.",
+  "model_disc_11": "Blended Japan Meteorological Agency model. Accurate in Japan & East Asia.",
+  "model_disc_12": "High-res short-range forecast for Japan. Great for 0–36h predictions in Japan.",
+  "model_disc_13": "Japan’s global forecast model. Lower res but reliable in Asia-Pacific.",
+  "model_disc_14": "German Weather Service’s blended ICON model. Good balance for Europe",
+  "model_disc_15": "Global version of ICON. Precise forecasts worldwide, especially Europe.",
+  "model_disc_16": "High-res regional ICON for Europe. Best for central & western Europe.",
+  "model_disc_17": "Ultra high-res short-term forecast for Germany. Ideal for next 24–48h in DE.",
+  "model_disc_18": "Environment Canada’s blended forecast. Good across North America.",
+  "model_disc_19": "Canada’s global model. Reliable for global forecasts, better in northern latitudes.",
+  "model_disc_20": "Canadian regional model. High detail for local areas in Canada.",
+  "model_disc_21": "Ultra high-res Canadian model. Best for pinpoint weather in Canada & nearby US.",
+  "model_disc_22": "Blended national model. Accurate in France & nearby countries.",
+  "model_disc_23": "Global model from France. Decent worldwide, especially for French territories.",
+  "model_disc_24": "Europe-focused ARPEGE. More precise than global version.",
+  "model_disc_25": "High-res national model. Best for local French forecasts.",
+  "model_disc_27": "High-resolution ICON model tailored by ARPAE for Italy. Ideal for detailed regional forecasts.",
+  "model_disc_28": "Integrated multi-scale forecast system combining global and regional models for smooth transitions.",
+  "model_disc_29": "Global model with 10km resolution. Suitable for medium-range international forecasts.",
+  "model_disc_30": "High-resolution 2km model focused on the UK. Excellent for local short-term forecasting.",
+  "default_text": "Default",
+  "main_text": "Main",
+  "location_saved": "Location saved",
+  "alerts_api_caution": "Due to the API being in beta, alerts from other regions may occasionally appear",
+  "effective": "Effective",
+  "expires": "Expires",
+  "no_data_available": "No data available",
+  "email_text": "Email",
+  "on_github": "On Github",
+  "checking": "Checking...",
+  "best_match": "Best match",
+  "disable_battery_optimizations": "Disable battery optimizations",
+  "disable_battery_optimizations_sub": "Disabling battery optimization is required for background updates to function properly",
+  "disable_battery_optimizations_done": "Battery optimization already disabled",
+  "background_updates": "Background updates",
+  "refresh_interval": "Refresh interval",
+  "hours": "hours",
+  "minutes": "minutes",
+  "allow_notification_permission": "Allow notification permission",
+  "allow_notification_permission_sub": "Permission is required for background app updates",
+  "scheduled_updates": "Scheduled updates",
+  "summary_headlines_28": "Cloudy and cool this afternoon",
+  "summary_headlines_29": "Gray skies and little sunshine",
+  "summary_headlines_30": "Expect some cloud cover later today",
+  "summary_headlines_31": "Cloudy evening with calm winds",
+  "summary_headlines_32": "Overcast skies at sunset",
+  "summary_headlines_33": "Cloud cover lingering tonight",
+  "summary_headlines_34": "Cloudy overnight skies",
+  "summary_headlines_35": "Overcast night ahead",
+  "summary_headlines_36": "Clouds holding through the night",
+  "updates_in_the_background": "Updates in the background",
+  "updates_in_the_background_sub": "Allow background activity. Turning it off may stop widget updates",
+  "no_work_info_found": "No work info found.",
+  "on_crowdin": "On Crowdin",
+  "kmni_desc_1": "Blended system integrating KNMI and ECMWF data for seamless global-to-local forecasts across scales",
+  "kmni_desc_2": "High-resolution convection-permitting model covering Europe. Ideal for regional weather events and mesoscale features",
+  "kmni_desc_3": "Ultra-high-resolution model focused on the Netherlands. Excellent for detailed local forecasts including precipitation and wind.",
+  "show_clock": "Show clock",
+  "size": "Size"
 }
