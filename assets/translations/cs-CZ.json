@@ -531,13 +531,13 @@
   "summary_headlines_34": "Přes noc zatažená obloha",
   "summary_headlines_35": "Čeká nás zatažená noc",
   "summary_headlines_36": "Mraky se udrží po celou noc",
-  "updates_in_the_background": "Updates in the background",
-  "updates_in_the_background_sub": "Allow background activity. Turning it off may stop widget updates",
-  "no_work_info_found": "No work info found.",
-  "on_crowdin": "On Crowdin",
-  "kmni_desc_1": "Blended system integrating KNMI and ECMWF data for seamless global-to-local forecasts across scales",
-  "kmni_desc_2": "High-resolution convection-permitting model covering Europe. Ideal for regional weather events and mesoscale features",
-  "kmni_desc_3": "Ultra-high-resolution model focused on the Netherlands. Excellent for detailed local forecasts including precipitation and wind.",
-  "show_clock": "Show clock",
-  "size": "Size"
+  "updates_in_the_background": "Aktualizace na pozadí",
+  "updates_in_the_background_sub": "Povolit činnost na pozadí. Vypnutí může zastavit aktualizaci widgetů",
+  "no_work_info_found": "Nebylo nalezeno žádné info o činnosti.",
+  "on_crowdin": "Na webu Crowdin",
+  "kmni_desc_1": "Smíšený systém integrující data KNMI a ECMWF pro bezproblémové předpovědi z globálního do lokálního rozsahu",
+  "kmni_desc_2": "Konvekční model s vysokým rozlišením, který pokrývá Evropu. Ideální pro regionální povětrnostní jevy a mezoměřítkové prvky",
+  "kmni_desc_3": "Model s velmi vysokým rozlišením zaměřený na Nizozemsko. Vynikající pro podrobné místní předpovědi včetně srážek a větru.",
+  "show_clock": "Zobrazit hodiny",
+  "size": "Velikost"
 }
