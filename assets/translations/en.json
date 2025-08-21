@@ -530,5 +530,14 @@
   "summary_headlines_33": "Cloud cover lingering tonight",
   "summary_headlines_34": "Cloudy overnight skies",
   "summary_headlines_35": "Overcast night ahead",
-  "summary_headlines_36": "Clouds holding through the night"
+  "summary_headlines_36": "Clouds holding through the night",
+  "updates_in_the_background": "Updates in the background",
+  "updates_in_the_background_sub": "Allow background activity. Turning it off may stop widget updates",
+  "no_work_info_found": "No work info found.",
+  "on_crowdin": "On Crowdin",
+  "kmni_desc_1": "Blended system integrating KNMI and ECMWF data for seamless global-to-local forecasts across scales",
+  "kmni_desc_2": "High-resolution convection-permitting model covering Europe. Ideal for regional weather events and mesoscale features",
+  "kmni_desc_3": "Ultra-high-resolution model focused on the Netherlands. Excellent for detailed local forecasts including precipitation and wind.",
+  "show_clock": "Show clock",
+  "size": "Size"
 }
