@@ -539,5 +539,9 @@
   "kmni_desc_2": "Detailgenaues konvektionsfähiges Modell für Europa. Ideal für regionale Wetterereignisse und mesoskalige Merkmale.",
   "kmni_desc_3": "Sehr detailgenaues Modell mit Schwerpunkt auf den Niederlanden. Hervorragend geeignet für detaillierte lokale Vorhersagen, einschließlich Niederschlag und Wind.",
   "show_clock": "Uhr anzeigen",
-  "size": "Größe"
+  "size": "Größe",
+  "make_the_card_background_darker": "Make the card background darker",
+  "no_froggy_layout": "No Froggy Layout",
+  "high_text": "Viele",
+  "low_text": "Wenig"
 }
