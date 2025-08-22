@@ -69,7 +69,7 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
                 tileColor: Theme.of(context).colorScheme.tertiaryContainer,
                 leading: Icon(Symbols.translate),
                 title: Text('translate_this_app'.tr()),
-                subtitle: Text('On Crowdin'),
+                subtitle: Text('on_crowdin'.tr()),
                 trailing: Icon(
                   Symbols.open_in_new,
                   weight: 500,

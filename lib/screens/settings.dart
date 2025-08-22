@@ -216,7 +216,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   SettingSwitchTile(
                     icon: Icon(Symbols.responsive_layout, fill: 1, weight: 500),
-                    title: Text("No Froggy Layout"),
+                    title: Text("froggy_layout".tr()),
                     toggled: PreferencesHelper.getBool("showFroggy") ?? true,
                     onChanged: (value) {
                       context
@@ -227,7 +227,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   SettingSwitchTile(
                     icon: Icon(Symbols.cards, fill: 1, weight: 500),
-                    title: Text('Make the card background darker'),
+                    title: Text('make_the_card_background_darker'.tr()),
                     toggled:
                         PreferencesHelper.getBool("useDarkerCardBackground") ??
                             false,
@@ -298,7 +298,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   SettingActionTile(
                     icon: Icon(Symbols.update, fill: 1, weight: 500),
-                    title: Text('Background updates'),
+                    title: Text('background_updates'.tr()),
                     trailing: Icon(Icons.chevron_right),
                     onTap: () {
                       Navigator.of(context).push(

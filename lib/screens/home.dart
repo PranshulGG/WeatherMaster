@@ -1247,16 +1247,22 @@ class _WeatherHomeState extends State<WeatherHome> {
                                     Expanded(
                                       child: Row(
                                         children: [
-                                          CircleAvatar(
-                                            radius: 20,
-                                            backgroundColor: Colors.transparent,
-                                            child: Icon(
-                                              Icons.location_on_outlined,
-                                              color: isShowFrog
-                                                  ? colorTheme.onSurfaceVariant
-                                                  : colorTheme.onSurface,
-                                            ),
-                                          ),
+                                          isShowFrog
+                                              ? CircleAvatar(
+                                                  radius: 20,
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  child: Icon(
+                                                    Icons.location_on_outlined,
+                                                    color: isShowFrog
+                                                        ? colorTheme
+                                                            .onSurfaceVariant
+                                                        : colorTheme.onSurface,
+                                                  ),
+                                                )
+                                              : SizedBox(
+                                                  width: 10,
+                                                ),
                                           // const SizedBox(width: 8),
                                           Expanded(
                                             child: Text(
@@ -1275,9 +1281,7 @@ class _WeatherHomeState extends State<WeatherHome> {
                                               ),
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
-                                              textAlign: isShowFrog
-                                                  ? TextAlign.left
-                                                  : TextAlign.center,
+                                              textAlign: TextAlign.left,
                                               textHeightBehavior:
                                                   TextHeightBehavior(
                                                       applyHeightToFirstAscent:

@@ -460,7 +460,7 @@ class _WeatherTopCardStateVertical extends State<WeatherTopCardVertical> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                      "Low: $convertedcurrentMinTemp° • High: $convertedcurrentMaxTemp°",
+                      "${'low_text'.tr()}: $convertedcurrentMinTemp° • ${'high_text'.tr()}: $convertedcurrentMaxTemp°",
                       style: TextStyle(
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                           fontVariations: [

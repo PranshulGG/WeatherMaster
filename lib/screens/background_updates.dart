@@ -92,7 +92,7 @@ class _BackgroundUpdatesPageState extends State<BackgroundUpdatesPage> {
                     title: Padding(
                       padding: EdgeInsets.only(top: 12, bottom: 12),
                       child: Text(
-                        "Updates in the background",
+                        "updates_in_the_background".tr(),
                         style: TextStyle(
                             fontVariations: FontVariationsMedium,
                             color: Theme.of(context)

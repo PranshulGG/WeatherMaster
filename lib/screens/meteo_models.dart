@@ -8,7 +8,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:lat_lng_to_timezone/lat_lng_to_timezone.dart' as tzmap;
 
-
 class MeteoModelsPage extends StatefulWidget {
   const MeteoModelsPage({super.key});
 
@@ -17,33 +16,33 @@ class MeteoModelsPage extends StatefulWidget {
 }
 
 class _MeteoModelsPageState extends State<MeteoModelsPage> {
-
-final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+  final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
+      GlobalKey<ScaffoldMessengerState>();
 
 // State for current weather data for each model - static to persist across widget rebuilds
-static final Map<String, Map<String, dynamic>?> _modelWeatherData = {};
-static final Map<String, bool> _modelLoadingStates = {};
-double? _currentLat;
-double? _currentLon;
+  static final Map<String, Map<String, dynamic>?> _modelWeatherData = {};
+  static final Map<String, bool> _modelLoadingStates = {};
+  double? _currentLat;
+  double? _currentLon;
 
 // Cache management - static to persist across widget rebuilds
-static DateTime? _lastFetchTime;
-static String? _cachedLocationKey;
+  static DateTime? _lastFetchTime;
+  static String? _cachedLocationKey;
 
 // Model limitations mapping - forecast days available
-final Map<String, int> _modelForecastDays = {
-  'icon_d2': 2,
-  'jma_msm': 2,
-  'gem_hrdps_continental': 2,
-  'meteofrance_arome_france_hd': 2,
-  'ukmo_uk_deterministic_2km': 2,
-  'knmi_harmonie_arome_netherlands': 2,
-  'knmi_harmonie_arome_europe': 2,
-  'gfs_hrrr': 1,
-  // Most other models provide 7+ days, so we don't need to list them all
-};
+  final Map<String, int> _modelForecastDays = {
+    'icon_d2': 2,
+    'jma_msm': 2,
+    'gem_hrdps_continental': 2,
+    'meteofrance_arome_france_hd': 2,
+    'ukmo_uk_deterministic_2km': 2,
+    'knmi_harmonie_arome_netherlands': 2,
+    'knmi_harmonie_arome_europe': 2,
+    'gfs_hrrr': 1,
+    // Most other models provide 7+ days, so we don't need to list them all
+  };
 
-final categorizedModels = {
+  final categorizedModels = {
     'default_text'.tr(): [
       {
         'key': 'best_match',
@@ -78,7 +77,7 @@ final categorizedModels = {
         'desc': 'model_disc_6',
       },
     ],
-      'GFS': [
+    'GFS': [
       {
         'key': 'gfs_seamless',
         'name': 'GFS Seamless',
@@ -100,7 +99,7 @@ final categorizedModels = {
         'desc': "model_disc_10",
       },
     ],
-      'JMA': [
+    'JMA': [
       {
         'key': 'jma_seamless',
         'name': 'JMA Seamless',
@@ -194,20 +193,19 @@ final categorizedModels = {
       {
         'key': 'knmi_seamless',
         'name': 'KNMI Seamless (with ECMWF)',
-        'desc': 'Blended system integrating KNMI and ECMWF data for seamless global-to-local forecasts across scales.',
+        'desc': 'kmni_desc_1',
       },
       {
         'key': 'knmi_harmonie_arome_europe',
         'name': 'KNMI Harmonie Arome Europe',
-        'desc': 'High-resolution convection-permitting model covering Europe. Ideal for regional weather events and mesoscale features.',
+        'desc': 'kmni_desc_2',
       },
       {
         'key': 'knmi_harmonie_arome_netherlands',
         'name': 'KNMI Harmonie Arome Netherlands',
-        'desc': 'Ultra-high-resolution model focused on the Netherlands. Excellent for detailed local forecasts including precipitation and wind.',
+        'desc': 'kmni_desc_3.',
       },
     ],
-
     'UKMO': [
       {
         'key': 'ukmo_seamless',
@@ -227,10 +225,9 @@ final categorizedModels = {
     ],
   };
 
-
-final Map<String, Map<String, String>> dialogContent = {
-  'default_text'.tr(): {
-  'content': '''
+  final Map<String, Map<String, String>> dialogContent = {
+    'default_text'.tr(): {
+      'content': '''
 ## Best match  
 - **Where to use:** Anywhere  
 
@@ -238,9 +235,9 @@ final Map<String, Map<String, String>> dialogContent = {
 
 - **Notes:** Automatically selects the most appropriate model based on location and forecast range.
 '''
-  },
-  'main_text'.tr(): {
-  'content': '''
+    },
+    'main_text'.tr(): {
+      'content': '''
 ## ECMWF IFS 0.4°
 - **Where to use:** Global  
 
@@ -298,10 +295,9 @@ final Map<String, Map<String, String>> dialogContent = {
 
 - **Notes:** Uses MET Norway’s in-house regional models. Very accurate in Nordic terrain.
 '''
-  },
-
-'GFS': {
-  'content': '''
+    },
+    'GFS': {
+      'content': '''
 ## GFS Seamless
 - **Where to use:** Global  
 
@@ -348,10 +344,9 @@ final Map<String, Map<String, String>> dialogContent = {
 - **Notes:** DeepMind’s AI forecast. Still experimental. Very good for visual consistency but not battle-tested yet.
 
 '''
-  },
-
-  'JMA': {
-  'content': '''
+    },
+    'JMA': {
+      'content': '''
 ## JMA Seamless
 - **Where to use:** Japan, East Asia  
 
@@ -386,10 +381,9 @@ final Map<String, Map<String, String>> dialogContent = {
 - **Notes:** Not as sharp as ECMWF or GFS, but stable in East Asia.
 
 '''
-  },
-
-  'DWD': {
-  'content': '''
+    },
+    'DWD': {
+      'content': '''
 ## ICON Seamless
 - **Where to use:** Europe (broad), global  
 
@@ -433,10 +427,9 @@ final Map<String, Map<String, String>> dialogContent = {
 - **Notes:** Very detailed — cities, valleys, small regions.
 
 '''
-  },
-
-  'GEM': {
-  'content': '''
+    },
+    'GEM': {
+      'content': '''
 ## GEM Seamless
 - **Where to use:** North America  
 
@@ -481,10 +474,9 @@ final Map<String, Map<String, String>> dialogContent = {
 - **Notes:** Very high-res (2.5km). Focused on precision forecasting.
 
 '''
-  },
-
-  'Météo-France': {
-  'content': '''
+    },
+    'Météo-France': {
+      'content': '''
 ## Météo-France Seamless
 - **Where to use:** France and surroundings  
 
@@ -529,10 +521,9 @@ final Map<String, Map<String, String>> dialogContent = {
 - **Notes:** Excellent detail — rain, fog, wind, storm.
 
 '''
-  },
-
-  'ARPAE': {
-  'content': '''
+    },
+    'ARPAE': {
+      'content': '''
 ## ItaliaMeteo ARPAE ICON 2I
 - **Where to use:** Italy only  
 
@@ -543,10 +534,9 @@ final Map<String, Map<String, String>> dialogContent = {
 - **Notes:** Based on ICON with ARPAE tuning. Strong for mountainous terrain.
 
 '''
-  },
-
-'UKMO': {
-  'content': '''
+    },
+    'UKMO': {
+      'content': '''
 ## UKMO Seamless
 - **Where to use:** UK + international routes  
 
@@ -581,10 +571,9 @@ final Map<String, Map<String, String>> dialogContent = {
 - **Notes:** One of the best models for dense urban UK settings.
 
 '''
-  },
-
-  'KNMI': {
-  'content': '''
+    },
+    'KNMI': {
+      'content': '''
 ## KNMI Seamless (with ECMWF)
 - **Where to use:** Netherlands + Europe + global routes
 
@@ -617,12 +606,11 @@ final Map<String, Map<String, String>> dialogContent = {
 - **Notes:** Ultra-fine resolution. Excellent for precipitation, wind, and local effects like sea breezes or fog.
 
 '''
-},
+    },
+  };
 
-
-};
-
-  String? selectedModelKey = PreferencesHelper.getString("selectedWeatherModel") ?? 'best_match';
+  String? selectedModelKey =
+      PreferencesHelper.getString("selectedWeatherModel") ?? 'best_match';
 
   @override
   void initState() {
@@ -635,15 +623,17 @@ final Map<String, Map<String, String>> dialogContent = {
       // Use the same current location that the main weather app is displaying
       final currentLocation = PreferencesHelper.getString('currentLocation');
       final homeLocation = PreferencesHelper.getJson('homeLocation');
-      
+
       if (currentLocation != null && currentLocation.isNotEmpty) {
         try {
           final locationData = json.decode(currentLocation);
           // currentLocation uses 'latitude'/'longitude', homeLocation uses 'lat'/'lon'
-          if (locationData['latitude'] != null && locationData['longitude'] != null) {
+          if (locationData['latitude'] != null &&
+              locationData['longitude'] != null) {
             _currentLat = locationData['latitude'];
             _currentLon = locationData['longitude'];
-          } else if (locationData['lat'] != null && locationData['lon'] != null) {
+          } else if (locationData['lat'] != null &&
+              locationData['lon'] != null) {
             _currentLat = locationData['lat'];
             _currentLon = locationData['lon'];
           } else {
@@ -653,10 +643,12 @@ final Map<String, Map<String, String>> dialogContent = {
           // Fall through to homeLocation
         }
       }
-      
+
       // If currentLocation failed or is null, use homeLocation
       if (_currentLat == null || _currentLon == null) {
-        if (homeLocation != null && homeLocation['lat'] != null && homeLocation['lon'] != null) {
+        if (homeLocation != null &&
+            homeLocation['lat'] != null &&
+            homeLocation['lon'] != null) {
           _currentLat = homeLocation['lat'];
           _currentLon = homeLocation['lon'];
         } else {
@@ -677,7 +669,7 @@ final Map<String, Map<String, String>> dialogContent = {
 
     final currentLocationKey = '${_currentLat}_$_currentLon';
     final now = DateTime.now();
-    
+
     // Get total number of models to check cache completeness
     final allModelKeys = <String>{};
     for (final models in categorizedModels.values) {
@@ -685,12 +677,14 @@ final Map<String, Map<String, String>> dialogContent = {
         allModelKeys.add(model['key'].toString());
       }
     }
-    
+
     // Count how many models have cached data (not null)
-    final cachedModelCount = _modelWeatherData.values.where((data) => data != null).length;
+    final cachedModelCount =
+        _modelWeatherData.values.where((data) => data != null).length;
     final totalModelCount = allModelKeys.length;
-    final hasReasonableCache = cachedModelCount >= (totalModelCount * 0.5); // At least 50% of models have data
-    
+    final hasReasonableCache = cachedModelCount >=
+        (totalModelCount * 0.5); // At least 50% of models have data
+
     // Check if we have valid cached data (same location, less than 10 minutes old, and reasonably complete)
     final bool shouldRefresh = _lastFetchTime == null ||
         _cachedLocationKey != currentLocationKey ||
@@ -705,20 +699,20 @@ final Map<String, Map<String, String>> dialogContent = {
     } else {
       // Use cached data - no API calls needed
       final cacheAge = now.difference(_lastFetchTime!).inMinutes;
-      
+
       // Ensure loading states are set to false for cached data
-      
+
       for (final modelKey in allModelKeys) {
         _modelLoadingStates[modelKey] = false;
       }
-      
+
       if (mounted) setState(() {}); // Update UI with cached data
     }
   }
 
   Future<void> _forceRefresh() async {
     if (_currentLat == null || _currentLon == null) return;
-    
+
     // Force refresh by invalidating cache
     _lastFetchTime = DateTime.now();
     _cachedLocationKey = '${_currentLat}_$_currentLon';
@@ -727,7 +721,7 @@ final Map<String, Map<String, String>> dialogContent = {
 
   Future<void> _fetchWeatherForAllModels() async {
     if (_currentLat == null || _currentLon == null) return;
-    
+
     // Get all unique model keys from all categories
     Set<String> allModelKeys = {};
     for (final models in categorizedModels.values) {
@@ -747,7 +741,7 @@ final Map<String, Map<String, String>> dialogContent = {
     final futures = allModelKeys.map((modelKey) async {
       delay += 500; // 500ms delay between requests
       await Future.delayed(Duration(milliseconds: delay));
-      
+
       try {
         final specificModelData = await _fetchWeatherForSpecificModel(modelKey);
         _modelWeatherData[modelKey] = specificModelData;
@@ -764,37 +758,40 @@ final Map<String, Map<String, String>> dialogContent = {
     if (mounted) setState(() {});
   }
 
-  Future<Map<String, dynamic>?> _fetchWeatherForSpecificModel(String modelKey) async {
+  Future<Map<String, dynamic>?> _fetchWeatherForSpecificModel(
+      String modelKey) async {
     if (_currentLat == null || _currentLon == null) return null;
 
     try {
       // Use proper timezone detection like the original WeatherService
       final timezone = tzmap.latLngToTimezoneString(_currentLat!, _currentLon!);
-      
+
       // Make direct HTTP request with same parameters as original WeatherService
-      final uri = Uri.parse('https://api.open-meteo.com/v1/forecast').replace(queryParameters: {
+      final uri = Uri.parse('https://api.open-meteo.com/v1/forecast')
+          .replace(queryParameters: {
         'latitude': _currentLat!.toString(),
         'longitude': _currentLon!.toString(),
-        'current': 'temperature_2m,is_day,apparent_temperature,pressure_msl,relative_humidity_2m,precipitation,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m,wind_gusts_10m',
-        'hourly': 'wind_speed_10m,wind_direction_10m,relative_humidity_2m,pressure_msl,cloud_cover,temperature_2m,dew_point_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,visibility,uv_index',
-        'daily': 'weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,daylight_duration,uv_index_max,precipitation_sum,precipitation_probability_max,precipitation_hours,wind_speed_10m_max,wind_gusts_10m_max',
+        'current':
+            'temperature_2m,is_day,apparent_temperature,pressure_msl,relative_humidity_2m,precipitation,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m,wind_gusts_10m',
+        'hourly':
+            'wind_speed_10m,wind_direction_10m,relative_humidity_2m,pressure_msl,cloud_cover,temperature_2m,dew_point_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,visibility,uv_index',
+        'daily':
+            'weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,daylight_duration,uv_index_max,precipitation_sum,precipitation_probability_max,precipitation_hours,wind_speed_10m_max,wind_gusts_10m_max',
         'timezone': timezone,
         'forecast_days': '7',
         'models': modelKey
       });
 
-      
       final response = await http.get(uri);
-      
+
       if (response.statusCode == 200) {
         final data = json.decode(response.body) as Map<String, dynamic>;
-        
+
         // Check for API errors
         if (data['error'] == true) {
           return null;
         }
-        
-        
+
         return data;
       } else {
         return null;
@@ -807,7 +804,7 @@ final Map<String, Map<String, String>> dialogContent = {
   Widget _buildTemperatureWidget(String modelKey) {
     final isLoading = _modelLoadingStates[modelKey] ?? false;
     final weatherData = _modelWeatherData[modelKey];
-    
+
     if (isLoading) {
       return SizedBox(
         width: 16,
@@ -818,13 +815,16 @@ final Map<String, Map<String, String>> dialogContent = {
         ),
       );
     }
-    
+
     // Check if model has no data
     if (weatherData == null || weatherData['current'] == null) {
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.errorContainer.withValues(alpha: 0.7),
+          color: Theme.of(context)
+              .colorScheme
+              .errorContainer
+              .withValues(alpha: 0.7),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Text(
@@ -837,13 +837,16 @@ final Map<String, Map<String, String>> dialogContent = {
         ),
       );
     }
-    
+
     final temperature = weatherData['current']['temperature_2m'] as double?;
     if (temperature == null) {
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.errorContainer.withValues(alpha: 0.7),
+          color: Theme.of(context)
+              .colorScheme
+              .errorContainer
+              .withValues(alpha: 0.7),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Text(
@@ -856,11 +859,14 @@ final Map<String, Map<String, String>> dialogContent = {
         ),
       );
     }
-    
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.7),
+        color: Theme.of(context)
+            .colorScheme
+            .surfaceContainerHighest
+            .withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(
@@ -873,15 +879,13 @@ final Map<String, Map<String, String>> dialogContent = {
       ),
     );
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return ScaffoldMessenger(
-    key: _scaffoldMessengerKey,
-    child:  Scaffold(
-    body: 
-       CustomScrollView(
-        slivers: [
+      key: _scaffoldMessengerKey,
+      child: Scaffold(
+        body: CustomScrollView(slivers: [
           SliverAppBar.large(
             title: Text('weather_models'.tr()),
             titleSpacing: 0,
@@ -895,7 +899,6 @@ final Map<String, Map<String, String>> dialogContent = {
               ),
             ],
           ),
-
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
@@ -903,222 +906,262 @@ final Map<String, Map<String, String>> dialogContent = {
                 final categoryName = categoryKeys[index];
                 final models = categorizedModels[categoryName]!;
 
-          
-
                 return Padding(
-                padding: EdgeInsets.only(left: 10, right: 10),
-               child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 3,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: models[0]['key'] == 'best_match' ? 0 : 24, bottom: 0),
-                      child: Row(
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 3,
                       children: [
-                       Text(
-                        categoryName,
-                        style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w500, fontSize: 18),
-                      ),
-                      IconButton(onPressed: () {
-
-                  if (dialogContent.containsKey(categoryName)) {
-                    final modelInfo = dialogContent[categoryName]!;
-
-                            Navigator.of(context).push( 
-                                PageRouteBuilder(
-                                  opaque: true,
-                                  fullscreenDialog: true,
-                                  reverseTransitionDuration: Duration(milliseconds: 200),
-                                  pageBuilder: (context, animation, secondaryAnimation) {
-                                return ShowModelsInfo(markdownData: modelInfo['content']!.trimLeft(), heading: categoryName ,);
-                              },
-                              transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: child,
-                                  
-                                );
-                              }, 
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: models[0]['key'] == 'best_match' ? 0 : 24,
+                              bottom: 0),
+                          child: Row(children: [
+                            Text(
+                              categoryName,
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18),
                             ),
-            
-                          );
-                        }
-                    },
-                    icon: Icon(Icons.info_outline))
-                      ]
-                    ),
-                  ),
+                            IconButton(
+                                onPressed: () {
+                                  if (dialogContent.containsKey(categoryName)) {
+                                    final modelInfo =
+                                        dialogContent[categoryName]!;
 
-                     ...models.asMap().entries.map((entry) {
-                      final i = entry.key;
-                      final model = entry.value;
-                      final isSelected = model['key'] == selectedModelKey;
-
-                      final isFirst = i == 0;
-                      final isLast = i == models.length - 1;
-
-                      return ListTile(
-                        contentPadding: EdgeInsets.only(left : 16, right: 16),
-                        horizontalTitleGap: 10,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: model['key'] == 'best_match' ? BorderRadius.all(Radius.circular(16))
-                            : isFirst ? BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16), bottomLeft: Radius.circular(6), bottomRight: Radius.circular(6))
-                            : isLast ? BorderRadius.only(topLeft: Radius.circular(6), topRight: Radius.circular(6), bottomLeft: Radius.circular(16), bottomRight: Radius.circular(16)) : BorderRadius.all(Radius.circular(6))
-                          ),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          spacing: 8,
-                          children: [
-                            _buildTemperatureWidget(model['key'].toString()),
-                            isSelected ? Icon(Symbols.check, size: 28,) : Icon(Symbols.nest_farsight_weather, size: 28),
-                          ],
-                        ),
-                        title: Text(
-                          model['name'].toString(),
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: isSelected ? Theme.of(context).colorScheme.onPrimaryContainer : null,
-                            fontSize: 15
-                          ),
-                        ),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(model['desc'].toString().tr(), style: TextStyle(
-                              color: isSelected
-                                ? Theme.of(context).colorScheme.onSurfaceVariant
-                                : null,
-                            )),
-                            if (_modelForecastDays.containsKey(model['key']))
-                              Padding(
-                                padding: EdgeInsets.only(top: 4),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Symbols.warning,
-                                      size: 14,
-                                      color: Theme.of(context).colorScheme.tertiary,
-                                    ),
-                                    SizedBox(width: 4),
-                                    Flexible(
-                                      child: Text(
-                                        '${_modelForecastDays[model['key']]} day${_modelForecastDays[model['key']] == 1 ? '' : 's'} forecast only',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Theme.of(context).colorScheme.tertiary,
-                                          fontWeight: FontWeight.w500,
-                                        ),
+                                    Navigator.of(context).push(
+                                      PageRouteBuilder(
+                                        opaque: true,
+                                        fullscreenDialog: true,
+                                        reverseTransitionDuration:
+                                            Duration(milliseconds: 200),
+                                        pageBuilder: (context, animation,
+                                            secondaryAnimation) {
+                                          return ShowModelsInfo(
+                                            markdownData: modelInfo['content']!
+                                                .trimLeft(),
+                                            heading: categoryName,
+                                          );
+                                        },
+                                        transitionsBuilder: (context, animation,
+                                            secondaryAnimation, child) {
+                                          return FadeTransition(
+                                            opacity: animation,
+                                            child: child,
+                                          );
+                                        },
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                          ],
+                                    );
+                                  }
+                                },
+                                icon: Icon(Icons.info_outline))
+                          ]),
                         ),
-                        tileColor: isSelected
-                            ? Theme.of(context).colorScheme.primaryContainer
-                            : Theme.of(context).colorScheme.surfaceContainerLowest,
-                        onTap: () {
-                          setState(() {
-                            selectedModelKey = model['key'].toString();
-                          });
-                        },
-                      );
-                    }),
+                        ...models.asMap().entries.map((entry) {
+                          final i = entry.key;
+                          final model = entry.value;
+                          final isSelected = model['key'] == selectedModelKey;
 
-                  ],
-                  )
-                );
+                          final isFirst = i == 0;
+                          final isLast = i == models.length - 1;
+
+                          return ListTile(
+                            contentPadding:
+                                EdgeInsets.only(left: 16, right: 16),
+                            horizontalTitleGap: 10,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: model['key'] == 'best_match'
+                                    ? BorderRadius.all(Radius.circular(16))
+                                    : isFirst
+                                        ? BorderRadius.only(
+                                            topLeft: Radius.circular(16),
+                                            topRight: Radius.circular(16),
+                                            bottomLeft: Radius.circular(6),
+                                            bottomRight: Radius.circular(6))
+                                        : isLast
+                                            ? BorderRadius.only(
+                                                topLeft: Radius.circular(6),
+                                                topRight: Radius.circular(6),
+                                                bottomLeft: Radius.circular(16),
+                                                bottomRight:
+                                                    Radius.circular(16))
+                                            : BorderRadius.all(
+                                                Radius.circular(6))),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              spacing: 8,
+                              children: [
+                                _buildTemperatureWidget(
+                                    model['key'].toString()),
+                                isSelected
+                                    ? Icon(
+                                        Symbols.check,
+                                        size: 28,
+                                      )
+                                    : Icon(Symbols.nest_farsight_weather,
+                                        size: 28),
+                              ],
+                            ),
+                            title: Text(
+                              model['name'].toString(),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: isSelected
+                                      ? Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer
+                                      : null,
+                                  fontSize: 15),
+                            ),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(model['desc'].toString().tr(),
+                                    style: TextStyle(
+                                      color: isSelected
+                                          ? Theme.of(context)
+                                              .colorScheme
+                                              .onSurfaceVariant
+                                          : null,
+                                    )),
+                                if (_modelForecastDays
+                                    .containsKey(model['key']))
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 4),
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Symbols.warning,
+                                          size: 14,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .tertiary,
+                                        ),
+                                        SizedBox(width: 4),
+                                        Flexible(
+                                          child: Text(
+                                            '${_modelForecastDays[model['key']]} day${_modelForecastDays[model['key']] == 1 ? '' : 's'} forecast only',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .tertiary,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                              ],
+                            ),
+                            tileColor: isSelected
+                                ? Theme.of(context).colorScheme.primaryContainer
+                                : Theme.of(context)
+                                    .colorScheme
+                                    .surfaceContainerLowest,
+                            onTap: () {
+                              setState(() {
+                                selectedModelKey = model['key'].toString();
+                              });
+                            },
+                          );
+                        }),
+                      ],
+                    ));
               },
               childCount: categorizedModels.length,
             ),
           ),
-
           SliverToBoxAdapter(
-            child: SizedBox(height: MediaQuery.of(context).padding.bottom + 100),
+            child:
+                SizedBox(height: MediaQuery.of(context).padding.bottom + 100),
           )
-        ]
-       ),
-
-       floatingActionButton: FloatingActionButton(onPressed: () {
-          PreferencesHelper.setString("selectedWeatherModel", selectedModelKey.toString());
-          PreferencesHelper.setBool("ModelChanged", true);
-                 _scaffoldMessengerKey.currentState?.showSnackBar(
-            SnackBar(content: Text('model_saved_snack'.tr())),
-          );
-       }, backgroundColor: Theme.of(context).colorScheme.tertiaryContainer, foregroundColor: Theme.of(context).colorScheme.onTertiaryContainer, child: Icon(Symbols.save)),
-    ),
+        ]),
+        floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              PreferencesHelper.setString(
+                  "selectedWeatherModel", selectedModelKey.toString());
+              PreferencesHelper.setBool("ModelChanged", true);
+              _scaffoldMessengerKey.currentState?.showSnackBar(
+                SnackBar(content: Text('model_saved_snack'.tr())),
+              );
+            },
+            backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
+            foregroundColor: Theme.of(context).colorScheme.onTertiaryContainer,
+            child: Icon(Symbols.save)),
+      ),
     );
   }
 }
-
 
 class ShowModelsInfo extends StatelessWidget {
   final String markdownData;
   final String heading;
 
-  const ShowModelsInfo({super.key, required this.markdownData, required this.heading});
+  const ShowModelsInfo(
+      {super.key, required this.markdownData, required this.heading});
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar.large(
-            titleSpacing: 0,
-            automaticallyImplyLeading: false,
-            flexibleSpace: FlexibleSpaceBar(
-              title: Row(
-                spacing: 5,
-                children: [
-                  Text(heading.toString())
-                ],
-              ),
-              expandedTitleScale: 1.3,
-              titlePadding: EdgeInsets.all(16),
-            ),
-            backgroundColor: Theme.of(context).colorScheme.surface,
-            expandedHeight: 100,
-            scrolledUnderElevation: 1,
-            actions: [
-              IconButton(onPressed: () {Navigator.pop(context);}, icon: Icon(Symbols.close, weight: 600,)),
-              SizedBox(width: 5)
-            ],
+        body: CustomScrollView(slivers: [
+      SliverAppBar.large(
+        titleSpacing: 0,
+        automaticallyImplyLeading: false,
+        flexibleSpace: FlexibleSpaceBar(
+          title: Row(
+            spacing: 5,
+            children: [Text(heading.toString())],
           ),
-
-           SliverToBoxAdapter(
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: 0,
-                    bottom: MediaQuery.of(context).padding.bottom + 10,
-                    left: 16,
-                    right: 16,
-                  ),
-                  child: MarkdownBody(
-                    data: markdownData,
-                    styleSheet: MarkdownStyleSheet(
-                      h2: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w500),
-                     
-                      horizontalRuleDecoration: BoxDecoration(
-                          border: Border(
-                            top: BorderSide(
-                              color: Colors.transparent,
-                              width: 2,
-                            ),
-                          )
-                      ),
+          expandedTitleScale: 1.3,
+          titlePadding: EdgeInsets.all(16),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        expandedHeight: 100,
+        scrolledUnderElevation: 1,
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(
+                Symbols.close,
+                weight: 600,
+              )),
+          SizedBox(width: 5)
+        ],
+      ),
+      SliverToBoxAdapter(
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(
+                top: 0,
+                bottom: MediaQuery.of(context).padding.bottom + 10,
+                left: 16,
+                right: 16,
+              ),
+              child: MarkdownBody(
+                data: markdownData,
+                styleSheet: MarkdownStyleSheet(
+                  h2: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.w500),
+                  horizontalRuleDecoration: BoxDecoration(
+                      border: Border(
+                    top: BorderSide(
+                      color: Colors.transparent,
+                      width: 2,
                     ),
-                  ),
-                )
-              ],
-            ),
-          )
-
-        ]
+                  )),
+                ),
+              ),
+            )
+          ],
+        ),
       )
-    );
+    ]));
   }
 }
