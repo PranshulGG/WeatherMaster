@@ -539,5 +539,9 @@
   "kmni_desc_2": "Model d'alta resolució que permet convecció i abasta Europa. Ideal per a fenòmens meteorològics regionals i funcions de mesoescala.",
   "kmni_desc_3": "Model d'altíssima resolució centrat en els Països Baixos. Excel·lent per a previsions locals detallades, inclosos precipitacions i vent.",
   "show_clock": "Mostra el rellotge",
-  "size": "Mida"
+  "size": "Mida",
+  "make_the_card_background_darker": "Make the card background darker",
+  "no_froggy_layout": "No Froggy Layout",
+  "high_text": "Alt",
+  "low_text": "Baix"
 }
