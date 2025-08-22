@@ -94,7 +94,7 @@
                 android:shadowDx="2"
                 android:shadowDy="2"
                 android:shadowRadius="4"
-                android:text="Clear sky"
+                android:text="@string/clear_sky"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -128,7 +128,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:paddingEnd="8dp"
-                android:text="Size: 60 sp"
+                android:text="@string/size_label"
                 android:textColor="@color/colorOnBackground"
                 android:textSize="18sp" />
 
@@ -149,7 +149,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="Show Clock"
+            android:text="@string/show_clock"
             app:useMaterialThemeColors="true" />
 
 
@@ -161,7 +161,7 @@
             android:layout_gravity="end"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="18dp"
-            android:text="Save"
+            android:text="@string/save"
             app:cornerRadius="50dp" />
 
     </LinearLayout>

@@ -42,7 +42,7 @@ class GlanceWidgetConfigActivity : Activity() {
             previewClock.textSize = sizeSlider.value
             previewClock.visibility = if (showClockCheck.isChecked) TextView.VISIBLE else TextView.GONE
             previewTemp.text = "29° • "
-            previewCondition.text = "Clear sky"
+            previewCondition.text = getString(R.string.clear_sky)
             previewDate.text = java.text.SimpleDateFormat("EEE, MMM d").format(System.currentTimeMillis())
         }
 
@@ -57,10 +57,6 @@ class GlanceWidgetConfigActivity : Activity() {
         if (appWidgetId == null || appWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
             finish()
             return
-        }
-
-        sizeSlider.addOnChangeListener { _, value, _ ->
-            sizeText.text = "Size: ${value.toInt()} sp"
         }
 
         saveButton.setOnClickListener {
