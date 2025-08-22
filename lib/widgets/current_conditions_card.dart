@@ -1160,12 +1160,14 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: 10,
-              mainAxisSpacing: isShowFrog ? 10 : 12,
+              mainAxisSpacing: 10,
               childAspectRatio: 1,
             ),
             itemBuilder: (context, index) {
+              final item = itemOrder[index];
+
               return Container(
-                key: ValueKey(index),
+                key: ValueKey(item),
                 child: gridItems[index],
               );
             },

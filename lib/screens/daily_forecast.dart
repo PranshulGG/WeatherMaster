@@ -163,7 +163,7 @@ class _DailyForecastPageState extends State<DailyForecastPage> {
                             weather['utc_offset_seconds'].toString(),
                         selectedDate: selectedDate,
                       ),
-                      Divider(),
+                      // Divider(),
                       ForecastDetailsHeader(
                         selectedDayData: selectedDayData,
                       ),
@@ -788,8 +788,9 @@ class ForecastDetailsHeader extends StatelessWidget {
                       color: Theme.of(context).colorScheme.onSurface,
                       fontSize: 80,
                       fontVariations: FontVariationsBold),
-                  textHeightBehavior:
-                      TextHeightBehavior(applyHeightToLastDescent: false),
+                  textHeightBehavior: TextHeightBehavior(
+                      applyHeightToLastDescent: false,
+                      applyHeightToFirstAscent: false),
                 ),
                 Text(
                   tempUnit == 'Fahrenheit'
@@ -799,8 +800,9 @@ class ForecastDetailsHeader extends StatelessWidget {
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
                       fontSize: 80,
                       fontVariations: FontVariationsBold),
-                  textHeightBehavior:
-                      TextHeightBehavior(applyHeightToLastDescent: false),
+                  textHeightBehavior: TextHeightBehavior(
+                      applyHeightToLastDescent: false,
+                      applyHeightToFirstAscent: false),
                 ),
               ],
             )),

@@ -548,18 +548,6 @@ class _WeatherHomeState extends State<WeatherHome> {
           backgroundColor: Colors.transparent,
           body: _buildMainBody(),
         ),
-        if (!_isAppFullyLoaded)
-          Positioned.fill(
-            child: Container(
-              color: Theme.of(context).colorScheme.surface,
-              child: const Center(
-                child: LoaderWidget(
-                  size: 60,
-                  isContained: false,
-                ),
-              ),
-            ),
-          ),
         ValueListenableBuilder<bool>(
           valueListenable: _showHeaderNotifier,
           builder: (context, show, child) {
@@ -1454,7 +1442,7 @@ class _WeatherHomeState extends State<WeatherHome> {
 
                         if (!isRainThenInsights &&
                             i < visibleBlocks.length - 1) {
-                          children.add(SizedBox(height: isShowFrog ? 8.5 : 12));
+                          children.add(SizedBox(height: isShowFrog ? 8.5 : 10));
                         }
                       }
 

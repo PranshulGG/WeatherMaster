@@ -5,6 +5,7 @@ import '../notifiers/unit_settings_notifier.dart';
 import '../utils/unit_converter.dart';
 import 'package:provider/provider.dart';
 import '../helper/locale_helper.dart';
+import '../utils/condition_label_map.dart';
 
 class RainBlock extends StatelessWidget {
   final List<String> hourlyTime;
@@ -43,7 +44,7 @@ class RainBlock extends StatelessWidget {
       final dt = DateTime.parse(hourlyTime[i]);
       if (!dt.isBefore(now)) return i;
     }
-    return 0; // fallback if all are in the past
+    return 0;
   }
 
   List<String> get next12Time =>
@@ -81,7 +82,7 @@ class RainBlock extends StatelessWidget {
             bestEnd = i - 1;
             longestLength = length;
           }
-          currentStart = null; // reset
+          currentStart = null;
         }
       }
     }
@@ -189,13 +190,14 @@ class RainBlock extends StatelessWidget {
               style: TextStyle(
                   color: Theme.of(context).colorScheme.onSurface,
                   fontSize: 16,
-                  fontWeight: FontWeight.w500)),
+                  fontVariations: FontVariationsMedium)),
           if (subtitle != null)
             Padding(
               padding: const EdgeInsets.only(top: 2),
               child: Text(subtitle,
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      fontVariations: FontVariationsRegularNoRound,
                       fontSize: 13)),
             ),
           const SizedBox(height: 16),

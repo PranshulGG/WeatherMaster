@@ -327,7 +327,7 @@ class _SummaryCardState extends State<SummaryCard> {
 
   Widget buildWeatherSummaryWidget(BuildContext context, bool isExpanded) {
     return Padding(
-      padding: EdgeInsets.only(left: 16, right: 12),
+      padding: EdgeInsets.only(left: 20, right: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
