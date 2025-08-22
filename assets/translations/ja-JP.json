@@ -541,7 +541,8 @@
   "show_clock": "Show clock",
   "size": "Size",
   "make_the_card_background_darker": "Make the card background darker",
-  "no_froggy_layout": "No Froggy Layout",
+  "froggy_layout": "Froggy Layout",
   "high_text": "高い",
-  "low_text": "低い"
+  "low_text": "低い",
+  "two_days_forecast_only": "2 days forcast only"
 }

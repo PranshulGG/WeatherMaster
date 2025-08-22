@@ -541,7 +541,8 @@
   "show_clock": "Mostra el rellotge",
   "size": "Mida",
   "make_the_card_background_darker": "Make the card background darker",
-  "no_froggy_layout": "No Froggy Layout",
+  "froggy_layout": "Froggy Layout",
   "high_text": "Alt",
-  "low_text": "Baix"
+  "low_text": "Baix",
+  "two_days_forecast_only": "2 days forcast only"
 }
