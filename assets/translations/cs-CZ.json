@@ -539,5 +539,9 @@
   "kmni_desc_2": "Konvekční model s vysokým rozlišením, který pokrývá Evropu. Ideální pro regionální povětrnostní jevy a mezoměřítkové prvky",
   "kmni_desc_3": "Model s velmi vysokým rozlišením zaměřený na Nizozemsko. Vynikající pro podrobné místní předpovědi včetně srážek a větru.",
   "show_clock": "Zobrazit hodiny",
-  "size": "Velikost"
+  "size": "Velikost",
+  "make_the_card_background_darker": "Make the card background darker",
+  "no_froggy_layout": "No Froggy Layout",
+  "high_text": "Vysoký",
+  "low_text": "Nízký"
 }
