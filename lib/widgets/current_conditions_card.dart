@@ -181,7 +181,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
               ),
               openElevation: 0,
               transitionDuration: Duration(milliseconds: 500),
-              closedColor: colorTheme.tertiaryContainer,
+              closedColor: Color(widget.selectedContainerBgIndex),
               openColor: colorTheme.surface,
               openBuilder: (context, _) {
                 return ExtendWidget('humidity_widget');

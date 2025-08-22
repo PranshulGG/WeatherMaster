@@ -262,7 +262,6 @@ class _WeatherHomeState extends State<WeatherHome> {
       final now = DateTime.now();
       if (lastUpdateTime != null &&
           now.difference(lastUpdateTime).inMinutes < 450) {
-        // Change to 45
         _isAppFullyLoaded = true;
       } else {
         checkAndUpdateHomeLocation();
@@ -283,7 +282,8 @@ class _WeatherHomeState extends State<WeatherHome> {
           _isLoadingFroggy = false;
           if (_istriggeredFromLocations) {
             _istriggeredFromLocations = false;
-            _isAppFullyLoaded = true;
+            // _isAppFullyLoaded = true;
+            print(_isAppFullyLoaded);
           }
         });
       }
@@ -295,7 +295,7 @@ class _WeatherHomeState extends State<WeatherHome> {
           _isLoadingFroggy = false;
           if (_istriggeredFromLocations) {
             _istriggeredFromLocations = false;
-            _isAppFullyLoaded = true;
+            // _isAppFullyLoaded = true;
           }
           Provider.of<ThemeController>(context, listen: false)
               .setSeedColor(weatherConditionColors[newindex]);
@@ -548,6 +548,18 @@ class _WeatherHomeState extends State<WeatherHome> {
           backgroundColor: Colors.transparent,
           body: _buildMainBody(),
         ),
+        if (!_isAppFullyLoaded)
+          Positioned.fill(
+            child: Container(
+              color: Theme.of(context).colorScheme.surface,
+              child: const Center(
+                child: LoaderWidget(
+                  size: 60,
+                  isContained: false,
+                ),
+              ),
+            ),
+          ),
         ValueListenableBuilder<bool>(
           valueListenable: _showHeaderNotifier,
           builder: (context, show, child) {
@@ -1324,9 +1336,6 @@ class _WeatherHomeState extends State<WeatherHome> {
                               );
                             },
                             onClosed: (result) async {
-                              PreferencesHelper.setBool(
-                                  "firstLoadedLocations", true);
-
                               await Future.delayed(Duration(milliseconds: 300));
                               if (result != null) {
                                 if (result['viewLocaton'] == true) {
@@ -1442,7 +1451,7 @@ class _WeatherHomeState extends State<WeatherHome> {
 
                         if (!isRainThenInsights &&
                             i < visibleBlocks.length - 1) {
-                          children.add(SizedBox(height: isShowFrog ? 8.5 : 10));
+                          children.add(SizedBox(height: 10));
                         }
                       }
 

@@ -28,19 +28,11 @@ class _LocationsScreenState extends State<LocationsScreen> {
   List<SavedLocation> savedLocations = [];
   bool _isFirstBuild = true;
 
-  final bool _isFirstTrueBuild =
-      PreferencesHelper.getBool("firstLoadedLocations") ?? true;
-
   @override
   void initState() {
     super.initState();
 
-    if (_isFirstTrueBuild) {
-      Future.delayed(Duration(milliseconds: 200), () {
-        loadSavedLocations();
-        PreferencesHelper.setBool("firstLoadedLocations", false);
-      });
-    }
+    loadSavedLocations();
   }
 
   Future<void> loadSavedLocations() async {

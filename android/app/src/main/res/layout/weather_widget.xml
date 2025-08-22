@@ -7,22 +7,16 @@
     android:orientation="horizontal"
     android:gravity="center_vertical">
 
-    <LinearLayout
-        android:layout_width="86dp"
-        android:layout_height="86dp"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:background="@drawable/shape_set_2"
-        android:layout_marginLeft="20dp"
-        android:layout_gravity="center">
+
     <ImageView
         android:id="@+id/widget_icon_current_pill"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:src="@drawable/clear_night" />
+        android:layout_width="76dp"
+        android:layout_height="76dp"
+        android:layout_marginLeft="22dp"
 
-    </LinearLayout>
+        android:layout_gravity="center"
+        android:src="@drawable/cloudy" />
+
 
 
     <!-- Temperature Text -->

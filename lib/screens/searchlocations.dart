@@ -244,9 +244,7 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
       appBar: AppBar(
           elevation: 0,
           title: TextField(
-            style: TextStyle(
-                fontSize: 16,
-                color: Theme.of(context).colorScheme.surfaceContainerHigh),
+            style: TextStyle(fontSize: 16, color: colorTheme.onSurface),
             onChanged: (value) => query = value,
             onSubmitted: searchLocation,
             decoration: InputDecoration(
