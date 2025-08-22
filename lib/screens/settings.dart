@@ -215,8 +215,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     },
                   ),
                   SettingSwitchTile(
-                    icon: Icon(Symbols.temp_preferences_eco,
-                        fill: 1, weight: 500),
+                    icon: Icon(Symbols.responsive_layout, fill: 1, weight: 500),
                     title: Text("No Froggy Layout"),
                     toggled: PreferencesHelper.getBool("showFroggy") ?? true,
                     onChanged: (value) {
