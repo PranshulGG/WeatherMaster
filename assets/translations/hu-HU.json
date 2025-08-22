@@ -539,5 +539,9 @@
   "kmni_desc_2": "High-resolution convection-permitting model covering Europe. Ideal for regional weather events and mesoscale features",
   "kmni_desc_3": "Ultra-high-resolution model focused on the Netherlands. Excellent for detailed local forecasts including precipitation and wind.",
   "show_clock": "Show clock",
-  "size": "Size"
+  "size": "Size",
+  "make_the_card_background_darker": "Make the card background darker",
+  "no_froggy_layout": "No Froggy Layout",
+  "high_text": "Magas",
+  "low_text": "Alacsony"
 }
