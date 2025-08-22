@@ -531,13 +531,13 @@
   "summary_headlines_34": "Cel nocturn ennuvolat",
   "summary_headlines_35": "S'apropa una nit tapada",
   "summary_headlines_36": "Els núvols aguanten durant la nit",
-  "updates_in_the_background": "Updates in the background",
-  "updates_in_the_background_sub": "Allow background activity. Turning it off may stop widget updates",
-  "no_work_info_found": "No work info found.",
-  "on_crowdin": "On Crowdin",
-  "kmni_desc_1": "Blended system integrating KNMI and ECMWF data for seamless global-to-local forecasts across scales",
-  "kmni_desc_2": "High-resolution convection-permitting model covering Europe. Ideal for regional weather events and mesoscale features",
-  "kmni_desc_3": "Ultra-high-resolution model focused on the Netherlands. Excellent for detailed local forecasts including precipitation and wind.",
-  "show_clock": "Show clock",
-  "size": "Size"
+  "updates_in_the_background": "Actualitzacions en segon pla",
+  "updates_in_the_background_sub": "Permet activitat en segon pla. Si ho desactives, els widgets podrien deixar d'actualitzar-se",
+  "no_work_info_found": "No s'ha trobat informació de treball.",
+  "on_crowdin": "A Crowdin",
+  "kmni_desc_1": "Sistema mixt que combina dades de KNMI i ECMWF per oferir previsions fluides tant a escala local com global",
+  "kmni_desc_2": "Model d'alta resolució que permet convecció i abasta Europa. Ideal per a fenòmens meteorològics regionals i funcions de mesoescala.",
+  "kmni_desc_3": "Model d'altíssima resolució centrat en els Països Baixos. Excel·lent per a previsions locals detallades, inclosos precipitacions i vent.",
+  "show_clock": "Mostra el rellotge",
+  "size": "Mida"
 }
