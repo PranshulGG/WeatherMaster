@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/saved_location.dart';
 import '../services/fetch_data.dart';
 import '../models/loading_me.dart';
+import '../utils/condition_label_map.dart';
 
 enum GeoProvider { nominatim, geonames, openMeteo }
 
@@ -239,12 +240,13 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
     final colorTheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      backgroundColor: colorTheme.surface,
+      backgroundColor: colorTheme.surfaceContainerHigh,
       appBar: AppBar(
           elevation: 0,
           title: TextField(
             style: TextStyle(
-                fontSize: 16, color: Theme.of(context).colorScheme.onSurface),
+                fontSize: 16,
+                color: Theme.of(context).colorScheme.surfaceContainerHigh),
             onChanged: (value) => query = value,
             onSubmitted: searchLocation,
             decoration: InputDecoration(
@@ -253,12 +255,14 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
               enabledBorder: InputBorder.none,
               disabledBorder: InputBorder.none,
               hintText: "${"search".tr()}...",
+              hintStyle:
+                  TextStyle(fontVariations: FontVariationsRegularNoRound),
             ),
           ),
           titleSpacing: 0,
           toolbarHeight: 65 + 10,
           scrolledUnderElevation: 0,
-          backgroundColor: colorTheme.surface,
+          backgroundColor: colorTheme.surfaceContainerHigh,
           shape: Border(
               bottom: BorderSide(
                   color: Theme.of(context).colorScheme.outline.withOpacity(0.8),

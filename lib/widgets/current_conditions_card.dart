@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:weather_master_app/utils/condition_label_map.dart';
 import '../notifiers/unit_settings_notifier.dart';
 import '../utils/unit_converter.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +16,7 @@ import 'dart:async';
 import '../screens/extended_widgets.dart';
 import '../helper/locale_helper.dart';
 import '../utils/visual_utils.dart';
+import 'package:animations/animations.dart';
 
 class ConditionsWidgets extends StatefulWidget {
   final int selectedContainerBgIndex;
@@ -121,6 +123,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
     );
 
     final timeUnit = context.watch<UnitSettingsNotifier>().timeUnit;
+    final isShowFrog = context.read<UnitSettingsNotifier>().showFrog;
 
     final sunriseFormat = timeUnit == '24 hr'
         ? DateFormat.Hm().format(sunrise)
@@ -162,767 +165,982 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
     final aqiFormat =
         aqiUnit == 'European' ? widget.currentAQIEURO : widget.currentAQIUSA;
 
+    final colorTheme = Theme.of(context).colorScheme;
+
     List<Widget> gridItems = itemOrder.map((i) {
       switch (i) {
         case 0:
-          return GestureDetector(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Color(widget.selectedContainerBgIndex),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Stack(
-                  children: [
-                    AspectRatio(
-                      aspectRatio: 1,
-                      child: SvgPicture.string(
-                        buildHumidity(
-                            Theme.of(context).colorScheme.tertiaryContainer,
-                            widget.currentHumidity),
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                    ListTile(
-                      leading: Icon(
-                        Symbols.humidity_high,
-                        fill: 1,
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white
-                            : Colors.black,
-                      ),
-                      horizontalTitleGap: 5,
-                      contentPadding: EdgeInsets.only(left: 10, bottom: 0),
-                      title: Text(
-                        "humidity".tr(),
-                        style: TextStyle(
-                            color:
-                                Theme.of(context).brightness == Brightness.dark
-                                    ? Colors.white
-                                    : Colors.black),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    Container(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "${widget.currentHumidity == 0.0000001 ? '--' : widget.currentHumidity}%",
-                            style: TextStyle(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onTertiaryContainer,
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.13,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        )),
-                    Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 10, bottom: 10),
-                          child: Row(
-                            spacing: 10,
-                            children: [
-                              Container(
-                                width: 40,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).colorScheme.tertiary,
-                                  borderRadius: BorderRadius.circular(50),
-                                ),
-                                child: Center(
-                                    child: Text(
-                                        widget.currentDewPoint == 0.0000001
-                                            ? '--'
-                                            : "$dewpointConverted°",
-                                        style: TextStyle(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onTertiary,
-                                            fontSize: 16))),
-                              ),
-                              Flexible(
-                                  child: Text(
-                                "dew_point".tr(),
-                                style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.onSurface,
-                                    fontWeight: FontWeight.w500),
-                                overflow: TextOverflow.ellipsis,
-                              ))
-                            ],
-                          ),
-                        )),
-                  ],
-                ),
-              ),
-            ),
-            onTap: () {
-              if (widget.isFromHome) {
-                if (widget.currentPressure == 0.0000001) {
-                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Row(
-                    spacing: 10,
-                    children: [
-                      Icon(
-                        Symbols.error,
-                        color: Theme.of(context).colorScheme.onInverseSurface,
-                      ),
-                      Text("No data available")
-                    ],
-                  )));
-                } else {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: (_) => const ExtendWidget('humidity_widget'),
-                        fullscreenDialog: true),
-                  );
-                }
-              }
-            },
-          );
-        case 1:
-          return GestureDetector(
-            child: Container(
-              clipBehavior: Clip.hardEdge,
-              decoration: BoxDecoration(
-                color: Color(widget.selectedContainerBgIndex),
+          return OpenContainer(
+              transitionType: ContainerTransitionType.fadeThrough,
+              closedElevation: 0,
+              closedShape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: Stack(
-                children: [
-                  ListTile(
-                    leading: Icon(
-                      Symbols.wb_twilight,
-                      weight: 500,
-                      fill: 1,
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white
-                          : Colors.black,
-                    ),
-                    horizontalTitleGap: 5,
-                    contentPadding: EdgeInsets.only(left: 10, bottom: 0),
-                    title: Text("sun_tile_page".tr(),
-                        style: TextStyle(
-                            color:
-                                Theme.of(context).brightness == Brightness.dark
-                                    ? Colors.white
-                                    : Colors.black),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis),
-                  ),
-                  Positioned(
-                    bottom: -1,
-                    left: 0,
-                    right: 0,
-                    child: SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.12,
-                      child: SvgPicture.string(
-                        clipBehavior: Clip.none,
-                        buildSunPathWithIcon(
-                          pathColor: Theme.of(context).colorScheme.primary,
-                          percent: percent,
-                          outLineColor: Theme.of(context).colorScheme.onSurface,
-                        ),
-                        allowDrawingOutsideViewBox: true,
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    left: -1,
+              openShape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              openElevation: 0,
+              transitionDuration: Duration(milliseconds: 500),
+              closedColor: colorTheme.tertiaryContainer,
+              openColor: colorTheme.surface,
+              openBuilder: (context, _) {
+                return ExtendWidget('humidity_widget');
+              },
+              closedBuilder: (context, openContainer) {
+                return GestureDetector(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
                     child: Container(
-                      height: 65,
                       decoration: BoxDecoration(
-                        border: Border(
-                          top: BorderSide(
-                            color: Theme.of(context).colorScheme.outline,
-                            width: 1.5,
+                        color: Color(widget.selectedContainerBgIndex),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Stack(
+                        children: [
+                          AspectRatio(
+                            aspectRatio: 1,
+                            child: SvgPicture.string(
+                              buildHumidity(
+                                  Theme.of(context)
+                                      .colorScheme
+                                      .tertiaryContainer,
+                                  widget.currentHumidity),
+                              fit: BoxFit.contain,
+                            ),
                           ),
-                        ),
-                        color: const Color.fromRGBO(0, 0, 0, 0.5),
-                        // borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))
+                          ListTile(
+                            leading: Icon(
+                              Symbols.humidity_high,
+                              fill: 1,
+                              color: Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
+                            horizontalTitleGap: 5,
+                            contentPadding:
+                                EdgeInsets.only(left: 10, bottom: 0),
+                            title: Text(
+                              "humidity".tr(),
+                              style: TextStyle(
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? Colors.white
+                                      : Colors.black),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Container(
+                              padding: EdgeInsets.only(left: 10),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "${widget.currentHumidity == 0.0000001 ? '--' : widget.currentHumidity}%",
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onTertiaryContainer,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.13,
+                                    fontVariations: [
+                                      FontVariation('wght', 500),
+                                      FontVariation('ROND', 100),
+                                    ],
+                                  ),
+                                ),
+                              )),
+                          Align(
+                              alignment: Alignment.bottomLeft,
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 10, bottom: 10),
+                                child: Row(
+                                  spacing: 10,
+                                  children: [
+                                    Container(
+                                      width: 40,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .tertiary,
+                                        borderRadius: BorderRadius.circular(50),
+                                      ),
+                                      child: Center(
+                                          child: Text(
+                                              widget.currentDewPoint ==
+                                                      0.0000001
+                                                  ? '--'
+                                                  : "$dewpointConverted°",
+                                              style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onTertiary,
+                                                fontSize: 16,
+                                                fontVariations: [
+                                                  FontVariation('wght', 450),
+                                                  FontVariation('ROND', 0),
+                                                ],
+                                              ))),
+                                    ),
+                                    Flexible(
+                                        child: Text(
+                                      "dew_point".tr(),
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurface,
+                                        fontVariations: [
+                                          FontVariation('wght', 450),
+                                          FontVariation('ROND', 0),
+                                        ],
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ))
+                                  ],
+                                ),
+                              )),
+                        ],
                       ),
                     ),
                   ),
-                  Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            spacing: 5,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Symbols.vertical_align_top,
-                                weight: 500,
-                                size: 17,
-                                color: Colors.white,
-                              ),
-                              Text(sunriseFormat,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 13,
-                                  ))
-                            ],
-                          ),
-                          Row(
-                            spacing: 5,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Symbols.vertical_align_bottom,
-                                weight: 500,
-                                size: 17,
-                                color: Colors.white,
-                              ),
-                              Text(sunsetFormat,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 13)),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10,
-                          )
-                        ],
-                      )),
-                ],
-              ),
+                  onTap: () {
+                    if (widget.isFromHome) {
+                      if (widget.currentPressure == 0.0000001) {
+                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Row(
+                          spacing: 10,
+                          children: [
+                            Icon(
+                              Symbols.error,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onInverseSurface,
+                            ),
+                            Text("No data available")
+                          ],
+                        )));
+                      } else {
+                        openContainer();
+                      }
+                    }
+                  },
+                );
+              });
+        case 1:
+          return OpenContainer(
+            transitionType: ContainerTransitionType.fadeThrough,
+            closedElevation: 0,
+            closedShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
             ),
-            onTap: () {
-              widget.isFromHome
-                  ? Navigator.of(context).push(
-                      MaterialPageRoute(
-                          builder: (_) => const ExtendWidget('sun_widget'),
-                          fullscreenDialog: true),
-                    )
-                  : null;
+            openShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            openElevation: 0,
+            transitionDuration: Duration(milliseconds: 500),
+            closedColor: Color(widget.selectedContainerBgIndex),
+            openColor: colorTheme.surface,
+            openBuilder: (context, _) {
+              return ExtendWidget('sun_widget');
             },
-          );
-
-        case 2:
-          return GestureDetector(
-            child: Stack(children: [
-              AspectRatio(
-                aspectRatio: 1,
-                child: SvgPicture.string(
-                    buildPressueSvg(
-                        Theme.of(context).colorScheme.primary,
-                        Theme.of(context).colorScheme.surfaceContainerHighest,
-                        Color(widget.selectedContainerBgIndex),
-                        widget.currentPressure.round()),
-                    fit: BoxFit.contain),
-              ),
-              headerWidgetConditions(
-                headerText: "pressure".tr(),
-                headerIcon: Symbols.compress,
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: Text(
-                  widget.currentPressure == 0.0000001
-                      ? '--'
-                      : "${convertedPressure.round()}",
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurface,
-                      fontSize: MediaQuery.of(context).size.width * 0.1,
-                      fontWeight: FontWeight.w500),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(bottom: 30),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Text(
-                    localizePressureUnit(pressureUnit, context.locale),
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        fontSize: 18),
-                  ),
-                ),
-              ),
-            ]),
-            onTap: () {
-              if (widget.isFromHome) {
-                if (widget.currentPressure == 0.0000001) {
-                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Row(
-                    spacing: 10,
-                    children: [
-                      Icon(
-                        Symbols.error,
-                        color: Theme.of(context).colorScheme.onInverseSurface,
-                      ),
-                      Text("No data available")
-                    ],
-                  )));
-                } else {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: (_) => const ExtendWidget('pressure_widget'),
-                        fullscreenDialog: true),
-                  );
-                }
-              }
-            },
-          );
-
-        case 3:
-          return GestureDetector(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(999),
+            closedBuilder: (context, openContainer) {
+              return GestureDetector(
                 child: Container(
-                  height: 160,
+                  clipBehavior: Clip.hardEdge,
                   decoration: BoxDecoration(
                     color: Color(widget.selectedContainerBgIndex),
-                    borderRadius: BorderRadius.circular(999),
+                    borderRadius: BorderRadius.circular(20),
                   ),
                   child: Stack(
                     children: [
-                      AspectRatio(
-                        aspectRatio: 1,
-                        child: SvgPicture.string(
-                          buildVisibilitySvg(
-                              Theme.of(context).colorScheme.tertiaryContainer),
-                          fit: BoxFit.contain,
+                      ListTile(
+                        leading: Icon(
+                          Symbols.wb_twilight,
+                          weight: 500,
+                          fill: 1,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white
+                              : Colors.black,
                         ),
-                      ),
-                      headerWidgetConditions(
-                        headerText: "visibility".tr(),
-                        headerIcon: Symbols.visibility,
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          widget.currentVisibility == 0.0000001
-                              ? '--'
-                              : "${convertedVisibility.round()}",
-                          style: TextStyle(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onTertiaryContainer,
-                              fontSize: MediaQuery.of(context).size.width * 0.1,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 30),
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Text(
-                            localizeVisibilityUnit(
-                                visibilityUnit, context.locale),
+                        horizontalTitleGap: 5,
+                        contentPadding: EdgeInsets.only(left: 10, bottom: 0),
+                        title: Text("sun_tile_page".tr(),
                             style: TextStyle(
-                                color: Theme.of(context).colorScheme.onSurface,
-                                fontSize: 18),
+                                color: Theme.of(context).brightness ==
+                                        Brightness.dark
+                                    ? Colors.white
+                                    : Colors.black),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis),
+                      ),
+                      Positioned(
+                        bottom: -1,
+                        left: 0,
+                        right: 0,
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.12,
+                          child: SvgPicture.string(
+                            clipBehavior: Clip.none,
+                            buildSunPathWithIcon(
+                              pathColor: Theme.of(context).colorScheme.primary,
+                              percent: percent,
+                              outLineColor:
+                                  Theme.of(context).colorScheme.onSurface,
+                            ),
+                            allowDrawingOutsideViewBox: true,
+                            fit: BoxFit.fill,
                           ),
                         ),
                       ),
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        left: -1,
+                        child: Container(
+                          height: 65,
+                          decoration: BoxDecoration(
+                            border: Border(
+                              top: BorderSide(
+                                color: Theme.of(context).colorScheme.outline,
+                                width: 1.5,
+                              ),
+                            ),
+                            color: const Color.fromRGBO(0, 0, 0, 0.5),
+                            // borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))
+                          ),
+                        ),
+                      ),
+                      Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                spacing: 5,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Symbols.vertical_align_top,
+                                    weight: 500,
+                                    size: 17,
+                                    color: Colors.white,
+                                  ),
+                                  Text(sunriseFormat,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontVariations: [
+                                          FontVariation('wght', 500),
+                                          FontVariation('ROND', 100),
+                                        ],
+                                        fontSize: 13,
+                                      ))
+                                ],
+                              ),
+                              Row(
+                                spacing: 5,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Symbols.vertical_align_bottom,
+                                    weight: 500,
+                                    size: 17,
+                                    color: Colors.white,
+                                  ),
+                                  Text(sunsetFormat,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontVariations: [
+                                            FontVariation('wght', 500),
+                                            FontVariation('ROND', 100),
+                                          ],
+                                          fontSize: 13)),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              )
+                            ],
+                          )),
                     ],
                   ),
                 ),
-              ),
-              onTap: () {
-                if (widget.isFromHome) {
-                  if (widget.currentVisibility == 0.0000001) {
-                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Row(
-                      spacing: 10,
-                      children: [
-                        Icon(
-                          Symbols.error,
-                          color: Theme.of(context).colorScheme.onInverseSurface,
+                onTap: () {
+                  widget.isFromHome ? openContainer() : null;
+                },
+              );
+            },
+          );
+        case 2:
+          return OpenContainer(
+            transitionType: ContainerTransitionType.fadeThrough,
+            closedElevation: 0,
+            closedShape: const CircleBorder(),
+            openShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            openElevation: 0,
+            transitionDuration: Duration(milliseconds: 500),
+            closedColor: Color(widget.selectedContainerBgIndex),
+            openColor: colorTheme.surface,
+            openBuilder: (context, _) {
+              return ExtendWidget('pressure_widget');
+            },
+            closedBuilder: (context, openContainer) {
+              return GestureDetector(
+                child: Stack(children: [
+                  AspectRatio(
+                    aspectRatio: 1,
+                    child: SvgPicture.string(
+                        buildPressueSvg(
+                            Theme.of(context).colorScheme.primary,
+                            Theme.of(context)
+                                .colorScheme
+                                .surfaceContainerHighest,
+                            Color(widget.selectedContainerBgIndex),
+                            widget.currentPressure.round()),
+                        fit: BoxFit.contain),
+                  ),
+                  headerWidgetConditions(
+                    headerText: "pressure".tr(),
+                    headerIcon: Symbols.compress,
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      widget.currentPressure == 0.0000001
+                          ? '--'
+                          : "${convertedPressure.round()}",
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface,
+                        fontSize: MediaQuery.of(context).size.width * 0.1,
+                        fontVariations: [
+                          FontVariation('wght', 500),
+                          FontVariation('ROND', 100),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 30),
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Text(
+                        localizePressureUnit(pressureUnit, context.locale),
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                          fontSize: 18,
+                          fontVariations: [
+                            FontVariation('wght', 450),
+                            FontVariation('ROND', 0),
+                          ],
                         ),
-                        Text("No data available")
-                      ],
-                    )));
-                  } else {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                          builder: (_) =>
-                              const ExtendWidget('visibility_widget'),
-                          fullscreenDialog: true),
-                    );
+                      ),
+                    ),
+                  ),
+                ]),
+                onTap: () {
+                  if (widget.isFromHome) {
+                    if (widget.currentPressure == 0.0000001) {
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Row(
+                        spacing: 10,
+                        children: [
+                          Icon(
+                            Symbols.error,
+                            color:
+                                Theme.of(context).colorScheme.onInverseSurface,
+                          ),
+                          Text("No data available")
+                        ],
+                      )));
+                    } else {
+                      openContainer();
+                    }
                   }
-                }
+                },
+              );
+            },
+          );
+        case 3:
+          return OpenContainer(
+              transitionType: ContainerTransitionType.fadeThrough,
+              closedElevation: 0,
+              closedShape: const CircleBorder(),
+              openShape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              openElevation: 0,
+              transitionDuration: Duration(milliseconds: 500),
+              closedColor: Color(widget.selectedContainerBgIndex),
+              openColor: colorTheme.surface,
+              openBuilder: (context, _) {
+                return ExtendWidget('visibility_widget');
+              },
+              closedBuilder: (context, openContainer) {
+                return GestureDetector(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(999),
+                      child: Container(
+                        height: 160,
+                        decoration: BoxDecoration(
+                          color: Color(widget.selectedContainerBgIndex),
+                          borderRadius: BorderRadius.circular(999),
+                        ),
+                        child: Stack(
+                          children: [
+                            AspectRatio(
+                              aspectRatio: 1,
+                              child: SvgPicture.string(
+                                buildVisibilitySvg(Theme.of(context)
+                                    .colorScheme
+                                    .tertiaryContainer),
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                            headerWidgetConditions(
+                              headerText: "visibility".tr(),
+                              headerIcon: Symbols.visibility,
+                            ),
+                            Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                widget.currentVisibility == 0.0000001
+                                    ? '--'
+                                    : "${convertedVisibility.round()}",
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onTertiaryContainer,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.1,
+                                  fontVariations: [
+                                    FontVariation('wght', 500),
+                                    FontVariation('ROND', 100),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 30),
+                              child: Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Text(
+                                  localizeVisibilityUnit(
+                                      visibilityUnit, context.locale),
+                                  style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.onSurface,
+                                    fontSize: 18,
+                                    fontVariations: [
+                                      FontVariation('wght', 450),
+                                      FontVariation('ROND', 0),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    onTap: () {
+                      if (widget.isFromHome) {
+                        if (widget.currentVisibility == 0.0000001) {
+                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Row(
+                            spacing: 10,
+                            children: [
+                              Icon(
+                                Symbols.error,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onInverseSurface,
+                              ),
+                              Text("No data available")
+                            ],
+                          )));
+                        } else {
+                          openContainer();
+                        }
+                      }
+                    });
               });
 
         case 4:
-          return GestureDetector(
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(999),
-                child: Container(
-                    height: 160,
-                    decoration: BoxDecoration(
-                      color: Color(widget.selectedContainerBgIndex),
-                      borderRadius: BorderRadius.circular(999),
-                    ),
-                    child: Stack(children: [
-                      WindCompassWidget(
-                          currentWindDirc: widget.currentWindDirc,
-                          backgroundColor:
-                              Color(widget.selectedContainerBgIndex)),
-                      headerWidgetConditions(
-                        headerText: "direction".tr(),
-                        headerIcon: Symbols.explore,
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          widget.currentWindDirc == 0.0000001
-                              ? '--'
-                              : getCompassDirection(widget.currentWindDirc),
-                          style: TextStyle(
-                              color: Theme.of(context).colorScheme.onSurface,
-                              fontSize: MediaQuery.of(context).size.width * 0.1,
-                              fontWeight: FontWeight.w500),
+          return OpenContainer(
+            transitionType: ContainerTransitionType.fadeThrough,
+            closedElevation: 0,
+            closedShape: const CircleBorder(),
+            openShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            openElevation: 0,
+            transitionDuration: Duration(milliseconds: 500),
+            closedColor: Color(widget.selectedContainerBgIndex),
+            openColor: colorTheme.surface,
+            openBuilder: (context, _) {
+              return ExtendWidget('winddirc_widget');
+            },
+            closedBuilder: (context, openContainer) {
+              return GestureDetector(
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(999),
+                    child: Container(
+                        height: 160,
+                        decoration: BoxDecoration(
+                          color: Color(widget.selectedContainerBgIndex),
+                          borderRadius: BorderRadius.circular(999),
                         ),
-                      ),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Container(
-                          margin: EdgeInsets.only(left: 20, right: 20),
-                          height: 55,
-                          child: Text(
-                            widget.currentWindSpeed == 0.0000001
-                                ? '--'
-                                : getWindSpeedType(widget.currentWindSpeed),
-                            style: TextStyle(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurfaceVariant,
-                                fontSize: 16),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.center,
+                        child: Stack(children: [
+                          WindCompassWidget(
+                              currentWindDirc: widget.currentWindDirc,
+                              backgroundColor:
+                                  Color(widget.selectedContainerBgIndex)),
+                          headerWidgetConditions(
+                            headerText: "direction".tr(),
+                            headerIcon: Symbols.explore,
                           ),
-                        ),
-                      ),
-                    ]))),
-            onTap: () {
-              if (widget.isFromHome) {
-                if (widget.currentWindSpeed == 0.0000001) {
-                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Row(
-                    spacing: 10,
-                    children: [
-                      Icon(
-                        Symbols.error,
-                        color: Theme.of(context).colorScheme.onInverseSurface,
-                      ),
-                      Text("No data available")
-                    ],
-                  )));
-                } else {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: (_) => const ExtendWidget('winddirc_widget'),
-                        fullscreenDialog: true),
-                  );
-                }
-              }
+                          Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              widget.currentWindDirc == 0.0000001
+                                  ? '--'
+                                  : getCompassDirection(widget.currentWindDirc),
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.onSurface,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.1,
+                                fontVariations: [
+                                  FontVariation('wght', 500),
+                                  FontVariation('ROND', 100),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Container(
+                              margin: EdgeInsets.only(left: 20, right: 20),
+                              height: 55,
+                              child: Text(
+                                widget.currentWindSpeed == 0.0000001
+                                    ? '--'
+                                    : getWindSpeedType(widget.currentWindSpeed),
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurfaceVariant,
+                                  fontSize: 16,
+                                  fontVariations: [
+                                    FontVariation('wght', 450),
+                                    FontVariation('ROND', 0),
+                                  ],
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ]))),
+                onTap: () {
+                  if (widget.isFromHome) {
+                    if (widget.currentWindSpeed == 0.0000001) {
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Row(
+                        spacing: 10,
+                        children: [
+                          Icon(
+                            Symbols.error,
+                            color:
+                                Theme.of(context).colorScheme.onInverseSurface,
+                          ),
+                          Text("No data available")
+                        ],
+                      )));
+                    } else {
+                      openContainer();
+                    }
+                  }
+                },
+              );
             },
           );
-
         case 5:
-          return GestureDetector(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(999),
+          return OpenContainer(
+              transitionType: ContainerTransitionType.fadeThrough,
+              closedElevation: 0,
+              // closedShape: const CircleBorder(),
+              openShape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              openElevation: 0,
+              transitionDuration: Duration(milliseconds: 500),
+              closedColor: Colors.transparent,
+              middleColor: Colors.transparent,
+              openColor: colorTheme.surface,
+              openBuilder: (context, _) {
+                return ExtendWidget('uv_widget');
+              },
+              closedBuilder: (context, openContainer) {
+                return GestureDetector(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(999),
+                      child: Container(
+                        height: 160,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(999),
+                        ),
+                        child: Stack(
+                          children: [
+                            AspectRatio(
+                              aspectRatio: 1,
+                              child: SvgPicture.string(
+                                buildUVSvg(
+                                    Color(widget.selectedContainerBgIndex),
+                                    widget.currentUvIndex.round()),
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                            headerWidgetConditions(
+                              headerText: "uv_index".tr(),
+                              headerIcon: Symbols.light_mode,
+                            ),
+                            Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                "${widget.currentUvIndex == 0.0000001 ? '--' : widget.currentUvIndex.round()}",
+                                style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.1,
+                                  fontVariations: [
+                                    FontVariation('wght', 500),
+                                    FontVariation('ROND', 100),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 40),
+                              child: Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Text(
+                                  widget.currentUvIndex == 0.0000001
+                                      ? '--'
+                                      : getUvIndexType(
+                                          widget.currentUvIndex.round()),
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
+                                    fontSize: 15,
+                                    fontVariations: [
+                                      FontVariation('wght', 450),
+                                      FontVariation('ROND', 0),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    onTap: () {
+                      if (widget.isFromHome) {
+                        if (widget.currentUvIndex == 0.0000001) {
+                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Row(
+                            spacing: 10,
+                            children: [
+                              Icon(
+                                Symbols.error,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onInverseSurface,
+                              ),
+                              Text("No data available")
+                            ],
+                          )));
+                        } else {
+                          openContainer();
+                        }
+                      }
+                    });
+              });
+
+        case 6:
+          return OpenContainer(
+            transitionType: ContainerTransitionType.fadeThrough,
+            closedElevation: 0,
+            closedShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            openShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            openElevation: 0,
+            transitionDuration: Duration(milliseconds: 500),
+            closedColor: Color(widget.selectedContainerBgIndex),
+            openColor: colorTheme.surface,
+            openBuilder: (context, _) {
+              return ExtendWidget('aqi_widget');
+            },
+            closedBuilder: (context, openContainer) {
+              return GestureDetector(
                 child: Container(
-                  height: 160,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(999),
+                    color: Color(widget.selectedContainerBgIndex),
+                    borderRadius: BorderRadius.circular(20),
                   ),
                   child: Stack(
                     children: [
-                      AspectRatio(
-                        aspectRatio: 1,
-                        child: SvgPicture.string(
-                          buildUVSvg(Color(widget.selectedContainerBgIndex),
-                              widget.currentUvIndex.round()),
-                          fit: BoxFit.contain,
+                      ListTile(
+                        leading: Icon(
+                          Symbols.airwave,
+                          weight: 500,
+                          fill: 1,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white
+                              : Colors.black,
                         ),
-                      ),
-                      headerWidgetConditions(
-                        headerText: "uv_index".tr(),
-                        headerIcon: Symbols.light_mode,
+                        horizontalTitleGap: 5,
+                        contentPadding: EdgeInsets.only(left: 10, bottom: 0),
+                        title: Text("AQI",
+                            style: TextStyle(
+                                color: Theme.of(context).brightness ==
+                                        Brightness.dark
+                                    ? Colors.white
+                                    : Colors.black),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis),
                       ),
                       Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          "${widget.currentUvIndex == 0.0000001 ? '--' : widget.currentUvIndex.round()}",
-                          style: TextStyle(
-                              color: Theme.of(context).colorScheme.onSurface,
-                              fontSize: MediaQuery.of(context).size.width * 0.1,
-                              fontWeight: FontWeight.w500),
+                        alignment: Alignment.centerRight,
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 10, bottom: 12),
+                          child: Text(
+                            aqiFormat == 0.0000001
+                                ? '--'
+                                : aqiFormat.toString(),
+                            style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.11,
+                                fontVariations: [
+                                  FontVariation('wght', 500),
+                                  FontVariation('ROND', 100),
+                                ],
+                                color: Theme.of(context).colorScheme.onSurface),
+                          ),
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 40),
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
+                      AQISliderBar(
+                        aqi: widget.currentAQIUSA,
+                        width: 360,
+                      ),
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 10, bottom: 25),
                           child: Text(
-                            widget.currentUvIndex == 0.0000001
+                            aqiFormat == 0.0000001
                                 ? '--'
-                                : getUvIndexType(widget.currentUvIndex.round()),
+                                : getAQIIndexType(aqiFormat,
+                                    aqiUnit == 'European' ? true : false),
                             style: TextStyle(
+                                fontSize: 17,
+                                fontVariations: [
+                                  FontVariation('wght', 450),
+                                  FontVariation('ROND', 0),
+                                ],
                                 color: Theme.of(context)
                                     .colorScheme
-                                    .onSurfaceVariant,
-                                fontSize: 15),
+                                    .onSurfaceVariant),
                           ),
                         ),
                       ),
                     ],
                   ),
                 ),
-              ),
-              onTap: () {
-                if (widget.isFromHome) {
-                  if (widget.currentUvIndex == 0.0000001) {
-                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Row(
-                      spacing: 10,
-                      children: [
-                        Icon(
-                          Symbols.error,
-                          color: Theme.of(context).colorScheme.onInverseSurface,
-                        ),
-                        Text("No data available")
-                      ],
-                    )));
-                  } else {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                          builder: (_) => const ExtendWidget('uv_widget'),
-                          fullscreenDialog: true),
-                    );
+                onTap: () {
+                  if (widget.isFromHome) {
+                    if (aqiFormat == 0.0000001) {
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Row(
+                        spacing: 10,
+                        children: [
+                          Icon(
+                            Symbols.error,
+                            color:
+                                Theme.of(context).colorScheme.onInverseSurface,
+                          ),
+                          Text("No data available")
+                        ],
+                      )));
+                    } else {
+                      openContainer();
+                    }
                   }
-                }
-              });
-
-        case 6:
-          return GestureDetector(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Color(widget.selectedContainerBgIndex),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Stack(
-                children: [
-                  ListTile(
-                    leading: Icon(
-                      Symbols.airwave,
-                      weight: 500,
-                      fill: 1,
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white
-                          : Colors.black,
-                    ),
-                    horizontalTitleGap: 5,
-                    contentPadding: EdgeInsets.only(left: 10, bottom: 0),
-                    title: Text("AQI",
-                        style: TextStyle(
-                            color:
-                                Theme.of(context).brightness == Brightness.dark
-                                    ? Colors.white
-                                    : Colors.black),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis),
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 10, bottom: 12),
-                      child: Text(
-                        aqiFormat == 0.0000001 ? '--' : aqiFormat.toString(),
-                        style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.11,
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).colorScheme.onSurface),
-                      ),
-                    ),
-                  ),
-                  AQISliderBar(
-                    aqi: widget.currentAQIUSA,
-                    width: 360,
-                  ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 10, bottom: 25),
-                      child: Text(
-                        aqiFormat == 0.0000001
-                            ? '--'
-                            : getAQIIndexType(aqiFormat,
-                                aqiUnit == 'European' ? true : false),
-                        style: TextStyle(
-                            fontSize: 17,
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            onTap: () {
-              if (widget.isFromHome) {
-                if (aqiFormat == 0.0000001) {
-                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Row(
-                    spacing: 10,
-                    children: [
-                      Icon(
-                        Symbols.error,
-                        color: Theme.of(context).colorScheme.onInverseSurface,
-                      ),
-                      Text("No data available")
-                    ],
-                  )));
-                } else {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: (_) => const ExtendWidget('aqi_widget'),
-                        fullscreenDialog: true),
-                  );
-                }
-              }
+                },
+              );
             },
           );
-
         case 7:
-          return GestureDetector(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Color(widget.selectedContainerBgIndex),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Stack(
-                children: [
-                  ListTile(
-                    leading: Icon(
-                      Symbols.rainy_heavy,
-                      weight: 500,
-                      fill: 1,
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white
-                          : Colors.black,
-                    ),
-                    horizontalTitleGap: 5,
-                    contentPadding: EdgeInsets.only(left: 10, bottom: 0),
-                    title: Text("precipitation".tr(),
-                        style: TextStyle(
-                            color:
-                                Theme.of(context).brightness == Brightness.dark
+          return OpenContainer(
+            transitionType: ContainerTransitionType.fadeThrough,
+            closedElevation: 0,
+            closedShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            openShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            openElevation: 0,
+            transitionDuration: Duration(milliseconds: 500),
+            closedColor: Color(widget.selectedContainerBgIndex),
+            openColor: colorTheme.surface,
+            openBuilder: (context, _) {
+              return ExtendWidget('precip_widget');
+            },
+            closedBuilder: (context, openContainer) {
+              return GestureDetector(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Color(widget.selectedContainerBgIndex),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Stack(
+                    children: [
+                      ListTile(
+                        leading: Icon(
+                          Symbols.rainy_heavy,
+                          weight: 500,
+                          fill: 1,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white
+                              : Colors.black,
+                        ),
+                        horizontalTitleGap: 5,
+                        contentPadding: EdgeInsets.only(left: 10, bottom: 0),
+                        title: Text("precipitation".tr(),
+                            style: TextStyle(
+                                color: Theme.of(context).brightness ==
+                                        Brightness.dark
                                     ? Colors.white
                                     : Colors.black),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis),
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 10, bottom: 12),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            widget.currentTotalPrec == 0.0000001
-                                ? '--'
-                                : "${double.parse(convertedPrecip.toStringAsFixed(2))}",
-                            style: TextStyle(
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.10 +
-                                        0.5,
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).colorScheme.onSurface),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 15),
-                            child: Text(
-                              localizePrecipUnit(
-                                  precipitationUnit, context.locale),
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary),
-                            ),
-                          ),
-                        ],
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis),
                       ),
-                    ),
-                  ),
-                  Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Padding(
-                          padding:
-                              EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 10, bottom: 12),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              SizedBox(
-                                  width: 100,
-                                  child: Text(
-                                    "total_precip_sub".tr(),
-                                    style: TextStyle(
-                                        height: 1.2,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurfaceVariant),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  )),
-                              SvgPicture.asset(
-                                'assets/weather-icons/showers_rain.svg',
-                                width: 30,
-                                height: 30,
-                              )
+                              Text(
+                                widget.currentTotalPrec == 0.0000001
+                                    ? '--'
+                                    : "${double.parse(convertedPrecip.toStringAsFixed(2))}",
+                                style: TextStyle(
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                                0.10 +
+                                            0.5,
+                                    fontVariations: [
+                                      FontVariation('wght', 500),
+                                      FontVariation('ROND', 100),
+                                    ],
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurface),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(top: 15),
+                                child: Text(
+                                  localizePrecipUnit(
+                                      precipitationUnit, context.locale),
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontVariations:
+                                          FontVariationsRegularNoRound,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary),
+                                ),
+                              ),
                             ],
-                          ))),
-                ],
-              ),
-            ),
-            onTap: () {
-              if (widget.isFromHome) {
-                if (widget.currentTotalPrec == 0.0000001) {
-                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Row(
-                    spacing: 10,
-                    children: [
-                      Icon(
-                        Symbols.error,
-                        color: Theme.of(context).colorScheme.onInverseSurface,
+                          ),
+                        ),
                       ),
-                      Text("No data available")
+                      Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Padding(
+                              padding: EdgeInsets.only(
+                                  left: 10, right: 10, bottom: 10),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  SizedBox(
+                                      width: 100,
+                                      child: Text(
+                                        "total_precip_sub".tr(),
+                                        style: TextStyle(
+                                            height: 1.2,
+                                            fontVariations: [
+                                              FontVariation('wght', 450),
+                                              FontVariation('ROND', 0),
+                                            ],
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurfaceVariant),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      )),
+                                  SvgPicture.asset(
+                                    'assets/weather-icons/showers_rain.svg',
+                                    width: 30,
+                                    height: 30,
+                                  )
+                                ],
+                              ))),
                     ],
-                  )));
-                } else {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: (_) => const ExtendWidget('precip_widget'),
-                        fullscreenDialog: true),
-                  );
-                }
-              }
+                  ),
+                ),
+                onTap: () {
+                  if (widget.isFromHome) {
+                    if (widget.currentTotalPrec == 0.0000001) {
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Row(
+                        spacing: 10,
+                        children: [
+                          Icon(
+                            Symbols.error,
+                            color:
+                                Theme.of(context).colorScheme.onInverseSurface,
+                          ),
+                          Text("No data available")
+                        ],
+                      )));
+                    } else {
+                      openContainer();
+                    }
+                  }
+                },
+              );
             },
           );
         default:
@@ -942,7 +1160,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
+              mainAxisSpacing: isShowFrog ? 10 : 12,
               childAspectRatio: 1,
             ),
             itemBuilder: (context, index) {

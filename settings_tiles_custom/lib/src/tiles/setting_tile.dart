@@ -29,7 +29,6 @@ abstract class SettingTile extends StatelessWidget {
 
   final bool fullempty;
 
-
   /// The icon of the tile.
   ///
   /// Use the [SettingTileIcon] class to have the icon automatically styled.
@@ -61,18 +60,63 @@ abstract class SettingTile extends StatelessWidget {
       contentPadding: fullempty ? const EdgeInsets.all(0) : const EdgeInsets.only(right: 16, left: 16),
       enabled: enabled,
       leading: icon,
-      title: title,
+      title: _buildStyledTitle(context),
       subtitle: description != null || value != null
           ? Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (value != null) value!,
-                if (description != null) description!,
+                if (description != null) _buildStyledDescription(context),
               ],
             )
           : null,
       trailing: trailing,
       onTap: onTap,
     );
+  }
+
+  Widget? _buildStyledTitle(BuildContext context) {
+    if (title == null) return null;
+
+    if (title is Text) {
+      final textWidget = title as Text;
+      return Text(
+        textWidget.data ?? '',
+        style: textWidget.style ??
+            const TextStyle(
+              fontSize: 16.5,
+              fontVariations: const [
+                FontVariation('wght', 460),
+                FontVariation('ROND', 100),
+              ],
+            ),
+        maxLines: textWidget.maxLines,
+        overflow: textWidget.overflow,
+        textAlign: textWidget.textAlign,
+      );
+    }
+
+    return title;
+  }
+
+  Widget _buildStyledDescription(BuildContext context) {
+    if (description is Text) {
+      final textWidget = description as Text;
+      return Text(
+        textWidget.data ?? '',
+        style: textWidget.style ??
+            const TextStyle(
+              fontVariations: const [
+                FontVariation('wght', 450),
+                FontVariation('ROND', 0),
+              ],
+            ),
+        maxLines: textWidget.maxLines,
+        overflow: textWidget.overflow,
+        textAlign: textWidget.textAlign,
+      );
+    }
+
+    return description!;
   }
 }

@@ -30,23 +30,25 @@ class SettingSection extends StatelessWidget {
 
   Widget _wrapStyledTile(BuildContext context, Widget tile,
       {required bool isFirst, required bool isLast, required bool isOnly}) {
-    final borderRadius = isOnly
-        ? BorderRadius.circular(18)
-        : isFirst
-            ? const BorderRadius.only(
-                topLeft: Radius.circular(18),
-                topRight: Radius.circular(18),
-                bottomLeft: Radius.circular(0),
-                bottomRight: Radius.circular(0),
-              )
-            : isLast
+    final borderRadius = PrimarySwitch
+        ? BorderRadius.circular(50)
+        : isOnly
+            ? BorderRadius.circular(18)
+            : isFirst
                 ? const BorderRadius.only(
-                    topLeft: Radius.circular(0),
-                    topRight: Radius.circular(0),
-                    bottomLeft: Radius.circular(18),
-                    bottomRight: Radius.circular(18),
+                    topLeft: Radius.circular(18),
+                    topRight: Radius.circular(18),
+                    bottomLeft: Radius.circular(0),
+                    bottomRight: Radius.circular(0),
                   )
-                : BorderRadius.circular(0);
+                : isLast
+                    ? const BorderRadius.only(
+                        topLeft: Radius.circular(0),
+                        topRight: Radius.circular(0),
+                        bottomLeft: Radius.circular(18),
+                        bottomRight: Radius.circular(18),
+                      )
+                    : BorderRadius.circular(0);
 
     return Material(
       color: PrimarySwitch

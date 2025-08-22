@@ -31,6 +31,7 @@ class DailyCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tempUnit = context.watch<UnitSettingsNotifier>().tempUnit;
+    final colorTheme = Theme.of(context).colorScheme;
 
     num convert(num celsius) => tempUnit == "Fahrenheit"
         ? UnitConverter.celsiusToFahrenheit(celsius.toDouble()).round()
@@ -60,37 +61,41 @@ class DailyCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Color(selectedContainerBgIndex),
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(20),
       ),
-      padding: EdgeInsets.only(top: 12, bottom: 10),
+      padding: EdgeInsets.only(
+        top: 15,
+        bottom: 0,
+      ),
       margin: EdgeInsets.fromLTRB(12, 0, 12, 0),
       child: Column(
         children: [
-          Row(children: [
+          Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
             SizedBox(
               width: 20,
             ),
             Icon(
-              Symbols.calendar_today,
+              Symbols.calendar_month,
               weight: 500,
-              color: Theme.of(context).colorScheme.secondary,
-              size: 20,
+              color: colorTheme.secondary,
+              size: 21,
+              fill: 1,
             ),
             SizedBox(
               width: 5,
             ),
             Text("daily_forecast".tr(),
                 style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    color: Theme.of(context).colorScheme.secondary,
-                    fontSize: 15)),
+                    fontWeight: FontWeight.w600,
+                    color: colorTheme.secondary,
+                    fontSize: 16)),
           ]),
           Divider(
-            height: 20,
-            color: Theme.of(context).colorScheme.outlineVariant,
+            height: 14,
+            color: Colors.transparent,
           ),
           SizedBox(
-            height: 190,
+            height: 200,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               physics: BouncingScrollPhysics(),
@@ -105,8 +110,8 @@ class DailyCard extends StatelessWidget {
                 final precipProb = item["precipProb"];
 
                 EdgeInsets itemMargin = EdgeInsets.only(
-                  left: index == 0 ? 10 : 0,
-                  right: index == dailyTime.length - 1 ? 10 : 0,
+                  left: index == 0 ? 15 : 0,
+                  right: index == dailyTime.length - 1 ? 15 : 0,
                 );
 
                 return GestureDetector(
@@ -126,7 +131,7 @@ class DailyCard extends StatelessWidget {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(99),
                         color: Theme.of(context).brightness == Brightness.light
-                            ? Theme.of(context).colorScheme.surfaceContainer
+                            ? colorTheme.surfaceContainer
                             : Color.fromRGBO(0, 0, 0, 0.247)),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -138,22 +143,33 @@ class DailyCard extends StatelessWidget {
                           children: [
                             Text("${tempMax.round()}°",
                                 style: TextStyle(
-                                    fontSize: 16,
-                                    color:
-                                        Theme.of(context).colorScheme.onSurface,
-                                    fontWeight: FontWeight.w500)),
+                                  fontSize: 16,
+                                  color: colorTheme.onSurface,
+                                  fontVariations: [
+                                    FontVariation('wght', 500),
+                                    FontVariation('ROND', 100),
+                                  ],
+                                )),
                             Text("${tempMin.round()}°",
                                 style: TextStyle(
-                                    fontSize: 16,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant,
-                                    fontWeight: FontWeight.w500)),
+                                  fontSize: 16,
+                                  color: colorTheme.onSurfaceVariant,
+                                  fontVariations: [
+                                    FontVariation('wght', 500),
+                                    FontVariation('ROND', 100),
+                                  ],
+                                )),
                           ],
+                        ),
+                        SizedBox(
+                          height: 10,
                         ),
                         SvgPicture.asset(
                           WeatherIconMapper.getIcon(code, 1),
                           width: 35,
+                        ),
+                        SizedBox(
+                          height: 5,
                         ),
                         Column(children: [
                           Text(
@@ -162,17 +178,35 @@ class DailyCard extends StatelessWidget {
                                   : "${precipProb.round()}%",
                               style: TextStyle(
                                   fontSize: 14,
-                                  color: Theme.of(context).colorScheme.primary,
+                                  color: colorTheme.primary,
                                   fontWeight: FontWeight.w500)),
                           SizedBox(
-                            height: 5,
+                            height: 3,
                           ),
                           Text(
                             getDayLabel(time, index, utcOffsetSeconds)
                                 .toLowerCase()
                                 .tr(),
-                            style: const TextStyle(fontSize: 14),
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontVariations: [
+                                FontVariation('wght', 500),
+                                FontVariation('ROND', 0),
+                              ],
+                            ),
                             textAlign: TextAlign.center,
+                          ),
+                          Text(
+                            getLocalizedDateFormat(
+                                time, Localizations.localeOf(context)),
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: colorTheme.onSurfaceVariant,
+                              fontVariations: [
+                                FontVariation('wght', 500),
+                                FontVariation('ROND', 0),
+                              ],
+                            ),
                           ),
                         ]),
                         SizedBox(
@@ -184,6 +218,9 @@ class DailyCard extends StatelessWidget {
                 );
               },
             ),
+          ),
+          SizedBox(
+            height: 14,
           ),
         ],
       ),

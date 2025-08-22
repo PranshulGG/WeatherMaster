@@ -87,13 +87,13 @@ class PollenCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Color(selectedContainerBgIndex),
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(20),
       ),
-      padding: EdgeInsets.only(top: 12, bottom: 12),
+      padding: EdgeInsets.only(top: 15, bottom: 15),
       margin: EdgeInsets.fromLTRB(12, 0, 12, 0),
       child: Column(
         children: [
-          Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+          Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
             SizedBox(
               width: 20,
             ),
@@ -101,20 +101,21 @@ class PollenCard extends StatelessWidget {
               Symbols.allergy,
               weight: 500,
               color: Theme.of(context).colorScheme.secondary,
-              size: 20,
+              size: 21,
+              fill: 1,
             ),
             SizedBox(
               width: 5,
             ),
             Text("pollen".tr(),
                 style: TextStyle(
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
                     color: Theme.of(context).colorScheme.secondary,
-                    fontSize: 15)),
+                    fontSize: 16)),
           ]),
           Divider(
-            height: 20,
-            color: Theme.of(context).colorScheme.outlineVariant,
+            height: 14,
+            color: Colors.transparent,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

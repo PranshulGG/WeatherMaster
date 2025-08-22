@@ -19,6 +19,7 @@ import 'package:material_color_utilities/material_color_utilities.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:animations/animations.dart';
+import 'package:weather_master_app/utils/condition_label_map.dart';
 
 // App utilities
 import '../utils/animation_map.dart';
@@ -260,7 +261,8 @@ class _WeatherHomeState extends State<WeatherHome> {
       final lastUpdateTime = DateTime.tryParse(lastUpdated);
       final now = DateTime.now();
       if (lastUpdateTime != null &&
-          now.difference(lastUpdateTime).inMinutes < 45) {
+          now.difference(lastUpdateTime).inMinutes < 450) {
+        // Change to 45
         _isAppFullyLoaded = true;
       } else {
         checkAndUpdateHomeLocation();
@@ -677,12 +679,17 @@ class _WeatherHomeState extends State<WeatherHome> {
   Widget _buildWeatherContent() {
     final bool usAnimations =
         context.watch<UnitSettingsNotifier>().useCardBackgroundAnimations;
+    final bool useDarkerBackground =
+        context.watch<UnitSettingsNotifier>().useDarkBackgroundCards;
+    final isShowFrog = context.read<UnitSettingsNotifier>().showFrog;
+
+    final colorTheme = Theme.of(context).colorScheme;
 
     final List<Color> searchBgColors = [
       // cloudy
       isLight
           ? Color(paletteWeather.secondary.get(150))
-          : Color(paletteWeather.secondary.get(11)),
+          : Color(paletteWeather.secondary.get(10)),
 
       // overcast
       isLight ? Color(0xFFe8f2ff) : Color(paletteWeather.secondary.get(13)),
@@ -726,13 +733,19 @@ class _WeatherHomeState extends State<WeatherHome> {
 
     final List<int> weatherContainerColors = [
       // cloudy
-      isLight ? paletteWeather.secondary.get(98) : 0xff0e1d2a,
+      isLight
+          ? paletteWeather.secondary.get(98)
+          : paletteWeather.secondary.get(useDarkerBackground ? 5 : 8),
 
       // overcast
-      isLight ? 0xFFfcfcff : paletteWeather.secondary.get(6),
+      isLight
+          ? 0xFFfcfcff
+          : paletteWeather.secondary.get(useDarkerBackground ? 5 : 6),
 
       // clear day
-      isLight ? 0xFFfcfcff : paletteWeather.primary.get(8),
+      isLight
+          ? 0xFFfcfcff
+          : paletteWeather.primary.get(useDarkerBackground ? 5 : 8),
 
       // clear night
       isLight
@@ -741,7 +754,7 @@ class _WeatherHomeState extends State<WeatherHome> {
               .get(98)
           : CorePalette.of(const Color.fromARGB(255, 58, 77, 141).toARGB32())
               .primary
-              .get(5),
+              .get(useDarkerBackground ? 2 : 5),
 
       // fog
       isLight
@@ -750,19 +763,21 @@ class _WeatherHomeState extends State<WeatherHome> {
               .get(98)
           : CorePalette.of(Color.fromARGB(255, 255, 213, 165).toARGB32())
               .secondary
-              .get(6),
+              .get(useDarkerBackground ? 3 : 6),
 
       // rain
       isLight
           ? 0xFFfcfcff
-          : CorePalette.of(Colors.blueAccent.toARGB32()).secondary.get(8),
+          : CorePalette.of(Colors.blueAccent.toARGB32())
+              .secondary
+              .get(useDarkerBackground ? 5 : 8),
 
       // thunder
       isLight
           ? CorePalette.of(const Color(0xFFe4b7f3).toARGB32()).secondary.get(96)
           : CorePalette.of(const Color(0xFFe4b7f3).toARGB32())
               .secondary
-              .get(10),
+              .get(useDarkerBackground ? 5 : 10),
 
       // snow
       isLight
@@ -1194,21 +1209,29 @@ class _WeatherHomeState extends State<WeatherHome> {
                       else
                         const SizedBox.shrink(),
                       Container(
-                          margin: const EdgeInsets.only(left: 14, right: 14),
+                          margin: EdgeInsets.only(
+                              left: isShowFrog ? 14 : 0,
+                              right: isShowFrog ? 14 : 0),
                           child: OpenContainer<Map<String, dynamic>?>(
                             transitionType: ContainerTransitionType.fadeThrough,
                             openBuilder: (context, _) =>
                                 const LocationsScreen(),
                             closedElevation: 0,
+                            openElevation: 0,
+                            transitionDuration: Duration(milliseconds: 500),
                             closedShape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50),
                             ),
-                            closedColor: !useFullMaterialScheme
-                                ? searchBgColors[selectedSearchBgIndex]
-                                : Color(Theme.of(context)
-                                    .colorScheme
-                                    .surfaceContainerHigh
-                                    .toARGB32()),
+                            middleColor: isShowFrog ? null : Colors.transparent,
+                            closedColor: isShowFrog
+                                ? !useFullMaterialScheme
+                                    ? searchBgColors[selectedSearchBgIndex]
+                                    : Color(Theme.of(context)
+                                        .colorScheme
+                                        .surfaceContainerHigh
+                                        .toARGB32())
+                                : Colors.transparent,
+                            // closedColor: Colors.transparent,
                             openColor: colorTheme.surface,
                             closedBuilder: (context, openContainer) {
                               return Container(
@@ -1217,12 +1240,6 @@ class _WeatherHomeState extends State<WeatherHome> {
                                 padding:
                                     const EdgeInsets.only(left: 10, right: 10),
                                 decoration: BoxDecoration(
-                                  color: !useFullMaterialScheme
-                                      ? searchBgColors[selectedSearchBgIndex]
-                                      : Color(Theme.of(context)
-                                          .colorScheme
-                                          .surfaceContainerHigh
-                                          .toARGB32()),
                                   borderRadius: BorderRadius.circular(50),
                                 ),
                                 child: Row(
@@ -1235,9 +1252,9 @@ class _WeatherHomeState extends State<WeatherHome> {
                                             backgroundColor: Colors.transparent,
                                             child: Icon(
                                               Icons.location_on_outlined,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .onSurfaceVariant,
+                                              color: isShowFrog
+                                                  ? colorTheme.onSurfaceVariant
+                                                  : colorTheme.onSurface,
                                             ),
                                           ),
                                           // const SizedBox(width: 8),
@@ -1245,13 +1262,28 @@ class _WeatherHomeState extends State<WeatherHome> {
                                             child: Text(
                                               "$cityName, $countryName",
                                               style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .onSurfaceVariant,
+                                                color: isShowFrog
+                                                    ? colorTheme
+                                                        .onSurfaceVariant
+                                                    : isLight
+                                                        ? Colors.black
+                                                        : Colors.white,
+                                                fontVariations: isShowFrog
+                                                    ? null
+                                                    : FontVariationsMedium,
                                                 fontSize: 18,
                                               ),
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
+                                              textAlign: isShowFrog
+                                                  ? TextAlign.left
+                                                  : TextAlign.center,
+                                              textHeightBehavior:
+                                                  TextHeightBehavior(
+                                                      applyHeightToFirstAscent:
+                                                          false,
+                                                      applyHeightToLastDescent:
+                                                          false),
                                             ),
                                           ),
                                         ],
@@ -1266,6 +1298,9 @@ class _WeatherHomeState extends State<WeatherHome> {
                                         );
                                       },
                                       icon: const Icon(Icons.settings_outlined),
+                                      color: isShowFrog
+                                          ? null
+                                          : colorTheme.onSurface,
                                     ),
                                     if (isViewLocation)
                                       FilledButton(
@@ -1419,7 +1454,7 @@ class _WeatherHomeState extends State<WeatherHome> {
 
                         if (!isRainThenInsights &&
                             i < visibleBlocks.length - 1) {
-                          children.add(const SizedBox(height: 8.5));
+                          children.add(SizedBox(height: isShowFrog ? 8.5 : 12));
                         }
                       }
 

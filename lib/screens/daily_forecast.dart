@@ -551,6 +551,7 @@ class HourlyCardForecast extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final offset = Duration(seconds: int.parse(utcOffsetSeconds));
+    final colorTheme = Theme.of(context).colorScheme;
 
     // final localSelectedDate = selectedDate.toUtc().add(offset);
     final localSelectedDate = selectedDate;
@@ -569,114 +570,161 @@ class HourlyCardForecast extends StatelessWidget {
     final timeUnit = PreferencesHelper.getString("selectedTimeUnit") ?? '12 hr';
     final tempUnit =
         PreferencesHelper.getString("selectedTempUnit") ?? "Celsius";
+    final scale = MediaQuery.of(context).textScaler.scale(1.0);
+
+    final extraHeight = (scale - 1.0) * 30;
 
     return Container(
       decoration: BoxDecoration(
         color: Color(selectedContainerBgIndex),
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(20),
       ),
-      padding: EdgeInsets.only(top: 12, bottom: 10),
+      padding: EdgeInsets.only(top: 15, bottom: 0),
       margin: EdgeInsets.fromLTRB(12, 0, 12, 0),
       child: Column(
         children: [
-          Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+          Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
             SizedBox(
               width: 20,
             ),
             Icon(
               Symbols.schedule,
               weight: 500,
-              color: Theme.of(context).colorScheme.secondary,
-              size: 20,
+              color: colorTheme.secondary,
+              size: 21,
+              fill: 1,
             ),
             SizedBox(
               width: 5,
             ),
             Text("hourly_forecast".tr(),
-                style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    color: Theme.of(context).colorScheme.secondary,
-                    fontSize: 15)),
+                style: TextStyle(fontVariations: [
+                  FontVariation('wght', 600),
+                  FontVariation('ROND', 100),
+                  FontVariation("wdth", 90)
+                ], color: colorTheme.secondary, fontSize: 16)),
           ]),
           Divider(
-            height: 20,
-            color: Theme.of(context).colorScheme.outlineVariant,
+            height: 6,
+            color: Colors.transparent,
           ),
           SizedBox(
-              height: 98,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                physics: BouncingScrollPhysics(),
-                itemCount: startIndex,
-                itemBuilder: (context, index) {
-                  // final time = DateTime.parse(hourlyTime[index]);
-                  final dataIndex = startIndex + index;
+            height: 98 + extraHeight + 30,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              physics: BouncingScrollPhysics(),
+              itemCount: startIndex,
+              itemBuilder: (context, index) {
+                // final time = DateTime.parse(hourlyTime[index]);
+                final dataIndex = startIndex + index;
+                final itemCount =
+                    startIndex != null ? (48 - startIndex).clamp(0, 48) : 0;
+                final isFirst = index == 0;
 
-                  if (dataIndex >= hourlyTime.length) return const SizedBox();
+                final isLast = index == itemCount - 1;
+                if (dataIndex >= hourlyTime.length) return const SizedBox();
 
-                  final forecastLocal = DateTime.parse(hourlyTime[dataIndex]);
+                final forecastLocal = DateTime.parse(hourlyTime[dataIndex]);
 
-                  final roundedDisplayTime = DateTime(
-                    forecastLocal.year,
-                    forecastLocal.month,
-                    forecastLocal.day,
-                    forecastLocal.hour,
-                  );
+                final roundedDisplayTime = DateTime(
+                  forecastLocal.year,
+                  forecastLocal.month,
+                  forecastLocal.day,
+                  forecastLocal.hour,
+                );
 
-                  final hour = timeUnit == '24 hr'
-                      ? "${roundedDisplayTime.hour.toString().padLeft(2, '0')}:00"
-                      : UnitConverter.formatTo12Hour(roundedDisplayTime);
-                  final temp = tempUnit == 'Fahrenheit'
-                      ? UnitConverter.celsiusToFahrenheit(
-                              hourlyTemps[dataIndex].toDouble())
-                          .round()
-                      : hourlyTemps[dataIndex].toDouble().round();
-                  final code = hourlyWeatherCodes[dataIndex];
-                  final precipProb = hourlyPrecpProb[dataIndex] ?? 0.1111111;
+                final hour = timeUnit == '24 hr'
+                    ? "${roundedDisplayTime.hour.toString().padLeft(2, '0')}:00"
+                    : UnitConverter.formatTo12Hour(roundedDisplayTime);
+                final temp = tempUnit == 'Fahrenheit'
+                    ? UnitConverter.celsiusToFahrenheit(
+                            hourlyTemps[dataIndex].toDouble())
+                        .round()
+                    : hourlyTemps[dataIndex].toDouble().round();
+                final code = hourlyWeatherCodes[dataIndex];
+                final precipProb = hourlyPrecpProb[dataIndex] ?? 0.1111111;
 
-                  final isDay =
-                      isHourDuringDaylightOptimized(roundedDisplayTime);
+                final isDay = isHourDuringDaylightOptimized(roundedDisplayTime);
 
-                  return Container(
-                    width: 70,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text("${temp}°",
-                            style: TextStyle(
+                return Container(
+                  clipBehavior: Clip.none,
+                  width: 56,
+                  margin: EdgeInsets.only(
+                      right: isLast ? 10 : 0, left: isFirst ? 10 : 0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 3),
+                      Stack(
+                        clipBehavior: Clip.none,
+                        alignment: Alignment.center,
+                        children: [
+                          Positioned(
+
+                              // bottom: -10,
+                              child: SvgPicture.string(
+                            buildNowHourSvg(isFirst
+                                ? colorTheme.tertiary
+                                : Color(selectedContainerBgIndex)),
+                            width: 42,
+                            height: 42,
+                          )),
+                          Transform(
+                            transform: Matrix4.translationValues(
+                                0, isFirst ? 2 : 0, 0),
+                            child: Text(
+                              "${temp}°",
+                              style: TextStyle(
                                 fontSize: 16,
-                                color: Theme.of(context).colorScheme.onSurface,
-                                fontWeight: FontWeight.w500)),
-                        const SizedBox(height: 10),
-                        SvgPicture.asset(
-                          WeatherIconMapper.getIcon(code, isDay ? 1 : 0),
-                          width: 26,
-                        ),
-                        Text(
-                            precipProb == 0.1111111
-                                ? '--'
-                                : precipProb > 10
-                                    ? "${precipProb.round()}%"
-                                    : "0%",
-                            style: TextStyle(
-                                fontSize: 12,
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.w700)),
-                        Text(hour,
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurfaceVariant,
-                                fontWeight: FontWeight.w500)),
-                      ],
-                    ),
-                  );
-                },
-              )),
+                                color: isFirst
+                                    ? colorTheme.onTertiary
+                                    : colorTheme.onSurface,
+                                fontVariations: [
+                                  FontVariation('wght', 500),
+                                  FontVariation('ROND', 100),
+                                ],
+                              ),
+                              textHeightBehavior: TextHeightBehavior(
+                                  applyHeightToFirstAscent: false,
+                                  applyHeightToLastDescent: false),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text(
+                          precipProb == 0.1111111
+                              ? '--%'
+                              : precipProb > 10
+                                  ? "${precipProb.round()}%"
+                                  : "‎",
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: colorTheme.primary,
+                              fontWeight: FontWeight.w700)),
+                      SvgPicture.asset(
+                        WeatherIconMapper.getIcon(code, isDay ? 1 : 0),
+                        width: 26,
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(hour,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: colorTheme.onSurfaceVariant,
+                            fontVariations: [
+                              FontVariation('wght', 500),
+                            ],
+                          )),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
@@ -708,10 +756,10 @@ class ForecastDetailsHeader extends StatelessWidget {
       return const Text('No data selected.');
     }
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-            padding: EdgeInsets.only(left: 12, right: 12, top: 24),
+            padding: EdgeInsets.only(left: 15, right: 12, top: 24),
             child: Text(
               formatDateDetailes(selectedDayData!['date']),
               style: TextStyle(
@@ -720,7 +768,7 @@ class ForecastDetailsHeader extends StatelessWidget {
                   fontWeight: FontWeight.w700),
             )),
         Padding(
-            padding: EdgeInsets.only(left: 12, right: 12, top: 3),
+            padding: EdgeInsets.only(left: 15, right: 12, top: 3),
             child: Text(
               getCityFromPreferences(),
               style: TextStyle(
@@ -729,42 +777,51 @@ class ForecastDetailsHeader extends StatelessWidget {
                   fontWeight: FontWeight.w500),
             )),
         Padding(
-            padding: EdgeInsets.only(left: 12, right: 12),
+            padding: EdgeInsets.only(left: 15, right: 12),
             child: Row(
               children: [
                 Text(
-                    tempUnit == 'Fahrenheit'
-                        ? "${UnitConverter.celsiusToFahrenheit(selectedDayData!['maxTemp']).round()}°/"
-                        : "${selectedDayData!['maxTemp'].round()}°/",
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurface,
-                        fontSize: 56,
-                        fontWeight: FontWeight.w500)),
-                Text(
-                    tempUnit == 'Fahrenheit'
-                        ? "${UnitConverter.celsiusToFahrenheit(selectedDayData!['minTemp']).round()}°"
-                        : "${selectedDayData!['minTemp'].round()}°",
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        fontSize: 56,
-                        fontWeight: FontWeight.w500)),
-                SizedBox(
-                  width: 10,
+                  tempUnit == 'Fahrenheit'
+                      ? "${UnitConverter.celsiusToFahrenheit(selectedDayData!['maxTemp']).round()}°/"
+                      : "${selectedDayData!['maxTemp'].round()}°/",
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurface,
+                      fontSize: 80,
+                      fontVariations: FontVariationsBold),
+                  textHeightBehavior:
+                      TextHeightBehavior(applyHeightToLastDescent: false),
                 ),
-                SvgPicture.asset(
-                  WeatherIconMapper.getIcon(selectedDayData!['weatherCode'], 1),
-                  width: 50,
+                Text(
+                  tempUnit == 'Fahrenheit'
+                      ? "${UnitConverter.celsiusToFahrenheit(selectedDayData!['minTemp']).round()}°"
+                      : "${selectedDayData!['minTemp'].round()}°",
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      fontSize: 80,
+                      fontVariations: FontVariationsBold),
+                  textHeightBehavior:
+                      TextHeightBehavior(applyHeightToLastDescent: false),
                 ),
               ],
             )),
         Padding(
-            padding: EdgeInsets.only(left: 12, right: 12, bottom: 10),
+          padding: EdgeInsets.only(left: 15, right: 12, bottom: 10),
+          child: SvgPicture.asset(
+            WeatherIconMapper.getIcon(selectedDayData!['weatherCode'], 1),
+            width: 50,
+          ),
+        ),
+        Padding(
+            padding: EdgeInsets.only(left: 15, right: 12, bottom: 10),
             child: Text(
               WeatherConditionMapper.getConditionLabel(
                       selectedDayData!['weatherCode'], 1)
                   .tr(),
               style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary, fontSize: 18),
+                color: Theme.of(context).colorScheme.primary,
+                fontSize: 18,
+                fontVariations: FontVariationsMedium,
+              ),
             ))
       ],
     );
@@ -984,7 +1041,7 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                   Text(sunriseFormat,
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontWeight: FontWeight.w500,
+                                        fontVariations: FontVariationsMedium,
                                         fontSize: 13,
                                       ))
                                 ],
@@ -1002,7 +1059,7 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                   Text(sunsetFormat,
                                       style: TextStyle(
                                           color: Colors.white,
-                                          fontWeight: FontWeight.w500,
+                                          fontVariations: FontVariationsMedium,
                                           fontSize: 13))
                                 ],
                               ),
@@ -1036,9 +1093,10 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                           ? '--'
                           : "${convertedPressure.round()}",
                       style: TextStyle(
-                          color: Theme.of(context).colorScheme.onSurface,
-                          fontSize: MediaQuery.of(context).size.width * 0.1,
-                          fontWeight: FontWeight.w500),
+                        color: Theme.of(context).colorScheme.onSurface,
+                        fontSize: MediaQuery.of(context).size.width * 0.1,
+                        fontVariations: FontVariationsMedium,
+                      ),
                     ),
                   ),
                   Padding(
@@ -1048,6 +1106,7 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                       child: Text(
                         localizePressureUnit(pressureUnit, context.locale),
                         style: TextStyle(
+                            fontVariations: FontVariationsRegularNoRound,
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
                             fontSize: 18),
@@ -1085,12 +1144,12 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                 ? '--'
                                 : "${convertedVisibility.round()}",
                             style: TextStyle(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onTertiaryContainer,
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.1,
-                                fontWeight: FontWeight.w500),
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onTertiaryContainer,
+                              fontSize: MediaQuery.of(context).size.width * 0.1,
+                              fontVariations: FontVariationsMedium,
+                            ),
                           ),
                         ),
                         Padding(
@@ -1103,6 +1162,7 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                               style: TextStyle(
                                   color:
                                       Theme.of(context).colorScheme.onSurface,
+                                  fontVariations: FontVariationsRegularNoRound,
                                   fontSize: 18),
                             ),
                           ),
@@ -1134,11 +1194,11 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                   ? '--'
                                   : getCompassDirection(currentWindDirc),
                               style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.onSurface,
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.1,
-                                  fontWeight: FontWeight.w500),
+                                color: Theme.of(context).colorScheme.onSurface,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.1,
+                                fontVariations: FontVariationsMedium,
+                              ),
                             ),
                           ),
                           Align(
@@ -1154,6 +1214,8 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                     color: Theme.of(context)
                                         .colorScheme
                                         .onSurfaceVariant,
+                                    fontVariations:
+                                        FontVariationsRegularNoRound,
                                     fontSize: 16),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -1190,10 +1252,10 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                 ? '--'
                                 : "${currentUvIndex.round()}",
                             style: TextStyle(
-                                color: Theme.of(context).colorScheme.onSurface,
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.1,
-                                fontWeight: FontWeight.w500),
+                              color: Theme.of(context).colorScheme.onSurface,
+                              fontSize: MediaQuery.of(context).size.width * 0.1,
+                              fontVariations: FontVariationsMedium,
+                            ),
                           ),
                         ),
                         Padding(
@@ -1209,6 +1271,7 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                   color: Theme.of(context)
                                       .colorScheme
                                       .onSurfaceVariant,
+                                  fontVariations: FontVariationsRegularNoRound,
                                   fontSize: 15),
                             ),
                           ),
@@ -1260,7 +1323,7 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                         MediaQuery.of(context).size.width *
                                                 0.10 +
                                             0.5,
-                                    fontWeight: FontWeight.w500,
+                                    fontVariations: FontVariationsMedium,
                                     color: Theme.of(context)
                                         .colorScheme
                                         .onSurface),
@@ -1272,6 +1335,8 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                       precipUnit, context.locale),
                                   style: TextStyle(
                                       fontSize: 20,
+                                      fontVariations:
+                                          FontVariationsRegularNoRound,
                                       color: Theme.of(context)
                                           .colorScheme
                                           .secondary),
@@ -1295,6 +1360,8 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                       child: Text("total_precip_sub".tr(),
                                           style: TextStyle(
                                               height: 1.2,
+                                              fontVariations:
+                                                  FontVariationsRegularNoRound,
                                               color: Theme.of(context)
                                                   .colorScheme
                                                   .onSurfaceVariant))),
@@ -1303,7 +1370,7 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                         ? '--'
                                         : "$currentTotalPrecProb%",
                                     style: TextStyle(
-                                        fontWeight: FontWeight.w700,
+                                        fontVariations: FontVariationsBold,
                                         color: Theme.of(context)
                                             .colorScheme
                                             .primary),

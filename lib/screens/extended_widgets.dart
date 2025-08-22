@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:weather_master_app/utils/condition_label_map.dart';
 import 'dart:convert';
 import '../utils/preferences_helper.dart';
 import 'package:hive/hive.dart';
@@ -20,6 +21,10 @@ class ExtendWidget extends StatefulWidget {
 }
 
 class _ExtendWidgetState extends State<ExtendWidget> {
+  late final Widget child;
+  late final String extendedTitle;
+  late final IconData? iconData;
+
   Future<Map<String, dynamic>?> getWeatherWidgets() async {
     final cacheKey = PreferencesHelper.getJson('currentLocation')?['cacheKey'];
 
@@ -31,11 +36,8 @@ class _ExtendWidgetState extends State<ExtendWidget> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    Widget child;
-    String extendedTitle = 'Unknown';
-    IconData? iconData;
-
+  void initState() {
+    super.initState();
     if (widget.widgetType == 'humidity_widget') {
       child = buildHumidityExtended();
       extendedTitle = 'humidity'.tr();
@@ -72,7 +74,10 @@ class _ExtendWidgetState extends State<ExtendWidget> {
       child = const Center(child: Text('Unknown widget type'));
       extendedTitle = 'Error';
     }
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
         body: CustomScrollView(slivers: [
       SliverAppBar.large(
@@ -185,13 +190,13 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                         style: TextStyle(
                             fontSize: 50,
                             color: Theme.of(context).colorScheme.secondary,
-                            fontWeight: FontWeight.w500),
+                            fontVariations: FontVariationsMedium),
                       )
                     ],
                   ),
                 ),
                 SizedBox(
-                  height: 216,
+                  height: 225.2,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     physics: BouncingScrollPhysics(),
@@ -214,6 +219,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                           ? "${roundedDisplayTime.hour.toString().padLeft(2, '0')}:00"
                           : UnitConverter.formatTo12Hour(roundedDisplayTime);
                       final humidityPercentage = hourlyhumidity[dataIndex];
+                      ;
 
                       EdgeInsets itemMargin = EdgeInsets.only(
                         left: index == 0 ? 10 : 0,
@@ -242,16 +248,28 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                       borderRadius: BorderRadius.circular(50),
                                     ),
                                   ),
-                                  Container(
-                                    clipBehavior: Clip.none,
-                                    width: 43,
-                                    height: math.max(
-                                        (humidityPercentage / 100) * 160, 45),
-                                    decoration: BoxDecoration(
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      borderRadius: BorderRadius.circular(50),
+                                  TweenAnimationBuilder<double>(
+                                    tween: Tween<double>(
+                                      begin: 0,
+                                      end: math.max(
+                                          (humidityPercentage / 100) * 160, 45),
                                     ),
+                                    duration: const Duration(milliseconds: 500),
+                                    curve: Curves.easeOutBack,
+                                    builder: (context, value, child) {
+                                      return Container(
+                                        width: 43,
+                                        height: value,
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                        ),
+                                        child: child,
+                                      );
+                                    },
                                     child: Align(
                                       alignment: Alignment.topCenter,
                                       child: SizedBox(
@@ -271,15 +289,19 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                               Positioned(
                                                 top: 0,
                                                 child: SizedBox(
-                                                  height: 48,
-                                                  child: Icon(
-                                                    Symbols.humidity_high,
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onPrimaryContainer,
-                                                    size: 18,
-                                                  ),
-                                                ),
+                                                    height: 48,
+                                                    child: Center(
+                                                      child: Text(
+                                                          "$humidityPercentage",
+                                                          style: TextStyle(
+                                                              fontSize: 16,
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .colorScheme
+                                                                  .primary,
+                                                              fontVariations:
+                                                                  FontVariationsBold)),
+                                                    )),
                                               )
                                             ]),
                                       ),
@@ -287,13 +309,6 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                   ),
                                 ]),
                             const SizedBox(height: 10),
-                            Text("$humidityPercentage%",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant,
-                                    fontWeight: FontWeight.w500)),
                             Text(hour,
                                 style: TextStyle(
                                     fontSize: 15,
@@ -327,12 +342,12 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                       style: TextStyle(
                           fontSize: 17,
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          fontWeight: FontWeight.w500)),
+                          fontVariations: FontVariationsRegularNoRound)),
                   Text("humidity_info_2".tr(),
                       style: TextStyle(
                           fontSize: 17,
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          fontWeight: FontWeight.w500)),
+                          fontVariations: FontVariationsRegularNoRound)),
                 ],
               ))
         ]);
@@ -446,12 +461,12 @@ class _ExtendWidgetState extends State<ExtendWidget> {
               Text("dawn".tr(),
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
-                      fontWeight: FontWeight.w500,
+                      fontVariations: FontVariationsMedium,
                       fontSize: 15)),
               Text(dawnFormatted,
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
-                      fontWeight: FontWeight.w500,
+                      fontVariations: FontVariationsBold,
                       fontSize: 18)),
             ],
           );
@@ -462,12 +477,12 @@ class _ExtendWidgetState extends State<ExtendWidget> {
               Text("sunrise".tr(),
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
-                      fontWeight: FontWeight.w500,
+                      fontVariations: FontVariationsMedium,
                       fontSize: 15)),
               Text(sunriseFormat,
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
-                      fontWeight: FontWeight.w500,
+                      fontVariations: FontVariationsBold,
                       fontSize: 18)),
             ],
           );
@@ -478,12 +493,12 @@ class _ExtendWidgetState extends State<ExtendWidget> {
               Text("dusk".tr(),
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.secondary,
-                      fontWeight: FontWeight.w500,
+                      fontVariations: FontVariationsMedium,
                       fontSize: 15)),
               Text(duskFormatted,
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.secondary,
-                      fontWeight: FontWeight.w500,
+                      fontVariations: FontVariationsBold,
                       fontSize: 18)),
             ],
           );
@@ -494,12 +509,12 @@ class _ExtendWidgetState extends State<ExtendWidget> {
               Text("sunset".tr(),
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.secondary,
-                      fontWeight: FontWeight.w500,
+                      fontVariations: FontVariationsMedium,
                       fontSize: 15)),
               Text(sunsetFormat,
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.secondary,
-                      fontWeight: FontWeight.w500,
+                      fontVariations: FontVariationsBold,
                       fontSize: 18)),
             ],
           );
@@ -596,25 +611,25 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                             fontSize: 17,
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontWeight: FontWeight.w500)),
+                            fontVariations: FontVariationsRegularNoRound)),
                     Text("sunset_rise_info_2".tr(),
                         style: TextStyle(
                             fontSize: 17,
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontWeight: FontWeight.w500)),
+                            fontVariations: FontVariationsRegularNoRound)),
                     Text("sunset_rise_info_3".tr(),
                         style: TextStyle(
                             fontSize: 17,
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontWeight: FontWeight.w500)),
+                            fontVariations: FontVariationsRegularNoRound)),
                     Text("sunset_rise_info_4".tr(),
                         style: TextStyle(
                             fontSize: 17,
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontWeight: FontWeight.w500)),
+                            fontVariations: FontVariationsRegularNoRound)),
                   ],
                 ))
           ]);
@@ -708,7 +723,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                   fontSize: 50,
                                   color:
                                       Theme.of(context).colorScheme.secondary,
-                                  fontWeight: FontWeight.w500),
+                                  fontVariations: FontVariationsMedium),
                             ),
                             Padding(
                                 padding: EdgeInsets.only(bottom: 11, left: 8),
@@ -723,7 +738,8 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                       color: Theme.of(context)
                                           .colorScheme
                                           .onSurfaceVariant,
-                                      fontWeight: FontWeight.w500),
+                                      fontVariations:
+                                          FontVariationsRegularNoRound),
                                 ))
                           ],
                         )
@@ -731,7 +747,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                     ),
                   ),
                   SizedBox(
-                    height: 216,
+                    height: 225.2,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       physics: BouncingScrollPhysics(),
@@ -780,10 +796,12 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                           } else if (pressureDifference < -0.5) {
                             pressureTrendIcon = Icon(Symbols.arrow_downward,
                                 size: 18,
-                                color: Theme.of(context).colorScheme.onError,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onErrorContainer,
                                 weight: 600);
                             pressureprimary =
-                                Theme.of(context).colorScheme.error;
+                                Theme.of(context).colorScheme.errorContainer;
                           } else {
                             pressureTrendIcon = Icon(Symbols.trending_flat,
                                 size: 18,
@@ -825,17 +843,30 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                         borderRadius: BorderRadius.circular(50),
                                       ),
                                     ),
-                                    Container(
-                                      clipBehavior: Clip.none,
-                                      width: 43,
-                                      height: math.max(
-                                          (pressurePercentage / 100) * 160, 45),
-                                      decoration: BoxDecoration(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        borderRadius: BorderRadius.circular(50),
+                                    TweenAnimationBuilder<double>(
+                                      tween: Tween<double>(
+                                        begin: 0,
+                                        end: math.max(
+                                            (pressurePercentage / 100) * 160,
+                                            48),
                                       ),
+                                      duration:
+                                          const Duration(milliseconds: 500),
+                                      curve: Curves.easeOutBack,
+                                      builder: (context, value, child) {
+                                        return Container(
+                                          width: 43,
+                                          height: value,
+                                          decoration: BoxDecoration(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                          ),
+                                          child: child,
+                                        );
+                                      },
                                       child: Align(
                                         alignment: Alignment.topCenter,
                                         child: SizedBox(
@@ -870,7 +901,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                       color: Theme.of(context)
                                           .colorScheme
                                           .onSurfaceVariant,
-                                      fontWeight: FontWeight.w500)),
+                                      fontVariations: FontVariationsMedium)),
                               Text(hour,
                                   style: TextStyle(
                                       fontSize: 15,
@@ -906,13 +937,13 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                             fontSize: 17,
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontWeight: FontWeight.w500)),
+                            fontVariations: FontVariationsRegularNoRound)),
                     Text("pressure_info_2".tr(),
                         style: TextStyle(
                             fontSize: 17,
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontWeight: FontWeight.w500)),
+                            fontVariations: FontVariationsRegularNoRound)),
                   ],
                 ))
           ]);
@@ -995,7 +1026,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                   color: Theme.of(context)
                                       .colorScheme
                                       .onTertiaryContainer,
-                                  fontWeight: FontWeight.w500),
+                                  fontVariations: FontVariationsMedium),
                             ),
                             Padding(
                                 padding: EdgeInsets.only(bottom: 11, left: 8),
@@ -1007,7 +1038,8 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                       color: Theme.of(context)
                                           .colorScheme
                                           .onTertiaryContainer,
-                                      fontWeight: FontWeight.w500),
+                                      fontVariations:
+                                          FontVariationsRegularNoRound),
                                 ))
                           ],
                         ),
@@ -1036,7 +1068,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                             fontSize: 17,
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontWeight: FontWeight.w500)),
+                            fontVariations: FontVariationsRegularNoRound)),
                   ],
                 ))
           ]);
@@ -1141,7 +1173,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                   fontSize: 50,
                                   color:
                                       Theme.of(context).colorScheme.secondary,
-                                  fontWeight: FontWeight.w500),
+                                  fontVariations: FontVariationsMedium),
                             ),
                             Padding(
                                 padding: EdgeInsets.only(bottom: 11, left: 8),
@@ -1152,7 +1184,8 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                       color: Theme.of(context)
                                           .colorScheme
                                           .onSurfaceVariant,
-                                      fontWeight: FontWeight.w500),
+                                      fontVariations:
+                                          FontVariationsRegularNoRound),
                                 ))
                           ],
                         )
@@ -1160,7 +1193,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                     ),
                   ),
                   SizedBox(
-                    height: 216,
+                    height: 225.2,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       physics: BouncingScrollPhysics(),
@@ -1242,17 +1275,29 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                         borderRadius: BorderRadius.circular(50),
                                       ),
                                     ),
-                                    Container(
-                                      clipBehavior: Clip.none,
-                                      width: 43,
-                                      height: math.max(
-                                          (windPercentage / 100) * 160, 48),
-                                      decoration: BoxDecoration(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        borderRadius: BorderRadius.circular(50),
+                                    TweenAnimationBuilder<double>(
+                                      tween: Tween<double>(
+                                        begin: 0,
+                                        end: math.max(
+                                            (windPercentage / 100) * 160, 48),
                                       ),
+                                      duration:
+                                          const Duration(milliseconds: 500),
+                                      curve: Curves.easeOutBack,
+                                      builder: (context, value, child) {
+                                        return Container(
+                                          width: 43,
+                                          height: value,
+                                          decoration: BoxDecoration(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                          ),
+                                          child: child,
+                                        );
+                                      },
                                       child: Align(
                                         alignment: Alignment.topCenter,
                                         child: SizedBox(
@@ -1287,7 +1332,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                       color: Theme.of(context)
                                           .colorScheme
                                           .onSurfaceVariant,
-                                      fontWeight: FontWeight.w500)),
+                                      fontVariations: FontVariationsMedium)),
                               Text(hour,
                                   style: TextStyle(
                                       fontSize: 15,
@@ -1323,7 +1368,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                             fontSize: 17,
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontWeight: FontWeight.w500)),
+                            fontVariations: FontVariationsRegularNoRound)),
                   ],
                 ))
           ]);
@@ -1418,7 +1463,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                   fontSize: 50,
                                   color:
                                       Theme.of(context).colorScheme.secondary,
-                                  fontWeight: FontWeight.w500),
+                                  fontVariations: FontVariationsMedium),
                             ),
                             Padding(
                                 padding: EdgeInsets.only(bottom: 11, left: 8),
@@ -1477,11 +1522,19 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                         );
 
                         Color getUvColor(double uv, BuildContext context) {
-                          if (uv <= 2) return Colors.green;
-                          if (uv <= 5) return Colors.yellow;
-                          if (uv <= 7) return Colors.orange;
-                          if (uv <= 10) return Colors.red;
-                          return Colors.purple;
+                          if (uv <= 2) return Color(0xFFa5d395);
+                          if (uv <= 5) return Color(0xFFdbc66e);
+                          if (uv <= 7) return Color(0xFFfeb877);
+                          if (uv <= 10) return Color(0xFFffb4ab);
+                          return Color(0xFFe9b5ee);
+                        }
+
+                        String getOnUvColor(double uv, BuildContext context) {
+                          if (uv <= 2) return "11380b";
+                          if (uv <= 5) return "3a3000";
+                          if (uv <= 7) return "4b2800";
+                          if (uv <= 10) return "690005";
+                          return "48214f";
                         }
 
                         return Container(
@@ -1507,16 +1560,28 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                         borderRadius: BorderRadius.circular(50),
                                       ),
                                     ),
-                                    Container(
-                                      clipBehavior: Clip.none,
-                                      width: 43,
-                                      height: math.max(
-                                          (uvPercentage / 100) * 160, 48),
-                                      decoration: BoxDecoration(
-                                        color:
-                                            getUvColor(uvValue ?? 0, context),
-                                        borderRadius: BorderRadius.circular(50),
+                                    TweenAnimationBuilder<double>(
+                                      tween: Tween<double>(
+                                        begin: 0,
+                                        end: math.max(
+                                            (uvPercentage / 100) * 160, 48),
                                       ),
+                                      duration:
+                                          const Duration(milliseconds: 500),
+                                      curve: Curves.easeOutBack,
+                                      builder: (context, value, child) {
+                                        return Container(
+                                          width: 43,
+                                          height: value,
+                                          decoration: BoxDecoration(
+                                            color: getUvColor(
+                                                uvValue ?? 0, context),
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                          ),
+                                          child: child,
+                                        );
+                                      },
                                       child: Align(
                                         alignment: Alignment.topCenter,
                                         child: SizedBox(
@@ -1529,7 +1594,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                                   top: 0,
                                                   child: SvgPicture.string(
                                                     '''<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M20.3091 8.60363C20.4924 8.454 20.584 8.37919 20.6677 8.31603C22.6389 6.82799 25.3611 6.82799 27.3323 8.31603C27.416 8.37919 27.5076 8.454 27.6909 8.60363C27.7727 8.67042 27.8136 8.70381 27.8541 8.7356C28.7818 9.46445 29.9191 9.87748 31.0993 9.91409C31.1508 9.91569 31.2037 9.91634 31.3094 9.91765C31.5462 9.92059 31.6646 9.92206 31.7694 9.92733C34.2381 10.0516 36.3234 11.7974 36.8747 14.2015C36.8982 14.3036 36.9202 14.4197 36.9642 14.6518C36.9838 14.7555 36.9937 14.8073 37.0042 14.8576C37.2452 16.0109 37.8504 17.0567 38.7309 17.8416C38.7693 17.8759 38.8094 17.9103 38.8895 17.9791C39.069 18.1332 39.1588 18.2102 39.2357 18.2815C41.0467 19.96 41.5194 22.6347 40.393 24.8299C40.3451 24.9231 40.2872 25.0262 40.1714 25.2322C40.1196 25.3242 40.0938 25.3702 40.0694 25.4155C39.5111 26.4536 39.3009 27.6429 39.4697 28.8088C39.4771 28.8597 39.4856 28.9117 39.5027 29.0158C39.5409 29.249 39.56 29.3656 39.573 29.4695C39.879 31.9168 38.5179 34.2689 36.2407 35.2281C36.1441 35.2688 36.0333 35.3106 35.8118 35.3942C35.7129 35.4315 35.6635 35.4501 35.6156 35.4692C34.5192 35.9063 33.592 36.6826 32.9701 37.684C32.943 37.7277 32.916 37.7731 32.862 37.8637C32.741 38.0669 32.6806 38.1685 32.6236 38.2564C31.2814 40.3273 28.7233 41.2563 26.3609 40.5306C26.2606 40.4998 26.1489 40.4608 25.9253 40.3827C25.8256 40.3479 25.7757 40.3305 25.7268 40.3144C24.6052 39.9461 23.3948 39.9461 22.2732 40.3144C22.2243 40.3305 22.1744 40.3479 22.0747 40.3827C21.8511 40.4608 21.7394 40.4998 21.6391 40.5306C19.2767 41.2563 16.7186 40.3273 15.3764 38.2564C15.3194 38.1685 15.259 38.0669 15.138 37.8637C15.084 37.7731 15.057 37.7277 15.0299 37.684C14.408 36.6826 13.4808 35.9063 12.3844 35.4692C12.3365 35.4501 12.2871 35.4315 12.1882 35.3942C11.9667 35.3106 11.8559 35.2688 11.7593 35.2281C9.48205 34.2689 8.12097 31.9168 8.42698 29.4695C8.43997 29.3656 8.45908 29.249 8.4973 29.0158C8.51436 28.9117 8.52289 28.8597 8.53026 28.8088C8.69906 27.6429 8.48889 26.4536 7.93056 25.4155C7.90621 25.3702 7.88035 25.3242 7.82863 25.2322C7.71278 25.0262 7.65485 24.9231 7.60704 24.8299C6.48057 22.6347 6.95327 19.96 8.76433 18.2815C8.8412 18.2102 8.93096 18.1332 9.11047 17.9791C9.19061 17.9103 9.23068 17.8759 9.26908 17.8416C10.1496 17.0567 10.7548 16.0109 10.9958 14.8576C11.0063 14.8073 11.0162 14.7555 11.0358 14.6518C11.0798 14.4197 11.1019 14.3036 11.1253 14.2015C11.6766 11.7974 13.7619 10.0516 16.2306 9.92733C16.3354 9.92206 16.4538 9.92059 16.6906 9.91765C16.7963 9.91634 16.8492 9.91569 16.9007 9.91409C18.0809 9.87748 19.2182 9.46445 20.1459 8.7356C20.1864 8.70381 20.2273 8.67042 20.3091 8.60363Z" fill="#${Theme.of(context).colorScheme.primary.value.toRadixString(16).padLeft(8, '0').substring(2)}"/>
+                            <path d="M20.3091 8.60363C20.4924 8.454 20.584 8.37919 20.6677 8.31603C22.6389 6.82799 25.3611 6.82799 27.3323 8.31603C27.416 8.37919 27.5076 8.454 27.6909 8.60363C27.7727 8.67042 27.8136 8.70381 27.8541 8.7356C28.7818 9.46445 29.9191 9.87748 31.0993 9.91409C31.1508 9.91569 31.2037 9.91634 31.3094 9.91765C31.5462 9.92059 31.6646 9.92206 31.7694 9.92733C34.2381 10.0516 36.3234 11.7974 36.8747 14.2015C36.8982 14.3036 36.9202 14.4197 36.9642 14.6518C36.9838 14.7555 36.9937 14.8073 37.0042 14.8576C37.2452 16.0109 37.8504 17.0567 38.7309 17.8416C38.7693 17.8759 38.8094 17.9103 38.8895 17.9791C39.069 18.1332 39.1588 18.2102 39.2357 18.2815C41.0467 19.96 41.5194 22.6347 40.393 24.8299C40.3451 24.9231 40.2872 25.0262 40.1714 25.2322C40.1196 25.3242 40.0938 25.3702 40.0694 25.4155C39.5111 26.4536 39.3009 27.6429 39.4697 28.8088C39.4771 28.8597 39.4856 28.9117 39.5027 29.0158C39.5409 29.249 39.56 29.3656 39.573 29.4695C39.879 31.9168 38.5179 34.2689 36.2407 35.2281C36.1441 35.2688 36.0333 35.3106 35.8118 35.3942C35.7129 35.4315 35.6635 35.4501 35.6156 35.4692C34.5192 35.9063 33.592 36.6826 32.9701 37.684C32.943 37.7277 32.916 37.7731 32.862 37.8637C32.741 38.0669 32.6806 38.1685 32.6236 38.2564C31.2814 40.3273 28.7233 41.2563 26.3609 40.5306C26.2606 40.4998 26.1489 40.4608 25.9253 40.3827C25.8256 40.3479 25.7757 40.3305 25.7268 40.3144C24.6052 39.9461 23.3948 39.9461 22.2732 40.3144C22.2243 40.3305 22.1744 40.3479 22.0747 40.3827C21.8511 40.4608 21.7394 40.4998 21.6391 40.5306C19.2767 41.2563 16.7186 40.3273 15.3764 38.2564C15.3194 38.1685 15.259 38.0669 15.138 37.8637C15.084 37.7731 15.057 37.7277 15.0299 37.684C14.408 36.6826 13.4808 35.9063 12.3844 35.4692C12.3365 35.4501 12.2871 35.4315 12.1882 35.3942C11.9667 35.3106 11.8559 35.2688 11.7593 35.2281C9.48205 34.2689 8.12097 31.9168 8.42698 29.4695C8.43997 29.3656 8.45908 29.249 8.4973 29.0158C8.51436 28.9117 8.52289 28.8597 8.53026 28.8088C8.69906 27.6429 8.48889 26.4536 7.93056 25.4155C7.90621 25.3702 7.88035 25.3242 7.82863 25.2322C7.71278 25.0262 7.65485 24.9231 7.60704 24.8299C6.48057 22.6347 6.95327 19.96 8.76433 18.2815C8.8412 18.2102 8.93096 18.1332 9.11047 17.9791C9.19061 17.9103 9.23068 17.8759 9.26908 17.8416C10.1496 17.0567 10.7548 16.0109 10.9958 14.8576C11.0063 14.8073 11.0162 14.7555 11.0358 14.6518C11.0798 14.4197 11.1019 14.3036 11.1253 14.2015C11.6766 11.7974 13.7619 10.0516 16.2306 9.92733C16.3354 9.92206 16.4538 9.92059 16.6906 9.91765C16.7963 9.91634 16.8492 9.91569 16.9007 9.91409C18.0809 9.87748 19.2182 9.46445 20.1459 8.7356C20.1864 8.70381 20.2273 8.67042 20.3091 8.60363Z" fill="#${getOnUvColor(uv, context)}"/>
                             </svg> ''',
                                                   ),
                                                 ),
@@ -1537,14 +1602,19 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                                     top: 0,
                                                     child: SizedBox(
                                                       height: 48,
-                                                      child: Icon(
-                                                        Symbols.sunny,
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .onPrimary,
-                                                        fill: 1,
-                                                        size: 20,
-                                                      ),
+                                                      child: Center(
+                                                          child: Text(
+                                                              uvValue != null
+                                                                  ? "${uvValue.round()}"
+                                                                  : "--",
+                                                              style: TextStyle(
+                                                                  fontSize: 16,
+                                                                  color: getUvColor(
+                                                                      uvValue ??
+                                                                          0,
+                                                                      context),
+                                                                  fontVariations:
+                                                                      FontVariationsBold))),
                                                     ))
                                               ]),
                                         ),
@@ -1552,14 +1622,6 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                     ),
                                   ]),
                               const SizedBox(height: 10),
-                              Text(
-                                  uvValue != null ? "${uvValue.round()}" : "--",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurfaceVariant,
-                                      fontWeight: FontWeight.w500)),
                               Text(hour,
                                   style: TextStyle(
                                       fontSize: 15,
@@ -1595,31 +1657,31 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                             fontSize: 17,
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontWeight: FontWeight.w500)),
+                            fontVariations: FontVariationsRegularNoRound)),
                     Text("uv_index_info_2".tr(),
                         style: TextStyle(
                             fontSize: 17,
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontWeight: FontWeight.w500)),
+                            fontVariations: FontVariationsRegularNoRound)),
                     Text("uv_index_info_3".tr(),
                         style: TextStyle(
                             fontSize: 17,
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontWeight: FontWeight.w500)),
+                            fontVariations: FontVariationsRegularNoRound)),
                     Text("uv_index_info_4".tr(),
                         style: TextStyle(
                             fontSize: 17,
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontWeight: FontWeight.w500)),
+                            fontVariations: FontVariationsRegularNoRound)),
                     Text("uv_index_info_5".tr(),
                         style: TextStyle(
                             fontSize: 17,
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontWeight: FontWeight.w500)),
+                            fontVariations: FontVariationsRegularNoRound)),
                   ],
                 ))
           ]);
@@ -1688,7 +1750,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                     fontSize: 50,
                                     color:
                                         Theme.of(context).colorScheme.secondary,
-                                    fontWeight: FontWeight.w500),
+                                    fontVariations: FontVariationsMedium),
                               ),
                               Padding(
                                   padding: EdgeInsets.only(bottom: 11, left: 8),
@@ -1700,7 +1762,8 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                         color: Theme.of(context)
                                             .colorScheme
                                             .onSurfaceVariant,
-                                        fontWeight: FontWeight.w500),
+                                        fontVariations:
+                                            FontVariationsRegularNoRound),
                                   ))
                             ],
                           ),
@@ -1733,6 +1796,8 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                 Text(
                                   "${"united_states_aqi".tr()}:",
                                   style: TextStyle(
+                                      fontVariations:
+                                          FontVariationsRegularNoRound,
                                       color: Theme.of(context)
                                           .colorScheme
                                           .onSurface,
@@ -1747,11 +1812,11 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                           .tertiary),
                                   child: Text("${airQualityData['us_aqi']}",
                                       style: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onTertiary,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500)),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onTertiary,
+                                        fontSize: 16,
+                                      )),
                                 )
                               ],
                             ),
@@ -1760,6 +1825,8 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                               children: [
                                 Text("${"european_aqi".tr()}:",
                                     style: TextStyle(
+                                        fontVariations:
+                                            FontVariationsRegularNoRound,
                                         color: Theme.of(context)
                                             .colorScheme
                                             .onSurface,
@@ -1771,14 +1838,14 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                       color: Theme.of(context)
                                           .colorScheme
                                           .tertiary),
-                                  child: Text(
-                                      "${airQualityData['european_aqi']}",
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onTertiary,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500)),
+                                  child:
+                                      Text("${airQualityData['european_aqi']}",
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onTertiary,
+                                            fontSize: 16,
+                                          )),
                                 )
                               ],
                             )
@@ -1932,7 +1999,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
           Text(title,
               style: TextStyle(
                 fontSize: 17,
-                fontWeight: FontWeight.w500,
+                fontVariations: FontVariationsRegularNoRound,
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               )),
           const SizedBox(height: 10),
@@ -1942,9 +2009,9 @@ class _ExtendWidgetState extends State<ExtendWidget> {
               child: Text(
                 line,
                 style: TextStyle(
-                  fontSize: 16,
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
+                    fontSize: 16,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    fontVariations: FontVariationsRegularNoRound),
               ),
             ),
         ],
@@ -2041,7 +2108,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                   fontSize: 50,
                                   color:
                                       Theme.of(context).colorScheme.secondary,
-                                  fontWeight: FontWeight.w500),
+                                  fontVariations: FontVariationsMedium),
                             ),
                             Padding(
                                 padding: EdgeInsets.only(bottom: 11, left: 8),
@@ -2052,7 +2119,8 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                       color: Theme.of(context)
                                           .colorScheme
                                           .onSurfaceVariant,
-                                      fontWeight: FontWeight.w500),
+                                      fontVariations:
+                                          FontVariationsRegularNoRound),
                                 ))
                           ],
                         )
@@ -2060,7 +2128,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                     ),
                   ),
                   SizedBox(
-                    height: 216,
+                    height: 225.2,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       physics: BouncingScrollPhysics(),
@@ -2128,17 +2196,29 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                         borderRadius: BorderRadius.circular(50),
                                       ),
                                     ),
-                                    Container(
-                                      clipBehavior: Clip.none,
-                                      width: 43,
-                                      height: math.max(
-                                          (rainPercentage / 100) * 160, 45),
-                                      decoration: BoxDecoration(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        borderRadius: BorderRadius.circular(50),
+                                    TweenAnimationBuilder<double>(
+                                      tween: Tween<double>(
+                                        begin: 0,
+                                        end: math.max(
+                                            (rainPercentage / 100) * 160, 45),
                                       ),
+                                      duration:
+                                          const Duration(milliseconds: 500),
+                                      curve: Curves.easeOutBack,
+                                      builder: (context, value, child) {
+                                        return Container(
+                                          width: 43,
+                                          height: value,
+                                          decoration: BoxDecoration(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                          ),
+                                          child: child,
+                                        );
+                                      },
                                       child: Align(
                                         alignment: Alignment.topCenter,
                                         child: SizedBox(
@@ -2148,16 +2228,44 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                               alignment: Alignment.center,
                                               children: [
                                                 Positioned(
-                                                    top: 3,
-                                                    child: CircleAvatar(
-                                                      child: Text(
-                                                        "$precipProbMain%",
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 13),
-                                                      ),
+                                                  top: -2,
+                                                  child: SvgPicture.string(
+                                                    '''<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20.3091 8.60363C20.4924 8.454 20.584 8.37919 20.6677 8.31603C22.6389 6.82799 25.3611 6.82799 27.3323 8.31603C27.416 8.37919 27.5076 8.454 27.6909 8.60363C27.7727 8.67042 27.8136 8.70381 27.8541 8.7356C28.7818 9.46445 29.9191 9.87748 31.0993 9.91409C31.1508 9.91569 31.2037 9.91634 31.3094 9.91765C31.5462 9.92059 31.6646 9.92206 31.7694 9.92733C34.2381 10.0516 36.3234 11.7974 36.8747 14.2015C36.8982 14.3036 36.9202 14.4197 36.9642 14.6518C36.9838 14.7555 36.9937 14.8073 37.0042 14.8576C37.2452 16.0109 37.8504 17.0567 38.7309 17.8416C38.7693 17.8759 38.8094 17.9103 38.8895 17.9791C39.069 18.1332 39.1588 18.2102 39.2357 18.2815C41.0467 19.96 41.5194 22.6347 40.393 24.8299C40.3451 24.9231 40.2872 25.0262 40.1714 25.2322C40.1196 25.3242 40.0938 25.3702 40.0694 25.4155C39.5111 26.4536 39.3009 27.6429 39.4697 28.8088C39.4771 28.8597 39.4856 28.9117 39.5027 29.0158C39.5409 29.249 39.56 29.3656 39.573 29.4695C39.879 31.9168 38.5179 34.2689 36.2407 35.2281C36.1441 35.2688 36.0333 35.3106 35.8118 35.3942C35.7129 35.4315 35.6635 35.4501 35.6156 35.4692C34.5192 35.9063 33.592 36.6826 32.9701 37.684C32.943 37.7277 32.916 37.7731 32.862 37.8637C32.741 38.0669 32.6806 38.1685 32.6236 38.2564C31.2814 40.3273 28.7233 41.2563 26.3609 40.5306C26.2606 40.4998 26.1489 40.4608 25.9253 40.3827C25.8256 40.3479 25.7757 40.3305 25.7268 40.3144C24.6052 39.9461 23.3948 39.9461 22.2732 40.3144C22.2243 40.3305 22.1744 40.3479 22.0747 40.3827C21.8511 40.4608 21.7394 40.4998 21.6391 40.5306C19.2767 41.2563 16.7186 40.3273 15.3764 38.2564C15.3194 38.1685 15.259 38.0669 15.138 37.8637C15.084 37.7731 15.057 37.7277 15.0299 37.684C14.408 36.6826 13.4808 35.9063 12.3844 35.4692C12.3365 35.4501 12.2871 35.4315 12.1882 35.3942C11.9667 35.3106 11.8559 35.2688 11.7593 35.2281C9.48205 34.2689 8.12097 31.9168 8.42698 29.4695C8.43997 29.3656 8.45908 29.249 8.4973 29.0158C8.51436 28.9117 8.52289 28.8597 8.53026 28.8088C8.69906 27.6429 8.48889 26.4536 7.93056 25.4155C7.90621 25.3702 7.88035 25.3242 7.82863 25.2322C7.71278 25.0262 7.65485 24.9231 7.60704 24.8299C6.48057 22.6347 6.95327 19.96 8.76433 18.2815C8.8412 18.2102 8.93096 18.1332 9.11047 17.9791C9.19061 17.9103 9.23068 17.8759 9.26908 17.8416C10.1496 17.0567 10.7548 16.0109 10.9958 14.8576C11.0063 14.8073 11.0162 14.7555 11.0358 14.6518C11.0798 14.4197 11.1019 14.3036 11.1253 14.2015C11.6766 11.7974 13.7619 10.0516 16.2306 9.92733C16.3354 9.92206 16.4538 9.92059 16.6906 9.91765C16.7963 9.91634 16.8492 9.91569 16.9007 9.91409C18.0809 9.87748 19.2182 9.46445 20.1459 8.7356C20.1864 8.70381 20.2273 8.67042 20.3091 8.60363Z" fill="#${Theme.of(context).colorScheme.primaryContainer.value.toRadixString(16).padLeft(8, '0').substring(2)}"/>
+                            </svg> ''',
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                    top: -5,
+                                                    child: SizedBox(
+                                                      height: 48,
+                                                      child: Center(
+                                                          child: Text(
+                                                              "$precipProbMain",
+                                                              style: TextStyle(
+                                                                  fontSize: 15,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .primary,
+                                                                  fontVariations:
+                                                                      FontVariationsBold))),
                                                     )),
+                                                Positioned(
+                                                    top: 6,
+                                                    child: SizedBox(
+                                                      height: 48,
+                                                      child: Center(
+                                                          child: Text("%",
+                                                              style: TextStyle(
+                                                                  fontSize: 10,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .primary,
+                                                                  fontVariations:
+                                                                      FontVariationsBold))),
+                                                    ))
                                               ]),
                                         ),
                                       ),
@@ -2207,25 +2315,25 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                             fontSize: 17,
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontWeight: FontWeight.w500)),
+                            fontVariations: FontVariationsRegularNoRound)),
                     Text("precip_info_2".tr(),
                         style: TextStyle(
                             fontSize: 17,
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontWeight: FontWeight.w500)),
+                            fontVariations: FontVariationsRegularNoRound)),
                     Text("precip_info_3".tr(),
                         style: TextStyle(
                             fontSize: 17,
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontWeight: FontWeight.w500)),
+                            fontVariations: FontVariationsRegularNoRound)),
                     Text("precip_info_4".tr(),
                         style: TextStyle(
                             fontSize: 17,
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontWeight: FontWeight.w500)),
+                            fontVariations: FontVariationsRegularNoRound)),
                   ],
                 ))
           ]);

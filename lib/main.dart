@@ -24,8 +24,9 @@ import 'dart:ui' as ui;
 import 'services/widget_service.dart';
 import 'widget_background.dart';
 
-final CorePalette paletteStartScreen =
-    CorePalette.of(const Color.fromARGB(255, 255, 196, 0).toARGB32());
+final CorePalette paletteStartScreen = CorePalette.of(
+  const Color.fromARGB(255, 255, 196, 0).toARGB32(),
+);
 
 @pragma('vm:entry-point')
 Future<void> workerUpdateWidget() async {
@@ -186,16 +187,17 @@ class MyApp extends StatelessWidget {
 
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-          statusBarColor: Color(0x01000000),
-          statusBarIconBrightness: isLight ? Brightness.dark : Brightness.light,
-          systemNavigationBarIconBrightness:
-              isLight ? Brightness.dark : Brightness.light,
-          systemNavigationBarColor:
-              MediaQuery.of(context).systemGestureInsets.left > 0
-                  ? Color(0x01000000)
-                  : isLight
-                      ? Color(0x01000000)
-                      : Color.fromRGBO(0, 0, 0, 0.3)),
+        statusBarColor: Color(0x01000000),
+        statusBarIconBrightness: isLight ? Brightness.dark : Brightness.light,
+        systemNavigationBarIconBrightness:
+            isLight ? Brightness.dark : Brightness.light,
+        systemNavigationBarColor:
+            MediaQuery.of(context).systemGestureInsets.left > 0
+                ? Color(0x01000000)
+                : isLight
+                    ? Color(0x01000000)
+                    : Color.fromRGBO(0, 0, 0, 0.3),
+      ),
     );
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
@@ -221,7 +223,9 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ).copyWith(
-        textTheme: ThemeData.light().textTheme.apply(fontFamily: 'OpenSans'),
+        textTheme: ThemeData.light().textTheme.apply(
+              fontFamily: 'FlexFont',
+            ),
         highlightColor: Colors.transparent,
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: {
@@ -241,7 +245,9 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ).copyWith(
-        textTheme: ThemeData.dark().textTheme.apply(fontFamily: 'OpenSans'),
+        textTheme: ThemeData.dark().textTheme.apply(
+              fontFamily: 'FlexFont',
+            ),
         highlightColor: Colors.transparent,
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: {
@@ -273,36 +279,37 @@ class MyApp extends StatelessWidget {
 }
 
 ColorScheme customDarkScheme = ColorScheme(
-    brightness: Brightness.dark,
-    primary: Color(paletteStartScreen.primary.get(80)),
-    onPrimary: Color(paletteStartScreen.primary.get(20)),
-    primaryContainer: Color(paletteStartScreen.primary.get(30)),
-    onPrimaryContainer: Color(paletteStartScreen.primary.get(90)),
-    secondary: Color(paletteStartScreen.secondary.get(80)),
-    onSecondary: Color(paletteStartScreen.secondary.get(20)),
-    secondaryContainer: Color(paletteStartScreen.secondary.get(30)),
-    onSecondaryContainer: Color(paletteStartScreen.secondary.get(90)),
-    tertiary: Color(paletteStartScreen.tertiary.get(80)),
-    onTertiary: Color(paletteStartScreen.tertiary.get(20)),
-    tertiaryContainer: Color(paletteStartScreen.tertiary.get(30)),
-    onTertiaryContainer: Color(paletteStartScreen.tertiary.get(90)),
-    surface: Color(paletteStartScreen.neutral.get(6)),
-    onSurface: Color(paletteStartScreen.neutral.get(90)),
-    onSurfaceVariant: Color(paletteStartScreen.neutralVariant.get(80)),
-    error: Color(paletteStartScreen.error.get(80)),
-    onError: Color(paletteStartScreen.error.get(20)),
-    errorContainer: Color(paletteStartScreen.error.get(30)),
-    onErrorContainer: Color(paletteStartScreen.error.get(90)),
-    inversePrimary: Color(paletteStartScreen.primary.get(40)),
-    inverseSurface: Color(paletteStartScreen.neutral.get(90)),
-    outline: Color(paletteStartScreen.neutralVariant.get(60)),
-    outlineVariant: Color(paletteStartScreen.neutralVariant.get(30)),
-    shadow: Color(paletteStartScreen.neutral.get(0)),
-    surfaceContainerHigh: Color(paletteStartScreen.neutral.get(17)),
-    surfaceContainerLow: Color(paletteStartScreen.neutral.get(10)),
-    surfaceContainer: Color(paletteStartScreen.neutral.get(12)),
-    surfaceContainerHighest: Color(paletteStartScreen.neutral.get(22)),
-    surfaceContainerLowest: Color(paletteStartScreen.neutral.get(4)));
+  brightness: Brightness.dark,
+  primary: Color(paletteStartScreen.primary.get(80)),
+  onPrimary: Color(paletteStartScreen.primary.get(20)),
+  primaryContainer: Color(paletteStartScreen.primary.get(30)),
+  onPrimaryContainer: Color(paletteStartScreen.primary.get(90)),
+  secondary: Color(paletteStartScreen.secondary.get(80)),
+  onSecondary: Color(paletteStartScreen.secondary.get(20)),
+  secondaryContainer: Color(paletteStartScreen.secondary.get(30)),
+  onSecondaryContainer: Color(paletteStartScreen.secondary.get(90)),
+  tertiary: Color(paletteStartScreen.tertiary.get(80)),
+  onTertiary: Color(paletteStartScreen.tertiary.get(20)),
+  tertiaryContainer: Color(paletteStartScreen.tertiary.get(30)),
+  onTertiaryContainer: Color(paletteStartScreen.tertiary.get(90)),
+  surface: Color(paletteStartScreen.neutral.get(6)),
+  onSurface: Color(paletteStartScreen.neutral.get(90)),
+  onSurfaceVariant: Color(paletteStartScreen.neutralVariant.get(80)),
+  error: Color(paletteStartScreen.error.get(80)),
+  onError: Color(paletteStartScreen.error.get(20)),
+  errorContainer: Color(paletteStartScreen.error.get(30)),
+  onErrorContainer: Color(paletteStartScreen.error.get(90)),
+  inversePrimary: Color(paletteStartScreen.primary.get(40)),
+  inverseSurface: Color(paletteStartScreen.neutral.get(90)),
+  outline: Color(paletteStartScreen.neutralVariant.get(60)),
+  outlineVariant: Color(paletteStartScreen.neutralVariant.get(30)),
+  shadow: Color(paletteStartScreen.neutral.get(0)),
+  surfaceContainerHigh: Color(paletteStartScreen.neutral.get(17)),
+  surfaceContainerLow: Color(paletteStartScreen.neutral.get(10)),
+  surfaceContainer: Color(paletteStartScreen.neutral.get(12)),
+  surfaceContainerHighest: Color(paletteStartScreen.neutral.get(22)),
+  surfaceContainerLowest: Color(paletteStartScreen.neutral.get(4)),
+);
 
 class LocationPromptScreen extends StatelessWidget {
   const LocationPromptScreen({super.key});
@@ -319,13 +326,17 @@ class LocationPromptScreen extends StatelessWidget {
         current = decoded.map((e) => SavedLocation.fromJson(e)).toList();
       }
 
-      bool alreadyExists = current.any((loc) =>
-          loc.city == newLocation.city && loc.country == newLocation.country);
+      bool alreadyExists = current.any(
+        (loc) =>
+            loc.city == newLocation.city && loc.country == newLocation.country,
+      );
 
       if (!alreadyExists) {
         current.add(newLocation);
-        await prefs.setString('saved_locations',
-            jsonEncode(current.map((e) => e.toJson()).toList()));
+        await prefs.setString(
+          'saved_locations',
+          jsonEncode(current.map((e) => e.toJson()).toList()),
+        );
       }
     }
 
@@ -335,30 +346,35 @@ class LocationPromptScreen extends StatelessWidget {
         toolbarHeight: 130,
         backgroundColor: customDarkScheme.tertiaryContainer,
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(28),
-                bottomRight: Radius.circular(28))),
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(28),
+            bottomRight: Radius.circular(28),
+          ),
+        ),
         title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 0,
-            children: [
-              Text(
-                "Welcome!",
-                style: TextStyle(
-                    fontFamily: 'fantasy',
-                    color: customDarkScheme.tertiary,
-                    fontSize: 44,
-                    height: 0),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 0,
+          children: [
+            Text(
+              "Welcome!",
+              style: TextStyle(
+                fontFamily: 'fantasy',
+                color: customDarkScheme.tertiary,
+                fontSize: 44,
+                height: 0,
               ),
-              Text(
-                "WeatherMaster",
-                style: TextStyle(
-                    fontFamily: 'fantasy',
-                    color: customDarkScheme.onTertiaryContainer,
-                    fontSize: 30,
-                    height: 0),
+            ),
+            Text(
+              "WeatherMaster",
+              style: TextStyle(
+                fontFamily: 'fantasy',
+                color: customDarkScheme.onTertiaryContainer,
+                fontSize: 30,
+                height: 0,
               ),
-            ]),
+            ),
+          ],
+        ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -393,17 +409,18 @@ class LocationPromptScreen extends StatelessWidget {
           '''),
           ),
           Padding(
-              padding: EdgeInsets.only(left: 10, right: 10),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Center(
-                  child: Text(
-                    "Please search for a location or use your device's location to get the weather for your area.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: customDarkScheme.onSurface),
-                  ),
+            padding: EdgeInsets.only(left: 10, right: 10),
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Center(
+                child: Text(
+                  "Please search for a location or use your device's location to get the weather for your area.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: customDarkScheme.onSurface),
                 ),
-              ))
+              ),
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: BottomAppBar(
@@ -415,8 +432,9 @@ class LocationPromptScreen extends StatelessWidget {
           children: [
             FilledButton.icon(
               style: ButtonStyle(
-                backgroundColor:
-                    WidgetStateProperty.all(customDarkScheme.primary),
+                backgroundColor: WidgetStateProperty.all(
+                  customDarkScheme.primary,
+                ),
                 minimumSize: WidgetStateProperty.all(const Size(300, 55)),
               ),
               onPressed: () async {
@@ -425,7 +443,8 @@ class LocationPromptScreen extends StatelessWidget {
                 try {
                   bool ready =
                       await LocationPermissionHelper.checkServicesAndPermission(
-                          context);
+                    context,
+                  );
                   if (!ready) return;
                   showDialog(
                     context: context,
@@ -438,8 +457,10 @@ class LocationPromptScreen extends StatelessWidget {
 
                   final position = await NativeLocation.getCurrentPosition();
 
-                  final geoData =
-                      await getGeoData(position.latitude, position.longitude);
+                  final geoData = await getGeoData(
+                    position.latitude,
+                    position.longitude,
+                  );
                   final saved = SavedLocation(
                     latitude: position.latitude,
                     longitude: position.longitude,
@@ -448,7 +469,8 @@ class LocationPromptScreen extends StatelessWidget {
                   );
 
                   dialogKey.currentState?.updateMessage(
-                      "Found\n ${geoData['city']}, ${geoData['country']}\n Loading weather...");
+                    "Found\n ${geoData['city']}, ${geoData['country']}\n Loading weather...",
+                  );
 
                   saveLocation(saved);
 
@@ -458,20 +480,24 @@ class LocationPromptScreen extends StatelessWidget {
 
                   final prefs = await SharedPreferences.getInstance();
                   prefs.setString(
-                      'homeLocation',
-                      jsonEncode({
-                        'city': saved.city,
-                        'country': saved.country,
-                        'cacheKey': cacheKey,
-                        'lat': saved.latitude,
-                        'lon': saved.longitude,
-                        'isGPS': true,
-                      }));
+                    'homeLocation',
+                    jsonEncode({
+                      'city': saved.city,
+                      'country': saved.country,
+                      'cacheKey': cacheKey,
+                      'lat': saved.latitude,
+                      'lon': saved.longitude,
+                      'isGPS': true,
+                    }),
+                  );
 
                   final weatherService = WeatherService();
                   await weatherService.fetchWeather(
-                      saved.latitude, saved.longitude,
-                      locationName: cacheKey, context: context);
+                    saved.latitude,
+                    saved.longitude,
+                    locationName: cacheKey,
+                    context: context,
+                  );
 
                   Navigator.of(context, rootNavigator: true).pop();
 
@@ -502,10 +528,11 @@ class LocationPromptScreen extends StatelessWidget {
               label: Text(
                 "Use Current Location",
                 style: TextStyle(
-                    color: customDarkScheme.onPrimary,
-                    fontSize: 20,
-                    fontFamily: 'sans-serif',
-                    fontWeight: FontWeight.w400),
+                  color: customDarkScheme.onPrimary,
+                  fontSize: 20,
+                  fontFamily: 'sans-serif',
+                  fontWeight: FontWeight.w400,
+                ),
               ),
             ),
             OutlinedButton.icon(
@@ -528,10 +555,11 @@ class LocationPromptScreen extends StatelessWidget {
               label: Text(
                 "Search location",
                 style: TextStyle(
-                    color: customDarkScheme.primary,
-                    fontSize: 20,
-                    fontFamily: 'sans-serif',
-                    fontWeight: FontWeight.w400),
+                  color: customDarkScheme.primary,
+                  fontSize: 20,
+                  fontFamily: 'sans-serif',
+                  fontWeight: FontWeight.w400,
+                ),
               ),
             ),
             OutlinedButton.icon(
@@ -553,10 +581,11 @@ class LocationPromptScreen extends StatelessWidget {
               label: Text(
                 "Import backup",
                 style: TextStyle(
-                    color: customDarkScheme.primary,
-                    fontSize: 20,
-                    fontFamily: 'sans-serif',
-                    fontWeight: FontWeight.w400),
+                  color: customDarkScheme.primary,
+                  fontSize: 20,
+                  fontFamily: 'sans-serif',
+                  fontWeight: FontWeight.w400,
+                ),
               ),
             ),
           ],
@@ -570,10 +599,8 @@ class LoadingDialog extends StatefulWidget {
   final String initialMessage;
   final GlobalKey<LoadingDialogState> key;
 
-  const LoadingDialog({
-    required this.key,
-    required this.initialMessage,
-  }) : super(key: key);
+  const LoadingDialog({required this.key, required this.initialMessage})
+      : super(key: key);
 
   @override
   LoadingDialogState createState() => LoadingDialogState();
@@ -604,18 +631,14 @@ class LoadingDialogState extends State<LoadingDialog> {
         mainAxisSize: MainAxisSize.min,
         spacing: 10,
         children: [
-          const SizedBox(
-            height: 6,
-          ),
+          const SizedBox(height: 6),
           CircularProgressIndicator(
             color: customDarkScheme.primary,
             year2023: false,
           ),
           Text(
             message,
-            style: TextStyle(
-              color: customDarkScheme.onSurface,
-            ),
+            style: TextStyle(color: customDarkScheme.onSurface),
             textAlign: TextAlign.center,
           ),
         ],

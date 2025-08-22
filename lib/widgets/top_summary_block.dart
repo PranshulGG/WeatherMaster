@@ -335,7 +335,11 @@ class _SummaryCardState extends State<SummaryCard> {
           Text(
             _headline ?? '',
             style: TextStyle(
-              fontWeight: FontWeight.w500,
+              fontVariations: [
+                FontVariation('wght', 500),
+                FontVariation('ROND', 0),
+              ],
+              // fontVariations: FontFeature(feature),
               color: Theme.of(context).colorScheme.onSurface,
             ),
             textAlign: TextAlign.left,
@@ -367,6 +371,9 @@ class _SummaryCardState extends State<SummaryCard> {
                                 color: Theme.of(context)
                                     .colorScheme
                                     .onSurfaceVariant,
+                                fontVariations: [
+                                  FontVariation('wght', 450),
+                                ],
                               ),
                             ),
                           ),
@@ -380,6 +387,9 @@ class _SummaryCardState extends State<SummaryCard> {
                               color: Theme.of(context)
                                   .colorScheme
                                   .onSurfaceVariant,
+                              fontVariations: [
+                                FontVariation('wght', 450),
+                              ],
                             ),
                           ),
                         ),
@@ -564,9 +574,9 @@ class _SummaryCardState extends State<SummaryCard> {
     return Container(
       decoration: BoxDecoration(
         color: Color(widget.selectedContainerBgIndex),
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(20),
       ),
-      padding: EdgeInsets.only(top: 12, bottom: 10),
+      padding: EdgeInsets.only(top: 15, bottom: 10),
       margin: EdgeInsets.fromLTRB(12, 0, 12, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -583,22 +593,30 @@ class _SummaryCardState extends State<SummaryCard> {
                 children: [
                   Container(
                       padding: EdgeInsets.only(left: 20),
-                      child: Row(children: [
-                        Icon(
-                          Symbols.analytics,
-                          weight: 500,
-                          color: Theme.of(context).colorScheme.secondary,
-                          size: 20,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text("quick_summary".tr(),
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).colorScheme.secondary,
-                                fontSize: 15.5)),
-                      ])),
+                      child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Symbols.analytics,
+                              weight: 500,
+                              color: Theme.of(context).colorScheme.secondary,
+                              size: 21,
+                              fill: 1,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text("quick_summary".tr(),
+                                style: TextStyle(
+                                    fontVariations: [
+                                      FontVariation('wght', 600),
+                                      FontVariation('ROND', 100),
+                                      FontVariation("wdth", 90)
+                                    ],
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                    fontSize: 16)),
+                          ])),
                   Container(
                     padding: EdgeInsets.only(right: 20),
                     child: Icon(
@@ -607,8 +625,8 @@ class _SummaryCardState extends State<SummaryCard> {
                 ]),
           ),
           Divider(
-            height: 20,
-            color: Theme.of(context).colorScheme.outlineVariant,
+            height: 14,
+            color: Colors.transparent,
           ),
           GestureDetector(
             onTap: () {
@@ -636,8 +654,13 @@ class _SummaryCardState extends State<SummaryCard> {
                         Text(
                             '${windUnit == 'M/s' ? formattedWindSpeed.toStringAsFixed(1) : formattedWindSpeed.round()} ${localizeWindUnit(windUnit, context.locale)}',
                             style: TextStyle(
-                                color: Theme.of(context).colorScheme.onSurface,
-                                fontSize: 15))
+                              color: Theme.of(context).colorScheme.onSurface,
+                              fontSize: 15,
+                              fontVariations: [
+                                FontVariation('wght', 450),
+                                FontVariation('ROND', 100),
+                              ],
+                            ))
                       ],
                     ),
                   ),
@@ -655,8 +678,13 @@ class _SummaryCardState extends State<SummaryCard> {
                               ? '--'
                               : "${windUnit == 'M/s' ? formattedWindGust.toStringAsFixed(1) : formattedWindGust.round()} ${localizeWindUnit(windUnit, context.locale)}",
                           style: TextStyle(
-                              color: Theme.of(context).colorScheme.onSurface,
-                              fontSize: 15),
+                            color: Theme.of(context).colorScheme.onSurface,
+                            fontSize: 15,
+                            fontVariations: [
+                              FontVariation('wght', 450),
+                              FontVariation('ROND', 100),
+                            ],
+                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         )
@@ -674,8 +702,13 @@ class _SummaryCardState extends State<SummaryCard> {
                             size: 19),
                         Text("${widget.currentData['cloud_cover']}%",
                             style: TextStyle(
-                                color: Theme.of(context).colorScheme.onSurface,
-                                fontSize: 15))
+                              color: Theme.of(context).colorScheme.onSurface,
+                              fontSize: 15,
+                              fontVariations: [
+                                FontVariation('wght', 450),
+                                FontVariation('ROND', 100),
+                              ],
+                            ))
                       ],
                     ),
                   ),

@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class WeatherConditionMapper {
   static const _defaultLabel = 'Not found';
 
@@ -94,3 +96,33 @@ class WeatherConditionMapper {
     return _labelMap[key] ?? _defaultLabel;
   }
 }
+
+const FontVariationsRegularNoRound = [
+  FontVariation('wght', 460),
+  FontVariation('ROND', 0),
+];
+
+const FontVariationsMedium = [
+  FontVariation('wght', 500),
+  FontVariation('ROND', 100),
+];
+
+const FontVariationsBold = [
+  FontVariation('wght', 600),
+  FontVariation('ROND', 100),
+];
+
+const FontVariationsFullBold = [
+  FontVariation('wght', 800),
+  FontVariation('ROND', 100),
+];
+
+const FontVariationsSemiBold = [
+  FontVariation('wght', 700),
+  FontVariation('ROND', 100),
+];
+
+const FontVariationsExtraBold = [
+  FontVariation('wght', 900),
+  FontVariation('ROND', 100),
+];

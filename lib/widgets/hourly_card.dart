@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../utils/unit_converter.dart';
 import 'package:provider/provider.dart';
 import '../notifiers/unit_settings_notifier.dart';
+import '../utils/visual_utils.dart';
 
 class HourlyCard extends StatelessWidget {
   final List<dynamic> hourlyTime;
@@ -33,6 +34,7 @@ class HourlyCard extends StatelessWidget {
     final offset = Duration(seconds: int.parse(utcOffsetSeconds));
     final nowUtc = DateTime.now().toUtc();
     final nowLocal = nowUtc.add(offset);
+    final colorTheme = Theme.of(context).colorScheme;
 
     final timeUnit = context.watch<UnitSettingsNotifier>().timeUnit;
     final tempUnit = context.watch<UnitSettingsNotifier>().tempUnit;
@@ -52,9 +54,9 @@ class HourlyCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Color(selectedContainerBgIndex),
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(20),
       ),
-      padding: EdgeInsets.only(top: 12, bottom: 0),
+      padding: EdgeInsets.only(top: 15, bottom: 0),
       margin: EdgeInsets.fromLTRB(12, 0, 12, 0),
       child: Column(
         children: [
@@ -65,24 +67,26 @@ class HourlyCard extends StatelessWidget {
             Icon(
               Symbols.schedule,
               weight: 500,
-              color: Theme.of(context).colorScheme.secondary,
-              size: 20,
+              color: colorTheme.secondary,
+              size: 21,
+              fill: 1,
             ),
             SizedBox(
               width: 5,
             ),
             Text("hourly_forecast".tr(),
-                style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    color: Theme.of(context).colorScheme.secondary,
-                    fontSize: 15)),
+                style: TextStyle(fontVariations: [
+                  FontVariation('wght', 600),
+                  FontVariation('ROND', 100),
+                  FontVariation("wdth", 90)
+                ], color: colorTheme.secondary, fontSize: 16)),
           ]),
           Divider(
-            height: 20,
-            color: Theme.of(context).colorScheme.outlineVariant,
+            height: 6,
+            color: Colors.transparent,
           ),
           SizedBox(
-            height: 98 + extraHeight + 10,
+            height: 98 + extraHeight + 30,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               physics: BouncingScrollPhysics(),
@@ -91,6 +95,11 @@ class HourlyCard extends StatelessWidget {
               itemBuilder: (context, index) {
                 // final time = DateTime.parse(hourlyTime[index]);
                 final dataIndex = startIndex + index;
+                final itemCount =
+                    startIndex != null ? (48 - startIndex).clamp(0, 48) : 0;
+
+                final isFirst = index == 0;
+                final isLast = index == itemCount - 1;
 
                 if (dataIndex >= hourlyTime.length) return const SizedBox();
 
@@ -117,40 +126,78 @@ class HourlyCard extends StatelessWidget {
                 final isDay = isHourDuringDaylightOptimized(roundedDisplayTime);
 
                 return Container(
-                  width: 65,
+                  clipBehavior: Clip.none,
+                  width: 56,
+                  margin: EdgeInsets.only(
+                      right: isLast ? 10 : 0, left: isFirst ? 10 : 0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text("${temp}°",
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Theme.of(context).colorScheme.onSurface,
-                              fontWeight: FontWeight.w500)),
-                      const SizedBox(height: 10),
-                      SvgPicture.asset(
-                        WeatherIconMapper.getIcon(code, isDay ? 1 : 0),
-                        width: 26,
+                      const SizedBox(height: 3),
+                      Stack(
+                        clipBehavior: Clip.none,
+                        alignment: Alignment.center,
+                        children: [
+                          Positioned(
+
+                              // bottom: -10,
+                              child: SvgPicture.string(
+                            buildNowHourSvg(isFirst
+                                ? colorTheme.tertiary
+                                : Color(selectedContainerBgIndex)),
+                            width: 42,
+                            height: 42,
+                          )),
+                          Transform(
+                            transform: Matrix4.translationValues(
+                                0, isFirst ? 2 : 0, 0),
+                            child: Text(
+                              "${temp}°",
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: isFirst
+                                    ? colorTheme.onTertiary
+                                    : colorTheme.onSurface,
+                                fontVariations: [
+                                  FontVariation('wght', 500),
+                                  FontVariation('ROND', 100),
+                                ],
+                              ),
+                              textHeightBehavior: TextHeightBehavior(
+                                  applyHeightToFirstAscent: false,
+                                  applyHeightToLastDescent: false),
+                            ),
+                          ),
+                        ],
                       ),
                       Text(
                           precipProb == 0.1111111
                               ? '--%'
                               : precipProb > 10
                                   ? "${precipProb.round()}%"
-                                  : "0%",
+                                  : "‎",
                           style: TextStyle(
                               fontSize: 12,
-                              color: Theme.of(context).colorScheme.primary,
+                              color: colorTheme.primary,
                               fontWeight: FontWeight.w700)),
+                      SvgPicture.asset(
+                        WeatherIconMapper.getIcon(code, isDay ? 1 : 0),
+                        width: 26,
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
                       Text(hour,
                           style: TextStyle(
-                              fontSize: 14,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant,
-                              fontWeight: FontWeight.w500)),
+                            fontSize: 14,
+                            color: colorTheme.onSurfaceVariant,
+                            fontVariations: [
+                              FontVariation('wght', 500),
+                            ],
+                          )),
                     ],
                   ),
                 );

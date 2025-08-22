@@ -27,6 +27,7 @@ final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
 class _LocationsScreenState extends State<LocationsScreen> {
   List<SavedLocation> savedLocations = [];
   bool _isFirstBuild = true;
+
   final bool _isFirstTrueBuild =
       PreferencesHelper.getBool("firstLoadedLocations") ?? true;
 
@@ -35,8 +36,10 @@ class _LocationsScreenState extends State<LocationsScreen> {
     super.initState();
 
     if (_isFirstTrueBuild) {
-      loadSavedLocations();
-      PreferencesHelper.setBool("firstLoadedLocations", false);
+      Future.delayed(Duration(milliseconds: 200), () {
+        loadSavedLocations();
+        PreferencesHelper.setBool("firstLoadedLocations", false);
+      });
     }
   }
 
@@ -167,17 +170,24 @@ class _LocationsScreenState extends State<LocationsScreen> {
                 ? buildReorderableListView(key: ValueKey('reorderable'))
                 : buildDismissibleListView(key: ValueKey('dismissible')),
           ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
           floatingActionButton: OpenContainer<bool>(
             transitionType: ContainerTransitionType.fadeThrough,
             openBuilder: (context, _) {
               return SearchLocationsScreen();
             },
             closedElevation: 1,
+            openElevation: 0,
+            transitionDuration: Duration(milliseconds: 500),
+            openShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+            ),
             closedShape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),
             closedColor: colorTheme.primaryContainer,
-            openColor: colorTheme.surface,
+            openColor: colorTheme.surfaceContainerHigh,
             closedBuilder: (context, openContainer) {
               return FloatingActionButton.large(
                 backgroundColor: Colors.transparent,
@@ -249,7 +259,7 @@ class _LocationsScreenState extends State<LocationsScreen> {
                               "default_location".tr(),
                               style: TextStyle(
                                   color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.w500,
+                                  fontVariations: FontVariationsMedium,
                                   fontSize: 16),
                             )
                           ],
@@ -354,17 +364,20 @@ class _LocationsScreenState extends State<LocationsScreen> {
                                     trailingWidgetCurrent = Text(
                                       "${tempCurrent.round()}°",
                                       style: TextStyle(
-                                        fontSize: 32,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface,
-                                      ),
+                                          fontSize: 32,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface,
+                                          fontVariations: FontVariationsMedium),
                                     );
 
                                     subWidgetCurrent = Text(
                                       WeatherConditionMapper.getConditionLabel(
                                               codeCurrent, isDayCurrent)
                                           .tr(),
+                                      style: TextStyle(
+                                          fontVariations:
+                                              FontVariationsRegularNoRound),
                                     );
                                   } else {
                                     leadingWidgetCurrent = Text(
@@ -407,6 +420,9 @@ class _LocationsScreenState extends State<LocationsScreen> {
                                       ),
                                       title: Text(
                                         "${PreferencesHelper.getJson('homeLocation')?['city']}, ${PreferencesHelper.getJson('homeLocation')?['country']}",
+                                        style: TextStyle(
+                                            fontVariations:
+                                                FontVariationsRegularNoRound),
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                       ),
@@ -439,7 +455,7 @@ class _LocationsScreenState extends State<LocationsScreen> {
                                         color: Theme.of(context)
                                             .colorScheme
                                             .primary,
-                                        fontWeight: FontWeight.w500,
+                                        fontVariations: FontVariationsMedium,
                                         fontSize: 16),
                                   )
                           ],
@@ -648,16 +664,20 @@ class _LocationsScreenState extends State<LocationsScreen> {
                                 trailingWidget = Text(
                                   "${temp.round()}°",
                                   style: TextStyle(
-                                    fontSize: 32,
-                                    color:
-                                        Theme.of(context).colorScheme.onSurface,
-                                  ),
+                                      fontSize: 32,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface,
+                                      fontVariations: FontVariationsMedium),
                                 );
 
                                 subWidget = Text(
                                   WeatherConditionMapper.getConditionLabel(
                                           code, isDay)
                                       .tr(),
+                                  style: TextStyle(
+                                      fontVariations:
+                                          FontVariationsRegularNoRound),
                                 );
                               } else {
                                 leadingWidget = Text(
@@ -696,6 +716,9 @@ class _LocationsScreenState extends State<LocationsScreen> {
                                 ),
                                 title: Text(
                                   "${loc.city}, ${loc.country}",
+                                  style: TextStyle(
+                                      fontVariations:
+                                          FontVariationsRegularNoRound),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -764,9 +787,13 @@ class _LocationsScreenState extends State<LocationsScreen> {
             tileColor: Colors.transparent,
             title: Text(
               loc.city,
-              style: TextStyle(fontSize: 15),
+              style: TextStyle(
+                  fontSize: 15, fontVariations: FontVariationsRegularNoRound),
             ),
-            subtitle: Text(loc.country, style: TextStyle(fontSize: 13)),
+            subtitle: Text(loc.country,
+                style: TextStyle(
+                    fontSize: 13,
+                    fontVariations: FontVariationsRegularNoRound)),
             trailing: CircleAvatar(
               backgroundColor: Theme.of(context).colorScheme.surface,
               child: Icon(Symbols.drag_handle),
