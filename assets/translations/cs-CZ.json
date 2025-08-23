@@ -540,9 +540,9 @@
   "kmni_desc_3": "Model s velmi vysokým rozlišením zaměřený na Nizozemsko. Vynikající pro podrobné místní předpovědi včetně srážek a větru.",
   "show_clock": "Zobrazit hodiny",
   "size": "Velikost",
-  "make_the_card_background_darker": "Make the card background darker",
-  "froggy_layout": "Froggy Layout",
+  "make_the_card_background_darker": "Ztmavit pozadí karty",
+  "froggy_layout": "Froggy rozvržení",
   "high_text": "Vysoký",
   "low_text": "Nízký",
-  "two_days_forecast_only": "2 days forcast only"
+  "two_days_forecast_only": "Pouze 2denní předpověď"
 }

@@ -540,9 +540,9 @@
   "kmni_desc_3": "Sehr detailgenaues Modell mit Schwerpunkt auf den Niederlanden. Hervorragend geeignet für detaillierte lokale Vorhersagen, einschließlich Niederschlag und Wind.",
   "show_clock": "Uhr anzeigen",
   "size": "Größe",
-  "make_the_card_background_darker": "Make the card background darker",
-  "froggy_layout": "Froggy Layout",
+  "make_the_card_background_darker": "Die Kartenhintergründe dunkler machen",
+  "froggy_layout": "Froggy-Hintergründe zeigen",
   "high_text": "Viele",
   "low_text": "Wenig",
-  "two_days_forecast_only": "2 days forcast only"
+  "two_days_forecast_only": "Nur 2-Tages-Vorhersage"
 }
