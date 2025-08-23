@@ -20,7 +20,9 @@ class SettingTileValue extends StatelessWidget {
       value,
       style: theme.textTheme.bodyMedium?.copyWith(
         color: enabled ? theme.colorScheme.tertiary : theme.disabledColor,
-        fontWeight: FontWeight.w500,
+        fontVariations: const [
+          FontVariation('wght', 550),
+        ],
       ),
     );
   }

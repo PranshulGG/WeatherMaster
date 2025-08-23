@@ -9,7 +9,7 @@ Widget homeBottomBar(BuildContext context, bool isLight) {
     fontSize: 18,
     fontVariations: FontVariationsSemiBold,
     decoration: TextDecoration.underline,
-    decorationThickness: 1,
+    decorationThickness: 3,
   );
 
   return RepaintBoundary(

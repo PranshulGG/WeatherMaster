@@ -251,7 +251,7 @@ class _LocationsScreenState extends State<LocationsScreen> {
                               "default_location".tr(),
                               style: TextStyle(
                                   color: Theme.of(context).colorScheme.primary,
-                                  fontVariations: FontVariationsMedium,
+                                  fontVariations: FontVariationsBold,
                                   fontSize: 16),
                             )
                           ],
@@ -368,8 +368,7 @@ class _LocationsScreenState extends State<LocationsScreen> {
                                               codeCurrent, isDayCurrent)
                                           .tr(),
                                       style: TextStyle(
-                                          fontVariations:
-                                              FontVariationsRegularNoRound),
+                                          fontVariations: FontVariationsMedium),
                                     );
                                   } else {
                                     leadingWidgetCurrent = Text(
@@ -414,7 +413,7 @@ class _LocationsScreenState extends State<LocationsScreen> {
                                         "${PreferencesHelper.getJson('homeLocation')?['city']}, ${PreferencesHelper.getJson('homeLocation')?['country']}",
                                         style: TextStyle(
                                             fontVariations:
-                                                FontVariationsRegularNoRound),
+                                                FontVariationsMedium),
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                       ),
@@ -447,7 +446,7 @@ class _LocationsScreenState extends State<LocationsScreen> {
                                         color: Theme.of(context)
                                             .colorScheme
                                             .primary,
-                                        fontVariations: FontVariationsMedium,
+                                        fontVariations: FontVariationsBold,
                                         fontSize: 16),
                                   )
                           ],
@@ -668,8 +667,7 @@ class _LocationsScreenState extends State<LocationsScreen> {
                                           code, isDay)
                                       .tr(),
                                   style: TextStyle(
-                                      fontVariations:
-                                          FontVariationsRegularNoRound),
+                                      fontVariations: FontVariationsMedium),
                                 );
                               } else {
                                 leadingWidget = Text(
@@ -709,8 +707,7 @@ class _LocationsScreenState extends State<LocationsScreen> {
                                 title: Text(
                                   "${loc.city}, ${loc.country}",
                                   style: TextStyle(
-                                      fontVariations:
-                                          FontVariationsRegularNoRound),
+                                      fontVariations: FontVariationsMedium),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -779,13 +776,12 @@ class _LocationsScreenState extends State<LocationsScreen> {
             tileColor: Colors.transparent,
             title: Text(
               loc.city,
-              style: TextStyle(
-                  fontSize: 15, fontVariations: FontVariationsRegularNoRound),
+              style:
+                  TextStyle(fontSize: 15, fontVariations: FontVariationsMedium),
             ),
             subtitle: Text(loc.country,
                 style: TextStyle(
-                    fontSize: 13,
-                    fontVariations: FontVariationsRegularNoRound)),
+                    fontSize: 13, fontVariations: FontVariationsMedium)),
             trailing: CircleAvatar(
               backgroundColor: Theme.of(context).colorScheme.surface,
               child: Icon(Symbols.drag_handle),

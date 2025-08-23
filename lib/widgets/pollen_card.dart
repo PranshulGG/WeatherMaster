@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../utils/condition_label_map.dart';
 
 class PollenCard extends StatelessWidget {
   final Map<String, dynamic> pollenData;
@@ -109,7 +110,7 @@ class PollenCard extends StatelessWidget {
             ),
             Text("pollen".tr(),
                 style: TextStyle(
-                    fontWeight: FontWeight.w600,
+                    fontVariations: FontVariationsSemiBold,
                     color: Theme.of(context).colorScheme.secondary,
                     fontSize: 16)),
           ]),

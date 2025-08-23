@@ -98,7 +98,7 @@ class WeatherConditionMapper {
 }
 
 const FontVariationsRegularNoRound = [
-  FontVariation('wght', 460),
+  FontVariation('wght', 500),
   FontVariation('ROND', 0),
 ];
 

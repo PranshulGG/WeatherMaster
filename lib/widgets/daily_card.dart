@@ -8,6 +8,7 @@ import '../notifiers/unit_settings_notifier.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import '../screens/daily_forecast.dart';
 import '../controllers/home_f.dart';
+import '../utils/condition_label_map.dart';
 
 class DailyCard extends StatelessWidget {
   final List<dynamic> dailyTime;
@@ -85,11 +86,10 @@ class DailyCard extends StatelessWidget {
               width: 5,
             ),
             Text("daily_forecast".tr(),
-                style: TextStyle(fontVariations: [
-                  FontVariation('wght', 600),
-                  FontVariation('ROND', 100),
-                  FontVariation("wdth", 90)
-                ], color: colorTheme.secondary, fontSize: 16)),
+                style: TextStyle(
+                    fontVariations: FontVariationsSemiBold,
+                    color: colorTheme.secondary,
+                    fontSize: 16)),
           ]),
           Divider(
             height: 14,

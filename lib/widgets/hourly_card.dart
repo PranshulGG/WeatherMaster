@@ -7,6 +7,7 @@ import '../utils/unit_converter.dart';
 import 'package:provider/provider.dart';
 import '../notifiers/unit_settings_notifier.dart';
 import '../utils/visual_utils.dart';
+import '../utils/condition_label_map.dart';
 
 class HourlyCard extends StatelessWidget {
   final List<dynamic> hourlyTime;
@@ -75,11 +76,10 @@ class HourlyCard extends StatelessWidget {
               width: 5,
             ),
             Text("hourly_forecast".tr(),
-                style: TextStyle(fontVariations: [
-                  FontVariation('wght', 600),
-                  FontVariation('ROND', 100),
-                  FontVariation("wdth", 90)
-                ], color: colorTheme.secondary, fontSize: 16)),
+                style: TextStyle(
+                    fontVariations: FontVariationsSemiBold,
+                    color: colorTheme.secondary,
+                    fontSize: 16)),
           ]),
           Divider(
             height: 6,
@@ -182,7 +182,7 @@ class HourlyCard extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 12,
                               color: colorTheme.primary,
-                              fontWeight: FontWeight.w700)),
+                              fontVariations: FontVariationsSemiBold)),
                       SvgPicture.asset(
                         WeatherIconMapper.getIcon(code, isDay ? 1 : 0),
                         width: 26,

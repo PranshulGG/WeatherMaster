@@ -238,7 +238,7 @@ class _WeatherTopCardState extends State<WeatherTopCard> {
                                         .onSurfaceVariant,
                                     fontSize: 15,
                                     fontVariations: [
-                                      FontVariation('wght', 450),
+                                      FontVariation('wght', 500),
                                     ],
                                   ),
                                   textAlign: TextAlign.right,

@@ -1237,7 +1237,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                     : windSpeed.toStringAsFixed(1);
 
                         Widget windArrow = Transform.rotate(
-                          angle: windDirection * (3.1415926535 / 180),
+                          angle: -(windDirection * (3.1415926535 / 180)),
                           child: Icon(
                             Icons.navigation,
                             size: 20,

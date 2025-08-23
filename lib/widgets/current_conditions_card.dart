@@ -223,6 +223,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                             title: Text(
                               "humidity".tr(),
                               style: TextStyle(
+                                  fontVariations: FontVariationsMedium,
                                   color: Theme.of(context).brightness ==
                                           Brightness.dark
                                       ? Colors.white
@@ -244,10 +245,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                     fontSize:
                                         MediaQuery.of(context).size.width *
                                             0.13,
-                                    fontVariations: [
-                                      FontVariation('wght', 500),
-                                      FontVariation('ROND', 100),
-                                    ],
+                                    fontVariations: FontVariationsBold,
                                   ),
                                 ),
                               )),
@@ -278,10 +276,8 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                                     .colorScheme
                                                     .onTertiary,
                                                 fontSize: 16,
-                                                fontVariations: [
-                                                  FontVariation('wght', 450),
-                                                  FontVariation('ROND', 0),
-                                                ],
+                                                fontVariations:
+                                                    FontVariationsMedium,
                                               ))),
                                     ),
                                     Flexible(
@@ -291,10 +287,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                         color: Theme.of(context)
                                             .colorScheme
                                             .onSurface,
-                                        fontVariations: [
-                                          FontVariation('wght', 450),
-                                          FontVariation('ROND', 0),
-                                        ],
+                                        fontVariations: FontVariationsMedium,
                                       ),
                                       overflow: TextOverflow.ellipsis,
                                     ))
@@ -369,6 +362,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                         contentPadding: EdgeInsets.only(left: 10, bottom: 0),
                         title: Text("sun_tile_page".tr(),
                             style: TextStyle(
+                                fontVariations: FontVariationsMedium,
                                 color: Theme.of(context).brightness ==
                                         Brightness.dark
                                     ? Colors.white
@@ -436,7 +430,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                           FontVariation('wght', 500),
                                           FontVariation('ROND', 100),
                                         ],
-                                        fontSize: 13,
+                                        fontSize: 14,
                                       ))
                                 ],
                               ),
@@ -457,7 +451,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                             FontVariation('wght', 500),
                                             FontVariation('ROND', 100),
                                           ],
-                                          fontSize: 13)),
+                                          fontSize: 14)),
                                 ],
                               ),
                               SizedBox(
@@ -517,10 +511,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.onSurface,
                         fontSize: MediaQuery.of(context).size.width * 0.1,
-                        fontVariations: [
-                          FontVariation('wght', 500),
-                          FontVariation('ROND', 100),
-                        ],
+                        fontVariations: FontVariationsBold,
                       ),
                     ),
                   ),
@@ -533,10 +524,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                           fontSize: 18,
-                          fontVariations: [
-                            FontVariation('wght', 450),
-                            FontVariation('ROND', 0),
-                          ],
+                          fontVariations: FontVariationsMedium,
                         ),
                       ),
                     ),
@@ -618,10 +606,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                       .onTertiaryContainer,
                                   fontSize:
                                       MediaQuery.of(context).size.width * 0.1,
-                                  fontVariations: [
-                                    FontVariation('wght', 500),
-                                    FontVariation('ROND', 100),
-                                  ],
+                                  fontVariations: FontVariationsBold,
                                 ),
                               ),
                             ),
@@ -636,10 +621,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                     color:
                                         Theme.of(context).colorScheme.onSurface,
                                     fontSize: 18,
-                                    fontVariations: [
-                                      FontVariation('wght', 450),
-                                      FontVariation('ROND', 0),
-                                    ],
+                                    fontVariations: FontVariationsMedium,
                                   ),
                                 ),
                               ),
@@ -716,10 +698,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                 color: Theme.of(context).colorScheme.onSurface,
                                 fontSize:
                                     MediaQuery.of(context).size.width * 0.1,
-                                fontVariations: [
-                                  FontVariation('wght', 500),
-                                  FontVariation('ROND', 100),
-                                ],
+                                fontVariations: FontVariationsBold,
                               ),
                             ),
                           ),
@@ -738,7 +717,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                       .onSurfaceVariant,
                                   fontSize: 16,
                                   fontVariations: [
-                                    FontVariation('wght', 450),
+                                    FontVariation('wght', 500),
                                     FontVariation('ROND', 0),
                                   ],
                                 ),
@@ -822,10 +801,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                       Theme.of(context).colorScheme.onSurface,
                                   fontSize:
                                       MediaQuery.of(context).size.width * 0.1,
-                                  fontVariations: [
-                                    FontVariation('wght', 500),
-                                    FontVariation('ROND', 100),
-                                  ],
+                                  fontVariations: FontVariationsBold,
                                 ),
                               ),
                             ),
@@ -843,10 +819,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                         .colorScheme
                                         .onSurfaceVariant,
                                     fontSize: 15,
-                                    fontVariations: [
-                                      FontVariation('wght', 450),
-                                      FontVariation('ROND', 0),
-                                    ],
+                                    fontVariations: FontVariationsMedium,
                                   ),
                                 ),
                               ),
@@ -918,6 +891,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                         contentPadding: EdgeInsets.only(left: 10, bottom: 0),
                         title: Text("AQI",
                             style: TextStyle(
+                                fontVariations: FontVariationsMedium,
                                 color: Theme.of(context).brightness ==
                                         Brightness.dark
                                     ? Colors.white
@@ -1035,6 +1009,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                         contentPadding: EdgeInsets.only(left: 10, bottom: 0),
                         title: Text("precipitation".tr(),
                             style: TextStyle(
+                                fontVariations: FontVariationsMedium,
                                 color: Theme.of(context).brightness ==
                                         Brightness.dark
                                     ? Colors.white
@@ -1100,7 +1075,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                         style: TextStyle(
                                             height: 1.2,
                                             fontVariations: [
-                                              FontVariation('wght', 450),
+                                              FontVariation('wght', 600),
                                               FontVariation('ROND', 0),
                                             ],
                                             color: Theme.of(context)
@@ -1231,11 +1206,12 @@ class headerWidgetConditions extends StatelessWidget {
               Flexible(
                 child: Text(headerText,
                     style: TextStyle(
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white
-                            : Colors.black,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500),
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.black,
+                      fontSize: 14,
+                      fontVariations: FontVariationsMedium,
+                    ),
                     textAlign: TextAlign.center,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis),

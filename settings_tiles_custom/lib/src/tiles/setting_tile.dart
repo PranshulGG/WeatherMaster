@@ -85,8 +85,8 @@ abstract class SettingTile extends StatelessWidget {
         style: textWidget.style ??
             const TextStyle(
               fontSize: 16.5,
-              fontVariations: const [
-                FontVariation('wght', 460),
+              fontVariations: [
+                FontVariation('wght', 550),
                 FontVariation('ROND', 100),
               ],
             ),
@@ -106,8 +106,8 @@ abstract class SettingTile extends StatelessWidget {
         textWidget.data ?? '',
         style: textWidget.style ??
             const TextStyle(
-              fontVariations: const [
-                FontVariation('wght', 450),
+              fontVariations: [
+                FontVariation('wght', 500),
                 FontVariation('ROND', 0),
               ],
             ),

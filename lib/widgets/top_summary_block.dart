@@ -6,6 +6,7 @@ import '../utils/unit_converter.dart';
 import 'package:provider/provider.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import '../helper/locale_helper.dart';
+import '../utils/condition_label_map.dart';
 
 class SummaryCard extends StatefulWidget {
   final int selectedContainerBgIndex;
@@ -336,7 +337,7 @@ class _SummaryCardState extends State<SummaryCard> {
             _headline ?? '',
             style: TextStyle(
               fontVariations: [
-                FontVariation('wght', 500),
+                FontVariation('wght', 550),
                 FontVariation('ROND', 0),
               ],
               // fontVariations: FontFeature(feature),
@@ -372,7 +373,7 @@ class _SummaryCardState extends State<SummaryCard> {
                                     .colorScheme
                                     .onSurfaceVariant,
                                 fontVariations: [
-                                  FontVariation('wght', 450),
+                                  FontVariation('wght', 500),
                                 ],
                               ),
                             ),
@@ -608,11 +609,7 @@ class _SummaryCardState extends State<SummaryCard> {
                             ),
                             Text("quick_summary".tr(),
                                 style: TextStyle(
-                                    fontVariations: [
-                                      FontVariation('wght', 600),
-                                      FontVariation('ROND', 100),
-                                      FontVariation("wdth", 90)
-                                    ],
+                                    fontVariations: FontVariationsSemiBold,
                                     color:
                                         Theme.of(context).colorScheme.secondary,
                                     fontSize: 16)),

@@ -200,14 +200,16 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
             TextButton(
               child: Text(
                 "cancel".tr(),
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                style: TextStyle(
+                    fontVariations: [FontVariation('wght', 700)], fontSize: 16),
               ),
               onPressed: () => Navigator.pop(context, false),
             ),
             TextButton(
               child: Text(
                 "save".tr(),
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                style: TextStyle(
+                    fontVariations: [FontVariation('wght', 700)], fontSize: 16),
               ),
               onPressed: () => Navigator.pop(context, true),
             ),
@@ -253,8 +255,7 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
               enabledBorder: InputBorder.none,
               disabledBorder: InputBorder.none,
               hintText: "${"search".tr()}...",
-              hintStyle:
-                  TextStyle(fontVariations: FontVariationsRegularNoRound),
+              hintStyle: TextStyle(fontVariations: FontVariationsMedium),
             ),
           ),
           titleSpacing: 0,
@@ -281,8 +282,10 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
                     final code = results[index]['country_code'] ?? '';
 
                     final isSaved = savedLocations.any((loc) =>
-                        loc.city.toLowerCase() == city.toLowerCase() &&
-                        loc.country.toLowerCase() == country.toLowerCase());
+                        loc.latitude.toDouble().toString() ==
+                            results[index]['lat'] &&
+                        loc.longitude.toDouble().toString() ==
+                            results[index]['lon']);
 
                     return ListTile(
                         enabled: !isSaved,
@@ -297,9 +300,15 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
                             : const Icon(Icons.location_on),
                         title: Text(
                           city,
-                          style: TextStyle(fontWeight: FontWeight.w500),
+                          style: TextStyle(fontVariations: FontVariationsBold),
                         ),
-                        subtitle: country.isNotEmpty ? Text(country) : null,
+                        subtitle: country.isNotEmpty
+                            ? Text(
+                                country,
+                                style: TextStyle(
+                                    fontVariations: FontVariationsMedium),
+                              )
+                            : null,
                         trailing: FutureBuilder<int>(
                             future: getLocationCount(),
                             builder: (context, snapshot) {

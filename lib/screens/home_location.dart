@@ -67,7 +67,6 @@ class HomeLocationScreen extends StatelessWidget {
         current = decoded.map((e) => SavedLocation.fromJson(e)).toList();
       }
 
-      // Optionally avoid duplicates
       bool alreadyExists = current.any((loc) =>
           loc.city == newLocation.city && loc.country == newLocation.country);
 
@@ -325,9 +324,6 @@ class HomeLocationScreen extends StatelessWidget {
                               child: ListTile(
                                 contentPadding:
                                     EdgeInsets.only(left: 5, right: 20),
-                                enabled: thisCacheKey == currentCacheKey
-                                    ? false
-                                    : true,
                                 minTileHeight: 68,
                                 splashColor: Colors.transparent,
                                 leading: isSelected
@@ -367,7 +363,15 @@ class HomeLocationScreen extends StatelessWidget {
                                               .onPrimaryContainer
                                           : null),
                                 ),
-                                subtitle: Text(loc.country),
+                                subtitle: Text(
+                                  loc.country,
+                                  style: TextStyle(
+                                      color: isSelected
+                                          ? Theme.of(context)
+                                              .colorScheme
+                                              .onPrimaryContainer
+                                          : null),
+                                ),
                                 onTap: () {
                                   if (!isSelected) {
                                     setHomeLocation(context, loc);

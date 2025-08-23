@@ -98,9 +98,9 @@ flutter:
   fonts:
     - family: FlexFont
       fonts:
-        - asset: assets/fonts/flex_font.ttf
+        - asset: assets/fonts/Manrope-VariableFont_wght.ttf
           weight: 400
-        - asset: assets/fonts/flex_font.ttf
+        - asset: assets/fonts/Manrope-VariableFont_wght.ttf
           weight: 500
 
   # To add assets to your application, add an assets section, like this:
