@@ -544,5 +544,7 @@
   "froggy_layout": "تصميم فروغي الضفدع",
   "high_text": "عالي",
   "low_text": "منخفض",
-  "two_days_forecast_only": "2 days forcast only"
+  "two_days_forecast_only": "2 days forcast only",
+  "set_as_default": "Set as default",
+  "system_font": "System"
 }
