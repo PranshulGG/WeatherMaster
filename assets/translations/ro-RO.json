@@ -544,5 +544,7 @@
   "froggy_layout": "Froggy Layout",
   "high_text": "Mare",
   "low_text": "Scăzut ",
-  "two_days_forecast_only": "Prognoză numai de 2 zile"
+  "two_days_forecast_only": "Prognoză numai de 2 zile",
+  "set_as_default": "Set as default",
+  "system_font": "System"
 }
