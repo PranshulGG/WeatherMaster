@@ -510,7 +510,7 @@
   "no_data_available": "No data available",
   "email_text": "Email",
   "on_github": "On Github",
-  "checking": "Checking...",
+  "checking": "Checando...",
   "best_match": "Best match",
   "disable_battery_optimizations": "Disable battery optimizations",
   "disable_battery_optimizations_sub": "Disabling battery optimization is required for background updates to function properly",

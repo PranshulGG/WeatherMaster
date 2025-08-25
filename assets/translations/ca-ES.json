@@ -540,9 +540,9 @@
   "kmni_desc_3": "Model d'altíssima resolució centrat en els Països Baixos. Excel·lent per a previsions locals detallades, inclosos precipitacions i vent.",
   "show_clock": "Mostra el rellotge",
   "size": "Mida",
-  "make_the_card_background_darker": "Make the card background darker",
-  "froggy_layout": "Froggy Layout",
+  "make_the_card_background_darker": "Fes més fosc el fons de la targeta",
+  "froggy_layout": "Aparença de Froggy",
   "high_text": "Alt",
   "low_text": "Baix",
-  "two_days_forecast_only": "2 days forcast only"
+  "two_days_forecast_only": "Només previsió de 2 dies"
 }
