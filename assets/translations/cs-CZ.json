@@ -544,5 +544,7 @@
   "froggy_layout": "Froggy rozvržení",
   "high_text": "Vysoký",
   "low_text": "Nízký",
-  "two_days_forecast_only": "Pouze 2denní předpověď"
+  "two_days_forecast_only": "Pouze 2denní předpověď",
+  "set_as_default": "Set as default",
+  "system_font": "System"
 }
