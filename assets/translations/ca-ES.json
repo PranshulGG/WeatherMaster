@@ -544,5 +544,7 @@
   "froggy_layout": "Aparença de Froggy",
   "high_text": "Alt",
   "low_text": "Baix",
-  "two_days_forecast_only": "Només previsió de 2 dies"
+  "two_days_forecast_only": "Només previsió de 2 dies",
+  "set_as_default": "Set as default",
+  "system_font": "System"
 }
