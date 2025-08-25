@@ -78,7 +78,7 @@ class HourlyCard extends StatelessWidget {
                 style: TextStyle(
                     color: colorTheme.secondary,
                     fontSize: 16,
-                    fontWeight: FontWeight.w700)),
+                    fontWeight: FontWeight.w600)),
           ]),
           Divider(
             height: 6,
@@ -175,6 +175,7 @@ class HourlyCard extends StatelessWidget {
                                   ? "${precipProb.round()}%"
                                   : "‎",
                           style: TextStyle(
+                            fontWeight: FontWeight.w600,
                             fontSize: 12,
                             color: colorTheme.primary,
                           )),

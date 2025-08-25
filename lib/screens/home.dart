@@ -19,7 +19,6 @@ import 'package:material_color_utilities/material_color_utilities.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:animations/animations.dart';
-import 'package:weather_master_app/utils/condition_label_map.dart';
 
 // App utilities
 import '../utils/animation_map.dart';
@@ -262,9 +261,13 @@ class _WeatherHomeState extends State<WeatherHome> {
       final now = DateTime.now();
       if (lastUpdateTime != null &&
           now.difference(lastUpdateTime).inMinutes < 450) {
-        _isAppFullyLoaded = true;
+        setState(() {
+          _isAppFullyLoaded = true;
+        });
+        print(_isAppFullyLoaded);
       } else {
         checkAndUpdateHomeLocation();
+        print(_isAppFullyLoaded);
       }
     }
     return json.decode(cached);
@@ -282,8 +285,6 @@ class _WeatherHomeState extends State<WeatherHome> {
           _isLoadingFroggy = false;
           if (_istriggeredFromLocations) {
             _istriggeredFromLocations = false;
-            // _isAppFullyLoaded = true;
-            print(_isAppFullyLoaded);
           }
         });
       }
@@ -295,7 +296,6 @@ class _WeatherHomeState extends State<WeatherHome> {
           _isLoadingFroggy = false;
           if (_istriggeredFromLocations) {
             _istriggeredFromLocations = false;
-            // _isAppFullyLoaded = true;
           }
           Provider.of<ThemeController>(context, listen: false)
               .setSeedColor(weatherConditionColors[newindex]);
@@ -735,17 +735,17 @@ class _WeatherHomeState extends State<WeatherHome> {
       // cloudy
       isLight
           ? paletteWeather.secondary.get(98)
-          : paletteWeather.secondary.get(useDarkerBackground ? 5 : 8),
+          : paletteWeather.secondary.get(useDarkerBackground ? 2 : 8),
 
       // overcast
       isLight
           ? 0xFFfcfcff
-          : paletteWeather.secondary.get(useDarkerBackground ? 5 : 6),
+          : paletteWeather.secondary.get(useDarkerBackground ? 2 : 6),
 
       // clear day
       isLight
           ? 0xFFfcfcff
-          : paletteWeather.primary.get(useDarkerBackground ? 5 : 8),
+          : paletteWeather.primary.get(useDarkerBackground ? 2 : 8),
 
       // clear night
       isLight
@@ -763,21 +763,21 @@ class _WeatherHomeState extends State<WeatherHome> {
               .get(98)
           : CorePalette.of(Color.fromARGB(255, 255, 213, 165).toARGB32())
               .secondary
-              .get(useDarkerBackground ? 3 : 6),
+              .get(useDarkerBackground ? 2 : 6),
 
       // rain
       isLight
           ? 0xFFfcfcff
           : CorePalette.of(Colors.blueAccent.toARGB32())
               .secondary
-              .get(useDarkerBackground ? 5 : 8),
+              .get(useDarkerBackground ? 2 : 8),
 
       // thunder
       isLight
           ? CorePalette.of(const Color(0xFFe4b7f3).toARGB32()).secondary.get(96)
           : CorePalette.of(const Color(0xFFe4b7f3).toARGB32())
               .secondary
-              .get(useDarkerBackground ? 5 : 10),
+              .get(useDarkerBackground ? 2 : 10),
 
       // snow
       isLight

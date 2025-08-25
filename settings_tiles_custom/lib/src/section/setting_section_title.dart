@@ -18,6 +18,7 @@ class SettingSectionTitle extends StatelessWidget {
         title,
         style: TextStyle(
           fontSize: 16,
+          fontWeight: FontWeight.w600,
           color: Theme.of(context).colorScheme.primary,
         ),
       ),

@@ -88,7 +88,7 @@ class DailyCard extends StatelessWidget {
                 style: TextStyle(
                     color: colorTheme.secondary,
                     fontSize: 16,
-                    fontWeight: FontWeight.w700)),
+                    fontWeight: FontWeight.w600)),
           ]),
           Divider(
             height: 14,
@@ -169,9 +169,10 @@ class DailyCard extends StatelessWidget {
                                   ? '--'
                                   : "${precipProb.round()}%",
                               style: TextStyle(
-                                  fontSize: 14,
-                                  color: colorTheme.primary,
-                                  fontWeight: FontWeight.w500)),
+                                fontSize: 14,
+                                color: colorTheme.primary,
+                                fontWeight: FontWeight.w600,
+                              )),
                           SizedBox(
                             height: 3,
                           ),

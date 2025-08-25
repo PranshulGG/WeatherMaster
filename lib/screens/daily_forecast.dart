@@ -692,9 +692,9 @@ class HourlyCardForecast extends StatelessWidget {
                                   ? "${precipProb.round()}%"
                                   : "‎",
                           style: TextStyle(
-                            fontSize: 12,
-                            color: colorTheme.primary,
-                          )),
+                              fontSize: 12,
+                              color: colorTheme.primary,
+                              fontWeight: FontWeight.w600)),
                       SvgPicture.asset(
                         WeatherIconMapper.getIcon(code, isDay ? 1 : 0),
                         width: 26,
@@ -774,6 +774,7 @@ class ForecastDetailsHeader extends StatelessWidget {
                       : "${selectedDayData!['maxTemp'].round()}°/",
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSurface,
+                    fontWeight: FontWeight.w900,
                     fontSize: 80,
                   ),
                   textHeightBehavior: TextHeightBehavior(
@@ -786,6 +787,7 @@ class ForecastDetailsHeader extends StatelessWidget {
                       : "${selectedDayData!['minTemp'].round()}°",
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    fontWeight: FontWeight.w900,
                     fontSize: 80,
                   ),
                   textHeightBehavior: TextHeightBehavior(

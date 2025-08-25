@@ -188,9 +188,9 @@ class RainBlock extends StatelessWidget {
         children: [
           Text(title,
               style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurface,
+                  color: Theme.of(context).colorScheme.secondary,
                   fontSize: 16,
-                  fontWeight: FontWeight.w700)),
+                  fontWeight: FontWeight.w600)),
           if (subtitle != null)
             Padding(
               padding: const EdgeInsets.only(top: 2),
