@@ -544,5 +544,7 @@
   "froggy_layout": "Froggy Layout",
   "high_text": "زیاد ",
   "low_text": "کم",
-  "two_days_forecast_only": "2 days forcast only"
+  "two_days_forecast_only": "2 days forcast only",
+  "set_as_default": "Set as default",
+  "system_font": "System"
 }
