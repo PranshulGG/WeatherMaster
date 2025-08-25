@@ -540,9 +540,11 @@
   "kmni_desc_3": "Modelo de ultraalta resolución centrado en los Países Bajos. Excelente para pronósticos locales detallados, incluyendo precipitación y viento..",
   "show_clock": "Mostrar reloj",
   "size": "Tamaño",
-  "make_the_card_background_darker": "Make the card background darker",
+  "make_the_card_background_darker": "Hacer el fondo de la tarjeta más oscuro",
   "froggy_layout": "Diseño de rana",
   "high_text": "Alto",
   "low_text": "Bajo",
-  "two_days_forecast_only": "Pronóstico de solo 2 días"
+  "two_days_forecast_only": "Pronóstico de solo 2 días",
+  "set_as_default": "Set as default",
+  "system_font": "System"
 }
