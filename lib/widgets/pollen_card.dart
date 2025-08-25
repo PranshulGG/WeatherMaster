@@ -110,7 +110,6 @@ class PollenCard extends StatelessWidget {
             ),
             Text("pollen".tr(),
                 style: TextStyle(
-                    fontVariations: FontVariationsSemiBold,
                     color: Theme.of(context).colorScheme.secondary,
                     fontSize: 16)),
           ]),

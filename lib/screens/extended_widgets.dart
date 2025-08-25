@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:weather_master_app/utils/condition_label_map.dart';
 import 'dart:convert';
 import '../utils/preferences_helper.dart';
 import 'package:hive/hive.dart';
@@ -188,9 +187,9 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                       Text(
                         "$avgHumidity%",
                         style: TextStyle(
-                            fontSize: 50,
-                            color: Theme.of(context).colorScheme.secondary,
-                            fontVariations: FontVariationsMedium),
+                          fontSize: 50,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
                       )
                     ],
                   ),
@@ -294,13 +293,12 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                                       child: Text(
                                                           "$humidityPercentage",
                                                           style: TextStyle(
-                                                              fontSize: 16,
-                                                              color: Theme.of(
-                                                                      context)
-                                                                  .colorScheme
-                                                                  .primary,
-                                                              fontVariations:
-                                                                  FontVariationsBold)),
+                                                            fontSize: 16,
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .colorScheme
+                                                                .primary,
+                                                          )),
                                                     )),
                                               )
                                             ]),
@@ -340,14 +338,14 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                 children: [
                   Text("humidity_info".tr(),
                       style: TextStyle(
-                          fontSize: 17,
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          fontVariations: FontVariationsRegularNoRound)),
+                        fontSize: 17,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      )),
                   Text("humidity_info_2".tr(),
                       style: TextStyle(
-                          fontSize: 17,
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          fontVariations: FontVariationsRegularNoRound)),
+                        fontSize: 17,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      )),
                 ],
               ))
         ]);
@@ -461,12 +459,10 @@ class _ExtendWidgetState extends State<ExtendWidget> {
               Text("dawn".tr(),
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
-                      fontVariations: FontVariationsMedium,
                       fontSize: 15)),
               Text(dawnFormatted,
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
-                      fontVariations: FontVariationsBold,
                       fontSize: 18)),
             ],
           );
@@ -477,12 +473,10 @@ class _ExtendWidgetState extends State<ExtendWidget> {
               Text("sunrise".tr(),
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
-                      fontVariations: FontVariationsMedium,
                       fontSize: 15)),
               Text(sunriseFormat,
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
-                      fontVariations: FontVariationsBold,
                       fontSize: 18)),
             ],
           );
@@ -493,12 +487,10 @@ class _ExtendWidgetState extends State<ExtendWidget> {
               Text("dusk".tr(),
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.secondary,
-                      fontVariations: FontVariationsMedium,
                       fontSize: 15)),
               Text(duskFormatted,
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.secondary,
-                      fontVariations: FontVariationsBold,
                       fontSize: 18)),
             ],
           );
@@ -509,12 +501,10 @@ class _ExtendWidgetState extends State<ExtendWidget> {
               Text("sunset".tr(),
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.secondary,
-                      fontVariations: FontVariationsMedium,
                       fontSize: 15)),
               Text(sunsetFormat,
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.secondary,
-                      fontVariations: FontVariationsBold,
                       fontSize: 18)),
             ],
           );
@@ -608,28 +598,24 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                   children: [
                     Text("sunset_rise_info".tr(),
                         style: TextStyle(
-                            fontSize: 17,
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontVariations: FontVariationsRegularNoRound)),
+                          fontSize: 17,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        )),
                     Text("sunset_rise_info_2".tr(),
                         style: TextStyle(
-                            fontSize: 17,
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontVariations: FontVariationsRegularNoRound)),
+                          fontSize: 17,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        )),
                     Text("sunset_rise_info_3".tr(),
                         style: TextStyle(
-                            fontSize: 17,
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontVariations: FontVariationsRegularNoRound)),
+                          fontSize: 17,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        )),
                     Text("sunset_rise_info_4".tr(),
                         style: TextStyle(
-                            fontSize: 17,
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontVariations: FontVariationsRegularNoRound)),
+                          fontSize: 17,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        )),
                   ],
                 ))
           ]);
@@ -720,10 +706,9 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                             Text(
                               "${convertedPressure.round()}",
                               style: TextStyle(
-                                  fontSize: 50,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  fontVariations: FontVariationsMedium),
+                                fontSize: 50,
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
                             ),
                             Padding(
                                 padding: EdgeInsets.only(bottom: 11, left: 8),
@@ -734,12 +719,11 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                           'hPa',
                                       context.locale),
                                   style: TextStyle(
-                                      fontSize: 20,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurfaceVariant,
-                                      fontVariations:
-                                          FontVariationsRegularNoRound),
+                                    fontSize: 20,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
+                                  ),
                                 ))
                           ],
                         )
@@ -897,11 +881,11 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                               const SizedBox(height: 10),
                               Text("${pressureHourly[dataIndex].round()}",
                                   style: TextStyle(
-                                      fontSize: 14,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurfaceVariant,
-                                      fontVariations: FontVariationsMedium)),
+                                    fontSize: 14,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
+                                  )),
                               Text(hour,
                                   style: TextStyle(
                                       fontSize: 15,
@@ -934,16 +918,14 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                   children: [
                     Text("pressure_info".tr(),
                         style: TextStyle(
-                            fontSize: 17,
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontVariations: FontVariationsRegularNoRound)),
+                          fontSize: 17,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        )),
                     Text("pressure_info_2".tr(),
                         style: TextStyle(
-                            fontSize: 17,
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontVariations: FontVariationsRegularNoRound)),
+                          fontSize: 17,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        )),
                   ],
                 ))
           ]);
@@ -1022,11 +1004,11 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                             Text(
                               "${convertedVisibility.round()}",
                               style: TextStyle(
-                                  fontSize: 50,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onTertiaryContainer,
-                                  fontVariations: FontVariationsMedium),
+                                fontSize: 50,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onTertiaryContainer,
+                              ),
                             ),
                             Padding(
                                 padding: EdgeInsets.only(bottom: 11, left: 8),
@@ -1034,12 +1016,11 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                   localizeVisibilityUnit(
                                       visibilityUnit, context.locale),
                                   style: TextStyle(
-                                      fontSize: 20,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onTertiaryContainer,
-                                      fontVariations:
-                                          FontVariationsRegularNoRound),
+                                    fontSize: 20,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onTertiaryContainer,
+                                  ),
                                 ))
                           ],
                         ),
@@ -1065,10 +1046,9 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                   children: [
                     Text("visibility_info".tr(),
                         style: TextStyle(
-                            fontSize: 17,
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontVariations: FontVariationsRegularNoRound)),
+                          fontSize: 17,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        )),
                   ],
                 ))
           ]);
@@ -1170,22 +1150,20 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                             Text(
                               "${PreferencesHelper.getString("selectedWindUnit") == 'M/s' ? formattedAvgWindSpeed.toStringAsFixed(1) : formattedAvgWindSpeed.round()}",
                               style: TextStyle(
-                                  fontSize: 50,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  fontVariations: FontVariationsMedium),
+                                fontSize: 50,
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
                             ),
                             Padding(
                                 padding: EdgeInsets.only(bottom: 11, left: 8),
                                 child: Text(
                                   localizeWindUnit(windUnit, context.locale),
                                   style: TextStyle(
-                                      fontSize: 20,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurfaceVariant,
-                                      fontVariations:
-                                          FontVariationsRegularNoRound),
+                                    fontSize: 20,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
+                                  ),
                                 ))
                           ],
                         )
@@ -1328,11 +1306,11 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                               const SizedBox(height: 10),
                               Text("$formattedWindSpeed",
                                   style: TextStyle(
-                                      fontSize: 14,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurfaceVariant,
-                                      fontVariations: FontVariationsMedium)),
+                                    fontSize: 14,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
+                                  )),
                               Text(hour,
                                   style: TextStyle(
                                       fontSize: 15,
@@ -1365,10 +1343,9 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                   children: [
                     Text("wind_info".tr(),
                         style: TextStyle(
-                            fontSize: 17,
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontVariations: FontVariationsRegularNoRound)),
+                          fontSize: 17,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        )),
                   ],
                 ))
           ]);
@@ -1460,10 +1437,9 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                             Text(
                               avgUv != null ? "${avgUv.round()}" : "--",
                               style: TextStyle(
-                                  fontSize: 50,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  fontVariations: FontVariationsMedium),
+                                fontSize: 50,
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
                             ),
                             Padding(
                                 padding: EdgeInsets.only(bottom: 11, left: 8),
@@ -1608,13 +1584,12 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                                                   ? "${uvValue.round()}"
                                                                   : "--",
                                                               style: TextStyle(
-                                                                  fontSize: 16,
-                                                                  color: getUvColor(
-                                                                      uvValue ??
-                                                                          0,
-                                                                      context),
-                                                                  fontVariations:
-                                                                      FontVariationsBold))),
+                                                                fontSize: 16,
+                                                                color: getUvColor(
+                                                                    uvValue ??
+                                                                        0,
+                                                                    context),
+                                                              ))),
                                                     ))
                                               ]),
                                         ),
@@ -1654,34 +1629,29 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                   children: [
                     Text("uv_index_info".tr(),
                         style: TextStyle(
-                            fontSize: 17,
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontVariations: FontVariationsRegularNoRound)),
+                          fontSize: 17,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        )),
                     Text("uv_index_info_2".tr(),
                         style: TextStyle(
-                            fontSize: 17,
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontVariations: FontVariationsRegularNoRound)),
+                          fontSize: 17,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        )),
                     Text("uv_index_info_3".tr(),
                         style: TextStyle(
-                            fontSize: 17,
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontVariations: FontVariationsRegularNoRound)),
+                          fontSize: 17,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        )),
                     Text("uv_index_info_4".tr(),
                         style: TextStyle(
-                            fontSize: 17,
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontVariations: FontVariationsRegularNoRound)),
+                          fontSize: 17,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        )),
                     Text("uv_index_info_5".tr(),
                         style: TextStyle(
-                            fontSize: 17,
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontVariations: FontVariationsRegularNoRound)),
+                          fontSize: 17,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        )),
                   ],
                 ))
           ]);
@@ -1747,10 +1717,10 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                               Text(
                                 "$aqiFormat",
                                 style: TextStyle(
-                                    fontSize: 50,
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
-                                    fontVariations: FontVariationsMedium),
+                                  fontSize: 50,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                ),
                               ),
                               Padding(
                                   padding: EdgeInsets.only(bottom: 11, left: 8),
@@ -1758,12 +1728,11 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                     getAQIIndexType(aqiFormat,
                                         aqiUnit == 'European' ? true : false),
                                     style: TextStyle(
-                                        fontSize: 20,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurfaceVariant,
-                                        fontVariations:
-                                            FontVariationsRegularNoRound),
+                                      fontSize: 20,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurfaceVariant,
+                                    ),
                                   ))
                             ],
                           ),
@@ -1796,8 +1765,6 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                 Text(
                                   "${"united_states_aqi".tr()}:",
                                   style: TextStyle(
-                                      fontVariations:
-                                          FontVariationsRegularNoRound,
                                       color: Theme.of(context)
                                           .colorScheme
                                           .onSurface,
@@ -1825,8 +1792,6 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                               children: [
                                 Text("${"european_aqi".tr()}:",
                                     style: TextStyle(
-                                        fontVariations:
-                                            FontVariationsRegularNoRound,
                                         color: Theme.of(context)
                                             .colorScheme
                                             .onSurface,
@@ -1999,7 +1964,6 @@ class _ExtendWidgetState extends State<ExtendWidget> {
           Text(title,
               style: TextStyle(
                 fontSize: 17,
-                fontVariations: FontVariationsRegularNoRound,
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               )),
           const SizedBox(height: 10),
@@ -2009,9 +1973,9 @@ class _ExtendWidgetState extends State<ExtendWidget> {
               child: Text(
                 line,
                 style: TextStyle(
-                    fontSize: 16,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    fontVariations: FontVariationsRegularNoRound),
+                  fontSize: 16,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
               ),
             ),
         ],
@@ -2105,22 +2069,20 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                             Text(
                               "${double.parse(convertedPrecip.toStringAsFixed(2))}",
                               style: TextStyle(
-                                  fontSize: 50,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  fontVariations: FontVariationsMedium),
+                                fontSize: 50,
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
                             ),
                             Padding(
                                 padding: EdgeInsets.only(bottom: 11, left: 8),
                                 child: Text(
                                   '${localizePrecipUnit(precipitationUnit, context.locale)} • ${precipHours.round()} ${'hrs_sub_text'.tr()}',
                                   style: TextStyle(
-                                      fontSize: 20,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurfaceVariant,
-                                      fontVariations:
-                                          FontVariationsRegularNoRound),
+                                    fontSize: 20,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
+                                  ),
                                 ))
                           ],
                         )
@@ -2243,13 +2205,12 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                                           child: Text(
                                                               "$precipProbMain",
                                                               style: TextStyle(
-                                                                  fontSize: 15,
-                                                                  color: Theme.of(
-                                                                          context)
-                                                                      .colorScheme
-                                                                      .primary,
-                                                                  fontVariations:
-                                                                      FontVariationsBold))),
+                                                                fontSize: 15,
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .colorScheme
+                                                                    .primary,
+                                                              ))),
                                                     )),
                                                 Positioned(
                                                     top: 6,
@@ -2258,13 +2219,12 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                                       child: Center(
                                                           child: Text("%",
                                                               style: TextStyle(
-                                                                  fontSize: 10,
-                                                                  color: Theme.of(
-                                                                          context)
-                                                                      .colorScheme
-                                                                      .primary,
-                                                                  fontVariations:
-                                                                      FontVariationsBold))),
+                                                                fontSize: 10,
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .colorScheme
+                                                                    .primary,
+                                                              ))),
                                                     ))
                                               ]),
                                         ),
@@ -2312,28 +2272,24 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                   children: [
                     Text("precip_info".tr(),
                         style: TextStyle(
-                            fontSize: 17,
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontVariations: FontVariationsRegularNoRound)),
+                          fontSize: 17,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        )),
                     Text("precip_info_2".tr(),
                         style: TextStyle(
-                            fontSize: 17,
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontVariations: FontVariationsRegularNoRound)),
+                          fontSize: 17,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        )),
                     Text("precip_info_3".tr(),
                         style: TextStyle(
-                            fontSize: 17,
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontVariations: FontVariationsRegularNoRound)),
+                          fontSize: 17,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        )),
                     Text("precip_info_4".tr(),
                         style: TextStyle(
-                            fontSize: 17,
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontVariations: FontVariationsRegularNoRound)),
+                          fontSize: 17,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        )),
                   ],
                 ))
           ]);

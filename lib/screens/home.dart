@@ -1274,9 +1274,6 @@ class _WeatherHomeState extends State<WeatherHome> {
                                                     : isLight
                                                         ? Colors.black
                                                         : Colors.white,
-                                                fontVariations: isShowFrog
-                                                    ? null
-                                                    : FontVariationsMedium,
                                                 fontSize: 18,
                                               ),
                                               maxLines: 1,

@@ -23,7 +23,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:ui' as ui;
 import 'services/widget_service.dart';
 import 'widget_background.dart';
-import 'utils/condition_label_map.dart';
 
 final CorePalette paletteStartScreen = CorePalette.of(
   const Color.fromARGB(255, 255, 196, 0).toARGB32(),
@@ -186,24 +185,6 @@ class MyApp extends StatelessWidget {
 
     final isLight = Theme.of(context).brightness == Brightness.light;
 
-    final defaultFontWeight = const TextTheme(
-      bodyLarge: TextStyle(fontVariations: FontVariationsMedium),
-      bodyMedium: TextStyle(fontVariations: FontVariationsMedium),
-      bodySmall: TextStyle(fontVariations: FontVariationsMedium),
-      titleLarge: TextStyle(fontVariations: FontVariationsMedium),
-      titleMedium: TextStyle(fontVariations: FontVariationsMedium),
-      titleSmall: TextStyle(fontVariations: FontVariationsMedium),
-      labelLarge: TextStyle(fontVariations: FontVariationsMedium),
-      labelMedium: TextStyle(fontVariations: FontVariationsMedium),
-      labelSmall: TextStyle(fontVariations: FontVariationsMedium),
-      headlineLarge: TextStyle(fontVariations: FontVariationsMedium),
-      headlineMedium: TextStyle(fontVariations: FontVariationsMedium),
-      headlineSmall: TextStyle(fontVariations: FontVariationsMedium),
-      displayMedium: TextStyle(fontVariations: FontVariationsMedium),
-      displayLarge: TextStyle(fontVariations: FontVariationsMedium),
-      displaySmall: TextStyle(fontVariations: FontVariationsMedium),
-    );
-
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: Color(0x01000000),
@@ -242,12 +223,9 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ).copyWith(
-        textTheme: ThemeData.light()
-            .textTheme
-            .apply(
+        textTheme: ThemeData.light().textTheme.apply(
               fontFamily: 'FlexFont',
-            )
-            .merge(defaultFontWeight),
+            ),
         highlightColor: Colors.transparent,
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: {
@@ -267,12 +245,9 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ).copyWith(
-        textTheme: ThemeData.dark()
-            .textTheme
-            .apply(
+        textTheme: ThemeData.dark().textTheme.apply(
               fontFamily: 'FlexFont',
-            )
-            .merge(defaultFontWeight),
+            ),
         highlightColor: Colors.transparent,
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: {

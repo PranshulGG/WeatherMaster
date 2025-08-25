@@ -200,16 +200,14 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
             TextButton(
               child: Text(
                 "cancel".tr(),
-                style: TextStyle(
-                    fontVariations: [FontVariation('wght', 700)], fontSize: 16),
+                style: TextStyle(fontSize: 16),
               ),
               onPressed: () => Navigator.pop(context, false),
             ),
             TextButton(
               child: Text(
                 "save".tr(),
-                style: TextStyle(
-                    fontVariations: [FontVariation('wght', 700)], fontSize: 16),
+                style: TextStyle(fontSize: 16),
               ),
               onPressed: () => Navigator.pop(context, true),
             ),
@@ -255,7 +253,7 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
               enabledBorder: InputBorder.none,
               disabledBorder: InputBorder.none,
               hintText: "${"search".tr()}...",
-              hintStyle: TextStyle(fontVariations: FontVariationsMedium),
+              hintStyle: TextStyle(),
             ),
           ),
           titleSpacing: 0,
@@ -300,13 +298,12 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
                             : const Icon(Icons.location_on),
                         title: Text(
                           city,
-                          style: TextStyle(fontVariations: FontVariationsBold),
+                          style: TextStyle(),
                         ),
                         subtitle: country.isNotEmpty
                             ? Text(
                                 country,
-                                style: TextStyle(
-                                    fontVariations: FontVariationsMedium),
+                                style: TextStyle(),
                               )
                             : null,
                         trailing: FutureBuilder<int>(

@@ -473,22 +473,22 @@ class _DailyForecastCardState extends State<DailyForecastCard> {
                         children: [
                           Text("${tempMax.round()}°",
                               style: TextStyle(
-                                  fontSize: 16,
-                                  color: isSelected
-                                      ? Theme.of(context).colorScheme.onPrimary
-                                      : Theme.of(context).colorScheme.onSurface,
-                                  fontVariations: FontVariationsBold)),
+                                fontSize: 16,
+                                color: isSelected
+                                    ? Theme.of(context).colorScheme.onPrimary
+                                    : Theme.of(context).colorScheme.onSurface,
+                              )),
                           Text("${tempMin.round()}°",
                               style: TextStyle(
-                                  fontSize: 16,
-                                  color: isSelected
-                                      ? Theme.of(context)
-                                          .colorScheme
-                                          .onInverseSurface
-                                      : Theme.of(context)
-                                          .colorScheme
-                                          .onSurfaceVariant,
-                                  fontVariations: FontVariationsBold)),
+                                fontSize: 16,
+                                color: isSelected
+                                    ? Theme.of(context)
+                                        .colorScheme
+                                        .onInverseSurface
+                                    : Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
+                              )),
                         ],
                       ),
                       SvgPicture.asset(
@@ -502,7 +502,6 @@ class _DailyForecastCardState extends State<DailyForecastCard> {
                               .tr(),
                           style: TextStyle(
                               fontSize: 15,
-                              fontVariations: FontVariationsMedium,
                               color: isSelected
                                   ? Theme.of(context).colorScheme.onPrimary
                                   : Theme.of(context).colorScheme.onSurface),
@@ -598,10 +597,7 @@ class HourlyCardForecast extends StatelessWidget {
               width: 5,
             ),
             Text("hourly_forecast".tr(),
-                style: TextStyle(
-                    fontVariations: FontVariationsSemiBold,
-                    color: colorTheme.secondary,
-                    fontSize: 16)),
+                style: TextStyle(color: colorTheme.secondary, fontSize: 16)),
           ]),
           Divider(
             height: 6,
@@ -681,10 +677,6 @@ class HourlyCardForecast extends StatelessWidget {
                                 color: isFirst
                                     ? colorTheme.onTertiary
                                     : colorTheme.onSurface,
-                                fontVariations: [
-                                  FontVariation('wght', 500),
-                                  FontVariation('ROND', 100),
-                                ],
                               ),
                               textHeightBehavior: TextHeightBehavior(
                                   applyHeightToFirstAscent: false,
@@ -702,7 +694,6 @@ class HourlyCardForecast extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 12,
                             color: colorTheme.primary,
-                            fontVariations: FontVariationsBold,
                           )),
                       SvgPicture.asset(
                         WeatherIconMapper.getIcon(code, isDay ? 1 : 0),
@@ -715,9 +706,6 @@ class HourlyCardForecast extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 14,
                             color: colorTheme.onSurfaceVariant,
-                            fontVariations: [
-                              FontVariation('wght', 500),
-                            ],
                           )),
                     ],
                   ),
@@ -763,18 +751,18 @@ class ForecastDetailsHeader extends StatelessWidget {
             child: Text(
               formatDateDetailes(selectedDayData!['date']),
               style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  fontSize: 18,
-                  fontVariations: FontVariationsBold),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                fontSize: 18,
+              ),
             )),
         Padding(
             padding: EdgeInsets.only(left: 15, right: 12, top: 3),
             child: Text(
               getCityFromPreferences(),
               style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurface,
-                  fontSize: 22,
-                  fontVariations: FontVariationsMedium),
+                color: Theme.of(context).colorScheme.onSurface,
+                fontSize: 22,
+              ),
             )),
         Padding(
             padding: EdgeInsets.only(left: 15, right: 12),
@@ -785,9 +773,9 @@ class ForecastDetailsHeader extends StatelessWidget {
                       ? "${UnitConverter.celsiusToFahrenheit(selectedDayData!['maxTemp']).round()}°/"
                       : "${selectedDayData!['maxTemp'].round()}°/",
                   style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurface,
-                      fontSize: 80,
-                      fontVariations: FontVariationsFullBold),
+                    color: Theme.of(context).colorScheme.onSurface,
+                    fontSize: 80,
+                  ),
                   textHeightBehavior: TextHeightBehavior(
                       applyHeightToLastDescent: false,
                       applyHeightToFirstAscent: false),
@@ -797,9 +785,9 @@ class ForecastDetailsHeader extends StatelessWidget {
                       ? "${UnitConverter.celsiusToFahrenheit(selectedDayData!['minTemp']).round()}°"
                       : "${selectedDayData!['minTemp'].round()}°",
                   style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      fontSize: 80,
-                      fontVariations: FontVariationsFullBold),
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    fontSize: 80,
+                  ),
                   textHeightBehavior: TextHeightBehavior(
                       applyHeightToLastDescent: false,
                       applyHeightToFirstAscent: false),
@@ -822,7 +810,6 @@ class ForecastDetailsHeader extends StatelessWidget {
               style: TextStyle(
                 color: Theme.of(context).colorScheme.primary,
                 fontSize: 18,
-                fontVariations: FontVariationsMedium,
               ),
             ))
       ],
@@ -981,7 +968,6 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                         contentPadding: EdgeInsets.only(left: 10, bottom: 0),
                         title: Text("sun_tile_page".tr(),
                             style: TextStyle(
-                                fontVariations: FontVariationsMedium,
                                 color: Theme.of(context).brightness ==
                                         Brightness.dark
                                     ? Colors.white
@@ -1044,7 +1030,6 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                   Text(sunriseFormat,
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontVariations: FontVariationsBold,
                                         fontSize: 14,
                                       ))
                                 ],
@@ -1061,9 +1046,7 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                   ),
                                   Text(sunsetFormat,
                                       style: TextStyle(
-                                          color: Colors.white,
-                                          fontVariations: FontVariationsBold,
-                                          fontSize: 14))
+                                          color: Colors.white, fontSize: 14))
                                 ],
                               ),
                               SizedBox(
@@ -1098,7 +1081,6 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.onSurface,
                         fontSize: MediaQuery.of(context).size.width * 0.1,
-                        fontVariations: FontVariationsBold,
                       ),
                     ),
                   ),
@@ -1109,7 +1091,6 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                       child: Text(
                         localizePressureUnit(pressureUnit, context.locale),
                         style: TextStyle(
-                            fontVariations: FontVariationsRegularNoRound,
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
                             fontSize: 18),
@@ -1151,7 +1132,6 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                   .colorScheme
                                   .onTertiaryContainer,
                               fontSize: MediaQuery.of(context).size.width * 0.1,
-                              fontVariations: FontVariationsBold,
                             ),
                           ),
                         ),
@@ -1165,7 +1145,6 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                               style: TextStyle(
                                   color:
                                       Theme.of(context).colorScheme.onSurface,
-                                  fontVariations: FontVariationsMedium,
                                   fontSize: 18),
                             ),
                           ),
@@ -1200,7 +1179,6 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                 color: Theme.of(context).colorScheme.onSurface,
                                 fontSize:
                                     MediaQuery.of(context).size.width * 0.1,
-                                fontVariations: FontVariationsBold,
                               ),
                             ),
                           ),
@@ -1217,7 +1195,6 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                     color: Theme.of(context)
                                         .colorScheme
                                         .onSurfaceVariant,
-                                    fontVariations: FontVariationsMedium,
                                     fontSize: 16),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -1256,7 +1233,6 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.onSurface,
                               fontSize: MediaQuery.of(context).size.width * 0.1,
-                              fontVariations: FontVariationsMedium,
                             ),
                           ),
                         ),
@@ -1273,7 +1249,6 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                   color: Theme.of(context)
                                       .colorScheme
                                       .onSurfaceVariant,
-                                  fontVariations: FontVariationsBold,
                                   fontSize: 15),
                             ),
                           ),
@@ -1302,7 +1277,6 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                         contentPadding: EdgeInsets.only(left: 10, bottom: 0),
                         title: Text("precipitation".tr(),
                             style: TextStyle(
-                                fontVariations: FontVariationsMedium,
                                 color: Theme.of(context).brightness ==
                                         Brightness.dark
                                     ? Colors.white
@@ -1326,7 +1300,6 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                         MediaQuery.of(context).size.width *
                                                 0.10 +
                                             0.5,
-                                    fontVariations: FontVariationsBold,
                                     color: Theme.of(context)
                                         .colorScheme
                                         .onSurface),
@@ -1338,8 +1311,6 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                       precipUnit, context.locale),
                                   style: TextStyle(
                                       fontSize: 20,
-                                      fontVariations:
-                                          FontVariationsRegularNoRound,
                                       color: Theme.of(context)
                                           .colorScheme
                                           .secondary),
@@ -1363,8 +1334,6 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                       child: Text("total_precip_sub".tr(),
                                           style: TextStyle(
                                               height: 1.2,
-                                              fontVariations:
-                                                  FontVariationsMedium,
                                               color: Theme.of(context)
                                                   .colorScheme
                                                   .onSurfaceVariant))),
@@ -1373,7 +1342,6 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                         ? '--'
                                         : "$currentTotalPrecProb%",
                                     style: TextStyle(
-                                        fontVariations: FontVariationsBold,
                                         color: Theme.of(context)
                                             .colorScheme
                                             .primary),

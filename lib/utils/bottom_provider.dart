@@ -7,7 +7,6 @@ Widget homeBottomBar(BuildContext context, bool isLight) {
   final commonTextStyle = TextStyle(
     color: textColor,
     fontSize: 18,
-    fontVariations: FontVariationsSemiBold,
     decoration: TextDecoration.underline,
     decorationThickness: 3,
   );

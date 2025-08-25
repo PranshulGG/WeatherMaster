@@ -6,7 +6,6 @@ import '../utils/unit_converter.dart';
 import 'package:provider/provider.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import '../helper/locale_helper.dart';
-import '../utils/condition_label_map.dart';
 
 class SummaryCard extends StatefulWidget {
   final int selectedContainerBgIndex;
@@ -336,11 +335,6 @@ class _SummaryCardState extends State<SummaryCard> {
           Text(
             _headline ?? '',
             style: TextStyle(
-              fontVariations: [
-                FontVariation('wght', 550),
-                FontVariation('ROND', 0),
-              ],
-              // fontVariations: FontFeature(feature),
               color: Theme.of(context).colorScheme.onSurface,
             ),
             textAlign: TextAlign.left,
@@ -372,9 +366,6 @@ class _SummaryCardState extends State<SummaryCard> {
                                 color: Theme.of(context)
                                     .colorScheme
                                     .onSurfaceVariant,
-                                fontVariations: [
-                                  FontVariation('wght', 500),
-                                ],
                               ),
                             ),
                           ),
@@ -388,9 +379,6 @@ class _SummaryCardState extends State<SummaryCard> {
                               color: Theme.of(context)
                                   .colorScheme
                                   .onSurfaceVariant,
-                              fontVariations: [
-                                FontVariation('wght', 450),
-                              ],
                             ),
                           ),
                         ),
@@ -609,7 +597,6 @@ class _SummaryCardState extends State<SummaryCard> {
                             ),
                             Text("quick_summary".tr(),
                                 style: TextStyle(
-                                    fontVariations: FontVariationsSemiBold,
                                     color:
                                         Theme.of(context).colorScheme.secondary,
                                     fontSize: 16)),
@@ -653,10 +640,6 @@ class _SummaryCardState extends State<SummaryCard> {
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.onSurface,
                               fontSize: 15,
-                              fontVariations: [
-                                FontVariation('wght', 450),
-                                FontVariation('ROND', 100),
-                              ],
                             ))
                       ],
                     ),
@@ -677,10 +660,6 @@ class _SummaryCardState extends State<SummaryCard> {
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.onSurface,
                             fontSize: 15,
-                            fontVariations: [
-                              FontVariation('wght', 450),
-                              FontVariation('ROND', 100),
-                            ],
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -701,10 +680,6 @@ class _SummaryCardState extends State<SummaryCard> {
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.onSurface,
                               fontSize: 15,
-                              fontVariations: [
-                                FontVariation('wght', 450),
-                                FontVariation('ROND', 100),
-                              ],
                             ))
                       ],
                     ),

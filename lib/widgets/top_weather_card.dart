@@ -106,9 +106,6 @@ class _WeatherTopCardState extends State<WeatherTopCard> {
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.secondary,
                         fontSize: 18,
-                        fontVariations: [
-                          FontVariation('wght', 450),
-                        ],
                       ),
                     ),
                     Row(
@@ -123,10 +120,6 @@ class _WeatherTopCardState extends State<WeatherTopCard> {
                                             .inverseSurface
                                         : Theme.of(context).colorScheme.primary,
                                     fontSize: 65,
-                                    fontVariations: [
-                                      FontVariation('wght', 500),
-                                      FontVariation('ROND', 100),
-                                    ],
                                     height: 1.3))
                             : AnimatedTemperature(
                                 targetTemp: convertedTemp.toDouble()),
@@ -152,10 +145,6 @@ class _WeatherTopCardState extends State<WeatherTopCard> {
                                     color: Theme.of(context)
                                         .colorScheme
                                         .onSurfaceVariant,
-                                    fontVariations: [
-                                      FontVariation('wght', 450),
-                                      FontVariation('ROND', 100),
-                                    ],
                                     fontSize: 16))
                           ],
                         ),
@@ -173,10 +162,6 @@ class _WeatherTopCardState extends State<WeatherTopCard> {
                                     color: Theme.of(context)
                                         .colorScheme
                                         .onSurfaceVariant,
-                                    fontVariations: [
-                                      FontVariation('wght', 450),
-                                      FontVariation('ROND', 100),
-                                    ],
                                     fontSize: 16))
                           ],
                         )
@@ -210,10 +195,6 @@ class _WeatherTopCardState extends State<WeatherTopCard> {
                                   color:
                                       Theme.of(context).colorScheme.onSurface,
                                   fontSize: 18,
-                                  fontVariations: [
-                                    FontVariation('wght', 500),
-                                    FontVariation('ROND', 100),
-                                  ],
                                 ),
                                 softWrap: true,
                                 overflow: TextOverflow.ellipsis,
@@ -237,9 +218,6 @@ class _WeatherTopCardState extends State<WeatherTopCard> {
                                         .colorScheme
                                         .onSurfaceVariant,
                                     fontSize: 15,
-                                    fontVariations: [
-                                      FontVariation('wght', 500),
-                                    ],
                                   ),
                                   textAlign: TextAlign.right,
                                 ),
@@ -268,9 +246,6 @@ class _WeatherTopCardState extends State<WeatherTopCard> {
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
                             fontSize: 14,
-                            fontVariations: [
-                              FontVariation('wght', 450),
-                            ],
                             fontStyle: FontStyle.italic,
                           ),
                         )
@@ -318,10 +293,6 @@ class AnimatedTemperature extends StatelessWidget {
                 ? Theme.of(context).colorScheme.inverseSurface
                 : Theme.of(context).colorScheme.primary,
             fontSize: isShowFrog ? 60 : 120,
-            fontVariations: [
-              FontVariation('wght', isShowFrog ? 500 : 600),
-              FontVariation('ROND', 100),
-            ],
             height: isShowFrog ? 1.3 : 1,
           ),
         );
@@ -409,9 +380,9 @@ class _WeatherTopCardStateVertical extends State<WeatherTopCardVertical> {
                   widget.currentisDay,
                 ).tr(),
                 style: TextStyle(
-                    color: colorTheme.onSurface,
-                    fontSize: 22,
-                    fontVariations: FontVariationsMedium),
+                  color: colorTheme.onSurface,
+                  fontSize: 22,
+                ),
               ),
               SizedBox(
                 height: 8,
@@ -428,10 +399,6 @@ class _WeatherTopCardStateVertical extends State<WeatherTopCardVertical> {
                                   ? Theme.of(context).colorScheme.inverseSurface
                                   : Theme.of(context).colorScheme.primary,
                               fontSize: 120,
-                              fontVariations: [
-                                FontVariation('wght', 600),
-                                FontVariation('ROND', 100),
-                              ],
                               height: 1.3))
                       : AnimatedTemperature(
                           targetTemp: convertedTemp.toDouble()),
@@ -451,9 +418,9 @@ class _WeatherTopCardStateVertical extends State<WeatherTopCardVertical> {
               Text(
                 "${'feels_like'.tr()}  ${widget.currentFeelsLike == 0000 ? '--' : '$convertedfeelsLikeTemp°'}",
                 style: TextStyle(
-                    color: colorTheme.onSurface,
-                    fontSize: 20,
-                    fontVariations: FontVariationsMedium),
+                  color: colorTheme.onSurface,
+                  fontSize: 20,
+                ),
               ),
               SizedBox(height: 7),
               Row(
@@ -463,10 +430,6 @@ class _WeatherTopCardStateVertical extends State<WeatherTopCardVertical> {
                       "${'low_text'.tr()}: $convertedcurrentMinTemp° • ${'high_text'.tr()}: $convertedcurrentMaxTemp°",
                       style: TextStyle(
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          fontVariations: [
-                            FontVariation('wght', 450),
-                            FontVariation('ROND', 100),
-                          ],
                           fontSize: 18)),
                 ],
               )

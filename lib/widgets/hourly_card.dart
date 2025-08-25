@@ -7,7 +7,6 @@ import '../utils/unit_converter.dart';
 import 'package:provider/provider.dart';
 import '../notifiers/unit_settings_notifier.dart';
 import '../utils/visual_utils.dart';
-import '../utils/condition_label_map.dart';
 
 class HourlyCard extends StatelessWidget {
   final List<dynamic> hourlyTime;
@@ -76,10 +75,7 @@ class HourlyCard extends StatelessWidget {
               width: 5,
             ),
             Text("hourly_forecast".tr(),
-                style: TextStyle(
-                    fontVariations: FontVariationsSemiBold,
-                    color: colorTheme.secondary,
-                    fontSize: 16)),
+                style: TextStyle(color: colorTheme.secondary, fontSize: 16)),
           ]),
           Divider(
             height: 6,
@@ -161,10 +157,6 @@ class HourlyCard extends StatelessWidget {
                                 color: isFirst
                                     ? colorTheme.onTertiary
                                     : colorTheme.onSurface,
-                                fontVariations: [
-                                  FontVariation('wght', 500),
-                                  FontVariation('ROND', 100),
-                                ],
                               ),
                               textHeightBehavior: TextHeightBehavior(
                                   applyHeightToFirstAscent: false,
@@ -180,9 +172,9 @@ class HourlyCard extends StatelessWidget {
                                   ? "${precipProb.round()}%"
                                   : "‎",
                           style: TextStyle(
-                              fontSize: 12,
-                              color: colorTheme.primary,
-                              fontVariations: FontVariationsSemiBold)),
+                            fontSize: 12,
+                            color: colorTheme.primary,
+                          )),
                       SvgPicture.asset(
                         WeatherIconMapper.getIcon(code, isDay ? 1 : 0),
                         width: 26,
@@ -194,9 +186,6 @@ class HourlyCard extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 14,
                             color: colorTheme.onSurfaceVariant,
-                            fontVariations: [
-                              FontVariation('wght', 500),
-                            ],
                           )),
                     ],
                   ),

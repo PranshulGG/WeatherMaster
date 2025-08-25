@@ -7,7 +7,6 @@ import '../services/notificationservice_native.dart';
 import '../services/widget_service.dart';
 import 'package:flutter/services.dart';
 import '../screens/worker_log_page.dart';
-import '../utils/condition_label_map.dart';
 
 class BackgroundUpdatesPage extends StatefulWidget {
   const BackgroundUpdatesPage({super.key});
@@ -94,7 +93,6 @@ class _BackgroundUpdatesPageState extends State<BackgroundUpdatesPage> {
                       child: Text(
                         "updates_in_the_background".tr(),
                         style: TextStyle(
-                            fontVariations: FontVariationsMedium,
                             color: Theme.of(context)
                                 .colorScheme
                                 .onPrimaryContainer),
