@@ -650,7 +650,7 @@ class _LocationsScreenState extends State<LocationsScreen> {
                               context: context,
                               title: "${loc.city}, ${loc.country}",
                               confirmText: "Set as default",
-                              cancelText: "Cancel",
+                              cancelText: "cancel".tr(),
                               onConfirm: () {
                                 if (!context.mounted) return;
                                 setHomeLocation(context, loc);
