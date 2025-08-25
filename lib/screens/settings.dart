@@ -49,6 +49,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     final themeController = Provider.of<ThemeController>(context);
     final currentMode = themeController.themeMode;
+    final currentAppfont =
+        PreferencesHelper.getString("appFont") ?? "Open Sans";
+
     final isSupported = themeController.isDynamicColorSupported;
 
     final optionsTheme = {
@@ -250,6 +253,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       );
                     },
                   ),
+                  SettingSingleOptionTile(
+                      icon: Icon(Symbols.font_download, fill: 1, weight: 500),
+                      title: Text("App font"),
+                      value: SettingTileValue(currentAppfont),
+                      dialogTitle: "App font",
+                      initialOption: currentAppfont.toString(),
+                      options: ["System", "Open Sans"],
+                      onSubmitted: (value) {
+                        context
+                            .read<UnitSettingsNotifier>()
+                            .updateAppFont(value);
+
+                        setState(() {});
+                      })
                 ],
               ),
               SizedBox(

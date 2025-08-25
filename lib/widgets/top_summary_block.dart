@@ -599,6 +599,7 @@ class _SummaryCardState extends State<SummaryCard> {
                                 style: TextStyle(
                                     color:
                                         Theme.of(context).colorScheme.secondary,
+                                    fontWeight: FontWeight.w700,
                                     fontSize: 16)),
                           ])),
                   Container(

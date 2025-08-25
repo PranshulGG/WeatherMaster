@@ -201,6 +201,10 @@ class MyApp extends StatelessWidget {
     );
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
+    final appFont = context.watch<UnitSettingsNotifier>().appFont;
+
+    final useSystemFont = appFont == "System";
+
     return MaterialApp(
       title: 'WeatherMaster',
       debugShowCheckedModeBanner: false,
@@ -224,7 +228,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ).copyWith(
         textTheme: ThemeData.light().textTheme.apply(
-              fontFamily: 'FlexFont',
+              fontFamily: useSystemFont ? null : 'DefaultFont',
             ),
         highlightColor: Colors.transparent,
         pageTransitionsTheme: const PageTransitionsTheme(
@@ -246,7 +250,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ).copyWith(
         textTheme: ThemeData.dark().textTheme.apply(
-              fontFamily: 'FlexFont',
+              fontFamily: useSystemFont ? null : 'DefaultFont',
             ),
         highlightColor: Colors.transparent,
         pageTransitionsTheme: const PageTransitionsTheme(

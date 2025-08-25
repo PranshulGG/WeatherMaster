@@ -111,6 +111,7 @@ class PollenCard extends StatelessWidget {
             Text("pollen".tr(),
                 style: TextStyle(
                     color: Theme.of(context).colorScheme.secondary,
+                    fontWeight: FontWeight.w700,
                     fontSize: 16)),
           ]),
           Divider(

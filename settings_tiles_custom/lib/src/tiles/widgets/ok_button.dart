@@ -15,7 +15,7 @@ class OkButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: onPressed,
-      child: Text('ok'.tr(), style: const TextStyle(fontSize: 16)),
+      child: Text('ok'.tr(), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
     );
   }
 }

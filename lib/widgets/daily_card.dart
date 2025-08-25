@@ -85,7 +85,10 @@ class DailyCard extends StatelessWidget {
               width: 5,
             ),
             Text("daily_forecast".tr(),
-                style: TextStyle(color: colorTheme.secondary, fontSize: 16)),
+                style: TextStyle(
+                    color: colorTheme.secondary,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700)),
           ]),
           Divider(
             height: 14,
