@@ -261,13 +261,9 @@ class _WeatherHomeState extends State<WeatherHome> {
       final now = DateTime.now();
       if (lastUpdateTime != null &&
           now.difference(lastUpdateTime).inMinutes < 450) {
-        setState(() {
-          _isAppFullyLoaded = true;
-        });
-        print(_isAppFullyLoaded);
+        _isAppFullyLoaded = true;
       } else {
         checkAndUpdateHomeLocation();
-        print(_isAppFullyLoaded);
       }
     }
     return json.decode(cached);
@@ -285,6 +281,7 @@ class _WeatherHomeState extends State<WeatherHome> {
           _isLoadingFroggy = false;
           if (_istriggeredFromLocations) {
             _istriggeredFromLocations = false;
+            _isAppFullyLoaded = true;
           }
         });
       }
@@ -296,6 +293,7 @@ class _WeatherHomeState extends State<WeatherHome> {
           _isLoadingFroggy = false;
           if (_istriggeredFromLocations) {
             _istriggeredFromLocations = false;
+            _isAppFullyLoaded = true;
           }
           Provider.of<ThemeController>(context, listen: false)
               .setSeedColor(weatherConditionColors[newindex]);

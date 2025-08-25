@@ -35,12 +35,11 @@ class WeatherConditionAnimationMapper {
             ? 'assets/foreground-animations/cloudy_background.json'
             : 'assets/foreground-animations/mostly_clear_night.json';
         topMain = MediaQuery.of(context).padding.top + 40;
-        diffHeight = isDay == 1 ? 400 : 450; 
+        diffHeight = isDay == 1 ? 400 : 450;
         break;
 
       case 3:
-        animationUrl =
-            'assets/foreground-animations/cloudy_background.json';
+        animationUrl = 'assets/foreground-animations/cloudy_background.json';
         secondaryAnimationUrl =
             'assets/foreground-animations/cloudy_background.json';
         topMain = MediaQuery.of(context).padding.top + 50;
@@ -58,7 +57,7 @@ class WeatherConditionAnimationMapper {
       case 56:
       case 57:
         animationUrl = 'assets/foreground-animations/rain_foreground.json';
-          topMain = 15;
+        topMain = 15;
         break;
 
       case 61:
@@ -67,13 +66,13 @@ class WeatherConditionAnimationMapper {
         animationUrl = isDay == 1
             ? 'assets/foreground-animations/rain_foreground.json'
             : 'assets/foreground-animations/rain_foreground.json';
-          topMain = 15;
+        topMain = 15;
         break;
 
       case 66:
       case 67:
         animationUrl = 'assets/foreground-animations/rain_foreground.json';
-          topMain = 15;
+        topMain = 15;
         break;
 
       case 71:
@@ -92,7 +91,7 @@ class WeatherConditionAnimationMapper {
       case 81:
       case 82:
         animationUrl = 'assets/foreground-animations/rain_foreground.json';
-          topMain = 15;
+        topMain = 15;
         break;
 
       case 85:
@@ -104,10 +103,9 @@ class WeatherConditionAnimationMapper {
       case 95:
       case 96:
       case 99:
-        animationUrl =
-           'assets/foreground-animations/rain_foreground.json';
-        secondaryAnimationUrl = 
-           'assets/foreground-animations/thunder_background.json';
+        animationUrl = 'assets/foreground-animations/rain_foreground.json';
+        secondaryAnimationUrl =
+            'assets/foreground-animations/thunder_background.json';
         topMain = 10;
         break;
 
@@ -116,48 +114,48 @@ class WeatherConditionAnimationMapper {
     }
 
     if (animationUrl == null) {
-      return const SizedBox.shrink(); 
+      return const SizedBox.shrink();
     }
 
-if (secondaryAnimationUrl != null) {
-  return Positioned(
-    top: isSunAnim ? -MediaQuery.of(context).padding.top + 10 - (topMain ?? 0)  : -MediaQuery.of(context).padding.top - (topMain ?? 0),
-    left: isSunAnim ? -MediaQuery.of(context).size.width * 0.12 : 0,
-    right: 0,
-    height: 300,
-    child: Stack(
-      clipBehavior: Clip.none,
-      children: [
-        Positioned.fill(
-        child: RepaintBoundary(
-            child: Lottie.asset(
-              animationUrl,
-              fit: BoxFit.cover,
-              repeat: true,
-              addRepaintBoundary: true,
+    if (secondaryAnimationUrl != null) {
+      return Positioned(
+        top: isSunAnim
+            ? -MediaQuery.of(context).padding.top + 10 - (topMain ?? 0)
+            : -MediaQuery.of(context).padding.top - (topMain ?? 0),
+        left: isSunAnim ? -MediaQuery.of(context).size.width * 0.12 : 0,
+        right: 0,
+        height: 300,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Positioned.fill(
+              child: RepaintBoundary(
+                child: Lottie.asset(
+                  animationUrl,
+                  fit: BoxFit.cover,
+                  repeat: true,
+                  addRepaintBoundary: true,
+                ),
+              ),
             ),
-          ),
+            Positioned(
+              top: -MediaQuery.of(context).padding.top,
+              left: 0,
+              right: 0,
+              height: diffHeight ?? 500,
+              child: RepaintBoundary(
+                child: Lottie.asset(
+                  secondaryAnimationUrl,
+                  fit: BoxFit.cover,
+                  repeat: true,
+                  addRepaintBoundary: true,
+                ),
+              ),
+            ),
+          ],
         ),
-        Positioned(
-          top: -MediaQuery.of(context).padding.top,
-          left: 0,
-          right: 0,
-          height: diffHeight ?? 500,
-          child:RepaintBoundary(
-            child:  Lottie.asset(
-            secondaryAnimationUrl,      
-            fit: BoxFit.cover,
-            repeat: true,
-            addRepaintBoundary: true,
-          ),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-
+      );
+    }
 
     return Positioned(
       top: -MediaQuery.of(context).padding.top - (topMain ?? 0),
@@ -165,12 +163,11 @@ if (secondaryAnimationUrl != null) {
       right: 0,
       height: 300,
       child: RepaintBoundary(
-      child:Lottie.asset(
-        animationUrl,
-        fit: BoxFit.cover,
-        repeat: true,
-        
-      ),
+        child: Lottie.asset(
+          animationUrl,
+          fit: BoxFit.cover,
+          repeat: true,
+        ),
       ),
     );
   }

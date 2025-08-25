@@ -98,13 +98,13 @@ flutter:
   fonts:
     - family: DefaultFont
       fonts:
-        - asset: assets/fonts/OpenSans-Medium.ttf
+        - asset: assets/fonts/nato-Medium.ttf
           weight: 400
-        - asset: assets/fonts/OpenSans-Medium.ttf
+        - asset: assets/fonts/nato-Medium.ttf
           weight: 500
-        - asset: assets/fonts/OpenSans-SemiBold.ttf
+        - asset: assets/fonts/nato-SemiBold.ttf
           weight: 600
-        - asset: assets/fonts/OpenSans-Bold.ttf
+        - asset: assets/fonts/nato-Bold.ttf
           weight: 700
   # To add assets to your application, add an assets section, like this:
   # assets:

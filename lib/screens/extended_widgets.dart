@@ -1690,7 +1690,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
             children: [
               Container(
                 clipBehavior: Clip.hardEdge,
-                height: 300,
+                height: 305,
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.surfaceContainer,
                   borderRadius: BorderRadius.circular(18),

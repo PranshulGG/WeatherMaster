@@ -200,14 +200,14 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
             TextButton(
               child: Text(
                 "cancel".tr(),
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
               onPressed: () => Navigator.pop(context, false),
             ),
             TextButton(
               child: Text(
                 "save".tr(),
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
               onPressed: () => Navigator.pop(context, true),
             ),

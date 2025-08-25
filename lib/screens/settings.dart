@@ -259,7 +259,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       value: SettingTileValue(currentAppfont),
                       dialogTitle: "App font",
                       initialOption: currentAppfont.toString(),
-                      options: ["System", "Open Sans"],
+                      options: ["System", "Nato Sans"],
                       onSubmitted: (value) {
                         context
                             .read<UnitSettingsNotifier>()

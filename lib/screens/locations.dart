@@ -13,6 +13,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../utils/condition_label_map.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:animations/animations.dart';
+import '../widgets/dialog.dart';
 
 class LocationsScreen extends StatefulWidget {
   const LocationsScreen({super.key});
@@ -211,6 +212,7 @@ class _LocationsScreenState extends State<LocationsScreen> {
   }
 
   Widget buildDismissibleListView({Key? key}) {
+    final colorTheme = Theme.of(context).colorScheme;
     return savedLocations.isEmpty
         ? const Center(child: Text("No saved locations."))
         : ListView.builder(
@@ -251,6 +253,7 @@ class _LocationsScreenState extends State<LocationsScreen> {
                               "default_location".tr(),
                               style: TextStyle(
                                   color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.w600,
                                   fontSize: 16),
                             )
                           ],
@@ -423,27 +426,62 @@ class _LocationsScreenState extends State<LocationsScreen> {
                       ),
                     ),
                     Padding(
-                        padding: EdgeInsets.only(left: 14, bottom: 10, top: 12),
+                        padding: EdgeInsets.only(
+                            left: 14, bottom: 5, top: 0, right: 14),
                         child: Row(
-                          spacing: 5,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             isOnlyHomeLocation
                                 ? Text("")
-                                : Icon(
-                                    Symbols.star,
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                  ),
-                            isOnlyHomeLocation
-                                ? Text("")
-                                : Text(
-                                    "saved_locations".tr(),
-                                    style: TextStyle(
+                                : Row(
+                                    spacing: 5,
+                                    children: [
+                                      Icon(
+                                        Symbols.star,
                                         color: Theme.of(context)
                                             .colorScheme
                                             .primary,
-                                        fontSize: 16),
-                                  )
+                                      ),
+                                      isOnlyHomeLocation
+                                          ? Text("")
+                                          : Text(
+                                              "saved_locations".tr(),
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .primary,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 16),
+                                            ),
+                                    ],
+                                  ),
+                            IconButton(
+                                onPressed: () {
+                                  showMatDialog(
+                                      context: context,
+                                      title: "Info",
+                                      content: SizedBox(
+                                          height: 70 + 30,
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                "• Swipe from right to left to delete a location",
+                                                style: TextStyle(fontSize: 15),
+                                              ),
+                                              Divider(
+                                                height: 16,
+                                              ),
+                                              Text(
+                                                  "• Hold a location to set it as default",
+                                                  style:
+                                                      TextStyle(fontSize: 15)),
+                                            ],
+                                          )));
+                                },
+                                icon: Icon(
+                                  Symbols.info,
+                                  weight: 600,
+                                ))
                           ],
                         )),
                     isOnlyHomeLocation
@@ -499,10 +537,44 @@ class _LocationsScreenState extends State<LocationsScreen> {
 
               final isLastItem = index == savedLocations.length;
 
+              Future<Map<String, dynamic>> _getCurrentHomeInfo() async {
+                final prefs = await SharedPreferences.getInstance();
+                final homeLocationJson = prefs.getString('homeLocation');
+                if (homeLocationJson != null) {
+                  final data = jsonDecode(homeLocationJson);
+                  return {
+                    'cacheKey': data['cacheKey'] ?? '',
+                    'isGPS': data['isGPS'] ?? false,
+                    'city': data['city'] ?? '',
+                    'country': data['country'] ?? '',
+                  };
+                }
+                return {'cacheKey': '', 'isGPS': false};
+              }
+
+              Future<void> setHomeLocation(
+                  BuildContext context, SavedLocation loc) async {
+                final prefs = await SharedPreferences.getInstance();
+                final cacheKey = "${loc.city}_${loc.country}"
+                    .toLowerCase()
+                    .replaceAll(' ', '_');
+
+                await prefs.setString(
+                    'homeLocation',
+                    jsonEncode({
+                      'city': loc.city,
+                      'country': loc.country,
+                      'cacheKey': cacheKey,
+                      'lat': loc.latitude,
+                      'lon': loc.longitude,
+                      'isGPS': false,
+                    }));
+              }
+
               return FadeInListItem(
                 child: Dismissible(
                   key: ValueKey(
-                      '${loc.city}-${loc.country}-${loc.latitude}-${loc.longitude}'),
+                      '${loc.city}-${loc.country}-${loc.latitude}-${loc.longitude}-${index}'),
                   direction: DismissDirection.endToStart,
                   confirmDismiss: (direction) async {
                     final actualIndex = index - 1;
@@ -572,6 +644,21 @@ class _LocationsScreenState extends State<LocationsScreen> {
                         color:
                             Theme.of(context).colorScheme.surfaceContainerLow,
                         child: InkWell(
+                          onLongPress: () async {
+                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                            showMatDialog(
+                              context: context,
+                              title: "${loc.city}, ${loc.country}",
+                              confirmText: "Set as default",
+                              cancelText: "Cancel",
+                              onConfirm: () {
+                                if (!context.mounted) return;
+                                setHomeLocation(context, loc);
+
+                                setState(() {});
+                              },
+                            );
+                          },
                           onTap: () async {
                             final cacheKey = "${loc.city}_${loc.country}"
                                 .toLowerCase()
@@ -764,7 +851,10 @@ class _LocationsScreenState extends State<LocationsScreen> {
           child: ListTile(
             minTileHeight: 70,
             contentPadding: EdgeInsets.only(right: 16, left: 16),
-            leading: Icon(Symbols.location_on),
+            leading: Icon(
+              Symbols.location_on,
+              size: 26,
+            ),
             tileColor: Colors.transparent,
             title: Text(
               loc.city,

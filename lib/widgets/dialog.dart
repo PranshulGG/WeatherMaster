@@ -4,6 +4,7 @@ Future<void> showMatDialog({
   required BuildContext context,
   String title = 'Notice',
   Widget? content,
+  IconData? icon,
   String confirmText = 'OK',
   VoidCallback? onConfirm,
   String? cancelText,
@@ -12,20 +13,25 @@ Future<void> showMatDialog({
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) {
-      return AlertDialog(
+      return AlertDialog.adaptive(
         title: Text(title),
+        icon: icon == null ? null : Icon(icon),
         content: content,
         actions: <Widget>[
           if (cancelText != null)
             TextButton(
-              child: Text(cancelText),
+              child: Text(
+                cancelText,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
                 if (onCancel != null) onCancel();
               },
             ),
           TextButton(
-            child: Text(confirmText),
+            child: Text(confirmText,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
             onPressed: () {
               Navigator.of(context).pop();
               if (onConfirm != null) onConfirm();

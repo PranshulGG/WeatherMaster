@@ -227,8 +227,18 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ).copyWith(
-        textTheme: ThemeData.light().textTheme.apply(
+        textTheme: ThemeData.light()
+            .textTheme
+            .apply(
               fontFamily: useSystemFont ? null : 'DefaultFont',
+            )
+            .copyWith(
+              bodyLarge: !useSystemFont
+                  ? TextStyle(fontSize: 15.5, fontFamily: 'DefaultFont')
+                  : null,
+              bodyMedium: !useSystemFont
+                  ? TextStyle(fontSize: 14, fontFamily: 'DefaultFont')
+                  : null,
             ),
         highlightColor: Colors.transparent,
         pageTransitionsTheme: const PageTransitionsTheme(
@@ -249,8 +259,18 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ).copyWith(
-        textTheme: ThemeData.dark().textTheme.apply(
+        textTheme: ThemeData.dark()
+            .textTheme
+            .apply(
               fontFamily: useSystemFont ? null : 'DefaultFont',
+            )
+            .copyWith(
+              bodyLarge: !useSystemFont
+                  ? TextStyle(fontSize: 15.5, fontFamily: 'DefaultFont')
+                  : null,
+              bodyMedium: !useSystemFont
+                  ? TextStyle(fontSize: 14, fontFamily: 'DefaultFont')
+                  : null,
             ),
         highlightColor: Colors.transparent,
         pageTransitionsTheme: const PageTransitionsTheme(
