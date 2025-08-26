@@ -165,16 +165,10 @@ class _WeatherHomeState extends State<WeatherHome> {
 
       setHomeasCurrent();
 
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _initAfterLoad();
-      });
+      weatherFuture = getWeatherFromCache();
     } else {
       _setLatLon();
     }
-  }
-
-  void _initAfterLoad() async {
-    weatherFuture = getWeatherFromCache();
   }
 
   Future<void> loadLayoutConfig() async {
@@ -910,6 +904,7 @@ class _WeatherHomeState extends State<WeatherHome> {
                 maybeUpdateWeatherAnimation(current);
               }
             });
+            print("CODEEEEEEEEEEEEEEEEE: ${weatherCodeFroggy}");
           } else {
             _isLoadingFroggy == true;
             _loadWeatherIconFroggy(weatherCodeFroggy, isDayFroggy,
