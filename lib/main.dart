@@ -201,10 +201,6 @@ class MyApp extends StatelessWidget {
     );
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
-    final appFont = context.watch<UnitSettingsNotifier>().appFont;
-
-    final useSystemFont = appFont == "System";
-
     return MaterialApp(
       title: 'WeatherMaster',
       debugShowCheckedModeBanner: false,
@@ -230,16 +226,11 @@ class MyApp extends StatelessWidget {
         textTheme: ThemeData.light()
             .textTheme
             .apply(
-              fontFamily: useSystemFont ? null : 'DefaultFont',
+              fontFamily: 'DefaultFont',
             )
             .copyWith(
-              bodyLarge: !useSystemFont
-                  ? TextStyle(fontSize: 15.5, fontFamily: 'DefaultFont')
-                  : null,
-              bodyMedium: !useSystemFont
-                  ? TextStyle(fontSize: 14, fontFamily: 'DefaultFont')
-                  : null,
-            ),
+                bodyLarge: TextStyle(fontSize: 15.5, fontFamily: 'DefaultFont'),
+                bodyMedium: TextStyle(fontSize: 14, fontFamily: 'DefaultFont')),
         highlightColor: Colors.transparent,
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: {
@@ -262,16 +253,11 @@ class MyApp extends StatelessWidget {
         textTheme: ThemeData.dark()
             .textTheme
             .apply(
-              fontFamily: useSystemFont ? null : 'DefaultFont',
+              fontFamily: 'DefaultFont',
             )
             .copyWith(
-              bodyLarge: !useSystemFont
-                  ? TextStyle(fontSize: 15.5, fontFamily: 'DefaultFont')
-                  : null,
-              bodyMedium: !useSystemFont
-                  ? TextStyle(fontSize: 14, fontFamily: 'DefaultFont')
-                  : null,
-            ),
+                bodyLarge: TextStyle(fontSize: 15.5, fontFamily: 'DefaultFont'),
+                bodyMedium: TextStyle(fontSize: 14, fontFamily: 'DefaultFont')),
         highlightColor: Colors.transparent,
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: {

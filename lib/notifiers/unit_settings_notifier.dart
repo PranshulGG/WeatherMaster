@@ -15,7 +15,6 @@ class UnitSettingsNotifier extends ChangeNotifier {
   bool _useOnlyMaterialScheme = false;
   bool _showFrog = true;
   bool _useDarkBackgroundCards = false;
-  String _appFont = "Open sans";
 
   // Getters
   String get tempUnit => _tempUnit;
@@ -30,7 +29,6 @@ class UnitSettingsNotifier extends ChangeNotifier {
   bool get useOnlyMaterialScheme => _useOnlyMaterialScheme;
   bool get showFrog => _showFrog;
   bool get useDarkBackgroundCards => _useDarkBackgroundCards;
-  String get appFont => _appFont;
 
   UnitSettingsNotifier() {
     _loadAllUnits();
@@ -64,7 +62,6 @@ class UnitSettingsNotifier extends ChangeNotifier {
     _useDarkBackgroundCards =
         await PreferencesHelper.getBool("useDarkerCardBackground") ??
             _useDarkBackgroundCards;
-    _appFont = await PreferencesHelper.getString("appFont") ?? _appFont;
 
     notifyListeners();
   }
@@ -153,12 +150,6 @@ class UnitSettingsNotifier extends ChangeNotifier {
   void updateUseDarkerBackground(bool value) {
     _useDarkBackgroundCards = value;
     PreferencesHelper.setBool("useDarkerCardBackground", value);
-    notifyListeners();
-  }
-
-  void updateAppFont(String value) {
-    _appFont = value;
-    PreferencesHelper.setString("appFont", value);
     notifyListeners();
   }
 }
