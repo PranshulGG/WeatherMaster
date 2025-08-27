@@ -201,6 +201,16 @@ class MyApp extends StatelessWidget {
     );
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
+    final colorThemeDark = ColorScheme.fromSeed(
+      seedColor: themeController.seedColor,
+      brightness: Brightness.dark,
+    );
+
+    final colorThemeLight = ColorScheme.fromSeed(
+      seedColor: themeController.seedColor,
+      brightness: Brightness.light,
+    );
+
     return MaterialApp(
       title: 'WeatherMaster',
       debugShowCheckedModeBanner: false,
@@ -225,12 +235,19 @@ class MyApp extends StatelessWidget {
       ).copyWith(
         textTheme: ThemeData.light()
             .textTheme
-            .apply(
-              fontFamily: 'DefaultFont',
-            )
+            .apply(fontFamily: 'DefaultFont')
             .copyWith(
-                bodyLarge: TextStyle(fontSize: 15.5, fontFamily: 'DefaultFont'),
-                bodyMedium: TextStyle(fontSize: 14, fontFamily: 'DefaultFont')),
+              bodyLarge: TextStyle(
+                fontSize: 15.3,
+                color: colorThemeLight.onSurface,
+                fontFamily: 'DefaultFont',
+              ),
+              bodyMedium: TextStyle(
+                fontSize: 13.3,
+                color: colorThemeLight.onSurface,
+                fontFamily: 'DefaultFont',
+              ),
+            ),
         highlightColor: Colors.transparent,
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: {
@@ -252,12 +269,19 @@ class MyApp extends StatelessWidget {
       ).copyWith(
         textTheme: ThemeData.dark()
             .textTheme
-            .apply(
-              fontFamily: 'DefaultFont',
-            )
+            .apply(fontFamily: 'DefaultFont')
             .copyWith(
-                bodyLarge: TextStyle(fontSize: 15.5, fontFamily: 'DefaultFont'),
-                bodyMedium: TextStyle(fontSize: 14, fontFamily: 'DefaultFont')),
+              bodyLarge: TextStyle(
+                fontSize: 15.3,
+                color: colorThemeDark.onSurface,
+                fontFamily: 'DefaultFont',
+              ),
+              bodyMedium: TextStyle(
+                fontSize: 13.3,
+                color: colorThemeDark.onSurface,
+                fontFamily: 'DefaultFont',
+              ),
+            ),
         highlightColor: Colors.transparent,
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: {

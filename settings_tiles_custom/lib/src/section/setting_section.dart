@@ -65,7 +65,7 @@ class SettingSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.fromLTRB(styleTile ? 10 : 0, 0, styleTile ? 10 : 0, 0),
+        padding: EdgeInsets.fromLTRB(styleTile ? 12 : 0, 0, styleTile ? 12 : 0, 0),
         child: Column(
           spacing: styleTile ? 2 : 0,
           crossAxisAlignment: CrossAxisAlignment.start,
