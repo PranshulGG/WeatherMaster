@@ -287,7 +287,7 @@ class AnimatedTemperature extends StatelessWidget {
         return Text(
           isShowFrog
               ? '${value.toStringAsFixed(0)}°'
-              : value.toStringAsFixed(0),
+              : '${value.toStringAsFixed(0)}°',
           style: TextStyle(
             color: Theme.of(context).brightness == Brightness.light
                 ? Theme.of(context).colorScheme.inverseSurface
@@ -366,7 +366,7 @@ class _WeatherTopCardStateVertical extends State<WeatherTopCardVertical> {
     final colorTheme = Theme.of(context).colorScheme;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 10),
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 14),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -374,52 +374,49 @@ class _WeatherTopCardStateVertical extends State<WeatherTopCardVertical> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                WeatherConditionMapper.getConditionLabel(
-                  widget.currentWeatherIconCode,
-                  widget.currentisDay,
-                ).tr(),
-                style: TextStyle(
-                  color: colorTheme.onSurface,
-                  fontSize: 22,
-                ),
-              ),
-              SizedBox(
-                height: 8,
-              ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  PreferencesHelper.getBool("useTempAnimation") == false
-                      ? Text("$convertedTemp",
-                          style: TextStyle(
-                              color: Theme.of(context).brightness ==
-                                      Brightness.light
-                                  ? Theme.of(context).colorScheme.inverseSurface
-                                  : Theme.of(context).colorScheme.primary,
-                              fontSize: 120,
-                              height: 1.3))
-                      : AnimatedTemperature(
-                          targetTemp: convertedTemp.toDouble()),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: SvgPicture.asset(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  spacing: 8,
+                  children: [
+                    SvgPicture.asset(
                       WeatherIconMapper.getIcon(
                           widget.currentWeatherIconCode, widget.currentisDay),
-                      width: 60,
+                      width: 36,
+                      height: 36,
                     ),
-                  ),
-                ],
-              ),
+                    Text(
+                      WeatherConditionMapper.getConditionLabel(
+                        widget.currentWeatherIconCode,
+                        widget.currentisDay,
+                      ).tr(),
+                      style: TextStyle(
+                        color: colorTheme.onSurface,
+                        fontSize: 22,
+                      ),
+                    ),
+                  ]),
               SizedBox(
                 height: 6,
               ),
+              PreferencesHelper.getBool("useTempAnimation") == false
+                  ? Text("$convertedTemp°",
+                      style: TextStyle(
+                          color:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? Theme.of(context).colorScheme.inverseSurface
+                                  : Theme.of(context).colorScheme.primary,
+                          fontSize: 120,
+                          height: 1.3))
+                  : AnimatedTemperature(targetTemp: convertedTemp.toDouble()),
+              SizedBox(
+                height: 16,
+              ),
               Text(
-                "${'feels_like'.tr()}  ${widget.currentFeelsLike == 0000 ? '--' : '$convertedfeelsLikeTemp°'}",
+                "${'feels_like'.tr()} ${widget.currentFeelsLike == 0000 ? '--' : '$convertedfeelsLikeTemp°'}",
                 style: TextStyle(
                   color: colorTheme.onSurface,
-                  fontSize: 20,
+                  fontSize: 18,
                 ),
               ),
               SizedBox(height: 7),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../utils/theme.dart';
 
-List<LinearGradient> getGradients(bool isLight) {
+List<LinearGradient> getGradients(
+    bool isLight, bool isFroggyLayout, iscurrentDay) {
   return [
     // cloudy
     isLight
@@ -11,14 +12,32 @@ List<LinearGradient> getGradients(bool isLight) {
             end: Alignment.bottomCenter,
             stops: [0, 0.5],
           )
-        : LinearGradient(
-            colors: [
-              Color(paletteWeather.secondary.get(25)),
-              Color(paletteWeather.secondary.get(20))
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            stops: [0, 0.5]),
+        : !isFroggyLayout
+            ? iscurrentDay
+                ? LinearGradient(
+                    colors: [
+                      Color(paletteWeather.secondary.get(30)),
+                      Color(paletteWeather.secondary.get(15))
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: [0, 0.5])
+                : LinearGradient(
+                    colors: [
+                      Color(paletteWeather.primary.get(4)),
+                      Color(paletteWeather.secondary.get(10))
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: [0, 0.5])
+            : LinearGradient(
+                colors: [
+                  Color(paletteWeather.secondary.get(25)),
+                  Color(paletteWeather.secondary.get(20))
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: [0, 0.5]),
 
     // overcast
     isLight
@@ -28,14 +47,23 @@ List<LinearGradient> getGradients(bool isLight) {
             end: Alignment.bottomCenter,
             stops: [0, 0.5],
           )
-        : LinearGradient(
-            colors: [
-              Color(paletteWeather.neutral.get(20)),
-              Color(paletteWeather.secondary.get(15))
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            stops: [0, 0.5]),
+        : !isFroggyLayout
+            ? LinearGradient(
+                colors: [
+                  Color(paletteWeather.neutral.get(0)),
+                  Color(paletteWeather.secondary.get(20))
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: [0, 0.5])
+            : LinearGradient(
+                colors: [
+                  Color(paletteWeather.neutral.get(20)),
+                  Color(paletteWeather.secondary.get(15))
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                stops: [0, 0.5]),
 
     // clear day
     isLight
@@ -137,7 +165,8 @@ List<LinearGradient> getGradients(bool isLight) {
   ];
 }
 
-List<LinearGradient> getGradientsScrolled(bool isLight) {
+List<LinearGradient> getGradientsScrolled(
+    bool isLight, bool isFroggyLayout, iscurrentDay) {
   return [
     // cloudy
     isLight
@@ -147,14 +176,32 @@ List<LinearGradient> getGradientsScrolled(bool isLight) {
             end: Alignment.bottomCenter,
             stops: [0, 0.5],
           )
-        : LinearGradient(
-            colors: [
-              Color(paletteWeather.secondary.get(20)),
-              Color(paletteWeather.secondary.get(20))
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            stops: [0, 0.5]),
+        : !isFroggyLayout
+            ? iscurrentDay
+                ? LinearGradient(
+                    colors: [
+                      Color(paletteWeather.secondary.get(15)),
+                      Color(paletteWeather.secondary.get(15))
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: [0, 0.5])
+                : LinearGradient(
+                    colors: [
+                      Color(paletteWeather.primary.get(10)),
+                      Color(paletteWeather.secondary.get(10))
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: [0, 0.5])
+            : LinearGradient(
+                colors: [
+                  Color(paletteWeather.secondary.get(20)),
+                  Color(paletteWeather.secondary.get(20))
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: [0, 0.5]),
 
     // overcast
     isLight
@@ -164,14 +211,23 @@ List<LinearGradient> getGradientsScrolled(bool isLight) {
             end: Alignment.bottomCenter,
             stops: [0, 0.5],
           )
-        : LinearGradient(
-            colors: [
-              Color(paletteWeather.secondary.get(15)),
-              Color(paletteWeather.secondary.get(15))
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            stops: [0, 0.5]),
+        : !isFroggyLayout
+            ? LinearGradient(
+                colors: [
+                  Color(paletteWeather.neutral.get(20)),
+                  Color(paletteWeather.secondary.get(20))
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: [0, 0.5])
+            : LinearGradient(
+                colors: [
+                  Color(paletteWeather.secondary.get(15)),
+                  Color(paletteWeather.secondary.get(15))
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                stops: [0, 0.5]),
 
     // clear day
 
