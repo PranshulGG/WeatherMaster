@@ -546,5 +546,8 @@
   "low_text": "低",
   "two_days_forecast_only": "仅 2 天预报",
   "set_as_default": "设为默认",
-  "system_font": "系统"
+  "system_font": "系统",
+  "use_ai_for_summary": "Use AI for summary",
+  "use_ai_for_summary_sub": "GPT-4o Mini generates summaries of hourly, daily, and current weather, refreshing every 2 hours",
+  "restart_for_changes": "Restart to apply changes"
 }
