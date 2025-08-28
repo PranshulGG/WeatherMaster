@@ -19,8 +19,6 @@ import 'package:material_color_utilities/material_color_utilities.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:animations/animations.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // App utilities
 import '../utils/animation_map.dart';
@@ -138,6 +136,7 @@ class _WeatherHomeState extends State<WeatherHome> {
 
   double? homeLat;
   double? homeLon;
+
   @override
   void initState() {
     super.initState();
@@ -257,7 +256,7 @@ class _WeatherHomeState extends State<WeatherHome> {
       final lastUpdateTime = DateTime.tryParse(lastUpdated);
       final now = DateTime.now();
       if (lastUpdateTime != null &&
-          now.difference(lastUpdateTime).inMinutes < 450) {
+          now.difference(lastUpdateTime).inMinutes < 4500) {
         _isAppFullyLoaded = true;
       } else {
         checkAndUpdateHomeLocation();
@@ -1097,29 +1096,19 @@ class _WeatherHomeState extends State<WeatherHome> {
                     : const SizedBox.shrink();
 
               case LayoutBlockType.summary:
-                // return SummaryCard(
-                //     selectedContainerBgIndex: useFullMaterialScheme
-                //         ? Theme.of(context)
-                //             .colorScheme
-                //             .surfaceContainerLowest
-                //             .toARGB32()
-                //         : weatherContainerColors[selectedContainerBgIndex],
-                //     hourlyData: hourly,
-                //     dailyData: daily,
-                //     currentData: current,
-                //     airQualityData: weather['air_quality'],
-                //     utcOffsetSeconds: weather['utc_offset_seconds'].toString());
-                return AISummaryCard(
-                  weatherData: {
-                    "hourly": hourly,
-                    "daily": daily,
-                    "current": current,
-                    "airQuality": weather['air_quality'],
-                  },
-                  cacheKey: cacheKey,
-                  useAISummary: true,
-                );
-
+                return SummaryCard(
+                    selectedContainerBgIndex: useFullMaterialScheme
+                        ? Theme.of(context)
+                            .colorScheme
+                            .surfaceContainerLowest
+                            .toARGB32()
+                        : weatherContainerColors[selectedContainerBgIndex],
+                    hourlyData: hourly,
+                    dailyData: daily,
+                    currentData: current,
+                    airQualityData: weather['air_quality'],
+                    utcOffsetSeconds: weather['utc_offset_seconds'].toString());
+              // return
               case LayoutBlockType.hourly:
                 return HourlyCard(
                   hourlyTime: hourlyTime,
@@ -1530,3 +1519,16 @@ class _WeatherHomeState extends State<WeatherHome> {
 //   _loaderOverlay?.remove();
 //   _loaderOverlay = null;
 // }
+
+bool checkLocaleChange(String localeCurrent) {
+  if (PreferencesHelper.getString("currentLocale") != null) {
+    if (PreferencesHelper.getString("currentLocale") == localeCurrent) {
+      return false;
+    } else {
+      return true;
+    }
+  } else {
+    PreferencesHelper.setString("currentLocale", localeCurrent);
+    return false;
+  }
+}

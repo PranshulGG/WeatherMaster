@@ -335,6 +335,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     SettingSwitchTile(
                       icon: Icon(
+                        Symbols.text_ad,
+                        fill: 1,
+                        weight: 500,
+                      ),
+                      title: Text("Use AI for summary"),
+                      description: Text(
+                          "GPT-4o Mini generates summaries of hourly, daily, and current weather, refreshing every 2 hours"),
+                      toggled:
+                          PreferencesHelper.getBool("useAISummary") ?? false,
+                      onChanged: (value) {
+                        PreferencesHelper.setBool("useAISummary", value);
+                        SnackUtil.showSnackBar(
+                            context: context,
+                            message: "Restart to apply changes");
+                        setState(() {});
+                      },
+                    ),
+                    SettingSwitchTile(
+                      icon: Icon(
                         Symbols.assistant_navigation,
                         fill: 1,
                         weight: 500,

@@ -36,7 +36,7 @@ android {
         applicationId = "com.pranshulgg.weather_master_app"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+        minSdk = 23
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -72,6 +72,5 @@ flutter {
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
     implementation("androidx.work:work-runtime-ktx:2.9.0")
-    implementation("androidx.glance:glance-appwidget:1.0.0-alpha05")
     implementation("com.google.android.material:material:1.12.0")
 }
