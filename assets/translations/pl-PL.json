@@ -546,5 +546,8 @@
   "low_text": "Niskie",
   "two_days_forecast_only": "Prognoza tylko na 2 dni",
   "set_as_default": "Ustaw jako domyślne",
-  "system_font": "Systemowa"
+  "system_font": "Systemowa",
+  "use_ai_for_summary": "Use AI for summary",
+  "use_ai_for_summary_sub": "GPT-4o Mini generates summaries of hourly, daily, and current weather, refreshing every 2 hours",
+  "restart_for_changes": "Restart to apply changes"
 }
