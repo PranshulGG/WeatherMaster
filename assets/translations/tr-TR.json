@@ -546,5 +546,8 @@
   "low_text": "Düşük",
   "two_days_forecast_only": "Sadece 2 günlük tahmin",
   "set_as_default": "Varsayılan olarak ayarla",
-  "system_font": "Sistem"
+  "system_font": "Sistem",
+  "use_ai_for_summary": "Use AI for summary",
+  "use_ai_for_summary_sub": "GPT-4o Mini generates summaries of hourly, daily, and current weather, refreshing every 2 hours",
+  "restart_for_changes": "Restart to apply changes"
 }
