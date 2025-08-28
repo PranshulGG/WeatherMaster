@@ -33,6 +33,8 @@ class DailyCard extends StatelessWidget {
     final tempUnit = context.watch<UnitSettingsNotifier>().tempUnit;
     final colorTheme = Theme.of(context).colorScheme;
 
+    final isShowFrog = context.read<UnitSettingsNotifier>().showFrog;
+
     num convert(num celsius) => tempUnit == "Fahrenheit"
         ? UnitConverter.celsiusToFahrenheit(celsius.toDouble()).round()
         : celsius.round();
@@ -95,7 +97,7 @@ class DailyCard extends StatelessWidget {
             color: Colors.transparent,
           ),
           SizedBox(
-            height: 200,
+            height: 213,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               physics: BouncingScrollPhysics(),
@@ -134,7 +136,10 @@ class DailyCard extends StatelessWidget {
                           color:
                               Theme.of(context).brightness == Brightness.light
                                   ? colorTheme.surfaceContainer
-                                  : Color.fromRGBO(0, 0, 0, 0.247)),
+                                  : !isShowFrog
+                                      ? colorTheme.surfaceContainerLow
+                                          .withValues(alpha: 0.6)
+                                      : Color.fromRGBO(0, 0, 0, 0.247)),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -194,6 +199,7 @@ class DailyCard extends StatelessWidget {
                                 fontSize: 13,
                                 color: colorTheme.onSurfaceVariant,
                               ),
+                              textAlign: TextAlign.center,
                             ),
                           ]),
                           SizedBox(
@@ -224,7 +230,7 @@ String getLocalizedDateFormat(DateTime time, Locale locale) {
     return DateFormat('MM/dd').format(time);
   } else if (lang == 'ja') {
     return DateFormat('MM月dd日', 'ja').format(time);
-  } else if (lang == 'zh' && country == 'CN') {
+  } else if (lang == 'zh' && country == 'CN' || country == "TW") {
     return DateFormat('MM月dd日', 'zh_CN').format(time);
   } else if (lang == 'fa') {
     return DateFormat('yyyy/MM/dd', 'fa').format(time);
