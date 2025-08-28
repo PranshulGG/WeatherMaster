@@ -546,5 +546,8 @@
   "low_text": "Χαμηλή",
   "two_days_forecast_only": "Πρόβλεψη μόνο 2 ημερών",
   "set_as_default": "Ορισμός ως προεπιλογή",
-  "system_font": "Σύστημα"
+  "system_font": "Σύστημα",
+  "use_ai_for_summary": "Use AI for summary",
+  "use_ai_for_summary_sub": "GPT-4o Mini generates summaries of hourly, daily, and current weather, refreshing every 2 hours",
+  "restart_for_changes": "Restart to apply changes"
 }
