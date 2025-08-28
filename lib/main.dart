@@ -135,7 +135,7 @@ void main() async {
     lat = locationData['lat'];
     lon = locationData['lon'];
   }
-
+  await Hive.openBox('ai_summary_cache');
   runApp(
     EasyLocalization(
       supportedLocales: easySupportedLocales,

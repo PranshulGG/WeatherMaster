@@ -19,6 +19,8 @@ import 'package:material_color_utilities/material_color_utilities.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:animations/animations.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // App utilities
 import '../utils/animation_map.dart';
@@ -1095,18 +1097,28 @@ class _WeatherHomeState extends State<WeatherHome> {
                     : const SizedBox.shrink();
 
               case LayoutBlockType.summary:
-                return SummaryCard(
-                    selectedContainerBgIndex: useFullMaterialScheme
-                        ? Theme.of(context)
-                            .colorScheme
-                            .surfaceContainerLowest
-                            .toARGB32()
-                        : weatherContainerColors[selectedContainerBgIndex],
-                    hourlyData: hourly,
-                    dailyData: daily,
-                    currentData: current,
-                    airQualityData: weather['air_quality'],
-                    utcOffsetSeconds: weather['utc_offset_seconds'].toString());
+                // return SummaryCard(
+                //     selectedContainerBgIndex: useFullMaterialScheme
+                //         ? Theme.of(context)
+                //             .colorScheme
+                //             .surfaceContainerLowest
+                //             .toARGB32()
+                //         : weatherContainerColors[selectedContainerBgIndex],
+                //     hourlyData: hourly,
+                //     dailyData: daily,
+                //     currentData: current,
+                //     airQualityData: weather['air_quality'],
+                //     utcOffsetSeconds: weather['utc_offset_seconds'].toString());
+                return AISummaryCard(
+                  weatherData: {
+                    "hourly": hourly,
+                    "daily": daily,
+                    "current": current,
+                    "airQuality": weather['air_quality'],
+                  },
+                  cacheKey: cacheKey,
+                  useAISummary: true,
+                );
 
               case LayoutBlockType.hourly:
                 return HourlyCard(
