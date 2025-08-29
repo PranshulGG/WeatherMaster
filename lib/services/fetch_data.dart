@@ -55,10 +55,14 @@ class WeatherService {
       'forecast_hours': '1',
     });
 
-    // Prepare list of HTTP requests (always include weather and air quality)
+    final astronomyUri = Uri.parse(
+        'https://api.weatherapi.com/v1/astronomy.json?key=${dotenv.env['API_KEY_WEATHERAPI']!.toString()}&q=$lat,$lon');
+
+    // Prepare list of HTTP requests
     final requests = <Future<http.Response>>[
       http.get(uri),
       http.get(airQualityUri),
+      http.get(astronomyUri),
     ];
 
     final responses = await Future.wait(requests);
@@ -67,6 +71,8 @@ class WeatherService {
     final weatherData = json.decode(responses[0].body) as Map<String, dynamic>;
     final airQualityData =
         json.decode(responses[1].body) as Map<String, dynamic>;
+    final astronomyData =
+        json.decode(responses[2].body) as Map<String, dynamic>;
 
     // Check if we need fallback data for missing fields
     Map<String, dynamic> finalWeatherData = weatherData;
@@ -79,11 +85,13 @@ class WeatherService {
     finalWeatherData['hourly'] = sanitizeHourly(finalWeatherData['hourly']);
     finalWeatherData['daily'] = sanitizeDaily(finalWeatherData['daily']);
 
-    if (finalWeatherData['error'] == true || airQualityData['error'] == true) {
+    if (finalWeatherData['error'] == true ||
+        airQualityData['error'] == true ||
+        astronomyData['error'] == true) {
       final reason = finalWeatherData['reason'] ??
           airQualityData['reason'] ??
+          astronomyData['reason'] ??
           'Unknown error';
-
       if (context != null) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -107,6 +115,7 @@ class WeatherService {
     final combinedDataForView = {
       ...finalWeatherData,
       'air_quality': airQualityData,
+      'astronomy': astronomyData,
     };
 
     final nowForView = DateTime.now().toIso8601String();
@@ -129,7 +138,9 @@ class WeatherService {
       if (json.encode(cachedData['current']) ==
               json.encode(finalWeatherData['current']) &&
           json.encode(cachedData['air_quality'] ?? {}) ==
-              json.encode(airQualityData)) {
+              json.encode(airQualityData) &&
+          json.encode(cachedData['astronomy'] ?? {}) ==
+              json.encode(astronomyData)) {
         log("Hive: No update needed for $key");
         return {
           'data': cachedData,
@@ -143,6 +154,7 @@ class WeatherService {
     final combinedData = {
       ...finalWeatherData,
       'air_quality': airQualityData,
+      'astronomy': astronomyData,
     };
 
     final wrappedData = {

@@ -227,6 +227,19 @@ String buildHumidity(Color color, int humidityValue) {
   return returnSvg;
 }
 
+// Build cloud svg
+
+String buildCloudCoverSvg(Color color) {
+  final hexColor =
+      '#${color.value.toRadixString(16).padLeft(8, '0').substring(2)}';
+
+  return '''<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M63.5616 25.8468C78.2888 11.595 101.711 11.595 116.438 25.8468C120.945 30.2077 126.466 33.3858 132.508 35.0962C152.251 40.6859 163.962 60.9091 158.946 80.7506C157.411 86.822 157.411 93.1781 158.946 99.2495C163.962 119.091 152.251 139.314 132.508 144.904C126.466 146.614 120.945 149.792 116.438 154.153C101.711 168.405 78.2888 168.405 63.5616 154.153C59.0552 149.792 53.5339 146.614 47.4926 144.904C27.7492 139.314 16.0379 119.091 21.0541 99.2495C22.5891 93.1781 22.5891 86.822 21.0541 80.7506C16.0379 60.9091 27.7492 40.6859 47.4926 35.0962C53.5339 33.3858 59.0552 30.2077 63.5616 25.8468Z" fill="$hexColor"/>
+</svg>
+
+      ''';
+}
+
 // Return SVG representing the sun's path from sunrise to sunset
 
 String buildSunPathWithIcon({
@@ -293,4 +306,44 @@ String buildNowHourSvg(Color colorPrimary) {
 ''';
 
   return returnSvg;
+}
+
+// Moon path
+
+String buildMoonPathWithIcon({
+  required Color pathColor,
+  required double percent,
+  required Color outLineColor,
+  bool showMoon = true,
+  int moonIllumination = 100,
+}) {
+  final hexColor =
+      '#${pathColor.value.toRadixString(16).padLeft(8, '0').substring(2)}';
+  final hexColoroutLine =
+      '#${outLineColor.value.toRadixString(16).padLeft(8, '0').substring(2)}';
+
+  const svgWidth = 176.0;
+
+  final shift = -0.0;
+  final stretch = 1.0;
+  final t = ((percent + shift) * stretch).clamp(0.0, 1.0);
+  final moonX = t * svgWidth;
+  final moonY = 70 - 70 * sin(pi * t);
+  final moonYEndStart = 60 - 70 * sin(pi * t);
+
+  final moonFill = showMoon
+      ? 'radialGradient(circle at center, white ${moonIllumination}%, transparent 100%)'
+      : 'transparent';
+
+  return '''
+
+<svg width="176" height="110" viewBox="0 0 176 110" style="overflow: visible;" xmlns="http://www.w3.org/2000/svg">
+  <path fill="$hexColor" d="M176.5,54.44V89.86C176.5,100.91 167.52,109.86 156.44,109.86H20.06C8.98,109.86 0,100.91 0,89.86V52.57C7.79,51.81 15.41,48.77 21.78,43.46L62.06,9.91C76.95,-2.49 98.6,-2.49 113.49,9.91L156.22,45.51C162.18,50.47 169.23,53.45 176.49,54.44H176.5Z"/>
+  
+  <circle cx="$moonX" cy="${percent == 0 || percent == 1 ? '$moonYEndStart' : '$moonY'}" 
+          fill="${showMoon ? 'white' : 'transparent'}" 
+          r="10" stroke="$hexColoroutLine"
+          stroke-width="${showMoon ? '3' : '0'} "/>
+</svg>
+''';
 }

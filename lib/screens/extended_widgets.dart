@@ -69,6 +69,10 @@ class _ExtendWidgetState extends State<ExtendWidget> {
       child = buildPrecipExtended();
       extendedTitle = 'precipitation'.tr();
       iconData = Symbols.rainy_heavy;
+    } else if (widget.widgetType == 'moon_widget') {
+      child = buildMoonExtended();
+      extendedTitle = 'moon'.tr();
+      iconData = Symbols.nightlight;
     } else {
       child = const Center(child: Text('Unknown widget type'));
       extendedTitle = 'Error';
@@ -1216,6 +1220,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                         .round()
                                     : windUnit == 'Kt'
                                         ? UnitConverter.kmhToKt(windSpeed)
+                                            .toStringAsFixed(1)
                                         : windSpeed.toStringAsFixed(1);
 
                         Widget windArrow = Transform.rotate(
@@ -2297,6 +2302,89 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                   ],
                 ))
           ]);
+        });
+  }
+
+  // MOON
+
+  Widget buildMoonExtended() {
+    return FutureBuilder<Map<String, dynamic>?>(
+        future: getWeatherWidgets(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data == null) {
+            return Center(child: Text('no_data_available'.tr()));
+          }
+
+          final data = snapshot.data!;
+          final weather = data['data'];
+
+          return Column(
+            children: [
+              Container(
+                clipBehavior: Clip.hardEdge,
+                height: 305,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surfaceContainer,
+                  borderRadius: BorderRadius.circular(18),
+                ),
+                padding: EdgeInsets.only(top: 12, bottom: 0),
+                margin: EdgeInsets.fromLTRB(12, 0, 12, 0),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                      alignment: Alignment.centerLeft,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("current_conditions".tr(),
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface,
+                                  fontWeight: FontWeight.w500)),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                "",
+                                style: TextStyle(
+                                  fontSize: 50,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                ),
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.only(bottom: 11, left: 8),
+                                  child: Text(
+                                    "",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurfaceVariant,
+                                    ),
+                                  ))
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+            ],
+          );
         });
   }
 }

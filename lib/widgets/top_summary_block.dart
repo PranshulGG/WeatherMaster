@@ -334,8 +334,7 @@ class _SummaryCardState extends State<SummaryCard> {
           Text(
             _headline ?? '',
             style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
+                color: Theme.of(context).colorScheme.onSurface, fontSize: 14.5),
             textAlign: TextAlign.left,
           ),
           // ),
@@ -537,32 +536,10 @@ class _SummaryCardState extends State<SummaryCard> {
       isSummaryLoaded = true;
     }
 
-    final windUnit = context.watch<UnitSettingsNotifier>().windUnit;
+    // final windUnit = context.watch<UnitSettingsNotifier>().windUnit;
 
-    final gustRaw = widget.currentData['wind_gusts_10m'];
-    final gustValue = (gustRaw is num) ? gustRaw.toDouble() : 0.000000001;
-
-    final formattedWindGust = windUnit == 'Mph'
-        ? UnitConverter.kmhToMph(gustValue)
-        : windUnit == 'M/s'
-            ? UnitConverter.kmhToMs(gustValue)
-            : windUnit == 'Bft'
-                ? UnitConverter.kmhToBeaufort(gustValue)
-                : windUnit == 'Kt'
-                    ? UnitConverter.kmhToKt(gustValue)
-                    : gustValue;
-
-    final formattedWindSpeed = windUnit == 'Mph'
-        ? UnitConverter.kmhToMph(widget.currentData['wind_speed_10m'])
-        : windUnit == 'M/s'
-            ? UnitConverter.kmhToMs(widget.currentData['wind_speed_10m'])
-            : windUnit == 'Bft'
-                ? UnitConverter.kmhToBeaufort(
-                    widget.currentData['wind_speed_10m'])
-                : windUnit == 'Kt'
-                    ? UnitConverter.kmhToKt(
-                        widget.currentData['wind_speed_10m'])
-                    : widget.currentData['wind_speed_10m'];
+    // final gustRaw = widget.currentData['wind_gusts_10m'];
+    // final gustValue = (gustRaw is num) ? gustRaw.toDouble() : 0.000000001;
 
     return Container(
       decoration: BoxDecoration(
@@ -625,72 +602,72 @@ class _SummaryCardState extends State<SummaryCard> {
             },
             child: buildWeatherSummaryWidget(context, isExpanded),
           ),
-          Padding(
-              padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 8),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      spacing: 4,
-                      children: [
-                        Icon(
-                          Symbols.air,
-                          weight: 500,
-                          color: Theme.of(context).colorScheme.onSurface,
-                          size: 19,
-                        ),
-                        Text(
-                            '${windUnit == 'M/s' ? formattedWindSpeed.toStringAsFixed(1) : formattedWindSpeed.round()} ${localizeWindUnit(windUnit, context.locale)}',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.onSurface,
-                              fontSize: 15,
-                            ))
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      spacing: 4,
-                      children: [
-                        Icon(Symbols.wind_power,
-                            weight: 500,
-                            color: Theme.of(context).colorScheme.onSurface,
-                            size: 19),
-                        Text(
-                          gustValue == 0.000000001
-                              ? '--'
-                              : "${windUnit == 'M/s' ? formattedWindGust.toStringAsFixed(1) : formattedWindGust.round()} ${localizeWindUnit(windUnit, context.locale)}",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onSurface,
-                            fontSize: 15,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        )
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      spacing: 4,
-                      children: [
-                        Icon(Symbols.cloud,
-                            weight: 500,
-                            color: Theme.of(context).colorScheme.onSurface,
-                            size: 19),
-                        Text("${widget.currentData['cloud_cover']}%",
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.onSurface,
-                              fontSize: 15,
-                            ))
-                      ],
-                    ),
-                  ),
-                ],
-              ))
+          // Padding(
+          //     padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 8),
+          //     child: Row(
+          //       children: [
+          //         Expanded(
+          //           child: Row(
+          //             mainAxisAlignment: MainAxisAlignment.center,
+          //             spacing: 4,
+          //             children: [
+          //               Icon(
+          //                 Symbols.air,
+          //                 weight: 500,
+          //                 color: Theme.of(context).colorScheme.onSurface,
+          //                 size: 19,
+          //               ),
+          //               Text(
+          //                   '${windUnit == 'M/s' ? formattedWindSpeed.toStringAsFixed(1) : formattedWindSpeed.round()} ${localizeWindUnit(windUnit, context.locale)}',
+          //                   style: TextStyle(
+          //                     color: Theme.of(context).colorScheme.onSurface,
+          //                     fontSize: 15,
+          //                   ))
+          //             ],
+          //           ),
+          //         ),
+          //         Expanded(
+          //           child: Row(
+          //             mainAxisAlignment: MainAxisAlignment.center,
+          //             spacing: 4,
+          //             children: [
+          //               Icon(Symbols.wind_power,
+          //                   weight: 500,
+          //                   color: Theme.of(context).colorScheme.onSurface,
+          //                   size: 19),
+          //               Text(
+          //                 gustValue == 0.000000001
+          //                     ? '--'
+          //                     : "${windUnit == 'M/s' ? formattedWindGust.toStringAsFixed(1) : formattedWindGust.round()} ${localizeWindUnit(windUnit, context.locale)}",
+          //                 style: TextStyle(
+          //                   color: Theme.of(context).colorScheme.onSurface,
+          //                   fontSize: 15,
+          //                 ),
+          //                 maxLines: 1,
+          //                 overflow: TextOverflow.ellipsis,
+          //               )
+          //             ],
+          //           ),
+          //         ),
+          //         Expanded(
+          //           child: Row(
+          //             mainAxisAlignment: MainAxisAlignment.center,
+          //             spacing: 4,
+          //             children: [
+          //               Icon(Symbols.cloud,
+          //                   weight: 500,
+          //                   color: Theme.of(context).colorScheme.onSurface,
+          //                   size: 19),
+          //               Text("${widget.currentData['cloud_cover']}%",
+          //                   style: TextStyle(
+          //                     color: Theme.of(context).colorScheme.onSurface,
+          //                     fontSize: 15,
+          //                   ))
+          //             ],
+          //           ),
+          //         ),
+          //       ],
+          //     ))
         ],
       ),
     );

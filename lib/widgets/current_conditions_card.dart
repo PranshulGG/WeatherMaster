@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:weather_master_app/utils/preferences_helper.dart';
 import '../notifiers/unit_settings_notifier.dart';
 import '../utils/unit_converter.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +17,7 @@ import '../screens/extended_widgets.dart';
 import '../helper/locale_helper.dart';
 import '../utils/visual_utils.dart';
 import 'package:animations/animations.dart';
+import 'package:moon_phase/moon_widget.dart';
 
 class ConditionsWidgets extends StatefulWidget {
   final int selectedContainerBgIndex;
@@ -35,6 +37,10 @@ class ConditionsWidgets extends StatefulWidget {
   final double currentTotalPrec;
   final double currentDayLength;
   final bool isFromHome;
+  final String moonrise;
+  final String moonset;
+  final String moonPhase;
+  final String cloudCover;
 
   const ConditionsWidgets(
       {super.key,
@@ -54,7 +60,11 @@ class ConditionsWidgets extends StatefulWidget {
       required this.currentAQIEURO,
       required this.currentTotalPrec,
       required this.currentDayLength,
-      required this.isFromHome});
+      required this.isFromHome,
+      required this.moonrise,
+      required this.moonset,
+      required this.moonPhase,
+      required this.cloudCover});
 
   @override
   State<ConditionsWidgets> createState() => _ConditionsWidgetsState();
@@ -64,11 +74,12 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
   List<int> itemOrder = [];
 
   final String orderPrefsKey = 'tile_order';
-
+  bool _initialized = false;
   @override
   void initState() {
     super.initState();
     _loadTileOrder();
+    _initializePreferences();
   }
 
   Future<void> _loadTileOrder() async {
@@ -80,11 +91,32 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
         itemOrder = savedList.map(int.parse).toList();
       });
     } else {
-      // Default order
       setState(() {
-        itemOrder = List.generate(8, (index) => index);
+        itemOrder = List.generate(10, (index) => index);
       });
     }
+  }
+
+  Future<void> _initializePreferences() async {
+    if (_initialized) return;
+    _initialized = true;
+
+    final prefs = await SharedPreferences.getInstance();
+    List<String>? savedList = prefs.getStringList(orderPrefsKey);
+
+    if (savedList != null) {
+      List<int> intList = savedList.map(int.parse).toList();
+      List<int> zeroToSeven = List.generate(8, (i) => i);
+
+      if (intList.toSet().containsAll(zeroToSeven) &&
+          intList.every((e) => e >= 0 && e <= 7)) {
+        await prefs.remove(orderPrefsKey);
+      }
+    }
+
+    List<String> newList = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    await prefs.setStringList(orderPrefsKey, newList);
+    print('New list saved');
   }
 
   @override
@@ -109,6 +141,8 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
     DateTime now = utcNow.add(Duration(seconds: offsetSeconds));
     DateTime sunrise = DateTime.parse(widget.currentSunrise);
     DateTime sunset = DateTime.parse(widget.currentSunset);
+    DateTime moonrise = DateFormat.jm().parse(widget.moonrise);
+    DateTime moonset = DateFormat.jm().parse(widget.moonset);
 
     now = DateTime(
       now.year,
@@ -131,6 +165,12 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
         ? DateFormat.Hm().format(sunset)
         : DateFormat.jm().format(sunset);
 
+    final moonriseFormat = timeUnit == '24 hr'
+        ? DateFormat.Hm().format(moonrise)
+        : DateFormat.jm().format(moonrise);
+    final moonsetFormat = timeUnit == '24 hr'
+        ? DateFormat.Hm().format(moonset)
+        : DateFormat.jm().format(moonset);
     final pressureUnit = context.watch<UnitSettingsNotifier>().pressureUnit;
     final precipitationUnit =
         context.watch<UnitSettingsNotifier>().precipitationUnit;
@@ -153,6 +193,18 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
         ? UnitConverter.mToMiles(widget.currentVisibility.toDouble())
         : UnitConverter.mToKm(widget.currentVisibility.toDouble());
 
+    final windUnit = context.watch<UnitSettingsNotifier>().windUnit;
+
+    final formattedWindSpeed = windUnit == 'Mph'
+        ? UnitConverter.kmhToMph(widget.currentWindSpeed)
+        : windUnit == 'M/s'
+            ? UnitConverter.kmhToMs(widget.currentWindSpeed)
+            : windUnit == 'Bft'
+                ? UnitConverter.kmhToBeaufort(widget.currentWindSpeed)
+                : windUnit == 'Kt'
+                    ? UnitConverter.kmhToKt(widget.currentWindSpeed)
+                    : widget.currentWindSpeed;
+
     if (sunset.isBefore(sunrise)) {
       sunset = sunset.add(Duration(days: 1));
     }
@@ -165,6 +217,21 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
         aqiUnit == 'European' ? widget.currentAQIEURO : widget.currentAQIUSA;
 
     final colorTheme = Theme.of(context).colorScheme;
+
+    moonrise =
+        DateTime(now.year, now.month, now.day, moonrise.hour, moonrise.minute);
+    moonset =
+        DateTime(now.year, now.month, now.day, moonset.hour, moonset.minute);
+
+    if (moonset.isBefore(moonrise)) {
+      moonset = moonset.add(Duration(days: 1));
+    }
+
+    double moonPercent = ((now.difference(moonrise).inSeconds) /
+            (moonset.difference(moonrise).inSeconds))
+        .clamp(0, 1);
+
+    // int moonIllumination = int.parse(widget.moonPhase);
 
     List<Widget> gridItems = itemOrder.map((i) {
       switch (i) {
@@ -689,7 +756,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                               child: Text(
                                 widget.currentWindSpeed == 0.0000001
                                     ? '--'
-                                    : getWindSpeedType(widget.currentWindSpeed),
+                                    : '${windUnit == 'M/s' ? formattedWindSpeed.toStringAsFixed(1) : formattedWindSpeed.round()} ${localizeWindUnit(windUnit, context.locale)}',
                                 style: TextStyle(
                                   color: Theme.of(context)
                                       .colorScheme
@@ -1071,6 +1138,239 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
               );
             },
           );
+        case 8:
+          return OpenContainer(
+            transitionType: ContainerTransitionType.fadeThrough,
+            closedElevation: 0,
+            closedShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            openShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            openElevation: 0,
+            transitionDuration: Duration(milliseconds: 500),
+            closedColor: Color(widget.selectedContainerBgIndex),
+            openColor: colorTheme.surface,
+            openBuilder: (context, _) {
+              return ExtendWidget('moon_widget');
+            },
+            closedBuilder: (context, openContainer) {
+              return GestureDetector(
+                child: Container(
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                    color: Color(widget.selectedContainerBgIndex),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Stack(
+                    children: [
+                      ListTile(
+                        leading: MoonWidget(
+                          date: now,
+                          resolution: 128,
+                          size: 22,
+                          moonColor: Colors.amber,
+                          earthshineColor: Colors.blueGrey.shade900,
+                        ),
+                        horizontalTitleGap: 5,
+                        contentPadding: EdgeInsets.only(left: 10, bottom: 0),
+                        title: Text("moon".tr(),
+                            style: TextStyle(
+                                color: Theme.of(context).brightness ==
+                                        Brightness.dark
+                                    ? Colors.white
+                                    : Colors.black),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis),
+                      ),
+                      Positioned(
+                        bottom: -1,
+                        left: 0,
+                        right: 0,
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.12,
+                          child: SvgPicture.string(
+                            clipBehavior: Clip.none,
+                            buildMoonPathWithIcon(
+                              pathColor: Theme.of(context)
+                                  .colorScheme
+                                  .secondaryContainer,
+                              percent: moonPercent,
+                              outLineColor:
+                                  Theme.of(context).colorScheme.outline,
+                            ),
+                            allowDrawingOutsideViewBox: true,
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        left: -1,
+                        child: Container(
+                          height: 65,
+                          decoration: BoxDecoration(
+                            border: Border(
+                              top: BorderSide(
+                                color: Theme.of(context).colorScheme.outline,
+                                width: 1.5,
+                              ),
+                            ),
+                            color: const Color.fromRGBO(0, 0, 0, 0.5),
+                            // borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))
+                          ),
+                        ),
+                      ),
+                      Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                spacing: 5,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Symbols.vertical_align_top,
+                                    weight: 500,
+                                    size: 17,
+                                    color: Colors.white,
+                                  ),
+                                  Text(moonriseFormat,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                      ))
+                                ],
+                              ),
+                              Row(
+                                spacing: 5,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Symbols.vertical_align_bottom,
+                                    weight: 500,
+                                    size: 17,
+                                    color: Colors.white,
+                                  ),
+                                  Text(moonsetFormat,
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 14)),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              )
+                            ],
+                          )),
+                    ],
+                  ),
+                ),
+                onTap: () {
+                  widget.isFromHome ? openContainer() : null;
+                },
+              );
+            },
+          );
+        case 9:
+          return OpenContainer(
+              transitionType: ContainerTransitionType.fadeThrough,
+              closedElevation: 0,
+              closedShape: const CircleBorder(),
+              openShape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              openElevation: 0,
+              transitionDuration: Duration(milliseconds: 500),
+              closedColor: Color(widget.selectedContainerBgIndex),
+              openColor: colorTheme.surface,
+              openBuilder: (context, _) {
+                return SizedBox.shrink();
+              },
+              closedBuilder: (context, openContainer) {
+                return GestureDetector(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(999),
+                      child: Container(
+                        height: 160,
+                        decoration: BoxDecoration(
+                          color: Color(widget.selectedContainerBgIndex),
+                          borderRadius: BorderRadius.circular(999),
+                        ),
+                        child: Stack(
+                          children: [
+                            AspectRatio(
+                              aspectRatio: 1,
+                              child: SvgPicture.string(
+                                buildCloudCoverSvg(Theme.of(context)
+                                    .colorScheme
+                                    .tertiaryContainer),
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                            headerWidgetConditions(
+                              headerText: "cloudiness".tr(),
+                              headerIcon: Symbols.cloud,
+                            ),
+                            Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                widget.currentVisibility == 0.0000001
+                                    ? '--'
+                                    : widget.cloudCover,
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onTertiaryContainer,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.1,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 30),
+                              child: Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Text(
+                                  "%",
+                                  style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.onSurface,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    onTap: () {
+                      if (widget.isFromHome) {
+                        if (widget.currentVisibility == 0.0000001) {
+                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Row(
+                            spacing: 10,
+                            children: [
+                              Icon(
+                                Symbols.error,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onInverseSurface,
+                              ),
+                              Text("No data available")
+                            ],
+                          )));
+                        } else {
+                          openContainer();
+                        }
+                      }
+                    });
+              });
         default:
           return const SizedBox();
       }

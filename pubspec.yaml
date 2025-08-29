@@ -63,7 +63,7 @@ dependencies:
   flutter_dotenv: ^5.2.1
   home_widget: ^0.8.0
   permission_handler: ^12.0.1
-  shimmer: ^3.0.0
+  moon_phase: ^1.0.2+9
 
   settings_tiles:
     path: ./settings_tiles_custom

@@ -938,7 +938,6 @@ class _WeatherHomeState extends State<WeatherHome> {
                 maybeUpdateWeatherAnimation(current);
               }
             });
-            print("CODEEEEEEEEEEEEEEEEE: ${weatherCodeFroggy}");
           } else {
             _isLoadingFroggy == true;
             _loadWeatherIconFroggy(weatherCodeFroggy, isDayFroggy,
@@ -1145,46 +1144,43 @@ class _WeatherHomeState extends State<WeatherHome> {
                 return SizedBox(
                   // width: 380,
                   child: ConditionsWidgets(
-                    selectedContainerBgIndex: useFullMaterialScheme
-                        ? Theme.of(context)
-                            .colorScheme
-                            .surfaceContainerLowest
-                            .toARGB32()
-                        : weatherContainerColors[selectedContainerBgIndex],
-                    currentHumidity:
-                        current['relative_humidity_2m'] ?? 0.0000001,
-                    currentDewPoint: hourly['dew_point_2m'][getStartIndex(
-                                weather['utc_offset_seconds'].toString(),
-                                hourlyTime)]
-                            .toDouble() ??
-                        0.0000001,
-                    currentSunrise: daily['sunrise'][0] ?? 0.0000001,
-                    currentSunset: daily['sunset'][0] ?? 0.0000001,
-                    currentPressure: current['pressure_msl'] ?? 0.0000001,
-                    currentVisibility: hourly['visibility'][getStartIndex(
-                            weather['utc_offset_seconds'].toString(),
-                            hourlyTime)] ??
-                        0.0000001,
-                    currentWindSpeed: current['wind_speed_10m'] ?? 0.0000001,
-                    currentWindDirc: current['wind_direction_10m'] ?? 0.0000001,
-                    timezone: weather['timezone'].toString(),
-                    utcOffsetSeconds: weather['utc_offset_seconds'].toString(),
-                    currentUvIndex: hourly['uv_index'][getStartIndex(
-                            weather['utc_offset_seconds'].toString(),
-                            hourlyTime)] ??
-                        0.0000001,
-                    currentAQIUSA: weather['air_quality']['current']
-                            ['us_aqi'] ??
-                        0.0000001,
-                    currentAQIEURO: weather['air_quality']['current']
-                            ['european_aqi'] ??
-                        0.0000001,
-                    currentTotalPrec:
-                        daily['precipitation_sum'][0] ?? 0.0000001,
-                    currentDayLength:
-                        daily['daylight_duration'][0] ?? 0.0000001,
-                    isFromHome: true,
-                  ),
+                      selectedContainerBgIndex: useFullMaterialScheme
+                          ? Theme.of(context)
+                              .colorScheme
+                              .surfaceContainerLowest
+                              .toARGB32()
+                          : weatherContainerColors[selectedContainerBgIndex],
+                      currentHumidity:
+                          current['relative_humidity_2m'] ?? 0.0000001,
+                      currentDewPoint:
+                          hourly['dew_point_2m'][getStartIndex(weather['utc_offset_seconds'].toString(), hourlyTime)]
+                                  .toDouble() ??
+                              0.0000001,
+                      currentSunrise: daily['sunrise'][0] ?? 0.0000001,
+                      currentSunset: daily['sunset'][0] ?? 0.0000001,
+                      currentPressure: current['pressure_msl'] ?? 0.0000001,
+                      currentVisibility: hourly['visibility'][getStartIndex(
+                              weather['utc_offset_seconds'].toString(),
+                              hourlyTime)] ??
+                          0.0000001,
+                      currentWindSpeed: current['wind_speed_10m'] ?? 0.0000001,
+                      currentWindDirc:
+                          current['wind_direction_10m'] ?? 0.0000001,
+                      timezone: weather['timezone'].toString(),
+                      utcOffsetSeconds:
+                          weather['utc_offset_seconds'].toString(),
+                      currentUvIndex: hourly['uv_index']
+                              [getStartIndex(weather['utc_offset_seconds'].toString(), hourlyTime)] ??
+                          0.0000001,
+                      currentAQIUSA: weather['air_quality']['current']['us_aqi'] ?? 0.0000001,
+                      currentAQIEURO: weather['air_quality']['current']['european_aqi'] ?? 0.0000001,
+                      currentTotalPrec: daily['precipitation_sum'][0] ?? 0.0000001,
+                      currentDayLength: daily['daylight_duration'][0] ?? 0.0000001,
+                      isFromHome: true,
+                      moonrise: weather['astronomy']['astronomy']['astro']['moonrise'],
+                      moonset: weather['astronomy']['astronomy']['astro']['moonset'],
+                      moonPhase: weather['astronomy']['astronomy']['astro']['moon_phase'],
+                      cloudCover: current['cloud_cover'].toString()),
                 );
 
               case LayoutBlockType.pollen:

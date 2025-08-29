@@ -437,6 +437,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.16.0"
+  moon_phase:
+    dependency: "direct main"
+    description:
+      name: moon_phase
+      sha256: "41de1d39bcbb45b9c4d86fa8405b231188fcbf6a095edd294db22cdee2d5e095"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2+9"
   nested:
     dependency: transitive
     description:
@@ -684,14 +692,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.1"
-  shimmer:
-    dependency: "direct main"
-    description:
-      name: shimmer
-      sha256: "5f88c883a22e9f9f299e5ba0e4f7e6054857224976a5d9f839d4ebdc94a14ac9"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.0"
   sky_engine:
     dependency: transitive
     description: flutter
