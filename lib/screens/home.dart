@@ -930,7 +930,7 @@ class _WeatherHomeState extends State<WeatherHome> {
                     : null;
                 // });
                 _isLoadingFroggy = true;
-                showInsightsRandomly = Random().nextInt(100) < 40;
+                showInsightsRandomly = Random().nextInt(100) < 60;
                 PreferencesHelper.setColor(
                     "weatherThemeColor", weatherConditionColors[newIndex]);
                 _loadWeatherIconFroggy(

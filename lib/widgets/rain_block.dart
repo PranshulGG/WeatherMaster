@@ -288,7 +288,7 @@ class RainBlock extends StatelessWidget {
                   bottomTitles: AxisTitles(
                     sideTitles: SideTitles(
                       showTitles: true,
-                      reservedSize: 18,
+                      reservedSize: 16,
                       getTitlesWidget: (value, _) {
                         final idx = value.toInt();
                         if (idx % 3 != 0 || idx >= next12Time.length)

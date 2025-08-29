@@ -111,7 +111,6 @@ class _SummaryCardState extends State<SummaryCard> {
         "summary_headlines_6".tr(),
       ];
     } else if (isCloudy(cloudCover)) {
-      // Adjust cloudy phrases by time of day:
       switch (period) {
         case TimeOfDayPeriod.morning:
           options = [
@@ -549,7 +548,9 @@ class _SummaryCardState extends State<SummaryCard> {
             ? UnitConverter.kmhToMs(gustValue)
             : windUnit == 'Bft'
                 ? UnitConverter.kmhToBeaufort(gustValue)
-                : gustValue;
+                : windUnit == 'Kt'
+                    ? UnitConverter.kmhToKt(gustValue)
+                    : gustValue;
 
     final formattedWindSpeed = windUnit == 'Mph'
         ? UnitConverter.kmhToMph(widget.currentData['wind_speed_10m'])
@@ -558,7 +559,10 @@ class _SummaryCardState extends State<SummaryCard> {
             : windUnit == 'Bft'
                 ? UnitConverter.kmhToBeaufort(
                     widget.currentData['wind_speed_10m'])
-                : widget.currentData['wind_speed_10m'];
+                : windUnit == 'Kt'
+                    ? UnitConverter.kmhToKt(
+                        widget.currentData['wind_speed_10m'])
+                    : widget.currentData['wind_speed_10m'];
 
     return Container(
       decoration: BoxDecoration(

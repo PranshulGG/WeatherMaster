@@ -1120,7 +1120,9 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                   ? UnitConverter.kmhToMs(avgWind)
                   : windUnit == 'Bft'
                       ? UnitConverter.kmhToBeaufort(avgWind)
-                      : avgWind;
+                      : windUnit == 'Kt'
+                          ? UnitConverter.kmhToKt(avgWind)
+                          : avgWind;
 
           return Column(children: [
             Container(
@@ -1212,7 +1214,9 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                 : windUnit == 'Bft'
                                     ? UnitConverter.kmhToBeaufort(windSpeed)
                                         .round()
-                                    : windSpeed.toStringAsFixed(1);
+                                    : windUnit == 'Kt'
+                                        ? UnitConverter.kmhToKt(windSpeed)
+                                        : windSpeed.toStringAsFixed(1);
 
                         Widget windArrow = Transform.rotate(
                           angle: -(windDirection * (3.1415926535 / 180)),

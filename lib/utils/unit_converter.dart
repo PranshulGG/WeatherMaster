@@ -13,6 +13,9 @@ class UnitConverter {
     return 12;
   }
 
+  static double kmhToKt(double kmh) => kmh / 1.852;
+  static double ktToKmh(double kt) => kt * 1.852;
+
   static double mphToKmh(double mph) => mph / 0.621371;
   static double msToKmh(double ms) => ms * 3.6;
 
@@ -49,9 +52,7 @@ class UnitConverter {
     return formatTo12Hour(time);
   }
 
-    /// Distance
+  /// Distance
   static double mToKm(double meters) => meters / 1000;
   static double mToMiles(double meters) => meters * 0.000621371;
 }
-
-

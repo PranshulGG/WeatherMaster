@@ -54,7 +54,7 @@ class HourlyCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Color(selectedContainerBgIndex),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(20),
       ),
       padding: EdgeInsets.only(top: 15, bottom: 0),
       margin: EdgeInsets.fromLTRB(12, 0, 12, 0),
@@ -152,7 +152,7 @@ class HourlyCard extends StatelessWidget {
                           )),
                           Transform(
                             transform: Matrix4.translationValues(
-                                0, isFirst ? 2 : 0, 0),
+                                0, isFirst ? 0 : 0, 0),
                             child: Text(
                               "${temp}°",
                               style: TextStyle(
@@ -175,8 +175,8 @@ class HourlyCard extends StatelessWidget {
                                   ? "${precipProb.round()}%"
                                   : "‎",
                           style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 12.5,
                             color: colorTheme.primary,
                           )),
                       SvgPicture.asset(
