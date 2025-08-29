@@ -550,10 +550,10 @@
   "use_ai_for_summary": "Fes servir IA per al resum",
   "use_ai_for_summary_sub": "GPT-4o Mini genera resums de la previsió per hora, diària i actual que s'actualitza cada 2 hores",
   "restart_for_changes": "Reinicia per aplicar els canvis",
-  "appearance": "Appearance",
-  "appearance_sub": "Themes, animations, and app layout",
-  "background_updates_sub": "Widget updates, update interval, and scheduled updates",
-  "animations": "Animations",
-  "layout": "Layout",
-  "use_expressive_palette": "Use expressive palette"
+  "appearance": "Aparença",
+  "appearance_sub": "Temes, animacions i disseny de l'aplicació",
+  "background_updates_sub": "Actualitzacions de widgets, el seu interval i programació",
+  "animations": "Animacions",
+  "layout": "Disseny",
+  "use_expressive_palette": "Fes servir una paleta expressiva"
 }
