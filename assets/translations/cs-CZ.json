@@ -550,10 +550,10 @@
   "use_ai_for_summary": "Použít AI pro shrnutí",
   "use_ai_for_summary_sub": "GPT-4o Mini generuje hodinové, denní a aktuální přehledy počasí, které se obnovují každé 2 hodiny",
   "restart_for_changes": "Restart pro použití změn",
-  "appearance": "Appearance",
-  "appearance_sub": "Themes, animations, and app layout",
-  "background_updates_sub": "Widget updates, update interval, and scheduled updates",
-  "animations": "Animations",
-  "layout": "Layout",
-  "use_expressive_palette": "Use expressive palette"
+  "appearance": "Vzhled",
+  "appearance_sub": "Motivy, animace a rozvržení aplikace",
+  "background_updates_sub": "Aktualizace widgetů, interval aktualizací a plánované aktualizace",
+  "animations": "Animace",
+  "layout": "Uspořádání",
+  "use_expressive_palette": "Použít výrazné palety"
 }
