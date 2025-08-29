@@ -549,5 +549,11 @@
   "system_font": "系统",
   "use_ai_for_summary": "使用 AI 进行摘要",
   "use_ai_for_summary_sub": "GPT-4o Mini 生成每小时、每天和当前天气的摘要，每 2 小时刷新一次",
-  "restart_for_changes": "重启以应用更改"
+  "restart_for_changes": "重启以应用更改",
+  "appearance": "Appearance",
+  "appearance_sub": "Themes, animations, and app layout",
+  "background_updates_sub": "Widget updates, update interval, and scheduled updates",
+  "animations": "Animations",
+  "layout": "Layout",
+  "use_expressive_palette": "Use expressive palette"
 }
