@@ -549,5 +549,11 @@
   "system_font": "Sistem",
   "use_ai_for_summary": "Özet için yapay zeka kullan",
   "use_ai_for_summary_sub": "GPT-4o Mini, her 2 saatte bir güncellenen saatlik, günlük ve anlık hava durumu özetleri oluşturur",
-  "restart_for_changes": "Değişiklikleri uygulamak için yeniden başlat"
+  "restart_for_changes": "Değişiklikleri uygulamak için yeniden başlat",
+  "appearance": "Appearance",
+  "appearance_sub": "Themes, animations, and app layout",
+  "background_updates_sub": "Widget updates, update interval, and scheduled updates",
+  "animations": "Animations",
+  "layout": "Layout",
+  "use_expressive_palette": "Use expressive palette"
 }
