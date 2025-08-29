@@ -544,5 +544,10 @@
   "froggy_layout": "Kurbağamsı Düzen",
   "high_text": "Yüksek",
   "low_text": "Düşük",
-  "two_days_forecast_only": "Sadece 2 günlük tahmin"
+  "two_days_forecast_only": "Sadece 2 günlük tahmin",
+  "set_as_default": "Varsayılan olarak ayarla",
+  "system_font": "Sistem",
+  "use_ai_for_summary": "Özet için yapay zeka kullan",
+  "use_ai_for_summary_sub": "GPT-4o Mini, her 2 saatte bir güncellenen saatlik, günlük ve anlık hava durumu özetleri oluşturur",
+  "restart_for_changes": "Değişiklikleri uygulamak için yeniden başlat"
 }
