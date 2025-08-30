@@ -123,7 +123,9 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
             final address = e['address'] ?? {};
             return {
               'city': e['name'] ?? e['display_name'] ?? '',
-              'country': address['country'] ?? '',
+              'country':
+                  ((address['state'] != null ? "${address['state']}, " : "") +
+                      (address['country'] ?? '')),
               'country_code': address['country_code'] ?? '',
               'lat': e['lat'] ?? '',
               'lon': e['lon'] ?? '',
@@ -133,7 +135,9 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
           (data['geonames'] as List).map<Map<String, String>>((e) {
             return {
               'city': e['name'],
-              'country': e['countryName'] ?? '',
+              'country':
+                  ((e['adminName1'] != null ? "${e['adminName1']}, " : "") +
+                      (e['countryName'] ?? '')),
               'country_code': e['countryCode'] ?? '',
               'lat': e['lat']?.toString() ?? '',
               'lon': e['lng']?.toString() ?? '',
@@ -143,7 +147,8 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
           (data['results'] as List).map<Map<String, String>>((e) {
             return {
               'city': e['name'],
-              'country': e['country'] ?? '',
+              'country': ((e['admin1'] != null ? "${e['admin1']}, " : "") +
+                  (e['country'] ?? '')),
               'country_code': e['country_code'] ?? '',
               'lat': e['latitude']?.toString() ?? '',
               'lon': e['longitude']?.toString() ?? '',

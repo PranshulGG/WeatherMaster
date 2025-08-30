@@ -104,15 +104,6 @@ class _WeatherTopCardState extends State<WeatherTopCard> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // MoonWidget(
-                    //   date: ,
-                    //   resolution: 128,
-                    //   size: 64,
-                    //   moonColor: Colors.amber,
-                    //   earthshineColor: Colors.blueGrey.shade900,
-
-                    // ),
-
                     Text(
                       "now".tr(),
                       style: TextStyle(

@@ -121,21 +121,12 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
 
   @override
   Widget build(BuildContext context) {
-//     return const Placeholder();
-//   }
-// }
-
-// class ConditionsWidgets extends StatelessWidget {
-
-    // @override
-    // Widget build(BuildContext context) {
     final tempUnit = context.watch<UnitSettingsNotifier>().tempUnit;
 
     final dewpointConverted = tempUnit == 'Fahrenheit'
         ? UnitConverter.celsiusToFahrenheit(widget.currentDewPoint.toDouble())
             .round()
         : widget.currentDewPoint.toDouble().round();
-    // DateTime now = DateTime.now();
     int offsetSeconds = int.parse(widget.utcOffsetSeconds);
     DateTime utcNow = DateTime.now().toUtc();
     DateTime now = utcNow.add(Duration(seconds: offsetSeconds));
@@ -261,7 +252,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
         case 0:
           return OpenContainer(
               transitionType: ContainerTransitionType.fadeThrough,
-              closedElevation: 0,
+              closedElevation: 1,
               closedShape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
@@ -409,7 +400,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
         case 1:
           return OpenContainer(
             transitionType: ContainerTransitionType.fadeThrough,
-            closedElevation: 0,
+            closedElevation: 1,
             closedShape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
@@ -545,7 +536,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
         case 2:
           return OpenContainer(
             transitionType: ContainerTransitionType.fadeThrough,
-            closedElevation: 0,
+            closedElevation: 1,
             closedShape: const CircleBorder(),
             openShape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
@@ -629,7 +620,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
         case 3:
           return OpenContainer(
               transitionType: ContainerTransitionType.fadeThrough,
-              closedElevation: 0,
+              closedElevation: 1,
               closedShape: const CircleBorder(),
               openShape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -727,7 +718,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
         case 4:
           return OpenContainer(
             transitionType: ContainerTransitionType.fadeThrough,
-            closedElevation: 0,
+            closedElevation: 1,
             closedShape: const CircleBorder(),
             openShape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
@@ -821,7 +812,6 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
           return OpenContainer(
               transitionType: ContainerTransitionType.fadeThrough,
               closedElevation: 0,
-              // closedShape: const CircleBorder(),
               openShape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
@@ -918,7 +908,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
         case 6:
           return OpenContainer(
             transitionType: ContainerTransitionType.fadeThrough,
-            closedElevation: 0,
+            closedElevation: 1,
             closedShape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
@@ -1027,7 +1017,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
         case 7:
           return OpenContainer(
             transitionType: ContainerTransitionType.fadeThrough,
-            closedElevation: 0,
+            closedElevation: 1,
             closedShape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
@@ -1164,7 +1154,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
         case 8:
           return OpenContainer(
             transitionType: ContainerTransitionType.fadeThrough,
-            closedElevation: 0,
+            closedElevation: 1,
             closedShape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
@@ -1216,9 +1206,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                           child: SvgPicture.string(
                             clipBehavior: Clip.none,
                             buildMoonPathWithIcon(
-                              pathColor: Theme.of(context)
-                                  .colorScheme
-                                  .secondaryContainer,
+                              pathColor: Theme.of(context).colorScheme.primary,
                               percent: moonPercent!.toDouble(),
                               outLineColor:
                                   Theme.of(context).colorScheme.outline,
@@ -1301,7 +1289,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
         case 9:
           return OpenContainer(
               transitionType: ContainerTransitionType.fadeThrough,
-              closedElevation: 0,
+              closedElevation: 1,
               closedShape: const CircleBorder(),
               openShape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),

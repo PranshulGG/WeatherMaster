@@ -1943,7 +1943,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                   color: isSelected
                       ? Theme.of(context).colorScheme.onPrimary
                       : Theme.of(context).colorScheme.onPrimaryContainer,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             );

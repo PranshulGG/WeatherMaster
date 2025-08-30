@@ -51,6 +51,9 @@ class _BackgroundUpdatesPageState extends State<BackgroundUpdatesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final showNewVerNotification =
+        PreferencesHelper.getBool("showNewVerNotification") ?? true;
+
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
         body: CustomScrollView(slivers: [
@@ -146,6 +149,15 @@ class _BackgroundUpdatesPageState extends State<BackgroundUpdatesPage> {
                     fullempty: true,
                     title: BatteryOptWidget(), // 0%
                   ),
+                  SettingSwitchTile(
+                      title: Text(
+                          "Show a snack message when a new version is released"),
+                      toggled: showNewVerNotification,
+                      onChanged: (value) {
+                        PreferencesHelper.setBool(
+                            'showNewVerNotification', value);
+                        setState(() {});
+                      }),
                   SettingActionTile(
                     title: Text(
                       'scheduled_updates'.tr(),

@@ -55,6 +55,14 @@ class HourlyCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Color(selectedContainerBgIndex),
         borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.15),
+            spreadRadius: 1,
+            blurRadius: 1,
+            offset: Offset(0, 1),
+          ),
+        ],
       ),
       padding: EdgeInsets.only(top: 15, bottom: 0),
       margin: EdgeInsets.fromLTRB(12, 0, 12, 0),

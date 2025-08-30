@@ -10,7 +10,7 @@ import 'package:material_symbols_icons/material_symbols_icons.dart';
 class EditLayoutPage extends StatefulWidget {
   const EditLayoutPage({super.key});
 
-    @override
+  @override
   State<EditLayoutPage> createState() => _EditLayoutPageState();
 }
 
@@ -23,15 +23,30 @@ class _EditLayoutPageState extends State<EditLayoutPage> {
     loadLayoutConfig();
   }
 
-Future<void> loadLayoutConfig() async {
-  final prefs = await SharedPreferences.getInstance();
-  final jsonStringList = prefs.getStringList('layout_config');
+  Future<void> loadLayoutConfig() async {
+    final prefs = await SharedPreferences.getInstance();
+    final jsonStringList = prefs.getStringList('layout_config');
 
-  if (jsonStringList != null) {
-    layoutConfig = jsonStringList
-        .map((json) => LayoutBlockConfig.fromJson(jsonDecode(json)))
-        .toList();
-  } else {
+    if (jsonStringList != null) {
+      layoutConfig = jsonStringList
+          .map((json) => LayoutBlockConfig.fromJson(jsonDecode(json)))
+          .toList();
+    } else {
+      layoutConfig = [
+        LayoutBlockConfig(type: LayoutBlockType.rain),
+        LayoutBlockConfig(type: LayoutBlockType.insights),
+        LayoutBlockConfig(type: LayoutBlockType.summary),
+        LayoutBlockConfig(type: LayoutBlockType.hourly),
+        LayoutBlockConfig(type: LayoutBlockType.daily),
+        LayoutBlockConfig(type: LayoutBlockType.conditions),
+        LayoutBlockConfig(type: LayoutBlockType.pollen),
+      ];
+    }
+
+    setState(() {});
+  }
+
+  Future<void> resetLayout() async {
     layoutConfig = [
       LayoutBlockConfig(type: LayoutBlockType.rain),
       LayoutBlockConfig(type: LayoutBlockType.insights),
@@ -41,173 +56,170 @@ Future<void> loadLayoutConfig() async {
       LayoutBlockConfig(type: LayoutBlockType.conditions),
       LayoutBlockConfig(type: LayoutBlockType.pollen),
     ];
+    setState(() {});
   }
-
-  setState(() {});
-}
-
-Future<void> resetLayout() async {
-  layoutConfig = [
-      LayoutBlockConfig(type: LayoutBlockType.rain),
-      LayoutBlockConfig(type: LayoutBlockType.insights),
-      LayoutBlockConfig(type: LayoutBlockType.summary),
-      LayoutBlockConfig(type: LayoutBlockType.hourly),
-      LayoutBlockConfig(type: LayoutBlockType.daily),
-      LayoutBlockConfig(type: LayoutBlockType.conditions),
-      LayoutBlockConfig(type: LayoutBlockType.pollen),
-  ];
-  setState(() {});
-}
 
   Future<void> saveLayoutOrder() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setStringList(
-  'layout_config',
-  layoutConfig.map((e) => jsonEncode(e.toJson())).toList(),
-);
+      'layout_config',
+      layoutConfig.map((e) => jsonEncode(e.toJson())).toList(),
+    );
   }
-
 
   @override
   Widget build(BuildContext context) {
-
- final layoutProvider = Provider.of<LayoutProvider>(context, listen: false);
-
+    final layoutProvider = Provider.of<LayoutProvider>(context, listen: false);
+    final colorTheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("arrange_items".tr()),
-        titleSpacing: 0, scrolledUnderElevation: 0,
-        toolbarHeight: 65,
-      ),
-      body: ReorderableListView(
-  onReorder: (oldIndex, newIndex) {
-    setState(() {
-      if (newIndex > oldIndex) newIndex -= 1;
-      final item = layoutConfig.removeAt(oldIndex);
-      layoutConfig.insert(newIndex, item);
-    });
-  },
+        appBar: AppBar(
+          title: Text("arrange_items".tr()),
+          titleSpacing: 0,
+          scrolledUnderElevation: 0,
+          toolbarHeight: 65,
+        ),
+        body: ReorderableListView(
+            onReorder: (oldIndex, newIndex) {
+              setState(() {
+                if (newIndex > oldIndex) newIndex -= 1;
+                final item = layoutConfig.removeAt(oldIndex);
+                layoutConfig.insert(newIndex, item);
+              });
+            },
+            proxyDecorator: (child, index, animation) {
+              return Material(
+                type: MaterialType.transparency,
+                child: child,
+              );
+            },
+            children: [
+              ...layoutConfig.map((block) {
+                return Container(
+                  key: ValueKey(block.type),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 3),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surfaceContainerLow,
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: ListTile(
+                    contentPadding: EdgeInsets.only(left: 16, right: 16),
+                    minTileHeight: 65,
+                    leading: CircleAvatar(
+                        foregroundColor: Theme.of(context).colorScheme.primary,
+                        backgroundColor: Theme.of(context).colorScheme.surface,
+                        child: Icon(Symbols.drag_handle)),
+                    title: Text(
+                      getTitle(block.type.name
+                          .replaceAll(RegExp(r'([a-z])([A-Z])'), r'$1 $2')),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).colorScheme.onSurface),
+                    ),
+                    trailing: IconButton.filled(
+                      style: ButtonStyle(
+                        backgroundColor: block.isVisible
+                            ? WidgetStateProperty.all(
+                                Theme.of(context).colorScheme.surface)
+                            : WidgetStateProperty.all(
+                                Theme.of(context).colorScheme.errorContainer),
+                        iconSize: WidgetStateProperty.all(30),
+                      ),
+                      padding: EdgeInsets.all(10),
+                      icon: Icon(
+                        block.isVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: block.isVisible
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.onErrorContainer,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          final hiddenCount =
+                              layoutConfig.where((b) => !b.isVisible).length;
 
-  proxyDecorator: (child, index, animation) {
-    return Material(
-      type: MaterialType.transparency,
-      child: child,
-    );
-  },
-  children: [
-  ...layoutConfig.map((block) {
-    return Container(
-      key: ValueKey(block.type),
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(50), 
-      ),
-      
-      child: ListTile(
-      contentPadding: EdgeInsets.only(left: 16, right: 16),
-      minTileHeight: 65,
-      leading: CircleAvatar(foregroundColor: Theme.of(context).colorScheme.primary, backgroundColor: Theme.of(context).colorScheme.surface, child: Icon(Symbols.drag_handle)),
-      title: Text(getTitle(block.type.name.replaceAll(RegExp(r'([a-z])([A-Z])'), r'$1 $2')), style: TextStyle(fontWeight: FontWeight.w500, color: Theme.of(context).colorScheme.onSurface),),
-      trailing: IconButton.filled(
-      style: ButtonStyle(
-        backgroundColor:block.isVisible ? WidgetStateProperty.all(Theme.of(context).colorScheme.surface) : WidgetStateProperty.all(Theme.of(context).colorScheme.errorContainer),
-        iconSize: WidgetStateProperty.all(30),
-        
-      ),
-      padding: EdgeInsets.all(10),
-      icon: Icon(
-        block.isVisible ? Icons.visibility : Icons.visibility_off,
-        color: block.isVisible ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onErrorContainer,
-      ),
-    onPressed: () {
-    setState(() {
-      final hiddenCount = layoutConfig.where((b) => !b.isVisible).length;
-
-      if (block.isVisible) {
-        if (hiddenCount < 3) {
-          block.isVisible = false;
-        } else {
-          ScaffoldMessenger.of(context)
-          ..hideCurrentSnackBar()  
-          ..showSnackBar(
-            SnackBar(
-              content: Text('max_items_3'.tr()),
-              duration: const Duration(seconds: 2),
-            ),
-          );
-        }
-      } else {
-        block.isVisible = true;
-      }
-    });
-  },
-  ),
-  ),
-
-    );
-  }).toList(),
-   SizedBox(
-    key: ValueKey('bottom_spacing'),
-    height: MediaQuery.of(context).padding.bottom + 100
-  ),
-  ]
-  ),
-floatingActionButton: Row(
-  spacing: 10,
-  mainAxisSize: MainAxisSize.min,
-  children: [
-    FloatingActionButton(
-      heroTag: 'btn2',
-      onPressed: () async {
-        resetLayout();
-        await layoutProvider.saveLayout(layoutConfig);
-      },
-      shape: const CircleBorder(),
-      backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
-      foregroundColor: Theme.of(context).colorScheme.onTertiaryContainer,
-      child: Icon(Icons.refresh), 
-    ),
-    FloatingActionButton(
-      heroTag: 'btn1',
-      onPressed: () async {
-        await layoutProvider.saveLayout(layoutConfig);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('layout_saved'.tr())),
-        );
-        Navigator.pop(context);
-      },
-      child: Icon(Icons.save),
-    ),
-  ],
-),
-
-
-       
-    );
+                          if (block.isVisible) {
+                            if (hiddenCount < 3) {
+                              block.isVisible = false;
+                            } else {
+                              ScaffoldMessenger.of(context)
+                                ..hideCurrentSnackBar()
+                                ..showSnackBar(
+                                  SnackBar(
+                                    content: Text('max_items_3'.tr()),
+                                    duration: const Duration(seconds: 2),
+                                  ),
+                                );
+                            }
+                          } else {
+                            block.isVisible = true;
+                          }
+                        });
+                      },
+                    ),
+                  ),
+                );
+              }).toList(),
+              SizedBox(
+                  key: ValueKey('bottom_spacing'),
+                  height: MediaQuery.of(context).padding.bottom + 100),
+            ]),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: Container(
+          padding:
+              const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50),
+            color: colorTheme.primaryContainer,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                  onPressed: () async {
+                    resetLayout();
+                    await layoutProvider.saveLayout(layoutConfig);
+                  },
+                  icon: Icon(
+                    Icons.refresh,
+                    color: colorTheme.onPrimaryContainer,
+                  )),
+              IconButton(
+                  onPressed: () async {
+                    await layoutProvider.saveLayout(layoutConfig);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('layout_saved'.tr())),
+                    );
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(
+                    Icons.save,
+                    color: colorTheme.onPrimaryContainer,
+                  )),
+            ],
+          ),
+        ));
   }
 }
 
-String getTitle(String type){
-
-  if(type == 'rain'){
+String getTitle(String type) {
+  if (type == 'rain') {
     return 'rain_card'.tr();
-  } else if (type == 'insights'){
+  } else if (type == 'insights') {
     return 'insights'.tr();
-  } else if (type == 'summary'){
+  } else if (type == 'summary') {
     return 'summary_card'.tr();
-  } else if (type == 'hourly'){
+  } else if (type == 'hourly') {
     return 'hourly_card'.tr();
-  } else if (type == 'daily'){
-    return 'daily_card'.tr();  
-  } else if (type == 'conditions'){
-    return 'current_conditions'.tr();  
-  } else if (type == 'pollen'){
-    return 'pollen_card'.tr();  
-  } else{
+  } else if (type == 'daily') {
+    return 'daily_card'.tr();
+  } else if (type == 'conditions') {
+    return 'current_conditions'.tr();
+  } else if (type == 'pollen') {
+    return 'pollen_card'.tr();
+  } else {
     return 'Not found';
   }
-
 }
-

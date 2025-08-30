@@ -4,16 +4,10 @@ import 'home_location.dart';
 import 'package:settings_tiles/settings_tiles.dart';
 import 'settings_unit.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
-import '../notifiers/unit_settings_notifier.dart';
-import 'package:provider/provider.dart';
-import '../utils/theme_controller.dart';
 import 'languages_page.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:restart_app/restart_app.dart';
-import '../utils/snack_util.dart';
 import 'about_page.dart';
 import 'meteo_models.dart';
-import 'edit_layout_page.dart';
 import '../services/data_backup_service.dart';
 import '../screens/background_updates.dart';
 import 'setting_screens/appearance_screen.dart';
@@ -45,6 +39,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isLight = Theme.of(context).brightness == Brightness.light;
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: CustomScrollView(
@@ -62,14 +58,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   styleTile: true,
                   tiles: [
                     SettingActionTile(
-                        icon: Icon(
-                          Symbols.format_paint,
-                          fill: 1,
-                          weight: 500,
-                        ),
+                        // icon: Icon(
+                        //   Symbols.format_paint,
+                        //   fill: 1,
+                        //   weight: 500,
+                        // ),
+
+                        icon: iconContainer(
+                            Symbols.format_paint,
+                            isLight ? Color(0xfff8e287) : Color(0xff534600),
+                            isLight ? Color(0xff534600) : Color(0xfff8e287)),
                         title: Text("Appearance"),
                         description: Text("Themes, animations, and app layout"),
-                        trailing: Icon(Icons.chevron_right),
                         onTap: () async {
                           await Navigator.of(context).push(
                             MaterialPageRoute(
@@ -82,10 +82,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 SizedBox(height: 16),
                 SettingSection(
                   styleTile: true,
-                  // title: SettingSectionTitle('weather'.tr(), noPadding: true),
                   tiles: [
                     SettingActionTile(
-                      icon: Icon(Symbols.home_pin, fill: 1, weight: 500),
+                      // icon: Icon(Symbols.home_pin, fill: 1, weight: 500),
+                      icon: iconContainer(
+                          Symbols.home_pin,
+                          isLight ? Color(0xffcdeda3) : Color(0xff354e16),
+                          isLight ? Color(0xff354e16) : Color(0xffcdeda3)),
                       title: Text('home_location'.tr()),
                       description: Text(
                         "${city ?? 'Unknown City'}, ${country ?? 'Unknown Country'}",
@@ -94,7 +97,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      trailing: Icon(Icons.chevron_right),
                       onTap: () async {
                         final updated = await Navigator.of(context).push(
                           MaterialPageRoute(
@@ -108,13 +110,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       },
                     ),
                     SettingActionTile(
-                      icon: Icon(Symbols.page_info, fill: 1, weight: 500),
+                      // icon: Icon(Symbols.page_info, fill: 1, weight: 500),
+                      icon: iconContainer(
+                          Symbols.page_info,
+                          isLight ? Color(0xffd6e3ff) : Color(0xff284777),
+                          isLight ? Color(0xff284777) : Color(0xffd6e3ff)),
                       title: Text('app_units'.tr()),
                       description: Text(
                         'temperature_wind_pressure_visibility_precipitation_time_aqi'
                             .tr(),
                       ),
-                      trailing: Icon(Icons.chevron_right),
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
@@ -124,11 +129,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       },
                     ),
                     SettingActionTile(
-                      icon: Icon(Symbols.update, fill: 1, weight: 500),
+                      // icon: Icon(Symbols.update, fill: 1, weight: 500),
+                      icon: iconContainer(
+                          Symbols.update,
+                          isLight ? Color(0xffffdbd1) : Color(0xff723523),
+                          isLight ? Color(0xff723523) : Color(0xffffdbd1)),
                       title: Text('background_updates'.tr()),
                       description: Text(
                           "Widget updates, update interval, and scheduled updates"),
-                      trailing: Icon(Icons.chevron_right),
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
@@ -138,14 +146,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       },
                     ),
                     SettingActionTile(
-                      icon: Icon(
-                        Symbols.nest_farsight_weather,
-                        fill: 1,
-                        weight: 500,
-                      ),
+                      // icon: Icon(
+                      //   Symbols.nest_farsight_weather,
+                      //   fill: 1,
+                      //   weight: 500,
+                      // ),
+                      icon: iconContainer(
+                          Symbols.nest_farsight_weather,
+                          isLight ? Color(0xff9df0f8) : Color(0xff004f54),
+                          isLight ? Color(0xff004f54) : Color(0xff9df0f8)),
                       title: Text('weather_models'.tr()),
                       description: Text('openmeteo_weather_models'.tr()),
-                      trailing: Icon(Icons.chevron_right),
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
@@ -161,7 +172,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   styleTile: true,
                   tiles: [
                     SettingActionTile(
-                      icon: Icon(Symbols.language, fill: 1, weight: 500),
+                      // icon: Icon(Symbols.language, fill: 1, weight: 500),
+                      icon: iconContainer(
+                          Symbols.language,
+                          isLight ? Color(0xffffd6f9) : Color(0xff633664),
+                          isLight ? Color(0xff633664) : Color(0xffffd6f9)),
                       title: Text('app_language'.tr()),
                       description: Text(
                         getLanguageNamesSettingsView(
@@ -169,7 +184,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         )['english']
                             .toString(),
                       ),
-                      trailing: Icon(Icons.chevron_right),
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
@@ -179,17 +193,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       },
                     ),
                     SettingActionTile(
-                      icon: Icon(Symbols.upload, fill: 1, weight: 500),
+                      // icon: Icon(Symbols.upload, fill: 1, weight: 500),
+                      icon: iconContainer(
+                          Symbols.upload,
+                          isLight ? Color(0xffffdcc5) : Color(0xff6d390b),
+                          isLight ? Color(0xff6d390b) : Color(0xffffdcc5)),
                       title: Text("export_data".tr()),
-                      trailing: Icon(Icons.chevron_right),
                       onTap: () async {
                         await DataBackupService.exportData();
                       },
                     ),
                     SettingActionTile(
-                      icon: Icon(Symbols.download, fill: 1, weight: 500),
+                      // icon: Icon(Symbols.download, fill: 1, weight: 500),
+                      icon: iconContainer(
+                          Symbols.download,
+                          isLight ? Color(0xffffdcc5) : Color(0xff6d390b),
+                          isLight ? Color(0xff6d390b) : Color(0xffffdcc5)),
                       title: Text("import_data".tr()),
-                      trailing: Icon(Icons.chevron_right),
                       onTap: () async {
                         await DataBackupService.importAndReplaceAllData(
                           context,
@@ -197,10 +217,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       },
                     ),
                     SettingActionTile(
-                      icon: Icon(Symbols.info, fill: 1, weight: 500),
+                      // icon: Icon(Symbols.info, fill: 1, weight: 500),
+                      icon: iconContainer(
+                          Symbols.info,
+                          isLight ? Color(0xffe6deff) : Color(0xff493e76),
+                          isLight ? Color(0xff493e76) : Color(0xffe6deff)),
                       title: Text('${"about".tr()} WeatherMaster'),
                       description: Text('learn_about_app'.tr()),
-                      trailing: Icon(Icons.chevron_right),
                       onTap: () {
                         Navigator.of(
                           context,
@@ -327,4 +350,21 @@ Map<String, String> getLanguageNamesSettingsView(Locale locale) {
     'native': '$lang${country != null ? "_$country" : ""}',
     'english': 'Unknown',
   };
+}
+
+Widget iconContainer(IconData icon, Color color, Color onColor) {
+  return Container(
+    width: 40,
+    height: 40,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(50),
+      color: color,
+    ),
+    child: Icon(
+      icon,
+      fill: 1,
+      weight: 500,
+      color: onColor,
+    ),
+  );
 }

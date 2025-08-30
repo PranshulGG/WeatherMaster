@@ -152,6 +152,10 @@ class _WeatherHomeState extends State<WeatherHome> {
       layoutProvider.loadLayout();
 
       showInsightsRandomly = Random().nextInt(100) < 60;
+
+      if (PreferencesHelper.getBool("showNewVerNotification") ?? true) {
+        checkForUpdatesOnStart(context);
+      }
     });
 
     cityName = widget.cityName;
