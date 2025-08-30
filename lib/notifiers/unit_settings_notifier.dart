@@ -15,6 +15,7 @@ class UnitSettingsNotifier extends ChangeNotifier {
   bool _useOnlyMaterialScheme = false;
   bool _showFrog = true;
   bool _useDarkBackgroundCards = false;
+  bool _useExpressiveVariant = false;
 
   // Getters
   String get tempUnit => _tempUnit;
@@ -29,6 +30,7 @@ class UnitSettingsNotifier extends ChangeNotifier {
   bool get useOnlyMaterialScheme => _useOnlyMaterialScheme;
   bool get showFrog => _showFrog;
   bool get useDarkBackgroundCards => _useDarkBackgroundCards;
+  bool get useExpressiveVariant => _useExpressiveVariant;
 
   UnitSettingsNotifier() {
     _loadAllUnits();
@@ -62,7 +64,9 @@ class UnitSettingsNotifier extends ChangeNotifier {
     _useDarkBackgroundCards =
         await PreferencesHelper.getBool("useDarkerCardBackground") ??
             _useDarkBackgroundCards;
-
+    _useExpressiveVariant =
+        await PreferencesHelper.getBool("useExpressiveVariant") ??
+            _useExpressiveVariant;
     notifyListeners();
   }
 
@@ -150,6 +154,12 @@ class UnitSettingsNotifier extends ChangeNotifier {
   void updateUseDarkerBackground(bool value) {
     _useDarkBackgroundCards = value;
     PreferencesHelper.setBool("useDarkerCardBackground", value);
+    notifyListeners();
+  }
+
+  void updateColorVariant(bool value) {
+    _useExpressiveVariant = value;
+    PreferencesHelper.setBool("useExpressiveVariant", value);
     notifyListeners();
   }
 }

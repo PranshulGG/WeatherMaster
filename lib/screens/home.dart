@@ -678,7 +678,7 @@ class _WeatherHomeState extends State<WeatherHome> {
         context.watch<UnitSettingsNotifier>().useCardBackgroundAnimations;
     final bool useDarkerBackground =
         context.watch<UnitSettingsNotifier>().useDarkBackgroundCards;
-    final isShowFrog = context.read<UnitSettingsNotifier>().showFrog;
+    final isShowFrog = context.watch<UnitSettingsNotifier>().showFrog;
 
     final colorTheme = Theme.of(context).colorScheme;
 

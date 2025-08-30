@@ -10,6 +10,7 @@ import 'package:solar_calculator/solar_calculator.dart';
 import 'dart:math' as math;
 import '../helper/locale_helper.dart';
 import '../utils/visual_utils.dart';
+import 'package:moon_phase/moon_widget.dart';
 
 class ExtendWidget extends StatefulWidget {
   final String widgetType;
@@ -2322,67 +2323,185 @@ class _ExtendWidgetState extends State<ExtendWidget> {
           final data = snapshot.data!;
           final weather = data['data'];
 
+          final colorTheme = Theme.of(context).colorScheme;
+
+          final moonDATA = weather['astronomy']['astronomy']['astro'];
+
+          DateTime moonrise = DateFormat.jm().parse(moonDATA['moonrise']);
+          DateTime moonset = DateFormat.jm().parse(moonDATA['moonset']);
+
+          final timeUnit =
+              PreferencesHelper.getString("selectedTimeUnit") ?? "12 hr";
+
+          final moonriseFormat = timeUnit == '24 hr'
+              ? DateFormat.Hm().format(moonrise)
+              : DateFormat.jm().format(moonrise);
+          final moonsetFormat = timeUnit == '24 hr'
+              ? DateFormat.Hm().format(moonset)
+              : DateFormat.jm().format(moonset);
+
+          int offsetSeconds =
+              int.parse(weather['utc_offset_seconds'].toString());
+          DateTime utcNow = DateTime.now().toUtc();
+          DateTime now = utcNow.add(Duration(seconds: offsetSeconds));
+
+          now = DateTime(
+            now.year,
+            now.month,
+            now.day,
+            now.hour,
+            now.minute,
+            now.second,
+            now.millisecond,
+            now.microsecond,
+          );
+
+          Widget _mooninfoContainer(content) {
+            return Container(
+              padding:
+                  const EdgeInsets.only(top: 5, bottom: 5, left: 8, right: 8),
+              decoration: BoxDecoration(
+                  color: colorTheme.secondaryContainer,
+                  borderRadius: BorderRadius.circular(10)),
+              child: Text(
+                content,
+                style: TextStyle(color: colorTheme.onSecondaryContainer),
+              ),
+            );
+          }
+
           return Column(
             children: [
               Container(
                 clipBehavior: Clip.hardEdge,
-                height: 305,
+                height: 190,
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.surfaceContainer,
                   borderRadius: BorderRadius.circular(18),
                 ),
-                padding: EdgeInsets.only(top: 12, bottom: 0),
+                padding:
+                    EdgeInsets.only(top: 12, bottom: 0, left: 20, right: 20),
                 margin: EdgeInsets.fromLTRB(12, 0, 12, 0),
-                child: Column(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                      alignment: Alignment.centerLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("current_conditions".tr(),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                          alignment: Alignment.centerLeft,
+                          child: Text(getMoonLocaleText(moonDATA['moon_phase']),
                               style: TextStyle(
                                   fontSize: 20,
                                   color:
                                       Theme.of(context).colorScheme.onSurface,
                                   fontWeight: FontWeight.w500)),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                "",
-                                style: TextStyle(
-                                  fontSize: 50,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                ),
-                              ),
-                              Padding(
-                                  padding: EdgeInsets.only(bottom: 11, left: 8),
-                                  child: Text(
-                                    "",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurfaceVariant,
-                                    ),
-                                  ))
-                            ],
-                          ),
-                        ],
-                      ),
+                        ),
+                        SizedBox(
+                          height: 14,
+                        ),
+                        _mooninfoContainer(
+                            "${"illumination_moon_text".tr()}: ${moonDATA["moon_illumination"]}%"),
+                        SizedBox(
+                          height: 6,
+                        ),
+                        _mooninfoContainer(
+                            "${"moonrise".tr()}: $moonriseFormat"),
+                        SizedBox(
+                          height: 6,
+                        ),
+                        _mooninfoContainer("${"moonset".tr()}: $moonsetFormat"),
+                      ],
                     ),
-                    SizedBox(
-                      height: 20,
+                    Transform(
+                      transform: Matrix4.translationValues(
+                        15,
+                        16,
+                        0,
+                      ),
+                      child: MoonWidget(
+                        date: now,
+                        resolution: 128,
+                        size: 100,
+                        moonColor: Colors.amber,
+                        earthshineColor: Colors.blueGrey.shade900,
+                      ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(
-                height: 20,
-              ),
+              Container(
+                  margin: EdgeInsets.fromLTRB(
+                      12, 20, 12, MediaQuery.of(context).padding.bottom + 26),
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 1,
+                      color: Theme.of(context).colorScheme.outlineVariant,
+                    ),
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  child: Column(
+                    spacing: 20,
+                    children: [
+                      Text("moon_info".tr(),
+                          style: TextStyle(
+                            fontSize: 17,
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                          )),
+                      Text("moon_info_2".tr(),
+                          style: TextStyle(
+                            fontSize: 17,
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                          )),
+                      Text("moon_info_3".tr(),
+                          style: TextStyle(
+                            fontSize: 17,
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                          )),
+                      Text("moon_info_4".tr(),
+                          style: TextStyle(
+                            fontSize: 17,
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                          )),
+                      Text("moon_info_5".tr(),
+                          style: TextStyle(
+                            fontSize: 17,
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                          )),
+                      Text("moon_info_6".tr(),
+                          style: TextStyle(
+                            fontSize: 17,
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                          )),
+                      Text("moon_info_7".tr(),
+                          style: TextStyle(
+                            fontSize: 17,
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                          )),
+                      Text("moon_info_8".tr(),
+                          style: TextStyle(
+                            fontSize: 17,
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                          )),
+                      Text("moon_info_9".tr(),
+                          style: TextStyle(
+                            fontSize: 17,
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                          )),
+                    ],
+                  ))
             ],
           );
         });
@@ -2582,4 +2701,26 @@ int getStartIndex(utc_offset_seconds, hourlyTime) {
   if (startIndex == -1) startIndex = 0;
 
   return startIndex;
+}
+
+String getMoonLocaleText(String phase) {
+  if (phase == "New Moon") {
+    return "phase_new_moon".tr();
+  } else if (phase == "Waxing Crescent") {
+    return "phase_waxing_crescent".tr();
+  } else if (phase == "First Quarter") {
+    return "phase_first_quarter".tr();
+  } else if (phase == "Waxing Gibbous") {
+    return "phase_waxing_gibbous".tr();
+  } else if (phase == "Full Moon") {
+    return "phase_full_moon".tr();
+  } else if (phase == "Waning Gibbous") {
+    return "phase_waning_gibbous".tr();
+  } else if (phase == "Last Quarter") {
+    return "phase_last_quarter".tr();
+  } else if (phase == "Waning Crescent") {
+    return "phase_waning_crescent".tr();
+  }
+
+  return "Unknown phase";
 }

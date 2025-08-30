@@ -185,6 +185,9 @@ class MyApp extends StatelessWidget {
 
     final isLight = Theme.of(context).brightness == Brightness.light;
 
+    final useExpressiveVariant =
+        context.watch<UnitSettingsNotifier>().useExpressiveVariant;
+
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: Color(0x01000000),
@@ -227,10 +230,15 @@ class MyApp extends StatelessWidget {
         );
       },
       theme: ThemeData.from(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: themeController.seedColor,
-          brightness: Brightness.light,
-        ),
+        colorScheme: useExpressiveVariant
+            ? ColorScheme.fromSeed(
+                seedColor: themeController.seedColor,
+                brightness: Brightness.light,
+                dynamicSchemeVariant: DynamicSchemeVariant.expressive)
+            : ColorScheme.fromSeed(
+                seedColor: themeController.seedColor,
+                brightness: Brightness.light,
+              ),
         useMaterial3: true,
       ).copyWith(
         textTheme: ThemeData.light()
@@ -261,10 +269,15 @@ class MyApp extends StatelessWidget {
         ),
       ),
       darkTheme: ThemeData.from(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: themeController.seedColor,
-          brightness: Brightness.dark,
-        ),
+        colorScheme: useExpressiveVariant
+            ? ColorScheme.fromSeed(
+                seedColor: themeController.seedColor,
+                brightness: Brightness.dark,
+                dynamicSchemeVariant: DynamicSchemeVariant.expressive)
+            : ColorScheme.fromSeed(
+                seedColor: themeController.seedColor,
+                brightness: Brightness.dark,
+              ),
         useMaterial3: true,
       ).copyWith(
         textTheme: ThemeData.dark()

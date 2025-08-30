@@ -1348,28 +1348,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                         ),
                       ),
                     ),
-                    onTap: () {
-                      if (widget.isFromHome) {
-                        if (widget.currentVisibility == 0.0000001) {
-                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Row(
-                            spacing: 10,
-                            children: [
-                              Icon(
-                                Symbols.error,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onInverseSurface,
-                              ),
-                              Text("No data available")
-                            ],
-                          )));
-                        } else {
-                          openContainer();
-                        }
-                      }
-                    });
+                    onTap: () {});
               });
         default:
           return const SizedBox();

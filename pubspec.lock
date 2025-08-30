@@ -202,7 +202,7 @@ packages:
     source: hosted
     version: "1.0.0"
   flex_color_picker:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flex_color_picker
       sha256: "8f753a1a026a13ea5cc5eddbae3ceb886f2537569ab2e5208efb1e3bb5af72ff"
