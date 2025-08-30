@@ -37,9 +37,9 @@ class ConditionsWidgets extends StatefulWidget {
   final double currentTotalPrec;
   final double currentDayLength;
   final bool isFromHome;
-  final String moonrise;
-  final String moonset;
-  final String moonPhase;
+  final String? moonrise;
+  final String? moonset;
+  final String? moonPhase;
   final String cloudCover;
 
   const ConditionsWidgets(
@@ -61,9 +61,9 @@ class ConditionsWidgets extends StatefulWidget {
       required this.currentTotalPrec,
       required this.currentDayLength,
       required this.isFromHome,
-      required this.moonrise,
-      required this.moonset,
-      required this.moonPhase,
+      this.moonrise,
+      this.moonset,
+      this.moonPhase,
       required this.cloudCover});
 
   @override
@@ -141,8 +141,16 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
     DateTime now = utcNow.add(Duration(seconds: offsetSeconds));
     DateTime sunrise = DateTime.parse(widget.currentSunrise);
     DateTime sunset = DateTime.parse(widget.currentSunset);
-    DateTime moonrise = DateFormat.jm().parse(widget.moonrise);
-    DateTime moonset = DateFormat.jm().parse(widget.moonset);
+    DateTime? moonrise;
+    DateTime? moonset;
+
+    if (widget.moonrise != null && widget.moonrise!.isNotEmpty) {
+      moonrise = DateFormat.jm().parse(widget.moonrise!);
+    }
+
+    if (widget.moonset != null && widget.moonset!.isNotEmpty) {
+      moonset = DateFormat.jm().parse(widget.moonset!);
+    }
 
     now = DateTime(
       now.year,
@@ -165,12 +173,18 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
         ? DateFormat.Hm().format(sunset)
         : DateFormat.jm().format(sunset);
 
-    final moonriseFormat = timeUnit == '24 hr'
-        ? DateFormat.Hm().format(moonrise)
-        : DateFormat.jm().format(moonrise);
-    final moonsetFormat = timeUnit == '24 hr'
-        ? DateFormat.Hm().format(moonset)
-        : DateFormat.jm().format(moonset);
+    final moonriseFormat = (moonrise != null)
+        ? (timeUnit == '24 hr'
+            ? DateFormat.Hm().format(moonrise)
+            : DateFormat.jm().format(moonrise))
+        : 'N/A';
+
+    final moonsetFormat = (moonset != null)
+        ? (timeUnit == '24 hr'
+            ? DateFormat.Hm().format(moonset)
+            : DateFormat.jm().format(moonset))
+        : 'N/A';
+
     final pressureUnit = context.watch<UnitSettingsNotifier>().pressureUnit;
     final precipitationUnit =
         context.watch<UnitSettingsNotifier>().precipitationUnit;
@@ -218,20 +232,29 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
 
     final colorTheme = Theme.of(context).colorScheme;
 
-    moonrise =
-        DateTime(now.year, now.month, now.day, moonrise.hour, moonrise.minute);
-    moonset =
-        DateTime(now.year, now.month, now.day, moonset.hour, moonset.minute);
+    double? moonPercent;
 
-    if (moonset.isBefore(moonrise)) {
-      moonset = moonset.add(Duration(days: 1));
+    if (moonrise != null && moonset != null) {
+      moonrise = DateTime(
+          now.year, now.month, now.day, moonrise.hour, moonrise.minute);
+      moonset =
+          DateTime(now.year, now.month, now.day, moonset.hour, moonset.minute);
+
+      if (moonset.isBefore(moonrise)) {
+        moonset = moonset.add(const Duration(days: 1));
+      }
+
+      final totalSeconds = moonset.difference(moonrise).inSeconds;
+      if (totalSeconds > 0) {
+        final secondsSinceMoonrise = now.difference(moonrise).inSeconds;
+        double raw = secondsSinceMoonrise / totalSeconds;
+        moonPercent = raw.clamp(0.0, 1.0);
+      } else {
+        moonPercent = 0.0;
+      }
+    } else {
+      moonPercent = 0.0;
     }
-
-    double moonPercent = ((now.difference(moonrise).inSeconds) /
-            (moonset.difference(moonrise).inSeconds))
-        .clamp(0, 1);
-
-    // int moonIllumination = int.parse(widget.moonPhase);
 
     List<Widget> gridItems = itemOrder.map((i) {
       switch (i) {
@@ -1196,7 +1219,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                               pathColor: Theme.of(context)
                                   .colorScheme
                                   .secondaryContainer,
-                              percent: moonPercent,
+                              percent: moonPercent!.toDouble(),
                               outLineColor:
                                   Theme.of(context).colorScheme.outline,
                             ),

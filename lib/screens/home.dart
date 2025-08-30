@@ -150,6 +150,8 @@ class _WeatherHomeState extends State<WeatherHome> {
       });
 
       layoutProvider.loadLayout();
+
+      showInsightsRandomly = Random().nextInt(100) < 60;
     });
 
     cityName = widget.cityName;
@@ -930,7 +932,6 @@ class _WeatherHomeState extends State<WeatherHome> {
                     : null;
                 // });
                 _isLoadingFroggy = true;
-                showInsightsRandomly = Random().nextInt(100) < 60;
                 PreferencesHelper.setColor(
                     "weatherThemeColor", weatherConditionColors[newIndex]);
                 _loadWeatherIconFroggy(
@@ -1177,9 +1178,9 @@ class _WeatherHomeState extends State<WeatherHome> {
                       currentTotalPrec: daily['precipitation_sum'][0] ?? 0.0000001,
                       currentDayLength: daily['daylight_duration'][0] ?? 0.0000001,
                       isFromHome: true,
-                      moonrise: weather['astronomy']['astronomy']['astro']['moonrise'],
-                      moonset: weather['astronomy']['astronomy']['astro']['moonset'],
-                      moonPhase: weather['astronomy']['astronomy']['astro']['moon_phase'],
+                      moonrise: weather['astronomy']?['astronomy']?['astro']?['moonrise'] ?? '',
+                      moonset: weather['astronomy']?['astronomy']?['astro']?['moonset'] ?? '',
+                      moonPhase: weather['astronomy']?['astronomy']?['astro']?['moon_phase'] ?? '',
                       cloudCover: current['cloud_cover'].toString()),
                 );
 

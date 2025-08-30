@@ -253,9 +253,9 @@ class _DailyForecastPageState extends State<DailyForecastPage> {
                                   currentTotalPrec: daily['precipitation_sum'][0] ?? 0.0000001,
                                   currentDayLength: daily['daylight_duration'][0] ?? 0.0000001,
                                   isFromHome: false,
-                                  moonrise: weather['astronomy']['astronomy']['astro']['moonrise'],
-                                  moonset: weather['astronomy']['astronomy']['astro']['moonset'],
-                                  moonPhase: weather['astronomy']['astronomy']['astro']['moon_phase'],
+                                  moonrise: weather['astronomy']?['astronomy']?['astro']?['moonrise'] ?? '',
+                                  moonset: weather['astronomy']?['astronomy']?['astro']?['moonset'] ?? '',
+                                  moonPhase: weather['astronomy']?['astronomy']?['astro']?['moon_phase'] ?? '',
                                   cloudCover: current['cloud_cover'].toString()),
                             )
                           : SizedBox(

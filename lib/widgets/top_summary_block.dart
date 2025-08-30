@@ -7,6 +7,18 @@ import 'package:provider/provider.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import '../helper/locale_helper.dart';
 
+class _BulletCandidate {
+  final int priority;
+  final String text;
+  _BulletCandidate(this.priority, this.text);
+}
+
+class _HeadlineCandidate {
+  final int priority;
+  final List<String> options;
+  _HeadlineCandidate(this.priority, this.options);
+}
+
 class SummaryCard extends StatefulWidget {
   final int selectedContainerBgIndex;
   final Map<String, dynamic> hourlyData;
@@ -93,100 +105,112 @@ class _SummaryCardState extends State<SummaryCard> {
     };
   }
 
-  String generateHeadline(double temp, double uv, double wind, double humidity,
-      double cloudCover, int weatherCode, TimeOfDayPeriod period,
-      {int? airQuality}) {
-    List<String> options;
+  String generateHeadline(
+    double temp,
+    double uv,
+    double wind,
+    double humidity,
+    double cloudCover,
+    int weatherCode,
+    TimeOfDayPeriod period, {
+    int? airQuality,
+  }) {
+    final candidates = <_HeadlineCandidate>[];
 
     if (isStormy(weatherCode)) {
-      options = [
+      candidates.add(_HeadlineCandidate(90, [
         "summary_headlines_1".tr(),
         "summary_headlines_2".tr(),
         "summary_headlines_3".tr(),
-      ];
+      ]));
     } else if (isRainy(weatherCode)) {
-      options = [
+      candidates.add(_HeadlineCandidate(70, [
         "summary_headlines_4".tr(),
         "summary_headlines_5".tr(),
         "summary_headlines_6".tr(),
-      ];
-    } else if (isCloudy(cloudCover)) {
+      ]));
+    }
+
+    if (isCloudy(cloudCover)) {
+      int cloudPriority = 40;
       switch (period) {
         case TimeOfDayPeriod.morning:
-          options = [
+          candidates.add(_HeadlineCandidate(cloudPriority, [
             "summary_headlines_9".tr(),
             "summary_headlines_8".tr(),
             "summary_headlines_7".tr(),
-          ];
+          ]));
           break;
         case TimeOfDayPeriod.afternoon:
-          options = [
+          candidates.add(_HeadlineCandidate(cloudPriority, [
             "summary_headlines_28".tr(),
             "summary_headlines_29".tr(),
             "summary_headlines_30".tr(),
-          ];
+          ]));
           break;
         case TimeOfDayPeriod.evening:
-          options = [
+          candidates.add(_HeadlineCandidate(cloudPriority, [
             "summary_headlines_31".tr(),
             "summary_headlines_32".tr(),
             "summary_headlines_33".tr(),
-          ];
+          ]));
           break;
         case TimeOfDayPeriod.night:
-          options = [
+          candidates.add(_HeadlineCandidate(cloudPriority, [
             "summary_headlines_34".tr(),
             "summary_headlines_35".tr(),
             "summary_headlines_36".tr(),
-          ];
+          ]));
           break;
       }
-    } else if ((period == TimeOfDayPeriod.morning ||
+    }
+
+    if ((period == TimeOfDayPeriod.morning ||
             period == TimeOfDayPeriod.afternoon) &&
         uv > 7 &&
         temp > 23 &&
         isClear(cloudCover)) {
-      options = [
+      candidates.add(_HeadlineCandidate(60, [
         "summary_headlines_10".tr(),
         "summary_headlines_11".tr(),
         "summary_headlines_12".tr(),
-      ];
-    } else if ((period == TimeOfDayPeriod.morning ||
-            period == TimeOfDayPeriod.afternoon) &&
-        uv > 7 &&
-        isClear(cloudCover)) {
-      options = [
-        "summary_headlines_13".tr(),
-        "summary_headlines_14".tr(),
-        "summary_headlines_15".tr(),
-      ];
-    } else if (humidity > 75) {
-      options = [
+      ]));
+    }
+
+    if (humidity > 75) {
+      candidates.add(_HeadlineCandidate(50, [
         "summary_headlines_16".tr(),
         "summary_headlines_17".tr(),
         "summary_headlines_18".tr(),
-      ];
-    } else if (wind > 15) {
-      options = [
+      ]));
+    }
+
+    if (wind > 15) {
+      candidates.add(_HeadlineCandidate(55, [
         "summary_headlines_19".tr(),
         "summary_headlines_20".tr(),
         "summary_headlines_21".tr(),
-      ];
-    } else if (temp < 15) {
-      options = [
+      ]));
+    }
+
+    if (temp < 15) {
+      candidates.add(_HeadlineCandidate(45, [
         "summary_headlines_22".tr(),
         "summary_headlines_23".tr(),
         "summary_headlines_24".tr(),
-      ];
-    } else {
-      options = [
+      ]));
+    }
+
+    if (candidates.isEmpty) {
+      candidates.add(_HeadlineCandidate(10, [
         "summary_headlines_25".tr(),
         "summary_headlines_26".tr(),
         "summary_headlines_27".tr(),
-      ];
+      ]));
     }
 
-    final base = _random(options);
+    candidates.sort((a, b) => b.priority.compareTo(a.priority));
+    final base = _random(candidates.first.options);
 
     final suffix = getHeadlineSuffix(
       uv: uv,
@@ -198,6 +222,127 @@ class _SummaryCardState extends State<SummaryCard> {
     );
 
     return "$base$suffix";
+  }
+
+  List<String> generateBulletPoints({
+    required double tempMin,
+    required double tempMax,
+    required double uvIndex,
+    required int uvHour,
+    required double humidity,
+    required double dewPoint,
+    required int dewHour,
+    required double windSpeed,
+    required int? airQuality,
+  }) {
+    final bullets = <_BulletCandidate>[];
+
+    final tempUnit = context.watch<UnitSettingsNotifier>().tempUnit;
+    final windUnit = context.watch<UnitSettingsNotifier>().windUnit;
+    final isFahrenheit = tempUnit == 'Fahrenheit';
+
+    final tempOptions = [
+      "bulletstempOptions_1".tr(namedArgs: {
+        'min': isFahrenheit
+            ? UnitConverter.celsiusToFahrenheit(tempMin).round().toString()
+            : tempMin.toStringAsFixed(0),
+        'max': isFahrenheit
+            ? UnitConverter.celsiusToFahrenheit(tempMax).round().toString()
+            : tempMax.toStringAsFixed(0),
+      }),
+      "bulletstempOptions_2".tr(namedArgs: {
+        'min': isFahrenheit
+            ? UnitConverter.celsiusToFahrenheit(tempMin).round().toString()
+            : tempMin.toStringAsFixed(0),
+        'max': isFahrenheit
+            ? UnitConverter.celsiusToFahrenheit(tempMax).round().toString()
+            : tempMax.toStringAsFixed(0),
+      }),
+      "bulletstempOptions_3".tr(namedArgs: {
+        'max': isFahrenheit
+            ? UnitConverter.celsiusToFahrenheit(tempMax).round().toString()
+            : tempMax.toStringAsFixed(0),
+      }),
+    ];
+    bullets.add(_BulletCandidate(10, _random(tempOptions)));
+
+    if (uvIndex > 2) {
+      final uvTime = context.watch<UnitSettingsNotifier>().timeUnit == '24 hr'
+          ? "$uvHour:00"
+          : formatHour(uvHour);
+      final uvOptions = [
+        "bulletsUVOptions_1".tr(namedArgs: {
+          'uvTime': uvTime,
+          'uvIndex': uvIndex.toStringAsFixed(0),
+        }),
+        "bulletsUVOptions_2".tr(namedArgs: {'uvTime': uvTime}),
+        "bulletsUVOptions_3".tr(namedArgs: {'uvTime': uvTime}),
+      ];
+      bullets.add(_BulletCandidate(40, _random(uvOptions)));
+    }
+
+    if (humidity > 60) {
+      final time = context.watch<UnitSettingsNotifier>().timeUnit == '24 hr'
+          ? "$dewHour:00"
+          : formatHour(dewHour);
+      final humidityOptions = [
+        "bulletsHUMIDITYOptions_1".tr(namedArgs: {
+          'humidity': humidity.toStringAsFixed(0),
+          'dewpoint': isFahrenheit
+              ? UnitConverter.celsiusToFahrenheit(dewPoint).round().toString()
+              : dewPoint.toStringAsFixed(0),
+          'time': time
+        }),
+        "bulletsHUMIDITYOptions_2".tr(namedArgs: {
+          'dewpoint': isFahrenheit
+              ? UnitConverter.celsiusToFahrenheit(dewPoint).round().toString()
+              : dewPoint.toStringAsFixed(0),
+          'time': time
+        }),
+        "bulletsHUMIDITYOptions_3".tr(namedArgs: {
+          'time': time,
+          'humidity': humidity.toStringAsFixed(0),
+        }),
+      ];
+      bullets.add(_BulletCandidate(35, _random(humidityOptions)));
+    }
+
+    if (windSpeed > 19) {
+      final convertedWind = windUnit == 'Mph'
+          ? UnitConverter.kmhToMph(windSpeed).round()
+          : windUnit == 'M/s'
+              ? UnitConverter.kmhToMs(windSpeed).toStringAsFixed(2)
+              : windUnit == 'Bft'
+                  ? UnitConverter.kmhToBeaufort(windSpeed).round()
+                  : windSpeed.toStringAsFixed(0);
+      final windOptions = [
+        "bulletsWINDOptions_1".tr(namedArgs: {
+          'windSpeed': convertedWind.toString(),
+          'windUnit': localizeWindUnit(windUnit.toString(), context.locale),
+        }),
+        "bulletsWINDOptions_2".tr(namedArgs: {
+          'windSpeed': convertedWind.toString(),
+          'windUnit': localizeWindUnit(windUnit.toString(), context.locale),
+        }),
+      ];
+      bullets.add(_BulletCandidate(60, _random(windOptions)));
+    }
+
+    if (airQuality != null) {
+      if (airQuality > 100) {
+        bullets.add(_BulletCandidate(80, "bulletsAQIOptions_1".tr()));
+      } else {
+        final airOptions = [
+          "bulletsAQIOptions_2".tr(),
+          "bulletsAQIOptions_3".tr(),
+          "bulletsAQIOptions_4".tr(),
+        ];
+        bullets.add(_BulletCandidate(30, _random(airOptions)));
+      }
+    }
+
+    bullets.sort((a, b) => b.priority.compareTo(a.priority));
+    return bullets.map((b) => b.text).toList();
   }
 
   String getHeadlineSuffix(
@@ -390,133 +535,6 @@ class _SummaryCardState extends State<SummaryCard> {
     );
   }
 
-  List<String> generateBulletPoints({
-    required double tempMin,
-    required double tempMax,
-    required double uvIndex,
-    required int uvHour,
-    required double humidity,
-    required double dewPoint,
-    required int dewHour,
-    required double windSpeed,
-    required int? airQuality,
-  }) {
-    final rand = Random();
-    final bullets = <String>[];
-
-    final tempUnit = context.watch<UnitSettingsNotifier>().tempUnit;
-    final windUnit = context.watch<UnitSettingsNotifier>().windUnit;
-
-    final isFahrenheit = tempUnit == 'Fahrenheit';
-
-    final tempOptions = [
-      "bulletstempOptions_1".tr(namedArgs: {
-        'min': isFahrenheit
-            ? UnitConverter.celsiusToFahrenheit(tempMin).round().toString()
-            : tempMin.toStringAsFixed(0),
-        'max': isFahrenheit
-            ? UnitConverter.celsiusToFahrenheit(tempMax).round().toString()
-            : tempMax.toStringAsFixed(0),
-      }),
-      "bulletstempOptions_2".tr(namedArgs: {
-        'min': isFahrenheit
-            ? UnitConverter.celsiusToFahrenheit(tempMin).round().toString()
-            : tempMin.toStringAsFixed(0),
-        'max': isFahrenheit
-            ? UnitConverter.celsiusToFahrenheit(tempMax).round().toString()
-            : tempMax.toStringAsFixed(0),
-      }),
-      "bulletstempOptions_3".tr(namedArgs: {
-        'max': isFahrenheit
-            ? UnitConverter.celsiusToFahrenheit(tempMax).round().toString()
-            : tempMax.toStringAsFixed(0),
-      }),
-    ];
-
-    bullets.add(tempOptions[rand.nextInt(tempOptions.length)]);
-
-    if (uvIndex > 2) {
-      final uvTime = context.watch<UnitSettingsNotifier>().timeUnit == '24 hr'
-          ? "$uvHour:00"
-          : formatHour(uvHour);
-      final uvOptions = [
-        "bulletsUVOptions_1".tr(namedArgs: {
-          'uvTime': uvTime.toString(),
-          'uvIndex': uvIndex.toStringAsFixed(0),
-        }),
-        "bulletsUVOptions_2".tr(namedArgs: {
-          'uvTime': uvTime.toString(),
-        }),
-        "bulletsUVOptions_3".tr(namedArgs: {
-          'uvTime': uvTime.toString(),
-        }),
-      ];
-      bullets.add(uvOptions[rand.nextInt(uvOptions.length)]);
-    }
-
-    if (humidity > 60) {
-      final time = context.watch<UnitSettingsNotifier>().timeUnit == '24 hr'
-          ? "$dewHour:00"
-          : formatHour(dewHour);
-      final humidityOptions = [
-        "bulletsHUMIDITYOptions_1".tr(namedArgs: {
-          'humidity': humidity.toStringAsFixed(0),
-          'dewpoint': tempUnit == 'Fahrenheit'
-              ? UnitConverter.celsiusToFahrenheit(dewPoint).round().toString()
-              : dewPoint.toStringAsFixed(0),
-          'time': time.toString()
-        }),
-        "bulletsHUMIDITYOptions_2".tr(namedArgs: {
-          'dewpoint': tempUnit == 'Fahrenheit'
-              ? UnitConverter.celsiusToFahrenheit(dewPoint).round().toString()
-              : dewPoint.toStringAsFixed(0),
-          'time': time.toString()
-        }),
-        "bulletsHUMIDITYOptions_3".tr(namedArgs: {
-          'time': time.toString(),
-          'humidity': humidity.toStringAsFixed(0),
-        }),
-      ];
-      bullets.add(humidityOptions[rand.nextInt(humidityOptions.length)]);
-    }
-
-    if (windSpeed > 19) {
-      final convertedwindSpeed = windUnit == 'Mph'
-          ? UnitConverter.kmhToMph(windSpeed).round()
-          : windUnit == 'M/s'
-              ? UnitConverter.kmhToMs(windSpeed).toStringAsFixed(2)
-              : windUnit == 'Bft'
-                  ? UnitConverter.kmhToBeaufort(windSpeed).round()
-                  : windSpeed.toStringAsFixed(0);
-      final windOptions = [
-        "bulletsWINDOptions_1".tr(namedArgs: {
-          'windSpeed': convertedwindSpeed.toString(),
-          'windUnit': localizeWindUnit(windUnit.toString(), context.locale),
-        }),
-        "bulletsWINDOptions_2".tr(namedArgs: {
-          'windSpeed': convertedwindSpeed.toString(),
-          'windUnit': localizeWindUnit(windUnit.toString(), context.locale),
-        }),
-      ];
-      bullets.add(windOptions[rand.nextInt(windOptions.length)]);
-    }
-
-    if (airQuality != null) {
-      if (airQuality > 100) {
-        bullets.add("bulletsAQIOptions_1".tr());
-      } else {
-        final airOptions = [
-          "bulletsAQIOptions_2".tr(),
-          "bulletsAQIOptions_3".tr(),
-          "bulletsAQIOptions_4".tr(),
-        ];
-        bullets.add(airOptions[rand.nextInt(airOptions.length)]);
-      }
-    }
-
-    return bullets;
-  }
-
   String formatHour(int hour) {
     final suffix = hour >= 12 ? 'PM' : 'AM';
     final formatted = hour > 12
@@ -535,11 +553,6 @@ class _SummaryCardState extends State<SummaryCard> {
       computeWeatherSummary();
       isSummaryLoaded = true;
     }
-
-    // final windUnit = context.watch<UnitSettingsNotifier>().windUnit;
-
-    // final gustRaw = widget.currentData['wind_gusts_10m'];
-    // final gustValue = (gustRaw is num) ? gustRaw.toDouble() : 0.000000001;
 
     return Container(
       decoration: BoxDecoration(
@@ -602,72 +615,6 @@ class _SummaryCardState extends State<SummaryCard> {
             },
             child: buildWeatherSummaryWidget(context, isExpanded),
           ),
-          // Padding(
-          //     padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 8),
-          //     child: Row(
-          //       children: [
-          //         Expanded(
-          //           child: Row(
-          //             mainAxisAlignment: MainAxisAlignment.center,
-          //             spacing: 4,
-          //             children: [
-          //               Icon(
-          //                 Symbols.air,
-          //                 weight: 500,
-          //                 color: Theme.of(context).colorScheme.onSurface,
-          //                 size: 19,
-          //               ),
-          //               Text(
-          //                   '${windUnit == 'M/s' ? formattedWindSpeed.toStringAsFixed(1) : formattedWindSpeed.round()} ${localizeWindUnit(windUnit, context.locale)}',
-          //                   style: TextStyle(
-          //                     color: Theme.of(context).colorScheme.onSurface,
-          //                     fontSize: 15,
-          //                   ))
-          //             ],
-          //           ),
-          //         ),
-          //         Expanded(
-          //           child: Row(
-          //             mainAxisAlignment: MainAxisAlignment.center,
-          //             spacing: 4,
-          //             children: [
-          //               Icon(Symbols.wind_power,
-          //                   weight: 500,
-          //                   color: Theme.of(context).colorScheme.onSurface,
-          //                   size: 19),
-          //               Text(
-          //                 gustValue == 0.000000001
-          //                     ? '--'
-          //                     : "${windUnit == 'M/s' ? formattedWindGust.toStringAsFixed(1) : formattedWindGust.round()} ${localizeWindUnit(windUnit, context.locale)}",
-          //                 style: TextStyle(
-          //                   color: Theme.of(context).colorScheme.onSurface,
-          //                   fontSize: 15,
-          //                 ),
-          //                 maxLines: 1,
-          //                 overflow: TextOverflow.ellipsis,
-          //               )
-          //             ],
-          //           ),
-          //         ),
-          //         Expanded(
-          //           child: Row(
-          //             mainAxisAlignment: MainAxisAlignment.center,
-          //             spacing: 4,
-          //             children: [
-          //               Icon(Symbols.cloud,
-          //                   weight: 500,
-          //                   color: Theme.of(context).colorScheme.onSurface,
-          //                   size: 19),
-          //               Text("${widget.currentData['cloud_cover']}%",
-          //                   style: TextStyle(
-          //                     color: Theme.of(context).colorScheme.onSurface,
-          //                     fontSize: 15,
-          //                   ))
-          //             ],
-          //           ),
-          //         ),
-          //       ],
-          //     ))
         ],
       ),
     );
