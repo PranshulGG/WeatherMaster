@@ -26,8 +26,8 @@
                 android:id="@+id/current_widget_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:format12Hour="EEE, MMM d"
-                android:format24Hour="EEE, MMM d"
+                android:format12Hour="EEE MMM d"
+                android:format24Hour="EEE MMM d"
                 android:textColor="@color/colorOnBackground"
                 android:fontFamily="@font/medium"
                 android:gravity="center"
@@ -77,8 +77,8 @@
             android:id="@+id/current_widget_temp_date_time_img"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:layout_marginLeft="26dp"
-            android:src="@drawable/clear_night" />
+            android:layout_marginLeft="22dp"
+            android:src="@drawable/partly_cloudy" />
     </LinearLayout>
 
 </LinearLayout>

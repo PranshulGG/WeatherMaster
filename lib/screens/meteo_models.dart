@@ -685,10 +685,10 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
     final hasReasonableCache = cachedModelCount >=
         (totalModelCount * 0.5); // At least 50% of models have data
 
-    // Check if we have valid cached data (same location, less than 10 minutes old, and reasonably complete)
+    // Check if we have valid cached data (same location, less than 45 minutes old, and reasonably complete)
     final bool shouldRefresh = _lastFetchTime == null ||
         _cachedLocationKey != currentLocationKey ||
-        now.difference(_lastFetchTime!).inMinutes >= 10 ||
+        now.difference(_lastFetchTime!).inMinutes >= 45 ||
         !hasReasonableCache;
 
     if (shouldRefresh) {
@@ -891,13 +891,13 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
             titleSpacing: 0,
             backgroundColor: Theme.of(context).colorScheme.surface,
             scrolledUnderElevation: 1,
-            actions: [
-              IconButton(
-                icon: Icon(Icons.refresh),
-                onPressed: _forceRefresh,
-                tooltip: 'Refresh temperatures',
-              ),
-            ],
+            // actions: [
+            //   IconButton(
+            //     icon: Icon(Icons.refresh),
+            //     onPressed: _forceRefresh,
+            //     tooltip: 'Refresh temperatures',
+            //   ),
+            // ],
           ),
           SliverList(
             delegate: SliverChildBuilderDelegate(
@@ -910,7 +910,7 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
                     padding: EdgeInsets.only(left: 10, right: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 3,
+                      spacing: 2,
                       children: [
                         Padding(
                           padding: EdgeInsets.only(
@@ -971,23 +971,27 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
                                 EdgeInsets.only(left: 16, right: 16),
                             horizontalTitleGap: 10,
                             shape: RoundedRectangleBorder(
-                                borderRadius: model['key'] == 'best_match'
+                                borderRadius: isSelected
                                     ? BorderRadius.all(Radius.circular(16))
-                                    : isFirst
-                                        ? BorderRadius.only(
-                                            topLeft: Radius.circular(16),
-                                            topRight: Radius.circular(16),
-                                            bottomLeft: Radius.circular(6),
-                                            bottomRight: Radius.circular(6))
-                                        : isLast
+                                    : model['key'] == 'best_match'
+                                        ? BorderRadius.all(Radius.circular(18))
+                                        : isFirst
                                             ? BorderRadius.only(
-                                                topLeft: Radius.circular(6),
-                                                topRight: Radius.circular(6),
-                                                bottomLeft: Radius.circular(16),
-                                                bottomRight:
-                                                    Radius.circular(16))
-                                            : BorderRadius.all(
-                                                Radius.circular(6))),
+                                                topLeft: Radius.circular(18),
+                                                topRight: Radius.circular(18),
+                                                bottomLeft: Radius.circular(0),
+                                                bottomRight: Radius.circular(0))
+                                            : isLast
+                                                ? BorderRadius.only(
+                                                    topLeft: Radius.circular(0),
+                                                    topRight:
+                                                        Radius.circular(0),
+                                                    bottomLeft:
+                                                        Radius.circular(18),
+                                                    bottomRight:
+                                                        Radius.circular(18))
+                                                : BorderRadius.all(
+                                                    Radius.circular(0))),
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               spacing: 8,

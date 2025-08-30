@@ -86,6 +86,16 @@
                 android:resource="@xml/pill_widget_info" />
         </receiver>
 
+        <receiver android:name=".ClockHourlyWidgetProvider" android:exported="true" android:label="Clock + hourly + current">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/clock_hourly_info" />
+        </receiver>
+
         <receiver android:name=".DateCurrentWidgetProvider" android:exported="true" android:label="Date + Current">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

@@ -58,12 +58,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   styleTile: true,
                   tiles: [
                     SettingActionTile(
-                        // icon: Icon(
-                        //   Symbols.format_paint,
-                        //   fill: 1,
-                        //   weight: 500,
-                        // ),
-
                         icon: iconContainer(
                             Symbols.format_paint,
                             isLight ? Color(0xfff8e287) : Color(0xff534600),
@@ -71,7 +65,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         title: Text("Appearance"),
                         description: Text("Themes, animations, and app layout"),
                         onTap: () async {
-                          await Navigator.of(context).push(
+                          Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (_) => const AppearanceScreen(),
                             ),
@@ -110,7 +104,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       },
                     ),
                     SettingActionTile(
-                      // icon: Icon(Symbols.page_info, fill: 1, weight: 500),
                       icon: iconContainer(
                           Symbols.page_info,
                           isLight ? Color(0xffd6e3ff) : Color(0xff284777),
@@ -129,7 +122,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       },
                     ),
                     SettingActionTile(
-                      // icon: Icon(Symbols.update, fill: 1, weight: 500),
                       icon: iconContainer(
                           Symbols.update,
                           isLight ? Color(0xffffdbd1) : Color(0xff723523),
