@@ -65,7 +65,7 @@ class HourlyCard extends StatelessWidget {
         ],
       ),
       padding: EdgeInsets.only(top: 15, bottom: 0),
-      margin: EdgeInsets.fromLTRB(12, 0, 12, 0),
+      margin: EdgeInsets.fromLTRB(13, 0, 13, 0),
       child: Column(
         children: [
           Row(crossAxisAlignment: CrossAxisAlignment.center, children: [

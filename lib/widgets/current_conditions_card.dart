@@ -73,13 +73,11 @@ class ConditionsWidgets extends StatefulWidget {
 class _ConditionsWidgetsState extends State<ConditionsWidgets> {
   List<int> itemOrder = [];
 
-  final String orderPrefsKey = 'tile_order';
-  bool _initialized = false;
+  final String orderPrefsKey = 'tile_order_new';
   @override
   void initState() {
     super.initState();
     _loadTileOrder();
-    _initializePreferences();
   }
 
   Future<void> _loadTileOrder() async {
@@ -95,28 +93,6 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
         itemOrder = List.generate(10, (index) => index);
       });
     }
-  }
-
-  Future<void> _initializePreferences() async {
-    if (_initialized) return;
-    _initialized = true;
-
-    final prefs = await SharedPreferences.getInstance();
-    List<String>? savedList = prefs.getStringList(orderPrefsKey);
-
-    if (savedList != null) {
-      List<int> intList = savedList.map(int.parse).toList();
-      List<int> zeroToSeven = List.generate(8, (i) => i);
-
-      if (intList.toSet().containsAll(zeroToSeven) &&
-          intList.every((e) => e >= 0 && e <= 7)) {
-        await prefs.remove(orderPrefsKey);
-      }
-    }
-
-    List<String> newList = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-    await prefs.setStringList(orderPrefsKey, newList);
-    print('New list saved');
   }
 
   @override
@@ -756,7 +732,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                               backgroundColor:
                                   Color(widget.selectedContainerBgIndex)),
                           headerWidgetConditions(
-                            headerText: "direction".tr(),
+                            headerText: "wind".tr(),
                             headerIcon: Symbols.explore,
                           ),
                           Align(
@@ -1297,7 +1273,11 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                   ),
                 ),
                 onTap: () {
-                  widget.isFromHome ? openContainer() : null;
+                  if (widget.isFromHome) {
+                    if (moonriseFormat != "N/A" && moonsetFormat != "N/A") {
+                      openContainer();
+                    }
+                  }
                 },
               );
             },
@@ -1386,7 +1366,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
 // 123216
 
     return Container(
-      margin: EdgeInsets.fromLTRB(12, 0, 12, 0),
+      margin: EdgeInsets.fromLTRB(13, 0, 13, 0),
       child: Column(
         children: [
           Container(

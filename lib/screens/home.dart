@@ -1458,7 +1458,7 @@ class _WeatherHomeState extends State<WeatherHome> {
                     currentLastUpdated: formattedTime,
                   ),
                   WeatherFrogIconWidget(iconUrl: _iconUrlFroggy),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 13.8),
                   SizedBox(
                     width: isFoldableLayout(context) ? 500 : null,
                     height: null,

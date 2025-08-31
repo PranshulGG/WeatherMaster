@@ -568,7 +568,7 @@ class _SummaryCardState extends State<SummaryCard> {
         ],
       ),
       padding: EdgeInsets.only(top: 15, bottom: 10),
-      margin: EdgeInsets.fromLTRB(12, 0, 12, 0),
+      margin: EdgeInsets.fromLTRB(13, 0, 13, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
