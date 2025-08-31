@@ -419,7 +419,7 @@ class _ShowInsightsState extends State<ShowInsights> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(12),
-      margin: const EdgeInsets.fromLTRB(13, 0, 13, 0),
+      margin: const EdgeInsets.fromLTRB(12.7, 0, 12.7, 0),
       decoration: BoxDecoration(
         color: Color(widget.selectedContainerBgIndex),
         borderRadius: BorderRadius.circular(20),

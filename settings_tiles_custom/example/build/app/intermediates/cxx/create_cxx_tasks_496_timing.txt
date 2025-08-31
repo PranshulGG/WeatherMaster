@@ -1,0 +1,10 @@
+# C/C++ build system timings
+create_cxx_tasks
+  create-initial-cxx-model
+    create-module-model 16ms
+    [gap of 41ms]
+    create-variant-model 16ms
+    [gap of 70ms]
+  create-initial-cxx-model completed in 143ms
+create_cxx_tasks completed in 150ms
+

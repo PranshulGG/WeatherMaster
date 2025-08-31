@@ -152,7 +152,7 @@ class _WeatherHomeState extends State<WeatherHome> {
 
       layoutProvider.loadLayout();
 
-      showInsightsRandomly = Random().nextInt(100) < 60;
+      showInsightsRandomly = Random().nextInt(100) < 40;
 
       if (PreferencesHelper.getBool("showNewVerNotification") ?? true) {
         checkForUpdatesOnStart(context);
@@ -739,29 +739,17 @@ class _WeatherHomeState extends State<WeatherHome> {
       // cloudy
       isLight
           ? paletteWeather.secondary.get(98)
-          : paletteWeather.secondary.get(!isShowFrog
-              ? 0
-              : useDarkerBackground
-                  ? 2
-                  : 8),
+          : paletteWeather.secondary.get(useDarkerBackground ? 2 : 8),
 
       // overcast
       isLight
           ? 0xFFfcfcff
-          : paletteWeather.secondary.get(!isShowFrog
-              ? 0
-              : useDarkerBackground
-                  ? 2
-                  : 6),
+          : paletteWeather.secondary.get(useDarkerBackground ? 2 : 6),
 
       // clear day
       isLight
           ? 0xFFfcfcff
-          : paletteWeather.primary.get(!isShowFrog
-              ? 0
-              : useDarkerBackground
-                  ? 2
-                  : 8),
+          : paletteWeather.primary.get(useDarkerBackground ? 2 : 8),
 
       // clear night
       isLight
@@ -770,11 +758,7 @@ class _WeatherHomeState extends State<WeatherHome> {
               .get(98)
           : CorePalette.of(const Color.fromARGB(255, 58, 77, 141).toARGB32())
               .primary
-              .get(!isShowFrog
-                  ? 0
-                  : useDarkerBackground
-                      ? 2
-                      : 5),
+              .get(useDarkerBackground ? 2 : 5),
 
       // fog
       isLight
@@ -783,33 +767,21 @@ class _WeatherHomeState extends State<WeatherHome> {
               .get(98)
           : CorePalette.of(Color.fromARGB(255, 255, 213, 165).toARGB32())
               .secondary
-              .get(!isShowFrog
-                  ? 0
-                  : useDarkerBackground
-                      ? 2
-                      : 6),
+              .get(useDarkerBackground ? 2 : 6),
 
       // rain
       isLight
           ? 0xFFfcfcff
           : CorePalette.of(Colors.blueAccent.toARGB32())
               .secondary
-              .get(!isShowFrog
-                  ? 0
-                  : useDarkerBackground
-                      ? 2
-                      : 8),
+              .get(useDarkerBackground ? 2 : 8),
 
       // thunder
       isLight
           ? CorePalette.of(const Color(0xFFe4b7f3).toARGB32()).secondary.get(96)
           : CorePalette.of(const Color(0xFFe4b7f3).toARGB32())
               .secondary
-              .get(!isShowFrog
-                  ? 0
-                  : useDarkerBackground
-                      ? 2
-                      : 10),
+              .get(useDarkerBackground ? 2 : 10),
 
       // snow
       isLight

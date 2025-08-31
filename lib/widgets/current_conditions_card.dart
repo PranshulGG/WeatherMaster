@@ -1366,7 +1366,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
 // 123216
 
     return Container(
-      margin: EdgeInsets.fromLTRB(13, 0, 13, 0),
+      margin: EdgeInsets.fromLTRB(12.7, 0, 12.7, 0),
       child: Column(
         children: [
           Container(

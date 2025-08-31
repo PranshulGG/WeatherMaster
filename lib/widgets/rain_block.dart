@@ -177,7 +177,7 @@ class RainBlock extends StatelessWidget {
     final precipitationUnit = unitSettings.precipitationUnit;
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 0, left: 13, right: 13, top: 0),
+      margin: const EdgeInsets.only(bottom: 0, left: 12.7, right: 12.7, top: 0),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Color(selectedContainerBgIndex),

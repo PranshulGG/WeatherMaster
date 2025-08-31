@@ -589,7 +589,7 @@ class HourlyCardForecast extends StatelessWidget {
         ],
       ),
       padding: EdgeInsets.only(top: 15, bottom: 0),
-      margin: EdgeInsets.fromLTRB(12, 0, 12, 0),
+      margin: EdgeInsets.fromLTRB(12.7, 0, 12.7, 0),
       child: Column(
         children: [
           Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
@@ -954,7 +954,7 @@ class ConditionsWidgetsForecast extends StatelessWidget {
     return Container(
       width: isFoldableLayout(context) ? 500 : null,
       height: null,
-      margin: EdgeInsets.fromLTRB(12, 0, 12, 0),
+      margin: EdgeInsets.fromLTRB(12.7, 0, 12.7, 0),
       child: Column(
         children: [
           Container(
