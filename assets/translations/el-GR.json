@@ -549,5 +549,11 @@
   "system_font": "Σύστημα",
   "use_ai_for_summary": "Χρήση Τεχνητής Νοημοσύνης για σύνοψη",
   "use_ai_for_summary_sub": "Το μοντέλο GPT-4o Mini δημιουργεί συνοπτικές πληροφορίες για τον ωριαίο, ημερήσιο και τον τρέχοντα καιρό, ανανεώνοντας κάθε 2 ώρες.",
-  "restart_for_changes": "Επανεκκινήστε για να εφαρμόσετε τις αλλαγές."
+  "restart_for_changes": "Επανεκκινήστε για να εφαρμόσετε τις αλλαγές.",
+  "appearance": "Appearance",
+  "appearance_sub": "Themes, animations, and app layout",
+  "background_updates_sub": "Widget updates, update interval, and scheduled updates",
+  "animations": "Animations",
+  "layout": "Layout",
+  "use_expressive_palette": "Use expressive palette"
 }
