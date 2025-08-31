@@ -135,11 +135,15 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
     DateTime? moonrise;
     DateTime? moonset;
 
-    if (widget.moonrise != null && widget.moonrise!.isNotEmpty) {
+    if (widget.moonrise != null &&
+        widget.moonrise!.isNotEmpty &&
+        widget.moonrise!.toLowerCase() != 'no moonrise') {
       moonrise = DateFormat.jm().parse(widget.moonrise!);
     }
 
-    if (widget.moonset != null && widget.moonset!.isNotEmpty) {
+    if (widget.moonset != null &&
+        widget.moonset!.isNotEmpty &&
+        widget.moonset!.toLowerCase() != 'no moonset') {
       moonset = DateFormat.jm().parse(widget.moonset!);
     }
 

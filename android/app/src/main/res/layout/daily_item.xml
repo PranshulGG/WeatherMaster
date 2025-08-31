@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:background="@drawable/daily_item_bg"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:layout_marginBottom="5dp"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp">
+
+    <ImageView
+        android:id="@+id/daily_icon"
+        android:src="@drawable/clear_night"
+        android:layout_width="36dp"
+        android:layout_marginRight="15dp"
+        android:layout_height="30dp" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/daily_time"
+            android:layout_width="wrap_content"
+            android:includeFontPadding="false"
+            android:text="Tue"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/medium"
+            android:textColor="@color/colorOnBackground" />
+
+        <TextView
+            android:id="@+id/daily_condition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/regular"
+            android:text="Rainy"
+            android:includeFontPadding="false"
+            android:textSize="16sp"
+            android:textColor="@color/colorOnSurfaceVariant" />
+</LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:paddingRight="10dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/daily_temp_max"
+            android:layout_width="wrap_content"
+            android:includeFontPadding="false"
+            android:text="29°"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="@font/medium"
+            android:textColor="@color/colorOnBackground" />
+
+        <TextView
+            android:id="@+id/daily_temp_min"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/regular"
+            android:text="21°"
+            android:includeFontPadding="false"
+            android:textSize="16sp"
+            android:textColor="@color/colorOnSurfaceVariant" />
+    </LinearLayout>
+
+
+
+</LinearLayout>

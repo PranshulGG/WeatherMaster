@@ -1,6 +1,6 @@
 <resources>
-    <string name="show_clock">Show clock</string>
+    <string name="show_clock">Показывать часы</string>
     <string name="save">Сохранить</string>
-    <string name="size_label">Size</string>
+    <string name="size_label">Размер</string>
     <string name="clear_sky">Чистое небо</string>
 </resources>

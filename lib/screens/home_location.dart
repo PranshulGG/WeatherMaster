@@ -157,7 +157,7 @@ class HomeLocationScreen extends StatelessWidget {
 
                             return Padding(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 10.0, vertical: 4.0),
+                                  horizontal: 12.0, vertical: 2.0),
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: isSelected
@@ -166,8 +166,14 @@ class HomeLocationScreen extends StatelessWidget {
                                           .primaryContainer
                                       : Theme.of(context)
                                           .colorScheme
-                                          .surfaceContainerLow,
-                                  borderRadius: BorderRadius.circular(99.0),
+                                          .surfaceContainerLowest,
+                                  borderRadius: isSelected
+                                      ? BorderRadius.circular(50)
+                                      : BorderRadius.only(
+                                          topLeft: Radius.circular(18),
+                                          topRight: Radius.circular(18),
+                                          bottomLeft: Radius.circular(0),
+                                          bottomRight: Radius.circular(0)),
                                 ),
                                 child: ListTile(
                                     contentPadding:
@@ -294,6 +300,7 @@ class HomeLocationScreen extends StatelessWidget {
 
                           final loc = snapshot.data![index - 1];
                           final isLast = index == snapshot.data!.length;
+
                           final currentCacheKey =
                               homeSnapshot.data?['cacheKey'] ?? '';
                           final thisCacheKey = "${loc.city}_${loc.country}"
@@ -305,7 +312,7 @@ class HomeLocationScreen extends StatelessWidget {
 
                           return Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 10.0, vertical: 4.0),
+                                horizontal: 12.0, vertical: 2.0),
                             margin: EdgeInsets.only(
                                 bottom: isLast
                                     ? MediaQuery.of(context).padding.bottom + 20
@@ -318,12 +325,20 @@ class HomeLocationScreen extends StatelessWidget {
                                         .primaryContainer
                                     : Theme.of(context)
                                         .colorScheme
-                                        .surfaceContainerLow,
-                                borderRadius: BorderRadius.circular(99.0),
+                                        .surfaceContainerLowest,
+                                borderRadius: isSelected
+                                    ? BorderRadius.circular(50)
+                                    : BorderRadius.only(
+                                        topLeft: Radius.circular(0),
+                                        topRight: Radius.circular(0),
+                                        bottomLeft:
+                                            Radius.circular(isLast ? 18 : 0),
+                                        bottomRight:
+                                            Radius.circular(isLast ? 18 : 0)),
                               ),
                               child: ListTile(
                                 contentPadding:
-                                    EdgeInsets.only(left: 5, right: 20),
+                                    EdgeInsets.only(left: 3, right: 20),
                                 minTileHeight: 68,
                                 splashColor: Colors.transparent,
                                 leading: isSelected

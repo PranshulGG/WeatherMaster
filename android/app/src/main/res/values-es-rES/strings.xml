@@ -1,6 +1,6 @@
 <resources>
-    <string name="show_clock">Show clock</string>
+    <string name="show_clock">Mostrar reloj</string>
     <string name="save">Guardar</string>
-    <string name="size_label">Size</string>
+    <string name="size_label">Tamaño</string>
     <string name="clear_sky">Cielo despejado</string>
 </resources>

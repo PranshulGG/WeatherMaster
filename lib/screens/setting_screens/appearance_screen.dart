@@ -86,145 +86,128 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
                   ),
                   SettingSwitchTile(
                     enabled: _useCustomTile,
-                    icon: Icon(Symbols.colorize, fill: 1, weight: 500),
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("use_custom_color".tr()),
-                        if (_showTile)
-                          GestureDetector(
-                              onTap: () {
-                                Color selectedColor =
-                                    PreferencesHelper.getColor(
-                                            "CustomMaterialColor") ??
-                                        Colors.blue;
+                    icon: _showTile
+                        ? GestureDetector(
+                            onTap: () {
+                              Color selectedColor = PreferencesHelper.getColor(
+                                      "CustomMaterialColor") ??
+                                  Colors.blue;
 
-                                showModalBottomSheet(
-                                  context: context,
-                                  isScrollControlled: true,
-                                  showDragHandle: true,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.vertical(
-                                        top: Radius.circular(28)),
-                                  ),
-                                  builder: (context) {
-                                    return Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      padding: EdgeInsets.only(
-                                        top: 0,
-                                        bottom: MediaQuery.of(context)
-                                                .padding
-                                                .bottom +
-                                            10,
-                                      ),
-                                      child: StatefulBuilder(
-                                        builder: (context, setModalState) {
-                                          return Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              ColorPicker(
-                                                color: selectedColor,
-                                                onColorChanged: (Color color) {
-                                                  setModalState(() {
-                                                    selectedColor = color;
-                                                  });
-                                                },
-                                                pickersEnabled: const <ColorPickerType,
-                                                    bool>{
-                                                  ColorPickerType.primary:
-                                                      false,
-                                                  ColorPickerType.accent: false,
-                                                  ColorPickerType.both: true,
-                                                  ColorPickerType.custom: false,
-                                                  ColorPickerType.wheel: false,
-                                                },
-                                                spacing: 6,
-                                                runSpacing: 6,
-                                                subheading: Divider(),
-                                                borderRadius: 50,
-                                              ),
-                                              SizedBox(
-                                                height: 12,
-                                              ),
-                                              Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 20),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      OutlinedButton(
-                                                          onPressed: () {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                          },
-                                                          child: Text(
-                                                            'cancel'.tr(),
-                                                            style: TextStyle(
-                                                                fontSize: 16,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
-                                                          )),
-                                                      FilledButton(
-                                                          onPressed: () {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                            setState(() {
-                                                              PreferencesHelper
-                                                                  .setColor(
-                                                                      "CustomMaterialColor",
-                                                                      selectedColor);
-                                                              Provider.of<
-                                                                  ThemeController>(
-                                                                context,
-                                                                listen: false,
-                                                              ).setSeedColor(
-                                                                  selectedColor);
-                                                            });
-                                                          },
-                                                          child: Text(
-                                                            'save'.tr(),
-                                                            style: TextStyle(
-                                                                fontSize: 16,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
-                                                          )),
-                                                    ],
-                                                  ))
-                                            ],
-                                          );
-                                        },
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
-                              child: Transform(
-                                transform: Matrix4.translationValues(
-                                  12,
-                                  0,
-                                  0,
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                showDragHandle: true,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(28)),
                                 ),
-                                child: Container(
-                                  width: 40,
-                                  height: 32 - 1,
-                                  decoration: BoxDecoration(
-                                      color: PreferencesHelper.getColor(
-                                          "CustomMaterialColor"),
-                                      borderRadius: BorderRadius.circular(50),
-                                      border: Border.all(
-                                          width: 1,
-                                          color: Colors.grey.shade600)),
-                                ),
-                              ))
-                      ],
-                    ),
+                                builder: (context) {
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    padding: EdgeInsets.only(
+                                      top: 0,
+                                      bottom: MediaQuery.of(context)
+                                              .padding
+                                              .bottom +
+                                          10,
+                                    ),
+                                    child: StatefulBuilder(
+                                      builder: (context, setModalState) {
+                                        return Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            ColorPicker(
+                                              color: selectedColor,
+                                              onColorChanged: (Color color) {
+                                                setModalState(() {
+                                                  selectedColor = color;
+                                                });
+                                              },
+                                              pickersEnabled: const <ColorPickerType,
+                                                  bool>{
+                                                ColorPickerType.primary: false,
+                                                ColorPickerType.accent: false,
+                                                ColorPickerType.both: true,
+                                                ColorPickerType.custom: false,
+                                                ColorPickerType.wheel: false,
+                                              },
+                                              spacing: 6,
+                                              runSpacing: 6,
+                                              subheading: Divider(),
+                                              borderRadius: 50,
+                                            ),
+                                            SizedBox(
+                                              height: 12,
+                                            ),
+                                            Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 20),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    OutlinedButton(
+                                                        onPressed: () {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                        child: Text(
+                                                          'cancel'.tr(),
+                                                          style: TextStyle(
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600),
+                                                        )),
+                                                    FilledButton(
+                                                        onPressed: () {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                          setState(() {
+                                                            PreferencesHelper.setColor(
+                                                                "CustomMaterialColor",
+                                                                selectedColor);
+                                                            Provider.of<
+                                                                ThemeController>(
+                                                              context,
+                                                              listen: false,
+                                                            ).setSeedColor(
+                                                                selectedColor);
+                                                          });
+                                                        },
+                                                        child: Text(
+                                                          'save'.tr(),
+                                                          style: TextStyle(
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600),
+                                                        )),
+                                                  ],
+                                                ))
+                                          ],
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            child: Container(
+                              width: 24,
+                              height: 32,
+                              decoration: BoxDecoration(
+                                  color: PreferencesHelper.getColor(
+                                      "CustomMaterialColor"),
+                                  borderRadius: BorderRadius.circular(50),
+                                  border: Border.all(
+                                      width: 1, color: Colors.grey.shade600)),
+                            ),
+                          )
+                        : Icon(Symbols.colorize, fill: 1, weight: 500),
+                    title: Text("use_custom_color".tr()),
                     toggled:
                         PreferencesHelper.getBool("usingCustomSeed") ?? false,
                     onChanged: (value) {
@@ -344,7 +327,7 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
             ),
             SettingSection(
               styleTile: true,
-              title: SettingSectionTitle("Animations", noPadding: true),
+              title: SettingSectionTitle("animations".tr(), noPadding: true),
               tiles: [
                 SettingSwitchTile(
                   icon: Icon(Symbols.thermometer_add, fill: 1, weight: 500),
@@ -396,7 +379,7 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
             ),
             SettingSection(
                 styleTile: true,
-                title: SettingSectionTitle("Layout", noPadding: true),
+                title: SettingSectionTitle("layout".tr(), noPadding: true),
                 tiles: [
                   SettingSwitchTile(
                     icon: Icon(

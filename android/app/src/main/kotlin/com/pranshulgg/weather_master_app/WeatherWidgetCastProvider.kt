@@ -9,6 +9,10 @@ import android.widget.RemoteViews
 import android.app.PendingIntent
 import android.content.Intent
 import com.pranshulgg.weather_master_app.util.WeatherIconMapper
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
+import java.util.Locale
 
 class WeatherWidgetCastProvider : AppWidgetProvider() {
     override fun onUpdate(context: Context, manager: AppWidgetManager, ids: IntArray) {
@@ -33,20 +37,33 @@ class WeatherWidgetCastProvider : AppWidgetProvider() {
         id: Int,
         newOptions: Bundle?
     ) {
-        val views = RemoteViews(context.packageName, R.layout.widget_hourly_current)
+        val optionsCast = manager.getAppWidgetOptions(id)
+        val minHeight = optionsCast.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)
+        val layoutIdDaily = when {
+
+            minHeight > 160 -> R.layout.widget_hourly_current_daily
+
+
+
+            else -> R.layout.widget_hourly_current
+        }
+
+
+        val views = RemoteViews(context.packageName, layoutIdDaily)
         val prefs = context.getSharedPreferences("HomeWidgetPreferences", Context.MODE_PRIVATE)
         val temp = prefs.getString("temperatureCurrentPill", "--")
         val code = prefs.getString("weather_codeCurrentPill", "--")
         val conditionName = prefs.getString("locationCurrentConditon", "--")
         val locationName = prefs.getString("locationNameWidget", "--")
 
-        // Prevents crash when isDayWidget was stored as Boolean instead of String
         val rawIsDay = prefs.all["isDayWidget"]
         val isDay = when (rawIsDay) {
             is String -> rawIsDay
             is Boolean -> if (rawIsDay) "1" else "0"
             else -> "1"
         }
+
+
 
         val max = prefs.getString("todayMax", "--")
         val min = prefs.getString("todayMin", "--")
@@ -114,7 +131,42 @@ class WeatherWidgetCastProvider : AppWidgetProvider() {
             views.addView(containerId, itemView)
         }
 
-        
+
+        val dailyContainerId = R.id.daily_cast
+        views.removeAllViews(dailyContainerId)
+
+        val numDailyItems = when {
+            minHeight > 250 -> 4  // Tall widget shows 4 days
+            minHeight > 150 -> 2  // Medium widget shows 3 days
+            else -> 1            // Small widget shows 2 days
+        }
+
+        for (i in 0 until numDailyItems) {
+            val dayMax = prefs.getString("day${i+1}Max", "--")
+            val dayMin = prefs.getString("day${i+1}Min", "--")
+            val dayCode = prefs.getString("day${i+1}Code", "--")
+            val dayCondition = prefs.getString("day${i+1}_condition", "--")
+            val dayDate = prefs.getString("day${i+1}Date", "--")
+
+            val weekday = try {
+                val date = LocalDate.parse("${LocalDate.now().year}/$dayDate", DateTimeFormatter.ofPattern("yyyy/M/d"))
+                date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault())
+            } catch (e: Exception) {
+                dayDate
+            }
+
+            val dailyItem = RemoteViews(context.packageName, R.layout.daily_item)
+            dailyItem.setTextViewText(R.id.daily_time, weekday)
+            dailyItem.setTextViewText(R.id.daily_temp_max, "$dayMax°")
+            dailyItem.setTextViewText(R.id.daily_temp_min, "$dayMin°")
+            dailyItem.setTextViewText(R.id.daily_condition, "$dayCondition")
+
+            val dailyIcon = WeatherIconMapper.getIconResource(dayCode, isDay)
+            dailyItem.setImageViewResource(R.id.daily_icon, dailyIcon)
+
+            views.addView(dailyContainerId, dailyItem)
+        }
+
             val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)?.apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }

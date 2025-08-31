@@ -33,6 +33,8 @@ Future<void> updateHomeWidget(weather, {bool updatedFromHome = false}) async {
     final dynamic isDay;
     final List<dynamic> hourlyTime;
     final List<dynamic> hourlyTemps;
+    late final dailyDataMain;
+
     final List<dynamic> hourlyWeatherCodes;
     final String utcOffsetSeconds;
 
@@ -77,9 +79,9 @@ Future<void> updateHomeWidget(weather, {bool updatedFromHome = false}) async {
       final current = result!['data']['current'];
       temp = _safeToDouble(current['temperature_2m'].toDouble());
       code = current['weather_code'];
-      final dailyData = result!['data']['daily'];
       final hourly = result!['data']['hourly'] ?? {};
-
+      final dailyData = result!['data']['daily'];
+      dailyDataMain = dailyData;
       hourlyTime = hourly['time'];
       hourlyTemps = hourly['temperature_2m'];
       hourlyWeatherCodes = hourly['weather_code'];
@@ -96,7 +98,7 @@ Future<void> updateHomeWidget(weather, {bool updatedFromHome = false}) async {
       code = currentData['weather_code'];
       final dailyData = weather['daily'];
       final hourly = weather['hourly'] ?? {};
-
+      dailyDataMain = dailyData;
       maxTemp = dailyData['temperature_2m_max'][0];
       minTemp = dailyData['temperature_2m_min'][0];
       isDay = currentData['is_day'];
@@ -125,7 +127,6 @@ Future<void> updateHomeWidget(weather, {bool updatedFromHome = false}) async {
     for (int i = 0; i < 4; i++) {
       int currentIndex = startIndex + i;
 
-      // Prevent out-of-bounds error
       if (currentIndex >= hourlyTemps.length ||
           currentIndex >= hourlyTime.length ||
           currentIndex >= hourlyWeatherCodes.length) break;
@@ -148,6 +149,71 @@ Future<void> updateHomeWidget(weather, {bool updatedFromHome = false}) async {
       await HomeWidget.saveWidgetData<String>('hourly_time_$i', formattedTime);
       await HomeWidget.saveWidgetData<String>(
           'hourly_code_$i', hourlyWeatherCodes[currentIndex].toString());
+    }
+
+    for (int i = 0; i < 4; i++) {
+      if (i >= dailyDataMain['time'].length) break;
+
+      final dayMaxTemp = _safeToDouble(dailyDataMain['temperature_2m_max'][i]);
+      final dayMinTemp = _safeToDouble(dailyDataMain['temperature_2m_min'][i]);
+      final dayCode = dailyDataMain['weather_code'][i];
+
+      final localeString = PreferencesHelper.getString('locale') ?? 'en';
+      final conditionKey = WeatherConditionMapper.getConditionLabel(dayCode, 1);
+
+      Locale locale;
+
+      if (localeString.contains('-')) {
+        var parts = localeString.split('-');
+        locale = Locale(parts[0], parts[1]);
+      } else if (localeString.contains('_')) {
+        var parts = localeString.split('_');
+        locale = Locale(parts[0], parts[1]);
+      } else {
+        locale = Locale(localeString);
+      }
+
+      String translationFileName = locale.languageCode;
+      if (locale.countryCode != null && locale.countryCode!.isNotEmpty) {
+        translationFileName += '-${locale.countryCode}';
+      }
+
+      Map<String, dynamic> translations;
+
+      try {
+        final String data = await rootBundle
+            .loadString('assets/translations/$translationFileName.json');
+        translations = jsonDecode(data);
+      } catch (e) {
+        print(
+            '[Translation] Could not load $translationFileName.json, falling back to en.json');
+        final String data =
+            await rootBundle.loadString('assets/translations/en.json');
+        translations = jsonDecode(data);
+      }
+
+      final conditionNameDaily = translations[conditionKey] ?? conditionKey;
+
+      final maxTempFormatted = tempUnit == 'Fahrenheit'
+          ? UnitConverter.celsiusToFahrenheit(dayMaxTemp).round().toString()
+          : dayMaxTemp.round().toString();
+
+      final minTempFormatted = tempUnit == 'Fahrenheit'
+          ? UnitConverter.celsiusToFahrenheit(dayMinTemp).round().toString()
+          : dayMinTemp.round().toString();
+
+      await HomeWidget.saveWidgetData<String>(
+          'day${i + 1}Max', maxTempFormatted);
+      await HomeWidget.saveWidgetData<String>(
+          'day${i + 1}Min', minTempFormatted);
+      await HomeWidget.saveWidgetData<String>(
+          'day${i + 1}Code', dayCode.toString());
+
+      final dayDate = DateTime.parse(dailyDataMain['time'][i]);
+      final formattedDay = "${dayDate.month}/${dayDate.day}";
+      await HomeWidget.saveWidgetData<String>('day${i + 1}Date', formattedDay);
+      await HomeWidget.saveWidgetData<String>(
+          'day${i + 1}_condition', conditionNameDaily);
     }
 
     final convertedTemp = tempUnit == 'Fahrenheit'

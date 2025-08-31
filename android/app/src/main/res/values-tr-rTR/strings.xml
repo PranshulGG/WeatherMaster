@@ -1,6 +1,6 @@
 <resources>
-    <string name="show_clock">Show clock</string>
+    <string name="show_clock">Saati göster</string>
     <string name="save">Kaydet</string>
-    <string name="size_label">Size</string>
+    <string name="size_label">Boyut</string>
     <string name="clear_sky">Açık gökyüzü</string>
 </resources>

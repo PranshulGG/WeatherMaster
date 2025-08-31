@@ -62,8 +62,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             Symbols.format_paint,
                             isLight ? Color(0xfff8e287) : Color(0xff534600),
                             isLight ? Color(0xff534600) : Color(0xfff8e287)),
-                        title: Text("Appearance"),
-                        description: Text("Themes, animations, and app layout"),
+                        title: Text("appearance".tr()),
+                        description: Text("appearance_sub".tr()),
                         onTap: () async {
                           Navigator.of(context).push(
                             MaterialPageRoute(
@@ -127,8 +127,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           isLight ? Color(0xffffdbd1) : Color(0xff723523),
                           isLight ? Color(0xff723523) : Color(0xffffdbd1)),
                       title: Text('background_updates'.tr()),
-                      description: Text(
-                          "Widget updates, update interval, and scheduled updates"),
+                      description: Text("background_updates_sub".tr()),
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(

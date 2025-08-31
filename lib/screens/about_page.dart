@@ -108,7 +108,7 @@ class AboutPage extends StatelessWidget {
                   showLicensePage(
                     context: context,
                     applicationName: 'WeatherMaster',
-                    applicationVersion: 'v2.5.1 (F)',
+                    applicationVersion: 'v2.6.0 (F)',
                     applicationIcon: Container(
                       clipBehavior: Clip.hardEdge,
                       margin: EdgeInsets.only(bottom: 16, top: 16),

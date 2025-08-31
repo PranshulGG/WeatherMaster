@@ -2326,20 +2326,35 @@ class _ExtendWidgetState extends State<ExtendWidget> {
           final colorTheme = Theme.of(context).colorScheme;
 
           final moonDATA = weather['astronomy']['astronomy']['astro'];
+          DateTime? moonrise;
+          DateTime? moonset;
 
-          DateTime moonrise = DateFormat.jm().parse(moonDATA['moonrise']);
-          DateTime moonset = DateFormat.jm().parse(moonDATA['moonset']);
+          if (moonDATA['moonrise'] != null &&
+              moonDATA['moonrise']!.isNotEmpty &&
+              moonDATA['moonrise']!.toLowerCase() != 'no moonrise') {
+            moonrise = DateFormat.jm().parse(moonDATA['moonrise']!);
+          }
+
+          if (moonDATA['moonset'] != null &&
+              moonDATA['moonset']!.isNotEmpty &&
+              moonDATA['moonset']!.toLowerCase() != 'no moonset') {
+            moonset = DateFormat.jm().parse(moonDATA['moonset']!);
+          }
 
           final timeUnit =
               PreferencesHelper.getString("selectedTimeUnit") ?? "12 hr";
 
-          final moonriseFormat = timeUnit == '24 hr'
-              ? DateFormat.Hm().format(moonrise)
-              : DateFormat.jm().format(moonrise);
-          final moonsetFormat = timeUnit == '24 hr'
-              ? DateFormat.Hm().format(moonset)
-              : DateFormat.jm().format(moonset);
+          final moonriseFormat = (moonrise != null)
+              ? (timeUnit == '24 hr'
+                  ? DateFormat.Hm().format(moonrise)
+                  : DateFormat.jm().format(moonrise))
+              : 'N/A';
 
+          final moonsetFormat = (moonset != null)
+              ? (timeUnit == '24 hr'
+                  ? DateFormat.Hm().format(moonset)
+                  : DateFormat.jm().format(moonset))
+              : 'N/A';
           int offsetSeconds =
               int.parse(weather['utc_offset_seconds'].toString());
           DateTime utcNow = DateTime.now().toUtc();
