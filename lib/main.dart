@@ -23,6 +23,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:ui' as ui;
 import 'services/widget_service.dart';
 import 'widget_background.dart';
+import 'package:flutter_displaymode/flutter_displaymode.dart';
 
 final CorePalette paletteStartScreen = CorePalette.of(
   const Color.fromARGB(255, 255, 196, 0).toARGB32(),
@@ -136,6 +137,7 @@ void main() async {
     lon = locationData['lon'];
   }
   await Hive.openBox('ai_summary_cache');
+  await FlutterDisplayMode.setHighRefreshRate();
   runApp(
     EasyLocalization(
       supportedLocales: easySupportedLocales,
