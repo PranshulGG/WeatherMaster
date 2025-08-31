@@ -10,7 +10,7 @@ import android.widget.RemoteViews
 import android.app.PendingIntent
 import com.pranshulgg.weather_master_app.util.WeatherIconMapper
 
-class GlanceWidgetProvider : AppWidgetProvider() {
+class clockDateWidgetProvider : AppWidgetProvider() {
 
     override fun onUpdate(context: Context, manager: AppWidgetManager, ids: IntArray) {
         val prefs = context.getSharedPreferences("HomeWidgetPreferences", Context.MODE_PRIVATE)

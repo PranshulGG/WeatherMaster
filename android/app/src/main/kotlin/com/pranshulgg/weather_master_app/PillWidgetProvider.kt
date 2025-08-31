@@ -68,6 +68,7 @@ class PillWidgetProvider : AppWidgetProvider() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
         views.setOnClickPendingIntent(R.id.widget_root_pill, pendingIntent)
+//        views.setOnClickPendingIntent(R.id.widget_root_glance, pendingIntent)
 
         manager.updateAppWidget(id, views)
     }

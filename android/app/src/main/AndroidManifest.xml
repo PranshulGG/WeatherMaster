@@ -49,7 +49,8 @@
 
     <receiver
         android:name="dev.fluttercommunity.plus.homewidget.HomeWidgetBackgroundReceiver"
-        android:exported="true">
+        android:exported="true"
+        >
         <intent-filter>
             <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
         </intent-filter>
@@ -106,18 +107,18 @@
                 android:resource="@xml/date_temp_widget_info" />
         </receiver>
 
-        <activity android:name=".GlanceWidgetConfigActivity"
+        <activity android:name=".clockDateWidgetConfigActivity"
             android:theme="@style/Theme.widgetsThemeConfigs"
             android:exported="true">
         </activity>
-        <receiver android:name=".GlanceWidgetProvider" android:exported="true" android:label="Glance">
+        <receiver android:name=".clockDateWidgetProvider" android:exported="true" android:label="Glance">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/glance_widget_info" />
+                android:resource="@xml/clockdate_widget_info" />
         </receiver>
 
         <service

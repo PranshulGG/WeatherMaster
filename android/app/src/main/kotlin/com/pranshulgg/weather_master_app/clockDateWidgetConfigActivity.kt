@@ -1,10 +1,8 @@
 package com.pranshulgg.weather_master_app
 
 import android.app.Activity
-import android.app.WallpaperManager
 import android.appwidget.AppWidgetManager
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
@@ -14,7 +12,7 @@ import android.widget.TextClock
 import android.widget.TextView
 import com.google.android.material.slider.Slider
 
-class GlanceWidgetConfigActivity : Activity() {
+class clockDateWidgetConfigActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +67,7 @@ class GlanceWidgetConfigActivity : Activity() {
 
 
             val manager = AppWidgetManager.getInstance(this)
-            GlanceWidgetProvider().onUpdate(this, manager, intArrayOf(appWidgetId))
+            clockDateWidgetProvider().onUpdate(this, manager, intArrayOf(appWidgetId))
 
             val result = Intent().apply { putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId) }
             setResult(RESULT_OK, result)

@@ -6,5 +6,5 @@
     android:initialLayout="@layout/glance_widget"
     android:resizeMode="horizontal|vertical"
     android:label="Glance"
-    android:configure="com.pranshulgg.weather_master_app.GlanceWidgetConfigActivity"
+    android:configure="com.pranshulgg.weather_master_app.clockDateWidgetConfigActivity"
     android:widgetCategory="home_screen" />
