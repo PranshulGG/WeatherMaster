@@ -321,8 +321,9 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                     color: Theme.of(context)
                                         .colorScheme
                                         .onTertiaryContainer,
-                                    fontSize:
-                                        MediaQuery.of(context).size.width *
+                                    fontSize: isFoldableLayout(context)
+                                        ? 70
+                                        : MediaQuery.of(context).size.width *
                                             0.13,
                                   ),
                                 ),
@@ -449,7 +450,9 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                         left: 0,
                         right: 0,
                         child: SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.12,
+                          height: isFoldableLayout(context)
+                              ? 120
+                              : MediaQuery.of(context).size.height * 0.12,
                           child: SvgPicture.string(
                             clipBehavior: Clip.none,
                             buildSunPathWithIcon(
@@ -575,7 +578,9 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                           : "${convertedPressure.round()}",
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.onSurface,
-                        fontSize: MediaQuery.of(context).size.width * 0.1,
+                        fontSize: isFoldableLayout(context)
+                            ? 60
+                            : MediaQuery.of(context).size.width * 0.1,
                       ),
                     ),
                   ),
@@ -667,8 +672,9 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                   color: Theme.of(context)
                                       .colorScheme
                                       .onTertiaryContainer,
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.1,
+                                  fontSize: isFoldableLayout(context)
+                                      ? 60
+                                      : MediaQuery.of(context).size.width * 0.1,
                                 ),
                               ),
                             ),
@@ -757,8 +763,9 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                   : getCompassDirection(widget.currentWindDirc),
                               style: TextStyle(
                                 color: Theme.of(context).colorScheme.onSurface,
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.1,
+                                fontSize: isFoldableLayout(context)
+                                    ? 60
+                                    : MediaQuery.of(context).size.width * 0.1,
                               ),
                             ),
                           ),
@@ -854,8 +861,9 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                 style: TextStyle(
                                   color:
                                       Theme.of(context).colorScheme.onSurface,
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.1,
+                                  fontSize: isFoldableLayout(context)
+                                      ? 60
+                                      : MediaQuery.of(context).size.width * 0.1,
                                 ),
                               ),
                             ),
@@ -960,8 +968,9 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                 ? '--'
                                 : aqiFormat.toString(),
                             style: TextStyle(
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.11,
+                                fontSize: isFoldableLayout(context)
+                                    ? 60
+                                    : MediaQuery.of(context).size.width * 0.11,
                                 color: Theme.of(context).colorScheme.onSurface),
                           ),
                         ),
@@ -1072,8 +1081,9 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                     ? '--'
                                     : "${double.parse(convertedPrecip.toStringAsFixed(2))}",
                                 style: TextStyle(
-                                    fontSize:
-                                        MediaQuery.of(context).size.width *
+                                    fontSize: isFoldableLayout(context)
+                                        ? 60
+                                        : MediaQuery.of(context).size.width *
                                                 0.10 +
                                             0.5,
                                     color: Theme.of(context)
@@ -1202,7 +1212,9 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                         left: 0,
                         right: 0,
                         child: SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.12,
+                          height: isFoldableLayout(context)
+                              ? 120
+                              : MediaQuery.of(context).size.height * 0.12,
                           child: SvgPicture.string(
                             clipBehavior: Clip.none,
                             buildMoonPathWithIcon(
@@ -1336,8 +1348,9 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                   color: Theme.of(context)
                                       .colorScheme
                                       .onTertiaryContainer,
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.1,
+                                  fontSize: isFoldableLayout(context)
+                                      ? 60
+                                      : MediaQuery.of(context).size.width * 0.1,
                                 ),
                               ),
                             ),

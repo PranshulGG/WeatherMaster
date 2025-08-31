@@ -952,6 +952,8 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                     : currentWindSpeed.toStringAsFixed(0);
 
     return Container(
+      width: isFoldableLayout(context) ? 500 : null,
+      height: null,
       margin: EdgeInsets.fromLTRB(12, 0, 12, 0),
       child: Column(
         children: [
@@ -1016,7 +1018,10 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                   left: 0,
                                   right: 0,
                                   child: SizedBox(
-                                    height: 110,
+                                    height: isFoldableLayout(context)
+                                        ? 120
+                                        : MediaQuery.of(context).size.height *
+                                            0.12,
                                     child: SvgPicture.string(
                                       buildSunPathWithIcon(
                                           pathColor: Theme.of(context)
@@ -1144,8 +1149,9 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                 style: TextStyle(
                                   color:
                                       Theme.of(context).colorScheme.onSurface,
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.1,
+                                  fontSize: isFoldableLayout(context)
+                                      ? 60
+                                      : MediaQuery.of(context).size.width * 0.1,
                                 ),
                               ),
                             ),
@@ -1217,8 +1223,11 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                         color: Theme.of(context)
                                             .colorScheme
                                             .onTertiaryContainer,
-                                        fontSize:
-                                            MediaQuery.of(context).size.width *
+                                        fontSize: isFoldableLayout(context)
+                                            ? 60
+                                            : MediaQuery.of(context)
+                                                    .size
+                                                    .width *
                                                 0.1,
                                       ),
                                     ),
@@ -1289,10 +1298,12 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                           color: Theme.of(context)
                                               .colorScheme
                                               .onSurface,
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.1,
+                                          fontSize: isFoldableLayout(context)
+                                              ? 60
+                                              : MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.1,
                                         ),
                                       ),
                                     ),
@@ -1351,13 +1362,17 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                 : "${currentUvIndex.round()}",
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.onSurface,
-                              fontSize: MediaQuery.of(context).size.width * 0.1,
+                              fontSize: isFoldableLayout(context)
+                                  ? 60
+                                  : MediaQuery.of(context).size.width * 0.1,
                             ),
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).size.width * 0.11),
+                              bottom: isFoldableLayout(context)
+                                  ? 68
+                                  : MediaQuery.of(context).size.width * 0.11),
                           child: Align(
                             alignment: Alignment.bottomCenter,
                             child: Text(
@@ -1435,11 +1450,14 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                               ? '--'
                                               : "${double.parse(convertedPrecip.toStringAsFixed(2))}",
                                           style: TextStyle(
-                                              fontSize: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.10 +
-                                                  0.5,
+                                              fontSize:
+                                                  isFoldableLayout(context)
+                                                      ? 60
+                                                      : MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.10 +
+                                                          0.5,
                                               color: Theme.of(context)
                                                   .colorScheme
                                                   .onSurface),

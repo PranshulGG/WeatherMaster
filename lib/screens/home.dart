@@ -30,6 +30,7 @@ import '../utils/theme.dart';
 import '../utils/theme_controller.dart';
 import '../utils/bottom_provider.dart';
 import '../utils/is_online.dart';
+import '../utils/visual_utils.dart';
 
 // App models
 import '../models/insights_gen.dart';
@@ -1458,34 +1459,38 @@ class _WeatherHomeState extends State<WeatherHome> {
                   ),
                   WeatherFrogIconWidget(iconUrl: _iconUrlFroggy),
                   const SizedBox(height: 12),
-                  Column(
-                    children: () {
-                      final visibleBlocks = layoutConfig
-                          .where((block) => block.isVisible)
-                          .toList();
-                      final List<Widget> children = [];
+                  SizedBox(
+                    width: isFoldableLayout(context) ? 500 : null,
+                    height: null,
+                    child: Column(
+                      children: () {
+                        final visibleBlocks = layoutConfig
+                            .where((block) => block.isVisible)
+                            .toList();
+                        final List<Widget> children = [];
 
-                      for (int i = 0; i < visibleBlocks.length; i++) {
-                        final currentBlock = visibleBlocks[i];
+                        for (int i = 0; i < visibleBlocks.length; i++) {
+                          final currentBlock = visibleBlocks[i];
 
-                        children.add(RepaintBoundary(
-                          child: buildLayoutBlock(currentBlock.type),
-                        ));
+                          children.add(RepaintBoundary(
+                            child: buildLayoutBlock(currentBlock.type),
+                          ));
 
-                        final isRainThenInsights =
-                            currentBlock.type == LayoutBlockType.rain &&
-                                i + 1 < visibleBlocks.length &&
-                                visibleBlocks[i + 1].type ==
-                                    LayoutBlockType.insights;
+                          final isRainThenInsights =
+                              currentBlock.type == LayoutBlockType.rain &&
+                                  i + 1 < visibleBlocks.length &&
+                                  visibleBlocks[i + 1].type ==
+                                      LayoutBlockType.insights;
 
-                        if (!isRainThenInsights &&
-                            i < visibleBlocks.length - 1) {
-                          children.add(SizedBox(height: 10));
+                          if (!isRainThenInsights &&
+                              i < visibleBlocks.length - 1) {
+                            children.add(SizedBox(height: 10));
+                          }
                         }
-                      }
 
-                      return children;
-                    }(),
+                        return children;
+                      }(),
+                    ),
                   ),
                   homeBottomBar(context, isLight)
                 ])
