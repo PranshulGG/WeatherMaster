@@ -555,5 +555,6 @@
   "background_updates_sub": "Widget updates, update interval, and scheduled updates",
   "animations": "Animations",
   "layout": "Layout",
-  "use_expressive_palette": "Use expressive palette"
+  "use_expressive_palette": "Use expressive palette",
+  "new_version_snack_message": "Show a snack message when a new version is released"
 }
