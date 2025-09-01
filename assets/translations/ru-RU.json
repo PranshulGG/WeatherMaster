@@ -555,5 +555,6 @@
   "background_updates_sub": "Обновления виджетов, интервал обновления и запланированные обновления",
   "animations": "Анимации",
   "layout": "Макет",
-  "use_expressive_palette": "Использовать выразительную палитру"
+  "use_expressive_palette": "Использовать выразительную палитру",
+  "new_version_snack_message": "Show a snack message when a new version is released"
 }
