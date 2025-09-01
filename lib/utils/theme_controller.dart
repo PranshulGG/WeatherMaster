@@ -41,7 +41,7 @@ class ThemeController extends ChangeNotifier {
     }
   }
 
-  Color get seedColor => _seedColor!;
+  Color get seedColor => _seedColor ?? const Color(0xFF012E7C);
   CorePalette get corePalette => _corePalette!;
   ThemeMode get themeMode => _themeMode;
   bool get isUsingDynamicColor => _isUsingDynamicColor;

@@ -111,16 +111,33 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
     DateTime? moonrise;
     DateTime? moonset;
 
+    DateTime? parseTime(String? timeString) {
+      if (timeString == null ||
+          timeString.isEmpty ||
+          timeString.toLowerCase().contains("no")) {
+        return null;
+      }
+
+      try {
+        // Clean up extra text if API adds "at ..." or similar
+        final cleaned = timeString.split("at").first.trim();
+        return DateFormat.jm().parse(cleaned);
+      } catch (e) {
+        debugPrint("Failed to parse time: $timeString ($e)");
+        return null; // fallback instead of crashing
+      }
+    }
+
     if (widget.moonrise != null &&
         widget.moonrise!.isNotEmpty &&
         widget.moonrise!.toLowerCase() != 'no moonrise') {
-      moonrise = DateFormat.jm().parse(widget.moonrise!);
+      moonrise = parseTime(widget.moonrise);
     }
 
     if (widget.moonset != null &&
         widget.moonset!.isNotEmpty &&
         widget.moonset!.toLowerCase() != 'no moonset') {
-      moonset = DateFormat.jm().parse(widget.moonset!);
+      moonset = parseTime(widget.moonset);
     }
 
     now = DateTime(

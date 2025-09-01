@@ -207,12 +207,12 @@ class MyApp extends StatelessWidget {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
     final colorThemeDark = ColorScheme.fromSeed(
-      seedColor: themeController.seedColor,
+      seedColor: themeController.seedColor ?? Colors.blue,
       brightness: Brightness.dark,
     );
 
     final colorThemeLight = ColorScheme.fromSeed(
-      seedColor: themeController.seedColor,
+      seedColor: themeController.seedColor ?? Colors.blue,
       brightness: Brightness.light,
     );
 
@@ -234,11 +234,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.from(
         colorScheme: useExpressiveVariant
             ? ColorScheme.fromSeed(
-                seedColor: themeController.seedColor,
+                seedColor: themeController.seedColor ?? Colors.blue,
                 brightness: Brightness.light,
                 dynamicSchemeVariant: DynamicSchemeVariant.expressive)
             : ColorScheme.fromSeed(
-                seedColor: themeController.seedColor,
+                seedColor: themeController.seedColor ?? Colors.blue,
                 brightness: Brightness.light,
               ),
         useMaterial3: true,
@@ -273,11 +273,11 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData.from(
         colorScheme: useExpressiveVariant
             ? ColorScheme.fromSeed(
-                seedColor: themeController.seedColor,
+                seedColor: themeController.seedColor ?? Colors.blue,
                 brightness: Brightness.dark,
                 dynamicSchemeVariant: DynamicSchemeVariant.expressive)
             : ColorScheme.fromSeed(
-                seedColor: themeController.seedColor,
+                seedColor: themeController.seedColor ?? Colors.blue,
                 brightness: Brightness.dark,
               ),
         useMaterial3: true,
