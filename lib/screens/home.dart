@@ -1162,30 +1162,19 @@ class _WeatherHomeState extends State<WeatherHome> {
                 );
 
               case LayoutBlockType.pollen:
-                return isPollenDataAvailable([
-                  alderPollen,
-                  birchPollen,
-                  olivePollen,
-                  grassPollen,
-                  mugwortPollen,
-                  ragweedPollen,
-                ])
-                    ? Column(
-                        children: [
-                          PollenCard(
-                            pollenData: weather['air_quality']['current'],
-                            selectedContainerBgIndex: useFullMaterialScheme
-                                ? Theme.of(context)
-                                    .colorScheme
-                                    .surfaceContainerLowest
-                                    .toARGB32()
-                                : weatherContainerColors[
-                                    selectedContainerBgIndex],
-                          ),
-                          const SizedBox(height: 8.5),
-                        ],
-                      )
-                    : const SizedBox.shrink();
+                return Column(
+                  children: [
+                    PollenCard(
+                      pollenData: weather['air_quality']['current'],
+                      selectedContainerBgIndex: useFullMaterialScheme
+                          ? Theme.of(context)
+                              .colorScheme
+                              .surfaceContainerLowest
+                              .toARGB32()
+                          : weatherContainerColors[selectedContainerBgIndex],
+                    ),
+                  ],
+                );
             }
           }
 
@@ -1436,17 +1425,42 @@ class _WeatherHomeState extends State<WeatherHome> {
                     height: null,
                     child: Column(
                       children: () {
-                        final visibleBlocks = layoutConfig
-                            .where((block) => block.isVisible)
-                            .toList();
+                        final visibleBlocks = layoutConfig.where((block) {
+                          if (!block.isVisible) return false;
+
+                          switch (block.type) {
+                            case LayoutBlockType.pollen:
+                              return isPollenDataAvailable([
+                                alderPollen,
+                                birchPollen,
+                                olivePollen,
+                                grassPollen,
+                                mugwortPollen,
+                                ragweedPollen,
+                              ]);
+
+                            case LayoutBlockType.rain:
+                              return shouldShowRainBlock;
+
+                            case LayoutBlockType.insights:
+                              return !shouldShowRainBlock &&
+                                  showInsightsRandomly;
+
+                            default:
+                              return true;
+                          }
+                        }).toList();
+
                         final List<Widget> children = [];
 
                         for (int i = 0; i < visibleBlocks.length; i++) {
                           final currentBlock = visibleBlocks[i];
 
-                          children.add(RepaintBoundary(
-                            child: buildLayoutBlock(currentBlock.type),
-                          ));
+                          children.add(
+                            RepaintBoundary(
+                              child: buildLayoutBlock(currentBlock.type),
+                            ),
+                          );
 
                           final isRainThenInsights =
                               currentBlock.type == LayoutBlockType.rain &&
@@ -1456,7 +1470,7 @@ class _WeatherHomeState extends State<WeatherHome> {
 
                           if (!isRainThenInsights &&
                               i < visibleBlocks.length - 1) {
-                            children.add(SizedBox(height: 10));
+                            children.add(const SizedBox(height: 10));
                           }
                         }
 

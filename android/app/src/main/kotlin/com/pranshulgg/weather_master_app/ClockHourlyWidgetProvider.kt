@@ -8,6 +8,8 @@ import android.view.View
 import android.widget.RemoteViews
 import android.app.PendingIntent
 import android.content.Intent
+import android.provider.AlarmClock
+import android.provider.CalendarContract
 import com.pranshulgg.weather_master_app.util.WeatherIconMapper
 
 class ClockHourlyWidgetProvider : AppWidgetProvider() {
@@ -108,6 +110,28 @@ class ClockHourlyWidgetProvider : AppWidgetProvider() {
             views.addView(containerId, itemView)
         }
 
+        val calendarUri = CalendarContract.CONTENT_URI.buildUpon().appendPath("time").build()
+        val calendarIntent = Intent(Intent.ACTION_VIEW).apply {
+            data = calendarUri
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+
+        val calendarPendingIntent = PendingIntent.getActivity(
+            context,
+            1,
+            calendarIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        views.setOnClickPendingIntent(R.id.clockTextHourlyDate, calendarPendingIntent)
+
+        val clockIntent = Intent(AlarmClock.ACTION_SHOW_ALARMS)
+        val pendingIntentTime = PendingIntent.getActivity(
+            context,
+            0,
+            clockIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        views.setOnClickPendingIntent(R.id.clockTextHourlyTime, pendingIntentTime)
 
         val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)?.apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -118,8 +142,6 @@ class ClockHourlyWidgetProvider : AppWidgetProvider() {
             context, 0, intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-
-
 
         views.setOnClickPendingIntent(R.id.widget_root_cast_clock_hourly, pendingIntent)
 

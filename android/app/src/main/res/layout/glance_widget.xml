@@ -19,6 +19,7 @@
         android:textColor="@color/colorGlanceWidgetTextClock"
         android:shadowColor="#80000000"
         android:shadowDx="2"
+        android:includeFontPadding="false"
         android:shadowDy="2"
         android:shadowRadius="4" />
 

@@ -8,6 +8,8 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.RemoteViews
 import android.app.PendingIntent
+import android.provider.AlarmClock
+import android.provider.CalendarContract
 import com.pranshulgg.weather_master_app.util.WeatherIconMapper
 
 class clockDateWidgetProvider : AppWidgetProvider() {
@@ -41,10 +43,34 @@ class clockDateWidgetProvider : AppWidgetProvider() {
             if (showClock) {
                 views.setViewVisibility(R.id.widget_text_clock_glance, View.VISIBLE)
                 views.setTextViewTextSize(R.id.widget_text_clock_glance, TypedValue.COMPLEX_UNIT_SP, clockSize)
+
+                val clockIntent = Intent(AlarmClock.ACTION_SHOW_ALARMS)
+                val pendingIntent = PendingIntent.getActivity(
+                    context,
+                    0,
+                    clockIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                )
+                views.setOnClickPendingIntent(R.id.widget_text_clock_glance, pendingIntent)
             } else {
                 views.setViewVisibility(R.id.widget_text_clock_glance, View.GONE)
             }
 
+
+
+            val calendarUri = CalendarContract.CONTENT_URI.buildUpon().appendPath("time").build()
+            val calendarIntent = Intent(Intent.ACTION_VIEW).apply {
+                data = calendarUri
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            }
+
+            val calendarPendingIntent = PendingIntent.getActivity(
+                context,
+                1,
+                calendarIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+            views.setOnClickPendingIntent(R.id.current_widget_date, calendarPendingIntent)
 
             val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)?.apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

@@ -6,6 +6,7 @@ import android.content.Context
 import android.widget.RemoteViews
 import android.app.PendingIntent
 import android.content.Intent
+import android.provider.CalendarContract
 import com.pranshulgg.weather_master_app.util.WeatherIconMapper
 
 
@@ -38,6 +39,20 @@ class DateCurrentWidgetProvider : AppWidgetProvider() {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
 
+
+            val calendarUri = CalendarContract.CONTENT_URI.buildUpon().appendPath("time").build()
+            val calendarIntent = Intent(Intent.ACTION_VIEW).apply {
+                data = calendarUri
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            }
+
+            val calendarPendingIntent = PendingIntent.getActivity(
+                context,
+                1,
+                calendarIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+            views.setOnClickPendingIntent(R.id.current_widget_date, calendarPendingIntent)
 
             val pendingIntent = PendingIntent.getActivity(
                 context, 0, intent,

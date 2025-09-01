@@ -108,7 +108,7 @@ class AboutPage extends StatelessWidget {
                   showLicensePage(
                     context: context,
                     applicationName: 'WeatherMaster',
-                    applicationVersion: 'v2.6.1 (F)',
+                    applicationVersion: 'v2.6.2 (F)',
                     applicationIcon: Container(
                       clipBehavior: Clip.hardEdge,
                       margin: EdgeInsets.only(bottom: 16, top: 16),
@@ -353,7 +353,7 @@ class CheckUpdateButton extends StatefulWidget {
 }
 
 class _CheckUpdateButtonState extends State<CheckUpdateButton> {
-  final String currentVersion = 'v2.6.1';
+  final String currentVersion = 'v2.6.2';
   final String githubRepo = 'PranshulGG/WeatherMaster';
   bool isChecking = false;
 

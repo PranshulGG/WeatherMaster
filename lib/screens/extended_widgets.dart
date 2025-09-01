@@ -447,10 +447,10 @@ class _ExtendWidgetState extends State<ExtendWidget> {
           final dawn = calc.morningCivilTwilight.begining;
           final dusk = calc.eveningCivilTwilight.ending;
 
-          final dawnFormatted = formatInstantToLocalTime(dawn,
-              timeUnit: timeFormatDUSKDAWN.toString());
-          final duskFormatted = formatInstantToLocalTime(dusk,
-              timeUnit: timeFormatDUSKDAWN.toString());
+          final dawnFormatted =
+              formatInstantToLocalTime(dawn, timeUnit: timeUnit);
+          final duskFormatted =
+              formatInstantToLocalTime(dusk, timeUnit: timeUnit);
 
           double percent = ((now.difference(sunrise).inSeconds) /
                   (sunset.difference(sunrise).inSeconds))

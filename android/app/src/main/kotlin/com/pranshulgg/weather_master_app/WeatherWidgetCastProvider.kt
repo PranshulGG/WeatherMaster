@@ -136,9 +136,9 @@ class WeatherWidgetCastProvider : AppWidgetProvider() {
         views.removeAllViews(dailyContainerId)
 
         val numDailyItems = when {
-            minHeight > 250 -> 4  // Tall widget shows 4 days
-            minHeight > 150 -> 2  // Medium widget shows 3 days
-            else -> 1            // Small widget shows 2 days
+            minHeight > 300 -> 4  
+            minHeight > 260 -> 2  
+            else -> 1           
         }
 
         for (i in 0 until numDailyItems) {

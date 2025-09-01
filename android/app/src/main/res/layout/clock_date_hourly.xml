@@ -34,6 +34,7 @@
             android:layout_gravity="end">
 
             <TextClock
+                android:id="@+id/clockTextHourlyDate"
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -46,7 +47,7 @@
                 />
 
             <TextClock
-
+                android:id="@+id/clockTextHourlyTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textFontWeight="700"

@@ -1290,7 +1290,9 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                 ),
                 onTap: () {
                   if (widget.isFromHome) {
-                    if (moonriseFormat != "N/A" && moonsetFormat != "N/A") {
+                    if (moonriseFormat == "N/A" && moonsetFormat == "N/A") {
+                      return;
+                    } else {
                       openContainer();
                     }
                   }
