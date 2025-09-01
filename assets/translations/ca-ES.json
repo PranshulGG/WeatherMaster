@@ -555,5 +555,6 @@
   "background_updates_sub": "Actualitzacions de widgets, el seu interval i programació",
   "animations": "Animacions",
   "layout": "Disseny",
-  "use_expressive_palette": "Fes servir una paleta expressiva"
+  "use_expressive_palette": "Fes servir una paleta expressiva",
+  "new_version_snack_message": "Avisa'm quan hi hagi una nova actualització"
 }
