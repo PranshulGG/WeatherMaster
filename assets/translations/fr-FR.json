@@ -555,5 +555,6 @@
   "background_updates_sub": "Mises à jour du widget, intervalle et planification des mises à jour",
   "animations": "Animations",
   "layout": "Disposition",
-  "use_expressive_palette": "Palette de couleurs dynamique"
+  "use_expressive_palette": "Palette de couleurs dynamique",
+  "new_version_snack_message": "Show a snack message when a new version is released"
 }
