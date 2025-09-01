@@ -25,7 +25,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginTop="70dp"
-        android:fontFamily="@font/medium"
         android:layout_marginRight="60dp"
         android:text="13°"
         android:textColor="@color/colorPrimary"

@@ -20,7 +20,6 @@
             android:id="@+id/weather_condition_current_clock_hourly"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/medium"
             android:text="Haze"
             android:layout_gravity="start"
             android:textColor="@color/colorPrimary"
@@ -41,7 +40,6 @@
                 android:format12Hour="EEE MMM d"
                 android:format24Hour="EEE MMM d"
                 android:textColor="@color/colorOnBackground"
-                android:fontFamily="@font/medium"
                 android:gravity="center"
                 android:textSize="20sp"
                 android:includeFontPadding="false"
@@ -51,17 +49,14 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/medium"
+                android:textFontWeight="700"
                 android:textSize="55sp"
                 android:format12Hour="hh:mm"
                 android:format24Hour="HH:mm"
                 android:textColor="@color/colorOnBackground"
-                android:shadowColor="#80000000"
-                android:shadowDx="2"
                 android:gravity="end"
                 android:includeFontPadding="false"
-                android:shadowDy="2"
-                android:shadowRadius="4" />
+             />
 
 
         </LinearLayout>
@@ -81,7 +76,6 @@
                     android:id="@+id/current_widget_temp_cast_clock_hourly"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/medium"
                     android:text="28°"
                     android:textColor="@color/colorPrimary"
                     android:textSize="50sp"

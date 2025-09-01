@@ -39,7 +39,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="28°"
-            android:fontFamily="@font/medium"
 
             android:textColor="@color/colorPrimary"
             android:textSize="40sp"
@@ -57,7 +56,6 @@
                 android:id="@+id/temp_high"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/regular"
                 android:text="30°"
                 android:textColor="@color/colorSecondary"
                 android:textSize="16sp"
@@ -66,7 +64,6 @@
             <TextView
                 android:id="@+id/temp_low"
                 android:layout_width="wrap_content"
-                android:fontFamily="@font/regular"
                 android:layout_height="wrap_content"
                 android:text=" 21°"
                 android:textColor="@color/colorOnBackground"

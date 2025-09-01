@@ -119,12 +119,11 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
       }
 
       try {
-        // Clean up extra text if API adds "at ..." or similar
         final cleaned = timeString.split("at").first.trim();
         return DateFormat.jm().parse(cleaned);
       } catch (e) {
         debugPrint("Failed to parse time: $timeString ($e)");
-        return null; // fallback instead of crashing
+        return null;
       }
     }
 

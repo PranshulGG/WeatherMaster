@@ -28,14 +28,13 @@
             android:text="Tue"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:fontFamily="@font/medium"
+            android:textFontWeight="600"
             android:textColor="@color/colorOnBackground" />
 
         <TextView
             android:id="@+id/daily_condition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/regular"
             android:text="Rainy"
             android:includeFontPadding="false"
             android:textSize="16sp"
@@ -58,14 +57,12 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:layout_marginEnd="10dp"
-            android:fontFamily="@font/medium"
             android:textColor="@color/colorOnBackground" />
 
         <TextView
             android:id="@+id/daily_temp_min"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/regular"
             android:text="21°"
             android:includeFontPadding="false"
             android:textSize="16sp"

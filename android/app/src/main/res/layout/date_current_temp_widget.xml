@@ -29,7 +29,7 @@
                 android:format12Hour="EEE MMM d"
                 android:format24Hour="EEE MMM d"
                 android:textColor="@color/colorOnBackground"
-                android:fontFamily="@font/medium"
+                android:textFontWeight="600"
                 android:gravity="center"
                 android:textSize="20sp"
               />
@@ -48,7 +48,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="19° • "
-                android:fontFamily="@font/regular"
                 android:textColor="@color/colorOnSurfaceVariant"
                 android:textSize="16sp"
                 />
@@ -57,7 +56,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Clear sky"
-                android:fontFamily="@font/regular"
                 android:textColor="@color/colorOnSurfaceVariant"
                 android:textSize="16sp"
                 />
