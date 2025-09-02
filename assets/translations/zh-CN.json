@@ -556,5 +556,5 @@
   "animations": "动画",
   "layout": "布局",
   "use_expressive_palette": "使用 Expressive 调色板",
-  "new_version_snack_message": "Show a snack message when a new version is released"
+  "new_version_snack_message": "有新版本发布时显示提示消息"
 }
