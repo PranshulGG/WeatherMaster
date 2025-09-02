@@ -556,5 +556,5 @@
   "animations": "Animations",
   "layout": "Disposition",
   "use_expressive_palette": "Palette de couleurs dynamique",
-  "new_version_snack_message": "Show a snack message when a new version is released"
+  "new_version_snack_message": "Afficher une notification lorsqu'une nouvelle version est disponible"
 }
