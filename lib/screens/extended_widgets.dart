@@ -11,6 +11,7 @@ import 'dart:math' as math;
 import '../helper/locale_helper.dart';
 import '../utils/visual_utils.dart';
 import 'package:moon_phase/moon_widget.dart';
+import 'package:expressive_loading_indicator/expressive_loading_indicator.dart';
 
 class ExtendWidget extends StatefulWidget {
   final String widgetType;
@@ -34,6 +35,8 @@ class _ExtendWidgetState extends State<ExtendWidget> {
 
     return json.decode(cached);
   }
+
+  bool _showLoader = true;
 
   @override
   void initState() {
@@ -78,10 +81,29 @@ class _ExtendWidgetState extends State<ExtendWidget> {
       child = const Center(child: Text('Unknown widget type'));
       extendedTitle = 'Error';
     }
+
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      if (mounted) {
+        setState(() {
+          _showLoader = false;
+        });
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final colorTheme = Theme.of(context).colorScheme;
+
+    if (_showLoader) {
+      return Scaffold(
+          body: Center(
+        child: ExpressiveLoadingIndicator(
+          color: colorTheme.primary,
+          activeSize: 48,
+        ),
+      ));
+    }
     return Scaffold(
         body: CustomScrollView(slivers: [
       SliverAppBar.large(

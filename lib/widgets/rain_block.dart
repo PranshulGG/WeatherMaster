@@ -176,172 +176,164 @@ class RainBlock extends StatelessWidget {
         Provider.of<UnitSettingsNotifier>(context, listen: false);
     final precipitationUnit = unitSettings.precipitationUnit;
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 0, left: 12.7, right: 12.7, top: 0),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Color(selectedContainerBgIndex),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12.7),
+      child: Material(
+        elevation: 1,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.15),
-            spreadRadius: 1,
-            blurRadius: 1,
-            offset: Offset(
-              0,
-              1,
-            ),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(title,
-              style: TextStyle(
-                  color: Theme.of(context).colorScheme.secondary,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600)),
-          if (subtitle != null)
-            Padding(
-              padding: const EdgeInsets.only(top: 2),
-              child: Text(subtitle,
+        color: Color(selectedContainerBgIndex),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title,
                   style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      fontSize: 13)),
-            ),
-          const SizedBox(height: 16),
+                      color: Theme.of(context).colorScheme.secondary,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600)),
+              if (subtitle != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 2),
+                  child: Text(subtitle,
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                          fontSize: 13)),
+                ),
+              const SizedBox(height: 16),
 
-          SizedBox(
-            height: 90,
-            child: BarChart(
-              BarChartData(
-                alignment: BarChartAlignment.start,
-                maxY: maxRain,
-                barTouchData: BarTouchData(
-                  enabled: true,
-                  touchTooltipData: BarTouchTooltipData(
-                    tooltipBorderRadius: BorderRadius.circular(50),
-                    getTooltipColor: (group) =>
-                        Theme.of(context).colorScheme.primaryContainer,
-                    tooltipPadding: EdgeInsets.only(left: 5, right: 5),
-                    getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                      final convertedPrecip = precipitationUnit == 'cm'
-                          ? UnitConverter.mmToCm(rod.toY)
-                          : precipitationUnit == 'in'
-                              ? UnitConverter.mmToIn(rod.toY)
-                              : rod.toY;
-                      return BarTooltipItem(
-                        '${convertedPrecip.toStringAsFixed(1)} $precipitationUnit',
-                        TextStyle(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onPrimaryContainer,
-                            fontWeight: FontWeight.w500),
-                      );
-                    },
-                  ),
-                ),
-                borderData: FlBorderData(
-                  show: true,
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Theme.of(context).colorScheme.outlineVariant,
-                      width: 1,
-                    ),
-                  ),
-                ),
-                gridData: FlGridData(
-                  show: true,
-                  drawHorizontalLine: true,
-                  drawVerticalLine: false,
-                  horizontalInterval: maxRain / 3,
-                  getDrawingHorizontalLine: (_) => FlLine(
-                    color: Theme.of(context).colorScheme.outlineVariant,
-                    strokeWidth: 1,
-                  ),
-                ),
-                titlesData: FlTitlesData(
-                  topTitles:
-                      AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                  rightTitles:
-                      AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                  leftTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                      showTitles: true,
-                      reservedSize: 50,
-                      getTitlesWidget: (value, _) {
-                        final roundedMax = maxRain;
-                        final step = roundedMax / 2;
-                        final convertedPrecip = precipitationUnit == 'cm'
-                            ? UnitConverter.mmToCm(value)
-                            : precipitationUnit == 'in'
-                                ? UnitConverter.mmToIn(value)
-                                : value;
-
-                        if (value == 0 ||
-                            value == step ||
-                            value == roundedMax) {
-                          return Text(
-                            '${double.parse(convertedPrecip.toStringAsFixed(1))} ${localizePrecipUnit(precipitationUnit, context.locale)}',
-                            style: TextStyle(
-                                fontSize: 10,
+              SizedBox(
+                height: 90,
+                child: BarChart(
+                  BarChartData(
+                    alignment: BarChartAlignment.start,
+                    maxY: maxRain,
+                    barTouchData: BarTouchData(
+                      enabled: true,
+                      touchTooltipData: BarTouchTooltipData(
+                        tooltipBorderRadius: BorderRadius.circular(50),
+                        getTooltipColor: (group) =>
+                            Theme.of(context).colorScheme.primaryContainer,
+                        tooltipPadding: EdgeInsets.only(left: 5, right: 5),
+                        getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                          final convertedPrecip = precipitationUnit == 'cm'
+                              ? UnitConverter.mmToCm(rod.toY)
+                              : precipitationUnit == 'in'
+                                  ? UnitConverter.mmToIn(rod.toY)
+                                  : rod.toY;
+                          return BarTooltipItem(
+                            '${convertedPrecip.toStringAsFixed(1)} $precipitationUnit',
+                            TextStyle(
                                 color: Theme.of(context)
                                     .colorScheme
-                                    .onSurfaceVariant),
+                                    .onPrimaryContainer,
+                                fontWeight: FontWeight.w500),
                           );
-                        }
-                        return const SizedBox.shrink();
-                      },
-                      interval: maxRain / 2,
+                        },
+                      ),
                     ),
-                  ),
-                  bottomTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                      showTitles: true,
-                      reservedSize: 16,
-                      getTitlesWidget: (value, _) {
-                        final idx = value.toInt();
-                        if (idx % 3 != 0 || idx >= next12Time.length)
-                          return const SizedBox.shrink();
-                        final dt = DateTime.parse(next12Time[idx]);
-                        return Padding(
-                            padding: EdgeInsets.only(left: 8),
-                            child: Text(
-                              timeUnit == '24 hr'
-                                  ? DateFormat.Hm().format(dt)
-                                  : DateFormat.jm().format(dt),
-                              style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSurfaceVariant,
-                                  fontSize: 9),
-                            ));
-                      },
+                    borderData: FlBorderData(
+                      show: true,
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Theme.of(context).colorScheme.outlineVariant,
+                          width: 1,
+                        ),
+                      ),
                     ),
+                    gridData: FlGridData(
+                      show: true,
+                      drawHorizontalLine: true,
+                      drawVerticalLine: false,
+                      horizontalInterval: maxRain / 3,
+                      getDrawingHorizontalLine: (_) => FlLine(
+                        color: Theme.of(context).colorScheme.outlineVariant,
+                        strokeWidth: 1,
+                      ),
+                    ),
+                    titlesData: FlTitlesData(
+                      topTitles:
+                          AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                      rightTitles:
+                          AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                      leftTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 50,
+                          getTitlesWidget: (value, _) {
+                            final roundedMax = maxRain;
+                            final step = roundedMax / 2;
+                            final convertedPrecip = precipitationUnit == 'cm'
+                                ? UnitConverter.mmToCm(value)
+                                : precipitationUnit == 'in'
+                                    ? UnitConverter.mmToIn(value)
+                                    : value;
+
+                            if (value == 0 ||
+                                value == step ||
+                                value == roundedMax) {
+                              return Text(
+                                '${double.parse(convertedPrecip.toStringAsFixed(1))} ${localizePrecipUnit(precipitationUnit, context.locale)}',
+                                style: TextStyle(
+                                    fontSize: 10,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant),
+                              );
+                            }
+                            return const SizedBox.shrink();
+                          },
+                          interval: maxRain / 2,
+                        ),
+                      ),
+                      bottomTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 16,
+                          getTitlesWidget: (value, _) {
+                            final idx = value.toInt();
+                            if (idx % 3 != 0 || idx >= next12Time.length)
+                              return const SizedBox.shrink();
+                            final dt = DateTime.parse(next12Time[idx]);
+                            return Padding(
+                                padding: EdgeInsets.only(left: 8),
+                                child: Text(
+                                  timeUnit == '24 hr'
+                                      ? DateFormat.Hm().format(dt)
+                                      : DateFormat.jm().format(dt),
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurfaceVariant,
+                                      fontSize: 9),
+                                ));
+                          },
+                        ),
+                      ),
+                    ),
+                    barGroups: List.generate(rain.length, (i) {
+                      return BarChartGroupData(
+                        x: i,
+                        barRods: [
+                          BarChartRodData(
+                            toY: rain[i],
+                            width: 15,
+                            color: _barColor(rain[i], context),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(50),
+                                topRight: Radius.circular(50)),
+                          ),
+                        ],
+                      );
+                    }),
                   ),
                 ),
-                barGroups: List.generate(rain.length, (i) {
-                  return BarChartGroupData(
-                    x: i,
-                    barRods: [
-                      BarChartRodData(
-                        toY: rain[i],
-                        width: 15,
-                        color: _barColor(rain[i], context),
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(50),
-                            topRight: Radius.circular(50)),
-                      ),
-                    ],
-                  );
-                }),
               ),
-            ),
-          ),
 
-          // ),
-        ],
+              // ),
+            ],
+          ),
+        ),
       ),
     );
   }

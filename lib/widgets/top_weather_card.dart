@@ -290,12 +290,13 @@ class AnimatedTemperature extends StatelessWidget {
         return Text(
           isShowFrog
               ? '${value.toStringAsFixed(0)}°'
-              : '${value.toStringAsFixed(0)}°',
+              : value.toStringAsFixed(0),
           style: TextStyle(
             color: Theme.of(context).brightness == Brightness.light
                 ? Theme.of(context).colorScheme.inverseSurface
                 : Theme.of(context).colorScheme.primary,
-            fontSize: isShowFrog ? 60 : 120,
+            fontSize: isShowFrog ? 60 : 130,
+            fontWeight: isShowFrog ? null : FontWeight.bold,
             height: isShowFrog ? 1.3 : 1,
           ),
         );
@@ -369,7 +370,7 @@ class _WeatherTopCardStateVertical extends State<WeatherTopCardVertical> {
     final colorTheme = Theme.of(context).colorScheme;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 14),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 14),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -377,41 +378,45 @@ class _WeatherTopCardStateVertical extends State<WeatherTopCardVertical> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  spacing: 8,
-                  children: [
-                    SvgPicture.asset(
-                      WeatherIconMapper.getIcon(
-                          widget.currentWeatherIconCode, widget.currentisDay),
-                      width: 36,
-                      height: 36,
-                    ),
-                    Text(
-                      WeatherConditionMapper.getConditionLabel(
-                        widget.currentWeatherIconCode,
-                        widget.currentisDay,
-                      ).tr(),
-                      style: TextStyle(
-                        color: colorTheme.onSurface,
-                        fontSize: 22,
-                      ),
-                    ),
-                  ]),
+              Text(
+                WeatherConditionMapper.getConditionLabel(
+                  widget.currentWeatherIconCode,
+                  widget.currentisDay,
+                ).tr(),
+                style: TextStyle(
+                  color: colorTheme.onSurface,
+                  fontSize: 22,
+                ),
+              ),
               SizedBox(
                 height: 6,
               ),
-              PreferencesHelper.getBool("useTempAnimation") == false
-                  ? Text("$convertedTemp°",
-                      style: TextStyle(
-                          color:
-                              Theme.of(context).brightness == Brightness.light
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  PreferencesHelper.getBool("useTempAnimation") == false
+                      ? Text("$convertedTemp",
+                          style: TextStyle(
+                              color: Theme.of(context).brightness ==
+                                      Brightness.light
                                   ? Theme.of(context).colorScheme.inverseSurface
                                   : Theme.of(context).colorScheme.primary,
-                          fontSize: 120,
-                          height: 1.3))
-                  : AnimatedTemperature(targetTemp: convertedTemp.toDouble()),
+                              fontSize: 130,
+                              fontWeight: isShowFrog ? null : FontWeight.bold,
+                              height: 1.3))
+                      : AnimatedTemperature(
+                          targetTemp: convertedTemp.toDouble()),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 40),
+                    child: SvgPicture.asset(
+                      WeatherIconMapper.getIcon(
+                          widget.currentWeatherIconCode, widget.currentisDay),
+                      width: 48,
+                      height: 48,
+                    ),
+                  ),
+                ],
+              ),
               SizedBox(
                 height: 16,
               ),

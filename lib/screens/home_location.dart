@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../utils/geo_location.dart';
 import '../services/fetch_data.dart';
 import 'package:easy_localization/easy_localization.dart';
-import '../models/loading_me.dart';
+import 'package:expressive_loading_indicator/expressive_loading_indicator.dart';
 
 class HomeLocationScreen extends StatelessWidget {
   const HomeLocationScreen({super.key});
@@ -57,6 +57,7 @@ class HomeLocationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorTheme = Theme.of(context).colorScheme;
     Future<void> saveLocation(SavedLocation newLocation) async {
       final prefs = await SharedPreferences.getInstance();
       final existing = prefs.getString('saved_locations');
@@ -235,10 +236,9 @@ class HomeLocationScreen extends StatelessWidget {
                                         barrierColor: Theme.of(context)
                                             .colorScheme
                                             .surface,
-                                        builder: (context) => const Center(
-                                            child: LoaderWidget(
-                                          size: 60,
-                                          isContained: false,
+                                        builder: (context) => Center(
+                                            child: ExpressiveLoadingIndicator(
+                                          color: colorTheme.primary,
                                         )),
                                       );
                                       try {

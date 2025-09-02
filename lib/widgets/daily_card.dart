@@ -33,7 +33,8 @@ class DailyCard extends StatelessWidget {
     final tempUnit = context.watch<UnitSettingsNotifier>().tempUnit;
     final colorTheme = Theme.of(context).colorScheme;
 
-    final isShowFrog = context.read<UnitSettingsNotifier>().showFrog;
+    final isDarkCards =
+        context.read<UnitSettingsNotifier>().useDarkBackgroundCards == true;
 
     num convert(num celsius) => tempUnit == "Fahrenheit"
         ? UnitConverter.celsiusToFahrenheit(celsius.toDouble()).round()
@@ -60,173 +61,165 @@ class DailyCard extends StatelessWidget {
       }
     }
 
-    return Container(
-      decoration: BoxDecoration(
-        color: Color(selectedContainerBgIndex),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.15),
-            spreadRadius: 1,
-            blurRadius: 1,
-            offset: Offset(0, 1),
-          ),
-        ],
-      ),
-      padding: EdgeInsets.only(
-        top: 15,
-        bottom: 0,
-      ),
-      margin: EdgeInsets.fromLTRB(12.7, 0, 12.7, 0),
-      child: Column(
-        children: [
-          Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-            SizedBox(
-              width: 20,
-            ),
-            Icon(
-              Symbols.calendar_month,
-              weight: 500,
-              color: colorTheme.secondary,
-              size: 21,
-              fill: 1,
-            ),
-            SizedBox(
-              width: 5,
-            ),
-            Text("daily_forecast".tr(),
-                style: TextStyle(
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12.7),
+        child: Material(
+          elevation: 1,
+          borderRadius: BorderRadius.circular(20),
+          color: Color(selectedContainerBgIndex),
+          child: Container(
+            padding: EdgeInsets.only(top: 15, bottom: 0),
+            child: Column(
+              children: [
+                Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Icon(
+                    Symbols.calendar_month,
+                    weight: 500,
                     color: colorTheme.secondary,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600)),
-          ]),
-          Divider(
-            height: 14,
-            color: Colors.transparent,
-          ),
-          SizedBox(
-            height: 213,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              physics: BouncingScrollPhysics(),
-              itemCount: validDailyData.length,
-              separatorBuilder: (context, index) => const SizedBox(width: 5),
-              itemBuilder: (context, index) {
-                final item = validDailyData[index];
-                final time = DateTime.parse(item["time"]);
-                final tempMax = convert(item["tempMax"]);
-                final tempMin = convert(item["tempMin"]);
-                final code = item["weatherCode"];
-                final precipProb = item["precipProb"];
+                    size: 21,
+                    fill: 1,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text("daily_forecast".tr(),
+                      style: TextStyle(
+                          color: colorTheme.secondary,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600)),
+                ]),
+                Divider(
+                  height: 14,
+                  color: Colors.transparent,
+                ),
+                SizedBox(
+                  height: 213,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    physics: BouncingScrollPhysics(),
+                    itemCount: validDailyData.length,
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(width: 5),
+                    itemBuilder: (context, index) {
+                      final item = validDailyData[index];
+                      final time = DateTime.parse(item["time"]);
+                      final tempMax = convert(item["tempMax"]);
+                      final tempMin = convert(item["tempMin"]);
+                      final code = item["weatherCode"];
+                      final precipProb = item["precipProb"];
 
-                EdgeInsets itemMargin = EdgeInsets.only(
-                  left: index == 0 ? 15 : 0,
-                  right: index == dailyTime.length - 1 ? 15 : 0,
-                );
+                      EdgeInsets itemMargin = EdgeInsets.only(
+                        left: index == 0 ? 15 : 0,
+                        right: index == dailyTime.length - 1 ? 15 : 0,
+                      );
 
-                return RepaintBoundary(
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => DailyForecastPage(
-                            initialSelectedDate: time,
+                      return RepaintBoundary(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => DailyForecastPage(
+                                  initialSelectedDate: time,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            width: 68,
+                            margin: itemMargin,
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(99),
+                                color: Theme.of(context).brightness ==
+                                        Brightness.light
+                                    ? colorTheme.surfaceContainer
+                                    : isDarkCards
+                                        ? colorTheme.surfaceContainerLow
+                                            .withValues(alpha: 0.6)
+                                        : Color.fromRGBO(0, 0, 0, 0.247)),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Column(
+                                  children: [
+                                    Text("${tempMax.round()}°",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: colorTheme.onSurface,
+                                        )),
+                                    Text("${tempMin.round()}°",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: colorTheme.onSurfaceVariant,
+                                        )),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                SvgPicture.asset(
+                                  WeatherIconMapper.getIcon(code, 1),
+                                  width: 35,
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Column(children: [
+                                  Text(
+                                      precipProb == 0.0000001
+                                          ? '--'
+                                          : "${precipProb.round()}%",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: colorTheme.primary,
+                                        fontWeight: FontWeight.w600,
+                                      )),
+                                  SizedBox(
+                                    height: 3,
+                                  ),
+                                  Text(
+                                    getDayLabel(time, index, utcOffsetSeconds)
+                                        .toLowerCase()
+                                        .tr(),
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Text(
+                                    getLocalizedDateFormat(
+                                        time, Localizations.localeOf(context)),
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      color: colorTheme.onSurfaceVariant,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ]),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );
                     },
-                    child: Container(
-                      width: 68,
-                      margin: itemMargin,
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(99),
-                          color:
-                              Theme.of(context).brightness == Brightness.light
-                                  ? colorTheme.surfaceContainer
-                                  : !isShowFrog
-                                      ? colorTheme.surfaceContainerLow
-                                          .withValues(alpha: 0.6)
-                                      : Color.fromRGBO(0, 0, 0, 0.247)),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Column(
-                            children: [
-                              Text("${tempMax.round()}°",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: colorTheme.onSurface,
-                                  )),
-                              Text("${tempMin.round()}°",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: colorTheme.onSurfaceVariant,
-                                  )),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          SvgPicture.asset(
-                            WeatherIconMapper.getIcon(code, 1),
-                            width: 35,
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Column(children: [
-                            Text(
-                                precipProb == 0.0000001
-                                    ? '--'
-                                    : "${precipProb.round()}%",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: colorTheme.primary,
-                                  fontWeight: FontWeight.w600,
-                                )),
-                            SizedBox(
-                              height: 3,
-                            ),
-                            Text(
-                              getDayLabel(time, index, utcOffsetSeconds)
-                                  .toLowerCase()
-                                  .tr(),
-                              style: const TextStyle(
-                                fontSize: 14,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            Text(
-                              getLocalizedDateFormat(
-                                  time, Localizations.localeOf(context)),
-                              style: TextStyle(
-                                fontSize: 13,
-                                color: colorTheme.onSurfaceVariant,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ]),
-                          SizedBox(
-                            height: 10,
-                          ),
-                        ],
-                      ),
-                    ),
                   ),
-                );
-              },
+                ),
+                SizedBox(
+                  height: 14,
+                ),
+              ],
             ),
           ),
-          SizedBox(
-            height: 14,
-          ),
-        ],
-      ),
-    );
+        ));
   }
 }
 

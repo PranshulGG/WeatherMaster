@@ -70,6 +70,9 @@ dependencies:
   settings_tiles:
     path: ./settings_tiles_custom
 
+  expressive_loading_indicator:
+    path: ./expressive_loading_indicator
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

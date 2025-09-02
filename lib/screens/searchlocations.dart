@@ -5,8 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/saved_location.dart';
 import '../services/fetch_data.dart';
-import '../models/loading_me.dart';
 import '../utils/condition_label_map.dart';
+import 'package:expressive_loading_indicator/expressive_loading_indicator.dart';
 
 enum GeoProvider { nominatim, geonames, openMeteo }
 
@@ -270,10 +270,10 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
                   color: Theme.of(context).colorScheme.outline.withOpacity(0.8),
                   width: 2))),
       body: isLoading
-          ? const Center(
-              child: LoaderWidget(
-              size: 60,
-              isContained: false,
+          ? Center(
+              child: ExpressiveLoadingIndicator(
+              activeSize: 48,
+              color: colorTheme.primary,
             ))
           : results.isEmpty
               ? const Center(child: Text(""))
@@ -333,10 +333,10 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
                                         barrierColor: Theme.of(context)
                                             .colorScheme
                                             .surface,
-                                        builder: (context) => const Center(
-                                            child: LoaderWidget(
-                                          size: 60,
-                                          isContained: false,
+                                        builder: (context) => Center(
+                                            child: ExpressiveLoadingIndicator(
+                                          activeSize: 48,
+                                          color: colorTheme.primary,
                                         )),
                                       );
 
@@ -448,10 +448,10 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
                               barrierDismissible: false,
                               barrierColor:
                                   Theme.of(context).colorScheme.surface,
-                              builder: (context) => const Center(
-                                  child: LoaderWidget(
-                                size: 60,
-                                isContained: false,
+                              builder: (context) => Center(
+                                  child: ExpressiveLoadingIndicator(
+                                activeSize: 48,
+                                color: colorTheme.primary,
                               )),
                             );
 

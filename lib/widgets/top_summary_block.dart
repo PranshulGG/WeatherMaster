@@ -554,76 +554,73 @@ class _SummaryCardState extends State<SummaryCard> {
       isSummaryLoaded = true;
     }
 
-    return Container(
-      decoration: BoxDecoration(
-        color: Color(widget.selectedContainerBgIndex),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12.7),
+      child: Material(
+        elevation: 1,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.15),
-            spreadRadius: 1,
-            blurRadius: 1,
-            offset: Offset(0, 1),
+        color: Color(widget.selectedContainerBgIndex),
+        child: Container(
+          padding: EdgeInsets.only(top: 15, bottom: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    isExpanded = !isExpanded;
+                  });
+                },
+                child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                          padding: EdgeInsets.only(left: 20),
+                          child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Symbols.analytics,
+                                  weight: 500,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  size: 21,
+                                  fill: 1,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text("quick_summary".tr(),
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16)),
+                              ])),
+                      Container(
+                        padding: EdgeInsets.only(right: 20),
+                        child: Icon(
+                            isExpanded ? Icons.expand_less : Icons.expand_more),
+                      ),
+                    ]),
+              ),
+              Divider(
+                height: 14,
+                color: Colors.transparent,
+              ),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    isExpanded = !isExpanded;
+                  });
+                },
+                child: buildWeatherSummaryWidget(context, isExpanded),
+              ),
+            ],
           ),
-        ],
-      ),
-      padding: EdgeInsets.only(top: 15, bottom: 10),
-      margin: EdgeInsets.fromLTRB(12.7, 0, 12.7, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                isExpanded = !isExpanded;
-              });
-            },
-            child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                      padding: EdgeInsets.only(left: 20),
-                      child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Symbols.analytics,
-                              weight: 500,
-                              color: Theme.of(context).colorScheme.secondary,
-                              size: 21,
-                              fill: 1,
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text("quick_summary".tr(),
-                                style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 16)),
-                          ])),
-                  Container(
-                    padding: EdgeInsets.only(right: 20),
-                    child: Icon(
-                        isExpanded ? Icons.expand_less : Icons.expand_more),
-                  ),
-                ]),
-          ),
-          Divider(
-            height: 14,
-            color: Colors.transparent,
-          ),
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                isExpanded = !isExpanded;
-              });
-            },
-            child: buildWeatherSummaryWidget(context, isExpanded),
-          ),
-        ],
+        ),
       ),
     );
   }

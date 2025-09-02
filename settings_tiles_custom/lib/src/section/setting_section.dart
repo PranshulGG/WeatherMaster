@@ -38,17 +38,17 @@ class SettingSection extends StatelessWidget {
                 ? const BorderRadius.only(
                     topLeft: Radius.circular(18),
                     topRight: Radius.circular(18),
-                    bottomLeft: Radius.circular(0),
-                    bottomRight: Radius.circular(0),
+                    bottomLeft: Radius.circular(2.6),
+                    bottomRight: Radius.circular(2.6),
                   )
                 : isLast
                     ? const BorderRadius.only(
-                        topLeft: Radius.circular(0),
-                        topRight: Radius.circular(0),
+                        topLeft: Radius.circular(2.6),
+                        topRight: Radius.circular(2.6),
                         bottomLeft: Radius.circular(18),
                         bottomRight: Radius.circular(18),
                       )
-                    : BorderRadius.circular(0);
+                    : BorderRadius.circular(2.6);
 
     return Material(
       color: PrimarySwitch

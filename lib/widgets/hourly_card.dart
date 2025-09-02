@@ -51,161 +51,157 @@ class HourlyCard extends StatelessWidget {
     final scale = MediaQuery.of(context).textScaler.scale(1.0);
     final extraHeight = (scale - 1.0) * 30;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: Color(selectedContainerBgIndex),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12.7),
+      child: Material(
+        elevation: 1,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.15),
-            spreadRadius: 1,
-            blurRadius: 1,
-            offset: Offset(0, 1),
-          ),
-        ],
-      ),
-      padding: EdgeInsets.only(top: 15, bottom: 0),
-      margin: EdgeInsets.fromLTRB(12.7, 0, 12.7, 0),
-      child: Column(
-        children: [
-          Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-            SizedBox(
-              width: 20,
-            ),
-            Icon(
-              Symbols.schedule,
-              weight: 500,
-              color: colorTheme.secondary,
-              size: 21,
-              fill: 1,
-            ),
-            SizedBox(
-              width: 5,
-            ),
-            Text("hourly_forecast".tr(),
-                style: TextStyle(
-                    color: colorTheme.secondary,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600)),
-          ]),
-          Divider(
-            height: 6,
-            color: Colors.transparent,
-          ),
-          SizedBox(
-            height: 98 + extraHeight + 30,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              physics: BouncingScrollPhysics(),
-              itemCount:
-                  startIndex != null ? (48 - startIndex).clamp(0, 48) : 0,
-              itemBuilder: (context, index) {
-                // final time = DateTime.parse(hourlyTime[index]);
-                final dataIndex = startIndex + index;
-                final itemCount =
-                    startIndex != null ? (48 - startIndex).clamp(0, 48) : 0;
+        color: Color(selectedContainerBgIndex),
+        child: Container(
+          padding: EdgeInsets.only(top: 15, bottom: 0),
+          child: Column(
+            children: [
+              Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                SizedBox(
+                  width: 20,
+                ),
+                Icon(
+                  Symbols.schedule,
+                  weight: 500,
+                  color: colorTheme.secondary,
+                  size: 21,
+                  fill: 1,
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Text("hourly_forecast".tr(),
+                    style: TextStyle(
+                        color: colorTheme.secondary,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600)),
+              ]),
+              Divider(
+                height: 6,
+                color: Colors.transparent,
+              ),
+              SizedBox(
+                height: 98 + extraHeight + 30,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  physics: BouncingScrollPhysics(),
+                  itemCount:
+                      startIndex != null ? (48 - startIndex).clamp(0, 48) : 0,
+                  itemBuilder: (context, index) {
+                    // final time = DateTime.parse(hourlyTime[index]);
+                    final dataIndex = startIndex + index;
+                    final itemCount =
+                        startIndex != null ? (48 - startIndex).clamp(0, 48) : 0;
 
-                final isFirst = index == 0;
-                final isLast = index == itemCount - 1;
+                    final isFirst = index == 0;
+                    final isLast = index == itemCount - 1;
 
-                if (dataIndex >= hourlyTime.length) return const SizedBox();
+                    if (dataIndex >= hourlyTime.length) return const SizedBox();
 
-                final forecastLocal = DateTime.parse(hourlyTime[dataIndex]);
+                    final forecastLocal = DateTime.parse(hourlyTime[dataIndex]);
 
-                final roundedDisplayTime = DateTime(
-                  forecastLocal.year,
-                  forecastLocal.month,
-                  forecastLocal.day,
-                  forecastLocal.hour,
-                );
+                    final roundedDisplayTime = DateTime(
+                      forecastLocal.year,
+                      forecastLocal.month,
+                      forecastLocal.day,
+                      forecastLocal.hour,
+                    );
 
-                final hour = timeUnit == '24 hr'
-                    ? "${roundedDisplayTime.hour.toString().padLeft(2, '0')}:00"
-                    : UnitConverter.formatTo12Hour(roundedDisplayTime);
-                final temp = tempUnit == 'Fahrenheit'
-                    ? UnitConverter.celsiusToFahrenheit(
-                            hourlyTemps[dataIndex].toDouble())
-                        .round()
-                    : hourlyTemps[dataIndex].toDouble().round();
-                final code = hourlyWeatherCodes[dataIndex];
-                final precipProb = hourlyPrecpProb[dataIndex] ?? 0.1111111;
+                    final hour = timeUnit == '24 hr'
+                        ? "${roundedDisplayTime.hour.toString().padLeft(2, '0')}:00"
+                        : UnitConverter.formatTo12Hour(roundedDisplayTime);
+                    final temp = tempUnit == 'Fahrenheit'
+                        ? UnitConverter.celsiusToFahrenheit(
+                                hourlyTemps[dataIndex].toDouble())
+                            .round()
+                        : hourlyTemps[dataIndex].toDouble().round();
+                    final code = hourlyWeatherCodes[dataIndex];
+                    final precipProb = hourlyPrecpProb[dataIndex] ?? 0.1111111;
 
-                final isDay = isHourDuringDaylightOptimized(roundedDisplayTime);
+                    final isDay =
+                        isHourDuringDaylightOptimized(roundedDisplayTime);
 
-                return Container(
-                  clipBehavior: Clip.none,
-                  width: 56,
-                  margin: EdgeInsets.only(
-                      right: isLast ? 10 : 0, left: isFirst ? 10 : 0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 3),
-                      Stack(
-                        clipBehavior: Clip.none,
-                        alignment: Alignment.center,
+                    return Container(
+                      clipBehavior: Clip.none,
+                      width: 56,
+                      margin: EdgeInsets.only(
+                          right: isLast ? 10 : 0, left: isFirst ? 10 : 0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Positioned(
+                          const SizedBox(height: 3),
+                          Stack(
+                            clipBehavior: Clip.none,
+                            alignment: Alignment.center,
+                            children: [
+                              Positioned(
 
-                              // bottom: -10,
-                              child: SvgPicture.string(
-                            buildNowHourSvg(isFirst
-                                ? colorTheme.tertiary
-                                : Color(selectedContainerBgIndex)),
-                            width: 42,
-                            height: 42,
-                          )),
-                          Transform(
-                            transform: Matrix4.translationValues(
-                                0, isFirst ? 0 : 0, 0),
-                            child: Text(
-                              "${temp}°",
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: isFirst
-                                    ? colorTheme.onTertiary
-                                    : colorTheme.onSurface,
+                                  // bottom: -10,
+                                  child: SvgPicture.string(
+                                buildNowHourSvg(isFirst
+                                    ? colorTheme.tertiary
+                                    : Color(selectedContainerBgIndex)),
+                                width: 42,
+                                height: 42,
+                              )),
+                              Transform(
+                                transform: Matrix4.translationValues(
+                                    0, isFirst ? 0 : 0, 0),
+                                child: Text(
+                                  "${temp}°",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: isFirst
+                                        ? colorTheme.onTertiary
+                                        : colorTheme.onSurface,
+                                  ),
+                                  textHeightBehavior: TextHeightBehavior(
+                                      applyHeightToFirstAscent: false,
+                                      applyHeightToLastDescent: false),
+                                ),
                               ),
-                              textHeightBehavior: TextHeightBehavior(
-                                  applyHeightToFirstAscent: false,
-                                  applyHeightToLastDescent: false),
-                            ),
+                            ],
                           ),
+                          Text(
+                              precipProb == 0.1111111
+                                  ? '--%'
+                                  : precipProb > 10
+                                      ? "${precipProb.round()}%"
+                                      : "‎",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 12.5,
+                                color: colorTheme.primary,
+                              )),
+                          SvgPicture.asset(
+                            WeatherIconMapper.getIcon(code, isDay ? 1 : 0),
+                            width: 26,
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(hour,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: colorTheme.onSurfaceVariant,
+                              )),
                         ],
                       ),
-                      Text(
-                          precipProb == 0.1111111
-                              ? '--%'
-                              : precipProb > 10
-                                  ? "${precipProb.round()}%"
-                                  : "‎",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 12.5,
-                            color: colorTheme.primary,
-                          )),
-                      SvgPicture.asset(
-                        WeatherIconMapper.getIcon(code, isDay ? 1 : 0),
-                        width: 26,
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(hour,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: colorTheme.onSurfaceVariant,
-                          )),
-                    ],
-                  ),
-                );
-              },
-            ),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

@@ -417,57 +417,52 @@ class _ShowInsightsState extends State<ShowInsights> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      margin: const EdgeInsets.fromLTRB(12.7, 0, 12.7, 0),
-      decoration: BoxDecoration(
-        color: Color(widget.selectedContainerBgIndex),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.15),
-            spreadRadius: 1,
-            blurRadius: 1,
-            offset: Offset(0, 1),
-          ),
-        ],
-      ),
-      constraints: BoxConstraints(minHeight: 65),
-      child: IntrinsicHeight(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              width: 46,
-              height: 46,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child: Center(
-                child: Icon(
-                  iconData,
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
-                ),
-              ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Text(
-                _insight,
-                style: TextStyle(
-                  fontSize: 14.5,
-                  color: Theme.of(context).colorScheme.onSurface,
-                  fontVariations: [
-                    FontVariation('wght', 450),
-                    FontVariation('ROND', 100),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+    final colorTheme = Theme.of(context).colorScheme;
+
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12.7),
+        child: Material(
+            elevation: 1,
+            borderRadius: BorderRadius.circular(20),
+            color: Color(widget.selectedContainerBgIndex),
+            child: Container(
+                padding: EdgeInsets.only(top: 15, bottom: 10 + 8),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Icon(
+                              iconData,
+                              weight: 500,
+                              color: colorTheme.secondary,
+                              size: 21,
+                              fill: 1,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text("insights".tr(),
+                                style: TextStyle(
+                                    color: colorTheme.secondary,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600)),
+                          ]),
+                      Divider(
+                        height: 14,
+                        color: Colors.transparent,
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(left: 20, right: 20),
+                          child: Text(_insight,
+                              style: TextStyle(
+                                fontSize: 14.5,
+                                color: Theme.of(context).colorScheme.onSurface,
+                              )))
+                    ]))));
   }
 }

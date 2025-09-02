@@ -6,12 +6,14 @@ class WeatherConditionAnimationMapper {
     required int weatherCode,
     required int isDay,
     required BuildContext context,
+    bool setFullDisplay = true,
   }) {
     String? animationUrl;
     num? topMain;
     String? secondaryAnimationUrl;
     double? diffHeight;
     bool isSunAnim = false;
+    bool isNightBool = isDay == 0 ? true : false;
 
     switch (weatherCode) {
       case 0:
@@ -124,7 +126,11 @@ class WeatherConditionAnimationMapper {
             : -MediaQuery.of(context).padding.top - (topMain ?? 0),
         left: isSunAnim ? -MediaQuery.of(context).size.width * 0.12 : 0,
         right: 0,
-        height: 300,
+        height: (isSunAnim == true && !isNightBool)
+            ? 300
+            : setFullDisplay
+                ? MediaQuery.of(context).size.height
+                : 300,
         child: Stack(
           clipBehavior: Clip.none,
           children: [
@@ -161,7 +167,11 @@ class WeatherConditionAnimationMapper {
       top: -MediaQuery.of(context).padding.top - (topMain ?? 0),
       left: 0,
       right: 0,
-      height: 300,
+      height: (isSunAnim == true && !isNightBool)
+          ? 300
+          : setFullDisplay
+              ? MediaQuery.of(context).size.height
+              : 300,
       child: RepaintBoundary(
         child: Lottie.asset(
           animationUrl,

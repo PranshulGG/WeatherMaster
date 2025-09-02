@@ -19,6 +19,7 @@ import 'package:material_color_utilities/material_color_utilities.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:animations/animations.dart';
+import 'package:expressive_loading_indicator/expressive_loading_indicator.dart';
 
 // App utilities
 import '../utils/animation_map.dart';
@@ -35,7 +36,6 @@ import '../utils/visual_utils.dart';
 // App models
 import '../models/insights_gen.dart';
 import '../models/layout_config.dart';
-import '../models/loading_me.dart';
 import '../models/saved_location.dart';
 
 // App screens
@@ -152,8 +152,6 @@ class _WeatherHomeState extends State<WeatherHome> {
 
       layoutProvider.loadLayout();
 
-      showInsightsRandomly = Random().nextInt(100) < 40;
-
       if (PreferencesHelper.getBool("showNewVerNotification") ?? true) {
         checkForUpdatesOnStart(context);
       }
@@ -263,7 +261,7 @@ class _WeatherHomeState extends State<WeatherHome> {
       final lastUpdateTime = DateTime.tryParse(lastUpdated);
       final now = DateTime.now();
       if (lastUpdateTime != null &&
-          now.difference(lastUpdateTime).inMinutes < 45) {
+          now.difference(lastUpdateTime).inMinutes < 450) {
         _isAppFullyLoaded = true;
       } else {
         checkAndUpdateHomeLocation();
@@ -532,6 +530,7 @@ class _WeatherHomeState extends State<WeatherHome> {
     );
 
     final isShowFrog = context.read<UnitSettingsNotifier>().showFrog;
+    final colorTheme = Theme.of(context).colorScheme;
 
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
@@ -556,12 +555,11 @@ class _WeatherHomeState extends State<WeatherHome> {
           Positioned.fill(
             child: Container(
               color: Theme.of(context).colorScheme.surface,
-              child: const Center(
-                child: LoaderWidget(
-                  size: 60,
-                  isContained: false,
-                ),
-              ),
+              child: Center(
+                  child: ExpressiveLoadingIndicator(
+                activeSize: 48,
+                color: colorTheme.primary,
+              )),
             ),
           ),
         ValueListenableBuilder<bool>(
@@ -637,6 +635,7 @@ class _WeatherHomeState extends State<WeatherHome> {
 
   Widget _buildMainBody() {
     final padding = MediaQuery.of(context).padding;
+    final colorTheme = Theme.of(context).colorScheme;
 
     return CustomRefreshIndicator(
       onRefresh: _refreshWeatherData,
@@ -657,7 +656,17 @@ class _WeatherHomeState extends State<WeatherHome> {
                         child: Opacity(
                           opacity: val,
                           child: RepaintBoundary(
-                            child: LoaderWidget(size: 50, isContained: true),
+                            child: Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                color: colorTheme.primaryContainer,
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              child: ExpressiveLoadingIndicator(
+                                color: colorTheme.primary,
+                                activeSize: 48,
+                              ),
+                            ),
                           ),
                         ),
                       )
@@ -914,6 +923,7 @@ class _WeatherHomeState extends State<WeatherHome> {
                 _loadWeatherIconFroggy(
                     weatherCodeFroggy, isDayFroggy, newIndex);
                 maybeUpdateWeatherAnimation(current);
+                showInsightsRandomly = Random().nextInt(100) < 40;
               }
             });
           } else {
@@ -1470,7 +1480,7 @@ class _WeatherHomeState extends State<WeatherHome> {
 
                           if (!isRainThenInsights &&
                               i < visibleBlocks.length - 1) {
-                            children.add(const SizedBox(height: 10));
+                            children.add(const SizedBox(height: 12));
                           }
                         }
 

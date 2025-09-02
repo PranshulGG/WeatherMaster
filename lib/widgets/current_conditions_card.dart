@@ -1071,6 +1071,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                           padding: EdgeInsets.only(left: 10, bottom: 12),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
+                            spacing: 2,
                             children: [
                               Text(
                                 widget.currentTotalPrec == 0.0000001
@@ -1392,8 +1393,8 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
             itemCount: gridItems.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 12,
               childAspectRatio: 1,
             ),
             itemBuilder: (context, index) {
