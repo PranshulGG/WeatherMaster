@@ -420,7 +420,7 @@
   "min": "хв.",
   "hr": "год.",
   "just_now": "щойно",
-  "total_precip_sub": "Total rain for the day",
+  "total_precip_sub": "Загальна кількість опадів за день",
   "precip_info": "Rain amount describes how much rain is expected, typically given in millimeters (mm) or inches. It helps indicate the intensity of rainfall — from light showers to heavy downpours.",
   "precip_info_2": "Rain probability shows the chance of precipitation occurring at a given time and location, expressed as a percentage. For example, a 70% chance means rain is likely in that area.",
   "precip_info_3": "Rain duration indicates the total number of hours during the day that rain is expected. This helps estimate how long the weather might stay wet or overcast.",
@@ -553,7 +553,7 @@
   "appearance": "Appearance",
   "appearance_sub": "Themes, animations, and app layout",
   "background_updates_sub": "Widget updates, update interval, and scheduled updates",
-  "animations": "Animations",
+  "animations": "Анімації",
   "layout": "Layout",
   "use_expressive_palette": "Use expressive palette",
   "new_version_snack_message": "Show a snack message when a new version is released"
