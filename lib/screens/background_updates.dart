@@ -160,9 +160,9 @@ class _BackgroundUpdatesPageState extends State<BackgroundUpdatesPage> {
                         setState(() {});
                       }),
                   SettingActionTile(
-                    title: Text("Background updates not working?"),
-                    description: Text(
-                        "Some device vendors restrict apps in the background. Check dontkillmyapp.com for steps to fix this."),
+                    title: Text("background_updates_not_working".tr()),
+                    description:
+                        Text("background_updates_not_working_sub".tr()),
                     onTap: () {
                       openLink('https://dontkillmyapp.com/');
                     },

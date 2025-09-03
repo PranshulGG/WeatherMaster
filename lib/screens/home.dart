@@ -767,7 +767,7 @@ class _WeatherHomeState extends State<WeatherHome> {
               .get(98)
           : CorePalette.of(const Color.fromARGB(255, 58, 77, 141).toARGB32())
               .primary
-              .get(useDarkerBackground ? 2 : 5),
+              .get(useDarkerBackground ? 2 : 4),
 
       // fog
       isLight

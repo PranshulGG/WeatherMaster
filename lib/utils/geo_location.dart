@@ -51,7 +51,6 @@ class NativeLocation {
 }
 
 class LocationPermissionHelper {
-  /// Shows SnackBars if either check fails
   static Future<bool> checkServicesAndPermission(BuildContext context) async {
     final serviceStatus = await Permission.location.serviceStatus;
     if (serviceStatus != ServiceStatus.enabled) {
@@ -61,18 +60,19 @@ class LocationPermissionHelper {
       return false;
     }
 
-    var status = await Permission.location.status;
-    if (!status.isGranted) {
-      status = await Permission.location.request();
-      if (!status.isGranted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Location permission denied')),
-        );
-        return false;
-      }
+    var status = await Permission.locationWhenInUse.status;
+
+    if (!status.isGranted && !status.isLimited) {
+      status = await Permission.locationWhenInUse.request();
     }
 
-    // All good
-    return true;
+    if (status.isGranted || status.isLimited) {
+      return true;
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Location permission denied')),
+    );
+    return false;
   }
 }

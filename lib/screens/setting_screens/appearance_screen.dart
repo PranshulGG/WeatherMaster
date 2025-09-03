@@ -203,7 +203,7 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
                                       "CustomMaterialColor"),
                                   borderRadius: BorderRadius.circular(50),
                                   border: Border.all(
-                                      width: 1, color: Colors.grey.shade600)),
+                                      width: 1, color: colorTheme.outline)),
                             ),
                           )
                         : Icon(Symbols.colorize, fill: 1, weight: 500),

@@ -10,6 +10,7 @@ import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import java.util.concurrent.TimeUnit
+import android.os.Bundle
 
 class MainActivity : FlutterActivity() {
 
@@ -20,6 +21,14 @@ class MainActivity : FlutterActivity() {
     private val REQUEST_CODE_POST_NOTIFICATIONS = 1001
 
     private var permissionResultPending: MethodChannel.Result? = null
+
+    private lateinit var locationHelper: LocationHelper
+
+     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        locationHelper = LocationHelper(this)
+    }
 
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
@@ -34,24 +43,24 @@ class MainActivity : FlutterActivity() {
 
 
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, LOCATION_CHANNEL).setMethodCallHandler { call, result ->
-            val helper = LocationHelper(this)
+            
+    
 
             when (call.method) {
-                "getCurrentPosition" -> {
-                    helper.getCurrentPosition(object : LocationHelper.LocationResult  {
-                        override fun onSuccess(latitude: Double, longitude: Double) {
-                            result.success(mapOf(
-                                "latitude" to latitude.toString(),
-                                "longitude" to longitude.toString()
-                            ))
-                        }
+                 "getCurrentPosition" -> {
+                        locationHelper.getCurrentPosition(object : LocationHelper.LocationResult {
+                            override fun onSuccess(latitude: Double, longitude: Double) {
+                                result.success(mapOf(
+                                    "latitude" to latitude.toString(),
+                                    "longitude" to longitude.toString()
+                                ))
+                            }
 
-                        override fun onFailure(error: String) {
-                            // Send error to Flutter as PlatformException
-                            result.error("LOCATION_ERROR", error, null)
-                        }
-                    })
-                }
+                            override fun onFailure(error: String) {
+                                result.error("LOCATION_ERROR", error, null)
+                            }
+                        })
+                    }
 
                 "reverseGeocode" -> {
                     val lat = call.argument<Double>("latitude") ?: 0.0
@@ -129,6 +138,9 @@ class MainActivity : FlutterActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        locationHelper.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
 
         if (requestCode == REQUEST_CODE_POST_NOTIFICATIONS) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
