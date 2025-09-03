@@ -555,5 +555,6 @@
   "background_updates_sub": "Ažuriranja vidžeta, interval ažuriranja i zakazana ažuriranja",
   "animations": "Animacije",
   "layout": "Raspored",
-  "use_expressive_palette": "Koristite ekspresivnu paletu"
+  "use_expressive_palette": "Koristite ekspresivnu paletu",
+  "new_version_snack_message": "Prikaži poruku kada se objavi nova verzija"
 }

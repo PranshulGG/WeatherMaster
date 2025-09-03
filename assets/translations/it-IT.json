@@ -555,5 +555,6 @@
   "background_updates_sub": "Aggiornamenti del widget, intervallo di aggiornamento e aggiornamenti pianificati",
   "animations": "Animazioni",
   "layout": "Disposizione",
-  "use_expressive_palette": "Usa la palette espressiva"
+  "use_expressive_palette": "Usa la palette espressiva",
+  "new_version_snack_message": "Mostra un avviso quando viene rilasciata una nuova versione"
 }

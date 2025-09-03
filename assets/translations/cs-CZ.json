@@ -555,5 +555,6 @@
   "background_updates_sub": "Aktualizace widgetů, interval aktualizací a plánované aktualizace",
   "animations": "Animace",
   "layout": "Uspořádání",
-  "use_expressive_palette": "Použít výrazné palety"
+  "use_expressive_palette": "Použít výrazné palety",
+  "new_version_snack_message": "Zobrazení zprávy po vydání nové verze"
 }

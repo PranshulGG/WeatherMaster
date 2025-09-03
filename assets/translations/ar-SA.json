@@ -555,5 +555,6 @@
   "background_updates_sub": "Widget updates, update interval, and scheduled updates",
   "animations": "الرسوم المتحركة",
   "layout": "التصميم",
-  "use_expressive_palette": "استخدم لوحة الألوان المعبرة"
+  "use_expressive_palette": "استخدم لوحة الألوان المعبرة",
+  "new_version_snack_message": "Show a snack message when a new version is released"
 }

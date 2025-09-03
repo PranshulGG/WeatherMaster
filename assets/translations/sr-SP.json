@@ -555,5 +555,6 @@
   "background_updates_sub": "Ажурирања виџета, интервал ажурирања и заказана ажурирања",
   "animations": "Анимације",
   "layout": "Распоред",
-  "use_expressive_palette": "Користите експресивну палету"
+  "use_expressive_palette": "Користите експресивну палету",
+  "new_version_snack_message": "Прикажи поруку када се објави нова верзија"
 }

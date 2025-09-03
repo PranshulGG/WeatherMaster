@@ -547,13 +547,14 @@
   "two_days_forecast_only": "Previsão de apenas 2 dias",
   "set_as_default": "Definir como padrão",
   "system_font": "Sistema",
-  "use_ai_for_summary": "Use AI for summary",
-  "use_ai_for_summary_sub": "GPT-4o Mini generates summaries of hourly, daily, and current weather, refreshing every 2 hours",
-  "restart_for_changes": "Restart to apply changes",
-  "appearance": "Appearance",
-  "appearance_sub": "Themes, animations, and app layout",
-  "background_updates_sub": "Widget updates, update interval, and scheduled updates",
-  "animations": "Animations",
+  "use_ai_for_summary": "Use IA para resumo",
+  "use_ai_for_summary_sub": "O GPT-4o Mini gera resumos de clima por hora, diariamente e atual, atualizando a cada 2 horas",
+  "restart_for_changes": "Reinicie para aplicar as alterações",
+  "appearance": "Aparência",
+  "appearance_sub": "Temas, animações e layout do aplicativo",
+  "background_updates_sub": "Atualizações de widgets, intervalo de atualização e atualizações agendadas",
+  "animations": "Animações",
   "layout": "Layout",
-  "use_expressive_palette": "Use expressive palette"
+  "use_expressive_palette": "Use paleta expressiva",
+  "new_version_snack_message": "Mostrar um biscoito quando uma nova versão for lançada"
 }
