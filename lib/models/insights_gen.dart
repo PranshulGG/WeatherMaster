@@ -517,7 +517,7 @@ class _ShowInsightsState extends State<ShowInsights> {
             borderRadius: BorderRadius.circular(20),
             color: Color(widget.selectedContainerBgIndex),
             child: Container(
-                padding: EdgeInsets.only(top: 15, bottom: 10 + 8),
+                padding: EdgeInsets.only(top: 15, bottom: 10 + 5),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -544,7 +544,7 @@ class _ShowInsightsState extends State<ShowInsights> {
                                     fontWeight: FontWeight.w600)),
                           ]),
                       Divider(
-                        height: 14,
+                        height: 10,
                         color: Colors.transparent,
                       ),
                       Padding(

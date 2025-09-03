@@ -7,6 +7,7 @@ import '../services/notificationservice_native.dart';
 import '../services/widget_service.dart';
 import 'package:flutter/services.dart';
 import '../screens/worker_log_page.dart';
+import '../utils/open_links.dart';
 
 class BackgroundUpdatesPage extends StatefulWidget {
   const BackgroundUpdatesPage({super.key});
@@ -158,6 +159,14 @@ class _BackgroundUpdatesPageState extends State<BackgroundUpdatesPage> {
                             'showNewVerNotification', value);
                         setState(() {});
                       }),
+                  SettingActionTile(
+                    title: Text("Background updates not working?"),
+                    description: Text(
+                        "Some device vendors restrict apps in the background. Check dontkillmyapp.com for steps to fix this."),
+                    onTap: () {
+                      openLink('https://dontkillmyapp.com/');
+                    },
+                  ),
                   SettingActionTile(
                     title: Text(
                       'scheduled_updates'.tr(),
