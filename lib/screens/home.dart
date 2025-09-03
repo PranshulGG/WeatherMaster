@@ -851,10 +851,10 @@ class _WeatherHomeState extends State<WeatherHome> {
 
             if (_cachedWeatherCode != weatherCode || _cachedIsDay != isDay) {
               weatherAnimationWidget = WeatherConditionAnimationMapper.build(
-                weatherCode: weatherCode,
-                isDay: isDay,
-                context: context,
-              );
+                  weatherCode: weatherCode,
+                  isDay: isDay,
+                  context: context,
+                  setFullDisplay: !isShowFrog);
 
               _cachedWeatherCode = weatherCode;
               _cachedIsDay = isDay;

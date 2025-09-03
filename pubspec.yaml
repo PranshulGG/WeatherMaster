@@ -112,6 +112,17 @@ flutter:
           weight: 600
         - asset: assets/fonts/nato-Bold.ttf
           weight: 700
+
+    - family: FlexFontEn
+      fonts:
+        - asset: assets/fonts/flex-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/flex-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/flex-Medium.ttf
+          weight: 600
+        - asset: assets/fonts/flex-Bold.ttf
+          weight: 700
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

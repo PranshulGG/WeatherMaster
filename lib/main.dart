@@ -236,7 +236,8 @@ class MyApp extends StatelessWidget {
             ? ColorScheme.fromSeed(
                 seedColor: themeController.seedColor ?? Colors.blue,
                 brightness: Brightness.light,
-                dynamicSchemeVariant: DynamicSchemeVariant.expressive)
+                dynamicSchemeVariant: DynamicSchemeVariant.expressive,
+              )
             : ColorScheme.fromSeed(
                 seedColor: themeController.seedColor ?? Colors.blue,
                 brightness: Brightness.light,
@@ -245,17 +246,25 @@ class MyApp extends StatelessWidget {
       ).copyWith(
         textTheme: ThemeData.light()
             .textTheme
-            .apply(fontFamily: 'DefaultFont')
+            .apply(
+              fontFamily: context.locale.languageCode == 'en'
+                  ? 'FlexFontEn'
+                  : 'DefaultFont',
+            )
             .copyWith(
               bodyLarge: TextStyle(
-                fontSize: 15.3,
+                fontSize: context.locale.languageCode == 'en' ? null : 15.3,
                 color: colorThemeLight.onSurface,
-                fontFamily: 'DefaultFont',
+                fontFamily: context.locale.languageCode == 'en'
+                    ? 'FlexFontEn'
+                    : 'DefaultFont',
               ),
               bodyMedium: TextStyle(
-                fontSize: 13.3,
+                fontSize: context.locale.languageCode == 'en' ? null : 13.3,
                 color: colorThemeLight.onSurface,
-                fontFamily: 'DefaultFont',
+                fontFamily: context.locale.languageCode == 'en'
+                    ? 'FlexFontEn'
+                    : 'DefaultFont',
               ),
             ),
         highlightColor: Colors.transparent,
@@ -275,7 +284,8 @@ class MyApp extends StatelessWidget {
             ? ColorScheme.fromSeed(
                 seedColor: themeController.seedColor ?? Colors.blue,
                 brightness: Brightness.dark,
-                dynamicSchemeVariant: DynamicSchemeVariant.expressive)
+                dynamicSchemeVariant: DynamicSchemeVariant.expressive,
+              )
             : ColorScheme.fromSeed(
                 seedColor: themeController.seedColor ?? Colors.blue,
                 brightness: Brightness.dark,
@@ -284,17 +294,29 @@ class MyApp extends StatelessWidget {
       ).copyWith(
         textTheme: ThemeData.dark()
             .textTheme
-            .apply(fontFamily: 'DefaultFont')
+            .apply(
+              fontFamily: context.locale.languageCode == 'en'
+                  ? 'FlexFontEn'
+                  : 'DefaultFont',
+            )
             .copyWith(
               bodyLarge: TextStyle(
-                fontSize: 15.3,
+                fontSize: context.locale.languageCode == 'en'
+                    ? null
+                    : 15.3, // no use on en
                 color: colorThemeDark.onSurface,
-                fontFamily: 'DefaultFont',
+                fontFamily: context.locale.languageCode == 'en'
+                    ? 'FlexFontEn'
+                    : 'DefaultFont',
               ),
               bodyMedium: TextStyle(
-                fontSize: 13.3,
+                fontSize: context.locale.languageCode == 'en'
+                    ? null
+                    : 13.3, // no use on en AND CHANGE THE FULL SCREEN ANIMATIONS ONLY FOR NON FROGGY
                 color: colorThemeDark.onSurface,
-                fontFamily: 'DefaultFont',
+                fontFamily: context.locale.languageCode == 'en'
+                    ? 'FlexFontEn'
+                    : 'DefaultFont',
               ),
             ),
         highlightColor: Colors.transparent,

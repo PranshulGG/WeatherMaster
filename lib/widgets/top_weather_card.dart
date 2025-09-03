@@ -411,8 +411,8 @@ class _WeatherTopCardStateVertical extends State<WeatherTopCardVertical> {
                     child: SvgPicture.asset(
                       WeatherIconMapper.getIcon(
                           widget.currentWeatherIconCode, widget.currentisDay),
-                      width: 48,
-                      height: 48,
+                      width: 52,
+                      height: 52,
                     ),
                   ),
                 ],

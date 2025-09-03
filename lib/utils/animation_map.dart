@@ -6,7 +6,7 @@ class WeatherConditionAnimationMapper {
     required int weatherCode,
     required int isDay,
     required BuildContext context,
-    bool setFullDisplay = true,
+    bool setFullDisplay = false,
   }) {
     String? animationUrl;
     num? topMain;
@@ -126,7 +126,8 @@ class WeatherConditionAnimationMapper {
             : -MediaQuery.of(context).padding.top - (topMain ?? 0),
         left: isSunAnim ? -MediaQuery.of(context).size.width * 0.12 : 0,
         right: 0,
-        height: (isSunAnim == true && !isNightBool)
+        height: (isSunAnim == true && !isNightBool ||
+                secondaryAnimationUrl.contains('cloudy_background.json'))
             ? 300
             : setFullDisplay
                 ? MediaQuery.of(context).size.height
