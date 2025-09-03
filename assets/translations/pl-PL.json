@@ -550,10 +550,11 @@
   "use_ai_for_summary": "Używaj AI do automatycznych opisów pogody",
   "use_ai_for_summary_sub": "GPT-4o Mini co 2 godziny tworzy skrócony opis pogody bieżącej, godzinowej i dziennej.",
   "restart_for_changes": "Uruchom ponownie by zastosować zmiany",
-  "appearance": "Appearance",
-  "appearance_sub": "Themes, animations, and app layout",
-  "background_updates_sub": "Widget updates, update interval, and scheduled updates",
-  "animations": "Animations",
-  "layout": "Layout",
-  "use_expressive_palette": "Use expressive palette"
+  "appearance": "Wygląd",
+  "appearance_sub": "Motywy, animacje i układ aplikacji",
+  "background_updates_sub": "Aktualizacje widżetów, częstotliwość aktualizacji i aktualizacje zaplanowane",
+  "animations": "Animacje",
+  "layout": "Układ",
+  "use_expressive_palette": "Użyj ekspresyjnej palety",
+  "new_version_snack_message": "Show a snack message when a new version is released"
 }
