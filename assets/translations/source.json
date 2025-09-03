@@ -556,5 +556,18 @@
   "animations": "Animations",
   "layout": "Layout",
   "use_expressive_palette": "Use expressive palette",
-  "new_version_snack_message": "Show a snack message when a new version is released"
+  "new_version_snack_message": "Show a snack message when a new version is released",
+  "insights_sub_38": "The air will feel humid and sticky.",
+  "insights_sub_39": "The air will feel comfortable and pleasant.",
+  "insights_sub_40": "Expect dry and crisp air, very refreshing.",
+  "insights_sub_41": "Very hot — light clothing is best.",
+  "insights_sub_42": "Mild and warm — shorts or a t-shirt should be fine.",
+  "insights_sub_43": "Cool weather — a jacket or sweater will help.",
+  "insights_sub_44": "Cold conditions — bundle up with a coat.",
+  "insights_sub_45": "Thick fog expected, with very low visibility.",
+  "insights_sub_46": "Some mist or haze may reduce visibility at times.",
+  "insights_sub_47": "Good visibility all day — clear conditions.",
+  "insights_sub_48": "Extreme heat possible — may approach record highs.",
+  "insights_sub_49": "Very cold weather expected — possibly record lows.",
+  "insights_sub_50": "Temperatures are within the usual range — no records expected."
 }

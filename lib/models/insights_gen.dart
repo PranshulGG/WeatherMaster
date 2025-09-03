@@ -60,6 +60,10 @@ class _ShowInsightsState extends State<ShowInsights> {
       MapEntry(_cloudPatternInsight, Symbols.cloud),
       MapEntry(_precipitationWindowInsight, Symbols.rainy),
       MapEntry(_randomFunFact, Symbols.fact_check),
+      MapEntry(_comfortIndexInsight, Symbols.spa),
+      MapEntry(_clothingInsight, Symbols.checkroom),
+      MapEntry(_visibilityInsight, Symbols.visibility),
+      MapEntry(_recordInsight, Symbols.emoji_events),
     ];
 
     final random = Random();
@@ -413,6 +417,93 @@ class _ShowInsightsState extends State<ShowInsights> {
       return "insights_sub_36".tr();
     }
     return "insights_sub_37".tr();
+  }
+
+  String _comfortIndexInsight() {
+    final dewPoints = widget.hourlyData
+        .map((d) => d['dew_point_2m'] ?? 0)
+        .cast<num>()
+        .toList();
+    final avgDew = dewPoints.reduce((a, b) => a + b) / dewPoints.length;
+
+    if (PreferencesHelper.getBool('useFroggyInsights') == true) {
+      if (avgDew >= 20) {
+        return "Sticky air coming... not great for hopping, feels swampy ~ froggy :3";
+      } else if (avgDew >= 13) {
+        return "Comfortable air... just right for sitting around ~ froggy :3";
+      }
+      return "Dry air... crisp and comfy, good for hopping ~ froggy :3";
+    }
+
+    if (avgDew >= 20) return "insights_sub_38".tr();
+    if (avgDew >= 13) return "insights_sub_39".tr();
+    return "insights_sub_40".tr();
+  }
+
+  String _clothingInsight() {
+    final temps = widget.dailyData
+        .map((d) => d['temperature_2m_max'] ?? 0)
+        .cast<num>()
+        .toList();
+    final avgTemp = temps.reduce((a, b) => a + b) / temps.length;
+
+    if (PreferencesHelper.getBool('useFroggyInsights') == true) {
+      if (avgTemp >= 30) {
+        return "Too hot... better wear less or just chill in the pond ~ froggy :3";
+      } else if (avgTemp >= 20) {
+        return "Shorts weather! I’d just wear nothing... well, I’m a frog ~ froggy :3";
+      } else if (avgTemp >= 10) {
+        return "Might need a jacket if you’re not slimy like me ~ froggy :3";
+      }
+      return "Cold days... grab a coat, or find a warm rock ~ froggy :3";
+    }
+
+    if (avgTemp >= 30) return "insights_sub_41".tr();
+    if (avgTemp >= 20) return "insights_sub_42".tr();
+    if (avgTemp >= 10) return "insights_sub_43".tr();
+    return "insights_sub_44".tr();
+  }
+
+  String _visibilityInsight() {
+    final visibilities = widget.hourlyData
+        .map((d) => d['visibility'] ?? 10000) // meters
+        .cast<num>()
+        .toList();
+    final minVis = visibilities.reduce(min);
+
+    if (PreferencesHelper.getBool('useFroggyInsights') == true) {
+      if (minVis < 500) {
+        return "Foggy mornings ahead... hard to see bugs, gotta listen instead ~ froggy :3";
+      } else if (minVis < 2000) {
+        return "Bit misty... the pond looks magical though ~ froggy :3";
+      }
+      return "Clear skies, I can see far across the reeds ~ froggy :3";
+    }
+
+    if (minVis < 500) return "insights_sub_45".tr();
+    if (minVis < 2000) return "insights_sub_46".tr();
+    return "insights_sub_47".tr();
+  }
+
+  String _recordInsight() {
+    final temps = widget.dailyData
+        .map((d) => d['temperature_2m_max'] ?? 0)
+        .cast<num>()
+        .toList();
+    final maxTemp = temps.reduce(max);
+
+    if (PreferencesHelper.getBool('useFroggyInsights') == true) {
+      if (maxTemp >= 40) {
+        return "Woah... this could be record-breaking heat! I’m diving deep ~ froggy :3";
+      } else if (maxTemp <= -10) {
+        return "Brr... record cold maybe? not fun for my toes ~ froggy :3";
+      }
+      return "Weather looks normal, no records here ~ froggy :3";
+    }
+
+    if (maxTemp >= 40) return "insights_sub_48".tr();
+    if (maxTemp <= -10) return "insights_sub_49".tr();
+    return "insights_sub_50".tr();
   }
 
   @override
