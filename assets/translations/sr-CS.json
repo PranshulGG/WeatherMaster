@@ -571,5 +571,6 @@
   "insights_sub_49": "Očekuje se veoma hladno vreme — moguće rekordno niske temperature.",
   "insights_sub_50": "Temperature su u uobičajenom rasponu — ne očekuju se rekordi.",
   "background_updates_not_working": "Ažuriranja u pozadini ne rade?",
-  "background_updates_not_working_sub": "Neki proizvođači uređaja ograničavaju aplikacije u pozadini. Posetite dontkillmyapp.com za korake kako da rešite ovaj problem."
+  "background_updates_not_working_sub": "Neki proizvođači uređaja ograničavaju aplikacije u pozadini. Posetite dontkillmyapp.com za korake kako da rešite ovaj problem.",
+  "about_weathermaster_sub": "Changelog, Version, License, and More"
 }
