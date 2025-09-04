@@ -59,117 +59,130 @@ class WeatherService {
         'https://api.weatherapi.com/v1/astronomy.json?key=${dotenv.env['API_KEY_WEATHERAPI']!.toString()}&q=$lat,$lon');
 
     // Prepare list of HTTP requests
-    final requests = <Future<http.Response>>[
-      http.get(uri),
-      http.get(airQualityUri),
-      http.get(astronomyUri),
-    ];
+    try {
+      final requests = <Future<http.Response>>[
+        http.get(uri),
+        http.get(airQualityUri),
+        http.get(astronomyUri),
+      ];
 
-    final responses = await Future.wait(requests);
+      final responses = await Future.wait(requests);
 
-    // Parse responses
-    final weatherData = json.decode(responses[0].body) as Map<String, dynamic>;
-    final airQualityData =
-        json.decode(responses[1].body) as Map<String, dynamic>;
-    final astronomyData =
-        json.decode(responses[2].body) as Map<String, dynamic>;
+      for (var response in responses) {
+        if (response.statusCode < 200 || response.statusCode >= 300) {
+          throw Exception(
+              'HTTP request failed with status: ${response.statusCode}');
+        }
+      }
+      // Parse responses
+      final weatherData =
+          json.decode(responses[0].body) as Map<String, dynamic>;
+      final airQualityData =
+          json.decode(responses[1].body) as Map<String, dynamic>;
+      final astronomyData =
+          json.decode(responses[2].body) as Map<String, dynamic>;
 
-    // Check if we need fallback data for missing fields
-    Map<String, dynamic> finalWeatherData = weatherData;
-    if (selectedModel != "best_match" && _hasIncompleteData(weatherData)) {
-      finalWeatherData = await _fetchWithFallback(
-          lat, lon, timezone, weatherData, selectedModel);
-    }
-
-    finalWeatherData['current'] = sanitizeCurrent(finalWeatherData['current']);
-    finalWeatherData['hourly'] = sanitizeHourly(finalWeatherData['hourly']);
-    finalWeatherData['daily'] = sanitizeDaily(finalWeatherData['daily']);
-
-    if (finalWeatherData['error'] == true ||
-        airQualityData['error'] == true ||
-        astronomyData['error'] == true) {
-      final reason = finalWeatherData['reason'] ??
-          airQualityData['reason'] ??
-          astronomyData['reason'] ??
-          'Unknown error';
-      if (context != null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            duration: Duration(seconds: 10),
-            content: Text("$reason. Please change your model"),
-            action: SnackBarAction(
-              label: 'Change model',
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const MeteoModelsPage()),
-                );
-              },
-            ),
-          ),
-        );
+      // Check if we need fallback data for missing fields
+      Map<String, dynamic> finalWeatherData = weatherData;
+      if (selectedModel != "best_match" && _hasIncompleteData(weatherData)) {
+        finalWeatherData = await _fetchWithFallback(
+            lat, lon, timezone, weatherData, selectedModel);
       }
 
-      return null;
-    }
+      finalWeatherData['current'] =
+          sanitizeCurrent(finalWeatherData['current']);
+      finalWeatherData['hourly'] = sanitizeHourly(finalWeatherData['hourly']);
+      finalWeatherData['daily'] = sanitizeDaily(finalWeatherData['daily']);
 
-    final combinedDataForView = {
-      ...finalWeatherData,
-      'air_quality': airQualityData,
-      'astronomy': astronomyData,
-    };
+      if (finalWeatherData['error'] == true ||
+          airQualityData['error'] == true ||
+          astronomyData['error'] == true) {
+        final reason = finalWeatherData['reason'] ??
+            airQualityData['reason'] ??
+            astronomyData['reason'] ??
+            'Unknown error';
+        if (context != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              duration: Duration(seconds: 10),
+              content: Text("$reason. Please change your model"),
+              action: SnackBarAction(
+                label: 'Change model',
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const MeteoModelsPage()),
+                  );
+                },
+              ),
+            ),
+          );
+        }
 
-    final nowForView = DateTime.now().toIso8601String();
+        return null;
+      }
 
-    if (isOnlyView) {
-      log("Only viewing data for $key. Not saving to cache.");
-      return {
-        'data': combinedDataForView,
-        'last_updated': nowForView,
-        'from_cache': false,
+      final combinedDataForView = {
+        ...finalWeatherData,
+        'air_quality': airQualityData,
+        'astronomy': astronomyData,
       };
-    }
 
-    final existingJson = box.get(key);
-    if (existingJson != null) {
-      final cachedMap = json.decode(existingJson);
-      final cachedData = cachedMap['data'];
-      final lastUpdated = cachedMap['last_updated'];
+      final nowForView = DateTime.now().toIso8601String();
 
-      if (json.encode(cachedData['current']) ==
-              json.encode(finalWeatherData['current']) &&
-          json.encode(cachedData['air_quality'] ?? {}) ==
-              json.encode(airQualityData) &&
-          json.encode(cachedData['astronomy'] ?? {}) ==
-              json.encode(astronomyData)) {
-        log("Hive: No update needed for $key");
+      if (isOnlyView) {
+        log("Only viewing data for $key. Not saving to cache.");
         return {
-          'data': cachedData,
-          'last_updated': lastUpdated,
-          'from_cache': true,
+          'data': combinedDataForView,
+          'last_updated': nowForView,
+          'from_cache': false,
         };
       }
+
+      final existingJson = box.get(key);
+      if (existingJson != null) {
+        final cachedMap = json.decode(existingJson);
+        final cachedData = cachedMap['data'];
+        final lastUpdated = cachedMap['last_updated'];
+
+        if (json.encode(cachedData['current']) ==
+                json.encode(finalWeatherData['current']) &&
+            json.encode(cachedData['air_quality'] ?? {}) ==
+                json.encode(airQualityData) &&
+            json.encode(cachedData['astronomy'] ?? {}) ==
+                json.encode(astronomyData)) {
+          log("Hive: No update needed for $key");
+          return {
+            'data': cachedData,
+            'last_updated': lastUpdated,
+            'from_cache': true,
+          };
+        }
+      }
+
+      final now = DateTime.now().toIso8601String();
+      final combinedData = {
+        ...finalWeatherData,
+        'air_quality': airQualityData,
+        'astronomy': astronomyData,
+      };
+
+      final wrappedData = {
+        'data': combinedData,
+        'last_updated': now,
+      };
+
+      await box.put(key, json.encode(wrappedData));
+      log("Hive: Updated cache for $key at $now");
+
+      return {
+        'data': combinedData,
+        'last_updated': now,
+        'from_cache': false,
+      };
+    } catch (e) {
+      // This will propagate the error to the caller
+      throw Exception('WeatherService.fetchWeather failed: $e');
     }
-
-    final now = DateTime.now().toIso8601String();
-    final combinedData = {
-      ...finalWeatherData,
-      'air_quality': airQualityData,
-      'astronomy': astronomyData,
-    };
-
-    final wrappedData = {
-      'data': combinedData,
-      'last_updated': now,
-    };
-
-    await box.put(key, json.encode(wrappedData));
-    log("Hive: Updated cache for $key at $now");
-
-    return {
-      'data': combinedData,
-      'last_updated': now,
-      'from_cache': false,
-    };
   }
 
   /// Check if weather data has missing or incomplete fields

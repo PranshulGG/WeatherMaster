@@ -95,47 +95,59 @@ class _ExtendWidgetState extends State<ExtendWidget> {
   Widget build(BuildContext context) {
     final colorTheme = Theme.of(context).colorScheme;
 
-    if (_showLoader) {
-      return Scaffold(
-          body: Center(
-        child: ExpressiveLoadingIndicator(
-          color: colorTheme.primary,
-          activeSize: 48,
-        ),
-      ));
-    }
+    // if (_showLoader) {
+    //   return Scaffold(
+    //       body: Center(
+    //     child: ExpressiveLoadingIndicator(
+    //       color: colorTheme.primary,
+    //       activeSize: 48,
+    //     ),
+    //   ));
+    // }
     return Scaffold(
-        body: CustomScrollView(slivers: [
-      SliverAppBar.large(
-        titleSpacing: 0,
-        automaticallyImplyLeading: false,
-        flexibleSpace: FlexibleSpaceBar(
-          title: Row(
-            spacing: 5,
-            children: [Icon(iconData), Text(extendedTitle)],
-          ),
-          expandedTitleScale: 1.3,
-          titlePadding: EdgeInsets.all(16),
-        ),
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        expandedHeight: 100,
-        scrolledUnderElevation: 1,
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: Icon(
-                Symbols.close,
-                weight: 600,
-              )),
-          SizedBox(width: 5)
-        ],
-      ),
-      SliverToBoxAdapter(
-        child: child,
-      )
-    ]));
+        body: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 500),
+            switchInCurve: Curves.easeIn,
+            switchOutCurve: Curves.easeOut,
+            child: _showLoader
+                ? Center(
+                    key: const ValueKey('loader'),
+                    child: ExpressiveLoadingIndicator(
+                      color: colorTheme.primary,
+                      activeSize: 48,
+                    ),
+                  )
+                : CustomScrollView(key: const ValueKey('content'), slivers: [
+                    SliverAppBar.large(
+                      titleSpacing: 0,
+                      automaticallyImplyLeading: false,
+                      flexibleSpace: FlexibleSpaceBar(
+                        title: Row(
+                          spacing: 5,
+                          children: [Icon(iconData), Text(extendedTitle)],
+                        ),
+                        expandedTitleScale: 1.3,
+                        titlePadding: EdgeInsets.all(16),
+                      ),
+                      backgroundColor: Theme.of(context).colorScheme.surface,
+                      expandedHeight: 100,
+                      scrolledUnderElevation: 1,
+                      actions: [
+                        IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: Icon(
+                              Symbols.close,
+                              weight: 600,
+                            )),
+                        SizedBox(width: 5)
+                      ],
+                    ),
+                    SliverToBoxAdapter(
+                      child: child,
+                    )
+                  ])));
   }
 
   Widget buildHumidityExtended() {

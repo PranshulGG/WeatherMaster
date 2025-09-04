@@ -161,7 +161,7 @@ class TranslationProgressService {
 
     final response = await http.get(
       Uri.parse(
-          'https://api.crowdin.com/api/v2/projects/$projectId/languages/progress?limit=31&offset=0'),
+          'https://api.crowdin.com/api/v2/projects/$projectId/languages/progress?limit=32&offset=0'),
       headers: {
         'Authorization': 'Bearer $apiToken',
         'Content-Type': 'application/json',
@@ -293,6 +293,9 @@ class _LanguageTileState extends State<LanguageTile> {
             title: Text(
               widget.languageName['native']!,
               style: TextStyle(
+                  fontFamily: widget.languageName['native'] == "English"
+                      ? 'FlexFontEn'
+                      : 'DefaultFont',
                   color: _isSelected
                       ? Theme.of(context).colorScheme.onPrimaryContainer
                       : Theme.of(context).colorScheme.onSurface),
@@ -419,6 +422,9 @@ Map<String, String> getLanguageNames(Locale locale) {
   if (lang == 'ca' && country == 'ES') {
     return {'native': 'Català', 'english': 'Catalan'};
   }
+  if (lang == 'bg' && country == 'BG') {
+    return {'native': 'Български', 'english': 'Bulgarian'};
+  }
   if (lang == 'de' && country == 'DE') {
     return {'native': 'Deutsch', 'english': 'German'};
   }
@@ -482,10 +488,10 @@ Map<String, String> getLanguageNames(Locale locale) {
   if (lang == 'sl' && country == 'SI') {
     return {'native': 'Slovenščina', 'english': 'Slovenian'};
   }
-  if (lang == 'sr' && country == 'CS') {
+  if (lang == 'sr' && country == 'SP') {
     return {'native': 'Српски (Ћирилица)', 'english': 'Serbian (Cyrillic)'};
   }
-  if (lang == 'sr' && country == 'SP') {
+  if (lang == 'sr' && country == 'CS') {
     return {'native': 'Српски', 'english': 'Serbian'};
   }
   if (lang == 'sv' && country == 'SE') {
@@ -554,7 +560,8 @@ String getLanguageCodeCrodwin(Locale locale) {
     'tr', // Turkish
     'uk', // Ukrainian
     'vi', // Vietnamese
-    'ca'
+    'ca',
+    'bg'
   ].contains(lang)) {
     return lang;
   }

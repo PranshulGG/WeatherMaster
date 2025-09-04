@@ -40,7 +40,7 @@ class _BackgroundUpdatesPageState extends State<BackgroundUpdatesPage> {
   }
 
   final optionsInterval = {
-    30: "30 ${"minutes".tr()}",
+    15: "30 ${"minutes".tr()}",
     60: "1 ${"hours".tr()}",
     90: "1.5 ${"hours".tr()}",
     120: "2 ${"hours".tr()}",
@@ -151,8 +151,7 @@ class _BackgroundUpdatesPageState extends State<BackgroundUpdatesPage> {
                     title: BatteryOptWidget(), // 0%
                   ),
                   SettingSwitchTile(
-                      title: Text(
-                          "Show a snack message when a new version is released"),
+                      title: Text("new_version_snack_message".tr()),
                       toggled: showNewVerNotification,
                       onChanged: (value) {
                         PreferencesHelper.setBool(

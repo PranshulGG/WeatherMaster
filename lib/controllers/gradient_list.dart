@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../utils/theme.dart';
+import 'package:material_color_utilities/material_color_utilities.dart';
 
 List<LinearGradient> getGradients(
     bool isLight, bool isFroggyLayout, iscurrentDay) {
@@ -16,8 +17,11 @@ List<LinearGradient> getGradients(
             ? iscurrentDay
                 ? LinearGradient(
                     colors: [
-                      Color(paletteWeather.secondary.get(30)),
-                      Color(paletteWeather.secondary.get(15))
+                      Color(CorePalette.of(
+                              const Color.fromARGB(255, 31, 25, 0).toARGB32())
+                          .secondary
+                          .get(30)),
+                      Color(paletteWeather.secondary.get(18))
                     ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
@@ -32,8 +36,11 @@ List<LinearGradient> getGradients(
                     stops: [0, 0.5])
             : LinearGradient(
                 colors: [
-                  Color(paletteWeather.secondary.get(25)),
-                  Color(paletteWeather.secondary.get(20))
+                  Color(CorePalette.of(
+                          const Color.fromARGB(255, 31, 25, 0).toARGB32())
+                      .secondary
+                      .get(30)),
+                  Color(paletteWeather.secondary.get(18))
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -74,7 +81,10 @@ List<LinearGradient> getGradients(
             stops: [0, 0.5],
           )
         : LinearGradient(
-            colors: [const Color.fromARGB(255, 4, 36, 83), Color(0xFF004a76)],
+            colors: [
+              const Color.fromARGB(255, 5, 47, 110),
+              Color.fromARGB(255, 0, 51, 92)
+            ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             stops: [0, 0.5]),
@@ -180,8 +190,8 @@ List<LinearGradient> getGradientsScrolled(
             ? iscurrentDay
                 ? LinearGradient(
                     colors: [
-                      Color(paletteWeather.secondary.get(15)),
-                      Color(paletteWeather.secondary.get(15))
+                      Color(paletteWeather.secondary.get(18)),
+                      Color(paletteWeather.secondary.get(18))
                     ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
@@ -196,8 +206,8 @@ List<LinearGradient> getGradientsScrolled(
                     stops: [0, 0.5])
             : LinearGradient(
                 colors: [
-                  Color(paletteWeather.secondary.get(20)),
-                  Color(paletteWeather.secondary.get(20))
+                  Color(paletteWeather.secondary.get(18)),
+                  Color(paletteWeather.secondary.get(18))
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -239,7 +249,10 @@ List<LinearGradient> getGradientsScrolled(
             stops: [0, 0.5],
           )
         : LinearGradient(
-            colors: [Color(0xFF004a76), Color(0xFF004a76)],
+            colors: [
+              Color.fromARGB(255, 0, 51, 92),
+              Color.fromARGB(255, 0, 51, 92)
+            ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             stops: [0, 0.5]),

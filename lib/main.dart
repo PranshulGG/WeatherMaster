@@ -24,6 +24,7 @@ import 'dart:ui' as ui;
 import 'services/widget_service.dart';
 import 'widget_background.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
+import 'package:home_widget/home_widget.dart';
 
 final CorePalette paletteStartScreen = CorePalette.of(
   const Color.fromARGB(255, 255, 196, 0).toARGB32(),
@@ -32,6 +33,8 @@ final CorePalette paletteStartScreen = CorePalette.of(
 @pragma('vm:entry-point')
 Future<void> workerUpdateWidget() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final dir = await getApplicationDocumentsDirectory();
+  Hive.init(dir.path);
   await updateHomeWidget(null, updatedFromHome: false);
 }
 
@@ -68,6 +71,7 @@ const easySupportedLocales = [
   Locale('zh', 'CN'),
   Locale('zh', 'TW'),
   Locale('ca', 'ES'),
+  Locale('bg', 'BG')
 ];
 
 final flutterSupportedLocales =
@@ -93,6 +97,8 @@ void main() async {
 
   final dir = await getApplicationDocumentsDirectory();
   Hive.init(dir.path);
+
+  await Hive.openBox('changelogs');
 
   // widget------
 

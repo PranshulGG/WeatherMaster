@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/saved_location.dart';
 import '../services/fetch_data.dart';
-import '../utils/condition_label_map.dart';
 import 'package:expressive_loading_indicator/expressive_loading_indicator.dart';
 
 enum GeoProvider { nominatim, geonames, openMeteo }
@@ -75,7 +74,7 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
 
   Future<void> loadSavedProvider() async {
     final prefs = await SharedPreferences.getInstance();
-    final index = prefs.getInt('geo_provider_index') ?? 0;
+    final index = prefs.getInt('geo_provider_index') ?? 1;
     setState(() {
       selectedProvider = GeoProvider.values[index];
     });
@@ -87,6 +86,7 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
   }
 
   Future<void> searchLocation(String input) async {
+    input = input.trim();
     if (input.isEmpty) return;
 
     setState(() {
@@ -172,51 +172,103 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
     setState(() => isLoading = false);
   }
 
-  void openProviderDialog() async {
+  void openProviderSheet() async {
     GeoProvider tempProvider = selectedProvider;
+    final colorTheme = Theme.of(context).colorScheme;
 
-    final confirmed = await showDialog<bool>(
+    final confirmed = await showModalBottomSheet<bool>(
       context: context,
+      showDragHandle: true,
+      isScrollControlled: true,
+      backgroundColor: colorTheme.surfaceContainerLow,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      ),
       builder: (_) {
-        return AlertDialog(
-          title: Text("search_provider".tr()),
-          contentPadding:
-              EdgeInsets.only(left: 0, right: 0, top: 16, bottom: 5),
-          content: StatefulBuilder(
+        return Padding(
+          padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).padding.bottom + 10),
+          child: StatefulBuilder(
             builder: (context, setState) {
               return Column(
                 mainAxisSize: MainAxisSize.min,
-                children: GeoProvider.values.map((provider) {
-                  return RadioListTile<GeoProvider>(
-                    dense: true,
-                    title: Text(
-                      providerLabels[provider]!,
-                      style: TextStyle(fontSize: 15),
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 18),
+                    child: Text(
+                      "search_provider".tr(),
+                      style: TextStyle(fontSize: 22),
                     ),
-                    value: provider,
-                    groupValue: tempProvider,
-                    onChanged: (val) => setState(() => tempProvider = val!),
-                  );
-                }).toList(),
+                  ),
+
+                  SizedBox(height: 15),
+                  ...GeoProvider.values.asMap().entries.map((entry) {
+                    final index = entry.key;
+                    final provider = entry.value;
+                    final isFirst = index == 0;
+                    final isLast = index == GeoProvider.values.length - 1;
+                    final isSelected = tempProvider == provider;
+                    return Padding(
+                      padding:
+                          const EdgeInsets.only(left: 18, right: 18, bottom: 2),
+                      child: ListTile(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: isSelected
+                                ? BorderRadiusGeometry.circular(50)
+                                : BorderRadius.only(
+                                    topRight:
+                                        Radius.circular(isFirst ? 18 : 2.6),
+                                    topLeft:
+                                        Radius.circular(isFirst ? 18 : 2.6),
+                                    bottomLeft:
+                                        Radius.circular(isLast ? 18 : 2.6),
+                                    bottomRight:
+                                        Radius.circular(isLast ? 18 : 2.6))),
+                        tileColor: colorTheme.surfaceContainerLowest,
+                        dense: true,
+                        selected: isSelected,
+                        selectedTileColor: colorTheme.primaryContainer,
+                        title: Text(
+                          providerLabels[provider]!,
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: isSelected
+                                ? colorTheme.onPrimaryContainer
+                                : null,
+                          ),
+                        ),
+                        onTap: () => setState(() => tempProvider = provider),
+                      ),
+                    );
+                  }).toList(),
+                  SizedBox(height: 13),
+                  // Divider(),
+                  // SizedBox(height: 4),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          OutlinedButton(
+                              onPressed: () => Navigator.pop(context, false),
+                              child: Text(
+                                'cancel'.tr(),
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w600),
+                              )),
+                          FilledButton(
+                              onPressed: () => Navigator.pop(context, true),
+                              child: Text(
+                                'save'.tr(),
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w600),
+                              )),
+                        ],
+                      ))
+                ],
               );
             },
           ),
-          actions: [
-            TextButton(
-              child: Text(
-                "cancel".tr(),
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-              ),
-              onPressed: () => Navigator.pop(context, false),
-            ),
-            TextButton(
-              child: Text(
-                "save".tr(),
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-              ),
-              onPressed: () => Navigator.pop(context, true),
-            ),
-          ],
         );
       },
     );
@@ -251,7 +303,7 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
           title: TextField(
             style: TextStyle(fontSize: 16, color: colorTheme.onSurface),
             onChanged: (value) => query = value,
-            onSubmitted: searchLocation,
+            onSubmitted: (value) => searchLocation(value.trim()),
             decoration: InputDecoration(
               border: InputBorder.none,
               focusedBorder: InputBorder.none,
@@ -339,7 +391,6 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
                                           color: colorTheme.primary,
                                         )),
                                       );
-
                                       final location = results[index];
                                       final lat = double.tryParse(
                                               location['lat'] ?? '') ??
@@ -354,17 +405,33 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
                                         city: location['city'] ?? '',
                                         country: location['country'] ?? '',
                                       );
-
-                                      saveLocation(saved);
                                       final cacheKey =
                                           "${saved.city}_${saved.country}"
                                               .toLowerCase()
                                               .replaceAll(' ', '_');
                                       final weatherService = WeatherService();
-                                      await weatherService.fetchWeather(
-                                          lat, lon,
-                                          locationName: cacheKey,
-                                          context: context);
+                                      try {
+                                        await weatherService.fetchWeather(
+                                            lat, lon,
+                                            locationName: cacheKey,
+                                            context: context);
+                                      } catch (e) {
+                                        Navigator.pop(context);
+
+                                        if (context != null) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content:
+                                                  Text('data_fetch_error'.tr()),
+                                              duration: Duration(seconds: 5),
+                                            ),
+                                          );
+                                        }
+                                        return;
+                                      }
+
+                                      saveLocation(saved);
 
                                       final prefs =
                                           await SharedPreferences.getInstance();
@@ -455,13 +522,30 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
                               )),
                             );
 
-                            saveLocation(saved);
                             final cacheKey = "${saved.city}_${saved.country}"
                                 .toLowerCase()
                                 .replaceAll(' ', '_');
                             final weatherService = WeatherService();
-                            await weatherService.fetchWeather(lat, lon,
-                                locationName: cacheKey, context: context);
+                            try {
+                              await weatherService.fetchWeather(lat, lon,
+                                  locationName: cacheKey, context: context);
+                            } catch (e) {
+                              if (context != null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('data_fetch_error'.tr()),
+                                    duration: Duration(seconds: 5),
+                                  ),
+                                );
+                              }
+                              return;
+                            }
+
+                            saveLocation(saved);
+
+                            // final weatherService = WeatherService();
+                            // await weatherService.fetchWeather(lat, lon,
+                            //     locationName: cacheKey, context: context);
 
                             final prefs = await SharedPreferences.getInstance();
                             final jsonString =
@@ -541,7 +625,7 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
               ],
             ),
             FloatingActionButton(
-              onPressed: openProviderDialog,
+              onPressed: openProviderSheet,
               child: Icon(Icons.tune),
             )
           ],

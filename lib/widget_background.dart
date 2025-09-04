@@ -3,9 +3,9 @@ import 'services/fetch_data.dart';
 import 'utils/preferences_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:home_widget/home_widget.dart';
+import 'utils/unit_converter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:hive/hive.dart';
-import 'utils/unit_converter.dart';
 import 'utils/condition_label_map.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
@@ -13,9 +13,6 @@ import 'package:flutter/services.dart' show rootBundle;
 Future<void> updateHomeWidget(weather, {bool updatedFromHome = false}) async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
-
-    final dir = await getApplicationDocumentsDirectory();
-    Hive.init(dir.path);
 
     await PreferencesHelper.init();
     await HomeWidget.setAppGroupId('com.pranshulgg.weather_master_app');
@@ -289,6 +286,8 @@ Future<void> updateHomeWidget(weather, {bool updatedFromHome = false}) async {
         name: 'clockDateWidgetProvider', iOSName: null);
     await HomeWidget.updateWidget(
         name: 'DateCurrentWidgetProvider', iOSName: null);
+    await HomeWidget.updateWidget(
+        name: 'ClockHourlyWidgetProvider', iOSName: null);
 
     print('[WidgetUpdate] Called updateWidget');
   } catch (e, stack) {

@@ -958,7 +958,6 @@ class ConditionsWidgetsForecast extends StatelessWidget {
               crossAxisCount: 2,
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              padding: EdgeInsets.only(top: 8.5),
               crossAxisSpacing: 12,
               mainAxisSpacing: 12,
               children: [

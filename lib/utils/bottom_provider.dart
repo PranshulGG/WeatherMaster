@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'open_links.dart';
 import '../utils/condition_label_map.dart';
@@ -8,7 +9,7 @@ Widget homeBottomBar(BuildContext context, bool isLight) {
     color: textColor,
     fontSize: 18,
     decoration: TextDecoration.underline,
-    decorationThickness: 3,
+    decorationThickness: context.locale.languageCode == "en" ? 2 : 3,
   );
 
   return RepaintBoundary(

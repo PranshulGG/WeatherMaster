@@ -123,7 +123,7 @@ class _WeatherHomeState extends State<WeatherHome> {
   bool showAlertsPref = PreferencesHelper.getBool("showAlerts") ?? true;
   bool widgetsUpdated = false;
   bool? iscurrentDay = false;
-
+  bool? _cachedIsShowFrog;
   bool? lastIsDay;
 
   final WeatherFroggyManager _weatherManager = WeatherFroggyManager();
@@ -131,6 +131,9 @@ class _WeatherHomeState extends State<WeatherHome> {
   String? _iconUrlFroggy;
   bool _isLoadingFroggy = true;
   bool layoutCreated = false;
+
+  bool isFirstAppBuild = true;
+  bool onLoadForceCall = false;
 
   double? lat;
   double? lon;
@@ -251,20 +254,30 @@ class _WeatherHomeState extends State<WeatherHome> {
       isHomeLocation = false;
     }
 
-    final hasInternet = await hasRealInternet();
+    final hasInternet = await hasNetworkConnection();
 
     if (!hasInternet) {
-      _isAppFullyLoaded = true;
-      SnackUtil.showSnackBar(
-          context: context, message: "network_unavailable".tr());
+      if (!_istriggeredFromLocations) {
+        _isAppFullyLoaded = true;
+      } else {}
+
+      if (isFirstAppBuild) {
+        SnackUtil.showSnackBar(
+            context: context, message: "network_unavailable".tr());
+        isFirstAppBuild = false;
+      }
     } else if (lastUpdated != null) {
       final lastUpdateTime = DateTime.tryParse(lastUpdated);
       final now = DateTime.now();
       if (lastUpdateTime != null &&
           now.difference(lastUpdateTime).inMinutes < 450) {
-        _isAppFullyLoaded = true;
+        if (!_istriggeredFromLocations) {
+          _isAppFullyLoaded = true;
+        }
+        isFirstAppBuild = false;
       } else {
         checkAndUpdateHomeLocation();
+        isFirstAppBuild = false;
       }
     }
     return json.decode(cached);
@@ -306,7 +319,7 @@ class _WeatherHomeState extends State<WeatherHome> {
   }
 
   Future<void> _refreshWeatherData() async {
-    final hasInternet = await hasRealInternet();
+    final hasInternet = await hasNetworkConnection();
 
     if (isViewLocation) {
       if (!mounted) return;
@@ -353,8 +366,24 @@ class _WeatherHomeState extends State<WeatherHome> {
     }
 
     final weatherService = WeatherService();
-    final result = await weatherService.fetchWeather(lat!, lon!,
-        locationName: cacheKey, context: context);
+    Map<String, dynamic>? result;
+    try {
+      result = await weatherService.fetchWeather(lat!, lon!,
+          locationName: cacheKey, context: context);
+    } catch (e) {
+      setState(() {
+        _isAppFullyLoaded = true;
+      });
+
+      if (context != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('data_fetch_error'.tr()),
+            duration: Duration(seconds: 5),
+          ),
+        );
+      }
+    }
 
     if (result == null) {
       return;
@@ -460,9 +489,27 @@ class _WeatherHomeState extends State<WeatherHome> {
         await saveLocation(saved);
 
         final weatherService = WeatherService();
-        await weatherService.fetchWeather(currentLat, currentLon,
-            locationName: currentCacheKey, context: context);
+        try {
+          await weatherService.fetchWeather(
+            currentLat,
+            currentLon,
+            locationName: currentCacheKey,
+            context: context,
+          );
+        } catch (e) {
+          setState(() {
+            _isAppFullyLoaded = true;
+          });
 
+          if (context != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('data_fetch_error'.tr()),
+                duration: Duration(seconds: 5),
+              ),
+            );
+          }
+        }
         setState(() {
           _isAppFullyLoaded = false;
           _istriggeredFromLocations = true;
@@ -657,14 +704,14 @@ class _WeatherHomeState extends State<WeatherHome> {
                           opacity: val,
                           child: RepaintBoundary(
                             child: Container(
-                              padding: const EdgeInsets.all(6),
+                              padding: const EdgeInsets.all(2),
                               decoration: BoxDecoration(
                                 color: colorTheme.primaryContainer,
                                 borderRadius: BorderRadius.circular(50),
                               ),
                               child: ExpressiveLoadingIndicator(
                                 color: colorTheme.primary,
-                                activeSize: 48,
+                                activeSize: 40,
                               ),
                             ),
                           ),
@@ -748,7 +795,13 @@ class _WeatherHomeState extends State<WeatherHome> {
       // cloudy
       isLight
           ? paletteWeather.secondary.get(98)
-          : paletteWeather.secondary.get(useDarkerBackground ? 2 : 8),
+          : paletteWeather.secondary.get(useDarkerBackground
+              ? 2
+              : !isShowFrog
+                  ? iscurrentDay!
+                      ? 8
+                      : 3
+                  : 8),
 
       // overcast
       isLight
@@ -845,9 +898,23 @@ class _WeatherHomeState extends State<WeatherHome> {
               daily['precipitation_probability_max'];
           final List<dynamic> dailyWeatherCodes = daily['weather_code'];
 
-          void maybeUpdateWeatherAnimation(Map<String, dynamic> current) {
+          void maybeUpdateWeatherAnimation(Map<String, dynamic> current,
+              {isForce = false}) {
             final int weatherCode = current['weather_code'];
             final int isDay = current['is_day'];
+
+            if (isForce) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                setState(() {
+                  weatherAnimationWidget =
+                      WeatherConditionAnimationMapper.build(
+                          weatherCode: weatherCode,
+                          isDay: isDay,
+                          context: context,
+                          setFullDisplay: !isShowFrog);
+                });
+              });
+            }
 
             if (_cachedWeatherCode != weatherCode || _cachedIsDay != isDay) {
               weatherAnimationWidget = WeatherConditionAnimationMapper.build(
@@ -858,7 +925,20 @@ class _WeatherHomeState extends State<WeatherHome> {
 
               _cachedWeatherCode = weatherCode;
               _cachedIsDay = isDay;
+              _cachedIsShowFrog = isShowFrog;
+              onLoadForceCall = false;
             }
+          }
+
+          if (onLoadForceCall) {
+            if (_cachedIsShowFrog != isShowFrog) {
+              maybeUpdateWeatherAnimation(current, isForce: true);
+              print('called');
+
+              _cachedIsShowFrog = isShowFrog;
+            }
+          } else {
+            onLoadForceCall = true;
           }
 
           final Map<String, (DateTime, DateTime)> daylightMap = {
@@ -1340,18 +1420,32 @@ class _WeatherHomeState extends State<WeatherHome> {
                               await Future.delayed(Duration(milliseconds: 300));
                               if (result != null) {
                                 if (result['viewLocaton'] == true) {
+                                  Map<String, dynamic>? result;
+
                                   final weatherService = WeatherService();
-                                  final result =
-                                      await weatherService.fetchWeather(
-                                    PreferencesHelper.getJson(
-                                        'selectedViewLocation')?['lat'],
-                                    PreferencesHelper.getJson(
-                                        'selectedViewLocation')?['lon'],
-                                    locationName:
-                                        "${PreferencesHelper.getJson('selectedViewLocation')?['city']}, ${PreferencesHelper.getJson('selectedViewLocation')?['country']}",
-                                    context: context,
-                                    isOnlyView: true,
-                                  );
+                                  try {
+                                    result = await weatherService.fetchWeather(
+                                        lat!, lon!,
+                                        locationName: cacheKey,
+                                        context: context);
+                                  } catch (e) {
+                                    result = null;
+                                    setState(() {
+                                      _isAppFullyLoaded = true;
+                                    });
+
+                                    if (context != null) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content:
+                                              Text('data_fetch_error'.tr()),
+                                          duration: Duration(seconds: 5),
+                                        ),
+                                      );
+                                    }
+                                  }
+
                                   if (result == null) {
                                   } else {
                                     setState(() {
@@ -1429,7 +1523,7 @@ class _WeatherHomeState extends State<WeatherHome> {
                     currentLastUpdated: formattedTime,
                   ),
                   WeatherFrogIconWidget(iconUrl: _iconUrlFroggy),
-                  const SizedBox(height: 13.8),
+                  const SizedBox(height: 14),
                   SizedBox(
                     width: isFoldableLayout(context) ? 500 : null,
                     height: null,

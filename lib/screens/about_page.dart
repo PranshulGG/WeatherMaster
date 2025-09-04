@@ -5,13 +5,18 @@ import '../utils/open_links.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:hive/hive.dart';
+import 'package:expressive_loading_indicator/expressive_loading_indicator.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final colorTheme = Theme.of(context).colorScheme;
+
     return Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
@@ -31,10 +36,93 @@ class AboutPage extends StatelessWidget {
                   Text(
                     "WeatherMaster",
                     style: TextStyle(
-                        color: Theme.of(context).colorScheme.secondary,
+                        color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 24),
                   ),
-                  CheckUpdateButton()
+                  Row(
+                    spacing: 2,
+                    children: [
+                      CheckUpdateButton(),
+                      FilledButton.tonal(
+                        onPressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(28)),
+                            ),
+                            builder: (context) {
+                              return DraggableScrollableSheet(
+                                initialChildSize: 0.4,
+                                minChildSize: 0.4,
+                                maxChildSize: 0.9,
+                                snap: true,
+                                builder: (context, scrollController) {
+                                  return Scaffold(
+                                    appBar: AppBar(
+                                      toolbarHeight: 65,
+                                      elevation: 1,
+                                      automaticallyImplyLeading: false,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(28),
+                                              topRight: Radius.circular(28))),
+                                      title: Text("Changelog"),
+                                      actions: [
+                                        IconButton.filledTonal(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            icon: Icon(Icons.close)),
+                                        SizedBox(
+                                          width: 10,
+                                        )
+                                      ],
+                                    ),
+                                    body: Container(
+                                      decoration: BoxDecoration(
+                                        color: colorTheme.surfaceContainerLow,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            blurRadius: 10,
+                                            color: Colors.black26,
+                                            offset: Offset(0, -2),
+                                          ),
+                                        ],
+                                      ),
+                                      child: ChangelogSheet(
+                                          scrollController: scrollController),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          );
+                        },
+                        style: ButtonStyle(
+                          padding: WidgetStateProperty.all(
+                            EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                          ),
+                          shape: WidgetStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(3),
+                                  topRight: Radius.circular(50),
+                                  bottomLeft: Radius.circular(3),
+                                  bottomRight: Radius.circular(50)),
+                            ),
+                          ),
+                          minimumSize: WidgetStateProperty.all(Size(0, 30)),
+                          iconAlignment: IconAlignment.end,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                        child: Text("Whats new",
+                            style: TextStyle(fontWeight: FontWeight.w700)),
+                      ),
+                    ],
+                  )
                 ]),
             Container(
                 clipBehavior: Clip.hardEdge,
@@ -42,8 +130,8 @@ class AboutPage extends StatelessWidget {
                     BoxDecoration(borderRadius: BorderRadius.circular(50)),
                 child: Image.asset(
                   "assets/weather-icons/new_icon.png",
-                  width: 80,
-                  height: 80,
+                  width: 76,
+                  height: 76,
                 ))
           ],
         ),
@@ -420,16 +508,197 @@ class _CheckUpdateButtonState extends State<CheckUpdateButton> {
         Symbols.refresh,
         weight: 700,
       ),
-      label: Text(isChecking ? 'checking'.tr() : currentVersion,
-          style: TextStyle(fontWeight: FontWeight.w700)),
+      label:
+          Text(currentVersion, style: TextStyle(fontWeight: FontWeight.w700)),
       style: ButtonStyle(
         padding: WidgetStateProperty.all(
           EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+        ),
+        shape: WidgetStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(50),
+                topRight: Radius.circular(3),
+                bottomLeft: Radius.circular(50),
+                bottomRight: Radius.circular(3)),
+          ),
         ),
         minimumSize: WidgetStateProperty.all(Size(0, 30)),
         iconAlignment: IconAlignment.end,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       ),
+    );
+  }
+}
+
+class ChangelogService {
+  final String githubRepo = "PranshulGG/WeatherMaster";
+  final Box _box = Hive.box('changelogs');
+
+  Future<List<Map<String, dynamic>>> getChangelogs() async {
+    final now = DateTime.now();
+    final lastFetch = _box.get('lastFetch') as DateTime?;
+
+    if (lastFetch != null &&
+        now.difference(lastFetch) < const Duration(hours: 48)) {
+      final cachedData =
+          List<Map<String, dynamic>>.from(_box.get('data', defaultValue: []));
+
+      await Future.delayed(const Duration(seconds: 2));
+      return cachedData;
+    }
+
+    final url = Uri.parse("https://api.github.com/repos/$githubRepo/releases");
+    final response = await http.get(url);
+
+    if (response.statusCode != 200) {
+      throw Exception("Failed to fetch releases");
+    }
+
+    final releases = jsonDecode(response.body) as List<dynamic>;
+
+    final parsed = releases
+        .where((r) => r['prerelease'] == false)
+        .take(10)
+        .map((r) => {
+              "tag": r["tag_name"],
+              "name": r["name"] ?? "",
+              "body": r["body"] ?? "",
+              "published_at": r["published_at"],
+            })
+        .toList();
+
+    await _box.put('data', parsed);
+    await _box.put('lastFetch', now);
+
+    return parsed;
+  }
+}
+
+class ChangelogSheet extends StatefulWidget {
+  final ScrollController scrollController;
+  const ChangelogSheet({super.key, required this.scrollController});
+
+  @override
+  State<ChangelogSheet> createState() => _ChangelogSheetState();
+}
+
+class _ChangelogSheetState extends State<ChangelogSheet> {
+  final service = ChangelogService();
+  late Future<List<Map<String, dynamic>>> _future;
+
+  @override
+  void initState() {
+    super.initState();
+    _future = service.getChangelogs();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: _future,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+              child: ExpressiveLoadingIndicator(
+            activeSize: 38,
+            color: Theme.of(context).colorScheme.primary,
+          ));
+        }
+        if (snapshot.hasError) {
+          return Center(child: Text("Error loading changelog"));
+        }
+
+        final releases = snapshot.data as List<Map<String, dynamic>>;
+        if (releases.isEmpty) {
+          return const Center(child: Text("No changelogs available"));
+        }
+
+        final buffer = StringBuffer("");
+        for (final release in releases) {
+          buffer.writeln("# ${release['tag']}");
+          buffer.writeln(release['body']);
+          buffer.writeln("\n---\n");
+        }
+
+        final colorTheme = Theme.of(context).colorScheme;
+
+        return ListView.builder(
+          controller: widget.scrollController,
+          itemCount: releases.length,
+          itemBuilder: (context, index) {
+            final release = releases[index];
+            return Container(
+              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: colorTheme.surfaceContainerLowest,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 6),
+                  Row(spacing: 2.7, children: [
+                    Container(
+                      padding: const EdgeInsets.only(
+                          left: 10, right: 10, bottom: 3, top: 3),
+                      decoration: BoxDecoration(
+                          color: colorTheme.primaryContainer,
+                          borderRadius: BorderRadius.circular(50)),
+                      child: Text(
+                        release['tag'],
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer,
+                        ),
+                      ),
+                    ),
+                    if (index == 0)
+                      Container(
+                        padding: const EdgeInsets.only(
+                            left: 10, right: 10, bottom: 3, top: 3),
+                        decoration: BoxDecoration(
+                            color: colorTheme.tertiary,
+                            borderRadius: BorderRadius.circular(8)),
+                        child: Text(
+                          "Latest",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.onTertiary,
+                          ),
+                        ),
+                      ),
+                  ]),
+                  SizedBox(height: 12),
+                  MarkdownBody(
+                    data: release['body'],
+                    styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context))
+                        .copyWith(
+                      blockquote: TextStyle(
+                        color: colorTheme.onSurfaceVariant,
+                        fontStyle: FontStyle.italic,
+                      ),
+                      blockquoteDecoration: BoxDecoration(
+                        color: Colors.transparent,
+                        border: Border(
+                            left: BorderSide(
+                                color: colorTheme.outline, width: 4)),
+                      ),
+                    ),
+                    onTapLink: (text, href, title) {
+                      if (href != null) openLink(href);
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

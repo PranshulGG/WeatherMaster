@@ -14,6 +14,7 @@ import '../utils/condition_label_map.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:animations/animations.dart';
 import '../widgets/dialog.dart';
+import 'package:expressive_loading_indicator/expressive_loading_indicator.dart';
 
 class LocationsScreen extends StatefulWidget {
   const LocationsScreen({super.key});
@@ -28,12 +29,21 @@ final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
 class _LocationsScreenState extends State<LocationsScreen> {
   List<SavedLocation> savedLocations = [];
   bool _isFirstBuild = true;
+  bool _showLoader = true;
 
   @override
   void initState() {
     super.initState();
 
     loadSavedLocations();
+
+    Future.delayed(const Duration(milliseconds: 300), () {
+      if (mounted) {
+        setState(() {
+          _showLoader = false;
+        });
+      }
+    });
   }
 
   Future<void> loadSavedLocations() async {
@@ -159,9 +169,13 @@ class _LocationsScreenState extends State<LocationsScreen> {
                 ),
               );
             },
-            child: isEditing
-                ? buildReorderableListView(key: ValueKey('reorderable'))
-                : buildDismissibleListView(key: ValueKey('dismissible')),
+            child: _showLoader
+                ? Center(
+                    key: const ValueKey('loader'),
+                  )
+                : isEditing
+                    ? buildReorderableListView(key: ValueKey('reorderable'))
+                    : buildDismissibleListView(key: ValueKey('dismissible')),
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
@@ -903,7 +917,7 @@ class _FadeInListItemState extends State<FadeInListItem> {
   Widget build(BuildContext context) {
     return AnimatedOpacity(
       opacity: opacity,
-      duration: const Duration(milliseconds: 700),
+      duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
       child: widget.child,
     );

@@ -295,7 +295,7 @@ class AnimatedTemperature extends StatelessWidget {
             color: Theme.of(context).brightness == Brightness.light
                 ? Theme.of(context).colorScheme.inverseSurface
                 : Theme.of(context).colorScheme.primary,
-            fontSize: isShowFrog ? 60 : 130,
+            fontSize: isShowFrog ? 65 : 136,
             fontWeight: isShowFrog ? null : FontWeight.bold,
             height: isShowFrog ? 1.3 : 1,
           ),
@@ -370,7 +370,7 @@ class _WeatherTopCardStateVertical extends State<WeatherTopCardVertical> {
     final colorTheme = Theme.of(context).colorScheme;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 14),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -392,6 +392,7 @@ class _WeatherTopCardStateVertical extends State<WeatherTopCardVertical> {
                 height: 6,
               ),
               Row(
+                spacing: 3,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   PreferencesHelper.getBool("useTempAnimation") == false
@@ -401,13 +402,13 @@ class _WeatherTopCardStateVertical extends State<WeatherTopCardVertical> {
                                       Brightness.light
                                   ? Theme.of(context).colorScheme.inverseSurface
                                   : Theme.of(context).colorScheme.primary,
-                              fontSize: 130,
+                              fontSize: 136,
                               fontWeight: isShowFrog ? null : FontWeight.bold,
                               height: 1.3))
                       : AnimatedTemperature(
                           targetTemp: convertedTemp.toDouble()),
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 40),
+                    padding: const EdgeInsets.only(bottom: 50),
                     child: SvgPicture.asset(
                       WeatherIconMapper.getIcon(
                           widget.currentWeatherIconCode, widget.currentisDay),
@@ -418,7 +419,7 @@ class _WeatherTopCardStateVertical extends State<WeatherTopCardVertical> {
                 ],
               ),
               SizedBox(
-                height: 16,
+                height: 10,
               ),
               Text(
                 "${'feels_like'.tr()} ${widget.currentFeelsLike == 0000 ? '--' : '$convertedfeelsLikeTemp°'}",
