@@ -571,5 +571,6 @@
   "insights_sub_49": "预计将出现严寒天气，或逼近历史最低气温。",
   "insights_sub_50": "气温处于正常范围，预计不会打破纪录。",
   "background_updates_not_working": "后台更新不起作用？",
-  "background_updates_not_working_sub": "某些设备供应商会限制应用在后台运行。请访问 dontkillmyapp.com 了解修复此问题的步骤。"
+  "background_updates_not_working_sub": "某些设备供应商会限制应用在后台运行。请访问 dontkillmyapp.com 了解修复此问题的步骤。",
+  "about_weathermaster_sub": "Changelog, Version, License, and More"
 }
