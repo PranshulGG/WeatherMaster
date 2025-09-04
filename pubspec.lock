@@ -164,7 +164,7 @@ packages:
   expressive_loading_indicator:
     dependency: "direct main"
     description:
-      path: expressive_loading_indicator
+      path: expressive_loading_indicator_custom
       relative: true
     source: path
     version: "0.0.1"
