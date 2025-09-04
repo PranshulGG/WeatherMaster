@@ -556,5 +556,20 @@
   "animations": "Animace",
   "layout": "Uspořádání",
   "use_expressive_palette": "Použít výrazné palety",
-  "new_version_snack_message": "Zobrazení zprávy po vydání nové verze"
+  "new_version_snack_message": "Zobrazení zprávy po vydání nové verze",
+  "insights_sub_38": "Vzduch bude vlhký a lepivý.",
+  "insights_sub_39": "Vzduch bude příjemný a komfortní.",
+  "insights_sub_40": "Očekávejte suchý a čerstvý vzduch, velmi osvěžující.",
+  "insights_sub_41": "Velké horko - nejlépe lehké oblečení.",
+  "insights_sub_42": "Mírné a teplé počasí - šortky nebo tričko by měly být v pořádku.",
+  "insights_sub_43": "Chladné počasí - pomůže bunda nebo svetr.",
+  "insights_sub_44": "Chladné podmínky - oblékněte si kabát.",
+  "insights_sub_45": "Očekává se hustá mlha s velmi nízkou viditelností.",
+  "insights_sub_46": "Viditelnost může být místy snížena mlhou nebo oparem.",
+  "insights_sub_47": "Dobrá viditelnost po celý den - jasno.",
+  "insights_sub_48": "Možná extrémní horka - mohou se blížit rekordním hodnotám.",
+  "insights_sub_49": "Očekává se velmi chladné počasí - možná rekordně nízké teploty.",
+  "insights_sub_50": "Teploty jsou v obvyklém rozmezí - neočekávají se žádné rekordy.",
+  "background_updates_not_working": "Nefungují aktualizace na pozadí?",
+  "background_updates_not_working_sub": "Někteří výrobci zařízení omezují aplikace na pozadí. Podívejte se na stránky dontkillmyapp.com, kde najdete kroky k nápravě."
 }

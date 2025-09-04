@@ -556,5 +556,20 @@
   "animations": "动画",
   "layout": "布局",
   "use_expressive_palette": "使用 Expressive 调色板",
-  "new_version_snack_message": "有新版本发布时显示提示消息"
+  "new_version_snack_message": "有新版本发布时显示提示消息",
+  "insights_sub_38": "空气会感觉潮湿而黏腻。",
+  "insights_sub_39": "空气会感觉舒适宜人。",
+  "insights_sub_40": "预计空气会干燥清爽，令人心旷神怡。",
+  "insights_sub_41": "天气酷热，宜着轻薄衣物。",
+  "insights_sub_42": "天气温和宜人，穿短裤或短袖即可。",
+  "insights_sub_43": "天气凉爽，建议搭配夹克或毛衣。",
+  "insights_sub_44": "天气寒冷，需穿戴大衣保暖。",
+  "insights_sub_45": "预计将出现浓雾，能见度极低。",
+  "insights_sub_46": "局部地区或有薄雾霾，能见度偶有下降。",
+  "insights_sub_47": "能见度全天良好，天气晴朗。",
+  "insights_sub_48": "可能出现极端高温，或逼近历史最高纪录。",
+  "insights_sub_49": "预计将出现严寒天气，或逼近历史最低气温。",
+  "insights_sub_50": "气温处于正常范围，预计不会打破纪录。",
+  "background_updates_not_working": "后台更新不起作用？",
+  "background_updates_not_working_sub": "某些设备供应商会限制应用在后台运行。请访问 dontkillmyapp.com 了解修复此问题的步骤。"
 }
