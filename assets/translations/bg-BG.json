@@ -571,5 +571,6 @@
   "insights_sub_49": "Очаква се много студено време - евентуално рекордно ниски температури.",
   "insights_sub_50": "Температурите са в обичайните граници — не се очакват рекордни стойности.",
   "background_updates_not_working": "Фоновите актуализации не работят?",
-  "background_updates_not_working_sub": "Някои производители на устройства ограничават приложенията във фонов режим. Проверете dontkillmyapp.com за стъпки за отстраняване на това."
+  "background_updates_not_working_sub": "Някои производители на устройства ограничават приложенията във фонов режим. Проверете dontkillmyapp.com за стъпки за отстраняване на това.",
+  "about_weathermaster_sub": "Changelog, Version, License, and More"
 }
