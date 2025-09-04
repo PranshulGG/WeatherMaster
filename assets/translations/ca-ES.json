@@ -556,5 +556,20 @@
   "animations": "Animacions",
   "layout": "Disseny",
   "use_expressive_palette": "Fes servir una paleta expressiva",
-  "new_version_snack_message": "Avisa'm quan hi hagi una nova actualització"
+  "new_version_snack_message": "Avisa'm quan hi hagi una nova actualització",
+  "insights_sub_38": "L'aire es notarà humit i xafogós.",
+  "insights_sub_39": "L'aire serà agradable i suau.",
+  "insights_sub_40": "S'espera aire fred i sec, molt refrescant.",
+  "insights_sub_41": "Molta calor — Dur roba lleugera seria ideal. ",
+  "insights_sub_42": "Calor moderada — Amb pantalons curts i samarreta aniràs bé.",
+  "insights_sub_43": "Temporal fresquet — Una jaqueta o suèter ajudaran.",
+  "insights_sub_44": "Condicions fredes — Abriga't bé.",
+  "insights_sub_45": "S'espera boira densa amb molt poca visibilitat.",
+  "insights_sub_46": "Una mica de boirina o fumerol podria arribar a reduir la visibilitat.",
+  "insights_sub_47": "Bona visibilitat tot el dia - Condicions clares.",
+  "insights_sub_48": "Hi pot haver calda extrema — Podria arribar a màxims històrics.",
+  "insights_sub_49": "S'espera un temporal molt fred — Podria apropar-se a mínims històrics.",
+  "insights_sub_50": "Temperatures are within the usual range — no records expected.",
+  "background_updates_not_working": "Background updates not working?",
+  "background_updates_not_working_sub": "Some device vendors restrict apps in the background. Check dontkillmyapp.com for steps to fix this."
 }

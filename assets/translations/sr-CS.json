@@ -556,5 +556,20 @@
   "animations": "Animacije",
   "layout": "Raspored",
   "use_expressive_palette": "Koristite ekspresivnu paletu",
-  "new_version_snack_message": "Prikaži poruku kada se objavi nova verzija"
+  "new_version_snack_message": "Prikaži poruku kada se objavi nova verzija",
+  "insights_sub_38": "Vazduh će biti vlažan i lepljiv.",
+  "insights_sub_39": "Vazduh će biti prijatan i udoban.",
+  "insights_sub_40": "Očekujte suv i čist vazduh, veoma osvežavajuće.",
+  "insights_sub_41": "Veoma vruće — najbolja je lagana odeća.",
+  "insights_sub_42": "Blago i toplo — šorc ili majica bi trebalo da budu u redu.",
+  "insights_sub_43": "Hladno vreme — jakna ili džemper će pomoći.",
+  "insights_sub_44": "Hladni uslovi - obucite kaput.",
+  "insights_sub_45": "Očekuje se gusta magla, sa veoma slabom vidljivošću.",
+  "insights_sub_46": "Magla ili izmaglica mogu povremeno smanjiti vidljivost.",
+  "insights_sub_47": "Dobra vidljivost tokom celog dana — vedro vreme.",
+  "insights_sub_48": "Moguće ekstremne vrućine — mogu se približiti rekordno visokim vrednostima.",
+  "insights_sub_49": "Očekuje se veoma hladno vreme — moguće rekordno niske temperature.",
+  "insights_sub_50": "Temperature su u uobičajenom rasponu — ne očekuju se rekordi.",
+  "background_updates_not_working": "Ažuriranja u pozadini ne rade?",
+  "background_updates_not_working_sub": "Neki proizvođači uređaja ograničavaju aplikacije u pozadini. Posetite dontkillmyapp.com za korake kako da rešite ovaj problem."
 }
