@@ -214,8 +214,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           isLight ? Color(0xffe6deff) : Color(0xff493e76),
                           isLight ? Color(0xff493e76) : Color(0xffe6deff)),
                       title: Text('${"about".tr()} WeatherMaster'),
-                      description:
-                          Text('Changelog, Version, License, and More'),
+                      description: Text('about_weathermaster_sub'.tr()),
                       onTap: () {
                         Navigator.of(
                           context,
