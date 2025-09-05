@@ -270,7 +270,7 @@ class _WeatherHomeState extends State<WeatherHome> {
       final lastUpdateTime = DateTime.tryParse(lastUpdated);
       final now = DateTime.now();
       if (lastUpdateTime != null &&
-          now.difference(lastUpdateTime).inMinutes < 450) {
+          now.difference(lastUpdateTime).inMinutes < 45) {
         if (!_istriggeredFromLocations) {
           _isAppFullyLoaded = true;
         }
