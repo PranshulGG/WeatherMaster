@@ -26,7 +26,7 @@ class WeatherUpdateWorker(
 
     companion object {
         private const val CHANNEL_ID = "WeatherUpdateChannel"
-        private const val NOTIFICATION_ID = 9
+        private const val NOTIFICATION_ID = 99999999
     }
 
     private var flutterEngine: FlutterEngine? = null

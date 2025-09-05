@@ -49,7 +49,7 @@ List<LinearGradient> getGradients(
                 : LinearGradient(
                     colors: [
                       Color(paletteWeather.secondary.get(30)),
-                      Color(paletteWeather.secondary.get(20))
+                      Color(paletteWeather.secondary.get(18))
                     ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,

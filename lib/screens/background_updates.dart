@@ -40,7 +40,7 @@ class _BackgroundUpdatesPageState extends State<BackgroundUpdatesPage> {
   }
 
   final optionsInterval = {
-    15: "30 ${"minutes".tr()}",
+    30: "30 ${"minutes".tr()}",
     60: "1 ${"hours".tr()}",
     90: "1.5 ${"hours".tr()}",
     120: "2 ${"hours".tr()}",
