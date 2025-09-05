@@ -9,7 +9,7 @@ Widget homeBottomBar(BuildContext context, bool isLight) {
     color: textColor,
     fontSize: 18,
     decoration: TextDecoration.underline,
-    decorationThickness: context.locale.languageCode == "en" ? 2 : 3,
+    decorationThickness: context.locale.languageCode == "en" ? 1.3 : 3,
   );
 
   return RepaintBoundary(
@@ -35,5 +35,72 @@ Widget homeBottomBar(BuildContext context, bool isLight) {
         ],
       ),
     ),
+  );
+}
+
+void showAddBottomSheet(
+    BuildContext context, String lat, String lon, city, country) {
+  final colorTheme = Theme.of(context).colorScheme;
+
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    showDragHandle: true,
+    backgroundColor: colorTheme.surfaceContainerLow,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(
+        top: Radius.circular(28),
+      ),
+    ),
+    builder: (context) => Padding(
+      padding: EdgeInsets.only(
+          left: 16,
+          right: 16,
+          bottom: MediaQuery.of(context).padding.bottom + 10),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          locationInfoItem(context, "City", city),
+          Divider(),
+          SizedBox(
+            height: 5,
+          ),
+          locationInfoItem(context, "Country", country),
+          Divider(),
+          SizedBox(
+            height: 5,
+          ),
+          locationInfoItem(context, "Latitude", lat.toString()),
+          Divider(),
+          SizedBox(
+            height: 5,
+          ),
+          locationInfoItem(context, "Longitude", lon.toString()),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget locationInfoItem(BuildContext context, label, String data) {
+  final colorTheme = Theme.of(context).colorScheme;
+
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text(
+        label,
+        style: TextStyle(fontSize: 17, color: colorTheme.onSurface),
+      ),
+      Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color: colorTheme.secondaryContainer),
+        child: Text(data,
+            style: TextStyle(
+                fontSize: 14, color: colorTheme.onSecondaryContainer)),
+      ),
+    ],
   );
 }

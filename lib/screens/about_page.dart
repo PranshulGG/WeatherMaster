@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
@@ -16,7 +18,6 @@ class AboutPage extends StatelessWidget {
     final colorTheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
@@ -61,6 +62,7 @@ class AboutPage extends StatelessWidget {
                                 snap: true,
                                 builder: (context, scrollController) {
                                   return Scaffold(
+                                    backgroundColor: Colors.transparent,
                                     appBar: AppBar(
                                       toolbarHeight: 65,
                                       elevation: 1,
@@ -118,7 +120,7 @@ class AboutPage extends StatelessWidget {
                           iconAlignment: IconAlignment.end,
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
-                        child: Text("Whats new",
+                        child: Text("What's new",
                             style: TextStyle(fontWeight: FontWeight.w700)),
                       ),
                     ],
@@ -541,8 +543,9 @@ class ChangelogService {
 
     if (lastFetch != null &&
         now.difference(lastFetch) < const Duration(hours: 48)) {
-      final cachedData =
-          List<Map<String, dynamic>>.from(_box.get('data', defaultValue: []));
+      final cachedData = (_box.get('data', defaultValue: []) as List)
+          .map((e) => Map<String, dynamic>.from(e as Map))
+          .toList();
 
       await Future.delayed(const Duration(seconds: 2));
       return cachedData;
@@ -605,6 +608,7 @@ class _ChangelogSheetState extends State<ChangelogSheet> {
             color: Theme.of(context).colorScheme.primary,
           ));
         }
+
         if (snapshot.hasError) {
           return Center(child: Text("Error loading changelog"));
         }

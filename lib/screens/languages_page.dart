@@ -67,7 +67,7 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
               child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                padding: EdgeInsets.only(left: 12, right: 12, bottom: 10),
                 child: ListTile(
                   contentPadding: EdgeInsets.only(left: 26, right: 24),
                   horizontalTitleGap: 14,
@@ -126,7 +126,7 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
                       final isFirst = index == 0;
 
                       return Container(
-                        padding: EdgeInsets.only(left: 10, right: 10),
+                        padding: EdgeInsets.only(left: 12, right: 12),
                         margin: EdgeInsets.only(
                           bottom: isLast
                               ? MediaQuery.of(context).padding.bottom + 20
@@ -256,17 +256,17 @@ class _LanguageTileState extends State<LanguageTile> {
         ? BorderRadius.circular(50)
         : widget.isFirst
             ? BorderRadius.only(
-                bottomLeft: Radius.circular(0),
-                bottomRight: Radius.circular(0),
+                bottomLeft: Radius.circular(2.7),
+                bottomRight: Radius.circular(2.7),
                 topLeft: Radius.circular(18),
                 topRight: Radius.circular(18))
             : widget.isLast
                 ? BorderRadius.only(
                     bottomLeft: Radius.circular(18),
                     bottomRight: Radius.circular(18),
-                    topLeft: Radius.circular(0),
-                    topRight: Radius.circular(0))
-                : BorderRadius.circular(0);
+                    topLeft: Radius.circular(2.7),
+                    topRight: Radius.circular(2.7))
+                : BorderRadius.circular(2.7);
 
     return TweenAnimationBuilder<BorderRadius>(
       tween: Tween<BorderRadius>(

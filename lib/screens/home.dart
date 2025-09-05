@@ -1330,7 +1330,13 @@ class _WeatherHomeState extends State<WeatherHome> {
                                           isShowFrog
                                               ? IconButton(
                                                   onPressed: () async {
-                                                    return;
+                                                    showAddBottomSheet(
+                                                      context,
+                                                      lat.toString(),
+                                                      lon.toString(),
+                                                      cityName,
+                                                      countryName,
+                                                    );
                                                   },
                                                   icon: const Icon(Icons
                                                       .location_on_outlined),
