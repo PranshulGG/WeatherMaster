@@ -41,7 +41,7 @@ class WeatherWidgetCastProvider : AppWidgetProvider() {
         val minHeight = optionsCast.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)
         val layoutIdDaily = when {
 
-            minHeight > 160 -> R.layout.widget_hourly_current_daily
+            minHeight > 170 -> R.layout.widget_hourly_current_daily
 
 
 
@@ -136,9 +136,9 @@ class WeatherWidgetCastProvider : AppWidgetProvider() {
         views.removeAllViews(dailyContainerId)
 
         val numDailyItems = when {
-            minHeight > 300 -> 4  
-            minHeight > 260 -> 2  
-            else -> 1           
+            minHeight > 230 -> 4
+            minHeight > 180 -> 2
+            else -> 1
         }
 
         for (i in 0 until numDailyItems) {

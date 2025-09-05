@@ -8,6 +8,7 @@
     android:paddingTop="8dp"
     android:paddingBottom="8dp"
     android:layout_marginBottom="5dp"
+
     android:paddingStart="10dp"
     android:paddingEnd="10dp">
 
@@ -15,8 +16,9 @@
         android:id="@+id/daily_icon"
         android:src="@drawable/clear_night"
         android:layout_width="36dp"
-        android:layout_marginRight="15dp"
-        android:layout_height="30dp" />
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="15dp"
+        android:layout_height="36dp" />
     <LinearLayout
         android:layout_width="wrap_content"
         android:orientation="vertical"
@@ -55,7 +57,7 @@
             android:includeFontPadding="false"
             android:text="29°"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:layout_marginEnd="10dp"
             android:textColor="@color/colorOnBackground" />
 
@@ -65,7 +67,7 @@
             android:layout_height="wrap_content"
             android:text="21°"
             android:includeFontPadding="false"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:textColor="@color/colorOnSurfaceVariant" />
     </LinearLayout>
 

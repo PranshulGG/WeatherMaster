@@ -34,17 +34,26 @@ List<LinearGradient> getGradients(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     stops: [0, 0.5])
-            : LinearGradient(
-                colors: [
-                  Color(CorePalette.of(
-                          const Color.fromARGB(255, 31, 25, 0).toARGB32())
-                      .secondary
-                      .get(30)),
-                  Color(paletteWeather.secondary.get(18))
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: [0, 0.5]),
+            : iscurrentDay
+                ? LinearGradient(
+                    colors: [
+                      Color(CorePalette.of(
+                              const Color.fromARGB(255, 31, 25, 0).toARGB32())
+                          .secondary
+                          .get(30)),
+                      Color(paletteWeather.secondary.get(18))
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: [0, 0.5])
+                : LinearGradient(
+                    colors: [
+                      Color(paletteWeather.secondary.get(30)),
+                      Color(paletteWeather.secondary.get(20))
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: [0, 0.5]),
 
     // overcast
     isLight

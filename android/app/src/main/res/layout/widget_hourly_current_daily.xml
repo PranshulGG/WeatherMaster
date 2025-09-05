@@ -3,7 +3,9 @@
     android:id="@+id/widget_root_cast"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="18dp"
+    android:paddingRight="18dp"
+    android:paddingLeft="18dp"
+    android:paddingTop="18dp"
     android:orientation="vertical"
     android:background="@drawable/rounded_square_bg">
 
@@ -60,7 +62,7 @@
         android:orientation="horizontal"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
-
+        android:paddingBottom="10dp"
         android:layout_height="wrap_content">
 
         <LinearLayout
@@ -121,8 +123,12 @@
     <LinearLayout
         android:id="@+id/daily_cast"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="16dp" />
+        android:gravity="center_vertical"
+        />
+
+
+
 
 </LinearLayout>
