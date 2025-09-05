@@ -1317,8 +1317,8 @@ class _WeatherHomeState extends State<WeatherHome> {
                               return Container(
                                 width: double.infinity,
                                 height: 56,
-                                padding:
-                                    const EdgeInsets.only(left: 10, right: 10),
+                                padding: const EdgeInsetsDirectional.only(
+                                    start: 7, end: 8),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(50),
                                 ),
@@ -1328,17 +1328,12 @@ class _WeatherHomeState extends State<WeatherHome> {
                                       child: Row(
                                         children: [
                                           isShowFrog
-                                              ? CircleAvatar(
-                                                  radius: 20,
-                                                  backgroundColor:
-                                                      Colors.transparent,
-                                                  child: Icon(
-                                                    Icons.location_on_outlined,
-                                                    color: isShowFrog
-                                                        ? colorTheme
-                                                            .onSurfaceVariant
-                                                        : colorTheme.onSurface,
-                                                  ),
+                                              ? IconButton(
+                                                  onPressed: () async {
+                                                    return;
+                                                  },
+                                                  icon: const Icon(Icons
+                                                      .location_on_outlined),
                                                 )
                                               : SizedBox(
                                                   width: 10,
@@ -1358,7 +1353,7 @@ class _WeatherHomeState extends State<WeatherHome> {
                                               ),
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
-                                              textAlign: TextAlign.left,
+                                              textAlign: TextAlign.start,
                                               textHeightBehavior:
                                                   TextHeightBehavior(
                                                       applyHeightToFirstAscent:

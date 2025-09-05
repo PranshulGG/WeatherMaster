@@ -124,7 +124,16 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                       flexibleSpace: FlexibleSpaceBar(
                         title: Row(
                           spacing: 5,
-                          children: [Icon(iconData), Text(extendedTitle)],
+                          children: [
+                            Icon(iconData),
+                            Flexible(
+                              child: Text(
+                                extendedTitle,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
                         ),
                         expandedTitleScale: 1.3,
                         titlePadding: EdgeInsets.all(16),
@@ -259,9 +268,10 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                       final humidityPercentage = hourlyhumidity[dataIndex];
                       ;
 
-                      EdgeInsets itemMargin = EdgeInsets.only(
-                        left: index == 0 ? 10 : 0,
-                        right: index == 24 + 24 - startIndex - 1 ? 10 : 0,
+                      EdgeInsetsDirectional itemMargin =
+                          EdgeInsetsDirectional.only(
+                        start: index == 0 ? 10 : 0,
+                        end: index == 24 + 24 - startIndex - 1 ? 10 : 0,
                       );
 
                       return Container(
@@ -838,9 +848,10 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                           }
                         }
 
-                        EdgeInsets itemMargin = EdgeInsets.only(
-                          left: index == 0 ? 10 : 0,
-                          right: index == 24 + 24 - startIndex - 1 ? 10 : 0,
+                        EdgeInsetsDirectional itemMargin =
+                            EdgeInsetsDirectional.only(
+                          start: index == 0 ? 10 : 0,
+                          end: index == 24 + 24 - startIndex - 1 ? 10 : 0,
                         );
 
                         return Container(
@@ -1269,9 +1280,10 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                           ),
                         );
 
-                        EdgeInsets itemMargin = EdgeInsets.only(
-                          left: index == 0 ? 10 : 0,
-                          right: index == 24 + 24 - startIndex - 1 ? 10 : 0,
+                        EdgeInsetsDirectional itemMargin =
+                            EdgeInsetsDirectional.only(
+                          start: index == 0 ? 10 : 0,
+                          end: index == 24 + 24 - startIndex - 1 ? 10 : 0,
                         );
 
                         return Container(
@@ -1536,9 +1548,10 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                 ? ((uvValue - minUv) / (maxUv - minUv)) * 100
                                 : 0;
 
-                        EdgeInsets itemMargin = EdgeInsets.only(
-                          left: index == 0 ? 10 : 0,
-                          right: index == 24 + 24 - startIndex - 1 ? 10 : 0,
+                        EdgeInsetsDirectional itemMargin =
+                            EdgeInsetsDirectional.only(
+                          start: index == 0 ? 10 : 0,
+                          end: index == 24 + 24 - startIndex - 1 ? 10 : 0,
                         );
 
                         Color getUvColor(double uv, BuildContext context) {
@@ -2174,9 +2187,10 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                 ? UnitConverter.mmToIn(rainValue)
                                 : rainValue;
 
-                        EdgeInsets itemMargin = EdgeInsets.only(
-                          left: index == 0 ? 10 : 0,
-                          right: index == 24 + 24 - startIndex - 1 ? 10 : 0,
+                        EdgeInsetsDirectional itemMargin =
+                            EdgeInsetsDirectional.only(
+                          start: index == 0 ? 10 : 0,
+                          end: index == 24 + 24 - startIndex - 1 ? 10 : 0,
                         );
 
                         return Container(

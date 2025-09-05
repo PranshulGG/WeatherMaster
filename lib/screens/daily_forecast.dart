@@ -651,8 +651,8 @@ class HourlyCardForecast extends StatelessWidget {
                     return Container(
                       clipBehavior: Clip.none,
                       width: 56,
-                      margin: EdgeInsets.only(
-                          right: isLast ? 10 : 0, left: isFirst ? 10 : 0),
+                      margin: EdgeInsetsDirectional.only(
+                          end: isLast ? 10 : 0, start: isFirst ? 10 : 0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -997,8 +997,8 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                         : Colors.black,
                                   ),
                                   horizontalTitleGap: 5,
-                                  contentPadding:
-                                      EdgeInsets.only(left: 10, bottom: 0),
+                                  contentPadding: EdgeInsetsDirectional.only(
+                                      start: 10, bottom: 0),
                                   title: Text("sun_tile_page".tr(),
                                       style: TextStyle(
                                           color: Theme.of(context).brightness ==
@@ -1420,8 +1420,8 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                         : Colors.black,
                                   ),
                                   horizontalTitleGap: 5,
-                                  contentPadding:
-                                      EdgeInsets.only(left: 10, bottom: 0),
+                                  contentPadding: EdgeInsetsDirectional.only(
+                                      start: 10, bottom: 0),
                                   title: Text("precipitation".tr(),
                                       style: TextStyle(
                                           color: Theme.of(context).brightness ==
@@ -1434,8 +1434,8 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: Padding(
-                                    padding:
-                                        EdgeInsets.only(left: 10, bottom: 12),
+                                    padding: EdgeInsetsDirectional.only(
+                                        start: 10, bottom: 12),
                                     child: Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,

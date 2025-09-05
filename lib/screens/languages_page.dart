@@ -7,6 +7,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:settings_tiles/settings_tiles.dart';
+import '../../notifiers/unit_settings_notifier.dart';
+import 'package:provider/provider.dart';
 
 class LanguagesScreen extends StatefulWidget {
   const LanguagesScreen({super.key});
@@ -27,6 +30,8 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
   @override
   Widget build(BuildContext context) {
     final locales = EasyLocalization.of(context)!.supportedLocales;
+
+    final forceLTRLAYOUT = PreferencesHelper.getBool("ForceltrLayout") ?? true;
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
@@ -59,29 +64,46 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
             ],
           ),
           SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.only(left: 10, right: 10, bottom: 20),
-              child: ListTile(
-                contentPadding: EdgeInsets.only(left: 26, right: 24),
-                horizontalTitleGap: 14,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50),
+              child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                child: ListTile(
+                  contentPadding: EdgeInsets.only(left: 26, right: 24),
+                  horizontalTitleGap: 14,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  tileColor: Theme.of(context).colorScheme.tertiaryContainer,
+                  leading: Icon(Symbols.translate),
+                  title: Text('translate_this_app'.tr()),
+                  subtitle: Text('on_crowdin'.tr()),
+                  trailing: Icon(
+                    Symbols.open_in_new,
+                    weight: 500,
+                  ),
+                  onTap: () {
+                    openLink(
+                        "https://crowdin.com/project/weathermaster/invite?h=448278a9b1370f3c10d4336a091dae792286917");
+                  },
                 ),
-                tileColor: Theme.of(context).colorScheme.tertiaryContainer,
-                leading: Icon(Symbols.translate),
-                title: Text('translate_this_app'.tr()),
-                subtitle: Text('on_crowdin'.tr()),
-                trailing: Icon(
-                  Symbols.open_in_new,
-                  weight: 500,
-                ),
-                onTap: () {
-                  openLink(
-                      "https://crowdin.com/project/weathermaster/invite?h=448278a9b1370f3c10d4336a091dae792286917");
-                },
               ),
-            ),
-          ),
+              SettingSection(PrimarySwitch: true, styleTile: true, tiles: [
+                SettingSwitchTile(
+                    title: Text("Force Left-to-Right Layout"),
+                    toggled: forceLTRLAYOUT,
+                    onChanged: (value) {
+                      context
+                          .read<UnitSettingsNotifier>()
+                          .updateForceLTRlayout(value);
+                      setState(() {});
+                    })
+              ]),
+              SizedBox(
+                height: 16,
+              )
+            ],
+          )),
           FutureBuilder<Map<String, int>>(
               future: TranslationProgressService(
                 projectId: '741419',
@@ -266,7 +288,7 @@ class _LanguageTileState extends State<LanguageTile> {
         child: ListTile(
             minTileHeight: 66,
             splashColor: Colors.transparent,
-            contentPadding: EdgeInsets.only(left: 8, right: 14),
+            contentPadding: EdgeInsetsDirectional.only(start: 8, end: 14),
             leading: Stack(alignment: Alignment.center, children: [
               CircleAvatar(
                   backgroundColor: _isSelected
@@ -302,7 +324,8 @@ class _LanguageTileState extends State<LanguageTile> {
             ),
             subtitle: Text(widget.languageName['english']!),
             trailing: Container(
-              padding: EdgeInsets.only(left: 6, right: 6, top: 2, bottom: 2),
+              padding: EdgeInsetsDirectional.only(
+                  start: 6, end: 6, top: 2, bottom: 2),
               decoration: BoxDecoration(
                   color: _isSelected
                       ? Theme.of(context).colorScheme.primary

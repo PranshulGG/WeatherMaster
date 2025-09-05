@@ -576,7 +576,7 @@ class _SummaryCardState extends State<SummaryCard> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                          padding: EdgeInsets.only(left: 20),
+                          padding: EdgeInsetsDirectional.only(start: 20),
                           child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -600,7 +600,7 @@ class _SummaryCardState extends State<SummaryCard> {
                                         fontSize: 16)),
                               ])),
                       Container(
-                        padding: EdgeInsets.only(right: 20),
+                        padding: EdgeInsetsDirectional.only(end: 20),
                         child: Icon(
                             isExpanded ? Icons.expand_less : Icons.expand_more),
                       ),

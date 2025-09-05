@@ -143,12 +143,14 @@ class _WeatherTopCardState extends State<WeatherTopCard> {
                                 color: Theme.of(context)
                                     .colorScheme
                                     .onSurfaceVariant),
-                            Text("$convertedcurrentMaxTemp°",
-                                style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant,
-                                    fontSize: 16))
+                            Text(
+                              "$convertedcurrentMaxTemp°",
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurfaceVariant,
+                                  fontSize: 16),
+                            )
                           ],
                         ),
                         Row(
@@ -181,9 +183,9 @@ class _WeatherTopCardState extends State<WeatherTopCard> {
                       child: Stack(
                         clipBehavior: Clip.none,
                         children: [
-                          Positioned(
+                          PositionedDirectional(
                             top: 0,
-                            right: 0,
+                            end: 0,
                             child: ConstrainedBox(
                               constraints: BoxConstraints(
                                 maxWidth: 150,
@@ -202,27 +204,27 @@ class _WeatherTopCardState extends State<WeatherTopCard> {
                                 softWrap: true,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
-                                textAlign: TextAlign.right,
+                                textAlign: TextAlign.end,
                               ),
                             ),
                           ),
                           if (_labelHeight > 0)
-                            Positioned(
+                            PositionedDirectional(
                               top: _labelHeight,
-                              right: 0,
+                              end: 0,
                               child: ConstrainedBox(
                                 constraints: BoxConstraints(
                                   maxWidth: 150,
                                 ),
                                 child: Text(
-                                  "${'feels_like'.tr()}  ${widget.currentFeelsLike == 0000 ? '--' : '$convertedfeelsLikeTemp°'} ",
+                                  "${'feels_like'.tr()} ${widget.currentFeelsLike == 0000 ? '--' : '\u200E$convertedfeelsLikeTemp°'} ",
                                   style: TextStyle(
                                     color: Theme.of(context)
                                         .colorScheme
                                         .onSurfaceVariant,
                                     fontSize: 15,
                                   ),
-                                  textAlign: TextAlign.right,
+                                  textAlign: TextAlign.end,
                                 ),
                               ),
                             ),

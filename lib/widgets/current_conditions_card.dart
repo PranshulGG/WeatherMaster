@@ -294,8 +294,8 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                   : Colors.black,
                             ),
                             horizontalTitleGap: 5,
-                            contentPadding:
-                                EdgeInsets.only(left: 10, bottom: 0),
+                            contentPadding: EdgeInsetsDirectional.only(
+                                start: 10, bottom: 0),
                             title: Text(
                               "humidity".tr(),
                               style: TextStyle(
@@ -327,7 +327,8 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                           Align(
                               alignment: Alignment.bottomLeft,
                               child: Padding(
-                                padding: EdgeInsets.only(left: 10, bottom: 10),
+                                padding: EdgeInsetsDirectional.only(
+                                    start: 10, bottom: 10),
                                 child: Row(
                                   spacing: 10,
                                   children: [
@@ -431,7 +432,8 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                               : Colors.black,
                         ),
                         horizontalTitleGap: 5,
-                        contentPadding: EdgeInsets.only(left: 10, bottom: 0),
+                        contentPadding:
+                            EdgeInsetsDirectional.only(start: 10, bottom: 0),
                         title: Text("sun_tile_page".tr(),
                             style: TextStyle(
                                 color: Theme.of(context).brightness ==
@@ -945,7 +947,8 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                               : Colors.black,
                         ),
                         horizontalTitleGap: 5,
-                        contentPadding: EdgeInsets.only(left: 10, bottom: 0),
+                        contentPadding:
+                            EdgeInsetsDirectional.only(start: 10, bottom: 0),
                         title: Text("AQI",
                             style: TextStyle(
                                 color: Theme.of(context).brightness ==
@@ -1055,7 +1058,8 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                               : Colors.black,
                         ),
                         horizontalTitleGap: 5,
-                        contentPadding: EdgeInsets.only(left: 10, bottom: 0),
+                        contentPadding:
+                            EdgeInsetsDirectional.only(start: 10, bottom: 0),
                         title: Text("precipitation".tr(),
                             style: TextStyle(
                                 color: Theme.of(context).brightness ==
@@ -1068,7 +1072,8 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(
-                          padding: EdgeInsets.only(left: 10, bottom: 12),
+                          padding:
+                              EdgeInsetsDirectional.only(start: 10, bottom: 12),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             spacing: 2,
@@ -1194,7 +1199,8 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                           earthshineColor: Colors.blueGrey.shade900,
                         ),
                         horizontalTitleGap: 5,
-                        contentPadding: EdgeInsets.only(left: 10, bottom: 0),
+                        contentPadding:
+                            EdgeInsetsDirectional.only(start: 10, bottom: 0),
                         title: Text("moon".tr(),
                             style: TextStyle(
                                 color: Theme.of(context).brightness ==

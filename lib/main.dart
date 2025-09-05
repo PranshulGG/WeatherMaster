@@ -196,6 +196,8 @@ class MyApp extends StatelessWidget {
     final useExpressiveVariant =
         context.watch<UnitSettingsNotifier>().useExpressiveVariant;
 
+    final forceLTRlayout = context.watch<UnitSettingsNotifier>().forceltrLayout;
+
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: Color(0x01000000),
@@ -232,10 +234,13 @@ class MyApp extends StatelessWidget {
         return context.locale;
       },
       builder: (context, child) {
-        return Directionality(
-          textDirection: ui.TextDirection.ltr,
-          child: child!,
-        );
+        if (forceLTRlayout) {
+          return Directionality(
+            textDirection: ui.TextDirection.ltr,
+            child: child!,
+          );
+        }
+        return child!;
       },
       theme: ThemeData.from(
         colorScheme: useExpressiveVariant

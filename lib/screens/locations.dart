@@ -255,7 +255,8 @@ class _LocationsScreenState extends State<LocationsScreen> {
                   key: const ValueKey("list-title"),
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 14, bottom: 10, top: 16),
+                        padding: EdgeInsetsDirectional.only(
+                            start: 14, bottom: 10, top: 16),
                         child: Row(
                           spacing: 5,
                           children: [
@@ -414,8 +415,9 @@ class _LocationsScreenState extends State<LocationsScreen> {
                                   return FadeInListItem(
                                     child: ListTile(
                                       minTileHeight: 70,
-                                      contentPadding: const EdgeInsets.only(
-                                          left: 10, right: 16),
+                                      contentPadding:
+                                          const EdgeInsetsDirectional.only(
+                                              start: 10, end: 16),
                                       splashColor: Colors.transparent,
                                       leading: CircleAvatar(
                                         backgroundColor: Theme.of(context)
@@ -790,7 +792,8 @@ class _LocationsScreenState extends State<LocationsScreen> {
                               return ListTile(
                                 minTileHeight: 70,
                                 contentPadding:
-                                    const EdgeInsets.only(left: 10, right: 16),
+                                    const EdgeInsetsDirectional.only(
+                                        start: 10, end: 16),
                                 splashColor: Colors.transparent,
                                 leading: CircleAvatar(
                                   backgroundColor:

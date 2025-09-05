@@ -111,9 +111,10 @@ class DailyCard extends StatelessWidget {
                       final code = item["weatherCode"];
                       final precipProb = item["precipProb"];
 
-                      EdgeInsets itemMargin = EdgeInsets.only(
-                        left: index == 0 ? 15 : 0,
-                        right: index == dailyTime.length - 1 ? 15 : 0,
+                      EdgeInsetsDirectional itemMargin =
+                          EdgeInsetsDirectional.only(
+                        start: index == 0 ? 15 : 0,
+                        end: index == dailyTime.length - 1 ? 15 : 0,
                       );
 
                       return RepaintBoundary(
