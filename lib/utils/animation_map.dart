@@ -146,10 +146,20 @@ class WeatherConditionAnimationMapper {
               ),
             ),
             Positioned(
-              top: -MediaQuery.of(context).padding.top,
+              top: (setFullDisplay &&
+                      secondaryAnimationUrl
+                          .contains('cloudy_background.json') &&
+                      animationUrl.contains('cloudy_background.json'))
+                  ? -MediaQuery.of(context).padding.top - (topMain ?? 0)
+                  : -MediaQuery.of(context).padding.top,
               left: 0,
               right: 0,
-              height: diffHeight ?? 500,
+              // height: diffHeight ?? 500,
+              height: (isSunAnim == true && !isNightBool)
+                  ? diffHeight ?? 500
+                  : setFullDisplay
+                      ? MediaQuery.of(context).size.height
+                      : diffHeight ?? 500,
               child: RepaintBoundary(
                 child: Lottie.asset(
                   secondaryAnimationUrl,

@@ -118,7 +118,9 @@ class _AppUnitsPageState extends State<AppUnitsPage> {
                                   ? "M/s"
                                   : currentWindMode == "Bft"
                                       ? "Bft"
-                                      : "Km/h"]!),
+                                      : currentWindMode == "Kt"
+                                          ? "Kt"
+                                          : "Km/h"]!),
                       dialogTitle: 'wind_unit'.tr(),
                       options: optionsWind.values.toList(),
                       initialOption: optionsWind[currentWindMode == "Mph"
@@ -127,7 +129,9 @@ class _AppUnitsPageState extends State<AppUnitsPage> {
                               ? "M/s"
                               : currentWindMode == "Bft"
                                   ? "Bft"
-                                  : "Km/h"],
+                                  : currentWindMode == "Kt"
+                                      ? "Kt"
+                                      : "Km/h"],
                       onSubmitted: (value) {
                         final selectedKey = optionsWind.entries
                             .firstWhere((e) => e.value == value)

@@ -763,7 +763,10 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                 color: Theme.of(context).colorScheme.onSurface,
                                 fontSize: isFoldableLayout(context)
                                     ? 60
-                                    : MediaQuery.of(context).size.width * 0.1,
+                                    : context.locale.languageCode == 'bg'
+                                        ? 24
+                                        : MediaQuery.of(context).size.width *
+                                            0.1,
                               ),
                             ),
                           ),
@@ -780,7 +783,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                   color: Theme.of(context)
                                       .colorScheme
                                       .onSurfaceVariant,
-                                  fontSize: 16,
+                                  fontSize: 18,
                                 ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,

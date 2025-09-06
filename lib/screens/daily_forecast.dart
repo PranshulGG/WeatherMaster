@@ -1295,10 +1295,13 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                               .onSurface,
                                           fontSize: isFoldableLayout(context)
                                               ? 60
-                                              : MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.1,
+                                              : context.locale.languageCode ==
+                                                      'bg'
+                                                  ? 24
+                                                  : MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.1,
                                         ),
                                       ),
                                     ),
