@@ -360,7 +360,7 @@
   "bulletstempOptions_2": "Οι θερμοκρασίες διακυμαίνονται μεταξύ {min}° και {max}°.",
   "bulletstempOptions_3": "Το σημερινό μέγιστο θα είναι γύρω στους {max}° μετά από ένα πιο δροσερό ξεκίνημα. ",
   "bulletsUVOptions_1": "Ο δείκτης UV θα κορυφωθεί γύρω στις {uvTime} στο {uvIndex}.",
-  "bulletsUVOptions_2": "Αναμένεται ισχυρό UV γύρω στις {uvTime} — συνιστάται προστασία από τον ήλιο.",
+  "bulletsUVOptions_2": "Αναμένεται ισχυρή υπεριώδης ακτινοβολία UV γύρω στις {uvTime} — συνιστάται αντηλιακή προστασία.",
   "bulletsUVOptions_3": "Υψηλά επίπεδα UV γύρω στις {uvTime} μπορεί να θέσουν σε κίνδυνο έξω.",
   "bulletsHUMIDITYOptions_1": "{humidity}% υγρασία με σημείο δρόσου {dewpoint}° μέχρι τις {time}.",
   "bulletsHUMIDITYOptions_2": "Αίσθηση υγρασίας αργότερα - σημείο δρόσου γύρω στο {dewpoint}° στις {time}.",
