@@ -261,7 +261,7 @@
   "high_forecast_uv": "Высокий",
   "very_high_forecast_uv": "Очень высокий",
   "extreme_forecast_uv": "Экстремальный",
-  "app_looks": "Приложение выглядит",
+  "app_looks": "Внешний вид приложения",
   "temp_animation_sub_pref": "Считает температуру от начала до конца",
   "hide_condition_widgets": "Скрыть виджеты условий",
   "info_home_location_tip": "Вам нужно сохранить местоположения, чтобы использовать их в качестве местоположения по умолчанию",
@@ -572,5 +572,5 @@
   "insights_sub_50": "Температура в пределах нормы — рекордов не ожидается.",
   "background_updates_not_working": "Фоновые обновления не работают?",
   "background_updates_not_working_sub": "Некоторые производители устройств ограничивают работу приложений в фоновом режиме. Посетите сайт dontkillmyapp.com, чтобы узнать, как исправить эту проблему.",
-  "about_weathermaster_sub": "Changelog, Version, License, and More"
+  "about_weathermaster_sub": "Список изменений, версия, лицензия и другое"
 }
