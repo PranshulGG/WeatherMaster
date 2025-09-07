@@ -299,11 +299,13 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
                       setState(() {
                         SnackUtil.showSnackBar(
                           context: context,
-                          message: "Restarting app",
+                          message: "restart_for_changes".tr(),
+                          actionLabel: "Restart",
+                          duration: Duration(seconds: 30),
+                          onActionPressed: () {
+                            Restart.restartApp();
+                          },
                         );
-                        Future.delayed(Duration(seconds: 2), () {
-                          Restart.restartApp();
-                        });
                       });
                     },
                   ),
