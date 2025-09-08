@@ -36,6 +36,10 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
       "Dark": "theme_dark".tr(),
       "Light": "theme_light".tr(),
     };
+
+    final openContainerAnimation =
+        PreferencesHelper.getBool("UseopenContainerAnimation") ?? true;
+
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
         body: CustomScrollView(slivers: [
@@ -374,6 +378,31 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
                     setState(() {});
                   },
                 ),
+                SettingSwitchTile(
+                    icon: Icon(
+                      Symbols.masked_transitions,
+                      fill: 1,
+                      weight: 500,
+                    ),
+                    title: Text("Condition widget animation"),
+                    description: Text(
+                        "Controls a transform animation. Disable this if you experience lag or freezing"),
+                    toggled: openContainerAnimation,
+                    onChanged: (value) {
+                      PreferencesHelper.setBool(
+                          "UseopenContainerAnimation", value);
+                      setState(() {
+                        SnackUtil.showSnackBar(
+                          context: context,
+                          message: "restart_for_changes".tr(),
+                          actionLabel: "Restart",
+                          duration: Duration(seconds: 30),
+                          onActionPressed: () {
+                            Restart.restartApp();
+                          },
+                        );
+                      });
+                    })
               ],
             ),
             SizedBox(
