@@ -572,5 +572,14 @@
   "insights_sub_50": "Temperature su u uobičajenom rasponu — ne očekuju se rekordi.",
   "background_updates_not_working": "Ažuriranja u pozadini ne rade?",
   "background_updates_not_working_sub": "Neki proizvođači uređaja ograničavaju aplikacije u pozadini. Posetite dontkillmyapp.com za korake kako da rešite ovaj problem.",
-  "about_weathermaster_sub": "Dnevnik promena, verzija, licenca i još mnogo toga"
+  "about_weathermaster_sub": "Dnevnik promena, verzija, licenca i još mnogo toga",
+  "whats_new": "Šta jе novo",
+  "changelog": "Lista promena",
+  "force_ltr_layout": "Prisilno prikazivanje sleva nadesno",
+  "info": "Info",
+  "locations_gesture_info_1": "Prevucite prstom zdesna nalevo da biste izbrisali lokaciju",
+  "locations_gesture_info_2": "Zadržite lokaciju da biste je postavili kao podrazumevanu",
+  "error_loading_changelog": "Greška pri učitavanju dnevnika promena",
+  "condition_widget_animation": "Uslovi animacije vidžeta",
+  "condition_widget_animation_sub": "Kontroliše animaciju transformacije. Onemogućite ovo ako dođe do kašnjenja ili zamrzavanja"
 }
