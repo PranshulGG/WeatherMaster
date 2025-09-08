@@ -573,13 +573,13 @@
   "background_updates_not_working": "Arka plan güncellemeleri çalışmıyor mu?",
   "background_updates_not_working_sub": "Bazı cihaz üreticileri uygulamaların arka planda çalışmasını kısıtlar. Bu sorunu çözmek için dontkillmyapp.com adresini kontrol edin.",
   "about_weathermaster_sub": "Değişiklik günlüğü, Sürüm, Lisans ve Daha Fazlası",
-  "whats_new": "What's new",
-  "changelog": "Changelog",
-  "force_ltr_layout": "Force Left-to-Right Layout",
-  "info": "Info",
-  "locations_gesture_info_1": "Swipe from right to left to delete a location",
-  "locations_gesture_info_2": "Hold a location to set it as default",
-  "error_loading_changelog": "Error loading changelog",
-  "condition_widget_animation": "Condition widget animation",
-  "condition_widget_animation_sub": "Controls a transform animation. Disable this if you experience lag or freezing"
+  "whats_new": "Yenilikler",
+  "changelog": "Değişiklikler",
+  "force_ltr_layout": "Soldan Sağa Düzeni Zorla",
+  "info": "Bilgi",
+  "locations_gesture_info_1": "Bir konumu silmek için sağdan sola kaydırın",
+  "locations_gesture_info_2": "Varsayılan olarak ayarlamak için bir konuma basılı tutun",
+  "error_loading_changelog": "Değişiklik günlüğü yüklenirken hata oluştu",
+  "condition_widget_animation": "Koşullu widget animasyonu",
+  "condition_widget_animation_sub": "Bir dönüşüm animasyonunu kontrol eder. Takılma veya donma yaşarsanız bunu devre dışı bırakın"
 }
