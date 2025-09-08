@@ -572,5 +572,14 @@
   "insights_sub_50": "A hőmérséklet a szokásos tartományon belül van — nem várhatók rekordok.",
   "background_updates_not_working": "Nem működnek a háttérfrissítések?",
   "background_updates_not_working_sub": "Néhány eszközgyártó korlátozza az alkalmazásokat a háttérben. Látogass el a dontkillmyapp.com oldalra a javítási lépésekért.",
-  "about_weathermaster_sub": "Változási napló, verzió, licenc és egyebek"
+  "about_weathermaster_sub": "Változási napló, verzió, licenc és egyebek",
+  "whats_new": "What's new",
+  "changelog": "Changelog",
+  "force_ltr_layout": "Force Left-to-Right Layout",
+  "info": "Info",
+  "locations_gesture_info_1": "Swipe from right to left to delete a location",
+  "locations_gesture_info_2": "Hold a location to set it as default",
+  "error_loading_changelog": "Error loading changelog",
+  "condition_widget_animation": "Condition widget animation",
+  "condition_widget_animation_sub": "Controls a transform animation. Disable this if you experience lag or freezing"
 }
