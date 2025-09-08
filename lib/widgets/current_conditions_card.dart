@@ -99,6 +99,9 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
   Widget build(BuildContext context) {
     final tempUnit = context.watch<UnitSettingsNotifier>().tempUnit;
 
+    final useAnimation =
+        PreferencesHelper.getBool("UseopenContainerAnimation") ?? true;
+
     final dewpointConverted = tempUnit == 'Fahrenheit'
         ? UnitConverter.celsiusToFahrenheit(widget.currentDewPoint.toDouble())
             .round()
@@ -389,7 +392,25 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                           ],
                         )));
                       } else {
-                        openContainer();
+                        !useAnimation
+                            ? Navigator.of(context).push(PageRouteBuilder(
+                                opaque: true,
+                                fullscreenDialog: true,
+                                reverseTransitionDuration:
+                                    Duration(milliseconds: 200),
+                                pageBuilder:
+                                    (context, animation, secondaryAnimation) {
+                                  return ExtendWidget('humidity_widget');
+                                },
+                                transitionsBuilder: (context, animation,
+                                    secondaryAnimation, child) {
+                                  return FadeTransition(
+                                    opacity: animation,
+                                    child: child,
+                                  );
+                                },
+                              ))
+                            : openContainer();
                       }
                     }
                   },
@@ -529,7 +550,27 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                   ),
                 ),
                 onTap: () {
-                  widget.isFromHome ? openContainer() : null;
+                  widget.isFromHome
+                      ? !useAnimation
+                          ? Navigator.of(context).push(PageRouteBuilder(
+                              opaque: true,
+                              fullscreenDialog: true,
+                              reverseTransitionDuration:
+                                  Duration(milliseconds: 200),
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) {
+                                return ExtendWidget('sun_widget');
+                              },
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
+                            ))
+                          : openContainer()
+                      : null;
                 },
               );
             },
@@ -613,7 +654,25 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                         ],
                       )));
                     } else {
-                      openContainer();
+                      !useAnimation
+                          ? Navigator.of(context).push(PageRouteBuilder(
+                              opaque: true,
+                              fullscreenDialog: true,
+                              reverseTransitionDuration:
+                                  Duration(milliseconds: 200),
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) {
+                                return ExtendWidget('pressure_widget');
+                              },
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
+                            ))
+                          : openContainer();
                     }
                   }
                 },
@@ -713,7 +772,25 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                             ],
                           )));
                         } else {
-                          openContainer();
+                          !useAnimation
+                              ? Navigator.of(context).push(PageRouteBuilder(
+                                  opaque: true,
+                                  fullscreenDialog: true,
+                                  reverseTransitionDuration:
+                                      Duration(milliseconds: 200),
+                                  pageBuilder:
+                                      (context, animation, secondaryAnimation) {
+                                    return ExtendWidget('visibility_widget');
+                                  },
+                                  transitionsBuilder: (context, animation,
+                                      secondaryAnimation, child) {
+                                    return FadeTransition(
+                                      opacity: animation,
+                                      child: child,
+                                    );
+                                  },
+                                ))
+                              : openContainer();
                         }
                       }
                     });
@@ -809,7 +886,25 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                         ],
                       )));
                     } else {
-                      openContainer();
+                      !useAnimation
+                          ? Navigator.of(context).push(PageRouteBuilder(
+                              opaque: true,
+                              fullscreenDialog: true,
+                              reverseTransitionDuration:
+                                  Duration(milliseconds: 200),
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) {
+                                return ExtendWidget('winddirc_widget');
+                              },
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
+                            ))
+                          : openContainer();
                     }
                   }
                 },
@@ -908,7 +1003,25 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                             ],
                           )));
                         } else {
-                          openContainer();
+                          !useAnimation
+                              ? Navigator.of(context).push(PageRouteBuilder(
+                                  opaque: true,
+                                  fullscreenDialog: true,
+                                  reverseTransitionDuration:
+                                      Duration(milliseconds: 200),
+                                  pageBuilder:
+                                      (context, animation, secondaryAnimation) {
+                                    return ExtendWidget('uv_widget');
+                                  },
+                                  transitionsBuilder: (context, animation,
+                                      secondaryAnimation, child) {
+                                    return FadeTransition(
+                                      opacity: animation,
+                                      child: child,
+                                    );
+                                  },
+                                ))
+                              : openContainer();
                         }
                       }
                     });
@@ -1018,7 +1131,25 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                         ],
                       )));
                     } else {
-                      openContainer();
+                      !useAnimation
+                          ? Navigator.of(context).push(PageRouteBuilder(
+                              opaque: true,
+                              fullscreenDialog: true,
+                              reverseTransitionDuration:
+                                  Duration(milliseconds: 200),
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) {
+                                return ExtendWidget('aqi_widget');
+                              },
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
+                            ))
+                          : openContainer();
                     }
                   }
                 },
@@ -1159,7 +1290,25 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                         ],
                       )));
                     } else {
-                      openContainer();
+                      !useAnimation
+                          ? Navigator.of(context).push(PageRouteBuilder(
+                              opaque: true,
+                              fullscreenDialog: true,
+                              reverseTransitionDuration:
+                                  Duration(milliseconds: 200),
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) {
+                                return ExtendWidget('precip_widget');
+                              },
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
+                            ))
+                          : openContainer();
                     }
                   }
                 },
@@ -1303,7 +1452,25 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                     if (moonriseFormat == "N/A" && moonsetFormat == "N/A") {
                       return;
                     } else {
-                      openContainer();
+                      !useAnimation
+                          ? Navigator.of(context).push(PageRouteBuilder(
+                              opaque: true,
+                              fullscreenDialog: true,
+                              reverseTransitionDuration:
+                                  Duration(milliseconds: 200),
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) {
+                                return ExtendWidget('moon_widget');
+                              },
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
+                            ))
+                          : openContainer();
                     }
                   }
                 },
