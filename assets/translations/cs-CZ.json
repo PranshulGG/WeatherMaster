@@ -572,5 +572,14 @@
   "insights_sub_50": "Teploty jsou v obvyklém rozmezí - neočekávají se žádné rekordy.",
   "background_updates_not_working": "Nefungují aktualizace na pozadí?",
   "background_updates_not_working_sub": "Někteří výrobci zařízení omezují aplikace na pozadí. Podívejte se na stránky dontkillmyapp.com, kde najdete kroky k nápravě.",
-  "about_weathermaster_sub": "Změny, verze, licence a další"
+  "about_weathermaster_sub": "Změny, verze, licence a další",
+  "whats_new": "Novinky",
+  "changelog": "Seznam změn",
+  "force_ltr_layout": "Vynutit rozložení zleva doprava",
+  "info": "Info",
+  "locations_gesture_info_1": "Přejetím zprava doleva odstraníte lokaci",
+  "locations_gesture_info_2": "Podržením lokace ji nastavíte jako výchozí",
+  "error_loading_changelog": "Chyba při načítání seznamu změn",
+  "condition_widget_animation": "Animace widgetu stavu",
+  "condition_widget_animation_sub": "Ovládá transformační animaci. Vypněte ji, pokud dochází ke zpoždění nebo zamrzání"
 }
