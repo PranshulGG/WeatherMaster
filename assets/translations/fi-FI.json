@@ -572,5 +572,14 @@
   "insights_sub_50": "Lämpötilat ovat tavallisia —Ei riko ennätyksiä.",
   "background_updates_not_working": "Taustapäivitykset eivät toimi?",
   "background_updates_not_working_sub": "Jotkin laitevalmistajat rajoittavat taustasovelluksia. Katso dontkillmyapp.com ohjeita varten.",
-  "about_weathermaster_sub": "Muutosloki, versio, lisennsi ja lisää"
+  "about_weathermaster_sub": "Muutosloki, versio, lisennsi ja lisää",
+  "whats_new": "Uutta",
+  "changelog": "Muutosloki",
+  "force_ltr_layout": "Pakota vasemmalta oikealle -asettelu",
+  "info": "Info",
+  "locations_gesture_info_1": "Pyyhkäise vasemmalta poistaaksesi sijainnin",
+  "locations_gesture_info_2": "Paina sijaintia pitkään asettaaksesi sen oletukseksi",
+  "error_loading_changelog": "Virhe muutoslokia ladatessa",
+  "condition_widget_animation": "Sääwidgettien (sovelluksen sisällä) animaatio",
+  "condition_widget_animation_sub": "Hallitsee muutosanimaatiota. Poista tämä käytöstä, jos sovellus lagaa tai jäätyy."
 }
