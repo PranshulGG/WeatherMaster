@@ -172,7 +172,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       description: Text(
                         getLanguageNamesSettingsView(
                           context.locale,
-                        )['english']
+                        )['native']
                             .toString(),
                       ),
                       onTap: () {
@@ -253,7 +253,7 @@ Map<String, String> getLanguageNamesSettingsView(Locale locale) {
     return {'native': 'Ελληνικά', 'english': 'Greek'};
   }
   if (lang == 'en') {
-    return {'native': 'English', 'english': 'English (US)'};
+    return {'native': 'English (US)', 'english': 'English (US)'};
   }
   if (lang == 'es' && country == 'ES') {
     return {'native': 'Español', 'english': 'Spanish'};
@@ -336,7 +336,9 @@ Map<String, String> getLanguageNamesSettingsView(Locale locale) {
   if (lang == 'ca' && country == 'ES') {
     return {'native': 'Català', 'english': 'Catalan'};
   }
-
+  if (lang == 'bg' && country == 'BG') {
+    return {'native': 'Български', 'english': 'Bulgarian'};
+  }
   return {
     'native': '$lang${country != null ? "_$country" : ""}',
     'english': 'Unknown',
