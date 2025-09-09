@@ -254,7 +254,7 @@ class _WeatherHomeState extends State<WeatherHome> {
       isHomeLocation = false;
     }
 
-    final hasInternet = await hasNetworkConnection();
+    final hasInternet = await NativeNetwork.isOnline();
 
     if (!hasInternet) {
       if (!_istriggeredFromLocations) {
@@ -270,7 +270,7 @@ class _WeatherHomeState extends State<WeatherHome> {
       final lastUpdateTime = DateTime.tryParse(lastUpdated);
       final now = DateTime.now();
       if (lastUpdateTime != null &&
-          now.difference(lastUpdateTime).inMinutes < 45) {
+          now.difference(lastUpdateTime).inMinutes < 4500) {
         if (!_istriggeredFromLocations) {
           _isAppFullyLoaded = true;
         }
@@ -319,7 +319,7 @@ class _WeatherHomeState extends State<WeatherHome> {
   }
 
   Future<void> _refreshWeatherData() async {
-    final hasInternet = await hasNetworkConnection();
+    final hasInternet = await NativeNetwork.isOnline();
 
     if (isViewLocation) {
       if (!mounted) return;

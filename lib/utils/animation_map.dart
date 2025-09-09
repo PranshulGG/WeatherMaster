@@ -41,10 +41,14 @@ class WeatherConditionAnimationMapper {
         break;
 
       case 3:
-        animationUrl = 'assets/foreground-animations/cloudy_background.json';
+        animationUrl = setFullDisplay
+            ? 'assets/foreground-animations/cloudy.json'
+            : 'assets/foreground-animations/cloudy_background.json';
         secondaryAnimationUrl =
             'assets/foreground-animations/cloudy_background.json';
-        topMain = MediaQuery.of(context).padding.top + 50;
+        topMain = setFullDisplay
+            ? MediaQuery.of(context).padding.top + 100
+            : MediaQuery.of(context).padding.top + 50;
         break;
 
       case 45:
@@ -184,10 +188,13 @@ class WeatherConditionAnimationMapper {
               ? MediaQuery.of(context).size.height
               : 300,
       child: RepaintBoundary(
-        child: Lottie.asset(
-          animationUrl,
-          fit: BoxFit.cover,
-          repeat: true,
+        child: Opacity(
+          opacity: animationUrl.contains('haze_foreground.json') ? 0.4 : 1,
+          child: Lottie.asset(
+            animationUrl,
+            fit: BoxFit.cover,
+            repeat: true,
+          ),
         ),
       ),
     );

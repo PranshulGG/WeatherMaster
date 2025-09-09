@@ -1,14 +1,11 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/services.dart';
 
-Future<bool> hasNetworkConnection() async {
-  final result = await Connectivity().checkConnectivity();
+class NativeNetwork {
+  static const _channel =
+      MethodChannel('com.pranshulgg.weather_master_app/service');
 
-  if (result is List) {
-    final first = result.isNotEmpty ? result.first : ConnectivityResult.none;
-    return first == ConnectivityResult.mobile ||
-        first == ConnectivityResult.wifi;
-  } else {
-    return result == ConnectivityResult.mobile ||
-        result == ConnectivityResult.wifi;
+  static Future<bool> isOnline() async {
+    final result = await _channel.invokeMethod<bool>('isOnline');
+    return result ?? false;
   }
 }

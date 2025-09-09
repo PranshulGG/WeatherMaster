@@ -11,6 +11,7 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import java.util.concurrent.TimeUnit
 import android.os.Bundle
+import android.net.ConnectivityManager
 
 class MainActivity : FlutterActivity() {
 
@@ -97,9 +98,13 @@ class MainActivity : FlutterActivity() {
                     scheduleWeatherUpdates(this, intervalMinutes)
                     result.success(true)
                     }
+
                     "stopService" -> {
                         cancelWeatherUpdates(this)
                         result.success(true)
+                    }
+                    "isOnline" ->  {
+                        result.success(isOnline(this))
                     }
                     else -> result.notImplemented()
                 }
@@ -114,6 +119,12 @@ class MainActivity : FlutterActivity() {
             // Below Android 13, permission not needed
             true
         }
+    }
+
+    private fun isOnline(context: Context): Boolean {
+        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+        return capabilities != null
     }
 
     private fun requestNotificationPermission(result: MethodChannel.Result) {

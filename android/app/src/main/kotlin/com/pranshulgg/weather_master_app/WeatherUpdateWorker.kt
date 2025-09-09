@@ -41,6 +41,7 @@ class WeatherUpdateWorker(
 
         return try {
             withContext(Dispatchers.Main) {
+
                 // Start a temporary Flutter engine with entrypoint workerUpdateWidget
                 flutterEngine = FlutterEngine(applicationContext).apply {
                     dartExecutor.executeDartEntrypoint(
@@ -53,7 +54,6 @@ class WeatherUpdateWorker(
 
                 // Wait to let Dart run updateHomeWidget()
                 delay(6000)
-
                 flutterEngine?.destroy()
             }
 

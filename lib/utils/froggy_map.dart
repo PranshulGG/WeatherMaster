@@ -26,7 +26,7 @@ class WeatherFroggyManager {
     }
 
     Connectivity().onConnectivityChanged.listen((event) async {
-      if (await hasNetworkConnection() && await urlIsReachable(testUrl)) {
+      if (await NativeNetwork.isOnline() && await urlIsReachable(testUrl)) {
         _setOnlineIcons();
       } else {
         _setOfflineIcons();
