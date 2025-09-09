@@ -577,9 +577,9 @@
   "changelog": "Λίστα αλλαγών",
   "force_ltr_layout": "Επιβολή Διάταξης Αριστερά-προς-Δεξιά",
   "info": "Πληροφ.",
-  "locations_gesture_info_1": "Swipe from right to left to delete a location",
-  "locations_gesture_info_2": "Hold a location to set it as default",
-  "error_loading_changelog": "Error loading changelog",
-  "condition_widget_animation": "Condition widget animation",
-  "condition_widget_animation_sub": "Controls a transform animation. Disable this if you experience lag or freezing"
+  "locations_gesture_info_1": "Σύρετε από δεξιά προς τα αριστερά για να διαγράψετε μια τοποθεσία",
+  "locations_gesture_info_2": "Κρατήστε παρατεταμένα μια τοποθεσία για να την ορίσετε ως προεπιλογή",
+  "error_loading_changelog": "Σφάλμα κατά τη φόρτωση του αρχείου καταγραφής αλλαγών",
+  "condition_widget_animation": "Εφέ κίνησης γραφικού στοιχείου συνθήκης",
+  "condition_widget_animation_sub": "Ελέγχει ένα εφέ κίνησης μετασχηματισμού. Απενεργοποιήστε αυτήν την επιλογή εάν αντιμετωπίζετε καθυστέρηση ή πάγωμα."
 }
