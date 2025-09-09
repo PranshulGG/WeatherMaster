@@ -620,48 +620,41 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
 
   Future<void> _loadLocationAndFetchWeather() async {
     try {
-      // Use the same current location that the main weather app is displaying
       final currentLocation = PreferencesHelper.getString('currentLocation');
       final homeLocation = PreferencesHelper.getJson('homeLocation');
 
       if (currentLocation != null && currentLocation.isNotEmpty) {
         try {
           final locationData = json.decode(currentLocation);
-          // currentLocation uses 'latitude'/'longitude', homeLocation uses 'lat'/'lon'
           if (locationData['latitude'] != null &&
               locationData['longitude'] != null) {
-            _currentLat = locationData['latitude'];
-            _currentLon = locationData['longitude'];
+            _currentLat = (locationData['latitude'] as num).toDouble();
+            _currentLon = (locationData['longitude'] as num).toDouble();
           } else if (locationData['lat'] != null &&
               locationData['lon'] != null) {
-            _currentLat = locationData['lat'];
-            _currentLon = locationData['lon'];
+            _currentLat = (locationData['lat'] as num).toDouble();
+            _currentLon = (locationData['lon'] as num).toDouble();
           } else {
             throw Exception('Invalid currentLocation data');
           }
-        } catch (e) {
-          // Fall through to homeLocation
-        }
+        } catch (e) {}
       }
 
-      // If currentLocation failed or is null, use homeLocation
       if (_currentLat == null || _currentLon == null) {
         if (homeLocation != null &&
             homeLocation['lat'] != null &&
             homeLocation['lon'] != null) {
-          _currentLat = homeLocation['lat'];
-          _currentLon = homeLocation['lon'];
+          _currentLat = (homeLocation['lat'] as num).toDouble();
+          _currentLon = (homeLocation['lon'] as num).toDouble();
         } else {
-          return; // No location data available
+          return;
         }
       }
 
       if (_currentLat != null && _currentLon != null) {
         await _checkCacheAndFetchWeather();
       }
-    } catch (e) {
-      // Handle errors silently
-    }
+    } catch (e) {}
   }
 
   Future<void> _checkCacheAndFetchWeather() async {
@@ -670,7 +663,6 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
     final currentLocationKey = '${_currentLat}_$_currentLon';
     final now = DateTime.now();
 
-    // Get total number of models to check cache completeness
     final allModelKeys = <String>{};
     for (final models in categorizedModels.values) {
       for (final model in models) {
@@ -678,42 +670,37 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
       }
     }
 
-    // Count how many models have cached data (not null)
     final cachedModelCount =
         _modelWeatherData.values.where((data) => data != null).length;
     final totalModelCount = allModelKeys.length;
-    final hasReasonableCache = cachedModelCount >=
-        (totalModelCount * 0.5); // At least 50% of models have data
+    final hasReasonableCache = cachedModelCount >= (totalModelCount * 0.5);
 
-    // Check if we have valid cached data (same location, less than 45 minutes old, and reasonably complete)
     final bool shouldRefresh = _lastFetchTime == null ||
         _cachedLocationKey != currentLocationKey ||
-        now.difference(_lastFetchTime!).inMinutes >= 45 ||
+        now.difference(_lastFetchTime!).inMinutes >= 720 ||
         !hasReasonableCache;
 
     if (shouldRefresh) {
-      // Cache is stale or location changed - fetch new data
       _lastFetchTime = now;
       _cachedLocationKey = currentLocationKey;
       await _fetchWeatherForAllModels();
     } else {
-      // Use cached data - no API calls needed
       final cacheAge = now.difference(_lastFetchTime!).inMinutes;
-
-      // Ensure loading states are set to false for cached data
 
       for (final modelKey in allModelKeys) {
         _modelLoadingStates[modelKey] = false;
       }
 
-      if (mounted) setState(() {}); // Update UI with cached data
+      if (mounted) setState(() {});
+      debugPrint(
+        const JsonEncoder.withIndent('  ').convert(_modelWeatherData),
+      );
     }
   }
 
   Future<void> _forceRefresh() async {
     if (_currentLat == null || _currentLon == null) return;
 
-    // Force refresh by invalidating cache
     _lastFetchTime = DateTime.now();
     _cachedLocationKey = '${_currentLat}_$_currentLon';
     await _fetchWeatherForAllModels();
@@ -722,82 +709,165 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
   Future<void> _fetchWeatherForAllModels() async {
     if (_currentLat == null || _currentLon == null) return;
 
-    // Get all unique model keys from all categories
-    Set<String> allModelKeys = {};
+    final Set<String> allModelKeys = {};
     for (final models in categorizedModels.values) {
       for (final model in models) {
         allModelKeys.add(model['key'].toString());
       }
     }
 
-    // Initialize loading states
     for (final modelKey in allModelKeys) {
       _modelLoadingStates[modelKey] = true;
     }
     if (mounted) setState(() {});
 
-    // Fetch weather data for each model with delays to avoid rate limiting
-    int delay = 0;
-    final futures = allModelKeys.map((modelKey) async {
-      delay += 500; // 500ms delay between requests
-      await Future.delayed(Duration(milliseconds: delay));
-
-      try {
-        final specificModelData = await _fetchWeatherForSpecificModel(modelKey);
-        _modelWeatherData[modelKey] = specificModelData;
-      } catch (e) {
-        // Log error silently - don't use print in production
-        _modelWeatherData[modelKey] = null;
-      } finally {
-        _modelLoadingStates[modelKey] = false;
-        if (mounted) setState(() {}); // Update UI as each model completes
-      }
-    });
-
-    await Future.wait(futures);
-    if (mounted) setState(() {});
-  }
-
-  Future<Map<String, dynamic>?> _fetchWeatherForSpecificModel(
-      String modelKey) async {
-    if (_currentLat == null || _currentLon == null) return null;
-
     try {
-      // Use proper timezone detection like the original WeatherService
       final timezone = tzmap.latLngToTimezoneString(_currentLat!, _currentLon!);
 
-      // Make direct HTTP request with same parameters as original WeatherService
+      final modelsParam = allModelKeys.join(',');
+
       final uri = Uri.parse('https://api.open-meteo.com/v1/forecast')
           .replace(queryParameters: {
         'latitude': _currentLat!.toString(),
         'longitude': _currentLon!.toString(),
-        'current':
-            'temperature_2m,is_day,apparent_temperature,pressure_msl,relative_humidity_2m,precipitation,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m,wind_gusts_10m',
         'hourly':
             'wind_speed_10m,wind_direction_10m,relative_humidity_2m,pressure_msl,cloud_cover,temperature_2m,dew_point_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,visibility,uv_index',
-        'daily':
-            'weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,daylight_duration,uv_index_max,precipitation_sum,precipitation_probability_max,precipitation_hours,wind_speed_10m_max,wind_gusts_10m_max',
+        'current':
+            'temperature_2m,is_day,apparent_temperature,pressure_msl,relative_humidity_2m,precipitation,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m,wind_gusts_10m',
         'timezone': timezone,
         'forecast_days': '7',
-        'models': modelKey
+        'models': modelsParam
       });
 
       final response = await http.get(uri);
 
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body) as Map<String, dynamic>;
+      if (response.statusCode != 200) {
+        for (final modelKey in allModelKeys) {
+          _modelWeatherData[modelKey] = null;
+          _modelLoadingStates[modelKey] = false;
+        }
+        if (mounted) setState(() {});
+        return;
+      }
 
-        // Check for API errors
-        if (data['error'] == true) {
-          return null;
+      final Map<String, dynamic> data = json.decode(response.body);
+
+      debugPrint(data.toString());
+
+      final int utcOffsetSeconds =
+          (data['utc_offset_seconds'] is int) ? data['utc_offset_seconds'] : 0;
+
+      final DateTime nowUtc = DateTime.now().toUtc();
+      final DateTime targetLocal =
+          nowUtc.add(Duration(seconds: utcOffsetSeconds));
+
+      final String targetHourString = _formatHourString(targetLocal);
+
+      final List<dynamic>? hourlyTimes =
+          (data['hourly']?['time'] as List<dynamic>?);
+
+      if (hourlyTimes == null) {
+        for (final modelKey in allModelKeys) {
+          _modelWeatherData[modelKey] = null;
+          _modelLoadingStates[modelKey] = false;
+        }
+        if (mounted) setState(() {});
+        return;
+      }
+
+      int index = hourlyTimes
+          .indexWhere((t) => t.toString().startsWith(targetHourString));
+      if (index == -1) {
+        index = _findNearestHourIndex(hourlyTimes.cast<String>(), targetLocal);
+      }
+
+      for (final rawModelKey in allModelKeys) {
+        final modelKey = rawModelKey.toString();
+        final sanitizedKey = modelKey.replaceAll('-', '_');
+        final tempField = 'temperature_2m_$sanitizedKey';
+
+        double? tempValue;
+
+        if (data['hourly'] != null && data['hourly'][tempField] != null) {
+          final List<dynamic> temps =
+              (data['hourly'][tempField] as List<dynamic>);
+          if (index != -1 && index < temps.length) {
+            final dynamic v = temps[index];
+            if (v != null) {
+              tempValue =
+                  (v is num) ? v.toDouble() : double.tryParse(v.toString());
+            }
+          }
+        } else {
+          if (data['hourly'] != null &&
+              data['hourly']['temperature_2m'] != null) {
+            final List<dynamic> temps =
+                (data['hourly']['temperature_2m'] as List<dynamic>);
+            if (index != -1 && index < temps.length) {
+              final dynamic v = temps[index];
+              if (v != null) {
+                tempValue =
+                    (v is num) ? v.toDouble() : double.tryParse(v.toString());
+              }
+            }
+          }
         }
 
-        return data;
-      } else {
-        return null;
+        if (tempValue != null) {
+          _modelWeatherData[modelKey] = {
+            'current': {'temperature_2m': tempValue}
+          };
+        } else {
+          _modelWeatherData[modelKey] = null;
+        }
+
+        _modelLoadingStates[modelKey] = false;
       }
+
+      if (mounted) setState(() {});
     } catch (e) {
-      return null;
+      final Set<String> allKeys = {};
+      for (final models in categorizedModels.values) {
+        for (final model in models) {
+          allKeys.add(model['key'].toString());
+        }
+      }
+      for (final k in allKeys) {
+        _modelWeatherData[k] = null;
+        _modelLoadingStates[k] = false;
+      }
+      if (mounted) setState(() {});
+    }
+  }
+
+  String _formatHourString(DateTime dt) {
+    final y = dt.year.toString().padLeft(4, '0');
+    final m = dt.month.toString().padLeft(2, '0');
+    final d = dt.day.toString().padLeft(2, '0');
+    final h = dt.hour.toString().padLeft(2, '0');
+    return '$y-$m-${d}T$h:00';
+  }
+
+  int _findNearestHourIndex(List<String> hoursIso, DateTime targetLocal) {
+    try {
+      final List<DateTime> parsed = hoursIso.map((s) {
+        final parts = s.split('T');
+        final date = parts[0].split('-').map((e) => int.parse(e)).toList();
+        final time = parts[1].split(':').map((e) => int.parse(e)).toList();
+        return DateTime(date[0], date[1], date[2], time[0], time[1]);
+      }).toList();
+
+      int best = -1;
+      for (int i = 0; i < parsed.length; i++) {
+        if (!parsed[i].isAfter(targetLocal)) {
+          best = i;
+        } else {
+          break;
+        }
+      }
+      return best == -1 ? 0 : best;
+    } catch (e) {
+      return 0;
     }
   }
 
@@ -816,15 +886,11 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
       );
     }
 
-    // Check if model has no data
     if (weatherData == null || weatherData['current'] == null) {
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
         decoration: BoxDecoration(
-          color: Theme.of(context)
-              .colorScheme
-              .errorContainer
-              .withValues(alpha: 0.7),
+          color: Theme.of(context).colorScheme.errorContainer.withOpacity(0.7),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Text(
@@ -838,15 +904,13 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
       );
     }
 
-    final temperature = weatherData['current']['temperature_2m'] as double?;
+    final temperature =
+        (weatherData['current']['temperature_2m'] as num?)?.toDouble();
     if (temperature == null) {
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
         decoration: BoxDecoration(
-          color: Theme.of(context)
-              .colorScheme
-              .errorContainer
-              .withValues(alpha: 0.7),
+          color: Theme.of(context).colorScheme.errorContainer.withOpacity(0.7),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Text(
@@ -863,10 +927,7 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: Theme.of(context)
-            .colorScheme
-            .surfaceContainerHighest
-            .withValues(alpha: 0.7),
+        color: Theme.of(context).colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(
@@ -891,13 +952,6 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
             titleSpacing: 0,
             backgroundColor: Theme.of(context).colorScheme.surface,
             scrolledUnderElevation: 1,
-            // actions: [
-            //   IconButton(
-            //     icon: Icon(Icons.refresh),
-            //     onPressed: _forceRefresh,
-            //     tooltip: 'Refresh temperatures',
-            //   ),
-            // ],
           ),
           SliverList(
             delegate: SliverChildBuilderDelegate(
@@ -979,32 +1033,34 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
                                             ? BorderRadius.only(
                                                 topLeft: Radius.circular(18),
                                                 topRight: Radius.circular(18),
-                                                bottomLeft: Radius.circular(0),
-                                                bottomRight: Radius.circular(0))
+                                                bottomLeft:
+                                                    Radius.circular(2.6),
+                                                bottomRight:
+                                                    Radius.circular(2.6))
                                             : isLast
                                                 ? BorderRadius.only(
-                                                    topLeft: Radius.circular(0),
+                                                    topLeft:
+                                                        Radius.circular(2.6),
                                                     topRight:
-                                                        Radius.circular(0),
+                                                        Radius.circular(2.6),
                                                     bottomLeft:
                                                         Radius.circular(18),
                                                     bottomRight:
                                                         Radius.circular(18))
                                                 : BorderRadius.all(
-                                                    Radius.circular(0))),
+                                                    Radius.circular(2.6))),
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
-                              spacing: 8,
                               children: [
                                 _buildTemperatureWidget(
                                     model['key'].toString()),
+                                SizedBox(width: 8),
                                 isSelected
                                     ? Icon(
-                                        Symbols.check,
+                                        Icons.check,
                                         size: 28,
                                       )
-                                    : Icon(Symbols.nest_farsight_weather,
-                                        size: 28),
+                                    : Icon(Icons.thermostat_outlined, size: 28),
                               ],
                             ),
                             title: Text(
@@ -1036,7 +1092,7 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
                                     child: Row(
                                       children: [
                                         Icon(
-                                          Symbols.warning,
+                                          Icons.warning,
                                           size: 14,
                                           color: Theme.of(context)
                                               .colorScheme
@@ -1088,13 +1144,14 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
               PreferencesHelper.setString(
                   "selectedWeatherModel", selectedModelKey.toString());
               PreferencesHelper.setBool("ModelChanged", true);
+              _scaffoldMessengerKey.currentState?.hideCurrentSnackBar();
               _scaffoldMessengerKey.currentState?.showSnackBar(
                 SnackBar(content: Text('model_saved_snack'.tr())),
               );
             },
             backgroundColor: Theme.of(context).colorScheme.tertiaryContainer,
             foregroundColor: Theme.of(context).colorScheme.onTertiaryContainer,
-            child: Icon(Symbols.save)),
+            child: Icon(Icons.save)),
       ),
     );
   }
