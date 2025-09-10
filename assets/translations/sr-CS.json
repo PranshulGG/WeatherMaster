@@ -581,5 +581,9 @@
   "locations_gesture_info_2": "Zadržite lokaciju da biste je postavili kao podrazumevanu",
   "error_loading_changelog": "Greška pri učitavanju dnevnika promena",
   "condition_widget_animation": "Uslovi animacije vidžeta",
-  "condition_widget_animation_sub": "Kontroliše animaciju transformacije. Onemogućite ovo ako dođe do kašnjenja ili zamrzavanja"
+  "condition_widget_animation_sub": "Kontroliše animaciju transformacije. Onemogućite ovo ako dođe do kašnjenja ili zamrzavanja",
+  "city": "City",
+  "country": "Country",
+  "latitude": "Latitude",
+  "longitude": "Longitude"
 }
