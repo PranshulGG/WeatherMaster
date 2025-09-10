@@ -581,5 +581,9 @@
   "locations_gesture_info_2": "Halte einen Standort gedrückt, um ihn als Standard festzulegen ",
   "error_loading_changelog": "Fehler beim Laden der Neuerungen",
   "condition_widget_animation": "Condition widget animation",
-  "condition_widget_animation_sub": "Controls a transform animation. Disable this if you experience lag or freezing"
+  "condition_widget_animation_sub": "Controls a transform animation. Disable this if you experience lag or freezing",
+  "city": "City",
+  "country": "Country",
+  "latitude": "Latitude",
+  "longitude": "Longitude"
 }
