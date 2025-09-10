@@ -262,7 +262,7 @@
   "very_high_forecast_uv": "Hyvin korkea",
   "extreme_forecast_uv": "Äärimmäinen",
   "app_looks": "Sovelluksen ulkonäkö",
-  "temp_animation_sub_pref": "Laskee lämpötilat alusta loppuun",
+  "temp_animation_sub_pref": "Laskee lämpötilat alusta loppuun animaationa",
   "hide_condition_widgets": "Piilota tilawidgetit",
   "info_home_location_tip": "Sinun täytyy tallentaa sijainteja käyttääksesi niitä oletus sijaintina.",
   "your_device_location": "Laitteesi sijainti",
@@ -352,8 +352,8 @@
   "rain_expected_this_afternoon": "Sadetta odotettavissa tänä iltapäivänä",
   "rain_expected_this_evening": "Sadetta odotettavissa illalla",
   "rain_expected_later_today": "Sadetta odotettavissa myöhemmin tänään",
-  "from_text": "Tästä:",
-  "to_text": "Tähän:",
+  "from_text": "tästä:",
+  "to_text": "tähän asti:",
   "heavy_rain": "Rankkaa sadetta",
   "light_rain": "Pientä sadetta",
   "bulletstempOptions_1": "Päiväsaikaan lämpötilat vaihtelevat {min}°:stä {max}°:een.",
@@ -582,8 +582,8 @@
   "error_loading_changelog": "Virhe muutoslokia ladatessa",
   "condition_widget_animation": "Sääwidgettien (sovelluksen sisällä) animaatio",
   "condition_widget_animation_sub": "Hallitsee muutosanimaatiota. Poista tämä käytöstä, jos sovellus lagaa tai jäätyy.",
-  "city": "City",
-  "country": "Country",
-  "latitude": "Latitude",
-  "longitude": "Longitude"
+  "city": "Kaupunki",
+  "country": "Valtio",
+  "latitude": "Leveyspiiri",
+  "longitude": "Pituuspiiri"
 }
