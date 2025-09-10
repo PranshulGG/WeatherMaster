@@ -581,5 +581,9 @@
   "locations_gesture_info_2": "Podržením lokace ji nastavíte jako výchozí",
   "error_loading_changelog": "Chyba při načítání seznamu změn",
   "condition_widget_animation": "Animace widgetu stavu",
-  "condition_widget_animation_sub": "Ovládá transformační animaci. Vypněte ji, pokud dochází ke zpoždění nebo zamrzání"
+  "condition_widget_animation_sub": "Ovládá transformační animaci. Vypněte ji, pokud dochází ke zpoždění nebo zamrzání",
+  "city": "City",
+  "country": "Country",
+  "latitude": "Latitude",
+  "longitude": "Longitude"
 }
