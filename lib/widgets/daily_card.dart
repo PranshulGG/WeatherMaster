@@ -153,11 +153,13 @@ class DailyCard extends StatelessWidget {
                                         style: TextStyle(
                                           fontSize: 16,
                                           color: colorTheme.onSurface,
+                                          fontFamily: "FlexFontEn",
                                         )),
                                     Text("${tempMin.round()}°",
                                         style: TextStyle(
                                           fontSize: 16,
                                           color: colorTheme.onSurfaceVariant,
+                                          fontFamily: "FlexFontEn",
                                         )),
                                   ],
                                 ),
@@ -180,6 +182,7 @@ class DailyCard extends StatelessWidget {
                                         fontSize: 14,
                                         color: colorTheme.primary,
                                         fontWeight: FontWeight.w600,
+                                        fontFamily: "FlexFontEn",
                                       )),
                                   SizedBox(
                                     height: 3,
@@ -232,8 +235,6 @@ String getLocalizedDateFormat(DateTime time, Locale locale) {
     return DateFormat('MM/dd').format(time);
   } else if (lang == 'ja') {
     return DateFormat('MM月dd日', 'ja').format(time);
-  } else if (lang == 'zh' && country == 'CN' || country == "TW") {
-    return DateFormat('MM月dd日', 'zh_CN').format(time);
   } else if (lang == 'fa') {
     return DateFormat('yyyy/MM/dd', 'fa').format(time);
   } else if (lang == 'de') {

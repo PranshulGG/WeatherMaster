@@ -235,6 +235,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                       Text(
                         "$avgHumidity%",
                         style: TextStyle(
+                          fontFamily: "FlexFontEn",
                           fontSize: 50,
                           color: Theme.of(context).colorScheme.secondary,
                         ),
@@ -342,6 +343,8 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                                       child: Text(
                                                           "$humidityPercentage",
                                                           style: TextStyle(
+                                                            fontFamily:
+                                                                "FlexFontEn",
                                                             fontSize: 16,
                                                             color: Theme.of(
                                                                     context)
@@ -358,6 +361,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                             const SizedBox(height: 10),
                             Text(hour,
                                 style: TextStyle(
+                                    fontFamily: "FlexFontEn",
                                     fontSize: 15,
                                     color:
                                         Theme.of(context).colorScheme.onSurface,
@@ -511,6 +515,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                       fontSize: 15)),
               Text(dawnFormatted,
                   style: TextStyle(
+                      fontFamily: "FlexFontEn",
                       color: Theme.of(context).colorScheme.primary,
                       fontSize: 18)),
             ],
@@ -525,6 +530,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                       fontSize: 15)),
               Text(sunriseFormat,
                   style: TextStyle(
+                      fontFamily: "FlexFontEn",
                       color: Theme.of(context).colorScheme.primary,
                       fontSize: 18)),
             ],
@@ -539,6 +545,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                       fontSize: 15)),
               Text(duskFormatted,
                   style: TextStyle(
+                      fontFamily: "FlexFontEn",
                       color: Theme.of(context).colorScheme.secondary,
                       fontSize: 18)),
             ],
@@ -553,6 +560,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                       fontSize: 15)),
               Text(sunsetFormat,
                   style: TextStyle(
+                      fontFamily: "FlexFontEn",
                       color: Theme.of(context).colorScheme.secondary,
                       fontSize: 18)),
             ],
@@ -756,6 +764,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                               "${convertedPressure.round()}",
                               style: TextStyle(
                                 fontSize: 50,
+                                fontFamily: "FlexFontEn",
                                 color: Theme.of(context).colorScheme.secondary,
                               ),
                             ),
@@ -932,6 +941,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                               Text("${pressureHourly[dataIndex].round()}",
                                   style: TextStyle(
                                     fontSize: 14,
+                                    fontFamily: "FlexFontEn",
                                     color: Theme.of(context)
                                         .colorScheme
                                         .onSurfaceVariant,
@@ -942,6 +952,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                       color: Theme.of(context)
                                           .colorScheme
                                           .onSurface,
+                                      fontFamily: "FlexFontEn",
                                       fontWeight: FontWeight.w500)),
                             ],
                           ),
@@ -1054,6 +1065,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                             Text(
                               "${convertedVisibility.round()}",
                               style: TextStyle(
+                                fontFamily: "FlexFontEn",
                                 fontSize: 50,
                                 color: Theme.of(context)
                                     .colorScheme
@@ -1203,6 +1215,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                               "${PreferencesHelper.getString("selectedWindUnit") == 'M/s' ? formattedAvgWindSpeed.toStringAsFixed(1) : formattedAvgWindSpeed.round()}",
                               style: TextStyle(
                                 fontSize: 50,
+                                fontFamily: "FlexFontEn",
                                 color: Theme.of(context).colorScheme.secondary,
                               ),
                             ),
@@ -1363,6 +1376,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                               Text("$formattedWindSpeed",
                                   style: TextStyle(
                                     fontSize: 14,
+                                    fontFamily: "FlexFontEn",
                                     color: Theme.of(context)
                                         .colorScheme
                                         .onSurfaceVariant,
@@ -1370,6 +1384,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                               Text(hour,
                                   style: TextStyle(
                                       fontSize: 15,
+                                      fontFamily: "FlexFontEn",
                                       color: Theme.of(context)
                                           .colorScheme
                                           .onSurface,
@@ -1493,6 +1508,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                             Text(
                               avgUv != null ? "${avgUv.round()}" : "--",
                               style: TextStyle(
+                                fontFamily: "FlexFontEn",
                                 fontSize: 50,
                                 color: Theme.of(context).colorScheme.secondary,
                               ),
@@ -1641,6 +1657,8 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                                                   ? "${uvValue.round()}"
                                                                   : "--",
                                                               style: TextStyle(
+                                                                fontFamily:
+                                                                    "FlexFontEn",
                                                                 fontSize: 16,
                                                                 color: getUvColor(
                                                                     uvValue ??
@@ -1656,6 +1674,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                               const SizedBox(height: 10),
                               Text(hour,
                                   style: TextStyle(
+                                      fontFamily: "FlexFontEn",
                                       fontSize: 15,
                                       color: Theme.of(context)
                                           .colorScheme
@@ -1774,6 +1793,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                               Text(
                                 "$aqiFormat",
                                 style: TextStyle(
+                                  fontFamily: "FlexFontEn",
                                   fontSize: 50,
                                   color:
                                       Theme.of(context).colorScheme.secondary,
@@ -1836,6 +1856,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                           .tertiary),
                                   child: Text("${airQualityData['us_aqi']}",
                                       style: TextStyle(
+                                        fontFamily: "FlexFontEn",
                                         color: Theme.of(context)
                                             .colorScheme
                                             .onTertiary,
@@ -1849,6 +1870,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                               children: [
                                 Text("${"european_aqi".tr()}:",
                                     style: TextStyle(
+                                        fontFamily: "FlexFontEn",
                                         color: Theme.of(context)
                                             .colorScheme
                                             .onSurface,
@@ -2128,6 +2150,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                               style: TextStyle(
                                 fontSize: 50,
                                 color: Theme.of(context).colorScheme.secondary,
+                                fontFamily: "FlexFontEn",
                               ),
                             ),
                             Padding(
@@ -2263,6 +2286,8 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                                           child: Text(
                                                               "$precipProbMain",
                                                               style: TextStyle(
+                                                                fontFamily:
+                                                                    "FlexFontEn",
                                                                 fontSize: 15,
                                                                 color: Theme.of(
                                                                         context)
@@ -2297,6 +2322,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                       color: Theme.of(context)
                                           .colorScheme
                                           .onSurfaceVariant,
+                                      fontFamily: "FlexFontEn",
                                       fontWeight: FontWeight.w500)),
                               Text(hour,
                                   style: TextStyle(
@@ -2304,6 +2330,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                       color: Theme.of(context)
                                           .colorScheme
                                           .onSurface,
+                                      fontFamily: "FlexFontEn",
                                       fontWeight: FontWeight.w500)),
                             ],
                           ),

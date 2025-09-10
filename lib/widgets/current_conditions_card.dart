@@ -317,6 +317,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                 child: Text(
                                   "${widget.currentHumidity == 0.0000001 ? '--' : widget.currentHumidity}%",
                                   style: TextStyle(
+                                    fontFamily: "FlexFontEn",
                                     color: Theme.of(context)
                                         .colorScheme
                                         .onTertiaryContainer,
@@ -351,6 +352,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                                   ? '--'
                                                   : "$dewpointConverted°",
                                               style: TextStyle(
+                                                fontFamily: "FlexFontEn",
                                                 color: Theme.of(context)
                                                     .colorScheme
                                                     .onTertiary,
@@ -522,6 +524,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                   Text(sunriseFormat,
                                       style: TextStyle(
                                         color: Colors.white,
+                                        fontFamily: "FlexFontEn",
                                         fontSize: 14,
                                       ))
                                 ],
@@ -538,7 +541,9 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                   ),
                                   Text(sunsetFormat,
                                       style: TextStyle(
-                                          color: Colors.white, fontSize: 14)),
+                                          fontFamily: "FlexFontEn",
+                                          color: Colors.white,
+                                          fontSize: 14)),
                                 ],
                               ),
                               SizedBox(
@@ -616,6 +621,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                           ? '--'
                           : "${convertedPressure.round()}",
                       style: TextStyle(
+                        fontFamily: "FlexFontEn",
                         color: Theme.of(context).colorScheme.onSurface,
                         fontSize: isFoldableLayout(context)
                             ? 60
@@ -726,6 +732,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                     ? '--'
                                     : "${convertedVisibility.round()}",
                                 style: TextStyle(
+                                  fontFamily: "FlexFontEn",
                                   color: Theme.of(context)
                                       .colorScheme
                                       .onTertiaryContainer,
@@ -973,6 +980,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                       : getUvIndexType(
                                           widget.currentUvIndex.round()),
                                   style: TextStyle(
+                                    fontFamily: "FlexFontEn",
                                     color: Theme.of(context)
                                         .colorScheme
                                         .onSurfaceVariant,
@@ -1083,6 +1091,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                 ? '--'
                                 : aqiFormat.toString(),
                             style: TextStyle(
+                                fontFamily: "FlexFontEn",
                                 fontSize: isFoldableLayout(context)
                                     ? 60
                                     : MediaQuery.of(context).size.width * 0.11,
@@ -1217,6 +1226,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                     ? '--'
                                     : "${double.parse(convertedPrecip.toStringAsFixed(2))}",
                                 style: TextStyle(
+                                    fontFamily: "FlexFontEn",
                                     fontSize: isFoldableLayout(context)
                                         ? 60
                                         : MediaQuery.of(context).size.width *
@@ -1420,6 +1430,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                   Text(moonriseFormat,
                                       style: TextStyle(
                                         color: Colors.white,
+                                        fontFamily: "FlexFontEn",
                                         fontSize: 14,
                                       ))
                                 ],
@@ -1436,7 +1447,9 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                   ),
                                   Text(moonsetFormat,
                                       style: TextStyle(
-                                          color: Colors.white, fontSize: 14)),
+                                          fontFamily: "FlexFontEn",
+                                          color: Colors.white,
+                                          fontSize: 14)),
                                 ],
                               ),
                               SizedBox(
@@ -1527,6 +1540,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                   color: Theme.of(context)
                                       .colorScheme
                                       .onTertiaryContainer,
+                                  fontFamily: "FlexFontEn",
                                   fontSize: isFoldableLayout(context)
                                       ? 60
                                       : MediaQuery.of(context).size.width * 0.1,

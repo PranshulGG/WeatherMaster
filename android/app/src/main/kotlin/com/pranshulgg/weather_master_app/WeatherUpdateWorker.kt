@@ -33,38 +33,43 @@ class WeatherUpdateWorker(
 
 
     override suspend fun doWork(): Result {
-
         setForeground(createForegroundInfo())
-    
-
-
 
         return try {
             withContext(Dispatchers.Main) {
+                val loader = FlutterInjector.instance().flutterLoader()
+                if (!loader.initialized()) {
+                    loader.startInitialization(applicationContext)
+                    loader.ensureInitializationComplete(applicationContext, null)
+                }
 
-                // Start a temporary Flutter engine with entrypoint workerUpdateWidget
                 flutterEngine = FlutterEngine(applicationContext).apply {
                     dartExecutor.executeDartEntrypoint(
                         DartExecutor.DartEntrypoint(
-                            FlutterInjector.instance().flutterLoader().findAppBundlePath(),
-                            "workerUpdateWidget" // matches @pragma entrypoint in Dart
+                            loader.findAppBundlePath(),
+                            "workerUpdateWidget"
                         )
                     )
                 }
 
-                // Wait to let Dart run updateHomeWidget()
-                delay(6000)
+                Log.d("WeatherWorker", "Dart entrypoint launched")
+            }
+
+            delay(6000)
+
+            withContext(Dispatchers.Main) {
                 flutterEngine?.destroy()
             }
 
-        // Update last_weather_update timestamp after successful update
-        val prefs = applicationContext.getSharedPreferences("weather_prefs", Context.MODE_PRIVATE)
-        prefs.edit().putLong("last_weather_update", System.currentTimeMillis()).apply()
-             delay(6000)
-            Result.success()
+            val prefs = applicationContext.getSharedPreferences("weather_prefs", Context.MODE_PRIVATE)
+            prefs.edit().putLong("last_weather_update", System.currentTimeMillis()).apply()
 
+            Result.success()
         } catch (e: Exception) {
-            flutterEngine?.destroy()
+            Log.e("WeatherWorker", "Error in worker", e)
+            withContext(Dispatchers.Main) {
+                flutterEngine?.destroy()
+            }
             Result.retry()
         }
     }

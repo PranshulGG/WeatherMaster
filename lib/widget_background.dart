@@ -7,6 +7,7 @@ import 'utils/unit_converter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:hive/hive.dart';
 import 'utils/condition_label_map.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 @pragma('vm:entry-point')
@@ -15,7 +16,7 @@ Future<void> updateHomeWidget(weather, {bool updatedFromHome = false}) async {
     WidgetsFlutterBinding.ensureInitialized();
 
     await PreferencesHelper.init();
-    await HomeWidget.setAppGroupId('com.pranshulgg.weather_master_app');
+    await dotenv.load(fileName: ".env");
 
     double _safeToDouble(dynamic value, [double fallback = 0.0]) {
       if (value == null) return fallback;

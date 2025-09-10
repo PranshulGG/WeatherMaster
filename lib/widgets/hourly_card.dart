@@ -158,6 +158,7 @@ class HourlyCard extends StatelessWidget {
                                 child: Text(
                                   "${temp}°",
                                   style: TextStyle(
+                                    fontFamily: "FlexFontEn",
                                     fontSize: 16,
                                     color: isFirst
                                         ? colorTheme.onTertiary
@@ -177,6 +178,7 @@ class HourlyCard extends StatelessWidget {
                                       ? "${precipProb.round()}%"
                                       : "‎",
                               style: TextStyle(
+                                fontFamily: "FlexFontEn",
                                 fontWeight: FontWeight.w700,
                                 fontSize: 12.5,
                                 color: colorTheme.primary,
@@ -192,6 +194,7 @@ class HourlyCard extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 14,
                                 color: colorTheme.onSurfaceVariant,
+                                fontFamily: "FlexFontEn",
                               )),
                         ],
                       ),

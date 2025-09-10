@@ -116,6 +116,7 @@ class _WeatherTopCardState extends State<WeatherTopCard> {
                         PreferencesHelper.getBool("useTempAnimation") == false
                             ? Text("$convertedTemp°",
                                 style: TextStyle(
+                                    fontFamily: "FlexFontEn",
                                     color: Theme.of(context).brightness ==
                                             Brightness.light
                                         ? Theme.of(context)
@@ -146,6 +147,7 @@ class _WeatherTopCardState extends State<WeatherTopCard> {
                             Text(
                               "$convertedcurrentMaxTemp°",
                               style: TextStyle(
+                                  fontFamily: "FlexFontEn",
                                   color: Theme.of(context)
                                       .colorScheme
                                       .onSurfaceVariant,
@@ -164,6 +166,7 @@ class _WeatherTopCardState extends State<WeatherTopCard> {
                             ),
                             Text("$convertedcurrentMinTemp°",
                                 style: TextStyle(
+                                    fontFamily: "FlexFontEn",
                                     color: Theme.of(context)
                                         .colorScheme
                                         .onSurfaceVariant,
@@ -294,6 +297,7 @@ class AnimatedTemperature extends StatelessWidget {
               ? '${value.toStringAsFixed(0)}°'
               : value.toStringAsFixed(0),
           style: TextStyle(
+            fontFamily: "FlexFontEn",
             color: Theme.of(context).brightness == Brightness.light
                 ? Theme.of(context).colorScheme.inverseSurface
                 : Theme.of(context).colorScheme.primary,
@@ -400,6 +404,7 @@ class _WeatherTopCardStateVertical extends State<WeatherTopCardVertical> {
                   PreferencesHelper.getBool("useTempAnimation") == false
                       ? Text("$convertedTemp",
                           style: TextStyle(
+                              fontFamily: "FlexFontEn",
                               color: Theme.of(context).brightness ==
                                       Brightness.light
                                   ? Theme.of(context).colorScheme.inverseSurface

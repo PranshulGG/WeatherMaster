@@ -55,15 +55,18 @@ class WeatherService {
       'forecast_hours': '1',
     });
 
-    final astronomyUri = Uri.parse(
-        'https://api.weatherapi.com/v1/astronomy.json?key=${dotenv.env['API_KEY_WEATHERAPI']!.toString()}&q=$lat,$lon');
+    Uri? astronomyUri;
+    if (!isBackground) {
+      final astronomyUri = Uri.parse(
+          'https://api.weatherapi.com/v1/astronomy.json?key=${dotenv.env['API_KEY_WEATHERAPI']!.toString()}&q=$lat,$lon');
+    }
 
     // Prepare list of HTTP requests
     try {
       final requests = <Future<http.Response>>[
         http.get(uri),
         http.get(airQualityUri),
-        http.get(astronomyUri),
+        if (astronomyUri != null) http.get(astronomyUri),
       ];
 
       final responses = await Future.wait(requests);
@@ -79,9 +82,9 @@ class WeatherService {
           json.decode(responses[0].body) as Map<String, dynamic>;
       final airQualityData =
           json.decode(responses[1].body) as Map<String, dynamic>;
-      final astronomyData =
-          json.decode(responses[2].body) as Map<String, dynamic>;
-
+      final astronomyData = astronomyUri != null
+          ? json.decode(responses[2].body) as Map<String, dynamic>
+          : {};
       // Check if we need fallback data for missing fields
       Map<String, dynamic> finalWeatherData = weatherData;
       if (selectedModel != "best_match" && _hasIncompleteData(weatherData)) {

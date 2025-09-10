@@ -475,6 +475,7 @@ class _DailyForecastCardState extends State<DailyForecastCard> {
                         children: [
                           Text("${tempMax.round()}°",
                               style: TextStyle(
+                                fontFamily: "FlexFontEn",
                                 fontSize: 16,
                                 color: isSelected
                                     ? Theme.of(context).colorScheme.onPrimary
@@ -482,6 +483,7 @@ class _DailyForecastCardState extends State<DailyForecastCard> {
                               )),
                           Text("${tempMin.round()}°",
                               style: TextStyle(
+                                fontFamily: "FlexFontEn",
                                 fontSize: 16,
                                 color: isSelected
                                     ? Theme.of(context)
@@ -680,6 +682,7 @@ class HourlyCardForecast extends StatelessWidget {
                                 child: Text(
                                   "${temp}°",
                                   style: TextStyle(
+                                    fontFamily: "FlexFontEn",
                                     fontSize: 16,
                                     color: isFirst
                                         ? colorTheme.onTertiary
@@ -699,6 +702,7 @@ class HourlyCardForecast extends StatelessWidget {
                                       ? "${precipProb.round()}%"
                                       : "‎",
                               style: TextStyle(
+                                  fontFamily: "FlexFontEn",
                                   fontSize: 12,
                                   color: colorTheme.primary,
                                   fontWeight: FontWeight.w600)),
@@ -711,6 +715,7 @@ class HourlyCardForecast extends StatelessWidget {
                           ),
                           Text(hour,
                               style: TextStyle(
+                                fontFamily: "FlexFontEn",
                                 fontSize: 14,
                                 color: colorTheme.onSurfaceVariant,
                               )),
@@ -758,7 +763,7 @@ class ForecastDetailsHeader extends StatelessWidget {
         Padding(
             padding: EdgeInsets.only(left: 15, right: 12, top: 24),
             child: Text(
-              formatDateDetailes(selectedDayData!['date']),
+              formatDateDetailes(context, selectedDayData!['date']),
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
                 fontSize: 18,
@@ -785,6 +790,7 @@ class ForecastDetailsHeader extends StatelessWidget {
                     color: Theme.of(context).colorScheme.onSurface,
                     fontWeight: FontWeight.w900,
                     fontSize: 80,
+                    fontFamily: "FlexFontEn",
                   ),
                   textHeightBehavior: TextHeightBehavior(
                       applyHeightToLastDescent: false,
@@ -797,6 +803,7 @@ class ForecastDetailsHeader extends StatelessWidget {
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                     fontWeight: FontWeight.w900,
+                    fontFamily: "FlexFontEn",
                     fontSize: 80,
                   ),
                   textHeightBehavior: TextHeightBehavior(
@@ -828,9 +835,17 @@ class ForecastDetailsHeader extends StatelessWidget {
   }
 }
 
-String formatDateDetailes(String dateStr) {
+String formatDateDetailes(BuildContext context, String dateStr) {
   final date = DateTime.parse(dateStr);
 
+  final locale = context.locale;
+
+  final lang = (locale.languageCode ?? '').toLowerCase();
+  final country = (locale.countryCode ?? '').toUpperCase();
+
+  if (lang == 'zh' && (country == 'CN' || country == 'TW')) {
+    return '${date.month}月${date.day}日';
+  }
   const customMonths = {
     1: "month_jan",
     2: "month_feb",
@@ -1070,6 +1085,7 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                             ),
                                             Text(sunriseFormat,
                                                 style: TextStyle(
+                                                  fontFamily: "FlexFontEn",
                                                   color: Colors.white,
                                                   fontSize: 14,
                                                 ))
@@ -1087,6 +1103,7 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                             ),
                                             Text(sunsetFormat,
                                                 style: TextStyle(
+                                                    fontFamily: "FlexFontEn",
                                                     color: Colors.white,
                                                     fontSize: 14))
                                           ],
@@ -1142,6 +1159,7 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                     ? '--'
                                     : "${convertedPressure.round()}",
                                 style: TextStyle(
+                                  fontFamily: "FlexFontEn",
                                   color:
                                       Theme.of(context).colorScheme.onSurface,
                                   fontSize: isFoldableLayout(context)
@@ -1215,6 +1233,7 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                           ? '--'
                                           : "${convertedVisibility.round()}",
                                       style: TextStyle(
+                                        fontFamily: "FlexFontEn",
                                         color: Theme.of(context)
                                             .colorScheme
                                             .onTertiaryContainer,
@@ -1359,6 +1378,7 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                 ? '--'
                                 : "${currentUvIndex.round()}",
                             style: TextStyle(
+                              fontFamily: "FlexFontEn",
                               color: Theme.of(context).colorScheme.onSurface,
                               fontSize: isFoldableLayout(context)
                                   ? 60
@@ -1448,6 +1468,7 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                               ? '--'
                                               : "${double.parse(convertedPrecip.toStringAsFixed(2))}",
                                           style: TextStyle(
+                                              fontFamily: "FlexFontEn",
                                               fontSize:
                                                   isFoldableLayout(context)
                                                       ? 60
@@ -1500,6 +1521,7 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                                   ? '--'
                                                   : "$currentTotalPrecProb%",
                                               style: TextStyle(
+                                                  fontFamily: "FlexFontEn",
                                                   color: Theme.of(context)
                                                       .colorScheme
                                                       .primary),

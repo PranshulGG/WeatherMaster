@@ -32,9 +32,12 @@ final CorePalette paletteStartScreen = CorePalette.of(
 
 @pragma('vm:entry-point')
 Future<void> workerUpdateWidget() async {
+  print("CALLED");
   WidgetsFlutterBinding.ensureInitialized();
   final dir = await getApplicationDocumentsDirectory();
   Hive.init(dir.path);
+  await dotenv.load(fileName: ".env");
+  await HomeWidget.setAppGroupId('com.pranshulgg.weather_master_app');
   await updateHomeWidget(null, updatedFromHome: false);
 }
 

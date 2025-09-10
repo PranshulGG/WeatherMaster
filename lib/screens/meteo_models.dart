@@ -52,7 +52,7 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
     ],
     'main_text'.tr(): [
       {
-        'key': 'ecmwf_ifs04',
+        'key': 'ecmwf_aifs025_single',
         'name': 'ECMWF IFS 0.4°',
         'desc': 'model_disc_2',
       },
@@ -673,11 +673,11 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
     final cachedModelCount =
         _modelWeatherData.values.where((data) => data != null).length;
     final totalModelCount = allModelKeys.length;
-    final hasReasonableCache = cachedModelCount >= (totalModelCount * 0.5);
+    final hasReasonableCache = cachedModelCount >= (totalModelCount * 0);
 
     final bool shouldRefresh = _lastFetchTime == null ||
         _cachedLocationKey != currentLocationKey ||
-        now.difference(_lastFetchTime!).inMinutes >= 720 ||
+        now.difference(_lastFetchTime!).inMinutes >= 7200 ||
         !hasReasonableCache;
 
     if (shouldRefresh) {
@@ -692,9 +692,6 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
       }
 
       if (mounted) setState(() {});
-      debugPrint(
-        const JsonEncoder.withIndent('  ').convert(_modelWeatherData),
-      );
     }
   }
 
