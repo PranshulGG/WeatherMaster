@@ -581,5 +581,9 @@
   "locations_gesture_info_2": "长按某个位置即可将其设为默认",
   "error_loading_changelog": "加载更新日志出错",
   "condition_widget_animation": "天气情况小部件动画",
-  "condition_widget_animation_sub": "控制过渡动画。如遇卡顿可禁用此项"
+  "condition_widget_animation_sub": "控制过渡动画。如遇卡顿可禁用此项",
+  "city": "City",
+  "country": "Country",
+  "latitude": "Latitude",
+  "longitude": "Longitude"
 }
