@@ -581,5 +581,9 @@
   "locations_gesture_info_2": "Paina sijaintia pitkään asettaaksesi sen oletukseksi",
   "error_loading_changelog": "Virhe muutoslokia ladatessa",
   "condition_widget_animation": "Sääwidgettien (sovelluksen sisällä) animaatio",
-  "condition_widget_animation_sub": "Hallitsee muutosanimaatiota. Poista tämä käytöstä, jos sovellus lagaa tai jäätyy."
+  "condition_widget_animation_sub": "Hallitsee muutosanimaatiota. Poista tämä käytöstä, jos sovellus lagaa tai jäätyy.",
+  "city": "City",
+  "country": "Country",
+  "latitude": "Latitude",
+  "longitude": "Longitude"
 }
