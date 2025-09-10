@@ -581,5 +581,9 @@
   "locations_gesture_info_2": "Varsayılan olarak ayarlamak için bir konuma basılı tutun",
   "error_loading_changelog": "Değişiklik günlüğü yüklenirken hata oluştu",
   "condition_widget_animation": "Koşullu widget animasyonu",
-  "condition_widget_animation_sub": "Bir dönüşüm animasyonunu kontrol eder. Takılma veya donma yaşarsanız bunu devre dışı bırakın"
+  "condition_widget_animation_sub": "Bir dönüşüm animasyonunu kontrol eder. Takılma veya donma yaşarsanız bunu devre dışı bırakın",
+  "city": "City",
+  "country": "Country",
+  "latitude": "Latitude",
+  "longitude": "Longitude"
 }
