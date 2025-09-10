@@ -581,5 +581,9 @@
   "locations_gesture_info_2": "Задръжте местоположение, за да го зададете като по подразбиране",
   "error_loading_changelog": "Грешка при зареждане на списъка с промени",
   "condition_widget_animation": "Анимация на уиджета за състояние",
-  "condition_widget_animation_sub": "Контролира анимацията на трансформацията. Деактивирайте това, ако устройството Ви има забавяне или замръзване."
+  "condition_widget_animation_sub": "Контролира анимацията на трансформацията. Деактивирайте това, ако устройството Ви има забавяне или замръзване.",
+  "city": "City",
+  "country": "Country",
+  "latitude": "Latitude",
+  "longitude": "Longitude"
 }
