@@ -582,8 +582,8 @@
   "error_loading_changelog": "加载更新日志出错",
   "condition_widget_animation": "天气情况小部件动画",
   "condition_widget_animation_sub": "控制过渡动画。如遇卡顿可禁用此项",
-  "city": "City",
-  "country": "Country",
-  "latitude": "Latitude",
-  "longitude": "Longitude"
+  "city": "城市",
+  "country": "国家",
+  "latitude": "纬度",
+  "longitude": "经度"
 }
