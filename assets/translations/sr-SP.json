@@ -582,8 +582,8 @@
   "error_loading_changelog": "Грешка при учитавању дневника измена",
   "condition_widget_animation": "Услови анимације виџета",
   "condition_widget_animation_sub": "Контролише анимацију трансформације. Онемогућите ово ако дође до кашњења или замрзавања.",
-  "city": "City",
-  "country": "Country",
-  "latitude": "Latitude",
-  "longitude": "Longitude"
+  "city": "Град",
+  "country": "Земља",
+  "latitude": "Географска ширина",
+  "longitude": "Географска дужина"
 }
