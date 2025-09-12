@@ -63,7 +63,7 @@ String getDayLabel(DateTime date, int index, utcOffsetSeconds) {
   }
 }
 
-final String currentVersion = 'v2.6.3';
+final String currentVersion = 'v2.6.4';
 final String githubRepo = 'PranshulGG/WeatherMaster';
 bool isChecking = false;
 

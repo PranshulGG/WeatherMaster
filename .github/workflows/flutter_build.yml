@@ -1,0 +1,45 @@
+name: Flutter Split APK Build
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.32.4"
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Setup environment file
+        run: |
+          echo "API_KEY=${{ secrets.API_KEY }}" >> .env
+          echo "ANALYTICS_KEY=${{ secrets.ANALYTICS_KEY }}" >> .env
+
+      - name: Build Split APKs
+        run: flutter build apk --release --split-per-abi
+
+      - name: Rename APKs
+        run: |
+          VERSION_NAME=$(grep 'version:' pubspec.yaml | awk '{print $2}' | cut -d'+' -f1)
+          mkdir release_apks
+          cp build/app/outputs/flutter-apk/app-arm64-v8a-release.apk release_apks/WeatherMaster.${VERSION_NAME}.arm64-v8a.apk
+          cp build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk release_apks/WeatherMaster.${VERSION_NAME}.armeabi-v7a.apk
+          cp build/app/outputs/flutter-apk/app-x86_64-release.apk release_apks/WeatherMaster.${VERSION_NAME}.x86_64.apk
+
+      - name: Upload APKs
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-apks
+          path: release_apks/
