@@ -514,6 +514,11 @@ class _WeatherHomeState extends State<WeatherHome> {
           _isAppFullyLoaded = false;
           _istriggeredFromLocations = true;
           _isLoadingFroggy = true;
+          cityName = saved.city;
+          countryName = saved.country;
+          cacheKey = currentCacheKey;
+          lat = saved.latitude;
+          lon = saved.longitude;
           themeCalled = false;
         });
 

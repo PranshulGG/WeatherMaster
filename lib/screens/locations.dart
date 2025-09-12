@@ -15,6 +15,7 @@ import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:animations/animations.dart';
 import '../widgets/dialog.dart';
 import 'package:expressive_loading_indicator/expressive_loading_indicator.dart';
+import 'package:settings_tiles/settings_tiles.dart';
 
 class LocationsScreen extends StatefulWidget {
   const LocationsScreen({super.key});
@@ -473,26 +474,80 @@ class _LocationsScreenState extends State<LocationsScreen> {
                                   ),
                             IconButton(
                                 onPressed: () {
-                                  showMatDialog(
-                                      context: context,
-                                      title: "Info",
-                                      content: SizedBox(
-                                          height: 70 + 30,
-                                          child: Column(
-                                            children: [
-                                              Text(
-                                                "• Swipe from right to left to delete a location",
-                                                style: TextStyle(fontSize: 15),
+                                  // showMatDialog(
+                                  //     context: context,
+                                  //     title: "Info",
+                                  //     content: SizedBox(
+                                  //         height: 70 + 30,
+                                  //         child: Column(
+                                  //           children: [
+                                  //             Text(
+                                  //               "• Swipe from right to left to delete a location",
+                                  //               style: TextStyle(fontSize: 15),
+                                  //             ),
+                                  //             Divider(
+                                  //               height: 16,
+                                  //             ),
+                                  //             Text(
+                                  //                 "• Hold a location to set it as default",
+                                  //                 style:
+                                  //                     TextStyle(fontSize: 15)),
+                                  //           ],
+                                  //         )));
+                                  showModalBottomSheet(
+                                    context: context,
+                                    showDragHandle: true,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.vertical(
+                                          top: Radius.circular(28)),
+                                    ),
+                                    builder: (ctx) {
+                                      return StatefulBuilder(
+                                          builder: (ctx2, setSt) {
+                                        return Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            SettingSection(
+                                                styleTile: true,
+                                                tiles: [
+                                                  SettingTextTile(
+                                                    icon: Icon(Icons.info),
+                                                    title: Text(
+                                                        "locations_gesture_info_1"
+                                                            .tr()),
+                                                  ),
+                                                  SettingTextTile(
+                                                    icon: Icon(Icons.info),
+                                                    title: Text(
+                                                        "locations_gesture_info_2"
+                                                            .tr()),
+                                                  )
+                                                ]),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                top: 16,
+                                                bottom: MediaQuery.of(context)
+                                                        .padding
+                                                        .bottom +
+                                                    10,
+                                                left: 16,
+                                                right: 16,
                                               ),
-                                              Divider(
-                                                height: 16,
+                                              child: SizedBox(
+                                                width: double.infinity,
+                                                child: FilledButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text("ok".tr()),
+                                                ),
                                               ),
-                                              Text(
-                                                  "• Hold a location to set it as default",
-                                                  style:
-                                                      TextStyle(fontSize: 15)),
-                                            ],
-                                          )));
+                                            ),
+                                          ],
+                                        );
+                                      });
+                                    },
+                                  );
                                 },
                                 icon: Icon(
                                   Symbols.info,

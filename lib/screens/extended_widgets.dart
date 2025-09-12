@@ -8,6 +8,7 @@ import 'package:material_symbols_icons/material_symbols_icons.dart';
 import '../utils/unit_converter.dart';
 import 'package:solar_calculator/solar_calculator.dart';
 import 'dart:math' as math;
+import 'dart:math';
 import '../helper/locale_helper.dart';
 import '../utils/visual_utils.dart';
 import 'package:moon_phase/moon_widget.dart';
@@ -1188,7 +1189,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
 
           return Column(children: [
             Container(
-              height: 360,
+              height: 380,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surfaceContainer,
                 borderRadius: BorderRadius.circular(18),
@@ -1236,7 +1237,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                     ),
                   ),
                   SizedBox(
-                    height: 225.2,
+                    height: 245,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       physics: BouncingScrollPhysics(),
@@ -1283,14 +1284,12 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                         : windSpeed.toStringAsFixed(1);
 
                         Widget windArrow = Transform.rotate(
-                          angle: -(windDirection * (3.1415926535 / 180)),
-                          child: Icon(
-                            Icons.navigation,
-                            size: 20,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onPrimaryContainer,
-                          ),
+                          angle: windDirection * (pi / 180),
+                          child: SvgPicture.string(
+                              width: 40,
+                              buildWindSvg(
+                                  Theme.of(context).colorScheme.onPrimary,
+                                  Theme.of(context).colorScheme.primary)),
                         );
 
                         EdgeInsetsDirectional itemMargin =
@@ -1354,19 +1353,12 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                               alignment: Alignment.center,
                                               children: [
                                                 Positioned(
-                                                  top: 0,
-                                                  child: SvgPicture.string(
-                                                    '''<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M20.3091 8.60363C20.4924 8.454 20.584 8.37919 20.6677 8.31603C22.6389 6.82799 25.3611 6.82799 27.3323 8.31603C27.416 8.37919 27.5076 8.454 27.6909 8.60363C27.7727 8.67042 27.8136 8.70381 27.8541 8.7356C28.7818 9.46445 29.9191 9.87748 31.0993 9.91409C31.1508 9.91569 31.2037 9.91634 31.3094 9.91765C31.5462 9.92059 31.6646 9.92206 31.7694 9.92733C34.2381 10.0516 36.3234 11.7974 36.8747 14.2015C36.8982 14.3036 36.9202 14.4197 36.9642 14.6518C36.9838 14.7555 36.9937 14.8073 37.0042 14.8576C37.2452 16.0109 37.8504 17.0567 38.7309 17.8416C38.7693 17.8759 38.8094 17.9103 38.8895 17.9791C39.069 18.1332 39.1588 18.2102 39.2357 18.2815C41.0467 19.96 41.5194 22.6347 40.393 24.8299C40.3451 24.9231 40.2872 25.0262 40.1714 25.2322C40.1196 25.3242 40.0938 25.3702 40.0694 25.4155C39.5111 26.4536 39.3009 27.6429 39.4697 28.8088C39.4771 28.8597 39.4856 28.9117 39.5027 29.0158C39.5409 29.249 39.56 29.3656 39.573 29.4695C39.879 31.9168 38.5179 34.2689 36.2407 35.2281C36.1441 35.2688 36.0333 35.3106 35.8118 35.3942C35.7129 35.4315 35.6635 35.4501 35.6156 35.4692C34.5192 35.9063 33.592 36.6826 32.9701 37.684C32.943 37.7277 32.916 37.7731 32.862 37.8637C32.741 38.0669 32.6806 38.1685 32.6236 38.2564C31.2814 40.3273 28.7233 41.2563 26.3609 40.5306C26.2606 40.4998 26.1489 40.4608 25.9253 40.3827C25.8256 40.3479 25.7757 40.3305 25.7268 40.3144C24.6052 39.9461 23.3948 39.9461 22.2732 40.3144C22.2243 40.3305 22.1744 40.3479 22.0747 40.3827C21.8511 40.4608 21.7394 40.4998 21.6391 40.5306C19.2767 41.2563 16.7186 40.3273 15.3764 38.2564C15.3194 38.1685 15.259 38.0669 15.138 37.8637C15.084 37.7731 15.057 37.7277 15.0299 37.684C14.408 36.6826 13.4808 35.9063 12.3844 35.4692C12.3365 35.4501 12.2871 35.4315 12.1882 35.3942C11.9667 35.3106 11.8559 35.2688 11.7593 35.2281C9.48205 34.2689 8.12097 31.9168 8.42698 29.4695C8.43997 29.3656 8.45908 29.249 8.4973 29.0158C8.51436 28.9117 8.52289 28.8597 8.53026 28.8088C8.69906 27.6429 8.48889 26.4536 7.93056 25.4155C7.90621 25.3702 7.88035 25.3242 7.82863 25.2322C7.71278 25.0262 7.65485 24.9231 7.60704 24.8299C6.48057 22.6347 6.95327 19.96 8.76433 18.2815C8.8412 18.2102 8.93096 18.1332 9.11047 17.9791C9.19061 17.9103 9.23068 17.8759 9.26908 17.8416C10.1496 17.0567 10.7548 16.0109 10.9958 14.8576C11.0063 14.8073 11.0162 14.7555 11.0358 14.6518C11.0798 14.4197 11.1019 14.3036 11.1253 14.2015C11.6766 11.7974 13.7619 10.0516 16.2306 9.92733C16.3354 9.92206 16.4538 9.92059 16.6906 9.91765C16.7963 9.91634 16.8492 9.91569 16.9007 9.91409C18.0809 9.87748 19.2182 9.46445 20.1459 8.7356C20.1864 8.70381 20.2273 8.67042 20.3091 8.60363Z" fill="#${Theme.of(context).colorScheme.primaryContainer.value.toRadixString(16).padLeft(8, '0').substring(2)}"/>
-                            </svg> ''',
-                                                  ),
-                                                ),
-                                                Positioned(
-                                                    top: 0,
-                                                    child: SizedBox(
-                                                      height: 48,
-                                                      child: windArrow,
-                                                    ))
+                                                    top: 3,
+                                                    // child: SizedBox(
+                                                    //   height: 48,
+                                                    //   child: windArrow,
+                                                    // ))
+                                                    child: windArrow),
                                               ]),
                                         ),
                                       ),
@@ -1377,6 +1369,13 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontFamily: "FlexFontEn",
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
+                                  )),
+                              Text(getCompassDirection(windDirection),
+                                  style: TextStyle(
+                                    fontSize: 14,
                                     color: Theme.of(context)
                                         .colorScheme
                                         .onSurfaceVariant,
