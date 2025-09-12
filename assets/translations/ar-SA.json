@@ -395,7 +395,7 @@
   "summary_headlines_22": "بداية باردة لليوم",
   "summary_headlines_23": "Cool and crisp morning ahead",
   "summary_headlines_24": "Bundle up — it's brisk outside",
-  "summary_headlines_25": "Pleasant and calm start to the day",
+  "summary_headlines_25": "بداية سارة وهادئة لليوم",
   "summary_headlines_26": "طقس معتدل لبدء الأنشطة",
   "summary_headlines_27": "صباح معتدل ومريح",
   "summary_suffixes_1": "UV levels peak around midday",
@@ -572,5 +572,18 @@
   "insights_sub_50": "Temperatures are within the usual range — no records expected.",
   "background_updates_not_working": "تحديثات الخلفية لا تعمل؟",
   "background_updates_not_working_sub": "يقوم بعض بائعي الأجهزة بتقييد التطبيقات في الخلفية. تحقق من dontkillmyapp.com لمعرفة خطوات إصلاح ذلك.",
-  "about_weathermaster_sub": "التغييرات، الإصدار، الرخصة، والمزيد"
+  "about_weathermaster_sub": "التغييرات، الإصدار، الرخصة، والمزيد",
+  "whats_new": "What's new",
+  "changelog": "Changelog",
+  "force_ltr_layout": "Force Left-to-Right Layout",
+  "info": "Info",
+  "locations_gesture_info_1": "Swipe from right to left to delete a location",
+  "locations_gesture_info_2": "Hold a location to set it as default",
+  "error_loading_changelog": "Error loading changelog",
+  "condition_widget_animation": "Condition widget animation",
+  "condition_widget_animation_sub": "Controls a transform animation. Disable this if you experience lag or freezing",
+  "city": "City",
+  "country": "Country",
+  "latitude": "Latitude",
+  "longitude": "Longitude"
 }

@@ -572,5 +572,18 @@
   "insights_sub_50": "Temperatures are within the usual range — no records expected.",
   "background_updates_not_working": "Background updates not working?",
   "background_updates_not_working_sub": "Some device vendors restrict apps in the background. Check dontkillmyapp.com for steps to fix this.",
-  "about_weathermaster_sub": "Changelog, Version, License, and More"
+  "about_weathermaster_sub": "Changelog, Version, License, and More",
+  "whats_new": "What's new",
+  "changelog": "Changelog",
+  "force_ltr_layout": "Force Left-to-Right Layout",
+  "info": "Info",
+  "locations_gesture_info_1": "Swipe from right to left to delete a location",
+  "locations_gesture_info_2": "Hold a location to set it as default",
+  "error_loading_changelog": "Error loading changelog",
+  "condition_widget_animation": "Condition widget animation",
+  "condition_widget_animation_sub": "Controls a transform animation. Disable this if you experience lag or freezing",
+  "city": "City",
+  "country": "Country",
+  "latitude": "Latitude",
+  "longitude": "Longitude"
 }
