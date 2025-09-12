@@ -56,8 +56,8 @@ class ClockHourlyWidgetProvider : AppWidgetProvider() {
 //        views.setTextViewText(R.id.temp_high_cast_clock_hourly, "$max° •")
 //        views.setTextViewText(R.id.temp_low_cast_clock_hourly, " $min°")
 
-//        val iconRes = WeatherIconMapper.getIconResource(code, isDay)
-//        views.setImageViewResource(R.id.widget_icon_hourly_cast_clock_hourly, iconRes)
+        val iconRes = WeatherIconMapper.getIconResource(code, isDay)
+        views.setImageViewResource(R.id.widget_icon_hourly_cast_clock_hourly, iconRes)
 
         val containerId = R.id.hourly_cast_clock_hourly
         views.removeAllViews(containerId)

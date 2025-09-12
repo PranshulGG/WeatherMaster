@@ -384,9 +384,8 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
                       fill: 1,
                       weight: 500,
                     ),
-                    title: Text("Condition widget animation"),
-                    description: Text(
-                        "Controls a transform animation. Disable this if you experience lag or freezing"),
+                    title: Text("condition_widget_animation".tr()),
+                    description: Text("condition_widget_animation_sub".tr()),
                     toggled: openContainerAnimation,
                     onChanged: (value) {
                       PreferencesHelper.setBool(

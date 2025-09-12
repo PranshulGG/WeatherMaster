@@ -90,7 +90,7 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
               ),
               SettingSection(PrimarySwitch: true, styleTile: true, tiles: [
                 SettingSwitchTile(
-                    title: Text("Force Left-to-Right Layout"),
+                    title: Text("force_ltr_layout".tr()),
                     toggled: forceLTRLAYOUT,
                     onChanged: (value) {
                       context

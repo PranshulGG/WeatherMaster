@@ -7,4 +7,8 @@
     android:resizeMode="horizontal|vertical"
     android:previewImage="@drawable/pill_prev"
     android:label="Current pill"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
+    android:paddingBottom="0dp"
     android:widgetCategory="home_screen" />

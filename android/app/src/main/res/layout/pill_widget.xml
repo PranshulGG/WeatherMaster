@@ -2,6 +2,7 @@
     android:id="@+id/widget_root_pill"
     android:layout_width="200dp"
     android:layout_height="200dp"
+    android:clipToOutline="true"
     android:background="@drawable/shape_set">
 
 

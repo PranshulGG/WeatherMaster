@@ -60,22 +60,22 @@ void showAddBottomSheet(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          locationInfoItem(context, "City", city),
+          locationInfoItem(context, "city".tr(), city),
           Divider(),
           SizedBox(
             height: 5,
           ),
-          locationInfoItem(context, "Country", country),
+          locationInfoItem(context, "country".tr(), country),
           Divider(),
           SizedBox(
             height: 5,
           ),
-          locationInfoItem(context, "Latitude", lat.toString()),
+          locationInfoItem(context, "latitude".tr(), lat.toString()),
           Divider(),
           SizedBox(
             height: 5,
           ),
-          locationInfoItem(context, "Longitude", lon.toString()),
+          locationInfoItem(context, "longitude".tr(), lon.toString()),
         ],
       ),
     ),

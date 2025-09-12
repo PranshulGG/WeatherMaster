@@ -36,7 +36,7 @@ class PillWidgetProvider : AppWidgetProvider() {
 
             minWidth > 300 -> R.layout.pill_widget_large
 
-            minWidth > 150 &&  minWidth <= 300 && minHeight > 150 &&  minHeight <= 300 -> R.layout.pill_widget_mid_vert
+            minWidth > 200 &&  minWidth <= 250 && minHeight > 200 &&  minHeight <= 250 -> R.layout.pill_widget_mid_vert
 
 
             else -> R.layout.pill_widget

@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.RemoteViews
 import android.app.PendingIntent
 import android.content.Intent
+import android.util.Log
 import com.pranshulgg.weather_master_app.util.WeatherIconMapper
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -37,17 +38,26 @@ class WeatherWidgetCastProvider : AppWidgetProvider() {
         id: Int,
         newOptions: Bundle?
     ) {
+        val options = newOptions ?: manager.getAppWidgetOptions(id)
+
+
+        val reservedTopDp = 200
+        val perDailyItemDp = 70
+
+        val minHeightDp = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 0)
+
+
         val optionsCast = manager.getAppWidgetOptions(id)
         val minHeight = optionsCast.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)
-        val layoutIdDaily = when {
 
-            minHeight > 170 -> R.layout.widget_hourly_current_daily
-
-
-
-            else -> R.layout.widget_hourly_current
+        val heightDp = getWidgetHeightDp(options)
+        val availableDp = (heightDp - reservedTopDp).coerceAtLeast(0)
+        val numDailyItems = (availableDp / perDailyItemDp).coerceIn(0, 4)
+        val layoutIdDaily = if (numDailyItems > 0) {
+            R.layout.widget_hourly_current_daily
+        } else {
+            R.layout.widget_hourly_current
         }
-
 
         val views = RemoteViews(context.packageName, layoutIdDaily)
         val prefs = context.getSharedPreferences("HomeWidgetPreferences", Context.MODE_PRIVATE)
@@ -79,7 +89,6 @@ class WeatherWidgetCastProvider : AppWidgetProvider() {
         views.removeAllViews(containerId)
 
         // Get widget size information
-        val options = newOptions ?: manager.getAppWidgetOptions(id)
         val minWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
 
         // Determine widget size category
@@ -135,11 +144,11 @@ class WeatherWidgetCastProvider : AppWidgetProvider() {
         val dailyContainerId = R.id.daily_cast
         views.removeAllViews(dailyContainerId)
 
-        val numDailyItems = when {
-            minHeight > 230 -> 4
-            minHeight > 180 -> 2
-            else -> 1
-        }
+
+
+
+
+
 
         for (i in 0 until numDailyItems) {
             val dayMax = prefs.getString("day${i+1}Max", "--")
@@ -187,4 +196,16 @@ class WeatherWidgetCastProvider : AppWidgetProvider() {
     private enum class WidgetSize {
         LARGE, MEDIUM, SMALL
     }
+
+    fun getWidgetHeightDp(options: Bundle): Int {
+        val minH = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 0)
+        val maxH = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT, 0)
+
+        return when {
+            maxH > 0 -> maxH
+            minH > 0 -> minH
+            else -> 300 // fallback default for broken launchers
+        }
+    }
+
 }

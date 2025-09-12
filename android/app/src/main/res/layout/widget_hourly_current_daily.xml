@@ -123,10 +123,13 @@
     <LinearLayout
         android:id="@+id/daily_cast"
         android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center_vertical"
+        android:layout_marginBottom="12dp"
         />
+
 
 
 
