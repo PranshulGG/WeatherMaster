@@ -585,5 +585,8 @@
   "city": "Город",
   "country": "Страна",
   "latitude": "Широта",
-  "longitude": "Долгота"
+  "longitude": "Долгота",
+  "more_apps": "More apps",
+  "view": "View",
+  "close": "Close"
 }
