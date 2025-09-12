@@ -386,7 +386,7 @@
   "summary_headlines_13": "",
   "summary_headlines_14": "Слънцето грее силно днес",
   "summary_headlines_15": "Ясно небе с предупреждение за UV лъчи",
-  "summary_headlines_16": "Душно и топло начало",
+  "summary_headlines_16": "Задушно и топло начало на деня",
   "summary_headlines_17": "Лепкаво време задава тона",
   "summary_headlines_18": "Очаквайте влажна и лепкава сутрин",
   "summary_headlines_19": "Поривисти ветрове в началото",
@@ -582,11 +582,11 @@
   "error_loading_changelog": "Грешка при зареждане на списъка с промени",
   "condition_widget_animation": "Анимация на уиджета за състояние",
   "condition_widget_animation_sub": "Контролира анимацията на трансформацията. Деактивирайте това, ако устройството Ви има забавяне или замръзване.",
-  "city": "City",
-  "country": "Country",
-  "latitude": "Latitude",
-  "longitude": "Longitude",
-  "more_apps": "More apps",
-  "view": "View",
-  "close": "Close"
+  "city": "Град",
+  "country": "Държава",
+  "latitude": "Географска ширина",
+  "longitude": "Географска дължина",
+  "more_apps": "Още приложения",
+  "view": "Преглед",
+  "close": "Затвори"
 }
