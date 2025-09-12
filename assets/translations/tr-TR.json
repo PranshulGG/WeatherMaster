@@ -585,5 +585,8 @@
   "city": "Şehir",
   "country": "Ülke",
   "latitude": "Enlem",
-  "longitude": "Boylam"
+  "longitude": "Boylam",
+  "more_apps": "More apps",
+  "view": "View",
+  "close": "Close"
 }
