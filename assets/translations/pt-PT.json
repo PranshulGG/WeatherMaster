@@ -585,5 +585,8 @@
   "city": "City",
   "country": "Country",
   "latitude": "Latitude",
-  "longitude": "Longitude"
+  "longitude": "Longitude",
+  "more_apps": "More apps",
+  "view": "View",
+  "close": "Close"
 }
