@@ -57,9 +57,9 @@ class WeatherService {
     });
 
     Uri? astronomyUri;
-    if (!isBackground) {
-      final astronomyUri = Uri.parse(
-          'https://api.weatherapi.com/v1/astronomy.json?key=${dotenv.env['API_KEY_WEATHERAPI']!.toString()}&q=$lat,$lon');
+    if (isBackground == false) {
+      astronomyUri = Uri.parse(
+          'https://api.weatherapi.com/v1/astronomy.json?key=${dotenv.env['API_KEY_WEATHERAPI'].toString()}&q=$lat,$lon');
     }
 
     // Prepare list of HTTP requests
@@ -79,6 +79,8 @@ class WeatherService {
               'HTTP request failed with status: ${response.statusCode}');
         }
       }
+
+      if (astronomyUri != null) log("Astronomy response: ${responses[2].body}");
       // Parse responses
       final weatherData =
           json.decode(responses[0].body) as Map<String, dynamic>;
