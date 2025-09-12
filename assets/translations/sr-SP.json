@@ -585,5 +585,8 @@
   "city": "Град",
   "country": "Земља",
   "latitude": "Географска ширина",
-  "longitude": "Географска дужина"
+  "longitude": "Географска дужина",
+  "more_apps": "More apps",
+  "view": "View",
+  "close": "Close"
 }
