@@ -585,5 +585,8 @@
   "city": "城市",
   "country": "国家",
   "latitude": "纬度",
-  "longitude": "经度"
+  "longitude": "经度",
+  "more_apps": "More apps",
+  "view": "View",
+  "close": "Close"
 }
