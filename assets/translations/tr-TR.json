@@ -572,5 +572,18 @@
   "insights_sub_50": "Sıcaklıklar olağan aralıkta — rekor beklenmiyor.",
   "background_updates_not_working": "Arka plan güncellemeleri çalışmıyor mu?",
   "background_updates_not_working_sub": "Bazı cihaz üreticileri uygulamaların arka planda çalışmasını kısıtlar. Bu sorunu çözmek için dontkillmyapp.com adresini kontrol edin.",
-  "about_weathermaster_sub": "Değişiklik günlüğü, Sürüm, Lisans ve Daha Fazlası"
+  "about_weathermaster_sub": "Değişiklik günlüğü, Sürüm, Lisans ve Daha Fazlası",
+  "whats_new": "Yenilikler",
+  "changelog": "Değişiklikler",
+  "force_ltr_layout": "Soldan Sağa Düzeni Zorla",
+  "info": "Bilgi",
+  "locations_gesture_info_1": "Bir konumu silmek için sağdan sola kaydırın",
+  "locations_gesture_info_2": "Varsayılan olarak ayarlamak için bir konuma basılı tutun",
+  "error_loading_changelog": "Değişiklik günlüğü yüklenirken hata oluştu",
+  "condition_widget_animation": "Koşullu widget animasyonu",
+  "condition_widget_animation_sub": "Bir dönüşüm animasyonunu kontrol eder. Takılma veya donma yaşarsanız bunu devre dışı bırakın",
+  "city": "Şehir",
+  "country": "Ülke",
+  "latitude": "Enlem",
+  "longitude": "Boylam"
 }

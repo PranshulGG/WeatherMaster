@@ -572,5 +572,18 @@
   "insights_sub_50": "Températures dans les normales de saison — aucun record attendu.",
   "background_updates_not_working": "Les mises à jour en arrière-plan ne fonctionnent pas ?",
   "background_updates_not_working_sub": "Certains fabricants restreignent les applications en arrière-plan. Consultez dontkillmyapp.com pour savoir comment corriger ce problème.",
-  "about_weathermaster_sub": "Journal des modifications, Version, Licence, et plus"
+  "about_weathermaster_sub": "Journal des modifications, Version, Licence, et plus",
+  "whats_new": "Quoi de nouveau ?",
+  "changelog": "Changelog",
+  "force_ltr_layout": "Force Left-to-Right Layout",
+  "info": "Infos",
+  "locations_gesture_info_1": "Swipe from right to left to delete a location",
+  "locations_gesture_info_2": "Hold a location to set it as default",
+  "error_loading_changelog": "Error loading changelog",
+  "condition_widget_animation": "Condition widget animation",
+  "condition_widget_animation_sub": "Controls a transform animation. Disable this if you experience lag or freezing",
+  "city": "City",
+  "country": "Country",
+  "latitude": "Latitude",
+  "longitude": "Longitude"
 }

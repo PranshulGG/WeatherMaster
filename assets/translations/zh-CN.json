@@ -572,5 +572,18 @@
   "insights_sub_50": "气温处于正常范围，预计不会打破纪录。",
   "background_updates_not_working": "后台更新不起作用？",
   "background_updates_not_working_sub": "某些设备供应商会限制应用在后台运行。请访问 dontkillmyapp.com 了解修复此问题的步骤。",
-  "about_weathermaster_sub": "更新日志，版本，许可证，和更多信息"
+  "about_weathermaster_sub": "更新日志，版本，许可证，和更多信息",
+  "whats_new": "新内容",
+  "changelog": "更新日志",
+  "force_ltr_layout": "强制从左到右布局",
+  "info": "信息",
+  "locations_gesture_info_1": "从右向左滑动即可删除位置",
+  "locations_gesture_info_2": "长按某个位置即可将其设为默认",
+  "error_loading_changelog": "加载更新日志出错",
+  "condition_widget_animation": "天气情况小部件动画",
+  "condition_widget_animation_sub": "控制过渡动画。如遇卡顿可禁用此项",
+  "city": "城市",
+  "country": "国家",
+  "latitude": "纬度",
+  "longitude": "经度"
 }
