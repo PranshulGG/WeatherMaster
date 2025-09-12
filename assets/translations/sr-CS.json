@@ -585,5 +585,8 @@
   "city": "Grad",
   "country": "Zemlja",
   "latitude": "Geografska širina",
-  "longitude": "Geografska dužina"
+  "longitude": "Geografska dužina",
+  "more_apps": "More apps",
+  "view": "View",
+  "close": "Close"
 }
