@@ -24,8 +24,9 @@ jobs:
 
       - name: Setup environment file
         run: |
-          echo "API_KEY=${{ secrets.API_KEY }}" >> .env
-          echo "ANALYTICS_KEY=${{ secrets.ANALYTICS_KEY }}" >> .env
+          echo "API_TOKEN=${{ secrets.API_TOKEN }}" >> .env
+          echo "API_KEY_WEATHERAPI=${{ secrets.API_KEY_WEATHERAPI }}" >> .env
+          echo "API_KEY_OPENROUTER=${{ secrets.API_KEY_OPENROUTER }}" >> .env
 
       - name: Build Split APKs
         run: flutter build apk --release --split-per-abi
