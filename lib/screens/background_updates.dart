@@ -139,7 +139,10 @@ class _BackgroundUpdatesPageState extends State<BackgroundUpdatesPage> {
                       PreferencesHelper.setInt(
                           "savedRefreshInterval", selectedKey);
                       if (selectedKey != refreshInterval) {
-                        startWeatherService();
+                        if (PreferencesHelper.getBool("useBackgroundUpdates") ??
+                            false) {
+                          startWeatherService();
+                        }
                       }
                       setState(() {
                         refreshInterval = selectedKey;

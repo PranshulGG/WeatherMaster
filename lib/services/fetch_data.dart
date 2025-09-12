@@ -7,6 +7,7 @@ import '../utils/preferences_helper.dart';
 import 'package:flutter/material.dart';
 import '../screens/meteo_models.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'dart:async';
 
 class WeatherService {
   static const String _boxName = 'weatherMasterCache';
@@ -64,9 +65,10 @@ class WeatherService {
     // Prepare list of HTTP requests
     try {
       final requests = <Future<http.Response>>[
-        http.get(uri),
-        http.get(airQualityUri),
-        if (astronomyUri != null) http.get(astronomyUri),
+        http.get(uri).timeout(const Duration(seconds: 15)),
+        http.get(airQualityUri).timeout(const Duration(seconds: 15)),
+        if (astronomyUri != null)
+          http.get(astronomyUri).timeout(const Duration(seconds: 15)),
       ];
 
       final responses = await Future.wait(requests);
@@ -182,8 +184,9 @@ class WeatherService {
         'last_updated': now,
         'from_cache': false,
       };
+    } on TimeoutException catch (_) {
+      throw Exception("Request timed out after 15 seconds");
     } catch (e) {
-      // This will propagate the error to the caller
       throw Exception('WeatherService.fetchWeather failed: $e');
     }
   }

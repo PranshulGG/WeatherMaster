@@ -34,7 +34,9 @@ class WeatherConditionAnimationMapper {
             ? 'assets/foreground-animations/cloudy_foreground.json'
             : 'assets/foreground-animations/mostly_clear_night.json';
         secondaryAnimationUrl = isDay == 1
-            ? 'assets/foreground-animations/cloudy_background.json'
+            ? setFullDisplay
+                ? 'assets/foreground-animations/cloudy.json'
+                : "assets/foreground-animations/cloudy_background.json"
             : 'assets/foreground-animations/mostly_clear_night.json';
         topMain = MediaQuery.of(context).padding.top + 40;
         diffHeight = isDay == 1 ? 400 : 450;
@@ -62,7 +64,9 @@ class WeatherConditionAnimationMapper {
       case 55:
       case 56:
       case 57:
-        animationUrl = 'assets/foreground-animations/rain_foreground.json';
+        animationUrl = setFullDisplay
+            ? 'assets/foreground-animations/showers.json'
+            : 'assets/foreground-animations/rain_foreground.json';
         topMain = 15;
         break;
 
@@ -70,14 +74,20 @@ class WeatherConditionAnimationMapper {
       case 63:
       case 65:
         animationUrl = isDay == 1
-            ? 'assets/foreground-animations/rain_foreground.json'
-            : 'assets/foreground-animations/rain_foreground.json';
+            ? setFullDisplay
+                ? 'assets/foreground-animations/showers.json'
+                : 'assets/foreground-animations/rain_foreground.json'
+            : setFullDisplay
+                ? 'assets/foreground-animations/showers.json'
+                : 'assets/foreground-animations/rain_foreground.json';
         topMain = 15;
         break;
 
       case 66:
       case 67:
-        animationUrl = 'assets/foreground-animations/rain_foreground.json';
+        animationUrl = setFullDisplay
+            ? 'assets/foreground-animations/showers.json'
+            : 'assets/foreground-animations/rain_foreground.json';
         topMain = 15;
         break;
 
@@ -96,7 +106,9 @@ class WeatherConditionAnimationMapper {
       case 80:
       case 81:
       case 82:
-        animationUrl = 'assets/foreground-animations/rain_foreground.json';
+        animationUrl = setFullDisplay
+            ? 'assets/foreground-animations/showers.json'
+            : 'assets/foreground-animations/rain_foreground.json';
         topMain = 15;
         break;
 
@@ -109,7 +121,9 @@ class WeatherConditionAnimationMapper {
       case 95:
       case 96:
       case 99:
-        animationUrl = 'assets/foreground-animations/rain_foreground.json';
+        animationUrl = setFullDisplay
+            ? 'assets/foreground-animations/showers.json'
+            : 'assets/foreground-animations/rain_foreground.json';
         secondaryAnimationUrl =
             'assets/foreground-animations/thunder_background.json';
         topMain = 10;

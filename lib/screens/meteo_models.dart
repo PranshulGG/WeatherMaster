@@ -7,6 +7,7 @@ import '../utils/geo_location.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:lat_lng_to_timezone/lat_lng_to_timezone.dart' as tzmap;
+import 'package:hive/hive.dart';
 
 class MeteoModelsPage extends StatefulWidget {
   const MeteoModelsPage({super.key});
@@ -615,10 +616,17 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
   @override
   void initState() {
     super.initState();
+
     _loadLocationAndFetchWeather();
   }
 
+  String _makeCacheKey(double lat, double lon) {
+    return '${lat.toStringAsFixed(4)}_${lon.toStringAsFixed(4)}';
+  }
+
   Future<void> _loadLocationAndFetchWeather() async {
+    final box = await Hive.openBox('weatherModelsCache');
+
     try {
       final currentLocation = PreferencesHelper.getString('currentLocation');
       final homeLocation = PreferencesHelper.getJson('homeLocation');
@@ -634,8 +642,6 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
               locationData['lon'] != null) {
             _currentLat = (locationData['lat'] as num).toDouble();
             _currentLon = (locationData['lon'] as num).toDouble();
-          } else {
-            throw Exception('Invalid currentLocation data');
           }
         } catch (e) {}
       }
@@ -652,6 +658,41 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
       }
 
       if (_currentLat != null && _currentLon != null) {
+        final cacheKey = _makeCacheKey(_currentLat!, _currentLon!);
+
+        final cachedData = box.get('data_$cacheKey');
+        if (cachedData != null && cachedData is Map) {
+          _modelWeatherData.clear();
+          (cachedData as Map).forEach((k, v) {
+            if (v == null) {
+              _modelWeatherData[k.toString()] = null;
+            } else if (v is Map) {
+              try {
+                _modelWeatherData[k.toString()] = Map<String, dynamic>.from(v);
+              } catch (e) {
+                _modelWeatherData[k.toString()] = null;
+              }
+            } else {
+              _modelWeatherData[k.toString()] = null;
+            }
+          });
+        }
+
+        final cachedTs = box.get('timestamp_$cacheKey');
+        if (cachedTs != null) {
+          try {
+            _lastFetchTime =
+                DateTime.fromMillisecondsSinceEpoch(cachedTs as int);
+          } catch (e) {
+            _lastFetchTime = null;
+          }
+        }
+
+        final cachedLocKey = box.get('cachedLocationKey');
+        if (cachedLocKey != null) {
+          _cachedLocationKey = cachedLocKey as String;
+        }
+
         await _checkCacheAndFetchWeather();
       }
     } catch (e) {}
@@ -660,37 +701,51 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
   Future<void> _checkCacheAndFetchWeather() async {
     if (_currentLat == null || _currentLon == null) return;
 
-    final currentLocationKey = '${_currentLat}_$_currentLon';
+    final currentLocationKey = _makeCacheKey(_currentLat!, _currentLon!);
     final now = DateTime.now();
 
-    final allModelKeys = <String>{};
-    for (final models in categorizedModels.values) {
-      for (final model in models) {
-        allModelKeys.add(model['key'].toString());
+    final Set<String> allModelKeys = {};
+    if (categorizedModels.isNotEmpty) {
+      for (final models in categorizedModels.values) {
+        for (final model in models) {
+          allModelKeys.add(model['key'].toString());
+        }
       }
+    } else {
+      allModelKeys.addAll(_modelWeatherData.keys);
     }
 
     final cachedModelCount =
         _modelWeatherData.values.where((data) => data != null).length;
     final totalModelCount = allModelKeys.length;
-    final hasReasonableCache = cachedModelCount >= (totalModelCount * 0);
+
+    final bool hasReasonableCache = totalModelCount == 0
+        ? (cachedModelCount > 0)
+        : (cachedModelCount >= (totalModelCount * 0));
+
+    const int ttlMinutes = 720;
 
     final bool shouldRefresh = _lastFetchTime == null ||
         _cachedLocationKey != currentLocationKey ||
-        now.difference(_lastFetchTime!).inMinutes >= 7200 ||
+        now.difference(_lastFetchTime!).inMinutes >= ttlMinutes ||
         !hasReasonableCache;
 
     if (shouldRefresh) {
       _lastFetchTime = now;
       _cachedLocationKey = currentLocationKey;
+
+      final box = Hive.box('weatherModelsCache');
+      box.put('cachedLocationKey', currentLocationKey);
+      box.put('timestamp_$currentLocationKey',
+          _lastFetchTime!.millisecondsSinceEpoch);
+      PreferencesHelper.setInt(
+          "lastFetchTimestamp", now.millisecondsSinceEpoch);
+
       await _fetchWeatherForAllModels();
     } else {
-      final cacheAge = now.difference(_lastFetchTime!).inMinutes;
-
       for (final modelKey in allModelKeys) {
         _modelLoadingStates[modelKey] = false;
       }
-
       if (mounted) setState(() {});
     }
   }
@@ -699,7 +754,16 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
     if (_currentLat == null || _currentLon == null) return;
 
     _lastFetchTime = DateTime.now();
-    _cachedLocationKey = '${_currentLat}_$_currentLon';
+    PreferencesHelper.setInt(
+        "lastFetchTimestamp", _lastFetchTime!.millisecondsSinceEpoch);
+
+    _cachedLocationKey = _makeCacheKey(_currentLat!, _currentLon!);
+
+    final box = Hive.box('weatherModelsCache');
+    box.put('cachedLocationKey', _cachedLocationKey);
+    box.put('timestamp_$_cachedLocationKey',
+        _lastFetchTime!.millisecondsSinceEpoch);
+
     await _fetchWeatherForAllModels();
   }
 
@@ -720,7 +784,6 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
 
     try {
       final timezone = tzmap.latLngToTimezoneString(_currentLat!, _currentLon!);
-
       final modelsParam = allModelKeys.join(',');
 
       final uri = Uri.parse('https://api.open-meteo.com/v1/forecast')
@@ -748,8 +811,6 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
       }
 
       final Map<String, dynamic> data = json.decode(response.body);
-
-      debugPrint(data.toString());
 
       final int utcOffsetSeconds =
           (data['utc_offset_seconds'] is int) ? data['utc_offset_seconds'] : 0;
@@ -821,8 +882,31 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
         _modelLoadingStates[modelKey] = false;
       }
 
+      final box = Hive.box('weatherModelsCache');
+      final cacheKey = _makeCacheKey(_currentLat!, _currentLon!);
+
+      final Map<String, dynamic> serializable = {};
+      _modelWeatherData.forEach((k, v) {
+        if (v == null) {
+          serializable[k] = null;
+        } else if (v is Map) {
+          try {
+            serializable[k] = Map<String, dynamic>.from(v);
+          } catch (e) {
+            debugPrint('Failed to serialize model $k: $e');
+            serializable[k] = null;
+          }
+        } else {
+          serializable[k] = v;
+        }
+      });
+
+      box.put('data_$cacheKey', serializable);
+      box.put('timestamp_$cacheKey', _lastFetchTime!.millisecondsSinceEpoch);
+
       if (mounted) setState(() {});
     } catch (e) {
+      debugPrint('Error in _fetchWeatherForAllModels: $e');
       final Set<String> allKeys = {};
       for (final models in categorizedModels.values) {
         for (final model in models) {

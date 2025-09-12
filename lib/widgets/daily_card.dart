@@ -195,6 +195,8 @@ class DailyCard extends StatelessWidget {
                                       fontSize: 14,
                                     ),
                                     textAlign: TextAlign.center,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                   Text(
                                     getLocalizedDateFormat(
