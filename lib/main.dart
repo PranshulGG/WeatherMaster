@@ -246,16 +246,22 @@ class MyApp extends StatelessWidget {
         return child!;
       },
       theme: ThemeData.from(
-        colorScheme: useExpressiveVariant
+        colorScheme: isMonochrome(themeController.seedColor)
             ? ColorScheme.fromSeed(
-                seedColor: themeController.seedColor ?? Colors.blue,
+                seedColor: themeController.seedColor,
                 brightness: Brightness.light,
-                dynamicSchemeVariant: DynamicSchemeVariant.expressive,
+                dynamicSchemeVariant: DynamicSchemeVariant.monochrome,
               )
-            : ColorScheme.fromSeed(
-                seedColor: themeController.seedColor ?? Colors.blue,
-                brightness: Brightness.light,
-              ),
+            : useExpressiveVariant
+                ? ColorScheme.fromSeed(
+                    seedColor: themeController.seedColor ?? Colors.blue,
+                    brightness: Brightness.light,
+                    dynamicSchemeVariant: DynamicSchemeVariant.expressive,
+                  )
+                : ColorScheme.fromSeed(
+                    seedColor: themeController.seedColor ?? Colors.blue,
+                    brightness: Brightness.light,
+                  ),
         useMaterial3: true,
       ).copyWith(
         textTheme: ThemeData.light()
@@ -294,16 +300,22 @@ class MyApp extends StatelessWidget {
         ),
       ),
       darkTheme: ThemeData.from(
-        colorScheme: useExpressiveVariant
+        colorScheme: isMonochrome(themeController.seedColor)
             ? ColorScheme.fromSeed(
                 seedColor: themeController.seedColor ?? Colors.blue,
                 brightness: Brightness.dark,
-                dynamicSchemeVariant: DynamicSchemeVariant.expressive,
+                dynamicSchemeVariant: DynamicSchemeVariant.monochrome,
               )
-            : ColorScheme.fromSeed(
-                seedColor: themeController.seedColor ?? Colors.blue,
-                brightness: Brightness.dark,
-              ),
+            : useExpressiveVariant
+                ? ColorScheme.fromSeed(
+                    seedColor: themeController.seedColor ?? Colors.blue,
+                    brightness: Brightness.dark,
+                    dynamicSchemeVariant: DynamicSchemeVariant.expressive,
+                  )
+                : ColorScheme.fromSeed(
+                    seedColor: themeController.seedColor ?? Colors.blue,
+                    brightness: Brightness.dark,
+                  ),
         useMaterial3: true,
       ).copyWith(
         textTheme: ThemeData.dark()
@@ -753,4 +765,9 @@ Future<Map<String, String>> getGeoData(double lat, double lon) async {
     'city': geoData?['city'] ?? 'Unknown City',
     'country': geoData?['country'] ?? 'Unknown Country',
   };
+}
+
+bool isMonochrome(Color c, {double tol = 1.0 / 255.0}) {
+  final r = c.r, g = c.g, b = c.b;
+  return (r - g).abs() <= tol && (g - b).abs() <= tol && (r - b).abs() <= tol;
 }
