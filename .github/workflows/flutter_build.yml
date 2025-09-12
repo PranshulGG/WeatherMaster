@@ -28,6 +28,17 @@ jobs:
           echo "API_KEY_WEATHERAPI=${{ secrets.API_KEY_WEATHERAPI }}" >> .env
           echo "API_KEY_OPENROUTER=${{ secrets.API_KEY_OPENROUTER }}" >> .env
 
+      - name: Setup keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/weathermaster.jks
+
+      - name: Setup key.properties
+        run: |
+          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > android/key.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
+          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
+          echo "storeFile=app/weathermaster.jks" >> android/key.properties
+
       - name: Build Split APKs
         run: flutter build apk --release --split-per-abi
 
