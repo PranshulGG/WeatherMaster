@@ -443,7 +443,8 @@ class LocationPromptScreen extends StatelessWidget {
             Text(
               "Welcome!",
               style: TextStyle(
-                fontFamily: 'fantasy',
+                fontFamily: 'FlexFontEn',
+                fontWeight: FontWeight.w700,
                 color: customDarkScheme.tertiary,
                 fontSize: 44,
                 height: 0,
@@ -452,7 +453,8 @@ class LocationPromptScreen extends StatelessWidget {
             Text(
               "WeatherMaster",
               style: TextStyle(
-                fontFamily: 'fantasy',
+                fontFamily: 'FlexFontEn',
+                fontWeight: FontWeight.w700,
                 color: customDarkScheme.onTertiaryContainer,
                 fontSize: 30,
                 height: 0,
