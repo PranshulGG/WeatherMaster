@@ -36,11 +36,12 @@
 # 👁️ Screenshots
 
 <div align="center">
-<img src="preview/4.png"  width="250">
-<img src="preview/1.png"  width="250">
-<img src="preview/3.png"  width="250">
+<img src="preview/prev_2.png"  width="250">
+<img src="preview/prev_3.png"  width="250">
+<img src="preview/prev_4.png"  width="250">
 <img src="preview/2.png"  width="250">
-<img src="preview/5.png"  width="250">
+<img src="preview/prev_5.png"  width="250">
+<img src="preview/prev_1.png"  width="250">
 
 </div>
 
