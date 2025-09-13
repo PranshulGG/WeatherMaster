@@ -582,11 +582,11 @@
   "error_loading_changelog": "Chyba při načítání seznamu změn",
   "condition_widget_animation": "Animace widgetu stavu",
   "condition_widget_animation_sub": "Ovládá transformační animaci. Vypněte ji, pokud dochází ke zpoždění nebo zamrzání",
-  "city": "City",
-  "country": "Country",
-  "latitude": "Latitude",
-  "longitude": "Longitude",
-  "more_apps": "More apps",
-  "view": "View",
-  "close": "Close"
+  "city": "Město",
+  "country": "Země",
+  "latitude": "Zeměpisná šířka",
+  "longitude": "Zeměpisná délka",
+  "more_apps": "Další aplikace",
+  "view": "Zobrazit",
+  "close": "Zavřít"
 }

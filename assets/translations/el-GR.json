@@ -582,11 +582,11 @@
   "error_loading_changelog": "Σφάλμα κατά τη φόρτωση του αρχείου καταγραφής αλλαγών",
   "condition_widget_animation": "Εφέ κίνησης γραφικού στοιχείου συνθήκης",
   "condition_widget_animation_sub": "Ελέγχει ένα εφέ κίνησης μετασχηματισμού. Απενεργοποιήστε αυτήν την επιλογή εάν αντιμετωπίζετε καθυστέρηση ή πάγωμα.",
-  "city": "City",
-  "country": "Country",
-  "latitude": "Latitude",
-  "longitude": "Longitude",
-  "more_apps": "More apps",
-  "view": "View",
-  "close": "Close"
+  "city": "Πόλη",
+  "country": "Χώρα",
+  "latitude": "Γεωγραφικό πλάτος",
+  "longitude": "Γεωγραφικό μήκος",
+  "more_apps": "Περισσότερες εφαρμογές",
+  "view": "Εμφάνιση",
+  "close": "Κλείσιμο"
 }

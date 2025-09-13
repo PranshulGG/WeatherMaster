@@ -580,13 +580,13 @@
   "locations_gesture_info_1": "Wische von rechts nach links um einen Standort zu löschen",
   "locations_gesture_info_2": "Halte einen Standort gedrückt, um ihn als Standard festzulegen ",
   "error_loading_changelog": "Fehler beim Laden der Neuerungen",
-  "condition_widget_animation": "Condition widget animation",
-  "condition_widget_animation_sub": "Controls a transform animation. Disable this if you experience lag or freezing",
-  "city": "City",
-  "country": "Country",
-  "latitude": "Latitude",
-  "longitude": "Longitude",
-  "more_apps": "More apps",
-  "view": "View",
-  "close": "Close"
+  "condition_widget_animation": "Animation des Wetterbedingungs-Widgets",
+  "condition_widget_animation_sub": "Steuert eine Transformationsanimation. Deaktivieren Sie diese Option, wenn es zu Verzögerungen oder Einfrieren kommt.",
+  "city": "Stadt",
+  "country": "Land",
+  "latitude": "Breitengrad",
+  "longitude": "Längengrad",
+  "more_apps": "Weitere Apps",
+  "view": "Ansicht",
+  "close": "Schließen"
 }
