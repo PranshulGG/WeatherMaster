@@ -570,12 +570,12 @@
   "insights_sub_48": "Extreme heat possible — may approach record highs.",
   "insights_sub_49": "Very cold weather expected — possibly record lows.",
   "insights_sub_50": "Temperatures are within the usual range — no records expected.",
-  "background_updates_not_working": "Background updates not working?",
-  "background_updates_not_working_sub": "Some device vendors restrict apps in the background. Check dontkillmyapp.com for steps to fix this.",
+  "background_updates_not_working": "Фонові оновлення не працюють?",
+  "background_updates_not_working_sub": "Деякі виробники пристроїв обмежують роботу додатків у фоновому режимі. Перегляньте сайт dontkillmyapp.com, щоб дізнатися, як вирішити цю проблему.",
   "about_weathermaster_sub": "Список змін, версія, ліцензія та інше",
-  "whats_new": "What's new",
+  "whats_new": "Що нового",
   "changelog": "Changelog",
-  "force_ltr_layout": "Force Left-to-Right Layout",
+  "force_ltr_layout": "Примусове розташування зліва направо",
   "info": "Info",
   "locations_gesture_info_1": "Swipe from right to left to delete a location",
   "locations_gesture_info_2": "Hold a location to set it as default",
@@ -586,7 +586,7 @@
   "country": "Country",
   "latitude": "Latitude",
   "longitude": "Longitude",
-  "more_apps": "Більше програм",
+  "more_apps": "Більше додатків",
   "view": "Переглянути",
-  "close": "Close"
+  "close": "Закрити"
 }
