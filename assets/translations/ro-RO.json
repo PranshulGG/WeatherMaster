@@ -428,7 +428,7 @@
   "theme_auto": "Auto",
   "model_saved_snack": "Model salvat. Te rog reîmprospătează vremea",
   "insights_sub_1": "Se răcește vremea săptămâna aceasta — temperaturile scad cu {tempDiff}° până la sfârșitul săptămânii.",
-  "insights_sub_2": "Warming up ahead! Expect a rise of {tempDiff}° by the weekend.",
+  "insights_sub_2": "Se anunță încălzire! Așteaptă-te la o creștere de {tempDiff}° până la sfârșitul săptămânii.",
   "insights_sub_3": "Temperatures stay mostly stable this week.",
   "insights_sub_4": "High chance of rain mid-week — especially on {peakDay}.",
   "insights_sub_5": "Scattered showers possible on a few days this week.",
