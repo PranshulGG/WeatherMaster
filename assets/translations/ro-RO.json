@@ -427,7 +427,7 @@
   "precip_info_4": "Intensitatea ploii măsoară cât de abundentă este ploaia într-o anumită perioadă, clasificată de obicei ca ușoară, moderată sau abundentă. Precipitațiile mai abundente pot duce la inundații sau la vizibilitate redusă.\n\n ",
   "theme_auto": "Auto",
   "model_saved_snack": "Model salvat. Te rog reîmprospătează vremea",
-  "insights_sub_1": "It's getting colder this week — temperatures drop by {tempDiff}° by the weekend.",
+  "insights_sub_1": "Se răcește vremea săptămâna aceasta — temperaturile scad cu {tempDiff}° până la sfârșitul săptămânii.",
   "insights_sub_2": "Warming up ahead! Expect a rise of {tempDiff}° by the weekend.",
   "insights_sub_3": "Temperatures stay mostly stable this week.",
   "insights_sub_4": "High chance of rain mid-week — especially on {peakDay}.",
