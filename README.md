@@ -15,9 +15,13 @@
  <img src="https://img.shields.io/discord/1302477023410782229?label=Discord&style=for-the-badge&color=ffb0c8&labelColor=541d32">
 </a>
 
-<img src="https://shields.rbtlog.dev/simple/com.pranshulgg.weather_master_app?style=for-the-badge" alt="RB Status">
 
    </div>
+   <div align="center">
+   
+<img src="https://shields.rbtlog.dev/simple/com.pranshulgg.weather_master_app?style=for-the-badge" alt="RB Status">
+   </div>
+   
    <div align="center">
    <h3>WeatherMaster: inspired by the Google Pixel weather app.</h3>
    
