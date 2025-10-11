@@ -359,7 +359,7 @@
   "bulletstempOptions_1": "日中は{min}°から{max}°の予報",
   "bulletstempOptions_2": "気温は{min}から{max}",
   "bulletstempOptions_3": "本日の最高気温は{max}℃前後",
-  "bulletsUVOptions_1": "UV index peaks around {uvTime} at {uvIndex}.",
+  "bulletsUVOptions_1": "",
   "bulletsUVOptions_2": "Strong UV expected near {uvTime} — sun protection recommended.",
   "bulletsUVOptions_3": "High UV levels around {uvTime} could pose a risk outdoors.",
   "bulletsHUMIDITYOptions_1": "{humidity}% humidity with a dew point of {dewpoint}° by {time}.",
