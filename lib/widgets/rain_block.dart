@@ -200,6 +200,7 @@ class RainBlock extends StatelessWidget {
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                           fontSize: 13)),
                 ),
+
               const SizedBox(height: 16),
 
               SizedBox(
