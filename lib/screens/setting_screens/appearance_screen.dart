@@ -241,7 +241,7 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
                     },
                   ),
                   SettingSwitchTile(
-                    icon: Icon(null, fill: 1, weight: 500),
+                    icon: Icon(Symbols.brush, fill: 1, weight: 500),
                     title: Text('use_expressive_palette'.tr()),
                     toggled: PreferencesHelper.getBool(
                           "useExpressiveVariant",
