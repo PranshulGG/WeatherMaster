@@ -1424,6 +1424,7 @@ class _WeatherHomeState extends State<WeatherHome> {
                             },
                             onClosed: (result) async {
                               await Future.delayed(Duration(milliseconds: 300));
+                              if (!mounted) return;
                               if (result != null) {
                                 if (result['viewLocaton'] == true) {
                                   SnackUtil.showSnackBar(
