@@ -29,7 +29,13 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final locales = EasyLocalization.of(context)!.supportedLocales;
+    final locales =
+        List<Locale>.from(EasyLocalization.of(context)!.supportedLocales)
+          ..sort((a, b) {
+            final nameA = getLanguageNames(a)['english']!;
+            final nameB = getLanguageNames(b)['english']!;
+            return nameA.compareTo(nameB);
+          });
 
     final forceLTRLAYOUT = PreferencesHelper.getBool("ForceltrLayout") ?? true;
 
