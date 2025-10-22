@@ -421,108 +421,116 @@ class _WeatherHomeState extends State<WeatherHome> {
     final storedJson = prefs.getString('homeLocation');
     final storedLocation = storedJson != null ? jsonDecode(storedJson) : null;
 
-    if (storedLocation['isGPS'] ?? false) {
-      final currentPosition = await NativeLocation.getCurrentPosition();
-      final currentGeo = await NativeLocation.reverseGeocode(
-          currentPosition.latitude, currentPosition.longitude);
+    bool serviceAvailable =
+        await LocationPermissionHelper.checkServicesAndPermission(context);
 
-      final currentCacheKey = "${currentGeo['city']!}_${currentGeo['country']!}"
-          .toLowerCase()
-          .replaceAll(' ', '_');
+    if (serviceAvailable) {
+      if (storedLocation['isGPS'] ?? false) {
+        final currentPosition = await NativeLocation.getCurrentPosition();
+        final currentGeo = await NativeLocation.reverseGeocode(
+            currentPosition.latitude, currentPosition.longitude);
 
-      final currentLat = currentPosition.latitude;
-      final currentLon = currentPosition.longitude;
+        final currentCacheKey =
+            "${currentGeo['city']!}_${currentGeo['country']!}"
+                .toLowerCase()
+                .replaceAll(' ', '_');
 
-      bool locationChanged = true;
+        final currentLat = currentPosition.latitude;
+        final currentLon = currentPosition.longitude;
 
-      if (storedLocation != null && storedLocation['isGPS'] == true) {
-        final storedLat = storedLocation['lat'];
-        final storedLon = storedLocation['lon'];
+        bool locationChanged = true;
 
-        final latDiff = (storedLat - currentLat).abs();
-        final lonDiff = (storedLon - currentLon).abs();
+        if (storedLocation != null && storedLocation['isGPS'] == true) {
+          final storedLat = storedLocation['lat'];
+          final storedLon = storedLocation['lon'];
 
-        locationChanged = latDiff > 0.001 || lonDiff > 0.001;
-      }
+          final latDiff = (storedLat - currentLat).abs();
+          final lonDiff = (storedLon - currentLon).abs();
 
-      Future<void> saveLocation(SavedLocation newLocation) async {
-        final prefs = await SharedPreferences.getInstance();
-        final existing = prefs.getString('saved_locations');
-        List<SavedLocation> current = [];
-
-        if (existing != null) {
-          final decoded = jsonDecode(existing) as List;
-          current = decoded.map((e) => SavedLocation.fromJson(e)).toList();
+          locationChanged = latDiff > 0.001 || lonDiff > 0.001;
         }
 
-        bool alreadyExists = current.any((loc) =>
-            loc.city == newLocation.city && loc.country == newLocation.country);
+        Future<void> saveLocation(SavedLocation newLocation) async {
+          final prefs = await SharedPreferences.getInstance();
+          final existing = prefs.getString('saved_locations');
+          List<SavedLocation> current = [];
 
-        if (!alreadyExists) {
-          current.add(newLocation);
-          await prefs.setString('saved_locations',
-              jsonEncode(current.map((e) => e.toJson()).toList()));
-        }
-      }
+          if (existing != null) {
+            final decoded = jsonDecode(existing) as List;
+            current = decoded.map((e) => SavedLocation.fromJson(e)).toList();
+          }
 
-      if (locationChanged) {
-        prefs.remove('homeLocation');
+          bool alreadyExists = current.any((loc) =>
+              loc.city == newLocation.city &&
+              loc.country == newLocation.country);
 
-        prefs.setString(
-            'homeLocation',
-            jsonEncode({
-              'city': currentGeo['city']!,
-              'country': currentGeo['country']!,
-              'cacheKey': currentCacheKey,
-              'lat': currentLat,
-              'lon': currentLon,
-              'isGPS': true,
-            }));
-
-        final saved = SavedLocation(
-          latitude: currentPosition.latitude,
-          longitude: currentPosition.longitude,
-          city: currentGeo['city']!,
-          country: currentGeo['country']!,
-        );
-
-        await saveLocation(saved);
-
-        final weatherService = WeatherService();
-        try {
-          await weatherService.fetchWeather(
-            currentLat,
-            currentLon,
-            locationName: currentCacheKey,
-            context: context,
-          );
-        } catch (e) {
-          setState(() {
-            _isAppFullyLoaded = true;
-          });
-
-          if (context != null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('data_fetch_error'.tr()),
-                duration: Duration(seconds: 5),
-              ),
-            );
+          if (!alreadyExists) {
+            current.add(newLocation);
+            await prefs.setString('saved_locations',
+                jsonEncode(current.map((e) => e.toJson()).toList()));
           }
         }
-        setState(() {
-          _isAppFullyLoaded = false;
-          _istriggeredFromLocations = true;
-          _isLoadingFroggy = true;
+
+        if (locationChanged) {
+          prefs.remove('homeLocation');
+
+          prefs.setString(
+              'homeLocation',
+              jsonEncode({
+                'city': currentGeo['city']!,
+                'country': currentGeo['country']!,
+                'cacheKey': currentCacheKey,
+                'lat': currentLat,
+                'lon': currentLon,
+                'isGPS': true,
+              }));
+
+          final saved = SavedLocation(
+            latitude: currentPosition.latitude,
+            longitude: currentPosition.longitude,
+            city: currentGeo['city']!,
+            country: currentGeo['country']!,
+          );
+
           cityName = saved.city;
           countryName = saved.country;
           cacheKey = currentCacheKey;
+          _isAppFullyLoaded = false;
+          _istriggeredFromLocations = true;
+          _isLoadingFroggy = true;
           lat = saved.latitude;
           lon = saved.longitude;
           themeCalled = false;
-        });
+          await saveLocation(saved);
 
-        weatherFuture = getWeatherFromCache();
+          final weatherService = WeatherService();
+          try {
+            await weatherService.fetchWeather(
+              currentLat,
+              currentLon,
+              locationName: currentCacheKey,
+              context: context,
+            );
+          } catch (e) {
+            setState(() {
+              _isAppFullyLoaded = true;
+            });
+
+            if (context != null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('data_fetch_error'.tr()),
+                  duration: Duration(seconds: 5),
+                ),
+              );
+            }
+          }
+          setState(() {
+            weatherFuture = getWeatherFromCache();
+          });
+        } else {
+          _refreshWeatherData();
+        }
       } else {
         _refreshWeatherData();
       }
@@ -987,21 +995,21 @@ class _WeatherHomeState extends State<WeatherHome> {
 
             WidgetsBinding.instance.addPostFrameCallback((_) {
               if (mounted) {
-                // setState(() {
-                iscurrentDay = isDay;
-                !useFullMaterialScheme
-                    ? selectedGradientIndex = newIndex
-                    : null;
-                !useFullMaterialScheme
-                    ? selectedSearchBgIndex = newIndex
-                    : null;
-                !useFullMaterialScheme
-                    ? selectedContainerBgIndex = newIndex
-                    : null;
-                !useFullMaterialScheme
-                    ? selectedConditionColorIndex = newIndex
-                    : null;
-                // });
+                setState(() {
+                  iscurrentDay = isDay;
+                  !useFullMaterialScheme
+                      ? selectedGradientIndex = newIndex
+                      : null;
+                  !useFullMaterialScheme
+                      ? selectedSearchBgIndex = newIndex
+                      : null;
+                  !useFullMaterialScheme
+                      ? selectedContainerBgIndex = newIndex
+                      : null;
+                  !useFullMaterialScheme
+                      ? selectedConditionColorIndex = newIndex
+                      : null;
+                });
                 _isLoadingFroggy = true;
                 PreferencesHelper.setColor(
                     "weatherThemeColor", weatherConditionColors[newIndex]);

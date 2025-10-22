@@ -319,6 +319,7 @@ class _AboutPageState extends State<AboutPage> {
                   Navigator.of(context).push(
                     PageRouteBuilder(
                       reverseTransitionDuration: Duration(milliseconds: 200),
+                      fullscreenDialog: true,
                       pageBuilder: (context, animation, secondaryAnimation) {
                         return LicensePage(
                           applicationName: 'WeatherMaster',
