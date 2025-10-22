@@ -44,7 +44,7 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
         backgroundColor: Theme.of(context).colorScheme.surface,
         body: CustomScrollView(slivers: [
           SliverAppBar.large(
-            title: Text('Appearance'),
+            title: Text('appearance'.tr()),
             titleSpacing: 0,
             backgroundColor: Theme.of(context).colorScheme.surface,
             scrolledUnderElevation: 1,
@@ -429,7 +429,9 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
                   SettingSwitchTile(
                     icon: Icon(Symbols.taunt, fill: 1, weight: 500),
                     title: Text('froggy_insights'.tr()),
-                    description: Text('froggy_insights_sub'.tr()),
+                    description: Text(context.locale.languageCode == 'en'
+                        ? "Shows insights in a playful format"
+                        : 'froggy_insights_sub'.tr()),
                     toggled:
                         PreferencesHelper.getBool("useFroggyInsights") ?? false,
                     onChanged: (value) {
