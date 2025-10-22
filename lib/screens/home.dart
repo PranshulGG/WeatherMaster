@@ -1426,6 +1426,10 @@ class _WeatherHomeState extends State<WeatherHome> {
                               await Future.delayed(Duration(milliseconds: 300));
                               if (result != null) {
                                 if (result['viewLocaton'] == true) {
+                                  SnackUtil.showSnackBar(
+                                    context: context,
+                                    message: 'Loading data',
+                                  );
                                   Map<String, dynamic>? result;
 
                                   final weatherService = WeatherService();
