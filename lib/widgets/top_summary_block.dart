@@ -177,7 +177,7 @@ class _SummaryCardState extends State<SummaryCard> {
       ]));
     }
 
-    if (humidity > 75) {
+    if (humidity > 75 && temp > 18) {
       candidates.add(_HeadlineCandidate(50, [
         "summary_headlines_16".tr(),
         "summary_headlines_17".tr(),
@@ -266,7 +266,7 @@ class _SummaryCardState extends State<SummaryCard> {
     ];
     bullets.add(_BulletCandidate(10, _random(tempOptions)));
 
-    if (uvIndex > 2) {
+    if (uvIndex > 5) {
       final uvTime = context.watch<UnitSettingsNotifier>().timeUnit == '24 hr'
           ? "$uvHour:00"
           : formatHour(uvHour);
