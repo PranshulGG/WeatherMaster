@@ -588,5 +588,7 @@
   "longitude": "Geografska dužina",
   "more_apps": "Više aplikacija",
   "view": "Pregled",
-  "close": "Zatvori"
+  "close": "Zatvori",
+  "restart": "Restartuj",
+  "view_on_github": "Pogledaj na GitHub"
 }
