@@ -588,5 +588,7 @@
   "longitude": "Uzunluq",
   "more_apps": "Daha çox tətbiq",
   "view": "Bax",
-  "close": "Bağla"
+  "close": "Bağla",
+  "restart": "Restart",
+  "view_on_github": "View on GitHub"
 }
