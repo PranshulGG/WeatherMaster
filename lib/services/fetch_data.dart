@@ -43,7 +43,8 @@ class WeatherService {
           'weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,daylight_duration,uv_index_max,precipitation_sum,precipitation_probability_max,precipitation_hours,wind_speed_10m_max,wind_gusts_10m_max',
       'timezone': timezone,
       'forecast_days': '7',
-      'models': selectedModel
+      'models': selectedModel,
+      'past_days': '1'
     });
     final airQualityUri =
         Uri.parse('https://air-quality-api.open-meteo.com/v1/air-quality')
@@ -306,7 +307,8 @@ class WeatherService {
             'weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,daylight_duration,uv_index_max,precipitation_sum,precipitation_probability_max,precipitation_hours,wind_speed_10m_max,wind_gusts_10m_max',
         'timezone': timezone,
         'forecast_days': '7',
-        'models': 'best_match'
+        'models': 'best_match',
+        'past_days': '1'
       });
 
       final fallbackResponse = await http.get(fallbackUri);

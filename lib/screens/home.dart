@@ -421,122 +421,124 @@ class _WeatherHomeState extends State<WeatherHome> {
     final storedJson = prefs.getString('homeLocation');
     final storedLocation = storedJson != null ? jsonDecode(storedJson) : null;
 
-    bool serviceAvailable =
-        await LocationPermissionHelper.checkServicesAndPermission(context);
+    if (storedLocation['isGPS'] ?? false) {
+      bool serviceAvailable =
+          await LocationPermissionHelper.checkServicesAndPermission(context);
 
-    if (serviceAvailable) {
-      if (storedLocation['isGPS'] ?? false) {
-        final currentPosition = await NativeLocation.getCurrentPosition();
-        final currentGeo = await NativeLocation.reverseGeocode(
-            currentPosition.latitude, currentPosition.longitude);
+      if (!serviceAvailable) {
+        _refreshWeatherData();
+        return;
+      }
 
-        final currentCacheKey =
-            "${currentGeo['city']!}_${currentGeo['country']!}"
-                .toLowerCase()
-                .replaceAll(' ', '_');
+      final currentPosition = await NativeLocation.getCurrentPosition();
+      final currentGeo = await NativeLocation.reverseGeocode(
+          currentPosition.latitude, currentPosition.longitude);
 
-        final currentLat = currentPosition.latitude;
-        final currentLon = currentPosition.longitude;
+      final currentCacheKey = "${currentGeo['city']!}_${currentGeo['country']!}"
+          .toLowerCase()
+          .replaceAll(' ', '_');
 
-        bool locationChanged = true;
+      final currentLat = currentPosition.latitude;
+      final currentLon = currentPosition.longitude;
 
-        if (storedLocation != null && storedLocation['isGPS'] == true) {
-          final storedLat = storedLocation['lat'];
-          final storedLon = storedLocation['lon'];
+      bool locationChanged = true;
 
-          final latDiff = (storedLat - currentLat).abs();
-          final lonDiff = (storedLon - currentLon).abs();
+      if (storedLocation != null && storedLocation['isGPS'] == true) {
+        final storedLat = storedLocation['lat'];
+        final storedLon = storedLocation['lon'];
 
-          locationChanged = latDiff > 0.001 || lonDiff > 0.001;
+        final latDiff = (storedLat - currentLat).abs();
+        final lonDiff = (storedLon - currentLon).abs();
+
+        locationChanged = latDiff > 0.001 || lonDiff > 0.001;
+      }
+
+      Future<void> saveLocation(SavedLocation newLocation) async {
+        final prefs = await SharedPreferences.getInstance();
+        final existing = prefs.getString('saved_locations');
+        List<SavedLocation> current = [];
+
+        if (existing != null) {
+          final decoded = jsonDecode(existing) as List;
+          current = decoded.map((e) => SavedLocation.fromJson(e)).toList();
         }
 
-        Future<void> saveLocation(SavedLocation newLocation) async {
-          final prefs = await SharedPreferences.getInstance();
-          final existing = prefs.getString('saved_locations');
-          List<SavedLocation> current = [];
+        bool alreadyExists = current.any((loc) =>
+            loc.city == newLocation.city && loc.country == newLocation.country);
 
-          if (existing != null) {
-            final decoded = jsonDecode(existing) as List;
-            current = decoded.map((e) => SavedLocation.fromJson(e)).toList();
-          }
-
-          bool alreadyExists = current.any((loc) =>
-              loc.city == newLocation.city &&
-              loc.country == newLocation.country);
-
-          if (!alreadyExists) {
-            current.add(newLocation);
-            await prefs.setString('saved_locations',
-                jsonEncode(current.map((e) => e.toJson()).toList()));
-          }
+        if (!alreadyExists) {
+          current.add(newLocation);
+          await prefs.setString('saved_locations',
+              jsonEncode(current.map((e) => e.toJson()).toList()));
         }
+      }
 
-        if (locationChanged) {
-          prefs.remove('homeLocation');
+      if (locationChanged) {
+        prefs.remove('homeLocation');
 
-          prefs.setString(
-              'homeLocation',
-              jsonEncode({
-                'city': currentGeo['city']!,
-                'country': currentGeo['country']!,
-                'cacheKey': currentCacheKey,
-                'lat': currentLat,
-                'lon': currentLon,
-                'isGPS': true,
-              }));
+        prefs.setString(
+            'homeLocation',
+            jsonEncode({
+              'city': currentGeo['city']!,
+              'country': currentGeo['country']!,
+              'cacheKey': currentCacheKey,
+              'lat': currentLat,
+              'lon': currentLon,
+              'isGPS': true,
+            }));
 
-          final saved = SavedLocation(
-            latitude: currentPosition.latitude,
-            longitude: currentPosition.longitude,
-            city: currentGeo['city']!,
-            country: currentGeo['country']!,
+        final saved = SavedLocation(
+          latitude: currentPosition.latitude,
+          longitude: currentPosition.longitude,
+          city: currentGeo['city']!,
+          country: currentGeo['country']!,
+        );
+
+        cityName = saved.city;
+        countryName = saved.country;
+        cacheKey = currentCacheKey;
+        _isAppFullyLoaded = false;
+        _istriggeredFromLocations = true;
+        _isLoadingFroggy = true;
+        lat = saved.latitude;
+        lon = saved.longitude;
+        themeCalled = false;
+        await saveLocation(saved);
+
+        final weatherService = WeatherService();
+        try {
+          await weatherService.fetchWeather(
+            currentLat,
+            currentLon,
+            locationName: currentCacheKey,
+            context: context,
           );
-
-          cityName = saved.city;
-          countryName = saved.country;
-          cacheKey = currentCacheKey;
-          _isAppFullyLoaded = false;
-          _istriggeredFromLocations = true;
-          _isLoadingFroggy = true;
-          lat = saved.latitude;
-          lon = saved.longitude;
-          themeCalled = false;
-          await saveLocation(saved);
-
-          final weatherService = WeatherService();
-          try {
-            await weatherService.fetchWeather(
-              currentLat,
-              currentLon,
-              locationName: currentCacheKey,
-              context: context,
-            );
-          } catch (e) {
-            setState(() {
-              _isAppFullyLoaded = true;
-            });
-
-            if (context != null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('data_fetch_error'.tr()),
-                  duration: Duration(seconds: 5),
-                ),
-              );
-            }
-          }
+        } catch (e) {
           setState(() {
-            weatherFuture = getWeatherFromCache();
+            _isAppFullyLoaded = true;
           });
-        } else {
-          _refreshWeatherData();
+
+          if (context != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('data_fetch_error'.tr()),
+                duration: Duration(seconds: 5),
+              ),
+            );
+          }
         }
+        setState(() {
+          weatherFuture = getWeatherFromCache();
+        });
       } else {
         _refreshWeatherData();
       }
     } else {
       _refreshWeatherData();
     }
+    // } else {
+    //   _refreshWeatherData();
+    // }
   }
 
   late bool isLight;
@@ -895,11 +897,37 @@ class _WeatherHomeState extends State<WeatherHome> {
           final bool isDayFroggy = current['is_day'] == 1;
 
           final hourly = weather['hourly'] ?? {};
-          final List<dynamic> hourlyTime = hourly['time'];
-          final List<dynamic> hourlyTemps = hourly['temperature_2m'];
-          final List<dynamic> hourlyWeatherCodes = hourly['weather_code'];
-          final List<dynamic> hourlyPrecpProb =
+
+          final List<dynamic> hourlyTimeNoFilter = hourly['time'];
+          final List<dynamic> hourlyTempsNoFilter = hourly['temperature_2m'];
+          final List<dynamic> hourlyWeatherCodesNoFilter =
+              hourly['weather_code'];
+          final List<dynamic> hourlyPrecpProbNoFilter =
               hourly['precipitation_probability'];
+
+          // Convert times to DateTime and filter out past-day entries
+          final now = DateTime.now();
+          final todayMidnight = DateTime(now.year, now.month, now.day);
+
+          final filteredIndices = <int>[];
+          for (int i = 0; i < hourlyTimeNoFilter.length; i++) {
+            final time = DateTime.parse(hourlyTimeNoFilter[i]);
+            if (time.isAfter(todayMidnight) ||
+                time.isAtSameMomentAs(todayMidnight)) {
+              filteredIndices.add(i);
+            }
+          }
+
+// Keep only today's + future hours
+          final hourlyTime =
+              filteredIndices.map((i) => hourlyTimeNoFilter[i]).toList();
+          final hourlyTemps =
+              filteredIndices.map((i) => hourlyTempsNoFilter[i]).toList();
+          final hourlyWeatherCodes = filteredIndices
+              .map((i) => hourlyWeatherCodesNoFilter[i])
+              .toList();
+          final hourlyPrecpProb =
+              filteredIndices.map((i) => hourlyPrecpProbNoFilter[i]).toList();
 
           final daily = weather['daily'];
           final List<dynamic> dailyDates = daily['time'];

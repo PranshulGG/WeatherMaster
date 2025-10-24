@@ -128,90 +128,94 @@ class DailyCard extends StatelessWidget {
                               ),
                             );
                           },
-                          child: Container(
-                            width: 68,
-                            margin: itemMargin,
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(99),
-                                color: Theme.of(context).brightness ==
-                                        Brightness.light
-                                    ? colorTheme.surfaceContainer
-                                    : isDarkCards
-                                        ? colorTheme.surfaceContainerLow
-                                            .withValues(alpha: 0.6)
-                                        : Color.fromRGBO(0, 0, 0, 0.247)),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Column(
-                                  children: [
-                                    Text("${tempMax.round()}°",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: colorTheme.onSurface,
-                                          fontFamily: "FlexFontEn",
-                                        )),
-                                    Text("${tempMin.round()}°",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: colorTheme.onSurfaceVariant,
-                                          fontFamily: "FlexFontEn",
-                                        )),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                SvgPicture.asset(
-                                  WeatherIconMapper.getIcon(code, 1),
-                                  width: 35,
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Column(children: [
-                                  Text(
-                                      precipProb == 0.0000001
-                                          ? '--'
-                                          : "${precipProb.round()}%",
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: colorTheme.primary,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: "FlexFontEn",
-                                      )),
+                          child: Opacity(
+                            opacity: index == 0 ? 0.6 : 1,
+                            child: Container(
+                              width: 68,
+                              margin: itemMargin,
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(99),
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.light
+                                      ? colorTheme.surfaceContainer
+                                      : isDarkCards
+                                          ? colorTheme.surfaceContainerLow
+                                              .withValues(alpha: 0.6)
+                                          : Color.fromRGBO(0, 0, 0, 0.247)),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
                                   SizedBox(
-                                    height: 3,
+                                    height: 10,
                                   ),
-                                  Text(
-                                    getDayLabel(time, index, utcOffsetSeconds)
-                                        .toLowerCase()
-                                        .tr(),
-                                    style: const TextStyle(
-                                      fontSize: 14,
+                                  Column(
+                                    children: [
+                                      Text("${tempMax.round()}°",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: colorTheme.onSurface,
+                                            fontFamily: "FlexFontEn",
+                                          )),
+                                      Text("${tempMin.round()}°",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: colorTheme.onSurfaceVariant,
+                                            fontFamily: "FlexFontEn",
+                                          )),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  SvgPicture.asset(
+                                    WeatherIconMapper.getIcon(code, 1),
+                                    width: 35,
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Column(children: [
+                                    Text(
+                                        precipProb == 0.0000001
+                                            ? '--'
+                                            : "${precipProb.round()}%",
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: colorTheme.primary,
+                                          fontWeight: FontWeight.w600,
+                                          fontFamily: "FlexFontEn",
+                                        )),
+                                    SizedBox(
+                                      height: 3,
                                     ),
-                                    textAlign: TextAlign.center,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  Text(
-                                    getLocalizedDateFormat(
-                                        time, Localizations.localeOf(context)),
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      color: colorTheme.onSurfaceVariant,
+                                    Text(
+                                      getDayLabel(time, index, utcOffsetSeconds)
+                                          .toLowerCase()
+                                          .tr(),
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                    textAlign: TextAlign.center,
+                                    Text(
+                                      getLocalizedDateFormat(time,
+                                          Localizations.localeOf(context)),
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        color: colorTheme.onSurfaceVariant,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ]),
+                                  SizedBox(
+                                    height: 10,
                                   ),
-                                ]),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),

@@ -448,7 +448,6 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) => EditLayoutPage(),
-                          fullscreenDialog: true,
                         ),
                       );
                     },
