@@ -1765,12 +1765,12 @@ class _ExtendWidgetState extends State<ExtendWidget> {
             children: [
               Container(
                 clipBehavior: Clip.hardEdge,
-                height: 305,
+                // height: 305,
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.surfaceContainer,
                   borderRadius: BorderRadius.circular(18),
                 ),
-                padding: EdgeInsets.only(top: 12, bottom: 0),
+                padding: EdgeInsets.only(top: 12, bottom: 12),
                 margin: EdgeInsets.fromLTRB(12, 0, 12, 0),
                 child: Column(
                   children: [
@@ -2198,10 +2198,13 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                         final double rainValue = (precipAmountMain is num)
                             ? precipAmountMain.toDouble()
                             : 0;
+
                         final double rainPercentage =
-                            ((rainValue - minprecipAmount) /
-                                    (maxprecipAmount - minprecipAmount)) *
-                                100;
+                            (maxprecipAmount - minprecipAmount) == 0
+                                ? 0
+                                : ((rainValue - minprecipAmount) /
+                                        (maxprecipAmount - minprecipAmount)) *
+                                    100;
 
                         final convertedPrecipAmount = precipitationUnit == 'cm'
                             ? UnitConverter.mmToCm(rainValue)
