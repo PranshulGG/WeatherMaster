@@ -588,5 +588,7 @@
   "longitude": "خط الطول",
   "more_apps": "المزيد من التطبيقات",
   "view": "عرض",
-  "close": "إغلاق"
+  "close": "إغلاق",
+  "restart": "Restart",
+  "view_on_github": "View on GitHub"
 }
