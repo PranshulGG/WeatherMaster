@@ -588,5 +588,7 @@
   "longitude": "经度",
   "more_apps": "更多应用",
   "view": "查看",
-  "close": "关闭"
+  "close": "关闭",
+  "restart": "重启",
+  "view_on_github": "在 GitHub 上查看"
 }
