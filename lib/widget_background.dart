@@ -171,9 +171,9 @@ Future<void> updateHomeWidget(weather, {bool updatedFromHome = false}) async {
         locale = Locale(localeString);
       }
 
-      String translationFileName = locale.languageCode;
+      String translationFileName = locale.languageCode.toLowerCase();
       if (locale.countryCode != null && locale.countryCode!.isNotEmpty) {
-        translationFileName += '-${locale.countryCode}';
+        translationFileName += '-${locale.countryCode!.toUpperCase()}';
       }
 
       Map<String, dynamic> translations;
@@ -182,14 +182,13 @@ Future<void> updateHomeWidget(weather, {bool updatedFromHome = false}) async {
         final String data = await rootBundle
             .loadString('assets/translations/$translationFileName.json');
         translations = jsonDecode(data);
-      } catch (e) {
+      } catch (_) {
         print(
-            '[Translation] Could not load $translationFileName.json, falling back to en.json');
-        final String data =
-            await rootBundle.loadString('assets/translations/en.json');
+            '[Translation] $translationFileName.json not found, falling back to ${locale.languageCode}.json');
+        final String data = await rootBundle
+            .loadString('assets/translations/${locale.languageCode}.json');
         translations = jsonDecode(data);
       }
-
       final conditionNameDaily = translations[conditionKey] ?? conditionKey;
 
       final maxTempFormatted = tempUnit == 'Fahrenheit'

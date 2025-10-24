@@ -1,7 +1,4 @@
-import 'dart:math';
-
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
@@ -12,6 +9,12 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:hive/hive.dart';
 import 'package:expressive_loading_indicator/expressive_loading_indicator.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AboutPage extends StatefulWidget {
   const AboutPage({super.key});
@@ -297,7 +300,23 @@ class _AboutPageState extends State<AboutPage> {
                   },
                 );
               },
-            )
+            ),
+            ListTile(
+              minTileHeight: 65,
+              leading: CircleAvatar(
+                radius: 23,
+                child: Icon(Symbols.favorite),
+              ),
+              title: Text("Contributors"),
+              subtitle: Text("Translators"),
+              onTap: () {
+                TranslatorsDialog.show(
+                  context,
+                  projectId: '741419',
+                  apiToken: dotenv.env['API_TOKEN']!.toString(),
+                );
+              },
+            ),
           ],
         ),
       ),
@@ -777,6 +796,187 @@ class _ChangelogSheetState extends State<ChangelogSheet> {
                       if (href != null) openLink(href);
                     },
                   ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+// CONTRIBUTORS
+
+class Translator {
+  final String name;
+  final String fullName;
+  final String role;
+
+  Translator({required this.name, required this.fullName, required this.role});
+
+  factory Translator.fromJson(Map<String, dynamic> json) {
+    return Translator(
+      name: json['username'] ?? '',
+      fullName: json['fullName'] ?? '',
+      role: json['role'] ?? '',
+    );
+  }
+}
+
+class TranslatorsDialog {
+  static const String cacheKey = 'translatorsData';
+
+  static Future<List<Translator>> fetchTranslators(
+      {required String projectId, required String apiToken}) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+
+      final savedData = prefs.getString(cacheKey);
+      if (savedData != null) {
+        final cached = json.decode(savedData);
+        final timestamp = cached['timestamp'] as int;
+        final translatorsData = cached['translators'] as List<dynamic>;
+
+        if (DateTime.now()
+                .difference(DateTime.fromMillisecondsSinceEpoch(timestamp))
+                .inHours <
+            24) {
+          print('Using cached translators data');
+
+          return translatorsData.map((e) => Translator.fromJson(e)).toList();
+        }
+      }
+
+      final response = await http.get(
+        Uri.parse('https://api.crowdin.com/api/v2/projects/$projectId/members'),
+        headers: {
+          'Authorization': 'Bearer $apiToken',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode != 200) {
+        throw Exception('Error fetching members: ${response.statusCode}');
+      }
+
+      final data = json.decode(response.body);
+      final translators = (data['data'] as List<dynamic>)
+          .where((member) => member['data']['role'] == 'translator')
+          .map((member) => Translator(
+                name: member['data']['username'] ?? '',
+                fullName: member['data']['fullName'] ?? '',
+                role: member['data']['role'] ?? '',
+              ))
+          .toList();
+
+      final cacheData = json.encode({
+        'timestamp': DateTime.now().millisecondsSinceEpoch,
+        'translators': translators
+            .map((t) =>
+                {'username': t.name, 'fullName': t.fullName, 'role': t.role})
+            .toList(),
+      });
+
+      await prefs.setString(cacheKey, cacheData);
+
+      return translators;
+    } catch (e) {
+      print('Error fetching translators: $e');
+
+      final prefs = await SharedPreferences.getInstance();
+      final savedData = prefs.getString(cacheKey);
+      if (savedData != null) {
+        try {
+          final cached = json.decode(savedData);
+          final translatorsData = cached['translators'] as List<dynamic>;
+          print('Using cached data fallback');
+          return translatorsData.map((e) => Translator.fromJson(e)).toList();
+        } catch (_) {}
+      }
+
+      return [];
+    }
+  }
+
+  static Future<void> show(BuildContext context,
+      {required String projectId, required String apiToken}) async {
+    List<Translator> translators = [];
+    bool isLoading = true;
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            if (isLoading) {
+              fetchTranslators(projectId: projectId, apiToken: apiToken)
+                  .then((fetched) {
+                setState(() {
+                  translators = fetched;
+                  isLoading = false;
+                });
+              });
+            }
+
+            final maxHeight = MediaQuery.of(context).size.height * 0.75;
+
+            return Container(
+              constraints: BoxConstraints(
+                maxHeight: maxHeight,
+              ),
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+                left: 16,
+                right: 16,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Expanded(
+                    child: isLoading
+                        ? const Center(child: CircularProgressIndicator())
+                        : translators.isEmpty
+                            ? const Center(
+                                child: Text('No translators available.'))
+                            : ListView.builder(
+                                itemCount: translators.length,
+                                itemBuilder: (context, index) {
+                                  final t = translators[index];
+                                  final displayName = (t.fullName.isNotEmpty
+                                          ? t.fullName
+                                          : t.name)
+                                      .replaceAll(
+                                          RegExp(r'[^\u0000-\uFFFF]'), '');
+                                  final displayRole = (t.role.isNotEmpty
+                                      ? t.role[0].toUpperCase() +
+                                          t.role.substring(1)
+                                      : '');
+                                  return ListTile(
+                                    leading: CircleAvatar(
+                                      child: Text(
+                                        displayName.isNotEmpty
+                                            ? displayName[0]
+                                            : '?',
+                                      ),
+                                    ),
+                                    title: Text('$displayName (${t.name})'),
+                                    subtitle: Text(displayRole),
+                                  );
+                                },
+                              ),
+                  ),
+                  Divider(),
+                  SizedBox(
+                    width: double.infinity,
+                    child: FilledButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Close'),
+                    ),
+                  ),
+                  SizedBox(height: MediaQuery.of(context).padding.bottom + 10),
                 ],
               ),
             );
