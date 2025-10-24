@@ -140,6 +140,7 @@ class _LocationsScreenState extends State<LocationsScreen> {
             automaticallyImplyLeading: false,
             actions: [
               IconButton(
+                tooltip: "Edit",
                 icon: Icon(isEditing ? Icons.check : Icons.edit),
                 onPressed: () {
                   _isFirstBuild = false;
@@ -198,6 +199,7 @@ class _LocationsScreenState extends State<LocationsScreen> {
             openColor: colorTheme.surfaceContainerHigh,
             closedBuilder: (context, openContainer) {
               return FloatingActionButton.large(
+                tooltip: "New location",
                 backgroundColor: Colors.transparent,
                 onPressed: () {
                   PreferencesHelper.remove("selectedViewLocation");
@@ -473,6 +475,7 @@ class _LocationsScreenState extends State<LocationsScreen> {
                                     ],
                                   ),
                             IconButton(
+                                tooltip: "Info",
                                 onPressed: () {
                                   // showMatDialog(
                                   //     context: context,
