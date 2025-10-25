@@ -588,5 +588,7 @@
   "longitude": "Географска дължина",
   "more_apps": "Още приложения",
   "view": "Преглед",
-  "close": "Затвори"
+  "close": "Затвори",
+  "restart": "Restart",
+  "view_on_github": "View on GitHub"
 }

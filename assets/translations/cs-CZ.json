@@ -588,5 +588,7 @@
   "longitude": "Zeměpisná délka",
   "more_apps": "Další aplikace",
   "view": "Zobrazit",
-  "close": "Zavřít"
+  "close": "Zavřít",
+  "restart": "Restart",
+  "view_on_github": "Zobrazit na GitHubu"
 }

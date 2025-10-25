@@ -588,5 +588,7 @@
   "longitude": "Довгота",
   "more_apps": "Більше додатків",
   "view": "Переглянути",
-  "close": "Закрити"
+  "close": "Закрити",
+  "restart": "Restart",
+  "view_on_github": "View on GitHub"
 }

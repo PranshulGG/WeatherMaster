@@ -588,5 +588,7 @@
   "longitude": "Longitudine",
   "more_apps": "Altre app",
   "view": "Visualizza",
-  "close": "Chiudi"
+  "close": "Chiudi",
+  "restart": "Restart",
+  "view_on_github": "View on GitHub"
 }

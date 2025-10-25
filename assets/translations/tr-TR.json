@@ -588,5 +588,7 @@
   "longitude": "Boylam",
   "more_apps": "Diğer uygulamalar",
   "view": "Görüntüle",
-  "close": "Kapat"
+  "close": "Kapat",
+  "restart": "Restart",
+  "view_on_github": "View on GitHub"
 }
