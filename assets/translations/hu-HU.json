@@ -588,5 +588,7 @@
   "longitude": "Hosszúság",
   "more_apps": "További alkalmazások",
   "view": "Megtekintés",
-  "close": "Bezárás"
+  "close": "Bezárás",
+  "restart": "Restart",
+  "view_on_github": "View on GitHub"
 }

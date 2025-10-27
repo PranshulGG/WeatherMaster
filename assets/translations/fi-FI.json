@@ -588,5 +588,7 @@
   "longitude": "Pituuspiiri",
   "more_apps": "Muita sovelluksia",
   "view": "Näytä",
-  "close": "Sulje"
+  "close": "Sulje",
+  "restart": "Restart",
+  "view_on_github": "View on GitHub"
 }

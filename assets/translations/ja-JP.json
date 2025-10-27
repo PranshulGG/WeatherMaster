@@ -588,5 +588,7 @@
   "longitude": "経度",
   "more_apps": "その他のアプリ",
   "view": "表示",
-  "close": "閉じる"
+  "close": "閉じる",
+  "restart": "Restart",
+  "view_on_github": "View on GitHub"
 }
