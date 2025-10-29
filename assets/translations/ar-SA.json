@@ -496,7 +496,7 @@
   "model_disc_22": "Blended national model. Accurate in France & nearby countries.",
   "model_disc_23": "Global model from France. Decent worldwide, especially for French territories.",
   "model_disc_24": "Europe-focused ARPEGE. More precise than global version.",
-  "model_disc_25": "High-res national model. Best for local French forecasts.",
+  "model_disc_25": "",
   "model_disc_27": "High-resolution ICON model tailored by ARPAE for Italy. Ideal for detailed regional forecasts.",
   "model_disc_28": "Integrated multi-scale forecast system combining global and regional models for smooth transitions.",
   "model_disc_29": "Global model with 10km resolution. Suitable for medium-range international forecasts.",
