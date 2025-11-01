@@ -150,7 +150,7 @@
         <service
             android:name=".WeatherDreamService"
             android:exported="true"
-            android:icon="@drawable/ic_launcher_mono_foreground"
+            android:icon="@drawable/shape_set_2"
             android:label="Weather"
             android:permission="android.permission.BIND_DREAM_SERVICE">
 
