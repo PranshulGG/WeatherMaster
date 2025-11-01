@@ -352,8 +352,8 @@
   "rain_expected_this_afternoon": "Pioggia prevista questo pomeriggio",
   "rain_expected_this_evening": "Pioggia prevista questa sera",
   "rain_expected_later_today": "Pioggia prevista più tardi oggi",
-  "from_text": "Da",
-  "to_text": "a",
+  "from_text": "dalle",
+  "to_text": "alle",
   "heavy_rain": "Pioggia intensa",
   "light_rain": "Pioggia leggera",
   "bulletstempOptions_1": "Si prevedono temperature diurne tra {min}° e {max}°.",
@@ -589,6 +589,6 @@
   "more_apps": "Altre app",
   "view": "Visualizza",
   "close": "Chiudi",
-  "restart": "Restart",
-  "view_on_github": "View on GitHub"
+  "restart": "Riavvia",
+  "view_on_github": "Vedi su GitHub"
 }
