@@ -5,9 +5,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
@@ -31,12 +31,11 @@
                  while the Flutter UI initializes. After that, this theme continues
                  to determine the Window background behind the Flutter UI. -->
             <meta-data
-              android:name="io.flutter.embedding.android.NormalTheme"
-              android:resource="@style/NormalTheme"
-              />
+                android:name="io.flutter.embedding.android.NormalTheme"
+                android:resource="@style/NormalTheme" />
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
@@ -47,17 +46,19 @@
 
         <!-- WIDGETS -->
 
-    <receiver
-        android:name="dev.fluttercommunity.plus.homewidget.HomeWidgetBackgroundReceiver"
-        android:exported="true"
-        >
-        <intent-filter>
-            <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-        </intent-filter>
-    </receiver>
+        <receiver
+            android:name="dev.fluttercommunity.plus.homewidget.HomeWidgetBackgroundReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+        </receiver>
 
 
-        <receiver android:name=".WeatherWidgetProvider" android:exported="true" android:label="Current horizontal pill">
+        <receiver
+            android:name=".WeatherWidgetProvider"
+            android:exported="true"
+            android:label="Current horizontal pill">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -67,7 +68,10 @@
                 android:resource="@xml/weather_widget_info" />
         </receiver>
 
-        <receiver android:name=".WeatherWidgetCastProvider" android:exported="true" android:label="Current + hourly + daily">
+        <receiver
+            android:name=".WeatherWidgetCastProvider"
+            android:exported="true"
+            android:label="Current + hourly + daily">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -77,7 +81,10 @@
                 android:resource="@xml/weather_widget_info_cast" />
         </receiver>
 
-        <receiver android:name=".PillWidgetProvider" android:exported="true" android:label="Current pill">
+        <receiver
+            android:name=".PillWidgetProvider"
+            android:exported="true"
+            android:label="Current pill">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -87,7 +94,10 @@
                 android:resource="@xml/pill_widget_info" />
         </receiver>
 
-        <receiver android:name=".ClockHourlyWidgetProvider" android:exported="true" android:label="Clock + hourly + current">
+        <receiver
+            android:name=".ClockHourlyWidgetProvider"
+            android:exported="true"
+            android:label="Clock + hourly + current">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -97,7 +107,10 @@
                 android:resource="@xml/clock_hourly_info" />
         </receiver>
 
-        <receiver android:name=".DateCurrentWidgetProvider" android:exported="true" android:label="Date + Current">
+        <receiver
+            android:name=".DateCurrentWidgetProvider"
+            android:exported="true"
+            android:label="Date + Current">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -107,11 +120,14 @@
                 android:resource="@xml/date_temp_widget_info" />
         </receiver>
 
-        <activity android:name=".clockDateWidgetConfigActivity"
+        <activity
+            android:name=".clockDateWidgetConfigActivity"
             android:theme="@style/Theme.widgetsThemeConfigs"
-            android:exported="true">
-        </activity>
-        <receiver android:name=".clockDateWidgetProvider" android:exported="true" android:label="Glance">
+            android:exported="true"></activity>
+        <receiver
+            android:name=".clockDateWidgetProvider"
+            android:exported="true"
+            android:label="Glance">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -130,8 +146,25 @@
 
         <!-- WIDGETS END -->
 
+        <!-- SCREEN SAVERS -->
+        <service
+            android:name=".WeatherDreamService"
+            android:exported="true"
+            android:icon="@drawable/ic_launcher_mono_foreground"
+            android:label="Weather"
+            android:permission="android.permission.BIND_DREAM_SERVICE">
 
+            <intent-filter>
+                <action android:name="android.service.dreams.DreamService" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
 
+            <!-- Point to additional information for this dream (optional) -->
+            <!--            <meta-data-->
+            <!--                android:name="android.service.dream"-->
+            <!--                android:resource="@xml/my_dream" />-->
+        </service>
+        <!-- SCREEN SAVERS END -->
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and
@@ -140,8 +173,8 @@
          In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
     <queries>
         <intent>
-            <action android:name="android.intent.action.PROCESS_TEXT"/>
-            <data android:mimeType="text/plain"/>
+            <action android:name="android.intent.action.PROCESS_TEXT" />
+            <data android:mimeType="text/plain" />
         </intent>
     </queries>
 </manifest>

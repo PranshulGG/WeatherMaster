@@ -172,6 +172,20 @@ void main() async {
   );
 }
 
+@pragma('vm:entry-point')
+void onDreamServiceStarted() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MaterialApp(
+    theme: ThemeData.light(),
+    darkTheme: ThemeData.dark(),
+    home: Scaffold(
+      body: Center(
+        child: FilledButton(onPressed: () {}, child: Text("Hello world!")),
+      ),
+    ),
+  ));
+}
+
 class MyApp extends StatelessWidget {
   final String? cacheKey;
   final String? cityName;
