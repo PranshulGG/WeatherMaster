@@ -12,7 +12,7 @@ class WeatherDreamService : DreamService() {
     companion object {
         private var flutterEngine: FlutterEngine? = null
     }
-
+    
     private var flutterView: FlutterView? = null
 
     override fun onAttachedToWindow() {
@@ -25,8 +25,9 @@ class WeatherDreamService : DreamService() {
         isFullscreen = true
 
         // TODO: figure out if this is required or not
-        // isScreenBright = true
+        isScreenBright = true
 
+        // TODO: decide if this should use applicationContext or this
         val engine = flutterEngine ?: FlutterEngine(applicationContext).also {
             it.dartExecutor.executeDartEntrypoint(
                 DartEntrypoint(
@@ -35,14 +36,20 @@ class WeatherDreamService : DreamService() {
             )
         }
 
-        flutterView = FlutterView(this).also {
-            it.layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
-            setContentView(it)
+
+        setContentView(R.layout.flutter_view)
+        flutterView = findViewById<FlutterView>(R.id.flutter_view).also {
             it.attachToFlutterEngine(engine)
         }
+
+        //flutterView = FlutterView(this).also {
+        //    it.layoutParams = ViewGroup.LayoutParams(
+        //        ViewGroup.LayoutParams.MATCH_PARENT,
+        //        ViewGroup.LayoutParams.MATCH_PARENT
+        //    )
+        //    setContentView(it)
+        //    it.attachToFlutterEngine(engine)
+        //}
     }
 
     override fun onDreamingStarted() {
@@ -51,14 +58,16 @@ class WeatherDreamService : DreamService() {
     }
 
     override fun onDreamingStopped() {
-        flutterEngine?.lifecycleChannel?.appIsInactive()
+        //flutterEngine?.lifecycleChannel?.appIsInactive()
         flutterEngine?.lifecycleChannel?.appIsPaused()
         super.onDreamingStopped()
     }
 
     override fun onDetachedFromWindow() {
-        flutterView?.detachFromFlutterEngine()
-        flutterView = null
+        flutterView?.let {
+            it.detachFromFlutterEngine()
+            flutterView = null
+        }
         super.onDetachedFromWindow()
     }
 }

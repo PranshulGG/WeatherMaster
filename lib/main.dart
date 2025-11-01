@@ -178,11 +178,29 @@ void onDreamServiceStarted() {
   runApp(MaterialApp(
     theme: ThemeData.light(),
     darkTheme: ThemeData.dark(),
-    home: Scaffold(
-      body: Center(
-        child: FilledButton(onPressed: () {}, child: Text("Hello world!")),
-      ),
-    ),
+    home: Builder(builder: (context) {
+      return Scaffold(
+        body: Center(
+          child: FilledButton(
+              onPressed: () => showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text("Headline"),
+                      content: Text("Supporting text"),
+                      actions: [
+                        TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text("Cancel")),
+                        TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text("OK"))
+                      ],
+                    ),
+                  ),
+              child: Text("Hello world!")),
+        ),
+      );
+    }),
   ));
 }
 

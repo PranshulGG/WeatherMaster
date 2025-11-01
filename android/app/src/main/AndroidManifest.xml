@@ -159,10 +159,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
-            <!-- Point to additional information for this dream (optional) -->
-            <!--            <meta-data-->
-            <!--                android:name="android.service.dream"-->
-            <!--                android:resource="@xml/my_dream" />-->
+            <meta-data
+                android:name="android.service.dream"
+                android:resource="@xml/weather_dream" />
         </service>
         <!-- SCREEN SAVERS END -->
     </application>
