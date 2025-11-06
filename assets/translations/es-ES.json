@@ -580,7 +580,7 @@
   "locations_gesture_info_1": "Desliza de derecha a izquierda para eliminar una ubicación",
   "locations_gesture_info_2": "Mantenga presionada una ubicación para establecerla como predeterminada",
   "error_loading_changelog": "Error al cargar registro de cambios",
-  "condition_widget_animation": "",
+  "condition_widget_animation": "animación del widget de condición",
   "condition_widget_animation_sub": "Controla una animación de transformación. Desactívala si experimentas retrasos o bloqueos.",
   "city": "Ciudad",
   "country": "País",
@@ -589,6 +589,6 @@
   "more_apps": "Más apps",
   "view": "Ver",
   "close": "Cerrar",
-  "restart": "Restart",
-  "view_on_github": "View on GitHub"
+  "restart": "Reanudar",
+  "view_on_github": "Ver en GitHub"
 }
