@@ -478,7 +478,7 @@
   "model_disc_4": "Chinesisches nationales Modell von CMA. Gut geeignet für den asiatisch-pazifischen Raum, weltweit weniger präzise.",
   "model_disc_5": "Globales Modell des australischen Wetterdienstes. Am besten geeignet für Australien und Ozeanien.",
   "model_disc_6": "Für Norwegen und Skandinavien optimiertes regionales Modell. Sehr präzise für den nordischen Raum.",
-  "model_disc_7": "Die kombinierte detailgenaue + globale Vorhersagemodell der NOAA. Ausgewogene Detailgenauigkeit mit schnelleren Aktualisierungen.",
+  "model_disc_7": "Das kombinierte detailgenaue + globale Vorhersagemodell der NOAA. Ausgewogene Detailgenauigkeit mit schnelleren Aktualisierungen.",
   "model_disc_8": "Das globale Modell der NOAA. Schnell, kostenlos, weltweit gut, aber lokal weniger präzise.",
   "model_disc_9": "Sehr detailgenaues Kurzstreckenmodell für die USA. Am besten geeignet für hyperlokale Vorhersagen für die USA (0–18 Std.).",
   "model_disc_10": "KI-gestützte Wettervorhersage von Google DeepMind. Experimentell, zuverlässig und weltweit topaktuell.",
