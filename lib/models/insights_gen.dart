@@ -88,11 +88,11 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (diff < -3) {
-        return "It’s gonna get colder by the weekend... bring a leaf or a scarf or something ~ froggy :3";
+        return "It’s getting colder by the weekend… I’m grabbing a big leaf to hide under, ribbit";
       } else if (diff > 3) {
-        return "Things are heating up... not my favorite, but you might like it ~ froggy :3";
+        return "Things are warming up… not my vibe, but hey, maybe you like toasty air";
       } else {
-        return "Weather’s staying the same mostly... no surprises, i like that ~ froggy :3";
+        return "Looks like the weather’s staying steady… calm days make a calm frog";
       }
     }
 
@@ -122,11 +122,11 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (rainChances[peakDayIndex] > 60) {
-        return "Might get a real good rain on ${_weekdayName(peakDay)}... i’m excited ~ froggy :3";
+        return "Might get a real good rain on ${_weekdayName(peakDay)}… I’m already doing my happy splash dance";
       } else if (rainChances.any((r) => r > 40)) {
-        return "Some days might be splashy... bring something waterproof maybe ~ froggy :3";
+        return "Some days look kinda splashy… maybe keep your stuff dry while I enjoy the puddles";
       }
-      return "Dry skies all week... i guess i’ll just sit and blink a lot ~ froggy :3";
+      return "Dry skies all week… guess I’ll just sit and stare dramatically into the distance";
     }
 
     if (rainChances[peakDayIndex] > 60) {
@@ -150,11 +150,11 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (hotDays >= 3) {
-        return "Too many hot days coming... i’ll just sink into the pond and wait it out ~ froggy :3";
+        return "Too many hot days coming… I’m sinking into the pond until further notice";
       } else if (hotDays >= 1) {
-        return "There’s at least one toasty day... not great for hopping around ~ froggy :3";
+        return "There’s at least one toasty day ahead… terrible for hopping, great for melting";
       }
-      return "No major heat... cool enough for a lazy sit ~ froggy :3";
+      return "No major heat this week… perfect temperature for a lazy sun sit";
     }
 
     if (hotDays >= 3) {
@@ -182,11 +182,11 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (end > start + 10) {
-        return "Humidity's going up... good for my skin i guess ~ froggy :3";
+        return "Humidity’s climbing… great for my skin, not sure about yours";
       } else if (start > end + 10) {
-        return "Air’s drying out... not as comfy, but fine for hopping ~ froggy :3";
+        return "Air’s drying out… feels weird on my frog body but whatever";
       }
-      return "Humidity looks normal... nothing too weird ~ froggy :3";
+      return "Humidity’s pretty normal… nothing screaming for attention";
     }
 
     if (end > start + 10) {
@@ -206,11 +206,11 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (maxWind > 30) {
-        return "Too windy... almost got blown off my log last time ~ froggy :3";
+        return "Way too windy… almost got blown off my log last time. Not again";
       } else if (maxWind > 20) {
-        return "Bit breezy... makes the reeds wiggle ~ froggy :3";
+        return "Kinda breezy… the reeds are doing that wiggly dance I like";
       }
-      return "Calm air... everything’s still and nice ~ froggy :3";
+      return 'Pretty calm today… perfect for staying still and pretending I’m a moss rock';
     }
 
     if (maxWind > 30) {
@@ -232,9 +232,9 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (sunnyDays >= 4) {
-        return "$sunnyDays nice days ahead... good for long sits on warm stones ~ froggy :3";
+        return "$sunnyDays nice days ahead… I’m claiming the warmest rock before anyone else";
       }
-      return "Some good days, some not... sounds like life ~ froggy :3";
+      return "Some good days, some meh days… that’s life, ribbit.";
     }
 
     if (sunnyDays >= 4) {
@@ -287,9 +287,9 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (diff >= 10) {
-        return "Big temperature jumps today... bring a leaf AND a blanket maybe ~ froggy :3";
+        return "Big temperature jumps today… I’d bring a leaf AND a tiny blanket if I had one";
       }
-      return "Temps look steady... i like that ~ froggy :3";
+      return "Temps look steady… peaceful hopping conditions";
     }
 
     if (diff >= 10) {
@@ -309,11 +309,11 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (peakUV >= 7) {
-        return "Sun’s too spicy today... maybe find shade ~ froggy :3";
+        return "Sun’s way too spicy today… I’m hiding in the shade like a wise frog";
       } else if (peakUV >= 4) {
-        return "Sun’s a little strong... i’m staying near the cattails ~ froggy :3";
+        return "Sun’s a little strong… I’ll be near the cattails in case I need a quick escape";
       }
-      return "Low sun today... good for sitting anywhere ~ froggy :3";
+      return "Low sun today… perfect lighting for dramatic posing";
     }
 
     if (peakUV >= 7) {
@@ -335,11 +335,11 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (maxWind > 30) {
-        return "The wind’s acting wild today... hold onto your hat, if you have one ~ froggy :3";
+        return "The wind’s going wild today… hold onto your hat, if you’re the kinda creature that wears one";
       } else if (diff > 15) {
-        return "Wind’s being weird... up and down and all around ~ froggy :3";
+        return "Wind’s acting strange… up, down, sideways… chaotic frog energy";
       }
-      return "Air’s calm today... i’m staying on my log ~ froggy :3";
+      return "Air’s calm today… I’m sticking to my log, literally";
     }
 
     if (maxWind > 30) {
@@ -360,9 +360,9 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if ((maxH - minH) > 20) {
-        return "Humidity’s bouncing all over... weird frog day ~ froggy :3";
+        return "Humidity’s bouncing all over… weird day for a frog with sensitive vibes";
       }
-      return "Humidity looks steady... kinda comfy actually ~ froggy :3";
+      return "Humidity’s steady… feels pretty comfy actually";
     }
 
     if ((maxH - minH) > 20) {
@@ -380,11 +380,11 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (avgCloud > 70) {
-        return "Sky’s all covered up today... kinda cozy ~ froggy :3";
+        return "Sky’s all covered… makes the world feel soft and cozy";
       } else if (avgCloud < 30) {
-        return "Not many clouds... sun's out and everything’s shiny ~ froggy :3";
+        return "Almost no clouds… everything’s shiny and kinda blinding";
       }
-      return "Some clouds, some sun... looks balanced to me ~ froggy :3";
+      return "Bit of clouds, bit of sun… balanced, like a well-hydrated frog";
     }
 
     if (avgCloud > 70) {
@@ -404,11 +404,11 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (peak > 70) {
-        return "Might get real wet later... i’m into it ~ froggy :3";
+        return "Might get real wet later… excellent news for me personally";
       } else if (peak > 40) {
-        return "Some little rain might show up... keep your things dry ~ froggy :3";
+        return "Some light rain might wander through… keep stuff dry while I enjoy the sprinkles";
       }
-      return "Not much rain in the air today... dry leaf kind of vibe ~ froggy :3";
+      return "Looks pretty dry today… guess I’ll vibe on a crisp leaf";
     }
 
     if (peak > 70) {
@@ -428,11 +428,11 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (avgDew >= 20) {
-        return "Sticky air coming... not great for hopping, feels swampy ~ froggy :3";
+        return "Sticky air incoming… feels like home, kind of swampy, kind of gross";
       } else if (avgDew >= 13) {
-        return "Comfortable air... just right for sitting around ~ froggy :3";
+        return "Air feels comfy… great for slow, lazy sitting";
       }
-      return "Dry air... crisp and comfy, good for hopping ~ froggy :3";
+      return "Dry air today… crisp hopping weather";
     }
 
     if (avgDew >= 20) return "insights_sub_38".tr();
@@ -449,13 +449,13 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (avgTemp >= 30) {
-        return "Too hot... better wear less or just chill in the pond ~ froggy :3";
+        return "Super hot week… if I could, I’d just chill in the pond all day";
       } else if (avgTemp >= 20) {
-        return "Shorts weather! I’d just wear nothing... well, I’m a frog ~ froggy :3";
+        return "Warm days ahead… you might wear shorts, I’m sticking with my classic no-clothes look";
       } else if (avgTemp >= 10) {
-        return "Might need a jacket if you’re not slimy like me ~ froggy :3";
+        return "Cooler air coming… you may want a jacket; I’m fine because I’m slimy";
       }
-      return "Cold days... grab a coat, or find a warm rock ~ froggy :3";
+      return "Cold week… bundle up or find a warm rock to sit on";
     }
 
     if (avgTemp >= 30) return "insights_sub_41".tr();
@@ -473,11 +473,11 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (minVis < 500) {
-        return "Foggy mornings ahead... hard to see bugs, gotta listen instead ~ froggy :3";
+        return "Foggy morning ahead… tough to spot bugs, I gotta rely on my ears";
       } else if (minVis < 2000) {
-        return "Bit misty... the pond looks magical though ~ froggy :3";
+        return "A little misty… makes the pond look mystical, I like it";
       }
-      return "Clear skies, I can see far across the reeds ~ froggy :3";
+      return "Clear visibility… I can see all the way across the reeds";
     }
 
     if (minVis < 500) return "insights_sub_45".tr();
@@ -494,11 +494,11 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (maxTemp >= 40) {
-        return "Woah... this could be record-breaking heat! I’m diving deep ~ froggy :3";
+        return "Whoa… might hit record heat. I’m diving deep until it’s over";
       } else if (maxTemp <= -10) {
-        return "Brr... record cold maybe? not fun for my toes ~ froggy :3";
+        return "Brr… maybe record cold. My toes are shaking just thinking about it";
       }
-      return "Weather looks normal, no records here ~ froggy :3";
+      return "Nothing record-breaking… just normal weather stuff";
     }
 
     if (maxTemp >= 40) return "insights_sub_48".tr();
