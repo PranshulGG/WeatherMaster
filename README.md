@@ -83,7 +83,6 @@
 - 🌧️ **Precipitation Type & Area Coverage:** Get details on what kind of precipitation is expected and its coverage area.
 - 🌞 **UV Index:** Stay protected from harmful UV rays with UV index updates.
 - 🌿 **Air Quality:** Monitor air quality to stay informed about pollution levels.
-- 🗺️ **Live Map:** Access a real-time map to track weather conditions in different areas.
 - 📍 **Location Picker:** Easily select and view weather information for different locations.
 - ⭐ **Save Favorite Locations:** Save your preferred locations for quick access to their weather updates.
 - 👗 **Clothing Recommendations:** Get suggestions on what to wear based on the current weather conditions.

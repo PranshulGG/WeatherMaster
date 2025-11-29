@@ -14,7 +14,7 @@
   "next_24-hr": "Следващите 24 часа",
   "trends": "Тенденции",
   "today": "Днес",
-  "sun": "Слънце",
+  "sun": "Нед",
   "mon": "Пон",
   "tue": "Вт",
   "wed": "Ср",
@@ -195,7 +195,7 @@
   "weather_alerts": "Сигнали за времето",
   "font": "Шрифт",
   "daily_conditions": "Ежедневни условия",
-  "sun_tile_page": "Слънце",
+  "sun_tile_page": "Нед",
   "morning": "Сутрин",
   "day_tip": "Дневен съвет",
   "translators": "Преводачи",
@@ -394,7 +394,7 @@
   "summary_headlines_21": "Дръжте си шапката - ветровито е",
   "summary_headlines_22": "Хладно начало на деня",
   "summary_headlines_23": "Предстои хладна и свежа сутрин",
-  "summary_headlines_24": "Затегнете се — навън е оживено",
+  "summary_headlines_24": "Облечете се — навън е прохладно",
   "summary_headlines_25": "Приятно и спокойно начало на деня",
   "summary_headlines_26": "Хубаво време за начало",
   "summary_headlines_27": "Мека и комфортна сутрин",
@@ -588,5 +588,7 @@
   "longitude": "Географска дължина",
   "more_apps": "Още приложения",
   "view": "Преглед",
-  "close": "Затвори"
+  "close": "Затвори",
+  "restart": "Рестартиране",
+  "view_on_github": "Преглед в GitHub"
 }
