@@ -28,7 +28,7 @@
    </div>
  <div align="center">
     
-   [Features](https://github.com/PranshulGG/WeatherMaster?tab=readme-ov-file#-features) • [Contact](https://github.com/PranshulGG/WeatherMaster?tab=readme-ov-file#contact) • [License](https://github.com/PranshulGG/WeatherMaster?tab=readme-ov-file#license) • [Translate](https://github.com/PranshulGG/WeatherMaster?tab=readme-ov-file#-translate-the-app-on-crowdin)
+   [Features](https://github.com/PranshulGG/WeatherMaster?tab=readme-ov-file#-features) • [Contact](https://github.com/PranshulGG/WeatherMaster?tab=readme-ov-file#%EF%B8%8F-contact) • [License](https://github.com/PranshulGG/WeatherMaster?tab=readme-ov-file#%EF%B8%8F-license) • [Translate](https://github.com/PranshulGG/WeatherMaster?tab=readme-ov-file#-translate-the-app-on-crowdin)
    
  </div>
     
