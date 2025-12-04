@@ -1265,8 +1265,8 @@ class _WeatherHomeState extends State<WeatherHome> {
                           hourly['dew_point_2m'][getStartIndex(weather['utc_offset_seconds'].toString(), hourlyTime)]
                                   .toDouble() ??
                               0.0000001,
-                      currentSunrise: daily['sunrise'][0] ?? 0.0000001,
-                      currentSunset: daily['sunset'][0] ?? 0.0000001,
+                      currentSunrise: daily['sunrise'][1] ?? 0.0000001,
+                      currentSunset: daily['sunset'][1] ?? 0.0000001,
                       currentPressure: current['pressure_msl'] ?? 0.0000001,
                       currentVisibility: hourly['visibility'][getStartIndex(
                               weather['utc_offset_seconds'].toString(),
@@ -1283,8 +1283,8 @@ class _WeatherHomeState extends State<WeatherHome> {
                           0.0000001,
                       currentAQIUSA: weather['air_quality']['current']['us_aqi'] ?? 0.0000001,
                       currentAQIEURO: weather['air_quality']['current']['european_aqi'] ?? 0.0000001,
-                      currentTotalPrec: daily['precipitation_sum'][0] ?? 0.0000001,
-                      currentDayLength: daily['daylight_duration'][0] ?? 0.0000001,
+                      currentTotalPrec: daily['precipitation_sum'][1] ?? 0.0000001,
+                      currentDayLength: daily['daylight_duration'][1] ?? 0.0000001,
                       isFromHome: true,
                       moonrise: weather['astronomy']?['astronomy']?['astro']?['moonrise'] ?? '',
                       moonset: weather['astronomy']?['astronomy']?['astro']?['moonset'] ?? '',
@@ -1559,10 +1559,10 @@ class _WeatherHomeState extends State<WeatherHome> {
                     currentTemp: current['temperature_2m'].toDouble(),
                     currentFeelsLike:
                         current['apparent_temperature'].toDouble(),
-                    currentMaxTemp: weather['daily']?['temperature_2m_max']?[0]
+                    currentMaxTemp: weather['daily']?['temperature_2m_max']?[1]
                             ?.toDouble() ??
                         0,
-                    currentMinTemp: weather['daily']?['temperature_2m_min']?[0]
+                    currentMinTemp: weather['daily']?['temperature_2m_min']?[1]
                             ?.toDouble() ??
                         0,
                     currentWeatherIconCode: current['weather_code'],
