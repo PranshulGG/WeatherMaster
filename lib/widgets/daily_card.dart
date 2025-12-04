@@ -237,7 +237,7 @@ String getLocalizedDateFormat(DateTime time, Locale locale) {
   final lang = locale.languageCode;
   final country = locale.countryCode;
 
-  if (lang == 'en' && country == 'US') {
+  if (lang == 'en') {
     return DateFormat('MM/dd').format(time);
   } else if (lang == 'ja') {
     return DateFormat('MM月dd日', 'ja').format(time);
