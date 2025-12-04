@@ -637,5 +637,7 @@
   "froggy_insight_visibility_3": "Clear visibility… I can see all the way across the reeds",
   "froggy_insight_record_temps_1": "Whoa… might hit record heat. I’m diving deep until it’s over",
   "froggy_insight_record_temps_2": "Brr… maybe record cold. My toes are shaking just thinking about it",
-  "froggy_insight_record_temps_3": "Nothing record-breaking… just normal weather stuff"
+  "froggy_insight_record_temps_3": "Nothing record-breaking… just normal weather stuff",
+  "max_temp": "Najviša",
+  "low_temp": "Nisko"
 }
