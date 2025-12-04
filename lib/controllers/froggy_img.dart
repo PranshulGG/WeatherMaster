@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../notifiers/unit_settings_notifier.dart';
 import 'package:provider/provider.dart';
@@ -12,17 +13,19 @@ class WeatherFrogIconWidget extends StatelessWidget {
     if (iconUrl == null) {
       return const Text("");
     }
-    
+
     final isShowFrog = context.read<UnitSettingsNotifier>().showFrog;
 
-    return isShowFrog ? iconUrl!.startsWith('http')
-        ? Image.network(
-            iconUrl!,
-            loadingBuilder: (context, child, loadingProgress) {
-              if (loadingProgress == null) return child;
-              return const Text("Loading...");
-            },
-          )
-        : Image.asset(iconUrl!) : SizedBox.shrink() ;
+    return isShowFrog
+        ? iconUrl!.startsWith('http')
+            ? Image.network(
+                iconUrl!,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Text("loading_text".tr());
+                },
+              )
+            : Image.asset(iconUrl!)
+        : SizedBox.shrink();
   }
 }

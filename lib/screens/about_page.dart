@@ -307,8 +307,8 @@ class _AboutPageState extends State<AboutPage> {
                 radius: 23,
                 child: Icon(Symbols.favorite),
               ),
-              title: Text("Contributors"),
-              subtitle: Text("Translators"),
+              title: Text("contributors".tr()),
+              subtitle: Text("translators".tr()),
               onTap: () {
                 TranslatorsDialog.show(
                   context,
@@ -973,7 +973,7 @@ class TranslatorsDialog {
                     width: double.infinity,
                     child: FilledButton(
                       onPressed: () => Navigator.pop(context),
-                      child: const Text('Close'),
+                      child: Text('close'.tr()),
                     ),
                   ),
                   SizedBox(height: MediaQuery.of(context).padding.bottom + 10),
