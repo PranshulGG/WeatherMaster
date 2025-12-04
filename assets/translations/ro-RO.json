@@ -747,8 +747,8 @@
   "Météo_France_ARPEGE_France_HD_full_notes": "Excellent detail — rain, fog, wind, storm.",
   "ItaliaMeteo_ARPAE_ICON_2I_full_where_use": "Italy only",
   "ItaliaMeteo_ARPAE_ICON_2I_full_best_for": "Short-term high-res forecasting",
-  "ItaliaMeteo_ARPAE_ICON_2I_full_countries": "Italy",
-  "ItaliaMeteo_ARPAE_ICON_2I_full_notes": "Based on ICON with ARPAE tuning. Strong for mountainous terrain.",
+  "ItaliaMeteo_ARPAE_ICON_2I_full_countries": "Italia",
+  "ItaliaMeteo_ARPAE_ICON_2I_full_notes": "Bazat pe ICON cu reglare ARPAE. Puternic pentru teren muntos.",
   "UKMO_Seamless_full_where_use": "UK + international routes",
   "UKMO_Seamless_full_best_for": "Combined global/local coverage",
   "UKMO_Seamless_full_countries": "UK, global",
@@ -773,6 +773,6 @@
   "KNMI_Harmonie_Arome_Netherlands_full_where_use": "Netherlands (urban and coastal areas)",
   "KNMI_Harmonie_Arome_Netherlands_full_best_for": "High-resolution local forecasting (0–48 hours)",
   "KNMI_Harmonie_Arome_Netherlands_full_countries": "Netherlands",
-  "KNMI_Harmonie_Arome_Netherlands_full_notes": "Ultra-fine resolution. Excellent for precipitation, wind, and local effects like sea breezes or fog.",
-  "no_data": "No data"
+  "KNMI_Harmonie_Arome_Netherlands_full_notes": "Rezoluție ultrafină. Excelentă pentru precipitații, vânt și efecte locale, cum ar fi briza mării sau ceața.",
+  "no_data": "Fără date"
 }
