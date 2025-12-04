@@ -229,9 +229,9 @@ class _DailyForecastPageState extends State<DailyForecastPage> {
                                       hourly['dew_point_2m'][0].toDouble() ??
                                           0.0000001,
                                   currentSunrise:
-                                      daily['sunrise'][0] ?? 0.0000001,
+                                      daily['sunrise'][1] ?? 0.0000001,
                                   currentSunset:
-                                      daily['sunset'][0] ?? 0.0000001,
+                                      daily['sunset'][1] ?? 0.0000001,
                                   currentPressure:
                                       current['pressure_msl'] ?? 0.0000001,
                                   currentVisibility:
@@ -244,15 +244,15 @@ class _DailyForecastPageState extends State<DailyForecastPage> {
                                   utcOffsetSeconds:
                                       weather['utc_offset_seconds'].toString(),
                                   currentUvIndex:
-                                      daily['uv_index_max'][0] ?? 0.0000001,
+                                      daily['uv_index_max'][1] ?? 0.0000001,
                                   currentAQIUSA: weather['air_quality']
                                           ['current']['us_aqi'] ??
                                       0.0000001,
                                   currentAQIEURO: weather['air_quality']
                                           ['current']['european_aqi'] ??
                                       0.0000001,
-                                  currentTotalPrec: daily['precipitation_sum'][0] ?? 0.0000001,
-                                  currentDayLength: daily['daylight_duration'][0] ?? 0.0000001,
+                                  currentTotalPrec: daily['precipitation_sum'][1] ?? 0.0000001,
+                                  currentDayLength: daily['daylight_duration'][1] ?? 0.0000001,
                                   isFromHome: false,
                                   moonrise: weather['astronomy']?['astronomy']?['astro']?['moonrise'] ?? '',
                                   moonset: weather['astronomy']?['astronomy']?['astro']?['moonset'] ?? '',

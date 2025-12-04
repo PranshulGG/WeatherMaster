@@ -424,8 +424,8 @@ class _ExtendWidgetState extends State<ExtendWidget> {
 
           final daily = weather['daily'];
 
-          final currentSunrise = daily['sunrise'][0];
-          final currentSunset = daily['sunset'][0];
+          final currentSunrise = daily['sunrise'][1];
+          final currentSunset = daily['sunset'][1];
 
           int offsetSeconds =
               int.parse(weather['utc_offset_seconds'].toString());
@@ -2084,8 +2084,8 @@ class _ExtendWidgetState extends State<ExtendWidget> {
               (hourly['precipitation'] as List<dynamic>)
                   .map((e) => (e as num).toDouble())
                   .toList();
-          final double precipHours = daily['precipitation_hours'][0];
-          final double todaysAMOUNT = daily['precipitation_sum'][0];
+          final double precipHours = daily['precipitation_hours'][1];
+          final double todaysAMOUNT = daily['precipitation_sum'][1];
 
           final offset = Duration(
               seconds: int.parse(weather['utc_offset_seconds'].toString()));

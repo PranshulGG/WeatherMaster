@@ -54,13 +54,15 @@ class _SummaryCardState extends State<SummaryCard> {
   }
 
   Map<String, dynamic> findPeakUv(Map<String, dynamic> hourly) {
-    final times = hourly['time'] as List<dynamic>;
-    final uvs = hourly['uv_index'] as List<dynamic>;
+    final times = (hourly['time'] as List<dynamic>).take(24).toList();
+    final uvs = (hourly['uv_index'] as List<dynamic>).take(24).toList();
+
     int peakIndex = 0;
     double peakValue = 0;
 
     for (int i = 0; i < times.length; i++) {
       final hour = DateTime.parse(times[i]).hour;
+
       if (hour >= 9 && hour <= 15) {
         final uv = uvs[i]?.toDouble() ?? 0;
         if (uv > peakValue) {
@@ -403,8 +405,8 @@ class _SummaryCardState extends State<SummaryCard> {
     final currentTemp = widget.currentData['temperature_2m']?.toDouble() ?? 0;
     final windSpeed = widget.currentData['wind_speed_10m']?.toDouble() ?? 0;
     final airQuality = widget.airQualityData['current']['us_aqi']?.toInt();
-    final tempMin = widget.dailyData['temperature_2m_min']?[0]?.toDouble() ?? 0;
-    final tempMax = widget.dailyData['temperature_2m_max']?[0]?.toDouble() ?? 0;
+    final tempMin = widget.dailyData['temperature_2m_min']?[1]?.toDouble() ?? 0;
+    final tempMax = widget.dailyData['temperature_2m_max']?[1]?.toDouble() ?? 0;
 
     final uvData = findPeakUv(widget.hourlyData);
     final peakUv = uvData['value'] as double;
@@ -418,7 +420,7 @@ class _SummaryCardState extends State<SummaryCard> {
     final weatherCodeNow = widget.currentData['weather_code']?.toInt() ?? 0;
     final cloudCoverNow = widget.currentData['cloud_cover']?.toDouble() ?? 100;
 
-    final currentDayLength = widget.dailyData['daylight_duration'][0];
+    final currentDayLength = widget.dailyData['daylight_duration'][1];
     final secondsDayLength = currentDayLength.toInt();
     final dayLengthDuration = Duration(seconds: secondsDayLength);
     final readableDayLengthTime =
