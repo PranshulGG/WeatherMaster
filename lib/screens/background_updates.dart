@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weather_master_app/utils/preferences_helper.dart';
+import '../utils/preferences_helper.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:settings_tiles/settings_tiles.dart';
@@ -34,9 +34,13 @@ class _BackgroundUpdatesPageState extends State<BackgroundUpdatesPage> {
     });
   }
 
-  Future<void> _RequestloadPermission() async {
+  Future<void> _requestLoadPermission() async {
     final bool granted = await NotificationService.requestPermission();
-    _loadPermission();
+    if (!mounted) return;
+    setState(() {
+      _permissionGranted = granted;
+    });
+    await _loadPermission();
   }
 
   final optionsInterval = {
@@ -79,7 +83,7 @@ class _BackgroundUpdatesPageState extends State<BackgroundUpdatesPage> {
                   description: Text("allow_notification_permission_sub".tr()),
                   visible: !_permissionGranted,
                   onTap: () async {
-                    _RequestloadPermission();
+                    await _requestLoadPermission();
                   },
                 )
               ],
@@ -215,17 +219,19 @@ class BatteryOptimization {
     try {
       await _channel.invokeMethod('requestIgnoreBatteryOptimizations');
     } catch (e) {
-      print("Error requesting battery optimization: $e");
+      debugPrint("Error requesting battery optimization: $e");
     }
   }
 }
 
 class BatteryOptWidget extends StatefulWidget {
+  const BatteryOptWidget({super.key});
+
   @override
-  _BatteryOptWidgetState createState() => _BatteryOptWidgetState();
+  State<BatteryOptWidget> createState() => BatteryOptWidgetState();
 }
 
-class _BatteryOptWidgetState extends State<BatteryOptWidget>
+class BatteryOptWidgetState extends State<BatteryOptWidget>
     with WidgetsBindingObserver {
   bool? _isWhitelisted;
 

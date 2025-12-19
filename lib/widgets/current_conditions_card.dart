@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:weather_master_app/utils/preferences_helper.dart';
+import '../utils/preferences_helper.dart';
 import '../notifiers/unit_settings_notifier.dart';
 import '../utils/unit_converter.dart';
 import 'package:provider/provider.dart';
@@ -97,7 +97,8 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
 
   @override
   Widget build(BuildContext context) {
-    final tempUnit = context.watch<UnitSettingsNotifier>().tempUnit;
+    final tempUnit =
+        context.select<UnitSettingsNotifier, String>((n) => n.tempUnit);
 
     final useAnimation =
         PreferencesHelper.getBool("UseopenContainerAnimation") ?? true;
@@ -113,6 +114,9 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
     DateTime sunset = DateTime.parse(widget.currentSunset);
     DateTime? moonrise;
     DateTime? moonset;
+
+    final moonriseRaw = widget.moonrise;
+    final moonsetRaw = widget.moonset;
 
     DateTime? parseTime(String? timeString) {
       if (timeString == null ||
@@ -130,16 +134,16 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
       }
     }
 
-    if (widget.moonrise != null &&
-        widget.moonrise!.isNotEmpty &&
-        widget.moonrise!.toLowerCase() != 'no moonrise') {
-      moonrise = parseTime(widget.moonrise);
+    if (moonriseRaw != null &&
+        moonriseRaw.isNotEmpty &&
+        moonriseRaw.toLowerCase() != 'no moonrise') {
+      moonrise = parseTime(moonriseRaw);
     }
 
-    if (widget.moonset != null &&
-        widget.moonset!.isNotEmpty &&
-        widget.moonset!.toLowerCase() != 'no moonset') {
-      moonset = parseTime(widget.moonset);
+    if (moonsetRaw != null &&
+        moonsetRaw.isNotEmpty &&
+        moonsetRaw.toLowerCase() != 'no moonset') {
+      moonset = parseTime(moonsetRaw);
     }
 
     now = DateTime(
@@ -153,8 +157,8 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
       now.microsecond,
     );
 
-    final timeUnit = context.watch<UnitSettingsNotifier>().timeUnit;
-    final isShowFrog = context.read<UnitSettingsNotifier>().showFrog;
+    final timeUnit =
+        context.select<UnitSettingsNotifier, String>((n) => n.timeUnit);
 
     final sunriseFormat = timeUnit == '24 hr'
         ? DateFormat.Hm().format(sunrise)
@@ -175,11 +179,13 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
             : DateFormat.jm().format(moonset))
         : 'N/A';
 
-    final pressureUnit = context.watch<UnitSettingsNotifier>().pressureUnit;
-    final precipitationUnit =
-        context.watch<UnitSettingsNotifier>().precipitationUnit;
-    final visibilityUnit = context.watch<UnitSettingsNotifier>().visibilityUnit;
-    final aqiUnit = context.watch<UnitSettingsNotifier>().aqiUnit;
+    final pressureUnit =
+        context.select<UnitSettingsNotifier, String>((n) => n.pressureUnit);
+    final precipitationUnit = context
+        .select<UnitSettingsNotifier, String>((n) => n.precipitationUnit);
+    final visibilityUnit =
+        context.select<UnitSettingsNotifier, String>((n) => n.visibilityUnit);
+    final aqiUnit = context.select<UnitSettingsNotifier, String>((n) => n.aqiUnit);
 
     final convertedPressure = pressureUnit == 'inHg'
         ? UnitConverter.hPaToInHg(widget.currentPressure)
@@ -197,7 +203,8 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
         ? UnitConverter.mToMiles(widget.currentVisibility.toDouble())
         : UnitConverter.mToKm(widget.currentVisibility.toDouble());
 
-    final windUnit = context.watch<UnitSettingsNotifier>().windUnit;
+    final windUnit =
+        context.select<UnitSettingsNotifier, String>((n) => n.windUnit);
 
     final formattedWindSpeed = windUnit == 'Mph'
         ? UnitConverter.kmhToMph(widget.currentWindSpeed)
@@ -610,7 +617,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                             widget.currentPressure.round()),
                         fit: BoxFit.contain),
                   ),
-                  headerWidgetConditions(
+                  HeaderWidgetConditions(
                     headerText: "pressure".tr(),
                     headerIcon: Symbols.compress,
                   ),
@@ -721,9 +728,9 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                 fit: BoxFit.contain,
                               ),
                             ),
-                            headerWidgetConditions(
-                              headerText: "visibility".tr(),
-                              headerIcon: Symbols.visibility,
+                            HeaderWidgetConditions(
+                              headerText: "humidity".tr(),
+                              headerIcon: Symbols.water_drop,
                             ),
                             Align(
                               alignment: Alignment.center,
@@ -833,9 +840,9 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                               currentWindDirc: widget.currentWindDirc,
                               backgroundColor:
                                   Color(widget.selectedContainerBgIndex)),
-                          headerWidgetConditions(
+                          HeaderWidgetConditions(
                             headerText: "wind".tr(),
-                            headerIcon: Symbols.explore,
+                            headerIcon: Symbols.air,
                           ),
                           Align(
                             alignment: Alignment.center,
@@ -953,7 +960,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                 fit: BoxFit.contain,
                               ),
                             ),
-                            headerWidgetConditions(
+                            HeaderWidgetConditions(
                               headerText: "uv_index".tr(),
                               headerIcon: Symbols.light_mode,
                             ),
@@ -1355,7 +1362,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                       ListTile(
                         leading: MoonWidget(
                           date: now,
-                          resolution: 128,
+                          pixelSize: 128,
                           size: 22,
                           moonColor: Colors.amber,
                           earthshineColor: Colors.blueGrey.shade900,
@@ -1526,7 +1533,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                 fit: BoxFit.contain,
                               ),
                             ),
-                            headerWidgetConditions(
+                            HeaderWidgetConditions(
                               headerText: "cloudiness".tr(),
                               headerIcon: Symbols.cloud,
                             ),
@@ -1578,8 +1585,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
       margin: EdgeInsets.fromLTRB(12.7, 0, 12.7, 0),
       child: Column(
         children: [
-          Container(
-              child: ReorderableGridView.builder(
+          ReorderableGridView.builder(
             itemCount: gridItems.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
@@ -1614,7 +1620,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             padding: const EdgeInsets.only(top: 0),
-          )),
+          ),
         ],
       ),
     );
@@ -1623,11 +1629,11 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
 
 // svgs
 
-class headerWidgetConditions extends StatelessWidget {
+class HeaderWidgetConditions extends StatelessWidget {
   final String headerText;
   final IconData headerIcon;
 
-  const headerWidgetConditions(
+  const HeaderWidgetConditions(
       {super.key, required this.headerText, required this.headerIcon});
 
   @override
@@ -1700,7 +1706,7 @@ class _WindCompassWidgetState extends State<WindCompassWidget> {
   @override
   Widget build(BuildContext context) {
     final useDeviceCompass =
-        context.watch<UnitSettingsNotifier>().useDeviceCompass;
+        context.select<UnitSettingsNotifier, bool>((n) => n.useDeviceCompass);
 
     if (useDeviceCompass && !kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
       return StreamBuilder<CompassEvent>(
@@ -1710,8 +1716,12 @@ class _WindCompassWidgetState extends State<WindCompassWidget> {
           if (rawHeading == null) return const SizedBox();
 
           double normalizeAngle(double angle) {
-            while (angle > pi) angle -= 2 * pi;
-            while (angle < -pi) angle += 2 * pi;
+            while (angle > pi) {
+              angle -= 2 * pi;
+            }
+            while (angle < -pi) {
+              angle += 2 * pi;
+            }
             return angle;
           }
 

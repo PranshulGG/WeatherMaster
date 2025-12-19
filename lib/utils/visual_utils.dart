@@ -30,7 +30,7 @@ String getWindSpeedType(double windSpeed) {
 
 String buildUVSvg(Color colorSurface, uvValue) {
   final hexColorSurface =
-      '#${colorSurface.value.toRadixString(16).padLeft(8, '0').substring(2)}'; // Convert Flutter Color to hex string (e.g., #RRGGBB) for SVG fill.
+      '#${colorSurface.toARGB32().toRadixString(16).padLeft(8, '0').substring(2)}'; // Convert Flutter Color to hex string (e.g., #RRGGBB) for SVG fill.
 
   String returnSvg = '';
 
@@ -123,11 +123,11 @@ String getCompassDirection(int degrees) {
 String buildPressueSvg(
     Color colorPrimary, Color colorHigh, Color colorSurface, pressueValue) {
   final hexColorPrimary =
-      '#${colorPrimary.value.toRadixString(16).padLeft(8, '0').substring(2)}';
+      '#${colorPrimary.toARGB32().toRadixString(16).padLeft(8, '0').substring(2)}';
   final hexColorHigh =
-      '#${colorHigh.value.toRadixString(16).padLeft(8, '0').substring(2)}';
+      '#${colorHigh.toARGB32().toRadixString(16).padLeft(8, '0').substring(2)}';
   final hexColorSurface =
-      '#${colorSurface.value.toRadixString(16).padLeft(8, '0').substring(2)}';
+      '#${colorSurface.toARGB32().toRadixString(16).padLeft(8, '0').substring(2)}';
 
   String returnSvg = '';
 
@@ -160,7 +160,7 @@ String buildPressueSvg(
 
 String buildVisibilitySvg(Color color) {
   final hexColor =
-      '#${color.value.toRadixString(16).padLeft(8, '0').substring(2)}';
+      '#${color.toARGB32().toRadixString(16).padLeft(8, '0').substring(2)}';
 
   return ''' <svg height="180.0dip" width="180.0dip" viewBox="0 0 180.0 180.0"
                 xmlns="http://www.w3.org/2000/svg">
@@ -180,9 +180,9 @@ String buildVisibilitySvg(Color color) {
 
 String buildWindSvg(Color color, Color colorSurface) {
   final hexColor =
-      '#${color.value.toRadixString(16).padLeft(8, '0').substring(2)}';
+      '#${color.toARGB32().toRadixString(16).padLeft(8, '0').substring(2)}';
   final hexColorSurface =
-      '#${colorSurface.value.toRadixString(16).padLeft(8, '0').substring(2)}';
+      '#${colorSurface.toARGB32().toRadixString(16).padLeft(8, '0').substring(2)}';
 
   return ''' <svg viewBox="0 0 176.0 176.0" xmlns="http://www.w3.org/2000/svg">
             <g> <clip-path
@@ -200,7 +200,7 @@ String buildWindSvg(Color color, Color colorSurface) {
 
 String buildHumidity(Color color, int humidityValue) {
   final hexColor =
-      '#${color.value.toRadixString(16).padLeft(8, '0').substring(2)}';
+      '#${color.toARGB32().toRadixString(16).padLeft(8, '0').substring(2)}';
   String returnSvg = '';
 
   if (humidityValue < 30) {
@@ -232,7 +232,7 @@ String buildHumidity(Color color, int humidityValue) {
 
 String buildCloudCoverSvg(Color color) {
   final hexColor =
-      '#${color.value.toRadixString(16).padLeft(8, '0').substring(2)}';
+      '#${color.toARGB32().toRadixString(16).padLeft(8, '0').substring(2)}';
 
   return '''<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M63.5616 25.8468C78.2888 11.595 101.711 11.595 116.438 25.8468C120.945 30.2077 126.466 33.3858 132.508 35.0962C152.251 40.6859 163.962 60.9091 158.946 80.7506C157.411 86.822 157.411 93.1781 158.946 99.2495C163.962 119.091 152.251 139.314 132.508 144.904C126.466 146.614 120.945 149.792 116.438 154.153C101.711 168.405 78.2888 168.405 63.5616 154.153C59.0552 149.792 53.5339 146.614 47.4926 144.904C27.7492 139.314 16.0379 119.091 21.0541 99.2495C22.5891 93.1781 22.5891 86.822 21.0541 80.7506C16.0379 60.9091 27.7492 40.6859 47.4926 35.0962C53.5339 33.3858 59.0552 30.2077 63.5616 25.8468Z" fill="$hexColor"/>
@@ -250,9 +250,9 @@ String buildSunPathWithIcon({
   bool showSun = true,
 }) {
   final hexColor =
-      '#${pathColor.value.toRadixString(16).padLeft(8, '0').substring(2)}';
+      '#${pathColor.toARGB32().toRadixString(16).padLeft(8, '0').substring(2)}';
   final hexColoroutLine =
-      '#${outLineColor.value.toRadixString(16).padLeft(8, '0').substring(2)}';
+      '#${outLineColor.toARGB32().toRadixString(16).padLeft(8, '0').substring(2)}';
 
   const svgWidth = 176.0;
 
@@ -295,7 +295,7 @@ String getUvIndexType(int uvIndex) {
 
 String buildNowHourSvg(Color colorPrimary) {
   final hexColorPrimary =
-      '#${colorPrimary.value.toRadixString(16).padLeft(8, '0').substring(2)}';
+      '#${colorPrimary.toARGB32().toRadixString(16).padLeft(8, '0').substring(2)}';
 
   String returnSvg = '';
 
@@ -319,9 +319,9 @@ String buildMoonPathWithIcon({
   int moonIllumination = 100,
 }) {
   final hexColor =
-      '#${pathColor.value.toRadixString(16).padLeft(8, '0').substring(2)}';
+      '#${pathColor.toARGB32().toRadixString(16).padLeft(8, '0').substring(2)}';
   final hexColoroutLine =
-      '#${outLineColor.value.toRadixString(16).padLeft(8, '0').substring(2)}';
+      '#${outLineColor.toARGB32().toRadixString(16).padLeft(8, '0').substring(2)}';
 
   const svgWidth = 176.0;
 
@@ -332,13 +332,9 @@ String buildMoonPathWithIcon({
   final moonY = 70 - 70 * sin(pi * t);
   final moonYEndStart = 60 - 70 * sin(pi * t);
 
-  final moonFill = showMoon
-      ? 'radialGradient(circle at center, white ${moonIllumination}%, transparent 100%)'
-      : 'transparent';
-
   return '''
 
-<svg width="176" height="110" viewBox="0 0 176 110" style="overflow: visible;" xmlns="http://www.w3.org/2000/svg">
+<svg width="176" height="112" viewBox="0 0 176 112" xmlns="http://www.w3.org/2000/svg">
   <path fill="$hexColor" d="M176.5,54.44V89.86C176.5,100.91 167.52,109.86 156.44,109.86H20.06C8.98,109.86 0,100.91 0,89.86V52.57C7.79,51.81 15.41,48.77 21.78,43.46L62.06,9.91C76.95,-2.49 98.6,-2.49 113.49,9.91L156.22,45.51C162.18,50.47 169.23,53.45 176.49,54.44H176.5Z"/>
   
   <circle cx="$moonX" cy="${percent == 0 || percent == 1 ? '$moonYEndStart' : '$moonY'}" 

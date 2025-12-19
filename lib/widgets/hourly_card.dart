@@ -36,8 +36,10 @@ class HourlyCard extends StatelessWidget {
     final nowLocal = nowUtc.add(offset);
     final colorTheme = Theme.of(context).colorScheme;
 
-    final timeUnit = context.watch<UnitSettingsNotifier>().timeUnit;
-    final tempUnit = context.watch<UnitSettingsNotifier>().tempUnit;
+    final timeUnit =
+        context.select<UnitSettingsNotifier, String>((n) => n.timeUnit);
+    final tempUnit =
+        context.select<UnitSettingsNotifier, String>((n) => n.tempUnit);
 
     final roundedNow =
         DateTime(nowLocal.year, nowLocal.month, nowLocal.day, nowLocal.hour);
@@ -91,12 +93,12 @@ class HourlyCard extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   physics: BouncingScrollPhysics(),
                   itemCount:
-                      startIndex != null ? (48 - startIndex).clamp(0, 48) : 0,
+                      (48 - startIndex).clamp(0, 48),
                   itemBuilder: (context, index) {
                     // final time = DateTime.parse(hourlyTime[index]);
                     final dataIndex = startIndex + index;
                     final itemCount =
-                        startIndex != null ? (48 - startIndex).clamp(0, 48) : 0;
+                        (48 - startIndex).clamp(0, 48);
 
                     final isFirst = index == 0;
                     final isLast = index == itemCount - 1;
@@ -156,7 +158,7 @@ class HourlyCard extends StatelessWidget {
                                 transform: Matrix4.translationValues(
                                     0, isFirst ? 0 : 0, 0),
                                 child: Text(
-                                  "${temp}°",
+                                  "$temp°",
                                   style: TextStyle(
                                     fontFamily: "FlexFontEn",
                                     fontSize: 16,

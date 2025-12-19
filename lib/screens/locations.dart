@@ -1,20 +1,19 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:weather_master_app/utils/unit_converter.dart';
+import '../utils/unit_converter.dart';
 import 'dart:convert';
 import '../models/saved_location.dart';
 import 'searchlocations.dart';
-import 'package:hive/hive.dart';
 import 'package:restart_app/restart_app.dart';
 import '../utils/preferences_helper.dart';
+import '../utils/app_storage.dart';
 import '../utils/icon_map.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../utils/condition_label_map.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:animations/animations.dart';
 import '../widgets/dialog.dart';
-import 'package:expressive_loading_indicator/expressive_loading_indicator.dart';
 import 'package:settings_tiles/settings_tiles.dart';
 
 class LocationsScreen extends StatefulWidget {
@@ -39,7 +38,7 @@ class _LocationsScreenState extends State<LocationsScreen> {
     loadSavedLocations();
 
     Future.delayed(const Duration(milliseconds: 300), () {
-      if (mounted) {
+      if (context.mounted) {
         setState(() {
           _showLoader = false;
         });
@@ -49,7 +48,7 @@ class _LocationsScreenState extends State<LocationsScreen> {
 
   Future<void> loadSavedLocations() async {
     final prefs = await SharedPreferences.getInstance();
-    final jsonString = prefs.getString('saved_locations');
+    final jsonString = prefs.getString(PrefKeys.savedLocations);
     if (jsonString != null) {
       final List<dynamic> jsonList = jsonDecode(jsonString);
       final locations =
@@ -59,7 +58,8 @@ class _LocationsScreenState extends State<LocationsScreen> {
         savedLocations = locations;
       });
 
-      if (locations.length == 1 && prefs.getString('homeLocation') == null) {
+      if (locations.length == 1 &&
+          prefs.getString(PrefKeys.homeLocation) == null) {
         final loc = locations.first;
 
         WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -68,7 +68,7 @@ class _LocationsScreenState extends State<LocationsScreen> {
               "${loc.city}_${loc.country}".toLowerCase().replaceAll(' ', '_');
 
           await prefs.setString(
-              'homeLocation',
+              PrefKeys.homeLocation,
               jsonEncode({
                 'city': loc.city,
                 'country': loc.country,
@@ -77,15 +77,6 @@ class _LocationsScreenState extends State<LocationsScreen> {
                 'lon': loc.longitude,
               }));
 
-          final box = await Hive.openBox('weatherMasterCache');
-          final rawJson = box.get(cacheKey);
-          String? lastUpdated;
-
-          if (rawJson != null) {
-            final map = json.decode(rawJson);
-            lastUpdated = map['last_updated'];
-          }
-
           final locationData = {
             'city': loc.city,
             'country': loc.country,
@@ -93,7 +84,8 @@ class _LocationsScreenState extends State<LocationsScreen> {
             'latitude': loc.latitude,
             'longitude': loc.longitude,
           };
-          await prefs.setString('currentLocation', jsonEncode(locationData));
+          await prefs.setString(
+              PrefKeys.currentLocation, jsonEncode(locationData));
 
           Restart.restartApp();
         });
@@ -102,7 +94,7 @@ class _LocationsScreenState extends State<LocationsScreen> {
   }
 
   Future<Map<String, dynamic>?> getWeatherFromCache(cacheKey) async {
-    final box = await Hive.openBox('weatherMasterCache');
+    final box = await HiveBoxes.openWeatherCache();
     final cached = box.get(cacheKey);
     if (cached == null) return null;
     final raw = json.decode(cached);
@@ -113,7 +105,7 @@ class _LocationsScreenState extends State<LocationsScreen> {
   }
 
   Future<String?> getWeatherLastUpdatedFromCache(cacheKey) async {
-    final box = await Hive.openBox('weatherMasterCache');
+    final box = await HiveBoxes.openWeatherCache();
     final rawJson = box.get(cacheKey);
 
     if (rawJson != null) {
@@ -202,13 +194,14 @@ class _LocationsScreenState extends State<LocationsScreen> {
                 tooltip: "New location",
                 backgroundColor: Colors.transparent,
                 onPressed: () {
-                  PreferencesHelper.remove("selectedViewLocation");
+                  PreferencesHelper.remove(PrefKeys.selectedViewLocation);
                   openContainer();
                 },
                 elevation: 0,
                 highlightElevation: 0,
                 shape: const CircleBorder(),
-                child: Icon(PreferencesHelper.getString("homeLocation") != null
+                child: Icon(
+                    PreferencesHelper.getString(PrefKeys.homeLocation) != null
                     ? Icons.search
                     : Icons.add),
               );
@@ -216,11 +209,14 @@ class _LocationsScreenState extends State<LocationsScreen> {
             onClosed: (updated) async {
               if (updated == true) {
                 await loadSavedLocations();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('location_saved'.tr())),
-                );
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('location_saved'.tr())),
+                  );
+                }
               } else if (updated == false &&
-                  PreferencesHelper.getString("selectedViewLocation") != null) {
+                  PreferencesHelper.getString(PrefKeys.selectedViewLocation) !=
+                      null) {
                 Navigator.pop(context, {'viewLocaton': true});
               }
             },
@@ -229,7 +225,6 @@ class _LocationsScreenState extends State<LocationsScreen> {
   }
 
   Widget buildDismissibleListView({Key? key}) {
-    final colorTheme = Theme.of(context).colorScheme;
     return savedLocations.isEmpty
         ? const Center(child: Text("No saved locations."))
         : ListView.builder(
@@ -238,7 +233,7 @@ class _LocationsScreenState extends State<LocationsScreen> {
             itemCount: savedLocations.length + 1,
             itemBuilder: (context, index) {
               final onlyhomeLocation =
-                  PreferencesHelper.getJson('homeLocation');
+                  PreferencesHelper.getJson(PrefKeys.homeLocation);
 
               bool isOnlyHomeLocation = false;
 
@@ -252,7 +247,7 @@ class _LocationsScreenState extends State<LocationsScreen> {
 
               if (index == 0) {
                 final weatherFutureCurrentLocation = getWeatherFromCache(
-                    PreferencesHelper.getJson('homeLocation')?['cacheKey']);
+                    PreferencesHelper.getJson(PrefKeys.homeLocation)?['cacheKey']);
 
                 return Column(
                   key: const ValueKey("list-title"),
@@ -287,12 +282,11 @@ class _LocationsScreenState extends State<LocationsScreen> {
                           child: InkWell(
                             onTap: () async {
                               final cacheKey = PreferencesHelper.getJson(
-                                  'homeLocation')?['cacheKey'];
+                                  PrefKeys.homeLocation)?['cacheKey'];
                               final prefs =
                                   await SharedPreferences.getInstance();
 
-                              final box =
-                                  await Hive.openBox('weatherMasterCache');
+                              final box = await HiveBoxes.openWeatherCache();
                               final rawJson = box.get(cacheKey);
                               String? lastUpdated;
 
@@ -303,31 +297,34 @@ class _LocationsScreenState extends State<LocationsScreen> {
 
                               final locationData = {
                                 'city': PreferencesHelper.getJson(
-                                    'homeLocation')?['city'],
+                                    PrefKeys.homeLocation)?['city'],
                                 'country': PreferencesHelper.getJson(
-                                    'homeLocation')?['country'],
+                                    PrefKeys.homeLocation)?['country'],
                                 'cacheKey': PreferencesHelper.getJson(
-                                    'homeLocation')?['cacheKey'],
+                                    PrefKeys.homeLocation)?['cacheKey'],
                                 'latitude': PreferencesHelper.getJson(
-                                    'homeLocation')?['lat'],
+                                    PrefKeys.homeLocation)?['lat'],
                                 'longitude': PreferencesHelper.getJson(
-                                    'homeLocation')?['lon'],
+                                    PrefKeys.homeLocation)?['lon'],
                               };
                               await prefs.setString(
-                                  'currentLocation', jsonEncode(locationData));
+                                  PrefKeys.currentLocation,
+                                  jsonEncode(locationData));
 
-                              Navigator.pop(context, {
-                                'cacheKey': cacheKey,
-                                'city': PreferencesHelper.getJson(
-                                    'homeLocation')?['city'],
-                                'country': PreferencesHelper.getJson(
-                                    'homeLocation')?['country'],
-                                'last_updated': lastUpdated,
-                                'latitude': PreferencesHelper.getJson(
-                                    'homeLocation')?['lat'],
-                                'longitude': PreferencesHelper.getJson(
-                                    'homeLocation')?['lon'],
-                              });
+                              if (context.mounted) {
+                                Navigator.pop(context, {
+                                  'cacheKey': cacheKey,
+                                  'city': PreferencesHelper.getJson(
+                                      PrefKeys.homeLocation)?['city'],
+                                  'country': PreferencesHelper.getJson(
+                                      PrefKeys.homeLocation)?['country'],
+                                  'last_updated': lastUpdated,
+                                  'latitude': PreferencesHelper.getJson(
+                                      PrefKeys.homeLocation)?['latitude'],
+                                  'longitude': PreferencesHelper.getJson(
+                                      PrefKeys.homeLocation)?['longitude'],
+                                });
+                              }
                             },
                             child: FutureBuilder<Map<String, dynamic>?>(
                                 future: weatherFutureCurrentLocation,
@@ -430,7 +427,7 @@ class _LocationsScreenState extends State<LocationsScreen> {
                                         child: leadingWidgetCurrent,
                                       ),
                                       title: Text(
-                                        "${PreferencesHelper.getJson('homeLocation')?['city']}, ${PreferencesHelper.getJson('homeLocation')?['country']}",
+                                        "${PreferencesHelper.getJson(PrefKeys.homeLocation)?['city']}, ${PreferencesHelper.getJson(PrefKeys.homeLocation)?['country']}",
                                         style: TextStyle(),
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
@@ -596,7 +593,8 @@ class _LocationsScreenState extends State<LocationsScreen> {
                 "${loc.city}_${loc.country}".toLowerCase().replaceAll(' ', '_'),
               );
 
-              final homeLocation = PreferencesHelper.getJson('homeLocation');
+              final homeLocation =
+                  PreferencesHelper.getJson(PrefKeys.homeLocation);
               final isHomeLocation = homeLocation != null &&
                   homeLocation['city'] == loc.city &&
                   homeLocation['country'] == loc.country;
@@ -609,23 +607,6 @@ class _LocationsScreenState extends State<LocationsScreen> {
                 );
               }
 
-              final isLastItem = index == savedLocations.length;
-
-              Future<Map<String, dynamic>> _getCurrentHomeInfo() async {
-                final prefs = await SharedPreferences.getInstance();
-                final homeLocationJson = prefs.getString('homeLocation');
-                if (homeLocationJson != null) {
-                  final data = jsonDecode(homeLocationJson);
-                  return {
-                    'cacheKey': data['cacheKey'] ?? '',
-                    'isGPS': data['isGPS'] ?? false,
-                    'city': data['city'] ?? '',
-                    'country': data['country'] ?? '',
-                  };
-                }
-                return {'cacheKey': '', 'isGPS': false};
-              }
-
               Future<void> setHomeLocation(
                   BuildContext context, SavedLocation loc) async {
                 final prefs = await SharedPreferences.getInstance();
@@ -634,7 +615,7 @@ class _LocationsScreenState extends State<LocationsScreen> {
                     .replaceAll(' ', '_');
 
                 await prefs.setString(
-                    'homeLocation',
+                    PrefKeys.homeLocation,
                     jsonEncode({
                       'city': loc.city,
                       'country': loc.country,
@@ -648,17 +629,17 @@ class _LocationsScreenState extends State<LocationsScreen> {
               return FadeInListItem(
                 child: Dismissible(
                   key: ValueKey(
-                      '${loc.city}-${loc.country}-${loc.latitude}-${loc.longitude}-${index}'),
+                      '${loc.city}-${loc.country}-${loc.latitude}-${loc.longitude}-$index'),
                   direction: DismissDirection.endToStart,
                   confirmDismiss: (direction) async {
                     final actualIndex = index - 1;
 
                     if (savedLocations[actualIndex].city ==
                             PreferencesHelper.getJson(
-                                'homeLocation')?['city'] &&
+                                PrefKeys.homeLocation)?['city'] &&
                         savedLocations[actualIndex].country ==
                             PreferencesHelper.getJson(
-                                'homeLocation')?['country']) {
+                                PrefKeys.homeLocation)?['country']) {
                       _scaffoldMessengerKey.currentState?.hideCurrentSnackBar();
 
                       _scaffoldMessengerKey.currentState?.showSnackBar(
@@ -691,7 +672,7 @@ class _LocationsScreenState extends State<LocationsScreen> {
 
                     final prefs = await SharedPreferences.getInstance();
                     await prefs.setString(
-                      'saved_locations',
+                      PrefKeys.savedLocations,
                       jsonEncode(
                           savedLocations.map((e) => e.toJson()).toList()),
                     );
@@ -699,7 +680,7 @@ class _LocationsScreenState extends State<LocationsScreen> {
                     final cacheKey = "${removed.city}_${removed.country}"
                         .toLowerCase()
                         .replaceAll(' ', '_');
-                    final box = await Hive.openBox('weatherMasterCache');
+                    final box = await HiveBoxes.openWeatherCache();
                     await box.delete(cacheKey);
                     _scaffoldMessengerKey.currentState?.showSnackBar(
                       SnackBar(
@@ -739,8 +720,7 @@ class _LocationsScreenState extends State<LocationsScreen> {
                                 .replaceAll(' ', '_');
                             final prefs = await SharedPreferences.getInstance();
 
-                            final box =
-                                await Hive.openBox('weatherMasterCache');
+                            final box = await HiveBoxes.openWeatherCache();
                             final rawJson = box.get(cacheKey);
                             String? lastUpdated;
 
@@ -758,17 +738,20 @@ class _LocationsScreenState extends State<LocationsScreen> {
                               'longitude': loc.longitude,
                             };
                             await prefs.setString(
-                                'currentLocation', jsonEncode(locationData));
+                                PrefKeys.currentLocation,
+                                jsonEncode(locationData));
 
                             // Return data to previous screen
-                            Navigator.pop(context, {
-                              'cacheKey': cacheKey,
-                              'city': loc.city,
-                              'country': loc.country,
-                              'last_updated': lastUpdated,
-                              'lat': loc.latitude,
-                              'lon': loc.longitude,
-                            });
+                            if (context.mounted) {
+                              Navigator.pop(context, {
+                                'cacheKey': cacheKey,
+                                'city': loc.city,
+                                'country': loc.country,
+                                'last_updated': lastUpdated,
+                                'lat': loc.latitude,
+                                'lon': loc.longitude,
+                              });
+                            }
                           },
                           child: FutureBuilder<Map<String, dynamic>?>(
                             future: weatherFuture,
@@ -893,7 +876,7 @@ class _LocationsScreenState extends State<LocationsScreen> {
         // SAVE NEW ORDER
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString(
-          'saved_locations',
+          PrefKeys.savedLocations,
           jsonEncode(savedLocations.map((e) => e.toJson()).toList()),
         );
       },
@@ -905,7 +888,7 @@ class _LocationsScreenState extends State<LocationsScreen> {
       },
       itemBuilder: (context, index) {
         final loc = savedLocations[index];
-        final homeLocation = PreferencesHelper.getJson('homeLocation');
+        final homeLocation = PreferencesHelper.getJson(PrefKeys.homeLocation);
         final isHomeLocation = homeLocation != null &&
             homeLocation['city'] == loc.city &&
             homeLocation['country'] == loc.country;

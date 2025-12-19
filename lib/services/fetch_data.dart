@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:hive/hive.dart';
 import 'package:lat_lng_to_timezone/lat_lng_to_timezone.dart' as tzmap;
+import '../utils/app_storage.dart';
 import '../utils/preferences_helper.dart';
 import 'package:flutter/material.dart';
 import '../screens/meteo_models.dart';
@@ -10,14 +11,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:async';
 
 class WeatherService {
-  static const String _boxName = 'weatherMasterCache';
-
-  Future<Box> _openBox() async {
-    if (!Hive.isBoxOpen(_boxName)) {
-      return await Hive.openBox(_boxName);
-    }
-    return Hive.box(_boxName);
-  }
+  Future<Box> _openBox() => HiveBoxes.openWeatherCache();
 
   Future<Map<String, dynamic>?> fetchWeather(double lat, double lon,
       {String? locationName,
@@ -25,7 +19,7 @@ class WeatherService {
       bool isOnlyView = false,
       bool isBackground = false}) async {
     final timezone = tzmap.latLngToTimezoneString(lat, lon);
-    final key = locationName ?? 'loc_${lat}_${lon}';
+    final key = locationName ?? 'loc_${lat}_$lon';
     final box = await _openBox();
 
     final selectedModel =
@@ -89,7 +83,9 @@ class WeatherService {
           json.decode(responses[1].body) as Map<String, dynamic>;
       final astronomyData = astronomyUri != null
           ? json.decode(responses[2].body) as Map<String, dynamic>
-          : {};
+          : <String, dynamic>{};
+
+      _normalizeAstronomyData(astronomyData);
       // Check if we need fallback data for missing fields
       Map<String, dynamic> finalWeatherData = weatherData;
       if (selectedModel != "best_match" && _hasIncompleteData(weatherData)) {
@@ -109,7 +105,7 @@ class WeatherService {
             airQualityData['reason'] ??
             astronomyData['reason'] ??
             'Unknown error';
-        if (context != null) {
+        if (context != null && context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               duration: Duration(seconds: 10),
@@ -536,5 +532,24 @@ class WeatherService {
               .toList() ??
           [],
     };
+  }
+
+  void _normalizeAstronomyData(Map<String, dynamic> astronomyData) {
+    final astronomyObj = astronomyData['astronomy'];
+    if (astronomyObj is! Map) return;
+
+    final astroObj = astronomyObj['astro'];
+    if (astroObj is! Map) return;
+
+    if (astroObj['_wmMoonTimesNormalized'] == true) return;
+
+    final moonrise = astroObj['moonrise'];
+    final moonset = astroObj['moonset'];
+
+    if (moonrise == null && moonset == null) return;
+
+    astroObj['moonrise'] = moonset;
+    astroObj['moonset'] = moonrise;
+    astroObj['_wmMoonTimesNormalized'] = true;
   }
 }

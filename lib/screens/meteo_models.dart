@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:material_symbols_icons/material_symbols_icons.dart';
-import '../utils/preferences_helper.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
-import '../utils/geo_location.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../utils/preferences_helper.dart';
+import '../utils/app_storage.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:http/http.dart' as http;
 import 'package:lat_lng_to_timezone/lat_lng_to_timezone.dart' as tzmap;
-import 'package:hive/hive.dart';
+import 'package:material_symbols_icons/material_symbols_icons.dart';
 
 class MeteoModelsPage extends StatefulWidget {
   const MeteoModelsPage({super.key});
@@ -625,11 +624,11 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
   }
 
   Future<void> _loadLocationAndFetchWeather() async {
-    final box = await Hive.openBox('weatherModelsCache');
+    final box = await HiveBoxes.openWeatherModelsCache();
 
     try {
-      final currentLocation = PreferencesHelper.getString('currentLocation');
-      final homeLocation = PreferencesHelper.getJson('homeLocation');
+      final currentLocation = PreferencesHelper.getString(PrefKeys.currentLocation);
+      final homeLocation = PreferencesHelper.getJson(PrefKeys.homeLocation);
 
       if (currentLocation != null && currentLocation.isNotEmpty) {
         try {
@@ -643,7 +642,9 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
             _currentLat = (locationData['lat'] as num).toDouble();
             _currentLon = (locationData['lon'] as num).toDouble();
           }
-        } catch (e) {}
+        } catch (e) {
+          // Silently ignore location parsing errors
+        }
       }
 
       if (_currentLat == null || _currentLon == null) {
@@ -663,7 +664,7 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
         final cachedData = box.get('data_$cacheKey');
         if (cachedData != null && cachedData is Map) {
           _modelWeatherData.clear();
-          (cachedData as Map).forEach((k, v) {
+          (cachedData).forEach((k, v) {
             if (v == null) {
               _modelWeatherData[k.toString()] = null;
             } else if (v is Map) {
@@ -695,7 +696,9 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
 
         await _checkCacheAndFetchWeather();
       }
-    } catch (e) {}
+    } catch (e) {
+      // Silently ignore initialization errors
+    }
   }
 
   Future<void> _checkCacheAndFetchWeather() async {
@@ -734,7 +737,7 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
       _lastFetchTime = now;
       _cachedLocationKey = currentLocationKey;
 
-      final box = Hive.box('weatherModelsCache');
+      final box = await HiveBoxes.openWeatherModelsCache();
       box.put('cachedLocationKey', currentLocationKey);
       box.put('timestamp_$currentLocationKey',
           _lastFetchTime!.millisecondsSinceEpoch);
@@ -748,23 +751,6 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
       }
       if (mounted) setState(() {});
     }
-  }
-
-  Future<void> _forceRefresh() async {
-    if (_currentLat == null || _currentLon == null) return;
-
-    _lastFetchTime = DateTime.now();
-    PreferencesHelper.setInt(
-        "lastFetchTimestamp", _lastFetchTime!.millisecondsSinceEpoch);
-
-    _cachedLocationKey = _makeCacheKey(_currentLat!, _currentLon!);
-
-    final box = Hive.box('weatherModelsCache');
-    box.put('cachedLocationKey', _cachedLocationKey);
-    box.put('timestamp_$_cachedLocationKey',
-        _lastFetchTime!.millisecondsSinceEpoch);
-
-    await _fetchWeatherForAllModels();
   }
 
   Future<void> _fetchWeatherForAllModels() async {
@@ -882,23 +868,22 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
         _modelLoadingStates[modelKey] = false;
       }
 
-      final box = Hive.box('weatherModelsCache');
+      final box = await HiveBoxes.openWeatherModelsCache();
       final cacheKey = _makeCacheKey(_currentLat!, _currentLon!);
 
       final Map<String, dynamic> serializable = {};
       _modelWeatherData.forEach((k, v) {
         if (v == null) {
           serializable[k] = null;
-        } else if (v is Map) {
-          try {
-            serializable[k] = Map<String, dynamic>.from(v);
-          } catch (e) {
-            debugPrint('Failed to serialize model $k: $e');
-            serializable[k] = null;
-          }
         } else {
-          serializable[k] = v;
+          try {
+          serializable[k] = Map<String, dynamic>.from(v);
+        } catch (e) {
+          debugPrint('Failed to serialize model $k: $e');
+          serializable[k] = null;
         }
+        }
+      
       });
 
       box.put('data_$cacheKey', serializable);
@@ -971,7 +956,7 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.errorContainer.withOpacity(0.7),
+          color: Theme.of(context).colorScheme.errorContainer.withValues(alpha: 0.7),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Text(
@@ -991,7 +976,7 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.errorContainer.withOpacity(0.7),
+          color: Theme.of(context).colorScheme.errorContainer.withValues(alpha: 0.7),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Text(
@@ -1098,8 +1083,8 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
                           final model = entry.value;
                           final isSelected = model['key'] == selectedModelKey;
 
-                          final isFirst = i == 0;
                           final isLast = i == models.length - 1;
+                          final isFirst = i == 0;
 
                           return ListTile(
                             contentPadding:

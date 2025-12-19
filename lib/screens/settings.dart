@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:weather_master_app/utils/open_links.dart';
-import 'package:weather_master_app/utils/preferences_helper.dart';
+import '../utils/open_links.dart';
+import '../utils/preferences_helper.dart';
+import '../utils/app_storage.dart';
 import 'home_location.dart';
 import 'package:settings_tiles/settings_tiles.dart';
 import 'settings_unit.dart';
@@ -32,7 +33,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void loadLocation() {
-    final location = PreferencesHelper.getJson('homeLocation');
+    final location = PreferencesHelper.getJson(PrefKeys.homeLocation);
     setState(() {
       city = location?['city'];
       country = location?['country'];

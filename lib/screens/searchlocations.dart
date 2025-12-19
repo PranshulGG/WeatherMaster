@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/saved_location.dart';
 import '../services/fetch_data.dart';
 import 'package:expressive_loading_indicator/expressive_loading_indicator.dart';
+import '../utils/app_storage.dart';
 
 enum GeoProvider { nominatim, geonames, openMeteo }
 
@@ -21,7 +22,7 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
 
   Future<void> saveLocation(SavedLocation newLocation) async {
     final prefs = await SharedPreferences.getInstance();
-    final existing = prefs.getString('saved_locations');
+    final existing = prefs.getString(PrefKeys.savedLocations);
     List<SavedLocation> current = [];
 
     if (existing != null) {
@@ -35,14 +36,14 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
 
     if (!alreadyExists) {
       current.add(newLocation);
-      await prefs.setString('saved_locations',
+      await prefs.setString(PrefKeys.savedLocations,
           jsonEncode(current.map((e) => e.toJson()).toList()));
     }
   }
 
   Future<void> loadSavedLocations() async {
     final prefs = await SharedPreferences.getInstance();
-    final jsonString = prefs.getString('saved_locations');
+    final jsonString = prefs.getString(PrefKeys.savedLocations);
     if (jsonString != null) {
       final List<dynamic> jsonList = jsonDecode(jsonString);
       setState(() {
@@ -164,9 +165,11 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
       setState(() => results = unique);
     } catch (e) {
       setState(() => results = []);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("data_fetch_error".tr())),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("data_fetch_error".tr())),
+        );
+      }
     }
 
     setState(() => isLoading = false);
@@ -240,7 +243,7 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
                         onTap: () => setState(() => tempProvider = provider),
                       ),
                     );
-                  }).toList(),
+                  }),
                   SizedBox(height: 13),
                   // Divider(),
                   // SizedBox(height: 4),
@@ -282,7 +285,7 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
 
   Future<int> getLocationCount() async {
     final prefs = await SharedPreferences.getInstance();
-    final jsonString = prefs.getString('saved_locations');
+    final jsonString = prefs.getString(PrefKeys.savedLocations);
     if (jsonString != null) {
       final List<dynamic> jsonList = jsonDecode(jsonString);
       final locations =
@@ -319,7 +322,7 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
           backgroundColor: colorTheme.surfaceContainerHigh,
           shape: Border(
               bottom: BorderSide(
-                  color: Theme.of(context).colorScheme.outline.withOpacity(0.8),
+                  color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.8),
                   width: 2))),
       body: isLoading
           ? Center(
@@ -416,9 +419,9 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
                                             locationName: cacheKey,
                                             context: context);
                                       } catch (e) {
-                                        Navigator.pop(context);
+                                        if (context.mounted) {
+                                          Navigator.pop(context);
 
-                                        if (context != null) {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             SnackBar(
@@ -428,7 +431,7 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
                                             ),
                                           );
                                         }
-                                        return;
+                                                                              return;
                                       }
 
                                       saveLocation(saved);
@@ -436,7 +439,7 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
                                       final prefs =
                                           await SharedPreferences.getInstance();
                                       final jsonString =
-                                          prefs.getString('saved_locations');
+                                          prefs.getString(PrefKeys.savedLocations);
                                       if (jsonString != null) {
                                         final List<dynamic> jsonList =
                                             jsonDecode(jsonString);
@@ -458,7 +461,7 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
                                                     .replaceAll(' ', '_');
 
                                             await prefs.setString(
-                                                'homeLocation',
+                                                PrefKeys.homeLocation,
                                                 jsonEncode({
                                                   'city': loc.city,
                                                   'country': loc.country,
@@ -469,9 +472,13 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
                                           });
                                         }
 
-                                        Navigator.pop(context);
+                                        if (context.mounted) {
+                                          Navigator.pop(context);
+                                        }
 
-                                        Navigator.pop(context, true);
+                                        if (context.mounted) {
+                                          Navigator.pop(context, true);
+                                        }
                                       }
                                     },
                                     icon: Icon(
@@ -510,12 +517,13 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
                           final count = await getLocationCount();
 
                           if (count == 0) {
+                            if (!context.mounted) return;
                             showDialog(
                               context: context,
                               barrierDismissible: false,
                               barrierColor:
                                   Theme.of(context).colorScheme.surface,
-                              builder: (context) => Center(
+                              builder: (dialogContext) => Center(
                                   child: ExpressiveLoadingIndicator(
                                 activeSize: 48,
                                 color: colorTheme.primary,
@@ -530,7 +538,7 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
                               await weatherService.fetchWeather(lat, lon,
                                   locationName: cacheKey, context: context);
                             } catch (e) {
-                              if (context != null) {
+                              if (context.mounted) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text('data_fetch_error'.tr()),
@@ -549,7 +557,7 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
 
                             final prefs = await SharedPreferences.getInstance();
                             final jsonString =
-                                prefs.getString('saved_locations');
+                                prefs.getString(PrefKeys.savedLocations);
                             if (jsonString != null) {
                               final List<dynamic> jsonList =
                                   jsonDecode(jsonString);
@@ -568,7 +576,7 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
                                       .replaceAll(' ', '_');
 
                                   await prefs.setString(
-                                      'homeLocation',
+                                      PrefKeys.homeLocation,
                                       jsonEncode({
                                         'city': loc.city,
                                         'country': loc.country,
@@ -579,9 +587,10 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
                                 });
                               }
 
-                              Navigator.pop(context);
-
-                              Navigator.pop(context, true);
+                              if (mounted && context.mounted) {
+                                Navigator.pop(context);
+                                Navigator.pop(context, true);
+                              }
                             }
                           } else {
                             final cacheKey = "${saved.city}_${saved.country}"
@@ -590,7 +599,7 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
 
                             final prefs = await SharedPreferences.getInstance();
                             await prefs.setString(
-                                'selectedViewLocation',
+                                PrefKeys.selectedViewLocation,
                                 jsonEncode({
                                   'city': saved.city,
                                   'country': saved.country,
@@ -599,7 +608,9 @@ class _SearchLocationsScreenState extends State<SearchLocationsScreen> {
                                   'lon': lon,
                                   'isGPS': false,
                                 }));
-                            Navigator.pop(context, false);
+                            if (context.mounted) {
+                              Navigator.pop(context, false);
+                            }
                           }
                         });
                   },

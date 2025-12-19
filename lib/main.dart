@@ -8,23 +8,24 @@ import 'screens/home.dart';
 import 'screens/locations.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import '../utils/theme_controller.dart';
+import 'utils/theme_controller.dart';
 import 'utils/geo_location.dart';
-import '../services/fetch_data.dart';
-import '../models/saved_location.dart';
-import '../utils/preferences_helper.dart';
+import 'services/fetch_data.dart';
+import 'models/saved_location.dart';
+import 'utils/preferences_helper.dart';
 import 'notifiers/unit_settings_notifier.dart';
 import 'notifiers/layout_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:material_color_utilities/material_color_utilities.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../services/data_backup_service.dart';
+import 'services/data_backup_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:ui' as ui;
 import 'services/widget_service.dart';
 import 'widget_background.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:home_widget/home_widget.dart';
+import 'utils/app_storage.dart';
 
 final CorePalette paletteStartScreen = CorePalette.of(
   const Color.fromARGB(255, 255, 196, 0).toARGB32(),
@@ -32,7 +33,7 @@ final CorePalette paletteStartScreen = CorePalette.of(
 
 @pragma('vm:entry-point')
 Future<void> workerUpdateWidget() async {
-  print("CALLED");
+  debugPrint('workerUpdateWidget invoked');
   WidgetsFlutterBinding.ensureInitialized();
   final dir = await getApplicationDocumentsDirectory();
   Hive.init(dir.path);
@@ -94,14 +95,14 @@ void main() async {
 
   await PreferencesHelper.init();
 
-  PreferencesHelper.setBool('triggerfromWorker', false);
+  PreferencesHelper.setBool(PrefKeys.triggerFromWorker, false);
 
   await dotenv.load(fileName: ".env");
 
   final dir = await getApplicationDocumentsDirectory();
   Hive.init(dir.path);
 
-  await Hive.openBox('changelogs');
+  await HiveBoxes.openChangelogs();
 
   // widget------
 
@@ -121,8 +122,8 @@ void main() async {
   PaintingBinding.instance.imageCache.maximumSize = 1000;
   PaintingBinding.instance.imageCache.maximumSizeBytes = 200 << 20;
 
-  final homeLocationJson = prefs.getString('homeLocation');
-  final currentLocationJson = prefs.getString('currentLocation');
+  final homeLocationJson = prefs.getString(PrefKeys.homeLocation);
+  final currentLocationJson = prefs.getString(PrefKeys.currentLocation);
 
   String? cityName;
   String? countryName;
@@ -145,7 +146,7 @@ void main() async {
     lat = locationData['lat'];
     lon = locationData['lon'];
   }
-  await Hive.openBox('ai_summary_cache');
+  await HiveBoxes.openAiSummaryCache();
   await FlutterDisplayMode.setHighRefreshRate();
   runApp(
     EasyLocalization(
@@ -192,14 +193,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeController = Provider.of<ThemeController>(context);
+    final seedColor =
+        context.select<ThemeController, Color>((t) => t.seedColor);
+    final themeMode =
+        context.select<ThemeController, ThemeMode>((t) => t.themeMode);
 
     final isLight = Theme.of(context).brightness == Brightness.light;
 
-    final useExpressiveVariant =
-        context.watch<UnitSettingsNotifier>().useExpressiveVariant;
+    final useExpressiveVariant = context
+        .select<UnitSettingsNotifier, bool>((n) => n.useExpressiveVariant);
 
-    final forceLTRlayout = context.watch<UnitSettingsNotifier>().forceltrLayout;
+    final forceLTRlayout =
+        context.select<UnitSettingsNotifier, bool>((n) => n.forceltrLayout);
 
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
@@ -218,12 +223,12 @@ class MyApp extends StatelessWidget {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
     final colorThemeDark = ColorScheme.fromSeed(
-      seedColor: themeController.seedColor ?? Colors.blue,
+      seedColor: seedColor,
       brightness: Brightness.dark,
     );
 
     final colorThemeLight = ColorScheme.fromSeed(
-      seedColor: themeController.seedColor ?? Colors.blue,
+      seedColor: seedColor,
       brightness: Brightness.light,
     );
 
@@ -246,20 +251,20 @@ class MyApp extends StatelessWidget {
         return child!;
       },
       theme: ThemeData.from(
-        colorScheme: isMonochrome(themeController.seedColor)
+        colorScheme: isMonochrome(seedColor)
             ? ColorScheme.fromSeed(
-                seedColor: themeController.seedColor,
+                seedColor: seedColor,
                 brightness: Brightness.light,
                 dynamicSchemeVariant: DynamicSchemeVariant.monochrome,
               )
             : useExpressiveVariant
                 ? ColorScheme.fromSeed(
-                    seedColor: themeController.seedColor ?? Colors.blue,
+                    seedColor: seedColor,
                     brightness: Brightness.light,
                     dynamicSchemeVariant: DynamicSchemeVariant.expressive,
                   )
                 : ColorScheme.fromSeed(
-                    seedColor: themeController.seedColor ?? Colors.blue,
+                    seedColor: seedColor,
                     brightness: Brightness.light,
                   ),
         useMaterial3: true,
@@ -300,20 +305,20 @@ class MyApp extends StatelessWidget {
         ),
       ),
       darkTheme: ThemeData.from(
-        colorScheme: isMonochrome(themeController.seedColor)
+        colorScheme: isMonochrome(seedColor)
             ? ColorScheme.fromSeed(
-                seedColor: themeController.seedColor ?? Colors.blue,
+                seedColor: seedColor,
                 brightness: Brightness.dark,
                 dynamicSchemeVariant: DynamicSchemeVariant.monochrome,
               )
             : useExpressiveVariant
                 ? ColorScheme.fromSeed(
-                    seedColor: themeController.seedColor ?? Colors.blue,
+                    seedColor: seedColor,
                     brightness: Brightness.dark,
                     dynamicSchemeVariant: DynamicSchemeVariant.expressive,
                   )
                 : ColorScheme.fromSeed(
-                    seedColor: themeController.seedColor ?? Colors.blue,
+                    seedColor: seedColor,
                     brightness: Brightness.dark,
                   ),
         useMaterial3: true,
@@ -357,7 +362,7 @@ class MyApp extends StatelessWidget {
           },
         ),
       ),
-      themeMode: themeController.themeMode,
+      themeMode: themeMode,
       home: (hasHomeLocation &&
               cacheKey != null &&
               cityName != null &&
@@ -411,32 +416,135 @@ ColorScheme customDarkScheme = ColorScheme(
 class LocationPromptScreen extends StatelessWidget {
   const LocationPromptScreen({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    Future<void> saveLocation(SavedLocation newLocation) async {
-      final prefs = await SharedPreferences.getInstance();
-      final existing = prefs.getString('saved_locations');
-      List<SavedLocation> current = [];
+  Future<void> _saveLocation(SavedLocation newLocation) async {
+    final prefs = await SharedPreferences.getInstance();
+    final existing = prefs.getString(PrefKeys.savedLocations);
+    List<SavedLocation> current = [];
 
-      if (existing != null) {
-        final decoded = jsonDecode(existing) as List;
-        current = decoded.map((e) => SavedLocation.fromJson(e)).toList();
-      }
+    if (existing != null) {
+      final decoded = jsonDecode(existing) as List;
+      current = decoded.map((e) => SavedLocation.fromJson(e)).toList();
+    }
 
-      bool alreadyExists = current.any(
-        (loc) =>
-            loc.city == newLocation.city && loc.country == newLocation.country,
+    bool alreadyExists = current.any(
+      (loc) =>
+          loc.city == newLocation.city && loc.country == newLocation.country,
+    );
+
+    if (!alreadyExists) {
+      current.add(newLocation);
+      await prefs.setString(
+        PrefKeys.savedLocations,
+        jsonEncode(current.map((e) => e.toJson()).toList()),
+      );
+    }
+  }
+
+  Future<void> _handleUseCurrentLocation(BuildContext context) async {
+    final navigator = Navigator.of(context);
+    final rootNavigator = Navigator.of(context, rootNavigator: true);
+    final messenger = ScaffoldMessenger.of(context);
+    final dialogKey = GlobalKey<LoadingDialogState>();
+    var dialogVisible = false;
+
+    try {
+      final ready =
+          await LocationPermissionHelper.checkServicesAndPermission(context);
+      if (!context.mounted || !ready) return;
+
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => LoadingDialog(
+          dialogKey: dialogKey,
+          initialMessage: "Getting your location...",
+        ),
+      );
+      dialogVisible = true;
+
+      final position = await NativeLocation.getCurrentPosition();
+      final geoData = await getGeoData(
+        position.latitude,
+        position.longitude,
+      );
+      final saved = SavedLocation(
+        latitude: position.latitude,
+        longitude: position.longitude,
+        city: geoData['city']!,
+        country: geoData['country']!,
       );
 
-      if (!alreadyExists) {
-        current.add(newLocation);
-        await prefs.setString(
-          'saved_locations',
-          jsonEncode(current.map((e) => e.toJson()).toList()),
+      dialogKey.currentState?.updateMessage(
+        "Found\n ${geoData['city']}, ${geoData['country']}\n Loading weather...",
+      );
+
+      await _saveLocation(saved);
+
+      final cacheKey = "${saved.city}_${saved.country}"
+          .toLowerCase()
+          .replaceAll(' ', '_');
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(
+        PrefKeys.homeLocation,
+        jsonEncode({
+          'city': saved.city,
+          'country': saved.country,
+          'cacheKey': cacheKey,
+          'lat': saved.latitude,
+          'lon': saved.longitude,
+          'isGPS': true,
+        }),
+      );
+
+      final weatherService = WeatherService();
+      if (!context.mounted) return;
+      await weatherService.fetchWeather(
+        saved.latitude,
+        saved.longitude,
+        locationName: cacheKey,
+        context: context,
+      );
+
+      if (!context.mounted) return;
+
+      if (dialogVisible) {
+        rootNavigator.pop();
+        dialogVisible = false;
+      }
+
+      navigator.pushReplacement(
+        MaterialPageRoute(
+          builder: (_) => WeatherHome(
+            cacheKey: cacheKey,
+            cityName: saved.city,
+            countryName: saved.country,
+            isHomeLocation: true,
+            lat: saved.latitude,
+            lon: saved.longitude,
+          ),
+        ),
+      );
+    } catch (e) {
+      if (dialogVisible) {
+        rootNavigator.pop();
+      }
+      if (context.mounted) {
+        messenger.showSnackBar(
+          SnackBar(content: Text('Error: ${e.toString()}')),
         );
       }
     }
+  }
 
+  Future<void> _handleImportBackup(BuildContext context) async {
+    await HiveBoxes.openWeatherCache();
+    if (!context.mounted) return;
+    await DataBackupService.importAndReplaceAllData(context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: customDarkScheme.surfaceContainerLow,
       appBar: AppBar(
@@ -536,89 +644,7 @@ class LocationPromptScreen extends StatelessWidget {
                 ),
                 minimumSize: WidgetStateProperty.all(const Size(300, 55)),
               ),
-              onPressed: () async {
-                final dialogKey = GlobalKey<LoadingDialogState>();
-
-                try {
-                  bool ready =
-                      await LocationPermissionHelper.checkServicesAndPermission(
-                    context,
-                  );
-                  if (!ready) return;
-                  showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (_) => LoadingDialog(
-                      key: dialogKey,
-                      initialMessage: "Getting your location...",
-                    ),
-                  );
-
-                  final position = await NativeLocation.getCurrentPosition();
-
-                  final geoData = await getGeoData(
-                    position.latitude,
-                    position.longitude,
-                  );
-                  final saved = SavedLocation(
-                    latitude: position.latitude,
-                    longitude: position.longitude,
-                    city: geoData['city']!,
-                    country: geoData['country']!,
-                  );
-
-                  dialogKey.currentState?.updateMessage(
-                    "Found\n ${geoData['city']}, ${geoData['country']}\n Loading weather...",
-                  );
-
-                  saveLocation(saved);
-
-                  final cacheKey = "${saved.city}_${saved.country}"
-                      .toLowerCase()
-                      .replaceAll(' ', '_');
-
-                  final prefs = await SharedPreferences.getInstance();
-                  prefs.setString(
-                    'homeLocation',
-                    jsonEncode({
-                      'city': saved.city,
-                      'country': saved.country,
-                      'cacheKey': cacheKey,
-                      'lat': saved.latitude,
-                      'lon': saved.longitude,
-                      'isGPS': true,
-                    }),
-                  );
-
-                  final weatherService = WeatherService();
-                  await weatherService.fetchWeather(
-                    saved.latitude,
-                    saved.longitude,
-                    locationName: cacheKey,
-                    context: context,
-                  );
-
-                  Navigator.of(context, rootNavigator: true).pop();
-
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (_) => WeatherHome(
-                        cacheKey: cacheKey,
-                        cityName: saved.city,
-                        countryName: saved.country,
-                        isHomeLocation: true,
-                        lat: saved.latitude,
-                        lon: saved.longitude,
-                      ),
-                    ),
-                  );
-                } catch (e) {
-                  Navigator.of(context, rootNavigator: true).pop();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Error: ${e.toString()}')),
-                  );
-                }
-              },
+              onPressed: () => _handleUseCurrentLocation(context),
               icon: Icon(
                 Icons.my_location,
                 color: customDarkScheme.onPrimary,
@@ -668,10 +694,7 @@ class LocationPromptScreen extends StatelessWidget {
                   BorderSide(color: customDarkScheme.outline, width: 2),
                 ),
               ),
-              onPressed: () async {
-                await Hive.openBox('weatherMasterCache');
-                await DataBackupService.importAndReplaceAllData(context);
-              },
+              onPressed: () => _handleImportBackup(context),
               icon: Icon(
                 Icons.download_outlined,
                 color: customDarkScheme.primary,
@@ -696,10 +719,10 @@ class LocationPromptScreen extends StatelessWidget {
 
 class LoadingDialog extends StatefulWidget {
   final String initialMessage;
-  final GlobalKey<LoadingDialogState> key;
+  final GlobalKey<LoadingDialogState> dialogKey;
 
-  const LoadingDialog({required this.key, required this.initialMessage})
-      : super(key: key);
+  const LoadingDialog({required this.dialogKey, required this.initialMessage})
+      : super(key: dialogKey);
 
   @override
   LoadingDialogState createState() => LoadingDialogState();
@@ -733,7 +756,6 @@ class LoadingDialogState extends State<LoadingDialog> {
           const SizedBox(height: 6),
           CircularProgressIndicator(
             color: customDarkScheme.primary,
-            year2023: false,
           ),
           Text(
             message,
