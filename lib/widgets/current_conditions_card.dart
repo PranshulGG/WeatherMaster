@@ -729,8 +729,8 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                               ),
                             ),
                             HeaderWidgetConditions(
-                              headerText: "humidity".tr(),
-                              headerIcon: Symbols.water_drop,
+                              headerText: "visibility".tr(),
+                              headerIcon: Symbols.visibility,
                             ),
                             Align(
                               alignment: Alignment.center,

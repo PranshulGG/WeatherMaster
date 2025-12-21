@@ -339,28 +339,6 @@ class WeatherTopCardVertical extends StatefulWidget {
 }
 
 class _WeatherTopCardStateVertical extends State<WeatherTopCardVertical> {
-  final GlobalKey _labelKey = GlobalKey();
-  double _labelHeight = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _updateLabelHeight();
-    });
-  }
-
-  void _updateLabelHeight() {
-    final context = _labelKey.currentContext;
-    if (context != null) {
-      final box = context.findRenderObject() as RenderBox;
-      final height = box.size.height;
-      setState(() {
-        _labelHeight = height;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final tempUnit =
