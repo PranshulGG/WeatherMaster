@@ -7,11 +7,7 @@ class ThemeController extends ChangeNotifier {
   Color? _seedColor;
   CorePalette? _corePalette;
 
-  ThemeMode _themeMode = PreferencesHelper.getString("AppTheme") == "Light"
-      ? ThemeMode.light
-      : PreferencesHelper.getString("AppTheme") == "Auto"
-          ? ThemeMode.system
-          : ThemeMode.dark;
+  ThemeMode _themeMode = _initialThemeMode();
 
   bool isCustom = PreferencesHelper.getBool("usingCustomSeed") ?? false;
   bool _isUsingDynamicColor = false;
@@ -23,6 +19,17 @@ class ThemeController extends ChangeNotifier {
   Future<void> checkDynamicColorSupport() async {
     _isDynamicColorSupported =
         (await DynamicColorPlugin.getCorePalette()) != null;
+  }
+
+  static ThemeMode _initialThemeMode() {
+    final preference = PreferencesHelper.getString("AppTheme");
+    if (preference == "Light") {
+      return ThemeMode.light;
+    }
+    if (preference == "Auto") {
+      return ThemeMode.system;
+    }
+    return ThemeMode.dark;
   }
 
   ThemeController();
@@ -81,9 +88,12 @@ class ThemeController extends ChangeNotifier {
       _corePalette = corePalette;
 
       // Use theme mode directly since we don't have context here
-      bool isLight = _themeMode == ThemeMode.light || 
-                     (_themeMode == ThemeMode.system && WidgetsBinding.instance.platformDispatcher.platformBrightness == Brightness.light);
-      
+      final systemIsLight =
+          WidgetsBinding.instance.platformDispatcher.platformBrightness ==
+              Brightness.light;
+      final isLight =
+          _themeMode == ThemeMode.light || (_themeMode == ThemeMode.system && systemIsLight);
+
       int primaryTone = isLight ? 40 : 80;
 
       _seedColor = Color(corePalette.primary.get(primaryTone));

@@ -9,6 +9,16 @@ import 'utils/condition_label_map.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
+const String _timeFormat12Hr = '12 hr';
+const String _timeFormat24Hr = '24 hr';
+
+String _formatHourLabel(DateTime roundedDisplayTime, String timeUnit) {
+  if (timeUnit == _timeFormat24Hr) {
+    return "${roundedDisplayTime.hour.toString().padLeft(2, '0')}:00";
+  }
+  return UnitConverter.formatTo12Hour(roundedDisplayTime);
+}
+
 @pragma('vm:entry-point')
 Future<void> updateHomeWidget(weather, {bool updatedFromHome = false}) async {
   try {
@@ -35,7 +45,8 @@ Future<void> updateHomeWidget(weather, {bool updatedFromHome = false}) async {
     final List<dynamic> hourlyWeatherCodes;
     final String utcOffsetSeconds;
 
-    final timeUnit = PreferencesHelper.getString("selectedTimeUnit") ?? "12 hr";
+    final timeUnit =
+        PreferencesHelper.getString("selectedTimeUnit") ?? _timeFormat12Hr;
     final tempUnit =
         PreferencesHelper.getString("selectedTempUnit") ?? "Celsius";
 
@@ -140,9 +151,7 @@ Future<void> updateHomeWidget(weather, {bool updatedFromHome = false}) async {
       final rawTimeString = hourlyTime[currentIndex];
       final roundedDisplayTime = DateTime.parse(rawTimeString);
 
-      final formattedTime = timeUnit == '24 hr'
-          ? "${roundedDisplayTime.hour.toString().padLeft(2, '0')}:00"
-          : UnitConverter.formatTo12Hour(roundedDisplayTime);
+      final formattedTime = _formatHourLabel(roundedDisplayTime, timeUnit);
 
       await HomeWidget.saveWidgetData<String>('hourly_temp_$i', formattedTemp);
       await HomeWidget.saveWidgetData<String>('hourly_time_$i', formattedTime);

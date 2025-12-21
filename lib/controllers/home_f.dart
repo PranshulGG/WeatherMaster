@@ -60,8 +60,8 @@ String getDayLabel(DateTime date, int index, utcOffsetSeconds) {
   }
 }
 
-final String currentVersion = 'v2.6.6';
-final String githubRepo = 'PranshulGG/WeatherMaster';
+const String currentVersion = 'v2.6.6';
+const String githubRepo = 'PranshulGG/WeatherMaster';
 bool isChecking = false;
 
 Future<void> checkForUpdatesOnStart(BuildContext context) async {

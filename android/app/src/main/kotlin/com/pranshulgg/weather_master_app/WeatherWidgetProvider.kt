@@ -6,8 +6,6 @@ import android.content.Context
 import android.widget.RemoteViews
 import android.app.PendingIntent
 import android.content.Intent
-import android.os.Bundle
-import android.util.TypedValue
 import com.pranshulgg.weather_master_app.util.WeatherIconMapper
 
 
@@ -37,8 +35,6 @@ class WeatherWidgetProvider : AppWidgetProvider() {
             views.setTextViewText(R.id.temp_low, " $min°")
 
             val iconRes = WeatherIconMapper.getIconResource(code, isDay)
-            views.setImageViewResource(R.id.widget_icon_current_pill, iconRes)
-
             views.setImageViewResource(R.id.widget_icon_current_pill, iconRes)
 
         

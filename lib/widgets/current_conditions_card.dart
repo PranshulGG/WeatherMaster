@@ -19,6 +19,10 @@ import '../utils/visual_utils.dart';
 import 'package:animations/animations.dart';
 import 'package:moon_phase/moon_widget.dart';
 
+const String _noDataAvailableMessage = 'No data available';
+const String _timeFormat24Hr = '24 hr';
+const String _notAvailableValue = 'N/A';
+
 class ConditionsWidgets extends StatefulWidget {
   final int selectedContainerBgIndex;
   final int currentHumidity;
@@ -160,24 +164,16 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
     final timeUnit =
         context.select<UnitSettingsNotifier, String>((n) => n.timeUnit);
 
-    final sunriseFormat = timeUnit == '24 hr'
-        ? DateFormat.Hm().format(sunrise)
-        : DateFormat.jm().format(sunrise);
-    final sunsetFormat = timeUnit == '24 hr'
-        ? DateFormat.Hm().format(sunset)
-        : DateFormat.jm().format(sunset);
+    final is24Hr = timeUnit == _timeFormat24Hr;
+    String formatTime(DateTime value) {
+      return is24Hr ? DateFormat.Hm().format(value) : DateFormat.jm().format(value);
+    }
 
-    final moonriseFormat = (moonrise != null)
-        ? (timeUnit == '24 hr'
-            ? DateFormat.Hm().format(moonrise)
-            : DateFormat.jm().format(moonrise))
-        : 'N/A';
+    final sunriseFormat = formatTime(sunrise);
+    final sunsetFormat = formatTime(sunset);
 
-    final moonsetFormat = (moonset != null)
-        ? (timeUnit == '24 hr'
-            ? DateFormat.Hm().format(moonset)
-            : DateFormat.jm().format(moonset))
-        : 'N/A';
+    final moonriseFormat = (moonrise != null) ? formatTime(moonrise) : _notAvailableValue;
+    final moonsetFormat = (moonset != null) ? formatTime(moonset) : _notAvailableValue;
 
     final pressureUnit =
         context.select<UnitSettingsNotifier, String>((n) => n.pressureUnit);
@@ -187,17 +183,31 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
         context.select<UnitSettingsNotifier, String>((n) => n.visibilityUnit);
     final aqiUnit = context.select<UnitSettingsNotifier, String>((n) => n.aqiUnit);
 
-    final convertedPressure = pressureUnit == 'inHg'
-        ? UnitConverter.hPaToInHg(widget.currentPressure)
-        : pressureUnit == 'mmHg'
-            ? UnitConverter.hPaToMmHg(widget.currentPressure)
-            : widget.currentPressure;
+    final double convertedPressure;
+    switch (pressureUnit) {
+      case 'inHg':
+        convertedPressure = UnitConverter.hPaToInHg(widget.currentPressure);
+        break;
+      case 'mmHg':
+        convertedPressure = UnitConverter.hPaToMmHg(widget.currentPressure);
+        break;
+      default:
+        convertedPressure = widget.currentPressure;
+        break;
+    }
 
-    final convertedPrecip = precipitationUnit == 'cm'
-        ? UnitConverter.mmToCm(widget.currentTotalPrec)
-        : precipitationUnit == 'in'
-            ? UnitConverter.mmToIn(widget.currentTotalPrec)
-            : widget.currentTotalPrec;
+    final double convertedPrecip;
+    switch (precipitationUnit) {
+      case 'cm':
+        convertedPrecip = UnitConverter.mmToCm(widget.currentTotalPrec);
+        break;
+      case 'in':
+        convertedPrecip = UnitConverter.mmToIn(widget.currentTotalPrec);
+        break;
+      default:
+        convertedPrecip = widget.currentTotalPrec;
+        break;
+    }
 
     final convertedVisibility = visibilityUnit == 'Mile'
         ? UnitConverter.mToMiles(widget.currentVisibility.toDouble())
@@ -206,15 +216,25 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
     final windUnit =
         context.select<UnitSettingsNotifier, String>((n) => n.windUnit);
 
-    final formattedWindSpeed = windUnit == 'Mph'
-        ? UnitConverter.kmhToMph(widget.currentWindSpeed)
-        : windUnit == 'M/s'
-            ? UnitConverter.kmhToMs(widget.currentWindSpeed)
-            : windUnit == 'Bft'
-                ? UnitConverter.kmhToBeaufort(widget.currentWindSpeed)
-                : windUnit == 'Kt'
-                    ? UnitConverter.kmhToKt(widget.currentWindSpeed)
-                    : widget.currentWindSpeed;
+    final num formattedWindSpeed;
+    switch (windUnit) {
+      case 'Mph':
+        formattedWindSpeed = UnitConverter.kmhToMph(widget.currentWindSpeed);
+        break;
+      case 'M/s':
+        formattedWindSpeed = UnitConverter.kmhToMs(widget.currentWindSpeed);
+        break;
+      case 'Bft':
+        formattedWindSpeed =
+            UnitConverter.kmhToBeaufort(widget.currentWindSpeed);
+        break;
+      case 'Kt':
+        formattedWindSpeed = UnitConverter.kmhToKt(widget.currentWindSpeed);
+        break;
+      default:
+        formattedWindSpeed = widget.currentWindSpeed;
+        break;
+    }
 
     if (sunset.isBefore(sunrise)) {
       sunset = sunset.add(Duration(days: 1));
@@ -397,7 +417,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                   .colorScheme
                                   .onInverseSurface,
                             ),
-                            Text("No data available")
+                            Text(_noDataAvailableMessage)
                           ],
                         )));
                       } else {
@@ -663,7 +683,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                             color:
                                 Theme.of(context).colorScheme.onInverseSurface,
                           ),
-                          Text("No data available")
+                          Text(_noDataAvailableMessage)
                         ],
                       )));
                     } else {
@@ -782,7 +802,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                     .colorScheme
                                     .onInverseSurface,
                               ),
-                              Text("No data available")
+                              Text(_noDataAvailableMessage)
                             ],
                           )));
                         } else {
@@ -896,7 +916,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                             color:
                                 Theme.of(context).colorScheme.onInverseSurface,
                           ),
-                          Text("No data available")
+                          Text(_noDataAvailableMessage)
                         ],
                       )));
                     } else {
@@ -1014,7 +1034,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                     .colorScheme
                                     .onInverseSurface,
                               ),
-                              Text("No data available")
+                              Text(_noDataAvailableMessage)
                             ],
                           )));
                         } else {
@@ -1143,7 +1163,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                             color:
                                 Theme.of(context).colorScheme.onInverseSurface,
                           ),
-                          Text("No data available")
+                          Text(_noDataAvailableMessage)
                         ],
                       )));
                     } else {
@@ -1303,7 +1323,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                             color:
                                 Theme.of(context).colorScheme.onInverseSurface,
                           ),
-                          Text("No data available")
+                          Text(_noDataAvailableMessage)
                         ],
                       )));
                     } else {

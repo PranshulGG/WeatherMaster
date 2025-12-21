@@ -27,6 +27,35 @@ import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:home_widget/home_widget.dart';
 import 'utils/app_storage.dart';
 
+const String _sansSerifFontFamily = 'sans-serif';
+
+ColorScheme _createThemeColorScheme({
+  required Color seedColor,
+  required Brightness brightness,
+  required bool useExpressiveVariant,
+}) {
+  if (isMonochrome(seedColor)) {
+    return ColorScheme.fromSeed(
+      seedColor: seedColor,
+      brightness: brightness,
+      dynamicSchemeVariant: DynamicSchemeVariant.monochrome,
+    );
+  }
+
+  if (useExpressiveVariant) {
+    return ColorScheme.fromSeed(
+      seedColor: seedColor,
+      brightness: brightness,
+      dynamicSchemeVariant: DynamicSchemeVariant.expressive,
+    );
+  }
+
+  return ColorScheme.fromSeed(
+    seedColor: seedColor,
+    brightness: brightness,
+  );
+}
+
 final CorePalette paletteStartScreen = CorePalette.of(
   const Color.fromARGB(255, 255, 196, 0).toARGB32(),
 );
@@ -206,18 +235,27 @@ class MyApp extends StatelessWidget {
     final forceLTRlayout =
         context.select<UnitSettingsNotifier, bool>((n) => n.forceltrLayout);
 
+    final appFontFamily =
+        context.locale.languageCode == 'en' ? 'FlexFontEn' : 'DefaultFont';
+
+    final hasLeftGestureInset =
+        MediaQuery.of(context).systemGestureInsets.left > 0;
+    final Color systemNavigationBarColor;
+    if (hasLeftGestureInset) {
+      systemNavigationBarColor = const Color(0x01000000);
+    } else if (isLight) {
+      systemNavigationBarColor = const Color(0x01000000);
+    } else {
+      systemNavigationBarColor = const Color.fromRGBO(0, 0, 0, 0.3);
+    }
+
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: Color(0x01000000),
+        statusBarColor: const Color(0x01000000),
         statusBarIconBrightness: isLight ? Brightness.dark : Brightness.light,
         systemNavigationBarIconBrightness:
             isLight ? Brightness.dark : Brightness.light,
-        systemNavigationBarColor:
-            MediaQuery.of(context).systemGestureInsets.left > 0
-                ? Color(0x01000000)
-                : isLight
-                    ? Color(0x01000000)
-                    : Color.fromRGBO(0, 0, 0, 0.3),
+        systemNavigationBarColor: systemNavigationBarColor,
       ),
     );
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
@@ -230,6 +268,18 @@ class MyApp extends StatelessWidget {
     final colorThemeLight = ColorScheme.fromSeed(
       seedColor: seedColor,
       brightness: Brightness.light,
+    );
+
+    final themeColorSchemeLight = _createThemeColorScheme(
+      seedColor: seedColor,
+      brightness: Brightness.light,
+      useExpressiveVariant: useExpressiveVariant,
+    );
+
+    final themeColorSchemeDark = _createThemeColorScheme(
+      seedColor: seedColor,
+      brightness: Brightness.dark,
+      useExpressiveVariant: useExpressiveVariant,
     );
 
     return MaterialApp(
@@ -251,45 +301,24 @@ class MyApp extends StatelessWidget {
         return child!;
       },
       theme: ThemeData.from(
-        colorScheme: isMonochrome(seedColor)
-            ? ColorScheme.fromSeed(
-                seedColor: seedColor,
-                brightness: Brightness.light,
-                dynamicSchemeVariant: DynamicSchemeVariant.monochrome,
-              )
-            : useExpressiveVariant
-                ? ColorScheme.fromSeed(
-                    seedColor: seedColor,
-                    brightness: Brightness.light,
-                    dynamicSchemeVariant: DynamicSchemeVariant.expressive,
-                  )
-                : ColorScheme.fromSeed(
-                    seedColor: seedColor,
-                    brightness: Brightness.light,
-                  ),
+        colorScheme: themeColorSchemeLight,
         useMaterial3: true,
       ).copyWith(
         textTheme: ThemeData.light()
             .textTheme
             .apply(
-              fontFamily: context.locale.languageCode == 'en'
-                  ? 'FlexFontEn'
-                  : 'DefaultFont',
+              fontFamily: appFontFamily,
             )
             .copyWith(
               bodyLarge: TextStyle(
                 fontSize: context.locale.languageCode == 'en' ? null : 15.3,
                 color: colorThemeLight.onSurface,
-                fontFamily: context.locale.languageCode == 'en'
-                    ? 'FlexFontEn'
-                    : 'DefaultFont',
+                fontFamily: appFontFamily,
               ),
               bodyMedium: TextStyle(
                 fontSize: context.locale.languageCode == 'en' ? null : 13.3,
                 color: colorThemeLight.onSurface,
-                fontFamily: context.locale.languageCode == 'en'
-                    ? 'FlexFontEn'
-                    : 'DefaultFont',
+                fontFamily: appFontFamily,
               ),
             ),
         highlightColor: Colors.transparent,
@@ -305,30 +334,13 @@ class MyApp extends StatelessWidget {
         ),
       ),
       darkTheme: ThemeData.from(
-        colorScheme: isMonochrome(seedColor)
-            ? ColorScheme.fromSeed(
-                seedColor: seedColor,
-                brightness: Brightness.dark,
-                dynamicSchemeVariant: DynamicSchemeVariant.monochrome,
-              )
-            : useExpressiveVariant
-                ? ColorScheme.fromSeed(
-                    seedColor: seedColor,
-                    brightness: Brightness.dark,
-                    dynamicSchemeVariant: DynamicSchemeVariant.expressive,
-                  )
-                : ColorScheme.fromSeed(
-                    seedColor: seedColor,
-                    brightness: Brightness.dark,
-                  ),
+        colorScheme: themeColorSchemeDark,
         useMaterial3: true,
       ).copyWith(
         textTheme: ThemeData.dark()
             .textTheme
             .apply(
-              fontFamily: context.locale.languageCode == 'en'
-                  ? 'FlexFontEn'
-                  : 'DefaultFont',
+              fontFamily: appFontFamily,
             )
             .copyWith(
               bodyLarge: TextStyle(
@@ -336,18 +348,14 @@ class MyApp extends StatelessWidget {
                     ? null
                     : 15.3, // no use on en
                 color: colorThemeDark.onSurface,
-                fontFamily: context.locale.languageCode == 'en'
-                    ? 'FlexFontEn'
-                    : 'DefaultFont',
+                fontFamily: appFontFamily,
               ),
               bodyMedium: TextStyle(
                 fontSize: context.locale.languageCode == 'en'
                     ? null
                     : 13.3, // no use on en AND CHANGE THE FULL SCREEN ANIMATIONS ONLY FOR NON FROGGY
                 color: colorThemeDark.onSurface,
-                fontFamily: context.locale.languageCode == 'en'
-                    ? 'FlexFontEn'
-                    : 'DefaultFont',
+                fontFamily: appFontFamily,
               ),
             ),
         highlightColor: Colors.transparent,
@@ -655,7 +663,7 @@ class LocationPromptScreen extends StatelessWidget {
                 style: TextStyle(
                   color: customDarkScheme.onPrimary,
                   fontSize: 20,
-                  fontFamily: 'sans-serif',
+                  fontFamily: _sansSerifFontFamily,
                   fontWeight: FontWeight.w400,
                 ),
               ),
@@ -682,7 +690,7 @@ class LocationPromptScreen extends StatelessWidget {
                 style: TextStyle(
                   color: customDarkScheme.primary,
                   fontSize: 20,
-                  fontFamily: 'sans-serif',
+                  fontFamily: _sansSerifFontFamily,
                   fontWeight: FontWeight.w400,
                 ),
               ),
@@ -705,7 +713,7 @@ class LocationPromptScreen extends StatelessWidget {
                 style: TextStyle(
                   color: customDarkScheme.primary,
                   fontSize: 20,
-                  fontFamily: 'sans-serif',
+                  fontFamily: _sansSerifFontFamily,
                   fontWeight: FontWeight.w400,
                 ),
               ),

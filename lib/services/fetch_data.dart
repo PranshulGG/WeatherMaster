@@ -548,8 +548,6 @@ class WeatherService {
 
     if (moonrise == null && moonset == null) return;
 
-    astroObj['moonrise'] = moonset;
-    astroObj['moonset'] = moonrise;
     astroObj['_wmMoonTimesNormalized'] = true;
   }
 }

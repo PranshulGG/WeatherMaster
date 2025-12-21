@@ -12,7 +12,7 @@ import android.provider.AlarmClock
 import android.provider.CalendarContract
 import com.pranshulgg.weather_master_app.util.WeatherIconMapper
 
-class clockDateWidgetProvider : AppWidgetProvider() {
+class ClockDateWidgetProvider : AppWidgetProvider() {
 
     override fun onUpdate(context: Context, manager: AppWidgetManager, ids: IntArray) {
         val prefs = context.getSharedPreferences("HomeWidgetPreferences", Context.MODE_PRIVATE)

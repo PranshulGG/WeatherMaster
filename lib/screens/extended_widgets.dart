@@ -14,6 +14,17 @@ import '../utils/visual_utils.dart';
 import 'package:moon_phase/moon_widget.dart';
 import 'package:expressive_loading_indicator/expressive_loading_indicator.dart';
 
+const String _timeFormat12Hr = '12 hr';
+const String _timeFormat24Hr = '24 hr';
+const String _notAvailableValue = 'N/A';
+
+String _formatHourLabel(DateTime roundedDisplayTime, String timeUnit) {
+  if (timeUnit == _timeFormat24Hr) {
+    return "${roundedDisplayTime.hour.toString().padLeft(2, '0')}:00";
+  }
+  return UnitConverter.formatTo12Hour(roundedDisplayTime);
+}
+
 class ExtendWidget extends StatefulWidget {
   final String widgetType;
   const ExtendWidget(this.widgetType, {super.key});
@@ -186,7 +197,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
         final nowLocal = nowUtc.add(offset);
 
         final timeUnit =
-            PreferencesHelper.getString("selectedTimeUnit") ?? "12 hr";
+            PreferencesHelper.getString("selectedTimeUnit") ?? _timeFormat12Hr;
 
         final roundedNow = DateTime(
             nowLocal.year, nowLocal.month, nowLocal.day, nowLocal.hour);
@@ -266,9 +277,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                         forecastLocal.day,
                         forecastLocal.hour,
                       );
-                      final hour = timeUnit == '24 hr'
-                          ? "${roundedDisplayTime.hour.toString().padLeft(2, '0')}:00"
-                          : UnitConverter.formatTo12Hour(roundedDisplayTime);
+                      final hour = _formatHourLabel(roundedDisplayTime, timeUnit);
                       final humidityPercentage = hourlyhumidity[dataIndex];
 
                       EdgeInsetsDirectional itemMargin =
@@ -447,14 +456,13 @@ class _ExtendWidgetState extends State<ExtendWidget> {
           );
 
           final timeUnit =
-              PreferencesHelper.getString("selectedTimeUnit") ?? '12 hr';
+              PreferencesHelper.getString("selectedTimeUnit") ?? _timeFormat12Hr;
 
-          final sunriseFormat = timeUnit == '24 hr'
-              ? DateFormat.Hm().format(sunrise)
-              : DateFormat.jm().format(sunrise);
-          final sunsetFormat = timeUnit == '24 hr'
-              ? DateFormat.Hm().format(sunset)
-              : DateFormat.jm().format(sunset);
+          final is24Hr = timeUnit == _timeFormat24Hr;
+          final sunriseFormat =
+              is24Hr ? DateFormat.Hm().format(sunrise) : DateFormat.jm().format(sunrise);
+          final sunsetFormat =
+              is24Hr ? DateFormat.Hm().format(sunset) : DateFormat.jm().format(sunset);
 
           if (sunset.isBefore(sunrise)) {
             sunset = sunset.add(Duration(days: 1));
@@ -472,18 +480,17 @@ class _ExtendWidgetState extends State<ExtendWidget> {
           );
 
           String formatInstantToLocalTime(Instant instant,
-              {String timeUnit = '24 hr'}) {
+              {String timeUnit = _timeFormat24Hr}) {
             final dateTime = DateTime(
               instant.year,
               instant.month,
               instant.day,
               instant.hour,
               instant.minute,
-              instant.second,
             ).toLocal();
 
             final formatter =
-                timeUnit == '24 hr' ? DateFormat.Hm() : DateFormat.jm();
+                timeUnit == _timeFormat24Hr ? DateFormat.Hm() : DateFormat.jm();
 
             return formatter.format(dateTime);
           }
@@ -717,7 +724,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
           final nowLocal = nowUtc.add(offset);
 
           final timeUnit =
-              PreferencesHelper.getString("selectedTimeUnit") ?? '12 hr';
+              PreferencesHelper.getString("selectedTimeUnit") ?? _timeFormat12Hr;
 
           final roundedNow = DateTime(
               nowLocal.year, nowLocal.month, nowLocal.day, nowLocal.hour);
@@ -808,9 +815,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                           forecastLocal.day,
                           forecastLocal.hour,
                         );
-                        final hour = timeUnit == '24 hr'
-                            ? "${roundedDisplayTime.hour.toString().padLeft(2, '0')}:00"
-                            : UnitConverter.formatTo12Hour(roundedDisplayTime);
+                        final hour = _formatHourLabel(roundedDisplayTime, timeUnit);
                         final currentPressure = hourlyPressure[dataIndex];
                         final pressurePercentage =
                             ((currentPressure - minPressure) /
@@ -1146,7 +1151,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
           final nowLocal = nowUtc.add(offset);
 
           final timeUnit =
-              PreferencesHelper.getString("selectedTimeUnit") ?? '12 hr';
+              PreferencesHelper.getString("selectedTimeUnit") ?? _timeFormat12Hr;
 
           final roundedNow = DateTime(
               nowLocal.year, nowLocal.month, nowLocal.day, nowLocal.hour);
@@ -1254,9 +1259,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                           forecastLocal.day,
                           forecastLocal.hour,
                         );
-                        final hour = timeUnit == '24 hr'
-                            ? "${roundedDisplayTime.hour.toString().padLeft(2, '0')}:00"
-                            : UnitConverter.formatTo12Hour(roundedDisplayTime);
+                        final hour = _formatHourLabel(roundedDisplayTime, timeUnit);
                         final windSpeed = windSpeeds[dataIndex];
                         final windDirection = windDirections[dataIndex];
 
@@ -1445,7 +1448,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
           final nowLocal = nowUtc.add(offset);
 
           final timeUnit =
-              PreferencesHelper.getString("selectedTimeUnit") ?? '12 hr';
+              PreferencesHelper.getString("selectedTimeUnit") ?? _timeFormat12Hr;
 
           final roundedNow = DateTime(
               nowLocal.year, nowLocal.month, nowLocal.day, nowLocal.hour);
@@ -1547,9 +1550,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                           forecastLocal.day,
                           forecastLocal.hour,
                         );
-                        final hour = timeUnit == '24 hr'
-                            ? "${roundedDisplayTime.hour.toString().padLeft(2, '0')}:00"
-                            : UnitConverter.formatTo12Hour(roundedDisplayTime);
+                        final hour = _formatHourLabel(roundedDisplayTime, timeUnit);
 
                         final uv = uvIndexes[dataIndex];
                         final bool isValidUv = uv is num;
@@ -2088,7 +2089,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
           final nowLocal = nowUtc.add(offset);
 
           final timeUnit =
-              PreferencesHelper.getString("selectedTimeUnit") ?? '12 hr';
+              PreferencesHelper.getString("selectedTimeUnit") ?? _timeFormat12Hr;
 
           final precipitationUnit =
               PreferencesHelper.getString("selectedPrecipitationUnit") ?? 'mm';
@@ -2184,9 +2185,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                           forecastLocal.day,
                           forecastLocal.hour,
                         );
-                        final hour = timeUnit == '24 hr'
-                            ? "${roundedDisplayTime.hour.toString().padLeft(2, '0')}:00"
-                            : UnitConverter.formatTo12Hour(roundedDisplayTime);
+                        final hour = _formatHourLabel(roundedDisplayTime, timeUnit);
 
                         final precipAmountMain = precipAmount[dataIndex];
                         final precipProbMain = precipProb[dataIndex];
@@ -2413,19 +2412,20 @@ class _ExtendWidgetState extends State<ExtendWidget> {
           }
 
           final timeUnit =
-              PreferencesHelper.getString("selectedTimeUnit") ?? "12 hr";
+              PreferencesHelper.getString("selectedTimeUnit") ?? _timeFormat12Hr;
 
+          final is24HrMoon = timeUnit == _timeFormat24Hr;
           final moonriseFormat = (moonrise != null)
-              ? (timeUnit == '24 hr'
+              ? (is24HrMoon
                   ? DateFormat.Hm().format(moonrise)
                   : DateFormat.jm().format(moonrise))
-              : 'N/A';
+              : _notAvailableValue;
 
           final moonsetFormat = (moonset != null)
-              ? (timeUnit == '24 hr'
+              ? (is24HrMoon
                   ? DateFormat.Hm().format(moonset)
                   : DateFormat.jm().format(moonset))
-              : 'N/A';
+              : _notAvailableValue;
           int offsetSeconds =
               int.parse(weather['utc_offset_seconds'].toString());
           DateTime utcNow = DateTime.now().toUtc();

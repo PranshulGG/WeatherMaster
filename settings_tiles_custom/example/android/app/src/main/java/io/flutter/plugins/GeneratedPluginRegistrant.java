@@ -2,7 +2,6 @@ package io.flutter.plugins;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
-import io.flutter.Log;
 
 import io.flutter.embedding.engine.FlutterEngine;
 
@@ -13,7 +12,9 @@ import io.flutter.embedding.engine.FlutterEngine;
  */
 @Keep
 public final class GeneratedPluginRegistrant {
-  private static final String TAG = "GeneratedPluginRegistrant";
+  private GeneratedPluginRegistrant() {}
+
   public static void registerWith(@NonNull FlutterEngine flutterEngine) {
+    throw new UnsupportedOperationException("Not implemented");
   }
 }

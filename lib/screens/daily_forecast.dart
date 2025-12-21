@@ -16,6 +16,9 @@ import '../controllers/home_f.dart';
 import '../utils/visual_utils.dart';
 import 'package:animations/animations.dart';
 
+const String _timeFormat24Hr = '24 hr';
+const String _noDataAvailableMessage = 'No data available';
+
 class DailyForecastPage extends StatefulWidget {
   final DateTime? initialSelectedDate;
   const DailyForecastPage({super.key, this.initialSelectedDate});
@@ -617,7 +620,7 @@ class HourlyCardForecast extends StatelessWidget {
                       padding: EdgeInsets.only(bottom: 10, top: 10),
                       child: Center(
                         child: Text(
-                          "No data available",
+                          _noDataAvailableMessage,
                           style: TextStyle(
                             color: colorTheme.onSurfaceVariant,
                             fontSize: 14,
@@ -653,10 +656,9 @@ class HourlyCardForecast extends StatelessWidget {
                             forecastLocal.hour,
                           );
 
-                          final hour = timeUnit == '24 hr'
+                          final hour = timeUnit == _timeFormat24Hr
                               ? "${roundedDisplayTime.hour.toString().padLeft(2, '0')}:00"
-                              : UnitConverter.formatTo12Hour(
-                                  roundedDisplayTime);
+                              : UnitConverter.formatTo12Hour(roundedDisplayTime);
                           final temp = tempUnit == 'Fahrenheit'
                               ? UnitConverter.celsiusToFahrenheit(
                                       hourlyTemps[dataIndex].toDouble())
@@ -669,11 +671,25 @@ class HourlyCardForecast extends StatelessWidget {
                           final isDay =
                               isHourDuringDaylightOptimized(roundedDisplayTime);
 
+                          final EdgeInsetsDirectional itemMargin =
+                              EdgeInsetsDirectional.only(
+                                end: isLast ? 10 : 0,
+                                start: isFirst ? 10 : 0,
+                              );
+
+                          final String precipText;
+                          if (precipProb == 0.1111111) {
+                            precipText = '--%';
+                          } else if (precipProb > 10) {
+                            precipText = "${precipProb.round()}%";
+                          } else {
+                            precipText = "‎";
+                          }
+
                           return Container(
                             clipBehavior: Clip.none,
                             width: 56,
-                            margin: EdgeInsetsDirectional.only(
-                                end: isLast ? 10 : 0, start: isFirst ? 10 : 0),
+                            margin: itemMargin,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -714,12 +730,7 @@ class HourlyCardForecast extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                Text(
-                                    precipProb == 0.1111111
-                                        ? '--%'
-                                        : precipProb > 10
-                                            ? "${precipProb.round()}%"
-                                            : "‎",
+                                Text(precipText,
                                     style: TextStyle(
                                         fontFamily: "FlexFontEn",
                                         fontSize: 12,
