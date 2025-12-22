@@ -17,7 +17,7 @@ import '../utils/visual_utils.dart';
 import 'package:animations/animations.dart';
 
 const String _timeFormat24Hr = '24 hr';
-const String _noDataAvailableMessage = 'No data available';
+const String _noDataAvailableMessageKey = 'no_data_available';
 
 class DailyForecastPage extends StatefulWidget {
   final DateTime? initialSelectedDate;
@@ -620,7 +620,7 @@ class HourlyCardForecast extends StatelessWidget {
                       padding: EdgeInsets.only(bottom: 10, top: 10),
                       child: Center(
                         child: Text(
-                          _noDataAvailableMessage,
+                          "no_data_available".tr(),
                           style: TextStyle(
                             color: colorTheme.onSurfaceVariant,
                             fontSize: 14,

@@ -15,11 +15,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import '../screens/extended_widgets.dart';
 import '../helper/locale_helper.dart';
+import '../utils/icon_map.dart';
 import '../utils/visual_utils.dart';
 import 'package:animations/animations.dart';
 import 'package:moon_phase/moon_widget.dart';
 
-const String _noDataAvailableMessage = 'No data available';
+const String _noDataAvailableMessageKey = 'no_data_available';
 const String _timeFormat24Hr = '24 hr';
 const String _notAvailableValue = 'N/A';
 
@@ -417,7 +418,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                   .colorScheme
                                   .onInverseSurface,
                             ),
-                            Text(_noDataAvailableMessage)
+                            Text(_noDataAvailableMessageKey.tr())
                           ],
                         )));
                       } else {
@@ -683,7 +684,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                             color:
                                 Theme.of(context).colorScheme.onInverseSurface,
                           ),
-                          Text(_noDataAvailableMessage)
+                          Text(_noDataAvailableMessageKey.tr())
                         ],
                       )));
                     } else {
@@ -802,7 +803,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                     .colorScheme
                                     .onInverseSurface,
                               ),
-                              Text(_noDataAvailableMessage)
+                              Text(_noDataAvailableMessageKey.tr())
                             ],
                           )));
                         } else {
@@ -916,7 +917,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                             color:
                                 Theme.of(context).colorScheme.onInverseSurface,
                           ),
-                          Text(_noDataAvailableMessage)
+                          Text(_noDataAvailableMessageKey.tr())
                         ],
                       )));
                     } else {
@@ -1034,7 +1035,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                     .colorScheme
                                     .onInverseSurface,
                               ),
-                              Text(_noDataAvailableMessage)
+                              Text(_noDataAvailableMessageKey.tr())
                             ],
                           )));
                         } else {
@@ -1163,7 +1164,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                             color:
                                 Theme.of(context).colorScheme.onInverseSurface,
                           ),
-                          Text(_noDataAvailableMessage)
+                          Text(_noDataAvailableMessageKey.tr())
                         ],
                       )));
                     } else {
@@ -1301,7 +1302,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                                         overflow: TextOverflow.ellipsis,
                                       )),
                                   SvgPicture.asset(
-                                    'assets/weather-icons/showers_rain.svg',
+                                    WeatherIconMapper.getIcon(63, 1),
                                     width: 30,
                                     height: 30,
                                   )
@@ -1323,7 +1324,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                             color:
                                 Theme.of(context).colorScheme.onInverseSurface,
                           ),
-                          Text(_noDataAvailableMessage)
+                          Text(_noDataAvailableMessageKey.tr())
                         ],
                       )));
                     } else {

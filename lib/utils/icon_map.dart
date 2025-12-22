@@ -1,31 +1,32 @@
 class WeatherIconMapper {
-  static const _defaultIcon = 'assets/weather-icons/not_available.svg';
+  static const _weatherIconsBasePath = 'assets/weather-icons/';
+  static const _defaultIcon = '${_weatherIconsBasePath}not_available.svg';
 
   static const _hazeFogDustSmoke =
-      'assets/weather-icons/haze_fog_dust_smoke.svg';
-  static const _drizzle = 'assets/weather-icons/drizzle.svg';
+      '${_weatherIconsBasePath}haze_fog_dust_smoke.svg';
+  static const _drizzle = '${_weatherIconsBasePath}drizzle.svg';
   static const _mixedRainHailSleet =
-      'assets/weather-icons/mixed_rain_hail_sleet.svg';
-  static const _showersRain = 'assets/weather-icons/showers_rain.svg';
-  static const _heavyRain = 'assets/weather-icons/heavy_rain.svg';
-  static const _mixedRainSnow = 'assets/weather-icons/mixed_rain_snow.svg';
-  static const _showersSnow = 'assets/weather-icons/showers_snow.svg';
-  static const _heavySnow = 'assets/weather-icons/heavy_snow.svg';
+      '${_weatherIconsBasePath}mixed_rain_hail_sleet.svg';
+  static const _showersRain = '${_weatherIconsBasePath}showers_rain.svg';
+  static const _heavyRain = '${_weatherIconsBasePath}heavy_rain.svg';
+  static const _mixedRainSnow = '${_weatherIconsBasePath}mixed_rain_snow.svg';
+  static const _showersSnow = '${_weatherIconsBasePath}showers_snow.svg';
+  static const _heavySnow = '${_weatherIconsBasePath}heavy_snow.svg';
   static const _strongThunderstorms =
-      'assets/weather-icons/strong_thunderstorms.svg';
+      '${_weatherIconsBasePath}strong_thunderstorms.svg';
 
   static const Map<String, String> _iconMap = {
     // 0: Clear sky
-    '0_1': 'assets/weather-icons/clear_day.svg',
-    '0_0': 'assets/weather-icons/clear_night.svg',
+    '0_1': '${_weatherIconsBasePath}clear_day.svg',
+    '0_0': '${_weatherIconsBasePath}clear_night.svg',
 
     // 1,2,3: Mainly clear, partly cloudy, overcast
-    '1_1': 'assets/weather-icons/mostly_clear_day.svg',
-    '1_0': 'assets/weather-icons/mostly_clear_night.svg',
-    '2_1': 'assets/weather-icons/partly_cloudy_day.svg',
-    '2_0': 'assets/weather-icons/partly_cloudy_night.svg',
-    '3_1': 'assets/weather-icons/cloudy.svg',
-    '3_0': 'assets/weather-icons/cloudy.svg',
+    '1_1': '${_weatherIconsBasePath}mostly_clear_day.svg',
+    '1_0': '${_weatherIconsBasePath}mostly_clear_night.svg',
+    '2_1': '${_weatherIconsBasePath}partly_cloudy_day.svg',
+    '2_0': '${_weatherIconsBasePath}partly_cloudy_night.svg',
+    '3_1': '${_weatherIconsBasePath}cloudy.svg',
+    '3_0': '${_weatherIconsBasePath}cloudy.svg',
 
     // 45,48: Fog
     '45_1': _hazeFogDustSmoke,
@@ -48,8 +49,8 @@ class WeatherIconMapper {
     '57_0': _mixedRainHailSleet,
 
     // 61,63,65: Rain
-    '61_1': 'assets/weather-icons/scattered_showers_day.svg',
-    '61_0': 'assets/weather-icons/scattered_showers_night.svg',
+    '61_1': '${_weatherIconsBasePath}scattered_showers_day.svg',
+    '61_0': '${_weatherIconsBasePath}scattered_showers_night.svg',
     '63_1': _showersRain,
     '63_0': _showersRain,
     '65_1': _heavyRain,
@@ -62,20 +63,20 @@ class WeatherIconMapper {
     '67_0': _mixedRainSnow,
 
     // 71,73,75: Snowfall
-    '71_1': 'assets/weather-icons/scattered_snow_showers_day.svg',
-    '71_0': 'assets/weather-icons/scattered_snow_showers_night.svg',
+    '71_1': '${_weatherIconsBasePath}scattered_snow_showers_day.svg',
+    '71_0': '${_weatherIconsBasePath}scattered_snow_showers_night.svg',
     '73_1': _showersSnow,
     '73_0': _showersSnow,
     '75_1': _heavySnow,
     '75_0': _heavySnow,
 
     // 77: Snow grains
-    '77_1': 'assets/weather-icons/flurries.svg',
-    '77_0': 'assets/weather-icons/flurries.svg',
+    '77_1': '${_weatherIconsBasePath}flurries.svg',
+    '77_0': '${_weatherIconsBasePath}flurries.svg',
 
     // 80,81,82: Rain showers
-    '80_1': 'assets/weather-icons/scattered_showers_day.svg',
-    '80_0': 'assets/weather-icons/scattered_showers_night.svg',
+    '80_1': '${_weatherIconsBasePath}scattered_showers_day.svg',
+    '80_0': '${_weatherIconsBasePath}scattered_showers_night.svg',
     '81_1': _showersRain,
     '81_0': _showersRain,
     '82_1': _heavyRain,
@@ -88,8 +89,8 @@ class WeatherIconMapper {
     '86_0': _heavySnow,
 
     // 95: Thunderstorm (no hail)
-    '95_1': 'assets/weather-icons/isolated_thunderstorms.svg',
-    '95_0': 'assets/weather-icons/isolated_thunderstorms.svg',
+    '95_1': '${_weatherIconsBasePath}isolated_thunderstorms.svg',
+    '95_0': '${_weatherIconsBasePath}isolated_thunderstorms.svg',
 
     // 96,99: Thunderstorm with hail
     '96_1': _strongThunderstorms,

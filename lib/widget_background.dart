@@ -57,7 +57,7 @@ Future<void> updateHomeWidget(weather, {bool updatedFromHome = false}) async {
 
     if (weather == null && updatedFromHome == false) {
       if (triggerFromWorker == false) {
-        PreferencesHelper.setBool(PrefKeys.triggerFromWorker, true);
+        await PreferencesHelper.setBool(PrefKeys.triggerFromWorker, true);
         return;
       }
 
@@ -84,8 +84,12 @@ Future<void> updateHomeWidget(weather, {bool updatedFromHome = false}) async {
           context: null,
           isBackground: true);
 
-      final current = result!['data']['current'];
-      temp = safeToDouble(current['temperature_2m'].toDouble());
+      if (result == null) {
+        return;
+      }
+
+      final current = result['data']['current'];
+      temp = safeToDouble(current['temperature_2m']);
       code = current['weather_code'];
       final hourly = result['data']['hourly'] ?? {};
       final dailyData = result['data']['daily'];
@@ -102,7 +106,7 @@ Future<void> updateHomeWidget(weather, {bool updatedFromHome = false}) async {
     } else {
       final currentData = weather['current'];
 
-      temp = currentData['temperature_2m'].toDouble();
+      temp = safeToDouble(currentData['temperature_2m']);
       code = currentData['weather_code'];
       final dailyData = weather['daily'];
       final hourly = weather['hourly'] ?? {};

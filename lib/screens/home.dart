@@ -471,40 +471,42 @@ class _WeatherHomeState extends State<WeatherHome> {
     _lastFroggyIndex = newIndex;
     _froggyLoadInFlight = true;
 
-    await _weatherManager.initializeIcons();
-    final icon = _weatherManager.getFroggieIcon(weatherCode, isDay);
-    if (!mounted || _isLoadingFroggy != true) {
-      _froggyLoadInFlight = false;
-      return;
-    }
-
-    if ((PreferencesHelper.getBool("DynamicColors") ?? false) ||
-        (PreferencesHelper.getBool("usingCustomSeed") ?? false)) {
-      setState(() {
-        _iconUrlFroggy = icon;
-        _isLoadingFroggy = false;
-        if (_istriggeredFromLocations) {
-          _istriggeredFromLocations = false;
-          _isAppFullyLoaded = true;
-        }
-      });
-      _froggyLoadInFlight = false;
-      return;
-    }
-
-    if (themeCalled == false) {
-      _iconUrlFroggy = icon;
-      _isLoadingFroggy = false;
-      if (_istriggeredFromLocations) {
-        _istriggeredFromLocations = false;
-        _isAppFullyLoaded = true;
+    try {
+      await _weatherManager.initializeIcons();
+      final icon = _weatherManager.getFroggieIcon(weatherCode, isDay);
+      if (!mounted || _isLoadingFroggy != true) {
+        return;
       }
-      Provider.of<ThemeController>(context, listen: false)
-          .setSeedColor(weatherConditionColors[newIndex]);
 
-      themeCalled = true;
+      if ((PreferencesHelper.getBool("DynamicColors") ?? false) ||
+          (PreferencesHelper.getBool("usingCustomSeed") ?? false)) {
+        setState(() {
+          _iconUrlFroggy = icon;
+          _isLoadingFroggy = false;
+          if (_istriggeredFromLocations) {
+            _istriggeredFromLocations = false;
+            _isAppFullyLoaded = true;
+          }
+        });
+        return;
+      }
+
+      if (themeCalled == false) {
+        setState(() {
+          _iconUrlFroggy = icon;
+          _isLoadingFroggy = false;
+          if (_istriggeredFromLocations) {
+            _istriggeredFromLocations = false;
+            _isAppFullyLoaded = true;
+          }
+        });
+        Provider.of<ThemeController>(context, listen: false)
+            .setSeedColor(weatherConditionColors[newIndex]);
+        themeCalled = true;
+      }
+    } finally {
+      _froggyLoadInFlight = false;
     }
-    _froggyLoadInFlight = false;
   }
 
   Future<void> _refreshWeatherData() async {
@@ -589,9 +591,8 @@ class _WeatherHomeState extends State<WeatherHome> {
       _istriggeredFromLocations = true;
       _isLoadingFroggy = true;
       themeCalled = false;
+      weatherFuture = getWeatherFromCache();
     });
-
-    weatherFuture = getWeatherFromCache();
 
     PreferencesHelper.setBool("ModelChanged", false);
   }

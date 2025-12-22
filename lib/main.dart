@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:animations/animations.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive_ce.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'screens/home.dart';
@@ -124,7 +124,7 @@ void main() async {
 
   await PreferencesHelper.init();
 
-  PreferencesHelper.setBool(PrefKeys.triggerFromWorker, false);
+  await PreferencesHelper.setBool(PrefKeys.triggerFromWorker, false);
 
   await dotenv.load(fileName: ".env");
 
@@ -139,8 +139,8 @@ void main() async {
   bool isTaskRunning = prefs.getBool("runningTaskBackground") ?? false;
 
   if (isTaskRunning == false && useBackgroundUpdates) {
-    startWeatherService();
-    prefs.setBool("runningTaskBackground", true);
+    await startWeatherService();
+    await prefs.setBool("runningTaskBackground", true);
   }
   // widget ------
 

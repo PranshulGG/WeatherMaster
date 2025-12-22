@@ -18,30 +18,32 @@ class _AnimationConfig {
 }
 
 class WeatherConditionAnimationMapper {
+  static const _foregroundAnimationsBasePath = 'assets/foreground-animations/';
+
   static const _sunnyForeground =
-      'assets/foreground-animations/sunny_foreground.json';
+      '${_foregroundAnimationsBasePath}sunny_foreground.json';
   static const _starsForeground =
-      'assets/foreground-animations/stars_foreground.json';
+      '${_foregroundAnimationsBasePath}stars_foreground.json';
   static const _sunnyBackground =
-      'assets/foreground-animations/sunny_background.json';
+      '${_foregroundAnimationsBasePath}sunny_background.json';
   static const _cloudyForeground =
-      'assets/foreground-animations/cloudy_foreground.json';
-  static const _cloudyFull = 'assets/foreground-animations/cloudy.json';
+      '${_foregroundAnimationsBasePath}cloudy_foreground.json';
+  static const _cloudyFull = '${_foregroundAnimationsBasePath}cloudy.json';
   static const _cloudyBackground =
-      'assets/foreground-animations/cloudy_background.json';
+      '${_foregroundAnimationsBasePath}cloudy_background.json';
   static const _mostlyClearNight =
-      'assets/foreground-animations/mostly_clear_night.json';
+      '${_foregroundAnimationsBasePath}mostly_clear_night.json';
   static const _hazeForeground =
-      'assets/foreground-animations/haze_foreground.json';
-  static const _showers = 'assets/foreground-animations/showers.json';
+      '${_foregroundAnimationsBasePath}haze_foreground.json';
+  static const _showers = '${_foregroundAnimationsBasePath}showers.json';
   static const _rainForeground =
-      'assets/foreground-animations/rain_foreground.json';
+      '${_foregroundAnimationsBasePath}rain_foreground.json';
   static const _flurriesForeground =
-      'assets/foreground-animations/flurries_foreground.json';
+      '${_foregroundAnimationsBasePath}flurries_foreground.json';
   static const _snowShowerForeground =
-      'assets/foreground-animations/snow_shower_foreground.json';
+      '${_foregroundAnimationsBasePath}snow_shower_foreground.json';
   static const _thunderBackground =
-      'assets/foreground-animations/thunder_background.json';
+      '${_foregroundAnimationsBasePath}thunder_background.json';
 
   static const Set<int> _hazeCodes = {45, 48};
   static const Set<int> _rainCodes = {
@@ -261,6 +263,9 @@ class WeatherConditionAnimationMapper {
                 animationUrl,
                 fit: BoxFit.cover,
                 repeat: true,
+                backgroundLoading: true,
+                renderCache: RenderCache.raster,
+                frameRate: FrameRate.composition,
                 addRepaintBoundary: true,
               ),
             ),
@@ -276,6 +281,9 @@ class WeatherConditionAnimationMapper {
                 secondaryAnimationUrl,
                 fit: BoxFit.cover,
                 repeat: true,
+                backgroundLoading: true,
+                renderCache: RenderCache.raster,
+                frameRate: FrameRate.composition,
                 addRepaintBoundary: true,
               ),
             ),
@@ -322,6 +330,9 @@ class WeatherConditionAnimationMapper {
             animationUrl,
             fit: BoxFit.cover,
             repeat: true,
+            backgroundLoading: true,
+            renderCache: RenderCache.raster,
+            frameRate: FrameRate.composition,
           ),
         ),
       ),

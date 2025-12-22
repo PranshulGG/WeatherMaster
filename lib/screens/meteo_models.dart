@@ -5,7 +5,6 @@ import '../utils/preferences_helper.dart';
 import '../utils/app_storage.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:http/http.dart' as http;
-import 'package:lat_lng_to_timezone/lat_lng_to_timezone.dart' as tzmap;
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 
 class MeteoModelsPage extends StatefulWidget {
@@ -769,7 +768,7 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
     if (mounted) setState(() {});
 
     try {
-      final timezone = tzmap.latLngToTimezoneString(_currentLat!, _currentLon!);
+      const timezone = 'auto';
       final modelsParam = allModelKeys.join(',');
 
       final uri = Uri.parse('https://api.open-meteo.com/v1/forecast')
