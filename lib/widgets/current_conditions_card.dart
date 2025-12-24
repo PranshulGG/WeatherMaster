@@ -9,10 +9,9 @@ import 'dart:math';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'dart:io' show Platform;
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart';
 import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:async';
 import '../screens/extended_widgets.dart';
 import '../helper/locale_helper.dart';
 import '../utils/icon_map.dart';
@@ -76,187 +75,243 @@ class ConditionsWidgets extends StatefulWidget {
 }
 
 class _ConditionsWidgetsState extends State<ConditionsWidgets> {
-  List<int> itemOrder = [];
+  static const double _noData = 0.0000001;
+  static const int _tileCount = 10;
+  static const String orderPrefsKey = 'tile_order_new';
+  static const Duration _openContainerDuration = Duration(milliseconds: 500);
 
-  final String orderPrefsKey = 'tile_order_new';
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
+  List<int> itemOrder = List.generate(_tileCount, (index) => index);
+
   @override
   void initState() {
     super.initState();
     _loadTileOrder();
   }
 
-  Future<void> _loadTileOrder() async {
-    final prefs = await SharedPreferences.getInstance();
-    final savedList = prefs.getStringList(orderPrefsKey);
+  List<int> _normalizeOrder(List<int> input) {
+    final used = <int>{};
+    final result = <int>[];
 
-    if (savedList != null && savedList.isNotEmpty) {
-      setState(() {
-        itemOrder = savedList.map(int.parse).toList();
-      });
-    } else {
-      setState(() {
-        itemOrder = List.generate(10, (index) => index);
-      });
+    for (final i in input) {
+      if (i >= 0 && i < _tileCount && used.add(i)) {
+        result.add(i);
+      }
     }
+    for (var i = 0; i < _tileCount; i++) {
+      if (used.add(i)) result.add(i);
+    }
+    return result;
+  }
+
+  Future<void> _loadTileOrder() async {
+    final prefs = await _prefs;
+    final savedList = prefs.getStringList(orderPrefsKey);
+    if (savedList == null || savedList.isEmpty) return;
+
+    final parsed = savedList.map(int.tryParse).whereType<int>().toList();
+    final normalized = _normalizeOrder(parsed);
+
+    if (listEquals(normalized, itemOrder)) return;
+    setState(() => itemOrder = normalized);
+  }
+
+  bool _isNoData(num value) => value == _noData;
+
+  void _showNoDataSnack(BuildContext context) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          spacing: 10,
+          children: [
+            Icon(
+              Symbols.error,
+              color: Theme.of(context).colorScheme.onInverseSurface,
+            ),
+            Text(_noDataAvailableMessageKey.tr()),
+          ],
+        ),
+      ),
+    );
+  }
+
+  PageRouteBuilder<void> _fadeRoute(Widget page) {
+    return PageRouteBuilder(
+      opaque: true,
+      fullscreenDialog: true,
+      reverseTransitionDuration: const Duration(milliseconds: 200),
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return FadeTransition(opacity: animation, child: child);
+      },
+    );
+  }
+
+  VoidCallback? _tapHandler(
+    BuildContext context, {
+    required String widgetKey,
+    required VoidCallback openContainer,
+    required bool useAnimation,
+    required bool enabled,
+    bool showSnackIfDisabled = true,
+  }) {
+    if (!widget.isFromHome) return null;
+
+    return () {
+      if (!enabled) {
+        if (showSnackIfDisabled) _showNoDataSnack(context);
+        return;
+      }
+      if (useAnimation) {
+        openContainer();
+      } else {
+        Navigator.of(context).push(_fadeRoute(ExtendWidget(widgetKey)));
+      }
+    };
+  }
+
+  DateTime? _parseTime(String? timeString) {
+    if (timeString == null || timeString.isEmpty) return null;
+    final lower = timeString.toLowerCase();
+    if (lower.contains("no")) return null;
+
+    try {
+      final cleaned = timeString.split("at").first.trim();
+      return DateFormat.jm().parse(cleaned);
+    } catch (e) {
+      debugPrint("Failed to parse time: $timeString ($e)");
+      return null;
+    }
+  }
+
+  double _convertPressure(double hPa, String unit) {
+    switch (unit) {
+      case 'inHg':
+        return UnitConverter.hPaToInHg(hPa);
+      case 'mmHg':
+        return UnitConverter.hPaToMmHg(hPa);
+      default:
+        return hPa;
+    }
+  }
+
+  double _convertPrecip(double mm, String unit) {
+    switch (unit) {
+      case 'cm':
+        return UnitConverter.mmToCm(mm);
+      case 'in':
+        return UnitConverter.mmToIn(mm);
+      default:
+        return mm;
+    }
+  }
+
+  num _convertWind(double kmh, String unit) {
+    switch (unit) {
+      case 'Mph':
+        return UnitConverter.kmhToMph(kmh);
+      case 'M/s':
+        return UnitConverter.kmhToMs(kmh);
+      case 'Bft':
+        return UnitConverter.kmhToBeaufort(kmh);
+      case 'Kt':
+        return UnitConverter.kmhToKt(kmh);
+      default:
+        return kmh;
+    }
+  }
+
+  Widget _openContainerTile({
+    required Color closedColor,
+    Color? middleColor,
+    required Color openColor,
+    required ShapeBorder closedShape,
+    required ShapeBorder openShape,
+    double closedElevation = 1,
+    double openElevation = 0,
+    required Widget Function(BuildContext, VoidCallback) closedBuilder,
+    required Widget Function(BuildContext, VoidCallback) openBuilder,
+  }) {
+    return OpenContainer(
+      transitionType: ContainerTransitionType.fadeThrough,
+      closedElevation: closedElevation,
+      closedShape: closedShape,
+      openShape: openShape,
+      openElevation: openElevation,
+      transitionDuration: _openContainerDuration,
+      closedColor: closedColor,
+      middleColor: middleColor,
+      openColor: openColor,
+      openBuilder: (context, _) => openBuilder(context, () {}),
+      closedBuilder: (context, openContainer) => closedBuilder(context, openContainer),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final tempUnit =
-        context.select<UnitSettingsNotifier, String>((n) => n.tempUnit);
+    final settings = context.watch<UnitSettingsNotifier>();
 
-    final useAnimation =
-        PreferencesHelper.getBool("UseopenContainerAnimation") ?? true;
+    final theme = Theme.of(context);
+    final colorTheme = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
+    final headerFg = isDark ? Colors.white : Colors.black;
+    final size = MediaQuery.sizeOf(context);
+    final isFoldable = isFoldableLayout(context);
 
-    final dewpointConverted = tempUnit == 'Fahrenheit'
-        ? UnitConverter.celsiusToFahrenheit(widget.currentDewPoint.toDouble())
-            .round()
-        : widget.currentDewPoint.toDouble().round();
-    int offsetSeconds = int.parse(widget.utcOffsetSeconds);
-    DateTime utcNow = DateTime.now().toUtc();
-    DateTime now = utcNow.add(Duration(seconds: offsetSeconds));
-    DateTime sunrise = DateTime.parse(widget.currentSunrise);
-    DateTime sunset = DateTime.parse(widget.currentSunset);
-    DateTime? moonrise;
-    DateTime? moonset;
+    final useAnimation = PreferencesHelper.getBool("UseopenContainerAnimation") ?? true;
 
-    final moonriseRaw = widget.moonrise;
-    final moonsetRaw = widget.moonset;
+    final dewpointConverted = settings.tempUnit == 'Fahrenheit'
+        ? UnitConverter.celsiusToFahrenheit(widget.currentDewPoint).round()
+        : widget.currentDewPoint.round();
 
-    DateTime? parseTime(String? timeString) {
-      if (timeString == null ||
-          timeString.isEmpty ||
-          timeString.toLowerCase().contains("no")) {
-        return null;
-      }
+    final offsetSeconds = int.tryParse(widget.utcOffsetSeconds) ?? 0;
+    final now = DateTime.now().toUtc().add(Duration(seconds: offsetSeconds));
+    final nowLocal = DateTime(now.year, now.month, now.day, now.hour, now.minute, now.second);
 
-      try {
-        final cleaned = timeString.split("at").first.trim();
-        return DateFormat.jm().parse(cleaned);
-      } catch (e) {
-        debugPrint("Failed to parse time: $timeString ($e)");
-        return null;
-      }
-    }
+    final sunrise = DateTime.parse(widget.currentSunrise);
+    var sunset = DateTime.parse(widget.currentSunset);
 
-    if (moonriseRaw != null &&
-        moonriseRaw.isNotEmpty &&
-        moonriseRaw.toLowerCase() != 'no moonrise') {
-      moonrise = parseTime(moonriseRaw);
-    }
-
-    if (moonsetRaw != null &&
-        moonsetRaw.isNotEmpty &&
-        moonsetRaw.toLowerCase() != 'no moonset') {
-      moonset = parseTime(moonsetRaw);
-    }
-
-    now = DateTime(
-      now.year,
-      now.month,
-      now.day,
-      now.hour,
-      now.minute,
-      now.second,
-      now.millisecond,
-      now.microsecond,
-    );
-
-    final timeUnit =
-        context.select<UnitSettingsNotifier, String>((n) => n.timeUnit);
-
-    final is24Hr = timeUnit == _timeFormat24Hr;
-    String formatTime(DateTime value) {
-      return is24Hr ? DateFormat.Hm().format(value) : DateFormat.jm().format(value);
-    }
+    final timeFormatter =
+        settings.timeUnit == _timeFormat24Hr ? DateFormat.Hm() : DateFormat.jm();
+    String formatTime(DateTime value) => timeFormatter.format(value);
 
     final sunriseFormat = formatTime(sunrise);
     final sunsetFormat = formatTime(sunset);
 
-    final moonriseFormat = (moonrise != null) ? formatTime(moonrise) : _notAvailableValue;
-    final moonsetFormat = (moonset != null) ? formatTime(moonset) : _notAvailableValue;
+    final moonriseRaw = widget.moonrise;
+    final moonsetRaw = widget.moonset;
 
-    final pressureUnit =
-        context.select<UnitSettingsNotifier, String>((n) => n.pressureUnit);
-    final precipitationUnit = context
-        .select<UnitSettingsNotifier, String>((n) => n.precipitationUnit);
-    final visibilityUnit =
-        context.select<UnitSettingsNotifier, String>((n) => n.visibilityUnit);
-    final aqiUnit = context.select<UnitSettingsNotifier, String>((n) => n.aqiUnit);
+    final moonriseTime = _parseTime(moonriseRaw);
+    final moonsetTime = _parseTime(moonsetRaw);
 
-    final double convertedPressure;
-    switch (pressureUnit) {
-      case 'inHg':
-        convertedPressure = UnitConverter.hPaToInHg(widget.currentPressure);
-        break;
-      case 'mmHg':
-        convertedPressure = UnitConverter.hPaToMmHg(widget.currentPressure);
-        break;
-      default:
-        convertedPressure = widget.currentPressure;
-        break;
-    }
+    final moonriseFormat = moonriseTime != null ? formatTime(moonriseTime) : _notAvailableValue;
+    final moonsetFormat = moonsetTime != null ? formatTime(moonsetTime) : _notAvailableValue;
 
-    final double convertedPrecip;
-    switch (precipitationUnit) {
-      case 'cm':
-        convertedPrecip = UnitConverter.mmToCm(widget.currentTotalPrec);
-        break;
-      case 'in':
-        convertedPrecip = UnitConverter.mmToIn(widget.currentTotalPrec);
-        break;
-      default:
-        convertedPrecip = widget.currentTotalPrec;
-        break;
-    }
+    final convertedPressure = _convertPressure(widget.currentPressure, settings.pressureUnit);
+    final convertedPrecip = _convertPrecip(widget.currentTotalPrec, settings.precipitationUnit);
 
-    final convertedVisibility = visibilityUnit == 'Mile'
-        ? UnitConverter.mToMiles(widget.currentVisibility.toDouble())
-        : UnitConverter.mToKm(widget.currentVisibility.toDouble());
+    final convertedVisibility = settings.visibilityUnit == 'Mile'
+        ? UnitConverter.mToMiles(widget.currentVisibility)
+        : UnitConverter.mToKm(widget.currentVisibility);
 
-    final windUnit =
-        context.select<UnitSettingsNotifier, String>((n) => n.windUnit);
-
-    final num formattedWindSpeed;
-    switch (windUnit) {
-      case 'Mph':
-        formattedWindSpeed = UnitConverter.kmhToMph(widget.currentWindSpeed);
-        break;
-      case 'M/s':
-        formattedWindSpeed = UnitConverter.kmhToMs(widget.currentWindSpeed);
-        break;
-      case 'Bft':
-        formattedWindSpeed =
-            UnitConverter.kmhToBeaufort(widget.currentWindSpeed);
-        break;
-      case 'Kt':
-        formattedWindSpeed = UnitConverter.kmhToKt(widget.currentWindSpeed);
-        break;
-      default:
-        formattedWindSpeed = widget.currentWindSpeed;
-        break;
-    }
+    final formattedWindSpeed = _convertWind(widget.currentWindSpeed, settings.windUnit);
 
     if (sunset.isBefore(sunrise)) {
-      sunset = sunset.add(Duration(days: 1));
+      sunset = sunset.add(const Duration(days: 1));
     }
 
-    double percent = ((now.difference(sunrise).inSeconds) /
-            (sunset.difference(sunrise).inSeconds))
-        .clamp(0, 1);
+    final dayTotalSeconds = sunset.difference(sunrise).inSeconds;
+    final dayPassedSeconds = nowLocal.difference(sunrise).inSeconds;
+    final percent = dayTotalSeconds <= 0 ? 0.0 : (dayPassedSeconds / dayTotalSeconds).clamp(0.0, 1.0);
 
-    final aqiFormat =
-        aqiUnit == 'European' ? widget.currentAQIEURO : widget.currentAQIUSA;
+    final aqiFormat = settings.aqiUnit == 'European' ? widget.currentAQIEURO : widget.currentAQIUSA;
 
-    final colorTheme = Theme.of(context).colorScheme;
-
-    double? moonPercent;
-
-    if (moonrise != null && moonset != null) {
-      moonrise = DateTime(
-          now.year, now.month, now.day, moonrise.hour, moonrise.minute);
-      moonset =
-          DateTime(now.year, now.month, now.day, moonset.hour, moonset.minute);
+    double moonPercent = 0.0;
+    if (moonriseTime != null && moonsetTime != null) {
+      var moonrise = DateTime(nowLocal.year, nowLocal.month, nowLocal.day, moonriseTime.hour, moonriseTime.minute);
+      var moonset = DateTime(nowLocal.year, nowLocal.month, nowLocal.day, moonsetTime.hour, moonsetTime.minute);
 
       if (moonset.isBefore(moonrise)) {
         moonset = moonset.add(const Duration(days: 1));
@@ -264,188 +319,126 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
 
       final totalSeconds = moonset.difference(moonrise).inSeconds;
       if (totalSeconds > 0) {
-        final secondsSinceMoonrise = now.difference(moonrise).inSeconds;
-        double raw = secondsSinceMoonrise / totalSeconds;
-        moonPercent = raw.clamp(0.0, 1.0);
-      } else {
-        moonPercent = 0.0;
+        final secondsSinceMoonrise = nowLocal.difference(moonrise).inSeconds;
+        moonPercent = (secondsSinceMoonrise / totalSeconds).clamp(0.0, 1.0);
       }
-    } else {
-      moonPercent = 0.0;
     }
 
-    List<Widget> gridItems = itemOrder.map((i) {
+    Widget buildTile(int i) {
       switch (i) {
         case 0:
           return OpenContainer(
-              transitionType: ContainerTransitionType.fadeThrough,
-              closedElevation: 1,
-              closedShape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              openShape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              openElevation: 0,
-              transitionDuration: Duration(milliseconds: 500),
-              closedColor: Color(widget.selectedContainerBgIndex),
-              openColor: colorTheme.surface,
-              openBuilder: (context, _) {
-                return ExtendWidget('humidity_widget');
-              },
-              closedBuilder: (context, openContainer) {
-                return GestureDetector(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Color(widget.selectedContainerBgIndex),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Stack(
-                        children: [
-                          AspectRatio(
-                            aspectRatio: 1,
-                            child: SvgPicture.string(
-                              buildHumidity(
-                                  Theme.of(context)
-                                      .colorScheme
-                                      .tertiaryContainer,
-                                  widget.currentHumidity),
-                              fit: BoxFit.contain,
-                            ),
+            transitionType: ContainerTransitionType.fadeThrough,
+            closedElevation: 1,
+            closedShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            openShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            openElevation: 0,
+            transitionDuration: const Duration(milliseconds: 500),
+            closedColor: Color(widget.selectedContainerBgIndex),
+            openColor: colorTheme.surface,
+            openBuilder: (context, _) => ExtendWidget('humidity_widget'),
+            closedBuilder: (context, openContainer) {
+              return GestureDetector(
+                onTap: _tapHandler(
+                  context,
+                  widgetKey: 'humidity_widget',
+                  openContainer: openContainer,
+                  useAnimation: useAnimation,
+                  enabled: !_isNoData(widget.currentPressure),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color(widget.selectedContainerBgIndex),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Stack(
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 1,
+                          child: SvgPicture.string(
+                            buildHumidity(colorTheme.tertiaryContainer, widget.currentHumidity),
+                            fit: BoxFit.contain,
                           ),
-                          ListTile(
-                            leading: Icon(
-                              Symbols.humidity_high,
-                              fill: 1,
-                              color: Theme.of(context).brightness ==
-                                      Brightness.dark
-                                  ? Colors.white
-                                  : Colors.black,
-                            ),
-                            horizontalTitleGap: 5,
-                            contentPadding: EdgeInsetsDirectional.only(
-                                start: 10, bottom: 0),
-                            title: Text(
-                              "humidity".tr(),
+                        ),
+                        ListTile(
+                          leading: Icon(
+                            Symbols.humidity_high,
+                            fill: 1,
+                            color: headerFg,
+                          ),
+                          horizontalTitleGap: 5,
+                          contentPadding: const EdgeInsetsDirectional.only(start: 10, bottom: 0),
+                          title: Text(
+                            "humidity".tr(),
+                            style: TextStyle(color: headerFg),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "${_isNoData(widget.currentHumidity) ? '--' : widget.currentHumidity}%",
                               style: TextStyle(
-                                  color: Theme.of(context).brightness ==
-                                          Brightness.dark
-                                      ? Colors.white
-                                      : Colors.black),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                                fontFamily: "FlexFontEn",
+                                color: colorTheme.onTertiaryContainer,
+                                fontSize: isFoldable ? 70 : size.width * 0.13,
+                              ),
                             ),
                           ),
-                          Container(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  "${widget.currentHumidity == 0.0000001 ? '--' : widget.currentHumidity}%",
-                                  style: TextStyle(
-                                    fontFamily: "FlexFontEn",
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onTertiaryContainer,
-                                    fontSize: isFoldableLayout(context)
-                                        ? 70
-                                        : MediaQuery.of(context).size.width *
-                                            0.13,
+                        ),
+                        Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.only(start: 10, bottom: 10),
+                            child: Row(
+                              spacing: 10,
+                              children: [
+                                Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: colorTheme.tertiary,
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      _isNoData(widget.currentDewPoint) ? '--' : "$dewpointConverted°",
+                                      style: TextStyle(
+                                        fontFamily: "FlexFontEn",
+                                        color: colorTheme.onTertiary,
+                                        fontSize: 16,
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              )),
-                          Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Padding(
-                                padding: EdgeInsetsDirectional.only(
-                                    start: 10, bottom: 10),
-                                child: Row(
-                                  spacing: 10,
-                                  children: [
-                                    Container(
-                                      width: 40,
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .tertiary,
-                                        borderRadius: BorderRadius.circular(50),
-                                      ),
-                                      child: Center(
-                                          child: Text(
-                                              widget.currentDewPoint ==
-                                                      0.0000001
-                                                  ? '--'
-                                                  : "$dewpointConverted°",
-                                              style: TextStyle(
-                                                fontFamily: "FlexFontEn",
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .onTertiary,
-                                                fontSize: 16,
-                                              ))),
-                                    ),
-                                    Flexible(
-                                        child: Text(
-                                      "dew_point".tr(),
-                                      style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ))
-                                  ],
+                                Flexible(
+                                  child: Text(
+                                    "dew_point".tr(),
+                                    style: TextStyle(color: colorTheme.onSurface),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
-                              )),
-                        ],
-                      ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  onTap: () {
-                    if (widget.isFromHome) {
-                      if (widget.currentPressure == 0.0000001) {
-                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Row(
-                          spacing: 10,
-                          children: [
-                            Icon(
-                              Symbols.error,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onInverseSurface,
-                            ),
-                            Text(_noDataAvailableMessageKey.tr())
-                          ],
-                        )));
-                      } else {
-                        !useAnimation
-                            ? Navigator.of(context).push(PageRouteBuilder(
-                                opaque: true,
-                                fullscreenDialog: true,
-                                reverseTransitionDuration:
-                                    Duration(milliseconds: 200),
-                                pageBuilder:
-                                    (context, animation, secondaryAnimation) {
-                                  return ExtendWidget('humidity_widget');
-                                },
-                                transitionsBuilder: (context, animation,
-                                    secondaryAnimation, child) {
-                                  return FadeTransition(
-                                    opacity: animation,
-                                    child: child,
-                                  );
-                                },
-                              ))
-                            : openContainer();
-                      }
-                    }
-                  },
-                );
-              });
+                ),
+              );
+            },
+          );
+
         case 1:
           return OpenContainer(
             transitionType: ContainerTransitionType.fadeThrough,
@@ -457,14 +450,19 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
               borderRadius: BorderRadius.circular(20),
             ),
             openElevation: 0,
-            transitionDuration: Duration(milliseconds: 500),
+            transitionDuration: const Duration(milliseconds: 500),
             closedColor: Color(widget.selectedContainerBgIndex),
             openColor: colorTheme.surface,
-            openBuilder: (context, _) {
-              return ExtendWidget('sun_widget');
-            },
+            openBuilder: (context, _) => ExtendWidget('sun_widget'),
             closedBuilder: (context, openContainer) {
               return GestureDetector(
+                onTap: _tapHandler(
+                  context,
+                  widgetKey: 'sun_widget',
+                  openContainer: openContainer,
+                  useAnimation: useAnimation,
+                  enabled: true,
+                ),
                 child: Container(
                   clipBehavior: Clip.hardEdge,
                   decoration: BoxDecoration(
@@ -478,37 +476,29 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                           Symbols.wb_twilight,
                           weight: 500,
                           fill: 1,
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? Colors.white
-                              : Colors.black,
+                          color: headerFg,
                         ),
                         horizontalTitleGap: 5,
-                        contentPadding:
-                            EdgeInsetsDirectional.only(start: 10, bottom: 0),
-                        title: Text("sun_tile_page".tr(),
-                            style: TextStyle(
-                                color: Theme.of(context).brightness ==
-                                        Brightness.dark
-                                    ? Colors.white
-                                    : Colors.black),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis),
+                        contentPadding: const EdgeInsetsDirectional.only(start: 10, bottom: 0),
+                        title: Text(
+                          "sun_tile_page".tr(),
+                          style: TextStyle(color: headerFg),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                       Positioned(
                         bottom: -1,
                         left: 0,
                         right: 0,
                         child: SizedBox(
-                          height: isFoldableLayout(context)
-                              ? 120
-                              : MediaQuery.of(context).size.height * 0.12,
+                          height: isFoldable ? 120 : size.height * 0.12,
                           child: SvgPicture.string(
                             clipBehavior: Clip.none,
                             buildSunPathWithIcon(
-                              pathColor: Theme.of(context).colorScheme.primary,
+                              pathColor: colorTheme.primary,
                               percent: percent,
-                              outLineColor:
-                                  Theme.of(context).colorScheme.onSurface,
+                              outLineColor: colorTheme.onSurface,
                             ),
                             allowDrawingOutsideViewBox: true,
                             fit: BoxFit.fill,
@@ -524,90 +514,71 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                           decoration: BoxDecoration(
                             border: Border(
                               top: BorderSide(
-                                color: Theme.of(context).colorScheme.outline,
+                                color: colorTheme.outline,
                                 width: 1.5,
                               ),
                             ),
                             color: const Color.fromRGBO(0, 0, 0, 0.5),
-                            // borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))
                           ),
                         ),
                       ),
                       Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                spacing: 5,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    Symbols.vertical_align_top,
-                                    weight: 500,
-                                    size: 17,
+                        alignment: Alignment.bottomCenter,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              spacing: 5,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(
+                                  Symbols.vertical_align_top,
+                                  weight: 500,
+                                  size: 17,
+                                  color: Colors.white,
+                                ),
+                                Text(
+                                  sunriseFormat,
+                                  style: const TextStyle(
                                     color: Colors.white,
+                                    fontFamily: "FlexFontEn",
+                                    fontSize: 14,
                                   ),
-                                  Text(sunriseFormat,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: "FlexFontEn",
-                                        fontSize: 14,
-                                      ))
-                                ],
-                              ),
-                              Row(
-                                spacing: 5,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    Symbols.vertical_align_bottom,
-                                    weight: 500,
-                                    size: 17,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              spacing: 5,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(
+                                  Symbols.vertical_align_bottom,
+                                  weight: 500,
+                                  size: 17,
+                                  color: Colors.white,
+                                ),
+                                Text(
+                                  sunsetFormat,
+                                  style: const TextStyle(
+                                    fontFamily: "FlexFontEn",
                                     color: Colors.white,
+                                    fontSize: 14,
                                   ),
-                                  Text(sunsetFormat,
-                                      style: TextStyle(
-                                          fontFamily: "FlexFontEn",
-                                          color: Colors.white,
-                                          fontSize: 14)),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 10,
-                              )
-                            ],
-                          )),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
-                onTap: () {
-                  widget.isFromHome
-                      ? !useAnimation
-                          ? Navigator.of(context).push(PageRouteBuilder(
-                              opaque: true,
-                              fullscreenDialog: true,
-                              reverseTransitionDuration:
-                                  Duration(milliseconds: 200),
-                              pageBuilder:
-                                  (context, animation, secondaryAnimation) {
-                                return ExtendWidget('sun_widget');
-                              },
-                              transitionsBuilder: (context, animation,
-                                  secondaryAnimation, child) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: child,
-                                );
-                              },
-                            ))
-                          : openContainer()
-                      : null;
-                },
               );
             },
           );
+
         case 2:
           return OpenContainer(
             transitionType: ContainerTransitionType.fadeThrough,
@@ -617,219 +588,141 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
               borderRadius: BorderRadius.circular(20),
             ),
             openElevation: 0,
-            transitionDuration: Duration(milliseconds: 500),
+            transitionDuration: const Duration(milliseconds: 500),
             closedColor: Color(widget.selectedContainerBgIndex),
             openColor: colorTheme.surface,
-            openBuilder: (context, _) {
-              return ExtendWidget('pressure_widget');
-            },
+            openBuilder: (context, _) => ExtendWidget('pressure_widget'),
             closedBuilder: (context, openContainer) {
               return GestureDetector(
-                child: Stack(children: [
-                  AspectRatio(
-                    aspectRatio: 1,
-                    child: SvgPicture.string(
+                onTap: _tapHandler(
+                  context,
+                  widgetKey: 'pressure_widget',
+                  openContainer: openContainer,
+                  useAnimation: useAnimation,
+                  enabled: !_isNoData(widget.currentPressure),
+                ),
+                child: Stack(
+                  children: [
+                    AspectRatio(
+                      aspectRatio: 1,
+                      child: SvgPicture.string(
                         buildPressueSvg(
-                            Theme.of(context).colorScheme.primary,
-                            Theme.of(context)
-                                .colorScheme
-                                .surfaceContainerHighest,
-                            Color(widget.selectedContainerBgIndex),
-                            widget.currentPressure.round()),
-                        fit: BoxFit.contain),
-                  ),
-                  HeaderWidgetConditions(
-                    headerText: "pressure".tr(),
-                    headerIcon: Symbols.compress,
-                  ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      widget.currentPressure == 0.0000001
-                          ? '--'
-                          : "${convertedPressure.round()}",
-                      style: TextStyle(
-                        fontFamily: "FlexFontEn",
-                        color: Theme.of(context).colorScheme.onSurface,
-                        fontSize: isFoldableLayout(context)
-                            ? 60
-                            : MediaQuery.of(context).size.width * 0.1,
+                          colorTheme.primary,
+                          colorTheme.surfaceContainerHighest,
+                          Color(widget.selectedContainerBgIndex),
+                          widget.currentPressure.round(),
+                        ),
+                        fit: BoxFit.contain,
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 30),
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
+                    HeaderWidgetConditions(
+                      headerText: "pressure".tr(),
+                      headerIcon: Symbols.compress,
+                    ),
+                    Align(
+                      alignment: Alignment.center,
                       child: Text(
-                        localizePressureUnit(pressureUnit, context.locale),
+                        _isNoData(widget.currentPressure) ? '--' : "${convertedPressure.round()}",
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          fontSize: 18,
+                          fontFamily: "FlexFontEn",
+                          color: colorTheme.onSurface,
+                          fontSize: isFoldable ? 60 : size.width * 0.1,
                         ),
                       ),
                     ),
-                  ),
-                ]),
-                onTap: () {
-                  if (widget.isFromHome) {
-                    if (widget.currentPressure == 0.0000001) {
-                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Row(
-                        spacing: 10,
-                        children: [
-                          Icon(
-                            Symbols.error,
-                            color:
-                                Theme.of(context).colorScheme.onInverseSurface,
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 30),
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Text(
+                          localizePressureUnit(settings.pressureUnit, context.locale),
+                          style: TextStyle(
+                            color: colorTheme.onSurfaceVariant,
+                            fontSize: 18,
                           ),
-                          Text(_noDataAvailableMessageKey.tr())
-                        ],
-                      )));
-                    } else {
-                      !useAnimation
-                          ? Navigator.of(context).push(PageRouteBuilder(
-                              opaque: true,
-                              fullscreenDialog: true,
-                              reverseTransitionDuration:
-                                  Duration(milliseconds: 200),
-                              pageBuilder:
-                                  (context, animation, secondaryAnimation) {
-                                return ExtendWidget('pressure_widget');
-                              },
-                              transitionsBuilder: (context, animation,
-                                  secondaryAnimation, child) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: child,
-                                );
-                              },
-                            ))
-                          : openContainer();
-                    }
-                  }
-                },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               );
             },
           );
+
         case 3:
           return OpenContainer(
-              transitionType: ContainerTransitionType.fadeThrough,
-              closedElevation: 1,
-              closedShape: const CircleBorder(),
-              openShape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              openElevation: 0,
-              transitionDuration: Duration(milliseconds: 500),
-              closedColor: Color(widget.selectedContainerBgIndex),
-              openColor: colorTheme.surface,
-              openBuilder: (context, _) {
-                return ExtendWidget('visibility_widget');
-              },
-              closedBuilder: (context, openContainer) {
-                return GestureDetector(
-                    child: ClipRRect(
+            transitionType: ContainerTransitionType.fadeThrough,
+            closedElevation: 1,
+            closedShape: const CircleBorder(),
+            openShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            openElevation: 0,
+            transitionDuration: const Duration(milliseconds: 500),
+            closedColor: Color(widget.selectedContainerBgIndex),
+            openColor: colorTheme.surface,
+            openBuilder: (context, _) => ExtendWidget('visibility_widget'),
+            closedBuilder: (context, openContainer) {
+              return GestureDetector(
+                onTap: _tapHandler(
+                  context,
+                  widgetKey: 'visibility_widget',
+                  openContainer: openContainer,
+                  useAnimation: useAnimation,
+                  enabled: !_isNoData(widget.currentVisibility),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(999),
+                  child: Container(
+                    height: 160,
+                    decoration: BoxDecoration(
+                      color: Color(widget.selectedContainerBgIndex),
                       borderRadius: BorderRadius.circular(999),
-                      child: Container(
-                        height: 160,
-                        decoration: BoxDecoration(
-                          color: Color(widget.selectedContainerBgIndex),
-                          borderRadius: BorderRadius.circular(999),
-                        ),
-                        child: Stack(
-                          children: [
-                            AspectRatio(
-                              aspectRatio: 1,
-                              child: SvgPicture.string(
-                                buildVisibilitySvg(Theme.of(context)
-                                    .colorScheme
-                                    .tertiaryContainer),
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                            HeaderWidgetConditions(
-                              headerText: "visibility".tr(),
-                              headerIcon: Symbols.visibility,
-                            ),
-                            Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                widget.currentVisibility == 0.0000001
-                                    ? '--'
-                                    : "${convertedVisibility.round()}",
-                                style: TextStyle(
-                                  fontFamily: "FlexFontEn",
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onTertiaryContainer,
-                                  fontSize: isFoldableLayout(context)
-                                      ? 60
-                                      : MediaQuery.of(context).size.width * 0.1,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 30),
-                              child: Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Text(
-                                  localizeVisibilityUnit(
-                                      visibilityUnit, context.locale),
-                                  style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.onSurface,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
                     ),
-                    onTap: () {
-                      if (widget.isFromHome) {
-                        if (widget.currentVisibility == 0.0000001) {
-                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Row(
-                            spacing: 10,
-                            children: [
-                              Icon(
-                                Symbols.error,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onInverseSurface,
+                    child: Stack(
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 1,
+                          child: SvgPicture.string(
+                            buildVisibilitySvg(colorTheme.tertiaryContainer),
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        HeaderWidgetConditions(
+                          headerText: "visibility".tr(),
+                          headerIcon: Symbols.visibility,
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            _isNoData(widget.currentVisibility) ? '--' : "${convertedVisibility.round()}",
+                            style: TextStyle(
+                              fontFamily: "FlexFontEn",
+                              color: colorTheme.onTertiaryContainer,
+                              fontSize: isFoldable ? 60 : size.width * 0.1,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 30),
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Text(
+                              localizeVisibilityUnit(settings.visibilityUnit, context.locale),
+                              style: TextStyle(
+                                color: colorTheme.onSurface,
+                                fontSize: 18,
                               ),
-                              Text(_noDataAvailableMessageKey.tr())
-                            ],
-                          )));
-                        } else {
-                          !useAnimation
-                              ? Navigator.of(context).push(PageRouteBuilder(
-                                  opaque: true,
-                                  fullscreenDialog: true,
-                                  reverseTransitionDuration:
-                                      Duration(milliseconds: 200),
-                                  pageBuilder:
-                                      (context, animation, secondaryAnimation) {
-                                    return ExtendWidget('visibility_widget');
-                                  },
-                                  transitionsBuilder: (context, animation,
-                                      secondaryAnimation, child) {
-                                    return FadeTransition(
-                                      opacity: animation,
-                                      child: child,
-                                    );
-                                  },
-                                ))
-                              : openContainer();
-                        }
-                      }
-                    });
-              });
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
 
         case 4:
           return OpenContainer(
@@ -840,228 +733,154 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
               borderRadius: BorderRadius.circular(20),
             ),
             openElevation: 0,
-            transitionDuration: Duration(milliseconds: 500),
+            transitionDuration: const Duration(milliseconds: 500),
             closedColor: Color(widget.selectedContainerBgIndex),
             openColor: colorTheme.surface,
-            openBuilder: (context, _) {
-              return ExtendWidget('winddirc_widget');
-            },
+            openBuilder: (context, _) => ExtendWidget('winddirc_widget'),
             closedBuilder: (context, openContainer) {
               return GestureDetector(
+                onTap: _tapHandler(
+                  context,
+                  widgetKey: 'winddirc_widget',
+                  openContainer: openContainer,
+                  useAnimation: useAnimation,
+                  enabled: !_isNoData(widget.currentWindSpeed),
+                ),
                 child: ClipRRect(
-                    borderRadius: BorderRadius.circular(999),
-                    child: Container(
-                        height: 160,
-                        decoration: BoxDecoration(
-                          color: Color(widget.selectedContainerBgIndex),
-                          borderRadius: BorderRadius.circular(999),
+                  borderRadius: BorderRadius.circular(999),
+                  child: Container(
+                    height: 160,
+                    decoration: BoxDecoration(
+                      color: Color(widget.selectedContainerBgIndex),
+                      borderRadius: BorderRadius.circular(999),
+                    ),
+                    child: Stack(
+                      children: [
+                        WindCompassWidget(
+                          currentWindDirc: widget.currentWindDirc,
+                          backgroundColor: Color(widget.selectedContainerBgIndex),
                         ),
-                        child: Stack(children: [
-                          WindCompassWidget(
-                              currentWindDirc: widget.currentWindDirc,
-                              backgroundColor:
-                                  Color(widget.selectedContainerBgIndex)),
-                          HeaderWidgetConditions(
-                            headerText: "wind".tr(),
-                            headerIcon: Symbols.air,
+                        HeaderWidgetConditions(
+                          headerText: "wind".tr(),
+                          headerIcon: Symbols.air,
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            _isNoData(widget.currentWindDirc) ? '--' : getCompassDirection(widget.currentWindDirc),
+                            style: TextStyle(
+                              color: colorTheme.onSurface,
+                              fontSize: isFoldable
+                                  ? 60
+                                  : context.locale.languageCode == 'bg'
+                                      ? 24
+                                      : size.width * 0.1,
+                            ),
                           ),
-                          Align(
-                            alignment: Alignment.center,
+                        ),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Container(
+                            margin: const EdgeInsets.only(left: 20, right: 20),
+                            height: 55,
                             child: Text(
-                              widget.currentWindDirc == 0.0000001
+                              _isNoData(widget.currentWindSpeed)
                                   ? '--'
-                                  : getCompassDirection(widget.currentWindDirc),
+                                  : '${settings.windUnit == 'M/s' ? formattedWindSpeed.toStringAsFixed(1) : formattedWindSpeed.round()} ${localizeWindUnit(settings.windUnit, context.locale)}',
                               style: TextStyle(
-                                color: Theme.of(context).colorScheme.onSurface,
-                                fontSize: isFoldableLayout(context)
-                                    ? 60
-                                    : context.locale.languageCode == 'bg'
-                                        ? 24
-                                        : MediaQuery.of(context).size.width *
-                                            0.1,
+                                color: colorTheme.onSurfaceVariant,
+                                fontSize: 18,
                               ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
                             ),
                           ),
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Container(
-                              margin: EdgeInsets.only(left: 20, right: 20),
-                              height: 55,
-                              child: Text(
-                                widget.currentWindSpeed == 0.0000001
-                                    ? '--'
-                                    : '${windUnit == 'M/s' ? formattedWindSpeed.toStringAsFixed(1) : formattedWindSpeed.round()} ${localizeWindUnit(windUnit, context.locale)}',
-                                style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSurfaceVariant,
-                                  fontSize: 18,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                        ]))),
-                onTap: () {
-                  if (widget.isFromHome) {
-                    if (widget.currentWindSpeed == 0.0000001) {
-                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Row(
-                        spacing: 10,
-                        children: [
-                          Icon(
-                            Symbols.error,
-                            color:
-                                Theme.of(context).colorScheme.onInverseSurface,
-                          ),
-                          Text(_noDataAvailableMessageKey.tr())
-                        ],
-                      )));
-                    } else {
-                      !useAnimation
-                          ? Navigator.of(context).push(PageRouteBuilder(
-                              opaque: true,
-                              fullscreenDialog: true,
-                              reverseTransitionDuration:
-                                  Duration(milliseconds: 200),
-                              pageBuilder:
-                                  (context, animation, secondaryAnimation) {
-                                return ExtendWidget('winddirc_widget');
-                              },
-                              transitionsBuilder: (context, animation,
-                                  secondaryAnimation, child) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: child,
-                                );
-                              },
-                            ))
-                          : openContainer();
-                    }
-                  }
-                },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               );
             },
           );
+
         case 5:
           return OpenContainer(
-              transitionType: ContainerTransitionType.fadeThrough,
-              closedElevation: 0,
-              openShape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              openElevation: 0,
-              transitionDuration: Duration(milliseconds: 500),
-              closedColor: Colors.transparent,
-              middleColor: Colors.transparent,
-              openColor: colorTheme.surface,
-              openBuilder: (context, _) {
-                return ExtendWidget('uv_widget');
-              },
-              closedBuilder: (context, openContainer) {
-                return GestureDetector(
-                    child: ClipRRect(
+            transitionType: ContainerTransitionType.fadeThrough,
+            closedElevation: 0,
+            openShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            openElevation: 0,
+            transitionDuration: const Duration(milliseconds: 500),
+            closedColor: Colors.transparent,
+            middleColor: Colors.transparent,
+            openColor: colorTheme.surface,
+            openBuilder: (context, _) => ExtendWidget('uv_widget'),
+            closedBuilder: (context, openContainer) {
+              return GestureDetector(
+                onTap: _tapHandler(
+                  context,
+                  widgetKey: 'uv_widget',
+                  openContainer: openContainer,
+                  useAnimation: useAnimation,
+                  enabled: !_isNoData(widget.currentUvIndex),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(999),
+                  child: Container(
+                    height: 160,
+                    decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(999),
-                      child: Container(
-                        height: 160,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(999),
-                        ),
-                        child: Stack(
-                          children: [
-                            AspectRatio(
-                              aspectRatio: 1,
-                              child: SvgPicture.string(
-                                buildUVSvg(
-                                    Color(widget.selectedContainerBgIndex),
-                                    widget.currentUvIndex.round()),
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                            HeaderWidgetConditions(
-                              headerText: "uv_index".tr(),
-                              headerIcon: Symbols.light_mode,
-                            ),
-                            Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                "${widget.currentUvIndex == 0.0000001 ? '--' : widget.currentUvIndex.round()}",
-                                style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.onSurface,
-                                  fontSize: isFoldableLayout(context)
-                                      ? 60
-                                      : MediaQuery.of(context).size.width * 0.1,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 40),
-                              child: Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Text(
-                                  widget.currentUvIndex == 0.0000001
-                                      ? '--'
-                                      : getUvIndexType(
-                                          widget.currentUvIndex.round()),
-                                  style: TextStyle(
-                                    fontFamily: "FlexFontEn",
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant,
-                                    fontSize: 15,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
                     ),
-                    onTap: () {
-                      if (widget.isFromHome) {
-                        if (widget.currentUvIndex == 0.0000001) {
-                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Row(
-                            spacing: 10,
-                            children: [
-                              Icon(
-                                Symbols.error,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onInverseSurface,
+                    child: Stack(
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 1,
+                          child: SvgPicture.string(
+                            buildUVSvg(
+                              Color(widget.selectedContainerBgIndex),
+                              widget.currentUvIndex.round(),
+                            ),
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        HeaderWidgetConditions(
+                          headerText: "uv_index".tr(),
+                          headerIcon: Symbols.light_mode,
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            _isNoData(widget.currentUvIndex) ? '--' : "${widget.currentUvIndex.round()}",
+                            style: TextStyle(
+                              color: colorTheme.onSurface,
+                              fontSize: isFoldable ? 60 : size.width * 0.1,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 40),
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Text(
+                              _isNoData(widget.currentUvIndex) ? '--' : getUvIndexType(widget.currentUvIndex.round()),
+                              style: TextStyle(
+                                fontFamily: "FlexFontEn",
+                                color: colorTheme.onSurfaceVariant,
+                                fontSize: 15,
                               ),
-                              Text(_noDataAvailableMessageKey.tr())
-                            ],
-                          )));
-                        } else {
-                          !useAnimation
-                              ? Navigator.of(context).push(PageRouteBuilder(
-                                  opaque: true,
-                                  fullscreenDialog: true,
-                                  reverseTransitionDuration:
-                                      Duration(milliseconds: 200),
-                                  pageBuilder:
-                                      (context, animation, secondaryAnimation) {
-                                    return ExtendWidget('uv_widget');
-                                  },
-                                  transitionsBuilder: (context, animation,
-                                      secondaryAnimation, child) {
-                                    return FadeTransition(
-                                      opacity: animation,
-                                      child: child,
-                                    );
-                                  },
-                                ))
-                              : openContainer();
-                        }
-                      }
-                    });
-              });
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
 
         case 6:
           return OpenContainer(
@@ -1074,14 +893,19 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
               borderRadius: BorderRadius.circular(20),
             ),
             openElevation: 0,
-            transitionDuration: Duration(milliseconds: 500),
+            transitionDuration: const Duration(milliseconds: 500),
             closedColor: Color(widget.selectedContainerBgIndex),
             openColor: colorTheme.surface,
-            openBuilder: (context, _) {
-              return ExtendWidget('aqi_widget');
-            },
+            openBuilder: (context, _) => ExtendWidget('aqi_widget'),
             closedBuilder: (context, openContainer) {
               return GestureDetector(
+                onTap: _tapHandler(
+                  context,
+                  widgetKey: 'aqi_widget',
+                  openContainer: openContainer,
+                  useAnimation: useAnimation,
+                  enabled: !_isNoData(aqiFormat),
+                ),
                 child: Container(
                   decoration: BoxDecoration(
                     color: Color(widget.selectedContainerBgIndex),
@@ -1094,36 +918,28 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                           Symbols.airwave,
                           weight: 500,
                           fill: 1,
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? Colors.white
-                              : Colors.black,
+                          color: headerFg,
                         ),
                         horizontalTitleGap: 5,
-                        contentPadding:
-                            EdgeInsetsDirectional.only(start: 10, bottom: 0),
-                        title: Text("AQI",
-                            style: TextStyle(
-                                color: Theme.of(context).brightness ==
-                                        Brightness.dark
-                                    ? Colors.white
-                                    : Colors.black),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis),
+                        contentPadding: const EdgeInsetsDirectional.only(start: 10, bottom: 0),
+                        title: Text(
+                          "AQI",
+                          style: TextStyle(color: headerFg),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                       Align(
                         alignment: Alignment.centerRight,
                         child: Padding(
-                          padding: EdgeInsets.only(right: 10, bottom: 12),
+                          padding: const EdgeInsets.only(right: 10, bottom: 12),
                           child: Text(
-                            aqiFormat == 0.0000001
-                                ? '--'
-                                : aqiFormat.toString(),
+                            _isNoData(aqiFormat) ? '--' : aqiFormat.toString(),
                             style: TextStyle(
-                                fontFamily: "FlexFontEn",
-                                fontSize: isFoldableLayout(context)
-                                    ? 60
-                                    : MediaQuery.of(context).size.width * 0.11,
-                                color: Theme.of(context).colorScheme.onSurface),
+                              fontFamily: "FlexFontEn",
+                              fontSize: isFoldable ? 60 : size.width * 0.11,
+                              color: colorTheme.onSurface,
+                            ),
                           ),
                         ),
                       ),
@@ -1134,65 +950,25 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                       Align(
                         alignment: Alignment.bottomRight,
                         child: Padding(
-                          padding: EdgeInsets.only(right: 10, bottom: 25),
+                          padding: const EdgeInsets.only(right: 10, bottom: 25),
                           child: Text(
-                            aqiFormat == 0.0000001
+                            _isNoData(aqiFormat)
                                 ? '--'
-                                : getAQIIndexType(aqiFormat,
-                                    aqiUnit == 'European' ? true : false),
+                                : getAQIIndexType(aqiFormat, settings.aqiUnit == 'European'),
                             style: TextStyle(
-                                fontSize: 17,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurfaceVariant),
+                              fontSize: 17,
+                              color: colorTheme.onSurfaceVariant,
+                            ),
                           ),
                         ),
                       ),
                     ],
                   ),
                 ),
-                onTap: () {
-                  if (widget.isFromHome) {
-                    if (aqiFormat == 0.0000001) {
-                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Row(
-                        spacing: 10,
-                        children: [
-                          Icon(
-                            Symbols.error,
-                            color:
-                                Theme.of(context).colorScheme.onInverseSurface,
-                          ),
-                          Text(_noDataAvailableMessageKey.tr())
-                        ],
-                      )));
-                    } else {
-                      !useAnimation
-                          ? Navigator.of(context).push(PageRouteBuilder(
-                              opaque: true,
-                              fullscreenDialog: true,
-                              reverseTransitionDuration:
-                                  Duration(milliseconds: 200),
-                              pageBuilder:
-                                  (context, animation, secondaryAnimation) {
-                                return ExtendWidget('aqi_widget');
-                              },
-                              transitionsBuilder: (context, animation,
-                                  secondaryAnimation, child) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: child,
-                                );
-                              },
-                            ))
-                          : openContainer();
-                    }
-                  }
-                },
               );
             },
           );
+
         case 7:
           return OpenContainer(
             transitionType: ContainerTransitionType.fadeThrough,
@@ -1204,14 +980,19 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
               borderRadius: BorderRadius.circular(20),
             ),
             openElevation: 0,
-            transitionDuration: Duration(milliseconds: 500),
+            transitionDuration: const Duration(milliseconds: 500),
             closedColor: Color(widget.selectedContainerBgIndex),
             openColor: colorTheme.surface,
-            openBuilder: (context, _) {
-              return ExtendWidget('precip_widget');
-            },
+            openBuilder: (context, _) => ExtendWidget('precip_widget'),
             closedBuilder: (context, openContainer) {
               return GestureDetector(
+                onTap: _tapHandler(
+                  context,
+                  widgetKey: 'precip_widget',
+                  openContainer: openContainer,
+                  useAnimation: useAnimation,
+                  enabled: !_isNoData(widget.currentTotalPrec),
+                ),
                 child: Container(
                   decoration: BoxDecoration(
                     color: Color(widget.selectedContainerBgIndex),
@@ -1224,56 +1005,43 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                           Symbols.rainy_heavy,
                           weight: 500,
                           fill: 1,
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? Colors.white
-                              : Colors.black,
+                          color: headerFg,
                         ),
                         horizontalTitleGap: 5,
-                        contentPadding:
-                            EdgeInsetsDirectional.only(start: 10, bottom: 0),
-                        title: Text("precipitation".tr(),
-                            style: TextStyle(
-                                color: Theme.of(context).brightness ==
-                                        Brightness.dark
-                                    ? Colors.white
-                                    : Colors.black),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis),
+                        contentPadding: const EdgeInsetsDirectional.only(start: 10, bottom: 0),
+                        title: Text(
+                          "precipitation".tr(),
+                          style: TextStyle(color: headerFg),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(
-                          padding:
-                              EdgeInsetsDirectional.only(start: 10, bottom: 12),
+                          padding: const EdgeInsetsDirectional.only(start: 10, bottom: 12),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             spacing: 2,
                             children: [
                               Text(
-                                widget.currentTotalPrec == 0.0000001
+                                _isNoData(widget.currentTotalPrec)
                                     ? '--'
                                     : "${double.parse(convertedPrecip.toStringAsFixed(2))}",
                                 style: TextStyle(
-                                    fontFamily: "FlexFontEn",
-                                    fontSize: isFoldableLayout(context)
-                                        ? 60
-                                        : MediaQuery.of(context).size.width *
-                                                0.10 +
-                                            0.5,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurface),
+                                  fontFamily: "FlexFontEn",
+                                  fontSize: isFoldable ? 60 : size.width * 0.10 + 0.5,
+                                  color: colorTheme.onSurface,
+                                ),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(top: 15),
+                                padding: const EdgeInsets.only(top: 15),
                                 child: Text(
-                                  localizePrecipUnit(
-                                      precipitationUnit, context.locale),
+                                  localizePrecipUnit(settings.precipitationUnit, context.locale),
                                   style: TextStyle(
-                                      fontSize: 20,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary),
+                                    fontSize: 20,
+                                    color: colorTheme.secondary,
+                                  ),
                                 ),
                               ),
                             ],
@@ -1281,78 +1049,40 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                         ),
                       ),
                       Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Padding(
-                              padding: EdgeInsets.only(
-                                  left: 10, right: 10, bottom: 10),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                      width: 100,
-                                      child: Text(
-                                        "total_precip_sub".tr(),
-                                        style: TextStyle(
-                                            height: 1.2,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSurfaceVariant),
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                      )),
-                                  SvgPicture.asset(
-                                    WeatherIconMapper.getIcon(63, 1),
-                                    width: 30,
-                                    height: 30,
-                                  )
-                                ],
-                              ))),
+                        alignment: Alignment.bottomLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                width: 100,
+                                child: Text(
+                                  "total_precip_sub".tr(),
+                                  style: TextStyle(
+                                    height: 1.2,
+                                    color: colorTheme.onSurfaceVariant,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              SvgPicture.asset(
+                                WeatherIconMapper.getIcon(63, 1),
+                                width: 30,
+                                height: 30,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
-                onTap: () {
-                  if (widget.isFromHome) {
-                    if (widget.currentTotalPrec == 0.0000001) {
-                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Row(
-                        spacing: 10,
-                        children: [
-                          Icon(
-                            Symbols.error,
-                            color:
-                                Theme.of(context).colorScheme.onInverseSurface,
-                          ),
-                          Text(_noDataAvailableMessageKey.tr())
-                        ],
-                      )));
-                    } else {
-                      !useAnimation
-                          ? Navigator.of(context).push(PageRouteBuilder(
-                              opaque: true,
-                              fullscreenDialog: true,
-                              reverseTransitionDuration:
-                                  Duration(milliseconds: 200),
-                              pageBuilder:
-                                  (context, animation, secondaryAnimation) {
-                                return ExtendWidget('precip_widget');
-                              },
-                              transitionsBuilder: (context, animation,
-                                  secondaryAnimation, child) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: child,
-                                );
-                              },
-                            ))
-                          : openContainer();
-                    }
-                  }
-                },
               );
             },
           );
+
         case 8:
           return OpenContainer(
             transitionType: ContainerTransitionType.fadeThrough,
@@ -1364,14 +1094,20 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
               borderRadius: BorderRadius.circular(20),
             ),
             openElevation: 0,
-            transitionDuration: Duration(milliseconds: 500),
+            transitionDuration: const Duration(milliseconds: 500),
             closedColor: Color(widget.selectedContainerBgIndex),
             openColor: colorTheme.surface,
-            openBuilder: (context, _) {
-              return ExtendWidget('moon_widget');
-            },
+            openBuilder: (context, _) => ExtendWidget('moon_widget'),
             closedBuilder: (context, openContainer) {
               return GestureDetector(
+                onTap: _tapHandler(
+                  context,
+                  widgetKey: 'moon_widget',
+                  openContainer: openContainer,
+                  useAnimation: useAnimation,
+                  enabled: !(moonriseTime == null && moonsetTime == null),
+                  showSnackIfDisabled: false,
+                ),
                 child: Container(
                   clipBehavior: Clip.hardEdge,
                   decoration: BoxDecoration(
@@ -1382,39 +1118,33 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                     children: [
                       ListTile(
                         leading: MoonWidget(
-                          date: now,
+                          date: nowLocal,
                           pixelSize: 128,
                           size: 22,
                           moonColor: Colors.amber,
-                          earthshineColor: Colors.blueGrey.shade900,
+                          earthshineColor: Colors.blueGrey,
                         ),
                         horizontalTitleGap: 5,
-                        contentPadding:
-                            EdgeInsetsDirectional.only(start: 10, bottom: 0),
-                        title: Text("moon".tr(),
-                            style: TextStyle(
-                                color: Theme.of(context).brightness ==
-                                        Brightness.dark
-                                    ? Colors.white
-                                    : Colors.black),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis),
+                        contentPadding: const EdgeInsetsDirectional.only(start: 10, bottom: 0),
+                        title: Text(
+                          "moon".tr(),
+                          style: TextStyle(color: headerFg),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                       Positioned(
                         bottom: -1,
                         left: 0,
                         right: 0,
                         child: SizedBox(
-                          height: isFoldableLayout(context)
-                              ? 120
-                              : MediaQuery.of(context).size.height * 0.12,
+                          height: isFoldable ? 120 : size.height * 0.12,
                           child: SvgPicture.string(
                             clipBehavior: Clip.none,
                             buildMoonPathWithIcon(
-                              pathColor: Theme.of(context).colorScheme.primary,
-                              percent: moonPercent!.toDouble(),
-                              outLineColor:
-                                  Theme.of(context).colorScheme.outline,
+                              pathColor: colorTheme.primary,
+                              percent: moonPercent,
+                              outLineColor: colorTheme.outline,
                             ),
                             allowDrawingOutsideViewBox: true,
                             fit: BoxFit.fill,
@@ -1430,185 +1160,154 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                           decoration: BoxDecoration(
                             border: Border(
                               top: BorderSide(
-                                color: Theme.of(context).colorScheme.outline,
+                                color: colorTheme.outline,
                                 width: 1.5,
                               ),
                             ),
                             color: const Color.fromRGBO(0, 0, 0, 0.5),
-                            // borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))
                           ),
                         ),
                       ),
                       Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                spacing: 5,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    Symbols.vertical_align_top,
-                                    weight: 500,
-                                    size: 17,
-                                    color: Colors.white,
-                                  ),
-                                  Text(moonriseFormat,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: "FlexFontEn",
-                                        fontSize: 14,
-                                      ))
-                                ],
-                              ),
-                              Row(
-                                spacing: 5,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    Symbols.vertical_align_bottom,
-                                    weight: 500,
-                                    size: 17,
-                                    color: Colors.white,
-                                  ),
-                                  Text(moonsetFormat,
-                                      style: TextStyle(
-                                          fontFamily: "FlexFontEn",
-                                          color: Colors.white,
-                                          fontSize: 14)),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 10,
-                              )
-                            ],
-                          )),
-                    ],
-                  ),
-                ),
-                onTap: () {
-                  if (widget.isFromHome) {
-                    if (moonriseFormat == "N/A" && moonsetFormat == "N/A") {
-                      return;
-                    } else {
-                      !useAnimation
-                          ? Navigator.of(context).push(PageRouteBuilder(
-                              opaque: true,
-                              fullscreenDialog: true,
-                              reverseTransitionDuration:
-                                  Duration(milliseconds: 200),
-                              pageBuilder:
-                                  (context, animation, secondaryAnimation) {
-                                return ExtendWidget('moon_widget');
-                              },
-                              transitionsBuilder: (context, animation,
-                                  secondaryAnimation, child) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: child,
-                                );
-                              },
-                            ))
-                          : openContainer();
-                    }
-                  }
-                },
-              );
-            },
-          );
-        case 9:
-          return OpenContainer(
-              transitionType: ContainerTransitionType.fadeThrough,
-              closedElevation: 1,
-              closedShape: const CircleBorder(),
-              openShape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              openElevation: 0,
-              transitionDuration: Duration(milliseconds: 500),
-              closedColor: Color(widget.selectedContainerBgIndex),
-              openColor: colorTheme.surface,
-              openBuilder: (context, _) {
-                return SizedBox.shrink();
-              },
-              closedBuilder: (context, openContainer) {
-                return GestureDetector(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(999),
-                      child: Container(
-                        height: 160,
-                        decoration: BoxDecoration(
-                          color: Color(widget.selectedContainerBgIndex),
-                          borderRadius: BorderRadius.circular(999),
-                        ),
-                        child: Stack(
+                        alignment: Alignment.bottomCenter,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            AspectRatio(
-                              aspectRatio: 1,
-                              child: SvgPicture.string(
-                                buildCloudCoverSvg(Theme.of(context)
-                                    .colorScheme
-                                    .tertiaryContainer),
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                            HeaderWidgetConditions(
-                              headerText: "cloudiness".tr(),
-                              headerIcon: Symbols.cloud,
-                            ),
-                            Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                widget.currentVisibility == 0.0000001
-                                    ? '--'
-                                    : widget.cloudCover,
-                                style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onTertiaryContainer,
-                                  fontFamily: "FlexFontEn",
-                                  fontSize: isFoldableLayout(context)
-                                      ? 60
-                                      : MediaQuery.of(context).size.width * 0.1,
+                            Row(
+                              spacing: 5,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(
+                                  Symbols.vertical_align_top,
+                                  weight: 500,
+                                  size: 17,
+                                  color: Colors.white,
                                 ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 30),
-                              child: Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Text(
-                                  "%",
-                                  style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.onSurface,
-                                    fontSize: 20,
+                                Text(
+                                  moonriseFormat,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: "FlexFontEn",
+                                    fontSize: 14,
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
+                            Row(
+                              spacing: 5,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(
+                                  Symbols.vertical_align_bottom,
+                                  weight: 500,
+                                  size: 17,
+                                  color: Colors.white,
+                                ),
+                                Text(
+                                  moonsetFormat,
+                                  style: const TextStyle(
+                                    fontFamily: "FlexFontEn",
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
                           ],
                         ),
                       ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+
+        case 9:
+          return OpenContainer(
+            transitionType: ContainerTransitionType.fadeThrough,
+            closedElevation: 1,
+            closedShape: const CircleBorder(),
+            openShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            openElevation: 0,
+            transitionDuration: const Duration(milliseconds: 500),
+            closedColor: Color(widget.selectedContainerBgIndex),
+            openColor: colorTheme.surface,
+            openBuilder: (context, _) => const SizedBox.shrink(),
+            closedBuilder: (context, openContainer) {
+              return GestureDetector(
+                onTap: () {},
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(999),
+                  child: Container(
+                    height: 160,
+                    decoration: BoxDecoration(
+                      color: Color(widget.selectedContainerBgIndex),
+                      borderRadius: BorderRadius.circular(999),
                     ),
-                    onTap: () {});
-              });
+                    child: Stack(
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 1,
+                          child: SvgPicture.string(
+                            buildCloudCoverSvg(colorTheme.tertiaryContainer),
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        HeaderWidgetConditions(
+                          headerText: "cloudiness".tr(),
+                          headerIcon: Symbols.cloud,
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            _isNoData(widget.currentVisibility) ? '--' : widget.cloudCover,
+                            style: TextStyle(
+                              color: colorTheme.onTertiaryContainer,
+                              fontFamily: "FlexFontEn",
+                              fontSize: isFoldable ? 60 : size.width * 0.1,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 30),
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Text(
+                              "%",
+                              style: TextStyle(
+                                color: colorTheme.onSurface,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
+
         default:
           return const SizedBox();
       }
-    }).toList();
+    }
 
 // 123216
 
     return Container(
-      margin: EdgeInsets.fromLTRB(12.7, 0, 12.7, 0),
+      margin: const EdgeInsets.fromLTRB(12.7, 0, 12.7, 0),
       child: Column(
         children: [
           ReorderableGridView.builder(
-            itemCount: gridItems.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            itemCount: itemOrder.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: 12,
               mainAxisSpacing: 12,
@@ -1616,10 +1315,9 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
             ),
             itemBuilder: (context, index) {
               final item = itemOrder[index];
-
               return Container(
                 key: ValueKey(item),
-                child: gridItems[index],
+                child: buildTile(item),
               );
             },
             dragWidgetBuilder: (index, child) {
@@ -1634,12 +1332,14 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                 itemOrder.insert(newIndex, item);
               });
 
-              final prefs = await SharedPreferences.getInstance();
+              final prefs = await _prefs;
               prefs.setStringList(
-                  orderPrefsKey, itemOrder.map((e) => e.toString()).toList());
+                orderPrefsKey,
+                itemOrder.map((e) => e.toString()).toList(),
+              );
             },
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             padding: const EdgeInsets.only(top: 0),
           ),
         ],
@@ -1659,13 +1359,16 @@ class HeaderWidgetConditions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final headerFg = isDark ? Colors.white : Colors.black;
+
     return Positioned(
       left: 0,
       right: 0,
       top: 35,
       child: Center(
         child: Padding(
-          padding: EdgeInsets.only(left: 16, right: 16),
+          padding: const EdgeInsets.only(left: 16, right: 16),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -1673,23 +1376,21 @@ class HeaderWidgetConditions extends StatelessWidget {
                 headerIcon,
                 weight: 500,
                 fill: 1,
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white
-                    : Colors.black,
+                color: headerFg,
                 size: 18,
               ),
-              SizedBox(width: 3),
+              const SizedBox(width: 3),
               Flexible(
-                child: Text(headerText,
-                    style: TextStyle(
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white
-                          : Colors.black,
-                      fontSize: 14,
-                    ),
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis),
+                child: Text(
+                  headerText,
+                  style: TextStyle(
+                    color: headerFg,
+                    fontSize: 14,
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ],
           ),
@@ -1724,10 +1425,23 @@ class _WindCompassWidgetState extends State<WindCompassWidget> {
     return oldValue + alpha * (newValue - oldValue);
   }
 
+  double _normalizeAngle(double angle) => atan2(sin(angle), cos(angle));
+
   @override
   Widget build(BuildContext context) {
     final useDeviceCompass =
         context.select<UnitSettingsNotifier, bool>((n) => n.useDeviceCompass);
+
+    final svg = AspectRatio(
+      aspectRatio: 1,
+      child: SvgPicture.string(
+        buildWindSvg(
+          Theme.of(context).colorScheme.primaryContainer,
+          widget.backgroundColor,
+        ),
+        fit: BoxFit.contain,
+      ),
+    );
 
     if (useDeviceCompass && !kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
       return StreamBuilder<CompassEvent>(
@@ -1736,67 +1450,35 @@ class _WindCompassWidgetState extends State<WindCompassWidget> {
           final rawHeading = snapshot.data?.heading;
           if (rawHeading == null) return const SizedBox();
 
-          double normalizeAngle(double angle) {
-            while (angle > pi) {
-              angle -= 2 * pi;
-            }
-            while (angle < -pi) {
-              angle += 2 * pi;
-            }
-            return angle;
-          }
-
           _lastHeading = lowPassFilter(rawHeading, _lastHeading, 0.2);
           final smoothedHeading = _lastHeading!;
 
-          final targetRotation =
-              (widget.currentWindDirc - smoothedHeading) * (pi / 180);
-          double delta = normalizeAngle(targetRotation - _previousRotation);
+          final targetRotation = (widget.currentWindDirc - smoothedHeading) * (pi / 180);
+          final delta = _normalizeAngle(targetRotation - _previousRotation);
           final newRotation = _previousRotation + delta;
 
-          final animatedRotation = _previousRotation;
+          final begin = _previousRotation;
           _previousRotation = newRotation;
 
           return TweenAnimationBuilder<double>(
-            tween: Tween<double>(
-              begin: animatedRotation,
-              end: newRotation,
-            ),
-            duration: Duration(milliseconds: 300),
+            tween: Tween<double>(begin: begin, end: newRotation),
+            duration: const Duration(milliseconds: 300),
             builder: (context, angle, child) {
               return Transform.rotate(
                 angle: angle,
                 child: child,
               );
             },
-            child: AspectRatio(
-              aspectRatio: 1,
-              child: SvgPicture.string(
-                buildWindSvg(
-                  Theme.of(context).colorScheme.primaryContainer,
-                  widget.backgroundColor,
-                ),
-                fit: BoxFit.contain,
-              ),
-            ),
+            child: svg,
           );
         },
       );
-    } else {
-      return Transform.rotate(
-        angle: widget.currentWindDirc * (pi / 180),
-        child: AspectRatio(
-          aspectRatio: 1,
-          child: SvgPicture.string(
-            buildWindSvg(
-              Theme.of(context).colorScheme.primaryContainer,
-              widget.backgroundColor,
-            ),
-            fit: BoxFit.contain,
-          ),
-        ),
-      );
     }
+
+    return Transform.rotate(
+      angle: widget.currentWindDirc * (pi / 180),
+      child: svg,
+    );
   }
 }
 
@@ -1829,7 +1511,7 @@ class AQISliderBar extends StatelessWidget {
           Container(
             height: height,
             width: width,
-            margin: EdgeInsets.only(left: 10, right: 10),
+            margin: const EdgeInsets.only(left: 10, right: 10),
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(999)),
               gradient: LinearGradient(
@@ -1866,7 +1548,8 @@ class AQISliderBar extends StatelessWidget {
                     color: Theme.of(context).colorScheme.surface,
                     shape: BoxShape.circle,
                     border: Border.all(
-                        color: Theme.of(context).colorScheme.outline),
+                      color: Theme.of(context).colorScheme.outline,
+                    ),
                   ),
                 ),
               ],
