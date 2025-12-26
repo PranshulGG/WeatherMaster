@@ -646,7 +646,7 @@
   "best_for": "Най-добро за",
   "countries": "Countries",
   "notes": "Notes",
-  "best_match_full_where_use": "Anywhere",
+  "best_match_full_where_use": "",
   "best_match_full_best_for": "Users unsure what model to pick",
   "best_match_full_notes": "Automatically selects the most appropriate model based on location and forecast range.",
   "ECMWF_IFS_0.4°_full_where_use": "Global",
