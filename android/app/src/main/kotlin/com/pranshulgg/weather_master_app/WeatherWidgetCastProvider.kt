@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.RemoteViews
 import android.app.PendingIntent
 import android.content.Intent
-import android.util.Log
 import com.pranshulgg.weather_master_app.util.WeatherIconMapper
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -40,19 +39,13 @@ class WeatherWidgetCastProvider : AppWidgetProvider() {
     ) {
         val options = newOptions ?: manager.getAppWidgetOptions(id)
 
-
         val reservedTopDp = 200
         val perDailyItemDp = 70
-
-        val minHeightDp = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 0)
-
-
-        val optionsCast = manager.getAppWidgetOptions(id)
-        val minHeight = optionsCast.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)
 
         val heightDp = getWidgetHeightDp(options)
         val availableDp = (heightDp - reservedTopDp).coerceAtLeast(0)
         val numDailyItems = (availableDp / perDailyItemDp).coerceIn(0, 4)
+
         val layoutIdDaily = if (numDailyItems > 0) {
             R.layout.widget_hourly_current_daily
         } else {

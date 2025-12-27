@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'is_online.dart';
 import 'dart:io';
@@ -15,7 +16,16 @@ class WeatherFroggyManager {
   List<String> clearNightFrog = [];
   List<String> partlyCloudyNightFrog = [];
 
-  Future<void> initializeIcons() async {
+  StreamSubscription<List<ConnectivityResult>>? _connectivitySubscription;
+  Future<void>? _initializeFuture;
+  bool _isDisposed = false;
+
+  Future<void> initializeIcons() {
+    _initializeFuture ??= _initializeIcons();
+    return _initializeFuture!;
+  }
+
+  Future<void> _initializeIcons() async {
     const testUrl =
         "https://gitlab.com/bignutty/google-weather-icons/-/raw/main/froggie/v2/mobile/01-sunny/01-sunny-creek-swimming.png?ref_type=heads";
     final online = await urlIsReachable(testUrl);
@@ -25,13 +35,24 @@ class WeatherFroggyManager {
       _setOfflineIcons();
     }
 
-    Connectivity().onConnectivityChanged.listen((event) async {
+    if (_isDisposed) return;
+
+    _connectivitySubscription ??= Connectivity()
+        .onConnectivityChanged
+        .listen((List<ConnectivityResult> event) async {
+      if (_isDisposed) return;
       if (await NativeNetwork.isOnline() && await urlIsReachable(testUrl)) {
         _setOnlineIcons();
       } else {
         _setOfflineIcons();
       }
     });
+  }
+
+  void dispose() {
+    _isDisposed = true;
+    _connectivitySubscription?.cancel();
+    _connectivitySubscription = null;
   }
 
   void _setOnlineIcons() {

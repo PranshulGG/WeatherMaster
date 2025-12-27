@@ -87,7 +87,7 @@ class PreferencesHelper {
   // -------------------- Color --------------------
 
 static Future<bool> setColor(String key, Color color) async {
-  return setInt(key, color.value);
+  return setInt(key, color.toARGB32());
 }
 
 static Color? getColor(String key) {
@@ -111,15 +111,15 @@ static Color? getColor(String key) {
   /// Optional: Log all preferences for debugging
   static void logAllPrefs() {
     if (_prefs == null) {
-      print('Preferences not initialized.');
+      debugPrint('Preferences not initialized.');
       return;
     }
 
-    print('---- Preferences Dump ----');
+    debugPrint('---- Preferences Dump ----');
     for (final key in _prefs!.getKeys()) {
-      print('$key: ${_prefs!.get(key)}');
+      debugPrint('$key: ${_prefs!.get(key)}');
     }
-    print('--------------------------');
+    debugPrint('--------------------------');
   }
 
 

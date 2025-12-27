@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.work.WorkManager
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
-import java.text.SimpleDateFormat
-import java.util.*
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class WorkInfoPlugin(private val context: Context) {
 
@@ -52,8 +54,10 @@ private fun getWorkInfoSummary(uniqueWorkName: String, intervalMinutes: Long): M
     // Select time format based on preference
     val timePattern = if (selectedTimeUnit == "24 hr") "yyyy-MM-dd HH:mm" else "yyyy-MM-dd hh:mm a"
 
-    val sdf = SimpleDateFormat(timePattern, Locale.getDefault())
-    val nextRunFormatted = sdf.format(Date(nextRunMillis))
+    val formatter = DateTimeFormatter.ofPattern(timePattern).withLocale(Locale.getDefault())
+    val nextRunFormatted = Instant.ofEpochMilli(nextRunMillis)
+        .atZone(ZoneId.systemDefault())
+        .format(formatter)
 
 
     return mapOf(

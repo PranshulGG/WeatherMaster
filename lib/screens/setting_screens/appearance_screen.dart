@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weather_master_app/utils/preferences_helper.dart';
+import '../../utils/preferences_helper.dart';
 import 'package:settings_tiles/settings_tiles.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import '../../notifiers/unit_settings_notifier.dart';
@@ -24,10 +24,12 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
       PreferencesHelper.getBool("DynamicColors") == true ? false : true;
   @override
   Widget build(BuildContext context) {
-    final themeController = Provider.of<ThemeController>(context);
-    final currentMode = themeController.themeMode;
+    final themeController = context.read<ThemeController>();
+    final currentMode =
+        context.select<ThemeController, ThemeMode>((t) => t.themeMode);
 
-    final isSupported = themeController.isDynamicColorSupported;
+    final isSupported =
+        context.select<ThemeController, bool>((t) => t.isDynamicColorSupported);
 
     final colorTheme = Theme.of(context).colorScheme;
 

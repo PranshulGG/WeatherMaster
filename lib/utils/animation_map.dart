@@ -1,216 +1,331 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
+class _AnimationConfig {
+  final String? animationUrl;
+  final String? secondaryAnimationUrl;
+  final num? topMain;
+  final double? diffHeight;
+  final bool isSunAnim;
+
+  const _AnimationConfig({
+    required this.animationUrl,
+    required this.secondaryAnimationUrl,
+    required this.topMain,
+    required this.diffHeight,
+    required this.isSunAnim,
+  });
+}
+
 class WeatherConditionAnimationMapper {
+  static const _foregroundAnimationsBasePath = 'assets/foreground-animations/';
+
+  static const _sunnyForeground =
+      '${_foregroundAnimationsBasePath}sunny_foreground.json';
+  static const _starsForeground =
+      '${_foregroundAnimationsBasePath}stars_foreground.json';
+  static const _sunnyBackground =
+      '${_foregroundAnimationsBasePath}sunny_background.json';
+  static const _cloudyForeground =
+      '${_foregroundAnimationsBasePath}cloudy_foreground.json';
+  static const _cloudyFull = '${_foregroundAnimationsBasePath}cloudy.json';
+  static const _cloudyBackground =
+      '${_foregroundAnimationsBasePath}cloudy_background.json';
+  static const _mostlyClearNight =
+      '${_foregroundAnimationsBasePath}mostly_clear_night.json';
+  static const _hazeForeground =
+      '${_foregroundAnimationsBasePath}haze_foreground.json';
+  static const _showers = '${_foregroundAnimationsBasePath}showers.json';
+  static const _rainForeground =
+      '${_foregroundAnimationsBasePath}rain_foreground.json';
+  static const _flurriesForeground =
+      '${_foregroundAnimationsBasePath}flurries_foreground.json';
+  static const _snowShowerForeground =
+      '${_foregroundAnimationsBasePath}snow_shower_foreground.json';
+  static const _thunderBackground =
+      '${_foregroundAnimationsBasePath}thunder_background.json';
+
+  static const Set<int> _hazeCodes = {45, 48};
+  static const Set<int> _rainCodes = {
+    51,
+    53,
+    55,
+    56,
+    57,
+    61,
+    63,
+    65,
+    66,
+    67,
+    80,
+    81,
+    82,
+  };
+  static const Set<int> _snowCodes = {71, 73, 75, 77};
+  static const Set<int> _snowShowerCodes = {85, 86};
+  static const Set<int> _thunderCodes = {95, 96, 99};
+
+  static _WeatherAnimType _resolveType(int weatherCode) {
+    switch (weatherCode) {
+      case 0:
+        return _WeatherAnimType.clear;
+      case 1:
+      case 2:
+        return _WeatherAnimType.partlyCloudy;
+      case 3:
+        return _WeatherAnimType.overcast;
+      default:
+        if (_hazeCodes.contains(weatherCode)) return _WeatherAnimType.haze;
+        if (_thunderCodes.contains(weatherCode)) return _WeatherAnimType.thunder;
+        if (_rainCodes.contains(weatherCode)) return _WeatherAnimType.rain;
+        if (_snowCodes.contains(weatherCode)) return _WeatherAnimType.snow;
+        if (_snowShowerCodes.contains(weatherCode)) {
+          return _WeatherAnimType.snowShower;
+        }
+        return _WeatherAnimType.unknown;
+    }
+  }
+
+  static Widget _lottieLayer(String asset, {double opacity = 1.0}) {
+    final lottie = Lottie.asset(
+      asset,
+      fit: BoxFit.cover,
+      repeat: true,
+      backgroundLoading: true,
+      renderCache: RenderCache.drawingCommands,
+      frameRate: FrameRate.composition,
+      addRepaintBoundary: false,
+    );
+
+    if (opacity == 1.0) return RepaintBoundary(child: lottie);
+    return RepaintBoundary(child: Opacity(opacity: opacity, child: lottie));
+  }
+
   static Widget build({
     required int weatherCode,
     required int isDay,
     required BuildContext context,
     bool setFullDisplay = false,
   }) {
-    String? animationUrl;
-    num? topMain;
-    String? secondaryAnimationUrl;
-    double? diffHeight;
-    bool isSunAnim = false;
-    bool isNightBool = isDay == 0 ? true : false;
+    final media = MediaQuery.of(context);
+    final isDayBool = isDay == 1;
 
-    switch (weatherCode) {
-      case 0:
-        animationUrl = isDay == 1
-            ? 'assets/foreground-animations/sunny_foreground.json'
-            : 'assets/foreground-animations/stars_foreground.json';
-        secondaryAnimationUrl = isDay == 1
-            ? 'assets/foreground-animations/sunny_background.json'
-            : 'assets/foreground-animations/stars_foreground.json';
-        topMain = 60;
-        diffHeight = 400;
-        isSunAnim = true;
-        break;
+    final config = _getConfig(
+      weatherCode: weatherCode,
+      isDay: isDayBool,
+      paddingTop: media.padding.top,
+      setFullDisplay: setFullDisplay,
+    );
 
-      case 1:
-      case 2:
-        animationUrl = isDay == 1
-            ? 'assets/foreground-animations/cloudy_foreground.json'
-            : 'assets/foreground-animations/mostly_clear_night.json';
-        secondaryAnimationUrl = isDay == 1
-            ? setFullDisplay
-                ? 'assets/foreground-animations/cloudy.json'
-                : "assets/foreground-animations/cloudy_background.json"
-            : 'assets/foreground-animations/mostly_clear_night.json';
-        topMain = MediaQuery.of(context).padding.top + 40;
-        diffHeight = isDay == 1 ? 400 : 450;
-        break;
+    final animationUrl = config.animationUrl;
+    if (animationUrl == null) return const SizedBox.shrink();
 
-      case 3:
-        animationUrl = setFullDisplay
-            ? 'assets/foreground-animations/cloudy.json'
-            : 'assets/foreground-animations/cloudy_background.json';
-        secondaryAnimationUrl =
-            'assets/foreground-animations/cloudy_background.json';
-        topMain = setFullDisplay
-            ? MediaQuery.of(context).padding.top + 100
-            : MediaQuery.of(context).padding.top + 50;
-        break;
-
-      case 45:
-      case 48:
-        animationUrl = 'assets/foreground-animations/haze_foreground.json';
-        topMain = 13;
-        break;
-
-      case 51:
-      case 53:
-      case 55:
-      case 56:
-      case 57:
-        animationUrl = setFullDisplay
-            ? 'assets/foreground-animations/showers.json'
-            : 'assets/foreground-animations/rain_foreground.json';
-        topMain = 15;
-        break;
-
-      case 61:
-      case 63:
-      case 65:
-        animationUrl = isDay == 1
-            ? setFullDisplay
-                ? 'assets/foreground-animations/showers.json'
-                : 'assets/foreground-animations/rain_foreground.json'
-            : setFullDisplay
-                ? 'assets/foreground-animations/showers.json'
-                : 'assets/foreground-animations/rain_foreground.json';
-        topMain = 15;
-        break;
-
-      case 66:
-      case 67:
-        animationUrl = setFullDisplay
-            ? 'assets/foreground-animations/showers.json'
-            : 'assets/foreground-animations/rain_foreground.json';
-        topMain = 15;
-        break;
-
-      case 71:
-      case 73:
-      case 75:
-        animationUrl = isDay == 1
-            ? 'assets/foreground-animations/flurries_foreground.json'
-            : 'assets/foreground-animations/flurries_foreground.json';
-        break;
-
-      case 77:
-        animationUrl = 'assets/foreground-animations/flurries_foreground.json';
-        break;
-
-      case 80:
-      case 81:
-      case 82:
-        animationUrl = setFullDisplay
-            ? 'assets/foreground-animations/showers.json'
-            : 'assets/foreground-animations/rain_foreground.json';
-        topMain = 15;
-        break;
-
-      case 85:
-      case 86:
-        animationUrl =
-            'assets/foreground-animations/snow_shower_foreground.json';
-        break;
-
-      case 95:
-      case 96:
-      case 99:
-        animationUrl = setFullDisplay
-            ? 'assets/foreground-animations/showers.json'
-            : 'assets/foreground-animations/rain_foreground.json';
-        secondaryAnimationUrl =
-            'assets/foreground-animations/thunder_background.json';
-        topMain = 10;
-        break;
-
-      default:
-        animationUrl = null;
-    }
-
-    if (animationUrl == null) {
-      return const SizedBox.shrink();
-    }
-
-    if (secondaryAnimationUrl != null) {
-      return Positioned(
-        top: isSunAnim
-            ? -MediaQuery.of(context).padding.top + 10 - (topMain ?? 0)
-            : -MediaQuery.of(context).padding.top - (topMain ?? 0),
-        left: isSunAnim ? -MediaQuery.of(context).size.width * 0.12 : 0,
-        right: 0,
-        height: (isSunAnim == true && !isNightBool ||
-                secondaryAnimationUrl.contains('cloudy_background.json'))
-            ? 300
-            : setFullDisplay
-                ? MediaQuery.of(context).size.height
-                : 300,
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Positioned.fill(
-              child: RepaintBoundary(
-                child: Lottie.asset(
-                  animationUrl,
-                  fit: BoxFit.cover,
-                  repeat: true,
-                  addRepaintBoundary: true,
-                ),
-              ),
-            ),
-            Positioned(
-              top: (setFullDisplay &&
-                      secondaryAnimationUrl
-                          .contains('cloudy_background.json') &&
-                      animationUrl.contains('cloudy_background.json'))
-                  ? -MediaQuery.of(context).padding.top - (topMain ?? 0)
-                  : -MediaQuery.of(context).padding.top,
-              left: 0,
-              right: 0,
-              // height: diffHeight ?? 500,
-              height: (isSunAnim == true && !isNightBool)
-                  ? diffHeight ?? 500
-                  : setFullDisplay
-                      ? MediaQuery.of(context).size.height
-                      : diffHeight ?? 500,
-              child: RepaintBoundary(
-                child: Lottie.asset(
-                  secondaryAnimationUrl,
-                  fit: BoxFit.cover,
-                  repeat: true,
-                  addRepaintBoundary: true,
-                ),
-              ),
-            ),
-          ],
-        ),
+    final secondaryAnimationUrl = config.secondaryAnimationUrl;
+    if (secondaryAnimationUrl == null) {
+      return _buildSingle(
+        media: media,
+        config: config,
+        isNight: !isDayBool,
+        setFullDisplay: setFullDisplay,
       );
     }
 
+    return _buildWithSecondary(
+      media: media,
+      config: config,
+      isNight: !isDayBool,
+      setFullDisplay: setFullDisplay,
+    );
+  }
+
+  static _AnimationConfig _getConfig({
+    required int weatherCode,
+    required bool isDay,
+    required double paddingTop,
+    required bool setFullDisplay,
+  }) {
+    final type = _resolveType(weatherCode);
+    final cloudyAsset = setFullDisplay ? _cloudyFull : _cloudyBackground;
+
+    switch (type) {
+      case _WeatherAnimType.clear:
+        return _AnimationConfig(
+          animationUrl: isDay ? _sunnyForeground : _starsForeground,
+          secondaryAnimationUrl: isDay ? _sunnyBackground : _starsForeground,
+          topMain: 60,
+          diffHeight: 400.0,
+          isSunAnim: true,
+        );
+
+      case _WeatherAnimType.partlyCloudy:
+        return _AnimationConfig(
+          animationUrl: isDay ? _cloudyForeground : _mostlyClearNight,
+          secondaryAnimationUrl: isDay ? cloudyAsset : _mostlyClearNight,
+          topMain: paddingTop + 40,
+          diffHeight: isDay ? 400.0 : 450.0,
+          isSunAnim: false,
+        );
+
+      case _WeatherAnimType.overcast:
+        return _AnimationConfig(
+          animationUrl: cloudyAsset,
+          secondaryAnimationUrl: _cloudyBackground,
+          topMain: paddingTop + (setFullDisplay ? 100 : 50),
+          diffHeight: null,
+          isSunAnim: false,
+        );
+
+      case _WeatherAnimType.haze:
+        return const _AnimationConfig(
+          animationUrl: _hazeForeground,
+          secondaryAnimationUrl: null,
+          topMain: 13,
+          diffHeight: null,
+          isSunAnim: false,
+        );
+
+      case _WeatherAnimType.rain:
+        return _AnimationConfig(
+          animationUrl: setFullDisplay ? _showers : _rainForeground,
+          secondaryAnimationUrl: null,
+          topMain: 15,
+          diffHeight: null,
+          isSunAnim: false,
+        );
+
+      case _WeatherAnimType.snow:
+        return const _AnimationConfig(
+          animationUrl: _flurriesForeground,
+          secondaryAnimationUrl: null,
+          topMain: null,
+          diffHeight: null,
+          isSunAnim: false,
+        );
+
+      case _WeatherAnimType.snowShower:
+        return const _AnimationConfig(
+          animationUrl: _snowShowerForeground,
+          secondaryAnimationUrl: null,
+          topMain: null,
+          diffHeight: null,
+          isSunAnim: false,
+        );
+
+      case _WeatherAnimType.thunder:
+        return _AnimationConfig(
+          animationUrl: setFullDisplay ? _showers : _rainForeground,
+          secondaryAnimationUrl: _thunderBackground,
+          topMain: 10,
+          diffHeight: null,
+          isSunAnim: false,
+        );
+
+      case _WeatherAnimType.unknown:
+        return const _AnimationConfig(
+          animationUrl: null,
+          secondaryAnimationUrl: null,
+          topMain: null,
+          diffHeight: null,
+          isSunAnim: false,
+        );
+    }
+  }
+
+  static Widget _buildWithSecondary({
+    required MediaQueryData media,
+    required _AnimationConfig config,
+    required bool isNight,
+    required bool setFullDisplay,
+  }) {
+    final animationUrl = config.animationUrl!;
+    final secondaryAnimationUrl = config.secondaryAnimationUrl!;
+    final topMain = (config.topMain ?? 0).toDouble();
+
+    final paddingTop = media.padding.top;
+    final width = media.size.width;
+    final heightScreen = media.size.height;
+
+    final mainTop = config.isSunAnim
+        ? -paddingTop + 10 - topMain
+        : -paddingTop - topMain;
+
+    final secondaryIsCloudyBackground = secondaryAnimationUrl == _cloudyBackground;
+
+    final useFixedMainHeight =
+        (config.isSunAnim && !isNight) || secondaryIsCloudyBackground;
+
+    final mainHeight =
+        (setFullDisplay && !useFixedMainHeight) ? heightScreen : 300.0;
+
+    final needsCloudyOffset = setFullDisplay &&
+        secondaryIsCloudyBackground &&
+        animationUrl == _cloudyBackground;
+
+    final secondaryTop = needsCloudyOffset ? -paddingTop - topMain : -paddingTop;
+
+    final defaultSecondaryHeight = config.diffHeight ?? 500.0;
+    final secondaryHeight = (setFullDisplay && !(config.isSunAnim && !isNight))
+        ? heightScreen
+        : defaultSecondaryHeight;
+
     return Positioned(
-      top: -MediaQuery.of(context).padding.top - (topMain ?? 0),
-      left: 0,
+      top: mainTop,
+      left: config.isSunAnim ? -width * 0.12 : 0,
       right: 0,
-      height: (isSunAnim == true && !isNightBool)
-          ? 300
-          : setFullDisplay
-              ? MediaQuery.of(context).size.height
-              : 300,
-      child: RepaintBoundary(
-        child: Opacity(
-          opacity: animationUrl.contains('haze_foreground.json') ? 0.4 : 1,
-          child: Lottie.asset(
-            animationUrl,
-            fit: BoxFit.cover,
-            repeat: true,
+      height: mainHeight,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Positioned.fill(child: _lottieLayer(animationUrl)),
+          Positioned(
+            top: secondaryTop,
+            left: 0,
+            right: 0,
+            // height: diffHeight ?? 500,
+            height: secondaryHeight,
+            child: _lottieLayer(secondaryAnimationUrl),
           ),
-        ),
+        ],
       ),
     );
   }
+
+  static Widget _buildSingle({
+    required MediaQueryData media,
+    required _AnimationConfig config,
+    required bool isNight,
+    required bool setFullDisplay,
+  }) {
+    final animationUrl = config.animationUrl!;
+    final topMain = (config.topMain ?? 0).toDouble();
+
+    final paddingTop = media.padding.top;
+    final heightScreen = media.size.height;
+
+    final height = (setFullDisplay && !(config.isSunAnim && !isNight))
+        ? heightScreen
+        : 300.0;
+
+    final opacity = animationUrl == _hazeForeground ? 0.4 : 1.0;
+
+    return Positioned(
+      top: -paddingTop - topMain,
+      left: 0,
+      right: 0,
+      height: height,
+      child: _lottieLayer(animationUrl, opacity: opacity),
+    );
+  }
+}
+
+enum _WeatherAnimType {
+  clear,
+  partlyCloudy,
+  overcast,
+  haze,
+  rain,
+  snow,
+  snowShower,
+  thunder,
+  unknown,
 }

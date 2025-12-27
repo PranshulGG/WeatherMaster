@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:moon_phase/moon_phase.dart';
 import '../utils/icon_map.dart';
 import '../utils/condition_label_map.dart';
 import '../utils/preferences_helper.dart';
@@ -8,8 +7,6 @@ import '../utils/unit_converter.dart';
 import '../notifiers/unit_settings_notifier.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:moon_phase/moon_widget.dart';
-import 'package:moon_phase/moon_phase.dart';
 
 class WeatherTopCard extends StatefulWidget {
   final num currentTemp;
@@ -38,7 +35,6 @@ class WeatherTopCard extends StatefulWidget {
 class _WeatherTopCardState extends State<WeatherTopCard> {
   final GlobalKey _labelKey = GlobalKey();
   double _labelHeight = 0;
-  UnitSettingsNotifier? _notifier;
 
   @override
   void initState() {
@@ -51,40 +47,45 @@ class _WeatherTopCardState extends State<WeatherTopCard> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
-    _notifier?.removeListener(_onSettingsChanged);
-
-    _notifier = context.read<UnitSettingsNotifier>();
-    _notifier?.addListener(_onSettingsChanged);
-  }
-
-  void _onSettingsChanged() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _updateLabelHeight();
     });
   }
 
   @override
-  void dispose() {
-    _notifier?.removeListener(_onSettingsChanged);
-    super.dispose();
-  }
+  void didUpdateWidget(covariant WeatherTopCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
 
-  void _updateLabelHeight() {
-    final context = _labelKey.currentContext;
-    if (context != null) {
-      final box = context.findRenderObject() as RenderBox;
-      final height = box.size.height;
-      setState(() {
-        _labelHeight = height;
+    if (oldWidget.currentWeatherIconCode != widget.currentWeatherIconCode ||
+        oldWidget.currentisDay != widget.currentisDay) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _updateLabelHeight();
       });
     }
   }
 
+  void _updateLabelHeight() {
+    if (!mounted) return;
+    final context = _labelKey.currentContext;
+    if (context == null) return;
+
+    final renderObject = context.findRenderObject();
+    if (renderObject is! RenderBox) return;
+
+    final height = renderObject.size.height;
+    if (height == _labelHeight) return;
+
+    setState(() {
+      _labelHeight = height;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final tempUnit = context.watch<UnitSettingsNotifier>().tempUnit;
-    final isShowFrog = context.read<UnitSettingsNotifier>().showFrog;
+    final tempUnit =
+        context.select<UnitSettingsNotifier, String>((n) => n.tempUnit);
+    final isShowFrog =
+        context.select<UnitSettingsNotifier, bool>((n) => n.showFrog);
     num convert(num celsius) => tempUnit == "Fahrenheit"
         ? UnitConverter.celsiusToFahrenheit(celsius.toDouble()).round()
         : celsius.round();
@@ -338,31 +339,10 @@ class WeatherTopCardVertical extends StatefulWidget {
 }
 
 class _WeatherTopCardStateVertical extends State<WeatherTopCardVertical> {
-  final GlobalKey _labelKey = GlobalKey();
-  double _labelHeight = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _updateLabelHeight();
-    });
-  }
-
-  void _updateLabelHeight() {
-    final context = _labelKey.currentContext;
-    if (context != null) {
-      final box = context.findRenderObject() as RenderBox;
-      final height = box.size.height;
-      setState(() {
-        _labelHeight = height;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    final tempUnit = context.watch<UnitSettingsNotifier>().tempUnit;
+    final tempUnit =
+        context.select<UnitSettingsNotifier, String>((n) => n.tempUnit);
     final isShowFrog = context.read<UnitSettingsNotifier>().showFrog;
     num convert(num celsius) => tempUnit == "Fahrenheit"
         ? UnitConverter.celsiusToFahrenheit(celsius.toDouble()).round()
