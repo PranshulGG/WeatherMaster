@@ -37,6 +37,7 @@ import '../utils/visual_utils.dart';
 import '../models/insights_gen.dart';
 import '../models/layout_config.dart';
 import '../models/saved_location.dart';
+import '../models/weather_display_data.dart';
 
 // App screens
 import '../screens/locations.dart';
@@ -94,7 +95,7 @@ class _WeatherHomeState extends State<WeatherHome> {
   List<LayoutBlockConfig> layoutConfig = [];
 
   // late Future<Map<String, dynamic>?>? weatherFuture;
-  Future<Map<String, dynamic>?>? weatherFuture;
+  Future<WeatherDisplayData?>? weatherFuture;
 
   Map<String, dynamic>? weatherData;
 
@@ -227,7 +228,7 @@ class _WeatherHomeState extends State<WeatherHome> {
     await prefs.setString('currentLocation', jsonEncode(locationData));
   }
 
-  Future<Map<String, dynamic>?> getWeatherFromCache() async {
+  Future<WeatherDisplayData?> getWeatherFromCache() async {
     final box = await Hive.openBox('weatherMasterCache');
     var cached = box.get(cacheKey);
     final homePref = PreferencesHelper.getJson('homeLocation');
@@ -280,7 +281,8 @@ class _WeatherHomeState extends State<WeatherHome> {
         isFirstAppBuild = false;
       }
     }
-    return json.decode(cached);
+    final decoded = json.decode(cached);
+    return processWeatherData(decoded);
   }
 
   Future<void> _loadWeatherIconFroggy(
@@ -868,7 +870,7 @@ class _WeatherHomeState extends State<WeatherHome> {
               .get(1),
     ];
 
-    return FutureBuilder<Map<String, dynamic>?>(
+    return FutureBuilder<WeatherDisplayData?>(
         future: weatherFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -888,56 +890,33 @@ class _WeatherHomeState extends State<WeatherHome> {
             );
           }
 
-          final raw = snapshot.data!;
-          final weather = raw['data'];
+          final displayData = snapshot.data!;
+          final raw = displayData.raw;
+          final weather = raw['data'] ?? raw; // Fallback
           final current = weather['current'];
           final String? lastUpdated = raw['last_updated'];
 
           final int weatherCodeFroggy = current['weather_code'] ?? 0;
           final bool isDayFroggy = current['is_day'] == 1;
 
-          final hourly = weather['hourly'] ?? {};
+          final hourly = weather['hourly'] ?? {}; // Still needed for some widgets that take maps?
+          // Actually, Widgets take lists. I should use displayData properties.
 
-          final List<dynamic> hourlyTimeNoFilter = hourly['time'];
-          final List<dynamic> hourlyTempsNoFilter = hourly['temperature_2m'];
-          final List<dynamic> hourlyWeatherCodesNoFilter =
-              hourly['weather_code'];
-          final List<dynamic> hourlyPrecpProbNoFilter =
-              hourly['precipitation_probability'];
+          // Using processed data
+          final hourlyTime = displayData.hourlyTime;
+          final hourlyTemps = displayData.hourlyTemps;
+          final hourlyWeatherCodes = displayData.hourlyWeatherCodes;
+          final hourlyPrecpProb = displayData.hourlyPrecpProb;
 
-          // Convert times to DateTime and filter out past-day entries
-          final now = DateTime.now();
-          final todayMidnight = DateTime(now.year, now.month, now.day);
+          final daily = weather['daily'] ?? {}; // Still needed for summary card which takes raw map?
+          // SummaryCard takes: hourlyData (map), dailyData (map), currentData (map)
+          // I should keep passing 'weather' parts to it for now to avoid refactoring all widgets.
 
-          final filteredIndices = <int>[];
-          for (int i = 0; i < hourlyTimeNoFilter.length; i++) {
-            final time = DateTime.parse(hourlyTimeNoFilter[i]);
-            if (time.isAfter(todayMidnight) ||
-                time.isAtSameMomentAs(todayMidnight)) {
-              filteredIndices.add(i);
-            }
-          }
-
-// Keep only today's + future hours
-          final hourlyTime =
-              filteredIndices.map((i) => hourlyTimeNoFilter[i]).toList();
-          final hourlyTemps =
-              filteredIndices.map((i) => hourlyTempsNoFilter[i]).toList();
-          final hourlyWeatherCodes = filteredIndices
-              .map((i) => hourlyWeatherCodesNoFilter[i])
-              .toList();
-          final hourlyPrecpProb =
-              filteredIndices.map((i) => hourlyPrecpProbNoFilter[i]).toList();
-
-          final daily = weather['daily'];
-          final List<dynamic> dailyDates = daily['time'];
-          final List<dynamic> sunriseTimes = daily['sunrise'];
-          final List<dynamic> sunsetTimes = daily['sunset'];
-          final List<dynamic> dailyTempsMin = daily['temperature_2m_min'];
-          final List<dynamic> dailyTempsMax = daily['temperature_2m_max'];
-          final List<dynamic> dailyPrecProb =
-              daily['precipitation_probability_max'];
-          final List<dynamic> dailyWeatherCodes = daily['weather_code'];
+          final dailyDates = displayData.dailyDates;
+          final dailyTempsMin = displayData.dailyTempsMin;
+          final dailyTempsMax = displayData.dailyTempsMax;
+          final dailyPrecProb = displayData.dailyPrecProb;
+          final dailyWeatherCodes = displayData.dailyWeatherCodes;
 
           void maybeUpdateWeatherAnimation(Map<String, dynamic> current,
               {isForce = false}) {
@@ -982,13 +961,7 @@ class _WeatherHomeState extends State<WeatherHome> {
             onLoadForceCall = true;
           }
 
-          final Map<String, (DateTime, DateTime)> daylightMap = {
-            for (int i = 0; i < dailyDates.length; i++)
-              dailyDates[i]: (
-                DateTime.parse(sunriseTimes[i]),
-                DateTime.parse(sunsetTimes[i])
-              ),
-          };
+          final daylightMap = displayData.daylightMap;
 
           bool isHourDuringDaylightOptimized(DateTime hourTime) {
             final key =
@@ -1066,92 +1039,8 @@ class _WeatherHomeState extends State<WeatherHome> {
           final double? ragweedPollen =
               weather['air_quality']['current']['ragweed_pollen'];
 
-          const double rainThreshold = 0.5;
-          const int probThreshold = 40;
-          int offsetSeconds =
-              int.parse(weather['utc_offset_seconds'].toString());
-          DateTime utcNow = DateTime.now().toUtc();
-          DateTime nowPrecip = utcNow.add(Duration(seconds: offsetSeconds));
+          final bool shouldShowRainBlock = displayData.shouldShowRainBlock;
 
-          nowPrecip = DateTime(
-            nowPrecip.year,
-            nowPrecip.month,
-            nowPrecip.day,
-            nowPrecip.hour,
-            nowPrecip.minute,
-            nowPrecip.second,
-            nowPrecip.millisecond,
-            nowPrecip.microsecond,
-          );
-
-          final List<String> allTimeStrings =
-              (hourly['time'] as List?)?.cast<String>() ?? [];
-          final List<double> allPrecip = (hourly['precipitation'] as List?)
-                  ?.map((e) => (e as num?)?.toDouble() ?? 0.0)
-                  .toList() ??
-              [];
-          final List<int> allPrecipProb =
-              (hourly['precipitation_probability'] as List?)
-                      ?.map((e) => (e as num?)?.toInt() ?? 0)
-                      .toList() ??
-                  [];
-
-          final List<String> timeNext12h = [];
-          final List<double> precpNext12h = [];
-          final List<int> precipProbNext12h = [];
-
-          for (int i = 0; i < allTimeStrings.length; i++) {
-            if (i >= allPrecip.length || i >= allPrecipProb.length) break;
-
-            final time = DateTime.parse(allTimeStrings[i]);
-            if (time.isAfter(nowPrecip) &&
-                time.isBefore(nowPrecip.add(Duration(hours: 12)))) {
-              timeNext12h.add(allTimeStrings[i]);
-              precpNext12h.add(allPrecip[i]);
-              precipProbNext12h.add(allPrecipProb[i]);
-            }
-          }
-
-          final List<double> next2hPrecip = [];
-
-          for (int i = 0; i < timeNext12h.length; i++) {
-            final time = DateTime.parse(timeNext12h[i]);
-            if (time.isBefore(nowPrecip.add(Duration(hours: 2)))) {
-              next2hPrecip.add(precpNext12h[i]);
-            }
-          }
-
-          int? rainStart;
-          int longestRainLength = 0;
-          int? bestStart;
-          int? bestEnd;
-
-          for (int i = 0; i < precpNext12h.length; i++) {
-            if (precpNext12h[i] >= rainThreshold &&
-                precipProbNext12h[i] >= probThreshold) {
-              rainStart ??= i;
-            } else {
-              if (rainStart != null) {
-                final length = i - rainStart;
-                if (length >= 2 && length > longestRainLength) {
-                  longestRainLength = length;
-                  bestStart = rainStart;
-                  bestEnd = i - 1;
-                }
-                rainStart = null;
-              }
-            }
-          }
-
-          if (rainStart != null) {
-            final length = precpNext12h.length - rainStart;
-            if (length >= 2 && length > longestRainLength) {
-              bestStart = rainStart;
-              bestEnd = precpNext12h.length - 1;
-            }
-          }
-
-          final bool shouldShowRainBlock = bestStart != null && bestEnd != null;
           final colorTheme = Theme.of(context).colorScheme;
 
           if (!widgetsUpdated) {
@@ -1511,7 +1400,7 @@ class _WeatherHomeState extends State<WeatherHome> {
                                       _istriggeredFromLocations = true;
                                       themeCalled = false;
                                       _isLoadingFroggy = true;
-                                      weatherFuture = Future.value(result);
+                                      weatherFuture = Future.value(processWeatherData(result));
                                     });
                                   }
                                   return;
