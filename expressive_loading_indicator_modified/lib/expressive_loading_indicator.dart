@@ -71,7 +71,6 @@ class _ExpressiveLoadingIndicatorState extends State<ExpressiveLoadingIndicator>
   static const double _fullRotation = 360.0;
 
   static const double _quarterRotation = _fullRotation / 4;
-  static const double _activeSize = 48; // based on source spec
 
   late final List<Morph> _morphSequence;
 

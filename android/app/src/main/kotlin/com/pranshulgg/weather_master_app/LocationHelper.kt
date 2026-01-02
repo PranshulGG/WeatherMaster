@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
-import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -78,17 +77,15 @@ class LocationHelper(private val activity: Activity) {
             return
         }
 
-        listener = object : LocationListener {
+        val locationListener = object : LocationListener {
             override fun onLocationChanged(location: Location) {
                 Log.d("LocationHelper", "Location received: ${location.latitude}, ${location.longitude}")
                 pendingCallback?.onSuccess(location.latitude, location.longitude)
                 removeUpdates()
             }
-
-            override fun onProviderEnabled(provider: String) {}
-            override fun onProviderDisabled(provider: String) {}
-            override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
         }
+
+        listener = locationListener
 
         providersToUse.forEach { provider ->
             try {
@@ -96,7 +93,7 @@ class LocationHelper(private val activity: Activity) {
                     provider,
                     1000L,
                     0f,
-                    listener!!
+                    locationListener
                 )
             } catch (e: SecurityException) {
                 Log.e("LocationHelper", "Permission issue for $provider: $e")

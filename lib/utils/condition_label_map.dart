@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 
 class WeatherConditionMapper {
   static const _defaultLabel = 'Not found';

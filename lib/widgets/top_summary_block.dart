@@ -239,8 +239,12 @@ class _SummaryCardState extends State<SummaryCard> {
   }) {
     final bullets = <_BulletCandidate>[];
 
-    final tempUnit = context.watch<UnitSettingsNotifier>().tempUnit;
-    final windUnit = context.watch<UnitSettingsNotifier>().windUnit;
+    final tempUnit =
+        context.select<UnitSettingsNotifier, String>((n) => n.tempUnit);
+    final windUnit =
+        context.select<UnitSettingsNotifier, String>((n) => n.windUnit);
+    final timeUnit =
+        context.select<UnitSettingsNotifier, String>((n) => n.timeUnit);
     final isFahrenheit = tempUnit == 'Fahrenheit';
 
     final tempOptions = [
@@ -269,7 +273,7 @@ class _SummaryCardState extends State<SummaryCard> {
     bullets.add(_BulletCandidate(10, _random(tempOptions)));
 
     if (uvIndex > 5) {
-      final uvTime = context.watch<UnitSettingsNotifier>().timeUnit == '24 hr'
+      final uvTime = timeUnit == '24 hr'
           ? "$uvHour:00"
           : formatHour(uvHour);
       final uvOptions = [
@@ -284,7 +288,7 @@ class _SummaryCardState extends State<SummaryCard> {
     }
 
     if (humidity > 60) {
-      final time = context.watch<UnitSettingsNotifier>().timeUnit == '24 hr'
+      final time = timeUnit == '24 hr'
           ? "$dewHour:00"
           : formatHour(dewHour);
       final humidityOptions = [

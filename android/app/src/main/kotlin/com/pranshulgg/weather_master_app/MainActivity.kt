@@ -3,7 +3,6 @@ package com.pranshulgg.weather_master_app
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.work.*
 import io.flutter.embedding.android.FlutterActivity
