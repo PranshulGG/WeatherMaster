@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/layout_config.dart';
 import 'dart:convert';
 import '../notifiers/layout_provider.dart';
+import '../utils/app_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
@@ -25,44 +26,28 @@ class _EditLayoutPageState extends State<EditLayoutPage> {
 
   Future<void> loadLayoutConfig() async {
     final prefs = await SharedPreferences.getInstance();
-    final jsonStringList = prefs.getStringList('layout_config');
+    final jsonStringList = prefs.getStringList(PrefKeys.layoutConfig);
 
     if (jsonStringList != null) {
       layoutConfig = jsonStringList
           .map((json) => LayoutBlockConfig.fromJson(jsonDecode(json)))
           .toList();
     } else {
-      layoutConfig = [
-        LayoutBlockConfig(type: LayoutBlockType.rain),
-        LayoutBlockConfig(type: LayoutBlockType.insights),
-        LayoutBlockConfig(type: LayoutBlockType.summary),
-        LayoutBlockConfig(type: LayoutBlockType.hourly),
-        LayoutBlockConfig(type: LayoutBlockType.daily),
-        LayoutBlockConfig(type: LayoutBlockType.conditions),
-        LayoutBlockConfig(type: LayoutBlockType.pollen),
-      ];
+      layoutConfig = LayoutBlockConfig.defaults();
     }
 
     setState(() {});
   }
 
   Future<void> resetLayout() async {
-    layoutConfig = [
-      LayoutBlockConfig(type: LayoutBlockType.rain),
-      LayoutBlockConfig(type: LayoutBlockType.insights),
-      LayoutBlockConfig(type: LayoutBlockType.summary),
-      LayoutBlockConfig(type: LayoutBlockType.hourly),
-      LayoutBlockConfig(type: LayoutBlockType.daily),
-      LayoutBlockConfig(type: LayoutBlockType.conditions),
-      LayoutBlockConfig(type: LayoutBlockType.pollen),
-    ];
+    layoutConfig = LayoutBlockConfig.defaults();
     setState(() {});
   }
 
   Future<void> saveLayoutOrder() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setStringList(
-      'layout_config',
+      PrefKeys.layoutConfig,
       layoutConfig.map((e) => jsonEncode(e.toJson())).toList(),
     );
   }
@@ -161,7 +146,7 @@ class _EditLayoutPageState extends State<EditLayoutPage> {
                     ),
                   ),
                 );
-              }).toList(),
+              }),
               SizedBox(
                   key: ValueKey('bottom_spacing'),
                   height: MediaQuery.of(context).padding.bottom + 100),
@@ -189,10 +174,12 @@ class _EditLayoutPageState extends State<EditLayoutPage> {
               IconButton(
                   onPressed: () async {
                     await layoutProvider.saveLayout(layoutConfig);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('layout_saved'.tr())),
-                    );
-                    Navigator.pop(context);
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('layout_saved'.tr())),
+                      );
+                      Navigator.pop(context);
+                    }
                   },
                   icon: Icon(
                     Icons.save,

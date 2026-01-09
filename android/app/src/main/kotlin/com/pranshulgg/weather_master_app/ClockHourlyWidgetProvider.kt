@@ -40,7 +40,6 @@ class ClockHourlyWidgetProvider : AppWidgetProvider() {
         val temp = prefs.getString("temperatureCurrentPill", "--")
         val code = prefs.getString("weather_codeCurrentPill", "--")
         val conditionName = prefs.getString("locationCurrentConditon", "--")
-        val locationName = prefs.getString("locationNameWidget", "--")
 
         val rawIsDay = prefs.all["isDayWidget"]
         val isDay = when (rawIsDay) {
@@ -49,12 +48,7 @@ class ClockHourlyWidgetProvider : AppWidgetProvider() {
             else -> "1"
         }
 
-        val max = prefs.getString("todayMax", "--")
-        val min = prefs.getString("todayMin", "--")
-
         views.setTextViewText(R.id.current_widget_temp_cast_clock_hourly, "$temp°")
-//        views.setTextViewText(R.id.temp_high_cast_clock_hourly, "$max° •")
-//        views.setTextViewText(R.id.temp_low_cast_clock_hourly, " $min°")
 
         val iconRes = WeatherIconMapper.getIconResource(code, isDay)
         views.setImageViewResource(R.id.widget_icon_hourly_cast_clock_hourly, iconRes)
@@ -72,20 +66,12 @@ class ClockHourlyWidgetProvider : AppWidgetProvider() {
         }
 
         when (widgetSize) {
-            WidgetSize.LARGE -> {
-                views.setTextViewText(R.id.weather_condition_current_clock_hourly, conditionName)
-//                views.setTextViewText(R.id.current_widget_locationName, locationName)
-                views.setViewVisibility(R.id.weather_condition_current_clock_hourly, View.VISIBLE)
-//                views.setViewVisibility(R.id.current_widget_locationName, View.VISIBLE)
-            }
-            WidgetSize.MEDIUM -> {
+            WidgetSize.LARGE, WidgetSize.MEDIUM -> {
                 views.setTextViewText(R.id.weather_condition_current_clock_hourly, conditionName)
                 views.setViewVisibility(R.id.weather_condition_current_clock_hourly, View.VISIBLE)
-//                views.setViewVisibility(R.id.current_widget_locationName, View.GONE)
             }
             WidgetSize.SMALL -> {
                 views.setViewVisibility(R.id.weather_condition_current_clock_hourly, View.GONE)
-//                views.setViewVisibility(R.id.current_widget_locationName, View.GONE)
             }
         }
 

@@ -14,7 +14,6 @@ const MethodChannel _bgChannel =
 Future<void> startWeatherService() async {
   final int selectedInterval =
       PreferencesHelper.getInt("savedRefreshInterval") ?? 90;
-  ;
   await _serviceChannel.invokeMethod('startService', {
     'intervalMinutes': selectedInterval,
   });

@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'open_links.dart';
-import '../utils/condition_label_map.dart';
 
 Widget homeBottomBar(BuildContext context, bool isLight) {
   final textColor = isLight ? Colors.black : Colors.white;

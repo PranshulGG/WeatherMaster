@@ -1,10 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import '../utils/preferences_helper.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import 'package:weather_master_app/utils/open_links.dart';
+import '../utils/open_links.dart';
 
 List<Map<String, dynamic>> convertToListOfMaps(Map<String, dynamic> data) {
   final length = (data.values.first as List).length;
@@ -13,12 +12,10 @@ List<Map<String, dynamic>> convertToListOfMaps(Map<String, dynamic> data) {
   });
 }
 
-int getStartIndex(utc_offset_seconds, hourlyTime) {
-  final offset = Duration(seconds: int.parse(utc_offset_seconds));
+int getStartIndex(utcOffsetSeconds, hourlyTime) {
+  final offset = Duration(seconds: int.parse(utcOffsetSeconds));
   final nowUtc = DateTime.now().toUtc();
   final nowLocal = nowUtc.add(offset);
-
-  final timeUnit = PreferencesHelper.getString("selectedTimeUnit") ?? '12 hr';
 
   final roundedNow =
       DateTime(nowLocal.year, nowLocal.month, nowLocal.day, nowLocal.hour);
@@ -63,8 +60,8 @@ String getDayLabel(DateTime date, int index, utcOffsetSeconds) {
   }
 }
 
-final String currentVersion = 'v2.6.6';
-final String githubRepo = 'PranshulGG/WeatherMaster';
+const String currentVersion = 'v2.6.6';
+const String githubRepo = 'PranshulGG/WeatherMaster';
 bool isChecking = false;
 
 Future<void> checkForUpdatesOnStart(BuildContext context) async {
@@ -95,6 +92,10 @@ Future<void> checkForUpdatesOnStart(BuildContext context) async {
     );
 
     await Future.delayed(Duration(seconds: 2));
+
+    if (!context.mounted) {
+      return;
+    }
 
     if (latestStable != null && latestStable['tag_name'] != currentVersion) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -130,7 +131,7 @@ Future<void> checkForUpdatesOnStart(BuildContext context) async {
 
     await prefs.setInt('lastUpdateCheck', now);
   } catch (e) {
-    print('Update check failed: $e');
+    debugPrint('Update check failed: $e');
   } finally {
     isChecking = false;
   }

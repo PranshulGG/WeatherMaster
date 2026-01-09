@@ -9,7 +9,7 @@ class LoadingScreen extends StatelessWidget {
     return Scaffold(
       body: Center(
         
-        child: CircularProgressIndicator(year2023: false,),
+        child: CircularProgressIndicator(),
       ),
     );
   }
