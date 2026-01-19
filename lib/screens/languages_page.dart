@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
-import 'package:weather_master_app/utils/preferences_helper.dart';
+import '../utils/preferences_helper.dart';
 import '../utils/open_links.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:settings_tiles/settings_tiles.dart';
-import '../../notifiers/unit_settings_notifier.dart';
+import '../notifiers/unit_settings_notifier.dart';
 import 'package:provider/provider.dart';
 
 class LanguagesScreen extends StatefulWidget {
@@ -20,6 +20,16 @@ class LanguagesScreen extends StatefulWidget {
 
 class _LanguagesScreenState extends State<LanguagesScreen> {
   Locale? _selectedLocale;
+  Future<Map<String, int>>? _translationProgressFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _translationProgressFuture = TranslationProgressService(
+      projectId: '741419',
+      apiToken: dotenv.env['API_TOKEN']!.toString(),
+    ).fetchTranslationProgress();
+  }
 
   @override
   void didChangeDependencies() {
@@ -57,12 +67,13 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
                       delegate: LanguageSearchDelegate(locales: locales),
                     );
 
-                    if (selectedLocale != null) {
-                      await context.setLocale(selectedLocale);
-                      setState(() {
-                        _selectedLocale = selectedLocale;
-                      });
-                    }
+                    if (!context.mounted || selectedLocale == null) return;
+
+                    await context.setLocale(selectedLocale);
+                    if (!context.mounted) return;
+                    setState(() {
+                      _selectedLocale = selectedLocale;
+                    });
                   }),
               SizedBox(
                 width: 5,
@@ -111,10 +122,7 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
             ],
           )),
           FutureBuilder<Map<String, int>>(
-              future: TranslationProgressService(
-                projectId: '741419',
-                apiToken: dotenv.env['API_TOKEN']!.toString(),
-              ).fetchTranslationProgress(),
+              future: _translationProgressFuture,
               builder: (context, snapshot) {
                 final progressMap = snapshot.data ?? {};
 
@@ -215,7 +223,7 @@ class TranslationProgressService {
 
       return progressData;
     } else {
-      print('Failed to fetch data: ${response.statusCode}');
+      debugPrint('Failed to fetch data: ${response.statusCode}');
       return {};
     }
   }
@@ -314,7 +322,6 @@ class _LanguageTileState extends State<LanguageTile> {
                   height: 60,
                   child: CircularProgressIndicator(
                     value: widget.progress / 100,
-                    year2023: false,
                     backgroundColor: Colors.red,
                   ))
             ]),

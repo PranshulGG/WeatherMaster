@@ -71,26 +71,30 @@ class _ScrollReactiveGradientState extends State<ScrollReactiveGradient> {
         AnimatedOpacity(
           duration: const Duration(milliseconds: 300),
           opacity: _isScrolled ? 0 : 1,
-          child: Container(
-              decoration: !useFullMaterialScheme
-                  ? BoxDecoration(
-                      gradient: widget.baseGradient,
-                    )
-                  : BoxDecoration(
-                      color:
-                          Theme.of(context).colorScheme.surfaceContainerLow)),
+          child: RepaintBoundary(
+            child: Container(
+                decoration: !useFullMaterialScheme
+                    ? BoxDecoration(
+                        gradient: widget.baseGradient,
+                      )
+                    : BoxDecoration(
+                        color:
+                            Theme.of(context).colorScheme.surfaceContainerLow)),
+          ),
         ),
         AnimatedOpacity(
           duration: const Duration(milliseconds: 300),
           opacity: _isScrolled ? 1 : 0,
-          child: Container(
-              decoration: !useFullMaterialScheme
-                  ? BoxDecoration(
-                      gradient: widget.scrolledGradient,
-                    )
-                  : BoxDecoration(
-                      color:
-                          Theme.of(context).colorScheme.surfaceContainerLow)),
+          child: RepaintBoundary(
+            child: Container(
+                decoration: !useFullMaterialScheme
+                    ? BoxDecoration(
+                        gradient: widget.scrolledGradient,
+                      )
+                    : BoxDecoration(
+                        color:
+                            Theme.of(context).colorScheme.surfaceContainerLow)),
+          ),
         ),
       ],
     );

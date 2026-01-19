@@ -4,8 +4,10 @@ import '../utils/preferences_helper.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class WorkInfoWidget extends StatefulWidget {
+  const WorkInfoWidget({super.key});
+
   @override
-  _WorkInfoWidgetState createState() => _WorkInfoWidgetState();
+  State<WorkInfoWidget> createState() => _WorkInfoWidgetState();
 }
 
 class _WorkInfoWidgetState extends State<WorkInfoWidget> {

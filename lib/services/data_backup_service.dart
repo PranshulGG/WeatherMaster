@@ -1,15 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import 'package:hive/hive.dart';
+import 'dart:typed_data';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:file_picker/file_picker.dart';
+import '../utils/app_storage.dart';
 import '../utils/snack_util.dart';
 import 'package:restart_app/restart_app.dart';
 
 class DataBackupService {
   static Future<void> exportData() async {
-  final hiveBox = Hive.box('weatherMasterCache');
+  final hiveBox = await HiveBoxes.openWeatherCache();
   final prefs = await SharedPreferences.getInstance();
 
   final sharedPrefsData = prefs.getKeys().fold<Map<String, dynamic>>({}, (map, key) {
@@ -27,7 +28,7 @@ class DataBackupService {
   };
 
   final jsonString = jsonEncode(allData);
-  final jsonBytes = utf8.encode(jsonString);
+  final Uint8List jsonBytes = Uint8List.fromList(utf8.encode(jsonString));
 
   try {
     final outputFilePath = await FilePicker.platform.saveFile(
@@ -50,7 +51,7 @@ class DataBackupService {
 
   static Future<void> importAndReplaceAllData(BuildContext context) async {
   final prefs = await SharedPreferences.getInstance();
-  final hiveBox = Hive.box('weatherMasterCache');
+  final hiveBox = await HiveBoxes.openWeatherCache();
 
   try {
     final result = await FilePicker.platform.pickFiles(
@@ -64,9 +65,10 @@ class DataBackupService {
       return;
     }
 
+    if (!context.mounted) return;
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (dialogContext) => AlertDialog(
         title: Text('import_data'.tr()),
         content: Text(
           'import_data_sub'.tr(),
@@ -101,7 +103,9 @@ class DataBackupService {
     if (data['app'] != 'WeatherMaster' ||
         !data.containsKey('hive') ||
         !data.containsKey('sharedPreferences')) {
-      SnackUtil.showSnackBar(context: context, message: "Invalid backup file format.");
+      if (context.mounted) {
+        SnackUtil.showSnackBar(context: context, message: "Invalid backup file format.");
+      }
       return;
     }
 
@@ -131,17 +135,16 @@ class DataBackupService {
       await hiveBox.put(entry.key, entry.value);
     }
 
-    SnackUtil.showSnackBar(context: context, message: "Import complete. Restarting app");
+    if (context.mounted) {
+      SnackUtil.showSnackBar(context: context, message: "Import complete. Restarting app");
+    }
 
-
-    await Future.delayed(Duration(seconds: 10)).timeout(
-      Duration(seconds: 2),
-      onTimeout: () {
-      Restart.restartApp();
-      },
-    );
+    await Future.delayed(Duration(seconds: 2));
+    Restart.restartApp();
   } catch (e) {
-    SnackUtil.showSnackBar(context: context, message: "Error during import");
+    if (context.mounted) {
+      SnackUtil.showSnackBar(context: context, message: "Error during import");
+    }
   }
 }
 

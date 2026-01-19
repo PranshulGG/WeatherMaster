@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
-import 'package:hive/hive.dart';
-import 'package:lat_lng_to_timezone/lat_lng_to_timezone.dart' as tzmap;
+import 'package:hive_ce/hive_ce.dart';
+import '../utils/app_storage.dart';
 import '../utils/preferences_helper.dart';
 import 'package:flutter/material.dart';
 import '../screens/meteo_models.dart';
@@ -10,22 +10,16 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:async';
 
 class WeatherService {
-  static const String _boxName = 'weatherMasterCache';
-
-  Future<Box> _openBox() async {
-    if (!Hive.isBoxOpen(_boxName)) {
-      return await Hive.openBox(_boxName);
-    }
-    return Hive.box(_boxName);
-  }
+  Future<Box> _openBox() => HiveBoxes.openWeatherCache();
 
   Future<Map<String, dynamic>?> fetchWeather(double lat, double lon,
       {String? locationName,
       BuildContext? context,
       bool isOnlyView = false,
       bool isBackground = false}) async {
-    final timezone = tzmap.latLngToTimezoneString(lat, lon);
-    final key = locationName ?? 'loc_${lat}_${lon}';
+    final client = http.Client();
+    const timezone = 'auto';
+    final key = locationName ?? 'loc_${lat}_$lon';
     final box = await _openBox();
 
     final selectedModel =
@@ -66,10 +60,10 @@ class WeatherService {
     // Prepare list of HTTP requests
     try {
       final requests = <Future<http.Response>>[
-        http.get(uri).timeout(const Duration(seconds: 15)),
-        http.get(airQualityUri).timeout(const Duration(seconds: 15)),
+        client.get(uri).timeout(const Duration(seconds: 15)),
+        client.get(airQualityUri).timeout(const Duration(seconds: 15)),
         if (astronomyUri != null)
-          http.get(astronomyUri).timeout(const Duration(seconds: 15)),
+          client.get(astronomyUri).timeout(const Duration(seconds: 15)),
       ];
 
       final responses = await Future.wait(requests);
@@ -89,7 +83,9 @@ class WeatherService {
           json.decode(responses[1].body) as Map<String, dynamic>;
       final astronomyData = astronomyUri != null
           ? json.decode(responses[2].body) as Map<String, dynamic>
-          : {};
+          : <String, dynamic>{};
+
+      _normalizeAstronomyData(astronomyData);
       // Check if we need fallback data for missing fields
       Map<String, dynamic> finalWeatherData = weatherData;
       if (selectedModel != "best_match" && _hasIncompleteData(weatherData)) {
@@ -109,7 +105,7 @@ class WeatherService {
             airQualityData['reason'] ??
             astronomyData['reason'] ??
             'Unknown error';
-        if (context != null) {
+        if (context != null && context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               duration: Duration(seconds: 10),
@@ -191,6 +187,8 @@ class WeatherService {
       throw Exception("Request timed out after 15 seconds");
     } catch (e) {
       throw Exception('WeatherService.fetchWeather failed: $e');
+    } finally {
+      client.close();
     }
   }
 
@@ -293,6 +291,7 @@ class WeatherService {
       String timezone,
       Map<String, dynamic> primaryData,
       String selectedModel) async {
+    final client = http.Client();
     try {
       // Fetch fallback data using best_match
       final fallbackUri = Uri.parse('https://api.open-meteo.com/v1/forecast')
@@ -311,7 +310,11 @@ class WeatherService {
         'past_days': '1'
       });
 
-      final fallbackResponse = await http.get(fallbackUri);
+      final fallbackResponse =
+          await client.get(fallbackUri).timeout(const Duration(seconds: 15));
+      if (fallbackResponse.statusCode < 200 || fallbackResponse.statusCode >= 300) {
+        return primaryData;
+      }
       final fallbackData =
           json.decode(fallbackResponse.body) as Map<String, dynamic>;
 
@@ -323,6 +326,8 @@ class WeatherService {
       return _mergeWeatherData(primaryData, fallbackData);
     } catch (e) {
       return primaryData;
+    } finally {
+      client.close();
     }
   }
 
@@ -536,5 +541,22 @@ class WeatherService {
               .toList() ??
           [],
     };
+  }
+
+  void _normalizeAstronomyData(Map<String, dynamic> astronomyData) {
+    final astronomyObj = astronomyData['astronomy'];
+    if (astronomyObj is! Map) return;
+
+    final astroObj = astronomyObj['astro'];
+    if (astroObj is! Map) return;
+
+    if (astroObj['_wmMoonTimesNormalized'] == true) return;
+
+    final moonrise = astroObj['moonrise'];
+    final moonset = astroObj['moonset'];
+
+    if (moonrise == null && moonset == null) return;
+
+    astroObj['_wmMoonTimesNormalized'] = true;
   }
 }

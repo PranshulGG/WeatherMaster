@@ -6,6 +6,10 @@ import 'package:provider/provider.dart';
 import '../notifiers/unit_settings_notifier.dart';
 import '../helper/locale_helper.dart';
 
+const String _aqiUnitedStates = 'United States';
+const String _timeFormat12Hr = '12 hr';
+const String _timeFormat24Hr = '24 hr';
+
 class AppUnitsPage extends StatefulWidget {
   const AppUnitsPage({super.key});
 
@@ -17,7 +21,7 @@ class _AppUnitsPageState extends State<AppUnitsPage> {
   @override
   Widget build(BuildContext context) {
     final currentAqiMode =
-        PreferencesHelper.getString("selectedAQIUnit") ?? "United States";
+        PreferencesHelper.getString("selectedAQIUnit") ?? _aqiUnitedStates;
     final currentTempMode =
         PreferencesHelper.getString("selectedTempUnit") ?? "Celsius";
     final currentWindMode =
@@ -29,10 +33,95 @@ class _AppUnitsPageState extends State<AppUnitsPage> {
     final currentPressureMode =
         PreferencesHelper.getString("selectedPressureUnit") ?? "hPa";
     final currentTimeFormat =
-        PreferencesHelper.getString("selectedTimeUnit") ?? "12 hr";
+        PreferencesHelper.getString("selectedTimeUnit") ?? _timeFormat12Hr;
+
+    final String selectedTempKey;
+    switch (currentTempMode) {
+      case 'Fahrenheit':
+        selectedTempKey = 'Fahrenheit';
+        break;
+      default:
+        selectedTempKey = 'Celsius';
+        break;
+    }
+
+    final String selectedWindKey;
+    switch (currentWindMode) {
+      case 'Mph':
+        selectedWindKey = 'Mph';
+        break;
+      case 'M/s':
+        selectedWindKey = 'M/s';
+        break;
+      case 'Bft':
+        selectedWindKey = 'Bft';
+        break;
+      case 'Kt':
+        selectedWindKey = 'Kt';
+        break;
+      default:
+        selectedWindKey = 'Km/h';
+        break;
+    }
+
+    final String selectedVisibilityKey;
+    switch (currentVisibilityMode) {
+      case 'Mile':
+        selectedVisibilityKey = 'Mile';
+        break;
+      default:
+        selectedVisibilityKey = 'Km';
+        break;
+    }
+
+    final String selectedPrecipKey;
+    switch (currentPrecipMode) {
+      case 'cm':
+        selectedPrecipKey = 'cm';
+        break;
+      case 'in':
+        selectedPrecipKey = 'in';
+        break;
+      default:
+        selectedPrecipKey = 'mm';
+        break;
+    }
+
+    final String selectedPressureKey;
+    switch (currentPressureMode) {
+      case 'inHg':
+        selectedPressureKey = 'inHg';
+        break;
+      case 'mmHg':
+        selectedPressureKey = 'mmHg';
+        break;
+      default:
+        selectedPressureKey = 'hPa';
+        break;
+    }
+
+    final String selectedTimeFormatKey;
+    switch (currentTimeFormat) {
+      case _timeFormat24Hr:
+        selectedTimeFormatKey = _timeFormat24Hr;
+        break;
+      default:
+        selectedTimeFormatKey = _timeFormat12Hr;
+        break;
+    }
+
+    final String selectedAqiKey;
+    switch (currentAqiMode) {
+      case 'European':
+        selectedAqiKey = 'European';
+        break;
+      default:
+        selectedAqiKey = _aqiUnitedStates;
+        break;
+    }
 
     final optionsAQI = {
-      "United States": "united_states_aqi".tr(),
+      _aqiUnitedStates: "united_states_aqi".tr(),
       "European": "european_aqi".tr()
     };
 
@@ -66,8 +155,8 @@ class _AppUnitsPageState extends State<AppUnitsPage> {
     };
 
     final optionsTimeFormat = {
-      "12 hr": localizeTimeFormat("12 hr", context.locale),
-      "24 hr": localizeTimeFormat("24 hr", context.locale)
+      _timeFormat12Hr: localizeTimeFormat(_timeFormat12Hr, context.locale),
+      _timeFormat24Hr: localizeTimeFormat(_timeFormat24Hr, context.locale)
     };
 
     return Scaffold(
@@ -89,15 +178,10 @@ class _AppUnitsPageState extends State<AppUnitsPage> {
                     SettingSingleOptionTile(
                       icon: Icon(Icons.device_thermostat),
                       title: Text('temperature_unit'.tr()),
-                      value: SettingTileValue(optionsTemp[
-                          currentTempMode == "Fahrenheit"
-                              ? "Fahrenheit"
-                              : "Celsius"]!),
+                      value: SettingTileValue(optionsTemp[selectedTempKey]!),
                       dialogTitle: 'temperature_unit'.tr(),
                       options: optionsTemp.values.toList(),
-                      initialOption: optionsTemp[currentTempMode == "Fahrenheit"
-                          ? "Fahrenheit"
-                          : "Celsius"],
+                      initialOption: optionsTemp[selectedTempKey],
                       onSubmitted: (value) {
                         final selectedKey = optionsTemp.entries
                             .firstWhere((e) => e.value == value)
@@ -111,27 +195,10 @@ class _AppUnitsPageState extends State<AppUnitsPage> {
                     SettingSingleOptionTile(
                       icon: Icon(Icons.air),
                       title: Text('wind_unit'.tr()),
-                      value:
-                          SettingTileValue(optionsWind[currentWindMode == "Mph"
-                              ? "Mph"
-                              : currentWindMode == "M/s"
-                                  ? "M/s"
-                                  : currentWindMode == "Bft"
-                                      ? "Bft"
-                                      : currentWindMode == "Kt"
-                                          ? "Kt"
-                                          : "Km/h"]!),
+                      value: SettingTileValue(optionsWind[selectedWindKey]!),
                       dialogTitle: 'wind_unit'.tr(),
                       options: optionsWind.values.toList(),
-                      initialOption: optionsWind[currentWindMode == "Mph"
-                          ? "Mph"
-                          : currentWindMode == "M/s"
-                              ? "M/s"
-                              : currentWindMode == "Bft"
-                                  ? "Bft"
-                                  : currentWindMode == "Kt"
-                                      ? "Kt"
-                                      : "Km/h"],
+                      initialOption: optionsWind[selectedWindKey],
                       onSubmitted: (value) {
                         final selectedKey = optionsWind.entries
                             .firstWhere((e) => e.value == value)
@@ -145,12 +212,11 @@ class _AppUnitsPageState extends State<AppUnitsPage> {
                     SettingSingleOptionTile(
                       icon: Icon(Icons.visibility),
                       title: Text('visibility_unit'.tr()),
-                      value: SettingTileValue(optionsVisibility[
-                          currentVisibilityMode == "Mile" ? "Mile" : "Km"]!),
+                      value: SettingTileValue(
+                          optionsVisibility[selectedVisibilityKey]!),
                       dialogTitle: 'visibility_unit'.tr(),
                       options: optionsVisibility.values.toList(),
-                      initialOption: optionsVisibility[
-                          currentVisibilityMode == "Mile" ? "Mile" : "Km"],
+                      initialOption: optionsVisibility[selectedVisibilityKey],
                       onSubmitted: (value) {
                         final selectedKey = optionsVisibility.entries
                             .firstWhere((e) => e.value == value)
@@ -164,19 +230,10 @@ class _AppUnitsPageState extends State<AppUnitsPage> {
                     SettingSingleOptionTile(
                       icon: Icon(Icons.water_drop),
                       title: Text('precipitation_unit'.tr()),
-                      value: SettingTileValue(
-                          optionsPrecip[currentPrecipMode == "cm"
-                              ? "cm"
-                              : currentPrecipMode == "in"
-                                  ? "in"
-                                  : "mm"]!),
+                      value: SettingTileValue(optionsPrecip[selectedPrecipKey]!),
                       dialogTitle: 'precipitation_unit'.tr(),
                       options: optionsPrecip.values.toList(),
-                      initialOption: optionsPrecip[currentPrecipMode == "cm"
-                          ? "cm"
-                          : currentPrecipMode == "in"
-                              ? "in"
-                              : "mm"],
+                      initialOption: optionsPrecip[selectedPrecipKey],
                       onSubmitted: (value) {
                         final selectedKey = optionsPrecip.entries
                             .firstWhere((e) => e.value == value)
@@ -191,19 +248,10 @@ class _AppUnitsPageState extends State<AppUnitsPage> {
                       icon: Icon(Icons.av_timer),
                       title: Text('pressure_unit'.tr()),
                       value: SettingTileValue(
-                          optionsPressure[currentPressureMode == "inHg"
-                              ? "inHg"
-                              : currentPressureMode == "mmHg"
-                                  ? "mmHg"
-                                  : "hPa"]!),
+                          optionsPressure[selectedPressureKey]!),
                       dialogTitle: 'pressure_unit'.tr(),
                       options: optionsPressure.values.toList(),
-                      initialOption:
-                          optionsPressure[currentPressureMode == "inHg"
-                              ? "inHg"
-                              : currentPressureMode == "mmHg"
-                                  ? "mmHg"
-                                  : "hPa"],
+                      initialOption: optionsPressure[selectedPressureKey],
                       onSubmitted: (value) {
                         final selectedKey = optionsPressure.entries
                             .firstWhere((e) => e.value == value)
@@ -217,12 +265,11 @@ class _AppUnitsPageState extends State<AppUnitsPage> {
                     SettingSingleOptionTile(
                       icon: Icon(Icons.schedule),
                       title: Text('time_format'.tr()),
-                      value: SettingTileValue(optionsTimeFormat[
-                          currentTimeFormat == "24 hr" ? "24 hr" : "12 hr"]!),
+                      value: SettingTileValue(
+                          optionsTimeFormat[selectedTimeFormatKey]!),
                       dialogTitle: 'time_format'.tr(),
                       options: optionsTimeFormat.values.toList(),
-                      initialOption: optionsTimeFormat[
-                          currentTimeFormat == "24 hr" ? "24 hr" : "12 hr"],
+                      initialOption: optionsTimeFormat[selectedTimeFormatKey],
                       onSubmitted: (value) {
                         final selectedKey = optionsTimeFormat.entries
                             .firstWhere((e) => e.value == value)
@@ -236,15 +283,10 @@ class _AppUnitsPageState extends State<AppUnitsPage> {
                     SettingSingleOptionTile(
                       icon: Icon(Icons.waves),
                       title: Text('aqi_type'.tr()),
-                      value: SettingTileValue(optionsAQI[
-                          currentAqiMode == "European"
-                              ? "European"
-                              : "United States"]!),
+                      value: SettingTileValue(optionsAQI[selectedAqiKey]!),
                       dialogTitle: 'aqi_type'.tr(),
                       options: optionsAQI.values.toList(),
-                      initialOption: optionsAQI[currentAqiMode == "European"
-                          ? "European"
-                          : "United States"],
+                      initialOption: optionsAQI[selectedAqiKey],
                       onSubmitted: (value) {
                         final selectedKey = optionsAQI.entries
                             .firstWhere((e) => e.value == value)

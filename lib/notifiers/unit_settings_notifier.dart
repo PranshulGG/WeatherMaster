@@ -38,40 +38,36 @@ class UnitSettingsNotifier extends ChangeNotifier {
     _loadAllUnits();
   }
 
-  Future<void> _loadAllUnits() async {
-    _tempUnit =
-        await PreferencesHelper.getString("selectedTempUnit") ?? _tempUnit;
-    _windUnit =
-        await PreferencesHelper.getString("selectedWindUnit") ?? _windUnit;
+  void _loadAllUnits() {
+    _tempUnit = PreferencesHelper.getString("selectedTempUnit") ?? _tempUnit;
+    _windUnit = PreferencesHelper.getString("selectedWindUnit") ?? _windUnit;
     _visibilityUnit =
-        await PreferencesHelper.getString("selectedVisibilityUnit") ??
+        PreferencesHelper.getString("selectedVisibilityUnit") ??
             _visibilityUnit;
     _precipitationUnit =
-        await PreferencesHelper.getString("selectedPrecipitationUnit") ??
+        PreferencesHelper.getString("selectedPrecipitationUnit") ??
             _precipitationUnit;
-    _pressureUnit = await PreferencesHelper.getString("selectedPressureUnit") ??
-        _pressureUnit;
-    _timeUnit =
-        await PreferencesHelper.getString("selectedTimeUnit") ?? _timeUnit;
-    _aqiUnit = await PreferencesHelper.getString("selectedAQIUnit") ?? _aqiUnit;
-    _useDeviceCompass = await PreferencesHelper.getBool("useDeviceCompass") ??
-        _useDeviceCompass;
+    _pressureUnit =
+        PreferencesHelper.getString("selectedPressureUnit") ?? _pressureUnit;
+    _timeUnit = PreferencesHelper.getString("selectedTimeUnit") ?? _timeUnit;
+    _aqiUnit = PreferencesHelper.getString("selectedAQIUnit") ?? _aqiUnit;
+    _useDeviceCompass =
+        PreferencesHelper.getBool("useDeviceCompass") ?? _useDeviceCompass;
     _useCardBackgroundAnimations =
-        await PreferencesHelper.getBool("CardBackgroundAnimations") ??
+        PreferencesHelper.getBool("CardBackgroundAnimations") ??
             _useCardBackgroundAnimations;
     _useOnlyMaterialScheme =
-        await PreferencesHelper.getBool("OnlyMaterialScheme") ??
+        PreferencesHelper.getBool("OnlyMaterialScheme") ??
             _useOnlyMaterialScheme;
-    _showFrog = await PreferencesHelper.getBool("showFroggy") ?? _showFrog;
+    _showFrog = PreferencesHelper.getBool("showFroggy") ?? _showFrog;
     _useDarkBackgroundCards =
-        await PreferencesHelper.getBool("useDarkerCardBackground") ??
+        PreferencesHelper.getBool("useDarkerCardBackground") ??
             _useDarkBackgroundCards;
     _useExpressiveVariant =
-        await PreferencesHelper.getBool("useExpressiveVariant") ??
+        PreferencesHelper.getBool("useExpressiveVariant") ??
             _useExpressiveVariant;
-
     _forceltrLayout =
-        await PreferencesHelper.getBool("ForceltrLayout") ?? _forceltrLayout;
+        PreferencesHelper.getBool("ForceltrLayout") ?? _forceltrLayout;
     notifyListeners();
   }
 

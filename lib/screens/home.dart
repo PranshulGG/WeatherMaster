@@ -14,7 +14,6 @@ import 'package:flutter/services.dart';
 // Third-party packages
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:hive/hive.dart';
 import 'package:material_color_utilities/material_color_utilities.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,6 +25,7 @@ import '../utils/animation_map.dart';
 import '../utils/froggy_map.dart';
 import '../utils/geo_location.dart';
 import '../utils/preferences_helper.dart';
+import '../utils/app_storage.dart';
 import '../utils/snack_util.dart';
 import '../utils/theme.dart';
 import '../utils/theme_controller.dart';
@@ -91,12 +91,8 @@ class WeatherHome extends StatefulWidget {
 }
 
 class _WeatherHomeState extends State<WeatherHome> {
-  List<LayoutBlockConfig> layoutConfig = [];
-
   // late Future<Map<String, dynamic>?>? weatherFuture;
   Future<Map<String, dynamic>?>? weatherFuture;
-
-  Map<String, dynamic>? weatherData;
 
   Widget? weatherAnimationWidget;
   int? _cachedWeatherCode;
@@ -107,7 +103,6 @@ class _WeatherHomeState extends State<WeatherHome> {
   final ScrollController _scrollController = ScrollController();
 
   bool _isAppFullyLoaded = false;
-  bool shouldSkipAppFullyLoaded = false;
   bool themeCalled = false;
   late String cityName;
   late String countryName;
@@ -115,22 +110,42 @@ class _WeatherHomeState extends State<WeatherHome> {
   int selectedGradientIndex = 2;
   int selectedSearchBgIndex = 2;
   int selectedContainerBgIndex = 2;
-  int selectedConditionColorIndex = 2;
   bool _istriggeredFromLocations = false;
   bool showInsightsRandomly = false;
   int? lastWeatherCode;
-  bool isfirstStart = true;
-  bool showAlertsPref = PreferencesHelper.getBool("showAlerts") ?? true;
   bool widgetsUpdated = false;
   bool? iscurrentDay = false;
   bool? _cachedIsShowFrog;
   bool? lastIsDay;
 
+  bool? _cachedGradientIsLight;
+  bool? _cachedGradientIsShowFrog;
+  bool? _cachedGradientIsCurrentDay;
+  List<LinearGradient>? _cachedGradients;
+  List<LinearGradient>? _cachedGradientsScrolled;
+
+  bool? _cachedCardColorsIsLight;
+  bool? _cachedCardColorsIsShowFrog;
+  bool? _cachedCardColorsIsCurrentDay;
+  bool? _cachedCardColorsUseDarkerBackground;
+  List<Color>? _cachedSearchBgColors;
+  List<int>? _cachedWeatherContainerColors;
+
+  String? _derivedWeatherDataKey;
+  _WeatherDerivedData? _derivedWeatherData;
+
+  String? _insightsCacheKey;
+  List<Map<String, dynamic>>? _insightsHourlyData;
+  List<Map<String, dynamic>>? _insightsDailyData;
+
   final WeatherFroggyManager _weatherManager = WeatherFroggyManager();
 
   String? _iconUrlFroggy;
   bool _isLoadingFroggy = true;
-  bool layoutCreated = false;
+  int? _lastFroggyWeatherCode;
+  bool? _lastFroggyIsDay;
+  int? _lastFroggyIndex;
+  bool _froggyLoadInFlight = false;
 
   bool isFirstAppBuild = true;
   bool onLoadForceCall = false;
@@ -146,13 +161,7 @@ class _WeatherHomeState extends State<WeatherHome> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final layoutProvider =
-          Provider.of<LayoutProvider>(context, listen: false);
-
-      layoutProvider.addListener(() {
-        loadLayoutConfig();
-      });
-
+      final layoutProvider = Provider.of<LayoutProvider>(context, listen: false);
       layoutProvider.loadLayout();
 
       if (PreferencesHelper.getBool("showNewVerNotification") ?? true) {
@@ -181,57 +190,219 @@ class _WeatherHomeState extends State<WeatherHome> {
     }
   }
 
-  Future<void> loadLayoutConfig() async {
-    final prefs = await SharedPreferences.getInstance();
-    final jsonStringList = prefs.getStringList('layout_config');
-
-    if (jsonStringList != null) {
-      layoutConfig = jsonStringList
-          .map((json) => LayoutBlockConfig.fromJson(jsonDecode(json)))
-          .toList();
-    } else {
-      layoutConfig = [
-        LayoutBlockConfig(type: LayoutBlockType.rain),
-        LayoutBlockConfig(type: LayoutBlockType.insights),
-        LayoutBlockConfig(type: LayoutBlockType.summary),
-        LayoutBlockConfig(type: LayoutBlockType.hourly),
-        LayoutBlockConfig(type: LayoutBlockType.daily),
-        LayoutBlockConfig(type: LayoutBlockType.conditions),
-        LayoutBlockConfig(type: LayoutBlockType.pollen),
-      ];
-    }
-
-    if (layoutCreated) {
-      setState(() {});
-    }
-    layoutCreated = true;
-  }
-
-  Future<void> saveLayoutConfig() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList(
-      'layout_config',
-      layoutConfig.map((e) => jsonEncode(e.toJson())).toList(),
-    );
+  @override
+  void dispose() {
+    _weatherManager.dispose();
+    _scrollController.dispose();
+    _showHeaderNotifier.dispose();
+    super.dispose();
   }
 
   Future<void> setHomeasCurrent() async {
     final prefs = await SharedPreferences.getInstance();
     final locationData = {
-      'city': PreferencesHelper.getJson('homeLocation')?['city'],
-      'country': PreferencesHelper.getJson('homeLocation')?['country'],
-      'cacheKey': PreferencesHelper.getJson('homeLocation')?['cacheKey'],
-      'latitude': PreferencesHelper.getJson('homeLocation')?['lat'],
-      'longitude': PreferencesHelper.getJson('homeLocation')?['lon'],
+      'city': PreferencesHelper.getJson(PrefKeys.homeLocation)?['city'],
+      'country': PreferencesHelper.getJson(PrefKeys.homeLocation)?['country'],
+      'cacheKey': PreferencesHelper.getJson(PrefKeys.homeLocation)?['cacheKey'],
+      'latitude': PreferencesHelper.getJson(PrefKeys.homeLocation)?['lat'],
+      'longitude': PreferencesHelper.getJson(PrefKeys.homeLocation)?['lon'],
     };
-    await prefs.setString('currentLocation', jsonEncode(locationData));
+    await prefs.setString(PrefKeys.currentLocation, jsonEncode(locationData));
+  }
+
+  _WeatherDerivedData _getOrComputeDerivedWeatherData({
+    required dynamic weather,
+    required String? lastUpdated,
+  }) {
+    final now = DateTime.now();
+    final dayKey =
+        '${now.year.toString().padLeft(4, '0')}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
+
+    final int offsetSeconds =
+        int.parse(weather['utc_offset_seconds'].toString());
+    final utcNow = DateTime.now().toUtc();
+    var nowPrecip = utcNow.add(Duration(seconds: offsetSeconds));
+    nowPrecip = DateTime(
+      nowPrecip.year,
+      nowPrecip.month,
+      nowPrecip.day,
+      nowPrecip.hour,
+      nowPrecip.minute,
+      nowPrecip.second,
+      nowPrecip.millisecond,
+      nowPrecip.microsecond,
+    );
+    final nowPrecipKey =
+        '${nowPrecip.year.toString().padLeft(4, '0')}-${nowPrecip.month.toString().padLeft(2, '0')}-${nowPrecip.day.toString().padLeft(2, '0')}-${nowPrecip.hour.toString().padLeft(2, '0')}-${nowPrecip.minute.toString().padLeft(2, '0')}';
+
+    final key = '${lastUpdated ?? ''}|$offsetSeconds|$dayKey|$nowPrecipKey';
+
+    final cached = _derivedWeatherData;
+    if (cached != null && _derivedWeatherDataKey == key) {
+      return cached;
+    }
+
+    final hourly = weather['hourly'] ?? {};
+
+    final List<dynamic> hourlyTimeNoFilter = hourly['time'];
+    final List<dynamic> hourlyTempsNoFilter = hourly['temperature_2m'];
+    final List<dynamic> hourlyWeatherCodesNoFilter = hourly['weather_code'];
+    final List<dynamic> hourlyPrecpProbNoFilter =
+        hourly['precipitation_probability'];
+
+    final todayMidnight = DateTime(now.year, now.month, now.day);
+    final filteredIndices = <int>[];
+    for (int i = 0; i < hourlyTimeNoFilter.length; i++) {
+      final time = DateTime.parse(hourlyTimeNoFilter[i]);
+      if (time.isAfter(todayMidnight) || time.isAtSameMomentAs(todayMidnight)) {
+        filteredIndices.add(i);
+      }
+    }
+
+    final hourlyTime =
+        filteredIndices.map((i) => hourlyTimeNoFilter[i]).toList(growable: false);
+    final List? visibilityList = hourly['visibility'] as List?;
+    final hourlyVisibility = filteredIndices.map((i) {
+      final dynamic rawVal =
+          (visibilityList != null && i < visibilityList.length)
+              ? visibilityList[i]
+              : null;
+      return (rawVal as num?)?.toDouble() ?? 0.0;
+    }).toList(growable: false);
+    final hourlyTemps =
+        filteredIndices.map((i) => hourlyTempsNoFilter[i]).toList(growable: false);
+    final hourlyWeatherCodes = filteredIndices
+        .map((i) => hourlyWeatherCodesNoFilter[i])
+        .toList(growable: false);
+    final hourlyPrecpProb = filteredIndices
+        .map((i) => hourlyPrecpProbNoFilter[i])
+        .toList(growable: false);
+
+    final daily = weather['daily'];
+    final List<dynamic> dailyDates = daily['time'];
+    final List<dynamic> sunriseTimes = daily['sunrise'];
+    final List<dynamic> sunsetTimes = daily['sunset'];
+
+    final Map<String, (DateTime, DateTime)> daylightMap = {
+      for (int i = 0; i < dailyDates.length; i++)
+        dailyDates[i]: (
+          DateTime.parse(sunriseTimes[i]),
+          DateTime.parse(sunsetTimes[i]),
+        ),
+    };
+
+    const double rainThreshold = 0.5;
+    const int probThreshold = 40;
+
+    final List<String> allTimeStrings =
+        (hourly['time'] as List?)?.cast<String>() ?? [];
+    final List<double> allPrecip = (hourly['precipitation'] as List?)
+            ?.map((e) => (e as num?)?.toDouble() ?? 0.0)
+            .toList() ??
+        [];
+    final List<int> allPrecipProb = (hourly['precipitation_probability'] as List?)
+            ?.map((e) => (e as num?)?.toInt() ?? 0)
+            .toList() ??
+        [];
+
+    final List<String> timeNext12h = [];
+    final List<double> precpNext12h = [];
+    final List<int> precipProbNext12h = [];
+
+    for (int i = 0; i < allTimeStrings.length; i++) {
+      if (i >= allPrecip.length || i >= allPrecipProb.length) break;
+      final time = DateTime.parse(allTimeStrings[i]);
+      if (time.isAfter(nowPrecip) && time.isBefore(nowPrecip.add(Duration(hours: 12)))) {
+        timeNext12h.add(allTimeStrings[i]);
+        precpNext12h.add(allPrecip[i]);
+        precipProbNext12h.add(allPrecipProb[i]);
+      }
+    }
+
+    int? rainStart;
+    int longestRainLength = 0;
+    int? bestStart;
+    int? bestEnd;
+
+    for (int i = 0; i < precpNext12h.length; i++) {
+      if (precpNext12h[i] >= rainThreshold && precipProbNext12h[i] >= probThreshold) {
+        rainStart ??= i;
+      } else {
+        if (rainStart != null) {
+          final length = i - rainStart;
+          if (length >= 2 && length > longestRainLength) {
+            longestRainLength = length;
+            bestStart = rainStart;
+            bestEnd = i - 1;
+          }
+          rainStart = null;
+        }
+      }
+    }
+
+    if (rainStart != null) {
+      final length = precpNext12h.length - rainStart;
+      if (length >= 2 && length > longestRainLength) {
+        bestStart = rainStart;
+        bestEnd = precpNext12h.length - 1;
+      }
+    }
+
+    final startIndex = getStartIndex(
+      weather['utc_offset_seconds'].toString(),
+      hourlyTime,
+    );
+
+    final next = _WeatherDerivedData(
+      hourlyTime: hourlyTime,
+      hourlyTemps: hourlyTemps,
+      hourlyWeatherCodes: hourlyWeatherCodes,
+      hourlyPrecpProb: hourlyPrecpProb,
+      hourlyVisibility: hourlyVisibility,
+      daylightMap: daylightMap,
+      shouldShowRainBlock: bestStart != null && bestEnd != null,
+      startIndex: startIndex,
+    );
+
+    _derivedWeatherDataKey = key;
+    _derivedWeatherData = next;
+
+    return next;
+  }
+
+  List<Map<String, dynamic>> _getInsightsHourlyData(
+      dynamic hourly, String cacheKey) {
+    if (_insightsCacheKey != cacheKey) {
+      _insightsCacheKey = cacheKey;
+      _insightsHourlyData = null;
+      _insightsDailyData = null;
+    }
+    final cached = _insightsHourlyData;
+    if (cached != null) return cached;
+    final next = convertToListOfMaps(Map<String, dynamic>.from(hourly as Map));
+    _insightsHourlyData = next;
+    return next;
+  }
+
+  List<Map<String, dynamic>> _getInsightsDailyData(dynamic daily, String cacheKey) {
+    if (_insightsCacheKey != cacheKey) {
+      _insightsCacheKey = cacheKey;
+      _insightsHourlyData = null;
+      _insightsDailyData = null;
+    }
+    final cached = _insightsDailyData;
+    if (cached != null) return cached;
+    final next = convertToListOfMaps(Map<String, dynamic>.from(daily as Map));
+    _insightsDailyData = next;
+    return next;
   }
 
   Future<Map<String, dynamic>?> getWeatherFromCache() async {
-    final box = await Hive.openBox('weatherMasterCache');
+    final box = await HiveBoxes.openWeatherCache();
     var cached = box.get(cacheKey);
-    final homePref = PreferencesHelper.getJson('homeLocation');
+    final homePref = PreferencesHelper.getJson(PrefKeys.homeLocation);
     if (cached == null) {
+      if (!mounted) return null;
       final weatherService = WeatherService();
       await weatherService.fetchWeather(homePref?['lat'], homePref?['lon'],
           locationName: cacheKey, context: context);
@@ -262,8 +433,10 @@ class _WeatherHomeState extends State<WeatherHome> {
       } else {}
 
       if (isFirstAppBuild) {
-        SnackUtil.showSnackBar(
-            context: context, message: "network_unavailable".tr());
+        if (mounted) {
+          SnackUtil.showSnackBar(
+              context: context, message: "network_unavailable".tr());
+        }
         isFirstAppBuild = false;
       }
     } else if (lastUpdated != null) {
@@ -284,10 +457,27 @@ class _WeatherHomeState extends State<WeatherHome> {
   }
 
   Future<void> _loadWeatherIconFroggy(
-      int weatherCode, bool isDay, newindex) async {
-    await _weatherManager.initializeIcons();
-    final icon = _weatherManager.getFroggieIcon(weatherCode, isDay);
-    if (mounted && _isLoadingFroggy == true) {
+      int weatherCode, bool isDay, int newIndex) async {
+    if (!_isLoadingFroggy) return;
+    if (_froggyLoadInFlight &&
+        _lastFroggyWeatherCode == weatherCode &&
+        _lastFroggyIsDay == isDay &&
+        _lastFroggyIndex == newIndex) {
+      return;
+    }
+
+    _lastFroggyWeatherCode = weatherCode;
+    _lastFroggyIsDay = isDay;
+    _lastFroggyIndex = newIndex;
+    _froggyLoadInFlight = true;
+
+    try {
+      await _weatherManager.initializeIcons();
+      final icon = _weatherManager.getFroggieIcon(weatherCode, isDay);
+      if (!mounted || _isLoadingFroggy != true) {
+        return;
+      }
+
       if ((PreferencesHelper.getBool("DynamicColors") ?? false) ||
           (PreferencesHelper.getBool("usingCustomSeed") ?? false)) {
         setState(() {
@@ -298,23 +488,24 @@ class _WeatherHomeState extends State<WeatherHome> {
             _isAppFullyLoaded = true;
           }
         });
+        return;
       }
 
-      if (!(PreferencesHelper.getBool("DynamicColors") ?? false) &&
-          !(PreferencesHelper.getBool("usingCustomSeed") ?? false)) {
-        if (themeCalled == false) {
+      if (themeCalled == false) {
+        setState(() {
           _iconUrlFroggy = icon;
           _isLoadingFroggy = false;
           if (_istriggeredFromLocations) {
             _istriggeredFromLocations = false;
             _isAppFullyLoaded = true;
           }
-          Provider.of<ThemeController>(context, listen: false)
-              .setSeedColor(weatherConditionColors[newindex]);
-
-          themeCalled = true;
-        }
+        });
+        Provider.of<ThemeController>(context, listen: false)
+            .setSeedColor(weatherConditionColors[newIndex]);
+        themeCalled = true;
       }
+    } finally {
+      _froggyLoadInFlight = false;
     }
   }
 
@@ -339,7 +530,7 @@ class _WeatherHomeState extends State<WeatherHome> {
       return;
     }
 
-    final box = await Hive.openBox('weatherMasterCache');
+    final box = await HiveBoxes.openWeatherCache();
     final raw = box.get(cacheKey);
     if (raw == null) {
       return;
@@ -365,17 +556,17 @@ class _WeatherHomeState extends State<WeatherHome> {
       }
     }
 
+    if (!mounted) return;
     final weatherService = WeatherService();
     Map<String, dynamic>? result;
     try {
       result = await weatherService.fetchWeather(lat!, lon!,
           locationName: cacheKey, context: context);
     } catch (e) {
-      setState(() {
-        _isAppFullyLoaded = true;
-      });
-
-      if (context != null) {
+      if (mounted) {
+        setState(() {
+          _isAppFullyLoaded = true;
+        });
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('data_fetch_error'.tr()),
@@ -383,6 +574,7 @@ class _WeatherHomeState extends State<WeatherHome> {
           ),
         );
       }
+      return;
     }
 
     if (result == null) {
@@ -399,16 +591,15 @@ class _WeatherHomeState extends State<WeatherHome> {
       _istriggeredFromLocations = true;
       _isLoadingFroggy = true;
       themeCalled = false;
+      weatherFuture = getWeatherFromCache();
     });
-
-    weatherFuture = getWeatherFromCache();
 
     PreferencesHelper.setBool("ModelChanged", false);
   }
 
   Future<void> _setLatLon() async {
     final prefs = await SharedPreferences.getInstance();
-    final jsonString = prefs.getString('currentLocation');
+    final jsonString = prefs.getString(PrefKeys.currentLocation);
     if (jsonString != null) {
       final jsonMap = json.decode(jsonString);
       lat = jsonMap['latitude'];
@@ -418,10 +609,11 @@ class _WeatherHomeState extends State<WeatherHome> {
 
   Future<void> checkAndUpdateHomeLocation() async {
     final prefs = await SharedPreferences.getInstance();
-    final storedJson = prefs.getString('homeLocation');
+    final storedJson = prefs.getString(PrefKeys.homeLocation);
     final storedLocation = storedJson != null ? jsonDecode(storedJson) : null;
 
     if (storedLocation['isGPS'] ?? false) {
+      if (!mounted) return;
       bool serviceAvailable =
           await LocationPermissionHelper.checkServicesAndPermission(context);
 
@@ -455,7 +647,7 @@ class _WeatherHomeState extends State<WeatherHome> {
 
       Future<void> saveLocation(SavedLocation newLocation) async {
         final prefs = await SharedPreferences.getInstance();
-        final existing = prefs.getString('saved_locations');
+        final existing = prefs.getString(PrefKeys.savedLocations);
         List<SavedLocation> current = [];
 
         if (existing != null) {
@@ -468,16 +660,16 @@ class _WeatherHomeState extends State<WeatherHome> {
 
         if (!alreadyExists) {
           current.add(newLocation);
-          await prefs.setString('saved_locations',
+          await prefs.setString(PrefKeys.savedLocations,
               jsonEncode(current.map((e) => e.toJson()).toList()));
         }
       }
 
       if (locationChanged) {
-        prefs.remove('homeLocation');
+        prefs.remove(PrefKeys.homeLocation);
 
         prefs.setString(
-            'homeLocation',
+            PrefKeys.homeLocation,
             jsonEncode({
               'city': currentGeo['city']!,
               'country': currentGeo['country']!,
@@ -505,6 +697,7 @@ class _WeatherHomeState extends State<WeatherHome> {
         themeCalled = false;
         await saveLocation(saved);
 
+        if (!mounted) return;
         final weatherService = WeatherService();
         try {
           await weatherService.fetchWeather(
@@ -514,11 +707,10 @@ class _WeatherHomeState extends State<WeatherHome> {
             context: context,
           );
         } catch (e) {
-          setState(() {
-            _isAppFullyLoaded = true;
-          });
-
-          if (context != null) {
+          if (mounted) {
+            setState(() {
+              _isAppFullyLoaded = true;
+            });
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text('data_fetch_error'.tr()),
@@ -526,6 +718,7 @@ class _WeatherHomeState extends State<WeatherHome> {
               ),
             );
           }
+          return;
         }
         setState(() {
           weatherFuture = getWeatherFromCache();
@@ -575,6 +768,153 @@ class _WeatherHomeState extends State<WeatherHome> {
     Colors.cyan,
   ];
 
+  void _ensureGradientCache(bool isLight, bool isShowFrog, bool isCurrentDay) {
+    if (_cachedGradients != null &&
+        _cachedGradientsScrolled != null &&
+        _cachedGradientIsLight == isLight &&
+        _cachedGradientIsShowFrog == isShowFrog &&
+        _cachedGradientIsCurrentDay == isCurrentDay) {
+      return;
+    }
+
+    _cachedGradientIsLight = isLight;
+    _cachedGradientIsShowFrog = isShowFrog;
+    _cachedGradientIsCurrentDay = isCurrentDay;
+
+    _cachedGradients = getGradients(isLight, isShowFrog, isCurrentDay);
+    _cachedGradientsScrolled =
+        getGradientsScrolled(isLight, isShowFrog, isCurrentDay);
+  }
+
+  void _ensureCardColorCache({
+    required bool isLight,
+    required bool isShowFrog,
+    required bool isCurrentDay,
+    required bool useDarkerBackground,
+  }) {
+    if (_cachedSearchBgColors != null &&
+        _cachedWeatherContainerColors != null &&
+        _cachedCardColorsIsLight == isLight &&
+        _cachedCardColorsIsShowFrog == isShowFrog &&
+        _cachedCardColorsIsCurrentDay == isCurrentDay &&
+        _cachedCardColorsUseDarkerBackground == useDarkerBackground) {
+      return;
+    }
+
+    _cachedCardColorsIsLight = isLight;
+    _cachedCardColorsIsShowFrog = isShowFrog;
+    _cachedCardColorsIsCurrentDay = isCurrentDay;
+    _cachedCardColorsUseDarkerBackground = useDarkerBackground;
+
+    _cachedSearchBgColors = [
+      // cloudy
+      isLight
+          ? Color(paletteWeather.secondary.get(150))
+          : Color(paletteWeather.secondary.get(10)),
+
+      // overcast
+      isLight ? Color(0xFFe8f2ff) : Color(paletteWeather.secondary.get(13)),
+
+      // clear day
+      isLight ? Color(0xFFe8f2ff) : Color(paletteWeather.primary.get(10)),
+
+      // clear night
+      isLight
+          ? Color(paletteWeather.neutral.get(100))
+          : Color(paletteWeather.primary.get(10)),
+
+      // fog
+      isLight
+          ? Color(
+              CorePalette.of(const Color.fromARGB(255, 255, 153, 0).toARGB32())
+                  .secondary
+                  .get(100))
+          : Color(
+              CorePalette.of(const Color.fromARGB(255, 255, 153, 0).toARGB32())
+                  .secondary
+                  .get(20)),
+      // rain
+      isLight ? Color(0xFFe8f2ff) : Color(paletteWeather.secondary.get(15)),
+
+      // thunder
+      isLight
+          ? Color.fromARGB(255, 247, 232, 255)
+          : Color(CorePalette.of(const Color(0xFFe4b7f3).toARGB32())
+              .secondary
+              .get(20)),
+
+      // snow
+      isLight
+          ? Color.fromARGB(255, 232, 254, 255)
+          : Color(
+              CorePalette.of(const Color.fromARGB(255, 0, 13, 31).toARGB32())
+                  .secondary
+                  .get(18)),
+    ];
+
+    _cachedWeatherContainerColors = [
+      // cloudy
+      isLight
+          ? paletteWeather.secondary.get(98)
+          : paletteWeather.secondary.get(useDarkerBackground
+              ? 2
+              : !isShowFrog
+                  ? isCurrentDay
+                      ? 8
+                      : 3
+                  : 8),
+
+      // overcast
+      isLight
+          ? 0xFFfcfcff
+          : paletteWeather.secondary.get(useDarkerBackground ? 2 : 6),
+
+      // clear day
+      isLight
+          ? 0xFFfcfcff
+          : paletteWeather.primary.get(useDarkerBackground ? 2 : 8),
+
+      // clear night
+      isLight
+          ? CorePalette.of(const Color.fromARGB(255, 58, 77, 141).toARGB32())
+              .primary
+              .get(98)
+          : CorePalette.of(const Color.fromARGB(255, 58, 77, 141).toARGB32())
+              .primary
+              .get(useDarkerBackground ? 2 : 4),
+
+      // fog
+      isLight
+          ? CorePalette.of(Color.fromARGB(255, 255, 213, 165).toARGB32())
+              .secondary
+              .get(98)
+          : CorePalette.of(Color.fromARGB(255, 255, 213, 165).toARGB32())
+              .secondary
+              .get(useDarkerBackground ? 2 : 6),
+
+      // rain
+      isLight
+          ? 0xFFfcfcff
+          : CorePalette.of(Colors.blueAccent.toARGB32())
+              .secondary
+              .get(useDarkerBackground ? 2 : 8),
+
+      // thunder
+      isLight
+          ? CorePalette.of(const Color(0xFFe4b7f3).toARGB32()).secondary.get(96)
+          : CorePalette.of(const Color(0xFFe4b7f3).toARGB32())
+              .secondary
+              .get(useDarkerBackground ? 2 : 10),
+
+      // snow
+      isLight
+          ? 0xFFfcfcff
+          : CorePalette.of(const Color.fromARGB(255, 0, 13, 31).toARGB32())
+              .secondary
+              .get(1),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
@@ -591,14 +931,16 @@ class _WeatherHomeState extends State<WeatherHome> {
                       : Color.fromRGBO(0, 0, 0, 0.3)),
     );
 
-    final isShowFrog = context.read<UnitSettingsNotifier>().showFrog;
+    final isShowFrog =
+        context.select<UnitSettingsNotifier, bool>((n) => n.showFrog);
     final colorTheme = Theme.of(context).colorScheme;
+    final currentDay = iscurrentDay ?? false;
 
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
-    final gradients = getGradients(isLight, isShowFrog, iscurrentDay);
-    final gradientsScrolled =
-        getGradientsScrolled(isLight, isShowFrog, iscurrentDay);
+    _ensureGradientCache(isLight, isShowFrog, currentDay);
+    final gradients = _cachedGradients!;
+    final gradientsScrolled = _cachedGradientsScrolled!;
 
     return Stack(
       children: [
@@ -687,16 +1029,17 @@ class _WeatherHomeState extends State<WeatherHome> {
     }
 
     if (difference.inMinutes < 1) return 'just_now'.tr();
-    if (difference.inMinutes < 60)
+    if (difference.inMinutes < 60) {
       return formatRelativeTime('min', difference.inMinutes);
-    if (difference.inHours < 24)
+    }
+    if (difference.inHours < 24) {
       return formatRelativeTime('hr', difference.inHours);
+    }
 
     return '${dt.month}/${dt.day} at ${dt.hour}:${dt.minute.toString().padLeft(2, '0')}';
   }
 
   Widget _buildMainBody() {
-    final padding = MediaQuery.of(context).padding;
     final colorTheme = Theme.of(context).colorScheme;
 
     return CustomRefreshIndicator(
@@ -738,153 +1081,64 @@ class _WeatherHomeState extends State<WeatherHome> {
           ],
         );
       },
-      child: SingleChildScrollView(
-        controller: _scrollController,
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Column(
-          children: [
-            Padding(padding: EdgeInsets.only(top: padding.top + 10)),
-            _buildWeatherContent(),
-          ],
-        ),
-      ),
+      child: _buildWeatherContent(),
     );
   }
 
   Widget _buildWeatherContent() {
-    final bool usAnimations =
-        context.watch<UnitSettingsNotifier>().useCardBackgroundAnimations;
+    final padding = MediaQuery.of(context).padding;
+    final bool usAnimations = context.select<UnitSettingsNotifier, bool>(
+        (n) => n.useCardBackgroundAnimations);
     final bool useDarkerBackground =
-        context.watch<UnitSettingsNotifier>().useDarkBackgroundCards;
-    final isShowFrog = context.watch<UnitSettingsNotifier>().showFrog;
+        context.select<UnitSettingsNotifier, bool>((n) => n.useDarkBackgroundCards);
+    final isShowFrog =
+        context.select<UnitSettingsNotifier, bool>((n) => n.showFrog);
+    final useFullMaterialScheme =
+        context.select<UnitSettingsNotifier, bool>((n) => n.useOnlyMaterialScheme);
 
-    final colorTheme = Theme.of(context).colorScheme;
+    final currentDay = iscurrentDay ?? false;
+    _ensureCardColorCache(
+      isLight: isLight,
+      isShowFrog: isShowFrog,
+      isCurrentDay: currentDay,
+      useDarkerBackground: useDarkerBackground,
+    );
 
-    final List<Color> searchBgColors = [
-      // cloudy
-      isLight
-          ? Color(paletteWeather.secondary.get(150))
-          : Color(paletteWeather.secondary.get(10)),
-
-      // overcast
-      isLight ? Color(0xFFe8f2ff) : Color(paletteWeather.secondary.get(13)),
-
-      // clear day
-      isLight ? Color(0xFFe8f2ff) : Color(paletteWeather.primary.get(10)),
-
-      // clear night
-      isLight
-          ? Color(paletteWeather.neutral.get(100))
-          : Color(paletteWeather.primary.get(10)),
-
-      // fog
-      isLight
-          ? Color(
-              CorePalette.of(const Color.fromARGB(255, 255, 153, 0).toARGB32())
-                  .secondary
-                  .get(100))
-          : Color(
-              CorePalette.of(const Color.fromARGB(255, 255, 153, 0).toARGB32())
-                  .secondary
-                  .get(20)),
-      // rain
-      isLight ? Color(0xFFe8f2ff) : Color(paletteWeather.secondary.get(15)),
-
-      // thunder
-      isLight
-          ? Color.fromARGB(255, 247, 232, 255)
-          : Color(CorePalette.of(const Color(0xFFe4b7f3).toARGB32())
-              .secondary
-              .get(20)),
-
-      // snow
-      isLight
-          ? Color.fromARGB(255, 232, 254, 255)
-          : Color(
-              CorePalette.of(const Color.fromARGB(255, 0, 13, 31).toARGB32())
-                  .secondary
-                  .get(18)),
-    ];
-
-    final List<int> weatherContainerColors = [
-      // cloudy
-      isLight
-          ? paletteWeather.secondary.get(98)
-          : paletteWeather.secondary.get(useDarkerBackground
-              ? 2
-              : !isShowFrog
-                  ? iscurrentDay!
-                      ? 8
-                      : 3
-                  : 8),
-
-      // overcast
-      isLight
-          ? 0xFFfcfcff
-          : paletteWeather.secondary.get(useDarkerBackground ? 2 : 6),
-
-      // clear day
-      isLight
-          ? 0xFFfcfcff
-          : paletteWeather.primary.get(useDarkerBackground ? 2 : 8),
-
-      // clear night
-      isLight
-          ? CorePalette.of(const Color.fromARGB(255, 58, 77, 141).toARGB32())
-              .primary
-              .get(98)
-          : CorePalette.of(const Color.fromARGB(255, 58, 77, 141).toARGB32())
-              .primary
-              .get(useDarkerBackground ? 2 : 4),
-
-      // fog
-      isLight
-          ? CorePalette.of(Color.fromARGB(255, 255, 213, 165).toARGB32())
-              .secondary
-              .get(98)
-          : CorePalette.of(Color.fromARGB(255, 255, 213, 165).toARGB32())
-              .secondary
-              .get(useDarkerBackground ? 2 : 6),
-
-      // rain
-      isLight
-          ? 0xFFfcfcff
-          : CorePalette.of(Colors.blueAccent.toARGB32())
-              .secondary
-              .get(useDarkerBackground ? 2 : 8),
-
-      // thunder
-      isLight
-          ? CorePalette.of(const Color(0xFFe4b7f3).toARGB32()).secondary.get(96)
-          : CorePalette.of(const Color(0xFFe4b7f3).toARGB32())
-              .secondary
-              .get(useDarkerBackground ? 2 : 10),
-
-      // snow
-      isLight
-          ? 0xFFfcfcff
-          : CorePalette.of(const Color.fromARGB(255, 0, 13, 31).toARGB32())
-              .secondary
-              .get(1),
-    ];
+    final searchBgColors = _cachedSearchBgColors!;
+    final weatherContainerColors = _cachedWeatherContainerColors!;
 
     return FutureBuilder<Map<String, dynamic>?>(
         future: weatherFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const SizedBox.shrink();
+            return ListView(
+              controller: _scrollController,
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: EdgeInsets.zero,
+              children: [
+                Padding(padding: EdgeInsets.only(top: padding.top + 10)),
+              ],
+            );
           }
 
           if (!snapshot.hasData || snapshot.data == null) {
-            return Center(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const LocationsScreen()),
-                  );
-                },
-                child: const Text("Choose Location"),
-              ),
+            return ListView(
+              controller: _scrollController,
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: EdgeInsets.zero,
+              children: [
+                Padding(padding: EdgeInsets.only(top: padding.top + 10)),
+                Center(
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const LocationsScreen()),
+                      );
+                    },
+                    child: const Text("Choose Location"),
+                  ),
+                ),
+              ],
             );
           }
 
@@ -898,41 +1152,22 @@ class _WeatherHomeState extends State<WeatherHome> {
 
           final hourly = weather['hourly'] ?? {};
 
-          final List<dynamic> hourlyTimeNoFilter = hourly['time'];
-          final List<dynamic> hourlyTempsNoFilter = hourly['temperature_2m'];
-          final List<dynamic> hourlyWeatherCodesNoFilter =
-              hourly['weather_code'];
-          final List<dynamic> hourlyPrecpProbNoFilter =
-              hourly['precipitation_probability'];
+          final derived = _getOrComputeDerivedWeatherData(
+            weather: weather,
+            lastUpdated: lastUpdated,
+          );
 
-          // Convert times to DateTime and filter out past-day entries
-          final now = DateTime.now();
-          final todayMidnight = DateTime(now.year, now.month, now.day);
-
-          final filteredIndices = <int>[];
-          for (int i = 0; i < hourlyTimeNoFilter.length; i++) {
-            final time = DateTime.parse(hourlyTimeNoFilter[i]);
-            if (time.isAfter(todayMidnight) ||
-                time.isAtSameMomentAs(todayMidnight)) {
-              filteredIndices.add(i);
-            }
-          }
-
-// Keep only today's + future hours
-          final hourlyTime =
-              filteredIndices.map((i) => hourlyTimeNoFilter[i]).toList();
-          final hourlyTemps =
-              filteredIndices.map((i) => hourlyTempsNoFilter[i]).toList();
-          final hourlyWeatherCodes = filteredIndices
-              .map((i) => hourlyWeatherCodesNoFilter[i])
-              .toList();
-          final hourlyPrecpProb =
-              filteredIndices.map((i) => hourlyPrecpProbNoFilter[i]).toList();
+          final hourlyTime = derived.hourlyTime;
+          final hourlyVisibility = derived.hourlyVisibility;
+          final hourlyTemps = derived.hourlyTemps;
+          final hourlyWeatherCodes = derived.hourlyWeatherCodes;
+          final hourlyPrecpProb = derived.hourlyPrecpProb;
+          final bool shouldShowRainBlock = derived.shouldShowRainBlock;
+          final int startIndex = derived.startIndex;
+          final insightsKey = '$cacheKey|${lastUpdated ?? ''}';
 
           final daily = weather['daily'];
           final List<dynamic> dailyDates = daily['time'];
-          final List<dynamic> sunriseTimes = daily['sunrise'];
-          final List<dynamic> sunsetTimes = daily['sunset'];
           final List<dynamic> dailyTempsMin = daily['temperature_2m_min'];
           final List<dynamic> dailyTempsMax = daily['temperature_2m_max'];
           final List<dynamic> dailyPrecProb =
@@ -974,7 +1209,6 @@ class _WeatherHomeState extends State<WeatherHome> {
           if (onLoadForceCall) {
             if (_cachedIsShowFrog != isShowFrog) {
               maybeUpdateWeatherAnimation(current, isForce: true);
-              print('called');
 
               _cachedIsShowFrog = isShowFrog;
             }
@@ -982,29 +1216,8 @@ class _WeatherHomeState extends State<WeatherHome> {
             onLoadForceCall = true;
           }
 
-          final Map<String, (DateTime, DateTime)> daylightMap = {
-            for (int i = 0; i < dailyDates.length; i++)
-              dailyDates[i]: (
-                DateTime.parse(sunriseTimes[i]),
-                DateTime.parse(sunsetTimes[i])
-              ),
-          };
-
-          bool isHourDuringDaylightOptimized(DateTime hourTime) {
-            final key =
-                "${hourTime.year.toString().padLeft(4, '0')}-${hourTime.month.toString().padLeft(2, '0')}-${hourTime.day.toString().padLeft(2, '0')}";
-            final times = daylightMap[key];
-            if (times != null) {
-              return hourTime.isAfter(times.$1) && hourTime.isBefore(times.$2);
-            }
-            return true;
-          }
-
           final int weatherCode = current['weather_code'] ?? 0;
           final bool isDay = current['is_day'] == 1;
-
-          final useFullMaterialScheme =
-              PreferencesHelper.getBool("OnlyMaterialScheme") ?? false;
 
           String formattedTime = lastUpdated != null
               ? _formatLastUpdated(
@@ -1022,7 +1235,7 @@ class _WeatherHomeState extends State<WeatherHome> {
             lastIsDay = isDay;
 
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              if (mounted) {
+              if (context.mounted) {
                 setState(() {
                   iscurrentDay = isDay;
                   !useFullMaterialScheme
@@ -1033,9 +1246,6 @@ class _WeatherHomeState extends State<WeatherHome> {
                       : null;
                   !useFullMaterialScheme
                       ? selectedContainerBgIndex = newIndex
-                      : null;
-                  !useFullMaterialScheme
-                      ? selectedConditionColorIndex = newIndex
                       : null;
                 });
                 _isLoadingFroggy = true;
@@ -1048,9 +1258,9 @@ class _WeatherHomeState extends State<WeatherHome> {
               }
             });
           } else {
-            _isLoadingFroggy == true;
-            _loadWeatherIconFroggy(weatherCodeFroggy, isDayFroggy,
-                newIndex); // idk, call it anyway
+            if (_isLoadingFroggy) {
+              _loadWeatherIconFroggy(weatherCodeFroggy, isDayFroggy, newIndex);
+            }
           }
 
           final double? alderPollen =
@@ -1065,102 +1275,18 @@ class _WeatherHomeState extends State<WeatherHome> {
               weather['air_quality']['current']['olive_pollen'];
           final double? ragweedPollen =
               weather['air_quality']['current']['ragweed_pollen'];
-
-          const double rainThreshold = 0.5;
-          const int probThreshold = 40;
-          int offsetSeconds =
-              int.parse(weather['utc_offset_seconds'].toString());
-          DateTime utcNow = DateTime.now().toUtc();
-          DateTime nowPrecip = utcNow.add(Duration(seconds: offsetSeconds));
-
-          nowPrecip = DateTime(
-            nowPrecip.year,
-            nowPrecip.month,
-            nowPrecip.day,
-            nowPrecip.hour,
-            nowPrecip.minute,
-            nowPrecip.second,
-            nowPrecip.millisecond,
-            nowPrecip.microsecond,
-          );
-
-          final List<String> allTimeStrings =
-              (hourly['time'] as List?)?.cast<String>() ?? [];
-          final List<double> allPrecip = (hourly['precipitation'] as List?)
-                  ?.map((e) => (e as num?)?.toDouble() ?? 0.0)
-                  .toList() ??
-              [];
-          final List<int> allPrecipProb =
-              (hourly['precipitation_probability'] as List?)
-                      ?.map((e) => (e as num?)?.toInt() ?? 0)
-                      .toList() ??
-                  [];
-
-          final List<String> timeNext12h = [];
-          final List<double> precpNext12h = [];
-          final List<int> precipProbNext12h = [];
-
-          for (int i = 0; i < allTimeStrings.length; i++) {
-            if (i >= allPrecip.length || i >= allPrecipProb.length) break;
-
-            final time = DateTime.parse(allTimeStrings[i]);
-            if (time.isAfter(nowPrecip) &&
-                time.isBefore(nowPrecip.add(Duration(hours: 12)))) {
-              timeNext12h.add(allTimeStrings[i]);
-              precpNext12h.add(allPrecip[i]);
-              precipProbNext12h.add(allPrecipProb[i]);
-            }
-          }
-
-          final List<double> next2hPrecip = [];
-
-          for (int i = 0; i < timeNext12h.length; i++) {
-            final time = DateTime.parse(timeNext12h[i]);
-            if (time.isBefore(nowPrecip.add(Duration(hours: 2)))) {
-              next2hPrecip.add(precpNext12h[i]);
-            }
-          }
-
-          int? rainStart;
-          int longestRainLength = 0;
-          int? bestStart;
-          int? bestEnd;
-
-          for (int i = 0; i < precpNext12h.length; i++) {
-            if (precpNext12h[i] >= rainThreshold &&
-                precipProbNext12h[i] >= probThreshold) {
-              rainStart ??= i;
-            } else {
-              if (rainStart != null) {
-                final length = i - rainStart;
-                if (length >= 2 && length > longestRainLength) {
-                  longestRainLength = length;
-                  bestStart = rainStart;
-                  bestEnd = i - 1;
-                }
-                rainStart = null;
-              }
-            }
-          }
-
-          if (rainStart != null) {
-            final length = precpNext12h.length - rainStart;
-            if (length >= 2 && length > longestRainLength) {
-              bestStart = rainStart;
-              bestEnd = precpNext12h.length - 1;
-            }
-          }
-
-          final bool shouldShowRainBlock = bestStart != null && bestEnd != null;
           final colorTheme = Theme.of(context).colorScheme;
 
           if (!widgetsUpdated) {
-            updateHomeWidget(weather,
-                updatedFromHome: true); // update once on start
-            PreferencesHelper.setBool('triggerfromWorker', false);
-            PreferencesHelper.setString(
-                'lastUpdatedFromHome', DateTime.now().toIso8601String());
-            widgetsUpdated = true;
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (!mounted || widgetsUpdated) return;
+              updateHomeWidget(weather,
+                  updatedFromHome: true); // update once on start
+              PreferencesHelper.setBool(PrefKeys.triggerFromWorker, false);
+              PreferencesHelper.setString(PrefKeys.lastUpdatedFromHome,
+                  DateTime.now().toIso8601String());
+              widgetsUpdated = true;
+            });
           }
 
           Widget buildLayoutBlock(LayoutBlockType type) {
@@ -1189,8 +1315,10 @@ class _WeatherHomeState extends State<WeatherHome> {
                 return !shouldShowRainBlock && showInsightsRandomly
                     ? ShowInsights(
                         key: const ValueKey('ShowInsights'),
-                        hourlyData: convertToListOfMaps(weather['hourly']),
-                        dailyData: convertToListOfMaps(weather['daily']),
+                        hourlyData: _getInsightsHourlyData(
+                            weather['hourly'], insightsKey),
+                        dailyData:
+                            _getInsightsDailyData(weather['daily'], insightsKey),
                         currentData: [
                           Map<String, dynamic>.from(weather['current'])
                         ],
@@ -1222,7 +1350,8 @@ class _WeatherHomeState extends State<WeatherHome> {
                   hourlyTime: hourlyTime,
                   hourlyTemps: hourlyTemps,
                   hourlyWeatherCodes: hourlyWeatherCodes,
-                  isHourDuringDaylightOptimized: isHourDuringDaylightOptimized,
+                  isHourDuringDaylightOptimized:
+                      derived.isHourDuringDaylightOptimized,
                   selectedContainerBgIndex: useFullMaterialScheme
                       ? Theme.of(context)
                           .colorScheme
@@ -1232,6 +1361,7 @@ class _WeatherHomeState extends State<WeatherHome> {
                   timezone: weather['timezone'].toString(),
                   utcOffsetSeconds: weather['utc_offset_seconds'].toString(),
                   hourlyPrecpProb: hourlyPrecpProb,
+                  startIndexOverride: startIndex,
                 );
 
               case LayoutBlockType.daily:
@@ -1262,15 +1392,13 @@ class _WeatherHomeState extends State<WeatherHome> {
                       currentHumidity:
                           current['relative_humidity_2m'] ?? 0.0000001,
                       currentDewPoint:
-                          hourly['dew_point_2m'][getStartIndex(weather['utc_offset_seconds'].toString(), hourlyTime)]
+                          hourly['dew_point_2m'][startIndex]
                                   .toDouble() ??
                               0.0000001,
                       currentSunrise: daily['sunrise'][1] ?? 0.0000001,
                       currentSunset: daily['sunset'][1] ?? 0.0000001,
                       currentPressure: current['pressure_msl'] ?? 0.0000001,
-                      currentVisibility: hourly['visibility'][getStartIndex(
-                              weather['utc_offset_seconds'].toString(),
-                              hourlyTime)] ??
+                      currentVisibility: hourlyVisibility[startIndex] ??
                           0.0000001,
                       currentWindSpeed: current['wind_speed_10m'] ?? 0.0000001,
                       currentWindDirc:
@@ -1278,8 +1406,8 @@ class _WeatherHomeState extends State<WeatherHome> {
                       timezone: weather['timezone'].toString(),
                       utcOffsetSeconds:
                           weather['utc_offset_seconds'].toString(),
-                      currentUvIndex: hourly['uv_index']
-                              [getStartIndex(weather['utc_offset_seconds'].toString(), hourlyTime)] ??
+                      currentUvIndex:
+                          hourly['uv_index'][startIndex] ??
                           0.0000001,
                       currentAQIUSA: weather['air_quality']['current']['us_aqi'] ?? 0.0000001,
                       currentAQIEURO: weather['air_quality']['current']['european_aqi'] ?? 0.0000001,
@@ -1309,330 +1437,404 @@ class _WeatherHomeState extends State<WeatherHome> {
             }
           }
 
-          return _isAppFullyLoaded
-              ? Column(children: [
-                  Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      if (weatherAnimationWidget != null)
-                        useFullMaterialScheme
-                            ? const SizedBox.shrink()
-                            : usAnimations
-                                ? ValueListenableBuilder<bool>(
-                                    valueListenable: _showHeaderNotifier,
-                                    builder: (context, show, child) {
-                                      return !show
-                                          ? weatherAnimationWidget!
-                                          : const SizedBox.shrink();
-                                    },
-                                  )
-                                : const SizedBox.shrink()
-                      else
-                        const SizedBox.shrink(),
-                      Container(
-                          margin: EdgeInsets.only(
-                              left: isShowFrog ? 14 : 0,
-                              right: isShowFrog ? 14 : 0),
-                          child: OpenContainer<Map<String, dynamic>?>(
-                            transitionType: ContainerTransitionType.fadeThrough,
-                            openBuilder: (context, _) =>
-                                const LocationsScreen(),
-                            closedElevation: 0,
-                            openElevation: 0,
-                            transitionDuration: Duration(milliseconds: 500),
-                            closedShape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                            middleColor: isShowFrog ? null : Colors.transparent,
-                            closedColor: isShowFrog
-                                ? !useFullMaterialScheme
-                                    ? searchBgColors[selectedSearchBgIndex]
-                                    : Color(Theme.of(context)
-                                        .colorScheme
-                                        .surfaceContainerHigh
-                                        .toARGB32())
-                                : Colors.transparent,
-                            // closedColor: Colors.transparent,
-                            openColor: colorTheme.surface,
-                            closedBuilder: (context, openContainer) {
-                              return Container(
-                                width: double.infinity,
-                                height: 56,
-                                padding: const EdgeInsetsDirectional.only(
-                                    start: 7, end: 8),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Row(
-                                        children: [
-                                          isShowFrog
-                                              ? IconButton(
-                                                  onPressed: () async {
-                                                    showAddBottomSheet(
-                                                      context,
-                                                      lat.toString(),
-                                                      lon.toString(),
-                                                      cityName,
-                                                      countryName,
-                                                    );
-                                                  },
-                                                  icon: const Icon(Icons
-                                                      .location_on_outlined),
-                                                )
-                                              : SizedBox(
-                                                  width: 10,
-                                                ),
-                                          // const SizedBox(width: 8),
-                                          Expanded(
-                                            child: Text(
-                                              "$cityName, $countryName",
-                                              style: TextStyle(
-                                                color: isShowFrog
-                                                    ? colorTheme
-                                                        .onSurfaceVariant
-                                                    : isLight
-                                                        ? Colors.black
-                                                        : Colors.white,
-                                                fontSize: 18,
-                                              ),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                              textAlign: TextAlign.start,
-                                              textHeightBehavior:
-                                                  TextHeightBehavior(
-                                                      applyHeightToFirstAscent:
-                                                          false,
-                                                      applyHeightToLastDescent:
-                                                          false),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    IconButton(
-                                      onPressed: () async {
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (_) =>
-                                                  const SettingsScreen()),
-                                        );
-                                      },
-                                      icon: const Icon(Icons.settings_outlined),
-                                      color: isShowFrog
-                                          ? null
-                                          : colorTheme.onSurface,
-                                    ),
-                                    if (isViewLocation)
-                                      FilledButton(
-                                        onPressed: () => handleSaveLocationView(
-                                          context: context,
-                                          updateUIState: () {
-                                            setState(() {
-                                              isViewLocation = false;
-                                              _isAppFullyLoaded = false;
-                                              _istriggeredFromLocations = true;
-                                              themeCalled = false;
-                                              _isLoadingFroggy = true;
-                                            });
-                                          },
-                                        ),
-                                        style: ButtonStyle(
-                                            backgroundColor:
-                                                WidgetStateProperty.all(
-                                                    Theme.of(context)
-                                                        .colorScheme
-                                                        .tertiary)),
-                                        child: Text(
-                                          "Save",
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .onTertiary,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                      )
-                                  ],
-                                ),
-                              );
+          if (!_isAppFullyLoaded) {
+            return ListView(
+              controller: _scrollController,
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: EdgeInsets.zero,
+              children: [
+                Padding(padding: EdgeInsets.only(top: padding.top + 10)),
+              ],
+            );
+          }
+
+          final header = Stack(
+            clipBehavior: Clip.none,
+            children: [
+              if (weatherAnimationWidget != null)
+                useFullMaterialScheme
+                    ? const SizedBox.shrink()
+                    : usAnimations
+                        ? ValueListenableBuilder<bool>(
+                            valueListenable: _showHeaderNotifier,
+                            builder: (context, show, child) {
+                              return !show
+                                  ? weatherAnimationWidget!
+                                  : const SizedBox.shrink();
                             },
-                            onClosed: (result) async {
-                              await Future.delayed(Duration(milliseconds: 300));
-                              if (!mounted) return;
-                              if (result != null) {
-                                if (result['viewLocaton'] == true) {
-                                  SnackUtil.showSnackBar(
-                                    context: context,
-                                    message: 'Loading data',
-                                  );
-                                  Map<String, dynamic>? result;
-
-                                  final weatherService = WeatherService();
-                                  try {
-                                    result = await weatherService.fetchWeather(
-                                        lat!, lon!,
-                                        locationName: cacheKey,
-                                        context: context);
-                                  } catch (e) {
-                                    result = null;
-                                    setState(() {
-                                      _isAppFullyLoaded = true;
-                                    });
-
-                                    if (context != null) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content:
-                                              Text('data_fetch_error'.tr()),
-                                          duration: Duration(seconds: 5),
+                          )
+                        : const SizedBox.shrink()
+              else
+                const SizedBox.shrink(),
+              Container(
+                  margin: EdgeInsets.only(
+                      left: isShowFrog ? 14 : 0,
+                      right: isShowFrog ? 14 : 0),
+                  child: OpenContainer<Map<String, dynamic>?>(
+                    transitionType: ContainerTransitionType.fadeThrough,
+                    openBuilder: (context, _) => const LocationsScreen(),
+                    closedElevation: 0,
+                    openElevation: 0,
+                    transitionDuration: Duration(milliseconds: 500),
+                    closedShape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    middleColor: isShowFrog ? null : Colors.transparent,
+                    closedColor: isShowFrog
+                        ? !useFullMaterialScheme
+                            ? searchBgColors[selectedSearchBgIndex]
+                            : Color(Theme.of(context)
+                                .colorScheme
+                                .surfaceContainerHigh
+                                .toARGB32())
+                        : Colors.transparent,
+                    openColor: colorTheme.surface,
+                    closedBuilder: (context, openContainer) {
+                      return Container(
+                        width: double.infinity,
+                        height: 56,
+                        padding:
+                            const EdgeInsetsDirectional.only(start: 7, end: 8),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  isShowFrog
+                                      ? IconButton(
+                                          onPressed: () async {
+                                            showAddBottomSheet(
+                                              context,
+                                              lat.toString(),
+                                              lon.toString(),
+                                              cityName,
+                                              countryName,
+                                            );
+                                          },
+                                          icon: const Icon(
+                                              Icons.location_on_outlined),
+                                        )
+                                      : SizedBox(
+                                          width: 10,
                                         ),
-                                      );
-                                    }
-                                  }
-
-                                  if (result == null) {
-                                  } else {
+                                  Expanded(
+                                    child: Text(
+                                      "$cityName, $countryName",
+                                      style: TextStyle(
+                                        color: isShowFrog
+                                            ? colorTheme.onSurfaceVariant
+                                            : isLight
+                                                ? Colors.black
+                                                : Colors.white,
+                                        fontSize: 18,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.start,
+                                      textHeightBehavior: TextHeightBehavior(
+                                          applyHeightToFirstAscent: false,
+                                          applyHeightToLastDescent: false),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () async {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (_) => const SettingsScreen()),
+                                );
+                              },
+                              icon: const Icon(Icons.settings_outlined),
+                              color:
+                                  isShowFrog ? null : colorTheme.onSurface,
+                            ),
+                            if (isViewLocation)
+                              FilledButton(
+                                onPressed: () => handleSaveLocationView(
+                                  context: context,
+                                  updateUIState: () {
                                     setState(() {
-                                      cityName = PreferencesHelper.getJson(
-                                          'selectedViewLocation')?['city'];
-                                      countryName = PreferencesHelper.getJson(
-                                          'selectedViewLocation')?['country'];
-                                      cacheKey = PreferencesHelper.getJson(
-                                          'selectedViewLocation')?['cacheKey'];
-                                      lat = PreferencesHelper.getJson(
-                                          'selectedViewLocation')?['lat'];
-                                      lon = PreferencesHelper.getJson(
-                                          'selectedViewLocation')?['lon'];
-                                      isViewLocation = true;
+                                      isViewLocation = false;
                                       _isAppFullyLoaded = false;
                                       _istriggeredFromLocations = true;
                                       themeCalled = false;
                                       _isLoadingFroggy = true;
-                                      weatherFuture = Future.value(result);
                                     });
-                                  }
-                                  return;
-                                }
+                                  },
+                                ),
+                                style: ButtonStyle(
+                                    backgroundColor: WidgetStateProperty.all(
+                                        Theme.of(context)
+                                            .colorScheme
+                                            .tertiary)),
+                                child: Text(
+                                  "Save",
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onTertiary,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              )
+                          ],
+                        ),
+                      );
+                    },
+                    onClosed: (result) async {
+                      final messenger = ScaffoldMessenger.of(context);
+                      await Future.delayed(Duration(milliseconds: 300));
+                      if (!context.mounted) return;
+                      if (result == null || result['viewLocaton'] != true) {
+                        return;
+                      }
 
-                                final newCity = result['city'];
-                                final newCountry = result['country'];
-                                final newCacheKey = result['cacheKey'];
-                                final newLat =
-                                    result['latitude'] ?? result['lat'];
-                                final newLon =
-                                    result['longitude'] ?? result['lon'];
+                      SnackUtil.showSnackBar(
+                        context: context,
+                        message: 'Loading data',
+                      );
 
-                                final isDifferent = cityName != newCity ||
-                                    countryName != newCountry ||
-                                    cacheKey != newCacheKey ||
-                                    lat != newLat ||
-                                    lon != newLon;
+                      final selectedViewLocation = PreferencesHelper.getJson(
+                          PrefKeys.selectedViewLocation);
+                      final newCity = selectedViewLocation?['city'];
+                      final newCountry = selectedViewLocation?['country'];
+                      final newCacheKey = selectedViewLocation?['cacheKey'];
+                      final newLat =
+                          (selectedViewLocation?['lat'] as num?)?.toDouble();
+                      final newLon =
+                          (selectedViewLocation?['lon'] as num?)?.toDouble();
+                      final cacheKeyStr = newCacheKey?.toString();
 
-                                if (isDifferent) {
-                                  setState(() {
-                                    cityName = newCity;
-                                    countryName = newCountry;
-                                    cacheKey = newCacheKey;
-                                    lat = newLat;
-                                    lon = newLon;
-                                    _isAppFullyLoaded = false;
-                                    _istriggeredFromLocations = true;
-                                    themeCalled = false;
-                                    isViewLocation = false;
-                                    _isLoadingFroggy = true;
-                                  });
+                      if (!context.mounted) return;
+                      if (newLat == null || newLon == null || cacheKeyStr == null) {
+                        return;
+                      }
+                      Map<String, dynamic>? fetchedResult;
+                      final weatherService = WeatherService();
+                      try {
+                        fetchedResult = await weatherService.fetchWeather(
+                          newLat,
+                          newLon,
+                          locationName: cacheKeyStr,
+                          context: context,
+                        );
+                      } catch (e) {
+                        if (!context.mounted) return;
+                        setState(() {
+                          _isAppFullyLoaded = true;
+                        });
+                        messenger.showSnackBar(
+                          SnackBar(
+                            content: Text('data_fetch_error'.tr()),
+                            duration: Duration(seconds: 5),
+                          ),
+                        );
+                        return;
+                      }
 
-                                  weatherFuture = getWeatherFromCache();
-                                }
-                              }
-                            },
-                          ))
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  WeatherTopCard(
+                      if (!context.mounted || fetchedResult == null) {
+                        return;
+                      }
+
+                      setState(() {
+                        cityName = newCity ?? cityName;
+                        countryName = newCountry ?? countryName;
+                        cacheKey = cacheKeyStr;
+                        lat = newLat;
+                        lon = newLon;
+                        isViewLocation = true;
+                        _isAppFullyLoaded = false;
+                        _istriggeredFromLocations = true;
+                        themeCalled = false;
+                        _isLoadingFroggy = true;
+                        weatherFuture = Future.value(fetchedResult);
+                      });
+                    },
+                  ))
+            ],
+          );
+
+          final foldableWidth = isFoldableLayout(context) ? 500.0 : null;
+          Widget wrapFoldable(Widget child) {
+            if (foldableWidth == null) return child;
+            return Center(
+              child: SizedBox(
+                width: foldableWidth,
+                child: child,
+              ),
+            );
+          }
+
+          final layoutConfig =
+              context.select<LayoutProvider, List<LayoutBlockConfig>>(
+            (p) => p.layoutConfig,
+          );
+
+          final visibleBlocks = layoutConfig.where((block) {
+            if (!block.isVisible) return false;
+
+            switch (block.type) {
+              case LayoutBlockType.pollen:
+                return isPollenDataAvailable([
+                  alderPollen,
+                  birchPollen,
+                  olivePollen,
+                  grassPollen,
+                  mugwortPollen,
+                  ragweedPollen,
+                ]);
+
+              case LayoutBlockType.rain:
+                return shouldShowRainBlock;
+
+              case LayoutBlockType.insights:
+                return !shouldShowRainBlock && showInsightsRandomly;
+
+              default:
+                return true;
+            }
+          }).toList();
+
+          final List<Object> blockEntries = <Object>[];
+          for (int i = 0; i < visibleBlocks.length; i++) {
+            final currentBlock = visibleBlocks[i];
+            blockEntries.add(currentBlock.type);
+
+            final isRainThenInsights = currentBlock.type == LayoutBlockType.rain &&
+                i + 1 < visibleBlocks.length &&
+                visibleBlocks[i + 1].type == LayoutBlockType.insights;
+            if (!isRainThenInsights && i < visibleBlocks.length - 1) {
+              blockEntries.add(const _HomeListSpacer());
+            }
+          }
+
+          const baseCount = 6;
+          final totalCount = baseCount + blockEntries.length + 1;
+
+          return ListView.builder(
+            controller: _scrollController,
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: EdgeInsets.zero,
+            itemCount: totalCount,
+            itemBuilder: (context, index) {
+              if (index == 0) {
+                return Padding(padding: EdgeInsets.only(top: padding.top + 10));
+              }
+              if (index == 1) {
+                return _HomeKeepAlive(child: header);
+              }
+              if (index == 2) {
+                return const SizedBox(height: 10);
+              }
+              if (index == 3) {
+                return _HomeKeepAlive(
+                  child: WeatherTopCard(
                     currentTemp: current['temperature_2m'].toDouble(),
                     currentFeelsLike:
                         current['apparent_temperature'].toDouble(),
-                    currentMaxTemp: weather['daily']?['temperature_2m_max']?[1]
-                            ?.toDouble() ??
-                        0,
-                    currentMinTemp: weather['daily']?['temperature_2m_min']?[1]
-                            ?.toDouble() ??
-                        0,
+                    currentMaxTemp:
+                        weather['daily']?['temperature_2m_max']?[1]
+                                ?.toDouble() ??
+                            0,
+                    currentMinTemp:
+                        weather['daily']?['temperature_2m_min']?[1]
+                                ?.toDouble() ??
+                            0,
                     currentWeatherIconCode: current['weather_code'],
                     currentisDay: current['is_day'],
                     currentLastUpdated: formattedTime,
                   ),
-                  WeatherFrogIconWidget(iconUrl: _iconUrlFroggy),
-                  const SizedBox(height: 14),
-                  SizedBox(
-                    width: isFoldableLayout(context) ? 500 : null,
-                    height: null,
-                    child: Column(
-                      children: () {
-                        final visibleBlocks = layoutConfig.where((block) {
-                          if (!block.isVisible) return false;
+                );
+              }
+              if (index == 4) {
+                return _HomeKeepAlive(
+                    child: WeatherFrogIconWidget(iconUrl: _iconUrlFroggy));
+              }
+              if (index == 5) {
+                return const SizedBox(height: 14);
+              }
 
-                          switch (block.type) {
-                            case LayoutBlockType.pollen:
-                              return isPollenDataAvailable([
-                                alderPollen,
-                                birchPollen,
-                                olivePollen,
-                                grassPollen,
-                                mugwortPollen,
-                                ragweedPollen,
-                              ]);
+              if (index == totalCount - 1) {
+                return homeBottomBar(context, isLight);
+              }
 
-                            case LayoutBlockType.rain:
-                              return shouldShowRainBlock;
+              final entryIndex = index - baseCount;
+              final entry = blockEntries[entryIndex];
 
-                            case LayoutBlockType.insights:
-                              return !shouldShowRainBlock &&
-                                  showInsightsRandomly;
+              if (entry is _HomeListSpacer) {
+                return const SizedBox(height: 12);
+              }
 
-                            default:
-                              return true;
-                          }
-                        }).toList();
-
-                        final List<Widget> children = [];
-
-                        for (int i = 0; i < visibleBlocks.length; i++) {
-                          final currentBlock = visibleBlocks[i];
-
-                          children.add(
-                            RepaintBoundary(
-                              child: buildLayoutBlock(currentBlock.type),
-                            ),
-                          );
-
-                          final isRainThenInsights =
-                              currentBlock.type == LayoutBlockType.rain &&
-                                  i + 1 < visibleBlocks.length &&
-                                  visibleBlocks[i + 1].type ==
-                                      LayoutBlockType.insights;
-
-                          if (!isRainThenInsights &&
-                              i < visibleBlocks.length - 1) {
-                            children.add(const SizedBox(height: 12));
-                          }
-                        }
-
-                        return children;
-                      }(),
-                    ),
+              return _HomeKeepAlive(
+                child: wrapFoldable(
+                  RepaintBoundary(
+                    child: buildLayoutBlock(entry as LayoutBlockType),
                   ),
-                  homeBottomBar(context, isLight)
-                ])
-              : const SizedBox.shrink();
+                ),
+              );
+            },
+          );
         });
+  }
+}
+
+class _HomeListSpacer {
+  const _HomeListSpacer();
+}
+
+class _HomeKeepAlive extends StatefulWidget {
+  final Widget child;
+  const _HomeKeepAlive({required this.child});
+
+  @override
+  State<_HomeKeepAlive> createState() => _HomeKeepAliveState();
+}
+
+class _HomeKeepAliveState extends State<_HomeKeepAlive>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return widget.child;
+  }
+}
+
+class _WeatherDerivedData {
+  final List<dynamic> hourlyTime;
+  final List<dynamic> hourlyTemps;
+  final List<dynamic> hourlyWeatherCodes;
+  final List<dynamic> hourlyPrecpProb;
+  final List<dynamic> hourlyVisibility;
+  final Map<String, (DateTime, DateTime)> daylightMap;
+  final bool shouldShowRainBlock;
+  final int startIndex;
+
+  const _WeatherDerivedData({
+    required this.hourlyTime,
+    required this.hourlyTemps,
+    required this.hourlyWeatherCodes,
+    required this.hourlyPrecpProb,
+    required this.hourlyVisibility,
+    required this.daylightMap,
+    required this.shouldShowRainBlock,
+    required this.startIndex,
+  });
+
+  bool isHourDuringDaylightOptimized(DateTime hourTime) {
+    final key =
+        "${hourTime.year.toString().padLeft(4, '0')}-${hourTime.month.toString().padLeft(2, '0')}-${hourTime.day.toString().padLeft(2, '0')}";
+    final times = daylightMap[key];
+    if (times != null) {
+      return hourTime.isAfter(times.$1) && hourTime.isBefore(times.$2);
+    }
+    return true;
   }
 }
 

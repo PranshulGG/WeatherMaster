@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../utils/app_storage.dart';
 import '../utils/unit_converter.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import '../utils/icon_map.dart';
@@ -15,6 +15,9 @@ import '../helper/locale_helper.dart';
 import '../controllers/home_f.dart';
 import '../utils/visual_utils.dart';
 import 'package:animations/animations.dart';
+
+const String _timeFormat24Hr = '24 hr';
+const String _noDataAvailableMessageKey = 'no_data_available';
 
 class DailyForecastPage extends StatefulWidget {
   final DateTime? initialSelectedDate;
@@ -37,10 +40,10 @@ class _DailyForecastPageState extends State<DailyForecastPage> {
 
   Future<Map<String, dynamic>?> getWeatherFromCache() async {
     final prefs = await SharedPreferences.getInstance();
-    final jsonString = prefs.getString('currentLocation');
+    final jsonString = prefs.getString(PrefKeys.currentLocation);
     if (jsonString != null) {
       final jsonMap = json.decode(jsonString);
-      final box = await Hive.openBox('weatherMasterCache');
+      final box = await HiveBoxes.openWeatherCache();
       final cached = box.get(jsonMap['cacheKey']);
       if (cached == null) return null;
       return json.decode(cached);
@@ -555,7 +558,6 @@ class HourlyCardForecast extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final offset = Duration(seconds: int.parse(utcOffsetSeconds));
     final colorTheme = Theme.of(context).colorScheme;
 
     // final localSelectedDate = selectedDate.toUtc().add(offset);
@@ -618,7 +620,7 @@ class HourlyCardForecast extends StatelessWidget {
                       padding: EdgeInsets.only(bottom: 10, top: 10),
                       child: Center(
                         child: Text(
-                          "No data available",
+                          "no_data_available".tr(),
                           style: TextStyle(
                             color: colorTheme.onSurfaceVariant,
                             fontSize: 14,
@@ -636,14 +638,13 @@ class HourlyCardForecast extends StatelessWidget {
                         itemBuilder: (context, index) {
                           // final time = DateTime.parse(hourlyTime[index]);
                           final dataIndex = startIndex + index;
-                          final itemCount = startIndex != null
-                              ? (48 - startIndex).clamp(0, 48)
-                              : 0;
+                          final itemCount = (48 - startIndex).clamp(0, 48);
                           final isFirst = index == 0;
 
                           final isLast = index == itemCount - 1;
-                          if (dataIndex >= hourlyTime.length)
+                          if (dataIndex >= hourlyTime.length) {
                             return const SizedBox();
+                          }
 
                           final forecastLocal =
                               DateTime.parse(hourlyTime[dataIndex]);
@@ -655,10 +656,9 @@ class HourlyCardForecast extends StatelessWidget {
                             forecastLocal.hour,
                           );
 
-                          final hour = timeUnit == '24 hr'
+                          final hour = timeUnit == _timeFormat24Hr
                               ? "${roundedDisplayTime.hour.toString().padLeft(2, '0')}:00"
-                              : UnitConverter.formatTo12Hour(
-                                  roundedDisplayTime);
+                              : UnitConverter.formatTo12Hour(roundedDisplayTime);
                           final temp = tempUnit == 'Fahrenheit'
                               ? UnitConverter.celsiusToFahrenheit(
                                       hourlyTemps[dataIndex].toDouble())
@@ -671,11 +671,25 @@ class HourlyCardForecast extends StatelessWidget {
                           final isDay =
                               isHourDuringDaylightOptimized(roundedDisplayTime);
 
+                          final EdgeInsetsDirectional itemMargin =
+                              EdgeInsetsDirectional.only(
+                                end: isLast ? 10 : 0,
+                                start: isFirst ? 10 : 0,
+                              );
+
+                          final String precipText;
+                          if (precipProb == 0.1111111) {
+                            precipText = '--%';
+                          } else if (precipProb > 10) {
+                            precipText = "${precipProb.round()}%";
+                          } else {
+                            precipText = "‎";
+                          }
+
                           return Container(
                             clipBehavior: Clip.none,
                             width: 56,
-                            margin: EdgeInsetsDirectional.only(
-                                end: isLast ? 10 : 0, start: isFirst ? 10 : 0),
+                            margin: itemMargin,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -701,7 +715,7 @@ class HourlyCardForecast extends StatelessWidget {
                                       transform: Matrix4.translationValues(
                                           0, isFirst ? 2 : 0, 0),
                                       child: Text(
-                                        "${temp}°",
+                                        "$temp°",
                                         style: TextStyle(
                                           fontFamily: "FlexFontEn",
                                           fontSize: 16,
@@ -716,12 +730,7 @@ class HourlyCardForecast extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                Text(
-                                    precipProb == 0.1111111
-                                        ? '--%'
-                                        : precipProb > 10
-                                            ? "${precipProb.round()}%"
-                                            : "‎",
+                                Text(precipText,
                                     style: TextStyle(
                                         fontFamily: "FlexFontEn",
                                         fontSize: 12,
@@ -758,7 +767,7 @@ class HourlyCardForecast extends StatelessWidget {
 // header
 
 String getCityFromPreferences() {
-  final locationStr = PreferencesHelper.getString("currentLocation");
+  final locationStr = PreferencesHelper.getString(PrefKeys.currentLocation);
   final locationJson = jsonDecode(locationStr.toString());
   return locationJson['city'].toString();
 }
@@ -767,9 +776,9 @@ class ForecastDetailsHeader extends StatelessWidget {
   final Map<String, dynamic>? selectedDayData;
 
   const ForecastDetailsHeader({
-    Key? key,
+    super.key,
     required this.selectedDayData,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -862,7 +871,7 @@ String formatDateDetailes(BuildContext context, String dateStr) {
 
   final locale = context.locale;
 
-  final lang = (locale.languageCode ?? '').toLowerCase();
+  final lang = locale.languageCode.toLowerCase();
   final country = (locale.countryCode ?? '').toUpperCase();
 
   if (lang == 'zh' && (country == 'CN' || country == 'TW')) {
@@ -990,14 +999,13 @@ class ConditionsWidgetsForecast extends StatelessWidget {
       margin: EdgeInsets.fromLTRB(12.7, 0, 12.7, 0),
       child: Column(
         children: [
-          Container(
-            child: GridView.count(
-              crossAxisCount: 2,
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-              children: [
+          GridView.count(
+            crossAxisCount: 2,
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
+            children: [
                 OpenContainer(
                     transitionType: ContainerTransitionType.fadeThrough,
                     closedElevation: 1,
@@ -1170,7 +1178,7 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                       currentPressure.round()),
                                   fit: BoxFit.contain),
                             ),
-                            headerWidgetConditions(
+                            HeaderWidgetConditions(
                               headerText: "pressure".tr(),
                               headerIcon: Symbols.compress,
                             ),
@@ -1244,7 +1252,7 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                       fit: BoxFit.contain,
                                     ),
                                   ),
-                                  headerWidgetConditions(
+                                  HeaderWidgetConditions(
                                     headerText: "visibility".tr(),
                                     headerIcon: Symbols.visibility,
                                   ),
@@ -1319,7 +1327,7 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                                         currentWindDirc: currentWindDirc,
                                         backgroundColor:
                                             Color(selectedContainerBgIndex)),
-                                    headerWidgetConditions(
+                                    HeaderWidgetConditions(
                                       headerText: "direction".tr(),
                                       headerIcon: Symbols.explore,
                                     ),
@@ -1389,7 +1397,7 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                             fit: BoxFit.contain,
                           ),
                         ),
-                        headerWidgetConditions(
+                        HeaderWidgetConditions(
                           headerText: "uv_index".tr(),
                           headerIcon: Symbols.light_mode,
                         ),
@@ -1556,7 +1564,6 @@ class ConditionsWidgetsForecast extends StatelessWidget {
                           });
                     }),
               ],
-            ),
           ),
         ],
       ),

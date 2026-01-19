@@ -18,7 +18,7 @@ class DailyCard extends StatelessWidget {
   final int selectedContainerBgIndex;
   final String utcOffsetSeconds;
 
-  DailyCard(
+  const DailyCard(
       {super.key,
       required this.dailyTime,
       required this.dailyTempsMin,
@@ -30,7 +30,8 @@ class DailyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tempUnit = context.watch<UnitSettingsNotifier>().tempUnit;
+    final tempUnit =
+        context.select<UnitSettingsNotifier, String>((n) => n.tempUnit);
     final colorTheme = Theme.of(context).colorScheme;
 
     final isDarkCards =
@@ -235,7 +236,6 @@ class DailyCard extends StatelessWidget {
 
 String getLocalizedDateFormat(DateTime time, Locale locale) {
   final lang = locale.languageCode;
-  final country = locale.countryCode;
 
   if (lang == 'en') {
     return DateFormat('MM/dd').format(time);

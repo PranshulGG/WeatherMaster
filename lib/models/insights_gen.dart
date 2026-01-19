@@ -80,7 +80,7 @@ class _ShowInsightsState extends State<ShowInsights> {
     final temps =
         widget.dailyData.map((d) => d['temperature_2m_max'] as double).toList();
 
-    final tempUnit = context.watch<UnitSettingsNotifier>().tempUnit;
+    final tempUnit = context.read<UnitSettingsNotifier>().tempUnit;
     final start = temps.first;
     final end = temps.last;
 
@@ -146,7 +146,7 @@ class _ShowInsightsState extends State<ShowInsights> {
         .map((t) => (t as num).toDouble())
         .toList();
     final hotDays = maxTemps.where((t) => t >= 35).length;
-    final tempUnit = context.watch<UnitSettingsNotifier>().tempUnit;
+    final tempUnit = context.read<UnitSettingsNotifier>().tempUnit;
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (hotDays >= 3) {
@@ -244,7 +244,7 @@ class _ShowInsightsState extends State<ShowInsights> {
   }
 
   String _randomFunFact() {
-    final tempUnit = context.watch<UnitSettingsNotifier>().tempUnit;
+    final tempUnit = context.read<UnitSettingsNotifier>().tempUnit;
 
     final facts = [
       "insights_sub_18".tr(),
@@ -279,7 +279,7 @@ class _ShowInsightsState extends State<ShowInsights> {
         .map((d) => d['temperature_2m'] ?? 0)
         .cast<num>()
         .toList();
-    final tempUnit = context.watch<UnitSettingsNotifier>().tempUnit;
+    final tempUnit = context.read<UnitSettingsNotifier>().tempUnit;
 
     final minTemp = temps.reduce(min);
     final maxTemp = temps.reduce(max);

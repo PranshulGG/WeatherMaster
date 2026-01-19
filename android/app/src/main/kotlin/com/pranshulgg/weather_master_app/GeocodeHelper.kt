@@ -2,12 +2,6 @@ package com.pranshulgg.weather_master_app
 
 import android.content.Context
 import android.location.Geocoder
-import android.location.Geocoder.GeocodeListener
-import android.os.Build
-import android.os.Handler
-import android.os.Looper
-import androidx.annotation.RequiresApi
-import java.util.*
 
 object GeocodeHelper {
 
@@ -33,7 +27,7 @@ object GeocodeHelper {
             }
 
             // Back to main thread so Flutter doesn't cry
-            Handler(Looper.getMainLooper()).post {
+            android.os.Handler(android.os.Looper.getMainLooper()).post {
                 callback(result)  // pass it back to whoever asked for it
             }
         }.start()

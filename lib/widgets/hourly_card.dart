@@ -17,6 +17,7 @@ class HourlyCard extends StatelessWidget {
   final String timezone;
   final String utcOffsetSeconds;
   final List<dynamic> hourlyPrecpProb;
+  final int? startIndexOverride;
 
   const HourlyCard(
       {super.key,
@@ -27,27 +28,33 @@ class HourlyCard extends StatelessWidget {
       required this.selectedContainerBgIndex,
       required this.timezone,
       required this.utcOffsetSeconds,
-      required this.hourlyPrecpProb});
+      required this.hourlyPrecpProb,
+      this.startIndexOverride});
 
   @override
   Widget build(BuildContext context) {
-    final offset = Duration(seconds: int.parse(utcOffsetSeconds));
-    final nowUtc = DateTime.now().toUtc();
-    final nowLocal = nowUtc.add(offset);
     final colorTheme = Theme.of(context).colorScheme;
 
-    final timeUnit = context.watch<UnitSettingsNotifier>().timeUnit;
-    final tempUnit = context.watch<UnitSettingsNotifier>().tempUnit;
+    final timeUnit =
+        context.select<UnitSettingsNotifier, String>((n) => n.timeUnit);
+    final tempUnit =
+        context.select<UnitSettingsNotifier, String>((n) => n.tempUnit);
 
-    final roundedNow =
-        DateTime(nowLocal.year, nowLocal.month, nowLocal.day, nowLocal.hour);
+    int startIndex = startIndexOverride ?? 0;
+    if (startIndexOverride == null) {
+      final offset = Duration(seconds: int.parse(utcOffsetSeconds));
+      final nowUtc = DateTime.now().toUtc();
+      final nowLocal = nowUtc.add(offset);
+      final roundedNow =
+          DateTime(nowLocal.year, nowLocal.month, nowLocal.day, nowLocal.hour);
 
-    int startIndex = hourlyTime.indexWhere((timeStr) {
-      final forecastLocal = DateTime.parse(timeStr);
-      return !forecastLocal.isBefore(roundedNow);
-    });
+      startIndex = hourlyTime.indexWhere((timeStr) {
+        final forecastLocal = DateTime.parse(timeStr);
+        return !forecastLocal.isBefore(roundedNow);
+      });
 
-    if (startIndex == -1) startIndex = 0;
+      if (startIndex == -1) startIndex = 0;
+    }
     final scale = MediaQuery.of(context).textScaler.scale(1.0);
     final extraHeight = (scale - 1.0) * 30;
 
@@ -91,12 +98,12 @@ class HourlyCard extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   physics: BouncingScrollPhysics(),
                   itemCount:
-                      startIndex != null ? (48 - startIndex).clamp(0, 48) : 0,
+                      (48 - startIndex).clamp(0, 48),
                   itemBuilder: (context, index) {
                     // final time = DateTime.parse(hourlyTime[index]);
                     final dataIndex = startIndex + index;
                     final itemCount =
-                        startIndex != null ? (48 - startIndex).clamp(0, 48) : 0;
+                        (48 - startIndex).clamp(0, 48);
 
                     final isFirst = index == 0;
                     final isLast = index == itemCount - 1;
@@ -156,7 +163,7 @@ class HourlyCard extends StatelessWidget {
                                 transform: Matrix4.translationValues(
                                     0, isFirst ? 0 : 0, 0),
                                 child: Text(
-                                  "${temp}°",
+                                  "$temp°",
                                   style: TextStyle(
                                     fontFamily: "FlexFontEn",
                                     fontSize: 16,

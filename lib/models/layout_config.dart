@@ -14,6 +14,16 @@ class LayoutBlockConfig {
 
   LayoutBlockConfig({required this.type, this.isVisible = true});
 
+  static List<LayoutBlockConfig> defaults() => [
+        LayoutBlockConfig(type: LayoutBlockType.rain),
+        LayoutBlockConfig(type: LayoutBlockType.insights),
+        LayoutBlockConfig(type: LayoutBlockType.summary),
+        LayoutBlockConfig(type: LayoutBlockType.hourly),
+        LayoutBlockConfig(type: LayoutBlockType.daily),
+        LayoutBlockConfig(type: LayoutBlockType.conditions),
+        LayoutBlockConfig(type: LayoutBlockType.pollen),
+      ];
+
   Map<String, dynamic> toJson() => {
         'type': type.name,
         'isVisible': isVisible,
