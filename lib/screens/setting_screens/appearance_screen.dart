@@ -305,7 +305,7 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
                         SnackUtil.showSnackBar(
                           context: context,
                           message: "restart_for_changes".tr(),
-                          actionLabel: "Restart",
+                          actionLabel: "restart".tr(),
                           duration: Duration(seconds: 30),
                           onActionPressed: () {
                             Restart.restartApp();
