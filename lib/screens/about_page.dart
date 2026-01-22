@@ -322,7 +322,7 @@ class _AboutPageState extends State<AboutPage> {
                       pageBuilder: (context, animation, secondaryAnimation) {
                         return LicensePage(
                           applicationName: 'WeatherMaster',
-                          applicationVersion: 'v2.6.6 (F)',
+                          applicationVersion: 'v2.7.0 (F)',
                           applicationIcon: Container(
                             clipBehavior: Clip.hardEdge,
                             margin: const EdgeInsets.only(bottom: 16, top: 16),
@@ -526,7 +526,7 @@ class CheckUpdateButton extends StatefulWidget {
 }
 
 class _CheckUpdateButtonState extends State<CheckUpdateButton> {
-  final String currentVersion = 'v2.6.6';
+  final String currentVersion = 'v2.7.0';
   final String githubRepo = 'PranshulGG/WeatherMaster';
   bool isChecking = false;
 
