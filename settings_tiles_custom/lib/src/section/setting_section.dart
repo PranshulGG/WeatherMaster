@@ -33,29 +33,29 @@ class SettingSection extends StatelessWidget {
     final borderRadius = PrimarySwitch
         ? BorderRadius.circular(50)
         : isOnly
-            ? BorderRadius.circular(18)
+            ? BorderRadius.circular(16)
             : isFirst
                 ? const BorderRadius.only(
-                    topLeft: Radius.circular(18),
-                    topRight: Radius.circular(18),
-                    bottomLeft: Radius.circular(2.6),
-                    bottomRight: Radius.circular(2.6),
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
+                    bottomLeft: Radius.circular(4),
+                    bottomRight: Radius.circular(4),
                   )
                 : isLast
                     ? const BorderRadius.only(
-                        topLeft: Radius.circular(2.6),
-                        topRight: Radius.circular(2.6),
-                        bottomLeft: Radius.circular(18),
-                        bottomRight: Radius.circular(18),
+                        topLeft: Radius.circular(4),
+                        topRight: Radius.circular(4),
+                        bottomLeft: Radius.circular(16),
+                        bottomRight: Radius.circular(16),
                       )
-                    : BorderRadius.circular(2.6);
+                    : BorderRadius.circular(4);
 
     return Material(
       color: PrimarySwitch
           ? Theme.of(context).colorScheme.primaryContainer
           : errorTile
               ? Theme.of(context).colorScheme.errorContainer
-              : Theme.of(context).colorScheme.surfaceContainerLowest,
+              : Theme.of(context).colorScheme.surface,
       shape: RoundedRectangleBorder(borderRadius: borderRadius),
       clipBehavior: Clip.hardEdge,
       child: tile,
@@ -65,7 +65,7 @@ class SettingSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.fromLTRB(styleTile ? 12 : 0, 0, styleTile ? 12 : 0, 0),
+        padding: EdgeInsets.fromLTRB(styleTile ? 16 : 0, 0, styleTile ? 16 : 0, 0),
         child: Column(
           spacing: styleTile ? 2 : 0,
           crossAxisAlignment: CrossAxisAlignment.start,
