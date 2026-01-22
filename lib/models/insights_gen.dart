@@ -88,11 +88,11 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (diff < -3) {
-        return "It’s getting colder by the weekend… I’m grabbing a big leaf to hide under, ribbit";
+        return "froggy_insight_cold_trend_1".tr();
       } else if (diff > 3) {
-        return "Things are warming up… not my vibe, but hey, maybe you like toasty air";
+        return "froggy_insight_cold_trend_2".tr();
       } else {
-        return "Looks like the weather’s staying steady… calm days make a calm frog";
+        return "froggy_insight_cold_trend_3".tr();
       }
     }
 
@@ -122,11 +122,11 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (rainChances[peakDayIndex] > 60) {
-        return "Might get a real good rain on ${_weekdayName(peakDay)}… I’m already doing my happy splash dance";
+        return "${"froggy_insight_rain_probability_1_part_1".tr()} ${_weekdayName(peakDay)}… ${"froggy_insight_rain_probability_1_part_2".tr()}";
       } else if (rainChances.any((r) => r > 40)) {
-        return "Some days look kinda splashy… maybe keep your stuff dry while I enjoy the puddles";
+        return "froggy_insight_rain_probability_2".tr();
       }
-      return "Dry skies all week… guess I’ll just sit and stare dramatically into the distance";
+      return "froggy_insight_rain_probability_3".tr();
     }
 
     if (rainChances[peakDayIndex] > 60) {
@@ -150,11 +150,11 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (hotDays >= 3) {
-        return "Too many hot days coming… I’m sinking into the pond until further notice";
+        return "froggy_insight_heatwave_1".tr();
       } else if (hotDays >= 1) {
-        return "There’s at least one toasty day ahead… terrible for hopping, great for melting";
+        return "froggy_insight_heatwave_2".tr();
       }
-      return "No major heat this week… perfect temperature for a lazy sun sit";
+      return "froggy_insight_heatwave_3".tr();
     }
 
     if (hotDays >= 3) {
@@ -182,11 +182,11 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (end > start + 10) {
-        return "Humidity’s climbing… great for my skin, not sure about yours";
+        return "froggy_insight_humidity_1".tr();
       } else if (start > end + 10) {
-        return "Air’s drying out… feels weird on my frog body but whatever";
+        return "froggy_insight_humidity_2".tr();
       }
-      return "Humidity’s pretty normal… nothing screaming for attention";
+      return "froggy_insight_humidity_3".tr();
     }
 
     if (end > start + 10) {
@@ -206,11 +206,11 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (maxWind > 30) {
-        return "Way too windy… almost got blown off my log last time. Not again";
+        return "froggy_insight_wind_1".tr();
       } else if (maxWind > 20) {
-        return "Kinda breezy… the reeds are doing that wiggly dance I like";
+        return "froggy_insight_wind_2".tr();
       }
-      return 'Pretty calm today… perfect for staying still and pretending I’m a moss rock';
+      return 'froggy_insight_wind_3'.tr();
     }
 
     if (maxWind > 30) {
@@ -232,9 +232,9 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (sunnyDays >= 4) {
-        return "$sunnyDays nice days ahead… I’m claiming the warmest rock before anyone else";
+        return "$sunnyDays ${"froggy_insight_pleasant_weather_1".tr()}";
       }
-      return "Some good days, some meh days… that’s life, ribbit.";
+      return "froggy_insight_pleasant_weather_2".tr();
     }
 
     if (sunnyDays >= 4) {
@@ -287,9 +287,9 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (diff >= 10) {
-        return "Big temperature jumps today… I’d bring a leaf AND a tiny blanket if I had one";
+        return "froggy_insight_temperature_swings_1".tr();
       }
-      return "Temps look steady… peaceful hopping conditions";
+      return "froggy_insight_temperature_swings_2".tr();
     }
 
     if (diff >= 10) {
@@ -309,11 +309,11 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (peakUV >= 7) {
-        return "Sun’s way too spicy today… I’m hiding in the shade like a wise frog";
+        return "froggy_insight_uvindex_1".tr();
       } else if (peakUV >= 4) {
-        return "Sun’s a little strong… I’ll be near the cattails in case I need a quick escape";
+        return "froggy_insight_uvindex_2".tr();
       }
-      return "Low sun today… perfect lighting for dramatic posing";
+      return "froggy_insight_uvindex_3".tr();
     }
 
     if (peakUV >= 7) {
@@ -335,11 +335,11 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (maxWind > 30) {
-        return "The wind’s going wild today… hold onto your hat, if you’re the kinda creature that wears one";
+        return "froggy_insight_wind_fluctuation_1".tr();
       } else if (diff > 15) {
-        return "Wind’s acting strange… up, down, sideways… chaotic frog energy";
+        return "froggy_insight_wind_fluctuation_2".tr();
       }
-      return "Air’s calm today… I’m sticking to my log, literally";
+      return "froggy_insight_wind_fluctuation_3".tr();
     }
 
     if (maxWind > 30) {
@@ -360,9 +360,9 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if ((maxH - minH) > 20) {
-        return "Humidity’s bouncing all over… weird day for a frog with sensitive vibes";
+        return "froggy_insight_hourly_humidity_1".tr();
       }
-      return "Humidity’s steady… feels pretty comfy actually";
+      return "froggy_insight_hourly_humidity_2".tr();
     }
 
     if ((maxH - minH) > 20) {
@@ -380,11 +380,11 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (avgCloud > 70) {
-        return "Sky’s all covered… makes the world feel soft and cozy";
+        return "froggy_insight_clouds_1".tr();
       } else if (avgCloud < 30) {
-        return "Almost no clouds… everything’s shiny and kinda blinding";
+        return "froggy_insight_clouds_2".tr();
       }
-      return "Bit of clouds, bit of sun… balanced, like a well-hydrated frog";
+      return "froggy_insight_clouds_3".tr();
     }
 
     if (avgCloud > 70) {
@@ -404,11 +404,11 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (peak > 70) {
-        return "Might get real wet later… excellent news for me personally";
+        return "froggy_insight_precipitation_window_1".tr();
       } else if (peak > 40) {
-        return "Some light rain might wander through… keep stuff dry while I enjoy the sprinkles";
+        return "froggy_insight_precipitation_window_2".tr();
       }
-      return "Looks pretty dry today… guess I’ll vibe on a crisp leaf";
+      return "froggy_insight_precipitation_window_3".tr();
     }
 
     if (peak > 70) {
@@ -428,11 +428,11 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (avgDew >= 20) {
-        return "Sticky air incoming… feels like home, kind of swampy, kind of gross";
+        return "froggy_insight_comfort_index_1".tr();
       } else if (avgDew >= 13) {
-        return "Air feels comfy… great for slow, lazy sitting";
+        return "froggy_insight_comfort_index_2".tr();
       }
-      return "Dry air today… crisp hopping weather";
+      return "froggy_insight_comfort_index_3".tr();
     }
 
     if (avgDew >= 20) return "insights_sub_38".tr();
@@ -449,13 +449,13 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (avgTemp >= 30) {
-        return "Super hot week… if I could, I’d just chill in the pond all day";
+        return "froggy_insight_clothing_1".tr();
       } else if (avgTemp >= 20) {
-        return "Warm days ahead… you might wear shorts, I’m sticking with my classic no-clothes look";
+        return "froggy_insight_clothing_2".tr();
       } else if (avgTemp >= 10) {
-        return "Cooler air coming… you may want a jacket; I’m fine because I’m slimy";
+        return "froggy_insight_clothing_3".tr();
       }
-      return "Cold week… bundle up or find a warm rock to sit on";
+      return "froggy_insight_clothing_4".tr();
     }
 
     if (avgTemp >= 30) return "insights_sub_41".tr();
@@ -473,11 +473,11 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (minVis < 500) {
-        return "Foggy morning ahead… tough to spot bugs, I gotta rely on my ears";
+        return "froggy_insight_visibility_1".tr();
       } else if (minVis < 2000) {
-        return "A little misty… makes the pond look mystical, I like it";
+        return "froggy_insight_visibility_2".tr();
       }
-      return "Clear visibility… I can see all the way across the reeds";
+      return "froggy_insight_visibility_3".tr();
     }
 
     if (minVis < 500) return "insights_sub_45".tr();
@@ -494,11 +494,11 @@ class _ShowInsightsState extends State<ShowInsights> {
 
     if (PreferencesHelper.getBool('useFroggyInsights') == true) {
       if (maxTemp >= 40) {
-        return "Whoa… might hit record heat. I’m diving deep until it’s over";
+        return "froggy_insight_record_temps_1".tr();
       } else if (maxTemp <= -10) {
-        return "Brr… maybe record cold. My toes are shaking just thinking about it";
+        return "froggy_insight_record_temps_2".tr();
       }
-      return "Nothing record-breaking… just normal weather stuff";
+      return "froggy_insight_record_temps_3".tr();
     }
 
     if (maxTemp >= 40) return "insights_sub_48".tr();
