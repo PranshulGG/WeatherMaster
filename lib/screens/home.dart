@@ -38,6 +38,7 @@ import '../models/insights_gen.dart';
 import '../models/layout_config.dart';
 import '../models/saved_location.dart';
 import '../models/weather_display_data.dart';
+import '../models/weather_display_data.dart';
 
 // App screens
 import '../screens/locations.dart';
@@ -95,6 +96,7 @@ class _WeatherHomeState extends State<WeatherHome> {
   List<LayoutBlockConfig> layoutConfig = [];
 
   // late Future<Map<String, dynamic>?>? weatherFuture;
+  Future<WeatherDisplayData?>? weatherFuture;
   Future<WeatherDisplayData?>? weatherFuture;
 
   Map<String, dynamic>? weatherData;
@@ -229,6 +231,7 @@ class _WeatherHomeState extends State<WeatherHome> {
   }
 
   Future<WeatherDisplayData?> getWeatherFromCache() async {
+  Future<WeatherDisplayData?> getWeatherFromCache() async {
     final box = await Hive.openBox('weatherMasterCache');
     var cached = box.get(cacheKey);
     final homePref = PreferencesHelper.getJson('homeLocation');
@@ -281,6 +284,8 @@ class _WeatherHomeState extends State<WeatherHome> {
         isFirstAppBuild = false;
       }
     }
+    final decoded = json.decode(cached);
+    return processWeatherData(decoded);
     final decoded = json.decode(cached);
     return processWeatherData(decoded);
   }
@@ -871,6 +876,7 @@ class _WeatherHomeState extends State<WeatherHome> {
     ];
 
     return FutureBuilder<WeatherDisplayData?>(
+    return FutureBuilder<WeatherDisplayData?>(
         future: weatherFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -890,6 +896,9 @@ class _WeatherHomeState extends State<WeatherHome> {
             );
           }
 
+          final displayData = snapshot.data!;
+          final raw = displayData.raw;
+          final weather = raw['data'] ?? raw; // Fallback
           final displayData = snapshot.data!;
           final raw = displayData.raw;
           final weather = raw['data'] ?? raw; // Fallback
@@ -963,6 +972,7 @@ class _WeatherHomeState extends State<WeatherHome> {
             onLoadForceCall = true;
           }
 
+          final daylightMap = displayData.daylightMap;
           final daylightMap = displayData.daylightMap;
 
           bool isHourDuringDaylightOptimized(DateTime hourTime) {
@@ -1040,6 +1050,8 @@ class _WeatherHomeState extends State<WeatherHome> {
               weather['air_quality']['current']['olive_pollen'];
           final double? ragweedPollen =
               weather['air_quality']['current']['ragweed_pollen'];
+
+          final bool shouldShowRainBlock = displayData.shouldShowRainBlock;
 
           final bool shouldShowRainBlock = displayData.shouldShowRainBlock;
 
