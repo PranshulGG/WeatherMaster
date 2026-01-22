@@ -35,6 +35,8 @@ class WeatherUpdateWorker(
     override suspend fun doWork(): Result {
         setForeground(createForegroundInfo())
 
+
+
         return try {
             withContext(Dispatchers.Main) {
                 val loader = FlutterInjector.instance().flutterLoader()
@@ -107,4 +109,6 @@ class WeatherUpdateWorker(
             manager.createNotificationChannel(channel)
         }
     }
+
+
 }
