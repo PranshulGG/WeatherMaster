@@ -36,9 +36,10 @@ class _AboutPageState extends State<AboutPage> {
   Widget build(BuildContext context) {
     final colorTheme = Theme.of(context).colorScheme;
     return Scaffold(
+      backgroundColor: colorTheme.surfaceContainer,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         elevation: 0,
         toolbarHeight: 120,
         shape: RoundedRectangleBorder(
@@ -329,7 +330,7 @@ class _AboutPageState extends State<AboutPage> {
             elevation: 0,
             height: 180,
             padding: EdgeInsets.only(top: 10),
-            color: Theme.of(context).colorScheme.surfaceContainer,
+            color: Theme.of(context).colorScheme.surface,
             child: ListView(physics: NeverScrollableScrollPhysics(), children: [
               ListTile(
                 leading: CircleAvatar(radius: 23, child: Icon(Symbols.license)),
@@ -466,9 +467,11 @@ If you have any questions about these Terms & Conditions, please contact:
 ''';
 
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       appBar: AppBar(
         title: Text('terms_&_conditions'.tr()),
         titleSpacing: 0,
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
         scrolledUnderElevation: 0,
       ),
       body: Markdown(
@@ -516,9 +519,11 @@ If you have any questions about privacy while using WeatherMaster, please contac
 ''';
 
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       appBar: AppBar(
         title: Text('privacy_policy'.tr()),
         titleSpacing: 0,
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
         scrolledUnderElevation: 0,
       ),
       body: Markdown(
