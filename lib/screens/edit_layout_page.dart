@@ -73,11 +73,13 @@ class _EditLayoutPageState extends State<EditLayoutPage> {
     final colorTheme = Theme.of(context).colorScheme;
 
     return Scaffold(
+        backgroundColor: colorTheme.surfaceContainer,
         appBar: AppBar(
           title: Text("arrange_items".tr()),
           titleSpacing: 0,
           scrolledUnderElevation: 0,
           toolbarHeight: 65,
+          backgroundColor: colorTheme.surfaceContainer,
         ),
         body: ReorderableListView(
             onReorder: (oldIndex, newIndex) {
@@ -100,7 +102,7 @@ class _EditLayoutPageState extends State<EditLayoutPage> {
                   margin:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 3),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surfaceContainerLow,
+                    color: Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: ListTile(
@@ -108,7 +110,8 @@ class _EditLayoutPageState extends State<EditLayoutPage> {
                     minTileHeight: 65,
                     leading: CircleAvatar(
                         foregroundColor: Theme.of(context).colorScheme.primary,
-                        backgroundColor: Theme.of(context).colorScheme.surface,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.surfaceContainerHigh,
                         child: Icon(Symbols.drag_handle)),
                     title: Text(
                       getTitle(block.type.name
@@ -120,8 +123,9 @@ class _EditLayoutPageState extends State<EditLayoutPage> {
                     trailing: IconButton.filled(
                       style: ButtonStyle(
                         backgroundColor: block.isVisible
-                            ? WidgetStateProperty.all(
-                                Theme.of(context).colorScheme.surface)
+                            ? WidgetStateProperty.all(Theme.of(context)
+                                .colorScheme
+                                .surfaceContainerHigh)
                             : WidgetStateProperty.all(
                                 Theme.of(context).colorScheme.errorContainer),
                         iconSize: WidgetStateProperty.all(30),
