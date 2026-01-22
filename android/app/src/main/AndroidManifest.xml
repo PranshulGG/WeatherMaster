@@ -127,6 +127,10 @@
             android:exported="false"
             tools:node="merge" />
 
+<service
+    android:name=".WeatherPersistentNotificationService"
+    android:exported="false"
+    android:foregroundServiceType="dataSync" />
 
         <!-- WIDGETS END -->
 
