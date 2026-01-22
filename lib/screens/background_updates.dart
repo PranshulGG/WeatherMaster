@@ -54,6 +54,8 @@ class _BackgroundUpdatesPageState extends State<BackgroundUpdatesPage> {
   Widget build(BuildContext context) {
     final showNewVerNotification =
         PreferencesHelper.getBool("showNewVerNotification") ?? true;
+    final usePersistantNotifcation =
+        PreferencesHelper.getBool("usePersistantNotifcation") ?? false;
 
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
@@ -155,6 +157,22 @@ class _BackgroundUpdatesPageState extends State<BackgroundUpdatesPage> {
                     title: BatteryOptWidget(), // 0%
                   ),
                   SettingSwitchTile(
+                      title: Text("Enable persistent notification"),
+                      enabled:
+                          PreferencesHelper.getBool("useBackgroundUpdates") ??
+                              false,
+                      toggled: usePersistantNotifcation,
+                      onChanged: (value) {
+                        if (value) {
+                          startPersistentNotification();
+                        } else {
+                          stopPersistentNotification();
+                        }
+                        PreferencesHelper.setBool(
+                            'usePersistantNotifcation', value);
+                        setState(() {});
+                      }),
+                  SettingSwitchTile(
                       title: Text("new_version_snack_message".tr()),
                       toggled: showNewVerNotification,
                       onChanged: (value) {
@@ -190,7 +208,9 @@ class _BackgroundUpdatesPageState extends State<BackgroundUpdatesPage> {
 Future<void> triggerBgUpdates(value) async {
   if (value == false) {
     stopWeatherService();
+    stopPersistentNotification();
     PreferencesHelper.setBool("runningTaskBackground", false);
+    PreferencesHelper.setBool('usePersistantNotifcation', false);
   } else {
     startWeatherService();
     PreferencesHelper.setBool("runningTaskBackground", true);
