@@ -79,6 +79,7 @@ class HomeLocationScreen extends StatelessWidget {
     }
 
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       body: FutureBuilder<List<SavedLocation>>(
         future: loadSavedLocations(),
         builder: (context, snapshot) {
@@ -95,8 +96,10 @@ class HomeLocationScreen extends StatelessWidget {
                   SliverAppBar.large(
                     title: Text('home_location'.tr()),
                     titleSpacing: 0,
-                    backgroundColor: Theme.of(context).colorScheme.surface,
+                    backgroundColor:
+                        Theme.of(context).colorScheme.surfaceContainer,
                     scrolledUnderElevation: 1,
+                    expandedHeight: 120,
                   ),
                   SliverList(
                     delegate: SliverChildListDelegate.fixed(
@@ -165,16 +168,14 @@ class HomeLocationScreen extends StatelessWidget {
                                       ? Theme.of(context)
                                           .colorScheme
                                           .primaryContainer
-                                      : Theme.of(context)
-                                          .colorScheme
-                                          .surfaceContainerLowest,
+                                      : Theme.of(context).colorScheme.surface,
                                   borderRadius: isSelected
                                       ? BorderRadius.circular(50)
                                       : BorderRadius.only(
-                                          topLeft: Radius.circular(18),
-                                          topRight: Radius.circular(18),
-                                          bottomLeft: Radius.circular(0),
-                                          bottomRight: Radius.circular(0)),
+                                          topLeft: Radius.circular(16),
+                                          topRight: Radius.circular(16),
+                                          bottomLeft: Radius.circular(4),
+                                          bottomRight: Radius.circular(4)),
                                 ),
                                 child: ListTile(
                                     contentPadding:
