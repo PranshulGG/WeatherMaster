@@ -226,389 +226,389 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
     ],
   };
 
-  final Map<String, Map<String, String>> dialogContent = {
-    'default_text'.tr(): {
-      'content': '''
+  Map<String, Map<String, String>> get dialogContent => {
+        'default_text'.tr(): {
+          'content': '''
 ## Best match  
-- **Where to use:** Anywhere  
+- **${"where_to_use".tr()}:** ${"best_match_full_where_use".tr()}  
 
-- **Best for:** Users unsure what model to pick  
+- **${"best_for".tr()}:** ${"best_match_full_best_for".tr()}  
 
-- **Notes:** Automatically selects the most appropriate model based on location and forecast range.
+- **${"notes".tr()}:** ${"best_match_full_notes".tr()}
 '''
-    },
-    'main_text'.tr(): {
-      'content': '''
+        },
+        'main_text'.tr(): {
+          'content': '''
 ## ECMWF IFS 0.4°
-- **Where to use:** Global  
+- **${"where_to_use".tr()}:** ${"ECMWF_IFS_0.4°_full_where_use".tr()}  
 
-- **Best for:** Long-range, general use, travelers, aviation  
+- **${"best_for".tr()}:** ${"ECMWF_IFS_0.4°_full_best_for".tr()}  
 
-- **Countries:** Long-range, general use, travelers, aviation  
+- **${"countries".tr()}:** ${"ECMWF_IFS_0.4°_full_countries".tr()}  
 
-- **Notes:** Very reliable but lower spatial resolution than the 0.25° version. Great fallback model.
+- **${"notes".tr()}:** ${"ECMWF_IFS_0.4°_full_notes".tr()}
 
 ---
 
 
 ## ECMWF IFS 0.25°
-- **Where to use:** Global (especially Europe, Africa, Middle East)  
+- **${"where_to_use".tr()}:** ${"ECMWF_IFS_0.25°_full_where_use".tr()}
 
-- **Best for:** High-accuracy global forecasts (3–10 days out) 
+- **${"best_for".tr()}:** ${"ECMWF_IFS_0.25°_full_best_for".tr()}
 
-- **Countries:** Europe (top performer), global reliability  
+- **${"countries".tr()}:** ${"ECMWF_IFS_0.25°_full_countries".tr()}  
 
-- **Notes:** Arguably the most accurate public global model. Used by many national agencies. Slower updates than GFS.
+- **${"notes".tr()}:** ${"ECMWF_IFS_0.25°_full_notes".tr()}
 
 ---
 
 
 ## CMA GRAPES Global
-- **Where to use:** China, SE Asia, East Asia  
+- **${"where_to_use".tr()}:** ${"CMA_GRAPES_Global_full_where_use".tr()}  
 
-- **Best for:** Regional use in Asia-Pacific 
+- **${"best_for".tr()}:** ${"CMA_GRAPES_Global_full_best_for".tr()} 
 
-- **Countries:** China, Taiwan, Vietnam, Korea 
+- **${"countries".tr()}:** ${"CMA_GRAPES_Global_full_countries".tr()} 
 
-- **Notes:** Lower global reliability. Performs best around East Asia.
+- **${"notes".tr()}:** ${"CMA_GRAPES_Global_full_notes".tr()}
 
 ---
 
 
 ## BOM ACCESS Global
-- **Where to use:** Australia, New Zealand, Pacific islands  
+- **${"where_to_use".tr()}:** ${"BOM_ACCESS_Global_full_where_use".tr()}  
 
-- **Best for:** Marine and continental Australia forecasts 
+- **${"best_for".tr()}:** ${"BOM_ACCESS_Global_full_best_for".tr()} 
 
-- **Countries:** Australia, NZ, Papua New Guinea 
+- **${"countries".tr()}:** ${"BOM_ACCESS_Global_full_countries".tr()} 
 
-- **Notes:** Tailored for Southern Hemisphere. High-quality over AU/Oceania.
+- **${"notes".tr()}:** ${"BOM_ACCESS_Global_full_notes".tr()}
 
 ---
 
 
 ## MET Norway Nordic
-- **Where to use:** Scandinavia  
+- **${"where_to_use".tr()}:** ${"MET_Norway_Nordic_full_where_use".tr()}  
 
-- **Best for:** Local precision for Norway, Sweden, Finland 
+- **${"best_for".tr()}:** ${"MET_Norway_Nordic_full_best_for".tr()} 
 
-- **Countries:** Norway (best), Sweden, Denmark 
+- **${"countries".tr()}:** ${"MET_Norway_Nordic_full_countries".tr()} 
 
-- **Notes:** Uses MET Norway’s in-house regional models. Very accurate in Nordic terrain.
+- **${"notes".tr()}:** ${"MET_Norway_Nordic_full_notes".tr()}
 '''
-    },
-    'GFS': {
-      'content': '''
+        },
+        'GFS': {
+          'content': '''
 ## GFS Seamless
-- **Where to use:** Global  
+- **${"where_to_use".tr()}:** ${"GFS_Seamless_full_where_use".tr()}  
 
-- **Best for:** Fast updates + reasonable accuracy  
+- **${"best_for".tr()}:** ${"GFS_Seamless_full_best_for".tr()}  
 
-- **Countries:** US (especially), global  
+- **${"countries".tr()}:** ${"GFS_Seamless_full_countries".tr()}  
 
-- **Notes:** Combines GFS high-res short-term with long-range. Good balance between speed and reliability.
+- **${"notes".tr()}:** ${"GFS_Seamless_full_notes".tr()}
 
 ---
 
 
 ## GFS Global
-- **Where to use:** Worldwide  
+- **${"where_to_use".tr()}:** ${"GFS_Global_full_where_use".tr()}  
 
-- **Best for:** Free access, rapid updates (4x/day)
+- **${"best_for".tr()}:** ${"GFS_Global_full_best_for".tr()}
 
-- **Countries:** US (default), global fallback  
+- **${"countries".tr()}:** ${"GFS_Global_full_countries".tr()}  
 
-- **Notes:** Slightly less accurate than ECMWF, but faster and more frequently updated.
+- **${"notes".tr()}:** ${"GFS_Global_full_notes".tr()}
 
 ---
 
 
-## GFS HRRR (High-Resolution Rapid Refresh)
-- **Where to use:** United States only 
+## GFS HRRR ${"high_resolution_rapid_refresh".tr()}
+- **${"where_to_use".tr()}:** ${"GFS_HRRR_full_where_use".tr()} 
 
-- **Best for:** Very short-term hyperlocal forecasting (0–18 hours) 
+- **${"best_for".tr()}:** ${"GFS_HRRR__full_best_for".tr()}
 
-- **Countries:** US only 
+- **${"countries".tr()}:** ${"GFS_HRRR__full_countries".tr()}
 
-- **Notes:** Super high-res (3km). Best for storms, hourly planning, airport ops.
+- **${"notes".tr()}:** ${"GFS_HRRR__full_notes".tr()}
 
 ---
 
 
 ## GFS GraphCast (AI)
-- **Where to use:** Global 
+- **${"where_to_use".tr()}:** ${"global".tr()} 
 
-- **Best for:** Smooth animations, AI enthusiasts 
+- **${"best_for".tr()}:** ${"GFS_GraphCast_full_best_for".tr()} 
 
-- **Countries:** Global 
+- **${"countries".tr()}:** ${"global".tr()}
 
-- **Notes:** DeepMind’s AI forecast. Still experimental. Very good for visual consistency but not battle-tested yet.
+- **${"notes".tr()}:** ${"GFS_GraphCast_full_notes".tr()}
 
 '''
-    },
-    'JMA': {
-      'content': '''
+        },
+        'JMA': {
+          'content': '''
 ## JMA Seamless
-- **Where to use:** Japan, East Asia  
+- **${"where_to_use".tr()}:** ${"JMA_Seamless_full_where_use".tr()}  
 
-- **Best for:** General public, broad use  
+- **${"best_for".tr()}:** ${"JMA_Seamless_full_best_for".tr()}  
 
-- **Countries:** Japan, Korea, Taiwan, eastern China  
+- **${"countries".tr()}:** ${"JMA_Seamless_full_countries".tr()} 
 
-- **Notes:** National model with decent resolution. Blends short and long range.
+- **${"notes".tr()}:** ${"JMA_Seamless_full_notes".tr()}
 
 ---
 
 
 ## JMA MSM
-- **Where to use:** Japan only  
+- **${"where_to_use".tr()}:** ${"JMA_MSM_full_where_use".tr()} 
 
-- **Best for:** Precise forecasts up to 36h
+- **${"best_for".tr()}:** ${"JMA_MSM_full_best_for".tr()}
 
-- **Countries:** Japan  
+- **${"countries".tr()}:** ${"JMA_MSM_full_countries".tr()}  
 
-- **Notes:** Very high resolution, excellent for metro areas like Tokyo or Osaka.
+- **${"notes".tr()}:** ${"JMA_MSM_full_notes".tr()}
 
 ---
 
 
 ## JMA GSM
-- **Where to use:** Asia-Pacific 
+- **${"where_to_use".tr()}:** ${"JMA_GSM_full_where_use".tr()} 
 
-- **Best for:** Global coverage from Japan 
+- **${"best_for".tr()}:** ${"JMA_GSM_full_best_for".tr()} 
 
-- **Countries:** Japan, Philippines, Taiwan 
+- **${"countries".tr()}:** ${"JMA_GSM_full_countries".tr()} 
 
-- **Notes:** Not as sharp as ECMWF or GFS, but stable in East Asia.
+- **${"notes".tr()}:** ${"JMA_GSM_full_notes".tr()}
 
 '''
-    },
-    'DWD': {
-      'content': '''
+        },
+        'DWD': {
+          'content': '''
 ## ICON Seamless
-- **Where to use:** Europe (broad), global  
+- **${"where_to_use".tr()}:** ${"ICON_Seamless_full_where_use".tr()}  
 
-- **Best for:** European-wide continuity  
+- **${"best_for".tr()}:** ${"ICON_Seamless_full_best_for".tr()}  
 
-- **Countries:** Germany, France, Central Europe  
+- **${"countries".tr()}:** ${"ICON_Seamless_full_countries".tr()}  
 
-- **Notes:** Transitions smoothly between resolutions. Good for large European areas.
+- **${"notes".tr()}:** ${"ICON_Seamless_full_notes".tr()}
 
 ---
 
 
 ## ICON Global
-- **Where to use:** Worldwide
+- **${"where_to_use".tr()}:** ${"ICON_Global_full_where_use".tr()}
 
-- **Best for:** Competitor to GFS/ECMWF globally
+- **${"best_for".tr()}:** ${"ICON_Global_full_best_for".tr()}
 
-- **Countries:** Europe + Global  
+- **${"countries".tr()}:** ${"ICON_Global_full_countries".tr()}  
 
-- **Notes:** Strong model globally. Among best for Germany and Central Europe.
+- **${"notes".tr()}:** ${"ICON_Global_full_notes".tr()}
 
 ---
 
 
 ## ICON EU
-- **Where to use:** Western and Central Europe 
+- **${"where_to_use".tr()}:** ${"ICON_EU_full_where_use".tr()} 
 
-- **Best for:** Medium-range precision in Europe 
+- **${"best_for".tr()}:** ${"ICON_EU_full_best_for".tr()} 
 
-- **Countries:** France, Germany, Poland, Italy 
+- **${"countries".tr()}:** ${"ICON_EU_full_countries".tr()} 
 
-- **Notes:** High-res model. Great for terrain-rich regions.
+- **${"notes".tr()}:** ${"ICON_EU_full_notes".tr()}
 
 ## ICON D2
-- **Where to use:** Germany only 
+- **${"where_to_use".tr()}:** ${"ICON_D2_full_where_use".tr()}
 
-- **Best for:** Ultra-local forecasting up to 48h 
+- **${"best_for".tr()}:** ${"ICON_D2_full_best_for".tr()} 
 
-- **Countries:** Germany 
+- **${"countries".tr()}:** ${"ICON_D2_full_countries".tr()} 
 
-- **Notes:** Very detailed — cities, valleys, small regions.
+- **${"notes".tr()}:** ${"ICON_D2_full_notes".tr()}
 
 '''
-    },
-    'GEM': {
-      'content': '''
+        },
+        'GEM': {
+          'content': '''
 ## GEM Seamless
-- **Where to use:** North America  
+- **${"where_to_use".tr()}:** ${"GEM_Seamless_full_where_use".tr()}  
 
-- **Best for:** Mixed-range use for US & Canada  
+- **${"best_for".tr()}:** ${"GEM_Seamless_full_best_for".tr()}
 
-- **Countries:** Canada, US  
+- **${"countries".tr()}:** ${"GEM_Seamless_full_countries".tr()} 
 
-- **Notes:** Blended with HRDPS and regional models. Good balance.
+- **${"notes".tr()}:** ${"GEM_Seamless_full_notes".tr()}
 
 ---
 
 
 ## GEM Global
-- **Where to use:** Northern Hemisphere
+- **${"where_to_use".tr()}:** ${"GEM_Global_full_where_use".tr()}
 
-- **Best for:** Canadian territory, arctic routes
+- **${"best_for".tr()}:** ${"GEM_Global_full_best_for".tr()}
 
-- **Countries:** Canada, Greenland, Alaska  
+- **${"countries".tr()}:** ${"GEM_Global_full_countries".tr()}  
 
-- **Notes:** Moderate global accuracy, optimized for polar areas.
+- **${"notes".tr()}:** ${"GEM_Global_full_notes".tr()}
 
 ---
 
 
 ## GEM Regional
-- **Where to use:** Canada (regional) 
+- **${"where_to_use".tr()}:** ${"GEM_Regional_full_where_use".tr()}
 
-- **Best for:** Weather-sensitive sectors (aviation, snow, hydrology) 
+- **${"best_for".tr()}:** ${"GEM_Regional_full_best_for".tr()}
 
-- **Countries:** Canada 
+- **${"countries".tr()}:** ${"GEM_Regional_full_countries".tr()} 
 
-- **Notes:** High-res version for populated areas like Toronto, Quebec, Vancouver.
+- **${"notes".tr()}:** ${"GEM_Regional_full_notes".tr()}
 
 
 ## GEM HRDPS Continental
-- **Where to use:** Canada + US border 
+- **${"where_to_use".tr()}:** ${"GEM_HRDPS_Continental_full_where_use".tr()} 
 
-- **Best for:** Short-range events (snowstorms, rainfall) 
+- **${"best_for".tr()}:** ${"GEM_HRDPS_Continental_full_best_for".tr()} 
 
-- **Countries:** Canada, North US 
+- **${"countries".tr()}:** ${"GEM_HRDPS_Continental_full_countries".tr()} 
 
-- **Notes:** Very high-res (2.5km). Focused on precision forecasting.
+- **${"notes".tr()}:** ${"GEM_HRDPS_Continental_full_notes".tr()}
 
 '''
-    },
-    'Météo-France': {
-      'content': '''
+        },
+        'Météo-France': {
+          'content': '''
 ## Météo-France Seamless
-- **Where to use:** France and surroundings  
+- **${"where_to_use".tr()}:** ${"Météo_France_Seamless_full_where_use".tr()}  
 
-- **Best for:** General use in France and nearby countries  
+- **${"best_for".tr()}:** ${"Météo_France_Seamless_full_best_for".tr()}  
 
-- **Countries:** France, Spain, Belgium  
+- **${"countries".tr()}:** ${"Météo_France_Seamless_full_countries".tr()}  
 
-- **Notes:** Blended for smoother transitions. High confidence over France.
+- **${"notes".tr()}:** ${"Météo_France_Seamless_full_notes".tr()}
 
 ---
 
 
 ## Météo-France ARPEGE World
-- **Where to use:** French overseas territories
+- **${"where_to_use".tr()}:** ${"Météo_France_ARPEGE_World_full_where_use".tr()}
 
-- **Best for:** French Guiana, La Réunion, Polynesia
+- **${"best_for".tr()}:** ${"Météo_France_ARPEGE_World_full_best_for".tr()}
 
-- **Countries:** France + territories  
+- **${"countries".tr()}:** ${"Météo_France_ARPEGE_World_full_countries".tr()}  
 
-- **Notes:** Medium-res global forecast
+- **${"notes".tr()}:** ${"Météo_France_ARPEGE_World_full_notes".tr()}
 
 ---
 
 
 ## Météo-France ARPEGE Europe
-- **Where to use:** France, Western Europe
+- **${"where_to_use".tr()}:** ${"Météo_France_ARPEGE_Europe_full_where_use".tr()}
 
-- **Best for:** Continental Europe weather 
+- **${"best_for".tr()}:** ${"Météo_France_ARPEGE_Europe_full_best_for".tr()} 
 
-- **Countries:** France, Belgium, Italy 
+- **${"countries".tr()}:** ${"Météo_France_ARPEGE_Europe_full_countries".tr()} 
 
-- **Notes:** Higher resolution than global ARPEGE.
+- **${"notes".tr()}:** ${"Météo_France_ARPEGE_Europe_full_notes".tr()}
 
 
 ## Météo-France ARPEGE France HD
-- **Where to use:** France only 
+- **${"where_to_use".tr()}:** ${"Météo_France_ARPEGE_France_HD_full_where_use".tr()} 
 
-- **Best for:** Short-term, hyperlocal accuracy 
+- **${"best_for".tr()}:** ${"Météo_France_ARPEGE_France_HD_full_best_for".tr()} 
 
-- **Countries:** France 
+- **${"countries".tr()}:** ${"Météo_France_ARPEGE_France_HD_full_countries".tr()} 
 
-- **Notes:** Excellent detail — rain, fog, wind, storm.
+- **${"notes".tr()}:** ${"Météo_France_ARPEGE_France_HD_full_notes".tr()}
 
 '''
-    },
-    'ARPAE': {
-      'content': '''
+        },
+        'ARPAE': {
+          'content': '''
 ## ItaliaMeteo ARPAE ICON 2I
-- **Where to use:** Italy only  
+- **${"where_to_use".tr()}:** ${"ItaliaMeteo_ARPAE_ICON_2I_full_where_use".tr()}  
 
-- **Best for:** Short-term high-res forecasting  
+- **${"best_for".tr()}:** ${"ItaliaMeteo_ARPAE_ICON_2I_full_best_for".tr()}  
 
-- **Countries:** Italy  
+- **${"countries".tr()}:** ${"ItaliaMeteo_ARPAE_ICON_2I_full_countries".tr()}  
 
-- **Notes:** Based on ICON with ARPAE tuning. Strong for mountainous terrain.
+- **${"notes".tr()}:** ${"ItaliaMeteo_ARPAE_ICON_2I_full_notes".tr()}
 
 '''
-    },
-    'UKMO': {
-      'content': '''
+        },
+        'UKMO': {
+          'content': '''
 ## UKMO Seamless
-- **Where to use:** UK + international routes  
+- **${"where_to_use".tr()}:** ${"UKMO_Seamless_full_where_use".tr()}  
 
-- **Best for:** Combined global/local coverage  
+- **${"best_for".tr()}:** ${"UKMO_Seamless_full_best_for".tr()}  
 
-- **Countries:** UK, global  
+- **${"countries".tr()}:** ${"UKMO_Seamless_full_countries".tr()}
 
-- **Notes:** Smooth model transitions. Good for flights, sea, and national forecasts.
+- **${"notes".tr()}:** ${"UKMO_Seamless_full_notes".tr()}
 
 ---
 
 
 ## UKMO Global 10km
-- **Where to use:** Worldwide
+- **${"where_to_use".tr()}:** ${"UKMO_Global_10km_full_where_use".tr()}
 
-- **Best for:** Medium-range forecasts (3–7 days)
+- **${"best_for".tr()}:** ${"UKMO_Global_10km_full_best_for".tr()}
 
-- **Countries:** UK, Commonwealth countries  
+- **${"countries".tr()}:** ${"UKMO_Global_10km_full_countries".tr()}  
 
-- **Notes:** Strong global model. Good tropical performance.
+- **${"notes".tr()}:** ${"UKMO_Global_10km_full_notes".tr()}
 
 ---
 
 
 ## UKMO UK 2km
-- **Where to use:** UK only
+- **${"where_to_use".tr()}:** ${"UKMO_UK_2km_full_where_use".tr()}
 
-- **Best for:** Precise local UK weather 
+- **${"best_for".tr()}:** ${"UKMO_UK_2km_full_best_for".tr()} 
 
-- **Countries:** England, Scotland, Wales, NI 
+- **${"countries".tr()}:** ${"UKMO_UK_2km_full_countries".tr()}
 
-- **Notes:** One of the best models for dense urban UK settings.
+- **${"notes".tr()}:** ${"UKMO_UK_2km_full_notes".tr()}
 
 '''
-    },
-    'KNMI': {
-      'content': '''
-## KNMI Seamless (with ECMWF)
-- **Where to use:** Netherlands + Europe + global routes
+        },
+        'KNMI': {
+          'content': '''
+## KNMI Seamless (${"with_ECMWF".tr()})
+- **${"where_to_use".tr()}:** ${"KNMI_Seamless_with_ECMWF_full_where_use".tr()}
 
-- **Best for:** Smooth transition across forecast scales
+- **${"best_for".tr()}:** ${"KNMI_Seamless_with_ECMWF_full_best_for".tr()}
 
-- **Countries:** Netherlands, broader Europe, global
+- **${"countries".tr()}:** ${"KNMI_Seamless_with_ECMWF_full_countries".tr()}
 
-- **Notes:** Combines KNMI short-range and ECMWF global models. Useful for aviation, marine, and national-level planning.
+- **${"notes".tr()}:** ${"KNMI_Seamless_with_ECMWF_full_notes".tr()}
 
 ---
 
 ## KNMI Harmonie Arome Europe
-- **Where to use:** Continental Europe
+- **${"where_to_use".tr()}:** ${"KNMI_Harmonie_Arome_Europe_full_where_use".tr()}
 
-- **Best for:** Mesoscale weather features (e.g. thunderstorms, wind gusts)
+- **${"best_for".tr()}:** ${"KNMI_Harmonie_Arome_Europe_full_best_for".tr()}
 
-- **Countries:** European countries including Netherlands, Belgium, Germany, France
+- **${"countries".tr()}:** ${"KNMI_Harmonie_Arome_Europe_full_countries".tr()}
 
-- **Notes:** Convection-permitting resolution. Very good for regional forecasting across European terrain.
+- **${"notes".tr()}:** ${"KNMI_Harmonie_Arome_Europe_full_notes".tr()}
 
 ---
 
 ## KNMI Harmonie Arome Netherlands
-- **Where to use:** Netherlands (urban and coastal areas)
+- **${"where_to_use".tr()}:** ${"KNMI_Harmonie_Arome_Netherlands_full_where_use".tr()}
 
-- **Best for:** High-resolution local forecasting (0–48 hours)
+- **${"best_for".tr()}:** ${"KNMI_Harmonie_Arome_Netherlands_full_best_for".tr()}
 
-- **Countries:** Netherlands
+- **${"countries".tr()}:** ${"KNMI_Harmonie_Arome_Netherlands_full_countries".tr()}
 
-- **Notes:** Ultra-fine resolution. Excellent for precipitation, wind, and local effects like sea breezes or fog.
+- **${"notes".tr()}:** ${"KNMI_Harmonie_Arome_Netherlands_full_notes".tr()}
 
 '''
-    },
-  };
+        },
+      };
 
   String? selectedModelKey =
       PreferencesHelper.getString("selectedWeatherModel") ?? 'best_match';
@@ -975,7 +975,7 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
           borderRadius: BorderRadius.circular(8),
         ),
         child: Text(
-          'No data',
+          'no_data'.tr(),
           style: TextStyle(
             fontSize: 10,
             fontWeight: FontWeight.w600,
@@ -1184,7 +1184,7 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
                                         SizedBox(width: 4),
                                         Flexible(
                                           child: Text(
-                                            '${_modelForecastDays[model['key']]} day${_modelForecastDays[model['key']] == 1 ? '' : 's'} forecast only',
+                                            '${_modelForecastDays[model['key']]} ${"days".tr()} ${"forecast_only".tr()}',
                                             style: TextStyle(
                                               fontSize: 12,
                                               color: Theme.of(context)
