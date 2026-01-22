@@ -46,19 +46,20 @@ class _WorkInfoWidgetState extends State<WorkInfoWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       body: CustomScrollView(
         slivers: [
           SliverAppBar.large(
             title: Text('scheduled_updates'.tr()),
             titleSpacing: 0,
-            backgroundColor: Theme.of(context).colorScheme.surface,
+            backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
             scrolledUnderElevation: 1,
+            expandedHeight: 120,
           ),
           SliverToBoxAdapter(
             child: Container(
               decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surfaceContainerLow,
+                  color: Theme.of(context).colorScheme.surface,
                   borderRadius: BorderRadius.circular(18)),
               margin: const EdgeInsets.all(10),
               padding: const EdgeInsets.all(16.0),

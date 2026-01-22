@@ -41,12 +41,13 @@ class _AppearanceScreenState extends State<AppearanceScreen> {
         PreferencesHelper.getBool("UseopenContainerAnimation") ?? true;
 
     return Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.surface,
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
         body: CustomScrollView(slivers: [
           SliverAppBar.large(
             title: Text('appearance'.tr()),
             titleSpacing: 0,
-            backgroundColor: Theme.of(context).colorScheme.surface,
+            backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
+            expandedHeight: 120,
             scrolledUnderElevation: 1,
           ),
           SliverToBoxAdapter(
