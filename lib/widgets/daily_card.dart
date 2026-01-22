@@ -9,7 +9,7 @@ import 'package:material_symbols_icons/material_symbols_icons.dart';
 import '../screens/daily_forecast.dart';
 import '../controllers/home_f.dart';
 
-class DailyCard extends StatelessWidget {
+class DailyCard extends StatefulWidget {
   final List<dynamic> dailyTime;
   final List<dynamic> dailyTempsMin;
   final List<dynamic> dailyWeatherCodes;
@@ -18,15 +18,39 @@ class DailyCard extends StatelessWidget {
   final int selectedContainerBgIndex;
   final String utcOffsetSeconds;
 
-  DailyCard(
-      {super.key,
-      required this.dailyTime,
-      required this.dailyTempsMin,
-      required this.dailyWeatherCodes,
-      required this.dailyTempsMax,
-      required this.dailyPrecProb,
-      required this.utcOffsetSeconds,
-      required this.selectedContainerBgIndex});
+  DailyCard({
+    super.key,
+    required this.dailyTime,
+    required this.dailyTempsMin,
+    required this.dailyWeatherCodes,
+    required this.dailyTempsMax,
+    required this.dailyPrecProb,
+    required this.utcOffsetSeconds,
+    required this.selectedContainerBgIndex,
+  });
+
+  @override
+  DailyCardState createState() => DailyCardState();
+}
+
+class DailyCardState extends State<DailyCard> {
+  late final ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollController.jumpTo(68 + 5);
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,21 +66,22 @@ class DailyCard extends StatelessWidget {
 
     final List<Map<String, dynamic>> validDailyData = [];
 
-    for (int i = 0; i < dailyTime.length; i++) {
-      if (i < dailyTempsMin.length &&
-          i < dailyTempsMax.length &&
-          i < dailyWeatherCodes.length &&
-          i < dailyPrecProb.length &&
-          dailyTime[i] != null &&
-          dailyTempsMin[i] != null &&
-          dailyTempsMax[i] != null &&
-          dailyWeatherCodes[i] != null) {
+    for (int i = 0; i < widget.dailyTime.length; i++) {
+      if (i < widget.dailyTempsMin.length &&
+          i < widget.dailyTempsMax.length &&
+          i < widget.dailyWeatherCodes.length &&
+          i < widget.dailyPrecProb.length &&
+          widget.dailyTime[i] != null &&
+          widget.dailyTempsMin[i] != null &&
+          widget.dailyTempsMax[i] != null &&
+          widget.dailyWeatherCodes[i] != null) {
         validDailyData.add({
-          "time": dailyTime[i],
-          "tempMin": dailyTempsMin[i],
-          "tempMax": dailyTempsMax[i],
-          "weatherCode": dailyWeatherCodes[i],
-          "precipProb": (dailyPrecProb[i] as num?)?.toDouble() ?? 0.0000001,
+          "time": widget.dailyTime[i],
+          "tempMin": widget.dailyTempsMin[i],
+          "tempMax": widget.dailyTempsMax[i],
+          "weatherCode": widget.dailyWeatherCodes[i],
+          "precipProb":
+              (widget.dailyPrecProb[i] as num?)?.toDouble() ?? 0.0000001,
         });
       }
     }
@@ -66,7 +91,7 @@ class DailyCard extends StatelessWidget {
         child: Material(
           elevation: 1,
           borderRadius: BorderRadius.circular(20),
-          color: Color(selectedContainerBgIndex),
+          color: Color(widget.selectedContainerBgIndex),
           child: Container(
             padding: EdgeInsets.only(top: 15, bottom: 0),
             child: Column(
@@ -98,6 +123,7 @@ class DailyCard extends StatelessWidget {
                 SizedBox(
                   height: 213,
                   child: ListView.separated(
+                    controller: _scrollController,
                     scrollDirection: Axis.horizontal,
                     physics: BouncingScrollPhysics(),
                     itemCount: validDailyData.length,
@@ -114,7 +140,7 @@ class DailyCard extends StatelessWidget {
                       EdgeInsetsDirectional itemMargin =
                           EdgeInsetsDirectional.only(
                         start: index == 0 ? 15 : 0,
-                        end: index == dailyTime.length - 1 ? 15 : 0,
+                        end: index == widget.dailyTime.length - 1 ? 15 : 0,
                       );
 
                       return RepaintBoundary(
@@ -191,7 +217,8 @@ class DailyCard extends StatelessWidget {
                                       height: 3,
                                     ),
                                     Text(
-                                      getDayLabel(time, index, utcOffsetSeconds)
+                                      getDayLabel(time, index,
+                                              widget.utcOffsetSeconds)
                                           .toLowerCase()
                                           .tr(),
                                       style: const TextStyle(
