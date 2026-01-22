@@ -40,14 +40,15 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
     final forceLTRLAYOUT = PreferencesHelper.getBool("ForceltrLayout") ?? true;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       body: CustomScrollView(
         slivers: [
           SliverAppBar.large(
             title: Text('app_language'.tr()),
             titleSpacing: 0,
-            backgroundColor: Theme.of(context).colorScheme.surface,
+            backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
             scrolledUnderElevation: 1,
+            expandedHeight: 120,
             actions: [
               IconButton(
                   icon: Icon(Icons.search),
@@ -73,7 +74,7 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
               child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 12, right: 12, bottom: 10),
+                padding: EdgeInsets.only(left: 16, right: 16, bottom: 10),
                 child: ListTile(
                   contentPadding: EdgeInsets.only(left: 26, right: 24),
                   horizontalTitleGap: 14,
@@ -89,8 +90,7 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
                     weight: 500,
                   ),
                   onTap: () {
-                    openLink(
-                        "https://crowdin.com/project/weathermaster/invite?h=448278a9b1370f3c10d4336a091dae792286917");
+                    openLink("https://crowdin.com/project/weathermaster");
                   },
                 ),
               ),
@@ -132,7 +132,7 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
                       final isFirst = index == 0;
 
                       return Container(
-                        padding: EdgeInsets.only(left: 12, right: 12),
+                        padding: EdgeInsets.only(left: 16, right: 16),
                         margin: EdgeInsets.only(
                           bottom: isLast
                               ? MediaQuery.of(context).padding.bottom + 20
@@ -262,17 +262,17 @@ class _LanguageTileState extends State<LanguageTile> {
         ? BorderRadius.circular(50)
         : widget.isFirst
             ? BorderRadius.only(
-                bottomLeft: Radius.circular(2.7),
-                bottomRight: Radius.circular(2.7),
-                topLeft: Radius.circular(18),
-                topRight: Radius.circular(18))
+                bottomLeft: Radius.circular(4),
+                bottomRight: Radius.circular(4),
+                topLeft: Radius.circular(16),
+                topRight: Radius.circular(16))
             : widget.isLast
                 ? BorderRadius.only(
-                    bottomLeft: Radius.circular(18),
-                    bottomRight: Radius.circular(18),
-                    topLeft: Radius.circular(2.7),
-                    topRight: Radius.circular(2.7))
-                : BorderRadius.circular(2.7);
+                    bottomLeft: Radius.circular(16),
+                    bottomRight: Radius.circular(16),
+                    topLeft: Radius.circular(4),
+                    topRight: Radius.circular(4))
+                : BorderRadius.circular(4);
 
     return TweenAnimationBuilder<BorderRadius>(
       tween: Tween<BorderRadius>(
@@ -290,7 +290,7 @@ class _LanguageTileState extends State<LanguageTile> {
       child: Material(
         color: _isSelected
             ? Theme.of(context).colorScheme.primaryContainer
-            : Theme.of(context).colorScheme.surfaceContainerLowest,
+            : Theme.of(context).colorScheme.surface,
         child: ListTile(
             minTileHeight: 66,
             splashColor: Colors.transparent,
