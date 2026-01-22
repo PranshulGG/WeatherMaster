@@ -1027,12 +1027,14 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
     return ScaffoldMessenger(
       key: _scaffoldMessengerKey,
       child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
         body: CustomScrollView(slivers: [
           SliverAppBar.large(
             title: Text('weather_models'.tr()),
             titleSpacing: 0,
-            backgroundColor: Theme.of(context).colorScheme.surface,
+            backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
             scrolledUnderElevation: 1,
+            expandedHeight: 120,
           ),
           SliverList(
             delegate: SliverChildBuilderDelegate(
@@ -1042,7 +1044,7 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
                 final models = categorizedModels[categoryName]!;
 
                 return Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10),
+                    padding: EdgeInsets.only(left: 16, right: 16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       spacing: 2,
@@ -1199,9 +1201,7 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
                             ),
                             tileColor: isSelected
                                 ? Theme.of(context).colorScheme.primaryContainer
-                                : Theme.of(context)
-                                    .colorScheme
-                                    .surfaceContainerLowest,
+                                : Theme.of(context).colorScheme.surface,
                             onTap: () {
                               setState(() {
                                 selectedModelKey = model['key'].toString();
