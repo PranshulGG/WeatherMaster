@@ -29,6 +29,21 @@ void listenForServiceEvents() {
   _bgChannel.setMethodCallHandler((call) async {
     if (call.method == "updateWidget") {
       await updateHomeWidget(null, updatedFromHome: false);
+
+      final showNotif =
+          PreferencesHelper.getBool("usePersistantNotifcation") ?? false;
+
+      if (showNotif) {
+        startPersistentNotification();
+      }
     }
   });
+}
+
+Future<void> startPersistentNotification() async {
+  await _serviceChannel.invokeMethod('startPersistentNotification');
+}
+
+Future<void> stopPersistentNotification() async {
+  await _serviceChannel.invokeMethod('stopPersistentNotification');
 }
