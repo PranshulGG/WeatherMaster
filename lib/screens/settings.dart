@@ -44,14 +44,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final isLight = Theme.of(context).brightness == Brightness.light;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       body: CustomScrollView(
         slivers: [
           SliverAppBar.large(
             title: Text('settings'.tr()),
             titleSpacing: 0,
-            backgroundColor: Theme.of(context).colorScheme.surface,
+            backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
             scrolledUnderElevation: 1,
+            expandedHeight: 120,
           ),
           SliverToBoxAdapter(
             child: Column(
