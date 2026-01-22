@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app
 
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
@@ -105,7 +106,22 @@ class MainActivity : FlutterActivity() {
                     }
                     "isOnline" ->  {
                         result.success(isOnline(this))
+                    } 
+                    "startPersistentNotification" -> {
+                    val intent = Intent(this, WeatherPersistentNotificationService::class.java)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        startForegroundService(intent)
+                    } else {
+                        startService(intent)
                     }
+                    result.success(true)
+                }
+
+                "stopPersistentNotification" -> {
+                    stopService(Intent(this, WeatherPersistentNotificationService::class.java))
+                    result.success(true)
+                }
+
                     else -> result.notImplemented()
                 }
             }
