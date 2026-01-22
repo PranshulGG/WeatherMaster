@@ -53,11 +53,11 @@
 
 <br>
 
-# 🌐 Translate the app on [Crowdin](https://crowdin.com/project/weathermaster/invite?h=448278a9b1370f3c10d4336a091dae792286917)
+# 🌐 Translate the app on [Crowdin](https://crowdin.com/project/weathermaster)
 
 - **Feel free to open an issue if you want to request a language**
 
-<a href="https://crowdin.com/project/weathermaster/invite?h=448278a9b1370f3c10d4336a091dae792286917"><img src="https://badges.crowdin.net/weathermaster/localized.svg" width="200"> </a>
+<a href="https://crowdin.com/project/weathermaster"><img src="https://badges.crowdin.net/weathermaster/localized.svg" width="200"> </a>
 
 # ✨ Features:
 
