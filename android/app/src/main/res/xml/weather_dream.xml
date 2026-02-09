@@ -1,0 +1,4 @@
+<dream xmlns:android="http://schemas.android.com/apk/res/android"
+    android:previewImage="@mipmap/ic_launcher"
+    android:showClockAndComplications="false"
+    android:settingsActivity="com.pranshulgg.weather_master_app.MainActivity" />

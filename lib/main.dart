@@ -172,6 +172,38 @@ void main() async {
   );
 }
 
+@pragma('vm:entry-point')
+void onDreamServiceStarted() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MaterialApp(
+    theme: ThemeData.light(),
+    darkTheme: ThemeData.dark(),
+    home: Builder(builder: (context) {
+      return Scaffold(
+        body: Center(
+          child: FilledButton(
+              onPressed: () => showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text("Headline"),
+                      content: Text("Supporting text"),
+                      actions: [
+                        TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text("Cancel")),
+                        TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text("OK"))
+                      ],
+                    ),
+                  ),
+              child: Text("Hello world!")),
+        ),
+      );
+    }),
+  ));
+}
+
 class MyApp extends StatelessWidget {
   final String? cacheKey;
   final String? cityName;
