@@ -619,7 +619,7 @@ class _ConditionsWidgetsState extends State<ConditionsWidgets> {
                     child: Text(
                       widget.currentPressure == 0.0000001
                           ? '--'
-                          : "${convertedPressure.round()}",
+                          : "${pressureUnit == 'inHg' ? convertedPressure.toStringAsFixed(2) : convertedPressure.round()}",
                       style: TextStyle(
                         fontFamily: "FlexFontEn",
                         color: Theme.of(context).colorScheme.onSurface,
