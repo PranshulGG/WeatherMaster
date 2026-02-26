@@ -195,12 +195,38 @@ class _SummaryCardState extends State<SummaryCard> {
       ]));
     }
 
+    // if (temp < 15) {
+    //   candidates.add(_HeadlineCandidate(45, [
+    //     "summary_headlines_22".tr(),
+    //     "summary_headlines_23".tr(),
+    //     "summary_headlines_24".tr(),
+    //   ]));
+    // }
+
     if (temp < 15) {
-      candidates.add(_HeadlineCandidate(45, [
-        "summary_headlines_22".tr(),
-        "summary_headlines_23".tr(),
-        "summary_headlines_24".tr(),
-      ]));
+      switch (period) {
+        case TimeOfDayPeriod.morning:
+          candidates.add(_HeadlineCandidate(45, [
+            "summary_headlines_22".tr(),
+            "summary_headlines_23".tr(),
+            "summary_headlines_24".tr(),
+          ]));
+          break;
+        case TimeOfDayPeriod.afternoon:
+          candidates.add(_HeadlineCandidate(45, [
+            "A cool afternoon with mild conditions", // cool_afternoon_1
+            "Cool temps stick around today", // cool_afternoon_2
+          ]));
+          break;
+        case TimeOfDayPeriod.evening:
+          candidates.add(_HeadlineCandidate(45, [
+            "Temperatures drop into a chilly evening", // chilly_evening_1
+            "Cool air moves in after sunset" // chilly_evening_2
+          ]));
+          break;
+        default:
+          break;
+      }
     }
 
     if (candidates.isEmpty) {
