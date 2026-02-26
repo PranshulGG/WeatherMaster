@@ -225,7 +225,7 @@ WeatherDisplayData processWeatherData(Map<String, dynamic> raw) {
     hourlyWeatherCodes: hourlyWeatherCodes,
     hourlyPrecpProb: hourlyPrecpProb,
     hourlyDewPoint: hourlyDewPoint,
-    hourlyVisibility: hourlyVisibilityNoFilter,
+    hourlyVisibility: hourlyVisibility,
     hourlyUvIndex: hourlyUvIndex,
     dailyDates: dailyDates,
     dailyTempsMin: dailyTempsMin,

@@ -1152,26 +1152,23 @@ class _WeatherHomeState extends State<WeatherHome> {
                           : weatherContainerColors[selectedContainerBgIndex],
                       currentHumidity:
                           current['relative_humidity_2m'] ?? 0.0000001,
-                      currentDewPoint:
-                          hourly['dew_point_2m'][getStartIndex(weather['utc_offset_seconds'].toString(), hourlyTime)]
-                                  .toDouble() ??
-                              0.0000001,
+                      currentDewPoint: hourly['dew_point_2m'][getStartIndex(
+                                  weather['utc_offset_seconds'].toString(),
+                                  hourly['time'])]
+                              .toDouble() ??
+                          0.0000001,
                       currentSunrise: daily['sunrise'][1] ?? 0.0000001,
                       currentSunset: daily['sunset'][1] ?? 0.0000001,
                       currentPressure: current['pressure_msl'] ?? 0.0000001,
                       currentVisibility: hourly['visibility'][getStartIndex(
                               weather['utc_offset_seconds'].toString(),
-                              hourlyTime)] ??
+                              hourly['time'])] ??
                           0.0000001,
                       currentWindSpeed: current['wind_speed_10m'] ?? 0.0000001,
-                      currentWindDirc:
-                          current['wind_direction_10m'] ?? 0.0000001,
+                      currentWindDirc: current['wind_direction_10m'] ?? 0.0000001,
                       timezone: weather['timezone'].toString(),
-                      utcOffsetSeconds:
-                          weather['utc_offset_seconds'].toString(),
-                      currentUvIndex: hourly['uv_index']
-                              [getStartIndex(weather['utc_offset_seconds'].toString(), hourlyTime)] ??
-                          0.0000001,
+                      utcOffsetSeconds: weather['utc_offset_seconds'].toString(),
+                      currentUvIndex: hourly['uv_index'][getStartIndex(weather['utc_offset_seconds'].toString(), hourly['time'])] ?? 0.0000001,
                       currentAQIUSA: weather['air_quality']['current']['us_aqi'] ?? 0.0000001,
                       currentAQIEURO: weather['air_quality']['current']['european_aqi'] ?? 0.0000001,
                       currentTotalPrec: daily['precipitation_sum'][1] ?? 0.0000001,

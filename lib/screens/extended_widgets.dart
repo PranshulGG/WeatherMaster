@@ -1014,6 +1014,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
           final currentVisibility = hourly['visibility'][getStartIndex(
                   weather['utc_offset_seconds'].toString(), hourlyTime)] ??
               0.0;
+
           final visibilityUnit =
               PreferencesHelper.getString("selectedVisibilityUnit") ?? "Km";
 
