@@ -2366,22 +2366,26 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                 child: Column(
                   spacing: 20,
                   children: [
-                    Text("precip_info".tr(),
+                    Text(
+                        "Precipitation amount describes how much precipitation is expected, typically given in millimeters (mm) or inches. It helps indicate the intensity — from light showers to heavy downpours.",
                         style: TextStyle(
                           fontSize: 17,
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         )),
-                    Text("precip_info_2".tr(),
+                    Text(
+                        "Precipitation probability shows the chance of precipitation occurring at a given time and location, expressed as a percentage. For example, a 70% chance means precipitation is likely in that area.",
                         style: TextStyle(
                           fontSize: 17,
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         )),
-                    Text("precip_info_3".tr(),
+                    Text(
+                        "Precipitation duration indicates the total number of hours during the day that precipitation is expected. This helps estimate how long the weather might stay wet or overcast.",
                         style: TextStyle(
                           fontSize: 17,
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         )),
-                    Text("precip_info_4".tr(),
+                    Text(
+                        "Precipitation intensity measures how heavy the precipitation is during a given period, typically classified as light, moderate, or heavy. Heavier precipitation can lead to flooding or reduced visibility",
                         style: TextStyle(
                           fontSize: 17,
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
