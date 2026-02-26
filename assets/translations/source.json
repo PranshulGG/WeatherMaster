@@ -774,5 +774,9 @@
   "KNMI_Harmonie_Arome_Netherlands_full_best_for": "High-resolution local forecasting (0–48 hours)",
   "KNMI_Harmonie_Arome_Netherlands_full_countries": "Netherlands",
   "KNMI_Harmonie_Arome_Netherlands_full_notes": "Ultra-fine resolution. Excellent for precipitation, wind, and local effects like sea breezes or fog.",
-  "no_data": "No data"
+  "no_data": "No data",
+  "cool_afternoon_1": "A cool afternoon with mild conditions",
+  "cool_afternoon_2": "Cool temps stick around today",
+  "chilly_evening_1": "Temperatures drop into a chilly evening",
+  "chilly_evening_2": "Cool air moves in after sunset"
 }
