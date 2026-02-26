@@ -129,7 +129,7 @@ class _SummaryCardState extends State<SummaryCard> {
 
     if (nextRain != null && !isRainy(weatherCode) && !isStormy(weatherCode)) {
       candidates.add(_HeadlineCandidate(85, [
-        "Rain on the way",
+        "Precipitation on the way",
         "Wet weather incoming",
         "Showers expected soon",
       ]));
@@ -143,8 +143,8 @@ class _SummaryCardState extends State<SummaryCard> {
       ]));
     } else if (isRainy(weatherCode)) {
       candidates.add(_HeadlineCandidate(70, [
-        "summary_headlines_4".tr(),
-        "summary_headlines_5".tr(),
+        "Precipitation likely through the day", // summary_headlines_4
+        "Pack an umbrella — precipitation is on the way", // summary_headlines_5
         "summary_headlines_6".tr(),
       ]));
     }
