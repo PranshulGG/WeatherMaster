@@ -762,7 +762,7 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              "${convertedPressure.round()}",
+                              "${pressureUnit == 'inHg' ? convertedPressure.toStringAsFixed(2) : convertedPressure.round()}",
                               style: TextStyle(
                                 fontSize: 50,
                                 fontFamily: "FlexFontEn",
@@ -864,6 +864,13 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                           end: index == 24 + 24 - startIndex - 1 ? 10 : 0,
                         );
 
+                        final convertedHourlyPressure = pressureUnit == 'inHg'
+                            ? UnitConverter.hPaToInHg(pressureHourly[dataIndex])
+                            : pressureUnit == 'mmHg'
+                                ? UnitConverter.hPaToMmHg(
+                                    pressureHourly[dataIndex])
+                                : pressureHourly[dataIndex];
+
                         return Container(
                           width: 53,
                           margin: itemMargin,
@@ -939,7 +946,8 @@ class _ExtendWidgetState extends State<ExtendWidget> {
                                     ),
                                   ]),
                               const SizedBox(height: 10),
-                              Text("${pressureHourly[dataIndex].round()}",
+                              Text(
+                                  "${pressureUnit == 'inHg' ? convertedHourlyPressure.toStringAsFixed(2) : convertedHourlyPressure.round()}",
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontFamily: "FlexFontEn",
