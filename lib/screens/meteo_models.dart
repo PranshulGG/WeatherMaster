@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:lat_lng_to_timezone/lat_lng_to_timezone.dart' as tzmap;
 import 'package:hive/hive.dart';
+import '../utils/unit_converter.dart';
 
 class MeteoModelsPage extends StatefulWidget {
   const MeteoModelsPage({super.key});
@@ -987,6 +988,14 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
 
     final temperature =
         (weatherData['current']['temperature_2m'] as num?)?.toDouble();
+
+    final tempUnit =
+        PreferencesHelper.getString("selectedTempUnit") ?? "Celsius";
+
+    final temp = tempUnit == 'Fahrenheit'
+        ? UnitConverter.celsiusToFahrenheit(temperature ?? 0)
+        : temperature ?? 0;
+
     if (temperature == null) {
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
@@ -1012,7 +1021,7 @@ class _MeteoModelsPageState extends State<MeteoModelsPage> {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(
-        '${temperature.round()}°',
+        '${temp.round()}°',
         style: TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w600,
