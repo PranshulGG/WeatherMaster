@@ -107,17 +107,33 @@ class _SummaryCardState extends State<SummaryCard> {
     };
   }
 
-  String generateHeadline(
-    double temp,
-    double uv,
-    double wind,
-    double humidity,
-    double cloudCover,
-    int weatherCode,
-    TimeOfDayPeriod period, {
-    int? airQuality,
-  }) {
+  Map<String, dynamic>? findNextRain(Map<String, dynamic> hourly) {
+    final times = hourly['time'] as List;
+    final codes = hourly['weather_code'] as List;
+
+    for (int i = 0; i < times.length && i < 24; i++) {
+      if (isRainy(codes[i]) || isStormy(codes[i])) {
+        return {
+          'time': DateTime.parse(times[i]),
+          'code': codes[i],
+        };
+      }
+    }
+    return null;
+  }
+
+  String generateHeadline(double temp, double uv, double wind, double humidity,
+      double cloudCover, int weatherCode, TimeOfDayPeriod period,
+      {int? airQuality, Map<String, dynamic>? nextRain}) {
     final candidates = <_HeadlineCandidate>[];
+
+    if (nextRain != null && !isRainy(weatherCode) && !isStormy(weatherCode)) {
+      candidates.add(_HeadlineCandidate(85, [
+        "Rain on the way",
+        "Wet weather incoming",
+        "Showers expected soon",
+      ]));
+    }
 
     if (isStormy(weatherCode)) {
       candidates.add(_HeadlineCandidate(90, [
@@ -194,14 +210,6 @@ class _SummaryCardState extends State<SummaryCard> {
         "summary_headlines_21".tr(),
       ]));
     }
-
-    // if (temp < 15) {
-    //   candidates.add(_HeadlineCandidate(45, [
-    //     "summary_headlines_22".tr(),
-    //     "summary_headlines_23".tr(),
-    //     "summary_headlines_24".tr(),
-    //   ]));
-    // }
 
     if (temp < 15) {
       switch (period) {
@@ -452,6 +460,8 @@ class _SummaryCardState extends State<SummaryCard> {
     final readableDayLengthTime =
         "${dayLengthDuration.inHours} ${"hrs_sub_text".tr()} ${dayLengthDuration.inMinutes.remainder(60)} ${"mins_sub_text".tr()}";
 
+    final nextRain = findNextRain(widget.hourlyData);
+
     int offsetSeconds = int.parse(widget.utcOffsetSeconds);
     DateTime utcNow = DateTime.now().toUtc();
     DateTime now = utcNow.add(Duration(seconds: offsetSeconds));
@@ -470,16 +480,9 @@ class _SummaryCardState extends State<SummaryCard> {
     final period = getTimeOfDayPeriod(now);
 
     setState(() {
-      _headline = generateHeadline(
-        currentTemp,
-        peakUv,
-        windSpeed,
-        humidity,
-        cloudCoverNow,
-        weatherCodeNow,
-        period,
-        airQuality: airQuality,
-      );
+      _headline = generateHeadline(currentTemp, peakUv, windSpeed, humidity,
+          cloudCoverNow, weatherCodeNow, period,
+          airQuality: airQuality, nextRain: nextRain);
 
       _bullets = generateBulletPoints(
         tempMin: tempMin,
