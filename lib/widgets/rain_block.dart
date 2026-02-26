@@ -99,22 +99,22 @@ class RainBlock extends StatelessWidget {
   }
 
   String _generateTitle(int? start) {
-    if (start == null) return "rain_card_no_rain_exp".tr();
+    if (start == null) return "No precipitation expected";
 
     if (start == 0 && next12Precp[0] > 0.2) {
       return willRainStopSoon()
-          ? "rain_will_stop_soon".tr()
-          : "its_currently_raining".tr();
+          ? "Precipitation will stop soon"
+          : "Precipitation is ongoing";
     }
 
     final hour = DateTime.parse(next12Time[start]).hour;
 
-    if (hour >= 0 && hour <= 5) return "rain_expected_overnight".tr();
-    if (hour >= 6 && hour < 12) return "rain_expected_this_morning".tr();
-    if (hour >= 12 && hour < 17) return "rain_expected_this_afternoon".tr();
-    if (hour >= 17 && hour <= 22) return "rain_expected_later_today".tr();
+    if (hour >= 0 && hour <= 5) return "Precipitation expected overnight";
+    if (hour >= 6 && hour < 12) return "Precipitation expected this morning";
+    if (hour >= 12 && hour < 17) return "Precipitation expected this afternoon";
+    if (hour >= 17 && hour <= 22) return "Precipitation expected this evening";
 
-    return "rain_expected_later_today".tr();
+    return "Precipitation expected later today";
   }
 
   bool willRainStopSoon() {
@@ -153,9 +153,9 @@ class RainBlock extends StatelessWidget {
       final max = segment.reduce((a, b) => a > b ? a : b);
 
       String label = switch (max) {
-        > 5 => "heavy_rain".tr(),
-        > 2 => "moderate_rain".tr(),
-        _ => "light_rain".tr()
+        > 5 => "Heavy precipitation",
+        > 2 => "Moderate precipitation",
+        _ => "Light precipitation"
       };
 
       final startStr = timeUnit == '24 hr'
