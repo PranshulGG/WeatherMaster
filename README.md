@@ -113,6 +113,14 @@
 
 - <strong>Weather icons</strong>: <a href="https://gitlab.com/bignutty/google-weather-icons">Google weather icons
 
+### Persistent weather notification
+
+To prevent the persistent weather notification from being swipable on Android 14+ you will have to enable USB debugging and run:
+
+```sh
+adb shell appops set --uid com.pranshulgg.weather_master_app SYSTEM_EXEMPT_FROM_DISMISSIBLE_NOTIFICATIONS allow
+```
+
 # ✉️ Contact
 
 For any questions or feedback, feel free to open an issue on GitHub or contact pranshul.devmain@gmail.com
