@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.SplashScreen.OnStart" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#0B4485</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/app_icon_splash</item>
+        <item name="postSplashScreenTheme">@style/Theme.WeatherMaster</item>
+    </style>
+
+</resources>

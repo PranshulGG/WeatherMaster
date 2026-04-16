@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">WeatherMaster</string>
+    <string name="app_launcher_name">Weather</string>
+</resources>
