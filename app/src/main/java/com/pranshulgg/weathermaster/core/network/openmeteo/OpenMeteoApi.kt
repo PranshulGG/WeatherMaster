@@ -9,14 +9,23 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
+private const val DAILY_FIELDS =
+    "weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,daylight_duration,uv_index_max,rain_sum,showers_sum,snowfall_sum,precipitation_hours,precipitation_probability_max,wind_speed_10m_max,wind_direction_10m_dominant"
+
+private const val HOURLY_FIELDS =
+    "temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,precipitation_probability,rain,showers,snowfall,weather_code,visibility,uv_index,wind_speed_10m,wind_direction_10m"
+
+private const val CURRENT_FIELDS =
+    "rain,showers,snowfall,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m,pressure_msl,relative_humidity_2m,temperature_2m,is_day,apparent_temperature,uv_index,cloud_cover"
 
 interface OpenMeteoApi {
+
 
     @GET("forecast")
     suspend fun fetchWeather(
         @Query("latitude") latitude: Double,
         @Query("longitude") longitude: Double,
-        @Query("append_to_response") append: String = "daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,daylight_duration,uv_index_max,rain_sum,showers_sum,snowfall_sum,precipitation_hours,precipitation_probability_max&hourly=temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,precipitation_probability,rain,showers,snowfall,weather_code,visibility&current=rain,showers,snowfall,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m,pressure_msl,relative_humidity_2m,temperature_2m,is_day,apparent_temperature,cloud_cover&timeformat=unixtime"
+        @Query("append_to_response") append: String = "daily=$DAILY_FIELDS&hourly=$HOURLY_FIELDS&current=$CURRENT_FIELDS&timeformat=unixtime"
     ): Response<OpenMeteoWeatherDto>
 
 

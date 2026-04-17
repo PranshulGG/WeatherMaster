@@ -48,6 +48,9 @@ data class OpenMeteoCurrentDataDto(
 
     @SerializedName("cloud_cover")
     val cloudCover: Double,
+
+    @SerializedName("uv_index")
+    val uvIndex: Double
 )
 
 data class OpenMeteoHourlyDataDto(
@@ -73,6 +76,18 @@ data class OpenMeteoHourlyDataDto(
 
     @SerializedName("dew_point_2m")
     val dewPoint: List<Double>,
+
+    @SerializedName("uv_index")
+    val uvIndex: List<Double>,
+
+    @SerializedName("wind_speed_10m")
+    val windSpeed: List<Double>,
+
+    @SerializedName("wind_direction_10m")
+    val windDirection: List<Int>,
+
+    @SerializedName("precipitation_probability")
+    val precipitationProbability: List<Int>
 )
 
 data class OpenMeteoDailyDataDto(
@@ -110,6 +125,12 @@ data class OpenMeteoDailyDataDto(
     val precipitationHours: List<Int>,
 
     @SerializedName("precipitation_probability_max")
-    val precipitationProbabilityMax: List<Int>
+    val precipitationProbabilityMax: List<Int>,
+
+    @SerializedName("wind_speed_10m_max")
+    val windSpeedMax: List<Double>,
+
+    @SerializedName("wind_direction_dominant")
+    val windDirectionDominant: List<Int>
 )
 
