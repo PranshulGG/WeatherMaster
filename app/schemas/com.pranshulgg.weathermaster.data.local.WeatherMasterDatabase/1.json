@@ -1,0 +1,134 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "07ea1fdfb41d28b6419248a82bbd1091",
+    "entities": [
+      {
+        "tableName": "weather_data",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL, `time` INTEGER, `temperature` REAL, `rain` REAL, `showers` REAL, `snowfall` REAL, `weatherCode` INTEGER, `windSpeed` REAL, `windDirection` INTEGER, `windGusts` REAL, `pressureMsl` REAL, `relativeHumidity` REAL, `isDay` INTEGER, `feelsLike` REAL, `cloudCover` REAL, `weatherConditionName` TEXT, `cachedAt` INTEGER NOT NULL, `hourly` TEXT NOT NULL, `daily` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "latitude",
+            "columnName": "latitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "longitude",
+            "columnName": "longitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "temperature",
+            "columnName": "temperature",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "rain",
+            "columnName": "rain",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "showers",
+            "columnName": "showers",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "snowfall",
+            "columnName": "snowfall",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "weatherCode",
+            "columnName": "weatherCode",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "windSpeed",
+            "columnName": "windSpeed",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "windDirection",
+            "columnName": "windDirection",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "windGusts",
+            "columnName": "windGusts",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "pressureMsl",
+            "columnName": "pressureMsl",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "relativeHumidity",
+            "columnName": "relativeHumidity",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "isDay",
+            "columnName": "isDay",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "feelsLike",
+            "columnName": "feelsLike",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "cloudCover",
+            "columnName": "cloudCover",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "weatherConditionName",
+            "columnName": "weatherConditionName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "cachedAt",
+            "columnName": "cachedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hourly",
+            "columnName": "hourly",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "daily",
+            "columnName": "daily",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": []
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '07ea1fdfb41d28b6419248a82bbd1091')"
+    ]
+  }
+}

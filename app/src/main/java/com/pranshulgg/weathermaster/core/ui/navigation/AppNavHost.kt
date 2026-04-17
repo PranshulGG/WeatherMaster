@@ -21,6 +21,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.pranshulgg.weathermaster.feature.main.MainScreen
+import com.pranshulgg.weathermaster.feature.search.SearchScreen
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -45,7 +46,7 @@ fun AppNavHost(
         )
         NavHost(
             navController = navController,
-            startDestination = NavRoutes.MAIN,
+            startDestination = NavRoutes.SEARCH,
             modifier = Modifier.background(MaterialTheme.colorScheme.surfaceContainer),
             enterTransition = { NavTransitions.enter() },
             exitTransition = { NavTransitions.exit() },
@@ -56,6 +57,11 @@ fun AppNavHost(
                 NavRoutes.MAIN
             ) {
                 MainScreen(navController)
+            }
+            composable(
+                NavRoutes.SEARCH
+            ) {
+                SearchScreen(navController)
             }
         }
     }

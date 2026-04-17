@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:name=".WeatherMasterApplication"
         android:allowBackup="true"
@@ -14,6 +17,7 @@
         android:theme="@style/Theme.SplashScreen.OnStart">
         <activity
             android:name=".MainActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="true"
             android:label="@string/app_launcher_name"
             android:theme="@style/Theme.SplashScreen.OnStart">
