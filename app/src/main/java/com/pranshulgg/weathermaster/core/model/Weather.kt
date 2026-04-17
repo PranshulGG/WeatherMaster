@@ -1,39 +1,65 @@
 package com.pranshulgg.weathermaster.core.model
 
+import com.google.gson.annotations.SerializedName
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
+
 data class Weather(
-    val latitude: Double,
-    val longitude: Double,
+    val location: WeatherLocation,
+    val current: WeatherCurrent,
+    val hourly: List<WeatherHourly>,
+    val daily: List<WeatherDaily>
+)
 
-    val time: Long? = null,
+@OptIn(ExperimentalUuidApi::class)
+data class WeatherLocation(
+    val id: String,
+    val name: String,
+    val country: String,
+    val lat: Double,
+    val lon: Double,
+    val timezone: String
+)
 
-    val temperature: Double? = null,
+data class WeatherCurrent(
+    val temperature: Double,
+    val humidity: Double,
+    val windSpeed: Double,
+    val windDirection: Int?,
+    val pressureMsl: Double,
+    val visibility: Int?,
+    val cloudCover: Double?,
+    val uvIndex: Double,
+    val weatherCondition: WeatherConditions,
+    val feelsLike: Double?,
+    val time: Long?,
+    val dewPoint: Double?
+)
 
-    val rain: Double? = null,
-    val showers: Double? = null,
-    val snowfall: Double? = null,
 
-    val weatherCode: Int? = null,
+data class WeatherHourly(
+    val temperature: Double,
+    val windSpeed: Double,
+    val windDirection: Int?,
+    val rain: Double,
+    val snowfall: Double?,
+    val uvIndex: Double,
+    val weatherCondition: WeatherConditions,
+    val time: Long?,
+    val precipitationProbability: Int?
+)
 
-    val windSpeed: Double? = null,
-
-    val windDirection: Int? = null,
-
-    val windGusts: Double? = null,
-
-    val pressureMsl: Double? = null,
-
-    val relativeHumidity: Double? = null,
-
-    val isDay: Int? = null,
-
-    val feelsLike: Double? = null,
-
-    val cloudCover: Double? = null,
-
-    val weatherConditionName: String? = null,
-
-    val cachedAt: Long,
-
-    val hourly: String,
-    val daily: String
+data class WeatherDaily(
+    val temperatureMin: Double,
+    val temperatureMax: Double,
+    val windSpeed: Double,
+    val windDirection: Int?,
+    val rainSum: Double,
+    val snowfallSum: Double?,
+    val uvIndexMax: Double,
+    val weatherCondition: WeatherConditions,
+    val time: Long?,
+    val precipitationProbabilityMax: Int?,
+    val sunrise: Long?,
+    val sunset: Long?
 )
