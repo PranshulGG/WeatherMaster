@@ -4,11 +4,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -31,32 +33,33 @@ fun MainScreen(navController: NavController) {
     val viewModel: MainScreenViewModel = hiltViewModel()
     val weather = viewModel.weather
 
+    Scaffold { paddingValues ->
 
+        Box() {
 
-    Box() {
-
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(brush = Brush.verticalGradient(backgroundGradients(WeatherConditions.CLEAR_DAY)))
-        )
-
-
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-        ) {
-            FroggyCurrentWeatherCard()
-
-            Button(onClick = { viewModel.getWeather() }) {
-                Text(text = "Get Weather")
-            }
-
-            Text(
-                weather.toString()
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(brush = Brush.verticalGradient(backgroundGradients(WeatherConditions.CLEAR_SKY)))
             )
-            HourlyCard()
+
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+            ) {
+                FroggyCurrentWeatherCard(paddingValues, navController)
+
+                Button(onClick = { viewModel.getWeather() }) {
+                    Text(text = "Get Weather")
+                }
+
+                Text(
+                    weather.toString()
+                )
+                HourlyCard()
+            }
         }
     }
 }
