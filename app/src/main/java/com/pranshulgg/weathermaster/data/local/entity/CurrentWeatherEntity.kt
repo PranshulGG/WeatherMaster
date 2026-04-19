@@ -19,13 +19,14 @@ import kotlin.uuid.Uuid
             onDelete = ForeignKey.CASCADE
         )
     ],
-    indices = [Index("locationId")]
+    indices = [Index("locationId")],
+    primaryKeys = ["locationId"]
 )
 data class CurrentWeatherEntity(
     val locationId: String,
-
-    @PrimaryKey
-    val id: String = UuidGenerator().generateId(),
+//
+//    @PrimaryKey
+//    val id: String = UuidGenerator().generateId(),
 
     val temperature: Double,
     val humidity: Double,
@@ -37,6 +38,6 @@ data class CurrentWeatherEntity(
     val uvIndex: Double,
     val weatherCondition: WeatherConditions,
     val feelsLike: Double?,
-    val time: Long?,
+    val time: Long,
     val dewPoint: Double?
 )
