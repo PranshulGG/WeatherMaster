@@ -1,6 +1,6 @@
 package com.pranshulgg.weathermaster.core.model
 
-data class SearchItem(
+data class Location(
     val id: String,
     val name: String,
     val latitude: Double,
@@ -9,4 +9,8 @@ data class SearchItem(
     val timezone: String,
     val countryCode: String?,
     val state: String,
+    val provider: WeatherProviders = WeatherProviders.OPEN_METEO,
+    val isFavorite: Boolean = false,
+    val isPinned: Boolean = false,
+    val isDefault: Boolean
 )
