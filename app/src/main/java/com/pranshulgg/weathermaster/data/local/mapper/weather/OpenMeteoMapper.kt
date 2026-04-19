@@ -1,6 +1,7 @@
-package com.pranshulgg.weathermaster.data.local.mapper
+package com.pranshulgg.weathermaster.data.local.mapper.weather
 
 import com.google.gson.Gson
+import com.pranshulgg.weathermaster.core.model.Location
 import com.pranshulgg.weathermaster.core.model.Weather
 import com.pranshulgg.weathermaster.core.model.WeatherCurrent
 import com.pranshulgg.weathermaster.core.model.WeatherDaily
@@ -12,76 +13,91 @@ import com.pranshulgg.weathermaster.core.utils.UuidGenerator
 import com.pranshulgg.weathermaster.data.local.entity.CurrentWeatherEntity
 import com.pranshulgg.weathermaster.data.local.entity.DailyWeatherEntity
 import com.pranshulgg.weathermaster.data.local.entity.HourlyWeatherEntity
+import com.pranshulgg.weathermaster.data.local.entity.WeatherWithRelations
+import kotlin.collections.get
+import kotlin.collections.map
 import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
 private val gson = Gson()
 
+
 @OptIn(ExperimentalUuidApi::class)
-fun Weather.toCurrentWeatherEntity(): CurrentWeatherEntity =
+fun WeatherCurrent.toCurrentWeatherEntity(
+    locationId: String
+): CurrentWeatherEntity =
     CurrentWeatherEntity(
-        locationId = location.id,
-        temperature = current.temperature,
-        humidity = current.humidity,
-        windSpeed = current.windSpeed,
-        windDirection = current.windDirection,
-        pressureMsl = current.pressureMsl,
-        visibility = current.visibility,
-        cloudCover = current.cloudCover,
-        uvIndex = current.uvIndex,
-        weatherCondition = current.weatherCondition,
-        feelsLike = current.feelsLike,
-        time = current.time,
-        dewPoint = current.dewPoint
+        locationId = locationId,
+        temperature = temperature,
+        humidity = humidity,
+        windSpeed = windSpeed,
+        windDirection = windDirection,
+        pressureMsl = pressureMsl,
+        visibility = visibility,
+        cloudCover = cloudCover,
+        uvIndex = uvIndex,
+        weatherCondition = weatherCondition,
+        feelsLike = feelsLike,
+        time = time,
+        dewPoint = dewPoint
     )
 
 @OptIn(ExperimentalUuidApi::class)
-fun Weather.toHourlyWeatherEntity(): List<HourlyWeatherEntity> =
-    List(hourly.size) {
+fun List<WeatherHourly>.toHourlyWeatherEntity(
+    locationId: String
+): List<HourlyWeatherEntity> =
+    map { item ->
         HourlyWeatherEntity(
-            locationId = location.id,
-            temperature = hourly[it].temperature,
-            windSpeed = hourly[it].windSpeed,
-            windDirection = hourly[it].windDirection,
-            rain = hourly[it].rain,
-            snowfall = hourly[it].snowfall,
-            uvIndex = hourly[it].uvIndex,
-            weatherCondition = hourly[it].weatherCondition,
-            time = hourly[it].time,
-            precipitationProbability = hourly[it].precipitationProbability
+            locationId = locationId,
+            temperature = item.temperature,
+            windSpeed = item.windSpeed,
+            windDirection = item.windDirection,
+            rain = item.rain,
+            snowfall = item.snowfall,
+            uvIndex = item.uvIndex,
+            weatherCondition = item.weatherCondition,
+            time = item.time,
+            precipitationProbability = item.precipitationProbability
         )
     }
 
 @OptIn(ExperimentalUuidApi::class)
-fun Weather.toDailyWeatherEntity(): List<DailyWeatherEntity> =
-    List(daily.size) {
+fun List<WeatherDaily>.toDailyWeatherEntity(
+    locationId: String
+): List<DailyWeatherEntity> =
+    map { item ->
         DailyWeatherEntity(
-            locationId = location.id,
-            temperatureMin = daily[it].temperatureMin,
-            temperatureMax = daily[it].temperatureMax,
-            windSpeed = daily[it].windSpeed,
-            windDirection = daily[it].windDirection,
-            rainSum = daily[it].rainSum,
-            snowfallSum = daily[it].snowfallSum,
-            uvIndexMax = daily[it].uvIndexMax,
-            weatherCondition = daily[it].weatherCondition,
-            time = daily[it].time,
-            precipitationProbabilityMax = daily[it].precipitationProbabilityMax,
-            sunrise = daily[it].sunrise,
-            sunset = daily[it].sunset,
+            locationId = locationId,
+            temperatureMin = item.temperatureMin,
+            temperatureMax = item.temperatureMax,
+            windSpeed = item.windSpeed,
+            windDirection = item.windDirection,
+            rainSum = item.rainSum,
+            snowfallSum = item.snowfallSum,
+            uvIndexMax = item.uvIndexMax,
+            weatherCondition = item.weatherCondition,
+            time = item.time,
+            precipitationProbabilityMax = item.precipitationProbabilityMax,
+            sunrise = item.sunrise,
+            sunset = item.sunset,
         )
     }
 
 @OptIn(ExperimentalUuidApi::class)
-fun OpenMeteoWeatherDto.toDomain(): Weather =
+fun OpenMeteoWeatherDto.toDomain(location: Location): Weather =
     Weather(
         location = WeatherLocation(
-            id = UuidGenerator().generateId(),
-            lat = latitude,
-            lon = longitude,
-            name = "",
-            country = "",
-            timezone = ""
+            id = location.id,
+            lat = location.latitude,
+            lon = location.longitude,
+            name = location.name,
+            country = location.country,
+            timezone = location.timezone,
+            countryCode = location.countryCode,
+            state = location.state,
+            provider = location.provider,
+            isFavorite = location.isFavorite,
+            isPinned = location.isPinned,
+            isDefault = false
         ),
         current = WeatherCurrent(
             temperature = current.temperature,

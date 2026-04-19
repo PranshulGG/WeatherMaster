@@ -130,7 +130,7 @@ data class OpenMeteoDailyDataDto(
     @SerializedName("wind_speed_10m_max")
     val windSpeedMax: List<Double>,
 
-    @SerializedName("wind_direction_dominant")
+    @SerializedName("wind_direction_10m_dominant")
     val windDirectionDominant: List<Int>
 )
 
