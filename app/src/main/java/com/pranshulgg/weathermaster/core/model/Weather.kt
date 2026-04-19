@@ -18,7 +18,13 @@ data class WeatherLocation(
     val country: String,
     val lat: Double,
     val lon: Double,
-    val timezone: String
+    val timezone: String,
+    val countryCode: String?,
+    val state: String,
+    val provider: WeatherProviders = WeatherProviders.OPEN_METEO,
+    val isFavorite: Boolean,
+    val isPinned: Boolean,
+    val isDefault: Boolean
 )
 
 data class WeatherCurrent(
@@ -32,7 +38,7 @@ data class WeatherCurrent(
     val uvIndex: Double,
     val weatherCondition: WeatherConditions,
     val feelsLike: Double?,
-    val time: Long?,
+    val time: Long,
     val dewPoint: Double?
 )
 
@@ -45,7 +51,7 @@ data class WeatherHourly(
     val snowfall: Double?,
     val uvIndex: Double,
     val weatherCondition: WeatherConditions,
-    val time: Long?,
+    val time: Long,
     val precipitationProbability: Int?
 )
 
@@ -58,7 +64,7 @@ data class WeatherDaily(
     val snowfallSum: Double?,
     val uvIndexMax: Double,
     val weatherCondition: WeatherConditions,
-    val time: Long?,
+    val time: Long,
     val precipitationProbabilityMax: Int?,
     val sunrise: Long?,
     val sunset: Long?
