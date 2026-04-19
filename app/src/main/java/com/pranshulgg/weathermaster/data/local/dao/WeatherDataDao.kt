@@ -3,10 +3,12 @@ package com.pranshulgg.weathermaster.data.local.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import androidx.room.Transaction
 import com.pranshulgg.weathermaster.data.local.entity.CurrentWeatherEntity
 import com.pranshulgg.weathermaster.data.local.entity.DailyWeatherEntity
 import com.pranshulgg.weathermaster.data.local.entity.HourlyWeatherEntity
+import com.pranshulgg.weathermaster.data.local.entity.WeatherWithRelations
 
 @Dao
 interface WeatherDataDao {
@@ -32,6 +34,9 @@ interface WeatherDataDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDailyWeather(dailyWeather: List<DailyWeatherEntity>)
+
+    @Query("SELECT * FROM weather_locations WHERE id = :locationId")
+    suspend fun getAllWeatherDataForLocation(locationId: String): WeatherWithRelations?
 
 
 }
