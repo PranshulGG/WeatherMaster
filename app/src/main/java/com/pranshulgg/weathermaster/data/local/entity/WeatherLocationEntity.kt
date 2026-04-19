@@ -17,5 +17,10 @@ data class WeatherLocationEntity(
     val lat: Double,
     val lon: Double,
     val timezone: String,
-    val provider: WeatherProviders
+    val provider: WeatherProviders,
+    val state: String? = null,
+    val isFavorite: Boolean = false,
+    val isPinned: Boolean = false,
+    val countryCode: String? = null,
+    val isDefault: Boolean = false
 )
