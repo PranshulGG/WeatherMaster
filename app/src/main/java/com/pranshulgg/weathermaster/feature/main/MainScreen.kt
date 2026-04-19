@@ -1,66 +1,99 @@
 package com.pranshulgg.weathermaster.feature.main
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemDefaults
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.pranshulgg.weathermaster.core.model.WeatherConditions
-import com.pranshulgg.weathermaster.core.model.WeatherProviders
-import com.pranshulgg.weathermaster.data.provider.WeatherRepositoryProvider
-import com.pranshulgg.weathermaster.data.repository.WeatherRepository
-import com.pranshulgg.weathermaster.feature.main.ui.FroggyCurrentWeatherCard
-import com.pranshulgg.weathermaster.feature.main.ui.backgroundGradients
-import com.pranshulgg.weathermaster.feature.shared.ui.HourlyCard
+import com.pranshulgg.weathermaster.core.model.Location
+import com.pranshulgg.weathermaster.core.model.Weather
+import com.pranshulgg.weathermaster.core.prefs.LocalAppPrefs
+import com.pranshulgg.weathermaster.feature.locations.LocationsScreen
+import com.pranshulgg.weathermaster.feature.locations.LocationsScreenViewModel
+import com.pranshulgg.weathermaster.feature.shared.WeatherViewModel
+import kotlinx.coroutines.launch
 
+data class MainScreenUiState(
+    val isError: Boolean = false,
+    val isLoading: Boolean = false,
+    val activeLocation: Location? = null,
+    val locations: List<Location> = emptyList(),
+    val weather: Weather? = null
+)
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(navController: NavController) {
 
-    val viewModel: MainScreenViewModel = hiltViewModel()
-    val weather = viewModel.weather
-
-    Scaffold { paddingValues ->
-
-        Box() {
-
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(brush = Brush.verticalGradient(backgroundGradients(WeatherConditions.CLEAR_SKY)))
-            )
+    val weatherViewModel: WeatherViewModel = hiltViewModel()
+    val uiState by weatherViewModel.uiState
+    val activeLocation = uiState.activeLocation
+    val prefs = LocalAppPrefs.current
 
 
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-            ) {
-                FroggyCurrentWeatherCard(paddingValues, navController)
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
 
-                Button(onClick = { viewModel.getWeather() }) {
-                    Text(text = "Get Weather")
-                }
+    val closeDrawer = {
+        scope.launch { drawerState.close() }
+    }
 
-                Text(
-                    weather.toString()
-                )
-                HourlyCard()
-            }
+    LaunchedEffect(Unit) {
+        if (prefs.isFirstStart) {
+            drawerState.open()
+            prefs.setFirstStart(false)
         }
+    }
+
+
+    BackHandler(
+        enabled = drawerState.isOpen,
+    ) {
+        closeDrawer()
+    }
+
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            ModalDrawerSheet(
+                drawerContainerColor = MaterialTheme.colorScheme.surfaceContainer,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                LocationsScreen(
+                    onBack = { closeDrawer() },
+                    navController,
+                    uiState.locations,
+                    uiState.activeLocation,
+                    weatherViewModel::setActiveLocation
+                )
+            }
+        },
+    ) {
+        MainScreenScaffold(
+            navController,
+            drawerState,
+            uiState,
+            onRefresh = {
+                if (activeLocation != null)
+                    weatherViewModel.getWeather(
+                        activeLocation,
+                        activeLocation.provider
+                    )
+            })
+
     }
 }
 
