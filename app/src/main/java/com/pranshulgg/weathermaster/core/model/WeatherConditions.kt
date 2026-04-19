@@ -17,7 +17,9 @@ enum class WeatherConditions {
     VERY_COLD,
     FOG_HAZE,
 
-    RAIN
+    RAIN,
+
+    NO_CONDITION_FOUND
 
 }
 
@@ -52,6 +54,9 @@ fun WeatherConditions.toIcon(isDay: Boolean): Int {
         WeatherConditions.FOG_HAZE -> R.drawable.weather_haze_fog_dust_smoke
 
         WeatherConditions.RAIN -> R.drawable.weather_rain
+
+        WeatherConditions.NO_CONDITION_FOUND -> R.drawable.weather_not_available
+
 
     }
 
