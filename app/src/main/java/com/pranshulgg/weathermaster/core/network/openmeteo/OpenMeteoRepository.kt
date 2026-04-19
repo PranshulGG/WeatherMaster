@@ -2,7 +2,6 @@ package com.pranshulgg.weathermaster.core.network.openmeteo
 
 import android.util.Log
 import com.pranshulgg.weathermaster.core.model.Location
-import com.pranshulgg.weathermaster.core.model.RefreshIds
 import com.pranshulgg.weathermaster.core.model.Weather
 import com.pranshulgg.weathermaster.data.local.dao.WeatherDataDao
 import com.pranshulgg.weathermaster.data.local.mapper.toDomain
@@ -18,7 +17,7 @@ class OpenMeteoRepository @Inject constructor(
     val api: OpenMeteoApi
 ) : WeatherRepository {
 
-    override suspend fun getWeather(location: Location, isRefresh: Boolean = false): Weather? {
+    override suspend fun getWeather(location: Location, isRefresh: Boolean): Weather? {
 
         val cache = dao.getAllWeatherDataForLocation(location.id)
 
