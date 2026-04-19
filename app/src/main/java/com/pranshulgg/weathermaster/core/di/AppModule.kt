@@ -4,11 +4,12 @@ import android.content.Context
 import com.pranshulgg.weathermaster.core.network.openmeteo.OpenMeteoApi
 import com.pranshulgg.weathermaster.core.network.openmeteo.OpenMeteoRepository
 import com.pranshulgg.weathermaster.core.network.search.OpenMeteoSearchApi
+import com.pranshulgg.weathermaster.core.ui.state.ActiveLocationStore
 import com.pranshulgg.weathermaster.data.local.WeatherMasterDatabase
 import com.pranshulgg.weathermaster.data.local.dao.WeatherDataDao
 import com.pranshulgg.weathermaster.data.local.dao.WeatherLocationDao
+import com.pranshulgg.weathermaster.data.repository.LocationsRepository
 import com.pranshulgg.weathermaster.data.repository.SearchRepository
-import com.pranshulgg.weathermaster.data.repository.WeatherRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -47,17 +48,25 @@ object AppModule {
     @Provides
     @Singleton
     fun provideOpenMeteoRepository(
-        daoLocation: WeatherLocationDao,
-        daoData: WeatherDataDao,
+        dao: WeatherDataDao,
         api: OpenMeteoApi
-    ): WeatherRepository =
-        OpenMeteoRepository(daoLocation, daoData, api)
+    ): OpenMeteoRepository = OpenMeteoRepository(dao, api)
 
     @Provides
     @Singleton
     fun provideSearchRepository(
         api: OpenMeteoSearchApi
-    ): SearchRepository =
-        SearchRepository(api)
+    ): SearchRepository = SearchRepository(api)
+
+    @Provides
+    @Singleton
+    fun provideLocationsRepository(
+        dao: WeatherLocationDao,
+        activeLocationStore: ActiveLocationStore
+    ): LocationsRepository = LocationsRepository(dao, activeLocationStore)
+
+    @Provides
+    @Singleton
+    fun provideActiveLocationStore(): ActiveLocationStore = ActiveLocationStore()
 
 }
