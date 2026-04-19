@@ -11,12 +11,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MotionScheme
+import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.window.Popup
 import androidx.compose.ui.zIndex
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -29,24 +32,13 @@ fun AppNavHost(
     navController: NavHostController,
     snackbarHostState: SnackbarHostState,
 ) {
+
     Box(
         Modifier.fillMaxSize()
     ) {
-        SnackbarHost(
-            hostState = snackbarHostState,
-            Modifier
-                .fillMaxWidth()
-                .zIndex(1f)
-                .align(Alignment.BottomCenter)
-                .padding(
-                    bottom = WindowInsets.navigationBars
-                        .asPaddingValues()
-                        .calculateBottomPadding()
-                )
-        )
         NavHost(
             navController = navController,
-            startDestination = NavRoutes.SEARCH,
+            startDestination = NavRoutes.MAIN,
             modifier = Modifier.background(MaterialTheme.colorScheme.surfaceContainer),
             enterTransition = { NavTransitions.enter() },
             exitTransition = { NavTransitions.exit() },
@@ -64,6 +56,17 @@ fun AppNavHost(
                 SearchScreen(navController)
             }
         }
+
+
+        SnackbarHost(
+            hostState = snackbarHostState,
+            Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter)
+                .padding(
+                    bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+                )
+        )
     }
 
 }
