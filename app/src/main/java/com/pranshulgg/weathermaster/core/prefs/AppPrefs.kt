@@ -10,7 +10,9 @@ object AppPrefs {
     private val _appTheme = mutableStateOf("System")
     private val _customThemeColor = mutableStateOf("#2196f3")
     private val _isCustomTheme = mutableStateOf(false)
-    private val _setDynamicColors = mutableStateOf(false)
+    private val _isDynamicTheme = mutableStateOf(false)
+
+    private val _isFirstStart = mutableStateOf(true)
 
 
     fun initPrefs(context: Context) {
@@ -20,7 +22,8 @@ object AppPrefs {
             PreferencesHelper.getString("app_theme") ?: "System"
         _customThemeColor.value = PreferencesHelper.getString("custom_theme_color") ?: "#2196f3"
         _isCustomTheme.value = PreferencesHelper.getBool("isCustomTheme") ?: false
-        _setDynamicColors.value = PreferencesHelper.getBool("isDynamicTheme") ?: false
+        _isDynamicTheme.value = PreferencesHelper.getBool("isDynamicTheme") ?: false
+        _isFirstStart.value = PreferencesHelper.getBool("isFirstStart") ?: true
     }
 
     @Composable
@@ -44,10 +47,16 @@ object AppPrefs {
             PreferencesHelper.setBool("isCustomTheme", it)
         },
 
-        isDynamicTheme = _setDynamicColors.value,
+        isDynamicTheme = _isDynamicTheme.value,
         setDynamicColor = {
-            _setDynamicColors.value = it
+            _isDynamicTheme.value = it
             PreferencesHelper.setBool("isDynamicTheme", it)
+        },
+
+        isFirstStart = _isFirstStart.value,
+        setFirstStart = {
+            _isFirstStart.value = it
+            PreferencesHelper.setBool("isFirstStart", it)
         }
 
     )
