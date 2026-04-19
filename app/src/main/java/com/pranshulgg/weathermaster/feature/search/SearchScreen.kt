@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.ui.components.EmptyContainerPlaceholder
@@ -29,6 +30,7 @@ import com.pranshulgg.weathermaster.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weathermaster.core.ui.components.SettingSection
 import com.pranshulgg.weathermaster.core.ui.components.SettingTile
 import com.pranshulgg.weathermaster.feature.search.ui.SearchFloatingToolbar
+import com.pranshulgg.weathermaster.feature.shared.WeatherViewModel
 
 data class SearchUiState(
     val query: String = "",
@@ -43,8 +45,10 @@ fun SearchScreen(navController: NavController) {
     val results = viewModel.results
     val loading = viewModel.loading
     val uiState by viewModel.uiState
+
     val scrollBehaviorToolbar =
         FloatingToolbarDefaults.exitAlwaysScrollBehavior(exitDirection = Bottom)
+
 
 
     LargeTopBarScaffold(
@@ -81,8 +85,11 @@ fun SearchScreen(navController: NavController) {
                         tiles = results.map {
                             SettingTile.ActionTile(
                                 title = it.name,
-                                description = if (it.state.isNotEmpty()) "${it.state}, " else "" + it.country,
-                                onClick = {}
+                                description = "${if (it.state.isNotEmpty()) "${it.state}, " else ""}${it.country} • ${it.latitude}, ${it.longitude}",
+                                onClick = {
+                                    viewModel.saveLocation(it)
+                                    navController.popBackStack()
+                                }
                             )
                         }
                     )
