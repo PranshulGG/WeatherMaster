@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">WeatherMaster</string>
-    <string name="app_launcher_name">Weather</string>
+    <string name="app_name" translatable="false">WeatherMaster</string>
+    <string name="app_launcher_name" translatable="false">Weather</string>
 </resources>
