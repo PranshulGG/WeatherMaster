@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.pranshulgg.weathermaster.core.model.Location
+import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.data.local.entity.WeatherLocationEntity
 import kotlinx.coroutines.flow.Flow
 
