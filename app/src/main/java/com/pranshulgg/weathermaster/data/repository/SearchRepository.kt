@@ -1,6 +1,6 @@
 package com.pranshulgg.weathermaster.data.repository
 
-import com.pranshulgg.weathermaster.core.model.Location
+import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.core.network.search.OpenMeteoSearchApi
 import com.pranshulgg.weathermaster.data.local.mapper.toDomain
 import jakarta.inject.Inject
