@@ -1,15 +1,16 @@
 package com.pranshulgg.weathermaster.core.network.openmeteo
 
 import android.util.Log
-import com.pranshulgg.weathermaster.core.model.Location
-import com.pranshulgg.weathermaster.core.model.Weather
+import com.pranshulgg.weathermaster.core.model.WeatherResult
+import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.data.local.dao.WeatherDataDao
 import com.pranshulgg.weathermaster.data.local.mapper.toDomain
-import com.pranshulgg.weathermaster.data.local.mapper.weather.toCurrentWeatherEntity
-import com.pranshulgg.weathermaster.data.local.mapper.weather.toDailyWeatherEntity
-import com.pranshulgg.weathermaster.data.local.mapper.weather.toDomain
-import com.pranshulgg.weathermaster.data.local.mapper.weather.toHourlyWeatherEntity
+import com.pranshulgg.weathermaster.data.local.mapper.weatherProviders.toCurrentWeatherEntity
+import com.pranshulgg.weathermaster.data.local.mapper.weatherProviders.toDailyWeatherEntity
+import com.pranshulgg.weathermaster.data.local.mapper.weatherProviders.toDomain
+import com.pranshulgg.weathermaster.data.local.mapper.weatherProviders.toHourlyWeatherEntity
 import com.pranshulgg.weathermaster.data.repository.WeatherRepository
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class OpenMeteoRepository @Inject constructor(
@@ -17,29 +18,51 @@ class OpenMeteoRepository @Inject constructor(
     val api: OpenMeteoApi
 ) : WeatherRepository {
 
-    override suspend fun getWeather(location: Location, isRefresh: Boolean): Weather? {
+    override suspend fun getWeather(location: Location, isRefresh: Boolean): WeatherResult {
 
         val cache = dao.getAllWeatherDataForLocation(location.id)
 
-        if (cache != null && cache.current != null && !isRefresh) {
-            return cache.toDomain()
+
+        // User refresh: 15 min limit to prevent spamming
+        // Auto-refresh: 45 mins cache window
+        if (cache?.current != null) {
+            val cacheMilli = cache.current.time * 1000L
+            val ageMillis = System.currentTimeMillis() - cacheMilli
+            val ageMinutes = TimeUnit.MILLISECONDS.toMinutes(ageMillis)
+
+            if (isRefresh && ageMinutes < 15) {
+                return WeatherResult.RefreshNotAvailable
+            }
+
+            val maxAge = if (isRefresh) 15 else 450
+
+            if (ageMinutes < maxAge) {
+                Log.d("WeatherRepository", "Returning cached data") // TODO: REMOVE THIS PROD
+                return WeatherResult.Success(cache.toDomain())
+            }
+
         }
 
+        return try {
 
-        val response = api.fetchWeather(location.latitude, location.longitude, location.timezone)
+            val response =
+                api.fetchWeather(location.latitude, location.longitude, location.timezone)
 
-        val body = response.body() ?: return null
+            val body = response.body() ?: return WeatherResult.Error("Empty response")
 
-        val domain = body.toDomain(location)
+            val domain = body.toDomain(location)
 
 
-        dao.insertWeather(
-            domain.current.toCurrentWeatherEntity(location.id),
-            domain.hourly.toHourlyWeatherEntity(location.id),
-            domain.daily.toDailyWeatherEntity(location.id)
-        )
+            dao.insertWeather(
+                domain.current.toCurrentWeatherEntity(location.id),
+                domain.hourly.toHourlyWeatherEntity(location.id),
+                domain.daily.toDailyWeatherEntity(location.id)
+            )
 
-        return domain
+            WeatherResult.Success(domain)
+        } catch (e: Exception) {
+            WeatherResult.Error(e.message ?: "Unknown error")
+        }
 
     }
 

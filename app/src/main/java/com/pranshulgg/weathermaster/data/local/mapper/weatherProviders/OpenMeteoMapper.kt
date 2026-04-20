@@ -1,21 +1,16 @@
-package com.pranshulgg.weathermaster.data.local.mapper.weather
+package com.pranshulgg.weathermaster.data.local.mapper.weatherProviders
 
 import com.google.gson.Gson
-import com.pranshulgg.weathermaster.core.model.Location
-import com.pranshulgg.weathermaster.core.model.Weather
-import com.pranshulgg.weathermaster.core.model.WeatherCurrent
-import com.pranshulgg.weathermaster.core.model.WeatherDaily
-import com.pranshulgg.weathermaster.core.model.WeatherHourly
-import com.pranshulgg.weathermaster.core.model.WeatherLocation
+import com.pranshulgg.weathermaster.core.model.domain.Location
+import com.pranshulgg.weathermaster.core.model.domain.Weather
+import com.pranshulgg.weathermaster.core.model.domain.WeatherCurrent
+import com.pranshulgg.weathermaster.core.model.domain.WeatherDaily
+import com.pranshulgg.weathermaster.core.model.domain.WeatherHourly
 import com.pranshulgg.weathermaster.core.network.openmeteo.OpenMeteoWeatherDto
 import com.pranshulgg.weathermaster.core.network.openmeteo.openMeteoWeatherCode
-import com.pranshulgg.weathermaster.core.utils.UuidGenerator
 import com.pranshulgg.weathermaster.data.local.entity.CurrentWeatherEntity
 import com.pranshulgg.weathermaster.data.local.entity.DailyWeatherEntity
 import com.pranshulgg.weathermaster.data.local.entity.HourlyWeatherEntity
-import com.pranshulgg.weathermaster.data.local.entity.WeatherWithRelations
-import kotlin.collections.get
-import kotlin.collections.map
 import kotlin.uuid.ExperimentalUuidApi
 
 private val gson = Gson()
@@ -85,10 +80,10 @@ fun List<WeatherDaily>.toDailyWeatherEntity(
 @OptIn(ExperimentalUuidApi::class)
 fun OpenMeteoWeatherDto.toDomain(location: Location): Weather =
     Weather(
-        location = WeatherLocation(
+        location = Location(
             id = location.id,
-            lat = location.latitude,
-            lon = location.longitude,
+            latitude = location.latitude,
+            longitude = location.longitude,
             name = location.name,
             country = location.country,
             timezone = location.timezone,
