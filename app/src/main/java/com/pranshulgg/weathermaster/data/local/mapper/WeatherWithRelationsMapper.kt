@@ -1,22 +1,21 @@
 package com.pranshulgg.weathermaster.data.local.mapper
 
-import com.pranshulgg.weathermaster.core.model.Location
-import com.pranshulgg.weathermaster.core.model.Weather
 import com.pranshulgg.weathermaster.core.model.WeatherConditions
-import com.pranshulgg.weathermaster.core.model.WeatherCurrent
-import com.pranshulgg.weathermaster.core.model.WeatherDaily
-import com.pranshulgg.weathermaster.core.model.WeatherHourly
-import com.pranshulgg.weathermaster.core.model.WeatherLocation
+import com.pranshulgg.weathermaster.core.model.domain.Location
+import com.pranshulgg.weathermaster.core.model.domain.Weather
+import com.pranshulgg.weathermaster.core.model.domain.WeatherCurrent
+import com.pranshulgg.weathermaster.core.model.domain.WeatherDaily
+import com.pranshulgg.weathermaster.core.model.domain.WeatherHourly
 import com.pranshulgg.weathermaster.data.local.entity.WeatherWithRelations
 import kotlin.uuid.ExperimentalUuidApi
 
 @OptIn(ExperimentalUuidApi::class)
 fun WeatherWithRelations.toDomain(): Weather =
     Weather(
-        location = WeatherLocation(
+        location = Location(
             id = location.id,
-            lat = location.lat,
-            lon = location.lon,
+            latitude = location.lat,
+            longitude = location.lon,
             name = location.name,
             country = location.country,
             timezone = location.timezone,
