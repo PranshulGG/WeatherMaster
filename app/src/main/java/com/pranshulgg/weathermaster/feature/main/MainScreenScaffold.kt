@@ -12,20 +12,12 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.LoadingIndicator
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
-import com.pranshulgg.weathermaster.core.model.Location
-import com.pranshulgg.weathermaster.core.model.Weather
 import com.pranshulgg.weathermaster.core.model.WeatherConditions
-import com.pranshulgg.weathermaster.core.model.WeatherLocation
 import com.pranshulgg.weathermaster.feature.main.ui.FroggyCurrentWeatherCard
 import com.pranshulgg.weathermaster.feature.main.ui.backgroundGradients
 import com.pranshulgg.weathermaster.feature.shared.ui.HourlyCard
@@ -39,7 +31,6 @@ fun MainScreenScaffold(
 ) {
 
 
-    var isRefreshing by remember { mutableStateOf(false) }
     val pullToRefreshState = rememberPullToRefreshState()
     val weather = uiState.weather
 
@@ -61,13 +52,12 @@ fun MainScreenScaffold(
                 isRefreshing = uiState.isLoading,
                 state = pullToRefreshState,
                 onRefresh = {
-
                     onRefresh()
                 },
                 indicator = {
                     LoadingIndicator(
                         pullToRefreshState,
-                        isRefreshing,
+                        uiState.isLoading,
                         modifier = Modifier
                             .zIndex(99999f)
                             .align(Alignment.TopCenter)
@@ -80,8 +70,14 @@ fun MainScreenScaffold(
                         .verticalScroll(rememberScrollState())
                 ) {
                     if (weather != null) {
-                        FroggyCurrentWeatherCard(paddingValues, navController, drawerState, weather)
-                        HourlyCard()
+                        FroggyCurrentWeatherCard(
+                            paddingValues,
+                            navController,
+                            drawerState,
+                            weather,
+                            uiState.weatherUnits
+                        )
+                        HourlyCard(weather, uiState.weatherUnits)
                     }
                 }
             }

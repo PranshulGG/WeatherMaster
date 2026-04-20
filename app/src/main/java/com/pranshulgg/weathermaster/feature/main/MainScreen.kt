@@ -11,18 +11,20 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.pranshulgg.weathermaster.core.model.Location
-import com.pranshulgg.weathermaster.core.model.Weather
+import com.pranshulgg.weathermaster.core.model.DistanceUnits
+import com.pranshulgg.weathermaster.core.model.PrecipitationUnits
+import com.pranshulgg.weathermaster.core.model.PressureUnits
+import com.pranshulgg.weathermaster.core.model.TemperatureUnits
+import com.pranshulgg.weathermaster.core.model.WindSpeedUnits
+import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
+import com.pranshulgg.weathermaster.core.model.domain.Location
+import com.pranshulgg.weathermaster.core.model.domain.Weather
 import com.pranshulgg.weathermaster.core.prefs.LocalAppPrefs
 import com.pranshulgg.weathermaster.feature.locations.LocationsScreen
-import com.pranshulgg.weathermaster.feature.locations.LocationsScreenViewModel
 import com.pranshulgg.weathermaster.feature.shared.WeatherViewModel
 import kotlinx.coroutines.launch
 
@@ -31,7 +33,8 @@ data class MainScreenUiState(
     val isLoading: Boolean = false,
     val activeLocation: Location? = null,
     val locations: List<Location> = emptyList(),
-    val weather: Weather? = null
+    val weather: Weather? = null,
+    val weatherUnits: AppWeatherUnits = AppWeatherUnits.getDefault()
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -90,7 +93,8 @@ fun MainScreen(navController: NavController) {
                 if (activeLocation != null)
                     weatherViewModel.getWeather(
                         activeLocation,
-                        activeLocation.provider
+                        activeLocation.provider,
+                        isRefresh = true
                     )
             })
 
