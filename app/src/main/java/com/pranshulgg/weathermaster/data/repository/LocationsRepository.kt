@@ -1,7 +1,7 @@
 package com.pranshulgg.weathermaster.data.repository
 
 import androidx.room.Transaction
-import com.pranshulgg.weathermaster.core.model.Location
+import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.core.ui.state.ActiveLocationStore
 import com.pranshulgg.weathermaster.data.local.dao.WeatherLocationDao
 import com.pranshulgg.weathermaster.data.local.mapper.toEntity

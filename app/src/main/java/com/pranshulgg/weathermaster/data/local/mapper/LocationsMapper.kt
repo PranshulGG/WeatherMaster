@@ -1,6 +1,6 @@
 package com.pranshulgg.weathermaster.data.local.mapper
 
-import com.pranshulgg.weathermaster.core.model.Location
+import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.core.model.WeatherProviders
 import com.pranshulgg.weathermaster.core.network.search.OpenMeteoSearchDto
 import com.pranshulgg.weathermaster.core.utils.UuidGenerator

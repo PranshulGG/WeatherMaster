@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
@@ -15,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weathermaster.core.ui.components.WeatherIconBox
+import com.pranshulgg.weathermaster.core.ui.theme.ShapeRadius
 
 @Composable
 fun LocationItem(
@@ -32,7 +34,7 @@ fun LocationItem(
 
     Surface(
         onClick = onClick,
-        shape = CircleShape,
+        shape = if (isSelected) RoundedCornerShape(ShapeRadius.ExtraLarge) else CircleShape,
         color = containerColor,
     ) {
         ListItem(

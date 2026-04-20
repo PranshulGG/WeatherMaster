@@ -1,4 +1,6 @@
-package com.pranshulgg.weathermaster.core.model
+package com.pranshulgg.weathermaster.core.model.domain
+
+import com.pranshulgg.weathermaster.core.model.WeatherProviders
 
 data class Location(
     val id: String,

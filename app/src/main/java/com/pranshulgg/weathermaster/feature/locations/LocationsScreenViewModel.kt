@@ -3,7 +3,7 @@ package com.pranshulgg.weathermaster.feature.locations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
-import com.pranshulgg.weathermaster.core.model.Location
+import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.core.ui.state.ActiveLocationStore
 import com.pranshulgg.weathermaster.data.repository.LocationsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
