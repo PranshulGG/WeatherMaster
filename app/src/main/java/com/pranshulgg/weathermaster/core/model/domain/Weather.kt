@@ -1,31 +1,31 @@
-package com.pranshulgg.weathermaster.core.model
+package com.pranshulgg.weathermaster.core.model.domain
 
-import com.google.gson.annotations.SerializedName
+import com.pranshulgg.weathermaster.core.model.WeatherConditions
+import com.pranshulgg.weathermaster.core.model.WeatherProviders
 import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
 data class Weather(
-    val location: WeatherLocation,
+    val location: Location,
     val current: WeatherCurrent,
     val hourly: List<WeatherHourly>,
     val daily: List<WeatherDaily>
 )
 
-@OptIn(ExperimentalUuidApi::class)
-data class WeatherLocation(
-    val id: String,
-    val name: String,
-    val country: String,
-    val lat: Double,
-    val lon: Double,
-    val timezone: String,
-    val countryCode: String?,
-    val state: String,
-    val provider: WeatherProviders = WeatherProviders.OPEN_METEO,
-    val isFavorite: Boolean,
-    val isPinned: Boolean,
-    val isDefault: Boolean
-)
+//@OptIn(ExperimentalUuidApi::class)
+//data class WeatherLocation(
+//    val id: String,
+//    val name: String,
+//    val country: String,
+//    val lat: Double,
+//    val lon: Double,
+//    val timezone: String,
+//    val countryCode: String?,
+//    val state: String,
+//    val provider: WeatherProviders = WeatherProviders.OPEN_METEO,
+//    val isFavorite: Boolean,
+//    val isPinned: Boolean,
+//    val isDefault: Boolean
+//)
 
 data class WeatherCurrent(
     val temperature: Double,
