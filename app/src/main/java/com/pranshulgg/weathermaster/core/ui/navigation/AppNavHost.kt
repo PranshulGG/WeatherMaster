@@ -25,6 +25,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.pranshulgg.weathermaster.feature.main.MainScreen
 import com.pranshulgg.weathermaster.feature.search.SearchScreen
+import com.pranshulgg.weathermaster.feature.settings.SettingsScreen
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -54,6 +55,11 @@ fun AppNavHost(
                 NavRoutes.SEARCH
             ) {
                 SearchScreen(navController)
+            }
+            composable(
+                NavRoutes.SETTINGS
+            ) {
+                SettingsScreen(navController)
             }
         }
 
