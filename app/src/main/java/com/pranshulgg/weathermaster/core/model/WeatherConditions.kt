@@ -61,3 +61,43 @@ fun WeatherConditions.toIcon(isDay: Boolean): Int {
     }
 
 }
+
+
+// ------- MAP TO LABEL -------
+
+
+fun WeatherConditions.toLabel(): String {
+
+    return when (this) {
+        WeatherConditions.CLEAR_SKY -> "Clear sky"
+
+        WeatherConditions.OVERCAST -> "Overcast"
+
+        WeatherConditions.PARTLY_CLOUDY -> "Partly cloudy"
+
+        WeatherConditions.HEAVY_RAIN -> "Heavy rain"
+        WeatherConditions.LIGHT_RAIN -> "Light rain"
+
+        WeatherConditions.LIGHT_SNOW -> "Light snow"
+        WeatherConditions.SNOW -> "Snowy"
+        WeatherConditions.HEAVY_SNOW -> "Heavy snow"
+
+
+        WeatherConditions.MOSTLY_CLEAR -> "Mostly clear"
+
+
+        WeatherConditions.THUNDERSTORM -> "Thunderstorm"
+
+        WeatherConditions.VERY_HOT -> "Very hot"
+        WeatherConditions.VERY_COLD -> "Very cold"
+
+        WeatherConditions.FOG_HAZE -> "Haze"
+
+        WeatherConditions.RAIN -> "Rainy"
+
+        WeatherConditions.NO_CONDITION_FOUND -> "No condition found"
+
+
+    }
+
+}
