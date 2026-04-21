@@ -16,7 +16,7 @@ import com.pranshulgg.weathermaster.data.local.entity.AppWeatherUnitsEntity
 
 @Database(
     entities = [WeatherLocationEntity::class, CurrentWeatherEntity::class, HourlyWeatherEntity::class, DailyWeatherEntity::class, AppWeatherUnitsEntity::class],
-    version = 12
+    version = 15
 )
 abstract class WeatherMasterDatabase : RoomDatabase() {
 
@@ -36,21 +36,7 @@ abstract class WeatherMasterDatabase : RoomDatabase() {
                     context.applicationContext,
                     WeatherMasterDatabase::class.java,
                     "weather_master.db"
-                ).fallbackToDestructiveMigration(true)
-                    .addCallback(object :
-                        Callback() { // SINCE there will only ever be one row (I believe), we can insert it here
-                        override fun onCreate(db: SupportSQLiteDatabase) {
-                            super.onCreate(db)
-                            db.execSQL(
-                                """
-                        INSERT INTO weather_units 
-                        (id, tempUnit, pressureUnit, windUnit, distanceUnit, precipitationUnit)
-                        VALUES (1, 'CELSIUS', 'HPA', 'KPH', 'KM', 'MM')
-                    """.trimIndent()
-                            )
-                        }
-                    }
-                    ).build().also { INSTANCE = it }
+                ).fallbackToDestructiveMigration(true).build().also { INSTANCE = it }
             }
     }
 
