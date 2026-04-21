@@ -38,7 +38,8 @@ fun WeatherWithRelations.toDomain(): Weather =
             weatherCondition = current?.weatherCondition ?: WeatherConditions.NO_CONDITION_FOUND,
             feelsLike = current?.feelsLike ?: 0.0,
             time = current?.time ?: System.currentTimeMillis(),
-            dewPoint = current?.dewPoint
+            dewPoint = current?.dewPoint,
+            utcOffsetSeconds = current?.utcOffsetSeconds ?: -1L
         ),
         hourly = List(hourly.size) {
             WeatherHourly(
