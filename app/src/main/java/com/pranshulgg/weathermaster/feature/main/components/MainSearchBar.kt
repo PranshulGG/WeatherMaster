@@ -58,7 +58,7 @@ fun MainSearchBar(
 
 
     Surface(
-        color = MaterialTheme.colorScheme.surfaceBright,
+        color = MaterialTheme.colorScheme.surfaceBright.copy(alpha = 0.5f),
         shape = CircleShape,
         modifier = Modifier.padding(
             top = paddingValues.calculateTopPadding(),
