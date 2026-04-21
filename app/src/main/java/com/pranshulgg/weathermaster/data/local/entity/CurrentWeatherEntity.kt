@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 import com.pranshulgg.weathermaster.core.model.WeatherConditions
 import com.pranshulgg.weathermaster.core.utils.UuidGenerator
 import kotlin.uuid.ExperimentalUuidApi
@@ -39,5 +40,7 @@ data class CurrentWeatherEntity(
     val weatherCondition: WeatherConditions,
     val feelsLike: Double?,
     val time: Long,
-    val dewPoint: Double?
+    val dewPoint: Double?,
+
+    val utcOffsetSeconds: Long
 )
