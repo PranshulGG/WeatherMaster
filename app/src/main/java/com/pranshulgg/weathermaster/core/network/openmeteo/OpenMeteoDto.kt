@@ -6,6 +6,8 @@ import com.google.gson.annotations.SerializedName
 data class OpenMeteoWeatherDto(
     val latitude: Double,
     val longitude: Double,
+    @SerializedName("utc_offset_seconds")
+    val utcOffsetSeconds: Long,
     val current: OpenMeteoCurrentDataDto,
     val hourly: OpenMeteoHourlyDataDto,
     val daily: OpenMeteoDailyDataDto
