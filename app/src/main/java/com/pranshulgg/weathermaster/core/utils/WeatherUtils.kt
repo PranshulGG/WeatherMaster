@@ -7,13 +7,13 @@ class WeatherUtils {
     fun filterHourlyDataForDate(
         data: List<WeatherHourly>,
         currentSeconds: Long,
-        limit: Int = 12
+        limit: Int = 24
     ): List<WeatherHourly> {
 
 
         val startIndex = data.indexOfFirst { it.time >= currentSeconds }.takeIf { it != -1 } ?: 0
 
-        return data.drop(startIndex).take(limit)
+        return data.drop(startIndex - 1).take(limit)
 
     }
 
