@@ -33,7 +33,8 @@ fun WeatherCurrent.toCurrentWeatherEntity(
         weatherCondition = weatherCondition,
         feelsLike = feelsLike,
         time = time,
-        dewPoint = dewPoint
+        dewPoint = dewPoint,
+        utcOffsetSeconds = utcOffsetSeconds
     )
 
 @OptIn(ExperimentalUuidApi::class)
@@ -106,7 +107,8 @@ fun OpenMeteoWeatherDto.toDomain(location: Location): Weather =
             weatherCondition = openMeteoWeatherCode(current.weatherCode),
             feelsLike = current.feelsLike,
             time = current.time,
-            dewPoint = hourly.dewPoint[0]
+            dewPoint = hourly.dewPoint[0],
+            utcOffsetSeconds = utcOffsetSeconds
         ),
         hourly = List(hourly.time.size) {
             WeatherHourly(
