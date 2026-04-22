@@ -73,7 +73,7 @@ fun SettingsScreen(navController: NavController) {
                         selectedOption = uiState.weatherUnits.windUnit.toName(),
                         onOptionSelected = {
                             viewModel.updateWindSpeedUnit(
-                                WindSpeedUnits.valueOf(it.uppercase())
+                                if (it == "Meters per second") WindSpeedUnits.MPS else if (it == "Miles per hour") WindSpeedUnits.MPH else WindSpeedUnits.KPH
                             )
                         }
                     ),
@@ -87,7 +87,7 @@ fun SettingsScreen(navController: NavController) {
                         selectedOption = uiState.weatherUnits.pressureUnit.toName(),
                         onOptionSelected = {
                             viewModel.updatePressureUnit(
-                                PressureUnits.valueOf(it.uppercase())
+                                if (it == "Hectopascals") PressureUnits.HPA else PressureUnits.INHG
                             )
                         }
                     ),
@@ -102,7 +102,7 @@ fun SettingsScreen(navController: NavController) {
                         selectedOption = uiState.weatherUnits.distanceUnit.toName(),
                         onOptionSelected = {
                             viewModel.updateDistanceUnit(
-                                DistanceUnits.valueOf(it.uppercase())
+                                if (it == "Miles") DistanceUnits.MI else if (it == "Meters") DistanceUnits.M else DistanceUnits.KM
                             )
                         }
                     ),
@@ -117,7 +117,7 @@ fun SettingsScreen(navController: NavController) {
                         selectedOption = uiState.weatherUnits.precipitationUnit.toName(),
                         onOptionSelected = {
                             viewModel.updatePrecipitationUnit(
-                                PrecipitationUnits.valueOf(it.uppercase())
+                                if (it == "Inches") PrecipitationUnits.INCH else if (it == "Centimeters") PrecipitationUnits.CM else PrecipitationUnits.MM
                             )
                         }
                     )
