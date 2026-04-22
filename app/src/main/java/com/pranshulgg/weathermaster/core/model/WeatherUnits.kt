@@ -36,18 +36,18 @@ fun WindSpeedUnits.toName(): String {
     }
 }
 
-fun PressureUnits.toName(): String {
+fun PressureUnits.toName(inShort: Boolean = false): String {
     return when (this) {
-        PressureUnits.HPA -> "Hectopascals"
-        PressureUnits.INHG -> "Inches of Mercury"
+        PressureUnits.HPA -> if (inShort) "hPa" else "Hectopascals"
+        PressureUnits.INHG -> if (inShort) "inHG" else "Inches of Mercury"
     }
 }
 
-fun DistanceUnits.toName(): String {
+fun DistanceUnits.toName(inShort: Boolean = false): String {
     return when (this) {
-        DistanceUnits.KM -> "Kilometers"
-        DistanceUnits.MI -> "Miles"
-        DistanceUnits.M -> "Meters"
+        DistanceUnits.KM -> if (inShort) "Km" else "Kilometers"
+        DistanceUnits.MI -> if (inShort) "Mi" else "Miles"
+        DistanceUnits.M -> if (inShort) "M" else "Meters"
     }
 }
 
