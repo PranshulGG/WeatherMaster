@@ -34,7 +34,7 @@ class OpenMeteoRepository @Inject constructor(
                 return WeatherResult.RefreshNotAvailable
             }
 
-            val maxAge = if (isRefresh) 15 else 450
+            val maxAge = if (isRefresh) 15 else 4500 // TODO: CHANGE TO 45
 
             if (ageMinutes < maxAge) {
                 Log.d("WeatherRepository", "Returning cached data") // TODO: REMOVE THIS PROD
@@ -62,6 +62,7 @@ class OpenMeteoRepository @Inject constructor(
             WeatherResult.Success(domain)
         } catch (e: Exception) {
             WeatherResult.Error(e.message ?: "Unknown error")
+
         }
 
     }
