@@ -53,7 +53,7 @@ fun HourlyCard(weather: Weather, units: AppWeatherUnits) {
         )
 
     Surface(
-        color = MaterialTheme.colorScheme.surfaceContainerLow,
+        color = MaterialTheme.colorScheme.surface,
         shape = MaterialTheme.shapes.extraLarge,
         shadowElevation = ShadowElevation.level2
     ) {
@@ -125,7 +125,7 @@ private fun HourlyItem(
                 .alpha(if (precipitationProbability > 0) 1f else 0f)
         )
         WeatherIconBox(condition.toIcon(true), size = 28.dp)
-        Gap(5.dp)
+        Gap(3.dp)
         Text(
             time,
             color = MaterialTheme.colorScheme.onSurfaceVariant,

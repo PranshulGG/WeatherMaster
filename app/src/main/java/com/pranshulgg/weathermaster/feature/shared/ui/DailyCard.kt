@@ -42,7 +42,7 @@ fun DailyCard(weather: Weather, units: AppWeatherUnits) {
     val daily = weather.daily
 
     Surface(
-        color = MaterialTheme.colorScheme.surfaceContainerLow,
+        color = MaterialTheme.colorScheme.surface,
         shape = MaterialTheme.shapes.extraLarge,
         shadowElevation = ShadowElevation.level2
     ) {
@@ -106,7 +106,7 @@ private fun DailyItem(
 
 
     Surface(
-        color = MaterialTheme.colorScheme.surfaceContainerHigh,
+        color = MaterialTheme.colorScheme.surfaceContainer,
         shape = CircleShape
     ) {
         Column(
