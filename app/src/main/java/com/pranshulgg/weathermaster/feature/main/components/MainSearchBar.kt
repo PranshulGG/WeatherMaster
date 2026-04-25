@@ -17,15 +17,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.pranshulgg.weathermaster.R
+import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.core.model.domain.Weather
 import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
 import com.pranshulgg.weathermaster.core.ui.components.Tooltip
 import com.pranshulgg.weathermaster.core.ui.navigation.NavRoutes
+import com.pranshulgg.weathermaster.core.ui.theme.ShadowElevation
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -35,7 +38,7 @@ fun MainSearchBar(
     paddingValues: PaddingValues,
     navController: NavController,
     drawerState: DrawerState,
-    weather: Weather
+    activeLocation: Location?
 ) {
     val scope = rememberCoroutineScope()
     val showDrawer = {
@@ -46,29 +49,31 @@ fun MainSearchBar(
         }
     }
 
-    val locationText = buildString {
-        append(weather.location.name)
-        append(", ")
-        if (weather.location.state.isNotBlank()) {
-            append(weather.location.state)
+    val locationText = activeLocation?.let {
+        buildString {
+            append(activeLocation.name)
             append(", ")
+            if (activeLocation.state.isNotBlank()) {
+                append(activeLocation.state)
+                append(", ")
+            }
+            append(activeLocation.country)
         }
-        append(weather.location.country)
-    }
+    } ?: "Loading..."
 
 
     Surface(
-        color = MaterialTheme.colorScheme.surfaceBright.copy(alpha = 0.6f),
+        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.4f),
         shape = CircleShape,
         modifier = Modifier.padding(
-            top = paddingValues.calculateTopPadding(),
+            top = paddingValues.calculateTopPadding() + 8.dp,
             start = 16.dp,
             end = 16.dp,
-            bottom = 16.dp
         ),
         onClick = {
             showDrawer()
-        }
+        },
+        shadowElevation = ShadowElevation.level1
     ) {
         Row(
             modifier = Modifier

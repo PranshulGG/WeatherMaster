@@ -1,18 +1,23 @@
 package com.pranshulgg.weathermaster.feature.main
 
+import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.DismissibleNavigationDrawer
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.PermanentDrawerSheet
+import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pranshulgg.weathermaster.core.model.DistanceUnits
@@ -68,23 +73,32 @@ fun MainScreen(navController: NavController) {
         closeDrawer()
     }
 
-    ModalNavigationDrawer(
+
+    DismissibleNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet(
-                drawerContainerColor = MaterialTheme.colorScheme.surfaceContainer,
-                modifier = Modifier.fillMaxWidth()
+                drawerContainerColor = MaterialTheme.colorScheme.surfaceContainer
             ) {
                 LocationsScreen(
-                    onBack = { closeDrawer() },
+                    onBack = {
+                        closeDrawer()
+                    },
                     navController,
                     uiState.locations,
                     uiState.activeLocation,
-                    weatherViewModel::setActiveLocation
+                    onLocationSelect = {
+                        weatherViewModel.setLoading(true)
+                        scope.launch {
+                            drawerState.close() // wait until drawer fully closes
+                            weatherViewModel.setActiveLocation(it)
+                        }
+                    }
                 )
             }
         },
     ) {
+
         MainScreenScaffold(
             navController,
             drawerState,
@@ -96,8 +110,8 @@ fun MainScreen(navController: NavController) {
                         activeLocation.provider,
                         isRefresh = true
                     )
-            })
-
+            }
+        )
     }
 }
 
