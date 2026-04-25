@@ -11,21 +11,6 @@ data class Weather(
     val daily: List<WeatherDaily>
 )
 
-//@OptIn(ExperimentalUuidApi::class)
-//data class WeatherLocation(
-//    val id: String,
-//    val name: String,
-//    val country: String,
-//    val lat: Double,
-//    val lon: Double,
-//    val timezone: String,
-//    val countryCode: String?,
-//    val state: String,
-//    val provider: WeatherProviders = WeatherProviders.OPEN_METEO,
-//    val isFavorite: Boolean,
-//    val isPinned: Boolean,
-//    val isDefault: Boolean
-//)
 
 data class WeatherCurrent(
     val temperature: Double,
@@ -40,9 +25,9 @@ data class WeatherCurrent(
     val feelsLike: Double?,
     val time: Long,
     val dewPoint: Double?,
-    val utcOffsetSeconds: Long
+    val utcOffsetSeconds: Long,
+    val lastUpdatedSecs: Long
 )
-
 
 data class WeatherHourly(
     val temperature: Double,
@@ -67,6 +52,6 @@ data class WeatherDaily(
     val weatherCondition: WeatherConditions,
     val time: Long,
     val precipitationProbabilityMax: Int?,
-    val sunrise: Long?,
-    val sunset: Long?
+    val sunrise: Long,
+    val sunset: Long
 )
