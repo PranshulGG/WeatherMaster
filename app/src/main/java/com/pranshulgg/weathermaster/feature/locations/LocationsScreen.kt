@@ -33,6 +33,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.domain.Location
+import com.pranshulgg.weathermaster.core.model.domain.Weather
+import com.pranshulgg.weathermaster.core.model.domain.WeatherCurrent
 import com.pranshulgg.weathermaster.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
 import com.pranshulgg.weathermaster.core.ui.navigation.NavRoutes
@@ -46,9 +48,15 @@ fun LocationsScreen(
     navController: NavController,
     locations: List<Location>,
     activeLocation: Location?,
-    onLocationSelect: (Location) -> Unit,
+    onLocationSelect: (Location) -> Unit
+
 ) {
 
+    val viewModel: LocationsScreenViewModel = hiltViewModel()
+
+    val weatherForLocations by viewModel.allLocationsWeather.collectAsStateWithLifecycle(
+        initialValue = emptyList()
+    )
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surfaceContainer,
@@ -70,9 +78,9 @@ fun LocationsScreen(
                 onDelete = { },
                 onLocationSelect = {
                     onLocationSelect(it)
-                    onBack()
                 },
-                activeLocation = activeLocation
+                activeLocation = activeLocation,
+                weatherForLocations
             )
         }
     }
