@@ -12,6 +12,7 @@ import com.pranshulgg.weathermaster.data.local.dao.WeatherLocationDao
 import com.pranshulgg.weathermaster.data.repository.AppWeatherUnitsRepository
 import com.pranshulgg.weathermaster.data.repository.LocationsRepository
 import com.pranshulgg.weathermaster.data.repository.SearchRepository
+import com.pranshulgg.weathermaster.data.repository.WeatherDataRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -80,4 +81,9 @@ object AppModule {
     @Singleton
     fun provideAppWeatherUnitsRepositort(dao: AppWeatherUnitsDao): AppWeatherUnitsRepository =
         AppWeatherUnitsRepository(dao)
+
+    @Provides
+    @Singleton
+    fun provideWeatherDataRepository(dao: WeatherDataDao): WeatherDataRepository =
+        WeatherDataRepository(dao)
 }
