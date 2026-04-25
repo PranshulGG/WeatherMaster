@@ -1,35 +1,31 @@
 package com.pranshulgg.weathermaster.feature.shared
 
+import android.content.Context
+import android.util.Log
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.content.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pranshulgg.weathermaster.core.model.domain.Location
+import com.pranshulgg.weathermaster.core.model.WeatherBlockType
 import com.pranshulgg.weathermaster.core.model.WeatherProviders
+import com.pranshulgg.weathermaster.core.model.WeatherResult
+import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weathermaster.core.ui.state.ActiveLocationStore
 import com.pranshulgg.weathermaster.data.provider.WeatherRepositoryProvider
+import com.pranshulgg.weathermaster.data.repository.AppWeatherUnitsRepository
 import com.pranshulgg.weathermaster.data.repository.LocationsRepository
 import com.pranshulgg.weathermaster.feature.main.MainScreenUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.take
-import javax.inject.Inject
-import androidx.compose.runtime.State
-import com.pranshulgg.weathermaster.core.model.DistanceUnits
-import com.pranshulgg.weathermaster.core.model.PrecipitationUnits
-import com.pranshulgg.weathermaster.core.model.PressureUnits
-import com.pranshulgg.weathermaster.core.model.TemperatureUnits
-import com.pranshulgg.weathermaster.core.model.WeatherResult
-import com.pranshulgg.weathermaster.core.model.WindSpeedUnits
-import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
-import com.pranshulgg.weathermaster.data.repository.AppWeatherUnitsRepository
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class WeatherViewModel @Inject constructor(
@@ -57,11 +53,13 @@ class WeatherViewModel @Inject constructor(
 
         // KEEP TRACK OF ACTIVE LOCATION
         activeLocationStore.active.filterNotNull().distinctUntilChanged().onEach {
-            _uiState.value = _uiState.value.copy(activeLocation = it)
+            _uiState.value =
+                _uiState.value.copy(activeLocation = it)
             getWeather(it, it.provider)
         }.launchIn(viewModelScope)
 
 
+        // KEEP TRACK OF ALL LOCATIONS
         locationsRepo.getLocations()
             .onEach { locations ->
                 _uiState.value = _uiState.value.copy(locations = locations)
@@ -69,35 +67,49 @@ class WeatherViewModel @Inject constructor(
             .launchIn(viewModelScope)
 
 
+        // KEEP TRACK OF APP UNITS
         appWeatherUnitsRepo.getUnits().distinctUntilChanged().onEach {
-            _uiState.value = _uiState.value.copy(weatherUnits = it ?: AppWeatherUnits.getDefault())
+            _uiState.value = _uiState.value.copy(weatherUnits = it)
         }.launchIn(viewModelScope)
     }
 
 
     fun getWeather(location: Location, provider: WeatherProviders, isRefresh: Boolean = false) {
-        _uiState.value = _uiState.value.copy(isError = false, isLoading = true)
+        setLoading(true)
+        val startTime = System.currentTimeMillis()
+        _uiState.value = _uiState.value.copy(isError = false)
+
         val currentRepo = repo.getRepository(provider)
 
         viewModelScope.launch {
-            val result = currentRepo.getWeather(location, isRefresh)
-            when (result) {
+            when (val result = currentRepo.getWeather(location, isRefresh)) {
+
                 is WeatherResult.Success -> {
-                    _uiState.value =
-                        _uiState.value.copy(weather = result.weather, isLoading = false)
+                    _uiState.value = _uiState.value.copy(weather = result.weather)
                 }
 
                 is WeatherResult.Error -> {
-                    SnackbarManager.show("ERROR- ${result.message}")
-                    _uiState.value = _uiState.value.copy(isError = true, isLoading = false)
+
+                    SnackbarManager.show("Error occurred. Please try again")
+
+                    _uiState.value =
+                        _uiState.value.copy(isError = true, weather = result.cacheWeather)
                 }
 
                 is WeatherResult.RefreshNotAvailable -> {
                     SnackbarManager.show("Please wait 15mins before refreshing")
-                    _uiState.value = _uiState.value.copy(isLoading = false)
                 }
             }
 
+            val elapsed = System.currentTimeMillis() - startTime
+            val minLoadingTime = 1000L // 1s
+
+            // Prevents loader flicker when responses return too quickly
+            if (elapsed < minLoadingTime) {
+                delay(minLoadingTime - elapsed)
+            }
+
+            setLoading(false)
         }
 
     }
@@ -109,17 +121,53 @@ class WeatherViewModel @Inject constructor(
         }
     }
 
+
+    fun setLoading(isLoading: Boolean) {
+        _uiState.value = _uiState.value.copy(isLoading = isLoading)
+    }
+
     fun setActiveLocation(location: Location) {
         activeLocationStore.set(location)
     }
 
-    val appWeatherUnits = appWeatherUnitsRepo.getUnits().distinctUntilChanged().stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = (AppWeatherUnits(
-            TemperatureUnits.CELSIUS, WindSpeedUnits.KPH, DistanceUnits.KM,
-            PressureUnits.HPA, PrecipitationUnits.MM
-        ))
-    )
+    fun saveBlocksOrder(
+        context: Context,
+        items: List<WeatherBlockType>
+    ) {
+        val prefs = context.getSharedPreferences(
+            "weather_blocks_prefs",
+            Context.MODE_PRIVATE
+        )
+        prefs.edit {
+            putString(
+                "block_order",
+                items.joinToString(",") { it.name }
+            )
+        }
+    }
+
+    fun loadBlocksOrder(context: Context): List<WeatherBlockType> {
+        val prefs = context.getSharedPreferences(
+            "weather_blocks_prefs",
+            Context.MODE_PRIVATE
+        )
+        val saved = prefs.getString(
+            "block_order",
+            null
+        )
+
+        return saved?.split(",")?.mapNotNull {
+            runCatching {
+                WeatherBlockType.valueOf(it)
+            }.getOrNull()
+        }
+            ?: listOf(
+                WeatherBlockType.HUMIDITY_BLOCK,
+                WeatherBlockType.VISIBILITY_BLOCK,
+                WeatherBlockType.UV_INDEX_BLOCK,
+                WeatherBlockType.PRESSURE_BLOCK,
+                WeatherBlockType.SUN_BLOCK
+            )
+    }
 
 }
