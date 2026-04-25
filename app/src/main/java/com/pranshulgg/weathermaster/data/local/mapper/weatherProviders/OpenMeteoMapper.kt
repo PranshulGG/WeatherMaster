@@ -11,6 +11,7 @@ import com.pranshulgg.weathermaster.core.network.openmeteo.openMeteoWeatherCode
 import com.pranshulgg.weathermaster.data.local.entity.CurrentWeatherEntity
 import com.pranshulgg.weathermaster.data.local.entity.DailyWeatherEntity
 import com.pranshulgg.weathermaster.data.local.entity.HourlyWeatherEntity
+import java.time.Instant
 import kotlin.uuid.ExperimentalUuidApi
 
 private val gson = Gson()
@@ -34,7 +35,8 @@ fun WeatherCurrent.toCurrentWeatherEntity(
         feelsLike = feelsLike,
         time = time,
         dewPoint = dewPoint,
-        utcOffsetSeconds = utcOffsetSeconds
+        utcOffsetSeconds = utcOffsetSeconds,
+        lastUpdatedSecs = lastUpdatedSecs
     )
 
 @OptIn(ExperimentalUuidApi::class)
@@ -108,7 +110,8 @@ fun OpenMeteoWeatherDto.toDomain(location: Location): Weather =
             feelsLike = current.feelsLike,
             time = current.time,
             dewPoint = hourly.dewPoint[0],
-            utcOffsetSeconds = utcOffsetSeconds
+            utcOffsetSeconds = utcOffsetSeconds,
+            lastUpdatedSecs = Instant.now().epochSecond
         ),
         hourly = List(hourly.time.size) {
             WeatherHourly(
