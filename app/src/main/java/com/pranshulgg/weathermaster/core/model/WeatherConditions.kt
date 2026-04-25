@@ -1,6 +1,8 @@
 package com.pranshulgg.weathermaster.core.model
 
 import com.pranshulgg.weathermaster.R
+import com.pranshulgg.weathermaster.core.model.domain.WeatherDaily
+import com.pranshulgg.weathermaster.core.utils.WeatherUtils
 
 enum class WeatherConditions {
     CLEAR_SKY,
@@ -26,7 +28,13 @@ enum class WeatherConditions {
 
 // ------- MAP TO ICONS -------
 
-fun WeatherConditions.toIcon(isDay: Boolean): Int {
+fun WeatherConditions.toIcon(daily: WeatherDaily? = null, targetTimeSecs: Long): Int {
+
+    val isDay = if (daily != null) {
+        targetTimeSecs in daily.sunrise..daily.sunset
+    } else {
+        true
+    }
 
     return when (this) {
         WeatherConditions.CLEAR_SKY -> if (isDay) R.drawable.weather_clear_day else R.drawable.weather_clear_night
