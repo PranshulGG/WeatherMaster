@@ -2,13 +2,11 @@ package com.pranshulgg.weathermaster.feature.shared.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -16,24 +14,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.min
 import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.TemperatureUnits
 import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
 import com.pranshulgg.weathermaster.core.model.domain.Weather
+import com.pranshulgg.weathermaster.core.model.toIcon
 import com.pranshulgg.weathermaster.core.ui.components.Gap
-import com.pranshulgg.weathermaster.core.ui.components.Symbol
 import com.pranshulgg.weathermaster.core.ui.components.WeatherIconBox
+import com.pranshulgg.weathermaster.core.ui.theme.ShadowElevation
 import com.pranshulgg.weathermaster.core.utils.TimeFormatters
 import com.pranshulgg.weathermaster.core.utils.UnitConverter
-import com.pranshulgg.weathermaster.core.utils.WeatherUtils
 import com.pranshulgg.weathermaster.feature.shared.components.CardsHeader
-import java.time.ZoneId
-import java.time.ZonedDateTime
-import com.pranshulgg.weathermaster.core.model.toIcon
-import com.pranshulgg.weathermaster.core.ui.theme.ShadowElevation
+import java.time.Instant
 
 
 @Composable
@@ -70,7 +63,7 @@ fun DailyCard(weather: Weather, units: AppWeatherUnits) {
                         weekDay,
                         item.temperatureMax,
                         item.temperatureMin,
-                        item.weatherCondition.toIcon(true),
+                        item.weatherCondition.toIcon(targetTimeSecs = Instant.now().epochSecond) /* always use day icons*/,
                         item.precipitationProbabilityMax ?: 0,
                         units
                     )

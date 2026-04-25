@@ -25,10 +25,6 @@ import kotlin.uuid.Uuid
 data class DailyWeatherEntity(
     val locationId: String,
 
-
-//    @PrimaryKey
-//    val id: String = UuidGenerator().generateId(),
-
     val temperatureMin: Double,
     val temperatureMax: Double,
     val windSpeed: Double,
@@ -39,6 +35,6 @@ data class DailyWeatherEntity(
     val weatherCondition: WeatherConditions,
     val time: Long,
     val precipitationProbabilityMax: Int?,
-    val sunrise: Long?,
-    val sunset: Long?
+    val sunrise: Long,
+    val sunset: Long
 )
