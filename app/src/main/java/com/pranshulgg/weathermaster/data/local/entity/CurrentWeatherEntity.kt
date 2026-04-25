@@ -42,5 +42,7 @@ data class CurrentWeatherEntity(
     val time: Long,
     val dewPoint: Double?,
 
-    val utcOffsetSeconds: Long
+    val utcOffsetSeconds: Long,
+
+    val lastUpdatedSecs: Long
 )

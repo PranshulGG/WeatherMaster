@@ -1,15 +1,10 @@
 package com.pranshulgg.weathermaster.feature.main.ui
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.DrawerState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,7 +14,6 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.TemperatureUnits
 import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
@@ -30,50 +24,29 @@ import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
 import com.pranshulgg.weathermaster.core.ui.components.WeatherIconBox
 import com.pranshulgg.weathermaster.core.utils.UnitConverter
-import com.pranshulgg.weathermaster.feature.main.components.MainSearchBar
-import java.util.concurrent.TimeUnit
-import kotlin.math.min
+import com.pranshulgg.weathermaster.core.utils.WeatherUtils.getLastUpdatedTimeString
+import java.time.Instant
 import kotlin.math.roundToInt
 
 @Composable
 fun CurrentWeatherCard(
-    paddingValues: PaddingValues,
-    navController: NavController,
-    drawerState: DrawerState,
     weather: Weather,
     units: AppWeatherUnits
 ) {
 
-    Box(
+    Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .height(236.dp)
-            .padding(top = 8.dp)
+            .padding(start = 16.dp, end = 16.dp, top = 6.dp)
     ) {
-
-        MainSearchBar(
-            isFroggyLayout = true,
-            paddingValues = paddingValues,
-            navController,
-            drawerState,
-            weather
-        )
-
-        Column(
+        Row(
             modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(start = 16.dp, end = 16.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                CardRowContent(weather, units)
-            }
-            MinMaxTempRow(weather, units)
+            CardRowContent(weather, units)
         }
+        MinMaxTempRow(weather, units)
     }
 
 }
@@ -93,7 +66,8 @@ private fun CardRowContent(weather: Weather, units: AppWeatherUnits) {
         units.tempUnit
     )
 
-    Column(Modifier.padding(top = 16.dp)) {
+
+    Column {
         Text("Now", color = colorScheme.secondary, fontWeight = FontWeight.Medium)
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
@@ -102,7 +76,13 @@ private fun CardRowContent(weather: Weather, units: AppWeatherUnits) {
                 fontSize = 62.sp,
                 fontWeight = FontWeight.Medium
             )
-            WeatherIconBox(current.weatherCondition.toIcon(true), size = 42.dp)
+            WeatherIconBox(
+                current.weatherCondition.toIcon(
+                    targetTimeSecs = weather.current.time,
+                    daily = weather.daily.firstOrNull()
+                ),
+                size = 42.dp
+            )
         }
     }
     Column(horizontalAlignment = Alignment.End) {
@@ -139,28 +119,14 @@ private fun MinMaxTempRow(weather: Weather, units: AppWeatherUnits) {
             color = colorScheme.onSurfaceVariant,
             style = MaterialTheme.typography.labelLarge
         )
-        LastUpdatedTextRow(weather.current.time)
+        LastUpdatedTextRow(weather.current.lastUpdatedSecs)
     }
 }
 
 
 @Composable
 private fun LastUpdatedTextRow(timeSeconds: Long) {
-
-    val milli = timeSeconds * 1000L
-    val ageMillis = System.currentTimeMillis() - milli
-    val seconds = TimeUnit.MILLISECONDS.toSeconds(ageMillis)
-    val minutes = TimeUnit.MILLISECONDS.toMinutes(ageMillis)
-    val hours = TimeUnit.MILLISECONDS.toHours(ageMillis)
-    val days = TimeUnit.MILLISECONDS.toDays(ageMillis)
-
-
-    val lastUpdated = when {
-        seconds < 60 -> "Just now"
-        minutes < 60 -> "$minutes ${if (minutes == 1L) "min" else "mins"} ago"
-        hours < 24 -> "$hours ${if (hours == 1L) "hr" else "hrs"} ago"
-        else -> "$days ${if (days == 1L) "day" else "days"} ago"
-    }
+    val lastUpdated = getLastUpdatedTimeString(timeSeconds)
 
     Row(verticalAlignment = Alignment.CenterVertically) {
         Symbol(
