@@ -3,7 +3,6 @@ package com.pranshulgg.weathermaster.feature.shared.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -22,7 +21,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.TemperatureUnits
@@ -31,7 +29,6 @@ import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
 import com.pranshulgg.weathermaster.core.model.domain.Weather
 import com.pranshulgg.weathermaster.core.model.toIcon
 import com.pranshulgg.weathermaster.core.ui.components.Gap
-import com.pranshulgg.weathermaster.core.ui.components.Symbol
 import com.pranshulgg.weathermaster.core.ui.components.WeatherIconBox
 import com.pranshulgg.weathermaster.core.ui.theme.ShadowElevation
 import com.pranshulgg.weathermaster.core.utils.TimeFormatters
@@ -47,10 +44,11 @@ fun HourlyCard(weather: Weather, units: AppWeatherUnits) {
 
     val lazyListState = rememberLazyListState()
     val filteredHourly =
-        WeatherUtils().filterHourlyDataForDate(
+        WeatherUtils.filterHourlyDataForDate(
             weather.hourly,
             ZonedDateTime.now(ZoneId.of(weather.location.timezone)).toEpochSecond()
         )
+
 
     Surface(
         color = MaterialTheme.colorScheme.surface,
@@ -78,14 +76,21 @@ fun HourlyCard(weather: Weather, units: AppWeatherUnits) {
                         units.tempUnit
                     )
 
+                    val matchingDaily = WeatherUtils.findMatchingDaily(
+                        item.time,
+                        weather.daily,
+                        weather.location.timezone
+                    )
+
+
                     if (index == 0) Gap(horizontal = 10.dp)
 
                     HourlyItem(
                         time = time,
                         precipitationProbability = item.precipitationProbability ?: 0,
-                        condition = item.weatherCondition,
                         temperature = temperature,
-                        isNow = index == 0
+                        isNow = index == 0,
+                        icon = item.weatherCondition.toIcon(matchingDaily, item.time)
                     )
 
                     if (index == filteredHourly.size - 1) Gap(horizontal = 10.dp)
@@ -101,9 +106,9 @@ fun HourlyCard(weather: Weather, units: AppWeatherUnits) {
 private fun HourlyItem(
     time: String,
     precipitationProbability: Int,
-    condition: WeatherConditions,
     temperature: Double,
-    isNow: Boolean
+    isNow: Boolean,
+    icon: Int
 ) {
 
     Column(
@@ -124,7 +129,7 @@ private fun HourlyItem(
                 .padding(bottom = 4.dp)
                 .alpha(if (precipitationProbability > 0) 1f else 0f)
         )
-        WeatherIconBox(condition.toIcon(true), size = 28.dp)
+        WeatherIconBox(icon, size = 28.dp)
         Gap(3.dp)
         Text(
             time,
