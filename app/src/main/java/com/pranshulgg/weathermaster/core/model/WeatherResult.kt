@@ -8,6 +8,11 @@ sealed class WeatherResult {
 
     data object RefreshNotAvailable : WeatherResult()
 
-    data class Error(val message: String) : WeatherResult()
+    data class Error(val message: String, val cacheWeather: Weather? = null) : WeatherResult()
 }
 
+enum class WeatherResultType {
+    REFRESH_TOO_EARLY,
+    SUCCESS,
+    ERROR
+}
