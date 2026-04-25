@@ -8,9 +8,9 @@ import java.util.Locale
 
 class TimeFormatters {
 
-    fun to12HourTimeString(millis: Long, zoneId: String): String {
+    fun to12HourTimeString(millis: Long, zoneId: String, pattern: String = "ha"): String {
         val instant = Instant.ofEpochMilli(millis)
-        val formatter = DateTimeFormatter.ofPattern("ha", Locale.ENGLISH)
+        val formatter = DateTimeFormatter.ofPattern(pattern, Locale.ENGLISH)
             .withZone(ZoneId.of(zoneId))
 
         return formatter.format(instant)
@@ -23,5 +23,6 @@ class TimeFormatters {
 
         return formatter.format(zonedDateTime)
     }
+
 
 }
