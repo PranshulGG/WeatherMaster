@@ -81,7 +81,7 @@ dependencies {
     ksp(libs.room.compiler)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
-    implementation(libs.lottie)
+    implementation(libs.reorderable)
 
     implementation(libs.androidx.foundation.layout)
     implementation(libs.androidx.animation.core)
