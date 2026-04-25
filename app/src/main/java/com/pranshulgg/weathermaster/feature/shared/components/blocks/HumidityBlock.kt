@@ -4,6 +4,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -54,12 +56,17 @@ fun HumidityBlock(weather: Weather, units: AppWeatherUnits) {
         shape = MaterialTheme.shapes.extraLarge,
         shadowElevation = ShadowElevation.level2
     ) {
-        Box(Modifier.size(160.dp)) {
+        Box(Modifier
+            .fillMaxSize()
+            .aspectRatio(1f)) {
 
             Image(
                 painter = painterResource(id = humidityDrawable),
                 contentDescription = "Humidity",
-                modifier = Modifier.matchParentSize(),
+                modifier = Modifier
+                    .matchParentSize()
+                    .align(Alignment.BottomCenter),
+                alignment = Alignment.BottomCenter,
                 colorFilter = ColorFilter.tint(color)
             )
 
@@ -118,7 +125,7 @@ private fun DewPointRow(dewPoint: Int) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Surface(
-            color = MaterialTheme.colorScheme.primaryContainer,
+            color = MaterialTheme.colorScheme.primary,
             shape = CircleShape,
         ) {
             Box(
@@ -129,7 +136,7 @@ private fun DewPointRow(dewPoint: Int) {
                 Text(
                     text = "${dewPoint}°",
                     style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
 
             }
