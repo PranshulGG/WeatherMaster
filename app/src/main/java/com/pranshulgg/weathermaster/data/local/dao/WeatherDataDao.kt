@@ -9,6 +9,7 @@ import com.pranshulgg.weathermaster.data.local.entity.CurrentWeatherEntity
 import com.pranshulgg.weathermaster.data.local.entity.DailyWeatherEntity
 import com.pranshulgg.weathermaster.data.local.entity.HourlyWeatherEntity
 import com.pranshulgg.weathermaster.data.local.entity.WeatherWithRelations
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface WeatherDataDao {
@@ -38,5 +39,7 @@ interface WeatherDataDao {
     @Query("SELECT * FROM weather_locations WHERE id = :locationId")
     suspend fun getAllWeatherDataForLocation(locationId: String): WeatherWithRelations?
 
+    @Query("SELECT * FROM weather_locations")
+    fun getAllLocationsCurrentWeather(): Flow<List<WeatherWithRelations>>
 
 }
