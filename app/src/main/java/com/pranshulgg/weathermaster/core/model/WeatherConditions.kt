@@ -2,7 +2,6 @@ package com.pranshulgg.weathermaster.core.model
 
 import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.domain.WeatherDaily
-import com.pranshulgg.weathermaster.core.utils.WeatherUtils
 
 enum class WeatherConditions {
     CLEAR_SKY,
@@ -104,6 +103,50 @@ fun WeatherConditions.toLabel(): String {
         WeatherConditions.RAIN -> "Rainy"
 
         WeatherConditions.NO_CONDITION_FOUND -> "No condition found"
+
+
+    }
+
+}
+
+// ------- MAP TO FROGGYY -------
+
+fun WeatherConditions.toFroggy(daily: WeatherDaily? = null, targetTimeSecs: Long): Int {
+
+    val isDay = if (daily != null) {
+        targetTimeSecs in daily.sunrise..daily.sunset
+    } else {
+        true
+    }
+
+    return when (this) {
+        WeatherConditions.CLEAR_SKY -> if (isDay) R.drawable.froggy_clear_day else R.drawable.froggy_clear_night
+
+        WeatherConditions.OVERCAST -> R.drawable.froggy_overcast
+
+        WeatherConditions.PARTLY_CLOUDY -> R.drawable.froggy_partly_cloudy
+
+        WeatherConditions.HEAVY_RAIN -> R.drawable.froggy_rain
+        WeatherConditions.LIGHT_RAIN -> R.drawable.froggy_light_rain
+
+        WeatherConditions.LIGHT_SNOW -> R.drawable.froggy_snow
+        WeatherConditions.SNOW -> R.drawable.froggy_snow
+        WeatherConditions.HEAVY_SNOW -> R.drawable.froggy_snow
+
+
+        WeatherConditions.MOSTLY_CLEAR -> if (isDay) R.drawable.froggy_mostly_clear_day else R.drawable.froggy_mostly_clear_night
+
+
+        WeatherConditions.THUNDERSTORM -> R.drawable.froggy_thunder
+
+        WeatherConditions.VERY_HOT -> R.drawable.weather_not_available // WILL NEVER HAPPEN IN FROGGIES CASE
+        WeatherConditions.VERY_COLD -> R.drawable.weather_not_available // WILL NEVER HAPPEN IN FROGGIES CASE
+
+        WeatherConditions.FOG_HAZE -> R.drawable.froggy_haze
+
+        WeatherConditions.RAIN -> R.drawable.froggy_rain
+
+        WeatherConditions.NO_CONDITION_FOUND -> R.drawable.weather_not_available
 
 
     }
