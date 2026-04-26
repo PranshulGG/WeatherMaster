@@ -127,6 +127,7 @@ fun OpenMeteoWeatherDto.toDomain(location: Location): Weather =
             )
         },
         daily = List(daily.time.size) {
+
             WeatherDaily(
                 temperatureMin = daily.temperatureMin[it],
                 temperatureMax = daily.temperatureMax[it],
