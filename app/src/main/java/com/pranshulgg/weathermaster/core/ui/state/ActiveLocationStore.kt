@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.asStateFlow
 
 class ActiveLocationStore @Inject constructor() {
 
-    private var _active = MutableStateFlow<Location?>(null)
+    private val _active = MutableStateFlow<Location?>(null)
     val active = _active.asStateFlow()
 
 
