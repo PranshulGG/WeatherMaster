@@ -6,12 +6,24 @@ import com.pranshulgg.weathermaster.core.model.domain.Weather
 import com.pranshulgg.weathermaster.core.model.domain.WeatherCurrent
 import com.pranshulgg.weathermaster.core.model.domain.WeatherDaily
 import com.pranshulgg.weathermaster.core.model.domain.WeatherHourly
+import com.pranshulgg.weathermaster.data.local.entity.DailyWeatherEntity
 import com.pranshulgg.weathermaster.data.local.entity.WeatherWithRelations
+import java.time.Instant
+import java.time.ZoneId
 import kotlin.uuid.ExperimentalUuidApi
 
 @OptIn(ExperimentalUuidApi::class)
-fun WeatherWithRelations.toDomain(): Weather =
-    Weather(
+fun WeatherWithRelations.toDomain(): Weather {
+    val timezone = location.timezone
+
+
+    val todayIndex = getDailyIndexForToday(
+        current?.time ?: Instant.now().epochSecond,
+        daily,
+        timezone
+    ).coerceAtLeast(0)
+
+    return Weather(
         location = Location(
             id = location.id,
             latitude = location.lat,
@@ -70,6 +82,27 @@ fun WeatherWithRelations.toDomain(): Weather =
                 sunrise = daily[it].sunrise,
                 sunset = daily[it].sunset
             )
-        }
-    )
 
+        }.drop(todayIndex)
+    )
+}
+
+private fun getDailyIndexForToday(
+    targetTimeSecs: Long,
+    dailyList: List<DailyWeatherEntity>,
+    timezone: String
+): Int {
+
+    val zoneId = ZoneId.of(timezone)
+
+    val targetDate = Instant.ofEpochSecond(targetTimeSecs)
+        .atZone(zoneId)
+        .toLocalDate()
+
+    return dailyList.indexOfFirst { daily ->
+        Instant.ofEpochSecond(daily.time)
+            .atZone(zoneId)
+            .toLocalDate() == targetDate
+    }.coerceAtLeast(0)
+
+}
