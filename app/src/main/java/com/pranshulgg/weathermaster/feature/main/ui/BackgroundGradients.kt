@@ -16,7 +16,7 @@ fun backgroundGradients(weather: Weather?): List<Color> {
 
     val condition = weather?.current?.weatherCondition
     val day = weather?.daily?.firstOrNull()
-    val isDay = day?.let { Instant.now().epochSecond in day.sunrise..day.sunset } ?: true
+    val isDay = day?.let { weather.current.time in day.sunrise..day.sunset } ?: true
 
     Log.d("backgroundGradients", "isDay: $isDay")
 
