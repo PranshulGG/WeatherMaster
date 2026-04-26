@@ -38,7 +38,8 @@ fun MainSearchBar(
     paddingValues: PaddingValues,
     navController: NavController,
     drawerState: DrawerState,
-    activeLocation: Location?
+    activeLocation: Location?,
+    isTabletLike: Boolean
 ) {
     val scope = rememberCoroutineScope()
     val showDrawer = {
@@ -71,7 +72,9 @@ fun MainSearchBar(
             end = 16.dp,
         ),
         onClick = {
-            showDrawer()
+            if (!isTabletLike) {
+                showDrawer()
+            }
         },
         shadowElevation = ShadowElevation.level1
     ) {
@@ -82,10 +85,15 @@ fun MainSearchBar(
                 .padding(horizontal = 4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
+
             Tooltip("Show menu", preferredPosition = TooltipAnchorPosition.Below) {
-                IconButton(onClick = { showDrawer() }) {
+                IconButton(onClick = {
+                    if (!isTabletLike) {
+                        showDrawer()
+                    }
+                }) {
                     Symbol(
-                        R.drawable.menu_24px,
+                        if (isTabletLike) R.drawable.location_on_24px else R.drawable.menu_24px,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }

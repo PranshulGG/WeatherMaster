@@ -9,6 +9,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -46,9 +47,11 @@ import com.pranshulgg.weathermaster.core.model.WeatherBlockType
 import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
 import com.pranshulgg.weathermaster.core.model.domain.Weather
 import com.pranshulgg.weathermaster.core.ui.components.Gap
+import com.pranshulgg.weathermaster.feature.main.components.FroggyContainer
 import com.pranshulgg.weathermaster.feature.main.components.MainSearchBar
 import com.pranshulgg.weathermaster.feature.main.ui.CurrentWeatherCard
 import com.pranshulgg.weathermaster.feature.main.ui.backgroundGradients
+import com.pranshulgg.weathermaster.feature.main.ui.weatherAnimations.RainCanvas
 import com.pranshulgg.weathermaster.feature.shared.WeatherViewModel
 import com.pranshulgg.weathermaster.feature.shared.components.blocks.HumidityBlock
 import com.pranshulgg.weathermaster.feature.shared.components.blocks.PressureBlock
@@ -66,7 +69,8 @@ fun MainScreenScaffold(
     navController: NavController,
     drawerState: DrawerState,
     uiState: MainScreenUiState,
-    onRefresh: () -> Unit
+    onRefresh: () -> Unit,
+    isTabletLike: Boolean = false
 ) {
 
 
@@ -87,6 +91,7 @@ fun MainScreenScaffold(
                         )
                     )
             )
+//            RainCanvas(Modifier.height(290.dp), rainDropCount = 20, isStorming = true)
             PullToRefreshBox(
                 isRefreshing = uiState.isLoading,
                 state = pullToRefreshState,
@@ -119,10 +124,12 @@ fun MainScreenScaffold(
                             paddingValues = paddingValues,
                             navController,
                             drawerState,
-                            uiState.activeLocation
+                            uiState.activeLocation,
+                            isTabletLike
                         )
                         if (weather != null) {
                             CurrentWeatherCard(weather, units)
+                            FroggyContainer(weather)
                             Column(
                                 Modifier.padding(
                                     start = 16.dp,
