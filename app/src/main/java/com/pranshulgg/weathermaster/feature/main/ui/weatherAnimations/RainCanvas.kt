@@ -36,7 +36,7 @@ private data class Drop(
 
 @Composable
 fun RainCanvas(
-    canvasHeight: Dp = 200.dp,
+    modifier: Modifier,
     isStorming: Boolean = false,
     rainDropCount: Int = 80
 ) {
@@ -103,8 +103,7 @@ fun RainCanvas(
 
 
     Canvas(
-        Modifier
-            .height(canvasHeight)
+        modifier
             .fillMaxWidth()
     ) {
 
