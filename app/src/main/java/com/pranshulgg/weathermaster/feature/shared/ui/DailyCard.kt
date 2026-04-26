@@ -25,13 +25,13 @@ import com.pranshulgg.weathermaster.core.ui.components.WeatherIconBox
 import com.pranshulgg.weathermaster.core.ui.theme.ShadowElevation
 import com.pranshulgg.weathermaster.core.utils.TimeFormatters
 import com.pranshulgg.weathermaster.core.utils.UnitConverter
+import com.pranshulgg.weathermaster.core.utils.WeatherUtils
 import com.pranshulgg.weathermaster.feature.shared.components.CardsHeader
 import java.time.Instant
 
 
 @Composable
 fun DailyCard(weather: Weather, units: AppWeatherUnits) {
-
     val daily = weather.daily
 
     Surface(
