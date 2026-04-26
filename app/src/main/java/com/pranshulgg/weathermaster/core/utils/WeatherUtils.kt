@@ -1,5 +1,9 @@
 package com.pranshulgg.weathermaster.core.utils
 
+import android.content.res.Configuration
+import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.sqlite.db.SupportSQLiteOpenHelper
 import com.pranshulgg.weathermaster.core.model.WeatherResultType
 import com.pranshulgg.weathermaster.core.model.domain.Weather
 import com.pranshulgg.weathermaster.core.model.domain.WeatherDaily
@@ -68,6 +72,7 @@ object WeatherUtils {
 
     }
 
+
     fun isCacheSafe(cache: WeatherWithRelations?): Boolean {
         val isCacheSafe = cache != null &&
                 cache.daily.isNotEmpty() &&
@@ -103,5 +108,6 @@ object WeatherUtils {
 
         return if (isSafe) WeatherResultType.SUCCESS else WeatherResultType.ERROR
     }
+
 
 }
