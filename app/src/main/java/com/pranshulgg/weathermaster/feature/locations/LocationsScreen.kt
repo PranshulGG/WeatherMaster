@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExpandedFullScreenSearchBar
@@ -48,8 +49,8 @@ fun LocationsScreen(
     navController: NavController,
     locations: List<Location>,
     activeLocation: Location?,
-    onLocationSelect: (Location) -> Unit
-
+    onLocationSelect: (Location) -> Unit,
+    isTabletLike: Boolean = false
 ) {
 
     val viewModel: LocationsScreenViewModel = hiltViewModel()
@@ -59,9 +60,10 @@ fun LocationsScreen(
     )
 
     Scaffold(
+        modifier = if (isTabletLike) Modifier.width(360.dp) else Modifier,
         containerColor = MaterialTheme.colorScheme.surfaceContainer,
         topBar = {
-            TopBar(navController)
+            TopBar(navController, isTabletLike)
         },
         floatingActionButton = {
             FloatingButton(navController)
@@ -87,7 +89,7 @@ fun LocationsScreen(
 }
 
 @Composable
-private fun TopBar(navController: NavController) {
+private fun TopBar(navController: NavController, isTabletLike: Boolean) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
         title = {
@@ -98,7 +100,9 @@ private fun TopBar(navController: NavController) {
             )
         },
         navigationIcon = {
-            NavigateUpBtn(navController)
+            if (!isTabletLike) {
+                NavigateUpBtn(navController)
+            }
         }
     )
 }
