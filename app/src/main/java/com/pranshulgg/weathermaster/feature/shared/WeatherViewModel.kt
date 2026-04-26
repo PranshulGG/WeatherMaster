@@ -41,15 +41,17 @@ class WeatherViewModel @Inject constructor(
 
     init {
         // LOAD DEFAULT ON START
-        locationsRepo.getDefaultLocation()
-            .filterNotNull()
-            .take(1)
-            .onEach { location ->
-                if (activeLocationStore.active.value?.id != location.id) {
-                    activeLocationStore.set(location)
+        if (activeLocationStore.active.value == null) {
+            locationsRepo.getDefaultLocation()
+                .filterNotNull()
+                .take(1)
+                .onEach { location ->
+                    if (activeLocationStore.active.value?.id != location.id) {
+                        activeLocationStore.set(location)
+                    }
                 }
-            }
-            .launchIn(viewModelScope)
+                .launchIn(viewModelScope)
+        }
 
         // KEEP TRACK OF ACTIVE LOCATION
         activeLocationStore.active.filterNotNull().distinctUntilChanged().onEach {
