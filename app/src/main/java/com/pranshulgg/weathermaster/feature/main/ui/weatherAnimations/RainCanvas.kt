@@ -36,7 +36,6 @@ private data class Drop(
 
 @Composable
 fun RainCanvas(
-    modifier: Modifier,
     isStorming: Boolean = false,
     rainDropCount: Int = 80
 ) {
@@ -56,6 +55,7 @@ fun RainCanvas(
 
         }.toMutableStateList()
     }
+
     LaunchedEffect(Unit) {
 
         if (canvasSize == Size.Zero) return@LaunchedEffect
@@ -103,8 +103,7 @@ fun RainCanvas(
 
 
     Canvas(
-        modifier
-            .fillMaxWidth()
+        modifier = Modifier.fillMaxWidth().height(290.dp)
     ) {
 
         canvasSize = size
