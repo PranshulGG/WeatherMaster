@@ -1,7 +1,7 @@
 package com.pranshulgg.weathermaster.feature.main
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -21,16 +21,13 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DrawerState
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.LoadingIndicator
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -46,12 +44,14 @@ import androidx.navigation.NavController
 import com.pranshulgg.weathermaster.core.model.WeatherBlockType
 import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
 import com.pranshulgg.weathermaster.core.model.domain.Weather
-import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.feature.main.components.FroggyContainer
 import com.pranshulgg.weathermaster.feature.main.components.MainSearchBar
 import com.pranshulgg.weathermaster.feature.main.ui.CurrentWeatherCard
 import com.pranshulgg.weathermaster.feature.main.ui.backgroundGradients
-import com.pranshulgg.weathermaster.feature.main.ui.weatherAnimations.RainCanvas
+import com.pranshulgg.weathermaster.feature.main.ui.weatherAnimations.SnowCanvas
+import com.pranshulgg.weathermaster.feature.main.ui.weatherAnimations.StarsCanvas
+import com.pranshulgg.weathermaster.feature.main.ui.weatherAnimations.SunCanvas
+import com.pranshulgg.weathermaster.feature.main.ui.weatherAnimations.WeatherAnimations
 import com.pranshulgg.weathermaster.feature.shared.WeatherViewModel
 import com.pranshulgg.weathermaster.feature.shared.components.blocks.HumidityBlock
 import com.pranshulgg.weathermaster.feature.shared.components.blocks.PressureBlock
@@ -77,6 +77,13 @@ fun MainScreenScaffold(
     val pullToRefreshState = rememberPullToRefreshState()
     val weather = uiState.weather
     val units = uiState.weatherUnits
+    val scrollState = rememberScrollState()
+
+    val isAnimationVisible by remember {
+        derivedStateOf {
+            scrollState.value < 30
+        }
+    }
 
     Scaffold { paddingValues ->
         Box {
@@ -91,7 +98,13 @@ fun MainScreenScaffold(
                         )
                     )
             )
-//            RainCanvas(Modifier.height(290.dp), rainDropCount = 20, isStorming = true)
+
+//            AnimatedVisibility(visible = isAnimationVisible, enter = fadeIn(), exit = fadeOut()) {
+//                weather?.let { WeatherAnimations(weather) }
+//            }
+
+            SnowCanvas()
+
             PullToRefreshBox(
                 isRefreshing = uiState.isLoading,
                 state = pullToRefreshState,
@@ -117,7 +130,7 @@ fun MainScreenScaffold(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .verticalScroll(rememberScrollState())
+                            .verticalScroll(scrollState)
                     ) {
                         MainSearchBar(
                             isFroggyLayout = true,
@@ -144,10 +157,8 @@ fun MainScreenScaffold(
                                 ReorderableGridDemo(weather, units)
                             }
                         }
-
                     }
                 }
-
             }
         }
     }
