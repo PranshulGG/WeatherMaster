@@ -45,12 +45,14 @@ import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
 import com.pranshulgg.weathermaster.core.ui.theme.ShadowElevation
 import com.pranshulgg.weathermaster.core.utils.TimeFormatters
+import com.pranshulgg.weathermaster.core.utils.WeatherUtils
 import java.time.Instant
 
 @Composable
 fun SunBlock(weather: Weather) {
 
-    val daily = weather.daily
+
+    val daily = weather.daily[0]
 
 
     Surface(
@@ -75,8 +77,8 @@ fun SunBlock(weather: Weather) {
             )
 
 
-            val sunrise = daily[0].sunrise
-            val sunset = daily[0].sunset
+            val sunrise = daily.sunrise
+            val sunset = daily.sunset
             val now = Instant.now().epochSecond
 
             val progress = ((now - sunrise).toFloat() / (sunset - sunrise))
