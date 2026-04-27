@@ -132,6 +132,8 @@ class WeatherViewModel @Inject constructor(
         activeLocationStore.set(location)
     }
 
+
+    // TODO: USE ROOM INSTEAD
     fun saveBlocksOrder(
         context: Context,
         items: List<WeatherBlockType>
