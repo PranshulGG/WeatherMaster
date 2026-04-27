@@ -32,9 +32,13 @@ private fun gradients(isDay: Boolean = true, condition: WeatherConditions): List
 
         WeatherConditions.CLEAR_SKY -> if (isDay) Colors.CLEAR_SKY_DAY else Colors.CLEAR_SKY_NIGHT
 
-        WeatherConditions.MOSTLY_CLEAR, WeatherConditions.PARTLY_CLOUDY -> Colors.MOSTLY_CLEAR_PARTLY_CLEAR
+        WeatherConditions.MOSTLY_CLEAR, WeatherConditions.PARTLY_CLOUDY -> Colors.MOSTLY_CLEAR_PARTLY_CLOUDY
 
         WeatherConditions.OVERCAST -> Colors.OVERCAST
+
+        WeatherConditions.SNOW, WeatherConditions.HEAVY_SNOW, WeatherConditions.LIGHT_SNOW -> Colors.SNOW
+
+        WeatherConditions.RAIN, WeatherConditions.HEAVY_RAIN, WeatherConditions.LIGHT_RAIN -> Colors.RAIN
 
 
         else -> Colors.CLEAR_SKY_NIGHT
@@ -52,9 +56,13 @@ private object Colors {
     val CLEAR_SKY_NIGHT = listOf(Color(0xFF01023D), Color(0xFF162155))
 
 
-    val MOSTLY_CLEAR_PARTLY_CLEAR = listOf(Color(0xFF404558), Color(0xFF262C3D))
+    val MOSTLY_CLEAR_PARTLY_CLOUDY = listOf(Color(0xFF404558), Color(0xFF262C3D))
 
     val OVERCAST = listOf(Color(0xFF2F2F34), Color(0xFF202537))
+
+    val SNOW = listOf(Color(0xFF171717), Color(0xFF202537))
+
+    val RAIN = listOf(Color(0xFF242429), Color(0xFF1e2c3a))
 
 
 }
