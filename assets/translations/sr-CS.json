@@ -349,7 +349,7 @@
   "heavy_rain": "Jaka kiša",
   "light_rain": "Slaba kiša",
   "bulletstempOptions_1": "Očekujte dnevni raspon temperature od {min}° do {max}°.",
-  "bulletstempOptions_2": "Temperature u rasponu između {min}° i {maks}°.",
+  "bulletstempOptions_2": "Temperature u rasponu između {min}° i {max}°.",
   "bulletstempOptions_3": "Današnja maksimalna temperatura će dostići oko {max}° nakon hladnijeg početka.",
   "bulletsUVOptions_1": "UV indeks dostiže vrhunac oko {uvTime} u {uvIndex}.",
   "bulletsUVOptions_2": "Očekuje se jako UV zračenje u blizini {uvTime} — preporučuje se zaštita od sunca.",
