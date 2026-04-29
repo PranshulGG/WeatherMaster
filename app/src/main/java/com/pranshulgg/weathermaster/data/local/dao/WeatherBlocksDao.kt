@@ -1,0 +1,20 @@
+package com.pranshulgg.weathermaster.data.local.dao
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import com.pranshulgg.weathermaster.data.local.entity.WeatherBlockEntity
+
+@Dao
+interface WeatherBlocksDao {
+
+    @Query("SELECT * FROM weather_blocks ORDER BY position ASC")
+    suspend fun getBlocks(): List<WeatherBlockEntity>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertBlocks(blocks: List<WeatherBlockEntity>)
+
+    @Query("DELETE FROM weather_blocks")
+    suspend fun clearBlocks()
+}
