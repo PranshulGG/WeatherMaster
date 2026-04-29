@@ -7,6 +7,7 @@ import com.pranshulgg.weathermaster.core.network.search.OpenMeteoSearchApi
 import com.pranshulgg.weathermaster.core.ui.state.ActiveLocationStore
 import com.pranshulgg.weathermaster.data.local.WeatherMasterDatabase
 import com.pranshulgg.weathermaster.data.local.dao.AppWeatherUnitsDao
+import com.pranshulgg.weathermaster.data.local.dao.WeatherBlocksDao
 import com.pranshulgg.weathermaster.data.local.dao.WeatherDataDao
 import com.pranshulgg.weathermaster.data.local.dao.WeatherLocationDao
 import com.pranshulgg.weathermaster.data.repository.AppWeatherUnitsRepository
@@ -42,6 +43,10 @@ object AppModule {
     @Provides
     fun provideAppWeatherUnitsDao(db: WeatherMasterDatabase) =
         db.appWeatherUnitsDao()
+
+    @Provides
+    fun provideWeatherBlocksDao(db: WeatherMasterDatabase) =
+        db.weatherBlocksDao()
 
 
     @Provides
@@ -84,6 +89,9 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideWeatherDataRepository(dao: WeatherDataDao): WeatherDataRepository =
-        WeatherDataRepository(dao)
+    fun provideWeatherDataRepository(
+        dao: WeatherDataDao,
+        weatherBlocksDao: WeatherBlocksDao
+    ): WeatherDataRepository =
+        WeatherDataRepository(dao, weatherBlocksDao)
 }
