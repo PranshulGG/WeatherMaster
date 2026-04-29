@@ -36,7 +36,9 @@ class LocationsRepository @Inject constructor(
         activeLocationStore.set(location)
     }
 
+    @Transaction
     suspend fun updateDefaultLocation(id: String) {
+        dao.clearDefaultLocations()
         dao.updateDefaultLocation(id)
     }
 

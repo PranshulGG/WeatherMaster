@@ -1,46 +1,45 @@
 package com.pranshulgg.weathermaster.feature.locations
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.DrawerState
-import androidx.compose.material3.ExpandedFullScreenSearchBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SearchBarDefaults
-import androidx.compose.material3.SearchBarState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TooltipAnchorPosition
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.domain.Location
-import com.pranshulgg.weathermaster.core.model.domain.Weather
-import com.pranshulgg.weathermaster.core.model.domain.WeatherCurrent
-import com.pranshulgg.weathermaster.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
+import com.pranshulgg.weathermaster.core.ui.components.Tooltip
 import com.pranshulgg.weathermaster.core.ui.navigation.NavRoutes
-import com.pranshulgg.weathermaster.core.ui.snackbar.SnackbarManager
+import com.pranshulgg.weathermaster.feature.locations.ui.LocationScreenSheet
+import com.pranshulgg.weathermaster.feature.locations.ui.LocationScreenConfirmationDialog
 import com.pranshulgg.weathermaster.feature.shared.WeatherViewModel
+
+data class LocationsScreenUiState(
+    val isConfirmationDialogOpen: Boolean = false,
+    val longClickedLocation: Location? = null,
+    val isBottomSheetOpen: Boolean = false
+)
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -54,6 +53,8 @@ fun LocationsScreen(
 ) {
 
     val viewModel: LocationsScreenViewModel = hiltViewModel()
+    val weatherViewModel: WeatherViewModel = hiltViewModel()
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     val weatherForLocations by viewModel.allLocationsWeather.collectAsStateWithLifecycle(
         initialValue = emptyList()
@@ -63,7 +64,7 @@ fun LocationsScreen(
         modifier = if (isTabletLike) Modifier.width(360.dp) else Modifier,
         containerColor = MaterialTheme.colorScheme.surfaceContainer,
         topBar = {
-            TopBar(navController, isTabletLike)
+            TopBar(onBack, isTabletLike)
         },
         floatingActionButton = {
             FloatingButton(navController)
@@ -73,11 +74,13 @@ fun LocationsScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
+                .padding(top = paddingValues.calculateTopPadding())
         ) {
             LocationsScreenContent(
                 locations,
-                onDelete = { },
+                onLongClick = {
+                    viewModel.showBottomSheet(it)
+                },
                 onLocationSelect = {
                     onLocationSelect(it)
                 },
@@ -86,10 +89,14 @@ fun LocationsScreen(
             )
         }
     }
+
+
+    LocationScreenConfirmationDialog(weatherViewModel, viewModel)
+    LocationScreenSheet(viewModel, sheetState)
 }
 
 @Composable
-private fun TopBar(navController: NavController, isTabletLike: Boolean) {
+private fun TopBar(onBack: () -> Unit, isTabletLike: Boolean) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
         title = {
@@ -101,7 +108,21 @@ private fun TopBar(navController: NavController, isTabletLike: Boolean) {
         },
         navigationIcon = {
             if (!isTabletLike) {
-                NavigateUpBtn(navController)
+                Tooltip(
+                    "Navigate up",
+                    preferredPosition = TooltipAnchorPosition.Below,
+                    spacing = 10.dp
+                ) {
+                    IconButton(
+                        onClick = { onBack() }, shapes = IconButtonDefaults.shapes()
+                    ) {
+                        Symbol(
+                            R.drawable.arrow_back_24px,
+                            desc = "arrow back icon",
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                }
             }
         }
     )
