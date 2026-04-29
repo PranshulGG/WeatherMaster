@@ -60,7 +60,7 @@ fun MainSearchBar(
             }
             append(activeLocation.country)
         }
-    } ?: "Loading..."
+    } ?: "••••"
 
 
     Surface(
