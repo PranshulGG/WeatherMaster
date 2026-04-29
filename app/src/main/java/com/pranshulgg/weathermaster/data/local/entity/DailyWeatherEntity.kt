@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.pranshulgg.weathermaster.core.model.MoonPhase
 import com.pranshulgg.weathermaster.core.model.WeatherConditions
 import com.pranshulgg.weathermaster.core.utils.UuidGenerator
 import kotlin.uuid.ExperimentalUuidApi
@@ -36,5 +37,8 @@ data class DailyWeatherEntity(
     val time: Long,
     val precipitationProbabilityMax: Int?,
     val sunrise: Long,
-    val sunset: Long
+    val sunset: Long,
+    val moonrise: Long,
+    val moonset: Long,
+    val moonPhase: MoonPhase
 )
