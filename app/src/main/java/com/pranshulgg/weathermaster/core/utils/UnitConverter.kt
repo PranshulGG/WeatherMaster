@@ -9,10 +9,17 @@ import com.pranshulgg.weathermaster.core.model.WindSpeedUnits
 object UnitConverter {
 
 
-    fun convertTemp(value: Double, from: TemperatureUnits, to: TemperatureUnits): Double = when {
-        from == to -> value
-        from == TemperatureUnits.CELSIUS -> (value * 9.0 / 5.0) + 32.0   // to F
-        else -> (value - 32.0) * 5.0 / 9.0                    // to C
+    fun convertTemp(value: Double, from: TemperatureUnits, to: TemperatureUnits): Double {
+
+        if (value == -1.0) {
+            return -1.0
+        }
+
+        return when (from) {
+            to -> value
+            TemperatureUnits.CELSIUS -> (value * 9.0 / 5.0) + 32.0   // to F
+            else -> (value - 32.0) * 5.0 / 9.0                    // to C
+        }
     }
 
     // base = meters
@@ -41,7 +48,6 @@ object UnitConverter {
         PrecipitationUnits.CM to 10.0,
         PrecipitationUnits.INCH to 25.4
     )
-
 
 
     fun convertDistance(value: Double, from: DistanceUnits, to: DistanceUnits) =
