@@ -19,13 +19,12 @@ fun NavigateUpBtn(navController: NavController) {
         preferredPosition = TooltipAnchorPosition.Below,
         spacing = 10.dp
     ) {
-
         IconButton(
             onClick = { navController.popBackStack() }, shapes = IconButtonDefaults.shapes()
         ) {
             Symbol(
                 R.drawable.arrow_back_24px,
-                desc = "settings icon",
+                desc = "arrow back icon",
                 color = MaterialTheme.colorScheme.onSurface
             )
         }
