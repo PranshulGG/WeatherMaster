@@ -1,21 +1,22 @@
 package com.pranshulgg.weathermaster.feature.shared
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.content.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pranshulgg.weathermaster.core.model.WeatherBlockType
+import com.pranshulgg.weathermaster.core.model.domain.WeatherBlockType
 import com.pranshulgg.weathermaster.core.model.WeatherProviders
 import com.pranshulgg.weathermaster.core.model.WeatherResult
 import com.pranshulgg.weathermaster.core.model.domain.Location
+import com.pranshulgg.weathermaster.core.model.domain.WeatherBlock
 import com.pranshulgg.weathermaster.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weathermaster.core.ui.state.ActiveLocationStore
 import com.pranshulgg.weathermaster.data.provider.WeatherRepositoryProvider
 import com.pranshulgg.weathermaster.data.repository.AppWeatherUnitsRepository
 import com.pranshulgg.weathermaster.data.repository.LocationsRepository
+import com.pranshulgg.weathermaster.data.repository.WeatherDataRepository
 import com.pranshulgg.weathermaster.feature.main.MainScreenUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -26,17 +27,24 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 @HiltViewModel
 class WeatherViewModel @Inject constructor(
     private val repo: WeatherRepositoryProvider,
     private val locationsRepo: LocationsRepository,
     private val activeLocationStore: ActiveLocationStore,
-    private val appWeatherUnitsRepo: AppWeatherUnitsRepository
+    private val appWeatherUnitsRepo: AppWeatherUnitsRepository,
+    private val weatherDataRepository: WeatherDataRepository
 ) : ViewModel() {
 
     private var _uiState = mutableStateOf(MainScreenUiState())
     val uiState: State<MainScreenUiState> = _uiState
+
+
+    var blocks by mutableStateOf(emptyList<WeatherBlock>())
+        private set
 
 
     init {
@@ -73,6 +81,10 @@ class WeatherViewModel @Inject constructor(
         appWeatherUnitsRepo.getUnits().distinctUntilChanged().onEach {
             _uiState.value = _uiState.value.copy(weatherUnits = it)
         }.launchIn(viewModelScope)
+
+        if (blocks.isEmpty()) {
+            loadBlocksOrder()
+        }
     }
 
 
@@ -133,45 +145,29 @@ class WeatherViewModel @Inject constructor(
     }
 
 
-    // TODO: USE ROOM INSTEAD
     fun saveBlocksOrder(
-        context: Context,
-        items: List<WeatherBlockType>
+        items: List<WeatherBlock>
     ) {
-        val prefs = context.getSharedPreferences(
-            "weather_blocks_prefs",
-            Context.MODE_PRIVATE
-        )
-        prefs.edit {
-            putString(
-                "block_order",
-                items.joinToString(",") { it.name }
-            )
+        blocks = items
+
+        viewModelScope.launch {
+            weatherDataRepository.saveBlocks(items.map {
+                WeatherBlock(
+                    type = it.type,
+                    isHidden = false,
+                    position = it.position
+                )
+            })
+
         }
+
     }
 
-    fun loadBlocksOrder(context: Context): List<WeatherBlockType> {
-        val prefs = context.getSharedPreferences(
-            "weather_blocks_prefs",
-            Context.MODE_PRIVATE
-        )
-        val saved = prefs.getString(
-            "block_order",
-            null
-        )
-
-        return saved?.split(",")?.mapNotNull {
-            runCatching {
-                WeatherBlockType.valueOf(it)
-            }.getOrNull()
+    fun loadBlocksOrder() {
+        viewModelScope.launch {
+            val loadedBlocks = weatherDataRepository.loadBlocks()
+            blocks = loadedBlocks
         }
-            ?: listOf(
-                WeatherBlockType.HUMIDITY_BLOCK,
-                WeatherBlockType.VISIBILITY_BLOCK,
-                WeatherBlockType.UV_INDEX_BLOCK,
-                WeatherBlockType.PRESSURE_BLOCK,
-                WeatherBlockType.SUN_BLOCK
-            )
     }
 
 }
