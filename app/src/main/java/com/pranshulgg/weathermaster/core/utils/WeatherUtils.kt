@@ -1,16 +1,26 @@
 package com.pranshulgg.weathermaster.core.utils
 
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.sqlite.db.SupportSQLiteOpenHelper
+import com.pranshulgg.weathermaster.core.model.MoonTimings
+import com.pranshulgg.weathermaster.core.model.SunTimings
 import com.pranshulgg.weathermaster.core.model.WeatherResultType
 import com.pranshulgg.weathermaster.core.model.domain.Weather
 import com.pranshulgg.weathermaster.core.model.domain.WeatherDaily
 import com.pranshulgg.weathermaster.core.model.domain.WeatherHourly
+import com.pranshulgg.weathermaster.core.model.getMoonPhase
 import com.pranshulgg.weathermaster.data.local.entity.WeatherWithRelations
+import org.shredzone.commons.suncalc.MoonIllumination
+import org.shredzone.commons.suncalc.MoonPhase
+import org.shredzone.commons.suncalc.MoonPosition
+import org.shredzone.commons.suncalc.MoonTimes
+import org.shredzone.commons.suncalc.SunTimes
 import java.time.Instant
 import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
@@ -73,6 +83,84 @@ object WeatherUtils {
     }
 
 
+    fun shouldReturnCache(cache: WeatherWithRelations?, isRefresh: Boolean): WeatherResultType {
+
+        if (!DataSafe().isCacheSafe(cache)) return WeatherResultType.ERROR
+
+        if (cache?.current == null) return WeatherResultType.ERROR
+
+        val cacheMilli = cache.current.lastUpdatedSecs * 1000L
+        val ageMillis = System.currentTimeMillis() - cacheMilli
+        val ageMinutes = TimeUnit.MILLISECONDS.toMinutes(ageMillis)
+
+        val tooEarly = isRefresh && ageMinutes < 15
+        val maxAge = if (isRefresh) 15 else 45
+
+        if (tooEarly) return WeatherResultType.REFRESH_TOO_EARLY
+
+        val isSafe = ageMinutes < maxAge
+
+        return if (isSafe) WeatherResultType.SUCCESS else WeatherResultType.ERROR
+    }
+
+    fun getSunTimings(
+        timeSecs: List<Long>,
+        zoneId: String,
+        lat: Double,
+        lon: Double
+    ): List<SunTimings> {
+
+        return timeSecs.map {
+            val date = Instant.ofEpochSecond(it)
+                .atZone(ZoneId.of(zoneId))
+                .toLocalDate()
+
+
+            val sunTimes = SunTimes.compute()
+                .on(date)
+                .at(lat, lon)
+                .execute()
+
+
+            SunTimings(it, sunTimes.rise?.toEpochSecond(), sunTimes.set?.toEpochSecond())
+        }
+    }
+
+    fun getMoonTimings(
+        timeSecs: List<Long>,
+        zoneId: String,
+        lat: Double,
+        lon: Double
+    ): List<MoonTimings> {
+
+        return timeSecs.map {
+            val date = Instant.ofEpochSecond(it)
+                .atZone(ZoneId.of(zoneId))
+                .toLocalDate()
+
+
+            val moonTimes = MoonTimes.compute()
+                .on(date)
+                .at(lat, lon)
+                .execute()
+
+            val phase = MoonIllumination.compute().on(date).execute().phase
+
+            val phaseName = getMoonPhase(phase)
+
+
+            MoonTimings(
+                it,
+                moonTimes.rise?.toEpochSecond(),
+                moonTimes.set?.toEpochSecond(),
+                phase = phaseName
+            )
+        }
+    }
+}
+
+class DataSafe {
+
     fun isCacheSafe(cache: WeatherWithRelations?): Boolean {
         val isCacheSafe = cache != null &&
                 cache.daily.isNotEmpty() &&
@@ -89,25 +177,20 @@ object WeatherUtils {
         return isCacheSafe
     }
 
-    fun shouldReturnCache(cache: WeatherWithRelations?, isRefresh: Boolean): WeatherResultType {
+    fun isWeatherHourlyDomainSafe(weather: Weather?): Boolean {
+        val isCacheSafe =
+            weather != null &&
+                    weather.hourly.isNotEmpty()
 
-        if (!isCacheSafe(cache)) return WeatherResultType.ERROR
-
-        if (cache?.current == null) return WeatherResultType.ERROR
-
-        val cacheMilli = cache.current.lastUpdatedSecs * 1000L
-        val ageMillis = System.currentTimeMillis() - cacheMilli
-        val ageMinutes = TimeUnit.MILLISECONDS.toMinutes(ageMillis)
-
-        val tooEarly = isRefresh && ageMinutes < 15
-        val maxAge = if (isRefresh) 15 else 4500
-
-        if (tooEarly) return WeatherResultType.REFRESH_TOO_EARLY
-
-        val isSafe = ageMinutes < maxAge
-
-        return if (isSafe) WeatherResultType.SUCCESS else WeatherResultType.ERROR
+        return isCacheSafe
     }
 
+    fun isWeatherDailyDomainSafe(weather: Weather?): Boolean {
+        val isCacheSafe =
+            weather != null &&
+                    weather.daily.isNotEmpty()
+
+        return isCacheSafe
+    }
 
 }
