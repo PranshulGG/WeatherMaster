@@ -1,5 +1,6 @@
 package com.pranshulgg.weathermaster.core.model.domain
 
+import com.pranshulgg.weathermaster.core.model.MoonPhase
 import com.pranshulgg.weathermaster.core.model.WeatherConditions
 import com.pranshulgg.weathermaster.core.model.WeatherProviders
 import kotlin.uuid.ExperimentalUuidApi
@@ -53,5 +54,8 @@ data class WeatherDaily(
     val time: Long,
     val precipitationProbabilityMax: Int?,
     val sunrise: Long,
-    val sunset: Long
+    val sunset: Long,
+    val moonrise: Long,
+    val moonset: Long,
+    val moonPhase: MoonPhase
 )
