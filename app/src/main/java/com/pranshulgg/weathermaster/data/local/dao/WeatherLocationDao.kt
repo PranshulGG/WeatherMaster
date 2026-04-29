@@ -16,11 +16,14 @@ interface WeatherLocationDao {
         weatherLocation: WeatherLocationEntity
     )
 
-    @Query("SELECT * FROM weather_locations")
+    @Query("SELECT * FROM weather_locations ORDER BY isDefault DESC")
     fun getLocations(): Flow<List<WeatherLocationEntity>>
 
     @Query("DELETE FROM weather_locations WHERE id = :id")
     suspend fun deleteLocation(id: String)
+
+    @Query("UPDATE weather_locations SET isDefault = 0")
+    suspend fun clearDefaultLocations()
 
     @Query("UPDATE weather_locations SET isDefault = 1 WHERE id = :id")
     suspend fun updateDefaultLocation(id: String)
