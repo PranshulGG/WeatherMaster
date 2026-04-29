@@ -18,8 +18,8 @@ android {
         applicationId = "com.pranshulgg.weathermaster"
         minSdk = 24
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 40
+        versionName = "3.0.0-alpha1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -75,6 +75,7 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.okhttp.logging)
+    implementation(libs.common.suncalc)
 
     coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(libs.androidx.hilt.navigation.compose)
