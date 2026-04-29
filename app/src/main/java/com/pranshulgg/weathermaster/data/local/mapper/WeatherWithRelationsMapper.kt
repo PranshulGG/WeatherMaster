@@ -80,7 +80,10 @@ fun WeatherWithRelations.toDomain(): Weather {
                 time = daily[it].time,
                 precipitationProbabilityMax = daily[it].precipitationProbabilityMax,
                 sunrise = daily[it].sunrise,
-                sunset = daily[it].sunset
+                sunset = daily[it].sunset,
+                moonrise = daily[it].moonrise,
+                moonset = daily[it].moonset,
+                moonPhase = daily[it].moonPhase
             )
 
         }.drop(todayIndex)
