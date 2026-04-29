@@ -44,6 +44,7 @@ import com.pranshulgg.weathermaster.core.model.domain.Weather
 import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
 import com.pranshulgg.weathermaster.core.ui.theme.ShadowElevation
+import com.pranshulgg.weathermaster.core.utils.DataSafe
 import com.pranshulgg.weathermaster.core.utils.TimeFormatters
 import com.pranshulgg.weathermaster.core.utils.WeatherUtils
 import java.time.Instant
@@ -51,6 +52,7 @@ import java.time.Instant
 @Composable
 fun SunBlock(weather: Weather) {
 
+    if (!DataSafe().isWeatherDailyDomainSafe(weather)) return
 
     val daily = weather.daily[0]
 
