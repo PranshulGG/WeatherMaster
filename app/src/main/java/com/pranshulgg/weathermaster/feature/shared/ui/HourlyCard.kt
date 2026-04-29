@@ -31,6 +31,7 @@ import com.pranshulgg.weathermaster.core.model.toIcon
 import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.WeatherIconBox
 import com.pranshulgg.weathermaster.core.ui.theme.ShadowElevation
+import com.pranshulgg.weathermaster.core.utils.DataSafe
 import com.pranshulgg.weathermaster.core.utils.TimeFormatters
 import com.pranshulgg.weathermaster.core.utils.UnitConverter
 import com.pranshulgg.weathermaster.core.utils.WeatherUtils
@@ -41,6 +42,8 @@ import kotlin.math.roundToInt
 
 @Composable
 fun HourlyCard(weather: Weather, units: AppWeatherUnits) {
+
+    if (!DataSafe().isWeatherHourlyDomainSafe(weather)) return
 
     val lazyListState = rememberLazyListState()
     val filteredHourly =
