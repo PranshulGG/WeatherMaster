@@ -28,6 +28,16 @@ fun WeatherAnimations(weather: Weather) {
 
         WeatherConditions.OVERCAST -> OvercastCanvas()
 
+        WeatherConditions.SNOW -> SnowCanvas()
+
+        WeatherConditions.LIGHT_SNOW -> SnowCanvas(snowFlakeCount = 15)
+
+        WeatherConditions.HEAVY_SNOW -> SnowCanvas(snowFlakeCount = 50)
+
+        WeatherConditions.FOG_HAZE -> FogHazeCanvas()
+
+        WeatherConditions.THUNDERSTORM -> RainCanvas(rainDropCount = 50, isStorming = true)
+
 
         else -> StarsCanvas()
 
