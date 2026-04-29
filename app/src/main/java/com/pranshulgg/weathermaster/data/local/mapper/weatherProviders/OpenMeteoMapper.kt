@@ -8,6 +8,7 @@ import com.pranshulgg.weathermaster.core.model.domain.WeatherDaily
 import com.pranshulgg.weathermaster.core.model.domain.WeatherHourly
 import com.pranshulgg.weathermaster.core.network.openmeteo.OpenMeteoWeatherDto
 import com.pranshulgg.weathermaster.core.network.openmeteo.openMeteoWeatherCode
+import com.pranshulgg.weathermaster.core.utils.WeatherUtils
 import com.pranshulgg.weathermaster.data.local.entity.CurrentWeatherEntity
 import com.pranshulgg.weathermaster.data.local.entity.DailyWeatherEntity
 import com.pranshulgg.weathermaster.data.local.entity.HourlyWeatherEntity
@@ -77,12 +78,30 @@ fun List<WeatherDaily>.toDailyWeatherEntity(
             precipitationProbabilityMax = item.precipitationProbabilityMax,
             sunrise = item.sunrise,
             sunset = item.sunset,
+            moonrise = item.moonrise,
+            moonset = item.moonset,
+            moonPhase = item.moonPhase
         )
     }
 
 @OptIn(ExperimentalUuidApi::class)
-fun OpenMeteoWeatherDto.toDomain(location: Location): Weather =
-    Weather(
+fun OpenMeteoWeatherDto.toDomain(location: Location): Weather {
+
+    val sunTimings = WeatherUtils.getSunTimings(
+        daily.time,
+        location.timezone,
+        location.latitude,
+        location.longitude
+    )
+
+    val moonTimings = WeatherUtils.getMoonTimings(
+        daily.time,
+        location.timezone,
+        location.latitude,
+        location.longitude
+    )
+
+    return Weather(
         location = Location(
             id = location.id,
             latitude = location.latitude,
@@ -139,8 +158,12 @@ fun OpenMeteoWeatherDto.toDomain(location: Location): Weather =
                 weatherCondition = openMeteoWeatherCode(daily.weatherCode[it]),
                 time = daily.time[it],
                 precipitationProbabilityMax = daily.precipitationProbabilityMax[it],
-                sunrise = daily.sunrise[it],
-                sunset = daily.sunset[it]
+                sunrise = sunTimings[it].sunrise ?: -0L,
+                sunset = sunTimings[it].sunset ?: -0L,
+                moonrise = moonTimings[it].moonrise ?: -0L,
+                moonset = moonTimings[it].moonset ?: -0L,
+                moonPhase = moonTimings[it].phase
             )
         }
     )
+}

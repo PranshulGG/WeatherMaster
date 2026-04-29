@@ -4,6 +4,7 @@ import android.util.Log
 import com.pranshulgg.weathermaster.core.model.WeatherResult
 import com.pranshulgg.weathermaster.core.model.WeatherResultType
 import com.pranshulgg.weathermaster.core.model.domain.Location
+import com.pranshulgg.weathermaster.core.utils.DataSafe
 import com.pranshulgg.weathermaster.core.utils.WeatherUtils
 import com.pranshulgg.weathermaster.data.local.dao.WeatherDataDao
 import com.pranshulgg.weathermaster.data.local.mapper.toDomain
@@ -59,7 +60,7 @@ class OpenMeteoRepository @Inject constructor(
 
             } catch (e: Exception) {
 
-                val isCacheSafe = WeatherUtils.isCacheSafe(cache)
+                val isCacheSafe = DataSafe().isCacheSafe(cache)
 
                 WeatherResult.Error(
                     e.message ?: "Unknown error",
