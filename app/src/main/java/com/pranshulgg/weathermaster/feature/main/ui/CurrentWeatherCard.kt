@@ -26,6 +26,7 @@ import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
 import com.pranshulgg.weathermaster.core.ui.components.WeatherIconBox
 import com.pranshulgg.weathermaster.core.utils.UnitConverter
+import com.pranshulgg.weathermaster.core.utils.WeatherUtils
 import com.pranshulgg.weathermaster.core.utils.WeatherUtils.getLastUpdatedTimeString
 import java.time.Instant
 import kotlin.math.roundToInt
@@ -104,20 +105,30 @@ private fun CardRowContent(weather: Weather, units: AppWeatherUnits) {
 
 @Composable
 private fun MinMaxTempRow(weather: Weather, units: AppWeatherUnits) {
-    val colorScheme = MaterialTheme.colorScheme
-    val daily = weather.daily[0]
 
-    val minTemp =
-        UnitConverter.convertTemp(daily.temperatureMin, TemperatureUnits.CELSIUS, units.tempUnit)
-    val maxTemp =
-        UnitConverter.convertTemp(daily.temperatureMax, TemperatureUnits.CELSIUS, units.tempUnit)
+
+    val colorScheme = MaterialTheme.colorScheme
+    val daily = weather.daily.getOrNull(0)
+
+    val minTemp = UnitConverter.convertTemp(
+        daily?.temperatureMin ?: -1.0,
+        TemperatureUnits.CELSIUS,
+        units.tempUnit
+    )
+    val maxTemp = UnitConverter.convertTemp(
+        daily?.temperatureMax ?: -1.0,
+        TemperatureUnits.CELSIUS,
+        units.tempUnit
+    )
+
+
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            "Max: ${minTemp.roundToInt()}° Min: ${maxTemp.roundToInt()}°",
+            "Max: ${if (maxTemp == -1.0) "N/A" else maxTemp.roundToInt()}° Min: ${if (minTemp == -1.0) "N/A" else minTemp.roundToInt()}°",
             color = colorScheme.onSurfaceVariant,
             style = MaterialTheme.typography.labelLarge
         )
