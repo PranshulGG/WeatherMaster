@@ -1,4 +1,70 @@
 <resources>
     <string name="app_name" translatable="false">WeatherMaster</string>
     <string name="app_launcher_name" translatable="false">Weather</string>
+    <string name="temp_feels_like">Feels like</string>
+    <string name="weather_hourly_forecast">Hourly forecast</string>
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="weather_daily_forecast">Daily forecast</string>
+    <string name="locations">Locations</string>
+    <string name="location_default">Default location</string>
+    <string name="weather_rain_today_amount">Today\'s amount</string>
+    <string name="weather_precipitation_hours">Precipitation hours</string>
+    <string name="time_now">Now</string>
+    <string name="day_today">Today</string>
+    <string name="weather_refresh_delay">Please wait %1$d minutes before refreshing</string>
+    <string name="error_generic">Error occurred. Please try again</string>
+    <string name="weather_moon">Moon</string>
+    <string name="weather_sun">Sun</string>
+    <string name="weather_humidity">Humidity</string>
+    <string name="weather_pressure">Pressure</string>
+    <string name="weather_wind">Wind</string>
+    <string name="weather_visibility">Visibility</string>
+    <string name="weather_air_quality">Air quality</string>
+    <string name="weather_uv_index">UV index</string>
+    <string name="action_ok">OK</string>
+    <string name="settings">Settings</string>
+    <string name="search">Search</string>
+    <string name="location_current">Current location</string>
+    <string name="search_provider">Search provider</string>
+
+    <plurals name="time_minutes_ago">
+        <item quantity="one">%d min ago</item>
+        <item quantity="other">%d mins ago</item>
+    </plurals>
+
+    <plurals name="time_hours_ago">
+        <item quantity="one">%d hr ago</item>
+        <item quantity="other">%d hrs ago</item>
+    </plurals>
+
+    <plurals name="time_days_ago">
+        <item quantity="one">%d day ago</item>
+        <item quantity="other">%d days ago</item>
+    </plurals>
+
+    <string name="time_just_now">Just now</string>
+    <string name="time_last_updated">Last updated %1$s</string>
+    <string name="weather_no_data">No weather data available</string>
+    <string name="weather_clear_sky">Clear sky</string>
+    <string name="weather_overcast">Overcast</string>
+    <string name="weather_partly_cloudy">Partly cloudy</string>
+    <string name="weather_heavy_rain">Heavy rain</string>
+    <string name="weather_light_rain">Light rain</string>
+    <string name="weather_light_snow">Light snow</string>
+    <string name="weather_snow">Snowy</string>
+    <string name="weather_heavy_snow">Heavy snow</string>
+    <string name="weather_mostly_clear">Mostly clear</string>
+    <string name="weather_thunderstorm">Thunderstorm</string>
+    <string name="weather_very_hot">Very hot</string>
+    <string name="weather_very_cold">Very cold</string>
+    <string name="weather_haze">Haze</string>
+    <string name="weather_rain">Rainy</string>
+    <string name="weather_no_condition">No condition found</string>
+    <string name="weather_uv_low">Low</string>
+    <string name="weather_uv_moderate">Moderate</string>
+    <string name="weather_uv_high">High</string>
+    <string name="weather_uv_very_high">Very High</string>
+    <string name="weather_uv_extreme">Extreme</string>
+
 </resources>
