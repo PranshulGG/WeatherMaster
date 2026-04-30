@@ -7,4 +7,9 @@ object NavRoutes {
 
     const val SETTINGS = "settings"
 
+    const val LANGUAGE = "language"
+
+    const val UNITS = "units"
+
+    const val APPEARANCE = "appearance"
 }
