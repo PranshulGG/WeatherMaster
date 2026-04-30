@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="temp_feels_like">Voelt aan als</string>
+    <string name="weather_hourly_forecast">Weersverwachting per uur</string>
+    <string name="action_save">Opslaan</string>
+    <string name="action_cancel">Annuleren</string>
+    <string name="weather_daily_forecast">Weersvoorspelling per dag</string>
+    <string name="locations">Locaties</string>
+    <string name="location_default">Standaardlocatie</string>
+    <string name="weather_rain_today_amount">Hoeveelheid vandaag</string>
+    <string name="weather_precipitation_hours">Neerslag uren</string>
+    <string name="time_now">Nu</string>
+    <string name="day_today">Vandaag</string>
+    <string name="weather_refresh_delay">Please wait %1$d minutes before refreshing</string>
+    <string name="error_generic">Error occurred. Please try again</string>
+    <string name="weather_moon">Maan</string>
+    <string name="weather_sun">Zo</string>
+    <string name="weather_humidity">Luchtvochtigheid</string>
+    <string name="weather_pressure">Luchtdruk</string>
+    <string name="weather_wind">Wind</string>
+    <string name="weather_visibility">Zichtbaarheid</string>
+    <string name="weather_air_quality">Luchtkwaliteit</string>
+    <string name="weather_uv_index">UV-index</string>
+    <string name="action_ok">OK</string>
+    <string name="settings">Instellingen</string>
+    <string name="search">Zoeken</string>
+    <string name="location_current">Huidige locatie</string>
+    <string name="search_provider">Search provider</string>
+    <plurals name="time_minutes_ago">
+        <item quantity="one">%d min ago</item>
+        <item quantity="other">%d mins ago</item>
+    </plurals>
+    <plurals name="time_hours_ago">
+        <item quantity="one">%d hr ago</item>
+        <item quantity="other">%d hrs ago</item>
+    </plurals>
+    <plurals name="time_days_ago">
+        <item quantity="one">%d day ago</item>
+        <item quantity="other">%d days ago</item>
+    </plurals>
+    <string name="time_just_now">Just now</string>
+    <string name="time_last_updated">Last updated %1$s</string>
+    <string name="weather_no_data">No weather data available</string>
+    <string name="weather_clear_sky">Heldere hemel</string>
+    <string name="weather_overcast">Bewolkt</string>
+    <string name="weather_partly_cloudy">Deels bewolkt</string>
+    <string name="weather_heavy_rain">Zware regen</string>
+    <string name="weather_light_rain">Lichte regen</string>
+    <string name="weather_light_snow">Light snow</string>
+    <string name="weather_snow">Snowy</string>
+    <string name="weather_heavy_snow">Heavy snow</string>
+    <string name="weather_mostly_clear">Grotendeels helder</string>
+    <string name="weather_thunderstorm">Onweer</string>
+    <string name="weather_very_hot">Very hot</string>
+    <string name="weather_very_cold">Very cold</string>
+    <string name="weather_haze">Haze</string>
+    <string name="weather_rain">Rainy</string>
+    <string name="weather_no_condition">No condition found</string>
+    <string name="weather_uv_low">Laag</string>
+    <string name="weather_uv_moderate">Gematigd</string>
+    <string name="weather_uv_high">Hoog</string>
+    <string name="weather_uv_very_high">Very High</string>
+    <string name="weather_uv_extreme">Extreem</string>
+</resources>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="temp_feels_like">體感溫度</string>
+    <string name="weather_hourly_forecast">每小時天氣預報</string>
+    <string name="action_save">保存</string>
+    <string name="action_cancel">取消</string>
+    <string name="weather_daily_forecast">每日天氣預報</string>
+    <string name="locations">位置</string>
+    <string name="location_default">預設位置</string>
+    <string name="weather_rain_today_amount">今日總量</string>
+    <string name="weather_precipitation_hours">降雨時長</string>
+    <string name="time_now">現在</string>
+    <string name="day_today">今天</string>
+    <string name="weather_refresh_delay">Please wait %1$d minutes before refreshing</string>
+    <string name="error_generic">Error occurred. Please try again</string>
+    <string name="weather_moon">月相</string>
+    <string name="weather_sun">週日</string>
+    <string name="weather_humidity">濕度</string>
+    <string name="weather_pressure">氣壓</string>
+    <string name="weather_wind">風速</string>
+    <string name="weather_visibility">能見度</string>
+    <string name="weather_air_quality">空氣品質</string>
+    <string name="weather_uv_index">紫外線指數</string>
+    <string name="action_ok">確定</string>
+    <string name="settings">設定</string>
+    <string name="search">搜尋</string>
+    <string name="location_current">當前位置</string>
+    <string name="search_provider">Search provider</string>
+    <plurals name="time_minutes_ago">
+        <item quantity="other">%d mins ago</item>
+    </plurals>
+    <plurals name="time_hours_ago">
+        <item quantity="other">%d hrs ago</item>
+    </plurals>
+    <plurals name="time_days_ago">
+        <item quantity="other">%d days ago</item>
+    </plurals>
+    <string name="time_just_now">Just now</string>
+    <string name="time_last_updated">Last updated %1$s</string>
+    <string name="weather_no_data">No weather data available</string>
+    <string name="weather_clear_sky">晴朗</string>
+    <string name="weather_overcast">陰天</string>
+    <string name="weather_partly_cloudy">局部多雲</string>
+    <string name="weather_heavy_rain">大雨</string>
+    <string name="weather_light_rain">小雨</string>
+    <string name="weather_light_snow">Light snow</string>
+    <string name="weather_snow">Snowy</string>
+    <string name="weather_heavy_snow">Heavy snow</string>
+    <string name="weather_mostly_clear">大致晴朗</string>
+    <string name="weather_thunderstorm">雷暴</string>
+    <string name="weather_very_hot">Very hot</string>
+    <string name="weather_very_cold">Very cold</string>
+    <string name="weather_haze">Haze</string>
+    <string name="weather_rain">Rainy</string>
+    <string name="weather_no_condition">No condition found</string>
+    <string name="weather_uv_low">低</string>
+    <string name="weather_uv_moderate">中等</string>
+    <string name="weather_uv_high">高</string>
+    <string name="weather_uv_very_high">Very High</string>
+    <string name="weather_uv_extreme">極高</string>
+</resources>
