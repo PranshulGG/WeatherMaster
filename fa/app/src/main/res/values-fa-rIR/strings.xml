@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="temp_feels_like">دمای محسوس</string>
+    <string name="weather_hourly_forecast">پیش‌بینی ساعتی</string>
+    <string name="action_save">ذخیره کردن</string>
+    <string name="action_cancel">لغو کردن</string>
+    <string name="weather_daily_forecast">پیش‌بینی روزانه</string>
+    <string name="locations">مکان</string>
+    <string name="location_default">مکان پیش‌فرض</string>
+    <string name="weather_rain_today_amount">مقدار امروز</string>
+    <string name="weather_precipitation_hours">ساعات بارش</string>
+    <string name="time_now">اکنون</string>
+    <string name="day_today">امروز</string>
+    <string name="weather_refresh_delay">Please wait %1$d minutes before refreshing</string>
+    <string name="error_generic">Error occurred. Please try again</string>
+    <string name="weather_moon">ماه</string>
+    <string name="weather_sun">یک‌شنبه</string>
+    <string name="weather_humidity">رطوبت</string>
+    <string name="weather_pressure">فشار</string>
+    <string name="weather_wind">باد</string>
+    <string name="weather_visibility">دید</string>
+    <string name="weather_air_quality">کیفیت هوا</string>
+    <string name="weather_uv_index">شاخص اشعه فرابنفش</string>
+    <string name="action_ok">تایید</string>
+    <string name="settings">تنظیمات</string>
+    <string name="search">جستجو</string>
+    <string name="location_current">موقعیت فعلی</string>
+    <string name="search_provider">Search provider</string>
+    <plurals name="time_minutes_ago">
+        <item quantity="one">%d min ago</item>
+        <item quantity="other">%d mins ago</item>
+    </plurals>
+    <plurals name="time_hours_ago">
+        <item quantity="one">%d hr ago</item>
+        <item quantity="other">%d hrs ago</item>
+    </plurals>
+    <plurals name="time_days_ago">
+        <item quantity="one">%d day ago</item>
+        <item quantity="other">%d days ago</item>
+    </plurals>
+    <string name="time_just_now">Just now</string>
+    <string name="time_last_updated">Last updated %1$s</string>
+    <string name="weather_no_data">No weather data available</string>
+    <string name="weather_clear_sky">آسمان صاف</string>
+    <string name="weather_overcast">ابری</string>
+    <string name="weather_partly_cloudy">نیمه‌ابری</string>
+    <string name="weather_heavy_rain">باران شدید</string>
+    <string name="weather_light_rain">باران آرام</string>
+    <string name="weather_light_snow">Light snow</string>
+    <string name="weather_snow">Snowy</string>
+    <string name="weather_heavy_snow">Heavy snow</string>
+    <string name="weather_mostly_clear">عمدتاً صاف</string>
+    <string name="weather_thunderstorm">رعدوبرق</string>
+    <string name="weather_very_hot">Very hot</string>
+    <string name="weather_very_cold">Very cold</string>
+    <string name="weather_haze">Haze</string>
+    <string name="weather_rain">Rainy</string>
+    <string name="weather_no_condition">No condition found</string>
+    <string name="weather_uv_low">کم</string>
+    <string name="weather_uv_moderate">متوسط</string>
+    <string name="weather_uv_high">زیاد </string>
+    <string name="weather_uv_very_high">Very High</string>
+    <string name="weather_uv_extreme">شدید</string>
+</resources>
