@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="temp_feels_like">Sensació de</string>
+    <string name="weather_hourly_forecast">Previsió per hores</string>
+    <string name="action_save">Desa</string>
+    <string name="action_cancel">Cancel·la</string>
+    <string name="weather_daily_forecast">Previsió diària</string>
+    <string name="locations">Ubicacions</string>
+    <string name="location_default">Ubicació per defecte</string>
+    <string name="weather_rain_today_amount">Quantitat d\'avui</string>
+    <string name="weather_precipitation_hours">Hores de precipitació</string>
+    <string name="time_now">Ara</string>
+    <string name="day_today">Avui</string>
+    <string name="weather_refresh_delay">Please wait %1$d minutes before refreshing</string>
+    <string name="error_generic">Error occurred. Please try again</string>
+    <string name="weather_moon">Lluna</string>
+    <string name="weather_sun">Dg.</string>
+    <string name="weather_humidity">Humitat</string>
+    <string name="weather_pressure">Pressió</string>
+    <string name="weather_wind">Vent</string>
+    <string name="weather_visibility">Visibilitat</string>
+    <string name="weather_air_quality">Qualitat de l\'aire</string>
+    <string name="weather_uv_index">Índex UV</string>
+    <string name="action_ok">D\'acord</string>
+    <string name="settings">Configuració</string>
+    <string name="search">Cerca</string>
+    <string name="location_current">Ubicació actual</string>
+    <string name="search_provider">Search provider</string>
+    <plurals name="time_minutes_ago">
+        <item quantity="one">%d min ago</item>
+        <item quantity="other">%d mins ago</item>
+    </plurals>
+    <plurals name="time_hours_ago">
+        <item quantity="one">%d hr ago</item>
+        <item quantity="other">%d hrs ago</item>
+    </plurals>
+    <plurals name="time_days_ago">
+        <item quantity="one">%d day ago</item>
+        <item quantity="other">%d days ago</item>
+    </plurals>
+    <string name="time_just_now">Just now</string>
+    <string name="time_last_updated">Last updated %1$s</string>
+    <string name="weather_no_data">No weather data available</string>
+    <string name="weather_clear_sky">Cel serè</string>
+    <string name="weather_overcast">Ennuvolat</string>
+    <string name="weather_partly_cloudy">Parcialment ennuvolat</string>
+    <string name="weather_heavy_rain">Pluja forta</string>
+    <string name="weather_light_rain">Plugim</string>
+    <string name="weather_light_snow">Light snow</string>
+    <string name="weather_snow">Snowy</string>
+    <string name="weather_heavy_snow">Heavy snow</string>
+    <string name="weather_mostly_clear">Clar en general</string>
+    <string name="weather_thunderstorm">Tempesta</string>
+    <string name="weather_very_hot">Very hot</string>
+    <string name="weather_very_cold">Very cold</string>
+    <string name="weather_haze">Haze</string>
+    <string name="weather_rain">Rainy</string>
+    <string name="weather_no_condition">No condition found</string>
+    <string name="weather_uv_low">Baix</string>
+    <string name="weather_uv_moderate">Moderada</string>
+    <string name="weather_uv_high">Alt</string>
+    <string name="weather_uv_very_high">Very High</string>
+    <string name="weather_uv_extreme">Extrem</string>
+</resources>

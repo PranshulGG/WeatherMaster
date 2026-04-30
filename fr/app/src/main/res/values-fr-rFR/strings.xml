@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="temp_feels_like">Ressenti</string>
+    <string name="weather_hourly_forecast">Prévisions horaires</string>
+    <string name="action_save">Enregistrer</string>
+    <string name="action_cancel">Annuler</string>
+    <string name="weather_daily_forecast">Prévisions quotidiennes</string>
+    <string name="locations">Lieux</string>
+    <string name="location_default">Emplacement par défaut</string>
+    <string name="weather_rain_today_amount">Cumul du jour</string>
+    <string name="weather_precipitation_hours">Heures avec précipitations</string>
+    <string name="time_now">Maintenant</string>
+    <string name="day_today">Aujourd\'hui</string>
+    <string name="weather_refresh_delay">Please wait %1$d minutes before refreshing</string>
+    <string name="error_generic">Error occurred. Please try again</string>
+    <string name="weather_moon">Lune</string>
+    <string name="weather_sun">Dim</string>
+    <string name="weather_humidity">Humidité</string>
+    <string name="weather_pressure">Pression</string>
+    <string name="weather_wind">Vent</string>
+    <string name="weather_visibility">Visibilité</string>
+    <string name="weather_air_quality">Qualité de l\'air</string>
+    <string name="weather_uv_index">Indice UV</string>
+    <string name="action_ok">Ok</string>
+    <string name="settings">Paramètres</string>
+    <string name="search">Recherche</string>
+    <string name="location_current">Position actuelle</string>
+    <string name="search_provider">Search provider</string>
+    <plurals name="time_minutes_ago">
+        <item quantity="one">%d min ago</item>
+        <item quantity="other">%d mins ago</item>
+    </plurals>
+    <plurals name="time_hours_ago">
+        <item quantity="one">%d hr ago</item>
+        <item quantity="other">%d hrs ago</item>
+    </plurals>
+    <plurals name="time_days_ago">
+        <item quantity="one">%d day ago</item>
+        <item quantity="other">%d days ago</item>
+    </plurals>
+    <string name="time_just_now">Just now</string>
+    <string name="time_last_updated">Last updated %1$s</string>
+    <string name="weather_no_data">No weather data available</string>
+    <string name="weather_clear_sky">Ciel dégagé</string>
+    <string name="weather_overcast">Ciel couvert</string>
+    <string name="weather_partly_cloudy">Ciel partiellement nuageux</string>
+    <string name="weather_heavy_rain">Forte pluie</string>
+    <string name="weather_light_rain">Pluie légère</string>
+    <string name="weather_light_snow">Light snow</string>
+    <string name="weather_snow">Snowy</string>
+    <string name="weather_heavy_snow">Heavy snow</string>
+    <string name="weather_mostly_clear">Ciel plutôt dégagé</string>
+    <string name="weather_thunderstorm">Orage</string>
+    <string name="weather_very_hot">Very hot</string>
+    <string name="weather_very_cold">Very cold</string>
+    <string name="weather_haze">Haze</string>
+    <string name="weather_rain">Rainy</string>
+    <string name="weather_no_condition">No condition found</string>
+    <string name="weather_uv_low">Faible</string>
+    <string name="weather_uv_moderate">Modéré</string>
+    <string name="weather_uv_high">Élevé</string>
+    <string name="weather_uv_very_high">Very High</string>
+    <string name="weather_uv_extreme">Extrême</string>
+</resources>
