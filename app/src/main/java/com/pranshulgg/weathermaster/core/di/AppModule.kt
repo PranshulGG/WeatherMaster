@@ -4,7 +4,6 @@ import android.content.Context
 import com.pranshulgg.weathermaster.core.network.openmeteo.OpenMeteoApi
 import com.pranshulgg.weathermaster.core.network.openmeteo.OpenMeteoRepository
 import com.pranshulgg.weathermaster.core.network.search.OpenMeteoSearchApi
-import com.pranshulgg.weathermaster.core.ui.state.ActiveLocationStore
 import com.pranshulgg.weathermaster.data.local.WeatherMasterDatabase
 import com.pranshulgg.weathermaster.data.local.dao.AppWeatherUnitsDao
 import com.pranshulgg.weathermaster.data.local.dao.WeatherBlocksDao
@@ -74,13 +73,9 @@ object AppModule {
     @Provides
     @Singleton
     fun provideLocationsRepository(
-        dao: WeatherLocationDao,
-        activeLocationStore: ActiveLocationStore
-    ): LocationsRepository = LocationsRepository(dao, activeLocationStore)
+        dao: WeatherLocationDao
+    ): LocationsRepository = LocationsRepository(dao)
 
-    @Provides
-    @Singleton
-    fun provideActiveLocationStore(): ActiveLocationStore = ActiveLocationStore()
 
     @Provides
     @Singleton

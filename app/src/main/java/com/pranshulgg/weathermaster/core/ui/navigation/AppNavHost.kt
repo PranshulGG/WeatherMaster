@@ -26,6 +26,8 @@ import androidx.navigation.compose.composable
 import com.pranshulgg.weathermaster.feature.main.MainScreen
 import com.pranshulgg.weathermaster.feature.search.SearchScreen
 import com.pranshulgg.weathermaster.feature.settings.SettingsScreen
+import com.pranshulgg.weathermaster.feature.settings.appearance.AppearanceScreen
+import com.pranshulgg.weathermaster.feature.settings.language.LanguageScreen
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -60,6 +62,16 @@ fun AppNavHost(
                 NavRoutes.SETTINGS
             ) {
                 SettingsScreen(navController)
+            }
+            composable(
+                NavRoutes.LANGUAGE
+            ) {
+                LanguageScreen(navController)
+            }
+            composable(
+                NavRoutes.APPEARANCE
+            ) {
+                AppearanceScreen(navController)
             }
         }
 
