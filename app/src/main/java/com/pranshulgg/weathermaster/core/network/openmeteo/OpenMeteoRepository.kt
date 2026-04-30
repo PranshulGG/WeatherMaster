@@ -23,14 +23,14 @@ class OpenMeteoRepository @Inject constructor(
     val api: OpenMeteoApi
 ) : WeatherRepository {
 
-    override suspend fun getWeather(location: Location, isRefresh: Boolean): WeatherResult =
+    override suspend fun getWeather(location: Location, isManualRefresh: Boolean): WeatherResult =
         withContext(
             Dispatchers.IO
         ) {
 
             val cache = dao.getAllWeatherDataForLocation(location.id)
 
-            val shouldReturnCache = WeatherUtils.shouldReturnCache(cache, isRefresh)
+            val shouldReturnCache = WeatherUtils.shouldReturnCache(cache, isManualRefresh)
 
 
             when (shouldReturnCache) {
