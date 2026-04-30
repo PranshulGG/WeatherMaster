@@ -48,7 +48,7 @@ fun MainScreenScaffold(
 
 
     val pullToRefreshState = rememberPullToRefreshState()
-    val weather = uiState.weather
+    val weather = remember(uiState.weather) { uiState.weather }
     val units = uiState.weatherUnits
     val scrollState = rememberScrollState()
 
@@ -125,7 +125,7 @@ fun MainScreenScaffold(
                             ) {
                                 HourlyCard(weather, units)
                                 DailyCard(weather, units)
-                                WeatherBlocks(weather, units, context)
+                                WeatherBlocks(weather, units, context, uiState.blocksOrder)
                             }
                         }
                     }

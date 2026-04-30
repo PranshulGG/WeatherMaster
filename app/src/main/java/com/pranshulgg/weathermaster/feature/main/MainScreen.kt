@@ -1,5 +1,6 @@
 package com.pranshulgg.weathermaster.feature.main
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -17,6 +18,7 @@ import androidx.navigation.NavController
 import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
 import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.core.model.domain.Weather
+import com.pranshulgg.weathermaster.core.model.domain.WeatherBlock
 import com.pranshulgg.weathermaster.core.prefs.LocalAppPrefs
 import com.pranshulgg.weathermaster.feature.locations.LocationsScreen
 import com.pranshulgg.weathermaster.feature.main.ui.NavigationDrawer
@@ -29,7 +31,8 @@ data class MainScreenUiState(
     val activeLocation: Location? = null,
     val locations: List<Location> = emptyList(),
     val weather: Weather? = null,
-    val weatherUnits: AppWeatherUnits = AppWeatherUnits.getDefault()
+    val weatherUnits: AppWeatherUnits = AppWeatherUnits.getDefault(),
+    val blocksOrder: List<WeatherBlock> = WeatherBlock.getDefault()
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -108,7 +111,7 @@ fun MainScreen(navController: NavController) {
                         weatherViewModel.getWeather(
                             activeLocation,
                             activeLocation.provider,
-                            isRefresh = true
+                            isManualRefresh = true
                         )
                     }
                 },

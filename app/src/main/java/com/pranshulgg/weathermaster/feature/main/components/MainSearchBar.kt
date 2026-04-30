@@ -23,12 +23,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.domain.Location
-import com.pranshulgg.weathermaster.core.model.domain.Weather
 import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
 import com.pranshulgg.weathermaster.core.ui.components.Tooltip
 import com.pranshulgg.weathermaster.core.ui.navigation.NavRoutes
 import com.pranshulgg.weathermaster.core.ui.theme.ShadowElevation
+import com.pranshulgg.weathermaster.core.ui.theme.isThemeDark
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -64,7 +64,7 @@ fun MainSearchBar(
 
 
     Surface(
-        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.4f),
+        color = getSearchBarColor(isDark = isThemeDark()),
         shape = CircleShape,
         modifier = Modifier.padding(
             top = paddingValues.calculateTopPadding() + 8.dp,
@@ -122,3 +122,13 @@ fun MainSearchBar(
     }
 }
 
+
+@Composable
+private fun getSearchBarColor(isDark: Boolean): Color {
+
+    return when (isDark) {
+        true -> MaterialTheme.colorScheme.surface.copy(0.4f)
+        false -> MaterialTheme.colorScheme.surfaceContainerLowest.copy(0.6f)
+    }
+
+}
