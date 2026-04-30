@@ -20,6 +20,7 @@ import com.pranshulgg.weathermaster.core.ui.navigation.AppNavHost
 import com.pranshulgg.weathermaster.core.ui.snackbar.LocalSnackbarHostState
 import com.pranshulgg.weathermaster.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weathermaster.core.ui.theme.WeatherMasterTheme
+import com.pranshulgg.weathermaster.core.ui.theme.isThemeDark
 import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -49,17 +50,10 @@ fun WeatherMasterApp() {
         LocalSnackbarHostState provides snackbarHostState,
         LocalAppPrefs provides AppPrefs.state()
     ) {
-        val prefs = LocalAppPrefs.current
 
-        val appTheme = when (prefs.appTheme) {
-            "Dark" -> true
-            "Light" -> false
-            "System" -> isSystemInDarkTheme()
-            else -> isSystemInDarkTheme()
-        }
 
         WeatherMasterTheme(
-            darkTheme = true,
+            darkTheme = isThemeDark(),
             dynamicColor = true
         ) {
 

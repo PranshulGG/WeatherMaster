@@ -22,6 +22,7 @@ import org.shredzone.commons.suncalc.MoonPosition
 import org.shredzone.commons.suncalc.MoonTimes
 import org.shredzone.commons.suncalc.SunTimes
 import java.time.Instant
+import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.Locale
@@ -103,24 +104,25 @@ object WeatherUtils {
     }
 
 
-    fun shouldReturnCache(cache: WeatherWithRelations?, isRefresh: Boolean): WeatherResultType {
+    fun shouldReturnCache(
+        cache: WeatherWithRelations?,
+        isManualRefresh: Boolean
+    ): WeatherResultType {
 
         if (!DataSafe().isCacheSafe(cache)) return WeatherResultType.ERROR
 
-        if (cache?.current == null) return WeatherResultType.ERROR
-
-        val cacheMilli = cache.current.lastUpdatedSecs * 1000L
+        val cacheMilli = cache!!.current!!.lastUpdatedSecs * 1000L
         val ageMillis = System.currentTimeMillis() - cacheMilli
         val ageMinutes = TimeUnit.MILLISECONDS.toMinutes(ageMillis)
 
-        val tooEarly = isRefresh && ageMinutes < 15
-        val maxAge = if (isRefresh) 15 else 45
+        val tooEarly = isManualRefresh && ageMinutes < 15
+        val maxAge = if (isManualRefresh) 15 else 4500
 
         if (tooEarly) return WeatherResultType.REFRESH_TOO_EARLY
 
-        val isSafe = ageMinutes < maxAge
+        val shouldReturnCache = ageMinutes < maxAge
 
-        return if (isSafe) WeatherResultType.SUCCESS else WeatherResultType.ERROR
+        return if (shouldReturnCache) WeatherResultType.SUCCESS else WeatherResultType.ERROR
     }
 
     fun getSunTimings(
@@ -138,12 +140,15 @@ object WeatherUtils {
 
             val sunTimes = SunTimes.compute()
                 .on(date)
+                .fullCycle()
+                .timezone(zoneId)
                 .at(lat, lon)
                 .execute()
 
-
             SunTimings(it, sunTimes.rise?.toEpochSecond(), sunTimes.set?.toEpochSecond())
+
         }
+
     }
 
     fun getMoonTimings(
@@ -162,6 +167,7 @@ object WeatherUtils {
             val moonTimes = MoonTimes.compute()
                 .on(date)
                 .at(lat, lon)
+                .timezone(zoneId)
                 .execute()
 
             val phase = MoonIllumination.compute().on(date).execute().phase

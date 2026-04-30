@@ -1,40 +1,35 @@
 package com.pranshulgg.weathermaster.feature.shared
 
-import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.core.content.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pranshulgg.weathermaster.core.model.domain.WeatherBlockType
 import com.pranshulgg.weathermaster.core.model.WeatherProviders
 import com.pranshulgg.weathermaster.core.model.WeatherResult
 import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.core.model.domain.WeatherBlock
 import com.pranshulgg.weathermaster.core.ui.snackbar.SnackbarManager
-import com.pranshulgg.weathermaster.core.ui.state.ActiveLocationStore
 import com.pranshulgg.weathermaster.data.provider.WeatherRepositoryProvider
 import com.pranshulgg.weathermaster.data.repository.AppWeatherUnitsRepository
 import com.pranshulgg.weathermaster.data.repository.LocationsRepository
 import com.pranshulgg.weathermaster.data.repository.WeatherDataRepository
 import com.pranshulgg.weathermaster.feature.main.MainScreenUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 
 @HiltViewModel
 class WeatherViewModel @Inject constructor(
     private val repo: WeatherRepositoryProvider,
     private val locationsRepo: LocationsRepository,
-    private val activeLocationStore: ActiveLocationStore,
     private val appWeatherUnitsRepo: AppWeatherUnitsRepository,
     private val weatherDataRepository: WeatherDataRepository
 ) : ViewModel() {
@@ -43,35 +38,32 @@ class WeatherViewModel @Inject constructor(
     val uiState: State<MainScreenUiState> = _uiState
 
 
-    var blocks by mutableStateOf(emptyList<WeatherBlock>())
-        private set
-
-
     init {
         // LOAD DEFAULT ON START
-        if (activeLocationStore.active.value == null) {
-            locationsRepo.getDefaultLocation()
-                .filterNotNull()
-                .take(1)
-                .onEach { location ->
-                    if (activeLocationStore.active.value?.id != location.id) {
-                        activeLocationStore.set(location)
-                    }
-                }
-                .launchIn(viewModelScope)
+        viewModelScope.launch {
+            if (_uiState.value.activeLocation == null) {
+                val default = locationsRepo.getDefaultLocation()
+                    .filterNotNull()
+                    .first()
+                setActiveLocation(default)
+            }
         }
-
-        // KEEP TRACK OF ACTIVE LOCATION
-        activeLocationStore.active.filterNotNull().distinctUntilChanged().onEach {
-            _uiState.value =
-                _uiState.value.copy(activeLocation = it)
-            getWeather(it, it.provider)
-        }.launchIn(viewModelScope)
-
 
         // KEEP TRACK OF ALL LOCATIONS
         locationsRepo.getLocations()
             .onEach { locations ->
+
+                val previous = _uiState.value.locations
+
+                if (previous.isNotEmpty()) {
+
+                    val newLocation = locations.firstOrNull { new ->
+                        previous.none { it.id == new.id }
+                    }
+
+                    newLocation?.let { setActiveLocation(it) }
+                }
+
                 _uiState.value = _uiState.value.copy(locations = locations)
             }
             .launchIn(viewModelScope)
@@ -82,21 +74,25 @@ class WeatherViewModel @Inject constructor(
             _uiState.value = _uiState.value.copy(weatherUnits = it)
         }.launchIn(viewModelScope)
 
-        if (blocks.isEmpty()) {
-            loadBlocksOrder()
-        }
     }
 
+    private var weatherJob: Job? = null
 
-    fun getWeather(location: Location, provider: WeatherProviders, isRefresh: Boolean = false) {
+    fun getWeather(
+        location: Location,
+        provider: WeatherProviders,
+        isManualRefresh: Boolean = false
+    ) {
+
+        weatherJob?.cancel()
         setLoading(true)
         val startTime = System.currentTimeMillis()
         _uiState.value = _uiState.value.copy(isError = false)
 
         val currentRepo = repo.getRepository(provider)
 
-        viewModelScope.launch {
-            when (val result = currentRepo.getWeather(location, isRefresh)) {
+        weatherJob = viewModelScope.launch {
+            when (val result = currentRepo.getWeather(location, isManualRefresh)) {
 
                 is WeatherResult.Success -> {
                     _uiState.value = _uiState.value.copy(weather = result.weather)
@@ -141,14 +137,15 @@ class WeatherViewModel @Inject constructor(
     }
 
     fun setActiveLocation(location: Location) {
-        activeLocationStore.set(location)
+        _uiState.value = _uiState.value.copy(activeLocation = location)
+        getWeather(location, location.provider)
     }
 
 
     fun saveBlocksOrder(
         items: List<WeatherBlock>
     ) {
-        blocks = items
+        _uiState.value = _uiState.value.copy(blocksOrder = items)
 
         viewModelScope.launch {
             weatherDataRepository.saveBlocks(items.map {
@@ -166,7 +163,7 @@ class WeatherViewModel @Inject constructor(
     fun loadBlocksOrder() {
         viewModelScope.launch {
             val loadedBlocks = weatherDataRepository.loadBlocks()
-            blocks = loadedBlocks
+            _uiState.value = _uiState.value.copy(blocksOrder = loadedBlocks)
         }
     }
 
