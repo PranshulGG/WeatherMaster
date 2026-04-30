@@ -76,6 +76,7 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.okhttp.logging)
     implementation(libs.common.suncalc)
+    implementation(libs.androidx.appcompat)
 
     coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(libs.androidx.hilt.navigation.compose)
