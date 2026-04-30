@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="temp_feels_like">Tuntuu kuin</string>
+    <string name="weather_hourly_forecast">Tunneittainen ennuste</string>
+    <string name="action_save">Tallenna</string>
+    <string name="action_cancel">Peruuta</string>
+    <string name="weather_daily_forecast">Päivittäinen ennuste</string>
+    <string name="locations">Sijainnit</string>
+    <string name="location_default">Oletussijainti</string>
+    <string name="weather_rain_today_amount">Tämän päivän määrä</string>
+    <string name="weather_precipitation_hours">Tunnit joina sataa</string>
+    <string name="time_now">Nyt</string>
+    <string name="day_today">Tänään</string>
+    <string name="weather_refresh_delay">Please wait %1$d minutes before refreshing</string>
+    <string name="error_generic">Error occurred. Please try again</string>
+    <string name="weather_moon">Kuu</string>
+    <string name="weather_sun">Su</string>
+    <string name="weather_humidity">Kosteus</string>
+    <string name="weather_pressure">Paine</string>
+    <string name="weather_wind">Tuuli</string>
+    <string name="weather_visibility">Näkyvyys</string>
+    <string name="weather_air_quality">Ilmanlaatu</string>
+    <string name="weather_uv_index">UV-indeksi</string>
+    <string name="action_ok">OK</string>
+    <string name="settings">Asetukset</string>
+    <string name="search">Etsi</string>
+    <string name="location_current">Nykyinen sijainti</string>
+    <string name="search_provider">Search provider</string>
+    <plurals name="time_minutes_ago">
+        <item quantity="one">%d min ago</item>
+        <item quantity="other">%d mins ago</item>
+    </plurals>
+    <plurals name="time_hours_ago">
+        <item quantity="one">%d hr ago</item>
+        <item quantity="other">%d hrs ago</item>
+    </plurals>
+    <plurals name="time_days_ago">
+        <item quantity="one">%d day ago</item>
+        <item quantity="other">%d days ago</item>
+    </plurals>
+    <string name="time_just_now">Just now</string>
+    <string name="time_last_updated">Last updated %1$s</string>
+    <string name="weather_no_data">No weather data available</string>
+    <string name="weather_clear_sky">Selkeä taivas</string>
+    <string name="weather_overcast">Pilvistä</string>
+    <string name="weather_partly_cloudy">Osittain pilvistä</string>
+    <string name="weather_heavy_rain">Rankkaa sadetta</string>
+    <string name="weather_light_rain">Pientä sadetta</string>
+    <string name="weather_light_snow">Light snow</string>
+    <string name="weather_snow">Snowy</string>
+    <string name="weather_heavy_snow">Heavy snow</string>
+    <string name="weather_mostly_clear">Enimmäksen selkeää</string>
+    <string name="weather_thunderstorm">Ukkosta</string>
+    <string name="weather_very_hot">Very hot</string>
+    <string name="weather_very_cold">Very cold</string>
+    <string name="weather_haze">Haze</string>
+    <string name="weather_rain">Rainy</string>
+    <string name="weather_no_condition">No condition found</string>
+    <string name="weather_uv_low">Matala</string>
+    <string name="weather_uv_moderate">Kohtalainen</string>
+    <string name="weather_uv_high">Korkea</string>
+    <string name="weather_uv_very_high">Very High</string>
+    <string name="weather_uv_extreme">Äärimmäinen</string>
+</resources>
