@@ -1,5 +1,6 @@
 package com.pranshulgg.weathermaster.core.utils
 
+import androidx.appcompat.app.AppCompatDelegate
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -9,8 +10,11 @@ import java.util.Locale
 class TimeFormatters {
 
     fun to12HourTimeString(millis: Long, zoneId: String, pattern: String = "ha"): String {
+        val locale = AppCompatDelegate.getApplicationLocales()[0]
+            ?: Locale.getDefault()
+
         val instant = Instant.ofEpochMilli(millis)
-        val formatter = DateTimeFormatter.ofPattern(pattern, Locale.CHINESE)
+        val formatter = DateTimeFormatter.ofPattern(pattern, locale)
             .withZone(ZoneId.of(zoneId))
 
         return formatter.format(instant)

@@ -18,6 +18,7 @@ import androidx.core.view.WindowCompat
 import com.materialkolor.PaletteStyle
 import com.materialkolor.dynamiccolor.ColorSpec
 import com.materialkolor.rememberDynamicColorScheme
+import com.pranshulgg.weathermaster.core.prefs.LocalAppPrefs
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -63,4 +64,18 @@ fun WeatherMasterTheme(
         content = content
     )
 
+}
+
+@Composable
+fun isThemeDark(): Boolean {
+    val prefs = LocalAppPrefs.current
+
+    val isDark = when (prefs.appTheme) {
+        "Dark" -> true
+        "Light" -> false
+        "System" -> isSystemInDarkTheme()
+        else -> isSystemInDarkTheme()
+    }
+
+    return isDark
 }
