@@ -19,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.ui.components.EmptyContainerPlaceholder
@@ -42,6 +41,7 @@ data class SearchUiState(
 fun SearchScreen(navController: NavController) {
 
     val viewModel: SearchScreenViewModel = hiltViewModel()
+    val weatherViewModel: WeatherViewModel = hiltViewModel()
     val results = viewModel.results
     val loading = viewModel.loading
     val uiState by viewModel.uiState
@@ -85,7 +85,7 @@ fun SearchScreen(navController: NavController) {
                         tiles = results.map {
                             SettingTile.ActionTile(
                                 title = it.name,
-                                description = "${if (it.state.isNotEmpty()) "${it.state}, " else ""}${it.country} • ${it.latitude}, ${it.longitude}",
+                                description = "${if (it.state.isNotEmpty()) "${it.state}, " else ""}${it.country}",
                                 onClick = {
                                     viewModel.saveLocation(it)
                                     navController.popBackStack()
