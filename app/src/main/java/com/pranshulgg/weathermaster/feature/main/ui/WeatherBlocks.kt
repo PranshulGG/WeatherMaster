@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
 import com.pranshulgg.weathermaster.core.model.domain.Weather
+import com.pranshulgg.weathermaster.core.model.domain.WeatherBlock
 import com.pranshulgg.weathermaster.core.model.domain.WeatherBlockType
 import com.pranshulgg.weathermaster.feature.shared.WeatherViewModel
 import com.pranshulgg.weathermaster.feature.shared.components.blocks.HumidityBlock
@@ -29,11 +30,16 @@ import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyGridState
 
 @Composable
-fun WeatherBlocks(weather: Weather, units: AppWeatherUnits, context: Context) {
+fun WeatherBlocks(
+    weather: Weather,
+    units: AppWeatherUnits,
+    context: Context,
+    blocks: List<WeatherBlock>
+) {
 
     val viewModel: WeatherViewModel = hiltViewModel()
 
-    val items = viewModel.blocks.filter { !it.isHidden }
+    val items = blocks.filter { !it.isHidden }
 
     val lazyGridState = rememberLazyGridState()
 
