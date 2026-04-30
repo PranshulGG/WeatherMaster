@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="temp_feels_like">Αίσθηση</string>
+    <string name="weather_hourly_forecast">Ωριαία πρόγνωση</string>
+    <string name="action_save">Αποθήκευση</string>
+    <string name="action_cancel">Ακύρωση</string>
+    <string name="weather_daily_forecast">Καθημερινή πρόβλεψη</string>
+    <string name="locations">Τοποθεσίες</string>
+    <string name="location_default">Προεπιλεγμένη τοποθεσία</string>
+    <string name="weather_rain_today_amount">Σημερινή ποσότητα</string>
+    <string name="weather_precipitation_hours">Ώρες υετού</string>
+    <string name="time_now">Τώρα</string>
+    <string name="day_today">Σήμερα</string>
+    <string name="weather_refresh_delay">Please wait %1$d minutes before refreshing</string>
+    <string name="error_generic">Error occurred. Please try again</string>
+    <string name="weather_moon">Σελήνη</string>
+    <string name="weather_sun">Κυρ</string>
+    <string name="weather_humidity">Υγρασία</string>
+    <string name="weather_pressure">Πίεση</string>
+    <string name="weather_wind">Άνεμος</string>
+    <string name="weather_visibility">Ορατότητα</string>
+    <string name="weather_air_quality">Ποιότητα αέρα</string>
+    <string name="weather_uv_index">Δείκτης UV</string>
+    <string name="action_ok">ΟΚ</string>
+    <string name="settings">Ρυθμίσεις</string>
+    <string name="search">Αναζήτηση</string>
+    <string name="location_current">Τωρινή τοποθεσία</string>
+    <string name="search_provider">Search provider</string>
+    <plurals name="time_minutes_ago">
+        <item quantity="one">%d min ago</item>
+        <item quantity="other">%d mins ago</item>
+    </plurals>
+    <plurals name="time_hours_ago">
+        <item quantity="one">%d hr ago</item>
+        <item quantity="other">%d hrs ago</item>
+    </plurals>
+    <plurals name="time_days_ago">
+        <item quantity="one">%d day ago</item>
+        <item quantity="other">%d days ago</item>
+    </plurals>
+    <string name="time_just_now">Just now</string>
+    <string name="time_last_updated">Last updated %1$s</string>
+    <string name="weather_no_data">No weather data available</string>
+    <string name="weather_clear_sky">Καθαρός ουρανός</string>
+    <string name="weather_overcast">Νεφελώδης</string>
+    <string name="weather_partly_cloudy">Αραιές νεφώσεις</string>
+    <string name="weather_heavy_rain">Έντονη βροχή</string>
+    <string name="weather_light_rain">Ελαφριά βροχή</string>
+    <string name="weather_light_snow">Light snow</string>
+    <string name="weather_snow">Snowy</string>
+    <string name="weather_heavy_snow">Heavy snow</string>
+    <string name="weather_mostly_clear">Σχεδόν καθαρός</string>
+    <string name="weather_thunderstorm">Καταιγίδα</string>
+    <string name="weather_very_hot">Very hot</string>
+    <string name="weather_very_cold">Very cold</string>
+    <string name="weather_haze">Haze</string>
+    <string name="weather_rain">Rainy</string>
+    <string name="weather_no_condition">No condition found</string>
+    <string name="weather_uv_low">Χαμηλή</string>
+    <string name="weather_uv_moderate">Μέτρια</string>
+    <string name="weather_uv_high">Υψηλή</string>
+    <string name="weather_uv_very_high">Very High</string>
+    <string name="weather_uv_extreme">Ακραίος</string>
+</resources>
