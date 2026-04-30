@@ -10,7 +10,7 @@ class TimeFormatters {
 
     fun to12HourTimeString(millis: Long, zoneId: String, pattern: String = "ha"): String {
         val instant = Instant.ofEpochMilli(millis)
-        val formatter = DateTimeFormatter.ofPattern(pattern, Locale.ENGLISH)
+        val formatter = DateTimeFormatter.ofPattern(pattern, Locale.CHINESE)
             .withZone(ZoneId.of(zoneId))
 
         return formatter.format(instant)

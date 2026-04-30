@@ -1,16 +1,14 @@
 package com.pranshulgg.weathermaster.feature.shared.components.blocks
 
+import android.content.Context
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,7 +21,6 @@ import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.vector.PathParser
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.UvIndex
 import com.pranshulgg.weathermaster.core.model.domain.Weather
@@ -32,16 +29,18 @@ import com.pranshulgg.weathermaster.core.model.toLabel
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
 
 @Composable
-fun UvIndexBlock(weather: Weather) {
+fun UvIndexBlock(weather: Weather, context: Context) {
     val color = MaterialTheme.colorScheme.surface
 
 
     val uvIndex = weather.current.uvIndex.toInt()
     val uvIndexValue = getUvIndex(uvIndex)
 
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .aspectRatio(1f)) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .aspectRatio(1f)
+    ) {
         Canvas(modifier = Modifier.matchParentSize()) {
 
             val path = PathParser().parsePathString(
@@ -111,7 +110,7 @@ fun UvIndexBlock(weather: Weather) {
 
 
         Text(
-            uvIndexValue.toLabel(),
+            uvIndexValue.toLabel(context),
             modifier = Modifier
                 .align(Alignment.Center)
                 .offset(y = 32.dp),

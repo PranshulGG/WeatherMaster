@@ -1,10 +1,13 @@
 package com.pranshulgg.weathermaster.core.utils
 
+import android.content.Context
 import android.content.res.Configuration
+import android.text.format.DateUtils
 import android.util.Log
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.sqlite.db.SupportSQLiteOpenHelper
+import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.MoonTimings
 import com.pranshulgg.weathermaster.core.model.SunTimings
 import com.pranshulgg.weathermaster.core.model.WeatherResultType
@@ -42,7 +45,9 @@ object WeatherUtils {
         return "%,.${decimalPlaces}f".format(locale, number)
     }
 
-    fun getLastUpdatedTimeString(timeSeconds: Long): String {
+    fun getLastUpdatedTimeString(context: Context, timeSeconds: Long): String {
+
+
         val milli = timeSeconds * 1000L
         val ageMillis = System.currentTimeMillis() - milli
         val seconds = TimeUnit.MILLISECONDS.toSeconds(ageMillis)
@@ -52,10 +57,25 @@ object WeatherUtils {
 
 
         val lastUpdated = when {
-            seconds < 60 -> "Just now"
-            minutes < 60 -> "$minutes ${if (minutes == 1L) "min" else "mins"} ago"
-            hours < 24 -> "$hours ${if (hours == 1L) "hr" else "hrs"} ago"
-            else -> "$days ${if (days == 1L) "day" else "days"} ago"
+            seconds < 60 -> context.getString(R.string.time_just_now)
+
+            minutes < 60 -> context.resources.getQuantityString(
+                R.plurals.time_minutes_ago,
+                minutes.toInt(),
+                minutes
+            )
+
+            hours < 24 -> context.resources.getQuantityString(
+                R.plurals.time_hours_ago,
+                hours.toInt(),
+                hours
+            )
+
+            else -> context.resources.getQuantityString(
+                R.plurals.time_days_ago,
+                days.toInt(),
+                days
+            )
         }
 
         return lastUpdated

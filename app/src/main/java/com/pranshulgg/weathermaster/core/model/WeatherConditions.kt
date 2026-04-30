@@ -1,5 +1,7 @@
 package com.pranshulgg.weathermaster.core.model
 
+import android.content.Context
+import androidx.compose.ui.res.stringResource
 import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.domain.WeatherDaily
 
@@ -73,36 +75,36 @@ fun WeatherConditions.toIcon(daily: WeatherDaily? = null, targetTimeSecs: Long):
 // ------- MAP TO LABEL -------
 
 
-fun WeatherConditions.toLabel(): String {
+fun WeatherConditions.toLabel(context: Context): String {
 
     return when (this) {
-        WeatherConditions.CLEAR_SKY -> "Clear sky"
+        WeatherConditions.CLEAR_SKY -> context.getString(R.string.weather_clear_sky)
 
-        WeatherConditions.OVERCAST -> "Overcast"
+        WeatherConditions.OVERCAST -> context.getString(R.string.weather_overcast)
 
-        WeatherConditions.PARTLY_CLOUDY -> "Partly cloudy"
+        WeatherConditions.PARTLY_CLOUDY -> context.getString(R.string.weather_partly_cloudy)
 
-        WeatherConditions.HEAVY_RAIN -> "Heavy rain"
-        WeatherConditions.LIGHT_RAIN -> "Light rain"
+        WeatherConditions.HEAVY_RAIN -> context.getString(R.string.weather_heavy_rain)
+        WeatherConditions.LIGHT_RAIN -> context.getString(R.string.weather_light_rain)
 
-        WeatherConditions.LIGHT_SNOW -> "Light snow"
-        WeatherConditions.SNOW -> "Snowy"
-        WeatherConditions.HEAVY_SNOW -> "Heavy snow"
-
-
-        WeatherConditions.MOSTLY_CLEAR -> "Mostly clear"
+        WeatherConditions.LIGHT_SNOW -> context.getString(R.string.weather_light_snow)
+        WeatherConditions.SNOW -> context.getString(R.string.weather_snow)
+        WeatherConditions.HEAVY_SNOW -> context.getString(R.string.weather_heavy_snow)
 
 
-        WeatherConditions.THUNDERSTORM -> "Thunderstorm"
+        WeatherConditions.MOSTLY_CLEAR -> context.getString(R.string.weather_mostly_clear)
 
-        WeatherConditions.VERY_HOT -> "Very hot"
-        WeatherConditions.VERY_COLD -> "Very cold"
 
-        WeatherConditions.FOG_HAZE -> "Haze"
+        WeatherConditions.THUNDERSTORM -> context.getString(R.string.weather_thunderstorm)
 
-        WeatherConditions.RAIN -> "Rainy"
+        WeatherConditions.VERY_HOT -> context.getString(R.string.weather_very_hot)
+        WeatherConditions.VERY_COLD -> context.getString(R.string.weather_very_hot)
 
-        WeatherConditions.NO_CONDITION_FOUND -> "No condition found"
+        WeatherConditions.FOG_HAZE -> context.getString(R.string.weather_haze)
+
+        WeatherConditions.RAIN -> context.getString(R.string.weather_rain)
+
+        WeatherConditions.NO_CONDITION_FOUND -> context.getString(R.string.weather_no_condition)
 
 
     }

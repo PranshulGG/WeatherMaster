@@ -1,5 +1,8 @@
 package com.pranshulgg.weathermaster.core.model
 
+import android.content.Context
+import com.pranshulgg.weathermaster.R
+
 enum class UvIndex {
     LOW,
     MODERATE,
@@ -18,12 +21,12 @@ fun getUvIndex(uvIndex: Int): UvIndex {
     }
 }
 
-fun UvIndex.toLabel(): String {
+fun UvIndex.toLabel(context: Context): String {
     return when (this) {
-        UvIndex.LOW -> "Low"
-        UvIndex.MODERATE -> "Moderate"
-        UvIndex.HIGH -> "High"
-        UvIndex.VERY_HIGH -> "Very High"
-        UvIndex.EXTREME -> "Extreme"
+        UvIndex.LOW -> context.getString(R.string.weather_uv_low)
+        UvIndex.MODERATE -> context.getString(R.string.weather_uv_moderate)
+        UvIndex.HIGH -> context.getString(R.string.weather_uv_high)
+        UvIndex.VERY_HIGH -> context.getString(R.string.weather_uv_very_high)
+        UvIndex.EXTREME -> context.getString(R.string.weather_uv_extreme)
     }
 }

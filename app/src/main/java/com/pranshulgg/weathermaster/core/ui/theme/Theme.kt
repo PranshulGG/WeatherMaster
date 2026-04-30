@@ -56,11 +56,11 @@ fun WeatherMasterTheme(
     }
 
 
-        MaterialExpressiveTheme(
-            colorScheme = colorScheme,
-            typography = AppTypography,
-            motionScheme = MotionScheme.expressive(),
-            content = content
-        )
+    MaterialExpressiveTheme(
+        colorScheme = colorScheme,
+        typography = AppTypography,
+        motionScheme = MotionScheme.expressive(),
+        content = content
+    )
 
 }

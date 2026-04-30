@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weathermaster.core.model.WeatherConditions
 import com.pranshulgg.weathermaster.core.model.domain.Location
@@ -21,6 +22,8 @@ import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.utils.WeatherUtils
 import com.pranshulgg.weathermaster.feature.shared.components.LocationItem
 import java.time.Instant
+import androidx.compose.ui.res.stringResource
+import com.pranshulgg.weathermaster.R
 
 @Composable
 fun LocationsScreenContent(
@@ -32,6 +35,7 @@ fun LocationsScreenContent(
 ) {
 
     val weatherMap = weatherForLocations.associateBy { it.location.id }
+    val context = LocalContext.current
 
 
     AnimatedContent(
@@ -46,16 +50,20 @@ fun LocationsScreenContent(
                 val icon =
                     weather?.current?.weatherCondition ?: WeatherConditions.NO_CONDITION_FOUND
                 val description =
-                    if (weather != null && weather.current.lastUpdatedSecs != -1L) "Last updated ${
+                    if (weather != null && weather.current.lastUpdatedSecs != -1L) stringResource(
+                        R.string.time_last_updated,
                         WeatherUtils.getLastUpdatedTimeString(
+                            context,
                             weather.current.lastUpdatedSecs
                         )
-                    }" else "No weather data available"
+                    ) else "No weather data available"
 
                 LocationItem(
                     title = location.name,
                     description = description,
-                    onClick = { onLocationSelect(location) },
+                    onClick = {
+                        onLocationSelect(location)
+                    },
                     icon = icon.toIcon(
                         targetTimeSecs = weather?.current?.time ?: Instant.now().epochSecond,
                         daily = weather?.daily?.firstOrNull()

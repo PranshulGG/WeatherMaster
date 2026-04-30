@@ -1,6 +1,6 @@
 package com.pranshulgg.weathermaster.feature.main.ui
 
-import androidx.compose.foundation.background
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,7 +11,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -26,15 +25,14 @@ import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
 import com.pranshulgg.weathermaster.core.ui.components.WeatherIconBox
 import com.pranshulgg.weathermaster.core.utils.UnitConverter
-import com.pranshulgg.weathermaster.core.utils.WeatherUtils
 import com.pranshulgg.weathermaster.core.utils.WeatherUtils.getLastUpdatedTimeString
-import java.time.Instant
 import kotlin.math.roundToInt
 
 @Composable
 fun CurrentWeatherCard(
     weather: Weather,
-    units: AppWeatherUnits
+    units: AppWeatherUnits,
+    context: Context
 ) {
 
     Column(
@@ -47,15 +45,15 @@ fun CurrentWeatherCard(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            CardRowContent(weather, units)
+            CardRowContent(weather, units, context)
         }
-        MinMaxTempRow(weather, units)
+        MinMaxTempRow(weather, units, context)
     }
 
 }
 
 @Composable
-private fun CardRowContent(weather: Weather, units: AppWeatherUnits) {
+private fun CardRowContent(weather: Weather, units: AppWeatherUnits, context: Context) {
 
     val colorScheme = MaterialTheme.colorScheme
     val current = weather.current
@@ -90,7 +88,7 @@ private fun CardRowContent(weather: Weather, units: AppWeatherUnits) {
     }
     Column(horizontalAlignment = Alignment.End) {
         Text(
-            current.weatherCondition.toLabel(),
+            current.weatherCondition.toLabel(context),
             color = colorScheme.onSurface,
             style = MaterialTheme.typography.titleMedium
         )
@@ -104,7 +102,7 @@ private fun CardRowContent(weather: Weather, units: AppWeatherUnits) {
 
 
 @Composable
-private fun MinMaxTempRow(weather: Weather, units: AppWeatherUnits) {
+private fun MinMaxTempRow(weather: Weather, units: AppWeatherUnits, context: Context) {
 
 
     val colorScheme = MaterialTheme.colorScheme
@@ -132,14 +130,14 @@ private fun MinMaxTempRow(weather: Weather, units: AppWeatherUnits) {
             color = colorScheme.onSurfaceVariant,
             style = MaterialTheme.typography.labelLarge
         )
-        LastUpdatedTextRow(weather.current.lastUpdatedSecs)
+        LastUpdatedTextRow(weather.current.lastUpdatedSecs, context)
     }
 }
 
 
 @Composable
-private fun LastUpdatedTextRow(timeSeconds: Long) {
-    val lastUpdated = getLastUpdatedTimeString(timeSeconds)
+private fun LastUpdatedTextRow(timeSeconds: Long, context: Context) {
+    val lastUpdated = getLastUpdatedTimeString(context, timeSeconds)
 
     Row(verticalAlignment = Alignment.CenterVertically) {
         Symbol(

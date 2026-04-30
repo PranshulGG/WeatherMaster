@@ -1,6 +1,6 @@
 package com.pranshulgg.weathermaster.feature.main.ui
 
-import android.util.Log
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,7 +11,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -30,7 +29,7 @@ import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyGridState
 
 @Composable
-fun WeatherBlocks(weather: Weather, units: AppWeatherUnits) {
+fun WeatherBlocks(weather: Weather, units: AppWeatherUnits, context: Context) {
 
     val viewModel: WeatherViewModel = hiltViewModel()
 
@@ -80,7 +79,7 @@ fun WeatherBlocks(weather: Weather, units: AppWeatherUnits) {
                     when (item.type) {
                         WeatherBlockType.HUMIDITY_BLOCK -> HumidityBlock(weather, units)
                         WeatherBlockType.VISIBILITY_BLOCK -> VisibilityBlock(weather, units)
-                        WeatherBlockType.UV_INDEX_BLOCK -> UvIndexBlock(weather)
+                        WeatherBlockType.UV_INDEX_BLOCK -> UvIndexBlock(weather, context)
                         WeatherBlockType.PRESSURE_BLOCK -> PressureBlock(weather, units)
                         WeatherBlockType.SUN_BLOCK -> SunBlock(weather)
                         WeatherBlockType.MOON_BLOCK -> MoonBlock(weather)

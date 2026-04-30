@@ -60,8 +60,7 @@ fun WeatherMasterApp() {
 
         WeatherMasterTheme(
             darkTheme = true,
-            dynamicColor = prefs.isDynamicTheme,
-            seedColor = Color(prefs.customThemeColor.toColorInt())
+            dynamicColor = true
         ) {
 
             AppNavHost(
