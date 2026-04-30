@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="temp_feels_like">Hiss edilən</string>
+    <string name="weather_hourly_forecast">Saatlıq təxmin</string>
+    <string name="action_save">Yadda saxla</string>
+    <string name="action_cancel">Ləğv et</string>
+    <string name="weather_daily_forecast">Gündəlik proqnoz</string>
+    <string name="locations">Məkanlar</string>
+    <string name="location_default">Defolt məkan</string>
+    <string name="weather_rain_today_amount">Bugünkü miqdar</string>
+    <string name="weather_precipitation_hours">Yağış saatları</string>
+    <string name="time_now">İndi</string>
+    <string name="day_today">Bugün</string>
+    <string name="weather_refresh_delay">Please wait %1$d minutes before refreshing</string>
+    <string name="error_generic">Error occurred. Please try again</string>
+    <string name="weather_moon">Ay</string>
+    <string name="weather_sun">Bazar Günü</string>
+    <string name="weather_humidity">Rütubət</string>
+    <string name="weather_pressure">Təzyiq</string>
+    <string name="weather_wind">Külək</string>
+    <string name="weather_visibility">Görmə qabiliyyəti</string>
+    <string name="weather_air_quality">Hava Keyfiyyəti</string>
+    <string name="weather_uv_index">UB indeksi</string>
+    <string name="action_ok">Oldu</string>
+    <string name="settings">Tənzimləmələr</string>
+    <string name="search">Axtarış</string>
+    <string name="location_current">Hazırki Məkan</string>
+    <string name="search_provider">Search provider</string>
+    <plurals name="time_minutes_ago">
+        <item quantity="one">%d min ago</item>
+        <item quantity="other">%d mins ago</item>
+    </plurals>
+    <plurals name="time_hours_ago">
+        <item quantity="one">%d hr ago</item>
+        <item quantity="other">%d hrs ago</item>
+    </plurals>
+    <plurals name="time_days_ago">
+        <item quantity="one">%d day ago</item>
+        <item quantity="other">%d days ago</item>
+    </plurals>
+    <string name="time_just_now">Just now</string>
+    <string name="time_last_updated">Last updated %1$s</string>
+    <string name="weather_no_data">No weather data available</string>
+    <string name="weather_clear_sky">Açıq səma</string>
+    <string name="weather_overcast">Buludlu</string>
+    <string name="weather_partly_cloudy">Parçalı buludlu</string>
+    <string name="weather_heavy_rain">Güclü yağış</string>
+    <string name="weather_light_rain">Yüngül yağış</string>
+    <string name="weather_light_snow">Light snow</string>
+    <string name="weather_snow">Snowy</string>
+    <string name="weather_heavy_snow">Heavy snow</string>
+    <string name="weather_mostly_clear">Əsasən aydın</string>
+    <string name="weather_thunderstorm">Tufan</string>
+    <string name="weather_very_hot">Very hot</string>
+    <string name="weather_very_cold">Very cold</string>
+    <string name="weather_haze">Haze</string>
+    <string name="weather_rain">Rainy</string>
+    <string name="weather_no_condition">No condition found</string>
+    <string name="weather_uv_low">Aşağı</string>
+    <string name="weather_uv_moderate">Orta</string>
+    <string name="weather_uv_high">Yüksək</string>
+    <string name="weather_uv_very_high">Very High</string>
+    <string name="weather_uv_extreme">Ekstremal</string>
+</resources>

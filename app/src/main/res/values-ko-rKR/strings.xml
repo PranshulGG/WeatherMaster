@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="temp_feels_like">체감 온도</string>
+    <string name="weather_hourly_forecast">시간별 일기 예보</string>
+    <string name="action_save">저장</string>
+    <string name="action_cancel">취소</string>
+    <string name="weather_daily_forecast">일별 예보</string>
+    <string name="locations">위치</string>
+    <string name="location_default">기본 위치</string>
+    <string name="weather_rain_today_amount">강수량</string>
+    <string name="weather_precipitation_hours">강수 시간</string>
+    <string name="time_now">지금</string>
+    <string name="day_today">오늘</string>
+    <string name="weather_refresh_delay">Please wait %1$d minutes before refreshing</string>
+    <string name="error_generic">Error occurred. Please try again</string>
+    <string name="weather_moon">달</string>
+    <string name="weather_sun">일출/일몰</string>
+    <string name="weather_humidity">습도</string>
+    <string name="weather_pressure">기압</string>
+    <string name="weather_wind">바람</string>
+    <string name="weather_visibility">가시거리</string>
+    <string name="weather_air_quality">공기질</string>
+    <string name="weather_uv_index">자외선 지수</string>
+    <string name="action_ok">확인</string>
+    <string name="settings">설정</string>
+    <string name="search">검색</string>
+    <string name="location_current">현재 위치</string>
+    <string name="search_provider">Search provider</string>
+    <plurals name="time_minutes_ago">
+        <item quantity="other">%d mins ago</item>
+    </plurals>
+    <plurals name="time_hours_ago">
+        <item quantity="other">%d hrs ago</item>
+    </plurals>
+    <plurals name="time_days_ago">
+        <item quantity="other">%d days ago</item>
+    </plurals>
+    <string name="time_just_now">Just now</string>
+    <string name="time_last_updated">Last updated %1$s</string>
+    <string name="weather_no_data">No weather data available</string>
+    <string name="weather_clear_sky">맑은 하늘</string>
+    <string name="weather_overcast">흐림</string>
+    <string name="weather_partly_cloudy">약간 흐림</string>
+    <string name="weather_heavy_rain">많은 비</string>
+    <string name="weather_light_rain">적은 비</string>
+    <string name="weather_light_snow">Light snow</string>
+    <string name="weather_snow">Snowy</string>
+    <string name="weather_heavy_snow">Heavy snow</string>
+    <string name="weather_mostly_clear">대부분 맑음</string>
+    <string name="weather_thunderstorm">천둥번개</string>
+    <string name="weather_very_hot">Very hot</string>
+    <string name="weather_very_cold">Very cold</string>
+    <string name="weather_haze">Haze</string>
+    <string name="weather_rain">Rainy</string>
+    <string name="weather_no_condition">No condition found</string>
+    <string name="weather_uv_low">낮음</string>
+    <string name="weather_uv_moderate">보통</string>
+    <string name="weather_uv_high">높음</string>
+    <string name="weather_uv_very_high">Very High</string>
+    <string name="weather_uv_extreme">심각</string>
+</resources>

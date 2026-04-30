@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="temp_feels_like">Субјективни осећај</string>
+    <string name="weather_hourly_forecast">Прогноза по сату</string>
+    <string name="action_save">Сачувај</string>
+    <string name="action_cancel">Отказати</string>
+    <string name="weather_daily_forecast">Дневна прогноза</string>
+    <string name="locations">Локације</string>
+    <string name="location_default">Подразумевана локација</string>
+    <string name="weather_rain_today_amount">Количина за данас</string>
+    <string name="weather_precipitation_hours">Сати падавина за данас</string>
+    <string name="time_now">Сада</string>
+    <string name="day_today">Данас</string>
+    <string name="weather_refresh_delay">Please wait %1$d minutes before refreshing</string>
+    <string name="error_generic">Error occurred. Please try again</string>
+    <string name="weather_moon">Месец</string>
+    <string name="weather_sun">Сунце</string>
+    <string name="weather_humidity">Влажност</string>
+    <string name="weather_pressure">Притисак</string>
+    <string name="weather_wind">Ветар</string>
+    <string name="weather_visibility">Видљивост</string>
+    <string name="weather_air_quality">Квалитет ваздуха</string>
+    <string name="weather_uv_index">УВ индекс</string>
+    <string name="action_ok">ОК</string>
+    <string name="settings">Подешавања</string>
+    <string name="search">Тражи</string>
+    <string name="location_current">Тренутна локација</string>
+    <string name="search_provider">Search provider</string>
+    <plurals name="time_minutes_ago">
+        <item quantity="one">%d min ago</item>
+        <item quantity="few">%d mins ago</item>
+        <item quantity="other">%d mins ago</item>
+    </plurals>
+    <plurals name="time_hours_ago">
+        <item quantity="one">%d hr ago</item>
+        <item quantity="few">%d hrs ago</item>
+        <item quantity="other">%d hrs ago</item>
+    </plurals>
+    <plurals name="time_days_ago">
+        <item quantity="one">%d day ago</item>
+        <item quantity="few">%d days ago</item>
+        <item quantity="other">%d days ago</item>
+    </plurals>
+    <string name="time_just_now">Just now</string>
+    <string name="time_last_updated">Last updated %1$s</string>
+    <string name="weather_no_data">No weather data available</string>
+    <string name="weather_clear_sky">Ведро</string>
+    <string name="weather_overcast">Облачно</string>
+    <string name="weather_partly_cloudy">Делимично облачно</string>
+    <string name="weather_heavy_rain">Јака киша</string>
+    <string name="weather_light_rain">Слаба киша</string>
+    <string name="weather_light_snow">Light snow</string>
+    <string name="weather_snow">Snowy</string>
+    <string name="weather_heavy_snow">Heavy snow</string>
+    <string name="weather_mostly_clear">Углавном ведро</string>
+    <string name="weather_thunderstorm">Грмљавина</string>
+    <string name="weather_very_hot">Very hot</string>
+    <string name="weather_very_cold">Very cold</string>
+    <string name="weather_haze">Haze</string>
+    <string name="weather_rain">Rainy</string>
+    <string name="weather_no_condition">No condition found</string>
+    <string name="weather_uv_low">Ниско</string>
+    <string name="weather_uv_moderate">Умерено</string>
+    <string name="weather_uv_high">Високо</string>
+    <string name="weather_uv_very_high">Very High</string>
+    <string name="weather_uv_extreme">Екстремно</string>
+</resources>
