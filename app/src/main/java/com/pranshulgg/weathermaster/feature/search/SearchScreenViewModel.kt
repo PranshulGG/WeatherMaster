@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weathermaster.data.repository.LocationsRepository
@@ -37,7 +38,7 @@ class SearchScreenViewModel @Inject constructor(
                 repo.search(query)
             } catch (e: Exception) {
                 if (e is CancellationException) throw e
-                SnackbarManager.show("Something went wrong. Please try again")
+                SnackbarManager.show(R.string.error_generic)
                 return@launch
             } finally {
                 loading = false
