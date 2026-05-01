@@ -29,7 +29,6 @@ import com.pranshulgg.weathermaster.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weathermaster.core.ui.components.SettingSection
 import com.pranshulgg.weathermaster.core.ui.components.SettingTile
 import com.pranshulgg.weathermaster.feature.search.ui.SearchFloatingToolbar
-import com.pranshulgg.weathermaster.feature.shared.WeatherViewModel
 
 data class SearchUiState(
     val query: String = "",
@@ -41,7 +40,6 @@ data class SearchUiState(
 fun SearchScreen(navController: NavController) {
 
     val viewModel: SearchScreenViewModel = hiltViewModel()
-    val weatherViewModel: WeatherViewModel = hiltViewModel()
     val results = viewModel.results
     val loading = viewModel.loading
     val uiState by viewModel.uiState

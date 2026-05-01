@@ -39,6 +39,7 @@ class WeatherViewModel @Inject constructor(
 
 
     init {
+
         // LOAD DEFAULT ON START
         viewModelScope.launch {
             if (_uiState.value.activeLocation == null) {
@@ -142,10 +143,10 @@ class WeatherViewModel @Inject constructor(
     }
 
 
-    fun saveBlocksOrder(
+    fun saveBlocks(
         items: List<WeatherBlock>
     ) {
-        _uiState.value = _uiState.value.copy(blocksOrder = items)
+        _uiState.value = _uiState.value.copy(blocks = items)
 
         viewModelScope.launch {
             weatherDataRepository.saveBlocks(items.map {
@@ -160,10 +161,10 @@ class WeatherViewModel @Inject constructor(
 
     }
 
-    fun loadBlocksOrder() {
+    fun loadBlocks() {
         viewModelScope.launch {
             val loadedBlocks = weatherDataRepository.loadBlocks()
-            _uiState.value = _uiState.value.copy(blocksOrder = loadedBlocks)
+            _uiState.value = _uiState.value.copy(blocks = loadedBlocks)
         }
     }
 

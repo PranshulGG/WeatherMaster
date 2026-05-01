@@ -50,7 +50,7 @@ fun WeatherBlocks(
                 add(to.index, removeAt(from.index))
             }
 
-            viewModel.saveBlocksOrder(
+            viewModel.saveBlocks(
                 items = updated
             )
         }
