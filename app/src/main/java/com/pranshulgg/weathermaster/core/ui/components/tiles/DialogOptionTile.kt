@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
@@ -43,6 +44,7 @@ import com.pranshulgg.weathermaster.core.ui.theme.ShapeRadius
 fun <T> DialogOptionTile(
     headline: String,
     description: String? = null,
+    displayOptions: List<T>,
     options: List<T>,
     selectedOption: T?,
     onOptionSelected: (T) -> Unit,
@@ -135,17 +137,17 @@ fun <T> DialogOptionTile(
                             modifier = Modifier
                                 .fillMaxWidth()
                         ) {
-                            items(options) { option ->
+                            itemsIndexed(displayOptions) { index, option ->
                                 Row(
                                     modifier = Modifier
-                                        .clickable { tempSelection = option }
+                                        .clickable { tempSelection = options[index] }
                                         .fillMaxWidth(),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Spacer(modifier = Modifier.width(16.dp))
                                     RadioButton(
-                                        selected = option == tempSelection,
-                                        onClick = { tempSelection = option }
+                                        selected = options[index] == tempSelection,
+                                        onClick = { tempSelection = options[index] }
                                     )
                                     Spacer(modifier = Modifier.width(8.dp))
                                     Text(
