@@ -9,11 +9,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.DistanceUnits
 import com.pranshulgg.weathermaster.core.model.PrecipitationUnits
 import com.pranshulgg.weathermaster.core.model.PressureUnits
@@ -25,6 +27,7 @@ import com.pranshulgg.weathermaster.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weathermaster.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weathermaster.core.ui.components.SettingSection
 import com.pranshulgg.weathermaster.core.ui.components.SettingTile
+import com.pranshulgg.weathermaster.core.ui.components.SettingsTileIcon
 import com.pranshulgg.weathermaster.core.ui.navigation.NavRoutes
 import com.pranshulgg.weathermaster.feature.shared.WeatherViewModel
 
@@ -33,7 +36,7 @@ fun SettingsScreen(navController: NavController) {
 
 
     LargeTopBarScaffold(
-        title = "Settings",
+        title = stringResource(R.string.settings),
         navigationIcon = { NavigateUpBtn(navController) },
     ) { paddingValues ->
         Column(
@@ -48,7 +51,9 @@ fun SettingsScreen(navController: NavController) {
             SettingSection(
                 tiles = listOf(
                     SettingTile.ActionTile(
-                        title = "Appearance",
+                        leading = { SettingsTileIcon(R.drawable.format_paint_24px) },
+                        title = stringResource(R.string.setting_appearance),
+                        description = stringResource(R.string.setting_appearance_secondary),
                         onClick = { navController.navigate(NavRoutes.APPEARANCE) }
                     )
                 )
