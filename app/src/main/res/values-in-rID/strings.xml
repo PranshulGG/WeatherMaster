@@ -27,7 +27,7 @@
     <string name="location_current">Lokasi saat ini</string>
     <string name="search_provider">Search provider</string>
     <plurals name="time_minutes_ago">
-        <item quantity="other">%d mins ago</item>
+        <item quantity="other">%d menit yang lalu</item>
     </plurals>
     <plurals name="time_hours_ago">
         <item quantity="other">%d hrs ago</item>
