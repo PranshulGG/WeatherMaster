@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 object SnackbarManager {
 
     data class SnackbarEvent(
-        val message: String,
+        val messageResource: Int,
         val actionLabel: String? = null,
         val onAction: (() -> Unit)? = null
     )
@@ -17,13 +17,13 @@ object SnackbarManager {
     val events = _events.asSharedFlow()
 
     fun show(
-        message: String,
+        messageResource: Int,
         actionLabel: String? = null,
         onAction: (() -> Unit)? = null
     ) {
         _events.tryEmit(
             SnackbarEvent(
-                message = message,
+                messageResource = messageResource,
                 actionLabel = actionLabel,
                 onAction = onAction
             )
