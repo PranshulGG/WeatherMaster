@@ -110,4 +110,6 @@
 
     <string name="error_delete_default_location">Cannot delete default location</string>
 
+    <string name="setting_app_looks">App looks</string>
+
 </resources>
