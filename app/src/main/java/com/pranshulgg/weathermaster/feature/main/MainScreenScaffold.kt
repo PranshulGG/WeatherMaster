@@ -1,6 +1,7 @@
 package com.pranshulgg.weathermaster.feature.main
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -125,7 +126,7 @@ fun MainScreenScaffold(
                             ) {
                                 HourlyCard(weather, units)
                                 DailyCard(weather, units)
-                                WeatherBlocks(weather, units, context, uiState.blocksOrder)
+                                WeatherBlocks(weather, units, context, uiState.blocks)
                             }
                         }
                     }

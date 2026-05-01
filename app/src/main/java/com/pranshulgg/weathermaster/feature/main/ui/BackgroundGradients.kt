@@ -172,8 +172,8 @@ private object ColorsLight : ColorPalette {
     )
 
     override val MOSTLY_CLEAR_PARTLY_CLOUDY = Background(
-        gradient = listOf(Color(0xFF404558), Color(0xFF262C3D)),
-        scrollColor = Color(0xFF262C3D)
+        gradient = listOf(Color(0xFFc6d3e4), Color(0xFFd5e4f7)),
+        scrollColor = Color(0xFFd5e4f7)
     )
     override val OVERCAST = Background(
         gradient = listOf(Color(0xFFacacad), Color(0xFFd5e4f7)),

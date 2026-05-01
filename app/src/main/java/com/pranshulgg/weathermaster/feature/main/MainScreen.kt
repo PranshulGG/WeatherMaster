@@ -8,6 +8,8 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -32,13 +34,12 @@ data class MainScreenUiState(
     val locations: List<Location> = emptyList(),
     val weather: Weather? = null,
     val weatherUnits: AppWeatherUnits = AppWeatherUnits.getDefault(),
-    val blocksOrder: List<WeatherBlock> = WeatherBlock.getDefault()
+    val blocks: List<WeatherBlock> = WeatherBlock.getDefault()
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(navController: NavController) {
-
     val weatherViewModel: WeatherViewModel = hiltViewModel()
     val context = LocalContext.current
     val uiState by weatherViewModel.uiState
