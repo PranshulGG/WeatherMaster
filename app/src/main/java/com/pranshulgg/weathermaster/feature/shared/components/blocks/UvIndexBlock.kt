@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asAndroidPath
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.vector.PathParser
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weathermaster.R
@@ -137,7 +138,7 @@ private fun Header() {
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.9f),
         )
         Text(
-            "UV index",
+            stringResource(R.string.weather_uv_index),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.9f)

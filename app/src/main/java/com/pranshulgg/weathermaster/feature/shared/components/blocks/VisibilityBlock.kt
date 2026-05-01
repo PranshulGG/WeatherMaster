@@ -33,6 +33,7 @@ import com.pranshulgg.weathermaster.core.utils.UnitConverter
 import com.pranshulgg.weathermaster.core.utils.WeatherUtils
 import java.util.Locale
 import androidx.compose.ui.platform.LocalLocale
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun VisibilityBlock(weather: Weather, units: AppWeatherUnits) {
@@ -107,7 +108,7 @@ private fun Header() {
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.9f),
         )
         Text(
-            "Visibility",
+            stringResource(R.string.weather_visibility),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.9f)
