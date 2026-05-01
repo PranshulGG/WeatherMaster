@@ -58,66 +58,6 @@
 
 <a href="https://crowdin.com/project/weathermaster"><img src="https://badges.crowdin.net/weathermaster/localized.svg" width="200"> </a>
 
-# ✨ Features:
-
-- 🌍 **Offline Mode:** Access previously loaded weather data even without an internet connection.
-- 🌤️ **Current Weather:** Get real-time updates on weather conditions in your area.
-- 📢 **Government Weather Alerts:** Receive official alerts and warnings to stay safe.
-- ⏳ **24-Hour Forecast:** Plan your short-term activities with accurate forecasts for the next two
-  days.
-- 📅 **14-Day Forecast:** View detailed weather predictions for the upcoming week.
-- 🌙 **Moon Phases:** Track the phases of the moon and plan accordingly.
-- 🌑 **Moonrise & Moonset:** Know the exact times for moonrise and moonset each day.
-- 🌅 **Sunrise & Sunset:** Stay informed about sunrise and sunset times to optimize your day.
-- 📏 **Day Length:** Check how long the daylight lasts each day.
-- 📝 **Day Description:** Get a brief summary of the day’s weather conditions.
-- 🌧️ **Rain Bar:** See a visual representation of expected rainfall.
-- 👁️ **Visibility:** Monitor how far you can see clearly based on weather conditions.
-- 💧 **Humidity:** Check the current humidity levels to stay comfortable.
-- 🧭 **Pressure:** Track atmospheric pressure to understand weather changes.
-- 🌬️ **Wind Direction & Speed:** Stay aware of wind patterns and strength.
-- ❄️ **Snow Amount:** Know the expected snowfall for winter planning.
-- ☁️ **Cloudiness:** See how much of the sky is covered by clouds.
-- 🌡️ **Min-Max Temperature:** View the range of temperatures for the day.
-- 🌬️ **Feels Like Temperature:** Understand how the temperature feels based on wind and humidity.
-- 🌧️ **Precipitation Type & Area Coverage:** Get details on what kind of precipitation is expected
-  and its coverage area.
-- 🌞 **UV Index:** Stay protected from harmful UV rays with UV index updates.
-- 🌿 **Air Quality:** Monitor air quality to stay informed about pollution levels.
-- 📍 **Location Picker:** Easily select and view weather information for different locations.
-- ⭐ **Save Favorite Locations:** Save your preferred locations for quick access to their weather
-  updates.
-- 👗 **Clothing Recommendations:** Get suggestions on what to wear based on the current weather
-  conditions.
-- 🌾 **Pollen Data (Europe Only):** View pollen levels for grass, trees, and weeds in your area.
-- **⚙️ Customizable Layout:** Arrange and customize the app’s layout to display weather features in
-  your preferred order and style. Example: Saved locations, condition widgets etc.
-
-# 🌞 Weather providers:
-
-- [**open-meteo**](https://open-meteo.com)
-- [**Met norway**](https://www.met.no/en)
-- [**WeatherApi**](https://www.weatherapi.com/)
-- [**accuweather**](https://www.accuweather.com/)
-- [**Météo-France**](https://www.meteofrance.com)
-- [**DWD**](https://www.dwd.de/EN/Home/home_node.html)
-- [**NOAA**](https://www.noaa.gov)
-- [**ECMWF**](https://www.ecmwf.int)
-- [**UK Met Office**](https://www.metoffice.gov.uk)
-- [**JMA**](https://www.jma.go.jp/jma/indexe.html)
-- [**GEM**](https://www.ec.gc.ca/meteo-weather/default.asp?lang=En&n=FB1BB3E4-1)
-- [**BOM**](http://www.bom.gov.au)
-- [**CMA**](http://www.cma.gov.cn/en/)
-- [**KNMI**](https://www.knmi.nl)
-- [**DMI**](https://www.dmi.dk/en/)
-
-# 🛠️ Built With:
-
-- <strong>Flutter: </stronge>Completely rebuilt from web-based JS to native Flutter.
-
-- <strong>Weather icons</strong>: <a href="https://gitlab.com/bignutty/google-weather-icons">Google
-  weather icons
-
 # ✉️ Contact
 
 For any questions or feedback, feel free to open an issue on GitHub or contact
