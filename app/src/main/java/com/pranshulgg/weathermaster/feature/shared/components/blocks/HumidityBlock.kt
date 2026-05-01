@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -56,9 +57,11 @@ fun HumidityBlock(weather: Weather, units: AppWeatherUnits) {
         shape = MaterialTheme.shapes.extraLarge,
         shadowElevation = ShadowElevation.level2
     ) {
-        Box(Modifier
-            .fillMaxSize()
-            .aspectRatio(1f)) {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .aspectRatio(1f)
+        ) {
 
             Image(
                 painter = painterResource(id = humidityDrawable),
@@ -106,7 +109,7 @@ private fun Header() {
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.9f),
         )
         Text(
-            "Humidity",
+            stringResource(R.string.weather_humidity),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.9f)
