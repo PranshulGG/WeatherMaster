@@ -11,7 +11,7 @@
     <string name="weather_precipitation_hours">Количество осадков каждый час</string>
     <string name="time_now">Сейчас</string>
     <string name="day_today">Сегодня</string>
-    <string name="weather_refresh_delay">Please wait %1$d minutes before refreshing</string>
+    <string name="weather_refresh_delay">Задержка обновления погоды</string>
     <string name="error_generic">Error occurred. Please try again</string>
     <string name="weather_moon">Луна</string>
     <string name="weather_sun">Вс</string>
@@ -25,9 +25,9 @@
     <string name="settings">Настройки</string>
     <string name="search">Поиск</string>
     <string name="location_current">Текущее местоположение</string>
-    <string name="search_provider">Search provider</string>
+    <string name="search_provider">Поисковой провайдер</string>
     <plurals name="time_minutes_ago">
-        <item quantity="one">%d min ago</item>
+        <item quantity="one">%d Минут назад </item>
         <item quantity="few">%d mins ago</item>
         <item quantity="many">%d mins ago</item>
         <item quantity="other">%d mins ago</item>
@@ -78,14 +78,14 @@
     <string name="setting_distance_unit">Distance unit</string>
     <string name="setting_precipitation_unit">Precipitation unit</string>
     <string name="unit_temperature_celsius">Celsius</string>
-    <string name="unit_temperature_fahrenheit">Fahrenheit\"&gt;</string>
+    <string name="unit_temperature_fahrenheit">Fahrenheit</string>
     <string name="unit_wind_mps">Meters per second</string>
     <string name="unit_wind_mph">Miles per hour</string>
     <string name="unit_wind_kph">Kilometers per hour</string>
     <string name="unit_pressure_hpa">Hectopascals</string>
     <string name="unit_pressure_inhg">Inches of Mercury</string>
     <string name="unit_distance_km">Kilometers</string>
-    <string name="unit_distance_mi">Miles\"&gt;</string>
+    <string name="unit_distance_mi">Miles</string>
     <string name="unit_distance_m">Meters</string>
     <string name="unit_precipitation_mm">Millimeters</string>
     <string name="unit_precipitation_inch">Inches</string>
