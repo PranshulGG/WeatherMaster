@@ -35,7 +35,7 @@ fun LocationScreenSheet(
                 onDelete = {
                     hide()
                     if (uiState.longClickedLocation?.isDefault ?: false) {
-                        SnackbarManager.show("Cannot delete default location")
+                        SnackbarManager.show(R.string.error_delete_default_location)
                         return@LocationScreenSheetContent
                     }
                     viewModel.showConfirmationDialog()
