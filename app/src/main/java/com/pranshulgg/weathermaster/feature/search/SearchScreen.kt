@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -50,7 +51,7 @@ fun SearchScreen(navController: NavController) {
 
 
     LargeTopBarScaffold(
-        title = "Search",
+        title = stringResource(R.string.search),
         navigationIcon = { NavigateUpBtn(navController) },
         bottomBar = {
             SearchFloatingToolbar(scrollBehaviorToolbar, uiState.query, viewModel)
@@ -68,8 +69,8 @@ fun SearchScreen(navController: NavController) {
             if (results.isEmpty() && !loading) {
                 EmptyContainerPlaceholder(
                     icon = R.drawable.search_24px,
-                    text = "Search locations",
-                    description = "Enter a city or location to view the weather"
+                    text = stringResource(R.string.search_empty_state_title),
+                    description = stringResource(R.string.search_empty_state_secondary)
                 )
             }
 
@@ -96,7 +97,6 @@ fun SearchScreen(navController: NavController) {
                         WindowInsets.systemBars.asPaddingValues()
                             .calculateBottomPadding() + ScreenOffset + 30.dp
                     )
-
                 }
             }
         }
