@@ -3,8 +3,10 @@ package com.pranshulgg.weathermaster.feature.shared
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.WeatherProviders
 import com.pranshulgg.weathermaster.core.model.WeatherResult
 import com.pranshulgg.weathermaster.core.model.domain.Location
@@ -48,6 +50,7 @@ class WeatherViewModel @Inject constructor(
                     .first()
                 setActiveLocation(default)
             }
+            loadBlocks()
         }
 
         // KEEP TRACK OF ALL LOCATIONS
@@ -101,14 +104,14 @@ class WeatherViewModel @Inject constructor(
 
                 is WeatherResult.Error -> {
 
-                    SnackbarManager.show("Error occurred. Please try again")
+                    SnackbarManager.show(R.string.error_generic)
 
                     _uiState.value =
                         _uiState.value.copy(isError = true, weather = result.cacheWeather)
                 }
 
                 is WeatherResult.RefreshNotAvailable -> {
-                    SnackbarManager.show("Please wait 15mins before refreshing")
+                    SnackbarManager.show(R.string.weather_refresh_delay)
                 }
             }
 
