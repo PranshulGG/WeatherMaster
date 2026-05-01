@@ -91,4 +91,5 @@
     <string name="action_set_default">设为默认</string>
     <string name="action_delete">删除</string>
     <string name="error_delete_default_location">无法删除默认地点</string>
+    <string name="setting_app_looks">App looks</string>
 </resources>
