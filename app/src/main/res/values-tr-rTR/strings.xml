@@ -94,4 +94,5 @@
     <string name="action_set_default">Set as default</string>
     <string name="action_delete">Delete</string>
     <string name="error_delete_default_location">Cannot delete default location</string>
+    <string name="setting_app_looks">App looks</string>
 </resources>
