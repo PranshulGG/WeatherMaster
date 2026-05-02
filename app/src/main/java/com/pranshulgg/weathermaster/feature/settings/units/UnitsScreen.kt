@@ -1,5 +1,6 @@
 package com.pranshulgg.weathermaster.feature.settings.units
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,6 +26,8 @@ import com.pranshulgg.weathermaster.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weathermaster.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weathermaster.core.ui.components.SettingSection
 import com.pranshulgg.weathermaster.core.ui.components.SettingTile
+import com.pranshulgg.weathermaster.core.ui.components.tiles.DialogOption
+import com.pranshulgg.weathermaster.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weathermaster.feature.settings.SettingsScreenViewModel
 
 @Composable
@@ -36,6 +39,7 @@ fun UnitsScreen(navController: NavController) {
     val currentUnits = units
 
 
+
     LargeTopBarScaffold(
         title = stringResource(R.string.setting_units),
         navigationIcon = { NavigateUpBtn(navController) },
@@ -43,107 +47,125 @@ fun UnitsScreen(navController: NavController) {
 
         if (currentUnits != null) {
 
-//            Column(
-//                modifier =
-//                    Modifier
-//                        .fillMaxSize()
-//                        .verticalScroll(rememberScrollState())
-//                        .padding(paddingValues),
-//                verticalArrangement = Arrangement.spacedBy(10.dp)
-//            ) {
-//
-//                SettingSection(
-//                    tiles = listOf(
-//                        SettingTile.DialogOptionTile(
-//                            title = stringResource(R.string.setting_temperature_unit),
-//                            options = listOf(
-//                                TemperatureUnits.CELSIUS.toName(),
-//                                TemperatureUnits.FAHRENHEIT.toName()
-//                            ),
-//                            selectedOption = currentUnits.tempUnit.toName(),
-//                            onOptionSelected = {
-//                                viewModel.updateTemperatureUnit(
-//                                    TemperatureUnits.valueOf(it.uppercase())
-//                                )
-//                            }
-//                        ),
-//
-//                        SettingTile.DialogOptionTile(
-//                            title = stringResource(R.string.setting_wind_speed_unit),
-//                            options = listOf(
-//                                WindSpeedUnits.MPS.toName(),
-//                                WindSpeedUnits.MPH.toName(),
-//                                WindSpeedUnits.KPH.toName(),
-//                            ),
-//                            selectedOption = currentUnits.windUnit.toName(),
-//                            onOptionSelected = {
-//                                viewModel.updateWindSpeedUnit(
-//                                    when (it) {
-//                                        "Meters per second" -> WindSpeedUnits.MPS
-//                                        "Miles per hour" -> WindSpeedUnits.MPH
-//                                        else -> WindSpeedUnits.KPH
-//                                    }
-//                                )
-//                            }
-//                        ),
-//
-//                        SettingTile.DialogOptionTile(
-//                            title = stringResource(R.string.setting_pressure_unit),
-//                            options = listOf(
-//                                PressureUnits.HPA.toName(),
-//                                PressureUnits.INHG.toName()
-//                            ),
-//                            selectedOption = currentUnits.pressureUnit.toName(),
-//                            onOptionSelected = {
-//                                viewModel.updatePressureUnit(
-//                                    when (it) {
-//                                        "Hectopascals" -> PressureUnits.HPA
-//                                        else -> PressureUnits.INHG
-//                                    }
-//                                )
-//                            }
-//                        ),
-//
-//                        SettingTile.DialogOptionTile(
-//                            title = stringResource(R.string.setting_distance_unit),
-//                            options = listOf(
-//                                DistanceUnits.KM.toName(),
-//                                DistanceUnits.M.toName(),
-//                                DistanceUnits.MI.toName()
-//                            ),
-//                            selectedOption = currentUnits.distanceUnit.toName(),
-//                            onOptionSelected = {
-//                                viewModel.updateDistanceUnit(
-//                                    when (it) {
-//                                        "Miles" -> DistanceUnits.MI
-//                                        "Meters" -> DistanceUnits.M
-//                                        else -> DistanceUnits.KM
-//                                    }
-//                                )
-//                            }
-//                        ),
-//
-//                        SettingTile.DialogOptionTile(
-//                            title = stringResource(R.string.setting_precipitation_unit),
-//                            options = listOf(
-//                                PrecipitationUnits.CM.toName(),
-//                                PrecipitationUnits.INCH.toName(),
-//                                PrecipitationUnits.MM.toName()
-//                            ),
-//                            selectedOption = currentUnits.precipitationUnit.toName(),
-//                            onOptionSelected = {
-//                                viewModel.updatePrecipitationUnit(
-//                                    when (it) {
-//                                        "Inches" -> PrecipitationUnits.INCH
-//                                        "Centimeters" -> PrecipitationUnits.CM
-//                                        else -> PrecipitationUnits.MM
-//                                    }
-//                                )
-//                            }
-//                        )
-//                    )
-//                )
-//            }
+            Column(
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                        .padding(paddingValues),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+
+                SettingSection(
+                    tiles = listOf(
+                        SettingTile.DialogOptionTile(
+                            title = stringResource(R.string.setting_temperature_unit),
+                            options = listOf(
+                                DialogOption(
+                                    TemperatureUnits.CELSIUS.toString(),
+                                    TemperatureUnits.CELSIUS.toName()
+                                ),
+                                DialogOption(
+                                    TemperatureUnits.FAHRENHEIT.toString(),
+                                    TemperatureUnits.FAHRENHEIT.toName()
+                                )
+                            ),
+                            selectedOption = currentUnits.tempUnit.toString(),
+                            onOptionSelected = {
+                                viewModel.updateTemperatureUnit(
+                                    TemperatureUnits.valueOf(it.uppercase())
+                                )
+                            }
+                        ),
+
+                        SettingTile.DialogOptionTile(
+                            title = stringResource(R.string.setting_wind_speed_unit),
+                            options = listOf(
+                                DialogOption(
+                                    WindSpeedUnits.MPS.toString(),
+                                    WindSpeedUnits.MPS.toName()
+                                ),
+                                DialogOption(
+                                    WindSpeedUnits.MPH.toString(),
+                                    WindSpeedUnits.MPH.toName()
+                                ),
+                                DialogOption(
+                                    WindSpeedUnits.KPH.toString(),
+                                    WindSpeedUnits.KPH.toName()
+                                ),
+                            ),
+                            selectedOption = currentUnits.windUnit.toString(),
+                            onOptionSelected = {
+                                viewModel.updateWindSpeedUnit(
+                                    WindSpeedUnits.valueOf(it)
+                                )
+                            }
+                        ),
+
+                        SettingTile.DialogOptionTile(
+                            title = stringResource(R.string.setting_pressure_unit),
+                            options = listOf(
+                                DialogOption(
+                                    PressureUnits.HPA.toString(),
+                                    PressureUnits.HPA.toName()
+                                ),
+                                DialogOption(
+                                    PressureUnits.INHG.toString(),
+                                    PressureUnits.INHG.toName()
+                                )
+
+                            ),
+                            selectedOption = currentUnits.pressureUnit.toString(),
+                            onOptionSelected = {
+                                viewModel.updatePressureUnit(
+                                    PressureUnits.valueOf(it)
+                                )
+                            }
+                        ),
+
+                        SettingTile.DialogOptionTile(
+                            title = stringResource(R.string.setting_distance_unit),
+                            options = listOf(
+                                DialogOption(
+                                    DistanceUnits.KM.toString(),
+                                    DistanceUnits.KM.toName()
+                                ),
+                                DialogOption(DistanceUnits.M.toString(), DistanceUnits.M.toName()),
+                                DialogOption(DistanceUnits.MI.toString(), DistanceUnits.MI.toName())
+                            ),
+                            selectedOption = currentUnits.distanceUnit.toString(),
+                            onOptionSelected = {
+                                viewModel.updateDistanceUnit(
+                                    DistanceUnits.valueOf(it)
+                                )
+                            }
+                        ),
+                        SettingTile.DialogOptionTile(
+                            title = stringResource(R.string.setting_precipitation_unit),
+                            options = listOf(
+                                DialogOption(
+                                    PrecipitationUnits.CM.toString(),
+                                    PrecipitationUnits.CM.toName()
+                                ),
+                                DialogOption(
+                                    PrecipitationUnits.INCH.toString(),
+                                    PrecipitationUnits.INCH.toName()
+                                ),
+                                DialogOption(
+                                    PrecipitationUnits.MM.toString(),
+                                    PrecipitationUnits.MM.toName()
+                                )
+                            ),
+                            selectedOption = currentUnits.precipitationUnit.toString(),
+                            onOptionSelected = {
+                                viewModel.updatePrecipitationUnit(
+                                    PrecipitationUnits.valueOf(it)
+                                )
+                            }
+                        )
+                    )
+                )
+            }
         }
     }
 }

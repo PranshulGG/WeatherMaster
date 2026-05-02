@@ -24,6 +24,7 @@ import com.pranshulgg.weathermaster.feature.search.SearchScreen
 import com.pranshulgg.weathermaster.feature.settings.SettingsScreen
 import com.pranshulgg.weathermaster.feature.settings.appearance.AppearanceScreen
 import com.pranshulgg.weathermaster.feature.settings.language.LanguageScreen
+import com.pranshulgg.weathermaster.feature.settings.units.UnitsScreen
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -72,6 +73,11 @@ fun AppNavHost(
                     NavRoutes.LANGUAGE
                 ) {
                     LanguageScreen(navController)
+                }
+                composable(
+                    NavRoutes.UNITS
+                ) {
+                    UnitsScreen(navController)
                 }
             }
         }

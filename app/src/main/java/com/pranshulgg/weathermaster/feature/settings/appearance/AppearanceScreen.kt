@@ -31,6 +31,8 @@ import com.pranshulgg.weathermaster.core.ui.components.SettingSection
 import com.pranshulgg.weathermaster.core.ui.components.SettingTile
 import com.pranshulgg.weathermaster.core.ui.components.SettingsTileIcon
 import com.pranshulgg.weathermaster.core.ui.components.tiles.DialogOption
+import com.pranshulgg.weathermaster.core.ui.navigation.NavRoutes
+import com.pranshulgg.weathermaster.core.utils.LocaleUtils
 import com.pranshulgg.weathermaster.core.utils.TimeFormatters
 import com.pranshulgg.weathermaster.feature.settings.appearance.components.ColorPickerBtn
 
@@ -60,7 +62,7 @@ fun AppearanceScreen(navController: NavController) {
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             SettingSection(
-                title = stringResource(R.string.setting_appearance),
+                title = stringResource(R.string.setting_app_looks),
                 tiles = listOf(
                     SettingTile.DialogOptionTile(
                         leading = { SettingsTileIcon(R.drawable.palette_24px) },
@@ -105,6 +107,17 @@ fun AppearanceScreen(navController: NavController) {
                 )
             )
 
+            SettingSection(
+                title = "Weather",
+                tiles = listOf(
+                    SettingTile.ActionTile(
+                        leading = { SettingsTileIcon(R.drawable.tune_24px) },
+                        title = stringResource(R.string.setting_units),
+                        description = stringResource(R.string.setting_units_secondary),
+                        onClick = { navController.navigate(NavRoutes.UNITS) }
+                    )
+                )
+            )
         }
     }
 
