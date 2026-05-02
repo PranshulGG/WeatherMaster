@@ -41,7 +41,6 @@ fun LanguageScreen(navController: NavController) {
         }
 
 
-
     LargeTopBarScaffold(
         title = stringResource(R.string.setting_language),
         navigationIcon = { NavigateUpBtn(navController) },
@@ -62,11 +61,10 @@ fun LanguageScreen(navController: NavController) {
 
                     SettingTile.ActionTile(
                         leading = {
-                            if (selected) AvatarCheck() else AvatarMonogram(
-                                it.code,
+                            if (selected) AvatarCheck(
                                 containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                                 contentColor = MaterialTheme.colorScheme.onTertiaryContainer
-                            )
+                            ) else AvatarMonogram(it.code)
                         },
                         title = it.name,
                         description = it.nativeName,
