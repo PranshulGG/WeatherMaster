@@ -23,6 +23,7 @@ import com.pranshulgg.weathermaster.feature.main.MainScreen
 import com.pranshulgg.weathermaster.feature.search.SearchScreen
 import com.pranshulgg.weathermaster.feature.settings.SettingsScreen
 import com.pranshulgg.weathermaster.feature.settings.appearance.AppearanceScreen
+import com.pranshulgg.weathermaster.feature.settings.language.LanguageScreen
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -45,7 +46,7 @@ fun AppNavHost(
         ) {
             navigation(
                 route = "root",
-                startDestination = NavRoutes.APPEARANCE // DEFAULT MAIN
+                startDestination = NavRoutes.MAIN // DEFAULT MAIN
             ) {
                 composable(
                     NavRoutes.MAIN
@@ -66,6 +67,11 @@ fun AppNavHost(
                     NavRoutes.APPEARANCE
                 ) {
                     AppearanceScreen(navController)
+                }
+                composable(
+                    NavRoutes.LANGUAGE
+                ) {
+                    LanguageScreen(navController)
                 }
             }
         }
