@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="temp_feels_like">يبدو وكأنه</string>
     <string name="weather_hourly_forecast">توقعات الطقس كل ساعة</string>
     <string name="action_save">حفظ</string>
     <string name="action_cancel">الغاء</string>
@@ -107,4 +106,7 @@
     <string name="action_delete">Delete</string>
     <string name="error_delete_default_location">Cannot delete default location</string>
     <string name="setting_app_looks">App looks</string>
+    <string name="temp_feels_like">Feels like %1$s</string>
+    <string name="temp_max">Max: %1$s</string>
+    <string name="temp_min">Min: %1$s</string>
 </resources>
