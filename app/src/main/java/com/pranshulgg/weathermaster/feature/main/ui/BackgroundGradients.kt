@@ -181,23 +181,23 @@ private object ColorsLight : ColorPalette {
     )
 
     override val SNOW = Background(
-        gradient = listOf(Color(0xFF171717), Color(0xFF202537)),
-        scrollColor = Color(0xFF202537)
+        gradient = listOf(Color(0xFFacacad), Color(0xFFFFFFFF)),
+        scrollColor = Color(0xFFFFFFFF)
     )
 
     override val RAIN = Background(
-        gradient = listOf(Color(0xFF242429), Color(0xFF1e2c3a)),
-        scrollColor = Color(0xFF1e2c3a)
+        gradient = listOf(Color(0xFFaab8ca), Color(0xFFc4d3e5)),
+        scrollColor = Color(0xFFc4d3e5)
     )
 
     override val FOG_HAZE = Background(
-        gradient = listOf(Color(0xFF191209), Color(0xFF352603)),
+        gradient = listOf(Color(0xFFfacb8e), Color(0xFFfff4db)),
         scrollColor = Color(0xFF352603)
     )
 
     override val THUNDERSTORM = Background(
-        gradient = listOf(Color(0xFF15021a), Color(0xFF4C2858)),
-        scrollColor = Color(0xFF4C2858)
+        gradient = listOf(Color(0xFFaab8ca), Color(0xFFf2c9ff)),
+        scrollColor = Color(0xFFf2c9ff)
     )
 
 }
