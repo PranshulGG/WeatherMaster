@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.pranshulgg.weathermaster.core.ui.theme.isThemeDark
 
 @Composable
 fun FogHazeCanvas() {
@@ -26,6 +27,8 @@ fun FogHazeCanvas() {
 
     val windowInfo = LocalWindowInfo.current
     val screenWidthPx = windowInfo.containerSize.width.toFloat()
+
+    val isDark = isThemeDark()
 
 
     val itemWidth = 300f
@@ -81,7 +84,7 @@ fun FogHazeCanvas() {
     ) {
         val fog1 = Brush.radialGradient(
             colors = listOf(
-                Color.Gray.copy(alpha = 0.3f),
+                Color.Gray.copy(alpha = if (isDark) 0.3f else 0.7f),
                 Color.Transparent
             ),
             center = Offset(
@@ -93,7 +96,7 @@ fun FogHazeCanvas() {
 
         val fog2 = Brush.radialGradient(
             colors = listOf(
-                Color.White.copy(alpha = 0.2f),
+                Color.White.copy(alpha = if (isDark) 0.2f else 0.7f),
                 Color.Transparent
             ),
             center = Offset(
@@ -106,7 +109,7 @@ fun FogHazeCanvas() {
 
         val fog3 = Brush.radialGradient(
             colors = listOf(
-                Color.Black.copy(alpha = 1f),
+                if (isDark) Color.Black.copy(alpha = 1f) else Color.White.copy(alpha = 1f),
                 Color.Transparent
             ),
             center = Offset(
