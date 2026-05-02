@@ -55,11 +55,14 @@ fun WeatherMasterApp() {
         LocalSnackbarHostState provides snackbarHostState,
         LocalAppPrefs provides AppPrefs.state()
     ) {
+        val prefs = LocalAppPrefs.current
 
 
         WeatherMasterTheme(
             darkTheme = isThemeDark(),
-            dynamicColor = true
+            themeVariantType = prefs.themeVariantType,
+            dynamicTheme = prefs.isDynamicTheme,
+            seedColor = Color(prefs.customThemeColor.toColorInt())
         ) {
 
             AppNavHost(
