@@ -39,24 +39,26 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.pranshulgg.weathermaster.core.ui.theme.ShapeRadius
 
+data class DialogOption<T>(
+    val value: T,
+    val label: String
+)
+
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun <T> DialogOptionTile(
     headline: String,
     description: String? = null,
-    displayOptions: List<T>,
-    options: List<T>,
+    options: List<DialogOption<T>>,
     selectedOption: T?,
     onOptionSelected: (T) -> Unit,
-    optionLabel: (T) -> String = { it.toString() },
     leading: @Composable (() -> Unit)? = null,
     shapes: RoundedCornerShape,
     dialogTitle: String? = null,
     itemBgColor: Color
 ) {
     var showDialog by remember { mutableStateOf(false) }
-    var tempSelectionDisplay by remember { mutableStateOf(displayOptions[0]) }
-
+    val selectedLabel = options.find { it.value == selectedOption }?.label
     Surface(
         modifier = Modifier.fillMaxWidth(),
 
@@ -75,9 +77,9 @@ fun <T> DialogOptionTile(
                 if (description != null) Text(
                     description,
                 )
-                else selectedOption?.let {
+                else selectedLabel?.let {
                     Text(
-                        optionLabel(tempSelectionDisplay),
+                        selectedLabel,
                         color = MaterialTheme.colorScheme.tertiary,
                         style = MaterialTheme.typography.bodyMedium
                     )
@@ -138,21 +140,21 @@ fun <T> DialogOptionTile(
                             modifier = Modifier
                                 .fillMaxWidth()
                         ) {
-                            itemsIndexed(displayOptions) { index, option ->
+                            itemsIndexed(options) { index, option ->
                                 Row(
                                     modifier = Modifier
-                                        .clickable { tempSelection = options[index] }
+                                        .clickable { tempSelection = option.value }
                                         .fillMaxWidth(),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Spacer(modifier = Modifier.width(16.dp))
                                     RadioButton(
-                                        selected = options[index] == tempSelection,
-                                        onClick = { tempSelection = options[index] }
+                                        selected = option.value == tempSelection,
+                                        onClick = { tempSelection = option.value }
                                     )
                                     Spacer(modifier = Modifier.width(8.dp))
                                     Text(
-                                        optionLabel(option),
+                                        option.label,
                                         color = MaterialTheme.colorScheme.onSurface,
                                         style = MaterialTheme.typography.bodyLarge
                                     )
@@ -197,7 +199,6 @@ fun <T> DialogOptionTile(
                         TextButton(
                             onClick = {
                                 tempSelection?.let { onOptionSelected(it) }
-                                tempSelectionDisplay?.let { optionLabel(it) }
                                 showDialog = false
                             },
                             shapes = ButtonDefaults.shapes()

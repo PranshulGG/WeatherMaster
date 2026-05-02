@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pranshulgg.weathermaster.core.ui.components.tiles.ActionTile
 import com.pranshulgg.weathermaster.core.ui.components.tiles.CategoryTile
+import com.pranshulgg.weathermaster.core.ui.components.tiles.DialogOption
 import com.pranshulgg.weathermaster.core.ui.components.tiles.DialogOptionTile
 import com.pranshulgg.weathermaster.core.ui.components.tiles.DialogSliderTile
 import com.pranshulgg.weathermaster.core.ui.components.tiles.DialogTextFieldTile
@@ -66,11 +67,9 @@ sealed class SettingTile {
         override val title: String,
         override val description: String? = null,
         val leading: (@Composable (() -> Unit))? = null,
-        val displayOptions: List<String>,
-        val options: List<String>,
+        val options: List<DialogOption<String>>,
         val selectedOption: String?,
         val onOptionSelected: (String) -> Unit,
-        val optionLabel: (String) -> String = { it },
         val dialogTitle: String? = null
     ) : SettingTile()
 
@@ -199,10 +198,8 @@ fun SettingSection(
                     leading = tile.leading,
                     shapes = shape,
                     options = tile.options,
-                    displayOptions = tile.displayOptions,
                     selectedOption = tile.selectedOption,
                     onOptionSelected = tile.onOptionSelected,
-                    optionLabel = tile.optionLabel,
                     dialogTitle = tile.dialogTitle,
                     itemBgColor = itemBgColor
                 )
