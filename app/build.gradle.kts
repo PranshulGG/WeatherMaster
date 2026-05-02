@@ -46,7 +46,11 @@ android {
         includeInApk = false
         includeInBundle = false
     }
-
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
 }
 
 
