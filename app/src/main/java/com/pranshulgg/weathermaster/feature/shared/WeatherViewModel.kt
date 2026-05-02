@@ -132,6 +132,10 @@ class WeatherViewModel @Inject constructor(
     fun deleteLocation(id: String) {
         viewModelScope.launch {
             locationsRepo.deleteLocation(id)
+
+            if (_uiState.value.activeLocation?.id == id) {
+                setActiveLocation(_uiState.value.locations.first { it.isDefault })
+            }
         }
     }
 

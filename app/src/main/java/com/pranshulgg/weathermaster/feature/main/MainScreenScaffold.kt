@@ -33,6 +33,9 @@ import com.pranshulgg.weathermaster.feature.main.components.MainSearchBar
 import com.pranshulgg.weathermaster.feature.main.ui.BackgroundGradient
 import com.pranshulgg.weathermaster.feature.main.ui.CurrentWeatherCard
 import com.pranshulgg.weathermaster.feature.main.ui.WeatherBlocks
+import com.pranshulgg.weathermaster.feature.main.ui.weatherAnimations.FogHazeCanvas
+import com.pranshulgg.weathermaster.feature.main.ui.weatherAnimations.RainCanvas
+import com.pranshulgg.weathermaster.feature.main.ui.weatherAnimations.SnowCanvas
 import com.pranshulgg.weathermaster.feature.main.ui.weatherAnimations.WeatherAnimations
 import com.pranshulgg.weathermaster.feature.shared.ui.DailyCard
 import com.pranshulgg.weathermaster.feature.shared.ui.HourlyCard
@@ -74,8 +77,7 @@ fun MainScreenScaffold(
             AnimatedVisibility(visible = isAnimationVisible, enter = fadeIn(), exit = fadeOut()) {
                 weather?.let { WeatherAnimations(weather) }
             }
-
-
+            
             PullToRefreshBox(
                 isRefreshing = uiState.isLoading,
                 state = pullToRefreshState,
