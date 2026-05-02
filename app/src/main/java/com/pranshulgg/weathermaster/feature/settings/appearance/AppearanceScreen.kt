@@ -30,13 +30,22 @@ import com.pranshulgg.weathermaster.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weathermaster.core.ui.components.SettingSection
 import com.pranshulgg.weathermaster.core.ui.components.SettingTile
 import com.pranshulgg.weathermaster.core.ui.components.SettingsTileIcon
+import com.pranshulgg.weathermaster.core.ui.components.tiles.DialogOption
 import com.pranshulgg.weathermaster.core.utils.TimeFormatters
+import com.pranshulgg.weathermaster.feature.settings.appearance.components.ColorPickerBtn
 
 @Composable
 fun AppearanceScreen(navController: NavController) {
 
     val prefs = LocalAppPrefs.current
     val context = LocalContext.current
+    val isAndroid12Plus = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+
+    val appThemeOptions = listOf(
+        DialogOption("Dark", stringResource(R.string.setting_dark_theme)),
+        DialogOption("Light", stringResource(R.string.setting_light_theme)),
+        DialogOption("System", stringResource(R.string.setting_system_theme))
+    )
 
     LargeTopBarScaffold(
         title = stringResource(R.string.setting_appearance),
@@ -56,17 +65,41 @@ fun AppearanceScreen(navController: NavController) {
                     SettingTile.DialogOptionTile(
                         leading = { SettingsTileIcon(R.drawable.palette_24px) },
                         title = stringResource(R.string.setting_app_theme),
-                        options = listOf(
-                            "Dark", "Light", "System"
-                        ),
-                        displayOptions = listOf(
-                            stringResource(R.string.setting_dark_theme),
-                            stringResource(R.string.setting_light_theme),
-                            stringResource(R.string.setting_system_theme),
-                        ),
+                        options = appThemeOptions,
                         selectedOption = prefs.appTheme,
                         onOptionSelected = {
                             prefs.setAppTheme(it)
+                        }
+                    ),
+                    SettingTile.SwitchTile(
+                        leading = {
+                            if (prefs.isCustomTheme) ColorPickerBtn() else SettingsTileIcon(
+                                R.drawable.brush_24px
+                            )
+                        },
+                        title = "Use custom color",
+                        description = "Select a seed color to generate the theme",
+                        checked = prefs.isCustomTheme,
+                        enabled = !prefs.isDynamicTheme,
+                        onCheckedChange = { checked ->
+                            prefs.setUseCustomTheme(checked)
+                            if (!checked) {
+                                prefs.setCustomThemeColor("#2196f3")
+                            }
+                        }
+                    ),
+                    SettingTile.SwitchTile(
+                        leading = {
+                            SettingsTileIcon(
+                                R.drawable.photo_24px
+                            )
+                        },
+                        title = "Dynamic colors",
+                        description = "Use wallpaper colors",
+                        checked = prefs.isDynamicTheme,
+                        enabled = isAndroid12Plus && !prefs.isCustomTheme,
+                        onCheckedChange = { checked ->
+                            prefs.setDynamicColor(checked)
                         }
                     ),
                 )
