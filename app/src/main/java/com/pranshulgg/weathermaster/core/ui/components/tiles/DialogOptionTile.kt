@@ -55,6 +55,7 @@ fun <T> DialogOptionTile(
     itemBgColor: Color
 ) {
     var showDialog by remember { mutableStateOf(false) }
+    var tempSelectionDisplay by remember { mutableStateOf(displayOptions[0]) }
 
     Surface(
         modifier = Modifier.fillMaxWidth(),
@@ -76,7 +77,7 @@ fun <T> DialogOptionTile(
                 )
                 else selectedOption?.let {
                     Text(
-                        optionLabel(it),
+                        optionLabel(tempSelectionDisplay),
                         color = MaterialTheme.colorScheme.tertiary,
                         style = MaterialTheme.typography.bodyMedium
                     )
@@ -196,6 +197,7 @@ fun <T> DialogOptionTile(
                         TextButton(
                             onClick = {
                                 tempSelection?.let { onOptionSelected(it) }
+                                tempSelectionDisplay?.let { optionLabel(it) }
                                 showDialog = false
                             },
                             shapes = ButtonDefaults.shapes()
