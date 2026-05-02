@@ -25,12 +25,13 @@ import com.pranshulgg.weathermaster.core.prefs.LocalAppPrefs
 fun WeatherMasterTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     seedColor: Color = Color.Green,
-    dynamicColor: Boolean = false,
+    dynamicTheme: Boolean = false,
+    themeVariantType: ThemeVariantType,
     applySystemUi: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+        dynamicTheme && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
@@ -40,7 +41,7 @@ fun WeatherMasterTheme(
                 seedColor = seedColor,
                 isDark = darkTheme,
                 specVersion = ColorSpec.SpecVersion.SPEC_2025,
-                style = PaletteStyle.Expressive,
+                style = themeVariantType.toPaletteStyle(),
             )
         }
     }
