@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -69,7 +70,11 @@ private fun CardRowContent(weather: Weather, units: AppWeatherUnits, context: Co
 
 
     Column {
-        Text("Now", color = colorScheme.secondary, fontWeight = FontWeight.Medium)
+        Text(
+            stringResource(R.string.time_now),
+            color = colorScheme.secondary,
+            fontWeight = FontWeight.Medium
+        )
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
                 "${currentTemp.roundToInt()}°",
@@ -93,7 +98,7 @@ private fun CardRowContent(weather: Weather, units: AppWeatherUnits, context: Co
             style = MaterialTheme.typography.titleMedium
         )
         Text(
-            "Feels like: ${feelsLike.roundToInt()}°",
+            stringResource(R.string.temp_feels_like, "${feelsLike.roundToInt()}°"),
             color = colorScheme.onSurfaceVariant,
             style = MaterialTheme.typography.bodyMedium
         )
@@ -126,7 +131,17 @@ private fun MinMaxTempRow(weather: Weather, units: AppWeatherUnits, context: Con
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            "Max: ${if (maxTemp == -1.0) "N/A" else maxTemp.roundToInt()}° Min: ${if (minTemp == -1.0) "N/A" else minTemp.roundToInt()}°",
+            "${
+                stringResource(
+                    R.string.temp_max,
+                    "${if (maxTemp == -1.0) "N/A" else maxTemp.roundToInt()}°"
+                )
+            } ${
+                stringResource(
+                    R.string.temp_min,
+                    "${if (minTemp == -1.0) "N/A" else minTemp.roundToInt()}°"
+                )
+            }",
             color = colorScheme.onSurfaceVariant,
             style = MaterialTheme.typography.labelLarge
         )
