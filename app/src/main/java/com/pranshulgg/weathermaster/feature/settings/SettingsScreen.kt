@@ -29,6 +29,7 @@ import com.pranshulgg.weathermaster.core.ui.components.SettingSection
 import com.pranshulgg.weathermaster.core.ui.components.SettingTile
 import com.pranshulgg.weathermaster.core.ui.components.SettingsTileIcon
 import com.pranshulgg.weathermaster.core.ui.navigation.NavRoutes
+import com.pranshulgg.weathermaster.core.utils.LocaleUtils
 import com.pranshulgg.weathermaster.feature.shared.WeatherViewModel
 
 @Composable
@@ -55,6 +56,12 @@ fun SettingsScreen(navController: NavController) {
                         title = stringResource(R.string.setting_appearance),
                         description = stringResource(R.string.setting_appearance_secondary),
                         onClick = { navController.navigate(NavRoutes.APPEARANCE) }
+                    ),
+                    SettingTile.ActionTile(
+                        leading = { SettingsTileIcon(R.drawable.language_24px) },
+                        title = stringResource(R.string.setting_language),
+                        description = LocaleUtils().getCurrentAppLocale().displayName,
+                        onClick = { navController.navigate(NavRoutes.LANGUAGE) }
                     )
                 )
             )
