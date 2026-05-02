@@ -1,5 +1,7 @@
 package com.pranshulgg.weathermaster.core.prefs
 
+import com.pranshulgg.weathermaster.core.ui.theme.ThemeVariantType
+
 
 data class AppPrefsState(
     val appTheme: String,
@@ -9,13 +11,17 @@ data class AppPrefsState(
     val setCustomThemeColor: (String) -> Unit,
 
     val isCustomTheme: Boolean,
-    val setCustomTheme: (Boolean) -> Unit,
+    val setUseCustomTheme: (Boolean) -> Unit,
 
     val isDynamicTheme: Boolean,
     val setDynamicColor: (Boolean) -> Unit,
 
     val isFirstStart: Boolean,
-    val setFirstStart: (Boolean) -> Unit
+    val setFirstStart: (Boolean) -> Unit,
+
+    val themeVariantType: ThemeVariantType,
+    val setThemeVariantType: (ThemeVariantType) -> Unit
+
 )
 
 

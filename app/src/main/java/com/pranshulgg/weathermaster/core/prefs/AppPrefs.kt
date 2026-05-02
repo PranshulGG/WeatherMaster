@@ -4,6 +4,7 @@ package com.pranshulgg.weathermaster.core.prefs
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import com.pranshulgg.weathermaster.core.ui.theme.ThemeVariantType
 import com.pranshulgg.weathermaster.core.utils.PreferencesHelper
 
 object AppPrefs {
@@ -14,16 +15,22 @@ object AppPrefs {
 
     private val _isFirstStart = mutableStateOf(true)
 
+    private val _themeVariantType = mutableStateOf(ThemeVariantType.EXPRESSIVE)
+
 
     fun initPrefs(context: Context) {
         PreferencesHelper.init(context)
 
         _appTheme.value =
-            PreferencesHelper.getString("app_theme") ?: "System"
+            PreferencesHelper.getString("app_theme") ?: "Dark"
         _customThemeColor.value = PreferencesHelper.getString("custom_theme_color") ?: "#2196f3"
         _isCustomTheme.value = PreferencesHelper.getBool("isCustomTheme") ?: false
         _isDynamicTheme.value = PreferencesHelper.getBool("isDynamicTheme") ?: false
         _isFirstStart.value = PreferencesHelper.getBool("isFirstStart") ?: true
+
+        _themeVariantType.value = PreferencesHelper.getString("theme_variant_type")
+            ?.let { runCatching { ThemeVariantType.valueOf(it) }.getOrNull() }
+            ?: ThemeVariantType.EXPRESSIVE
     }
 
     @Composable
@@ -42,7 +49,7 @@ object AppPrefs {
         },
 
         isCustomTheme = _isCustomTheme.value,
-        setCustomTheme = {
+        setUseCustomTheme = {
             _isCustomTheme.value = it
             PreferencesHelper.setBool("isCustomTheme", it)
         },
@@ -57,7 +64,12 @@ object AppPrefs {
         setFirstStart = {
             _isFirstStart.value = it
             PreferencesHelper.setBool("isFirstStart", it)
-        }
+        },
 
+        themeVariantType = _themeVariantType.value,
+        setThemeVariantType = {
+            _themeVariantType.value = it
+            PreferencesHelper.setString("theme_variant_type", it.name)
+        },
     )
 }
