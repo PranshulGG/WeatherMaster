@@ -30,7 +30,7 @@ import com.pranshulgg.weathermaster.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weathermaster.core.ui.components.SettingSection
 import com.pranshulgg.weathermaster.core.ui.components.SettingTile
 import com.pranshulgg.weathermaster.core.ui.components.SettingsTileIcon
-import java.util.Locale
+import com.pranshulgg.weathermaster.core.utils.TimeFormatters
 
 @Composable
 fun AppearanceScreen(navController: NavController) {
@@ -72,37 +72,8 @@ fun AppearanceScreen(navController: NavController) {
                 )
             )
 
-            Button(onClick = {
-                setLanguage(context, "zh-CN")
-                (context as? Activity)?.recreate()
-            }) {
-                Text("change lang")
-            }
-
-            Button(onClick = {
-                setLanguage(context, "em")
-                (context as? Activity)?.recreate()
-            }) {
-                Text("change lang eng")
-            }
         }
     }
 
 }
 
-fun setLanguage(context: Context, languageCode: String) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        context.getSystemService(LocaleManager::class.java).applicationLocales =
-            LocaleList.forLanguageTags(languageCode)
-    } else {
-
-        AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(languageCode))
-    }
-    saveLanguage(context, languageCode)
-    Log.d("language_saved", "${LocaleList.forLanguageTags(languageCode)}")
-}
-
-fun saveLanguage(context: Context, languageCode: String) {
-    val pref = context.getSharedPreferences("language_pref", Context.MODE_PRIVATE)
-    pref.edit { putString("language", languageCode) }
-}
