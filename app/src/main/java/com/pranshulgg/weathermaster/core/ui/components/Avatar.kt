@@ -79,9 +79,12 @@ fun AvatarIcon(
 
 
 @Composable
-fun AvatarCheck() {
+fun AvatarCheck(
+    containerColor: Color = MaterialTheme.colorScheme.primaryContainer,
+    contentColor: Color = MaterialTheme.colorScheme.onPrimaryContainer
+) {
     Surface(
-        color = MaterialTheme.colorScheme.primaryContainer,
+        color = containerColor,
         shape = CircleShape,
     ) {
         Box(
@@ -89,7 +92,7 @@ fun AvatarCheck() {
             modifier = Modifier.size(40.dp)
 
         ) {
-            Symbol(R.drawable.check_24px, color = MaterialTheme.colorScheme.onPrimaryContainer)
+            Symbol(R.drawable.check_24px, color = contentColor)
         }
     }
 
