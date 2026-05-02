@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.TemperatureUnits
@@ -49,7 +50,7 @@ fun DailyCard(weather: Weather, units: AppWeatherUnits) {
                 .padding(bottom = 16.dp)
                 .fillMaxWidth()
         ) {
-            CardsHeader("Daily forecast", R.drawable.date_range_24px)
+            CardsHeader(stringResource(R.string.weather_daily_forecast), R.drawable.date_range_24px)
 
             Gap(14.dp)
 

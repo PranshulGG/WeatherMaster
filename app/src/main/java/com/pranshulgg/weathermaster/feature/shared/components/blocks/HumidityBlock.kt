@@ -146,7 +146,7 @@ private fun DewPointRow(dewPoint: Int) {
         }
         Gap(horizontal = 5.dp)
         Text(
-            "Dew point",
+            stringResource(R.string.weather_dew_point),
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onSurface
         )
