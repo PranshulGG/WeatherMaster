@@ -11,7 +11,7 @@ class TimeFormatters {
 
     fun to12HourTimeString(millis: Long, zoneId: String, pattern: String = "ha"): String {
         val instant = Instant.ofEpochMilli(millis)
-        val formatter = DateTimeFormatter.ofPattern(pattern, Locale.getDefault())
+        val formatter = DateTimeFormatter.ofPattern(pattern, LocaleUtils().getCurrentAppLocale())
             .withZone(ZoneId.of(zoneId))
 
         return formatter.format(instant)
@@ -20,7 +20,7 @@ class TimeFormatters {
     fun toWeekdayString(millis: Long, zoneId: String): String {
         val instant = Instant.ofEpochMilli(millis)
         val zonedDateTime = instant.atZone(ZoneId.of(zoneId))
-        val formatter = DateTimeFormatter.ofPattern("EEE", Locale.ENGLISH)
+        val formatter = DateTimeFormatter.ofPattern("EEE", LocaleUtils().getCurrentAppLocale())
 
         return formatter.format(zonedDateTime)
     }
