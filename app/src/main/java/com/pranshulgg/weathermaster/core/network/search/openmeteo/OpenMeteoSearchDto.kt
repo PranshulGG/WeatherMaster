@@ -1,4 +1,4 @@
-package com.pranshulgg.weathermaster.core.network.search
+package com.pranshulgg.weathermaster.core.network.search.openmeteo
 
 import com.google.gson.annotations.SerializedName
 

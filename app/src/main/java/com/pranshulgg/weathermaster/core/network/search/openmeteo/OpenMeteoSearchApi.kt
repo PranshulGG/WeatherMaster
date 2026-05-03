@@ -1,4 +1,4 @@
-package com.pranshulgg.weathermaster.core.network.search
+package com.pranshulgg.weathermaster.core.network.search.openmeteo
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -8,7 +8,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
-import kotlin.time.Duration
 
 interface OpenMeteoSearchApi {
 
