@@ -103,4 +103,20 @@
     <string name="temp_feels_like">Feels like %1$s</string>
     <string name="temp_max">Max: %1$s</string>
     <string name="temp_min">Min: %1$s</string>
+    <string name="search_results_provided">Search results provided by %1$s</string>
+    <string name="action_confirm">Confirm</string>
+    <string name="weather">Vreme</string>
+    <string name="setting_custom_color">Use custom color</string>
+    <string name="setting_custom_color_secondary">Select a seed color to generate the theme</string>
+    <string name="setting_dynamic_colors">Dynamic colors</string>
+    <string name="setting_dynamic_colors_secondary">Use wallpaper colors</string>
+    <string name="weather_total_rain_day">Total rain for the day</string>
+    <string name="error_network">Network unavailable</string>
+    <string name="weather_total_snow_day">Total snow for the day</string>
+    <string name="weather_precipitation">Precipitation</string>
+    <string name="weather_wind">Veter</string>
+    <string name="weather_air_quality_index">Air quality index</string>
+    <string name="setting_translate_app">Translate this app</string>
+    <string name="setting_translate_app_secondary">Contribute by translating the app into your language on Crowdin</string>
 </resources>
+<!--<string name=""></string>-->
