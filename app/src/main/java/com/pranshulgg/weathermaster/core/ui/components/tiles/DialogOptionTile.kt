@@ -35,8 +35,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.ui.theme.ShapeRadius
 
 data class DialogOption<T>(
@@ -193,7 +195,10 @@ fun <T> DialogOptionTile(
                             },
                             shapes = ButtonDefaults.shapes()
                         ) {
-                            Text("Cancel", style = MaterialTheme.typography.labelLarge)
+                            Text(
+                                stringResource(R.string.action_cancel),
+                                style = MaterialTheme.typography.labelLarge
+                            )
                         }
                         Spacer(Modifier.width(8.dp))
                         TextButton(
@@ -203,7 +208,10 @@ fun <T> DialogOptionTile(
                             },
                             shapes = ButtonDefaults.shapes()
                         ) {
-                            Text("Save", style = MaterialTheme.typography.labelLarge)
+                            Text(
+                                stringResource(R.string.action_save),
+                                style = MaterialTheme.typography.labelLarge
+                            )
                         }
                     }
                 }
