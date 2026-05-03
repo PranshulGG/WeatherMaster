@@ -68,14 +68,14 @@
     <string name="setting_distance_unit">距离单位</string>
     <string name="setting_precipitation_unit">降水量单位</string>
     <string name="unit_temperature_celsius">摄氏度</string>
-    <string name="unit_temperature_fahrenheit">Fahrenheit</string>
+    <string name="unit_temperature_fahrenheit">华氏度</string>
     <string name="unit_wind_mps">米/秒</string>
     <string name="unit_wind_mph">英里/小时</string>
     <string name="unit_wind_kph">千米/小时</string>
     <string name="unit_pressure_hpa">百帕</string>
     <string name="unit_pressure_inhg">英寸汞柱</string>
     <string name="unit_distance_km">千米</string>
-    <string name="unit_distance_mi">Miles</string>
+    <string name="unit_distance_mi">英里</string>
     <string name="unit_distance_m">米</string>
     <string name="unit_precipitation_mm">毫米</string>
     <string name="unit_precipitation_inch">英寸</string>
@@ -90,8 +90,8 @@
     <string name="action_set_default">设为默认</string>
     <string name="action_delete">删除</string>
     <string name="error_delete_default_location">无法删除默认地点</string>
-    <string name="setting_app_looks">App looks</string>
-    <string name="temp_feels_like">Feels like %1$s</string>
-    <string name="temp_max">Max: %1$s</string>
-    <string name="temp_min">Min: %1$s</string>
+    <string name="setting_app_looks">应用外观</string>
+    <string name="temp_feels_like">体感温度：%1$s</string>
+    <string name="temp_max">最高：%1$s</string>
+    <string name="temp_min">最低：%1$s</string>
 </resources>
