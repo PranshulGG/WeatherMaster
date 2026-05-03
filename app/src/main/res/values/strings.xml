@@ -116,5 +116,17 @@
     <string name="temp_max">Max: %1$s</string>
     <string name="temp_min">Min: %1$s</string>
 
+    <string name="search_results_provided">Search results provided by %1$s</string>
+    <string name="action_confirm">Confirm</string>
+
+    <string name="weather">Weather</string>
+
+    <string name="setting_custom_color">Use custom color</string>
+    <string name="setting_custom_color_secondary">Select a seed color to generate the theme</string>
+
+    <string name="setting_dynamic_colors">Dynamic colors</string>
+    <string name="setting_dynamic_colors_secondary">Use wallpaper colors</string>
 
 </resources>
+
+    <!--<string name=""></string>-->
