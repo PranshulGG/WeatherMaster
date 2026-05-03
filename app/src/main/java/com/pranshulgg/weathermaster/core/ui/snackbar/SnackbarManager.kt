@@ -7,6 +7,7 @@ object SnackbarManager {
 
     data class SnackbarEvent(
         val messageResource: Int,
+        val messageArgs: Any? = null,
         val actionLabel: String? = null,
         val onAction: (() -> Unit)? = null
     )
@@ -19,12 +20,14 @@ object SnackbarManager {
     fun show(
         messageResource: Int,
         actionLabel: String? = null,
+        messageArgs: Any? = null,
         onAction: (() -> Unit)? = null
     ) {
         _events.tryEmit(
             SnackbarEvent(
                 messageResource = messageResource,
                 actionLabel = actionLabel,
+                messageArgs = messageArgs,
                 onAction = onAction
             )
         )
