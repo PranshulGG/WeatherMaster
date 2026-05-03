@@ -1,5 +1,8 @@
 package com.pranshulgg.weathermaster.core.model
 
+import android.content.Context
+import com.pranshulgg.weathermaster.R
+
 enum class TemperatureUnits {
     CELSIUS, FAHRENHEIT
 }
@@ -21,40 +24,40 @@ enum class PrecipitationUnits {
 }
 
 
-fun TemperatureUnits.toName(): String {
+fun TemperatureUnits.toName(context: Context): String {
     return when (this) {
-        TemperatureUnits.CELSIUS -> "Celsius"
-        TemperatureUnits.FAHRENHEIT -> "Fahrenheit"
+        TemperatureUnits.CELSIUS -> context.getString(R.string.unit_temperature_celsius)
+        TemperatureUnits.FAHRENHEIT -> context.getString(R.string.unit_temperature_fahrenheit)
     }
 }
 
-fun WindSpeedUnits.toName(): String {
+fun WindSpeedUnits.toName(context: Context): String {
     return when (this) {
-        WindSpeedUnits.MPS -> "Meters per second"
-        WindSpeedUnits.MPH -> "Miles per hour"
-        WindSpeedUnits.KPH -> "Kilometers per hour"
+        WindSpeedUnits.MPS -> context.getString(R.string.unit_wind_mps)
+        WindSpeedUnits.MPH -> context.getString(R.string.unit_wind_mph)
+        WindSpeedUnits.KPH -> context.getString(R.string.unit_wind_kph)
     }
 }
 
-fun PressureUnits.toName(inShort: Boolean = false): String {
+fun PressureUnits.toName(inShort: Boolean = false, context: Context): String {
     return when (this) {
-        PressureUnits.HPA -> if (inShort) "hPa" else "Hectopascals"
-        PressureUnits.INHG -> if (inShort) "inHG" else "Inches of Mercury"
+        PressureUnits.HPA -> if (inShort) "hPa" else context.getString(R.string.unit_pressure_hpa)
+        PressureUnits.INHG -> if (inShort) "inHG" else context.getString(R.string.unit_pressure_inhg)
     }
 }
 
-fun DistanceUnits.toName(inShort: Boolean = false): String {
+fun DistanceUnits.toName(inShort: Boolean = false, context: Context): String {
     return when (this) {
-        DistanceUnits.KM -> if (inShort) "Km" else "Kilometers"
-        DistanceUnits.MI -> if (inShort) "Mi" else "Miles"
-        DistanceUnits.M -> if (inShort) "M" else "Meters"
+        DistanceUnits.KM -> if (inShort) "Km" else context.getString(R.string.unit_distance_km)
+        DistanceUnits.MI -> if (inShort) "Mi" else context.getString(R.string.unit_distance_mi)
+        DistanceUnits.M -> if (inShort) "M" else context.getString(R.string.unit_distance_m)
     }
 }
 
-fun PrecipitationUnits.toName(): String {
+fun PrecipitationUnits.toName(context: Context): String {
     return when (this) {
-        PrecipitationUnits.MM -> "Millimeters"
-        PrecipitationUnits.INCH -> "Inches"
-        PrecipitationUnits.CM -> "Centimeters"
+        PrecipitationUnits.MM -> context.getString(R.string.unit_precipitation_mm)
+        PrecipitationUnits.INCH -> context.getString(R.string.unit_precipitation_inch)
+        PrecipitationUnits.CM -> context.getString(R.string.unit_precipitation_cm)
     }
 }

@@ -111,7 +111,7 @@ class WeatherViewModel @Inject constructor(
                 }
 
                 is WeatherResult.RefreshNotAvailable -> {
-                    SnackbarManager.show(R.string.weather_refresh_delay)
+                    SnackbarManager.show(R.string.weather_refresh_delay, messageArgs = 15)
                 }
             }
 
