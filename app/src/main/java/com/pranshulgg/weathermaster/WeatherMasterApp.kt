@@ -39,7 +39,10 @@ fun WeatherMasterApp() {
             snackbarHostState.currentSnackbarData?.dismiss()
 
             val result = snackbarHostState.showSnackbar(
-                message = context.getString(event.messageResource),
+                message = context.getString(
+                    event.messageResource,
+                    event.messageArgs
+                ),
                 actionLabel = event.actionLabel,
                 withDismissAction = event.actionLabel == null,
                 duration = SnackbarDuration.Short

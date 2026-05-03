@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -6,8 +8,19 @@ plugins {
     id("androidx.room")
 }
 
+val localProps = Properties().apply {
+    val f = rootProject.file("local.properties")
+    if (f.exists()) f.inputStream().use { load(it) }
+}
+
+val geoNamesUserNameKey: String = localProps.getProperty("GEO_NAMES_USERNAME")
+    ?: throw GradleException(
+        "GEO_NAMES_USERNAME not found! Add it to local.properties in the project root."
+    )
+
 android {
     namespace = "com.pranshulgg.weathermaster"
+    android.buildFeatures.buildConfig = true
     compileSdk {
         version = release(36) {
             minorApiLevel = 1
@@ -22,6 +35,8 @@ android {
         versionName = "3.0.0-alpha2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "GEO_NAMES_USERNAME", "\"$geoNamesUserNameKey\"")
     }
 
     buildTypes {
@@ -40,6 +55,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     dependenciesInfo {
