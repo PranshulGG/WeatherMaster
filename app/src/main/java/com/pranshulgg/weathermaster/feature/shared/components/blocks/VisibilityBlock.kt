@@ -1,5 +1,6 @@
 package com.pranshulgg.weathermaster.feature.shared.components.blocks
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,9 +35,11 @@ import com.pranshulgg.weathermaster.core.utils.WeatherUtils
 import java.util.Locale
 import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
+import com.pranshulgg.weathermaster.core.utils.LocaleUtils
 
 @Composable
-fun VisibilityBlock(weather: Weather, units: AppWeatherUnits) {
+fun VisibilityBlock(weather: Weather, units: AppWeatherUnits, context: Context) {
 
     val visibility = UnitConverter.convertDistance(
         weather.current.visibility?.toDouble() ?: 0.0,
@@ -68,7 +71,8 @@ fun VisibilityBlock(weather: Weather, units: AppWeatherUnits) {
             Text(
                 WeatherUtils.formatNumbers(
                     number = visibility,
-                    decimalPlaces = 0
+                    decimalPlaces = 0,
+                    locale = LocaleUtils().getCurrentAppLocale()
                 ),
                 style = MaterialTheme.typography.displayMedium,
                 modifier = Modifier
@@ -79,7 +83,7 @@ fun VisibilityBlock(weather: Weather, units: AppWeatherUnits) {
 
 
             Text(
-                units.distanceUnit.toName(),
+                units.distanceUnit.toName(context = context),
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .offset(y = (-30).dp),
@@ -111,6 +115,8 @@ private fun Header() {
             stringResource(R.string.weather_visibility),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.9f)
 
         )

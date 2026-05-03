@@ -37,6 +37,7 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
@@ -175,7 +176,7 @@ private fun RiseSetTimeRow(text: String, icon: Int) {
         Gap(horizontal = 5.dp)
         Text(
             text,
-            color = MaterialTheme.colorScheme.onSurface,
+            color = Color.White,
             style = MaterialTheme.typography.labelLarge
         )
     }
@@ -199,6 +200,8 @@ private fun Header() {
             stringResource(R.string.weather_sun),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.9f)
 
         )
