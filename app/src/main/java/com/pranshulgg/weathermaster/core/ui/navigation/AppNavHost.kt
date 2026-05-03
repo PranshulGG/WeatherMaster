@@ -47,7 +47,7 @@ fun AppNavHost(
         ) {
             navigation(
                 route = "root",
-                startDestination = NavRoutes.MAIN // DEFAULT MAIN
+                startDestination = NavRoutes.MAIN
             ) {
                 composable(
                     NavRoutes.MAIN
