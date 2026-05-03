@@ -1,8 +1,8 @@
 package com.pranshulgg.weathermaster.data.local.mapper
 
 import com.pranshulgg.weathermaster.core.model.domain.Location
-import com.pranshulgg.weathermaster.core.model.WeatherProviders
-import com.pranshulgg.weathermaster.core.network.search.OpenMeteoSearchDto
+import com.pranshulgg.weathermaster.core.network.search.geonames.GeoNamesSearchDto
+import com.pranshulgg.weathermaster.core.network.search.openmeteo.OpenMeteoSearchDto
 import com.pranshulgg.weathermaster.core.utils.UuidGenerator
 import com.pranshulgg.weathermaster.data.local.entity.WeatherLocationEntity
 
@@ -21,6 +21,21 @@ fun OpenMeteoSearchDto.toDomain(): List<Location> =
         )
     }
 
+
+fun GeoNamesSearchDto.toDomain(): List<Location> =
+    List(geonames.size) {
+        Location(
+            id = UuidGenerator().generateId(),
+            name = geonames[it].name,
+            latitude = geonames[it].latitude,
+            longitude = geonames[it].longitude,
+            country = geonames[it].countryName,
+            timezone = "",
+            countryCode = geonames[it].countryCode,
+            state = geonames[it].state ?: "",
+            isDefault = false
+        )
+    }
 
 fun Location.toEntity(): WeatherLocationEntity =
     WeatherLocationEntity(
