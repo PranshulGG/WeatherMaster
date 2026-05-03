@@ -10,6 +10,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -26,6 +27,7 @@ import com.pranshulgg.weathermaster.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weathermaster.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weathermaster.core.ui.components.SettingSection
 import com.pranshulgg.weathermaster.core.ui.components.SettingTile
+import com.pranshulgg.weathermaster.core.ui.components.SettingsTileIcon
 import com.pranshulgg.weathermaster.core.ui.components.tiles.DialogOption
 import com.pranshulgg.weathermaster.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weathermaster.feature.settings.SettingsScreenViewModel
@@ -35,6 +37,7 @@ fun UnitsScreen(navController: NavController) {
 
     val viewModel: SettingsScreenViewModel = hiltViewModel()
     val units by viewModel.weatherUnits.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     val currentUnits = units
 
@@ -59,15 +62,16 @@ fun UnitsScreen(navController: NavController) {
                 SettingSection(
                     tiles = listOf(
                         SettingTile.DialogOptionTile(
+                            leading = { SettingsTileIcon(R.drawable.device_thermostat_24px) },
                             title = stringResource(R.string.setting_temperature_unit),
                             options = listOf(
                                 DialogOption(
                                     TemperatureUnits.CELSIUS.toString(),
-                                    TemperatureUnits.CELSIUS.toName()
+                                    TemperatureUnits.CELSIUS.toName(context)
                                 ),
                                 DialogOption(
                                     TemperatureUnits.FAHRENHEIT.toString(),
-                                    TemperatureUnits.FAHRENHEIT.toName()
+                                    TemperatureUnits.FAHRENHEIT.toName(context)
                                 )
                             ),
                             selectedOption = currentUnits.tempUnit.toString(),
@@ -79,19 +83,20 @@ fun UnitsScreen(navController: NavController) {
                         ),
 
                         SettingTile.DialogOptionTile(
+                            leading = { SettingsTileIcon(R.drawable.air_24px) },
                             title = stringResource(R.string.setting_wind_speed_unit),
                             options = listOf(
                                 DialogOption(
                                     WindSpeedUnits.MPS.toString(),
-                                    WindSpeedUnits.MPS.toName()
+                                    WindSpeedUnits.MPS.toName(context)
                                 ),
                                 DialogOption(
                                     WindSpeedUnits.MPH.toString(),
-                                    WindSpeedUnits.MPH.toName()
+                                    WindSpeedUnits.MPH.toName(context)
                                 ),
                                 DialogOption(
                                     WindSpeedUnits.KPH.toString(),
-                                    WindSpeedUnits.KPH.toName()
+                                    WindSpeedUnits.KPH.toName(context)
                                 ),
                             ),
                             selectedOption = currentUnits.windUnit.toString(),
@@ -103,15 +108,16 @@ fun UnitsScreen(navController: NavController) {
                         ),
 
                         SettingTile.DialogOptionTile(
+                            leading = { SettingsTileIcon(R.drawable.compress_24px) },
                             title = stringResource(R.string.setting_pressure_unit),
                             options = listOf(
                                 DialogOption(
                                     PressureUnits.HPA.toString(),
-                                    PressureUnits.HPA.toName()
+                                    PressureUnits.HPA.toName(context = context)
                                 ),
                                 DialogOption(
                                     PressureUnits.INHG.toString(),
-                                    PressureUnits.INHG.toName()
+                                    PressureUnits.INHG.toName(context = context)
                                 )
 
                             ),
@@ -124,14 +130,21 @@ fun UnitsScreen(navController: NavController) {
                         ),
 
                         SettingTile.DialogOptionTile(
+                            leading = { SettingsTileIcon(R.drawable.visibility_24px) },
                             title = stringResource(R.string.setting_distance_unit),
                             options = listOf(
                                 DialogOption(
                                     DistanceUnits.KM.toString(),
-                                    DistanceUnits.KM.toName()
+                                    DistanceUnits.KM.toName(context = context)
                                 ),
-                                DialogOption(DistanceUnits.M.toString(), DistanceUnits.M.toName()),
-                                DialogOption(DistanceUnits.MI.toString(), DistanceUnits.MI.toName())
+                                DialogOption(
+                                    DistanceUnits.M.toString(),
+                                    DistanceUnits.M.toName(context = context)
+                                ),
+                                DialogOption(
+                                    DistanceUnits.MI.toString(),
+                                    DistanceUnits.MI.toName(context = context)
+                                )
                             ),
                             selectedOption = currentUnits.distanceUnit.toString(),
                             onOptionSelected = {
@@ -141,19 +154,20 @@ fun UnitsScreen(navController: NavController) {
                             }
                         ),
                         SettingTile.DialogOptionTile(
+                            leading = { SettingsTileIcon(R.drawable.water_drop_24px) },
                             title = stringResource(R.string.setting_precipitation_unit),
                             options = listOf(
                                 DialogOption(
                                     PrecipitationUnits.CM.toString(),
-                                    PrecipitationUnits.CM.toName()
+                                    PrecipitationUnits.CM.toName(context)
                                 ),
                                 DialogOption(
                                     PrecipitationUnits.INCH.toString(),
-                                    PrecipitationUnits.INCH.toName()
+                                    PrecipitationUnits.INCH.toName(context)
                                 ),
                                 DialogOption(
                                     PrecipitationUnits.MM.toString(),
-                                    PrecipitationUnits.MM.toName()
+                                    PrecipitationUnits.MM.toName(context)
                                 )
                             ),
                             selectedOption = currentUnits.precipitationUnit.toString(),
