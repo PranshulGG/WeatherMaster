@@ -1,6 +1,6 @@
 <div align="center">
    <img src="preview/readme_app_icon.svg" alt="" width="150px">
-</div>
+</div> 
 <h1 align="center">
  WeatherMaster
 </h1>
