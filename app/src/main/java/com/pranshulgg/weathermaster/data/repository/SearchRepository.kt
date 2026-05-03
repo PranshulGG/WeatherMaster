@@ -1,25 +1,14 @@
 package com.pranshulgg.weathermaster.data.repository
 
+import com.pranshulgg.weathermaster.core.model.SearchProviders
 import com.pranshulgg.weathermaster.core.model.domain.Location
-import com.pranshulgg.weathermaster.core.network.search.OpenMeteoSearchApi
+import com.pranshulgg.weathermaster.core.network.search.geonames.GeoNamesSearchApi
+import com.pranshulgg.weathermaster.core.network.search.geonames.GeoNamesTimezoneItem
+import com.pranshulgg.weathermaster.core.network.search.openmeteo.OpenMeteoSearchApi
 import com.pranshulgg.weathermaster.data.local.mapper.toDomain
 import jakarta.inject.Inject
 
-class SearchRepository @Inject constructor(
-    private val api: OpenMeteoSearchApi
-) {
-
-    suspend fun search(query: String): List<Location> {
-
-        val response = api.search(query)
-
-        val body = response.body() ?: return emptyList()
-
-        val domain = body.toDomain()
-
-        return domain
-
-    }
-
+interface SearchRepository {
+    suspend fun search(query: String): List<Location>
 
 }

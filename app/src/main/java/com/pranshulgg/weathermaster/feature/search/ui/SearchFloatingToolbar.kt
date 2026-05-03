@@ -41,17 +41,19 @@ import androidx.compose.ui.zIndex
 import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
 import com.pranshulgg.weathermaster.feature.search.SearchScreenViewModel
+import com.pranshulgg.weathermaster.feature.search.SearchUiState
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun SearchFloatingToolbar(
     scrollBehaviorToolbar: FloatingToolbarScrollBehavior,
-    query: String,
+    uiState: SearchUiState,
     viewModel: SearchScreenViewModel
 ) {
     val focusManager = LocalFocusManager.current
     val focusRequester = remember { FocusRequester() }
     val systemInsets = WindowInsets.systemBars.asPaddingValues()
+    val query = uiState.query.trimEnd()
 
     Box(
         Modifier
@@ -88,7 +90,7 @@ fun SearchFloatingToolbar(
             content = {
                 SearchFloatingBarContent(
                     viewModel,
-                    query,
+                    uiState,
                     focusRequester,
                     focusManager
                 )
@@ -100,10 +102,12 @@ fun SearchFloatingToolbar(
 @Composable
 private fun SearchFloatingBarContent(
     viewModel: SearchScreenViewModel,
-    query: String,
+    uiState: SearchUiState,
     focusRequester: FocusRequester,
     focusManager: FocusManager,
 ) {
+    val query = uiState.query
+
     TextField(
         value = query,
         onValueChange = viewModel::updateQuery,
