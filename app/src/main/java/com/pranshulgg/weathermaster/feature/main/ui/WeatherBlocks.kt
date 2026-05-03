@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
@@ -84,9 +85,14 @@ fun WeatherBlocks(
                 ) {
                     when (item.type) {
                         WeatherBlockType.HUMIDITY_BLOCK -> HumidityBlock(weather, units)
-                        WeatherBlockType.VISIBILITY_BLOCK -> VisibilityBlock(weather, units)
+                        WeatherBlockType.VISIBILITY_BLOCK -> VisibilityBlock(
+                            weather,
+                            units,
+                            context
+                        )
+
                         WeatherBlockType.UV_INDEX_BLOCK -> UvIndexBlock(weather, context)
-                        WeatherBlockType.PRESSURE_BLOCK -> PressureBlock(weather, units)
+                        WeatherBlockType.PRESSURE_BLOCK -> PressureBlock(weather, units, context)
                         WeatherBlockType.SUN_BLOCK -> SunBlock(weather)
                         WeatherBlockType.MOON_BLOCK -> MoonBlock(weather)
                     }
