@@ -19,6 +19,7 @@ import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.core.model.domain.Weather
 import com.pranshulgg.weathermaster.core.model.domain.WeatherBlock
 import com.pranshulgg.weathermaster.core.prefs.LocalAppPrefs
+import com.pranshulgg.weathermaster.feature.intro.IntroScreen
 import com.pranshulgg.weathermaster.feature.locations.LocationsScreen
 import com.pranshulgg.weathermaster.feature.main.ui.NavigationDrawer
 import com.pranshulgg.weathermaster.feature.shared.WeatherViewModel
@@ -37,11 +38,18 @@ data class MainScreenUiState(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(navController: NavController) {
+    val prefs = LocalAppPrefs.current
+
+
+    if (prefs.isFirstStart) {
+        IntroScreen(navController)
+        return
+    }
+
     val weatherViewModel: WeatherViewModel = hiltViewModel()
     val context = LocalContext.current
     val uiState by weatherViewModel.uiState
     val activeLocation = uiState.activeLocation
-    val prefs = LocalAppPrefs.current
     val density = LocalDensity.current
     val widthDp = with(density) {
         LocalWindowInfo.current.containerSize.width.toDp()
@@ -55,13 +63,6 @@ fun MainScreen(navController: NavController) {
 
     val closeDrawer = {
         scope.launch { drawerState.close() }
-    }
-
-    LaunchedEffect(Unit) {
-        if (prefs.isFirstStart) {
-            drawerState.open()
-            prefs.setFirstStart(false)
-        }
     }
 
 
