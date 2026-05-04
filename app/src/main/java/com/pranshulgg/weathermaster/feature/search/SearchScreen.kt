@@ -125,9 +125,13 @@ fun SearchScreen(navController: NavController) {
                         .verticalScroll(rememberScrollState())
                 ) {
                     Text(
-                        "${stringResource(R.string.search_provider)}: ${selectedProvider.toName()}",
+                        stringResource(
+                            R.string.search_results_provided,
+                            prefs.searchProvider.toName()
+                        ),
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        style = MaterialTheme.typography.bodyLarge
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.padding(horizontal = 16.dp)
                     )
                     Gap(8.dp)
                     SettingSection(
@@ -159,6 +163,7 @@ fun SearchScreen(navController: NavController) {
         onConfirm = {
             prefs.setSearchProvider(selectedProvider)
             viewModel.updateProvider(selectedProvider)
+            viewModel.removeResults()
         },
         onDismiss = viewModel::hideProviderDialog,
         show = uiState.isProviderDialogOpen,
