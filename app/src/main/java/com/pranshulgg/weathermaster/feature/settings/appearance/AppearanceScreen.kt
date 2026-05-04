@@ -79,8 +79,8 @@ fun AppearanceScreen(navController: NavController) {
                                 R.drawable.brush_24px
                             )
                         },
-                        title = "Use custom color",
-                        description = "Select a seed color to generate the theme",
+                        title = stringResource(R.string.setting_custom_color),
+                        description = stringResource(R.string.setting_custom_color_secondary),
                         checked = prefs.isCustomTheme,
                         enabled = !prefs.isDynamicTheme,
                         onCheckedChange = { checked ->
