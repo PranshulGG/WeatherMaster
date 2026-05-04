@@ -1,6 +1,7 @@
 package com.pranshulgg.weathermaster.core.model.domain
 
 import com.pranshulgg.weathermaster.core.model.WeatherProviders
+import com.pranshulgg.weathermaster.data.provider.DeviceLocation
 
 data class Location(
     val id: String,
@@ -14,5 +15,6 @@ data class Location(
     val provider: WeatherProviders = WeatherProviders.OPEN_METEO,
     val isFavorite: Boolean = false,
     val isPinned: Boolean = false,
-    val isDefault: Boolean
+    val isDefault: Boolean,
+    val isDeviceLocation: Boolean = false
 )
