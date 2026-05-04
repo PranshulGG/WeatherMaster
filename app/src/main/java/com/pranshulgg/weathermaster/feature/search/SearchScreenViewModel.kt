@@ -99,4 +99,8 @@ class SearchScreenViewModel @Inject constructor(
     fun hideProviderDialog() {
         _uiState.value = _uiState.value.copy(isProviderDialogOpen = false)
     }
+
+    fun removeResults() {
+        results = emptyList()
+    }
 }
