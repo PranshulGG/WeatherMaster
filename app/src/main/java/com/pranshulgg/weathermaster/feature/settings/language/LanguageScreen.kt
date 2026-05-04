@@ -55,15 +55,22 @@ fun LanguageScreen(navController: NavController) {
         ) {
 
             SettingSection(
+                tiles = listOf(
+                    SettingTile.ActionTile(
+                        title = stringResource(R.string.setting_translate_app),
+                        description = stringResource(R.string.setting_translate_app_secondary),
+                        onClick = {}
+                    )
+                ))
+
+            SettingSection(
                 tiles = languageList.map {
-
                     val selected = it.value == currentAppLocale.value
-
                     SettingTile.ActionTile(
                         leading = {
                             if (selected) AvatarCheck(
-                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                                contentColor = MaterialTheme.colorScheme.onTertiaryContainer
+                                containerColor = MaterialTheme.colorScheme.secondary,
+                                contentColor = MaterialTheme.colorScheme.onSecondary
                             ) else AvatarMonogram(it.code)
                         },
                         title = it.name,
