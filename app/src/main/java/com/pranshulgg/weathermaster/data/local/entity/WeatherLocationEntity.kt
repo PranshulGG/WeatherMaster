@@ -22,5 +22,7 @@ data class WeatherLocationEntity(
     val isFavorite: Boolean = false,
     val isPinned: Boolean = false,
     val countryCode: String? = null,
-    val isDefault: Boolean = false
+    val isDefault: Boolean = false,
+    val isDeviceLocation: Boolean = false
+
 )
