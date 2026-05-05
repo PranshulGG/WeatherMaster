@@ -80,8 +80,9 @@ object AppModule {
     @Provides
     @Singleton
     fun provideLocationsRepository(
-        dao: WeatherLocationDao
-    ): LocationsRepository = LocationsRepository(dao)
+        dao: WeatherLocationDao,
+        @ApplicationContext context: Context
+    ): LocationsRepository = LocationsRepository(dao, context)
 
 
     @Provides
