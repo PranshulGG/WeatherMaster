@@ -1,5 +1,6 @@
 package com.pranshulgg.weathermaster.feature.shared
 
+import android.location.LocationProvider
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -13,6 +14,7 @@ import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.core.model.domain.WeatherBlock
 import com.pranshulgg.weathermaster.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weathermaster.data.provider.WeatherRepositoryProvider
+import com.pranshulgg.weathermaster.data.provider.getDeviceLocation
 import com.pranshulgg.weathermaster.data.repository.AppWeatherUnitsRepository
 import com.pranshulgg.weathermaster.data.repository.LocationsRepository
 import com.pranshulgg.weathermaster.data.repository.WeatherDataRepository
@@ -32,7 +34,7 @@ import javax.inject.Inject
 class WeatherViewModel @Inject constructor(
     private val repo: WeatherRepositoryProvider,
     private val locationsRepo: LocationsRepository,
-    private val appWeatherUnitsRepo: AppWeatherUnitsRepository,
+    appWeatherUnitsRepo: AppWeatherUnitsRepository,
     private val weatherDataRepository: WeatherDataRepository
 ) : ViewModel() {
 
@@ -92,6 +94,14 @@ class WeatherViewModel @Inject constructor(
         setLoading(true)
         val startTime = System.currentTimeMillis()
         _uiState.value = _uiState.value.copy(isError = false)
+
+
+        if (location.isDeviceLocation) {
+            // UPDATE POSITION (adds loading time)
+            // TODO: THIS IS TEMPORARY, HAS TO CHANGE LATER
+            handleDeviceLocation()
+
+        }
 
         val currentRepo = repo.getRepository(provider)
 
@@ -175,4 +185,10 @@ class WeatherViewModel @Inject constructor(
         }
     }
 
+
+    private fun handleDeviceLocation() {
+        viewModelScope.launch {
+            locationsRepo.updateDeviceLocationPosition()
+        }
+    }
 }
