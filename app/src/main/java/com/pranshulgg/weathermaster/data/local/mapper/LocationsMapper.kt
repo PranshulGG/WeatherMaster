@@ -50,7 +50,8 @@ fun Location.toEntity(): WeatherLocationEntity =
         countryCode = countryCode,
         isPinned = false,
         isFavorite = false,
-        isDefault = isDefault
+        isDefault = isDefault,
+        isDeviceLocation = isDeviceLocation
     )
 
 fun List<WeatherLocationEntity>.toDomain(): List<Location> =
@@ -71,5 +72,6 @@ fun WeatherLocationEntity.toDomain(): Location =
         provider = provider,
         isFavorite = isFavorite,
         isPinned = isPinned,
-        isDefault = isDefault
+        isDefault = isDefault,
+        isDeviceLocation = isDeviceLocation
     )

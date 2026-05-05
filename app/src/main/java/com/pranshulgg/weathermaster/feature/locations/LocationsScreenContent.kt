@@ -70,7 +70,8 @@ fun LocationsScreenContent(
                     ),
                     isSelected = location.id == activeLocation?.id,
                     onLongClick = { onLongClick(location) },
-                    isDefault = location.isDefault
+                    isDefault = location.isDefault,
+                    isDeviceLocation = location.isDeviceLocation
                 )
 
 

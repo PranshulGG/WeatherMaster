@@ -45,6 +45,7 @@ fun LocationItem(
     isSelected: Boolean = false,
     isDefault: Boolean = false,
     onLongClick: () -> Unit,
+    isDeviceLocation: Boolean = false
 ) {
 
     val containerColor =
@@ -80,7 +81,11 @@ fun LocationItem(
                 }
             },
             headlineContent = {
-                if (isDefault) DefaultLocationTitle(contentColor, title) else Text(
+                if (isDefault) DefaultLocationTitle(
+                    contentColor,
+                    title,
+                    isDeviceLocation
+                ) else Text(
                     title,
                     color = contentColor
                 )
@@ -98,7 +103,7 @@ fun LocationItem(
 }
 
 @Composable
-private fun DefaultLocationTitle(contentColor: Color, title: String) {
+private fun DefaultLocationTitle(contentColor: Color, title: String, isDeviceLocation: Boolean) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Text(title, color = contentColor)
         Gap(horizontal = 3.dp)
