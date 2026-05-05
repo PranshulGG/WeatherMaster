@@ -94,7 +94,7 @@
     <string name="temp_feels_like">体感温度：%1$s</string>
     <string name="temp_max">最高：%1$s</string>
     <string name="temp_min">最低：%1$s</string>
-    <string name="search_results_provided">Search results provided by %1$s</string>
+    <string name="search_results_provided">%1$s 提供的搜索结果</string>
     <string name="action_confirm">Confirm</string>
     <string name="weather">天气</string>
     <string name="setting_custom_color">Use custom color</string>
@@ -107,6 +107,6 @@
     <string name="weather_precipitation">Precipitation</string>
     <string name="weather_air_quality_index">Air quality index</string>
     <string name="setting_translate_app">Translate this app</string>
-    <string name="setting_translate_app_secondary">Contribute by translating the app into your language on Crowdin</string>
+    <string name="setting_translate_app_secondary">通过在 Crowdin 上将应用程序翻译成您的语言来做出贡献</string>
 </resources>
 <!--<string name=""></string>-->
