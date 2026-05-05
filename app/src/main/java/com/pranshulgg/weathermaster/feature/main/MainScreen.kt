@@ -1,6 +1,8 @@
 package com.pranshulgg.weathermaster.feature.main
 
+import android.Manifest
 import androidx.activity.compose.BackHandler
+import androidx.annotation.RequiresPermission
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberDrawerState
@@ -36,6 +38,7 @@ data class MainScreenUiState(
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
+@RequiresPermission(anyOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
 @Composable
 fun MainScreen(navController: NavController) {
     val prefs = LocalAppPrefs.current

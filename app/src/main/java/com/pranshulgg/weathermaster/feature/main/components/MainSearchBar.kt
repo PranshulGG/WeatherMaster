@@ -53,7 +53,9 @@ fun MainSearchBar(
     val locationText = activeLocation?.let {
         buildString {
             append(activeLocation.name)
-            append(", ")
+            if (activeLocation.country.isNotBlank()) {
+                append(", ")
+            }
             if (activeLocation.state.isNotBlank()) {
                 append(activeLocation.state)
                 append(", ")
