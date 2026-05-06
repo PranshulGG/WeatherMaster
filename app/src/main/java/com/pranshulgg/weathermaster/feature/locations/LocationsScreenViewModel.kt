@@ -1,7 +1,7 @@
 package com.pranshulgg.weathermaster.feature.locations
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pranshulgg.weathermaster.core.model.domain.Location
@@ -56,5 +56,11 @@ class LocationsScreenViewModel @Inject constructor(
         _uiState.value = _uiState.value.copy(isBottomSheetOpen = false)
     }
 
+
+    fun saveDeviceLocation() {
+        viewModelScope.launch {
+            locationsRepo.saveDeviceLocation()
+        }
+    }
 
 }

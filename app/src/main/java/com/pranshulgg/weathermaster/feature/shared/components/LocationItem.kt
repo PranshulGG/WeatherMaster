@@ -4,12 +4,16 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
@@ -51,7 +55,7 @@ fun LocationItem(
     val containerColor =
         if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceBright
     val contentColor =
-        if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
+        if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface
 
     val shape = if (isSelected) RoundedCornerShape(ShapeRadius.ExtraLarge) else CircleShape
 
@@ -81,10 +85,9 @@ fun LocationItem(
                 }
             },
             headlineContent = {
-                if (isDefault) DefaultLocationTitle(
+                if (isDefault) TitleForDefaultLocation(
                     contentColor,
-                    title,
-                    isDeviceLocation
+                    title
                 ) else Text(
                     title,
                     color = contentColor
@@ -97,16 +100,22 @@ fun LocationItem(
                         0.8f
                     ) else MaterialTheme.colorScheme.onSurfaceVariant
                 )
+            },
+            trailingContent = {
+                if (isDeviceLocation) {
+                    Symbol(R.drawable.circle_circle_24px, color = contentColor)
+                }
             }
         )
     }
 }
 
 @Composable
-private fun DefaultLocationTitle(contentColor: Color, title: String, isDeviceLocation: Boolean) {
+private fun TitleForDefaultLocation(contentColor: Color, title: String) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Text(title, color = contentColor)
         Gap(horizontal = 3.dp)
         Symbol(R.drawable.home_pin_24px, color = contentColor, size = 18.dp)
     }
 }
+

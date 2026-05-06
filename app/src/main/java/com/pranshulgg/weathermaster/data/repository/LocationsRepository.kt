@@ -1,15 +1,13 @@
 package com.pranshulgg.weathermaster.data.repository
 
-import android.Manifest
 import android.content.Context
-import android.util.Log
-import androidx.annotation.RequiresPermission
 import androidx.room.Transaction
 import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.data.local.dao.WeatherLocationDao
 import com.pranshulgg.weathermaster.data.local.mapper.toDomain
 import com.pranshulgg.weathermaster.data.local.mapper.toEntity
 import com.pranshulgg.weathermaster.data.provider.getDeviceLocation
+import com.pranshulgg.weathermaster.feature.intro.toDomain
 import dagger.hilt.android.qualifiers.ApplicationContext
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
@@ -57,5 +55,12 @@ class LocationsRepository @Inject constructor(
         val formattedLongitude = "%.5f".format(location.longitude).toDouble()
 
         dao.updateDeviceLocationPosition(formattedLatitude, formattedLongitude)
+    }
+
+    suspend fun saveDeviceLocation() {
+        val location = getDeviceLocation(context)
+        if (location.latitude == null || location.longitude == null) return
+        saveLocation(location.toDomain())
+
     }
 }
