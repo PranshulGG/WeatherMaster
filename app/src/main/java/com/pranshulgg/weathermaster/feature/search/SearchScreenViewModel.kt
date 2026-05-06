@@ -1,5 +1,6 @@
 package com.pranshulgg.weathermaster.feature.search
 
+import android.accounts.NetworkErrorException
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue

@@ -4,10 +4,15 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pranshulgg.weathermaster.R
+import com.pranshulgg.weathermaster.core.model.AppException
 import com.pranshulgg.weathermaster.core.model.domain.Location
+import com.pranshulgg.weathermaster.core.model.toMessageRes
+import com.pranshulgg.weathermaster.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weathermaster.data.repository.LocationsRepository
 import com.pranshulgg.weathermaster.data.repository.WeatherDataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -59,7 +64,12 @@ class LocationsScreenViewModel @Inject constructor(
 
     fun saveDeviceLocation() {
         viewModelScope.launch {
-            locationsRepo.saveDeviceLocation()
+            try {
+                locationsRepo.saveDeviceLocation()
+            } catch (e: Exception) {
+                if (e is CancellationException) throw e
+                SnackbarManager.show(AppException.CurrentLocationUnavailable().toMessageRes())
+            }
         }
     }
 
