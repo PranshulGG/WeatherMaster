@@ -16,11 +16,13 @@ import androidx.compose.material3.FloatingToolbarDefaults.ScreenOffset
 import androidx.compose.material3.FloatingToolbarExitDirection.Companion.Bottom
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.LoadingIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -67,6 +69,7 @@ fun SearchScreen(navController: NavController) {
     val loading = viewModel.loading
     val uiState by viewModel.uiState
     val prefs = LocalAppPrefs.current
+    var itemLoadingId by remember { mutableStateOf("") }
 
     var selectedProvider by remember { mutableStateOf(prefs.searchProvider) }
 
@@ -137,11 +140,24 @@ fun SearchScreen(navController: NavController) {
                     SettingSection(
                         tiles = results.map {
                             SettingTile.ActionTile(
+
                                 title = it.name,
                                 description = "${if (it.state.isNotEmpty()) "${it.state}, " else ""}${it.country}",
+                                trailing = {
+                                    if (itemLoadingId == it.id) {
+                                        LoadingIndicator()
+                                    }
+                                },
                                 onClick = {
-                                    viewModel.saveLocation(it)
-                                    navController.popBackStack()
+                                    if (itemLoadingId.isNotBlank()) return@ActionTile
+
+                                    viewModel.saveLocation(
+                                        it,
+                                        onBack = { navController.popBackStack() },
+                                        onReset = { itemLoadingId = "" }
+                                    )
+
+                                    itemLoadingId = it.id
                                 }
                             )
                         }
