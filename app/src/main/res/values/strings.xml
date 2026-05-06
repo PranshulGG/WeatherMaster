@@ -135,7 +135,11 @@
     <string name="setting_translate_app">Translate this app</string>
     <string name="setting_translate_app_secondary">Contribute by translating the app into your language on Crowdin</string>
 
-    
+    <string name="location_use_current">Use current location</string>
+    <string name="location_use_current_secondary">Detect your device’s current location automatically and add it to your list</string>
+    <string name="location_permission_required">Location permission is required</string>
+
+
 </resources>
 
     <!--<string name=""></string>-->

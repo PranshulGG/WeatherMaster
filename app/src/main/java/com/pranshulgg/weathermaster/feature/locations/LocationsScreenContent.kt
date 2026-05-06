@@ -79,7 +79,7 @@ fun LocationsScreenContent(
                             context,
                             weather.current.lastUpdatedSecs
                         )
-                    ) else "No weather data available"
+                    ) else stringResource(R.string.weather_no_data)
 
 
 
