@@ -99,6 +99,7 @@ class WeatherViewModel @Inject constructor(
         if (location.isDeviceLocation) {
             // UPDATE POSITION (adds loading time)
             // TODO: THIS IS TEMPORARY, HAS TO CHANGE LATER
+            Log.d("DEVICE LOCATION SHIT", "FETCH CORDS")
             handleDeviceLocation()
 
         }
