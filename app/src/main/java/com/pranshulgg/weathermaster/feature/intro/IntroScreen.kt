@@ -46,6 +46,7 @@ import com.pranshulgg.weathermaster.core.ui.navigation.NavRoutes
 import com.pranshulgg.weathermaster.core.utils.UuidGenerator
 import com.pranshulgg.weathermaster.data.provider.DeviceLocation
 import com.pranshulgg.weathermaster.data.provider.getDeviceLocation
+import com.pranshulgg.weathermaster.data.provider.rememberLocationPermissionLauncher
 import java.util.TimeZone
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -56,26 +57,22 @@ fun IntroScreen(navController: NavController) {
     val viewModel: IntroScreenViewModel = hiltViewModel()
     val prefs = LocalAppPrefs.current
 
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissions ->
-        val fine = permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true
-        val coarse = permissions[Manifest.permission.ACCESS_COARSE_LOCATION] == true
-
-        if (fine || coarse) {
+    val requestLocation = rememberLocationPermissionLauncher(
+        onGranted = {
             val location = getDeviceLocation(context)
 
             if (location.latitude == null || location.longitude == null) {
                 Toast.makeText(context, "Location was null", Toast.LENGTH_SHORT).show()
-                return@rememberLauncherForActivityResult
+                return@rememberLocationPermissionLauncher
             }
 
             viewModel.saveDeviceLocation(location.toDomain())
             prefs.setFirstStart(false)
-        } else {
+        },
+        onDenied = {
             Toast.makeText(context, "Location permission is required", Toast.LENGTH_SHORT).show()
         }
-    }
+    )
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surfaceContainer
@@ -116,12 +113,7 @@ fun IntroScreen(navController: NavController) {
                 Gap(28.dp)
                 Button(
                     onClick = {
-                        launcher.launch(
-                            arrayOf(
-                                Manifest.permission.ACCESS_FINE_LOCATION,
-                                Manifest.permission.ACCESS_COARSE_LOCATION
-                            )
-                        )
+                        requestLocation()
                     },
                     modifier = Modifier
                         .heightIn(btnSize)
