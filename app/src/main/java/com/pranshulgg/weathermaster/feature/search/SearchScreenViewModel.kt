@@ -56,7 +56,7 @@ class SearchScreenViewModel @Inject constructor(
         }
     }
 
-    fun saveLocation(location: Location) {
+    fun saveLocation(location: Location, onBack: () -> Unit, onReset: () -> Unit) {
         viewModelScope.launch {
             try {
                 val resolved = if (_uiState.value.provider == SearchProviders.GEO_NAMES) {
@@ -65,9 +65,14 @@ class SearchScreenViewModel @Inject constructor(
                     location
                 }
                 locationsRepo.saveLocation(resolved)
+                onBack()
             } catch (e: Exception) {
-                if (e is CancellationException) throw e
+                if (e is CancellationException) {
+                    throw e
+                }
                 SnackbarManager.show(R.string.error_generic)
+            } finally {
+                onReset()
             }
         }
     }
