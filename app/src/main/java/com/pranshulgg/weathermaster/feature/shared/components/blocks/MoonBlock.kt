@@ -161,7 +161,7 @@ fun MoonBlock(weather: Weather) {
 @Composable
 private fun RiseSetTimeRow(text: String, icon: Int) {
     Row() {
-        Symbol(icon, color = MaterialTheme.colorScheme.onSurface, size = 18.dp)
+        Symbol(icon, color = Color.White, size = 18.dp)
         Gap(horizontal = 5.dp)
         Text(
             text,
