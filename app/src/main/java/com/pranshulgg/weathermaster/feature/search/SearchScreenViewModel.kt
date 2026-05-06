@@ -71,7 +71,6 @@ class SearchScreenViewModel @Inject constructor(
                     throw e
                 }
                 SnackbarManager.show(R.string.error_generic)
-            } finally {
                 onReset()
             }
         }
