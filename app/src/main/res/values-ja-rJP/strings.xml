@@ -108,10 +108,10 @@
     <string name="weather_air_quality_index">空気質指数</string>
     <string name="setting_translate_app">このアプリを翻訳する</string>
     <string name="setting_translate_app_secondary">Crowdinで翻訳に協力する</string>
-    <string name="location_use_current">Use current location</string>
-    <string name="location_use_current_secondary">Detect your device’s current location automatically and add it to your list</string>
-    <string name="location_permission_required">Location permission is required</string>
-    <string name="current_location_not_found">Current location not found</string>
-    <string name="error_server">Request couldn’t be completed. Try again shortly</string>
+    <string name="location_use_current">現在地を使用</string>
+    <string name="location_use_current_secondary">現在地を自動的に取得して、地点リストに追加します</string>
+    <string name="location_permission_required">位置情報の権限が必要です</string>
+    <string name="current_location_not_found">現在地を特定できません</string>
+    <string name="error_server">リクエストを完了できませんでした。しばらくしてからもう一度お試しください</string>
 </resources>
 <!--<string name=""></string>-->
