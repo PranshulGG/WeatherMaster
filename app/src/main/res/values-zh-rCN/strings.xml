@@ -111,7 +111,7 @@
     <string name="location_use_current">使用当前地点</string>
     <string name="location_use_current_secondary">自动检测设备的当前地点并将其添加到列表</string>
     <string name="location_permission_required">需要定位权限</string>
-    <string name="current_location_not_found">Current location not found</string>
-    <string name="error_server">Request couldn’t be completed. Try again shortly</string>
+    <string name="current_location_not_found">未找到当前地点</string>
+    <string name="error_server">请求未能完成。请稍后再试</string>
 </resources>
 <!--<string name=""></string>-->

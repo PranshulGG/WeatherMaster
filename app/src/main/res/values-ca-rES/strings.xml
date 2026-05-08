@@ -111,7 +111,7 @@
     <string name="weather_air_quality_index">Índex de qualitat d\'aire</string>
     <string name="setting_translate_app">Tradueix aquesta aplicació</string>
     <string name="setting_translate_app_secondary">Contribueix traduint l\'aplicació al teu idioma a Crowdin</string>
-    <string name="location_use_current">Use current location</string>
+    <string name="location_use_current">Fes servir la ubicació actual</string>
     <string name="location_use_current_secondary">Detect your device’s current location automatically and add it to your list</string>
     <string name="location_permission_required">Location permission is required</string>
     <string name="current_location_not_found">Current location not found</string>
