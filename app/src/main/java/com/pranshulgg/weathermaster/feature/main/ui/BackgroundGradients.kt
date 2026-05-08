@@ -192,7 +192,7 @@ private object ColorsLight : ColorPalette {
 
     override val FOG_HAZE = Background(
         gradient = listOf(Color(0xFFfacb8e), Color(0xFFfff4db)),
-        scrollColor = Color(0xFF352603)
+        scrollColor = Color(0xFFfff4db)
     )
 
     override val THUNDERSTORM = Background(
