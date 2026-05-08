@@ -15,6 +15,7 @@ import com.pranshulgg.weathermaster.data.local.mapper.weatherProviders.toHourlyW
 import com.pranshulgg.weathermaster.data.repository.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.net.UnknownHostException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -45,7 +46,8 @@ class OpenMeteoRepository @Inject constructor(
                     api.fetchWeather(location.latitude, location.longitude, location.timezone)
 
                 val body =
-                    response.body() ?: return@withContext WeatherResult.Error("Empty response")
+                    response.body()
+                        ?: return@withContext WeatherResult.Error(exception = UnknownHostException())
 
                 val domain = body.toDomain(location)
 
@@ -63,7 +65,7 @@ class OpenMeteoRepository @Inject constructor(
                 val isCacheSafe = DataSafe().isCacheSafe(cache)
 
                 WeatherResult.Error(
-                    e.message ?: "Unknown error",
+                    exception = e,
                     if (isCacheSafe) cache?.toDomain() else null
                 )
 
