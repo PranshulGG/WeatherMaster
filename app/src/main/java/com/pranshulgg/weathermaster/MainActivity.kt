@@ -1,15 +1,13 @@
 package com.pranshulgg.weathermaster
 
-import android.Manifest
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.pranshulgg.weathermaster.core.prefs.AppPrefs.initPrefs
-import com.pranshulgg.weathermaster.data.provider.getDeviceLocation
+import com.pranshulgg.weathermaster.data.provider.GetDeviceLocation
 import com.pranshulgg.weathermaster.feature.shared.WeatherViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,7 +17,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen().setKeepOnScreenCondition {
-            viewModel.uiState.value.weather == null
+            val state = viewModel.uiState.value
+            !state.isInitialized
         }
         initPrefs(this)
         super.onCreate(savedInstanceState)
@@ -29,4 +28,12 @@ class MainActivity : AppCompatActivity() {
             WeatherMasterApp()
         }
     }
+
+    val locationHelper = GetDeviceLocation()
+    override fun onPause() {
+        super.onPause()
+        locationHelper.stopUpdates()
+    }
 }
+
+
