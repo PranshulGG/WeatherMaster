@@ -9,12 +9,10 @@ import com.pranshulgg.weathermaster.core.ui.theme.ThemeVariantType
 import com.pranshulgg.weathermaster.core.utils.PreferencesHelper
 
 object AppPrefs {
-    private val _appTheme = mutableStateOf("System")
+    private val _appTheme = mutableStateOf("Dark")
     private val _customThemeColor = mutableStateOf("#2196f3")
     private val _isCustomTheme = mutableStateOf(false)
     private val _isDynamicTheme = mutableStateOf(false)
-
-    private val _isFirstStart = mutableStateOf(true)
 
     private val _themeVariantType = mutableStateOf(ThemeVariantType.EXPRESSIVE)
 
@@ -29,7 +27,6 @@ object AppPrefs {
         _customThemeColor.value = PreferencesHelper.getString("custom_theme_color") ?: "#2196f3"
         _isCustomTheme.value = PreferencesHelper.getBool("isCustomTheme") ?: false
         _isDynamicTheme.value = PreferencesHelper.getBool("isDynamicTheme") ?: false
-        _isFirstStart.value = PreferencesHelper.getBool("isFirstStart") ?: true
 
         _themeVariantType.value = PreferencesHelper.getString("theme_variant_type")
             ?.let { runCatching { ThemeVariantType.valueOf(it) }.getOrNull() }
@@ -66,12 +63,6 @@ object AppPrefs {
         setDynamicColor = {
             _isDynamicTheme.value = it
             PreferencesHelper.setBool("isDynamicTheme", it)
-        },
-
-        isFirstStart = _isFirstStart.value,
-        setFirstStart = {
-            _isFirstStart.value = it
-            PreferencesHelper.setBool("isFirstStart", it)
         },
 
         themeVariantType = _themeVariantType.value,
