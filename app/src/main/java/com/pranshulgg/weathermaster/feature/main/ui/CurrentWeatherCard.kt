@@ -114,12 +114,12 @@ private fun MinMaxTempRow(weather: Weather, units: AppWeatherUnits, context: Con
     val daily = weather.daily.getOrNull(0)
 
     val minTemp = UnitConverter.convertTemp(
-        daily?.temperatureMin ?: -1.0,
+        daily?.temperatureMin ?: -99999.0,
         TemperatureUnits.CELSIUS,
         units.tempUnit
     )
     val maxTemp = UnitConverter.convertTemp(
-        daily?.temperatureMax ?: -1.0,
+        daily?.temperatureMax ?: -99999.0,
         TemperatureUnits.CELSIUS,
         units.tempUnit
     )
@@ -134,12 +134,12 @@ private fun MinMaxTempRow(weather: Weather, units: AppWeatherUnits, context: Con
             "${
                 stringResource(
                     R.string.temp_max,
-                    "${if (maxTemp == -1.0) "N/A" else maxTemp.roundToInt()}°"
+                    "${if (maxTemp == -99999.0) "N/A" else maxTemp.roundToInt()}°"
                 )
             } ${
                 stringResource(
                     R.string.temp_min,
-                    "${if (minTemp == -1.0) "N/A" else minTemp.roundToInt()}°"
+                    "${if (minTemp == -99999.0) "N/A" else minTemp.roundToInt()}°"
                 )
             }",
             color = colorScheme.onSurfaceVariant,
