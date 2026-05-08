@@ -13,6 +13,7 @@ import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.AppException
 import com.pranshulgg.weathermaster.core.model.SearchProviders
 import com.pranshulgg.weathermaster.core.model.domain.Location
+import com.pranshulgg.weathermaster.core.model.toAppException
 import com.pranshulgg.weathermaster.core.model.toMessageRes
 import com.pranshulgg.weathermaster.core.network.search.geonames.GeoNamesTimezoneApi
 import com.pranshulgg.weathermaster.core.network.search.geonames.GeoNamesTimezoneRepository
@@ -72,14 +73,7 @@ class SearchScreenViewModel @Inject constructor(
                 locationsRepo.saveLocation(resolved)
                 onBack()
             } catch (e: Exception) {
-                if (e is CancellationException) {
-                    throw e
-                }
-                val appExpectation = when (e) {
-                    is IOException -> AppException.Network()
-                    is HttpException -> AppException.Server()
-                    else -> AppException.Unknown()
-                }
+                val appExpectation = e.toAppException()
                 SnackbarManager.show(appExpectation.toMessageRes())
                 onReset()
             }
