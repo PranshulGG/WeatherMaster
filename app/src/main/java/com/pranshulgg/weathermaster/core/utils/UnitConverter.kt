@@ -11,8 +11,8 @@ object UnitConverter {
 
     fun convertTemp(value: Double, from: TemperatureUnits, to: TemperatureUnits): Double {
 
-        if (value == -1.0) {
-            return -1.0
+        if (value == -99999.0) { // YES :P
+            return -99999.0 // + DEATH
         }
 
         return when (from) {
