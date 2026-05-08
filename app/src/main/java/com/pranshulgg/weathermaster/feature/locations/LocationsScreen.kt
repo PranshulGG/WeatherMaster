@@ -1,16 +1,12 @@
 package com.pranshulgg.weathermaster.feature.locations
 
 import android.widget.Toast
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FabPosition
@@ -19,7 +15,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TooltipAnchorPosition
 import androidx.compose.material3.TopAppBar
@@ -27,7 +22,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -40,18 +34,17 @@ import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
 import com.pranshulgg.weathermaster.core.ui.components.Tooltip
 import com.pranshulgg.weathermaster.core.ui.navigation.NavRoutes
-import com.pranshulgg.weathermaster.core.ui.theme.ShapeRadius
-import com.pranshulgg.weathermaster.data.provider.getDeviceLocation
+import com.pranshulgg.weathermaster.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weathermaster.data.provider.rememberLocationPermissionLauncher
-import com.pranshulgg.weathermaster.feature.intro.toDomain
-import com.pranshulgg.weathermaster.feature.locations.ui.LocationScreenSheet
 import com.pranshulgg.weathermaster.feature.locations.ui.LocationScreenConfirmationDialog
+import com.pranshulgg.weathermaster.feature.locations.ui.LocationScreenSheet
 import com.pranshulgg.weathermaster.feature.shared.WeatherViewModel
 
 data class LocationsScreenUiState(
     val isConfirmationDialogOpen: Boolean = false,
     val longClickedLocation: Location? = null,
-    val isBottomSheetOpen: Boolean = false
+    val isBottomSheetOpen: Boolean = false,
+    val isDeviceLocationLoading: Boolean = false
 )
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
@@ -68,21 +61,22 @@ fun LocationsScreen(
     val viewModel: LocationsScreenViewModel = hiltViewModel()
     val weatherViewModel: WeatherViewModel = hiltViewModel()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val uiState = viewModel.uiState
 
     val weatherForLocations by viewModel.allLocationsWeather.collectAsStateWithLifecycle(
         initialValue = emptyList()
     )
 
-    val context = LocalContext.current
 
     val requestLocation = rememberLocationPermissionLauncher(
         onGranted = {
             viewModel.saveDeviceLocation()
         },
         onDenied = {
-            Toast.makeText(context, "Location permission is required", Toast.LENGTH_SHORT).show()
+            SnackbarManager.show(R.string.location_permission_required)
         }
     )
+
 
 
     Scaffold(
@@ -111,7 +105,8 @@ fun LocationsScreen(
                 },
                 activeLocation = activeLocation,
                 weatherForLocations,
-                onAddCurrentLocation = { requestLocation() }
+                onAddCurrentLocation = { requestLocation() },
+                uiState.value.isDeviceLocationLoading
             )
         }
     }

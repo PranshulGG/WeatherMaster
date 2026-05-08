@@ -1,7 +1,10 @@
 package com.pranshulgg.weathermaster.feature.locations
 
+import android.util.Log
 import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pranshulgg.weathermaster.R
@@ -63,12 +66,15 @@ class LocationsScreenViewModel @Inject constructor(
 
 
     fun saveDeviceLocation() {
+        _uiState.value = _uiState.value.copy(isDeviceLocationLoading = true)
         viewModelScope.launch {
             try {
                 locationsRepo.saveDeviceLocation()
             } catch (e: Exception) {
                 if (e is CancellationException) throw e
                 SnackbarManager.show(AppException.CurrentLocationUnavailable().toMessageRes())
+            } finally {
+                _uiState.value = _uiState.value.copy(isDeviceLocationLoading = false)
             }
         }
     }

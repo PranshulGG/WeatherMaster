@@ -15,10 +15,15 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
+import androidx.compose.material3.LoadingIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,11 +49,13 @@ fun LocationsScreenContent(
     onLocationSelect: (Location) -> Unit,
     activeLocation: Location? = null,
     weatherForLocations: List<Weather> = emptyList(),
-    onAddCurrentLocation: () -> Unit
+    onAddCurrentLocation: () -> Unit,
+    isDeviceLocationLoading: Boolean
 ) {
 
     val weatherMap = weatherForLocations.associateBy { it.location.id }
     val context = LocalContext.current
+    val showDeviceLocationCard = locations.none { it.isDeviceLocation }
 
 
     AnimatedContent(
@@ -60,10 +67,15 @@ fun LocationsScreenContent(
         ) {
 
             // TODO: Still need to find a better way for user to add current location, but this works for now
-            if (locations.none { it.isDeviceLocation }) {
+            if (showDeviceLocationCard) {
                 item {
                     UseDeviceLocationCard(
-                        onClick = onAddCurrentLocation
+                        onClick = {
+                            if (!isDeviceLocationLoading) {
+                                onAddCurrentLocation()
+                            }
+                        },
+                        isDeviceLocationLoading
                     )
                     Gap(vertical = 8.dp)
                 }
@@ -80,10 +92,6 @@ fun LocationsScreenContent(
                             weather.current.lastUpdatedSecs
                         )
                     ) else stringResource(R.string.weather_no_data)
-
-
-
-
                 LocationItem(
                     title = location.name,
                     description = description,
@@ -112,7 +120,7 @@ fun LocationsScreenContent(
 }
 
 @Composable
-private fun UseDeviceLocationCard(onClick: () -> Unit) {
+private fun UseDeviceLocationCard(onClick: () -> Unit, isLoading: Boolean = false) {
     Surface(
         modifier = Modifier
             .clip(RoundedCornerShape(ShapeRadius.ExtraLarge)),
@@ -131,7 +139,11 @@ private fun UseDeviceLocationCard(onClick: () -> Unit) {
                             shape = CircleShape
                         ), contentAlignment = Alignment.Center
                 ) {
-                    SettingsTileIcon(R.drawable.location_searching_24px)
+                    if (!isLoading) {
+                        SettingsTileIcon(R.drawable.location_searching_24px)
+                    } else {
+                        LoadingIndicator()
+                    }
                 }
             },
             headlineContent = {
