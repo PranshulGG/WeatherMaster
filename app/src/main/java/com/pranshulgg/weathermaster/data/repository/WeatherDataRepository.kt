@@ -17,6 +17,8 @@ class WeatherDataRepository @Inject constructor(
     private val weatherDataDao: WeatherDataDao,
     private val weatherBlocksDao: WeatherBlocksDao
 ) {
+
+    // TODO: change this shit naming
     fun getAllLocationsWeather(): Flow<List<Weather>> {
         return weatherDataDao.getAllLocationsCurrentWeather()
             .map { list -> list.map { it.toDomain() } }
