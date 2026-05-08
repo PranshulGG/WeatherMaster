@@ -39,7 +39,7 @@ fun HumidityBlock(weather: Weather, units: AppWeatherUnits) {
 
     val humidity = weather.current.humidity.toInt()
     val dewPoint = UnitConverter.convertTemp(
-        weather.current.dewPoint ?: 0.0,
+        weather.current.dewPoint ?: -99999.0,
         TemperatureUnits.CELSIUS,
         units.tempUnit
     ).toInt()
