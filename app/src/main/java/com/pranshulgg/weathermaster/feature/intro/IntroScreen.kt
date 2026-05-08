@@ -1,10 +1,6 @@
 package com.pranshulgg.weathermaster.feature.intro
 
-import android.Manifest
 import android.widget.Toast
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresPermission
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,6 +21,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pranshulgg.weathermaster.R
+import com.pranshulgg.weathermaster.core.model.AppException
 import com.pranshulgg.weathermaster.core.model.WeatherProviders
 import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.core.prefs.LocalAppPrefs
@@ -43,9 +44,10 @@ import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
 import com.pranshulgg.weathermaster.core.ui.components.WeatherIconBox
 import com.pranshulgg.weathermaster.core.ui.navigation.NavRoutes
+import com.pranshulgg.weathermaster.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weathermaster.core.utils.UuidGenerator
 import com.pranshulgg.weathermaster.data.provider.DeviceLocation
-import com.pranshulgg.weathermaster.data.provider.getDeviceLocation
+import com.pranshulgg.weathermaster.data.provider.GetDeviceLocation
 import com.pranshulgg.weathermaster.data.provider.rememberLocationPermissionLauncher
 import java.util.TimeZone
 
@@ -55,22 +57,30 @@ fun IntroScreen(navController: NavController) {
 
     val context = LocalContext.current
     val viewModel: IntroScreenViewModel = hiltViewModel()
-    val prefs = LocalAppPrefs.current
+    var isLoading by remember { mutableStateOf(false) }
 
     val requestLocation = rememberLocationPermissionLauncher(
         onGranted = {
-            val location = getDeviceLocation(context)
+            isLoading = true
+            GetDeviceLocation().getDeviceLocation(
+                context,
+                onTimeout = {
+                    SnackbarManager.show(R.string.current_location_not_found)
+                    isLoading = false
+                }) { location ->
+                if (location.latitude == null || location.longitude == null) {
+                    SnackbarManager.show(R.string.current_location_not_found)
+                    return@getDeviceLocation
+                }
 
-            if (location.latitude == null || location.longitude == null) {
-                Toast.makeText(context, "Location was null", Toast.LENGTH_SHORT).show()
-                return@rememberLocationPermissionLauncher
+                viewModel.saveDeviceLocation(location.toDomain())
             }
 
-            viewModel.saveDeviceLocation(location.toDomain())
-            prefs.setFirstStart(false)
+
         },
         onDenied = {
-            Toast.makeText(context, "Location permission is required", Toast.LENGTH_SHORT).show()
+            SnackbarManager.show(R.string.location_permission_required)
+            isLoading = false
         }
     )
 
@@ -112,6 +122,7 @@ fun IntroScreen(navController: NavController) {
                 )
                 Gap(28.dp)
                 Button(
+                    enabled = !isLoading,
                     onClick = {
                         requestLocation()
                     },
@@ -213,7 +224,7 @@ fun DeviceLocation.toDomain(): Location {
 
     return Location(
         id = UuidGenerator().generateId(),
-        name = "$formattedLatitude, $formattedLongitude",
+        name = "$formattedLatitude, $formattedLongitude", // TODO: Reverse geocoding support
         latitude = formattedLatitude,
         longitude = formattedLongitude,
         country = "",
