@@ -8,7 +8,7 @@ sealed class WeatherResult {
 
     data object RefreshNotAvailable : WeatherResult()
 
-    data class Error(val message: String, val cacheWeather: Weather? = null) : WeatherResult()
+    data class Error(val exception: Exception, val cacheWeather: Weather? = null) : WeatherResult()
 }
 
 enum class WeatherResultType {
