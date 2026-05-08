@@ -29,6 +29,10 @@ import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 object WeatherUtils {
+
+    private const val MANUAL_REFRESH_MINUTES = 15
+    private const val AUTO_REFRESH_MAX_MINUTES = 45 // TODO: DEFAULT 45
+
     fun filterHourlyDataForDate(
         data: List<WeatherHourly>,
         currentSeconds: Long,
@@ -115,8 +119,8 @@ object WeatherUtils {
         val ageMillis = System.currentTimeMillis() - cacheMilli
         val ageMinutes = TimeUnit.MILLISECONDS.toMinutes(ageMillis)
 
-        val tooEarly = isManualRefresh && ageMinutes < 15
-        val maxAge = if (isManualRefresh) 15 else 4500
+        val tooEarly = isManualRefresh && ageMinutes < MANUAL_REFRESH_MINUTES
+        val maxAge = if (isManualRefresh) MANUAL_REFRESH_MINUTES else AUTO_REFRESH_MAX_MINUTES
 
         if (tooEarly) return WeatherResultType.REFRESH_TOO_EARLY
 
