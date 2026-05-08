@@ -40,7 +40,6 @@ import com.pranshulgg.weathermaster.feature.settings.appearance.components.Color
 fun AppearanceScreen(navController: NavController) {
 
     val prefs = LocalAppPrefs.current
-    val context = LocalContext.current
     val isAndroid12Plus = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
 
     val appThemeOptions = listOf(
