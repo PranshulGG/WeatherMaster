@@ -1,20 +1,20 @@
 package com.pranshulgg.weathermaster.feature.shared
 
-import android.location.LocationProvider
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.WeatherProviders
 import com.pranshulgg.weathermaster.core.model.WeatherResult
 import com.pranshulgg.weathermaster.core.model.domain.Location
+import com.pranshulgg.weathermaster.core.model.domain.Weather
 import com.pranshulgg.weathermaster.core.model.domain.WeatherBlock
+import com.pranshulgg.weathermaster.core.model.toAppException
+import com.pranshulgg.weathermaster.core.model.toMessageRes
 import com.pranshulgg.weathermaster.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weathermaster.data.provider.WeatherRepositoryProvider
-import com.pranshulgg.weathermaster.data.provider.getDeviceLocation
 import com.pranshulgg.weathermaster.data.repository.AppWeatherUnitsRepository
 import com.pranshulgg.weathermaster.data.repository.LocationsRepository
 import com.pranshulgg.weathermaster.data.repository.WeatherDataRepository
@@ -47,9 +47,13 @@ class WeatherViewModel @Inject constructor(
         // LOAD DEFAULT ON START
         viewModelScope.launch {
             if (_uiState.value.activeLocation == null) {
-                val default = locationsRepo.getDefaultLocation()
-                    .filterNotNull()
-                    .first()
+
+                val isLocationsEmpty = locationsRepo.isLocationsEmpty()
+                if (isLocationsEmpty) {
+                    // Locations Empty? not possible, likely a first launch
+                    _uiState.value = uiState.value.copy(isInitialized = true)
+                }
+                val default = locationsRepo.getDefaultLocation().filterNotNull().first()
                 setActiveLocation(default)
             }
             loadBlocks()
@@ -96,12 +100,10 @@ class WeatherViewModel @Inject constructor(
         _uiState.value = _uiState.value.copy(isError = false)
 
 
-        if (location.isDeviceLocation) {
+        if (location.isDeviceLocation && isManualRefresh) {
             // UPDATE POSITION (adds loading time)
             // TODO: THIS IS TEMPORARY, HAS TO CHANGE LATER
-            Log.d("DEVICE LOCATION SHIT", "FETCH CORDS")
             handleDeviceLocation()
-
         }
 
         val currentRepo = repo.getRepository(provider)
@@ -110,12 +112,14 @@ class WeatherViewModel @Inject constructor(
             when (val result = currentRepo.getWeather(location, isManualRefresh)) {
 
                 is WeatherResult.Success -> {
-                    _uiState.value = _uiState.value.copy(weather = result.weather)
+                    _uiState.value =
+                        _uiState.value.copy(weather = result.weather, isInitialized = true)
                 }
 
                 is WeatherResult.Error -> {
 
-                    SnackbarManager.show(R.string.error_generic)
+                    val appExpectation = result.exception.toAppException()
+                    SnackbarManager.show(appExpectation.toMessageRes())
 
                     _uiState.value =
                         _uiState.value.copy(isError = true, weather = result.cacheWeather)
