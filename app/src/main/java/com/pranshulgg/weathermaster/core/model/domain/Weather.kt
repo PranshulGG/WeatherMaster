@@ -12,7 +12,6 @@ data class Weather(
     val daily: List<WeatherDaily>
 )
 
-
 data class WeatherCurrent(
     val temperature: Double,
     val humidity: Double,
