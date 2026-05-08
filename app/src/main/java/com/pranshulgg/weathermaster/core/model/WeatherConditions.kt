@@ -98,7 +98,7 @@ fun WeatherConditions.toLabel(context: Context): String {
         WeatherConditions.THUNDERSTORM -> context.getString(R.string.weather_thunderstorm)
 
         WeatherConditions.VERY_HOT -> context.getString(R.string.weather_very_hot)
-        WeatherConditions.VERY_COLD -> context.getString(R.string.weather_very_hot)
+        WeatherConditions.VERY_COLD -> context.getString(R.string.weather_very_cold)
 
         WeatherConditions.FOG_HAZE -> context.getString(R.string.weather_haze)
 
