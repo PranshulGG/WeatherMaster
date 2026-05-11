@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
@@ -32,6 +33,7 @@ fun LanguageScreen(navController: NavController) {
 
 
     val languageList = LocaleUtils().getAppLocalLocales()
+    val uriHandler = LocalUriHandler.current
 
     val currentAppLocale =
         remember {
@@ -59,7 +61,9 @@ fun LanguageScreen(navController: NavController) {
                     SettingTile.ActionTile(
                         title = stringResource(R.string.setting_translate_app),
                         description = stringResource(R.string.setting_translate_app_secondary),
-                        onClick = {}
+                        onClick = {
+                            uriHandler.openUri("https://crowdin.com/project/weathermaster")
+                        }
                     )
                 ))
 
