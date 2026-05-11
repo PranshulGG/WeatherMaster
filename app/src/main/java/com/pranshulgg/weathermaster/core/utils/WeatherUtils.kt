@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit
 object WeatherUtils {
 
     private const val MANUAL_REFRESH_MINUTES = 15
-    private const val AUTO_REFRESH_MAX_MINUTES = 45 // TODO: DEFAULT 45
+    private const val AUTO_REFRESH_MAX_MINUTES = 4500 // TODO: DEFAULT 45
 
     fun filterHourlyDataForDate(
         data: List<WeatherHourly>,
