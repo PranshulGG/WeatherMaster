@@ -53,6 +53,8 @@ fun MainScreenScaffold(
 
     val pullToRefreshState = rememberPullToRefreshState()
     val weather = remember(uiState.weather) { uiState.weather }
+    val airQuality = remember(uiState.airQuality) { uiState.airQuality }
+
     val units = uiState.weatherUnits
     val scrollState = rememberScrollState()
 
@@ -77,7 +79,7 @@ fun MainScreenScaffold(
             AnimatedVisibility(visible = isAnimationVisible, enter = fadeIn(), exit = fadeOut()) {
                 weather?.let { WeatherAnimations(weather) }
             }
-            
+
             PullToRefreshBox(
                 isRefreshing = uiState.isLoading,
                 state = pullToRefreshState,
@@ -128,7 +130,7 @@ fun MainScreenScaffold(
                             ) {
                                 HourlyCard(weather, units)
                                 DailyCard(weather, units)
-                                WeatherBlocks(weather, units, context, uiState.blocks)
+                                WeatherBlocks(weather, airQuality, units, context, uiState.blocks)
                             }
                         }
                     }
