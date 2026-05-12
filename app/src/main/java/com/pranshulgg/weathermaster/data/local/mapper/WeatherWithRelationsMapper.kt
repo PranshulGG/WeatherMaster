@@ -16,7 +16,7 @@ import kotlin.uuid.ExperimentalUuidApi
 fun WeatherWithRelations.toDomain(): Weather {
     val timezone = location.timezone
 
-
+    // DROP PAST DAYS
     val todayIndex = getDailyIndexForToday(
         current?.time ?: Instant.now().epochSecond,
         daily,
