@@ -37,7 +37,7 @@ interface WeatherDataDao {
     suspend fun insertDailyWeather(dailyWeather: List<DailyWeatherEntity>)
 
     @Query("SELECT * FROM weather_locations WHERE id = :locationId")
-    suspend fun getAllWeatherDataForLocation(locationId: String): WeatherWithRelations?
+    suspend fun getWeatherDataForLocation(locationId: String): WeatherWithRelations?
 
     @Query("SELECT * FROM weather_locations")
     fun getAllLocationsCurrentWeather(): Flow<List<WeatherWithRelations>>
