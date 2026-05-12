@@ -8,7 +8,8 @@ enum class WeatherBlockType {
     UV_INDEX_BLOCK,
     PRESSURE_BLOCK,
     SUN_BLOCK,
-    MOON_BLOCK
+    MOON_BLOCK,
+    AIR_QUALITY
 
 }
 
@@ -48,6 +49,11 @@ data class WeatherBlock(
                 type = WeatherBlockType.UV_INDEX_BLOCK,
                 isHidden = false,
                 position = 5
+            ),
+            WeatherBlock(
+                type = WeatherBlockType.AIR_QUALITY,
+                isHidden = false,
+                position = 6
             )
         )
     }
