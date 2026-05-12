@@ -13,6 +13,7 @@ import com.pranshulgg.weathermaster.core.model.domain.Weather
 import com.pranshulgg.weathermaster.core.model.domain.WeatherBlock
 import com.pranshulgg.weathermaster.core.model.toAppException
 import com.pranshulgg.weathermaster.core.model.toMessageRes
+import com.pranshulgg.weathermaster.core.network.airquality.openmeteo.OpenMeteoAqiRepository
 import com.pranshulgg.weathermaster.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weathermaster.data.provider.WeatherRepositoryProvider
 import com.pranshulgg.weathermaster.data.repository.AppWeatherUnitsRepository
@@ -35,7 +36,8 @@ class WeatherViewModel @Inject constructor(
     private val repo: WeatherRepositoryProvider,
     private val locationsRepo: LocationsRepository,
     appWeatherUnitsRepo: AppWeatherUnitsRepository,
-    private val weatherDataRepository: WeatherDataRepository
+    private val weatherDataRepository: WeatherDataRepository,
+    private val openMeteoAqiRepository: OpenMeteoAqiRepository
 ) : ViewModel() {
 
     private var _uiState = mutableStateOf(MainScreenUiState())
@@ -108,12 +110,22 @@ class WeatherViewModel @Inject constructor(
 
         val currentRepo = repo.getRepository(provider)
 
+
         weatherJob = viewModelScope.launch {
+
+
+            // AIR QUALITY
+            val airQuality = openMeteoAqiRepository.getAirQuality(location, isManualRefresh)
+
             when (val result = currentRepo.getWeather(location, isManualRefresh)) {
 
                 is WeatherResult.Success -> {
                     _uiState.value =
-                        _uiState.value.copy(weather = result.weather, isInitialized = true)
+                        _uiState.value.copy(
+                            weather = result.weather,
+                            airQuality = airQuality,
+                            isInitialized = true
+                        )
                 }
 
                 is WeatherResult.Error -> {
@@ -162,6 +174,7 @@ class WeatherViewModel @Inject constructor(
     fun setActiveLocation(location: Location) {
         _uiState.value = _uiState.value.copy(activeLocation = location)
         getWeather(location, location.provider)
+
     }
 
 
