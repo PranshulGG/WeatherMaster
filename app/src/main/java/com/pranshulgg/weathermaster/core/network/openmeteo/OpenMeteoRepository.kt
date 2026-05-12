@@ -1,6 +1,5 @@
 package com.pranshulgg.weathermaster.core.network.openmeteo
 
-import android.util.Log
 import com.pranshulgg.weathermaster.core.model.WeatherResult
 import com.pranshulgg.weathermaster.core.model.WeatherResultType
 import com.pranshulgg.weathermaster.core.model.domain.Location
@@ -8,15 +7,14 @@ import com.pranshulgg.weathermaster.core.utils.DataSafe
 import com.pranshulgg.weathermaster.core.utils.WeatherUtils
 import com.pranshulgg.weathermaster.data.local.dao.WeatherDataDao
 import com.pranshulgg.weathermaster.data.local.mapper.toDomain
-import com.pranshulgg.weathermaster.data.local.mapper.weatherProviders.toCurrentWeatherEntity
-import com.pranshulgg.weathermaster.data.local.mapper.weatherProviders.toDailyWeatherEntity
-import com.pranshulgg.weathermaster.data.local.mapper.weatherProviders.toDomain
-import com.pranshulgg.weathermaster.data.local.mapper.weatherProviders.toHourlyWeatherEntity
+import com.pranshulgg.weathermaster.data.local.mapper.weather.toCurrentWeatherEntity
+import com.pranshulgg.weathermaster.data.local.mapper.weather.toDailyWeatherEntity
+import com.pranshulgg.weathermaster.data.local.mapper.weather.toDomain
+import com.pranshulgg.weathermaster.data.local.mapper.weather.toHourlyWeatherEntity
 import com.pranshulgg.weathermaster.data.repository.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.net.UnknownHostException
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class OpenMeteoRepository @Inject constructor(
@@ -29,7 +27,7 @@ class OpenMeteoRepository @Inject constructor(
             Dispatchers.IO
         ) {
 
-            val cache = dao.getAllWeatherDataForLocation(location.id)
+            val cache = dao.getWeatherDataForLocation(location.id)
 
             val shouldReturnCache = WeatherUtils.shouldReturnCache(cache, isManualRefresh)
 

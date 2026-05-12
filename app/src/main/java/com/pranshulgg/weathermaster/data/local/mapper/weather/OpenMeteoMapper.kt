@@ -1,4 +1,4 @@
-package com.pranshulgg.weathermaster.data.local.mapper.weatherProviders
+package com.pranshulgg.weathermaster.data.local.mapper.weather
 
 import com.google.gson.Gson
 import com.pranshulgg.weathermaster.core.model.domain.Location
