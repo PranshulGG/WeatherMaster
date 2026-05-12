@@ -1,6 +1,8 @@
 package com.pranshulgg.weathermaster.core.di
 
 import android.content.Context
+import com.pranshulgg.weathermaster.core.network.airquality.openmeteo.OpenMeteoAqiApi
+import com.pranshulgg.weathermaster.core.network.airquality.openmeteo.OpenMeteoAqiRepository
 import com.pranshulgg.weathermaster.core.network.openmeteo.OpenMeteoApi
 import com.pranshulgg.weathermaster.core.network.openmeteo.OpenMeteoRepository
 import com.pranshulgg.weathermaster.core.network.search.geonames.GeoNamesSearchApi
@@ -10,6 +12,7 @@ import com.pranshulgg.weathermaster.core.network.search.geonames.GeoNamesTimezon
 import com.pranshulgg.weathermaster.core.network.search.openmeteo.OpenMeteoSearchApi
 import com.pranshulgg.weathermaster.core.network.search.openmeteo.OpenMeteoSearchRepository
 import com.pranshulgg.weathermaster.data.local.WeatherMasterDatabase
+import com.pranshulgg.weathermaster.data.local.dao.AirQualityDao
 import com.pranshulgg.weathermaster.data.local.dao.AppWeatherUnitsDao
 import com.pranshulgg.weathermaster.data.local.dao.WeatherBlocksDao
 import com.pranshulgg.weathermaster.data.local.dao.WeatherDataDao
@@ -52,6 +55,8 @@ object AppModule {
     fun provideWeatherBlocksDao(db: WeatherMasterDatabase) =
         db.weatherBlocksDao()
 
+    @Provides
+    fun provideAirQualityDao(db: WeatherMasterDatabase) = db.airQualityDao()
 
     @Provides
     @Singleton
@@ -68,6 +73,10 @@ object AppModule {
     @Provides
     @Singleton
     fun provideGeoNamesTimezoneApi(): GeoNamesTimezoneApi = GeoNamesTimezoneApi.create()
+
+    @Provides
+    @Singleton
+    fun provideOpenMeteoAqiApi(): OpenMeteoAqiApi = OpenMeteoAqiApi.create()
 
     @Provides
     @Singleton
@@ -114,4 +123,12 @@ object AppModule {
     @Singleton
     fun provideGeoNamesTimezoneRepository(api: GeoNamesTimezoneApi): GeoNamesTimezoneRepository =
         GeoNamesTimezoneRepository(api)
+
+    @Provides
+    @Singleton
+    fun provideOpenMeteoAqiRepository(
+        api: OpenMeteoAqiApi,
+        dao: AirQualityDao
+    ): OpenMeteoAqiRepository =
+        OpenMeteoAqiRepository(api, dao)
 }

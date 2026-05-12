@@ -18,6 +18,7 @@ val geoNamesUserNameKey: String = localProps.getProperty("GEO_NAMES_USERNAME")
         "GEO_NAMES_USERNAME not found! Add it to local.properties in the project root."
     )
 
+
 android {
     namespace = "com.pranshulgg.weathermaster"
     android.buildFeatures.buildConfig = true
