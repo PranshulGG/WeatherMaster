@@ -13,6 +13,7 @@ import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.pranshulgg.weathermaster.core.model.domain.AirQuality
 import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
 import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.core.model.domain.Weather
@@ -31,7 +32,8 @@ data class MainScreenUiState(
     val weather: Weather? = null,
     val weatherUnits: AppWeatherUnits = AppWeatherUnits.getDefault(),
     val blocks: List<WeatherBlock> = WeatherBlock.getDefault(),
-    val isInitialized: Boolean = false
+    val isInitialized: Boolean = false,
+    val airQuality: AirQuality? = null
 )
 
 @OptIn(ExperimentalMaterial3Api::class)

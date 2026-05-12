@@ -25,9 +25,6 @@ import kotlin.uuid.Uuid
 )
 data class CurrentWeatherEntity(
     val locationId: String,
-//
-//    @PrimaryKey
-//    val id: String = UuidGenerator().generateId(),
 
     val temperature: Double,
     val humidity: Double,
