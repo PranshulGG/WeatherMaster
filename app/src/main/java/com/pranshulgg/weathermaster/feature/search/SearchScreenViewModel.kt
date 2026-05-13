@@ -1,30 +1,23 @@
 package com.pranshulgg.weathermaster.feature.search
 
-import android.accounts.NetworkErrorException
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import coil.network.HttpException
 import com.pranshulgg.weathermaster.R
-import com.pranshulgg.weathermaster.core.model.AppException
-import com.pranshulgg.weathermaster.core.model.SearchProviders
+import com.pranshulgg.weathermaster.core.model.providers.SearchProviders
 import com.pranshulgg.weathermaster.core.model.domain.Location
-import com.pranshulgg.weathermaster.core.model.toAppException
-import com.pranshulgg.weathermaster.core.model.toMessageRes
-import com.pranshulgg.weathermaster.core.network.search.geonames.GeoNamesTimezoneApi
+import com.pranshulgg.weathermaster.core.model.domain.toAppException
+import com.pranshulgg.weathermaster.core.model.domain.toMessageRes
 import com.pranshulgg.weathermaster.core.network.search.geonames.GeoNamesTimezoneRepository
 import com.pranshulgg.weathermaster.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weathermaster.data.provider.SearchRepositoryProvider
 import com.pranshulgg.weathermaster.data.repository.LocationsRepository
-import com.pranshulgg.weathermaster.data.repository.SearchRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
-import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel

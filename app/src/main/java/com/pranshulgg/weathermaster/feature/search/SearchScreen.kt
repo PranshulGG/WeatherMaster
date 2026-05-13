@@ -1,6 +1,5 @@
 package com.pranshulgg.weathermaster.feature.search
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -22,7 +21,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -33,8 +31,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pranshulgg.weathermaster.R
-import com.pranshulgg.weathermaster.core.model.SearchProviders
-import com.pranshulgg.weathermaster.core.model.toName
+import com.pranshulgg.weathermaster.core.model.providers.SearchProviders
+import com.pranshulgg.weathermaster.core.model.providers.toName
+import com.pranshulgg.weathermaster.core.model.weather.toName
 import com.pranshulgg.weathermaster.core.prefs.LocalAppPrefs
 import com.pranshulgg.weathermaster.core.ui.components.DialogBasic
 import com.pranshulgg.weathermaster.core.ui.components.EmptyContainerPlaceholder

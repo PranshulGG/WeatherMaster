@@ -1,6 +1,6 @@
 package com.pranshulgg.weathermaster.data.provider
 
-import com.pranshulgg.weathermaster.core.model.SearchProviders
+import com.pranshulgg.weathermaster.core.model.providers.SearchProviders
 import com.pranshulgg.weathermaster.core.network.search.geonames.GeoNamesSearchRepository
 import com.pranshulgg.weathermaster.core.network.search.openmeteo.OpenMeteoSearchRepository
 import com.pranshulgg.weathermaster.data.repository.SearchRepository
