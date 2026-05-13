@@ -1,6 +1,6 @@
 package com.pranshulgg.weathermaster.core.model.domain
 
-import com.pranshulgg.weathermaster.core.model.WeatherProviders
+import com.pranshulgg.weathermaster.core.model.providers.WeatherProviders
 import com.pranshulgg.weathermaster.data.provider.DeviceLocation
 
 data class Location(

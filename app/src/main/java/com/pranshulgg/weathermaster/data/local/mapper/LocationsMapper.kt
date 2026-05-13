@@ -3,13 +3,13 @@ package com.pranshulgg.weathermaster.data.local.mapper
 import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.core.network.search.geonames.GeoNamesSearchDto
 import com.pranshulgg.weathermaster.core.network.search.openmeteo.OpenMeteoSearchDto
-import com.pranshulgg.weathermaster.core.utils.UuidGenerator
+import com.pranshulgg.weathermaster.core.utils.ids.UuidGenerator
 import com.pranshulgg.weathermaster.data.local.entity.WeatherLocationEntity
 
 fun OpenMeteoSearchDto.toDomain(): List<Location> =
     List(results.size) {
         Location(
-            id = UuidGenerator().generateId(),
+            id = UuidGenerator.generateId(),
             name = results[it].name,
             latitude = results[it].latitude,
             longitude = results[it].longitude,
@@ -25,7 +25,7 @@ fun OpenMeteoSearchDto.toDomain(): List<Location> =
 fun GeoNamesSearchDto.toDomain(): List<Location> =
     List(geonames.size) {
         Location(
-            id = UuidGenerator().generateId(),
+            id = UuidGenerator.generateId(),
             name = geonames[it].name,
             latitude = geonames[it].latitude,
             longitude = geonames[it].longitude,

@@ -1,9 +1,8 @@
 package com.pranshulgg.weathermaster.data.repository
 
 import android.content.Context
-import android.util.Log
 import androidx.room.Transaction
-import com.pranshulgg.weathermaster.core.model.AppException
+import com.pranshulgg.weathermaster.core.model.domain.AppException
 import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.data.local.dao.WeatherLocationDao
 import com.pranshulgg.weathermaster.data.local.mapper.toDomain
