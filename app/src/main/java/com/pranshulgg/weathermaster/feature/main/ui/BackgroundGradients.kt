@@ -1,28 +1,20 @@
 package com.pranshulgg.weathermaster.feature.main.ui
 
-import android.util.Log
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import com.pranshulgg.weathermaster.core.model.WeatherConditions
+import com.pranshulgg.weathermaster.core.model.weather.WeatherConditions
 import com.pranshulgg.weathermaster.core.model.domain.Weather
-import com.pranshulgg.weathermaster.core.prefs.LocalAppPrefs
 import com.pranshulgg.weathermaster.core.ui.theme.isThemeDark
-import com.pranshulgg.weathermaster.core.utils.DataSafe
-import com.pranshulgg.weathermaster.core.utils.WeatherUtils
-import com.pranshulgg.weathermaster.feature.main.ui.Background
-import java.time.Instant
+import com.pranshulgg.weathermaster.core.utils.weather.cache.isWeatherDomainSafe
 
 data class Background(
     val gradient: List<Color>,
@@ -62,7 +54,7 @@ fun BackgroundGradient(weather: Weather?, isScrolled: Boolean = false) {
 
 private fun backgroundGradients(weather: Weather?, isDark: Boolean = true): Background {
 
-    if (!DataSafe().isWeatherDomainSafe(weather)) return Colors.CLEAR_SKY_DAY
+    if (!isWeatherDomainSafe(weather)) return Colors.CLEAR_SKY_DAY
 
     val condition = weather?.current?.weatherCondition
     val day = weather?.daily?.firstOrNull()
