@@ -17,16 +17,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pranshulgg.weathermaster.R
-import com.pranshulgg.weathermaster.core.model.TemperatureUnits
+import com.pranshulgg.weathermaster.core.model.weather.TemperatureUnits
 import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
 import com.pranshulgg.weathermaster.core.model.domain.Weather
-import com.pranshulgg.weathermaster.core.model.toIcon
-import com.pranshulgg.weathermaster.core.model.toLabel
+import com.pranshulgg.weathermaster.core.model.weather.toIcon
+import com.pranshulgg.weathermaster.core.model.weather.toLabel
 import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
 import com.pranshulgg.weathermaster.core.ui.components.WeatherIconBox
-import com.pranshulgg.weathermaster.core.utils.UnitConverter
-import com.pranshulgg.weathermaster.core.utils.WeatherUtils.getLastUpdatedTimeString
+import com.pranshulgg.weathermaster.core.utils.formatters.getLastUpdatedTimeString
+import com.pranshulgg.weathermaster.core.utils.weather.UnitConverter
 import kotlin.math.roundToInt
 
 @Composable
