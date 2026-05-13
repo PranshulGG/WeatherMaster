@@ -24,18 +24,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weathermaster.R
-import com.pranshulgg.weathermaster.core.model.TemperatureUnits
-import com.pranshulgg.weathermaster.core.model.WeatherConditions
+import com.pranshulgg.weathermaster.core.model.weather.TemperatureUnits
 import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
 import com.pranshulgg.weathermaster.core.model.domain.Weather
-import com.pranshulgg.weathermaster.core.model.toIcon
+import com.pranshulgg.weathermaster.core.model.weather.toIcon
 import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.WeatherIconBox
 import com.pranshulgg.weathermaster.core.ui.theme.ShadowElevation
-import com.pranshulgg.weathermaster.core.utils.DataSafe
-import com.pranshulgg.weathermaster.core.utils.TimeFormatters
-import com.pranshulgg.weathermaster.core.utils.UnitConverter
-import com.pranshulgg.weathermaster.core.utils.WeatherUtils
+import com.pranshulgg.weathermaster.core.utils.formatters.to12HourTimeString
+import com.pranshulgg.weathermaster.core.utils.weather.UnitConverter
+import com.pranshulgg.weathermaster.core.utils.weather.cache.isWeatherHourlyDomainSafe
+import com.pranshulgg.weathermaster.core.utils.weather.forecast.findMatchingDaily
+import com.pranshulgg.weathermaster.core.utils.weather.forecast.findMatchingHourly
 import com.pranshulgg.weathermaster.feature.shared.components.CardsHeader
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -44,11 +44,11 @@ import kotlin.math.roundToInt
 @Composable
 fun HourlyCard(weather: Weather, units: AppWeatherUnits) {
 
-    if (!DataSafe().isWeatherHourlyDomainSafe(weather)) return
+    if (!isWeatherHourlyDomainSafe(weather)) return
 
     val lazyListState = rememberLazyListState()
     val filteredHourly =
-        WeatherUtils.filterHourlyDataForDate(
+        findMatchingHourly(
             weather.hourly,
             ZonedDateTime.now(ZoneId.of(weather.location.timezone)).toEpochSecond()
         )
@@ -69,7 +69,7 @@ fun HourlyCard(weather: Weather, units: AppWeatherUnits) {
 
             LazyRow(state = lazyListState) {
                 items(filteredHourly.size, key = { filteredHourly[it].time }) { index ->
-                    val time = TimeFormatters().to12HourTimeString(
+                    val time = to12HourTimeString(
                         (filteredHourly[index].time * 1000L),
                         weather.location.timezone
                     )
@@ -80,7 +80,7 @@ fun HourlyCard(weather: Weather, units: AppWeatherUnits) {
                         units.tempUnit
                     )
 
-                    val matchingDaily = WeatherUtils.findMatchingDaily(
+                    val matchingDaily = findMatchingDaily(
                         item.time,
                         weather.daily,
                         weather.location.timezone
