@@ -1,4 +1,4 @@
-package com.pranshulgg.weathermaster.core.model
+package com.pranshulgg.weathermaster.core.model.domain
 
 import coil.network.HttpException
 import com.pranshulgg.weathermaster.R
