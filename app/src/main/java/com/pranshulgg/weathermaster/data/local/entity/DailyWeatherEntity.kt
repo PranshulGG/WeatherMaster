@@ -3,12 +3,8 @@ package com.pranshulgg.weathermaster.data.local.entity
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
-import androidx.room.PrimaryKey
-import com.pranshulgg.weathermaster.core.model.MoonPhase
-import com.pranshulgg.weathermaster.core.model.WeatherConditions
-import com.pranshulgg.weathermaster.core.utils.UuidGenerator
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
+import com.pranshulgg.weathermaster.core.model.astro.MoonPhase
+import com.pranshulgg.weathermaster.core.model.weather.WeatherConditions
 
 @Entity(
     tableName = "weather_daily",

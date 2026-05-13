@@ -17,17 +17,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weathermaster.R
-import com.pranshulgg.weathermaster.core.model.TemperatureUnits
+import com.pranshulgg.weathermaster.core.model.weather.TemperatureUnits
 import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
 import com.pranshulgg.weathermaster.core.model.domain.Weather
-import com.pranshulgg.weathermaster.core.model.toIcon
+import com.pranshulgg.weathermaster.core.model.weather.toIcon
 import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.WeatherIconBox
 import com.pranshulgg.weathermaster.core.ui.theme.ShadowElevation
-import com.pranshulgg.weathermaster.core.utils.DataSafe
-import com.pranshulgg.weathermaster.core.utils.TimeFormatters
-import com.pranshulgg.weathermaster.core.utils.UnitConverter
-import com.pranshulgg.weathermaster.core.utils.WeatherUtils
+import com.pranshulgg.weathermaster.core.utils.formatters.toWeekdayString
+import com.pranshulgg.weathermaster.core.utils.weather.UnitConverter
+import com.pranshulgg.weathermaster.core.utils.weather.cache.isWeatherDailyDomainSafe
 import com.pranshulgg.weathermaster.feature.shared.components.CardsHeader
 import java.time.Instant
 
@@ -35,7 +34,7 @@ import java.time.Instant
 @Composable
 fun DailyCard(weather: Weather, units: AppWeatherUnits) {
 
-    if (!DataSafe().isWeatherDailyDomainSafe(weather)) return
+    if (!isWeatherDailyDomainSafe(weather)) return
 
 
     val daily = weather.daily
@@ -58,7 +57,7 @@ fun DailyCard(weather: Weather, units: AppWeatherUnits) {
                 items(daily.size, key = { daily[it].time }) { index ->
 
                     val item = daily[index]
-                    val weekDay = TimeFormatters().toWeekdayString(
+                    val weekDay = toWeekdayString(
                         (item.time * 1000L),
                         weather.location.timezone
                     )
