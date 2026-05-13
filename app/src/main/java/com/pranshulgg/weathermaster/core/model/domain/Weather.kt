@@ -1,9 +1,7 @@
 package com.pranshulgg.weathermaster.core.model.domain
 
-import com.pranshulgg.weathermaster.core.model.MoonPhase
-import com.pranshulgg.weathermaster.core.model.WeatherConditions
-import com.pranshulgg.weathermaster.core.model.WeatherProviders
-import kotlin.uuid.ExperimentalUuidApi
+import com.pranshulgg.weathermaster.core.model.astro.MoonPhase
+import com.pranshulgg.weathermaster.core.model.weather.WeatherConditions
 
 data class Weather(
     val location: Location,

@@ -2,7 +2,7 @@ package com.pranshulgg.weathermaster.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.pranshulgg.weathermaster.core.model.WeatherProviders
+import com.pranshulgg.weathermaster.core.model.providers.WeatherProviders
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 

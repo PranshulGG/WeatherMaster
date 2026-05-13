@@ -1,18 +1,16 @@
 package com.pranshulgg.weathermaster.feature.shared
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pranshulgg.weathermaster.R
-import com.pranshulgg.weathermaster.core.model.WeatherProviders
-import com.pranshulgg.weathermaster.core.model.WeatherResult
+import com.pranshulgg.weathermaster.core.model.providers.WeatherProviders
+import com.pranshulgg.weathermaster.core.model.weather.WeatherResult
 import com.pranshulgg.weathermaster.core.model.domain.Location
-import com.pranshulgg.weathermaster.core.model.domain.Weather
 import com.pranshulgg.weathermaster.core.model.domain.WeatherBlock
-import com.pranshulgg.weathermaster.core.model.toAppException
-import com.pranshulgg.weathermaster.core.model.toMessageRes
+import com.pranshulgg.weathermaster.core.model.domain.toAppException
+import com.pranshulgg.weathermaster.core.model.domain.toMessageRes
 import com.pranshulgg.weathermaster.core.network.airquality.openmeteo.OpenMeteoAqiRepository
 import com.pranshulgg.weathermaster.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weathermaster.data.provider.WeatherRepositoryProvider

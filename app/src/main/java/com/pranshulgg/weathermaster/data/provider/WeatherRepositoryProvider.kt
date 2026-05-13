@@ -1,6 +1,6 @@
 package com.pranshulgg.weathermaster.data.provider
 
-import com.pranshulgg.weathermaster.core.model.WeatherProviders
+import com.pranshulgg.weathermaster.core.model.providers.WeatherProviders
 import com.pranshulgg.weathermaster.core.network.openmeteo.OpenMeteoApi
 import com.pranshulgg.weathermaster.core.network.openmeteo.OpenMeteoRepository
 import com.pranshulgg.weathermaster.data.repository.WeatherRepository

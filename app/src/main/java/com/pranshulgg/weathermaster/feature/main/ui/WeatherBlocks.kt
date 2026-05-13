@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.pranshulgg.weathermaster.core.model.domain.AirQuality
@@ -20,6 +19,7 @@ import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
 import com.pranshulgg.weathermaster.core.model.domain.Weather
 import com.pranshulgg.weathermaster.core.model.domain.WeatherBlock
 import com.pranshulgg.weathermaster.core.model.domain.WeatherBlockType
+import com.pranshulgg.weathermaster.core.utils.weather.cache.isCurrentAirQualitySafe
 import com.pranshulgg.weathermaster.feature.shared.WeatherViewModel
 import com.pranshulgg.weathermaster.feature.shared.components.blocks.AirQualityBlock
 import com.pranshulgg.weathermaster.feature.shared.components.blocks.HumidityBlock
@@ -46,6 +46,8 @@ fun WeatherBlocks(
     val items = blocks.filter { !it.isHidden }
 
     val lazyGridState = rememberLazyGridState()
+
+    val isAirQualityValid = airQuality != null && isCurrentAirQualitySafe(airQuality)
 
     val reorderableState = rememberReorderableLazyGridState(
         lazyGridState = lazyGridState,
@@ -98,9 +100,9 @@ fun WeatherBlocks(
                         WeatherBlockType.PRESSURE_BLOCK -> PressureBlock(weather, units, context)
                         WeatherBlockType.SUN_BLOCK -> SunBlock(weather)
                         WeatherBlockType.MOON_BLOCK -> MoonBlock(weather)
-                        WeatherBlockType.AIR_QUALITY -> if (airQuality != null) AirQualityBlock(
-                            airQuality
-                        ) else null
+                        WeatherBlockType.AIR_QUALITY -> if (isAirQualityValid) {
+                            AirQualityBlock(airQuality, context)
+                        }
                     }
                 }
 

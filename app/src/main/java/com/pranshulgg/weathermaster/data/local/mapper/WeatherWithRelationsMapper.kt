@@ -1,6 +1,6 @@
 package com.pranshulgg.weathermaster.data.local.mapper
 
-import com.pranshulgg.weathermaster.core.model.WeatherConditions
+import com.pranshulgg.weathermaster.core.model.weather.WeatherConditions
 import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.core.model.domain.Weather
 import com.pranshulgg.weathermaster.core.model.domain.WeatherCurrent
