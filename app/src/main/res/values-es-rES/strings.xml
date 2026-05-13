@@ -115,6 +115,6 @@
     <string name="location_use_current_secondary">Detecte su ubicación actual automáticamente por medio de su dispositivo y añádalo a su lista</string>
     <string name="location_permission_required">Permiso de ubicación requerida</string>
     <string name="current_location_not_found">Ubicación actual no encontrada</string>
-    <string name="error_server">Request couldn’t be completed. Try again shortly</string>
+    <string name="error_server">Solicitud no completada. Inténtelo más tarde</string>
 </resources>
 <!--<string name=""></string>-->
