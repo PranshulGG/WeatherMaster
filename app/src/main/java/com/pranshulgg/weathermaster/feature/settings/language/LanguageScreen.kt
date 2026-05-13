@@ -1,6 +1,5 @@
 package com.pranshulgg.weathermaster.feature.settings.language
 
-import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,20 +24,21 @@ import com.pranshulgg.weathermaster.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weathermaster.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weathermaster.core.ui.components.SettingSection
 import com.pranshulgg.weathermaster.core.ui.components.SettingTile
-import com.pranshulgg.weathermaster.core.utils.LocaleUtils
+import com.pranshulgg.weathermaster.core.utils.locale.getAppLocalLocales
+import com.pranshulgg.weathermaster.core.utils.locale.getCurrentAppLocale
 
 
 @Composable
 fun LanguageScreen(navController: NavController) {
 
 
-    val languageList = LocaleUtils().getAppLocalLocales()
+    val languageList = getAppLocalLocales()
     val uriHandler = LocalUriHandler.current
 
     val currentAppLocale =
         remember {
             mutableStateOf(
-                LocaleUtils().getCurrentAppLocale().toLanguageTag()
+                getCurrentAppLocale().toLanguageTag()
             )
         }
 
