@@ -1,27 +1,16 @@
 package com.pranshulgg.weathermaster.feature.settings.appearance
 
-import android.app.Activity
-import android.app.LocaleManager
-import android.content.Context
 import android.os.Build
-import android.os.LocaleList
-import android.util.Log
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.edit
-import androidx.core.os.LocaleListCompat
 import androidx.navigation.NavController
 import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.prefs.LocalAppPrefs
@@ -32,8 +21,6 @@ import com.pranshulgg.weathermaster.core.ui.components.SettingTile
 import com.pranshulgg.weathermaster.core.ui.components.SettingsTileIcon
 import com.pranshulgg.weathermaster.core.ui.components.tiles.DialogOption
 import com.pranshulgg.weathermaster.core.ui.navigation.NavRoutes
-import com.pranshulgg.weathermaster.core.utils.LocaleUtils
-import com.pranshulgg.weathermaster.core.utils.TimeFormatters
 import com.pranshulgg.weathermaster.feature.settings.appearance.components.ColorPickerBtn
 
 @Composable
