@@ -112,9 +112,9 @@
     <string name="setting_translate_app">Tradueix aquesta aplicació</string>
     <string name="setting_translate_app_secondary">Contribueix traduint l\'aplicació al teu idioma a Crowdin</string>
     <string name="location_use_current">Fes servir la ubicació actual</string>
-    <string name="location_use_current_secondary">Detect your device’s current location automatically and add it to your list</string>
-    <string name="location_permission_required">Location permission is required</string>
-    <string name="current_location_not_found">Current location not found</string>
-    <string name="error_server">Request couldn’t be completed. Try again shortly</string>
+    <string name="location_use_current_secondary">Detecta automàticament la ubicació del teu dispositiu i l\'afegeix a la llista</string>
+    <string name="location_permission_required">Cal permís d\'ubicació</string>
+    <string name="current_location_not_found">No s\'ha trobat la ubicació actual</string>
+    <string name="error_server">No s\'ha pogut completar la sol·licitud. Torna-ho a intentar</string>
 </resources>
 <!--<string name=""></string>-->
