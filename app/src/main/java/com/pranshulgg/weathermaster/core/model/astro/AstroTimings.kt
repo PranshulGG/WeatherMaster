@@ -1,4 +1,4 @@
-package com.pranshulgg.weathermaster.core.model
+package com.pranshulgg.weathermaster.core.model.astro
 
 data class SunTimings(
     val time: Long,
