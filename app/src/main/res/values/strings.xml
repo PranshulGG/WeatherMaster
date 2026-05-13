@@ -143,6 +143,13 @@
 
     <string name="error_server">Request couldn’t be completed. Try again shortly</string>
 
+    <string name="weather_airquality_good">Good</string>
+    <string name="weather_airquality_fair">Fair</string>
+    <string name="weather_airquality_moderate">Moderate</string>
+    <string name="weather_airquality_poor">Poor</string>
+    <string name="weather_airquality_very_poor">Very poor</string>
+    <string name="weather_airquality_hazardous">Hazardous</string>
+
 </resources>
 
     <!--<string name=""></string>-->
