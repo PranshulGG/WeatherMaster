@@ -1,6 +1,6 @@
 package com.pranshulgg.weathermaster.core.prefs
 
-import com.pranshulgg.weathermaster.core.model.SearchProviders
+import com.pranshulgg.weathermaster.core.model.providers.SearchProviders
 import com.pranshulgg.weathermaster.core.ui.theme.ThemeVariantType
 
 

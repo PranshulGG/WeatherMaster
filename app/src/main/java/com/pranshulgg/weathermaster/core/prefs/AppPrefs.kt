@@ -4,9 +4,9 @@ package com.pranshulgg.weathermaster.core.prefs
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import com.pranshulgg.weathermaster.core.model.SearchProviders
+import com.pranshulgg.weathermaster.core.model.providers.SearchProviders
 import com.pranshulgg.weathermaster.core.ui.theme.ThemeVariantType
-import com.pranshulgg.weathermaster.core.utils.PreferencesHelper
+import com.pranshulgg.weathermaster.core.prefs.helper.PreferencesHelper
 
 object AppPrefs {
     private val _appTheme = mutableStateOf("Dark")
