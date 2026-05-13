@@ -2,11 +2,11 @@ package com.pranshulgg.weathermaster.feature.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pranshulgg.weathermaster.core.model.DistanceUnits
-import com.pranshulgg.weathermaster.core.model.PrecipitationUnits
-import com.pranshulgg.weathermaster.core.model.PressureUnits
-import com.pranshulgg.weathermaster.core.model.TemperatureUnits
-import com.pranshulgg.weathermaster.core.model.WindSpeedUnits
+import com.pranshulgg.weathermaster.core.model.weather.DistanceUnits
+import com.pranshulgg.weathermaster.core.model.weather.PrecipitationUnits
+import com.pranshulgg.weathermaster.core.model.weather.PressureUnits
+import com.pranshulgg.weathermaster.core.model.weather.TemperatureUnits
+import com.pranshulgg.weathermaster.core.model.weather.WindSpeedUnits
 import com.pranshulgg.weathermaster.data.repository.AppWeatherUnitsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
