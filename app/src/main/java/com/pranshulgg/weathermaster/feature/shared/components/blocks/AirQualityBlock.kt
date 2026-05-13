@@ -1,28 +1,42 @@
 package com.pranshulgg.weathermaster.feature.shared.components.blocks
 
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.LinearWavyProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.domain.AirQuality
+import com.pranshulgg.weathermaster.core.model.weather.airquality.toName
+import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
 import com.pranshulgg.weathermaster.core.ui.theme.ShadowElevation
+import com.pranshulgg.weathermaster.core.utils.weather.airquality.AirQualityColors
 
 @Composable
-fun AirQualityBlock(airQuality: AirQuality) {
+fun AirQualityBlock(airQuality: AirQuality, context: Context) {
+
+    val aqi = airQuality.getAqi()
+    val level = airQuality.getAqiLevel(aqi)
+    val aqiBarProgress = airQuality.getAqiBarValue(aqi)
 
     Surface(
         color = MaterialTheme.colorScheme.surface,
@@ -34,6 +48,34 @@ fun AirQualityBlock(airQuality: AirQuality) {
                 .fillMaxSize()
                 .aspectRatio(1f)
         ) {
+
+            Column(
+                Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+            ) {
+                Text(
+                    aqi.toString(),
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.End,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    style = MaterialTheme.typography.displayMedium
+                )
+                LinearProgressIndicator(
+                    progress = { aqiBarProgress },
+                    color = AirQualityColors.getColors(level),
+                    trackColor = MaterialTheme.colorScheme.surfaceContainerHigh
+
+                )
+                Gap(3.dp)
+                Text(
+                    level.toName(context),
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.End,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
 
             Box(Modifier.align(Alignment.TopStart)) {
                 Header()
