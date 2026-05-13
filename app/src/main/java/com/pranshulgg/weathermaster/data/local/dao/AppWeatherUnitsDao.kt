@@ -4,11 +4,11 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.pranshulgg.weathermaster.core.model.DistanceUnits
-import com.pranshulgg.weathermaster.core.model.PrecipitationUnits
-import com.pranshulgg.weathermaster.core.model.PressureUnits
-import com.pranshulgg.weathermaster.core.model.TemperatureUnits
-import com.pranshulgg.weathermaster.core.model.WindSpeedUnits
+import com.pranshulgg.weathermaster.core.model.weather.DistanceUnits
+import com.pranshulgg.weathermaster.core.model.weather.PrecipitationUnits
+import com.pranshulgg.weathermaster.core.model.weather.PressureUnits
+import com.pranshulgg.weathermaster.core.model.weather.TemperatureUnits
+import com.pranshulgg.weathermaster.core.model.weather.WindSpeedUnits
 import com.pranshulgg.weathermaster.data.local.entity.AppWeatherUnitsEntity
 import kotlinx.coroutines.flow.Flow
 

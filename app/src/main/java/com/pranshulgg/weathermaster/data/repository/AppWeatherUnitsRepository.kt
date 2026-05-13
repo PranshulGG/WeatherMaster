@@ -1,13 +1,12 @@
 package com.pranshulgg.weathermaster.data.repository
 
-import com.pranshulgg.weathermaster.core.model.DistanceUnits
-import com.pranshulgg.weathermaster.core.model.PrecipitationUnits
-import com.pranshulgg.weathermaster.core.model.PressureUnits
-import com.pranshulgg.weathermaster.core.model.TemperatureUnits
-import com.pranshulgg.weathermaster.core.model.WindSpeedUnits
+import com.pranshulgg.weathermaster.core.model.weather.DistanceUnits
+import com.pranshulgg.weathermaster.core.model.weather.PrecipitationUnits
+import com.pranshulgg.weathermaster.core.model.weather.PressureUnits
+import com.pranshulgg.weathermaster.core.model.weather.TemperatureUnits
+import com.pranshulgg.weathermaster.core.model.weather.WindSpeedUnits
 import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
 import com.pranshulgg.weathermaster.data.local.dao.AppWeatherUnitsDao
-import com.pranshulgg.weathermaster.data.local.entity.AppWeatherUnitsEntity
 import com.pranshulgg.weathermaster.data.local.mapper.toDomain
 import com.pranshulgg.weathermaster.data.local.mapper.toEntity
 import jakarta.inject.Inject

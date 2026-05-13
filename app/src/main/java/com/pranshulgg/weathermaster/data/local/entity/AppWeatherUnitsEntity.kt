@@ -2,11 +2,11 @@ package com.pranshulgg.weathermaster.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.pranshulgg.weathermaster.core.model.DistanceUnits
-import com.pranshulgg.weathermaster.core.model.PrecipitationUnits
-import com.pranshulgg.weathermaster.core.model.PressureUnits
-import com.pranshulgg.weathermaster.core.model.TemperatureUnits
-import com.pranshulgg.weathermaster.core.model.WindSpeedUnits
+import com.pranshulgg.weathermaster.core.model.weather.DistanceUnits
+import com.pranshulgg.weathermaster.core.model.weather.PrecipitationUnits
+import com.pranshulgg.weathermaster.core.model.weather.PressureUnits
+import com.pranshulgg.weathermaster.core.model.weather.TemperatureUnits
+import com.pranshulgg.weathermaster.core.model.weather.WindSpeedUnits
 
 @Entity("weather_units")
 data class AppWeatherUnitsEntity(
