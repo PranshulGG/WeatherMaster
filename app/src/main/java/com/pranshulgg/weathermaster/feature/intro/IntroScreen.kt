@@ -1,6 +1,5 @@
 package com.pranshulgg.weathermaster.feature.intro
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,16 +35,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pranshulgg.weathermaster.R
-import com.pranshulgg.weathermaster.core.model.AppException
-import com.pranshulgg.weathermaster.core.model.WeatherProviders
+import com.pranshulgg.weathermaster.core.model.providers.WeatherProviders
 import com.pranshulgg.weathermaster.core.model.domain.Location
-import com.pranshulgg.weathermaster.core.prefs.LocalAppPrefs
 import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
 import com.pranshulgg.weathermaster.core.ui.components.WeatherIconBox
 import com.pranshulgg.weathermaster.core.ui.navigation.NavRoutes
 import com.pranshulgg.weathermaster.core.ui.snackbar.SnackbarManager
-import com.pranshulgg.weathermaster.core.utils.UuidGenerator
+import com.pranshulgg.weathermaster.core.utils.ids.UuidGenerator
 import com.pranshulgg.weathermaster.data.provider.DeviceLocation
 import com.pranshulgg.weathermaster.data.provider.GetDeviceLocation
 import com.pranshulgg.weathermaster.data.provider.rememberLocationPermissionLauncher
@@ -223,7 +220,7 @@ fun DeviceLocation.toDomain(): Location {
 
 
     return Location(
-        id = UuidGenerator().generateId(),
+        id = UuidGenerator.generateId(),
         name = "$formattedLatitude, $formattedLongitude", // TODO: Reverse geocoding support
         latitude = formattedLatitude,
         longitude = formattedLongitude,
