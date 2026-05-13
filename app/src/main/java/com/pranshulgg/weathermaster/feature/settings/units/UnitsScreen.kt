@@ -1,6 +1,5 @@
 package com.pranshulgg.weathermaster.feature.settings.units
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,19 +16,18 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.pranshulgg.weathermaster.R
-import com.pranshulgg.weathermaster.core.model.DistanceUnits
-import com.pranshulgg.weathermaster.core.model.PrecipitationUnits
-import com.pranshulgg.weathermaster.core.model.PressureUnits
-import com.pranshulgg.weathermaster.core.model.TemperatureUnits
-import com.pranshulgg.weathermaster.core.model.WindSpeedUnits
-import com.pranshulgg.weathermaster.core.model.toName
+import com.pranshulgg.weathermaster.core.model.weather.DistanceUnits
+import com.pranshulgg.weathermaster.core.model.weather.PrecipitationUnits
+import com.pranshulgg.weathermaster.core.model.weather.PressureUnits
+import com.pranshulgg.weathermaster.core.model.weather.TemperatureUnits
+import com.pranshulgg.weathermaster.core.model.weather.WindSpeedUnits
+import com.pranshulgg.weathermaster.core.model.weather.toName
 import com.pranshulgg.weathermaster.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weathermaster.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weathermaster.core.ui.components.SettingSection
 import com.pranshulgg.weathermaster.core.ui.components.SettingTile
 import com.pranshulgg.weathermaster.core.ui.components.SettingsTileIcon
 import com.pranshulgg.weathermaster.core.ui.components.tiles.DialogOption
-import com.pranshulgg.weathermaster.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weathermaster.feature.settings.SettingsScreenViewModel
 
 @Composable
