@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -22,21 +21,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weathermaster.R
-import com.pranshulgg.weathermaster.core.model.DistanceUnits
-import com.pranshulgg.weathermaster.core.model.PressureUnits
+import com.pranshulgg.weathermaster.core.model.weather.DistanceUnits
 import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
 import com.pranshulgg.weathermaster.core.model.domain.Weather
-import com.pranshulgg.weathermaster.core.model.toName
+import com.pranshulgg.weathermaster.core.model.weather.toName
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
 import com.pranshulgg.weathermaster.core.ui.theme.ShadowElevation
 import com.pranshulgg.weathermaster.core.ui.theme.ShapeRadius
-import com.pranshulgg.weathermaster.core.utils.UnitConverter
-import com.pranshulgg.weathermaster.core.utils.WeatherUtils
-import java.util.Locale
-import androidx.compose.ui.platform.LocalLocale
+import com.pranshulgg.weathermaster.core.utils.weather.UnitConverter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import com.pranshulgg.weathermaster.core.utils.LocaleUtils
+import com.pranshulgg.weathermaster.core.utils.formatters.formatNumbers
+import com.pranshulgg.weathermaster.core.utils.locale.getCurrentAppLocale
 
 @Composable
 fun VisibilityBlock(weather: Weather, units: AppWeatherUnits, context: Context) {
@@ -69,10 +65,10 @@ fun VisibilityBlock(weather: Weather, units: AppWeatherUnits, context: Context) 
             }
 
             Text(
-                WeatherUtils.formatNumbers(
+                formatNumbers(
                     number = visibility,
                     decimalPlaces = 0,
-                    locale = LocaleUtils().getCurrentAppLocale()
+                    locale = getCurrentAppLocale()
                 ),
                 style = MaterialTheme.typography.displayMedium,
                 modifier = Modifier

@@ -23,14 +23,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weathermaster.R
-import com.pranshulgg.weathermaster.core.model.PressureUnits
+import com.pranshulgg.weathermaster.core.model.weather.PressureUnits
 import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
 import com.pranshulgg.weathermaster.core.model.domain.Weather
-import com.pranshulgg.weathermaster.core.model.toName
+import com.pranshulgg.weathermaster.core.model.weather.toName
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
 import com.pranshulgg.weathermaster.core.ui.theme.ShadowElevation
 import com.pranshulgg.weathermaster.core.ui.theme.ShapeRadius
-import com.pranshulgg.weathermaster.core.utils.UnitConverter
+import com.pranshulgg.weathermaster.core.utils.weather.UnitConverter
 
 @Composable
 fun PressureBlock(weather: Weather, units: AppWeatherUnits, context: Context) {

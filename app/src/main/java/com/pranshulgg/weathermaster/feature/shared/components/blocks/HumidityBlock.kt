@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -22,16 +21,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.pranshulgg.weathermaster.R
-import com.pranshulgg.weathermaster.core.model.TemperatureUnits
+import com.pranshulgg.weathermaster.core.model.weather.TemperatureUnits
 import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
 import com.pranshulgg.weathermaster.core.model.domain.Weather
-import com.pranshulgg.weathermaster.core.ui.components.AvatarMonogram
 import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
 import com.pranshulgg.weathermaster.core.ui.theme.ShadowElevation
-import com.pranshulgg.weathermaster.core.utils.UnitConverter
+import com.pranshulgg.weathermaster.core.utils.weather.UnitConverter
 
 @Composable
 fun HumidityBlock(weather: Weather, units: AppWeatherUnits) {

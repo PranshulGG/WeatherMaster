@@ -1,11 +1,5 @@
 package com.pranshulgg.weathermaster.feature.shared.components.blocks
 
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -16,18 +10,14 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ImageBitmap
@@ -46,15 +36,14 @@ import com.pranshulgg.weathermaster.core.model.domain.Weather
 import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
 import com.pranshulgg.weathermaster.core.ui.theme.ShadowElevation
-import com.pranshulgg.weathermaster.core.utils.DataSafe
-import com.pranshulgg.weathermaster.core.utils.TimeFormatters
-import com.pranshulgg.weathermaster.core.utils.WeatherUtils
+import com.pranshulgg.weathermaster.core.utils.formatters.to12HourTimeString
+import com.pranshulgg.weathermaster.core.utils.weather.cache.isWeatherDailyDomainSafe
 import java.time.Instant
 
 @Composable
 fun SunBlock(weather: Weather) {
 
-    if (!DataSafe().isWeatherDailyDomainSafe(weather)) return
+    if (!isWeatherDailyDomainSafe(weather)) return
 
     val daily = weather.daily[0]
 
@@ -137,12 +126,12 @@ fun SunBlock(weather: Weather) {
             }
 
 
-            val sunriseFormatted = TimeFormatters().to12HourTimeString(
+            val sunriseFormatted = to12HourTimeString(
                 (sunrise * 1000),
                 weather.location.timezone,
                 "hh:mm a"
             )
-            val sunsetFormatted = TimeFormatters().to12HourTimeString(
+            val sunsetFormatted = to12HourTimeString(
                 (sunset * 1000),
                 weather.location.timezone,
                 "hh:mm a"

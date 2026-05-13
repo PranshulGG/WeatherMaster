@@ -24,10 +24,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weathermaster.R
-import com.pranshulgg.weathermaster.core.model.UvIndex
+import com.pranshulgg.weathermaster.core.model.weather.uv.UvIndex
 import com.pranshulgg.weathermaster.core.model.domain.Weather
-import com.pranshulgg.weathermaster.core.model.getUvIndex
-import com.pranshulgg.weathermaster.core.model.toLabel
+import com.pranshulgg.weathermaster.core.model.weather.uv.getUvIndex
+import com.pranshulgg.weathermaster.core.model.weather.uv.toLabel
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
 
 @Composable

@@ -36,14 +36,14 @@ import com.pranshulgg.weathermaster.core.model.domain.Weather
 import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
 import com.pranshulgg.weathermaster.core.ui.theme.ShadowElevation
-import com.pranshulgg.weathermaster.core.utils.DataSafe
-import com.pranshulgg.weathermaster.core.utils.TimeFormatters
+import com.pranshulgg.weathermaster.core.utils.formatters.to12HourTimeString
+import com.pranshulgg.weathermaster.core.utils.weather.cache.isWeatherDailyDomainSafe
 import java.time.Instant
 
 @Composable
 fun MoonBlock(weather: Weather) {
 
-    if (!DataSafe().isWeatherDailyDomainSafe(weather)) return
+    if (!isWeatherDailyDomainSafe(weather)) return
 
     val daily = weather.daily[0]
 
@@ -126,12 +126,12 @@ fun MoonBlock(weather: Weather) {
             }
 
 
-            val moonriseFormatted = TimeFormatters().to12HourTimeString(
+            val moonriseFormatted = to12HourTimeString(
                 (moonrise * 1000),
                 weather.location.timezone,
                 "hh:mm a"
             )
-            val moonsetFormatted = TimeFormatters().to12HourTimeString(
+            val moonsetFormatted = to12HourTimeString(
                 (moonset * 1000),
                 weather.location.timezone,
                 "hh:mm a"
