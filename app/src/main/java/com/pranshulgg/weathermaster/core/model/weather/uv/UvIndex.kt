@@ -1,4 +1,4 @@
-package com.pranshulgg.weathermaster.core.model
+package com.pranshulgg.weathermaster.core.model.weather.uv
 
 import android.content.Context
 import com.pranshulgg.weathermaster.R

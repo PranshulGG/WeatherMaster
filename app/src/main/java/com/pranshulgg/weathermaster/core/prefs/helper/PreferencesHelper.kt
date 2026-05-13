@@ -1,5 +1,4 @@
-package com.pranshulgg.weathermaster.core.utils
-
+package com.pranshulgg.weathermaster.core.prefs.helper
 
 import android.content.Context
 import android.content.SharedPreferences

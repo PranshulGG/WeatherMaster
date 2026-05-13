@@ -1,7 +1,6 @@
-package com.pranshulgg.weathermaster.core.model
+package com.pranshulgg.weathermaster.core.model.weather
 
 import android.content.Context
-import androidx.compose.ui.res.stringResource
 import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.domain.WeatherDaily
 

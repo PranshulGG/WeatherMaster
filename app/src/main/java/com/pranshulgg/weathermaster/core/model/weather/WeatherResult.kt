@@ -1,4 +1,4 @@
-package com.pranshulgg.weathermaster.core.model
+package com.pranshulgg.weathermaster.core.model.weather
 
 import com.pranshulgg.weathermaster.core.model.domain.Weather
 

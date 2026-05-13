@@ -1,4 +1,4 @@
-package com.pranshulgg.weathermaster.core.model
+package com.pranshulgg.weathermaster.core.model.providers
 
 enum class SearchProviders {
     OPEN_METEO,

@@ -1,14 +1,13 @@
-package com.pranshulgg.weathermaster.core.utils
+package com.pranshulgg.weathermaster.core.utils.weather
 
-import com.pranshulgg.weathermaster.core.model.DistanceUnits
-import com.pranshulgg.weathermaster.core.model.PrecipitationUnits
-import com.pranshulgg.weathermaster.core.model.PressureUnits
-import com.pranshulgg.weathermaster.core.model.TemperatureUnits
-import com.pranshulgg.weathermaster.core.model.WindSpeedUnits
+import com.pranshulgg.weathermaster.core.model.weather.DistanceUnits
+import com.pranshulgg.weathermaster.core.model.weather.PrecipitationUnits
+import com.pranshulgg.weathermaster.core.model.weather.PressureUnits
+import com.pranshulgg.weathermaster.core.model.weather.TemperatureUnits
+import com.pranshulgg.weathermaster.core.model.weather.WindSpeedUnits
 
 object UnitConverter {
-
-
+    
     fun convertTemp(value: Double, from: TemperatureUnits, to: TemperatureUnits): Double {
 
         if (value == -99999.0) { // YES :P
