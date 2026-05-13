@@ -1,6 +1,6 @@
 package com.pranshulgg.weathermaster.core.network.openmeteo
 
-import com.pranshulgg.weathermaster.core.model.WeatherConditions
+import com.pranshulgg.weathermaster.core.model.weather.WeatherConditions
 
 fun openMeteoWeatherCode(code: Int): WeatherConditions {
     return when (code) {

@@ -8,7 +8,8 @@ import com.pranshulgg.weathermaster.core.model.domain.WeatherDaily
 import com.pranshulgg.weathermaster.core.model.domain.WeatherHourly
 import com.pranshulgg.weathermaster.core.network.openmeteo.OpenMeteoWeatherDto
 import com.pranshulgg.weathermaster.core.network.openmeteo.openMeteoWeatherCode
-import com.pranshulgg.weathermaster.core.utils.WeatherUtils
+import com.pranshulgg.weathermaster.core.utils.weather.astronomy.getMoonTimings
+import com.pranshulgg.weathermaster.core.utils.weather.astronomy.getSunTimings
 import com.pranshulgg.weathermaster.data.local.entity.CurrentWeatherEntity
 import com.pranshulgg.weathermaster.data.local.entity.DailyWeatherEntity
 import com.pranshulgg.weathermaster.data.local.entity.HourlyWeatherEntity
@@ -87,14 +88,14 @@ fun List<WeatherDaily>.toDailyWeatherEntity(
 @OptIn(ExperimentalUuidApi::class)
 fun OpenMeteoWeatherDto.toDomain(location: Location): Weather {
 
-    val sunTimings = WeatherUtils.getSunTimings(
+    val sunTimings = getSunTimings(
         daily.time,
         location.timezone,
         location.latitude,
         location.longitude
     )
 
-    val moonTimings = WeatherUtils.getMoonTimings(
+    val moonTimings = getMoonTimings(
         daily.time,
         location.timezone,
         location.latitude,

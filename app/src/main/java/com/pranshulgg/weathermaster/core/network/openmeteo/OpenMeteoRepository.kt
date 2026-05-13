@@ -1,10 +1,10 @@
 package com.pranshulgg.weathermaster.core.network.openmeteo
 
-import com.pranshulgg.weathermaster.core.model.WeatherResult
-import com.pranshulgg.weathermaster.core.model.WeatherResultType
+import com.pranshulgg.weathermaster.core.model.weather.WeatherResult
+import com.pranshulgg.weathermaster.core.model.weather.WeatherResultType
 import com.pranshulgg.weathermaster.core.model.domain.Location
-import com.pranshulgg.weathermaster.core.utils.DataSafe
-import com.pranshulgg.weathermaster.core.utils.WeatherUtils
+import com.pranshulgg.weathermaster.core.utils.weather.cache.isWeatherCacheSafe
+import com.pranshulgg.weathermaster.core.utils.weather.cache.shouldReturnWeatherCache
 import com.pranshulgg.weathermaster.data.local.dao.WeatherDataDao
 import com.pranshulgg.weathermaster.data.local.mapper.toDomain
 import com.pranshulgg.weathermaster.data.local.mapper.weather.toCurrentWeatherEntity
@@ -29,8 +29,7 @@ class OpenMeteoRepository @Inject constructor(
 
             val cache = dao.getWeatherDataForLocation(location.id)
 
-            val shouldReturnCache = WeatherUtils.shouldReturnCache(cache, isManualRefresh)
-
+            val shouldReturnCache = shouldReturnWeatherCache(cache, isManualRefresh)
 
             when (shouldReturnCache) {
                 WeatherResultType.REFRESH_TOO_EARLY -> return@withContext WeatherResult.RefreshNotAvailable
@@ -60,7 +59,7 @@ class OpenMeteoRepository @Inject constructor(
 
             } catch (e: Exception) {
 
-                val isCacheSafe = DataSafe().isCacheSafe(cache)
+                val isCacheSafe = isWeatherCacheSafe(cache)
 
                 WeatherResult.Error(
                     exception = e,
