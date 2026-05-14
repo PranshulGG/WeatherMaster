@@ -5,12 +5,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pranshulgg.weathermaster.R
-import com.pranshulgg.weathermaster.core.model.providers.WeatherProviders
-import com.pranshulgg.weathermaster.core.model.weather.WeatherResult
 import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.core.model.domain.WeatherBlock
 import com.pranshulgg.weathermaster.core.model.domain.toAppException
 import com.pranshulgg.weathermaster.core.model.domain.toMessageRes
+import com.pranshulgg.weathermaster.core.model.providers.WeatherProviders
+import com.pranshulgg.weathermaster.core.model.weather.WeatherResult
+import com.pranshulgg.weathermaster.core.model.weather.airquality.AirQualityResult
 import com.pranshulgg.weathermaster.core.network.airquality.openmeteo.OpenMeteoAqiRepository
 import com.pranshulgg.weathermaster.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weathermaster.data.provider.WeatherRepositoryProvider
@@ -93,7 +94,6 @@ class WeatherViewModel @Inject constructor(
         provider: WeatherProviders,
         isManualRefresh: Boolean = false
     ) {
-
         weatherJob?.cancel()
         setLoading(true)
         val startTime = System.currentTimeMillis()
@@ -106,39 +106,17 @@ class WeatherViewModel @Inject constructor(
             handleDeviceLocation()
         }
 
-        val currentRepo = repo.getRepository(provider)
-
-
         weatherJob = viewModelScope.launch {
 
-
-            // AIR QUALITY
-            val airQuality = openMeteoAqiRepository.getAirQuality(location, isManualRefresh)
-
-            when (val result = currentRepo.getWeather(location, isManualRefresh)) {
-
-                is WeatherResult.Success -> {
-                    _uiState.value =
-                        _uiState.value.copy(
-                            weather = result.weather,
-                            airQuality = airQuality,
-                            isInitialized = true
-                        )
-                }
-
-                is WeatherResult.Error -> {
-
-                    val appExpectation = result.exception.toAppException()
-                    SnackbarManager.show(appExpectation.toMessageRes())
-
-                    _uiState.value =
-                        _uiState.value.copy(isError = true, weather = result.cacheWeather)
-                }
-
-                is WeatherResult.RefreshNotAvailable -> {
-                    SnackbarManager.show(R.string.weather_refresh_delay, messageArgs = 15)
+            
+            // Run separately, don't block the UI if this isn't ready
+            if (!_uiState.value.isError) {
+                launch {
+                    handleAirQuality(location, isManualRefresh)
                 }
             }
+
+            handleWeatherData(provider, location, isManualRefresh)
 
             val elapsed = System.currentTimeMillis() - startTime
             val minLoadingTime = 1000L // 1s
@@ -206,5 +184,47 @@ class WeatherViewModel @Inject constructor(
         viewModelScope.launch {
             locationsRepo.updateDeviceLocationPosition()
         }
+    }
+
+    private suspend fun handleWeatherData(
+        provider: WeatherProviders,
+        location: Location,
+        isManualRefresh: Boolean
+    ) {
+        val repo = repo.getRepository(provider)
+
+        when (val result = repo.getWeather(location, isManualRefresh)) {
+
+            is WeatherResult.Success -> {
+                _uiState.value = _uiState.value.copy(weather = result.weather, isInitialized = true)
+            }
+
+            is WeatherResult.Error -> {
+
+                val appExpectation = result.exception.toAppException()
+                SnackbarManager.show(appExpectation.toMessageRes())
+
+                _uiState.value = _uiState.value.copy(isError = true, weather = result.cacheWeather)
+            }
+
+            is WeatherResult.RefreshNotAvailable -> {
+                SnackbarManager.show(R.string.weather_refresh_delay, messageArgs = 15)
+            }
+        }
+    }
+
+    private suspend fun handleAirQuality(location: Location, isManualRefresh: Boolean) {
+
+        when (val result = openMeteoAqiRepository.getAirQuality(location, isManualRefresh)) {
+            is AirQualityResult.Success -> {
+                _uiState.value = _uiState.value.copy(airQuality = result.airquality)
+            }
+
+            // Fail silently, we just won't show the Air quality in the UI
+            is AirQualityResult.Error -> {
+                _uiState.value = _uiState.value.copy(airQuality = result.cacheAirQuality)
+            }
+        }
+
     }
 }

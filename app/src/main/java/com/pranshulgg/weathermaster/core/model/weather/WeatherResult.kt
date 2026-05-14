@@ -3,9 +3,7 @@ package com.pranshulgg.weathermaster.core.model.weather
 import com.pranshulgg.weathermaster.core.model.domain.Weather
 
 sealed class WeatherResult {
-
     data class Success(val weather: Weather) : WeatherResult()
-
     data object RefreshNotAvailable : WeatherResult()
 
     data class Error(val exception: Exception, val cacheWeather: Weather? = null) : WeatherResult()
