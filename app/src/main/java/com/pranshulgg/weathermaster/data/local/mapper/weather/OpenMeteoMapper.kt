@@ -1,6 +1,5 @@
 package com.pranshulgg.weathermaster.data.local.mapper.weather
 
-import com.google.gson.Gson
 import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.core.model.domain.Weather
 import com.pranshulgg.weathermaster.core.model.domain.WeatherCurrent
@@ -8,16 +7,13 @@ import com.pranshulgg.weathermaster.core.model.domain.WeatherDaily
 import com.pranshulgg.weathermaster.core.model.domain.WeatherHourly
 import com.pranshulgg.weathermaster.core.network.openmeteo.OpenMeteoWeatherDto
 import com.pranshulgg.weathermaster.core.network.openmeteo.openMeteoWeatherCode
+import com.pranshulgg.weathermaster.core.utils.formatters.toMilliseconds
 import com.pranshulgg.weathermaster.core.utils.weather.astronomy.getMoonTimings
 import com.pranshulgg.weathermaster.core.utils.weather.astronomy.getSunTimings
 import com.pranshulgg.weathermaster.data.local.entity.CurrentWeatherEntity
 import com.pranshulgg.weathermaster.data.local.entity.DailyWeatherEntity
 import com.pranshulgg.weathermaster.data.local.entity.HourlyWeatherEntity
-import java.time.Instant
 import kotlin.uuid.ExperimentalUuidApi
-
-private val gson = Gson()
-
 
 @OptIn(ExperimentalUuidApi::class)
 fun WeatherCurrent.toCurrentWeatherEntity(
@@ -38,7 +34,7 @@ fun WeatherCurrent.toCurrentWeatherEntity(
         time = time,
         dewPoint = dewPoint,
         utcOffsetSeconds = utcOffsetSeconds,
-        lastUpdatedSecs = lastUpdatedSecs
+        lastUpdatedInMilli = lastUpdatedInMilli
     )
 
 @OptIn(ExperimentalUuidApi::class)
@@ -89,14 +85,14 @@ fun List<WeatherDaily>.toDailyWeatherEntity(
 fun OpenMeteoWeatherDto.toDomain(location: Location): Weather {
 
     val sunTimings = getSunTimings(
-        daily.time,
+        daily.time.map { it.toMilliseconds() },
         location.timezone,
         location.latitude,
         location.longitude
     )
 
     val moonTimings = getMoonTimings(
-        daily.time,
+        daily.time.map { it.toMilliseconds() },
         location.timezone,
         location.latitude,
         location.longitude
@@ -128,10 +124,10 @@ fun OpenMeteoWeatherDto.toDomain(location: Location): Weather {
             uvIndex = current.uvIndex,
             weatherCondition = openMeteoWeatherCode(current.weatherCode),
             feelsLike = current.feelsLike,
-            time = current.time,
+            time = current.time.toMilliseconds(), // Open-Meteo returns in seconds
             dewPoint = hourly.dewPoint[0],
             utcOffsetSeconds = utcOffsetSeconds,
-            lastUpdatedSecs = Instant.now().epochSecond
+            lastUpdatedInMilli = System.currentTimeMillis()
         ),
         hourly = List(hourly.time.size) {
             WeatherHourly(
@@ -142,7 +138,7 @@ fun OpenMeteoWeatherDto.toDomain(location: Location): Weather {
                 snowfall = hourly.snowfall[it],
                 uvIndex = hourly.uvIndex[it],
                 weatherCondition = openMeteoWeatherCode(hourly.weatherCode[it]),
-                time = hourly.time[it],
+                time = hourly.time[it].toMilliseconds(), // Open-Meteo returns in seconds
                 precipitationProbability = hourly.precipitationProbability[it],
             )
         },
@@ -157,7 +153,7 @@ fun OpenMeteoWeatherDto.toDomain(location: Location): Weather {
                 snowfallSum = daily.snowfallSum[it],
                 uvIndexMax = daily.uvIndexMax[it],
                 weatherCondition = openMeteoWeatherCode(daily.weatherCode[it]),
-                time = daily.time[it],
+                time = daily.time[it].toMilliseconds(), // Open-Meteo returns in seconds
                 precipitationProbabilityMax = daily.precipitationProbabilityMax[it],
                 sunrise = sunTimings[it].sunrise ?: -0L,
                 sunset = sunTimings[it].sunset ?: -0L,
