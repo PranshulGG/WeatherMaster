@@ -6,18 +6,18 @@ import java.time.Instant
 import java.time.ZoneId
 
 fun findMatchingDaily(
-    targetTimeSecs: Long,
+    targetTimeMilli: Long,
     dailyList: List<WeatherDaily>,
     timezone: String
 ): WeatherDaily? {
 
-    val targetDate = Instant.ofEpochSecond(targetTimeSecs)
+    val targetDate = Instant.ofEpochMilli(targetTimeMilli)
         .atZone(ZoneId.of(timezone))
         .toLocalDate()
 
 
     return dailyList.firstOrNull { daily ->
-        val dailyDate = Instant.ofEpochSecond(daily.time)
+        val dailyDate = Instant.ofEpochMilli(daily.time)
             .atZone(ZoneId.of(timezone))
             .toLocalDate()
 
@@ -29,11 +29,11 @@ fun findMatchingDaily(
 
 fun findMatchingHourly(
     data: List<WeatherHourly>,
-    currentSeconds: Long,
+    currentMilli: Long,
     limit: Int = 24
 ): List<WeatherHourly> {
 
-    val startIndex = data.indexOfFirst { it.time >= currentSeconds }.takeIf { it != -1 } ?: 0
+    val startIndex = data.indexOfFirst { it.time >= currentMilli }.takeIf { it != -1 } ?: 0
 
     return data.drop(startIndex - 1).take(limit)
 
