@@ -7,7 +7,10 @@ import com.pranshulgg.weathermaster.data.local.entity.AirQualityWithRelations
 import java.util.concurrent.TimeUnit
 
 
-fun isCurrentAirQualitySafe(airQuality: AirQuality): Boolean {
+fun isCurrentAirQualitySafe(airQuality: AirQuality?): Boolean {
+
+    if (airQuality == null) return false
+
     val current = airQuality.current
     val isSafe =
         current.pm10 != null || current.pm25 != null || current.ozone != null || current.sulphurDioxide != null || current.nitrogenDioxide != null || current.carbonMonoxide != null

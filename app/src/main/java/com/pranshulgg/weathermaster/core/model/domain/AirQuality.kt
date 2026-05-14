@@ -38,7 +38,7 @@ data class AirQuality(
 
 
             /**
-             * Get  threshold range
+             * Get threshold range
              * For example: thresholds [0, 5, 15, 30, 60, 150]
              * If value is 21, the index should return 2 because 21 is more than 15 but less than 30
              * So we get the threshold range 15 - 30
