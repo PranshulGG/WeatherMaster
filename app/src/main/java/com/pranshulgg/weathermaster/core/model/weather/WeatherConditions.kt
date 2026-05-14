@@ -28,10 +28,10 @@ enum class WeatherConditions {
 
 // ------- MAP TO ICONS -------
 
-fun WeatherConditions.toIcon(daily: WeatherDaily? = null, targetTimeSecs: Long): Int {
+fun WeatherConditions.toIcon(daily: WeatherDaily? = null, targetTimeMilli: Long): Int {
 
     val isDay = if (daily != null) {
-        targetTimeSecs in daily.sunrise..daily.sunset
+        targetTimeMilli in daily.sunrise..daily.sunset
     } else {
         true
     }

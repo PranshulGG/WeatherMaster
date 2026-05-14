@@ -52,7 +52,7 @@ fun WeatherWithRelations.toDomain(): Weather {
             time = current?.time ?: System.currentTimeMillis(),
             dewPoint = current?.dewPoint,
             utcOffsetSeconds = current?.utcOffsetSeconds ?: -1L,
-            lastUpdatedSecs = current?.lastUpdatedSecs ?: -1L
+            lastUpdatedInMilli = current?.lastUpdatedInMilli ?: -1L
         ),
         hourly = List(hourly.size) {
             WeatherHourly(

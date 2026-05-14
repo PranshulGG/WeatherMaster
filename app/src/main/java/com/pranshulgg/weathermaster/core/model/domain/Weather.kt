@@ -24,7 +24,7 @@ data class WeatherCurrent(
     val time: Long,
     val dewPoint: Double?,
     val utcOffsetSeconds: Long,
-    val lastUpdatedSecs: Long
+    val lastUpdatedInMilli: Long
 )
 
 data class WeatherHourly(

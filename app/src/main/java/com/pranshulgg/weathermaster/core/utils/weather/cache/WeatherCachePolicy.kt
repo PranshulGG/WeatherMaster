@@ -46,7 +46,7 @@ fun shouldReturnWeatherCache(
 
     if (!isWeatherCacheSafe(cache)) return WeatherResultType.ERROR
 
-    val cacheMilli = cache!!.current!!.lastUpdatedSecs * 1000L
+    val cacheMilli = cache!!.current!!.lastUpdatedInMilli
     val ageMillis = System.currentTimeMillis() - cacheMilli
     val ageMinutes = TimeUnit.MILLISECONDS.toMinutes(ageMillis)
 
