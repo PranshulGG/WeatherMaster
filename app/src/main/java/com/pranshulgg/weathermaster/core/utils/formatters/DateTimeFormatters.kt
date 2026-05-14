@@ -8,16 +8,16 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
 
-fun to12HourTimeString(millis: Long, zoneId: String, pattern: String = "ha"): String {
-    val instant = Instant.ofEpochMilli(millis)
+fun to12HourTimeString(timeMilli: Long, zoneId: String, pattern: String = "ha"): String {
+    val instant = Instant.ofEpochMilli(timeMilli)
     val formatter = DateTimeFormatter.ofPattern(pattern, getCurrentAppLocale())
         .withZone(ZoneId.of(zoneId))
 
     return formatter.format(instant)
 }
 
-fun toWeekdayString(millis: Long, zoneId: String): String {
-    val instant = Instant.ofEpochMilli(millis)
+fun toWeekdayString(timeMilli: Long, zoneId: String): String {
+    val instant = Instant.ofEpochMilli(timeMilli)
     val zonedDateTime = instant.atZone(ZoneId.of(zoneId))
     val formatter = DateTimeFormatter.ofPattern("EEE", getCurrentAppLocale())
 
@@ -25,10 +25,9 @@ fun toWeekdayString(millis: Long, zoneId: String): String {
 }
 
 
-fun getLastUpdatedTimeString(context: Context, timeSeconds: Long): String {
+fun getLastUpdatedTimeString(context: Context, timeMilli: Long): String {
 
-    val milli = timeSeconds * 1000L
-    val ageMillis = System.currentTimeMillis() - milli
+    val ageMillis = System.currentTimeMillis() - timeMilli
     val seconds = TimeUnit.MILLISECONDS.toSeconds(ageMillis)
     val minutes = TimeUnit.MILLISECONDS.toMinutes(ageMillis)
     val hours = TimeUnit.MILLISECONDS.toHours(ageMillis)
@@ -58,4 +57,8 @@ fun getLastUpdatedTimeString(context: Context, timeSeconds: Long): String {
     }
 
     return lastUpdated
+}
+
+fun Long.toMilliseconds(): Long {
+    return (this * 1000L)
 }
