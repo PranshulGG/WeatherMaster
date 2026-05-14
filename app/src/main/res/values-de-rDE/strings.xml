@@ -116,5 +116,11 @@
     <string name="location_permission_required">Location permission is required</string>
     <string name="current_location_not_found">Current location not found</string>
     <string name="error_server">Request couldn’t be completed. Try again shortly</string>
+    <string name="weather_airquality_good">Good</string>
+    <string name="weather_airquality_fair">Fair</string>
+    <string name="weather_airquality_moderate">Mäßig</string>
+    <string name="weather_airquality_poor">Poor</string>
+    <string name="weather_airquality_very_poor">Very poor</string>
+    <string name="weather_airquality_hazardous">Hazardous</string>
 </resources>
 <!--<string name=""></string>-->
