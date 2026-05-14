@@ -3,6 +3,7 @@ package com.pranshulgg.weathermaster.core.utils.weather.astronomy
 import com.pranshulgg.weathermaster.core.model.astro.MoonTimings
 import com.pranshulgg.weathermaster.core.model.astro.SunTimings
 import com.pranshulgg.weathermaster.core.model.astro.getMoonPhase
+import com.pranshulgg.weathermaster.core.utils.formatters.toMilliseconds
 import org.shredzone.commons.suncalc.MoonIllumination
 import org.shredzone.commons.suncalc.MoonTimes
 import org.shredzone.commons.suncalc.SunTimes
@@ -10,14 +11,14 @@ import java.time.Instant
 import java.time.ZoneId
 
 fun getSunTimings(
-    timeSecs: List<Long>,
+    timeMilli: List<Long>,
     zoneId: String,
     lat: Double,
     lon: Double
 ): List<SunTimings> {
 
-    return timeSecs.map {
-        val date = Instant.ofEpochSecond(it)
+    return timeMilli.map {
+        val date = Instant.ofEpochMilli(it)
             .atZone(ZoneId.of(zoneId))
             .toLocalDate()
 
@@ -29,21 +30,25 @@ fun getSunTimings(
             .at(lat, lon)
             .execute()
 
-        SunTimings(it, sunTimes.rise?.toEpochSecond(), sunTimes.set?.toEpochSecond())
+        SunTimings(
+            it,
+            sunTimes.rise?.toEpochSecond()?.toMilliseconds(),
+            sunTimes.set?.toEpochSecond()?.toMilliseconds()
+        )
 
     }
 
 }
 
 fun getMoonTimings(
-    timeSecs: List<Long>,
+    timeMilli: List<Long>,
     zoneId: String,
     lat: Double,
     lon: Double
 ): List<MoonTimings> {
 
-    return timeSecs.map {
-        val date = Instant.ofEpochSecond(it)
+    return timeMilli.map {
+        val date = Instant.ofEpochMilli(it)
             .atZone(ZoneId.of(zoneId))
             .toLocalDate()
 
@@ -61,8 +66,8 @@ fun getMoonTimings(
 
         MoonTimings(
             it,
-            moonTimes.rise?.toEpochSecond(),
-            moonTimes.set?.toEpochSecond(),
+            moonTimes.rise?.toEpochSecond()?.toMilliseconds(),
+            moonTimes.set?.toEpochSecond()?.toMilliseconds(),
             phase = phaseName
         )
     }
