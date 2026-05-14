@@ -13,7 +13,7 @@
     <string name="weather_refresh_delay">%1$d分経ってから再度更新してください。</string>
     <string name="error_generic">エラーが発生しました。もう一度お試しください。</string>
     <string name="weather_moon">月</string>
-    <string name="weather_sun">日</string>
+    <string name="weather_sun">太陽</string>
     <string name="weather_humidity">湿度</string>
     <string name="weather_pressure">気圧</string>
     <string name="weather_wind">風</string>
