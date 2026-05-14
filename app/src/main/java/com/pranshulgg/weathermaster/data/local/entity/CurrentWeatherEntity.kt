@@ -36,5 +36,5 @@ data class CurrentWeatherEntity(
 
     val utcOffsetSeconds: Long,
 
-    val lastUpdatedSecs: Long
+    val lastUpdatedInMilli: Long
 )

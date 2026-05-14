@@ -84,7 +84,7 @@ private fun CardRowContent(weather: Weather, units: AppWeatherUnits, context: Co
             )
             WeatherIconBox(
                 current.weatherCondition.toIcon(
-                    targetTimeSecs = weather.current.time,
+                    targetTimeMilli = weather.current.time,
                     daily = weather.daily.firstOrNull()
                 ),
                 size = 42.dp
@@ -145,14 +145,14 @@ private fun MinMaxTempRow(weather: Weather, units: AppWeatherUnits, context: Con
             color = colorScheme.onSurfaceVariant,
             style = MaterialTheme.typography.labelLarge
         )
-        LastUpdatedTextRow(weather.current.lastUpdatedSecs, context)
+        LastUpdatedTextRow(weather.current.lastUpdatedInMilli, context)
     }
 }
 
 
 @Composable
-private fun LastUpdatedTextRow(timeSeconds: Long, context: Context) {
-    val lastUpdated = getLastUpdatedTimeString(context, timeSeconds)
+private fun LastUpdatedTextRow(timeMilli: Long, context: Context) {
+    val lastUpdated = getLastUpdatedTimeString(context, timeMilli)
 
     Row(verticalAlignment = Alignment.CenterVertically) {
         Symbol(
