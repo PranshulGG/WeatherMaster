@@ -16,7 +16,7 @@ fun OpenMeteoAqiDto.toDomain(): AirQuality =
             nitrogenDioxide = this.current.nitrogenDioxide,
             sulphurDioxide = this.current.sulphurDioxide,
             ozone = this.current.ozone,
-            lastUpdatedSecs = Instant.now().epochSecond
+            lastUpdatedInMilli = System.currentTimeMillis()
         )
     )
 
@@ -31,5 +31,5 @@ fun AirQualityCurrent.toEntity(locationId: String): CurrentAirQualityEntity =
         nitrogenDioxide = nitrogenDioxide,
         sulphurDioxide = sulphurDioxide,
         ozone = ozone,
-        lastUpdatedSecs = lastUpdatedSecs
+        lastUpdatedInMilli = lastUpdatedInMilli
     )
