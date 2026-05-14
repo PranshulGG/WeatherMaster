@@ -32,8 +32,8 @@ android {
         applicationId = "com.pranshulgg.weathermaster"
         minSdk = 24
         targetSdk = 36
-        versionCode = 42
-        versionName = "3.0.0-alpha3"
+        versionCode = 43
+        versionName = "3.0.0-alpha4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
