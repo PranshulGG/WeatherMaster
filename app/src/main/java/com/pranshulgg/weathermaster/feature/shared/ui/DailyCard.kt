@@ -58,7 +58,7 @@ fun DailyCard(weather: Weather, units: AppWeatherUnits) {
 
                     val item = daily[index]
                     val weekDay = toWeekdayString(
-                        (item.time * 1000L),
+                        item.time,
                         weather.location.timezone
                     )
 
@@ -68,7 +68,7 @@ fun DailyCard(weather: Weather, units: AppWeatherUnits) {
                         weekDay,
                         item.temperatureMax,
                         item.temperatureMin,
-                        item.weatherCondition.toIcon(targetTimeSecs = Instant.now().epochSecond) /* always use day icons*/,
+                        item.weatherCondition.toIcon(targetTimeMilli = System.currentTimeMillis()) /* always use day icons*/,
                         item.precipitationProbabilityMax ?: 0,
                         units
                     )
