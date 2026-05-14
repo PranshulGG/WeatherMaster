@@ -81,11 +81,11 @@ fun LocationsScreenContent(
                 val icon =
                     weather?.current?.weatherCondition ?: WeatherConditions.NO_CONDITION_FOUND
                 val description =
-                    if (weather != null && weather.current.lastUpdatedSecs != -1L) stringResource(
+                    if (weather != null && weather.current.lastUpdatedInMilli != -1L) stringResource(
                         R.string.time_last_updated,
                         getLastUpdatedTimeString(
                             context,
-                            weather.current.lastUpdatedSecs
+                            weather.current.lastUpdatedInMilli
                         )
                     ) else stringResource(R.string.weather_no_data)
                 LocationItem(
@@ -95,7 +95,7 @@ fun LocationsScreenContent(
                         onLocationSelect(location)
                     },
                     icon = icon.toIcon(
-                        targetTimeSecs = weather?.current?.time ?: Instant.now().epochSecond,
+                        targetTimeMilli = weather?.current?.time ?: System.currentTimeMillis(),
                         daily = weather?.daily?.firstOrNull()
                     ),
                     isSelected = location.id == activeLocation?.id,
