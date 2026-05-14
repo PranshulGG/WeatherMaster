@@ -19,7 +19,7 @@ import com.pranshulgg.weathermaster.data.local.entity.WeatherLocationEntity
 
 @Database(
     entities = [WeatherLocationEntity::class, CurrentWeatherEntity::class, HourlyWeatherEntity::class, DailyWeatherEntity::class, AppWeatherUnitsEntity::class, WeatherBlockEntity::class, CurrentAirQualityEntity::class],
-    version = 25
+    version = 27
 )
 abstract class WeatherMasterDatabase : RoomDatabase() {
 
