@@ -113,5 +113,5 @@ data class AirQualityCurrent(
     val nitrogenDioxide: Double?,
     val sulphurDioxide: Double?,
     val ozone: Double?,
-    val lastUpdatedSecs: Long
+    val lastUpdatedInMilli: Long
 )

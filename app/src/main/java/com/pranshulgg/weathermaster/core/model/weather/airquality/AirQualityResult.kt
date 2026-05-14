@@ -10,6 +10,6 @@ sealed class AirQualityResult {
 }
 
 enum class AirQualityResultType {
-    SUCCESS,
+    RETURN_CACHE,
     ERROR
 }

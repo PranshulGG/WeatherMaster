@@ -16,7 +16,7 @@ fun AirQualityWithRelations.toDomain(): AirQuality {
             nitrogenDioxide = this.current?.nitrogenDioxide,
             sulphurDioxide = this.current?.sulphurDioxide,
             ozone = this.current?.ozone,
-            lastUpdatedSecs = Instant.now().epochSecond
+            lastUpdatedInMilli = this.current?.lastUpdatedInMilli ?: System.currentTimeMillis()
         )
     )
 }

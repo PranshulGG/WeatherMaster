@@ -73,7 +73,7 @@ fun AirQualityBlock(airQuality: AirQuality, context: Context) {
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.End,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyLarge
                 )
             }
 
