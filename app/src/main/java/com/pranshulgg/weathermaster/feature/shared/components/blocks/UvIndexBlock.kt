@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.weather.uv.UvIndex
 import com.pranshulgg.weathermaster.core.model.domain.Weather
+import com.pranshulgg.weathermaster.core.model.weather.toName
 import com.pranshulgg.weathermaster.core.model.weather.uv.getUvIndex
 import com.pranshulgg.weathermaster.core.model.weather.uv.toLabel
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
@@ -104,9 +105,9 @@ fun UvIndexBlock(weather: Weather, context: Context) {
             "$uvIndex",
             style = MaterialTheme.typography.displayMedium,
             modifier = Modifier
-                .padding()
                 .align(Alignment.Center)
-                .offset(y = 3.dp),
+                .offset(y = 8.dp),
+                    
             color = MaterialTheme.colorScheme.onSurface,
         )
 
@@ -114,8 +115,8 @@ fun UvIndexBlock(weather: Weather, context: Context) {
         Text(
             uvIndexValue.toLabel(context),
             modifier = Modifier
-                .align(Alignment.Center)
-                .offset(y = 32.dp),
+                .align(Alignment.BottomCenter)
+                .offset(y = (-30).dp),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )

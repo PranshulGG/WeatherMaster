@@ -72,7 +72,7 @@ fun SunBlock(weather: Weather) {
 
             val sunrise = daily.sunrise
             val sunset = daily.sunset
-            val now = Instant.now().epochSecond
+            val now = System.currentTimeMillis()
 
             val progress = ((now - sunrise).toFloat() / (sunset - sunrise))
                 .coerceIn(0f, 1f)
@@ -127,12 +127,12 @@ fun SunBlock(weather: Weather) {
 
 
             val sunriseFormatted = to12HourTimeString(
-                (sunrise * 1000),
+                sunrise,
                 weather.location.timezone,
                 "hh:mm a"
             )
             val sunsetFormatted = to12HourTimeString(
-                (sunset * 1000),
+                sunset,
                 weather.location.timezone,
                 "hh:mm a"
             )

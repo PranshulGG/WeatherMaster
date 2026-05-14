@@ -72,7 +72,7 @@ fun MoonBlock(weather: Weather) {
 
             val moonrise = daily.moonrise
             val moonset = daily.moonset
-            val now = Instant.now().epochSecond
+            val now = System.currentTimeMillis()
 
             val progress = ((now - moonrise).toFloat() / (moonset - moonrise))
                 .coerceIn(0f, 1f)
@@ -127,12 +127,12 @@ fun MoonBlock(weather: Weather) {
 
 
             val moonriseFormatted = to12HourTimeString(
-                (moonrise * 1000),
+                moonrise,
                 weather.location.timezone,
                 "hh:mm a"
             )
             val moonsetFormatted = to12HourTimeString(
-                (moonset * 1000),
+                moonset,
                 weather.location.timezone,
                 "hh:mm a"
             )
