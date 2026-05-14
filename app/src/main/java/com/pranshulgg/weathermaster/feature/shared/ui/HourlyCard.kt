@@ -32,6 +32,7 @@ import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.WeatherIconBox
 import com.pranshulgg.weathermaster.core.ui.theme.ShadowElevation
 import com.pranshulgg.weathermaster.core.utils.formatters.to12HourTimeString
+import com.pranshulgg.weathermaster.core.utils.formatters.toMilliseconds
 import com.pranshulgg.weathermaster.core.utils.weather.UnitConverter
 import com.pranshulgg.weathermaster.core.utils.weather.cache.isWeatherHourlyDomainSafe
 import com.pranshulgg.weathermaster.core.utils.weather.forecast.findMatchingDaily
@@ -50,7 +51,7 @@ fun HourlyCard(weather: Weather, units: AppWeatherUnits) {
     val filteredHourly =
         findMatchingHourly(
             weather.hourly,
-            ZonedDateTime.now(ZoneId.of(weather.location.timezone)).toEpochSecond()
+            ZonedDateTime.now(ZoneId.of(weather.location.timezone)).toEpochSecond().toMilliseconds()
         )
 
 
@@ -70,7 +71,7 @@ fun HourlyCard(weather: Weather, units: AppWeatherUnits) {
             LazyRow(state = lazyListState) {
                 items(filteredHourly.size, key = { filteredHourly[it].time }) { index ->
                     val time = to12HourTimeString(
-                        (filteredHourly[index].time * 1000L),
+                        filteredHourly[index].time,
                         weather.location.timezone
                     )
                     val item = filteredHourly[index]
