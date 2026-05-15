@@ -9,7 +9,9 @@ enum class WeatherBlockType {
     PRESSURE_BLOCK,
     SUN_BLOCK,
     MOON_BLOCK,
-    AIR_QUALITY
+    AIR_QUALITY_BLOCK,
+
+    RAIN_BLOCK
 
 }
 
@@ -65,12 +67,50 @@ data class WeatherBlock(
                 id = 5
             ),
             WeatherBlock(
-                type = WeatherBlockType.AIR_QUALITY,
+                type = WeatherBlockType.AIR_QUALITY_BLOCK,
                 isHidden = false,
                 position = 6,
                 isDaily = false,
                 id = 6
-            )
+            ),
+            WeatherBlock(
+                type = WeatherBlockType.RAIN_BLOCK,
+                isHidden = false,
+                position = 7,
+                isDaily = false,
+                id = 7
+            ),
+        )
+
+        fun getDefaultForDaily() = listOf(
+            WeatherBlock(
+                type = WeatherBlockType.SUN_BLOCK,
+                isHidden = false,
+                position = 0,
+                isDaily = true,
+                id = (999L..2000L).random() // Being safe 🫠
+            ),
+            WeatherBlock(
+                type = WeatherBlockType.MOON_BLOCK,
+                isHidden = false,
+                position = 1,
+                isDaily = true,
+                id = (999L..2000L).random()
+            ),
+            WeatherBlock(
+                type = WeatherBlockType.RAIN_BLOCK,
+                isHidden = false,
+                position = 2,
+                isDaily = true,
+                id = (999L..2000L).random()
+            ),
+            WeatherBlock(
+                type = WeatherBlockType.UV_INDEX_BLOCK,
+                isHidden = false,
+                position = 3,
+                isDaily = true,
+                id = (999L..2000L).random()
+            ),
         )
     }
 }

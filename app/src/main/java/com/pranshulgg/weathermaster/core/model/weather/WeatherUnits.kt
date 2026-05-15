@@ -48,16 +48,16 @@ fun PressureUnits.toName(inShort: Boolean = false, context: Context): String {
 
 fun DistanceUnits.toName(inShort: Boolean = false, context: Context): String {
     return when (this) {
-        DistanceUnits.KM -> if (inShort) "Km" else context.getString(R.string.unit_distance_km)
-        DistanceUnits.MI -> if (inShort) "Mi" else context.getString(R.string.unit_distance_mi)
-        DistanceUnits.M -> if (inShort) "M" else context.getString(R.string.unit_distance_m)
+        DistanceUnits.KM -> if (inShort) "km" else context.getString(R.string.unit_distance_km)
+        DistanceUnits.MI -> if (inShort) "mi" else context.getString(R.string.unit_distance_mi)
+        DistanceUnits.M -> if (inShort) "m" else context.getString(R.string.unit_distance_m)
     }
 }
 
-fun PrecipitationUnits.toName(context: Context): String {
+fun PrecipitationUnits.toName(context: Context, inShort: Boolean = false): String {
     return when (this) {
-        PrecipitationUnits.MM -> context.getString(R.string.unit_precipitation_mm)
-        PrecipitationUnits.INCH -> context.getString(R.string.unit_precipitation_inch)
-        PrecipitationUnits.CM -> context.getString(R.string.unit_precipitation_cm)
+        PrecipitationUnits.MM -> if (inShort) "mm" else context.getString(R.string.unit_precipitation_mm)
+        PrecipitationUnits.INCH -> if (inShort) "in" else context.getString(R.string.unit_precipitation_inch)
+        PrecipitationUnits.CM -> if (inShort) "cm" else context.getString(R.string.unit_precipitation_cm)
     }
 }

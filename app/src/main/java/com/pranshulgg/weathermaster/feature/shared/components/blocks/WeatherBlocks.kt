@@ -121,9 +121,16 @@ fun WeatherBlocks(
 
                         WeatherBlockType.SUN_BLOCK -> SunBlock(weather, isDaily, dailyIndex)
                         WeatherBlockType.MOON_BLOCK -> MoonBlock(weather, isDaily, dailyIndex)
-                        WeatherBlockType.AIR_QUALITY -> if (isAirQualityValid) {
+                        WeatherBlockType.AIR_QUALITY_BLOCK -> if (isAirQualityValid) {
                             AirQualityBlock(airQuality, context)
                         }
+
+                        WeatherBlockType.RAIN_BLOCK -> RainBlock(
+                            weather,
+                            context,
+                            dailyIndex,
+                            units
+                        )
                     }
                 }
 
