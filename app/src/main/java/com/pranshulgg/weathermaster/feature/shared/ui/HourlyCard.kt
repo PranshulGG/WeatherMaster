@@ -43,7 +43,12 @@ import java.time.ZonedDateTime
 import kotlin.math.roundToInt
 
 @Composable
-fun HourlyCard(weather: Weather, units: AppWeatherUnits) {
+fun HourlyCard(
+    weather: Weather,
+    units: AppWeatherUnits,
+    currentMilli: Long = ZonedDateTime.now(ZoneId.of(weather.location.timezone)).toEpochSecond()
+        .toMilliseconds()
+) {
 
     if (!isWeatherHourlyDomainSafe(weather)) return
 
@@ -51,7 +56,7 @@ fun HourlyCard(weather: Weather, units: AppWeatherUnits) {
     val filteredHourly =
         findMatchingHourly(
             weather.hourly,
-            ZonedDateTime.now(ZoneId.of(weather.location.timezone)).toEpochSecond().toMilliseconds()
+            currentMilli
         )
 
 
