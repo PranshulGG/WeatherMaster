@@ -126,11 +126,15 @@
     <string name="weather_aqi_description_very_poor">健康警示：所有人的健康风险均有所增加。</string>
     <string name="weather_aqi_description_hazardous">紧急健康警告：所有人都可能受到影响。</string>
     <string name="weather_aqi_pm_description">空气中存在的小固体颗粒和液滴，来自机动车、燃木取暖器和工业排放。火灾和沙尘暴也会产生高浓度的颗粒物。</string>
-    <string name="weather_aqi_no2_description">A gas and a major component of central city air pollution. It mainly comes from vehicles, industry, power stations, and heating</string>
-    <string name="weather_aqi_O3_description">A gas found in the stratosphere. It protects us from harmful ultraviolet radiation and the troposphere. Ozone is a harmful pollutant produced by a chemical reaction between the sun light, organic gasses, and nitrogen oxides (e.g. Cars, Power plants)</string>
-    <string name="weather_aqi_so2_description">A toxic gas with a pungent, irritating odor. It can come from electric industries that burn fossil fuels, petrol refineries, cement manufacturing, and volcano emissions</string>
-    <string name="weather_aqi_co_description">A gas from motor vehicles or machinery that burns fossil fuels</string>
-    <string name="weather_airquality_about_index">Air quality indexes categorize raw data into a descriptive rating scale. These indexes make it easier to identify the level of pollution and if there’s any associated risk</string>
+    <string name="weather_aqi_no2_description">一种气态污染物，为城市中心城区大气污染的主要组成部分。
+其主要排放源包括机动车、工业生产、发电厂及民用供暖等。</string>
+    <string name="weather_aqi_O3_description">这种气体存在于平流层中，能保护地球免受有害紫外线辐射的侵害，同时可与对流层形成屏障。
+臭氧也是一种有害大气污染物，由阳光、有机气体与氮氧化物（如机动车、发电厂排放物）发生化学反应生成。</string>
+    <string name="weather_aqi_so2_description">一种有毒气体，具有强烈刺激性气味。
+其来源包括燃烧化石燃料的电力工业、石油精炼厂、水泥制造业以及火山喷发。</string>
+    <string name="weather_aqi_co_description">一种源自机动车或化石燃料燃烧机械设备的气体。</string>
+    <string name="weather_airquality_about_index">空气质量指数将原始监测数据划分成标准化描述等级。
+该指数便于判定污染等级，并评估是否存在相关健康风险。</string>
     <string name="weather_average">平均</string>
 </resources>
 <!--<string name=""></string>-->
