@@ -15,6 +15,9 @@ interface WeatherBlocksDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertBlocks(blocks: List<WeatherBlockEntity>)
 
-    @Query("DELETE FROM weather_blocks")
-    suspend fun clearBlocks()
+    @Query("DELETE FROM weather_blocks WHERE isDaily = 0")
+    suspend fun clearMainBlocks()
+
+    @Query("DELETE FROM weather_blocks WHERE isDaily = 1")
+    suspend fun clearDailyBlocks()
 }

@@ -41,11 +41,11 @@ import com.pranshulgg.weathermaster.core.utils.weather.cache.isWeatherDailyDomai
 import java.time.Instant
 
 @Composable
-fun MoonBlock(weather: Weather) {
+fun MoonBlock(weather: Weather, isDaily: Boolean, dailyIndex: Int) {
 
     if (!isWeatherDailyDomainSafe(weather)) return
 
-    val daily = weather.daily[0]
+    val daily = weather.daily[dailyIndex]
 
 
     Surface(
@@ -143,7 +143,7 @@ fun MoonBlock(weather: Weather) {
                     .align(Alignment.BottomCenter)
                     .fillMaxHeight(0.4f)
                     .fillMaxWidth(),
-                color = Color.Black.copy(alpha = 0.5f)
+                color = MaterialTheme.colorScheme.surfaceContainer.copy(0.5f)
             ) {
                 Box(Modifier.fillMaxSize()) {
                     HorizontalDivider(Modifier.align(Alignment.TopCenter))
@@ -161,11 +161,11 @@ fun MoonBlock(weather: Weather) {
 @Composable
 private fun RiseSetTimeRow(text: String, icon: Int) {
     Row() {
-        Symbol(icon, color = Color.White, size = 18.dp)
+        Symbol(icon, color = MaterialTheme.colorScheme.onSurface, size = 18.dp)
         Gap(horizontal = 5.dp)
         Text(
             text,
-            color = Color.White,
+            color = MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.labelLarge
         )
     }

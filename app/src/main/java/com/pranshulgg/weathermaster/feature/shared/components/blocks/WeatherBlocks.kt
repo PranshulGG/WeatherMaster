@@ -1,8 +1,9 @@
-package com.pranshulgg.weathermaster.feature.main.ui
+package com.pranshulgg.weathermaster.feature.shared.components.blocks
 
 import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -21,13 +22,6 @@ import com.pranshulgg.weathermaster.core.model.domain.WeatherBlock
 import com.pranshulgg.weathermaster.core.model.domain.WeatherBlockType
 import com.pranshulgg.weathermaster.core.utils.weather.cache.isCurrentAirQualitySafe
 import com.pranshulgg.weathermaster.feature.shared.WeatherViewModel
-import com.pranshulgg.weathermaster.feature.shared.components.blocks.AirQualityBlock
-import com.pranshulgg.weathermaster.feature.shared.components.blocks.HumidityBlock
-import com.pranshulgg.weathermaster.feature.shared.components.blocks.MoonBlock
-import com.pranshulgg.weathermaster.feature.shared.components.blocks.PressureBlock
-import com.pranshulgg.weathermaster.feature.shared.components.blocks.SunBlock
-import com.pranshulgg.weathermaster.feature.shared.components.blocks.UvIndexBlock
-import com.pranshulgg.weathermaster.feature.shared.components.blocks.VisibilityBlock
 import sh.calvin.reorderable.DragGestureDetector
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyGridState
@@ -38,12 +32,28 @@ fun WeatherBlocks(
     airQuality: AirQuality?,
     units: AppWeatherUnits,
     context: Context,
-    blocks: List<WeatherBlock>
+    blocks: List<WeatherBlock>,
+    isDaily: Boolean = false,
+
+    // Need this so the daily screen can also update block order
+    updatedBlockOrder: (List<WeatherBlock>) -> Unit = {},
+    dailyIndex: Int = 0
 ) {
 
     val viewModel: WeatherViewModel = hiltViewModel()
 
-    val items = blocks.filter { !it.isHidden }
+    val visibleItems = blocks.filter { !it.isHidden }
+
+
+    /**
+     * Only few blocks can be shown on the daily forecast screen
+     * [Rain, Snow, Moon, Sun, UV index, Wind] probably more depending on the data
+     */
+    val items = if (isDaily) {
+        visibleItems.filter { it.isDaily }
+    } else {
+        visibleItems.filter { !it.isDaily }
+    }
 
     val lazyGridState = rememberLazyGridState()
 
@@ -56,8 +66,10 @@ fun WeatherBlocks(
                 add(to.index, removeAt(from.index))
             }
 
+            updatedBlockOrder(updated)
             viewModel.saveBlocks(
-                items = updated
+                items = updated,
+                isDaily = isDaily
             )
         }
     )
@@ -70,16 +82,17 @@ fun WeatherBlocks(
             .fillMaxSize()
             .heightIn(max = 1500.dp),
         horizontalArrangement = Arrangement.spacedBy(14.dp),
-        verticalArrangement = Arrangement.spacedBy(14.dp)
+        verticalArrangement = Arrangement.spacedBy(14.dp),
+        contentPadding = PaddingValues(bottom = 8.dp)
     ) {
         items(
             items = items,
-            key = { it.type }
+            key = { it.id }
         ) { item ->
 
             ReorderableItem(
                 reorderableState,
-                key = item.type
+                key = item.id
             ) {
                 Box(
                     modifier = Modifier
@@ -90,16 +103,24 @@ fun WeatherBlocks(
                 ) {
                     when (item.type) {
                         WeatherBlockType.HUMIDITY_BLOCK -> HumidityBlock(weather, units)
+
                         WeatherBlockType.VISIBILITY_BLOCK -> VisibilityBlock(
                             weather,
                             units,
                             context
                         )
 
-                        WeatherBlockType.UV_INDEX_BLOCK -> UvIndexBlock(weather, context)
+                        WeatherBlockType.UV_INDEX_BLOCK -> UvIndexBlock(
+                            weather,
+                            context,
+                            isDaily,
+                            dailyIndex
+                        )
+
                         WeatherBlockType.PRESSURE_BLOCK -> PressureBlock(weather, units, context)
-                        WeatherBlockType.SUN_BLOCK -> SunBlock(weather)
-                        WeatherBlockType.MOON_BLOCK -> MoonBlock(weather)
+
+                        WeatherBlockType.SUN_BLOCK -> SunBlock(weather, isDaily, dailyIndex)
+                        WeatherBlockType.MOON_BLOCK -> MoonBlock(weather, isDaily, dailyIndex)
                         WeatherBlockType.AIR_QUALITY -> if (isAirQualityValid) {
                             AirQualityBlock(airQuality, context)
                         }

@@ -29,17 +29,18 @@ import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
 import com.pranshulgg.weathermaster.core.ui.theme.ShadowElevation
 import com.pranshulgg.weathermaster.core.utils.weather.UnitConverter
+import kotlin.math.roundToInt
 
 @Composable
 fun HumidityBlock(weather: Weather, units: AppWeatherUnits) {
     val color = MaterialTheme.colorScheme.inversePrimary
 
-    val humidity = weather.current.humidity.toInt()
+    val humidity = weather.current.humidity.roundToInt()
     val dewPoint = UnitConverter.convertTemp(
         weather.current.dewPoint ?: -99999.0,
         TemperatureUnits.CELSIUS,
         units.tempUnit
-    ).toInt()
+    ).roundToInt()
 
     val humidityDrawable = when (humidity) {
         in 0..30 -> R.drawable.humidity_seven_percent

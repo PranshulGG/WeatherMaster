@@ -14,6 +14,8 @@ enum class WeatherBlockType {
 }
 
 data class WeatherBlock(
+    val id: Long,
+    val isDaily: Boolean,
     val type: WeatherBlockType,
     val isHidden: Boolean,
     val position: Int
@@ -23,37 +25,51 @@ data class WeatherBlock(
             WeatherBlock(
                 type = WeatherBlockType.SUN_BLOCK,
                 isHidden = false,
-                position = 0
+                position = 0,
+                isDaily = false,
+                id = 0
             ),
             WeatherBlock(
                 type = WeatherBlockType.MOON_BLOCK,
                 isHidden = false,
-                position = 1
+                position = 1,
+                isDaily = false,
+                id = 1
             ),
             WeatherBlock(
                 type = WeatherBlockType.HUMIDITY_BLOCK,
                 isHidden = false,
-                position = 2
+                position = 2,
+                isDaily = false,
+                id = 2
             ),
             WeatherBlock(
                 type = WeatherBlockType.VISIBILITY_BLOCK,
                 isHidden = false,
-                position = 3
+                position = 3,
+                isDaily = false,
+                id = 3
             ),
             WeatherBlock(
                 type = WeatherBlockType.PRESSURE_BLOCK,
                 isHidden = false,
-                position = 4
+                position = 4,
+                isDaily = false,
+                id = 4
             ),
             WeatherBlock(
                 type = WeatherBlockType.UV_INDEX_BLOCK,
                 isHidden = false,
-                position = 5
+                position = 5,
+                isDaily = false,
+                id = 5
             ),
             WeatherBlock(
                 type = WeatherBlockType.AIR_QUALITY,
                 isHidden = false,
-                position = 6
+                position = 6,
+                isDaily = false,
+                id = 6
             )
         )
     }
@@ -64,7 +80,9 @@ fun WeatherBlockEntity.toDomain(): WeatherBlock {
     return WeatherBlock(
         type = type,
         isHidden = isHidden,
-        position = position
+        position = position,
+        isDaily = isDaily,
+        id = id
     )
 }
 

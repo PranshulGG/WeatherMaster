@@ -7,7 +7,11 @@ import com.pranshulgg.weathermaster.core.model.domain.WeatherBlockType
 @Entity(tableName = "weather_blocks")
 data class WeatherBlockEntity(
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0,
+
+    val isDaily: Boolean = false,
+
     val type: WeatherBlockType,
 
     val isHidden: Boolean = false,
