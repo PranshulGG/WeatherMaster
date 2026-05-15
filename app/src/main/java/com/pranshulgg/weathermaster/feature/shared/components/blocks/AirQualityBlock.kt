@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.LinearWavyProgressIndicator
@@ -64,7 +65,8 @@ fun AirQualityBlock(airQuality: AirQuality, context: Context) {
                 LinearProgressIndicator(
                     progress = { aqiBarProgress },
                     color = AirQualityColors.getColors(level),
-                    trackColor = MaterialTheme.colorScheme.surfaceContainerHigh
+                    trackColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+                    modifier = Modifier.height(8.dp)
 
                 )
                 Gap(3.dp)
