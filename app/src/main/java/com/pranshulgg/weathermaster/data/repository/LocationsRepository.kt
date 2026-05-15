@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Transaction
 import com.pranshulgg.weathermaster.core.model.domain.AppException
 import com.pranshulgg.weathermaster.core.model.domain.Location
+import com.pranshulgg.weathermaster.core.model.domain.Weather
 import com.pranshulgg.weathermaster.data.local.dao.WeatherLocationDao
 import com.pranshulgg.weathermaster.data.local.mapper.toDomain
 import com.pranshulgg.weathermaster.data.local.mapper.toEntity
@@ -71,6 +72,10 @@ class LocationsRepository @Inject constructor(
 
     fun getDefaultLocation(): Flow<Location?> {
         return dao.getDefaultLocation().map { it?.toDomain() }
+    }
+
+    suspend fun getWeatherForLocation(locationId: String): Weather {
+        return dao.getWeatherForLocation(locationId).toDomain()
     }
 
     suspend fun updateDeviceLocationPosition() {
