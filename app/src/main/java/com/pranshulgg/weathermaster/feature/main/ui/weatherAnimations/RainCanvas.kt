@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.pranshulgg.weathermaster.core.ui.theme.isThemeDark
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 
@@ -44,6 +45,8 @@ fun RainCanvas(
 
 
     var lightningAlpha by remember { mutableIntStateOf(0) }
+
+    val isDark = isThemeDark()
 
     val drops = remember {
         List(rainDropCount) {
@@ -103,7 +106,9 @@ fun RainCanvas(
 
 
     Canvas(
-        modifier = Modifier.fillMaxWidth().height(290.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(290.dp)
     ) {
 
         canvasSize = size
@@ -116,8 +121,8 @@ fun RainCanvas(
                 cap = StrokeCap.Round,
                 brush = Brush.verticalGradient(
                     listOf(
-                        Color.Gray.copy(alpha = 0.5f),
-                        Color.White.copy(alpha = 0.6f)
+                        if (isDark) Color.Gray.copy(alpha = 0.5f) else Color.White.copy(alpha = 0.5f),
+                        Color.White.copy(alpha = if (isDark) 0.6f else 1.0f)
                     )
                 )
             )
