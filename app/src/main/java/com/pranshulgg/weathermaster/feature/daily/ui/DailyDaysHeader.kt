@@ -6,10 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.MotionScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
@@ -22,7 +18,7 @@ import com.pranshulgg.weathermaster.feature.daily.components.SelectableDayItem
 import kotlin.math.roundToInt
 
 @Composable
-fun DailySelectableItemsContainer(
+fun DailyDaysHeader(
     weather: Weather,
     units: AppWeatherUnits,
     onSelect: (Int) -> Unit,

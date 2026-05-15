@@ -1,5 +1,9 @@
 package com.pranshulgg.weathermaster.feature.daily
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,7 +30,7 @@ import com.pranshulgg.weathermaster.core.model.domain.WeatherBlock
 import com.pranshulgg.weathermaster.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weathermaster.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weathermaster.core.utils.formatters.toMilliseconds
-import com.pranshulgg.weathermaster.feature.daily.ui.DailySelectableItemsContainer
+import com.pranshulgg.weathermaster.feature.daily.ui.DailyDaysHeader
 import com.pranshulgg.weathermaster.feature.daily.ui.DailyForecastHeroHeader
 import com.pranshulgg.weathermaster.feature.shared.components.blocks.WeatherBlocks
 import com.pranshulgg.weathermaster.feature.shared.ui.HourlyCard
@@ -37,7 +41,7 @@ import java.time.ZonedDateTime
 data class DailyScreenUiState(
     val weather: Weather? = null,
     val units: AppWeatherUnits = AppWeatherUnits.getDefault(),
-    val blocks: List<WeatherBlock> = WeatherBlock.getDefault()
+    val blocks: List<WeatherBlock> = WeatherBlock.getDefaultForDaily()
 )
 
 @Composable
@@ -87,12 +91,13 @@ fun DailyScreen(navController: NavController, index: Int = 0, locationId: String
                     .verticalScroll(rememberScrollState())
                     .padding(top = paddingValues.calculateTopPadding())
         ) {
-            DailySelectableItemsContainer(
+            DailyDaysHeader(
                 weather,
                 units,
                 onSelect = { selectedIndex = it },
                 selectedIndex
             )
+
 
             DailyForecastHeroHeader(selectedDaily, weather.location, units)
 

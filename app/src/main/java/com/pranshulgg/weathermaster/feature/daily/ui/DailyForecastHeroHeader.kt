@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -15,7 +16,10 @@ import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
 import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.core.model.domain.WeatherDaily
 import com.pranshulgg.weathermaster.core.model.weather.TemperatureUnits
+import com.pranshulgg.weathermaster.core.model.weather.toIcon
 import com.pranshulgg.weathermaster.core.model.weather.toLabel
+import com.pranshulgg.weathermaster.core.ui.components.Gap
+import com.pranshulgg.weathermaster.core.ui.components.WeatherIconBox
 import com.pranshulgg.weathermaster.core.utils.formatters.toDateString
 import com.pranshulgg.weathermaster.core.utils.weather.UnitConverter
 import kotlin.math.roundToInt
@@ -51,22 +55,28 @@ fun DailyForecastHeroHeader(
         )
         Text(
             location.name,
-            style = MaterialTheme.typography.headlineSmall,
+            style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onSurface
         )
-
-        Row() {
+        Gap(5.dp)
+        Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
                 "${maxTemp}°",
                 color = MaterialTheme.colorScheme.onSurface,
-                fontSize = 78.sp,
-                fontWeight = FontWeight.Black
+                style = MaterialTheme.typography.displayLarge,
+                fontWeight = FontWeight.W900
             )
+            Gap(horizontal = 6.dp)
             Text(
-                "/${minTemp}°",
+                "${minTemp}°",
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                fontSize = 78.sp,
-                fontWeight = FontWeight.Black
+                style = MaterialTheme.typography.displayLarge,
+                fontWeight = FontWeight.W900
+            )
+            Gap(horizontal = 12.dp)
+            WeatherIconBox(
+                daily.weatherCondition.toIcon(targetTimeMilli = System.currentTimeMillis()),
+                size = 54.dp
             )
         }
         Text(

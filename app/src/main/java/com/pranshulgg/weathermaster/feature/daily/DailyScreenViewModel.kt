@@ -44,7 +44,9 @@ class DailyScreenViewModel @Inject constructor(
     fun loadBlocks() {
         viewModelScope.launch {
             val loadedBlocks = weatherDataRepository.loadBlocks()
-            _uiState.value = _uiState.value.copy(blocks = loadedBlocks)
+            if (loadedBlocks.isNotEmpty()) {
+                _uiState.value = _uiState.value.copy(blocks = loadedBlocks)
+            }
         }
     }
 
