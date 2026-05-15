@@ -24,6 +24,14 @@ fun toWeekdayString(timeMilli: Long, zoneId: String): String {
     return formatter.format(zonedDateTime)
 }
 
+fun toDateString(timeMilli: Long, zoneId: String, pattern: String = "dd MMMM"): String {
+    val instant = Instant.ofEpochMilli(timeMilli)
+    val zonedDateTime = instant.atZone(ZoneId.of(zoneId))
+    val formatter = DateTimeFormatter.ofPattern(pattern, getCurrentAppLocale())
+
+    return formatter.format(zonedDateTime)
+
+}
 
 fun getLastUpdatedTimeString(context: Context, timeMilli: Long): String {
 
