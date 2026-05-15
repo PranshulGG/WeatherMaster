@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.data.local.entity.WeatherLocationEntity
+import com.pranshulgg.weathermaster.data.local.entity.WeatherWithRelations
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -36,5 +37,8 @@ interface WeatherLocationDao {
 
     @Query("UPDATE weather_locations SET lat = :lat, lon = :lon WHERE isDeviceLocation = 1")
     suspend fun updateDeviceLocationPosition(lat: Double, lon: Double)
+
+    @Query("SELECT * FROM weather_locations WHERE id = :locationId LIMIT 1")
+    suspend fun getWeatherForLocation(locationId: String): WeatherWithRelations
 
 }
