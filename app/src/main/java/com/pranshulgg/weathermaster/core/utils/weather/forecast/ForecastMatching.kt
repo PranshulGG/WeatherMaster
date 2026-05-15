@@ -35,6 +35,6 @@ fun findMatchingHourly(
 
     val startIndex = data.indexOfFirst { it.time >= currentMilli }.takeIf { it != -1 } ?: 0
 
-    return data.drop(startIndex - 1).take(limit)
+    return data.drop(maxOf(0, startIndex - 1)).take(limit)
 
 }
