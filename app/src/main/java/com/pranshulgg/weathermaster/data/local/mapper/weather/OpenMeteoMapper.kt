@@ -119,13 +119,13 @@ fun OpenMeteoWeatherDto.toDomain(location: Location): Weather {
             windSpeed = current.windSpeed,
             windDirection = current.windDirection,
             pressureMsl = current.pressureMsl,
-            visibility = hourly.visibility[0],
+            visibility = hourly.visibility[0], // TODO: Use current time index
             cloudCover = current.cloudCover,
             uvIndex = current.uvIndex,
             weatherCondition = openMeteoWeatherCode(current.weatherCode),
             feelsLike = current.feelsLike,
             time = current.time.toMilliseconds(), // Open-Meteo returns in seconds
-            dewPoint = hourly.dewPoint[0],
+            dewPoint = hourly.dewPoint[0], // TODO: Use current time index
             utcOffsetSeconds = utcOffsetSeconds,
             lastUpdatedInMilli = System.currentTimeMillis()
         ),
