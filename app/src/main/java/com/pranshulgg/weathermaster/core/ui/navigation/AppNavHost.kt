@@ -1,5 +1,6 @@
 package com.pranshulgg.weathermaster.core.ui.navigation
 
+import android.R.attr.defaultValue
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
@@ -16,9 +17,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import androidx.navigation.navArgument
+import com.pranshulgg.weathermaster.feature.daily.DailyScreen
 import com.pranshulgg.weathermaster.feature.main.MainScreen
 import com.pranshulgg.weathermaster.feature.search.SearchScreen
 import com.pranshulgg.weathermaster.feature.settings.SettingsScreen
@@ -48,6 +52,7 @@ fun AppNavHost(
             navigation(
                 route = "root",
                 startDestination = NavRoutes.MAIN
+//                startDestination = NavRoutes.daily(0, "1f733854-a3fa-485f-85c7-25d292b086e2")
             ) {
                 composable(
                     NavRoutes.MAIN
@@ -78,6 +83,23 @@ fun AppNavHost(
                     NavRoutes.UNITS
                 ) {
                     UnitsScreen(navController)
+                }
+                composable(
+                    route = "${NavRoutes.DAILY}/{index}/{locationId}",
+                    arguments = listOf(
+                        navArgument("index") {
+                            type = NavType.IntType
+                            defaultValue = 0
+                        },
+                        navArgument("locationId") {
+                            type = NavType.StringType
+                        }
+                    )
+                ) { backStackEntry ->
+                    val index = backStackEntry.arguments?.getInt("index") ?: 0
+                    val locationId = backStackEntry.arguments?.getString("locationId")
+
+                    DailyScreen(navController, index, locationId!!)
                 }
             }
         }
