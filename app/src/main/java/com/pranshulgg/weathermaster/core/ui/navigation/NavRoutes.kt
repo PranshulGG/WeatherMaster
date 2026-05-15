@@ -11,4 +11,10 @@ object NavRoutes {
 
     const val LANGUAGE = "language"
     const val APPEARANCE = "appearance"
+
+    const val DAILY = "daily"
+
+    fun daily(index: Int, locationId: String): String {
+        return "$DAILY/$index/$locationId"
+    }
 }
