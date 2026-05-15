@@ -33,6 +33,10 @@ class AppWeatherUnitsRepository @Inject constructor(
         )
     }
 
+    suspend fun getUnitsOnce(): AppWeatherUnits? {
+        return dao.getWeatherUnitsOnce()?.toDomain()
+    }
+
 
     suspend fun updateTemperatureUnit(tempUnit: TemperatureUnits) {
         dao.updateTemperatureUnit(tempUnit)

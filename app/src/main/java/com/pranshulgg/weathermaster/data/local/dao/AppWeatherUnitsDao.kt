@@ -21,6 +21,9 @@ interface AppWeatherUnitsDao {
     @Query("SELECT * FROM weather_units")
     fun getWeatherUnits(): Flow<AppWeatherUnitsEntity?>
 
+    @Query("SELECT * FROM weather_units")
+    suspend fun getWeatherUnitsOnce(): AppWeatherUnitsEntity?
+
     @Query("SELECT * FROM weather_units LIMIT 1")
     suspend fun getOnce(): AppWeatherUnitsEntity?
 
