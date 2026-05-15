@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.weather.TemperatureUnits
 import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
@@ -23,16 +24,18 @@ import com.pranshulgg.weathermaster.core.model.domain.Weather
 import com.pranshulgg.weathermaster.core.model.weather.toIcon
 import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.WeatherIconBox
+import com.pranshulgg.weathermaster.core.ui.navigation.NavRoutes
 import com.pranshulgg.weathermaster.core.ui.theme.ShadowElevation
 import com.pranshulgg.weathermaster.core.utils.formatters.toWeekdayString
 import com.pranshulgg.weathermaster.core.utils.weather.UnitConverter
 import com.pranshulgg.weathermaster.core.utils.weather.cache.isWeatherDailyDomainSafe
 import com.pranshulgg.weathermaster.feature.shared.components.CardsHeader
 import java.time.Instant
+import kotlin.math.roundToInt
 
 
 @Composable
-fun DailyCard(weather: Weather, units: AppWeatherUnits) {
+fun DailyCard(weather: Weather, units: AppWeatherUnits, navController: NavController) {
 
     if (!isWeatherDailyDomainSafe(weather)) return
 
@@ -68,9 +71,17 @@ fun DailyCard(weather: Weather, units: AppWeatherUnits) {
                         weekDay,
                         item.temperatureMax,
                         item.temperatureMin,
-                        item.weatherCondition.toIcon(targetTimeMilli = System.currentTimeMillis()) /* always use day icons*/,
+                        item.weatherCondition.toIcon(targetTimeMilli = System.currentTimeMillis()) /* always use day icons */,
                         item.precipitationProbabilityMax ?: 0,
-                        units
+                        units,
+                        onDailyItemClick = {
+                            navController.navigate(
+                                NavRoutes.daily(
+                                    index,
+                                    weather.location.id
+                                )
+                            )
+                        }
                     )
 
                     if (index == daily.size - 1) Gap(horizontal = 16.dp)
@@ -88,24 +99,26 @@ private fun DailyItem(
     minTemp: Double,
     icon: Int,
     precipitationProbability: Int,
-    units: AppWeatherUnits
+    units: AppWeatherUnits,
+    onDailyItemClick: () -> Unit
 ) {
     val maxTemp = UnitConverter.convertTemp(
         maxTemp,
         TemperatureUnits.CELSIUS,
         units.tempUnit
-    ).toInt()
+    ).roundToInt()
 
     val minTemp = UnitConverter.convertTemp(
         minTemp,
         TemperatureUnits.CELSIUS,
         units.tempUnit
-    ).toInt()
+    ).roundToInt()
 
 
     Surface(
         color = MaterialTheme.colorScheme.surfaceContainer,
-        shape = CircleShape
+        shape = CircleShape,
+        onClick = onDailyItemClick
     ) {
         Column(
             Modifier
