@@ -116,14 +116,14 @@
     <string name="location_permission_required">Permiso de ubicación requerida</string>
     <string name="current_location_not_found">Ubicación actual no encontrada</string>
     <string name="error_server">Solicitud no completada. Inténtelo más tarde</string>
-    <string name="weather_airquality_good">Good</string>
-    <string name="weather_airquality_fair">Fair</string>
+    <string name="weather_airquality_good">buena</string>
+    <string name="weather_airquality_fair">agradable</string>
     <string name="weather_airquality_moderate">Moderada</string>
-    <string name="weather_airquality_poor">Poor</string>
-    <string name="weather_airquality_very_poor">Very poor</string>
-    <string name="weather_airquality_hazardous">Hazardous</string>
-    <string name="weather_aqi_description_good">Air quality is satisfactory, and air pollution poses little or no risk.</string>
-    <string name="weather_aqi_description_fair">Air quality is acceptable. However, there may be a risk for some people, particularly those who are unusually sensitive to air pollution.</string>
+    <string name="weather_airquality_poor">pobre</string>
+    <string name="weather_airquality_very_poor">muy pobre</string>
+    <string name="weather_airquality_hazardous">peligrosa</string>
+    <string name="weather_aqi_description_good">La calidad del aire es agradable, y la polución supone poco o ningún riesgo.</string>
+    <string name="weather_aqi_description_fair">La calidad del aire es aceptable. Sin embargo, podría haber un riesgo para algunas personas, especialmente esas que son inusualmente sensibles a la polución del aire.</string>
     <string name="weather_aqi_description_moderate">Members of sensitive groups may experience health effects. The general public is less likely to be affected.</string>
     <string name="weather_aqi_description_poor">Some members of the general public may experience health effects; members of sensitive groups may experience more serious health effects.</string>
     <string name="weather_aqi_description_very_poor">Health alert: The risk of health effects is increased for everyone.</string>
@@ -134,6 +134,6 @@
     <string name="weather_aqi_so2_description">A toxic gas with a pungent, irritating odor. It can come from electric industries that burn fossil fuels, petrol refineries, cement manufacturing, and volcano emissions</string>
     <string name="weather_aqi_co_description">A gas from motor vehicles or machinery that burns fossil fuels</string>
     <string name="weather_airquality_about_index">Air quality indexes categorize raw data into a descriptive rating scale. These indexes make it easier to identify the level of pollution and if there’s any associated risk</string>
-    <string name="weather_average">Average</string>
+    <string name="weather_average">Media</string>
 </resources>
 <!--<string name=""></string>-->
