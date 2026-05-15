@@ -11,48 +11,48 @@ data class Weather(
 )
 
 data class WeatherCurrent(
-    val temperature: Double,
+    val temperature: Double, // NOTE: ALWAYS C
     val humidity: Double,
-    val windSpeed: Double,
+    val windSpeed: Double, // NOTE: ALWAYS KMH
     val windDirection: Int?,
-    val pressureMsl: Double,
-    val visibility: Int?,
+    val pressureMsl: Double, // NOTE: ALWAYS HPA
+    val visibility: Int?,  // NOTE: ALWAYS METERS
     val cloudCover: Double?,
     val uvIndex: Double,
     val weatherCondition: WeatherConditions,
     val feelsLike: Double?,
-    val time: Long,
+    val time: Long, // NOTE: ALWAYS MILLISECONDS
     val dewPoint: Double?,
     val utcOffsetSeconds: Long,
     val lastUpdatedInMilli: Long
 )
 
 data class WeatherHourly(
-    val temperature: Double,
-    val windSpeed: Double,
+    val temperature: Double, // NOTE: ALWAYS MM
+    val windSpeed: Double, // NOTE: ALWAYS KMH
     val windDirection: Int?,
-    val rain: Double,
-    val snowfall: Double?,
+    val rain: Double,  // NOTE: ALWAYS MM
+    val snowfall: Double?, // NOTE: ALWAYS CM
     val uvIndex: Double,
     val weatherCondition: WeatherConditions,
-    val time: Long,
+    val time: Long,  // NOTE: ALWAYS MILLISECONDS
     val precipitationProbability: Int?
 )
 
 data class WeatherDaily(
-    val temperatureMin: Double,
-    val temperatureMax: Double,
-    val windSpeed: Double,
+    val temperatureMin: Double, // NOTE: ALWAYS C
+    val temperatureMax: Double, // NOTE: ALWAYS C
+    val windSpeed: Double, // NOTE: ALWAYS KMH
     val windDirection: Int?,
-    val rainSum: Double,
-    val snowfallSum: Double?,
+    val rainSum: Double,  // NOTE: ALWAYS MM
+    val snowfallSum: Double?, // NOTE: ALWAYS CM
     val uvIndexMax: Double,
     val weatherCondition: WeatherConditions,
-    val time: Long,
+    val time: Long, // NOTE: ALWAYS MILLISECONDS
     val precipitationProbabilityMax: Int?,
-    val sunrise: Long,
-    val sunset: Long,
-    val moonrise: Long,
-    val moonset: Long,
+    val sunrise: Long, // NOTE: ALWAYS MILLISECONDS
+    val sunset: Long, // NOTE: ALWAYS MILLISECONDS
+    val moonrise: Long, // NOTE: ALWAYS MILLISECONDS
+    val moonset: Long, // NOTE: ALWAYS MILLISECONDS
     val moonPhase: MoonPhase
 )
