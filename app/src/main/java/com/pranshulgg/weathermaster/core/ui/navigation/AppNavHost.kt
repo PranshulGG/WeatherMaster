@@ -52,7 +52,6 @@ fun AppNavHost(
             navigation(
                 route = "root",
                 startDestination = NavRoutes.MAIN
-//                startDestination = NavRoutes.daily(0, "1f733854-a3fa-485f-85c7-25d292b086e2")
             ) {
                 composable(
                     NavRoutes.MAIN
