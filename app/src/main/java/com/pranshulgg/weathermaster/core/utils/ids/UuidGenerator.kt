@@ -7,7 +7,7 @@ object UuidGenerator {
 
     @OptIn(ExperimentalUuidApi::class)
     fun generateId(): String {
-        return Uuid.Companion.random().toString()
+        return Uuid.random().toString()
     }
 
 }
