@@ -24,17 +24,22 @@ class WeatherDataRepository @Inject constructor(
             .map { list -> list.map { it.toDomain() } }
     }
 
-    suspend fun saveBlocks(blocks: List<WeatherBlock>) {
+    suspend fun saveBlocks(blocks: List<WeatherBlock>, isDaily: Boolean) {
 
         val entities = blocks.mapIndexed { index, block ->
             WeatherBlockEntity(
                 type = block.type,
                 isHidden = block.isHidden,
-                position = index
+                position = index,
+                isDaily = block.isDaily
             )
         }
 
-        weatherBlocksDao.clearBlocks()
+        if (isDaily) {
+            weatherBlocksDao.clearDailyBlocks()
+        } else {
+            weatherBlocksDao.clearMainBlocks()
+        }
         weatherBlocksDao.insertBlocks(entities)
     }
 
