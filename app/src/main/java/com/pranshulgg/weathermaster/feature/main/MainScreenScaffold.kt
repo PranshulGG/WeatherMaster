@@ -1,7 +1,6 @@
 package com.pranshulgg.weathermaster.feature.main
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -32,10 +31,7 @@ import com.pranshulgg.weathermaster.feature.main.components.FroggyContainer
 import com.pranshulgg.weathermaster.feature.main.components.MainSearchBar
 import com.pranshulgg.weathermaster.feature.main.ui.BackgroundGradient
 import com.pranshulgg.weathermaster.feature.main.ui.CurrentWeatherCard
-import com.pranshulgg.weathermaster.feature.main.ui.WeatherBlocks
-import com.pranshulgg.weathermaster.feature.main.ui.weatherAnimations.FogHazeCanvas
-import com.pranshulgg.weathermaster.feature.main.ui.weatherAnimations.RainCanvas
-import com.pranshulgg.weathermaster.feature.main.ui.weatherAnimations.SnowCanvas
+import com.pranshulgg.weathermaster.feature.shared.components.blocks.WeatherBlocks
 import com.pranshulgg.weathermaster.feature.main.ui.weatherAnimations.WeatherAnimations
 import com.pranshulgg.weathermaster.feature.shared.ui.DailyCard
 import com.pranshulgg.weathermaster.feature.shared.ui.HourlyCard
@@ -129,7 +125,7 @@ fun MainScreenScaffold(
                                 verticalArrangement = Arrangement.spacedBy(14.dp)
                             ) {
                                 HourlyCard(weather, units)
-                                DailyCard(weather, units)
+                                DailyCard(weather, units, navController)
                                 WeatherBlocks(weather, airQuality, units, context, uiState.blocks)
                             }
                         }
