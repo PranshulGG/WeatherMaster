@@ -91,14 +91,14 @@ fun WeatherWithRelations.toDomain(): Weather {
 }
 
 private fun getDailyIndexForToday(
-    targetTimeSecs: Long,
+    targetTimeMillis: Long,
     dailyList: List<DailyWeatherEntity>,
     timezone: String
 ): Int {
 
     val zoneId = ZoneId.of(timezone)
 
-    val targetDate = Instant.ofEpochSecond(targetTimeSecs)
+    val targetDate = Instant.ofEpochMilli(targetTimeMillis)
         .atZone(zoneId)
         .toLocalDate()
 

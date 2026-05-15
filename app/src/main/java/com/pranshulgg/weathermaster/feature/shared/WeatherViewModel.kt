@@ -156,7 +156,8 @@ class WeatherViewModel @Inject constructor(
 
 
     fun saveBlocks(
-        items: List<WeatherBlock>
+        items: List<WeatherBlock>,
+        isDaily: Boolean = false
     ) {
         _uiState.value = _uiState.value.copy(blocks = items)
 
@@ -165,9 +166,11 @@ class WeatherViewModel @Inject constructor(
                 WeatherBlock(
                     type = it.type,
                     isHidden = false,
-                    position = it.position
+                    position = it.position,
+                    isDaily = isDaily,
+                    id = it.id
                 )
-            })
+            }, isDaily)
 
         }
 
