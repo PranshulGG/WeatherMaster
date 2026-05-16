@@ -18,7 +18,7 @@ fun WeatherWithRelations.toDomain(): Weather {
 
     // DROP PAST DAYS
     val todayIndex = getDailyIndexForToday(
-        current?.time ?: Instant.now().epochSecond,
+        current?.time ?: System.currentTimeMillis(),
         daily,
         timezone
     ).coerceAtLeast(0)
