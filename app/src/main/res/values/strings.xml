@@ -167,6 +167,9 @@
 
     <string name="weather_average">Average</string>
 
+    <string name="weather_rain_block">Rain</string>
+    <string name="weather_snow_block">Snow</string>
+
 </resources>
 
     <!--<string name=""></string>-->
