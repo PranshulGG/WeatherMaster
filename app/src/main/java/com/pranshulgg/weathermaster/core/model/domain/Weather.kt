@@ -14,7 +14,7 @@ data class WeatherCurrent(
     val temperature: Double, // NOTE: ALWAYS C
     val humidity: Double,
     val windSpeed: Double, // NOTE: ALWAYS KMH
-    val windDirection: Int?,
+    val windDirection: Int?, // NOTE: ALWAYS DOMINANT
     val pressureMsl: Double, // NOTE: ALWAYS HPA
     val visibility: Int?,  // NOTE: ALWAYS METERS
     val cloudCover: Double?,
@@ -30,7 +30,7 @@ data class WeatherCurrent(
 data class WeatherHourly(
     val temperature: Double, // NOTE: ALWAYS MM
     val windSpeed: Double, // NOTE: ALWAYS KMH
-    val windDirection: Int?,
+    val windDirection: Int?, // NOTE: ALWAYS DOMINANT
     val rain: Double,  // NOTE: ALWAYS MM
     val snowfall: Double?, // NOTE: ALWAYS CM
     val uvIndex: Double,
@@ -43,7 +43,7 @@ data class WeatherDaily(
     val temperatureMin: Double, // NOTE: ALWAYS C
     val temperatureMax: Double, // NOTE: ALWAYS C
     val windSpeed: Double, // NOTE: ALWAYS KMH
-    val windDirection: Int?,
+    val windDirection: Int?, // NOTE: ALWAYS DOMINANT
     val rainSum: Double,  // NOTE: ALWAYS MM
     val snowfallSum: Double?, // NOTE: ALWAYS CM
     val uvIndexMax: Double,
