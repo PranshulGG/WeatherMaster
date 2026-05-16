@@ -1,6 +1,7 @@
 package com.pranshulgg.weathermaster.feature.shared.components.blocks
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -20,11 +21,31 @@ import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
 import com.pranshulgg.weathermaster.core.model.domain.Weather
 import com.pranshulgg.weathermaster.core.model.domain.WeatherBlock
 import com.pranshulgg.weathermaster.core.model.domain.WeatherBlockType
+import com.pranshulgg.weathermaster.core.model.weather.PrecipitationUnits
+import com.pranshulgg.weathermaster.core.utils.weather.UnitConverter
 import com.pranshulgg.weathermaster.core.utils.weather.cache.isCurrentAirQualitySafe
 import com.pranshulgg.weathermaster.feature.shared.WeatherViewModel
 import sh.calvin.reorderable.DragGestureDetector
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyGridState
+
+private data class BlockRules(
+    val isDaily: Boolean,
+    val rainForTheDay: Double,
+    val snowForTheDay: Double,
+    val isAirQualityValid: Boolean
+)
+
+private fun shouldShow(block: WeatherBlock, rules: BlockRules): Boolean {
+    return when {
+        block.isHidden -> false
+        rules.isDaily != block.isDaily -> false
+        rules.rainForTheDay == 0.0 && block.type == WeatherBlockType.RAIN_BLOCK -> false
+        rules.snowForTheDay == 0.0 && block.type == WeatherBlockType.SNOW_BLOCK -> false
+        !rules.isAirQualityValid && block.type == WeatherBlockType.AIR_QUALITY_BLOCK -> false
+        else -> true
+    }
+}
 
 @Composable
 fun WeatherBlocks(
@@ -42,22 +63,32 @@ fun WeatherBlocks(
 
     val viewModel: WeatherViewModel = hiltViewModel()
 
-    val visibleItems = blocks.filter { !it.isHidden }
+
+    val rainForTheDay = UnitConverter.convertPrecipitation(
+        weather.daily[dailyIndex].rainSum,
+        PrecipitationUnits.MM, units.precipitationUnit
+    )
+
+    val snowForTheDay = UnitConverter.convertPrecipitation(
+        weather.daily[dailyIndex].snowfallSum ?: 0.0,
+        PrecipitationUnits.CM, units.precipitationUnit
+    )
+
+    val isAirQualityValid = airQuality != null && isCurrentAirQualitySafe(airQuality)
+
+
+    val rules = BlockRules(isDaily, rainForTheDay, snowForTheDay, isAirQualityValid)
 
 
     /**
      * Only few blocks can be shown on the daily forecast screen
      * [Rain, Snow, Moon, Sun, UV index, Wind] probably more depending on the data
      */
-    val items = if (isDaily) {
-        visibleItems.filter { it.isDaily }
-    } else {
-        visibleItems.filter { !it.isDaily }
-    }
+    val items = blocks.filter { shouldShow(it, rules) }
+
 
     val lazyGridState = rememberLazyGridState()
 
-    val isAirQualityValid = airQuality != null && isCurrentAirQualitySafe(airQuality)
 
     val reorderableState = rememberReorderableLazyGridState(
         lazyGridState = lazyGridState,
@@ -119,15 +150,27 @@ fun WeatherBlocks(
 
                         WeatherBlockType.PRESSURE_BLOCK -> PressureBlock(weather, units, context)
 
-                        WeatherBlockType.SUN_BLOCK -> SunBlock(weather, isDaily, dailyIndex)
-                        WeatherBlockType.MOON_BLOCK -> MoonBlock(weather, isDaily, dailyIndex)
-                        WeatherBlockType.AIR_QUALITY_BLOCK -> if (isAirQualityValid) {
-                            AirQualityBlock(airQuality, context)
-                        }
+                        WeatherBlockType.SUN_BLOCK -> SunBlock(weather, dailyIndex)
+                        WeatherBlockType.MOON_BLOCK -> MoonBlock(weather, dailyIndex)
+                        WeatherBlockType.AIR_QUALITY_BLOCK -> AirQualityBlock(airQuality, context)
+
 
                         WeatherBlockType.RAIN_BLOCK -> RainBlock(
+                            rainForTheDay,
+                            context,
+                            units
+                        )
+
+                        WeatherBlockType.SNOW_BLOCK -> SnowBlock(
+                            snowForTheDay,
+                            context,
+                            units
+                        )
+
+                        WeatherBlockType.WIND_BLOCK -> WindBlock(
                             weather,
                             context,
+                            isDaily,
                             dailyIndex,
                             units
                         )
