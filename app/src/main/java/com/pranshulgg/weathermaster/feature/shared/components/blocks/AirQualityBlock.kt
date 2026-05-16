@@ -33,9 +33,10 @@ import com.pranshulgg.weathermaster.core.ui.theme.ShadowElevation
 import com.pranshulgg.weathermaster.core.utils.weather.airquality.AirQualityColors
 
 @Composable
-fun AirQualityBlock(airQuality: AirQuality, context: Context) {
+fun AirQualityBlock(airQuality: AirQuality?, context: Context) {
 
-    val aqi = airQuality.getAqi()
+
+    val aqi = airQuality!!.getAqi()
     val level = airQuality.getAqiLevel(aqi)
     val aqiBarProgress = airQuality.getAqiBarValue(aqi)
 
