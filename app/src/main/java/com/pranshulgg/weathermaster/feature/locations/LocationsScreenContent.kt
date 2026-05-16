@@ -51,16 +51,17 @@ fun LocationsScreenContent(
 
     val weatherMap = weatherForLocations.associateBy { it.location.id }
     val context = LocalContext.current
-    val showDeviceLocationCard = locations.none { it.isDeviceLocation }
 
 
     AnimatedContent(
         targetState = locations,
         transitionSpec = { fadeIn() togetherWith fadeOut() }) { locations ->
+
         LazyColumn(
             modifier = Modifier.padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
+            val showDeviceLocationCard = locations.none { it.isDeviceLocation }
 
             // TODO: Still need to find a better way for user to add current location, but this works for now
             if (showDeviceLocationCard) {

@@ -91,7 +91,7 @@ class LocationsRepository @Inject constructor(
         }
 
         if (location.latitude == null || location.longitude == null) {
-            throw AppException.CurrentLocationUnavailable()
+            return
         }
 
         val formattedLatitude = "%.5f".format(location.latitude).toDouble()
