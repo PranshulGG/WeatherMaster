@@ -43,13 +43,24 @@ class WeatherDataRepository @Inject constructor(
         weatherBlocksDao.insertBlocks(entities)
     }
 
-    suspend fun loadBlocks(): List<WeatherBlock> {
+    suspend fun loadBlocks(isDaily: Boolean = false): List<WeatherBlock> {
         val blocks = weatherBlocksDao.getBlocks()
+            .filter { it.isDaily == isDaily }.map { it.toDomain() }
 
-        if (blocks.isEmpty()) {
-            return WeatherBlock.getDefault()
+        val defaultBlocks = if (isDaily) {
+            WeatherBlock.getDefaultForDaily()
+        } else {
+            WeatherBlock.getDefault()
         }
 
-        return blocks.map { it.toDomain() }
+        if (blocks.isEmpty()) {
+            return defaultBlocks
+        }
+
+        val oldBlocks = blocks.map { it.type }.toSet()
+
+        val missingBlocks = defaultBlocks.filter { it.type !in oldBlocks }
+
+        return blocks + missingBlocks
     }
 }
