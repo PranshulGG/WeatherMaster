@@ -135,5 +135,7 @@
     <string name="weather_aqi_co_description">A gas from motor vehicles or machinery that burns fossil fuels</string>
     <string name="weather_airquality_about_index">Air quality indexes categorize raw data into a descriptive rating scale. These indexes make it easier to identify the level of pollution and if there’s any associated risk</string>
     <string name="weather_average">Media</string>
+    <string name="weather_rain_block">Rain</string>
+    <string name="weather_snow_block">Snow</string>
 </resources>
 <!--<string name=""></string>-->
