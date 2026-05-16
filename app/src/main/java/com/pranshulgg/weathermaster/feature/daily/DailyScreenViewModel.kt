@@ -1,5 +1,6 @@
 package com.pranshulgg.weathermaster.feature.daily
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.pranshulgg.weathermaster.data.repository.LocationsRepository
@@ -43,10 +44,9 @@ class DailyScreenViewModel @Inject constructor(
     // TODO: Duplicate from `WeatherViewModel`
     fun loadBlocks() {
         viewModelScope.launch {
-            val loadedBlocks = weatherDataRepository.loadBlocks()
-            if (loadedBlocks.isNotEmpty()) {
-                _uiState.value = _uiState.value.copy(blocks = loadedBlocks)
-            }
+            val loadedBlocks = weatherDataRepository.loadBlocks(isDaily = true)
+            Log.d("DAILYBLOCKS", "${loadedBlocks}")
+            _uiState.value = _uiState.value.copy(blocks = loadedBlocks)
         }
     }
 
