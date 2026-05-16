@@ -8,9 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -25,19 +23,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
-import com.pranshulgg.weathermaster.core.model.domain.Weather
-import com.pranshulgg.weathermaster.core.model.weather.PrecipitationUnits
-import com.pranshulgg.weathermaster.core.model.weather.airquality.toName
 import com.pranshulgg.weathermaster.core.model.weather.toName
 import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
 import com.pranshulgg.weathermaster.core.ui.theme.ShadowElevation
-import com.pranshulgg.weathermaster.core.utils.weather.UnitConverter
-import com.pranshulgg.weathermaster.core.utils.weather.airquality.AirQualityColors
 
 @Composable
-fun RainBlock(
-    rainForTheDay: Double,
+fun SnowBlock(
+    snowForTheDay: Double,
     context: Context,
     units: AppWeatherUnits
 ) {
@@ -66,11 +59,11 @@ fun RainBlock(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        "$rainForTheDay",
-                        modifier = Modifier
-                            .alignByBaseline(),
+                        "$snowForTheDay",
+                        modifier = Modifier.alignByBaseline(),
                         textAlign = TextAlign.End,
                         color = MaterialTheme.colorScheme.onSurface,
+
                         style = MaterialTheme.typography.displayMedium
                     )
                     Gap(horizontal = 2.dp)
@@ -79,14 +72,14 @@ fun RainBlock(
                         modifier = Modifier
                             .alignByBaseline()
                             .padding(end = 16.dp),
+                        textAlign = TextAlign.End,
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
 
-                Gap(3.dp)
                 Text(
-                    stringResource(R.string.weather_total_rain_day),
+                    stringResource(R.string.weather_total_snow_day),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 16.dp, end = 16.dp),
@@ -115,11 +108,11 @@ private fun Header() {
         modifier = Modifier.padding(top = 16.dp, start = 12.dp, end = 12.dp)
     ) {
         Symbol(
-            R.drawable.rainy_light_24px,
+            R.drawable.snowflake_24px,
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.9f),
         )
         Text(
-            "Rain",
+            "Snow",
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             maxLines = 1,

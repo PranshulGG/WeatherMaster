@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ImageBitmap
@@ -41,7 +42,7 @@ import com.pranshulgg.weathermaster.core.utils.weather.cache.isWeatherDailyDomai
 import java.time.Instant
 
 @Composable
-fun SunBlock(weather: Weather, isDaily: Boolean, dailyIndex: Int) {
+fun SunBlock(weather: Weather, dailyIndex: Int) {
 
     if (!isWeatherDailyDomainSafe(weather)) return
 
@@ -81,7 +82,9 @@ fun SunBlock(weather: Weather, isDaily: Boolean, dailyIndex: Int) {
             val sunBitmap = ImageBitmap.imageResource(id = R.drawable.sun_rise_set_icon)
 
 
-            Canvas(modifier = Modifier.fillMaxSize()) {
+            Canvas(modifier = Modifier
+                .fillMaxSize()
+                .alpha(if (dailyIndex != 0) 0f else 1f)) {
 
                 val width = size.width
                 val height = size.height
