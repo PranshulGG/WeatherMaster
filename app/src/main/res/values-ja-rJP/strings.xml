@@ -132,5 +132,7 @@
     <string name="weather_aqi_co_description">化石燃料を燃焼させる自動車や機械から発生するガスです。</string>
     <string name="weather_airquality_about_index">空気質指数は、測定データを分かりやすい評価基準に分類したものです。これにより、大気汚染のレベルや健康へのリスクを簡単に確認できるようになります。</string>
     <string name="weather_average">平均</string>
+    <string name="weather_rain_block">Rain</string>
+    <string name="weather_snow_block">Snow</string>
 </resources>
 <!--<string name=""></string>-->
