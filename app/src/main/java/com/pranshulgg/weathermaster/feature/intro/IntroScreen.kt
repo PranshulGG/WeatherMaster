@@ -129,7 +129,7 @@ fun IntroScreen(navController: NavController) {
                     contentPadding = ButtonDefaults.contentPaddingFor(btnSize),
                     shapes = ButtonDefaults.shapes()
                 ) {
-                    Text("Enable location", style = ButtonDefaults.textStyleFor(btnSize))
+                    Text("Enable Location", style = ButtonDefaults.textStyleFor(btnSize))
                 }
                 Gap(12.dp)
                 OutlinedButton(
@@ -143,7 +143,7 @@ fun IntroScreen(navController: NavController) {
                     shapes = ButtonDefaults.shapes()
                 ) {
                     Text(
-                        "Search for a city",
+                        "Search for a City",
                         style = ButtonDefaults.textStyleFor(btnSize),
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
