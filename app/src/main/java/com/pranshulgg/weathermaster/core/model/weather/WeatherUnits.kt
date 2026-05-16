@@ -31,11 +31,11 @@ fun TemperatureUnits.toName(context: Context): String {
     }
 }
 
-fun WindSpeedUnits.toName(context: Context): String {
+fun WindSpeedUnits.toName(context: Context, inShort: Boolean = false): String {
     return when (this) {
-        WindSpeedUnits.MPS -> context.getString(R.string.unit_wind_mps)
-        WindSpeedUnits.MPH -> context.getString(R.string.unit_wind_mph)
-        WindSpeedUnits.KPH -> context.getString(R.string.unit_wind_kph)
+        WindSpeedUnits.MPS -> if (inShort) "m/s" else context.getString(R.string.unit_wind_mps)
+        WindSpeedUnits.MPH -> if (inShort) "mi/h" else context.getString(R.string.unit_wind_mph)
+        WindSpeedUnits.KPH -> if (inShort) "km/h" else context.getString(R.string.unit_wind_kph)
     }
 }
 
