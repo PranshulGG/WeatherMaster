@@ -1,10 +1,13 @@
 package com.pranshulgg.weathermaster.data.local.mapper.weather
 
+import com.pranshulgg.weathermaster.core.model.astro.SunTimings
 import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.core.model.domain.Weather
 import com.pranshulgg.weathermaster.core.model.domain.WeatherCurrent
 import com.pranshulgg.weathermaster.core.model.domain.WeatherDaily
 import com.pranshulgg.weathermaster.core.model.domain.WeatherHourly
+import com.pranshulgg.weathermaster.core.model.weather.WeatherConditions
+import com.pranshulgg.weathermaster.core.network.openmeteo.OpenMeteoHourlyDataDto
 import com.pranshulgg.weathermaster.core.network.openmeteo.OpenMeteoWeatherDto
 import com.pranshulgg.weathermaster.core.network.openmeteo.openMeteoWeatherCode
 import com.pranshulgg.weathermaster.core.utils.formatters.toMilliseconds
@@ -81,6 +84,44 @@ fun List<WeatherDaily>.toDailyWeatherEntity(
         )
     }
 
+private fun daylightHourIndices(
+    dayIndex: Int,
+    hourly: OpenMeteoHourlyDataDto,
+    sunTimings: List<SunTimings>,
+): List<Int>? {
+    val sunrise = sunTimings[dayIndex].sunrise ?: return null
+    val sunset = sunTimings[dayIndex].sunset ?: return null
+    val indices = hourly.time.indices.filter { idx ->
+        hourly.time[idx].toMilliseconds() in sunrise..sunset
+    }
+    return indices.ifEmpty { null }
+}
+
+private fun daytimeWeatherCondition(
+    dayIndex: Int,
+    hourly: OpenMeteoHourlyDataDto,
+    sunTimings: List<SunTimings>,
+    fallback: WeatherConditions,
+): WeatherConditions {
+    val indices = daylightHourIndices(dayIndex, hourly, sunTimings) ?: return fallback
+    return indices
+        .map { openMeteoWeatherCode(hourly.weatherCode[it]) }
+        .groupingBy { it }
+        .eachCount()
+        .maxByOrNull { it.value }
+        ?.key ?: fallback
+}
+
+private fun daytimePrecipitationMax(
+    dayIndex: Int,
+    hourly: OpenMeteoHourlyDataDto,
+    sunTimings: List<SunTimings>,
+    fallback: Int,
+): Int {
+    val indices = daylightHourIndices(dayIndex, hourly, sunTimings) ?: return fallback
+    return indices.maxOf { hourly.precipitationProbability[it] }
+}
+
 @OptIn(ExperimentalUuidApi::class)
 fun OpenMeteoWeatherDto.toDomain(location: Location): Weather {
 
@@ -152,9 +193,19 @@ fun OpenMeteoWeatherDto.toDomain(location: Location): Weather {
                 rainSum = daily.rainSum[it],
                 snowfallSum = daily.snowfallSum[it],
                 uvIndexMax = daily.uvIndexMax[it],
-                weatherCondition = openMeteoWeatherCode(daily.weatherCode[it]),
+                weatherCondition = daytimeWeatherCondition(
+                    dayIndex = it,
+                    hourly = hourly,
+                    sunTimings = sunTimings,
+                    fallback = openMeteoWeatherCode(daily.weatherCode[it]),
+                ),
                 time = daily.time[it].toMilliseconds(), // Open-Meteo returns in seconds
-                precipitationProbabilityMax = daily.precipitationProbabilityMax[it],
+                precipitationProbabilityMax = daytimePrecipitationMax(
+                    dayIndex = it,
+                    hourly = hourly,
+                    sunTimings = sunTimings,
+                    fallback = daily.precipitationProbabilityMax[it],
+                ),
                 sunrise = sunTimings[it].sunrise ?: -0L,
                 sunset = sunTimings[it].sunset ?: -0L,
                 moonrise = moonTimings[it].moonrise ?: -0L,
