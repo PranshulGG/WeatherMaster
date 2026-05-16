@@ -136,5 +136,7 @@
     <string name="weather_airquality_about_index">空气质量指数将原始监测数据划分成标准化描述等级。
 该指数便于判定污染等级，并评估是否存在相关健康风险。</string>
     <string name="weather_average">平均</string>
+    <string name="weather_rain_block">Rain</string>
+    <string name="weather_snow_block">Snow</string>
 </resources>
 <!--<string name=""></string>-->
