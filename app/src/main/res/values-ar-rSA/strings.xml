@@ -147,7 +147,7 @@
     <string name="weather_aqi_co_description">غاز ناتج عن المركبات الآلية أو الآلات التي تحرق الوقود الأحفوري.</string>
     <string name="weather_airquality_about_index">تصنف مؤشرات جودة الهواء البيانات الخام إلى مقياس وصفي. تسهل هذه المؤشرات تحديد مستوى التلوث وما إذا كان هناك أي خطر مرتبط به.</string>
     <string name="weather_average">المتوسط</string>
-    <string name="weather_rain_block">Rain</string>
-    <string name="weather_snow_block">Snow</string>
+    <string name="weather_rain_block">مطر</string>
+    <string name="weather_snow_block">ثلج</string>
 </resources>
 <!--<string name=""></string>-->
