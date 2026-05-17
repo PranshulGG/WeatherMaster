@@ -2,7 +2,7 @@
 <resources>
 
     <style name="Theme.SplashScreen.OnStart" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">#0B4485</item>
+        <item name="windowSplashScreenBackground">#001946</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/app_icon_splash</item>
         <item name="postSplashScreenTheme">@style/Theme.WeatherMaster</item>
     </style>
