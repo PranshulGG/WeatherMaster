@@ -59,7 +59,7 @@ fun SnowBlock(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        "$snowForTheDay",
+                        "%.1f".format(snowForTheDay),
                         modifier = Modifier.alignByBaseline(),
                         textAlign = TextAlign.End,
                         color = MaterialTheme.colorScheme.onSurface,
