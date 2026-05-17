@@ -16,13 +16,12 @@ data class GeoNamesSearchItemDto(
     val name: String,
     val countryName: String,
 
-    @SerializedName("country_code")
+    @SerializedName("countryCode")
     val countryCode: String,
 
     @SerializedName("adminName1")
     val state: String?
 
-//    val timezone: String
 )
 
 

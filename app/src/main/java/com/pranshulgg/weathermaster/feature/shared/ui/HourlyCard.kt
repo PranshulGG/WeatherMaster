@@ -130,13 +130,13 @@ private fun HourlyItem(
     ) {
         Gap(5.dp)
         TempWithShape(temperature, isNow)
-        Gap(4.dp)
+        Gap(2.dp)
         Text(
             "${precipitationProbability}%",
             color = MaterialTheme.colorScheme.primary,
             style = MaterialTheme.typography.labelMedium,
             modifier = Modifier
-                .padding(bottom = 4.dp)
+                .padding(bottom = 3.dp)
                 .alpha(if (precipitationProbability > 0) 1f else 0f)
         )
         WeatherIconBox(icon, size = 28.dp)

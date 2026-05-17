@@ -1,7 +1,7 @@
 package com.pranshulgg.weathermaster.core.model.domain
 
 import com.pranshulgg.weathermaster.core.model.astro.MoonPhase
-import com.pranshulgg.weathermaster.core.model.weather.WeatherConditions
+import com.pranshulgg.weathermaster.core.model.weather.WeatherCondition
 
 data class Weather(
     val location: Location,
@@ -19,7 +19,7 @@ data class WeatherCurrent(
     val visibility: Int?,  // NOTE: ALWAYS METERS
     val cloudCover: Double?,
     val uvIndex: Double,
-    val weatherCondition: WeatherConditions,
+    val weatherCondition: WeatherCondition,
     val feelsLike: Double?,
     val time: Long, // NOTE: ALWAYS MILLISECONDS
     val dewPoint: Double?,
@@ -34,7 +34,7 @@ data class WeatherHourly(
     val rain: Double,  // NOTE: ALWAYS MM
     val snowfall: Double?, // NOTE: ALWAYS CM
     val uvIndex: Double,
-    val weatherCondition: WeatherConditions,
+    val weatherCondition: WeatherCondition,
     val time: Long,  // NOTE: ALWAYS MILLISECONDS
     val precipitationProbability: Int?
 )
@@ -47,7 +47,7 @@ data class WeatherDaily(
     val rainSum: Double,  // NOTE: ALWAYS MM
     val snowfallSum: Double?, // NOTE: ALWAYS CM
     val uvIndexMax: Double,
-    val weatherCondition: WeatherConditions,
+    val weatherCondition: WeatherCondition,
     val time: Long, // NOTE: ALWAYS MILLISECONDS
     val precipitationProbabilityMax: Int?,
     val sunrise: Long, // NOTE: ALWAYS MILLISECONDS

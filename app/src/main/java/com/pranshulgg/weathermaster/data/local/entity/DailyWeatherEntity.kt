@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import com.pranshulgg.weathermaster.core.model.astro.MoonPhase
-import com.pranshulgg.weathermaster.core.model.weather.WeatherConditions
+import com.pranshulgg.weathermaster.core.model.weather.WeatherCondition
 
 @Entity(
     tableName = "weather_daily",
@@ -29,7 +29,7 @@ data class DailyWeatherEntity(
     val rainSum: Double,
     val snowfallSum: Double?,
     val uvIndexMax: Double,
-    val weatherCondition: WeatherConditions,
+    val weatherCondition: WeatherCondition,
     val time: Long,
     val precipitationProbabilityMax: Int?,
     val sunrise: Long,

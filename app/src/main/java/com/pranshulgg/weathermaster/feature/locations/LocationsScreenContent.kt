@@ -27,7 +27,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weathermaster.R
-import com.pranshulgg.weathermaster.core.model.weather.WeatherConditions
+import com.pranshulgg.weathermaster.core.model.weather.WeatherCondition
 import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.core.model.domain.Weather
 import com.pranshulgg.weathermaster.core.model.weather.toIcon
@@ -80,7 +80,7 @@ fun LocationsScreenContent(
             itemsIndexed(locations, key = { _, item -> item.id }) { index, location ->
                 val weather = weatherMap[location.id]
                 val icon =
-                    weather?.current?.weatherCondition ?: WeatherConditions.NO_CONDITION_FOUND
+                    weather?.current?.weatherCondition ?: WeatherCondition.NO_CONDITION_FOUND
                 val description =
                     if (weather != null && weather.current.lastUpdatedInMilli != -1L) stringResource(
                         R.string.time_last_updated,

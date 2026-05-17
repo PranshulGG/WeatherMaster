@@ -66,7 +66,7 @@ fun RainBlock(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        "$rainForTheDay",
+                        "%.1f".format(rainForTheDay),
                         modifier = Modifier
                             .alignByBaseline(),
                         textAlign = TextAlign.End,

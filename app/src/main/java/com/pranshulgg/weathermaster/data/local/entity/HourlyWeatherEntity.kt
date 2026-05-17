@@ -3,7 +3,7 @@ package com.pranshulgg.weathermaster.data.local.entity
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
-import com.pranshulgg.weathermaster.core.model.weather.WeatherConditions
+import com.pranshulgg.weathermaster.core.model.weather.WeatherCondition
 
 @Entity(
     tableName = "weather_hourly",
@@ -30,7 +30,7 @@ data class HourlyWeatherEntity(
     val rain: Double,
     val snowfall: Double?,
     val uvIndex: Double,
-    val weatherCondition: WeatherConditions,
+    val weatherCondition: WeatherCondition,
     val time: Long,
     val precipitationProbability: Int?
 )

@@ -1,6 +1,6 @@
 package com.pranshulgg.weathermaster.data.provider
 
-import com.pranshulgg.weathermaster.core.model.providers.SearchProviders
+import com.pranshulgg.weathermaster.core.model.providers.SearchProvider
 import com.pranshulgg.weathermaster.core.network.search.geonames.GeoNamesSearchRepository
 import com.pranshulgg.weathermaster.core.network.search.openmeteo.OpenMeteoSearchRepository
 import com.pranshulgg.weathermaster.data.repository.SearchRepository
@@ -12,10 +12,10 @@ class SearchRepositoryProvider @Inject constructor(
 
 ) {
 
-    fun getRepository(provider: SearchProviders): SearchRepository {
+    fun getRepository(provider: SearchProvider): SearchRepository {
         return when (provider) {
-            SearchProviders.OPEN_METEO -> openMeteoSearchRepository
-            SearchProviders.GEO_NAMES -> geoNamesSearchRepository
+            SearchProvider.OPEN_METEO -> openMeteoSearchRepository
+            SearchProvider.GEO_NAMES -> geoNamesSearchRepository
         }
     }
 

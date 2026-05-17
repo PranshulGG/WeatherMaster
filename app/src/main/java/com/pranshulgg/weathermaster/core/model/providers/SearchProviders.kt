@@ -1,13 +1,13 @@
 package com.pranshulgg.weathermaster.core.model.providers
 
-enum class SearchProviders {
+enum class SearchProvider {
     OPEN_METEO,
     GEO_NAMES
 }
 
-fun SearchProviders.toName(): String {
+fun SearchProvider.toName(): String {
     return when (this) {
-        SearchProviders.OPEN_METEO -> "Open Meteo"
-        SearchProviders.GEO_NAMES -> "GeoNames"
+        SearchProvider.OPEN_METEO -> "Open Meteo"
+        SearchProvider.GEO_NAMES -> "GeoNames"
     }
 }

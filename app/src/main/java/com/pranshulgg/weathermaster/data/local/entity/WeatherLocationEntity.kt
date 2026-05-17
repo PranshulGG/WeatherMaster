@@ -2,9 +2,8 @@ package com.pranshulgg.weathermaster.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.pranshulgg.weathermaster.core.model.providers.WeatherProviders
+import com.pranshulgg.weathermaster.core.model.providers.WeatherProvider
 import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
 @Entity(tableName = "weather_locations")
 @OptIn(ExperimentalUuidApi::class)
@@ -17,7 +16,7 @@ data class WeatherLocationEntity(
     val lat: Double,
     val lon: Double,
     val timezone: String,
-    val provider: WeatherProviders,
+    val provider: WeatherProvider,
     val state: String? = null,
     val isFavorite: Boolean = false,
     val isPinned: Boolean = false,

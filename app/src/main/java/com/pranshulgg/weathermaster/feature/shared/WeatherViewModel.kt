@@ -10,7 +10,7 @@ import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.core.model.domain.WeatherBlock
 import com.pranshulgg.weathermaster.core.model.domain.toAppException
 import com.pranshulgg.weathermaster.core.model.domain.toMessageRes
-import com.pranshulgg.weathermaster.core.model.providers.WeatherProviders
+import com.pranshulgg.weathermaster.core.model.providers.WeatherProvider
 import com.pranshulgg.weathermaster.core.model.weather.WeatherResult
 import com.pranshulgg.weathermaster.core.model.weather.airquality.AirQualityResult
 import com.pranshulgg.weathermaster.core.network.airquality.openmeteo.OpenMeteoAqiRepository
@@ -92,7 +92,7 @@ class WeatherViewModel @Inject constructor(
 
     fun getWeather(
         location: Location,
-        provider: WeatherProviders,
+        provider: WeatherProvider,
         isManualRefresh: Boolean = false
     ) {
         weatherJob?.cancel()
@@ -191,7 +191,7 @@ class WeatherViewModel @Inject constructor(
     }
 
     private suspend fun handleWeatherData(
-        provider: WeatherProviders,
+        provider: WeatherProvider,
         location: Location,
         isManualRefresh: Boolean
     ) {

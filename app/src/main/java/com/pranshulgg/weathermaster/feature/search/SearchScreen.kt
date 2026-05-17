@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pranshulgg.weathermaster.R
-import com.pranshulgg.weathermaster.core.model.providers.SearchProviders
+import com.pranshulgg.weathermaster.core.model.providers.SearchProvider
 import com.pranshulgg.weathermaster.core.model.providers.toName
 import com.pranshulgg.weathermaster.core.model.weather.toName
 import com.pranshulgg.weathermaster.core.prefs.LocalAppPrefs
@@ -45,19 +45,16 @@ import com.pranshulgg.weathermaster.core.ui.components.RadioRow
 import com.pranshulgg.weathermaster.core.ui.components.SettingSection
 import com.pranshulgg.weathermaster.core.ui.components.SettingTile
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
+import com.pranshulgg.weathermaster.feature.search.ui.SearchDialogs
 import com.pranshulgg.weathermaster.feature.search.ui.SearchFloatingToolbar
 
 data class SearchUiState(
     val query: String = "",
     val isSheetOpen: Boolean = false,
-    val provider: SearchProviders = SearchProviders.OPEN_METEO,
+    val provider: SearchProvider = SearchProvider.OPEN_METEO,
     val isProviderDialogOpen: Boolean = false
 )
 
-private data class Provider(
-    val value: SearchProviders,
-    val label: String
-)
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -70,15 +67,10 @@ fun SearchScreen(navController: NavController) {
     val prefs = LocalAppPrefs.current
     var itemLoadingId by remember { mutableStateOf("") }
 
-    var selectedProvider by remember { mutableStateOf(prefs.searchProvider) }
 
-    val providers = listOf(
-        Provider(SearchProviders.OPEN_METEO, "Open Meteo"),
-        Provider(SearchProviders.GEO_NAMES, "GeoNames")
-    )
 
     LaunchedEffect(Unit) {
-        viewModel.updateProvider(selectedProvider)
+        viewModel.updateProvider(prefs.searchProvider, prefs)
     }
 
     val scrollBehaviorToolbar =
@@ -95,7 +87,6 @@ fun SearchScreen(navController: NavController) {
         actions = {
             IconButton(
                 onClick = {
-                    selectedProvider = prefs.searchProvider
                     viewModel.showProviderDialog()
                 },
                 shapes = IconButtonDefaults.shapes()
@@ -173,26 +164,6 @@ fun SearchScreen(navController: NavController) {
 
 
     // PROVIDERS DIALOG
-    DialogBasic(
-        title = stringResource(R.string.search_provider),
-        onConfirm = {
-            prefs.setSearchProvider(selectedProvider)
-            viewModel.updateProvider(selectedProvider)
-            viewModel.removeResults()
-        },
-        onDismiss = viewModel::hideProviderDialog,
-        show = uiState.isProviderDialogOpen,
-        confirmText = stringResource(R.string.action_save),
-        dismissText = stringResource(R.string.action_cancel)
-    ) {
-        providers.forEach { provider ->
-            RadioRow(
-                label = provider.label,
-                onClick = { selectedProvider = SearchProviders.valueOf(it) },
-                selected = selectedProvider == provider.value,
-                value = provider.value.toString()
-            )
-        }
-    }
+    SearchDialogs.SearchProviderPickerDialog(prefs, viewModel, uiState)
 }
 

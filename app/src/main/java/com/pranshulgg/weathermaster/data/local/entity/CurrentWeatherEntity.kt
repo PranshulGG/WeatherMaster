@@ -3,7 +3,7 @@ package com.pranshulgg.weathermaster.data.local.entity
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
-import com.pranshulgg.weathermaster.core.model.weather.WeatherConditions
+import com.pranshulgg.weathermaster.core.model.weather.WeatherCondition
 
 @Entity(
     tableName = "weather_current",
@@ -29,7 +29,7 @@ data class CurrentWeatherEntity(
     val visibility: Int?,
     val cloudCover: Double?,
     val uvIndex: Double,
-    val weatherCondition: WeatherConditions,
+    val weatherCondition: WeatherCondition,
     val feelsLike: Double?,
     val time: Long,
     val dewPoint: Double?,

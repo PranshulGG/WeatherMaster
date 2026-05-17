@@ -1,6 +1,6 @@
 package com.pranshulgg.weathermaster.data.local.mapper
 
-import com.pranshulgg.weathermaster.core.model.weather.WeatherConditions
+import com.pranshulgg.weathermaster.core.model.weather.WeatherCondition
 import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.core.model.domain.Weather
 import com.pranshulgg.weathermaster.core.model.domain.WeatherCurrent
@@ -47,7 +47,7 @@ fun WeatherWithRelations.toDomain(): Weather {
             visibility = current?.visibility ?: 0,
             cloudCover = current?.cloudCover ?: 0.0,
             uvIndex = current?.uvIndex ?: 0.0,
-            weatherCondition = current?.weatherCondition ?: WeatherConditions.NO_CONDITION_FOUND,
+            weatherCondition = current?.weatherCondition ?: WeatherCondition.NO_CONDITION_FOUND,
             feelsLike = current?.feelsLike ?: 0.0,
             time = current?.time ?: System.currentTimeMillis(),
             dewPoint = current?.dewPoint,

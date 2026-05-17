@@ -7,11 +7,12 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pranshulgg.weathermaster.R
-import com.pranshulgg.weathermaster.core.model.providers.SearchProviders
+import com.pranshulgg.weathermaster.core.model.providers.SearchProvider
 import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.core.model.domain.toAppException
 import com.pranshulgg.weathermaster.core.model.domain.toMessageRes
 import com.pranshulgg.weathermaster.core.network.search.geonames.GeoNamesTimezoneRepository
+import com.pranshulgg.weathermaster.core.prefs.AppPrefsState
 import com.pranshulgg.weathermaster.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weathermaster.data.provider.SearchRepositoryProvider
 import com.pranshulgg.weathermaster.data.repository.LocationsRepository
@@ -58,7 +59,7 @@ class SearchScreenViewModel @Inject constructor(
     fun saveLocation(location: Location, onBack: () -> Unit, onReset: () -> Unit) {
         viewModelScope.launch {
             try {
-                val resolved = if (_uiState.value.provider == SearchProviders.GEO_NAMES) {
+                val resolved = if (_uiState.value.provider == SearchProvider.GEO_NAMES) {
                     resolveGeoNamesLocation(location)
                 } else {
                     location
@@ -87,9 +88,9 @@ class SearchScreenViewModel @Inject constructor(
         _uiState.value = _uiState.value.copy(query = query)
     }
 
-    fun updateProvider(provider: SearchProviders) {
+    fun updateProvider(provider: SearchProvider, prefs: AppPrefsState) {
         _uiState.value = _uiState.value.copy(provider = provider)
-
+        prefs.setSearchProvider(provider)
     }
 
     fun showProviderDialog() {

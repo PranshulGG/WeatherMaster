@@ -1,7 +1,6 @@
 package com.pranshulgg.weathermaster.data.provider
 
-import com.pranshulgg.weathermaster.core.model.providers.WeatherProviders
-import com.pranshulgg.weathermaster.core.network.openmeteo.OpenMeteoApi
+import com.pranshulgg.weathermaster.core.model.providers.WeatherProvider
 import com.pranshulgg.weathermaster.core.network.openmeteo.OpenMeteoRepository
 import com.pranshulgg.weathermaster.data.repository.WeatherRepository
 import javax.inject.Inject
@@ -10,9 +9,9 @@ class WeatherRepositoryProvider @Inject constructor(
     private val openMeteoRepo: OpenMeteoRepository
 ) {
 
-    fun getRepository(provider: WeatherProviders): WeatherRepository {
+    fun getRepository(provider: WeatherProvider): WeatherRepository {
         return when (provider) {
-            WeatherProviders.OPEN_METEO -> openMeteoRepo
+            WeatherProvider.OPEN_METEO -> openMeteoRepo
         }
     }
 

@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import com.pranshulgg.weathermaster.core.model.weather.WeatherConditions
+import com.pranshulgg.weathermaster.core.model.weather.WeatherCondition
 import com.pranshulgg.weathermaster.core.model.domain.Weather
 import com.pranshulgg.weathermaster.core.ui.theme.isThemeDark
 import com.pranshulgg.weathermaster.core.utils.weather.cache.isWeatherDomainSafe
@@ -61,7 +61,7 @@ private fun backgroundGradients(weather: Weather?, isDark: Boolean = true): Back
     val isDay = day?.let { weather.current.time in day.sunrise..day.sunset } ?: true
 
 
-    val gradient = gradients(isDay, condition ?: WeatherConditions.CLEAR_SKY, isDark)
+    val gradient = gradients(isDay, condition ?: WeatherCondition.CLEAR_SKY, isDark)
 
 
     return gradient
@@ -69,7 +69,7 @@ private fun backgroundGradients(weather: Weather?, isDark: Boolean = true): Back
 
 private fun gradients(
     isDay: Boolean = true,
-    condition: WeatherConditions,
+    condition: WeatherCondition,
     isDark: Boolean = true
 ): Background {
 
@@ -77,19 +77,19 @@ private fun gradients(
 
     return when (condition) {
 
-        WeatherConditions.CLEAR_SKY -> if (isDay) colors.CLEAR_SKY_DAY else colors.CLEAR_SKY_NIGHT
+        WeatherCondition.CLEAR_SKY -> if (isDay) colors.CLEAR_SKY_DAY else colors.CLEAR_SKY_NIGHT
 
-        WeatherConditions.MOSTLY_CLEAR, WeatherConditions.PARTLY_CLOUDY -> colors.MOSTLY_CLEAR_PARTLY_CLOUDY
+        WeatherCondition.MOSTLY_CLEAR, WeatherCondition.PARTLY_CLOUDY -> colors.MOSTLY_CLEAR_PARTLY_CLOUDY
 
-        WeatherConditions.OVERCAST -> colors.OVERCAST
+        WeatherCondition.OVERCAST -> colors.OVERCAST
 
-        WeatherConditions.SNOW, WeatherConditions.HEAVY_SNOW, WeatherConditions.LIGHT_SNOW -> colors.SNOW
+        WeatherCondition.SNOW, WeatherCondition.HEAVY_SNOW, WeatherCondition.LIGHT_SNOW -> colors.SNOW
 
-        WeatherConditions.RAIN, WeatherConditions.HEAVY_RAIN, WeatherConditions.LIGHT_RAIN -> colors.RAIN
+        WeatherCondition.RAIN, WeatherCondition.HEAVY_RAIN, WeatherCondition.LIGHT_RAIN -> colors.RAIN
 
-        WeatherConditions.FOG_HAZE -> colors.FOG_HAZE
+        WeatherCondition.FOG_HAZE -> colors.FOG_HAZE
 
-        WeatherConditions.THUNDERSTORM -> colors.THUNDERSTORM
+        WeatherCondition.THUNDERSTORM -> colors.THUNDERSTORM
 
         else -> colors.CLEAR_SKY_DAY
 

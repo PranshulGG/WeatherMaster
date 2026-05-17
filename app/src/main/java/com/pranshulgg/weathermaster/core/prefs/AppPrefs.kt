@@ -4,7 +4,7 @@ package com.pranshulgg.weathermaster.core.prefs
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import com.pranshulgg.weathermaster.core.model.providers.SearchProviders
+import com.pranshulgg.weathermaster.core.model.providers.SearchProvider
 import com.pranshulgg.weathermaster.core.ui.theme.ThemeVariantType
 import com.pranshulgg.weathermaster.core.prefs.helper.PreferencesHelper
 
@@ -16,7 +16,7 @@ object AppPrefs {
 
     private val _themeVariantType = mutableStateOf(ThemeVariantType.EXPRESSIVE)
 
-    private val _searchProvider = mutableStateOf(SearchProviders.OPEN_METEO)
+    private val _searchProvider = mutableStateOf(SearchProvider.OPEN_METEO)
 
 
     fun initPrefs(context: Context) {
@@ -34,8 +34,8 @@ object AppPrefs {
 
 
         _searchProvider.value = PreferencesHelper.getString("searchProvider")
-            ?.let { runCatching { SearchProviders.valueOf(it) }.getOrNull() }
-            ?: SearchProviders.OPEN_METEO
+            ?.let { runCatching { SearchProvider.valueOf(it) }.getOrNull() }
+            ?: SearchProvider.OPEN_METEO
     }
 
     @Composable

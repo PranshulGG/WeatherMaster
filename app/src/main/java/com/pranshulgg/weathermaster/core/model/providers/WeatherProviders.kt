@@ -1,5 +1,5 @@
 package com.pranshulgg.weathermaster.core.model.providers
 
-enum class WeatherProviders {
+enum class WeatherProvider {
     OPEN_METEO
 }

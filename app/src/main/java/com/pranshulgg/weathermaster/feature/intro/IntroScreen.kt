@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pranshulgg.weathermaster.R
-import com.pranshulgg.weathermaster.core.model.providers.WeatherProviders
+import com.pranshulgg.weathermaster.core.model.providers.WeatherProvider
 import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
@@ -228,7 +228,7 @@ fun DeviceLocation.toDomain(): Location {
         timezone = TimeZone.getDefault().id,
         countryCode = "",
         state = "",
-        provider = WeatherProviders.OPEN_METEO,
+        provider = WeatherProvider.OPEN_METEO,
         isFavorite = false,
         isPinned = false,
         isDefault = false, // Repository can handle it
