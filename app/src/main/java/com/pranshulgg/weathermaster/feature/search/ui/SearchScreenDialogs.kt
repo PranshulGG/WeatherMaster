@@ -7,8 +7,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import com.pranshulgg.weathermaster.R
-import com.pranshulgg.weathermaster.core.model.providers.SearchProvider
-import com.pranshulgg.weathermaster.core.model.providers.toName
+import com.pranshulgg.weathermaster.core.model.sources.SearchSource
+import com.pranshulgg.weathermaster.core.model.sources.toName
 import com.pranshulgg.weathermaster.core.prefs.AppPrefsState
 import com.pranshulgg.weathermaster.core.ui.components.DialogBasic
 import com.pranshulgg.weathermaster.core.ui.components.RadioRow
@@ -23,31 +23,31 @@ object SearchDialogs {
         viewModel: SearchScreenViewModel,
         uiState: SearchUiState,
     ) {
-        var selectedProvider by remember(
-            uiState.isProviderDialogOpen,
-            prefs.searchProvider
+        var selectedSource by remember(
+            uiState.isSourceDialogOpen,
+            prefs.searchSource
         ) {
-            mutableStateOf(prefs.searchProvider)
+            mutableStateOf(prefs.searchSource)
         }
 
-        val providers = SearchProvider.entries
+        val providers = SearchSource.entries
 
         DialogBasic(
             title = stringResource(R.string.search_provider),
             onConfirm = {
-                viewModel.updateProvider(selectedProvider, prefs)
+                viewModel.updateSource(selectedSource, prefs)
                 viewModel.removeResults()
             },
-            onDismiss = viewModel::hideProviderDialog,
-            show = uiState.isProviderDialogOpen,
+            onDismiss = viewModel::hideSourceDialog,
+            show = uiState.isSourceDialogOpen,
             confirmText = stringResource(R.string.action_save),
             dismissText = stringResource(R.string.action_cancel)
         ) {
             providers.forEach { provider ->
                 RadioRow(
                     label = provider.toName(),
-                    onClick = { selectedProvider = SearchProvider.valueOf(it) },
-                    selected = selectedProvider == provider,
+                    onClick = { selectedSource = SearchSource.valueOf(it) },
+                    selected = selectedSource == provider,
                     value = provider.toString()
                 )
             }

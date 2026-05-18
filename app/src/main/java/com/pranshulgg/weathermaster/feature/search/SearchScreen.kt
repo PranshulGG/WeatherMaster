@@ -31,28 +31,29 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pranshulgg.weathermaster.R
-import com.pranshulgg.weathermaster.core.model.providers.SearchProvider
-import com.pranshulgg.weathermaster.core.model.providers.toName
-import com.pranshulgg.weathermaster.core.model.weather.toName
+import com.pranshulgg.weathermaster.core.model.domain.Location
+import com.pranshulgg.weathermaster.core.model.sources.SearchSource
+import com.pranshulgg.weathermaster.core.model.sources.WeatherSource
+import com.pranshulgg.weathermaster.core.model.sources.toName
 import com.pranshulgg.weathermaster.core.prefs.LocalAppPrefs
-import com.pranshulgg.weathermaster.core.ui.components.DialogBasic
 import com.pranshulgg.weathermaster.core.ui.components.EmptyContainerPlaceholder
 import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weathermaster.core.ui.components.LoadingScreenPlaceholder
 import com.pranshulgg.weathermaster.core.ui.components.NavigateUpBtn
-import com.pranshulgg.weathermaster.core.ui.components.RadioRow
 import com.pranshulgg.weathermaster.core.ui.components.SettingSection
 import com.pranshulgg.weathermaster.core.ui.components.SettingTile
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
 import com.pranshulgg.weathermaster.feature.search.ui.SearchDialogs
 import com.pranshulgg.weathermaster.feature.search.ui.SearchFloatingToolbar
+import com.pranshulgg.weathermaster.feature.shared.ui.SharedDialogs
 
 data class SearchUiState(
     val query: String = "",
     val isSheetOpen: Boolean = false,
-    val provider: SearchProvider = SearchProvider.OPEN_METEO,
-    val isProviderDialogOpen: Boolean = false
+    val source: SearchSource = SearchSource.OPEN_METEO,
+    val isSourceDialogOpen: Boolean = false,
+    val isWeatherSourcesDialogOpen: Boolean = false
 )
 
 
@@ -65,12 +66,13 @@ fun SearchScreen(navController: NavController) {
     val loading = viewModel.loading
     val uiState by viewModel.uiState
     val prefs = LocalAppPrefs.current
-    var itemLoadingId by remember { mutableStateOf("") }
+    var isLocationProcessing by remember { mutableStateOf(false) }
+    var selectedLocation by remember { mutableStateOf<Location?>(null) }
 
 
 
     LaunchedEffect(Unit) {
-        viewModel.updateProvider(prefs.searchProvider, prefs)
+        viewModel.updateSource(prefs.searchSource, prefs)
     }
 
     val scrollBehaviorToolbar =
@@ -87,7 +89,7 @@ fun SearchScreen(navController: NavController) {
         actions = {
             IconButton(
                 onClick = {
-                    viewModel.showProviderDialog()
+                    viewModel.showSourceDialog()
                 },
                 shapes = IconButtonDefaults.shapes()
             ) { Symbol(R.drawable.settings_24px) }
@@ -120,7 +122,7 @@ fun SearchScreen(navController: NavController) {
                     Text(
                         stringResource(
                             R.string.search_results_provided,
-                            prefs.searchProvider.toName()
+                            prefs.searchSource.toName()
                         ),
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         style = MaterialTheme.typography.bodyMedium,
@@ -134,20 +136,22 @@ fun SearchScreen(navController: NavController) {
                                 title = it.name,
                                 description = "${if (it.state.isNotEmpty()) "${it.state}, " else ""}${it.country}",
                                 trailing = {
-                                    if (itemLoadingId == it.id) {
+                                    if (isLocationProcessing) {
                                         LoadingIndicator()
                                     }
                                 },
                                 onClick = {
-                                    if (itemLoadingId.isNotBlank()) return@ActionTile
-
-                                    viewModel.saveLocation(
-                                        it,
-                                        onBack = { navController.popBackStack() },
-                                        onReset = { itemLoadingId = "" }
-                                    )
-
-                                    itemLoadingId = it.id
+                                    selectedLocation = it
+                                    viewModel.showWeatherSourcesDialog()
+//                                    if (isLocationProcessing) return@ActionTile
+//
+//                                    viewModel.saveLocation(
+//                                        it,
+//                                        onBack = { navController.popBackStack() },
+//                                        onReset = { isLocationProcessing = false }
+//                                    )
+//
+//                                    isLocationProcessing = true
                                 }
                             )
                         }
@@ -165,5 +169,13 @@ fun SearchScreen(navController: NavController) {
 
     // PROVIDERS DIALOG
     SearchDialogs.SearchProviderPickerDialog(prefs, viewModel, uiState)
+
+    // WEATHER SOURCES DIALOG
+    SharedDialogs.WeatherProvidersForLocationDialog(
+        selectedLocation?.countryCode ?: "US",
+        uiState.isWeatherSourcesDialogOpen,
+        selectedLocation?.source ?: WeatherSource.OPEN_METEO,
+        onSave = {},
+        onCancel = {})
 }
 

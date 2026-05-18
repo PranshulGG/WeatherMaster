@@ -7,7 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pranshulgg.weathermaster.R
-import com.pranshulgg.weathermaster.core.model.providers.SearchProvider
+import com.pranshulgg.weathermaster.core.model.sources.SearchSource
 import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.core.model.domain.toAppException
 import com.pranshulgg.weathermaster.core.model.domain.toMessageRes
@@ -38,7 +38,7 @@ class SearchScreenViewModel @Inject constructor(
     fun search(query: String) {
         if (query.isEmpty() || loading) return
 
-        val currentRepo = repo.getRepository(_uiState.value.provider)
+        val currentRepo = repo.getRepository(_uiState.value.source)
 
         viewModelScope.launch {
             loading = true
@@ -59,7 +59,7 @@ class SearchScreenViewModel @Inject constructor(
     fun saveLocation(location: Location, onBack: () -> Unit, onReset: () -> Unit) {
         viewModelScope.launch {
             try {
-                val resolved = if (_uiState.value.provider == SearchProvider.GEO_NAMES) {
+                val resolved = if (_uiState.value.source == SearchSource.GEO_NAMES) {
                     resolveGeoNamesLocation(location)
                 } else {
                     location
@@ -88,21 +88,30 @@ class SearchScreenViewModel @Inject constructor(
         _uiState.value = _uiState.value.copy(query = query)
     }
 
-    fun updateProvider(provider: SearchProvider, prefs: AppPrefsState) {
-        _uiState.value = _uiState.value.copy(provider = provider)
-        prefs.setSearchProvider(provider)
+    fun updateSource(source: SearchSource, prefs: AppPrefsState) {
+        _uiState.value = _uiState.value.copy(source = source)
+        prefs.setSearchSource(source)
     }
 
-    fun showProviderDialog() {
-        _uiState.value = _uiState.value.copy(isProviderDialogOpen = true)
+    fun showSourceDialog() {
+        _uiState.value = _uiState.value.copy(isSourceDialogOpen = true)
     }
 
 
-    fun hideProviderDialog() {
-        _uiState.value = _uiState.value.copy(isProviderDialogOpen = false)
+    fun hideSourceDialog() {
+        _uiState.value = _uiState.value.copy(isSourceDialogOpen = false)
     }
 
     fun removeResults() {
         results = emptyList()
+    }
+
+    fun showWeatherSourcesDialog() {
+        _uiState.value = _uiState.value.copy(isWeatherSourcesDialogOpen = true)
+    }
+
+
+    fun hideWeatherSourcesDialog() {
+        _uiState.value = _uiState.value.copy(isWeatherSourcesDialogOpen = false)
     }
 }
