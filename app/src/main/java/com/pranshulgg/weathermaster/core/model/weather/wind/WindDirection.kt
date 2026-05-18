@@ -8,21 +8,57 @@ enum class WindDirection {
     SW,
     W,
     NW,
-    E
-}
+    E;
+
+    companion object {
 
 
-fun getWindDirectionValue(direction: Int): WindDirection? {
-    return when (direction) {
-        in 0..22, in 337..360 -> WindDirection.N
-        in 22..67 -> WindDirection.NE
-        in 67..112 -> WindDirection.E
-        in 122..157 -> WindDirection.SE
-        in 157..202 -> WindDirection.S
-        in 202..247 -> WindDirection.SW
-        in 247..292 -> WindDirection.W
-        in 292..337 -> WindDirection.NW
-        else -> null
+        // For sources that return values in degrees
+        fun toWindDirectionFromDegrees(value: Int): WindDirection? {
+            return when (value) {
+                in 0..22, in 337..360 -> N
+                in 22..67 -> NE
+                in 67..112 -> E
+                in 122..157 -> SE
+                in 157..202 -> S
+                in 202..247 -> SW
+                in 247..292 -> W
+                in 292..337 -> NW
+                else -> null
+            }
+        }
+
+        // For rotating the arrow
+        fun toDegrees(windDirection: WindDirection): Int {
+            return when (windDirection) {
+                N -> 0
+                NE -> 45
+                E -> 90
+                SE -> 135
+                S -> 180
+                SW -> 225
+                W -> 270
+                NW -> 315
+            }
+        }
+
+        // For sources that return values in cardinal directions (N, NE, etc.)
+        fun toWindDirectionFromString(value: String?): WindDirection? {
+            return when (value?.uppercase()) {
+                "N", "NNE", "NNW" -> N
+                "NE", "ENE" -> NE
+                "E", "ESE" -> E
+                "SE", "SSE" -> SE
+                "S", "SSW" -> S
+                "SW", "WSW" -> SW
+                "W", "WNW" -> W
+                "NW" -> NW
+                else -> null
+            }
+        }
     }
 }
+
+
+
 

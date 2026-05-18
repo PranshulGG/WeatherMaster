@@ -2,7 +2,6 @@ package com.pranshulgg.weathermaster.feature.shared.components.blocks
 
 import android.content.Context
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -18,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -26,18 +24,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weathermaster.R
-import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
-import com.pranshulgg.weathermaster.core.model.domain.Weather
+import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherUnits
+import com.pranshulgg.weathermaster.core.model.domain.weather.Weather
 import com.pranshulgg.weathermaster.core.model.weather.WindSpeedUnits
 import com.pranshulgg.weathermaster.core.model.weather.toName
 import com.pranshulgg.weathermaster.core.model.weather.wind.WindDirection
-import com.pranshulgg.weathermaster.core.model.weather.wind.getWindDirectionValue
 import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
 import com.pranshulgg.weathermaster.core.ui.theme.ShadowElevation
 import com.pranshulgg.weathermaster.core.ui.theme.ShapeRadius
-import com.pranshulgg.weathermaster.core.utils.formatters.formatNumbers
-import com.pranshulgg.weathermaster.core.utils.locale.getCurrentAppLocale
 import com.pranshulgg.weathermaster.core.utils.weather.UnitConverter
 import kotlin.math.roundToInt
 
@@ -47,10 +42,10 @@ fun WindBlock(
     context: Context,
     isDaily: Boolean,
     dailyIndex: Int,
-    units: AppWeatherUnits
+    units: WeatherUnits
 ) {
 
-    val windDirectionDominant = if (isDaily) {
+    val windDirection = if (isDaily) {
         weather.daily[dailyIndex].windDirection
     } else {
         weather.current.windDirection
@@ -71,13 +66,13 @@ fun WindBlock(
                 .fillMaxSize()
                 .aspectRatio(1f)
         ) {
-            if (windDirectionDominant != null) {
+            if (windDirection != null) {
                 Image(
                     painter = painterResource(id = R.drawable.weather_wind_arrow_dominant),
                     contentDescription = "",
                     modifier = Modifier
                         .matchParentSize()
-                        .rotate(windDirectionDominant.toFloat()),
+                        .rotate(WindDirection.toDegrees(windDirection).toFloat()),
                     colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inversePrimary)
                 )
             }
@@ -107,9 +102,9 @@ fun WindBlock(
             }
 
 
-            if (windDirectionDominant != null) {
+            if (windDirection != null) {
                 Text(
-                    "From ${getWindDirectionValue(windDirectionDominant)?.name ?: "N/A"}",
+                    "From $windDirection",
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier
                         .align(Alignment.BottomCenter)

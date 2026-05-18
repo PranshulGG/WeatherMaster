@@ -1,7 +1,6 @@
 package com.pranshulgg.weathermaster.feature.shared.components.blocks
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,11 +15,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.pranshulgg.weathermaster.core.model.domain.AirQuality
-import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
-import com.pranshulgg.weathermaster.core.model.domain.Weather
-import com.pranshulgg.weathermaster.core.model.domain.WeatherBlock
-import com.pranshulgg.weathermaster.core.model.domain.WeatherBlockType
+import com.pranshulgg.weathermaster.core.model.domain.airquality.AirQuality
+import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherUnits
+import com.pranshulgg.weathermaster.core.model.domain.weather.Weather
+import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherBlock
+import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherBlockType
 import com.pranshulgg.weathermaster.core.model.weather.PrecipitationUnits
 import com.pranshulgg.weathermaster.core.utils.weather.UnitConverter
 import com.pranshulgg.weathermaster.core.utils.weather.cache.isCurrentAirQualitySafe
@@ -51,7 +50,7 @@ private fun shouldShow(block: WeatherBlock, rules: BlockRules): Boolean {
 fun WeatherBlocks(
     weather: Weather,
     airQuality: AirQuality?,
-    units: AppWeatherUnits,
+    units: WeatherUnits,
     context: Context,
     blocks: List<WeatherBlock>,
     isDaily: Boolean = false,

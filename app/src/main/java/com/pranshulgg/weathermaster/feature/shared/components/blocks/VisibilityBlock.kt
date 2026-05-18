@@ -22,8 +22,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.weather.DistanceUnits
-import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
-import com.pranshulgg.weathermaster.core.model.domain.Weather
+import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherUnits
+import com.pranshulgg.weathermaster.core.model.domain.weather.Weather
 import com.pranshulgg.weathermaster.core.model.weather.toName
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
 import com.pranshulgg.weathermaster.core.ui.theme.ShadowElevation
@@ -35,7 +35,7 @@ import com.pranshulgg.weathermaster.core.utils.formatters.formatNumbers
 import com.pranshulgg.weathermaster.core.utils.locale.getCurrentAppLocale
 
 @Composable
-fun VisibilityBlock(weather: Weather, units: AppWeatherUnits, context: Context) {
+fun VisibilityBlock(weather: Weather, units: WeatherUnits, context: Context) {
 
     val visibility = UnitConverter.convertDistance(
         weather.current.visibility?.toDouble() ?: 0.0,

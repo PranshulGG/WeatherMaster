@@ -22,7 +22,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pranshulgg.weathermaster.R
-import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
+import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weathermaster.core.model.weather.toName
 import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
@@ -32,7 +32,7 @@ import com.pranshulgg.weathermaster.core.ui.theme.ShadowElevation
 fun SnowBlock(
     snowForTheDay: Double,
     context: Context,
-    units: AppWeatherUnits
+    units: WeatherUnits
 ) {
 
 

@@ -33,13 +33,12 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weathermaster.R
-import com.pranshulgg.weathermaster.core.model.domain.Weather
+import com.pranshulgg.weathermaster.core.model.domain.weather.Weather
 import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
 import com.pranshulgg.weathermaster.core.ui.theme.ShadowElevation
 import com.pranshulgg.weathermaster.core.utils.formatters.to12HourTimeString
 import com.pranshulgg.weathermaster.core.utils.weather.cache.isWeatherDailyDomainSafe
-import java.time.Instant
 
 @Composable
 fun SunBlock(weather: Weather, dailyIndex: Int) {
@@ -82,9 +81,11 @@ fun SunBlock(weather: Weather, dailyIndex: Int) {
             val sunBitmap = ImageBitmap.imageResource(id = R.drawable.sun_rise_set_icon)
 
 
-            Canvas(modifier = Modifier
-                .fillMaxSize()
-                .alpha(if (dailyIndex != 0) 0f else 1f)) {
+            Canvas(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .alpha(if (dailyIndex != 0) 0f else 1f)
+            ) {
 
                 val width = size.width
                 val height = size.height
