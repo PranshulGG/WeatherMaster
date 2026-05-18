@@ -143,5 +143,10 @@
     <string name="weather_average">Average</string>
     <string name="weather_rain_block">Rain</string>
     <string name="weather_snow_block">Snow</string>
+    <string name="search_source">Search source</string>
+    <string name="weather_source">Weather source</string>
+    <string name="weather_sources">Weather sources</string>
+    <string name="sources">Sources</string>
+    <string name="source">Source</string>
 </resources>
 <!--<string name=""></string>-->
