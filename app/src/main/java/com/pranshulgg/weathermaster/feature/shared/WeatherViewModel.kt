@@ -1,6 +1,5 @@
 package com.pranshulgg.weathermaster.feature.shared
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -10,7 +9,7 @@ import com.pranshulgg.weathermaster.core.model.domain.Location
 import com.pranshulgg.weathermaster.core.model.domain.WeatherBlock
 import com.pranshulgg.weathermaster.core.model.domain.toAppException
 import com.pranshulgg.weathermaster.core.model.domain.toMessageRes
-import com.pranshulgg.weathermaster.core.model.providers.WeatherProvider
+import com.pranshulgg.weathermaster.core.model.sources.WeatherSource
 import com.pranshulgg.weathermaster.core.model.weather.WeatherResult
 import com.pranshulgg.weathermaster.core.model.weather.airquality.AirQualityResult
 import com.pranshulgg.weathermaster.core.network.airquality.openmeteo.OpenMeteoAqiRepository
@@ -92,7 +91,7 @@ class WeatherViewModel @Inject constructor(
 
     fun getWeather(
         location: Location,
-        provider: WeatherProvider,
+        source: WeatherSource,
         isManualRefresh: Boolean = false
     ) {
         weatherJob?.cancel()
@@ -117,7 +116,7 @@ class WeatherViewModel @Inject constructor(
                 }
             }
 
-            handleWeatherData(provider, location, isManualRefresh)
+            handleWeatherData(source, location, isManualRefresh)
 
             val elapsed = System.currentTimeMillis() - startTime
             val minLoadingTime = 1000L // 1s
@@ -150,7 +149,7 @@ class WeatherViewModel @Inject constructor(
 
     fun setActiveLocation(location: Location) {
         _uiState.value = _uiState.value.copy(activeLocation = location)
-        getWeather(location, location.provider)
+        getWeather(location, location.source)
 
     }
 
@@ -191,11 +190,11 @@ class WeatherViewModel @Inject constructor(
     }
 
     private suspend fun handleWeatherData(
-        provider: WeatherProvider,
+        source: WeatherSource,
         location: Location,
         isManualRefresh: Boolean
     ) {
-        val repo = repo.getRepository(provider)
+        val repo = repo.getRepository(source)
 
         when (val result = repo.getWeather(location, isManualRefresh)) {
 

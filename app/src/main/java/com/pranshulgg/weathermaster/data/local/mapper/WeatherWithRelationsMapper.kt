@@ -33,7 +33,7 @@ fun WeatherWithRelations.toDomain(): Weather {
             timezone = location.timezone,
             countryCode = location.countryCode,
             state = location.state ?: "",
-            provider = location.provider,
+            source = location.source,
             isFavorite = location.isFavorite,
             isPinned = location.isPinned,
             isDefault = location.isDefault

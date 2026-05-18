@@ -1,6 +1,6 @@
 package com.pranshulgg.weathermaster.core.prefs
 
-import com.pranshulgg.weathermaster.core.model.providers.SearchProvider
+import com.pranshulgg.weathermaster.core.model.sources.SearchSource
 import com.pranshulgg.weathermaster.core.ui.theme.ThemeVariantType
 
 
@@ -20,8 +20,8 @@ data class AppPrefsState(
     val themeVariantType: ThemeVariantType,
     val setThemeVariantType: (ThemeVariantType) -> Unit,
 
-    val searchProvider: SearchProvider,
-    val setSearchProvider: (SearchProvider) -> Unit
+    val searchSource: SearchSource,
+    val setSearchSource: (SearchSource) -> Unit
 
 )
 

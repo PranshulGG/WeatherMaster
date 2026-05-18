@@ -119,7 +119,7 @@ fun MainScreen(navController: NavController) {
                     if (activeLocation != null) {
                         weatherViewModel.getWeather(
                             activeLocation,
-                            activeLocation.provider,
+                            activeLocation.source,
                             isManualRefresh = true
                         )
                     }
