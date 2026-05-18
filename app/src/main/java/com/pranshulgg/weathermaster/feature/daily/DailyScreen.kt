@@ -1,9 +1,5 @@
 package com.pranshulgg.weathermaster.feature.daily
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,9 +20,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pranshulgg.weathermaster.R
-import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
-import com.pranshulgg.weathermaster.core.model.domain.Weather
-import com.pranshulgg.weathermaster.core.model.domain.WeatherBlock
+import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherUnits
+import com.pranshulgg.weathermaster.core.model.domain.weather.Weather
+import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherBlock
 import com.pranshulgg.weathermaster.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weathermaster.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weathermaster.core.utils.formatters.toMilliseconds
@@ -40,7 +36,7 @@ import java.time.ZonedDateTime
 
 data class DailyScreenUiState(
     val weather: Weather? = null,
-    val units: AppWeatherUnits = AppWeatherUnits.getDefault(),
+    val units: WeatherUnits = WeatherUnits.getDefault(),
     val blocks: List<WeatherBlock> = WeatherBlock.getDefaultForDaily()
 )
 

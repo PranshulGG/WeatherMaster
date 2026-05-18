@@ -8,17 +8,16 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import androidx.compose.runtime.State
 import androidx.lifecycle.viewModelScope
-import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
-import com.pranshulgg.weathermaster.core.model.domain.WeatherBlock
-import com.pranshulgg.weathermaster.data.repository.AppWeatherUnitsRepository
+import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherUnits
+import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherBlock
+import com.pranshulgg.weathermaster.data.repository.WeatherUnitsRepository
 import com.pranshulgg.weathermaster.data.repository.WeatherDataRepository
-import com.pranshulgg.weathermaster.feature.main.MainScreenUiState
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class DailyScreenViewModel @Inject constructor(
     private val locationsRepo: LocationsRepository,
-    private val weatherUnitsRepository: AppWeatherUnitsRepository,
+    private val weatherUnitsRepository: WeatherUnitsRepository,
     private val weatherDataRepository: WeatherDataRepository
 ) : ViewModel() {
 
@@ -36,7 +35,7 @@ class DailyScreenViewModel @Inject constructor(
     fun getUnitsOnce() {
         viewModelScope.launch {
             val units = weatherUnitsRepository.getUnitsOnce()
-            _uiState.value = _uiState.value.copy(units = units ?: AppWeatherUnits.getDefault())
+            _uiState.value = _uiState.value.copy(units = units ?: WeatherUnits.getDefault())
         }
     }
 

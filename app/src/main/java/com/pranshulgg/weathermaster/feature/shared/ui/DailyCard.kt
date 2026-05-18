@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.weather.TemperatureUnits
-import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
-import com.pranshulgg.weathermaster.core.model.domain.Weather
+import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherUnits
+import com.pranshulgg.weathermaster.core.model.domain.weather.Weather
 import com.pranshulgg.weathermaster.core.model.weather.toIcon
 import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.WeatherIconBox
@@ -30,12 +30,11 @@ import com.pranshulgg.weathermaster.core.utils.formatters.toWeekdayString
 import com.pranshulgg.weathermaster.core.utils.weather.UnitConverter
 import com.pranshulgg.weathermaster.core.utils.weather.cache.isWeatherDailyDomainSafe
 import com.pranshulgg.weathermaster.feature.shared.components.CardsHeader
-import java.time.Instant
 import kotlin.math.roundToInt
 
 
 @Composable
-fun DailyCard(weather: Weather, units: AppWeatherUnits, navController: NavController) {
+fun DailyCard(weather: Weather, units: WeatherUnits, navController: NavController) {
 
     if (!isWeatherDailyDomainSafe(weather)) return
 
@@ -99,7 +98,7 @@ private fun DailyItem(
     minTemp: Double,
     icon: Int,
     precipitationProbability: Int,
-    units: AppWeatherUnits,
+    units: WeatherUnits,
     onDailyItemClick: () -> Unit
 ) {
     val maxTemp = UnitConverter.convertTemp(

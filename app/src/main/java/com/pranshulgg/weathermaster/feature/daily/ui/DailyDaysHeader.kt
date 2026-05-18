@@ -8,8 +8,8 @@ import androidx.compose.material3.MotionScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
-import com.pranshulgg.weathermaster.core.model.domain.Weather
+import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherUnits
+import com.pranshulgg.weathermaster.core.model.domain.weather.Weather
 import com.pranshulgg.weathermaster.core.model.weather.TemperatureUnits
 import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.utils.formatters.toWeekdayString
@@ -20,7 +20,7 @@ import kotlin.math.roundToInt
 @Composable
 fun DailyDaysHeader(
     weather: Weather,
-    units: AppWeatherUnits,
+    units: WeatherUnits,
     onSelect: (Int) -> Unit,
     selectedIndex: Int
 ) {

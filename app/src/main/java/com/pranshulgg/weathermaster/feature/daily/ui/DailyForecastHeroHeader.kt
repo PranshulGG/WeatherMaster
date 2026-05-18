@@ -11,10 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
-import com.pranshulgg.weathermaster.core.model.domain.Location
-import com.pranshulgg.weathermaster.core.model.domain.WeatherDaily
+import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherUnits
+import com.pranshulgg.weathermaster.core.model.domain.location.Location
+import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherDaily
 import com.pranshulgg.weathermaster.core.model.weather.TemperatureUnits
 import com.pranshulgg.weathermaster.core.model.weather.toIcon
 import com.pranshulgg.weathermaster.core.model.weather.toLabel
@@ -29,7 +28,7 @@ import kotlin.math.roundToInt
 fun DailyForecastHeroHeader(
     daily: WeatherDaily,
     location: Location,
-    units: AppWeatherUnits
+    units: WeatherUnits
 ) {
 
     val date = toDateString(daily.time, location.timezone)
