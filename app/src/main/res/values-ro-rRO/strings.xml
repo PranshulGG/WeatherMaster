@@ -145,5 +145,7 @@
     <string name="weather_sources">Weather sources</string>
     <string name="sources">Sources</string>
     <string name="source">Source</string>
+    <string name="recommended_sources">Recommended sources</string>
+    <string name="global_sources">Global sources</string>
 </resources>
 <!--<string name=""></string>-->
