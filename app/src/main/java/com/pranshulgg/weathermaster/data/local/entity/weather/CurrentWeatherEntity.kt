@@ -1,9 +1,11 @@
-package com.pranshulgg.weathermaster.data.local.entity
+package com.pranshulgg.weathermaster.data.local.entity.weather
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import com.pranshulgg.weathermaster.core.model.weather.WeatherCondition
+import com.pranshulgg.weathermaster.core.model.weather.wind.WindDirection
+import com.pranshulgg.weathermaster.data.local.entity.location.WeatherLocationEntity
 
 @Entity(
     tableName = "weather_current",
@@ -12,7 +14,7 @@ import com.pranshulgg.weathermaster.core.model.weather.WeatherCondition
             entity = WeatherLocationEntity::class,
             parentColumns = ["id"],
             childColumns = ["locationId"],
-            onDelete = ForeignKey.CASCADE
+            onDelete = ForeignKey.Companion.CASCADE
         )
     ],
     indices = [Index("locationId")],
@@ -24,7 +26,7 @@ data class CurrentWeatherEntity(
     val temperature: Double,
     val humidity: Double,
     val windSpeed: Double,
-    val windDirection: Int?,
+    val windDirection: WindDirection?,
     val pressureMsl: Double,
     val visibility: Int?,
     val cloudCover: Double?,

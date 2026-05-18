@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import com.pranshulgg.weathermaster.core.model.weather.WeatherCondition
-import com.pranshulgg.weathermaster.core.model.domain.Weather
+import com.pranshulgg.weathermaster.core.model.domain.weather.Weather
 import com.pranshulgg.weathermaster.core.ui.theme.isThemeDark
 import com.pranshulgg.weathermaster.core.utils.weather.cache.isWeatherDomainSafe
 
