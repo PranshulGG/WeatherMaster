@@ -2,7 +2,7 @@ package com.pranshulgg.weathermaster.feature.main.ui.weatherAnimations
 
 import androidx.compose.runtime.Composable
 import com.pranshulgg.weathermaster.core.model.weather.WeatherCondition
-import com.pranshulgg.weathermaster.core.model.domain.Weather
+import com.pranshulgg.weathermaster.core.model.domain.weather.Weather
 
 @Composable
 fun WeatherAnimations(weather: Weather) {

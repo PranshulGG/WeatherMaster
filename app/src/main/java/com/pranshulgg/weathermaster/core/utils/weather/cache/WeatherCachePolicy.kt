@@ -1,10 +1,10 @@
 package com.pranshulgg.weathermaster.core.utils.weather.cache
 
-import com.pranshulgg.weathermaster.core.model.domain.Weather
+import com.pranshulgg.weathermaster.core.model.domain.weather.Weather
 import com.pranshulgg.weathermaster.core.model.weather.WeatherResultType
 import com.pranshulgg.weathermaster.core.utils.weather.cache.CacheConfig.AUTO_REFRESH_MAX_MINUTES
 import com.pranshulgg.weathermaster.core.utils.weather.cache.CacheConfig.MANUAL_REFRESH_MINUTES
-import com.pranshulgg.weathermaster.data.local.entity.WeatherWithRelations
+import com.pranshulgg.weathermaster.data.local.entity.weather.WeatherWithRelations
 import java.util.concurrent.TimeUnit
 
 fun isWeatherCacheSafe(cache: WeatherWithRelations?): Boolean {

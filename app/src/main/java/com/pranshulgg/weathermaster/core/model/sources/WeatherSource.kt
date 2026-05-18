@@ -1,20 +1,24 @@
 package com.pranshulgg.weathermaster.core.model.sources
 
-enum class WeatherSource {
-    OPEN_METEO
+enum class WeatherSource(val displayName: String) {
+    OPEN_METEO("Open Meteo"),
+    NWS("NWS (United States)")
 }
 
-
-fun WeatherSource.toName(): String {
-    return when (this) {
-        WeatherSource.OPEN_METEO -> "Open Meteo"
-    }
-}
 
 // WE MAP EVERY WEATHER SOURCE HERE, AS THEY GET ADDED
-fun weatherProviderGetForCountry(countryCode: String): List<WeatherSource> {
-    return when (countryCode) {
-        "US" -> listOf(WeatherSource.OPEN_METEO)
-        else -> emptyList() // IF NOT FOUND
-    }
+private val weatherSourcesByCountry = mapOf(
+    "US" to listOf(WeatherSource.NWS) // TODO: WEATHER SOURCE NOT IMPLEMENTED
+)
+
+fun getWeatherSourcesForCountry(countryCode: String): List<WeatherSource> {
+    return weatherSourcesByCountry[countryCode] ?: emptyList()
+}
+
+
+// GLOBAL SOURCES
+private val weatherSourcesGlobal = listOf(WeatherSource.OPEN_METEO)
+
+fun getWeatherSourcesGlobal(): List<WeatherSource> {
+    return weatherSourcesGlobal
 }

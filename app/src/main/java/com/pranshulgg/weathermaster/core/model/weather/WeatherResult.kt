@@ -1,6 +1,6 @@
 package com.pranshulgg.weathermaster.core.model.weather
 
-import com.pranshulgg.weathermaster.core.model.domain.Weather
+import com.pranshulgg.weathermaster.core.model.domain.weather.Weather
 
 sealed class WeatherResult {
     data class Success(val weather: Weather) : WeatherResult()

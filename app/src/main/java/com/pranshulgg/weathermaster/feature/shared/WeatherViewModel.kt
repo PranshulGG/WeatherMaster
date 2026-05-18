@@ -5,19 +5,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pranshulgg.weathermaster.R
-import com.pranshulgg.weathermaster.core.model.domain.Location
-import com.pranshulgg.weathermaster.core.model.domain.WeatherBlock
+import com.pranshulgg.weathermaster.core.model.domain.location.Location
+import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherBlock
 import com.pranshulgg.weathermaster.core.model.domain.toAppException
 import com.pranshulgg.weathermaster.core.model.domain.toMessageRes
 import com.pranshulgg.weathermaster.core.model.sources.WeatherSource
 import com.pranshulgg.weathermaster.core.model.weather.WeatherResult
 import com.pranshulgg.weathermaster.core.model.weather.airquality.AirQualityResult
-import com.pranshulgg.weathermaster.core.network.airquality.openmeteo.OpenMeteoAqiRepository
+import com.pranshulgg.weathermaster.core.network.sources.airquality.openmeteo.OpenMeteoAqiRepository
 import com.pranshulgg.weathermaster.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weathermaster.data.provider.WeatherRepositoryProvider
-import com.pranshulgg.weathermaster.data.repository.AppWeatherUnitsRepository
 import com.pranshulgg.weathermaster.data.repository.LocationsRepository
-import com.pranshulgg.weathermaster.data.repository.WeatherDataRepository
+import com.pranshulgg.weathermaster.data.repository.WeatherBlocksRepository
+import com.pranshulgg.weathermaster.data.repository.WeatherUnitsRepository
 import com.pranshulgg.weathermaster.feature.main.MainScreenUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -34,8 +34,8 @@ import javax.inject.Inject
 class WeatherViewModel @Inject constructor(
     private val repo: WeatherRepositoryProvider,
     private val locationsRepo: LocationsRepository,
-    appWeatherUnitsRepo: AppWeatherUnitsRepository,
-    private val weatherDataRepository: WeatherDataRepository,
+    appWeatherUnitsRepo: WeatherUnitsRepository,
+    private val weatherBlocksRepository: WeatherBlocksRepository,
     private val openMeteoAqiRepository: OpenMeteoAqiRepository
 ) : ViewModel() {
 
@@ -161,7 +161,7 @@ class WeatherViewModel @Inject constructor(
         _uiState.value = _uiState.value.copy(blocks = items)
 
         viewModelScope.launch {
-            weatherDataRepository.saveBlocks(items.map {
+            weatherBlocksRepository.saveBlocks(items.map {
                 WeatherBlock(
                     type = it.type,
                     isHidden = false,
@@ -177,7 +177,7 @@ class WeatherViewModel @Inject constructor(
 
     fun loadBlocks() {
         viewModelScope.launch {
-            val loadedBlocks = weatherDataRepository.loadBlocks()
+            val loadedBlocks = weatherBlocksRepository.loadBlocks()
             _uiState.value = _uiState.value.copy(blocks = loadedBlocks)
         }
     }

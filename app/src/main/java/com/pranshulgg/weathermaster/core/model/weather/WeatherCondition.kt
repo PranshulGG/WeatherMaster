@@ -2,7 +2,7 @@ package com.pranshulgg.weathermaster.core.model.weather
 
 import android.content.Context
 import com.pranshulgg.weathermaster.R
-import com.pranshulgg.weathermaster.core.model.domain.WeatherDaily
+import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherDaily
 
 enum class WeatherCondition {
     CLEAR_SKY,
