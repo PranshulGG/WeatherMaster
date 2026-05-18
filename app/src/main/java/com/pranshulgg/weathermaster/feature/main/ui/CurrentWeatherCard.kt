@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.weather.TemperatureUnits
-import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
-import com.pranshulgg.weathermaster.core.model.domain.Weather
+import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherUnits
+import com.pranshulgg.weathermaster.core.model.domain.weather.Weather
 import com.pranshulgg.weathermaster.core.model.weather.toIcon
 import com.pranshulgg.weathermaster.core.model.weather.toLabel
 import com.pranshulgg.weathermaster.core.ui.components.Gap
@@ -32,7 +32,7 @@ import kotlin.math.roundToInt
 @Composable
 fun CurrentWeatherCard(
     weather: Weather,
-    units: AppWeatherUnits,
+    units: WeatherUnits,
     context: Context
 ) {
 
@@ -54,7 +54,7 @@ fun CurrentWeatherCard(
 }
 
 @Composable
-private fun CardRowContent(weather: Weather, units: AppWeatherUnits, context: Context) {
+private fun CardRowContent(weather: Weather, units: WeatherUnits, context: Context) {
 
     val colorScheme = MaterialTheme.colorScheme
     val current = weather.current
@@ -107,7 +107,7 @@ private fun CardRowContent(weather: Weather, units: AppWeatherUnits, context: Co
 
 
 @Composable
-private fun MinMaxTempRow(weather: Weather, units: AppWeatherUnits, context: Context) {
+private fun MinMaxTempRow(weather: Weather, units: WeatherUnits, context: Context) {
 
 
     val colorScheme = MaterialTheme.colorScheme

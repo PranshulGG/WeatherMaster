@@ -1,10 +1,9 @@
 package com.pranshulgg.weathermaster.data.local.mapper.airquality
 
-import com.pranshulgg.weathermaster.core.model.domain.AirQuality
-import com.pranshulgg.weathermaster.core.model.domain.AirQualityCurrent
-import com.pranshulgg.weathermaster.core.network.airquality.openmeteo.OpenMeteoAqiDto
-import com.pranshulgg.weathermaster.data.local.entity.CurrentAirQualityEntity
-import java.time.Instant
+import com.pranshulgg.weathermaster.core.model.domain.airquality.AirQuality
+import com.pranshulgg.weathermaster.core.model.domain.airquality.AirQualityCurrent
+import com.pranshulgg.weathermaster.core.network.sources.airquality.openmeteo.OpenMeteoAqiDto
+import com.pranshulgg.weathermaster.data.local.entity.airquality.CurrentAirQualityEntity
 
 fun OpenMeteoAqiDto.toDomain(): AirQuality =
     AirQuality(
