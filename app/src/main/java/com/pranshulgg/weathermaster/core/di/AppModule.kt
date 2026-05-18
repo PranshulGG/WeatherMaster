@@ -1,26 +1,28 @@
 package com.pranshulgg.weathermaster.core.di
 
 import android.content.Context
-import com.pranshulgg.weathermaster.core.network.airquality.openmeteo.OpenMeteoAqiApi
-import com.pranshulgg.weathermaster.core.network.airquality.openmeteo.OpenMeteoAqiRepository
-import com.pranshulgg.weathermaster.core.network.openmeteo.OpenMeteoApi
-import com.pranshulgg.weathermaster.core.network.openmeteo.OpenMeteoRepository
-import com.pranshulgg.weathermaster.core.network.search.geonames.GeoNamesSearchApi
-import com.pranshulgg.weathermaster.core.network.search.geonames.GeoNamesSearchRepository
-import com.pranshulgg.weathermaster.core.network.search.geonames.GeoNamesTimezoneApi
-import com.pranshulgg.weathermaster.core.network.search.geonames.GeoNamesTimezoneRepository
-import com.pranshulgg.weathermaster.core.network.search.openmeteo.OpenMeteoSearchApi
-import com.pranshulgg.weathermaster.core.network.search.openmeteo.OpenMeteoSearchRepository
+import com.pranshulgg.weathermaster.core.network.sources.airquality.openmeteo.OpenMeteoAqiApi
+import com.pranshulgg.weathermaster.core.network.sources.airquality.openmeteo.OpenMeteoAqiRepository
+import com.pranshulgg.weathermaster.core.network.sources.search.geonames.GeoNamesSearchApi
+import com.pranshulgg.weathermaster.core.network.sources.search.geonames.GeoNamesSearchRepository
+import com.pranshulgg.weathermaster.core.network.sources.search.geonames.GeoNamesTimezoneApi
+import com.pranshulgg.weathermaster.core.network.sources.search.geonames.GeoNamesTimezoneRepository
+import com.pranshulgg.weathermaster.core.network.sources.search.openmeteo.OpenMeteoSearchApi
+import com.pranshulgg.weathermaster.core.network.sources.search.openmeteo.OpenMeteoSearchRepository
+import com.pranshulgg.weathermaster.core.network.sources.weather.nws.NwsApi
+import com.pranshulgg.weathermaster.core.network.sources.weather.nws.NwsRepository
+import com.pranshulgg.weathermaster.core.network.sources.weather.openmeteo.OpenMeteoApi
+import com.pranshulgg.weathermaster.core.network.sources.weather.openmeteo.OpenMeteoRepository
 import com.pranshulgg.weathermaster.data.local.WeatherMasterDatabase
-import com.pranshulgg.weathermaster.data.local.dao.AirQualityDao
-import com.pranshulgg.weathermaster.data.local.dao.AppWeatherUnitsDao
-import com.pranshulgg.weathermaster.data.local.dao.WeatherBlocksDao
-import com.pranshulgg.weathermaster.data.local.dao.WeatherDataDao
-import com.pranshulgg.weathermaster.data.local.dao.WeatherLocationDao
-import com.pranshulgg.weathermaster.data.repository.AppWeatherUnitsRepository
+import com.pranshulgg.weathermaster.data.local.dao.airquality.AirQualityDao
+import com.pranshulgg.weathermaster.data.local.dao.location.LocationsDao
+import com.pranshulgg.weathermaster.data.local.dao.weather.WeatherBlocksDao
+import com.pranshulgg.weathermaster.data.local.dao.weather.WeatherDao
+import com.pranshulgg.weathermaster.data.local.dao.weather.WeatherUnitsDao
+import com.pranshulgg.weathermaster.data.local.dao.weather.nws.NwsDao
 import com.pranshulgg.weathermaster.data.repository.LocationsRepository
-import com.pranshulgg.weathermaster.data.repository.SearchRepository
-import com.pranshulgg.weathermaster.data.repository.WeatherDataRepository
+import com.pranshulgg.weathermaster.data.repository.WeatherBlocksRepository
+import com.pranshulgg.weathermaster.data.repository.WeatherUnitsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,16 +42,16 @@ object AppModule {
         WeatherMasterDatabase.getInstance(context)
 
     @Provides
-    fun provideWeatherLocationDao(db: WeatherMasterDatabase) =
-        db.weatherLocationDao()
+    fun provideLocationDao(db: WeatherMasterDatabase) =
+        db.locationsDao()
 
     @Provides
     fun provideWeatherDataDao(db: WeatherMasterDatabase) =
-        db.weatherDataDao()
+        db.weatherDao()
 
     @Provides
-    fun provideAppWeatherUnitsDao(db: WeatherMasterDatabase) =
-        db.appWeatherUnitsDao()
+    fun provideWeatherUnitsDao(db: WeatherMasterDatabase) =
+        db.weatherUnitsDao()
 
     @Provides
     fun provideWeatherBlocksDao(db: WeatherMasterDatabase) =
@@ -57,6 +59,9 @@ object AppModule {
 
     @Provides
     fun provideAirQualityDao(db: WeatherMasterDatabase) = db.airQualityDao()
+
+    @Provides
+    fun provideNwsDao(db: WeatherMasterDatabase) = db.nwsDao()
 
     @Provides
     @Singleton
@@ -80,32 +85,36 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideNwsApi(): NwsApi = NwsApi.create()
+
+    @Provides
+    @Singleton
     fun provideOpenMeteoRepository(
-        dao: WeatherDataDao,
-        api: OpenMeteoApi
-    ): OpenMeteoRepository = OpenMeteoRepository(dao, api)
+        dao: LocationsDao,
+        api: OpenMeteoApi,
+        weatherDao: WeatherDao
+    ): OpenMeteoRepository = OpenMeteoRepository(dao, weatherDao, api)
 
 
     @Provides
     @Singleton
     fun provideLocationsRepository(
-        dao: WeatherLocationDao,
+        dao: LocationsDao,
         @ApplicationContext context: Context
     ): LocationsRepository = LocationsRepository(dao, context)
 
 
     @Provides
     @Singleton
-    fun provideAppWeatherUnitsRepositort(dao: AppWeatherUnitsDao): AppWeatherUnitsRepository =
-        AppWeatherUnitsRepository(dao)
+    fun provideWeatherUnitsRepository(dao: WeatherUnitsDao): WeatherUnitsRepository =
+        WeatherUnitsRepository(dao)
 
     @Provides
     @Singleton
-    fun provideWeatherDataRepository(
-        dao: WeatherDataDao,
+    fun provideWeatherBlocksRepository(
         weatherBlocksDao: WeatherBlocksDao
-    ): WeatherDataRepository =
-        WeatherDataRepository(dao, weatherBlocksDao)
+    ): WeatherBlocksRepository =
+        WeatherBlocksRepository(weatherBlocksDao)
 
     @Provides
     @Singleton
@@ -131,4 +140,13 @@ object AppModule {
         dao: AirQualityDao
     ): OpenMeteoAqiRepository =
         OpenMeteoAqiRepository(api, dao)
+
+    @Provides
+    @Singleton
+    fun provideNwsRepository(
+        api: NwsApi,
+        dao: LocationsDao,
+        weatherDao: WeatherDao,
+        nwsDao: NwsDao
+    ): NwsRepository = NwsRepository(dao, weatherDao, nwsDao, api)
 }
