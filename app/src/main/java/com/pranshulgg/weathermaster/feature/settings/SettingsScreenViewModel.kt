@@ -7,7 +7,7 @@ import com.pranshulgg.weathermaster.core.model.weather.PrecipitationUnits
 import com.pranshulgg.weathermaster.core.model.weather.PressureUnits
 import com.pranshulgg.weathermaster.core.model.weather.TemperatureUnits
 import com.pranshulgg.weathermaster.core.model.weather.WindSpeedUnits
-import com.pranshulgg.weathermaster.data.repository.AppWeatherUnitsRepository
+import com.pranshulgg.weathermaster.data.repository.WeatherUnitsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class SettingsScreenViewModel @Inject constructor(
-    private val weatherUnitsRepo: AppWeatherUnitsRepository
+    private val weatherUnitsRepo: WeatherUnitsRepository
 ) : ViewModel() {
 
     val weatherUnits = weatherUnitsRepo.getUnits().stateIn(
