@@ -1,10 +1,10 @@
 package com.pranshulgg.weathermaster.core.utils.weather.cache
 
-import com.pranshulgg.weathermaster.core.model.domain.AirQuality
+import com.pranshulgg.weathermaster.core.model.domain.airquality.AirQuality
 import com.pranshulgg.weathermaster.core.model.weather.airquality.AirQualityResultType
 import com.pranshulgg.weathermaster.core.utils.weather.cache.CacheConfig.AUTO_REFRESH_MAX_MINUTES
 import com.pranshulgg.weathermaster.core.utils.weather.cache.CacheConfig.MANUAL_REFRESH_MINUTES
-import com.pranshulgg.weathermaster.data.local.entity.AirQualityWithRelations
+import com.pranshulgg.weathermaster.data.local.entity.airquality.AirQualityWithRelations
 import java.util.concurrent.TimeUnit
 
 

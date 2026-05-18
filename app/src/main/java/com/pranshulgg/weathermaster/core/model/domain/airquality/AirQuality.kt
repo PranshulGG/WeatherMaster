@@ -1,4 +1,4 @@
-package com.pranshulgg.weathermaster.core.model.domain
+package com.pranshulgg.weathermaster.core.model.domain.airquality
 
 import com.pranshulgg.weathermaster.core.model.weather.airquality.AirQualityLevel
 import kotlin.math.roundToInt

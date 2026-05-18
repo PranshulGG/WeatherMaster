@@ -1,9 +1,8 @@
 package com.pranshulgg.weathermaster.data.local.mapper.airquality
 
-import com.pranshulgg.weathermaster.core.model.domain.AirQuality
-import com.pranshulgg.weathermaster.core.model.domain.AirQualityCurrent
-import com.pranshulgg.weathermaster.data.local.entity.AirQualityWithRelations
-import java.time.Instant
+import com.pranshulgg.weathermaster.core.model.domain.airquality.AirQuality
+import com.pranshulgg.weathermaster.core.model.domain.airquality.AirQualityCurrent
+import com.pranshulgg.weathermaster.data.local.entity.airquality.AirQualityWithRelations
 
 
 fun AirQualityWithRelations.toDomain(): AirQuality {

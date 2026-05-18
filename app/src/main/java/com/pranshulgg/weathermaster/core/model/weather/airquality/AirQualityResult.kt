@@ -1,6 +1,6 @@
 package com.pranshulgg.weathermaster.core.model.weather.airquality
 
-import com.pranshulgg.weathermaster.core.model.domain.AirQuality
+import com.pranshulgg.weathermaster.core.model.domain.airquality.AirQuality
 
 
 sealed class AirQualityResult {
