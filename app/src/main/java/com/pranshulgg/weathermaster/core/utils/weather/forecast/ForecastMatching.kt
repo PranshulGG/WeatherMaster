@@ -1,7 +1,7 @@
 package com.pranshulgg.weathermaster.core.utils.weather.forecast
 
-import com.pranshulgg.weathermaster.core.model.domain.WeatherDaily
-import com.pranshulgg.weathermaster.core.model.domain.WeatherHourly
+import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherDaily
+import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherHourly
 import java.time.Instant
 import java.time.ZoneId
 
