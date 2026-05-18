@@ -134,5 +134,10 @@
     <string name="weather_average">平均</string>
     <string name="weather_rain_block">雨</string>
     <string name="weather_snow_block">雪</string>
+    <string name="search_source">Search source</string>
+    <string name="weather_source">Weather source</string>
+    <string name="weather_sources">Weather sources</string>
+    <string name="sources">Sources</string>
+    <string name="source">Source</string>
 </resources>
 <!--<string name=""></string>-->
