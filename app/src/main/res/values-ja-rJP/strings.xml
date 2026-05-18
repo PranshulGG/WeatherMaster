@@ -134,12 +134,12 @@
     <string name="weather_average">平均</string>
     <string name="weather_rain_block">雨</string>
     <string name="weather_snow_block">雪</string>
-    <string name="search_source">Search source</string>
-    <string name="weather_source">Weather source</string>
-    <string name="weather_sources">Weather sources</string>
-    <string name="sources">Sources</string>
-    <string name="source">Source</string>
-    <string name="recommended_sources">Recommended sources</string>
-    <string name="global_sources">Global sources</string>
+    <string name="search_source">検索ソース</string>
+    <string name="weather_source">気象情報のソース</string>
+    <string name="weather_sources">気象情報のソース</string>
+    <string name="sources">ソース</string>
+    <string name="source">ソース</string>
+    <string name="recommended_sources">おすすめのソース</string>
+    <string name="global_sources">グローバルソース</string>
 </resources>
 <!--<string name=""></string>-->
