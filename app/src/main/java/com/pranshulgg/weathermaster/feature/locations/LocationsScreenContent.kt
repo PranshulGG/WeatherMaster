@@ -28,15 +28,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.weather.WeatherCondition
-import com.pranshulgg.weathermaster.core.model.domain.Location
-import com.pranshulgg.weathermaster.core.model.domain.Weather
+import com.pranshulgg.weathermaster.core.model.domain.location.Location
+import com.pranshulgg.weathermaster.core.model.domain.weather.Weather
 import com.pranshulgg.weathermaster.core.model.weather.toIcon
 import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.SettingsTileIcon
 import com.pranshulgg.weathermaster.core.ui.theme.ShapeRadius
 import com.pranshulgg.weathermaster.core.utils.formatters.getLastUpdatedTimeString
 import com.pranshulgg.weathermaster.feature.shared.components.LocationItem
-import java.time.Instant
 
 @Composable
 fun LocationsScreenContent(

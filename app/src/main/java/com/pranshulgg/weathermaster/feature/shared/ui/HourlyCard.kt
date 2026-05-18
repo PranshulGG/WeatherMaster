@@ -25,8 +25,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.weather.TemperatureUnits
-import com.pranshulgg.weathermaster.core.model.domain.AppWeatherUnits
-import com.pranshulgg.weathermaster.core.model.domain.Weather
+import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherUnits
+import com.pranshulgg.weathermaster.core.model.domain.weather.Weather
 import com.pranshulgg.weathermaster.core.model.weather.toIcon
 import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.WeatherIconBox
@@ -45,7 +45,7 @@ import kotlin.math.roundToInt
 @Composable
 fun HourlyCard(
     weather: Weather,
-    units: AppWeatherUnits,
+    units: WeatherUnits,
     currentMilli: Long = ZonedDateTime.now(ZoneId.of(weather.location.timezone)).toEpochSecond()
         .toMilliseconds()
 ) {

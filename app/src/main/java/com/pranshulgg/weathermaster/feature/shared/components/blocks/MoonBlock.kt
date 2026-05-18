@@ -33,13 +33,12 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weathermaster.R
-import com.pranshulgg.weathermaster.core.model.domain.Weather
+import com.pranshulgg.weathermaster.core.model.domain.weather.Weather
 import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.Symbol
 import com.pranshulgg.weathermaster.core.ui.theme.ShadowElevation
 import com.pranshulgg.weathermaster.core.utils.formatters.to12HourTimeString
 import com.pranshulgg.weathermaster.core.utils.weather.cache.isWeatherDailyDomainSafe
-import java.time.Instant
 
 @Composable
 fun MoonBlock(weather: Weather, dailyIndex: Int) {

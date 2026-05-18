@@ -3,14 +3,14 @@ package com.pranshulgg.weathermaster.data.repository
 import android.content.Context
 import androidx.room.Transaction
 import com.pranshulgg.weathermaster.core.model.domain.AppException
-import com.pranshulgg.weathermaster.core.model.domain.Location
-import com.pranshulgg.weathermaster.core.model.domain.Weather
-import com.pranshulgg.weathermaster.data.local.dao.WeatherLocationDao
-import com.pranshulgg.weathermaster.data.local.mapper.toDomain
-import com.pranshulgg.weathermaster.data.local.mapper.toEntity
+import com.pranshulgg.weathermaster.core.model.domain.location.Location
+import com.pranshulgg.weathermaster.core.model.domain.weather.Weather
+import com.pranshulgg.weathermaster.data.local.dao.location.LocationsDao
+import com.pranshulgg.weathermaster.data.local.mapper.locations.toDomain
+import com.pranshulgg.weathermaster.data.local.mapper.locations.toEntity
+import com.pranshulgg.weathermaster.data.local.mapper.weather.toDomain
 import com.pranshulgg.weathermaster.data.provider.DeviceLocation
 import com.pranshulgg.weathermaster.data.provider.GetDeviceLocation
-
 import com.pranshulgg.weathermaster.feature.intro.toDomain
 import dagger.hilt.android.qualifiers.ApplicationContext
 import jakarta.inject.Inject
@@ -21,7 +21,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resumeWithException
 
 class LocationsRepository @Inject constructor(
-    private val dao: WeatherLocationDao,
+    private val dao: LocationsDao,
     @param:ApplicationContext private val context: Context
 ) {
 
@@ -114,5 +114,10 @@ class LocationsRepository @Inject constructor(
             throw AppException.CurrentLocationUnavailable()
         }
         saveLocation(location.toDomain())
+    }
+
+    fun getWeatherForAllLocations(): Flow<List<Weather>> {
+        return dao.getAllLocationsCurrentWeather()
+            .map { list -> list.map { it.toDomain() } }
     }
 }
