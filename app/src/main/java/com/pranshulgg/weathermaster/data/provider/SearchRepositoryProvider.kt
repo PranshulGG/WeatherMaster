@@ -1,8 +1,8 @@
 package com.pranshulgg.weathermaster.data.provider
 
 import com.pranshulgg.weathermaster.core.model.sources.SearchSource
-import com.pranshulgg.weathermaster.core.network.search.geonames.GeoNamesSearchRepository
-import com.pranshulgg.weathermaster.core.network.search.openmeteo.OpenMeteoSearchRepository
+import com.pranshulgg.weathermaster.core.network.sources.search.geonames.GeoNamesSearchRepository
+import com.pranshulgg.weathermaster.core.network.sources.search.openmeteo.OpenMeteoSearchRepository
 import com.pranshulgg.weathermaster.data.repository.SearchRepository
 import javax.inject.Inject
 

@@ -8,10 +8,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.sources.SearchSource
-import com.pranshulgg.weathermaster.core.model.domain.Location
+import com.pranshulgg.weathermaster.core.model.domain.location.Location
 import com.pranshulgg.weathermaster.core.model.domain.toAppException
 import com.pranshulgg.weathermaster.core.model.domain.toMessageRes
-import com.pranshulgg.weathermaster.core.network.search.geonames.GeoNamesTimezoneRepository
+import com.pranshulgg.weathermaster.core.model.sources.WeatherSource
+import com.pranshulgg.weathermaster.core.network.sources.search.geonames.GeoNamesTimezoneRepository
 import com.pranshulgg.weathermaster.core.prefs.AppPrefsState
 import com.pranshulgg.weathermaster.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weathermaster.data.provider.SearchRepositoryProvider
@@ -56,7 +57,14 @@ class SearchScreenViewModel @Inject constructor(
         }
     }
 
-    fun saveLocation(location: Location, onBack: () -> Unit, onReset: () -> Unit) {
+    fun saveLocation(
+        location: Location?,
+        onBack: () -> Unit,
+        onReset: () -> Unit,
+        weatherSource: WeatherSource
+    ) {
+        if (location == null) return
+
         viewModelScope.launch {
             try {
                 val resolved = if (_uiState.value.source == SearchSource.GEO_NAMES) {
@@ -64,7 +72,7 @@ class SearchScreenViewModel @Inject constructor(
                 } else {
                     location
                 }
-                locationsRepo.saveLocation(resolved)
+                locationsRepo.saveLocation(resolved.copy(source = weatherSource))
                 onBack()
             } catch (e: Exception) {
                 val appExpectation = e.toAppException()

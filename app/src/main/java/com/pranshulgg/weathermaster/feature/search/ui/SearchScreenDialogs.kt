@@ -8,7 +8,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.sources.SearchSource
-import com.pranshulgg.weathermaster.core.model.sources.toName
 import com.pranshulgg.weathermaster.core.prefs.AppPrefsState
 import com.pranshulgg.weathermaster.core.ui.components.DialogBasic
 import com.pranshulgg.weathermaster.core.ui.components.RadioRow
@@ -30,7 +29,7 @@ object SearchDialogs {
             mutableStateOf(prefs.searchSource)
         }
 
-        val providers = SearchSource.entries
+        val sources = SearchSource.entries
 
         DialogBasic(
             title = stringResource(R.string.search_provider),
@@ -43,12 +42,12 @@ object SearchDialogs {
             confirmText = stringResource(R.string.action_save),
             dismissText = stringResource(R.string.action_cancel)
         ) {
-            providers.forEach { provider ->
+            sources.forEach { source ->
                 RadioRow(
-                    label = provider.toName(),
+                    label = source.displayName,
                     onClick = { selectedSource = SearchSource.valueOf(it) },
-                    selected = selectedSource == provider,
-                    value = provider.toString()
+                    selected = selectedSource == source,
+                    value = source.toString()
                 )
             }
         }

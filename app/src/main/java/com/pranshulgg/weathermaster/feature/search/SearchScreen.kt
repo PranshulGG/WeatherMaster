@@ -31,10 +31,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pranshulgg.weathermaster.R
-import com.pranshulgg.weathermaster.core.model.domain.Location
+import com.pranshulgg.weathermaster.core.model.domain.location.Location
 import com.pranshulgg.weathermaster.core.model.sources.SearchSource
 import com.pranshulgg.weathermaster.core.model.sources.WeatherSource
-import com.pranshulgg.weathermaster.core.model.sources.toName
 import com.pranshulgg.weathermaster.core.prefs.LocalAppPrefs
 import com.pranshulgg.weathermaster.core.ui.components.EmptyContainerPlaceholder
 import com.pranshulgg.weathermaster.core.ui.components.Gap
@@ -122,7 +121,7 @@ fun SearchScreen(navController: NavController) {
                     Text(
                         stringResource(
                             R.string.search_results_provided,
-                            prefs.searchSource.toName()
+                            prefs.searchSource.displayName
                         ),
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         style = MaterialTheme.typography.bodyMedium,
@@ -141,17 +140,9 @@ fun SearchScreen(navController: NavController) {
                                     }
                                 },
                                 onClick = {
+                                    if (isLocationProcessing) return@ActionTile
                                     selectedLocation = it
                                     viewModel.showWeatherSourcesDialog()
-//                                    if (isLocationProcessing) return@ActionTile
-//
-//                                    viewModel.saveLocation(
-//                                        it,
-//                                        onBack = { navController.popBackStack() },
-//                                        onReset = { isLocationProcessing = false }
-//                                    )
-//
-//                                    isLocationProcessing = true
                                 }
                             )
                         }
@@ -175,7 +166,18 @@ fun SearchScreen(navController: NavController) {
         selectedLocation?.countryCode ?: "US",
         uiState.isWeatherSourcesDialogOpen,
         selectedLocation?.source ?: WeatherSource.OPEN_METEO,
-        onSave = {},
-        onCancel = {})
+        onSave = {
+            viewModel.hideWeatherSourcesDialog()
+            viewModel.saveLocation(
+                selectedLocation,
+                onBack = { navController.popBackStack() },
+                onReset = { isLocationProcessing = false },
+                it
+            )
+
+            isLocationProcessing = true
+        },
+        onCancel = viewModel::hideWeatherSourcesDialog
+    )
 }
 
