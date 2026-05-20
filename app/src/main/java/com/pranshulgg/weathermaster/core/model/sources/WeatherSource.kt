@@ -2,7 +2,7 @@ package com.pranshulgg.weathermaster.core.model.sources
 
 enum class WeatherSource(val displayName: String) {
     OPEN_METEO("Open Meteo"),
-    NWS("NWS (United States)")
+    NWS("National Weather Service")
 }
 
 
@@ -11,7 +11,7 @@ private val weatherSourcesByCountry = mapOf(
     "US" to listOf(WeatherSource.NWS) // TODO: WEATHER SOURCE NOT IMPLEMENTED
 )
 
-fun getWeatherSourcesForCountry(countryCode: String): List<WeatherSource> {
+fun getWeatherSourcesForCountry(countryCode: String?): List<WeatherSource> {
     return weatherSourcesByCountry[countryCode] ?: emptyList()
 }
 
