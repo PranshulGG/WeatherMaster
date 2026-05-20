@@ -8,11 +8,14 @@ import kotlin.math.exp
  * Source: https://www.vcalc.com/wiki/australian-apparent-temperature
  */
 fun computeApparentTemperature(
-    tempC: Double,
-    humidity: Double,
-    windMs: Double
-): Double {
+    tempC: Double?,
+    humidity: Double?,
+    windMs: Double?
+): Double? {
 
+    if (tempC == null || humidity == null || windMs == null) {
+        return null
+    }
     // Estimate moisture in the air
     val vaporPressure =
         (humidity / 100.0) *

@@ -16,10 +16,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.pranshulgg.weathermaster.core.model.domain.airquality.AirQuality
-import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weathermaster.core.model.domain.weather.Weather
 import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherBlock
 import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherBlockType
+import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weathermaster.core.model.weather.PrecipitationUnits
 import com.pranshulgg.weathermaster.core.utils.weather.UnitConverter
 import com.pranshulgg.weathermaster.core.utils.weather.cache.isCurrentAirQualitySafe
@@ -27,7 +27,6 @@ import com.pranshulgg.weathermaster.feature.shared.WeatherViewModel
 import sh.calvin.reorderable.DragGestureDetector
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyGridState
-import kotlin.math.roundToInt
 
 private data class BlockRules(
     val isDaily: Boolean,
@@ -69,6 +68,7 @@ fun WeatherBlocks(
     updatedBlockOrder: (List<WeatherBlock>) -> Unit = {},
     dailyIndex: Int = 0
 ) {
+
 
     val viewModel: WeatherViewModel = hiltViewModel()
 

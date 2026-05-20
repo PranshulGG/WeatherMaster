@@ -1,5 +1,6 @@
 package com.pranshulgg.weathermaster.data.local.mapper.weather.sources.nws
 
+import android.util.Log
 import com.pranshulgg.weathermaster.core.model.domain.location.Location
 import com.pranshulgg.weathermaster.core.model.domain.weather.Weather
 import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherCurrent
@@ -25,6 +26,7 @@ import com.pranshulgg.weathermaster.core.utils.weather.forecast.findHourlyIndexF
 import java.net.UnknownHostException
 import java.time.Duration
 import java.time.Instant
+import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 import kotlin.math.abs
 
@@ -76,11 +78,6 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
 
     val currentTemperature =
         current.temperature.value ?: hourly.periods.getOrNull(currentHourIndex)?.temperature
-        ?: throw Exception(
-            UnknownHostException()
-        )
-
-    val filteredDaily = daily.periods.filter { it.isDayTime }
 
 
     val sunTimings = getSunTimings(
@@ -115,7 +112,7 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
             feelsLike = computeApparentTemperature(
                 currentTemperature,
                 current.relativeHumidity.value,
-                current.windSpeed.value?.kmhToMs() ?: 0.0
+                current.windSpeed.value?.kmhToMs()
             ),
             time = current.timestamp.iso8601TimestampToMilliseconds(),
             dewPoint = hourly.periods[currentHourIndex].dewPoint.value,
@@ -140,9 +137,11 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
                 precipitationProbability = it.probabilityOfPrecipitation.value.toInt()
             )
         },
-        daily = List(filteredDaily.size) {
+        daily = daily.periods.filter { it.isDayTime }.map { item ->
 
-            val item = filteredDaily[it]
+
+            val index = daily.periods.indexOf(item)
+
 
             val time = item.startTime.iso8601TimestampToMilliseconds()
 
@@ -158,14 +157,7 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
             val rainSum = getRainSum(precipitationData.values, time)
             val snowfallSum = getSnowfallSum(snowData.values, time)
 
-            val hourIndexForDaily =
-                findHourlyIndexForTime(
-                    hourly.periods.map { periodTime -> periodTime.startTime.iso8601TimestampToMilliseconds() },
-                    time
-                )
 
-            val dailyIcon = if (!item.icon.isNullOrBlank()) item.icon
-            else hourly.periods.getOrNull(hourIndexForDaily)?.icon
             val windSpeed = fixDailyNwsWindSpeedValue(item.windSpeed)
 
             WeatherDaily(
@@ -176,14 +168,14 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
                 rainSum = rainSum,
                 snowfallSum = snowfallSum.mmToCm(),
                 uvIndexMax = null,
-                weatherCondition = NwsWeatherConditionMap.getCondition(dailyIcon),
+                weatherCondition = NwsWeatherConditionMap.getCondition(item.icon),
                 time = time,
                 precipitationProbabilityMax = item.probabilityOfPrecipitation.value.toInt(),
-                sunrise = sunTimings[it].sunrise ?: -0L,
-                sunset = sunTimings[it].sunset ?: -0L,
-                moonrise = moonTimings[it].moonrise ?: -0L,
-                moonset = moonTimings[it].moonset ?: -0L,
-                moonPhase = moonTimings[it].phase
+                sunrise = sunTimings[index].sunrise ?: -0L,
+                sunset = sunTimings[index].sunset ?: -0L,
+                moonrise = moonTimings[index].moonrise ?: -0L,
+                moonset = moonTimings[index].moonset ?: -0L,
+                moonPhase = moonTimings[index].phase
             )
         }
     )
@@ -287,7 +279,7 @@ private fun getRainSum(
 
     val startIndex = data.indexOfFirst { it.validTime.iso8601TimestampToMilliseconds() >= time }
         .takeIf { it != -1 } ?: 0
-    val data = data.drop(maxOf(0, startIndex - 1)).take(12)
+    val data = data.drop(maxOf(0, startIndex - 1)).take(14)
 
     val rainSum = data.sumOf { it.value ?: 0.0 }
 
@@ -301,7 +293,7 @@ private fun getSnowfallSum(
 
     val startIndex = data.indexOfFirst { it.validTime.iso8601TimestampToMilliseconds() >= time }
         .takeIf { it != -1 } ?: 0
-    val data = data.drop(maxOf(0, startIndex - 1)).take(12)
+    val data = data.drop(maxOf(0, startIndex - 1)).take(14)
 
     val snowfallSum = data.sumOf { it.value ?: 0.0 }
 

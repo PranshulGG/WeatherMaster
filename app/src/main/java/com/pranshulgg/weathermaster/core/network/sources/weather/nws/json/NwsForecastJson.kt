@@ -16,6 +16,8 @@ data class NwsForecastPeriodsItemJson(
     val number: Long,
     val startTime: String,
     val endTime: String,
+
+    @SerializedName("isDaytime")
     val isDayTime: Boolean,
     val temperature: Double,
     val windSpeed: String,

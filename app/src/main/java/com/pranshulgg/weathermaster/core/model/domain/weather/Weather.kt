@@ -13,7 +13,7 @@ data class Weather(
 )
 
 data class WeatherCurrent(
-    val temperature: Double, // NOTE: ALWAYS C
+    val temperature: Double?, // NOTE: ALWAYS C
     val humidity: Double,
     val windSpeed: Double?, // NOTE: ALWAYS KMH
     val windDirection: WindDirection?, // NOTE: ALWAYS DOMINANT
