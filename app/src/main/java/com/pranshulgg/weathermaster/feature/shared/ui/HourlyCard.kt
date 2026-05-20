@@ -31,8 +31,8 @@ import com.pranshulgg.weathermaster.core.model.weather.toIcon
 import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.core.ui.components.WeatherIconBox
 import com.pranshulgg.weathermaster.core.ui.theme.ShadowElevation
+import com.pranshulgg.weathermaster.core.utils.Extensions.secondsToMilliseconds
 import com.pranshulgg.weathermaster.core.utils.formatters.to12HourTimeString
-import com.pranshulgg.weathermaster.core.utils.formatters.toMilliseconds
 import com.pranshulgg.weathermaster.core.utils.weather.UnitConverter
 import com.pranshulgg.weathermaster.core.utils.weather.cache.isWeatherHourlyDomainSafe
 import com.pranshulgg.weathermaster.core.utils.weather.forecast.findMatchingDaily
@@ -47,7 +47,7 @@ fun HourlyCard(
     weather: Weather,
     units: WeatherUnits,
     currentMilli: Long = ZonedDateTime.now(ZoneId.of(weather.location.timezone)).toEpochSecond()
-        .toMilliseconds()
+        .secondsToMilliseconds()
 ) {
 
     if (!isWeatherHourlyDomainSafe(weather)) return
@@ -116,7 +116,7 @@ fun HourlyCard(
 private fun HourlyItem(
     time: String,
     precipitationProbability: Int,
-    temperature: Double,
+    temperature: Double?,
     isNow: Boolean,
     icon: Int
 ) {
@@ -151,7 +151,7 @@ private fun HourlyItem(
 
 
 @Composable
-private fun TempWithShape(temperature: Double, isNow: Boolean = false) {
+private fun TempWithShape(temperature: Double?, isNow: Boolean = false) {
     Surface(
         shape = MaterialShapes.Cookie4Sided.toShape(),
         modifier = Modifier
@@ -161,7 +161,7 @@ private fun TempWithShape(temperature: Double, isNow: Boolean = false) {
 
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Text(
-                "${temperature.roundToInt()}°",
+                "${temperature?.roundToInt() ?: "-"}°",
                 color = if (isNow) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.titleMedium
             )

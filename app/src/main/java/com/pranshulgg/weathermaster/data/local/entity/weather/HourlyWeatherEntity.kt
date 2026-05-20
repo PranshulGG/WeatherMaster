@@ -23,15 +23,12 @@ import com.pranshulgg.weathermaster.data.local.entity.location.WeatherLocationEn
 data class HourlyWeatherEntity(
     val locationId: String,
 
-//    @PrimaryKey
-//    val id: String = UuidGenerator().generateId(),
-
     val temperature: Double,
-    val windSpeed: Double,
+    val windSpeed: Double?,
     val windDirection: WindDirection?,
     val rain: Double,
     val snowfall: Double?,
-    val uvIndex: Double,
+    val uvIndex: Double?,
     val weatherCondition: WeatherCondition,
     val time: Long,
     val precipitationProbability: Int?
