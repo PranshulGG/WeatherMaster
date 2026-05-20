@@ -15,4 +15,7 @@ interface AirQualityDao {
 
     @Query("SELECT * FROM air_quality_current WHERE locationId = :locationId")
     suspend fun getAirQualityForLocation(locationId: String): AirQualityWithRelations?
+
+    @Query("DELETE FROM weather_locations WHERE id = :id")
+    suspend fun deleteCurrentAirQuality(id: String)
 }
