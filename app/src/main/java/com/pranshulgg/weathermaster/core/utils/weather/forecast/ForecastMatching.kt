@@ -38,3 +38,9 @@ fun findMatchingHourly(
     return data.drop(maxOf(0, startIndex - 1)).take(limit)
 
 }
+
+fun findHourlyIndexForTime(time: List<Long>, startMilli: Long = System.currentTimeMillis()): Int {
+    val startIndex = time.indexOfFirst { it >= startMilli }.takeIf { it != -1 } ?: 0
+
+    return maxOf(0, (startIndex - 1))
+}
