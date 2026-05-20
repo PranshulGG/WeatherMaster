@@ -22,6 +22,7 @@ import com.pranshulgg.weathermaster.data.local.dao.weather.WeatherUnitsDao
 import com.pranshulgg.weathermaster.data.local.dao.weather.nws.NwsDao
 import com.pranshulgg.weathermaster.data.repository.LocationsRepository
 import com.pranshulgg.weathermaster.data.repository.WeatherBlocksRepository
+import com.pranshulgg.weathermaster.data.repository.WeatherDataReconcilerRepository
 import com.pranshulgg.weathermaster.data.repository.WeatherUnitsRepository
 import dagger.Module
 import dagger.Provides
@@ -100,8 +101,9 @@ object AppModule {
     @Singleton
     fun provideLocationsRepository(
         dao: LocationsDao,
+        airQualityDao: AirQualityDao,
         @ApplicationContext context: Context
-    ): LocationsRepository = LocationsRepository(dao, context)
+    ): LocationsRepository = LocationsRepository(dao, airQualityDao, context)
 
 
     @Provides
@@ -149,4 +151,11 @@ object AppModule {
         weatherDao: WeatherDao,
         nwsDao: NwsDao
     ): NwsRepository = NwsRepository(dao, weatherDao, nwsDao, api)
+
+    @Provides
+    @Singleton
+    fun provideWeatherDataReconcilerRepository(
+        nwsDao: NwsDao,
+        locationsDao: LocationsDao
+    ): WeatherDataReconcilerRepository = WeatherDataReconcilerRepository(nwsDao, locationsDao)
 }
