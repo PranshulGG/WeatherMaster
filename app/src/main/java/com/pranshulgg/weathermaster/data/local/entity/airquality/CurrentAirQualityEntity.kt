@@ -1,13 +1,26 @@
 package com.pranshulgg.weathermaster.data.local.entity.airquality
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.pranshulgg.weathermaster.data.local.entity.location.WeatherLocationEntity
 
 
-@Entity(tableName = "air_quality_current")
+@Entity(
+    tableName = "air_quality_current", foreignKeys = [
+        ForeignKey(
+            entity = WeatherLocationEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["locationId"],
+            onDelete = ForeignKey.Companion.CASCADE
+        )
+    ],
+    indices = [Index("locationId")],
+    primaryKeys = ["locationId"]
+)
 data class CurrentAirQualityEntity(
 
-    @PrimaryKey
     val locationId: String,
 
     val usAqi: Int?,

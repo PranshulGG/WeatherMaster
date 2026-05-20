@@ -101,6 +101,7 @@ interface ColorPalette {
     val CLEAR_SKY_DAY: Background
     val CLEAR_SKY_NIGHT: Background
     val MOSTLY_CLEAR_PARTLY_CLOUDY: Background
+
     val OVERCAST: Background
     val SNOW: Background
     val RAIN: Background
@@ -124,6 +125,8 @@ object Colors : ColorPalette {
         gradient = listOf(Color(0xFF404558), Color(0xFF262C3D)),
         scrollColor = Color(0xFF262C3D)
     )
+
+
     override val OVERCAST = Background(
         gradient = listOf(Color(0xFF2F2F34), Color(0xFF202537)),
         scrollColor = Color(0xFF202537)
@@ -167,6 +170,7 @@ private object ColorsLight : ColorPalette {
         gradient = listOf(Color(0xFFc6d3e4), Color(0xFFd5e4f7)),
         scrollColor = Color(0xFFd5e4f7)
     )
+
     override val OVERCAST = Background(
         gradient = listOf(Color(0xFFacacad), Color(0xFFd5e4f7)),
         scrollColor = Color(0xFFd5e4f7)

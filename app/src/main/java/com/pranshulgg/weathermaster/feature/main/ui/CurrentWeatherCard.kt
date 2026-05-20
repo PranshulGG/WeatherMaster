@@ -63,7 +63,7 @@ private fun CardRowContent(weather: Weather, units: WeatherUnits, context: Conte
         UnitConverter.convertTemp(current.temperature, TemperatureUnits.CELSIUS, units.tempUnit)
 
     val feelsLike = UnitConverter.convertTemp(
-        current.feelsLike ?: 0.0,
+        current.feelsLike,
         TemperatureUnits.CELSIUS,
         units.tempUnit
     )
@@ -77,7 +77,7 @@ private fun CardRowContent(weather: Weather, units: WeatherUnits, context: Conte
         )
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
-                "${currentTemp.roundToInt()}°",
+                "${currentTemp?.roundToInt() ?: "-"}°",
                 color = colorScheme.primary,
                 fontSize = 62.sp,
                 fontWeight = FontWeight.Medium
@@ -98,7 +98,7 @@ private fun CardRowContent(weather: Weather, units: WeatherUnits, context: Conte
             style = MaterialTheme.typography.titleMedium
         )
         Text(
-            stringResource(R.string.temp_feels_like, "${feelsLike.roundToInt()}°"),
+            stringResource(R.string.temp_feels_like, "${feelsLike?.roundToInt() ?: "-"}°"),
             color = colorScheme.onSurfaceVariant,
             style = MaterialTheme.typography.bodyMedium
         )
@@ -114,12 +114,12 @@ private fun MinMaxTempRow(weather: Weather, units: WeatherUnits, context: Contex
     val daily = weather.daily.getOrNull(0)
 
     val minTemp = UnitConverter.convertTemp(
-        daily?.temperatureMin ?: -99999.0,
+        daily?.temperatureMin,
         TemperatureUnits.CELSIUS,
         units.tempUnit
     )
     val maxTemp = UnitConverter.convertTemp(
-        daily?.temperatureMax ?: -99999.0,
+        daily?.temperatureMax,
         TemperatureUnits.CELSIUS,
         units.tempUnit
     )
@@ -134,12 +134,12 @@ private fun MinMaxTempRow(weather: Weather, units: WeatherUnits, context: Contex
             "${
                 stringResource(
                     R.string.temp_max,
-                    "${if (maxTemp == -99999.0) "N/A" else maxTemp.roundToInt()}°"
+                    "${maxTemp?.roundToInt() ?: "-"}°"
                 )
             } ${
                 stringResource(
                     R.string.temp_min,
-                    "${if (minTemp == -99999.0) "N/A" else minTemp.roundToInt()}°"
+                    "${minTemp?.roundToInt() ?: "-"}°"
                 )
             }",
             color = colorScheme.onSurfaceVariant,

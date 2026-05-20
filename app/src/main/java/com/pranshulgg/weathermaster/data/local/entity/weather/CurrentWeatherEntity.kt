@@ -25,18 +25,19 @@ data class CurrentWeatherEntity(
 
     val temperature: Double,
     val humidity: Double,
-    val windSpeed: Double,
+    val windSpeed: Double?,
     val windDirection: WindDirection?,
-    val pressureMsl: Double,
+    val pressureMsl: Double?,
     val visibility: Int?,
     val cloudCover: Double?,
-    val uvIndex: Double,
+    val uvIndex: Double?,
     val weatherCondition: WeatherCondition,
     val feelsLike: Double?,
     val time: Long,
     val dewPoint: Double?,
 
-    val utcOffsetSeconds: Long,
+    val utcOffsetSeconds: Long?,
+
 
     val lastUpdatedInMilli: Long
 )
