@@ -27,12 +27,18 @@ import com.pranshulgg.weathermaster.feature.shared.WeatherViewModel
 import sh.calvin.reorderable.DragGestureDetector
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyGridState
+import kotlin.math.roundToInt
 
 private data class BlockRules(
     val isDaily: Boolean,
     val rainForTheDay: Double,
     val snowForTheDay: Double,
-    val isAirQualityValid: Boolean
+    val isAirQualityValid: Boolean,
+    val isUvIndexValid: Boolean,
+    val isPressureValid: Boolean,
+    val isVisibilityValid: Boolean,
+    val isWindValid: Boolean
+
 )
 
 private fun shouldShow(block: WeatherBlock, rules: BlockRules): Boolean {
@@ -42,6 +48,10 @@ private fun shouldShow(block: WeatherBlock, rules: BlockRules): Boolean {
         rules.rainForTheDay == 0.0 && block.type == WeatherBlockType.RAIN_BLOCK -> false
         rules.snowForTheDay == 0.0 && block.type == WeatherBlockType.SNOW_BLOCK -> false
         !rules.isAirQualityValid && block.type == WeatherBlockType.AIR_QUALITY_BLOCK -> false
+        !rules.isUvIndexValid && block.type == WeatherBlockType.UV_INDEX_BLOCK -> false
+        !rules.isPressureValid && block.type == WeatherBlockType.PRESSURE_BLOCK -> false
+        !rules.isVisibilityValid && block.type == WeatherBlockType.VISIBILITY_BLOCK -> false
+        !rules.isWindValid && block.type == WeatherBlockType.WIND_BLOCK -> false
         else -> true
     }
 }
@@ -75,8 +85,24 @@ fun WeatherBlocks(
 
     val isAirQualityValid = airQuality != null && isCurrentAirQualitySafe(airQuality)
 
+    val isUvIndexValid = weather.daily[dailyIndex].isUvIndexMaxValid()
+            && weather.current.isUvIndexValid()
 
-    val rules = BlockRules(isDaily, rainForTheDay, snowForTheDay, isAirQualityValid)
+    val isPressureValid = weather.current.isPressureValid()
+
+    val isVisibilityValid = weather.current.isVisibilityValid()
+    val isWindValid = weather.current.isWindSpeedValid()
+
+    val rules = BlockRules(
+        isDaily,
+        rainForTheDay,
+        snowForTheDay,
+        isAirQualityValid,
+        isUvIndexValid,
+        isPressureValid,
+        isVisibilityValid,
+        isWindValid
+    )
 
 
     /**
@@ -84,6 +110,9 @@ fun WeatherBlocks(
      * [Rain, Snow, Moon, Sun, UV index, Wind] probably more depending on the data
      */
     val items = blocks.filter { shouldShow(it, rules) }
+
+
+    val blocksHidden = blocks.filter { it !in items }
 
 
     val lazyGridState = rememberLazyGridState()
@@ -98,7 +127,7 @@ fun WeatherBlocks(
 
             updatedBlockOrder(updated)
             viewModel.saveBlocks(
-                items = updated,
+                items = updated.plus(blocksHidden),
                 isDaily = isDaily
             )
         }

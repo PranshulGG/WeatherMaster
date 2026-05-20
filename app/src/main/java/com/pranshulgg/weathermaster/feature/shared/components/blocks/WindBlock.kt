@@ -54,7 +54,7 @@ fun WindBlock(
     val windSpeed = if (isDaily) weather.daily[dailyIndex].windSpeed else weather.current.windSpeed
 
     val windSpeedFormatted = UnitConverter
-        .convertWindSpeed(windSpeed, WindSpeedUnits.KPH, units.windUnit).roundToInt()
+        .convertWindSpeed(windSpeed!!, WindSpeedUnits.KPH, units.windUnit).roundToInt()
 
     Surface(
         color = MaterialTheme.colorScheme.surface,

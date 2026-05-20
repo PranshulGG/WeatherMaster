@@ -41,7 +41,7 @@ fun UvIndexBlock(weather: Weather, context: Context, isDaily: Boolean, dailyInde
 
 
     val uvIndex =
-        if (isDaily) weather.daily[dailyIndex].uvIndexMax.roundToInt() else weather.current.uvIndex.roundToInt()
+        if (isDaily) weather.daily[dailyIndex].uvIndexMax!!.roundToInt() else weather.current.uvIndex!!.roundToInt()
     val uvIndexValue = getUvIndex(uvIndex)
 
     Box(

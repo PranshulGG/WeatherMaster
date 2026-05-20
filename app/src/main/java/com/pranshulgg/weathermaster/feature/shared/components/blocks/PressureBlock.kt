@@ -37,7 +37,7 @@ fun PressureBlock(weather: Weather, units: WeatherUnits, context: Context) {
     val pressure = weather.current.pressureMsl
 
     val pressureInhg =
-        UnitConverter.convertPressure(pressure, PressureUnits.HPA, PressureUnits.INHG)
+        UnitConverter.convertPressure(pressure!!, PressureUnits.HPA, PressureUnits.INHG)
     val pressureHpa = weather.current.pressureMsl.toInt()
 
     val progressDrawable = when {

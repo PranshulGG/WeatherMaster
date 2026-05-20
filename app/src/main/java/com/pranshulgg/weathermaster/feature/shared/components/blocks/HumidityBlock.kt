@@ -37,10 +37,10 @@ fun HumidityBlock(weather: Weather, units: WeatherUnits) {
 
     val humidity = weather.current.humidity.roundToInt()
     val dewPoint = UnitConverter.convertTemp(
-        weather.current.dewPoint ?: -99999.0,
+        weather.current.dewPoint,
         TemperatureUnits.CELSIUS,
         units.tempUnit
-    ).roundToInt()
+    )?.roundToInt() ?: "-"
 
     val humidityDrawable = when (humidity) {
         in 0..30 -> R.drawable.humidity_seven_percent
@@ -86,7 +86,7 @@ fun HumidityBlock(weather: Weather, units: WeatherUnits) {
             )
 
             Box(Modifier.align(Alignment.BottomStart)) {
-                DewPointRow(dewPoint)
+                DewPointRow(dewPoint.toString())
             }
         }
     }
@@ -121,7 +121,7 @@ private fun Header() {
 
 
 @Composable
-private fun DewPointRow(dewPoint: Int) {
+private fun DewPointRow(dewPoint: String?) {
 
 
     Row(
@@ -138,7 +138,7 @@ private fun DewPointRow(dewPoint: Int) {
 
             ) {
                 Text(
-                    text = "${dewPoint}°",
+                    text = "${dewPoint ?: "-"}°",
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onPrimary
                 )
