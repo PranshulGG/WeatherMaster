@@ -7,11 +7,11 @@ import com.pranshulgg.weathermaster.core.model.weather.TemperatureUnits
 import com.pranshulgg.weathermaster.core.model.weather.WindSpeedUnits
 
 object UnitConverter {
-    
-    fun convertTemp(value: Double, from: TemperatureUnits, to: TemperatureUnits): Double {
 
-        if (value == -99999.0) { // YES :P
-            return -99999.0 // + DEATH
+    fun convertTemp(value: Double?, from: TemperatureUnits, to: TemperatureUnits): Double? {
+
+        if (value == -99999.0 || value == null) { // YES :P
+            return null // + DEATH
         }
 
         return when (from) {
