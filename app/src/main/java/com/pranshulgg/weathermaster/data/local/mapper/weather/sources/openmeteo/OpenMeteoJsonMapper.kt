@@ -6,9 +6,9 @@ import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherCurrent
 import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherDaily
 import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherHourly
 import com.pranshulgg.weathermaster.core.model.weather.wind.WindDirection
+import com.pranshulgg.weathermaster.core.network.sources.weather.openmeteo.OpenMeteoWeatherConditionMap
 import com.pranshulgg.weathermaster.core.network.sources.weather.openmeteo.json.OpenMeteoWeatherJson
-import com.pranshulgg.weathermaster.core.network.sources.weather.openmeteo.openMeteoWeatherCode
-import com.pranshulgg.weathermaster.core.utils.formatters.toMilliseconds
+import com.pranshulgg.weathermaster.core.utils.Extensions.secondsToMilliseconds
 import com.pranshulgg.weathermaster.core.utils.weather.astronomy.getMoonTimings
 import com.pranshulgg.weathermaster.core.utils.weather.astronomy.getSunTimings
 import kotlin.uuid.ExperimentalUuidApi
@@ -18,35 +18,27 @@ import kotlin.uuid.ExperimentalUuidApi
 @OptIn(ExperimentalUuidApi::class)
 fun OpenMeteoWeatherJson.toDomain(location: Location): Weather {
 
+
     val sunTimings = getSunTimings(
-        daily.time.map { it.toMilliseconds() },
+        daily.time.map {
+            it.secondsToMilliseconds()
+        }, // Open-Meteo returns in seconds
         location.timezone,
         location.latitude,
         location.longitude
     )
 
     val moonTimings = getMoonTimings(
-        daily.time.map { it.toMilliseconds() },
+        daily.time.map {
+            it.secondsToMilliseconds()
+        }, // Open-Meteo returns in seconds
         location.timezone,
         location.latitude,
         location.longitude
     )
 
     return Weather(
-        location = Location(
-            id = location.id,
-            latitude = location.latitude,
-            longitude = location.longitude,
-            name = location.name,
-            country = location.country,
-            timezone = location.timezone,
-            countryCode = location.countryCode,
-            state = location.state,
-            source = location.source,
-            isFavorite = location.isFavorite,
-            isPinned = location.isPinned,
-            isDefault = false
-        ),
+        location = location,
         current = WeatherCurrent(
             temperature = current.temperature,
             humidity = current.relativeHumidity,
@@ -56,9 +48,9 @@ fun OpenMeteoWeatherJson.toDomain(location: Location): Weather {
             visibility = hourly.visibility[0], // TODO: Use current time index
             cloudCover = current.cloudCover,
             uvIndex = current.uvIndex,
-            weatherCondition = openMeteoWeatherCode(current.weatherCode),
+            weatherCondition = OpenMeteoWeatherConditionMap.getCondition(current.weatherCode),
             feelsLike = current.feelsLike,
-            time = current.time.toMilliseconds(), // Open-Meteo returns in seconds
+            time = current.time.secondsToMilliseconds(), // Open-Meteo returns in seconds
             dewPoint = hourly.dewPoint[0], // TODO: Use current time index
             utcOffsetSeconds = utcOffsetSeconds,
             lastUpdatedInMilli = System.currentTimeMillis()
@@ -71,8 +63,8 @@ fun OpenMeteoWeatherJson.toDomain(location: Location): Weather {
                 rain = hourly.rain[it],
                 snowfall = hourly.snowfall[it],
                 uvIndex = hourly.uvIndex[it],
-                weatherCondition = openMeteoWeatherCode(hourly.weatherCode[it]),
-                time = hourly.time[it].toMilliseconds(), // Open-Meteo returns in seconds
+                weatherCondition = OpenMeteoWeatherConditionMap.getCondition(hourly.weatherCode[it]),
+                time = hourly.time[it].secondsToMilliseconds(), // Open-Meteo returns in seconds
                 precipitationProbability = hourly.precipitationProbability[it],
             )
         },
@@ -85,8 +77,8 @@ fun OpenMeteoWeatherJson.toDomain(location: Location): Weather {
                 rainSum = daily.rainSum[it],
                 snowfallSum = daily.snowfallSum[it],
                 uvIndexMax = daily.uvIndexMax[it],
-                weatherCondition = openMeteoWeatherCode(daily.weatherCode[it]),
-                time = daily.time[it].toMilliseconds(), // Open-Meteo returns in seconds
+                weatherCondition = OpenMeteoWeatherConditionMap.getCondition(daily.weatherCode[it]),
+                time = daily.time[it].secondsToMilliseconds(), // Open-Meteo returns in seconds
                 precipitationProbabilityMax = daily.precipitationProbabilityMax[it],
                 sunrise = sunTimings[it].sunrise ?: -0L,
                 sunset = sunTimings[it].sunset ?: -0L,

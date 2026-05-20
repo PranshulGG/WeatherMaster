@@ -1,5 +1,6 @@
 package com.pranshulgg.weathermaster.core.network.sources.weather.openmeteo
 
+import android.util.Log
 import com.pranshulgg.weathermaster.core.model.domain.location.Location
 import com.pranshulgg.weathermaster.core.model.weather.WeatherResult
 import com.pranshulgg.weathermaster.core.model.weather.WeatherResultType
@@ -7,11 +8,11 @@ import com.pranshulgg.weathermaster.core.utils.weather.cache.isWeatherCacheSafe
 import com.pranshulgg.weathermaster.core.utils.weather.cache.shouldReturnWeatherCache
 import com.pranshulgg.weathermaster.data.local.dao.location.LocationsDao
 import com.pranshulgg.weathermaster.data.local.dao.weather.WeatherDao
-import com.pranshulgg.weathermaster.data.local.mapper.weather.sources.openmeteo.toCurrentWeatherEntity
-import com.pranshulgg.weathermaster.data.local.mapper.weather.sources.openmeteo.toDailyWeatherEntity
 import com.pranshulgg.weathermaster.data.local.mapper.weather.sources.openmeteo.toDomain
-import com.pranshulgg.weathermaster.data.local.mapper.weather.sources.openmeteo.toHourlyWeatherEntity
+import com.pranshulgg.weathermaster.data.local.mapper.weather.toCurrentWeatherEntity
+import com.pranshulgg.weathermaster.data.local.mapper.weather.toDailyWeatherEntity
 import com.pranshulgg.weathermaster.data.local.mapper.weather.toDomain
+import com.pranshulgg.weathermaster.data.local.mapper.weather.toHourlyWeatherEntity
 import com.pranshulgg.weathermaster.data.repository.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -24,14 +25,18 @@ class OpenMeteoRepository @Inject constructor(
     val api: OpenMeteoApi
 ) : WeatherRepository {
 
-    override suspend fun getWeather(location: Location, isManualRefresh: Boolean): WeatherResult =
+    override suspend fun getWeather(
+        location: Location,
+        isManualRefresh: Boolean,
+        isForceRefresh: Boolean
+    ): WeatherResult =
         withContext(
             Dispatchers.IO
         ) {
 
             val cache = dao.getWeatherDataForLocation(location.id)
 
-            val shouldReturnCache = shouldReturnWeatherCache(cache, isManualRefresh)
+            val shouldReturnCache = shouldReturnWeatherCache(cache, isManualRefresh, isForceRefresh)
 
             when (shouldReturnCache) {
                 WeatherResultType.REFRESH_TOO_EARLY -> return@withContext WeatherResult.RefreshNotAvailable
@@ -39,7 +44,10 @@ class OpenMeteoRepository @Inject constructor(
                 else -> {}
             }
 
+
+
             return@withContext try {
+
 
                 val response =
                     api.fetchWeather(location.latitude, location.longitude, location.timezone)
@@ -54,7 +62,8 @@ class OpenMeteoRepository @Inject constructor(
                 weatherDao.insertWeather(
                     domain.current.toCurrentWeatherEntity(location.id),
                     domain.hourly.toHourlyWeatherEntity(location.id),
-                    domain.daily.toDailyWeatherEntity(location.id)
+                    domain.daily.toDailyWeatherEntity(location.id),
+                    location.id
                 )
 
                 WeatherResult.Success(domain)
