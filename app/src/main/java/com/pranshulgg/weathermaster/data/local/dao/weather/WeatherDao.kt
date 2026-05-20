@@ -18,8 +18,11 @@ interface WeatherDao {
     suspend fun insertWeather(
         currentWeather: CurrentWeatherEntity,
         hourlyWeather: List<HourlyWeatherEntity>,
-        dailyWeather: List<DailyWeatherEntity>
+        dailyWeather: List<DailyWeatherEntity>,
+        id: String
     ) {
+        deleteDailyDataForLocation(id)
+        deleteHourlyDataForLocation(id)
         insertCurrentWeather(currentWeather)
         insertHourlyWeather(hourlyWeather)
         insertDailyWeather(dailyWeather)
@@ -36,10 +39,9 @@ interface WeatherDao {
     @Insert(onConflict = OnConflictStrategy.Companion.REPLACE)
     suspend fun insertDailyWeather(dailyWeather: List<DailyWeatherEntity>)
 
-    @Query("SELECT * FROM weather_locations WHERE id = :locationId")
-    suspend fun getWeatherDataForLocation(locationId: String): WeatherWithRelations?
+    @Query("DELETE FROM weather_daily WHERE locationId = :id")
+    suspend fun deleteDailyDataForLocation(id: String)
 
-    @Query("SELECT * FROM weather_locations")
-    fun getAllLocationsCurrentWeather(): Flow<List<WeatherWithRelations>>
-
+    @Query("DELETE FROM weather_hourly WHERE locationId = :id")
+    suspend fun deleteHourlyDataForLocation(id: String)
 }
