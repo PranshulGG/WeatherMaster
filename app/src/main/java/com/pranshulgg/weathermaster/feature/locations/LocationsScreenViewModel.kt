@@ -9,7 +9,6 @@ import com.pranshulgg.weathermaster.core.model.domain.location.Location
 import com.pranshulgg.weathermaster.core.model.domain.toMessageRes
 import com.pranshulgg.weathermaster.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weathermaster.data.repository.LocationsRepository
-import com.pranshulgg.weathermaster.data.repository.WeatherDataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.SharingStarted
@@ -19,11 +18,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LocationsScreenViewModel @Inject constructor(
-    private val weatherDataRepo: WeatherDataRepository,
     private val locationsRepo: LocationsRepository
 ) : ViewModel() {
 
-    val allLocationsWeather = weatherDataRepo.getAllLocationsWeather().stateIn(
+    val allLocationsWeather = locationsRepo.getWeatherForAllLocations().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = emptyList()

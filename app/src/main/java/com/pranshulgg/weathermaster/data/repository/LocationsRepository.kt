@@ -5,6 +5,8 @@ import androidx.room.Transaction
 import com.pranshulgg.weathermaster.core.model.domain.AppException
 import com.pranshulgg.weathermaster.core.model.domain.location.Location
 import com.pranshulgg.weathermaster.core.model.domain.weather.Weather
+import com.pranshulgg.weathermaster.core.model.sources.WeatherSource
+import com.pranshulgg.weathermaster.data.local.dao.airquality.AirQualityDao
 import com.pranshulgg.weathermaster.data.local.dao.location.LocationsDao
 import com.pranshulgg.weathermaster.data.local.mapper.locations.toDomain
 import com.pranshulgg.weathermaster.data.local.mapper.locations.toEntity
@@ -22,6 +24,7 @@ import kotlin.coroutines.resumeWithException
 
 class LocationsRepository @Inject constructor(
     private val dao: LocationsDao,
+    private val airQualityDao: AirQualityDao,
     @param:ApplicationContext private val context: Context
 ) {
 
@@ -46,7 +49,15 @@ class LocationsRepository @Inject constructor(
         return dao.getLocations().map { it.toDomain() }
     }
 
-    suspend fun deleteLocation(id: String) = dao.deleteLocation(id)
+    @Transaction
+    suspend fun deleteLocation(id: String) {
+        dao.deleteLocation(id)
+        airQualityDao.deleteCurrentAirQuality(id)
+    }
+
+    suspend fun updateSourceForLocation(id: String, source: WeatherSource) {
+        dao.updateSourceForLocation(id, source)
+    }
 
 
     @Transaction
