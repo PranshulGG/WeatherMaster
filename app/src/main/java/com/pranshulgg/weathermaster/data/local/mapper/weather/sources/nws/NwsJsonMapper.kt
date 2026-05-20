@@ -62,7 +62,6 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
     val rainMap = expandedHourly(precipitationData.values.map { it.validTime to it.value })
 
     val snowMap = expandedHourly(snowData.values.map { it.validTime to it.value })
-    val timezone = location.timezone
     val maxTemperatureMap =
         matchingMinMaxTemperature(maxTemperatureData.values.map { it.validTime to it.value })
     val minTemperatureMap =
@@ -81,7 +80,8 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
             UnknownHostException()
         )
 
-    val currentWindSpeed = current.windSpeed.value ?: throw Exception(UnknownHostException())
+    val filteredDaily = daily.periods.filter { it.isDayTime }
+
 
     val sunTimings = getSunTimings(
         daily.periods.map {
@@ -115,7 +115,7 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
             feelsLike = computeApparentTemperature(
                 currentTemperature,
                 current.relativeHumidity.value,
-                currentWindSpeed.kmhToMs()
+                current.windSpeed.value?.kmhToMs() ?: 0.0
             ),
             time = current.timestamp.iso8601TimestampToMilliseconds(),
             dewPoint = hourly.periods[currentHourIndex].dewPoint.value,
@@ -140,9 +140,9 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
                 precipitationProbability = it.probabilityOfPrecipitation.value.toInt()
             )
         },
-        daily = List(daily.periods.size) {
+        daily = List(filteredDaily.size) {
 
-            val item = daily.periods[it]
+            val item = filteredDaily[it]
 
             val time = item.startTime.iso8601TimestampToMilliseconds()
 
