@@ -149,5 +149,12 @@
     <string name="weather_average">المتوسط</string>
     <string name="weather_rain_block">مطر</string>
     <string name="weather_snow_block">ثلج</string>
+    <string name="search_source">Search source</string>
+    <string name="weather_source">Weather source</string>
+    <string name="weather_sources">Weather sources</string>
+    <string name="sources">Sources</string>
+    <string name="source">Source</string>
+    <string name="recommended_sources">Recommended sources</string>
+    <string name="global_sources">Global sources</string>
 </resources>
 <!--<string name=""></string>-->

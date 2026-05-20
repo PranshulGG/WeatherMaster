@@ -138,5 +138,12 @@
     <string name="weather_average">平均</string>
     <string name="weather_rain_block">雨</string>
     <string name="weather_snow_block">雪</string>
+    <string name="search_source">搜索数据源</string>
+    <string name="weather_source">天气数据源</string>
+    <string name="weather_sources">天气数据源</string>
+    <string name="sources">数据源</string>
+    <string name="source">数据源</string>
+    <string name="recommended_sources">推荐数据源</string>
+    <string name="global_sources">全球数据源</string>
 </resources>
 <!--<string name=""></string>-->
