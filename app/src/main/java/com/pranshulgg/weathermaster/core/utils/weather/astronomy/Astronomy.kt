@@ -3,7 +3,7 @@ package com.pranshulgg.weathermaster.core.utils.weather.astronomy
 import com.pranshulgg.weathermaster.core.model.astro.MoonTimings
 import com.pranshulgg.weathermaster.core.model.astro.SunTimings
 import com.pranshulgg.weathermaster.core.model.astro.getMoonPhase
-import com.pranshulgg.weathermaster.core.utils.formatters.toMilliseconds
+import com.pranshulgg.weathermaster.core.utils.Extensions.secondsToMilliseconds
 import org.shredzone.commons.suncalc.MoonIllumination
 import org.shredzone.commons.suncalc.MoonTimes
 import org.shredzone.commons.suncalc.SunTimes
@@ -32,8 +32,8 @@ fun getSunTimings(
 
         SunTimings(
             it,
-            sunTimes.rise?.toEpochSecond()?.toMilliseconds(),
-            sunTimes.set?.toEpochSecond()?.toMilliseconds()
+            sunTimes.rise?.toEpochSecond()?.secondsToMilliseconds(),
+            sunTimes.set?.toEpochSecond()?.secondsToMilliseconds()
         )
 
     }
@@ -66,8 +66,8 @@ fun getMoonTimings(
 
         MoonTimings(
             it,
-            moonTimes.rise?.toEpochSecond()?.toMilliseconds(),
-            moonTimes.set?.toEpochSecond()?.toMilliseconds(),
+            moonTimes.rise?.toEpochSecond()?.secondsToMilliseconds(),
+            moonTimes.set?.toEpochSecond()?.secondsToMilliseconds(),
             phase = phaseName
         )
     }
