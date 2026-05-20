@@ -15,5 +15,8 @@ interface NwsDao {
     suspend fun insertLocationGridPoints(grid: NwsGridPointsEntity)
 
     @Query("SELECT * FROM nws_location_gridpoints WHERE locationId = :locationId")
-    fun getGridPointsForLocation(locationId: String): NwsGridPointsEntity?
+    suspend fun getGridPointsForLocation(locationId: String): NwsGridPointsEntity?
+
+    @Query("DELETE FROM nws_location_gridpoints WHERE locationId = :locationId")
+    suspend fun deleteGridPointsForLocation(locationId: String)
 }

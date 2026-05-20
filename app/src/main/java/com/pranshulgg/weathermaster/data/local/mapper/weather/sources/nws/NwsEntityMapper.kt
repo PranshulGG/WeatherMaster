@@ -17,3 +17,16 @@ fun NwsGridPoints.toEntity(location: Location): NwsGridPointsEntity {
         lastUpdatedMilli = lastUpdatedMilli
     )
 }
+
+// ---------------------------- ENTITY TO DOMAIN ----------------------------
+
+fun NwsGridPointsEntity.toDomain(): NwsGridPoints {
+    return NwsGridPoints(
+        locationId = this.locationId,
+        officeId = this.officeId,
+        gridX = this.gridX,
+        gridY = this.gridY,
+        stationIdentifier = this.stationIdentifier,
+        lastUpdatedMilli = this.lastUpdatedMilli
+    )
+}
