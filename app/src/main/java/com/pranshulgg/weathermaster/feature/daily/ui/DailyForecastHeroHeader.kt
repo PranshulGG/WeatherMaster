@@ -38,13 +38,13 @@ fun DailyForecastHeroHeader(
         daily.temperatureMax,
         TemperatureUnits.CELSIUS,
         units.tempUnit
-    ).roundToInt().toString()
+    )?.roundToInt() ?: "-"
 
     val minTemp = UnitConverter.convertTemp(
         daily.temperatureMin,
         TemperatureUnits.CELSIUS,
         units.tempUnit
-    ).roundToInt().toString()
+    )?.roundToInt() ?: "-"
 
     Column(Modifier.padding(start = 16.dp, end = 16.dp, top = 24.dp)) {
         Text(

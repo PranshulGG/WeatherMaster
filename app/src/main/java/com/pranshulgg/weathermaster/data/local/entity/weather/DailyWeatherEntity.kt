@@ -26,11 +26,11 @@ data class DailyWeatherEntity(
 
     val temperatureMin: Double,
     val temperatureMax: Double,
-    val windSpeed: Double,
+    val windSpeed: Double?,
     val windDirection: WindDirection?,
     val rainSum: Double,
     val snowfallSum: Double?,
-    val uvIndexMax: Double,
+    val uvIndexMax: Double?,
     val weatherCondition: WeatherCondition,
     val time: Long,
     val precipitationProbabilityMax: Int?,

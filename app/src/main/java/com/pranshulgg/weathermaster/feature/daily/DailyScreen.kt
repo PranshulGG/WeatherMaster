@@ -25,7 +25,7 @@ import com.pranshulgg.weathermaster.core.model.domain.weather.Weather
 import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherBlock
 import com.pranshulgg.weathermaster.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weathermaster.core.ui.components.NavigateUpBtn
-import com.pranshulgg.weathermaster.core.utils.formatters.toMilliseconds
+import com.pranshulgg.weathermaster.core.utils.Extensions.secondsToMilliseconds
 import com.pranshulgg.weathermaster.feature.daily.ui.DailyDaysHeader
 import com.pranshulgg.weathermaster.feature.daily.ui.DailyForecastHeroHeader
 import com.pranshulgg.weathermaster.feature.shared.components.blocks.WeatherBlocks
@@ -71,9 +71,9 @@ fun DailyScreen(navController: NavController, index: Int = 0, locationId: String
     val hourlyStartTime =
         if (selectedIndex == 0) ZonedDateTime.now(ZoneId.of(weather.location.timezone))
             .toEpochSecond()
-            .toMilliseconds() else Instant.ofEpochMilli(selectedDaily.time)
+            .secondsToMilliseconds() else Instant.ofEpochMilli(selectedDaily.time)
             .atZone(ZoneId.of(weather.location.timezone)).toEpochSecond()
-            .toMilliseconds()
+            .secondsToMilliseconds()
 
 
     LargeTopBarScaffold(

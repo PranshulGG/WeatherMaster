@@ -40,19 +40,19 @@ fun DailyDaysHeader(
                 it.temperatureMax,
                 TemperatureUnits.CELSIUS,
                 units.tempUnit
-            ).roundToInt().toString()
+            )?.roundToInt() ?: '-'
 
             val minTemp = UnitConverter.convertTemp(
                 it.temperatureMin,
                 TemperatureUnits.CELSIUS,
                 units.tempUnit
-            ).roundToInt().toString()
+            )?.roundToInt() ?: "-"
 
             if (index == 0) Gap(horizontal = 16.dp)
             SelectableDayItem(
                 weekDay,
-                minTemp,
-                maxTemp,
+                minTemp.toString(),
+                maxTemp.toString(),
                 it.weatherCondition,
                 onSelect = { onSelect(index) },
                 isSelected = index == selectedIndex,

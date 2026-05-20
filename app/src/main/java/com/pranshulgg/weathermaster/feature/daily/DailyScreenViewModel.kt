@@ -1,24 +1,23 @@
 package com.pranshulgg.weathermaster.feature.daily
 
-import android.util.Log
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.pranshulgg.weathermaster.data.repository.LocationsRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
-import androidx.compose.runtime.State
 import androidx.lifecycle.viewModelScope
-import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherBlock
+import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherUnits
+import com.pranshulgg.weathermaster.data.repository.LocationsRepository
+import com.pranshulgg.weathermaster.data.repository.WeatherBlocksRepository
 import com.pranshulgg.weathermaster.data.repository.WeatherUnitsRepository
-import com.pranshulgg.weathermaster.data.repository.WeatherDataRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class DailyScreenViewModel @Inject constructor(
     private val locationsRepo: LocationsRepository,
-    private val weatherUnitsRepository: WeatherUnitsRepository,
-    private val weatherDataRepository: WeatherDataRepository
+    private val weatherBlocksRepository: WeatherBlocksRepository,
+    private val weatherUnitsRepository: WeatherUnitsRepository
 ) : ViewModel() {
 
     private var _uiState = mutableStateOf(DailyScreenUiState())
@@ -43,8 +42,7 @@ class DailyScreenViewModel @Inject constructor(
     // TODO: Duplicate from `WeatherViewModel`
     fun loadBlocks() {
         viewModelScope.launch {
-            val loadedBlocks = weatherDataRepository.loadBlocks(isDaily = true)
-            Log.d("DAILYBLOCKS", "${loadedBlocks}")
+            val loadedBlocks = weatherBlocksRepository.loadBlocks(isDaily = true)
             _uiState.value = _uiState.value.copy(blocks = loadedBlocks)
         }
     }

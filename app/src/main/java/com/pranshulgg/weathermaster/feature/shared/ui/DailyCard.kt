@@ -105,13 +105,13 @@ private fun DailyItem(
         maxTemp,
         TemperatureUnits.CELSIUS,
         units.tempUnit
-    ).roundToInt()
+    )?.roundToInt() ?: "-"
 
     val minTemp = UnitConverter.convertTemp(
         minTemp,
         TemperatureUnits.CELSIUS,
         units.tempUnit
-    ).roundToInt()
+    )?.roundToInt() ?: "-"
 
 
     Surface(
