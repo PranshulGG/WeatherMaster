@@ -1,14 +1,15 @@
 package com.pranshulgg.weathermaster.feature.shared
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.domain.location.Location
-import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherBlock
 import com.pranshulgg.weathermaster.core.model.domain.toAppException
 import com.pranshulgg.weathermaster.core.model.domain.toMessageRes
+import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherBlock
 import com.pranshulgg.weathermaster.core.model.sources.WeatherSource
 import com.pranshulgg.weathermaster.core.model.weather.WeatherResult
 import com.pranshulgg.weathermaster.core.model.weather.airquality.AirQualityResult
@@ -17,8 +18,9 @@ import com.pranshulgg.weathermaster.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weathermaster.data.provider.WeatherRepositoryProvider
 import com.pranshulgg.weathermaster.data.repository.LocationsRepository
 import com.pranshulgg.weathermaster.data.repository.WeatherBlocksRepository
+import com.pranshulgg.weathermaster.data.repository.WeatherDataReconcilerRepository
 import com.pranshulgg.weathermaster.data.repository.WeatherUnitsRepository
-import com.pranshulgg.weathermaster.feature.main.MainScreenUiState
+import com.pranshulgg.weathermaster.feature.main.MainScreenWeatherUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -36,11 +38,12 @@ class WeatherViewModel @Inject constructor(
     private val locationsRepo: LocationsRepository,
     appWeatherUnitsRepo: WeatherUnitsRepository,
     private val weatherBlocksRepository: WeatherBlocksRepository,
-    private val openMeteoAqiRepository: OpenMeteoAqiRepository
+    private val openMeteoAqiRepository: OpenMeteoAqiRepository,
+    private val weatherDataReconcilerRepository: WeatherDataReconcilerRepository
 ) : ViewModel() {
 
-    private var _uiState = mutableStateOf(MainScreenUiState())
-    val uiState: State<MainScreenUiState> = _uiState
+    private var _uiState = mutableStateOf(MainScreenWeatherUiState())
+    val uiState: State<MainScreenWeatherUiState> = _uiState
 
 
     init {
@@ -92,7 +95,8 @@ class WeatherViewModel @Inject constructor(
     fun getWeather(
         location: Location,
         source: WeatherSource,
-        isManualRefresh: Boolean = false
+        isManualRefresh: Boolean = false,
+        isForceRefresh: Boolean = false
     ) {
         weatherJob?.cancel()
         setLoading(true)
@@ -116,7 +120,7 @@ class WeatherViewModel @Inject constructor(
                 }
             }
 
-            handleWeatherData(source, location, isManualRefresh)
+            handleWeatherData(source, location, isManualRefresh, isForceRefresh)
 
             val elapsed = System.currentTimeMillis() - startTime
             val minLoadingTime = 1000L // 1s
@@ -150,7 +154,21 @@ class WeatherViewModel @Inject constructor(
     fun setActiveLocation(location: Location) {
         _uiState.value = _uiState.value.copy(activeLocation = location)
         getWeather(location, location.source)
+    }
 
+    fun updateSourceForLocation(location: Location, source: WeatherSource) {
+        viewModelScope.launch {
+            locationsRepo.updateSourceForLocation(location.id, source)
+
+            val allowForceRefresh = location.source != source
+
+            if (allowForceRefresh) {
+                weatherDataReconcilerRepository.cleanUpStaleData(location.source, location.id)
+            }
+
+            getWeather(location.copy(source = source), source, isForceRefresh = allowForceRefresh)
+
+        }
     }
 
 
@@ -192,11 +210,14 @@ class WeatherViewModel @Inject constructor(
     private suspend fun handleWeatherData(
         source: WeatherSource,
         location: Location,
-        isManualRefresh: Boolean
+        isManualRefresh: Boolean,
+        isForceRefresh: Boolean
     ) {
         val repo = repo.getRepository(source)
 
-        when (val result = repo.getWeather(location, isManualRefresh)) {
+
+        when (val result = repo.getWeather(location, isManualRefresh, isForceRefresh)) {
+
 
             is WeatherResult.Success -> {
                 _uiState.value = _uiState.value.copy(weather = result.weather, isInitialized = true)
@@ -206,6 +227,7 @@ class WeatherViewModel @Inject constructor(
 
                 val appExpectation = result.exception.toAppException()
                 SnackbarManager.show(appExpectation.toMessageRes())
+
 
                 _uiState.value = _uiState.value.copy(isError = true, weather = result.cacheWeather)
             }
