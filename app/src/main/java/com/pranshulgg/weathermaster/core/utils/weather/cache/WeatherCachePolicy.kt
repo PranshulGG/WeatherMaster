@@ -41,8 +41,11 @@ fun isWeatherDailyDomainSafe(weather: Weather?): Boolean {
 
 fun shouldReturnWeatherCache(
     cache: WeatherWithRelations?,
-    isManualRefresh: Boolean
+    isManualRefresh: Boolean,
+    isForceRefresh: Boolean
 ): WeatherResultType {
+
+    if (isForceRefresh) return WeatherResultType.ERROR
 
     if (!isWeatherCacheSafe(cache)) return WeatherResultType.ERROR
 
