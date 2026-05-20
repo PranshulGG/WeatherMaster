@@ -27,21 +27,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
+import com.pranshulgg.weathermaster.core.model.sources.WeatherSource
+import com.pranshulgg.weathermaster.core.ui.components.Gap
 import com.pranshulgg.weathermaster.feature.main.components.FroggyContainer
 import com.pranshulgg.weathermaster.feature.main.components.MainSearchBar
+import com.pranshulgg.weathermaster.feature.main.components.WeatherSourcesChip
 import com.pranshulgg.weathermaster.feature.main.ui.BackgroundGradient
 import com.pranshulgg.weathermaster.feature.main.ui.CurrentWeatherCard
 import com.pranshulgg.weathermaster.feature.shared.components.blocks.WeatherBlocks
 import com.pranshulgg.weathermaster.feature.main.ui.weatherAnimations.WeatherAnimations
 import com.pranshulgg.weathermaster.feature.shared.ui.DailyCard
 import com.pranshulgg.weathermaster.feature.shared.ui.HourlyCard
+import com.pranshulgg.weathermaster.feature.shared.ui.SharedDialogs
 
 @Composable
 fun MainScreenScaffold(
     navController: NavController,
     drawerState: DrawerState,
-    uiState: MainScreenUiState,
+    uiState: MainScreenWeatherUiState,
     onRefresh: () -> Unit,
+    onEditLocation: () -> Unit,
     isTabletLike: Boolean = false,
     context: Context
 ) {
@@ -110,7 +115,8 @@ fun MainScreenScaffold(
                             navController,
                             drawerState,
                             uiState.activeLocation,
-                            isTabletLike
+                            isTabletLike,
+                            onEditLocation
                         )
                         if (weather != null) {
                             CurrentWeatherCard(weather, units, context)
@@ -127,6 +133,11 @@ fun MainScreenScaffold(
                                 HourlyCard(weather, units)
                                 DailyCard(weather, units, navController)
                                 WeatherBlocks(weather, airQuality, units, context, uiState.blocks)
+
+                                WeatherSourcesChip(
+                                    weather,
+                                    onClick = {}
+                                )
                             }
                         }
                     }
@@ -134,6 +145,8 @@ fun MainScreenScaffold(
             }
         }
     }
+
+
 }
 
 

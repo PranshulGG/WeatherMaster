@@ -39,7 +39,8 @@ fun MainSearchBar(
     navController: NavController,
     drawerState: DrawerState,
     activeLocation: Location?,
-    isTabletLike: Boolean
+    isTabletLike: Boolean,
+    onEditLocation: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
     val showDrawer = {
@@ -110,6 +111,14 @@ fun MainSearchBar(
                 overflow = TextOverflow.Ellipsis
             )
             Gap(horizontal = 4.dp)
+            Tooltip("Edit location", preferredPosition = TooltipAnchorPosition.Below) {
+                IconButton(onClick = onEditLocation) {
+                    Symbol(
+                        R.drawable.edit_24px,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
             Tooltip("Settings", preferredPosition = TooltipAnchorPosition.Below) {
                 IconButton(onClick = {
                     navController.navigate(NavRoutes.SETTINGS)

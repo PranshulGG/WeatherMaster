@@ -18,13 +18,15 @@ import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weathermaster.core.model.domain.location.Location
 import com.pranshulgg.weathermaster.core.model.domain.weather.Weather
 import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherBlock
+import com.pranshulgg.weathermaster.core.model.sources.WeatherSource
 import com.pranshulgg.weathermaster.feature.intro.IntroScreen
 import com.pranshulgg.weathermaster.feature.locations.LocationsScreen
 import com.pranshulgg.weathermaster.feature.main.ui.NavigationDrawer
 import com.pranshulgg.weathermaster.feature.shared.WeatherViewModel
+import com.pranshulgg.weathermaster.feature.shared.ui.SharedDialogs
 import kotlinx.coroutines.launch
 
-data class MainScreenUiState(
+data class MainScreenWeatherUiState(
     val isError: Boolean = false,
     val isLoading: Boolean = false,
     val activeLocation: Location? = null,
@@ -33,7 +35,11 @@ data class MainScreenUiState(
     val weatherUnits: WeatherUnits = WeatherUnits.getDefault(),
     val blocks: List<WeatherBlock> = WeatherBlock.getDefault(),
     val isInitialized: Boolean = false,
-    val airQuality: AirQuality? = null
+    val airQuality: AirQuality? = null,
+)
+
+data class MainScreenUiState(
+    val isWeatherSourcesDialogOpen: Boolean = false
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -41,6 +47,9 @@ data class MainScreenUiState(
 fun MainScreen(navController: NavController) {
     val weatherViewModel: WeatherViewModel = hiltViewModel()
     val uiState by weatherViewModel.uiState
+    val location = uiState.weather?.location
+    val viewModel: MainScreenViewModel = hiltViewModel()
+
 
 
     if (uiState.locations.isEmpty()) {
@@ -114,10 +123,28 @@ fun MainScreen(navController: NavController) {
                         )
                     }
                 },
+                onEditLocation = {
+                    viewModel.showWeatherSourceDialog(uiState.isLoading)
+                },
                 isTabletLike,
                 context
             )
         }
+    )
+
+
+    // WEATHER SOURCES DIALOG
+    SharedDialogs.WeatherProvidersForLocationDialog(
+        countryCode = location?.countryCode,
+        show = viewModel.uiState.value.isWeatherSourcesDialogOpen,
+        isEditing = true,
+        selectedSource = location?.source ?: WeatherSource.OPEN_METEO,
+        onSave = {
+            if (location != null) {
+                weatherViewModel.updateSourceForLocation(location, it)
+            }
+        },
+        onCancel = viewModel::hideWeatherSourceDialog
     )
 }
 
