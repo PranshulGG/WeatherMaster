@@ -25,9 +25,10 @@ import com.pranshulgg.weathermaster.core.ui.components.RadioRow
 object SharedDialogs {
     @Composable
     fun WeatherProvidersForLocationDialog(
-        countryCode: String,
+        countryCode: String?,
         show: Boolean,
         selectedSource: WeatherSource = WeatherSource.OPEN_METEO,
+        isEditing: Boolean = false,
         onSave: (WeatherSource) -> Unit,
         onCancel: () -> Unit
     ) {
@@ -38,7 +39,7 @@ object SharedDialogs {
             show,
             selectedSource
         ) {
-            mutableStateOf(selectedSource)
+            mutableStateOf(if (recommendedSources.isNotEmpty() && !isEditing) recommendedSources[0] else selectedSource)
         }
 
         DialogBasic(

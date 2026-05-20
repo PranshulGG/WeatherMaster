@@ -65,7 +65,7 @@ fun SearchScreen(navController: NavController) {
     val loading = viewModel.loading
     val uiState by viewModel.uiState
     val prefs = LocalAppPrefs.current
-    var isLocationProcessing by remember { mutableStateOf(false) }
+    var selectedLocationId by remember { mutableStateOf("") }
     var selectedLocation by remember { mutableStateOf<Location?>(null) }
 
 
@@ -135,12 +135,12 @@ fun SearchScreen(navController: NavController) {
                                 title = it.name,
                                 description = "${if (it.state.isNotEmpty()) "${it.state}, " else ""}${it.country}",
                                 trailing = {
-                                    if (isLocationProcessing) {
+                                    if (selectedLocationId == it.id) {
                                         LoadingIndicator()
                                     }
                                 },
                                 onClick = {
-                                    if (isLocationProcessing) return@ActionTile
+                                    if (selectedLocationId.isNotEmpty()) return@ActionTile
                                     selectedLocation = it
                                     viewModel.showWeatherSourcesDialog()
                                 }
@@ -163,7 +163,7 @@ fun SearchScreen(navController: NavController) {
 
     // WEATHER SOURCES DIALOG
     SharedDialogs.WeatherProvidersForLocationDialog(
-        selectedLocation?.countryCode ?: "US",
+        selectedLocation?.countryCode,
         uiState.isWeatherSourcesDialogOpen,
         selectedLocation?.source ?: WeatherSource.OPEN_METEO,
         onSave = {
@@ -171,13 +171,15 @@ fun SearchScreen(navController: NavController) {
             viewModel.saveLocation(
                 selectedLocation,
                 onBack = { navController.popBackStack() },
-                onReset = { isLocationProcessing = false },
+                onReset = { selectedLocationId = "" },
                 it
             )
 
-            isLocationProcessing = true
+            selectedLocationId = selectedLocation?.id ?: ""
         },
-        onCancel = viewModel::hideWeatherSourcesDialog
+        onCancel = {
+            viewModel.hideWeatherSourcesDialog()
+        }
     )
 }
 
