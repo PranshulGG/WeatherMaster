@@ -7,6 +7,10 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
+import kotlin.math.atan
+import kotlin.math.exp
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 fun to12HourTimeString(timeMilli: Long, zoneId: String, pattern: String = "ha"): String {
     val instant = Instant.ofEpochMilli(timeMilli)
@@ -28,6 +32,7 @@ fun toDateString(timeMilli: Long, zoneId: String, pattern: String = "dd MMMM"): 
     val instant = Instant.ofEpochMilli(timeMilli)
     val zonedDateTime = instant.atZone(ZoneId.of(zoneId))
     val formatter = DateTimeFormatter.ofPattern(pattern, getCurrentAppLocale())
+
 
     return formatter.format(zonedDateTime)
 
@@ -65,8 +70,4 @@ fun getLastUpdatedTimeString(context: Context, timeMilli: Long): String {
     }
 
     return lastUpdated
-}
-
-fun Long.toMilliseconds(): Long {
-    return (this * 1000L)
 }
