@@ -78,7 +78,6 @@ object SharedDialogs {
                 }
             }
         }
-
     }
 
 }

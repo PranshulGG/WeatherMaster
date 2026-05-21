@@ -39,7 +39,7 @@ fun WeatherWithRelations.toDomain(): Weather {
             isDefault = location.isDefault
         ),
         current = WeatherCurrent(
-            temperature = current?.temperature ?: 0.0,
+            temperature = current?.temperature,
             humidity = current?.humidity ?: 0.0,
             windSpeed = current?.windSpeed,
             windDirection = current?.windDirection,

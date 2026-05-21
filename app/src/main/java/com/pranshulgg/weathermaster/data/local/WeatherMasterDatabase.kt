@@ -30,7 +30,7 @@ import com.pranshulgg.weathermaster.data.local.entity.weather.nws.NwsGridPointsE
         CurrentAirQualityEntity::class,
         NwsGridPointsEntity::class
     ],
-    version = 37
+    version = 38
 )
 abstract class WeatherMasterDatabase : RoomDatabase() {
 
