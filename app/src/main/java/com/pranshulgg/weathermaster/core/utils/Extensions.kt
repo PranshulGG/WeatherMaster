@@ -41,4 +41,25 @@ object Extensions {
     }
 
 
+    // UTC to Local
+    fun Long.normalizeToDay(zoneId: String): Long {
+
+        val zone = ZoneId.of(zoneId)
+
+        val localDate = Instant.ofEpochMilli(this)
+            .atZone(zone)
+            .toLocalDate()
+
+        return localDate
+            .atStartOfDay(zone)
+            .toInstant()
+            .toEpochMilli()
+    }
+
+    fun Long.toLocalMillis(zoneId: String): Long {
+        return Instant.ofEpochMilli(this)
+            .atZone(ZoneId.of(zoneId))
+            .toInstant()
+            .toEpochMilli()
+    }
 }
