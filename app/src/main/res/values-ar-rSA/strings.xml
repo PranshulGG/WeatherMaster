@@ -178,7 +178,6 @@
     <string name="weather_rain_then_cloudy">Rain then cloudy</string>
     <string name="weather_rain_then_snow">Rain then snow</string>
     <string name="weather_snow_then_clear">Snow then clear</string>
-    <string name="weather_snow_then_clear">Snow then clear</string>
     <string name="weather_snow_then_cloudy">Snow then cloudy</string>
     <string name="weather_snow_then_rain">Snow then rain</string>
     <string name="error_refresh_waiting_before_action">Please wait for the refresh to complete</string>
