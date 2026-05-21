@@ -56,7 +56,8 @@ fun HourlyCard(
     val filteredHourly =
         findMatchingHourly(
             weather.hourly,
-            currentMilli
+            currentMilli,
+            weather.location.source
         )
 
 
