@@ -1,8 +1,8 @@
 package com.pranshulgg.weathermaster.core.model.sources
 
-enum class WeatherSource(val displayName: String) {
-    OPEN_METEO("Open Meteo"),
-    NWS("National Weather Service")
+enum class WeatherSource(val displayName: String, val hourlyAggregationLimitHours: Int) {
+    OPEN_METEO(displayName = "Open Meteo", hourlyAggregationLimitHours = 24),
+    NWS(displayName = "National Weather Service", hourlyAggregationLimitHours = 12);
 }
 
 

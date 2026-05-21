@@ -1,16 +1,23 @@
 package com.pranshulgg.weathermaster.data.local.mapper.weather.sources.openmeteo
 
+import android.util.Log
 import com.pranshulgg.weathermaster.core.model.domain.location.Location
 import com.pranshulgg.weathermaster.core.model.domain.weather.Weather
 import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherCurrent
 import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherDaily
 import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherHourly
+import com.pranshulgg.weathermaster.core.model.weather.WeatherCondition
 import com.pranshulgg.weathermaster.core.model.weather.wind.WindDirection
+import com.pranshulgg.weathermaster.core.network.sources.weather.nws.NwsWeatherConditionMap
+import com.pranshulgg.weathermaster.core.network.sources.weather.nws.json.NwsHourlyForecastPeriodsJson
 import com.pranshulgg.weathermaster.core.network.sources.weather.openmeteo.OpenMeteoWeatherConditionMap
+import com.pranshulgg.weathermaster.core.network.sources.weather.openmeteo.json.OpenMeteoHourlyForecastJson
 import com.pranshulgg.weathermaster.core.network.sources.weather.openmeteo.json.OpenMeteoWeatherJson
+import com.pranshulgg.weathermaster.core.utils.Extensions.iso8601TimestampToMilliseconds
 import com.pranshulgg.weathermaster.core.utils.Extensions.secondsToMilliseconds
 import com.pranshulgg.weathermaster.core.utils.weather.astronomy.getMoonTimings
 import com.pranshulgg.weathermaster.core.utils.weather.astronomy.getSunTimings
+import com.pranshulgg.weathermaster.core.utils.weather.computing.computeDailyWeatherCondition
 import kotlin.uuid.ExperimentalUuidApi
 
 // ---------------------------- JSON TO DOMAIN ----------------------------
@@ -69,6 +76,12 @@ fun OpenMeteoWeatherJson.toDomain(location: Location): Weather {
             )
         },
         daily = List(daily.time.size) {
+
+            val condition = computeDailyWeatherCondition(
+                getHourlyConditionsForDay(hourly, daily.time[it]),
+                OpenMeteoWeatherConditionMap.getCondition(daily.weatherCode[it])
+            )
+
             WeatherDaily(
                 temperatureMin = daily.temperatureMin[it],
                 temperatureMax = daily.temperatureMax[it],
@@ -77,7 +90,7 @@ fun OpenMeteoWeatherJson.toDomain(location: Location): Weather {
                 rainSum = daily.rainSum[it],
                 snowfallSum = daily.snowfallSum[it],
                 uvIndexMax = daily.uvIndexMax[it],
-                weatherCondition = OpenMeteoWeatherConditionMap.getCondition(daily.weatherCode[it]),
+                weatherCondition = condition,
                 time = daily.time[it].secondsToMilliseconds(), // Open-Meteo returns in seconds
                 precipitationProbabilityMax = daily.precipitationProbabilityMax[it],
                 sunrise = sunTimings[it].sunrise ?: -0L,
@@ -88,4 +101,18 @@ fun OpenMeteoWeatherJson.toDomain(location: Location): Weather {
             )
         }
     )
+}
+
+private fun getHourlyConditionsForDay(
+    data: OpenMeteoHourlyForecastJson,
+    time: Long
+): List<WeatherCondition> {
+    val startIndex =
+        data.time.indexOfFirst { it.secondsToMilliseconds() >= time.secondsToMilliseconds() }
+            .takeIf { it != -1 } ?: 0
+
+    val conditions = data.weatherCode.drop(maxOf(0, startIndex - 1)).take(24)
+        .map { OpenMeteoWeatherConditionMap.getCondition(it) }
+
+    return conditions
 }
