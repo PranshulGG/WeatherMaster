@@ -87,10 +87,7 @@ class NwsRepository @Inject constructor(
 
 
                     // Get all the stations
-                    val stations = nwsStationsBody.features.sortedBy {
-                        it.properties.distance?.value
-                            ?: Double.MAX_VALUE // Null distance should never become the closest (from exp)
-                    }
+                    val stations = nwsStationsBody.features
 
                     val station = getValidObservationAndStation(stations, api)
 
@@ -203,19 +200,19 @@ private suspend fun getValidObservationAndStation(
     api: NwsApi
 ): Pair<String, NwsCurrentForecastJson?>? {
 
-    val selectedStation = mutableStateOf<Pair<String, NwsCurrentForecastJson?>?>(null)
 
     for (feature in stations) {
         val stationId = feature.properties.stationIdentifier
+
         try {
             val response = api.fetchCurrentForecast(stationId)
 
             if (response.isSuccessful && response.body() != null) {
-                selectedStation.value = Pair(stationId, response.body())
+                return Pair(stationId, response.body())
             }
         } catch (_: Exception) {
         }
     }
 
-    return selectedStation.value
+    return null
 }

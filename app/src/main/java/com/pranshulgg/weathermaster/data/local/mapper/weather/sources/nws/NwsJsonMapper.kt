@@ -7,22 +7,28 @@ import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherCurrent
 import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherDaily
 import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherHourly
 import com.pranshulgg.weathermaster.core.model.domain.weather.nws.NwsGridPoints
+import com.pranshulgg.weathermaster.core.model.weather.WeatherCondition
 import com.pranshulgg.weathermaster.core.model.weather.wind.WindDirection
 import com.pranshulgg.weathermaster.core.network.sources.weather.nws.NwsWeatherConditionMap
 import com.pranshulgg.weathermaster.core.network.sources.weather.nws.json.NwsGridPointDataQuantitativePrecipitationValuesJson
 import com.pranshulgg.weathermaster.core.network.sources.weather.nws.json.NwsGridPointDataSnowfallAmountValuesJson
 import com.pranshulgg.weathermaster.core.network.sources.weather.nws.json.NwsGridPointsJson
+import com.pranshulgg.weathermaster.core.network.sources.weather.nws.json.NwsHourlyForecastJson
+import com.pranshulgg.weathermaster.core.network.sources.weather.nws.json.NwsHourlyForecastPeriodsJson
 import com.pranshulgg.weathermaster.core.network.sources.weather.nws.json.bundle.NwsWeatherJsonBundle
 import com.pranshulgg.weathermaster.core.utils.Extensions.fahrenheitToCelsius
 import com.pranshulgg.weathermaster.core.utils.Extensions.iso8601TimestampToMilliseconds
 import com.pranshulgg.weathermaster.core.utils.Extensions.kmhToMs
 import com.pranshulgg.weathermaster.core.utils.Extensions.mmToCm
 import com.pranshulgg.weathermaster.core.utils.Extensions.mphToKmh
+import com.pranshulgg.weathermaster.core.utils.Extensions.normalizeToDay
 import com.pranshulgg.weathermaster.core.utils.Extensions.pressurePaToHpa
 import com.pranshulgg.weathermaster.core.utils.weather.astronomy.getMoonTimings
 import com.pranshulgg.weathermaster.core.utils.weather.astronomy.getSunTimings
 import com.pranshulgg.weathermaster.core.utils.weather.calculations.computeApparentTemperature
+import com.pranshulgg.weathermaster.core.utils.weather.computing.computeDailyWeatherCondition
 import com.pranshulgg.weathermaster.core.utils.weather.forecast.findHourlyIndexForTime
+import com.pranshulgg.weathermaster.core.utils.weather.forecast.findMatchingHourly
 import java.net.UnknownHostException
 import java.time.Duration
 import java.time.Instant
@@ -59,15 +65,21 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
     val minTemperatureData = gridPointData.minTemperature
     val snowData = gridPointData.snowfallAmount
     val daily = this.forecast.properties
-
+    val zoneId = location.timezone
 
     val rainMap = expandedHourly(precipitationData.values.map { it.validTime to it.value })
 
     val snowMap = expandedHourly(snowData.values.map { it.validTime to it.value })
     val maxTemperatureMap =
-        matchingMinMaxTemperature(maxTemperatureData.values.map { it.validTime to it.value })
+        matchingMinMaxTemperature(
+            maxTemperatureData.values.map { it.validTime to it.value },
+            location.timezone
+        )
     val minTemperatureMap =
-        matchingMinMaxTemperature(minTemperatureData.values.map { it.validTime to it.value })
+        matchingMinMaxTemperature(
+            minTemperatureData.values.map { it.validTime to it.value },
+            location.timezone
+        )
 
 
     val currentHourIndex =
@@ -82,7 +94,7 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
 
     val sunTimings = getSunTimings(
         daily.periods.map {
-            it.startTime.iso8601TimestampToMilliseconds()
+            it.startTime.iso8601TimestampToMilliseconds().normalizeToDay(zoneId)
         },
         location.timezone,
         location.latitude,
@@ -91,7 +103,7 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
 
     val moonTimings = getMoonTimings(
         daily.periods.map {
-            it.startTime.iso8601TimestampToMilliseconds()
+            it.startTime.iso8601TimestampToMilliseconds().normalizeToDay(zoneId)
         },
         location.timezone,
         location.latitude,
@@ -143,7 +155,8 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
             val index = daily.periods.indexOf(item)
 
 
-            val time = item.startTime.iso8601TimestampToMilliseconds()
+            val time =
+                item.startTime.iso8601TimestampToMilliseconds().normalizeToDay(zoneId)
 
             // Time doesn't align so we get the closest difference
             val maxTemperature = maxTemperatureMap.entries.minByOrNull { (key, _) ->
@@ -160,6 +173,11 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
 
             val windSpeed = fixDailyNwsWindSpeedValue(item.windSpeed)
 
+            val condition = computeDailyWeatherCondition(
+                getHourlyConditionsForDay(hourly, time),
+                NwsWeatherConditionMap.getCondition(item.icon)
+            )
+
             WeatherDaily(
                 temperatureMin = minTemperature?.value ?: 0.0,
                 temperatureMax = maxTemperature?.value ?: 0.0,
@@ -168,7 +186,7 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
                 rainSum = rainSum,
                 snowfallSum = snowfallSum.mmToCm(),
                 uvIndexMax = null,
-                weatherCondition = NwsWeatherConditionMap.getCondition(item.icon),
+                weatherCondition = condition,
                 time = time,
                 precipitationProbabilityMax = item.probabilityOfPrecipitation.value.toInt(),
                 sunrise = sunTimings[index].sunrise ?: -0L,
@@ -259,11 +277,14 @@ private fun <T> expandedHourly(values: List<Pair<String, T>>): Map<Long, T> {
 }
 
 
-private fun <T> matchingMinMaxTemperature(values: List<Pair<String, T>>): Map<Long, T> {
+private fun <T> matchingMinMaxTemperature(
+    values: List<Pair<String, T>>,
+    zoneId: String
+): Map<Long, T> {
     val daily = mutableMapOf<Long, T>()
 
     values.forEach { (validTime, value) ->
-        val milli = validTime.iso8601TimestampToMilliseconds()
+        val milli = validTime.iso8601TimestampToMilliseconds().normalizeToDay(zoneId)
 
         daily[milli] = value
     }
@@ -298,4 +319,18 @@ private fun getSnowfallSum(
     val snowfallSum = data.sumOf { it.value ?: 0.0 }
 
     return snowfallSum
+}
+
+private fun getHourlyConditionsForDay(
+    data: NwsHourlyForecastPeriodsJson,
+    time: Long
+): List<WeatherCondition> {
+    val startIndex =
+        data.periods.indexOfFirst { it.startTime.iso8601TimestampToMilliseconds() >= time }
+            .takeIf { it != -1 } ?: 0
+
+    val conditions = data.periods.drop(maxOf(0, startIndex - 1)).take(12)
+        .map { NwsWeatherConditionMap.getCondition(it.icon) }
+
+    return conditions
 }
