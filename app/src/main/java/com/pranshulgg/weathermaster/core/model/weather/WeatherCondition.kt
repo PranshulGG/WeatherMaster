@@ -21,7 +21,40 @@ enum class WeatherCondition {
 
     RAIN,
 
-    NO_CONDITION_FOUND
+    NO_CONDITION_FOUND,
+
+    // USED FOR DAILY
+    CLEAR_WITH_CLOUDY,
+    CLEAR_WITH_RAIN,
+    CLEAR_WITH_SNOW,
+
+    CLOUDY_WITH_CLEAR,
+    CLOUDY_WITH_RAIN,
+    CLOUDY_WITH_SNOW,
+
+    RAIN_WITH_CLEAR,
+    RAIN_WITH_CLOUDY,
+    RAIN_WITH_SNOW,
+
+    SNOW_WITH_CLEAR,
+    SNOW_WITH_CLOUDY,
+    SNOW_WITH_RAIN,
+
+    CLEAR_THEN_CLOUDY,
+    CLEAR_THEN_RAIN,
+    CLEAR_THEN_SNOW,
+
+    CLOUDY_THEN_CLEAR,
+    CLOUDY_THEN_RAIN,
+    CLOUDY_THEN_SNOW,
+
+    RAIN_THEN_CLEAR,
+    RAIN_THEN_CLOUDY,
+    RAIN_THEN_SNOW,
+
+    SNOW_THEN_CLEAR,
+    SNOW_THEN_CLOUDY,
+    SNOW_THEN_RAIN
 
 }
 
@@ -63,6 +96,38 @@ fun WeatherCondition.toIcon(daily: WeatherDaily? = null, targetTimeMilli: Long):
 
         WeatherCondition.RAIN -> R.drawable.weather_rain
 
+        WeatherCondition.CLEAR_WITH_CLOUDY -> R.drawable.clear_with_cloudy
+        WeatherCondition.CLEAR_WITH_RAIN -> R.drawable.clear_with_rain
+        WeatherCondition.CLEAR_WITH_SNOW -> R.drawable.clear_with_snow
+
+        WeatherCondition.CLOUDY_WITH_CLEAR -> R.drawable.cloudy_with_clear
+        WeatherCondition.CLOUDY_WITH_RAIN -> R.drawable.cloudy_with_rain
+        WeatherCondition.CLOUDY_WITH_SNOW -> R.drawable.cloudy_with_snow
+
+        WeatherCondition.RAIN_WITH_CLEAR -> R.drawable.rain_with_clear
+        WeatherCondition.RAIN_WITH_CLOUDY -> R.drawable.rain_with_cloudy
+        WeatherCondition.RAIN_WITH_SNOW -> R.drawable.rain_with_snow
+
+        WeatherCondition.SNOW_WITH_CLEAR -> R.drawable.snow_with_clear
+        WeatherCondition.SNOW_WITH_CLOUDY -> R.drawable.snow_with_cloudy
+        WeatherCondition.SNOW_WITH_RAIN -> R.drawable.snow_with_rain
+
+        WeatherCondition.CLEAR_THEN_CLOUDY -> R.drawable.clear_then_cloudy
+        WeatherCondition.CLEAR_THEN_RAIN -> R.drawable.clear_then_rain
+        WeatherCondition.CLEAR_THEN_SNOW -> R.drawable.clear_then_snow
+
+        WeatherCondition.CLOUDY_THEN_CLEAR -> R.drawable.cloudy_then_clear
+        WeatherCondition.CLOUDY_THEN_RAIN -> R.drawable.cloudy_then_rain
+        WeatherCondition.CLOUDY_THEN_SNOW -> R.drawable.cloudy_then_snow
+
+        WeatherCondition.RAIN_THEN_CLEAR -> R.drawable.rain_then_clear
+        WeatherCondition.RAIN_THEN_CLOUDY -> R.drawable.rain_then_cloudy
+        WeatherCondition.RAIN_THEN_SNOW -> R.drawable.rain_then_snow
+
+        WeatherCondition.SNOW_THEN_CLEAR -> R.drawable.snow_then_clear
+        WeatherCondition.SNOW_THEN_CLOUDY -> R.drawable.snow_then_cloudy
+        WeatherCondition.SNOW_THEN_RAIN -> R.drawable.snow_then_rain
+
         WeatherCondition.NO_CONDITION_FOUND -> R.drawable.weather_not_available
 
 
@@ -102,6 +167,38 @@ fun WeatherCondition.toLabel(context: Context): String {
         WeatherCondition.FOG_HAZE -> context.getString(R.string.weather_haze)
 
         WeatherCondition.RAIN -> context.getString(R.string.weather_rain)
+
+        WeatherCondition.CLEAR_WITH_CLOUDY -> context.getString(R.string.weather_clear_with_cloudy)
+        WeatherCondition.CLEAR_WITH_RAIN -> context.getString(R.string.weather_clear_with_rain)
+        WeatherCondition.CLEAR_WITH_SNOW -> context.getString(R.string.weather_clear_with_snow)
+
+        WeatherCondition.CLOUDY_WITH_CLEAR -> context.getString(R.string.weather_cloudy_with_clear)
+        WeatherCondition.CLOUDY_WITH_RAIN -> context.getString(R.string.weather_cloudy_with_rain)
+        WeatherCondition.CLOUDY_WITH_SNOW -> context.getString(R.string.weather_cloudy_with_snow)
+
+        WeatherCondition.RAIN_WITH_CLEAR -> context.getString(R.string.weather_rain_with_clear)
+        WeatherCondition.RAIN_WITH_CLOUDY -> context.getString(R.string.weather_rain_with_cloudy)
+        WeatherCondition.RAIN_WITH_SNOW -> context.getString(R.string.weather_rain_with_snow)
+
+        WeatherCondition.SNOW_WITH_CLEAR -> context.getString(R.string.weather_snow_with_clear)
+        WeatherCondition.SNOW_WITH_CLOUDY -> context.getString(R.string.weather_snow_with_cloudy)
+        WeatherCondition.SNOW_WITH_RAIN -> context.getString(R.string.weather_snow_with_rain)
+
+        WeatherCondition.CLEAR_THEN_CLOUDY -> context.getString(R.string.weather_clear_then_cloudy)
+        WeatherCondition.CLEAR_THEN_RAIN -> context.getString(R.string.weather_clear_then_rain)
+        WeatherCondition.CLEAR_THEN_SNOW -> context.getString(R.string.weather_clear_then_snow)
+
+        WeatherCondition.CLOUDY_THEN_CLEAR -> context.getString(R.string.weather_cloudy_then_clear)
+        WeatherCondition.CLOUDY_THEN_RAIN -> context.getString(R.string.weather_cloudy_then_rain)
+        WeatherCondition.CLOUDY_THEN_SNOW -> context.getString(R.string.weather_cloudy_then_snow)
+
+        WeatherCondition.RAIN_THEN_CLEAR -> context.getString(R.string.weather_rain_then_clear)
+        WeatherCondition.RAIN_THEN_CLOUDY -> context.getString(R.string.weather_rain_then_cloudy)
+        WeatherCondition.RAIN_THEN_SNOW -> context.getString(R.string.weather_rain_then_snow)
+
+        WeatherCondition.SNOW_THEN_CLEAR -> context.getString(R.string.weather_snow_then_clear)
+        WeatherCondition.SNOW_THEN_CLOUDY -> context.getString(R.string.weather_snow_then_cloudy)
+        WeatherCondition.SNOW_THEN_RAIN -> context.getString(R.string.weather_snow_then_rain)
 
         WeatherCondition.NO_CONDITION_FOUND -> context.getString(R.string.weather_no_condition)
 
@@ -149,6 +246,7 @@ fun WeatherCondition.toFroggy(daily: WeatherDaily? = null, targetTimeSecs: Long)
 
         WeatherCondition.NO_CONDITION_FOUND -> R.drawable.weather_not_available
 
+        else -> R.drawable.weather_not_available
 
     }
 
