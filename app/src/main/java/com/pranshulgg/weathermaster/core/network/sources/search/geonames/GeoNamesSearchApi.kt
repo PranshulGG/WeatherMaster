@@ -1,6 +1,7 @@
 package com.pranshulgg.weathermaster.core.network.sources.search.geonames
 
 import com.pranshulgg.weathermaster.BuildConfig
+import com.pranshulgg.weathermaster.core.network.sources.search.geonames.json.GeoNamesSearchJson
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -17,7 +18,7 @@ interface GeoNamesSearchApi {
     suspend fun search(
         @Query("name_startsWith") query: String,
         @Query("append_to_response") append: String = "maxRows=10"
-    ): Response<GeoNamesSearchDto>
+    ): Response<GeoNamesSearchJson>
 
     companion object {
 

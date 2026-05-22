@@ -1,6 +1,7 @@
-package com.pranshulgg.weathermaster.core.network.sources.search.geonames
+package com.pranshulgg.weathermaster.core.network.sources.search.geonames.timezone
 
 import com.pranshulgg.weathermaster.BuildConfig
+import com.pranshulgg.weathermaster.core.network.sources.search.geonames.json.GeoNamesTimezoneItemJson
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -11,7 +12,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
-
 interface GeoNamesTimezoneApi {
 
     @GET("timezoneJSON")
@@ -19,7 +19,7 @@ interface GeoNamesTimezoneApi {
         @Query("lat") latitude: Double,
         @Query("lng") longitude: Double,
         @Query("append_to_response") append: String = "maxRows=10"
-    ): Response<GeoNamesTimezoneItemDto>
+    ): Response<GeoNamesTimezoneItemJson>
 
     companion object {
 

@@ -1,12 +1,13 @@
-package com.pranshulgg.weathermaster.core.network.sources.search.geonames
+package com.pranshulgg.weathermaster.core.network.sources.search.geonames.json
 
 import com.google.gson.annotations.SerializedName
 
-data class GeoNamesSearchDto(
-    val geonames: List<GeoNamesSearchItemDto>
+
+data class GeoNamesSearchJson(
+    val geonames: List<GeoNamesSearchItemJson>
 )
 
-data class GeoNamesSearchItemDto(
+data class GeoNamesSearchItemJson(
     @SerializedName("lat")
     val latitude: Double,
 
@@ -25,7 +26,7 @@ data class GeoNamesSearchItemDto(
 )
 
 
-data class GeoNamesTimezoneItemDto(
+data class GeoNamesTimezoneItemJson(
     val timezoneId: String
 )
 
@@ -33,7 +34,7 @@ data class GeoNamesTimezoneItem(
     val timezone: String
 )
 
-fun GeoNamesTimezoneItemDto.toDomain(): GeoNamesTimezoneItem {
+fun GeoNamesTimezoneItemJson.toDomain(): GeoNamesTimezoneItem {
     return GeoNamesTimezoneItem(timezone = timezoneId)
 }
 
