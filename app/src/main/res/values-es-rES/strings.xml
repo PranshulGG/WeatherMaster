@@ -116,12 +116,12 @@
     <string name="location_permission_required">Permiso de ubicación requerida</string>
     <string name="current_location_not_found">Ubicación actual no encontrada</string>
     <string name="error_server">Solicitud no completada. Inténtelo más tarde</string>
-    <string name="weather_airquality_good">buena</string>
-    <string name="weather_airquality_fair">agradable</string>
+    <string name="weather_airquality_good">Buena</string>
+    <string name="weather_airquality_fair">Agradable</string>
     <string name="weather_airquality_moderate">Moderada</string>
-    <string name="weather_airquality_poor">pobre</string>
-    <string name="weather_airquality_very_poor">muy pobre</string>
-    <string name="weather_airquality_hazardous">peligrosa</string>
+    <string name="weather_airquality_poor">Pobre</string>
+    <string name="weather_airquality_very_poor">Muy pobre</string>
+    <string name="weather_airquality_hazardous">Peligrosa</string>
     <string name="weather_aqi_description_good">La calidad del aire es agradable, y la polución supone poco o ningún riesgo.</string>
     <string name="weather_aqi_description_fair">La calidad del aire es aceptable. Sin embargo, podría haber un riesgo para algunas personas, especialmente esas que son inusualmente sensibles a la polución del aire.</string>
     <string name="weather_aqi_description_moderate">Members of sensitive groups may experience health effects. The general public is less likely to be affected.</string>
@@ -169,5 +169,6 @@
     <string name="weather_snow_then_cloudy">Snow then cloudy</string>
     <string name="weather_snow_then_rain">Snow then rain</string>
     <string name="error_refresh_waiting_before_action">Please wait for the refresh to complete</string>
+    <string name="weather_total_amount">Total amount</string>
 </resources>
 <!--<string name=""></string>-->
