@@ -71,7 +71,7 @@ fun DailyCard(weather: Weather, units: WeatherUnits, navController: NavControlle
                         item.temperatureMax,
                         item.temperatureMin,
                         item.weatherCondition.toIcon(targetTimeMilli = System.currentTimeMillis()) /* always use day icons */,
-                        item.precipitationProbabilityMax ?: 0,
+                        item.precipitationProbabilityMax,
                         units,
                         onDailyItemClick = {
                             navController.navigate(
@@ -97,7 +97,7 @@ private fun DailyItem(
     maxTemp: Double,
     minTemp: Double,
     icon: Int,
-    precipitationProbability: Int,
+    precipitationProbability: Int?,
     units: WeatherUnits,
     onDailyItemClick: () -> Unit
 ) {
@@ -148,7 +148,7 @@ private fun DailyItem(
                 WeatherIconBox(icon, size = 38.dp)
                 Gap(8.dp)
                 Text(
-                    "${precipitationProbability}%",
+                    "${precipitationProbability ?: "-"}%",
                     color = MaterialTheme.colorScheme.primary,
                     style = MaterialTheme.typography.bodyMedium
                 )

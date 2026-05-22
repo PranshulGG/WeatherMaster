@@ -68,12 +68,6 @@ fun DailyScreen(navController: NavController, index: Int = 0, locationId: String
     }
 
 
-    val hourlyStartTime =
-        if (selectedIndex == 0) ZonedDateTime.now(ZoneId.of(weather.location.timezone))
-            .toEpochSecond()
-            .secondsToMilliseconds() else Instant.ofEpochMilli(selectedDaily.time)
-            .atZone(ZoneId.of(weather.location.timezone)).toEpochSecond()
-            .secondsToMilliseconds()
 
 
     LargeTopBarScaffold(
@@ -103,7 +97,7 @@ fun DailyScreen(navController: NavController, index: Int = 0, locationId: String
             ) {
                 HourlyCard(
                     weather,
-                    units, hourlyStartTime
+                    units, selectedDaily.time
                 )
                 WeatherBlocks(
                     weather,
