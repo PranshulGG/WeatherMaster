@@ -1,9 +1,25 @@
 package com.pranshulgg.weathermaster.core.model.sources
 
-enum class WeatherSource(val displayName: String, val hourlyAggregationLimitHours: Int) {
-    OPEN_METEO(displayName = "Open Meteo", hourlyAggregationLimitHours = 24),
-    NWS(displayName = "National Weather Service", hourlyAggregationLimitHours = 12),
-    MET_NORWAY(displayName = "Met Norway", hourlyAggregationLimitHours = 12);
+enum class WeatherSource(
+    val displayName: String,
+    val hourlyAggregationLimitHours: Int,
+    val displayLink: String
+) {
+    OPEN_METEO(
+        displayName = "Open Meteo",
+        hourlyAggregationLimitHours = 24,
+        displayLink = "https://open-meteo.com/"
+    ),
+    NWS(
+        displayName = "National Weather Service",
+        hourlyAggregationLimitHours = 12,
+        displayLink = "https://www.weather.gov/documentation/services-web-api"
+    ),
+    MET_NORWAY(
+        displayName = "Met Norway",
+        hourlyAggregationLimitHours = 12,
+        "https://api.met.no/"
+    );
 
     fun providesSnowFall(): Boolean {
         return when (this) {
