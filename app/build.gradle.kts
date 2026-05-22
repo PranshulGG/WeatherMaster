@@ -20,7 +20,7 @@ val geoNamesUserNameKey: String = localProps.getProperty("GEO_NAMES_USERNAME")
 
 
 android {
-    namespace = "com.pranshulgg.weathermaster"
+    namespace = "com.pranshulgg.weather_master_app"
     android.buildFeatures.buildConfig = true
     compileSdk {
         version = release(36) {
@@ -29,7 +29,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.pranshulgg.weathermaster"
+        applicationId = "com.pranshulgg.weather_master_app"
         minSdk = 24
         targetSdk = 36
         versionCode = 46

@@ -1,0 +1,134 @@
+package com.pranshulgg.weather_master_app.data.repository
+
+import android.content.Context
+import androidx.room.Transaction
+import com.pranshulgg.weather_master_app.core.model.domain.AppException
+import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
+import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
+import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
+import com.pranshulgg.weather_master_app.data.local.mapper.locations.toDomain
+import com.pranshulgg.weather_master_app.data.local.mapper.locations.toEntity
+import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDomain
+import com.pranshulgg.weather_master_app.data.provider.DeviceLocation
+import com.pranshulgg.weather_master_app.data.provider.GetDeviceLocation
+import com.pranshulgg.weather_master_app.feature.intro.toDomain
+import dagger.hilt.android.qualifiers.ApplicationContext
+import jakarta.inject.Inject
+import kotlinx.coroutines.CancellableContinuation
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resumeWithException
+
+class LocationsRepository @Inject constructor(
+    private val dao: LocationsDao,
+    private val airQualityDao: AirQualityDao,
+    @param:ApplicationContext private val context: Context
+) {
+
+    class Callbacks {
+        fun onSuccess(cont: CancellableContinuation<DeviceLocation>, result: DeviceLocation) {
+            if (cont.isActive) {
+                cont.resumeWith(Result.success(result))
+            }
+        }
+
+        fun onTimeout(cont: CancellableContinuation<DeviceLocation>) {
+            if (cont.isActive) {
+                cont.resumeWithException(AppException.CurrentLocationUnavailable())
+            }
+        }
+    }
+
+    private val callback = Callbacks()
+
+
+    fun getLocations(): Flow<List<Location>> {
+        return dao.getLocations().map { it.toDomain() }
+    }
+
+    @Transaction
+    suspend fun deleteLocation(id: String) {
+        dao.deleteLocation(id)
+        airQualityDao.deleteCurrentAirQuality(id)
+    }
+
+    suspend fun updateSourceForLocation(id: String, source: WeatherSource) {
+        dao.updateSourceForLocation(id, source)
+    }
+
+
+    @Transaction
+    suspend fun saveLocation(location: Location) {
+        val isFirst = dao.getLocationsCount() == 0
+        dao.insertWeatherLocation(location.toEntity())
+
+        if (isFirst) {
+            updateDefaultLocation(location.id)
+        }
+    }
+
+    suspend fun isLocationsEmpty(): Boolean {
+        val isEmpty = dao.getLocationsCount() == 0
+        return isEmpty
+    }
+
+    @Transaction
+    suspend fun updateDefaultLocation(id: String) {
+        dao.clearDefaultLocations()
+        dao.updateDefaultLocation(id)
+    }
+
+    fun getDefaultLocation(): Flow<Location?> {
+        return dao.getDefaultLocation().map { it?.toDomain() }
+    }
+
+    suspend fun getWeatherForLocation(locationId: String): Weather {
+        return dao.getWeatherForLocation(locationId).toDomain()
+    }
+
+    suspend fun updateDeviceLocationPosition() {
+
+        val location = suspendCancellableCoroutine { cont ->
+            GetDeviceLocation().getDeviceLocation(
+                context,
+                onTimeout = {
+                    callback.onTimeout(cont)
+                }) { result ->
+                callback.onSuccess(cont, result)
+            }
+        }
+
+        if (location.latitude == null || location.longitude == null) {
+            return
+        }
+
+        val formattedLatitude = "%.5f".format(location.latitude).toDouble()
+        val formattedLongitude = "%.5f".format(location.longitude).toDouble()
+
+        dao.updateDeviceLocationPosition(formattedLatitude, formattedLongitude)
+    }
+
+    suspend fun saveDeviceLocation() {
+        val location = suspendCancellableCoroutine { cont ->
+            GetDeviceLocation().getDeviceLocation(
+                context,
+                onTimeout = {
+                    callback.onTimeout(cont)
+                }) { result ->
+                callback.onSuccess(cont, result)
+            }
+        }
+        if (location.latitude == null || location.longitude == null) {
+            throw AppException.CurrentLocationUnavailable()
+        }
+        saveLocation(location.toDomain())
+    }
+
+    fun getWeatherForAllLocations(): Flow<List<Weather>> {
+        return dao.getAllLocationsCurrentWeather()
+            .map { list -> list.map { it.toDomain() } }
+    }
+}

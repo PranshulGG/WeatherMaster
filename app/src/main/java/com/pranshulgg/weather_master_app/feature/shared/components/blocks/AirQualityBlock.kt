@@ -1,0 +1,112 @@
+package com.pranshulgg.weather_master_app.feature.shared.components.blocks
+
+import android.content.Context
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import com.pranshulgg.weather_master_app.R
+import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQuality
+import com.pranshulgg.weather_master_app.core.model.weather.airquality.toName
+import com.pranshulgg.weather_master_app.core.ui.components.Gap
+import com.pranshulgg.weather_master_app.core.ui.components.Symbol
+import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
+import com.pranshulgg.weather_master_app.core.utils.weather.airquality.AirQualityColors
+
+@Composable
+fun AirQualityBlock(airQuality: AirQuality?, context: Context) {
+
+
+    val aqi = airQuality!!.getAqi()
+    val level = airQuality.getAqiLevel(aqi)
+    val aqiBarProgress = airQuality.getAqiBarValue(aqi)
+
+    Surface(
+        color = MaterialTheme.colorScheme.surface,
+        shape = MaterialTheme.shapes.extraLarge,
+        shadowElevation = ShadowElevation.level2
+    ) {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .aspectRatio(1f)
+        ) {
+
+            Column(
+                Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+            ) {
+                Text(
+                    aqi.toString(),
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.End,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    style = MaterialTheme.typography.displayMedium
+                )
+                LinearProgressIndicator(
+                    progress = { aqiBarProgress },
+                    color = AirQualityColors.getColors(level),
+                    trackColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+                    modifier = Modifier.height(8.dp)
+
+                )
+                Gap(3.dp)
+                Text(
+                    level.toName(context),
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.End,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+
+            Box(Modifier.align(Alignment.TopStart)) {
+                Header()
+            }
+        }
+    }
+}
+
+@Composable
+private fun Header() {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(
+            5.dp,
+            alignment = Alignment.CenterHorizontally
+        ),
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(top = 16.dp, start = 12.dp, end = 12.dp)
+    ) {
+        Symbol(
+            R.drawable.airwave_24px,
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.9f),
+        )
+        Text(
+            stringResource(R.string.weather_air_quality),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.9f)
+
+        )
+    }
+}
