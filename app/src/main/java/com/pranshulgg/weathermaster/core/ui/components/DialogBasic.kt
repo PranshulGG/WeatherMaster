@@ -31,6 +31,7 @@ fun DialogBasic(
     dismissText: String = "Cancel",
     onConfirm: () -> Unit = {},
     onDismiss: () -> Unit,
+    showOnlyDismissAction: Boolean = false,
     showDefaultActions: Boolean = true,
     confirmBtnDisabled: Boolean = false,
     content: @Composable () -> Unit,
@@ -77,16 +78,18 @@ fun DialogBasic(
                         ) {
                             Text(dismissText, style = MaterialTheme.typography.labelLarge)
                         }
-                        Spacer(Modifier.width(8.dp))
-                        TextButton(
-                            enabled = !confirmBtnDisabled,
-                            onClick = {
-                                onConfirm()
-                                onDismiss()
-                            },
-                            shapes = ButtonDefaults.shapes()
-                        ) {
-                            Text(confirmText, style = MaterialTheme.typography.labelLarge)
+                        if (!showOnlyDismissAction) {
+                            Spacer(Modifier.width(8.dp))
+                            TextButton(
+                                enabled = !confirmBtnDisabled,
+                                onClick = {
+                                    onConfirm()
+                                    onDismiss()
+                                },
+                                shapes = ButtonDefaults.shapes()
+                            ) {
+                                Text(confirmText, style = MaterialTheme.typography.labelLarge)
+                            }
                         }
                     }
                 }
