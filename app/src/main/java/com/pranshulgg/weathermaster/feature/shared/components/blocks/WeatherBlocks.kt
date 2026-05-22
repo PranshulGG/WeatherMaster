@@ -149,12 +149,12 @@ fun WeatherBlocks(
     ) {
         items(
             items = items,
-            key = { it.id }
+            key = { it.id.plus((99..1000).random()) }
         ) { item ->
 
             ReorderableItem(
                 reorderableState,
-                key = item.id
+                key = item.id.plus((99..1000).random())
             ) {
                 Box(
                     modifier = Modifier

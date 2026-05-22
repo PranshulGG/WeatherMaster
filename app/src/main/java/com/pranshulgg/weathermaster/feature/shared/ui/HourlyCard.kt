@@ -75,7 +75,9 @@ fun HourlyCard(
             CardsHeader(stringResource(R.string.weather_hourly_forecast), R.drawable.schedule_48px)
 
             LazyRow(state = lazyListState) {
-                items(filteredHourly.size, key = { filteredHourly[it].time }) { index ->
+                items(
+                    filteredHourly.size,
+                    key = { filteredHourly[it].time.plus((99..1000).random()) }) { index ->
                     val time = to12HourTimeString(
                         filteredHourly[index].time,
                         weather.location.timezone
