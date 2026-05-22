@@ -4,6 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberDrawerState
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -14,17 +15,17 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQuality
-import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlock
+import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.feature.intro.IntroScreen
 import com.pranshulgg.weather_master_app.feature.locations.LocationsScreen
-import com.pranshulgg.weather_master_app.feature.main.ui.MainScreenDialogs
+import com.pranshulgg.weather_master_app.feature.main.ui.MainScreenBottomSheets
 import com.pranshulgg.weather_master_app.feature.main.ui.NavigationDrawer
 import com.pranshulgg.weather_master_app.feature.shared.WeatherViewModel
-import com.pranshulgg.weather_master_app.feature.shared.ui.SharedDialogs
+import com.pranshulgg.weather_master_app.feature.shared.ui.SharedBottomSheet
 import kotlinx.coroutines.launch
 
 data class MainScreenWeatherUiState(
@@ -40,8 +41,8 @@ data class MainScreenWeatherUiState(
 )
 
 data class MainScreenUiState(
-    val isWeatherSourcesDialogOpen: Boolean = false,
-    val isActiveLocationWeatherSourcesInfoDialogOpen: Boolean = false
+    val isWeatherSourcesForLocationSheetOpen: Boolean = false,
+    val isWeatherSourcesInfoForLocationSheetOpen: Boolean = false
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -67,6 +68,7 @@ fun MainScreen(navController: NavController) {
     }
 
     val isTabletLike = widthDp > 600.dp
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -126,20 +128,20 @@ fun MainScreen(navController: NavController) {
                     }
                 },
                 onEditLocation = {
-                    viewModel.showWeatherSourcesDialog(uiState.isLoading)
+                    viewModel.showWeatherSourcesForLocationSheet(uiState.isLoading)
                 },
                 isTabletLike,
                 context,
-                onWeatherSourceInfoClick = viewModel::showActiveLocationWeatherSourcesInfoDialog
+                onWeatherSourceInfoClick = viewModel::showWeatherSourcesInfoForLocationSheet
             )
         }
     )
 
 
     // WEATHER SOURCES DIALOG
-    SharedDialogs.WeatherProvidersForLocationDialog(
+    SharedBottomSheet.WeatherSourcesForLocationSheet(
         countryCode = location?.countryCode,
-        show = viewModel.uiState.value.isWeatherSourcesDialogOpen,
+        show = viewModel.uiState.value.isWeatherSourcesForLocationSheetOpen,
         isEditing = true,
         selectedSource = location?.source ?: WeatherSource.OPEN_METEO,
         onSave = {
@@ -147,11 +149,12 @@ fun MainScreen(navController: NavController) {
                 weatherViewModel.updateSourceForLocation(location, it)
             }
         },
-        onCancel = viewModel::hideWeatherSourcesDialog
+        onDismiss = viewModel::hideWeatherSourcesForLocationSheet,
+        sheetState = sheetState
     )
 
     // WEATHER SOURCES INFO DIALOG
-    MainScreenDialogs.ActiveLocationWeatherSourcesInfoDialog(viewModel, location)
+    MainScreenBottomSheets.WeatherSourcesInfoForLocationSheet(viewModel, location, sheetState)
 }
 
 

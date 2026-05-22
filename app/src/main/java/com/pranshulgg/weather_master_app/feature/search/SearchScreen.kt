@@ -18,6 +18,7 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LoadingIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -43,16 +44,15 @@ import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weather_master_app.core.ui.components.SettingSection
 import com.pranshulgg.weather_master_app.core.ui.components.SettingTile
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
-import com.pranshulgg.weather_master_app.feature.search.ui.SearchDialogs
 import com.pranshulgg.weather_master_app.feature.search.ui.SearchFloatingToolbar
-import com.pranshulgg.weather_master_app.feature.shared.ui.SharedDialogs
+import com.pranshulgg.weather_master_app.feature.search.ui.SearchScreenBottomSheets
+import com.pranshulgg.weather_master_app.feature.shared.ui.SharedBottomSheet
 
 data class SearchUiState(
     val query: String = "",
-    val isSheetOpen: Boolean = false,
     val source: SearchSource = SearchSource.OPEN_METEO,
-    val isSourceDialogOpen: Boolean = false,
-    val isWeatherSourcesDialogOpen: Boolean = false
+    val isSearchSourcePickerSheetOpen: Boolean = false,
+    val isWeatherSourcesForLocationSheetOpen: Boolean = false
 )
 
 
@@ -67,6 +67,7 @@ fun SearchScreen(navController: NavController) {
     val prefs = LocalAppPrefs.current
     var selectedLocationId by remember { mutableStateOf("") }
     var selectedLocation by remember { mutableStateOf<Location?>(null) }
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
 
 
@@ -88,7 +89,7 @@ fun SearchScreen(navController: NavController) {
         actions = {
             IconButton(
                 onClick = {
-                    viewModel.showSourceDialog()
+                    viewModel.showSearchSourcePickerSheet()
                 },
                 shapes = IconButtonDefaults.shapes()
             ) { Symbol(R.drawable.settings_24px) }
@@ -142,7 +143,7 @@ fun SearchScreen(navController: NavController) {
                                 onClick = {
                                     if (selectedLocationId.isNotEmpty()) return@ActionTile
                                     selectedLocation = it
-                                    viewModel.showWeatherSourcesDialog()
+                                    viewModel.showWeatherSourcesForLocationSheet()
                                 }
                             )
                         }
@@ -159,15 +160,15 @@ fun SearchScreen(navController: NavController) {
 
 
     // PROVIDERS DIALOG
-    SearchDialogs.SearchProviderPickerDialog(prefs, viewModel, uiState)
+    SearchScreenBottomSheets.SearchSourcePickerSheet(prefs, viewModel, uiState, sheetState)
 
     // WEATHER SOURCES DIALOG
-    SharedDialogs.WeatherProvidersForLocationDialog(
-        selectedLocation?.countryCode,
-        uiState.isWeatherSourcesDialogOpen,
-        selectedLocation?.source ?: WeatherSource.OPEN_METEO,
+    SharedBottomSheet.WeatherSourcesForLocationSheet(
+        countryCode = selectedLocation?.countryCode,
+        show = uiState.isWeatherSourcesForLocationSheetOpen,
+        selectedSource = selectedLocation?.source ?: WeatherSource.OPEN_METEO,
         onSave = {
-            viewModel.hideWeatherSourcesDialog()
+            viewModel.hideWeatherSourcesForLocationSheet()
             viewModel.saveLocation(
                 selectedLocation,
                 onBack = { navController.popBackStack() },
@@ -177,9 +178,10 @@ fun SearchScreen(navController: NavController) {
 
             selectedLocationId = selectedLocation?.id ?: ""
         },
-        onCancel = {
-            viewModel.hideWeatherSourcesDialog()
-        }
+        onDismiss = {
+            viewModel.hideWeatherSourcesForLocationSheet()
+        },
+        sheetState = sheetState
     )
 }
 

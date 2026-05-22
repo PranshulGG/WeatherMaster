@@ -29,7 +29,7 @@ import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.feature.main.components.FroggyContainer
 import com.pranshulgg.weather_master_app.feature.main.components.MainSearchBar
-import com.pranshulgg.weather_master_app.feature.main.components.WeatherSourcesChip
+import com.pranshulgg.weather_master_app.feature.main.components.CreditsBottomSection
 import com.pranshulgg.weather_master_app.feature.main.ui.BackgroundGradient
 import com.pranshulgg.weather_master_app.feature.main.ui.CurrentWeatherCard
 import com.pranshulgg.weather_master_app.feature.shared.components.blocks.WeatherBlocks
@@ -132,7 +132,7 @@ fun MainScreenScaffold(
                                 DailyCard(weather, units, navController)
                                 WeatherBlocks(weather, airQuality, units, context, uiState.blocks)
 
-                                WeatherSourcesChip(
+                                CreditsBottomSection(
                                     weather,
                                     onClick = onWeatherSourceInfoClick
                                 )

@@ -65,7 +65,7 @@ fun ActionBottomSheet(
             if (removeBottomInset) BottomSheetDefaults.modalWindowInsets
                 .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top) else BottomSheetDefaults.modalWindowInsets
         },
-        scrimColor = MaterialTheme.colorScheme.scrim.copy(alpha = 0.5f),
+        scrimColor = MaterialTheme.colorScheme.scrim.copy(alpha = 0.7f),
         dragHandle = {
             if (enableHandle) {
                 Surface(

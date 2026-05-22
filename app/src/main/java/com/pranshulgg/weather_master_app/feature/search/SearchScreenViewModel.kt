@@ -101,25 +101,25 @@ class SearchScreenViewModel @Inject constructor(
         prefs.setSearchSource(source)
     }
 
-    fun showSourceDialog() {
-        _uiState.value = _uiState.value.copy(isSourceDialogOpen = true)
+    fun showSearchSourcePickerSheet() {
+        _uiState.value = _uiState.value.copy(isSearchSourcePickerSheetOpen = true)
     }
 
 
-    fun hideSourceDialog() {
-        _uiState.value = _uiState.value.copy(isSourceDialogOpen = false)
+    fun hideSearchSourcePickerSheet() {
+        _uiState.value = _uiState.value.copy(isSearchSourcePickerSheetOpen = false)
     }
 
     fun removeResults() {
         results = emptyList()
     }
 
-    fun showWeatherSourcesDialog() {
-        _uiState.value = _uiState.value.copy(isWeatherSourcesDialogOpen = true)
+    fun showWeatherSourcesForLocationSheet() {
+        _uiState.value = _uiState.value.copy(isWeatherSourcesForLocationSheetOpen = true)
     }
 
 
-    fun hideWeatherSourcesDialog() {
-        _uiState.value = _uiState.value.copy(isWeatherSourcesDialogOpen = false)
+    fun hideWeatherSourcesForLocationSheet() {
+        _uiState.value = _uiState.value.copy(isWeatherSourcesForLocationSheetOpen = false)
     }
 }
