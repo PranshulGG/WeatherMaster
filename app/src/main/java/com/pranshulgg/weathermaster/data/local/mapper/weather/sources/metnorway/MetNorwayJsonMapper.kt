@@ -98,12 +98,19 @@ fun MetNorwayForecastJson.toDomain(location: Location): Weather {
 private fun computeDaily(data: MetNorwayForecastJson, location: Location): List<WeatherDaily> {
 
     val daily = data.properties.data
-    val dailyItems = daily.chunked(24)
+
     val zoneId = location.timezone
 
+    val groupedByDay = daily.groupBy {
+        it.time.iso8601TimestampToMilliseconds()
+            .normalizeToDay(zoneId)
+    }.filter { (_, values) ->
+        values.size >= 12
+    }
+
     val sunTimings = getSunTimings(
-        dailyItems.map {
-            it[0].time.iso8601TimestampToMilliseconds().normalizeToDay(zoneId)
+        groupedByDay.map {
+            it.key
         },
         location.timezone,
         location.latitude,
@@ -111,49 +118,50 @@ private fun computeDaily(data: MetNorwayForecastJson, location: Location): List<
     )
 
     val moonTimings = getMoonTimings(
-        dailyItems.map {
-            it[0].time.iso8601TimestampToMilliseconds().normalizeToDay(zoneId)
+        groupedByDay.map {
+            it.key
         },
         location.timezone,
         location.latitude,
         location.longitude
     )
-    return dailyItems.map { dailyIt ->
 
 
-        val nextHourDetails = dailyIt.map {
+    return groupedByDay.map { dailyIt ->
+
+
+        val nextHourDetails = dailyIt.value.map {
             it.data.nextHour?.details
                 ?: it.data.next6Hours?.details
                 ?: it.data.next12Hours?.details
         }
 
-        val nextHourSummary = dailyIt.map {
+        val nextHourSummary = dailyIt.value.map {
             it.data.nextHour?.summary
                 ?: it.data.next6Hours?.summary
                 ?: it.data.next12Hours?.summary
         }
 
 
-        val minTemperature = dailyIt.minOf { it.data.instant.details.temperature }
-        val maxTemperature = dailyIt.maxOf { it.data.instant.details.temperature }
-        val windSpeed = dailyIt.map { it.data.instant.details.windSpeed }.average()
+        val minTemperature = dailyIt.value.minOf { it.data.instant.details.temperature }
+        val maxTemperature = dailyIt.value.maxOf { it.data.instant.details.temperature }
+        val windSpeed = dailyIt.value.map { it.data.instant.details.windSpeed }.average()
         val windDirection =
-            dailyIt.map { it.data.instant.details.windDirection }.average().roundToInt()
+            dailyIt.value.map { it.data.instant.details.windDirection }.average().roundToInt()
         val rainSum =
             nextHourDetails.sumOf { it?.precipitationAmount ?: 0.0 } ?: 0.0
-        val uvIndexMax = dailyIt.maxOf { it.data.instant.details.uvIndex }
-        val time = dailyIt[0].time.iso8601TimestampToMilliseconds().normalizeToDay(zoneId)
+        val uvIndexMax = dailyIt.value.maxOf { it.data.instant.details.uvIndex }
+        val time = dailyIt.key
         val icon = nextHourSummary.map { it?.symbolCode }.groupingBy { it }
             .eachCount().entries.maxByOrNull { it.value }
 
         val condition = computeDailyWeatherCondition(
-            getHourlyConditionsForDay(dailyIt, time),
+            getHourlyConditionsForDay(dailyIt.value, time),
             MetNorwayWeatherConditionMap.getCondition(icon?.key)
         )
 
-        val index = dailyItems.indexOf(dailyIt)
 
-
+        val index = groupedByDay.keys.indexOf(dailyIt.key)
 
         WeatherDaily(
             temperatureMin = minTemperature,
