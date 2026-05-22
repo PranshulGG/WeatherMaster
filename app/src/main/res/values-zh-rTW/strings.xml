@@ -166,5 +166,6 @@
     <string name="weather_snow_then_cloudy">Snow then cloudy</string>
     <string name="weather_snow_then_rain">Snow then rain</string>
     <string name="error_refresh_waiting_before_action">Please wait for the refresh to complete</string>
+    <string name="weather_total_amount">Total amount</string>
 </resources>
 <!--<string name=""></string>-->
