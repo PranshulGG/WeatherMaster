@@ -166,5 +166,6 @@
     <string name="weather_snow_then_cloudy">雪のち曇り</string>
     <string name="weather_snow_then_rain">雪のち雨</string>
     <string name="error_refresh_waiting_before_action">更新が完了するまでお待ちください</string>
+    <string name="weather_total_amount">Total amount</string>
 </resources>
 <!--<string name=""></string>-->
