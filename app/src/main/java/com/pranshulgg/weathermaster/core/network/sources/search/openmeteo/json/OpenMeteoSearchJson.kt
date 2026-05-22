@@ -1,12 +1,12 @@
-package com.pranshulgg.weathermaster.core.network.sources.search.openmeteo
+package com.pranshulgg.weathermaster.core.network.sources.search.openmeteo.json
 
 import com.google.gson.annotations.SerializedName
 
-data class OpenMeteoSearchDto(
-    val results: List<OpenMeteoSearchItemDto>
+data class OpenMeteoSearchJson(
+    val results: List<OpenMeteoSearchItemJson>
 )
 
-data class OpenMeteoSearchItemDto(
+data class OpenMeteoSearchItemJson(
     val latitude: Double,
     val longitude: Double,
     val name: String,

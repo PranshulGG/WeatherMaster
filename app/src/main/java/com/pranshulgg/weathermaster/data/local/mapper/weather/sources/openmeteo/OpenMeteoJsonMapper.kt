@@ -1,6 +1,5 @@
 package com.pranshulgg.weathermaster.data.local.mapper.weather.sources.openmeteo
 
-import android.util.Log
 import com.pranshulgg.weathermaster.core.model.domain.location.Location
 import com.pranshulgg.weathermaster.core.model.domain.weather.Weather
 import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherCurrent
@@ -8,12 +7,9 @@ import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherDaily
 import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherHourly
 import com.pranshulgg.weathermaster.core.model.weather.WeatherCondition
 import com.pranshulgg.weathermaster.core.model.weather.wind.WindDirection
-import com.pranshulgg.weathermaster.core.network.sources.weather.nws.NwsWeatherConditionMap
-import com.pranshulgg.weathermaster.core.network.sources.weather.nws.json.NwsHourlyForecastPeriodsJson
 import com.pranshulgg.weathermaster.core.network.sources.weather.openmeteo.OpenMeteoWeatherConditionMap
 import com.pranshulgg.weathermaster.core.network.sources.weather.openmeteo.json.OpenMeteoHourlyForecastJson
 import com.pranshulgg.weathermaster.core.network.sources.weather.openmeteo.json.OpenMeteoWeatherJson
-import com.pranshulgg.weathermaster.core.utils.Extensions.iso8601TimestampToMilliseconds
 import com.pranshulgg.weathermaster.core.utils.Extensions.secondsToMilliseconds
 import com.pranshulgg.weathermaster.core.utils.weather.astronomy.getMoonTimings
 import com.pranshulgg.weathermaster.core.utils.weather.astronomy.getSunTimings

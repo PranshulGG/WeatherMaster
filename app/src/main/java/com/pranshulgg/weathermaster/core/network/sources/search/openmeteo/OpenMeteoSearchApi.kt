@@ -1,5 +1,6 @@
 package com.pranshulgg.weathermaster.core.network.sources.search.openmeteo
 
+import com.pranshulgg.weathermaster.core.network.sources.search.openmeteo.json.OpenMeteoSearchJson
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -15,7 +16,7 @@ interface OpenMeteoSearchApi {
     suspend fun search(
         @Query("name") query: String,
         @Query("append_to_response") append: String = "count=10&language=en&format=json"
-    ): Response<OpenMeteoSearchDto>
+    ): Response<OpenMeteoSearchJson>
 
     companion object {
 
