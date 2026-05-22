@@ -4,6 +4,8 @@ import android.content.Context
 import com.pranshulgg.weathermaster.R
 import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherDaily
 
+
+// TODO: ADD SLEET, HAIL, WINDY, BLIZZARD, TORNADO, HURRICANE
 enum class WeatherCondition {
     CLEAR_SKY,
     OVERCAST,
