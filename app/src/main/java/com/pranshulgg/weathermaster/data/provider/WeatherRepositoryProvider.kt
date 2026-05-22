@@ -1,20 +1,23 @@
 package com.pranshulgg.weathermaster.data.provider
 
 import com.pranshulgg.weathermaster.core.model.sources.WeatherSource
+import com.pranshulgg.weathermaster.core.network.sources.weather.metnorway.MetNorwayRepository
 import com.pranshulgg.weathermaster.core.network.sources.weather.nws.NwsRepository
 import com.pranshulgg.weathermaster.core.network.sources.weather.openmeteo.OpenMeteoRepository
 import com.pranshulgg.weathermaster.data.repository.WeatherRepository
 import javax.inject.Inject
 
 class WeatherRepositoryProvider @Inject constructor(
-    private val openMeteoRepo: OpenMeteoRepository,
-    private val nwsRepo: NwsRepository
+    private val openMeteoRepository: OpenMeteoRepository,
+    private val nwsRepository: NwsRepository,
+    private val metNorwayRepository: MetNorwayRepository
 ) {
 
     fun getRepository(source: WeatherSource): WeatherRepository {
         return when (source) {
-            WeatherSource.OPEN_METEO -> openMeteoRepo
-            WeatherSource.NWS -> nwsRepo
+            WeatherSource.OPEN_METEO -> openMeteoRepository
+            WeatherSource.NWS -> nwsRepository
+            WeatherSource.MET_NORWAY -> metNorwayRepository
         }
     }
 

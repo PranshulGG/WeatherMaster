@@ -25,6 +25,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
@@ -50,7 +51,7 @@ class WeatherViewModel @Inject constructor(
 
         // LOAD DEFAULT ON START
         viewModelScope.launch {
-            if (_uiState.value.activeLocation == null) {
+            if (_uiState.value.activeLocation == null && _uiState.value.weather == null && !_uiState.value.isInitialized) {
 
                 val isLocationsEmpty = locationsRepo.isLocationsEmpty()
                 if (isLocationsEmpty) {
@@ -64,7 +65,7 @@ class WeatherViewModel @Inject constructor(
         }
 
         // KEEP TRACK OF ALL LOCATIONS
-        locationsRepo.getLocations()
+        locationsRepo.getLocations().distinctUntilChanged()
             .onEach { locations ->
 
                 val previous = _uiState.value.locations
@@ -75,7 +76,11 @@ class WeatherViewModel @Inject constructor(
                         previous.none { it.id == new.id }
                     }
 
-                    newLocation?.let { setActiveLocation(it) }
+                    newLocation?.let {
+                        if (!_uiState.value.isLoading) {
+                            setActiveLocation(it)
+                        }
+                    }
                 }
 
                 _uiState.value = _uiState.value.copy(locations = locations)
@@ -98,20 +103,20 @@ class WeatherViewModel @Inject constructor(
         isManualRefresh: Boolean = false,
         isForceRefresh: Boolean = false
     ) {
-        weatherJob?.cancel()
         setLoading(true)
+        weatherJob?.cancel()
         val startTime = System.currentTimeMillis()
         _uiState.value = _uiState.value.copy(isError = false)
 
 
-        if (location.isDeviceLocation && isManualRefresh) {
-            // UPDATE POSITION (adds loading time)
-            // TODO: THIS IS TEMPORARY, HAS TO CHANGE LATER
-            handleDeviceLocation()
-        }
 
         weatherJob = viewModelScope.launch {
 
+            if (location.isDeviceLocation && isManualRefresh) {
+                // UPDATE POSITION (adds loading time)
+                // TODO: THIS IS TEMPORARY, HAS TO CHANGE LATER
+                handleDeviceLocation()
+            }
 
             // Run separately
             if (!_uiState.value.isError) {
@@ -193,18 +198,14 @@ class WeatherViewModel @Inject constructor(
 
     }
 
-    fun loadBlocks() {
-        viewModelScope.launch {
-            val loadedBlocks = weatherBlocksRepository.loadBlocks()
-            _uiState.value = _uiState.value.copy(blocks = loadedBlocks)
-        }
+    suspend fun loadBlocks() {
+        val loadedBlocks = weatherBlocksRepository.loadBlocks()
+        _uiState.value = _uiState.value.copy(blocks = loadedBlocks)
     }
 
 
-    private fun handleDeviceLocation() {
-        viewModelScope.launch {
-            locationsRepo.updateDeviceLocationPosition()
-        }
+    private suspend fun handleDeviceLocation() {
+        locationsRepo.updateDeviceLocationPosition()
     }
 
     private suspend fun handleWeatherData(
@@ -213,6 +214,7 @@ class WeatherViewModel @Inject constructor(
         isManualRefresh: Boolean,
         isForceRefresh: Boolean
     ) {
+
         val repo = repo.getRepository(source)
 
 
