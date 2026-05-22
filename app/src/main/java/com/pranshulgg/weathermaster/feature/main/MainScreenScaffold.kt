@@ -48,7 +48,8 @@ fun MainScreenScaffold(
     onRefresh: () -> Unit,
     onEditLocation: () -> Unit,
     isTabletLike: Boolean = false,
-    context: Context
+    context: Context,
+    onWeatherSourceInfoClick: () -> Unit
 ) {
 
 
@@ -136,7 +137,7 @@ fun MainScreenScaffold(
 
                                 WeatherSourcesChip(
                                     weather,
-                                    onClick = {}
+                                    onClick = onWeatherSourceInfoClick
                                 )
                             }
                         }

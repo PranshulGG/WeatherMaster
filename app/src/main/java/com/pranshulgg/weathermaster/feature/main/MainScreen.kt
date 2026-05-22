@@ -21,6 +21,7 @@ import com.pranshulgg.weathermaster.core.model.domain.weather.WeatherBlock
 import com.pranshulgg.weathermaster.core.model.sources.WeatherSource
 import com.pranshulgg.weathermaster.feature.intro.IntroScreen
 import com.pranshulgg.weathermaster.feature.locations.LocationsScreen
+import com.pranshulgg.weathermaster.feature.main.ui.MainScreenDialogs
 import com.pranshulgg.weathermaster.feature.main.ui.NavigationDrawer
 import com.pranshulgg.weathermaster.feature.shared.WeatherViewModel
 import com.pranshulgg.weathermaster.feature.shared.ui.SharedDialogs
@@ -39,7 +40,8 @@ data class MainScreenWeatherUiState(
 )
 
 data class MainScreenUiState(
-    val isWeatherSourcesDialogOpen: Boolean = false
+    val isWeatherSourcesDialogOpen: Boolean = false,
+    val isActiveLocationWeatherSourcesInfoDialogOpen: Boolean = false
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -124,10 +126,11 @@ fun MainScreen(navController: NavController) {
                     }
                 },
                 onEditLocation = {
-                    viewModel.showWeatherSourceDialog(uiState.isLoading)
+                    viewModel.showWeatherSourcesDialog(uiState.isLoading)
                 },
                 isTabletLike,
-                context
+                context,
+                onWeatherSourceInfoClick = viewModel::showActiveLocationWeatherSourcesInfoDialog
             )
         }
     )
@@ -144,8 +147,11 @@ fun MainScreen(navController: NavController) {
                 weatherViewModel.updateSourceForLocation(location, it)
             }
         },
-        onCancel = viewModel::hideWeatherSourceDialog
+        onCancel = viewModel::hideWeatherSourcesDialog
     )
+
+    // WEATHER SOURCES INFO DIALOG
+    MainScreenDialogs.ActiveLocationWeatherSourcesInfoDialog(viewModel, location)
 }
 
 

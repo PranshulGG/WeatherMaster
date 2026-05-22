@@ -16,7 +16,7 @@ class MainScreenViewModel @Inject constructor(
     val uiState: State<MainScreenUiState> = _uiState
 
 
-    fun showWeatherSourceDialog(isLoading: Boolean) {
+    fun showWeatherSourcesDialog(isLoading: Boolean) {
         if (isLoading) {
             SnackbarManager.show(R.string.error_refresh_waiting_before_action)
             return
@@ -24,8 +24,15 @@ class MainScreenViewModel @Inject constructor(
         _uiState.value = _uiState.value.copy(isWeatherSourcesDialogOpen = true)
     }
 
-    fun hideWeatherSourceDialog() {
+    fun hideWeatherSourcesDialog() {
         _uiState.value = _uiState.value.copy(isWeatherSourcesDialogOpen = false)
     }
 
+    fun showActiveLocationWeatherSourcesInfoDialog() {
+        _uiState.value = _uiState.value.copy(isActiveLocationWeatherSourcesInfoDialogOpen = true)
+    }
+
+    fun hideActiveLocationWeatherSourcesInfoDialog() {
+        _uiState.value = _uiState.value.copy(isActiveLocationWeatherSourcesInfoDialogOpen = false)
+    }
 }
