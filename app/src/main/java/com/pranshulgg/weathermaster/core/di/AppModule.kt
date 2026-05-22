@@ -5,10 +5,12 @@ import com.pranshulgg.weathermaster.core.network.sources.airquality.openmeteo.Op
 import com.pranshulgg.weathermaster.core.network.sources.airquality.openmeteo.OpenMeteoAqiRepository
 import com.pranshulgg.weathermaster.core.network.sources.search.geonames.GeoNamesSearchApi
 import com.pranshulgg.weathermaster.core.network.sources.search.geonames.GeoNamesSearchRepository
-import com.pranshulgg.weathermaster.core.network.sources.search.geonames.GeoNamesTimezoneApi
+import com.pranshulgg.weathermaster.core.network.sources.search.geonames.timezone.GeoNamesTimezoneApi
 import com.pranshulgg.weathermaster.core.network.sources.search.geonames.GeoNamesTimezoneRepository
 import com.pranshulgg.weathermaster.core.network.sources.search.openmeteo.OpenMeteoSearchApi
 import com.pranshulgg.weathermaster.core.network.sources.search.openmeteo.OpenMeteoSearchRepository
+import com.pranshulgg.weathermaster.core.network.sources.weather.metnorway.MetNorwayApi
+import com.pranshulgg.weathermaster.core.network.sources.weather.metnorway.MetNorwayRepository
 import com.pranshulgg.weathermaster.core.network.sources.weather.nws.NwsApi
 import com.pranshulgg.weathermaster.core.network.sources.weather.nws.NwsRepository
 import com.pranshulgg.weathermaster.core.network.sources.weather.openmeteo.OpenMeteoApi
@@ -90,6 +92,10 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideMetNorwayApi(): MetNorwayApi = MetNorwayApi.create()
+
+    @Provides
+    @Singleton
     fun provideOpenMeteoRepository(
         dao: LocationsDao,
         api: OpenMeteoApi,
@@ -151,6 +157,14 @@ object AppModule {
         weatherDao: WeatherDao,
         nwsDao: NwsDao
     ): NwsRepository = NwsRepository(dao, weatherDao, nwsDao, api)
+
+    @Provides
+    @Singleton
+    fun provideMetNorwayRepository(
+        dao: LocationsDao,
+        api: MetNorwayApi,
+        weatherDao: WeatherDao
+    ): MetNorwayRepository = MetNorwayRepository(dao, weatherDao, api)
 
     @Provides
     @Singleton
