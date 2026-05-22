@@ -112,7 +112,7 @@ fun UvIndexBlock(weather: Weather, context: Context, isDaily: Boolean, dailyInde
             style = MaterialTheme.typography.displayMedium,
             modifier = Modifier
                 .align(Alignment.Center)
-                .offset(y = 8.dp),
+                .offset(y = 4.dp),
 
             color = MaterialTheme.colorScheme.onSurface,
         )
@@ -122,7 +122,7 @@ fun UvIndexBlock(weather: Weather, context: Context, isDaily: Boolean, dailyInde
             uvIndexValue.toLabel(context),
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .offset(y = (-30).dp),
+                .offset(y = (-35).dp),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )

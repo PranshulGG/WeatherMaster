@@ -32,7 +32,8 @@ import com.pranshulgg.weathermaster.core.ui.theme.ShadowElevation
 fun RainBlock(
     rainForTheDay: Double,
     context: Context,
-    units: WeatherUnits
+    units: WeatherUnits,
+    isOnlyPrecipitation: Boolean = false
 ) {
 
 
@@ -79,7 +80,7 @@ fun RainBlock(
 
                 Gap(3.dp)
                 Text(
-                    stringResource(R.string.weather_total_rain_day),
+                    stringResource(if (isOnlyPrecipitation) R.string.weather_rain_today_amount else R.string.weather_total_rain_day),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 16.dp, end = 16.dp),
@@ -91,14 +92,14 @@ fun RainBlock(
             }
 
             Box(Modifier.align(Alignment.TopStart)) {
-                Header()
+                Header(isOnlyPrecipitation)
             }
         }
     }
 }
 
 @Composable
-private fun Header() {
+private fun Header(isOnlyPrecipitation: Boolean) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(
             5.dp,
@@ -112,7 +113,7 @@ private fun Header() {
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.9f),
         )
         Text(
-            "Rain",
+            stringResource(if (isOnlyPrecipitation) R.string.weather_precipitation else R.string.weather_rain_block),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             maxLines = 1,

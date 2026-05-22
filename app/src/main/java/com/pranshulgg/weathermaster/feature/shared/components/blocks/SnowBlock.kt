@@ -112,7 +112,7 @@ private fun Header() {
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.9f),
         )
         Text(
-            "Snow",
+            stringResource(R.string.weather_snow_block),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             maxLines = 1,

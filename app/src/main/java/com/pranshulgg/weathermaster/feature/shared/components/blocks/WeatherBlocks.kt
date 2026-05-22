@@ -83,7 +83,10 @@ fun WeatherBlocks(
         PrecipitationUnits.CM, units.precipitationUnit
     )
 
+    // Some sources do not provide precipitation separately rain/snow
+    val isOnlyPrecipitationData = !weather.location.source.providesSnowFall()
     val isAirQualityValid = airQuality != null && isCurrentAirQualitySafe(airQuality)
+
 
     val isUvIndexValid = weather.daily[dailyIndex].isUvIndexMaxValid()
             && weather.current.isUvIndexValid()
@@ -186,7 +189,8 @@ fun WeatherBlocks(
                         WeatherBlockType.RAIN_BLOCK -> RainBlock(
                             rainForTheDay,
                             context,
-                            units
+                            units,
+                            isOnlyPrecipitation = isOnlyPrecipitationData
                         )
 
                         WeatherBlockType.SNOW_BLOCK -> SnowBlock(
