@@ -21,7 +21,13 @@ data class AppPrefsState(
     val setThemeVariantType: (ThemeVariantType) -> Unit,
 
     val searchSource: SearchSource,
-    val setSearchSource: (SearchSource) -> Unit
+    val setSearchSource: (SearchSource) -> Unit,
+
+    val backgroundUpdatesEnabled: Boolean,
+    val setBackgroundUpdates: (Boolean) -> Unit,
+
+    val backgroundUpdatesInterval: Int,
+    val setBackgroundUpdatesInterval: (Int) -> Unit
 
 )
 
