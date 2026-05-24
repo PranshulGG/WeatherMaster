@@ -16,11 +16,11 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.R
-import com.pranshulgg.weather_master_app.core.model.weather.DistanceUnits
-import com.pranshulgg.weather_master_app.core.model.weather.PrecipitationUnits
-import com.pranshulgg.weather_master_app.core.model.weather.PressureUnits
-import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnits
-import com.pranshulgg.weather_master_app.core.model.weather.WindSpeedUnits
+import com.pranshulgg.weather_master_app.core.model.weather.DistanceUnit
+import com.pranshulgg.weather_master_app.core.model.weather.PrecipitationUnit
+import com.pranshulgg.weather_master_app.core.model.weather.PressureUnit
+import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnit
+import com.pranshulgg.weather_master_app.core.model.weather.WindSpeedUnit
 import com.pranshulgg.weather_master_app.core.model.weather.toName
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
@@ -64,18 +64,18 @@ fun UnitsScreen(navController: NavController) {
                             title = stringResource(R.string.setting_temperature_unit),
                             options = listOf(
                                 DialogOption(
-                                    TemperatureUnits.CELSIUS.toString(),
-                                    TemperatureUnits.CELSIUS.toName(context)
+                                    TemperatureUnit.CELSIUS.toString(),
+                                    TemperatureUnit.CELSIUS.toName(context)
                                 ),
                                 DialogOption(
-                                    TemperatureUnits.FAHRENHEIT.toString(),
-                                    TemperatureUnits.FAHRENHEIT.toName(context)
+                                    TemperatureUnit.FAHRENHEIT.toString(),
+                                    TemperatureUnit.FAHRENHEIT.toName(context)
                                 )
                             ),
                             selectedOption = currentUnits.tempUnit.toString(),
                             onOptionSelected = {
                                 viewModel.updateTemperatureUnit(
-                                    TemperatureUnits.valueOf(it.uppercase())
+                                    TemperatureUnit.valueOf(it.uppercase())
                                 )
                             }
                         ),
@@ -85,22 +85,22 @@ fun UnitsScreen(navController: NavController) {
                             title = stringResource(R.string.setting_wind_speed_unit),
                             options = listOf(
                                 DialogOption(
-                                    WindSpeedUnits.MPS.toString(),
-                                    WindSpeedUnits.MPS.toName(context)
+                                    WindSpeedUnit.MPS.toString(),
+                                    WindSpeedUnit.MPS.toName(context)
                                 ),
                                 DialogOption(
-                                    WindSpeedUnits.MPH.toString(),
-                                    WindSpeedUnits.MPH.toName(context)
+                                    WindSpeedUnit.MPH.toString(),
+                                    WindSpeedUnit.MPH.toName(context)
                                 ),
                                 DialogOption(
-                                    WindSpeedUnits.KPH.toString(),
-                                    WindSpeedUnits.KPH.toName(context)
+                                    WindSpeedUnit.KPH.toString(),
+                                    WindSpeedUnit.KPH.toName(context)
                                 ),
                             ),
                             selectedOption = currentUnits.windUnit.toString(),
                             onOptionSelected = {
                                 viewModel.updateWindSpeedUnit(
-                                    WindSpeedUnits.valueOf(it)
+                                    WindSpeedUnit.valueOf(it)
                                 )
                             }
                         ),
@@ -110,19 +110,19 @@ fun UnitsScreen(navController: NavController) {
                             title = stringResource(R.string.setting_pressure_unit),
                             options = listOf(
                                 DialogOption(
-                                    PressureUnits.HPA.toString(),
-                                    PressureUnits.HPA.toName(context = context)
+                                    PressureUnit.HPA.toString(),
+                                    PressureUnit.HPA.toName(context = context)
                                 ),
                                 DialogOption(
-                                    PressureUnits.INHG.toString(),
-                                    PressureUnits.INHG.toName(context = context)
+                                    PressureUnit.INHG.toString(),
+                                    PressureUnit.INHG.toName(context = context)
                                 )
 
                             ),
                             selectedOption = currentUnits.pressureUnit.toString(),
                             onOptionSelected = {
                                 viewModel.updatePressureUnit(
-                                    PressureUnits.valueOf(it)
+                                    PressureUnit.valueOf(it)
                                 )
                             }
                         ),
@@ -132,22 +132,22 @@ fun UnitsScreen(navController: NavController) {
                             title = stringResource(R.string.setting_distance_unit),
                             options = listOf(
                                 DialogOption(
-                                    DistanceUnits.KM.toString(),
-                                    DistanceUnits.KM.toName(context = context)
+                                    DistanceUnit.KM.toString(),
+                                    DistanceUnit.KM.toName(context = context)
                                 ),
                                 DialogOption(
-                                    DistanceUnits.M.toString(),
-                                    DistanceUnits.M.toName(context = context)
+                                    DistanceUnit.M.toString(),
+                                    DistanceUnit.M.toName(context = context)
                                 ),
                                 DialogOption(
-                                    DistanceUnits.MI.toString(),
-                                    DistanceUnits.MI.toName(context = context)
+                                    DistanceUnit.MI.toString(),
+                                    DistanceUnit.MI.toName(context = context)
                                 )
                             ),
                             selectedOption = currentUnits.distanceUnit.toString(),
                             onOptionSelected = {
                                 viewModel.updateDistanceUnit(
-                                    DistanceUnits.valueOf(it)
+                                    DistanceUnit.valueOf(it)
                                 )
                             }
                         ),
@@ -156,22 +156,22 @@ fun UnitsScreen(navController: NavController) {
                             title = stringResource(R.string.setting_precipitation_unit),
                             options = listOf(
                                 DialogOption(
-                                    PrecipitationUnits.CM.toString(),
-                                    PrecipitationUnits.CM.toName(context)
+                                    PrecipitationUnit.CM.toString(),
+                                    PrecipitationUnit.CM.toName(context)
                                 ),
                                 DialogOption(
-                                    PrecipitationUnits.INCH.toString(),
-                                    PrecipitationUnits.INCH.toName(context)
+                                    PrecipitationUnit.INCH.toString(),
+                                    PrecipitationUnit.INCH.toName(context)
                                 ),
                                 DialogOption(
-                                    PrecipitationUnits.MM.toString(),
-                                    PrecipitationUnits.MM.toName(context)
+                                    PrecipitationUnit.MM.toString(),
+                                    PrecipitationUnit.MM.toName(context)
                                 )
                             ),
                             selectedOption = currentUnits.precipitationUnit.toString(),
                             onOptionSelected = {
                                 viewModel.updatePrecipitationUnit(
-                                    PrecipitationUnits.valueOf(it)
+                                    PrecipitationUnit.valueOf(it)
                                 )
                             }
                         )

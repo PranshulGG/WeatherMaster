@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -24,16 +25,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weather_master_app.R
-import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnits
-import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
+import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
+import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnit
 import com.pranshulgg.weather_master_app.core.model.weather.toIcon
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.WeatherIconBox
 import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
-import com.pranshulgg.weather_master_app.core.utils.Extensions.secondsToMilliseconds
+import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.secondsToMilliseconds
 import com.pranshulgg.weather_master_app.core.utils.formatters.to12HourTimeString
-import com.pranshulgg.weather_master_app.core.utils.weather.UnitConverter
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherHourlyDomainSafe
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findMatchingDaily
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findMatchingHourly
@@ -83,11 +83,9 @@ fun HourlyCard(
                         weather.location.timezone
                     )
                     val item = filteredHourly[index]
-                    val temperature = UnitConverter.convertTemp(
-                        item.temperature,
-                        TemperatureUnits.CELSIUS,
-                        units.tempUnit
-                    )
+
+                    val temperature =
+                        TemperatureUnit.CELSIUS.convert(item.temperature, units.tempUnit)
 
                     val matchingDaily = findMatchingDaily(
                         item.time,
@@ -153,6 +151,7 @@ private fun HourlyItem(
 }
 
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 private fun TempWithShape(temperature: Double?, isNow: Boolean = false) {
     Surface(

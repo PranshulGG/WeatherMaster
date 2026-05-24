@@ -17,16 +17,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pranshulgg.weather_master_app.R
-import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnits
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
+import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnit
 import com.pranshulgg.weather_master_app.core.model.weather.toIcon
 import com.pranshulgg.weather_master_app.core.model.weather.toLabel
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
 import com.pranshulgg.weather_master_app.core.ui.components.WeatherIconBox
 import com.pranshulgg.weather_master_app.core.utils.formatters.getLastUpdatedTimeString
-import com.pranshulgg.weather_master_app.core.utils.weather.UnitConverter
 import kotlin.math.roundToInt
 
 @Composable
@@ -59,14 +58,10 @@ private fun CardRowContent(weather: Weather, units: WeatherUnits, context: Conte
     val colorScheme = MaterialTheme.colorScheme
     val current = weather.current
 
-    val currentTemp =
-        UnitConverter.convertTemp(current.temperature, TemperatureUnits.CELSIUS, units.tempUnit)
+    val currentTemp = TemperatureUnit.CELSIUS.convert(current.temperature, units.tempUnit)
 
-    val feelsLike = UnitConverter.convertTemp(
-        current.feelsLike,
-        TemperatureUnits.CELSIUS,
-        units.tempUnit
-    )
+    val feelsLike = TemperatureUnit.CELSIUS.convert(current.feelsLike, units.tempUnit)
+
 
 
     Column {
@@ -113,17 +108,9 @@ private fun MinMaxTempRow(weather: Weather, units: WeatherUnits, context: Contex
     val colorScheme = MaterialTheme.colorScheme
     val daily = weather.daily.getOrNull(0)
 
-    val minTemp = UnitConverter.convertTemp(
-        daily?.temperatureMin,
-        TemperatureUnits.CELSIUS,
-        units.tempUnit
-    )
-    val maxTemp = UnitConverter.convertTemp(
-        daily?.temperatureMax,
-        TemperatureUnits.CELSIUS,
-        units.tempUnit
-    )
 
+    val maxTemp = TemperatureUnit.CELSIUS.convert(daily?.temperatureMax, units.tempUnit)
+    val minTemp = TemperatureUnit.CELSIUS.convert(daily?.temperatureMin, units.tempUnit)
 
     Row(
         modifier = Modifier.fillMaxWidth(),

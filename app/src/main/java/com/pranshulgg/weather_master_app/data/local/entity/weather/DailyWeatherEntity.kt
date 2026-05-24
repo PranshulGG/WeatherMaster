@@ -24,8 +24,8 @@ import com.pranshulgg.weather_master_app.data.local.entity.location.WeatherLocat
 data class DailyWeatherEntity(
     val locationId: String,
 
-    val temperatureMin: Double,
-    val temperatureMax: Double,
+    val temperatureMin: Double?,
+    val temperatureMax: Double?,
     val windSpeed: Double?,
     val windDirection: WindDirection?,
     val rainSum: Double,

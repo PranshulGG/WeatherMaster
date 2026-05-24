@@ -22,13 +22,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weather_master_app.R
-import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnits
+import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnit
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
 import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
-import com.pranshulgg.weather_master_app.core.utils.weather.UnitConverter
 import kotlin.math.roundToInt
 
 @Composable
@@ -36,11 +35,11 @@ fun HumidityBlock(weather: Weather, units: WeatherUnits) {
     val color = MaterialTheme.colorScheme.inversePrimary
 
     val humidity = weather.current.humidity.roundToInt()
-    val dewPoint = UnitConverter.convertTemp(
-        weather.current.dewPoint,
-        TemperatureUnits.CELSIUS,
-        units.tempUnit
-    )?.roundToInt() ?: "-"
+
+
+    val dewPoint =
+        TemperatureUnit.CELSIUS.convert(weather.current.dewPoint, units.tempUnit)?.roundToInt()
+            ?: "-"
 
     val humidityDrawable = when (humidity) {
         in 0..30 -> R.drawable.humidity_seven_percent

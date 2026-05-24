@@ -14,13 +14,12 @@ import androidx.compose.ui.unit.dp
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherDaily
-import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnits
+import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnit
 import com.pranshulgg.weather_master_app.core.model.weather.toIcon
 import com.pranshulgg.weather_master_app.core.model.weather.toLabel
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.WeatherIconBox
 import com.pranshulgg.weather_master_app.core.utils.formatters.toDateString
-import com.pranshulgg.weather_master_app.core.utils.weather.UnitConverter
 import kotlin.math.roundToInt
 
 
@@ -34,17 +33,10 @@ fun DailyForecastHeroHeader(
     val date = toDateString(daily.time, location.timezone)
     val context = LocalContext.current
 
-    val maxTemp = UnitConverter.convertTemp(
-        daily.temperatureMax,
-        TemperatureUnits.CELSIUS,
-        units.tempUnit
-    )?.roundToInt() ?: "-"
-
-    val minTemp = UnitConverter.convertTemp(
-        daily.temperatureMin,
-        TemperatureUnits.CELSIUS,
-        units.tempUnit
-    )?.roundToInt() ?: "-"
+    val maxTemp =
+        TemperatureUnit.CELSIUS.convert(daily.temperatureMax, units.tempUnit)?.roundToInt() ?: "-"
+    val minTemp =
+        TemperatureUnit.CELSIUS.convert(daily.temperatureMin, units.tempUnit)?.roundToInt() ?: "-"
 
     Column(Modifier.padding(start = 16.dp, end = 16.dp, top = 24.dp)) {
         Text(

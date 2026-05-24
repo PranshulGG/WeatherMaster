@@ -10,10 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
-import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnits
+import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnit
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.utils.formatters.toWeekdayString
-import com.pranshulgg.weather_master_app.core.utils.weather.UnitConverter
 import com.pranshulgg.weather_master_app.feature.daily.components.SelectableDayItem
 import kotlin.math.roundToInt
 
@@ -36,17 +35,9 @@ fun DailyDaysHeader(
 
         weatherDaily.forEachIndexed { index, it ->
             val weekDay = toWeekdayString(it.time, weather.location.timezone)
-            val maxTemp = UnitConverter.convertTemp(
-                it.temperatureMax,
-                TemperatureUnits.CELSIUS,
-                units.tempUnit
-            )?.roundToInt() ?: '-'
+            val maxTemp = TemperatureUnit.CELSIUS.convert(it.temperatureMax, units.tempUnit) ?: "-"
+            val minTemp = TemperatureUnit.CELSIUS.convert(it.temperatureMin, units.tempUnit) ?: "-"
 
-            val minTemp = UnitConverter.convertTemp(
-                it.temperatureMin,
-                TemperatureUnits.CELSIUS,
-                units.tempUnit
-            )?.roundToInt() ?: "-"
 
             if (index == 0) Gap(horizontal = 16.dp)
             SelectableDayItem(

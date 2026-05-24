@@ -23,7 +23,7 @@ import com.pranshulgg.weather_master_app.data.local.entity.location.WeatherLocat
 data class HourlyWeatherEntity(
     val locationId: String,
 
-    val temperature: Double,
+    val temperature: Double?,
     val windSpeed: Double?,
     val windDirection: WindDirection?,
     val rain: Double,

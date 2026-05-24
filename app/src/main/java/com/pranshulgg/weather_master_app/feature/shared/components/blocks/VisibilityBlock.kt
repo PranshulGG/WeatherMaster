@@ -21,14 +21,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weather_master_app.R
-import com.pranshulgg.weather_master_app.core.model.weather.DistanceUnits
+import com.pranshulgg.weather_master_app.core.model.weather.DistanceUnit
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.weather.toName
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
 import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
 import com.pranshulgg.weather_master_app.core.ui.theme.ShapeRadius
-import com.pranshulgg.weather_master_app.core.utils.weather.UnitConverter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import com.pranshulgg.weather_master_app.core.utils.formatters.formatNumbers
@@ -37,11 +36,9 @@ import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
 @Composable
 fun VisibilityBlock(weather: Weather, units: WeatherUnits, context: Context) {
 
-    val visibility = UnitConverter.convertDistance(
-        weather.current.visibility?.toDouble() ?: 0.0,
-        DistanceUnits.M,
-        units.distanceUnit
-    )
+
+    val visibility =
+        DistanceUnit.M.convert(weather.current.visibility?.toDouble(), units.distanceUnit)
 
     Surface(
         color = MaterialTheme.colorScheme.surface,
@@ -66,7 +63,7 @@ fun VisibilityBlock(weather: Weather, units: WeatherUnits, context: Context) {
 
             Text(
                 formatNumbers(
-                    number = visibility,
+                    number = visibility!!,
                     decimalPlaces = 0,
                     locale = getCurrentAppLocale()
                 ),

@@ -18,16 +18,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.R
-import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnits
-import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
+import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
+import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnit
 import com.pranshulgg.weather_master_app.core.model.weather.toIcon
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.WeatherIconBox
 import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
 import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
 import com.pranshulgg.weather_master_app.core.utils.formatters.toWeekdayString
-import com.pranshulgg.weather_master_app.core.utils.weather.UnitConverter
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherDailyDomainSafe
 import com.pranshulgg.weather_master_app.feature.shared.components.CardsHeader
 import kotlin.math.roundToInt
@@ -94,25 +93,17 @@ fun DailyCard(weather: Weather, units: WeatherUnits, navController: NavControlle
 @Composable
 private fun DailyItem(
     weekday: String,
-    maxTemp: Double,
-    minTemp: Double,
+    maxTemp: Double?,
+    minTemp: Double?,
     icon: Int,
     precipitationProbability: Int?,
     units: WeatherUnits,
     onDailyItemClick: () -> Unit
 ) {
-    val maxTemp = UnitConverter.convertTemp(
-        maxTemp,
-        TemperatureUnits.CELSIUS,
-        units.tempUnit
-    )?.roundToInt() ?: "-"
 
-    val minTemp = UnitConverter.convertTemp(
-        minTemp,
-        TemperatureUnits.CELSIUS,
-        units.tempUnit
-    )?.roundToInt() ?: "-"
 
+    val maxTemp = TemperatureUnit.CELSIUS.convert(maxTemp, units.tempUnit)?.roundToInt() ?: "-"
+    val minTemp = TemperatureUnit.CELSIUS.convert(minTemp, units.tempUnit)?.roundToInt() ?: "-"
 
     Surface(
         color = MaterialTheme.colorScheme.surfaceContainer,
@@ -162,3 +153,4 @@ private fun DailyItem(
         }
     }
 }
+
