@@ -170,5 +170,20 @@
     <string name="weather_snow_then_rain">Snow then rain</string>
     <string name="error_refresh_waiting_before_action">Please wait for the refresh to complete</string>
     <string name="weather_total_amount">Total amount</string>
+    <string name="setting_background_updates">Background updates</string>
+    <string name="setting_background_updates_secondary">Update interval, battery optimization, help</string>
+    <string name="setting_notification_permission_req">Notification permission required</string>
+    <string name="setting_notification_permission_secondary">The app sends you a notification whenever the weather updates in the background</string>
+    <string name="setting_notification">Notification</string>
+    <string name="time_hours">%1$s hours</string>
+    <string name="time_hour">%1$s hour</string>
+    <string name="info_already_ignoring_battery_opt">Already ignoring battery optimizations</string>
+    <string name="setting_additional">Additional</string>
+    <string name="setting_update_interval">Update interval</string>
+    <string name="setting_updates">Updates</string>
+    <string name="setting_disable_battery_opt_title">Disable battery optimization</string>
+    <string name="setting_disable_battery_opt_secondary">If background updates aren\'t working, battery optimization may be restricting this app</string>
+    <string name="setting_dontkillmyapp_title">Background updates not working?</string>
+    <string name="setting_dontkillmyapp_secondary">Some device vendors restrict apps in the background. Check dontkillmyapp.com for steps to fix this</string>
 </resources>
 <!--<string name=""></string>-->
