@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.DrawerState
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.LoadingIndicator
@@ -37,6 +38,7 @@ import com.pranshulgg.weather_master_app.feature.main.ui.weatherAnimations.Weath
 import com.pranshulgg.weather_master_app.feature.shared.ui.DailyCard
 import com.pranshulgg.weather_master_app.feature.shared.ui.HourlyCard
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun MainScreenScaffold(
     navController: NavController,
