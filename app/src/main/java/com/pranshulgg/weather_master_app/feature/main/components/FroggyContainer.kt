@@ -15,7 +15,7 @@ fun FroggyContainer(weather: Weather) {
     Image(
         painter = painterResource(
             weather.current.weatherCondition.toFroggy(
-                targetTimeSecs = weather.current.time,
+                targetTimeMilli = weather.current.time,
                 daily = weather.daily.firstOrNull()
             )
         ),
