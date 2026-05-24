@@ -59,4 +59,7 @@ interface LocationsDao {
 
     @Query("DELETE FROM weather_hourly WHERE locationId = :id")
     suspend fun deleteHourlyDataForLocation(id: String)
+
+    @Query("SELECT * FROM weather_locations ORDER BY isDefault DESC")
+    suspend fun getLocationsOnce(): List<WeatherLocationEntity>
 }
