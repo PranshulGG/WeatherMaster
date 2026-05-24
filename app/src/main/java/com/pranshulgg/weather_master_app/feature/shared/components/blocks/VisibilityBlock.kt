@@ -30,7 +30,7 @@ import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
 import com.pranshulgg.weather_master_app.core.ui.theme.ShapeRadius
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import com.pranshulgg.weather_master_app.core.utils.formatters.formatNumbers
+import com.pranshulgg.weather_master_app.core.utils.formatters.formatLocalizedNumber
 import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
 
 @Composable
@@ -62,7 +62,7 @@ fun VisibilityBlock(weather: Weather, units: WeatherUnits, context: Context) {
             }
 
             Text(
-                formatNumbers(
+                formatLocalizedNumber(
                     number = visibility!!,
                     decimalPlaces = 0,
                     locale = getCurrentAppLocale()
