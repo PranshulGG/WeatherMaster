@@ -1,6 +1,7 @@
-package com.pranshulgg.weather_master_app.data.provider
+package com.pranshulgg.weather_master_app.data.provider.devicelocation
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
@@ -11,8 +12,11 @@ import android.os.Handler
 import android.os.Looper
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
 data class DeviceLocation(
@@ -135,31 +139,4 @@ class GetDeviceLocation {
     }
 }
 
-@Composable
-fun rememberLocationPermissionLauncher(
-    onGranted: () -> Unit,
-    onDenied: () -> Unit
-): () -> Unit {
 
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissions ->
-        val fine = permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true
-        val coarse = permissions[Manifest.permission.ACCESS_COARSE_LOCATION] == true
-
-        if (fine || coarse) {
-            onGranted()
-        } else {
-            onDenied()
-        }
-    }
-
-    return {
-        launcher.launch(
-            arrayOf(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            )
-        )
-    }
-}
