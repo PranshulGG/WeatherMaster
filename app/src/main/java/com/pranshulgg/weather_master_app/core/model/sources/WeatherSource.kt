@@ -15,6 +15,11 @@ enum class WeatherSource(
         hourlyAggregationLimitHours = 12,
         displayLink = "https://www.weather.gov/documentation/services-web-api"
     ),
+    SMHI(
+        displayName = "SMHI (Sweden)",
+        hourlyAggregationLimitHours = 12,
+        displayLink = "https://opendata.smhi.se"
+    ),
     MET_NORWAY(
         displayName = "Met Norway",
         hourlyAggregationLimitHours = 12,
@@ -32,7 +37,8 @@ enum class WeatherSource(
 
 // WE MAP EVERY WEATHER SOURCE HERE, AS THEY GET ADDED
 private val weatherSourcesByCountry = mapOf(
-    "US" to listOf(WeatherSource.NWS)
+    "US" to listOf(WeatherSource.NWS),
+    "SE" to listOf(WeatherSource.SMHI)
 )
 
 fun getWeatherSourcesForCountry(countryCode: String?): List<WeatherSource> {
