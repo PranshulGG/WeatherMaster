@@ -109,11 +109,11 @@
     <string name="setting_translate_app">翻譯此應用</string>
     <string name="setting_translate_app_secondary">透過在 Crowdin 上將應用程式轉換為您的語言來做出貢獻</string>
     <string name="location_use_current">使用當前位置</string>
-    <string name="location_use_current_secondary">Detect your device’s current location automatically and add it to your list</string>
-    <string name="location_permission_required">Location permission is required</string>
-    <string name="current_location_not_found">Current location not found</string>
-    <string name="error_server">Request couldn’t be completed. Try again shortly</string>
-    <string name="weather_airquality_good">Good</string>
+    <string name="location_use_current_secondary">自動偵測設備當前位置並納入監測清單</string>
+    <string name="location_permission_required">需開啟位置權限</string>
+    <string name="current_location_not_found">無法獲取當前位置</string>
+    <string name="error_server">請求執行失敗，請稍後重試</string>
+    <string name="weather_airquality_good">狀態良好</string>
     <string name="weather_airquality_fair">Fair</string>
     <string name="weather_airquality_moderate">中等</string>
     <string name="weather_airquality_poor">Poor</string>
