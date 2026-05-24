@@ -35,8 +35,12 @@ fun DailyDaysHeader(
 
         weatherDaily.forEachIndexed { index, it ->
             val weekDay = toWeekdayString(it.time, weather.location.timezone)
-            val maxTemp = TemperatureUnit.CELSIUS.convert(it.temperatureMax, units.tempUnit) ?: "-"
-            val minTemp = TemperatureUnit.CELSIUS.convert(it.temperatureMin, units.tempUnit) ?: "-"
+            val maxTemp =
+                TemperatureUnit.CELSIUS.convert(it.temperatureMax, units.tempUnit)?.roundToInt()
+                    ?: "-"
+            val minTemp =
+                TemperatureUnit.CELSIUS.convert(it.temperatureMin, units.tempUnit)?.roundToInt()
+                    ?: "-"
 
 
             if (index == 0) Gap(horizontal = 16.dp)
