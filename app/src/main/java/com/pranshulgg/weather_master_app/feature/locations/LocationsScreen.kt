@@ -1,5 +1,7 @@
 package com.pranshulgg.weather_master_app.feature.locations
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -21,6 +23,9 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -33,10 +38,14 @@ import com.pranshulgg.weather_master_app.core.ui.components.Symbol
 import com.pranshulgg.weather_master_app.core.ui.components.Tooltip
 import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
-import com.pranshulgg.weather_master_app.data.provider.rememberLocationPermissionLauncher
+import com.pranshulgg.weather_master_app.data.provider.devicelocation.GetDeviceLocation
+import com.pranshulgg.weather_master_app.data.provider.devicelocation.rememberBackgroundLocationPermissionLauncher
+import com.pranshulgg.weather_master_app.data.provider.devicelocation.rememberLocationPermissionLauncher
+import com.pranshulgg.weather_master_app.feature.intro.toDomain
 import com.pranshulgg.weather_master_app.feature.locations.ui.LocationScreenConfirmationDialog
 import com.pranshulgg.weather_master_app.feature.locations.ui.LocationScreenSheet
 import com.pranshulgg.weather_master_app.feature.shared.WeatherViewModel
+import com.pranshulgg.weather_master_app.feature.shared.ui.SharedDialogs
 
 data class LocationsScreenUiState(
     val isConfirmationDialogOpen: Boolean = false,
@@ -45,6 +54,7 @@ data class LocationsScreenUiState(
     val isDeviceLocationLoading: Boolean = false
 )
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun LocationsScreen(
@@ -65,13 +75,28 @@ fun LocationsScreen(
         initialValue = emptyList()
     )
 
+    var backgroundLocationPermissionInfoDialogOpen by remember { mutableStateOf(false) }
+    var locationPermissionInfoDialogOpen by remember { mutableStateOf(false) }
 
     val requestLocation = rememberLocationPermissionLauncher(
+        onForegroundGranted = {
+            backgroundLocationPermissionInfoDialogOpen = true
+        },
+        onDenied = {
+            SnackbarManager.show(R.string.location_permission_required)
+        }
+    )
+
+    val requestBackgroundLocation = rememberBackgroundLocationPermissionLauncher(
         onGranted = {
+            viewModel.saveDeviceLocation()
+        },
+        onContinueWithoutBackground = {
             viewModel.saveDeviceLocation()
         },
         onDenied = {
             SnackbarManager.show(R.string.location_permission_required)
+            backgroundLocationPermissionInfoDialogOpen = true
         }
     )
 
@@ -103,7 +128,7 @@ fun LocationsScreen(
                 },
                 activeLocation = activeLocation,
                 weatherForLocations,
-                onAddCurrentLocation = { requestLocation() },
+                onAddCurrentLocation = { locationPermissionInfoDialogOpen = true },
                 uiState.value.isDeviceLocationLoading
             )
         }
@@ -112,6 +137,23 @@ fun LocationsScreen(
 
     LocationScreenConfirmationDialog(weatherViewModel, viewModel)
     LocationScreenSheet(viewModel, sheetState)
+
+    SharedDialogs.DeviceBackgroundLocationPermissionInfoDialog(
+        show = backgroundLocationPermissionInfoDialogOpen,
+        onConfirm = {
+            backgroundLocationPermissionInfoDialogOpen = false
+            requestBackgroundLocation()
+        },
+        onDismiss = { backgroundLocationPermissionInfoDialogOpen = false }
+    )
+
+    SharedDialogs.DeviceLocationPermissionInfoDialog(
+        show = locationPermissionInfoDialogOpen,
+        onConfirm = {
+            requestLocation()
+        },
+        onDismiss = { locationPermissionInfoDialogOpen = false }
+    )
 }
 
 @Composable

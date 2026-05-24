@@ -11,8 +11,8 @@ import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
 import com.pranshulgg.weather_master_app.data.local.mapper.locations.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.locations.toEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDomain
-import com.pranshulgg.weather_master_app.data.provider.DeviceLocation
-import com.pranshulgg.weather_master_app.data.provider.GetDeviceLocation
+import com.pranshulgg.weather_master_app.data.provider.devicelocation.DeviceLocation
+import com.pranshulgg.weather_master_app.data.provider.devicelocation.GetDeviceLocation
 import com.pranshulgg.weather_master_app.feature.intro.toDomain
 import dagger.hilt.android.qualifiers.ApplicationContext
 import jakarta.inject.Inject
@@ -47,6 +47,10 @@ class LocationsRepository @Inject constructor(
 
     fun getLocations(): Flow<List<Location>> {
         return dao.getLocations().map { it.toDomain() }
+    }
+
+    suspend fun getLocationsOnce(): List<Location> {
+        return dao.getLocationsOnce().map { it.toDomain() }
     }
 
     @Transaction
@@ -124,7 +128,7 @@ class LocationsRepository @Inject constructor(
         if (location.latitude == null || location.longitude == null) {
             throw AppException.CurrentLocationUnavailable()
         }
-        saveLocation(location.toDomain())
+        saveLocation(location.toDomain(context))
     }
 
     fun getWeatherForAllLocations(): Flow<List<Weather>> {
