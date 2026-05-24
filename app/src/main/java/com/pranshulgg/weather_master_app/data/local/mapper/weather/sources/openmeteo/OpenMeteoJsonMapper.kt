@@ -10,7 +10,7 @@ import com.pranshulgg.weather_master_app.core.model.weather.wind.WindDirection
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoWeatherConditionMap
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.json.OpenMeteoHourlyForecastJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.json.OpenMeteoWeatherJson
-import com.pranshulgg.weather_master_app.core.utils.Extensions.secondsToMilliseconds
+import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.secondsToMilliseconds
 import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getMoonTimings
 import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getSunTimings
 import com.pranshulgg.weather_master_app.core.utils.weather.computing.computeDailyWeatherCondition

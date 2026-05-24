@@ -6,7 +6,10 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherCurren
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherDaily
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherHourly
 import com.pranshulgg.weather_master_app.core.model.domain.weather.nws.NwsGridPoints
+import com.pranshulgg.weather_master_app.core.model.weather.PrecipitationUnit
+import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnit
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherCondition
+import com.pranshulgg.weather_master_app.core.model.weather.WindSpeedUnit
 import com.pranshulgg.weather_master_app.core.model.weather.wind.WindDirection
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsWeatherConditionMap
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.NwsGridPointDataQuantitativePrecipitationValuesJson
@@ -14,13 +17,8 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.N
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.NwsGridPointsJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.NwsHourlyForecastPeriodsJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.bundle.NwsWeatherJsonBundle
-import com.pranshulgg.weather_master_app.core.utils.Extensions.fahrenheitToCelsius
-import com.pranshulgg.weather_master_app.core.utils.Extensions.iso8601TimestampToMilliseconds
-import com.pranshulgg.weather_master_app.core.utils.Extensions.kmhToMs
-import com.pranshulgg.weather_master_app.core.utils.Extensions.mmToCm
-import com.pranshulgg.weather_master_app.core.utils.Extensions.mphToKmh
-import com.pranshulgg.weather_master_app.core.utils.Extensions.normalizeToDay
-import com.pranshulgg.weather_master_app.core.utils.Extensions.pressurePaToHpa
+import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.iso8601TimestampToMilliseconds
+import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.normalizeToDay
 import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getMoonTimings
 import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getSunTimings
 import com.pranshulgg.weather_master_app.core.utils.weather.calculations.computeApparentTemperature
@@ -104,6 +102,7 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
         location.latitude,
         location.longitude
     )
+
     return Weather(
         location = location,
         current = WeatherCurrent(
@@ -133,7 +132,10 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
             val snowFall = snowMap[hourTime]
 
             WeatherHourly(
-                temperature = it.temperature.fahrenheitToCelsius(),
+                temperature = TemperatureUnit.FAHRENHEIT.convert(
+                    it.temperature,
+                    TemperatureUnit.CELSIUS
+                ),
                 windSpeed = fixHourlyNwsWindSpeedValue(it.windSpeed),
                 windDirection = WindDirection.toWindDirectionFromString(it.windDirection),
                 rain = rainAmount ?: 0.0,
@@ -179,7 +181,7 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
                 windSpeed = windSpeed,
                 windDirection = WindDirection.toWindDirectionFromString(item.windDirection),
                 rainSum = rainSum,
-                snowfallSum = snowfallSum.mmToCm(),
+                snowfallSum = PrecipitationUnit.MM.convert(snowfallSum, PrecipitationUnit.CM),
                 uvIndexMax = null,
                 weatherCondition = condition,
                 time = time,
@@ -195,10 +197,10 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
 
 }
 
-private fun fixHourlyNwsWindSpeedValue(value: String): Double {
+private fun fixHourlyNwsWindSpeedValue(value: String): Double? {
     val filteredValue = value.filter { it.isDigit() } // 12 mph to 12
 
-    return filteredValue.toDouble().mphToKmh()
+    return WindSpeedUnit.MPH.convert(filteredValue.toDouble(), WindSpeedUnit.KPH)
 }
 
 
@@ -328,4 +330,13 @@ private fun getHourlyConditionsForDay(
         .map { NwsWeatherConditionMap.getCondition(it.icon) }
 
     return conditions
+}
+
+private fun Double.pressurePaToHpa(): Double {
+    return (this / 100)
+}
+
+
+private fun Double.kmhToMs(): Double {
+    return (this / 3.6)
 }
