@@ -1,5 +1,8 @@
 package com.pranshulgg.weather_master_app.feature.intro
 
+import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -43,11 +46,15 @@ import com.pranshulgg.weather_master_app.core.ui.components.WeatherIconBox
 import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weather_master_app.core.utils.ids.UuidGenerator
-import com.pranshulgg.weather_master_app.data.provider.DeviceLocation
-import com.pranshulgg.weather_master_app.data.provider.GetDeviceLocation
-import com.pranshulgg.weather_master_app.data.provider.rememberLocationPermissionLauncher
+import com.pranshulgg.weather_master_app.data.provider.devicelocation.DeviceLocation
+import com.pranshulgg.weather_master_app.data.provider.devicelocation.GetDeviceLocation
+import com.pranshulgg.weather_master_app.data.provider.devicelocation.getCountryCode
+import com.pranshulgg.weather_master_app.data.provider.devicelocation.rememberBackgroundLocationPermissionLauncher
+import com.pranshulgg.weather_master_app.data.provider.devicelocation.rememberLocationPermissionLauncher
+import com.pranshulgg.weather_master_app.feature.shared.ui.SharedDialogs
 import java.util.TimeZone
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun IntroScreen(navController: NavController) {
@@ -55,29 +62,46 @@ fun IntroScreen(navController: NavController) {
     val context = LocalContext.current
     val viewModel: IntroScreenViewModel = hiltViewModel()
     var isLoading by remember { mutableStateOf(false) }
+    var backgroundLocationPermissionInfoDialogOpen by remember { mutableStateOf(false) }
+    var locationPermissionInfoDialogOpen by remember { mutableStateOf(false) }
 
-    val requestLocation = rememberLocationPermissionLauncher(
-        onGranted = {
-            isLoading = true
-            GetDeviceLocation().getDeviceLocation(
-                context,
-                onTimeout = {
-                    SnackbarManager.show(R.string.current_location_not_found)
-                    isLoading = false
-                }) { location ->
-                if (location.latitude == null || location.longitude == null) {
-                    SnackbarManager.show(R.string.current_location_not_found)
-                    return@getDeviceLocation
-                }
-
-                viewModel.saveDeviceLocation(location.toDomain())
+    val continueWithLocation = {
+        isLoading = true
+        GetDeviceLocation().getDeviceLocation(
+            context,
+            onTimeout = {
+                SnackbarManager.show(R.string.current_location_not_found)
+                isLoading = false
+            }) { location ->
+            if (location.latitude == null || location.longitude == null) {
+                SnackbarManager.show(R.string.current_location_not_found)
+                return@getDeviceLocation
             }
 
+            viewModel.saveDeviceLocation(location)
+        }
+    }
 
+    val requestLocation = rememberLocationPermissionLauncher(
+        onForegroundGranted = {
+            backgroundLocationPermissionInfoDialogOpen = true
         },
         onDenied = {
             SnackbarManager.show(R.string.location_permission_required)
             isLoading = false
+        }
+    )
+
+    val requestBackgroundLocation = rememberBackgroundLocationPermissionLauncher(
+        onGranted = {
+            continueWithLocation()
+        },
+        onContinueWithoutBackground = {
+            continueWithLocation()
+        },
+        onDenied = {
+            SnackbarManager.show(R.string.location_permission_required)
+            backgroundLocationPermissionInfoDialogOpen = true
         }
     )
 
@@ -121,7 +145,7 @@ fun IntroScreen(navController: NavController) {
                 Button(
                     enabled = !isLoading,
                     onClick = {
-                        requestLocation()
+                        locationPermissionInfoDialogOpen = true
                     },
                     modifier = Modifier
                         .heightIn(btnSize)
@@ -189,8 +213,26 @@ fun IntroScreen(navController: NavController) {
             }
         }
     }
+
+    SharedDialogs.DeviceBackgroundLocationPermissionInfoDialog(
+        show = backgroundLocationPermissionInfoDialogOpen,
+        onConfirm = {
+            backgroundLocationPermissionInfoDialogOpen = false
+            requestBackgroundLocation()
+        },
+        onDismiss = { backgroundLocationPermissionInfoDialogOpen = false }
+    )
+
+    SharedDialogs.DeviceLocationPermissionInfoDialog(
+        show = locationPermissionInfoDialogOpen,
+        onConfirm = {
+            requestLocation()
+        },
+        onDismiss = { locationPermissionInfoDialogOpen = false }
+    )
 }
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 private fun Icon() {
     Surface(
@@ -213,10 +255,12 @@ private fun Icon() {
 
 }
 
-fun DeviceLocation.toDomain(): Location {
+suspend fun DeviceLocation.toDomain(context: Context): Location {
 
     val formattedLatitude = "%.5f".format(latitude).toDouble()
     val formattedLongitude = "%.5f".format(longitude).toDouble()
+
+    val countryCode = getCountryCode(context, formattedLatitude, formattedLongitude)
 
 
     return Location(
@@ -226,7 +270,7 @@ fun DeviceLocation.toDomain(): Location {
         longitude = formattedLongitude,
         country = "",
         timezone = TimeZone.getDefault().id,
-        countryCode = "",
+        countryCode = countryCode,
         state = "",
         source = WeatherSource.OPEN_METEO,
         isFavorite = false,
