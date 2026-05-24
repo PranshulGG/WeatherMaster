@@ -6,6 +6,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherCurren
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherDaily
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherHourly
 import com.pranshulgg.weather_master_app.core.model.domain.weather.nws.NwsGridPoints
+import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.core.model.weather.PrecipitationUnit
 import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnit
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherCondition
@@ -297,7 +298,8 @@ private fun getRainSum(
 
     val startIndex = data.indexOfFirst { it.validTime.iso8601TimestampToMilliseconds() >= time }
         .takeIf { it != -1 } ?: 0
-    val data = data.drop(maxOf(0, startIndex - 1)).take(14)
+    val data =
+        data.drop(maxOf(0, startIndex - 1)).take(WeatherSource.NWS.hourlyAggregationLimitHours)
 
     val rainSum = data.sumOf { it.value ?: 0.0 }
 
@@ -311,7 +313,8 @@ private fun getSnowfallSum(
 
     val startIndex = data.indexOfFirst { it.validTime.iso8601TimestampToMilliseconds() >= time }
         .takeIf { it != -1 } ?: 0
-    val data = data.drop(maxOf(0, startIndex - 1)).take(14)
+    val data =
+        data.drop(maxOf(0, startIndex - 1)).take(WeatherSource.NWS.hourlyAggregationLimitHours)
 
     val snowfallSum = data.sumOf { it.value ?: 0.0 }
 
@@ -326,7 +329,8 @@ private fun getHourlyConditionsForDay(
         data.periods.indexOfFirst { it.startTime.iso8601TimestampToMilliseconds() >= time }
             .takeIf { it != -1 } ?: 0
 
-    val conditions = data.periods.drop(maxOf(0, startIndex - 1)).take(12)
+    val conditions = data.periods.drop(maxOf(0, startIndex - 1))
+        .take(WeatherSource.NWS.hourlyAggregationLimitHours)
         .map { NwsWeatherConditionMap.getCondition(it.icon) }
 
     return conditions

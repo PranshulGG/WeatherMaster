@@ -5,6 +5,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherCurrent
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherDaily
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherHourly
+import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherCondition
 import com.pranshulgg.weather_master_app.core.model.weather.wind.WindDirection
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.MetNorwayWeatherConditionMap
@@ -32,10 +33,10 @@ fun MetNorwayForecastJson.toDomain(location: Location): Weather {
     val daily = computeDaily(this, location)
 
 
-    val nextHourSummary = this.properties.data.map {
-        it.data.nextHour?.summary
-            ?: it.data.next6Hours?.summary
-            ?: it.data.next12Hours?.summary
+    val nextHour = this.properties.data.map {
+        it.data.nextHour
+            ?: it.data.next6Hours
+            ?: it.data.next12Hours
     }
 
     return Weather(
@@ -48,7 +49,7 @@ fun MetNorwayForecastJson.toDomain(location: Location): Weather {
             visibility = null,
             cloudCover = null, // NOT USED IN THE APP
             uvIndex = current.instant.details.uvIndex,
-            weatherCondition = MetNorwayWeatherConditionMap.getCondition(current.nextHour?.summary?.symbolCode),
+            weatherCondition = MetNorwayWeatherConditionMap.getCondition(nextHour[currentHour]?.summary?.symbolCode),
             feelsLike = computeApparentTemperature(
                 current.instant.details.temperature,
                 current.instant.details.relativeHumidity,
@@ -188,7 +189,8 @@ private fun getHourlyConditionsForDay(
             .takeIf { it != -1 } ?: 0
 
 
-    val conditions = data.drop(maxOf(0, startIndex - 1)).take(12)
+    val conditions = data.drop(maxOf(0, startIndex - 1))
+        .take(WeatherSource.MET_NORWAY.hourlyAggregationLimitHours)
         .map {
             MetNorwayWeatherConditionMap.getCondition(
                 it.data.nextHour?.summary?.symbolCode
