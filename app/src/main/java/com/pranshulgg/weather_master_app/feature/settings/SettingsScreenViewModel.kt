@@ -2,11 +2,11 @@ package com.pranshulgg.weather_master_app.feature.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pranshulgg.weather_master_app.core.model.weather.DistanceUnits
-import com.pranshulgg.weather_master_app.core.model.weather.PrecipitationUnits
-import com.pranshulgg.weather_master_app.core.model.weather.PressureUnits
-import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnits
-import com.pranshulgg.weather_master_app.core.model.weather.WindSpeedUnits
+import com.pranshulgg.weather_master_app.core.model.weather.DistanceUnit
+import com.pranshulgg.weather_master_app.core.model.weather.PrecipitationUnit
+import com.pranshulgg.weather_master_app.core.model.weather.PressureUnit
+import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnit
+import com.pranshulgg.weather_master_app.core.model.weather.WindSpeedUnit
 import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
@@ -25,33 +25,33 @@ class SettingsScreenViewModel @Inject constructor(
         initialValue = null
     )
 
-    fun updateTemperatureUnit(tempUnit: TemperatureUnits) {
+    fun updateTemperatureUnit(tempUnit: TemperatureUnit) {
         viewModelScope.launch {
             weatherUnitsRepo.updateTemperatureUnit(tempUnit)
         }
     }
 
-    fun updatePressureUnit(pressureUnit: PressureUnits) {
+    fun updatePressureUnit(pressureUnit: PressureUnit) {
         viewModelScope.launch {
             weatherUnitsRepo.updatePressureUnit(pressureUnit)
         }
     }
 
-    fun updateWindSpeedUnit(windSpeedUnit: WindSpeedUnits) {
+    fun updateWindSpeedUnit(windSpeedUnit: WindSpeedUnit) {
         viewModelScope.launch {
             weatherUnitsRepo.updateWindSpeedUnit(windSpeedUnit)
         }
     }
 
 
-    fun updateDistanceUnit(distanceUnit: DistanceUnits) {
+    fun updateDistanceUnit(distanceUnit: DistanceUnit) {
         viewModelScope.launch {
             weatherUnitsRepo.updateDistanceUnit(distanceUnit)
         }
 
     }
 
-    fun updatePrecipitationUnit(precipitationUnit: PrecipitationUnits) {
+    fun updatePrecipitationUnit(precipitationUnit: PrecipitationUnit) {
         viewModelScope.launch {
             weatherUnitsRepo.updatePrecipitationUnit(precipitationUnit)
         }

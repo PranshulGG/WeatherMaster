@@ -50,6 +50,12 @@ fun SettingsScreen(navController: NavController) {
                         title = stringResource(R.string.setting_language),
                         description = getCurrentAppLocale().displayName,
                         onClick = { navController.navigate(NavRoutes.LANGUAGE) }
+                    ),
+                    SettingTile.ActionTile(
+                        leading = { SettingsTileIcon(R.drawable.sync_24px) },
+                        title = stringResource(R.string.setting_background_updates),
+                        description = stringResource(R.string.setting_background_updates_secondary),
+                        onClick = { navController.navigate(NavRoutes.BACKGROUND_UPDATES) }
                     )
                 )
             )
