@@ -1,4 +1,4 @@
-package com.pranshulgg.weather_master_app.widgets.current
+package com.pranshulgg.weather_master_app.widgets.current.ui
 
 import android.content.Context
 import androidx.datastore.preferences.core.Preferences
@@ -24,7 +24,7 @@ class CurrentAndHourlyWidget : GlanceAppWidget() {
             val json = prefs[WidgetConfig.WEATHER_STATE_KEY]
 
             val state = json?.let {
-                Json.decodeFromString<WidgetWeather>(it)
+                Json.Default.decodeFromString<WidgetWeather>(it)
             }
 
 
