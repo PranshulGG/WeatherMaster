@@ -3,7 +3,7 @@ package com.pranshulgg.weather_master_app.core.utils.weather.astronomy
 import com.pranshulgg.weather_master_app.core.model.astro.MoonTimings
 import com.pranshulgg.weather_master_app.core.model.astro.SunTimings
 import com.pranshulgg.weather_master_app.core.model.astro.getMoonPhase
-import com.pranshulgg.weather_master_app.core.utils.Extensions.secondsToMilliseconds
+import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.secondsToMilliseconds
 import org.shredzone.commons.suncalc.MoonIllumination
 import org.shredzone.commons.suncalc.MoonTimes
 import org.shredzone.commons.suncalc.SunTimes
