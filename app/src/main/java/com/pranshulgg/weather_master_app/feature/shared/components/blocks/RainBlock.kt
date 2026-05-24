@@ -80,7 +80,7 @@ fun RainBlock(
 
                 Gap(3.dp)
                 Text(
-                    stringResource(if (isOnlyPrecipitation) R.string.weather_rain_today_amount else R.string.weather_total_rain_day),
+                    stringResource(if (isOnlyPrecipitation) R.string.weather_total_amount else R.string.weather_total_rain_day),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 16.dp, end = 16.dp),

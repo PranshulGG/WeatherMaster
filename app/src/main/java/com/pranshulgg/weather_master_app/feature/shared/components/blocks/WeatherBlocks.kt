@@ -20,8 +20,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlock
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlockType
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
-import com.pranshulgg.weather_master_app.core.model.weather.PrecipitationUnits
-import com.pranshulgg.weather_master_app.core.utils.weather.UnitConverter
+import com.pranshulgg.weather_master_app.core.model.weather.PrecipitationUnit
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isCurrentAirQualitySafe
 import com.pranshulgg.weather_master_app.feature.shared.WeatherViewModel
 import sh.calvin.reorderable.DragGestureDetector
@@ -73,15 +72,12 @@ fun WeatherBlocks(
     val viewModel: WeatherViewModel = hiltViewModel()
 
 
-    val rainForTheDay = UnitConverter.convertPrecipitation(
-        weather.daily[dailyIndex].rainSum,
-        PrecipitationUnits.MM, units.precipitationUnit
-    )
-
-    val snowForTheDay = UnitConverter.convertPrecipitation(
-        weather.daily[dailyIndex].snowfallSum ?: 0.0,
-        PrecipitationUnits.CM, units.precipitationUnit
-    )
+    val rainForTheDay =
+        PrecipitationUnit.MM.convert(weather.daily[dailyIndex].rainSum, units.precipitationUnit)
+            ?: 0.0
+    val snowForTheDay =
+        PrecipitationUnit.CM.convert(weather.daily[dailyIndex].snowfallSum, units.precipitationUnit)
+            ?: 0.0
 
     // Some sources do not provide precipitation separately rain/snow
     val isOnlyPrecipitationData = !weather.location.source.providesSnowFall()

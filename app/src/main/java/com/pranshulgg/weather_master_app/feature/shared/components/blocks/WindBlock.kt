@@ -26,14 +26,13 @@ import androidx.compose.ui.unit.dp
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
-import com.pranshulgg.weather_master_app.core.model.weather.WindSpeedUnits
+import com.pranshulgg.weather_master_app.core.model.weather.WindSpeedUnit
 import com.pranshulgg.weather_master_app.core.model.weather.toName
 import com.pranshulgg.weather_master_app.core.model.weather.wind.WindDirection
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
 import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
 import com.pranshulgg.weather_master_app.core.ui.theme.ShapeRadius
-import com.pranshulgg.weather_master_app.core.utils.weather.UnitConverter
 import kotlin.math.roundToInt
 
 @Composable
@@ -53,8 +52,7 @@ fun WindBlock(
 
     val windSpeed = if (isDaily) weather.daily[dailyIndex].windSpeed else weather.current.windSpeed
 
-    val windSpeedFormatted = UnitConverter
-        .convertWindSpeed(windSpeed!!, WindSpeedUnits.KPH, units.windUnit).roundToInt()
+    val windSpeedFormatted = WindSpeedUnit.KPH.convert(windSpeed, units.windUnit)?.roundToInt()
 
     Surface(
         color = MaterialTheme.colorScheme.surface,
