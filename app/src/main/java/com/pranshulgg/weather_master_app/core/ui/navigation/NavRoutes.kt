@@ -17,4 +17,6 @@ object NavRoutes {
     fun daily(index: Int, locationId: String): String {
         return "$DAILY/$index/$locationId"
     }
+
+    const val BACKGROUND_UPDATES = "background_updates"
 }
