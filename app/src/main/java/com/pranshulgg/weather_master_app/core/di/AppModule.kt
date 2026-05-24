@@ -44,64 +44,6 @@ object AppModule {
     ): WeatherMasterDatabase =
         WeatherMasterDatabase.getInstance(context)
 
-    @Provides
-    fun provideLocationDao(db: WeatherMasterDatabase) =
-        db.locationsDao()
-
-    @Provides
-    fun provideWeatherDataDao(db: WeatherMasterDatabase) =
-        db.weatherDao()
-
-    @Provides
-    fun provideWeatherUnitsDao(db: WeatherMasterDatabase) =
-        db.weatherUnitsDao()
-
-    @Provides
-    fun provideWeatherBlocksDao(db: WeatherMasterDatabase) =
-        db.weatherBlocksDao()
-
-    @Provides
-    fun provideAirQualityDao(db: WeatherMasterDatabase) = db.airQualityDao()
-
-    @Provides
-    fun provideNwsDao(db: WeatherMasterDatabase) = db.nwsDao()
-
-    @Provides
-    @Singleton
-    fun provideOpenMeteoApi(): OpenMeteoApi = OpenMeteoApi.create()
-
-    @Provides
-    @Singleton
-    fun provideOpenMeteoSearchApi(): OpenMeteoSearchApi = OpenMeteoSearchApi.create()
-
-    @Provides
-    @Singleton
-    fun provideGeoNamesSearchApi(): GeoNamesSearchApi = GeoNamesSearchApi.create()
-
-    @Provides
-    @Singleton
-    fun provideGeoNamesTimezoneApi(): GeoNamesTimezoneApi = GeoNamesTimezoneApi.create()
-
-    @Provides
-    @Singleton
-    fun provideOpenMeteoAqiApi(): OpenMeteoAqiApi = OpenMeteoAqiApi.create()
-
-    @Provides
-    @Singleton
-    fun provideNwsApi(): NwsApi = NwsApi.create()
-
-    @Provides
-    @Singleton
-    fun provideMetNorwayApi(): MetNorwayApi = MetNorwayApi.create()
-
-    @Provides
-    @Singleton
-    fun provideOpenMeteoRepository(
-        dao: LocationsDao,
-        api: OpenMeteoApi,
-        weatherDao: WeatherDao
-    ): OpenMeteoRepository = OpenMeteoRepository(dao, weatherDao, api)
-
 
     @Provides
     @Singleton
@@ -124,47 +66,6 @@ object AppModule {
     ): WeatherBlocksRepository =
         WeatherBlocksRepository(weatherBlocksDao)
 
-    @Provides
-    @Singleton
-    fun provideOpenMeteoSearchRepository(
-        api: OpenMeteoSearchApi
-    ): OpenMeteoSearchRepository = OpenMeteoSearchRepository(api)
-
-    @Provides
-    @Singleton
-    fun provideGeoNamesSearchRepository(
-        api: GeoNamesSearchApi
-    ): GeoNamesSearchRepository = GeoNamesSearchRepository(api)
-
-    @Provides
-    @Singleton
-    fun provideGeoNamesTimezoneRepository(api: GeoNamesTimezoneApi): GeoNamesTimezoneRepository =
-        GeoNamesTimezoneRepository(api)
-
-    @Provides
-    @Singleton
-    fun provideOpenMeteoAqiRepository(
-        api: OpenMeteoAqiApi,
-        dao: AirQualityDao
-    ): OpenMeteoAqiRepository =
-        OpenMeteoAqiRepository(api, dao)
-
-    @Provides
-    @Singleton
-    fun provideNwsRepository(
-        api: NwsApi,
-        dao: LocationsDao,
-        weatherDao: WeatherDao,
-        nwsDao: NwsDao
-    ): NwsRepository = NwsRepository(dao, weatherDao, nwsDao, api)
-
-    @Provides
-    @Singleton
-    fun provideMetNorwayRepository(
-        dao: LocationsDao,
-        api: MetNorwayApi,
-        weatherDao: WeatherDao
-    ): MetNorwayRepository = MetNorwayRepository(dao, weatherDao, api)
 
     @Provides
     @Singleton
