@@ -23,6 +23,12 @@ class WeatherWidgetUpdater(
         val froggyIds =
             manager.getGlanceIds(FroggyWidget::class.java)
         val allIds = weatherIds + froggyIds
+
+
+        /**
+         * Not observing the DB, cuz we want, so just save the data into prefs
+         * Widgets can later encode to WidgetWeather
+         */
         allIds.forEach { id ->
             updateAppWidgetState(context, id) { prefs ->
                 prefs[WEATHER_STATE_KEY] = json

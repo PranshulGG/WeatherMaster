@@ -25,6 +25,7 @@ fun widgetWeatherMapper(
     units: WeatherUnits
 ): String {
 
+    // Map everything
     val timezone = weather.location.timezone
 
     val currentCondition = weather.current.weatherCondition.toLabel(applicationContext)
@@ -93,5 +94,6 @@ fun widgetWeatherMapper(
         uvIndex = weather.current.uvIndex?.roundToInt()
     )
 
+    // Convert to string
     return Json.encodeToString(widgetState)
 }

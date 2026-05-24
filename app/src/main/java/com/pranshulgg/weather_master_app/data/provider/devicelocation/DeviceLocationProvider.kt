@@ -98,14 +98,24 @@ class GetDeviceLocation {
 
         if (lastKnown != null) {
             timeoutHandler?.removeCallbacks(timeoutRunnable!!)
-            onLocation(DeviceLocation(lastKnown.latitude, lastKnown.longitude))
+            onLocation(
+                DeviceLocation(
+                    parseCord(lastKnown.latitude),
+                    parseCord(lastKnown.longitude)
+                )
+            )
             return
         }
 
         locationListener = object : LocationListener {
             override fun onLocationChanged(location: Location) {
                 timeoutHandler?.removeCallbacks(timeoutRunnable!!)
-                onLocation(DeviceLocation(location.latitude, location.longitude))
+                onLocation(
+                    DeviceLocation(
+                        parseCord(location.latitude),
+                        parseCord(location.longitude)
+                    )
+                )
                 stopUpdates()
             }
 
@@ -140,3 +150,15 @@ class GetDeviceLocation {
 }
 
 
+/**
+ * Device might return lat/lon as a string based on the device locale
+ * For e.g. "53,85893" -> app crashes, because upstream only takes in double
+ * We convert that here
+ */
+private fun parseCord(value: Any): Double {
+    return when (value) {
+        is Double -> value
+        is String -> value.replace(',', '.').toDouble()
+        else -> error("Unsupported type")
+    }
+}

@@ -38,6 +38,8 @@ class WeatherWorker @AssistedInject constructor(
 
         return try {
 
+
+            // Get the locations and units
             val locations = locationsRepository.getLocationsOnce()
             val default = locations.find { it.isDefault }
             val units = weatherUnitsRepository.getUnitsOnce()
@@ -45,10 +47,17 @@ class WeatherWorker @AssistedInject constructor(
             if (default == null || units == null) {
                 return Result.success()
             }
+
+            /**
+             * Show a notification whenever the worker runs
+             * Don't really need it but why not, i wanna know if its working
+             */
             WeatherNotification.showNotification(default.name)
 
 
+            // Get the repository
             val repo = repositoryProvider.getRepository(default.source)
+
 
             val result = repo.getWeather(
                 location = default,
