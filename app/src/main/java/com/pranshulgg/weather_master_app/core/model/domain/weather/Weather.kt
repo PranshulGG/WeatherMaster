@@ -55,7 +55,7 @@ data class WeatherCurrent(
 }
 
 data class WeatherHourly(
-    val temperature: Double, // NOTE: ALWAYS C
+    val temperature: Double?, // NOTE: ALWAYS C
     val windSpeed: Double?, // NOTE: ALWAYS KMH
     val windDirection: WindDirection?, // NOTE: ALWAYS DOMINANT
     val rain: Double,  // NOTE: ALWAYS MM
@@ -79,8 +79,8 @@ data class WeatherHourly(
 }
 
 data class WeatherDaily(
-    val temperatureMin: Double, // NOTE: ALWAYS C
-    val temperatureMax: Double, // NOTE: ALWAYS C
+    val temperatureMin: Double?, // NOTE: ALWAYS C
+    val temperatureMax: Double?, // NOTE: ALWAYS C
     val windSpeed: Double?, // NOTE: ALWAYS KMH
     val windDirection: WindDirection?, // NOTE: ALWAYS DOMINANT
     val rainSum: Double,  // NOTE: ALWAYS MM

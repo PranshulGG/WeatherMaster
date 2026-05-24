@@ -211,10 +211,10 @@ fun WeatherCondition.toLabel(context: Context): String {
 
 // ------- MAP TO FROGGYY -------
 
-fun WeatherCondition.toFroggy(daily: WeatherDaily? = null, targetTimeSecs: Long): Int {
+fun WeatherCondition.toFroggy(daily: WeatherDaily? = null, targetTimeMilli: Long): Int {
 
     val isDay = if (daily != null) {
-        targetTimeSecs in daily.sunrise..daily.sunset
+        targetTimeMilli in daily.sunrise..daily.sunset
     } else {
         true
     }
