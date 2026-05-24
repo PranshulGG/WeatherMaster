@@ -6,6 +6,7 @@ plugins {
     id("com.google.devtools.ksp") version "2.3.4"
     id("com.google.dagger.hilt.android")
     id("androidx.room")
+    kotlin("plugin.serialization") version "2.3.21"
 }
 
 val localProps = Properties().apply {
@@ -21,19 +22,17 @@ val geoNamesUserNameKey: String = localProps.getProperty("GEO_NAMES_USERNAME")
 
 android {
     namespace = "com.pranshulgg.weather_master_app"
-    android.buildFeatures.buildConfig = true
     compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
+        version = release(37)
     }
+    android.buildFeatures.buildConfig = true
 
     defaultConfig {
         applicationId = "com.pranshulgg.weather_master_app"
         minSdk = 24
         targetSdk = 36
-        versionCode = 46
-        versionName = "3.0.0-beta3"
+        versionCode = 47
+        versionName = "3.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -77,6 +76,7 @@ room {
 
 dependencies {
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.process)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
@@ -105,12 +105,21 @@ dependencies {
     ksp(libs.room.compiler)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
+    ksp(libs.hilt.compiler)
     implementation(libs.reorderable)
 
     implementation(libs.androidx.foundation.layout)
     implementation(libs.androidx.animation.core)
     implementation(libs.core.splashscreen)
 
+    implementation(libs.androidx.work.runtime)
+    implementation(libs.hilt.work)
+
+    implementation(libs.androidx.glance)
+
+    implementation(libs.androidx.glance.appwidget)
+
+    implementation(libs.kotlinx.serialization.json)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
