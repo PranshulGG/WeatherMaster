@@ -23,21 +23,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weather_master_app.R
-import com.pranshulgg.weather_master_app.core.model.weather.PressureUnits
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
+import com.pranshulgg.weather_master_app.core.model.weather.PressureUnit
 import com.pranshulgg.weather_master_app.core.model.weather.toName
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
 import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
 import com.pranshulgg.weather_master_app.core.ui.theme.ShapeRadius
-import com.pranshulgg.weather_master_app.core.utils.weather.UnitConverter
 
 @Composable
 fun PressureBlock(weather: Weather, units: WeatherUnits, context: Context) {
     val pressure = weather.current.pressureMsl
 
-    val pressureInhg =
-        UnitConverter.convertPressure(pressure!!, PressureUnits.HPA, PressureUnits.INHG)
+    val pressureInhg = PressureUnit.HPA.convert(pressure!!, PressureUnit.INHG)
     val pressureHpa = weather.current.pressureMsl.toInt()
 
     val progressDrawable = when {
@@ -76,7 +74,7 @@ fun PressureBlock(weather: Weather, units: WeatherUnits, context: Context) {
             }
 
             Text(
-                if (units.pressureUnit == PressureUnits.INHG) "%.2f".format(pressureInhg) else "$pressureHpa",
+                if (units.pressureUnit == PressureUnit.INHG) "%.2f".format(pressureInhg) else "$pressureHpa",
                 style = MaterialTheme.typography.displaySmall,
                 modifier = Modifier
                     .align(Alignment.Center)
