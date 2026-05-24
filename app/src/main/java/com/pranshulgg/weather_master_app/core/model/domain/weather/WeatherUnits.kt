@@ -1,25 +1,25 @@
 package com.pranshulgg.weather_master_app.core.model.domain.weather
 
-import com.pranshulgg.weather_master_app.core.model.weather.DistanceUnits
-import com.pranshulgg.weather_master_app.core.model.weather.PrecipitationUnits
-import com.pranshulgg.weather_master_app.core.model.weather.PressureUnits
-import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnits
-import com.pranshulgg.weather_master_app.core.model.weather.WindSpeedUnits
+import com.pranshulgg.weather_master_app.core.model.weather.DistanceUnit
+import com.pranshulgg.weather_master_app.core.model.weather.PrecipitationUnit
+import com.pranshulgg.weather_master_app.core.model.weather.PressureUnit
+import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnit
+import com.pranshulgg.weather_master_app.core.model.weather.WindSpeedUnit
 
 data class WeatherUnits(
-    val tempUnit: TemperatureUnits,
-    val windUnit: WindSpeedUnits,
-    val distanceUnit: DistanceUnits,
-    val pressureUnit: PressureUnits,
-    val precipitationUnit: PrecipitationUnits,
+    val tempUnit: TemperatureUnit,
+    val windUnit: WindSpeedUnit,
+    val distanceUnit: DistanceUnit,
+    val pressureUnit: PressureUnit,
+    val precipitationUnit: PrecipitationUnit,
 ) {
     companion object {
         fun getDefault() = WeatherUnits(
-            tempUnit = TemperatureUnits.CELSIUS,
-            windUnit = WindSpeedUnits.KPH,
-            distanceUnit = DistanceUnits.KM,
-            pressureUnit = PressureUnits.HPA,
-            precipitationUnit = PrecipitationUnits.MM
+            tempUnit = TemperatureUnit.CELSIUS,
+            windUnit = WindSpeedUnit.KPH,
+            distanceUnit = DistanceUnit.KM,
+            pressureUnit = PressureUnit.HPA,
+            precipitationUnit = PrecipitationUnit.MM
         )
     }
 }

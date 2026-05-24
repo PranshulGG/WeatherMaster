@@ -1,11 +1,11 @@
 package com.pranshulgg.weather_master_app.data.repository
 
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
-import com.pranshulgg.weather_master_app.core.model.weather.DistanceUnits
-import com.pranshulgg.weather_master_app.core.model.weather.PrecipitationUnits
-import com.pranshulgg.weather_master_app.core.model.weather.PressureUnits
-import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnits
-import com.pranshulgg.weather_master_app.core.model.weather.WindSpeedUnits
+import com.pranshulgg.weather_master_app.core.model.weather.DistanceUnit
+import com.pranshulgg.weather_master_app.core.model.weather.PrecipitationUnit
+import com.pranshulgg.weather_master_app.core.model.weather.PressureUnit
+import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnit
+import com.pranshulgg.weather_master_app.core.model.weather.WindSpeedUnit
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherUnitsDao
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toEntity
@@ -38,23 +38,23 @@ class WeatherUnitsRepository @Inject constructor(
     }
 
 
-    suspend fun updateTemperatureUnit(tempUnit: TemperatureUnits) {
+    suspend fun updateTemperatureUnit(tempUnit: TemperatureUnit) {
         dao.updateTemperatureUnit(tempUnit)
     }
 
-    suspend fun updatePressureUnit(pressureUnit: PressureUnits) {
+    suspend fun updatePressureUnit(pressureUnit: PressureUnit) {
         dao.updatePressureUnit(pressureUnit)
     }
 
-    suspend fun updateWindSpeedUnit(windSpeedUnit: WindSpeedUnits) {
+    suspend fun updateWindSpeedUnit(windSpeedUnit: WindSpeedUnit) {
         dao.updateWindSpeedUnit(windSpeedUnit)
     }
 
-    suspend fun updateDistanceUnit(distanceUnit: DistanceUnits) {
+    suspend fun updateDistanceUnit(distanceUnit: DistanceUnit) {
         dao.updateDistanceUnit(distanceUnit)
     }
 
-    suspend fun updatePrecipitationUnit(precipitationUnit: PrecipitationUnits) {
+    suspend fun updatePrecipitationUnit(precipitationUnit: PrecipitationUnit) {
         dao.updatePrecipitationUnit(precipitationUnit)
     }
 
