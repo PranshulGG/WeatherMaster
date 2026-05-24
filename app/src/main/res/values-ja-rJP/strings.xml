@@ -94,7 +94,7 @@
     <string name="temp_feels_like">体感温度 %1$s</string>
     <string name="temp_max">最高 %1$s</string>
     <string name="temp_min">最低 %1$s</string>
-    <string name="search_results_provided">Search results provided by %1$s</string>
+    <string name="search_results_provided">検索結果の提供元: %1$s</string>
     <string name="action_confirm">確定</string>
     <string name="weather">天気</string>
     <string name="setting_custom_color">カスタムカラーを使用</string>
