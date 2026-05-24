@@ -3,6 +3,7 @@ package com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
+import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherCacheSafe
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnWeatherCache
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
@@ -43,36 +44,36 @@ class MetNorwayRepository @Inject constructor(
                 else -> {}
             }
 
-//            return@withContext try {
+            return@withContext try {
 
 
-            val response = api.fetchWeather(location.latitude, location.longitude)
+                val response = api.fetchWeather(location.latitude, location.longitude)
 
-            val body =
-                response.body()
-                    ?: return@withContext WeatherResult.Error(exception = UnknownHostException())
+                val body =
+                    response.body()
+                        ?: return@withContext WeatherResult.Error(exception = UnknownHostException())
 
 
-            val domain = body.toDomain(location)
+                val domain = body.toDomain(location)
 
-            weatherDao.insertWeather(
-                domain.current.toCurrentWeatherEntity(location.id),
-                domain.hourly.toHourlyWeatherEntity(location.id),
-                domain.daily.toDailyWeatherEntity(location.id),
-                location.id
-            )
-            WeatherResult.Success(domain)
+                weatherDao.insertWeather(
+                    domain.current.toCurrentWeatherEntity(location.id),
+                    domain.hourly.toHourlyWeatherEntity(location.id),
+                    domain.daily.toDailyWeatherEntity(location.id),
+                    location.id
+                )
+                WeatherResult.Success(domain)
 
-//            } catch (e: Exception) {
-//
-//                val isCacheSafe = isWeatherCacheSafe(cache)
-//
-//                WeatherResult.Error(
-//                    exception = e,
-//                    if (isCacheSafe) cache?.toDomain() else null
-//                )
-//
-//            }
+            } catch (e: Exception) {
+
+                val isCacheSafe = isWeatherCacheSafe(cache)
+
+                WeatherResult.Error(
+                    exception = e,
+                    if (isCacheSafe) cache?.toDomain() else null
+                )
+
+            }
         }
 }
 

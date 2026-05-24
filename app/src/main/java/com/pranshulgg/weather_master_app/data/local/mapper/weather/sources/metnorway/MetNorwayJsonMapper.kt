@@ -10,8 +10,8 @@ import com.pranshulgg.weather_master_app.core.model.weather.wind.WindDirection
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.MetNorwayWeatherConditionMap
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.json.MetNorwayForecastJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.json.MetNorwayForecastTimeSeriesJson
-import com.pranshulgg.weather_master_app.core.utils.Extensions.iso8601TimestampToMilliseconds
-import com.pranshulgg.weather_master_app.core.utils.Extensions.normalizeToDay
+import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.iso8601TimestampToMilliseconds
+import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.normalizeToDay
 import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getMoonTimings
 import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getSunTimings
 import com.pranshulgg.weather_master_app.core.utils.weather.calculations.computeApparentTemperature
