@@ -19,4 +19,12 @@ object NavRoutes {
     }
 
     const val BACKGROUND_UPDATES = "background_updates"
+
+    const val ABOUT = "about"
+
+    const val TERMS_CONDITIONS = "terms_conditions"
+    const val PRIVACY_POLICY = "privacy_policy"
+    const val LICENSE = "LICENSE"
+
+    const val SOURCES = "sources"
 }

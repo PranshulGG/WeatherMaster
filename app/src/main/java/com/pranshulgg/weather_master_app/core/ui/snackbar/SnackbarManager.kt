@@ -8,7 +8,7 @@ object SnackbarManager {
     data class SnackbarEvent(
         val messageResource: Int,
         val messageArgs: Any? = null,
-        val actionLabel: String? = null,
+        val actionLabel: Int? = null,
         val onAction: (() -> Unit)? = null
     )
 
@@ -19,7 +19,7 @@ object SnackbarManager {
 
     fun show(
         messageResource: Int,
-        actionLabel: String? = null,
+        actionLabel: Int? = null,
         messageArgs: Any? = null,
         onAction: (() -> Unit)? = null
     ) {

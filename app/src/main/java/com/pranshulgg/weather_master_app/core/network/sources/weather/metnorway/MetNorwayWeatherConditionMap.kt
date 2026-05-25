@@ -36,7 +36,8 @@ object MetNorwayWeatherConditionMap {
                 WeatherCondition.HEAVY_RAIN
 
             "lightsnowshowers",
-            "lightsnow" ->
+            "lightsnow",
+            "lightsleet" ->
                 WeatherCondition.LIGHT_SNOW
 
             "snowshowers",
