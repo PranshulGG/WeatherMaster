@@ -1,24 +1,27 @@
 package com.pranshulgg.weather_master_app.core.ui.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun WeatherIconBox(icon: Int, size: Dp = 40.dp) {
+fun WeatherIconBox(icon: Int, size: Dp = 40.dp, modifier: Modifier = Modifier) {
 
     Box(
-        modifier = Modifier.size(size)
+        modifier = modifier.size(size)
     ) {
         Image(
             painter = painterResource(icon),
             contentDescription = "",
-            modifier = Modifier.matchParentSize()
+            modifier = Modifier
+                .matchParentSize()
         )
     }
 }

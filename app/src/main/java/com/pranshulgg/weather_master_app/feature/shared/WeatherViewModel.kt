@@ -12,6 +12,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlock
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.airquality.AirQualityResult
+import com.pranshulgg.weather_master_app.core.network.github.GithubRepository
 import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo.OpenMeteoAqiRepository
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weather_master_app.data.provider.WeatherRepositoryProvider
@@ -20,7 +21,9 @@ import com.pranshulgg.weather_master_app.data.repository.WeatherBlocksRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherDataReconcilerRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
 import com.pranshulgg.weather_master_app.feature.main.MainScreenWeatherUiState
+import dagger.hilt.android.internal.Contexts
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -250,6 +253,7 @@ class WeatherViewModel @Inject constructor(
                 _uiState.value = _uiState.value.copy(airQuality = result.cacheAirQuality)
             }
         }
-
     }
+
+
 }
