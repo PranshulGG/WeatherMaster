@@ -3,8 +3,11 @@ package com.pranshulgg.weather_master_app.feature.settings.appearance
 import android.os.Build
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -14,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
+import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weather_master_app.core.ui.components.SettingSection
@@ -82,8 +86,8 @@ fun AppearanceScreen(navController: NavController) {
                                 R.drawable.photo_24px
                             )
                         },
-                        title = "Dynamic colors",
-                        description = "Use wallpaper colors",
+                        title = stringResource(R.string.setting_dynamic_colors),
+                        description = stringResource(R.string.setting_dynamic_colors_secondary),
                         checked = prefs.isDynamicTheme,
                         enabled = isAndroid12Plus && !prefs.isCustomTheme,
                         onCheckedChange = { checked ->
@@ -101,9 +105,45 @@ fun AppearanceScreen(navController: NavController) {
                         title = stringResource(R.string.setting_units),
                         description = stringResource(R.string.setting_units_secondary),
                         onClick = { navController.navigate(NavRoutes.UNITS) }
+                    ),
+
+                    SettingTile.SwitchTile(
+                        leading = { SettingsTileIcon(R.drawable.animation_24px) },
+                        title = stringResource(R.string.setting_weather_animations),
+                        description = stringResource(R.string.setting_weather_animations_secondary),
+                        checked = prefs.isShowWeatherAnimations,
+                        onCheckedChange = { checked ->
+                            prefs.setShowWeatherAnimations(checked)
+                        }
+                    ),
+                    SettingTile.SwitchTile(
+                        leading = { SettingsTileIcon(R.drawable.gradient_24px) },
+                        title = stringResource(R.string.setting_weather_based_theme),
+                        description = stringResource(R.string.setting_weather_based_theme_secondary),
+                        checked = prefs.isWeatherBasedTheme,
+                        onCheckedChange = { checked ->
+                            prefs.setIsWeatherBasedTheme(checked)
+                        }
+                    ),
+                )
+            )
+
+            SettingSection(
+                title = stringResource(R.string.setting_layout),
+                tiles = listOf(
+                    SettingTile.SwitchTile(
+                        leading = { SettingsTileIcon(R.drawable.froggy_head_48px) },
+                        title = stringResource(R.string.setting_froggy_layout),
+                        description = stringResource(R.string.setting_froggy_layout_secondary),
+                        checked = prefs.isFroggyLayout,
+                        onCheckedChange = { checked ->
+                            prefs.setFroggyLayout(checked)
+                        }
                     )
                 )
             )
+
+            Gap(WindowInsets.systemBars.asPaddingValues().calculateBottomPadding() + 30.dp)
         }
     }
 
