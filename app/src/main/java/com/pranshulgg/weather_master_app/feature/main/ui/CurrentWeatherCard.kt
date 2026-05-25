@@ -32,22 +32,27 @@ import kotlin.math.roundToInt
 fun CurrentWeatherCard(
     weather: Weather,
     units: WeatherUnits,
-    context: Context
+    context: Context,
+    isFroggyLayout: Boolean = true
 ) {
 
-    Column(
-        modifier = Modifier
-            .padding(start = 16.dp, end = 16.dp, top = 6.dp)
-    ) {
-        Row(
+    if (isFroggyLayout) {
+        Column(
             modifier = Modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+                .padding(start = 16.dp, end = 16.dp, top = 6.dp)
         ) {
-            CardRowContent(weather, units, context)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                CardRowContent(weather, units, context)
+            }
+            MinMaxTempRow(weather, units, context)
         }
-        MinMaxTempRow(weather, units, context)
+    } else {
+        PixelStyleCurrentWeatherCard(weather, units, context)
     }
 
 }
@@ -102,7 +107,12 @@ private fun CardRowContent(weather: Weather, units: WeatherUnits, context: Conte
 
 
 @Composable
-private fun MinMaxTempRow(weather: Weather, units: WeatherUnits, context: Context) {
+private fun MinMaxTempRow(
+    weather: Weather,
+    units: WeatherUnits,
+    context: Context,
+    isFroggyLayout: Boolean = true
+) {
 
 
     val colorScheme = MaterialTheme.colorScheme
@@ -114,9 +124,10 @@ private fun MinMaxTempRow(weather: Weather, units: WeatherUnits, context: Contex
 
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
+        horizontalArrangement = if (isFroggyLayout) Arrangement.SpaceBetween else Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically,
+
+        ) {
         Text(
             "${
                 stringResource(
@@ -130,9 +141,10 @@ private fun MinMaxTempRow(weather: Weather, units: WeatherUnits, context: Contex
                 )
             }",
             color = colorScheme.onSurfaceVariant,
-            style = MaterialTheme.typography.labelLarge
+            style = if (isFroggyLayout) MaterialTheme.typography.labelLarge else MaterialTheme.typography.titleLarge
         )
-        LastUpdatedTextRow(weather.current.lastUpdatedInMilli, context)
+        if (isFroggyLayout)
+            LastUpdatedTextRow(weather.current.lastUpdatedInMilli, context)
     }
 }
 
@@ -154,5 +166,54 @@ private fun LastUpdatedTextRow(timeMilli: Long, context: Context) {
             style = MaterialTheme.typography.labelLarge,
             fontStyle = FontStyle.Italic
         )
+    }
+}
+
+@Composable
+fun PixelStyleCurrentWeatherCard(weather: Weather, units: WeatherUnits, context: Context) {
+    val current = weather.current
+
+    val currentTemp = TemperatureUnit.CELSIUS.convert(current.temperature, units.tempUnit)
+
+    val feelsLike = TemperatureUnit.CELSIUS.convert(current.feelsLike, units.tempUnit)
+
+    Column(
+        modifier = Modifier
+            .padding(start = 16.dp, end = 16.dp, top = 24.dp)
+            .fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            WeatherIconBox(
+                current.weatherCondition.toIcon(
+                    targetTimeMilli = weather.current.time,
+                    daily = weather.daily.firstOrNull()
+                ),
+                size = 32.dp
+            )
+            Gap(horizontal = 6.dp)
+            Text(
+                current.weatherCondition.toLabel(context),
+                color = MaterialTheme.colorScheme.onSurface,
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Medium
+            )
+        }
+        Text(
+            "${currentTemp?.roundToInt() ?: "-"}°",
+            color = MaterialTheme.colorScheme.primary,
+            fontSize = 136.sp,
+            fontWeight = FontWeight.Bold,
+        )
+        Text(
+            stringResource(R.string.temp_feels_like, "${feelsLike?.roundToInt() ?: "-"}°"),
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.Medium
+        )
+        Gap(vertical = 6.dp)
+        MinMaxTempRow(weather, units, context, false)
     }
 }
