@@ -16,8 +16,9 @@ val localProps = Properties().apply {
 
 
 val geoNamesUserNameKey =
-    System.getenv("GEO_NAMES_USERNAME") ?: ""
-
+    providers.gradleProperty("GEO_NAMES_USERNAME").orNull
+        ?: System.getenv("GEO_NAMES_USERNAME")
+        ?: ""
 
 
 android {
@@ -42,7 +43,6 @@ android {
             "\"$geoNamesUserNameKey\""
         )
     }
-    println("GeoNames: ${System.getenv("GEO_NAMES_USERNAME")}")
     buildTypes {
         release {
             isMinifyEnabled = false
