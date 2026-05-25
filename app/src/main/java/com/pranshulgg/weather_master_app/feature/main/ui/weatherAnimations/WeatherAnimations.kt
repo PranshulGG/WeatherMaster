@@ -5,7 +5,7 @@ import com.pranshulgg.weather_master_app.core.model.weather.WeatherCondition
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 
 @Composable
-fun WeatherAnimations(weather: Weather) {
+fun WeatherAnimations(weather: Weather, isFroggyLayout: Boolean) {
     val condition = weather.current.weatherCondition
     val day = weather.daily.firstOrNull()
     val isDay = day?.let { weather.current.time in day.sunrise..day.sunset } ?: true
@@ -19,20 +19,33 @@ fun WeatherAnimations(weather: Weather) {
             SunCanvas(showClouds = true) else StarsCanvas(showClouds = true)
 
 
-        WeatherCondition.LIGHT_RAIN -> RainCanvas(rainDropCount = 30)
+        WeatherCondition.LIGHT_RAIN -> RainCanvas(
+            rainDropCount = 30,
+            isFroggyLayout = isFroggyLayout
+        )
 
-        WeatherCondition.RAIN -> RainCanvas(rainDropCount = 50)
+        WeatherCondition.RAIN -> RainCanvas(rainDropCount = 50, isFroggyLayout = isFroggyLayout)
 
-        WeatherCondition.HEAVY_RAIN -> RainCanvas(rainDropCount = 80)
+        WeatherCondition.HEAVY_RAIN -> RainCanvas(
+            rainDropCount = 80,
+            isFroggyLayout = isFroggyLayout
+        )
 
 
         WeatherCondition.OVERCAST -> OvercastCanvas()
 
-        WeatherCondition.SNOW -> SnowCanvas()
 
-        WeatherCondition.LIGHT_SNOW -> SnowCanvas(snowFlakeCount = 15)
+        WeatherCondition.SNOW -> SnowCanvas(isFroggyLayout = isFroggyLayout)
 
-        WeatherCondition.HEAVY_SNOW -> SnowCanvas(snowFlakeCount = 50)
+        WeatherCondition.LIGHT_SNOW -> SnowCanvas(
+            snowFlakeCount = 15,
+            isFroggyLayout = isFroggyLayout
+        )
+
+        WeatherCondition.HEAVY_SNOW -> SnowCanvas(
+            snowFlakeCount = 50,
+            isFroggyLayout = isFroggyLayout
+        )
 
         WeatherCondition.FOG_HAZE -> FogHazeCanvas()
 

@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app.feature.main.ui.weatherAnimations
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
@@ -34,7 +35,8 @@ private data class Drop(
 @Composable
 fun RainCanvas(
     isStorming: Boolean = false,
-    rainDropCount: Int = 80
+    rainDropCount: Int = 80,
+    isFroggyLayout: Boolean = true
 ) {
 
     var canvasSize by remember { mutableStateOf(Size.Zero) }
@@ -102,9 +104,11 @@ fun RainCanvas(
 
 
     Canvas(
-        modifier = Modifier
+        modifier = if (isFroggyLayout) Modifier
             .fillMaxWidth()
-            .height(290.dp)
+            .height(290.dp) else Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
     ) {
 
         canvasSize = size

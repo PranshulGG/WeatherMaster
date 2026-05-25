@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app.feature.main.ui.weatherAnimations
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
@@ -29,7 +30,7 @@ private data class Snowflake(
 )
 
 @Composable
-fun SnowCanvas(snowFlakeCount: Int = 30) {
+fun SnowCanvas(snowFlakeCount: Int = 30, isFroggyLayout: Boolean = true) {
 
 
     var canvasSize by remember { mutableStateOf(Size.Zero) }
@@ -71,9 +72,11 @@ fun SnowCanvas(snowFlakeCount: Int = 30) {
 
 
     Canvas(
-        modifier = Modifier
+        modifier = if (isFroggyLayout) Modifier
             .fillMaxWidth()
-            .height(290.dp)
+            .height(290.dp) else Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
     ) {
 
         canvasSize = size
