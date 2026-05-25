@@ -23,6 +23,10 @@ object AppPrefs {
 
     private val _backgroundUpdatesInterval = mutableIntStateOf(60)
 
+    private val _isFroggyLayout = mutableStateOf(true)
+    private val _isShowWeatherAnimations = mutableStateOf(true)
+    private val _isWeatherBasedTheme = mutableStateOf(true)
+
 
     fun initPrefs(context: Context) {
         PreferencesHelper.init(context)
@@ -46,8 +50,13 @@ object AppPrefs {
             PreferencesHelper.getBool("backgroundUpdatesEnabled") ?: false
 
 
-        _backgroundUpdatesInterval.value =
+        _backgroundUpdatesInterval.intValue =
             PreferencesHelper.getInt("backgroundUpdatesInterval") ?: 60
+
+        _isFroggyLayout.value = PreferencesHelper.getBool("isFroggyLayout") ?: true
+        _isShowWeatherAnimations.value =
+            PreferencesHelper.getBool("isShowWeatherAnimations") ?: true
+        _isWeatherBasedTheme.value = PreferencesHelper.getBool("isWeatherBasedTheme") ?: true
 
     }
 
@@ -100,6 +109,25 @@ object AppPrefs {
         setBackgroundUpdatesInterval = {
             _backgroundUpdatesInterval.intValue = it
             PreferencesHelper.setInt("backgroundUpdatesInterval", it)
-        }
+        },
+
+        isFroggyLayout = _isFroggyLayout.value,
+        setFroggyLayout = {
+            _isFroggyLayout.value = it
+            PreferencesHelper.setBool("isFroggyLayout", it)
+        },
+
+
+        isShowWeatherAnimations = _isShowWeatherAnimations.value,
+        setShowWeatherAnimations = {
+            _isShowWeatherAnimations.value = it
+            PreferencesHelper.setBool("isShowWeatherAnimations", it)
+        },
+
+        isWeatherBasedTheme = _isWeatherBasedTheme.value,
+        setIsWeatherBasedTheme = {
+            _isWeatherBasedTheme.value = it
+            PreferencesHelper.setBool("isWeatherBasedTheme", it)
+        },
     )
 }

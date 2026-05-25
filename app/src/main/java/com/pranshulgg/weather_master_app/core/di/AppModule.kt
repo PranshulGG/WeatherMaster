@@ -1,6 +1,8 @@
 package com.pranshulgg.weather_master_app.core.di
 
 import android.content.Context
+import com.pranshulgg.weather_master_app.core.network.github.GithubApi
+import com.pranshulgg.weather_master_app.core.network.github.GithubRepository
 import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo.OpenMeteoAqiApi
 import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo.OpenMeteoAqiRepository
 import com.pranshulgg.weather_master_app.core.network.sources.search.geonames.GeoNamesSearchApi
@@ -73,4 +75,10 @@ object AppModule {
         nwsDao: NwsDao,
         locationsDao: LocationsDao
     ): WeatherDataReconcilerRepository = WeatherDataReconcilerRepository(nwsDao, locationsDao)
+
+    @Provides
+    @Singleton
+    fun provideGithubRepository(
+        api: GithubApi
+    ): GithubRepository = GithubRepository(api)
 }
