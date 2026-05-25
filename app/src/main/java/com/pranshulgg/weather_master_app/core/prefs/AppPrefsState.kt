@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.core.prefs
 
+import com.google.gson.annotations.Until
 import com.pranshulgg.weather_master_app.core.model.sources.SearchSource
 import com.pranshulgg.weather_master_app.core.ui.theme.ThemeVariantType
 
@@ -27,7 +28,16 @@ data class AppPrefsState(
     val setBackgroundUpdates: (Boolean) -> Unit,
 
     val backgroundUpdatesInterval: Int,
-    val setBackgroundUpdatesInterval: (Int) -> Unit
+    val setBackgroundUpdatesInterval: (Int) -> Unit,
+
+    val isFroggyLayout: Boolean,
+    val setFroggyLayout: (Boolean) -> Unit,
+
+    val isShowWeatherAnimations: Boolean,
+    val setShowWeatherAnimations: (Boolean) -> Unit,
+
+    val isWeatherBasedTheme: Boolean,
+    val setIsWeatherBasedTheme: (Boolean) -> Unit
 
 )
 

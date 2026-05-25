@@ -25,9 +25,14 @@ import com.pranshulgg.weather_master_app.feature.daily.DailyScreen
 import com.pranshulgg.weather_master_app.feature.main.MainScreen
 import com.pranshulgg.weather_master_app.feature.search.SearchScreen
 import com.pranshulgg.weather_master_app.feature.settings.SettingsScreen
+import com.pranshulgg.weather_master_app.feature.settings.about.AboutScreen
+import com.pranshulgg.weather_master_app.feature.settings.about.license.LicenseScreen
+import com.pranshulgg.weather_master_app.feature.settings.about.privacy.PrivacyPolicyScreen
+import com.pranshulgg.weather_master_app.feature.settings.about.terms.TermsConditionsScreen
 import com.pranshulgg.weather_master_app.feature.settings.appearance.AppearanceScreen
 import com.pranshulgg.weather_master_app.feature.settings.background.BackgroundUpdatesScreen
 import com.pranshulgg.weather_master_app.feature.settings.language.LanguageScreen
+import com.pranshulgg.weather_master_app.feature.settings.sources.WeatherSourcesScreen
 import com.pranshulgg.weather_master_app.feature.settings.units.UnitsScreen
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -52,7 +57,6 @@ fun AppNavHost(
             navigation(
                 route = "root",
                 startDestination = NavRoutes.MAIN
-//                startDestination = NavRoutes.BACKGROUND_UPDATES
             ) {
                 composable(
                     NavRoutes.MAIN
@@ -106,6 +110,33 @@ fun AppNavHost(
 
                     DailyScreen(navController, index, locationId!!)
                 }
+                composable(
+                    NavRoutes.ABOUT
+                ) {
+                    AboutScreen(navController)
+                }
+
+                composable(
+                    NavRoutes.TERMS_CONDITIONS
+                ) {
+                    TermsConditionsScreen(navController)
+                }
+                composable(
+                    NavRoutes.PRIVACY_POLICY
+                ) {
+                    PrivacyPolicyScreen(navController)
+                }
+                composable(
+                    NavRoutes.LICENSE
+                ) {
+                    LicenseScreen(navController)
+                }
+                composable(
+                    NavRoutes.SOURCES
+                ) {
+                    WeatherSourcesScreen(navController)
+                }
+
             }
         }
 
