@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.feature.main.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -67,19 +68,24 @@ fun MainSearchBar(
 
 
     Surface(
-        color = getSearchBarColor(isDark = isThemeDark()),
+        color = if (isFroggyLayout) getSearchBarColor(isDark = isThemeDark()) else Color.Transparent,
         shape = CircleShape,
-        modifier = Modifier.padding(
-            top = paddingValues.calculateTopPadding() + 8.dp,
-            start = 16.dp,
-            end = 16.dp,
-        ),
-        onClick = {
-            if (!isTabletLike) {
-                showDrawer()
-            }
-        },
-        shadowElevation = ShadowElevation.level1
+        modifier = Modifier
+            .padding(
+                top = paddingValues.calculateTopPadding() + 8.dp,
+                start = if (isFroggyLayout) 16.dp else 0.dp,
+                end = if (isFroggyLayout) 16.dp else 0.dp,
+            )
+            .clickable(
+                enabled = isFroggyLayout,
+                onClick = {
+                    if (!isTabletLike) {
+                        showDrawer()
+                    }
+                },
+            ),
+
+        shadowElevation = if (isFroggyLayout) ShadowElevation.level1 else 0.dp
     ) {
         Row(
             modifier = Modifier
@@ -97,14 +103,14 @@ fun MainSearchBar(
                 }) {
                     Symbol(
                         if (isTabletLike) R.drawable.location_on_24px else R.drawable.menu_24px,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = if (isFroggyLayout) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface
                     )
                 }
             }
             Gap(horizontal = 4.dp)
             Text(
                 locationText,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                color = if (isFroggyLayout) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.weight(1f),
                 maxLines = 1,
@@ -115,7 +121,7 @@ fun MainSearchBar(
                 IconButton(onClick = onEditLocation) {
                     Symbol(
                         R.drawable.edit_24px,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = if (isFroggyLayout) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface
                     )
                 }
             }
@@ -125,7 +131,7 @@ fun MainSearchBar(
                 }) {
                     Symbol(
                         R.drawable.settings_24px,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = if (isFroggyLayout) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface
                     )
                 }
             }

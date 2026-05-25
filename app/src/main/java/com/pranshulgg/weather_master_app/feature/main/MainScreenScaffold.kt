@@ -15,6 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.LoadingIndicator
@@ -25,9 +26,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
+import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.feature.main.components.FroggyContainer
 import com.pranshulgg.weather_master_app.feature.main.components.MainSearchBar
 import com.pranshulgg.weather_master_app.feature.main.components.CreditsBottomSection
@@ -55,9 +58,14 @@ fun MainScreenScaffold(
     val pullToRefreshState = rememberPullToRefreshState()
     val weather = remember(uiState.weather) { uiState.weather }
     val airQuality = remember(uiState.airQuality) { uiState.airQuality }
+    val prefs = LocalAppPrefs.current
 
     val units = uiState.weatherUnits
     val scrollState = rememberScrollState()
+
+    val isFroggyLayout = prefs.isFroggyLayout
+    val isShowWeatherAnimations = prefs.isShowWeatherAnimations
+    val isWeatherBasedTheme = prefs.isWeatherBasedTheme
 
     val isAnimationVisible by remember {
         derivedStateOf {
@@ -71,14 +79,23 @@ fun MainScreenScaffold(
         }
     }
 
-    Scaffold { paddingValues ->
+    Scaffold(
+        containerColor = if (isWeatherBasedTheme) Color.Black else MaterialTheme.colorScheme.surfaceContainerHigh
+    ) { paddingValues ->
         Box {
 
 
-            BackgroundGradient(weather, isScrolled)
-
-            AnimatedVisibility(visible = isAnimationVisible, enter = fadeIn(), exit = fadeOut()) {
-                weather?.let { WeatherAnimations(weather) }
+            if (isWeatherBasedTheme) {
+                BackgroundGradient(weather, isScrolled)
+            }
+            if (isShowWeatherAnimations) {
+                AnimatedVisibility(
+                    visible = isAnimationVisible,
+                    enter = fadeIn(),
+                    exit = fadeOut()
+                ) {
+                    weather?.let { WeatherAnimations(weather, isFroggyLayout) }
+                }
             }
 
             PullToRefreshBox(
@@ -110,7 +127,7 @@ fun MainScreenScaffold(
                             .verticalScroll(scrollState)
                     ) {
                         MainSearchBar(
-                            isFroggyLayout = true,
+                            isFroggyLayout = isFroggyLayout,
                             paddingValues = paddingValues,
                             navController,
                             drawerState,
@@ -119,8 +136,15 @@ fun MainScreenScaffold(
                             onEditLocation
                         )
                         if (weather != null) {
-                            CurrentWeatherCard(weather, units, context)
-                            FroggyContainer(weather)
+                            CurrentWeatherCard(
+                                weather,
+                                units,
+                                context,
+                                isFroggyLayout = isFroggyLayout
+                            )
+                            if (isFroggyLayout) {
+                                FroggyContainer(weather)
+                            }
                             Column(
                                 Modifier.padding(
                                     start = 16.dp,
