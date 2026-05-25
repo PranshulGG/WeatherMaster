@@ -8,6 +8,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -23,6 +24,7 @@ import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
 @Composable
 fun SettingsScreen(navController: NavController) {
 
+    val uriHandler = LocalUriHandler.current
 
     LargeTopBarScaffold(
         title = stringResource(R.string.settings),
@@ -45,18 +47,50 @@ fun SettingsScreen(navController: NavController) {
                         description = stringResource(R.string.setting_appearance_secondary),
                         onClick = { navController.navigate(NavRoutes.APPEARANCE) }
                     ),
+
+                    )
+            )
+            SettingSection(
+                tiles = listOf(
+                    SettingTile.ActionTile(
+                        leading = { SettingsTileIcon(R.drawable.sync_24px) },
+                        title = stringResource(R.string.setting_background_updates),
+                        description = stringResource(R.string.setting_background_updates_secondary),
+                        onClick = { navController.navigate(NavRoutes.BACKGROUND_UPDATES) }
+                    ),
+                    SettingTile.ActionTile(
+                        leading = { SettingsTileIcon(R.drawable.nest_farsight_weather_24px) },
+                        title = stringResource(R.string.weather_sources),
+                        description = stringResource(R.string.setting_weather_sources_secondary),
+                        onClick = {
+                            navController.navigate(NavRoutes.SOURCES)
+                        }
+                    ),
                     SettingTile.ActionTile(
                         leading = { SettingsTileIcon(R.drawable.language_24px) },
                         title = stringResource(R.string.setting_language),
                         description = getCurrentAppLocale().displayName,
                         onClick = { navController.navigate(NavRoutes.LANGUAGE) }
                     ),
+                )
+            )
+            SettingSection(
+                tiles = listOf(
                     SettingTile.ActionTile(
-                        leading = { SettingsTileIcon(R.drawable.sync_24px) },
-                        title = stringResource(R.string.setting_background_updates),
-                        description = stringResource(R.string.setting_background_updates_secondary),
-                        onClick = { navController.navigate(NavRoutes.BACKGROUND_UPDATES) }
-                    )
+                        leading = { SettingsTileIcon(R.drawable.discord_symbol_black) },
+                        title = stringResource(R.string.setting_join_discord),
+                        onClick = {
+                            uriHandler.openUri("https://discord.gg/sSW2E4nqmn")
+                        }
+                    ),
+                    SettingTile.ActionTile(
+                        leading = { SettingsTileIcon(R.drawable.info_24px) },
+                        title = stringResource(R.string.setting_about_app),
+                        description = stringResource(R.string.setting_about_app_secondary),
+                        onClick = {
+                            navController.navigate(NavRoutes.ABOUT)
+                        }
+                    ),
                 )
             )
         }
