@@ -54,7 +54,6 @@ data class LocationsScreenUiState(
     val isDeviceLocationLoading: Boolean = false
 )
 
-@RequiresApi(Build.VERSION_CODES.Q)
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun LocationsScreen(

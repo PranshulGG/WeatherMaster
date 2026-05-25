@@ -54,7 +54,6 @@ import com.pranshulgg.weather_master_app.data.provider.devicelocation.rememberLo
 import com.pranshulgg.weather_master_app.feature.shared.ui.SharedDialogs
 import java.util.TimeZone
 
-@RequiresApi(Build.VERSION_CODES.Q)
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun IntroScreen(navController: NavController) {
@@ -102,6 +101,7 @@ fun IntroScreen(navController: NavController) {
         onDenied = {
             SnackbarManager.show(R.string.location_permission_required)
             backgroundLocationPermissionInfoDialogOpen = true
+            isLoading = false
         }
     )
 
