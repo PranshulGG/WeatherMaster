@@ -14,10 +14,10 @@ val localProps = Properties().apply {
     if (f.exists()) f.inputStream().use { load(it) }
 }
 
-val geoNamesUserNameKey: String = localProps.getProperty("GEO_NAMES_USERNAME")
-    ?: throw GradleException(
-        "GEO_NAMES_USERNAME not found! Add it to local.properties in the project root."
-    )
+
+val geoNamesUserNameKey =
+    System.getenv("GEO_NAMES_USERNAME") ?: ""
+
 
 
 android {
@@ -36,9 +36,13 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "GEO_NAMES_USERNAME", "\"$geoNamesUserNameKey\"")
+        buildConfigField(
+            "String",
+            "GEO_NAMES_USERNAME",
+            "\"$geoNamesUserNameKey\""
+        )
     }
-
+    println("GeoNames: ${System.getenv("GEO_NAMES_USERNAME")}")
     buildTypes {
         release {
             isMinifyEnabled = false
