@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.core.di.network
 
+import com.pranshulgg.weather_master_app.core.network.github.GithubApi
 import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo.OpenMeteoAqiApi
 import com.pranshulgg.weather_master_app.core.network.sources.search.geonames.GeoNamesSearchApi
 import com.pranshulgg.weather_master_app.core.network.sources.search.geonames.timezone.GeoNamesTimezoneApi
@@ -49,4 +50,8 @@ object ApiModule {
     @Provides
     @Singleton
     fun provideSmhiApi(): SmhiApi = SmhiApi.create()
+
+    @Provides
+    @Singleton
+    fun provideGithubApi(): GithubApi = GithubApi.create()
 }
