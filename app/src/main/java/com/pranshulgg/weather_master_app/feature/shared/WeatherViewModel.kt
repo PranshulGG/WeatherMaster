@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.feature.shared
 
+import android.content.Context
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -20,6 +21,7 @@ import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherBlocksRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherDataReconcilerRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
+import com.pranshulgg.weather_master_app.data.worker.WeatherUpdateScheduler
 import com.pranshulgg.weather_master_app.feature.main.MainScreenWeatherUiState
 import dagger.hilt.android.internal.Contexts
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,7 +43,8 @@ class WeatherViewModel @Inject constructor(
     appWeatherUnitsRepo: WeatherUnitsRepository,
     private val weatherBlocksRepository: WeatherBlocksRepository,
     private val openMeteoAqiRepository: OpenMeteoAqiRepository,
-    private val weatherDataReconcilerRepository: WeatherDataReconcilerRepository
+    private val weatherDataReconcilerRepository: WeatherDataReconcilerRepository,
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
 
     private var _uiState = mutableStateOf(MainScreenWeatherUiState())
@@ -238,7 +241,11 @@ class WeatherViewModel @Inject constructor(
             is WeatherResult.RefreshNotAvailable -> {
                 SnackbarManager.show(R.string.weather_refresh_delay, messageArgs = 15)
             }
+
         }
+
+        // UPDATE WIDGETS, Run the worker once
+        WeatherUpdateScheduler.startNow(context, skipForegroundCheck = true)
     }
 
     private suspend fun handleAirQuality(location: Location, isManualRefresh: Boolean) {

@@ -13,6 +13,7 @@ import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDailyWeathe
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toHourlyWeatherEntity
 import com.pranshulgg.weather_master_app.data.repository.WeatherRepository
+import com.pranshulgg.weather_master_app.data.worker.WeatherUpdateScheduler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.net.UnknownHostException
@@ -66,6 +67,7 @@ class OpenMeteoRepository @Inject constructor(
                 )
 
                 WeatherResult.Success(domain)
+
 
             } catch (e: Exception) {
 

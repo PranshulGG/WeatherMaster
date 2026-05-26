@@ -149,8 +149,7 @@ fun MainScreenScaffold(
                                 Modifier.padding(
                                     start = 16.dp,
                                     end = 16.dp,
-                                    top = 24.dp,
-                                    bottom = 24.dp
+                                    top = 24.dp
                                 ),
                                 verticalArrangement = Arrangement.spacedBy(14.dp)
                             ) {
