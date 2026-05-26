@@ -155,10 +155,10 @@ class GetDeviceLocation {
  * For e.g. "53,85893" -> app crashes, because upstream only takes in double
  * We convert that here
  */
-private fun parseCord(value: Any): Double {
+private fun parseCord(value: Any?): Double? {
     return when (value) {
         is Double -> value
         is String -> value.replace(',', '.').toDouble()
-        else -> error("Unsupported type")
+        else -> null
     }
 }

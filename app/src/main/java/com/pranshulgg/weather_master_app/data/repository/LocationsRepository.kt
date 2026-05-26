@@ -109,8 +109,9 @@ class LocationsRepository @Inject constructor(
             return
         }
 
-        val formattedLatitude = "%.5f".format(location.latitude).toDouble()
-        val formattedLongitude = "%.5f".format(location.longitude).toDouble()
+
+        val formattedLatitude = kotlin.math.round(location.latitude * 100000) / 100000
+        val formattedLongitude = kotlin.math.round(location.longitude * 100000) / 100000
 
         dao.updateDeviceLocationPosition(formattedLatitude, formattedLongitude)
     }

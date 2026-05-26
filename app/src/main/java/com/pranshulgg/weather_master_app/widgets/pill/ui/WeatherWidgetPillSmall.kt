@@ -56,7 +56,7 @@ fun WeatherWidgetPillSmall(state: WidgetWeather?) {
             }
 
             Image(
-                provider = ImageProvider(R.drawable.weather_clear_day),
+                provider = ImageProvider(state.currentIcon),
                 contentDescription = null,
                 modifier = GlanceModifier
                     .size(120.dp)

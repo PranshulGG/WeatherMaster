@@ -258,8 +258,9 @@ private fun Icon() {
 
 suspend fun DeviceLocation.toDomain(context: Context): Location {
 
-    val formattedLatitude = "%.5f".format(latitude).toDouble()
-    val formattedLongitude = "%.5f".format(longitude).toDouble()
+
+    val formattedLatitude = kotlin.math.round(latitude!! * 100000) / 100000
+    val formattedLongitude = kotlin.math.round(longitude!! * 100000) / 100000
 
     val countryCode = getCountryCode(context, formattedLatitude, formattedLongitude)
 
