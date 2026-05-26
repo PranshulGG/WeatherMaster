@@ -20,6 +20,8 @@ val geoNamesUserNameKey =
         ?: System.getenv("GEO_NAMES_USERNAME")
         ?: ""
 
+val keystoreFile = file("../keystore/release.jks")
+val hasKeystore = keystoreFile.exists()
 
 android {
     namespace = "com.pranshulgg.weather_master_app"
@@ -45,19 +47,24 @@ android {
     }
 
     signingConfigs {
-        create("release") {
-            storeFile = file("../keystore/release.jks")
-            storePassword = System.getenv("KEYSTORE_PASSWORD")
-            keyAlias = System.getenv("KEY_ALIAS")
-            keyPassword = System.getenv("KEY_PASSWORD")
+        if (hasKeystore) {
+            create("release") {
+                storeFile = keystoreFile
+                storePassword = System.getenv("KEYSTORE_PASSWORD")
+                keyAlias = System.getenv("KEY_ALIAS")
+                keyPassword = System.getenv("KEY_PASSWORD")
+            }
         }
     }
 
     buildTypes {
-
         release {
             isMinifyEnabled = false
-            signingConfig = signingConfigs.getByName("release")
+
+            if (hasKeystore) {
+                signingConfig = signingConfigs.getByName("release")
+            }
+
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -106,8 +113,6 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.kotlinx.coroutines.android)
 
-    implementation(libs.coil.compose)
-    implementation(libs.kotlinx.coroutines.android)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     implementation(libs.retrofit)
