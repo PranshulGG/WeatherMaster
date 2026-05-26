@@ -8,6 +8,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import androidx.work.workDataOf
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.data.provider.WeatherRepositoryProvider
 import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
@@ -31,8 +32,11 @@ class WeatherWorker @AssistedInject constructor(
     @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
     override suspend fun doWork(): Result {
 
-        // We only run the worker if app is in the background
-        if (appVisibility.isForeground) {
+        val skipForegroundCheck =
+            inputData.getBoolean(KEY_SKIP_FOREGROUND_CHECK, false)
+
+        // Only run if app is backgrounded
+        if (!skipForegroundCheck && appVisibility.isForeground) {
             return Result.success()
         }
 
@@ -62,7 +66,7 @@ class WeatherWorker @AssistedInject constructor(
             val result = repo.getWeather(
                 location = default,
                 isManualRefresh = false,
-                isForceRefresh = true
+                isForceRefresh = false
             )
 
             if (result !is WeatherResult.Success) {
@@ -86,11 +90,15 @@ class WeatherWorker @AssistedInject constructor(
     }
 
     companion object {
+        const val KEY_SKIP_FOREGROUND_CHECK = "skip_foreground_check"
 
-        fun startNow(context: Context) {
-
+        fun startNow(context: Context, skipForegroundCheck: Boolean = false) {
+            val inputData = workDataOf(
+                KEY_SKIP_FOREGROUND_CHECK to skipForegroundCheck
+            )
             val request =
                 OneTimeWorkRequestBuilder<WeatherWorker>()
+                    .setInputData(inputData)
                     .build()
 
             WorkManager.getInstance(context)
