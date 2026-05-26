@@ -203,6 +203,6 @@
     <string name="setting_layout">レイアウト</string>
     <string name="setting_weather_based_theme">天気に連動したテーマ</string>
     <string name="setting_weather_based_theme_secondary">現在の天気に合わせて、アプリの色を自動的に調整します。</string>
-    <string name="unit_pressure_mmhg">Millimeters of mercury</string>
+    <string name="unit_pressure_mmhg">水銀柱ミリメートル (mmHg)</string>
 </resources>
 <!--<string name=""></string>-->
