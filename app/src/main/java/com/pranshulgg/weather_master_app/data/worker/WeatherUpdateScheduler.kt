@@ -39,4 +39,8 @@ object WeatherUpdateScheduler {
         WorkManager.getInstance(context)
             .cancelUniqueWork("@pranshulgg_weather_master_updates")
     }
+
+    fun startNow(context: Context, skipForegroundCheck: Boolean = false) {
+        WeatherWorker.startNow(context, skipForegroundCheck)
+    }
 }
