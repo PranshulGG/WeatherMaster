@@ -23,8 +23,6 @@ class AboutScreenViewModel @Inject constructor(
     var loading by mutableStateOf(false)
         private set
 
-    var isAvailable by mutableStateOf(false)
-        private set
 
     suspend fun isNewVersionAvailable(currentTag: String, onAction: () -> Unit) {
         loading = true
@@ -44,7 +42,7 @@ class AboutScreenViewModel @Inject constructor(
 
         if (result) {
             SnackbarManager.show(R.string.message_new_version_available, onAction = {
-                onAction
+                onAction()
             }, actionLabel = R.string.action_view)
         } else {
             SnackbarManager.show(R.string.message_using_latest_version)

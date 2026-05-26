@@ -86,8 +86,9 @@ fun AboutScreen(navController: NavController) {
                 )
                 Gap(12.dp)
                 Text(
-                    "WeatherMaster",
-                    style = MaterialTheme.typography.displayMedium,
+                    "WEATHERMASTER",
+                    style = MaterialTheme.typography.headlineMedium,
+
                     color = MaterialTheme.colorScheme.onSurface,
                     fontFamily = weatherMasterTitleFont
                 )

@@ -245,7 +245,9 @@ class WeatherViewModel @Inject constructor(
         }
 
         // UPDATE WIDGETS, Run the worker once
-        WeatherUpdateScheduler.startNow(context, skipForegroundCheck = true)
+        if (location.isDefault) {
+            WeatherUpdateScheduler.startNow(context, skipForegroundCheck = true)
+        }
     }
 
     private suspend fun handleAirQuality(location: Location, isManualRefresh: Boolean) {
