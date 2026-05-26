@@ -91,7 +91,7 @@ fun widgetWeatherMapper(
         currentCondition = currentCondition,
         currentIcon = currentIcon,
         currentFrog = currentFrogIcon,
-        uvIndex = weather.current.uvIndex?.roundToInt()
+        locationName = weather.location.name,
     )
 
     // Convert to string

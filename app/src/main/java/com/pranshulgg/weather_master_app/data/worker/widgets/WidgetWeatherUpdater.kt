@@ -3,47 +3,38 @@ package com.pranshulgg.weather_master_app.data.worker.widgets
 import android.content.Context
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.state.updateAppWidgetState
-import com.pranshulgg.weather_master_app.widgets.WidgetConfig.WEATHER_STATE_KEY
-import com.pranshulgg.weather_master_app.widgets.current.ui.CurrentAndHourlyWidget
-import com.pranshulgg.weather_master_app.widgets.froggy.ui.FroggyWidget
-
+import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateDefinition
+import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateJson
+import com.pranshulgg.weather_master_app.widgets.pill.WidgetPill
+import com.pranshulgg.weather_master_app.widgets.weather.WeatherWidget
 
 class WeatherWidgetUpdater(
     private val context: Context
 ) {
 
+    private val widget = WeatherWidget()
+    private val pill = WidgetPill()
+
     suspend fun update(json: String) {
 
-        val manager = GlanceAppWidgetManager(context)
+        val manager =
+            GlanceAppWidgetManager(context)
 
+        val widgetIds = manager.getGlanceIds(WeatherWidget::class.java)
+        val pillIds = manager.getGlanceIds(WidgetPill::class.java)
 
-        val weatherIds =
-            manager.getGlanceIds(CurrentAndHourlyWidget::class.java)
-
-        val froggyIds =
-            manager.getGlanceIds(FroggyWidget::class.java)
-        val allIds = weatherIds + froggyIds
-
-
-        /**
-         * Not observing the DB, cuz we want, so just save the data into prefs
-         * Widgets can later encode to WidgetWeather
-         */
-        allIds.forEach { id ->
-            updateAppWidgetState(context, id) { prefs ->
-                prefs[WEATHER_STATE_KEY] = json
+        widgetIds.forEach {
+            updateAppWidgetState(context, WeatherWidgetStateDefinition, it) {
+                WeatherWidgetStateJson(json)
             }
+            widget.update(context, it)
         }
 
-
-        weatherIds.forEach { id ->
-
-            CurrentAndHourlyWidget().update(context, id)
-        }
-
-        froggyIds.forEach { id ->
-
-            FroggyWidget().update(context, id)
+        pillIds.forEach {
+            updateAppWidgetState(context, WeatherWidgetStateDefinition, it) {
+                WeatherWidgetStateJson(json)
+            }
+            pill.update(context, it)
         }
     }
 }
