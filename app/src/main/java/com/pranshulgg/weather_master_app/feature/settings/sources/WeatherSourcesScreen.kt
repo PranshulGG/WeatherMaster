@@ -60,6 +60,18 @@ fun WeatherSourcesScreen(navController: NavController) {
             )
             Gap(10.dp)
             SettingSection(
+                title = "Met Norway (GLOBAL)",
+                tiles = listOf(
+                    SettingTile.ActionTile(
+                        title = WeatherSource.MET_NORWAY.displayName,
+                        description = WeatherSource.MET_NORWAY.displayLink,
+                        onClick = { uriHandler.openUri(WeatherSource.MET_NORWAY.displayLink) },
+                        trailing = { SettingsTileIcon(R.drawable.open_in_new_24px) }
+                    )
+                )
+            )
+            Gap(10.dp)
+            SettingSection(
                 title = "NWS (United states)",
                 tiles = listOf(
                     SettingTile.ActionTile(

@@ -48,13 +48,20 @@ enum class WindSpeedUnit {
 
 enum class PressureUnit {
     HPA,
-    INHG;
+
+    INHG,
+    MMHG;
 
     fun convert(value: Double?, to: PressureUnit): Double? {
         if (value == null) return null
         return when (this to to) {
             HPA to INHG -> (value * 0.02953)
+            HPA to MMHG -> (value * 0.75006)
             INHG to HPA -> (value * 33.8639)
+            INHG to MMHG -> (value * 25.4)
+            MMHG to INHG -> (value / 25.4)
+            MMHG to HPA -> (value * 1.33322)
+
             else -> value
         }
     }
@@ -119,6 +126,7 @@ fun PressureUnit.toName(inShort: Boolean = false, context: Context): String {
     return when (this) {
         HPA -> if (inShort) "hPa" else context.getString(R.string.unit_pressure_hpa)
         INHG -> if (inShort) "inHG" else context.getString(R.string.unit_pressure_inhg)
+        PressureUnit.MMHG -> if (inShort) "mmHG" else context.getString(R.string.unit_pressure_mmhg)
     }
 }
 
