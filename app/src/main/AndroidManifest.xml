@@ -55,8 +55,8 @@
 
         <!--WIDGETS-->
         <receiver
-            android:name=".widgets.current.CurrentAndHourlyWidgetReceiver"
-            android:label="Current and hourly weather"
+            android:name=".widgets.weather.WeatherWidgetReceiver"
+            android:label="Weather"
             android:exported="true">
 
             <intent-filter>
@@ -65,12 +65,12 @@
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/current_and_hourly_widget_info" />
+                android:resource="@xml/weather_widget_info" />
         </receiver>
 
         <receiver
-            android:name=".widgets.froggy.FroggyWidgetReceiver"
-            android:label="Froggy current weather"
+            android:name=".widgets.pill.WidgetPillReceiver"
+            android:label="Weather"
             android:exported="true">
 
             <intent-filter>
@@ -79,7 +79,7 @@
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/froggy_widget_info" />
+                android:resource="@xml/widget_pill_info" />
         </receiver>
     </application>
 
