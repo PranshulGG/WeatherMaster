@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app.feature.shared
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -27,6 +28,7 @@ import dagger.hilt.android.internal.Contexts
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
@@ -34,6 +36,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
 import javax.inject.Inject
 
 @HiltViewModel
@@ -101,6 +104,7 @@ class WeatherViewModel @Inject constructor(
 
     private var weatherJob: Job? = null
 
+
     fun getWeather(
         location: Location,
         source: WeatherSource,
@@ -111,7 +115,6 @@ class WeatherViewModel @Inject constructor(
         weatherJob?.cancel()
         val startTime = System.currentTimeMillis()
         _uiState.value = _uiState.value.copy(isError = false)
-
 
 
         weatherJob = viewModelScope.launch {
@@ -140,6 +143,7 @@ class WeatherViewModel @Inject constructor(
             }
 
             setLoading(false)
+
         }
 
     }
@@ -166,16 +170,26 @@ class WeatherViewModel @Inject constructor(
     }
 
     fun updateSourceForLocation(location: Location, source: WeatherSource) {
-        viewModelScope.launch {
-            locationsRepo.updateSourceForLocation(location.id, source)
+        val updatedLocation = location.copy(source = source)
 
+        viewModelScope.launch {
+
+            locationsRepo.updateSourceForLocation(location.id, source)
             val allowForceRefresh = location.source != source
+
 
             if (allowForceRefresh) {
                 weatherDataReconcilerRepository.cleanUpStaleData(location.source, location.id)
             }
+            _uiState.value = _uiState.value.copy(
+                activeLocation = updatedLocation
+            )
+            getWeather(
+                updatedLocation,
+                source,
+                isForceRefresh = allowForceRefresh
+            )
 
-            getWeather(location.copy(source = source), source, isForceRefresh = allowForceRefresh)
 
         }
     }
@@ -235,7 +249,10 @@ class WeatherViewModel @Inject constructor(
                 SnackbarManager.show(appExpectation.toMessageRes())
 
 
-                _uiState.value = _uiState.value.copy(isError = true, weather = result.cacheWeather)
+                _uiState.value = _uiState.value.copy(
+                    isError = true,
+                    weather = result.cacheWeather
+                )
             }
 
             is WeatherResult.RefreshNotAvailable -> {
@@ -245,7 +262,7 @@ class WeatherViewModel @Inject constructor(
         }
 
         // UPDATE WIDGETS, Run the worker once
-        if (location.isDefault) {
+        if (location.isDefault && !_uiState.value.isError && _uiState.value.weather != null) {
             WeatherUpdateScheduler.startNow(context, skipForegroundCheck = true)
         }
     }

@@ -50,7 +50,6 @@ data class MainScreenUiState(
 fun MainScreen(navController: NavController) {
     val weatherViewModel: WeatherViewModel = hiltViewModel()
     val uiState by weatherViewModel.uiState
-    val location = uiState.weather?.location
     val viewModel: MainScreenViewModel = hiltViewModel()
 
 
@@ -140,13 +139,13 @@ fun MainScreen(navController: NavController) {
 
     // WEATHER SOURCES DIALOG
     SharedBottomSheet.WeatherSourcesForLocationSheet(
-        countryCode = location?.countryCode,
+        countryCode = activeLocation?.countryCode,
         show = viewModel.uiState.value.isWeatherSourcesForLocationSheetOpen,
         isEditing = true,
-        selectedSource = location?.source ?: WeatherSource.OPEN_METEO,
+        selectedSource = activeLocation?.source ?: WeatherSource.OPEN_METEO,
         onSave = {
-            if (location != null) {
-                weatherViewModel.updateSourceForLocation(location, it)
+            if (activeLocation != null) {
+                weatherViewModel.updateSourceForLocation(activeLocation, it)
             }
         },
         onDismiss = viewModel::hideWeatherSourcesForLocationSheet,
@@ -154,7 +153,7 @@ fun MainScreen(navController: NavController) {
     )
 
     // WEATHER SOURCES INFO DIALOG
-    MainScreenBottomSheets.WeatherSourcesInfoForLocationSheet(viewModel, location, sheetState)
+    MainScreenBottomSheets.WeatherSourcesInfoForLocationSheet(viewModel, activeLocation, sheetState)
 }
 
 

@@ -56,8 +56,9 @@ class WeatherWorker @AssistedInject constructor(
              * Show a notification whenever the worker runs
              * Don't really need it but why not, i wanna know if its working
              */
-            WeatherNotification.showNotification(default.name)
-
+            if (!skipForegroundCheck) {
+                WeatherNotification.showNotification(default.name)
+            }
 
             // Get the repository
             val repo = repositoryProvider.getRepository(default.source)

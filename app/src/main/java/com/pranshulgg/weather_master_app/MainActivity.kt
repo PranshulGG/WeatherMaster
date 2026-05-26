@@ -16,9 +16,15 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: WeatherViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen().setKeepOnScreenCondition {
-            val state = viewModel.uiState.value
-            !state.isInitialized
+        val splashScreen = installSplashScreen()
+        val startTime = System.currentTimeMillis()
+
+
+        splashScreen.setKeepOnScreenCondition {
+            val initialized = viewModel.uiState.value.isInitialized
+            val timedOut = System.currentTimeMillis() - startTime > 5000
+
+            !initialized && !timedOut
         }
         initPrefs(this)
         super.onCreate(savedInstanceState)
