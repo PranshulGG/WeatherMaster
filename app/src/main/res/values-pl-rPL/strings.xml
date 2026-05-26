@@ -212,5 +212,6 @@
     <string name="setting_layout">Układ</string>
     <string name="setting_weather_based_theme">Motyw bazujący na pogodzie</string>
     <string name="setting_weather_based_theme_secondary">Automatycznie zmienia kolory aplikacji bazując na aktualnych warunkach pogodowych</string>
+    <string name="unit_pressure_mmhg">Millimeters of mercury</string>
 </resources>
 <!--<string name=""></string>-->
