@@ -31,7 +31,6 @@ fun Context.hasRequestedLocationPermission(): Boolean {
         .getBoolean("location_requested", false)
 }
 
-@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun rememberLocationPermissionLauncher(
     onForegroundGranted: () -> Unit,
@@ -66,7 +65,6 @@ fun rememberLocationPermissionLauncher(
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun rememberBackgroundLocationPermissionLauncher(
     onGranted: () -> Unit,
@@ -85,12 +83,12 @@ fun rememberBackgroundLocationPermissionLauncher(
             onGranted()
         } else {
 
-            val permanentlyDenied =
-                context.hasRequestedLocationPermission() &&
-                        !ActivityCompat.shouldShowRequestPermissionRationale(
-                            activity,
-                            Manifest.permission.ACCESS_BACKGROUND_LOCATION
-                        )
+            val permanentlyDenied = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+                    context.hasRequestedLocationPermission() &&
+                    !ActivityCompat.shouldShowRequestPermissionRationale(
+                        activity,
+                        Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                    )
 
             if (permanentlyDenied) {
                 onContinueWithoutBackground()

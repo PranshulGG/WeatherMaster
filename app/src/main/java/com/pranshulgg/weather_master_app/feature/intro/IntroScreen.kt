@@ -74,6 +74,7 @@ fun IntroScreen(navController: NavController) {
             }) { location ->
             if (location.latitude == null || location.longitude == null) {
                 SnackbarManager.show(R.string.current_location_not_found)
+                isLoading = false
                 return@getDeviceLocation
             }
 
