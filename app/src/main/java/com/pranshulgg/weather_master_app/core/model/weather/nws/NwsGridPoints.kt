@@ -1,4 +1,4 @@
-package com.pranshulgg.weather_master_app.core.model.domain.weather.nws
+package com.pranshulgg.weather_master_app.core.model.weather.nws
 
 
 data class NwsGridPoints(

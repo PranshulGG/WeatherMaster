@@ -5,7 +5,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherCurrent
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherDaily
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherHourly
-import com.pranshulgg.weather_master_app.core.model.domain.weather.nws.NwsGridPoints
+import com.pranshulgg.weather_master_app.core.model.weather.nws.NwsGridPoints
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.core.model.weather.PrecipitationUnit
 import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnit

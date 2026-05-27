@@ -1,7 +1,7 @@
 package com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.nws
 
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
-import com.pranshulgg.weather_master_app.core.model.domain.weather.nws.NwsGridPoints
+import com.pranshulgg.weather_master_app.core.model.weather.nws.NwsGridPoints
 import com.pranshulgg.weather_master_app.data.local.entity.weather.nws.NwsGridPointsEntity
 
 // ---------------------------- DOMAIN TO ENTITY ----------------------------
