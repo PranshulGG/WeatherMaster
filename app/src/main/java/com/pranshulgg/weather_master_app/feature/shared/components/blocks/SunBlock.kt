@@ -34,18 +34,21 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
+import com.pranshulgg.weather_master_app.core.prefs.AppPrefsState
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
 import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
 import com.pranshulgg.weather_master_app.core.utils.formatters.to12HourTimeString
+import com.pranshulgg.weather_master_app.core.utils.formatters.to24HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherDailyDomainSafe
 
 @Composable
-fun SunBlock(weather: Weather, dailyIndex: Int) {
+fun SunBlock(weather: Weather, dailyIndex: Int, prefs: AppPrefsState) {
 
     if (!isWeatherDailyDomainSafe(weather)) return
 
     val daily = weather.daily[dailyIndex]
+    val is24hr = prefs.is24HrTimeFormat
 
 
     Surface(
@@ -130,12 +133,18 @@ fun SunBlock(weather: Weather, dailyIndex: Int) {
             }
 
 
-            val sunriseFormatted = to12HourTimeString(
+            val sunriseFormatted = if (is24hr) to24HourTimeString(
+                sunrise,
+                weather.location.timezone
+            ) else to12HourTimeString(
                 sunrise,
                 weather.location.timezone,
                 "hh:mm a"
             )
-            val sunsetFormatted = to12HourTimeString(
+            val sunsetFormatted = if (is24hr) to24HourTimeString(
+                sunset,
+                weather.location.timezone
+            ) else to12HourTimeString(
                 sunset,
                 weather.location.timezone,
                 "hh:mm a"

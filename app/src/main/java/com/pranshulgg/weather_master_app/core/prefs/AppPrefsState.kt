@@ -37,8 +37,11 @@ data class AppPrefsState(
     val setShowWeatherAnimations: (Boolean) -> Unit,
 
     val isWeatherBasedTheme: Boolean,
-    val setIsWeatherBasedTheme: (Boolean) -> Unit
+    val setIsWeatherBasedTheme: (Boolean) -> Unit,
 
-)
+    val is24HrTimeFormat: Boolean,
+    val set24HrTimeFormat: (Boolean) -> Unit,
+
+    )
 
 

@@ -21,6 +21,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlock
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlockType
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.weather.PrecipitationUnit
+import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isCurrentAirQualitySafe
 import com.pranshulgg.weather_master_app.feature.shared.WeatherViewModel
 import sh.calvin.reorderable.DragGestureDetector
@@ -91,6 +92,8 @@ fun WeatherBlocks(
 
     val isVisibilityValid = weather.current.isVisibilityValid()
     val isWindValid = weather.current.isWindSpeedValid()
+
+    val prefs = LocalAppPrefs.current
 
     val rules = BlockRules(
         isDaily,
@@ -177,8 +180,8 @@ fun WeatherBlocks(
 
                         WeatherBlockType.PRESSURE_BLOCK -> PressureBlock(weather, units, context)
 
-                        WeatherBlockType.SUN_BLOCK -> SunBlock(weather, dailyIndex)
-                        WeatherBlockType.MOON_BLOCK -> MoonBlock(weather, dailyIndex)
+                        WeatherBlockType.SUN_BLOCK -> SunBlock(weather, dailyIndex, prefs)
+                        WeatherBlockType.MOON_BLOCK -> MoonBlock(weather, dailyIndex, prefs)
                         WeatherBlockType.AIR_QUALITY_BLOCK -> AirQualityBlock(airQuality, context)
 
 

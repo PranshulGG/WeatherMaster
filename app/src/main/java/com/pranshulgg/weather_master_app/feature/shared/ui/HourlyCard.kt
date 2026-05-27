@@ -29,11 +29,13 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnit
 import com.pranshulgg.weather_master_app.core.model.weather.toIcon
+import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.WeatherIconBox
 import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
 import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.secondsToMilliseconds
 import com.pranshulgg.weather_master_app.core.utils.formatters.to12HourTimeString
+import com.pranshulgg.weather_master_app.core.utils.formatters.to24HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherHourlyDomainSafe
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findMatchingDaily
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findMatchingHourly
@@ -60,6 +62,9 @@ fun HourlyCard(
             weather.location.source
         )
 
+    val prefs = LocalAppPrefs.current
+
+    val is24hr = prefs.is24HrTimeFormat
 
     Surface(
         color = MaterialTheme.colorScheme.surface,
@@ -78,7 +83,10 @@ fun HourlyCard(
                 items(
                     filteredHourly.size,
                     key = { filteredHourly[it].time.plus((99..1000).random()) }) { index ->
-                    val time = to12HourTimeString(
+                    val time = if (is24hr) to24HourTimeString(
+                        filteredHourly[index].time,
+                        weather.location.timezone
+                    ) else to12HourTimeString(
                         filteredHourly[index].time,
                         weather.location.timezone
                     )

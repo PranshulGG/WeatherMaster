@@ -16,6 +16,15 @@ fun to12HourTimeString(timeMilli: Long, zoneId: String, pattern: String = "ha"):
     return formatter.format(instant)
 }
 
+fun to24HourTimeString(timeMilli: Long, zoneId: String, pattern: String = "HH:mm"): String {
+    val instant = Instant.ofEpochMilli(timeMilli)
+    val formatter = DateTimeFormatter.ofPattern(pattern, getCurrentAppLocale())
+        .withZone(ZoneId.of(zoneId))
+
+    return formatter.format(instant)
+}
+
+
 fun toWeekdayString(timeMilli: Long, zoneId: String): String {
     val instant = Instant.ofEpochMilli(timeMilli)
     val zonedDateTime = instant.atZone(ZoneId.of(zoneId))

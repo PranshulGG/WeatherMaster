@@ -27,6 +27,8 @@ object AppPrefs {
     private val _isShowWeatherAnimations = mutableStateOf(true)
     private val _isWeatherBasedTheme = mutableStateOf(true)
 
+    private val _is24HrTimeFormat = mutableStateOf(true)
+
 
     fun initPrefs(context: Context) {
         PreferencesHelper.init(context)
@@ -57,6 +59,9 @@ object AppPrefs {
         _isShowWeatherAnimations.value =
             PreferencesHelper.getBool("isShowWeatherAnimations") ?: true
         _isWeatherBasedTheme.value = PreferencesHelper.getBool("isWeatherBasedTheme") ?: true
+
+        _is24HrTimeFormat.value = PreferencesHelper.getBool("is24HrTimeFormat") ?: true
+
 
     }
 
@@ -129,5 +134,11 @@ object AppPrefs {
             _isWeatherBasedTheme.value = it
             PreferencesHelper.setBool("isWeatherBasedTheme", it)
         },
+
+        is24HrTimeFormat = _is24HrTimeFormat.value,
+        set24HrTimeFormat = {
+            _is24HrTimeFormat.value = it
+            PreferencesHelper.setBool("is24HrTimeFormat", it)
+        }
     )
 }

@@ -10,6 +10,7 @@ import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
+import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.data.provider.WeatherRepositoryProvider
 import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
@@ -75,6 +76,7 @@ class WeatherWorker @AssistedInject constructor(
             }
 
             val weather = result.weather
+
 
             val json = widgetWeatherMapper(weather, applicationContext, units)
 

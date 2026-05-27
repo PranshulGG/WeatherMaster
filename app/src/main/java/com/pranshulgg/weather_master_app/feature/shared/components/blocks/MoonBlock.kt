@@ -34,18 +34,21 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
+import com.pranshulgg.weather_master_app.core.prefs.AppPrefsState
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
 import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
 import com.pranshulgg.weather_master_app.core.utils.formatters.to12HourTimeString
+import com.pranshulgg.weather_master_app.core.utils.formatters.to24HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherDailyDomainSafe
 
 @Composable
-fun MoonBlock(weather: Weather, dailyIndex: Int) {
+fun MoonBlock(weather: Weather, dailyIndex: Int, prefs: AppPrefsState) {
 
     if (!isWeatherDailyDomainSafe(weather)) return
 
     val daily = weather.daily[dailyIndex]
+    val is24hr = prefs.is24HrTimeFormat
 
 
     Surface(
@@ -130,12 +133,18 @@ fun MoonBlock(weather: Weather, dailyIndex: Int) {
             }
 
 
-            val moonriseFormatted = to12HourTimeString(
+            val moonriseFormatted = if (is24hr) to24HourTimeString(
+                moonrise,
+                weather.location.timezone
+            ) else to12HourTimeString(
                 moonrise,
                 weather.location.timezone,
                 "hh:mm a"
             )
-            val moonsetFormatted = to12HourTimeString(
+            val moonsetFormatted = if (is24hr) to24HourTimeString(
+                moonset,
+                weather.location.timezone
+            ) else to12HourTimeString(
                 moonset,
                 weather.location.timezone,
                 "hh:mm a"

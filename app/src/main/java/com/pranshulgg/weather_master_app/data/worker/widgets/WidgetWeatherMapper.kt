@@ -8,7 +8,10 @@ import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnit
 import com.pranshulgg.weather_master_app.core.model.weather.toFroggy
 import com.pranshulgg.weather_master_app.core.model.weather.toIcon
 import com.pranshulgg.weather_master_app.core.model.weather.toLabel
+import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
+import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
 import com.pranshulgg.weather_master_app.core.utils.formatters.to12HourTimeString
+import com.pranshulgg.weather_master_app.core.utils.formatters.to24HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.formatters.toWeekdayString
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findHourlyIndexForTime
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findMatchingDaily
@@ -22,8 +25,9 @@ import kotlin.math.roundToInt
 fun widgetWeatherMapper(
     weather: Weather,
     applicationContext: Context,
-    units: WeatherUnits
-): String {
+    units: WeatherUnits,
+
+    ): String {
 
     // Map everything
     val timezone = weather.location.timezone
@@ -44,7 +48,11 @@ fun widgetWeatherMapper(
         weather.current.temperature, units.tempUnit
     )?.roundToInt()
 
+
     val hourlyStartIndex = findHourlyIndexForTime(weather.hourly.map { it.time })
+
+    val is24hr = PreferencesHelper.getBool("is24HrTimeFormat") ?: true
+
 
     val hourly = weather.hourly
         .drop(hourlyStartIndex)
@@ -57,10 +65,15 @@ fun widgetWeatherMapper(
                 weather.daily,
                 weather.location.timezone
             )
+            val formattedTime =
+                if (is24hr) to24HourTimeString(it.time, timezone) else to12HourTimeString(
+                    it.time,
+                    timezone
+                )
 
             val icon = it.weatherCondition.toIcon(matchingDaily, it.time)
             WidgetHourlyItem(
-                time = to12HourTimeString(it.time, timezone),
+                time = formattedTime,
                 temp = "${temperature}°",
                 conditionIcon = icon
             )

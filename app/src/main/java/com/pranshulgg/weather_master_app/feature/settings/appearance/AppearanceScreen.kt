@@ -143,6 +143,20 @@ fun AppearanceScreen(navController: NavController) {
                 )
             )
 
+            SettingSection(
+                title = "Time",
+                tiles = listOf(
+                    SettingTile.SwitchTile(
+                        leading = { SettingsTileIcon(R.drawable.schedule_48px) },
+                        title = "Use 24hr time format",
+                        checked = prefs.is24HrTimeFormat,
+                        onCheckedChange = { checked ->
+                            prefs.set24HrTimeFormat(checked)
+                        }
+                    )
+                )
+            )
+
             Gap(WindowInsets.systemBars.asPaddingValues().calculateBottomPadding() + 30.dp)
         }
     }
