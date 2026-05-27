@@ -76,9 +76,9 @@
     <string name="setting_pressure_unit">Jednotka tlaku</string>
     <string name="setting_distance_unit">Jednotka vzdálenosti</string>
     <string name="setting_precipitation_unit">Jednotka srážek</string>
-    <string name="unit_temperature_celsius">° Celsia</string>
-    <string name="unit_temperature_fahrenheit">Fahrenheita</string>
-    <string name="unit_wind_mps">Metry za sekundu</string>
+    <string name="unit_temperature_celsius">Celsius</string>
+    <string name="unit_temperature_fahrenheit">Fahrenheit</string>
+    <string name="unit_wind_mps">Metrů za sekundu</string>
     <string name="unit_wind_mph">Míle za hodinu</string>
     <string name="unit_wind_kph">Kilometr za hodinu</string>
     <string name="unit_pressure_hpa">Hectopascals</string>
@@ -110,7 +110,7 @@
     <string name="setting_custom_color_secondary">Select a seed color to generate the theme</string>
     <string name="setting_dynamic_colors">Dynamické barvy</string>
     <string name="setting_dynamic_colors_secondary">Použít barvy pozadí</string>
-    <string name="weather_total_rain_day">Total rain for the day</string>
+    <string name="weather_total_rain_day">Celkový denní úhrn srážek</string>
     <string name="error_network">Připojení není k dispozici</string>
     <string name="weather_total_snow_day">Total snow for the day</string>
     <string name="weather_precipitation">Srážky</string>
@@ -144,8 +144,8 @@
     <string name="weather_rain_block">Déšť</string>
     <string name="weather_snow_block">Sníh</string>
     <string name="search_source">Search source</string>
-    <string name="weather_source">Weather source</string>
-    <string name="weather_sources">Weather sources</string>
+    <string name="weather_source">Zdroj počasí</string>
+    <string name="weather_sources">Zdroje počasí</string>
     <string name="sources">Zdroje</string>
     <string name="source">Zdroj</string>
     <string name="recommended_sources">Recommended sources</string>
@@ -190,7 +190,7 @@
     <string name="setting_disable_battery_opt_title">Zakázat optimalizaci baterie</string>
     <string name="setting_disable_battery_opt_secondary">If background updates aren\'t working, battery optimization may be restricting this app</string>
     <string name="setting_dontkillmyapp_title">Nefungují aktualizace na pozadí?</string>
-    <string name="setting_dontkillmyapp_secondary">Some device vendors restrict apps in the background. Check dontkillmyapp.com for steps to fix this</string>
+    <string name="setting_dontkillmyapp_secondary">Někteří výrobci zařízení omezují aplikace na pozadí. Podívejte se na stránky dontkillmyapp.com, kde najdete kroky k nápravě</string>
     <string name="setting_weather_sources_secondary">List of all the supported sources</string>
     <string name="setting_join_discord">Připojte se na Discord server</string>
     <string name="setting_about_app_secondary">Version, terms, privacy, and more</string>
@@ -207,10 +207,11 @@
     <string name="setting_weather_sources_info">Separate sources for each region are recommended based on the country code</string>
     <string name="setting_weather_animations">Animace počasí</string>
     <string name="setting_weather_animations_secondary">Canvas animations that chance based on the current weather</string>
-    <string name="setting_froggy_layout">Froggy layout</string>
+    <string name="setting_froggy_layout">Froggy rozvržení</string>
     <string name="setting_froggy_layout_secondary">Show the classic Google Weather frog card. Turn off to use the newer Pixel Weather style card</string>
-    <string name="setting_layout">Layout</string>
+    <string name="setting_layout">Rozvržení</string>
     <string name="setting_weather_based_theme">Weather based theme</string>
     <string name="setting_weather_based_theme_secondary">Automatically adapts app colors based on current weather conditions.</string>
+    <string name="unit_pressure_mmhg">Millimeters of mercury</string>
 </resources>
 <!--<string name=""></string>-->
