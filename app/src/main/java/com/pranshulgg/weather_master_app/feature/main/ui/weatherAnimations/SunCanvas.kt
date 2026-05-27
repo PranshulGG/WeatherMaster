@@ -33,7 +33,7 @@ import kotlinx.coroutines.delay
 
 
 @Composable
-fun SunCanvas(showClouds: Boolean = false) {
+fun SunCanvas(showClouds: Boolean = false, isFroggyLayout: Boolean) {
 
 
     val infiniteTransition = rememberInfiniteTransition()
@@ -108,6 +108,7 @@ fun SunCanvas(showClouds: Boolean = false) {
     }
 
 
+
     Canvas(
         Modifier
             .fillMaxWidth()
@@ -125,14 +126,14 @@ fun SunCanvas(showClouds: Boolean = false) {
                 Color.Transparent
             ),
             center = circleCenter,
-            radius = 200f
+            radius = if (isFroggyLayout) 200f else 400f
         )
 
         // START POINT
         drawCircle(
             brush = brushSun,
             center = circleCenter,
-            radius = 200f
+            radius = if (isFroggyLayout) 200f else 400f
         )
 
         // ----
@@ -146,9 +147,9 @@ fun SunCanvas(showClouds: Boolean = false) {
                     x = size.width / 1.2f,
                     y = size.height / 1.7f
                 ),
-                radius = 70f
+                radius = if (isFroggyLayout) 70f else 200f
             ),
-            radius = 70f,
+            radius = if (isFroggyLayout) 70f else 200f,
             center = Offset(
                 x = size.width / 1.3f,
                 y = size.height / 1.8f
@@ -193,7 +194,7 @@ fun SunCanvas(showClouds: Boolean = false) {
                         x = size.width / 1.8f,
                         y = size.height / 3f
                     ),
-                    cornerRadius = CornerRadius(20f)
+                    cornerRadius = CornerRadius(if (isFroggyLayout) 20f else 50f)
                 )
             }
         }
@@ -206,9 +207,10 @@ fun SunCanvas(showClouds: Boolean = false) {
                         Color.White.copy(alpha = alphaRays[0].value), Color.Transparent
                     ),
                     startY = 300f,
-                    endY = 600f
+                    endY = if (isFroggyLayout) 600f else 1000f
                 ),
-                size = Size(20f, 500f), topLeft = circleCenter / 1.04f
+                size = Size(if (isFroggyLayout) 20f else 40f, if (isFroggyLayout) 500f else 1000f),
+                topLeft = circleCenter / 1.04f
             )
         }
 
@@ -221,9 +223,9 @@ fun SunCanvas(showClouds: Boolean = false) {
                         Color.White.copy(alpha = alphaRays[1].value), Color.Transparent
                     ),
                     startY = 300f,
-                    endY = 600f
+                    endY = if (isFroggyLayout) 600f else 1000f
                 ),
-                size = Size(20f, 500f), topLeft = circleCenter
+                size = Size(20f, if (isFroggyLayout) 500f else 1000f), topLeft = circleCenter
             )
         }
 
@@ -236,9 +238,10 @@ fun SunCanvas(showClouds: Boolean = false) {
                         Color.White.copy(alpha = alphaRays[2].value), Color.Transparent
                     ),
                     startY = 300f,
-                    endY = 600f
+                    endY = if (isFroggyLayout) 600f else 1000f
                 ),
-                size = Size(30f, 500f), topLeft = circleCenter / 1.07f
+                size = Size(30f, if (isFroggyLayout) 500f else 1000f),
+                topLeft = circleCenter / 1.07f
             )
         }
 

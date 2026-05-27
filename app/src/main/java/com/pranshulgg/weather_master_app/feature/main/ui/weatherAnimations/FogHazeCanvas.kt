@@ -7,6 +7,7 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
@@ -21,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.pranshulgg.weather_master_app.core.ui.theme.isThemeDark
 
 @Composable
-fun FogHazeCanvas() {
+fun FogHazeCanvas(isFroggyLayout: Boolean) {
     val infiniteTransition = rememberInfiniteTransition(label = "")
 
     val windowInfo = LocalWindowInfo.current
@@ -75,11 +76,13 @@ fun FogHazeCanvas() {
         label = ""
     )
 
+    val modifier = Modifier
+        .fillMaxWidth()
+        .blur(30.dp)
+
     Canvas(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = if (!isFroggyLayout) modifier.fillMaxHeight() else modifier
             .height(290.dp)
-            .blur(30.dp)
     ) {
         val fog1 = Brush.radialGradient(
             colors = listOf(

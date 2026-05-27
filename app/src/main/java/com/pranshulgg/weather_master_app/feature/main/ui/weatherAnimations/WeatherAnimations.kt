@@ -12,11 +12,12 @@ fun WeatherAnimations(weather: Weather, isFroggyLayout: Boolean) {
 
     when (condition) {
 
-        WeatherCondition.CLEAR_SKY -> if (isDay) SunCanvas() else StarsCanvas()
-
+        WeatherCondition.CLEAR_SKY -> if (isDay) SunCanvas(
+            isFroggyLayout = isFroggyLayout
+        ) else StarsCanvas()
 
         WeatherCondition.MOSTLY_CLEAR, WeatherCondition.PARTLY_CLOUDY -> if (isDay)
-            SunCanvas(showClouds = true) else StarsCanvas(showClouds = true)
+            SunCanvas(showClouds = true, isFroggyLayout) else StarsCanvas(showClouds = true)
 
 
         WeatherCondition.LIGHT_RAIN -> RainCanvas(
@@ -47,7 +48,7 @@ fun WeatherAnimations(weather: Weather, isFroggyLayout: Boolean) {
             isFroggyLayout = isFroggyLayout
         )
 
-        WeatherCondition.FOG_HAZE -> FogHazeCanvas()
+        WeatherCondition.FOG_HAZE -> FogHazeCanvas(isFroggyLayout)
 
         WeatherCondition.THUNDERSTORM -> RainCanvas(rainDropCount = 50, isStorming = true)
 
