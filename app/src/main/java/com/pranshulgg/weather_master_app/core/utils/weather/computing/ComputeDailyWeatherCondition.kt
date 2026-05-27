@@ -40,8 +40,8 @@ fun computeDailyWeatherCondition(
     // Add weight so if there's RAIN/SNOW, it should always count
     val weight = { w: WeatherCondition ->
         when (w) {
+            in snow -> 4
             in rain -> 3
-            in snow -> 2
             in cloudy -> 1
             in clear -> 1
             else -> 1
@@ -53,16 +53,6 @@ fun computeDailyWeatherCondition(
         .groupingBy { it }
         .fold(0) { acc, w -> acc + weight(w) }
 
-    // Pick the top 2, we keep the order as is so they don't flip, ignore weak stuff
-//    val topTwo = counts
-//        .filter { it.value > 2 }
-//        .keys
-//        .sortedBy { weather ->
-//            dataNormalized.indexOf(weather)
-//        }
-//        .take(2)
-//
-//    val topSecondary = counts.keys.sortedByDescending { it }
 
     // Pick the top primary, we keep the order as is so they don't flip, ignore weak stuff
     val topPrimary = counts
