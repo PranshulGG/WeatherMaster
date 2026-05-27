@@ -40,6 +40,7 @@ fun OpenMeteoWeatherJson.toDomain(location: Location): Weather {
         location.longitude
     )
 
+
     return Weather(
         location = location,
         current = WeatherCurrent(

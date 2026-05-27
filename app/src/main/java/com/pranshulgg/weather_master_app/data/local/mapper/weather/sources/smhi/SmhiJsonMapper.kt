@@ -149,7 +149,7 @@ private fun computeDaily(data: SmhiForecastJson, location: Location): List<Weath
             SmhiWeatherConditionMap.getCondition(icon?.key)
         )
 
-        val precipitationProbabilityMax = dailyIt.value.minOf { it.data.precipitationProbability }
+        val precipitationProbabilityMax = dailyIt.value.maxOf { it.data.precipitationProbability }
 
         val index = groupedByDay.keys.indexOf(dailyIt.key)
 
