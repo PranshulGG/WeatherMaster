@@ -13,10 +13,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.LoadingIndicator
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
@@ -31,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
+import com.pranshulgg.weather_master_app.core.utils.weather.computing.summary.computeDaySummary
 import com.pranshulgg.weather_master_app.feature.main.components.FroggyContainer
 import com.pranshulgg.weather_master_app.feature.main.components.MainSearchBar
 import com.pranshulgg.weather_master_app.feature.main.components.CreditsBottomSection
@@ -40,6 +43,7 @@ import com.pranshulgg.weather_master_app.feature.shared.components.blocks.Weathe
 import com.pranshulgg.weather_master_app.feature.main.ui.weatherAnimations.WeatherAnimations
 import com.pranshulgg.weather_master_app.feature.shared.ui.DailyCard
 import com.pranshulgg.weather_master_app.feature.shared.ui.HourlyCard
+import com.pranshulgg.weather_master_app.feature.shared.ui.SummaryCard
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -136,6 +140,7 @@ fun MainScreenScaffold(
                             onEditLocation
                         )
                         if (weather != null) {
+
                             CurrentWeatherCard(
                                 weather,
                                 units,
@@ -153,6 +158,12 @@ fun MainScreenScaffold(
                                 ),
                                 verticalArrangement = Arrangement.spacedBy(14.dp)
                             ) {
+                                SummaryCard(
+                                    weather,
+                                    context = context,
+                                    prefs = prefs,
+                                    units = units
+                                )
                                 HourlyCard(weather, units)
                                 DailyCard(weather, units, navController)
                                 WeatherBlocks(weather, airQuality, units, context, uiState.blocks)

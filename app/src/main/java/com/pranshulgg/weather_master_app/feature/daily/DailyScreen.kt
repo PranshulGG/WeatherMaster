@@ -2,8 +2,11 @@ package com.pranshulgg.weather_master_app.feature.daily
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -23,12 +26,15 @@ import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlock
+import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
+import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weather_master_app.feature.daily.ui.DailyDaysHeader
 import com.pranshulgg.weather_master_app.feature.daily.ui.DailyForecastHeroHeader
 import com.pranshulgg.weather_master_app.feature.shared.components.blocks.WeatherBlocks
 import com.pranshulgg.weather_master_app.feature.shared.ui.HourlyCard
+import com.pranshulgg.weather_master_app.feature.shared.ui.SummaryCard
 
 data class DailyScreenUiState(
     val weather: Weather? = null,
@@ -44,7 +50,7 @@ fun DailyScreen(navController: NavController, index: Int = 0, locationId: String
     val weather = uiState.weather
     val units = uiState.units
     val context = LocalContext.current
-
+    val prefs = LocalAppPrefs.current
 
     var selectedIndex by remember { mutableIntStateOf(index) }
 
@@ -91,6 +97,12 @@ fun DailyScreen(navController: NavController, index: Int = 0, locationId: String
                 modifier = Modifier.padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(14.dp)
             ) {
+                SummaryCard(
+                    weather, context = context,
+                    dailyIndex = selectedIndex,
+                    prefs = prefs,
+                    units = units,
+                )
                 HourlyCard(
                     weather,
                     units, selectedDaily.time
@@ -104,6 +116,8 @@ fun DailyScreen(navController: NavController, index: Int = 0, locationId: String
                     true,
                     updatedBlockOrder = { viewModel.updateBlocksOrder(it) }, selectedIndex
                 )
+
+                Gap(WindowInsets.systemBars.asPaddingValues().calculateBottomPadding())
             }
         }
     }
