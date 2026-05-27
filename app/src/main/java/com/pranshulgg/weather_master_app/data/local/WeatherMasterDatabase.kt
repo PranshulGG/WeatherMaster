@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherUnitsDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
@@ -56,8 +58,8 @@ abstract class WeatherMasterDatabase : RoomDatabase() {
                     context.applicationContext,
                     WeatherMasterDatabase::class.java,
                     "weather_master.db"
-                ).fallbackToDestructiveMigration(true).build().also { INSTANCE = it }
+                ).addMigrations().build().also { INSTANCE = it }
             }
     }
-
 }
+
