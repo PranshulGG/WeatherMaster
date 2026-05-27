@@ -13,31 +13,35 @@
     <string name="weather_refresh_delay">Merci d\'attendre %1$d minutes avant de rafraîchir.</string>
     <string name="error_generic">Une erreur est survenue. Merci de réessayer.</string>
     <string name="weather_moon">Lune</string>
-    <string name="weather_sun">Dim</string>
+    <string name="weather_sun">Soleil</string>
     <string name="weather_humidity">Humidité</string>
     <string name="weather_pressure">Pression</string>
     <string name="weather_wind">Vent</string>
     <string name="weather_visibility">Visibilité</string>
     <string name="weather_air_quality">Qualité de l\'air</string>
     <string name="weather_uv_index">Indice UV</string>
-    <string name="action_ok">Ok</string>
+    <string name="action_ok">OK</string>
     <string name="settings">Paramètres</string>
     <string name="search">Recherche</string>
     <string name="location_current">Position actuelle</string>
-    <string name="search_provider">Fournisseur</string>
+    <string name="search_provider">Fournisseur de recherche</string>
+
     <plurals name="time_minutes_ago">
         <item quantity="one">Il y a %d min</item>
         <item quantity="other">Il y a %d min</item>
     </plurals>
+
     <plurals name="time_hours_ago">
-        <item quantity="one">Il y a %dh</item>
-        <item quantity="other">Il y a %dh</item>
+        <item quantity="one">Il y a %d h</item>
+        <item quantity="other">Il y a %d h</item>
     </plurals>
+
     <plurals name="time_days_ago">
         <item quantity="one">Hier</item>
         <item quantity="other">Il y a %d jours</item>
     </plurals>
-    <string name="time_just_now">Maintenant</string>
+
+    <string name="time_just_now">À l\'instant</string>
     <string name="time_last_updated">Mis à jour %1$s</string>
     <string name="weather_no_data">Aucune donnée météo disponible</string>
     <string name="weather_clear_sky">Ciel dégagé</string>
@@ -60,151 +64,196 @@
     <string name="weather_uv_high">Élevé</string>
     <string name="weather_uv_very_high">Très élevé</string>
     <string name="weather_uv_extreme">Extrême</string>
+
     <string name="setting_appearance">Apparence</string>
     <string name="setting_appearance_secondary">Thèmes, animations et unités météo</string>
+
     <string name="setting_language">Langue</string>
+
     <string name="setting_units">Unités</string>
-    <string name="setting_units_secondary">Temperature, wind speed, pressure, distance and precipitation units</string>
-    <string name="setting_temperature_unit">Temperature unit</string>
-    <string name="setting_wind_speed_unit">Wind speed unit</string>
-    <string name="setting_pressure_unit">Pressure unit</string>
-    <string name="setting_distance_unit">Distance unit</string>
-    <string name="setting_precipitation_unit">Precipitation unit</string>
+    <string name="setting_units_secondary">Unités de température, vitesse du vent, pression, distance et précipitations</string>
+
+    <string name="setting_temperature_unit">Unité de température</string>
+    <string name="setting_wind_speed_unit">Unité de vitesse du vent</string>
+    <string name="setting_pressure_unit">Unité de pression</string>
+    <string name="setting_distance_unit">Unité de distance</string>
+    <string name="setting_precipitation_unit">Unité de précipitations</string>
     <string name="unit_temperature_celsius">Celsius</string>
     <string name="unit_temperature_fahrenheit">Fahrenheit</string>
-    <string name="unit_wind_mps">Meters per second</string>
-    <string name="unit_wind_mph">Miles per hour</string>
-    <string name="unit_wind_kph">Kilometers per hour</string>
+    <string name="unit_wind_mps">Mètres par seconde</string>
+    <string name="unit_wind_mph">Miles par heure</string>
+    <string name="unit_wind_kph">Kilomètres par heure</string>
     <string name="unit_pressure_hpa">Hectopascals</string>
-    <string name="unit_pressure_inhg">Inches of Mercury</string>
-    <string name="unit_distance_km">Kilometers</string>
+    <string name="unit_pressure_inhg">Pouces de mercure</string>
+    <string name="unit_distance_km">Kilomètres</string>
     <string name="unit_distance_mi">Miles</string>
-    <string name="unit_distance_m">Meters</string>
-    <string name="unit_precipitation_mm">Millimeters</string>
-    <string name="unit_precipitation_inch">Inches</string>
-    <string name="unit_precipitation_cm">Centimeters</string>
-    <string name="weather_dew_point">Dew point</string>
-    <string name="setting_dark_theme">Dark</string>
-    <string name="setting_light_theme">Light</string>
-    <string name="setting_system_theme">System</string>
-    <string name="setting_app_theme">App theme</string>
-    <string name="search_empty_state_title">Search locations</string>
-    <string name="search_empty_state_secondary">Enter a city or location to view the weather</string>
-    <string name="action_set_default">Set as default</string>
+    <string name="unit_distance_m">Mètres</string>
+    <string name="unit_precipitation_mm">Millimètres</string>
+    <string name="unit_precipitation_inch">Pouces</string>
+    <string name="unit_precipitation_cm">Centimètres</string>
+
+    <string name="weather_dew_point">Point de rosée</string>
+
+    <string name="setting_dark_theme">Sombre</string>
+    <string name="setting_light_theme">Clair</string>
+    <string name="setting_system_theme">Système</string>
+
+    <string name="setting_app_theme">Thème de l\'application</string>
+
+    <string name="search_empty_state_title">Rechercher un lieu</string>
+    <string name="search_empty_state_secondary">Saisissez une ville ou un lieu pour afficher la météo</string>
+
+    <string name="action_set_default">Définir par défaut</string>
     <string name="action_delete">Supprimer</string>
-    <string name="error_delete_default_location">Cannot delete default location</string>
-    <string name="setting_app_looks">App looks</string>
-    <string name="temp_feels_like">Feels like %1$s</string>
-    <string name="temp_max">Max: %1$s</string>
-    <string name="temp_min">Min: %1$s</string>
-    <string name="search_results_provided">Search results provided by %1$s</string>
-    <string name="action_confirm">Confirm</string>
+
+    <string name="error_delete_default_location">Impossible de supprimer l\'emplacement par défaut</string>
+
+    <string name="setting_app_looks">Apparence de l\'application</string>
+
+    <string name="temp_feels_like">Ressenti %1$s</string>
+
+    <string name="temp_max">Max : %1$s</string>
+    <string name="temp_min">Min : %1$s</string>
+
+    <string name="search_results_provided">Résultats de recherche fournis par %1$s</string>
+    <string name="action_confirm">Confirmer</string>
+
     <string name="weather">Météo</string>
-    <string name="setting_custom_color">Use custom color</string>
-    <string name="setting_custom_color_secondary">Select a seed color to generate the theme</string>
-    <string name="setting_dynamic_colors">Dynamic colors</string>
-    <string name="setting_dynamic_colors_secondary">Use wallpaper colors</string>
-    <string name="weather_total_rain_day">Total rain for the day</string>
-    <string name="error_network">Network unavailable</string>
-    <string name="weather_total_snow_day">Total snow for the day</string>
-    <string name="weather_precipitation">Precipitation</string>
-    <string name="weather_air_quality_index">Air quality index</string>
-    <string name="setting_translate_app">Translate this app</string>
-    <string name="setting_translate_app_secondary">Contribute by translating the app into your language on Crowdin</string>
-    <string name="location_use_current">Use current location</string>
-    <string name="location_use_current_secondary">Detect your device’s current location automatically and add it to your list</string>
-    <string name="location_permission_required">Location permission is required</string>
-    <string name="current_location_not_found">Current location not found</string>
-    <string name="error_server">Request couldn’t be completed. Try again shortly</string>
-    <string name="weather_airquality_good">Good</string>
-    <string name="weather_airquality_fair">Fair</string>
-    <string name="weather_airquality_moderate">Modéré</string>
-    <string name="weather_airquality_poor">Poor</string>
-    <string name="weather_airquality_very_poor">Very poor</string>
-    <string name="weather_airquality_hazardous">Hazardous</string>
-    <string name="weather_aqi_description_good">Air quality is satisfactory, and air pollution poses little or no risk.</string>
-    <string name="weather_aqi_description_fair">Air quality is acceptable. However, there may be a risk for some people, particularly those who are unusually sensitive to air pollution.</string>
-    <string name="weather_aqi_description_moderate">Members of sensitive groups may experience health effects. The general public is less likely to be affected.</string>
-    <string name="weather_aqi_description_poor">Some members of the general public may experience health effects; members of sensitive groups may experience more serious health effects.</string>
-    <string name="weather_aqi_description_very_poor">Health alert: The risk of health effects is increased for everyone.</string>
-    <string name="weather_aqi_description_hazardous">Health warning of emergency conditions: everyone is more likely to be affected.</string>
-    <string name="weather_aqi_pm_description">Small solid particles and liquid droplets found in the air. It’s emitted from motor vehicles, wood heaters, and industry. Fires and dust storms can also produce high concentrations of Particulate Matter</string>
-    <string name="weather_aqi_no2_description">A gas and a major component of central city air pollution. It mainly comes from vehicles, industry, power stations, and heating</string>
-    <string name="weather_aqi_O3_description">A gas found in the stratosphere. It protects us from harmful ultraviolet radiation and the troposphere. Ozone is a harmful pollutant produced by a chemical reaction between the sun light, organic gasses, and nitrogen oxides (e.g. Cars, Power plants)</string>
-    <string name="weather_aqi_so2_description">A toxic gas with a pungent, irritating odor. It can come from electric industries that burn fossil fuels, petrol refineries, cement manufacturing, and volcano emissions</string>
-    <string name="weather_aqi_co_description">A gas from motor vehicles or machinery that burns fossil fuels</string>
-    <string name="weather_airquality_about_index">Air quality indexes categorize raw data into a descriptive rating scale. These indexes make it easier to identify the level of pollution and if there’s any associated risk</string>
-    <string name="weather_average">Average</string>
-    <string name="weather_rain_block">Rain</string>
-    <string name="weather_snow_block">Snow</string>
-    <string name="search_source">Search source</string>
-    <string name="weather_source">Weather source</string>
-    <string name="weather_sources">Weather sources</string>
+
+    <string name="setting_custom_color">Utiliser une couleur personnalisée</string>
+    <string name="setting_custom_color_secondary">Choisissez une couleur de base pour générer le thème</string>
+
+    <string name="setting_dynamic_colors">Couleurs dynamiques</string>
+    <string name="setting_dynamic_colors_secondary">Utiliser les couleurs du fond d\'écran</string>
+
+    <string name="weather_total_rain_day">Cumul de pluie de la journée</string>
+    <string name="error_network">Réseau indisponible</string>
+    <string name="weather_total_snow_day">Cumul de neige de la journée</string>
+    <string name="weather_precipitation">Précipitations</string>
+    <string name="weather_air_quality_index">Indice de qualité de l\'air</string>
+    <string name="setting_translate_app">Traduire cette application</string>
+    <string name="setting_translate_app_secondary">Contribuez en traduisant l\'application dans votre langue sur Crowdin</string>
+
+    <string name="location_use_current">Utiliser ma position actuelle</string>
+    <string name="location_use_current_secondary">Détecter automatiquement la position de votre appareil et l\'ajouter à votre liste</string>
+    <string name="location_permission_required">Autorisation de localisation requise</string>
+
+    <string name="current_location_not_found">Position actuelle introuvable</string>
+
+    <string name="error_server">Impossible de traiter la requête. Merci de réessayer dans quelques instants</string>
+
+    <string name="weather_airquality_good">Bonne</string>
+    <string name="weather_airquality_fair">Acceptable</string>
+    <string name="weather_airquality_moderate">Modérée</string>
+    <string name="weather_airquality_poor">Mauvaise</string>
+    <string name="weather_airquality_very_poor">Très mauvaise</string>
+    <string name="weather_airquality_hazardous">Dangereuse</string>
+
+    <string name="weather_aqi_description_good">La qualité de l\'air est satisfaisante et la pollution atmosphérique présente peu ou pas de risque.</string>
+    <string name="weather_aqi_description_fair">La qualité de l\'air est acceptable. Elle peut toutefois représenter un risque pour certaines personnes, notamment celles particulièrement sensibles à la pollution atmosphérique.</string>
+    <string name="weather_aqi_description_moderate">Les personnes appartenant à des groupes sensibles peuvent ressentir des effets sur leur santé. Le grand public est peu susceptible d\'être affecté.</string>
+    <string name="weather_aqi_description_poor">Certaines personnes du grand public peuvent ressentir des effets sur leur santé ; les personnes des groupes sensibles peuvent éprouver des effets plus graves.</string>
+    <string name="weather_aqi_description_very_poor">Alerte sanitaire : le risque d\'effets sur la santé est accru pour tout le monde.</string>
+    <string name="weather_aqi_description_hazardous">Avertissement sanitaire de conditions d\'urgence : tout le monde est susceptible d\'être affecté.</string>
+
+    <string name="weather_aqi_pm_description">Petites particules solides et gouttelettes liquides présentes dans l\'air. Elles proviennent des véhicules à moteur, des chauffages au bois et de l\'industrie. Les incendies et les tempêtes de poussière peuvent aussi produire de fortes concentrations de particules</string>
+    <string name="weather_aqi_no2_description">Un gaz qui constitue un composant majeur de la pollution de l\'air en milieu urbain. Il provient principalement des véhicules, de l\'industrie, des centrales électriques et du chauffage</string>
+    <string name="weather_aqi_O3_description">Un gaz présent dans la stratosphère qui nous protège des rayonnements ultraviolets nocifs. Dans la troposphère, l\'ozone est un polluant nocif produit par une réaction chimique entre la lumière du soleil, les gaz organiques et les oxydes d\'azote (ex. voitures, centrales électriques)</string>
+    <string name="weather_aqi_so2_description">Un gaz toxique à l\'odeur âcre et irritante. Il peut provenir des industries qui brûlent des combustibles fossiles, des raffineries de pétrole, de la fabrication de ciment et des émissions volcaniques</string>
+    <string name="weather_aqi_co_description">Un gaz émis par les véhicules à moteur ou les machines qui brûlent des combustibles fossiles</string>
+
+    <string name="weather_airquality_about_index">Les indices de qualité de l\'air classent les données brutes selon une échelle descriptive. Ces indices permettent d\'identifier plus facilement le niveau de pollution et le risque éventuel qui y est associé</string>
+
+    <string name="weather_average">Moyenne</string>
+
+    <string name="weather_rain_block">Pluie</string>
+    <string name="weather_snow_block">Neige</string>
+
+    <string name="search_source">Source de recherche</string>
+    <string name="weather_source">Source météo</string>
+    <string name="weather_sources">Sources météo</string>
     <string name="sources">Sources</string>
     <string name="source">Source</string>
-    <string name="recommended_sources">Recommended sources</string>
-    <string name="global_sources">Global sources</string>
-    <string name="weather_clear_with_cloudy">Clear with cloudy</string>
-    <string name="weather_clear_with_rain">Clear with rain</string>
-    <string name="weather_clear_with_snow">Clear with snow</string>
-    <string name="weather_cloudy_with_clear">Cloudy with clear</string>
-    <string name="weather_cloudy_with_rain">Cloudy with rain</string>
-    <string name="weather_cloudy_with_snow">Cloudy with snow</string>
-    <string name="weather_rain_with_clear">Rain with clear</string>
-    <string name="weather_rain_with_cloudy">Rain with cloudy</string>
-    <string name="weather_rain_with_snow">Rain with snow</string>
-    <string name="weather_snow_with_clear">Snow with clear</string>
-    <string name="weather_snow_with_cloudy">Snow with cloudy</string>
-    <string name="weather_snow_with_rain">Snow with rain</string>
-    <string name="weather_clear_then_cloudy">Clear then cloudy</string>
-    <string name="weather_clear_then_rain">Clear then rain</string>
-    <string name="weather_clear_then_snow">Clear then snow</string>
-    <string name="weather_cloudy_then_clear">Cloudy then clear</string>
-    <string name="weather_cloudy_then_rain">Cloudy then rain</string>
-    <string name="weather_cloudy_then_snow">Cloudy then snow</string>
-    <string name="weather_rain_then_clear">Rain then clear</string>
-    <string name="weather_rain_then_cloudy">Rain then cloudy</string>
-    <string name="weather_rain_then_snow">Rain then snow</string>
-    <string name="weather_snow_then_clear">Snow then clear</string>
-    <string name="weather_snow_then_cloudy">Snow then cloudy</string>
-    <string name="weather_snow_then_rain">Snow then rain</string>
-    <string name="error_refresh_waiting_before_action">Please wait for the refresh to complete</string>
-    <string name="weather_total_amount">Total amount</string>
-    <string name="setting_background_updates">Background updates</string>
-    <string name="setting_background_updates_secondary">Update interval, battery optimization, help</string>
-    <string name="setting_notification_permission_req">Notification permission required</string>
-    <string name="setting_notification_permission_secondary">The app sends you a notification whenever the weather updates in the background</string>
+    <string name="recommended_sources">Sources recommandées</string>
+
+    <string name="global_sources">Sources mondiales</string>
+
+    <string name="weather_clear_with_cloudy">Dégagé avec passages nuageux</string>
+    <string name="weather_clear_with_rain">Dégagé avec pluie</string>
+    <string name="weather_clear_with_snow">Dégagé avec neige</string>
+    <string name="weather_cloudy_with_clear">Nuageux avec éclaircies</string>
+    <string name="weather_cloudy_with_rain">Nuageux avec pluie</string>
+    <string name="weather_cloudy_with_snow">Nuageux avec neige</string>
+    <string name="weather_rain_with_clear">Pluie avec éclaircies</string>
+    <string name="weather_rain_with_cloudy">Pluie avec passages nuageux</string>
+    <string name="weather_rain_with_snow">Pluie et neige mêlées</string>
+    <string name="weather_snow_with_clear">Neige avec éclaircies</string>
+    <string name="weather_snow_with_cloudy">Neige avec passages nuageux</string>
+    <string name="weather_snow_with_rain">Neige avec pluie</string>
+    <string name="weather_clear_then_cloudy">Dégagé puis nuageux</string>
+    <string name="weather_clear_then_rain">Dégagé puis pluie</string>
+    <string name="weather_clear_then_snow">Dégagé puis neige</string>
+    <string name="weather_cloudy_then_clear">Nuageux puis dégagé</string>
+    <string name="weather_cloudy_then_rain">Nuageux puis pluie</string>
+    <string name="weather_cloudy_then_snow">Nuageux puis neige</string>
+    <string name="weather_rain_then_clear">Pluie puis ciel dégagé</string>
+    <string name="weather_rain_then_cloudy">Pluie puis nuageux</string>
+    <string name="weather_rain_then_snow">Pluie puis neige</string>
+    <string name="weather_snow_then_clear">Neige puis ciel dégagé</string>
+    <string name="weather_snow_then_cloudy">Neige puis nuageux</string>
+    <string name="weather_snow_then_rain">Neige puis pluie</string>
+
+    <string name="error_refresh_waiting_before_action">Veuillez patienter le temps que l\'actualisation se termine</string>
+
+    <string name="weather_total_amount">Cumul total</string>
+    <string name="setting_background_updates">Mises à jour en arrière-plan</string>
+    <string name="setting_background_updates_secondary">Intervalle de mise à jour, optimisation de la batterie, aide</string>
+
+    <string name="setting_notification_permission_req">Autorisation de notification requise</string>
+    <string name="setting_notification_permission_secondary">L\'application vous envoie une notification chaque fois que la météo est mise à jour en arrière-plan</string>
     <string name="setting_notification">Notification</string>
-    <string name="time_hours">%1$s hours</string>
-    <string name="time_hour">%1$s hour</string>
-    <string name="info_already_ignoring_battery_opt">Already ignoring battery optimizations</string>
-    <string name="setting_additional">Additional</string>
-    <string name="setting_update_interval">Update interval</string>
-    <string name="setting_updates">Updates</string>
-    <string name="setting_disable_battery_opt_title">Disable battery optimization</string>
-    <string name="setting_disable_battery_opt_secondary">If background updates aren\'t working, battery optimization may be restricting this app</string>
-    <string name="setting_dontkillmyapp_title">Background updates not working?</string>
-    <string name="setting_dontkillmyapp_secondary">Some device vendors restrict apps in the background. Check dontkillmyapp.com for steps to fix this</string>
-    <string name="setting_weather_sources_secondary">List of all the supported sources</string>
-    <string name="setting_join_discord">Join the discord server</string>
-    <string name="setting_about_app_secondary">Version, terms, privacy, and more</string>
-    <string name="setting_about_app">About app</string>
-    <string name="about_terms_conditions">Terms &amp; Conditions</string>
-    <string name="about_privacy_policy">Privacy Policy</string>
-    <string name="about_create_issue">Create an issue</string>
-    <string name="about_view_on_github">View on github</string>
-    <string name="about_license">License</string>
-    <string name="message_new_version_available">New version available</string>
-    <string name="message_using_latest_version">You are using the latest version</string>
-    <string name="about_check_for_updates">Check for updates</string>
-    <string name="action_view">View</string>
-    <string name="setting_weather_sources_info">Separate sources for each region are recommended based on the country code</string>
-    <string name="setting_weather_animations">Weather animations</string>
-    <string name="setting_weather_animations_secondary">Canvas animations that chance based on the current weather</string>
-    <string name="setting_froggy_layout">Froggy layout</string>
-    <string name="setting_froggy_layout_secondary">Show the classic Google Weather frog card. Turn off to use the newer Pixel Weather style card</string>
-    <string name="setting_layout">Layout</string>
-    <string name="setting_weather_based_theme">Weather based theme</string>
-    <string name="setting_weather_based_theme_secondary">Automatically adapts app colors based on current weather conditions.</string>
+
+    <string name="time_hours">%1$s heures</string>
+    <string name="time_hour">%1$s heure</string>
+
+    <string name="info_already_ignoring_battery_opt">Les optimisations de batterie sont déjà ignorées</string>
+    <string name="setting_additional">Options supplémentaires</string>
+    <string name="setting_update_interval">Intervalle de mise à jour</string>
+    <string name="setting_updates">Mises à jour</string>
+    <string name="setting_disable_battery_opt_title">Désactiver l\'optimisation de la batterie</string>
+    <string name="setting_disable_battery_opt_secondary">Si les mises à jour en arrière-plan ne fonctionnent pas, l\'optimisation de la batterie restreint peut-être cette application</string>
+    <string name="setting_dontkillmyapp_title">Mises à jour en arrière-plan inopérantes ?</string>
+    <string name="setting_dontkillmyapp_secondary">Certains constructeurs restreignent les applications en arrière-plan. Consultez dontkillmyapp.com pour résoudre le problème</string>
+    <string name="setting_weather_sources_secondary">Liste de toutes les sources prises en charge</string>
+    <string name="setting_join_discord">Rejoindre le serveur Discord</string>
+
+    <string name="setting_about_app_secondary">Version, conditions, confidentialité et plus encore</string>
+    <string name="setting_about_app">À propos de l\'application</string>
+
+    <string name="about_terms_conditions">Conditions générales</string>
+    <string name="about_privacy_policy">Politique de confidentialité</string>
+    <string name="about_create_issue">Signaler un problème</string>
+    <string name="about_view_on_github">Voir sur GitHub</string>
+    <string name="about_license">Licence</string>
+    <string name="message_new_version_available">Nouvelle version disponible</string>
+    <string name="message_using_latest_version">Vous utilisez la dernière version</string>
+
+    <string name="about_check_for_updates">Vérifier les mises à jour</string>
+    <string name="action_view">Voir</string>
+
+    <string name="setting_weather_sources_info">Il est recommandé d\'utiliser des sources distinctes pour chaque région en fonction du code pays</string>
+
+    <string name="setting_weather_animations">Animations météo</string>
+    <string name="setting_weather_animations_secondary">Animations dynamiques qui changent en fonction de la météo actuelle</string>
+
+    <string name="setting_froggy_layout">Disposition Froggy</string>
+    <string name="setting_froggy_layout_secondary">Affiche la carte classique avec la grenouille de Google Weather. Désactivez pour utiliser la carte plus récente de style Pixel Weather</string>
+    <string name="setting_layout">Disposition</string>
+    <string name="setting_weather_based_theme">Thème basé sur la météo</string>
+    <string name="setting_weather_based_theme_secondary">Adapte automatiquement les couleurs de l\'application en fonction des conditions météo actuelles.</string>
+
+    <string name="unit_pressure_mmhg">Millimètres de mercure</string>
+
 </resources>
-<!--<string name=""></string>-->
+
+    <!--<string name=""></string>-->
