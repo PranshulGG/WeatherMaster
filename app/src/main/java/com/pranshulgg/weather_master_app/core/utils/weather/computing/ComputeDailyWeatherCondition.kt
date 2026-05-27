@@ -54,17 +54,31 @@ fun computeDailyWeatherCondition(
         .fold(0) { acc, w -> acc + weight(w) }
 
     // Pick the top 2, we keep the order as is so they don't flip, ignore weak stuff
-    val topTwo = counts
+//    val topTwo = counts
+//        .filter { it.value > 2 }
+//        .keys
+//        .sortedBy { weather ->
+//            dataNormalized.indexOf(weather)
+//        }
+//        .take(2)
+//
+//    val topSecondary = counts.keys.sortedByDescending { it }
+
+    // Pick the top primary, we keep the order as is so they don't flip, ignore weak stuff
+    val topPrimary = counts
         .filter { it.value > 2 }
         .keys
         .sortedBy { weather ->
             dataNormalized.indexOf(weather)
         }
-        .take(2)
 
+        .take(1)
 
-    val primary = topTwo.getOrNull(0)
-    val secondary = topTwo.getOrNull(1)
+    // Pick the dominant one for secondary
+    val topSecondary = counts.keys.sortedByDescending { it }.take(1)
+
+    val primary = topPrimary.getOrNull(0)
+    val secondary = topSecondary.getOrNull(0)
 
 
     val primaryCount = primary?.let { counts[it] } ?: 0

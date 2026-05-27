@@ -64,7 +64,6 @@ enum class WeatherCondition {
 // ------- MAP TO ICONS -------
 
 fun WeatherCondition.toIcon(daily: WeatherDaily? = null, targetTimeMilli: Long): Int {
-
     val isDay = if (daily != null) {
         targetTimeMilli in daily.sunrise..daily.sunset
     } else {
