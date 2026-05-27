@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app.feature.main.ui
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -26,28 +27,27 @@ fun BackgroundGradient(weather: Weather?, isScrolled: Boolean = false) {
 
     val isDark = isThemeDark()
 
-    AnimatedContent(
-        targetState = isScrolled,
-        transitionSpec = { fadeIn() togetherWith fadeOut() }) { isScrolled ->
-        if (!isScrolled) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        brush = Brush.verticalGradient(
-                            backgroundGradients(weather, isDark).gradient,
-                            startY = 0f,
-                            endY = 1000f
-                        )
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = backgroundGradients(weather, isDark).scrollColor)
+    )
+    AnimatedVisibility(
+        visible = !isScrolled,
+        enter = fadeIn(), exit = fadeOut()
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    brush = Brush.verticalGradient(
+                        backgroundGradients(weather, isDark).gradient,
+                        startY = 0f,
+                        endY = 1000f
                     )
-            )
-        } else {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(color = backgroundGradients(weather, isDark).scrollColor)
-            )
-        }
+                )
+        )
+
     }
 
 }
