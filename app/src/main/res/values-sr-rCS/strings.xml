@@ -209,5 +209,6 @@
     <string name="setting_layout">Layout</string>
     <string name="setting_weather_based_theme">Weather based theme</string>
     <string name="setting_weather_based_theme_secondary">Automatically adapts app colors based on current weather conditions.</string>
+    <string name="unit_pressure_mmhg">Millimeters of mercury</string>
 </resources>
 <!--<string name=""></string>-->
