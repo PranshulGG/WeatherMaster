@@ -33,7 +33,6 @@ import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
 fun WeatherWidgetPillSmall(state: WidgetWeather?, size: DpSize) {
     val textColor = GlanceTheme.colors.primary
 
-    val iconSize: Dp = (size.height * 0.7f).coerceIn(32.dp, 70.dp)
     if (state != null)
         Box(
             modifier = GlanceModifier.fillMaxSize(),
@@ -73,7 +72,7 @@ fun WeatherWidgetPillSmall(state: WidgetWeather?, size: DpSize) {
                     contentDescription = null,
                     modifier = GlanceModifier
                         .size(
-                            iconSize
+                            58.dp
                         )
                 )
                 Spacer(modifier = GlanceModifier.width(40.dp))

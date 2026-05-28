@@ -33,7 +33,6 @@ import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
 @Composable
 fun WeatherWidgetPillTiny(state: WidgetWeather?, size: DpSize) {
     val textColor = GlanceTheme.colors.primary
-    val iconSize: Dp = (size.height * 0.7f).coerceIn(32.dp, 52.dp)
 
     if (state != null)
         Box(
@@ -73,7 +72,7 @@ fun WeatherWidgetPillTiny(state: WidgetWeather?, size: DpSize) {
                     provider = ImageProvider(state.currentIcon),
                     contentDescription = null,
                     modifier = GlanceModifier
-                        .size(iconSize)
+                        .size(32.dp)
                 )
                 Spacer(modifier = GlanceModifier.width(24.dp))
             }
