@@ -3,6 +3,8 @@ package com.pranshulgg.weather_master_app.core.di
 import android.content.Context
 import com.pranshulgg.weather_master_app.core.network.github.GithubApi
 import com.pranshulgg.weather_master_app.core.network.github.GithubRepository
+import com.pranshulgg.weather_master_app.core.network.sources.address.nominatim.NominatimApi
+import com.pranshulgg.weather_master_app.core.network.sources.address.nominatim.json.NominatimRepository
 import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo.OpenMeteoAqiApi
 import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo.OpenMeteoAqiRepository
 import com.pranshulgg.weather_master_app.core.network.sources.search.geonames.GeoNamesSearchApi
@@ -52,8 +54,9 @@ object AppModule {
     fun provideLocationsRepository(
         dao: LocationsDao,
         airQualityDao: AirQualityDao,
+        nominatimRepository: NominatimRepository,
         @ApplicationContext context: Context
-    ): LocationsRepository = LocationsRepository(dao, airQualityDao, context)
+    ): LocationsRepository = LocationsRepository(dao, airQualityDao, context, nominatimRepository)
 
 
     @Provides
@@ -81,4 +84,9 @@ object AppModule {
     fun provideGithubRepository(
         api: GithubApi
     ): GithubRepository = GithubRepository(api)
+
+    @Provides
+    @Singleton
+    fun provideNominatimRepository(api: NominatimApi): NominatimRepository =
+        NominatimRepository(api)
 }
