@@ -6,6 +6,7 @@ import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnit
 import com.pranshulgg.weather_master_app.core.prefs.AppPrefsState
+import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
 import com.pranshulgg.weather_master_app.core.utils.formatters.to12HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.formatters.to24HourTimeString
 import kotlin.math.roundToInt
@@ -14,16 +15,16 @@ import kotlin.math.roundToInt
 // Pretty basic for now
 fun getHeadline(
     summaryData: SummaryData,
-    prefsState: AppPrefsState,
     zoneId: String,
     units: WeatherUnits,
-    context: Context
+    context: Context,
 ): String {
 
     val rain = summaryData.rain
     val snow = summaryData.snow
     val peakUv = summaryData.uv
-    val is24hr = prefsState.is24HrTimeFormat
+    val is24hr = PreferencesHelper.getBool("is24HrTimeFormat") ?: true
+
     val peakRainyAt = if (is24hr) to24HourTimeString(rain.at, zoneId) else to12HourTimeString(
         rain.at,
         zoneId

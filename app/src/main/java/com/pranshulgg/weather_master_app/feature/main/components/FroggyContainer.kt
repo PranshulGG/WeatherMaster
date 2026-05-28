@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app.feature.main.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -20,6 +21,8 @@ fun FroggyContainer(weather: Weather) {
             )
         ),
         contentDescription = "",
-        modifier = Modifier.padding(top = 8.dp)
+        modifier = Modifier
+            .padding(top = 8.dp)
+            .fillMaxWidth()
     )
 }
