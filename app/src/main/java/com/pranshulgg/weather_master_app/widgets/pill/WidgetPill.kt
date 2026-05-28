@@ -4,11 +4,9 @@ import android.content.Context
 import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
-import androidx.glance.ColorFilter
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
-import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalSize
 import androidx.glance.action.actionStartActivity
@@ -34,10 +32,6 @@ import com.pranshulgg.weather_master_app.widgets.pill.ui.WeatherWidgetPillMedium
 import com.pranshulgg.weather_master_app.widgets.pill.ui.WeatherWidgetPillNormal
 import com.pranshulgg.weather_master_app.widgets.pill.ui.WeatherWidgetPillSmall
 import com.pranshulgg.weather_master_app.widgets.pill.ui.WeatherWidgetPillTiny
-import com.pranshulgg.weather_master_app.widgets.weather.ui.WeatherWidgetMedium
-import com.pranshulgg.weather_master_app.widgets.weather.ui.WeatherWidgetNormal
-import com.pranshulgg.weather_master_app.widgets.weather.ui.WeatherWidgetSmall
-import com.pranshulgg.weather_master_app.widgets.weather.ui.WeatherWidgetTiny
 import com.pranshulgg.weather_master_app.widgets.weather.ui.horizontal.WeatherWidgetHorizontalLarge
 import com.pranshulgg.weather_master_app.widgets.weather.ui.horizontal.WeatherWidgetHorizontalMedium
 import com.pranshulgg.weather_master_app.widgets.weather.ui.horizontal.WeatherWidgetHorizontalSmall
@@ -100,9 +94,9 @@ class WidgetPill : GlanceAppWidget() {
                     }
                 } else {
                     when (widgetParams.size) {
-                        WidgetSize.TINY -> WeatherWidgetPillTiny(state)
-                        WidgetSize.SMALL -> WeatherWidgetPillSmall(state)
-                        WidgetSize.MEDIUM -> WeatherWidgetPillMedium(state)
+                        WidgetSize.TINY -> WeatherWidgetPillTiny(state, size)
+                        WidgetSize.SMALL -> WeatherWidgetPillSmall(state, size)
+                        WidgetSize.MEDIUM -> WeatherWidgetPillMedium(state, size)
                         WidgetSize.LARGE -> WeatherWidgetPillNormal(state)
                     }
                 }

@@ -29,11 +29,12 @@ import com.pranshulgg.weather_master_app.widgets.weather.components.WidgetMinMax
 
 
 @Composable
-fun WeatherWidgetNormal(state: WidgetWeather?) {
+fun WeatherWidgetNormal(state: WidgetWeather?, size: DpSize) {
 
     val textColor = GlanceTheme.colors.onSurface
     val textColorVariant = GlanceTheme.colors.onSurfaceVariant
-
+    val itemWidth = 50.dp
+    val count = (size.width / itemWidth).toInt().coerceIn(1, state?.hourly?.size)
     if (state != null)
         Column(
             modifier = GlanceModifier.fillMaxSize().padding(16.dp),
@@ -87,7 +88,7 @@ fun WeatherWidgetNormal(state: WidgetWeather?) {
                 horizontalAlignment = Alignment.End,
                 modifier = GlanceModifier.fillMaxWidth()
             ) {
-                state.hourly.take(6).forEach {
+                state.hourly.take(count).forEach {
                     WidgetHourlyItem(
                         it.time,
                         it.temp,

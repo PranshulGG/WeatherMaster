@@ -6,15 +6,24 @@ import androidx.compose.ui.unit.dp
 object WidgetSizePoints {
 
     val SIZES = setOf(
-        DpSize(140.dp, 40.dp), // HORIZONTALLY TINY
-        DpSize(220.dp, 40.dp), // HORIZONTALLY SMALL
-        DpSize(301.dp, 40.dp), // HORIZONTALLY MEDIUM
-        DpSize(382.dp, 40.dp), // HORIZONTALLY LARGE
+        DpSize(140.dp, 40.dp),
+        DpSize(220.dp, 40.dp),
+        DpSize(301.dp, 40.dp),
+        DpSize(382.dp, 40.dp),
 
-        DpSize(60.dp, 40.dp),// VERTICALLY TINY
-        DpSize(140.dp, 208.dp), // VERTICALLY SMALL
-        DpSize(220.dp, 208.dp), // VERTICALLY MEDIUM
-        DpSize(301.dp, 208.dp), // VERTICALLY LARGE
+        DpSize(120.dp, 40.dp),
+        DpSize(200.dp, 40.dp),
+        DpSize(280.dp, 40.dp),
+        DpSize(360.dp, 40.dp),
+
+        DpSize(60.dp, 40.dp),
+
+        DpSize(140.dp, 208.dp),
+        DpSize(220.dp, 208.dp),
+        DpSize(301.dp, 208.dp),
+
+        DpSize(120.dp, 188.dp),
+        DpSize(200.dp, 188.dp),
+        DpSize(280.dp, 188.dp),
     )
-
 }

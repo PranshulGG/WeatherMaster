@@ -13,6 +13,7 @@ data class WidgetWeather(
     val hourly: List<WidgetHourlyItem>,
     val daily: List<WidgetDailyItem>,
     val locationName: String,
+    val summary: String
 )
 
 @Serializable

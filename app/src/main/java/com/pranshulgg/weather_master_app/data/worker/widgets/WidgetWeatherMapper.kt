@@ -13,6 +13,7 @@ import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
 import com.pranshulgg.weather_master_app.core.utils.formatters.to12HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.formatters.to24HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.formatters.toWeekdayString
+import com.pranshulgg.weather_master_app.core.utils.weather.computing.summary.computeDaySummary
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findHourlyIndexForTime
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findMatchingDaily
 import com.pranshulgg.weather_master_app.widgets.model.WidgetDailyItem
@@ -25,9 +26,8 @@ import kotlin.math.roundToInt
 fun widgetWeatherMapper(
     weather: Weather,
     applicationContext: Context,
-    units: WeatherUnits,
-
-    ): String {
+    units: WeatherUnits
+): String {
 
     // Map everything
     val timezone = weather.location.timezone
@@ -52,6 +52,8 @@ fun widgetWeatherMapper(
     val hourlyStartIndex = findHourlyIndexForTime(weather.hourly.map { it.time })
 
     val is24hr = PreferencesHelper.getBool("is24HrTimeFormat") ?: true
+
+    val daySummary = computeDaySummary(weather, applicationContext, 0, units)
 
 
     val hourly = weather.hourly
@@ -105,6 +107,7 @@ fun widgetWeatherMapper(
         currentIcon = currentIcon,
         currentFrog = currentFrogIcon,
         locationName = weather.location.name,
+        summary = daySummary
     )
 
     // Convert to string

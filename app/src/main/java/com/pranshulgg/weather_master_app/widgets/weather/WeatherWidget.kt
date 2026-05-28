@@ -84,7 +84,7 @@ class WeatherWidget : GlanceAppWidget() {
                         WidgetSize.TINY -> WeatherWidgetTiny(state)
                         WidgetSize.SMALL -> WeatherWidgetSmall(state)
                         WidgetSize.MEDIUM -> WeatherWidgetMedium(state)
-                        WidgetSize.LARGE -> WeatherWidgetNormal(state)
+                        WidgetSize.LARGE -> WeatherWidgetNormal(state, size)
                     }
                 }
             }

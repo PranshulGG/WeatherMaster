@@ -2,6 +2,8 @@ package com.pranshulgg.weather_master_app.widgets.pill.ui
 
 import android.os.Build
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.ColorFilter
@@ -16,7 +18,9 @@ import androidx.glance.layout.Box
 import androidx.glance.layout.Column
 import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
+import androidx.glance.layout.fillMaxHeight
 import androidx.glance.layout.fillMaxSize
+import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
@@ -29,9 +33,9 @@ import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
 
 
 @Composable
-fun WeatherWidgetPillMedium(state: WidgetWeather?) {
+fun WeatherWidgetPillMedium(state: WidgetWeather?, size: DpSize) {
     val textColor = GlanceTheme.colors.primary
-    val textColorVariant = GlanceTheme.colors.onSurfaceVariant
+    val iconSize: Dp = (size.height * 0.7f).coerceIn(54.dp, 120.dp)
 
     if (state != null)
         Box(
@@ -53,21 +57,28 @@ fun WeatherWidgetPillMedium(state: WidgetWeather?) {
                     style = TextStyle(
                         color = textColor,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 68.sp,
+                        fontSize = 70.sp,
                     ),
-                    modifier = GlanceModifier.padding(start = 22.dp)
+                    modifier = GlanceModifier.padding(start = 25.dp)
                 )
 
-                Spacer(modifier = GlanceModifier.height(48.dp))
+                Spacer(modifier = GlanceModifier.height(60.dp))
             }
-
-            Image(
-                provider = ImageProvider(state.currentIcon),
-                contentDescription = null,
-                modifier = GlanceModifier
-                    .size(140.dp)
-                    .padding(top = 60.dp, end = 60.dp)
-            )
+            Row(
+                modifier = GlanceModifier.fillMaxWidth().fillMaxHeight()
+                    .padding(top = 76.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    provider = ImageProvider(state.currentIcon),
+                    contentDescription = null,
+                    modifier = GlanceModifier
+                        .size(iconSize)
+                )
+                Spacer(modifier = GlanceModifier.width(54.dp))
+            }
+//            )
         }
 }
 

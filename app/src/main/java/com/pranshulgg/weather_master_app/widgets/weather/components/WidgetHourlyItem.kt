@@ -31,7 +31,7 @@ fun WidgetHourlyItem(time: String, temp: String, icon: Int, isSmall: Boolean = f
             style = TextStyle(
                 color = GlanceTheme.colors.onSurface,
                 fontWeight = FontWeight.Medium,
-                fontSize = if (isSmall) 14.sp else 16.sp
+                fontSize = if (isSmall) 14.sp else 15.sp
             )
         )
         Spacer(GlanceModifier.height(3.dp))
@@ -45,7 +45,7 @@ fun WidgetHourlyItem(time: String, temp: String, icon: Int, isSmall: Boolean = f
             time,
             style = TextStyle(
                 color = GlanceTheme.colors.onSurfaceVariant,
-                fontWeight = FontWeight.Medium, fontSize = if (isSmall) 14.sp else 16.sp
+                fontWeight = FontWeight.Medium, fontSize = if (isSmall) 14.sp else 15.sp
             )
         )
     }

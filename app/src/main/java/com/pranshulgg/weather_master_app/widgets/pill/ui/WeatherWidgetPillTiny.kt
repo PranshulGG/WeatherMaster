@@ -1,6 +1,8 @@
 package com.pranshulgg.weather_master_app.widgets.pill.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.ColorFilter
@@ -14,6 +16,7 @@ import androidx.glance.layout.Box
 import androidx.glance.layout.Column
 import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
+import androidx.glance.layout.fillMaxHeight
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
@@ -28,9 +31,9 @@ import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
 
 @Composable
-fun WeatherWidgetPillTiny(state: WidgetWeather?) {
+fun WeatherWidgetPillTiny(state: WidgetWeather?, size: DpSize) {
     val textColor = GlanceTheme.colors.primary
-    val textColorVariant = GlanceTheme.colors.onSurfaceVariant
+    val iconSize: Dp = (size.height * 0.7f).coerceIn(32.dp, 52.dp)
 
     if (state != null)
         Box(
@@ -60,13 +63,21 @@ fun WeatherWidgetPillTiny(state: WidgetWeather?) {
                 Spacer(modifier = GlanceModifier.height(10.dp))
             }
 
-            Image(
-                provider = ImageProvider(state.currentIcon),
-                contentDescription = null,
-                modifier = GlanceModifier
-                    .size(48.dp)
-                    .padding(top = 14.dp, end = 14.dp)
-            )
+            Row(
+                modifier = GlanceModifier.fillMaxWidth().fillMaxHeight()
+                    .padding(top = 22.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    provider = ImageProvider(state.currentIcon),
+                    contentDescription = null,
+                    modifier = GlanceModifier
+                        .size(iconSize)
+                )
+                Spacer(modifier = GlanceModifier.width(24.dp))
+            }
+
         }
 }
 
