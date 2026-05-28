@@ -258,5 +258,7 @@
     <string name="summary_temp_cold_template_1">预计全天天气寒冷。</string>
     <string name="summary_temp_cold_template_2">气温持续偏低，寒冷天气将持续。</string>
     <string name="summary_temp_cold_template_3">极寒气温将保持在 %1$s 左右。</string>
+    <string name="weather_summary">Summary</string>
+    <string name="about_changelog">Changelog</string>
 </resources>
 <!--<string name=""></string>-->
