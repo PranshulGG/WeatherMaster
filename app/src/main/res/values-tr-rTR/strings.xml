@@ -200,7 +200,7 @@
     <string name="action_view">Görüntüle</string>
     <string name="setting_weather_sources_info">Her bölge için ülke koduna göre farklı kaynaklar seçilmesi önerilir</string>
     <string name="setting_weather_animations">Hava durumu animasyonu</string>
-    <string name="setting_weather_animations_secondary">Hava durumuna göre değişen dinamik animasyonlar</string>
+    <string name="setting_weather_animations_secondary">Canvas animations that change based on the current weather</string>
     <string name="setting_froggy_layout">Kurbağa maskotu görünümü</string>
     <string name="setting_froggy_layout_secondary">Klasik Google kurbağalı kartını gösterir. Daha yeni olan Pixel tarzı karta geçmek için bu ayarı kapatın</string>
     <string name="setting_layout">Arayüz düzeni</string>
