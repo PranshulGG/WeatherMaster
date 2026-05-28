@@ -206,7 +206,7 @@
     <string name="action_view">Podgląd</string>
     <string name="setting_weather_sources_info">Osobne źródła dla każdego regionu są zalecane bazując na kodzie państwa</string>
     <string name="setting_weather_animations">Animacje pogody</string>
-    <string name="setting_weather_animations_secondary">Animacje, które zmieniają się w zależności od aktualnej pogody</string>
+    <string name="setting_weather_animations_secondary">Canvas animations that change based on the current weather</string>
     <string name="setting_froggy_layout">Żabi wygląd</string>
     <string name="setting_froggy_layout_secondary">Wyświetla klasyczny wygląd karty pogody Google z żabą. Wyłącz, aby używać nowszej karty w stylu Pixel Weather</string>
     <string name="setting_layout">Układ</string>
