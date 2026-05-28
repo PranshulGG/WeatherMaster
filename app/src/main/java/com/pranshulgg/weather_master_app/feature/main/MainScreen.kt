@@ -63,11 +63,7 @@ fun MainScreen(navController: NavController) {
     val context = LocalContext.current
     val activeLocation = uiState.activeLocation
     val density = LocalDensity.current
-    val widthDp = with(density) {
-        LocalWindowInfo.current.containerSize.width.toDp()
-    }
 
-    val isTabletLike = widthDp > 600.dp
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
 
@@ -99,20 +95,14 @@ fun MainScreen(navController: NavController) {
                 onLocationSelect = {
                     if (activeLocation == it) return@LocationsScreen
                     weatherViewModel.setLoading(true)
-                    if (!isTabletLike) {
-                        scope.launch {
-                            drawerState.close() // wait until drawer fully closes
-                            weatherViewModel.setActiveLocation(it)
-                        }
-                    } else {
+                    scope.launch {
+                        drawerState.close() // wait until drawer fully closes
                         weatherViewModel.setActiveLocation(it)
                     }
                 },
-                isTabletLike
             )
         },
         drawerState = drawerState,
-        isTabletLike = isTabletLike,
         content = {
             MainScreenScaffold(
                 navController,
@@ -130,7 +120,6 @@ fun MainScreen(navController: NavController) {
                 onEditLocation = {
                     viewModel.showWeatherSourcesForLocationSheet(uiState.isLoading)
                 },
-                isTabletLike,
                 context,
                 onWeatherSourceInfoClick = viewModel::showWeatherSourcesInfoForLocationSheet
             )

@@ -26,11 +26,10 @@ fun SummaryCard(
     weather: Weather,
     dailyIndex: Int = 0,
     context: Context,
-    prefs: AppPrefsState,
     units: WeatherUnits
 ) {
 
-    val summary = computeDaySummary(weather, context, prefs, dailyIndex, units)
+    val summary = computeDaySummary(weather, context, dailyIndex, units)
 
     Surface(
         color = MaterialTheme.colorScheme.surface,
@@ -43,7 +42,7 @@ fun SummaryCard(
                 .fillMaxWidth()
         ) {
 
-            CardsHeader("Summary", R.drawable.article_24px)
+            CardsHeader(stringResource(R.string.weather_summary), R.drawable.article_24px)
             Gap(8.dp)
             Text(
                 summary,

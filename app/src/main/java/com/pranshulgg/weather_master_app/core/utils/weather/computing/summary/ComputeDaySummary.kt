@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app.core.utils.weather.computing.summary
 
 import android.content.Context
+import android.util.Log
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherHourly
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
@@ -13,7 +14,6 @@ import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findMatchin
 fun computeDaySummary(
     weather: Weather,
     context: Context,
-    prefsState: AppPrefsState,
     dailyIndex: Int = 0,
     units: WeatherUnits
 ): String {
@@ -55,7 +55,6 @@ fun computeDaySummary(
             condition = condition,
             snow = snow,
         ),
-        prefsState,
         weather.location.timezone,
         units,
         context
@@ -66,9 +65,10 @@ fun computeDaySummary(
 
 private fun findRainStarting(hourly: List<WeatherHourly>): SummaryPeakRain {
 
-    val rainStartIndex = hourly.indexOfFirst { it.rain > 0.0 }.coerceIn(0, hourly.size)
+    val rainStartIndex = hourly.indexOfFirst { it.rain > 0.0 }.plus(1).coerceIn(0, hourly.size - 1)
 
-    val data = hourly[rainStartIndex + 1]
+
+    val data = hourly[rainStartIndex]
     return SummaryPeakRain(
         at = data.time,
         amount = data.rain,
@@ -78,9 +78,10 @@ private fun findRainStarting(hourly: List<WeatherHourly>): SummaryPeakRain {
 
 private fun findSnowStarting(hourly: List<WeatherHourly>): SummaryPeakSnow {
 
-    val snowStartIndex = hourly.indexOfFirst { (it.snowfall ?: 0.0) > 0.0 }.coerceIn(0, hourly.size)
+    val snowStartIndex =
+        hourly.indexOfFirst { (it.snowfall ?: 0.0) > 0.0 }.plus(1).coerceIn(0, hourly.size - 1)
 
-    val data = hourly[snowStartIndex + 1]
+    val data = hourly[snowStartIndex]
     return SummaryPeakSnow(
         at = data.time,
         amount = data.snowfall ?: 0.0,

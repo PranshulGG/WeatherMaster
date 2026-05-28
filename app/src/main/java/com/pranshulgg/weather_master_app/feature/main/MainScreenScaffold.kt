@@ -53,7 +53,6 @@ fun MainScreenScaffold(
     uiState: MainScreenWeatherUiState,
     onRefresh: () -> Unit,
     onEditLocation: () -> Unit,
-    isTabletLike: Boolean = false,
     context: Context,
     onWeatherSourceInfoClick: () -> Unit
 ) {
@@ -136,7 +135,6 @@ fun MainScreenScaffold(
                             navController,
                             drawerState,
                             uiState.activeLocation,
-                            isTabletLike,
                             onEditLocation
                         )
                         if (weather != null) {
@@ -161,7 +159,6 @@ fun MainScreenScaffold(
                                 SummaryCard(
                                     weather,
                                     context = context,
-                                    prefs = prefs,
                                     units = units
                                 )
                                 HourlyCard(weather, units)

@@ -40,7 +40,6 @@ fun MainSearchBar(
     navController: NavController,
     drawerState: DrawerState,
     activeLocation: Location?,
-    isTabletLike: Boolean,
     onEditLocation: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
@@ -79,9 +78,7 @@ fun MainSearchBar(
             .clickable(
                 enabled = isFroggyLayout,
                 onClick = {
-                    if (!isTabletLike) {
-                        showDrawer()
-                    }
+                    showDrawer()
                 },
             ),
 
@@ -97,12 +94,10 @@ fun MainSearchBar(
 
             Tooltip("Show menu", preferredPosition = TooltipAnchorPosition.Below) {
                 IconButton(onClick = {
-                    if (!isTabletLike) {
-                        showDrawer()
-                    }
+                    showDrawer()
                 }) {
                     Symbol(
-                        if (isTabletLike) R.drawable.location_on_24px else R.drawable.menu_24px,
+                        R.drawable.menu_24px,
                         color = if (isFroggyLayout) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface
                     )
                 }
