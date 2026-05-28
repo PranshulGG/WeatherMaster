@@ -111,11 +111,15 @@ fun UnitsScreen(navController: NavController) {
                             options = listOf(
                                 DialogOption(
                                     PressureUnit.HPA.toString(),
-                                    PressureUnit.HPA.toName(context = context)
+                                    PressureUnit.HPA.toName(context = context),
                                 ),
                                 DialogOption(
                                     PressureUnit.INHG.toString(),
                                     PressureUnit.INHG.toName(context = context)
+                                ),
+                                DialogOption(
+                                    PressureUnit.MMHG.toString(),
+                                    PressureUnit.MMHG.toName(context = context)
                                 )
 
                             ),
