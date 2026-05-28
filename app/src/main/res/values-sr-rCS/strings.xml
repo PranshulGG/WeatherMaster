@@ -203,7 +203,7 @@
     <string name="action_view">View</string>
     <string name="setting_weather_sources_info">Separate sources for each region are recommended based on the country code</string>
     <string name="setting_weather_animations">Weather animations</string>
-    <string name="setting_weather_animations_secondary">Canvas animations that chance based on the current weather</string>
+    <string name="setting_weather_animations_secondary">Canvas animations that change based on the current weather</string>
     <string name="setting_froggy_layout">Froggy layout</string>
     <string name="setting_froggy_layout_secondary">Show the classic Google Weather frog card. Turn off to use the newer Pixel Weather style card</string>
     <string name="setting_layout">Layout</string>
