@@ -1,9 +1,11 @@
 package com.pranshulgg.weather_master_app.feature.locations
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import coil.util.Logger
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.toMessageRes
@@ -63,6 +65,7 @@ class LocationsScreenViewModel @Inject constructor(
         _uiState.value = _uiState.value.copy(isDeviceLocationLoading = true)
         viewModelScope.launch {
             try {
+                Log.d("COOL HERE", "CALLED HERE HERE")
                 locationsRepo.saveDeviceLocation()
             } catch (e: Exception) {
                 if (e is CancellationException) throw e

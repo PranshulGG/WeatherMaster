@@ -32,13 +32,9 @@ class GetDeviceLocation {
     private var timeoutHandler: Handler? = null
     private var timeoutRunnable: Runnable? = null
 
-    private val timeoutSecs = 10_000L // 10 seconds
-
+    private val timeoutMillis = 20_000L
     private fun getProvider(lm: LocationManager): String {
         return when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
-                    lm.allProviders.contains(LocationManager.FUSED_PROVIDER) -> LocationManager.FUSED_PROVIDER
-
             lm.allProviders.contains(LocationManager.NETWORK_PROVIDER) -> LocationManager.NETWORK_PROVIDER
             lm.allProviders.contains(LocationManager.GPS_PROVIDER) -> LocationManager.GPS_PROVIDER
             else -> LocationManager.PASSIVE_PROVIDER
@@ -95,6 +91,9 @@ class GetDeviceLocation {
     ) {
 
         val lastKnown = lm.getLastKnownLocation(provider)
+            ?: lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+            ?: lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+            ?: lm.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
 
         if (lastKnown != null) {
             timeoutHandler?.removeCallbacks(timeoutRunnable!!)
@@ -127,9 +126,10 @@ class GetDeviceLocation {
 
         lm.requestLocationUpdates(
             provider,
-            5000L,
-            5f,
-            locationListener!!
+            0L,
+            0f,
+            locationListener!!,
+            Looper.getMainLooper()
         )
 
         timeoutHandler = Handler(Looper.getMainLooper())
@@ -139,7 +139,7 @@ class GetDeviceLocation {
             onTimeout()
         }
 
-        timeoutHandler?.postDelayed(timeoutRunnable!!, timeoutSecs)
+        timeoutHandler?.postDelayed(timeoutRunnable!!, timeoutMillis)
     }
 
 

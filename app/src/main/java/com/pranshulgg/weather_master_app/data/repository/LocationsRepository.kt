@@ -1,11 +1,13 @@
 package com.pranshulgg.weather_master_app.data.repository
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Transaction
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.network.sources.address.nominatim.json.NominatimRepository
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
 import com.pranshulgg.weather_master_app.data.local.mapper.locations.toDomain
@@ -17,16 +19,20 @@ import com.pranshulgg.weather_master_app.feature.intro.toDomain
 import dagger.hilt.android.qualifiers.ApplicationContext
 import jakarta.inject.Inject
 import kotlinx.coroutines.CancellableContinuation
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 import kotlin.coroutines.resumeWithException
 
 class LocationsRepository @Inject constructor(
     private val dao: LocationsDao,
     private val airQualityDao: AirQualityDao,
-    @param:ApplicationContext private val context: Context
+    @param:ApplicationContext private val context: Context,
+    private val nominatimRepository: NominatimRepository
 ) {
+    private val LOCATION_UPDATE_THRESHOLD_METERS = 1000f // 1000m
 
     class Callbacks {
         fun onSuccess(cont: CancellableContinuation<DeviceLocation>, result: DeviceLocation) {
@@ -93,10 +99,12 @@ class LocationsRepository @Inject constructor(
         return dao.getWeatherForLocation(locationId).toDomain()
     }
 
+    val getDeviceLocation = GetDeviceLocation()
+
     suspend fun updateDeviceLocationPosition() {
 
         val location = suspendCancellableCoroutine { cont ->
-            GetDeviceLocation().getDeviceLocation(
+            getDeviceLocation.getDeviceLocation(
                 context,
                 onTimeout = {
                     callback.onTimeout(cont)
@@ -105,20 +113,43 @@ class LocationsRepository @Inject constructor(
             }
         }
 
-        if (location.latitude == null || location.longitude == null) {
+
+        val newLat = location.latitude ?: return
+        val newLon = location.longitude ?: return
+
+        val currentLocation = dao.getDeviceLocation()
+
+
+        val results = FloatArray(1)
+
+        android.location.Location.distanceBetween(
+            currentLocation.lat,
+            currentLocation.lon,
+            newLat,
+            newLon,
+            results
+        )
+
+        val distanceInMeters = results[0]
+        // Only update the location if needed
+        if (distanceInMeters < LOCATION_UPDATE_THRESHOLD_METERS) {
             return
         }
 
+        val address = nominatimRepository.getAddress(location.latitude, location.longitude)
 
-        val formattedLatitude = kotlin.math.round(location.latitude * 100000) / 100000
-        val formattedLongitude = kotlin.math.round(location.longitude * 100000) / 100000
-
-        dao.updateDeviceLocationPosition(formattedLatitude, formattedLongitude)
+        dao.updateDeviceLocation(
+            newLat,
+            newLon,
+            address?.city ?: "$newLat, $newLon",
+            address?.country ?: ""
+        )
     }
 
     suspend fun saveDeviceLocation() {
+
         val location = suspendCancellableCoroutine { cont ->
-            GetDeviceLocation().getDeviceLocation(
+            getDeviceLocation.getDeviceLocation(
                 context,
                 onTimeout = {
                     callback.onTimeout(cont)
@@ -129,7 +160,22 @@ class LocationsRepository @Inject constructor(
         if (location.latitude == null || location.longitude == null) {
             throw AppException.CurrentLocationUnavailable()
         }
-        saveLocation(location.toDomain(context))
+
+
+        val address = nominatimRepository.getAddress(location.latitude, location.longitude)
+
+        if (address != null && address.city != null) {
+            saveLocation(
+                location.toDomain(context).copy(
+                    name = address.city,
+                    country = address.country
+                )
+            )
+        } else {
+            saveLocation(
+                location.toDomain(context)
+            )
+        }
     }
 
     fun getWeatherForAllLocations(): Flow<List<Weather>> {

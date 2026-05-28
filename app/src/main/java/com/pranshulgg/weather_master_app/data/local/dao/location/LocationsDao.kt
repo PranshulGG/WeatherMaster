@@ -36,8 +36,8 @@ interface LocationsDao {
     @Query("SELECT * FROM weather_locations WHERE isDefault = 1 LIMIT 1")
     fun getDefaultLocation(): Flow<WeatherLocationEntity?>
 
-    @Query("UPDATE weather_locations SET lat = :lat, lon = :lon WHERE isDeviceLocation = 1")
-    suspend fun updateDeviceLocationPosition(lat: Double, lon: Double)
+    @Query("UPDATE weather_locations SET lat = :lat, lon = :lon, name = :name, country = :country WHERE isDeviceLocation = 1")
+    suspend fun updateDeviceLocation(lat: Double, lon: Double, name: String, country: String)
 
     @Transaction
     @Query("SELECT * FROM weather_locations WHERE id = :locationId LIMIT 1")
@@ -62,4 +62,7 @@ interface LocationsDao {
 
     @Query("SELECT * FROM weather_locations ORDER BY isDefault DESC")
     suspend fun getLocationsOnce(): List<WeatherLocationEntity>
+
+    @Query("SELECT * FROM weather_locations WHERE isDeviceLocation = 1 LIMIT 1")
+    suspend fun getDeviceLocation(): WeatherLocationEntity
 }

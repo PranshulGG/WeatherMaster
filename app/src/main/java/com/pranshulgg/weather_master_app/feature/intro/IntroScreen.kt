@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.R
+import com.pranshulgg.weather_master_app.core.model.domain.location.Address
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
@@ -267,7 +268,7 @@ suspend fun DeviceLocation.toDomain(context: Context): Location {
 
     return Location(
         id = UuidGenerator.generateId(),
-        name = "$formattedLatitude, $formattedLongitude", // TODO: Reverse geocoding support
+        name = "$formattedLatitude, $formattedLongitude",
         latitude = formattedLatitude,
         longitude = formattedLongitude,
         country = "",
