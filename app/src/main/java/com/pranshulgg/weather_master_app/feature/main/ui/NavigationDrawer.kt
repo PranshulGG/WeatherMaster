@@ -10,18 +10,11 @@ fun NavigationDrawer(
     drawerContent: @Composable () -> Unit,
     content: @Composable () -> Unit,
     drawerState: DrawerState,
-    isTabletLike: Boolean
 ) {
 
-    if (isTabletLike) {
-        PermanentNavigationDrawer(
-            drawerContent = drawerContent
-        ) { content() }
-    } else {
-        DismissibleNavigationDrawer(
-            drawerState = drawerState,
-            drawerContent = drawerContent
-        ) { content() }
-    }
+    DismissibleNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = drawerContent
+    ) { content() }
 
 }

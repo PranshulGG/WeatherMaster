@@ -35,7 +35,7 @@ interface MetNorwayApi {
                     val request = chain.request().newBuilder()
                         .header(
                             "User-Agent",
-                            "WeatherMaster/3.0.0 (com.pranshulgg.weathermaster; pranshul.devmain@gmail.com)"
+                            "WeatherMaster (com.pranshulgg.weathermaster; pranshul.devmain@gmail.com)"
                         )
                         .build()
 

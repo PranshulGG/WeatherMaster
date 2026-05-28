@@ -35,7 +35,7 @@ import com.pranshulgg.weather_master_app.core.ui.theme.ShapeRadius
 fun PressureBlock(weather: Weather, units: WeatherUnits, context: Context) {
     val pressure = weather.current.pressureMsl
 
-    val pressureInhg = PressureUnit.HPA.convert(pressure!!, PressureUnit.INHG)
+    val pressureConverted = PressureUnit.HPA.convert(pressure!!, units.pressureUnit)
     val pressureHpa = weather.current.pressureMsl.toInt()
 
     val progressDrawable = when {
@@ -74,7 +74,7 @@ fun PressureBlock(weather: Weather, units: WeatherUnits, context: Context) {
             }
 
             Text(
-                if (units.pressureUnit == PressureUnit.INHG) "%.2f".format(pressureInhg) else "$pressureHpa",
+                if (units.pressureUnit != PressureUnit.HPA) "%.2f".format(pressureConverted) else "$pressureHpa",
                 style = MaterialTheme.typography.displaySmall,
                 modifier = Modifier
                     .align(Alignment.Center)

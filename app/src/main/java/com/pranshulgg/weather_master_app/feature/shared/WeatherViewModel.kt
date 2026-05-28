@@ -10,11 +10,13 @@ import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.domain.toMessageRes
+import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlock
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.airquality.AirQualityResult
 import com.pranshulgg.weather_master_app.core.network.github.GithubRepository
+import com.pranshulgg.weather_master_app.core.network.sources.address.nominatim.json.NominatimRepository
 import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo.OpenMeteoAqiRepository
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weather_master_app.data.provider.WeatherRepositoryProvider
@@ -120,8 +122,6 @@ class WeatherViewModel @Inject constructor(
         weatherJob = viewModelScope.launch {
 
             if (location.isDeviceLocation && isManualRefresh) {
-                // UPDATE POSITION (adds loading time)
-                // TODO: THIS IS TEMPORARY, HAS TO CHANGE LATER
                 handleDeviceLocation()
             }
 
