@@ -318,6 +318,8 @@
     <string name="summary_temp_cold_template_3">Very cold air will keep temperatures near %1$s.</string>
 
     <string name="weather_summary">Summary</string>
+    <string name="about_changelog">Changelog</string>
+
 
 </resources>
 
