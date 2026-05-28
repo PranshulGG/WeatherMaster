@@ -254,5 +254,7 @@
     <string name="summary_temp_cold_template_1">Cold weather is expected throughout the day.</string>
     <string name="summary_temp_cold_template_2">Temperatures will remain low with chilly conditions persisting.</string>
     <string name="summary_temp_cold_template_3">Very cold air will keep temperatures near %1$s.</string>
+    <string name="weather_summary">Summary</string>
+    <string name="about_changelog">Changelog</string>
 </resources>
 <!--<string name=""></string>-->
