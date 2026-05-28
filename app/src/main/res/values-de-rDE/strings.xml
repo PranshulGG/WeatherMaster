@@ -200,7 +200,7 @@
     <string name="action_view">Anzeigen</string>
     <string name="setting_weather_sources_info">Unterschiedliche Quellen für Regionen sind empfohlen basierend auf Ländercode</string>
     <string name="setting_weather_animations">Wetteranimationen</string>
-    <string name="setting_weather_animations_secondary">Chance auf Canvas-Animationen basierend auf dem aktuellen Wetter </string>
+    <string name="setting_weather_animations_secondary">Canvas animations that change based on the current weather</string>
     <string name="setting_froggy_layout">Froggy- Layout</string>
     <string name="setting_froggy_layout_secondary">Zeige die klassische Google Wetter Froschkarte. Schalte dies aus, um die neuere Pixel Wetter Style Karte zu verwenden</string>
     <string name="setting_layout">Layout</string>
