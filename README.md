@@ -1,5 +1,5 @@
 <div align="center">
-   <img src="preview/readme_app_icon.svg" alt="" width="150px">
+   <img src="preview/icon.png" alt="" width="150px">
 </div> 
 <h1 align="center">
  WeatherMaster
@@ -40,13 +40,11 @@
 # 👁️ Screenshots
 
 <div align="center">
-<img src="preview/prev_2.png"  width="250">
-<img src="preview/prev_3.png"  width="250">
-<img src="preview/prev_4.png"  width="250">
-<img src="preview/2.png"  width="250">
-<img src="preview/prev_5.png"  width="250">
-<img src="preview/prev_1.png"  width="250">
-<img src="" width="250">
+<img src="preview/preview_1.png"  width="250">
+<img src="preview/preview_2.png"  width="250">
+<img src="preview/preview_3.png"  width="250">
+<img src="preview/preview_4.png"  width="250">
+<img src="preview/preview_5.png"  width="250">
 
 </div>
 

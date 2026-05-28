@@ -1,0 +1,5 @@
+<p><i>WeatherMaster</i> inspired by the Google Pixel weather app, but with more features</p>
+<p><br><b>Features:</b></p>
+<br>
+<br>
+<p>Features both the Pixel Weather-inspired design and the original Froggy style, with summaries, multiple weather and search providers, personalization options, and more.</p>
