@@ -259,5 +259,9 @@
     <string name="summary_temp_cold_template_3">Çok soğuk hava dalgası sıcaklıkları %1$s civarında tutacak.</string>
     <string name="weather_summary">Günün özeti</string>
     <string name="about_changelog">Sürüm notları</string>
+    <string name="about">About</string>
+    <string name="weather_max_for_the_day">Max for the day</string>
+    <string name="weather_about_uv_index">The UV index is a measure of the level of ultraviolet radiation. The values of the index range from zero upward - the higher the UV index, the greater the potential for damage to the skin and eye, and the less time it takes for harm to occur</string>
+    <string name="text_scale">Scale</string>
 </resources>
 <!--<string name=""></string>-->
