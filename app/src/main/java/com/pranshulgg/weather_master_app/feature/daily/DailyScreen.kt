@@ -112,7 +112,9 @@ fun DailyScreen(navController: NavController, index: Int = 0, locationId: String
                     context,
                     uiState.blocks,
                     true,
-                    updatedBlockOrder = { viewModel.updateBlocksOrder(it) }, selectedIndex
+                    updatedBlockOrder = { viewModel.updateBlocksOrder(it) },
+                    selectedIndex,
+                    navController
                 )
 
                 Gap(WindowInsets.systemBars.asPaddingValues().calculateBottomPadding())

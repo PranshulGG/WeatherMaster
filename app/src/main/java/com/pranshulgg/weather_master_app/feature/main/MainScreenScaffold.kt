@@ -163,7 +163,14 @@ fun MainScreenScaffold(
                                 )
                                 HourlyCard(weather, units)
                                 DailyCard(weather, units, navController)
-                                WeatherBlocks(weather, airQuality, units, context, uiState.blocks)
+                                WeatherBlocks(
+                                    weather,
+                                    airQuality,
+                                    units,
+                                    context,
+                                    uiState.blocks,
+                                    navController = navController
+                                )
 
                                 CreditsBottomSection(
                                     weather,

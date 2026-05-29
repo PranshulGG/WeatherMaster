@@ -27,4 +27,10 @@ object NavRoutes {
     const val LICENSE = "LICENSE"
 
     const val SOURCES = "sources"
+
+    const val UV_INDEX = "uv_index"
+
+    fun blockScreen(block: String, index: Int, locationId: String): String {
+        return "$block/$index/$locationId"
+    }
 }

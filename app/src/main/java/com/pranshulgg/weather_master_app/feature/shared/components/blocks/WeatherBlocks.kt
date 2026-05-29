@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQuality
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlock
@@ -22,6 +23,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlockT
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.weather.PrecipitationUnit
 import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
+import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isCurrentAirQualitySafe
 import com.pranshulgg.weather_master_app.feature.shared.WeatherViewModel
 import sh.calvin.reorderable.DragGestureDetector
@@ -66,7 +68,8 @@ fun WeatherBlocks(
 
     // Need this so the daily screen can also update block order
     updatedBlockOrder: (List<WeatherBlock>) -> Unit = {},
-    dailyIndex: Int = 0
+    dailyIndex: Int = 0,
+    navController: NavController
 ) {
 
 
@@ -118,6 +121,12 @@ fun WeatherBlocks(
 
 
     val lazyGridState = rememberLazyGridState()
+
+    val onClickBlock: (String) -> Unit = {
+        navController.navigate(
+            NavRoutes.blockScreen(it, dailyIndex, weather.location.id)
+        )
+    }
 
 
     val reorderableState = rememberReorderableLazyGridState(
@@ -175,7 +184,8 @@ fun WeatherBlocks(
                             weather,
                             context,
                             isDaily,
-                            dailyIndex
+                            dailyIndex,
+                            onClickBlock = { onClickBlock(NavRoutes.UV_INDEX) }
                         )
 
                         WeatherBlockType.PRESSURE_BLOCK -> PressureBlock(weather, units, context)

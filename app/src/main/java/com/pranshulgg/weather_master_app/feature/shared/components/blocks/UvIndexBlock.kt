@@ -2,6 +2,7 @@ package com.pranshulgg.weather_master_app.feature.shared.components.blocks
 
 import android.content.Context
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -18,6 +19,8 @@ import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asAndroidPath
@@ -38,7 +41,13 @@ import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun UvIndexBlock(weather: Weather, context: Context, isDaily: Boolean, dailyIndex: Int) {
+fun UvIndexBlock(
+    weather: Weather,
+    context: Context,
+    isDaily: Boolean,
+    dailyIndex: Int,
+    onClickBlock: () -> Unit
+) {
     val color = MaterialTheme.colorScheme.surface
 
 
@@ -52,8 +61,13 @@ fun UvIndexBlock(weather: Weather, context: Context, isDaily: Boolean, dailyInde
             .aspectRatio(1f)
     ) {
         Surface(
-            modifier = Modifier.matchParentSize(),
             shape = MaterialShapes.Cookie12Sided.toShape(),
+            modifier = Modifier
+                .matchParentSize()
+                .clip(MaterialShapes.Cookie12Sided.toShape())
+                .clickable(
+                    onClick = onClickBlock
+                ),
             shadowElevation = ShadowElevation.level2,
             color = color
         ) {

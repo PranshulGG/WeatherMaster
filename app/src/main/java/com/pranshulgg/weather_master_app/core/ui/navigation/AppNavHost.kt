@@ -21,6 +21,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
+import com.pranshulgg.weather_master_app.feature.blocks.screens.UvIndexScreen
 import com.pranshulgg.weather_master_app.feature.daily.DailyScreen
 import com.pranshulgg.weather_master_app.feature.main.MainScreen
 import com.pranshulgg.weather_master_app.feature.search.SearchScreen
@@ -56,7 +57,12 @@ fun AppNavHost(
         ) {
             navigation(
                 route = "root",
-                startDestination = NavRoutes.MAIN
+//                startDestination = NavRoutes.MAIN
+                startDestination = NavRoutes.blockScreen(
+                    NavRoutes.UV_INDEX,
+                    0,
+                    "2695619c-c9cd-4faa-81ea-c963bda80521"
+                )
             ) {
                 composable(
                     NavRoutes.MAIN
@@ -136,7 +142,29 @@ fun AppNavHost(
                 ) {
                     WeatherSourcesScreen(navController)
                 }
+                composable(
+                    route = "{block}/{index}/{locationId}",
+                    arguments = listOf(
+                        navArgument("index") {
+                            type = NavType.IntType
+                            defaultValue = 0
+                        },
+                        navArgument("locationId") {
+                            type = NavType.StringType
+                        },
+                        navArgument("block") {
+                            type = NavType.StringType
+                        }
+                    )
+                ) { backStackEntry ->
+                    val index = backStackEntry.arguments?.getInt("index") ?: 0
+                    val locationId = backStackEntry.arguments?.getString("locationId")!!
+                    val block = backStackEntry.arguments?.getString("block")
 
+                    when (block) {
+                        NavRoutes.UV_INDEX -> UvIndexScreen(navController, index, locationId)
+                    }
+                }
             }
         }
 
