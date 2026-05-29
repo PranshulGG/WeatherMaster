@@ -11,7 +11,7 @@
     <string name="time_now">Jetzt</string>
     <string name="day_today">Heute</string>
     <string name="weather_refresh_delay">Bitte warte %1$d Minuten vor erneutem Aktualisieren</string>
-    <string name="error_generic">Ein Fehler ist aufgetreten. Bitte versuche es erneut</string>
+    <string name="error_generic">Ein Fehler ist aufgetreten. Bitte versuche es erneut.</string>
     <string name="weather_moon">Mond</string>
     <string name="weather_sun">So</string>
     <string name="weather_humidity">Luftfeuchtigkeit</string>
@@ -213,14 +213,14 @@
     <string name="summary_overview_template_4">Der Himmel bleibt den Großteil des Tages %1$s.</string>
     <string name="summary_rain_high_template_1">Sehr hohe Regenwahrscheinlichkeit um %1$s.</string>
     <string name="summary_rain_high_template_2">Zeitweise Regen erwartet gegen %1$s.</string>
-    <string name="summary_rain_high_template_3">Wet weather is likely around %1$s.</string>
+    <string name="summary_rain_high_template_3">Gegen %1$s ist mit nassem Wetter zu rechnen.</string>
     <string name="summary_rain_high_template_4">Einsetzender Dauerregen erwartet gegen %1$s.</string>
     <string name="summary_rain_medium_template_1">Es kann zu vereinzelten Regenschauern um %1$s kommen. </string>
     <string name="summary_rain_medium_template_2">Rain may develop near %1$s.</string>
     <string name="summary_rain_medium_template_3">Niederschlagsrisiko um %1$s.</string>
     <string name="summary_rain_medium_template_4">Intermittent rain is possible near %1$s.</string>
     <string name="summary_rain_low_template_1">A slight chance of rain remains near %1$s.</string>
-    <string name="summary_rain_low_template_2">Isolated showers may occur around %1$s.</string>
+    <string name="summary_rain_low_template_2">Einzelne Schauer können gegen %1$s auftreten.</string>
     <string name="summary_rain_low_template_3">Light rain is possible near %1$s.</string>
     <string name="summary_snow_high_template_1">Snowfall is highly likely around %1$s.</string>
     <string name="summary_snow_high_template_2">Periods of snow are expected near %1$s.</string>
@@ -235,9 +235,9 @@
     <string name="summary_snow_low_template_3">Light snow is possible later in the day.</string>
     <string name="summary_uv_extreme_template_1">UV exposure will reach extreme levels at %1$s.</string>
     <string name="summary_uv_extreme_template_2">Dangerously high UV levels are expected at %1$s.</string>
-    <string name="summary_uv_extreme_template_3">Very intense sunshine is expected at %1$s.</string>
+    <string name="summary_uv_extreme_template_3">Sehr hohe Sonnenstrahlung um %1$s erwartet.</string>
     <string name="summary_uv_high_template_1">UV levels at %1$s will remain high.</string>
-    <string name="summary_uv_high_template_2">Strong UV exposure is expected at %1$s.</string>
+    <string name="summary_uv_high_template_2">Starke UV-Strahlung um %1$s erwartet.</string>
     <string name="summary_uv_high_template_3">High UV conditions are expected through the afternoon at %1$s.</string>
     <string name="summary_uv_moderate_template_1">UV levels will stay moderate.</string>
     <string name="summary_uv_moderate_template_2">Moderate UV exposure is expected.</string>
@@ -245,7 +245,7 @@
     <string name="summary_temp_hot_template_1">Hot conditions are expected with temperatures near %1$s.</string>
     <string name="summary_temp_hot_template_2">Temperatures will remain very high throughout the day.</string>
     <string name="summary_temp_hot_template_3">Extreme heat is expected with lows near %1$s overnight.</string>
-    <string name="summary_temp_warm_template_1">Warm weather is expected with temperatures around %1$s.</string>
+    <string name="summary_temp_warm_template_1">Warmes Wetter mit Temperaturen um %1$s wird erwartet.</string>
     <string name="summary_temp_warm_template_2">Temperatures will stay comfortably warm through the day.</string>
     <string name="summary_temp_warm_template_3">Daytime temperatures will average near %1$s.</string>
     <string name="summary_temp_mild_template_1">Mild temperatures are expected throughout the day.</string>
@@ -257,7 +257,11 @@
     <string name="summary_temp_cold_template_1">Cold weather is expected throughout the day.</string>
     <string name="summary_temp_cold_template_2">Temperatures will remain low with chilly conditions persisting.</string>
     <string name="summary_temp_cold_template_3">Very cold air will keep temperatures near %1$s.</string>
-    <string name="weather_summary">Summary</string>
+    <string name="weather_summary">Zusammenfassung</string>
     <string name="about_changelog">Changelog</string>
+    <string name="about">About</string>
+    <string name="weather_max_for_the_day">Max for the day</string>
+    <string name="weather_about_uv_index">The UV index is a measure of the level of ultraviolet radiation. The values of the index range from zero upward - the higher the UV index, the greater the potential for damage to the skin and eye, and the less time it takes for harm to occur</string>
+    <string name="text_scale">Scale</string>
 </resources>
 <!--<string name=""></string>-->
