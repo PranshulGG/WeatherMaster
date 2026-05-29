@@ -171,19 +171,19 @@
     <string name="weather_snow_then_rain">雪转雨</string>
     <string name="error_refresh_waiting_before_action">请等待刷新完成</string>
     <string name="weather_total_amount">总量</string>
-    <string name="setting_background_updates">气象背景动态修正</string>
+    <string name="setting_background_updates">后台更新</string>
     <string name="setting_background_updates_secondary">更新间隔、电池优化、帮助</string>
     <string name="setting_notification_permission_req">需授予通知权限</string>
     <string name="setting_notification_permission_secondary">应用将在后台完成天气数据更新时，向用户推送通知提醒。</string>
-    <string name="setting_notification">气象通知</string>
+    <string name="setting_notification">通知</string>
     <string name="time_hours">%1$s 小时</string>
     <string name="time_hour">%1$s 小时</string>
-    <string name="info_already_ignoring_battery_opt">已豁免电池优化限制</string>
+    <string name="info_already_ignoring_battery_opt">已忽略电池优化</string>
     <string name="setting_additional">附加</string>
     <string name="setting_update_interval">更新间隔</string>
     <string name="setting_updates">数据更新</string>
-    <string name="setting_disable_battery_opt_title">关闭电池优化</string>
-    <string name="setting_disable_battery_opt_secondary">若后台更新功能异常失效，电池优化机制可能正在限制本应用运行。</string>
+    <string name="setting_disable_battery_opt_title">禁用电池优化</string>
+    <string name="setting_disable_battery_opt_secondary">若后台更新未正常工作，可能是电池优化限制了本应用</string>
     <string name="setting_dontkillmyapp_title">后台更新异常？</string>
     <string name="setting_dontkillmyapp_secondary">部分设备厂商会限制应用后台运行。请访问 dontkillmyapp.com 查看解决步骤。</string>
     <string name="setting_weather_sources_secondary">所有受支持天气数据源列表</string>
@@ -258,7 +258,7 @@
     <string name="summary_temp_cold_template_1">预计全天天气寒冷。</string>
     <string name="summary_temp_cold_template_2">气温持续偏低，寒冷天气将持续。</string>
     <string name="summary_temp_cold_template_3">极寒气温将保持在 %1$s 左右。</string>
-    <string name="weather_summary">Summary</string>
-    <string name="about_changelog">Changelog</string>
+    <string name="weather_summary">摘要</string>
+    <string name="about_changelog">更新日志</string>
 </resources>
 <!--<string name=""></string>-->
