@@ -260,9 +260,9 @@
     <string name="summary_temp_cold_template_3">极寒气温将保持在 %1$s 左右。</string>
     <string name="weather_summary">摘要</string>
     <string name="about_changelog">更新日志</string>
-    <string name="about">About</string>
-    <string name="weather_max_for_the_day">Max for the day</string>
-    <string name="weather_about_uv_index">The UV index is a measure of the level of ultraviolet radiation. The values of the index range from zero upward - the higher the UV index, the greater the potential for damage to the skin and eye, and the less time it takes for harm to occur</string>
-    <string name="text_scale">Scale</string>
+    <string name="about">关于</string>
+    <string name="weather_max_for_the_day">当日最高</string>
+    <string name="weather_about_uv_index">紫外线指数是衡量紫外线辐射水平的指标。指数的数值范围从零开始——紫外线指数越高，对皮肤和眼睛造成损伤的可能性就越大，造成损伤所需的时间也就越短</string>
+    <string name="text_scale">缩放</string>
 </resources>
 <!--<string name=""></string>-->
