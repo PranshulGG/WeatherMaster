@@ -61,6 +61,9 @@ data class WeatherHourly(
     val rain: Double,  // NOTE: ALWAYS MM
     val snowfall: Double?, // NOTE: ALWAYS CM
     val uvIndex: Double?,
+    val pressureMsl: Double?, // NOTE: ALWAYS HPA
+    val visibility: Int?,  // NOTE: ALWAYS METERS
+    val humidity: Double?,
     val weatherCondition: WeatherCondition,
     val time: Long,  // NOTE: ALWAYS MILLISECONDS
     val precipitationProbability: Int?

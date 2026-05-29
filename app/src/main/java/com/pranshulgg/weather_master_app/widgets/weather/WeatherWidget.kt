@@ -1,13 +1,11 @@
 package com.pranshulgg.weather_master_app.widgets.weather
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
-import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalSize
 import androidx.glance.action.actionStartActivity
@@ -33,8 +31,7 @@ import com.pranshulgg.weather_master_app.widgets.weather.ui.WeatherWidgetMedium
 import com.pranshulgg.weather_master_app.widgets.weather.ui.WeatherWidgetNormal
 import com.pranshulgg.weather_master_app.widgets.weather.ui.WeatherWidgetSmall
 import com.pranshulgg.weather_master_app.widgets.weather.ui.WeatherWidgetTiny
-import com.pranshulgg.weather_master_app.widgets.weather.ui.horizontal.WeatherWidgetHorizontalLarge
-import com.pranshulgg.weather_master_app.widgets.weather.ui.horizontal.WeatherWidgetHorizontalMedium
+import com.pranshulgg.weather_master_app.widgets.weather.ui.horizontal.WeatherWidgetHorizontal
 import com.pranshulgg.weather_master_app.widgets.weather.ui.horizontal.WeatherWidgetHorizontalSmall
 import com.pranshulgg.weather_master_app.widgets.weather.ui.horizontal.WeatherWidgetHorizontalTiny
 import kotlinx.serialization.json.Json
@@ -75,8 +72,7 @@ class WeatherWidget : GlanceAppWidget() {
                     when (widgetParams.size) {
                         WidgetSize.TINY -> WeatherWidgetHorizontalTiny(state)
                         WidgetSize.SMALL -> WeatherWidgetHorizontalSmall(state)
-                        WidgetSize.MEDIUM -> WeatherWidgetHorizontalMedium(state)
-                        WidgetSize.LARGE -> WeatherWidgetHorizontalLarge(state)
+                        else -> WeatherWidgetHorizontal(state)
                     }
                 } else {
 

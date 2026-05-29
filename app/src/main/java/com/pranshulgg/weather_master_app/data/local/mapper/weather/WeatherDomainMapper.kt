@@ -49,7 +49,10 @@ fun List<WeatherHourly>.toHourlyWeatherEntity(
             uvIndex = item.uvIndex,
             weatherCondition = item.weatherCondition,
             time = item.time,
-            precipitationProbability = item.precipitationProbability
+            precipitationProbability = item.precipitationProbability,
+            visibility = item.visibility,
+            pressureMsl = item.pressureMsl,
+            humidity = item.humidity
         )
     }
 

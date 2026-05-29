@@ -33,8 +33,10 @@ fun WeatherWidgetNormal(state: WidgetWeather?, size: DpSize) {
 
     val textColor = GlanceTheme.colors.onSurface
     val textColorVariant = GlanceTheme.colors.onSurfaceVariant
-    val itemWidth = 50.dp
+    val itemWidth = 60.dp
     val count = (size.width / itemWidth).toInt().coerceIn(1, state?.hourly?.size)
+
+
     if (state != null)
         Column(
             modifier = GlanceModifier.fillMaxSize().padding(16.dp),

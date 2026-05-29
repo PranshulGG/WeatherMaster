@@ -65,6 +65,9 @@ fun WeatherWithRelations.toDomain(): Weather {
                 weatherCondition = hourly[it].weatherCondition,
                 time = hourly[it].time,
                 precipitationProbability = hourly[it].precipitationProbability,
+                pressureMsl = hourly[it].pressureMsl,
+                humidity = hourly[it].humidity,
+                visibility = hourly[it].visibility
             )
         },
         daily = List(daily.size) {

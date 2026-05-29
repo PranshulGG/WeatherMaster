@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app.data.local
 
 import android.content.Context
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -32,7 +33,10 @@ import com.pranshulgg.weather_master_app.data.local.entity.weather.nws.NwsGridPo
         CurrentAirQualityEntity::class,
         NwsGridPointsEntity::class
     ],
-    version = 39
+    version = 40,
+    autoMigrations = [
+        AutoMigration(from = 39, to = 40)
+    ]
 )
 abstract class WeatherMasterDatabase : RoomDatabase() {
 
