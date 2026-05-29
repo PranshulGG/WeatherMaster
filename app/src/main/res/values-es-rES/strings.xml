@@ -132,16 +132,16 @@
     <string name="weather_aqi_no2_description">A gas and a major component of central city air pollution. It mainly comes from vehicles, industry, power stations, and heating</string>
     <string name="weather_aqi_O3_description">A gas found in the stratosphere. It protects us from harmful ultraviolet radiation and the troposphere. Ozone is a harmful pollutant produced by a chemical reaction between the sun light, organic gasses, and nitrogen oxides (e.g. Cars, Power plants)</string>
     <string name="weather_aqi_so2_description">A toxic gas with a pungent, irritating odor. It can come from electric industries that burn fossil fuels, petrol refineries, cement manufacturing, and volcano emissions</string>
-    <string name="weather_aqi_co_description">A gas from motor vehicles or machinery that burns fossil fuels</string>
+    <string name="weather_aqi_co_description">Un gas de vehículos a motor o maquinaria que quema combustibles fósiles.</string>
     <string name="weather_airquality_about_index">Air quality indexes categorize raw data into a descriptive rating scale. These indexes make it easier to identify the level of pollution and if there’s any associated risk</string>
     <string name="weather_average">Media</string>
-    <string name="weather_rain_block">Rain</string>
-    <string name="weather_snow_block">Snow</string>
+    <string name="weather_rain_block">Lluvia</string>
+    <string name="weather_snow_block">Nieve</string>
     <string name="search_source">Search source</string>
     <string name="weather_source">Weather source</string>
     <string name="weather_sources">Weather sources</string>
     <string name="sources">Sources</string>
-    <string name="source">Source</string>
+    <string name="source">Servicio</string>
     <string name="recommended_sources">Recommended sources</string>
     <string name="global_sources">Global sources</string>
     <string name="weather_clear_with_cloudy">Clear with cloudy</string>
@@ -154,8 +154,8 @@
     <string name="weather_rain_with_cloudy">Rain with cloudy</string>
     <string name="weather_rain_with_snow">Rain with snow</string>
     <string name="weather_snow_with_clear">Snow with clear</string>
-    <string name="weather_snow_with_cloudy">Snow with cloudy</string>
-    <string name="weather_snow_with_rain">Snow with rain</string>
+    <string name="weather_snow_with_cloudy">Nieve con nubes</string>
+    <string name="weather_snow_with_rain">Nieve con lluvia</string>
     <string name="weather_clear_then_cloudy">Clear then cloudy</string>
     <string name="weather_clear_then_rain">Clear then rain</string>
     <string name="weather_clear_then_snow">Clear then snow</string>
@@ -259,5 +259,9 @@
     <string name="summary_temp_cold_template_3">Very cold air will keep temperatures near %1$s.</string>
     <string name="weather_summary">Summary</string>
     <string name="about_changelog">Changelog</string>
+    <string name="about">About</string>
+    <string name="weather_max_for_the_day">Max for the day</string>
+    <string name="weather_about_uv_index">The UV index is a measure of the level of ultraviolet radiation. The values of the index range from zero upward - the higher the UV index, the greater the potential for damage to the skin and eye, and the less time it takes for harm to occur</string>
+    <string name="text_scale">Scale</string>
 </resources>
 <!--<string name=""></string>-->
