@@ -254,7 +254,7 @@
     <string name="summary_temp_cold_template_1">今日は一日を通して、寒い一日になる見込みです。</string>
     <string name="summary_temp_cold_template_2">気温は低い状態で推移し、肌寒さが続く見込みです。</string>
     <string name="summary_temp_cold_template_3">非常に冷たい空気の影響で、気温は%1$s前後にとどまる見込みです。</string>
-    <string name="weather_summary">Summary</string>
-    <string name="about_changelog">Changelog</string>
+    <string name="weather_summary">概要</string>
+    <string name="about_changelog">変更履歴</string>
 </resources>
 <!--<string name=""></string>-->
