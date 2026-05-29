@@ -24,18 +24,9 @@ import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateDefinition
 import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateJson
 import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
-import com.pranshulgg.weather_master_app.widgets.params.WidgetSize
 import com.pranshulgg.weather_master_app.widgets.params.WidgetSizePoints
-import com.pranshulgg.weather_master_app.widgets.params.WidgetSizeType
 import com.pranshulgg.weather_master_app.widgets.params.getWidgetParams
-import com.pranshulgg.weather_master_app.widgets.pill.ui.WeatherWidgetPillMedium
-import com.pranshulgg.weather_master_app.widgets.pill.ui.WeatherWidgetPillNormal
-import com.pranshulgg.weather_master_app.widgets.pill.ui.WeatherWidgetPillSmall
-import com.pranshulgg.weather_master_app.widgets.pill.ui.WeatherWidgetPillTiny
-import com.pranshulgg.weather_master_app.widgets.weather.ui.horizontal.WeatherWidgetHorizontalLarge
-import com.pranshulgg.weather_master_app.widgets.weather.ui.horizontal.WeatherWidgetHorizontalMedium
-import com.pranshulgg.weather_master_app.widgets.weather.ui.horizontal.WeatherWidgetHorizontalSmall
-import com.pranshulgg.weather_master_app.widgets.weather.ui.horizontal.WeatherWidgetHorizontalTiny
+import com.pranshulgg.weather_master_app.widgets.pill.ui.WeatherWidgetPill
 import kotlinx.serialization.json.Json
 
 
@@ -55,12 +46,10 @@ class WidgetPill : GlanceAppWidget() {
 
 
         provideContent {
-            val size = LocalSize.current
             val widgetState =
                 currentState<WeatherWidgetStateJson>()
 
             val json = widgetState.json
-            val widgetParams = getWidgetParams(size)
             val state = json?.let {
                 Json.decodeFromString<WidgetWeather>(it)
             }
@@ -69,37 +58,7 @@ class WidgetPill : GlanceAppWidget() {
                 GlanceModifier.fillMaxSize()
                     .clickable(actionStartActivity<MainActivity>())
             ) {
-
-                if (widgetParams.type == WidgetSizeType.HORIZONTAL) {
-                    when (widgetParams.size) {
-                        WidgetSize.TINY -> WeatherWidgetHorizontalTiny(
-                            state,
-                            GlanceModifier.appWidgetBackgroundCircleShape()
-                        )
-
-                        WidgetSize.SMALL -> WeatherWidgetHorizontalSmall(
-                            state,
-                            GlanceModifier.appWidgetBackgroundCircleShape()
-                        )
-
-                        WidgetSize.MEDIUM -> WeatherWidgetHorizontalMedium(
-                            state,
-                            GlanceModifier.appWidgetBackgroundCircleShape()
-                        )
-
-                        WidgetSize.LARGE -> WeatherWidgetHorizontalLarge(
-                            state,
-                            GlanceModifier.appWidgetBackgroundCircleShape()
-                        )
-                    }
-                } else {
-                    when (widgetParams.size) {
-                        WidgetSize.TINY -> WeatherWidgetPillTiny(state, size)
-                        WidgetSize.SMALL -> WeatherWidgetPillSmall(state, size)
-                        WidgetSize.MEDIUM -> WeatherWidgetPillMedium(state, size)
-                        WidgetSize.LARGE -> WeatherWidgetPillNormal(state)
-                    }
-                }
+                WeatherWidgetPill(state)
             }
         }
     }
@@ -107,14 +66,3 @@ class WidgetPill : GlanceAppWidget() {
 }
 
 
-@Composable
-private fun GlanceModifier.appWidgetBackgroundCircleShape(): GlanceModifier {
-    return if (Build.VERSION.SDK_INT >= 31) {
-        this
-            .cornerRadius(999.dp)
-            .background(GlanceTheme.colors.widgetBackground)
-    } else {
-        this
-            .background(ImageProvider(R.drawable.shape_circle))
-    }
-}

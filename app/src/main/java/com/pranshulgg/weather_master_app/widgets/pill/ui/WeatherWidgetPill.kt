@@ -1,8 +1,6 @@
 package com.pranshulgg.weather_master_app.widgets.pill.ui
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.ColorFilter
@@ -10,7 +8,7 @@ import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
-import androidx.glance.background
+import androidx.glance.LocalSize
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
 import androidx.glance.layout.Column
@@ -25,14 +23,18 @@ import androidx.glance.layout.size
 import androidx.glance.layout.width
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
-import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
 
+
 @Composable
-fun WeatherWidgetPillTiny(state: WidgetWeather?, size: DpSize) {
+fun WeatherWidgetPill(state: WidgetWeather?) {
     val textColor = GlanceTheme.colors.primary
+    val size = LocalSize.current
+
+    val iconSize = (size.height * 0.15f + size.width * 0.15f).coerceIn(24.dp, 100.dp)
+    val fontSize = (size.height * 0.15f + size.width * 0.15f).coerceIn(24.dp, 200.dp).value.sp
 
     if (state != null)
         Box(
@@ -54,17 +56,16 @@ fun WeatherWidgetPillTiny(state: WidgetWeather?, size: DpSize) {
                     style = TextStyle(
                         color = textColor,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 22.sp,
+                        fontSize = fontSize,
                     ),
-                    modifier = GlanceModifier.padding(start = 12.dp)
+                    modifier = GlanceModifier.padding(start = 25.dp)
                 )
 
-                Spacer(modifier = GlanceModifier.height(10.dp))
+                Spacer(modifier = GlanceModifier.height(iconSize / 1.2f))
             }
-
             Row(
                 modifier = GlanceModifier.fillMaxWidth().fillMaxHeight()
-                    .padding(top = 22.dp),
+                    .padding(top = iconSize),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -72,11 +73,12 @@ fun WeatherWidgetPillTiny(state: WidgetWeather?, size: DpSize) {
                     provider = ImageProvider(state.currentIcon),
                     contentDescription = null,
                     modifier = GlanceModifier
-                        .size(32.dp)
+                        .size(iconSize)
                 )
-                Spacer(modifier = GlanceModifier.width(24.dp))
+                Spacer(modifier = GlanceModifier.width(iconSize / 1.1f))
             }
-
         }
+
 }
+
 
