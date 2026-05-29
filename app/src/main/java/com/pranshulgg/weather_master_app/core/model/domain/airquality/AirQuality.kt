@@ -54,10 +54,8 @@ data class AirQuality(
             val aqi1 = aqiThreshold[index]
             val aqi2 = aqiThreshold[index + 1]
 
-            // How far into the pollutant range is this value? (0.0 = start, 1.0 = end)
             val pos = (value - threshold1) / (threshold2 - threshold1)
 
-            // Apply that same position to the AQI range to get the score
             return (aqi1 + pos * (aqi2 - aqi1)).roundToInt()
 
         }
