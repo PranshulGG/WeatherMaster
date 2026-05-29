@@ -84,7 +84,10 @@ fun MetNorwayForecastJson.toDomain(location: Location): Weather {
                 uvIndex = data.uvIndex,
                 weatherCondition = MetNorwayWeatherConditionMap.getCondition(icon),
                 time = item.time.iso8601TimestampToMilliseconds(),
-                precipitationProbability = null
+                precipitationProbability = null,
+                pressureMsl = data.pressureMsl,
+                humidity = data.relativeHumidity,
+                visibility = null
             )
         },
         daily = daily

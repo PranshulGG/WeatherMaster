@@ -64,7 +64,7 @@ fun SmhiForecastJson.toDomain(location: Location): Weather {
 
             /**
              * API only provides precipitation and type
-             * So we map the codes what is considered rain/snow
+             * So we map the codes to what is considered rain/snow
              * Source: https://opendata.smhi.se/metfcst/snow1gv1/parameters#precipitation-type
              */
             val rain = if (data.precipitationType in rainTypes) data.precipitationAmountMax else 0.0
@@ -83,7 +83,10 @@ fun SmhiForecastJson.toDomain(location: Location): Weather {
                 uvIndex = null,
                 weatherCondition = SmhiWeatherConditionMap.getCondition(data.symbolCode),
                 time = item.time.iso8601TimestampToMilliseconds(),
-                precipitationProbability = data.precipitationProbability
+                precipitationProbability = data.precipitationProbability,
+                pressureMsl = data.pressureMsl,
+                humidity = data.humidity.toDouble(),
+                visibility = data.visibility.roundToInt()
             )
         },
         daily = daily

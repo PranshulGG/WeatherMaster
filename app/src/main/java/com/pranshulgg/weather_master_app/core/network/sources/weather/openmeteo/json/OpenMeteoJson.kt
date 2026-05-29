@@ -89,7 +89,10 @@ data class OpenMeteoHourlyForecastJson(
     val windDirection: List<Int>,
 
     @SerializedName("precipitation_probability")
-    val precipitationProbability: List<Int>
+    val precipitationProbability: List<Int>,
+
+    @SerializedName("pressure_msl")
+    val pressureMsl: List<Double>,
 )
 
 data class OpenMeteoDailyForecastJson(

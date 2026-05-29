@@ -25,7 +25,8 @@ data class NwsGridPointDataPropertiesJson(
     val quantitativePrecipitation: NwsGridPointDataQuantitativePrecipitationJson,
     val snowfallAmount: NwsGridPointDataSnowfallAmountJson,
     val maxTemperature: NwsGridPointDataMaxTemperatureJson,
-    val minTemperature: NwsGridPointDataMinTemperatureJson
+    val minTemperature: NwsGridPointDataMinTemperatureJson,
+    val visibility: NwsGridPointDataVisibilityJson
 )
 
 data class NwsGridPointDataQuantitativePrecipitationJson(
@@ -60,6 +61,15 @@ data class NwsGridPointDataMaxTemperatureValuesJson(
 )
 
 data class NwsGridPointDataMinTemperatureValuesJson(
+    val validTime: String,
+    val value: Double
+)
+
+data class NwsGridPointDataVisibilityJson(
+    val values: List<NwsGridPointDataVisibilityValuesJson>
+)
+
+data class NwsGridPointDataVisibilityValuesJson(
     val validTime: String,
     val value: Double
 )

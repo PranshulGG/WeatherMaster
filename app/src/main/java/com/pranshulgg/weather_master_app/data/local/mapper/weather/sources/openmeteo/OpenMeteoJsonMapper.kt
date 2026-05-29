@@ -10,10 +10,12 @@ import com.pranshulgg.weather_master_app.core.model.weather.wind.WindDirection
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoWeatherConditionMap
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.json.OpenMeteoHourlyForecastJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.json.OpenMeteoWeatherJson
+import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.iso8601TimestampToMilliseconds
 import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.secondsToMilliseconds
 import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getMoonTimings
 import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getSunTimings
 import com.pranshulgg.weather_master_app.core.utils.weather.computing.computeDailyWeatherCondition
+import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findHourlyIndexForTime
 import kotlin.uuid.ExperimentalUuidApi
 
 // ---------------------------- JSON TO DOMAIN ----------------------------
@@ -40,6 +42,8 @@ fun OpenMeteoWeatherJson.toDomain(location: Location): Weather {
         location.longitude
     )
 
+    val currentHourIndex =
+        findHourlyIndexForTime(hourly.time.map { it.secondsToMilliseconds() })
 
     return Weather(
         location = location,
@@ -49,13 +53,13 @@ fun OpenMeteoWeatherJson.toDomain(location: Location): Weather {
             windSpeed = current.windSpeed,
             windDirection = WindDirection.toWindDirectionFromDegrees(current.windDirection),
             pressureMsl = current.pressureMsl,
-            visibility = hourly.visibility[0], // TODO: Use current time index
+            visibility = hourly.visibility[currentHourIndex],
             cloudCover = current.cloudCover,
             uvIndex = current.uvIndex,
             weatherCondition = OpenMeteoWeatherConditionMap.getCondition(current.weatherCode),
             feelsLike = current.feelsLike,
             time = current.time.secondsToMilliseconds(), // Open-Meteo returns in seconds
-            dewPoint = hourly.dewPoint[0], // TODO: Use current time index
+            dewPoint = hourly.dewPoint[currentHourIndex],
             utcOffsetSeconds = utcOffsetSeconds,
             lastUpdatedInMilli = System.currentTimeMillis()
         ),
@@ -70,6 +74,9 @@ fun OpenMeteoWeatherJson.toDomain(location: Location): Weather {
                 weatherCondition = OpenMeteoWeatherConditionMap.getCondition(hourly.weatherCode[it]),
                 time = hourly.time[it].secondsToMilliseconds(), // Open-Meteo returns in seconds
                 precipitationProbability = hourly.precipitationProbability[it],
+                humidity = hourly.relativeHumidity[it],
+                visibility = hourly.visibility[it],
+                pressureMsl = hourly.pressureMsl[it]
             )
         },
         daily = List(daily.time.size) {

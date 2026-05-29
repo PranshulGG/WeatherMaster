@@ -29,6 +29,7 @@ import java.time.Duration
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 import kotlin.math.abs
+import kotlin.math.roundToInt
 
 
 private data class NwsValidTime(
@@ -58,12 +59,15 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
     val maxTemperatureData = gridPointData.maxTemperature
     val minTemperatureData = gridPointData.minTemperature
     val snowData = gridPointData.snowfallAmount
+    val visibilityData = gridPointData.visibility
     val daily = this.forecast.properties
     val zoneId = location.timezone
 
     val rainMap = expandedHourly(precipitationData.values.map { it.validTime to it.value })
 
     val snowMap = expandedHourly(snowData.values.map { it.validTime to it.value })
+    val visibilityMap = expandedHourly(visibilityData.values.map { it.validTime to it.value })
+
     val maxTemperatureMap =
         matchingMinMaxTemperature(
             maxTemperatureData.values.map { it.validTime to it.value },
@@ -131,6 +135,7 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
             val hourTime = it.startTime.iso8601TimestampToMilliseconds()
             val rainAmount = rainMap[hourTime]
             val snowFall = snowMap[hourTime]
+            val visibility = visibilityMap[hourTime]
 
             WeatherHourly(
                 temperature = TemperatureUnit.FAHRENHEIT.convert(
@@ -144,7 +149,10 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
                 uvIndex = null,
                 weatherCondition = NwsWeatherConditionMap.getCondition(it.icon),
                 time = hourTime,
-                precipitationProbability = it.probabilityOfPrecipitation.value.toInt()
+                precipitationProbability = it.probabilityOfPrecipitation.value.toInt(),
+                humidity = it.relativeHumidity.value,
+                pressureMsl = null,
+                visibility = visibility?.roundToInt()
             )
         },
         daily = daily.periods.filter { it.isDayTime }.map { item ->
