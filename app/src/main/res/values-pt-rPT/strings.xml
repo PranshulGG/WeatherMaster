@@ -10,8 +10,8 @@
     <string name="weather_precipitation_hours">Horas de chuva</string>
     <string name="time_now">Agora</string>
     <string name="day_today">Hoje</string>
-    <string name="weather_refresh_delay">Please wait %1$d minutes before refreshing</string>
-    <string name="error_generic">Error occurred. Please try again</string>
+    <string name="weather_refresh_delay">Por favor, aguarde  %1$d minutos logo do refresco</string>
+    <string name="error_generic">Ocorreu um erro, tente novamente</string>
     <string name="weather_moon">Lua</string>
     <string name="weather_sun">Dom.</string>
     <string name="weather_humidity">Humidade</string>
@@ -24,22 +24,22 @@
     <string name="settings">Configurações</string>
     <string name="search">Procurar</string>
     <string name="location_current">Localização atual</string>
-    <string name="search_provider">Search provider</string>
+    <string name="search_provider">Fornecedor de pesquisa</string>
     <plurals name="time_minutes_ago">
-        <item quantity="one">%d min ago</item>
-        <item quantity="other">%d mins ago</item>
+        <item quantity="one">Há %d minutos.</item>
+        <item quantity="other">Há %d mins</item>
     </plurals>
     <plurals name="time_hours_ago">
-        <item quantity="one">%d hr ago</item>
+        <item quantity="one">Há %d hora</item>
         <item quantity="other">%d hrs ago</item>
     </plurals>
     <plurals name="time_days_ago">
         <item quantity="one">%d day ago</item>
-        <item quantity="other">%d days ago</item>
+        <item quantity="other">Há %d dias</item>
     </plurals>
-    <string name="time_just_now">Just now</string>
-    <string name="time_last_updated">Last updated %1$s</string>
-    <string name="weather_no_data">No weather data available</string>
+    <string name="time_just_now">Agora mesmo</string>
+    <string name="time_last_updated">Ultima atualização %1$s</string>
+    <string name="weather_no_data">Sem informação do tempo</string>
     <string name="weather_clear_sky">Céu limpo</string>
     <string name="weather_overcast">Nublado</string>
     <string name="weather_partly_cloudy">Parcialmente nublado</string>
