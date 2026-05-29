@@ -55,7 +55,7 @@ fun DailyCard(weather: Weather, units: WeatherUnits, navController: NavControlle
             Gap(14.dp)
 
             LazyRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                items(daily.size, key = { daily[it].time }) { index ->
+                items(daily.size, key = { "${daily[it].time}_$it" }) { index ->
 
                     val item = daily[index]
                     val weekDay = toWeekdayString(

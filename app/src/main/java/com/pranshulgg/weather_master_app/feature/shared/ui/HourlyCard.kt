@@ -82,7 +82,7 @@ fun HourlyCard(
             LazyRow(state = lazyListState) {
                 items(
                     filteredHourly.size,
-                    key = { filteredHourly[it].time.plus((99..1000).random()) }) { index ->
+                    key = { "${filteredHourly[it].time}_$it" }) { index ->
                     val time = if (is24hr) to24HourTimeString(
                         filteredHourly[index].time,
                         weather.location.timezone
