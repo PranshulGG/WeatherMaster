@@ -13,7 +13,7 @@
     <string name="weather_refresh_delay">Așteptă %1$d minute înainte de a actualiza</string>
     <string name="error_generic">A apărut o eroare. Încearcă din nou.</string>
     <string name="weather_moon">Luna</string>
-    <string name="weather_sun">Dum.</string>
+    <string name="weather_sun">Soare</string>
     <string name="weather_humidity">Umiditate</string>
     <string name="weather_pressure">Presiune</string>
     <string name="weather_wind">Vânt</string>
@@ -40,7 +40,7 @@
         <item quantity="few">%d zile în urmă</item>
         <item quantity="other">%d de zile în urmă</item>
     </plurals>
-    <string name="time_just_now">Acum</string>
+    <string name="time_just_now">Chiar acum</string>
     <string name="time_last_updated">Ultima actualizare: %1$s</string>
     <string name="weather_no_data">Nu există date meteo disponibile.</string>
     <string name="weather_clear_sky">Cer senin</string>
@@ -60,7 +60,7 @@
     <string name="weather_no_condition">Nu s-au găsit informații despre condiții</string>
     <string name="weather_uv_low">Scăzut </string>
     <string name="weather_uv_moderate">Moderată</string>
-    <string name="weather_uv_high">Mare</string>
+    <string name="weather_uv_high">Ridicat</string>
     <string name="weather_uv_very_high">Foarte ridicat</string>
     <string name="weather_uv_extreme">Extrem</string>
     <string name="setting_appearance">Aspect</string>
@@ -97,7 +97,7 @@
     <string name="action_delete">Șterge </string>
     <string name="error_delete_default_location">Nu se poate șterge locația implicta</string>
     <string name="setting_app_looks">Aspectul aplicației </string>
-    <string name="temp_feels_like">Temperatură resimțită %1$s</string>
+    <string name="temp_feels_like"> Temperatură resimțită %1$s</string>
     <string name="temp_max"></string>
     <string name="temp_min"></string>
     <string name="search_results_provided">Caută rezultate oferite de %1$s</string>
@@ -108,8 +108,8 @@
     <string name="setting_dynamic_colors">Culori dinamice</string>
     <string name="setting_dynamic_colors_secondary">Utilizează culorile fundalului</string>
     <string name="weather_total_rain_day">Total ploaie pe parcursul zilei</string>
-    <string name="error_network">Internet oprit</string>
-    <string name="weather_total_snow_day">Total zăpadă pe parcursul zilei</string>
+    <string name="error_network">Fără conexiune la internet</string>
+    <string name="weather_total_snow_day">Total ninsoare pe parcursul zilei</string>
     <string name="weather_precipitation">Precipitații </string>
     <string name="weather_air_quality_index">Indicele calității aerului</string>
     <string name="setting_translate_app">Tradu aceasta aplicație</string>
@@ -118,7 +118,7 @@
     <string name="location_use_current_secondary">Detectează automat locația curentă a dispozitivului și adaug-o în listă</string>
     <string name="location_permission_required">Permisiunea locației este necesară </string>
     <string name="current_location_not_found">Locația curentă nu a fost găsită </string>
-    <string name="error_server">Cererea nu a putut fi completată. Încercați din nou în scurt timp</string>
+    <string name="error_server">Cererea nu a putut fi completată. Încercați din nou mai tarziu</string>
     <string name="weather_airquality_good">Bună </string>
     <string name="weather_airquality_fair">Moderat</string>
     <string name="weather_airquality_moderate">Moderată</string>
@@ -139,7 +139,7 @@
     <string name="weather_airquality_about_index">Indicii de calitate a aerului clasifică datele brute într-o scală descriptivă de evaluare. Acești indici simplifică identificarea nivelului de poluare și a riscurilor asociate.</string>
     <string name="weather_average">Mediu</string>
     <string name="weather_rain_block">Ploaie</string>
-    <string name="weather_snow_block">Zăpada </string>
+    <string name="weather_snow_block">Ninsoare</string>
     <string name="search_source">Caută sursa</string>
     <string name="weather_source">Sursă date meteo</string>
     <string name="weather_sources">Sursele datelor meteo</string>
@@ -159,7 +159,7 @@
     <string name="weather_snow_with_clear">Ninsoare și senin</string>
     <string name="weather_snow_with_cloudy">Ninsoare și înnorat </string>
     <string name="weather_snow_with_rain">Lapoviță </string>
-    <string name="weather_clear_then_cloudy">Senin apoi noros</string>
+    <string name="weather_clear_then_cloudy">Senin, apoi noros</string>
     <string name="weather_clear_then_rain">Senin, apoi ploaie</string>
     <string name="weather_clear_then_snow">Senin apoi ninsoare</string>
     <string name="weather_cloudy_then_clear">Înnorat apoi senin</string>
@@ -194,7 +194,7 @@
     <string name="setting_about_app">Despre aplicație </string>
     <string name="about_terms_conditions">Termeni &amp; condiții </string>
     <string name="about_privacy_policy">Politica de confidențialitate</string>
-    <string name="about_create_issue">Creează o problemă </string>
+    <string name="about_create_issue">Raportează o problemă </string>
     <string name="about_view_on_github">Vezi pe github</string>
     <string name="about_license">Licență </string>
     <string name="message_new_version_available">Versiune noua disponibilă </string>
