@@ -52,7 +52,8 @@ fun List<WeatherHourly>.toHourlyWeatherEntity(
             precipitationProbability = item.precipitationProbability,
             visibility = item.visibility,
             pressureMsl = item.pressureMsl,
-            humidity = item.humidity
+            humidity = item.humidity,
+            dewPoint = item.dewPoint
         )
     }
 
@@ -78,7 +79,9 @@ fun List<WeatherDaily>.toDailyWeatherEntity(
             sunset = item.sunset,
             moonrise = item.moonrise,
             moonset = item.moonset,
-            moonPhase = item.moonPhase
+            moonPhase = item.moonPhase,
+            dawn = item.dawn,
+            dusk = item.dusk
         )
     }
 

@@ -67,7 +67,8 @@ fun WeatherWithRelations.toDomain(): Weather {
                 precipitationProbability = hourly[it].precipitationProbability,
                 pressureMsl = hourly[it].pressureMsl,
                 humidity = hourly[it].humidity,
-                visibility = hourly[it].visibility
+                visibility = hourly[it].visibility,
+                dewPoint = hourly[it].dewPoint
             )
         },
         daily = List(daily.size) {
@@ -86,7 +87,9 @@ fun WeatherWithRelations.toDomain(): Weather {
                 sunset = daily[it].sunset,
                 moonrise = daily[it].moonrise,
                 moonset = daily[it].moonset,
-                moonPhase = daily[it].moonPhase
+                moonPhase = daily[it].moonPhase,
+                dusk = daily[it].dusk,
+                dawn = daily[it].dawn
             )
 
         }.drop(todayIndex)

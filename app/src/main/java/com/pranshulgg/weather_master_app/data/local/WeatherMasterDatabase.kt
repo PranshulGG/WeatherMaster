@@ -33,7 +33,7 @@ import com.pranshulgg.weather_master_app.data.local.entity.weather.nws.NwsGridPo
         CurrentAirQualityEntity::class,
         NwsGridPointsEntity::class
     ],
-    version = 40,
+    version = 42,
     autoMigrations = [
         AutoMigration(from = 39, to = 40)
     ]
@@ -62,8 +62,33 @@ abstract class WeatherMasterDatabase : RoomDatabase() {
                     context.applicationContext,
                     WeatherMasterDatabase::class.java,
                     "weather_master.db"
-                ).addMigrations().build().also { INSTANCE = it }
+                ).addMigrations(MIGRATION_40_41, MIGRATION_41_42).build().also { INSTANCE = it }
             }
     }
 }
 
+
+val MIGRATION_40_41 = object : Migration(40, 41) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL(
+            """
+            ALTER TABLE weather_hourly ADD COLUMN dewPoint REAL
+        """.trimIndent()
+        )
+    }
+}
+
+val MIGRATION_41_42 = object : Migration(41, 42) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL(
+            """
+            ALTER TABLE weather_daily ADD COLUMN dusk INTEGER NOT NULL Default 0
+        """.trimIndent()
+        )
+        db.execSQL(
+            """
+            ALTER TABLE weather_daily ADD COLUMN dawn INTEGER NOT NULL Default 0
+        """.trimIndent()
+        )
+    }
+}

@@ -30,10 +30,22 @@ fun getSunTimings(
             .at(lat, lon)
             .execute()
 
+        val civilTwilight = SunTimes.compute()
+            .on(date)
+            .timezone(zoneId)
+            .at(lat, lon)
+            .twilight(SunTimes.Twilight.CIVIL)
+            .execute()
+
+        val dawn = civilTwilight.rise
+        val dusk = civilTwilight.set
+
         SunTimings(
             it,
             sunTimes.rise?.toEpochSecond()?.secondsToMilliseconds(),
-            sunTimes.set?.toEpochSecond()?.secondsToMilliseconds()
+            sunTimes.set?.toEpochSecond()?.secondsToMilliseconds(),
+            dawn?.toEpochSecond()?.secondsToMilliseconds(),
+            dusk?.toEpochSecond()?.secondsToMilliseconds()
         )
 
     }
