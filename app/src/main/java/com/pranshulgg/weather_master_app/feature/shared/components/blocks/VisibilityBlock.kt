@@ -34,7 +34,13 @@ import com.pranshulgg.weather_master_app.core.utils.formatters.formatLocalizedNu
 import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
 
 @Composable
-fun VisibilityBlock(weather: Weather, units: WeatherUnits, context: Context) {
+
+fun VisibilityBlock(
+    weather: Weather,
+    units: WeatherUnits,
+    context: Context,
+    onClickBlock: () -> Unit
+) {
 
 
     val visibility =
@@ -43,7 +49,8 @@ fun VisibilityBlock(weather: Weather, units: WeatherUnits, context: Context) {
     Surface(
         color = MaterialTheme.colorScheme.surface,
         shape = RoundedCornerShape(ShapeRadius.Full),
-        shadowElevation = ShadowElevation.level2
+        shadowElevation = ShadowElevation.level2,
+        onClick = onClickBlock
     ) {
         Box(
             Modifier
