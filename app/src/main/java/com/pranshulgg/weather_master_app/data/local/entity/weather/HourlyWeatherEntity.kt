@@ -33,6 +33,7 @@ data class HourlyWeatherEntity(
     val pressureMsl: Double?,
     val visibility: Int?,
     val humidity: Double?,
+    val dewPoint: Double?,
     val time: Long,
     val precipitationProbability: Int?
 )

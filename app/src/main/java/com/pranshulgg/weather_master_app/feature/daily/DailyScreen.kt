@@ -47,7 +47,7 @@ fun DailyScreen(navController: NavController, index: Int = 0, locationId: String
 
     val viewModel: DailyScreenViewModel = hiltViewModel()
     val uiState = viewModel.uiState.value
-    val weather = uiState.weather
+    val weather = remember(uiState.weather) { uiState.weather }
     val units = uiState.units
     val context = LocalContext.current
 
