@@ -24,7 +24,7 @@ fun AboutCardText(text: String) {
     Text(
         text,
         modifier = Modifier.padding(horizontal = 16.dp),
-        style = MaterialTheme.typography.bodyMedium,
+        style = MaterialTheme.typography.bodyLarge,
         color = MaterialTheme.colorScheme.onSurface
     )
 }

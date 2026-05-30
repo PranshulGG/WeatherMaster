@@ -21,7 +21,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
+import com.pranshulgg.weather_master_app.feature.blocks.screens.HumidityScreen
+import com.pranshulgg.weather_master_app.feature.blocks.screens.PressureScreen
+import com.pranshulgg.weather_master_app.feature.blocks.screens.SunMoonScreen
 import com.pranshulgg.weather_master_app.feature.blocks.screens.UvIndexScreen
+import com.pranshulgg.weather_master_app.feature.blocks.screens.VisibilityScreen
 import com.pranshulgg.weather_master_app.feature.daily.DailyScreen
 import com.pranshulgg.weather_master_app.feature.main.MainScreen
 import com.pranshulgg.weather_master_app.feature.search.SearchScreen
@@ -57,12 +61,12 @@ fun AppNavHost(
         ) {
             navigation(
                 route = "root",
-//                startDestination = NavRoutes.MAIN
-                startDestination = NavRoutes.blockScreen(
-                    NavRoutes.UV_INDEX,
-                    0,
-                    "2695619c-c9cd-4faa-81ea-c963bda80521"
-                )
+                startDestination = NavRoutes.MAIN
+//                startDestination = NavRoutes.blockScreen(
+//                    NavRoutes.PRESSURE,
+//                    0,
+//                    "2695619c-c9cd-4faa-81ea-c963bda80521"
+//                )
             ) {
                 composable(
                     NavRoutes.MAIN
@@ -163,6 +167,10 @@ fun AppNavHost(
 
                     when (block) {
                         NavRoutes.UV_INDEX -> UvIndexScreen(navController, index, locationId)
+                        NavRoutes.HUMIDITY -> HumidityScreen(navController, index, locationId)
+                        NavRoutes.VISIBILITY -> VisibilityScreen(navController, index, locationId)
+                        NavRoutes.SUN_MOON -> SunMoonScreen(navController, index, locationId)
+                        NavRoutes.PRESSURE -> PressureScreen(navController, index, locationId)
                     }
                 }
             }
