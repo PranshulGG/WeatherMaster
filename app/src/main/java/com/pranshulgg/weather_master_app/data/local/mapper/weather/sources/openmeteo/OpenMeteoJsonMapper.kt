@@ -76,7 +76,8 @@ fun OpenMeteoWeatherJson.toDomain(location: Location): Weather {
                 precipitationProbability = hourly.precipitationProbability[it],
                 humidity = hourly.relativeHumidity[it],
                 visibility = hourly.visibility[it],
-                pressureMsl = hourly.pressureMsl[it]
+                pressureMsl = hourly.pressureMsl[it],
+                dewPoint = hourly.dewPoint[it]
             )
         },
         daily = List(daily.time.size) {
@@ -101,7 +102,9 @@ fun OpenMeteoWeatherJson.toDomain(location: Location): Weather {
                 sunset = sunTimings[it].sunset ?: -0L,
                 moonrise = moonTimings[it].moonrise ?: -0L,
                 moonset = moonTimings[it].moonset ?: -0L,
-                moonPhase = moonTimings[it].phase
+                moonPhase = moonTimings[it].phase,
+                dawn = sunTimings[it].dawn ?: 0L,
+                dusk = sunTimings[it].dusk ?: 0L
             )
         }
     )

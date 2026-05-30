@@ -87,7 +87,8 @@ fun MetNorwayForecastJson.toDomain(location: Location): Weather {
                 precipitationProbability = null,
                 pressureMsl = data.pressureMsl,
                 humidity = data.relativeHumidity,
-                visibility = null
+                visibility = null,
+                dewPoint = data.dewPoint
             )
         },
         daily = daily
@@ -177,7 +178,9 @@ private fun computeDaily(data: MetNorwayForecastJson, location: Location): List<
             sunset = sunTimings[index].sunset ?: -0L,
             moonrise = moonTimings[index].moonrise ?: -0L,
             moonset = moonTimings[index].moonset ?: -0L,
-            moonPhase = moonTimings[index].phase
+            moonPhase = moonTimings[index].phase,
+            dawn = sunTimings[index].dawn ?: 0L,
+            dusk = sunTimings[index].dusk ?: 0L
         )
     }
 
