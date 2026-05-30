@@ -30,13 +30,19 @@ import com.pranshulgg.weather_master_app.core.model.weather.toName
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
 import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
 import com.pranshulgg.weather_master_app.core.ui.theme.ShapeRadius
+import kotlin.math.roundToInt
 
 @Composable
-fun PressureBlock(weather: Weather, units: WeatherUnits, context: Context) {
+fun PressureBlock(
+    weather: Weather,
+    units: WeatherUnits,
+    context: Context,
+    onClickBlock: () -> Unit
+) {
     val pressure = weather.current.pressureMsl
 
     val pressureConverted = PressureUnit.HPA.convert(pressure!!, units.pressureUnit)
-    val pressureHpa = weather.current.pressureMsl.toInt()
+    val pressureHpa = weather.current.pressureMsl.roundToInt()
 
     val progressDrawable = when {
         pressureHpa < 980 -> R.drawable.pressure_progress_low
@@ -50,7 +56,8 @@ fun PressureBlock(weather: Weather, units: WeatherUnits, context: Context) {
     Surface(
         color = MaterialTheme.colorScheme.surface,
         shape = RoundedCornerShape(ShapeRadius.Full),
-        shadowElevation = ShadowElevation.level2
+        shadowElevation = ShadowElevation.level2,
+        onClick = onClickBlock
     ) {
         Box(
             Modifier

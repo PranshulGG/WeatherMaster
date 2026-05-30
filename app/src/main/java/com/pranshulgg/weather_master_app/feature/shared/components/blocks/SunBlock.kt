@@ -43,7 +43,7 @@ import com.pranshulgg.weather_master_app.core.utils.formatters.to24HourTimeStrin
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherDailyDomainSafe
 
 @Composable
-fun SunBlock(weather: Weather, dailyIndex: Int, prefs: AppPrefsState) {
+fun SunBlock(weather: Weather, dailyIndex: Int, prefs: AppPrefsState, onClickBlock: () -> Unit) {
 
     if (!isWeatherDailyDomainSafe(weather)) return
 
@@ -54,7 +54,8 @@ fun SunBlock(weather: Weather, dailyIndex: Int, prefs: AppPrefsState) {
     Surface(
         color = MaterialTheme.colorScheme.surface,
         shape = MaterialTheme.shapes.extraLarge,
-        shadowElevation = ShadowElevation.level2
+        shadowElevation = ShadowElevation.level2,
+        onClick = onClickBlock,
     ) {
         Box(
             Modifier

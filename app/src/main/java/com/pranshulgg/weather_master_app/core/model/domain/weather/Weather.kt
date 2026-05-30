@@ -64,6 +64,7 @@ data class WeatherHourly(
     val pressureMsl: Double?, // NOTE: ALWAYS HPA
     val visibility: Int?,  // NOTE: ALWAYS METERS
     val humidity: Double?,
+    val dewPoint: Double?,
     val weatherCondition: WeatherCondition,
     val time: Long,  // NOTE: ALWAYS MILLISECONDS
     val precipitationProbability: Int?
@@ -96,7 +97,9 @@ data class WeatherDaily(
     val sunset: Long, // NOTE: ALWAYS MILLISECONDS
     val moonrise: Long, // NOTE: ALWAYS MILLISECONDS
     val moonset: Long, // NOTE: ALWAYS MILLISECONDS
-    val moonPhase: MoonPhase
+    val moonPhase: MoonPhase,
+    val dawn: Long,
+    val dusk: Long
 ) {
 
     fun isWindSpeedValid(): Boolean {

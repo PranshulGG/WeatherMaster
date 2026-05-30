@@ -172,12 +172,16 @@ fun WeatherBlocks(
                         )
                 ) {
                     when (item.type) {
-                        WeatherBlockType.HUMIDITY_BLOCK -> HumidityBlock(weather, units)
+                        WeatherBlockType.HUMIDITY_BLOCK -> HumidityBlock(
+                            weather,
+                            units,
+                            onClickBlock = { onClickBlock(NavRoutes.HUMIDITY) })
 
                         WeatherBlockType.VISIBILITY_BLOCK -> VisibilityBlock(
                             weather,
                             units,
-                            context
+                            context,
+                            onClickBlock = { onClickBlock(NavRoutes.VISIBILITY) }
                         )
 
                         WeatherBlockType.UV_INDEX_BLOCK -> UvIndexBlock(
@@ -188,10 +192,24 @@ fun WeatherBlocks(
                             onClickBlock = { onClickBlock(NavRoutes.UV_INDEX) }
                         )
 
-                        WeatherBlockType.PRESSURE_BLOCK -> PressureBlock(weather, units, context)
+                        WeatherBlockType.PRESSURE_BLOCK -> PressureBlock(
+                            weather,
+                            units,
+                            context,
+                            onClickBlock = { onClickBlock(NavRoutes.PRESSURE) })
 
-                        WeatherBlockType.SUN_BLOCK -> SunBlock(weather, dailyIndex, prefs)
-                        WeatherBlockType.MOON_BLOCK -> MoonBlock(weather, dailyIndex, prefs)
+                        WeatherBlockType.SUN_BLOCK -> SunBlock(
+                            weather,
+                            dailyIndex,
+                            prefs,
+                            onClickBlock = { onClickBlock(NavRoutes.SUN_MOON) })
+
+                        WeatherBlockType.MOON_BLOCK -> MoonBlock(
+                            weather,
+                            dailyIndex,
+                            prefs,
+                            onClickBlock = { onClickBlock(NavRoutes.SUN_MOON) })
+
                         WeatherBlockType.AIR_QUALITY_BLOCK -> AirQualityBlock(airQuality, context)
 
 

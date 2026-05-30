@@ -31,7 +31,10 @@ import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
 import kotlin.math.roundToInt
 
 @Composable
-fun HumidityBlock(weather: Weather, units: WeatherUnits) {
+fun HumidityBlock(
+    weather: Weather, units: WeatherUnits,
+    onClickBlock: () -> Unit
+) {
     val color = MaterialTheme.colorScheme.inversePrimary
 
     val humidity = weather.current.humidity.roundToInt()
@@ -53,7 +56,8 @@ fun HumidityBlock(weather: Weather, units: WeatherUnits) {
     Surface(
         color = MaterialTheme.colorScheme.surface,
         shape = MaterialTheme.shapes.extraLarge,
-        shadowElevation = ShadowElevation.level2
+        shadowElevation = ShadowElevation.level2,
+        onClick = onClickBlock
     ) {
         Box(
             Modifier
