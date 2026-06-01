@@ -254,7 +254,7 @@
     <string name="summary_uv_moderate_template_1">UV levels will stay moderate.</string>
     <string name="summary_uv_moderate_template_2">Moderate UV exposure is expected.</string>
     <string name="summary_uv_moderate_template_3">Sun exposure will remain moderate throughout the day.</string>
-    <string name="summary_temp_hot_template_1">Hot conditions are expected with temperatures near %1$s.</string>
+    <string name="summary_temp_hot_template_1">من المتوقع أن تكون الأجواء حارة مع درجات حرارة تقترب من %1$s.</string>
     <string name="summary_temp_hot_template_2">Temperatures will remain very high throughout the day.</string>
     <string name="summary_temp_hot_template_3">Extreme heat is expected with lows near %1$s overnight.</string>
     <string name="summary_temp_warm_template_1">Warm weather is expected with temperatures around %1$s.</string>
