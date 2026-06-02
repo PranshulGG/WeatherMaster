@@ -82,12 +82,12 @@
     <string name="unit_pressure_inhg">Inches of Mercury</string>
     <string name="unit_distance_km">Kilometers</string>
     <string name="unit_distance_mi">Miles</string>
-    <string name="unit_distance_m">Meters</string>
-    <string name="unit_precipitation_mm">Millimeters</string>
+    <string name="unit_distance_m">Metara </string>
+    <string name="unit_precipitation_mm">Milimetra </string>
     <string name="unit_precipitation_inch">Inches</string>
-    <string name="unit_precipitation_cm">Centimeters</string>
+    <string name="unit_precipitation_cm">centimetara </string>
     <string name="weather_dew_point">Dew point</string>
-    <string name="setting_dark_theme">Dark</string>
+    <string name="setting_dark_theme">Tamno</string>
     <string name="setting_light_theme">Light</string>
     <string name="setting_system_theme">System</string>
     <string name="setting_app_theme">App theme</string>
