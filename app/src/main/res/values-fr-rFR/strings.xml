@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="weather_hourly_forecast">Prévisions horaires</string>
+    <string name="weather_hourly_forecast">Prévisions par heure</string>
     <string name="action_save">Enregistrer</string>
     <string name="action_cancel">Annuler</string>
     <string name="weather_daily_forecast">Prévisions quotidiennes</string>
     <string name="locations">Lieux</string>
     <string name="location_default">Emplacement par défaut</string>
     <string name="weather_rain_today_amount">Cumul du jour</string>
-    <string name="weather_precipitation_hours">Heures avec précipitations</string>
+    <string name="weather_precipitation_hours">Heures de précipitation</string>
     <string name="time_now">Maintenant</string>
     <string name="day_today">Aujourd\'hui</string>
     <string name="weather_refresh_delay">Merci d\'attendre %1$d minutes avant de rafraîchir.</string>
@@ -37,7 +37,7 @@
         <item quantity="one">Hier</item>
         <item quantity="other">Il y a %d jours</item>
     </plurals>
-    <string name="time_just_now">Maintenant</string>
+    <string name="time_just_now">À l\'instant</string>
     <string name="time_last_updated">Mis à jour %1$s</string>
     <string name="weather_no_data">Aucune donnée météo disponible</string>
     <string name="weather_clear_sky">Ciel dégagé</string>
@@ -70,19 +70,19 @@
     <string name="setting_pressure_unit">Unité de pression</string>
     <string name="setting_distance_unit">Unité de distance</string>
     <string name="setting_precipitation_unit">Unité de précipitations</string>
-    <string name="unit_temperature_celsius">Degrés Celsius</string>
-    <string name="unit_temperature_fahrenheit">Degrés Fahrenheit</string>
-    <string name="unit_wind_mps">Mètres par seconde</string>
-    <string name="unit_wind_mph">Miles par heure</string>
-    <string name="unit_wind_kph">Kilomètres par heure</string>
-    <string name="unit_pressure_hpa">Hectopascals</string>
-    <string name="unit_pressure_inhg">Pouces de mercure</string>
-    <string name="unit_distance_km">Kilomètres</string>
-    <string name="unit_distance_mi">Miles</string>
-    <string name="unit_distance_m">Mètres</string>
-    <string name="unit_precipitation_mm">Millimètres</string>
-    <string name="unit_precipitation_inch">Pouces</string>
-    <string name="unit_precipitation_cm">Centimètres</string>
+    <string name="unit_temperature_celsius">°C</string>
+    <string name="unit_temperature_fahrenheit">°F</string>
+    <string name="unit_wind_mps">m/s</string>
+    <string name="unit_wind_mph">mph</string>
+    <string name="unit_wind_kph">km/h</string>
+    <string name="unit_pressure_hpa">hPa</string>
+    <string name="unit_pressure_inhg">inHg</string>
+    <string name="unit_distance_km">km</string>
+    <string name="unit_distance_mi">mi</string>
+    <string name="unit_distance_m">m</string>
+    <string name="unit_precipitation_mm">mm</string>
+    <string name="unit_precipitation_inch">in</string>
+    <string name="unit_precipitation_cm">cm</string>
     <string name="weather_dew_point">Point de rosée</string>
     <string name="setting_dark_theme">Sombre</string>
     <string name="setting_light_theme">Clair</string>
@@ -228,10 +228,10 @@
     <string name="summary_snow_high_template_4">De la neige est prévue plus tard dans la journée.</string>
     <string name="summary_snow_medium_template_1">Il pourrait neiger vers %1$s.</string>
     <string name="summary_snow_medium_template_2">De faibles chutes de neige pourraient se former vers %1$s.</string>
-    <string name="summary_snow_medium_template_3">Wintry conditions could arrive around %1$s.</string>
-    <string name="summary_snow_medium_template_4">Snow showers are possible later.</string>
-    <string name="summary_snow_low_template_1">A slight chance of snow remains near %1$s.</string>
-    <string name="summary_snow_low_template_2">Isolated flurries may occur around %1$s.</string>
+    <string name="summary_snow_medium_template_3">Des conditions hivernales pourraient s\'installer vers %1$s.</string>
+    <string name="summary_snow_medium_template_4">Des épisodes neigeux sont possibles plus tard.</string>
+    <string name="summary_snow_low_template_1">Un faible risque de neige persiste vers %1$s.</string>
+    <string name="summary_snow_low_template_2">Des averses de neige isolées pourraient se produire vers %1$s.</string>
     <string name="summary_snow_low_template_3">Light snow is possible later in the day.</string>
     <string name="summary_uv_extreme_template_1">L\'indice UV atteindra des niveaux de risque extrêmes à %1$s.</string>
     <string name="summary_uv_extreme_template_2">Dangerously high UV levels are expected at %1$s.</string>
