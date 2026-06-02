@@ -148,25 +148,25 @@ fun getHeadline(
     val tempAvgSentence = when {
 
 
-        tempAvg >= 35 -> listOf(
+        summaryData.temps.avg >= 35 -> listOf(
             context.getString(R.string.summary_temp_hot_template_1, "${tempAvg}°"),
             context.getString(R.string.summary_temp_hot_template_2),
             context.getString(R.string.summary_temp_hot_template_3, "${tempMin}°")
         ).random()
 
-        tempAvg >= 25 -> listOf(
+        summaryData.temps.avg >= 25 -> listOf(
             context.getString(R.string.summary_temp_warm_template_1, "${tempAvg}°"),
             context.getString(R.string.summary_temp_warm_template_2),
             context.getString(R.string.summary_temp_warm_template_3, "${tempAvg}°")
         ).random()
 
-        tempAvg >= 15 -> listOf(
+        summaryData.temps.avg >= 15 -> listOf(
             context.getString(R.string.summary_temp_mild_template_1),
             context.getString(R.string.summary_temp_mild_template_2, "${tempAvg}°"),
             context.getString(R.string.summary_temp_mild_template_3)
         ).random()
 
-        tempAvg >= 5 -> listOf(
+        summaryData.temps.avg >= 5 -> listOf(
             context.getString(R.string.summary_temp_cool_template_1, "${tempAvg}°"),
             context.getString(R.string.summary_temp_cool_template_2),
             context.getString(R.string.summary_temp_cool_template_3)
