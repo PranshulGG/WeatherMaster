@@ -128,7 +128,6 @@ dependencies {
     ksp(libs.hilt.android.compiler)
     ksp(libs.hilt.compiler)
     implementation(libs.reorderable)
-
     implementation(libs.androidx.foundation.layout)
     implementation(libs.androidx.animation.core)
     implementation(libs.core.splashscreen)

@@ -1,5 +1,7 @@
 package com.pranshulgg.weather_master_app.feature.blocks.screens
 
+import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,6 +35,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.weather.DistanceUnit
+import com.pranshulgg.weather_master_app.core.model.weather.PressureUnit
 import com.pranshulgg.weather_master_app.core.model.weather.toName
 import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
@@ -48,6 +51,7 @@ import com.pranshulgg.weather_master_app.feature.blocks.BlocksScreenViewModel
 import com.pranshulgg.weather_master_app.feature.blocks.components.AboutCard
 import com.pranshulgg.weather_master_app.feature.blocks.components.AboutCardText
 import com.pranshulgg.weather_master_app.feature.blocks.components.ChartBarItem
+import com.pranshulgg.weather_master_app.feature.blocks.components.MatBarChart
 import com.pranshulgg.weather_master_app.feature.blocks.components.ScaleCard
 import kotlin.math.max
 import kotlin.math.roundToInt
@@ -80,22 +84,17 @@ fun VisibilityScreen(navController: NavController, index: Int = 0, locationId: S
     val uiState = viewModel.uiState.value
     val weather = uiState.weather
     val hourly = weather?.hourly ?: return
-    val currentMilli = if (index == 0) weather.current.time else weather.daily[index].time
     val units = uiState.units
     val context = LocalContext.current
 
 
-    val data = findMatchingHourly(hourly, currentMilli, weather.location.source)
     val fullDayHourly =
         findMatchingHourly(hourly, weather.daily[index].time, weather.location.source)
 
-    val maxVisibility = fullDayHourly.maxOf { it.visibility ?: 0 }
-    val minVisibility = fullDayHourly.minOf { it.visibility ?: 0 }
-    val avgVisibility = fullDayHourly.map {
-        DistanceUnit.M.convert(it.visibility?.toDouble(), units.distanceUnit) ?: 0.0
-    }.average()
     val date = toDateString(weather.daily[index].time, weather.location.timezone)
     val scale = getVisibilityScaleFor(units.distanceUnit)
+
+
 
     LargeTopBarScaffold(
         title = stringResource(R.string.weather_visibility),
@@ -117,14 +116,11 @@ fun VisibilityScreen(navController: NavController, index: Int = 0, locationId: S
                     .padding(paddingValues)
         ) {
             BarChart(
-                avg = avgVisibility,
-                suffix = units.distanceUnit.toName(true, context),
-                max = maxVisibility.toDouble(),
-                min = minVisibility.toDouble(),
-                times = data.map { it.time },
-                values = data.map { it.visibility ?: 0 },
+                times = fullDayHourly.map { it.time },
+                values = fullDayHourly.map { it.visibility!! },
                 zoneId = weather.location.timezone,
-                unit = units.distanceUnit
+                unit = units.distanceUnit,
+                context = context
             )
             Gap(14.dp)
             AboutCard {
@@ -156,85 +152,74 @@ fun VisibilityScreen(navController: NavController, index: Int = 0, locationId: S
 
 @Composable
 private fun BarChart(
-    suffix: String,
-    avg: Double,
-    max: Double?,
-    min: Double?,
     times: List<Long>,
     values: List<Int>,
     zoneId: String,
-    unit: DistanceUnit
+    unit: DistanceUnit,
+    context: Context
 ) {
 
-    val prefs = LocalAppPrefs.current
-    val is24hr = prefs.is24HrTimeFormat
 
-    Surface(
-        color = MaterialTheme.colorScheme.surfaceBright,
-        shape = MaterialTheme.shapes.extraLarge,
-        shadowElevation = ShadowElevation.level2,
-        modifier = Modifier.padding(horizontal = 16.dp)
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Header("${avg.roundToInt()}", suffix)
+    val timeStartIndex = if (times.size == 12) 0 else 6
+    val is24hr = LocalAppPrefs.current.is24HrTimeFormat
 
-            LazyRow(
-                verticalAlignment = Alignment.Bottom,
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier
-                    .height(250.dp)
-                    .padding(bottom = 16.dp)
-            ) {
-                items(times.size, key = { times[it] }) { index ->
 
-                    val item = values[index]
+    val formatter: (Int) -> Double? = {
+        DistanceUnit.M.convert(it.toDouble(), unit)
+    }
 
-                    val valuePercentage = ((item.minus(min!!)).div((max!! - min))).times(100)
-                    val height = max((valuePercentage.div(100)).times(170).roundToInt(), 48)
+    val bottomValues = times.slice(timeStartIndex..times.lastIndex step 6)
 
-                    val time = if (is24hr) to24HourTimeString(
-                        times[index],
-                        zoneId
-                    ) else to12HourTimeString(times[index], zoneId)
+    val sideValues =
+        (0..50000).toList().sortedByDescending { it }.slice(0..50000 step 10000)
 
-                    if (index == 0) Gap(horizontal = 16.dp)
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        ChartBarItem(
-                            valueComposable = {
-                                Symbol(
-                                    R.drawable.visibility_24px,
-                                    size = 28.dp,
-                                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                                )
-                            },
-                            shapeColor = Color.Transparent,
-                            height = height
-                        )
-                        Gap(5.dp)
-                        Text(
-                            "${DistanceUnit.M.convert(item.toDouble(), unit)?.roundToInt()}",
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            fontSize = 16.sp,
-                            textAlign = TextAlign.Center
-                        )
-                        Text(
-                            time,
-                            color = MaterialTheme.colorScheme.onSurface,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 17.sp,
-                            textAlign = TextAlign.Center
-                        )
 
-                    }
-                    if (index == times.size - 1) Gap(horizontal = 16.dp)
-                }
+    val barHeights = values.map {
 
-            }
+        val visibilityMin = 0.0
+        val visibilityMax = 50000.0
+
+        val valuePercentage =
+            ((it - visibilityMin) / (visibilityMax - visibilityMin))
+                .coerceIn(0.0, 1.0)
+
+        max((valuePercentage * 170).roundToInt(), 5)
+    }
+
+
+    val barColor = values.map {
+
+        val visibilityKm = DistanceUnit.M.convert(it.toDouble(), DistanceUnit.KM)?.roundToInt()!!
+
+        when {
+            visibilityKm < 1 -> Color(0xFFC62828)
+            visibilityKm < 5 -> Color(0xFFFB8C00)
+            visibilityKm < 10 -> Color(0xFFFDD835)
+            visibilityKm < 20 -> Color(0xFF43A047)
+            else -> Color(0xFF1565C0)
         }
     }
+    MatBarChart(
+        topValues = emptyList(),
+        bottomValues = bottomValues.map {
+            {
+                val time = if (is24hr) to24HourTimeString(
+                    it,
+                    zoneId
+                ) else to12HourTimeString(it, zoneId)
+
+
+                Text(time, style = MaterialTheme.typography.labelMedium)
+            }
+        },
+        sideValues = sideValues.map { formatter(it)?.roundToInt().toString() },
+        values = values,
+        barHeights = barHeights,
+        headerValue = "${values.map { formatter(it)!! }.average().roundToInt()}",
+        headerSuffix = unit.toName(inShort = true, context),
+        barColor = barColor,
+        chartHeight = 220.dp
+    )
 }
 
 private val visibilityRanges = listOf(
@@ -304,32 +289,3 @@ private fun getVisibilityScaleFor(unit: DistanceUnit): List<VisibilityScaleInfo>
     }
 }
 
-@Composable
-private fun Header(max: String, maxSuffix: String) {
-    Column(
-        modifier = Modifier.padding(top = 18.dp, start = 18.dp, end = 16.dp)
-    ) {
-        Text(
-            stringResource(R.string.text_average_for_day),
-            style = MaterialTheme.typography.headlineSmall,
-            color = MaterialTheme.colorScheme.onSurface
-        )
-        Row() {
-            Text(
-                max,
-                color = MaterialTheme.colorScheme.primary,
-                style = MaterialTheme.typography.displayLarge,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.alignByBaseline(),
-
-                )
-            Gap(horizontal = 6.dp)
-            Text(
-                maxSuffix,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.alignByBaseline(),
-            )
-        }
-    }
-}

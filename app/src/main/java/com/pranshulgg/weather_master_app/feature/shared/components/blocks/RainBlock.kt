@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -57,12 +58,14 @@ fun RainBlock(
                 Row(
                     verticalAlignment = Alignment.Bottom,
                     horizontalArrangement = Arrangement.End,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                 ) {
                     Text(
                         "%.1f".format(rainForTheDay),
                         modifier = Modifier
                             .alignByBaseline(),
+                        lineHeight = 22.sp,
                         textAlign = TextAlign.End,
                         color = MaterialTheme.colorScheme.onSurface,
                         style = MaterialTheme.typography.displayMedium
@@ -78,7 +81,6 @@ fun RainBlock(
                     )
                 }
 
-                Gap(3.dp)
                 Text(
                     stringResource(if (isOnlyPrecipitation) R.string.weather_total_amount else R.string.weather_total_rain_day),
                     modifier = Modifier

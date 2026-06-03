@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.feature.blocks.screens
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.animation.core.EaseInOutElastic
 import androidx.compose.animation.core.animateIntAsState
@@ -26,6 +27,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -35,6 +38,9 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnit
+import com.pranshulgg.weather_master_app.core.model.weather.uv.getUvIndex
+import com.pranshulgg.weather_master_app.core.model.weather.uv.toColor
+import com.pranshulgg.weather_master_app.core.model.weather.uv.toLabel
 import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
@@ -49,6 +55,7 @@ import com.pranshulgg.weather_master_app.feature.blocks.BlocksScreenViewModel
 import com.pranshulgg.weather_master_app.feature.blocks.components.AboutCard
 import com.pranshulgg.weather_master_app.feature.blocks.components.AboutCardText
 import com.pranshulgg.weather_master_app.feature.blocks.components.ChartBarItem
+import com.pranshulgg.weather_master_app.feature.blocks.components.MatBarChart
 import kotlin.math.max
 import kotlin.math.roundToInt
 
@@ -66,25 +73,15 @@ fun HumidityScreen(navController: NavController, index: Int = 0, locationId: Str
     val uiState = viewModel.uiState.value
     val weather = uiState.weather
     val hourly = weather?.hourly ?: return
-    val currentMilli = if (index == 0) weather.current.time else weather.daily[index].time
-    val units = uiState.units
 
-
-    val data = findMatchingHourly(hourly, currentMilli, weather.location.source)
     val fullDayHourly =
         findMatchingHourly(hourly, weather.daily[index].time, weather.location.source)
 
     val date = toDateString(weather.daily[index].time, weather.location.timezone)
-    val avg = fullDayHourly.map { it.humidity ?: 0.0 }.average()
 
-    val avgDewPoint =
-        fullDayHourly.map { TemperatureUnit.CELSIUS.convert(it.dewPoint, units.tempUnit) ?: 0.0 }
-            .average()
+    val dewPointMax = fullDayHourly.maxOf { it.dewPoint ?: 0.0 }
+    val dewPointMin = fullDayHourly.minOf { it.dewPoint ?: 0.0 }
 
-    val dewPointMax =
-        fullDayHourly.maxOf { TemperatureUnit.CELSIUS.convert(it.dewPoint, units.tempUnit) ?: 0.0 }
-    val dewPointMin =
-        fullDayHourly.minOf { TemperatureUnit.CELSIUS.convert(it.dewPoint, units.tempUnit) ?: 0.0 }
 
     LargeTopBarScaffold(
         title = stringResource(R.string.weather_humidity),
@@ -106,24 +103,22 @@ fun HumidityScreen(navController: NavController, index: Int = 0, locationId: Str
                     .padding(paddingValues)
         ) {
             BarChart(
-                avg = avg.roundToInt(),
-                times = data.map { it.time },
-                values = data.map { it.humidity?.roundToInt() ?: 0 },
-                weather.location.timezone,
+                times = fullDayHourly.map { it.time },
+                values = fullDayHourly.map { it.humidity?.roundToInt() ?: 0 },
+                weather.location.timezone
             )
             Gap(14.dp)
             AboutCard {
                 AboutCardText(stringResource(R.string.weather_about_humidity))
             }
             Gap(14.dp)
-            BarChart(
-                avg = avgDewPoint.roundToInt(),
-                times = data.map { it.time },
-                values = data.map { it.dewPoint?.roundToInt() ?: 0 },
-                weather.location.timezone,
-                isDewPoint = true,
-                dewPointMax,
-                dewPointMin
+            DewPointHeader()
+            DewPointBarChart(
+                times = fullDayHourly.map { it.time },
+                values = fullDayHourly.map { it.dewPoint ?: 0.0 },
+                zoneId = weather.location.timezone,
+                max = dewPointMax,
+                min = dewPointMin
             )
             Gap(14.dp)
             AboutCard {
@@ -138,127 +133,133 @@ fun HumidityScreen(navController: NavController, index: Int = 0, locationId: Str
 
 @Composable
 private fun BarChart(
-    avg: Int,
     times: List<Long>,
     values: List<Int>,
-    zoneId: String,
-    isDewPoint: Boolean = false,
-    dewPointMax: Double = 0.0,
-    dewPointMin: Double = 0.0,
+    zoneId: String
 ) {
 
-    val prefs = LocalAppPrefs.current
-    val is24hr = prefs.is24HrTimeFormat
+    val timeStartIndex = if (times.size == 12) 0 else 6
+    val is24hr = LocalAppPrefs.current.is24HrTimeFormat
 
-    Surface(
-        color = MaterialTheme.colorScheme.surfaceBright,
-        shape = MaterialTheme.shapes.extraLarge,
-        shadowElevation = ShadowElevation.level2,
-        modifier = Modifier.padding(horizontal = 16.dp)
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Header(
-                if (!isDewPoint) "${avg}%" else "${avg}°",
-                suffix = if (isDewPoint) stringResource(R.string.weather_dew_point) else null
-            )
+    val bottomValues = times.slice(timeStartIndex..times.lastIndex step 6)
 
-            LazyRow(
-                verticalAlignment = Alignment.Bottom,
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier
-                    .height(if (isDewPoint) 240.dp else 230.dp)
-                    .padding(bottom = 16.dp)
-            ) {
-                items(times.size, key = { times[it] }) { index ->
+    val sideValues = (0..100).toList().sortedByDescending { it }.slice(0..100 step 10)
 
-                    val item = values[index]
+    val barHeights = values.map {
+        max((it.div(100f)).times(170), 5f)
+    }
+    val barColor = values.map {
 
-                    val percentage =
-                        if (isDewPoint) ((item.minus(dewPointMin)).div((dewPointMax - dewPointMin))).times(
-                            100
-                        ).roundToInt() else item
-
-                    val height = max((percentage.div(100f)).times(170), 48f)
-
-                    val time = if (is24hr) to24HourTimeString(
-                        times[index],
-                        zoneId
-                    ) else to12HourTimeString(times[index], zoneId)
-
-                    if (index == 0) Gap(horizontal = 16.dp)
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        ChartBarItem(
-                            valueComposable = {
-                                Text(
-                                    if (!isDewPoint) "$item" else "${item}°",
-                                    fontSize = if (!isDewPoint) 20.sp else 18.sp,
-                                    color = MaterialTheme.colorScheme.primaryContainer
-                                )
-                            },
-                            height = height.roundToInt()
-                        )
-                        Gap(5.dp)
-                        Text(
-                            time,
-                            color = MaterialTheme.colorScheme.onSurface,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 17.sp,
-                            textAlign = TextAlign.Center
-                        )
-
-                    }
-                    if (index == times.size - 1) Gap(horizontal = 16.dp)
-                }
-
-            }
+        when {
+            it < 20 -> Color(0xFFC62828)
+            it < 40 -> Color(0xFFF9A825)
+            it < 60 -> Color(0xFF43A047)
+            it < 80 -> Color(0xFF1E88E5)
+            else -> Color(0xFF1565C0)
         }
     }
+    MatBarChart(
+        topValues = emptyList(),
+        bottomValues = bottomValues.map {
+            {
+                val time = if (is24hr) to24HourTimeString(
+                    it,
+                    zoneId
+                ) else to12HourTimeString(it, zoneId)
+
+
+                Text(time, style = MaterialTheme.typography.labelMedium)
+            }
+        },
+        sideValues = sideValues,
+        values = values,
+        barHeights = barHeights.map { it.roundToInt() },
+        headerValue = "${values.map { it.toDouble() }.average().roundToInt()}%",
+        headerSuffix = "",
+        barColor = barColor,
+        chartHeight = 220.dp
+    )
 }
 
 
 @Composable
-private fun Header(avg: String, suffix: String?) {
-    Column(
-        modifier = Modifier.padding(top = 18.dp, start = 18.dp, end = 16.dp)
-    ) {
-        if (suffix != null) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(
-                    5.dp, alignment = Alignment.CenterHorizontally
-                ),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Symbol(
-                    R.drawable.dew_point_24px,
-                    color = MaterialTheme.colorScheme.secondary
-                )
-                Text(
-                    suffix,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.secondary
-                )
-            }
-            Gap(5.dp)
+private fun DewPointBarChart(
+    max: Double,
+    min: Double,
+    times: List<Long>,
+    values: List<Double>,
+    zoneId: String
+) {
 
-        }
-        Text(
-            stringResource(R.string.text_average_for_day),
-            style = MaterialTheme.typography.headlineSmall,
-            color = MaterialTheme.colorScheme.onSurface
-        )
-        Row() {
-            Text(
-                avg,
-                color = MaterialTheme.colorScheme.primary,
-                style = MaterialTheme.typography.displayLarge,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.alignByBaseline(),
-            )
+    val timeStartIndex = if (times.size == 12) 0 else 6
+    val is24hr = LocalAppPrefs.current.is24HrTimeFormat
 
+    val bottomValues = times.slice(timeStartIndex..times.lastIndex step 6)
+
+    val sideValues =
+        (min.roundToInt()..max.roundToInt()).sortedByDescending { it }.map { "$it°" }
+
+    val barHeights = values.map {
+        val percentage = ((it.minus(min)).div((max - min))).times(
+            100
+        ).roundToInt()
+        max((percentage.div(100f)).times(170), 5f)
+    }
+    val barColor = values.map {
+        val dewPoint = it.roundToInt()
+
+        when {
+            dewPoint < 0 -> Color(0xFF1565C0)
+            dewPoint < 10 -> Color(0xFF42A5F5)
+            dewPoint < 15 -> Color(0xFF66BB6A)
+            dewPoint < 20 -> Color(0xFFFDD835)
+            dewPoint < 24 -> Color(0xFFFB8C00)
+            else -> Color(0xFFC62828)
         }
     }
+    MatBarChart(
+        topValues = emptyList(),
+        bottomValues = bottomValues.map {
+            {
+                val time = if (is24hr) to24HourTimeString(
+                    it,
+                    zoneId
+                ) else to12HourTimeString(it, zoneId)
+
+
+                Text(time, style = MaterialTheme.typography.labelMedium)
+            }
+        },
+        sideValues = sideValues,
+        values = values,
+        barHeights = barHeights.map { it.roundToInt() },
+        headerValue = "${values.map { it }.average().roundToInt()}°",
+        headerSuffix = "",
+        barColor = barColor,
+        chartHeight = 220.dp
+    )
+}
+
+@Composable
+fun DewPointHeader() {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(
+            5.dp, alignment = Alignment.CenterHorizontally
+        ),
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(start = 18.dp, bottom = 6.dp)
+    ) {
+        Symbol(
+            R.drawable.dew_point_24px,
+            color = MaterialTheme.colorScheme.secondary
+        )
+        Text(
+            stringResource(R.string.weather_dew_point),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.secondary
+        )
+    }
+
+
 }

@@ -133,7 +133,7 @@ private fun HourlyItem(
     Column(
         modifier = Modifier
             .height(120.dp)
-            .width(45.dp),
+            .padding(horizontal = 4.dp),
         verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

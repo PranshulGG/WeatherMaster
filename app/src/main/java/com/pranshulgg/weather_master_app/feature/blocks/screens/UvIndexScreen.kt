@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.feature.blocks.screens
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -41,6 +42,7 @@ import androidx.core.graphics.toColor
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.R
+import com.pranshulgg.weather_master_app.core.model.weather.toName
 import com.pranshulgg.weather_master_app.core.model.weather.uv.UvIndex
 import com.pranshulgg.weather_master_app.core.model.weather.uv.getUvIndex
 import com.pranshulgg.weather_master_app.core.model.weather.uv.toColor
@@ -50,6 +52,7 @@ import com.pranshulgg.weather_master_app.core.ui.components.AvatarIcon
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
+import com.pranshulgg.weather_master_app.core.ui.components.Symbol
 import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
 import com.pranshulgg.weather_master_app.core.utils.formatters.to12HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.formatters.to24HourTimeString
@@ -59,6 +62,7 @@ import com.pranshulgg.weather_master_app.feature.blocks.BlocksScreenViewModel
 import com.pranshulgg.weather_master_app.feature.blocks.components.AboutCard
 import com.pranshulgg.weather_master_app.feature.blocks.components.AboutCardText
 import com.pranshulgg.weather_master_app.feature.blocks.components.ChartBarItem
+import com.pranshulgg.weather_master_app.feature.blocks.components.MatBarChart
 import com.pranshulgg.weather_master_app.feature.blocks.components.ScaleCard
 import kotlin.math.max
 import kotlin.math.min
@@ -78,11 +82,9 @@ fun UvIndexScreen(navController: NavController, index: Int = 0, locationId: Stri
     val uiState = viewModel.uiState.value
     val weather = uiState.weather
     val hourly = weather?.hourly ?: return
-    val currentMilli = if (index == 0) weather.current.time else weather.daily[index].time
     val context = LocalContext.current
 
 
-    val data = findMatchingHourly(hourly, currentMilli, weather.location.source)
     val fullDayHourly =
         findMatchingHourly(hourly, weather.daily[index].time, weather.location.source)
 
@@ -112,14 +114,12 @@ fun UvIndexScreen(navController: NavController, index: Int = 0, locationId: Stri
                     .padding(paddingValues)
         ) {
             BarChart(
-                maxSuffix = getUvIndex(weather.daily[index].uvIndexMax?.roundToInt() ?: 0).toLabel(
-                    context
-                ),
                 max = maxUv,
                 min = minUv,
-                times = data.map { it.time },
-                values = data.map { it.uvIndex?.roundToInt() ?: 0 },
-                weather.location.timezone
+                times = fullDayHourly.map { it.time },
+                values = fullDayHourly.map { it.uvIndex?.roundToInt() ?: 0 },
+                weather.location.timezone,
+                context
             )
             Gap(14.dp)
             AboutCard {
@@ -155,7 +155,7 @@ fun UvIndexScreen(navController: NavController, index: Int = 0, locationId: Stri
     }
 }
 
-fun getUvIndexScaleFor(index: UvIndex): String {
+private fun getUvIndexScaleFor(index: UvIndex): String {
     return when (index) {
         UvIndex.LOW -> "1 - 2"
         UvIndex.MODERATE -> "3 - 5"
@@ -167,78 +167,67 @@ fun getUvIndexScaleFor(index: UvIndex): String {
 
 @Composable
 private fun BarChart(
-    maxSuffix: String,
     max: Double,
     min: Double,
     times: List<Long>,
     values: List<Int>,
     zoneId: String,
+    context: Context
 ) {
 
-    val prefs = LocalAppPrefs.current
-    val is24hr = prefs.is24HrTimeFormat
 
-    Surface(
-        color = MaterialTheme.colorScheme.surfaceBright,
-        shape = MaterialTheme.shapes.extraLarge,
-        shadowElevation = ShadowElevation.level2,
-        modifier = Modifier.padding(horizontal = 16.dp)
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Header(max.roundToInt().toString(), maxSuffix)
+    val timeStartIndex = if (times.size == 12) 0 else 6
+    val is24hr = LocalAppPrefs.current.is24HrTimeFormat
 
-            LazyRow(
-                verticalAlignment = Alignment.Bottom,
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier
-                    .height(230.dp)
-                    .padding(bottom = 16.dp)
-            ) {
-                items(times.size, key = { times[it] }) { index ->
+    val bottomValues = times.slice(timeStartIndex..times.lastIndex step 6)
 
-                    val item = values[index]
-
-                    val valuePercentage = ((item.minus(min)).div((max - min))).times(100)
-                    val height = max((valuePercentage.div(100)).times(170).roundToInt(), 48)
-
-                    val time = if (is24hr) to24HourTimeString(
-                        times[index],
-                        zoneId
-                    ) else to12HourTimeString(times[index], zoneId)
-
-                    if (index == 0) Gap(horizontal = 16.dp)
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        ChartBarItem(
-                            valueComposable = {
-                                Text(
-                                    item.toString(),
-                                    fontSize = 24.sp,
-                                    color = getUvIndex(item).toColor()
-                                )
-                            },
-                            barBackgroundColor = getUvIndex(item).toColor(),
-                            shapeColor = MaterialTheme.colorScheme.surface,
-                            height = height
-                        )
-                        Gap(5.dp)
-                        Text(
-                            time,
-                            color = MaterialTheme.colorScheme.onSurface,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 17.sp,
-                            textAlign = TextAlign.Center
-                        )
-
-                    }
-                    if (index == times.size - 1) Gap(horizontal = 16.dp)
-                }
-
-            }
-        }
+    val barHeights = values.map {
+        val percentage = ((it.minus(min)).div((max - min))).times(100)
+        max((percentage.div(100)).times(170).roundToInt(), 5)
     }
+
+    val sideValues = (0 until max.roundToInt()).sortedByDescending { it }.map { "$it" }
+
+
+    val steps = 3
+
+    val topValues = (0 until steps).map { i ->
+        val index = ((values.size - 1) * i.toDouble() / (steps - 1)).toInt()
+        values[index]
+    }
+    MatBarChart(
+        topValues = topValues.map {
+            {
+                Text(
+                    getUvIndex(it).toLabel(context),
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+        },
+        bottomValues = bottomValues.map {
+            {
+
+                val time = if (is24hr) to24HourTimeString(
+                    it,
+                    zoneId
+                ) else to12HourTimeString(it, zoneId)
+
+
+                Text(time, style = MaterialTheme.typography.labelMedium)
+            }
+        },
+        sideValues = sideValues,
+        values = values,
+        barHeights = barHeights,
+        headerValue = "${max.roundToInt()}",
+        headerSuffix = getUvIndex(max.roundToInt()).toLabel(context),
+        barColor = values.map {
+            getUvIndex(it).toColor()
+        },
+        headerTitle = stringResource(R.string.weather_max_for_the_day),
+        chartHeight = 250.dp
+    )
 }
 
 

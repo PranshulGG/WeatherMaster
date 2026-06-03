@@ -55,22 +55,19 @@ fun UvIndexBlock(
         if (isDaily) weather.daily[dailyIndex].uvIndexMax!!.roundToInt() else weather.current.uvIndex!!.roundToInt()
     val uvIndexValue = getUvIndex(uvIndex)
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .aspectRatio(1f)
+    Surface(
+        shape = MaterialShapes.Cookie12Sided.toShape(),
+        shadowElevation = ShadowElevation.level2,
+        color = color,
+        onClick = onClickBlock
     ) {
-        Surface(
-            shape = MaterialShapes.Cookie12Sided.toShape(),
+        Box(
             modifier = Modifier
-                .matchParentSize()
-                .clip(MaterialShapes.Cookie12Sided.toShape())
-                .clickable(
-                    onClick = onClickBlock
-                ),
-            shadowElevation = ShadowElevation.level2,
-            color = color
+                .fillMaxSize()
+                .aspectRatio(1f)
+
         ) {
+
             Canvas(modifier = Modifier.matchParentSize()) {
 
                 val path = PathParser().parsePathString(
@@ -117,31 +114,31 @@ fun UvIndexBlock(
                     )
                 }
             }
+
+            Box(Modifier.align(Alignment.TopCenter)) {
+                Header()
+            }
+
+            Text(
+                "$uvIndex",
+                style = MaterialTheme.typography.displayMedium,
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .offset(y = 4.dp),
+
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+
+
+            Text(
+                uvIndexValue.toLabel(context),
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .offset(y = (-35).dp),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
-
-        Box(Modifier.align(Alignment.TopCenter)) {
-            Header()
-        }
-
-        Text(
-            "$uvIndex",
-            style = MaterialTheme.typography.displayMedium,
-            modifier = Modifier
-                .align(Alignment.Center)
-                .offset(y = 4.dp),
-
-            color = MaterialTheme.colorScheme.onSurface,
-        )
-
-
-        Text(
-            uvIndexValue.toLabel(context),
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .offset(y = (-35).dp),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
     }
 }
 

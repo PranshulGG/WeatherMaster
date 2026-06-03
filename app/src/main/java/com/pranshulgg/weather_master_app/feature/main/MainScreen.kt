@@ -62,7 +62,6 @@ fun MainScreen(navController: NavController) {
 
     val context = LocalContext.current
     val activeLocation = uiState.activeLocation
-    val density = LocalDensity.current
 
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
