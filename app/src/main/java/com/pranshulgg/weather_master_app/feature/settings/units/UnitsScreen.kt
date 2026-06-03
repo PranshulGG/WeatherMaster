@@ -96,6 +96,14 @@ fun UnitsScreen(navController: NavController) {
                                     WindSpeedUnit.KPH.toString(),
                                     WindSpeedUnit.KPH.toName(context)
                                 ),
+                                DialogOption(
+                                    WindSpeedUnit.BFT.toString(),
+                                    WindSpeedUnit.BFT.toName(context)
+                                ),
+                                DialogOption(
+                                    WindSpeedUnit.KT.toString(),
+                                    WindSpeedUnit.KT.toName(context)
+                                ),
                             ),
                             selectedOption = currentUnits.windUnit.toString(),
                             onOptionSelected = {
