@@ -41,7 +41,8 @@ fun WindBlock(
     context: Context,
     isDaily: Boolean,
     dailyIndex: Int,
-    units: WeatherUnits
+    units: WeatherUnits,
+    onClickBlock: () -> Unit
 ) {
 
     val windDirection = if (isDaily) {
@@ -57,7 +58,8 @@ fun WindBlock(
     Surface(
         color = MaterialTheme.colorScheme.surface,
         shape = RoundedCornerShape(ShapeRadius.Full),
-        shadowElevation = ShadowElevation.level2
+        shadowElevation = ShadowElevation.level2,
+        onClick = onClickBlock
     ) {
         Box(
             Modifier

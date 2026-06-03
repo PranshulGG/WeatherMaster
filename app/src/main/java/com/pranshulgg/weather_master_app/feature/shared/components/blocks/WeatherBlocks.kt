@@ -231,8 +231,8 @@ fun WeatherBlocks(
                             context,
                             isDaily,
                             dailyIndex,
-                            units
-                        )
+                            units,
+                            onClickBlock = { onClickBlock(NavRoutes.WIND) })
                     }
                 }
 
