@@ -33,8 +33,8 @@ object NwsWeatherConditionMap {
             "snow_fzra" -> WeatherCondition.SNOW
             "sleet" -> WeatherCondition.SNOW
             "rain" -> WeatherCondition.RAIN
-            "rain_showers" -> WeatherCondition.HEAVY_RAIN
-            "rain_showers_hi" -> WeatherCondition.HEAVY_RAIN
+            "rain_showers" -> WeatherCondition.RAIN
+            "rain_showers_hi" -> WeatherCondition.RAIN
             "tsra" -> WeatherCondition.THUNDERSTORM
             "tsra_sct" -> WeatherCondition.THUNDERSTORM
             "tsra_hi" -> WeatherCondition.THUNDERSTORM
