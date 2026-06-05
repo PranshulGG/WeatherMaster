@@ -42,6 +42,9 @@ data class AppPrefsState(
     val is24HrTimeFormat: Boolean,
     val set24HrTimeFormat: (Boolean) -> Unit,
 
-    )
+    val isShowSummary: Boolean,
+    val setShowSummary: (Boolean) -> Unit
+
+)
 
 

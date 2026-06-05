@@ -22,6 +22,7 @@
         android:theme="@style/Theme.SplashScreen.OnStart">
         <activity
             android:name=".MainActivity"
+            android:launchMode="singleTop"
             android:windowSoftInputMode="adjustResize"
             android:exported="true"
             android:label="@string/app_launcher_name"

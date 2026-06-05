@@ -22,10 +22,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
 import com.pranshulgg.weather_master_app.feature.blocks.screens.HumidityScreen
+import com.pranshulgg.weather_master_app.feature.blocks.screens.PrecipitationScreen
 import com.pranshulgg.weather_master_app.feature.blocks.screens.PressureScreen
 import com.pranshulgg.weather_master_app.feature.blocks.screens.SunMoonScreen
 import com.pranshulgg.weather_master_app.feature.blocks.screens.UvIndexScreen
 import com.pranshulgg.weather_master_app.feature.blocks.screens.VisibilityScreen
+import com.pranshulgg.weather_master_app.feature.blocks.screens.WindScreen
 import com.pranshulgg.weather_master_app.feature.daily.DailyScreen
 import com.pranshulgg.weather_master_app.feature.main.MainScreen
 import com.pranshulgg.weather_master_app.feature.search.SearchScreen
@@ -63,9 +65,9 @@ fun AppNavHost(
                 route = "root",
                 startDestination = NavRoutes.MAIN
 //                startDestination = NavRoutes.blockScreen(
-//                    NavRoutes.PRESSURE,
+//                    NavRoutes.PRECIPITATION,
 //                    0,
-//                    "2695619c-c9cd-4faa-81ea-c963bda80521"
+//                    "257bd654-c22b-4e9f-a106-ea76abe11f22"
 //                )
             ) {
                 composable(
@@ -171,6 +173,12 @@ fun AppNavHost(
                         NavRoutes.VISIBILITY -> VisibilityScreen(navController, index, locationId)
                         NavRoutes.SUN_MOON -> SunMoonScreen(navController, index, locationId)
                         NavRoutes.PRESSURE -> PressureScreen(navController, index, locationId)
+                        NavRoutes.WIND -> WindScreen(navController, index, locationId)
+                        NavRoutes.PRECIPITATION -> PrecipitationScreen(
+                            navController,
+                            index,
+                            locationId
+                        )
                     }
                 }
             }
