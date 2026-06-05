@@ -294,5 +294,10 @@
     <string name="weather_about_sun_moon_rise_set">「出」は太陽や月が最初に地平線から現れる時刻、「没」は地平線の下に完全に隠れる時刻を指します。</string>
     <string name="weather_about_dawn_dusk">夜明けは日の出の直前、空が明るくなり始める時間帯のことです。夕暮れは日没の直後、空の光が次第に薄れていく時間帯を指します。</string>
     <string name="weather_about_pressure">海面気圧とは、大気の重さを海抜0メートルの基準で表したものです。気圧の推移は天気の変化を知る手がかりになります。低下は天候悪化のサイン、上昇は天候回復のサインとして役立ちます。</string>
+    <string name="weather_about_windspeed">Wind speed is the rate at which air moves horizontally past a specific point, driven by differences in atmospheric pressure and temperature</string>
+    <string name="unit_wind_kt">Knots</string>
+    <string name="unit_wind_bft">Beaufort</string>
+    <string name="setting_day_summary">Day summary</string>
+    <string name="setting_day_summary_secondary">Show a daily summary generated from hourly data</string>
 </resources>
 <!--<string name=""></string>-->
