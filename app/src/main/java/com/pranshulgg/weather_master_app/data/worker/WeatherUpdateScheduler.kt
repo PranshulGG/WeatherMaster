@@ -7,6 +7,8 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
+import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import java.util.concurrent.TimeUnit
 
 object WeatherUpdateScheduler {
@@ -15,22 +17,18 @@ object WeatherUpdateScheduler {
         repeatInterval: Int,
     ) {
 
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
 
         val request =
             PeriodicWorkRequestBuilder<WeatherWorker>(
                 repeatInterval.toLong(),
                 TimeUnit.MINUTES
             )
-                .setConstraints(constraints)
                 .build()
 
 
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(
             "@pranshulgg_weather_master_updates",
-            ExistingPeriodicWorkPolicy.UPDATE,
+            ExistingPeriodicWorkPolicy.KEEP,
             request
         )
     }
@@ -40,7 +38,12 @@ object WeatherUpdateScheduler {
             .cancelUniqueWork("@pranshulgg_weather_master_updates")
     }
 
-    fun startNow(context: Context, skipForegroundCheck: Boolean = false) {
-        WeatherWorker.startNow(context, skipForegroundCheck)
+    suspend fun updateAllWidgets(
+        context: Context,
+        skipForegroundCheck: Boolean = false,
+        data: Weather,
+        units: WeatherUnits
+    ) {
+        WeatherWorker.updateAllWidgets(context, data, skipForegroundCheck, units)
     }
 }

@@ -2,6 +2,10 @@ package com.pranshulgg.weather_master_app.core.di.weather
 
 import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo.OpenMeteoAqiApi
 import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo.OpenMeteoAqiRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.DwdApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.DwdRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofrance.MeteoFranceApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofrance.MeteoFranceRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.MetNorwayApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.MetNorwayRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsApi
@@ -63,4 +67,20 @@ object WeatherRepositoryModule {
         api: SmhiApi,
         weatherDao: WeatherDao
     ): SmhiRepository = SmhiRepository(dao, weatherDao, api)
+
+    @Provides
+    @Singleton
+    fun provideDwdRepository(
+        dao: LocationsDao,
+        api: DwdApi,
+        weatherDao: WeatherDao
+    ): DwdRepository = DwdRepository(dao, weatherDao, api)
+
+    @Provides
+    @Singleton
+    fun provideMeteoFranceRepository(
+        dao: LocationsDao,
+        api: MeteoFranceApi,
+        weatherDao: WeatherDao
+    ): MeteoFranceRepository = MeteoFranceRepository(dao, weatherDao, api)
 }

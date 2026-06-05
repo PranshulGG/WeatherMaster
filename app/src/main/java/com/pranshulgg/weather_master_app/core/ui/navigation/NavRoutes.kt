@@ -24,6 +24,7 @@ object NavRoutes {
 
     const val TERMS_CONDITIONS = "terms_conditions"
     const val PRIVACY_POLICY = "privacy_policy"
+
     const val LICENSE = "LICENSE"
 
     const val SOURCES = "sources"
@@ -33,6 +34,10 @@ object NavRoutes {
     const val VISIBILITY = "visibility"
     const val SUN_MOON = "sun_moon"
     const val PRESSURE = "pressure"
+
+    const val WIND = "wind"
+
+    const val PRECIPITATION = "precipitation"
 
     fun blockScreen(block: String, index: Int, locationId: String): String {
         return "$block/$index/$locationId"

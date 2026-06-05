@@ -6,6 +6,8 @@ import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmet
 import com.pranshulgg.weather_master_app.core.network.sources.search.geonames.GeoNamesSearchApi
 import com.pranshulgg.weather_master_app.core.network.sources.search.geonames.timezone.GeoNamesTimezoneApi
 import com.pranshulgg.weather_master_app.core.network.sources.search.openmeteo.OpenMeteoSearchApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.DwdApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofrance.MeteoFranceApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.MetNorwayApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoApi
@@ -59,4 +61,12 @@ object ApiModule {
     @Provides
     @Singleton
     fun provideNominatimApi(): NominatimApi = NominatimApi.create()
+
+    @Provides
+    @Singleton
+    fun provideDwdApi(): DwdApi = DwdApi.create()
+
+    @Provides
+    @Singleton
+    fun provideMeteoFranceApi(): MeteoFranceApi = MeteoFranceApi.create()
 }

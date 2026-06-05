@@ -29,6 +29,8 @@ object AppPrefs {
 
     private val _is24HrTimeFormat = mutableStateOf(true)
 
+    private val _isShowSummary = mutableStateOf(true)
+
 
     fun initPrefs(context: Context) {
         PreferencesHelper.init(context)
@@ -61,6 +63,8 @@ object AppPrefs {
         _isWeatherBasedTheme.value = PreferencesHelper.getBool("isWeatherBasedTheme") ?: true
 
         _is24HrTimeFormat.value = PreferencesHelper.getBool("is24HrTimeFormat") ?: true
+
+        _isShowSummary.value = PreferencesHelper.getBool("isShowSummary") ?: true
 
 
     }
@@ -139,6 +143,12 @@ object AppPrefs {
         set24HrTimeFormat = {
             _is24HrTimeFormat.value = it
             PreferencesHelper.setBool("is24HrTimeFormat", it)
+        },
+
+        isShowSummary = _isShowSummary.value,
+        setShowSummary = {
+            _isShowSummary.value = it
+            PreferencesHelper.setBool("isShowSummary", it)
         }
     )
 }
