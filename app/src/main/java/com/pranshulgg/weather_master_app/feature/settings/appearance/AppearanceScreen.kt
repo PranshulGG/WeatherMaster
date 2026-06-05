@@ -125,6 +125,15 @@ fun AppearanceScreen(navController: NavController) {
                             prefs.setIsWeatherBasedTheme(checked)
                         }
                     ),
+                    SettingTile.SwitchTile(
+                        leading = { SettingsTileIcon(R.drawable.article_24px) },
+                        title = stringResource(R.string.setting_day_summary),
+                        description = stringResource(R.string.setting_day_summary_secondary),
+                        checked = prefs.isShowSummary,
+                        onCheckedChange = { checked ->
+                            prefs.setShowSummary(checked)
+                        }
+                    ),
                 )
             )
 

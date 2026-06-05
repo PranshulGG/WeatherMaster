@@ -95,7 +95,30 @@ fun WeatherSourcesScreen(navController: NavController) {
                     )
                 )
             )
-
+            Gap(10.dp)
+            SettingSection(
+                title = "DWD (Germany)",
+                tiles = listOf(
+                    SettingTile.ActionTile(
+                        title = WeatherSource.DWD.displayName,
+                        description = WeatherSource.DWD.displayLink,
+                        onClick = { uriHandler.openUri(WeatherSource.DWD.displayLink) },
+                        trailing = { SettingsTileIcon(R.drawable.open_in_new_24px) }
+                    )
+                )
+            )
+            Gap(10.dp)
+            SettingSection(
+                title = WeatherSource.METEO_FRANCE.displayName,
+                tiles = listOf(
+                    SettingTile.ActionTile(
+                        title = WeatherSource.METEO_FRANCE.displayName,
+                        description = WeatherSource.METEO_FRANCE.displayLink,
+                        onClick = { uriHandler.openUri(WeatherSource.METEO_FRANCE.displayLink) },
+                        trailing = { SettingsTileIcon(R.drawable.open_in_new_24px) }
+                    )
+                )
+            )
             Gap(WindowInsets.systemBars.asPaddingValues().calculateBottomPadding() + 30.dp)
 
         }

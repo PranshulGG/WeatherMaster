@@ -14,7 +14,7 @@ enum class WindDirection {
 
 
         // For sources that return values in degrees
-        fun toWindDirectionFromDegrees(value: Int): WindDirection? {
+        fun toWindDirectionFromDegrees(value: Int?): WindDirection? {
             return when (value) {
                 in 0..22, in 337..360 -> N
                 in 22..67 -> NE
@@ -29,7 +29,7 @@ enum class WindDirection {
         }
 
         // For rotating the arrow
-        fun toDegrees(windDirection: WindDirection): Int {
+        fun toDegrees(windDirection: WindDirection?): Int? {
             return when (windDirection) {
                 N -> 0
                 NE -> 45
@@ -39,6 +39,7 @@ enum class WindDirection {
                 SW -> 225
                 W -> 270
                 NW -> 315
+                else -> null
             }
         }
 
