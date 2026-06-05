@@ -3,3 +3,13 @@
 <br>
 <br>
 <p>Features both the Pixel Weather-inspired design and the original Froggy style, with summaries, multiple weather and search providers, personalization options, and more.</p>
+<br>
+<p><b>Supported weather sources: </b></p>
+
+- Open Meteo
+- Met Norway
+- National Weather Service (NWS)
+- SMHI
+- DWD
+- Meteo-France
+- And more to be added
