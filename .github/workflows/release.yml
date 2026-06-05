@@ -15,6 +15,7 @@ jobs:
       KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
       KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
       GEO_NAMES_USERNAME: ${{ secrets.GEO_NAMES_USERNAME }}
+      MF_KEY: ${{ secrets.MF_KEY }}
 
     steps:
       - name: Checkout
