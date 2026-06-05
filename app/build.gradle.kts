@@ -20,6 +20,9 @@ val geoNamesUserNameKey =
         ?: System.getenv("GEO_NAMES_USERNAME")
         ?: ""
 
+val mfKey = providers.gradleProperty("MF_KEY").orNull ?: System.getenv("MF_KEY")
+?: ""
+
 val keystoreFile = file("../keystore/release.jks")
 val hasKeystore = keystoreFile.exists()
 
@@ -43,6 +46,12 @@ android {
             "String",
             "GEO_NAMES_USERNAME",
             "\"$geoNamesUserNameKey\""
+        )
+
+        buildConfigField(
+            "String",
+            "MF_KEY",
+            "\"$mfKey\""
         )
     }
 
