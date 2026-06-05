@@ -70,11 +70,26 @@ abstract class WeatherMasterDatabase : RoomDatabase() {
 
 val MIGRATION_40_41 = object : Migration(40, 41) {
     override fun migrate(db: SupportSQLiteDatabase) {
-        db.execSQL(
-            """
-            ALTER TABLE weather_hourly ADD COLUMN dewPoint REAL
-        """.trimIndent()
-        )
+
+        val all = db.query("PRAGMA table_info(weather_hourly)")
+        var exists = false
+
+        while (all.moveToNext()) {
+            val columnName = all.getString(
+                all.getColumnIndexOrThrow("name")
+            )
+
+            if (columnName == "dewPoint") {
+                exists = true
+                break
+            }
+        }
+        all.close()
+        if (!exists) {
+            db.execSQL(
+                "ALTER TABLE weather_hourly ADD COLUMN dewPoint REAL"
+            )
+        }
     }
 }
 
