@@ -297,5 +297,10 @@
     <string name="weather_about_sun_moon_rise_set">Le lever indique quand le soleil ou la lune commence à apparaître à l\'horizon. Le coucher indique quand le soleil ou la lune a complètement disparu sous l\'horizon.</string>
     <string name="weather_about_dawn_dusk">L\'aube est la période où le ciel s\'éclaircit juste avant le lever du soleil. Le crépuscule est la période où la lumière s\'estompe juste après le coucher du soleil.</string>
     <string name="weather_about_pressure">La pression atmosphérique au niveau de la mer est une mesure de la force avec laquelle l\'atmosphère exerce une pression vers le bas, ajustée au niveau de la mer. L\'observation de son évolution peut donner un signe précurseur des changements météorologiques. Une baisse de la pression annonce généralement l\'arrivée d\'un temps instable, alors qu\'une hausse de la pression indique que les conditions deviennent plus stables.</string>
+    <string name="weather_about_windspeed">Wind speed is the rate at which air moves horizontally past a specific point, driven by differences in atmospheric pressure and temperature</string>
+    <string name="unit_wind_kt">Knots</string>
+    <string name="unit_wind_bft">Beaufort</string>
+    <string name="setting_day_summary">Day summary</string>
+    <string name="setting_day_summary_secondary">Show a daily summary generated from hourly data</string>
 </resources>
 <!--<string name=""></string>-->
