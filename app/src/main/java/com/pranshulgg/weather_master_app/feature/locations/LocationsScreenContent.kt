@@ -59,7 +59,7 @@ fun LocationsScreenContent(
 
         LazyColumn(
             modifier = Modifier.padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(2.dp)
         ) {
             val showDeviceLocationCard = locations.none { it.isDeviceLocation }
 
@@ -79,16 +79,42 @@ fun LocationsScreenContent(
             }
             itemsIndexed(locations, key = { _, item -> item.id }) { index, location ->
                 val weather = weatherMap[location.id]
-                val icon =
-                    weather?.current?.weatherCondition ?: WeatherCondition.NO_CONDITION_FOUND
-                val description =
-                    if (weather != null && weather.current.lastUpdatedInMilli != -1L) stringResource(
-                        R.string.time_last_updated,
-                        getLastUpdatedTimeString(
+
+                val icon = weather?.current?.weatherCondition
+                    ?: WeatherCondition.NO_CONDITION_FOUND
+
+                val description = if (weather != null && weather.current.lastUpdatedInMilli != -1L)
+                    stringResource(
+                        R.string.time_last_updated, getLastUpdatedTimeString(
                             context,
                             weather.current.lastUpdatedInMilli
                         )
                     ) else stringResource(R.string.weather_no_data)
+
+                val isFirst = index == 0
+                val isLast = index == locations.lastIndex
+                val isOnly = locations.size == 1
+
+
+                val shape = when {
+                    isOnly -> RoundedCornerShape(ShapeRadius.Large)
+                    isFirst -> RoundedCornerShape(
+                        topStart = ShapeRadius.Large,
+                        topEnd = ShapeRadius.Large,
+                        bottomStart = ShapeRadius.ExtraSmall,
+                        bottomEnd = ShapeRadius.ExtraSmall
+                    )
+
+                    isLast -> RoundedCornerShape(
+                        topStart = ShapeRadius.ExtraSmall,
+                        topEnd = ShapeRadius.ExtraSmall,
+                        bottomStart = ShapeRadius.Large,
+                        bottomEnd = ShapeRadius.Large
+                    )
+
+                    else -> RoundedCornerShape(ShapeRadius.ExtraSmall)
+                }
+
                 LocationItem(
                     title = location.name,
                     description = description,
@@ -102,7 +128,8 @@ fun LocationsScreenContent(
                     isSelected = location.id == activeLocation?.id,
                     onLongClick = { onLongClick(location) },
                     isDefault = location.isDefault,
-                    isDeviceLocation = location.isDeviceLocation
+                    isDeviceLocation = location.isDeviceLocation,
+                    shape = shape
                 )
 
 

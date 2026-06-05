@@ -33,16 +33,16 @@ fun LocationItem(
     isSelected: Boolean = false,
     isDefault: Boolean = false,
     onLongClick: () -> Unit,
-    isDeviceLocation: Boolean = false
+    isDeviceLocation: Boolean = false,
+    shape: RoundedCornerShape
 ) {
 
     val containerColor =
-        if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceBright
+        if (isSelected) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surfaceBright
     val contentColor =
-        if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface
+        if (isSelected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface
 
-    val shape = if (isSelected) RoundedCornerShape(ShapeRadius.ExtraLarge) else CircleShape
-
+    val shape = if (isSelected) RoundedCornerShape(ShapeRadius.Large) else shape
 
     Surface(
         modifier = Modifier
@@ -80,7 +80,7 @@ fun LocationItem(
             supportingContent = {
                 Text(
                     description,
-                    color = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer.copy(
+                    color = if (isSelected) MaterialTheme.colorScheme.onSecondaryContainer.copy(
                         0.8f
                     ) else MaterialTheme.colorScheme.onSurfaceVariant
                 )
