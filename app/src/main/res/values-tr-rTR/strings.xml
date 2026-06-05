@@ -297,5 +297,10 @@
     <string name="weather_about_sun_moon_rise_set">Doğuş saati, Güneş veya Ay\'ın ufuk çizgisinin üzerinde ilk göründüğü andır. Batış saati ise Güneş veya Ay\'ın ufuk çizgisinin altında tamamen kaybolduğu andır.</string>
     <string name="weather_about_dawn_dusk">Şafak vakti, gün doğumundan hemen önce gökyüzünün aydınlanmaya başladığı dönemdir. Gün batımı sonrası (alacakaranlık) ise gün batımından hemen sonra gökyüzündeki ışığın yavaş yavaş kaybolduğu dönemdir.</string>
     <string name="weather_about_pressure">Deniz seviyesi basıncı, atmosferin uyguladığı kuvvetin ölçülüp deniz seviyesine uyarlanmış halidir. Bu basıncın değişimini takip etmek, hava durumundaki değişikliklerin erkenden fark edilmesini sağlar. Basıncın düşmesi genellikle dengesiz ve yağışlı havaların yaklaştığı anlamına gelirken, basıncın yükselmesi çoğunlukla hava koşullarının daha kararlı hale geleceğini gösterir.</string>
+    <string name="weather_about_windspeed">Wind speed is the rate at which air moves horizontally past a specific point, driven by differences in atmospheric pressure and temperature</string>
+    <string name="unit_wind_kt">Knots</string>
+    <string name="unit_wind_bft">Beaufort</string>
+    <string name="setting_day_summary">Day summary</string>
+    <string name="setting_day_summary_secondary">Show a daily summary generated from hourly data</string>
 </resources>
 <!--<string name=""></string>-->
