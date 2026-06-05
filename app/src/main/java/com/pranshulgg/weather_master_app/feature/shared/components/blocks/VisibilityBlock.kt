@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,6 +31,7 @@ import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
 import com.pranshulgg.weather_master_app.core.ui.theme.ShapeRadius
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.utils.formatters.formatLocalizedNumber
 import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
 
@@ -64,32 +66,33 @@ fun VisibilityBlock(
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inversePrimary)
             )
 
-            Box(Modifier.align(Alignment.TopCenter)) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.SpaceEvenly,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Gap(28.dp)
                 Header()
+
+                Text(
+                    formatLocalizedNumber(
+                        number = visibility!!,
+                        decimalPlaces = 0,
+                        locale = getCurrentAppLocale()
+                    ),
+                    style = MaterialTheme.typography.displaySmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+
+
+                Text(
+                    units.distanceUnit.toName(context = context, inShort = true),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Gap(28.dp)
             }
-
-            Text(
-                formatLocalizedNumber(
-                    number = visibility!!,
-                    decimalPlaces = 0,
-                    locale = getCurrentAppLocale()
-                ),
-                style = MaterialTheme.typography.displayMedium,
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .offset(y = 8.dp),
-                color = MaterialTheme.colorScheme.onSurface,
-            )
-
-
-            Text(
-                units.distanceUnit.toName(context = context),
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .offset(y = (-30).dp),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
         }
     }
 
@@ -104,7 +107,6 @@ private fun Header() {
         ),
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .padding(top = 36.dp, start = 12.dp, end = 12.dp)
 
     ) {
         Symbol(

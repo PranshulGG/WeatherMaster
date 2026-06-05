@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -72,44 +73,45 @@ fun WindBlock(
                     contentDescription = "",
                     modifier = Modifier
                         .matchParentSize()
-                        .rotate(WindDirection.toDegrees(windDirection).toFloat()),
+                        .rotate(WindDirection.toDegrees(windDirection)?.toFloat() ?: 0f),
                     colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inversePrimary)
                 )
             }
 
-            Box(Modifier.align(Alignment.TopCenter)) {
-                Header()
-            }
-
-            Row(
-                Modifier
-                    .align(Alignment.Center)
-                    .offset(y = 10.dp)
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.SpaceEvenly,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    windSpeedFormatted.toString(),
-                    style = MaterialTheme.typography.displayMedium,
-                    modifier = Modifier.alignByBaseline(),
-                    color = MaterialTheme.colorScheme.onSurface,
-                )
-                Gap(horizontal = 2.dp)
-                Text(
-                    units.windUnit.toName(context, true),
-                    modifier = Modifier.alignByBaseline(),
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-            }
+                Gap(28.dp)
+                Header()
+
+                Row(
+                ) {
+                    Text(
+                        windSpeedFormatted.toString(),
+                        style = MaterialTheme.typography.displayMedium,
+                        modifier = Modifier.alignByBaseline(),
+                        color = MaterialTheme.colorScheme.onSurface,
+                    )
+                    Gap(horizontal = 2.dp)
+                    Text(
+                        units.windUnit.toName(context, true),
+                        modifier = Modifier.alignByBaseline(),
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
 
 
-            if (windDirection != null) {
-                Text(
-                    "From $windDirection",
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .padding(bottom = 16.dp)
-                )
+                if (windDirection != null) {
+                    Text(
+                        "From $windDirection",
+                        style = MaterialTheme.typography.bodyLarge,
+                    )
+                }
+                Gap(28.dp)
             }
         }
     }
@@ -124,7 +126,7 @@ private fun Header() {
         ),
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .padding(top = 36.dp, start = 12.dp, end = 12.dp)
+            .padding(start = 12.dp, end = 12.dp)
 
     ) {
         Symbol(

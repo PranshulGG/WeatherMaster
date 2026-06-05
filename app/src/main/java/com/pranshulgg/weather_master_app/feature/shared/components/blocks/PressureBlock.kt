@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,6 +28,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.weather.PressureUnit
 import com.pranshulgg.weather_master_app.core.model.weather.toName
+import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
 import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
 import com.pranshulgg.weather_master_app.core.ui.theme.ShapeRadius
@@ -76,28 +78,29 @@ fun PressureBlock(
                 modifier = Modifier.matchParentSize(),
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
             )
-            Box(Modifier.align(Alignment.TopCenter)) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.SpaceEvenly,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Gap(28.dp)
                 Header()
+
+                Text(
+                    if (units.pressureUnit != PressureUnit.HPA) "%.2f".format(pressureConverted) else "$pressureHpa",
+                    style = MaterialTheme.typography.displaySmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+
+
+                Text(
+                    units.pressureUnit.toName(true, context),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Gap(28.dp)
             }
-
-            Text(
-                if (units.pressureUnit != PressureUnit.HPA) "%.2f".format(pressureConverted) else "$pressureHpa",
-                style = MaterialTheme.typography.displaySmall,
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .offset(y = 10.dp),
-                color = MaterialTheme.colorScheme.onSurface,
-            )
-
-
-            Text(
-                units.pressureUnit.toName(true, context),
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .offset(y = (-24).dp),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
         }
     }
 }
@@ -112,7 +115,7 @@ private fun Header() {
         ),
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .padding(top = 38.dp, start = 12.dp, end = 12.dp)
+            .padding(start = 12.dp, end = 12.dp)
 
     ) {
         Symbol(

@@ -5,6 +5,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,6 +36,7 @@ import com.pranshulgg.weather_master_app.core.model.weather.uv.UvIndex
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.weather.uv.getUvIndex
 import com.pranshulgg.weather_master_app.core.model.weather.uv.toLabel
+import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
 import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
 import kotlin.math.roundToInt
@@ -115,29 +117,30 @@ fun UvIndexBlock(
                 }
             }
 
-            Box(Modifier.align(Alignment.TopCenter)) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.SpaceEvenly,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Gap(28.dp)
                 Header()
+
+                Text(
+                    "$uvIndex",
+                    style = MaterialTheme.typography.displaySmall,
+
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+
+
+                Text(
+                    uvIndexValue.toLabel(context),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Gap(28.dp)
             }
-
-            Text(
-                "$uvIndex",
-                style = MaterialTheme.typography.displayMedium,
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .offset(y = 4.dp),
-
-                color = MaterialTheme.colorScheme.onSurface,
-            )
-
-
-            Text(
-                uvIndexValue.toLabel(context),
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .offset(y = (-35).dp),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
         }
     }
 }
@@ -151,7 +154,7 @@ private fun Header() {
         ),
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .padding(top = 32.dp, start = 12.dp, end = 12.dp)
+            .padding(start = 12.dp, end = 12.dp)
 
     ) {
         Symbol(

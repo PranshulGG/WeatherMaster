@@ -63,6 +63,7 @@ import com.pranshulgg.weather_master_app.feature.blocks.components.AboutCard
 import com.pranshulgg.weather_master_app.feature.blocks.components.AboutCardText
 import com.pranshulgg.weather_master_app.feature.blocks.components.ChartBarItem
 import com.pranshulgg.weather_master_app.feature.blocks.components.MatBarChart
+import com.pranshulgg.weather_master_app.feature.blocks.components.NoHourlyDataAvailable
 import com.pranshulgg.weather_master_app.feature.blocks.components.ScaleCard
 import kotlin.math.max
 import kotlin.math.min
@@ -92,6 +93,7 @@ fun UvIndexScreen(navController: NavController, index: Int = 0, locationId: Stri
     val minUv = fullDayHourly.minOf { it.uvIndex!! }
     val uvIndexes = UvIndex.entries
     val date = toDateString(weather.daily[index].time, weather.location.timezone)
+    val uvIndexData = fullDayHourly.map { it.uvIndex }
 
 
     LargeTopBarScaffold(
@@ -113,14 +115,18 @@ fun UvIndexScreen(navController: NavController, index: Int = 0, locationId: Stri
                     .verticalScroll(rememberScrollState())
                     .padding(paddingValues)
         ) {
-            BarChart(
-                max = maxUv,
-                min = minUv,
-                times = fullDayHourly.map { it.time },
-                values = fullDayHourly.map { it.uvIndex?.roundToInt() ?: 0 },
-                weather.location.timezone,
-                context
-            )
+            if (!uvIndexData.contains(null)) {
+                BarChart(
+                    max = maxUv,
+                    min = minUv,
+                    times = fullDayHourly.map { it.time },
+                    values = fullDayHourly.map { it.uvIndex?.roundToInt() ?: 0 },
+                    weather.location.timezone,
+                    context
+                )
+            } else {
+                NoHourlyDataAvailable()
+            }
             Gap(14.dp)
             AboutCard {
                 AboutCardText(stringResource(R.string.weather_about_uv_index))
@@ -176,14 +182,13 @@ private fun BarChart(
 ) {
 
 
-    val timeStartIndex = if (times.size == 12) 0 else 6
     val is24hr = LocalAppPrefs.current.is24HrTimeFormat
 
-    val bottomValues = times.slice(timeStartIndex..times.lastIndex step 6)
+    val bottomValues = times.slice(6..times.lastIndex step 6)
 
     val barHeights = values.map {
         val percentage = ((it.minus(min)).div((max - min))).times(100)
-        max((percentage.div(100)).times(170).roundToInt(), 5)
+        max((percentage.div(100)).times(160).roundToInt(), 5)
     }
 
     val sideValues = (0 until max.roundToInt()).sortedByDescending { it }.map { "$it" }
@@ -230,33 +235,3 @@ private fun BarChart(
     )
 }
 
-
-@Composable
-private fun Header(max: String, maxSuffix: String) {
-    Column(
-        modifier = Modifier.padding(top = 18.dp, start = 18.dp, end = 16.dp)
-    ) {
-        Text(
-            stringResource(R.string.weather_max_for_the_day),
-            style = MaterialTheme.typography.headlineSmall,
-            color = MaterialTheme.colorScheme.onSurface
-        )
-        Row() {
-            Text(
-                max,
-                color = MaterialTheme.colorScheme.primary,
-                style = MaterialTheme.typography.displayLarge,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.alignByBaseline(),
-
-                )
-            Gap(horizontal = 6.dp)
-            Text(
-                maxSuffix,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.alignByBaseline(),
-            )
-        }
-    }
-}

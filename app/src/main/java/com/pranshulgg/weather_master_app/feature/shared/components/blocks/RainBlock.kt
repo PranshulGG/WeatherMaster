@@ -34,14 +34,15 @@ fun RainBlock(
     rainForTheDay: Double,
     context: Context,
     units: WeatherUnits,
-    isOnlyPrecipitation: Boolean = false
+    isOnlyPrecipitation: Boolean = false, onClickBlock: () -> Unit
 ) {
 
 
     Surface(
         color = MaterialTheme.colorScheme.surface,
         shape = MaterialTheme.shapes.extraLarge,
-        shadowElevation = ShadowElevation.level2
+        shadowElevation = ShadowElevation.level2,
+        onClick = onClickBlock
     ) {
         Box(
             Modifier
