@@ -102,10 +102,8 @@ private fun computeDaily(data: MetNorwayForecastJson, location: Location): List<
     val zoneId = location.timezone
 
     val groupedByDay = daily.groupBy {
-        it.time.iso8601TimestampToMilliseconds()
-            .normalizeToDay(zoneId)
-    }.filter { (_, values) ->
-        values.size >= 12
+        it.time.iso8601TimestampToMilliseconds().normalizeToDay(zoneId)
+
     }
 
     val sunTimings = getSunTimings(
@@ -127,6 +125,7 @@ private fun computeDaily(data: MetNorwayForecastJson, location: Location): List<
     )
 
 
+
     return groupedByDay.map { dailyIt ->
 
 
@@ -145,7 +144,7 @@ private fun computeDaily(data: MetNorwayForecastJson, location: Location): List<
 
         val minTemperature = dailyIt.value.minOf { it.data.instant.details.temperature }
         val maxTemperature = dailyIt.value.maxOf { it.data.instant.details.temperature }
-        val windSpeed = dailyIt.value.map { it.data.instant.details.windSpeed }.average()
+        val windSpeed = dailyIt.value.maxOf { it.data.instant.details.windSpeed }
         val windDirection =
             dailyIt.value.map { it.data.instant.details.windDirection }.average().roundToInt()
         val rainSum =
@@ -182,7 +181,7 @@ private fun computeDaily(data: MetNorwayForecastJson, location: Location): List<
             dawn = sunTimings[index].dawn ?: 0L,
             dusk = sunTimings[index].dusk ?: 0L
         )
-    }
+    }.take(4)
 
 }
 

@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.nws
 
+import android.util.Log
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherCurrent
@@ -67,6 +68,7 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
 
     val snowMap = expandedHourly(snowData.values.map { it.validTime to it.value })
     val visibilityMap = expandedHourly(visibilityData.values.map { it.validTime to it.value })
+
 
     val maxTemperatureMap =
         matchingMinMaxTemperature(
@@ -174,11 +176,12 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
             val minTemperature = minTemperatureMap.entries.minByOrNull { (key, _) ->
                 abs(key - time)
             }
-            val rainSum = getRainSum(precipitationData.values, time)
-            val snowfallSum = getSnowfallSum(snowData.values, time)
+            val rainSum = getRainSum(rainMap, time)
+            val snowfallSum = getSnowfallSum(snowMap, time)
 
 
-            val windSpeed = fixDailyNwsWindSpeedValue(item.windSpeed)
+            val windSpeed = getMaxWindSpeed(hourly, time)
+
 
             val condition = computeDailyWeatherCondition(
                 getHourlyConditionsForDay(hourly, time),
@@ -216,16 +219,18 @@ private fun fixHourlyNwsWindSpeedValue(value: String): Double? {
 }
 
 
-/**
- * NWS returns wind speed for daily forecast like "10 to 20 mph"
- * So we just strip it down and get the avg
- */
-private fun fixDailyNwsWindSpeedValue(value: String): Double? {
-    val value = Regex("""\d+""").findAll(value).map { it.value.toDouble() }.toList()
+private fun getMaxWindSpeed(data: NwsHourlyForecastPeriodsJson, time: Long): Double {
+    val startIndex =
+        data.periods.indexOfFirst { it.startTime.iso8601TimestampToMilliseconds() >= time }
+            .takeIf { it != -1 } ?: 0
 
-    if (value.isEmpty()) return null
-    return value.average()
+    val maxSpeed = data.periods.drop(maxOf(0, startIndex - 1))
+        .take(WeatherSource.NWS.hourlyAggregationLimitHours)
+        .map { fixHourlyNwsWindSpeedValue(it.windSpeed) }
+
+    return maxSpeed.maxOf { it ?: 0.0 }
 }
+
 
 private fun parseValidTime(validTime: String): NwsValidTime {
     val parts = validTime.trim().split("/")
@@ -254,22 +259,10 @@ private fun <T> expandedHourly(values: List<Pair<String, T>>): Map<Long, T> {
     // Loop through each item
     values.forEach { (validTime, value) ->
 
-        /**
-         * Parse the time into duration and start times
-         * For e.g. 2026-05-19T00:00:00+00:00/PT2H -> NwsValidTime(2026-05-19T00:00:00Z, PT2H)
-         */
         val parse = parseValidTime(validTime)
 
-        /**
-         * Convert duration to hours
-         * For e.g. PT2H -> 2
-         */
         val hours = parse.duration.toHours()
 
-        /**
-         * Create one timestamp per hour by adding
-         * the current offset to the start time
-         */
         repeat(hours.toInt()) { offset ->
             val instant = parse.start.plus(
                 offset.toLong(),
@@ -303,31 +296,33 @@ private fun <T> matchingMinMaxTemperature(
 
 
 private fun getRainSum(
-    data: List<NwsGridPointDataQuantitativePrecipitationValuesJson>,
+    data: Map<Long, Double>,
     time: Long
 ): Double {
 
-    val startIndex = data.indexOfFirst { it.validTime.iso8601TimestampToMilliseconds() >= time }
-        .takeIf { it != -1 } ?: 0
-    val data =
-        data.drop(maxOf(0, startIndex - 1)).take(WeatherSource.NWS.hourlyAggregationLimitHours)
+    val startIndex = data.toList().indexOfFirst { it.first >= time }.takeIf { it != -1 } ?: 0
 
-    val rainSum = data.sumOf { it.value ?: 0.0 }
+    val data =
+        data.toList().drop(maxOf(0, startIndex)).take(WeatherSource.NWS.hourlyAggregationLimitHours)
+
+
+    val rainSum = data.sumOf { it.second ?: 0.0 }
 
     return rainSum
 }
 
 private fun getSnowfallSum(
-    data: List<NwsGridPointDataSnowfallAmountValuesJson>,
+    data: Map<Long, Double>,
     time: Long
 ): Double {
 
-    val startIndex = data.indexOfFirst { it.validTime.iso8601TimestampToMilliseconds() >= time }
-        .takeIf { it != -1 } ?: 0
-    val data =
-        data.drop(maxOf(0, startIndex - 1)).take(WeatherSource.NWS.hourlyAggregationLimitHours)
+    val startIndex = data.toList().indexOfFirst { it.first >= time }.takeIf { it != -1 } ?: 0
 
-    val snowfallSum = data.sumOf { it.value ?: 0.0 }
+    val data =
+        data.toList().drop(maxOf(0, startIndex)).take(WeatherSource.NWS.hourlyAggregationLimitHours)
+
+
+    val snowfallSum = data.sumOf { it.second ?: 0.0 }
 
     return snowfallSum
 }

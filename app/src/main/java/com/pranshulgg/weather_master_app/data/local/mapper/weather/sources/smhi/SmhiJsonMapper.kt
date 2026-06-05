@@ -86,7 +86,7 @@ fun SmhiForecastJson.toDomain(location: Location): Weather {
                 precipitationProbability = data.precipitationProbability,
                 pressureMsl = data.pressureMsl,
                 humidity = data.humidity.toDouble(),
-                visibility = data.visibility.roundToInt(),
+                visibility = DistanceUnit.KM.convert(data.visibility, DistanceUnit.M)?.roundToInt(),
                 dewPoint = null
             )
         },
@@ -107,8 +107,6 @@ private fun computeDaily(data: SmhiForecastJson, location: Location): List<Weath
     val groupedByDay = daily.groupBy {
         it.time.iso8601TimestampToMilliseconds()
             .normalizeToDay(zoneId)
-    }.filter { (_, values) ->
-        values.size >= 12
     }
 
     val sunTimings = getSunTimings(
@@ -135,7 +133,7 @@ private fun computeDaily(data: SmhiForecastJson, location: Location): List<Weath
 
         val minTemperature = dailyIt.value.minOf { it.data.temperature }
         val maxTemperature = dailyIt.value.maxOf { it.data.temperature }
-        val windSpeed = dailyIt.value.map { it.data.windSpeed }.average()
+        val windSpeed = dailyIt.value.maxOf { it.data.windSpeed }
         val windDirection =
             dailyIt.value.map { it.data.windDirection }.average().roundToInt()
 
