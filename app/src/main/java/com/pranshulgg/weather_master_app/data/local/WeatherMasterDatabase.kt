@@ -71,6 +71,10 @@ abstract class WeatherMasterDatabase : RoomDatabase() {
 val MIGRATION_40_41 = object : Migration(40, 41) {
     override fun migrate(db: SupportSQLiteDatabase) {
 
+        /**
+         * Need to check if the column already exists
+         * because I forgot when it was added? and it keeps crashing because it already exists
+         */
         val all = db.query("PRAGMA table_info(weather_hourly)")
         var exists = false
 
