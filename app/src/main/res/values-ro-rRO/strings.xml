@@ -303,5 +303,10 @@
 O măsură a forței cu care atmosfera apasă în jos
 corelată cu nivelul mării
 Monitorizarea evoluției acesteia poate oferi un indiciu timpuriu privind schimbările meteorologice</string>
+    <string name="weather_about_windspeed">Wind speed is the rate at which air moves horizontally past a specific point, driven by differences in atmospheric pressure and temperature</string>
+    <string name="unit_wind_kt">Knots</string>
+    <string name="unit_wind_bft">Beaufort</string>
+    <string name="setting_day_summary">Day summary</string>
+    <string name="setting_day_summary_secondary">Show a daily summary generated from hourly data</string>
 </resources>
 <!--<string name=""></string>-->
