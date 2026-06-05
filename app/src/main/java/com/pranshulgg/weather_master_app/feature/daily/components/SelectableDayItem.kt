@@ -59,7 +59,6 @@ fun SelectableDayItem(
     ) {
         Column(
             Modifier
-                .height(160.dp)
                 .width(65.dp)
                 .padding(vertical = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,

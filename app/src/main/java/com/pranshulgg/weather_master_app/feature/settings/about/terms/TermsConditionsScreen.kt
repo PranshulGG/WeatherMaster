@@ -68,7 +68,7 @@ fun TermsConditionsScreen(navController: NavController) {
                         append("Pranshul")
                     }
 
-                    append(" as an open-source, hobby project. By using the Application, you agree to the following:")
+                    append(" as an open-source. By using the Application, you agree to the following:")
                 },
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurface

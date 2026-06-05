@@ -50,6 +50,8 @@ fun DailyScreen(navController: NavController, index: Int = 0, locationId: String
     val weather = remember(uiState.weather) { uiState.weather }
     val units = uiState.units
     val context = LocalContext.current
+    val prefs = LocalAppPrefs.current
+    val isShowSummary = prefs.isShowSummary
 
     var selectedIndex by remember { mutableIntStateOf(index) }
 
@@ -96,11 +98,13 @@ fun DailyScreen(navController: NavController, index: Int = 0, locationId: String
                 modifier = Modifier.padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(14.dp)
             ) {
-                SummaryCard(
-                    weather, context = context,
-                    dailyIndex = selectedIndex,
-                    units = units,
-                )
+                if (isShowSummary) {
+                    SummaryCard(
+                        weather, context = context,
+                        dailyIndex = selectedIndex,
+                        units = units,
+                    )
+                }
                 HourlyCard(
                     weather,
                     units, selectedDaily.time

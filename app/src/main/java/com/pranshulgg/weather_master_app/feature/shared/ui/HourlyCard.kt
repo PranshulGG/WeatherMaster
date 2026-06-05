@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.feature.shared.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -54,6 +55,7 @@ fun HourlyCard(
 
     if (!isWeatherHourlyDomainSafe(weather)) return
 
+
     val lazyListState = rememberLazyListState()
     val filteredHourly =
         findMatchingHourly(
@@ -61,6 +63,7 @@ fun HourlyCard(
             currentMilli,
             weather.location.source
         )
+
 
     val prefs = LocalAppPrefs.current
 
