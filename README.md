@@ -56,6 +56,16 @@
 
 <a href="https://crowdin.com/project/weathermaster"><img src="https://badges.crowdin.net/weathermaster/localized.svg" width="200"> </a>
 
+# 🌦️ Supported weather sources
+
+- **Open Meteo**
+- **Met Norway**
+- **National Weather Service (NWS)**
+- **SMHI**
+- **DWD**
+- **Meteo-France**
+- _**And more to be added**_
+
 # ✉️ Contact
 
 For any questions or feedback, feel free to open an issue on GitHub or contact
