@@ -2,6 +2,7 @@ package com.pranshulgg.weather_master_app.data.worker
 
 import android.Manifest
 import android.content.Context
+import android.util.Log
 import androidx.annotation.RequiresPermission
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
@@ -9,6 +10,8 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
+import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
+import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.data.provider.WeatherRepositoryProvider
@@ -61,6 +64,7 @@ class WeatherWorker @AssistedInject constructor(
                 WeatherNotification.showNotification(default.name)
             }
 
+
             // Get the repository
             val repo = repositoryProvider.getRepository(default.source)
 
@@ -95,17 +99,28 @@ class WeatherWorker @AssistedInject constructor(
     companion object {
         const val KEY_SKIP_FOREGROUND_CHECK = "skip_foreground_check"
 
-        fun startNow(context: Context, skipForegroundCheck: Boolean = false) {
-            val inputData = workDataOf(
-                KEY_SKIP_FOREGROUND_CHECK to skipForegroundCheck
-            )
-            val request =
-                OneTimeWorkRequestBuilder<WeatherWorker>()
-                    .setInputData(inputData)
-                    .build()
+//        fun startNow(context: Context, skipForegroundCheck: Boolean = false) {
+//            val inputData = workDataOf(
+//                KEY_SKIP_FOREGROUND_CHECK to skipForegroundCheck
+//            )
+//            val request =
+//                OneTimeWorkRequestBuilder<WeatherWorker>()
+//                    .setInputData(inputData)
+//                    .build()
+//
+//            WorkManager.getInstance(context)
+//                .enqueue(request)
+//        }
 
-            WorkManager.getInstance(context)
-                .enqueue(request)
+        suspend fun updateAllWidgets(
+            context: Context,
+            data: Weather,
+            skipForegroundCheck: Boolean = false,
+            units: WeatherUnits
+        ) {
+            val json = widgetWeatherMapper(data, context, units)
+
+            WeatherWidgetUpdater(context).update(json)
         }
     }
 }

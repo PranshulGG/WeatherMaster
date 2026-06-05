@@ -8,10 +8,4 @@ import com.pranshulgg.weather_master_app.widgets.weather.WeatherWidget
 
 class WidgetPillReceiver : GlanceAppWidgetReceiver() {
     override val glanceAppWidget = WidgetPill()
-
-    override fun onEnabled(context: Context) {
-        super.onEnabled(context)
-
-        WeatherWorker.startNow(context)
-    }
 }

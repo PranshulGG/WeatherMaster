@@ -23,17 +23,8 @@ import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateDefinition
 import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateJson
 import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
-import com.pranshulgg.weather_master_app.widgets.params.WidgetSize
 import com.pranshulgg.weather_master_app.widgets.params.WidgetSizePoints
-import com.pranshulgg.weather_master_app.widgets.params.WidgetSizeType
-import com.pranshulgg.weather_master_app.widgets.params.getWidgetParams
-import com.pranshulgg.weather_master_app.widgets.weather.ui.WeatherWidgetMedium
 import com.pranshulgg.weather_master_app.widgets.weather.ui.WeatherWidgetNormal
-import com.pranshulgg.weather_master_app.widgets.weather.ui.WeatherWidgetSmall
-import com.pranshulgg.weather_master_app.widgets.weather.ui.WeatherWidgetTiny
-import com.pranshulgg.weather_master_app.widgets.weather.ui.horizontal.WeatherWidgetHorizontal
-import com.pranshulgg.weather_master_app.widgets.weather.ui.horizontal.WeatherWidgetHorizontalSmall
-import com.pranshulgg.weather_master_app.widgets.weather.ui.horizontal.WeatherWidgetHorizontalTiny
 import kotlinx.serialization.json.Json
 
 
@@ -58,7 +49,6 @@ class WeatherWidget : GlanceAppWidget() {
                 currentState<WeatherWidgetStateJson>()
 
             val json = widgetState.json
-            val widgetParams = getWidgetParams(size)
             val state = json?.let {
                 Json.decodeFromString<WidgetWeather>(it)
             }
@@ -67,22 +57,7 @@ class WeatherWidget : GlanceAppWidget() {
                 GlanceModifier.fillMaxSize().appWidgetBackgroundShape()
                     .clickable(actionStartActivity<MainActivity>())
             ) {
-
-                if (widgetParams.type == WidgetSizeType.HORIZONTAL) {
-                    when (widgetParams.size) {
-                        WidgetSize.TINY -> WeatherWidgetHorizontalTiny(state)
-                        WidgetSize.SMALL -> WeatherWidgetHorizontalSmall(state)
-                        else -> WeatherWidgetHorizontal(state)
-                    }
-                } else {
-
-                    when (widgetParams.size) {
-                        WidgetSize.TINY -> WeatherWidgetTiny(state)
-                        WidgetSize.SMALL -> WeatherWidgetSmall(state)
-                        WidgetSize.MEDIUM -> WeatherWidgetMedium(state)
-                        WidgetSize.LARGE -> WeatherWidgetNormal(state, size)
-                    }
-                }
+                WeatherWidgetNormal(state, size)
             }
         }
     }
