@@ -261,9 +261,13 @@ class WeatherViewModel @Inject constructor(
 
         }
 
-        // UPDATE WIDGETS, Run the worker once
         if (location.isDefault && !_uiState.value.isError && _uiState.value.weather != null) {
-            WeatherUpdateScheduler.startNow(context, skipForegroundCheck = true)
+            WeatherUpdateScheduler.updateAllWidgets(
+                context,
+                skipForegroundCheck = true,
+                _uiState.value.weather!!,
+                _uiState.value.weatherUnits
+            )
         }
     }
 
