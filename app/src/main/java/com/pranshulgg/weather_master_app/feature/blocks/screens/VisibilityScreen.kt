@@ -52,6 +52,7 @@ import com.pranshulgg.weather_master_app.feature.blocks.components.AboutCard
 import com.pranshulgg.weather_master_app.feature.blocks.components.AboutCardText
 import com.pranshulgg.weather_master_app.feature.blocks.components.ChartBarItem
 import com.pranshulgg.weather_master_app.feature.blocks.components.MatBarChart
+import com.pranshulgg.weather_master_app.feature.blocks.components.NoHourlyDataAvailable
 import com.pranshulgg.weather_master_app.feature.blocks.components.ScaleCard
 import kotlin.math.max
 import kotlin.math.roundToInt
@@ -93,6 +94,7 @@ fun VisibilityScreen(navController: NavController, index: Int = 0, locationId: S
 
     val date = toDateString(weather.daily[index].time, weather.location.timezone)
     val scale = getVisibilityScaleFor(units.distanceUnit)
+    val visibility = fullDayHourly.map { it.visibility }
 
 
 
@@ -115,13 +117,17 @@ fun VisibilityScreen(navController: NavController, index: Int = 0, locationId: S
                     .verticalScroll(rememberScrollState())
                     .padding(paddingValues)
         ) {
-            BarChart(
-                times = fullDayHourly.map { it.time },
-                values = fullDayHourly.map { it.visibility!! },
-                zoneId = weather.location.timezone,
-                unit = units.distanceUnit,
-                context = context
-            )
+            if (!visibility.contains(null)) {
+                BarChart(
+                    times = fullDayHourly.map { it.time },
+                    values = fullDayHourly.map { it.visibility!! },
+                    zoneId = weather.location.timezone,
+                    unit = units.distanceUnit,
+                    context = context
+                )
+            } else {
+                NoHourlyDataAvailable()
+            }
             Gap(14.dp)
             AboutCard {
                 AboutCardText(stringResource(R.string.weather_visibility_about))
@@ -160,7 +166,6 @@ private fun BarChart(
 ) {
 
 
-    val timeStartIndex = if (times.size == 12) 0 else 6
     val is24hr = LocalAppPrefs.current.is24HrTimeFormat
 
 
@@ -168,7 +173,7 @@ private fun BarChart(
         DistanceUnit.M.convert(it.toDouble(), unit)
     }
 
-    val bottomValues = times.slice(timeStartIndex..times.lastIndex step 6)
+    val bottomValues = times.slice(6..times.lastIndex step 6)
 
     val sideValues =
         (0..50000).toList().sortedByDescending { it }.slice(0..50000 step 10000)
@@ -183,7 +188,7 @@ private fun BarChart(
             ((it - visibilityMin) / (visibilityMax - visibilityMin))
                 .coerceIn(0.0, 1.0)
 
-        max((valuePercentage * 170).roundToInt(), 5)
+        max((valuePercentage * 160).roundToInt(), 5)
     }
 
 
@@ -199,6 +204,7 @@ private fun BarChart(
             else -> Color(0xFF1565C0)
         }
     }
+
     MatBarChart(
         topValues = emptyList(),
         bottomValues = bottomValues.map {

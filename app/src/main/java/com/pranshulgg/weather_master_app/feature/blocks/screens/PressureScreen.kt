@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app.feature.blocks.screens
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
@@ -36,6 +37,7 @@ import com.pranshulgg.weather_master_app.feature.blocks.BlocksScreenViewModel
 import com.pranshulgg.weather_master_app.feature.blocks.components.AboutCard
 import com.pranshulgg.weather_master_app.feature.blocks.components.AboutCardText
 import com.pranshulgg.weather_master_app.feature.blocks.components.MatBarChart
+import com.pranshulgg.weather_master_app.feature.blocks.components.NoHourlyDataAvailable
 import kotlin.math.max
 import kotlin.math.roundToInt
 
@@ -61,9 +63,9 @@ fun PressureScreen(navController: NavController, index: Int = 0, locationId: Str
     val fullDayHourly =
         findMatchingHourly(hourly, weather.daily[index].time, weather.location.source)
 
-    val maxPressure = fullDayHourly.maxOf { it.pressureMsl ?: 0.0 }
-    val minPressure = fullDayHourly.minOf { it.pressureMsl ?: 0.0 }
     val date = toDateString(weather.daily[index].time, weather.location.timezone)
+    val pressureData = fullDayHourly.map { it.pressureMsl }
+
 
     LargeTopBarScaffold(
         title = stringResource(R.string.weather_pressure),
@@ -84,15 +86,18 @@ fun PressureScreen(navController: NavController, index: Int = 0, locationId: Str
                     .verticalScroll(rememberScrollState())
                     .padding(paddingValues)
         ) {
-            BarChart(
-                max = maxPressure,
-                min = minPressure,
-                times = fullDayHourly.map { it.time },
-                values = fullDayHourly.map { it.pressureMsl ?: 0.0 },
-                zoneId = weather.location.timezone,
-                unit = units.pressureUnit,
-                context = context
-            )
+
+            if (!pressureData.contains(null)) {
+                BarChart(
+                    times = fullDayHourly.map { it.time },
+                    values = fullDayHourly.map { it.pressureMsl ?: 0.0 },
+                    zoneId = weather.location.timezone,
+                    unit = units.pressureUnit,
+                    context = context
+                )
+            } else {
+                NoHourlyDataAvailable()
+            }
             Gap(14.dp)
             AboutCard {
                 AboutCardText(stringResource(R.string.weather_about_pressure))
@@ -107,8 +112,6 @@ fun PressureScreen(navController: NavController, index: Int = 0, locationId: Str
 
 @Composable
 private fun BarChart(
-    max: Double,
-    min: Double,
     times: List<Long>,
     values: List<Double>,
     zoneId: String,
@@ -118,20 +121,11 @@ private fun BarChart(
 
     val is24hr = LocalAppPrefs.current.is24HrTimeFormat
 
-    val range = (max - min).toInt()
-
-    val step = when {
-        range <= 5 -> 1f
-        range <= 50 -> 5f
-        else -> 10f
-    }
-    val minY = (min.toInt() / step) * step
-    val maxY = ((max.toInt() + 1) / step) * step
-
-    val sideValues = generateSequence(maxY) { it - step }
-        .takeWhile { it >= minY }
-        .sortedByDescending { it }
-        .toList().take(5)
+    val sideValues = when (unit) {
+        PressureUnit.HPA -> listOf(980, 995, 1010, 1025, 1040)
+        PressureUnit.INHG -> listOf(28, 29, 30, 31)
+        else -> listOf(980, 995, 1010, 1025, 1040)
+    }.sortedByDescending { it }
 
     val pressureIcons = values.mapIndexed { index, it ->
         val previousPressure = if (index > 0) values[index - 1] else it
@@ -146,8 +140,8 @@ private fun BarChart(
 
     val barHeights = values.map {
 
-        val chartMin = 1000.0
-        val chartMax = 50000.0
+        val chartMin = 980.0
+        val chartMax = 1040.0
 
         val valuePercentage =
             ((it - chartMin) / (chartMax - chartMin))
@@ -167,9 +161,8 @@ private fun BarChart(
         pressureIcons[index]
     }
 
-    val timeStartIndex = if (times.size == 12) 0 else 6
 
-    val bottomValues = times.slice(timeStartIndex..times.lastIndex step 6)
+    val bottomValues = times.slice(6..times.lastIndex step 6)
 
     val barColor = values.map {
         val pressure = it.roundToInt()
@@ -181,6 +174,7 @@ private fun BarChart(
             else -> Color(0xFFC62828)
         }
     }
+
     MatBarChart(
         topValues = topValues.map { { Symbol(it, size = 18.dp) } },
         bottomValues = bottomValues.map {
@@ -200,9 +194,9 @@ private fun BarChart(
         barHeights = barHeights,
         headerValue = formatter(values.average()),
         headerSuffix = unit.toName(inShort = true, context),
-        barColor = barColor
+        barColor = barColor,
+        chartHeight = 220.dp
     )
 
 
 }
-

@@ -66,7 +66,7 @@ fun WindScreen(navController: NavController, index: Int = 0, locationId: String)
 
     val date = toDateString(weather.daily[index].time, weather.location.timezone)
 
-    val maxWind = weather.daily[index].windSpeed
+    val maxWind = fullDayHourly.maxOf { it.windSpeed ?: 0.0 }
     val minWind = fullDayHourly.minOf { it.windSpeed ?: 0.0 }
     val dayDirection = weather.daily[index].windDirection
 
@@ -90,7 +90,7 @@ fun WindScreen(navController: NavController, index: Int = 0, locationId: String)
                     .padding(paddingValues)
         ) {
             WindBarChart(
-                max = maxWind!!,
+                max = maxWind,
                 min = minWind,
                 times = fullDayHourly.map { it.time },
                 values = fullDayHourly.map { it.windSpeed ?: 0.0 },
@@ -123,31 +123,32 @@ private fun WindBarChart(
 ) {
 
 
-    val timeStartIndex = if (times.size == 12) 0 else 6
     val is24hr = LocalAppPrefs.current.is24HrTimeFormat
-
-    val bottomValues = times.slice(timeStartIndex..times.lastIndex step 6)
 
     val barHeights = values.map {
         val percentage = ((it.minus(min)).div((max - min))).times(100)
-        max((percentage.div(100)).times(170).roundToInt(), 5)
+        max((percentage.div(100)).times(160).roundToInt(), 5)
     }
 
+
     val sideValues =
-        (min.roundToInt() until max.roundToInt()).sortedByDescending { it }
-            .map { "${WindSpeedUnit.KPH.convert(it.toDouble(), unit)?.roundToInt()}" }
+        (0 until max.roundToInt()).sortedByDescending { it }
+            .map { "${WindSpeedUnit.KPH.convert(it.toDouble(), unit)?.roundToInt()}" }.distinct()
+            .take(10)
+
 
     val directions = directions.map {
-        WindDirection.toDegrees(it ?: WindDirection.N)
+        WindDirection.toDegrees(it)
     }
 
 
     val steps = 7
 
-    val topValues = (0 until steps).map { i ->
+    val topValues = if (!directions.contains(null)) (0 until steps).map { i ->
         val index = ((directions.size - 1) * i.toDouble() / (steps - 1)).toInt()
         directions[index]
-    }
+    } else null
+    val bottomValues = times.slice(6..times.lastIndex step 6)
 
     val barColor = values.map {
         when {
@@ -159,18 +160,18 @@ private fun WindBarChart(
         }
     }
     MatBarChart(
-        topValues = topValues.map {
+        topValues = topValues?.map {
             {
                 Image(
                     painter = painterResource(id = R.drawable.weather_wind_arrow_dominant),
                     contentDescription = "",
                     modifier = Modifier
                         .size(18.dp)
-                        .rotate(it.toFloat()),
+                        .rotate(it!!.toFloat()),
                     colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
                 )
             }
-        },
+        } ?: emptyList(),
         bottomValues = bottomValues.map {
             {
 
@@ -188,7 +189,12 @@ private fun WindBarChart(
         barHeights = barHeights,
         barColor = barColor,
         headerValue = "${WindSpeedUnit.KPH.convert(max, unit)?.roundToInt()}",
-        headerSuffix = "${unit.toName(context, true)} • $dayDirection",
+        headerSuffix = "${
+            unit.toName(
+                context,
+                true
+            )
+        } ${if (dayDirection != null) " • $dayDirection" else ""}",
         headerTitle = stringResource(R.string.weather_max_for_the_day),
         chartHeight = 250.dp
     )

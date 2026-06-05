@@ -56,6 +56,7 @@ import com.pranshulgg.weather_master_app.feature.blocks.components.AboutCard
 import com.pranshulgg.weather_master_app.feature.blocks.components.AboutCardText
 import com.pranshulgg.weather_master_app.feature.blocks.components.ChartBarItem
 import com.pranshulgg.weather_master_app.feature.blocks.components.MatBarChart
+import com.pranshulgg.weather_master_app.feature.blocks.components.NoHourlyDataAvailable
 import kotlin.math.max
 import kotlin.math.roundToInt
 
@@ -77,10 +78,14 @@ fun HumidityScreen(navController: NavController, index: Int = 0, locationId: Str
     val fullDayHourly =
         findMatchingHourly(hourly, weather.daily[index].time, weather.location.source)
 
+
     val date = toDateString(weather.daily[index].time, weather.location.timezone)
 
     val dewPointMax = fullDayHourly.maxOf { it.dewPoint ?: 0.0 }
     val dewPointMin = fullDayHourly.minOf { it.dewPoint ?: 0.0 }
+
+    val dewPointData = fullDayHourly.map { it.dewPoint }
+    val humidityData = fullDayHourly.map { it.humidity }
 
 
     LargeTopBarScaffold(
@@ -102,24 +107,32 @@ fun HumidityScreen(navController: NavController, index: Int = 0, locationId: Str
                     .verticalScroll(rememberScrollState())
                     .padding(paddingValues)
         ) {
-            BarChart(
-                times = fullDayHourly.map { it.time },
-                values = fullDayHourly.map { it.humidity?.roundToInt() ?: 0 },
-                weather.location.timezone
-            )
+            if (!humidityData.contains(null)) {
+                BarChart(
+                    times = fullDayHourly.map { it.time },
+                    values = fullDayHourly.map { it.humidity?.roundToInt() ?: 0 },
+                    weather.location.timezone
+                )
+            } else {
+                NoHourlyDataAvailable()
+            }
             Gap(14.dp)
             AboutCard {
                 AboutCardText(stringResource(R.string.weather_about_humidity))
             }
             Gap(14.dp)
             DewPointHeader()
-            DewPointBarChart(
-                times = fullDayHourly.map { it.time },
-                values = fullDayHourly.map { it.dewPoint ?: 0.0 },
-                zoneId = weather.location.timezone,
-                max = dewPointMax,
-                min = dewPointMin
-            )
+            if (!dewPointData.contains(null)) {
+                DewPointBarChart(
+                    times = fullDayHourly.map { it.time },
+                    values = fullDayHourly.map { it.dewPoint ?: 0.0 },
+                    zoneId = weather.location.timezone,
+                    max = dewPointMax,
+                    min = dewPointMin
+                )
+            } else {
+                NoHourlyDataAvailable()
+            }
             Gap(14.dp)
             AboutCard {
                 AboutCardText(stringResource(R.string.weather_about_dewpoint))
@@ -138,15 +151,14 @@ private fun BarChart(
     zoneId: String
 ) {
 
-    val timeStartIndex = if (times.size == 12) 0 else 6
     val is24hr = LocalAppPrefs.current.is24HrTimeFormat
 
-    val bottomValues = times.slice(timeStartIndex..times.lastIndex step 6)
+    val bottomValues = times.slice(6..times.lastIndex step 6)
 
     val sideValues = (0..100).toList().sortedByDescending { it }.slice(0..100 step 10)
 
     val barHeights = values.map {
-        max((it.div(100f)).times(170), 5f)
+        max((it.div(100f)).times(160), 5f)
     }
     val barColor = values.map {
 
@@ -236,12 +248,12 @@ private fun DewPointBarChart(
         headerValue = "${values.map { it }.average().roundToInt()}°",
         headerSuffix = "",
         barColor = barColor,
-        chartHeight = 220.dp
+        chartHeight = 240.dp
     )
 }
 
 @Composable
-fun DewPointHeader() {
+private fun DewPointHeader() {
     Row(
         horizontalArrangement = Arrangement.spacedBy(
             5.dp, alignment = Alignment.CenterHorizontally
