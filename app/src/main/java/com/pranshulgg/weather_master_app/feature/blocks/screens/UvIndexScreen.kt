@@ -194,7 +194,7 @@ private fun BarChart(
     val sideValues = (0 until max.roundToInt()).sortedByDescending { it }.map { "$it" }
 
 
-    val steps = 3
+    val steps = 4
 
     val topValues = (0 until steps).map { i ->
         val index = ((values.size - 1) * i.toDouble() / (steps - 1)).toInt()
