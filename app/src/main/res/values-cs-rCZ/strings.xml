@@ -296,7 +296,7 @@
     <string name="moonphase_first_quarter">První čtvrt</string>
     <string name="moonphase_waxing_gibbous">Dorůstající měsíc</string>
     <string name="moonphase_full_moon">Úplněk</string>
-    <string name="moonphase_waning_gibbous">Dorůstající měsíc</string>
+    <string name="moonphase_waning_gibbous">Couvající měsíc</string>
     <string name="moonphase_last_quarter">Poslední čtvrt</string>
     <string name="moonphase_waning_crescent">Couvající srpek</string>
     <string name="moon_phase">Fáze</string>
@@ -304,9 +304,9 @@
     <string name="weather_about_dawn_dusk">Dawn is the period of light in the sky just before sunrise. Dusk is the period of fading light in the sky just after sunset</string>
     <string name="weather_about_pressure">Mean sea level pressure, a measure of how much the atmosphere is pressing down, adjusted to sea level. Watching how it changes can provide an early indication of weather changes. Pressure falling usually means unsettled weather is approaching, while pressure rising often means conditions are becoming more stable</string>
     <string name="weather_about_windspeed">Wind speed is the rate at which air moves horizontally past a specific point, driven by differences in atmospheric pressure and temperature</string>
-    <string name="unit_wind_kt">Knots</string>
+    <string name="unit_wind_kt">Uzly</string>
     <string name="unit_wind_bft">Beaufort</string>
-    <string name="setting_day_summary">Day summary</string>
+    <string name="setting_day_summary">Denní shrnutí</string>
     <string name="setting_day_summary_secondary">Show a daily summary generated from hourly data</string>
 </resources>
 <!--<string name=""></string>-->
