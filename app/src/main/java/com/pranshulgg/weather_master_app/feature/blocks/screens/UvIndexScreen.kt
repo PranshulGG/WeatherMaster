@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app.feature.blocks.screens
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -193,13 +194,8 @@ private fun BarChart(
 
     val sideValues = (0 until max.roundToInt()).sortedByDescending { it }.map { "$it" }
 
+    val topValues = values.slice(6..values.lastIndex step 6)
 
-    val steps = 4
-
-    val topValues = (0 until steps).map { i ->
-        val index = ((values.size - 1) * i.toDouble() / (steps - 1)).toInt()
-        values[index]
-    }
     MatBarChart(
         topValues = topValues.map {
             {

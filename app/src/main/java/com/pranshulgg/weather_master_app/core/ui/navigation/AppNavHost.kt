@@ -64,11 +64,6 @@ fun AppNavHost(
             navigation(
                 route = "root",
                 startDestination = NavRoutes.MAIN
-//                startDestination = NavRoutes.blockScreen(
-//                    NavRoutes.PRECIPITATION,
-//                    0,
-//                    "257bd654-c22b-4e9f-a106-ea76abe11f22"
-//                )
             ) {
                 composable(
                     NavRoutes.MAIN
