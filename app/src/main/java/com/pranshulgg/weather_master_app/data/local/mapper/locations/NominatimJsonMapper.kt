@@ -12,6 +12,7 @@ fun NominatimAddressJson.toDomain(): Address {
 
     return Address(
         city = city,
-        country = this.address.country
+        country = this.address.country,
+        countryCode = this.address.countryCode
     )
 }

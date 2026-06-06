@@ -41,7 +41,7 @@ object SharedBottomSheet {
         onDismiss: () -> Unit
     ) {
         if (show) {
-            val recommendedSources = getWeatherSourcesForCountry(countryCode)
+            val recommendedSources = getWeatherSourcesForCountry(countryCode?.uppercase())
             val globalSources = getWeatherSourcesGlobal()
             var currentSelectedSource by remember(
                 show,

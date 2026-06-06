@@ -257,13 +257,12 @@ private fun Icon() {
 
 }
 
-suspend fun DeviceLocation.toDomain(context: Context): Location {
+fun DeviceLocation.toDomain(context: Context): Location {
 
 
     val formattedLatitude = kotlin.math.round(latitude!! * 100000) / 100000
     val formattedLongitude = kotlin.math.round(longitude!! * 100000) / 100000
 
-    val countryCode = getCountryCode(context, formattedLatitude, formattedLongitude)
 
 
     return Location(
@@ -273,7 +272,7 @@ suspend fun DeviceLocation.toDomain(context: Context): Location {
         longitude = formattedLongitude,
         country = "",
         timezone = TimeZone.getDefault().id,
-        countryCode = countryCode,
+        countryCode = "",
         state = "",
         source = WeatherSource.OPEN_METEO,
         isFavorite = false,

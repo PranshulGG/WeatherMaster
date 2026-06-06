@@ -2,7 +2,7 @@ package com.pranshulgg.weather_master_app.core.model.sources
 
 enum class WeatherSource(
     val displayName: String,
-    val hourlyAggregationLimitHours: Int,
+    val hourlyAggregationLimitHours: Int, // stupid
     val displayLink: String
 ) {
     OPEN_METEO(

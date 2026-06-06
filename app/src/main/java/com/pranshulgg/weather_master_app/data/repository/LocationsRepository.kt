@@ -15,6 +15,7 @@ import com.pranshulgg.weather_master_app.data.local.mapper.locations.toEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDomain
 import com.pranshulgg.weather_master_app.data.provider.devicelocation.DeviceLocation
 import com.pranshulgg.weather_master_app.data.provider.devicelocation.GetDeviceLocation
+import com.pranshulgg.weather_master_app.data.provider.devicelocation.getCountryCode
 import com.pranshulgg.weather_master_app.feature.intro.toDomain
 import dagger.hilt.android.qualifiers.ApplicationContext
 import jakarta.inject.Inject
@@ -142,7 +143,9 @@ class LocationsRepository @Inject constructor(
             newLat,
             newLon,
             address?.city ?: "$newLat, $newLon",
-            address?.country ?: ""
+            address?.country ?: "",
+            address?.countryCode ?: getCountryCode(context, location.latitude, location.longitude)
+            ?: ""
         )
     }
 
@@ -168,7 +171,8 @@ class LocationsRepository @Inject constructor(
             saveLocation(
                 location.toDomain(context).copy(
                     name = address.city,
-                    country = address.country
+                    country = address.country,
+                    countryCode = address.countryCode
                 )
             )
         } else {
