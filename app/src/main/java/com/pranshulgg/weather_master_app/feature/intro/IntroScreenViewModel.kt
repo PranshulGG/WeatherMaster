@@ -30,7 +30,8 @@ class IntroScreenViewModel @Inject constructor(
                 locationsRepo.saveLocation(
                     location.toDomain(context).copy(
                         name = address.city,
-                        country = address.country
+                        country = address.country,
+                        countryCode = address.countryCode
                     )
                 )
             } else {
