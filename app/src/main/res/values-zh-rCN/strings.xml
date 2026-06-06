@@ -298,10 +298,10 @@
     <string name="weather_about_sun_moon_rise_set">升起时间是指太阳或月亮首次出现在地平线以上的时间。落下时间是指太阳或月亮完全消失在地平线以下的时间</string>
     <string name="weather_about_dawn_dusk">黎明是指日出前天空中光线明亮的时期。黄昏是指日落后天空中光线逐渐消失的时期</string>
     <string name="weather_about_pressure">平均海平面气压是衡量大气向下压力的指标，根据海平面进行了调整。观察其变化可以提前预示天气变化。气压下降通常意味着不稳定天气即将到来，而气压上升则通常意味着天气状况趋于稳定</string>
-    <string name="weather_about_windspeed">Wind speed is the rate at which air moves horizontally past a specific point, driven by differences in atmospheric pressure and temperature</string>
-    <string name="unit_wind_kt">Knots</string>
-    <string name="unit_wind_bft">Beaufort</string>
-    <string name="setting_day_summary">Day summary</string>
-    <string name="setting_day_summary_secondary">Show a daily summary generated from hourly data</string>
+    <string name="weather_about_windspeed">风速是指空气水平流过某一点的速度，是由大气压力和温度的差异驱动的</string>
+    <string name="unit_wind_kt">节</string>
+    <string name="unit_wind_bft">蒲福风级</string>
+    <string name="setting_day_summary">当日摘要</string>
+    <string name="setting_day_summary_secondary">显示根据每小时数据生成的每日摘要</string>
 </resources>
 <!--<string name=""></string>-->
