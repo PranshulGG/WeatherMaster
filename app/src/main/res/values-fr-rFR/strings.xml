@@ -208,7 +208,7 @@
     <string name="setting_weather_based_theme_secondary">Ajuste les couleurs de l\'application automatiquement en fonction des conditions météo</string>
     <string name="unit_pressure_mmhg">mmHg</string>
     <string name="summary_overview_template_1">%1$s pendant la majeure partie de la journée.</string>
-    <string name="summary_overview_template_2">Prévoyez des conditions %1$s pour la journée</string>
+    <string name="summary_overview_template_2">Des conditions %1$s sont prévues pour la journée.</string>
     <string name="summary_overview_template_3">Des conditions %1$s sont prévues.</string>
     <string name="summary_overview_template_4">Le ciel restera %1$s pour une grande partie de la journée</string>
     <string name="summary_rain_high_template_1">Il y a de fortes chances qu\'il pleuve vers %1$s.</string>
