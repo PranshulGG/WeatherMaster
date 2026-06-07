@@ -39,7 +39,6 @@ import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
 import com.pranshulgg.weather_master_app.core.ui.theme.ShapeRadius
 import kotlinx.coroutines.launch
 
-// TODO: y "1917" was already used CRASHES
 @Composable
 fun AboutScreen(navController: NavController) {
     val context = LocalContext.current
@@ -99,7 +98,13 @@ fun AboutScreen(navController: NavController) {
                         title = stringResource(R.string.about_changelog),
                         onClick = { uriHandler.openUri("https://github.com/PranshulGG/WeatherMaster/releases/latest") }
                     ),
-                )
+                    SettingTile.ActionTile(
+                        leading = { SettingsTileIcon(R.drawable.mail_24px) },
+                        title = "Email",
+                        onClick = { uriHandler.openUri("mailto:pranshul.devmain@gmail.com") }
+                    ),
+
+                    )
             )
         }
     }
