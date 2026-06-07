@@ -3,8 +3,11 @@ package com.pranshulgg.weather_master_app.feature.settings.language
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
@@ -20,6 +23,7 @@ import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.ui.components.AvatarCheck
 import com.pranshulgg.weather_master_app.core.ui.components.AvatarMonogram
+import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weather_master_app.core.ui.components.SettingSection
@@ -38,7 +42,7 @@ fun LanguageScreen(navController: NavController) {
     val currentAppLocale =
         remember {
             mutableStateOf(
-                getCurrentAppLocale().toLanguageTag()
+                getCurrentAppLocale()?.toLanguageTag() ?: "sys"
             )
         }
 
@@ -90,6 +94,8 @@ fun LanguageScreen(navController: NavController) {
                     )
                 }
             )
+
+            Gap(WindowInsets.systemBars.asPaddingValues().calculateBottomPadding() + 30.dp)
         }
     }
 
@@ -97,4 +103,8 @@ fun LanguageScreen(navController: NavController) {
 
 private fun setLanguage(languageCode: String) {
     AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(languageCode))
+}
+
+private fun setSystemLanguage() {
+    AppCompatDelegate.setApplicationLocales(LocaleListCompat.getEmptyLocaleList())
 }

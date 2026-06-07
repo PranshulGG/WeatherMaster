@@ -34,6 +34,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.utils.formatters.formatLocalizedNumber
 import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
+import java.util.Locale
 
 @Composable
 
@@ -79,7 +80,7 @@ fun VisibilityBlock(
                     formatLocalizedNumber(
                         number = visibility!!,
                         decimalPlaces = 0,
-                        locale = getCurrentAppLocale()
+                        locale = getCurrentAppLocale() ?: Locale.US
                     ),
                     style = MaterialTheme.typography.displaySmall,
                     color = MaterialTheme.colorScheme.onSurface,

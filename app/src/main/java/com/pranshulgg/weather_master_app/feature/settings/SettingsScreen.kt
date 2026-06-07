@@ -69,7 +69,7 @@ fun SettingsScreen(navController: NavController) {
                     SettingTile.ActionTile(
                         leading = { SettingsTileIcon(R.drawable.language_24px) },
                         title = stringResource(R.string.setting_language),
-                        description = getCurrentAppLocale().displayName,
+                        description = getCurrentAppLocale()?.displayName,
                         onClick = { navController.navigate(NavRoutes.LANGUAGE) }
                     ),
                 )
