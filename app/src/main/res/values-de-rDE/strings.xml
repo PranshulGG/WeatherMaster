@@ -209,7 +209,7 @@
     <string name="unit_pressure_mmhg">Millimeter Quecksilber</string>
     <string name="summary_overview_template_1">Überwiegend %1$s den ganzen Tag.</string>
     <string name="summary_overview_template_2">Heute wird es voraussichtlich %1$s.</string>
-    <string name="summary_overview_template_3">%1$s Aussichten werden erwartet.</string>
+    <string name="summary_overview_template_3">%1$s Bedingungen werden erwartet.</string>
     <string name="summary_overview_template_4">Der Himmel bleibt den Großteil des Tages %1$s.</string>
     <string name="summary_rain_high_template_1">Sehr hohe Regenwahrscheinlichkeit um %1$s.</string>
     <string name="summary_rain_high_template_2">Zeitweise Regen erwartet gegen %1$s.</string>
