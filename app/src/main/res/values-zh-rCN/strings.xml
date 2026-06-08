@@ -144,7 +144,7 @@
     <string name="sources">数据源</string>
     <string name="source">数据源</string>
     <string name="recommended_sources">推荐数据源</string>
-    <string name="global_sources">全球数据源</string>
+    <string name="global_sources">全局数据源</string>
     <string name="weather_clear_with_cloudy">晴间多云</string>
     <string name="weather_clear_with_rain">晴有阵雨</string>
     <string name="weather_clear_with_snow">晴有降雪</string>
@@ -263,7 +263,7 @@
     <string name="about">关于</string>
     <string name="weather_max_for_the_day">当日最高</string>
     <string name="weather_about_uv_index">紫外线指数是衡量紫外线辐射水平的指标。指数的数值范围从零开始——紫外线指数越高，对皮肤和眼睛造成损伤的可能性就越大，造成损伤所需的时间也就越短</string>
-    <string name="text_scale">缩放</string>
+    <string name="text_scale">规模</string>
     <string name="weather_about_humidity">湿度是指空气中水蒸气的浓度。水蒸气是水的气态形式，通常肉眼不可见。湿度可以用于指示降水、露水或出现雾的可能性</string>
     <string name="text_average_for_day">当日平均</string>
     <string name="weather_about_dewpoint">露点温度是衡量湿度的重要指标。当露点温度达到 20°C/70°F 时，几乎所有人都会感觉“发黏”。因此，露点温度是预测夏季制冷能耗的最佳指标</string>
