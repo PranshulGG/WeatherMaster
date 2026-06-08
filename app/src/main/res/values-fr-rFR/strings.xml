@@ -104,9 +104,9 @@
     <string name="setting_custom_color_secondary">Sélectionnez une couleur de base pour générer le thème</string>
     <string name="setting_dynamic_colors">Couleurs dynamiques</string>
     <string name="setting_dynamic_colors_secondary">Utiliser les couleurs du fond d\'écran</string>
-    <string name="weather_total_rain_day">Précipitations totales sur la journée</string>
+    <string name="weather_total_rain_day">Pluie de la journée</string>
     <string name="error_network">Réseau indisponible</string>
-    <string name="weather_total_snow_day">Cumul d\'enneigement sur la journée</string>
+    <string name="weather_total_snow_day">Neige de la journée</string>
     <string name="weather_precipitation">Précipitations</string>
     <string name="weather_air_quality_index">Indice de qualité de l\'air</string>
     <string name="setting_translate_app">Traduire cette application</string>
