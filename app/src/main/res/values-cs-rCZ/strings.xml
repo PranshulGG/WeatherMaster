@@ -150,9 +150,9 @@
     <string name="source">Zdroj</string>
     <string name="recommended_sources">Recommended sources</string>
     <string name="global_sources">Global sources</string>
-    <string name="weather_clear_with_cloudy">Clear with cloudy</string>
+    <string name="weather_clear_with_cloudy">Jasno s oblačností</string>
     <string name="weather_clear_with_rain">Clear with rain</string>
-    <string name="weather_clear_with_snow">Clear with snow</string>
+    <string name="weather_clear_with_snow">Jasno se sněhem</string>
     <string name="weather_cloudy_with_clear">Cloudy with clear</string>
     <string name="weather_cloudy_with_rain">Cloudy with rain</string>
     <string name="weather_cloudy_with_snow">Cloudy with snow</string>
