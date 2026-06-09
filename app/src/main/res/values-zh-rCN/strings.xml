@@ -303,5 +303,8 @@
     <string name="unit_wind_bft">蒲福风级</string>
     <string name="setting_day_summary">当日摘要</string>
     <string name="setting_day_summary_secondary">显示根据每小时数据生成的每日摘要</string>
+    <string name="setting_system">系统</string>
+    <string name="weather_about_precipitation">Precipitation shows the forecast amount of rainfall expected during each hour. Larger amounts indicate heavier rain</string>
+    <string name="weather_about_snowfall">Snowfall shows the forecast amount of snow expected during each hour. Higher values indicate greater snow accumulation</string>
 </resources>
 <!--<string name=""></string>-->
