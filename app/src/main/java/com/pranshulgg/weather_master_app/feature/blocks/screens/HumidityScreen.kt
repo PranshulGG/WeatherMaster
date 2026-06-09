@@ -74,6 +74,7 @@ fun HumidityScreen(navController: NavController, index: Int = 0, locationId: Str
     val uiState = viewModel.uiState.value
     val weather = uiState.weather
     val hourly = weather?.hourly ?: return
+    val units = uiState.units
 
     val fullDayHourly =
         findMatchingHourly(hourly, weather.daily[index].time, weather.location.source)
@@ -128,7 +129,8 @@ fun HumidityScreen(navController: NavController, index: Int = 0, locationId: Str
                     values = fullDayHourly.map { it.dewPoint ?: 0.0 },
                     zoneId = weather.location.timezone,
                     max = dewPointMax,
-                    min = dewPointMin
+                    min = dewPointMin,
+                    unit = units.tempUnit
                 )
             } else {
                 NoHourlyDataAvailable()
@@ -189,7 +191,7 @@ private fun BarChart(
         headerValue = "${values.map { it.toDouble() }.average().roundToInt()}%",
         headerSuffix = "",
         barColor = barColor,
-        chartHeight = 220.dp
+        chartHeight = 230.dp
     )
 }
 
@@ -200,16 +202,22 @@ private fun DewPointBarChart(
     min: Double,
     times: List<Long>,
     values: List<Double>,
-    zoneId: String
+    zoneId: String,
+    unit: TemperatureUnit
 ) {
 
     val timeStartIndex = if (times.size == 12) 0 else 6
     val is24hr = LocalAppPrefs.current.is24HrTimeFormat
 
+    val formatter: (Double) -> Double? = {
+        TemperatureUnit.CELSIUS.convert(it, unit)
+    }
+
     val bottomValues = times.slice(timeStartIndex..times.lastIndex step 6)
 
     val sideValues =
-        (min.roundToInt()..max.roundToInt()).sortedByDescending { it }.map { "$it°" }
+        (min.roundToInt()..max.roundToInt()).sortedByDescending { it }
+            .map { "${formatter(it.toDouble())?.roundToInt()}°" }
 
     val barHeights = values.map {
         val percentage = ((it.minus(min)).div((max - min))).times(
@@ -245,7 +253,7 @@ private fun DewPointBarChart(
         sideValues = sideValues,
         values = values,
         barHeights = barHeights.map { it.roundToInt() },
-        headerValue = "${values.map { it }.average().roundToInt()}°",
+        headerValue = "${values.mapNotNull { formatter(it) }.average().roundToInt()}°",
         headerSuffix = "",
         barColor = barColor,
         chartHeight = 240.dp

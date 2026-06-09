@@ -101,6 +101,7 @@ fun AboutScreen(navController: NavController) {
                     SettingTile.ActionTile(
                         leading = { SettingsTileIcon(R.drawable.mail_24px) },
                         title = "Email",
+                        description = "pranshul.devmain@gmail.com",
                         onClick = { uriHandler.openUri("mailto:pranshul.devmain@gmail.com") }
                     ),
 
