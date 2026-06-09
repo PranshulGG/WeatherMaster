@@ -299,5 +299,8 @@
     <string name="unit_wind_bft">ビューフォート</string>
     <string name="setting_day_summary">一日の概要</string>
     <string name="setting_day_summary_secondary">毎時のデータから一日の概要を生成して表示</string>
+    <string name="setting_system">システム</string>
+    <string name="weather_about_precipitation">Precipitation shows the forecast amount of rainfall expected during each hour. Larger amounts indicate heavier rain</string>
+    <string name="weather_about_snowfall">Snowfall shows the forecast amount of snow expected during each hour. Higher values indicate greater snow accumulation</string>
 </resources>
 <!--<string name=""></string>-->
