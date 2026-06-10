@@ -121,7 +121,6 @@ private fun computeDaily(
         val icon = dailyIt.value.map { it.icon }.groupingBy { it }
             .eachCount().entries.maxByOrNull { it.value }
 
-        Log.d("DWD ICON", "${icon}")
 
         val condition = computeDailyWeatherCondition(
             getHourlyConditionsForDay(dailyIt.value, time),

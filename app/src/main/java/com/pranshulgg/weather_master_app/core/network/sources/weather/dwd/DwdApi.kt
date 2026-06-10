@@ -33,13 +33,9 @@ interface DwdApi {
         const val BASE_URL = "https://api.brightsky.dev/"
 
         fun create(): DwdApi {
-            val logging = HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            }
 
 
             val client = OkHttpClient.Builder()
-                .addInterceptor(logging)
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .build()

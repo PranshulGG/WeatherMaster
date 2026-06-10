@@ -26,9 +26,6 @@ interface GeoNamesTimezoneApi {
         private const val BASE_URL = "https://secure.geonames.org/"
 
         fun create(): GeoNamesTimezoneApi {
-            val logging = HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BASIC
-            }
 
             val auth = Interceptor { chain ->
                 val original = chain.request()
@@ -41,7 +38,6 @@ interface GeoNamesTimezoneApi {
 
             val client = OkHttpClient.Builder()
                 .addInterceptor(auth)
-                .addInterceptor(logging)
                 .callTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .build()

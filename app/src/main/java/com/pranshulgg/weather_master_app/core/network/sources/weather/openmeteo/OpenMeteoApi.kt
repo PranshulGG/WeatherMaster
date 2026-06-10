@@ -38,12 +38,8 @@ interface OpenMeteoApi {
         const val BASE_URL = "https://api.open-meteo.com/v1/"
 
         fun create(): OpenMeteoApi {
-            val logging = HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            }
 
             val client = OkHttpClient.Builder()
-                .addInterceptor(logging)
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .build()

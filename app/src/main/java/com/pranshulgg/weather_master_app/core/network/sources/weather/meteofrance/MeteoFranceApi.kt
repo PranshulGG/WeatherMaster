@@ -30,9 +30,6 @@ interface MeteoFranceApi {
         const val BASE_URL = "https://webservice.meteofrance.com//"
 
         fun create(): MeteoFranceApi {
-            val logging = HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            }
 
             val auth = Interceptor { chain ->
                 val original = chain.request()
@@ -43,7 +40,6 @@ interface MeteoFranceApi {
             }
 
             val client = OkHttpClient.Builder()
-                .addInterceptor(logging)
                 .addInterceptor { chain ->
                     val request = chain.request().newBuilder()
                         .header(

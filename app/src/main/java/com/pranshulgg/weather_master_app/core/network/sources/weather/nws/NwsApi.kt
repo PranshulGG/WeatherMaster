@@ -65,12 +65,8 @@ interface NwsApi {
 
         fun create(): NwsApi {
 
-            val logging = HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            }
             val client = OkHttpClient.Builder()
                 .connectTimeout(30, TimeUnit.SECONDS)
-                .addInterceptor(logging)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .build()
 
