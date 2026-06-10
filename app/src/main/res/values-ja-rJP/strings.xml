@@ -300,7 +300,7 @@
     <string name="setting_day_summary">一日の概要</string>
     <string name="setting_day_summary_secondary">毎時のデータから一日の概要を生成して表示</string>
     <string name="setting_system">システム</string>
-    <string name="weather_about_precipitation">Precipitation shows the forecast amount of rainfall expected during each hour. Larger amounts indicate heavier rain</string>
-    <string name="weather_about_snowfall">Snowfall shows the forecast amount of snow expected during each hour. Higher values indicate greater snow accumulation</string>
+    <string name="weather_about_precipitation">降水量は、1時間ごとに予想される雨の量を表しています。数値が大きいほど、より激しい雨になることを示します。</string>
+    <string name="weather_about_snowfall">降雪量は、1時間ごとに予想される雪の量を表しています。数値が大きいほど、より多くの積雪になることを示します。</string>
 </resources>
 <!--<string name=""></string>-->
