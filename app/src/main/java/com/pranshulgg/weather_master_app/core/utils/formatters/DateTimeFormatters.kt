@@ -6,12 +6,13 @@ import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.time.zone.ZoneRulesException
 import java.util.concurrent.TimeUnit
 
 fun to12HourTimeString(timeMilli: Long, zoneId: String, pattern: String = "ha"): String {
     val instant = Instant.ofEpochMilli(timeMilli)
     val formatter = DateTimeFormatter.ofPattern(pattern, getCurrentAppLocale())
-        .withZone(ZoneId.of(zoneId))
+        .withZone(safeZoneId(zoneId))
 
     return formatter.format(instant)
 }
@@ -19,7 +20,7 @@ fun to12HourTimeString(timeMilli: Long, zoneId: String, pattern: String = "ha"):
 fun to24HourTimeString(timeMilli: Long, zoneId: String, pattern: String = "HH:mm"): String {
     val instant = Instant.ofEpochMilli(timeMilli)
     val formatter = DateTimeFormatter.ofPattern(pattern, getCurrentAppLocale())
-        .withZone(ZoneId.of(zoneId))
+        .withZone(safeZoneId(zoneId))
 
     return formatter.format(instant)
 }
@@ -27,7 +28,7 @@ fun to24HourTimeString(timeMilli: Long, zoneId: String, pattern: String = "HH:mm
 
 fun toWeekdayString(timeMilli: Long, zoneId: String): String {
     val instant = Instant.ofEpochMilli(timeMilli)
-    val zonedDateTime = instant.atZone(ZoneId.of(zoneId))
+    val zonedDateTime = instant.atZone(safeZoneId(zoneId))
     val formatter = DateTimeFormatter.ofPattern("EEE", getCurrentAppLocale())
 
     return formatter.format(zonedDateTime)
@@ -35,7 +36,7 @@ fun toWeekdayString(timeMilli: Long, zoneId: String): String {
 
 fun toDateString(timeMilli: Long, zoneId: String, pattern: String = "dd MMMM"): String {
     val instant = Instant.ofEpochMilli(timeMilli)
-    val zonedDateTime = instant.atZone(ZoneId.of(zoneId))
+    val zonedDateTime = instant.atZone(safeZoneId(zoneId))
     val formatter = DateTimeFormatter.ofPattern(pattern, getCurrentAppLocale())
 
 
@@ -76,3 +77,10 @@ fun getLastUpdatedTimeString(context: Context, timeMilli: Long): String {
 
     return lastUpdated
 }
+
+fun safeZoneId(id: String): ZoneId =
+    try {
+        ZoneId.of(id)
+    } catch (e: ZoneRulesException) {
+        ZoneId.systemDefault()
+    }

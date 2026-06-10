@@ -1,11 +1,13 @@
 package com.pranshulgg.weather_master_app.data.local.mapper.weather
 
+import android.util.Log
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherCurrent
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherDaily
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherHourly
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherCondition
+import com.pranshulgg.weather_master_app.core.utils.formatters.safeZoneId
 import com.pranshulgg.weather_master_app.data.local.entity.weather.DailyWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.entity.weather.WeatherWithRelations
 import java.time.Instant
@@ -102,7 +104,8 @@ private fun getDailyIndexForToday(
     timezone: String
 ): Int {
 
-    val zoneId = ZoneId.of(timezone)
+    val zoneId = safeZoneId(timezone)
+
 
     val targetDate = Instant.ofEpochMilli(targetTimeMillis)
         .atZone(zoneId)

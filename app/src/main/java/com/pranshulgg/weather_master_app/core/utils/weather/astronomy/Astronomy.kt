@@ -4,6 +4,7 @@ import com.pranshulgg.weather_master_app.core.model.astro.MoonTimings
 import com.pranshulgg.weather_master_app.core.model.astro.SunTimings
 import com.pranshulgg.weather_master_app.core.model.astro.getMoonPhase
 import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.secondsToMilliseconds
+import com.pranshulgg.weather_master_app.core.utils.formatters.safeZoneId
 import org.shredzone.commons.suncalc.MoonIllumination
 import org.shredzone.commons.suncalc.MoonTimes
 import org.shredzone.commons.suncalc.SunTimes
@@ -19,20 +20,20 @@ fun getSunTimings(
 
     return timeMilli.map {
         val date = Instant.ofEpochMilli(it)
-            .atZone(ZoneId.of(zoneId))
+            .atZone(safeZoneId(zoneId))
             .toLocalDate()
 
 
         val sunTimes = SunTimes.compute()
             .on(date)
             .fullCycle()
-            .timezone(zoneId)
+            .timezone(safeZoneId(zoneId))
             .at(lat, lon)
             .execute()
 
         val civilTwilight = SunTimes.compute()
             .on(date)
-            .timezone(zoneId)
+            .timezone(safeZoneId(zoneId))
             .at(lat, lon)
             .twilight(SunTimes.Twilight.CIVIL)
             .execute()
@@ -61,14 +62,14 @@ fun getMoonTimings(
 
     return timeMilli.map {
         val date = Instant.ofEpochMilli(it)
-            .atZone(ZoneId.of(zoneId))
+            .atZone(safeZoneId(zoneId))
             .toLocalDate()
 
 
         val moonTimes = MoonTimes.compute()
             .on(date)
             .at(lat, lon)
-            .timezone(zoneId)
+            .timezone(safeZoneId(zoneId))
             .execute()
 
         val phase = MoonIllumination.compute().on(date).execute().phase
