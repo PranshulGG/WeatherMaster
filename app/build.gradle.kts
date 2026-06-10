@@ -143,6 +143,7 @@ dependencies {
 
     implementation(libs.androidx.work.runtime)
     implementation(libs.hilt.work)
+    ksp(libs.hilt.metadata.jvm)
 
     implementation(libs.androidx.glance)
 

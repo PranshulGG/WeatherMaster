@@ -153,6 +153,7 @@ fun LocationsScreen(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TopBar(onBack: () -> Unit) {
     TopAppBar(

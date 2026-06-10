@@ -53,6 +53,7 @@ import com.pranshulgg.weather_master_app.data.provider.devicelocation.getCountry
 import com.pranshulgg.weather_master_app.data.provider.devicelocation.rememberBackgroundLocationPermissionLauncher
 import com.pranshulgg.weather_master_app.data.provider.devicelocation.rememberLocationPermissionLauncher
 import com.pranshulgg.weather_master_app.feature.shared.ui.SharedDialogs
+import java.time.ZoneId
 import java.util.TimeZone
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -271,7 +272,7 @@ fun DeviceLocation.toDomain(context: Context): Location {
         latitude = formattedLatitude,
         longitude = formattedLongitude,
         country = "",
-        timezone = TimeZone.getDefault().id,
+        timezone = ZoneId.systemDefault().id,
         countryCode = "",
         state = "",
         source = WeatherSource.OPEN_METEO,
