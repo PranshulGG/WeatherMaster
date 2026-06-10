@@ -20,6 +20,7 @@ import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
+import androidx.glance.layout.width
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
@@ -34,40 +35,30 @@ fun WeatherWidgetNormal(state: WidgetWeather?, size: DpSize) {
     val textColor = GlanceTheme.colors.onSurface
     val textColorVariant = GlanceTheme.colors.onSurfaceVariant
     val itemWidth = 60.dp
-    val count = (size.width / itemWidth).toInt().coerceIn(1, state?.hourly?.size)
+    val count = ((size.width - 10.dp) / itemWidth).toInt().coerceIn(1, state?.hourly?.size)
 
 
     if (state != null)
         Column(
-            modifier = GlanceModifier.fillMaxSize().padding(16.dp),
+            modifier = GlanceModifier.fillMaxSize().padding(24.dp),
         ) {
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = GlanceModifier.fillMaxWidth()
             ) {
-                Column(horizontalAlignment = Alignment.Start) {
-                    Image(
-                        provider = ImageProvider(state.currentIcon),
-                        contentDescription = null,
-                        modifier = GlanceModifier.size(36.dp)
-                    )
-                    Text(
-                        state.currentTemp,
-                        style = TextStyle(
-                            color = GlanceTheme.colors.primary,
-                            fontSize = 52.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                    )
-                }
+                Image(
+                    provider = ImageProvider(state.currentIcon),
+                    contentDescription = null,
+                    modifier = GlanceModifier.size(46.dp)
+                )
                 Spacer(GlanceModifier.defaultWeight())
                 Column(horizontalAlignment = Alignment.End) {
                     Text(
                         state.locationName,
                         style = TextStyle(
                             color = textColorVariant,
-                            fontSize = 16.sp,
+                            fontSize = 17.sp,
                             fontWeight = FontWeight.Medium
                         )
                     )
@@ -75,21 +66,47 @@ fun WeatherWidgetNormal(state: WidgetWeather?, size: DpSize) {
                         state.currentCondition,
                         style = TextStyle(
                             color = textColor,
-                            fontSize = 18.sp,
+                            fontSize = 19.sp,
                             fontWeight = FontWeight.Medium
                         )
                     )
-                    Spacer(GlanceModifier.height(6.dp))
-
-                    WidgetMinMaxTemp(state.daily.first().tempMin, state.daily.first().tempMax)
                 }
             }
             Spacer(GlanceModifier.defaultWeight())
             Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalAlignment = Alignment.End,
+                verticalAlignment = Alignment.Bottom,
                 modifier = GlanceModifier.fillMaxWidth()
             ) {
+                Column() {
+                    Text(
+                        state.currentTemp,
+                        style = TextStyle(
+                            color = GlanceTheme.colors.primary,
+                            fontSize = 50.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    )
+                    Row() {
+                        Text(
+                            state.daily.first().tempMax,
+                            style = TextStyle(
+                                fontSize = 18.sp,
+                                color = GlanceTheme.colors.onSurface,
+                                fontWeight = FontWeight.Medium
+                            )
+                        )
+                        Spacer(GlanceModifier.width(8.dp))
+                        Text(
+                            state.daily.first().tempMin,
+                            style = TextStyle(
+                                fontSize = 18.sp,
+                                color = GlanceTheme.colors.onSurfaceVariant,
+                                fontWeight = FontWeight.Medium
+                            )
+                        )
+                    }
+                }
+                Spacer(GlanceModifier.defaultWeight())
                 state.hourly.take(count).forEach {
                     WidgetHourlyItem(
                         it.time,
