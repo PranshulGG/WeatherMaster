@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.feature.settings.language
 
+import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.R
+import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
 import com.pranshulgg.weather_master_app.core.ui.components.AvatarCheck
 import com.pranshulgg.weather_master_app.core.ui.components.AvatarMonogram
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
@@ -30,6 +32,7 @@ import com.pranshulgg.weather_master_app.core.ui.components.SettingSection
 import com.pranshulgg.weather_master_app.core.ui.components.SettingTile
 import com.pranshulgg.weather_master_app.core.utils.locale.getAppLocalLocales
 import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
+import java.util.Locale
 
 
 @Composable
@@ -42,9 +45,11 @@ fun LanguageScreen(navController: NavController) {
     val currentAppLocale =
         remember {
             mutableStateOf(
-                getCurrentAppLocale()?.toLanguageTag() ?: "sys"
+                getCurrentAppLocale().toLanguageTag()
             )
         }
+
+    val isSystemLanguage = PreferencesHelper.getBool("isSystemLanguage") ?: true
 
 
     LargeTopBarScaffold(
@@ -73,7 +78,8 @@ fun LanguageScreen(navController: NavController) {
 
             SettingSection(
                 tiles = languageList.map {
-                    val selected = it.value == currentAppLocale.value
+                    val selected =
+                        if (isSystemLanguage) it.value == "sys" else it.value == currentAppLocale.value
                     SettingTile.ActionTile(
                         leading = {
                             if (selected) AvatarCheck(
@@ -89,7 +95,12 @@ fun LanguageScreen(navController: NavController) {
                         selected = selected,
                         onClick = {
                             currentAppLocale.value = it.value
-                            setLanguage(it.value)
+
+                            if (it.value == "sys") {
+                                setSystemLanguage()
+                            } else {
+                                setLanguage(it.value)
+                            }
                         }
                     )
                 }
@@ -103,8 +114,10 @@ fun LanguageScreen(navController: NavController) {
 
 private fun setLanguage(languageCode: String) {
     AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(languageCode))
+    PreferencesHelper.setBool("isSystemLanguage", false)
 }
 
 private fun setSystemLanguage() {
     AppCompatDelegate.setApplicationLocales(LocaleListCompat.getEmptyLocaleList())
+    PreferencesHelper.setBool("isSystemLanguage", true)
 }

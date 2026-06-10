@@ -89,8 +89,8 @@ fun getAppLocalLocales(): List<Language> {
     )
 }
 
-fun getCurrentAppLocale(): Locale? {
+fun getCurrentAppLocale(): Locale {
     val locale = AppCompatDelegate.getApplicationLocales()[0]
-    return locale
+    return locale ?: Locale.getDefault()
 }
 

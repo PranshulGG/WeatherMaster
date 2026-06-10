@@ -80,7 +80,7 @@ fun VisibilityBlock(
                     formatLocalizedNumber(
                         number = visibility!!,
                         decimalPlaces = 0,
-                        locale = getCurrentAppLocale() ?: Locale.US
+                        locale = getCurrentAppLocale()
                     ),
                     style = MaterialTheme.typography.displaySmall,
                     color = MaterialTheme.colorScheme.onSurface,
