@@ -1,6 +1,8 @@
 package com.pranshulgg.weather_master_app.feature.settings.appearance
 
+import android.app.Activity
 import android.os.Build
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -12,8 +14,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat.recreate
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
@@ -38,6 +42,7 @@ fun AppearanceScreen(navController: NavController) {
         DialogOption("Light", stringResource(R.string.setting_light_theme)),
         DialogOption("System", stringResource(R.string.setting_system_theme))
     )
+    val activity = LocalActivity.current as Activity
 
     LargeTopBarScaffold(
         title = stringResource(R.string.setting_appearance),
@@ -61,6 +66,7 @@ fun AppearanceScreen(navController: NavController) {
                         selectedOption = prefs.appTheme,
                         onOptionSelected = {
                             prefs.setAppTheme(it)
+                            recreate(activity)
                         }
                     ),
                     SettingTile.SwitchTile(
