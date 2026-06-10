@@ -304,7 +304,7 @@
     <string name="setting_day_summary">当日摘要</string>
     <string name="setting_day_summary_secondary">显示根据每小时数据生成的每日摘要</string>
     <string name="setting_system">系统</string>
-    <string name="weather_about_precipitation">Precipitation shows the forecast amount of rainfall expected during each hour. Larger amounts indicate heavier rain</string>
-    <string name="weather_about_snowfall">Snowfall shows the forecast amount of snow expected during each hour. Higher values indicate greater snow accumulation</string>
+    <string name="weather_about_precipitation">降水量显示每小时的预计降雨量。数值越大表示雨越大</string>
+    <string name="weather_about_snowfall">降雪量显示每小时的预计降雪量。数值越大表示积雪越大</string>
 </resources>
 <!--<string name=""></string>-->
