@@ -89,7 +89,10 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
     else hourly.periods.getOrNull(currentHourIndex)?.icon
 
     val currentTemperature =
-        current.temperature.value ?: hourly.periods.getOrNull(currentHourIndex)?.temperature
+        current.temperature.value ?: TemperatureUnit.FAHRENHEIT.convert(
+            hourly.periods.getOrNull(currentHourIndex)?.temperature,
+            TemperatureUnit.CELSIUS
+        )
 
 
     val sunTimings = getSunTimings(
