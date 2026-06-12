@@ -37,7 +37,11 @@ fun findMatchingHourly(
 ): List<WeatherHourly> {
 
 
-    val startIndex = data.indexOfFirst { it.time >= currentMilli }.takeIf { it != -1 } ?: 0
+    val startIndex = data.indexOfFirst { it.time >= currentMilli }
+
+    if (startIndex == -1) {
+        return emptyList()
+    }
 
     return data.drop(maxOf(0, startIndex)).take(source.hourlyAggregationLimitHours)
 

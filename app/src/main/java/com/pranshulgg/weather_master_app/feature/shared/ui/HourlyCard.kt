@@ -41,6 +41,7 @@ import com.pranshulgg.weather_master_app.core.utils.formatters.to24HourTimeStrin
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherHourlyDomainSafe
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findMatchingDaily
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findMatchingHourly
+import com.pranshulgg.weather_master_app.feature.blocks.components.NoHourlyDataAvailable
 import com.pranshulgg.weather_master_app.feature.shared.components.CardsHeader
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -83,6 +84,10 @@ fun HourlyCard(
 
             CardsHeader(stringResource(R.string.weather_hourly_forecast), R.drawable.schedule_48px)
 
+            if (filteredHourly.isEmpty()) {
+                NoHourlyDataAvailable()
+                return@Column
+            }
             LazyRow(state = lazyListState) {
                 items(
                     filteredHourly.size,

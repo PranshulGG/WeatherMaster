@@ -2,6 +2,8 @@ package com.pranshulgg.weather_master_app.core.utils.weather.computing.summary
 
 import android.content.Context
 import android.util.Log
+import androidx.compose.ui.res.stringResource
+import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherHourly
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
@@ -23,6 +25,10 @@ fun computeDaySummary(
         weather.daily[dailyIndex].time,
         weather.location.source
     )
+
+    if (hourly.isEmpty()) {
+        return context.getString(R.string.weather_no_data)
+    }
 
     val rain = findRainStarting(hourly)
     val snow = findSnowStarting(hourly)
