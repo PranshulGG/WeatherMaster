@@ -302,5 +302,8 @@
     <string name="unit_wind_bft">Beaufort</string>
     <string name="setting_day_summary">Day summary</string>
     <string name="setting_day_summary_secondary">Show a daily summary generated from hourly data</string>
+    <string name="setting_system">Eszköz</string>
+    <string name="weather_about_precipitation">Precipitation shows the forecast amount of rainfall expected during each hour. Larger amounts indicate heavier rain</string>
+    <string name="weather_about_snowfall">Snowfall shows the forecast amount of snow expected during each hour. Higher values indicate greater snow accumulation</string>
 </resources>
 <!--<string name=""></string>-->

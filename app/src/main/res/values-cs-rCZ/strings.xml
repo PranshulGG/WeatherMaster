@@ -121,7 +121,7 @@
     <string name="location_use_current_secondary">Automaticky zjistěte aktuální polohu svého zařízení a přidejte ji do svého seznamu</string>
     <string name="location_permission_required">Vyžadují se povolení polohy</string>
     <string name="current_location_not_found">Current location not found</string>
-    <string name="error_server">Request couldn’t be completed. Try again shortly</string>
+    <string name="error_server">Požadavek se nepodařilo zpracovat. Zkuste to za chvíli znovu.</string>
     <string name="weather_airquality_good">Dobrá</string>
     <string name="weather_airquality_fair">Slušná</string>
     <string name="weather_airquality_moderate">Střední</string>
@@ -150,9 +150,9 @@
     <string name="source">Zdroj</string>
     <string name="recommended_sources">Recommended sources</string>
     <string name="global_sources">Global sources</string>
-    <string name="weather_clear_with_cloudy">Clear with cloudy</string>
+    <string name="weather_clear_with_cloudy">Jasno s oblačností</string>
     <string name="weather_clear_with_rain">Clear with rain</string>
-    <string name="weather_clear_with_snow">Clear with snow</string>
+    <string name="weather_clear_with_snow">Jasno se sněhem</string>
     <string name="weather_cloudy_with_clear">Cloudy with clear</string>
     <string name="weather_cloudy_with_rain">Cloudy with rain</string>
     <string name="weather_cloudy_with_snow">Cloudy with snow</string>
@@ -269,10 +269,10 @@
     <string name="weather_max_for_the_day">Max for the day</string>
     <string name="weather_about_uv_index">The UV index is a measure of the level of ultraviolet radiation. The values of the index range from zero upward - the higher the UV index, the greater the potential for damage to the skin and eye, and the less time it takes for harm to occur</string>
     <string name="text_scale">Měřítko</string>
-    <string name="weather_about_humidity">Humidity is the concentration of water vapor present in the air. Water vapor, the gaseous state of water, is generally invisible to the naked eye. Humidity indicates the likelihood for precipitation, dew, or fog to be present</string>
+    <string name="weather_about_humidity">Vlhkost je koncentrace vodní páry přítomné ve vzduchu. Vodní pára, tedy voda v plynném skupenství, je pouhým okem obvykle neviditelná. Vlhkost udává pravděpodobnost výskytu srážek, rosy nebo mlhy</string>
     <string name="text_average_for_day">Average for the day</string>
     <string name="weather_about_dewpoint">The dew point temperature is an important measure of humidity. As the dew point reaches 20 C/70 F degrees, almost everyone feels \"sticky\". Thus the dew point is the best predictor of energy use for cooling in the summer</string>
-    <string name="weather_visibility_about">Visibility indicates how far you can clearly see outdoors before objects become obscured by weather or atmospheric conditions</string>
+    <string name="weather_visibility_about">Viditelnost udává, jak daleko venku dohlédnete, než se objekty stanou neviditelnými kvůli počasí nebo atmosférickým podmínkám</string>
     <string name="text_excellent">Vynikající</string>
     <string name="text_very_good">Velmi dobré</string>
     <string name="text_good">Dobrá</string>
@@ -296,7 +296,7 @@
     <string name="moonphase_first_quarter">První čtvrt</string>
     <string name="moonphase_waxing_gibbous">Dorůstající měsíc</string>
     <string name="moonphase_full_moon">Úplněk</string>
-    <string name="moonphase_waning_gibbous">Dorůstající měsíc</string>
+    <string name="moonphase_waning_gibbous">Couvající měsíc</string>
     <string name="moonphase_last_quarter">Poslední čtvrt</string>
     <string name="moonphase_waning_crescent">Couvající srpek</string>
     <string name="moon_phase">Fáze</string>
@@ -304,9 +304,12 @@
     <string name="weather_about_dawn_dusk">Dawn is the period of light in the sky just before sunrise. Dusk is the period of fading light in the sky just after sunset</string>
     <string name="weather_about_pressure">Mean sea level pressure, a measure of how much the atmosphere is pressing down, adjusted to sea level. Watching how it changes can provide an early indication of weather changes. Pressure falling usually means unsettled weather is approaching, while pressure rising often means conditions are becoming more stable</string>
     <string name="weather_about_windspeed">Wind speed is the rate at which air moves horizontally past a specific point, driven by differences in atmospheric pressure and temperature</string>
-    <string name="unit_wind_kt">Knots</string>
+    <string name="unit_wind_kt">Uzly</string>
     <string name="unit_wind_bft">Beaufort</string>
-    <string name="setting_day_summary">Day summary</string>
+    <string name="setting_day_summary">Denní shrnutí</string>
     <string name="setting_day_summary_secondary">Show a daily summary generated from hourly data</string>
+    <string name="setting_system">Systém</string>
+    <string name="weather_about_precipitation">Precipitation shows the forecast amount of rainfall expected during each hour. Larger amounts indicate heavier rain</string>
+    <string name="weather_about_snowfall">Snowfall shows the forecast amount of snow expected during each hour. Higher values indicate greater snow accumulation</string>
 </resources>
 <!--<string name=""></string>-->

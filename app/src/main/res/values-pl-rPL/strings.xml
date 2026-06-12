@@ -303,10 +303,13 @@
     <string name="weather_about_sun_moon_rise_set">Czas wschodu to moment, w którym słońce lub księżyc po raz pierwszy pojawia się nad horyzontem. Czas zachodu to moment, w którym słońce lub księżyc całkowicie znika za horyzontem</string>
     <string name="weather_about_dawn_dusk">Świt to pora, w której na niebie pojawia się światło tuż przed wschodem słońca. Zmierzch to pora, w której światło na niebie słabnie tuż po zachodzie słońca</string>
     <string name="weather_about_pressure">Średnie ciśnienie na poziomie morza, czyli miara siły nacisku atmosfery, skorygowana do poziomu morza. Obserwowanie zmian tego wskaźnika może stanowić wczesną zapowiedź zmian pogodowych. Spadek ciśnienia zazwyczaj oznacza zbliżającą się niestabilną pogodę, natomiast wzrost ciśnienia często oznacza, że warunki pogodowe stają się bardziej stabilne</string>
-    <string name="weather_about_windspeed">Wind speed is the rate at which air moves horizontally past a specific point, driven by differences in atmospheric pressure and temperature</string>
-    <string name="unit_wind_kt">Knots</string>
-    <string name="unit_wind_bft">Beaufort</string>
-    <string name="setting_day_summary">Day summary</string>
-    <string name="setting_day_summary_secondary">Show a daily summary generated from hourly data</string>
+    <string name="weather_about_windspeed">Prędkość wiatru to prędkość, z jaką powietrze przemieszcza się w płaszczyźnie poziomej w stosunku do określonego punktu, napędzane różnicami ciśnienia atmosferycznego i temperatury</string>
+    <string name="unit_wind_kt">Węzły</string>
+    <string name="unit_wind_bft">Stopnie Beauforta</string>
+    <string name="setting_day_summary">Podsumowanie dnia</string>
+    <string name="setting_day_summary_secondary">Pokaż dzienne podsumowanie wygenerowane na podstawie danych godzinnych.</string>
+    <string name="setting_system">Systemowy</string>
+    <string name="weather_about_precipitation">Precipitation shows the forecast amount of rainfall expected during each hour. Larger amounts indicate heavier rain</string>
+    <string name="weather_about_snowfall">Snowfall shows the forecast amount of snow expected during each hour. Higher values indicate greater snow accumulation</string>
 </resources>
 <!--<string name=""></string>-->
