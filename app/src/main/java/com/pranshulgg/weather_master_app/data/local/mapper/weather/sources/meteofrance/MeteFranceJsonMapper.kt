@@ -1,6 +1,5 @@
 package com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.meteofrance
 
-import android.util.Log
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherCurrent
@@ -10,13 +9,9 @@ import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherCondition
 import com.pranshulgg.weather_master_app.core.model.weather.WindSpeedUnit
 import com.pranshulgg.weather_master_app.core.model.weather.wind.WindDirection
-import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.DwdWeatherConditionMap
-import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.json.DwdWeatherForecastDataJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofrance.MeteoFranceConditionMap
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofrance.json.MeteoFranceForecastItemJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofrance.json.MeteoFranceForecastJson
-import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.MetNorwayWeatherConditionMap
-import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.iso8601TimestampToMilliseconds
 import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.normalizeToDay
 import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.secondsToMilliseconds
 import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getMoonTimings

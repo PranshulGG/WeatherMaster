@@ -26,13 +26,9 @@ interface SmhiApi {
             "https://opendata-download-metfcst.smhi.se/api/category/snow1g/version/1/"
 
         fun create(): SmhiApi {
-            val logging = HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            }
 
 
             val client = OkHttpClient.Builder()
-                .addInterceptor(logging)
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .build()
