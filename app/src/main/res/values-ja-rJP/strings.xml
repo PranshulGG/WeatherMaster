@@ -294,10 +294,13 @@
     <string name="weather_about_sun_moon_rise_set">「出」は太陽や月が最初に地平線から現れる時刻、「没」は地平線の下に完全に隠れる時刻を指します。</string>
     <string name="weather_about_dawn_dusk">夜明けは日の出の直前、空が明るくなり始める時間帯のことです。夕暮れは日没の直後、空の光が次第に薄れていく時間帯を指します。</string>
     <string name="weather_about_pressure">海面気圧とは、大気の重さを海抜0メートルの基準で表したものです。気圧の推移は天気の変化を知る手がかりになります。低下は天候悪化のサイン、上昇は天候回復のサインとして役立ちます。</string>
-    <string name="weather_about_windspeed">Wind speed is the rate at which air moves horizontally past a specific point, driven by differences in atmospheric pressure and temperature</string>
-    <string name="unit_wind_kt">Knots</string>
-    <string name="unit_wind_bft">Beaufort</string>
-    <string name="setting_day_summary">Day summary</string>
-    <string name="setting_day_summary_secondary">Show a daily summary generated from hourly data</string>
+    <string name="weather_about_windspeed">風速とは、気圧や温度の差によって空気が水平方向に移動する速さのことです。</string>
+    <string name="unit_wind_kt">ノット</string>
+    <string name="unit_wind_bft">ビューフォート</string>
+    <string name="setting_day_summary">一日の概要</string>
+    <string name="setting_day_summary_secondary">毎時のデータから一日の概要を生成して表示</string>
+    <string name="setting_system">システム</string>
+    <string name="weather_about_precipitation">降水量は、1時間ごとに予想される雨の量を表しています。数値が大きいほど、より激しい雨になることを示します。</string>
+    <string name="weather_about_snowfall">降雪量は、1時間ごとに予想される雪の量を表しています。数値が大きいほど、より多くの積雪になることを示します。</string>
 </resources>
 <!--<string name=""></string>-->
