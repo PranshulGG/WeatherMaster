@@ -130,7 +130,7 @@ dependencies {
     implementation(libs.common.suncalc)
     implementation(libs.androidx.appcompat)
 
-//    coreLibraryDesugaring(libs.desugar.jdk.libs)
+//    coreLibraryDesugaring(libs.desugar.jdk.libs) // Not sure but it causes timezone crashes on some devices
     implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.room.compiler)
     implementation(libs.hilt.android)

@@ -50,7 +50,11 @@ fun WeatherAnimations(weather: Weather, isFroggyLayout: Boolean) {
 
         WeatherCondition.FOG_HAZE -> FogHazeCanvas(isFroggyLayout)
 
-        WeatherCondition.THUNDERSTORM -> RainCanvas(rainDropCount = 50, isStorming = true)
+        WeatherCondition.THUNDERSTORM -> RainCanvas(
+            rainDropCount = 50,
+            isStorming = true,
+            isFroggyLayout = isFroggyLayout
+        )
 
 
         else -> StarsCanvas()

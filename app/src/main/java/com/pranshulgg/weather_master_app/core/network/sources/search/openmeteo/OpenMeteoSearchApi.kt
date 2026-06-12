@@ -23,12 +23,8 @@ interface OpenMeteoSearchApi {
         private const val BASE_URL = "https://geocoding-api.open-meteo.com/v1/"
 
         fun create(): OpenMeteoSearchApi {
-            val logging = HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BASIC
-            }
 
             val client = OkHttpClient.Builder()
-                .addInterceptor(logging)
                 .callTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .build()
