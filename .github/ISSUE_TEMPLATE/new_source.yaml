@@ -1,0 +1,29 @@
+name: New source
+description: Suggest an new source
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please fill out the sections below
+  - type: textarea
+    id: api_link
+    attributes:
+      label: Link to publicly available API or Docs
+      placeholder: Link here
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Additional details/context about this source
+      required: true
+  - type: checkboxes
+    id: acknowledgementsCheck
+    attributes:
+      label: Acknowledgements
+      description: Your issue will be closed if you don’t read this carefully.
+      options:
+        - label: I have reviewed the existing issues to confirm that this is a unique report and not related to any currently open or closed tickets.
+          required: true
+        - label: I understand that this app is provided as-is, without any guarantees, and I might not receive a response to my request. Sometimes you might not get the response you want.
+          required: true
