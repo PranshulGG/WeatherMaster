@@ -19,7 +19,6 @@ object DateTimeExtensions {
     }
 
 
-    // UTC to Local
     fun Long.normalizeToDay(zoneId: String): Long {
 
         val zone = safeZoneId(zoneId)
