@@ -16,8 +16,8 @@ body:
     id: details
     attributes:
       label: Additional details/context about this source
-      validations:
-        required: true
+    validations:
+      required: true
   - type: checkboxes
     id: acknowledgementsCheck
     attributes:
