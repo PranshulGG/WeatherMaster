@@ -94,7 +94,8 @@ fun WeatherBlocks(
     val isPressureValid = weather.current.isPressureValid()
 
     val isVisibilityValid = weather.current.isVisibilityValid()
-    val isWindValid = weather.current.isWindSpeedValid()
+    val isWindValid =
+        if (isDaily) weather.daily[dailyIndex].isWindSpeedValid() else weather.current.isWindSpeedValid()
 
     val prefs = LocalAppPrefs.current
 
