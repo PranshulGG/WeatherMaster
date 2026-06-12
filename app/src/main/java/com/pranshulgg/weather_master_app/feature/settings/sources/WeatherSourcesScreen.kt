@@ -47,80 +47,21 @@ fun WeatherSourcesScreen(navController: NavController) {
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
             Gap(12.dp)
-            SettingSection(
-                title = "Open Meteo (GLOBAL)",
-                tiles = listOf(
-                    SettingTile.ActionTile(
-                        title = WeatherSource.OPEN_METEO.displayName,
-                        description = WeatherSource.OPEN_METEO.displayLink,
-                        onClick = { uriHandler.openUri(WeatherSource.OPEN_METEO.displayLink) },
-                        trailing = { SettingsTileIcon(R.drawable.open_in_new_24px) }
+            WeatherSource.entries.forEach {
+                SettingSection(
+                    title = it.displayName,
+                    tiles = listOf(
+                        SettingTile.ActionTile(
+                            title = it.fullName,
+                            description = it.displayLink,
+                            onClick = { uriHandler.openUri(it.displayLink) },
+                            trailing = { SettingsTileIcon(R.drawable.open_in_new_24px) }
+                        )
                     )
                 )
-            )
-            Gap(10.dp)
-            SettingSection(
-                title = "Met Norway (GLOBAL)",
-                tiles = listOf(
-                    SettingTile.ActionTile(
-                        title = WeatherSource.MET_NORWAY.displayName,
-                        description = WeatherSource.MET_NORWAY.displayLink,
-                        onClick = { uriHandler.openUri(WeatherSource.MET_NORWAY.displayLink) },
-                        trailing = { SettingsTileIcon(R.drawable.open_in_new_24px) }
-                    )
-                )
-            )
-            Gap(10.dp)
-            SettingSection(
-                title = "NWS (United states)",
-                tiles = listOf(
-                    SettingTile.ActionTile(
-                        title = WeatherSource.NWS.displayName,
-                        description = WeatherSource.NWS.displayLink,
-                        onClick = { uriHandler.openUri(WeatherSource.NWS.displayLink) },
-                        trailing = { SettingsTileIcon(R.drawable.open_in_new_24px) }
-                    )
-                )
-            )
-
-            Gap(10.dp)
-            SettingSection(
-                title = "SMHI (Sweden)",
-                tiles = listOf(
-                    SettingTile.ActionTile(
-                        title = WeatherSource.SMHI.displayName,
-                        description = WeatherSource.SMHI.displayLink,
-                        onClick = { uriHandler.openUri(WeatherSource.SMHI.displayLink) },
-                        trailing = { SettingsTileIcon(R.drawable.open_in_new_24px) }
-                    )
-                )
-            )
-            Gap(10.dp)
-            SettingSection(
-                title = "DWD (Germany)",
-                tiles = listOf(
-                    SettingTile.ActionTile(
-                        title = WeatherSource.DWD.displayName,
-                        description = WeatherSource.DWD.displayLink,
-                        onClick = { uriHandler.openUri(WeatherSource.DWD.displayLink) },
-                        trailing = { SettingsTileIcon(R.drawable.open_in_new_24px) }
-                    )
-                )
-            )
-            Gap(10.dp)
-            SettingSection(
-                title = WeatherSource.METEO_FRANCE.displayName,
-                tiles = listOf(
-                    SettingTile.ActionTile(
-                        title = WeatherSource.METEO_FRANCE.displayName,
-                        description = WeatherSource.METEO_FRANCE.displayLink,
-                        onClick = { uriHandler.openUri(WeatherSource.METEO_FRANCE.displayLink) },
-                        trailing = { SettingsTileIcon(R.drawable.open_in_new_24px) }
-                    )
-                )
-            )
+                Gap(10.dp)
+            }
             Gap(WindowInsets.systemBars.asPaddingValues().calculateBottomPadding() + 30.dp)
-
         }
     }
 }

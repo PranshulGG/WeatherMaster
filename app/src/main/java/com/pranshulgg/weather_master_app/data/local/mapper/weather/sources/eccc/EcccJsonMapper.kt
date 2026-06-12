@@ -1,0 +1,132 @@
+package com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.eccc
+
+import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
+import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherCurrent
+import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherDaily
+import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherHourly
+import com.pranshulgg.weather_master_app.core.model.weather.DistanceUnit
+import com.pranshulgg.weather_master_app.core.model.weather.PressureUnit
+import com.pranshulgg.weather_master_app.core.model.weather.wind.WindDirection
+import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.EcccConditionMap
+import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.json.EcccWeatherJson
+import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.iso8601TimestampToMilliseconds
+import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.normalizeToDay
+import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.secondsToMilliseconds
+import com.pranshulgg.weather_master_app.core.utils.formatters.safeZoneId
+import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getMoonTimings
+import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getSunTimings
+import java.time.LocalDate
+import java.time.Year
+import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
+import java.util.Locale
+import kotlin.math.roundToInt
+
+
+fun EcccWeatherJson.toDomain(location: Location): Weather {
+    val current = this.observation
+    val hourly = this.hourlyFcst.hourly
+
+
+    val dailyNight =
+        this.dailyFcst.daily.filter { it.periodLabel == "Night" || it.periodLabel == "Tonight" }
+
+    val daily =
+        this.dailyFcst.daily.filter { it.periodLabel != "Night" && it.periodLabel != "Tonight" }
+            .take(dailyNight.size)
+
+    val sunTimings = getSunTimings(
+        daily.map {
+            dateToMillis(it.date, location.timezone)
+        },
+        location.timezone,
+        location.latitude,
+        location.longitude
+    )
+
+    val moonTimings = getMoonTimings(
+        daily.map {
+            dateToMillis(it.date, location.timezone)
+        },
+        location.timezone,
+        location.latitude,
+        location.longitude
+    )
+
+
+    return Weather(
+        location = location,
+        current = WeatherCurrent(
+            temperature = current.temperature.metric?.toDoubleOrNull(),
+            humidity = current.humidity?.toDouble() ?: 0.0,
+            windSpeed = current.windSpeed.metric?.toDoubleOrNull(),
+            windDirection = WindDirection.toWindDirectionFromString(current.windDirection),
+            pressureMsl = PressureUnit.INHG.convert(
+                current.pressure.imperial?.toDoubleOrNull(),
+                PressureUnit.HPA
+            ),
+            visibility = DistanceUnit.KM.convert(
+                current.visibility.metric?.toDouble(),
+                DistanceUnit.M
+            )?.roundToInt(),
+            cloudCover = null, // NOT USED IN THE APP
+            uvIndex = null,
+            weatherCondition = EcccConditionMap.getCondition(current.iconCode),
+            feelsLike = current.feelsLike.metric?.toDoubleOrNull(),
+            time = current.timeStamp.iso8601TimestampToMilliseconds(),
+            dewPoint = current.dewpoint.metric?.toDoubleOrNull(),
+            utcOffsetSeconds = null,
+            lastUpdatedInMilli = System.currentTimeMillis()
+        ),
+        hourly = hourly.map {
+            WeatherHourly(
+                temperature = it.temperature.metric?.toDoubleOrNull(),
+                windSpeed = it.windSpeed.metric?.toDoubleOrNull(),
+                windDirection = WindDirection.toWindDirectionFromString(it.windDir),
+                rain = 0.0, // NULL
+                snowfall = null,
+                uvIndex = null,
+                pressureMsl = null,
+                visibility = null,
+                humidity = null,
+                dewPoint = null,
+                weatherCondition = EcccConditionMap.getCondition(it.iconCode),
+                time = it.epochTime.secondsToMilliseconds(),
+                precipitationProbability = it.precipProbability?.toIntOrNull()
+            )
+        },
+        daily = daily.mapIndexed { index, it ->
+            WeatherDaily(
+                temperatureMin = dailyNight[index].temperature.metric?.toDoubleOrNull(),
+                temperatureMax = it.temperature.metric?.toDoubleOrNull(),
+                windSpeed = null,
+                windDirection = null,
+                rainSum = 0.0,
+                snowfallSum = null,
+                uvIndexMax = null,
+                weatherCondition = EcccConditionMap.getCondition(it.iconCode),
+                time = dateToMillis(it.date, location.timezone),
+                precipitationProbabilityMax = it.precipProbability?.toIntOrNull(),
+                sunrise = sunTimings[index].sunrise ?: -0L,
+                sunset = sunTimings[index].sunset ?: -0L,
+                moonrise = moonTimings[index].moonrise ?: -0L,
+                moonset = moonTimings[index].moonset ?: -0L,
+                moonPhase = moonTimings[index].phase,
+                dawn = sunTimings[index].dawn ?: 0L,
+                dusk = sunTimings[index].dusk ?: 0L
+            )
+        }
+    )
+}
+
+private fun dateToMillis(dateStr: String, zoneId: String): Long {
+    val dateWithYear = "$dateStr ${Year.now().value}"
+
+    val formatter = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy", Locale.ENGLISH)
+
+    val localDate = LocalDate.parse(dateWithYear, formatter)
+
+    return localDate.atStartOfDay(safeZoneId(zoneId)).toInstant().toEpochMilli()
+}
