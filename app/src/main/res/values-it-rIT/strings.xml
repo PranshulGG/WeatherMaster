@@ -212,8 +212,8 @@
     <string name="summary_overview_template_3">Attese condizioni di %1$s </string>
     <string name="summary_overview_template_4">Il cielo sarà %1$s per la maggior parte della giornata.</string>
     <string name="summary_rain_high_template_1">È molto probabile che piova circa a %1$s.</string>
-    <string name="summary_rain_high_template_2">Sono previste piogge circa a %1$.</string>
-    <string name="summary_rain_high_template_3">È probabile che il tempo sia piovoso intorno alle %1$.</string>
+    <string name="summary_rain_high_template_2">Sono previste piogge circa a %1$s.</string>
+    <string name="summary_rain_high_template_3">È probabile che il tempo sia piovoso intorno alle %1$s.</string>
     <string name="summary_rain_high_template_4">In prossimità delle %1$s potrebbero verificarsi piogge continue.</string>
     <string name="summary_rain_medium_template_1">Possibili acquazzoni attorno alle %1$s.</string>
     <string name="summary_rain_medium_template_2">La pioggia potrebbe svilupparsi attorno alle %1$s.</string>
@@ -305,5 +305,4 @@
     <string name="setting_system">Sistema</string>
     <string name="weather_about_precipitation">Precipitation shows the forecast amount of rainfall expected during each hour. Larger amounts indicate heavier rain</string>
     <string name="weather_about_snowfall">Snowfall shows the forecast amount of snow expected during each hour. Higher values indicate greater snow accumulation</string>
-</resources>
-<!--<string name=""></string>-->
+</resources><!--<string name=""></string>-->

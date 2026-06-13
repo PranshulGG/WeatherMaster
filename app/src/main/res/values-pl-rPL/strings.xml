@@ -253,9 +253,9 @@
     <string name="summary_temp_hot_template_3">Przewiduje się ekstremalne upały, a w nocy temperatura minimalna wyniesie około %1$s.</string>
     <string name="summary_temp_warm_template_1">Spodziewaj się ciepłej pogody z temperaturami sięgającymi %1$s.</string>
     <string name="summary_temp_warm_template_2">Przez cały dzień będzie przyjemnie ciepło.</string>
-    <string name="summary_temp_warm_template_3">Temperatury w ciągu dnia będą się utrzymywać na poziomie około %1$.</string>
+    <string name="summary_temp_warm_template_3">Temperatury w ciągu dnia będą się utrzymywać na poziomie około %1$s.</string>
     <string name="summary_temp_mild_template_1">W ciągu dnia spodziewaj się umiarkowanych temperatur.</string>
-    <string name="summary_temp_mild_template_2">Utrzymają się komfortowe warunki pogodowe, a temperatury będą się oscylować wokół %1$.</string>
+    <string name="summary_temp_mild_template_2">Utrzymają się komfortowe warunki pogodowe, a temperatury będą się oscylować wokół %1$s.</string>
     <string name="summary_temp_mild_template_3">Temperatury pozostaną umiarkowane.</string>
     <string name="summary_temp_cool_template_1">Spodziewaj się chłodnych warunków oraz temperatur około %1$s.</string>
     <string name="summary_temp_cool_template_2">Dzisiaj będzie ogólnie dość chłodno.</string>
@@ -311,5 +311,4 @@
     <string name="setting_system">Systemowy</string>
     <string name="weather_about_precipitation">Precipitation shows the forecast amount of rainfall expected during each hour. Larger amounts indicate heavier rain</string>
     <string name="weather_about_snowfall">Snowfall shows the forecast amount of snow expected during each hour. Higher values indicate greater snow accumulation</string>
-</resources>
-<!--<string name=""></string>-->
+</resources><!--<string name=""></string>-->
