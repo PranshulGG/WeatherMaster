@@ -67,7 +67,7 @@
     <string name="setting_units_secondary">Temperatur, Windgeschwindigkeit, Luftdruck, Distanz und Niederschlag</string>
     <string name="setting_temperature_unit">Temperatureinheit</string>
     <string name="setting_wind_speed_unit">Windgeschwindigkeitseinheit</string>
-    <string name="setting_pressure_unit">Luftdruckeinheit</string>
+    <string name="setting_pressure_unit">Einstellung  Luftdruck Messwert </string>
     <string name="setting_distance_unit">Distanzmaßeinheit</string>
     <string name="setting_precipitation_unit">Niederschlagseinheit</string>
     <string name="unit_temperature_celsius">Grad Celsius</string>
@@ -303,7 +303,7 @@
     <string name="setting_day_summary">Zusammenfassung Tag</string>
     <string name="setting_day_summary_secondary">Zeige eine Zusammenfassung auf Basis der  stündlichen Daten (Tag) </string>
     <string name="setting_system">System</string>
-    <string name="weather_about_precipitation">Precipitation shows the forecast amount of rainfall expected during each hour. Larger amounts indicate heavier rain</string>
-    <string name="weather_about_snowfall">Snowfall shows the forecast amount of snow expected during each hour. Higher values indicate greater snow accumulation</string>
+    <string name="weather_about_precipitation">Niederschlag zeigt die vorhergesagte Regenmenge pro Stunde an. Größere Mengen deuten auf stärkeren Regen hin.</string>
+    <string name="weather_about_snowfall">Schneefall zeigt die vorhergesagte Schneemenge pro Stunde an. Größere Mengen deuten auf stärkeren Schneefall hin.</string>
 </resources>
 <!--<string name=""></string>-->
