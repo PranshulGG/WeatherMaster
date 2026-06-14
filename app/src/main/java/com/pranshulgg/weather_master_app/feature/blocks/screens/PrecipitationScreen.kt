@@ -149,7 +149,10 @@ private fun BarChart(
 
     val is24hr = LocalAppPrefs.current.is24HrTimeFormat
 
-    val bottomValues = times.slice(6..times.lastIndex step 6)
+    val bottomValues = List(times.size) { index ->
+        if (index % 6 == 0 && index != 0) times[index] else times[0] // TIMES ARE NEVER NULL
+    }
+
 
     val barHeights = values.map {
         val percentage = ((it.minus(min)).div((max - min))).times(100)

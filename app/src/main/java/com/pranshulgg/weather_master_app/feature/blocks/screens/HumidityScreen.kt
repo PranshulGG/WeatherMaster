@@ -152,7 +152,10 @@ private fun BarChart(
 
     val is24hr = LocalAppPrefs.current.is24HrTimeFormat
 
-    val bottomValues = times.slice(6..times.lastIndex step 6)
+    val steps = 6
+    val bottomValues = List(times.size) { index ->
+        if (index % steps == 0 && index != 0) times[index] else times[0] // TIMES ARE NEVER NULL
+    }
 
     val sideValues = (0..100).toList().sortedByDescending { it }.slice(0..100 step 10)
 
@@ -173,6 +176,7 @@ private fun BarChart(
         topValues = emptyList(),
         bottomValues = bottomValues.map {
             {
+
                 val time = if (is24hr) to24HourTimeString(
                     it,
                     "UTC"
