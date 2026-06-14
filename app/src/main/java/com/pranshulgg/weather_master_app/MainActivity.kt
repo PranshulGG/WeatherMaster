@@ -1,12 +1,21 @@
 package com.pranshulgg.weather_master_app
 
+import android.graphics.Color
 import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.remember
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.pranshulgg.weather_master_app.core.prefs.AppPrefs
 import com.pranshulgg.weather_master_app.core.prefs.AppPrefs.initPrefs
+import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
+import com.pranshulgg.weather_master_app.core.ui.theme.isThemeDark
 import com.pranshulgg.weather_master_app.data.provider.devicelocation.GetDeviceLocation
 import com.pranshulgg.weather_master_app.feature.shared.WeatherViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,7 +28,6 @@ class MainActivity : AppCompatActivity() {
         val splashScreen = installSplashScreen()
         val startTime = System.currentTimeMillis()
 
-
         splashScreen.setKeepOnScreenCondition {
             val initialized = viewModel.uiState.value.isInitialized
             val timedOut = System.currentTimeMillis() - startTime > 5000
@@ -28,10 +36,30 @@ class MainActivity : AppCompatActivity() {
         }
         initPrefs(this)
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        val theme = PreferencesHelper.getString("app_theme") ?: "Dark"
+
+
+        val isDark = resolveThemeDark(
+            theme,
+            resources.configuration.uiMode and
+                    android.content.res.Configuration.UI_MODE_NIGHT_MASK ==
+                    android.content.res.Configuration.UI_MODE_NIGHT_YES
+        )
+
+        enableEdgeToEdge(
+            navigationBarStyle = if (isDark) {
+                SystemBarStyle.dark(Color.TRANSPARENT)
+            } else {
+                SystemBarStyle.light(
+                    Color.TRANSPARENT, Color.TRANSPARENT
+                )
+            }
+        )
+
         setContent {
             WeatherMasterApp()
         }
+
     }
 
     val locationHelper = GetDeviceLocation()
@@ -39,6 +67,20 @@ class MainActivity : AppCompatActivity() {
         super.onPause()
         locationHelper.stopUpdates()
     }
+
+
+    private fun resolveThemeDark(
+        appTheme: String,
+        systemDark: Boolean
+    ): Boolean {
+        return when (appTheme) {
+            "Dark" -> true
+            "Light" -> false
+            "System" -> systemDark
+            else -> systemDark
+        }
+    }
+
 
 }
 

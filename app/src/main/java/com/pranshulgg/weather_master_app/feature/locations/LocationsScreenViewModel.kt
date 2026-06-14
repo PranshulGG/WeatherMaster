@@ -65,7 +65,6 @@ class LocationsScreenViewModel @Inject constructor(
         _uiState.value = _uiState.value.copy(isDeviceLocationLoading = true)
         viewModelScope.launch {
             try {
-                Log.d("COOL HERE", "CALLED HERE HERE")
                 locationsRepo.saveDeviceLocation()
             } catch (e: Exception) {
                 if (e is CancellationException) throw e

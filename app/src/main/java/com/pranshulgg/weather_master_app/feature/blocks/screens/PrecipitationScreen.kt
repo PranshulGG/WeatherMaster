@@ -39,6 +39,8 @@ import com.pranshulgg.weather_master_app.core.utils.formatters.to24HourTimeStrin
 import com.pranshulgg.weather_master_app.core.utils.formatters.toDateString
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findMatchingHourly
 import com.pranshulgg.weather_master_app.feature.blocks.BlocksScreenViewModel
+import com.pranshulgg.weather_master_app.feature.blocks.components.AboutCard
+import com.pranshulgg.weather_master_app.feature.blocks.components.AboutCardText
 import com.pranshulgg.weather_master_app.feature.blocks.components.MatBarChart
 import com.pranshulgg.weather_master_app.feature.blocks.components.NoHourlyDataAvailable
 import kotlin.math.max
@@ -107,6 +109,8 @@ fun PrecipitationScreen(navController: NavController, index: Int = 0, locationId
                 unit = units.precipitationUnit
             )
             Gap(14.dp)
+            AboutCard { AboutCardText(stringResource(R.string.weather_about_precipitation)) }
+            Gap(14.dp)
             SnowHeader()
             if (!snowData.contains(null)) {
                 BarChart(
@@ -124,6 +128,8 @@ fun PrecipitationScreen(navController: NavController, index: Int = 0, locationId
             } else {
                 NoHourlyDataAvailable()
             }
+            Gap(14.dp)
+            AboutCard { AboutCardText(stringResource(R.string.weather_about_snowfall)) }
             Gap(WindowInsets.systemBars.asPaddingValues().calculateBottomPadding() + 30.dp)
         }
 

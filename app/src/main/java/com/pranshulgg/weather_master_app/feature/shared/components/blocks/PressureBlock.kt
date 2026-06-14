@@ -32,6 +32,9 @@ import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
 import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
 import com.pranshulgg.weather_master_app.core.ui.theme.ShapeRadius
+import com.pranshulgg.weather_master_app.core.utils.formatters.formatLocalizedNumber
+import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
+import kotlin.collections.average
 import kotlin.math.roundToInt
 
 @Composable
@@ -88,7 +91,11 @@ fun PressureBlock(
                 Header()
 
                 Text(
-                    if (units.pressureUnit != PressureUnit.HPA) "%.2f".format(pressureConverted) else "$pressureHpa",
+                    formatLocalizedNumber(
+                        locale = getCurrentAppLocale(),
+                        number = pressureConverted!!,
+                        decimalPlaces = 1
+                    ),
                     style = MaterialTheme.typography.displaySmall,
                     color = MaterialTheme.colorScheme.onSurface,
                 )

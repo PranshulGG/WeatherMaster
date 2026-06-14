@@ -1,6 +1,9 @@
 package com.pranshulgg.weather_master_app
 
 import android.annotation.SuppressLint
+import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
@@ -70,5 +73,6 @@ fun WeatherMasterApp() {
 
         }
     }
+
 
 }

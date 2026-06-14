@@ -249,6 +249,7 @@ class WeatherViewModel @Inject constructor(
                 SnackbarManager.show(appExpectation.toMessageRes())
 
 
+
                 _uiState.value = _uiState.value.copy(
                     isError = true,
                     weather = result.cacheWeather

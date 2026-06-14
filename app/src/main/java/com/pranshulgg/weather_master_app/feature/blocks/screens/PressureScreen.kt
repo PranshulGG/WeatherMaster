@@ -29,15 +29,18 @@ import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
+import com.pranshulgg.weather_master_app.core.utils.formatters.formatLocalizedNumber
 import com.pranshulgg.weather_master_app.core.utils.formatters.to12HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.formatters.to24HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.formatters.toDateString
+import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findMatchingHourly
 import com.pranshulgg.weather_master_app.feature.blocks.BlocksScreenViewModel
 import com.pranshulgg.weather_master_app.feature.blocks.components.AboutCard
 import com.pranshulgg.weather_master_app.feature.blocks.components.AboutCardText
 import com.pranshulgg.weather_master_app.feature.blocks.components.MatBarChart
 import com.pranshulgg.weather_master_app.feature.blocks.components.NoHourlyDataAvailable
+import java.util.Locale
 import kotlin.math.max
 import kotlin.math.roundToInt
 
@@ -150,9 +153,8 @@ private fun BarChart(
         max((valuePercentage * 170).roundToInt(), 48)
     }
 
-    val formatter: (Double) -> String = {
-        val value = PressureUnit.HPA.convert(it, unit)
-        if (unit != PressureUnit.HPA) "%.2f".format(value) else "${value?.roundToInt()}"
+    val formatter: (Double) -> Double? = {
+        PressureUnit.HPA.convert(it, unit)
     }
     val steps = 7
 
@@ -189,10 +191,14 @@ private fun BarChart(
                 Text(time, style = MaterialTheme.typography.labelMedium)
             }
         },
-        sideValues = sideValues.map { formatter(it.toDouble()).toDouble().roundToInt() },
+        sideValues = sideValues.map { formatter(it.toDouble())?.roundToInt()!! },
         values = values,
         barHeights = barHeights,
-        headerValue = formatter(values.average()),
+        headerValue = formatLocalizedNumber(
+            locale = getCurrentAppLocale(),
+            number = formatter(values.average())!!,
+            decimalPlaces = 1
+        ),
         headerSuffix = unit.toName(inShort = true, context),
         barColor = barColor,
         chartHeight = 220.dp

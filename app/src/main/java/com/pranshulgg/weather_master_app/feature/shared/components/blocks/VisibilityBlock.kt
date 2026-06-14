@@ -34,6 +34,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.utils.formatters.formatLocalizedNumber
 import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
+import java.util.Locale
 
 @Composable
 

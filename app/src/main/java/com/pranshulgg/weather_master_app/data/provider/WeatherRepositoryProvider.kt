@@ -2,6 +2,7 @@ package com.pranshulgg.weather_master_app.data.provider
 
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.DwdRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.EcccRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofrance.MeteoFranceRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.MetNorwayRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsRepository
@@ -16,7 +17,8 @@ class WeatherRepositoryProvider @Inject constructor(
     private val metNorwayRepository: MetNorwayRepository,
     private val smhiRepository: SmhiRepository,
     private val dwdRepository: DwdRepository,
-    private val meteoFranceRepository: MeteoFranceRepository
+    private val meteoFranceRepository: MeteoFranceRepository,
+    private val ecccRepository: EcccRepository
 ) {
 
     fun getRepository(source: WeatherSource): WeatherRepository {
@@ -27,6 +29,7 @@ class WeatherRepositoryProvider @Inject constructor(
             WeatherSource.SMHI -> smhiRepository
             WeatherSource.DWD -> dwdRepository
             WeatherSource.METEO_FRANCE -> meteoFranceRepository
+            WeatherSource.ECCC -> ecccRepository
         }
     }
 

@@ -35,11 +35,13 @@ import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.WeatherIconBox
 import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
 import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.secondsToMilliseconds
+import com.pranshulgg.weather_master_app.core.utils.formatters.safeZoneId
 import com.pranshulgg.weather_master_app.core.utils.formatters.to12HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.formatters.to24HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherHourlyDomainSafe
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findMatchingDaily
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findMatchingHourly
+import com.pranshulgg.weather_master_app.feature.blocks.components.NoHourlyDataAvailable
 import com.pranshulgg.weather_master_app.feature.shared.components.CardsHeader
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -49,7 +51,7 @@ import kotlin.math.roundToInt
 fun HourlyCard(
     weather: Weather,
     units: WeatherUnits,
-    currentMilli: Long = ZonedDateTime.now(ZoneId.of(weather.location.timezone)).toEpochSecond()
+    currentMilli: Long = ZonedDateTime.now(safeZoneId(weather.location.timezone)).toEpochSecond()
         .secondsToMilliseconds()
 ) {
 
@@ -82,6 +84,10 @@ fun HourlyCard(
 
             CardsHeader(stringResource(R.string.weather_hourly_forecast), R.drawable.schedule_48px)
 
+            if (filteredHourly.isEmpty()) {
+                NoHourlyDataAvailable()
+                return@Column
+            }
             LazyRow(state = lazyListState) {
                 items(
                     filteredHourly.size,

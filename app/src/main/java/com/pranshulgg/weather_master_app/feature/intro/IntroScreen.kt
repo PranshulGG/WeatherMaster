@@ -53,6 +53,7 @@ import com.pranshulgg.weather_master_app.data.provider.devicelocation.getCountry
 import com.pranshulgg.weather_master_app.data.provider.devicelocation.rememberBackgroundLocationPermissionLauncher
 import com.pranshulgg.weather_master_app.data.provider.devicelocation.rememberLocationPermissionLauncher
 import com.pranshulgg.weather_master_app.feature.shared.ui.SharedDialogs
+import java.time.ZoneId
 import java.util.TimeZone
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -257,13 +258,12 @@ private fun Icon() {
 
 }
 
-suspend fun DeviceLocation.toDomain(context: Context): Location {
+fun DeviceLocation.toDomain(context: Context): Location {
 
 
     val formattedLatitude = kotlin.math.round(latitude!! * 100000) / 100000
     val formattedLongitude = kotlin.math.round(longitude!! * 100000) / 100000
 
-    val countryCode = getCountryCode(context, formattedLatitude, formattedLongitude)
 
 
     return Location(
@@ -272,8 +272,8 @@ suspend fun DeviceLocation.toDomain(context: Context): Location {
         latitude = formattedLatitude,
         longitude = formattedLongitude,
         country = "",
-        timezone = TimeZone.getDefault().id,
-        countryCode = countryCode,
+        timezone = ZoneId.systemDefault().id,
+        countryCode = "",
         state = "",
         source = WeatherSource.OPEN_METEO,
         isFavorite = false,

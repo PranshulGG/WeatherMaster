@@ -6,10 +6,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -185,6 +188,8 @@ fun SunMoonScreen(navController: NavController, index: Int, locationId: String) 
                 AboutCardText(stringResource(R.string.weather_about_sun_moon_rise_set))
                 AboutCardText(stringResource(R.string.weather_about_dawn_dusk))
             }
+
+            Gap(WindowInsets.systemBars.asPaddingValues().calculateBottomPadding() + 30.dp)
         }
     }
 }

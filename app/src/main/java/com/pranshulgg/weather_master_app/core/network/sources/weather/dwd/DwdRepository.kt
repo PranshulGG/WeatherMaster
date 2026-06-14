@@ -5,6 +5,7 @@ import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
 import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.json.bundle.DwdWeatherJsonBundle
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.MetNorwayApi
+import com.pranshulgg.weather_master_app.core.utils.formatters.safeZoneId
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherCacheSafe
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnWeatherCache
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
@@ -93,7 +94,7 @@ class DwdRepository @Inject constructor(
 }
 
 private fun getStartEndDate(location: Location): Pair<String, String> {
-    val zoneId = ZoneId.of(location.timezone)
+    val zoneId = safeZoneId(location.timezone)
 
     val start = LocalDate.now(zoneId)
     val end = start.plusDays(5)

@@ -4,6 +4,8 @@ import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmet
 import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo.OpenMeteoAqiRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.DwdApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.DwdRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.EcccApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.EcccRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofrance.MeteoFranceApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofrance.MeteoFranceRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.MetNorwayApi
@@ -83,4 +85,12 @@ object WeatherRepositoryModule {
         api: MeteoFranceApi,
         weatherDao: WeatherDao
     ): MeteoFranceRepository = MeteoFranceRepository(dao, weatherDao, api)
+
+    @Provides
+    @Singleton
+    fun provideEcccRepository(
+        dao: LocationsDao,
+        api: EcccApi,
+        weatherDao: WeatherDao
+    ): EcccRepository = EcccRepository(dao, weatherDao, api)
 }

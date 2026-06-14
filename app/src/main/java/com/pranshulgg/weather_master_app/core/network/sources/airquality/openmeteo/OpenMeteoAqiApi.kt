@@ -29,13 +29,9 @@ interface OpenMeteoAqiApi {
         const val BASE_URL = "https://air-quality-api.open-meteo.com/v1/"
 
         fun create(): OpenMeteoAqiApi {
-            val logging = HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            }
 
 
             val client = OkHttpClient.Builder()
-                .addInterceptor(logging)
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .build()

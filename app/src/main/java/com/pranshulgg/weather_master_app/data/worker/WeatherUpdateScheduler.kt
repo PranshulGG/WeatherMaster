@@ -17,12 +17,16 @@ object WeatherUpdateScheduler {
         repeatInterval: Int,
     ) {
 
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
 
         val request =
             PeriodicWorkRequestBuilder<WeatherWorker>(
                 repeatInterval.toLong(),
                 TimeUnit.MINUTES
             )
+                .setConstraints(constraints)
                 .build()
 
 

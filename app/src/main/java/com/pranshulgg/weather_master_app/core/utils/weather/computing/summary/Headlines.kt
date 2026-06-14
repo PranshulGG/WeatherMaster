@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app.core.utils.weather.computing.summary
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.ui.res.stringResource
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
@@ -24,7 +25,6 @@ fun getHeadline(
     val snow = summaryData.snow
     val peakUv = summaryData.uv
     val is24hr = PreferencesHelper.getBool("is24HrTimeFormat") ?: true
-
     val peakRainyAt = if (is24hr) to24HourTimeString(rain.at, zoneId) else to12HourTimeString(
         rain.at,
         zoneId

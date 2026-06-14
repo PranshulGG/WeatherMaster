@@ -24,13 +24,9 @@ interface MetNorwayApi {
         const val BASE_URL = "https://api.met.no/weatherapi/"
 
         fun create(): MetNorwayApi {
-            val logging = HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            }
 
 
             val client = OkHttpClient.Builder()
-                .addInterceptor(logging)
                 .addInterceptor { chain ->
                     val request = chain.request().newBuilder()
                         .header(

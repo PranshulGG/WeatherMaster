@@ -42,13 +42,9 @@ abstract class WeatherMasterDatabase : RoomDatabase() {
 
     abstract fun locationsDao(): LocationsDao
     abstract fun weatherDao(): WeatherDao
-
     abstract fun weatherUnitsDao(): WeatherUnitsDao
-
     abstract fun weatherBlocksDao(): WeatherBlocksDao
-
     abstract fun airQualityDao(): AirQualityDao
-
     abstract fun nwsDao(): NwsDao
 
     companion object {

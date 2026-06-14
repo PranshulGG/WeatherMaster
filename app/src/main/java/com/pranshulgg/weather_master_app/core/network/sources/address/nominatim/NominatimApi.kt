@@ -26,13 +26,9 @@ interface NominatimApi {
         const val BASE_URL = "https://nominatim.openstreetmap.org/"
 
         fun create(): NominatimApi {
-            val logging = HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            }
 
 
             val client = OkHttpClient.Builder()
-                .addInterceptor(logging)
                 .addInterceptor { chain ->
                     val request = chain.request().newBuilder()
                         .header(

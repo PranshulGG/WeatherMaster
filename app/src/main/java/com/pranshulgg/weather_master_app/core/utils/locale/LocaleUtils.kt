@@ -13,6 +13,7 @@ data class Language(
 
 fun getAppLocalLocales(): List<Language> {
     return listOf(
+        Language(name = "System", value = "sys", nativeName = "Your device language", code = "SYS"),
         Language(name = "English", value = "en", nativeName = "English", code = "US"),
         Language(
             name = "Arabic (Saudi Arabia)",
@@ -89,7 +90,7 @@ fun getAppLocalLocales(): List<Language> {
 }
 
 fun getCurrentAppLocale(): Locale {
-    val locale = AppCompatDelegate.getApplicationLocales()[0] ?: Locale.forLanguageTag("en")
-    return locale
+    val locale = AppCompatDelegate.getApplicationLocales()[0]
+    return locale ?: Locale.getDefault()
 }
 

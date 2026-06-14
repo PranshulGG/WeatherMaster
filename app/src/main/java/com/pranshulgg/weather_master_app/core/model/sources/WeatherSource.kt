@@ -2,40 +2,47 @@ package com.pranshulgg.weather_master_app.core.model.sources
 
 enum class WeatherSource(
     val displayName: String,
-    val hourlyAggregationLimitHours: Int,
-    val displayLink: String
+    val hourlyAggregationLimitHours: Int = 24, // stupid and should be removed
+    val displayLink: String,
+    val fullName: String,
 ) {
     OPEN_METEO(
         displayName = "Open Meteo",
-        hourlyAggregationLimitHours = 24,
+        fullName = "Open Meteo",
         displayLink = "https://open-meteo.com/"
     ),
     NWS(
-        displayName = "National Weather Service",
-        hourlyAggregationLimitHours = 24,
+        displayName = "NWS (United States)",
+        fullName = "National Weather Service",
         displayLink = "https://www.weather.gov/documentation/services-web-api"
     ),
     SMHI(
         displayName = "SMHI (Sweden)",
-        hourlyAggregationLimitHours = 24,
+        fullName = "Swedish Meteorological and Hydrological Institute",
         displayLink = "https://opendata.smhi.se"
     ),
     DWD(
-        displayName = "Bright Sky DWD (Germany)",
-        hourlyAggregationLimitHours = 24,
+        displayName = "DWD (Germany)",
+        fullName = "Bright Sky DWD",
         displayLink = "https://brightsky.dev"
     ),
     METEO_FRANCE(
         displayName = "Météo-France",
-        hourlyAggregationLimitHours = 24,
+        fullName = "Météo-France",
         displayLink = "https://meteofrance.com/"
+    ),
+    ECCC(
+        displayName = "ECCC (Canada)",
+        fullName = "Environment and Climate Change Canada",
+        displayLink = "https://app.weather.gc.ca/",
     ),
     MET_NORWAY(
         displayName = "Met Norway",
-        hourlyAggregationLimitHours = 24,
-        "https://api.met.no/"
+        fullName = "Met Norway",
+        displayLink = "https://api.met.no/"
     );
 
+    // Sources that provide snow/rain as precipitation
     fun providesSnowFall(): Boolean {
         return when (this) {
             MET_NORWAY -> false
@@ -47,10 +54,12 @@ enum class WeatherSource(
 
 
 // WE MAP EVERY WEATHER SOURCE HERE, AS THEY GET ADDED
+
 private val weatherSourcesByCountry = mapOf(
     "US" to listOf(WeatherSource.NWS),
     "SE" to listOf(WeatherSource.SMHI),
-    "DE" to listOf(WeatherSource.DWD)
+    "DE" to listOf(WeatherSource.DWD),
+    "CA" to listOf(WeatherSource.ECCC)
 )
 
 fun getWeatherSourcesForCountry(countryCode: String?): List<WeatherSource> {

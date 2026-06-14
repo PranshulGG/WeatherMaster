@@ -123,9 +123,7 @@ fun LicenseScreen(navController: NavController) {
                 text = buildAnnotatedString {
                     append("You can read the full GNU GPLv3 license at: ")
                     withLink(
-                        LinkAnnotation.Url(
-                            "https://www.gnu.org/licenses/gpl-3.0.en.html"
-                        )
+                        LinkAnnotation.Url("https://www.gnu.org/licenses/gpl-3.0.en.html")
                     ) {
                         withStyle(
                             style = SpanStyle(
