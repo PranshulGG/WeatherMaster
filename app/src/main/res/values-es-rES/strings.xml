@@ -126,8 +126,8 @@
     <string name="weather_aqi_description_fair">La calidad del aire es aceptable. Sin embargo, podría haber un riesgo para algunas personas, especialmente esas que son inusualmente sensibles a la polución del aire.</string>
     <string name="weather_aqi_description_moderate">Miembros de grupos sensibles podrían experimentar efectos en la salud. El público general es menos probable que sea afectado.</string>
     <string name="weather_aqi_description_poor">Algunas personas del público general podrían experimentar efectos en su salud; miembros de grupos sensibles podrían tener efectos más serios en la salud.</string>
-    <string name="weather_aqi_description_very_poor">Health alert: The risk of health effects is increased for everyone.</string>
-    <string name="weather_aqi_description_hazardous">Health warning of emergency conditions: everyone is more likely to be affected.</string>
+    <string name="weather_aqi_description_very_poor">Alerta de salud: el riesgo de efectos en la salud se ve aumentado para todos.</string>
+    <string name="weather_aqi_description_hazardous">Advertencia de salud por condiciones de emergencia: es más probable que todo el mundo se vea afectado.</string>
     <string name="weather_aqi_pm_description">Small solid particles and liquid droplets found in the air. It’s emitted from motor vehicles, wood heaters, and industry. Fires and dust storms can also produce high concentrations of Particulate Matter</string>
     <string name="weather_aqi_no2_description">A gas and a major component of central city air pollution. It mainly comes from vehicles, industry, power stations, and heating</string>
     <string name="weather_aqi_O3_description">A gas found in the stratosphere. It protects us from harmful ultraviolet radiation and the troposphere. Ozone is a harmful pollutant produced by a chemical reaction between the sun light, organic gasses, and nitrogen oxides (e.g. Cars, Power plants)</string>
