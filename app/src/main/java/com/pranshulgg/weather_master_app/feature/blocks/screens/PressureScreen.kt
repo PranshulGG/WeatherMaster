@@ -94,7 +94,6 @@ fun PressureScreen(navController: NavController, index: Int = 0, locationId: Str
                 BarChart(
                     times = fullDayHourly.map { it.time },
                     values = fullDayHourly.map { it.pressureMsl ?: 0.0 },
-                    zoneId = weather.location.timezone,
                     unit = units.pressureUnit,
                     context = context
                 )
@@ -117,7 +116,6 @@ fun PressureScreen(navController: NavController, index: Int = 0, locationId: Str
 private fun BarChart(
     times: List<Long>,
     values: List<Double>,
-    zoneId: String,
     unit: PressureUnit,
     context: Context
 ) {
@@ -184,8 +182,8 @@ private fun BarChart(
 
                 val time = if (is24hr) to24HourTimeString(
                     it,
-                    zoneId
-                ) else to12HourTimeString(it, zoneId)
+                    "UTC"
+                ) else to12HourTimeString(it, "UTC")
 
 
                 Text(time, style = MaterialTheme.typography.labelMedium)

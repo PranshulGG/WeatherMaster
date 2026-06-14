@@ -112,7 +112,6 @@ fun HumidityScreen(navController: NavController, index: Int = 0, locationId: Str
                 BarChart(
                     times = fullDayHourly.map { it.time },
                     values = fullDayHourly.map { it.humidity?.roundToInt() ?: 0 },
-                    weather.location.timezone
                 )
             } else {
                 NoHourlyDataAvailable()
@@ -127,7 +126,6 @@ fun HumidityScreen(navController: NavController, index: Int = 0, locationId: Str
                 DewPointBarChart(
                     times = fullDayHourly.map { it.time },
                     values = fullDayHourly.map { it.dewPoint ?: 0.0 },
-                    zoneId = weather.location.timezone,
                     max = dewPointMax,
                     min = dewPointMin,
                     unit = units.tempUnit
@@ -150,7 +148,6 @@ fun HumidityScreen(navController: NavController, index: Int = 0, locationId: Str
 private fun BarChart(
     times: List<Long>,
     values: List<Int>,
-    zoneId: String
 ) {
 
     val is24hr = LocalAppPrefs.current.is24HrTimeFormat
@@ -178,8 +175,8 @@ private fun BarChart(
             {
                 val time = if (is24hr) to24HourTimeString(
                     it,
-                    zoneId
-                ) else to12HourTimeString(it, zoneId)
+                    "UTC"
+                ) else to12HourTimeString(it, "UTC")
 
 
                 Text(time, style = MaterialTheme.typography.labelMedium)
@@ -202,7 +199,6 @@ private fun DewPointBarChart(
     min: Double,
     times: List<Long>,
     values: List<Double>,
-    zoneId: String,
     unit: TemperatureUnit
 ) {
 
@@ -243,8 +239,8 @@ private fun DewPointBarChart(
             {
                 val time = if (is24hr) to24HourTimeString(
                     it,
-                    zoneId
-                ) else to12HourTimeString(it, zoneId)
+                    "UTC"
+                ) else to12HourTimeString(it, "UTC")
 
 
                 Text(time, style = MaterialTheme.typography.labelMedium)

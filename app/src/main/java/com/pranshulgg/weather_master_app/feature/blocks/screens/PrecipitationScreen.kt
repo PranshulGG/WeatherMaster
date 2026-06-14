@@ -104,7 +104,6 @@ fun PrecipitationScreen(navController: NavController, index: Int = 0, locationId
                 probability = if (!probability.all { it == null }) fullDayHourly.map {
                     it.precipitationProbability ?: 0
                 } else null,
-                zoneId = weather.location.timezone,
                 context = context,
                 unit = units.precipitationUnit
             )
@@ -121,7 +120,6 @@ fun PrecipitationScreen(navController: NavController, index: Int = 0, locationId
                     probability = if (!probability.all { it == null }) if (!snowData.all { it == 0.0 }) fullDayHourly.map {
                         it.precipitationProbability ?: 0
                     } else listOf(0) else null,
-                    zoneId = weather.location.timezone,
                     context = context,
                     unit = units.precipitationUnit
                 )
@@ -143,7 +141,6 @@ private fun BarChart(
     min: Double,
     times: List<Long>,
     values: List<Double>,
-    zoneId: String,
     unit: PrecipitationUnit,
     probability: List<Int>?,
     context: Context
@@ -203,8 +200,8 @@ private fun BarChart(
 
                 val time = if (is24hr) to24HourTimeString(
                     it,
-                    zoneId
-                ) else to12HourTimeString(it, zoneId)
+                    "UTC"
+                ) else to12HourTimeString(it, "UTC")
 
 
                 Text(time, style = MaterialTheme.typography.labelMedium)

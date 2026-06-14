@@ -98,7 +98,6 @@ fun WindScreen(navController: NavController, index: Int = 0, locationId: String)
                 times = fullDayHourly.map { it.time },
                 values = fullDayHourly.map { it.windSpeed ?: 0.0 },
                 directions = fullDayHourly.map { it.windDirection },
-                zoneId = weather.location.timezone,
                 unit = units.windUnit,
                 context = context,
                 dayDirection = dayDirection
@@ -121,7 +120,6 @@ private fun WindBarChart(
     values: List<Double>,
     directions: List<WindDirection?>,
     dayDirection: WindDirection?,
-    zoneId: String,
     unit: WindSpeedUnit,
     context: Context
 ) {
@@ -181,8 +179,8 @@ private fun WindBarChart(
 
                 val time = if (is24hr) to24HourTimeString(
                     it,
-                    zoneId
-                ) else to12HourTimeString(it, zoneId)
+                    "UTC"
+                ) else to12HourTimeString(it, "UTC")
 
 
                 Text(time, style = MaterialTheme.typography.labelMedium)

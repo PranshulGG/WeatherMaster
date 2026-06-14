@@ -121,7 +121,6 @@ fun VisibilityScreen(navController: NavController, index: Int = 0, locationId: S
                 BarChart(
                     times = fullDayHourly.map { it.time },
                     values = fullDayHourly.map { it.visibility!! },
-                    zoneId = weather.location.timezone,
                     unit = units.distanceUnit,
                     context = context
                 )
@@ -160,7 +159,6 @@ fun VisibilityScreen(navController: NavController, index: Int = 0, locationId: S
 private fun BarChart(
     times: List<Long>,
     values: List<Int>,
-    zoneId: String,
     unit: DistanceUnit,
     context: Context
 ) {
@@ -211,8 +209,8 @@ private fun BarChart(
             {
                 val time = if (is24hr) to24HourTimeString(
                     it,
-                    zoneId
-                ) else to12HourTimeString(it, zoneId)
+                    "UTC"
+                ) else to12HourTimeString(it, "UTC")
 
 
                 Text(time, style = MaterialTheme.typography.labelMedium)

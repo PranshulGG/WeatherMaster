@@ -122,7 +122,6 @@ fun UvIndexScreen(navController: NavController, index: Int = 0, locationId: Stri
                     min = minUv,
                     times = fullDayHourly.map { it.time },
                     values = fullDayHourly.map { it.uvIndex?.roundToInt() ?: 0 },
-                    weather.location.timezone,
                     context
                 )
             } else {
@@ -178,7 +177,6 @@ private fun BarChart(
     min: Double,
     times: List<Long>,
     values: List<Int>,
-    zoneId: String,
     context: Context
 ) {
 
@@ -211,8 +209,8 @@ private fun BarChart(
 
                 val time = if (is24hr) to24HourTimeString(
                     it,
-                    zoneId
-                ) else to12HourTimeString(it, zoneId)
+                    "UTC"
+                ) else to12HourTimeString(it, "UTC")
 
 
                 Text(time, style = MaterialTheme.typography.labelMedium)
