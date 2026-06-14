@@ -131,10 +131,10 @@
     <string name="weather_aqi_description_good">Качество воздуха удовлетворительное, и загрязнение воздуха представляет незначительную или нулевую опасность.</string>
     <string name="weather_aqi_description_fair">Качество воздуха приемлемое. Однако для людей, особенно чувствительных к загрязнению воздуха, может существовать опасность.</string>
     <string name="weather_aqi_description_moderate">У групп лиц, восприимчивых к качеству воздуха, могут возникнуть негативные последствия для здоровья. Для остальных вероятность подобного меньше.</string>
-    <string name="weather_aqi_description_poor">Some members of the general public may experience health effects; members of sensitive groups may experience more serious health effects.</string>
-    <string name="weather_aqi_description_very_poor">Health alert: The risk of health effects is increased for everyone.</string>
+    <string name="weather_aqi_description_poor">Некоторые люди могут почувствовать ухудшение самочувствия; представители чувствительных групп могут столкнуться с более серьезными последствиями для здоровья.</string>
+    <string name="weather_aqi_description_very_poor">Предупреждение о риске для здоровья: Риск ухудшения самочувствия повышен для всех.</string>
     <string name="weather_aqi_description_hazardous">Health warning of emergency conditions: everyone is more likely to be affected.</string>
-    <string name="weather_aqi_pm_description">Small solid particles and liquid droplets found in the air. It’s emitted from motor vehicles, wood heaters, and industry. Fires and dust storms can also produce high concentrations of Particulate Matter</string>
+    <string name="weather_aqi_pm_description">Мелкие твердые частицы и капли жидкости, находящиеся в воздухе. Они выбрасываются автотранспортом, дровяными печами и промышленностью. Пожары и пыльные бури также могут создавать высокие концентрации взвешенных частиц</string>
     <string name="weather_aqi_no2_description">A gas and a major component of central city air pollution. It mainly comes from vehicles, industry, power stations, and heating</string>
     <string name="weather_aqi_O3_description">A gas found in the stratosphere. It protects us from harmful ultraviolet radiation and the troposphere. Ozone is a harmful pollutant produced by a chemical reaction between the sun light, organic gasses, and nitrogen oxides (e.g. Cars, Power plants)</string>
     <string name="weather_aqi_so2_description">A toxic gas with a pungent, irritating odor. It can come from electric industries that burn fossil fuels, petrol refineries, cement manufacturing, and volcano emissions</string>
