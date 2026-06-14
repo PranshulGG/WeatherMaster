@@ -214,7 +214,7 @@
     <string name="setting_weather_based_theme_secondary">Automatycznie zmienia kolory aplikacji bazując na aktualnych warunkach pogodowych</string>
     <string name="unit_pressure_mmhg">Milimetry słupka rtęci</string>
     <string name="summary_overview_template_1">%1$s przez większość dnia.</string>
-    <string name="summary_overview_template_2">Oczekuj %1$s warunków w ciągu dnia.</string>
+    <string name="summary_overview_template_2">Oczekuj \"%1$s\" w ciągu dnia.</string>
     <string name="summary_overview_template_3">Oczekuj warunków %1$s.</string>
     <string name="summary_overview_template_4">Niebo pozostanie %1$s przez większość dnia.</string>
     <string name="summary_rain_high_template_1">Wysokie prawdopodobieństwo deszczu około %1$s.</string>
@@ -253,9 +253,9 @@
     <string name="summary_temp_hot_template_3">Przewiduje się ekstremalne upały, a w nocy temperatura minimalna wyniesie około %1$s.</string>
     <string name="summary_temp_warm_template_1">Spodziewaj się ciepłej pogody z temperaturami sięgającymi %1$s.</string>
     <string name="summary_temp_warm_template_2">Przez cały dzień będzie przyjemnie ciepło.</string>
-    <string name="summary_temp_warm_template_3">Temperatury w ciągu dnia będą się utrzymywać na poziomie około %1$.</string>
+    <string name="summary_temp_warm_template_3">Temperatury w ciągu dnia będą się utrzymywać na poziomie około %1$s.</string>
     <string name="summary_temp_mild_template_1">W ciągu dnia spodziewaj się umiarkowanych temperatur.</string>
-    <string name="summary_temp_mild_template_2">Utrzymają się komfortowe warunki pogodowe, a temperatury będą się oscylować wokół %1$.</string>
+    <string name="summary_temp_mild_template_2">Utrzymają się komfortowe warunki pogodowe, a temperatury będą się oscylować wokół %1$s.</string>
     <string name="summary_temp_mild_template_3">Temperatury pozostaną umiarkowane.</string>
     <string name="summary_temp_cool_template_1">Spodziewaj się chłodnych warunków oraz temperatur około %1$s.</string>
     <string name="summary_temp_cool_template_2">Dzisiaj będzie ogólnie dość chłodno.</string>
@@ -280,8 +280,8 @@
     <string name="text_poor">Niska</string>
     <string name="text_very_poor">Bardzo zła</string>
     <string name="text_dense_fog">Gęsta mgła</string>
-    <string name="visibility_description_excellent">Wyjątkowa klarowność; obiekty w oddali są dobrze widoczne</string>
-    <string name="visibility_description_very_good">Bardzo wyraźne warunki</string>
+    <string name="visibility_description_excellent">Wyjątkowa widoczność; obiekty w oddali są dobrze widoczne</string>
+    <string name="visibility_description_very_good">Bardzo dobra widoczność</string>
     <string name="visibility_description_good">Standardowe wyraźne warunki dzienne</string>
     <string name="visibility_description_moderate">Zamglone; odległe obiekty są lekko niewyraźne</string>
     <string name="visibility_description_poor">Znaczne ograniczenie widoczności spowodowane mgłą, dymem lub lekką mgłą</string>
