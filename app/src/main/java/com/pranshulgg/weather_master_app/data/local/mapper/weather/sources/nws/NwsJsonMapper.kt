@@ -185,6 +185,7 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
 
             val windSpeed = getMaxWindSpeed(hourly, time)
 
+            val precipitationProbabilityMax = getMaxPrecipitationProbability(hourly, time)
 
             val condition = computeDailyWeatherCondition(
                 getHourlyConditionsForDay(hourly, time),
@@ -201,7 +202,7 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
                 uvIndexMax = null,
                 weatherCondition = condition,
                 time = time,
-                precipitationProbabilityMax = item.probabilityOfPrecipitation.value.toInt(),
+                precipitationProbabilityMax = precipitationProbabilityMax.roundToInt(), // item.probabilityOfPrecipitation.value from daily is wrong?
                 sunrise = sunTimings[index].sunrise ?: -0L,
                 sunset = sunTimings[index].sunset ?: -0L,
                 moonrise = moonTimings[index].moonrise ?: -0L,
@@ -329,6 +330,20 @@ private fun getSnowfallSum(
 
     return snowfallSum
 }
+
+
+private fun getMaxPrecipitationProbability(data: NwsHourlyForecastPeriodsJson, time: Long): Double {
+    val startIndex =
+        data.periods.indexOfFirst { it.startTime.iso8601TimestampToMilliseconds() >= time }
+            .takeIf { it != -1 } ?: 0
+
+    val maxProbability = data.periods.drop(maxOf(0, startIndex - 1))
+        .take(WeatherSource.NWS.hourlyAggregationLimitHours)
+        .map { it.probabilityOfPrecipitation.value.toDouble() }
+
+    return maxProbability.maxOf { it ?: 0.0 }
+}
+
 
 private fun getHourlyConditionsForDay(
     data: NwsHourlyForecastPeriodsJson,

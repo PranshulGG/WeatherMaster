@@ -150,9 +150,7 @@ private fun WindBarChart(
         val index = ((directions.size - 1) * i.toDouble() / (steps - 1)).toInt()
         directions[index]
     } else null
-    val bottomValues = List(times.size) { index ->
-        if (index % 6 == 0 && index != 0) times[index] else times[0] // TIMES ARE NEVER NULL
-    }
+    val bottomValues = times.slice(6..times.lastIndex step 6)
 
 
     val barColor = values.map {

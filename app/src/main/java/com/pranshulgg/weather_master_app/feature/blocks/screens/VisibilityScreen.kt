@@ -171,10 +171,7 @@ private fun BarChart(
         DistanceUnit.M.convert(it.toDouble(), unit)
     }
 
-    val bottomValues = List(times.size) { index ->
-        if (index % 6 == 0 && index != 0) times[index] else times[0] // TIMES ARE NEVER NULL
-    }
-
+    val bottomValues = times.slice(6..times.lastIndex step 6)
 
     val sideValues =
         (0..50000).toList().sortedByDescending { it }.slice(0..50000 step 10000)

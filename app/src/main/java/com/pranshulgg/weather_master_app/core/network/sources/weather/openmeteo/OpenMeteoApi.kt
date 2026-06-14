@@ -26,7 +26,7 @@ interface OpenMeteoApi {
     suspend fun fetchWeather(
         @Query("latitude") latitude: Double,
         @Query("longitude") longitude: Double,
-        @Query("timezone") timezone: String,
+        @Query("timezone") timezone: String = "UTC",
         @Query("hourly") appendHourly: String = HOURLY_FIELDS,
         @Query("current") appendCurrent: String = CURRENT_FIELDS,
         @Query("daily") appendDaily: String = DAILY_FIELDS,
