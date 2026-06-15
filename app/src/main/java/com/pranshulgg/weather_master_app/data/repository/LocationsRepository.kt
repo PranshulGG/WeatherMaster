@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
+import java.time.ZoneId
 import kotlin.coroutines.resumeWithException
 
 class LocationsRepository @Inject constructor(
@@ -145,7 +146,8 @@ class LocationsRepository @Inject constructor(
             address?.city ?: "$newLat, $newLon",
             address?.country ?: "",
             address?.countryCode ?: getCountryCode(context, location.latitude, location.longitude)
-            ?: ""
+            ?: "",
+            ZoneId.systemDefault().id
         )
     }
 
@@ -187,3 +189,5 @@ class LocationsRepository @Inject constructor(
             .map { list -> list.map { it.toDomain() } }
     }
 }
+
+
