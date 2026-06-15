@@ -5,21 +5,20 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherCurrent
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherDaily
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherHourly
+import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.core.model.weather.DistanceUnit
 import com.pranshulgg.weather_master_app.core.model.weather.PressureUnit
 import com.pranshulgg.weather_master_app.core.model.weather.wind.WindDirection
 import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.EcccConditionMap
+import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.json.EcccHourlyWeatherItemJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.json.EcccWeatherJson
 import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.iso8601TimestampToMilliseconds
-import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.normalizeToDay
 import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.secondsToMilliseconds
 import com.pranshulgg.weather_master_app.core.utils.formatters.safeZoneId
 import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getMoonTimings
 import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getSunTimings
 import java.time.LocalDate
 import java.time.Year
-import java.time.ZoneId
-import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import kotlin.math.roundToInt
@@ -98,6 +97,11 @@ fun EcccWeatherJson.toDomain(location: Location): Weather {
             )
         },
         daily = daily.mapIndexed { index, it ->
+
+
+            val time = dateToMillis(it.date, location.timezone)
+
+
             WeatherDaily(
                 temperatureMin = dailyNight[index].temperature.metric?.toDoubleOrNull(),
                 temperatureMax = it.temperature.metric?.toDoubleOrNull(),
@@ -107,8 +111,9 @@ fun EcccWeatherJson.toDomain(location: Location): Weather {
                 snowfallSum = null,
                 uvIndexMax = null,
                 weatherCondition = EcccConditionMap.getCondition(it.iconCode),
-                time = dateToMillis(it.date, location.timezone),
-                precipitationProbabilityMax = it.precipProbability?.toIntOrNull(),
+                time = time,
+                precipitationProbabilityMax = it.precipProbability?.toDoubleOrNull()?.roundToInt()
+                    ?: getMaxPrecipitationProbability(hourly, time),
                 sunrise = sunTimings[index].sunrise ?: -0L,
                 sunset = sunTimings[index].sunset ?: -0L,
                 moonrise = moonTimings[index].moonrise ?: -0L,
@@ -129,4 +134,25 @@ private fun dateToMillis(dateStr: String, zoneId: String): Long {
     val localDate = LocalDate.parse(dateWithYear, formatter)
 
     return localDate.atStartOfDay(safeZoneId(zoneId)).toInstant().toEpochMilli()
+}
+
+private fun getMaxPrecipitationProbability(
+    hourly: List<EcccHourlyWeatherItemJson>,
+    time: Long
+): Int? {
+    val startIndex =
+        hourly.indexOfFirst { it.epochTime.secondsToMilliseconds() >= time }.takeIf { it != -1 }
+            ?: 0
+
+
+    val data = hourly.drop(maxOf(0, startIndex - 1))
+        .take(WeatherSource.FMI.hourlyAggregationLimitHours)
+
+    if (data.map { it.precipProbability }.all { it == null }) {
+        return null
+    }
+
+    val maxProbability = data.mapNotNull { it.precipProbability }.maxOf { it.toDouble() }
+
+    return maxProbability.roundToInt()
 }
