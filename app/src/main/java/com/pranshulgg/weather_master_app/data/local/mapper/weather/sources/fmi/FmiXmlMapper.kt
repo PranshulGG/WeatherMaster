@@ -37,10 +37,6 @@ fun FmiWeather.toDomain(location: Location): Weather {
     } else {
         null
     }
-
-    Log.d("HEREEE", current.toString())
-
-
     val currentHour = findHourlyIndexForTime(
         time = forecast.keys.map { it }
     )
