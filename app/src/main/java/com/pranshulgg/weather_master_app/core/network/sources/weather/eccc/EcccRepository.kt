@@ -46,35 +46,35 @@ class EcccRepository @Inject constructor(
                 else -> {}
             }
 
-//            return@withContext try {
+            return@withContext try {
 
 
-            val response = api.fetchWeather(location.latitude, location.longitude)
+                val response = api.fetchWeather(location.latitude, location.longitude)
 
-            val body =
-                response.body()?.firstOrNull()
-                    ?: return@withContext WeatherResult.Error(exception = UnknownHostException())
+                val body =
+                    response.body()?.firstOrNull()
+                        ?: return@withContext WeatherResult.Error(exception = UnknownHostException())
 
 
-            val domain = body.toDomain(location)
+                val domain = body.toDomain(location)
 
-            weatherDao.insertWeather(
-                domain.current.toCurrentWeatherEntity(location.id),
-                domain.hourly.toHourlyWeatherEntity(location.id),
-                domain.daily.toDailyWeatherEntity(location.id),
-                location.id
-            )
-            WeatherResult.Success(domain)
+                weatherDao.insertWeather(
+                    domain.current.toCurrentWeatherEntity(location.id),
+                    domain.hourly.toHourlyWeatherEntity(location.id),
+                    domain.daily.toDailyWeatherEntity(location.id),
+                    location.id
+                )
+                WeatherResult.Success(domain)
 
-//            } catch (e: Exception) {
-//
-//                val isCacheSafe = isWeatherCacheSafe(cache)
-//
-//                WeatherResult.Error(
-//                    exception = e,
-//                    if (isCacheSafe) cache?.toDomain() else null
-//                )
-//
-//            }
+            } catch (e: Exception) {
+
+                val isCacheSafe = isWeatherCacheSafe(cache)
+
+                WeatherResult.Error(
+                    exception = e,
+                    if (isCacheSafe) cache?.toDomain() else null
+                )
+
+            }
         }
 }
