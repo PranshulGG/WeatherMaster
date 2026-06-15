@@ -27,7 +27,7 @@ interface MeteoFranceApi {
 
 
     companion object {
-        const val BASE_URL = "https://webservice.meteofrance.com//"
+        const val BASE_URL = "https://webservice.meteofrance.com/"
 
         fun create(): MeteoFranceApi {
 
