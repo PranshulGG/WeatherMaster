@@ -48,24 +48,36 @@ fun FmiWeather.toDomain(location: Location): Weather {
     }
 
     val currentDataForParam: (String) -> Double? = {
-        if (current != null) {
+        val current = if (current != null) {
             current[it]?.get(0)?.parameterValue?.toSafeDouble()
-        } else {
-            val correctKey = when (it) {
-                "t2m" -> "Temperature"
-                "ws_10min" -> "WindSpeedMS"
-                "wd_10min" -> "WindDirection"
-                "rh" -> "Humidity"
-                "td" -> "DewPoint"
-                "p_sea" -> "Pressure"
-                "vis" -> "Visibility"
-                "wawa" -> "WeatherSymbol3"
-                else -> ""
-            }
-            forecast[forecast.keys.sorted()
-                .getOrNull(currentHour)]?.firstOrNull { data -> data.parameterName == correctKey }?.parameterValue?.toSafeDouble()
+        } else null
+        val correctKey = when (it) {
+            "t2m" -> "Temperature"
+            "ws_10min" -> "WindSpeedMS"
+            "wd_10min" -> "WindDirection"
+            "rh" -> "Humidity"
+            "td" -> "DewPoint"
+            "p_sea" -> "Pressure"
+            "vis" -> "Visibility"
+            "wawa" -> "WeatherSymbol3"
+            else -> ""
         }
+        val currentFromHourly = forecast[forecast.keys.sorted()
+            .getOrNull(currentHour)]?.firstOrNull { data -> data.parameterName == correctKey }?.parameterValue?.toSafeDouble()
+
+        current ?: currentFromHourly
     }
+
+    /**
+     * Doing this separately
+     * If we use currentDataForParam("wawa") it will never be null
+     * Because it falls back to hourly
+     *
+     * Which would prevent us from knowing if the current icon is null or not
+     * and make "use hourly icon as fallback" just not work
+     */
+    val currentIcon = if (current != null)
+        current["wawa"]?.get(0)?.parameterValue?.toSafeDouble() else null
 
 
     val daily = computeDaily(this.data, location)
@@ -84,9 +96,7 @@ fun FmiWeather.toDomain(location: Location): Weather {
             visibility = currentDataForParam("vis")?.toInt(),
             cloudCover = null,
             uvIndex = null,
-            weatherCondition = if (currentDataForParam("wawa") == 0.0 || currentDataForParam("wawa") == null || currentDataForParam(
-                    "wawa"
-                )?.isNaN() == true
+            weatherCondition = if (currentIcon == 0.0 || currentIcon == null || currentIcon.isNaN()
             ) FmiConditionMap.getCondition(
                 hourDataForParam(
                     forecast.keys.sorted()[currentHour],
