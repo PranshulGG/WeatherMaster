@@ -1,5 +1,6 @@
 [versions]
 agp = "9.2.1"
+converterJaxb = "3.0.0"
 coreKtx = "1.19.0"
 desugar_jdk_libs = "2.1.5"
 glance = "1.3.0-alpha01"
@@ -35,6 +36,7 @@ kotlinMetadataJvm = "2.4.0"
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-glance = { module = "androidx.glance:glance", version.ref = "glance" }
 androidx-glance-appwidget = { module = "androidx.glance:glance-appwidget", version.ref = "glance" }
+converter-jaxb = { module = "com.squareup.retrofit2:converter-jaxb", version.ref = "converterJaxb" }
 desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
