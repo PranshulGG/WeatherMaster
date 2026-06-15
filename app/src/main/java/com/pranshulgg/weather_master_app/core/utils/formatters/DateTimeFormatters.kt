@@ -84,3 +84,12 @@ fun safeZoneId(id: String): ZoneId =
     } catch (e: ZoneRulesException) {
         ZoneId.systemDefault()
     }
+
+fun getDayStartUtcAlignedToLocal(zoneId: String, currentMilli: Long): Long {
+    return Instant.ofEpochMilli(currentMilli)
+        .atZone(safeZoneId(zoneId))
+        .toLocalDate()
+        .atStartOfDay(safeZoneId(zoneId))
+        .toInstant()
+        .toEpochMilli()
+}

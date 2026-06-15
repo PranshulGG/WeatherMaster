@@ -132,6 +132,7 @@ dependencies {
 
 //    coreLibraryDesugaring(libs.desugar.jdk.libs) // Not sure but it causes timezone crashes on some devices
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.converter.jaxb)
     ksp(libs.room.compiler)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
