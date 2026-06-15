@@ -80,6 +80,9 @@ fun LanguageScreen(navController: NavController) {
                 tiles = languageList.map {
                     val selected =
                         if (isSystemLanguage) it.value == "sys" else it.value == currentAppLocale.value
+
+
+
                     SettingTile.ActionTile(
                         leading = {
                             if (selected) AvatarCheck(

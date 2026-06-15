@@ -40,7 +40,7 @@ fun getAppLocalLocales(): List<Language> {
         Language(name = "Hungarian", value = "hu-HU", nativeName = "Magyar", code = "HU"),
         Language(
             name = "Indonesian",
-            value = "in-ID",
+            value = "id-ID",
             nativeName = "Bahasa Indonesia",
             code = "ID"
         ),
