@@ -60,11 +60,15 @@ class MainScreenViewModel @Inject constructor(
                 }"
             )
         } catch (e: Exception) {
-            if (e is CancellationException) throw e else {
-            }
+            if (e is CancellationException) throw e
             return
         }
 
         _uiState.value = _uiState.value.copy(isNewVersionAvailable = isNewAvailable)
+    }
+
+    fun dismissNewVersionSnackbar() {
+        _uiState.value = _uiState.value.copy(isNewVersionAvailable = false)
+
     }
 }
