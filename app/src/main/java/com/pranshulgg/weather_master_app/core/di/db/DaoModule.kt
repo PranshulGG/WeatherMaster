@@ -31,4 +31,7 @@ object DaoModule {
 
     @Provides
     fun provideNwsDao(db: WeatherMasterDatabase) = db.nwsDao()
+
+    @Provides
+    fun provideGithubDao(db: WeatherMasterDatabase) = db.githubDao()
 }

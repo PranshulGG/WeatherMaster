@@ -4,23 +4,30 @@ import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SheetValue
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQuality
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlock
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weather_master_app.feature.intro.IntroScreen
 import com.pranshulgg.weather_master_app.feature.locations.LocationsScreen
 import com.pranshulgg.weather_master_app.feature.main.ui.MainScreenBottomSheets
@@ -43,7 +50,9 @@ data class MainScreenWeatherUiState(
 
 data class MainScreenUiState(
     val isWeatherSourcesForLocationSheetOpen: Boolean = false,
-    val isWeatherSourcesInfoForLocationSheetOpen: Boolean = false
+    val isWeatherSourcesInfoForLocationSheetOpen: Boolean = false,
+    val isNewVersionAvailable: Boolean = false,
+    val lastestVersionUrl: String = "https://github.com/PranshulGG/WeatherMaster/releases/latest"
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,6 +61,8 @@ fun MainScreen(navController: NavController) {
     val weatherViewModel: WeatherViewModel = hiltViewModel()
     val uiState by weatherViewModel.uiState
     val viewModel: MainScreenViewModel = hiltViewModel()
+    val mainScreenUiState = viewModel.uiState.value
+    val uriHandler = LocalUriHandler.current
 
 
 
@@ -63,7 +74,10 @@ fun MainScreen(navController: NavController) {
     val context = LocalContext.current
     val activeLocation = uiState.activeLocation
 
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val sheetState = rememberBottomSheetState(
+        initialValue = SheetValue.Hidden,
+        enabledValues = setOf(SheetValue.Expanded, SheetValue.Hidden)
+    )
 
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -80,7 +94,18 @@ fun MainScreen(navController: NavController) {
         closeDrawer()
     }
 
-
+    LaunchedEffect(mainScreenUiState.isNewVersionAvailable) {
+        if (mainScreenUiState.isNewVersionAvailable) {
+            SnackbarManager.show(
+                R.string.message_new_version_available,
+                actionLabel = R.string.action_view,
+                onAction = {
+                    uriHandler.openUri(mainScreenUiState.lastestVersionUrl)
+                },
+                duration = SnackbarDuration.Indefinite
+            )
+        }
+    }
 
     NavigationDrawer(
         drawerContent = {

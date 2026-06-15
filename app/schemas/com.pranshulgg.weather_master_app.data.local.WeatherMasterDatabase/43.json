@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 43,
-    "identityHash": "2e1cec8c42da58f4d19d8585ed8f7e9c",
+    "identityHash": "3498b6cf93a31e50cf1bef443490315f",
     "entities": [
       {
         "tableName": "weather_locations",
@@ -210,7 +210,7 @@
       },
       {
         "tableName": "weather_hourly",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`locationId` TEXT NOT NULL, `temperature` REAL, `windSpeed` REAL, `windDirection` TEXT, `rain` REAL, `snowfall` REAL, `uvIndex` REAL, `weatherCondition` TEXT NOT NULL, `pressureMsl` REAL, `visibility` INTEGER, `humidity` REAL, `dewPoint` REAL, `time` INTEGER NOT NULL, `precipitationProbability` INTEGER, PRIMARY KEY(`locationId`, `time`), FOREIGN KEY(`locationId`) REFERENCES `weather_locations`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`locationId` TEXT NOT NULL, `temperature` REAL, `windSpeed` REAL, `windDirection` TEXT, `rain` REAL NOT NULL, `snowfall` REAL, `uvIndex` REAL, `weatherCondition` TEXT NOT NULL, `pressureMsl` REAL, `visibility` INTEGER, `humidity` REAL, `dewPoint` REAL, `time` INTEGER NOT NULL, `precipitationProbability` INTEGER, PRIMARY KEY(`locationId`, `time`), FOREIGN KEY(`locationId`) REFERENCES `weather_locations`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "locationId",
@@ -236,7 +236,8 @@
           {
             "fieldPath": "rain",
             "columnName": "rain",
-            "affinity": "REAL"
+            "affinity": "REAL",
+            "notNull": true
           },
           {
             "fieldPath": "snowfall",
@@ -700,11 +701,47 @@
             ]
           }
         ]
+      },
+      {
+        "tableName": "github",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `currentTag` TEXT NOT NULL, `lastFetchedTag` TEXT NOT NULL, `lastFetchedTime` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currentTag",
+            "columnName": "currentTag",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastFetchedTag",
+            "columnName": "lastFetchedTag",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastFetchedTime",
+            "columnName": "lastFetchedTime",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2e1cec8c42da58f4d19d8585ed8f7e9c')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3498b6cf93a31e50cf1bef443490315f')"
     ]
   }
 }

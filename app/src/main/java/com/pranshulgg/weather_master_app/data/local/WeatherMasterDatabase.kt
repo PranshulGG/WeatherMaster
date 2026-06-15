@@ -8,6 +8,7 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
+import com.pranshulgg.weather_master_app.data.local.dao.github.GithubDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherUnitsDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherBlocksDao
@@ -15,6 +16,7 @@ import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.nws.NwsDao
 import com.pranshulgg.weather_master_app.data.local.entity.weather.units.AppWeatherUnitsEntity
 import com.pranshulgg.weather_master_app.data.local.entity.airquality.CurrentAirQualityEntity
+import com.pranshulgg.weather_master_app.data.local.entity.github.GithubEntity
 import com.pranshulgg.weather_master_app.data.local.entity.weather.CurrentWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.entity.weather.DailyWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.entity.weather.HourlyWeatherEntity
@@ -31,11 +33,13 @@ import com.pranshulgg.weather_master_app.data.local.entity.weather.nws.NwsGridPo
         AppWeatherUnitsEntity::class,
         WeatherBlockEntity::class,
         CurrentAirQualityEntity::class,
-        NwsGridPointsEntity::class
+        NwsGridPointsEntity::class,
+        GithubEntity::class
     ],
-    version = 42,
+    version = 43,
     autoMigrations = [
-        AutoMigration(from = 39, to = 40)
+        AutoMigration(from = 39, to = 40),
+        AutoMigration(from = 42, to = 43)
     ]
 )
 abstract class WeatherMasterDatabase : RoomDatabase() {
@@ -46,6 +50,7 @@ abstract class WeatherMasterDatabase : RoomDatabase() {
     abstract fun weatherBlocksDao(): WeatherBlocksDao
     abstract fun airQualityDao(): AirQualityDao
     abstract fun nwsDao(): NwsDao
+    abstract fun githubDao(): GithubDao
 
     companion object {
 

@@ -21,6 +21,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoRepository
 import com.pranshulgg.weather_master_app.data.local.WeatherMasterDatabase
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
+import com.pranshulgg.weather_master_app.data.local.dao.github.GithubDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherBlocksDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
@@ -82,8 +83,9 @@ object AppModule {
     @Provides
     @Singleton
     fun provideGithubRepository(
-        api: GithubApi
-    ): GithubRepository = GithubRepository(api)
+        api: GithubApi,
+        dao: GithubDao
+    ): GithubRepository = GithubRepository(api, dao)
 
     @Provides
     @Singleton

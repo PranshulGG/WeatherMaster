@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.feature.settings.about
 
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -43,7 +44,7 @@ class AboutScreenViewModel @Inject constructor(
         if (result) {
             SnackbarManager.show(R.string.message_new_version_available, onAction = {
                 onAction()
-            }, actionLabel = R.string.action_view)
+            }, actionLabel = R.string.action_view, duration = SnackbarDuration.Indefinite)
         } else {
             SnackbarManager.show(R.string.message_using_latest_version)
         }
