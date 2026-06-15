@@ -134,9 +134,9 @@
     <string name="weather_aqi_so2_description">A toxic gas with a pungent, irritating odor. It can come from electric industries that burn fossil fuels, petrol refineries, cement manufacturing, and volcano emissions</string>
     <string name="weather_aqi_co_description">A gas from motor vehicles or machinery that burns fossil fuels</string>
     <string name="weather_airquality_about_index">Air quality indexes categorize raw data into a descriptive rating scale. These indexes make it easier to identify the level of pollution and if there’s any associated risk</string>
-    <string name="weather_average">Average</string>
-    <string name="weather_rain_block">Rain</string>
-    <string name="weather_snow_block">Snow</string>
+    <string name="weather_average">Mitjana</string>
+    <string name="weather_rain_block">Pluja</string>
+    <string name="weather_snow_block">Neu</string>
     <string name="search_source">Search source</string>
     <string name="weather_source">Weather source</string>
     <string name="weather_sources">Weather sources</string>
