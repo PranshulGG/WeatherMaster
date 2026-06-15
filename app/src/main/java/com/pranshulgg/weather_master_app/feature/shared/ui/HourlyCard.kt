@@ -45,14 +45,14 @@ import com.pranshulgg.weather_master_app.feature.blocks.components.NoHourlyDataA
 import com.pranshulgg.weather_master_app.feature.shared.components.CardsHeader
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import kotlin.math.max
 import kotlin.math.roundToInt
 
 @Composable
 fun HourlyCard(
     weather: Weather,
     units: WeatherUnits,
-    currentMilli: Long = ZonedDateTime.now(safeZoneId(weather.location.timezone)).toEpochSecond()
-        .secondsToMilliseconds()
+    currentMilli: Long = weather.current.time
 ) {
 
     if (!isWeatherHourlyDomainSafe(weather)) return
@@ -63,8 +63,9 @@ fun HourlyCard(
         findMatchingHourly(
             weather.hourly,
             currentMilli,
-            weather.location.source
-        )
+            weather.location.source,
+
+            )
 
 
     val prefs = LocalAppPrefs.current
@@ -99,7 +100,10 @@ fun HourlyCard(
                         filteredHourly[index].time,
                         weather.location.timezone
                     )
+
+
                     val item = filteredHourly[index]
+
 
                     val temperature =
                         TemperatureUnit.CELSIUS.convert(item.temperature, units.tempUnit)

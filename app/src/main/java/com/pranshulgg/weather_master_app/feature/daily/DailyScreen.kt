@@ -30,11 +30,13 @@ import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
+import com.pranshulgg.weather_master_app.core.utils.formatters.safeZoneId
 import com.pranshulgg.weather_master_app.feature.daily.ui.DailyDaysHeader
 import com.pranshulgg.weather_master_app.feature.daily.ui.DailyForecastHeroHeader
 import com.pranshulgg.weather_master_app.feature.shared.components.blocks.WeatherBlocks
 import com.pranshulgg.weather_master_app.feature.shared.ui.HourlyCard
 import com.pranshulgg.weather_master_app.feature.shared.ui.SummaryCard
+import java.time.ZonedDateTime
 
 data class DailyScreenUiState(
     val weather: Weather? = null,
@@ -107,7 +109,8 @@ fun DailyScreen(navController: NavController, index: Int = 0, locationId: String
                 }
                 HourlyCard(
                     weather,
-                    units, selectedDaily.time
+                    units,
+                    if (selectedIndex != 0) selectedDaily.time else weather.current.time
                 )
                 WeatherBlocks(
                     weather,
