@@ -126,7 +126,7 @@ private fun Header() {
         ),
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .padding(start = 12.dp, end = 12.dp)
+            .padding(start = 16.dp, end = 16.dp)
 
     ) {
         Symbol(

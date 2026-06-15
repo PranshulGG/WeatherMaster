@@ -107,7 +107,7 @@ private fun Header() {
             alignment = Alignment.CenterHorizontally
         ),
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
+        modifier = Modifier.padding(horizontal = 16.dp)
 
     ) {
         Symbol(
