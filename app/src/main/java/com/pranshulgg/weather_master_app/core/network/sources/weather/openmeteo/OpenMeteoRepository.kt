@@ -50,7 +50,7 @@ class OpenMeteoRepository @Inject constructor(
 
 
                 val response =
-                    api.fetchWeather(location.latitude, location.longitude)
+                    api.fetchWeather(location.latitude, location.longitude, location.timezone)
 
                 val body =
                     response.body()
