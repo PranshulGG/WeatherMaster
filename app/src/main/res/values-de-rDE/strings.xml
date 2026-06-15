@@ -67,7 +67,7 @@
     <string name="setting_units_secondary">Temperatur, Windgeschwindigkeit, Luftdruck, Distanz und Niederschlag</string>
     <string name="setting_temperature_unit">Temperatureinheit</string>
     <string name="setting_wind_speed_unit">Windgeschwindigkeitseinheit</string>
-    <string name="setting_pressure_unit">Luftdruckeinheit</string>
+    <string name="setting_pressure_unit">Einstellung  Luftdruck Messwert </string>
     <string name="setting_distance_unit">Distanzmaßeinheit</string>
     <string name="setting_precipitation_unit">Niederschlagseinheit</string>
     <string name="unit_temperature_celsius">Grad Celsius</string>
@@ -256,7 +256,7 @@
     <string name="summary_temp_cool_template_3">Das kühle Wetter wird den Großteil des Tages über anhalten.</string>
     <string name="summary_temp_cold_template_1">Den ganzen Tag über wird kaltes Wetter erwartet.</string>
     <string name="summary_temp_cold_template_2">Die Temperaturen werden niedrig bleiben, und die kühlen Bedingungen halten an.</string>
-    <string name="summary_temp_cold_template_3">Die Temperaturen bleiben niedrig, und es bleibt weiterhin kühl %1$s.</string>
+    <string name="summary_temp_cold_template_3">Die Temperaturen bleiben niedrig, und es bleibt weiterhin kühl.</string>
     <string name="weather_summary">Zusammenfassung</string>
     <string name="about_changelog">Änderungsprotokoll</string>
     <string name="about">Über</string>
@@ -303,6 +303,7 @@
     <string name="setting_day_summary">Zusammenfassung Tag</string>
     <string name="setting_day_summary_secondary">Zeige eine Zusammenfassung auf Basis der  stündlichen Daten (Tag) </string>
     <string name="setting_system">System</string>
-    <string name="weather_about_precipitation">Precipitation shows the forecast amount of rainfall expected during each hour. Larger amounts indicate heavier rain</string>
-    <string name="weather_about_snowfall">Snowfall shows the forecast amount of snow expected during each hour. Higher values indicate greater snow accumulation</string>
-</resources><!--<string name=""></string>-->
+    <string name="weather_about_precipitation">Niederschlag zeigt die vorhergesagte Regenmenge pro Stunde an. Größere Mengen deuten auf stärkeren Regen hin.</string>
+    <string name="weather_about_snowfall">Schneefall zeigt die vorhergesagte Schneemenge pro Stunde an. Größere Mengen deuten auf stärkeren Schneefall hin.</string>
+</resources>
+<!--<string name=""></string>-->
