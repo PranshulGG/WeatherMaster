@@ -17,6 +17,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.json.
 import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.iso8601TimestampToMilliseconds
 import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.secondsToMilliseconds
 import com.pranshulgg.weather_master_app.core.utils.formatters.safeZoneId
+import com.pranshulgg.weather_master_app.core.utils.formatters.toSafeDouble
 import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getMoonTimings
 import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getSunTimings
 import com.pranshulgg.weather_master_app.core.utils.weather.calculations.computeApparentTemperature
@@ -60,38 +61,38 @@ fun EcccWeatherJson.toDomain(location: Location): Weather {
     return Weather(
         location = location,
         current = WeatherCurrent(
-            temperature = current.temperature.metric?.toDoubleOrNull(),
-            humidity = current.humidity?.toDouble() ?: 0.0,
-            windSpeed = current.windSpeed.metric?.toDoubleOrNull(),
+            temperature = current.temperature.metric?.toSafeDouble(),
+            humidity = current.humidity?.toSafeDouble() ?: 0.0,
+            windSpeed = current.windSpeed.metric?.toSafeDouble(),
             windDirection = WindDirection.toWindDirectionFromString(current.windDirection),
             pressureMsl = PressureUnit.INHG.convert(
-                current.pressure.imperial?.toDoubleOrNull(),
+                current.pressure.imperial?.toSafeDouble(),
                 PressureUnit.HPA
             ),
             visibility = DistanceUnit.KM.convert(
-                current.visibility.metric?.toDouble(),
+                current.visibility.metric?.toSafeDouble(),
                 DistanceUnit.M
             )?.roundToInt(),
             cloudCover = null, // NOT USED IN THE APP
             uvIndex = null,
             weatherCondition = EcccConditionMap.getCondition(current.iconCode),
-            feelsLike = current.feelsLike.metric?.toDoubleOrNull() ?: computeApparentTemperature(
-                current.temperature.metric?.toDoubleOrNull(),
+            feelsLike = current.feelsLike.metric?.toSafeDouble() ?: computeApparentTemperature(
+                current.temperature.metric?.toSafeDouble(),
+                current.humidity?.toSafeDouble(),
                 WindSpeedUnit.KPH.convert(
-                    current.windSpeed.metric?.toDoubleOrNull(),
+                    current.windSpeed.metric?.toSafeDouble(),
                     WindSpeedUnit.MPS
-                ),
-                current.humidity?.toDouble()
+                )
             ),
             time = current.timeStamp.iso8601TimestampToMilliseconds(),
-            dewPoint = current.dewpoint.metric?.toDoubleOrNull(),
+            dewPoint = current.dewpoint.metric?.toSafeDouble(),
             utcOffsetSeconds = null,
             lastUpdatedInMilli = System.currentTimeMillis()
         ),
         hourly = hourly.map {
             WeatherHourly(
-                temperature = it.temperature.metric?.toDoubleOrNull(),
-                windSpeed = it.windSpeed.metric?.toDoubleOrNull(),
+                temperature = it.temperature.metric?.toSafeDouble(),
+                windSpeed = it.windSpeed.metric?.toSafeDouble(),
                 windDirection = WindDirection.toWindDirectionFromString(it.windDir),
                 rain = 0.0, // NULL
                 snowfall = null,
@@ -112,8 +113,8 @@ fun EcccWeatherJson.toDomain(location: Location): Weather {
 
 
             WeatherDaily(
-                temperatureMin = dailyNight[index].temperature.metric?.toDoubleOrNull(),
-                temperatureMax = it.temperature.metric?.toDoubleOrNull(),
+                temperatureMin = dailyNight[index].temperature.metric?.toSafeDouble(),
+                temperatureMax = it.temperature.metric?.toSafeDouble(),
                 windSpeed = null,
                 windDirection = null,
                 rainSum = 0.0,
@@ -121,7 +122,7 @@ fun EcccWeatherJson.toDomain(location: Location): Weather {
                 uvIndexMax = null,
                 weatherCondition = EcccConditionMap.getCondition(it.iconCode),
                 time = time,
-                precipitationProbabilityMax = it.precipProbability?.toDoubleOrNull()?.roundToInt()
+                precipitationProbabilityMax = it.precipProbability?.toSafeDouble()?.roundToInt()
                     ?: getMaxPrecipitationProbability(hourly, time),
                 sunrise = sunTimings[index].sunrise ?: -0L,
                 sunset = sunTimings[index].sunset ?: -0L,

@@ -10,3 +10,6 @@ fun formatLocalizedNumber(
 ): String {
     return "%,.${decimalPlaces}f".format(locale, number)
 }
+
+fun String?.toSafeDouble(): Double? =
+    this?.toDoubleOrNull()?.takeIf { it.isFinite() }

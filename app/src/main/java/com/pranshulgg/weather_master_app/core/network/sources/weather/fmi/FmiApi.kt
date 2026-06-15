@@ -35,14 +35,9 @@ interface FmiApi {
 
         fun create(): FmiApi {
 
-            val logging = HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.HEADERS
-            }
-
 
             val client = OkHttpClient.Builder()
                 .connectTimeout(30, TimeUnit.SECONDS)
-                .addInterceptor(logging)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .build()
 
