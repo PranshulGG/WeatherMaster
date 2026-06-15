@@ -43,7 +43,7 @@ fun WeatherMasterApp() {
                 ),
                 actionLabel = if (event.actionLabel != null) context.getString(event.actionLabel) else null,
                 withDismissAction = event.actionLabel == null,
-                duration = SnackbarDuration.Short
+                duration = event.duration
             )
 
             if (result == SnackbarResult.ActionPerformed) {
