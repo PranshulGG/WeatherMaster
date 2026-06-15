@@ -6,10 +6,14 @@
 <br>
 <p><b>Supported weather sources: </b></p>
 
-- Open Meteo
-- Met Norway
-- National Weather Service (NWS)
-- SMHI
-- DWD
-- Meteo-France
-- And more to be added
+<ul>
+ <li><b>Open Meteo</b></li>
+ <li><b>Met Norway</b></li>
+ <li><b>NWS</b></li>
+ <li><b>SMHI</b></li>
+ <li><b>DWD</b></li>
+ <li><b>Meteo-France</b></li>
+ <li><b>FMI</b></li>
+ <li><b>ECCC</b></li>
+ <li><b>And more to be added</b></li>
+</ul>

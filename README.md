@@ -60,10 +60,12 @@
 
 - **Open Meteo**
 - **Met Norway**
-- **National Weather Service (NWS)**
+- **NWS**
 - **SMHI**
 - **DWD**
 - **Meteo-France**
+- **FMI**
+- **ECCC**
 - _**And more to be added**_
 
 # ✉️ Contact
