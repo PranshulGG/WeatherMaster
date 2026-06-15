@@ -8,6 +8,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.search.geonames.ti
 import com.pranshulgg.weather_master_app.core.network.sources.search.openmeteo.OpenMeteoSearchApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.DwdApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.EcccApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.fmi.FmiApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofrance.MeteoFranceApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.MetNorwayApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsApi
@@ -74,4 +75,8 @@ object ApiModule {
     @Provides
     @Singleton
     fun provideEcccApi(): EcccApi = EcccApi.create()
+
+    @Provides
+    @Singleton
+    fun provideFmiApi(): FmiApi = FmiApi.create()
 }

@@ -12,9 +12,20 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface FmiApi {
-    @GET("wfs?service=WFS&request=getFeature&storedquery_id=fmi::forecast::harmonie::surface::point::simple")
+    @GET("wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::forecast::edited::weather::scandinavia::point::simple")
     suspend fun fetchForecast(
         @Query("latlon") latlon: String,
+        @Query("endtime") endtime: String,
+        @Query("starttime") starttime: String,
+    ): Response<ResponseBody>
+
+    @GET("wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::ef::stations")
+    suspend fun fetchStations(): Response<ResponseBody>
+
+    @GET("wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::observations::weather::simple")
+    suspend fun fetchCurrent(
+        @Query("fmisid") id: String,
+        @Query("starttime") starttime: String,
         @Query("endtime") endtime: String,
     ): Response<ResponseBody>
 
@@ -25,13 +36,13 @@ interface FmiApi {
         fun create(): FmiApi {
 
             val logging = HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
+                level = HttpLoggingInterceptor.Level.HEADERS
             }
 
 
             val client = OkHttpClient.Builder()
                 .connectTimeout(30, TimeUnit.SECONDS)
-//                .addInterceptor(logging)
+                .addInterceptor(logging)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .build()
 

@@ -6,6 +6,8 @@ data class FmiWeatherMember(
     val parameterValue: String?
 )
 
+
 data class FmiWeather(
-    val data: List<FmiWeatherMember>
+    val data: List<FmiWeatherMember>,
+    val observation: List<FmiWeatherMember>?
 )
