@@ -219,13 +219,14 @@ fun WeatherBlocks(
                             context,
                             units,
                             isOnlyPrecipitation = isOnlyPrecipitationData,
-                            onClickBlock = { onClickBlock(NavRoutes.PRECIPITATION) }
+                            onClickBlock = { onClickBlock(NavRoutes.RAIN) }
                         )
 
                         WeatherBlockType.SNOW_BLOCK -> SnowBlock(
                             snowForTheDay,
                             context,
-                            units
+                            units,
+                            onClickBlock = { onClickBlock(NavRoutes.SNOW) }
                         )
 
                         WeatherBlockType.WIND_BLOCK -> WindBlock(

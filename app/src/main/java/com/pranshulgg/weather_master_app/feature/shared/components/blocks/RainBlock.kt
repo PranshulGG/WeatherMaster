@@ -28,6 +28,8 @@ import com.pranshulgg.weather_master_app.core.model.weather.toName
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
 import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
+import com.pranshulgg.weather_master_app.core.utils.formatters.formatLocalizedNumber
+import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
 
 @Composable
 fun RainBlock(
@@ -63,7 +65,11 @@ fun RainBlock(
                         .fillMaxWidth()
                 ) {
                     Text(
-                        "%.1f".format(rainForTheDay),
+                        formatLocalizedNumber(
+                            getCurrentAppLocale(),
+                            rainForTheDay,
+                            1
+                        ),
                         modifier = Modifier
                             .alignByBaseline(),
                         lineHeight = 22.sp,

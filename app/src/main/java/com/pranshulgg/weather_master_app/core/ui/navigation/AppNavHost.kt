@@ -21,13 +21,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
-import com.pranshulgg.weather_master_app.feature.blocks.screens.HumidityScreen
-import com.pranshulgg.weather_master_app.feature.blocks.screens.PrecipitationScreen
-import com.pranshulgg.weather_master_app.feature.blocks.screens.PressureScreen
+import com.pranshulgg.weather_master_app.feature.blocks.screens.humidity.HumidityScreen
+import com.pranshulgg.weather_master_app.feature.blocks.screens.pressure.PressureScreen
 import com.pranshulgg.weather_master_app.feature.blocks.screens.SunMoonScreen
-import com.pranshulgg.weather_master_app.feature.blocks.screens.UvIndexScreen
-import com.pranshulgg.weather_master_app.feature.blocks.screens.VisibilityScreen
-import com.pranshulgg.weather_master_app.feature.blocks.screens.WindScreen
+import com.pranshulgg.weather_master_app.feature.blocks.screens.precipitation.RainScreen
+import com.pranshulgg.weather_master_app.feature.blocks.screens.precipitation.SnowScreen
+import com.pranshulgg.weather_master_app.feature.blocks.screens.uvindex.UvIndexScreen
+import com.pranshulgg.weather_master_app.feature.blocks.screens.visibility.VisibilityScreen
+import com.pranshulgg.weather_master_app.feature.blocks.screens.wind.WindScreen
 import com.pranshulgg.weather_master_app.feature.daily.DailyScreen
 import com.pranshulgg.weather_master_app.feature.main.MainScreen
 import com.pranshulgg.weather_master_app.feature.search.SearchScreen
@@ -63,6 +64,11 @@ fun AppNavHost(
         ) {
             navigation(
                 route = "root",
+//                startDestination = NavRoutes.blockScreen(
+//                    NavRoutes.SNOW,
+//                    0,
+//                    "39359ae2-f32c-4859-ab39-916e664dc28f"
+//                )
                 startDestination = NavRoutes.MAIN
             ) {
                 composable(
@@ -169,11 +175,8 @@ fun AppNavHost(
                         NavRoutes.SUN_MOON -> SunMoonScreen(navController, index, locationId)
                         NavRoutes.PRESSURE -> PressureScreen(navController, index, locationId)
                         NavRoutes.WIND -> WindScreen(navController, index, locationId)
-                        NavRoutes.PRECIPITATION -> PrecipitationScreen(
-                            navController,
-                            index,
-                            locationId
-                        )
+                        NavRoutes.RAIN -> RainScreen(navController, index, locationId)
+                        NavRoutes.SNOW -> SnowScreen(navController, index, locationId)
                     }
                 }
             }

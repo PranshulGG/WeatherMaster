@@ -27,19 +27,23 @@ import com.pranshulgg.weather_master_app.core.model.weather.toName
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
 import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
+import com.pranshulgg.weather_master_app.core.utils.formatters.formatLocalizedNumber
+import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
 
 @Composable
 fun SnowBlock(
     snowForTheDay: Double,
     context: Context,
-    units: WeatherUnits
+    units: WeatherUnits,
+    onClickBlock: () -> Unit
 ) {
 
 
     Surface(
         color = MaterialTheme.colorScheme.surface,
         shape = MaterialTheme.shapes.extraLarge,
-        shadowElevation = ShadowElevation.level2
+        shadowElevation = ShadowElevation.level2,
+        onClick = onClickBlock
     ) {
         Box(
             Modifier
@@ -59,7 +63,11 @@ fun SnowBlock(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        "%.1f".format(snowForTheDay),
+                        formatLocalizedNumber(
+                            getCurrentAppLocale(),
+                            snowForTheDay,
+                            1
+                        ),
                         modifier = Modifier.alignByBaseline(),
                         textAlign = TextAlign.End,
                         color = MaterialTheme.colorScheme.onSurface,

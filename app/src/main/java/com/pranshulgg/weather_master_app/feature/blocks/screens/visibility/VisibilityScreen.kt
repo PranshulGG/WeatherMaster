@@ -1,48 +1,34 @@
-package com.pranshulgg.weather_master_app.feature.blocks.screens
+package com.pranshulgg.weather_master_app.feature.blocks.screens.visibility
 
 import android.content.Context
-import android.util.Log
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.weather.DistanceUnit
-import com.pranshulgg.weather_master_app.core.model.weather.PressureUnit
 import com.pranshulgg.weather_master_app.core.model.weather.toName
 import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
-import com.pranshulgg.weather_master_app.core.ui.components.Symbol
-import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
 import com.pranshulgg.weather_master_app.core.utils.formatters.to12HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.formatters.to24HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.formatters.toDateString
@@ -50,10 +36,10 @@ import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findMatchin
 import com.pranshulgg.weather_master_app.feature.blocks.BlocksScreenViewModel
 import com.pranshulgg.weather_master_app.feature.blocks.components.AboutCard
 import com.pranshulgg.weather_master_app.feature.blocks.components.AboutCardText
-import com.pranshulgg.weather_master_app.feature.blocks.components.ChartBarItem
 import com.pranshulgg.weather_master_app.feature.blocks.components.MatBarChart
 import com.pranshulgg.weather_master_app.feature.blocks.components.NoHourlyDataAvailable
 import com.pranshulgg.weather_master_app.feature.blocks.components.ScaleCard
+import com.pranshulgg.weather_master_app.feature.blocks.screens.visibility.components.VisibilityHourlyCard
 import kotlin.math.max
 import kotlin.math.roundToInt
 
@@ -88,13 +74,22 @@ fun VisibilityScreen(navController: NavController, index: Int = 0, locationId: S
     val units = uiState.units
     val context = LocalContext.current
 
+    val time = if (index != 0) weather.daily[index].time else weather.current.time
 
-    val fullDayHourly =
-        findMatchingHourly(hourly, weather.daily[index].time, weather.location.source)
+    val data = findMatchingHourly(
+        hourly,
+        time,
+        weather.location.source,
 
-    val date = toDateString(weather.daily[index].time, weather.location.timezone)
+        )
+    val zoneId = weather.location.timezone
+
+    val date = toDateString(
+        weather.daily[index].time,
+        weather.location.timezone
+    )
     val scale = getVisibilityScaleFor(units.distanceUnit)
-    val visibility = fullDayHourly.map { it.visibility }
+    val visibility = data.map { it.visibility }
 
 
 
@@ -118,12 +113,7 @@ fun VisibilityScreen(navController: NavController, index: Int = 0, locationId: S
                     .padding(paddingValues)
         ) {
             if (!visibility.contains(null)) {
-                BarChart(
-                    times = fullDayHourly.map { it.time },
-                    values = fullDayHourly.map { it.visibility!! },
-                    unit = units.distanceUnit,
-                    context = context
-                )
+                VisibilityHourlyCard(data, zoneId, units.distanceUnit, context)
             } else {
                 NoHourlyDataAvailable()
             }
@@ -152,78 +142,6 @@ fun VisibilityScreen(navController: NavController, index: Int = 0, locationId: S
 
         }
     }
-}
-
-
-@Composable
-private fun BarChart(
-    times: List<Long>,
-    values: List<Int>,
-    unit: DistanceUnit,
-    context: Context
-) {
-
-
-    val is24hr = LocalAppPrefs.current.is24HrTimeFormat
-
-
-    val formatter: (Int) -> Double? = {
-        DistanceUnit.M.convert(it.toDouble(), unit)
-    }
-
-    val bottomValues = times.slice(6..times.lastIndex step 6)
-
-    val sideValues =
-        (0..50000).toList().sortedByDescending { it }.slice(0..50000 step 10000)
-
-
-    val barHeights = values.map {
-
-        val visibilityMin = 0.0
-        val visibilityMax = 50000.0
-
-        val valuePercentage =
-            ((it - visibilityMin) / (visibilityMax - visibilityMin))
-                .coerceIn(0.0, 1.0)
-
-        max((valuePercentage * 160).roundToInt(), 5)
-    }
-
-
-    val barColor = values.map {
-
-        val visibilityKm = DistanceUnit.M.convert(it.toDouble(), DistanceUnit.KM)?.roundToInt()!!
-
-        when {
-            visibilityKm < 1 -> Color(0xFFC62828)
-            visibilityKm < 5 -> Color(0xFFFB8C00)
-            visibilityKm < 10 -> Color(0xFFFDD835)
-            visibilityKm < 20 -> Color(0xFF43A047)
-            else -> Color(0xFF1565C0)
-        }
-    }
-
-    MatBarChart(
-        topValues = emptyList(),
-        bottomValues = bottomValues.map {
-            {
-                val time = if (is24hr) to24HourTimeString(
-                    it,
-                    "UTC"
-                ) else to12HourTimeString(it, "UTC")
-
-
-                Text(time, style = MaterialTheme.typography.labelMedium)
-            }
-        },
-        sideValues = sideValues.map { formatter(it)?.roundToInt().toString() },
-        values = values,
-        barHeights = barHeights,
-        headerValue = "${values.map { formatter(it)!! }.average().roundToInt()}",
-        headerSuffix = unit.toName(inShort = true, context),
-        barColor = barColor,
-        chartHeight = 220.dp
-    )
 }
 
 private val visibilityRanges = listOf(
