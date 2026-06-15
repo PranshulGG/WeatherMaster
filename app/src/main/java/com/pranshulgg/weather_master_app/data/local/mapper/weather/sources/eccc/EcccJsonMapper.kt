@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.eccc
 
+import android.util.Log
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherCurrent
@@ -8,6 +9,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherHourly
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.core.model.weather.DistanceUnit
 import com.pranshulgg.weather_master_app.core.model.weather.PressureUnit
+import com.pranshulgg.weather_master_app.core.model.weather.WindSpeedUnit
 import com.pranshulgg.weather_master_app.core.model.weather.wind.WindDirection
 import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.EcccConditionMap
 import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.json.EcccHourlyWeatherItemJson
@@ -17,6 +19,7 @@ import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtension
 import com.pranshulgg.weather_master_app.core.utils.formatters.safeZoneId
 import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getMoonTimings
 import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getSunTimings
+import com.pranshulgg.weather_master_app.core.utils.weather.calculations.computeApparentTemperature
 import java.time.LocalDate
 import java.time.Year
 import java.time.format.DateTimeFormatter
@@ -54,7 +57,6 @@ fun EcccWeatherJson.toDomain(location: Location): Weather {
         location.longitude
     )
 
-
     return Weather(
         location = location,
         current = WeatherCurrent(
@@ -73,7 +75,14 @@ fun EcccWeatherJson.toDomain(location: Location): Weather {
             cloudCover = null, // NOT USED IN THE APP
             uvIndex = null,
             weatherCondition = EcccConditionMap.getCondition(current.iconCode),
-            feelsLike = current.feelsLike.metric?.toDoubleOrNull(),
+            feelsLike = current.feelsLike.metric?.toDoubleOrNull() ?: computeApparentTemperature(
+                current.temperature.metric?.toDoubleOrNull(),
+                WindSpeedUnit.KPH.convert(
+                    current.windSpeed.metric?.toDoubleOrNull(),
+                    WindSpeedUnit.MPS
+                ),
+                current.humidity?.toDouble()
+            ),
             time = current.timeStamp.iso8601TimestampToMilliseconds(),
             dewPoint = current.dewpoint.metric?.toDoubleOrNull(),
             utcOffsetSeconds = null,
