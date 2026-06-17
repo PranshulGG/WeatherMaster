@@ -265,7 +265,7 @@
     <string name="summary_temp_cold_template_3">Bardzo zimne powietrze sprawi, że temperatury utrzymają się na poziomie około %1$s.</string>
     <string name="weather_summary">Podsumowanie</string>
     <string name="about_changelog">Historia zmian</string>
-    <string name="about">O aplikacji</string>
+    <string name="about">Na ten temat</string>
     <string name="weather_max_for_the_day">Maks. na dzień</string>
     <string name="weather_about_uv_index">Wskaźnik UV jest miarą poziomu promieniowania ultrafioletowego. Wartości tego wskaźnika zaczynają się od zera – im wyższy wskaźnik UV, tym większe ryzyko uszkodzenia skóry i oczu oraz tym krótszy czas potrzebny do wystąpienia szkodliwych skutków</string>
     <string name="text_scale">Skala</string>
@@ -311,4 +311,5 @@
     <string name="setting_system">Systemowy</string>
     <string name="weather_about_precipitation">Precipitation shows the forecast amount of rainfall expected during each hour. Larger amounts indicate heavier rain</string>
     <string name="weather_about_snowfall">Snowfall shows the forecast amount of snow expected during each hour. Higher values indicate greater snow accumulation</string>
-</resources><!--<string name=""></string>-->
+</resources>
+<!--<string name=""></string>-->
