@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="weather_hourly_forecast">Prognozė valandomis</string>
+    <string name="weather_hourly_forecast">Valandų prognozė</string>
     <string name="action_save">Išsaugoti</string>
     <string name="action_cancel">Atšaukti</string>
     <string name="weather_daily_forecast">Artimiausios dienos</string>
@@ -14,16 +14,16 @@
     <string name="error_generic">Įvyko klaida. Bandykite dar kartą.</string>
     <string name="weather_moon">Mėnulis</string>
     <string name="weather_sun">Saulė</string>
-    <string name="weather_humidity">Drėgnumas</string>
+    <string name="weather_humidity">Drėgmė</string>
     <string name="weather_pressure">Slėgis</string>
-    <string name="weather_wind">Vėjuota</string>
+    <string name="weather_wind">Vėjas</string>
     <string name="weather_visibility">Matomumas</string>
     <string name="weather_air_quality">Oro kokybė</string>
     <string name="weather_uv_index">UV indeks.</string>
     <string name="action_ok">Gerai</string>
     <string name="settings">Nustatymai</string>
     <string name="search">Ieškoti</string>
-    <string name="location_current">Dabartinė vieta</string>
+    <string name="location_current">Dabartinė vietovė</string>
     <string name="search_provider">Paieškos teikėjas</string>
     <plurals name="time_minutes_ago">
         <item quantity="one">Prieš %d min.</item>
@@ -46,7 +46,7 @@
     <string name="time_just_now">Ką tik</string>
     <string name="time_last_updated">Paskutinis atnaujinimas: %1$s</string>
     <string name="weather_no_data">Nėra oro duomenų.</string>
-    <string name="weather_clear_sky">Giedras dangus</string>
+    <string name="weather_clear_sky">Giedra</string>
     <string name="weather_overcast">Apsiniaukę</string>
     <string name="weather_partly_cloudy">Dalinai debesuota</string>
     <string name="weather_heavy_rain">Smarkus lietus</string>
@@ -81,8 +81,8 @@
     <string name="unit_wind_mps">Metrai per sekundę</string>
     <string name="unit_wind_mph">Mylios per valandą</string>
     <string name="unit_wind_kph">Kilometrai per valandą</string>
-    <string name="unit_pressure_hpa">Hektopaskalis</string>
-    <string name="unit_pressure_inhg">Colis gyvsidabrio</string>
+    <string name="unit_pressure_hpa">Hektopaskaliai</string>
+    <string name="unit_pressure_inhg">Coliai gyvsidabrio</string>
     <string name="unit_distance_km">Kilometrai</string>
     <string name="unit_distance_mi">Mylios</string>
     <string name="unit_distance_m">Metrai</string>
@@ -116,7 +116,7 @@
     <string name="weather_precipitation">Krituliai</string>
     <string name="weather_air_quality_index">Oro kokybės indeksas</string>
     <string name="setting_translate_app">Išverskite programėlę</string>
-    <string name="setting_translate_app_secondary">Padėk išversti šią programėlę į savo kalbą. </string>
+    <string name="setting_translate_app_secondary">Padėkite išversti programėlę į savo kalbą.</string>
     <string name="location_use_current">Naudoti dabartinę vietą</string>
     <string name="location_use_current_secondary">Nustatykite dabartinę įrenginio buvimo vietą ir įtraukite ją į sąrašą</string>
     <string name="location_permission_required">Reikalingas leidimas nustatyti buvimo vietą</string>
@@ -141,8 +141,8 @@
     <string name="weather_aqi_co_description">Dujos, išmetamos motorinių transporto priemonių ar mašinų, kurios naudoja iškastinį kurą</string>
     <string name="weather_airquality_about_index">Oro kokybės indeksai suskirsto neapdorotus duomenis į aprašomąją vertinimo skalę. Šie indeksai padeda lengviau nustatyti taršos lygį ir galimas rizikas</string>
     <string name="weather_average">Vidurkis</string>
-    <string name="weather_rain_block">Lyja</string>
-    <string name="weather_snow_block">Sninga</string>
+    <string name="weather_rain_block">Lietus</string>
+    <string name="weather_snow_block">Sniegas</string>
     <string name="search_source">Paieškos šaltinis</string>
     <string name="weather_source">Meteorologinis šaltinis</string>
     <string name="weather_sources">Meteorologiniai šaltiniai</string>
@@ -157,10 +157,10 @@
     <string name="weather_cloudy_with_rain">Debesuota, lyja</string>
     <string name="weather_cloudy_with_snow">Debesuota, sninga</string>
     <string name="weather_rain_with_clear">Lyja, dangus giedras</string>
-    <string name="weather_rain_with_cloudy">Lietus, dangus apsiniaukęs</string>
+    <string name="weather_rain_with_cloudy">Lyja, dangus apsiniaukęs</string>
     <string name="weather_rain_with_snow">Šlapdriba</string>
-    <string name="weather_snow_with_clear">Sninga ir giedra</string>
-    <string name="weather_snow_with_cloudy">Sninga ir debesuota</string>
+    <string name="weather_snow_with_clear">Sninga, protarpiais giedra</string>
+    <string name="weather_snow_with_cloudy">Sninga, debesuota</string>
     <string name="weather_snow_with_rain">Šlapdriba</string>
     <string name="weather_clear_then_cloudy">Giedra, vėliau debesuota</string>
     <string name="weather_clear_then_rain">Giedra, vėliau lis</string>
@@ -169,7 +169,7 @@
     <string name="weather_cloudy_then_rain">Debesuota, vėliau lis</string>
     <string name="weather_cloudy_then_snow">Debesuota, vėliau snigs</string>
     <string name="weather_rain_then_clear">Lyja, vėliau giedra</string>
-    <string name="weather_rain_then_cloudy">Lija, vėliau debesuota</string>
+    <string name="weather_rain_then_cloudy">Lyja, vėliau debesuota</string>
     <string name="weather_rain_then_snow">Lyja, vėliau snigs</string>
     <string name="weather_snow_then_clear">Sninga, vėliau giedra</string>
     <string name="weather_snow_then_cloudy">Sninga, vėliau debesuota</string>
