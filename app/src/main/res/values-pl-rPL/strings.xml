@@ -309,7 +309,7 @@
     <string name="setting_day_summary">Podsumowanie dnia</string>
     <string name="setting_day_summary_secondary">Pokaż dzienne podsumowanie wygenerowane na podstawie danych godzinnych.</string>
     <string name="setting_system">Systemowy</string>
-    <string name="weather_about_precipitation">Precipitation shows the forecast amount of rainfall expected during each hour. Larger amounts indicate heavier rain</string>
-    <string name="weather_about_snowfall">Snowfall shows the forecast amount of snow expected during each hour. Higher values indicate greater snow accumulation</string>
+    <string name="weather_about_precipitation">Wysokość opadów wskazuje prognozowaną ilość deszczu spodziewaną w każdej godzinie. Wyższe wartości oznaczają intensywniejsze opady</string>
+    <string name="weather_about_snowfall">Wskaźnik opadów śniegu pokazuje prognozowaną ilość śniegu spodziewaną w każdej godzinie. Wyższe wartości oznaczają większą warstwę śniegu</string>
 </resources>
 <!--<string name=""></string>-->
