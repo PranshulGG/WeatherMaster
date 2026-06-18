@@ -297,13 +297,13 @@
     <string name="weather_about_sun_moon_rise_set">Il momento dell\'alba è quando il sole o la luna compaiono per la prima volta sopra l\'orizzonte. Il momento del tramonto è quando il sole o la luna scompaiono completamente sotto l\'orizzonte</string>
     <string name="weather_about_dawn_dusk">L\'alba è il momento in cui il cielo si illumina poco prima del sorgere del sole. Il tramonto è il momento in cui la luce del cielo si affievolisce poco dopo il calare del sole</string>
     <string name="weather_about_pressure">La pressione media a livello del mare, un indicatore della forza con cui l\'atmosfera esercita una pressione verso il basso, rapportata al livello del mare. Osservarne l\'andamento può fornire un\'indicazione precoce dei cambiamenti meteorologici. Un calo della pressione indica solitamente l\'avvicinarsi di condizioni meteorologiche instabili, mentre un aumento della pressione spesso significa che le condizioni stanno diventando più stabili</string>
-    <string name="weather_about_windspeed">Wind speed is the rate at which air moves horizontally past a specific point, driven by differences in atmospheric pressure and temperature</string>
-    <string name="unit_wind_kt">Knots</string>
+    <string name="weather_about_windspeed">La velocità del vento è il ritmo a cui l\'aria si muove orizzontalmente attraverso un punto specifico, determinata da differenze di pressione e temperatura atmosferiche</string>
+    <string name="unit_wind_kt">Nodi</string>
     <string name="unit_wind_bft">Beaufort</string>
-    <string name="setting_day_summary">Day summary</string>
-    <string name="setting_day_summary_secondary">Show a daily summary generated from hourly data</string>
+    <string name="setting_day_summary">Riassunto giornaliero</string>
+    <string name="setting_day_summary_secondary">Mostra un riassunto giornaliero generato a partire dai dati orari</string>
     <string name="setting_system">Sistema</string>
-    <string name="weather_about_precipitation">Precipitation shows the forecast amount of rainfall expected during each hour. Larger amounts indicate heavier rain</string>
-    <string name="weather_about_snowfall">Snowfall shows the forecast amount of snow expected during each hour. Higher values indicate greater snow accumulation</string>
+    <string name="weather_about_precipitation">Precipitazioni mostra la previsione sulla quantità di pioggia che ci si aspetta cada per ogni ora. Quantità maggiori indicano pioggia più intensa</string>
+    <string name="weather_about_snowfall">Nevicata mostra la previsione sulla quantità di neve che ci si aspetta per ogni ora. Valori più alti indicano maggiori quantità di neve</string>
 </resources>
 <!--<string name=""></string>-->
