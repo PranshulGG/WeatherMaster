@@ -31,7 +31,13 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+
         </activity>
+        <activity
+            android:name=".widgets.config.WidgetConfigActivity"
+            android:theme="@style/Theme.WeatherMaster"
+            android:exported="true" />
 
         <service
             android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
@@ -98,20 +104,6 @@
         </receiver>
 
         <receiver
-            android:name=".widgets.weathersmall.WeatherSmallWidgetReceiver"
-            android:label="Weather Small"
-            android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/weather_widget_small_info" />
-        </receiver>
-
-        <receiver
             android:name=".widgets.weatherhorizontal.WeatherHorizontalWidgetReceiver"
             android:label="Weather"
             android:exported="true">
@@ -123,6 +115,20 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/weather_widget_horizontal_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widgets.glance.GlanceWidgetReceiver"
+            android:label="Weather"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/glance_widget_info" />
         </receiver>
     </application>
 

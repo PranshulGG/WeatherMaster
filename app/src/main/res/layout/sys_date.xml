@@ -1,0 +1,14 @@
+<TextClock xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/date"
+
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:format12Hour="EEE d MMM"
+    android:format24Hour="EEE d MMM"
+    android:textColor="@color/white"
+    android:gravity="center"
+    android:textSize="20sp"
+    android:shadowColor="#80000000"
+    android:shadowDx="2"
+    android:shadowDy="2"
+    android:shadowRadius="4" />
