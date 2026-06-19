@@ -223,7 +223,7 @@
     <string name="summary_rain_high_template_4">Apie %1$s numatomas ilgalaikis lietus.</string>
     <string name="summary_rain_medium_template_1">%1$s gali pasitaikyti pavienių lietaus šuorų. </string>
     <string name="summary_rain_medium_template_2">Apie %1$s gali pradėti lyti.</string>
-    <string name="summary_rain_medium_template_3">Kritulių tikimybė – %1$s.</string>
+    <string name="summary_rain_medium_template_3">Tikėtina, kad %1$s palis.</string>
     <string name="summary_rain_medium_template_4">Apie %1$s gali periodiškai palyti.</string>
     <string name="summary_rain_low_template_1">Išlieka nedidelė tikimybė, kad %1$s lis.</string>
     <string name="summary_rain_low_template_2">Apie %1$s gali pasitaikyti pavienės liūtys.</string>
