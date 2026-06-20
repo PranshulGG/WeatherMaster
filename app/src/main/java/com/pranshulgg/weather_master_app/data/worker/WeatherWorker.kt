@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.annotation.RequiresPermission
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
+import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
@@ -22,6 +23,7 @@ import com.pranshulgg.weather_master_app.data.worker.widgets.WeatherWidgetUpdate
 import com.pranshulgg.weather_master_app.data.worker.widgets.widgetWeatherMapper
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import java.util.concurrent.TimeUnit
 
 @HiltWorker
 class WeatherWorker @AssistedInject constructor(
@@ -40,7 +42,7 @@ class WeatherWorker @AssistedInject constructor(
             inputData.getBoolean(KEY_SKIP_FOREGROUND_CHECK, false)
 
         // Only run if app is backgrounded
-        if (!skipForegroundCheck && appVisibility.isForeground) {
+        if (appVisibility.isForeground) {
             return Result.success()
         }
 
@@ -60,9 +62,7 @@ class WeatherWorker @AssistedInject constructor(
              * Show a notification whenever the worker runs
              * Don't really need it but why not, i wanna know if its working
              */
-            if (!skipForegroundCheck) {
-                WeatherNotification.showNotification(default.name)
-            }
+            WeatherNotification.showNotification(default.name)
 
 
             // Get the repository
@@ -74,6 +74,7 @@ class WeatherWorker @AssistedInject constructor(
                 isManualRefresh = false,
                 isForceRefresh = false
             )
+
 
             if (result !is WeatherResult.Success) {
                 return Result.success()
@@ -99,19 +100,6 @@ class WeatherWorker @AssistedInject constructor(
     companion object {
         const val KEY_SKIP_FOREGROUND_CHECK = "skip_foreground_check"
 
-//        fun startNow(context: Context, skipForegroundCheck: Boolean = false) {
-//            val inputData = workDataOf(
-//                KEY_SKIP_FOREGROUND_CHECK to skipForegroundCheck
-//            )
-//            val request =
-//                OneTimeWorkRequestBuilder<WeatherWorker>()
-//                    .setInputData(inputData)
-//                    .build()
-//
-//            WorkManager.getInstance(context)
-//                .enqueue(request)
-//        }
-
         suspend fun updateAllWidgets(
             context: Context,
             data: Weather,
@@ -121,6 +109,18 @@ class WeatherWorker @AssistedInject constructor(
             val json = widgetWeatherMapper(data, context, units)
 
             WeatherWidgetUpdater(context).update(json)
+        }
+
+        fun runWorkerOnce(context: Context) {
+            val request = OneTimeWorkRequestBuilder<WeatherWorker>()
+                .setInitialDelay(0, TimeUnit.SECONDS)
+                .build()
+
+            WorkManager.getInstance(context).enqueueUniqueWork(
+                "@pranshulgg_weather_master_updates_once",
+                ExistingWorkPolicy.REPLACE,
+                request
+            )
         }
     }
 }

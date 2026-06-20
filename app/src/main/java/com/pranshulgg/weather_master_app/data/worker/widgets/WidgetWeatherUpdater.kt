@@ -5,13 +5,12 @@ import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.state.updateAppWidgetState
 import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateDefinition
 import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateJson
+import com.pranshulgg.weather_master_app.widgets.config.WidgetConfig
+import com.pranshulgg.weather_master_app.widgets.glance.GlanceWidget
 import com.pranshulgg.weather_master_app.widgets.pill.WidgetPill
 import com.pranshulgg.weather_master_app.widgets.summary.SummaryWidget
 import com.pranshulgg.weather_master_app.widgets.weather.WeatherWidget
 import com.pranshulgg.weather_master_app.widgets.weatherhorizontal.WeatherHorizontalWidget
-import com.pranshulgg.weather_master_app.widgets.weatherhorizontal.ui.WeatherWidgetHorizontal
-import com.pranshulgg.weather_master_app.widgets.weathersmall.WeatherSmallWidget
-import com.pranshulgg.weather_master_app.widgets.weathersmall.ui.WeatherWidgetSmall
 
 class WeatherWidgetUpdater(
     private val context: Context
@@ -20,9 +19,9 @@ class WeatherWidgetUpdater(
     private val widget = WeatherWidget()
     private val pill = WidgetPill()
     private val summary = SummaryWidget()
-    private val widgetSmall = WeatherSmallWidget()
-
     private val widgetHorizontal = WeatherHorizontalWidget()
+
+    private val widgetGlance = GlanceWidget()
 
     suspend fun update(json: String) {
 
@@ -32,42 +31,67 @@ class WeatherWidgetUpdater(
         val widgetIds = manager.getGlanceIds(WeatherWidget::class.java)
         val pillIds = manager.getGlanceIds(WidgetPill::class.java)
         val summaryIds = manager.getGlanceIds(SummaryWidget::class.java)
-        val widgetSmallIds = manager.getGlanceIds(WeatherSmallWidget::class.java)
         val widgetHorizontalIds = manager.getGlanceIds(WeatherHorizontalWidget::class.java)
 
+        val widgetGlanceIds = manager.getGlanceIds(GlanceWidget::class.java)
+
         widgetIds.forEach {
-            updateAppWidgetState(context, WeatherWidgetStateDefinition, it) {
-                WeatherWidgetStateJson(json)
+            updateAppWidgetState(context, WeatherWidgetStateDefinition, it) { current ->
+                current.copy(json = json, config = current.config)
             }
             widget.update(context, it)
         }
 
         pillIds.forEach {
-            updateAppWidgetState(context, WeatherWidgetStateDefinition, it) {
-                WeatherWidgetStateJson(json)
+            updateAppWidgetState(context, WeatherWidgetStateDefinition, it) { current ->
+                current.copy(json = json, config = current.config)
             }
             pill.update(context, it)
         }
 
         summaryIds.forEach {
-            updateAppWidgetState(context, WeatherWidgetStateDefinition, it) {
-                WeatherWidgetStateJson(json)
+            updateAppWidgetState(context, WeatherWidgetStateDefinition, it) { current ->
+                current.copy(json = json, config = current.config)
             }
             summary.update(context, it)
         }
 
-        widgetSmallIds.forEach {
-            updateAppWidgetState(context, WeatherWidgetStateDefinition, it) {
-                WeatherWidgetStateJson(json)
-            }
-            widgetSmall.update(context, it)
-        }
 
         widgetHorizontalIds.forEach {
-            updateAppWidgetState(context, WeatherWidgetStateDefinition, it) {
-                WeatherWidgetStateJson(json)
+            updateAppWidgetState(context, WeatherWidgetStateDefinition, it) { current ->
+                current.copy(json = json, config = current.config)
             }
             widgetHorizontal.update(context, it)
+        }
+
+        widgetGlanceIds.forEach {
+            updateAppWidgetState(context, WeatherWidgetStateDefinition, it) { current ->
+                current.copy(json = json, config = current.config)
+            }
+            widgetGlance.update(context, it)
+        }
+    }
+
+    suspend fun saveWidgetConfig(
+        context: Context,
+        widgetId: Int,
+        config: WidgetConfig
+    ) {
+
+        val manager =
+            GlanceAppWidgetManager(context)
+
+        val glanceId =
+            manager.getGlanceIdBy(widgetId)
+
+        updateAppWidgetState(
+            context,
+            WeatherWidgetStateDefinition,
+            glanceId
+        ) {
+            it.copy(
+                config = config
+            )
         }
     }
 }

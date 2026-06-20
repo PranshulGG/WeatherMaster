@@ -58,7 +58,7 @@ fun widgetWeatherMapper(
 
     val hourly = weather.hourly
         .drop(hourlyStartIndex)
-        .take(6)
+        .take(12)
         .map {
             val temperature =
                 TemperatureUnit.CELSIUS.convert(it.temperature, units.tempUnit)?.roundToInt()
