@@ -119,7 +119,7 @@
 
         <receiver
             android:name=".widgets.glance.GlanceWidgetReceiver"
-            android:label="Weather"
+            android:label="Glance"
             android:exported="true">
 
             <intent-filter>
