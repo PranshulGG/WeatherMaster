@@ -102,7 +102,10 @@ fun WindHourlyCard(
 
                     val percentage = ((item.windSpeed!!.minus(min)).div((max - min))).times(100)
 
-                    val barHeight = max((percentage.div(100)).times(140).roundToInt(), 48)
+                    val barHeight = if (!percentage.isNaN()) max(
+                        (percentage.div(100)).times(140).roundToInt(),
+                        48
+                    ) else 48
 
                     val barColor = when {
                         item.windSpeed < 10 -> Color(0xFF42A5F5)
