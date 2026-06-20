@@ -42,6 +42,7 @@ import com.pranshulgg.weather_master_app.core.ui.components.SettingsTileIcon
 import com.pranshulgg.weather_master_app.core.ui.components.WeatherIconBox
 import com.pranshulgg.weather_master_app.core.ui.components.tiles.DialogOption
 import com.pranshulgg.weather_master_app.core.ui.theme.ShapeRadius
+import com.pranshulgg.weather_master_app.core.utils.formatters.toSafeDouble
 import com.pranshulgg.weather_master_app.widgets.config.WidgetConfig
 import kotlin.math.roundToInt
 
@@ -49,15 +50,29 @@ import kotlin.math.roundToInt
 @Composable
 fun GlanceWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
 
-    var clockSize by remember { mutableFloatStateOf(32f) }
+    var clockSize by remember { mutableFloatStateOf(36f) }
     var showClock by remember { mutableStateOf(true) }
     var dateFormat by remember { mutableStateOf("EEE d MMM") }
 
     val formats = listOf("EEE d MMM", "EEE MMM d", "EEE MM-dd")
+    val clockSizes = listOf(
+        20f,
+        28f,
+        36f,
+        44f,
+        56f,
+        72f,
+        88f,
+        104f,
+        120f
+    )
     val btnSize = ButtonDefaults.MediumContainerHeight
 
 
     val formatsOptions = formats.map { DialogOption(it, it) }
+    val clockSizeOptions = clockSizes.map { DialogOption(it.toString(), "${it.roundToInt()}.sp") }
+
+
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surfaceContainer
     ) { paddingValues ->
@@ -76,17 +91,13 @@ fun GlanceWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                 SettingSection(
                     title = stringResource(R.string.setting_appearance),
                     tiles = listOf(
-                        SettingTile.DialogSliderTile(
-                            title = "Clock size",
-                            dialogTitle = "Clock size",
-                            initialValue = 32f,
-                            valueRange = 20f..120f,
-                            description = "${clockSize.roundToInt()}sp",
-                            isDescriptionAsValue = true,
+                        SettingTile.DialogOptionTile(
                             leading = { SettingsTileIcon(R.drawable.format_size_24px) },
-                            labelFormatter = { "${it.roundToInt()}sp" },
-                            onValueSubmitted = {
-                                clockSize = it
+                            title = "Clock size",
+                            options = clockSizeOptions,
+                            selectedOption = clockSize.toString(),
+                            onOptionSelected = {
+                                clockSize = it.toSafeDouble()?.toFloat() ?: 36f
                             }
                         ),
                         SettingTile.SwitchTile(
