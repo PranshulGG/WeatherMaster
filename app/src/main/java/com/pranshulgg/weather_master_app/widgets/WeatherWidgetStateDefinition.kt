@@ -2,6 +2,7 @@ package com.pranshulgg.weather_master_app.widgets
 
 import android.content.Context
 import androidx.datastore.core.DataStore
+import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.core.Serializer
 import androidx.datastore.dataStore
 import androidx.datastore.dataStoreFile
@@ -16,20 +17,15 @@ import java.io.OutputStream
 object WeatherWidgetStateDefinition :
     GlanceStateDefinition<WeatherWidgetStateJson> {
 
-    private const val FILE_NAME =
-        "weather_widget_state"
-
-    private val Context.datastore by dataStore(
-        fileName = FILE_NAME,
-        serializer = WeatherWidgetSerializer
-    )
-
     override suspend fun getDataStore(
         context: Context,
         fileKey: String
     ): DataStore<WeatherWidgetStateJson> {
 
-        return context.datastore
+        return DataStoreFactory.create(
+            serializer = WeatherWidgetSerializer,
+            produceFile = { context.dataStoreFile(fileKey) }
+        )
     }
 
     override fun getLocation(
@@ -37,7 +33,7 @@ object WeatherWidgetStateDefinition :
         fileKey: String
     ): File {
 
-        return context.dataStoreFile(FILE_NAME)
+        return context.dataStoreFile(fileKey)
     }
 
     object WeatherWidgetSerializer :
