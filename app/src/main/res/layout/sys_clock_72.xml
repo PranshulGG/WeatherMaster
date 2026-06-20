@@ -1,0 +1,17 @@
+<TextClock xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/clock"
+
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textSize="72sp"
+    android:textStyle="bold"
+
+
+    android:textColor="#EEF0FF"
+    android:shadowColor="#80000000"
+    android:shadowDx="2"
+    android:includeFontPadding="false"
+    android:shadowDy="2"
+    android:shadowRadius="4"
+    android:format24Hour="HH:mm"
+    android:format12Hour="h:mm" />
