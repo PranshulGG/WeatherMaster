@@ -12,8 +12,6 @@ import androidx.glance.layout.Column
 import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxSize
-import androidx.glance.layout.fillMaxWidth
-import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
 import androidx.glance.layout.width
@@ -22,10 +20,9 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
-import com.pranshulgg.weather_master_app.widgets.weather.components.WidgetMinMaxTemp
 
 @Composable
-fun WeatherWidgetHorizontal(
+fun WeatherWidgetHorizontalCompact(
     state: WidgetWeather?,
     modifier: GlanceModifier = GlanceModifier
 ) {
@@ -61,30 +58,11 @@ fun WeatherWidgetHorizontal(
                     style = TextStyle(
                         color = textColor,
                         fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
+                        fontWeight = FontWeight.Medium,
                         textAlign = TextAlign.Start
                     ),
-                    maxLines = 2
-                )
-            }
-            Spacer(GlanceModifier.defaultWeight())
-
-            Column() {
-                Text(
-                    state.daily.first().tempMax,
-                    style = TextStyle(
-                        fontSize = 18.sp,
-                        color = GlanceTheme.colors.onSurface,
-                        fontWeight = FontWeight.Medium
-                    )
-                )
-                Text(
-                    state.daily.first().tempMin,
-                    style = TextStyle(
-                        fontSize = 18.sp,
-                        color = GlanceTheme.colors.onSurfaceVariant,
-                        fontWeight = FontWeight.Medium
-                    )
+                    maxLines = 2,
+                    modifier = GlanceModifier.defaultWeight()
                 )
             }
         }
