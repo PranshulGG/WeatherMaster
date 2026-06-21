@@ -4,13 +4,15 @@ import android.content.Context
 import android.util.TypedValue
 import android.widget.RemoteViews
 import androidx.compose.runtime.Composable
+import androidx.core.content.ContextCompat
 import androidx.glance.appwidget.AndroidRemoteViews
 import com.pranshulgg.weather_master_app.R
 
 
 private fun createClock(
     context: Context,
-    size: Float
+    size: Float,
+    color: Int
 ): RemoteViews {
 
     val layoutId = when (size) {
@@ -28,13 +30,17 @@ private fun createClock(
     return RemoteViews(
         context.packageName,
         layoutId
-    )
+    ).apply {
+        val resolvedColor = ContextCompat.getColor(context, color)
+        setTextColor(R.id.clock, resolvedColor)
+    }
 }
 
 @Composable
 fun WidgetClock(
     size: Float,
-    context: Context
+    context: Context,
+    color: Int = R.color.white
 ) {
 
     AndroidRemoteViews(
@@ -42,7 +48,8 @@ fun WidgetClock(
         remoteViews =
             createClock(
                 context,
-                size
+                size,
+                color
             )
     )
 }
