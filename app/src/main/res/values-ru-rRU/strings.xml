@@ -311,5 +311,6 @@
     <string name="setting_system">Как в системе</string>
     <string name="weather_about_precipitation">Precipitation shows the forecast amount of rainfall expected during each hour. Larger amounts indicate heavier rain</string>
     <string name="weather_about_snowfall">Snowfall shows the forecast amount of snow expected during each hour. Higher values indicate greater snow accumulation</string>
+    <string name="color_transparent">Transparent</string>
 </resources>
 <!--<string name=""></string>-->
