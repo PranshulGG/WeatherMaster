@@ -82,7 +82,7 @@ fun widgetWeatherMapper(
         }
 
     val daily = weather.daily
-        .take(5)
+        .take(6)
         .map {
             val maxTemperature =
                 TemperatureUnit.CELSIUS.convert(it.temperatureMax, units.tempUnit)?.roundToInt()
