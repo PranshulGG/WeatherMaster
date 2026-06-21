@@ -306,5 +306,6 @@
     <string name="setting_system">系统</string>
     <string name="weather_about_precipitation">降水量显示每小时的预计降雨量。数值越大表示雨越大</string>
     <string name="weather_about_snowfall">降雪量显示每小时的预计降雪量。数值越大表示积雪越大</string>
+    <string name="color_transparent">空气通透</string>
 </resources>
 <!--<string name=""></string>-->
