@@ -13,6 +13,8 @@ import com.pranshulgg.weather_master_app.core.ui.theme.WeatherMasterTheme
 import com.pranshulgg.weather_master_app.data.worker.widgets.WeatherWidgetUpdater
 import com.pranshulgg.weather_master_app.widgets.glance.GlanceWidgetReceiver
 import com.pranshulgg.weather_master_app.widgets.glance.ui.GlanceWidgetConfig
+import com.pranshulgg.weather_master_app.widgets.weatherclockdaily.ClockDailyWidgetReceiver
+import com.pranshulgg.weather_master_app.widgets.weatherclockdaily.ui.ClockDailyWidgetConfig
 import kotlinx.coroutines.launch
 
 class WidgetConfigActivity : ComponentActivity() {
@@ -72,6 +74,10 @@ class WidgetConfigActivity : ComponentActivity() {
                 when (provider?.className) {
                     GlanceWidgetReceiver::class.java.name -> {
                         GlanceWidgetConfig(onDone = { onDone(it) })
+                    }
+
+                    ClockDailyWidgetReceiver::class.java.name -> {
+                        ClockDailyWidgetConfig(onDone = { onDone(it) })
                     }
                 }
             }
