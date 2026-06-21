@@ -305,5 +305,6 @@
     <string name="setting_system">Système</string>
     <string name="weather_about_precipitation">Les précipitations présentes les quantités supposées d\'averses chaque heures. Une plus grande quantité indique Une averse plus importante.</string>
     <string name="weather_about_snowfall">L\'enneigement présente la quantité attendue de neige pour chaque heure. Une plus grande valeur annonce Une plus grande accumulation de neige.</string>
+    <string name="color_transparent">Transparent</string>
 </resources>
 <!--<string name=""></string>-->
