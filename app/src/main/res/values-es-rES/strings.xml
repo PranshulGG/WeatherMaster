@@ -305,5 +305,6 @@
     <string name="setting_system">Sistema</string>
     <string name="weather_about_precipitation">La precipitación muestra la cantidad pronosticada de lluvia esperada durante cada hora. Cantidades mayores indican lluvias más intensas.</string>
     <string name="weather_about_snowfall">La previsión de nevadas muestra la cantidad de nieve esperada durante cada hora. Los valores más altos indican una mayor acumulación de nieve.</string>
+    <string name="color_transparent">Transparent</string>
 </resources>
 <!--<string name=""></string>-->
