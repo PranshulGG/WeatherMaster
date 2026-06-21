@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -55,7 +56,7 @@ fun DailyScreen(navController: NavController, index: Int = 0, locationId: String
     val prefs = LocalAppPrefs.current
     val isShowSummary = prefs.isShowSummary
 
-    var selectedIndex by remember { mutableIntStateOf(index) }
+    var selectedIndex by rememberSaveable { mutableIntStateOf(index) }
 
     LaunchedEffect(Unit) {
         viewModel.loadBlocks()
