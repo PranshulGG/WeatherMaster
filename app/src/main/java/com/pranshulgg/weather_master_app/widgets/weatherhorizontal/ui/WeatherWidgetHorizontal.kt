@@ -46,12 +46,12 @@ fun WeatherWidgetHorizontal(
                 modifier = GlanceModifier.size(48.dp)
             )
             Spacer(GlanceModifier.width(12.dp))
-            Column() {
+            Column(GlanceModifier.defaultWeight()) {
                 Text(
-                    state.currentTemp,
+                    state.locationName,
                     style = TextStyle(
                         color = textColor,
-                        fontSize = 24.sp,
+                        fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
                         textAlign = TextAlign.Start
                     )
@@ -64,11 +64,16 @@ fun WeatherWidgetHorizontal(
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Start
                     ),
-                    maxLines = 2
+                    maxLines = 1,
+                    modifier = GlanceModifier.fillMaxWidth()
                 )
             }
-            Spacer(GlanceModifier.defaultWeight())
-
+            Spacer(GlanceModifier.width(16.dp))
+            Text(
+                state.currentTemp,
+                style = TextStyle(color = textColor, fontWeight = FontWeight.Bold, fontSize = 40.sp)
+            )
+            Spacer(GlanceModifier.width(8.dp))
             Column() {
                 Text(
                     state.daily.first().tempMax,
