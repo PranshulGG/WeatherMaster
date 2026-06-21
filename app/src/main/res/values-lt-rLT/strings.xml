@@ -311,5 +311,6 @@
     <string name="setting_system">Sistema</string>
     <string name="weather_about_precipitation">Kritulių kiekis nurodo prognozuojamą lietaus kiekį per valandą. Didesnis kiekis reiškia stipresnį lietų.</string>
     <string name="weather_about_snowfall">Sniego krituliai nurodo prognozuojamą sniego kiekį per valandą. Didesnis kiekis reiškia, kad sniegas kris gausiau.</string>
+    <string name="color_transparent">Transparent</string>
 </resources>
 <!--<string name=""></string>-->
