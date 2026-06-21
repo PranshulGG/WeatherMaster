@@ -42,7 +42,7 @@ fun SummaryCard(
                 .fillMaxWidth()
         ) {
 
-            CardsHeader(stringResource(R.string.weather_summary), R.drawable.article_24px)
+            CardsHeader(stringResource(R.string.setting_day_summary), R.drawable.article_24px)
             Gap(8.dp)
             Text(
                 summary,

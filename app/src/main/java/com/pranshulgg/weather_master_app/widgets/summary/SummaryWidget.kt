@@ -69,7 +69,7 @@ class SummaryWidget : GlanceAppWidget() {
                             )
                             Spacer(GlanceModifier.width(5.dp))
                             Text(
-                                context.getString(R.string.weather_summary),
+                                context.getString(R.string.setting_day_summary),
                                 style = TextStyle(
                                     fontWeight = FontWeight.Bold,
                                     color = GlanceTheme.colors.secondary,
