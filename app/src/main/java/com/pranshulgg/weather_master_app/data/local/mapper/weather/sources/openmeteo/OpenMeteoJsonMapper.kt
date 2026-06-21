@@ -87,6 +87,7 @@ fun OpenMeteoWeatherJson.toDomain(location: Location): Weather {
                 OpenMeteoWeatherConditionMap.getCondition(daily.weatherCode[it])
             )
 
+
             WeatherDaily(
                 temperatureMin = daily.temperatureMin[it],
                 temperatureMax = daily.temperatureMax[it],
@@ -104,7 +105,11 @@ fun OpenMeteoWeatherJson.toDomain(location: Location): Weather {
                 moonset = moonTimings[it].moonset ?: -0L,
                 moonPhase = moonTimings[it].phase,
                 dawn = sunTimings[it].dawn ?: 0L,
-                dusk = sunTimings[it].dusk ?: 0L
+                dusk = sunTimings[it].dusk ?: 0L,
+                pressureMsl = daily.pressureMsl[it],
+                visibility = daily.visibility[it],
+                humidity = daily.humidity[it]?.toDouble(),
+                dewPoint = daily.dewPoint[it]
             )
         }
     )

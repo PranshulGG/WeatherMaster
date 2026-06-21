@@ -130,7 +130,11 @@ fun EcccWeatherJson.toDomain(location: Location): Weather {
                 moonset = moonTimings[index].moonset ?: -0L,
                 moonPhase = moonTimings[index].phase,
                 dawn = sunTimings[index].dawn ?: 0L,
-                dusk = sunTimings[index].dusk ?: 0L
+                dusk = sunTimings[index].dusk ?: 0L,
+                pressureMsl = null,
+                visibility = null,
+                humidity = null,
+                dewPoint = null
             )
         }
     )

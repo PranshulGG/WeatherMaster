@@ -19,11 +19,11 @@ data class SmhiForecastTimeSeriesDataJson(
     @SerializedName("wind_speed")
     val windSpeed: Double,
     @SerializedName("relative_humidity")
-    val humidity: Int,
+    val humidity: Int?,
     @SerializedName("air_pressure_at_mean_sea_level")
-    val pressureMsl: Double,
+    val pressureMsl: Double?,
     @SerializedName("visibility_in_air")
-    val visibility: Double,
+    val visibility: Double?,
     @SerializedName("probability_of_precipitation")
     val precipitationProbability: Int,
     @SerializedName("precipitation_amount_max")

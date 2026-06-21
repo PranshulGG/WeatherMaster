@@ -142,7 +142,29 @@ data class WeatherBlock(
                 isDaily = true,
                 id = (999L..2000L).random()
             ),
+            WeatherBlock(
+                type = WeatherBlockType.HUMIDITY_BLOCK,
+                isHidden = false,
+                position = 6,
+                isDaily = true,
+                id = (999L..2000L).random()
+            ),
+            WeatherBlock(
+                type = WeatherBlockType.PRESSURE_BLOCK,
+                isHidden = false,
+                position = 7,
+                isDaily = true,
+                id = (999L..2000L).random()
+            ),
+            WeatherBlock(
+                type = WeatherBlockType.VISIBILITY_BLOCK,
+                isHidden = false,
+                position = 8,
+                isDaily = true,
+                id = (999L..2000L).random()
+            ),
         )
+
     }
 }
 

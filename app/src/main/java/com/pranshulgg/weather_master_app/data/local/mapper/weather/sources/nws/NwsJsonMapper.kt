@@ -17,6 +17,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsWea
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.NwsGridPointDataQuantitativePrecipitationValuesJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.NwsGridPointDataSnowfallAmountValuesJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.NwsGridPointsJson
+import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.NwsHourlyForecastPeriodsItemJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.NwsHourlyForecastPeriodsJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.bundle.NwsWeatherJsonBundle
 import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.iso8601TimestampToMilliseconds
@@ -28,6 +29,7 @@ import com.pranshulgg.weather_master_app.core.utils.weather.computing.computeDai
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findHourlyIndexForTime
 import java.time.Duration
 import java.time.Instant
+import java.time.OffsetDateTime
 import java.time.temporal.ChronoUnit
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -154,7 +156,7 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
                 uvIndex = null,
                 weatherCondition = NwsWeatherConditionMap.getCondition(it.icon),
                 time = hourTime,
-                precipitationProbability = it.probabilityOfPrecipitation.value.toInt(),
+                precipitationProbability = it.probabilityOfPrecipitation.value?.toInt(),
                 humidity = it.relativeHumidity.value,
                 pressureMsl = null,
                 visibility = visibility?.roundToInt(),
@@ -192,6 +194,14 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
                 NwsWeatherConditionMap.getCondition(item.icon)
             )
 
+            val avgHumidity =
+                getDataForDay(hourly, time).map { it.relativeHumidity.value ?: -1.0 }.average()
+            val avgDewPoint =
+                getDataForDay(hourly, time).map { it.dewPoint.value ?: -1.0 }.average()
+            val minVisibility = getMinVisibility(visibilityMap, time)
+
+
+
             WeatherDaily(
                 temperatureMin = minTemperature?.value ?: 0.0,
                 temperatureMax = maxTemperature?.value ?: 0.0,
@@ -209,7 +219,11 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
                 moonset = moonTimings[index].moonset ?: -0L,
                 moonPhase = moonTimings[index].phase,
                 dawn = sunTimings[index].dawn ?: 0L,
-                dusk = sunTimings[index].dusk ?: 0L
+                dusk = sunTimings[index].dusk ?: 0L,
+                pressureMsl = null,
+                visibility = minVisibility.roundToInt(),
+                humidity = avgHumidity,
+                dewPoint = avgDewPoint
             )
         }
     )
@@ -239,11 +253,11 @@ private fun getMaxWindSpeed(data: NwsHourlyForecastPeriodsJson, time: Long): Dou
 private fun parseValidTime(validTime: String): NwsValidTime {
     val parts = validTime.trim().split("/")
 
-    val start = java.time.OffsetDateTime
+    val start = OffsetDateTime
         .parse(parts[0].trim())
         .toInstant()
 
-    val duration = java.time.Duration.parse(parts[1].trim())
+    val duration = Duration.parse(parts[1].trim())
 
     return NwsValidTime(
         start = start,
@@ -306,8 +320,8 @@ private fun getRainSum(
 
     val startIndex = data.toList().indexOfFirst { it.first >= time }.takeIf { it != -1 } ?: 0
 
-    val data =
-        data.toList().drop(maxOf(0, startIndex)).take(WeatherSource.NWS.hourlyAggregationLimitHours)
+    val data = data.toList().drop(maxOf(0, startIndex))
+        .take(WeatherSource.NWS.hourlyAggregationLimitHours)
 
 
     val rainSum = data.sumOf { it.second ?: 0.0 }
@@ -322,13 +336,28 @@ private fun getSnowfallSum(
 
     val startIndex = data.toList().indexOfFirst { it.first >= time }.takeIf { it != -1 } ?: 0
 
-    val data =
-        data.toList().drop(maxOf(0, startIndex)).take(WeatherSource.NWS.hourlyAggregationLimitHours)
+    val data = data.toList().drop(maxOf(0, startIndex))
+        .take(WeatherSource.NWS.hourlyAggregationLimitHours)
 
 
     val snowfallSum = data.sumOf { it.second ?: 0.0 }
 
     return snowfallSum
+}
+
+private fun getMinVisibility(
+    data: Map<Long, Double>,
+    time: Long
+): Double {
+    val startIndex = data.toList().indexOfFirst { it.first >= time }.takeIf { it != -1 } ?: 0
+
+    val data = data.toList().drop(maxOf(0, startIndex))
+        .take(WeatherSource.NWS.hourlyAggregationLimitHours)
+
+
+    val minVisibility = data.minOf { it.second ?: 0.0 }
+
+    return minVisibility
 }
 
 
@@ -339,9 +368,24 @@ private fun getMaxPrecipitationProbability(data: NwsHourlyForecastPeriodsJson, t
 
     val maxProbability = data.periods.drop(maxOf(0, startIndex - 1))
         .take(WeatherSource.NWS.hourlyAggregationLimitHours)
-        .map { it.probabilityOfPrecipitation.value.toDouble() }
+        .map { it.probabilityOfPrecipitation.value?.toDouble() }
 
     return maxProbability.maxOf { it ?: 0.0 }
+}
+
+private fun getDataForDay(
+    data: NwsHourlyForecastPeriodsJson,
+    time: Long
+): List<NwsHourlyForecastPeriodsItemJson> {
+    val startIndex =
+        data.periods.indexOfFirst { it.startTime.iso8601TimestampToMilliseconds() >= time }
+            .takeIf { it != -1 } ?: 0
+
+    val data = data.periods.drop(maxOf(0, startIndex - 1))
+        .take(WeatherSource.NWS.hourlyAggregationLimitHours)
+
+
+    return data
 }
 
 

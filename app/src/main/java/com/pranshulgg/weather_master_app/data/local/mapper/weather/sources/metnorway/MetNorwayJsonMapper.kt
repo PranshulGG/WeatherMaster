@@ -42,7 +42,7 @@ fun MetNorwayForecastJson.toDomain(location: Location): Weather {
     return Weather(
         current = WeatherCurrent(
             temperature = current.instant.details.temperature,
-            humidity = current.instant.details.relativeHumidity,
+            humidity = current.instant.details.relativeHumidity ?: 0.0,
             windSpeed = current.instant.details.windSpeed,
             windDirection = WindDirection.toWindDirectionFromDegrees(current.instant.details.windDirection.roundToInt()),
             pressureMsl = current.instant.details.pressureMsl,
@@ -159,6 +159,11 @@ private fun computeDaily(data: MetNorwayForecastJson, location: Location): List<
             MetNorwayWeatherConditionMap.getCondition(icon?.key)
         )
 
+        val avgHumidity =
+            dailyIt.value.map { it.data.instant.details.relativeHumidity ?: -1.0 }.average()
+        val avgDewPoint = dailyIt.value.map { it.data.instant.details.dewPoint ?: -1.0 }.average()
+        val avgPressure =
+            dailyIt.value.map { it.data.instant.details.pressureMsl ?: -1.0 }.average()
 
         val index = groupedByDay.keys.indexOf(dailyIt.key)
 
@@ -179,7 +184,11 @@ private fun computeDaily(data: MetNorwayForecastJson, location: Location): List<
             moonset = moonTimings[index].moonset ?: -0L,
             moonPhase = moonTimings[index].phase,
             dawn = sunTimings[index].dawn ?: 0L,
-            dusk = sunTimings[index].dusk ?: 0L
+            dusk = sunTimings[index].dusk ?: 0L,
+            pressureMsl = avgPressure,
+            visibility = null,
+            humidity = avgHumidity,
+            dewPoint = avgDewPoint
         )
     }.take(4)
 

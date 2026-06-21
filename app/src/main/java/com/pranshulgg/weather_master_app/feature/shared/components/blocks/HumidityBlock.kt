@@ -33,16 +33,21 @@ import kotlin.math.roundToInt
 @Composable
 fun HumidityBlock(
     weather: Weather, units: WeatherUnits,
-    onClickBlock: () -> Unit
+    onClickBlock: () -> Unit,
+    isDaily: Boolean,
+    dailyIndex: Int,
 ) {
     val color = MaterialTheme.colorScheme.inversePrimary
 
-    val humidity = weather.current.humidity.roundToInt()
+    val humidity = if (isDaily) weather.daily[dailyIndex].humidity?.roundToInt()
+    else weather.current.humidity.roundToInt()
 
 
-    val dewPoint =
-        TemperatureUnit.CELSIUS.convert(weather.current.dewPoint, units.tempUnit)?.roundToInt()
-            ?: "-"
+    val dewPoint = TemperatureUnit.CELSIUS.convert(
+        if (isDaily) weather.daily[dailyIndex].dewPoint else weather.current.dewPoint,
+        units.tempUnit
+    )?.roundToInt()
+        ?: "-"
 
     val humidityDrawable = when (humidity) {
         in 0..30 -> R.drawable.humidity_seven_percent

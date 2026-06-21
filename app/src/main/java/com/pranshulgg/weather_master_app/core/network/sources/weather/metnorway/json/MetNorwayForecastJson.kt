@@ -32,13 +32,13 @@ data class MetNorwayForecastInstantJson(
 
 data class MetNorwayForecastDetailsJson(
     @SerializedName("air_pressure_at_sea_level")
-    val pressureMsl: Double,
+    val pressureMsl: Double?,
     @SerializedName("air_temperature")
     val temperature: Double,
     @SerializedName("dew_point_temperature")
-    val dewPoint: Double,
+    val dewPoint: Double?,
     @SerializedName("relative_humidity")
-    val relativeHumidity: Double,
+    val relativeHumidity: Double?,
     @SerializedName("ultraviolet_index_clear_sky")
     val uvIndex: Double,
     @SerializedName("wind_speed")

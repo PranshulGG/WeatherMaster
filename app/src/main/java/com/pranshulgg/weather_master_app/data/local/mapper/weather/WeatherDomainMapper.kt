@@ -81,7 +81,11 @@ fun List<WeatherDaily>.toDailyWeatherEntity(
             moonset = item.moonset,
             moonPhase = item.moonPhase,
             dawn = item.dawn,
-            dusk = item.dusk
+            dusk = item.dusk,
+            pressureMsl = item.pressureMsl,
+            visibility = item.visibility,
+            humidity = item.humidity,
+            dewPoint = item.dewPoint,
         )
     }
 

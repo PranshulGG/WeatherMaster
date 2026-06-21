@@ -19,6 +19,7 @@ import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getMoonTim
 import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getSunTimings
 import com.pranshulgg.weather_master_app.core.utils.weather.calculations.computeApparentTemperature
 import com.pranshulgg.weather_master_app.core.utils.weather.computing.computeDailyWeatherCondition
+import kotlin.math.roundToInt
 
 // ---------------------------- JSON TO DOMAIN ----------------------------
 
@@ -107,6 +108,15 @@ private fun computeDaily(
 
         val minTemperature = dailyIt.value.minOf { it.temperature }
         val maxTemperature = dailyIt.value.maxOf { it.temperature }
+
+        val avgHumidity = dailyIt.value.map { it.humidity?.toDouble() ?: -1.0 }.average()
+
+        val avgPressure = dailyIt.value.map { it.pressureMsl ?: -1.0 }.average()
+
+        val minVisibility = dailyIt.value.minOf { it.visibility?.toDouble() ?: -1.0 }
+
+        val avgDewPoint = dailyIt.value.map { it.dewPoint ?: -1.0 }.average()
+
         val windSpeed = dailyIt.value
             .mapNotNull { it.windSpeed }
             .maxOrNull()
@@ -150,7 +160,11 @@ private fun computeDaily(
             moonset = moonTimings[index].moonset ?: -0L,
             moonPhase = moonTimings[index].phase,
             dawn = sunTimings[index].dawn ?: 0L,
-            dusk = sunTimings[index].dusk ?: 0L
+            dusk = sunTimings[index].dusk ?: 0L,
+            humidity = avgHumidity,
+            pressureMsl = avgPressure,
+            visibility = minVisibility.roundToInt(),
+            dewPoint = avgDewPoint,
         )
     }
 }

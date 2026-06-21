@@ -96,13 +96,13 @@ data class NwsHourlyForecastPeriodsItemJson(
 )
 
 data class NwsHourlyForecastProbabilityOfPrecipitationJson(
-    val value: Long
+    val value: Long?
 )
 
 data class NwsHourlyForecastDewPointJson(
-    val value: Double
+    val value: Double?
 )
 
 data class NwsHourlyForecastRelativeHumidityJson(
-    val value: Double
+    val value: Double?
 )

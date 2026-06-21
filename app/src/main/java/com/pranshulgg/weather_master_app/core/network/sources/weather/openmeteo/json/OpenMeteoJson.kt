@@ -136,6 +136,12 @@ data class OpenMeteoDailyForecastJson(
     val windSpeedMax: List<Double>,
 
     @SerializedName("wind_direction_10m_dominant")
-    val windDirectionDominant: List<Int>
-)
+    val windDirectionDominant: List<Int>,
+
+    @SerializedName("relative_humidity_2m_mean") val humidity: List<Int?>,
+    @SerializedName("visibility_min") val visibility: List<Int?>,
+    @SerializedName("pressure_msl_mean") val pressureMsl: List<Double?>,
+    @SerializedName("dew_point_2m_mean") val dewPoint: List<Double?>,
+
+    )
 

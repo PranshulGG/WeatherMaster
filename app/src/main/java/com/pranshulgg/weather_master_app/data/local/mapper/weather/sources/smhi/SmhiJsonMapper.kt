@@ -40,7 +40,7 @@ fun SmhiForecastJson.toDomain(location: Location): Weather {
         location = location,
         current = WeatherCurrent(
             temperature = current.temperature,
-            humidity = current.humidity.toDouble(),
+            humidity = current.humidity?.toDouble() ?: 0.0,
             windSpeed = WindSpeedUnit.MPS.convert(current.windSpeed, WindSpeedUnit.KPH),
             windDirection = WindDirection.toWindDirectionFromDegrees(current.windDirection),
             pressureMsl = current.pressureMsl,
@@ -50,7 +50,7 @@ fun SmhiForecastJson.toDomain(location: Location): Weather {
             weatherCondition = SmhiWeatherConditionMap.getCondition(current.symbolCode),
             feelsLike = computeApparentTemperature(
                 current.temperature,
-                current.humidity.toDouble(),
+                current.humidity?.toDouble(),
                 current.windSpeed
             ),
             time = currentTime,
@@ -85,7 +85,7 @@ fun SmhiForecastJson.toDomain(location: Location): Weather {
                 time = item.time.iso8601TimestampToMilliseconds(),
                 precipitationProbability = data.precipitationProbability,
                 pressureMsl = data.pressureMsl,
-                humidity = data.humidity.toDouble(),
+                humidity = data.humidity?.toDouble(),
                 visibility = DistanceUnit.KM.convert(data.visibility, DistanceUnit.M)?.roundToInt(),
                 dewPoint = null
             )
@@ -155,6 +155,10 @@ private fun computeDaily(data: SmhiForecastJson, location: Location): List<Weath
 
         val index = groupedByDay.keys.indexOf(dailyIt.key)
 
+        val avgHumidity = dailyIt.value.map { it.data.humidity?.toDouble() ?: -1.0 }.average()
+        val avgPressure = dailyIt.value.map { it.data.pressureMsl ?: -1.0 }.average()
+        val minVisibility = dailyIt.value.minOf { it.data.visibility ?: -1.0 }
+
         WeatherDaily(
             temperatureMin = minTemperature,
             temperatureMax = maxTemperature,
@@ -172,7 +176,11 @@ private fun computeDaily(data: SmhiForecastJson, location: Location): List<Weath
             moonset = moonTimings[index].moonset ?: -0L,
             moonPhase = moonTimings[index].phase,
             dawn = sunTimings[index].dawn ?: 0L,
-            dusk = sunTimings[index].dusk ?: 0L
+            dusk = sunTimings[index].dusk ?: 0L,
+            pressureMsl = avgPressure,
+            visibility = DistanceUnit.KM.convert(minVisibility, DistanceUnit.M)?.roundToInt(),
+            humidity = avgHumidity,
+            dewPoint = null
         )
     }
 

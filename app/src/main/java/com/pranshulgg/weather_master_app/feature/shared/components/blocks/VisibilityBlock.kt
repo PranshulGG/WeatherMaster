@@ -42,12 +42,16 @@ fun VisibilityBlock(
     weather: Weather,
     units: WeatherUnits,
     context: Context,
+    isDaily: Boolean,
+    dailyIndex: Int,
     onClickBlock: () -> Unit
 ) {
 
 
-    val visibility =
-        DistanceUnit.M.convert(weather.current.visibility?.toDouble(), units.distanceUnit)
+    val visibility = DistanceUnit.M.convert(
+        if (isDaily) weather.daily[dailyIndex].visibility?.toDouble() else weather.current.visibility?.toDouble(),
+        units.distanceUnit
+    )
 
     Surface(
         color = MaterialTheme.colorScheme.surface,

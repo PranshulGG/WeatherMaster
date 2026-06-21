@@ -228,6 +228,22 @@ private fun computeDaily(
             }
                 ?.maxOrNull()
 
+        val avgHumidity =
+            dataForParam(dailyIt.key, "Humidity")?.map { it.parameterValue.toSafeDouble() ?: -1.0 }
+                ?.average()
+
+        val avgPressure =
+            dataForParam(dailyIt.key, "Pressure")?.map { it.parameterValue.toSafeDouble() ?: -1.0 }
+                ?.average()
+
+        val minVisibility = dataForParam(dailyIt.key, "Visibility")?.minOf {
+            it.parameterValue.toSafeDouble() ?: -1.0
+        }
+
+        val avgDewPoint =
+            dataForParam(dailyIt.key, "DewPoint")?.map { it.parameterValue.toSafeDouble() ?: -1.0 }
+                ?.average()
+
 
         val index = groupedByDay.keys.indexOf(dailyIt.key)
 
@@ -250,7 +266,11 @@ private fun computeDaily(
             moonset = moonTimings[index].moonset ?: -0L,
             moonPhase = moonTimings[index].phase,
             dawn = sunTimings[index].dawn ?: 0L,
-            dusk = sunTimings[index].dusk ?: 0L
+            dusk = sunTimings[index].dusk ?: 0L,
+            pressureMsl = avgPressure,
+            visibility = minVisibility?.roundToInt(),
+            humidity = avgHumidity,
+            dewPoint = avgDewPoint
         )
     }
 }

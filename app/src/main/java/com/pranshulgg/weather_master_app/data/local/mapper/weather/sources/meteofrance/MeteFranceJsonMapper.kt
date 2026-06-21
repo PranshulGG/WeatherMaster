@@ -142,6 +142,11 @@ private fun computeDaily(
 
         val index = groupedByDay.keys.indexOf(dailyIt.key)
 
+        val avgHumidity = dailyIt.value.map { it.humidity?.toDouble() ?: -1.0 }.average()
+        val avgPressure = dailyIt.value.map { it.pressureMsl ?: -1.0 }.average()
+
+
+
         WeatherDaily(
             temperatureMin = minTemperature,
             temperatureMax = maxTemperature,
@@ -162,7 +167,11 @@ private fun computeDaily(
             moonset = moonTimings[index].moonset ?: -0L,
             moonPhase = moonTimings[index].phase,
             dawn = sunTimings[index].dawn ?: 0L,
-            dusk = sunTimings[index].dusk ?: 0L
+            dusk = sunTimings[index].dusk ?: 0L,
+            pressureMsl = avgPressure,
+            visibility = null,
+            humidity = avgHumidity,
+            dewPoint = null
         )
     }
 }

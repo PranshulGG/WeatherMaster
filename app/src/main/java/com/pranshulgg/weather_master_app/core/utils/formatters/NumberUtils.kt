@@ -13,3 +13,4 @@ fun formatLocalizedNumber(
 
 fun String?.toSafeDouble(): Double? =
     this?.toDoubleOrNull()?.takeIf { it.isFinite() }
+

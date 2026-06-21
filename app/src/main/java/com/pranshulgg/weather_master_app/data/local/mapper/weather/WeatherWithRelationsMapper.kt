@@ -91,7 +91,11 @@ fun WeatherWithRelations.toDomain(): Weather {
                 moonset = daily[it].moonset,
                 moonPhase = daily[it].moonPhase,
                 dusk = daily[it].dusk,
-                dawn = daily[it].dawn
+                dawn = daily[it].dawn,
+                pressureMsl = daily[it].pressureMsl,
+                visibility = daily[it].visibility,
+                humidity = daily[it].humidity,
+                dewPoint = daily[it].dewPoint,
             )
 
         }.drop(todayIndex)

@@ -36,10 +36,11 @@ import com.pranshulgg.weather_master_app.data.local.entity.weather.nws.NwsGridPo
         NwsGridPointsEntity::class,
         GithubEntity::class
     ],
-    version = 43,
+    version = 44,
     autoMigrations = [
         AutoMigration(from = 39, to = 40),
-        AutoMigration(from = 42, to = 43)
+        AutoMigration(from = 42, to = 43),
+        AutoMigration(from = 43, to = 44)
     ]
 )
 abstract class WeatherMasterDatabase : RoomDatabase() {

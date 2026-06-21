@@ -52,6 +52,7 @@ data class WeatherCurrent(
     fun isUvIndexValid(): Boolean {
         return uvIndex != null
     }
+
 }
 
 data class WeatherHourly(
@@ -85,7 +86,7 @@ data class WeatherHourly(
 data class WeatherDaily(
     val temperatureMin: Double?, // NOTE: ALWAYS C
     val temperatureMax: Double?, // NOTE: ALWAYS C
-    val windSpeed: Double?, // NOTE: ALWAYS KMH
+    val windSpeed: Double?, // NOTE: ALWAYS KMH (Average)
     val windDirection: WindDirection?, // NOTE: ALWAYS DOMINANT
     val rainSum: Double,  // NOTE: ALWAYS MM
     val snowfallSum: Double?, // NOTE: ALWAYS CM
@@ -93,6 +94,10 @@ data class WeatherDaily(
     val weatherCondition: WeatherCondition,
     val time: Long, // NOTE: ALWAYS MILLISECONDS
     val precipitationProbabilityMax: Int?,
+    val pressureMsl: Double?, // NOTE: ALWAYS HPA (Average)
+    val visibility: Int?,  // NOTE: ALWAYS METERS (Minimum)
+    val humidity: Double?, // (Average)
+    val dewPoint: Double?, // (Average)
     val sunrise: Long, // NOTE: ALWAYS MILLISECONDS
     val sunset: Long, // NOTE: ALWAYS MILLISECONDS
     val moonrise: Long, // NOTE: ALWAYS MILLISECONDS
@@ -117,4 +122,17 @@ data class WeatherDaily(
     fun isUvIndexMaxValid(): Boolean {
         return uvIndexMax != null
     }
+
+    fun isVisibilityValid(): Boolean {
+        return visibility != null && visibility != -1
+    }
+
+    fun isHumidityValid(): Boolean {
+        return humidity != null && humidity != -1.0
+    }
+
+    fun isPressureValid(): Boolean {
+        return pressureMsl != null && pressureMsl != -1.0
+    }
+
 }

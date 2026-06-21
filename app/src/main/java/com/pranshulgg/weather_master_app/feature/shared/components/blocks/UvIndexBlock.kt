@@ -53,8 +53,8 @@ fun UvIndexBlock(
     val color = MaterialTheme.colorScheme.surface
 
 
-    val uvIndex =
-        if (isDaily) weather.daily[dailyIndex].uvIndexMax!!.roundToInt() else weather.current.uvIndex!!.roundToInt()
+    val uvIndex = if (isDaily) weather.daily[dailyIndex].uvIndexMax!!.roundToInt()
+    else weather.current.uvIndex!!.roundToInt()
     val uvIndexValue = getUvIndex(uvIndex)
 
     Surface(

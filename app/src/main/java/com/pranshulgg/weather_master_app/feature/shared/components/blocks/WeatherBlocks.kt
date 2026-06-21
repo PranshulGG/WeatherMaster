@@ -38,7 +38,8 @@ private data class BlockRules(
     val isUvIndexValid: Boolean,
     val isPressureValid: Boolean,
     val isVisibilityValid: Boolean,
-    val isWindValid: Boolean
+    val isWindValid: Boolean,
+    val isHumidityValid: Boolean
 
 )
 
@@ -53,6 +54,7 @@ private fun shouldShow(block: WeatherBlock, rules: BlockRules): Boolean {
         !rules.isPressureValid && block.type == WeatherBlockType.PRESSURE_BLOCK -> false
         !rules.isVisibilityValid && block.type == WeatherBlockType.VISIBILITY_BLOCK -> false
         !rules.isWindValid && block.type == WeatherBlockType.WIND_BLOCK -> false
+        !rules.isHumidityValid && block.type == WeatherBlockType.HUMIDITY_BLOCK -> false
         else -> true
     }
 }
@@ -91,11 +93,16 @@ fun WeatherBlocks(
     val isUvIndexValid = weather.daily[dailyIndex].isUvIndexMaxValid()
             && weather.current.isUvIndexValid()
 
-    val isPressureValid = weather.current.isPressureValid()
+    val isPressureValid = if (isDaily) weather.daily[dailyIndex].isPressureValid()
+    else weather.current.isPressureValid()
 
-    val isVisibilityValid = weather.current.isVisibilityValid()
-    val isWindValid =
-        if (isDaily) weather.daily[dailyIndex].isWindSpeedValid() else weather.current.isWindSpeedValid()
+    val isVisibilityValid = if (isDaily) weather.daily[dailyIndex].isVisibilityValid()
+    else weather.current.isVisibilityValid()
+
+    val isWindValid = if (isDaily) weather.daily[dailyIndex].isWindSpeedValid()
+    else weather.current.isWindSpeedValid()
+
+    val isHumidityValid = if (isDaily) weather.daily[dailyIndex].isHumidityValid() else true
 
     val prefs = LocalAppPrefs.current
 
@@ -107,7 +114,8 @@ fun WeatherBlocks(
         isUvIndexValid,
         isPressureValid,
         isVisibilityValid,
-        isWindValid
+        isWindValid,
+        isHumidityValid
     )
 
 
@@ -176,12 +184,17 @@ fun WeatherBlocks(
                         WeatherBlockType.HUMIDITY_BLOCK -> HumidityBlock(
                             weather,
                             units,
-                            onClickBlock = { onClickBlock(NavRoutes.HUMIDITY) })
+                            onClickBlock = { onClickBlock(NavRoutes.HUMIDITY) },
+                            isDaily,
+                            dailyIndex
+                        )
 
                         WeatherBlockType.VISIBILITY_BLOCK -> VisibilityBlock(
                             weather,
                             units,
                             context,
+                            isDaily,
+                            dailyIndex,
                             onClickBlock = { onClickBlock(NavRoutes.VISIBILITY) }
                         )
 
@@ -197,6 +210,8 @@ fun WeatherBlocks(
                             weather,
                             units,
                             context,
+                            isDaily,
+                            dailyIndex,
                             onClickBlock = { onClickBlock(NavRoutes.PRESSURE) })
 
                         WeatherBlockType.SUN_BLOCK -> SunBlock(
