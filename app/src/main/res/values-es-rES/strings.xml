@@ -13,7 +13,7 @@
     <string name="weather_refresh_delay">Por favor espere %1$d minutos antes de actualizar nuevamente</string>
     <string name="error_generic">Se ha producido un error. Inténtalo de nuevo</string>
     <string name="weather_moon">Luna</string>
-    <string name="weather_sun">Dom</string>
+    <string name="weather_sun">Sol</string>
     <string name="weather_humidity">Humedad</string>
     <string name="weather_pressure">Presión</string>
     <string name="weather_wind">Viento</string>
@@ -130,7 +130,7 @@
     <string name="weather_aqi_description_hazardous">Advertencia de salud por condiciones de emergencia: es más probable que todo el mundo se vea afectado.</string>
     <string name="weather_aqi_pm_description">Pequeñas partículas sólidas y gotas líquidas presentes en el aire. Son emitidas por vehículos de motor, estufas de leña e industria. Los incendios y las tormentas de polvo también pueden producir altas concentraciones de material particulado.</string>
     <string name="weather_aqi_no2_description">Un gas y un componente importante de la contaminación del aire en el centro de la ciudad. Proviene principalmente de vehículos, industria, centrales eléctricas y calefacción.</string>
-    <string name="weather_aqi_O3_description">A gas found in the stratosphere. It protects us from harmful ultraviolet radiation and the troposphere. Ozone is a harmful pollutant produced by a chemical reaction between the sun light, organic gasses, and nitrogen oxides (e.g. Cars, Power plants)</string>
+    <string name="weather_aqi_O3_description">Un gas presente en la estratosfera. Nos protege de la radiación ultravioleta nociva y de la troposfera. El ozono es un contaminante nocivo que se produce mediante una reacción química entre la luz solar, los gases orgánicos y los óxidos de nitrógeno (por ejemplo, de los coches y las centrales eléctricas)</string>
     <string name="weather_aqi_so2_description">A toxic gas with a pungent, irritating odor. It can come from electric industries that burn fossil fuels, petrol refineries, cement manufacturing, and volcano emissions</string>
     <string name="weather_aqi_co_description">Un gas de vehículos a motor o maquinaria que quema combustibles fósiles.</string>
     <string name="weather_airquality_about_index">Los índices de calidad del aire clasifican los datos brutos en una escala de calificación descriptiva. Estos índices facilitan la identificación del nivel de contaminación y si existe algún riesgo asociado.</string>
@@ -147,13 +147,13 @@
     <string name="weather_clear_with_cloudy">Clear with cloudy</string>
     <string name="weather_clear_with_rain">Clear with rain</string>
     <string name="weather_clear_with_snow">Clear with snow</string>
-    <string name="weather_cloudy_with_clear">nublado y despejado</string>
+    <string name="weather_cloudy_with_clear">Nublado y despejado</string>
     <string name="weather_cloudy_with_rain">Cloudy with rain</string>
     <string name="weather_cloudy_with_snow">Cloudy with snow</string>
     <string name="weather_rain_with_clear">Rain with clear</string>
     <string name="weather_rain_with_cloudy">Rain with cloudy</string>
     <string name="weather_rain_with_snow">Rain with snow</string>
-    <string name="weather_snow_with_clear">Nieve con despejado</string>
+    <string name="weather_snow_with_clear">Nieve con cielos despejados</string>
     <string name="weather_snow_with_cloudy">Nieve con nubes</string>
     <string name="weather_snow_with_rain">Nieve con lluvia</string>
     <string name="weather_clear_then_cloudy">Clear then cloudy</string>
@@ -176,7 +176,7 @@
     <string name="setting_notification_permission_secondary">The app sends you a notification whenever the weather updates in the background</string>
     <string name="setting_notification">Notificación</string>
     <string name="time_hours">horas</string>
-    <string name="time_hour">hora</string>
+    <string name="time_hour">%1$s hora</string>
     <string name="info_already_ignoring_battery_opt">Already ignoring battery optimizations</string>
     <string name="setting_additional">Additional</string>
     <string name="setting_update_interval">Intervalo de actualización</string>
@@ -202,7 +202,7 @@
     <string name="setting_weather_animations">Weather animations</string>
     <string name="setting_weather_animations_secondary">Canvas animations that change based on the current weather</string>
     <string name="setting_froggy_layout">Froggy layout</string>
-    <string name="setting_froggy_layout_secondary">Enseñar la clásica plantilla con rana de Google Weather. Apagar para usar el nuevo diseño de plantilla de Pixel Weather.</string>
+    <string name="setting_froggy_layout_secondary">Mostrar la tarjeta clásica de la rana del tiempo de Google. Desactívala para usar la tarjeta con el estilo más reciente de Pixel Weather.</string>
     <string name="setting_layout">Layout</string>
     <string name="setting_weather_based_theme">Weather based theme</string>
     <string name="setting_weather_based_theme_secondary">Adapta automáticamente los colores de la aplicación en función de las condiciones meteorológicas actuales.</string>
@@ -217,8 +217,8 @@
     <string name="summary_rain_high_template_4">Steady rainfall may develop near %1$s.</string>
     <string name="summary_rain_medium_template_1">Showers are possible around %1$s.</string>
     <string name="summary_rain_medium_template_2">Rain may develop near %1$s.</string>
-    <string name="summary_rain_medium_template_3">A chance of precipitation is expected around %1$s.</string>
-    <string name="summary_rain_medium_template_4">Intermittent rain is possible near %1$s.</string>
+    <string name="summary_rain_medium_template_3">Hay posibilidad de precipitaciones alrededor de la/s %1$s.</string>
+    <string name="summary_rain_medium_template_4">Pueden producirse lluvias intermitentes sobre la/s %1$s</string>
     <string name="summary_rain_low_template_1">A slight chance of rain remains near %1$s.</string>
     <string name="summary_rain_low_template_2">Isolated showers may occur around %1$s.</string>
     <string name="summary_rain_low_template_3">Light rain is possible near %1$s.</string>
