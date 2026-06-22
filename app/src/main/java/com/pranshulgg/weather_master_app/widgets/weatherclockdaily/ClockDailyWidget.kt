@@ -55,6 +55,8 @@ import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTheme
 import com.pranshulgg.weather_master_app.widgets.ui.views.WidgetClock
 import com.pranshulgg.weather_master_app.widgets.ui.views.WidgetDate
 import kotlinx.serialization.json.Json
+import kotlin.math.min
+import kotlin.math.roundToInt
 
 
 class ClockDailyWidget : GlanceAppWidget() {
@@ -94,14 +96,12 @@ class ClockDailyWidget : GlanceAppWidget() {
                     .getTextColor(config.widgetTextTheme, config.widgetTheme)
                     ?: Pair(GlanceTheme.colors.onSurface, R.color.white)
 
-                val itemWidth = 40.dp
-                val count = ((size.width) / itemWidth).toInt().coerceIn(1, state.daily.size)
                 Box(
                     modifier.clickable(actionStartActivity<MainActivity>())
                 ) {
                     Column(
                         GlanceModifier.fillMaxSize()
-                            .padding(start = 24.dp, end = 24.dp, top = 24.dp, bottom = 16.dp)
+                            .padding(start = 18.dp, end = 24.dp, top = 24.dp, bottom = 16.dp)
                     ) {
                         Row(
                             GlanceModifier.fillMaxWidth(),
@@ -146,13 +146,18 @@ class ClockDailyWidget : GlanceAppWidget() {
                             GlanceModifier.fillMaxWidth(),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            state.daily.take(count).forEach {
-                                DailyItem(
-                                    day = it.time,
-                                    icon = it.conditionIcon,
-                                    temps = "${it.tempMax}/${it.tempMin}",
-                                    textColor = textColor
-                                )
+                            state.daily.take(5).forEach {
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    modifier = GlanceModifier.defaultWeight().height(80.dp)
+                                ) {
+                                    DailyItem(
+                                        day = it.time,
+                                        icon = it.conditionIcon,
+                                        temps = "${it.tempMax}/${it.tempMin}",
+                                        textColor = textColor
+                                    )
+                                }
                             }
                         }
                     }
@@ -210,31 +215,28 @@ private fun DailyItem(
     temps: String,
     textColor: Pair<ColorProvider, Int>,
 ) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = GlanceModifier.width(64.dp).height(80.dp)
-    ) {
-        Text(
-            day,
-            style = TextStyle(
-                color = textColor.first,
-                fontWeight = FontWeight.Medium,
-                fontSize = 15.sp
-            )
+
+    Text(
+        day,
+        style = TextStyle(
+            color = textColor.first,
+            fontWeight = FontWeight.Medium,
+            fontSize = 15.sp
         )
-        Spacer(GlanceModifier.height(3.dp))
-        Image(
-            provider = ImageProvider(icon),
-            contentDescription = "",
-            modifier = GlanceModifier.size(28.dp)
+    )
+    Spacer(GlanceModifier.height(3.dp))
+    Image(
+        provider = ImageProvider(icon),
+        contentDescription = "",
+        modifier = GlanceModifier.size(28.dp)
+    )
+    Spacer(GlanceModifier.height(3.dp))
+    Text(
+        temps,
+        style = TextStyle(
+            color = textColor.first,
+            fontWeight = FontWeight.Medium, fontSize = 15.sp
         )
-        Spacer(GlanceModifier.height(3.dp))
-        Text(
-            temps,
-            style = TextStyle(
-                color = textColor.first,
-                fontWeight = FontWeight.Medium, fontSize = 15.sp
-            )
-        )
-    }
+    )
+
 }
