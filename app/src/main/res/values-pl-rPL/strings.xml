@@ -311,6 +311,6 @@
     <string name="setting_system">Systemowy</string>
     <string name="weather_about_precipitation">Wysokość opadów wskazuje prognozowaną ilość deszczu spodziewaną w każdej godzinie. Wyższe wartości oznaczają intensywniejsze opady</string>
     <string name="weather_about_snowfall">Wskaźnik opadów śniegu pokazuje prognozowaną ilość śniegu spodziewaną w każdej godzinie. Wyższe wartości oznaczają większą warstwę śniegu</string>
-    <string name="color_transparent">Transparent</string>
+    <string name="color_transparent">Przezroczysty</string>
 </resources>
 <!--<string name=""></string>-->
