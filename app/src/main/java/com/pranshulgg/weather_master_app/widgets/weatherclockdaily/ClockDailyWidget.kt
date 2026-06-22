@@ -101,7 +101,7 @@ class ClockDailyWidget : GlanceAppWidget() {
                 ) {
                     Column(
                         GlanceModifier.fillMaxSize()
-                            .padding(start = 18.dp, end = 24.dp, top = 24.dp, bottom = 16.dp)
+                            .padding(start = 24.dp, end = 24.dp, top = 24.dp, bottom = 16.dp)
                     ) {
                         Row(
                             GlanceModifier.fillMaxWidth(),
@@ -221,7 +221,7 @@ private fun DailyItem(
         style = TextStyle(
             color = textColor.first,
             fontWeight = FontWeight.Medium,
-            fontSize = 15.sp
+            fontSize = 16.sp
         )
     )
     Spacer(GlanceModifier.height(3.dp))
@@ -235,7 +235,7 @@ private fun DailyItem(
         temps,
         style = TextStyle(
             color = textColor.first,
-            fontWeight = FontWeight.Medium, fontSize = 15.sp
+            fontWeight = FontWeight.Medium, fontSize = 16.sp
         )
     )
 
