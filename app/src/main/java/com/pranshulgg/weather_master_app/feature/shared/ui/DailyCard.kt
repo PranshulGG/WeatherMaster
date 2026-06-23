@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -139,7 +140,8 @@ private fun DailyItem(
                 WeatherIconBox(icon, size = 38.dp)
                 Gap(8.dp)
                 Text(
-                    "${precipitationProbability ?: "-"}%",
+                    "${precipitationProbability}%",
+                    modifier = Modifier.alpha(if (precipitationProbability == null) 0f else 1f),
                     color = MaterialTheme.colorScheme.primary,
                     style = MaterialTheme.typography.bodyMedium
                 )
