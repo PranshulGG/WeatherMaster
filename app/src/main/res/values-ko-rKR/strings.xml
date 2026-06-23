@@ -303,5 +303,7 @@
     <string name="weather_about_precipitation">강수량은 각 시간대별로 예상되는 비의 양을 나타냅니다. 값이 클수록 비가 더 많이 내리는 것을 의미합니다</string>
     <string name="weather_about_snowfall">적설량은 각 시간대별로 예상되는 눈의 양을 나타냅니다. 값이 클수록 눈이 더 많이 쌓이는 것을 의미합니다</string>
     <string name="color_transparent">Transparent</string>
+    <string name="setting_app_font">App font</string>
+    <string name="setting_system_font">System font</string>
 </resources>
 <!--<string name=""></string>-->
