@@ -31,6 +31,8 @@ object AppPrefs {
 
     private val _isShowSummary = mutableStateOf(true)
 
+    private val _isGoogleSansFlex = mutableStateOf(false)
+
 
     fun initPrefs(context: Context) {
         PreferencesHelper.init(context)
@@ -66,6 +68,7 @@ object AppPrefs {
 
         _isShowSummary.value = PreferencesHelper.getBool("isShowSummary") ?: true
 
+        _isGoogleSansFlex.value = PreferencesHelper.getBool("isGoogleSansFlex") ?: false
 
     }
 
@@ -149,6 +152,12 @@ object AppPrefs {
         setShowSummary = {
             _isShowSummary.value = it
             PreferencesHelper.setBool("isShowSummary", it)
+        },
+
+        isGoogleSansFlex = _isGoogleSansFlex.value,
+        setGoogleSansFlex = {
+            _isGoogleSansFlex.value = it
+            PreferencesHelper.setBool("isGoogleSansFlex", it)
         }
     )
 }

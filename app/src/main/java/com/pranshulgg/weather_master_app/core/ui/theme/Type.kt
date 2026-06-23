@@ -19,82 +19,117 @@ val weatherMasterTitleFont = FontFamily(
     ),
 )
 
-val AppTypography = Typography().run {
-    copy(
-        displayLarge = displayLarge.copy(
-            fontWeight = FontWeight.Normal,
-            fontSize = 57.sp,
-            lineHeight = 64.sp
-        ),
-        displayMedium = displayMedium.copy(
-            fontWeight = FontWeight.Normal,
-            fontSize = 45.sp,
-            lineHeight = 52.sp
-        ),
-        displaySmall = displaySmall.copy(
-            fontWeight = FontWeight.Normal,
-            fontSize = 36.sp,
-            lineHeight = 44.sp
-        ),
-        headlineLarge = headlineLarge.copy(
-            fontWeight = FontWeight.Normal,
-            fontSize = 32.sp,
-            lineHeight = 40.sp
-        ),
-        headlineMedium = headlineMedium.copy(
-            fontWeight = FontWeight.Normal,
-            fontSize = 28.sp,
-            lineHeight = 36.sp
-        ),
-        headlineSmall = headlineSmall.copy(
-            fontWeight = FontWeight.Normal,
-            fontSize = 24.sp,
-            lineHeight = 32.sp
-        ),
-        titleLarge = titleLarge.copy(
-            fontWeight = FontWeight.Normal,
-            fontSize = 22.sp,
-            lineHeight = 28.sp
-        ),
-        titleMedium = titleMedium.copy(
-            fontWeight = FontWeight.Medium,
-            fontSize = 16.sp,
-            lineHeight = 24.sp
-        ),
-        titleSmall = titleSmall.copy(
-            fontWeight = FontWeight.Medium,
-            fontSize = 14.sp,
-            lineHeight = 20.sp
-        ),
-        bodyLarge = bodyLarge.copy(
-            fontWeight = FontWeight.Normal,
-            fontSize = 16.sp,
-            lineHeight = 24.sp
-        ),
-        bodyMedium = bodyMedium.copy(
-            fontWeight = FontWeight.Normal,
-            fontSize = 14.sp,
-            lineHeight = 20.sp
-        ),
-        bodySmall = bodySmall.copy(
-            fontWeight = FontWeight.Normal,
-            fontSize = 12.sp,
-            lineHeight = 16.sp
-        ),
-        labelLarge = labelLarge.copy(
-            fontWeight = FontWeight.Medium,
-            fontSize = 14.sp,
-            lineHeight = 20.sp
-        ),
-        labelMedium = labelMedium.copy(
-            fontWeight = FontWeight.Medium,
-            fontSize = 12.sp,
-            lineHeight = 16.sp
-        ),
-        labelSmall = labelSmall.copy(
-            fontWeight = FontWeight.Medium,
-            fontSize = 11.sp,
-            lineHeight = 16.sp
-        ),
-    )
+@OptIn(ExperimentalTextApi::class)
+val googleSansFlex = FontFamily(
+    Font(
+        R.font.google_sans_flex, FontWeight.Medium, variationSettings = FontVariation.Settings(
+            FontVariation.Setting("ROND", 100f),
+            FontVariation.Setting("wght", 500f),
+        )
+    ),
+)
+
+val systemFontFamily = FontFamily.Default
+
+fun getAppTypography(useGoogleSans: Boolean): Typography {
+
+    val selectedFamily = if (useGoogleSans) googleSansFlex else systemFontFamily
+
+    val appTypography = Typography().run {
+        copy(
+            displayLarge = displayLarge.copy(
+                fontWeight = FontWeight.Normal,
+                fontSize = 57.sp,
+                lineHeight = 64.sp,
+                fontFamily = selectedFamily
+            ),
+            displayMedium = displayMedium.copy(
+                fontWeight = FontWeight.Normal,
+                fontSize = 45.sp,
+                lineHeight = 52.sp,
+                fontFamily = selectedFamily
+            ),
+            displaySmall = displaySmall.copy(
+                fontWeight = FontWeight.Normal,
+                fontSize = 36.sp,
+                lineHeight = 44.sp,
+                fontFamily = selectedFamily
+            ),
+            headlineLarge = headlineLarge.copy(
+                fontWeight = FontWeight.Normal,
+                fontSize = 32.sp,
+                lineHeight = 40.sp,
+                fontFamily = selectedFamily
+            ),
+            headlineMedium = headlineMedium.copy(
+                fontWeight = FontWeight.Normal,
+                fontSize = 28.sp,
+                lineHeight = 36.sp,
+                fontFamily = selectedFamily
+            ),
+            headlineSmall = headlineSmall.copy(
+                fontWeight = FontWeight.Normal,
+                fontSize = 24.sp,
+                lineHeight = 32.sp,
+                fontFamily = selectedFamily
+            ),
+            titleLarge = titleLarge.copy(
+                fontWeight = FontWeight.Normal,
+                fontSize = 22.sp,
+                lineHeight = 28.sp,
+                fontFamily = selectedFamily
+            ),
+            titleMedium = titleMedium.copy(
+                fontWeight = FontWeight.Medium,
+                fontSize = 16.sp,
+                lineHeight = 24.sp,
+                fontFamily = selectedFamily
+            ),
+            titleSmall = titleSmall.copy(
+                fontWeight = FontWeight.Medium,
+                fontSize = 14.sp,
+                lineHeight = 20.sp,
+                fontFamily = selectedFamily
+            ),
+            bodyLarge = bodyLarge.copy(
+                fontWeight = FontWeight.Normal,
+                fontSize = 16.sp,
+                lineHeight = 24.sp,
+                fontFamily = selectedFamily
+            ),
+            bodyMedium = bodyMedium.copy(
+                fontWeight = FontWeight.Normal,
+                fontSize = 14.sp,
+                lineHeight = 20.sp,
+                fontFamily = selectedFamily
+            ),
+            bodySmall = bodySmall.copy(
+                fontWeight = FontWeight.Normal,
+                fontSize = 12.sp,
+                lineHeight = 16.sp,
+                fontFamily = selectedFamily
+            ),
+            labelLarge = labelLarge.copy(
+                fontWeight = FontWeight.Medium,
+                fontSize = 14.sp,
+                lineHeight = 20.sp,
+                fontFamily = selectedFamily
+            ),
+            labelMedium = labelMedium.copy(
+                fontWeight = FontWeight.Medium,
+                fontSize = 12.sp,
+                lineHeight = 16.sp,
+                fontFamily = selectedFamily
+            ),
+            labelSmall = labelSmall.copy(
+                fontWeight = FontWeight.Medium,
+                fontSize = 11.sp,
+                lineHeight = 16.sp,
+                fontFamily = selectedFamily
+            ),
+        )
+    }
+
+    return appTypography
 }
+

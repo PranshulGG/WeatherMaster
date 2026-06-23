@@ -43,8 +43,10 @@ data class AppPrefsState(
     val set24HrTimeFormat: (Boolean) -> Unit,
 
     val isShowSummary: Boolean,
-    val setShowSummary: (Boolean) -> Unit
+    val setShowSummary: (Boolean) -> Unit,
 
+    val isGoogleSansFlex: Boolean,
+    val setGoogleSansFlex: (Boolean) -> Unit
 )
 
 

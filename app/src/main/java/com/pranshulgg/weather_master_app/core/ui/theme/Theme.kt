@@ -50,16 +50,18 @@ fun WeatherMasterTheme(
         if (applySystemUi) {
             SideEffect {
                 val window = (view.context as Activity).window
-                WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars =
-                    !darkTheme
+                WindowCompat.getInsetsController(window, view)
+                    .isAppearanceLightStatusBars = !darkTheme
             }
         }
     }
 
+    val prefs = LocalAppPrefs.current
+
 
     MaterialExpressiveTheme(
         colorScheme = colorScheme,
-        typography = AppTypography,
+        typography = getAppTypography(useGoogleSans = prefs.isGoogleSansFlex),
         motionScheme = MotionScheme.expressive(),
         content = content
     )
