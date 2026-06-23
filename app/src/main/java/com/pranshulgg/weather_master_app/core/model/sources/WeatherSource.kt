@@ -41,6 +41,11 @@ enum class WeatherSource(
         fullName = "Finnish Meteorological Institute",
         displayLink = "https://en.ilmatieteenlaitos.fi/"
     ),
+    CHINA(
+        displayName = "China",
+        fullName = "China National Environmental Monitoring Centre",
+        displayLink = "https://www.cnemc.cn/"
+    ),
     MET_NORWAY(
         displayName = "Met Norway",
         fullName = "Met Norway",
@@ -65,7 +70,8 @@ private val weatherSourcesByCountry = mapOf(
     "SE" to listOf(WeatherSource.SMHI),
     "DE" to listOf(WeatherSource.DWD),
     "CA" to listOf(WeatherSource.ECCC),
-    "FI" to listOf(WeatherSource.FMI)
+    "FI" to listOf(WeatherSource.FMI),
+    "CN" to listOf(WeatherSource.CHINA)
 )
 
 fun getWeatherSourcesForCountry(countryCode: String?): List<WeatherSource> {

@@ -42,6 +42,12 @@ fun AppearanceScreen(navController: NavController) {
         DialogOption("Light", stringResource(R.string.setting_light_theme)),
         DialogOption("System", stringResource(R.string.setting_system_theme))
     )
+
+    val appFontOptions = listOf(
+        DialogOption("google_sans_flex", "Google Sans Flex"),
+        DialogOption("system", stringResource(R.string.setting_system_font))
+    )
+
     val activity = LocalActivity.current as Activity
 
     LargeTopBarScaffold(
@@ -98,6 +104,21 @@ fun AppearanceScreen(navController: NavController) {
                         enabled = isAndroid12Plus && !prefs.isCustomTheme,
                         onCheckedChange = { checked ->
                             prefs.setDynamicColor(checked)
+                        }
+                    ),
+
+                    SettingTile.DialogOptionTile(
+                        leading = { SettingsTileIcon(R.drawable.font_download_24px) },
+                        title = stringResource(R.string.setting_app_font),
+                        options = appFontOptions,
+                        selectedOption = if (prefs.isGoogleSansFlex) "google_sans_flex" else "system",
+                        onOptionSelected = {
+                            if (it == "google_sans_flex") {
+                                prefs.setGoogleSansFlex(true)
+                            } else {
+                                prefs.setGoogleSansFlex(false)
+                            }
+//                            recreate(activity)
                         }
                     ),
                 )
