@@ -185,7 +185,7 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
             val snowfallSum = getSnowfallSum(snowMap, time)
 
 
-            val windSpeed = getMaxWindSpeed(hourly, time)
+            val windSpeed = getAverageWindSpeed(hourly, time)
 
             val precipitationProbabilityMax = getMaxPrecipitationProbability(hourly, time)
 
@@ -237,16 +237,16 @@ private fun fixHourlyNwsWindSpeedValue(value: String): Double? {
 }
 
 
-private fun getMaxWindSpeed(data: NwsHourlyForecastPeriodsJson, time: Long): Double {
+private fun getAverageWindSpeed(data: NwsHourlyForecastPeriodsJson, time: Long): Double {
     val startIndex =
         data.periods.indexOfFirst { it.startTime.iso8601TimestampToMilliseconds() >= time }
             .takeIf { it != -1 } ?: 0
 
     val maxSpeed = data.periods.drop(maxOf(0, startIndex - 1))
         .take(WeatherSource.NWS.hourlyAggregationLimitHours)
-        .map { fixHourlyNwsWindSpeedValue(it.windSpeed) }
+        .map { fixHourlyNwsWindSpeedValue(it.windSpeed) ?: 0.0 }
 
-    return maxSpeed.maxOf { it ?: 0.0 }
+    return maxSpeed.average()
 }
 
 
