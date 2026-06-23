@@ -133,23 +133,16 @@ fun SunBlock(weather: Weather, dailyIndex: Int, prefs: AppPrefsState, onClickBlo
                 Header()
             }
 
-
-            val sunriseFormatted = if (is24hr) to24HourTimeString(
-                sunrise,
-                weather.location.timezone
-            ) else to12HourTimeString(
-                sunrise,
-                weather.location.timezone,
-                "hh:mm a"
-            )
-            val sunsetFormatted = if (is24hr) to24HourTimeString(
-                sunset,
-                weather.location.timezone
-            ) else to12HourTimeString(
-                sunset,
-                weather.location.timezone,
-                "hh:mm a"
-            )
+            val formatter: (Long) -> String = {
+                if (is24hr) to24HourTimeString(
+                    it,
+                    weather.location.timezone
+                ) else to12HourTimeString(
+                    it,
+                    weather.location.timezone,
+                    "hh:mm a"
+                )
+            }
 
 
             Surface(
@@ -163,8 +156,8 @@ fun SunBlock(weather: Weather, dailyIndex: Int, prefs: AppPrefsState, onClickBlo
                     HorizontalDivider(Modifier.align(Alignment.TopCenter))
 
                     Column(Modifier.align(Alignment.Center)) {
-                        RiseSetTimeRow(sunriseFormatted, R.drawable.arrow_upward_24px) // RISE
-                        RiseSetTimeRow(sunsetFormatted, R.drawable.arrow_downward_24px) // SET
+                        RiseSetTimeRow(formatter(sunrise), R.drawable.arrow_upward_24px) // RISE
+                        RiseSetTimeRow(formatter(sunset), R.drawable.arrow_downward_24px) // SET
                     }
                 }
             }
