@@ -212,8 +212,8 @@ São emitidas por veículos motorizados, aquecedores a lenha e indústrias. Inc�
     <string name="summary_overview_template_2">Espera-se %1$s condições ao longo do dia.</string>
     <string name="summary_overview_template_3">%1$s condições são esperadas.</string>
     <string name="summary_overview_template_4">O céu vai estar %1$s pela maior parte do dia.</string>
-    <string name="summary_rain_high_template_1">É altamente provável que chova por volta das</string>
-    <string name="summary_rain_high_template_2">Períodos de chuva são esperados por volta das</string>
+    <string name="summary_rain_high_template_1">É altamente provável que chova por volta das %1$s</string>
+    <string name="summary_rain_high_template_2">Períodos de chuva são esperados por volta das %1$s</string>
     <string name="summary_rain_high_template_3">Clima molhado é por volta de %1$s</string>
     <string name="summary_rain_high_template_4">Chuvas constantes podem ocorrer por volta das %1$s</string>
     <string name="summary_rain_medium_template_1">Pancadas de chuva podem ocorrer por volta das %1$s</string>
@@ -309,5 +309,4 @@ São emitidas por veículos motorizados, aquecedores a lenha e indústrias. Inc�
     <string name="color_transparent">Transparent</string>
     <string name="setting_app_font">App font</string>
     <string name="setting_system_font">System font</string>
-</resources>
-<!--<string name=""></string>-->
+</resources><!--<string name=""></string>-->
