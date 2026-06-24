@@ -35,6 +35,7 @@ import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.utils.formatters.formatLocalizedNumber
 import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
 import java.util.Locale
+import kotlin.math.roundToInt
 
 @Composable
 
@@ -47,11 +48,15 @@ fun VisibilityBlock(
     onClickBlock: () -> Unit
 ) {
 
+    val formatter: (Double) -> Double? = {
+        DistanceUnit.M.convert(
+            it,
+            units.distanceUnit
+        )
+    }
 
-    val visibility = DistanceUnit.M.convert(
-        if (isDaily) weather.daily[dailyIndex].visibility?.toDouble() else weather.current.visibility?.toDouble(),
-        units.distanceUnit
-    )
+    val visibility =
+        if (isDaily) weather.daily[dailyIndex].visibility?.toDouble() else weather.current.visibility?.toDouble()
 
     Surface(
         color = MaterialTheme.colorScheme.surface,
@@ -80,22 +85,61 @@ fun VisibilityBlock(
                 Gap(28.dp)
                 Header()
 
-                Text(
-                    formatLocalizedNumber(
-                        number = visibility!!,
-                        decimalPlaces = 0,
-                        locale = getCurrentAppLocale()
-                    ),
-                    style = MaterialTheme.typography.displaySmall,
-                    color = MaterialTheme.colorScheme.onSurface,
-                )
+                Row(
+                ) {
+                    Text(
+                        formatLocalizedNumber(
+                            number = formatter(visibility!!)!!,
+                            decimalPlaces = 0,
+                            locale = getCurrentAppLocale()
+                        ),
+                        style = MaterialTheme.typography.displayMedium,
+                        modifier = Modifier.alignByBaseline(),
+                        color = MaterialTheme.colorScheme.onSurface,
+                    )
+                    Gap(horizontal = 2.dp)
+                    Text(
+                        units.distanceUnit.toName(true, context),
+                        modifier = Modifier.alignByBaseline(),
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
 
-
-                Text(
-                    units.distanceUnit.toName(context = context, inShort = true),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                if (!isDaily) {
+                    Text(
+                        stringResource(
+                            visibilityLabels(
+                                DistanceUnit.M.convert(
+                                    visibility,
+                                    DistanceUnit.KM
+                                )?.roundToInt()!!
+                            )
+                        ),
+                        style = MaterialTheme.typography.bodyLarge,
+                    )
+                } else {
+                    Text(
+                        stringResource(R.string.weather_minimum),
+                        style = MaterialTheme.typography.bodyLarge,
+                    )
+                }
+//                Text(
+//                    formatLocalizedNumber(
+//                        number = visibility!!,
+//                        decimalPlaces = 0,
+//                        locale = getCurrentAppLocale()
+//                    ),
+//                    style = MaterialTheme.typography.displaySmall,
+//                    color = MaterialTheme.colorScheme.onSurface,
+//                )
+//
+//
+//                Text(
+//                    units.distanceUnit.toName(context = context, inShort = true),
+//                    style = MaterialTheme.typography.bodyLarge,
+//                    color = MaterialTheme.colorScheme.onSurfaceVariant
+//                )
                 Gap(28.dp)
             }
         }
@@ -127,5 +171,15 @@ private fun Header() {
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.9f)
 
         )
+    }
+}
+
+private fun visibilityLabels(valueKm: Int): Int {
+    return when {
+        valueKm >= 20 -> R.string.text_very_good
+        valueKm >= 10 -> R.string.text_good
+        valueKm >= 4 -> R.string.text_moderate
+        valueKm >= 1 -> R.string.text_poor
+        else -> R.string.text_very_poor
     }
 }
