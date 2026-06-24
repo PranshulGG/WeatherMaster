@@ -305,5 +305,8 @@
     <string name="setting_system">System</string>
     <string name="weather_about_precipitation">Niederschlag zeigt die vorhergesagte Regenmenge pro Stunde an. Größere Mengen deuten auf stärkeren Regen hin.</string>
     <string name="weather_about_snowfall">Schneefall zeigt die vorhergesagte Schneemenge pro Stunde an. Größere Mengen deuten auf stärkeren Schneefall hin.</string>
+    <string name="color_transparent">Transparent</string>
+    <string name="setting_app_font">App font</string>
+    <string name="setting_system_font">System font</string>
 </resources>
 <!--<string name=""></string>-->

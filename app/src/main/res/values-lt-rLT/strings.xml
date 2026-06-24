@@ -22,7 +22,7 @@
     <string name="weather_uv_index">UV indeks.</string>
     <string name="action_ok">Gerai</string>
     <string name="settings">Nustatymai</string>
-    <string name="search">Ieškoti</string>
+    <string name="search">Paieška</string>
     <string name="location_current">Dabartinė vietovė</string>
     <string name="search_provider">Paieškos teikėjas</string>
     <plurals name="time_minutes_ago">
@@ -48,7 +48,7 @@
     <string name="weather_no_data">Nėra oro duomenų.</string>
     <string name="weather_clear_sky">Giedra</string>
     <string name="weather_overcast">Apsiniaukę</string>
-    <string name="weather_partly_cloudy">Dalinai debesuota</string>
+    <string name="weather_partly_cloudy">Vietomis debesuota</string>
     <string name="weather_heavy_rain">Smarkus lietus</string>
     <string name="weather_light_rain">Nesmarkus lietus</string>
     <string name="weather_light_snow">Snyguriavimas</string>
@@ -101,8 +101,8 @@
     <string name="error_delete_default_location">Negalima pašalinti numatytosios vietos</string>
     <string name="setting_app_looks">Programėlės išvaizda</string>
     <string name="temp_feels_like">Juntamoji %1$s</string>
-    <string name="temp_max">Aukšč.: %1$s</string>
-    <string name="temp_min">Žem.: %1$s</string>
+    <string name="temp_max">Iki: %1$s</string>
+    <string name="temp_min">Nuo: %1$s</string>
     <string name="search_results_provided">Paieškos rezultatus pateikė %1$s</string>
     <string name="action_confirm">Patvirtinti</string>
     <string name="weather">Weather</string>
@@ -132,8 +132,8 @@
     <string name="weather_aqi_description_fair">Oro kokybė yra patenkinama. Vis dėlto kai kuriems žmonėms, ypač tiems, kurie yra ypač jautrūs oro taršai, gali sukelti sveikatos rizikų.</string>
     <string name="weather_aqi_description_moderate">Jautriems žmonėms tai gali sukelti neigiamą poveikį sveikatai. Daugumai žmonių tai greičiausiai įtakos neturės.</string>
     <string name="weather_aqi_description_poor">Kai kuriems žmonėms gali pasireikšti neigiamas poveikis sveikatai; jautrių grupių atstovams šis poveikis gali būti rimtesnis.</string>
-    <string name="weather_aqi_description_very_poor">Sveikatos įspėjimas: padidėjo rizika, kad gali kilti sveikatos problemų</string>
-    <string name="weather_aqi_description_hazardous">Įspėjimas apie pavojingas sąlygas sveikatai: padidėjo tikimybė, jog tai paveiks visus.</string>
+    <string name="weather_aqi_description_very_poor">Įspėjimas sveikatai: padidėjusi rizika, kad gali kilti sveikatos problemų</string>
+    <string name="weather_aqi_description_hazardous">Įspėjimas apie pavojingas sąlygas sveikatai: padidėjusi tikimybė, jog tai paveiks visus.</string>
     <string name="weather_aqi_pm_description">Ore aptiktos smulkios dalelės ir skysčio lašeliai. Juos išskiria motorinės transporto priemonės, malkinės krosnys ir įvairi pramonė. Didelę kietųjų dalelių koncentraciją taip pat gali sukelti gaisrai ir dulkių audros.</string>
     <string name="weather_aqi_no2_description">Dujos, sudarančios didelę dalį miesto oro taršos. Jas daugiausia išskiria transporto priemonės, pramonės įmonės, elektrinės bei šildymo sistemos</string>
     <string name="weather_aqi_O3_description">Dujos, aptinkamos stratosferoje. Jos mus apsaugo nuo žalingos ultravioletinės spinduliuotės bei troposferos. Ozonas yra žalingas teršalas, susidarantis dėl cheminių reakcijų tarp saulės spindulių, organinių dujų ir azoto oksidų (pvz., automobilių ar šiluminių elektrinių).</string>
@@ -223,7 +223,7 @@
     <string name="summary_rain_high_template_4">Apie %1$s numatomas ilgalaikis lietus.</string>
     <string name="summary_rain_medium_template_1">%1$s gali pasitaikyti pavienių lietaus šuorų. </string>
     <string name="summary_rain_medium_template_2">Apie %1$s gali pradėti lyti.</string>
-    <string name="summary_rain_medium_template_3">Kritulių tikimybė – %1$s.</string>
+    <string name="summary_rain_medium_template_3">Tikėtina, kad %1$s palis.</string>
     <string name="summary_rain_medium_template_4">Apie %1$s gali periodiškai palyti.</string>
     <string name="summary_rain_low_template_1">Išlieka nedidelė tikimybė, kad %1$s lis.</string>
     <string name="summary_rain_low_template_2">Apie %1$s gali pasitaikyti pavienės liūtys.</string>
@@ -265,7 +265,7 @@
     <string name="summary_temp_cold_template_3">Dėl labai šalto oro temperatūra laikysis ties %1$s riba.</string>
     <string name="weather_summary">Santrauka</string>
     <string name="about_changelog">Pakeitimų sąrašas</string>
-    <string name="about">Apie</string>
+    <string name="about">Plačiau</string>
     <string name="weather_max_for_the_day">Didžiausia paros vertė</string>
     <string name="weather_about_uv_index">UV indeksas – tai ultravioletinių spindulių stiprio matas. Indekso vertės svyruoja nuo nulio ir didėja – kuo didesnis UV indeksas, tuo didesnė odos ir akių pažeidimų rizika ir tuo greičiau šie pažeidimai atsiranda</string>
     <string name="text_scale">Dydis</string>
@@ -311,5 +311,8 @@
     <string name="setting_system">Sistema</string>
     <string name="weather_about_precipitation">Kritulių kiekis nurodo prognozuojamą lietaus kiekį per valandą. Didesnis kiekis reiškia stipresnį lietų.</string>
     <string name="weather_about_snowfall">Sniego krituliai nurodo prognozuojamą sniego kiekį per valandą. Didesnis kiekis reiškia, kad sniegas kris gausiau.</string>
+    <string name="color_transparent">Transparent</string>
+    <string name="setting_app_font">App font</string>
+    <string name="setting_system_font">System font</string>
 </resources>
 <!--<string name=""></string>-->
