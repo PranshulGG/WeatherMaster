@@ -98,6 +98,8 @@ fun SnowHourlyCard(
                         (percentage.div(100)).times(140).roundToInt(),
                         5
                     ) else 5
+                    val probability = item.precipitationProbability
+
 
                     val barColor = when {
                         snowFall <= 0.0 -> Color(0xFFE0E0E0)
@@ -143,11 +145,14 @@ fun SnowHourlyCard(
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold
                         )
-                        Text(
-                            "${item.precipitationProbability}%",
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            style = MaterialTheme.typography.titleSmall,
-                        )
+                        if (probability != null) {
+
+                            Text(
+                                "${probability}%",
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                style = MaterialTheme.typography.titleSmall,
+                            )
+                        }
                         Text(
                             timeFormatter(item.time),
                             color = MaterialTheme.colorScheme.onSurfaceVariant,

@@ -93,6 +93,8 @@ fun RainHourlyCard(
 
                     val item = data[index]
 
+                    val probability = item.precipitationProbability
+
                     val percentage = ((item.rain.minus(min)).div((max - min))).times(100)
 
                     val barHeight = if (!percentage.isNaN()) max(
@@ -144,11 +146,13 @@ fun RainHourlyCard(
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold
                         )
-                        Text(
-                            "${item.precipitationProbability}%",
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            style = MaterialTheme.typography.titleSmall,
-                        )
+                        if (probability != null) {
+                            Text(
+                                "${probability}%",
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                style = MaterialTheme.typography.titleSmall,
+                            )
+                        }
                         Text(
                             timeFormatter(item.time),
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
