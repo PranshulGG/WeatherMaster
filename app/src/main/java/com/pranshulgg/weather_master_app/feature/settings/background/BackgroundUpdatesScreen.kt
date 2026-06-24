@@ -69,6 +69,7 @@ fun BackgroundUpdatesScreen(navController: NavController) {
 
     val uriHandler = LocalUriHandler.current
 
+
     LargeTopBarScaffold(
         title = stringResource(R.string.setting_background_updates),
         navigationIcon = { NavigateUpBtn(navController) },

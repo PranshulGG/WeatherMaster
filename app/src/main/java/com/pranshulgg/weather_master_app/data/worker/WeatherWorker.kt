@@ -71,7 +71,7 @@ class WeatherWorker @AssistedInject constructor(
 
             val result = repo.getWeather(
                 location = default,
-                isManualRefresh = false,
+                isManualRefresh = true,
                 isForceRefresh = false
             )
 
