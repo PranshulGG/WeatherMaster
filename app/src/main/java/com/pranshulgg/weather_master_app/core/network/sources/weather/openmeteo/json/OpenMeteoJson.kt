@@ -143,5 +143,7 @@ data class OpenMeteoDailyForecastJson(
     @SerializedName("pressure_msl_mean") val pressureMsl: List<Double?>,
     @SerializedName("dew_point_2m_mean") val dewPoint: List<Double?>,
 
-    )
+    @SerializedName("wind_speed_10m_mean")
+    val windSpeedMean: List<Double>
+)
 

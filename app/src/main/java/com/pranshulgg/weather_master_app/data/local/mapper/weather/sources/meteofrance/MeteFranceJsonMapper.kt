@@ -118,7 +118,7 @@ private fun computeDaily(
         val maxTemperature = dailyIt.value.mapNotNull { it.temperature }.max()
         val windSpeed = dailyIt.value
             .mapNotNull { it.windSpeed }
-            .maxOrNull()
+            .average()
 
         val windDirection =
             dailyIt.value.mapNotNull { it.windDirection }.maxOrNull()

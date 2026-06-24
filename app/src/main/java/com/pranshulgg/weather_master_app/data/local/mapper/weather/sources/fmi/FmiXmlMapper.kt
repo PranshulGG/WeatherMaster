@@ -209,7 +209,7 @@ private fun computeDaily(
 
         val windSpeed = dataForParam(dailyIt.key, "WindSpeedMS")
             ?.mapNotNull { it.parameterValue?.toSafeDouble() }
-            ?.maxOrNull()
+            ?.average() ?: null
 
 
         val icon = dataForParam(dailyIt.key, "WeatherSymbol3")?.map { it.parameterValue }

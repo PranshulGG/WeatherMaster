@@ -91,7 +91,7 @@ fun OpenMeteoWeatherJson.toDomain(location: Location): Weather {
             WeatherDaily(
                 temperatureMin = daily.temperatureMin[it],
                 temperatureMax = daily.temperatureMax[it],
-                windSpeed = daily.windSpeedMax[it],
+                windSpeed = daily.windSpeedMean[it],
                 windDirection = WindDirection.toWindDirectionFromDegrees(daily.windDirectionDominant[it]),
                 rainSum = daily.rainSum[it],
                 snowfallSum = daily.snowfallSum[it],

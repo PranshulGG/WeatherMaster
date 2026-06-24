@@ -144,7 +144,7 @@ private fun computeDaily(data: MetNorwayForecastJson, location: Location): List<
 
         val minTemperature = dailyIt.value.minOf { it.data.instant.details.temperature }
         val maxTemperature = dailyIt.value.maxOf { it.data.instant.details.temperature }
-        val windSpeed = dailyIt.value.maxOf { it.data.instant.details.windSpeed }
+        val windSpeed = dailyIt.value.map { it.data.instant.details.windSpeed }.average()
         val windDirection =
             dailyIt.value.map { it.data.instant.details.windDirection }.average().roundToInt()
         val rainSum =

@@ -133,9 +133,8 @@ private fun computeDaily(data: SmhiForecastJson, location: Location): List<Weath
 
         val minTemperature = dailyIt.value.minOf { it.data.temperature }
         val maxTemperature = dailyIt.value.maxOf { it.data.temperature }
-        val windSpeed = dailyIt.value.maxOf { it.data.windSpeed }
-        val windDirection =
-            dailyIt.value.map { it.data.windDirection }.average().roundToInt()
+        val windSpeed = dailyIt.value.map { it.data.windSpeed }.average()
+        val windDirection = dailyIt.value.map { it.data.windDirection }.average().roundToInt()
 
         val rainSum =
             dailyIt.value.sumOf { if (it.data.precipitationType in rainTypes) it.data.precipitationAmountMax else 0.0 }

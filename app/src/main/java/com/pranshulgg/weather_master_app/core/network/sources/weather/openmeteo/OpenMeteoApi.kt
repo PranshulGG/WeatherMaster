@@ -11,7 +11,7 @@ import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
 private const val DAILY_FIELDS =
-    "weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,daylight_duration,uv_index_max,rain_sum,showers_sum,snowfall_sum,precipitation_hours,precipitation_probability_max,wind_speed_10m_max,wind_direction_10m_dominant,dew_point_2m_mean,pressure_msl_mean,relative_humidity_2m_mean,visibility_min"
+    "weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,daylight_duration,uv_index_max,rain_sum,showers_sum,snowfall_sum,precipitation_hours,precipitation_probability_max,wind_speed_10m_max,wind_direction_10m_dominant,dew_point_2m_mean,pressure_msl_mean,relative_humidity_2m_mean,visibility_min,wind_speed_10m_mean"
 
 private const val HOURLY_FIELDS =
     "temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,precipitation_probability,rain,showers,snowfall,weather_code,visibility,uv_index,wind_speed_10m,wind_direction_10m,pressure_msl"
