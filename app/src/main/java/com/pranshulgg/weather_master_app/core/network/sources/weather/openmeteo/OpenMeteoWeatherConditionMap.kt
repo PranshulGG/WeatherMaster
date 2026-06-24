@@ -16,7 +16,7 @@ object OpenMeteoWeatherConditionMap {
             80, 81, 82 -> WeatherCondition.HEAVY_RAIN
             85, 86 -> WeatherCondition.HEAVY_SNOW
             95, 96, 99 -> WeatherCondition.THUNDERSTORM
-            else -> WeatherCondition.CLEAR_SKY
+            else -> WeatherCondition.NO_CONDITION_FOUND
         }
     }
 }
