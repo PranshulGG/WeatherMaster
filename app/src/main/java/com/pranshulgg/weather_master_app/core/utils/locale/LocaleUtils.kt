@@ -85,6 +85,18 @@ fun getAppLocalLocales(): List<Language> {
             value = "zh-TW",
             nativeName = "繁體中文",
             code = "TW"
+        ),
+        Language(
+            name = "Hebrew",
+            value = "he-IL",
+            nativeName = "עברית",
+            code = "HE"
+        ),
+        Language(
+            name = "Lithuanian",
+            value = "lt-LT",
+            nativeName = "lietuvių kalba",
+            code = "LT"
         )
     )
 }
