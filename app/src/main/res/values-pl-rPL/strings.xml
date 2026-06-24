@@ -314,5 +314,6 @@
     <string name="color_transparent">Przezroczysty</string>
     <string name="setting_app_font">Czcionka aplikacji</string>
     <string name="setting_system_font">Czcionka systemu</string>
+    <string name="weather_minimum">Minimum</string>
 </resources>
 <!--<string name=""></string>-->
