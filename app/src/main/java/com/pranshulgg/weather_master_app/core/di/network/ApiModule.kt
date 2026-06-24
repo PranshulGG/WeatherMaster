@@ -6,6 +6,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmet
 import com.pranshulgg.weather_master_app.core.network.sources.search.geonames.GeoNamesSearchApi
 import com.pranshulgg.weather_master_app.core.network.sources.search.geonames.timezone.GeoNamesTimezoneApi
 import com.pranshulgg.weather_master_app.core.network.sources.search.openmeteo.OpenMeteoSearchApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.BmkgApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.china.ChinaApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.DwdApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.EcccApi
@@ -84,4 +85,8 @@ object ApiModule {
     @Provides
     @Singleton
     fun provideChinaApi(): ChinaApi = ChinaApi.create()
+
+    @Provides
+    @Singleton
+    fun provideBmkgApi(): BmkgApi = BmkgApi.create()
 }

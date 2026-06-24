@@ -2,6 +2,8 @@ package com.pranshulgg.weather_master_app.core.di.weather
 
 import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo.OpenMeteoAqiApi
 import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo.OpenMeteoAqiRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.BmkgApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.BmkgRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.china.ChinaApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.china.ChinaRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.DwdApi
@@ -113,4 +115,12 @@ object WeatherRepositoryModule {
         api: ChinaApi,
         weatherDao: WeatherDao
     ): ChinaRepository = ChinaRepository(dao, weatherDao, api)
+
+    @Provides
+    @Singleton
+    fun provideBmkgRepository(
+        dao: LocationsDao,
+        api: BmkgApi,
+        weatherDao: WeatherDao
+    ): BmkgRepository = BmkgRepository(dao, weatherDao, api)
 }
