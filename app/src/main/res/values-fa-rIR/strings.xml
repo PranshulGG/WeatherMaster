@@ -308,5 +308,6 @@
     <string name="color_transparent">Transparent</string>
     <string name="setting_app_font">App font</string>
     <string name="setting_system_font">System font</string>
+    <string name="weather_minimum">Minimum</string>
 </resources>
 <!--<string name=""></string>-->
