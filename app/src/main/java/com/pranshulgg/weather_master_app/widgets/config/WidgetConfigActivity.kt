@@ -7,9 +7,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.lifecycle.lifecycleScope
+import com.pranshulgg.weather_master_app.core.prefs.AppPrefs
+import com.pranshulgg.weather_master_app.core.prefs.AppPrefs.initPrefs
+import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
+import com.pranshulgg.weather_master_app.core.ui.snackbar.LocalSnackbarHostState
 import com.pranshulgg.weather_master_app.core.ui.theme.ThemeVariantType
 import com.pranshulgg.weather_master_app.core.ui.theme.WeatherMasterTheme
+import com.pranshulgg.weather_master_app.core.ui.theme.isThemeDark
 import com.pranshulgg.weather_master_app.data.worker.widgets.WeatherWidgetUpdater
 import com.pranshulgg.weather_master_app.widgets.glance.GlanceWidgetReceiver
 import com.pranshulgg.weather_master_app.widgets.glance.ui.GlanceWidgetConfig
@@ -21,6 +27,7 @@ class WidgetConfigActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initPrefs(this)
         enableEdgeToEdge()
 
         val widgetId =
@@ -66,18 +73,23 @@ class WidgetConfigActivity : ComponentActivity() {
         }
 
         setContent {
-            WeatherMasterTheme(
-                isSystemInDarkTheme(),
-                dynamicTheme = true,
-                themeVariantType = ThemeVariantType.EXPRESSIVE,
+            CompositionLocalProvider(
+                LocalAppPrefs provides AppPrefs.state()
             ) {
-                when (provider?.className) {
-                    GlanceWidgetReceiver::class.java.name -> {
-                        GlanceWidgetConfig(onDone = { onDone(it) })
-                    }
 
-                    ClockDailyWidgetReceiver::class.java.name -> {
-                        ClockDailyWidgetConfig(onDone = { onDone(it) })
+                WeatherMasterTheme(
+                    isThemeDark(),
+                    dynamicTheme = true,
+                    themeVariantType = ThemeVariantType.EXPRESSIVE,
+                ) {
+                    when (provider?.className) {
+                        GlanceWidgetReceiver::class.java.name -> {
+                            GlanceWidgetConfig(onDone = { onDone(it) })
+                        }
+
+                        ClockDailyWidgetReceiver::class.java.name -> {
+                            ClockDailyWidgetConfig(onDone = { onDone(it) })
+                        }
                     }
                 }
             }
