@@ -56,7 +56,7 @@ object MainScreenBottomSheets {
                     title = stringResource(R.string.source),
                     tiles = listOf(
                         SettingTile.ActionTile(
-                            title = location!!.source.displayName,
+                            title = location!!.source.fullName,
                             description = location.source.displayLink,
                             onClick = {
                                 uriHandler.openUri(location.source.displayLink)
