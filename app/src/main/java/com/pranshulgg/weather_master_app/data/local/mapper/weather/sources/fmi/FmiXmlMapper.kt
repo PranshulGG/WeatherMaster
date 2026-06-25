@@ -190,18 +190,18 @@ private fun computeDaily(
                 dailyIt.key,
                 "Temperature"
             )?.mapNotNull { it.parameterValue?.toSafeDouble() }
-                ?.minOf { it }
+                ?.minOf { it }.takeIf { it != null && !it.isNaN() }
         val maxTemperature =
             dataForParam(
                 dailyIt.key,
                 "Temperature"
             )?.mapNotNull { it.parameterValue?.toSafeDouble() }
-                ?.maxOf { it }
+                ?.maxOf { it }.takeIf { it != null && !it.isNaN() }
 
 
         val windDirection =
             dataForParam(dailyIt.key, "WindDirection")?.mapNotNull { it.parameterValue }
-                ?.maxOrNull()
+                ?.maxOrNull().takeIf { it != null }
 
         val rainSum = dataForParam(dailyIt.key, "Precipitation1h")?.sumOf {
             it.parameterValue?.toSafeDouble() ?: 0.0
@@ -209,12 +209,12 @@ private fun computeDaily(
 
         val windSpeed = dataForParam(dailyIt.key, "WindSpeedMS")
             ?.mapNotNull { it.parameterValue?.toSafeDouble() }
-            ?.average() ?: null
+            ?.average().takeIf { it != null && !it.isNaN() }
 
 
         val icon = dataForParam(dailyIt.key, "WeatherSymbol3")?.map { it.parameterValue }
             ?.groupingBy { it }
-            ?.eachCount()?.entries?.maxByOrNull { it.value }
+            ?.eachCount()?.entries?.maxByOrNull { it.value }.takeIf { it != null }
 
 
         val condition = computeDailyWeatherCondition(
@@ -230,19 +230,21 @@ private fun computeDaily(
 
         val avgHumidity =
             dataForParam(dailyIt.key, "Humidity")?.map { it.parameterValue.toSafeDouble() ?: -1.0 }
-                ?.average()
+                ?.average().takeIf { it != null && !it.isNaN() }
 
         val avgPressure =
             dataForParam(dailyIt.key, "Pressure")?.map { it.parameterValue.toSafeDouble() ?: -1.0 }
-                ?.average()
+                ?.average().takeIf { it != null && !it.isNaN() }
 
-        val minVisibility = dataForParam(dailyIt.key, "Visibility")?.minOf {
+
+        val minVisibility = dataForParam(dailyIt.key, "Visibility")?.minOfOrNull {
             it.parameterValue.toSafeDouble() ?: -1.0
         }
 
+
         val avgDewPoint =
             dataForParam(dailyIt.key, "DewPoint")?.map { it.parameterValue.toSafeDouble() ?: -1.0 }
-                ?.average()
+                ?.average().takeIf { it != null && !it.isNaN() }
 
 
         val index = groupedByDay.keys.indexOf(dailyIt.key)
