@@ -83,7 +83,6 @@ private fun computeDaily(
 
     val groupedByDay = data.groupBy {
         it.timestamp.iso8601TimestampToMilliseconds().normalizeToDay(zoneId)
-
     }
 
     val sunTimings = getSunTimings(
@@ -104,8 +103,7 @@ private fun computeDaily(
         location.longitude
     )
 
-    return groupedByDay.map { dailyIt ->
-
+    return groupedByDay.filter {(key, value) -> (value.size == 24) || key == groupedByDay.keys.firstOrNull()}.map{ dailyIt ->
         val minTemperature = dailyIt.value.minOf { it.temperature }
         val maxTemperature = dailyIt.value.maxOf { it.temperature }
 
