@@ -301,13 +301,13 @@
     <string name="unit_wind_kt">Възли</string>
     <string name="unit_wind_bft">Бофорт</string>
     <string name="setting_day_summary">Обобщение на деня</string>
-    <string name="setting_day_summary_secondary">Show a daily summary generated from hourly data</string>
+    <string name="setting_day_summary_secondary">Показване на дневно обобщение, генерирано от почасови данни</string>
     <string name="setting_system">Система</string>
-    <string name="weather_about_precipitation">Precipitation shows the forecast amount of rainfall expected during each hour. Larger amounts indicate heavier rain</string>
-    <string name="weather_about_snowfall">Snowfall shows the forecast amount of snow expected during each hour. Higher values indicate greater snow accumulation</string>
-    <string name="color_transparent">Transparent</string>
-    <string name="setting_app_font">App font</string>
-    <string name="setting_system_font">System font</string>
-    <string name="weather_minimum">Minimum</string>
+    <string name="weather_about_precipitation">„Валежи“ показва прогнозираното количество валежи, очаквани за всеки час. По-големите количества показват по-силен дъжд.</string>
+    <string name="weather_about_snowfall">Снеговалежът показва прогнозираното количество сняг, очаквано за всеки час. По-високите стойности показват по-голямо натрупване на сняг.</string>
+    <string name="color_transparent">Прозрачен</string>
+    <string name="setting_app_font">Шрифт на приложението</string>
+    <string name="setting_system_font">Системен шрифт</string>
+    <string name="weather_minimum">Минимум</string>
 </resources>
 <!--<string name=""></string>-->
