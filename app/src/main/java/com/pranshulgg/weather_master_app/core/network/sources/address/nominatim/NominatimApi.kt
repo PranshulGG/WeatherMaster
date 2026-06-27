@@ -19,7 +19,8 @@ interface NominatimApi {
         @Query("format") format: String = "jsonv2",
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
-        @Query("layer") layer: String = "address"
+        @Query("layer") layer: String = "address",
+        @Query("accept-language") lang: String = "en"
     ): Response<NominatimAddressJson>
 
     companion object {

@@ -32,7 +32,7 @@ object WeatherUpdateScheduler {
 
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(
             "@pranshulgg_weather_master_updates",
-            ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE,
+            ExistingPeriodicWorkPolicy.UPDATE,
             request
         )
     }
