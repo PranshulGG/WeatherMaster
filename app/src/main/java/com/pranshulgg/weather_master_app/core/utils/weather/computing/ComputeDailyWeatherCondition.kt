@@ -91,6 +91,10 @@ fun computeDailyWeatherCondition(
 
     val isClustered = primaryCount > 5 && secondaryCount > 5 && !primaryReturnsLater
 
+    val fallbackIcon =
+        if (defaultFallBack != WeatherCondition.NO_CONDITION_FOUND) defaultFallBack else primary
+            ?: WeatherCondition.NO_CONDITION_FOUND
+
     val clusteredResult = when (primary) {
         in clear if secondary in cloudy -> WeatherCondition.CLEAR_THEN_CLOUDY
         in clear if secondary in rain -> WeatherCondition.CLEAR_THEN_RAIN
@@ -104,7 +108,7 @@ fun computeDailyWeatherCondition(
         in snow if secondary in clear -> WeatherCondition.SNOW_THEN_CLEAR
         in snow if secondary in cloudy -> WeatherCondition.SNOW_THEN_CLOUDY
         in snow if secondary in rain -> WeatherCondition.SNOW_THEN_RAIN
-        else -> defaultFallBack
+        else -> fallbackIcon
     }
 
     val result = when (primary) {
@@ -120,7 +124,7 @@ fun computeDailyWeatherCondition(
         in snow if secondary in clear -> WeatherCondition.SNOW_WITH_CLEAR
         in snow if secondary in cloudy -> WeatherCondition.SNOW_WITH_CLOUDY
         in snow if secondary in rain -> WeatherCondition.SNOW_WITH_RAIN
-        else -> defaultFallBack
+        else -> fallbackIcon
     }
 
     return if (!isClustered) result else clusteredResult
