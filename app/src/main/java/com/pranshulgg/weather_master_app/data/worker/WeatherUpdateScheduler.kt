@@ -44,10 +44,9 @@ object WeatherUpdateScheduler {
 
     suspend fun updateAllWidgets(
         context: Context,
-        skipForegroundCheck: Boolean = false,
         data: Weather,
         units: WeatherUnits
     ) {
-        WeatherWorker.updateAllWidgets(context, data, skipForegroundCheck, units)
+        WeatherWorker.updateAllWidgets(context, data, units)
     }
 }
