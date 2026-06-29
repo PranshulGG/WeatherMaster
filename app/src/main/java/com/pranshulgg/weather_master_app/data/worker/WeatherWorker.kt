@@ -2,19 +2,13 @@ package com.pranshulgg.weather_master_app.data.worker
 
 import android.Manifest
 import android.content.Context
-import android.util.Log
 import androidx.annotation.RequiresPermission
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
-import androidx.work.ExistingWorkPolicy
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
 import androidx.work.WorkerParameters
-import androidx.work.workDataOf
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
-import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.data.provider.WeatherRepositoryProvider
 import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
@@ -23,7 +17,6 @@ import com.pranshulgg.weather_master_app.data.worker.widgets.WeatherWidgetUpdate
 import com.pranshulgg.weather_master_app.data.worker.widgets.widgetWeatherMapper
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import java.util.concurrent.TimeUnit
 
 @HiltWorker
 class WeatherWorker @AssistedInject constructor(
@@ -37,9 +30,6 @@ class WeatherWorker @AssistedInject constructor(
 
     @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
     override suspend fun doWork(): Result {
-
-        val skipForegroundCheck =
-            inputData.getBoolean(KEY_SKIP_FOREGROUND_CHECK, false)
 
         // Only run if app is backgrounded
         if (appVisibility.isForeground) {
@@ -62,7 +52,7 @@ class WeatherWorker @AssistedInject constructor(
              * Show a notification whenever the worker runs
              * Don't really need it but why not, i wanna know if its working
              */
-            WeatherNotification.showNotification(default.name)
+            WeatherNotification.showNotification(default.name, applicationContext)
 
 
             // Get the repository
@@ -82,28 +72,22 @@ class WeatherWorker @AssistedInject constructor(
 
             val weather = result.weather
 
-
-            val json = widgetWeatherMapper(weather, applicationContext, units)
-
-
-            WeatherWidgetUpdater(applicationContext).update(json)
+            updateAllWidgets(applicationContext, weather, units)
 
             return Result.success()
 
         } catch (e: Exception) {
             Result.failure()
         } finally {
-            WeatherNotification.hideNotification()
+            WeatherNotification.hideNotification(applicationContext)
         }
     }
 
     companion object {
-        const val KEY_SKIP_FOREGROUND_CHECK = "skip_foreground_check"
 
         suspend fun updateAllWidgets(
             context: Context,
             data: Weather,
-            skipForegroundCheck: Boolean = false,
             units: WeatherUnits
         ) {
             val json = widgetWeatherMapper(data, context, units)
@@ -111,16 +95,5 @@ class WeatherWorker @AssistedInject constructor(
             WeatherWidgetUpdater(context).update(json)
         }
 
-        fun runWorkerOnce(context: Context) {
-            val request = OneTimeWorkRequestBuilder<WeatherWorker>()
-                .setInitialDelay(0, TimeUnit.SECONDS)
-                .build()
-
-            WorkManager.getInstance(context).enqueueUniqueWork(
-                "@pranshulgg_weather_master_updates_once",
-                ExistingWorkPolicy.REPLACE,
-                request
-            )
-        }
     }
 }

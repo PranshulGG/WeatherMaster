@@ -6,6 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class WeatherWidgetStateJson(
     val json: String? = null,
-    val config: WidgetConfig = WidgetConfig(),
-    val appTheme: String = "System"
+    val config: WidgetConfig = WidgetConfig()
 )

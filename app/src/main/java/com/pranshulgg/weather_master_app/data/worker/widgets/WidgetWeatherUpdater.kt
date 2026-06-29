@@ -5,7 +5,6 @@ import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.state.updateAppWidgetState
 import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
 import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateDefinition
-import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateJson
 import com.pranshulgg.weather_master_app.widgets.config.WidgetConfig
 import com.pranshulgg.weather_master_app.widgets.glance.GlanceWidget
 import com.pranshulgg.weather_master_app.widgets.pill.WidgetPill
@@ -37,27 +36,26 @@ class WeatherWidgetUpdater(
         val widgetHorizontalIds = manager.getGlanceIds(WeatherHorizontalWidget::class.java)
         val clockDailyIds = manager.getGlanceIds(ClockDailyWidget::class.java)
 
-        val appTheme = PreferencesHelper.getString("app_theme") ?: "System"
 
         val widgetGlanceIds = manager.getGlanceIds(GlanceWidget::class.java)
 
         widgetIds.forEach {
             updateAppWidgetState(context, WeatherWidgetStateDefinition, it) { current ->
-                current.copy(json = json, config = current.config, appTheme = appTheme)
+                current.copy(json = json, config = current.config)
             }
             widget.update(context, it)
         }
 
         pillIds.forEach {
             updateAppWidgetState(context, WeatherWidgetStateDefinition, it) { current ->
-                current.copy(json = json, config = current.config, appTheme = appTheme)
+                current.copy(json = json, config = current.config)
             }
             pill.update(context, it)
         }
 
         summaryIds.forEach {
             updateAppWidgetState(context, WeatherWidgetStateDefinition, it) { current ->
-                current.copy(json = json, config = current.config, appTheme = appTheme)
+                current.copy(json = json, config = current.config)
             }
             summary.update(context, it)
         }
@@ -65,20 +63,20 @@ class WeatherWidgetUpdater(
 
         widgetHorizontalIds.forEach {
             updateAppWidgetState(context, WeatherWidgetStateDefinition, it) { current ->
-                current.copy(json = json, config = current.config, appTheme = appTheme)
+                current.copy(json = json, config = current.config)
             }
             widgetHorizontal.update(context, it)
         }
 
         widgetGlanceIds.forEach {
             updateAppWidgetState(context, WeatherWidgetStateDefinition, it) { current ->
-                current.copy(json = json, config = current.config, appTheme = appTheme)
+                current.copy(json = json, config = current.config)
             }
             widgetGlance.update(context, it)
         }
         clockDailyIds.forEach {
             updateAppWidgetState(context, WeatherWidgetStateDefinition, it) { current ->
-                current.copy(json = json, config = current.config, appTheme = appTheme)
+                current.copy(json = json, config = current.config)
             }
             widgetClockDaily.update(context, it)
         }
