@@ -1,6 +1,8 @@
 package com.pranshulgg.weather_master_app.widgets.ui.views
 
 import android.content.Context
+import android.content.res.Configuration
+import android.graphics.Color
 import android.util.TypedValue
 import android.widget.RemoteViews
 import androidx.compose.runtime.Composable
@@ -12,27 +14,27 @@ import com.pranshulgg.weather_master_app.R
 private fun createClock(
     context: Context,
     size: Float,
-    color: Int
+    color: Int?
 ): RemoteViews {
 
-    val layoutId = when (size) {
-        20f -> R.layout.sys_clock_20
-        28f -> R.layout.sys_clock_28
-        36f -> R.layout.sys_clock_36
-        44f -> R.layout.sys_clock_44
-        56f -> R.layout.sys_clock_56
-        72f -> R.layout.sys_clock_72
-        88f -> R.layout.sys_clock_88
-        104f -> R.layout.sys_clock_104
-        else -> R.layout.sys_clock_120
+    val color = color?.let { ContextCompat.getColor(context, it) }
+    val resolvedColor = color ?: if (
+        (context.resources.configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK)
+        == Configuration.UI_MODE_NIGHT_YES
+    ) {
+        Color.WHITE
+    } else {
+        Color.BLACK
     }
 
     return RemoteViews(
         context.packageName,
-        layoutId
+        R.layout.sys_clock_36
     ).apply {
-        val resolvedColor = ContextCompat.getColor(context, color)
         setTextColor(R.id.clock, resolvedColor)
+
+        setTextViewTextSize(R.id.clock, TypedValue.COMPLEX_UNIT_SP, size)
     }
 }
 
@@ -40,7 +42,7 @@ private fun createClock(
 fun WidgetClock(
     size: Float,
     context: Context,
-    color: Int = R.color.white
+    color: Int?
 ) {
 
     AndroidRemoteViews(
