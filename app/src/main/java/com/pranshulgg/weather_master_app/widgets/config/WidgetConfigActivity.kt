@@ -2,8 +2,10 @@ package com.pranshulgg.weather_master_app.widgets.config
 
 import android.appwidget.AppWidgetManager
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -12,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import com.pranshulgg.weather_master_app.core.prefs.AppPrefs
 import com.pranshulgg.weather_master_app.core.prefs.AppPrefs.initPrefs
 import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
+import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
 import com.pranshulgg.weather_master_app.core.ui.snackbar.LocalSnackbarHostState
 import com.pranshulgg.weather_master_app.core.ui.theme.ThemeVariantType
 import com.pranshulgg.weather_master_app.core.ui.theme.WeatherMasterTheme
@@ -19,8 +22,13 @@ import com.pranshulgg.weather_master_app.core.ui.theme.isThemeDark
 import com.pranshulgg.weather_master_app.data.worker.widgets.WeatherWidgetUpdater
 import com.pranshulgg.weather_master_app.widgets.glance.GlanceWidgetReceiver
 import com.pranshulgg.weather_master_app.widgets.glance.ui.GlanceWidgetConfig
+import com.pranshulgg.weather_master_app.widgets.weather.WeatherWidget
+import com.pranshulgg.weather_master_app.widgets.weather.WeatherWidgetReceiver
+import com.pranshulgg.weather_master_app.widgets.weather.ui.WeatherWidgetConfig
 import com.pranshulgg.weather_master_app.widgets.weatherclockdaily.ClockDailyWidgetReceiver
 import com.pranshulgg.weather_master_app.widgets.weatherclockdaily.ui.ClockDailyWidgetConfig
+import com.pranshulgg.weather_master_app.widgets.weatherhorizontal.WeatherHorizontalWidgetReceiver
+import com.pranshulgg.weather_master_app.widgets.weatherhorizontal.ui.WeatherHorizontalConfig
 import kotlinx.coroutines.launch
 
 class WidgetConfigActivity : ComponentActivity() {
@@ -71,7 +79,24 @@ class WidgetConfigActivity : ComponentActivity() {
                 finish()
             }
         }
+        val theme = PreferencesHelper.getString("app_theme") ?: "Dark"
 
+        val isDark = resolveThemeDark(
+            theme,
+            resources.configuration.uiMode and
+                    android.content.res.Configuration.UI_MODE_NIGHT_MASK ==
+                    android.content.res.Configuration.UI_MODE_NIGHT_YES
+        )
+
+        enableEdgeToEdge(
+            navigationBarStyle = if (isDark) {
+                SystemBarStyle.dark(Color.TRANSPARENT)
+            } else {
+                SystemBarStyle.light(
+                    Color.TRANSPARENT, Color.TRANSPARENT
+                )
+            }
+        )
         setContent {
             CompositionLocalProvider(
                 LocalAppPrefs provides AppPrefs.state()
@@ -90,10 +115,32 @@ class WidgetConfigActivity : ComponentActivity() {
                         ClockDailyWidgetReceiver::class.java.name -> {
                             ClockDailyWidgetConfig(onDone = { onDone(it) })
                         }
+
+                        WeatherWidgetReceiver::class.java.name -> {
+                            WeatherWidgetConfig(onDone = { onDone(it) })
+                        }
+
+                        WeatherHorizontalWidgetReceiver::class.java.name -> {
+                            WeatherHorizontalConfig(onDone = { onDone(it) })
+                        }
                     }
                 }
             }
         }
     }
+
+
+    private fun resolveThemeDark(
+        appTheme: String,
+        systemDark: Boolean
+    ): Boolean {
+        return when (appTheme) {
+            "Dark" -> true
+            "Light" -> false
+            "System" -> systemDark
+            else -> systemDark
+        }
+    }
+
 }
 
