@@ -303,8 +303,9 @@
     <string name="weather_about_precipitation">降水量は、1時間ごとに予想される雨の量を表しています。数値が大きいほど、より激しい雨になることを示します。</string>
     <string name="weather_about_snowfall">降雪量は、1時間ごとに予想される雪の量を表しています。数値が大きいほど、より多くの積雪になることを示します。</string>
     <string name="color_transparent">透明</string>
-    <string name="setting_app_font">App font</string>
-    <string name="setting_system_font">System font</string>
-    <string name="weather_minimum">Minimum</string>
+    <string name="setting_app_font">アプリのフォント</string>
+    <string name="setting_system_font">システムのフォント</string>
+    <string name="weather_minimum">最小</string>
+    <string name="error_no_results_found">No results found</string>
 </resources>
 <!--<string name=""></string>-->
