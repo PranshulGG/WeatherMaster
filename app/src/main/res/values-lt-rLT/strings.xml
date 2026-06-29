@@ -119,7 +119,7 @@
     <string name="setting_translate_app_secondary">Padėkite išversti programėlę į savo kalbą.</string>
     <string name="location_use_current">Naudoti dabartinę vietą</string>
     <string name="location_use_current_secondary">Nustatykite dabartinę įrenginio buvimo vietą ir įtraukite ją į sąrašą</string>
-    <string name="location_permission_required">Reikalingas leidimas nustatyti buvimo vietą</string>
+    <string name="location_permission_required">Reikalingas leidimas nustatyti vietovę</string>
     <string name="current_location_not_found">Nerasta esama buvimo vieta</string>
     <string name="error_server">Nepavyko įvykdyti užklausos. Pabandykte dar kartą vėliau</string>
     <string name="weather_airquality_good">Geras</string>
@@ -130,7 +130,7 @@
     <string name="weather_airquality_hazardous">Pavojinga</string>
     <string name="weather_aqi_description_good">Oro kokybė yra gera, o oro tarša nekelia jokio arba kelia tik nedidelį pavojų.</string>
     <string name="weather_aqi_description_fair">Oro kokybė yra patenkinama. Vis dėlto kai kuriems žmonėms, ypač tiems, kurie yra ypač jautrūs oro taršai, gali sukelti sveikatos rizikų.</string>
-    <string name="weather_aqi_description_moderate">Jautriems žmonėms tai gali sukelti neigiamą poveikį sveikatai. Daugumai žmonių tai greičiausiai įtakos neturės.</string>
+    <string name="weather_aqi_description_moderate">Jautriems žmonėms gali sukelti neigiamą poveikį sveikatai. Tačiau tikėtina, kad daugumai žmonių tai įtakos neturės.</string>
     <string name="weather_aqi_description_poor">Kai kuriems žmonėms gali pasireikšti neigiamas poveikis sveikatai; jautrių grupių atstovams šis poveikis gali būti rimtesnis.</string>
     <string name="weather_aqi_description_very_poor">Įspėjimas sveikatai: padidėjusi rizika, kad gali kilti sveikatos problemų</string>
     <string name="weather_aqi_description_hazardous">Įspėjimas apie pavojingas sąlygas sveikatai: padidėjusi tikimybė, jog tai paveiks visus.</string>
@@ -212,10 +212,10 @@
     <string name="setting_layout">Išdėstymas</string>
     <string name="setting_weather_based_theme">Orais pagrįsta tematika</string>
     <string name="setting_weather_based_theme_secondary">Automatiškai pritaiko programėlės spalvas atsižvelgiant į esamas oro sąlygas</string>
-    <string name="unit_pressure_mmhg">Merkurio milimetrai</string>
+    <string name="unit_pressure_mmhg">Milimetrai gyvsidabrio</string>
     <string name="summary_overview_template_1">%1$s didžiąją dienos dalį.</string>
     <string name="summary_overview_template_2">Numatoma, kad šiandien bus %1$s.</string>
-    <string name="summary_overview_template_3">Numatomos %1$s sąlygos.</string>
+    <string name="summary_overview_template_3">Numatomos sąlygos - %1$s.</string>
     <string name="summary_overview_template_4">Dangus didžiąją dienos dalį išliks %1$s.</string>
     <string name="summary_rain_high_template_1">Labai tikėtina, kad apie %1$s palis.</string>
     <string name="summary_rain_high_template_2">Apie %1$s numatomas trumpalaikis lietus.</string>
