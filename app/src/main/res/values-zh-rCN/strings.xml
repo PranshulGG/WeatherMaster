@@ -310,5 +310,6 @@
     <string name="setting_app_font">应用字体</string>
     <string name="setting_system_font">系统字体</string>
     <string name="weather_minimum">最低</string>
+    <string name="error_no_results_found">未找到结果</string>
 </resources>
 <!--<string name=""></string>-->
