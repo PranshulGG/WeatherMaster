@@ -47,10 +47,15 @@ class SearchScreenViewModel @Inject constructor(
                 currentRepo.search(query)
             } catch (e: Exception) {
                 if (e is CancellationException) throw e
-                SnackbarManager.show(R.string.error_generic)
+                val appExpectation = e.toAppException()
+                SnackbarManager.show(appExpectation.toMessageRes())
                 return@launch
             } finally {
                 loading = false
+            }
+
+            if (data.isEmpty()) {
+                SnackbarManager.show(R.string.error_no_results_found)
             }
 
             results = data

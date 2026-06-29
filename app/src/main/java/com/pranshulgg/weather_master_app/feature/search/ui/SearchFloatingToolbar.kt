@@ -140,7 +140,6 @@ private fun SearchFloatingBarContent(
                     IconButton(
                         onClick = {
                             viewModel.updateQuery("")
-                            focusManager.clearFocus()
                         }
                     ) {
                         Symbol(
