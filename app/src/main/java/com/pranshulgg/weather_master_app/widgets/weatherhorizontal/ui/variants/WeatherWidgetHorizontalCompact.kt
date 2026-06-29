@@ -1,4 +1,4 @@
-package com.pranshulgg.weather_master_app.widgets.weatherhorizontal.ui
+package com.pranshulgg.weather_master_app.widgets.weatherhorizontal.ui.variants
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
@@ -12,8 +12,6 @@ import androidx.glance.layout.Column
 import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxSize
-import androidx.glance.layout.fillMaxWidth
-import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
 import androidx.glance.layout.width
@@ -21,16 +19,24 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
+import androidx.glance.unit.ColorProvider
+import com.pranshulgg.weather_master_app.R
+import com.pranshulgg.weather_master_app.widgets.config.WidgetConfig
 import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
-import com.pranshulgg.weather_master_app.widgets.weather.components.WidgetMinMaxTemp
+import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTheme
 
 @Composable
-fun WeatherWidgetHorizontal(
+fun WeatherWidgetHorizontalCompact(
     state: WidgetWeather?,
-    modifier: GlanceModifier = GlanceModifier
+    modifier: GlanceModifier = GlanceModifier, config: WidgetConfig
 ) {
-    val textColor = GlanceTheme.colors.onSurface
-    val textColorVariant = GlanceTheme.colors.onSurfaceVariant
+
+    val size = 18 * config.fontSize
+    val tempSize = 24 * config.fontSize
+
+    val textColor = if (config.widgetTheme == WidgetTheme.TRANSPARENT)
+        ColorProvider(R.color.white) else GlanceTheme.colors.onSurface
+
 
     if (state != null)
 
@@ -46,12 +52,12 @@ fun WeatherWidgetHorizontal(
                 modifier = GlanceModifier.size(48.dp)
             )
             Spacer(GlanceModifier.width(12.dp))
-            Column(GlanceModifier.defaultWeight()) {
+            Column() {
                 Text(
-                    state.locationName,
+                    state.currentTemp,
                     style = TextStyle(
                         color = textColor,
-                        fontSize = 16.sp,
+                        fontSize = tempSize.sp,
                         fontWeight = FontWeight.Medium,
                         textAlign = TextAlign.Start
                     )
@@ -60,36 +66,12 @@ fun WeatherWidgetHorizontal(
                     state.currentCondition,
                     style = TextStyle(
                         color = textColor,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
+                        fontSize = size.sp,
+                        fontWeight = FontWeight.Medium,
                         textAlign = TextAlign.Start
                     ),
-                    maxLines = 1,
-                    modifier = GlanceModifier.fillMaxWidth()
-                )
-            }
-            Spacer(GlanceModifier.width(16.dp))
-            Text(
-                state.currentTemp,
-                style = TextStyle(color = textColor, fontWeight = FontWeight.Bold, fontSize = 40.sp)
-            )
-            Spacer(GlanceModifier.width(8.dp))
-            Column() {
-                Text(
-                    state.daily.first().tempMax,
-                    style = TextStyle(
-                        fontSize = 18.sp,
-                        color = GlanceTheme.colors.onSurface,
-                        fontWeight = FontWeight.Medium
-                    )
-                )
-                Text(
-                    state.daily.first().tempMin,
-                    style = TextStyle(
-                        fontSize = 18.sp,
-                        color = GlanceTheme.colors.onSurfaceVariant,
-                        fontWeight = FontWeight.Medium
-                    )
+                    maxLines = 2,
+                    modifier = GlanceModifier.defaultWeight()
                 )
             }
         }

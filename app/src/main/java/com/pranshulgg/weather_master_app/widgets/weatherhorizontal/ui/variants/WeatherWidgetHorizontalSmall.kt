@@ -1,4 +1,4 @@
-package com.pranshulgg.weather_master_app.widgets.weatherhorizontal.ui
+package com.pranshulgg.weather_master_app.widgets.weatherhorizontal.ui.variants
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
@@ -8,7 +8,6 @@ import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.layout.Alignment
-import androidx.glance.layout.Column
 import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxSize
@@ -19,16 +18,21 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
+import androidx.glance.unit.ColorProvider
+import com.pranshulgg.weather_master_app.R
+import com.pranshulgg.weather_master_app.widgets.config.WidgetConfig
 import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
+import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTheme
 
 
 @Composable
-fun WeatherWidgetHorizontalMini(
+fun WeatherWidgetHorizontalSmall(
     state: WidgetWeather?,
-    modifier: GlanceModifier = GlanceModifier
+    modifier: GlanceModifier = GlanceModifier, config: WidgetConfig
 ) {
-    val textColor = GlanceTheme.colors.onSurface
-    val textColorVariant = GlanceTheme.colors.onSurfaceVariant
+    val textColor = if (config.widgetTheme == WidgetTheme.TRANSPARENT)
+        ColorProvider(R.color.white) else GlanceTheme.colors.onSurface
+    val tempSize = 40 * config.fontSize
 
     if (state != null)
 
@@ -48,7 +52,7 @@ fun WeatherWidgetHorizontalMini(
                 state.currentTemp,
                 style = TextStyle(
                     color = textColor,
-                    fontSize = 48.sp,
+                    fontSize = tempSize.sp,
                     fontWeight = FontWeight.Medium,
                     textAlign = TextAlign.Start
                 )
