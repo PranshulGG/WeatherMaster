@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 
 data class GeoNamesSearchJson(
-    val geonames: List<GeoNamesSearchItemJson>
+    val geonames: List<GeoNamesSearchItemJson>?
 )
 
 data class GeoNamesSearchItemJson(

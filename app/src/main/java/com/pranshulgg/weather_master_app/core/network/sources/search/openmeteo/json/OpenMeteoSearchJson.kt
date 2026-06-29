@@ -3,7 +3,7 @@ package com.pranshulgg.weather_master_app.core.network.sources.search.openmeteo.
 import com.google.gson.annotations.SerializedName
 
 data class OpenMeteoSearchJson(
-    val results: List<OpenMeteoSearchItemJson>
+    val results: List<OpenMeteoSearchItemJson>?
 )
 
 data class OpenMeteoSearchItemJson(

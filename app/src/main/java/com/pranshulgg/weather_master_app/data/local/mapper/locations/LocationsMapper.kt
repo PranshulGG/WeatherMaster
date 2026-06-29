@@ -6,8 +6,13 @@ import com.pranshulgg.weather_master_app.core.network.sources.search.openmeteo.j
 import com.pranshulgg.weather_master_app.core.utils.ids.UuidGenerator
 import com.pranshulgg.weather_master_app.data.local.entity.location.WeatherLocationEntity
 
-fun OpenMeteoSearchJson.toDomain(): List<Location> =
-    List(results.size) {
+fun OpenMeteoSearchJson.toDomain(): List<Location> {
+
+    if (results.isNullOrEmpty()) {
+        return emptyList()
+    }
+
+    return List(results.size) {
         Location(
             id = UuidGenerator.generateId(),
             name = results[it].name,
@@ -20,10 +25,15 @@ fun OpenMeteoSearchJson.toDomain(): List<Location> =
             isDefault = false
         )
     }
+}
 
 
-fun GeoNamesSearchJson.toDomain(): List<Location> =
-    List(geonames.size) {
+fun GeoNamesSearchJson.toDomain(): List<Location> {
+    if (geonames.isNullOrEmpty()) {
+        return emptyList()
+    }
+
+    return List(geonames.size) {
         Location(
             id = UuidGenerator.generateId(),
             name = geonames[it].name,
@@ -36,6 +46,7 @@ fun GeoNamesSearchJson.toDomain(): List<Location> =
             isDefault = false
         )
     }
+}
 
 fun Location.toEntity(): WeatherLocationEntity =
     WeatherLocationEntity(
