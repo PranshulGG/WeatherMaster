@@ -7,12 +7,4 @@ import com.pranshulgg.weather_master_app.data.worker.WeatherWorker
 
 class WeatherWidgetReceiver : GlanceAppWidgetReceiver() {
     override val glanceAppWidget = WeatherWidget()
-    override fun onUpdate(
-        context: Context,
-        appWidgetManager: AppWidgetManager,
-        appWidgetIds: IntArray
-    ) {
-        super.onUpdate(context, appWidgetManager, appWidgetIds)
-        WeatherWorker.runWorkerOnce(context)
-    }
 }

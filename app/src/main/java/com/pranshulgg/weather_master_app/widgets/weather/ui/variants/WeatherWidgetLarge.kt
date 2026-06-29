@@ -1,8 +1,6 @@
-package com.pranshulgg.weather_master_app.widgets.weather.ui
+package com.pranshulgg.weather_master_app.widgets.weather.ui.variants
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceModifier
@@ -24,21 +22,26 @@ import androidx.glance.layout.width
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
+import com.pranshulgg.weather_master_app.widgets.config.WidgetConfig
 import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
+import com.pranshulgg.weather_master_app.widgets.ui.ReloadButton
 import com.pranshulgg.weather_master_app.widgets.weather.components.WidgetHourlyItem
 
 @Composable
-fun WeatherWidgetNormal(state: WidgetWeather?, size: DpSize) {
+fun WeatherWidgetLarge(state: WidgetWeather?, count: Int, config: WidgetConfig) {
 
     val textColor = GlanceTheme.colors.onSurface
     val textColorVariant = GlanceTheme.colors.onSurfaceVariant
-    val itemWidth = 40.dp
-    val count = ((size.width) / itemWidth).toInt().coerceIn(1, state?.hourly?.size)
+
+    val mainIconSize = 32 * config.iconSize
+    val textFontSize = 18 * config.fontSize
+    val locationFontSize = 16 * config.fontSize
+    val tempFontSize = 42 * config.fontSize
 
 
-    if (state != null)
+    if (state != null) {
         Column(
-            modifier = GlanceModifier.fillMaxSize().padding(24.dp),
+            modifier = GlanceModifier.fillMaxSize().padding(18.dp),
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -56,14 +59,14 @@ fun WeatherWidgetNormal(state: WidgetWeather?, size: DpSize) {
                         Image(
                             provider = ImageProvider(state.currentIcon),
                             contentDescription = null,
-                            modifier = GlanceModifier.size(32.dp)
+                            modifier = GlanceModifier.size(mainIconSize.dp)
                         )
                         Spacer(GlanceModifier.width(6.dp))
                         Text(
                             state.currentCondition,
                             style = TextStyle(
                                 color = textColor,
-                                fontSize = 22.sp,
+                                fontSize = textFontSize.sp,
                                 fontWeight = FontWeight.Medium,
                             ),
                             modifier = GlanceModifier.fillMaxWidth(),
@@ -75,7 +78,7 @@ fun WeatherWidgetNormal(state: WidgetWeather?, size: DpSize) {
                         Text(
                             state.daily.first().tempMax,
                             style = TextStyle(
-                                fontSize = 22.sp,
+                                fontSize = textFontSize.sp,
                                 color = GlanceTheme.colors.onSurface,
                                 fontWeight = FontWeight.Medium
                             )
@@ -84,7 +87,7 @@ fun WeatherWidgetNormal(state: WidgetWeather?, size: DpSize) {
                         Text(
                             state.daily.first().tempMin,
                             style = TextStyle(
-                                fontSize = 22.sp,
+                                fontSize = textFontSize.sp,
                                 color = GlanceTheme.colors.onSurfaceVariant,
                                 fontWeight = FontWeight.Medium
                             )
@@ -98,7 +101,7 @@ fun WeatherWidgetNormal(state: WidgetWeather?, size: DpSize) {
                         state.locationName,
                         style = TextStyle(
                             color = textColorVariant,
-                            fontSize = 17.sp,
+                            fontSize = locationFontSize.sp,
                             fontWeight = FontWeight.Medium
                         )
                     )
@@ -106,7 +109,7 @@ fun WeatherWidgetNormal(state: WidgetWeather?, size: DpSize) {
                         state.currentTemp,
                         style = TextStyle(
                             color = GlanceTheme.colors.primary,
-                            fontSize = 42.sp,
+                            fontSize = tempFontSize.sp,
                             fontWeight = FontWeight.Bold,
                         )
                     )
@@ -118,15 +121,22 @@ fun WeatherWidgetNormal(state: WidgetWeather?, size: DpSize) {
                 verticalAlignment = Alignment.Bottom,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = GlanceModifier.fillMaxWidth().background(GlanceTheme.colors.background)
-                    .padding(8.dp).cornerRadius(16.dp)
+                    .cornerRadius(16.dp)
             ) {
+                val hourlyIconSize = 22 * config.iconSize
+                val hourlyTextSize = 14 * config.fontSize
                 state.hourly.take(count).forEach {
                     WidgetHourlyItem(
                         it.time,
                         it.temp,
-                        it.conditionIcon
+                        it.conditionIcon,
+                        hourlyIconSize,
+                        hourlyTextSize
                     )
                 }
             }
         }
+    } else {
+        ReloadButton()
+    }
 }

@@ -22,9 +22,12 @@ import com.pranshulgg.weather_master_app.MainActivity
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateDefinition
 import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateJson
+import com.pranshulgg.weather_master_app.widgets.model.WidgetVariant
 import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
 import com.pranshulgg.weather_master_app.widgets.params.WidgetSizePoints
-import com.pranshulgg.weather_master_app.widgets.weather.ui.WeatherWidgetNormal
+import com.pranshulgg.weather_master_app.widgets.weather.ui.variants.WeatherWidgetCompact
+import com.pranshulgg.weather_master_app.widgets.weather.ui.variants.WeatherWidgetLarge
+import com.pranshulgg.weather_master_app.widgets.weather.ui.variants.WeatherWidgetSmall
 import kotlinx.serialization.json.Json
 
 
@@ -52,12 +55,20 @@ class WeatherWidget : GlanceAppWidget() {
             val state = json?.let {
                 Json.decodeFromString<WidgetWeather>(it)
             }
+            val config = widgetState.config
 
             Box(
                 GlanceModifier.fillMaxSize().appWidgetBackgroundShape()
                     .clickable(actionStartActivity<MainActivity>())
             ) {
-                WeatherWidgetNormal(state, size)
+
+                when (config.variant) {
+
+                    WidgetVariant.LARGE -> WeatherWidgetLarge(state, config.hourlyCount, config)
+                    WidgetVariant.COMPACT -> WeatherWidgetCompact(state)
+                    else -> WeatherWidgetSmall(state, config)
+                }
+
             }
         }
     }
