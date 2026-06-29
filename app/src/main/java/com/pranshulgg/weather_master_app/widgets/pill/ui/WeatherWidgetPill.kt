@@ -1,6 +1,8 @@
 package com.pranshulgg.weather_master_app.widgets.pill.ui
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.ColorFilter
@@ -26,17 +28,15 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
+import com.pranshulgg.weather_master_app.widgets.ui.ReloadButton
 
 
 @Composable
 fun WeatherWidgetPill(state: WidgetWeather?) {
     val textColor = GlanceTheme.colors.primary
-    val size = LocalSize.current
 
-    val iconSize = (size.height * 0.15f + size.width * 0.15f).coerceIn(24.dp, 100.dp)
-    val fontSize = (size.height * 0.15f + size.width * 0.15f).coerceIn(24.dp, 200.dp).value.sp
 
-    if (state != null)
+    if (state != null) {
         Box(
             modifier = GlanceModifier.fillMaxSize(),
             contentAlignment = Alignment.Center
@@ -47,6 +47,7 @@ fun WeatherWidgetPill(state: WidgetWeather?) {
                 colorFilter = ColorFilter.tint(
                     GlanceTheme.colors.widgetBackground
                 ),
+                modifier = GlanceModifier.fillMaxSize()
             )
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -55,17 +56,17 @@ fun WeatherWidgetPill(state: WidgetWeather?) {
                     state.currentTemp,
                     style = TextStyle(
                         color = textColor,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = fontSize,
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 58.sp,
                     ),
-                    modifier = GlanceModifier.padding(start = 25.dp)
+                    modifier = GlanceModifier.padding(start = 38.dp)
                 )
 
-                Spacer(modifier = GlanceModifier.height(iconSize / 1.2f))
+                Spacer(modifier = GlanceModifier.height(50.dp))
             }
             Row(
                 modifier = GlanceModifier.fillMaxWidth().fillMaxHeight()
-                    .padding(top = iconSize),
+                    .padding(top = 70.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -73,11 +74,14 @@ fun WeatherWidgetPill(state: WidgetWeather?) {
                     provider = ImageProvider(state.currentIcon),
                     contentDescription = null,
                     modifier = GlanceModifier
-                        .size(iconSize)
+                        .size(64.dp)
                 )
-                Spacer(modifier = GlanceModifier.width(iconSize / 1.1f))
+                Spacer(modifier = GlanceModifier.width(60.dp))
             }
         }
+    } else {
+        ReloadButton()
+    }
 
 }
 
