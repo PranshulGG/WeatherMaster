@@ -48,14 +48,17 @@ import com.pranshulgg.weather_master_app.MainActivity
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateDefinition
 import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateJson
+import com.pranshulgg.weather_master_app.widgets.config.WidgetConfig
 import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
 import com.pranshulgg.weather_master_app.widgets.params.WidgetSizePoints
+import com.pranshulgg.weather_master_app.widgets.ui.ReloadButton
 import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetColors
 import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTheme
 import com.pranshulgg.weather_master_app.widgets.ui.views.WidgetClock
 import com.pranshulgg.weather_master_app.widgets.ui.views.WidgetDate
 import kotlinx.serialization.json.Json
 import kotlin.math.min
+import kotlin.math.round
 import kotlin.math.roundToInt
 
 
@@ -75,7 +78,6 @@ class ClockDailyWidget : GlanceAppWidget() {
 
 
         provideContent {
-            val size = LocalSize.current
             val widgetState =
                 currentState<WeatherWidgetStateJson>()
             val widgetColors = WidgetColors()
@@ -94,14 +96,20 @@ class ClockDailyWidget : GlanceAppWidget() {
 
                 val textColor = widgetColors
                     .getTextColor(config.widgetTextTheme, config.widgetTheme)
-                    ?: Pair(GlanceTheme.colors.onSurface, R.color.white)
+                    ?: Pair(GlanceTheme.colors.onSurface, null)
+
+
+                val clockFontSize = 50 * config.fontSize
+                val dateConditionFontSize = 18 * config.fontSize
+                val mainIconSize = 52 * config.iconSize
+
 
                 Box(
                     modifier.clickable(actionStartActivity<MainActivity>())
                 ) {
                     Column(
                         GlanceModifier.fillMaxSize()
-                            .padding(start = 24.dp, end = 24.dp, top = 24.dp, bottom = 16.dp)
+                            .padding(start = 18.dp, end = 18.dp, top = 18.dp, bottom = 12.dp)
                     ) {
                         Row(
                             GlanceModifier.fillMaxWidth(),
@@ -111,14 +119,14 @@ class ClockDailyWidget : GlanceAppWidget() {
                                 modifier = GlanceModifier.wrapContentSize()
                                     .clickable(onClick = openAvailableClockApp())
                             ) {
-                                WidgetClock(56f, context, color = textColor.second)
+                                WidgetClock(clockFontSize, context, color = textColor.second)
                             }
 
                             Spacer(GlanceModifier.defaultWeight())
                             Image(
                                 provider = ImageProvider(state.currentIcon),
                                 contentDescription = null,
-                                modifier = GlanceModifier.size(58.dp)
+                                modifier = GlanceModifier.size(mainIconSize.dp)
                             )
                         }
                         Row(GlanceModifier.fillMaxWidth()) {
@@ -126,14 +134,19 @@ class ClockDailyWidget : GlanceAppWidget() {
                                 modifier = GlanceModifier.wrapContentSize()
                                     .clickable(openAvailableCalendarApp())
                             ) {
-                                WidgetDate(config.dateFormat, context, color = textColor.second)
+                                WidgetDate(
+                                    config.dateFormat,
+                                    context,
+                                    color = textColor.second,
+                                    dateConditionFontSize
+                                )
                             }
                             Spacer(GlanceModifier.width(16.dp))
                             Text(
                                 "${state.currentTemp} ${state.currentCondition}",
                                 style = TextStyle(
                                     color = textColor.first,
-                                    fontSize = 20.sp,
+                                    fontSize = dateConditionFontSize.sp,
                                     textAlign = TextAlign.End
                                 ),
                                 modifier = GlanceModifier.defaultWeight(),
@@ -146,22 +159,26 @@ class ClockDailyWidget : GlanceAppWidget() {
                             GlanceModifier.fillMaxWidth(),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            state.daily.take(5).forEach {
+                            state.daily.take(config.dailyCount).forEach {
                                 Column(
                                     horizontalAlignment = Alignment.CenterHorizontally,
-                                    modifier = GlanceModifier.defaultWeight().height(80.dp)
+                                    modifier = GlanceModifier.defaultWeight()
+                                        .padding(vertical = 5.dp)
                                 ) {
                                     DailyItem(
                                         day = it.time,
                                         icon = it.conditionIcon,
                                         temps = "${it.tempMax}/${it.tempMin}",
-                                        textColor = textColor
+                                        textColor = textColor,
+                                        config
                                     )
                                 }
                             }
                         }
                     }
                 }
+            } else {
+                ReloadButton()
             }
         }
     }
@@ -213,29 +230,33 @@ private fun DailyItem(
     day: String,
     icon: Int,
     temps: String,
-    textColor: Pair<ColorProvider, Int>,
+    textColor: Pair<ColorProvider, Int?>,
+    config: WidgetConfig
 ) {
+    val fontSize = 15 * config.fontSize
+
+    val iconSize = 28 * config.iconSize
 
     Text(
         day,
         style = TextStyle(
             color = textColor.first,
             fontWeight = FontWeight.Medium,
-            fontSize = 16.sp
+            fontSize = fontSize.sp
         )
     )
     Spacer(GlanceModifier.height(3.dp))
     Image(
         provider = ImageProvider(icon),
         contentDescription = "",
-        modifier = GlanceModifier.size(28.dp)
+        modifier = GlanceModifier.size(iconSize.dp)
     )
     Spacer(GlanceModifier.height(3.dp))
     Text(
         temps,
         style = TextStyle(
             color = textColor.first,
-            fontWeight = FontWeight.Medium, fontSize = 16.sp
+            fontWeight = FontWeight.Medium, fontSize = fontSize.sp
         )
     )
 
