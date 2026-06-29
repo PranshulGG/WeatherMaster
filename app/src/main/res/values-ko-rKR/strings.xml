@@ -204,9 +204,9 @@
     <string name="setting_weather_based_theme">날씨 기반 테마</string>
     <string name="setting_weather_based_theme_secondary">현재 날씨 조건에 따라 앱 색상을 자동으로 조정합니다.</string>
     <string name="unit_pressure_mmhg">수은주 밀리미터</string>
-    <string name="summary_overview_template_1">%1$s through most of the day.</string>
+    <string name="summary_overview_template_1">하루 종일 %1$s도</string>
     <string name="summary_overview_template_2">Expect %1$s conditions for the day.</string>
-    <string name="summary_overview_template_3">%1$s conditions are expected.</string>
+    <string name="summary_overview_template_3">%1$s도의 날씨가 예상됩니다.</string>
     <string name="summary_overview_template_4">Skies will stay %1$s for much of the day.</string>
     <string name="summary_rain_high_template_1">Rain is highly likely around %1$s.</string>
     <string name="summary_rain_high_template_2">Periods of rain are expected near %1$s.</string>
@@ -226,7 +226,7 @@
     <string name="summary_snow_medium_template_1">Snow is possible around %1$s.</string>
     <string name="summary_snow_medium_template_2">Light snowfall may develop near %1$s.</string>
     <string name="summary_snow_medium_template_3">Wintry conditions could arrive around %1$s.</string>
-    <string name="summary_snow_medium_template_4">Snow showers are possible later.</string>
+    <string name="summary_snow_medium_template_4">나중에 눈이 내릴 것으로 예상됩니다.</string>
     <string name="summary_snow_low_template_1">A slight chance of snow remains near %1$s.</string>
     <string name="summary_snow_low_template_2">Isolated flurries may occur around %1$s.</string>
     <string name="summary_snow_low_template_3">Light snow is possible later in the day.</string>
@@ -240,20 +240,20 @@
     <string name="summary_uv_moderate_template_2">Moderate UV exposure is expected.</string>
     <string name="summary_uv_moderate_template_3">Sun exposure will remain moderate throughout the day.</string>
     <string name="summary_temp_hot_template_1">Hot conditions are expected with temperatures near %1$s.</string>
-    <string name="summary_temp_hot_template_2">Temperatures will remain very high throughout the day.</string>
+    <string name="summary_temp_hot_template_2">낮 동안 기온은 매우 높겠습니다.</string>
     <string name="summary_temp_hot_template_3">Extreme heat is expected with lows near %1$s overnight.</string>
     <string name="summary_temp_warm_template_1">Warm weather is expected with temperatures around %1$s.</string>
     <string name="summary_temp_warm_template_2">Temperatures will stay comfortably warm through the day.</string>
     <string name="summary_temp_warm_template_3">Daytime temperatures will average near %1$s.</string>
     <string name="summary_temp_mild_template_1">Mild temperatures are expected throughout the day.</string>
     <string name="summary_temp_mild_template_2">Comfortable conditions will continue with temperatures near %1$s.</string>
-    <string name="summary_temp_mild_template_3">Temperatures will remain moderate overall.</string>
-    <string name="summary_temp_cool_template_1">Cool conditions are expected with temperatures around %1$s.</string>
+    <string name="summary_temp_mild_template_3">기온은 전반적으로 온화한 수준을 유지하겠습니다.</string>
+    <string name="summary_temp_cool_template_1">기온은 약 %1$s도로 선선한 날씨가 예상됩니다.</string>
     <string name="summary_temp_cool_template_2">The day will stay relatively cool overall.</string>
     <string name="summary_temp_cool_template_3">Chilly weather will continue through much of the day.</string>
-    <string name="summary_temp_cold_template_1">Cold weather is expected throughout the day.</string>
+    <string name="summary_temp_cold_template_1">하루 종일 추운 날씨가 예상됩니다.</string>
     <string name="summary_temp_cold_template_2">Temperatures will remain low with chilly conditions persisting.</string>
-    <string name="summary_temp_cold_template_3">Very cold air will keep temperatures near %1$s.</string>
+    <string name="summary_temp_cold_template_3">매우 차가운 공기로 인해 온도가 %1$도 근처로 유지 될 것으로 예상됩니다.</string>
     <string name="weather_summary">요약</string>
     <string name="about_changelog">변경 내역</string>
     <string name="about">정보</string>
@@ -306,5 +306,6 @@
     <string name="setting_app_font">앱 글꼴</string>
     <string name="setting_system_font">기기 글꼴</string>
     <string name="weather_minimum">Minimum</string>
+    <string name="error_no_results_found">No results found</string>
 </resources>
 <!--<string name=""></string>-->
