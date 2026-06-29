@@ -35,6 +35,7 @@ import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateDefinition
 import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateJson
 import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
 import com.pranshulgg.weather_master_app.widgets.params.getWidgetParams
+import com.pranshulgg.weather_master_app.widgets.ui.ReloadButton
 import kotlinx.serialization.json.Json
 
 
@@ -59,7 +60,7 @@ class SummaryWidget : GlanceAppWidget() {
                 GlanceModifier.fillMaxSize().appWidgetBackgroundShape()
                     .clickable(actionStartActivity<MainActivity>())
             ) {
-                if (state != null)
+                if (state != null) {
                     Column(GlanceModifier.padding(16.dp).fillMaxSize()) {
                         Row {
                             Image(
@@ -88,6 +89,9 @@ class SummaryWidget : GlanceAppWidget() {
 
                             )
                     }
+                } else {
+                    ReloadButton()
+                }
             }
         }
     }
