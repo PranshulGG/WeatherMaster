@@ -9,5 +9,6 @@
     android:targetCellHeight="2"
     android:updatePeriodMillis="0"
     android:resizeMode="horizontal|vertical"
+    android:configure="com.pranshulgg.weather_master_app.widgets.config.WidgetConfigActivity"
     android:widgetCategory="home_screen"
     android:previewImage="@drawable/weather_preview" />
