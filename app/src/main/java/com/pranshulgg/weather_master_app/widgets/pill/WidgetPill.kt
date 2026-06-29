@@ -32,10 +32,7 @@ import kotlinx.serialization.json.Json
 
 class WidgetPill : GlanceAppWidget() {
 
-    override val sizeMode = SizeMode.Responsive(
-        sizes = WidgetSizePoints.SIZES
-
-    )
+    override val sizeMode = SizeMode.Exact
     override val stateDefinition =
         WeatherWidgetStateDefinition
 
