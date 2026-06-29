@@ -265,7 +265,6 @@ class WeatherViewModel @Inject constructor(
         if (location.isDefault && !_uiState.value.isError && _uiState.value.weather != null) {
             WeatherUpdateScheduler.updateAllWidgets(
                 context,
-                skipForegroundCheck = true,
                 _uiState.value.weather!!,
                 _uiState.value.weatherUnits
             )
