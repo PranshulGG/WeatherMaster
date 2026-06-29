@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -76,50 +77,53 @@ fun GlanceWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surfaceContainer
     ) { paddingValues ->
-        Column(Modifier.padding(paddingValues)) {
-            Column(Modifier.verticalScroll(rememberScrollState())) {
-                Surface(
-                    color = Color.Black,
-                    shape = RoundedCornerShape(ShapeRadius.ExtraLarge),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
-                ) {
-                    GlanceWidgetPreview(clockSize, showClock, dateFormat)
-                }
+        Column(
+            Modifier
+                .padding(paddingValues)
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+        ) {
+            Surface(
+                color = Color.Black,
+                shape = RoundedCornerShape(ShapeRadius.ExtraLarge),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                GlanceWidgetPreview(clockSize, showClock, dateFormat)
+            }
 
-                SettingSection(
-                    title = stringResource(R.string.setting_appearance),
-                    tiles = listOf(
-                        SettingTile.DialogOptionTile(
-                            leading = { SettingsTileIcon(R.drawable.format_size_24px) },
-                            title = "Clock size",
-                            options = clockSizeOptions,
-                            selectedOption = clockSize.toString(),
-                            onOptionSelected = {
-                                clockSize = it.toSafeDouble()?.toFloat() ?: 36f
-                            }
-                        ),
-                        SettingTile.SwitchTile(
-                            title = "Show clock",
-                            leading = { SettingsTileIcon(R.drawable.schedule_48px) },
-                            checked = showClock,
-                            onCheckedChange = {
-                                showClock = it
-                            }
-                        ),
-                        SettingTile.DialogOptionTile(
-                            leading = { SettingsTileIcon(R.drawable.date_range_24px) },
-                            title = "Date format",
-                            options = formatsOptions,
-                            selectedOption = dateFormat,
-                            onOptionSelected = {
-                                dateFormat = it
-                            }
-                        )
+            SettingSection(
+                title = stringResource(R.string.setting_appearance),
+                tiles = listOf(
+                    SettingTile.DialogOptionTile(
+                        leading = { SettingsTileIcon(R.drawable.format_size_24px) },
+                        title = "Clock size",
+                        options = clockSizeOptions,
+                        selectedOption = clockSize.toString(),
+                        onOptionSelected = {
+                            clockSize = it.toSafeDouble()?.toFloat() ?: 36f
+                        }
+                    ),
+                    SettingTile.SwitchTile(
+                        title = "Show clock",
+                        leading = { SettingsTileIcon(R.drawable.schedule_48px) },
+                        checked = showClock,
+                        onCheckedChange = {
+                            showClock = it
+                        }
+                    ),
+                    SettingTile.DialogOptionTile(
+                        leading = { SettingsTileIcon(R.drawable.date_range_24px) },
+                        title = "Date format",
+                        options = formatsOptions,
+                        selectedOption = dateFormat,
+                        onOptionSelected = {
+                            dateFormat = it
+                        }
                     )
                 )
-            }
+            )
 
             Spacer(Modifier.weight(1f))
             Button(

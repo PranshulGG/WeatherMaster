@@ -35,6 +35,7 @@ import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateDefinition
 import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateJson
 import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
 import com.pranshulgg.weather_master_app.widgets.params.WidgetSizePoints
+import com.pranshulgg.weather_master_app.widgets.ui.ReloadButton
 import com.pranshulgg.weather_master_app.widgets.ui.views.WidgetClock
 import com.pranshulgg.weather_master_app.widgets.ui.views.WidgetDate
 import kotlinx.serialization.json.Json
@@ -69,13 +70,13 @@ class GlanceWidget : GlanceAppWidget() {
                 GlanceModifier.fillMaxSize()
                     .clickable(actionStartActivity<MainActivity>())
             ) {
-                if (state != null)
+                if (state != null) {
                     Column(GlanceModifier.fillMaxWidth().padding(16.dp)) {
                         if (config.showClock) {
-                            WidgetClock(config.clockSize, context)
+                            WidgetClock(config.clockSize, context, R.color.white)
                         }
 
-                        WidgetDate(config.dateFormat, context)
+                        WidgetDate(config.dateFormat, context, size = 20f, color = R.color.white)
 
                         Spacer(GlanceModifier.height(5.dp))
                         Row() {
@@ -121,8 +122,13 @@ class GlanceWidget : GlanceAppWidget() {
                             }
                         }
                     }
+                } else {
+                    ReloadButton()
+                }
             }
+
         }
+
     }
 
 }
