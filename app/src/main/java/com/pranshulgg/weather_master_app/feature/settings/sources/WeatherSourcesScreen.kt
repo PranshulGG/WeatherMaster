@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -46,6 +48,19 @@ fun WeatherSourcesScreen(navController: NavController) {
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
+            Gap(8.dp)
+            Text(
+                "Want a source to be added? You can request it here",
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.secondary,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+            Gap(5.dp)
+            Button(onClick = {
+                uriHandler.openUri("https://github.com/PranshulGG/WeatherMaster/issues/new?template=new_source.yaml")
+            }, modifier = Modifier.padding(horizontal = 16.dp), shapes = ButtonDefaults.shapes()) {
+                Text("Request")
+            }
             Gap(12.dp)
             WeatherSource.entries.forEach {
                 SettingSection(
