@@ -163,11 +163,7 @@ fun PressureHourlyCard(
                         }
                         Gap(5.dp)
                         Text(
-                            formatLocalizedNumber(
-                                locale = getCurrentAppLocale(),
-                                number = formatter(item.pressureMsl)!!,
-                                decimalPlaces = 1
-                            ),
+                            item.pressureMsl.roundToInt().toString(),
                             color = MaterialTheme.colorScheme.primary,
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold
