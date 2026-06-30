@@ -1,6 +1,9 @@
 package com.pranshulgg.weather_master_app.data.worker.widgets
 
 import android.content.Context
+import android.util.Log
+import androidx.glance.GlanceId
+import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.state.updateAppWidgetState
 import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
@@ -26,60 +29,30 @@ class WeatherWidgetUpdater(
     private val widgetClockDaily = ClockDailyWidget()
 
     suspend fun update(json: String) {
+        val manager = GlanceAppWidgetManager(context)
 
-        val manager =
-            GlanceAppWidgetManager(context)
-
-        val widgetIds = manager.getGlanceIds(WeatherWidget::class.java)
-        val pillIds = manager.getGlanceIds(WidgetPill::class.java)
-        val summaryIds = manager.getGlanceIds(SummaryWidget::class.java)
-        val widgetHorizontalIds = manager.getGlanceIds(WeatherHorizontalWidget::class.java)
-        val clockDailyIds = manager.getGlanceIds(ClockDailyWidget::class.java)
-
-
-        val widgetGlanceIds = manager.getGlanceIds(GlanceWidget::class.java)
-
-        widgetIds.forEach {
-            updateAppWidgetState(context, WeatherWidgetStateDefinition, it) { current ->
-                current.copy(json = json, config = current.config)
+        suspend fun <T : GlanceAppWidget> updateWidgets(
+            widget: T,
+            ids: List<GlanceId>
+        ) {
+            ids.forEach { id ->
+                try {
+                    updateAppWidgetState(context, WeatherWidgetStateDefinition, id) { current ->
+                        current.copy(json = json, config = current.config)
+                    }
+                    widget.update(context, id)
+                } catch (e: Exception) {
+                    Log.e("WeatherWidgetUpdater", "Failed to update widget $id", e)
+                }
             }
-            widget.update(context, it)
         }
 
-        pillIds.forEach {
-            updateAppWidgetState(context, WeatherWidgetStateDefinition, it) { current ->
-                current.copy(json = json, config = current.config)
-            }
-            pill.update(context, it)
-        }
-
-        summaryIds.forEach {
-            updateAppWidgetState(context, WeatherWidgetStateDefinition, it) { current ->
-                current.copy(json = json, config = current.config)
-            }
-            summary.update(context, it)
-        }
-
-
-        widgetHorizontalIds.forEach {
-            updateAppWidgetState(context, WeatherWidgetStateDefinition, it) { current ->
-                current.copy(json = json, config = current.config)
-            }
-            widgetHorizontal.update(context, it)
-        }
-
-        widgetGlanceIds.forEach {
-            updateAppWidgetState(context, WeatherWidgetStateDefinition, it) { current ->
-                current.copy(json = json, config = current.config)
-            }
-            widgetGlance.update(context, it)
-        }
-        clockDailyIds.forEach {
-            updateAppWidgetState(context, WeatherWidgetStateDefinition, it) { current ->
-                current.copy(json = json, config = current.config)
-            }
-            widgetClockDaily.update(context, it)
-        }
+        updateWidgets(widget, manager.getGlanceIds(WeatherWidget::class.java))
+        updateWidgets(pill, manager.getGlanceIds(WidgetPill::class.java))
+        updateWidgets(summary, manager.getGlanceIds(SummaryWidget::class.java))
+        updateWidgets(widgetHorizontal, manager.getGlanceIds(WeatherHorizontalWidget::class.java))
+        updateWidgets(widgetGlance, manager.getGlanceIds(GlanceWidget::class.java))
+        updateWidgets(widgetClockDaily, manager.getGlanceIds(ClockDailyWidget::class.java))
     }
 
     suspend fun saveWidgetConfig(

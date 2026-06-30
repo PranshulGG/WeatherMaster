@@ -77,6 +77,7 @@ class WeatherWorker @AssistedInject constructor(
             return Result.success()
 
         } catch (e: Exception) {
+            WeatherNotification.hideNotification(applicationContext)
             Result.failure()
         } finally {
             WeatherNotification.hideNotification(applicationContext)
