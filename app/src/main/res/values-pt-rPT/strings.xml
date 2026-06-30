@@ -34,7 +34,7 @@
         <item quantity="other">Há %d horas</item>
     </plurals>
     <plurals name="time_days_ago">
-        <item quantity="one">Ontem</item>
+        <item quantity="one">%d Ontem</item>
         <item quantity="other">Há %d dias</item>
     </plurals>
     <string name="time_just_now">Agora mesmo</string>
@@ -310,5 +310,4 @@
     <string name="setting_system_font">System font</string>
     <string name="weather_minimum">Minimum</string>
     <string name="error_no_results_found">No results found</string>
-</resources>
-<!--<string name=""></string>-->
+</resources><!--<string name=""></string>-->
