@@ -306,6 +306,6 @@
     <string name="setting_app_font">アプリのフォント</string>
     <string name="setting_system_font">システムのフォント</string>
     <string name="weather_minimum">最小</string>
-    <string name="error_no_results_found">No results found</string>
+    <string name="error_no_results_found">検索結果が見つかりませんでした</string>
 </resources>
 <!--<string name=""></string>-->
