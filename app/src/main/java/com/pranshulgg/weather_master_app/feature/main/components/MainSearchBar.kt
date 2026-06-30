@@ -40,7 +40,8 @@ fun MainSearchBar(
     navController: NavController,
     drawerState: DrawerState,
     activeLocation: Location?,
-    onEditLocation: () -> Unit
+    onEditLocation: () -> Unit,
+    isTabletLike: Boolean
 ) {
     val scope = rememberCoroutineScope()
     val showDrawer = {
@@ -92,14 +93,16 @@ fun MainSearchBar(
             verticalAlignment = Alignment.CenterVertically
         ) {
 
-            Tooltip("Show menu", preferredPosition = TooltipAnchorPosition.Below) {
-                IconButton(onClick = {
-                    showDrawer()
-                }) {
-                    Symbol(
-                        R.drawable.menu_24px,
-                        color = if (isFroggyLayout) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface
-                    )
+            if (!isTabletLike) {
+                Tooltip("Show menu", preferredPosition = TooltipAnchorPosition.Below) {
+                    IconButton(onClick = {
+                        showDrawer()
+                    }) {
+                        Symbol(
+                            R.drawable.menu_24px,
+                            color = if (isFroggyLayout) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface
+                        )
+                    }
                 }
             }
             Gap(horizontal = 4.dp)

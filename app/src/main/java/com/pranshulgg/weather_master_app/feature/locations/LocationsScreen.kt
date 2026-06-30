@@ -61,7 +61,8 @@ fun LocationsScreen(
     navController: NavController,
     locations: List<Location>,
     activeLocation: Location?,
-    onLocationSelect: (Location) -> Unit
+    onLocationSelect: (Location) -> Unit,
+    isTabletLike: Boolean = false
 ) {
 
     val viewModel: LocationsScreenViewModel = hiltViewModel()
@@ -101,9 +102,10 @@ fun LocationsScreen(
 
 
     Scaffold(
+        modifier = if (isTabletLike) Modifier.width(330.dp) else Modifier,
         containerColor = MaterialTheme.colorScheme.surfaceContainer,
         topBar = {
-            TopBar(onBack)
+            TopBar(onBack, isTabletLike)
         },
         floatingActionButton = {
             FloatingButton(navController)
@@ -155,7 +157,7 @@ fun LocationsScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TopBar(onBack: () -> Unit) {
+private fun TopBar(onBack: () -> Unit, isTabletLike: Boolean) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
         title = {
@@ -166,19 +168,21 @@ private fun TopBar(onBack: () -> Unit) {
             )
         },
         navigationIcon = {
-            Tooltip(
-                "Navigate up",
-                preferredPosition = TooltipAnchorPosition.Below,
-                spacing = 10.dp
-            ) {
-                IconButton(
-                    onClick = { onBack() }, shapes = IconButtonDefaults.shapes()
+            if (!isTabletLike) {
+                Tooltip(
+                    "Navigate up",
+                    preferredPosition = TooltipAnchorPosition.Below,
+                    spacing = 10.dp
                 ) {
-                    Symbol(
-                        R.drawable.arrow_back_24px,
-                        desc = "arrow back icon",
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
+                    IconButton(
+                        onClick = { onBack() }, shapes = IconButtonDefaults.shapes()
+                    ) {
+                        Symbol(
+                            R.drawable.arrow_back_24px,
+                            desc = "arrow back icon",
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
                 }
             }
         }

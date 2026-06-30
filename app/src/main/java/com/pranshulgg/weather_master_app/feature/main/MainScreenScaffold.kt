@@ -51,7 +51,8 @@ fun MainScreenScaffold(
     onRefresh: () -> Unit,
     onEditLocation: () -> Unit,
     context: Context,
-    onWeatherSourceInfoClick: () -> Unit
+    onWeatherSourceInfoClick: () -> Unit,
+    isTabletLike: Boolean
 ) {
 
 
@@ -133,7 +134,8 @@ fun MainScreenScaffold(
                             navController,
                             drawerState,
                             uiState.activeLocation,
-                            onEditLocation
+                            onEditLocation,
+                            isTabletLike
                         )
                         if (weather != null) {
 

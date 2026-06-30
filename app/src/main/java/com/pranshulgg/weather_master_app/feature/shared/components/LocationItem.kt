@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
@@ -74,7 +75,9 @@ fun LocationItem(
                     title
                 ) else Text(
                     title,
-                    color = contentColor
+                    color = contentColor,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             },
             supportingContent = {
@@ -97,7 +100,11 @@ fun LocationItem(
 @Composable
 private fun TitleForDefaultLocation(contentColor: Color, title: String) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Text(title, color = contentColor)
+        Text(
+            title, color = contentColor,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
         Gap(horizontal = 3.dp)
         Symbol(R.drawable.home_pin_24px, color = contentColor, size = 18.dp)
     }

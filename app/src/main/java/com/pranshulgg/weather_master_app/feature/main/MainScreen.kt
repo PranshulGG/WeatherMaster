@@ -75,6 +75,13 @@ fun MainScreen(navController: NavController) {
     val context = LocalContext.current
     val activeLocation = uiState.activeLocation
 
+    val density = LocalDensity.current
+    val widthDp = with(density) {
+        LocalWindowInfo.current.containerSize.width.toDp()
+    }
+
+    val isTabletLike = widthDp > 600.dp
+
     val sheetState = rememberBottomSheetState(
         initialValue = SheetValue.Hidden,
         enabledValues = setOf(SheetValue.Expanded, SheetValue.Hidden)
@@ -127,9 +134,11 @@ fun MainScreen(navController: NavController) {
                         weatherViewModel.setActiveLocation(it)
                     }
                 },
+                isTabletLike = isTabletLike
             )
         },
         drawerState = drawerState,
+        isTabletLike = isTabletLike,
         content = {
             MainScreenScaffold(
                 navController,
@@ -148,7 +157,8 @@ fun MainScreen(navController: NavController) {
                     viewModel.showWeatherSourcesForLocationSheet(uiState.isLoading)
                 },
                 context,
-                onWeatherSourceInfoClick = viewModel::showWeatherSourcesInfoForLocationSheet
+                onWeatherSourceInfoClick = viewModel::showWeatherSourcesInfoForLocationSheet,
+                isTabletLike
             )
         }
     )
