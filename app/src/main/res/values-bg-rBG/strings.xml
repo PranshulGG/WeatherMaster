@@ -309,5 +309,6 @@
     <string name="setting_app_font">Шрифт на приложението</string>
     <string name="setting_system_font">Системен шрифт</string>
     <string name="weather_minimum">Минимум</string>
+    <string name="error_no_results_found">No results found</string>
 </resources>
 <!--<string name=""></string>-->

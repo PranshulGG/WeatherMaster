@@ -19,7 +19,7 @@
     <string name="weather_wind">Vėjas</string>
     <string name="weather_visibility">Matomumas</string>
     <string name="weather_air_quality">Oro kokybė</string>
-    <string name="weather_uv_index">UV indeks.</string>
+    <string name="weather_uv_index">UV indeksas</string>
     <string name="action_ok">Gerai</string>
     <string name="settings">Nustatymai</string>
     <string name="search">Paieška</string>
@@ -216,7 +216,7 @@
     <string name="summary_overview_template_1">%1$s didžiąją dienos dalį.</string>
     <string name="summary_overview_template_2">Numatoma, kad šiandien bus %1$s.</string>
     <string name="summary_overview_template_3">Numatomos sąlygos - %1$s.</string>
-    <string name="summary_overview_template_4">Dangus didžiąją dienos dalį išliks %1$s.</string>
+    <string name="summary_overview_template_4">Didžiąją dienos dalį bus %1$s.</string>
     <string name="summary_rain_high_template_1">Labai tikėtina, kad apie %1$s palis.</string>
     <string name="summary_rain_high_template_2">Apie %1$s numatomas trumpalaikis lietus.</string>
     <string name="summary_rain_high_template_3">Apie %1$s tikėtinas lietingas oras.</string>
@@ -315,5 +315,6 @@
     <string name="setting_app_font">Šriftas</string>
     <string name="setting_system_font">Sisteminis šriftas</string>
     <string name="weather_minimum">Minimalus</string>
+    <string name="error_no_results_found">No results found</string>
 </resources>
 <!--<string name=""></string>-->

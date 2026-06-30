@@ -309,5 +309,6 @@
     <string name="setting_app_font">Police de l\'application</string>
     <string name="setting_system_font">Police du système</string>
     <string name="weather_minimum">Minimum</string>
+    <string name="error_no_results_found">No results found</string>
 </resources>
 <!--<string name=""></string>-->
