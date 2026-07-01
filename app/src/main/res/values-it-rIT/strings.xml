@@ -305,10 +305,10 @@
     <string name="setting_system">Sistema</string>
     <string name="weather_about_precipitation">Precipitazioni mostra la previsione sulla quantità di pioggia che ci si aspetta cada per ogni ora. Quantità maggiori indicano pioggia più intensa</string>
     <string name="weather_about_snowfall">Nevicata mostra la previsione sulla quantità di neve che ci si aspetta per ogni ora. Valori più alti indicano maggiori quantità di neve</string>
-    <string name="color_transparent">Transparent</string>
-    <string name="setting_app_font">App font</string>
-    <string name="setting_system_font">System font</string>
-    <string name="weather_minimum">Minimum</string>
-    <string name="error_no_results_found">No results found</string>
+    <string name="color_transparent">Trasparente </string>
+    <string name="setting_app_font">Font App</string>
+    <string name="setting_system_font">Font di sistema</string>
+    <string name="weather_minimum">Minimo</string>
+    <string name="error_no_results_found">Nessun risultato trovato</string>
 </resources>
 <!--<string name=""></string>-->
