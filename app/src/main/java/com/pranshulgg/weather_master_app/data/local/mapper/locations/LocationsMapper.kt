@@ -12,16 +12,18 @@ fun OpenMeteoSearchJson.toDomain(): List<Location> {
         return emptyList()
     }
 
-    return List(results.size) {
+    val filtered = results.filter { it.country != null }
+
+    return List(filtered.size) {
         Location(
             id = UuidGenerator.generateId(),
-            name = results[it].name,
-            latitude = results[it].latitude,
-            longitude = results[it].longitude,
-            country = results[it].country,
-            timezone = results[it].timezone,
-            countryCode = results[it].countryCode,
-            state = results[it].state ?: results[it].state2 ?: "",
+            name = filtered[it].name,
+            latitude = filtered[it].latitude,
+            longitude = filtered[it].longitude,
+            country = filtered[it].country!!,
+            timezone = filtered[it].timezone,
+            countryCode = filtered[it].countryCode,
+            state = filtered[it].state ?: filtered[it].state2 ?: "",
             isDefault = false
         )
     }
@@ -33,16 +35,18 @@ fun GeoNamesSearchJson.toDomain(): List<Location> {
         return emptyList()
     }
 
-    return List(geonames.size) {
+    val filtered = geonames.filter { it.countryName != null }
+
+    return List(filtered.size) {
         Location(
             id = UuidGenerator.generateId(),
-            name = geonames[it].name,
-            latitude = geonames[it].latitude,
-            longitude = geonames[it].longitude,
-            country = geonames[it].countryName,
+            name = filtered[it].name,
+            latitude = filtered[it].latitude,
+            longitude = filtered[it].longitude,
+            country = filtered[it].countryName!!,
             timezone = "",
-            countryCode = geonames[it].countryCode,
-            state = geonames[it].state ?: "",
+            countryCode = filtered[it].countryCode,
+            state = filtered[it].state ?: "",
             isDefault = false
         )
     }

@@ -29,11 +29,10 @@ val googleSansFlex = FontFamily(
     ),
 )
 
-val systemFontFamily = FontFamily.Default
 
 fun getAppTypography(useGoogleSans: Boolean): Typography {
 
-    val selectedFamily = if (useGoogleSans) googleSansFlex else systemFontFamily
+    val selectedFamily = if (useGoogleSans) googleSansFlex else null
 
     val appTypography = Typography().run {
         copy(

@@ -15,7 +15,7 @@ data class GeoNamesSearchItemJson(
     val longitude: Double,
 
     val name: String,
-    val countryName: String,
+    val countryName: String?,
 
     @SerializedName("countryCode")
     val countryCode: String,
