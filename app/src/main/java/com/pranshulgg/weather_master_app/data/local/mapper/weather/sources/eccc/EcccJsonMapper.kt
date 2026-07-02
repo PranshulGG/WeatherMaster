@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.eccc
 
 import android.util.Log
+import androidx.core.text.isDigitsOnly
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherCurrent
@@ -141,7 +142,10 @@ fun EcccWeatherJson.toDomain(location: Location): Weather {
 }
 
 private fun dateToMillis(dateStr: String, zoneId: String): Long {
-    val dateWithYear = "$dateStr ${Year.now().value}"
+
+    val formatted = dateStr.replace(Regex(" (\\d) ")) { " 0${it.groupValues[1]} " }
+
+    val dateWithYear = "$formatted ${Year.now().value}"
 
     val formatter = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy", Locale.ENGLISH)
 
