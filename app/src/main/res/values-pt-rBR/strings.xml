@@ -94,7 +94,7 @@
     <string name="action_set_default">Definir como padrão</string>
     <string name="action_delete">Excluir</string>
     <string name="error_delete_default_location">Não é possível excluir o local padrão</string>
-    <string name="setting_app_looks">Visual do app</string>
+    <string name="setting_app_looks">Visual do aplicativo</string>
     <string name="temp_feels_like">Sensação térmica %1$s</string>
     <string name="temp_max">Máxima: %1$s</string>
     <string name="temp_min">Mínima: %1$s</string>
@@ -132,7 +132,7 @@
     <string name="weather_aqi_pm_description">Pequenas partículas sólidas e gotículas líquidas encontradas no ar.
 São emitidas por veículos motorizados, aquecedores a lenha e indústrias. Incêndios e tempestades de poeira também podem produzir altas concentrações de Material Particulado.</string>
     <string name="weather_aqi_no2_description">Um gás e um dos principais componentes da poluição do ar no centro das cidades. Ele provém principalmente de veículos, indústrias, usinas de energia e aquecimento.</string>
-    <string name="weather_aqi_O3_description">Um gás encontrado na estratosfera. Nos protege da radiação ultravioleta perigosa e da troposfera. Ozônio é um perigoso poluente produzido pela reação química entre a luz do sol, gases orgânicos e óxido de nitrogênio (ex. Carros, Usinas de Energia)</string>
+    <string name="weather_aqi_O3_description">Um gás encontrado na estratosfera. Protege-nos da radiação ultravioleta perigosa e da troposfera. Ozônio é um perigoso poluente produzido pela reação química entre a luz do sol, gases orgânicos e óxido de nitrogênio (ex. Carros, Usinas de Energia)</string>
     <string name="weather_aqi_so2_description">Um gás tóxico com odor pungente e irritante. Pode provir de indústrias elétricas que queimam combustíveis fósseis, refinarias de petróleo, fabricação de cimento e emissões vulcânicas.</string>
     <string name="weather_aqi_co_description">Um gás proveniente de veículos motorizados ou máquinas que queimam combustíveis fósseis</string>
     <string name="weather_airquality_about_index">Os índices de qualidade do ar categorizam dados brutos em uma escala de classificação descritiva. Esses índices facilitam a identificação do nível de poluição e se há algum risco associado.</string>
@@ -175,7 +175,7 @@ São emitidas por veículos motorizados, aquecedores a lenha e indústrias. Inc�
     <string name="setting_background_updates">Atualizações em segundo plano</string>
     <string name="setting_background_updates_secondary">Intervalo entre atualizações, optimização de bateria, ajuda</string>
     <string name="setting_notification_permission_req">Permissão de notificações necessária</string>
-    <string name="setting_notification_permission_secondary">O app envia uma notificação sempre que o clima for atualizado no background</string>
+    <string name="setting_notification_permission_secondary">O aplicativo envia uma notificação sempre que o clima for atualizado no background</string>
     <string name="setting_notification">Notificação</string>
     <string name="time_hours">%1$s horas</string>
     <string name="time_hour">%1$s hora</string>
@@ -184,9 +184,9 @@ São emitidas por veículos motorizados, aquecedores a lenha e indústrias. Inc�
     <string name="setting_update_interval">Intervalo de atualizações </string>
     <string name="setting_updates">Atualizações </string>
     <string name="setting_disable_battery_opt_title">Desativar otimização de bateria</string>
-    <string name="setting_disable_battery_opt_secondary">Se as atualizações no background não estão funcionando, a otimização de bateria talvez esteja restringindo este app</string>
+    <string name="setting_disable_battery_opt_secondary">Se as atualizações no background não estão funcionando, a otimização de bateria talvez esteja restringindo este aplicativo</string>
     <string name="setting_dontkillmyapp_title">Atualizações no background não estão funcionando?</string>
-    <string name="setting_dontkillmyapp_secondary">Algumas fabricantes de dispositivos restringem o funcionamento de apps no background. Confira dontkillmyapp.com para o passo a passo de como corrigir isto</string>
+    <string name="setting_dontkillmyapp_secondary">Algumas fabricantes de dispositivos restringem o funcionamento de aplicativos no background. Confira dontkillmyapp.com para o passo a passo de como corrigir isto</string>
     <string name="setting_weather_sources_secondary">Lista de todas as fontes suportadas</string>
     <string name="setting_join_discord">Junte-se ao servidor no Discord</string>
     <string name="setting_about_app_secondary">Versão, termos, privacidade e mais</string>
@@ -207,7 +207,7 @@ São emitidas por veículos motorizados, aquecedores a lenha e indústrias. Inc�
     <string name="setting_froggy_layout_secondary">Mostrar o cartão de sapo clássico do Google Weather. Desligue para usar o novo estilo de cartão do Pixel Weather</string>
     <string name="setting_layout">Layout</string>
     <string name="setting_weather_based_theme">Tema baseado no clima</string>
-    <string name="setting_weather_based_theme_secondary">Adapta automaticamente as cores do app baseando-se nas condições de clima atuais.</string>
+    <string name="setting_weather_based_theme_secondary">Adapta automaticamente as cores do aplicativo baseando-se nas condições de clima atuais.</string>
     <string name="unit_pressure_mmhg">Milímetros de mercúrio </string>
     <string name="summary_overview_template_1">%1$s pela maior parte do dia</string>
     <string name="summary_overview_template_2">Espera-se %1$s condições ao longo do dia.</string>
@@ -307,19 +307,19 @@ São emitidas por veículos motorizados, aquecedores a lenha e indústrias. Inc�
     <string name="setting_system">Sistema</string>
     <string name="weather_about_precipitation">Precipitation shows the forecast amount of rainfall expected during each hour. Larger amounts indicate heavier rain</string>
     <string name="weather_about_snowfall">Snowfall shows the forecast amount of snow expected during each hour. Higher values indicate greater snow accumulation</string>
-    <string name="color_transparent">Transparent</string>
-    <string name="setting_app_font">App font</string>
-    <string name="setting_system_font">System font</string>
-    <string name="weather_minimum">Minimum</string>
-    <string name="error_no_results_found">No results found</string>
-    <string name="text_time">Time</string>
-    <string name="settings_24hr_time">Use 24hr time format</string>
-    <string name="about_email">Email</string>
-    <string name="settings_source_request_title">Want a source to be added? You can request it here</string>
-    <string name="action_request">Request</string>
-    <string name="source_credits_label">%1$s and more</string>
-    <string name="weather_wind_direction_from">From %1$s</string>
+    <string name="color_transparent">Transparente</string>
+    <string name="setting_app_font">Fonte do aplicativo</string>
+    <string name="setting_system_font">Fonte do sistema</string>
+    <string name="weather_minimum">Mínimo</string>
+    <string name="error_no_results_found">Nenhum resultado encontrado</string>
+    <string name="text_time">Horário</string>
+    <string name="settings_24hr_time">Usar o formato de horário de 24hr</string>
+    <string name="about_email">E-mail</string>
+    <string name="settings_source_request_title">Quer que alguma fonte seja adicionada? Você pode solicitar aqui</string>
+    <string name="action_request">Solicitar</string>
+    <string name="source_credits_label">%1$s e mais</string>
+    <string name="weather_wind_direction_from">De %1$s</string>
     <string name="day_length_hr">%1$s hrs</string>
-    <string name="error_no_results">No results found</string>
+    <string name="error_no_results">Nenhum resultado encontrado</string>
 </resources>
 <!--<string name=""></string>-->
