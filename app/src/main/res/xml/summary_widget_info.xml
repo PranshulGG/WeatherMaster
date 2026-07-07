@@ -3,7 +3,6 @@
     android:minHeight="200dp"
     android:minResizeWidth="100dp"
     android:minResizeHeight="100dp"
-    android:updatePeriodMillis="0"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen"
     android:previewImage="@drawable/summary_weather_preview" />

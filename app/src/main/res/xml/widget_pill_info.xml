@@ -3,7 +3,6 @@
     android:minHeight="150dp"
     android:minResizeWidth="150dp"
     android:minResizeHeight="150dp"
-    android:updatePeriodMillis="0"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen"
     android:previewImage="@drawable/weather_pill_preview" />

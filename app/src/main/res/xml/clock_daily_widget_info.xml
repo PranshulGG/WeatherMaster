@@ -3,7 +3,6 @@
     android:minHeight="150dp"
     android:minResizeWidth="40dp"
     android:minResizeHeight="40dp"
-    android:updatePeriodMillis="0"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen"
     android:previewImage="@drawable/clock_daily_widget_preview"
