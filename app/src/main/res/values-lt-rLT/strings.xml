@@ -11,7 +11,7 @@
     <string name="weather_precipitation_hours">Kritulių trukmė</string>
     <string name="time_now">Dabar</string>
     <string name="day_today">Šiandien</string>
-    <string name="weather_refresh_delay">Palaukite %1$d min., prieš atnaujinant dar kartą</string>
+    <string name="weather_refresh_delay">Palaukite %1$d min. prieš atnaujinant dar kartą</string>
     <string name="error_generic">Įvyko klaida. Bandykite dar kartą.</string>
     <string name="weather_moon">Mėnulis</string>
     <string name="weather_sun">Saulė</string>
