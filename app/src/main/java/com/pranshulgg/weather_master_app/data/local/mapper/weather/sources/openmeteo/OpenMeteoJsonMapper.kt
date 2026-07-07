@@ -86,16 +86,9 @@ fun OpenMeteoWeatherJson.toDomain(location: Location): Weather {
         },
         daily = List(daily.time.size) {
 
-
-            val meanCondition = getHourlyConditionsForDay(
-                hourly,
-                daily.time[it]
-            ).groupingBy { condition -> condition }
-                .eachCount().entries.maxByOrNull { map -> map.key }?.key
-
             val condition = computeDailyWeatherCondition(
                 getHourlyConditionsForDay(hourly, daily.time[it]),
-                meanCondition ?: OpenMeteoWeatherConditionMap.getCondition(daily.weatherCode[it])
+                OpenMeteoWeatherConditionMap.getCondition(daily.weatherCode[it])
             )
 
 
@@ -125,6 +118,7 @@ fun OpenMeteoWeatherJson.toDomain(location: Location): Weather {
         }
     )
 }
+
 
 private fun getHourlyConditionsForDay(
     data: OpenMeteoHourlyForecastJson,
