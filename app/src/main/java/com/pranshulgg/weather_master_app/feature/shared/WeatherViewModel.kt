@@ -64,7 +64,7 @@ class WeatherViewModel @Inject constructor(
 
                 val isLocationsEmpty = locationsRepo.isLocationsEmpty()
                 if (isLocationsEmpty) {
-                    // Locations Empty? not possible, likely a first launch
+                    // Locations Empty? can't happen, likely a first launch
                     _uiState.value = uiState.value.copy(isInitialized = true)
                 }
                 val default = locationsRepo.getDefaultLocation().filterNotNull().first()

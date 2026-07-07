@@ -130,8 +130,8 @@ fun WeatherWidgetLarge(state: WidgetWeather?, count: Int, config: WidgetConfig) 
                         it.time,
                         it.temp,
                         it.conditionIcon,
-                        hourlyIconSize,
-                        hourlyTextSize
+                        hourlyTextSize,
+                        hourlyIconSize
                     )
                 }
             }
