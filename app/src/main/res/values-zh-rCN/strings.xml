@@ -312,14 +312,14 @@
     <string name="setting_system_font">系统字体</string>
     <string name="weather_minimum">最低</string>
     <string name="error_no_results_found">未找到结果</string>
-    <string name="text_time">Time</string>
-    <string name="settings_24hr_time">Use 24hr time format</string>
-    <string name="about_email">Email</string>
-    <string name="settings_source_request_title">Want a source to be added? You can request it here</string>
-    <string name="action_request">Request</string>
-    <string name="source_credits_label">%1$s and more</string>
-    <string name="weather_wind_direction_from">From %1$s</string>
-    <string name="day_length_hr">%1$s hrs</string>
+    <string name="text_time">时间</string>
+    <string name="settings_24hr_time">使用 24 小时制</string>
+    <string name="about_email">电子邮箱</string>
+    <string name="settings_source_request_title">想添加数据源吗？可以在这里提出申请</string>
+    <string name="action_request">申请</string>
+    <string name="source_credits_label">%1$s 个及更多</string>
+    <string name="weather_wind_direction_from">%1$s风</string>
+    <string name="day_length_hr">%1$s 小时</string>
     <string name="error_no_results">未找到结果</string>
 </resources>
 <!--<string name=""></string>-->
