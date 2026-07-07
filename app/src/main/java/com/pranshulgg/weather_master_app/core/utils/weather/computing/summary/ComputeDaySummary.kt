@@ -26,6 +26,8 @@ fun computeDaySummary(
         weather.location.source
     )
 
+    val daily = weather.daily[dailyIndex]
+
     if (hourly.isEmpty()) {
         return context.getString(R.string.weather_no_data)
     }
@@ -33,9 +35,14 @@ fun computeDaySummary(
     val rain = findRainStarting(hourly)
     val snow = findSnowStarting(hourly)
     val peakUv = hourly.maxBy { it.uvIndex ?: 0.0 }
-    val maxTemp = hourly.maxOf { it.temperature ?: 0.0 }
-    val minTemp = hourly.minOf { it.temperature ?: 0.0 }
-    val avgTemp = hourly.map { it.temperature ?: 0.0 }.average()
+    val maxTemp = daily.temperatureMax
+    val minTemp = daily.temperatureMin
+
+    if (maxTemp == null || minTemp == null) {
+        return context.getString(R.string.weather_no_data)
+    }
+
+    val avgTemp = hourly.take(12).map { it.temperature ?: 0.0 }.average()
 
 
     val avgCondition = hourly.map { it.weatherCondition }.groupingBy { it }
@@ -45,6 +52,8 @@ fun computeDaySummary(
         computeDailyWeatherCondition(hourly.map { it.weatherCondition }, avgCondition!!).toLabel(
             context
         )
+
+
 
     return getHeadline(
         summaryData = SummaryData(
