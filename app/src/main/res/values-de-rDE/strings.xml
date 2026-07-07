@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_launcher_name">Wetter</string>
     <string name="weather_hourly_forecast">Stündliche Vorhersage</string>
     <string name="action_save">Speichern</string>
     <string name="action_cancel">Abbrechen</string>
@@ -310,5 +311,14 @@
     <string name="setting_system_font">System font</string>
     <string name="weather_minimum">Minimum</string>
     <string name="error_no_results_found">No results found</string>
+    <string name="text_time">Time</string>
+    <string name="settings_24hr_time">Use 24hr time format</string>
+    <string name="about_email">Email</string>
+    <string name="settings_source_request_title">Want a source to be added? You can request it here</string>
+    <string name="action_request">Request</string>
+    <string name="source_credits_label">%1$s and more</string>
+    <string name="weather_wind_direction_from">From %1$s</string>
+    <string name="day_length_hr">%1$s hrs</string>
+    <string name="error_no_results">No results found</string>
 </resources>
 <!--<string name=""></string>-->

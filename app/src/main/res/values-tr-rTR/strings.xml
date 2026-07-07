@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_launcher_name">Hava durumu</string>
     <string name="weather_hourly_forecast">Saatlik tahmin</string>
     <string name="action_save">Kaydet</string>
     <string name="action_cancel">İptal</string>
@@ -297,18 +298,27 @@
     <string name="weather_about_sun_moon_rise_set">Doğuş saati, Güneş veya Ay\'ın ufuk çizgisinin üzerinde ilk göründüğü andır. Batış saati ise Güneş veya Ay\'ın ufuk çizgisinin altında tamamen kaybolduğu andır.</string>
     <string name="weather_about_dawn_dusk">Şafak vakti, gün doğumundan hemen önce gökyüzünün aydınlanmaya başladığı dönemdir. Gün batımı sonrası (alacakaranlık) ise gün batımından hemen sonra gökyüzündeki ışığın yavaş yavaş kaybolduğu dönemdir.</string>
     <string name="weather_about_pressure">Deniz seviyesi basıncı, atmosferin uyguladığı kuvvetin ölçülüp deniz seviyesine uyarlanmış halidir. Bu basıncın değişimini takip etmek, hava durumundaki değişikliklerin erkenden fark edilmesini sağlar. Basıncın düşmesi genellikle dengesiz ve yağışlı havaların yaklaştığı anlamına gelirken, basıncın yükselmesi çoğunlukla hava koşullarının daha kararlı hale geleceğini gösterir.</string>
-    <string name="weather_about_windspeed">Wind speed is the rate at which air moves horizontally past a specific point, driven by differences in atmospheric pressure and temperature</string>
-    <string name="unit_wind_kt">Knots</string>
-    <string name="unit_wind_bft">Beaufort</string>
-    <string name="setting_day_summary">Day summary</string>
-    <string name="setting_day_summary_secondary">Show a daily summary generated from hourly data</string>
+    <string name="weather_about_windspeed">Rüzgar hızı, atmosferik basınç ve sıcaklık farklarının etkisiyle, havanın belirli bir noktadan yatay olarak geçme hızıdır</string>
+    <string name="unit_wind_kt">Knot</string>
+    <string name="unit_wind_bft">Beaufort ölçeği</string>
+    <string name="setting_day_summary">Günün Özeti</string>
+    <string name="setting_day_summary_secondary">Saatlik verilerden üretilen günlük özeti gösterin</string>
     <string name="setting_system">Sistem</string>
-    <string name="weather_about_precipitation">Precipitation shows the forecast amount of rainfall expected during each hour. Larger amounts indicate heavier rain</string>
-    <string name="weather_about_snowfall">Snowfall shows the forecast amount of snow expected during each hour. Higher values indicate greater snow accumulation</string>
-    <string name="color_transparent">Transparent</string>
-    <string name="setting_app_font">App font</string>
-    <string name="setting_system_font">System font</string>
-    <string name="weather_minimum">Minimum</string>
-    <string name="error_no_results_found">No results found</string>
+    <string name="weather_about_precipitation">Yağış, her saat boyunca beklenen tahmini yağmur miktarını gösterir. Daha yüksek miktarlar daha şiddetli yağmura işaret eder</string>
+    <string name="weather_about_snowfall">Kar yağışı, her saat boyunca beklenen tahmini kar miktarını gösterir. Daha yüksek değerler, daha fazla kar birikimine işaret eder</string>
+    <string name="color_transparent">Şeffaf</string>
+    <string name="setting_app_font">Uygulama yazı stili</string>
+    <string name="setting_system_font">Sistem yazı stili</string>
+    <string name="weather_minimum">En fazla</string>
+    <string name="error_no_results_found">Hiçbir sonuç bulunamadı</string>
+    <string name="text_time">Time</string>
+    <string name="settings_24hr_time">Use 24hr time format</string>
+    <string name="about_email">Email</string>
+    <string name="settings_source_request_title">Want a source to be added? You can request it here</string>
+    <string name="action_request">Request</string>
+    <string name="source_credits_label">%1$s and more</string>
+    <string name="weather_wind_direction_from">From %1$s</string>
+    <string name="day_length_hr">%1$s hrs</string>
+    <string name="error_no_results">Hiçbir sonuç bulunamadı</string>
 </resources>
 <!--<string name=""></string>-->

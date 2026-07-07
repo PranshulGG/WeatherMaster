@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_launcher_name">Temps</string>
     <string name="weather_hourly_forecast">Previsió per hores</string>
     <string name="action_save">Desa</string>
     <string name="action_cancel">Cancel·la</string>
@@ -129,22 +130,22 @@
     <string name="weather_aqi_description_very_poor">Alerta de salut: El risc d\'efectes sobre la salut és elevat per a tothom.</string>
     <string name="weather_aqi_description_hazardous">Alerta per salut en condicions d\'emergència. Tothom en pot sortir mal parat.</string>
     <string name="weather_aqi_pm_description">S\'han trobat partícules sòlides i gotetes a l\'aire. Són emeses per vehicles de motor, incineradors de fusta i les fàbriques. Els incendis i les tempestes també poden causar altes concentracions de partícules en suspensió.</string>
-    <string name="weather_aqi_no2_description">A gas and a major component of central city air pollution. It mainly comes from vehicles, industry, power stations, and heating</string>
-    <string name="weather_aqi_O3_description">A gas found in the stratosphere. It protects us from harmful ultraviolet radiation and the troposphere. Ozone is a harmful pollutant produced by a chemical reaction between the sun light, organic gasses, and nitrogen oxides (e.g. Cars, Power plants)</string>
-    <string name="weather_aqi_so2_description">A toxic gas with a pungent, irritating odor. It can come from electric industries that burn fossil fuels, petrol refineries, cement manufacturing, and volcano emissions</string>
-    <string name="weather_aqi_co_description">A gas from motor vehicles or machinery that burns fossil fuels</string>
+    <string name="weather_aqi_no2_description">Un gas i un component major de la contaminació de l\'aire de les ciutats centrals. Principalment ve dels vehicles, la indústria, les centrals elèctriques, i l\'escalfament</string>
+    <string name="weather_aqi_O3_description">Un gas trobat a l\'estratosfera. Ens protegeix de les radiacions de les perilloses llums ultravioletes i la troposfera. L\'ozó és un poderós contaminant produït per una reacció química entre la llum solar, els gasos orgànics, i òxids de nitrogen (p. ex.  cotxes, centrals elèctriques)</string>
+    <string name="weather_aqi_so2_description">Un gas tòxic amb una olor picant i irritant. Pot venir de les indústries elèctriques que cremen fuels de fòssils, refineries de petroli, fabricació de ciment i emissions de volcà </string>
+    <string name="weather_aqi_co_description">Un gas de vehicles motoritzats o maquinària que crema fuels de fòssils </string>
     <string name="weather_airquality_about_index">Air quality indexes categorize raw data into a descriptive rating scale. These indexes make it easier to identify the level of pollution and if there’s any associated risk</string>
     <string name="weather_average">Mitjana</string>
     <string name="weather_rain_block">Pluja</string>
     <string name="weather_snow_block">Neu</string>
-    <string name="search_source">Search source</string>
-    <string name="weather_source">Weather source</string>
+    <string name="search_source">Font de cerca</string>
+    <string name="weather_source">Font meteorològica</string>
     <string name="weather_sources">Weather sources</string>
     <string name="sources">Sources</string>
     <string name="source">Source</string>
-    <string name="recommended_sources">Recommended sources</string>
-    <string name="global_sources">Global sources</string>
-    <string name="weather_clear_with_cloudy">Clear with cloudy</string>
+    <string name="recommended_sources">Fonts recomanades</string>
+    <string name="global_sources">Fonts globals</string>
+    <string name="weather_clear_with_cloudy">Clar amb núvols </string>
     <string name="weather_clear_with_rain">Clear with rain</string>
     <string name="weather_clear_with_snow">Clear with snow</string>
     <string name="weather_cloudy_with_clear">Cloudy with clear</string>
@@ -310,5 +311,14 @@
     <string name="setting_system_font">System font</string>
     <string name="weather_minimum">Minimum</string>
     <string name="error_no_results_found">No results found</string>
+    <string name="text_time">Time</string>
+    <string name="settings_24hr_time">Use 24hr time format</string>
+    <string name="about_email">Email</string>
+    <string name="settings_source_request_title">Want a source to be added? You can request it here</string>
+    <string name="action_request">Request</string>
+    <string name="source_credits_label">%1$s and more</string>
+    <string name="weather_wind_direction_from">From %1$s</string>
+    <string name="day_length_hr">%1$s hrs</string>
+    <string name="error_no_results">No results found</string>
 </resources>
 <!--<string name=""></string>-->

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_launcher_name">Meteo</string>
     <string name="weather_hourly_forecast">Previsione oraria</string>
     <string name="action_save">Salva</string>
     <string name="action_cancel">Annulla</string>
@@ -57,7 +58,7 @@
     <string name="weather_no_condition">Nessuna condizione fornita</string>
     <string name="weather_uv_low">Min</string>
     <string name="weather_uv_moderate">Moderato</string>
-    <string name="weather_uv_high">Max</string>
+    <string name="weather_uv_high">Alto</string>
     <string name="weather_uv_very_high">Molto Alto</string>
     <string name="weather_uv_extreme">Estremo</string>
     <string name="setting_appearance">Aspetto</string>
@@ -95,7 +96,7 @@
     <string name="error_delete_default_location">Non è possibile eliminare la posizione predefinita</string>
     <string name="setting_app_looks">Aspetto app</string>
     <string name="temp_feels_like">Temperatura percepita %1$s</string>
-    <string name="temp_max">Massimo: %1$s</string>
+    <string name="temp_max">Massima: %1$s</string>
     <string name="temp_min">Minima: %1$s</string>
     <string name="search_results_provided">Risultati della ricerca forniti da %1$s</string>
     <string name="action_confirm">Conferma</string>
@@ -124,7 +125,7 @@
     <string name="weather_airquality_hazardous">Rischiosa</string>
     <string name="weather_aqi_description_good">La qualità dell\'aria è buona: l\'inquinamento atmosferico presenta pochi o nessun rischio per la salute.</string>
     <string name="weather_aqi_description_fair">La qualità dell\'aria è accettabile. Tuttavia, per alcune persone, soprattutto per coloro che sono particolarmente sensibili all\'inquinamento atmosferico, sussistono dei rischi per la salute.</string>
-    <string name="weather_aqi_description_moderate">Le persone più vulnerabili possono accusare problemi di salute. In linea generale, il resto della popolazione non dovrebbe sperimentare alcun tipo di disturbo.</string>
+    <string name="weather_aqi_description_moderate">Le persone più vulnerabili possono accusare problemi di salute. In linea generale, il resto della popolazione non dovrebbe avere alcun tipo di disturbo.</string>
     <string name="weather_aqi_description_poor">Alcune persone potrebbero soffrire di problemi di salute; le persone più vulnerabili potrebbero accusare gravi disturbi.</string>
     <string name="weather_aqi_description_very_poor">Avvertenza per la salute: maggiori probabilità di ripercussioni sulla salute per chiunque.</string>
     <string name="weather_aqi_description_hazardous">Avvertenza per la salute in condizioni di emergenza: maggiori probabilità di problemi di salute per chiunque.</string>
@@ -245,8 +246,8 @@
     <string name="summary_temp_hot_template_1">Si prevedono temperature elevate, con massime intorno ai %1$s.</string>
     <string name="summary_temp_hot_template_2">Le temperature rimarranno molte alte per tutta la giornata.</string>
     <string name="summary_temp_hot_template_3">Si prevedono temperature estremamente elevate, con minime notturne intorno ai %1$s.</string>
-    <string name="summary_temp_warm_template_1">Si prevedono temperature miti, con valori intorno ai %1$s.</string>
-    <string name="summary_temp_warm_template_2">Le temperature rimarranno piacevolmente miti per tutta la giornata.</string>
+    <string name="summary_temp_warm_template_1">Si prevedono temperature elevate, con valori intorno ai %1$s.</string>
+    <string name="summary_temp_warm_template_2">Le temperature rimarranno piacevolmente calde per tutta la giornata.</string>
     <string name="summary_temp_warm_template_3">Le temperature della giornata saranno attorno ai %1$s.</string>
     <string name="summary_temp_mild_template_1">Temperature nella media sono attese per tutta la giornata.</string>
     <string name="summary_temp_mild_template_2">Il clima rimarrà piacevole, con temperature intorno ai %1$s.</string>
@@ -304,11 +305,20 @@
     <string name="setting_day_summary_secondary">Mostra un riassunto giornaliero generato a partire dai dati orari</string>
     <string name="setting_system">Sistema</string>
     <string name="weather_about_precipitation">Precipitazioni mostra la previsione sulla quantità di pioggia che ci si aspetta cada per ogni ora. Quantità maggiori indicano pioggia più intensa</string>
-    <string name="weather_about_snowfall">Nevicata mostra la previsione sulla quantità di neve che ci si aspetta per ogni ora. Valori più alti indicano maggiori quantità di neve</string>
-    <string name="color_transparent">Transparent</string>
-    <string name="setting_app_font">App font</string>
-    <string name="setting_system_font">System font</string>
-    <string name="weather_minimum">Minimum</string>
-    <string name="error_no_results_found">No results found</string>
+    <string name="weather_about_snowfall">Nevicata mostra la previsione sulla quantità di neve che ci si aspetta per ogni ora. Valori più alti indicano maggiori quantità di neve.</string>
+    <string name="color_transparent">Trasparente </string>
+    <string name="setting_app_font">Font App</string>
+    <string name="setting_system_font">Font di sistema</string>
+    <string name="weather_minimum">Minimo</string>
+    <string name="error_no_results_found">Nessun risultato trovato</string>
+    <string name="text_time">Time</string>
+    <string name="settings_24hr_time">Use 24hr time format</string>
+    <string name="about_email">Email</string>
+    <string name="settings_source_request_title">Want a source to be added? You can request it here</string>
+    <string name="action_request">Request</string>
+    <string name="source_credits_label">%1$s and more</string>
+    <string name="weather_wind_direction_from">From %1$s</string>
+    <string name="day_length_hr">%1$s hrs</string>
+    <string name="error_no_results">Nessun risultato trovato</string>
 </resources>
 <!--<string name=""></string>-->

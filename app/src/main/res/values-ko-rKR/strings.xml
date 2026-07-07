@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_launcher_name">날씨</string>
     <string name="weather_hourly_forecast">시간별 예보</string>
     <string name="action_save">저장</string>
     <string name="action_cancel">취소</string>
@@ -253,7 +254,7 @@
     <string name="summary_temp_cool_template_3">Chilly weather will continue through much of the day.</string>
     <string name="summary_temp_cold_template_1">하루 종일 추운 날씨가 예상됩니다.</string>
     <string name="summary_temp_cold_template_2">Temperatures will remain low with chilly conditions persisting.</string>
-    <string name="summary_temp_cold_template_3">매우 차가운 공기로 인해 온도가 %1$s도 근처로 유지 될 것으로 예상됩니다.</string>
+    <string name="summary_temp_cold_template_3">매우 차가운 공기로 인해 온도가 %1$도 근처로 유지 될 것으로 예상됩니다.</string>
     <string name="weather_summary">요약</string>
     <string name="about_changelog">변경 내역</string>
     <string name="about">정보</string>
@@ -307,4 +308,14 @@
     <string name="setting_system_font">기기 글꼴</string>
     <string name="weather_minimum">Minimum</string>
     <string name="error_no_results_found">No results found</string>
-</resources><!--<string name=""></string>-->
+    <string name="text_time">Time</string>
+    <string name="settings_24hr_time">Use 24hr time format</string>
+    <string name="about_email">Email</string>
+    <string name="settings_source_request_title">Want a source to be added? You can request it here</string>
+    <string name="action_request">Request</string>
+    <string name="source_credits_label">%1$s and more</string>
+    <string name="weather_wind_direction_from">From %1$s</string>
+    <string name="day_length_hr">%1$s hrs</string>
+    <string name="error_no_results">No results found</string>
+</resources>
+<!--<string name=""></string>-->
