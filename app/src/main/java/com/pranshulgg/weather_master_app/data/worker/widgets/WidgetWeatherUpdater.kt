@@ -6,6 +6,7 @@ import androidx.glance.GlanceId
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.state.updateAppWidgetState
+import androidx.glance.appwidget.updateAll
 import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
 import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateDefinition
 import com.pranshulgg.weather_master_app.widgets.config.WidgetConfig
@@ -30,7 +31,6 @@ class WeatherWidgetUpdater(
 
     suspend fun update(json: String) {
         val manager = GlanceAppWidgetManager(context)
-
         suspend fun <T : GlanceAppWidget> updateWidgets(
             widget: T,
             ids: List<GlanceId>
@@ -40,13 +40,15 @@ class WeatherWidgetUpdater(
                     updateAppWidgetState(context, WeatherWidgetStateDefinition, id) { current ->
                         current.copy(json = json, config = current.config)
                     }
-                    widget.update(context, id)
                 } catch (e: Exception) {
-                    Log.e("WeatherWidgetUpdater", "Failed to update widget $id", e)
                 }
             }
-        }
 
+            try {
+                widget.updateAll(context)
+            } catch (e: Exception) {
+            }
+        }
         updateWidgets(widget, manager.getGlanceIds(WeatherWidget::class.java))
         updateWidgets(pill, manager.getGlanceIds(WidgetPill::class.java))
         updateWidgets(summary, manager.getGlanceIds(SummaryWidget::class.java))

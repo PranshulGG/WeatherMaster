@@ -1,14 +1,23 @@
 package com.pranshulgg.weather_master_app.data.worker
 
 import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
+import android.content.pm.ServiceInfo
+import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresPermission
+import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
+import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
+import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
+import com.pranshulgg.weather_master_app.core.prefs.AppPrefs.initPrefs
 import com.pranshulgg.weather_master_app.data.provider.WeatherRepositoryProvider
 import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
@@ -17,6 +26,7 @@ import com.pranshulgg.weather_master_app.data.worker.widgets.WeatherWidgetUpdate
 import com.pranshulgg.weather_master_app.data.worker.widgets.widgetWeatherMapper
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.delay
 
 @HiltWorker
 class WeatherWorker @AssistedInject constructor(
@@ -36,6 +46,8 @@ class WeatherWorker @AssistedInject constructor(
             return Result.success()
         }
 
+        initPrefs(applicationContext)
+
         return try {
 
 
@@ -54,7 +66,7 @@ class WeatherWorker @AssistedInject constructor(
              */
             WeatherNotification.showNotification(default.name, applicationContext)
 
-
+            delay(5000)
             // Get the repository
             val repo = repositoryProvider.getRepository(default.source)
 
@@ -77,7 +89,6 @@ class WeatherWorker @AssistedInject constructor(
             return Result.success()
 
         } catch (e: Exception) {
-            WeatherNotification.hideNotification(applicationContext)
             Result.failure()
         } finally {
             WeatherNotification.hideNotification(applicationContext)

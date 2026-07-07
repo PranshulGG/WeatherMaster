@@ -7,6 +7,7 @@ import android.os.Build
 import android.provider.AlarmClock
 import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -78,6 +79,8 @@ class ClockDailyWidget : GlanceAppWidget() {
 
 
         provideContent {
+
+
             val widgetState =
                 currentState<WeatherWidgetStateJson>()
             val widgetColors = WidgetColors()

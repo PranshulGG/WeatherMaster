@@ -13,65 +13,59 @@ import kotlinx.serialization.json.Json
 import java.io.File
 import java.io.InputStream
 import java.io.OutputStream
+import java.util.concurrent.ConcurrentHashMap
+
 
 object WeatherWidgetStateDefinition :
     GlanceStateDefinition<WeatherWidgetStateJson> {
 
+
     override suspend fun getDataStore(
         context: Context,
         fileKey: String
-    ): DataStore<WeatherWidgetStateJson> {
-
-        return DataStoreFactory.create(
+    ): DataStore<WeatherWidgetStateJson> =
+        DataStoreFactory.create(
             serializer = WeatherWidgetSerializer,
-            produceFile = { context.dataStoreFile(fileKey) }
+            produceFile = {
+                context.applicationContext.dataStoreFile(fileKey)
+            }
         )
-    }
 
     override fun getLocation(
         context: Context,
         fileKey: String
-    ): File {
+    ): File = context.applicationContext.dataStoreFile(fileKey)
+}
 
-        return context.dataStoreFile(fileKey)
+object WeatherWidgetSerializer :
+    Serializer<WeatherWidgetStateJson> {
+    override val defaultValue =
+        WeatherWidgetStateJson()
+
+    override suspend fun readFrom(
+        input: InputStream
+    ): WeatherWidgetStateJson {
+        return try {
+            Json.decodeFromString(
+                WeatherWidgetStateJson.serializer(),
+                input.readBytes().decodeToString()
+            )
+        } catch (e: Exception) {
+            WeatherWidgetStateJson()
+        }
     }
 
-    object WeatherWidgetSerializer :
-        Serializer<WeatherWidgetStateJson> {
-
-        override val defaultValue =
-            WeatherWidgetStateJson()
-
-        override suspend fun readFrom(
-            input: InputStream
-        ): WeatherWidgetStateJson {
-
-            return try {
-
-                Json.decodeFromString(
+    override suspend fun writeTo(
+        t: WeatherWidgetStateJson,
+        output: OutputStream
+    ) {
+        withContext(Dispatchers.IO) {
+            output.write(
+                Json.encodeToString(
                     WeatherWidgetStateJson.serializer(),
-                    input.readBytes().decodeToString()
-                )
-
-            } catch (e: Exception) {
-
-                WeatherWidgetStateJson()
-            }
-        }
-
-        override suspend fun writeTo(
-            t: WeatherWidgetStateJson,
-            output: OutputStream
-        ) {
-
-            withContext(Dispatchers.IO) {
-                output.write(
-                    Json.encodeToString(
-                        WeatherWidgetStateJson.serializer(),
-                        t
-                    ).encodeToByteArray()
-                )
-            }
+                    t
+                ).encodeToByteArray()
+            )
         }
     }
 }
