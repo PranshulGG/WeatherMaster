@@ -1,14 +1,10 @@
 package com.pranshulgg.weather_master_app.widgets.weatherclockdaily
 
-import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.provider.AlarmClock
-import android.util.Log
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.ColorFilter
@@ -17,13 +13,12 @@ import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
-import androidx.glance.LocalSize
 import androidx.glance.action.Action
 import androidx.glance.action.actionStartActivity
-import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.SizeMode
+import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
@@ -58,9 +53,6 @@ import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTheme
 import com.pranshulgg.weather_master_app.widgets.ui.views.WidgetClock
 import com.pranshulgg.weather_master_app.widgets.ui.views.WidgetDate
 import kotlinx.serialization.json.Json
-import kotlin.math.min
-import kotlin.math.round
-import kotlin.math.roundToInt
 
 
 class ClockDailyWidget : GlanceAppWidget() {
@@ -122,7 +114,12 @@ class ClockDailyWidget : GlanceAppWidget() {
                                 modifier = GlanceModifier.wrapContentSize()
                                     .clickable(onClick = openAvailableClockApp())
                             ) {
-                                WidgetClock(clockFontSize, context, color = textColor.second)
+                                WidgetClock(
+                                    clockFontSize,
+                                    context,
+                                    color = textColor.second,
+                                    hideShadow = true
+                                )
                             }
 
                             Spacer(GlanceModifier.defaultWeight())
@@ -141,7 +138,8 @@ class ClockDailyWidget : GlanceAppWidget() {
                                     config.dateFormat,
                                     context,
                                     color = textColor.second,
-                                    dateConditionFontSize
+                                    dateConditionFontSize,
+                                    hideShadow = true
                                 )
                             }
                             Spacer(GlanceModifier.width(16.dp))

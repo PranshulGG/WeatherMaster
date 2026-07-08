@@ -14,7 +14,8 @@ import com.pranshulgg.weather_master_app.R
 private fun createClock(
     context: Context,
     size: Float,
-    color: Int?
+    color: Int?,
+    hideShadow: Boolean
 ): RemoteViews {
 
     val color = color?.let { ContextCompat.getColor(context, it) }
@@ -28,13 +29,18 @@ private fun createClock(
         Color.BLACK
     }
 
+    val layoutId = if (hideShadow) R.layout.sys_clock_no_shadow else R.layout.sys_clock
+    val viewId = if (hideShadow) R.id.clock_no_shadow else R.id.clock
+
     return RemoteViews(
         context.packageName,
-        R.layout.sys_clock_36
+        layoutId
     ).apply {
-        setTextColor(R.id.clock, resolvedColor)
+        setTextColor(viewId, resolvedColor)
 
-        setTextViewTextSize(R.id.clock, TypedValue.COMPLEX_UNIT_SP, size)
+        setTextViewTextSize(viewId, TypedValue.COMPLEX_UNIT_SP, size)
+
+
     }
 }
 
@@ -42,7 +48,8 @@ private fun createClock(
 fun WidgetClock(
     size: Float,
     context: Context,
-    color: Int?
+    color: Int?,
+    hideShadow: Boolean = false
 ) {
 
     AndroidRemoteViews(
@@ -51,7 +58,8 @@ fun WidgetClock(
             createClock(
                 context,
                 size,
-                color
+                color,
+                hideShadow
             )
     )
 }

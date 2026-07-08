@@ -15,7 +15,8 @@ private fun createDate(
     context: Context,
     format: String,
     color: Int?,
-    size: Float
+    size: Float,
+    hideShadow: Boolean
 ): RemoteViews {
     val color = color?.let { ContextCompat.getColor(context, it) }
     val resolvedColor = color ?: if (
@@ -27,24 +28,29 @@ private fun createDate(
     } else {
         Color.BLACK
     }
+
+
+    val layoutId = if (hideShadow) R.layout.sys_date_no_shadow else R.layout.sys_date
+    val viewId = if (hideShadow) R.id.date_no_shadow else R.id.date
+
     return RemoteViews(
         context.packageName,
-        R.layout.sys_date
+        layoutId
     ).apply {
         setCharSequence(
-            R.id.date,
+            viewId,
             "setFormat12Hour",
             format
         )
 
         setCharSequence(
-            R.id.date,
+            viewId,
             "setFormat24Hour",
             format
         )
-        setTextColor(R.id.date, resolvedColor)
+        setTextColor(viewId, resolvedColor)
 
-        setTextViewTextSize(R.id.date, TypedValue.COMPLEX_UNIT_SP, size)
+        setTextViewTextSize(viewId, TypedValue.COMPLEX_UNIT_SP, size)
 
     }
 }
@@ -54,10 +60,11 @@ fun WidgetDate(
     format: String,
     context: Context,
     color: Int?,
-    size: Float
+    size: Float,
+    hideShadow: Boolean = false
 ) {
     AndroidRemoteViews(
         remoteViews =
-            createDate(context, format, color, size)
+            createDate(context, format, color, size, hideShadow)
     )
 }
