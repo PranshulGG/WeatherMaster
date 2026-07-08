@@ -22,16 +22,38 @@ import androidx.glance.layout.width
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
+import androidx.glance.unit.ColorProvider
+import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.widgets.config.WidgetConfig
 import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
 import com.pranshulgg.weather_master_app.widgets.ui.ReloadButton
+import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetColors
+import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTheme
 import com.pranshulgg.weather_master_app.widgets.weather.components.WidgetHourlyItem
 
 @Composable
-fun WeatherWidgetLarge(state: WidgetWeather?, count: Int, config: WidgetConfig) {
+fun WeatherWidgetLarge(
+    state: WidgetWeather?,
+    count: Int,
+    config: WidgetConfig,
+    widgetColors: WidgetColors
+) {
 
-    val textColor = GlanceTheme.colors.onSurface
-    val textColorVariant = GlanceTheme.colors.onSurfaceVariant
+
+    val textColor = widgetColors
+        .getTextColor(config.widgetTextTheme, config.widgetTheme)
+        ?: Pair(GlanceTheme.colors.onSurface, null)
+
+    val textColorVariant = widgetColors
+        .getTextVariantColor(config.widgetTextTheme, config.widgetTheme)
+        ?: GlanceTheme.colors.onSurfaceVariant
+
+    val hourlyContainerColor = when (config.widgetTheme) {
+        WidgetTheme.AUTO -> GlanceTheme.colors.background
+        WidgetTheme.DARK -> ColorProvider(R.color.widgetHourlyContainerColorDark)
+        WidgetTheme.LIGHT -> ColorProvider(R.color.widgetHourlyContainerColorLight)
+        else -> GlanceTheme.colors.background
+    }
 
     val mainIconSize = 32 * config.iconSize
     val textFontSize = 18 * config.fontSize
@@ -65,7 +87,7 @@ fun WeatherWidgetLarge(state: WidgetWeather?, count: Int, config: WidgetConfig) 
                         Text(
                             state.currentCondition,
                             style = TextStyle(
-                                color = textColor,
+                                color = textColor.first,
                                 fontSize = textFontSize.sp,
                                 fontWeight = FontWeight.Medium,
                             ),
@@ -79,7 +101,7 @@ fun WeatherWidgetLarge(state: WidgetWeather?, count: Int, config: WidgetConfig) 
                             state.daily.first().tempMax,
                             style = TextStyle(
                                 fontSize = textFontSize.sp,
-                                color = GlanceTheme.colors.onSurface,
+                                color = textColor.first,
                                 fontWeight = FontWeight.Medium
                             )
                         )
@@ -88,7 +110,7 @@ fun WeatherWidgetLarge(state: WidgetWeather?, count: Int, config: WidgetConfig) 
                             state.daily.first().tempMin,
                             style = TextStyle(
                                 fontSize = textFontSize.sp,
-                                color = GlanceTheme.colors.onSurfaceVariant,
+                                color = textColorVariant,
                                 fontWeight = FontWeight.Medium
                             )
                         )
@@ -108,7 +130,7 @@ fun WeatherWidgetLarge(state: WidgetWeather?, count: Int, config: WidgetConfig) 
                     Text(
                         state.currentTemp,
                         style = TextStyle(
-                            color = GlanceTheme.colors.primary,
+                            color = textColor.first,
                             fontSize = tempFontSize.sp,
                             fontWeight = FontWeight.Bold,
                         )
@@ -120,7 +142,7 @@ fun WeatherWidgetLarge(state: WidgetWeather?, count: Int, config: WidgetConfig) 
             Row(
                 verticalAlignment = Alignment.Bottom,
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = GlanceModifier.fillMaxWidth().background(GlanceTheme.colors.background)
+                modifier = GlanceModifier.fillMaxWidth().background(hourlyContainerColor)
                     .cornerRadius(16.dp)
             ) {
                 val hourlyIconSize = 22 * config.iconSize
@@ -131,7 +153,9 @@ fun WeatherWidgetLarge(state: WidgetWeather?, count: Int, config: WidgetConfig) 
                         it.temp,
                         it.conditionIcon,
                         hourlyTextSize,
-                        hourlyIconSize
+                        hourlyIconSize,
+                        textColor.first,
+                        textColorVariant
                     )
                 }
             }

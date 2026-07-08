@@ -3,6 +3,7 @@ package com.pranshulgg.weather_master_app.widgets.weather
 import android.content.Context
 import android.os.Build
 import androidx.compose.runtime.Composable
+import androidx.glance.ColorFilter
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
@@ -25,6 +26,8 @@ import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateJson
 import com.pranshulgg.weather_master_app.widgets.model.WidgetVariant
 import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
 import com.pranshulgg.weather_master_app.widgets.params.WidgetSizePoints
+import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetColors
+import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTheme
 import com.pranshulgg.weather_master_app.widgets.weather.ui.variants.WeatherWidgetCompact
 import com.pranshulgg.weather_master_app.widgets.weather.ui.variants.WeatherWidgetLarge
 import com.pranshulgg.weather_master_app.widgets.weather.ui.variants.WeatherWidgetSmall
@@ -50,6 +53,7 @@ class WeatherWidget : GlanceAppWidget() {
             val size = LocalSize.current
             val widgetState =
                 currentState<WeatherWidgetStateJson>()
+            val widgetColors = WidgetColors()
 
             val json = widgetState.json
             val state = json?.let {
@@ -57,16 +61,28 @@ class WeatherWidget : GlanceAppWidget() {
             }
             val config = widgetState.config
 
+            val modifier = when (config.widgetTheme) {
+                WidgetTheme.TRANSPARENT -> GlanceModifier.fillMaxSize()
+                else -> GlanceModifier.fillMaxSize()
+                    .appWidgetBackgroundShape(config.widgetTheme, widgetColors)
+            }
+
             Box(
-                GlanceModifier.fillMaxSize().appWidgetBackgroundShape()
+                modifier
                     .clickable(actionStartActivity<MainActivity>())
             ) {
 
                 when (config.variant) {
 
-                    WidgetVariant.LARGE -> WeatherWidgetLarge(state, config.hourlyCount, config)
-                    WidgetVariant.COMPACT -> WeatherWidgetCompact(state)
-                    else -> WeatherWidgetSmall(state, config)
+                    WidgetVariant.LARGE -> WeatherWidgetLarge(
+                        state,
+                        config.hourlyCount,
+                        config,
+                        widgetColors
+                    )
+
+                    WidgetVariant.COMPACT -> WeatherWidgetCompact(state, widgetColors, config)
+                    else -> WeatherWidgetSmall(state, config, widgetColors)
                 }
 
             }
@@ -77,14 +93,24 @@ class WeatherWidget : GlanceAppWidget() {
 
 
 @Composable
-private fun GlanceModifier.appWidgetBackgroundShape(): GlanceModifier {
+private fun GlanceModifier.appWidgetBackgroundShape(
+    theme: WidgetTheme,
+    widgetColors: WidgetColors
+): GlanceModifier {
+
+
+    val color = widgetColors.getBackgroundColor(theme)
+
+
     return if (Build.VERSION.SDK_INT >= 31) {
         this
             .cornerRadius(android.R.dimen.system_app_widget_background_radius)
-            .background(GlanceTheme.colors.widgetBackground)
+            .background(color ?: GlanceTheme.colors.widgetBackground)
     } else {
         this
-            .background(ImageProvider(R.drawable.weather_widget_background))
+            .background(
+                ImageProvider(R.drawable.weather_widget_background),
+                colorFilter = ColorFilter.tint(color ?: GlanceTheme.colors.widgetBackground)
+            )
     }
 }
-

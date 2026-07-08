@@ -50,9 +50,12 @@ import com.pranshulgg.weather_master_app.core.ui.components.SettingSection
 import com.pranshulgg.weather_master_app.core.ui.components.SettingTile
 import com.pranshulgg.weather_master_app.core.ui.components.SettingsTileIcon
 import com.pranshulgg.weather_master_app.core.ui.components.WeatherIconBox
+import com.pranshulgg.weather_master_app.core.ui.components.tiles.DialogOption
 import com.pranshulgg.weather_master_app.core.ui.theme.ShapeRadius
 import com.pranshulgg.weather_master_app.widgets.config.WidgetConfig
 import com.pranshulgg.weather_master_app.widgets.model.WidgetVariant
+import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTextTheme
+import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTheme
 import kotlin.math.round
 import kotlin.math.roundToInt
 
@@ -65,8 +68,15 @@ fun WeatherWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
     var selectedHourlyCount by remember { mutableFloatStateOf(6f) }
     var selectedVariant by remember { mutableStateOf(WidgetVariant.LARGE) }
     var selectedFontSize by remember { mutableFloatStateOf(1f) }
-
+    var widgetTheme by remember { mutableStateOf(WidgetTheme.AUTO) }
+    var widgetTextTheme by remember { mutableStateOf(WidgetTextTheme.AUTO) }
     var selectedIconSize by remember { mutableFloatStateOf(1f) }
+
+    val widgetThemeOptions =
+        WidgetTheme.entries.filter { it != WidgetTheme.TRANSPARENT }
+            .map { DialogOption(it.toString(), stringResource(it.label)) }
+    val widgetTextThemeOptions =
+        WidgetTextTheme.entries.map { DialogOption(it.toString(), stringResource(it.label)) }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surfaceContainer
@@ -92,7 +102,9 @@ fun WeatherWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                         selectedVariant,
                         selectedHourlyCount,
                         selectedFontSize,
-                        selectedIconSize
+                        selectedIconSize,
+                        widgetTextTheme,
+                        widgetTheme
                     )
                 }
             }
@@ -143,7 +155,7 @@ fun WeatherWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                         isDescriptionAsValue = true,
                         initialValue = selectedHourlyCount,
                         labelFormatter = { "${it.roundToInt()}" },
-                        steps = 10,
+                        steps = 9,
                         onValueSubmitted = {
                             selectedHourlyCount = it
                         }
@@ -154,7 +166,7 @@ fun WeatherWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                         leading = { SettingsTileIcon(R.drawable.format_size_24px) },
                         description = "${round(selectedFontSize * 10) / 10}",
                         isDescriptionAsValue = true,
-                        valueRange = 0.1f..1f,
+                        valueRange = 0.1f..2f,
                         initialValue = selectedFontSize,
                         labelFormatter = { "${round(it * 10) / 10}" },
                         steps = 9,
@@ -169,15 +181,46 @@ fun WeatherWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                         leading = { SettingsTileIcon(R.drawable.photo_size_select_large_24px) },
                         description = "${round(selectedIconSize * 10) / 10}",
                         isDescriptionAsValue = true,
-                        valueRange = 0.1f..1f,
+                        valueRange = 0.1f..2f,
                         initialValue = selectedIconSize,
                         labelFormatter = { "${round(it * 10) / 10}" },
                         steps = 9,
                         onValueSubmitted = {
                             selectedIconSize = it
                         },
-                    )
+                    ),
+                    SettingTile.DialogOptionTile(
+                        leading = { SettingsTileIcon(R.drawable.palette_24px) },
+                        title = "Widget background",
+                        options = widgetThemeOptions,
+                        selectedOption = widgetTheme.toString(),
+                        onOptionSelected = {
+                            val selected = when (it) {
+                                "AUTO" -> WidgetTheme.AUTO
+                                "DARK" -> WidgetTheme.DARK
+                                "LIGHT" -> WidgetTheme.LIGHT
+                                else -> WidgetTheme.AUTO
+                            }
 
+                            widgetTheme = selected
+                        }
+                    ),
+                    SettingTile.DialogOptionTile(
+                        leading = { SettingsTileIcon(R.drawable.format_paint_24px) },
+                        title = "Widget text color",
+                        options = widgetTextThemeOptions,
+                        selectedOption = widgetTextTheme.toString(),
+                        onOptionSelected = {
+                            val selected = when (it) {
+                                "AUTO" -> WidgetTextTheme.AUTO
+                                "WHITE" -> WidgetTextTheme.WHITE
+                                "BLACK" -> WidgetTextTheme.BLACK
+                                else -> WidgetTextTheme.AUTO
+                            }
+
+                            widgetTextTheme = selected
+                        }
+                    )
                 )
             )
 
@@ -190,7 +233,9 @@ fun WeatherWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                             hourlyCount = selectedHourlyCount.roundToInt(),
                             variant = selectedVariant,
                             fontSize = selectedFontSize,
-                            iconSize = selectedIconSize
+                            iconSize = selectedIconSize,
+                            widgetTheme = widgetTheme,
+                            widgetTextTheme = widgetTextTheme
                         )
                     )
                 },
@@ -213,20 +258,78 @@ private fun GlanceWidgetPreview(
     variant: WidgetVariant,
     hourlyCount: Float,
     fontSize: Float,
-    iconSize: Float
+    iconSize: Float,
+    textTheme: WidgetTextTheme,
+    widgetTheme: WidgetTheme,
 ) {
 
+    val textColor = when (textTheme) {
+        WidgetTextTheme.AUTO -> if (widgetTheme == WidgetTheme.DARK)
+            Color.White else if (widgetTheme == WidgetTheme.LIGHT)
+            Color.Black else MaterialTheme.colorScheme.onSurface
+
+        WidgetTextTheme.BLACK -> Color.Black
+        WidgetTextTheme.WHITE -> Color.White
+    }
+
+
+    val textColorSecondary = when (textTheme) {
+        WidgetTextTheme.AUTO -> if (widgetTheme == WidgetTheme.DARK)
+            Color(0xB3FFFFFF) else if (widgetTheme == WidgetTheme.LIGHT)
+            Color(0x99000000) else MaterialTheme.colorScheme.onSurfaceVariant
+
+        WidgetTextTheme.BLACK -> Color(0x99000000)
+        WidgetTextTheme.WHITE -> Color(0xB3FFFFFF)
+    }
+
+
+    val widgetColor = when (widgetTheme) {
+        WidgetTheme.AUTO -> MaterialTheme.colorScheme.surfaceContainerHighest
+        WidgetTheme.DARK -> Color.Black
+        WidgetTheme.LIGHT -> Color.White
+        else -> MaterialTheme.colorScheme.surfaceContainerHighest
+    }
+
+    val hourlyContainerColor = when (widgetTheme) {
+        WidgetTheme.AUTO -> MaterialTheme.colorScheme.surface
+        WidgetTheme.DARK -> Color(0xFF333333)
+        WidgetTheme.LIGHT -> Color(0xFFe6e6e6)
+        else -> MaterialTheme.colorScheme.surface
+    }
+
     when (variant) {
-        WidgetVariant.LARGE -> LargeWidgetPreview(hourlyCount, fontSize, iconSize)
-        WidgetVariant.COMPACT -> CompactWidgetPreview(fontSize, iconSize)
-        else -> SmallWidgetPreview(fontSize, iconSize)
+        WidgetVariant.LARGE -> LargeWidgetPreview(
+            hourlyCount,
+            fontSize,
+            iconSize,
+            widgetColor,
+            textColor,
+            textColorSecondary,
+            hourlyContainerColor
+        )
+
+        WidgetVariant.COMPACT -> CompactWidgetPreview(
+            fontSize, iconSize,
+            widgetColor,
+            textColor,
+            textColorSecondary
+        )
+
+        else -> SmallWidgetPreview(fontSize, iconSize, widgetColor, textColor)
     }
 }
 
 @Composable
-private fun LargeWidgetPreview(hourlyCount: Float, fontSize: Float, iconSize: Float) {
+private fun LargeWidgetPreview(
+    hourlyCount: Float,
+    fontSize: Float,
+    iconSize: Float,
+    widgetColor: Color,
+    textColor: Color,
+    textColorSecondary: Color,
+    hourlyContainerColor: Color
+) {
 
-    val colorScheme = MaterialTheme.colorScheme
 
     val times = listOf(
         "7PM",
@@ -273,7 +376,7 @@ private fun LargeWidgetPreview(hourlyCount: Float, fontSize: Float, iconSize: Fl
                 "${temp}°",
                 fontSize = hourlyTextSize.sp,
                 fontWeight = FontWeight.Medium,
-                color = colorScheme.onSurface
+                color = textColor
             )
             Gap(3.dp)
             WeatherIconBox(icon, hourlyIconSize.dp)
@@ -282,7 +385,7 @@ private fun LargeWidgetPreview(hourlyCount: Float, fontSize: Float, iconSize: Fl
                 time,
                 fontSize = hourlyTextSize.sp,
                 fontWeight = FontWeight.Medium,
-                color = colorScheme.onSurfaceVariant
+                color = textColorSecondary
             )
         }
     }
@@ -298,7 +401,7 @@ private fun LargeWidgetPreview(hourlyCount: Float, fontSize: Float, iconSize: Fl
             .fillMaxWidth()
             .height(230.dp)
             .background(
-                MaterialTheme.colorScheme.surfaceContainerHigh,
+                widgetColor,
                 RoundedCornerShape(ShapeRadius.ExtraLarge)
             )
     ) {
@@ -318,20 +421,20 @@ private fun LargeWidgetPreview(hourlyCount: Float, fontSize: Float, iconSize: Fl
                     ) {
                         WeatherIconBox(R.drawable.weather_clear_night, mainIconSize.dp)
                         Gap(horizontal = 6.dp)
-                        Text("Clear sky", color = colorScheme.onSurface, fontSize = textFontSize.sp)
+                        Text("Clear sky", color = textColor, fontSize = textFontSize.sp)
                     }
                     Gap(6.dp)
                     Row() {
                         Text(
                             "26°",
-                            color = colorScheme.onSurface,
+                            color = textColor,
                             fontWeight = FontWeight.Medium,
                             fontSize = textFontSize.sp
                         )
                         Gap(horizontal = 8.dp)
                         Text(
                             "14°",
-                            color = colorScheme.onSurfaceVariant,
+                            color = textColorSecondary,
                             fontWeight = FontWeight.Medium,
                             fontSize = textFontSize.sp
                         )
@@ -341,13 +444,13 @@ private fun LargeWidgetPreview(hourlyCount: Float, fontSize: Float, iconSize: Fl
                 Column(horizontalAlignment = Alignment.End) {
                     Text(
                         "Mountain View",
-                        color = colorScheme.onSurfaceVariant,
+                        color = textColorSecondary,
                         fontSize = locationFontSize.sp,
                         fontWeight = FontWeight.Medium
                     )
                     Text(
                         "16°",
-                        color = colorScheme.primary,
+                        color = textColor,
                         fontSize = tempFontSize.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -355,7 +458,7 @@ private fun LargeWidgetPreview(hourlyCount: Float, fontSize: Float, iconSize: Fl
             }
             Spacer(Modifier.weight(1f))
             Surface(
-                color = MaterialTheme.colorScheme.surface,
+                color = hourlyContainerColor,
                 shape = RoundedCornerShape(16.dp)
             ) {
                 Row(
@@ -379,7 +482,12 @@ private fun LargeWidgetPreview(hourlyCount: Float, fontSize: Float, iconSize: Fl
 }
 
 @Composable
-private fun CompactWidgetPreview(fontSize: Float, iconSize: Float) {
+private fun CompactWidgetPreview(
+    fontSize: Float, iconSize: Float,
+    widgetColor: Color,
+    textColor: Color,
+    textColorSecondary: Color,
+) {
 
     val colorScheme = MaterialTheme.colorScheme
     val mainIconSize = 28 * iconSize
@@ -392,7 +500,7 @@ private fun CompactWidgetPreview(fontSize: Float, iconSize: Float) {
             .width(180.dp)
             .height(180.dp)
             .background(
-                MaterialTheme.colorScheme.surfaceContainerHigh,
+                widgetColor,
                 RoundedCornerShape(ShapeRadius.ExtraLarge)
             )
     ) {
@@ -406,13 +514,13 @@ private fun CompactWidgetPreview(fontSize: Float, iconSize: Float) {
             ) {
                 WeatherIconBox(R.drawable.weather_clear_night, mainIconSize.dp)
                 Spacer(Modifier.weight(1f))
-                Text("Clear sky", color = colorScheme.onSurface, fontSize = textFontSize.sp)
+                Text("Clear sky", color = textColor, fontSize = textFontSize.sp)
             }
             Spacer(Modifier.weight(1f))
 
             Text(
                 "16°",
-                color = colorScheme.primary,
+                color = textColor,
                 fontSize = tempFontSize.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -420,14 +528,14 @@ private fun CompactWidgetPreview(fontSize: Float, iconSize: Float) {
             Row() {
                 Text(
                     "26°",
-                    color = colorScheme.onSurface,
+                    color = textColor,
                     fontWeight = FontWeight.Medium,
                     fontSize = textFontSize.sp
                 )
                 Gap(horizontal = 8.dp)
                 Text(
                     "14°",
-                    color = colorScheme.onSurfaceVariant,
+                    color = textColorSecondary,
                     fontWeight = FontWeight.Medium,
                     fontSize = textFontSize.sp
                 )
@@ -437,7 +545,11 @@ private fun CompactWidgetPreview(fontSize: Float, iconSize: Float) {
 }
 
 @Composable
-private fun SmallWidgetPreview(fontSize: Float, iconSize: Float) {
+private fun SmallWidgetPreview(
+    fontSize: Float, iconSize: Float,
+    widgetColor: Color,
+    textColor: Color
+) {
 
     val colorScheme = MaterialTheme.colorScheme
     val fontSize = 54 * fontSize
@@ -449,7 +561,7 @@ private fun SmallWidgetPreview(fontSize: Float, iconSize: Float) {
             .width(150.dp)
             .height(180.dp)
             .background(
-                MaterialTheme.colorScheme.surfaceContainerHigh,
+                widgetColor,
                 RoundedCornerShape(ShapeRadius.ExtraLarge)
             )
     ) {
@@ -467,7 +579,7 @@ private fun SmallWidgetPreview(fontSize: Float, iconSize: Float) {
             Gap(8.dp)
             Text(
                 "16°",
-                color = colorScheme.primary,
+                color = textColor,
                 fontSize = fontSize.sp,
                 fontWeight = FontWeight.Bold
             )

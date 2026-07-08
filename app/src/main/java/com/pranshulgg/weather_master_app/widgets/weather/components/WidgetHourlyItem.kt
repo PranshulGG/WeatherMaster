@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.widgets.weather.components
 
+import android.graphics.Color
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -17,9 +18,18 @@ import androidx.glance.layout.width
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
+import androidx.glance.unit.ColorProvider
 
 @Composable
-fun WidgetHourlyItem(time: String, temp: String, icon: Int, fontSize: Float, iconSize: Float) {
+fun WidgetHourlyItem(
+    time: String,
+    temp: String,
+    icon: Int,
+    fontSize: Float,
+    iconSize: Float,
+    textColor: ColorProvider,
+    textColorVariant: ColorProvider
+) {
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -28,7 +38,7 @@ fun WidgetHourlyItem(time: String, temp: String, icon: Int, fontSize: Float, ico
         Text(
             temp,
             style = TextStyle(
-                color = GlanceTheme.colors.onSurface,
+                color = textColor,
                 fontWeight = FontWeight.Medium,
                 fontSize = fontSize.sp
             )
@@ -43,7 +53,7 @@ fun WidgetHourlyItem(time: String, temp: String, icon: Int, fontSize: Float, ico
         Text(
             time,
             style = TextStyle(
-                color = GlanceTheme.colors.onSurfaceVariant,
+                color = textColorVariant,
                 fontWeight = FontWeight.Medium, fontSize = fontSize.sp
             )
         )

@@ -21,16 +21,27 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
+import com.pranshulgg.weather_master_app.widgets.config.WidgetConfig
 import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
 import com.pranshulgg.weather_master_app.widgets.ui.ReloadButton
+import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetColors
 
 
 @Composable
-fun WeatherWidgetCompact(state: WidgetWeather?) {
+fun WeatherWidgetCompact(
+    state: WidgetWeather?,
+    widgetColors: WidgetColors,
+    config: WidgetConfig
+) {
 
-    val textColor = GlanceTheme.colors.onSurface
-    val textColorVariant = GlanceTheme.colors.onSurfaceVariant
 
+    val textColor = widgetColors
+        .getTextColor(config.widgetTextTheme, config.widgetTheme)
+        ?: Pair(GlanceTheme.colors.onSurface, null)
+
+    val textColorVariant = widgetColors
+        .getTextVariantColor(config.widgetTextTheme, config.widgetTheme)
+        ?: GlanceTheme.colors.onSurfaceVariant
 
     if (state != null) {
         Column(
@@ -50,7 +61,7 @@ fun WeatherWidgetCompact(state: WidgetWeather?) {
                 Text(
                     state.currentCondition,
                     style = TextStyle(
-                        color = textColor,
+                        color = textColor.first,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Medium,
                         textAlign = TextAlign.End
@@ -64,7 +75,7 @@ fun WeatherWidgetCompact(state: WidgetWeather?) {
             Text(
                 state.currentTemp,
                 style = TextStyle(
-                    color = GlanceTheme.colors.primary,
+                    color = textColor.first,
                     fontSize = 54.sp,
                     fontWeight = FontWeight.Bold,
                 )
@@ -75,7 +86,7 @@ fun WeatherWidgetCompact(state: WidgetWeather?) {
                     state.daily.first().tempMax,
                     style = TextStyle(
                         fontSize = 18.sp,
-                        color = GlanceTheme.colors.onSurface,
+                        color = textColor.first,
                         fontWeight = FontWeight.Medium
                     )
                 )
@@ -84,7 +95,7 @@ fun WeatherWidgetCompact(state: WidgetWeather?) {
                     state.daily.first().tempMin,
                     style = TextStyle(
                         fontSize = 18.sp,
-                        color = GlanceTheme.colors.onSurfaceVariant,
+                        color = textColorVariant,
                         fontWeight = FontWeight.Medium
                     )
                 )
