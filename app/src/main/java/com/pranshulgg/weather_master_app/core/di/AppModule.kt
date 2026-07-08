@@ -1,6 +1,8 @@
 package com.pranshulgg.weather_master_app.core.di
 
 import android.content.Context
+import android.content.SharedPreferences
+import android.preference.PreferenceManager
 import com.pranshulgg.weather_master_app.core.network.github.GithubApi
 import com.pranshulgg.weather_master_app.core.network.github.GithubRepository
 import com.pranshulgg.weather_master_app.core.network.sources.address.nominatim.NominatimApi
@@ -91,4 +93,12 @@ object AppModule {
     @Singleton
     fun provideNominatimRepository(api: NominatimApi): NominatimRepository =
         NominatimRepository(api)
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferences(
+        @ApplicationContext context: Context
+    ): SharedPreferences {
+        return context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+    }
 }

@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app.data.worker
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
@@ -47,8 +48,9 @@ object WeatherUpdateScheduler {
     suspend fun updateAllWidgets(
         context: Context,
         data: Weather,
-        units: WeatherUnits
+        units: WeatherUnits,
+        prefs: SharedPreferences
     ) {
-        WeatherWorker.updateAllWidgets(context, data, units)
+        WeatherWorker.updateAllWidgets(context, data, units, prefs)
     }
 }

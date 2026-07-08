@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app.feature.shared
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -49,7 +50,8 @@ class WeatherViewModel @Inject constructor(
     private val weatherBlocksRepository: WeatherBlocksRepository,
     private val openMeteoAqiRepository: OpenMeteoAqiRepository,
     private val weatherDataReconcilerRepository: WeatherDataReconcilerRepository,
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    private val prefs: SharedPreferences
 ) : ViewModel() {
 
     private var _uiState = mutableStateOf(MainScreenWeatherUiState())
@@ -266,7 +268,8 @@ class WeatherViewModel @Inject constructor(
             WeatherUpdateScheduler.updateAllWidgets(
                 context,
                 _uiState.value.weather!!,
-                _uiState.value.weatherUnits
+                _uiState.value.weatherUnits,
+                prefs
             )
         }
     }
