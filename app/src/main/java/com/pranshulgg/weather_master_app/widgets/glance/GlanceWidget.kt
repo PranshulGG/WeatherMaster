@@ -93,40 +93,22 @@ class GlanceWidget : GlanceAppWidget() {
                                 modifier = GlanceModifier.size(24.dp)
                             )
                             Spacer(GlanceModifier.width(5.dp))
-                            Box {
-                                Text(
-                                    text = "${state.currentTemp} • ",
-                                    style = TextStyle(
-                                        color = ColorProvider(R.color.shadow),
-                                        fontSize = 18.sp,
-                                    ),
-                                    modifier = GlanceModifier.padding(top = 2.dp, start = 2.dp)
+
+                            Text(
+                                "${state.currentTemp} • ",
+                                style = TextStyle(
+                                    color = textColor.first,
+                                    fontSize = 18.sp
+                                ),
+                            )
+
+                            Text(
+                                state.currentCondition,
+                                style = TextStyle(
+                                    color = textColor.first,
+                                    fontSize = 18.sp
                                 )
-                                Text(
-                                    "${state.currentTemp} • ",
-                                    style = TextStyle(
-                                        color = textColor.first,
-                                        fontSize = 18.sp
-                                    ),
-                                )
-                            }
-                            Box {
-                                Text(
-                                    text = state.currentCondition,
-                                    style = TextStyle(
-                                        color = ColorProvider(R.color.shadow),
-                                        fontSize = 18.sp,
-                                    ),
-                                    modifier = GlanceModifier.padding(top = 2.dp, start = 2.dp)
-                                )
-                                Text(
-                                    state.currentCondition,
-                                    style = TextStyle(
-                                        color = textColor.first,
-                                        fontSize = 18.sp
-                                    )
-                                )
-                            }
+                            )
                         }
                     }
                 } else {
