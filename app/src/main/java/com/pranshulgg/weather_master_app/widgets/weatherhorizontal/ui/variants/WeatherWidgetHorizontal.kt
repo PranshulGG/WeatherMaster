@@ -37,6 +37,7 @@ fun WeatherWidgetHorizontal(
     val size = 18 * config.fontSize
     val fontSizeLocation = 16 * config.fontSize
     val tempSize = 40 * config.fontSize
+    val iconSize = 48 * config.iconSize
 
     val textColor = if (config.widgetTheme == WidgetTheme.TRANSPARENT)
         ColorProvider(R.color.white) else GlanceTheme.colors.onSurface
@@ -54,7 +55,7 @@ fun WeatherWidgetHorizontal(
             Image(
                 provider = ImageProvider(state.currentIcon),
                 contentDescription = null,
-                modifier = GlanceModifier.size(48.dp)
+                modifier = GlanceModifier.size(iconSize.dp)
             )
             Spacer(GlanceModifier.width(12.dp))
             Column(GlanceModifier.defaultWeight()) {

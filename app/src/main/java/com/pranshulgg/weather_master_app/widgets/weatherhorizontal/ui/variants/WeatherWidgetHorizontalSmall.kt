@@ -1,12 +1,15 @@
 package com.pranshulgg.weather_master_app.widgets.weatherhorizontal.ui.variants
 
+import android.content.Context
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
+import androidx.glance.LocalContext
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
@@ -28,11 +31,12 @@ import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTheme
 @Composable
 fun WeatherWidgetHorizontalSmall(
     state: WidgetWeather?,
-    modifier: GlanceModifier = GlanceModifier, config: WidgetConfig
+    modifier: GlanceModifier = GlanceModifier, config: WidgetConfig,
 ) {
     val textColor = if (config.widgetTheme == WidgetTheme.TRANSPARENT)
         ColorProvider(R.color.white) else GlanceTheme.colors.onSurface
     val tempSize = 40 * config.fontSize
+    val iconSize = 48 * config.iconSize
 
     if (state != null)
 
@@ -45,7 +49,7 @@ fun WeatherWidgetHorizontalSmall(
             Image(
                 provider = ImageProvider(state.currentIcon),
                 contentDescription = null,
-                modifier = GlanceModifier.size(48.dp)
+                modifier = GlanceModifier.size(iconSize.dp)
             )
             Spacer(GlanceModifier.width(12.dp))
             Text(

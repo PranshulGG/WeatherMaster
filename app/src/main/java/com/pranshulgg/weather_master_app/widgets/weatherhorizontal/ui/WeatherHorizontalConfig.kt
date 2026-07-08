@@ -62,6 +62,7 @@ fun WeatherHorizontalConfig(onDone: (WidgetConfig) -> Unit = {}) {
     var selectedVariant by remember { mutableStateOf(WidgetVariant.LARGE) }
     var selectedFontSize by remember { mutableFloatStateOf(1f) }
     var isTransparent by remember { mutableStateOf(false) }
+    var selectedIconSize by remember { mutableFloatStateOf(1f) }
 
 
     Scaffold(
@@ -83,7 +84,12 @@ fun WeatherHorizontalConfig(onDone: (WidgetConfig) -> Unit = {}) {
                     modifier = Modifier.weight(1f)
                 ) {
                     Gap(paddingValues.calculateTopPadding())
-                    WidgetPreview(selectedVariant, selectedFontSize, isTransparent)
+                    WidgetPreview(
+                        selectedVariant,
+                        selectedFontSize,
+                        isTransparent,
+                        selectedIconSize
+                    )
                 }
             }
             Gap(16.dp)
@@ -138,14 +144,28 @@ fun WeatherHorizontalConfig(onDone: (WidgetConfig) -> Unit = {}) {
                         leading = { SettingsTileIcon(R.drawable.format_size_24px) },
                         description = "${round(selectedFontSize * 10) / 10}",
                         isDescriptionAsValue = true,
-                        valueRange = 0.1f..1f,
+                        valueRange = 0.1f..2f,
                         initialValue = selectedFontSize,
                         labelFormatter = { "${round(it * 10) / 10}" },
-                        steps = 9,
+                        steps = 19,
                         onValueSubmitted = {
                             selectedFontSize = it
                         },
-                    )
+                    ),
+                    SettingTile.DialogSliderTile(
+                        title = "Icon size",
+                        dialogTitle = "Icon size",
+                        leading = { SettingsTileIcon(R.drawable.photo_size_select_large_24px) },
+                        description = "${round(selectedIconSize * 10) / 10}",
+                        isDescriptionAsValue = true,
+                        valueRange = 0.1f..2f,
+                        initialValue = selectedIconSize,
+                        labelFormatter = { "${round(it * 10) / 10}" },
+                        steps = 19,
+                        onValueSubmitted = {
+                            selectedIconSize = it
+                        },
+                    ),
                 )
             )
 
@@ -156,6 +176,7 @@ fun WeatherHorizontalConfig(onDone: (WidgetConfig) -> Unit = {}) {
                         WidgetConfig(
                             variant = selectedVariant,
                             fontSize = selectedFontSize,
+                            iconSize = selectedIconSize,
                             widgetTheme = if (isTransparent) WidgetTheme.TRANSPARENT else WidgetTheme.AUTO
                         )
                     )
@@ -175,22 +196,28 @@ fun WeatherHorizontalConfig(onDone: (WidgetConfig) -> Unit = {}) {
 }
 
 @Composable
-private fun WidgetPreview(variant: WidgetVariant, fontSize: Float, isTransparent: Boolean) {
+private fun WidgetPreview(
+    variant: WidgetVariant,
+    fontSize: Float,
+    isTransparent: Boolean,
+    iconSize: Float
+) {
     when (variant) {
-        WidgetVariant.LARGE -> LargeWidgetPreview(fontSize, isTransparent)
-        WidgetVariant.COMPACT -> WidgetCompactPreview(fontSize, isTransparent)
-        else -> WidgetSmallPreview(fontSize, isTransparent)
+        WidgetVariant.LARGE -> LargeWidgetPreview(fontSize, isTransparent, iconSize)
+        WidgetVariant.COMPACT -> WidgetCompactPreview(fontSize, isTransparent, iconSize)
+        else -> WidgetSmallPreview(fontSize, isTransparent, iconSize)
     }
 
 }
 
 
 @Composable
-private fun LargeWidgetPreview(fontSize: Float, isTransparent: Boolean) {
+private fun LargeWidgetPreview(fontSize: Float, isTransparent: Boolean, iconSize: Float) {
 
     val size = 18 * fontSize
     val fontSizeLocation = 16 * fontSize
     val tempSize = 40 * fontSize
+    val iconSize = 48 * iconSize
 
     val textColor = if (isTransparent) Color.White else MaterialTheme.colorScheme.onSurface
     val widgetColor =
@@ -213,7 +240,7 @@ private fun LargeWidgetPreview(fontSize: Float, isTransparent: Boolean) {
                 .padding(18.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            WeatherIconBox(R.drawable.weather_clear_day, size = 48.dp)
+            WeatherIconBox(R.drawable.weather_clear_day, size = iconSize.dp)
             Gap(horizontal = 6.dp)
             Column() {
                 Text(
@@ -256,9 +283,10 @@ private fun LargeWidgetPreview(fontSize: Float, isTransparent: Boolean) {
 
 
 @Composable
-private fun WidgetCompactPreview(fontSize: Float, isTransparent: Boolean) {
+private fun WidgetCompactPreview(fontSize: Float, isTransparent: Boolean, iconSize: Float) {
     val size = 18 * fontSize
     val tempSize = 24 * fontSize
+    val iconSize = 48 * iconSize
 
     val textColor = if (isTransparent) Color.White else MaterialTheme.colorScheme.onSurface
     val widgetColor =
@@ -279,7 +307,7 @@ private fun WidgetCompactPreview(fontSize: Float, isTransparent: Boolean) {
                 .padding(18.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            WeatherIconBox(R.drawable.weather_clear_day, size = 48.dp)
+            WeatherIconBox(R.drawable.weather_clear_day, size = iconSize.dp)
             Gap(horizontal = 6.dp)
             Column() {
                 Text("29°", fontSize = tempSize.sp, color = textColor)
@@ -290,8 +318,9 @@ private fun WidgetCompactPreview(fontSize: Float, isTransparent: Boolean) {
 }
 
 @Composable
-private fun WidgetSmallPreview(fontSize: Float, isTransparent: Boolean) {
+private fun WidgetSmallPreview(fontSize: Float, isTransparent: Boolean, iconSize: Float) {
     val tempSize = 40 * fontSize
+    val iconSize = 48 * iconSize
 
     val textColor = if (isTransparent) Color.White else MaterialTheme.colorScheme.onSurface
     val widgetColor =
@@ -314,7 +343,7 @@ private fun WidgetSmallPreview(fontSize: Float, isTransparent: Boolean) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            WeatherIconBox(R.drawable.weather_clear_day, size = 48.dp)
+            WeatherIconBox(R.drawable.weather_clear_day, size = iconSize.dp)
             Gap(horizontal = 6.dp)
 
             Text("29°", fontSize = tempSize.sp, color = textColor)

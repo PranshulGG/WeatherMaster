@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weather_master_app.R
 
-@Preview
 @Composable
 fun OvercastCanvas() {
 
