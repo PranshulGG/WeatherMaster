@@ -66,7 +66,6 @@ class WeatherWorker @AssistedInject constructor(
              */
             WeatherNotification.showNotification(default.name, applicationContext)
 
-            delay(5000)
             // Get the repository
             val repo = repositoryProvider.getRepository(default.source)
 
@@ -89,6 +88,7 @@ class WeatherWorker @AssistedInject constructor(
             return Result.success()
 
         } catch (e: Exception) {
+            WeatherNotification.hideNotification(applicationContext)
             Result.failure()
         } finally {
             WeatherNotification.hideNotification(applicationContext)

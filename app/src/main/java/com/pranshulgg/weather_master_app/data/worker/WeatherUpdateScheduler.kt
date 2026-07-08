@@ -12,6 +12,8 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import java.util.concurrent.TimeUnit
 
 object WeatherUpdateScheduler {
+
+    const val WORK_NAME = "@pranshulgg_weather_master_updates"
     fun scheduleWeatherUpdates(
         context: Context,
         repeatInterval: Int,
@@ -31,7 +33,7 @@ object WeatherUpdateScheduler {
 
 
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-            "@pranshulgg_weather_master_updates",
+            WORK_NAME,
             ExistingPeriodicWorkPolicy.UPDATE,
             request
         )
@@ -39,7 +41,7 @@ object WeatherUpdateScheduler {
 
     fun disableWeatherUpdates(context: Context) {
         WorkManager.getInstance(context)
-            .cancelUniqueWork("@pranshulgg_weather_master_updates")
+            .cancelUniqueWork(WORK_NAME)
     }
 
     suspend fun updateAllWidgets(
