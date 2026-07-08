@@ -6,6 +6,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
+import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
@@ -36,6 +37,7 @@ import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateJson
 import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
 import com.pranshulgg.weather_master_app.widgets.params.WidgetSizePoints
 import com.pranshulgg.weather_master_app.widgets.ui.ReloadButton
+import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetColors
 import com.pranshulgg.weather_master_app.widgets.ui.views.WidgetClock
 import com.pranshulgg.weather_master_app.widgets.ui.views.WidgetDate
 import kotlinx.serialization.json.Json
@@ -60,6 +62,7 @@ class GlanceWidget : GlanceAppWidget() {
             val size = LocalSize.current
             val widgetState = currentState<WeatherWidgetStateJson>()
             val context = LocalContext.current
+            val widgetColors = WidgetColors()
 
             val json = widgetState.json
             val state = json?.let {
@@ -71,12 +74,16 @@ class GlanceWidget : GlanceAppWidget() {
                     .clickable(actionStartActivity<MainActivity>())
             ) {
                 if (state != null) {
+                    val textColor = widgetColors
+                        .getTextColor(config.widgetTextTheme, config.widgetTheme)
+                        ?: Pair(GlanceTheme.colors.onSurface, null)
+
                     Column(GlanceModifier.fillMaxWidth().padding(16.dp)) {
                         if (config.showClock) {
-                            WidgetClock(config.clockSize, context, R.color.white)
+                            WidgetClock(config.clockSize, context, textColor.second)
                         }
 
-                        WidgetDate(config.dateFormat, context, size = 20f, color = R.color.white)
+                        WidgetDate(config.dateFormat, context, size = 20f, color = textColor.second)
 
                         Spacer(GlanceModifier.height(5.dp))
                         Row() {
@@ -98,9 +105,9 @@ class GlanceWidget : GlanceAppWidget() {
                                 Text(
                                     "${state.currentTemp} • ",
                                     style = TextStyle(
-                                        color = ColorProvider(R.color.white),
+                                        color = textColor.first,
                                         fontSize = 18.sp
-                                    )
+                                    ),
                                 )
                             }
                             Box {
@@ -115,7 +122,7 @@ class GlanceWidget : GlanceAppWidget() {
                                 Text(
                                     state.currentCondition,
                                     style = TextStyle(
-                                        color = ColorProvider(R.color.white),
+                                        color = textColor.first,
                                         fontSize = 18.sp
                                     )
                                 )

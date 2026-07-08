@@ -45,6 +45,8 @@ import com.pranshulgg.weather_master_app.core.ui.components.tiles.DialogOption
 import com.pranshulgg.weather_master_app.core.ui.theme.ShapeRadius
 import com.pranshulgg.weather_master_app.core.utils.formatters.toSafeDouble
 import com.pranshulgg.weather_master_app.widgets.config.WidgetConfig
+import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTextTheme
+import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTheme
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -73,6 +75,10 @@ fun GlanceWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
     val formatsOptions = formats.map { DialogOption(it, it) }
     val clockSizeOptions = clockSizes.map { DialogOption(it.toString(), "${it.roundToInt()}.sp") }
 
+    var widgetTextTheme by remember { mutableStateOf(WidgetTextTheme.WHITE) }
+    val widgetTextThemeOptions =
+        WidgetTextTheme.entries.filter { it != WidgetTextTheme.AUTO }
+            .map { DialogOption(it.toString(), stringResource(it.label)) }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surfaceContainer
@@ -90,7 +96,7 @@ fun GlanceWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
-                GlanceWidgetPreview(clockSize, showClock, dateFormat)
+                GlanceWidgetPreview(clockSize, showClock, dateFormat, widgetTextTheme)
             }
 
             SettingSection(
@@ -121,6 +127,21 @@ fun GlanceWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                         onOptionSelected = {
                             dateFormat = it
                         }
+                    ),
+                    SettingTile.DialogOptionTile(
+                        leading = { SettingsTileIcon(R.drawable.format_paint_24px) },
+                        title = "Widget text color",
+                        options = widgetTextThemeOptions,
+                        selectedOption = widgetTextTheme.toString(),
+                        onOptionSelected = {
+                            val selected = when (it) {
+                                "WHITE" -> WidgetTextTheme.WHITE
+                                "BLACK" -> WidgetTextTheme.BLACK
+                                else -> WidgetTextTheme.WHITE
+                            }
+
+                            widgetTextTheme = selected
+                        }
                     )
                 )
             )
@@ -132,7 +153,8 @@ fun GlanceWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                         WidgetConfig(
                             clockSize = clockSize,
                             showClock = showClock,
-                            dateFormat = dateFormat
+                            dateFormat = dateFormat,
+                            widgetTextTheme = widgetTextTheme
                         )
                     )
                 },
@@ -151,11 +173,21 @@ fun GlanceWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
 }
 
 @Composable
-private fun GlanceWidgetPreview(clockSize: Float = 32f, showClock: Boolean = true, format: String) {
+private fun GlanceWidgetPreview(
+    clockSize: Float = 32f,
+    showClock: Boolean = true,
+    format: String,
+    textTheme: WidgetTextTheme
+) {
 
+    val textColor = when (textTheme) {
+        WidgetTextTheme.BLACK -> Color.Black
+        WidgetTextTheme.WHITE -> Color.White
+        else -> Color.White
+    }
     val style = TextStyle(
         shadow = Shadow(
-            color = Color(0xFF000000).copy(alpha = 0.8f),
+            color = Color.Black.copy(alpha = 0.8f),
             blurRadius = 4f,
             offset = Offset(2f, 2f)
         )
@@ -168,12 +200,14 @@ private fun GlanceWidgetPreview(clockSize: Float = 32f, showClock: Boolean = tru
         else -> "Thu 18 Jun"
     }
 
+
+
     Column(Modifier.padding(16.dp)) {
         if (showClock) {
             Text(
                 "03:23",
                 fontSize = clockSize.sp,
-                color = Color(0xFFEEF0FF),
+                color = textColor,
                 fontWeight = FontWeight.Bold,
                 style = style
             )
@@ -181,15 +215,15 @@ private fun GlanceWidgetPreview(clockSize: Float = 32f, showClock: Boolean = tru
         Text(
             date,
             fontSize = 20.sp,
-            color = Color(0xFFEEF0FF),
+            color = textColor,
             style = style
         )
         Gap(5.dp)
         Row(verticalAlignment = Alignment.CenterVertically) {
             WeatherIconBox(R.drawable.weather_partly_cloudy_day, size = 24.dp)
             Gap(horizontal = 5.dp)
-            Text("29° • ", color = Color(0xFFEEF0FF), fontSize = 18.sp, style = style)
-            Text("Clear sky", color = Color(0xFFEEF0FF), fontSize = 18.sp, style = style)
+            Text("29° • ", color = textColor, fontSize = 18.sp, style = style)
+            Text("Clear sky", color = textColor, fontSize = 18.sp, style = style)
         }
     }
 }
