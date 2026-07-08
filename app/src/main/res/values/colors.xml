@@ -11,4 +11,6 @@
     <color name="white_secondary">#B3FFFFFF</color>
     <color name="shadow">#80000000</color>
     <color name="transparent">#00000000</color>
+    <color name="widgetHourlyContainerColorLight">#e6e6e6</color>
+    <color name="widgetHourlyContainerColorDark">#333333</color>
 </resources>
