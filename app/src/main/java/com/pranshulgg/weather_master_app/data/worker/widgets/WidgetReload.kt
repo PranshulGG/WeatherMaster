@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app.data.worker.widgets
 
 import android.content.Context
+import android.content.SharedPreferences
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.data.provider.WeatherRepositoryProvider
 import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
@@ -10,7 +11,8 @@ import jakarta.inject.Inject
 class WidgetReload @Inject constructor(
     private val repositoryProvider: WeatherRepositoryProvider,
     private val locationsRepository: LocationsRepository,
-    private val weatherUnitsRepository: WeatherUnitsRepository
+    private val weatherUnitsRepository: WeatherUnitsRepository,
+    private val prefs: SharedPreferences
 ) {
 
     suspend fun reload(context: Context) {
@@ -30,7 +32,7 @@ class WidgetReload @Inject constructor(
 
         val weather = (result as? WeatherResult.Success)?.weather ?: return
 
-        val json = widgetWeatherMapper(weather, context, units)
+        val json = widgetWeatherMapper(weather, context, units, prefs)
         WeatherWidgetUpdater(context).update(json)
     }
 }

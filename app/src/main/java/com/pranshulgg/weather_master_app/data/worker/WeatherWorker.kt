@@ -1,23 +1,15 @@
 package com.pranshulgg.weather_master_app.data.worker
 
 import android.Manifest
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.Context
-import android.content.pm.ServiceInfo
-import android.os.Build
-import android.util.Log
+import android.content.SharedPreferences
 import androidx.annotation.RequiresPermission
-import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
-import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
-import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
-import com.pranshulgg.weather_master_app.core.prefs.AppPrefs.initPrefs
 import com.pranshulgg.weather_master_app.data.provider.WeatherRepositoryProvider
 import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
@@ -26,7 +18,6 @@ import com.pranshulgg.weather_master_app.data.worker.widgets.WeatherWidgetUpdate
 import com.pranshulgg.weather_master_app.data.worker.widgets.widgetWeatherMapper
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.delay
 
 @HiltWorker
 class WeatherWorker @AssistedInject constructor(
@@ -35,7 +26,8 @@ class WeatherWorker @AssistedInject constructor(
     private val repositoryProvider: WeatherRepositoryProvider,
     private val locationsRepository: LocationsRepository,
     private val appVisibility: AppVisibility,
-    private val weatherUnitsRepository: WeatherUnitsRepository
+    private val weatherUnitsRepository: WeatherUnitsRepository,
+    private val prefs: SharedPreferences,
 ) : CoroutineWorker(context, params) {
 
     @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
@@ -46,7 +38,6 @@ class WeatherWorker @AssistedInject constructor(
             return Result.success()
         }
 
-        initPrefs(applicationContext)
 
         return try {
 
@@ -55,6 +46,7 @@ class WeatherWorker @AssistedInject constructor(
             val locations = locationsRepository.getLocationsOnce()
             val default = locations.find { it.isDefault }
             val units = weatherUnitsRepository.getUnitsOnce()
+
 
             if (default == null || units == null) {
                 return Result.success()
@@ -69,10 +61,9 @@ class WeatherWorker @AssistedInject constructor(
             // Get the repository
             val repo = repositoryProvider.getRepository(default.source)
 
-
             val result = repo.getWeather(
                 location = default,
-                isManualRefresh = true,
+                isManualRefresh = false,
                 isForceRefresh = false
             )
 
@@ -81,9 +72,11 @@ class WeatherWorker @AssistedInject constructor(
                 return Result.success()
             }
 
+
             val weather = result.weather
 
-            updateAllWidgets(applicationContext, weather, units)
+            updateAllWidgets(applicationContext, weather, units, prefs)
+
 
             return Result.success()
 
@@ -100,9 +93,10 @@ class WeatherWorker @AssistedInject constructor(
         suspend fun updateAllWidgets(
             context: Context,
             data: Weather,
-            units: WeatherUnits
+            units: WeatherUnits,
+            prefs: SharedPreferences
         ) {
-            val json = widgetWeatherMapper(data, context, units)
+            val json = widgetWeatherMapper(data, context, units, prefs)
 
             WeatherWidgetUpdater(context).update(json)
         }
