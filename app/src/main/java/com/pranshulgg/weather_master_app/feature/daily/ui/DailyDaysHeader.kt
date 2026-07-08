@@ -36,7 +36,7 @@ fun DailyDaysHeader(
 
 
     LaunchedEffect(weather) {
-        scrollState.animateScrollToItem(selectedIndex, -16)
+        scrollState.animateScrollToItem(selectedIndex, scrollOffset = -100)
     }
 
 

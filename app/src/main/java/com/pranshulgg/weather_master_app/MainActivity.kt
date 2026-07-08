@@ -2,28 +2,17 @@ package com.pranshulgg.weather_master_app
 
 import android.graphics.Color
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.remember
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.work.ExistingWorkPolicy
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
-import com.pranshulgg.weather_master_app.core.prefs.AppPrefs
 import com.pranshulgg.weather_master_app.core.prefs.AppPrefs.initPrefs
 import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
-import com.pranshulgg.weather_master_app.core.ui.theme.isThemeDark
 import com.pranshulgg.weather_master_app.data.provider.devicelocation.GetDeviceLocation
-import com.pranshulgg.weather_master_app.data.worker.WeatherWorker
 import com.pranshulgg.weather_master_app.feature.shared.WeatherViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -84,7 +73,6 @@ class MainActivity : AppCompatActivity() {
             else -> systemDark
         }
     }
-
 
 }
 
