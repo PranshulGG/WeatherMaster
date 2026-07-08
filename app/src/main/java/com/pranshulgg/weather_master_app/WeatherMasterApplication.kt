@@ -3,18 +3,12 @@ package com.pranshulgg.weather_master_app
 import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.content.Context
-import android.os.Build
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.lifecycle.ProcessLifecycleOwner
-import dagger.hilt.android.HiltAndroidApp
 import androidx.work.Configuration
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
 import com.pranshulgg.weather_master_app.data.worker.AppVisibility
-import com.pranshulgg.weather_master_app.data.worker.WeatherWorker
 import com.pranshulgg.weather_master_app.data.worker.notification.WeatherNotificationConfig
-import java.util.concurrent.TimeUnit
+import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
 @HiltAndroidApp

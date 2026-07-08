@@ -50,8 +50,7 @@ class WeatherViewModel @Inject constructor(
     private val weatherBlocksRepository: WeatherBlocksRepository,
     private val openMeteoAqiRepository: OpenMeteoAqiRepository,
     private val weatherDataReconcilerRepository: WeatherDataReconcilerRepository,
-    @ApplicationContext private val context: Context,
-    private val prefs: SharedPreferences
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
 
     private var _uiState = mutableStateOf(MainScreenWeatherUiState())
@@ -268,8 +267,7 @@ class WeatherViewModel @Inject constructor(
             WeatherUpdateScheduler.updateAllWidgets(
                 context,
                 _uiState.value.weather!!,
-                _uiState.value.weatherUnits,
-                prefs
+                _uiState.value.weatherUnits
             )
         }
     }

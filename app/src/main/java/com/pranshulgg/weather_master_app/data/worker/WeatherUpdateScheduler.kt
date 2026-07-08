@@ -49,8 +49,7 @@ object WeatherUpdateScheduler {
         context: Context,
         data: Weather,
         units: WeatherUnits,
-        prefs: SharedPreferences
     ) {
-        WeatherWorker.updateAllWidgets(context, data, units, prefs)
+        WeatherWorker.updateAllWidgets(context, data, units)
     }
 }

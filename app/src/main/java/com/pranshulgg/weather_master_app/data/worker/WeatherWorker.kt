@@ -3,6 +3,7 @@ package com.pranshulgg.weather_master_app.data.worker
 import android.Manifest
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.annotation.RequiresPermission
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
@@ -10,6 +11,7 @@ import androidx.work.WorkerParameters
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
+import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
 import com.pranshulgg.weather_master_app.data.provider.WeatherRepositoryProvider
 import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
@@ -18,6 +20,7 @@ import com.pranshulgg.weather_master_app.data.worker.widgets.WeatherWidgetUpdate
 import com.pranshulgg.weather_master_app.data.worker.widgets.widgetWeatherMapper
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.delay
 
 @HiltWorker
 class WeatherWorker @AssistedInject constructor(
@@ -26,8 +29,7 @@ class WeatherWorker @AssistedInject constructor(
     private val repositoryProvider: WeatherRepositoryProvider,
     private val locationsRepository: LocationsRepository,
     private val appVisibility: AppVisibility,
-    private val weatherUnitsRepository: WeatherUnitsRepository,
-    private val prefs: SharedPreferences,
+    private val weatherUnitsRepository: WeatherUnitsRepository
 ) : CoroutineWorker(context, params) {
 
     @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
@@ -38,7 +40,7 @@ class WeatherWorker @AssistedInject constructor(
             return Result.success()
         }
 
-
+        PreferencesHelper.init(applicationContext)
         return try {
 
 
@@ -58,12 +60,13 @@ class WeatherWorker @AssistedInject constructor(
              */
             WeatherNotification.showNotification(default.name, applicationContext)
 
+
             // Get the repository
             val repo = repositoryProvider.getRepository(default.source)
 
             val result = repo.getWeather(
                 location = default,
-                isManualRefresh = false,
+                isManualRefresh = true,
                 isForceRefresh = false
             )
 
@@ -75,13 +78,13 @@ class WeatherWorker @AssistedInject constructor(
 
             val weather = result.weather
 
-            updateAllWidgets(applicationContext, weather, units, prefs)
+            updateAllWidgets(applicationContext, weather, units)
 
 
             return Result.success()
 
         } catch (e: Exception) {
-            WeatherNotification.hideNotification(applicationContext)
+            WeatherNotification.hideNotification(applicationContext) // TODO: SHOW ERROR NOTIFICATION
             Result.failure()
         } finally {
             WeatherNotification.hideNotification(applicationContext)
@@ -94,9 +97,8 @@ class WeatherWorker @AssistedInject constructor(
             context: Context,
             data: Weather,
             units: WeatherUnits,
-            prefs: SharedPreferences
         ) {
-            val json = widgetWeatherMapper(data, context, units, prefs)
+            val json = widgetWeatherMapper(data, context, units)
 
             WeatherWidgetUpdater(context).update(json)
         }

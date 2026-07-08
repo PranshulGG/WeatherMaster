@@ -93,12 +93,5 @@ object AppModule {
     @Singleton
     fun provideNominatimRepository(api: NominatimApi): NominatimRepository =
         NominatimRepository(api)
-
-    @Provides
-    @Singleton
-    fun provideSharedPreferences(
-        @ApplicationContext context: Context
-    ): SharedPreferences {
-        return context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-    }
+    
 }

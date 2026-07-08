@@ -2,14 +2,12 @@ package com.pranshulgg.weather_master_app.data.worker.widgets
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnit
 import com.pranshulgg.weather_master_app.core.model.weather.toFroggy
 import com.pranshulgg.weather_master_app.core.model.weather.toIcon
 import com.pranshulgg.weather_master_app.core.model.weather.toLabel
-import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
 import com.pranshulgg.weather_master_app.core.utils.formatters.to12HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.formatters.to24HourTimeString
@@ -27,8 +25,7 @@ import kotlin.math.roundToInt
 fun widgetWeatherMapper(
     weather: Weather,
     applicationContext: Context,
-    units: WeatherUnits,
-    prefs: SharedPreferences
+    units: WeatherUnits
 ): String {
 
     // Map everything
@@ -53,7 +50,7 @@ fun widgetWeatherMapper(
 
     val hourlyStartIndex = findHourlyIndexForTime(weather.hourly.map { it.time })
 
-    val is24hr = prefs.getBoolean("is24HrTimeFormat", true)
+    val is24hr = PreferencesHelper.getBool("is24HrTimeFormat") ?: true
 
 
     val daySummary = computeDaySummary(weather, applicationContext, 0, units)

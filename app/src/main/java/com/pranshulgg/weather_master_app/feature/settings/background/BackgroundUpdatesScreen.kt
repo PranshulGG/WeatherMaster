@@ -129,7 +129,10 @@ fun BackgroundUpdatesScreen(navController: NavController) {
                         selectedOption = prefs.backgroundUpdatesInterval.toString(),
                         onOptionSelected = {
                             prefs.setBackgroundUpdatesInterval(it.toInt())
-                            viewModel.scheduleWeatherUpdates(it.toInt())
+
+                            if (prefs.backgroundUpdatesEnabled) {
+                                viewModel.scheduleWeatherUpdates(it.toInt())
+                            }
                         }
                     ),
                     SettingTile.ActionTile(
