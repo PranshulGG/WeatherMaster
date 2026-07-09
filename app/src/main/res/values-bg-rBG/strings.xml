@@ -310,15 +310,15 @@
     <string name="setting_app_font">Шрифт на приложението</string>
     <string name="setting_system_font">Системен шрифт</string>
     <string name="weather_minimum">Минимум</string>
-    <string name="error_no_results_found">No results found</string>
-    <string name="text_time">Time</string>
-    <string name="settings_24hr_time">Use 24hr time format</string>
-    <string name="about_email">Email</string>
-    <string name="settings_source_request_title">Want a source to be added? You can request it here</string>
-    <string name="action_request">Request</string>
-    <string name="source_credits_label">%1$s and more</string>
-    <string name="weather_wind_direction_from">From %1$s</string>
-    <string name="day_length_hr">%1$s hrs</string>
-    <string name="error_no_results">No results found</string>
+    <string name="error_no_results_found">Няма намерени резултати</string>
+    <string name="text_time">Време</string>
+    <string name="settings_24hr_time">Използвайте 24-часов формат за време</string>
+    <string name="about_email">Имейл</string>
+    <string name="settings_source_request_title">Искате да бъде добавен източник? Можете да го заявите тук</string>
+    <string name="action_request">Заявка</string>
+    <string name="source_credits_label">%1$s и още</string>
+    <string name="weather_wind_direction_from">От %1$s</string>
+    <string name="day_length_hr">%1$s часа</string>
+    <string name="error_no_results">Няма намерени резултати</string>
 </resources>
 <!--<string name=""></string>-->
