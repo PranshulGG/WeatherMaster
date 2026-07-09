@@ -61,7 +61,7 @@
     <string name="weather_very_cold">קר מאוד</string>
     <string name="weather_haze">אובך</string>
     <string name="weather_rain">גשום</string>
-    <string name="weather_no_condition">No condition found</string>
+    <string name="weather_no_condition">לא נמצאו תנאים</string>
     <string name="weather_uv_low">נמוך</string>
     <string name="weather_uv_moderate">בינוני</string>
     <string name="weather_uv_high">גבוה</string>
@@ -82,7 +82,7 @@
     <string name="unit_wind_mps">מטרים לשנייה</string>
     <string name="unit_wind_mph">מיל לשעה</string>
     <string name="unit_wind_kph">קילומטרים לשעה</string>
-    <string name="unit_pressure_hpa">Hectopascals</string>
+    <string name="unit_pressure_hpa">הטרופסקלים</string>
     <string name="unit_pressure_inhg">Inches of Mercury</string>
     <string name="unit_distance_km">קילומטרים</string>
     <string name="unit_distance_mi">מיל</string>
@@ -102,8 +102,8 @@
     <string name="error_delete_default_location">לא ניתן למחוק את מיקום ברירת המחדל</string>
     <string name="setting_app_looks">מראה היישום</string>
     <string name="temp_feels_like">מרכיש כמו %1$s</string>
-    <string name="temp_max">Max: %1$s</string>
-    <string name="temp_min">Min: %1$s</string>
+    <string name="temp_max">שיא: %1$s</string>
+    <string name="temp_min">שפל: %1$s</string>
     <string name="search_results_provided">תוצאות החיפוש סופקו באדיבות %1$s</string>
     <string name="action_confirm">אישור</string>
     <string name="weather">Weather</string>
@@ -117,7 +117,7 @@
     <string name="weather_precipitation">משקעים</string>
     <string name="weather_air_quality_index">מדד איכות אוויר</string>
     <string name="setting_translate_app">עזרה בתרגום היישום</string>
-    <string name="setting_translate_app_secondary">Contribute by translating the app into your language on Crowdin</string>
+    <string name="setting_translate_app_secondary">אפשר לעזור בתרגום היישום לעברית דרך Crowdin</string>
     <string name="location_use_current">שימוש במיקום הנוכחי</string>
     <string name="location_use_current_secondary">אפשר לזהות אוטומטית את מיקום המכשיר הנוכחי ולהוסיף לרשימה</string>
     <string name="location_permission_required">נדרשת הרשאת גישה למיקום</string>
@@ -129,7 +129,7 @@
     <string name="weather_airquality_poor">גרועה</string>
     <string name="weather_airquality_very_poor">גרועה מאוד</string>
     <string name="weather_airquality_hazardous">לא בריאה</string>
-    <string name="weather_aqi_description_good">Air quality is satisfactory, and air pollution poses little or no risk.</string>
+    <string name="weather_aqi_description_good">איכות האוויר מצוינת, וזיהום האוויר אינו מסוכן כמעט או בכלל.</string>
     <string name="weather_aqi_description_fair">איכות האוויר סבירה. עם זאת, עלול להיות סיכון לאנשים מסוימים, במיוחד למי שרגישים לזיהום האוויר בצורה יוצאת דופן.</string>
     <string name="weather_aqi_description_moderate">Members of sensitive groups may experience health effects. The general public is less likely to be affected.</string>
     <string name="weather_aqi_description_poor">Some members of the general public may experience health effects; members of sensitive groups may experience more serious health effects.</string>
@@ -178,9 +178,9 @@
     <string name="error_refresh_waiting_before_action">נא להמתין עד לסיום הרענון</string>
     <string name="weather_total_amount">סך הכול</string>
     <string name="setting_background_updates">עדכוני רקע</string>
-    <string name="setting_background_updates_secondary">Update interval, battery optimization, help</string>
+    <string name="setting_background_updates_secondary">מרווח זמן בין עדכונים, מיטוב סוללה, עזרה</string>
     <string name="setting_notification_permission_req">נדרשת הרשאה לשליחת התראות</string>
-    <string name="setting_notification_permission_secondary">The app sends you a notification whenever the weather updates in the background</string>
+    <string name="setting_notification_permission_secondary">יישום זה שולח התראה ברקע כאשר יש עדכוני מזג אוויר</string>
     <string name="setting_notification">התראה</string>
     <string name="time_hours">%1$s שעות</string>
     <string name="time_hour">שעה</string>
@@ -191,7 +191,7 @@
     <string name="setting_disable_battery_opt_title">ביטול מיטוב הסוללה</string>
     <string name="setting_disable_battery_opt_secondary">עם העדכונים ברקע לא עובדים, ייתכן שמיטוב הסוללה מגביל את היישום הזה</string>
     <string name="setting_dontkillmyapp_title">עדכוני הרקע לא עובדים?</string>
-    <string name="setting_dontkillmyapp_secondary">Some device vendors restrict apps in the background. Check dontkillmyapp.com for steps to fix this</string>
+    <string name="setting_dontkillmyapp_secondary">יצרניות מכשירים מסוימות מגבילות את פעילות היישומים ברקע. נא לעיין בכתובת dontkillmyapp.com להוראות לתיקון בעיה זו</string>
     <string name="setting_weather_sources_secondary">רשימה של כל המקורות הנתמכים</string>
     <string name="setting_join_discord">הצטרפות לשרת ה־Discord</string>
     <string name="setting_about_app_secondary">גרסה, תנאים, פרטיות ועוד</string>
@@ -204,7 +204,7 @@
     <string name="message_new_version_available">גרסה חדשה זמינה</string>
     <string name="message_using_latest_version">נעשה שימוש בגרסה העדכנית</string>
     <string name="about_check_for_updates">בדיקת עדכונים</string>
-    <string name="action_view">View</string>
+    <string name="action_view">הצגה</string>
     <string name="setting_weather_sources_info">Separate sources for each region are recommended based on the country code</string>
     <string name="setting_weather_animations">הנפשות מזג אוויר</string>
     <string name="setting_weather_animations_secondary">Canvas animations that change based on the current weather</string>
@@ -214,7 +214,7 @@
     <string name="setting_weather_based_theme">ערכת נושא המבוססת על מזג האוויר</string>
     <string name="setting_weather_based_theme_secondary">Automatically adapts app colors based on current weather conditions.</string>
     <string name="unit_pressure_mmhg">Millimeters of mercury</string>
-    <string name="summary_overview_template_1">%1$s through most of the day.</string>
+    <string name="summary_overview_template_1">%1$s רוב היום.</string>
     <string name="summary_overview_template_2">Expect %1$s conditions for the day.</string>
     <string name="summary_overview_template_3">יש צפי לתנאים של %1$s.</string>
     <string name="summary_overview_template_4">השמיים יישארו %1$s למשך רוב היום.</string>
@@ -223,12 +223,12 @@
     <string name="summary_rain_high_template_3">Wet weather is likely around %1$s.</string>
     <string name="summary_rain_high_template_4">Steady rainfall may develop near %1$s.</string>
     <string name="summary_rain_medium_template_1">Showers are possible around %1$s.</string>
-    <string name="summary_rain_medium_template_2">Rain may develop near %1$s.</string>
+    <string name="summary_rain_medium_template_2">הגשם עשוי להתעצם לקראת %1$s.</string>
     <string name="summary_rain_medium_template_3">A chance of precipitation is expected around %1$s.</string>
     <string name="summary_rain_medium_template_4">Intermittent rain is possible near %1$s.</string>
     <string name="summary_rain_low_template_1">A slight chance of rain remains near %1$s.</string>
     <string name="summary_rain_low_template_2">Isolated showers may occur around %1$s.</string>
-    <string name="summary_rain_low_template_3">עשוי לרדת גשם קל בסביבות %1$s.</string>
+    <string name="summary_rain_low_template_3">עשוי לרדת גשם קל לקראת %1$s.</string>
     <string name="summary_snow_high_template_1">Snowfall is highly likely around %1$s.</string>
     <string name="summary_snow_high_template_2">Periods of snow are expected near %1$s.</string>
     <string name="summary_snow_high_template_3">Heavy snow may develop around %1$s.</string>
@@ -300,13 +300,13 @@
     <string name="moonphase_waning_gibbous">Waning gibbous</string>
     <string name="moonphase_last_quarter">Last quarter</string>
     <string name="moonphase_waning_crescent">Waning crescent</string>
-    <string name="moon_phase">Phase</string>
+    <string name="moon_phase">שלב</string>
     <string name="weather_about_sun_moon_rise_set">The rise time is when the sun or moon first appears above the horizon. The set time is when the sun or moon fully disappears below the horizon</string>
     <string name="weather_about_dawn_dusk">Dawn is the period of light in the sky just before sunrise. Dusk is the period of fading light in the sky just after sunset</string>
     <string name="weather_about_pressure">Mean sea level pressure, a measure of how much the atmosphere is pressing down, adjusted to sea level. Watching how it changes can provide an early indication of weather changes. Pressure falling usually means unsettled weather is approaching, while pressure rising often means conditions are becoming more stable</string>
     <string name="weather_about_windspeed">Wind speed is the rate at which air moves horizontally past a specific point, driven by differences in atmospheric pressure and temperature</string>
-    <string name="unit_wind_kt">Knots</string>
-    <string name="unit_wind_bft">Beaufort</string>
+    <string name="unit_wind_kt">קשר</string>
+    <string name="unit_wind_bft">בופורט</string>
     <string name="setting_day_summary">תקציר יומי</string>
     <string name="setting_day_summary_secondary">Show a daily summary generated from hourly data</string>
     <string name="setting_system">לפי המערכת</string>
@@ -317,7 +317,7 @@
     <string name="setting_system_font">גופן המערכת</string>
     <string name="weather_minimum">Minimum</string>
     <string name="error_no_results_found">אין תוצאות</string>
-    <string name="text_time">Time</string>
+    <string name="text_time">שעה</string>
     <string name="settings_24hr_time">שימוש בתבנית שעה של 24 שעות</string>
     <string name="about_email">דוא״ל</string>
     <string name="settings_source_request_title">היית רוצה שאוסיף מקור מסוים? אפשר לבקש זאת כאן</string>
