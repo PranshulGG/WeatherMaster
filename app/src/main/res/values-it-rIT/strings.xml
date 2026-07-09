@@ -316,7 +316,7 @@
     <string name="about_email">Email</string>
     <string name="settings_source_request_title">Want a source to be added? You can request it here</string>
     <string name="action_request">Request</string>
-    <string name="source_credits_label">%1$s and more</string>
+    <string name="source_credits_label">%1$s e più</string>
     <string name="weather_wind_direction_from">From %1$s</string>
     <string name="day_length_hr">%1$s hrs</string>
     <string name="error_no_results">Nessun risultato trovato</string>
