@@ -28,21 +28,21 @@
     <string name="search_provider">Пошукова служба</string>
     <plurals name="time_minutes_ago">
         <item quantity="one">%d хв. тому</item>
-        <item quantity="few">%d mins ago</item>
-        <item quantity="many">%d mins ago</item>
-        <item quantity="other">%d mins ago</item>
+        <item quantity="few">%d хв. тому</item>
+        <item quantity="many">%d хв. тому</item>
+        <item quantity="other">%d хв. тому</item>
     </plurals>
     <plurals name="time_hours_ago">
         <item quantity="one">%d год. тому</item>
-        <item quantity="few">%d hrs ago</item>
-        <item quantity="many">%d hrs ago</item>
-        <item quantity="other">%d hrs ago</item>
+        <item quantity="few">%d год. тому</item>
+        <item quantity="many">%d год. тому</item>
+        <item quantity="other">%d год. тому</item>
     </plurals>
     <plurals name="time_days_ago">
         <item quantity="one">%d день тому</item>
-        <item quantity="few">%d days ago</item>
-        <item quantity="many">%d days ago</item>
-        <item quantity="other">%d days ago</item>
+        <item quantity="few">%d днів. тому</item>
+        <item quantity="many">%d днів. тому</item>
+        <item quantity="other">%d день. тому</item>
     </plurals>
     <string name="time_just_now">Щойно</string>
     <string name="time_last_updated">Останнє оновлення %1$s</string>
