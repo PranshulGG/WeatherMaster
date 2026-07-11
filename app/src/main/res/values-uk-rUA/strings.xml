@@ -134,7 +134,7 @@
     <string name="weather_aqi_description_moderate">Чутливі групи людей можуть відчути вплив на здоров\'я. Вплив на більшість людей менш імовірний.</string>
     <string name="weather_aqi_description_poor">Більшість людей можуть відчути вплив на здоров\'я. Чутливі групи людей можуть відчути серйозніший вплив на здоров\'я.</string>
     <string name="weather_aqi_description_very_poor">Попередження про здоров\'я: Збільшений ризик впливу на здоров\'я для всіх.</string>
-    <string name="weather_aqi_description_hazardous">Health warning of emergency conditions: everyone is more likely to be affected.</string>
+    <string name="weather_aqi_description_hazardous">Попередження про надзвичайні умови для здоров\'я: усі можуть постраждати.</string>
     <string name="weather_aqi_pm_description">Small solid particles and liquid droplets found in the air. It’s emitted from motor vehicles, wood heaters, and industry. Fires and dust storms can also produce high concentrations of Particulate Matter</string>
     <string name="weather_aqi_no2_description">A gas and a major component of central city air pollution. It mainly comes from vehicles, industry, power stations, and heating</string>
     <string name="weather_aqi_O3_description">A gas found in the stratosphere. It protects us from harmful ultraviolet radiation and the troposphere. Ozone is a harmful pollutant produced by a chemical reaction between the sun light, organic gasses, and nitrogen oxides (e.g. Cars, Power plants)</string>
