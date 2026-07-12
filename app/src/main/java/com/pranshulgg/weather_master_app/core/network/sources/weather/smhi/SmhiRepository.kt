@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.core.network.sources.weather.smhi
 
+import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
@@ -48,7 +49,7 @@ class SmhiRepository @Inject constructor(
 
                 val body =
                     response.body()
-                        ?: return@withContext WeatherResult.Error(exception = UnknownHostException())
+                        ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
 
 
                 val domain = body.toDomain(location)
