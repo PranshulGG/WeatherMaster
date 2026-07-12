@@ -91,11 +91,15 @@ fun widgetWeatherMapper(
             val icon = it.weatherCondition.toIcon(
                 targetTimeMilli = System.currentTimeMillis()
             )
+
+            val conditionName = it.weatherCondition.toLabel(applicationContext)
+
             WidgetDailyItem(
                 tempMax = "${maxTemperature}°",
                 tempMin = "${minTemperature}°",
                 conditionIcon = icon,
-                time = toWeekdayString(it.time, timezone)
+                time = toWeekdayString(it.time, timezone),
+                conditionName = conditionName
             )
         }
 

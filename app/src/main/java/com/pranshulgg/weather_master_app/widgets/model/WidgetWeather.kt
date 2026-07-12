@@ -28,5 +28,6 @@ data class WidgetDailyItem(
     val tempMax: String,
     val tempMin: String,
     val conditionIcon: Int,
-    val time: String
+    val time: String,
+    val conditionName: String
 )
