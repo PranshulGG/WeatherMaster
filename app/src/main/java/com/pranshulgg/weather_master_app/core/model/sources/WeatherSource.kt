@@ -51,6 +51,11 @@ enum class WeatherSource(
         fullName = "Badan Meteorologi, Klimatologi, dan Geofisika",
         displayLink = "https://www.bmkg.go.id/"
     ),
+    ACCU_WEATHER(
+        displayName = "AccuWeather",
+        fullName = "AccuWeather",
+        displayLink = "https://www.accuweather.com/"
+    ),
     MET_NORWAY(
         displayName = "Met Norway",
         fullName = "Met Norway",
@@ -90,7 +95,8 @@ fun getWeatherSourcesForCountry(countryCode: String?): List<WeatherSource> {
 // GLOBAL SOURCES
 private val weatherSourcesGlobal = listOf(
     WeatherSource.OPEN_METEO, WeatherSource.MET_NORWAY,
-    WeatherSource.METEO_FRANCE
+    WeatherSource.METEO_FRANCE,
+    WeatherSource.ACCU_WEATHER
 )
 
 fun getWeatherSourcesGlobal(): List<WeatherSource> {
