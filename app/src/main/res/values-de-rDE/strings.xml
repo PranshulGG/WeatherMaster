@@ -252,8 +252,10 @@
     <string name="summary_temp_mild_template_1">Die Temperaturen bleiben den ganzen Tag über mild.</string>
     <string name="summary_temp_mild_template_2">Die angenehmen Bedingungen halten an, mit Temperaturen nahe %1$s.</string>
     <string name="summary_temp_mild_template_3">Die Temperaturen werden insgesamt moderat bleiben.</string>
-    <string name="summary_temp_cool_template_1">Es werden kühle Bedingungen mit Temperaturen um %1$s erwartet.</string>
-    <string name="summary_temp_cool_template_2">Der Tag wird insgesamt relativ kühl bleiben.</string>
+    <string name="summary_temp_cool_template_1">
+Es werden kühle Bedingungen mit Temperaturen um %1$s erwartet.</string>
+    <string name="summary_temp_cool_template_2">
+Der Tag wird insgesamt relativ kühl bleiben.</string>
     <string name="summary_temp_cool_template_3">Das kühle Wetter wird den Großteil des Tages über anhalten.</string>
     <string name="summary_temp_cold_template_1">Den ganzen Tag über wird kaltes Wetter erwartet.</string>
     <string name="summary_temp_cold_template_2">Die Temperaturen werden niedrig bleiben, und die kühlen Bedingungen halten an.</string>
@@ -307,18 +309,18 @@
     <string name="weather_about_precipitation">Niederschlag zeigt die vorhergesagte Regenmenge pro Stunde an. Größere Mengen deuten auf stärkeren Regen hin.</string>
     <string name="weather_about_snowfall">Schneefall zeigt die vorhergesagte Schneemenge pro Stunde an. Größere Mengen deuten auf stärkeren Schneefall hin.</string>
     <string name="color_transparent">Transparent</string>
-    <string name="setting_app_font">App font</string>
-    <string name="setting_system_font">System font</string>
+    <string name="setting_app_font">App-Schriftart</string>
+    <string name="setting_system_font">Systemschriftart</string>
     <string name="weather_minimum">Minimum</string>
-    <string name="error_no_results_found">No results found</string>
-    <string name="text_time">Time</string>
-    <string name="settings_24hr_time">Use 24hr time format</string>
-    <string name="about_email">Email</string>
+    <string name="error_no_results_found">Keine Ergebnisse gefunden</string>
+    <string name="text_time">Zeit</string>
+    <string name="settings_24hr_time">24-Stunden-Format verwenden</string>
+    <string name="about_email">E-Mail</string>
     <string name="settings_source_request_title">Want a source to be added? You can request it here</string>
-    <string name="action_request">Request</string>
+    <string name="action_request">Anfrage</string>
     <string name="source_credits_label">%1$s and more</string>
     <string name="weather_wind_direction_from">From %1$s</string>
     <string name="day_length_hr">%1$s hrs</string>
-    <string name="error_no_results">No results found</string>
+    <string name="error_no_results">Keine Ergebnisse gefunden</string>
 </resources>
 <!--<string name=""></string>-->
