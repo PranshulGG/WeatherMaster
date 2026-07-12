@@ -15,7 +15,9 @@ private fun createClock(
     context: Context,
     size: Float,
     color: Int?,
-    hideShadow: Boolean
+    hideShadow: Boolean,
+    format: String,
+    format24Hr: String
 ): RemoteViews {
 
     val color = color?.let { ContextCompat.getColor(context, it) }
@@ -36,6 +38,17 @@ private fun createClock(
         context.packageName,
         layoutId
     ).apply {
+        setCharSequence(
+            viewId,
+            "setFormat12Hour",
+            format
+        )
+
+        setCharSequence(
+            viewId,
+            "setFormat24Hour",
+            format24Hr
+        )
         setTextColor(viewId, resolvedColor)
 
         setTextViewTextSize(viewId, TypedValue.COMPLEX_UNIT_SP, size)
@@ -49,7 +62,9 @@ fun WidgetClock(
     size: Float,
     context: Context,
     color: Int?,
-    hideShadow: Boolean = false
+    hideShadow: Boolean = false,
+    format: String = "hh:mm",
+    format24Hr: String = "HH:mm"
 ) {
 
     AndroidRemoteViews(
@@ -59,7 +74,9 @@ fun WidgetClock(
                 context,
                 size,
                 color,
-                hideShadow
+                hideShadow,
+                format,
+                format24Hr
             )
     )
 }
