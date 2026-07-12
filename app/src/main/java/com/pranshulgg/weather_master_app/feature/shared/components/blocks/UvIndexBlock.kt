@@ -103,15 +103,15 @@ fun UvIndexBlock(
                         alpha = if (uvIndexValue == UvIndex.HIGH) 1f else 0.15f
                     )
                     drawCircle(
-                        Color(0xFFAF5CF7),
-                        radius = 6f,
-                        center = Offset(144f, 121f),
-                        alpha = if (uvIndexValue == UvIndex.VERY_HIGH) 1f else 0.15f
-                    )
-                    drawCircle(
                         Color(0xFFEE675C),
                         radius = 6f,
                         center = Offset(120f, 145f),
+                        alpha = if (uvIndexValue == UvIndex.VERY_HIGH) 1f else 0.15f
+                    )
+                    drawCircle(
+                        Color(0xFFAF5CF7),
+                        radius = 6f,
+                        center = Offset(144f, 121f),
                         alpha = if (uvIndexValue == UvIndex.EXTREME) 1f else 0.15f
                     )
                 }
