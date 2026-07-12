@@ -16,6 +16,7 @@ data class WidgetConfig(
     val variant: WidgetVariant = WidgetVariant.LARGE,
     val fontSize: Float = 1f,
     val iconSize: Float = 1f,
-    val dailyCount: Int = 4
+    val dailyCount: Int = 4,
+    val showDailyInsteadOfCurrent: Boolean = false
 
 )

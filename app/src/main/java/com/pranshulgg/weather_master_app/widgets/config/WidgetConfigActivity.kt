@@ -8,23 +8,22 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.lifecycle.lifecycleScope
 import com.pranshulgg.weather_master_app.core.prefs.AppPrefs
 import com.pranshulgg.weather_master_app.core.prefs.AppPrefs.initPrefs
 import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
-import com.pranshulgg.weather_master_app.core.ui.snackbar.LocalSnackbarHostState
 import com.pranshulgg.weather_master_app.core.ui.theme.ThemeVariantType
 import com.pranshulgg.weather_master_app.core.ui.theme.WeatherMasterTheme
 import com.pranshulgg.weather_master_app.core.ui.theme.isThemeDark
 import com.pranshulgg.weather_master_app.data.worker.widgets.WeatherWidgetUpdater
 import com.pranshulgg.weather_master_app.widgets.glance.GlanceWidgetReceiver
 import com.pranshulgg.weather_master_app.widgets.glance.ui.GlanceWidgetConfig
-import com.pranshulgg.weather_master_app.widgets.weather.WeatherWidget
 import com.pranshulgg.weather_master_app.widgets.weather.WeatherWidgetReceiver
 import com.pranshulgg.weather_master_app.widgets.weather.ui.WeatherWidgetConfig
+import com.pranshulgg.weather_master_app.widgets.weather4.Weather4WidgerReceiver
+import com.pranshulgg.weather_master_app.widgets.weather4.ui.Weather4Config
 import com.pranshulgg.weather_master_app.widgets.weatherclockdaily.ClockDailyWidgetReceiver
 import com.pranshulgg.weather_master_app.widgets.weatherclockdaily.ui.ClockDailyWidgetConfig
 import com.pranshulgg.weather_master_app.widgets.weatherhorizontal.WeatherHorizontalWidgetReceiver
@@ -122,6 +121,10 @@ class WidgetConfigActivity : ComponentActivity() {
 
                         WeatherHorizontalWidgetReceiver::class.java.name -> {
                             WeatherHorizontalConfig(onDone = { onDone(it) })
+                        }
+
+                        Weather4WidgerReceiver::class.java.name -> {
+                            Weather4Config { onDone(it) }
                         }
                     }
                 }
