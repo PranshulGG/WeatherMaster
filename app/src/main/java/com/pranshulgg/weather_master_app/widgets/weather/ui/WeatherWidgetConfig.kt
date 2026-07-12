@@ -78,6 +78,8 @@ fun WeatherWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
     val widgetTextThemeOptions =
         WidgetTextTheme.entries.map { DialogOption(it.toString(), stringResource(it.label)) }
 
+    val variantFiltered = listOf(WidgetVariant.LARGE, WidgetVariant.COMPACT, WidgetVariant.SMALL)
+
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surfaceContainer
     ) { paddingValues ->
@@ -123,7 +125,7 @@ fun WeatherWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                     .padding(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
-                WidgetVariant.entries.forEach { item ->
+                variantFiltered.forEach { item ->
                     ToggleButton(
                         checked = selectedVariant == item,
                         onCheckedChange = {
@@ -169,7 +171,7 @@ fun WeatherWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                         valueRange = 0.1f..2f,
                         initialValue = selectedFontSize,
                         labelFormatter = { "${round(it * 10) / 10}" },
-                        steps = 9,
+                        steps = 18,
                         onValueSubmitted = {
                             selectedFontSize = it
                         },
@@ -184,7 +186,7 @@ fun WeatherWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                         valueRange = 0.1f..2f,
                         initialValue = selectedIconSize,
                         labelFormatter = { "${round(it * 10) / 10}" },
-                        steps = 9,
+                        steps = 18,
                         onValueSubmitted = {
                             selectedIconSize = it
                         },

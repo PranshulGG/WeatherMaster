@@ -43,6 +43,7 @@ import com.pranshulgg.weather_master_app.core.ui.components.WeatherIconBox
 import com.pranshulgg.weather_master_app.core.ui.components.tiles.DialogOption
 import com.pranshulgg.weather_master_app.core.ui.theme.ShapeRadius
 import com.pranshulgg.weather_master_app.widgets.config.WidgetConfig
+import com.pranshulgg.weather_master_app.widgets.model.WidgetVariant
 import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTextTheme
 import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTheme
 import kotlin.math.round
@@ -156,7 +157,7 @@ fun ClockDailyWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                         valueRange = 0.1f..2f,
                         initialValue = selectedFontSize,
                         labelFormatter = { "${round(it * 10) / 10}" },
-                        steps = 9,
+                        steps = 18,
                         onValueSubmitted = {
                             selectedFontSize = it
                         },
@@ -184,7 +185,7 @@ fun ClockDailyWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                         valueRange = 0.1f..2f,
                         initialValue = selectedIconSize,
                         labelFormatter = { "${round(it * 10) / 10}" },
-                        steps = 9,
+                        steps = 18,
                         onValueSubmitted = {
                             selectedIconSize = it
                         },

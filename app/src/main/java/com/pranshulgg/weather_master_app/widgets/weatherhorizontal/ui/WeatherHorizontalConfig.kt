@@ -64,6 +64,7 @@ fun WeatherHorizontalConfig(onDone: (WidgetConfig) -> Unit = {}) {
     var isTransparent by remember { mutableStateOf(false) }
     var selectedIconSize by remember { mutableFloatStateOf(1f) }
 
+    val variantFiltered = listOf(WidgetVariant.LARGE, WidgetVariant.COMPACT, WidgetVariant.SMALL)
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surfaceContainer
@@ -107,7 +108,7 @@ fun WeatherHorizontalConfig(onDone: (WidgetConfig) -> Unit = {}) {
                     .padding(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
-                WidgetVariant.entries.forEach { item ->
+                variantFiltered.forEach { item ->
                     ToggleButton(
                         checked = selectedVariant == item,
                         onCheckedChange = {
@@ -147,7 +148,7 @@ fun WeatherHorizontalConfig(onDone: (WidgetConfig) -> Unit = {}) {
                         valueRange = 0.1f..2f,
                         initialValue = selectedFontSize,
                         labelFormatter = { "${round(it * 10) / 10}" },
-                        steps = 19,
+                        steps = 18,
                         onValueSubmitted = {
                             selectedFontSize = it
                         },
@@ -161,7 +162,7 @@ fun WeatherHorizontalConfig(onDone: (WidgetConfig) -> Unit = {}) {
                         valueRange = 0.1f..2f,
                         initialValue = selectedIconSize,
                         labelFormatter = { "${round(it * 10) / 10}" },
-                        steps = 19,
+                        steps = 18,
                         onValueSubmitted = {
                             selectedIconSize = it
                         },

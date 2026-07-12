@@ -45,6 +45,7 @@ import com.pranshulgg.weather_master_app.core.ui.components.tiles.DialogOption
 import com.pranshulgg.weather_master_app.core.ui.theme.ShapeRadius
 import com.pranshulgg.weather_master_app.core.utils.formatters.toSafeDouble
 import com.pranshulgg.weather_master_app.widgets.config.WidgetConfig
+import com.pranshulgg.weather_master_app.widgets.model.WidgetVariant
 import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTextTheme
 import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTheme
 import kotlin.math.roundToInt
@@ -79,6 +80,7 @@ fun GlanceWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
     val widgetTextThemeOptions =
         WidgetTextTheme.entries.filter { it != WidgetTextTheme.AUTO }
             .map { DialogOption(it.toString(), stringResource(it.label)) }
+
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surfaceContainer
