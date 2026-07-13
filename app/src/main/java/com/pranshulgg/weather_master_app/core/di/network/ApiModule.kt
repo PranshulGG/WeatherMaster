@@ -12,6 +12,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.china.Chin
 import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.DwdApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.EcccApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.fmi.FmiApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.MeteoamApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofrance.MeteoFranceApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.MetNorwayApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsApi
@@ -94,4 +95,8 @@ object ApiModule {
     @Provides
     @Singleton
     fun provideAccuApi(): AccuApi = AccuApi.create()
+
+    @Provides
+    @Singleton
+    fun provideMeteoamApi(): MeteoamApi = MeteoamApi.create()
 }
