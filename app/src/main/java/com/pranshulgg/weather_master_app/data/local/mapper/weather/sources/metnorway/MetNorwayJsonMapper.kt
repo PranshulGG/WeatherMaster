@@ -152,7 +152,7 @@ private fun computeDaily(data: MetNorwayForecastJson, location: Location): List<
         val uvIndexMax = dailyIt.value.maxOf { it.data.instant.details.uvIndex }
         val time = dailyIt.key
         val icon = nextHourSummary.map { it?.symbolCode }.groupingBy { it }
-            .eachCount().entries.maxByOrNull { it.value }
+            .eachCount().maxByOrNull { it.value }
 
         val condition = computeDailyWeatherCondition(
             getHourlyConditionsForDay(dailyIt.value, time),

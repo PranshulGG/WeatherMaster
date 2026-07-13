@@ -143,7 +143,7 @@ private fun computeDaily(data: SmhiForecastJson, location: Location): List<Weath
 
         val time = dailyIt.key
         val icon = dailyIt.value.map { it.data.symbolCode }.groupingBy { it }
-            .eachCount().entries.maxByOrNull { it.value }
+            .eachCount().maxByOrNull { it.value }
 
         val condition = computeDailyWeatherCondition(
             getHourlyConditionsForDay(dailyIt.value, time),

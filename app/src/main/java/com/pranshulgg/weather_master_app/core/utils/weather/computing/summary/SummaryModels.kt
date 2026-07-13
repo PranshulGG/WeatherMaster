@@ -9,13 +9,6 @@ data class SummaryPeakRain(
     val probability: Int
 )
 
-data class SummaryPeakSnow(
-    val at: Long,
-    val amount: Double,
-    val probability: Int
-)
-
-
 data class SummaryPeakUv(
     val uv: Double,
     val at: Long,
@@ -27,10 +20,20 @@ data class SummaryTemps(
     val avg: Double,
 )
 
+data class SummaryPeakSnow(
+    val at: Long,
+    val amount: Double,
+    val probability: Int
+)
+
 data class SummaryData(
-    val rain: SummaryPeakRain,
+    val rainDay: SummaryPeakRain,
+    val rainNight: SummaryPeakRain,
     val uv: SummaryPeakUv,
-    val temps: SummaryTemps,
-    val condition: String,
-    val snow: SummaryPeakSnow
+    val snowDay: SummaryPeakSnow,
+    val snowNight: SummaryPeakSnow,
+    val conditionDay: String,
+    val conditionNight: String,
+    val temps: SummaryTemps
+
 )
