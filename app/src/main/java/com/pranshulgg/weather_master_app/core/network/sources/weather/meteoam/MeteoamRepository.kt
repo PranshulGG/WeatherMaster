@@ -49,43 +49,43 @@ class MeteoamRepository @Inject constructor(
                 else -> {}
             }
 
-//            return@withContext try {
+            return@withContext try {
 
-            val current = api.fetchCurrent(location.latitude, location.longitude)
-            val bodyCurrent = current.body()
-                ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
+                val current = api.fetchCurrent(location.latitude, location.longitude)
+                val bodyCurrent = current.body()
+                    ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
 
-            val forecast = api.fetchForecast(location.latitude, location.longitude)
-            val bodyForecast = forecast.body()
-                ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
+                val forecast = api.fetchForecast(location.latitude, location.longitude)
+                val bodyForecast = forecast.body()
+                    ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
 
-            val final = MeteoamWeatherBundle(
-                current = bodyCurrent,
-                forecast = bodyForecast
-            )
+                val final = MeteoamWeatherBundle(
+                    current = bodyCurrent,
+                    forecast = bodyForecast
+                )
 
-            val domain = final.toDomain(location)
+                val domain = final.toDomain(location)
 
-            weatherDao.insertWeather(
-                domain.current.toCurrentWeatherEntity(location.id),
-                domain.hourly.toHourlyWeatherEntity(location.id),
-                domain.daily.toDailyWeatherEntity(location.id),
-                location.id
-            )
-            WeatherResult.Success(domain)
+                weatherDao.insertWeather(
+                    domain.current.toCurrentWeatherEntity(location.id),
+                    domain.hourly.toHourlyWeatherEntity(location.id),
+                    domain.daily.toDailyWeatherEntity(location.id),
+                    location.id
+                )
+                WeatherResult.Success(domain)
 
-//            } catch (e: Exception) {
-//
-//                val isCacheSafe = isWeatherCacheSafe(cache)
-//
-//                WeatherResult.Error(
-//                    exception = e,
-//                    if (isCacheSafe) cache?.toDomain() else null
-//                )
-//
-//            }
-//
-//
+            } catch (e: Exception) {
+
+                val isCacheSafe = isWeatherCacheSafe(cache)
+
+                WeatherResult.Error(
+                    exception = e,
+                    if (isCacheSafe) cache?.toDomain() else null
+                )
+
+            }
+
+
         }
 
 }
