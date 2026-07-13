@@ -14,6 +14,8 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.EcccA
 import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.EcccRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.fmi.FmiApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.fmi.FmiRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.MeteoamApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.MeteoamRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofrance.MeteoFranceApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofrance.MeteoFranceRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.MetNorwayApi
@@ -133,4 +135,12 @@ object WeatherRepositoryModule {
         api: AccuApi,
         weatherDao: WeatherDao
     ): AccuRepository = AccuRepository(dao, weatherDao, api)
+
+    @Provides
+    @Singleton
+    fun provideMeteoamRepository(
+        dao: LocationsDao,
+        api: MeteoamApi,
+        weatherDao: WeatherDao
+    ): MeteoamRepository = MeteoamRepository(dao, weatherDao, api)
 }

@@ -47,7 +47,7 @@ enum class WeatherSource(
         displayLink = "https://www.cnemc.cn/"
     ),
     BMKG(
-        displayName = "BMKG",
+        displayName = "BMKG (Indonesia)",
         fullName = "Badan Meteorologi, Klimatologi, dan Geofisika",
         displayLink = "https://www.bmkg.go.id/"
     ),
@@ -55,6 +55,11 @@ enum class WeatherSource(
         displayName = "AccuWeather",
         fullName = "AccuWeather",
         displayLink = "https://www.accuweather.com/"
+    ),
+    METEO_AM(
+        displayName = "Meteo AM (Italy)",
+        fullName = "Meteorologia Aeronautica Militare",
+        displayLink = "https://www.meteoam.it/"
     ),
     MET_NORWAY(
         displayName = "Met Norway",
@@ -77,15 +82,16 @@ enum class WeatherSource(
 
 // WE MAP EVERY WEATHER SOURCE HERE, AS THEY GET ADDED
 
-private val weatherSourcesByCountry = mapOf(
-    "US" to listOf(WeatherSource.NWS),
-    "SE" to listOf(WeatherSource.SMHI),
-    "DE" to listOf(WeatherSource.DWD),
-    "CA" to listOf(WeatherSource.ECCC),
-    "FI" to listOf(WeatherSource.FMI),
-    "CN" to listOf(WeatherSource.CHINA),
-    "ID" to listOf(WeatherSource.BMKG)
-)
+private val weatherSourcesByCountry = buildMap {
+    put("US", listOf(WeatherSource.NWS))
+    put("SE", listOf(WeatherSource.SMHI))
+    put("DE", listOf(WeatherSource.DWD))
+    put("CA", listOf(WeatherSource.ECCC))
+    put("FI", listOf(WeatherSource.FMI))
+    put("CN", listOf(WeatherSource.CHINA))
+    put("ID", listOf(WeatherSource.BMKG))
+    listOf("IT", "VA").forEach { put(it, listOf(WeatherSource.METEO_AM)) }
+}
 
 fun getWeatherSourcesForCountry(countryCode: String?): List<WeatherSource> {
     return weatherSourcesByCountry[countryCode] ?: emptyList()
