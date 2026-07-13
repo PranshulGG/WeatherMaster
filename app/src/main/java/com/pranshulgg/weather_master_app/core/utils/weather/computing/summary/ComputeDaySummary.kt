@@ -7,10 +7,15 @@ import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherHourly
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
+import com.pranshulgg.weather_master_app.core.model.weather.WeatherCondition
 import com.pranshulgg.weather_master_app.core.model.weather.toLabel
 import com.pranshulgg.weather_master_app.core.prefs.AppPrefsState
+import com.pranshulgg.weather_master_app.core.utils.formatters.safeZoneId
+import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
 import com.pranshulgg.weather_master_app.core.utils.weather.computing.computeDailyWeatherCondition
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findMatchingHourly
+import java.time.Instant
+import java.time.format.DateTimeFormatter
 
 
 fun computeDaySummary(
@@ -26,14 +31,28 @@ fun computeDaySummary(
         weather.location.source
     )
 
+
+    val (day, night) = hourly.partition { forecast ->
+        toHour(forecast.time, weather.location.timezone).toInt() in 6..17
+    }
+
+
     val daily = weather.daily[dailyIndex]
+
+
+    val getCommonCondition: (List<WeatherHourly>) -> WeatherCondition? = { data ->
+        data.map { it.weatherCondition }.groupingBy { it }
+            .eachCount().entries.maxByOrNull { it.value }?.key
+    }
 
     if (hourly.isEmpty()) {
         return context.getString(R.string.weather_no_data)
     }
 
-    val rain = findRainStarting(hourly)
-    val snow = findSnowStarting(hourly)
+    val rainDay = findRainStarting(day)
+    val rainNight = findRainStarting(night)
+    val snowDay = findSnowStarting(day)
+    val snowNight = findSnowStarting(night)
     val peakUv = hourly.maxBy { it.uvIndex ?: 0.0 }
     val maxTemp = daily.temperatureMax
     val minTemp = daily.temperatureMin
@@ -45,19 +64,16 @@ fun computeDaySummary(
     val avgTemp = hourly.take(12).map { it.temperature ?: 0.0 }.average()
 
 
-    val avgCondition = hourly.map { it.weatherCondition }.groupingBy { it }
-        .eachCount().entries.maxByOrNull { it.key }?.key
+    val conditionDay = getCommonCondition(day)!!.toLabel(context)
 
-    val condition =
-        computeDailyWeatherCondition(hourly.map { it.weatherCondition }, avgCondition!!).toLabel(
-            context
-        )
+    val conditionNight = getCommonCondition(night)!!.toLabel(context)
 
 
 
     return getHeadline(
         summaryData = SummaryData(
-            rain = rain,
+            rainDay = rainDay,
+            rainNight = rainNight,
             uv = SummaryPeakUv(
                 at = peakUv.time,
                 uv = peakUv.uvIndex ?: 0.0
@@ -67,8 +83,10 @@ fun computeDaySummary(
                 min = minTemp,
                 avg = avgTemp
             ),
-            condition = condition,
-            snow = snow,
+            snowDay = snowDay,
+            snowNight = snowNight,
+            conditionDay = conditionDay,
+            conditionNight = conditionNight
         ),
         weather.location.timezone,
         units,
@@ -101,6 +119,14 @@ private fun findSnowStarting(hourly: List<WeatherHourly>): SummaryPeakSnow {
         at = data.time,
         amount = data.snowfall ?: 0.0,
         probability = data.precipitationProbability ?: 0
+
     )
 }
 
+private fun toHour(timeMilli: Long, zoneId: String): String {
+    val instant = Instant.ofEpochMilli(timeMilli)
+    val formatter = DateTimeFormatter.ofPattern("H", getCurrentAppLocale())
+        .withZone(safeZoneId(zoneId))
+
+    return formatter.format(instant)
+}
