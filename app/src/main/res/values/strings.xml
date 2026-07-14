@@ -342,17 +342,17 @@
 
     <string name="summary_overview_template_same_condition">It will stay %1$s throughout the day and night.</string>
     <string name="summary_overview_template_day_night_condition">It will be %1$s during the day, then turn %2$s at night.</string>
-    <string name="summary_rain_template_day_night">During the day, rain is expected around %1$s with a %2$s chance. Tonight, there's a %3$s chance of rain around %4$s.</string>
+    <string name="summary_rain_template_day_night">During the day, rain is expected around %1$s with a %2$s chance. Tonight, there\'s a %3$s chance of rain around %4$s.</string>
     <string name="summary_rain_template_day">During the day, rain is expected around %1$s with a %2$s chance.</string>
-    <string name="summary_rain_template_night">Tonight, there's a %1$s chance of rain around %2$s.</string>
+    <string name="summary_rain_template_night">Tonight, there\'s a %1$s chance of rain around %2$s.</string>
 
     <string name="summary_snow_template_day_night">Snow is forecast around %1$s during the day with a %2$s chance. Overnight, snowfall remains possible with a %3$s chance around %4$s.</string>
     <string name="summary_snow_template_day">Snow is forecast around %1$s during the day with a %2$s chance.</string>
-    <string name="summary_snow_template_night">Overnight, there's a %1$s chance of snow around %2$s.</string>
+    <string name="summary_snow_template_night">Overnight, there\'s a %1$s chance of snow around %2$s.</string>
 
     <string name="summary_temp_template_extreme">Expect extreme heat during the day with a high of %1$s. Temperatures will ease to around %2$s tonight.</string>
     <string name="summary_temp_template_warm">It will be warm during the day with highs near %1$s. Tonight, temperatures will fall to around %2$s.</string>
-    <string name="summary_temp_template_mild">A mild day is expected with temperatures reaching %1$s. Overnight, it'll cool to around %2$s.</string>
+    <string name="summary_temp_template_mild">A mild day is expected with temperatures reaching %1$s. Overnight, it\'ll cool to around %2$s.</string>
     <string name="summary_temp_template_cool">It will be cool during the day with highs around %1$s. Tonight, temperatures will drop to about %2$s.</string>
     <string name="summary_temp_template_cold">Cold weather continues with daytime temperatures around %1$s. Overnight, lows will fall to around %2$s.</string>
 </resources>
