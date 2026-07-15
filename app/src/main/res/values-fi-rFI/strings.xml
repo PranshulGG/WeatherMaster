@@ -129,12 +129,13 @@
     <string name="weather_aqi_description_poor">Useammat terveetkin ihmiset voivat alkaa kokemaan terveysvaikutuksia; herkkien ryhmien jäsenet voivat kokea vakavampia ongelmia.</string>
     <string name="weather_aqi_description_very_poor">Terveysriski: Haittojen riski kasvaa kaikilla.</string>
     <string name="weather_aqi_description_hazardous">Terveyteen kohdistuva hätätilatiedote, jonka vaikutus kohdistuu pääosin koko väestöön.</string>
-    <string name="weather_aqi_pm_description">Small solid particles and liquid droplets found in the air. It’s emitted from motor vehicles, wood heaters, and industry. Fires and dust storms can also produce high concentrations of Particulate Matter</string>
-    <string name="weather_aqi_no2_description">A gas and a major component of central city air pollution. It mainly comes from vehicles, industry, power stations, and heating</string>
-    <string name="weather_aqi_O3_description">A gas found in the stratosphere. It protects us from harmful ultraviolet radiation and the troposphere. Ozone is a harmful pollutant produced by a chemical reaction between the sun light, organic gasses, and nitrogen oxides (e.g. Cars, Power plants)</string>
-    <string name="weather_aqi_so2_description">A toxic gas with a pungent, irritating odor. It can come from electric industries that burn fossil fuels, petrol refineries, cement manufacturing, and volcano emissions</string>
-    <string name="weather_aqi_co_description">A gas from motor vehicles or machinery that burns fossil fuels</string>
-    <string name="weather_airquality_about_index">Air quality indexes categorize raw data into a descriptive rating scale. These indexes make it easier to identify the level of pollution and if there’s any associated risk</string>
+    <string name="weather_aqi_pm_description">Ilmasta löytyy pienhiukkasia ja nestepisaroita. Niitä luovat ajoneuvot, puun polttaminen ja teollisuus. Tulipalot sekä hiekkamyrskyt voivat myös tuottaa suuria hiukkaspitoisuuksia.
+</string>
+    <string name="weather_aqi_no2_description">Kaasu ja tärkeä osa kaupunkien ilmansaasteita. Pääosin sitä tuottavat ajoneuvot, teollisuus, voimalaitokset sekä lämmitys.</string>
+    <string name="weather_aqi_O3_description">Yläilmakehän kaasu. Se suojaa meitä vahingoittavalta UV-säteilyltä. Otsoni  on haitallinen kaasu jota syntyy auringonvalon, orgaanisten kaasujen ja typen oksidien (Esim. autot, voimalaitokset) välisissä kemiallisissa reaktioissa.</string>
+    <string name="weather_aqi_so2_description">Pistävän ja ärsyttävän hajuinen myrkyllinen kaasu. Sitä syntyy voimalaitoksissa, jotka polttavat fossiilisia polttoaineita, öljynjalostamoissa, sementin tuotannossa sekä tulivuorenpurkauksissa.</string>
+    <string name="weather_aqi_co_description">Kaasu, jota tuottavat moottoriajoneuvot tai fossiilisilla polttoaineilla toimivat työkoneet</string>
+    <string name="weather_airquality_about_index">Ilmanlaatuindeksi lajittelee datan selvälle asteikolle. Tämä indeksi tekee saasteiden määrän ja mahdollisten riskien ymmärtämisen helpommaksi.</string>
     <string name="weather_average">Average</string>
     <string name="weather_rain_block">Rain</string>
     <string name="weather_snow_block">Snow</string>
