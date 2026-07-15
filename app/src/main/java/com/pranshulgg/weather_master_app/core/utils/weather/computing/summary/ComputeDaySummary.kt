@@ -28,8 +28,10 @@ fun computeDaySummary(
     val hourly = findMatchingHourly(
         weather.hourly,
         weather.daily[dailyIndex].time,
-        weather.location.source
+        weather.location.source,
+        weather.location.timezone
     )
+
 
 
     val (day, night) = hourly.partition { forecast ->
@@ -64,9 +66,9 @@ fun computeDaySummary(
     val avgTemp = hourly.take(12).map { it.temperature ?: 0.0 }.average()
 
 
-    val conditionDay = getCommonCondition(day)!!.toLabel(context)
+    val conditionDay = getCommonCondition(day)?.toLabel(context)
 
-    val conditionNight = getCommonCondition(night)!!.toLabel(context)
+    val conditionNight = getCommonCondition(night)?.toLabel(context)
 
 
 
@@ -98,10 +100,17 @@ fun computeDaySummary(
 
 private fun findRainStarting(hourly: List<WeatherHourly>): SummaryPeakRain {
 
-    val rainStartIndex = hourly.indexOfFirst { it.rain > 0.0 }.plus(1).coerceIn(0, hourly.size - 1)
+    if (hourly.isEmpty()) return SummaryPeakRain(
+        at = 0,
+        amount = 0.0,
+        probability = 0
+    )
+    val rainStartIndex = hourly.indexOfFirst { it.rain > 2.0 }.plus(1).coerceIn(0, hourly.size - 1)
 
 
     val data = hourly[rainStartIndex]
+
+
     return SummaryPeakRain(
         at = data.time,
         amount = data.rain,
@@ -111,8 +120,13 @@ private fun findRainStarting(hourly: List<WeatherHourly>): SummaryPeakRain {
 
 private fun findSnowStarting(hourly: List<WeatherHourly>): SummaryPeakSnow {
 
+    if (hourly.isEmpty()) return SummaryPeakSnow(
+        at = 0,
+        amount = 0.0,
+        probability = 0
+    )
     val snowStartIndex =
-        hourly.indexOfFirst { (it.snowfall ?: 0.0) > 0.0 }.plus(1).coerceIn(0, hourly.size - 1)
+        hourly.indexOfFirst { (it.snowfall ?: 0.0) > 2.0 }.plus(1).coerceIn(0, hourly.size - 1)
 
     val data = hourly[snowStartIndex]
     return SummaryPeakSnow(

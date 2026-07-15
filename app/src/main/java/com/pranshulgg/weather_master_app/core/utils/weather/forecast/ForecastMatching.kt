@@ -33,7 +33,8 @@ fun findMatchingDaily(
 fun findMatchingHourly(
     data: List<WeatherHourly>,
     currentMilli: Long,
-    source: WeatherSource
+    source: WeatherSource,
+    zoneId: String
 ): List<WeatherHourly> {
 
 
@@ -42,8 +43,8 @@ fun findMatchingHourly(
     if (startIndex == -1) {
         return emptyList()
     }
-
-    return data.drop(maxOf(0, startIndex)).take(source.hourlyAggregationLimitHours)
+    val startDay = data[startIndex].time
+    return data.drop(maxOf(0, startIndex)).takeWhile { isSameDay(it.time, startDay, zoneId) }
 
 
 }
@@ -55,3 +56,8 @@ fun findHourlyIndexForTime(time: List<Long>, startMilli: Long = System.currentTi
     return maxOf(0, (startIndex))
 }
 
+fun isSameDay(time1: Long, time2: Long, zoneId: String): Boolean {
+    val zone = safeZoneId(zoneId)
+    return Instant.ofEpochMilli(time1).atZone(zone).toLocalDate() ==
+            Instant.ofEpochMilli(time2).atZone(zone).toLocalDate()
+}

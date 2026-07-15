@@ -64,8 +64,9 @@ fun HourlyCard(
             weather.hourly,
             currentMilli,
             weather.location.source,
+            weather.location.timezone
 
-            )
+        )
 
 
     val prefs = LocalAppPrefs.current

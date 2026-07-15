@@ -53,8 +53,9 @@ fun RainScreen(navController: NavController, index: Int = 0, locationId: String)
         hourly,
         time,
         weather.location.source,
+        weather.location.timezone
 
-        )
+    )
     val date = toDateString(weather.daily[index].time, weather.location.timezone)
 
 

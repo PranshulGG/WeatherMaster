@@ -70,8 +70,9 @@ fun UvIndexScreen(navController: NavController, index: Int = 0, locationId: Stri
             hourly,
             time,
             weather.location.source,
+            weather.location.timezone
 
-            )
+        )
 
     val uvIndexes = UvIndex.entries
     val date = toDateString(weather.daily[index].time, weather.location.timezone)

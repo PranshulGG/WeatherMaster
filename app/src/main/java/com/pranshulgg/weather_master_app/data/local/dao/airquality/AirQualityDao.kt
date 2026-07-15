@@ -15,9 +15,12 @@ interface AirQualityDao {
     @Transaction
     suspend fun insertAirQuality(
         currentAirQuality: CurrentAirQualityEntity,
-        hourlyAirQuality: List<HourlyAirQualityEntity>
+        hourlyAirQuality: List<HourlyAirQualityEntity>,
+        id: String
     ) {
         insertCurrentAirQuality(currentAirQuality)
+
+        deleteHourlyAirQuality(id)
         insertHourlyAirQuality(hourlyAirQuality)
     }
 
@@ -31,6 +34,9 @@ interface AirQualityDao {
     @Query("SELECT * FROM air_quality_current WHERE locationId = :locationId")
     suspend fun getAirQualityForLocation(locationId: String): AirQualityWithRelations?
 
-    @Query("DELETE FROM weather_locations WHERE id = :id")
+    @Query("DELETE FROM air_quality_current WHERE locationId = :id")
     suspend fun deleteCurrentAirQuality(id: String)
+
+    @Query("DELETE FROM air_quality_hourly WHERE locationId = :id")
+    suspend fun deleteHourlyAirQuality(id: String)
 }
