@@ -136,15 +136,15 @@
     <string name="weather_aqi_so2_description">Pistävän ja ärsyttävän hajuinen myrkyllinen kaasu. Sitä syntyy voimalaitoksissa, jotka polttavat fossiilisia polttoaineita, öljynjalostamoissa, sementin tuotannossa sekä tulivuorenpurkauksissa.</string>
     <string name="weather_aqi_co_description">Kaasu, jota tuottavat moottoriajoneuvot tai fossiilisilla polttoaineilla toimivat työkoneet</string>
     <string name="weather_airquality_about_index">Ilmanlaatuindeksi lajittelee datan selvälle asteikolle. Tämä indeksi tekee saasteiden määrän ja mahdollisten riskien ymmärtämisen helpommaksi.</string>
-    <string name="weather_average">Average</string>
-    <string name="weather_rain_block">Rain</string>
-    <string name="weather_snow_block">Snow</string>
-    <string name="search_source">Search source</string>
-    <string name="weather_source">Weather source</string>
-    <string name="weather_sources">Weather sources</string>
-    <string name="sources">Sources</string>
-    <string name="source">Source</string>
-    <string name="recommended_sources">Recommended sources</string>
+    <string name="weather_average">Keskiarvo</string>
+    <string name="weather_rain_block">Sadetta</string>
+    <string name="weather_snow_block">Lumisadetta</string>
+    <string name="search_source">Haun tarjoaja</string>
+    <string name="weather_source">Säätietojen tarjoaja</string>
+    <string name="weather_sources">Säätietojen tarjoajat</string>
+    <string name="sources">Lähteet</string>
+    <string name="source">Lähde</string>
+    <string name="recommended_sources">Suositellut lähteet</string>
     <string name="global_sources">Global sources</string>
     <string name="weather_clear_with_cloudy">Clear with cloudy</string>
     <string name="weather_clear_with_rain">Clear with rain</string>
@@ -293,5 +293,7 @@
     <string name="summary_temp_template_mild">A mild day is expected with temperatures reaching %1$s. Overnight, it\'ll cool to around %2$s.</string>
     <string name="summary_temp_template_cool">It will be cool during the day with highs around %1$s. Tonight, temperatures will drop to about %2$s.</string>
     <string name="summary_temp_template_cold">Cold weather continues with daytime temperatures around %1$s. Overnight, lows will fall to around %2$s.</string>
+    <string name="summary_overview_template_day_condition">It will be %1$s during the day.</string>
+    <string name="summary_overview_template_night_condition">Conditions will turn %1$s at night.</string>
 </resources>
 <!--<string name=""></string>-->
