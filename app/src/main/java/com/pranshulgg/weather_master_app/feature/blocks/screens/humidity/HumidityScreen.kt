@@ -57,6 +57,8 @@ fun HumidityScreen(navController: NavController, index: Int = 0, locationId: Str
         hourly,
         time,
         weather.location.source,
+        weather.location.timezone
+
     )
 
 
