@@ -32,7 +32,7 @@ import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
 import com.pranshulgg.weather_master_app.core.utils.weather.airquality.AirQualityColors
 
 @Composable
-fun AirQualityBlock(airQuality: AirQuality?, context: Context) {
+fun AirQualityBlock(airQuality: AirQuality?, context: Context, onClickBlock: () -> Unit) {
 
 
     val aqi = airQuality!!.getAqi()
@@ -42,7 +42,8 @@ fun AirQualityBlock(airQuality: AirQuality?, context: Context) {
     Surface(
         color = MaterialTheme.colorScheme.surface,
         shape = MaterialTheme.shapes.extraLarge,
-        shadowElevation = ShadowElevation.level2
+        shadowElevation = ShadowElevation.level2,
+        onClick = onClickBlock
     ) {
         Box(
             Modifier

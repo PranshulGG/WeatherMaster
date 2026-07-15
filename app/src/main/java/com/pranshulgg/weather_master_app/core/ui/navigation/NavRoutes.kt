@@ -41,6 +41,8 @@ object NavRoutes {
     const val RAIN = "rain"
     const val SNOW = "snow"
 
+    const val AIR_QUALITY = "airquality"
+
     fun blockScreen(block: String, index: Int, locationId: String): String {
         return "$block/$index/$locationId"
     }

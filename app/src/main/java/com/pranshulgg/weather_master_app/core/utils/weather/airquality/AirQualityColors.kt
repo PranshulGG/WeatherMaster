@@ -14,4 +14,15 @@ object AirQualityColors {
             else -> Color(0xFF800080)
         }
     }
+
+    fun getTextColors(level: AirQualityLevel): Color {
+        return when (level) {
+            AirQualityLevel.GOOD -> Color(0xFF0F3D0F)
+            AirQualityLevel.FAIR -> Color(0xFF5C4300)
+            AirQualityLevel.MODERATE -> Color(0xFFFFF4E0)
+            AirQualityLevel.POOR -> Color(0xFFFFEBEE)
+            AirQualityLevel.VERY_POOR -> Color(0xFFFFE4F1)
+            else -> Color(0xFFF3E5F5)
+        }
+    }
 }

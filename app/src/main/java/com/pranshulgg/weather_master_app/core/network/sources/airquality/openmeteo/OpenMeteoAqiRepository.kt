@@ -40,7 +40,10 @@ class OpenMeteoAqiRepository @Inject constructor(
 
             val domain = body.toDomain()
 
-            dao.insertCurrentAirQuality(domain.current.toEntity(location.id))
+            dao.insertAirQuality(
+                domain.current.toEntity(location.id),
+                domain.hourly.map { it.toEntity(location.id) }
+            )
 
             AirQualityResult.Success(domain)
         } catch (e: Exception) {

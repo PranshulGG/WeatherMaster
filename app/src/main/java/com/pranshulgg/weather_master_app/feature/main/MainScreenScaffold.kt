@@ -171,7 +171,8 @@ fun MainScreenScaffold(
                                     units,
                                     context,
                                     uiState.blocks,
-                                    navController = navController
+                                    navController = navController,
+                                    isAirQualityLoading = uiState.isAirQualityLoading
                                 )
 
                                 CreditsBottomSection(

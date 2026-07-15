@@ -53,12 +53,11 @@ fun HumidityScreen(navController: NavController, index: Int = 0, locationId: Str
     val units = uiState.units
     val time = if (index != 0) weather.daily[index].time else weather.current.time
     val context = LocalContext.current
-    val data =
-        findMatchingHourly(
-            hourly,
-            time,
-            weather.location.source,
-        )
+    val data = findMatchingHourly(
+        hourly,
+        time,
+        weather.location.source,
+    )
 
 
     val date = toDateString(weather.daily[index].time, weather.location.timezone)

@@ -4,12 +4,14 @@ import android.content.Context
 import android.util.Log
 import androidx.room.Transaction
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
+import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQuality
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.core.network.sources.address.nominatim.json.NominatimRepository
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
+import com.pranshulgg.weather_master_app.data.local.mapper.airquality.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.locations.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.locations.toEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDomain
@@ -67,6 +69,7 @@ class LocationsRepository @Inject constructor(
         airQualityDao.deleteCurrentAirQuality(id)
     }
 
+
     suspend fun updateSourceForLocation(id: String, source: WeatherSource) {
         dao.updateSourceForLocation(id, source)
     }
@@ -99,6 +102,10 @@ class LocationsRepository @Inject constructor(
 
     suspend fun getWeatherForLocation(locationId: String): Weather {
         return dao.getWeatherForLocation(locationId).toDomain()
+    }
+
+    suspend fun getAirQualityForLocation(locationId: String): AirQuality? {
+        return airQualityDao.getAirQualityForLocation(locationId)?.toDomain()
     }
 
     val getDeviceLocation = GetDeviceLocation()

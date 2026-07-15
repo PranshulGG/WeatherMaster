@@ -18,7 +18,7 @@ enum class Pollutant(
     companion object {
 
 
-        private fun getLevelIndex(value: Double, thresholds: List<Int>): Int {
+        fun getLevelIndex(value: Double, thresholds: List<Int>): Int {
             val index = thresholds.indexOfLast { value >= it }
             return if (index == -1) 0 else index
         }

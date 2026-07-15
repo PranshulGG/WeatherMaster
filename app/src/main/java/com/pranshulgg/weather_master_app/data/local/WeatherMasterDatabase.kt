@@ -16,6 +16,7 @@ import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.nws.NwsDao
 import com.pranshulgg.weather_master_app.data.local.entity.weather.units.AppWeatherUnitsEntity
 import com.pranshulgg.weather_master_app.data.local.entity.airquality.CurrentAirQualityEntity
+import com.pranshulgg.weather_master_app.data.local.entity.airquality.HourlyAirQualityEntity
 import com.pranshulgg.weather_master_app.data.local.entity.github.GithubEntity
 import com.pranshulgg.weather_master_app.data.local.entity.weather.CurrentWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.entity.weather.DailyWeatherEntity
@@ -34,13 +35,15 @@ import com.pranshulgg.weather_master_app.data.local.entity.weather.nws.NwsGridPo
         WeatherBlockEntity::class,
         CurrentAirQualityEntity::class,
         NwsGridPointsEntity::class,
-        GithubEntity::class
+        GithubEntity::class,
+        HourlyAirQualityEntity::class
     ],
-    version = 44,
+    version = 46,
     autoMigrations = [
         AutoMigration(from = 39, to = 40),
         AutoMigration(from = 42, to = 43),
-        AutoMigration(from = 43, to = 44)
+        AutoMigration(from = 43, to = 44),
+        AutoMigration(from = 44, to = 45)
     ]
 )
 abstract class WeatherMasterDatabase : RoomDatabase() {
@@ -64,7 +67,8 @@ abstract class WeatherMasterDatabase : RoomDatabase() {
                     context.applicationContext,
                     WeatherMasterDatabase::class.java,
                     "weather_master.db"
-                ).addMigrations(MIGRATION_40_41, MIGRATION_41_42).build().also { INSTANCE = it }
+                ).addMigrations(MIGRATION_40_41, MIGRATION_41_42, MIGRATION_45_46).build()
+                    .also { INSTANCE = it }
             }
     }
 }
@@ -110,6 +114,34 @@ val MIGRATION_41_42 = object : Migration(41, 42) {
             """
             ALTER TABLE weather_daily ADD COLUMN dawn INTEGER NOT NULL Default 0
         """.trimIndent()
+        )
+    }
+}
+
+
+val MIGRATION_45_46 = object : Migration(45, 46) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("DROP TABLE IF EXISTS air_quality_hourly")
+
+        db.execSQL(
+            """
+            CREATE TABLE IF NOT EXISTS air_quality_hourly (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                locationId TEXT NOT NULL,
+                time INTEGER NOT NULL,
+                carbonMonoxide REAL,
+                nitrogenDioxide REAL,
+                ozone REAL,
+                pm10 REAL,
+                pm25 REAL,
+                sulphurDioxide REAL,
+                FOREIGN KEY(locationId) REFERENCES weather_locations(id) ON DELETE CASCADE
+            )
+        """.trimIndent()
+        )
+
+        db.execSQL(
+            "CREATE INDEX IF NOT EXISTS index_air_quality_hourly_locationId ON air_quality_hourly(locationId)"
         )
     }
 }

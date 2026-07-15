@@ -5,7 +5,8 @@ import com.google.gson.annotations.SerializedName
 
 // TODO: ADD HOURLY-DAILY FORECAST
 data class OpenMeteoAqiDto(
-    val current: OpenMeteoAqiCurrentDto
+    val current: OpenMeteoAqiCurrentDto,
+    val hourly: OpenMeteoAqiHourlyDto
 )
 
 data class OpenMeteoAqiCurrentDto(
@@ -27,5 +28,26 @@ data class OpenMeteoAqiCurrentDto(
     @SerializedName("sulphur_dioxide")
     val sulphurDioxide: Double,
     val ozone: Double
+)
+
+
+data class OpenMeteoAqiHourlyDto(
+    val time: List<Long>,
+
+
+    val pm10: List<Double?>,
+
+    @SerializedName("pm2_5")
+    val pm25: List<Double?>,
+
+    @SerializedName("carbon_monoxide")
+    val carbonMonoxide: List<Double?>,
+
+    @SerializedName("nitrogen_dioxide")
+    val nitrogenDioxide: List<Double?>,
+
+    @SerializedName("sulphur_dioxide")
+    val sulphurDioxide: List<Double?>,
+    val ozone: List<Double?>
 )
 

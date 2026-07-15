@@ -12,6 +12,8 @@ import java.util.concurrent.TimeUnit
 
 private const val CURRENT_FIELDS =
     "us_aqi,pm10,pm2_5,carbon_monoxide,nitrogen_dioxide,sulphur_dioxide,ozone"
+private const val HOURLY_FIELDS =
+    "pm10,pm2_5,carbon_monoxide,nitrogen_dioxide,sulphur_dioxide,ozone"
 private const val DOMAINS = "cams_global"
 
 interface OpenMeteoAqiApi {
@@ -21,7 +23,9 @@ interface OpenMeteoAqiApi {
         @Query("latitude") latitude: Double,
         @Query("longitude") longitude: Double,
         @Query("current") appendCurrent: String = CURRENT_FIELDS,
+        @Query("hourly") appendHourly: String = HOURLY_FIELDS,
         @Query("domains") appendDomains: String = DOMAINS,
+        @Query("forecast_days") forecastDays: String = "7",
         @Query("timeformat") appendTimeFormat: String = "unixtime"
     ): Response<OpenMeteoAqiDto>
 

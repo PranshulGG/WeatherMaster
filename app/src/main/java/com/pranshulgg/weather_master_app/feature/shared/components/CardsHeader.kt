@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
 
 @Composable
-fun CardsHeader(text: String, icon: Int) {
+fun CardsHeader(text: String, icon: Int? = null) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(
             5.dp,
@@ -22,16 +22,20 @@ fun CardsHeader(text: String, icon: Int) {
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)
     ) {
-        Symbol(
-            icon,
-            color = MaterialTheme.colorScheme.secondary
-        )
+        if (icon != null) {
+            Symbol(
+                icon,
+                color = MaterialTheme.colorScheme.secondary
+            )
+        }
+
         Text(
             text,
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.secondary
         )
+
     }
 }
 

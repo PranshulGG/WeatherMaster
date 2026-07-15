@@ -47,6 +47,7 @@ data class MainScreenWeatherUiState(
     val blocks: List<WeatherBlock> = WeatherBlock.getDefault(),
     val isInitialized: Boolean = false,
     val airQuality: AirQuality? = null,
+    val isAirQualityLoading: Boolean = false
 )
 
 data class MainScreenUiState(

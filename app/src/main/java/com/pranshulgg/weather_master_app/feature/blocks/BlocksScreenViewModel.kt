@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
+import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo.OpenMeteoAqiRepository
 import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class BlocksScreenViewModel @Inject constructor(
     private val locationsRepo: LocationsRepository,
-    private val weatherUnitsRepository: WeatherUnitsRepository
+    private val weatherUnitsRepository: WeatherUnitsRepository,
 ) : ViewModel() {
 
     private var _uiState = mutableStateOf(BlockScreenUiState())
@@ -25,6 +26,13 @@ class BlocksScreenViewModel @Inject constructor(
         viewModelScope.launch {
             val data = locationsRepo.getWeatherForLocation(locationId)
             _uiState.value = _uiState.value.copy(weather = data)
+        }
+    }
+
+    fun getAirQuality(locationId: String) {
+        viewModelScope.launch {
+            val data = locationsRepo.getAirQualityForLocation(locationId)
+            _uiState.value = _uiState.value.copy(airQuality = data)
         }
     }
 

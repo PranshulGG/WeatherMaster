@@ -11,7 +11,8 @@ import kotlin.math.roundToInt
  * We only display air quality if it's available
  */
 data class AirQuality(
-    val current: AirQualityCurrent
+    val current: AirQualityCurrent,
+    val hourly: List<AirQualityHourly>
 ) {
     companion object {
 
@@ -78,6 +79,29 @@ data class AirQuality(
         )
     }
 
+    fun getAqiFromValues(
+        carbonMonoxideMicrogramsPerCubicMeter: Double?,
+        pm25: Double?,
+        nitrogenDioxide: Double?,
+        ozone: Double?,
+        pm10: Double?,
+        sulphurDioxide: Double?
+    ): Int {
+
+        // Open-Meteo provides "carbon_monoxide" in MicrogramsPerCubicMeter so we convert to Milligrams
+        val coInMilligramsPerCubicMeter = (carbonMonoxideMicrogramsPerCubicMeter!! / 1000)
+
+
+        return maxOf(
+            getAqi(pm25!!, pm25Thresholds),
+            getAqi(nitrogenDioxide!!, no2Thresholds),
+            getAqi(ozone!!, o3Thresholds),
+            getAqi(pm10!!, pm10Thresholds),
+            getAqi(coInMilligramsPerCubicMeter, coThresholds),
+            getAqi(sulphurDioxide!!, so2Thresholds)
+        )
+    }
+
     // For AQI bars
     fun getAqiBarValue(aqi: Int): Float {
         return (aqi / 250f).coerceIn(0f, 1f)
@@ -112,4 +136,14 @@ data class AirQualityCurrent(
     val sulphurDioxide: Double?,
     val ozone: Double?,
     val lastUpdatedInMilli: Long
+)
+
+data class AirQualityHourly(
+    val pm10: Double?,
+    val pm25: Double?,
+    val carbonMonoxide: Double?,
+    val nitrogenDioxide: Double?,
+    val sulphurDioxide: Double?,
+    val ozone: Double?,
+    val time: Long, // SECONDS
 )

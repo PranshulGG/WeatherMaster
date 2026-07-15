@@ -274,14 +274,18 @@ class WeatherViewModel @Inject constructor(
 
     private suspend fun handleAirQuality(location: Location, isManualRefresh: Boolean) {
 
+        _uiState.value = _uiState.value.copy(isAirQualityLoading = true)
+
         when (val result = openMeteoAqiRepository.getAirQuality(location, isManualRefresh)) {
             is AirQualityResult.Success -> {
                 _uiState.value = _uiState.value.copy(airQuality = result.airquality)
+                _uiState.value = _uiState.value.copy(isAirQualityLoading = false)
             }
 
             // Fail silently, we just won't show the Air quality in the UI
             is AirQualityResult.Error -> {
                 _uiState.value = _uiState.value.copy(airQuality = result.cacheAirQuality)
+                _uiState.value = _uiState.value.copy(isAirQualityLoading = false)
             }
         }
     }

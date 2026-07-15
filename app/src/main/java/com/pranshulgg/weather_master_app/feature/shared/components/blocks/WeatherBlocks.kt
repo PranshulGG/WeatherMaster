@@ -71,7 +71,8 @@ fun WeatherBlocks(
     // Need this so the daily screen can also update block order
     updatedBlockOrder: (List<WeatherBlock>) -> Unit = {},
     dailyIndex: Int = 0,
-    navController: NavController
+    navController: NavController,
+    isAirQualityLoading: Boolean = false
 ) {
 
 
@@ -87,7 +88,8 @@ fun WeatherBlocks(
 
     // Some sources do not provide precipitation separately rain/snow
     val isOnlyPrecipitationData = !weather.location.source.providesSnowFall()
-    val isAirQualityValid = airQuality != null && isCurrentAirQualitySafe(airQuality)
+    val isAirQualityValid =
+        !isAirQualityLoading && airQuality != null && isCurrentAirQualitySafe(airQuality)
 
 
     val isUvIndexValid = weather.daily[dailyIndex].isUvIndexMaxValid()
@@ -226,7 +228,10 @@ fun WeatherBlocks(
                             prefs,
                             onClickBlock = { onClickBlock(NavRoutes.SUN_MOON) })
 
-                        WeatherBlockType.AIR_QUALITY_BLOCK -> AirQualityBlock(airQuality, context)
+                        WeatherBlockType.AIR_QUALITY_BLOCK -> AirQualityBlock(
+                            airQuality,
+                            context,
+                            onClickBlock = { onClickBlock(NavRoutes.AIR_QUALITY) })
 
 
                         WeatherBlockType.RAIN_BLOCK -> RainBlock(

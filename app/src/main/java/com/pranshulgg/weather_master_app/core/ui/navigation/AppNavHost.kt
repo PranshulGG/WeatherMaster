@@ -24,6 +24,7 @@ import androidx.navigation.navArgument
 import com.pranshulgg.weather_master_app.feature.blocks.screens.humidity.HumidityScreen
 import com.pranshulgg.weather_master_app.feature.blocks.screens.pressure.PressureScreen
 import com.pranshulgg.weather_master_app.feature.blocks.screens.SunMoonScreen
+import com.pranshulgg.weather_master_app.feature.blocks.screens.airquality.AirQualityScreen
 import com.pranshulgg.weather_master_app.feature.blocks.screens.precipitation.RainScreen
 import com.pranshulgg.weather_master_app.feature.blocks.screens.precipitation.SnowScreen
 import com.pranshulgg.weather_master_app.feature.blocks.screens.uvindex.UvIndexScreen
@@ -65,6 +66,11 @@ fun AppNavHost(
             navigation(
                 route = "root",
                 startDestination = NavRoutes.MAIN
+//                startDestination = NavRoutes.blockScreen(
+//                    NavRoutes.AIR_QUALITY,
+//                    0,
+//                    "ab73f0ac-0dd9-410b-aa85-c944abfdcf60"
+//                )
             ) {
                 composable(
                     NavRoutes.MAIN
@@ -172,6 +178,7 @@ fun AppNavHost(
                         NavRoutes.WIND -> WindScreen(navController, index, locationId)
                         NavRoutes.RAIN -> RainScreen(navController, index, locationId)
                         NavRoutes.SNOW -> SnowScreen(navController, index, locationId)
+                        NavRoutes.AIR_QUALITY -> AirQualityScreen(navController, index, locationId)
                     }
                 }
             }
