@@ -42,7 +42,8 @@ class OpenMeteoAqiRepository @Inject constructor(
 
             dao.insertAirQuality(
                 domain.current.toEntity(location.id),
-                domain.hourly.map { it.toEntity(location.id) }
+                domain.hourly.map { it.toEntity(location.id) },
+                location.id
             )
 
             AirQualityResult.Success(domain)

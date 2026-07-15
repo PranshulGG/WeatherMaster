@@ -32,8 +32,8 @@ data class SummaryData(
     val uv: SummaryPeakUv,
     val snowDay: SummaryPeakSnow,
     val snowNight: SummaryPeakSnow,
-    val conditionDay: String,
-    val conditionNight: String,
+    val conditionDay: String?,
+    val conditionNight: String?,
     val temps: SummaryTemps
 
 )

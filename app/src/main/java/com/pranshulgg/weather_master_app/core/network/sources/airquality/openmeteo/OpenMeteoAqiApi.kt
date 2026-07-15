@@ -25,7 +25,7 @@ interface OpenMeteoAqiApi {
         @Query("current") appendCurrent: String = CURRENT_FIELDS,
         @Query("hourly") appendHourly: String = HOURLY_FIELDS,
         @Query("domains") appendDomains: String = DOMAINS,
-        @Query("forecast_days") forecastDays: String = "7",
+        @Query("forecast_days") forecastDays: String = "1",
         @Query("timeformat") appendTimeFormat: String = "unixtime"
     ): Response<OpenMeteoAqiDto>
 
