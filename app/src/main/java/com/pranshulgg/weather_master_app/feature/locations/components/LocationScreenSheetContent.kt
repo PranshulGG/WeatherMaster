@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app.feature.locations.components
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.ui.components.SettingSection
 import com.pranshulgg.weather_master_app.core.ui.components.SettingTile
@@ -18,14 +19,14 @@ fun LocationScreenSheetContent(
         tiles = listOf(
             SettingTile.ActionTile(
                 leading = { SettingsTileIcon(R.drawable.delete_24px) },
-                title = "Delete",
+                title = stringResource(R.string.action_delete),
                 onClick = {
                     onDelete()
                 }
             ),
             SettingTile.ActionTile(
                 leading = { SettingsTileIcon(R.drawable.home_pin_24px) },
-                title = "Set as default",
+                title = stringResource(R.string.action_set_default),
                 onClick = {
                     onSetAsDefault()
                 }

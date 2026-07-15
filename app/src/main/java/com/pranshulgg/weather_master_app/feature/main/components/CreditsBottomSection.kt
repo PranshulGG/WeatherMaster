@@ -17,6 +17,8 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.ui.res.stringResource
+import com.pranshulgg.weather_master_app.R
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -26,7 +28,7 @@ fun CreditsBottomSection(weather: Weather?, onClick: () -> Unit) {
         ?: WeatherSource.OPEN_METEO.displayName
 
     Text(
-        "$source and more",
+        stringResource(R.string.source_credits_label, source),
         modifier = Modifier
             .fillMaxWidth()
             .clickable(

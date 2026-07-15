@@ -274,6 +274,8 @@ class WeatherViewModel @Inject constructor(
 
     private suspend fun handleAirQuality(location: Location, isManualRefresh: Boolean) {
 
+        if (_uiState.value.isAirQualityLoading) return
+
         _uiState.value = _uiState.value.copy(isAirQualityLoading = true)
 
         when (val result = openMeteoAqiRepository.getAirQuality(location, isManualRefresh)) {

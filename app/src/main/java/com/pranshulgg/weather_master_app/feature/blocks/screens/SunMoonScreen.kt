@@ -129,7 +129,7 @@ fun SunMoonScreen(navController: NavController, index: Int, locationId: String) 
                         )
                         TextHeader(
                             header = stringResource(R.string.text_day_length),
-                            text = "$dayLengthHrs hr"
+                            text = stringResource(R.string.day_length_hr, "$dayLengthHrs")
                         )
                     }
                     Box(Modifier.size(160.dp)) {

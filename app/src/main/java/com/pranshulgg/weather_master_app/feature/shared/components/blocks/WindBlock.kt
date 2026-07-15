@@ -107,7 +107,7 @@ fun WindBlock(
 
                 if (windDirection != null) {
                     Text(
-                        "From $windDirection",
+                        stringResource(R.string.weather_wind_direction_from, "$windDirection"),
                         style = MaterialTheme.typography.bodyLarge,
                     )
                 }

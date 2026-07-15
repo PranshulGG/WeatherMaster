@@ -39,18 +39,32 @@ fun getHeadline(
     val parts = mutableListOf<String>()
 
 
-    val overviewTemplates = if (summaryData.conditionDay == summaryData.conditionNight)
-        context.getString(
+    val overviewSentences = when {
+        summaryData.conditionDay.isNullOrEmpty() && !summaryData.conditionNight.isNullOrEmpty() -> context.getString(
+            R.string.summary_overview_template_night_condition,
+            summaryData.conditionNight.lowercase()
+        )
+
+        !summaryData.conditionDay.isNullOrEmpty() && summaryData.conditionNight.isNullOrEmpty() -> context.getString(
+            R.string.summary_overview_template_day_condition,
+            summaryData.conditionDay.lowercase()
+        )
+
+        summaryData.conditionDay == summaryData.conditionNight && !summaryData.conditionDay.isNullOrEmpty() -> context.getString(
             R.string.summary_overview_template_same_condition,
             summaryData.conditionDay.lowercase()
-        ) else
-        context.getString(
+        )
+
+        !summaryData.conditionDay.isNullOrEmpty() && !summaryData.conditionNight.isNullOrEmpty() -> context.getString(
             R.string.summary_overview_template_day_night_condition,
             summaryData.conditionDay.lowercase(), summaryData.conditionNight.lowercase()
         )
 
-    parts += overviewTemplates
+        else -> null
+    }
 
+
+    overviewSentences?.let { parts += it }
 
     val rainSentence = when {
         summaryData.rainDay.amount == 0.0 && summaryData.rainNight.amount == 0.0 -> null

@@ -180,11 +180,11 @@ fun AppearanceScreen(navController: NavController) {
             )
 
             SettingSection(
-                title = "Time",
+                title = stringResource(R.string.text_time),
                 tiles = listOf(
                     SettingTile.SwitchTile(
                         leading = { SettingsTileIcon(R.drawable.schedule_48px) },
-                        title = "Use 24hr time format",
+                        title = stringResource(R.string.settings_24hr_time),
                         checked = prefs.is24HrTimeFormat,
                         onCheckedChange = { checked ->
                             prefs.set24HrTimeFormat(checked)

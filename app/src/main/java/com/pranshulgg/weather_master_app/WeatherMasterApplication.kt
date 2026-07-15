@@ -34,14 +34,23 @@ class WeatherMasterApplication : Application(), Configuration.Provider {
             .lifecycle
             .addObserver(visibilityTracker)
 
-        val channel = NotificationChannel(
-            WeatherNotificationConfig.CHANNEL_ID,
-            "WeatherMaster Updates",
-            NotificationManager.IMPORTANCE_DEFAULT
+        val manager = getSystemService(NotificationManager::class.java)
+
+        manager.createNotificationChannel(
+            NotificationChannel(
+                WeatherNotificationConfig.CHANNEL_ID,
+                "WeatherMaster Updates",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
         )
 
-        val manager = getSystemService(NotificationManager::class.java)
-        manager.createNotificationChannel(channel)
+        manager.createNotificationChannel(
+            NotificationChannel(
+                WeatherNotificationConfig.ERROR_CHANNEL_ID,
+                "WeatherMaster Update Errors",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+        )
 
     }
 

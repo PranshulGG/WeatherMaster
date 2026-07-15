@@ -44,4 +44,29 @@ object WeatherNotification {
                 WeatherNotificationConfig.NOTIFICATION_ID
             )
     }
+
+    @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
+    fun showErrorNotification(error: String?, context: Context) {
+
+
+        val notification = context.let {
+            NotificationCompat.Builder(
+                it,
+                WeatherNotificationConfig.ERROR_CHANNEL_ID
+            )
+        }
+            .setContentTitle("Background update failed")
+            .setContentText(error ?: "Unknown error")
+            .setSmallIcon(R.drawable.info_24px)
+            .build()
+
+        context.let {
+            NotificationManagerCompat.from(it)
+                .notify(
+                    WeatherNotificationConfig.ERROR_NOTIFICATION_ID,
+                    notification
+                )
+        }
+    }
+
 }

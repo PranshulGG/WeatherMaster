@@ -50,7 +50,7 @@ fun WeatherSourcesScreen(navController: NavController) {
             )
             Gap(8.dp)
             Text(
-                "Want a source to be added? You can request it here",
+                stringResource(R.string.settings_source_request_title),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.secondary,
                 modifier = Modifier.padding(horizontal = 16.dp)
@@ -59,7 +59,7 @@ fun WeatherSourcesScreen(navController: NavController) {
             Button(onClick = {
                 uriHandler.openUri("https://github.com/PranshulGG/WeatherMaster/issues/new?template=new_source.yaml")
             }, modifier = Modifier.padding(horizontal = 16.dp), shapes = ButtonDefaults.shapes()) {
-                Text("Request")
+                Text(stringResource(R.string.action_request))
             }
             Gap(12.dp)
             WeatherSource.entries.forEach {

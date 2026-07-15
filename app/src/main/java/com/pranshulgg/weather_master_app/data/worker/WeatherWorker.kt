@@ -16,6 +16,7 @@ import com.pranshulgg.weather_master_app.data.provider.WeatherRepositoryProvider
 import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
 import com.pranshulgg.weather_master_app.data.worker.notification.WeatherNotification
+import com.pranshulgg.weather_master_app.data.worker.notification.WeatherNotification.showErrorNotification
 import com.pranshulgg.weather_master_app.data.worker.widgets.WeatherWidgetUpdater
 import com.pranshulgg.weather_master_app.data.worker.widgets.widgetWeatherMapper
 import dagger.assisted.Assisted
@@ -84,7 +85,7 @@ class WeatherWorker @AssistedInject constructor(
             return Result.success()
 
         } catch (e: Exception) {
-            WeatherNotification.hideNotification(applicationContext) // TODO: SHOW ERROR NOTIFICATION
+            showErrorNotification(e.message, applicationContext)
             Result.failure()
         } finally {
             WeatherNotification.hideNotification(applicationContext)

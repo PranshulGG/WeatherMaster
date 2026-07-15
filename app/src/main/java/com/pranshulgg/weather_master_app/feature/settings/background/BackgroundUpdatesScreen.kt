@@ -85,7 +85,7 @@ fun BackgroundUpdatesScreen(navController: NavController) {
 
             AnimatedVisibility(visible = !isNotificationPermissionGranted) {
                 SettingSection(
-                    title = "Notification",
+                    title = stringResource(R.string.setting_notification),
                     tiles = listOf(
                         SettingTile.ActionTile(
                             danger = true,

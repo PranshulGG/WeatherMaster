@@ -38,18 +38,14 @@ class WeatherWidgetUpdater(
             ids: List<GlanceId>
         ) {
             ids.forEach { id ->
-                try {
-                    updateAppWidgetState(context, WeatherWidgetStateDefinition, id) { current ->
-                        current.copy(json = json, config = current.config)
-                    }
-                } catch (e: Exception) {
+                updateAppWidgetState(context, WeatherWidgetStateDefinition, id) { current ->
+                    current.copy(json = json, config = current.config)
                 }
+
             }
 
-            try {
-                widget.updateAll(context)
-            } catch (e: Exception) {
-            }
+            widget.updateAll(context)
+
         }
         updateWidgets(widget, manager.getGlanceIds(WeatherWidget::class.java))
         updateWidgets(pill, manager.getGlanceIds(WidgetPill::class.java))
