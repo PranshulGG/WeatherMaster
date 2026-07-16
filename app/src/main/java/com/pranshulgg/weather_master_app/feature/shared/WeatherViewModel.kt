@@ -14,6 +14,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.toMessageRes
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlock
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.model.sources.isSupportedFor
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.airquality.AirQualityResult
 import com.pranshulgg.weather_master_app.core.network.github.GithubRepository
@@ -117,7 +118,7 @@ class WeatherViewModel @Inject constructor(
         setLoading(true)
         weatherJob?.cancel()
         val startTime = System.currentTimeMillis()
-        _uiState.value = _uiState.value.copy(isError = false)
+        _uiState.value = _uiState.value.copy(isError = false, isUnsupportedSource = false)
 
 
         weatherJob = viewModelScope.launch {
@@ -253,7 +254,8 @@ class WeatherViewModel @Inject constructor(
 
                 _uiState.value = _uiState.value.copy(
                     isError = true,
-                    weather = result.cacheWeather
+                    weather = result.cacheWeather,
+                    isUnsupportedSource = !location.source.isSupportedFor(location.countryCode?.uppercase())
                 )
             }
 

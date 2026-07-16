@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app.feature.main
 
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,6 +33,7 @@ import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weather_master_app.feature.intro.IntroScreen
 import com.pranshulgg.weather_master_app.feature.locations.LocationsScreen
 import com.pranshulgg.weather_master_app.feature.main.ui.MainScreenBottomSheets
+import com.pranshulgg.weather_master_app.feature.main.ui.MainScreenDialogs
 import com.pranshulgg.weather_master_app.feature.main.ui.NavigationDrawer
 import com.pranshulgg.weather_master_app.feature.shared.WeatherViewModel
 import com.pranshulgg.weather_master_app.feature.shared.ui.SharedBottomSheet
@@ -47,14 +49,16 @@ data class MainScreenWeatherUiState(
     val blocks: List<WeatherBlock> = WeatherBlock.getDefault(),
     val isInitialized: Boolean = false,
     val airQuality: AirQuality? = null,
-    val isAirQualityLoading: Boolean = false
+    val isAirQualityLoading: Boolean = false,
+    val isUnsupportedSource: Boolean = false
 )
 
 data class MainScreenUiState(
     val isWeatherSourcesForLocationSheetOpen: Boolean = false,
     val isWeatherSourcesInfoForLocationSheetOpen: Boolean = false,
     val isNewVersionAvailable: Boolean = false,
-    val lastestVersionUrl: String = "https://github.com/PranshulGG/WeatherMaster/releases/latest"
+    val lastestVersionUrl: String = "https://github.com/PranshulGG/WeatherMaster/releases/latest",
+    val isUnsupportedSourceDialogOpen: Boolean = false
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -92,6 +96,7 @@ fun MainScreen(navController: NavController) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
+
     val closeDrawer = {
         scope.launch { drawerState.close() }
     }
@@ -101,6 +106,12 @@ fun MainScreen(navController: NavController) {
         enabled = drawerState.isOpen,
     ) {
         closeDrawer()
+    }
+
+    LaunchedEffect(uiState.isUnsupportedSource) {
+        if (uiState.isUnsupportedSource) {
+            viewModel.showUnsupportedSelectedSourceDialog()
+        }
     }
 
     LaunchedEffect(mainScreenUiState.isNewVersionAvailable) {
@@ -182,6 +193,13 @@ fun MainScreen(navController: NavController) {
 
     // WEATHER SOURCES INFO DIALOG
     MainScreenBottomSheets.WeatherSourcesInfoForLocationSheet(viewModel, activeLocation, sheetState)
+
+    // SOURCE NOT AVAILABLE
+    MainScreenDialogs.UnsupportedSelectedSourceDialog(
+        mainScreenUiState.isUnsupportedSourceDialogOpen,
+        onDismiss =
+            viewModel::hideUnsupportedSelectedSourceDialog,
+        onConfirm = { viewModel.showWeatherSourcesForLocationSheet(uiState.isLoading) })
 }
 
 

@@ -108,3 +108,9 @@ private val weatherSourcesGlobal = listOf(
 fun getWeatherSourcesGlobal(): List<WeatherSource> {
     return weatherSourcesGlobal
 }
+
+fun WeatherSource.isSupportedFor(countryCode: String?): Boolean {
+    val source = weatherSourcesByCountry[countryCode] ?: emptyList()
+
+    return source.isNotEmpty()
+}

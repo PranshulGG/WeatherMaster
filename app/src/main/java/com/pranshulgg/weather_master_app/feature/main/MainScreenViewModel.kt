@@ -49,6 +49,14 @@ class MainScreenViewModel @Inject constructor(
         _uiState.value = _uiState.value.copy(isWeatherSourcesInfoForLocationSheetOpen = false)
     }
 
+    fun hideUnsupportedSelectedSourceDialog() {
+        _uiState.value = _uiState.value.copy(isUnsupportedSourceDialogOpen = false)
+    }
+
+    fun showUnsupportedSelectedSourceDialog() {
+        _uiState.value = _uiState.value.copy(isUnsupportedSourceDialogOpen = true)
+    }
+
     private suspend fun checkForUpdates() {
         val isNewAvailable = try {
             githubRepository.isNewVersionAvailable(
