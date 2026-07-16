@@ -100,13 +100,20 @@ fun computeDaySummary(
 
 private fun findRainStarting(hourly: List<WeatherHourly>): SummaryPeakRain {
 
-    if (hourly.isEmpty()) return SummaryPeakRain(
+    val empty = SummaryPeakRain(
         at = 0,
         amount = 0.0,
         probability = 0
     )
-    val rainStartIndex = hourly.indexOfFirst { it.rain > 2.0 }.plus(1).coerceIn(0, hourly.size - 1)
 
+    if (hourly.isEmpty()) return empty
+
+    val rainStartIndex = hourly.indexOfFirst { it.rain >= 0.5 }
+
+
+    if (rainStartIndex == -1) {
+        return empty
+    }
 
     val data = hourly[rainStartIndex]
 
@@ -119,14 +126,20 @@ private fun findRainStarting(hourly: List<WeatherHourly>): SummaryPeakRain {
 }
 
 private fun findSnowStarting(hourly: List<WeatherHourly>): SummaryPeakSnow {
-
-    if (hourly.isEmpty()) return SummaryPeakSnow(
+    val empty = SummaryPeakSnow(
         at = 0,
         amount = 0.0,
         probability = 0
     )
+
+    if (hourly.isEmpty()) return empty
+
     val snowStartIndex =
-        hourly.indexOfFirst { (it.snowfall ?: 0.0) > 2.0 }.plus(1).coerceIn(0, hourly.size - 1)
+        hourly.indexOfFirst { (it.snowfall ?: 0.0) >= 0.5 }
+
+    if (snowStartIndex == -1) {
+        return empty
+    }
 
     val data = hourly[snowStartIndex]
     return SummaryPeakSnow(
