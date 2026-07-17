@@ -59,6 +59,16 @@ object PreferencesHelper {
         return str?.toDoubleOrNull()
     }
 
+
+    // -------------------- LONG --------------------
+
+    fun setLong(key: String, value: Long) {
+        prefs.edit { putLong(key, value) }
+    }
+
+    fun getLong(key: String): Long? =
+        if (prefs.contains(key)) prefs.getLong(key, 0) else null
+
     // -------------------- List<String> --------------------
 
     fun setStringList(key: String, value: List<String>) {

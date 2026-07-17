@@ -13,6 +13,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,6 +26,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
@@ -33,6 +36,7 @@ import com.pranshulgg.weather_master_app.core.ui.components.SettingSection
 import com.pranshulgg.weather_master_app.core.ui.components.SettingTile
 import com.pranshulgg.weather_master_app.core.ui.components.SettingsTileIcon
 import com.pranshulgg.weather_master_app.core.ui.components.tiles.DialogOption
+import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weather_master_app.data.worker.WeatherUpdateScheduler
 import com.pranshulgg.weather_master_app.feature.settings.background.batteryoptimization.BatteryOptimizationHelper
@@ -70,6 +74,8 @@ fun BackgroundUpdatesScreen(navController: NavController) {
     val uriHandler = LocalUriHandler.current
 
 
+
+
     LargeTopBarScaffold(
         title = stringResource(R.string.setting_background_updates),
         navigationIcon = { NavigateUpBtn(navController) },
@@ -82,6 +88,7 @@ fun BackgroundUpdatesScreen(navController: NavController) {
                     .padding(paddingValues),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
+
 
             AnimatedVisibility(visible = !isNotificationPermissionGranted) {
                 SettingSection(
@@ -133,6 +140,13 @@ fun BackgroundUpdatesScreen(navController: NavController) {
                             if (prefs.backgroundUpdatesEnabled) {
                                 viewModel.scheduleWeatherUpdates(it.toInt())
                             }
+                        }
+                    ),
+                    SettingTile.ActionTile(
+                        leading = { SettingsTileIcon(R.drawable.info_24px) },
+                        title = "Worker information",
+                        onClick = {
+                            navController.navigate(NavRoutes.WORKER_INFO)
                         }
                     ),
                     SettingTile.ActionTile(

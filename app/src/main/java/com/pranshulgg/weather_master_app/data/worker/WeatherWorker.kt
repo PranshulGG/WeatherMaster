@@ -81,6 +81,7 @@ class WeatherWorker @AssistedInject constructor(
 
             updateAllWidgets(applicationContext, weather, units)
 
+            PreferencesHelper.setLong("LAST_WORKER_SUCCESS_RUN", System.currentTimeMillis())
 
             return Result.success()
 

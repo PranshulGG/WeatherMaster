@@ -40,6 +40,7 @@ import com.pranshulgg.weather_master_app.feature.settings.about.privacy.PrivacyP
 import com.pranshulgg.weather_master_app.feature.settings.about.terms.TermsConditionsScreen
 import com.pranshulgg.weather_master_app.feature.settings.appearance.AppearanceScreen
 import com.pranshulgg.weather_master_app.feature.settings.background.BackgroundUpdatesScreen
+import com.pranshulgg.weather_master_app.feature.settings.background.WorkerInfoScreen
 import com.pranshulgg.weather_master_app.feature.settings.language.LanguageScreen
 import com.pranshulgg.weather_master_app.feature.settings.sources.WeatherSourcesScreen
 import com.pranshulgg.weather_master_app.feature.settings.units.UnitsScreen
@@ -149,6 +150,11 @@ fun AppNavHost(
                     NavRoutes.SOURCES
                 ) {
                     WeatherSourcesScreen(navController)
+                }
+                composable(
+                    NavRoutes.WORKER_INFO
+                ) {
+                    WorkerInfoScreen(navController)
                 }
                 composable(
                     route = "{block}/{index}/{locationId}",

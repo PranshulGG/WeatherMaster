@@ -28,8 +28,7 @@ object WeatherUpdateScheduler {
             PeriodicWorkRequestBuilder<WeatherWorker>(
                 repeatInterval.toLong(),
                 TimeUnit.MINUTES
-            )
-                .setConstraints(constraints)
+            ).setConstraints(constraints)
                 .build()
 
 
