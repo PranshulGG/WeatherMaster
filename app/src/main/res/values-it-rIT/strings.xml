@@ -271,10 +271,10 @@
     <string name="weather_minimum">Minimo</string>
     <string name="error_no_results_found">Nessun risultato trovato</string>
     <string name="text_time">Time</string>
-    <string name="settings_24hr_time">Use 24hr time format</string>
+    <string name="settings_24hr_time">Usa formato 24 ore</string>
     <string name="about_email">Email</string>
     <string name="settings_source_request_title">Want a source to be added? You can request it here</string>
-    <string name="action_request">Request</string>
+    <string name="action_request">Richiesta</string>
     <string name="source_credits_label">%1$s e più</string>
     <string name="weather_wind_direction_from">From %1$s</string>
     <string name="day_length_hr">%1$s hrs</string>
