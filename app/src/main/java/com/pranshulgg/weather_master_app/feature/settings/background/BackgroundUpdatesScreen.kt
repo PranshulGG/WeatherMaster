@@ -1,5 +1,8 @@
 package com.pranshulgg.weather_master_app.feature.settings.background
 
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -10,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,6 +34,7 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
+import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weather_master_app.core.ui.components.SettingSection
@@ -39,9 +44,12 @@ import com.pranshulgg.weather_master_app.core.ui.components.tiles.DialogOption
 import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weather_master_app.data.worker.WeatherUpdateScheduler
+import com.pranshulgg.weather_master_app.data.worker.gadgetbridge.isGadgetbridgeInstalled
 import com.pranshulgg.weather_master_app.feature.settings.background.batteryoptimization.BatteryOptimizationHelper
 import com.pranshulgg.weather_master_app.feature.settings.background.notification.isNotificationPermissionGranted
 import com.pranshulgg.weather_master_app.feature.settings.background.notification.rememberNotificationPermissionLauncher
+import org.json.JSONArray
+import org.json.JSONObject
 
 
 @Composable
@@ -73,8 +81,14 @@ fun BackgroundUpdatesScreen(navController: NavController) {
 
     val uriHandler = LocalUriHandler.current
 
+    var isSendDataToGadgetbridge by remember {
+        mutableStateOf(
+            PreferencesHelper.getBool("isSendDataToGadgetbridge") ?: false
+        )
+    }
 
 
+    val isGadgetbridgeInstalled = isGadgetbridgeInstalled(context)
 
     LargeTopBarScaffold(
         title = stringResource(R.string.setting_background_updates),
@@ -149,6 +163,20 @@ fun BackgroundUpdatesScreen(navController: NavController) {
                             navController.navigate(NavRoutes.WORKER_INFO)
                         }
                     ),
+                    SettingTile.SwitchTile(
+                        leading = { SettingsTileIcon(R.drawable.aod_watch_24px) },
+                        title = "Send data to Gadgetbridge",
+                        enabled = isGadgetbridgeInstalled,
+                        checked = isSendDataToGadgetbridge,
+                        onCheckedChange = {
+                            if (!isGadgetbridgeInstalled) {
+                                SnackbarManager.show(R.string.gadgetbridge_not_available_error)
+                                return@SwitchTile
+                            }
+                            isSendDataToGadgetbridge = it
+                            PreferencesHelper.setBool("isSendDataToGadgetbridge", it)
+                        }
+                    ),
                     SettingTile.ActionTile(
                         leading = { SettingsTileIcon(R.drawable.sync_problem_24px) },
                         title = stringResource(R.string.setting_disable_battery_opt_title),
@@ -166,9 +194,7 @@ fun BackgroundUpdatesScreen(navController: NavController) {
                 )
             )
         }
-
-
     }
-
 }
+
 

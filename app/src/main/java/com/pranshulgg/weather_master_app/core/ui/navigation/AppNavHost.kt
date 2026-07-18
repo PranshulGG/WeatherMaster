@@ -66,7 +66,7 @@ fun AppNavHost(
         ) {
             navigation(
                 route = "root",
-                startDestination = NavRoutes.MAIN
+                startDestination = NavRoutes.BACKGROUND_UPDATES
 //                startDestination = NavRoutes.blockScreen(
 //                    NavRoutes.AIR_QUALITY,
 //                    0,

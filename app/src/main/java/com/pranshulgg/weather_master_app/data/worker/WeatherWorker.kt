@@ -15,6 +15,7 @@ import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
 import com.pranshulgg.weather_master_app.data.provider.WeatherRepositoryProvider
 import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
+import com.pranshulgg.weather_master_app.data.worker.gadgetbridge.sendGadgetBridgeWeatherData
 import com.pranshulgg.weather_master_app.data.worker.notification.WeatherNotification
 import com.pranshulgg.weather_master_app.data.worker.notification.WeatherNotification.showErrorNotification
 import com.pranshulgg.weather_master_app.data.worker.widgets.WeatherWidgetUpdater
@@ -78,6 +79,13 @@ class WeatherWorker @AssistedInject constructor(
 
 
             val weather = result.weather
+
+            val sendDataToGadgetbridge =
+                PreferencesHelper.getBool("isSendDataToGadgetbridge") ?: false
+
+            if (sendDataToGadgetbridge) {
+                sendGadgetBridgeWeatherData(applicationContext, weather)
+            }
 
             updateAllWidgets(applicationContext, weather, units)
 

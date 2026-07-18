@@ -158,6 +158,12 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/weather4_widget_info" />
         </receiver>
+
+
     </application>
 
+    <queries>
+        <package android:name="nodomain.freeyourgadget.gadgetbridge" />
+        <package android:name="nodomain.freeyourgadget.gadgetbridge.nightly" />
+    </queries>
 </manifest>
