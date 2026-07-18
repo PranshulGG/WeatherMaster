@@ -35,6 +35,8 @@ fun computeDaySummary(
 
 
     val (day, night) = hourly.partition { forecast ->
+
+        // consider 6am to 5pm daytime
         toHour(forecast.time, weather.location.timezone).toInt() in 6..17
     }
 
