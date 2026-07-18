@@ -291,5 +291,6 @@
     <string name="summary_temp_template_cold">日中も%1$s前後と寒い日が続くでしょう。夜間は最低気温が%2$s前後まで下がる見込みです。</string>
     <string name="summary_overview_template_day_condition">日中は%1$sになる見込みです。</string>
     <string name="summary_overview_template_night_condition">夜には%1$sになる見込みです。</string>
+    <string name="gadgetbridge_not_available_error">Gadget bridge is not installed</string>
 </resources>
 <!--<string name=""></string>-->
