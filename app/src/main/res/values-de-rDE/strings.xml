@@ -273,13 +273,13 @@
     <string name="text_time">Zeit</string>
     <string name="settings_24hr_time">24-Stunden-Format verwenden</string>
     <string name="about_email">E-Mail</string>
-    <string name="settings_source_request_title">Want a source to be added? You can request it here</string>
+    <string name="settings_source_request_title">Willst du eine weitere Quelle? Du kannst sie hier anfragen.</string>
     <string name="action_request">Anfrage</string>
     <string name="source_credits_label">%1$s and more</string>
     <string name="weather_wind_direction_from">From %1$s</string>
-    <string name="day_length_hr">%1$s hrs</string>
+    <string name="day_length_hr">%1$s Std</string>
     <string name="error_no_results">Keine Ergebnisse gefunden</string>
-    <string name="summary_overview_template_same_condition">It will stay %1$s throughout the day and night.</string>
+    <string name="summary_overview_template_same_condition"></string>
     <string name="summary_overview_template_day_night_condition">It will be %1$s during the day, then turn %2$s at night.</string>
     <string name="summary_rain_template_day_night">During the day, rain is expected around %1$s with a %2$s chance. Tonight, there\'s a %3$s chance of rain around %4$s.</string>
     <string name="summary_rain_template_day">During the day, rain is expected around %1$s with a %2$s chance.</string>
@@ -292,5 +292,8 @@
     <string name="summary_temp_template_mild">A mild day is expected with temperatures reaching %1$s. Overnight, it\'ll cool to around %2$s.</string>
     <string name="summary_temp_template_cool">It will be cool during the day with highs around %1$s. Tonight, temperatures will drop to about %2$s.</string>
     <string name="summary_temp_template_cold">Cold weather continues with daytime temperatures around %1$s. Overnight, lows will fall to around %2$s.</string>
+    <string name="summary_overview_template_day_condition">It will be %1$s during the day.</string>
+    <string name="summary_overview_template_night_condition">Conditions will turn %1$s at night.</string>
+    <string name="gadgetbridge_not_available_error">Gadget bridge is not installed</string>
 </resources>
 <!--<string name=""></string>-->

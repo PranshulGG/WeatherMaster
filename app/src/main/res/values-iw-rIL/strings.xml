@@ -252,7 +252,7 @@
     <string name="text_day_length">אורך היום</string>
     <string name="weather_sun_moon">שמש וירח</string>
     <string name="moonphase_new_moon">ירח חדש</string>
-    <string name="moonphase_waxing_crescent">לקראת רבע ראשון</string>
+    <string name="moonphase_waxing_crescent">סהר מתמלא</string>
     <string name="moonphase_first_quarter">רבעון ראשון</string>
     <string name="moonphase_waxing_gibbous">לקראת ירח מלא</string>
     <string name="moonphase_full_moon">ירח מלא</string>
@@ -298,5 +298,8 @@
     <string name="summary_temp_template_mild">A mild day is expected with temperatures reaching %1$s. Overnight, it\'ll cool to around %2$s.</string>
     <string name="summary_temp_template_cool">יהיה קריר במהלך היום עם טמפרטורות גבוהות לקראת %1$s. במהלך הלילה, הטמפרטורות יצנחו לסביבות %2$s.</string>
     <string name="summary_temp_template_cold">Cold weather continues with daytime temperatures around %1$s. Overnight, lows will fall to around %2$s.</string>
+    <string name="summary_overview_template_day_condition">It will be %1$s during the day.</string>
+    <string name="summary_overview_template_night_condition">Conditions will turn %1$s at night.</string>
+    <string name="gadgetbridge_not_available_error">Gadget bridge is not installed</string>
 </resources>
 <!--<string name=""></string>-->
