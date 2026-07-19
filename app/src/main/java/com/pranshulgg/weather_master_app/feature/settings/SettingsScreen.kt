@@ -47,8 +47,14 @@ fun SettingsScreen(navController: NavController) {
                         description = stringResource(R.string.setting_appearance_secondary),
                         onClick = { navController.navigate(NavRoutes.APPEARANCE) }
                     ),
-
+                    SettingTile.ActionTile(
+                        leading = { SettingsTileIcon(R.drawable.favorite_24px) },
+                        title = "Support",
+                        description = "If you enjoy the app, consider supporting its development on Github",
+                        onClick = { uriHandler.openUri("https://github.com/sponsors/PranshulGG?frequency=one-time&sponsor=PranshulGG") }
                     )
+
+                )
             )
             SettingSection(
                 tiles = listOf(
