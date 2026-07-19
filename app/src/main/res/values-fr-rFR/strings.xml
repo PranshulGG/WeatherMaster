@@ -280,7 +280,7 @@
     <string name="day_length_hr">%1$s h</string>
     <string name="error_no_results">Aucun résultat trouvé</string>
     <string name="summary_overview_template_same_condition">Le ciel restera %1$s tout au long de la journée et de la nuit.</string>
-    <string name="summary_overview_template_day_night_condition">Il fera %1$s pendant la journée, puis %1$s la nuit.</string>
+    <string name="summary_overview_template_day_night_condition">Il fera %1$s pendant la journée, puis %2$s la nuit.</string>
     <string name="summary_rain_template_day_night">During the day, rain is expected around %1$s with a %2$s chance. Tonight, there\'s a %3$s chance of rain around %4$s.</string>
     <string name="summary_rain_template_day">During the day, rain is expected around %1$s with a %2$s chance.</string>
     <string name="summary_rain_template_night">Tonight, there\'s a %1$s chance of rain around %2$s.</string>
@@ -295,5 +295,4 @@
     <string name="summary_overview_template_day_condition">It will be %1$s during the day.</string>
     <string name="summary_overview_template_night_condition">Conditions will turn %1$s at night.</string>
     <string name="gadgetbridge_not_available_error">Gadget bridge is not installed</string>
-</resources>
-<!--<string name=""></string>-->
+</resources><!--<string name=""></string>-->
