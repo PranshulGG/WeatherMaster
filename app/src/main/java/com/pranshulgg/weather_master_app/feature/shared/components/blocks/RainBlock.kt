@@ -58,12 +58,23 @@ fun RainBlock(
                     .padding(bottom = 16.dp)
             ) {
 
-                Row(
-                    verticalAlignment = Alignment.Bottom,
-                    horizontalArrangement = Arrangement.End,
+                Column(
+//                    horizontalArrangement = Alignment.Bottom,
+//                    ver = Arrangement.End,
+                    verticalArrangement = Arrangement.Bottom,
+                    horizontalAlignment = Alignment.End,
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
+                    Text(
+                        units.precipitationUnit.toName(context, true),
+                        modifier = Modifier
+                            .padding(end = 16.dp),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        minLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
                     Text(
                         formatLocalizedNumber(
                             getCurrentAppLocale(),
@@ -71,21 +82,13 @@ fun RainBlock(
                             1
                         ),
                         modifier = Modifier
-                            .alignByBaseline(),
+                            .padding(end = 16.dp),
                         lineHeight = 22.sp,
                         textAlign = TextAlign.End,
                         color = MaterialTheme.colorScheme.onSurface,
                         style = MaterialTheme.typography.displayMedium
                     )
-                    Gap(horizontal = 2.dp)
-                    Text(
-                        units.precipitationUnit.toName(context, true),
-                        modifier = Modifier
-                            .alignByBaseline()
-                            .padding(end = 16.dp),
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+
                 }
 
                 Text(
