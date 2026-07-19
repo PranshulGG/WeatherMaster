@@ -1,8 +1,6 @@
 package com.pranshulgg.weather_master_app.feature.shared
 
 import android.content.Context
-import android.content.SharedPreferences
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -11,14 +9,12 @@ import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.domain.toMessageRes
-import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlock
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
-import com.pranshulgg.weather_master_app.core.model.sources.isSupportedFor
+import com.pranshulgg.weather_master_app.core.model.sources.isGlobal
+import com.pranshulgg.weather_master_app.core.model.sources.isSourceSupportedFor
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.airquality.AirQualityResult
-import com.pranshulgg.weather_master_app.core.network.github.GithubRepository
-import com.pranshulgg.weather_master_app.core.network.sources.address.nominatim.json.NominatimRepository
 import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo.OpenMeteoAqiRepository
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weather_master_app.data.provider.WeatherRepositoryProvider
@@ -28,11 +24,9 @@ import com.pranshulgg.weather_master_app.data.repository.WeatherDataReconcilerRe
 import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
 import com.pranshulgg.weather_master_app.data.worker.WeatherUpdateScheduler
 import com.pranshulgg.weather_master_app.feature.main.MainScreenWeatherUiState
-import dagger.hilt.android.internal.Contexts
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
@@ -40,7 +34,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withTimeout
 import javax.inject.Inject
 
 @HiltViewModel
@@ -255,7 +248,9 @@ class WeatherViewModel @Inject constructor(
                 _uiState.value = _uiState.value.copy(
                     isError = true,
                     weather = result.cacheWeather,
-                    isUnsupportedSource = !location.source.isSupportedFor(location.countryCode?.uppercase())
+                    isUnsupportedSource = !location.source.isGlobal() && !location.source.isSourceSupportedFor(
+                        location.countryCode?.uppercase()
+                    )
                 )
             }
 

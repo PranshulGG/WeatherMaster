@@ -109,8 +109,12 @@ fun getWeatherSourcesGlobal(): List<WeatherSource> {
     return weatherSourcesGlobal
 }
 
-fun WeatherSource.isSupportedFor(countryCode: String?): Boolean {
-    val source = weatherSourcesByCountry[countryCode] ?: emptyList()
+fun WeatherSource.isSourceSupportedFor(countryCode: String?): Boolean {
+    val source = weatherSourcesByCountry[countryCode] ?: return false
 
-    return source.isNotEmpty()
+    return this in source
+}
+
+fun WeatherSource.isGlobal(): Boolean {
+    return this in weatherSourcesGlobal
 }
