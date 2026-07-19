@@ -289,5 +289,8 @@
     <string name="summary_temp_template_mild">A mild day is expected with temperatures reaching %1$s. Overnight, it\'ll cool to around %2$s.</string>
     <string name="summary_temp_template_cool">It will be cool during the day with highs around %1$s. Tonight, temperatures will drop to about %2$s.</string>
     <string name="summary_temp_template_cold">Cold weather continues with daytime temperatures around %1$s. Overnight, lows will fall to around %2$s.</string>
+    <string name="summary_overview_template_day_condition">It will be %1$s during the day.</string>
+    <string name="summary_overview_template_night_condition">Conditions will turn %1$s at night.</string>
+    <string name="gadgetbridge_not_available_error">Gadget bridge is not installed</string>
 </resources>
 <!--<string name=""></string>-->

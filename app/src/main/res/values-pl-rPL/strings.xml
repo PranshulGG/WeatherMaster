@@ -276,7 +276,7 @@
     <string name="setting_system_font">Czcionka systemu</string>
     <string name="weather_minimum">Minimum</string>
     <string name="error_no_results_found">Nie znaleziono wyników</string>
-    <string name="text_time">Time</string>
+    <string name="text_time">Czas</string>
     <string name="settings_24hr_time">Format 24-godzinny</string>
     <string name="about_email">Email</string>
     <string name="settings_source_request_title">Chcesz, by dodano zasób? Tutaj możesz o niego zapytać</string>
@@ -285,18 +285,22 @@
     <string name="weather_wind_direction_from">Od %1$s</string>
     <string name="day_length_hr">%1$s godz.</string>
     <string name="error_no_results">Nie znaleziono wyników</string>
-    <string name="summary_overview_template_same_condition">It will stay %1$s throughout the day and night.</string>
-    <string name="summary_overview_template_day_night_condition">It will be %1$s during the day, then turn %2$s at night.</string>
-    <string name="summary_rain_template_day_night">During the day, rain is expected around %1$s with a %2$s chance. Tonight, there\'s a %3$s chance of rain around %4$s.</string>
-    <string name="summary_rain_template_day">During the day, rain is expected around %1$s with a %2$s chance.</string>
-    <string name="summary_rain_template_night">Tonight, there\'s a %1$s chance of rain around %2$s.</string>
-    <string name="summary_snow_template_day_night">Snow is forecast around %1$s during the day with a %2$s chance. Overnight, snowfall remains possible with a %3$s chance around %4$s.</string>
-    <string name="summary_snow_template_day">Snow is forecast around %1$s during the day with a %2$s chance.</string>
-    <string name="summary_snow_template_night">Overnight, there\'s a %1$s chance of snow around %2$s.</string>
-    <string name="summary_temp_template_extreme">Expect extreme heat during the day with a high of %1$s. Temperatures will ease to around %2$s tonight.</string>
-    <string name="summary_temp_template_warm">It will be warm during the day with highs near %1$s. Tonight, temperatures will fall to around %2$s.</string>
-    <string name="summary_temp_template_mild">A mild day is expected with temperatures reaching %1$s. Overnight, it\'ll cool to around %2$s.</string>
-    <string name="summary_temp_template_cool">It will be cool during the day with highs around %1$s. Tonight, temperatures will drop to about %2$s.</string>
-    <string name="summary_temp_template_cold">Cold weather continues with daytime temperatures around %1$s. Overnight, lows will fall to around %2$s.</string>
+    <string name="summary_overview_template_same_condition">W ciągu dnia i nocy pozostanie %1$s.</string>
+    <string name="summary_overview_template_day_night_condition">W ciągu dnia będzie %1$s, a w nocy %2$s.</string>
+    <string name="summary_rain_template_day_night">W ciągu dnia spodziewane są opady deszczu około %1$s z prawdopodobieństwem %2$s. Dzisiejszej nocy, około %4$s, prawdopodobieństwo opadów wyniesie %3$s.</string>
+    <string name="summary_rain_template_day">W ciągu dnia spodziewane są opady deszczu około %1$s z prawdopodobieństwem %2$s.</string>
+    <string name="summary_rain_template_night">Dzisiejszej nocy, około %2$s, prawdopodobieństwo opadów deszczu wyniesie %1$s.</string>
+    <string name="summary_snow_template_day_night">W ciągu dnia prognozuje się opady śniegu około %1$s z prawdopodobieństwem %2$s. W nocy, około %4$s, możliwe są opady śniegu z prawdopodobieństwem %3$s.</string>
+    <string name="summary_snow_template_day">
+W ciągu dnia spodziewane są opady śniegu około %1$s z prawdopodobieństwem %2$s.</string>
+    <string name="summary_snow_template_night">Dzisiejszej nocy, około %2$s, prawdopodobieństwo opadów śniegu wyniesie %1$s.</string>
+    <string name="summary_temp_template_extreme">W ciągu dnia spodziewaj się ekstremalnych upałów, z temperaturą maksymalną %1$s. Dziś w nocy temperatura spadnie do około %2$s.</string>
+    <string name="summary_temp_template_warm">W ciągu dnia będzie ciepło, a temperatura maksymalna wyniesie około %1$s. Dzisiejszej nocy temperatura spadnie do około %2$s.</string>
+    <string name="summary_temp_template_mild">Przewidywany jest łagodny dzień z temperaturami sięgającymi %1$s. W nocy temperatura spadnie do około %2$s.</string>
+    <string name="summary_temp_template_cool">W ciągu dnia będzie chłodno, a temperatura maksymalna wyniesie około %1$s. Dzisiejszej nocy temperatura spadnie do około %2$s.</string>
+    <string name="summary_temp_template_cold">Utrzymuje się chłodna pogoda, a temperatura w ciągu dnia wynosi około %1$s. W nocy temperatura minimalne wyniesie około %2$s.</string>
+    <string name="summary_overview_template_day_condition">W ciągu dnia będzie %1$s.</string>
+    <string name="summary_overview_template_night_condition">Warunki zmienią się o %1$s w nocy.</string>
+    <string name="gadgetbridge_not_available_error">Gadget bridge nie jest zainstalowany</string>
 </resources>
 <!--<string name=""></string>-->

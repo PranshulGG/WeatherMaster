@@ -298,5 +298,8 @@
     <string name="summary_temp_template_mild">Tikėtina, kad diena bus šilta, o temperatūra pakils iki %1$s. Naktį atvės iki maždaug %2$s.</string>
     <string name="summary_temp_template_cool">Dieną bus vėsu, aukščiausia dienos temperatūra sieks apie %1$s. Šiąnakt temperatūra nukris iki maždaug %2$s.</string>
     <string name="summary_temp_template_cold">Šalti orai tęsis, dienos temperatūra sieks apie %1$s. Naktį temperatūra nukris iki maždaug %2$s.</string>
+    <string name="summary_overview_template_day_condition">Dieną bus %1$s.</string>
+    <string name="summary_overview_template_night_condition">Naktį oro sąlygos pasikeis į %1$s.</string>
+    <string name="gadgetbridge_not_available_error">„Gadget Bridge“ nėra įdiegtas</string>
 </resources>
 <!--<string name=""></string>-->
