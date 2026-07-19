@@ -16,6 +16,7 @@ jobs:
       KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
       GEO_NAMES_USERNAME: ${{ secrets.GEO_NAMES_USERNAME }}
       MF_KEY: ${{ secrets.MF_KEY }}
+      ACCU_KEY: ${{ secrets.ACCU_KEY }}
 
     steps:
       - name: Checkout
@@ -50,6 +51,7 @@ jobs:
             --no-build-cache \
             -PGEO_NAMES_USERNAME="${{ secrets.GEO_NAMES_USERNAME }}" \
             -PMF_KEY="${{ secrets.MF_KEY }}" \
+            -PACCU_KEY="${ secrets.ACCU_KEY }}" \
             clean assembleRelease
 
       - name: Upload APK
