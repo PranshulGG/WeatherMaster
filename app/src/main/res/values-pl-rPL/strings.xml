@@ -139,7 +139,7 @@
     <string name="weather_aqi_no2_description">Gaz stanowiący główny składnik zanieczyszczenia powietrza w centrum miasta. Pochodzi głównie z pojazdów, przemysłu, elektrowni i systemów grzewczych</string>
     <string name="weather_aqi_O3_description">Gaz występujący w stratosferze. Chroni nas przed szkodliwym promieniowaniem ultrafioletowym oraz przed troposferą. Ozon jest szkodliwym zanieczyszczeniem powstającym w wyniku reakcji chemicznej między światłem słonecznym, gazami organicznymi i tlenkami azotu (np. pochodzącymi z samochodów i elektrowni).</string>
     <string name="weather_aqi_so2_description">Toksyczny gaz o ostrym, drażniącym zapachu. Może pochodzić z zakładów energetycznych spalających paliwa kopalne, rafinerii ropy naftowej, cementowni oraz z erupcji wulkanicznych.</string>
-    <string name="weather_aqi_co_description">Spaliny pochodzące z pojazdów silnikowych lub maszyn zasilanych paliwami kopalnymi.</string>
+    <string name="weather_aqi_co_description">Spaliny pochodzące z pojazdów silnikowych lub maszyn zasilanych paliwami kopalnymi</string>
     <string name="weather_airquality_about_index">Wskaźniki jakości powietrza przekształcają surowe dane w skalę opisową. Dzięki tym wskaźnikom łatwiej jest określić poziom zanieczyszczenia oraz ewentualne związane z nim ryzyko.</string>
     <string name="weather_average">Średnia</string>
     <string name="weather_rain_block">Deszcz</string>
