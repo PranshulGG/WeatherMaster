@@ -221,8 +221,8 @@
     <string name="summary_uv_high_template_2">צפויה חשיפה חזקה לקרינת UV בשעה %1$s.</string>
     <string name="summary_uv_high_template_3">High UV conditions are expected through the afternoon at %1$s.</string>
     <string name="summary_uv_moderate_template_1">רמות קרינת ה־UV יישארו מתונות.</string>
-    <string name="summary_uv_moderate_template_2">Moderate UV exposure is expected.</string>
-    <string name="summary_uv_moderate_template_3">Sun exposure will remain moderate throughout the day.</string>
+    <string name="summary_uv_moderate_template_2">צפויה חשיפה מתונה לקרינת UV.</string>
+    <string name="summary_uv_moderate_template_3">החשיפה לקרני השמש תישאר מתונה במהלך היום.</string>
     <string name="weather_summary">תקציר</string>
     <string name="about_changelog">יומן שינויים</string>
     <string name="about">מידע כללי</string>
@@ -242,7 +242,7 @@
     <string name="text_dense_fog">Dense Fog</string>
     <string name="visibility_description_excellent">בהירות יוצאת מן הכלל, עצמים רחוקים נראים בקלות</string>
     <string name="visibility_description_very_good">תנאים בהירים מאוד</string>
-    <string name="visibility_description_good">Standard clear daytime conditions</string>
+    <string name="visibility_description_good">תנאים סטנדרטיים ליום בהיר</string>
     <string name="visibility_description_moderate">Hazy; distant objects are slightly obscured</string>
     <string name="visibility_description_poor">Significant reduction due to mist, smoke, or light fog</string>
     <string name="visibility_description_very_poor">Heavy fog or precipitation; restricted travel conditions</string>
@@ -289,7 +289,7 @@
     <string name="summary_overview_template_day_night_condition">הטמפרטורה תישאר %1$s, ואז תשתנה ל־%2$s במהלך הלילה.</string>
     <string name="summary_rain_template_day_night">במהלך היום, צפוי לרדת גשם בסביבות %1$s עם סיכויים של %2$s. במהלך הלילה יש סיכוי של %3$s שירד גשם בסביבות %4$s.</string>
     <string name="summary_rain_template_day">במהלך היום, צפוי לרדת גשם בסביבות %1$s עם סיכויים של %2$s.</string>
-    <string name="summary_rain_template_night">Tonight, there\'s a %1$s chance of rain around %2$s.</string>
+    <string name="summary_rain_template_night">הלילה יש סיכוי של %1$s לירידת גשם בסביבות %2$s.</string>
     <string name="summary_snow_template_day_night">Snow is forecast around %1$s during the day with a %2$s chance. Overnight, snowfall remains possible with a %3$s chance around %4$s.</string>
     <string name="summary_snow_template_day">Snow is forecast around %1$s during the day with a %2$s chance.</string>
     <string name="summary_snow_template_night">Overnight, there\'s a %1$s chance of snow around %2$s.</string>
@@ -300,6 +300,6 @@
     <string name="summary_temp_template_cold">Cold weather continues with daytime temperatures around %1$s. Overnight, lows will fall to around %2$s.</string>
     <string name="summary_overview_template_day_condition">It will be %1$s during the day.</string>
     <string name="summary_overview_template_night_condition">Conditions will turn %1$s at night.</string>
-    <string name="gadgetbridge_not_available_error">Gadget bridge is not installed</string>
+    <string name="gadgetbridge_not_available_error">‏Gadget Bridge לא מותקן</string>
 </resources>
 <!--<string name=""></string>-->
