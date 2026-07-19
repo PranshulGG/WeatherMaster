@@ -51,7 +51,7 @@ jobs:
             --no-build-cache \
             -PGEO_NAMES_USERNAME="${{ secrets.GEO_NAMES_USERNAME }}" \
             -PMF_KEY="${{ secrets.MF_KEY }}" \
-            -PACCU_KEY="${ secrets.ACCU_KEY }}" \
+            -PACCU_KEY="${{ secrets.ACCU_KEY }}" \
             clean assembleRelease
 
       - name: Upload APK
