@@ -62,6 +62,8 @@
 - **ECCC**
 - **BMKG**
 - **China**
+- **AccuWeather**
+- **Meteo AM**
 - _**And more to be added**_
 
 # 🌐 Translate the app on [Crowdin](https://crowdin.com/project/weathermaster)

@@ -15,5 +15,7 @@
  <li><b>ECCC</b></li>
  <li><b>BMKG</b></li>
  <li><b>China</b></li>
+ <li><b>AccuWeather</b></li>
+ <li><b>Meteo AM</b></li>
  <li><b>And more to be added</b></li>
 </ul>
