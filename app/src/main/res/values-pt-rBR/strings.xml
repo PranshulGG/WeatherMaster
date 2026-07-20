@@ -214,7 +214,7 @@ São emitidas por veículos motorizados, aquecedores a lenha e indústrias. Inc�
     <string name="summary_uv_extreme_template_3">Very intense sunshine is expected at %1$s.</string>
     <string name="summary_uv_high_template_1">UV levels at %1$s will remain high.</string>
     <string name="summary_uv_high_template_2">Strong UV exposure is expected at %1$s.</string>
-    <string name="summary_uv_high_template_3">High UV conditions are expected through the afternoon at %1$s.</string>
+    <string name="summary_uv_high_template_3"></string>
     <string name="summary_uv_moderate_template_1">UV levels will stay moderate.</string>
     <string name="summary_uv_moderate_template_2">Moderate UV exposure is expected.</string>
     <string name="summary_uv_moderate_template_3">Sun exposure will remain moderate throughout the day.</string>
@@ -227,7 +227,7 @@ São emitidas por veículos motorizados, aquecedores a lenha e indústrias. Inc�
     <string name="weather_about_humidity">Humidity is the concentration of water vapor present in the air. Water vapor, the gaseous state of water, is generally invisible to the naked eye. Humidity indicates the likelihood for precipitation, dew, or fog to be present</string>
     <string name="text_average_for_day">Média para o dia</string>
     <string name="weather_about_dewpoint">The dew point temperature is an important measure of humidity. As the dew point reaches 20 C/70 F degrees, almost everyone feels \"sticky\". Thus the dew point is the best predictor of energy use for cooling in the summer</string>
-    <string name="weather_visibility_about">Visibility indicates how far you can clearly see outdoors before objects become obscured by weather or atmospheric conditions</string>
+    <string name="weather_visibility_about">A visibilidade indica a que distância você consegue enxergar claramente ao ar livre antes que os objetos fiquem encobertos pelas condições do tempo ou da atmosfera.</string>
     <string name="text_excellent">Excelente</string>
     <string name="text_very_good">Muito Bom</string>
     <string name="text_good">Boa</string>
