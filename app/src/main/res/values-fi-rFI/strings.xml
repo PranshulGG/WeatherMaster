@@ -14,7 +14,7 @@
     <string name="weather_refresh_delay">Odotathan vielä %1$d minuuttia ennen virkistämistä.</string>
     <string name="error_generic">Tapahtui virhe. Yritäthän uudestaan</string>
     <string name="weather_moon">Kuu</string>
-    <string name="weather_sun">Su</string>
+    <string name="weather_sun">Aurinko</string>
     <string name="weather_humidity">Kosteus</string>
     <string name="weather_pressure">Paine</string>
     <string name="weather_wind">Tuuli</string>
