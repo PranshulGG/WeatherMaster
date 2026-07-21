@@ -129,8 +129,7 @@
     <string name="weather_aqi_description_poor">Useammat terveetkin ihmiset voivat alkaa kokemaan terveysvaikutuksia; herkkien ryhmien jäsenet voivat kokea vakavampia ongelmia.</string>
     <string name="weather_aqi_description_very_poor">Terveysriski: Haittojen riski kasvaa kaikilla.</string>
     <string name="weather_aqi_description_hazardous">Terveyteen kohdistuva hätätilatiedote, jonka vaikutus kohdistuu pääosin koko väestöön.</string>
-    <string name="weather_aqi_pm_description">Ilmasta löytyy pienhiukkasia ja nestepisaroita. Niitä luovat ajoneuvot, puun polttaminen ja teollisuus. Tulipalot sekä hiekkamyrskyt voivat myös tuottaa suuria hiukkaspitoisuuksia.
-</string>
+    <string name="weather_aqi_pm_description">Ilmasta löytyy pienhiukkasia ja nestepisaroita. Niitä luovat ajoneuvot, puun polttaminen ja teollisuus. Tulipalot sekä hiekkamyrskyt voivat myös tuottaa suuria hiukkaspitoisuuksia.</string>
     <string name="weather_aqi_no2_description">Kaasu ja tärkeä osa kaupunkien ilmansaasteita. Pääosin sitä tuottavat ajoneuvot, teollisuus, voimalaitokset sekä lämmitys.</string>
     <string name="weather_aqi_O3_description">Yläilmakehän kaasu. Se suojaa meitä vahingoittavalta UV-säteilyltä. Otsoni  on haitallinen kaasu jota syntyy auringonvalon, orgaanisten kaasujen ja typen oksidien (Esim. autot, voimalaitokset) välisissä kemiallisissa reaktioissa.</string>
     <string name="weather_aqi_so2_description">Pistävän ja ärsyttävän hajuinen myrkyllinen kaasu. Sitä syntyy voimalaitoksissa, jotka polttavat fossiilisia polttoaineita, öljynjalostamoissa, sementin tuotannossa sekä tulivuorenpurkauksissa.</string>
@@ -207,16 +206,16 @@
     <string name="setting_froggy_layout_secondary">Käyttää perinteistä Googlen sään sammakkokorttia. Muulloin käytetään uudempaa Pixelien sääsovelluksen tyylistä korttia</string>
     <string name="setting_layout">Asettelu</string>
     <string name="setting_weather_based_theme">Säätilaan perustuva teema</string>
-    <string name="setting_weather_based_theme_secondary">Muokkaa sovelluksen värejä säätilojen mukaan</string>
+    <string name="setting_weather_based_theme_secondary">Muokkaa sovelluksen värejä säätilojen mukaan.</string>
     <string name="unit_pressure_mmhg">Elohopeapatsaan korkeus millimetreinä</string>
     <string name="summary_uv_extreme_template_1">Kello %1$s UV-säteilyn taso on erittäin korkealla.</string>
     <string name="summary_uv_extreme_template_2">Vaarallisen voimakasta UV-säteilyä luvassa kello %1$s.</string>
     <string name="summary_uv_extreme_template_3">Erittäin voimakasta auringonpaistetta luvassa %1$s.</string>
     <string name="summary_uv_high_template_1">UV-tasot pysyvät korkeina kello %1$s.</string>
-    <string name="summary_uv_high_template_2">Strong UV exposure is expected at %1$s.</string>
+    <string name="summary_uv_high_template_2">Kello %1$s on luvassa korkeaa UV-säteilyä.</string>
     <string name="summary_uv_high_template_3">High UV conditions are expected through the afternoon at %1$s.</string>
     <string name="summary_uv_moderate_template_1">UV levels will stay moderate.</string>
-    <string name="summary_uv_moderate_template_2">Moderate UV exposure is expected.</string>
+    <string name="summary_uv_moderate_template_2">Luvassa on keskitason UV-säteilyä.</string>
     <string name="summary_uv_moderate_template_3">Sun exposure will remain moderate throughout the day.</string>
     <string name="weather_summary">Summary</string>
     <string name="about_changelog">Changelog</string>
