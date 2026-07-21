@@ -279,7 +279,7 @@
     <string name="summary_overview_template_same_condition">一日を通して%1$sの状態が続くでしょう。</string>
     <string name="summary_overview_template_day_night_condition">日中は%1$sですが、夜からは%2$sになる見込みです。</string>
     <string name="summary_rain_template_day_night">日中は%1$s頃に降水確率%2$sで雨が予想されています。今夜は%4$s頃に降水確率%3$sで雨が降る見込みです。</string>
-    <string name="summary_rain_template_day">日中は%1$s頃に降水確率%2$sで雨が予想されています。</string>
+    <string name="summary_rain_template_day">日中は%1$s頃に降水確率\%2$sで雨が予想されています。</string>
     <string name="summary_rain_template_night">今夜は%2$s頃に降水確率%1$sで雨が降る見込みです。</string>
     <string name="summary_snow_template_day_night">日中は%1$s頃に降雪確率%2$sで雪が予想されています。夜間は%4$s頃に降雪確率%3$sで引き続き雪が降る可能性があります。</string>
     <string name="summary_snow_template_day">日中は%1$s頃に降雪確率%2$sで雪が予想されています。</string>
@@ -291,5 +291,6 @@
     <string name="summary_temp_template_cold">日中も%1$s前後と寒い日が続くでしょう。夜間は最低気温が%2$s前後まで下がる見込みです。</string>
     <string name="summary_overview_template_day_condition">日中は%1$sになる見込みです。</string>
     <string name="summary_overview_template_night_condition">夜には%1$sになる見込みです。</string>
-    <string name="gadgetbridge_not_available_error">Gadget bridge is not installed</string>
-</resources><!--<string name=""></string>-->
+    <string name="gadgetbridge_not_available_error">Gadgetbridgeがインストールされていません</string>
+</resources>
+<!--<string name=""></string>-->
