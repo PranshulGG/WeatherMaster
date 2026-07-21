@@ -287,13 +287,13 @@
     <string name="summary_snow_template_day_night">De la neige est prévue autour de %1$s en journée avec %2$s de chance. Durant la nuit, la chute de neige reste possible avec une probabilité de %3$s autour de %4$s.</string>
     <string name="summary_snow_template_day">De la neige est prévue autour de %1$s en journée avec %2$s de chance.</string>
     <string name="summary_snow_template_night">Durant la nuit, la chute de neige est possible avec une probabilité de %1$s autour de %2$s.</string>
-    <string name="summary_temp_template_extreme">Attendre de fortes chaleurs en journée, avec une maximale à %1$s. Les températures s\'abaisseront autour de %2$s ce soir.</string>
+    <string name="summary_temp_template_extreme">Attendez-vous à de fortes chaleurs en journée, avec une température maximale de %1$s. Les températures descendront autour de %2$s ce soir.</string>
     <string name="summary_temp_template_warm">Il fera chaud en journée, avec des maximales autour de %1$s. Ce soir, les températures descendront autour de %2$s.</string>
     <string name="summary_temp_template_mild">Des températures modérées sont attendues en journée, atteignant %1$s. Durant la nuit, elles atteindront %2$s.</string>
-    <string name="summary_temp_template_cool"></string>
+    <string name="summary_temp_template_cool">Il fera chaud en journée, avec des maximales autour de %1$s. Ce soir, les températures descendront autour de %2$s.</string>
     <string name="summary_temp_template_cold">Maintien des températures froides en journée, autour de %1$s. Durant la nuit, les températures chutent autour de %2$s.</string>
     <string name="summary_overview_template_day_condition">Il fera %1$s en journée.</string>
-    <string name="summary_overview_template_night_condition">Conditions will turn %1$s at night.</string>
-    <string name="gadgetbridge_not_available_error">Gadgetbridge n\'est pas installé.</string>
+    <string name="summary_overview_template_night_condition">Les conditions deviendront %1$s ce soir.</string>
+    <string name="gadgetbridge_not_available_error">Gadgetbridge n\'est pas installé</string>
 </resources>
 <!--<string name=""></string>-->
