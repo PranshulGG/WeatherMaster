@@ -45,6 +45,8 @@ object NavRoutes {
 
     const val WORKER_INFO = "worker_info"
 
+    const val DATA_SOURCE = "data_source"
+
     fun blockScreen(block: String, index: Int, locationId: String): String {
         return "$block/$index/$locationId"
     }

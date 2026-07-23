@@ -156,6 +156,9 @@ fun AppNavHost(
                 ) {
                     WorkerInfoScreen(navController)
                 }
+                composable(NavRoutes.DATA_SOURCE) {
+
+                }
                 composable(
                     route = "{block}/{index}/{locationId}",
                     arguments = listOf(
