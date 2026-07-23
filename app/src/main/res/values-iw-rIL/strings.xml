@@ -304,5 +304,18 @@
     <string name="summary_overview_template_day_condition">במהלך היום יהיה %1$s</string>
     <string name="summary_overview_template_night_condition">התנאים יהפכו ל־%1$s בלילה.</string>
     <string name="gadgetbridge_not_available_error">‏Gadget Bridge לא מותקן</string>
+    <string name="settings_worker_info">Worker information</string>
+    <string name="settings_send_data_gadgetbridge">Send data to Gadgetbridge</string>
+    <string name="aqi_PM25_full_label">Particulate matter less than 2.5 microns</string>
+    <string name="aqi_PM10_full_label">Particulate matter less than 10 microns</string>
+    <string name="aqi_CO_full_label">Carbon monoxide</string>
+    <string name="aqi_NO2_full_label">Nitrogen Dioxide</string>
+    <string name="aqi_SO2_full_label">Sulfur Dioxide</string>
+    <string name="aqi_O3_full_label">Ground surface</string>
+    <string name="settings_worker_info_successful_run">Last successful run</string>
+    <string name="label_never">Never</string>
+    <string name="worker_run_attempt">Run attempt</string>
+    <string name="worker_tags">Tags</string>
+    <string name="worker_next_schedule">Next schedule</string>
 </resources>
 <!--<string name=""></string>-->
