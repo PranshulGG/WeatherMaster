@@ -139,7 +139,7 @@
     <string name="weather_aqi_no2_description">Gaz stanowiący główny składnik zanieczyszczenia powietrza w centrum miasta. Pochodzi głównie z pojazdów, przemysłu, elektrowni i systemów grzewczych</string>
     <string name="weather_aqi_O3_description">Gaz występujący w stratosferze. Chroni nas przed szkodliwym promieniowaniem ultrafioletowym oraz przed troposferą. Ozon jest szkodliwym zanieczyszczeniem powstającym w wyniku reakcji chemicznej między światłem słonecznym, gazami organicznymi i tlenkami azotu (np. pochodzącymi z samochodów i elektrowni).</string>
     <string name="weather_aqi_so2_description">Toksyczny gaz o ostrym, drażniącym zapachu. Może pochodzić z zakładów energetycznych spalających paliwa kopalne, rafinerii ropy naftowej, cementowni oraz z erupcji wulkanicznych.</string>
-    <string name="weather_aqi_co_description">Spaliny pochodzące z pojazdów silnikowych lub maszyn zasilanych paliwami kopalnymi.</string>
+    <string name="weather_aqi_co_description">Spaliny pochodzące z pojazdów silnikowych lub maszyn zasilanych paliwami kopalnymi</string>
     <string name="weather_airquality_about_index">Wskaźniki jakości powietrza przekształcają surowe dane w skalę opisową. Dzięki tym wskaźnikom łatwiej jest określić poziom zanieczyszczenia oraz ewentualne związane z nim ryzyko.</string>
     <string name="weather_average">Średnia</string>
     <string name="weather_rain_block">Deszcz</string>
@@ -302,5 +302,24 @@ W ciągu dnia spodziewane są opady śniegu około %1$s z prawdopodobieństwem %
     <string name="summary_overview_template_day_condition">W ciągu dnia będzie %1$s.</string>
     <string name="summary_overview_template_night_condition">Warunki zmienią się o %1$s w nocy.</string>
     <string name="gadgetbridge_not_available_error">Gadget bridge nie jest zainstalowany</string>
+    <string name="settings_worker_info">Worker information</string>
+    <string name="settings_send_data_gadgetbridge">Send data to Gadgetbridge</string>
+    <string name="aqi_PM25_full_label">Particulate matter less than 2.5 microns</string>
+    <string name="aqi_PM10_full_label">Particulate matter less than 10 microns</string>
+    <string name="aqi_CO_full_label">Carbon monoxide</string>
+    <string name="aqi_NO2_full_label">Nitrogen Dioxide</string>
+    <string name="aqi_SO2_full_label">Sulfur Dioxide</string>
+    <string name="aqi_O3_full_label">Ground surface</string>
+    <string name="settings_worker_info_successful_run">Last successful run</string>
+    <string name="label_never">Never</string>
+    <string name="worker_run_attempt">Run attempt</string>
+    <string name="worker_tags">Tags</string>
+    <string name="worker_next_schedule">Next schedule</string>
+    <string name="action_save_changes">Save changes</string>
+    <string name="weather_alert_source">Alert source</string>
+    <string name="location_edit">Edit location</string>
+    <string name="weather_aqi_source">Air quality source</string>
+    <string name="location_name">Location name</string>
+    <string name="location_info">Location information</string>
 </resources>
 <!--<string name=""></string>-->
