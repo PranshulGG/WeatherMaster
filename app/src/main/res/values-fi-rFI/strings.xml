@@ -309,5 +309,11 @@
     <string name="worker_run_attempt">Run attempt</string>
     <string name="worker_tags">Tags</string>
     <string name="worker_next_schedule">Next schedule</string>
+    <string name="action_save_changes">Save changes</string>
+    <string name="weather_alert_source">Alert source</string>
+    <string name="location_edit">Edit location</string>
+    <string name="weather_aqi_source">Air quality source</string>
+    <string name="location_name">Location name</string>
+    <string name="location_info">Location information</string>
 </resources>
 <!--<string name=""></string>-->
