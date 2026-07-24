@@ -38,12 +38,13 @@ import com.pranshulgg.weather_master_app.data.local.entity.weather.nws.NwsGridPo
         GithubEntity::class,
         HourlyAirQualityEntity::class
     ],
-    version = 46,
+    version = 48,
     autoMigrations = [
         AutoMigration(from = 39, to = 40),
         AutoMigration(from = 42, to = 43),
         AutoMigration(from = 43, to = 44),
-        AutoMigration(from = 44, to = 45)
+        AutoMigration(from = 44, to = 45),
+        AutoMigration(from = 47, to = 48)
     ]
 )
 abstract class WeatherMasterDatabase : RoomDatabase() {
@@ -67,7 +68,8 @@ abstract class WeatherMasterDatabase : RoomDatabase() {
                     context.applicationContext,
                     WeatherMasterDatabase::class.java,
                     "weather_master.db"
-                ).addMigrations(MIGRATION_40_41, MIGRATION_41_42, MIGRATION_45_46).build()
+                ).addMigrations(MIGRATION_40_41, MIGRATION_41_42, MIGRATION_45_46, MIGRATION_46_47)
+                    .build()
                     .also { INSTANCE = it }
             }
     }
@@ -143,5 +145,12 @@ val MIGRATION_45_46 = object : Migration(45, 46) {
         db.execSQL(
             "CREATE INDEX IF NOT EXISTS index_air_quality_hourly_locationId ON air_quality_hourly(locationId)"
         )
+    }
+}
+
+val MIGRATION_46_47 = object : Migration(46, 47) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("ALTER TABLE weather_locations ADD COLUMN alertSource TEXT NOT NULL DEFAULT 'NONE'")
+        db.execSQL("ALTER TABLE weather_locations ADD COLUMN airQualitySource TEXT NOT NULL DEFAULT 'OPEN_METEO'")
     }
 }

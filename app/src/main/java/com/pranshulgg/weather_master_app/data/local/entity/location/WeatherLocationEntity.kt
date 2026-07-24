@@ -2,6 +2,8 @@ package com.pranshulgg.weather_master_app.data.local.entity.location
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.pranshulgg.weather_master_app.core.model.sources.AirQualitySource
+import com.pranshulgg.weather_master_app.core.model.sources.AlertSource
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import kotlin.uuid.ExperimentalUuidApi
 
@@ -22,6 +24,8 @@ data class WeatherLocationEntity(
     val isPinned: Boolean = false,
     val countryCode: String? = null,
     val isDefault: Boolean = false,
-    val isDeviceLocation: Boolean = false
-
+    val isDeviceLocation: Boolean = false,
+    val alertSource: AlertSource,
+    val airQualitySource: AirQualitySource,
+    val customName: String? = null
 )
