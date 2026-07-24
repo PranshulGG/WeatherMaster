@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.LargeFlexibleTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -24,6 +25,7 @@ fun LargeTopBarScaffold(
     fab: @Composable () -> Unit = {},
     bottomBar: @Composable (() -> Unit) = {},
     defaultCollapsed: Boolean = false,
+    floatingActionButtonPosition: FabPosition = FabPosition.End,
     content: @Composable (PaddingValues) -> Unit,
 ) {
 
@@ -43,6 +45,7 @@ fun LargeTopBarScaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         containerColor = MaterialTheme.colorScheme.surfaceContainer,
         floatingActionButton = fab,
+        floatingActionButtonPosition = floatingActionButtonPosition,
         topBar = {
             LargeFlexibleTopAppBar(
                 title = { Text(text = title) },
