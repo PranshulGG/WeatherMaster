@@ -67,8 +67,8 @@ fun AppNavHost(
         ) {
             navigation(
                 route = "root",
-//                startDestination = NavRoutes.MAIN
-                startDestination = NavRoutes.editLocation("af673c89-72b7-4da9-865d-c26fdabeca07")
+                startDestination = NavRoutes.MAIN
+//                startDestination = NavRoutes.editLocation("af673c89-72b7-4da9-865d-c26fdabeca07")
             ) {
                 composable(
                     NavRoutes.MAIN
