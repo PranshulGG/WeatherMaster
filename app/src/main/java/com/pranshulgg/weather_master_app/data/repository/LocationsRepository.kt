@@ -7,6 +7,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQuality
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
+import com.pranshulgg.weather_master_app.core.model.sources.AirQualitySource
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.core.network.sources.address.nominatim.json.NominatimRepository
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
@@ -72,6 +73,14 @@ class LocationsRepository @Inject constructor(
 
     suspend fun updateSourceForLocation(id: String, source: WeatherSource) {
         dao.updateSourceForLocation(id, source)
+    }
+
+    suspend fun updateAirQualitySourceForLocation(id: String, source: AirQualitySource) {
+        dao.updateAirQualitySourceForLocation(id, source)
+    }
+
+    suspend fun getLocationForId(id: String): Location {
+        return dao.getLocationForId(id).toDomain()
     }
 
 
