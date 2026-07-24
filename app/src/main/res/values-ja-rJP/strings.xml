@@ -279,7 +279,7 @@
     <string name="summary_overview_template_same_condition">一日を通して%1$sの状態が続くでしょう。</string>
     <string name="summary_overview_template_day_night_condition">日中は%1$sですが、夜からは%2$sになる見込みです。</string>
     <string name="summary_rain_template_day_night">日中は%1$s頃に降水確率%2$sで雨が予想されています。今夜は%4$s頃に降水確率%3$sで雨が降る見込みです。</string>
-    <string name="summary_rain_template_day">日中は%1$s頃に降水確率%2$sで雨が予想されています。</string>
+    <string name="summary_rain_template_day">日中は%1$s頃に降水確率\%2$sで雨が予想されています。</string>
     <string name="summary_rain_template_night">今夜は%2$s頃に降水確率%1$sで雨が降る見込みです。</string>
     <string name="summary_snow_template_day_night">日中は%1$s頃に降雪確率%2$sで雪が予想されています。夜間は%4$s頃に降雪確率%3$sで引き続き雪が降る可能性があります。</string>
     <string name="summary_snow_template_day">日中は%1$s頃に降雪確率%2$sで雪が予想されています。</string>
@@ -291,5 +291,25 @@
     <string name="summary_temp_template_cold">日中も%1$s前後と寒い日が続くでしょう。夜間は最低気温が%2$s前後まで下がる見込みです。</string>
     <string name="summary_overview_template_day_condition">日中は%1$sになる見込みです。</string>
     <string name="summary_overview_template_night_condition">夜には%1$sになる見込みです。</string>
-    <string name="gadgetbridge_not_available_error">Gadget bridge is not installed</string>
-</resources><!--<string name=""></string>-->
+    <string name="gadgetbridge_not_available_error">Gadgetbridgeがインストールされていません</string>
+    <string name="settings_worker_info">作業者情報</string>
+    <string name="settings_send_data_gadgetbridge">Gadgetbridgeへデータを送信</string>
+    <string name="aqi_PM25_full_label">PM2.5</string>
+    <string name="aqi_PM10_full_label">PM10</string>
+    <string name="aqi_CO_full_label">一酸化炭素</string>
+    <string name="aqi_NO2_full_label">二酸化窒素</string>
+    <string name="aqi_SO2_full_label">二酸化硫黄</string>
+    <string name="aqi_O3_full_label">地表面</string>
+    <string name="settings_worker_info_successful_run">最終成功日時</string>
+    <string name="label_never">実行しない</string>
+    <string name="worker_run_attempt">試行</string>
+    <string name="worker_tags">タグ</string>
+    <string name="worker_next_schedule">次回の予定</string>
+    <string name="action_save_changes">Save changes</string>
+    <string name="weather_alert_source">Alert source</string>
+    <string name="location_edit">Edit location</string>
+    <string name="weather_aqi_source">Air quality source</string>
+    <string name="location_name">Location name</string>
+    <string name="location_info">Location information</string>
+</resources>
+<!--<string name=""></string>-->
