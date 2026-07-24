@@ -20,7 +20,7 @@
     <string name="weather_wind">רוח</string>
     <string name="weather_visibility">ראות</string>
     <string name="weather_air_quality">איכות האוויר</string>
-    <string name="weather_uv_index">מדד UV</string>
+    <string name="weather_uv_index">מדד קרינת UV</string>
     <string name="action_ok">אישור</string>
     <string name="settings">הגדרות</string>
     <string name="search">חיפוש</string>
@@ -39,13 +39,13 @@
         <item quantity="other">לפני %d שעות</item>
     </plurals>
     <plurals name="time_days_ago">
-        <item quantity="one">לפני יום</item>
-        <item quantity="two">לפני יומיים</item>
+        <item quantity="one">אתמול</item>
+        <item quantity="two">שלשום</item>
         <item quantity="many">לפני %d ימים</item>
         <item quantity="other">לפני %d ימים</item>
     </plurals>
     <string name="time_just_now">בזה הרגע</string>
-    <string name="time_last_updated">מועד העדכון האחרון הוא %1$s</string>
+    <string name="time_last_updated">עודכן לאחרונה %1$s</string>
     <string name="weather_no_data">אין נתונים זמינים לגבי מזג האוויר</string>
     <string name="weather_clear_sky">שמיים בהירים</string>
     <string name="weather_overcast">מעונן</string>
@@ -57,16 +57,16 @@
     <string name="weather_heavy_snow">שלג כבד</string>
     <string name="weather_mostly_clear">בהיר לרוב</string>
     <string name="weather_thunderstorm">סופת רעמים</string>
-    <string name="weather_very_hot">חם מאוד</string>
-    <string name="weather_very_cold">קר מאוד</string>
+    <string name="weather_very_hot">לוהט</string>
+    <string name="weather_very_cold">קפוא</string>
     <string name="weather_haze">אובך</string>
     <string name="weather_rain">גשום</string>
     <string name="weather_no_condition">לא נמצאו תנאים</string>
-    <string name="weather_uv_low">נמוך</string>
-    <string name="weather_uv_moderate">בינוני</string>
-    <string name="weather_uv_high">גבוה</string>
-    <string name="weather_uv_very_high">גבוה מאוד</string>
-    <string name="weather_uv_extreme">קיצוני</string>
+    <string name="weather_uv_low">נמוכה</string>
+    <string name="weather_uv_moderate">מתונה</string>
+    <string name="weather_uv_high">גבוהה</string>
+    <string name="weather_uv_very_high">גבוהה מאוד</string>
+    <string name="weather_uv_extreme">קיצונית</string>
     <string name="setting_appearance">מראה</string>
     <string name="setting_appearance_secondary">ערכות נושא, הנפשות, ויחידות מידה להצגת התחזית</string>
     <string name="setting_language">שפה</string>
@@ -83,7 +83,7 @@
     <string name="unit_wind_mph">מיל לשעה</string>
     <string name="unit_wind_kph">קילומטרים לשעה</string>
     <string name="unit_pressure_hpa">הטרופסקלים</string>
-    <string name="unit_pressure_inhg">אינצ\'ים של כספית</string>
+    <string name="unit_pressure_inhg">אינצ׳ים של כספית</string>
     <string name="unit_distance_km">קילומטרים</string>
     <string name="unit_distance_mi">מיל</string>
     <string name="unit_distance_m">מטרים</string>
@@ -125,7 +125,7 @@
     <string name="error_server">לא ניתן להשלים את הבקשה. נא לנסות שוב בקרוב</string>
     <string name="weather_airquality_good">טובה</string>
     <string name="weather_airquality_fair">סבירה</string>
-    <string name="weather_airquality_moderate">בינוני</string>
+    <string name="weather_airquality_moderate">מתונה</string>
     <string name="weather_airquality_poor">גרועה</string>
     <string name="weather_airquality_very_poor">גרועה מאוד</string>
     <string name="weather_airquality_hazardous">לא בריאה</string>
@@ -140,7 +140,7 @@
     <string name="weather_aqi_O3_description">נמצא גז בסטרטוספירה. הוא מגן עלינו מפני קרינה אולטרה־סגולה מסוכנת ומפני הטרופוספירה. גז האוזון הוא מזהם רעיל שמופק מתגובה כימית בין אור השמש לבין גזים אורגניים ותחמוצות חנקן (למשל, מכוניות, תחנות כוח)</string>
     <string name="weather_aqi_so2_description">גז רעיל עם ריח חריף ומגרה. יכול לבוא מתעשיות חשמל ששורפות דלקי מאובנים, בתי זיקוק לבנזין, ייצור מלט, ומפליטות מהרי געש</string>
     <string name="weather_aqi_co_description">גז המופק מכלי תחבורה או ממכונות ששורפות דלק מאובנים</string>
-    <string name="weather_airquality_about_index">מדדי איכות אוויר מסווגים נתונים גולמיים לסולם דירוג עם תיאור. המדדים הללו עוזרים לזהות את רמת הזיהום ביתר קלות ואם ישנו סיכון הקשור לכך</string>
+    <string name="weather_airquality_about_index">מדדי איכות האוויר לוקחים נתונים גולמיים וממירים אותם לסולם מדורג ומפורט. בעזרת המדדים האלה קל יותר לזהות את רמת הזיהום ואת הסיכון שעלול להתלוות אליו</string>
     <string name="weather_average">ממוצע</string>
     <string name="weather_rain_block">גשם</string>
     <string name="weather_snow_block">שלג</string>
@@ -231,12 +231,12 @@
     <string name="text_scale">קנה מידה</string>
     <string name="weather_about_humidity">לחות היא התרכזות של אדי מים שנמצאים באוויר. אדי מים, כלומר – מים במצב צבירה גז, בדרך כלל בלתי נראים בעין בלתי מזוינת. לחות מצביעה על הסבירות למשקעים, טל או ערפל</string>
     <string name="text_average_for_day">כמות ממוצעת ליום זה</string>
-    <string name="weather_about_dewpoint">טמפרטורת נקודת הטל היא מדד חשוב של לחות. כאשר נקודת הטל מגיעה ל־20 מעלות צלזיוס, כמעט כולם ירגישו \"דביקים\". לכן, נקודת הטל היא הסימן הטוב ביותר שיכול לנבא שימוש באנרגיה לקירור בקיץ</string>
+    <string name="weather_about_dewpoint">טמפרטורת נקודת הטל היא מדד חשוב של לחות. כאשר נקודת הטל מגיעה ל־20 מעלות צלזיוס, כמעט כולם ירגישו \"נמסים מהחום\". לכן, נקודת הטל היא הסימן הטוב ביותר שיכול לנבא שימוש באנרגיה לקירור בקיץ</string>
     <string name="weather_visibility_about">ראות מצביעה כמה רחוק ניתן להסתכל החוצה לפני שעצמים נהיים עמומים על ידי מזג האוויר או בידי תנאים אטמפוספיריים</string>
     <string name="text_excellent">מצוינת</string>
     <string name="text_very_good">טובה מאוד</string>
     <string name="text_good">טובה</string>
-    <string name="text_moderate">בינוני</string>
+    <string name="text_moderate">מתונה</string>
     <string name="text_poor">גרועה</string>
     <string name="text_very_poor">גרועה מאוד</string>
     <string name="text_dense_fog">ערפל סמיך</string>
@@ -301,21 +301,21 @@
     <string name="summary_temp_template_cool">יהיה קריר במהלך היום עם טמפרטורות גבוהות לקראת %1$s. במהלך הלילה, הטמפרטורות יצנחו לסביבות %2$s.</string>
     <string name="summary_temp_template_cold">מזג אוויר קר ממשיך עם טמפרטורות ביום בסביבות %1$s.
 במהלך הלילה, הן יצנחו ויהיו בסביבות %2$s.</string>
-    <string name="summary_overview_template_day_condition">במהלך היום יהיה %1$s</string>
-    <string name="summary_overview_template_night_condition">התנאים יהפכו ל־%1$s בלילה.</string>
+    <string name="summary_overview_template_day_condition">יהיה %1$s במהלך היום</string>
+    <string name="summary_overview_template_night_condition">מזג האוויר יהפוך ל%1$s הלילה.</string>
     <string name="gadgetbridge_not_available_error">‏Gadget Bridge לא מותקן</string>
-    <string name="settings_worker_info">Worker information</string>
-    <string name="settings_send_data_gadgetbridge">Send data to Gadgetbridge</string>
+    <string name="settings_worker_info">מידע על המנגנון</string>
+    <string name="settings_send_data_gadgetbridge">שליחת נתונים אל Gadgetbridge</string>
     <string name="aqi_PM25_full_label">Particulate matter less than 2.5 microns</string>
     <string name="aqi_PM10_full_label">Particulate matter less than 10 microns</string>
-    <string name="aqi_CO_full_label">Carbon monoxide</string>
-    <string name="aqi_NO2_full_label">Nitrogen Dioxide</string>
-    <string name="aqi_SO2_full_label">Sulfur Dioxide</string>
+    <string name="aqi_CO_full_label">פחמן חד־חמצני</string>
+    <string name="aqi_NO2_full_label">חנקן דו־חמצני</string>
+    <string name="aqi_SO2_full_label">גופרית דו־חמצנית</string>
     <string name="aqi_O3_full_label">Ground surface</string>
-    <string name="settings_worker_info_successful_run">Last successful run</string>
-    <string name="label_never">Never</string>
-    <string name="worker_run_attempt">Run attempt</string>
-    <string name="worker_tags">Tags</string>
-    <string name="worker_next_schedule">Next schedule</string>
+    <string name="settings_worker_info_successful_run">הניסיון המוצלח האחרון</string>
+    <string name="label_never">אף פעם</string>
+    <string name="worker_run_attempt">התחלת ניסיון</string>
+    <string name="worker_tags">תגיות</string>
+    <string name="worker_next_schedule">המועד המתוזמן הבא</string>
 </resources>
 <!--<string name=""></string>-->
