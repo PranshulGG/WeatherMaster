@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import com.pranshulgg.weather_master_app.core.model.sources.AirQualitySource
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.data.local.entity.location.WeatherLocationEntity
 import com.pranshulgg.weather_master_app.data.local.entity.weather.WeatherWithRelations
@@ -72,4 +73,10 @@ interface LocationsDao {
 
     @Query("SELECT * FROM weather_locations WHERE isDeviceLocation = 1 LIMIT 1")
     suspend fun getDeviceLocation(): WeatherLocationEntity
+
+    @Query("SELECT * FROM weather_locations WHERE id = :id LIMIT 1")
+    suspend fun getLocationForId(id: String): WeatherLocationEntity
+
+    @Query("UPDATE weather_locations SET airQualitySource = :source WHERE id = :id")
+    suspend fun updateAirQualitySourceForLocation(id: String, source: AirQualitySource)
 }

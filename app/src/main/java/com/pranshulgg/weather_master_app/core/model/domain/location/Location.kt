@@ -1,5 +1,7 @@
 package com.pranshulgg.weather_master_app.core.model.domain.location
 
+import com.pranshulgg.weather_master_app.core.model.sources.AirQualitySource
+import com.pranshulgg.weather_master_app.core.model.sources.AlertSource
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 
 data class Location(
@@ -15,5 +17,8 @@ data class Location(
     val isFavorite: Boolean = false,
     val isPinned: Boolean = false,
     val isDefault: Boolean,
-    val isDeviceLocation: Boolean = false
+    val isDeviceLocation: Boolean = false,
+    val alertSource: AlertSource = AlertSource.NONE,
+    val airQualitySource: AirQualitySource = AirQualitySource.OPEN_METEO,
+    val customName: String? = null
 )

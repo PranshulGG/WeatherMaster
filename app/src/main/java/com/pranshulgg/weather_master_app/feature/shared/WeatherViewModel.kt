@@ -10,6 +10,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.domain.toMessageRes
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlock
+import com.pranshulgg.weather_master_app.core.model.sources.AirQualitySource
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.core.model.sources.isGlobal
 import com.pranshulgg.weather_master_app.core.model.sources.isSourceSupportedFor
@@ -106,7 +107,8 @@ class WeatherViewModel @Inject constructor(
         location: Location,
         source: WeatherSource,
         isManualRefresh: Boolean = false,
-        isForceRefresh: Boolean = false
+        isForceRefresh: Boolean = false,
+        isForceRefreshForAirQuality: Boolean = false
     ) {
         setLoading(true)
         weatherJob?.cancel()
@@ -183,6 +185,40 @@ class WeatherViewModel @Inject constructor(
                 updatedLocation,
                 source,
                 isForceRefresh = allowForceRefresh
+            )
+
+
+        }
+    }
+
+
+    private fun handleSourceChangeForWeather(
+        location: Location,
+        source: WeatherSource,
+        airQualitySource: AirQualitySource,
+    ) {
+        val updatedLocation = location.copy(source = source, airQualitySource = airQualitySource)
+
+        viewModelScope.launch {
+
+            locationsRepo.updateSourceForLocation(location.id, source)
+            locationsRepo.updateAirQualitySourceForLocation(location.id, airQualitySource)
+
+            val allowForceRefreshForWeather = location.source != source
+            val allowForceRefreshForAirQuality = location.airQualitySource != airQualitySource
+
+
+            if (allowForceRefreshForWeather) {
+                weatherDataReconcilerRepository.cleanUpStaleData(location.source, location.id)
+            }
+            _uiState.value = _uiState.value.copy(
+                activeLocation = updatedLocation
+            )
+            getWeather(
+                updatedLocation,
+                source,
+                isForceRefresh = allowForceRefreshForWeather,
+                isForceRefreshForAirQuality = allowForceRefreshForAirQuality
             )
 
 

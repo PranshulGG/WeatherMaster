@@ -35,7 +35,7 @@
         <item quantity="other">%d tuntia sitten</item>
     </plurals>
     <plurals name="time_days_ago">
-        <item quantity="one">% päivä sitten</item>
+        <item quantity="one">%d päivä sitten</item>
         <item quantity="other">%d päivää sitten</item>
     </plurals>
     <string name="time_just_now">Juuri nyt</string>

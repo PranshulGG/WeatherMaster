@@ -66,7 +66,10 @@ fun Location.toEntity(): WeatherLocationEntity =
         isPinned = false,
         isFavorite = false,
         isDefault = isDefault,
-        isDeviceLocation = isDeviceLocation
+        isDeviceLocation = isDeviceLocation,
+        alertSource = alertSource,
+        airQualitySource = airQualitySource,
+        customName = customName
     )
 
 fun List<WeatherLocationEntity>.toDomain(): List<Location> =
@@ -88,5 +91,8 @@ fun WeatherLocationEntity.toDomain(): Location =
         isFavorite = isFavorite,
         isPinned = isPinned,
         isDefault = isDefault,
-        isDeviceLocation = isDeviceLocation
+        isDeviceLocation = isDeviceLocation,
+        alertSource = alertSource,
+        airQualitySource = airQualitySource,
+        customName = customName
     )

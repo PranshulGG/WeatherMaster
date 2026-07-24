@@ -173,13 +173,13 @@ private fun UseDeviceLocationCard(onClick: () -> Unit, isLoading: Boolean = fals
             },
             headlineContent = {
                 Text(
-                    "Use current location",
+                    stringResource(R.string.location_use_current),
                     color = MaterialTheme.colorScheme.onSurface
                 )
             },
             supportingContent = {
                 Text(
-                    "Detect your device’s current location automatically and add it to your list",
+                    stringResource(R.string.location_use_current_secondary),
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             },

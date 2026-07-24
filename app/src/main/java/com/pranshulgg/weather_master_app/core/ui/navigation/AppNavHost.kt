@@ -21,16 +21,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
-import com.pranshulgg.weather_master_app.feature.blocks.screens.humidity.HumidityScreen
-import com.pranshulgg.weather_master_app.feature.blocks.screens.pressure.PressureScreen
 import com.pranshulgg.weather_master_app.feature.blocks.screens.SunMoonScreen
 import com.pranshulgg.weather_master_app.feature.blocks.screens.airquality.AirQualityScreen
+import com.pranshulgg.weather_master_app.feature.blocks.screens.humidity.HumidityScreen
 import com.pranshulgg.weather_master_app.feature.blocks.screens.precipitation.RainScreen
 import com.pranshulgg.weather_master_app.feature.blocks.screens.precipitation.SnowScreen
+import com.pranshulgg.weather_master_app.feature.blocks.screens.pressure.PressureScreen
 import com.pranshulgg.weather_master_app.feature.blocks.screens.uvindex.UvIndexScreen
 import com.pranshulgg.weather_master_app.feature.blocks.screens.visibility.VisibilityScreen
 import com.pranshulgg.weather_master_app.feature.blocks.screens.wind.WindScreen
 import com.pranshulgg.weather_master_app.feature.daily.DailyScreen
+import com.pranshulgg.weather_master_app.feature.editlocation.EditLocationScreen
 import com.pranshulgg.weather_master_app.feature.main.MainScreen
 import com.pranshulgg.weather_master_app.feature.search.SearchScreen
 import com.pranshulgg.weather_master_app.feature.settings.SettingsScreen
@@ -66,12 +67,8 @@ fun AppNavHost(
         ) {
             navigation(
                 route = "root",
-                startDestination = NavRoutes.MAIN
-//                startDestination = NavRoutes.blockScreen(
-//                    NavRoutes.AIR_QUALITY,
-//                    0,
-//                    "ab73f0ac-0dd9-410b-aa85-c944abfdcf60"
-//                )
+//                startDestination = NavRoutes.MAIN
+                startDestination = NavRoutes.editLocation("af673c89-72b7-4da9-865d-c26fdabeca07")
             ) {
                 composable(
                     NavRoutes.MAIN
@@ -155,6 +152,19 @@ fun AppNavHost(
                     NavRoutes.WORKER_INFO
                 ) {
                     WorkerInfoScreen(navController)
+                }
+                composable(
+                    route = "${NavRoutes.EDIT_LOCATION}/{locationId}",
+                    arguments = listOf(
+                        navArgument("locationId") {
+                            type = NavType.StringType
+                        }
+                    )
+                ) { backStackEntry ->
+
+                    val locationId = backStackEntry.arguments?.getString("locationId")
+
+                    EditLocationScreen(navController, locationId!!)
                 }
                 composable(
                     route = "{block}/{index}/{locationId}",
