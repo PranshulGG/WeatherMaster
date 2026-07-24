@@ -92,7 +92,9 @@ sealed class SettingTile {
         val onTextSubmitted: (String) -> Unit,
         val placeholder: String,
         val placeholderTextField: String,
-        val initialText: String = ""
+        val initialText: String = "",
+        val trailing: (@Composable (() -> Unit))? = null,
+        val placeholderAsValue: Boolean = false
     ) : SettingTile()
 
     data class DialogSliderTile(
@@ -247,7 +249,9 @@ fun SettingSection(
                     placeholder = tile.placeholder,
                     placeholderTextField = tile.placeholderTextField,
                     initialText = tile.initialText,
-                    itemBgColor = itemBgColor
+                    itemBgColor = itemBgColor,
+                    trailing = tile.trailing,
+                    placeholderAsValue = tile.placeholderAsValue
                 )
 
                 is SettingTile.DialogSliderTile -> DialogSliderTile(
