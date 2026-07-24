@@ -165,8 +165,8 @@
     <string name="weather_cloudy_then_snow">Συννεφιασμένος μετά χιόνι</string>
     <string name="weather_rain_then_clear">Βροχή μετά καθαρός</string>
     <string name="weather_rain_then_cloudy">Βροχή μετά συννεφιασμένος</string>
-    <string name="weather_rain_then_snow">Rain then snow</string>
-    <string name="weather_snow_then_clear">Snow then clear</string>
+    <string name="weather_rain_then_snow">Βροχή μετά χιόνι</string>
+    <string name="weather_snow_then_clear">Χιόνι μετά καθαρός</string>
     <string name="weather_snow_then_cloudy">Snow then cloudy</string>
     <string name="weather_snow_then_rain">Snow then rain</string>
     <string name="error_refresh_waiting_before_action">Please wait for the refresh to complete</string>
@@ -227,12 +227,12 @@
     <string name="text_average_for_day">Average for the day</string>
     <string name="weather_about_dewpoint">The dew point temperature is an important measure of humidity. As the dew point reaches 20 C/70 F degrees, almost everyone feels \"sticky\". Thus the dew point is the best predictor of energy use for cooling in the summer</string>
     <string name="weather_visibility_about">Visibility indicates how far you can clearly see outdoors before objects become obscured by weather or atmospheric conditions</string>
-    <string name="text_excellent">Εξαιρετικά</string>
-    <string name="text_very_good">Πολύ καλά</string>
+    <string name="text_excellent">Εξαιρετική </string>
+    <string name="text_very_good">Πολύ καλή</string>
     <string name="text_good">Καλή</string>
     <string name="text_moderate">Μέτρια</string>
     <string name="text_poor">Κακή</string>
-    <string name="text_very_poor">Very Poor</string>
+    <string name="text_very_poor">Πόλη κακή</string>
     <string name="text_dense_fog">Dense Fog</string>
     <string name="visibility_description_excellent">Exceptional clarity; distant features easily visible</string>
     <string name="visibility_description_very_good">Πολύ καθαρές συνθήκες</string>
@@ -276,7 +276,7 @@
     <string name="settings_source_request_title">Want a source to be added? You can request it here</string>
     <string name="action_request">Αίτηση</string>
     <string name="source_credits_label">%1$s and more</string>
-    <string name="weather_wind_direction_from">From %1$s</string>
+    <string name="weather_wind_direction_from">Από %1$s</string>
     <string name="day_length_hr">%1$s ώρες</string>
     <string name="error_no_results">Δε βρέθηκαν αποτελέσματα</string>
     <string name="summary_overview_template_same_condition">It will stay %1$s throughout the day and night.</string>
@@ -308,5 +308,11 @@
     <string name="worker_run_attempt">Run attempt</string>
     <string name="worker_tags">Tags</string>
     <string name="worker_next_schedule">Next schedule</string>
+    <string name="action_save_changes">Save changes</string>
+    <string name="weather_alert_source">Alert source</string>
+    <string name="location_edit">Edit location</string>
+    <string name="weather_aqi_source">Air quality source</string>
+    <string name="location_name">Location name</string>
+    <string name="location_info">Location information</string>
 </resources>
 <!--<string name=""></string>-->
