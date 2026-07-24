@@ -20,7 +20,9 @@ fun DialogTextFieldTile(
     placeholder: String,
     placeholderTextField: String,
     shapes: RoundedCornerShape,
-    itemBgColor: Color
+    itemBgColor: Color,
+    trailing: (@Composable (() -> Unit))? = null,
+    placeholderAsValue: Boolean = false
 ) {
     var showDialog by remember { mutableStateOf(false) }
     var textFieldValue by remember { mutableStateOf(initialText) }
@@ -37,17 +39,21 @@ fun DialogTextFieldTile(
             leadingContent = leading,
             headlineContent = { Text(headline) },
             supportingContent = {
-                if (description != null) Text(description)
+                if (description != null) Text(
+                    description,
+                    color = if (placeholderAsValue) MaterialTheme.colorScheme.tertiary else Color.Unspecified
+                )
                 else if (textFieldValue.isNotEmpty()) Text(
                     textFieldValue,
                     color = MaterialTheme.colorScheme.tertiary
                 ) else {
                     Text(
                         placeholder,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = if (placeholderAsValue) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             },
+            trailingContent = trailing
         )
     }
 
