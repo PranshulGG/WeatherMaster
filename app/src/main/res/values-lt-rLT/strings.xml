@@ -314,5 +314,11 @@
     <string name="worker_run_attempt">Vykdymo bandymas</string>
     <string name="worker_tags">Žymos</string>
     <string name="worker_next_schedule">Kitas paleidimas</string>
+    <string name="action_save_changes">Išsaugoti pakeitimus</string>
+    <string name="weather_alert_source">Įspėjimo šaltinis</string>
+    <string name="location_edit">Redaguoti vietovę</string>
+    <string name="weather_aqi_source">Oro kokybės šaltinis</string>
+    <string name="location_name">Vietovės pavadinimas</string>
+    <string name="location_info">Vietovės informacija</string>
 </resources>
 <!--<string name=""></string>-->
