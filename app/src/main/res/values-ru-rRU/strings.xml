@@ -163,9 +163,9 @@
     <string name="weather_snow_with_clear">Снег, небо ясное</string>
     <string name="weather_snow_with_cloudy">Снег, облачно</string>
     <string name="weather_snow_with_rain">Дождь со снегом</string>
-    <string name="weather_clear_then_cloudy">Clear then cloudy</string>
-    <string name="weather_clear_then_rain">Clear then rain</string>
-    <string name="weather_clear_then_snow">Clear then snow</string>
+    <string name="weather_clear_then_cloudy">Сначала ясно, затем облачно</string>
+    <string name="weather_clear_then_rain">Сначала ясно, потом дождь</string>
+    <string name="weather_clear_then_snow">Сначала ясно, потом снег</string>
     <string name="weather_cloudy_then_clear">Cloudy then clear</string>
     <string name="weather_cloudy_then_rain">Cloudy then rain</string>
     <string name="weather_cloudy_then_snow">Cloudy then snow</string>
