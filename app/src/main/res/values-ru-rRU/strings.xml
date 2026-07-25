@@ -232,7 +232,7 @@
     <string name="weather_about_humidity">Влажность показывает, сколько водяного пара сейчас в воздухе. Водяной пар обычно невидим невооружённым глазом, но именно от него зависит, выпадут ли осадки, роса, или начнётся туман</string>
     <string name="text_average_for_day">Среднее за день</string>
     <string name="weather_about_dewpoint">Температура точки росы это важное значение влажности. Если она поднимается до 20 °C/70 °F, на улице становится очень душно. Летом по ней прогнозируют, сколько энергии уйдёт на работу кондиционеров</string>
-    <string name="weather_visibility_about">Visibility indicates how far you can clearly see outdoors before objects become obscured by weather or atmospheric conditions</string>
+    <string name="weather_visibility_about">Видимость показывает, на каком расстоянии вы можете четко видеть объекты, прежде чем они скроются из-за погодных условий</string>
     <string name="text_excellent">Отлично</string>
     <string name="text_very_good">Хорошо</string>
     <string name="text_good">Хорошее</string>
