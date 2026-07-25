@@ -280,7 +280,7 @@
     <string name="day_length_hr">%1$s h</string>
     <string name="error_no_results">Aucun résultat trouvé</string>
     <string name="summary_overview_template_same_condition">Le ciel restera %1$s tout au long de la journée et de la nuit.</string>
-    <string name="summary_overview_template_day_night_condition">Il fera %1$s pendant la journée, puis %1$s la nuit.</string>
+    <string name="summary_overview_template_day_night_condition">Il fera %1$s pendant la journée, puis %2$s la nuit.</string>
     <string name="summary_rain_template_day_night">En journée, de la pluie est attendue vers %1$s avec %2$s de chance. Ce soir, il y a %3$s de chance de pluie vers %4$s.</string>
     <string name="summary_rain_template_day">En journée, de la pluie est attendue vers %1$s avec %2$s de chance.</string>
     <string name="summary_rain_template_night">Ce soir, il y a %1$s de chance de pluie vers %2$s.</string>
