@@ -225,7 +225,7 @@
     <string name="summary_uv_moderate_template_3">Sun exposure will remain moderate throughout the day.</string>
     <string name="weather_summary">Сводка</string>
     <string name="about_changelog">Список изменений</string>
-    <string name="about">About</string>
+    <string name="about">Подробнее</string>
     <string name="weather_max_for_the_day">Максимум за день</string>
     <string name="weather_about_uv_index">УФ-индекс показывает уровень ультрафиолетового излучения. Значения начинаются с нуля. Чем выше показатель, тем опаснее солнце для кожи и глаз, и тем быстрее можно получить солнечный ожог</string>
     <string name="text_scale">Масштаб</string>
@@ -278,7 +278,7 @@
     <string name="error_no_results_found">Ничего не найдено</string>
     <string name="text_time">Time</string>
     <string name="settings_24hr_time">Использовать 24-часовой формат времени</string>
-    <string name="about_email">Email</string>
+    <string name="about_email">Электронная почта</string>
     <string name="settings_source_request_title">Хотите, чтобы мы добавили новый источник? Отправьте запрос здесь</string>
     <string name="action_request">Запросить</string>
     <string name="source_credits_label">%1$s and more</string>
@@ -301,7 +301,7 @@
     <string name="summary_overview_template_day_condition">It will be %1$s during the day.</string>
     <string name="summary_overview_template_night_condition">Conditions will turn %1$s at night.</string>
     <string name="gadgetbridge_not_available_error">Gadgetbridge не установлен</string>
-    <string name="settings_worker_info">Worker information</string>
+    <string name="settings_worker_info">Информация о работнике</string>
     <string name="settings_send_data_gadgetbridge">Отправить данные в Gadgetbridge</string>
     <string name="aqi_PM25_full_label">Particulate matter less than 2.5 microns</string>
     <string name="aqi_PM10_full_label">Particulate matter less than 10 microns</string>
