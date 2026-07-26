@@ -248,7 +248,7 @@
     <string name="visibility_description_very_poor">Heavy fog or precipitation; restricted travel conditions</string>
     <string name="visibility_description_dense">Severe reduction; affects driving and airport operations</string>
     <string name="text_dawn">Рассвет</string>
-    <string name="text_dusk">Dusk</string>
+    <string name="text_dusk">Сумерки</string>
     <string name="text_day_length">Длина светового дня</string>
     <string name="weather_sun_moon">Солнце и луна</string>
     <string name="moonphase_new_moon">Новолуние</string>
