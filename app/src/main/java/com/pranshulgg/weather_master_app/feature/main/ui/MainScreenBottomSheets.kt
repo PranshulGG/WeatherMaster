@@ -42,7 +42,6 @@ object MainScreenBottomSheets {
 
         val uiState = viewModel.uiState.value
         val uriHandler = LocalUriHandler.current
-        val airQualityUrl = "https://open-meteo.com/en/docs/air-quality-api"
 
         if (uiState.isWeatherSourcesInfoForLocationSheetOpen) {
             ActionBottomSheet(
@@ -70,11 +69,11 @@ object MainScreenBottomSheets {
                     title = stringResource(R.string.weather_air_quality),
                     tiles = listOf(
                         SettingTile.ActionTile(
-                            title = WeatherSource.OPEN_METEO.displayName,
-                            description = airQualityUrl,
+                            title = location.airQualitySource.fullName,
+                            description = location.airQualitySource.displayLink,
                             trailing = { SettingsTileIcon(R.drawable.open_in_new_24px) },
                             onClick = {
-                                uriHandler.openUri(airQualityUrl)
+                                uriHandler.openUri(location.airQualitySource.displayLink)
                             }
                         )
                     )
