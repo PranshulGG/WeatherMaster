@@ -305,11 +305,11 @@
     <string name="worker_run_attempt">試行</string>
     <string name="worker_tags">タグ</string>
     <string name="worker_next_schedule">次回の予定</string>
-    <string name="action_save_changes">Save changes</string>
-    <string name="weather_alert_source">Alert source</string>
-    <string name="location_edit">Edit location</string>
-    <string name="weather_aqi_source">Air quality source</string>
-    <string name="location_name">Location name</string>
-    <string name="location_info">Location information</string>
+    <string name="action_save_changes">変更を保存</string>
+    <string name="weather_alert_source">警報のソース</string>
+    <string name="location_edit">場所を編集</string>
+    <string name="weather_aqi_source">空気質のソース</string>
+    <string name="location_name">場所の名称</string>
+    <string name="location_info">場所の情報</string>
 </resources>
 <!--<string name=""></string>-->
