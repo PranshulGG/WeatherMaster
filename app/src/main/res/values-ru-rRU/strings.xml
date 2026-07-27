@@ -320,5 +320,6 @@
     <string name="weather_aqi_source">Источник данных о качестве воздуха</string>
     <string name="location_name">Имя локации</string>
     <string name="location_info">Информация о локации</string>
+    <string name="location_long_press_info">Удерживайте местоположение, чтобы открыть дополнительные параметры</string>
 </resources>
 <!--<string name=""></string>-->
