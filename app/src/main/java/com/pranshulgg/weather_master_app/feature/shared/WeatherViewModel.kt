@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app.feature.shared
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -18,6 +19,7 @@ import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.airquality.AirQualityResult
 import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo.OpenMeteoAqiRepository
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
+import com.pranshulgg.weather_master_app.data.provider.AirQualityRepositoryProvider
 import com.pranshulgg.weather_master_app.data.provider.WeatherRepositoryProvider
 import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherBlocksRepository
@@ -36,6 +38,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.coroutines.cancellation.CancellationException
 
 @HiltViewModel
 class WeatherViewModel @Inject constructor(
@@ -45,6 +48,7 @@ class WeatherViewModel @Inject constructor(
     private val weatherBlocksRepository: WeatherBlocksRepository,
     private val openMeteoAqiRepository: OpenMeteoAqiRepository,
     private val weatherDataReconcilerRepository: WeatherDataReconcilerRepository,
+    private val airQualityRepositoryProvider: AirQualityRepositoryProvider,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
 
@@ -125,7 +129,7 @@ class WeatherViewModel @Inject constructor(
             // Run separately
             if (!_uiState.value.isError) {
                 launch {
-                    handleAirQuality(location, isManualRefresh)
+                    handleAirQuality(location, isManualRefresh, isForceRefreshForAirQuality)
                 }
             }
 
@@ -139,7 +143,9 @@ class WeatherViewModel @Inject constructor(
                 delay(minLoadingTime - elapsed)
             }
 
+
             setLoading(false)
+
 
         }
 
@@ -166,33 +172,8 @@ class WeatherViewModel @Inject constructor(
         getWeather(location, location.source)
     }
 
-    fun updateSourceForLocation(location: Location, source: WeatherSource) {
-        val updatedLocation = location.copy(source = source)
 
-        viewModelScope.launch {
-
-            locationsRepo.updateSourceForLocation(location.id, source)
-            val allowForceRefresh = location.source != source
-
-
-            if (allowForceRefresh) {
-                weatherDataReconcilerRepository.cleanUpStaleData(location.source, location.id)
-            }
-            _uiState.value = _uiState.value.copy(
-                activeLocation = updatedLocation
-            )
-            getWeather(
-                updatedLocation,
-                source,
-                isForceRefresh = allowForceRefresh
-            )
-
-
-        }
-    }
-
-
-    private fun handleSourceChangeForWeather(
+    fun handleSourceChangeForWeather(
         location: Location,
         source: WeatherSource,
         airQualitySource: AirQualitySource,
@@ -209,7 +190,18 @@ class WeatherViewModel @Inject constructor(
 
 
             if (allowForceRefreshForWeather) {
-                weatherDataReconcilerRepository.cleanUpStaleData(location.source, location.id)
+                weatherDataReconcilerRepository.cleanUpStaleData(
+                    location.source,
+                    location.id,
+                    airQualitySource
+                )
+            }
+            if (allowForceRefreshForAirQuality) {
+                weatherDataReconcilerRepository.cleanUpStateAirQualityData(
+                    airQualitySource,
+                    location.id,
+                    source
+                )
             }
             _uiState.value = _uiState.value.copy(
                 activeLocation = updatedLocation
@@ -305,25 +297,47 @@ class WeatherViewModel @Inject constructor(
         }
     }
 
-    private suspend fun handleAirQuality(location: Location, isManualRefresh: Boolean) {
+    private suspend fun handleAirQuality(
+        location: Location,
+        isManualRefresh: Boolean,
+        isForceRefresh: Boolean
+    ) {
 
         if (_uiState.value.isAirQualityLoading) return
 
+        val repoAir = airQualityRepositoryProvider.getRepository(location.airQualitySource)
+
+
+        if (repoAir == null) {
+            _uiState.value = _uiState.value.copy(airQuality = null, isAirQualityLoading = false)
+            return
+        }
+
         _uiState.value = _uiState.value.copy(isAirQualityLoading = true)
 
-        when (val result = openMeteoAqiRepository.getAirQuality(location, isManualRefresh)) {
+
+
+        when (val result = repoAir.getAirQuality(location, isManualRefresh, isForceRefresh)) {
             is AirQualityResult.Success -> {
-                _uiState.value = _uiState.value.copy(airQuality = result.airquality)
-                _uiState.value = _uiState.value.copy(isAirQualityLoading = false)
+                _uiState.value =
+                    _uiState.value.copy(
+                        airQuality = result.airquality,
+                        isAirQualityLoading = false
+                    )
+
+
             }
 
             // Fail silently, we just won't show the Air quality in the UI
             is AirQualityResult.Error -> {
-                _uiState.value = _uiState.value.copy(airQuality = result.cacheAirQuality)
-                _uiState.value = _uiState.value.copy(isAirQualityLoading = false)
+                _uiState.value = _uiState.value.copy(
+                    airQuality = result.cacheAirQuality,
+                    isAirQualityLoading = false
+                )
+
+
             }
         }
     }
-
 
 }
