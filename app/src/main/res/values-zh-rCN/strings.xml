@@ -280,7 +280,7 @@
     <string name="weather_wind_direction_from">%1$s风</string>
     <string name="day_length_hr">%1$s 小时</string>
     <string name="error_no_results">未找到结果</string>
-    <string name="summary_overview_template_same_condition"></string>
+    <string name="summary_overview_template_same_condition">It will stay %1$s throughout the day and night</string>
     <string name="summary_overview_template_day_night_condition">日间将以%1$s为主，夜间转为%2$s。</string>
     <string name="summary_rain_template_day_night">During the day, rain is expected around %1$s with a %2$s chance. Tonight, there\'s a %3$s chance of rain around %4$s.</string>
     <string name="summary_rain_template_day">During the day, rain is expected around %1$s with a %2$s chance.</string>
@@ -296,7 +296,7 @@
     <string name="summary_overview_template_day_condition">白天%1$s。</string>
     <string name="summary_overview_template_night_condition">Conditions will turn %1$s at night.</string>
     <string name="gadgetbridge_not_available_error">Gadget bridge is not installed</string>
-    <string name="settings_worker_info"></string>
+    <string name="settings_worker_info">Worker information</string>
     <string name="settings_send_data_gadgetbridge">Send data to Gadgetbridge</string>
     <string name="aqi_PM25_full_label">Particulate matter less than 2.5 microns</string>
     <string name="aqi_PM10_full_label">Particulate matter less than 10 microns</string>
@@ -315,5 +315,4 @@
     <string name="weather_aqi_source">Air quality source</string>
     <string name="location_name">Location name</string>
     <string name="location_info">Location information</string>
-</resources>
-<!--<string name=""></string>-->
+</resources><!--<string name=""></string>-->

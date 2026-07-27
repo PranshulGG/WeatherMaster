@@ -279,7 +279,7 @@
     <string name="weather_wind_direction_from">Von %1$s</string>
     <string name="day_length_hr">%1$s Std</string>
     <string name="error_no_results">Keine Ergebnisse gefunden</string>
-    <string name="summary_overview_template_same_condition"></string>
+    <string name="summary_overview_template_same_condition">It will stay %1$s throughout the day and night.</string>
     <string name="summary_overview_template_day_night_condition">Am Tag wird es %1$s sein und in der Nacht  %2$s werden.</string>
     <string name="summary_rain_template_day_night">Tagsüber wird gegen %1$s Regen erwartet, mit einer Wahrscheinlichkeit von %2$s. Heute Nacht besteht gegen %4$s eine Regenwahrscheinlichkeit von %3$s.</string>
     <string name="summary_rain_template_day">Tagsüber wird gegen %1$s Regen erwartet, mit einer Wahrscheinlichkeit von %2$s.</string>
@@ -314,5 +314,4 @@
     <string name="weather_aqi_source">Air quality source</string>
     <string name="location_name">Location name</string>
     <string name="location_info">Location information</string>
-</resources>
-<!--<string name=""></string>-->
+</resources><!--<string name=""></string>-->

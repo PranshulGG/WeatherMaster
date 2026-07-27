@@ -283,7 +283,7 @@ São emitidas por veículos motorizados, aquecedores a lenha e indústrias. Inc�
     <string name="summary_overview_template_same_condition">Continuará %1$s ao longo do dia e da noite.</string>
     <string name="summary_overview_template_day_night_condition">Fará %1$s durante o dia e mudará para %2$s à noite.</string>
     <string name="summary_rain_template_day_night">Durante o dia, espera-se chuva por volta das %1$s com uma chance de \%2$s. Hoje à noite, há uma chance de %3$s de chuva por volta das \%4$s.</string>
-    <string name="summary_rain_template_day"></string>
+    <string name="summary_rain_template_day">During the day, rain is expected around %1$s with a %2$s chance.</string>
     <string name="summary_rain_template_night">Esta noite, há %1$s de probabilidade de chuva por volta das %2$s.</string>
     <string name="summary_snow_template_day_night">Há previsão de neve por volta das %1$s durante o dia, com %2$s de probabilidade. Durante a noite, ainda há possibilidade de neve, com %3$s de probabilidade por volta das %4$s.</string>
     <string name="summary_snow_template_day">Há previsão de neve por volta das %1$s durante o dia, com %2$s de probabilidade.</string>
@@ -315,5 +315,4 @@ São emitidas por veículos motorizados, aquecedores a lenha e indústrias. Inc�
     <string name="weather_aqi_source">Air quality source</string>
     <string name="location_name">Location name</string>
     <string name="location_info">Location information</string>
-</resources>
-<!--<string name=""></string>-->
+</resources><!--<string name=""></string>-->
