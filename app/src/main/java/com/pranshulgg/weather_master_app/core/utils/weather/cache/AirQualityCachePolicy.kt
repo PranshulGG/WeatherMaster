@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app.core.utils.weather.cache
 
 import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQuality
+import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
 import com.pranshulgg.weather_master_app.core.model.weather.airquality.AirQualityResultType
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.CacheConfig.AUTO_REFRESH_MAX_MINUTES
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.CacheConfig.MANUAL_REFRESH_MINUTES
@@ -20,8 +21,12 @@ fun isCurrentAirQualitySafe(airQuality: AirQuality?): Boolean {
 
 fun shouldReturnAirQualityCache(
     cache: AirQualityWithRelations?,
-    isManualRefresh: Boolean
+    isManualRefresh: Boolean,
+    isForceRefresh: Boolean
 ): AirQualityResultType {
+
+    if (isForceRefresh) return AirQualityResultType.ERROR
+
 
     if (cache == null || cache.current == null) {
         return AirQualityResultType.ERROR

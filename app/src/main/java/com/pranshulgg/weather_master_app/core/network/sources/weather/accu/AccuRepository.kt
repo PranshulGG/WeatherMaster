@@ -9,8 +9,10 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.BmkgA
 import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.json.bundle.BmkgForecastBundle
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherCacheSafe
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnWeatherCache
+import com.pranshulgg.weather_master_app.data.local.dao.airquality.accu.AccuDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
+import com.pranshulgg.weather_master_app.data.local.entity.airquality.accu.AccuEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.accu.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.bmkg.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toCurrentWeatherEntity
@@ -27,7 +29,8 @@ import javax.inject.Inject
 class AccuRepository @Inject constructor(
     val dao: LocationsDao,
     val weatherDao: WeatherDao,
-    val api: AccuApi
+    val api: AccuApi,
+    val accuDao: AccuDao,
 ) : WeatherRepository {
 
 
@@ -52,22 +55,22 @@ class AccuRepository @Inject constructor(
 
             return@withContext try {
 
-                val locationKey = api.getLocationKey("${location.latitude},${location.longitude}")
-
-                val bodyLocation = locationKey.body()
+                val locationKey = accuDao.getCityKeyForLocation(location.id)?.cityKey
+                    ?: api.getLocationKey("${location.latitude},${location.longitude}").body()?.key
                     ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
 
-                val current = api.fetchCurrent(bodyLocation.key)
+
+                val current = api.fetchCurrent(locationKey)
 
                 val bodyCurrent = current.body()
                     ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
 
-                val hourly = api.fetchHourly(bodyLocation.key)
+                val hourly = api.fetchHourly(locationKey)
 
                 val bodyHourly = hourly.body()
                     ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
 
-                val daily = api.fetchDaily(bodyLocation.key)
+                val daily = api.fetchDaily(locationKey)
 
                 val bodyDaily = daily.body()
                     ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
@@ -79,6 +82,13 @@ class AccuRepository @Inject constructor(
                 )
 
                 val domain = final.toDomain(location)
+
+                accuDao.insertCityKey(
+                    AccuEntity(
+                        locationId = location.id,
+                        cityKey = locationKey
+                    )
+                )
 
                 weatherDao.insertWeather(
                     domain.current.toCurrentWeatherEntity(location.id),
