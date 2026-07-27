@@ -110,7 +110,7 @@ fun LocationsScreen(
         floatingActionButton = {
             FloatingButton(navController)
         },
-        floatingActionButtonPosition = FabPosition.Center
+        floatingActionButtonPosition = FabPosition.Center,
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -184,6 +184,13 @@ private fun TopBar(onBack: () -> Unit, isTabletLike: Boolean) {
                         )
                     }
                 }
+            }
+        },
+        actions = {
+            IconButton(onClick = {
+                SnackbarManager.show(R.string.location_long_press_info)
+            }, shapes = IconButtonDefaults.shapes()) {
+                Symbol(R.drawable.info_24px)
             }
         }
     )
