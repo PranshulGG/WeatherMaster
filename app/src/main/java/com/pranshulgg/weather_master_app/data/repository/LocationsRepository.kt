@@ -83,6 +83,9 @@ class LocationsRepository @Inject constructor(
         return dao.getLocationForId(id).toDomain()
     }
 
+    suspend fun updateLocationCustomName(id: String, name: String?) {
+        dao.updateLocationCustomName(id, name)
+    }
 
     @Transaction
     suspend fun saveLocation(location: Location) {
