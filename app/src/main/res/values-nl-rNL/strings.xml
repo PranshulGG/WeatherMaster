@@ -314,5 +314,6 @@
     <string name="weather_aqi_source">Luchtkwaliteit bron</string>
     <string name="location_name">Locatie naam</string>
     <string name="location_info">Locatie-informatie</string>
+    <string name="location_long_press_info">Long press a location for more options</string>
 </resources>
 <!--<string name=""></string>-->
