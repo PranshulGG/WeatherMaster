@@ -1,8 +1,6 @@
 package com.pranshulgg.weather_master_app.feature.editlocation
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -38,8 +36,6 @@ import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.sources.AirQualitySource
 import com.pranshulgg.weather_master_app.core.model.sources.AlertSource
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
-import com.pranshulgg.weather_master_app.core.model.sources.getWeatherSourcesForCountry
-import com.pranshulgg.weather_master_app.core.model.sources.getWeatherSourcesGlobal
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
@@ -47,6 +43,7 @@ import com.pranshulgg.weather_master_app.core.ui.components.SettingSection
 import com.pranshulgg.weather_master_app.core.ui.components.SettingTile
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
 import com.pranshulgg.weather_master_app.feature.editlocation.ui.EditLocationBottomSheet
+import com.pranshulgg.weather_master_app.feature.shared.WeatherViewModel
 import com.pranshulgg.weather_master_app.feature.shared.ui.SharedBottomSheet
 
 
@@ -64,7 +61,8 @@ data class EditLocationScreenUiState(
 @OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun EditLocationScreen(
-    navController: NavController, id: String
+    navController: NavController, id: String,
+    weatherViewModel: WeatherViewModel
 ) {
 
     val viewModel: EditLocationViewModel = hiltViewModel()
@@ -125,11 +123,12 @@ fun EditLocationScreen(
                             viewModel.showEditLocationNameSheet()
                         },
                         trailing = {
-                            IconButton(onClick = { currentLocationName = locationName }) {
+                            IconButton(onClick = { currentLocationName = locationText }) {
                                 Symbol(R.drawable.refresh_24px)
                             }
                         },
-                        colorDesc = colorDesc
+                        colorDesc = colorDesc,
+                        overline = { Text("Requires restart") }
                     )
                 )
             )
@@ -179,7 +178,19 @@ fun EditLocationScreen(
                     .heightIn(btnSize)
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
-                onClick = { /* Handle click */ },
+                onClick = {
+                    viewModel.saveLocationName(
+                        if (currentLocationName.trim() == locationText.trim()) null else currentLocationName.trim(),
+                        uiState.location.id
+                    )
+
+                    navController.popBackStack()
+                    weatherViewModel.handleSourceChangeForWeather(
+                        uiState.location,
+                        uiState.selectedWeatherSource ?: uiState.location.source,
+                        uiState.selectedAirQualitySource ?: uiState.location.airQualitySource
+                    )
+                },
                 shapes = ButtonDefaults.shapes(),
                 contentPadding = ButtonDefaults.contentPaddingFor(btnSize),
             ) {

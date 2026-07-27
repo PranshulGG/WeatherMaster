@@ -31,6 +31,12 @@ class EditLocationViewModel @Inject constructor(
     }
 
 
+    fun saveLocationName(name: String?, id: String) {
+        viewModelScope.launch {
+            locationsRepo.updateLocationCustomName(id, name)
+        }
+    }
+
     fun showWeatherSourcesForLocationSheet() {
         _uiState.value = _uiState.value.copy(isWeatherSourcesForLocationSheetOpen = true)
     }
