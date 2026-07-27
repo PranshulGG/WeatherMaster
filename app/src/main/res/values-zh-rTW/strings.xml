@@ -312,5 +312,6 @@
     <string name="weather_aqi_source">Air quality source</string>
     <string name="location_name">Location name</string>
     <string name="location_info">Location information</string>
+    <string name="location_long_press_info">Long press a location for more options</string>
 </resources>
 <!--<string name=""></string>-->
