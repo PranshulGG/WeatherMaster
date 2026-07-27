@@ -311,5 +311,6 @@
     <string name="weather_aqi_source">대기질 출처</string>
     <string name="location_name">위치 이름</string>
     <string name="location_info">위치 정보</string>
+    <string name="location_long_press_info">Long press a location for more options</string>
 </resources>
 <!--<string name=""></string>-->
