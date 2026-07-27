@@ -315,5 +315,6 @@
     <string name="weather_aqi_source">空气质量来源</string>
     <string name="location_name">地点名称</string>
     <string name="location_info">地点信息</string>
+    <string name="location_long_press_info">Long press a location for more options</string>
 </resources>
 <!--<string name=""></string>-->
