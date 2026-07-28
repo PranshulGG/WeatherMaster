@@ -132,16 +132,15 @@ fun SearchScreen(navController: NavController) {
                     SettingSection(
                         tiles = results.map {
                             SettingTile.ActionTile(
-
                                 title = it.name,
-                                description = "${if (it.state.isNotEmpty()) "${it.state}, " else ""}${it.country}",
+                                description = "${if (it.state.isNotBlank()) "${it.state}, " else ""}${it.country}",
                                 trailing = {
                                     if (selectedLocationId == it.id) {
                                         LoadingIndicator()
                                     }
                                 },
                                 onClick = {
-                                    if (selectedLocationId.isNotEmpty()) return@ActionTile
+                                    if (selectedLocationId.isNotBlank()) return@ActionTile
                                     selectedLocation = it
                                     viewModel.showWeatherSourcesForLocationSheet()
                                 }
