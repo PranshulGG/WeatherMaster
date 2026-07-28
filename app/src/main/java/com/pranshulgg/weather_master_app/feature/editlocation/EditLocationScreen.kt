@@ -188,7 +188,8 @@ fun EditLocationScreen(
                     weatherViewModel.handleSourceChangeForWeather(
                         uiState.location,
                         uiState.selectedWeatherSource ?: uiState.location.source,
-                        uiState.selectedAirQualitySource ?: uiState.location.airQualitySource
+                        uiState.selectedAirQualitySource ?: uiState.location.airQualitySource,
+                        uiState.selectedAlertSource ?: uiState.location.alertSource
                     )
                 },
                 shapes = ButtonDefaults.shapes(),
@@ -196,14 +197,14 @@ fun EditLocationScreen(
             ) {
                 Symbol(
                     R.drawable.check_24px,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    color = MaterialTheme.colorScheme.onPrimary,
                     size = ButtonDefaults.iconSizeFor(btnSize)
                 )
                 Gap(horizontal = ButtonDefaults.iconSpacingFor(btnSize))
                 Text(
                     stringResource(R.string.action_save_changes),
                     style = ButtonDefaults.textStyleFor(btnSize),
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
             }
 
