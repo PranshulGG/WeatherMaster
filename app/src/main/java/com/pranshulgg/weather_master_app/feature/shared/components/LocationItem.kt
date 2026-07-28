@@ -35,11 +35,12 @@ fun LocationItem(
     isDefault: Boolean = false,
     onLongClick: () -> Unit,
     isDeviceLocation: Boolean = false,
-    shape: RoundedCornerShape
+    shape: RoundedCornerShape,
+    isAlertAvailable: Boolean = false
 ) {
 
     val containerColor =
-        if (isSelected) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surfaceBright
+        if (isSelected) MaterialTheme.colorScheme.secondaryContainer else if (isAlertAvailable) MaterialTheme.colorScheme.errorContainer else MaterialTheme.colorScheme.surfaceBright
     val contentColor =
         if (isSelected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface
 
@@ -91,6 +92,9 @@ fun LocationItem(
             trailingContent = {
                 if (isDeviceLocation) {
                     Symbol(R.drawable.circle_circle_24px, color = contentColor)
+                }
+                if (isAlertAvailable) {
+                    Symbol(R.drawable.warning_24px, color = MaterialTheme.colorScheme.error)
                 }
             }
         )

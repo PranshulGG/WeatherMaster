@@ -62,17 +62,20 @@ fun LocationsScreen(
     locations: List<Location>,
     activeLocation: Location?,
     onLocationSelect: (Location) -> Unit,
-    isTabletLike: Boolean = false
-) {
+    isTabletLike: Boolean = false,
+    weatherViewModel: WeatherViewModel,
+
+    ) {
 
     val viewModel: LocationsScreenViewModel = hiltViewModel()
-    val weatherViewModel: WeatherViewModel = hiltViewModel()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val uiState = viewModel.uiState
 
     val weatherForLocations by viewModel.allLocationsWeather.collectAsStateWithLifecycle(
         initialValue = emptyList()
     )
+
+    val alertsForLocations by viewModel.allLocationsAlerts.collectAsStateWithLifecycle(initialValue = emptyList())
 
     var backgroundLocationPermissionInfoDialogOpen by remember { mutableStateOf(false) }
     var locationPermissionInfoDialogOpen by remember { mutableStateOf(false) }
@@ -128,7 +131,8 @@ fun LocationsScreen(
                 activeLocation = activeLocation,
                 weatherForLocations,
                 onAddCurrentLocation = { locationPermissionInfoDialogOpen = true },
-                uiState.value.isDeviceLocationLoading
+                uiState.value.isDeviceLocationLoading,
+                alertsForLocations
             )
         }
     }

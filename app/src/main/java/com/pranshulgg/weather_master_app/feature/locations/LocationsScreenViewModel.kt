@@ -29,6 +29,12 @@ class LocationsScreenViewModel @Inject constructor(
         initialValue = emptyList()
     )
 
+    val allLocationsAlerts = locationsRepo.getAllLocationsAlerts().stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = emptyList()
+    )
+
     fun updateDefaultLocation(id: String) {
         viewModelScope.launch {
             locationsRepo.updateDefaultLocation(id)
