@@ -315,5 +315,10 @@
     <string name="location_name">Location name</string>
     <string name="location_info">Location information</string>
     <string name="location_long_press_info">Long press a location for more options</string>
+    <string name="alert_severity_critical">Critical</string>
+    <string name="alert_severity_high">Mataas</string>
+    <string name="alert_severity_medium">Medium</string>
+    <string name="alert_severity_low">Mababa</string>
+    <string name="alert_severity_unknown">Unknown</string>
 </resources>
 <!--<string name=""></string>-->
