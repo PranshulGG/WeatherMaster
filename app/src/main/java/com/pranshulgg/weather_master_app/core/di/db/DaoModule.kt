@@ -37,4 +37,7 @@ object DaoModule {
 
     @Provides
     fun provideAccuDao(db: WeatherMasterDatabase) = db.accuDao()
+
+    @Provides
+    fun provideAlertsDao(db: WeatherMasterDatabase) = db.alertsDao()
 }

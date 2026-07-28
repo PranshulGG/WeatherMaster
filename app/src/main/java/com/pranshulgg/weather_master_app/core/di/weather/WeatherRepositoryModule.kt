@@ -4,6 +4,8 @@ import com.pranshulgg.weather_master_app.core.network.sources.airquality.accu.Ac
 import com.pranshulgg.weather_master_app.core.network.sources.airquality.accu.AccuAqiRepository
 import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo.OpenMeteoAqiApi
 import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo.OpenMeteoAqiRepository
+import com.pranshulgg.weather_master_app.core.network.sources.alerts.accu.AlertsAccuApi
+import com.pranshulgg.weather_master_app.core.network.sources.alerts.accu.AlertsAccuRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.BmkgApi
@@ -30,6 +32,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.smhi.SmhiA
 import com.pranshulgg.weather_master_app.core.network.sources.weather.smhi.SmhiRepository
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.accu.AccuDao
+import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.nws.NwsDao
@@ -156,4 +159,14 @@ object WeatherRepositoryModule {
         accuDao: AccuDao,
         accuApi: AccuApi
     ): AccuAqiRepository = AccuAqiRepository(api, dao, accuDao, accuApi)
+
+    @Provides
+    @Singleton
+    fun provideAccuAlertsRepository(
+        api: AlertsAccuApi,
+        dao: AlertsDao,
+        accuDao: AccuDao,
+        accuApi: AccuApi
+    ): AlertsAccuRepository = AlertsAccuRepository(api, dao, accuDao, accuApi)
+
 }

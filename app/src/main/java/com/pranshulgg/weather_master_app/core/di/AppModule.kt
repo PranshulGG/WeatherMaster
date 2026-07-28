@@ -24,6 +24,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.
 import com.pranshulgg.weather_master_app.data.local.WeatherMasterDatabase
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.accu.AccuDao
+import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
 import com.pranshulgg.weather_master_app.data.local.dao.github.GithubDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherBlocksDao
@@ -82,9 +83,10 @@ object AppModule {
         nwsDao: NwsDao,
         locationsDao: LocationsDao,
         accuDao: AccuDao,
-        airQualityDao: AirQualityDao
+        airQualityDao: AirQualityDao,
+        alertsDao: AlertsDao
     ): WeatherDataReconcilerRepository =
-        WeatherDataReconcilerRepository(nwsDao, locationsDao, accuDao, airQualityDao)
+        WeatherDataReconcilerRepository(nwsDao, locationsDao, accuDao, airQualityDao, alertsDao)
 
     @Provides
     @Singleton
