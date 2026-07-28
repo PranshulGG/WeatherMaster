@@ -324,10 +324,10 @@
     <string name="location_name">שם המיקום</string>
     <string name="location_info">מידע על המיקום</string>
     <string name="location_long_press_info">לחיצה ארוכה על מיקום תציג אפשרויות נוספות</string>
-    <string name="alert_severity_critical">Critical</string>
+    <string name="alert_severity_critical">חמורה</string>
     <string name="alert_severity_high">גבוהה</string>
-    <string name="alert_severity_medium">Medium</string>
+    <string name="alert_severity_medium">חומרה בינונית</string>
     <string name="alert_severity_low">נמוכה</string>
-    <string name="alert_severity_unknown">Unknown</string>
+    <string name="alert_severity_unknown">לא ידועה</string>
 </resources>
 <!--<string name=""></string>-->
