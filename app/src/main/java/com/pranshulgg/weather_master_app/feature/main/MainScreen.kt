@@ -24,6 +24,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQuality
+import com.pranshulgg.weather_master_app.core.model.domain.alerts.Alert
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlock
@@ -51,7 +52,8 @@ data class MainScreenWeatherUiState(
     val isInitialized: Boolean = false,
     val airQuality: AirQuality? = null,
     val isAirQualityLoading: Boolean = false,
-    val isUnsupportedSource: Boolean = false
+    val isUnsupportedSource: Boolean = false,
+    val alerts: List<Alert> = emptyList()
 )
 
 data class MainScreenUiState(
@@ -146,7 +148,8 @@ fun MainScreen(navController: NavController, weatherViewModel: WeatherViewModel)
                         weatherViewModel.setActiveLocation(it)
                     }
                 },
-                isTabletLike = isTabletLike
+                isTabletLike = isTabletLike,
+                weatherViewModel
             )
         },
         drawerState = drawerState,
@@ -166,7 +169,6 @@ fun MainScreen(navController: NavController, weatherViewModel: WeatherViewModel)
                     }
                 },
                 onEditLocation = {
-//                    viewModel.showWeatherSourcesForLocationSheet(uiState.isLoading)
                     navController.navigate(NavRoutes.editLocation(activeLocation!!.id))
                 },
                 context,
@@ -176,21 +178,6 @@ fun MainScreen(navController: NavController, weatherViewModel: WeatherViewModel)
         }
     )
 
-
-    // WEATHER SOURCES DIALOG
-//    SharedBottomSheet.WeatherSourcesForLocationSheet(
-//        countryCode = activeLocation?.countryCode,
-//        show = viewModel.uiState.value.isWeatherSourcesForLocationSheetOpen,
-//        isEditing = true,
-//        selectedSource = activeLocation?.source ?: WeatherSource.OPEN_METEO,
-//        onSave = {
-//            if (activeLocation != null) {
-//                weatherViewModel.updateSourceForLocation(activeLocation, it)
-//            }
-//        },
-//        onDismiss = viewModel::hideWeatherSourcesForLocationSheet,
-//        sheetState = sheetState
-//    )
 
     // WEATHER SOURCES INFO DIALOG
     MainScreenBottomSheets.WeatherSourcesInfoForLocationSheet(viewModel, activeLocation, sheetState)
