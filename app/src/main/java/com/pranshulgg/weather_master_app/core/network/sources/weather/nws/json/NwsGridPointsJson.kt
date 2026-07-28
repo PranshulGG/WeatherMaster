@@ -35,7 +35,7 @@ data class NwsGridPointDataQuantitativePrecipitationJson(
 
 data class NwsGridPointDataQuantitativePrecipitationValuesJson(
     val validTime: String,
-    val value: Double
+    val value: Double?
 )
 
 data class NwsGridPointDataSnowfallAmountJson(
@@ -44,7 +44,7 @@ data class NwsGridPointDataSnowfallAmountJson(
 
 data class NwsGridPointDataSnowfallAmountValuesJson(
     val validTime: String,
-    val value: Double
+    val value: Double?
 )
 
 data class NwsGridPointDataMaxTemperatureJson(
@@ -57,12 +57,12 @@ data class NwsGridPointDataMinTemperatureJson(
 
 data class NwsGridPointDataMaxTemperatureValuesJson(
     val validTime: String,
-    val value: Double
+    val value: Double?
 )
 
 data class NwsGridPointDataMinTemperatureValuesJson(
     val validTime: String,
-    val value: Double
+    val value: Double?
 )
 
 data class NwsGridPointDataVisibilityJson(
@@ -71,5 +71,5 @@ data class NwsGridPointDataVisibilityJson(
 
 data class NwsGridPointDataVisibilityValuesJson(
     val validTime: String,
-    val value: Double
+    val value: Double?
 )
