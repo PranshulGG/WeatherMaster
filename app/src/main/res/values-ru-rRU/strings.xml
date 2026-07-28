@@ -321,5 +321,10 @@
     <string name="location_name">Имя локации</string>
     <string name="location_info">Информация о локации</string>
     <string name="location_long_press_info">Удерживайте местоположение, чтобы открыть дополнительные параметры</string>
+    <string name="alert_severity_critical">Critical</string>
+    <string name="alert_severity_high">Высокий</string>
+    <string name="alert_severity_medium">Medium</string>
+    <string name="alert_severity_low">Низкий</string>
+    <string name="alert_severity_unknown">Unknown</string>
 </resources>
 <!--<string name=""></string>-->
