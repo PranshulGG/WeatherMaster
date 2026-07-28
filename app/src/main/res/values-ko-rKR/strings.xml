@@ -312,5 +312,10 @@
     <string name="location_name">위치 이름</string>
     <string name="location_info">위치 정보</string>
     <string name="location_long_press_info">Long press a location for more options</string>
+    <string name="alert_severity_critical">Critical</string>
+    <string name="alert_severity_high">높음</string>
+    <string name="alert_severity_medium">Medium</string>
+    <string name="alert_severity_low">낮음</string>
+    <string name="alert_severity_unknown">Unknown</string>
 </resources>
 <!--<string name=""></string>-->
