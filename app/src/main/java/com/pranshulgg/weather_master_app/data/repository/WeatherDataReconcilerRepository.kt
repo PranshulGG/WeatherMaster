@@ -1,9 +1,11 @@
 package com.pranshulgg.weather_master_app.data.repository
 
 import com.pranshulgg.weather_master_app.core.model.sources.AirQualitySource
+import com.pranshulgg.weather_master_app.core.model.sources.AlertSource
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.accu.AccuDao
+import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.nws.NwsDao
 import jakarta.inject.Inject
@@ -13,7 +15,8 @@ class WeatherDataReconcilerRepository @Inject constructor(
     private val nwsDao: NwsDao,
     private val locationDao: LocationsDao,
     private val accuDao: AccuDao,
-    private val airQualityDao: AirQualityDao
+    private val airQualityDao: AirQualityDao,
+    private val alertsDao: AlertsDao
 ) {
 
     /**
@@ -25,32 +28,57 @@ class WeatherDataReconcilerRepository @Inject constructor(
     suspend fun cleanUpStaleData(
         previousSource: WeatherSource,
         locationId: String,
-        airQualitySource: AirQualitySource
+        airQualitySource: AirQualitySource,
+        currentAlertSource: AlertSource
     ) {
         when (previousSource) {
             WeatherSource.NWS -> nwsDao.deleteGridPointsForLocation(locationId)
-            WeatherSource.ACCU_WEATHER -> cleanAccuWeather(locationId, airQualitySource)
+            WeatherSource.ACCU_WEATHER -> cleanAccuWeather(
+                locationId,
+                airQualitySource,
+                currentAlertSource
+            )
+
             else -> {}
         }
     }
 
-    suspend fun cleanAccuWeather(locationId: String, airQualitySource: AirQualitySource) {
-        if (airQualitySource != AirQualitySource.ACCU_WEATHER) {
+    suspend fun cleanAccuWeather(
+        locationId: String, airQualitySource: AirQualitySource,
+        currentAlertSource: AlertSource
+    ) {
+        if (airQualitySource != AirQualitySource.ACCU_WEATHER || currentAlertSource != AlertSource.ACCU_WEATHER) {
             accuDao.deleteCityKeyForLocation(locationId)
         }
     }
 
-    suspend fun cleanUpStateAirQualityData(
+    suspend fun cleanUpStaleAirQualityData(
         currentSource: AirQualitySource,
         locationId: String,
-        currentWeatherSource: WeatherSource
+        currentWeatherSource: WeatherSource,
+        currentAlertSource: AlertSource
     ) {
         if (currentSource == AirQualitySource.NONE) {
             airQualityDao.deleteCurrentAirQuality(locationId)
             airQualityDao.deleteHourlyAirQuality(locationId)
         }
 
-        if (currentWeatherSource != WeatherSource.ACCU_WEATHER) {
+        if (currentWeatherSource != WeatherSource.ACCU_WEATHER || currentAlertSource != AlertSource.ACCU_WEATHER) {
+            accuDao.deleteCityKeyForLocation(locationId)
+        }
+    }
+
+    suspend fun cleanUpStaleAlertsData(
+        currentSource: AlertSource,
+        locationId: String,
+        currentWeatherSource: WeatherSource,
+        airQualitySource: AirQualitySource,
+    ) {
+        if (currentSource == AlertSource.NONE) {
+            alertsDao.deleteAlertsForLocation(locationId)
+        }
+
+        if (currentWeatherSource != WeatherSource.ACCU_WEATHER || airQualitySource != AirQualitySource.ACCU_WEATHER) {
             accuDao.deleteCityKeyForLocation(locationId)
         }
     }
