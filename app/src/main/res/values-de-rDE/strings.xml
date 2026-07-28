@@ -315,5 +315,10 @@
     <string name="location_name">Ortsname</string>
     <string name="location_info">Standortinformationen</string>
     <string name="location_long_press_info">Ort gedrückt halten, um weitere Optionen anzuzeigen</string>
+    <string name="alert_severity_critical">Critical</string>
+    <string name="alert_severity_high">Höchstwert</string>
+    <string name="alert_severity_medium">Medium</string>
+    <string name="alert_severity_low">Wenig</string>
+    <string name="alert_severity_unknown">Unknown</string>
 </resources>
 <!--<string name=""></string>-->
