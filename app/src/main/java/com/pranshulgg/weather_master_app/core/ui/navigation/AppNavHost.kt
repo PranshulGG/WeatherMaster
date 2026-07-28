@@ -13,8 +13,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -45,6 +47,7 @@ import com.pranshulgg.weather_master_app.feature.settings.background.WorkerInfoS
 import com.pranshulgg.weather_master_app.feature.settings.language.LanguageScreen
 import com.pranshulgg.weather_master_app.feature.settings.sources.WeatherSourcesScreen
 import com.pranshulgg.weather_master_app.feature.settings.units.UnitsScreen
+import com.pranshulgg.weather_master_app.feature.shared.WeatherViewModel
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -72,8 +75,13 @@ fun AppNavHost(
             ) {
                 composable(
                     NavRoutes.MAIN
-                ) {
-                    MainScreen(navController)
+                ) { backStackEntry ->
+
+                    val rootEntry = remember(backStackEntry) {
+                        navController.getBackStackEntry("root")
+                    }
+                    val weatherViewModel: WeatherViewModel = hiltViewModel(rootEntry)
+                    MainScreen(navController, weatherViewModel)
                 }
                 composable(
                     NavRoutes.SEARCH
@@ -164,7 +172,12 @@ fun AppNavHost(
 
                     val locationId = backStackEntry.arguments?.getString("locationId")
 
-                    EditLocationScreen(navController, locationId!!)
+                    val rootEntry = remember(backStackEntry) {
+                        navController.getBackStackEntry("root")
+                    }
+                    val weatherViewModel: WeatherViewModel = hiltViewModel(rootEntry)
+
+                    EditLocationScreen(navController, locationId!!, weatherViewModel)
                 }
                 composable(
                     route = "{block}/{index}/{locationId}",
