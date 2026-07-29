@@ -26,8 +26,8 @@ data class AlertEntity(
 
     val event: String,
     val severity: AlertSeverity?,
-    val effective: Long,
-    val expires: Long,
+    val effective: Long?,
+    val expires: Long?,
     val description: String,
     val source: String?,
     val lastUpdatedInMilli: Long

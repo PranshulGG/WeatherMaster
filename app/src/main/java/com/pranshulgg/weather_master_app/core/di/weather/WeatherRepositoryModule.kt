@@ -6,6 +6,8 @@ import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmet
 import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo.OpenMeteoAqiRepository
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.accu.AlertsAccuApi
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.accu.AlertsAccuRepository
+import com.pranshulgg.weather_master_app.core.network.sources.alerts.weatherapi.AlertsWeatherApi
+import com.pranshulgg.weather_master_app.core.network.sources.alerts.weatherapi.AlertsWeatherApiRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.BmkgApi
@@ -168,5 +170,12 @@ object WeatherRepositoryModule {
         accuDao: AccuDao,
         accuApi: AccuApi
     ): AlertsAccuRepository = AlertsAccuRepository(api, dao, accuDao, accuApi)
+
+    @Provides
+    @Singleton
+    fun provideWeatherApiAlertsRepository(
+        api: AlertsWeatherApi,
+        dao: AlertsDao
+    ): AlertsWeatherApiRepository = AlertsWeatherApiRepository(api, dao)
 
 }

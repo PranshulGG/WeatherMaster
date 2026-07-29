@@ -89,6 +89,4 @@ interface LocationsDao {
     @Query("UPDATE weather_locations SET customName = :name WHERE id = :id")
     suspend fun updateLocationCustomName(id: String, name: String?)
 
-    @Query("SELECT * FROM alerts")
-    fun getAllLocationsAlerts(): Flow<List<AlertEntity?>>
 }

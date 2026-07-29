@@ -7,6 +7,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.pranshulgg.weather_master_app.data.local.entity.airquality.CurrentAirQualityEntity
 import com.pranshulgg.weather_master_app.data.local.entity.alerts.AlertEntity
+import kotlinx.coroutines.flow.Flow
 
 
 @Dao
@@ -27,5 +28,8 @@ interface AlertsDao {
 
     @Query("DELETE FROM alerts WHERE locationId = :locationId")
     suspend fun deleteAlertsForLocation(locationId: String)
+
+    @Query("SELECT * FROM alerts")
+    fun getAllLocationsAlerts(): Flow<List<AlertEntity?>>
 
 }

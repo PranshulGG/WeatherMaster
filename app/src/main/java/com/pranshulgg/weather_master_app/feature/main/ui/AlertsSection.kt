@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.feature.main.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -26,7 +27,12 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun AlertsSection(alerts: List<Alert>, prefs: AppPrefsState, zoneId: String) {
+fun AlertsSection(
+    alerts: List<Alert>,
+    prefs: AppPrefsState,
+    zoneId: String,
+    onAlertClick: () -> Unit
+) {
 
     val pattern = if (prefs.is24HrTimeFormat) "MMM dd, HH:mm" else "MMM dd, hh:mm a"
 
@@ -52,6 +58,7 @@ fun AlertsSection(alerts: List<Alert>, prefs: AppPrefsState, zoneId: String) {
                     colors = ListItemDefaults.colors(
                         containerColor = Color.Transparent
                     ),
+                    modifier = Modifier.clickable(onClick = onAlertClick),
                     leadingContent = {
                         Symbol(
                             R.drawable.warning_24px,
@@ -61,7 +68,9 @@ fun AlertsSection(alerts: List<Alert>, prefs: AppPrefsState, zoneId: String) {
                     },
                     headlineContent = { Text(it.event) },
                     supportingContent = {
-                        Text("${formatter(it.effective)} • ${formatter(it.expires)}")
+                        if (it.effective != null && it.expires != null) {
+                            Text("${formatter(it.effective)} • ${formatter(it.expires)}")
+                        }
                     }
                 )
             }
