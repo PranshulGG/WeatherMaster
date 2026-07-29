@@ -53,15 +53,12 @@ class WeatherDataReconcilerRepository @Inject constructor(
     }
 
     suspend fun cleanUpStaleAirQualityData(
-        currentSource: AirQualitySource,
         locationId: String,
         currentWeatherSource: WeatherSource,
         currentAlertSource: AlertSource
     ) {
-        if (currentSource == AirQualitySource.NONE) {
-            airQualityDao.deleteCurrentAirQuality(locationId)
-            airQualityDao.deleteHourlyAirQuality(locationId)
-        }
+        airQualityDao.deleteCurrentAirQuality(locationId)
+        airQualityDao.deleteHourlyAirQuality(locationId)
 
         if (currentWeatherSource != WeatherSource.ACCU_WEATHER || currentAlertSource != AlertSource.ACCU_WEATHER) {
             accuDao.deleteCityKeyForLocation(locationId)
@@ -69,14 +66,11 @@ class WeatherDataReconcilerRepository @Inject constructor(
     }
 
     suspend fun cleanUpStaleAlertsData(
-        currentSource: AlertSource,
         locationId: String,
         currentWeatherSource: WeatherSource,
         airQualitySource: AirQualitySource,
     ) {
-        if (currentSource == AlertSource.NONE) {
-            alertsDao.deleteAlertsForLocation(locationId)
-        }
+        alertsDao.deleteAlertsForLocation(locationId)
 
         if (currentWeatherSource != WeatherSource.ACCU_WEATHER || airQualitySource != AirQualitySource.ACCU_WEATHER) {
             accuDao.deleteCityKeyForLocation(locationId)

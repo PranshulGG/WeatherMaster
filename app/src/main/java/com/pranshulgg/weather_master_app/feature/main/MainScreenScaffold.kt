@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
+import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
 import com.pranshulgg.weather_master_app.feature.main.components.CreditsBottomSection
 import com.pranshulgg.weather_master_app.feature.main.components.FroggyContainer
 import com.pranshulgg.weather_master_app.feature.main.components.MainSearchBar
@@ -163,7 +164,14 @@ fun MainScreenScaffold(
                                     AlertsSection(
                                         alerts,
                                         prefs,
-                                        weather.location.timezone
+                                        weather.location.timezone,
+                                        onAlertClick = {
+                                            navController.navigate(
+                                                NavRoutes.alerts(
+                                                    weather.location.id
+                                                )
+                                            )
+                                        }
                                     )
                                 }
                                 if (isShowSummary) {

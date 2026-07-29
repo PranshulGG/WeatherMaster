@@ -44,7 +44,7 @@ import com.pranshulgg.weather_master_app.data.local.entity.weather.nws.NwsGridPo
         AccuEntity::class,
         AlertEntity::class
     ],
-    version = 50,
+    version = 51,
     autoMigrations = [
         AutoMigration(from = 39, to = 40),
         AutoMigration(from = 42, to = 43),
@@ -52,7 +52,8 @@ import com.pranshulgg.weather_master_app.data.local.entity.weather.nws.NwsGridPo
         AutoMigration(from = 44, to = 45),
         AutoMigration(from = 47, to = 48),
         AutoMigration(from = 48, to = 49),
-        AutoMigration(from = 49, to = 50)
+        AutoMigration(from = 49, to = 50),
+        AutoMigration(from = 50, to = 51)
     ]
 )
 abstract class WeatherMasterDatabase : RoomDatabase() {

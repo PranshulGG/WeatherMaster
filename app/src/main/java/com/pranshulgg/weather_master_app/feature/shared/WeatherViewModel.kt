@@ -214,7 +214,6 @@ class WeatherViewModel @Inject constructor(
             }
             if (allowForceRefreshForAirQuality) {
                 weatherDataReconcilerRepository.cleanUpStaleAirQualityData(
-                    airQualitySource,
                     location.id,
                     source,
                     alertSource
@@ -222,7 +221,6 @@ class WeatherViewModel @Inject constructor(
             }
             if (allowForceRefreshForAlerts) {
                 weatherDataReconcilerRepository.cleanUpStaleAlertsData(
-                    alertSource,
                     location.id,
                     source,
                     airQualitySource
