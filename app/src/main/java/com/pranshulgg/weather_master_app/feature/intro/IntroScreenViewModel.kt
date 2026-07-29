@@ -14,7 +14,6 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-
 class IntroScreenViewModel @Inject constructor(
     val locationsRepo: LocationsRepository,
     @ApplicationContext private val context: Context,

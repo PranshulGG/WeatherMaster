@@ -1,7 +1,6 @@
 package com.pranshulgg.weather_master_app.data.repository
 
 import android.content.Context
-import android.util.Log
 import androidx.room.Transaction
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQuality
@@ -14,7 +13,6 @@ import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.core.network.sources.address.nominatim.json.NominatimRepository
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
-import com.pranshulgg.weather_master_app.data.local.entity.alerts.AlertEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.airquality.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.locations.toDomain
@@ -27,11 +25,9 @@ import com.pranshulgg.weather_master_app.feature.intro.toDomain
 import dagger.hilt.android.qualifiers.ApplicationContext
 import jakarta.inject.Inject
 import kotlinx.coroutines.CancellableContinuation
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.withContext
 import java.time.ZoneId
 import kotlin.coroutines.resumeWithException
 
@@ -216,9 +212,7 @@ class LocationsRepository @Inject constructor(
             .map { list -> list.map { it.toDomain() } }
     }
 
-    fun getAllLocationsAlerts(): Flow<List<Alert?>> {
-        return dao.getAllLocationsAlerts().map { list -> list.map { it?.toDomain() } }
-    }
+
 }
 
 
