@@ -47,6 +47,12 @@ object NavRoutes {
 
     const val EDIT_LOCATION = "edit_location"
 
+    const val ALERTS = "alerts"
+
+    fun alerts(locationId: String): String {
+        return "$ALERTS/$locationId"
+    }
+
     fun editLocation(locationId: String): String {
         return "$EDIT_LOCATION/$locationId"
     }

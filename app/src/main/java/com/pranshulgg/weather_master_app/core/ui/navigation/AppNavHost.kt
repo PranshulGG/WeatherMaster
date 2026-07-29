@@ -23,6 +23,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
+import com.pranshulgg.weather_master_app.feature.alerts.AlertsScreen
 import com.pranshulgg.weather_master_app.feature.blocks.screens.SunMoonScreen
 import com.pranshulgg.weather_master_app.feature.blocks.screens.airquality.AirQualityScreen
 import com.pranshulgg.weather_master_app.feature.blocks.screens.humidity.HumidityScreen
@@ -71,7 +72,7 @@ fun AppNavHost(
             navigation(
                 route = "root",
                 startDestination = NavRoutes.MAIN
-//                startDestination = NavRoutes.editLocation("af673c89-72b7-4da9-865d-c26fdabeca07")
+//                startDestination = NavRoutes.alerts("5e8c6c88-e85a-4e76-8d0b-5d1eb2906acd")
             ) {
                 composable(
                     NavRoutes.MAIN
@@ -129,6 +130,18 @@ fun AppNavHost(
                     val locationId = backStackEntry.arguments?.getString("locationId")
 
                     DailyScreen(navController, index, locationId!!)
+                }
+                composable(
+                    route = "${NavRoutes.ALERTS}/{locationId}",
+                    arguments = listOf(
+                        navArgument("locationId") {
+                            type = NavType.StringType
+                        }
+                    )
+                ) { backStackEntry ->
+                    val locationId = backStackEntry.arguments?.getString("locationId")
+
+                    AlertsScreen(navController, locationId!!)
                 }
                 composable(
                     NavRoutes.ABOUT
