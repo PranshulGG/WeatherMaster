@@ -17,7 +17,7 @@ class GithubRepository @Inject constructor(
         if (getSavedVersionInfo != null && getSavedVersionInfo.currentTag == currentTag) {
 
             val ageMillis = System.currentTimeMillis() - getSavedVersionInfo.lastFetchedTime
-            val maxAgeMillis = TimeUnit.HOURS.toMillis(24)
+            val maxAgeMillis = TimeUnit.HOURS.toMillis(2)
 
             if (ageMillis < maxAgeMillis) {
                 return@withContext getSavedVersionInfo.lastFetchedTag != currentTag
