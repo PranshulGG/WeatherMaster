@@ -11,12 +11,20 @@ import com.pranshulgg.weather_master_app.core.ui.components.SettingsTileIcon
 fun LocationScreenSheetContent(
     locationName: String,
     onDelete: () -> Unit,
-    onSetAsDefault: () -> Unit
+    onSetAsDefault: () -> Unit,
+    onEdit: () -> Unit
 ) {
     SettingSection(
         isModalOption = true,
         title = locationName,
         tiles = listOf(
+            SettingTile.ActionTile(
+                leading = { SettingsTileIcon(R.drawable.edit_24px) },
+                title = stringResource(R.string.location_edit),
+                onClick = {
+                    onEdit()
+                }
+            ),
             SettingTile.ActionTile(
                 leading = { SettingsTileIcon(R.drawable.delete_24px) },
                 title = stringResource(R.string.action_delete),

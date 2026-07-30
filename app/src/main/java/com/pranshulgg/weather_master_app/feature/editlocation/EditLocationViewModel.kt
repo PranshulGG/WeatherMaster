@@ -80,4 +80,18 @@ class EditLocationViewModel @Inject constructor(
     fun hideEditLocationNameSheet() {
         _uiState.value = _uiState.value.copy(isEditLocationNameSheetOpen = false)
     }
+
+    fun showConfirmationDialog() {
+        _uiState.value = _uiState.value.copy(isConfirmationDialogOpen = true)
+    }
+
+    fun hideConfirmationDialog() {
+        _uiState.value = _uiState.value.copy(isConfirmationDialogOpen = false)
+    }
+
+    fun updateDefaultLocation(id: String) {
+        viewModelScope.launch {
+            locationsRepo.updateDefaultLocation(id)
+        }
+    }
 }

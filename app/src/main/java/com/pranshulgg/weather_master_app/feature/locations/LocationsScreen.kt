@@ -64,8 +64,7 @@ fun LocationsScreen(
     onLocationSelect: (Location) -> Unit,
     isTabletLike: Boolean = false,
     weatherViewModel: WeatherViewModel,
-
-    ) {
+) {
 
     val viewModel: LocationsScreenViewModel = hiltViewModel()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -139,7 +138,9 @@ fun LocationsScreen(
 
 
     LocationScreenConfirmationDialog(weatherViewModel, viewModel)
-    LocationScreenSheet(viewModel, sheetState)
+    LocationScreenSheet(viewModel, sheetState, onEdit = {
+        navController.navigate(NavRoutes.editLocation(uiState.value.longClickedLocation!!.id))
+    })
 
     SharedDialogs.DeviceBackgroundLocationPermissionInfoDialog(
         show = backgroundLocationPermissionInfoDialogOpen,

@@ -13,7 +13,8 @@ import com.pranshulgg.weather_master_app.feature.locations.components.LocationSc
 @Composable
 fun LocationScreenSheet(
     viewModel: LocationsScreenViewModel,
-    sheetState: SheetState
+    sheetState: SheetState,
+    onEdit: () -> Unit
 ) {
 
     val uiState = viewModel.uiState.value
@@ -42,6 +43,10 @@ fun LocationScreenSheet(
                     if (uiState.longClickedLocation != null && !uiState.longClickedLocation.isDefault) {
                         viewModel.updateDefaultLocation(uiState.longClickedLocation.id)
                     }
+                },
+                onEdit = {
+                    hide()
+                    onEdit()
                 }
             )
 
