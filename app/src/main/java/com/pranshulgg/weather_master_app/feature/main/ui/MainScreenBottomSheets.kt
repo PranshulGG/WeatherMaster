@@ -20,6 +20,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.sources.AirQualitySource
+import com.pranshulgg.weather_master_app.core.model.sources.AlertSource
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.core.ui.components.ActionBottomSheet
 import com.pranshulgg.weather_master_app.core.ui.components.DialogBasic
@@ -64,20 +66,38 @@ object MainScreenBottomSheets {
                         )
                     )
                 )
-                Gap(8.dp)
-                SettingSection(
-                    title = stringResource(R.string.weather_air_quality),
-                    tiles = listOf(
-                        SettingTile.ActionTile(
-                            title = location.airQualitySource.fullName,
-                            description = location.airQualitySource.displayLink,
-                            trailing = { SettingsTileIcon(R.drawable.open_in_new_24px) },
-                            onClick = {
-                                uriHandler.openUri(location.airQualitySource.displayLink)
-                            }
+                if (location.airQualitySource != AirQualitySource.NONE) {
+                    Gap(8.dp)
+                    SettingSection(
+                        title = stringResource(R.string.weather_air_quality),
+                        tiles = listOf(
+                            SettingTile.ActionTile(
+                                title = location.airQualitySource.fullName,
+                                description = location.airQualitySource.displayLink,
+                                trailing = { SettingsTileIcon(R.drawable.open_in_new_24px) },
+                                onClick = {
+                                    uriHandler.openUri(location.airQualitySource.displayLink)
+                                }
+                            )
                         )
                     )
-                )
+                }
+                if (location.alertSource != AlertSource.NONE) {
+                    Gap(8.dp)
+                    SettingSection(
+                        title = "Alerts",
+                        tiles = listOf(
+                            SettingTile.ActionTile(
+                                title = location.alertSource.fullName,
+                                description = location.alertSource.displayLink,
+                                trailing = { SettingsTileIcon(R.drawable.open_in_new_24px) },
+                                onClick = {
+                                    uriHandler.openUri(location.alertSource.displayLink)
+                                }
+                            )
+                        )
+                    )
+                }
             }
         }
     }
