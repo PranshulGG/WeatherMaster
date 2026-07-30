@@ -326,5 +326,8 @@
     <string name="alert_severity_medium">Vidutinė</string>
     <string name="alert_severity_low">Žemas</string>
     <string name="alert_severity_unknown">Nežinoma</string>
+    <string name="confirm_delete_location">Pašalinti vietovę</string>
+    <string name="alert_delete_location_secondary">Ar tikrai norite pašalinti šią vietovę?</string>
+    <string name="weather_alerts">Įspėjimai</string>
 </resources>
 <!--<string name=""></string>-->
