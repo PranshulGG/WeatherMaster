@@ -274,9 +274,9 @@
     <string name="settings_24hr_time">Usar formato 24h</string>
     <string name="about_email">Email</string>
     <string name="settings_source_request_title">¿Quieres que una fuente sea añadida? Puedes sugerirla aquí </string>
-    <string name="action_request">Request</string>
-    <string name="source_credits_label">%1$s and more</string>
-    <string name="weather_wind_direction_from">From %1$s</string>
+    <string name="action_request">Pedido</string>
+    <string name="source_credits_label">%1$s y más</string>
+    <string name="weather_wind_direction_from">Desde %1$s</string>
     <string name="day_length_hr">%1$s horas</string>
     <string name="error_no_results">No se han encontrado resultados </string>
     <string name="summary_overview_template_same_condition">Se mantendrá %1$s durante el día y la noche.</string>
@@ -290,7 +290,7 @@
     <string name="summary_temp_template_extreme">Expect extreme heat during the day with a high of %1$s. Temperatures will ease to around %2$s tonight.</string>
     <string name="summary_temp_template_warm">It will be warm during the day with highs near %1$s. Tonight, temperatures will fall to around %2$s.</string>
     <string name="summary_temp_template_mild">A mild day is expected with temperatures reaching %1$s. Overnight, it\'ll cool to around %2$s.</string>
-    <string name="summary_temp_template_cool">It will be cool during the day with highs around %1$s. Tonight, temperatures will drop to about %2$s.</string>
+    <string name="summary_temp_template_cool">Hará frío durante el día, con máximas cercanas a %1$s. Esta noche, las temperaturas bajarán alrededor de %2$s</string>
     <string name="summary_temp_template_cold">Cold weather continues with daytime temperatures around %1$s. Overnight, lows will fall to around %2$s.</string>
     <string name="summary_overview_template_day_condition">It will be %1$s during the day.</string>
     <string name="summary_overview_template_night_condition">Conditions will turn %1$s at night.</string>
@@ -314,4 +314,11 @@
     <string name="weather_aqi_source">Air quality source</string>
     <string name="location_name">Location name</string>
     <string name="location_info">Location information</string>
-</resources><!--<string name=""></string>-->
+    <string name="location_long_press_info">Long press a location for more options</string>
+    <string name="alert_severity_critical">Critical</string>
+    <string name="alert_severity_high">Alto</string>
+    <string name="alert_severity_medium">Medium</string>
+    <string name="alert_severity_low">Bajo</string>
+    <string name="alert_severity_unknown">Unknown</string>
+</resources>
+<!--<string name=""></string>-->

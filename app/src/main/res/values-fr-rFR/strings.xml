@@ -314,4 +314,11 @@
     <string name="weather_aqi_source">Source des données de qualité de l\'air</string>
     <string name="location_name">Nom de l’emplacement</string>
     <string name="location_info">Informations sur l\'emplacement</string>
-</resources><!--<string name=""></string>-->
+    <string name="location_long_press_info">Faites un appui long sur un emplacement pour afficher plus d\'options</string>
+    <string name="alert_severity_critical">Critique</string>
+    <string name="alert_severity_high">Élevé</string>
+    <string name="alert_severity_medium">Moyen</string>
+    <string name="alert_severity_low">Faible</string>
+    <string name="alert_severity_unknown">Inconnu</string>
+</resources>
+<!--<string name=""></string>-->
