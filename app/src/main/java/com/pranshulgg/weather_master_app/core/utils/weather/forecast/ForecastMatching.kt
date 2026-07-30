@@ -34,7 +34,8 @@ fun findMatchingHourly(
     data: List<WeatherHourly>,
     currentMilli: Long,
     source: WeatherSource,
-    zoneId: String
+    zoneId: String,
+    alwaysReturn24Hrs: Boolean = false
 ): List<WeatherHourly> {
 
 
@@ -44,7 +45,12 @@ fun findMatchingHourly(
         return emptyList()
     }
     val startDay = data[startIndex].time
-    return data.drop(maxOf(0, startIndex)).takeWhile { isSameDay(it.time, startDay, zoneId) }
+
+    return if (alwaysReturn24Hrs) {
+        data.drop(maxOf(0, startIndex)).take(24)
+    } else {
+        data.drop(maxOf(0, startIndex)).takeWhile { isSameDay(it.time, startDay, zoneId) }
+    }
 
 
 }
