@@ -320,5 +320,11 @@
     <string name="weather_aqi_source">Oro kokybės šaltinis</string>
     <string name="location_name">Vietovės pavadinimas</string>
     <string name="location_info">Vietovės informacija</string>
+    <string name="location_long_press_info">Palaikykite ant vietovės, kad pasirodytų daugiau parinkčių</string>
+    <string name="alert_severity_critical">Kritinė</string>
+    <string name="alert_severity_high">Aukštas</string>
+    <string name="alert_severity_medium">Vidutinė</string>
+    <string name="alert_severity_low">Žemas</string>
+    <string name="alert_severity_unknown">Nežinoma</string>
 </resources>
 <!--<string name=""></string>-->
