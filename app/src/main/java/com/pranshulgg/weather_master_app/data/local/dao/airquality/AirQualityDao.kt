@@ -18,9 +18,9 @@ interface AirQualityDao {
         hourlyAirQuality: List<HourlyAirQualityEntity>,
         id: String
     ) {
-        insertCurrentAirQuality(currentAirQuality)
-
+        deleteCurrentAirQuality(id)
         deleteHourlyAirQuality(id)
+        insertCurrentAirQuality(currentAirQuality)
         insertHourlyAirQuality(hourlyAirQuality)
     }
 

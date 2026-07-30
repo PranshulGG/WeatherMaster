@@ -221,7 +221,7 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
                 dawn = sunTimings[index].dawn ?: 0L,
                 dusk = sunTimings[index].dusk ?: 0L,
                 pressureMsl = null,
-                visibility = minVisibility.roundToInt(),
+                visibility = minVisibility?.roundToInt(),
                 humidity = avgHumidity,
                 dewPoint = avgDewPoint
             )
@@ -314,7 +314,7 @@ private fun <T> matchingMinMaxTemperature(
 
 
 private fun getRainSum(
-    data: Map<Long, Double>,
+    data: Map<Long, Double?>,
     time: Long
 ): Double {
 
@@ -330,7 +330,7 @@ private fun getRainSum(
 }
 
 private fun getSnowfallSum(
-    data: Map<Long, Double>,
+    data: Map<Long, Double?>,
     time: Long
 ): Double {
 
@@ -346,16 +346,16 @@ private fun getSnowfallSum(
 }
 
 private fun getMinVisibility(
-    data: Map<Long, Double>,
+    data: Map<Long, Double?>,
     time: Long
-): Double {
+): Double? {
     val startIndex = data.toList().indexOfFirst { it.first >= time }.takeIf { it != -1 } ?: 0
 
     val data = data.toList().drop(maxOf(0, startIndex))
         .take(WeatherSource.NWS.hourlyAggregationLimitHours)
 
 
-    val minVisibility = data.minOf { it.second ?: 0.0 }
+    val minVisibility = data.mapNotNull { it.second }.minOfOrNull { it }
 
     return minVisibility
 }

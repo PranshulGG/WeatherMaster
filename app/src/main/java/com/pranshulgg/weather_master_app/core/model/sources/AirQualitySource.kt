@@ -16,6 +16,6 @@ enum class AirQualitySource(
         displayName = "Open Meteo",
         fullName = "Open Meteo",
         displayLink = "https://open-meteo.com/"
-    ),
+    )
 
 }

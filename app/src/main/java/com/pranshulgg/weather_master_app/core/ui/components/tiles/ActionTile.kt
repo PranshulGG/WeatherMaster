@@ -24,7 +24,8 @@ fun ActionTile(
     danger: Boolean = false,
     itemBgColor: Color,
     selected: Boolean = false,
-    trailing: @Composable (() -> Unit)? = null
+    trailing: @Composable (() -> Unit)? = null,
+    overline: @Composable (() -> Unit)? = null,
 ) {
 
     Surface(
@@ -55,6 +56,7 @@ fun ActionTile(
                     )
                 }
             },
+            overlineContent = overline,
             trailingContent = trailing
         )
     }

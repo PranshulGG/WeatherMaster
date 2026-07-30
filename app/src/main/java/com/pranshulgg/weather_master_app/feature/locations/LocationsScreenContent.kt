@@ -28,6 +28,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weather_master_app.R
+import com.pranshulgg.weather_master_app.core.model.domain.alerts.Alert
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherCondition
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
@@ -46,10 +47,12 @@ fun LocationsScreenContent(
     activeLocation: Location? = null,
     weatherForLocations: List<Weather> = emptyList(),
     onAddCurrentLocation: () -> Unit,
-    isDeviceLocationLoading: Boolean
+    isDeviceLocationLoading: Boolean,
+    alerts: List<Alert?>
 ) {
 
     val weatherMap = weatherForLocations.associateBy { it.location.id }
+    val alertMap = alerts.groupBy { it?.locationId }
     val context = LocalContext.current
 
 
@@ -79,6 +82,8 @@ fun LocationsScreenContent(
             }
             itemsIndexed(locations, key = { _, item -> item.id }) { index, location ->
                 val weather = weatherMap[location.id]
+
+                val alert = alertMap[location.id] ?: emptyList()
 
                 val icon = weather?.current?.weatherCondition
                     ?: WeatherCondition.NO_CONDITION_FOUND
@@ -129,7 +134,8 @@ fun LocationsScreenContent(
                     onLongClick = { onLongClick(location) },
                     isDefault = location.isDefault,
                     isDeviceLocation = location.isDeviceLocation,
-                    shape = shape
+                    shape = shape,
+                    isAlertAvailable = alert.isNotEmpty()
                 )
 
 

@@ -2,7 +2,10 @@ package com.pranshulgg.weather_master_app.core.di.network
 
 import com.pranshulgg.weather_master_app.core.network.github.GithubApi
 import com.pranshulgg.weather_master_app.core.network.sources.address.nominatim.NominatimApi
+import com.pranshulgg.weather_master_app.core.network.sources.airquality.accu.AccuAqiApi
 import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo.OpenMeteoAqiApi
+import com.pranshulgg.weather_master_app.core.network.sources.alerts.accu.AlertsAccuApi
+import com.pranshulgg.weather_master_app.core.network.sources.alerts.weatherapi.AlertsWeatherApi
 import com.pranshulgg.weather_master_app.core.network.sources.search.geonames.GeoNamesSearchApi
 import com.pranshulgg.weather_master_app.core.network.sources.search.geonames.timezone.GeoNamesTimezoneApi
 import com.pranshulgg.weather_master_app.core.network.sources.search.openmeteo.OpenMeteoSearchApi
@@ -99,4 +102,16 @@ object ApiModule {
     @Provides
     @Singleton
     fun provideMeteoamApi(): MeteoamApi = MeteoamApi.create()
+
+    @Provides
+    @Singleton
+    fun provideAccuAqiApi(): AccuAqiApi = AccuAqiApi.create()
+
+    @Provides
+    @Singleton
+    fun provideAlertsAccuApi(): AlertsAccuApi = AlertsAccuApi.create()
+
+    @Provides
+    @Singleton
+    fun provideAlertsWeatherApi(): AlertsWeatherApi = AlertsWeatherApi.create()
 }

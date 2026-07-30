@@ -30,6 +30,7 @@ import com.pranshulgg.weather_master_app.core.ui.components.Tooltip
 import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
 import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
 import com.pranshulgg.weather_master_app.core.ui.theme.isThemeDark
+import com.pranshulgg.weather_master_app.core.utils.weather.location.getFullLocationName
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -51,20 +52,6 @@ fun MainSearchBar(
             }
         }
     }
-
-    val locationText = activeLocation?.let {
-        buildString {
-            append(activeLocation.name)
-            if (activeLocation.country.isNotBlank()) {
-                append(", ")
-            }
-            if (activeLocation.state.isNotBlank()) {
-                append(activeLocation.state)
-                append(", ")
-            }
-            append(activeLocation.country)
-        }
-    } ?: "••••"
 
 
     Surface(
@@ -107,7 +94,7 @@ fun MainSearchBar(
             }
             Gap(horizontal = 4.dp)
             Text(
-                locationText,
+                getFullLocationName(activeLocation),
                 color = if (isFroggyLayout) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.weight(1f),

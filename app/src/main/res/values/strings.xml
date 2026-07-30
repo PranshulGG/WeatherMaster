@@ -381,6 +381,20 @@
     <string name="weather_aqi_source">Air quality source</string>
     <string name="location_name">Location name</string>
     <string name="location_info">Location information</string>
+    <string name="location_long_press_info">Long press a location for more options</string>
+
+    <string name="alert_severity_critical">Critical</string>
+    <string name="alert_severity_high">High</string>
+    <string name="alert_severity_medium">Medium</string>
+    <string name="alert_severity_low">Low</string>
+    <string name="alert_severity_unknown">Unknown</string>
+
+    <string name="confirm_delete_location">Delete Location</string>
+    <string name="alert_delete_location_secondary">Are you sure you want to delete this location?</string>
+
+
+    <string name="weather_alerts">Alerts</string>
+
 </resources>
 
     <!--<string name=""></string>-->

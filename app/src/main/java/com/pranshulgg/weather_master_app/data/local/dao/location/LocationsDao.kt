@@ -6,7 +6,9 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import com.pranshulgg.weather_master_app.core.model.sources.AirQualitySource
+import com.pranshulgg.weather_master_app.core.model.sources.AlertSource
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.data.local.entity.alerts.AlertEntity
 import com.pranshulgg.weather_master_app.data.local.entity.location.WeatherLocationEntity
 import com.pranshulgg.weather_master_app.data.local.entity.weather.WeatherWithRelations
 import kotlinx.coroutines.flow.Flow
@@ -79,4 +81,12 @@ interface LocationsDao {
 
     @Query("UPDATE weather_locations SET airQualitySource = :source WHERE id = :id")
     suspend fun updateAirQualitySourceForLocation(id: String, source: AirQualitySource)
+
+    @Query("UPDATE weather_locations SET alertSource = :source WHERE id = :id")
+    suspend fun updateAlertSourceForLocation(id: String, source: AlertSource)
+
+
+    @Query("UPDATE weather_locations SET customName = :name WHERE id = :id")
+    suspend fun updateLocationCustomName(id: String, name: String?)
+
 }

@@ -24,6 +24,9 @@ val mfKey = providers.gradleProperty("MF_KEY").orNull ?: System.getenv("MF_KEY")
 ?: ""
 val accuKey = providers.gradleProperty("ACCU_KEY").orNull ?: System.getenv("ACCU_KEY")
 ?: ""
+val weatherapiKey =
+    providers.gradleProperty("WEATHERAPI_KEY").orNull ?: System.getenv("WEATHERAPI_KEY")
+    ?: ""
 val keystoreFile = file("../keystore/release.jks")
 val hasKeystore = keystoreFile.exists()
 
@@ -59,6 +62,12 @@ android {
             "String",
             "ACCU_KEY",
             "\"$accuKey\""
+        )
+
+        buildConfigField(
+            "String",
+            "WEATHERAPI_KEY",
+            "\"$weatherapiKey\""
         )
     }
 

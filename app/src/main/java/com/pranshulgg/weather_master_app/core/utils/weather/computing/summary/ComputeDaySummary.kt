@@ -13,6 +13,7 @@ import com.pranshulgg.weather_master_app.core.prefs.AppPrefsState
 import com.pranshulgg.weather_master_app.core.utils.formatters.safeZoneId
 import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
 import com.pranshulgg.weather_master_app.core.utils.weather.computing.computeDailyWeatherCondition
+import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findHourlyIndexForTime
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findMatchingHourly
 import java.time.Instant
 import java.time.format.DateTimeFormatter
@@ -33,8 +34,13 @@ fun computeDaySummary(
     )
 
 
+    val currentIndex = findHourlyIndexForTime(
+        hourly.map { it.time },
+        weather.current.time
+    )
 
-    val (day, night) = hourly.partition { forecast ->
+
+    val (day, night) = hourly.drop(currentIndex).partition { forecast ->
 
         // consider 6am to 5pm daytime
         toHour(forecast.time, weather.location.timezone).toInt() in 6..17
@@ -159,3 +165,4 @@ private fun toHour(timeMilli: Long, zoneId: String): String {
 
     return formatter.format(instant)
 }
+

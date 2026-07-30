@@ -1,18 +1,20 @@
 package com.pranshulgg.weather_master_app.data.repository
 
 import android.content.Context
-import android.util.Log
 import androidx.room.Transaction
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQuality
+import com.pranshulgg.weather_master_app.core.model.domain.alerts.Alert
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.sources.AirQualitySource
+import com.pranshulgg.weather_master_app.core.model.sources.AlertSource
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.core.network.sources.address.nominatim.json.NominatimRepository
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
 import com.pranshulgg.weather_master_app.data.local.mapper.airquality.toDomain
+import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.locations.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.locations.toEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDomain
@@ -23,11 +25,9 @@ import com.pranshulgg.weather_master_app.feature.intro.toDomain
 import dagger.hilt.android.qualifiers.ApplicationContext
 import jakarta.inject.Inject
 import kotlinx.coroutines.CancellableContinuation
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.withContext
 import java.time.ZoneId
 import kotlin.coroutines.resumeWithException
 
@@ -79,10 +79,17 @@ class LocationsRepository @Inject constructor(
         dao.updateAirQualitySourceForLocation(id, source)
     }
 
+    suspend fun updateAlertSourceForLocation(id: String, source: AlertSource) {
+        dao.updateAlertSourceForLocation(id, source)
+    }
+
     suspend fun getLocationForId(id: String): Location {
         return dao.getLocationForId(id).toDomain()
     }
 
+    suspend fun updateLocationCustomName(id: String, name: String?) {
+        dao.updateLocationCustomName(id, name)
+    }
 
     @Transaction
     suspend fun saveLocation(location: Location) {
@@ -204,6 +211,8 @@ class LocationsRepository @Inject constructor(
         return dao.getAllLocationsCurrentWeather()
             .map { list -> list.map { it.toDomain() } }
     }
+
+
 }
 
 

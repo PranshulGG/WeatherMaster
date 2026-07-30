@@ -6,8 +6,10 @@ import com.pranshulgg.weather_master_app.core.model.weather.airquality.AirQualit
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isCurrentAirQualitySafe
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnAirQualityCache
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
+import com.pranshulgg.weather_master_app.data.local.mapper.airquality.sources.openmeteo.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.airquality.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.airquality.toEntity
+import com.pranshulgg.weather_master_app.data.repository.AirQualityRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.net.UnknownHostException
@@ -16,16 +18,17 @@ import javax.inject.Inject
 class OpenMeteoAqiRepository @Inject constructor(
     private val api: OpenMeteoAqiApi,
     private val dao: AirQualityDao
-) {
+) : AirQualityRepository {
 
-    suspend fun getAirQuality(
+    override suspend fun getAirQuality(
         location: Location,
-        isManualRefresh: Boolean
+        isManualRefresh: Boolean,
+        isForceRefresh: Boolean
     ): AirQualityResult = withContext(Dispatchers.IO) {
 
 
         val cache = dao.getAirQualityForLocation(location.id)
-        val shouldReturnCache = shouldReturnAirQualityCache(cache, isManualRefresh)
+        val shouldReturnCache = shouldReturnAirQualityCache(cache, isManualRefresh, isForceRefresh)
 
         when (shouldReturnCache) {
             AirQualityResultType.RETURN_CACHE -> return@withContext AirQualityResult.Success(cache!!.toDomain())

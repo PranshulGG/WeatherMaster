@@ -41,6 +41,7 @@ import com.pranshulgg.weather_master_app.core.utils.formatters.to24HourTimeStrin
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherHourlyDomainSafe
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findMatchingDaily
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findMatchingHourly
+import com.pranshulgg.weather_master_app.core.utils.weather.forecast.isSameDay
 import com.pranshulgg.weather_master_app.feature.blocks.components.NoHourlyDataAvailable
 import com.pranshulgg.weather_master_app.feature.shared.components.CardsHeader
 import java.time.ZoneId
@@ -64,7 +65,8 @@ fun HourlyCard(
             weather.hourly,
             currentMilli,
             weather.location.source,
-            weather.location.timezone
+            weather.location.timezone,
+            alwaysReturn24Hrs = true
 
         )
 
@@ -123,7 +125,8 @@ fun HourlyCard(
                         precipitationProbability = item.precipitationProbability ?: 0,
                         temperature = temperature,
                         isNow = index == 0,
-                        icon = item.weatherCondition.toIcon(matchingDaily, item.time)
+                        icon = item.weatherCondition.toIcon(matchingDaily, item.time),
+                        isSameDay = isSameDay(item.time, currentMilli, weather.location.timezone)
                     )
 
                     if (index == filteredHourly.size - 1) Gap(horizontal = 10.dp)
@@ -141,12 +144,14 @@ private fun HourlyItem(
     precipitationProbability: Int,
     temperature: Double?,
     isNow: Boolean,
-    icon: Int
+    icon: Int,
+    isSameDay: Boolean = true
 ) {
 
     Column(
         modifier = Modifier
             .height(120.dp)
+            .alpha(if (!isSameDay) 0.6f else 1f)
             .padding(horizontal = 4.dp),
         verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.CenterHorizontally

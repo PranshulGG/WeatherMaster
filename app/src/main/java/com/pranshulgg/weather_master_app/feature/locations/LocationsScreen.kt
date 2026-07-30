@@ -62,17 +62,19 @@ fun LocationsScreen(
     locations: List<Location>,
     activeLocation: Location?,
     onLocationSelect: (Location) -> Unit,
-    isTabletLike: Boolean = false
+    isTabletLike: Boolean = false,
+    weatherViewModel: WeatherViewModel,
 ) {
 
     val viewModel: LocationsScreenViewModel = hiltViewModel()
-    val weatherViewModel: WeatherViewModel = hiltViewModel()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val uiState = viewModel.uiState
 
     val weatherForLocations by viewModel.allLocationsWeather.collectAsStateWithLifecycle(
         initialValue = emptyList()
     )
+
+    val alertsForLocations by viewModel.allLocationsAlerts.collectAsStateWithLifecycle(initialValue = emptyList())
 
     var backgroundLocationPermissionInfoDialogOpen by remember { mutableStateOf(false) }
     var locationPermissionInfoDialogOpen by remember { mutableStateOf(false) }
@@ -110,7 +112,7 @@ fun LocationsScreen(
         floatingActionButton = {
             FloatingButton(navController)
         },
-        floatingActionButtonPosition = FabPosition.Center
+        floatingActionButtonPosition = FabPosition.Center,
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -128,14 +130,17 @@ fun LocationsScreen(
                 activeLocation = activeLocation,
                 weatherForLocations,
                 onAddCurrentLocation = { locationPermissionInfoDialogOpen = true },
-                uiState.value.isDeviceLocationLoading
+                uiState.value.isDeviceLocationLoading,
+                alertsForLocations
             )
         }
     }
 
 
     LocationScreenConfirmationDialog(weatherViewModel, viewModel)
-    LocationScreenSheet(viewModel, sheetState)
+    LocationScreenSheet(viewModel, sheetState, onEdit = {
+        navController.navigate(NavRoutes.editLocation(uiState.value.longClickedLocation!!.id))
+    })
 
     SharedDialogs.DeviceBackgroundLocationPermissionInfoDialog(
         show = backgroundLocationPermissionInfoDialogOpen,
@@ -184,6 +189,13 @@ private fun TopBar(onBack: () -> Unit, isTabletLike: Boolean) {
                         )
                     }
                 }
+            }
+        },
+        actions = {
+            IconButton(onClick = {
+                SnackbarManager.show(R.string.location_long_press_info)
+            }, shapes = IconButtonDefaults.shapes()) {
+                Symbol(R.drawable.info_24px)
             }
         }
     )

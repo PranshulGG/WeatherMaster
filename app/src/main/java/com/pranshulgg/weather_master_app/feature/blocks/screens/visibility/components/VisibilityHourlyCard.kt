@@ -97,7 +97,7 @@ fun VisibilityHourlyCard(
                     val percentage = ((item.visibility!!.minus(visibilityMin))
                         .div((visibilityMax - visibilityMin))).times(100.0)
 
-                    val barHeight = max((percentage.div(100.0)).times(140.0), 5.0)
+                    val barHeight = max((percentage.div(100.0)).times(140.0), 5.0).coerceAtMost(140.0)
 
 
                     val visibilityKm =

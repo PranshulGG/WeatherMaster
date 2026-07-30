@@ -82,6 +82,7 @@ sealed class SettingTile {
         val danger: Boolean = false,
         val selected: Boolean = false,
         val trailing: (@Composable (() -> Unit))? = null,
+        val overline: (@Composable (() -> Unit))? = null,
     ) : SettingTile()
 
 
@@ -216,7 +217,8 @@ fun SettingSection(
                     danger = tile.danger,
                     itemBgColor = itemBgColor,
                     selected = tile.selected,
-                    trailing = tile.trailing
+                    trailing = tile.trailing,
+                    overline = tile.overline
                 )
 
                 is SettingTile.SwitchTile -> SwitchTile(

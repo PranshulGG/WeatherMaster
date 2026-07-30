@@ -1,12 +1,9 @@
 package com.pranshulgg.weather_master_app.core.utils.weather.computing.summary
 
 import android.content.Context
-import android.util.Log
-import androidx.compose.ui.res.stringResource
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnit
-import com.pranshulgg.weather_master_app.core.prefs.AppPrefsState
 import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
 import com.pranshulgg.weather_master_app.core.utils.formatters.to12HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.formatters.to24HourTimeString
@@ -134,6 +131,7 @@ fun getHeadline(
     val uvSentence = when {
         peakUv.uv >= 10 ->
             listOf(
+
                 context.getString(R.string.summary_uv_extreme_template_1, peakUvAt),
                 context.getString(R.string.summary_uv_extreme_template_2, peakUvAt),
                 context.getString(R.string.summary_uv_extreme_template_3, peakUvAt)

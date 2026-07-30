@@ -17,6 +17,7 @@ import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.LoadingIndicator
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
@@ -31,9 +32,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
+import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
 import com.pranshulgg.weather_master_app.feature.main.components.CreditsBottomSection
 import com.pranshulgg.weather_master_app.feature.main.components.FroggyContainer
 import com.pranshulgg.weather_master_app.feature.main.components.MainSearchBar
+import com.pranshulgg.weather_master_app.feature.main.ui.AlertsSection
 import com.pranshulgg.weather_master_app.feature.main.ui.BackgroundGradient
 import com.pranshulgg.weather_master_app.feature.main.ui.CurrentWeatherCard
 import com.pranshulgg.weather_master_app.feature.main.ui.weatherAnimations.WeatherAnimations
@@ -60,6 +63,7 @@ fun MainScreenScaffold(
     val weather = remember(uiState.weather) { uiState.weather }
     val airQuality = remember(uiState.airQuality) { uiState.airQuality }
     val prefs = LocalAppPrefs.current
+    val alerts = remember(uiState.alerts) { uiState.alerts }
 
     val units = uiState.weatherUnits
     val scrollState = rememberScrollState()
@@ -156,6 +160,20 @@ fun MainScreenScaffold(
                                 ),
                                 verticalArrangement = Arrangement.spacedBy(14.dp)
                             ) {
+                                if (alerts.isNotEmpty()) {
+                                    AlertsSection(
+                                        alerts,
+                                        prefs,
+                                        weather.location.timezone,
+                                        onAlertClick = {
+                                            navController.navigate(
+                                                NavRoutes.alerts(
+                                                    weather.location.id
+                                                )
+                                            )
+                                        }
+                                    )
+                                }
                                 if (isShowSummary) {
                                     SummaryCard(
                                         weather,

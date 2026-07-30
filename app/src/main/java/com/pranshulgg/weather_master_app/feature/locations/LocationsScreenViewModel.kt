@@ -10,6 +10,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.toMessageRes
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
+import com.pranshulgg.weather_master_app.data.repository.AlertsRepository
 import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
@@ -20,10 +21,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LocationsScreenViewModel @Inject constructor(
-    private val locationsRepo: LocationsRepository
+    private val locationsRepo: LocationsRepository,
+    private val alertsRepository: AlertsRepository
 ) : ViewModel() {
 
     val allLocationsWeather = locationsRepo.getWeatherForAllLocations().stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = emptyList()
+    )
+
+    val allLocationsAlerts = alertsRepository.getAllLocationsAlerts().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = emptyList()

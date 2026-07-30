@@ -1,8 +1,6 @@
 package com.pranshulgg.weather_master_app.feature.editlocation
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,6 +27,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -38,15 +37,16 @@ import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.sources.AirQualitySource
 import com.pranshulgg.weather_master_app.core.model.sources.AlertSource
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
-import com.pranshulgg.weather_master_app.core.model.sources.getWeatherSourcesForCountry
-import com.pranshulgg.weather_master_app.core.model.sources.getWeatherSourcesGlobal
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weather_master_app.core.ui.components.SettingSection
 import com.pranshulgg.weather_master_app.core.ui.components.SettingTile
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
+import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weather_master_app.feature.editlocation.ui.EditLocationBottomSheet
+import com.pranshulgg.weather_master_app.feature.editlocation.ui.EditLocationScreenDialogs
+import com.pranshulgg.weather_master_app.feature.shared.WeatherViewModel
 import com.pranshulgg.weather_master_app.feature.shared.ui.SharedBottomSheet
 
 
@@ -58,13 +58,15 @@ data class EditLocationScreenUiState(
     val selectedAirQualitySource: AirQualitySource? = null,
     val isAlertSourcesSheetOpen: Boolean = false,
     val isAirQualitySourcesSheetOpen: Boolean = false,
-    val isEditLocationNameSheetOpen: Boolean = false
+    val isEditLocationNameSheetOpen: Boolean = false,
+    val isConfirmationDialogOpen: Boolean = false
 )
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun EditLocationScreen(
-    navController: NavController, id: String
+    navController: NavController, id: String,
+    weatherViewModel: WeatherViewModel
 ) {
 
     val viewModel: EditLocationViewModel = hiltViewModel()
@@ -76,7 +78,6 @@ fun EditLocationScreen(
 
     if (uiState.location == null) return
 
-    val btnSize = ButtonDefaults.MediumContainerHeight
 
     val sheetState = rememberBottomSheetState(
         initialValue = SheetValue.Hidden,
@@ -125,11 +126,12 @@ fun EditLocationScreen(
                             viewModel.showEditLocationNameSheet()
                         },
                         trailing = {
-                            IconButton(onClick = { currentLocationName = locationName }) {
+                            IconButton(onClick = { currentLocationName = locationText }) {
                                 Symbol(R.drawable.refresh_24px)
                             }
                         },
-                        colorDesc = colorDesc
+                        colorDesc = colorDesc,
+                        overline = { Text("Requires restart") }
                     )
                 )
             )
@@ -174,27 +176,47 @@ fun EditLocationScreen(
                 modifier = Modifier.padding(top = 10.dp, start = 16.dp, end = 16.dp)
             )
             Gap(26.dp)
-            Button(
-                modifier = Modifier
-                    .heightIn(btnSize)
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                onClick = { /* Handle click */ },
-                shapes = ButtonDefaults.shapes(),
-                contentPadding = ButtonDefaults.contentPaddingFor(btnSize),
-            ) {
-                Symbol(
-                    R.drawable.check_24px,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    size = ButtonDefaults.iconSizeFor(btnSize)
-                )
-                Gap(horizontal = ButtonDefaults.iconSpacingFor(btnSize))
-                Text(
-                    stringResource(R.string.action_save_changes),
-                    style = ButtonDefaults.textStyleFor(btnSize),
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
-            }
+            ButtonWithIcon(
+                onClick = {
+                    viewModel.saveLocationName(
+                        if (currentLocationName.trim() == locationText.trim()) null else currentLocationName.trim(),
+                        uiState.location.id
+                    )
+
+                    navController.popBackStack()
+                    weatherViewModel.handleSourceChangeForWeather(
+                        uiState.location,
+                        uiState.selectedWeatherSource ?: uiState.location.source,
+                        uiState.selectedAirQualitySource ?: uiState.location.airQualitySource,
+                        uiState.selectedAlertSource ?: uiState.location.alertSource
+                    )
+                },
+                text = stringResource(R.string.action_save_changes),
+                icon = R.drawable.check_24px
+            )
+            Gap(8.dp)
+            ButtonWithIcon(
+                onClick = {
+                    viewModel.updateDefaultLocation(uiState.location.id)
+                    navController.popBackStack()
+                },
+                text = stringResource(R.string.action_set_default),
+                icon = R.drawable.home_pin_24px,
+            )
+            Gap(8.dp)
+            ButtonWithIcon(
+                onClick = {
+                    if (uiState.location.isDefault) {
+                        SnackbarManager.show(R.string.error_delete_default_location)
+                        return@ButtonWithIcon
+                    }
+                    viewModel.showConfirmationDialog()
+                },
+                text = stringResource(R.string.action_delete),
+                icon = R.drawable.delete_24px,
+                containerColor = MaterialTheme.colorScheme.errorContainer,
+                contentColor = MaterialTheme.colorScheme.onErrorContainer
+            )
 
             // WEATHER SOURCES SHEET
             SharedBottomSheet.WeatherSourcesForLocationSheet(
@@ -248,9 +270,58 @@ fun EditLocationScreen(
                 value = currentLocationName,
             )
 
-            Gap(WindowInsets.systemBars.asPaddingValues().calculateBottomPadding())
+            // CONFIRMATION DIALOG
+            EditLocationScreenDialogs.EditLocationScreenConfirmationDialog(
+                viewModel,
+                onConfirm = {
+                    weatherViewModel.deleteLocation(uiState.location.id)
+                    viewModel.hideConfirmationDialog()
+                    navController.popBackStack()
+                }
+            )
         }
+
+        Gap(WindowInsets.systemBars.asPaddingValues().calculateBottomPadding())
     }
 }
 
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+private fun ButtonWithIcon(
+    onClick: () -> Unit,
+    text: String,
+    icon: Int,
+    containerColor: Color = MaterialTheme.colorScheme.primary,
+    contentColor: Color = MaterialTheme.colorScheme.onPrimary,
+    enabled: Boolean = true
+) {
+
+    val btnSize = ButtonDefaults.MediumContainerHeight
+
+    Button(
+        colors = ButtonDefaults.buttonColors(
+            containerColor = containerColor
+        ),
+        modifier = Modifier
+            .heightIn(btnSize)
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+        onClick = onClick,
+        enabled = enabled,
+        shapes = ButtonDefaults.shapes(),
+        contentPadding = ButtonDefaults.contentPaddingFor(btnSize),
+    ) {
+        Symbol(
+            icon,
+            color = contentColor,
+            size = ButtonDefaults.iconSizeFor(btnSize)
+        )
+        Gap(horizontal = ButtonDefaults.iconSpacingFor(btnSize))
+        Text(
+            text,
+            style = ButtonDefaults.textStyleFor(btnSize),
+            color = contentColor
+        )
+    }
+}

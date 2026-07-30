@@ -13,14 +13,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
+import com.pranshulgg.weather_master_app.feature.alerts.AlertsScreen
 import com.pranshulgg.weather_master_app.feature.blocks.screens.SunMoonScreen
 import com.pranshulgg.weather_master_app.feature.blocks.screens.airquality.AirQualityScreen
 import com.pranshulgg.weather_master_app.feature.blocks.screens.humidity.HumidityScreen
@@ -45,6 +48,7 @@ import com.pranshulgg.weather_master_app.feature.settings.background.WorkerInfoS
 import com.pranshulgg.weather_master_app.feature.settings.language.LanguageScreen
 import com.pranshulgg.weather_master_app.feature.settings.sources.WeatherSourcesScreen
 import com.pranshulgg.weather_master_app.feature.settings.units.UnitsScreen
+import com.pranshulgg.weather_master_app.feature.shared.WeatherViewModel
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -67,13 +71,18 @@ fun AppNavHost(
         ) {
             navigation(
                 route = "root",
-//                startDestination = NavRoutes.MAIN
-                startDestination = NavRoutes.editLocation("af673c89-72b7-4da9-865d-c26fdabeca07")
+                startDestination = NavRoutes.MAIN
+//                startDestination = NavRoutes.alerts("5e8c6c88-e85a-4e76-8d0b-5d1eb2906acd")
             ) {
                 composable(
                     NavRoutes.MAIN
-                ) {
-                    MainScreen(navController)
+                ) { backStackEntry ->
+
+                    val rootEntry = remember(backStackEntry) {
+                        navController.getBackStackEntry("root")
+                    }
+                    val weatherViewModel: WeatherViewModel = hiltViewModel(rootEntry)
+                    MainScreen(navController, weatherViewModel)
                 }
                 composable(
                     NavRoutes.SEARCH
@@ -123,6 +132,18 @@ fun AppNavHost(
                     DailyScreen(navController, index, locationId!!)
                 }
                 composable(
+                    route = "${NavRoutes.ALERTS}/{locationId}",
+                    arguments = listOf(
+                        navArgument("locationId") {
+                            type = NavType.StringType
+                        }
+                    )
+                ) { backStackEntry ->
+                    val locationId = backStackEntry.arguments?.getString("locationId")
+
+                    AlertsScreen(navController, locationId!!)
+                }
+                composable(
                     NavRoutes.ABOUT
                 ) {
                     AboutScreen(navController)
@@ -164,7 +185,12 @@ fun AppNavHost(
 
                     val locationId = backStackEntry.arguments?.getString("locationId")
 
-                    EditLocationScreen(navController, locationId!!)
+                    val rootEntry = remember(backStackEntry) {
+                        navController.getBackStackEntry("root")
+                    }
+                    val weatherViewModel: WeatherViewModel = hiltViewModel(rootEntry)
+
+                    EditLocationScreen(navController, locationId!!, weatherViewModel)
                 }
                 composable(
                     route = "{block}/{index}/{locationId}",
