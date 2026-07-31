@@ -320,8 +320,8 @@
     <string name="alert_severity_medium">Moyen</string>
     <string name="alert_severity_low">Faible</string>
     <string name="alert_severity_unknown">Inconnu</string>
-    <string name="confirm_delete_location">Delete Location</string>
-    <string name="alert_delete_location_secondary">Are you sure you want to delete this location?</string>
-    <string name="weather_alerts">Alerts</string>
+    <string name="confirm_delete_location">Supprimer l\'emplacement</string>
+    <string name="alert_delete_location_secondary">Voulez-vous vraiment supprimer cet emplacement ?</string>
+    <string name="weather_alerts">Alertes</string>
 </resources>
 <!--<string name=""></string>-->
