@@ -8,26 +8,26 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
-import com.pranshulgg.weather_master_app.data.local.dao.airquality.accu.AccuDao
 import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
 import com.pranshulgg.weather_master_app.data.local.dao.github.GithubDao
-import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherUnitsDao
+import com.pranshulgg.weather_master_app.data.local.dao.location.LocationKeysDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherBlocksDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
+import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherUnitsDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.nws.NwsDao
-import com.pranshulgg.weather_master_app.data.local.entity.weather.units.AppWeatherUnitsEntity
 import com.pranshulgg.weather_master_app.data.local.entity.airquality.CurrentAirQualityEntity
 import com.pranshulgg.weather_master_app.data.local.entity.airquality.HourlyAirQualityEntity
-import com.pranshulgg.weather_master_app.data.local.entity.airquality.accu.AccuEntity
 import com.pranshulgg.weather_master_app.data.local.entity.alerts.AlertEntity
 import com.pranshulgg.weather_master_app.data.local.entity.github.GithubEntity
+import com.pranshulgg.weather_master_app.data.local.entity.location.LocationKeyEntity
+import com.pranshulgg.weather_master_app.data.local.entity.location.WeatherLocationEntity
 import com.pranshulgg.weather_master_app.data.local.entity.weather.CurrentWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.entity.weather.DailyWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.entity.weather.HourlyWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.entity.weather.blocks.WeatherBlockEntity
-import com.pranshulgg.weather_master_app.data.local.entity.location.WeatherLocationEntity
 import com.pranshulgg.weather_master_app.data.local.entity.weather.nws.NwsGridPointsEntity
+import com.pranshulgg.weather_master_app.data.local.entity.weather.units.AppWeatherUnitsEntity
 
 @Database(
     entities = [
@@ -41,10 +41,10 @@ import com.pranshulgg.weather_master_app.data.local.entity.weather.nws.NwsGridPo
         NwsGridPointsEntity::class,
         GithubEntity::class,
         HourlyAirQualityEntity::class,
-        AccuEntity::class,
+        LocationKeyEntity::class,
         AlertEntity::class
     ],
-    version = 51,
+    version = 52,
     autoMigrations = [
         AutoMigration(from = 39, to = 40),
         AutoMigration(from = 42, to = 43),
@@ -66,7 +66,7 @@ abstract class WeatherMasterDatabase : RoomDatabase() {
     abstract fun nwsDao(): NwsDao
     abstract fun githubDao(): GithubDao
 
-    abstract fun accuDao(): AccuDao
+    abstract fun locationKeysDao(): LocationKeysDao
 
     abstract fun alertsDao(): AlertsDao
 
@@ -81,7 +81,13 @@ abstract class WeatherMasterDatabase : RoomDatabase() {
                     context.applicationContext,
                     WeatherMasterDatabase::class.java,
                     "weather_master.db"
-                ).addMigrations(MIGRATION_40_41, MIGRATION_41_42, MIGRATION_45_46, MIGRATION_46_47)
+                ).addMigrations(
+                    MIGRATION_40_41,
+                    MIGRATION_41_42,
+                    MIGRATION_45_46,
+                    MIGRATION_46_47,
+                    MIGRATION_51_52
+                )
                     .build()
                     .also { INSTANCE = it }
             }
@@ -165,5 +171,11 @@ val MIGRATION_46_47 = object : Migration(46, 47) {
     override fun migrate(db: SupportSQLiteDatabase) {
         db.execSQL("ALTER TABLE weather_locations ADD COLUMN alertSource TEXT NOT NULL DEFAULT 'NONE'")
         db.execSQL("ALTER TABLE weather_locations ADD COLUMN airQualitySource TEXT NOT NULL DEFAULT 'OPEN_METEO'")
+    }
+}
+
+val MIGRATION_51_52 = object : Migration(51, 52) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("ALTER TABLE accu_locations RENAME TO location_keys")
     }
 }
