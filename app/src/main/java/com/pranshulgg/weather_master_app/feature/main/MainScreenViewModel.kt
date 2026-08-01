@@ -79,4 +79,12 @@ class MainScreenViewModel @Inject constructor(
         _uiState.value = _uiState.value.copy(isNewVersionAvailable = false)
 
     }
+
+    fun hideChangelogSheet() {
+        _uiState.value = _uiState.value.copy(isChangelogSheetOpen = false)
+    }
+
+    fun showChangelogSheet() {
+        _uiState.value = _uiState.value.copy(isChangelogSheetOpen = true)
+    }
 }

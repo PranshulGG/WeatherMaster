@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.pranshulgg.weather_master_app.BuildConfig
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQuality
 import com.pranshulgg.weather_master_app.core.model.domain.alerts.Alert
@@ -30,6 +31,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlock
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
 import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weather_master_app.feature.intro.IntroScreen
@@ -39,6 +41,7 @@ import com.pranshulgg.weather_master_app.feature.main.ui.MainScreenDialogs
 import com.pranshulgg.weather_master_app.feature.main.ui.NavigationDrawer
 import com.pranshulgg.weather_master_app.feature.shared.WeatherViewModel
 import com.pranshulgg.weather_master_app.feature.shared.ui.SharedBottomSheet
+import com.pranshulgg.weather_master_app.feature.shared.ui.SharedDialogs
 import kotlinx.coroutines.launch
 
 data class MainScreenWeatherUiState(
@@ -61,7 +64,8 @@ data class MainScreenUiState(
     val isWeatherSourcesInfoForLocationSheetOpen: Boolean = false,
     val isNewVersionAvailable: Boolean = false,
     val lastestVersionUrl: String = "https://github.com/PranshulGG/WeatherMaster/releases/latest",
-    val isUnsupportedSourceDialogOpen: Boolean = false
+    val isUnsupportedSourceDialogOpen: Boolean = false,
+    val isChangelogSheetOpen: Boolean = false
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -71,8 +75,7 @@ fun MainScreen(navController: NavController, weatherViewModel: WeatherViewModel)
     val viewModel: MainScreenViewModel = hiltViewModel()
     val mainScreenUiState = viewModel.uiState.value
     val uriHandler = LocalUriHandler.current
-
-
+    val savedVersion = PreferencesHelper.getString("saved_version")
 
     if (uiState.locations.isEmpty()) {
         IntroScreen(navController)
@@ -128,6 +131,14 @@ fun MainScreen(navController: NavController, weatherViewModel: WeatherViewModel)
             )
 
             viewModel.dismissNewVersionSnackbar()
+        }
+    }
+
+    LaunchedEffect(Unit) {
+
+        if (BuildConfig.APP_VERSION != savedVersion) {
+            viewModel.showChangelogSheet()
+            PreferencesHelper.setString("saved_version", BuildConfig.APP_VERSION)
         }
     }
 
@@ -188,6 +199,13 @@ fun MainScreen(navController: NavController, weatherViewModel: WeatherViewModel)
         onDismiss =
             viewModel::hideUnsupportedSelectedSourceDialog,
         onConfirm = { viewModel.showWeatherSourcesForLocationSheet(uiState.isLoading) })
+
+    // CHANGELOG DIALOG
+    SharedBottomSheet.ChangelogBottomSheet(
+        sheetState,
+        onDismiss = viewModel::hideChangelogSheet,
+        show = mainScreenUiState.isChangelogSheetOpen
+    )
 }
 
 

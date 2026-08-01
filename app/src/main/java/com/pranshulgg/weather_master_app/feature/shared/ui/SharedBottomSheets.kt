@@ -27,6 +27,7 @@ import com.pranshulgg.weather_master_app.core.ui.components.SettingSection
 import com.pranshulgg.weather_master_app.core.ui.components.SettingTile
 import com.pranshulgg.weather_master_app.core.ui.components.SettingsTileIcon
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
+import com.pranshulgg.weather_master_app.feature.shared.components.ChangelogContent
 
 object SharedBottomSheet {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -102,6 +103,28 @@ object SharedBottomSheet {
                         )
                     }
                 )
+            }
+        }
+    }
+
+
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    fun ChangelogBottomSheet(
+        sheetState: SheetState,
+        show: Boolean,
+        onDismiss: () -> Unit
+    ) {
+        if (show) {
+            ActionBottomSheet(
+                sheetState = sheetState,
+                onCancel = { onDismiss() },
+                onConfirm = { },
+                showActions = false,
+                confirmText = stringResource(R.string.action_save),
+                cancelText = stringResource(R.string.action_cancel)
+            ) { hide ->
+                ChangelogContent(hide)
             }
         }
     }
