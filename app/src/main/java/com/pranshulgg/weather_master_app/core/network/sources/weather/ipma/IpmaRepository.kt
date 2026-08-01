@@ -1,17 +1,21 @@
-package com.pranshulgg.weather_master_app.core.network.sources.weather.accu
+package com.pranshulgg.weather_master_app.core.network.sources.weather.ipma
 
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
-import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.json.bundle.AccuWeatherBundle
+import com.pranshulgg.weather_master_app.core.network.sources.weather.ipma.json.IpmaLocationsJson
+import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.MeteoamApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.json.bundle.MeteoamWeatherBundle
+import com.pranshulgg.weather_master_app.core.utils.formatters.toSafeDouble
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherCacheSafe
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnWeatherCache
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationKeysDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
 import com.pranshulgg.weather_master_app.data.local.entity.location.LocationKeyEntity
-import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.accu.toDomain
+import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.ipma.toDomain
+import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.meteoam.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toCurrentWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDailyWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDomain
@@ -21,12 +25,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-
-class AccuRepository @Inject constructor(
+class IpmaRepository @Inject constructor(
     val dao: LocationsDao,
     val weatherDao: WeatherDao,
-    val api: AccuApi,
-    val locationKeysDao: LocationKeysDao,
+    val api: IpmaApi,
+    val locationKeysDao: LocationKeysDao
 ) : WeatherRepository {
 
 
@@ -51,41 +54,27 @@ class AccuRepository @Inject constructor(
 
             return@withContext try {
 
-                val locationKey = locationKeysDao.getCityKeyForLocation(location.id)?.cityKey
-                    ?: api.getLocationKey("${location.latitude},${location.longitude}").body()?.key
+                val locationId =
+                    locationKeysDao.getCityKeyForLocation(location.id)?.cityKey.toSafeDouble()
+                        ?.toLong()
+                        ?: getClosestLocation(api.fetchLocations().body(), location)
+                        ?: return@withContext WeatherResult.Error(
+                            exception = AppException.Unknown()
+                        )
+
+                val forecast = api.fetchForecast(locationId)
+
+                val bodyForecast = forecast.body()
                     ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
 
-
-                val current = api.fetchCurrent(locationKey)
-
-                val bodyCurrent = current.body()
-                    ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
-
-                val hourly = api.fetchHourly(locationKey)
-
-                val bodyHourly = hourly.body()
-                    ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
-
-                val daily = api.fetchDaily(locationKey)
-
-                val bodyDaily = daily.body()
-                    ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
-
-                val final = AccuWeatherBundle(
-                    current = bodyCurrent[0],
-                    hourly = bodyHourly,
-                    daily = bodyDaily
-                )
-
-                val domain = final.toDomain(location)
+                val domain = bodyForecast.toDomain(location)
 
                 locationKeysDao.insertCityKey(
                     LocationKeyEntity(
                         locationId = location.id,
-                        cityKey = locationKey
+                        cityKey = locationId.toString()
                     )
                 )
-
                 weatherDao.insertWeather(
                     domain.current.toCurrentWeatherEntity(location.id),
                     domain.hourly.toHourlyWeatherEntity(location.id),
@@ -108,4 +97,38 @@ class AccuRepository @Inject constructor(
 
         }
 
+}
+
+private fun getClosestLocation(locations: List<IpmaLocationsJson>?, location: Location): Long? {
+    var closestDistance = Float.MAX_VALUE
+
+    if (locations == null) return null
+
+    var closestId: Long? = null
+    for (i in locations) {
+
+
+        val lat = i.latitude.toSafeDouble()
+        val lon = i.longitude.toSafeDouble()
+        val id = i.globalIdLocal
+
+        if (lat != null && lon != null) {
+            val results = FloatArray(1)
+
+            android.location.Location.distanceBetween(
+                location.latitude,
+                location.longitude,
+                lat,
+                lon,
+                results
+            )
+
+            if (results[0] < closestDistance) {
+                closestDistance = results[0]
+                closestId = id
+            }
+        }
+    }
+
+    return closestId
 }

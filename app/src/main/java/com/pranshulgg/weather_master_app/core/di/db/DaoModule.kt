@@ -36,7 +36,7 @@ object DaoModule {
     fun provideGithubDao(db: WeatherMasterDatabase) = db.githubDao()
 
     @Provides
-    fun provideAccuDao(db: WeatherMasterDatabase) = db.accuDao()
+    fun provideLocationKeysDao(db: WeatherMasterDatabase) = db.locationKeysDao()
 
     @Provides
     fun provideAlertsDao(db: WeatherMasterDatabase) = db.alertsDao()

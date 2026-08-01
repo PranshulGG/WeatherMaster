@@ -4,8 +4,8 @@ import com.pranshulgg.weather_master_app.core.model.sources.AirQualitySource
 import com.pranshulgg.weather_master_app.core.model.sources.AlertSource
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
-import com.pranshulgg.weather_master_app.data.local.dao.airquality.accu.AccuDao
 import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
+import com.pranshulgg.weather_master_app.data.local.dao.location.LocationKeysDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.nws.NwsDao
 import jakarta.inject.Inject
@@ -14,7 +14,7 @@ import jakarta.inject.Inject
 class WeatherDataReconcilerRepository @Inject constructor(
     private val nwsDao: NwsDao,
     private val locationDao: LocationsDao,
-    private val accuDao: AccuDao,
+    private val locationKeysDao: LocationKeysDao,
     private val airQualityDao: AirQualityDao,
     private val alertsDao: AlertsDao
 ) {
@@ -39,16 +39,17 @@ class WeatherDataReconcilerRepository @Inject constructor(
                 currentAlertSource
             )
 
+            WeatherSource.IPMA -> locationKeysDao.getCityKeyForLocation(locationId)
             else -> {}
         }
     }
 
-    suspend fun cleanAccuWeather(
+    private suspend fun cleanAccuWeather(
         locationId: String, airQualitySource: AirQualitySource,
         currentAlertSource: AlertSource
     ) {
         if (airQualitySource != AirQualitySource.ACCU_WEATHER || currentAlertSource != AlertSource.ACCU_WEATHER) {
-            accuDao.deleteCityKeyForLocation(locationId)
+            locationKeysDao.deleteCityKeyForLocation(locationId)
         }
     }
 
@@ -61,7 +62,7 @@ class WeatherDataReconcilerRepository @Inject constructor(
         airQualityDao.deleteHourlyAirQuality(locationId)
 
         if (currentWeatherSource != WeatherSource.ACCU_WEATHER || currentAlertSource != AlertSource.ACCU_WEATHER) {
-            accuDao.deleteCityKeyForLocation(locationId)
+            locationKeysDao.deleteCityKeyForLocation(locationId)
         }
     }
 
@@ -73,7 +74,7 @@ class WeatherDataReconcilerRepository @Inject constructor(
         alertsDao.deleteAlertsForLocation(locationId)
 
         if (currentWeatherSource != WeatherSource.ACCU_WEATHER || airQualitySource != AirQualitySource.ACCU_WEATHER) {
-            accuDao.deleteCityKeyForLocation(locationId)
+            locationKeysDao.deleteCityKeyForLocation(locationId)
         }
     }
 

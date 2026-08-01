@@ -7,6 +7,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.china.Chin
 import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.DwdRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.EcccRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.fmi.FmiRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.ipma.IpmaRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.MeteoamRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofrance.MeteoFranceRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.MetNorwayRepository
@@ -28,7 +29,8 @@ class WeatherRepositoryProvider @Inject constructor(
     private val chinaRepository: ChinaRepository,
     private val bmkgRepository: BmkgRepository,
     private val accuRepository: AccuRepository,
-    private val meteoamRepository: MeteoamRepository
+    private val meteoamRepository: MeteoamRepository,
+    private val ipmaRepository: IpmaRepository
 ) {
 
     fun getRepository(source: WeatherSource): WeatherRepository {
@@ -45,6 +47,7 @@ class WeatherRepositoryProvider @Inject constructor(
             WeatherSource.BMKG -> bmkgRepository
             WeatherSource.ACCU_WEATHER -> accuRepository
             WeatherSource.METEO_AM -> meteoamRepository
+            WeatherSource.IPMA -> ipmaRepository
         }
     }
 
