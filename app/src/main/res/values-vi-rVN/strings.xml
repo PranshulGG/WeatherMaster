@@ -115,7 +115,7 @@
     <string name="current_location_not_found">Không tìm thấy vị trí hiện tại</string>
     <string name="error_server">Yêu cầu không thể hoàn thành. Vui lòng thử lại sau</string>
     <string name="weather_airquality_good">Tốt</string>
-    <string name="weather_airquality_fair">Fair</string>
+    <string name="weather_airquality_fair">Trung Bình</string>
     <string name="weather_airquality_moderate">Trung bình</string>
     <string name="weather_airquality_poor">Xấu</string>
     <string name="weather_airquality_very_poor">Rất xấu</string>
