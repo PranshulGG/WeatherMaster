@@ -327,8 +327,8 @@ W ciągu dnia spodziewane są opady śniegu około %1$s z prawdopodobieństwem %
     <string name="alert_severity_medium">Średni</string>
     <string name="alert_severity_low">Niski</string>
     <string name="alert_severity_unknown">Nieznany</string>
-    <string name="confirm_delete_location">Delete Location</string>
-    <string name="alert_delete_location_secondary">Are you sure you want to delete this location?</string>
-    <string name="weather_alerts">Alerts</string>
+    <string name="confirm_delete_location">Usuń lokalizację</string>
+    <string name="alert_delete_location_secondary">Czy na pewno chcesz usunąć tę lokalizację?</string>
+    <string name="weather_alerts">Ostrzeżenia</string>
 </resources>
 <!--<string name=""></string>-->
