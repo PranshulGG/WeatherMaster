@@ -87,8 +87,8 @@ fun getHeadline(
         summaryData.rainDay.probability < 40 && summaryData.rainNight.probability >= 40 ->
             context.getString(
                 R.string.summary_rain_template_night,
-                formatter(summaryData.rainNight.at),
                 "${summaryData.rainNight.probability}%",
+                formatter(summaryData.rainNight.at)
             )
 
         else -> null
