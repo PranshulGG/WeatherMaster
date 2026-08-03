@@ -150,7 +150,7 @@ fun SearchScreen(navController: NavController) {
 
                     Gap(
                         WindowInsets.systemBars.asPaddingValues()
-                            .calculateBottomPadding() + ScreenOffset + 30.dp
+                            .calculateBottomPadding() + ScreenOffset + 50.dp
                     )
                 }
             }

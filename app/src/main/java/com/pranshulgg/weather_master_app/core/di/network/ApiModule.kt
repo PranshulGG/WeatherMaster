@@ -6,6 +6,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.airquality.accu.Ac
 import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo.OpenMeteoAqiApi
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.accu.AlertsAccuApi
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.weatherapi.AlertsWeatherApi
+import com.pranshulgg.weather_master_app.core.network.sources.search.accu.AccuSearchApi
 import com.pranshulgg.weather_master_app.core.network.sources.search.geonames.GeoNamesSearchApi
 import com.pranshulgg.weather_master_app.core.network.sources.search.geonames.timezone.GeoNamesTimezoneApi
 import com.pranshulgg.weather_master_app.core.network.sources.search.openmeteo.OpenMeteoSearchApi
@@ -119,4 +120,8 @@ object ApiModule {
     @Provides
     @Singleton
     fun provideIpmaApi(): IpmaApi = IpmaApi.create()
+
+    @Provides
+    @Singleton
+    fun provideAccuSearchApi(): AccuSearchApi = AccuSearchApi.create()
 }

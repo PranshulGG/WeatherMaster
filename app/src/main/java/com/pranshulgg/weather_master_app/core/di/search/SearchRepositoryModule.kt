@@ -1,5 +1,7 @@
 package com.pranshulgg.weather_master_app.core.di.search
 
+import com.pranshulgg.weather_master_app.core.network.sources.search.accu.AccuSearchApi
+import com.pranshulgg.weather_master_app.core.network.sources.search.accu.AccuSearchRepository
 import com.pranshulgg.weather_master_app.core.network.sources.search.geonames.GeoNamesSearchApi
 import com.pranshulgg.weather_master_app.core.network.sources.search.geonames.GeoNamesSearchRepository
 import com.pranshulgg.weather_master_app.core.network.sources.search.geonames.GeoNamesTimezoneRepository
@@ -31,5 +33,11 @@ object SearchRepositoryModule {
     @Singleton
     fun provideGeoNamesTimezoneRepository(api: GeoNamesTimezoneApi): GeoNamesTimezoneRepository =
         GeoNamesTimezoneRepository(api)
+
+    @Provides
+    @Singleton
+    fun provideAccuSearchRepository(
+        api: AccuSearchApi
+    ): AccuSearchRepository = AccuSearchRepository(api)
 
 }
