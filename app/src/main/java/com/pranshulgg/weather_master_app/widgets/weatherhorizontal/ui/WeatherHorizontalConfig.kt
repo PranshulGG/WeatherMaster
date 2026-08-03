@@ -47,9 +47,11 @@ import com.pranshulgg.weather_master_app.core.ui.components.SettingSection
 import com.pranshulgg.weather_master_app.core.ui.components.SettingTile
 import com.pranshulgg.weather_master_app.core.ui.components.SettingsTileIcon
 import com.pranshulgg.weather_master_app.core.ui.components.WeatherIconBox
+import com.pranshulgg.weather_master_app.core.ui.components.tiles.DialogOption
 import com.pranshulgg.weather_master_app.core.ui.theme.ShapeRadius
 import com.pranshulgg.weather_master_app.widgets.config.WidgetConfig
 import com.pranshulgg.weather_master_app.widgets.model.WidgetVariant
+import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTextTheme
 import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTheme
 import kotlin.math.round
 import kotlin.math.roundToInt
@@ -61,10 +63,18 @@ fun WeatherHorizontalConfig(onDone: (WidgetConfig) -> Unit = {}) {
 
     var selectedVariant by remember { mutableStateOf(WidgetVariant.LARGE) }
     var selectedFontSize by remember { mutableFloatStateOf(1f) }
-    var isTransparent by remember { mutableStateOf(false) }
     var selectedIconSize by remember { mutableFloatStateOf(1f) }
+    var widgetTheme by remember { mutableStateOf(WidgetTheme.AUTO) }
 
     val variantFiltered = listOf(WidgetVariant.LARGE, WidgetVariant.COMPACT, WidgetVariant.SMALL)
+    var widgetTextTheme by remember { mutableStateOf(WidgetTextTheme.AUTO) }
+
+
+    val widgetThemeOptions =
+        WidgetTheme.entries
+            .map { DialogOption(it.toString(), stringResource(it.label)) }
+    val widgetTextThemeOptions =
+        WidgetTextTheme.entries.map { DialogOption(it.toString(), stringResource(it.label)) }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surfaceContainer
@@ -88,8 +98,9 @@ fun WeatherHorizontalConfig(onDone: (WidgetConfig) -> Unit = {}) {
                     WidgetPreview(
                         selectedVariant,
                         selectedFontSize,
-                        isTransparent,
-                        selectedIconSize
+                        selectedIconSize,
+                        widgetTextTheme,
+                        widgetTheme
                     )
                 }
             }
@@ -131,14 +142,6 @@ fun WeatherHorizontalConfig(onDone: (WidgetConfig) -> Unit = {}) {
             SettingSection(
                 title = stringResource(R.string.setting_appearance),
                 tiles = listOf(
-                    SettingTile.SwitchTile(
-                        title = "Transparent",
-                        leading = { SettingsTileIcon(R.drawable.opacity_24px) },
-                        checked = isTransparent,
-                        onCheckedChange = {
-                            isTransparent = it
-                        }
-                    ),
                     SettingTile.DialogSliderTile(
                         title = "Font size",
                         dialogTitle = "Font size",
@@ -167,6 +170,39 @@ fun WeatherHorizontalConfig(onDone: (WidgetConfig) -> Unit = {}) {
                             selectedIconSize = it
                         },
                     ),
+                    SettingTile.DialogOptionTile(
+                        leading = { SettingsTileIcon(R.drawable.palette_24px) },
+                        title = "Widget background",
+                        options = widgetThemeOptions,
+                        selectedOption = widgetTheme.toString(),
+                        onOptionSelected = {
+                            val selected = when (it) {
+                                "AUTO" -> WidgetTheme.AUTO
+                                "DARK" -> WidgetTheme.DARK
+                                "LIGHT" -> WidgetTheme.LIGHT
+                                "TRANSPARENT" -> WidgetTheme.TRANSPARENT
+                                else -> WidgetTheme.AUTO
+                            }
+
+                            widgetTheme = selected
+                        }
+                    ),
+                    SettingTile.DialogOptionTile(
+                        leading = { SettingsTileIcon(R.drawable.format_paint_24px) },
+                        title = "Widget text color",
+                        options = widgetTextThemeOptions,
+                        selectedOption = widgetTextTheme.toString(),
+                        onOptionSelected = {
+                            val selected = when (it) {
+                                "AUTO" -> WidgetTextTheme.AUTO
+                                "WHITE" -> WidgetTextTheme.WHITE
+                                "BLACK" -> WidgetTextTheme.BLACK
+                                else -> WidgetTextTheme.AUTO
+                            }
+
+                            widgetTextTheme = selected
+                        }
+                    )
                 )
             )
 
@@ -178,7 +214,8 @@ fun WeatherHorizontalConfig(onDone: (WidgetConfig) -> Unit = {}) {
                             variant = selectedVariant,
                             fontSize = selectedFontSize,
                             iconSize = selectedIconSize,
-                            widgetTheme = if (isTransparent) WidgetTheme.TRANSPARENT else WidgetTheme.AUTO
+                            widgetTheme = widgetTheme,
+                            widgetTextTheme = widgetTextTheme
                         )
                     )
                 },
@@ -200,29 +237,47 @@ fun WeatherHorizontalConfig(onDone: (WidgetConfig) -> Unit = {}) {
 private fun WidgetPreview(
     variant: WidgetVariant,
     fontSize: Float,
-    isTransparent: Boolean,
-    iconSize: Float
+    iconSize: Float,
+    textTheme: WidgetTextTheme,
+    widgetTheme: WidgetTheme,
 ) {
     when (variant) {
-        WidgetVariant.LARGE -> LargeWidgetPreview(fontSize, isTransparent, iconSize)
-        WidgetVariant.COMPACT -> WidgetCompactPreview(fontSize, isTransparent, iconSize)
-        else -> WidgetSmallPreview(fontSize, isTransparent, iconSize)
+        WidgetVariant.LARGE -> LargeWidgetPreview(fontSize, iconSize, textTheme, widgetTheme)
+        WidgetVariant.COMPACT -> WidgetCompactPreview(fontSize, iconSize, textTheme, widgetTheme)
+        else -> WidgetSmallPreview(fontSize, iconSize, textTheme, widgetTheme)
     }
 
 }
 
 
 @Composable
-private fun LargeWidgetPreview(fontSize: Float, isTransparent: Boolean, iconSize: Float) {
+private fun LargeWidgetPreview(
+    fontSize: Float, iconSize: Float, textTheme: WidgetTextTheme,
+    widgetTheme: WidgetTheme
+) {
 
     val size = 18 * fontSize
     val fontSizeLocation = 16 * fontSize
     val tempSize = 40 * fontSize
     val iconSize = 48 * iconSize
 
-    val textColor = if (isTransparent) Color.White else MaterialTheme.colorScheme.onSurface
-    val widgetColor =
-        if (isTransparent) Color.Transparent else MaterialTheme.colorScheme.surfaceContainerHigh
+    val textColor = when (textTheme) {
+        WidgetTextTheme.AUTO -> if (widgetTheme == WidgetTheme.DARK)
+            Color.White else if (widgetTheme == WidgetTheme.LIGHT)
+            Color.Black else if (widgetTheme == WidgetTheme.TRANSPARENT) Color.White else MaterialTheme.colorScheme.onSurface
+
+        WidgetTextTheme.BLACK -> Color.Black
+        WidgetTextTheme.WHITE -> Color.White
+    }
+
+
+    val widgetColor = when (widgetTheme) {
+        WidgetTheme.AUTO -> MaterialTheme.colorScheme.surfaceContainerHighest
+        WidgetTheme.DARK -> Color.Black
+        WidgetTheme.LIGHT -> Color.White
+        WidgetTheme.TRANSPARENT -> Color.Transparent
+    }
+
 
 
     Column(
@@ -284,14 +339,31 @@ private fun LargeWidgetPreview(fontSize: Float, isTransparent: Boolean, iconSize
 
 
 @Composable
-private fun WidgetCompactPreview(fontSize: Float, isTransparent: Boolean, iconSize: Float) {
+private fun WidgetCompactPreview(
+    fontSize: Float, iconSize: Float, textTheme: WidgetTextTheme,
+    widgetTheme: WidgetTheme
+) {
     val size = 18 * fontSize
     val tempSize = 24 * fontSize
     val iconSize = 48 * iconSize
 
-    val textColor = if (isTransparent) Color.White else MaterialTheme.colorScheme.onSurface
-    val widgetColor =
-        if (isTransparent) Color.Transparent else MaterialTheme.colorScheme.surfaceContainerHigh
+    val textColor = when (textTheme) {
+        WidgetTextTheme.AUTO -> if (widgetTheme == WidgetTheme.DARK)
+            Color.White else if (widgetTheme == WidgetTheme.LIGHT)
+            Color.Black else if (widgetTheme == WidgetTheme.TRANSPARENT) Color.White else MaterialTheme.colorScheme.onSurface
+
+        WidgetTextTheme.BLACK -> Color.Black
+        WidgetTextTheme.WHITE -> Color.White
+    }
+
+
+    val widgetColor = when (widgetTheme) {
+        WidgetTheme.AUTO -> MaterialTheme.colorScheme.surfaceContainerHighest
+        WidgetTheme.DARK -> Color.Black
+        WidgetTheme.LIGHT -> Color.White
+        WidgetTheme.TRANSPARENT -> Color.Transparent
+    }
+
     Column(
         Modifier
             .padding(16.dp)
@@ -319,13 +391,30 @@ private fun WidgetCompactPreview(fontSize: Float, isTransparent: Boolean, iconSi
 }
 
 @Composable
-private fun WidgetSmallPreview(fontSize: Float, isTransparent: Boolean, iconSize: Float) {
+private fun WidgetSmallPreview(
+    fontSize: Float, iconSize: Float, textTheme: WidgetTextTheme,
+    widgetTheme: WidgetTheme
+) {
     val tempSize = 40 * fontSize
     val iconSize = 48 * iconSize
 
-    val textColor = if (isTransparent) Color.White else MaterialTheme.colorScheme.onSurface
-    val widgetColor =
-        if (isTransparent) Color.Transparent else MaterialTheme.colorScheme.surfaceContainerHigh
+    val textColor = when (textTheme) {
+        WidgetTextTheme.AUTO -> if (widgetTheme == WidgetTheme.DARK)
+            Color.White else if (widgetTheme == WidgetTheme.LIGHT)
+            Color.Black else if (widgetTheme == WidgetTheme.TRANSPARENT) Color.White else MaterialTheme.colorScheme.onSurface
+
+        WidgetTextTheme.BLACK -> Color.Black
+        WidgetTextTheme.WHITE -> Color.White
+    }
+
+
+    val widgetColor = when (widgetTheme) {
+        WidgetTheme.AUTO -> MaterialTheme.colorScheme.surfaceContainerHighest
+        WidgetTheme.DARK -> Color.Black
+        WidgetTheme.LIGHT -> Color.White
+        WidgetTheme.TRANSPARENT -> Color.Transparent
+    }
+
     Column(
         Modifier
             .padding(16.dp)

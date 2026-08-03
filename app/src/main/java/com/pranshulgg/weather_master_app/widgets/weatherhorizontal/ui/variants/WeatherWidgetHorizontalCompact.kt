@@ -23,21 +23,25 @@ import androidx.glance.unit.ColorProvider
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.widgets.config.WidgetConfig
 import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
+import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetColors
 import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTheme
 
 @Composable
 fun WeatherWidgetHorizontalCompact(
     state: WidgetWeather?,
-    modifier: GlanceModifier = GlanceModifier, config: WidgetConfig
+    modifier: GlanceModifier = GlanceModifier, config: WidgetConfig,
+    widgetColors: WidgetColors
+
 ) {
 
     val size = 18 * config.fontSize
     val tempSize = 24 * config.fontSize
     val iconSize = 48 * config.iconSize
 
-    val textColor = if (config.widgetTheme == WidgetTheme.TRANSPARENT)
-        ColorProvider(R.color.white) else GlanceTheme.colors.onSurface
 
+    val textColor = widgetColors
+        .getTextColor(config.widgetTextTheme, config.widgetTheme)
+        ?: Pair(GlanceTheme.colors.onSurface, null)
 
     if (state != null)
 
@@ -57,7 +61,7 @@ fun WeatherWidgetHorizontalCompact(
                 Text(
                     state.currentTemp,
                     style = TextStyle(
-                        color = textColor,
+                        color = textColor.first,
                         fontSize = tempSize.sp,
                         fontWeight = FontWeight.Medium,
                         textAlign = TextAlign.Start
@@ -66,7 +70,7 @@ fun WeatherWidgetHorizontalCompact(
                 Text(
                     state.currentCondition,
                     style = TextStyle(
-                        color = textColor,
+                        color = textColor.first,
                         fontSize = size.sp,
                         fontWeight = FontWeight.Medium,
                         textAlign = TextAlign.Start

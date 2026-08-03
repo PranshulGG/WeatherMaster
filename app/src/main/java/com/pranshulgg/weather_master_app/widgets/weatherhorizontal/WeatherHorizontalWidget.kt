@@ -75,13 +75,22 @@ class WeatherHorizontalWidget : GlanceAppWidget() {
                     modifier.clickable(actionStartActivity<MainActivity>())
                 ) {
                     when (config.variant) {
-                        WidgetVariant.LARGE -> WeatherWidgetHorizontal(state, config = config)
-                        WidgetVariant.COMPACT -> WeatherWidgetHorizontalCompact(
-                            state,
-                            config = config
+                        WidgetVariant.LARGE -> WeatherWidgetHorizontal(
+                            state, config = config,
+                            widgetColors = widgetColors
                         )
 
-                        else -> WeatherWidgetHorizontalSmall(state, config = config)
+                        WidgetVariant.COMPACT -> WeatherWidgetHorizontalCompact(
+                            state,
+                            config = config,
+                            widgetColors = widgetColors
+
+                        )
+
+                        else -> WeatherWidgetHorizontalSmall(
+                            state, config = config,
+                            widgetColors = widgetColors
+                        )
                     }
                 }
             } else {

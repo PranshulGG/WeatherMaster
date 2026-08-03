@@ -25,6 +25,7 @@ import androidx.glance.unit.ColorProvider
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.widgets.config.WidgetConfig
 import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
+import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetColors
 import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTheme
 
 
@@ -32,9 +33,14 @@ import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTheme
 fun WeatherWidgetHorizontalSmall(
     state: WidgetWeather?,
     modifier: GlanceModifier = GlanceModifier, config: WidgetConfig,
+    widgetColors: WidgetColors
 ) {
-    val textColor = if (config.widgetTheme == WidgetTheme.TRANSPARENT)
-        ColorProvider(R.color.white) else GlanceTheme.colors.onSurface
+
+
+    val textColor = widgetColors
+        .getTextColor(config.widgetTextTheme, config.widgetTheme)
+        ?: Pair(GlanceTheme.colors.onSurface, null)
+
     val tempSize = 40 * config.fontSize
     val iconSize = 48 * config.iconSize
 
@@ -55,7 +61,7 @@ fun WeatherWidgetHorizontalSmall(
             Text(
                 state.currentTemp,
                 style = TextStyle(
-                    color = textColor,
+                    color = textColor.first,
                     fontSize = tempSize.sp,
                     fontWeight = FontWeight.Medium,
                     textAlign = TextAlign.Start

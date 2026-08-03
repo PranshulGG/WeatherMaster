@@ -26,12 +26,14 @@ import androidx.glance.unit.ColorProvider
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.widgets.config.WidgetConfig
 import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
+import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetColors
 import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTheme
 
 @Composable
 fun WeatherWidgetHorizontal(
     state: WidgetWeather?,
-    modifier: GlanceModifier = GlanceModifier, config: WidgetConfig
+    modifier: GlanceModifier = GlanceModifier, config: WidgetConfig,
+    widgetColors: WidgetColors
 ) {
 
     val size = 18 * config.fontSize
@@ -39,11 +41,13 @@ fun WeatherWidgetHorizontal(
     val tempSize = 40 * config.fontSize
     val iconSize = 48 * config.iconSize
 
-    val textColor = if (config.widgetTheme == WidgetTheme.TRANSPARENT)
-        ColorProvider(R.color.white) else GlanceTheme.colors.onSurface
+    val textColor = widgetColors
+        .getTextColor(config.widgetTextTheme, config.widgetTheme)
+        ?: Pair(GlanceTheme.colors.onSurface, null)
 
-    val textColorSecondary = if (config.widgetTheme == WidgetTheme.TRANSPARENT)
-        ColorProvider(R.color.white_secondary) else GlanceTheme.colors.onSurfaceVariant
+    val textColorSecondary = widgetColors
+        .getTextVariantColor(config.widgetTextTheme, config.widgetTheme)
+        ?: GlanceTheme.colors.onSurfaceVariant
     if (state != null)
 
         Row(
@@ -62,7 +66,7 @@ fun WeatherWidgetHorizontal(
                 Text(
                     state.locationName,
                     style = TextStyle(
-                        color = textColor,
+                        color = textColor.first,
                         fontSize = fontSizeLocation.sp,
                         fontWeight = FontWeight.Medium,
                         textAlign = TextAlign.Start
@@ -71,7 +75,7 @@ fun WeatherWidgetHorizontal(
                 Text(
                     state.currentCondition,
                     style = TextStyle(
-                        color = textColor,
+                        color = textColor.first,
                         fontSize = size.sp,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Start
@@ -84,7 +88,7 @@ fun WeatherWidgetHorizontal(
             Text(
                 state.currentTemp,
                 style = TextStyle(
-                    color = textColor,
+                    color = textColor.first,
                     fontWeight = FontWeight.Bold,
                     fontSize = tempSize.sp
                 )
@@ -95,7 +99,7 @@ fun WeatherWidgetHorizontal(
                     state.daily.first().tempMax,
                     style = TextStyle(
                         fontSize = size.sp,
-                        color = textColor,
+                        color = textColor.first,
                         fontWeight = FontWeight.Medium
                     )
                 )
