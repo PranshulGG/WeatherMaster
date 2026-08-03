@@ -30,7 +30,7 @@ val weatherapiKey =
 val keystoreFile = file("../keystore/release.jks")
 val hasKeystore = keystoreFile.exists()
 
-val versionName = "3.8.0"
+val versionNameString = "3.8.0"
 
 android {
     namespace = "com.pranshulgg.weather_master_app"
@@ -44,7 +44,7 @@ android {
         minSdk = 26
         targetSdk = 36
         versionCode = 57
-        versionName = versionName
+        versionName = versionNameString
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -75,7 +75,7 @@ android {
         buildConfigField(
             "String",
             "APP_VERSION",
-            "\"$versionName\""
+            "\"v${versionNameString}\""
         )
     }
 
