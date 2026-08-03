@@ -281,7 +281,7 @@
     <string name="day_length_hr">%1$s tuntia</string>
     <string name="error_no_results">Tuloksia ei löytynyt</string>
     <string name="summary_overview_template_same_condition">Luvassa %1$s päivällä ja yöllä.</string>
-    <string name="summary_overview_template_day_night_condition">Päivällä on %1$s, yöllä muuttuu %2$s.</string>
+    <string name="summary_overview_template_day_night_condition">Päivällä luvassa poutaa, yöksi %2$s.</string>
     <string name="summary_rain_template_day_night">Päivällä on luvassa sadetta noin kello %1$s %2$s todennäköisyydellä. Yöllä on %3$s todennäköisyys sateeseen noin kello %4$s.</string>
     <string name="summary_rain_template_day">Päivällä on luvassa sadetta noin kello %1$s %2$s todennäköisyydellä.</string>
     <string name="summary_rain_template_night">Yöllä on %1$s todennäköisyys sateeseen noin kello %2$s.</string>
@@ -321,5 +321,8 @@
     <string name="alert_severity_medium">Medium</string>
     <string name="alert_severity_low">Matala</string>
     <string name="alert_severity_unknown">Unknown</string>
+    <string name="confirm_delete_location">Delete Location</string>
+    <string name="alert_delete_location_secondary">Are you sure you want to delete this location?</string>
+    <string name="weather_alerts">Alerts</string>
 </resources>
 <!--<string name=""></string>-->

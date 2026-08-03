@@ -284,11 +284,11 @@
     <string name="summary_rain_template_day_night">Durante el día, se espera lluvia alrededor de las %1$s con una probabilidad del %2$s. Esta noche, hay una probabilidad del %3$s que llueva alrededor de las %4$s</string>
     <string name="summary_rain_template_day">Durante el día, se espera lluvia alrededor de las %1$s con una probabilidad de %2$s.</string>
     <string name="summary_rain_template_night">Esta noche, hay una probabilidad del %1$s que llueva alrededor de las %2$s.</string>
-    <string name="summary_snow_template_day_night">Snow is forecast around %1$s during the day with a %2$s chance. Overnight, snowfall remains possible with a %3$s chance around %4$s.</string>
-    <string name="summary_snow_template_day">Snow is forecast around %1$s during the day with a %2$s chance.</string>
-    <string name="summary_snow_template_night">Overnight, there\'s a %1$s chance of snow around %2$s.</string>
-    <string name="summary_temp_template_extreme">Expect extreme heat during the day with a high of %1$s. Temperatures will ease to around %2$s tonight.</string>
-    <string name="summary_temp_template_warm">It will be warm during the day with highs near %1$s. Tonight, temperatures will fall to around %2$s.</string>
+    <string name="summary_snow_template_day_night"></string>
+    <string name="summary_snow_template_day">Se pronostica nieve alrededor del %1$s durante el día con una probabilidad del %2$s.</string>
+    <string name="summary_snow_template_night">Durante la noche, hay un %1$s de probabilidad de nieve alrededor del %2$s.</string>
+    <string name="summary_temp_template_extreme">Se espera calor extremo durante el día con una máxima de %1$s. Las temperaturas bajarán alrededor de %2$s.</string>
+    <string name="summary_temp_template_warm">Hará calor durante el día, con máximas cercanas a %1$s. Esta noche, las temperaturas bajarán alrededor de %2$s</string>
     <string name="summary_temp_template_mild">A mild day is expected with temperatures reaching %1$s. Overnight, it\'ll cool to around %2$s.</string>
     <string name="summary_temp_template_cool">Hará frío durante el día, con máximas cercanas a %1$s. Esta noche, las temperaturas bajarán alrededor de %2$s</string>
     <string name="summary_temp_template_cold">Cold weather continues with daytime temperatures around %1$s. Overnight, lows will fall to around %2$s.</string>
@@ -320,5 +320,8 @@
     <string name="alert_severity_medium">Medium</string>
     <string name="alert_severity_low">Bajo</string>
     <string name="alert_severity_unknown">Unknown</string>
+    <string name="confirm_delete_location">Delete Location</string>
+    <string name="alert_delete_location_secondary">Are you sure you want to delete this location?</string>
+    <string name="weather_alerts">Alerts</string>
 </resources>
 <!--<string name=""></string>-->

@@ -17,15 +17,11 @@ object MeteoFranceConditionMap {
                             startsWith("p33") ||
                             startsWith("p34") -> WeatherCondition.CLEAR_SKY // TODO: SHOULD BE WIND
 
-                    startsWith("p31") -> WeatherCondition.NO_CONDITION_FOUND // What is this? (I have no idea either)
-                    startsWith("p26") ||
-                            startsWith("p27") ||
-                            startsWith("p28") ||
-                            startsWith("p29") -> WeatherCondition.THUNDERSTORM
+                    startsWith("p23") ||
+                            startsWith("p31") -> WeatherCondition.HEAVY_SNOW
 
                     startsWith("p21") ||
-                            startsWith("p22") ||
-                            startsWith("p23") -> WeatherCondition.SNOW
+                            startsWith("p22") -> WeatherCondition.LIGHT_SNOW
 
                     startsWith("p19") ||
                             startsWith("p20") -> WeatherCondition.SNOW  // TODO: SHOULD BE HAIL
@@ -36,26 +32,31 @@ object MeteoFranceConditionMap {
                     startsWith("p16") ||
                             startsWith("p24") ||
                             startsWith("p25") ||
+                            startsWith("p26") ||
+                            startsWith("p27") ||
+                            startsWith("p28") ||
+                            startsWith("p29") ||
                             startsWith("p30") -> WeatherCondition.THUNDERSTORM
+
+                    startsWith("p14") ||
+                            startsWith("p15") -> WeatherCondition.HEAVY_RAIN
 
                     startsWith("p9") ||
                             startsWith("p10") ||
                             startsWith("p11") ||
                             startsWith("p12") ||
-                            startsWith("p13") ||
-                            startsWith("p14") ||
-                            startsWith("p15") -> WeatherCondition.RAIN
+                            startsWith("p13") -> WeatherCondition.LIGHT_RAIN
 
-                    startsWith("p6") ||
+                    startsWith("p5") ||
+                            startsWith("p6") ||
                             startsWith("p7") ||
                             startsWith("p8") -> WeatherCondition.FOG_HAZE
 
-                    startsWith("p4") ||
-                            startsWith("p5") -> WeatherCondition.FOG_HAZE
-
+                    startsWith("p4") -> WeatherCondition.MOSTLY_CLEAR
                     startsWith("p3") -> WeatherCondition.OVERCAST
                     startsWith("p2") -> WeatherCondition.PARTLY_CLOUDY
                     startsWith("p1") -> WeatherCondition.CLEAR_SKY
+
                     else -> WeatherCondition.NO_CONDITION_FOUND
                 }
             }
