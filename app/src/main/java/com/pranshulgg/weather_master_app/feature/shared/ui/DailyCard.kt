@@ -27,9 +27,14 @@ import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.WeatherIconBox
 import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
 import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
+import com.pranshulgg.weather_master_app.core.utils.formatters.safeZoneId
+import com.pranshulgg.weather_master_app.core.utils.formatters.toDateString
 import com.pranshulgg.weather_master_app.core.utils.formatters.toWeekdayString
+import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherDailyDomainSafe
 import com.pranshulgg.weather_master_app.feature.shared.components.CardsHeader
+import java.time.Instant
+import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
 
 
@@ -80,7 +85,8 @@ fun DailyCard(weather: Weather, units: WeatherUnits, navController: NavControlle
                                     weather.location.id
                                 )
                             )
-                        }
+                        },
+                        date = toDateString(item.time, weather.location.timezone, pattern = "dd/MM")
                     )
 
                     if (index == daily.size - 1) Gap(horizontal = 16.dp)
@@ -99,7 +105,8 @@ private fun DailyItem(
     icon: Int,
     precipitationProbability: Int?,
     units: WeatherUnits,
-    onDailyItemClick: () -> Unit
+    onDailyItemClick: () -> Unit,
+    date: String
 ) {
 
 
@@ -150,6 +157,11 @@ private fun DailyItem(
                     weekday,
                     color = MaterialTheme.colorScheme.onSurface,
                     style = MaterialTheme.typography.bodyLarge
+                )
+                Text(
+                    date,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MaterialTheme.typography.bodySmall
                 )
             }
         }
