@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app.data.local.mapper.locations
 
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.network.sources.search.accu.json.AccuSearchJson
 import com.pranshulgg.weather_master_app.core.network.sources.search.geonames.json.GeoNamesSearchJson
 import com.pranshulgg.weather_master_app.core.network.sources.search.openmeteo.json.OpenMeteoSearchJson
 import com.pranshulgg.weather_master_app.core.utils.ids.UuidGenerator
@@ -50,6 +51,29 @@ fun GeoNamesSearchJson.toDomain(): List<Location> {
             isDefault = false
         )
     }
+}
+
+
+@JvmName("accuSearchListToDomain")
+fun List<AccuSearchJson>.toDomain(): List<Location> {
+    if (this.isEmpty()) {
+        return emptyList()
+    }
+
+    return List(this.size) {
+        Location(
+            id = UuidGenerator.generateId(),
+            name = this[it].name,
+            latitude = this[it].geoPosition.latitude,
+            longitude = this[it].geoPosition.longitude,
+            country = this[it].country.name,
+            timezone = this[it].timezone.name,
+            countryCode = this[it].country.countryCode,
+            state = this[it].administrativeArea.name ?: "",
+            isDefault = false
+        )
+    }
+
 }
 
 fun Location.toEntity(): WeatherLocationEntity =

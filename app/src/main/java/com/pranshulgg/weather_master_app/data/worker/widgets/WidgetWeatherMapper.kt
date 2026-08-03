@@ -111,7 +111,8 @@ fun widgetWeatherMapper(
         currentIcon = currentIcon,
         currentFrog = currentFrogIcon,
         locationName = weather.location.name,
-        summary = daySummary
+        summary = daySummary,
+        weatherCondition = weather.current.weatherCondition
     )
 
     // Convert to string

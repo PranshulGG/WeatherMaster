@@ -58,6 +58,8 @@ fun ClockDailyWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
     var widgetTheme by remember { mutableStateOf(WidgetTheme.AUTO) }
     var widgetTextTheme by remember { mutableStateOf(WidgetTextTheme.AUTO) }
 
+    var isWeatherBackground by remember { mutableStateOf(false) }
+
     val formats = listOf("EEE d MMM", "EEE MMM d", "EEE MM-dd")
 
     val btnSize = ButtonDefaults.MediumContainerHeight
@@ -70,8 +72,13 @@ fun ClockDailyWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
     val widgetTextThemeOptions =
         WidgetTextTheme.entries.map { DialogOption(it.toString(), stringResource(it.label)) }
 
+    var isDisplayHourly by remember { mutableStateOf(false) }
+
     var selectedDailyCount by remember { mutableFloatStateOf(4f) }
     var selectedIconSize by remember { mutableFloatStateOf(1f) }
+
+    var selectedHourlyCount by remember { mutableFloatStateOf(6f) }
+
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surfaceContainer
@@ -98,7 +105,10 @@ fun ClockDailyWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                         dateFormat,
                         selectedFontSize,
                         selectedDailyCount,
-                        selectedIconSize
+                        selectedIconSize,
+                        isDisplayHourly,
+                        selectedHourlyCount,
+                        isWeatherBackground
                     )
                 }
             }
@@ -115,21 +125,46 @@ fun ClockDailyWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                             dateFormat = it
                         }
                     ),
-                    SettingTile.DialogOptionTile(
-                        leading = { SettingsTileIcon(R.drawable.palette_24px) },
-                        title = "Widget background",
-                        options = widgetThemeOptions,
-                        selectedOption = widgetTheme.toString(),
-                        onOptionSelected = {
-                            val selected = when (it) {
-                                "AUTO" -> WidgetTheme.AUTO
-                                "DARK" -> WidgetTheme.DARK
-                                "LIGHT" -> WidgetTheme.LIGHT
-                                "TRANSPARENT" -> WidgetTheme.TRANSPARENT
-                                else -> WidgetTheme.AUTO
-                            }
+                    SettingTile.SwitchTile(
+                        leading = { SettingsTileIcon(R.drawable.date_range_24px) },
+                        title = "Hourly forecast",
+                        description = "Displays hourly instead of daily forecast",
+                        checked = isDisplayHourly,
+                        onCheckedChange = {
+                            isDisplayHourly = it
+                        }
+                    ),
+                    if (!isWeatherBackground) {
+                        SettingTile.DialogOptionTile(
+                            leading = { SettingsTileIcon(R.drawable.palette_24px) },
+                            title = "Widget background",
+                            options = widgetThemeOptions,
+                            selectedOption = widgetTheme.toString(),
+                            onOptionSelected = {
+                                val selected = when (it) {
+                                    "AUTO" -> WidgetTheme.AUTO
+                                    "DARK" -> WidgetTheme.DARK
+                                    "LIGHT" -> WidgetTheme.LIGHT
+                                    "TRANSPARENT" -> WidgetTheme.TRANSPARENT
+                                    else -> WidgetTheme.AUTO
+                                }
 
-                            widgetTheme = selected
+                                widgetTheme = selected
+                            }
+                        )
+                    } else null,
+                    SettingTile.SwitchTile(
+                        leading = { },
+                        title = "Weather background",
+                        description = "Changes widget background color based on the current conditions",
+                        checked = isWeatherBackground,
+                        onCheckedChange = {
+                            isWeatherBackground = it
+                            widgetTextTheme = if (it) {
+                                WidgetTextTheme.WHITE
+                            } else {
+                                WidgetTextTheme.AUTO
+                            }
                         }
                     ),
                     SettingTile.DialogOptionTile(
@@ -162,20 +197,37 @@ fun ClockDailyWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                             selectedFontSize = it
                         },
                     ),
-                    SettingTile.DialogSliderTile(
-                        title = "Daily forecast count",
-                        dialogTitle = "Daily forecast count",
-                        leading = { SettingsTileIcon(R.drawable.date_range_24px) },
-                        valueRange = 2f..6f,
-                        description = "${selectedDailyCount.roundToInt()} days",
-                        isDescriptionAsValue = true,
-                        initialValue = selectedDailyCount,
-                        labelFormatter = { "${it.roundToInt()}" },
-                        steps = 3,
-                        onValueSubmitted = {
-                            selectedDailyCount = it
-                        }
-                    ),
+                    if (!isDisplayHourly) {
+                        SettingTile.DialogSliderTile(
+                            title = "Daily forecast count",
+                            dialogTitle = "Daily forecast count",
+                            leading = { SettingsTileIcon(R.drawable.date_range_24px) },
+                            valueRange = 2f..6f,
+                            description = "${selectedDailyCount.roundToInt()} days",
+                            isDescriptionAsValue = true,
+                            initialValue = selectedDailyCount,
+                            labelFormatter = { "${it.roundToInt()}" },
+                            steps = 3,
+                            onValueSubmitted = {
+                                selectedDailyCount = it
+                            }
+                        )
+                    } else {
+                        SettingTile.DialogSliderTile(
+                            title = "Hourly forecast count",
+                            dialogTitle = "Hourly forecast count",
+                            leading = { SettingsTileIcon(R.drawable.date_range_24px) },
+                            valueRange = 2f..12f,
+                            description = "${selectedHourlyCount.roundToInt()} hours",
+                            isDescriptionAsValue = true,
+                            initialValue = selectedHourlyCount,
+                            labelFormatter = { "${it.roundToInt()}" },
+                            steps = 9,
+                            onValueSubmitted = {
+                                selectedHourlyCount = it
+                            }
+                        )
+                    },
                     SettingTile.DialogSliderTile(
                         title = "Icon size",
                         dialogTitle = "Icon size",
@@ -203,7 +255,10 @@ fun ClockDailyWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                             widgetTextTheme = widgetTextTheme,
                             fontSize = selectedFontSize,
                             dailyCount = selectedDailyCount.roundToInt(),
-                            iconSize = selectedIconSize
+                            iconSize = selectedIconSize,
+                            isWeatherBackground = isWeatherBackground,
+                            isDisplayHourly = isDisplayHourly,
+                            hourlyCount = selectedHourlyCount.roundToInt()
                         )
                     )
                 },
@@ -234,7 +289,10 @@ private fun ClockDailyWidgetPreview(
     format: String,
     fontSize: Float,
     dailyCount: Float,
-    iconSize: Float
+    iconSize: Float,
+    isDisplayHourly: Boolean,
+    hourlyCount: Float,
+    isWeatherBackground: Boolean
 ) {
 
     val textColor = when (textTheme) {
@@ -271,6 +329,40 @@ private fun ClockDailyWidgetPreview(
         Daily("30°/25°", R.drawable.weather_overcast, "Sat"),
     )
 
+    // HOURLY
+    val times = listOf(
+        "7PM",
+        "8PM",
+        "9PM",
+        "10PM",
+        "11PM",
+        "12AM",
+        "1AM",
+        "2AM",
+        "3AM",
+        "4AM",
+        "5AM",
+        "6AM",
+        "7AM"
+    )
+    val temps = listOf(15, 17, 18, 19, 20, 21, 22, 24, 26, 26, 27, 27, 28)
+    val icons = listOf(
+        R.drawable.weather_clear_night,
+        R.drawable.weather_partly_cloudy_night,
+        R.drawable.weather_partly_cloudy_night,
+        R.drawable.weather_partly_cloudy_night,
+        R.drawable.weather_clear_night,
+        R.drawable.weather_clear_night,
+        R.drawable.weather_clear_night,
+        R.drawable.weather_mostly_clear_night,
+        R.drawable.weather_mostly_clear_night,
+        R.drawable.weather_mostly_clear_night,
+        R.drawable.weather_clear_night,
+        R.drawable.weather_clear_night,
+        R.drawable.weather_clear_night
+    )
+
+
     val clockFontSize = 50 * fontSize
     val dateConditionFontSize = 18 * fontSize
     val mainIconSize = 52 * iconSize
@@ -282,7 +374,7 @@ private fun ClockDailyWidgetPreview(
             .fillMaxWidth()
             .height(220.dp)
             .background(
-                widgetColor,
+                if (isWeatherBackground) Color(0xFF04008e) else widgetColor,
                 RoundedCornerShape(ShapeRadius.ExtraLarge)
             )
     ) {
@@ -307,18 +399,39 @@ private fun ClockDailyWidgetPreview(
                 Text("31° Clear sky", color = textColor, fontSize = dateConditionFontSize.sp)
             }
             Spacer(Modifier.weight(1f))
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                days.take(dailyCount.roundToInt()).forEach {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(vertical = 5.dp)
-                    ) {
-                        DailyItem(it.day, it.icon, it.temps, textColor, fontSize, iconSize)
+            if (!isDisplayHourly) {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    days.take(dailyCount.roundToInt()).forEach {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(vertical = 5.dp)
+                        ) {
+                            DailyItem(it.day, it.icon, it.temps, textColor, fontSize, iconSize)
+                        }
+                    }
+                }
+            } else {
+                Row(
+                    verticalAlignment = Alignment.Bottom,
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    times.take(hourlyCount.roundToInt()).forEachIndexed { index, string ->
+
+                        HourlyItem(
+                            string,
+                            icons[index],
+                            temps[index],
+                            textColor = textColor,
+                            fontSize = fontSize,
+                            iconSize = iconSize
+                        )
                     }
                 }
             }
@@ -327,6 +440,7 @@ private fun ClockDailyWidgetPreview(
 
 
 }
+
 
 @Composable
 private fun DailyItem(
@@ -346,4 +460,38 @@ private fun DailyItem(
     Text(temps, color = textColor, fontWeight = FontWeight.Medium, fontSize = fontSize.sp)
 
 
+}
+
+@Composable
+private fun HourlyItem(
+    time: String,
+    icon: Int,
+    temps: Int, textColor: Color,
+    fontSize: Float,
+    iconSize: Float
+) {
+    val hourlyIconSize = 22 * iconSize
+    val hourlyTextSize = 14 * fontSize
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .padding(horizontal = 5.dp, vertical = 5.dp)
+    ) {
+        Text(
+            "${temps}°",
+            fontSize = hourlyTextSize.sp,
+            fontWeight = FontWeight.Medium,
+            color = textColor
+        )
+        Gap(3.dp)
+        WeatherIconBox(icon, hourlyIconSize.dp)
+        Gap(3.dp)
+        Text(
+            time,
+            fontSize = hourlyTextSize.sp,
+            fontWeight = FontWeight.Medium,
+            color = textColor
+        )
+    }
 }

@@ -42,6 +42,7 @@ import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import com.pranshulgg.weather_master_app.MainActivity
 import com.pranshulgg.weather_master_app.R
+import com.pranshulgg.weather_master_app.core.model.weather.WeatherCondition
 import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateDefinition
 import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateJson
 import com.pranshulgg.weather_master_app.widgets.config.WidgetConfig
@@ -50,8 +51,10 @@ import com.pranshulgg.weather_master_app.widgets.params.WidgetSizePoints
 import com.pranshulgg.weather_master_app.widgets.ui.ReloadButton
 import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetColors
 import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTheme
+import com.pranshulgg.weather_master_app.widgets.ui.colors.getWidgetWeatherBackground
 import com.pranshulgg.weather_master_app.widgets.ui.views.WidgetClock
 import com.pranshulgg.weather_master_app.widgets.ui.views.WidgetDate
+import com.pranshulgg.weather_master_app.widgets.weather.components.WidgetHourlyItem
 import kotlinx.serialization.json.Json
 
 
@@ -82,13 +85,18 @@ class ClockDailyWidget : GlanceAppWidget() {
             }
 
             val config = widgetState.config
-            val modifier = when (config.widgetTheme) {
-                WidgetTheme.TRANSPARENT -> GlanceModifier.fillMaxSize()
-                else -> GlanceModifier.fillMaxSize()
-                    .appWidgetBackgroundShape(config.widgetTheme, widgetColors)
-            }
-            if (state != null) {
 
+            if (state != null) {
+                val modifier = when (config.widgetTheme) {
+                    WidgetTheme.TRANSPARENT -> GlanceModifier.fillMaxSize()
+                    else -> GlanceModifier.fillMaxSize()
+                        .appWidgetBackgroundShape(
+                            config.widgetTheme,
+                            widgetColors,
+                            config.isWeatherBackground,
+                            state.weatherCondition
+                        )
+                }
                 val textColor = widgetColors
                     .getTextColor(config.widgetTextTheme, config.widgetTheme)
                     ?: Pair(GlanceTheme.colors.onSurface, null)
@@ -97,6 +105,10 @@ class ClockDailyWidget : GlanceAppWidget() {
                 val clockFontSize = 50 * config.fontSize
                 val dateConditionFontSize = 18 * config.fontSize
                 val mainIconSize = 52 * config.iconSize
+
+                val textColorVariant = widgetColors
+                    .getTextVariantColor(config.widgetTextTheme, config.widgetTheme)
+                    ?: GlanceTheme.colors.onSurfaceVariant
 
 
                 Box(
@@ -156,23 +168,45 @@ class ClockDailyWidget : GlanceAppWidget() {
                         }
                         Spacer(GlanceModifier.defaultWeight())
 
-                        Row(
-                            GlanceModifier.fillMaxWidth(),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            state.daily.take(config.dailyCount).forEach {
-                                Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    modifier = GlanceModifier.defaultWeight()
-                                        .padding(vertical = 5.dp)
-                                ) {
-                                    DailyItem(
-                                        day = it.time,
-                                        icon = it.conditionIcon,
-                                        temps = "${it.tempMax}/${it.tempMin}",
-                                        textColor = textColor,
-                                        config
+                        if (config.isDisplayHourly) {
+                            Row(
+                                verticalAlignment = Alignment.Bottom,
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = GlanceModifier.fillMaxWidth()
+                            ) {
+                                val hourlyIconSize = 22 * config.iconSize
+                                val hourlyTextSize = 14 * config.fontSize
+                                state.hourly.take(config.hourlyCount).forEach {
+                                    WidgetHourlyItem(
+                                        it.time,
+                                        it.temp,
+                                        it.conditionIcon,
+                                        hourlyTextSize,
+                                        hourlyIconSize,
+                                        textColor.first,
+                                        textColorVariant
                                     )
+                                }
+                            }
+                        } else {
+                            Row(
+                                GlanceModifier.fillMaxWidth(),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                state.daily.take(config.dailyCount).forEach {
+                                    Column(
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        modifier = GlanceModifier.defaultWeight()
+                                            .padding(vertical = 5.dp)
+                                    ) {
+                                        DailyItem(
+                                            day = it.time,
+                                            icon = it.conditionIcon,
+                                            temps = "${it.tempMax}/${it.tempMin}",
+                                            textColor = textColor,
+                                            config
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -190,11 +224,16 @@ class ClockDailyWidget : GlanceAppWidget() {
 @Composable
 private fun GlanceModifier.appWidgetBackgroundShape(
     theme: WidgetTheme,
-    widgetColors: WidgetColors
+    widgetColors: WidgetColors,
+    isWeatherBackground: Boolean,
+    weatherCondition: WeatherCondition
 ): GlanceModifier {
 
 
-    val color = widgetColors.getBackgroundColor(theme)
+    val color =
+        if (isWeatherBackground) getWidgetWeatherBackground(weatherCondition) else widgetColors.getBackgroundColor(
+            theme
+        )
 
 
     return if (Build.VERSION.SDK_INT >= 31) {

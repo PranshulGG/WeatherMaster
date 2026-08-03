@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.widgets.config
 
+import com.pranshulgg.weather_master_app.core.model.weather.WeatherCondition
 import com.pranshulgg.weather_master_app.widgets.model.WidgetVariant
 import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTextTheme
 import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTheme
@@ -17,6 +18,8 @@ data class WidgetConfig(
     val fontSize: Float = 1f,
     val iconSize: Float = 1f,
     val dailyCount: Int = 4,
-    val showDailyInsteadOfCurrent: Boolean = false
+    val showDailyInsteadOfCurrent: Boolean = false,
+    val isWeatherBackground: Boolean = false,
+    val isDisplayHourly: Boolean = false
 
 )

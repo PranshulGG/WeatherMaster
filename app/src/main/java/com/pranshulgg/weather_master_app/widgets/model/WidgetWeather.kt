@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app.widgets.model
 
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherCurrent
+import com.pranshulgg.weather_master_app.core.model.weather.WeatherCondition
 import com.pranshulgg.weather_master_app.core.model.weather.uv.UvIndex
 import kotlinx.serialization.Serializable
 
@@ -13,7 +14,8 @@ data class WidgetWeather(
     val hourly: List<WidgetHourlyItem>,
     val daily: List<WidgetDailyItem>,
     val locationName: String,
-    val summary: String
+    val summary: String,
+    val weatherCondition: WeatherCondition
 )
 
 @Serializable
