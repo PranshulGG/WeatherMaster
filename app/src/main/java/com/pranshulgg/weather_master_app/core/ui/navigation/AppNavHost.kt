@@ -23,6 +23,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
+import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlockType
 import com.pranshulgg.weather_master_app.feature.alerts.AlertsScreen
 import com.pranshulgg.weather_master_app.feature.blocks.screens.SunMoonScreen
 import com.pranshulgg.weather_master_app.feature.blocks.screens.airquality.AirQualityScreen
@@ -72,7 +73,6 @@ fun AppNavHost(
             navigation(
                 route = "root",
                 startDestination = NavRoutes.MAIN
-//                startDestination = NavRoutes.alerts("5e8c6c88-e85a-4e76-8d0b-5d1eb2906acd")
             ) {
                 composable(
                     NavRoutes.MAIN
