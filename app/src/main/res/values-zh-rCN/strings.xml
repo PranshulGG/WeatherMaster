@@ -280,7 +280,7 @@
     <string name="weather_wind_direction_from">%1$s风</string>
     <string name="day_length_hr">%1$s 小时</string>
     <string name="error_no_results">未找到结果</string>
-    <string name="summary_overview_template_same_condition"></string>
+    <string name="summary_overview_template_same_condition">It will stay %1$s throughout the day and night.</string>
     <string name="summary_overview_template_day_night_condition">日间将以%1$s为主，夜间转为%2$s。</string>
     <string name="summary_rain_template_day_night">During the day, rain is expected around %1$s with a %2$s chance. Tonight, there\'s a %3$s chance of rain around %4$s.</string>
     <string name="summary_rain_template_day">During the day, rain is expected around %1$s with a %2$s chance.</string>
@@ -296,7 +296,7 @@
     <string name="summary_overview_template_day_condition">白天%1$s。</string>
     <string name="summary_overview_template_night_condition">Conditions will turn %1$s at night.</string>
     <string name="gadgetbridge_not_available_error">Gadgetbridge 未安装</string>
-    <string name="settings_worker_info"></string>
+    <string name="settings_worker_info">Worker information</string>
     <string name="settings_send_data_gadgetbridge">向 Gadgetbridge 发送数据</string>
     <string name="aqi_PM25_full_label">粒径小于 2.5 微米的颗粒物</string>
     <string name="aqi_PM10_full_label">粒径小于 10 微米的颗粒物</string>
@@ -324,5 +324,4 @@
     <string name="confirm_delete_location">Delete Location</string>
     <string name="alert_delete_location_secondary">Are you sure you want to delete this location?</string>
     <string name="weather_alerts">Alerts</string>
-</resources>
-<!--<string name=""></string>-->
+</resources><!--<string name=""></string>-->

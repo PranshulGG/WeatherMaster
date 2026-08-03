@@ -219,7 +219,7 @@
     <string name="summary_uv_moderate_template_3">De zon zal de gehele dag matig schijnen.</string>
     <string name="weather_summary">Samenvatting</string>
     <string name="about_changelog">Changelog</string>
-    <string name="about"></string>
+    <string name="about">About</string>
     <string name="weather_max_for_the_day">Maximale voor de dag</string>
     <string name="weather_about_uv_index">De UV-index is een maatstaf voor de intensiviteit van de ultraviolette radiatie. De waarden van de index lopen op vanaf nu - hoe hoger de UV-index, hoe groter de kans op schade van de huid en oog, en hoe korter de tijd is voordat er schade ontstaat</string>
     <string name="text_scale">Schaal</string>
@@ -323,5 +323,4 @@
     <string name="confirm_delete_location">Delete Location</string>
     <string name="alert_delete_location_secondary">Are you sure you want to delete this location?</string>
     <string name="weather_alerts">Alerts</string>
-</resources>
-<!--<string name=""></string>-->
+</resources><!--<string name=""></string>-->
