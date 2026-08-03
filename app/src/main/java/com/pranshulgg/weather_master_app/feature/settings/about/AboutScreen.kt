@@ -105,6 +105,7 @@ fun AboutScreen(navController: NavController) {
                     SettingTile.ActionTile(
                         leading = { SettingsTileIcon(R.drawable.license_24px) },
                         title = stringResource(R.string.about_license),
+                        description = "GNU General Public License v3.0",
                         onClick = { navController.navigate(NavRoutes.LICENSE) }
                     ),
                     SettingTile.ActionTile(
