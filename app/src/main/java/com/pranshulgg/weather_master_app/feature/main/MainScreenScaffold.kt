@@ -6,11 +6,15 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.DrawerState
@@ -86,7 +90,7 @@ fun MainScreenScaffold(
     }
 
     Scaffold(
-        containerColor = if (isWeatherBasedTheme) Color.Black else MaterialTheme.colorScheme.surfaceContainerHigh
+        containerColor = if (isWeatherBasedTheme) Color.Black else MaterialTheme.colorScheme.surfaceContainerHigh,
     ) { paddingValues ->
         Box {
 
@@ -100,7 +104,12 @@ fun MainScreenScaffold(
                     enter = fadeIn(),
                     exit = fadeOut()
                 ) {
-                    weather?.let { WeatherAnimations(weather, isFroggyLayout) }
+                    weather?.let {
+                        WeatherAnimations(
+                            weather,
+                            if (isTabletLike) false else isFroggyLayout
+                        )
+                    }
                 }
             }
 
@@ -129,27 +138,26 @@ fun MainScreenScaffold(
                 ) { weather ->
                     Column(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .verticalScroll(scrollState)
+                            .fillMaxHeight()
+                            .fillMaxWidth()
+                            .verticalScroll(scrollState),
                     ) {
                         MainSearchBar(
-                            isFroggyLayout = isFroggyLayout,
+                            isFroggyLayout = if (isTabletLike) false else isFroggyLayout,
                             paddingValues = paddingValues,
                             navController,
                             drawerState,
                             uiState.activeLocation,
-                            onEditLocation,
-                            isTabletLike
+                            onEditLocation
                         )
                         if (weather != null) {
-
                             CurrentWeatherCard(
                                 weather,
                                 units,
                                 context,
-                                isFroggyLayout = isFroggyLayout
+                                isFroggyLayout = if (isTabletLike) false else isFroggyLayout
                             )
-                            if (isFroggyLayout) {
+                            if (if (isTabletLike) false else isFroggyLayout) {
                                 FroggyContainer(weather)
                             }
                             Column(
@@ -201,6 +209,7 @@ fun MainScreenScaffold(
                         }
                     }
                 }
+
             }
         }
     }

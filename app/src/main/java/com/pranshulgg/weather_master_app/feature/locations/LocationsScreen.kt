@@ -62,7 +62,6 @@ fun LocationsScreen(
     locations: List<Location>,
     activeLocation: Location?,
     onLocationSelect: (Location) -> Unit,
-    isTabletLike: Boolean = false,
     weatherViewModel: WeatherViewModel,
 ) {
 
@@ -104,10 +103,9 @@ fun LocationsScreen(
 
 
     Scaffold(
-        modifier = if (isTabletLike) Modifier.width(330.dp) else Modifier,
         containerColor = MaterialTheme.colorScheme.surfaceContainer,
         topBar = {
-            TopBar(onBack, isTabletLike)
+            TopBar(onBack)
         },
         floatingActionButton = {
             FloatingButton(navController)
@@ -162,7 +160,7 @@ fun LocationsScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TopBar(onBack: () -> Unit, isTabletLike: Boolean) {
+private fun TopBar(onBack: () -> Unit) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
         title = {
@@ -173,21 +171,19 @@ private fun TopBar(onBack: () -> Unit, isTabletLike: Boolean) {
             )
         },
         navigationIcon = {
-            if (!isTabletLike) {
-                Tooltip(
-                    "Navigate up",
-                    preferredPosition = TooltipAnchorPosition.Below,
-                    spacing = 10.dp
+            Tooltip(
+                "Navigate up",
+                preferredPosition = TooltipAnchorPosition.Below,
+                spacing = 10.dp
+            ) {
+                IconButton(
+                    onClick = { onBack() }, shapes = IconButtonDefaults.shapes()
                 ) {
-                    IconButton(
-                        onClick = { onBack() }, shapes = IconButtonDefaults.shapes()
-                    ) {
-                        Symbol(
-                            R.drawable.arrow_back_24px,
-                            desc = "arrow back icon",
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                    }
+                    Symbol(
+                        R.drawable.arrow_back_24px,
+                        desc = "arrow back icon",
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
                 }
             }
         },

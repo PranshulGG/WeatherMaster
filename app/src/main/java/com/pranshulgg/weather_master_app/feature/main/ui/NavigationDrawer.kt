@@ -16,15 +16,15 @@ fun NavigationDrawer(
     isTabletLike: Boolean
 ) {
 
-    if (isTabletLike) {
-        PermanentNavigationDrawer(
-            drawerContent = drawerContent
-        ) { content() }
-    } else {
-        DismissibleNavigationDrawer(
-            drawerState = drawerState,
-            drawerContent = drawerContent
-        ) { content() }
-    }
+//    if (isTabletLike) {
+//        PermanentNavigationDrawer(
+//            drawerContent = drawerContent
+//        ) { content() }
+//    } else {
+    DismissibleNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = drawerContent
+    ) { content() }
+//    }
 
 }

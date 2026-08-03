@@ -159,7 +159,6 @@ fun MainScreen(navController: NavController, weatherViewModel: WeatherViewModel)
                         weatherViewModel.setActiveLocation(it)
                     }
                 },
-                isTabletLike = isTabletLike,
                 weatherViewModel
             )
         },
