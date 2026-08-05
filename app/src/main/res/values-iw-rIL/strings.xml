@@ -329,8 +329,8 @@
     <string name="alert_severity_medium">חומרה בינונית</string>
     <string name="alert_severity_low">נמוכה</string>
     <string name="alert_severity_unknown">לא ידועה</string>
-    <string name="confirm_delete_location">Delete Location</string>
-    <string name="alert_delete_location_secondary">Are you sure you want to delete this location?</string>
-    <string name="weather_alerts">Alerts</string>
+    <string name="confirm_delete_location">מחיקת מיקום</string>
+    <string name="alert_delete_location_secondary">למחוק מיקום זה?</string>
+    <string name="weather_alerts">התרעות</string>
 </resources>
 <!--<string name=""></string>-->
