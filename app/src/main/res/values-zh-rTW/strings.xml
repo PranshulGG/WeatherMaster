@@ -118,7 +118,7 @@
     <string name="weather_airquality_fair">晴朗</string>
     <string name="weather_airquality_moderate">中等</string>
     <string name="weather_airquality_poor">天氣惡劣</string>
-    <string name="weather_airquality_very_poor">極差氣象狀態</string>
+    <string name="weather_airquality_very_poor">極差</string>
     <string name="weather_airquality_hazardous">災害性氣候</string>
     <string name="weather_aqi_description_good">空氣品質尚屬良好，空氣汙染幾乎不會造成健康風險。</string>
     <string name="weather_aqi_description_fair">空氣品質尚可接受。惟少數民眾存有健康隱憂，特別是對空氣汙染具高度敏感體質者。</string>
@@ -137,7 +137,7 @@
     <string name="weather_snow_block">雪</string>
     <string name="search_source">污染源搜尋</string>
     <string name="weather_source">天氣源頭</string>
-    <string name="weather_sources">氣象來源因子</string>
+    <string name="weather_sources">天氣資訊來源</string>
     <string name="sources">來源</string>
     <string name="source">源頭</string>
     <string name="recommended_sources">建議性源頭</string>
@@ -230,7 +230,7 @@
     <string name="text_good">狀態良好</string>
     <string name="text_moderate">中等</string>
     <string name="text_poor">天氣惡劣</string>
-    <string name="text_very_poor">很糟</string>
+    <string name="text_very_poor">極差</string>
     <string name="text_dense_fog">濃霧</string>
     <string name="visibility_description_excellent">能見度很高，遠處的景物可以輕鬆看見</string>
     <string name="visibility_description_very_good">非常晴朗</string>
