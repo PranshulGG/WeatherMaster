@@ -25,7 +25,9 @@ class MainScreenViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            checkForUpdates()
+            if (!_uiState.value.isGooglePlayStoreRelease) {
+                checkForUpdates()
+            }
         }
     }
 

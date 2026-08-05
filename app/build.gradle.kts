@@ -40,10 +40,11 @@ android {
     android.buildFeatures.buildConfig = true
 
     defaultConfig {
-        applicationId = "com.pranshulgg.weather_master_app"
+        applicationId =
+            "com.pranshulgg.weather_master_app" // com.pranshulgg.weather_master for Google Play Store
         minSdk = 26
         targetSdk = 36
-        versionCode = 57
+        versionCode = 58
         versionName = versionNameString
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
