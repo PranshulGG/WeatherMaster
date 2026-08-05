@@ -287,8 +287,8 @@
     <string name="error_no_results">Ничего не найдено</string>
     <string name="summary_overview_template_same_condition">В течение всего дня и ночи будет %1$s.</string>
     <string name="summary_overview_template_day_night_condition">Днём будет %1$s, а ночью %2$s.</string>
-    <string name="summary_rain_template_day_night">Днём дождь ожидается около %1$s с вероятностью %2$s. Ночью вероятность дождя составляет %3$s в районе %4$s.</string>
-    <string name="summary_rain_template_day">Днём дождь ожидается около %1$s с вероятностью %2$s.</string>
+    <string name="summary_rain_template_day_night">В течение дня ожидается дождь в районе %1$s с вероятностью %2$s. Ночью вероятность дождя в районе %4$s составляет %3$s.</string>
+    <string name="summary_rain_template_day">В течение дня ожидается дождь в районе %1$s с вероятностью %2$s.</string>
     <string name="summary_rain_template_night">Сегодня вечером вероятность дождя в районе %2$s составляет %1$s.</string>
     <string name="summary_snow_template_day_night">В течение дня прогнозируется снег с интенсивностью около %1$s и вероятностью %2$s. Ночью сохраняется вероятность снегопада с интенсивностью около %4$s и вероятностью %3$s.</string>
     <string name="summary_snow_template_day">В течение дня прогнозируется снег в районе %1$s и вероятностью %2$s.</string>
