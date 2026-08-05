@@ -44,20 +44,4 @@ object SharedDialogs {
     }
 
 
-//    @Composable
-//    fun ChangelogDialog(
-//        show: Boolean,
-//        onDismiss: () -> Unit,
-//        version: String,
-//    ) {
-//        DialogBasic(
-//            show = show,
-//            onDismiss = onDismiss,
-//            title = "Change Log $version",
-//            dismissText = stringResource(R.string.action_ok),
-//            showOnlyDismissAction = true
-//        ) {
-//            ChangelogContent()
-//        }
-//    }
 }
