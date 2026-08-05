@@ -95,7 +95,7 @@
     <string name="action_delete">Apagar</string>
     <string name="error_delete_default_location">Não é possível eliminar o local padrão</string>
     <string name="setting_app_looks">Aparência da aplicação</string>
-    <string name="temp_feels_like">Sensação térmica</string>
+    <string name="temp_feels_like">Sensação térmica %1$s</string>
     <string name="temp_max">Máx.: %1$s</string>
     <string name="temp_min">Mín.: %1$s</string>
     <string name="search_results_provided">Resultados da pesquisa fornecido por %1$s</string>
@@ -323,5 +323,4 @@
     <string name="confirm_delete_location">Delete Location</string>
     <string name="alert_delete_location_secondary">Are you sure you want to delete this location?</string>
     <string name="weather_alerts">Alerts</string>
-</resources>
-<!--<string name=""></string>-->
+</resources><!--<string name=""></string>-->

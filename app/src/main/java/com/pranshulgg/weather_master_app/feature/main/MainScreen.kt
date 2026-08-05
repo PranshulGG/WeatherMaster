@@ -66,7 +66,7 @@ data class MainScreenUiState(
     val lastestVersionUrl: String = "https://github.com/PranshulGG/WeatherMaster/releases/latest",
     val isUnsupportedSourceDialogOpen: Boolean = false,
     val isChangelogSheetOpen: Boolean = false,
-    val isGooglePlayStoreRelease: Boolean = false // Set TRUE when building for play store
+    val isGooglePlayStoreRelease: Boolean = BuildConfig.IS_PLAYSTORE_BUILD
 )
 
 @OptIn(ExperimentalMaterial3Api::class)

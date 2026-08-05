@@ -32,6 +32,8 @@ val hasKeystore = keystoreFile.exists()
 
 val versionNameString = "3.8.0"
 
+val playStore = false
+
 android {
     namespace = "com.pranshulgg.weather_master_app"
     compileSdk {
@@ -40,8 +42,11 @@ android {
     android.buildFeatures.buildConfig = true
 
     defaultConfig {
-        applicationId =
-            "com.pranshulgg.weather_master_app" // com.pranshulgg.weather_master for Google Play Store
+        applicationId = if (playStore) {
+            "com.pranshulgg.weather_master"
+        } else {
+            "com.pranshulgg.weather_master_app"
+        }
         minSdk = 26
         targetSdk = 36
         versionCode = 58
@@ -77,6 +82,12 @@ android {
             "String",
             "APP_VERSION",
             "\"v${versionNameString}\""
+        )
+
+        buildConfigField(
+            "boolean",
+            "IS_PLAYSTORE_BUILD",
+            playStore.toString()
         )
     }
 
