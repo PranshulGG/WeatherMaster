@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.feature.alerts
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -49,6 +50,10 @@ fun AlertsScreen(navController: NavController, locationId: String) {
         viewModel.getLocation(locationId)
     }
 
+
+    if (!uiState.alerts.isNotEmpty()) {
+        return
+    }
 
     LargeTopBarScaffold(
         title = "Alerts",
