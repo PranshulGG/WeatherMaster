@@ -46,7 +46,7 @@
     </plurals>
     <string name="time_just_now">Ką tik</string>
     <string name="time_last_updated">Paskutinis atnaujinimas: %1$s</string>
-    <string name="weather_no_data">Nėra oro duomenų.</string>
+    <string name="weather_no_data">Nėra duomenų</string>
     <string name="weather_clear_sky">Giedra</string>
     <string name="weather_overcast">Apsiniaukę</string>
     <string name="weather_partly_cloudy">Vietomis debesuota</string>
