@@ -295,19 +295,19 @@
     <string name="summary_overview_template_day_condition">Durante il giorno, è previsto %1$s.</string>
     <string name="summary_overview_template_night_condition">Durante la notte, è previsto %1$s.</string>
     <string name="gadgetbridge_not_available_error">Gadgetbridge non è installata</string>
-    <string name="settings_worker_info">Worker information</string>
+    <string name="settings_worker_info">Informazioni worker</string>
     <string name="settings_send_data_gadgetbridge">Invia dati a Gadgetbridge</string>
     <string name="aqi_PM25_full_label">PM2.5</string>
     <string name="aqi_PM10_full_label">PM10</string>
     <string name="aqi_CO_full_label">Monossido di carbonio</string>
     <string name="aqi_NO2_full_label">Biossido di Azoto</string>
     <string name="aqi_SO2_full_label">Anidride Solforosa</string>
-    <string name="aqi_O3_full_label">Ground surface</string>
-    <string name="settings_worker_info_successful_run">Last successful run</string>
+    <string name="aqi_O3_full_label">Superficie terreno</string>
+    <string name="settings_worker_info_successful_run">Ultimo tentativo riuscito</string>
     <string name="label_never">Mai</string>
-    <string name="worker_run_attempt">Run attempt</string>
+    <string name="worker_run_attempt">Tenattivo di esecuzione</string>
     <string name="worker_tags">Tag</string>
-    <string name="worker_next_schedule">Next schedule</string>
+    <string name="worker_next_schedule">Prossima pia pianificazione</string>
     <string name="action_save_changes">Salve le modifiche</string>
     <string name="weather_alert_source">Sorgente allerte meteo</string>
     <string name="location_edit">Modifica la posizione</string>
@@ -320,8 +320,8 @@
     <string name="alert_severity_medium">Medio</string>
     <string name="alert_severity_low">Basso</string>
     <string name="alert_severity_unknown">Sconosciuto</string>
-    <string name="confirm_delete_location">Delete Location</string>
-    <string name="alert_delete_location_secondary">Are you sure you want to delete this location?</string>
-    <string name="weather_alerts">Alerts</string>
+    <string name="confirm_delete_location">Elimina località</string>
+    <string name="alert_delete_location_secondary">Sei sicuro di voler eliminare questa località?</string>
+    <string name="weather_alerts">Avvisi</string>
 </resources>
 <!--<string name=""></string>-->
