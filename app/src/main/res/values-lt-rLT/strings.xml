@@ -97,7 +97,7 @@
     <string name="setting_app_theme">Išvaizda</string>
     <string name="search_empty_state_title">Ieškoti vietovių</string>
     <string name="search_empty_state_secondary">Įveskite miestą arba vietovę, norėdami peržiūrėti orų prognozę.</string>
-    <string name="action_set_default">Nustatyti kaip numatytąjį</string>
+    <string name="action_set_default">Nustatyti kaip numatytąją</string>
     <string name="action_delete">Pašalinti</string>
     <string name="error_delete_default_location">Negalima pašalinti numatytosios vietos</string>
     <string name="setting_app_looks">Programėlės išvaizda</string>
