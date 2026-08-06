@@ -69,7 +69,9 @@ fun HumidityHourlyCard(data: List<WeatherHourly>, zoneId: String) {
 
                     val item = data[index]
 
-                    val barHeight = max((item.humidity!!.div(100.0)).times(140), 5.0)
+                    val barHeight =
+                        max((item.humidity!!.div(100.0)).times(140), 5.0).takeIf { !it.isNaN() }
+                            ?: 5.0
 
                     val barColor = when {
                         item.humidity < 20 -> Color(0xFFC62828)

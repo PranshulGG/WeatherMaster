@@ -32,6 +32,7 @@ import com.pranshulgg.weather_master_app.core.utils.formatters.to12HourTimeStrin
 import com.pranshulgg.weather_master_app.core.utils.formatters.to24HourTimeString
 import com.pranshulgg.weather_master_app.feature.shared.components.CardsHeader
 import kotlin.collections.map
+import kotlin.isNaN
 import kotlin.math.max
 import kotlin.math.roundToInt
 
@@ -90,8 +91,11 @@ fun DewPointHourlyCard(
 
                     val percentage = ((item.dewPoint!!.minus(min)).div((max - min))).times(
                         100
-                    ).roundToInt()
-                    val barHeight = max((percentage.div(100.0)).times(140), 5.0)
+                    ).takeIf { !it.isNaN() } ?: 5.0
+                    val barHeight = max(
+                        (percentage.div(100.0)).times(140),
+                        5.0
+                    ).takeIf { !it.isNaN() } ?: 5.0
 
                     val barColor = when {
                         item.dewPoint < 0 -> Color(0xFF1565C0)
