@@ -61,7 +61,7 @@
     <string name="weather_very_cold">קפוא</string>
     <string name="weather_haze">אובך</string>
     <string name="weather_rain">גשום</string>
-    <string name="weather_no_condition">לא נמצאו תנאים</string>
+    <string name="weather_no_condition">לא נמצאו תנאי מזג אוויר</string>
     <string name="weather_uv_low">נמוכה</string>
     <string name="weather_uv_moderate">מתונה</string>
     <string name="weather_uv_high">גבוהה</string>
@@ -83,7 +83,7 @@
     <string name="unit_wind_mph">מיל לשעה</string>
     <string name="unit_wind_kph">קילומטרים לשעה</string>
     <string name="unit_pressure_hpa">הטרופסקלים</string>
-    <string name="unit_pressure_inhg">אינצ\'ים של כספית</string>
+    <string name="unit_pressure_inhg">אינצ׳ים של כספית</string>
     <string name="unit_distance_km">קילומטרים</string>
     <string name="unit_distance_mi">מיל</string>
     <string name="unit_distance_m">מטרים</string>
@@ -198,21 +198,21 @@
     <string name="setting_about_app">על היישום</string>
     <string name="about_terms_conditions">תנאים והתניות</string>
     <string name="about_privacy_policy">מדיניות פרטיות</string>
-    <string name="about_create_issue">יצירת דו\"ח תקלה</string>
+    <string name="about_create_issue">יצירת דו״ח תקלה</string>
     <string name="about_view_on_github">הצגה ב־GitHub</string>
     <string name="about_license">רישיון</string>
     <string name="message_new_version_available">גרסה חדשה זמינה</string>
     <string name="message_using_latest_version">נעשה שימוש בגרסה העדכנית</string>
     <string name="about_check_for_updates">בדיקת עדכונים</string>
     <string name="action_view">הצגה</string>
-    <string name="setting_weather_sources_info">מקורות שונים לכל אזור מומלצים בהתאם לקוד המדינה</string>
+    <string name="setting_weather_sources_info">ההמלצה להשתמש במקורות שונים לכל אזור משתנה לפי קוד המדינה</string>
     <string name="setting_weather_animations">הנפשות מזג אוויר</string>
     <string name="setting_weather_animations_secondary">הנפשות על המסך שמשתנות בהתאם למזג האוויר הנוכחי</string>
     <string name="setting_froggy_layout">תצוגה עם צפרדע</string>
     <string name="setting_froggy_layout_secondary">להצגת הכרטיסים הקלאסיים עם הצפרדע שלGoogle Weather. ניתן לכבות בשביל להשתמש בסגנון הכרטיסים החדש יותר של Pixel Weather</string>
     <string name="setting_layout">פריסה</string>
     <string name="setting_weather_based_theme">ערכת נושא המבוססת על מזג האוויר</string>
-    <string name="setting_weather_based_theme_secondary">מעניק ליישום צבעים בהתבסס על תנאי מזג האוויר הנוכחיים.</string>
+    <string name="setting_weather_based_theme_secondary">שינוי אוטומטי של צבעי היישום בהתאם לתנאי מזג האוויר הנוכחיים.</string>
     <string name="unit_pressure_mmhg">מילימטרים של כספית</string>
     <string name="summary_uv_extreme_template_1">רמת החשיפה לקרינת UV תגיע לרמות שיא בשעה %1$s.</string>
     <string name="summary_uv_extreme_template_2">יש צפי לרמות קרינת UV גבוהות במידה מסוכנת בשעה %1$s.</string>
@@ -290,24 +290,22 @@
     <string name="summary_rain_template_day_night">במהלך היום, צפוי לרדת גשם בסביבות %1$s עם סיכויים של %2$s. במהלך הלילה יש סיכוי של %3$s שירד גשם בסביבות %4$s.</string>
     <string name="summary_rain_template_day">במהלך היום, צפוי לרדת גשם בסביבות %1$s עם סיכויים של %2$s.</string>
     <string name="summary_rain_template_night">הלילה יש סיכוי של %1$s לירידת גשם בסביבות %2$s.</string>
-    <string name="summary_snow_template_day_night">שלג צפוי בסביבות %1$s במהלך היום עם סיכוי של %2$s. במהלך הלילה, ישנו עדיין סיכוי לשלג עם סיכוי של %3$s בסביבות %4$s.</string>
-    <string name="summary_snow_template_day">שלג צפוי בסביבות %1$s במהלך היום עם סיכוי של %2$s.</string>
-    <string name="summary_snow_template_night">במהלך הלילה, ישנו סיכוי של %1$s בסביבות %2$s.</string>
-    <string name="summary_temp_template_extreme">יש לצפות לחום קיצוני במהלך היום, עם שיא של %1$s.
-תהיה הקלה בטמפרטורות בסביבות %2$s הלילה.</string>
+    <string name="summary_snow_template_day_night">צפוי לרדת שלג בסביבות %1$s עם סיכוי של %2$s במהלך היום. במהלך הלילה, עדיין יש אפשרות לירידת שלג עם סיכוי של %3$s, בסביבות %4$s.</string>
+    <string name="summary_snow_template_day">צפוי לרדת שלג בסביבות %1$s עם סיכוי של %2$s במהלך היום.</string>
+    <string name="summary_snow_template_night">במהלך הלילה יש סיכוי של %1$s לירידת שלג בסביבות %2$s.</string>
+    <string name="summary_temp_template_extreme">צפוי שרב קיצוני במהלך היום עם שיא של %1$s. הטמפרטורות ירדו מעט לסביבות %2$s במהלך הלילה.</string>
     <string name="summary_temp_template_warm">יהיה חם במהלך היום עם טמפרטורות גבוהות לקראת %1$s. במהלך הלילה, הטמפרטורות יצנחו לסביבות %2$s.</string>
-    <string name="summary_temp_template_mild">יום נוח צפוי עם טמפרטורות שיגיעו ל־%1$s.
-במהלך הלילה, הן ירדו ויהיו סביבות %2$s.</string>
+    <string name="summary_temp_template_mild">צפוי יום נוח עם טמפרטורות שיגיעו ל־%1$s.
+במהלך הלילה, המעלות ירדו לסביבות %2$s.</string>
     <string name="summary_temp_template_cool">יהיה קריר במהלך היום עם טמפרטורות גבוהות לקראת %1$s. במהלך הלילה, הטמפרטורות יצנחו לסביבות %2$s.</string>
-    <string name="summary_temp_template_cold">מזג אוויר קר ממשיך עם טמפרטורות ביום בסביבות %1$s.
-במהלך הלילה, הן יצנחו ויהיו בסביבות %2$s.</string>
+    <string name="summary_temp_template_cold">מזג האוויר ימשיך להיות קר עם טמפרטורה בסביבות %1$s במהלך היום. במהלך הלילה, הטמפרטורה תצנח לסביבות %2$s.</string>
     <string name="summary_overview_template_day_condition">יהיה %1$s במהלך היום.</string>
     <string name="summary_overview_template_night_condition">מזג האוויר יהפוך ל%1$s הלילה.</string>
     <string name="gadgetbridge_not_available_error">‏Gadget Bridge לא מותקן</string>
     <string name="settings_worker_info">מידע על המנגנון</string>
     <string name="settings_send_data_gadgetbridge">שליחת נתונים אל Gadgetbridge</string>
-    <string name="aqi_PM25_full_label">חומר חלקיקי – פחות מ־2.5 מיקרון</string>
-    <string name="aqi_PM10_full_label">חומר חלקיקי – פחות מ־10 מיקרון</string>
+    <string name="aqi_PM25_full_label">חומר חלקיקי – פחות מ־2.5 מיקרונים</string>
+    <string name="aqi_PM10_full_label">חומר חלקיקי – פחות מ־10 מיקרונים</string>
     <string name="aqi_CO_full_label">פחמן חד־חמצני</string>
     <string name="aqi_NO2_full_label">חנקן דו־חמצני</string>
     <string name="aqi_SO2_full_label">גופרית דו־חמצנית</string>
