@@ -87,7 +87,7 @@
     <string name="setting_system_theme">跟随系统</string>
     <string name="setting_app_theme">应用主题</string>
     <string name="search_empty_state_title">搜索位置</string>
-    <string name="search_empty_state_secondary">输入城市或地点名称以查看天气</string>
+    <string name="search_empty_state_secondary">输入城市或地点以查看天气</string>
     <string name="action_set_default">设为默认</string>
     <string name="action_delete">删除</string>
     <string name="error_delete_default_location">无法删除默认位置</string>
