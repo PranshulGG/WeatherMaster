@@ -156,10 +156,14 @@ fun IntroScreen(navController: NavController) {
                     contentPadding = ButtonDefaults.contentPaddingFor(btnSize),
                     shapes = ButtonDefaults.shapes()
                 ) {
-                    Text("Enable Location", style = ButtonDefaults.textStyleFor(btnSize))
+                    Text(
+                        if (isLoading) "Loading..." else "Enable Location",
+                        style = ButtonDefaults.textStyleFor(btnSize)
+                    )
                 }
                 Gap(12.dp)
                 OutlinedButton(
+                    enabled = !isLoading,
                     onClick = {
                         navController.navigate(NavRoutes.SEARCH)
                     },
