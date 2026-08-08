@@ -323,5 +323,17 @@
     <string name="confirm_delete_location">Locatie verwijderen</string>
     <string name="alert_delete_location_secondary">Weet je zeker dat je deze locatie wilt verwijderen?</string>
     <string name="weather_alerts">Waarschuwingen</string>
+    <string name="dew_point_scale_dry_comfortable">Dry and comfortable</string>
+    <string name="dew_point_scale_comfortable">Comfortable</string>
+    <string name="dew_point_scale_sticky">Sticky</string>
+    <string name="dew_point_scale_muggy">Muggy</string>
+    <string name="dew_point_scale_uncomfortable">Uncomfortable</string>
+    <string name="action_requires_restart">Requires restart</string>
+    <string name="location_latitude">Latitude</string>
+    <string name="location_longitude">Longitude</string>
+    <string name="settings_support">Support</string>
+    <string name="settings_support_secondary">If you enjoy the app, consider supporting its development</string>
+    <string name="location_your_device_location">Your device language</string>
+    <string name="label_system">Systeem</string>
 </resources>
 <!--<string name=""></string>-->
