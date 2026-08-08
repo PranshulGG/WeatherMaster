@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app.feature.blocks.screens.humidity.components
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -91,11 +92,13 @@ fun DewPointHourlyCard(
 
                     val percentage = ((item.dewPoint!!.minus(min)).div((max - min))).times(
                         100
-                    ).takeIf { !it.isNaN() } ?: 5.0
+                    ).takeIf { !it.isNaN() } ?: 0.0
+
+
                     val barHeight = max(
                         (percentage.div(100.0)).times(140),
                         5.0
-                    ).takeIf { !it.isNaN() } ?: 5.0
+                    )
 
                     val barColor = when {
                         item.dewPoint < 0 -> Color(0xFF1565C0)
@@ -105,6 +108,15 @@ fun DewPointHourlyCard(
                         item.dewPoint < 24 -> Color(0xFFFB8C00)
                         else -> Color(0xFFC62828)
                     }
+
+                    // NEVER CRASH
+                    val temperatureText = item.dewPoint
+                        .takeIf { it.isFinite() }
+                        ?.let { formatter(it) }
+                        ?.takeIf { it.isFinite() }
+                        ?.roundToInt()
+                        ?.let { "$it°" }
+                        ?: "—"
 
                     if (index == 0) Gap(horizontal = 16.dp)
 
@@ -134,7 +146,7 @@ fun DewPointHourlyCard(
                         }
                         Gap(5.dp)
                         Text(
-                            "${formatter(item.dewPoint)?.roundToInt()}°",
+                            temperatureText,
                             color = MaterialTheme.colorScheme.primary,
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold
