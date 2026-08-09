@@ -331,8 +331,8 @@
     <string name="location_longitude">經度</string>
     <string name="settings_support">贊助</string>
     <string name="settings_support_secondary">如果您喜歡此應用程式，歡迎贊助其開發</string>
-    <string name="settings_your_device_language">Your device language</string>
+    <string name="settings_your_device_language">您裝置的語言</string>
     <string name="label_system">跟隨系統</string>
-    <string name="weather_active_alerts">Active alerts</string>
+    <string name="weather_active_alerts">有效的警報</string>
 </resources>
 <!--<string name=""></string>-->
