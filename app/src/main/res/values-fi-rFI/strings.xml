@@ -277,11 +277,11 @@
     <string name="settings_source_request_title">Onko sinulla säätietojen tarjoaja lisättäväksi? Voit toivoa sitä tästä</string>
     <string name="action_request">Toivo tarjoajaa</string>
     <string name="source_credits_label">%1$s ja muut</string>
-    <string name="weather_wind_direction_from">Tuuli: %1$s</string>
+    <string name="weather_wind_direction_from">Tuuli:</string>
     <string name="day_length_hr">%1$s tuntia</string>
     <string name="error_no_results">Tuloksia ei löytynyt</string>
     <string name="summary_overview_template_same_condition">Luvassa %1$s päivällä ja yöllä.</string>
-    <string name="summary_overview_template_day_night_condition">Päivällä luvassa %1$s, yöllä %2$s.</string>
+    <string name="summary_overview_template_day_night_condition">Päivällä luvassa poutaa, yöksi %2$s.</string>
     <string name="summary_rain_template_day_night">Päivällä on luvassa sadetta noin kello %1$s %2$s todennäköisyydellä. Yöllä on %3$s todennäköisyys sateeseen noin kello %4$s.</string>
     <string name="summary_rain_template_day">Päivällä on luvassa sadetta noin kello %1$s %2$s todennäköisyydellä.</string>
     <string name="summary_rain_template_night">Yöllä on %1$s todennäköisyys sateeseen noin kello %2$s.</string>
@@ -334,7 +334,8 @@
     <string name="location_longitude">Longitude</string>
     <string name="settings_support">Support</string>
     <string name="settings_support_secondary">If you enjoy the app, consider supporting its development</string>
-    <string name="location_your_device_location">Your device language</string>
+    <string name="settings_your_device_language">Your device language</string>
     <string name="label_system">Järjestelmän teema</string>
+    <string name="weather_active_alerts">Active alerts</string>
 </resources>
 <!--<string name=""></string>-->
