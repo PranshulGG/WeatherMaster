@@ -18,5 +18,10 @@ enum class AlertSource(
         fullName = "WeatherApi.com",
         displayLink = "https://www.weatherapi.com/"
     ),
+    WMO_SEVERE_WEATHER(
+        displayName = "WMO Severe Weather",
+        fullName = "WMO Severe Weather Information Centre",
+        displayLink = "https://www.wmo.int/"
+    )
 
 }

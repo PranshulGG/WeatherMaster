@@ -8,6 +8,8 @@ import com.pranshulgg.weather_master_app.core.network.sources.alerts.accu.Alerts
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.accu.AlertsAccuRepository
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.weatherapi.AlertsWeatherApi
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.weatherapi.AlertsWeatherApiRepository
+import com.pranshulgg.weather_master_app.core.network.sources.alerts.wmosevereweather.WmoSevereWeatherApi
+import com.pranshulgg.weather_master_app.core.network.sources.alerts.wmosevereweather.WmoSevereWeatherRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.BmkgApi
@@ -188,5 +190,12 @@ object WeatherRepositoryModule {
         weatherDao: WeatherDao,
         locationKeysDao: LocationKeysDao
     ): IpmaRepository = IpmaRepository(dao, weatherDao, api, locationKeysDao)
+
+    @Provides
+    @Singleton
+    fun provideWmoSevereWeatherAlertsRepository(
+        api: WmoSevereWeatherApi,
+        dao: AlertsDao
+    ): WmoSevereWeatherRepository = WmoSevereWeatherRepository(api, dao)
 
 }
