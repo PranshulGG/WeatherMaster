@@ -40,7 +40,7 @@
     </plurals>
     <string name="time_just_now">Μόλις τώρα</string>
     <string name="time_last_updated">Τελευταία ενημέρωση %1$s</string>
-    <string name="weather_no_data">Δεν υπάρχουν διαθέσιμα δεδομένα καιρού.</string>
+    <string name="weather_no_data">Δεν υπάρχουν διαθέσιμα δεδομένα καιρού</string>
     <string name="weather_clear_sky">Καθαρός ουρανός</string>
     <string name="weather_overcast">Νεφελώδης</string>
     <string name="weather_partly_cloudy">Αραιές νεφώσεις</string>
@@ -107,7 +107,7 @@
     <string name="setting_dynamic_colors_secondary">Χρήση χρωμάτων ταπετσαρίας</string>
     <string name="weather_total_rain_day">Συνολική βροχή για τη μέρα</string>
     <string name="error_network">Μη διαθέσιμο δίκτυο</string>
-    <string name="weather_total_snow_day">Total snow for the day</string>
+    <string name="weather_total_snow_day">Συνολικό χιόνι για τη μέρα</string>
     <string name="weather_precipitation">Υετός</string>
     <string name="weather_air_quality_index">Δείκτης Ποιότητας Αέρα</string>
     <string name="setting_translate_app">Μετάφρασε την εφαρμογή</string>
@@ -144,7 +144,7 @@
     <string name="sources">Πηγές</string>
     <string name="source">Πηγή</string>
     <string name="recommended_sources">Προτεινόμενες πηγές</string>
-    <string name="global_sources">Global sources</string>
+    <string name="global_sources">Παγκόσμιες πηγές</string>
     <string name="weather_clear_with_cloudy">Καθαρός με συννεφιά</string>
     <string name="weather_clear_with_rain">Καθαρός με βροχή</string>
     <string name="weather_clear_with_snow">Καθαρός με χιόνι</string>
@@ -192,7 +192,7 @@
     <string name="setting_about_app">Σχετικά με την εφαρμογή</string>
     <string name="about_terms_conditions">Όροι &amp; Προϋποθέσεις</string>
     <string name="about_privacy_policy">Πολιτική Απορρήτου</string>
-    <string name="about_create_issue">Create an issue</string>
+    <string name="about_create_issue"></string>
     <string name="about_view_on_github">Προβολή στο GitHub</string>
     <string name="about_license">Άδεια</string>
     <string name="message_new_version_available">Νέα έκδοση είναι διαθέσιμη</string>
@@ -308,19 +308,32 @@
     <string name="worker_run_attempt">Run attempt</string>
     <string name="worker_tags">Tags</string>
     <string name="worker_next_schedule">Next schedule</string>
-    <string name="action_save_changes">Save changes</string>
+    <string name="action_save_changes">Αποθήκευση αλλαγών</string>
     <string name="weather_alert_source">Alert source</string>
-    <string name="location_edit">Edit location</string>
-    <string name="weather_aqi_source">Air quality source</string>
-    <string name="location_name">Location name</string>
-    <string name="location_info">Location information</string>
+    <string name="location_edit">Επεξεργασία τοποθεσίας</string>
+    <string name="weather_aqi_source">Πηγή ποιότητας αέρα</string>
+    <string name="location_name">Όνομα τοποθεσίας</string>
+    <string name="location_info">Πληροφορίες τοποθεσίας</string>
     <string name="location_long_press_info">Long press a location for more options</string>
     <string name="alert_severity_critical">Critical</string>
     <string name="alert_severity_high">Υψηλή</string>
     <string name="alert_severity_medium">Medium</string>
     <string name="alert_severity_low">Χαμηλή</string>
     <string name="alert_severity_unknown">Unknown</string>
-    <string name="confirm_delete_location">Delete Location</string>
-    <string name="alert_delete_location_secondary">Are you sure you want to delete this location?</string>
+    <string name="confirm_delete_location">Διαγραφή τοποθεσίας</string>
+    <string name="alert_delete_location_secondary">Θέλετε σίγουρα να διαγράψετε αυτή την τοποθεσία;</string>
     <string name="weather_alerts">Alerts</string>
-</resources><!--<string name=""></string>-->
+    <string name="dew_point_scale_dry_comfortable">Dry and comfortable</string>
+    <string name="dew_point_scale_comfortable">Comfortable</string>
+    <string name="dew_point_scale_sticky">Sticky</string>
+    <string name="dew_point_scale_muggy">Muggy</string>
+    <string name="dew_point_scale_uncomfortable">Uncomfortable</string>
+    <string name="action_requires_restart">Requires restart</string>
+    <string name="location_latitude">Latitude</string>
+    <string name="location_longitude">Longitude</string>
+    <string name="settings_support">Support</string>
+    <string name="settings_support_secondary">If you enjoy the app, consider supporting its development</string>
+    <string name="location_your_device_location">Your device language</string>
+    <string name="label_system">Σύστημα</string>
+</resources>
+<!--<string name=""></string>-->

@@ -323,5 +323,17 @@
     <string name="confirm_delete_location">Excluir Local</string>
     <string name="alert_delete_location_secondary">Tem certeza que deseja excluir este local?</string>
     <string name="weather_alerts">Alertas</string>
+    <string name="dew_point_scale_dry_comfortable">Seco e confortável</string>
+    <string name="dew_point_scale_comfortable">Confortável</string>
+    <string name="dew_point_scale_sticky">Pegajoso</string>
+    <string name="dew_point_scale_muggy">Abafado</string>
+    <string name="dew_point_scale_uncomfortable">Desconfortável</string>
+    <string name="action_requires_restart">Reinicialização necessária</string>
+    <string name="location_latitude">Latitude</string>
+    <string name="location_longitude">Longitude</string>
+    <string name="settings_support">Suporte</string>
+    <string name="settings_support_secondary">Se você gosta do aplicativo, considere apoiar o seu desenvolvimento</string>
+    <string name="location_your_device_location">Idioma do seu dispositivo</string>
+    <string name="label_system">Sistema</string>
 </resources>
 <!--<string name=""></string>-->

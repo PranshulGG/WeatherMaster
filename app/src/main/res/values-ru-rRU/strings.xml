@@ -287,8 +287,8 @@
     <string name="error_no_results">Ничего не найдено</string>
     <string name="summary_overview_template_same_condition">В течение всего дня и ночи будет %1$s.</string>
     <string name="summary_overview_template_day_night_condition">Днём будет %1$s, а ночью %2$s.</string>
-    <string name="summary_rain_template_day_night">Днём дождь ожидается около %1$s с вероятностью %2$s. Ночью вероятность дождя составляет %3$s в районе %4$s.</string>
-    <string name="summary_rain_template_day">Днём дождь ожидается около %1$s с вероятностью %2$s.</string>
+    <string name="summary_rain_template_day_night">В течение дня ожидается дождь в районе %1$s с вероятностью %2$s. Ночью вероятность дождя в районе %4$s составляет %3$s.</string>
+    <string name="summary_rain_template_day">В течение дня ожидается дождь в районе %1$s с вероятностью %2$s.</string>
     <string name="summary_rain_template_night">Сегодня вечером вероятность дождя в районе %2$s составляет %1$s.</string>
     <string name="summary_snow_template_day_night">В течение дня прогнозируется снег с интенсивностью около %1$s и вероятностью %2$s. Ночью сохраняется вероятность снегопада с интенсивностью около %4$s и вероятностью %3$s.</string>
     <string name="summary_snow_template_day">В течение дня прогнозируется снег в районе %1$s и вероятностью %2$s.</string>
@@ -329,5 +329,17 @@
     <string name="confirm_delete_location">Удалить локацию</string>
     <string name="alert_delete_location_secondary">Вы уверены, что хотите удалить локацию?</string>
     <string name="weather_alerts">Предупреждения</string>
+    <string name="dew_point_scale_dry_comfortable">Dry and comfortable</string>
+    <string name="dew_point_scale_comfortable">Comfortable</string>
+    <string name="dew_point_scale_sticky">Sticky</string>
+    <string name="dew_point_scale_muggy">Muggy</string>
+    <string name="dew_point_scale_uncomfortable">Uncomfortable</string>
+    <string name="action_requires_restart">Requires restart</string>
+    <string name="location_latitude">Latitude</string>
+    <string name="location_longitude">Longitude</string>
+    <string name="settings_support">Support</string>
+    <string name="settings_support_secondary">If you enjoy the app, consider supporting its development</string>
+    <string name="location_your_device_location">Your device language</string>
+    <string name="label_system">Как в системе</string>
 </resources>
 <!--<string name=""></string>-->
