@@ -124,7 +124,7 @@
     <string name="current_location_not_found">Текущая локация не найдена</string>
     <string name="error_server">Произошла ошибка. Попробуйте позднее</string>
     <string name="weather_airquality_good">Хорошее</string>
-    <string name="weather_airquality_fair">Удовлетворительно</string>
+    <string name="weather_airquality_fair">Удовлетворительное</string>
     <string name="weather_airquality_moderate">Умеренный</string>
     <string name="weather_airquality_poor">Плохое</string>
     <string name="weather_airquality_very_poor">Очень плохое</string>
@@ -228,7 +228,7 @@
     <string name="about">Подробнее</string>
     <string name="weather_max_for_the_day">Максимум за день</string>
     <string name="weather_about_uv_index">УФ-индекс показывает уровень ультрафиолетового излучения. Значения начинаются с нуля. Чем выше показатель, тем опаснее солнце для кожи и глаз, и тем быстрее можно получить солнечный ожог</string>
-    <string name="text_scale">Масштаб</string>
+    <string name="text_scale">Шкала</string>
     <string name="weather_about_humidity">Влажность показывает, сколько водяного пара сейчас в воздухе. Водяной пар обычно невидим невооружённым глазом, но именно от него зависит, выпадут ли осадки, роса, или начнётся туман</string>
     <string name="text_average_for_day">Среднее за день</string>
     <string name="weather_about_dewpoint">Температура точки росы это важное значение влажности. Если она поднимается до 20 °C/70 °F, на улице становится очень душно. Летом по ней прогнозируют, сколько энергии уйдёт на работу кондиционеров</string>
@@ -269,7 +269,7 @@
     <string name="setting_day_summary">Итоги дня</string>
     <string name="setting_day_summary_secondary">Показать суточную сводку, сформированную на основе почасовых данных</string>
     <string name="setting_system">Как в системе</string>
-    <string name="weather_about_precipitation">В графе «Осадки» указано прогнозируемое количество осадков, ожидаемое в течение каждого часа. Более высокие значения означают более сильный дождь</string>
+    <string name="weather_about_precipitation">Указано прогнозируемое количество осадков, ожидаемое в течение каждого часа. Более высокие значения означают более сильный дождь</string>
     <string name="weather_about_snowfall">Показатель «Снегопад» отражает прогнозируемое количество снега, ожидаемое в течение каждого часа. Более высокие значения указывают на большее накопление снега</string>
     <string name="color_transparent">Прозрачный</string>
     <string name="setting_app_font">Шрифт приложения</string>
@@ -339,8 +339,8 @@
     <string name="location_longitude">Долгота</string>
     <string name="settings_support">Поддержать</string>
     <string name="settings_support_secondary">Если вам нравится приложение, подумайте о поддержке его разработки</string>
-    <string name="settings_your_device_language">Your device language</string>
+    <string name="settings_your_device_language">Язык вашего устройства</string>
     <string name="label_system">Как в системе</string>
-    <string name="weather_active_alerts">Active alerts</string>
+    <string name="weather_active_alerts">Активные оповещения</string>
 </resources>
 <!--<string name=""></string>-->
