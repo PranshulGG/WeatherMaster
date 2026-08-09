@@ -64,6 +64,8 @@
 - **China**
 - **AccuWeather**
 - **Meteo AM**
+- **IPMA**
+- **WeatherApi.com**
 - _**And more to be added**_
 
 # 🌐 Translate the app on [Crowdin](https://crowdin.com/project/weathermaster)

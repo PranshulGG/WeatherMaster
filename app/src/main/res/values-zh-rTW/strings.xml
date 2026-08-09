@@ -11,10 +11,10 @@
     <string name="weather_precipitation_hours">降雨時長</string>
     <string name="time_now">現在</string>
     <string name="day_today">今天</string>
-    <string name="weather_refresh_delay">請在 %1$d 分鐘後重新整理</string>
-    <string name="error_generic">發生錯誤。請再試一次</string>
-    <string name="weather_moon">月亮</string>
-    <string name="weather_sun">太陽</string>
+    <string name="weather_refresh_delay">請稍候 %1$d 分鐘 刷新後</string>
+    <string name="error_generic">發生錯誤。 請再試一次</string>
+    <string name="weather_moon">月相</string>
+    <string name="weather_sun">週日</string>
     <string name="weather_humidity">濕度</string>
     <string name="weather_pressure">氣壓</string>
     <string name="weather_wind">風速</string>

@@ -165,16 +165,16 @@ fun getHeadline(
     val tempMin = formatterTemperature(summaryData.temps.min)
 
     val tempSentence = when {
-        tempMax >= 35 ->
+        summaryData.temps.max >= 35 ->
             context.getString(R.string.summary_temp_template_extreme, "${tempMax}°", "${tempMin}°")
 
-        tempMax >= 25 ->
+        summaryData.temps.max >= 25 ->
             context.getString(R.string.summary_temp_template_warm, "${tempMax}°", "${tempMin}°")
 
-        tempMax >= 15 ->
+        summaryData.temps.max >= 15 ->
             context.getString(R.string.summary_temp_template_mild, "${tempMax}°", "${tempMin}°")
 
-        tempMax >= 5 ->
+        summaryData.temps.max >= 5 ->
             context.getString(R.string.summary_temp_template_cool, "${tempMax}°", "${tempMin}°")
 
         else ->
