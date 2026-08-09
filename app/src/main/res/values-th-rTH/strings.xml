@@ -330,7 +330,8 @@
     <string name="location_longitude">Longitude</string>
     <string name="settings_support">Support</string>
     <string name="settings_support_secondary">If you enjoy the app, consider supporting its development</string>
-    <string name="location_your_device_location">Your device language</string>
+    <string name="settings_your_device_language">Your device language</string>
     <string name="label_system">System</string>
+    <string name="weather_active_alerts">Active alerts</string>
 </resources>
 <!--<string name=""></string>-->
