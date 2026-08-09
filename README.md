@@ -44,7 +44,6 @@
 <img src="preview/preview_2.png"  width="250">
 <img src="preview/preview_3.png"  width="250">
 <img src="preview/preview_4.png"  width="250">
-<img src="preview/preview_5.png"  width="250">
 
 </div>
 
