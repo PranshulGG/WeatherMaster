@@ -11,10 +11,10 @@
     <string name="weather_precipitation_hours">降雨時長</string>
     <string name="time_now">現在</string>
     <string name="day_today">今天</string>
-    <string name="weather_refresh_delay">請稍候 %1$d 分鐘 刷新後</string>
-    <string name="error_generic">發生錯誤。 請再試一次</string>
-    <string name="weather_moon">月相</string>
-    <string name="weather_sun">週日</string>
+    <string name="weather_refresh_delay">請在 %1$d 分鐘後重新整理</string>
+    <string name="error_generic">發生錯誤。請再試一次</string>
+    <string name="weather_moon">月亮</string>
+    <string name="weather_sun">太陽</string>
     <string name="weather_humidity">濕度</string>
     <string name="weather_pressure">氣壓</string>
     <string name="weather_wind">風速</string>
@@ -326,12 +326,13 @@
     <string name="dew_point_scale_sticky">黏膩</string>
     <string name="dew_point_scale_muggy">悶熱</string>
     <string name="dew_point_scale_uncomfortable">不舒適</string>
-    <string name="action_requires_restart">需要重新啟動應用程式</string>
+    <string name="action_requires_restart">需要重新啟動</string>
     <string name="location_latitude">緯度</string>
     <string name="location_longitude">經度</string>
     <string name="settings_support">贊助</string>
-    <string name="settings_support_secondary">如果您喜歡此應用程式，請考慮贊助其開發</string>
-    <string name="location_your_device_location">您裝置的語言</string>
+    <string name="settings_support_secondary">如果您喜歡此應用程式，歡迎贊助其開發</string>
+    <string name="settings_your_device_language">Your device language</string>
     <string name="label_system">跟隨系統</string>
+    <string name="weather_active_alerts">Active alerts</string>
 </resources>
 <!--<string name=""></string>-->
