@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weather_master_app.R
@@ -40,7 +41,7 @@ fun LocationItem(
 ) {
 
     val containerColor =
-        if (isSelected) MaterialTheme.colorScheme.secondaryContainer else if (isAlertAvailable) MaterialTheme.colorScheme.errorContainer else MaterialTheme.colorScheme.surfaceBright
+        if (isSelected) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surfaceBright
     val contentColor =
         if (isSelected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface
 
@@ -82,20 +83,36 @@ fun LocationItem(
                 )
             },
             supportingContent = {
-                Text(
-                    description,
-                    color = if (isSelected) MaterialTheme.colorScheme.onSecondaryContainer.copy(
-                        0.8f
-                    ) else MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                if (!isAlertAvailable) {
+                    Text(
+                        description,
+                        color = if (isSelected) MaterialTheme.colorScheme.onSecondaryContainer.copy(
+                            0.8f
+                        ) else MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                } else {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Symbol(
+                            R.drawable.warning_24px,
+                            color = MaterialTheme.colorScheme.error,
+                            size = 16.dp
+                        )
+                        Gap(horizontal = 4.dp)
+                        Text(
+                            "Active alerts",
+                            color = MaterialTheme.colorScheme.error,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+
+                }
             },
             trailingContent = {
                 if (isDeviceLocation) {
                     Symbol(R.drawable.circle_circle_24px, color = contentColor)
                 }
-                if (isAlertAvailable) {
-                    Symbol(R.drawable.warning_24px, color = MaterialTheme.colorScheme.error)
-                }
+//                if (isAlertAvailable) {
+//                }
             }
         )
     }
