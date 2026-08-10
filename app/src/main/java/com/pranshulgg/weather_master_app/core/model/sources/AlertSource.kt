@@ -22,6 +22,10 @@ enum class AlertSource(
         displayName = "WMO Severe Weather",
         fullName = "WMO Severe Weather Information Centre",
         displayLink = "https://www.wmo.int/"
+    ),
+    FPAS(
+        displayName = "FOSS Public Alert Server",
+        fullName = "FOSS Public Alert Server",
+        displayLink = "https://invent.kde.org/webapps/foss-public-alert-server"
     )
-
 }
