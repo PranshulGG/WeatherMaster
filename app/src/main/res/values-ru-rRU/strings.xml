@@ -342,7 +342,7 @@
     <string name="settings_your_device_language">Язык вашего устройства</string>
     <string name="label_system">Как в системе</string>
     <string name="weather_active_alerts">Активные оповещения</string>
-    <string name="open_meteo_model_best_match">Best Match</string>
-    <string name="open_meteo_model_seamless">%1$s Seamless</string>
+    <string name="open_meteo_model_best_match">Наилучшее соответствие</string>
+    <string name="open_meteo_model_seamless">%1$s бесшовная</string>
 </resources>
 <!--<string name=""></string>-->
