@@ -336,5 +336,7 @@
     <string name="settings_your_device_language">Your device language</string>
     <string name="label_system">Σύστημα</string>
     <string name="weather_active_alerts">Active alerts</string>
+    <string name="open_meteo_model_best_match">Best Match</string>
+    <string name="open_meteo_model_seamless">%1$s Seamless</string>
 </resources>
 <!--<string name=""></string>-->
