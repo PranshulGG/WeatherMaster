@@ -333,5 +333,7 @@
     <string name="settings_your_device_language">您的设备语言</string>
     <string name="label_system">跟随系统</string>
     <string name="weather_active_alerts">当前警报</string>
+    <string name="open_meteo_model_best_match">Best Match</string>
+    <string name="open_meteo_model_seamless">%1$s Seamless</string>
 </resources>
 <!--<string name=""></string>-->
