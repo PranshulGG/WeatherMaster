@@ -333,10 +333,10 @@
     <string name="location_longitude">Longitude</string>
     <string name="settings_support">Suporte</string>
     <string name="settings_support_secondary">Se você gosta do aplicativo, considere apoiar o seu desenvolvimento</string>
-    <string name="settings_your_device_language">Your device language</string>
+    <string name="settings_your_device_language">Idioma do seu dispositivo</string>
     <string name="label_system">Sistema</string>
-    <string name="weather_active_alerts">Active alerts</string>
-    <string name="open_meteo_model_best_match">Best Match</string>
-    <string name="open_meteo_model_seamless">%1$s Seamless</string>
+    <string name="weather_active_alerts">Alertas ativos</string>
+    <string name="open_meteo_model_best_match">Melhor correspondência</string>
+    <string name="open_meteo_model_seamless">%1$s Integrado</string>
 </resources>
 <!--<string name=""></string>-->
