@@ -210,7 +210,7 @@
     <string name="unit_pressure_mmhg">Mil·límetres de mercuri</string>
     <string name="summary_uv_extreme_template_1">L\'índex ultraviolat arribarà a nivells extrems a les %1$s.</string>
     <string name="summary_uv_extreme_template_2">S\'espera un nivell perillosament alt d\'índex ultraviolat a les %1$s.</string>
-    <string name="summary_uv_extreme_template_3">Very intense sunshine is expected at %1$s.</string>
+    <string name="summary_uv_extreme_template_3">S\'espera un índex ultraviolat molt intens a les %1$s.</string>
     <string name="summary_uv_high_template_1">L\'índex ultraviolat es mantindrà alt a les %1$s.</string>
     <string name="summary_uv_high_template_2">S\'espera un nivell alt d\'índex ultraviolat a les %1$s.</string>
     <string name="summary_uv_high_template_3">S\'espera un alt índex ultraviolat al llarg de la tarda a partir de les %1$s.</string>
@@ -221,7 +221,7 @@
     <string name="about_changelog">Registre de canvis</string>
     <string name="about">Quant a</string>
     <string name="weather_max_for_the_day">Màxim del dia</string>
-    <string name="weather_about_uv_index">The UV index is a measure of the level of ultraviolet radiation. The values of the index range from zero upward - the higher the UV index, the greater the potential for damage to the skin and eye, and the less time it takes for harm to occur</string>
+    <string name="weather_about_uv_index">L\'índex ultraviolat és una mesura del nivell de radiació ultraviolada. Els valors de l\'índex van de zero en amunt, com més alt és el valor més gran és el potencial per causar danys a la pell o als ulls, i menys temps es requereix per causar-lo</string>
     <string name="text_scale">Escala</string>
     <string name="weather_about_humidity">Humidity is the concentration of water vapor present in the air. Water vapor, the gaseous state of water, is generally invisible to the naked eye. Humidity indicates the likelihood for precipitation, dew, or fog to be present</string>
     <string name="text_average_for_day">Mitjana del dia</string>
@@ -258,7 +258,7 @@
     <string name="weather_about_dawn_dusk">Dawn is the period of light in the sky just before sunrise. Dusk is the period of fading light in the sky just after sunset</string>
     <string name="weather_about_pressure">Mean sea level pressure, a measure of how much the atmosphere is pressing down, adjusted to sea level. Watching how it changes can provide an early indication of weather changes. Pressure falling usually means unsettled weather is approaching, while pressure rising often means conditions are becoming more stable</string>
     <string name="weather_about_windspeed">Wind speed is the rate at which air moves horizontally past a specific point, driven by differences in atmospheric pressure and temperature</string>
-    <string name="unit_wind_kt">Knots</string>
+    <string name="unit_wind_kt">Nusos</string>
     <string name="unit_wind_bft">Beaufort</string>
     <string name="setting_day_summary">Resum del dia</string>
     <string name="setting_day_summary_secondary">Show a daily summary generated from hourly data</string>
@@ -287,10 +287,10 @@
     <string name="summary_snow_template_day_night">Snow is forecast around %1$s during the day with a %2$s chance. Overnight, snowfall remains possible with a %3$s chance around %4$s.</string>
     <string name="summary_snow_template_day">Snow is forecast around %1$s during the day with a %2$s chance.</string>
     <string name="summary_snow_template_night">Overnight, there\'s a %1$s chance of snow around %2$s.</string>
-    <string name="summary_temp_template_extreme">Expect extreme heat during the day with a high of %1$s. Temperatures will ease to around %2$s tonight.</string>
+    <string name="summary_temp_template_extreme">S\'espera calor extrema durant el dia amb màximes de %1$s. A la nit, la temperatura es moderarà al voltant de les %2$s.</string>
     <string name="summary_temp_template_warm">Serà un dia calorós amb màximes al voltant dels %1$s. A la nit les temperatures baixaran al voltant dels %2$s.</string>
     <string name="summary_temp_template_mild">A mild day is expected with temperatures reaching %1$s. Overnight, it\'ll cool to around %2$s.</string>
-    <string name="summary_temp_template_cool">It will be cool during the day with highs around %1$s. Tonight, temperatures will drop to about %2$s.</string>
+    <string name="summary_temp_template_cool">Serà un dia fresc amb màximes al voltant dels %1$s. A la nit les temperatures baixaran al voltant dels %2$s.</string>
     <string name="summary_temp_template_cold">Cold weather continues with daytime temperatures around %1$s. Overnight, lows will fall to around %2$s.</string>
     <string name="summary_overview_template_day_condition">S\'espera %1$s durant el dia.</string>
     <string name="summary_overview_template_night_condition">Conditions will turn %1$s at night.</string>
