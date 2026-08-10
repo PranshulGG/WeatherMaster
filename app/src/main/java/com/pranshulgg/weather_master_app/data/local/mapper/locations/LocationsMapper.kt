@@ -93,7 +93,8 @@ fun Location.toEntity(): WeatherLocationEntity =
         isDeviceLocation = isDeviceLocation,
         alertSource = alertSource,
         airQualitySource = airQualitySource,
-        customName = customName
+        customName = customName,
+        openMeteoModel = openMeteoModel
     )
 
 fun List<WeatherLocationEntity>.toDomain(): List<Location> =
@@ -118,5 +119,6 @@ fun WeatherLocationEntity.toDomain(): Location =
         isDeviceLocation = isDeviceLocation,
         alertSource = alertSource,
         airQualitySource = airQualitySource,
-        customName = customName
+        customName = customName,
+        openMeteoModel = openMeteoModel
     )

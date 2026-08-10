@@ -8,6 +8,7 @@ import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.sources.AirQualitySource
 import com.pranshulgg.weather_master_app.core.model.sources.AlertSource
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModel
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -57,6 +58,10 @@ class EditLocationViewModel @Inject constructor(
         _uiState.value = _uiState.value.copy(selectedAirQualitySource = source)
     }
 
+    fun updateSelectedOpenMeteoModel(model: OpenMeteoModel) {
+        _uiState.value = _uiState.value.copy(selectedOpenMeteoModel = model)
+    }
+
     fun showAlertSourcesSheet() {
         _uiState.value = _uiState.value.copy(isAlertSourcesSheetOpen = true)
     }
@@ -87,6 +92,14 @@ class EditLocationViewModel @Inject constructor(
 
     fun hideConfirmationDialog() {
         _uiState.value = _uiState.value.copy(isConfirmationDialogOpen = false)
+    }
+
+    fun showOpenMeteoModelsSheet() {
+        _uiState.value = _uiState.value.copy(isOpenMeteoModelsSheetOpen = true)
+    }
+
+    fun hideOpenMeteoModelsSheet() {
+        _uiState.value = _uiState.value.copy(isOpenMeteoModelsSheetOpen = false)
     }
 
     fun updateDefaultLocation(id: String) {

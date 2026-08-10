@@ -8,6 +8,7 @@ import androidx.room.Transaction
 import com.pranshulgg.weather_master_app.core.model.sources.AirQualitySource
 import com.pranshulgg.weather_master_app.core.model.sources.AlertSource
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModel
 import com.pranshulgg.weather_master_app.data.local.entity.alerts.AlertEntity
 import com.pranshulgg.weather_master_app.data.local.entity.location.WeatherLocationEntity
 import com.pranshulgg.weather_master_app.data.local.entity.weather.WeatherWithRelations
@@ -88,5 +89,8 @@ interface LocationsDao {
 
     @Query("UPDATE weather_locations SET customName = :name WHERE id = :id")
     suspend fun updateLocationCustomName(id: String, name: String?)
+
+    @Query("UPDATE weather_locations SET openMeteoModel = :model WHERE id = :id")
+    suspend fun updateOpenMeteoModelForLocation(id: String, model: OpenMeteoModel)
 
 }

@@ -3,6 +3,8 @@ package com.pranshulgg.weather_master_app.feature.shared.ui
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
@@ -99,7 +101,14 @@ object SharedBottomSheet {
                             selected = isSelected,
                             onClick = {
                                 currentSelectedSource = source
-                            }
+                            },
+//                            trailing = {
+//                                if (source == WeatherSource.OPEN_METEO) {
+//                                    IconButton(onClick = {}, shapes = IconButtonDefaults.shapes()) {
+//                                        Symbol(R.drawable.settings_24px)
+//                                    }
+//                                }
+//                            }
                         )
                     }
                 )

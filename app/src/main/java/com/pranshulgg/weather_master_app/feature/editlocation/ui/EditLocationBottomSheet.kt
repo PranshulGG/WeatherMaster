@@ -1,7 +1,13 @@
 package com.pranshulgg.weather_master_app.feature.editlocation.ui
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -21,6 +27,8 @@ import com.pranshulgg.weather_master_app.core.model.sources.AlertSource
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.core.model.sources.getWeatherSourcesForCountry
 import com.pranshulgg.weather_master_app.core.model.sources.getWeatherSourcesGlobal
+import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModel
+import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModelType
 import com.pranshulgg.weather_master_app.core.ui.components.ActionBottomSheet
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.SettingSection
@@ -163,5 +171,83 @@ object EditLocationBottomSheet {
             }
         }
     }
+
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    fun OpenMeteoModelsSheet(
+        show: Boolean,
+        sheetState: SheetState,
+        selectedModel: OpenMeteoModel = OpenMeteoModel.BEST_MATCH,
+        onSave: (OpenMeteoModel) -> Unit,
+        onDismiss: () -> Unit
+    ) {
+        if (show) {
+
+            var currentSelectedSource by remember(
+                show,
+                selectedModel
+            ) {
+                mutableStateOf(selectedModel)
+            }
+
+            val modelsByType = OpenMeteoModel.entries.groupBy { it.modelType }
+
+
+
+            ActionBottomSheet(
+                sheetState = sheetState,
+                onCancel = { onDismiss() },
+                onConfirm = { },
+                showActions = false,
+                removeBottomInset = true
+            ) { hide ->
+                Column(Modifier.verticalScroll(rememberScrollState())) {
+                    modelsByType.forEach { (type, models) ->
+                        ModelSection(
+                            currentSelectedSource,
+                            hide,
+                            onSave = {
+                                currentSelectedSource = it
+                                onSave(it)
+                            },
+                            models
+                        )
+                        Gap(10.dp)
+                    }
+
+                    Gap(WindowInsets.systemBars.asPaddingValues().calculateBottomPadding())
+                }
+
+            }
+        }
+    }
 }
 
+@Composable
+private fun ModelSection(
+    currentSelectedSource: OpenMeteoModel,
+    hide: () -> Unit,
+    onSave: (OpenMeteoModel) -> Unit,
+    models: List<OpenMeteoModel>
+) {
+    SettingSection(
+        tiles = models.map { model ->
+            val isSelected = currentSelectedSource == model
+
+            SettingTile.ActionTile(
+                leading = {
+                    if (isSelected) Symbol(
+                        R.drawable.check_24px,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                },
+                title = model.displayName,
+                selected = isSelected,
+                onClick = {
+                    onSave(model)
+                    hide()
+                }
+            )
+        }
+    )
+}

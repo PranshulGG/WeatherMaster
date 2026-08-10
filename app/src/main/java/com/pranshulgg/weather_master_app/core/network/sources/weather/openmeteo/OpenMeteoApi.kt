@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo
 
+import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModel
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.json.OpenMeteoWeatherJson
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -30,7 +31,8 @@ interface OpenMeteoApi {
         @Query("hourly") appendHourly: String = HOURLY_FIELDS,
         @Query("current") appendCurrent: String = CURRENT_FIELDS,
         @Query("daily") appendDaily: String = DAILY_FIELDS,
-        @Query("timeformat") appendTimeFormat: String = "unixtime"
+        @Query("timeformat") appendTimeFormat: String = "unixtime",
+        @Query("models") model: String = OpenMeteoModel.BEST_MATCH.modelId,
     ): Response<OpenMeteoWeatherJson>
 
 

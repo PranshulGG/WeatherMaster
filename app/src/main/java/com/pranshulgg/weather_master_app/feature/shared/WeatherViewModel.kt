@@ -19,6 +19,7 @@ import com.pranshulgg.weather_master_app.core.model.sources.isSourceSupportedFor
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.airquality.AirQualityResult
 import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResult
+import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModel
 import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo.OpenMeteoAqiRepository
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weather_master_app.data.provider.AirQualityRepositoryProvider
@@ -185,12 +186,14 @@ class WeatherViewModel @Inject constructor(
         location: Location,
         source: WeatherSource,
         airQualitySource: AirQualitySource,
-        alertSource: AlertSource
+        alertSource: AlertSource,
+        openMeteoModel: OpenMeteoModel
     ) {
         val updatedLocation = location.copy(
             source = source,
             airQualitySource = airQualitySource,
-            alertSource = alertSource
+            alertSource = alertSource,
+            openMeteoModel = openMeteoModel
         )
 
         viewModelScope.launch {
@@ -198,8 +201,10 @@ class WeatherViewModel @Inject constructor(
             locationsRepo.updateSourceForLocation(location.id, source)
             locationsRepo.updateAirQualitySourceForLocation(location.id, airQualitySource)
             locationsRepo.updateAlertSourceForLocation(location.id, alertSource)
+            locationsRepo.updateOpenMeteoModelForLocation(location.id, openMeteoModel)
 
-            val allowForceRefreshForWeather = location.source != source
+            val allowForceRefreshForWeather =
+                location.source != source || location.openMeteoModel != openMeteoModel
             val allowForceRefreshForAirQuality = location.airQualitySource != airQualitySource
             val allowForceRefreshForAlerts = location.alertSource != alertSource
 

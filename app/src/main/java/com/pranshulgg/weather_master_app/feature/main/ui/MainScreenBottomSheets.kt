@@ -45,7 +45,14 @@ object MainScreenBottomSheets {
         val uiState = viewModel.uiState.value
         val uriHandler = LocalUriHandler.current
 
+
+
         if (uiState.isWeatherSourcesInfoForLocationSheetOpen) {
+
+            val titleSource =
+                if (location!!.source == WeatherSource.OPEN_METEO) "${location.source.fullName} (${location.openMeteoModel.displayName})"
+                else location.source.fullName
+
             ActionBottomSheet(
                 sheetState = sheetState,
                 onCancel = viewModel::hideWeatherSourcesInfoForLocationSheet,
@@ -56,8 +63,9 @@ object MainScreenBottomSheets {
                 SettingSection(
                     title = stringResource(R.string.source),
                     tiles = listOf(
+
                         SettingTile.ActionTile(
-                            title = location!!.source.fullName,
+                            title = titleSource,
                             description = location.source.displayLink,
                             onClick = {
                                 uriHandler.openUri(location.source.displayLink)

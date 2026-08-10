@@ -10,6 +10,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.sources.AirQualitySource
 import com.pranshulgg.weather_master_app.core.model.sources.AlertSource
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModel
 import com.pranshulgg.weather_master_app.core.network.sources.address.nominatim.json.NominatimRepository
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
@@ -73,6 +74,10 @@ class LocationsRepository @Inject constructor(
 
     suspend fun updateSourceForLocation(id: String, source: WeatherSource) {
         dao.updateSourceForLocation(id, source)
+    }
+
+    suspend fun updateOpenMeteoModelForLocation(id: String, model: OpenMeteoModel) {
+        dao.updateOpenMeteoModelForLocation(id, model)
     }
 
     suspend fun updateAirQualitySourceForLocation(id: String, source: AirQualitySource) {

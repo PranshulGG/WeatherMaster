@@ -1,10 +1,12 @@
 package com.pranshulgg.weather_master_app.data.local.entity.location
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.pranshulgg.weather_master_app.core.model.sources.AirQualitySource
 import com.pranshulgg.weather_master_app.core.model.sources.AlertSource
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModel
 import kotlin.uuid.ExperimentalUuidApi
 
 @Entity(tableName = "weather_locations")
@@ -27,5 +29,8 @@ data class WeatherLocationEntity(
     val isDeviceLocation: Boolean = false,
     val alertSource: AlertSource,
     val airQualitySource: AirQualitySource,
-    val customName: String? = null
+    val customName: String? = null,
+
+    @ColumnInfo(name = "openMeteoModel", defaultValue = "BEST_MATCH")
+    val openMeteoModel: OpenMeteoModel = OpenMeteoModel.BEST_MATCH
 )
