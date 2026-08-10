@@ -151,7 +151,7 @@ fun EditLocationScreen(
                         description = "${
                             uiState.selectedWeatherSource?.displayName
                                 ?: uiState.location.source.displayName
-                        } (${uiState.location.openMeteoModel.displayName})",
+                        } (${uiState.selectedOpenMeteoModel?.displayName ?: uiState.location.openMeteoModel.displayName})",
                         colorDesc = colorDesc,
                         onClick = {
                             viewModel.showWeatherSourcesForLocationSheet()

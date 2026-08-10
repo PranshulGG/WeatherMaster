@@ -1,9 +1,11 @@
 package com.pranshulgg.weather_master_app.feature.editlocation.ui
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
@@ -201,23 +203,35 @@ object EditLocationBottomSheet {
                 showActions = false,
                 removeBottomInset = true
             ) { hide ->
-                Column(Modifier.verticalScroll(rememberScrollState())) {
-                    modelsByType.forEach { (type, models) ->
-                        ModelSection(
-                            currentSelectedSource,
-                            hide,
-                            onSave = {
-                                currentSelectedSource = it
-                                onSave(it)
-                            },
-                            models
+                Box(
+                    modifier = Modifier.heightIn(max = 700.dp)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .verticalScroll(rememberScrollState())
+                    ) {
+                        Text(
+                            "The default BEST MATCH provides the best forecast for any given location worldwide. SEAMLESS combines all models from a given provider into a seamless prediction.",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
                         )
-                        Gap(10.dp)
+                        modelsByType.forEach { (type, models) ->
+                            ModelSection(
+                                currentSelectedSource,
+                                hide,
+                                onSave = {
+                                    currentSelectedSource = it
+                                    onSave(it)
+                                },
+                                models
+                            )
+                            Gap(10.dp)
+                        }
+                        Gap(WindowInsets.systemBars.asPaddingValues().calculateBottomPadding())
                     }
-
-                    Gap(WindowInsets.systemBars.asPaddingValues().calculateBottomPadding())
                 }
-
             }
         }
     }

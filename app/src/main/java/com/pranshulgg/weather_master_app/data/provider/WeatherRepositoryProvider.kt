@@ -48,6 +48,7 @@ class WeatherRepositoryProvider @Inject constructor(
             WeatherSource.ACCU_WEATHER -> accuRepository
             WeatherSource.METEO_AM -> meteoamRepository
             WeatherSource.IPMA -> ipmaRepository
+            else -> openMeteoRepository
         }
     }
 

@@ -66,7 +66,18 @@ enum class WeatherSource(
         fullName = "Instituto Português do Mar e da Atmosfera",
         displayLink = "https://api.ipma.pt/"
     ),
+    WMO_SEVERE_WEATHER(
+        displayName = "WMO Severe Weather",
+        fullName = "WMO Severe Weather Information Centre",
+        displayLink = "https://www.wmo.int/"
+    ),
 
+    // TODO: implement as a forecast source
+    WEATHER_API(
+        displayName = "WeatherApi",
+        fullName = "WeatherApi.com",
+        displayLink = "https://www.weatherapi.com/"
+    ),
     MET_NORWAY(
         displayName = "Met Norway",
         fullName = "Met Norway",
@@ -107,7 +118,8 @@ fun getWeatherSourcesForCountry(countryCode: String?): List<WeatherSource> {
 
 // GLOBAL SOURCES
 private val weatherSourcesGlobal = listOf(
-    WeatherSource.OPEN_METEO, WeatherSource.MET_NORWAY,
+    WeatherSource.OPEN_METEO,
+    WeatherSource.MET_NORWAY,
     WeatherSource.METEO_FRANCE,
     WeatherSource.ACCU_WEATHER
 )
