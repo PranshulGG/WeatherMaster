@@ -343,5 +343,7 @@ W ciągu dnia spodziewane są opady śniegu około %1$s z prawdopodobieństwem %
     <string name="settings_your_device_language">Język urządzenia</string>
     <string name="label_system">Systemowy</string>
     <string name="weather_active_alerts">Aktywne alerty</string>
+    <string name="open_meteo_model_best_match">Best Match</string>
+    <string name="open_meteo_model_seamless">%1$s Seamless</string>
 </resources>
 <!--<string name=""></string>-->
