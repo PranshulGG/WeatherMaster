@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
@@ -120,7 +121,7 @@ private fun DailyItem(
     ) {
         Column(
             Modifier
-                .height(210.dp)
+                .heightIn(210.dp)
                 .width(65.dp)
                 .padding(vertical = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
