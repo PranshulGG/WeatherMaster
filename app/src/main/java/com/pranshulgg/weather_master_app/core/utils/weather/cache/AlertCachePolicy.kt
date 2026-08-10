@@ -12,27 +12,34 @@ import java.util.concurrent.TimeUnit
 fun shouldReturnAlertsCache(
     cache: List<AlertEntity?>,
     isManualRefresh: Boolean,
-    isForceRefresh: Boolean
+    isForceRefresh: Boolean,
+    alertsLastFetchedAt: Long?
 ): AlertResultType {
 
     if (isForceRefresh) return AlertResultType.ERROR
 
+    val cacheTimestamp = alertsLastFetchedAt
+        ?: cache.firstOrNull()?.lastUpdatedInMilli
+        ?: return AlertResultType.ERROR
 
-    if (cache.isEmpty() || cache[0] == null) {
-        return AlertResultType.ERROR
-    }
-
-
-    val cacheMilli = cache[0]!!.lastUpdatedInMilli
-    val ageMillis = System.currentTimeMillis() - cacheMilli
+    val ageMillis = System.currentTimeMillis() - cacheTimestamp
     val ageMinutes = TimeUnit.MILLISECONDS.toMinutes(ageMillis)
 
     val tooEarly = isManualRefresh && ageMinutes < MANUAL_REFRESH_MINUTES
-    val maxAge = if (isManualRefresh) MANUAL_REFRESH_MINUTES else AUTO_REFRESH_MAX_MINUTES
 
-    if (tooEarly) return AlertResultType.RETURN_CACHE
+    if (tooEarly) {
+        return AlertResultType.RETURN_CACHE
+    }
 
-    val shouldReturnCache = ageMinutes < maxAge
+    val maxAge = if (isManualRefresh) {
+        MANUAL_REFRESH_MINUTES
+    } else {
+        AUTO_REFRESH_MAX_MINUTES
+    }
 
-    return if (shouldReturnCache) AlertResultType.RETURN_CACHE else AlertResultType.ERROR
+    return if (ageMinutes < maxAge) {
+        AlertResultType.RETURN_CACHE
+    } else {
+        AlertResultType.ERROR
+    }
 }

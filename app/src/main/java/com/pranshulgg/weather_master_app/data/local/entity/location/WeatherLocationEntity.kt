@@ -32,5 +32,6 @@ data class WeatherLocationEntity(
     val customName: String? = null,
 
     @ColumnInfo(name = "openMeteoModel", defaultValue = "BEST_MATCH")
-    val openMeteoModel: OpenMeteoModel = OpenMeteoModel.BEST_MATCH
+    val openMeteoModel: OpenMeteoModel = OpenMeteoModel.BEST_MATCH,
+    val alertsLastFetchedAt: Long? = null
 )

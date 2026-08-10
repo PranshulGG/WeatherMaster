@@ -94,7 +94,8 @@ fun Location.toEntity(): WeatherLocationEntity =
         alertSource = alertSource,
         airQualitySource = airQualitySource,
         customName = customName,
-        openMeteoModel = openMeteoModel
+        openMeteoModel = openMeteoModel,
+        alertsLastFetchedAt = alertsLastFetchedAt
     )
 
 fun List<WeatherLocationEntity>.toDomain(): List<Location> =
@@ -120,5 +121,6 @@ fun WeatherLocationEntity.toDomain(): Location =
         alertSource = alertSource,
         airQualitySource = airQualitySource,
         customName = customName,
-        openMeteoModel = openMeteoModel
+        openMeteoModel = openMeteoModel,
+        alertsLastFetchedAt = alertsLastFetchedAt
     )

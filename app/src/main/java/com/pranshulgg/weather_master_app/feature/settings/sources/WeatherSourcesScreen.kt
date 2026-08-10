@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.R
+import com.pranshulgg.weather_master_app.core.model.sources.AlertSource
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
@@ -28,10 +29,36 @@ import com.pranshulgg.weather_master_app.core.ui.components.SettingsTileIcon
 import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
 
 
+private data class WeatherSourceScreen(
+    val displayName: String,
+    val fullName: String,
+    val displayLink: String,
+)
+
 @Composable
 fun WeatherSourcesScreen(navController: NavController) {
     val uriHandler = LocalUriHandler.current
 
+    val alertSources =
+        AlertSource.entries.filter { it.displayName !in WeatherSource.entries.map { source -> source.displayName } }
+            .filter { it != AlertSource.NONE }
+            .map {
+                WeatherSourceScreen(
+                    displayName = it.displayName,
+                    fullName = it.fullName,
+                    displayLink = it.displayLink
+                )
+            }
+
+    val weatherSources = WeatherSource.entries.map {
+        WeatherSourceScreen(
+            displayName = it.displayName,
+            fullName = it.fullName,
+            displayLink = it.displayLink
+        )
+    }
+
+    val sources = weatherSources + alertSources
 
     LargeTopBarScaffold(
         title = stringResource(R.string.weather_sources),
@@ -62,7 +89,7 @@ fun WeatherSourcesScreen(navController: NavController) {
                 Text(stringResource(R.string.action_request))
             }
             Gap(12.dp)
-            WeatherSource.entries.forEach {
+            sources.forEach {
                 SettingSection(
                     title = it.displayName,
                     tiles = listOf(

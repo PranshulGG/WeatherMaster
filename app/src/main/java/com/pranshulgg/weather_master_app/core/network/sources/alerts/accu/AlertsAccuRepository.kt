@@ -8,6 +8,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuA
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnAlertsCache
 import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationKeysDao
+import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
 import com.pranshulgg.weather_master_app.data.local.entity.location.LocationKeyEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.alerts.sources.accu.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toDomain
@@ -24,6 +25,7 @@ class AlertsAccuRepository @Inject constructor(
     private val dao: AlertsDao,
     private val locationKeysDao: LocationKeysDao,
     private val accuApi: AccuApi,
+    private val locationsDao: LocationsDao
 ) : AlertRepository {
     override suspend fun getAlerts(
         location: Location,
@@ -32,7 +34,12 @@ class AlertsAccuRepository @Inject constructor(
     ): AlertResult = withContext(Dispatchers.IO) {
 
         val cache = dao.getAlertsForLocation(location.id)
-        val shouldReturnCache = shouldReturnAlertsCache(cache, isManualRefresh, isForceRefresh)
+        val shouldReturnCache = shouldReturnAlertsCache(
+            cache,
+            isManualRefresh,
+            isForceRefresh,
+            location.alertsLastFetchedAt
+        )
 
         when (shouldReturnCache) {
             AlertResultType.RETURN_CACHE -> return@withContext AlertResult.Success(cache.map { it!!.toDomain() })
@@ -62,6 +69,8 @@ class AlertsAccuRepository @Inject constructor(
                 domain.map { it.toEntity(location.id) },
                 location.id
             )
+
+            locationsDao.updateAlertsLastFetchedAt(location.id, System.currentTimeMillis())
 
             AlertResult.Success(domain)
 

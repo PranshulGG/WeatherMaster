@@ -8,6 +8,7 @@ import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResultTy
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.wmosevereweather.model.WmoCapAlert
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnAlertsCache
 import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
+import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
 import com.pranshulgg.weather_master_app.data.local.mapper.alerts.sources.wmosevereweather.wmoSevereWeatherAlertsMapper
 import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toEntity
@@ -20,7 +21,8 @@ import javax.inject.Inject
 
 class WmoSevereWeatherRepository @Inject constructor(
     private val api: WmoSevereWeatherApi,
-    private val dao: AlertsDao
+    private val dao: AlertsDao,
+    private val locationsDao: LocationsDao
 ) : AlertRepository {
     override suspend fun getAlerts(
         location: Location,
@@ -29,7 +31,12 @@ class WmoSevereWeatherRepository @Inject constructor(
     ): AlertResult = withContext(Dispatchers.IO) {
 
         val cache = dao.getAlertsForLocation(location.id)
-        val shouldReturnCache = shouldReturnAlertsCache(cache, isManualRefresh, isForceRefresh)
+        val shouldReturnCache = shouldReturnAlertsCache(
+            cache,
+            isManualRefresh,
+            isForceRefresh,
+            location.alertsLastFetchedAt
+        )
 
         when (shouldReturnCache) {
             AlertResultType.RETURN_CACHE -> return@withContext AlertResult.Success(cache.map { it!!.toDomain() })
@@ -77,6 +84,9 @@ class WmoSevereWeatherRepository @Inject constructor(
                 domain.map { it.toEntity(location.id) },
                 location.id
             )
+
+            locationsDao.updateAlertsLastFetchedAt(location.id, System.currentTimeMillis())
+
 
             AlertResult.Success(domain)
 

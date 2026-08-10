@@ -93,4 +93,6 @@ interface LocationsDao {
     @Query("UPDATE weather_locations SET openMeteoModel = :model WHERE id = :id")
     suspend fun updateOpenMeteoModelForLocation(id: String, model: OpenMeteoModel)
 
+    @Query("UPDATE weather_locations SET alertsLastFetchedAt = :time WHERE id = :id")
+    suspend fun updateAlertsLastFetchedAt(id: String, time: Long)
 }

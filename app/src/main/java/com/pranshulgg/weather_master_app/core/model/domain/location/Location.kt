@@ -22,5 +22,6 @@ data class Location(
     val alertSource: AlertSource = AlertSource.NONE,
     val airQualitySource: AirQualitySource = AirQualitySource.OPEN_METEO,
     val customName: String? = null,
-    val openMeteoModel: OpenMeteoModel = OpenMeteoModel.BEST_MATCH
+    val openMeteoModel: OpenMeteoModel = OpenMeteoModel.BEST_MATCH,
+    val alertsLastFetchedAt: Long? = null
 )
