@@ -59,8 +59,6 @@ fun RainBlock(
             ) {
 
                 Column(
-//                    horizontalArrangement = Alignment.Bottom,
-//                    ver = Arrangement.End,
                     verticalArrangement = Arrangement.Bottom,
                     horizontalAlignment = Alignment.End,
                     modifier = Modifier
@@ -98,6 +96,8 @@ fun RainBlock(
                         .padding(start = 16.dp, end = 16.dp),
                     textAlign = TextAlign.End,
                     lineHeight = 16.sp,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.bodyLarge
                 )
