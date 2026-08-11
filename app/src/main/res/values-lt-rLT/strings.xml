@@ -6,7 +6,7 @@
     <string name="action_cancel">Atšaukti</string>
     <string name="weather_daily_forecast">Artimiausios dienos</string>
     <string name="locations">Vietovės</string>
-    <string name="location_default">Numatytoji vieta</string>
+    <string name="location_default">Numatytoji vietovė</string>
     <string name="weather_rain_today_amount">Kritulių kiekis</string>
     <string name="weather_precipitation_hours">Kritulių trukmė</string>
     <string name="time_now">Dabar</string>
