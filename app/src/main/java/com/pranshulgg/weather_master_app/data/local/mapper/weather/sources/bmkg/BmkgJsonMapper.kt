@@ -164,7 +164,7 @@ private fun getHourlyConditionsForDay(
     time: Long
 ): List<WeatherCondition> {
     val startIndex =
-        data.indexOfFirst { it.datetime.iso8601TimestampToMilliseconds() >= time }
+        data.indexOfFirst { it.datetime.iso8601TimestampToMilliseconds() >= time }.minus(1)
             .takeIf { it != -1 } ?: 0
 
 

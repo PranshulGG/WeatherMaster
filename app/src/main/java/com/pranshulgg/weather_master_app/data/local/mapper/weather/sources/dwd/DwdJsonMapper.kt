@@ -103,68 +103,70 @@ private fun computeDaily(
         location.longitude
     )
 
-    return groupedByDay.filter {(key, value) -> (value.size == 24) || key == groupedByDay.keys.firstOrNull()}.map{ dailyIt ->
-        val minTemperature = dailyIt.value.minOf { it.temperature }
-        val maxTemperature = dailyIt.value.maxOf { it.temperature }
+    return groupedByDay.filter { (key, value) -> (value.size == 24) || key == groupedByDay.keys.firstOrNull() }
+        .map { dailyIt ->
+            val minTemperature = dailyIt.value.minOf { it.temperature }
+            val maxTemperature = dailyIt.value.maxOf { it.temperature }
 
-        val avgHumidity = dailyIt.value.map { it.humidity?.toDouble() ?: -1.0 }.average()
+            val avgHumidity = dailyIt.value.map { it.humidity?.toDouble() ?: -1.0 }.average()
 
-        val avgPressure = dailyIt.value.map { it.pressureMsl ?: -1.0 }.average()
+            val avgPressure = dailyIt.value.map { it.pressureMsl ?: -1.0 }.average()
 
-        val minVisibility = dailyIt.value.minOf { it.visibility?.toDouble() ?: -1.0 }
+            val minVisibility = dailyIt.value.minOf { it.visibility?.toDouble() ?: -1.0 }
 
-        val avgDewPoint = dailyIt.value.map { it.dewPoint ?: -1.0 }.average()
+            val avgDewPoint = dailyIt.value.map { it.dewPoint ?: -1.0 }.average()
 
-        val windSpeed = dailyIt.value
-            .mapNotNull { it.windSpeed }
-            .average() ?: null
+            val windSpeed = dailyIt.value
+                .mapNotNull { it.windSpeed }
+                .average() ?: null
 
-        val windDirection =
-            dailyIt.value.mapNotNull { it.windDirection }.maxOrNull()
+            val windDirection =
+                dailyIt.value.mapNotNull { it.windDirection }.maxOrNull()
 
-        val rainSum =
-            dailyIt.value.sumOf { it.precipitation ?: 0.0 }
+            val rainSum =
+                dailyIt.value.sumOf { it.precipitation ?: 0.0 }
 
-        val time = dailyIt.key
-        val icon = dailyIt.value.map { it.icon }.groupingBy { it }
-            .eachCount().entries.maxByOrNull { it.value }
-
-
-        val condition = computeDailyWeatherCondition(
-            getHourlyConditionsForDay(dailyIt.value, time),
-            MetNorwayWeatherConditionMap.getCondition(icon?.key)
-        )
-
-        val precipitationProbabilityMax = dailyIt.value.mapNotNull { it.precipitationProbability }
-            .maxOrNull()
+            val time = dailyIt.key
+            val icon = dailyIt.value.map { it.icon }.groupingBy { it }
+                .eachCount().entries.maxByOrNull { it.value }
 
 
-        val index = groupedByDay.keys.indexOf(dailyIt.key)
+            val condition = computeDailyWeatherCondition(
+                getHourlyConditionsForDay(dailyIt.value, time),
+                MetNorwayWeatherConditionMap.getCondition(icon?.key)
+            )
 
-        WeatherDaily(
-            temperatureMin = minTemperature,
-            temperatureMax = maxTemperature,
-            windSpeed = windSpeed,
-            windDirection = WindDirection.toWindDirectionFromDegrees(windDirection),
-            rainSum = rainSum,
-            snowfallSum = null,
-            uvIndexMax = null,
-            weatherCondition = condition,
-            time = time,
-            precipitationProbabilityMax = precipitationProbabilityMax,
-            sunrise = sunTimings[index].sunrise ?: -0L,
-            sunset = sunTimings[index].sunset ?: -0L,
-            moonrise = moonTimings[index].moonrise ?: -0L,
-            moonset = moonTimings[index].moonset ?: -0L,
-            moonPhase = moonTimings[index].phase,
-            dawn = sunTimings[index].dawn ?: 0L,
-            dusk = sunTimings[index].dusk ?: 0L,
-            humidity = avgHumidity,
-            pressureMsl = avgPressure,
-            visibility = minVisibility.roundToInt(),
-            dewPoint = avgDewPoint,
-        )
-    }
+            val precipitationProbabilityMax =
+                dailyIt.value.mapNotNull { it.precipitationProbability }
+                    .maxOrNull()
+
+
+            val index = groupedByDay.keys.indexOf(dailyIt.key)
+
+            WeatherDaily(
+                temperatureMin = minTemperature,
+                temperatureMax = maxTemperature,
+                windSpeed = windSpeed,
+                windDirection = WindDirection.toWindDirectionFromDegrees(windDirection),
+                rainSum = rainSum,
+                snowfallSum = null,
+                uvIndexMax = null,
+                weatherCondition = condition,
+                time = time,
+                precipitationProbabilityMax = precipitationProbabilityMax,
+                sunrise = sunTimings[index].sunrise ?: -0L,
+                sunset = sunTimings[index].sunset ?: -0L,
+                moonrise = moonTimings[index].moonrise ?: -0L,
+                moonset = moonTimings[index].moonset ?: -0L,
+                moonPhase = moonTimings[index].phase,
+                dawn = sunTimings[index].dawn ?: 0L,
+                dusk = sunTimings[index].dusk ?: 0L,
+                humidity = avgHumidity,
+                pressureMsl = avgPressure,
+                visibility = minVisibility.roundToInt(),
+                dewPoint = avgDewPoint,
+            )
+        }
 }
 
 private fun getHourlyConditionsForDay(
@@ -172,7 +174,7 @@ private fun getHourlyConditionsForDay(
     time: Long
 ): List<WeatherCondition> {
     val startIndex =
-        data.indexOfFirst { it.timestamp.iso8601TimestampToMilliseconds() >= time }
+        data.indexOfFirst { it.timestamp.iso8601TimestampToMilliseconds() >= time }.minus(1)
             .takeIf { it != -1 } ?: 0
 
 

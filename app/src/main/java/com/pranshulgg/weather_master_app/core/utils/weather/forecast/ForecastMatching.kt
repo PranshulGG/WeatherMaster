@@ -39,7 +39,7 @@ fun findMatchingHourly(
 ): List<WeatherHourly> {
 
 
-    val startIndex = data.indexOfFirst { it.time >= currentMilli }
+    val startIndex = data.indexOfFirst { it.time >= currentMilli }.minus(1)
 
     if (startIndex == -1) {
         return emptyList()

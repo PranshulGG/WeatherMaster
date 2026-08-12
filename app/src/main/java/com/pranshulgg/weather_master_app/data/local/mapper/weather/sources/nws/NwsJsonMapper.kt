@@ -239,7 +239,7 @@ private fun fixHourlyNwsWindSpeedValue(value: String): Double? {
 
 private fun getAverageWindSpeed(data: NwsHourlyForecastPeriodsJson, time: Long): Double {
     val startIndex =
-        data.periods.indexOfFirst { it.startTime.iso8601TimestampToMilliseconds() >= time }
+        data.periods.indexOfFirst { it.startTime.iso8601TimestampToMilliseconds() >= time }.minus(1)
             .takeIf { it != -1 } ?: 0
 
     val maxSpeed = data.periods.drop(maxOf(0, startIndex - 1))
@@ -318,7 +318,8 @@ private fun getRainSum(
     time: Long
 ): Double {
 
-    val startIndex = data.toList().indexOfFirst { it.first >= time }.takeIf { it != -1 } ?: 0
+    val startIndex =
+        data.toList().indexOfFirst { it.first >= time }.minus(1).takeIf { it != -1 } ?: 0
 
     val data = data.toList().drop(maxOf(0, startIndex))
         .take(WeatherSource.NWS.hourlyAggregationLimitHours)
@@ -334,7 +335,8 @@ private fun getSnowfallSum(
     time: Long
 ): Double {
 
-    val startIndex = data.toList().indexOfFirst { it.first >= time }.takeIf { it != -1 } ?: 0
+    val startIndex =
+        data.toList().indexOfFirst { it.first >= time }.minus(1).takeIf { it != -1 } ?: 0
 
     val data = data.toList().drop(maxOf(0, startIndex))
         .take(WeatherSource.NWS.hourlyAggregationLimitHours)
@@ -349,7 +351,8 @@ private fun getMinVisibility(
     data: Map<Long, Double?>,
     time: Long
 ): Double? {
-    val startIndex = data.toList().indexOfFirst { it.first >= time }.takeIf { it != -1 } ?: 0
+    val startIndex =
+        data.toList().indexOfFirst { it.first >= time }.minus(1).takeIf { it != -1 } ?: 0
 
     val data = data.toList().drop(maxOf(0, startIndex))
         .take(WeatherSource.NWS.hourlyAggregationLimitHours)
@@ -363,7 +366,7 @@ private fun getMinVisibility(
 
 private fun getMaxPrecipitationProbability(data: NwsHourlyForecastPeriodsJson, time: Long): Double {
     val startIndex =
-        data.periods.indexOfFirst { it.startTime.iso8601TimestampToMilliseconds() >= time }
+        data.periods.indexOfFirst { it.startTime.iso8601TimestampToMilliseconds() >= time }.minus(1)
             .takeIf { it != -1 } ?: 0
 
     val maxProbability = data.periods.drop(maxOf(0, startIndex - 1))
@@ -378,7 +381,7 @@ private fun getDataForDay(
     time: Long
 ): List<NwsHourlyForecastPeriodsItemJson> {
     val startIndex =
-        data.periods.indexOfFirst { it.startTime.iso8601TimestampToMilliseconds() >= time }
+        data.periods.indexOfFirst { it.startTime.iso8601TimestampToMilliseconds() >= time }.minus(1)
             .takeIf { it != -1 } ?: 0
 
     val data = data.periods.drop(maxOf(0, startIndex - 1))
@@ -394,7 +397,7 @@ private fun getHourlyConditionsForDay(
     time: Long
 ): List<WeatherCondition> {
     val startIndex =
-        data.periods.indexOfFirst { it.startTime.iso8601TimestampToMilliseconds() >= time }
+        data.periods.indexOfFirst { it.startTime.iso8601TimestampToMilliseconds() >= time }.minus(1)
             .takeIf { it != -1 } ?: 0
 
     val conditions = data.periods.drop(maxOf(0, startIndex - 1))

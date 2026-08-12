@@ -159,7 +159,8 @@ private fun getMaxPrecipitationProbability(
     time: Long
 ): Int? {
     val startIndex =
-        hourly.indexOfFirst { it.epochTime.secondsToMilliseconds() >= time }.takeIf { it != -1 }
+        hourly.indexOfFirst { it.epochTime.secondsToMilliseconds() >= time }.minus(1)
+            .takeIf { it != -1 }
             ?: 0
 
 

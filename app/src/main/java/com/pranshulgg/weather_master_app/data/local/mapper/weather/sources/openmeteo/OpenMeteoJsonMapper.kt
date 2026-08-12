@@ -127,6 +127,7 @@ private fun getHourlyConditionsForDay(
 
     val startIndex =
         data.time.indexOfFirst { it.secondsToMilliseconds() >= time.secondsToMilliseconds() }
+            .minus(1)
             .takeIf { it != -1 } ?: 0
 
     val conditions = data.weatherCode.drop(maxOf(0, startIndex)).take(24)

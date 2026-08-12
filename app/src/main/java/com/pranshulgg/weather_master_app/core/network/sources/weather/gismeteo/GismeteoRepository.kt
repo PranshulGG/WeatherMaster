@@ -58,51 +58,51 @@ class GismeteoRepository @Inject constructor(
                 else -> {}
             }
 
-//            return@withContext try {
+            return@withContext try {
 
-            val locationId =
-                locationKeysDao.getCityKeyForLocation(location.id)?.cityKey.toSafeDouble()
-                    ?.toLong()
-                    ?: api.fetchLocations(location.latitude, location.longitude).body()
-                        ?.byteStream()?.use { stream ->
-                            findClosestLocation(location, stream)
-                        }
-                    ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
-
-
-            val response = api.fetchForecast(id = locationId)
-            val body = response.body()?.byteStream()?.use { stream ->
-                parseXml(stream)
-            } ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
-
-            val domain = body.toDomain(location)
+                val locationId =
+                    locationKeysDao.getCityKeyForLocation(location.id)?.cityKey.toSafeDouble()
+                        ?.toLong()
+                        ?: api.fetchLocations(location.latitude, location.longitude).body()
+                            ?.byteStream()?.use { stream ->
+                                findClosestLocation(location, stream)
+                            }
+                        ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
 
 
-            locationKeysDao.insertCityKey(
-                LocationKeyEntity(
-                    locationId = location.id,
-                    cityKey = locationId.toString()
+                val response = api.fetchForecast(id = locationId)
+                val body = response.body()?.byteStream()?.use { stream ->
+                    parseXml(stream)
+                } ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
+
+                val domain = body.toDomain(location)
+
+
+                locationKeysDao.insertCityKey(
+                    LocationKeyEntity(
+                        locationId = location.id,
+                        cityKey = locationId.toString()
+                    )
                 )
-            )
 
-            weatherDao.insertWeather(
-                domain.current.toCurrentWeatherEntity(location.id),
-                domain.hourly.toHourlyWeatherEntity(location.id),
-                domain.daily.toDailyWeatherEntity(location.id),
-                location.id
-            )
-            WeatherResult.Success(domain)
+                weatherDao.insertWeather(
+                    domain.current.toCurrentWeatherEntity(location.id),
+                    domain.hourly.toHourlyWeatherEntity(location.id),
+                    domain.daily.toDailyWeatherEntity(location.id),
+                    location.id
+                )
+                WeatherResult.Success(domain)
 
-//            } catch (e: Exception) {
-//
-//                val isCacheSafe = isWeatherCacheSafe(cache)
-//
-//                WeatherResult.Error(
-//                    exception = e,
-//                    if (isCacheSafe) cache?.toDomain() else null
-//                )
-//
-//            }
+            } catch (e: Exception) {
+
+                val isCacheSafe = isWeatherCacheSafe(cache)
+
+                WeatherResult.Error(
+                    exception = e,
+                    if (isCacheSafe) cache?.toDomain() else null
+                )
+
+            }
 
 
         }
