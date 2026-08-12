@@ -397,7 +397,7 @@ private fun getHourlyConditionsForDay(
     time: Long
 ): List<WeatherCondition> {
     val startIndex =
-        data.periods.indexOfFirst { it.startTime.iso8601TimestampToMilliseconds() >= time }.minus(1)
+        data.periods.indexOfFirst { it.startTime.iso8601TimestampToMilliseconds() >= time }
             .takeIf { it != -1 } ?: 0
 
     val conditions = data.periods.drop(maxOf(0, startIndex - 1))

@@ -1,6 +1,5 @@
 package com.pranshulgg.weather_master_app.feature.shared.ui
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -34,8 +32,6 @@ import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.WeatherIconBox
 import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
-import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.secondsToMilliseconds
-import com.pranshulgg.weather_master_app.core.utils.formatters.safeZoneId
 import com.pranshulgg.weather_master_app.core.utils.formatters.to12HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.formatters.to24HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherHourlyDomainSafe
@@ -44,16 +40,14 @@ import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findMatchin
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.isSameDay
 import com.pranshulgg.weather_master_app.feature.blocks.components.NoHourlyDataAvailable
 import com.pranshulgg.weather_master_app.feature.shared.components.CardsHeader
-import java.time.ZoneId
-import java.time.ZonedDateTime
-import kotlin.math.max
 import kotlin.math.roundToInt
 
 @Composable
 fun HourlyCard(
     weather: Weather,
     units: WeatherUnits,
-    currentMilli: Long = weather.current.time
+    currentMilli: Long = weather.current.time,
+    isDaily: Boolean = false
 ) {
 
     if (!isWeatherHourlyDomainSafe(weather)) return
@@ -66,7 +60,8 @@ fun HourlyCard(
             currentMilli,
             weather.location.source,
             weather.location.timezone,
-            alwaysReturn24Hrs = true
+            alwaysReturn24Hrs = true,
+            keepPastHour = !isDaily
 
         )
 

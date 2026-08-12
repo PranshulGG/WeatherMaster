@@ -111,7 +111,8 @@ fun DailyScreen(navController: NavController, index: Int = 0, locationId: String
                 HourlyCard(
                     weather,
                     units,
-                    if (selectedIndex != 0) selectedDaily.time else weather.current.time
+                    if (selectedIndex != 0) selectedDaily.time else weather.current.time,
+                    isDaily = true
                 )
                 WeatherBlocks(
                     weather,

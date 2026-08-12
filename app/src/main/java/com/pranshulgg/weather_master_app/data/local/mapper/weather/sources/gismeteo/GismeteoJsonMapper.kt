@@ -150,7 +150,6 @@ fun GismeteoModel.toDomain(location: Location): Weather {
 private fun hourlyForDay(data: List<GismeteoModelHourly>, time: Long): List<GismeteoModelHourly> {
     val startIndex =
         data.indexOfFirst { fixTimeString(it.time).iso8601TimestampToMilliseconds() >= time }
-            .minus(1)
             .takeIf { it != -1 }
             ?: 0
 

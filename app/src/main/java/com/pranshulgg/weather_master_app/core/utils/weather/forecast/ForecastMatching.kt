@@ -35,15 +35,14 @@ fun findMatchingHourly(
     currentMilli: Long,
     source: WeatherSource,
     zoneId: String,
-    alwaysReturn24Hrs: Boolean = false
+    alwaysReturn24Hrs: Boolean = false,
+    keepPastHour: Boolean = false
 ): List<WeatherHourly> {
 
 
-    val startIndex = data.indexOfFirst { it.time >= currentMilli }.minus(1)
+    val startIndex = data.indexOfFirst { it.time >= currentMilli }.takeIf { it >= 0 }
+        ?.minus(if (keepPastHour) 1 else 0) ?: return emptyList()
 
-    if (startIndex == -1) {
-        return emptyList()
-    }
     val startDay = data[startIndex].time
 
     return if (alwaysReturn24Hrs) {
