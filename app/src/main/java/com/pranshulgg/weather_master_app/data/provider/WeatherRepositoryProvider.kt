@@ -7,6 +7,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.china.Chin
 import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.DwdRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.EcccRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.fmi.FmiRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.GismeteoRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.ipma.IpmaRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.MeteoamRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofrance.MeteoFranceRepository
@@ -30,7 +31,8 @@ class WeatherRepositoryProvider @Inject constructor(
     private val bmkgRepository: BmkgRepository,
     private val accuRepository: AccuRepository,
     private val meteoamRepository: MeteoamRepository,
-    private val ipmaRepository: IpmaRepository
+    private val ipmaRepository: IpmaRepository,
+    private val gismeteoRepository: GismeteoRepository
 ) {
 
     fun getRepository(source: WeatherSource): WeatherRepository {
@@ -48,7 +50,7 @@ class WeatherRepositoryProvider @Inject constructor(
             WeatherSource.ACCU_WEATHER -> accuRepository
             WeatherSource.METEO_AM -> meteoamRepository
             WeatherSource.IPMA -> ipmaRepository
-            else -> openMeteoRepository
+            WeatherSource.GISMETEO -> gismeteoRepository
         }
     }
 

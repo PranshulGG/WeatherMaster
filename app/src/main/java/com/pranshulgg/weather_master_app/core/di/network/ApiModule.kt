@@ -18,6 +18,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.china.Chin
 import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.DwdApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.EcccApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.fmi.FmiApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.GismeteoApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.ipma.IpmaApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.MeteoamApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofrance.MeteoFranceApi
@@ -134,4 +135,8 @@ object ApiModule {
     @Provides
     @Singleton
     fun provideFpasAlertsApi(): FpasApi = FpasApi.create()
+
+    @Provides
+    @Singleton
+    fun provideGismeteoApi(): GismeteoApi = GismeteoApi.create()
 }

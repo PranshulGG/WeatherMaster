@@ -66,6 +66,11 @@ enum class WeatherSource(
         fullName = "Instituto Português do Mar e da Atmosfera",
         displayLink = "https://api.ipma.pt/"
     ),
+    GISMETEO( // HAS WORLDWIDE DATA
+        displayName = "Gismeteo (Russia)",
+        fullName = "Gismeteo Russia",
+        displayLink = "https://www.gismeteo.ru/"
+    ),
     MET_NORWAY(
         displayName = "Met Norway",
         fullName = "Met Norway",
@@ -97,6 +102,7 @@ private val weatherSourcesByCountry = buildMap {
     put("ID", listOf(WeatherSource.BMKG))
     listOf("IT", "VA").forEach { put(it, listOf(WeatherSource.METEO_AM)) }
     put("PT", listOf(WeatherSource.IPMA))
+    put("RU", listOf(WeatherSource.GISMETEO))
 }
 
 fun getWeatherSourcesForCountry(countryCode: String?): List<WeatherSource> {

@@ -24,6 +24,8 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.EcccA
 import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.EcccRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.fmi.FmiApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.fmi.FmiRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.GismeteoApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.GismeteoRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.ipma.IpmaApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.ipma.IpmaRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.MeteoamApi
@@ -210,4 +212,13 @@ object WeatherRepositoryModule {
         dao: AlertsDao,
         locationsDao: LocationsDao
     ): FpasRepository = FpasRepository(api, dao, locationsDao)
+
+    @Provides
+    @Singleton
+    fun provideGismeteoRepository(
+        dao: LocationsDao,
+        api: GismeteoApi,
+        weatherDao: WeatherDao,
+        locationKeysDao: LocationKeysDao
+    ): GismeteoRepository = GismeteoRepository(dao, weatherDao, api, locationKeysDao)
 }
