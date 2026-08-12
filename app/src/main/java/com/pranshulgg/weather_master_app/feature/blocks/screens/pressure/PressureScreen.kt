@@ -83,7 +83,7 @@ fun PressureScreen(navController: NavController, index: Int = 0, locationId: Str
                     .padding(paddingValues)
         ) {
 
-            if (!pressureData.contains(null)) {
+            if (pressureData.isNotEmpty() && !pressureData.contains(null)) {
                 PressureHourlyCard(data, zoneId, units.pressureUnit, context)
             } else {
                 NoHourlyDataAvailable()

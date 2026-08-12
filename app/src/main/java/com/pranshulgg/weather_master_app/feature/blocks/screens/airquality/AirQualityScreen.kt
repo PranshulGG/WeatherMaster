@@ -100,7 +100,6 @@ fun AirQualityScreen(navController: NavController, index: Int = 0, locationId: S
             }
 
             if (data.isNotEmpty()) {
-
                 AirQualityHourlyCard(data, weather.location.timezone, airQuality)
             } else {
                 NoHourlyDataAvailable()

@@ -99,7 +99,7 @@ fun UvIndexScreen(navController: NavController, index: Int = 0, locationId: Stri
                     .verticalScroll(rememberScrollState())
                     .padding(paddingValues)
         ) {
-            if (!uvIndexData.contains(null)) {
+            if (uvIndexData.isNotEmpty() && !uvIndexData.contains(null)) {
                 UvIndexHourlyCard(data, zoneId)
             } else {
                 NoHourlyDataAvailable()

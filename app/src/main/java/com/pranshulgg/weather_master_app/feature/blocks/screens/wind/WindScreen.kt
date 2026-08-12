@@ -56,6 +56,7 @@ fun WindScreen(navController: NavController, index: Int = 0, locationId: String)
         weather.location.timezone
 
     )
+    val speed = data.map { it.windSpeed }
 
     val date = toDateString(weather.daily[index].time, weather.location.timezone)
 
@@ -79,7 +80,9 @@ fun WindScreen(navController: NavController, index: Int = 0, locationId: String)
                     .verticalScroll(rememberScrollState())
                     .padding(paddingValues)
         ) {
-            WindHourlyCard(data, zoneId, units.windUnit, context)
+            if (speed.isNotEmpty() && !speed.contains(null)) {
+                WindHourlyCard(data, zoneId, units.windUnit, context)
+            }
             Gap(14.dp)
             AboutCard {
                 AboutCardText(stringResource(R.string.weather_about_windspeed))

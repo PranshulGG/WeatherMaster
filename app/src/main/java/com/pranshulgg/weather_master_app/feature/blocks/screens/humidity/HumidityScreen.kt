@@ -117,7 +117,7 @@ fun HumidityScreen(navController: NavController, index: Int = 0, locationId: Str
                     .verticalScroll(rememberScrollState())
                     .padding(paddingValues)
         ) {
-            if (!humidityData.contains(null)) {
+            if (humidityData.isNotEmpty() && !humidityData.contains(null)) {
                 HumidityHourlyCard(data, zoneId)
             } else {
                 NoHourlyDataAvailable()
@@ -128,7 +128,7 @@ fun HumidityScreen(navController: NavController, index: Int = 0, locationId: Str
             }
             Gap(14.dp)
             DewPointHeader()
-            if (!dewPointData.contains(null)) {
+            if (dewPointData.isNotEmpty() && !dewPointData.contains(null)) {
                 DewPointHourlyCard(data, zoneId, units.tempUnit, context)
             } else {
                 NoHourlyDataAvailable()

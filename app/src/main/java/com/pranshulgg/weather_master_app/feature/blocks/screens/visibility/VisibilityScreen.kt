@@ -113,7 +113,7 @@ fun VisibilityScreen(navController: NavController, index: Int = 0, locationId: S
                     .verticalScroll(rememberScrollState())
                     .padding(paddingValues)
         ) {
-            if (!visibility.contains(null)) {
+            if (visibility.isNotEmpty() && !visibility.contains(null)) {
                 VisibilityHourlyCard(data, zoneId, units.distanceUnit, context)
             } else {
                 NoHourlyDataAvailable()
