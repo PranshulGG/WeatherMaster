@@ -101,7 +101,7 @@ fun MeteoamWeatherBundle.toDomain(location: Location): Weather {
 
 
             val direction = windDirection?.getOrNull(index).takeUnless { it == "VRB" }
-            
+
 
             WeatherHourly(
                 temperature = temperature?.getOrNull(index),
@@ -178,8 +178,8 @@ private fun computeDaily(
             val icon = dailyIt.value.map { it.icon }.groupingBy { it }
                 .eachCount().entries.maxByOrNull { it.value }
 
-            val humidityMin = dailyIt.value.minOf { it.humidity ?: -1.0 }.takeIf { it >= 0.0 }
-            val pressureMin = dailyIt.value.minOf { it.pressure ?: -1.0 }.takeIf { it >= 0.0 }
+            val humidityMin = dailyIt.value.map { it.humidity ?: -1.0 }.average().takeIf { it >= 0 }
+            val pressureMin = dailyIt.value.map { it.pressure ?: -1.0 }.average().takeIf { it >= 0 }
 
             val weatherCondition = computeDailyWeatherCondition(
                 getHourlyConditionsForDay(data, dailyIt.key),

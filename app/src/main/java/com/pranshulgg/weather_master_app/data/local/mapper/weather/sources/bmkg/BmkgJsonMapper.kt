@@ -129,7 +129,7 @@ private fun computeDaily(
         )
 
         val visibilityMin = dailyIt.value.minOf { it.vs ?: -1.0 }.takeIf { it >= 0.0 }
-        val humidityMin = dailyIt.value.minOf { it.hu ?: -1.0 }.takeIf { it >= 0.0 }
+        val humidityAvg = dailyIt.value.map { it.hu ?: -1.0 }.average().takeIf { it >= 0.0 }
 
 
         WeatherDaily(
@@ -145,7 +145,7 @@ private fun computeDaily(
             precipitationProbabilityMax = null,
             pressureMsl = null,
             visibility = visibilityMin?.toInt(),
-            humidity = humidityMin,
+            humidity = humidityAvg,
             dewPoint = null,
             sunrise = sunTimings[index].sunrise ?: -1L,
             sunset = sunTimings[index].sunset ?: -1L,

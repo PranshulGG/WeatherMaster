@@ -29,7 +29,7 @@ fun AccuWeatherBundle.toDomain(location: Location): Weather {
     val sunTimings = getSunTimings(
         daily.map {
             it.time.secondsToMilliseconds().normalizeToDay(location.timezone)
-        }, // Open-Meteo returns in seconds
+        },
         location.timezone,
         location.latitude,
         location.longitude
@@ -38,7 +38,7 @@ fun AccuWeatherBundle.toDomain(location: Location): Weather {
     val moonTimings = getMoonTimings(
         daily.map {
             it.time.secondsToMilliseconds().normalizeToDay(location.timezone)
-        }, // Open-Meteo returns in seconds
+        },
         location.timezone,
         location.latitude,
         location.longitude
