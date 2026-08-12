@@ -53,7 +53,8 @@ fun WindScreen(navController: NavController, index: Int = 0, locationId: String)
         hourly,
         time,
         weather.location.source,
-        weather.location.timezone
+        weather.location.timezone,
+        keepPastHour = true
 
     )
     val speed = data.map { it.windSpeed }

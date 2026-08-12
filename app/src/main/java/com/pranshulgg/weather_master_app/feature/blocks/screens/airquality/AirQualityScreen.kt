@@ -62,7 +62,8 @@ fun AirQualityScreen(navController: NavController, index: Int = 0, locationId: S
         hourly,
         time,
         weather.location.source,
-    ).filter { it.ozone != null || it.pm25 != null || it.pm10 != null || it.sulphurDioxide != null || it.carbonMonoxide != null || it.nitrogenDioxide != null }
+
+        ).filter { it.ozone != null || it.pm25 != null || it.pm10 != null || it.sulphurDioxide != null || it.carbonMonoxide != null || it.nitrogenDioxide != null }
 
     LargeTopBarScaffold(
         title = stringResource(R.string.weather_air_quality),

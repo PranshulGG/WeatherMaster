@@ -30,6 +30,7 @@ fun findMatchingDaily(
 
 }
 
+
 fun findMatchingHourly(
     data: List<WeatherHourly>,
     currentMilli: Long,
@@ -40,8 +41,16 @@ fun findMatchingHourly(
 ): List<WeatherHourly> {
 
 
-    val startIndex = data.indexOfFirst { it.time >= currentMilli }.takeIf { it >= 0 }
-        ?.minus(if (keepPastHour) 1 else 0) ?: return emptyList()
+    val index = data.indexOfFirst { it.time >= currentMilli }
+
+    if (index <= -1) {
+        return emptyList()
+    }
+    val startIndex = if (keepPastHour) {
+        maxOf(0, index - 1)
+    } else {
+        index
+    }
 
     val startDay = data[startIndex].time
 

@@ -70,7 +70,8 @@ fun UvIndexScreen(navController: NavController, index: Int = 0, locationId: Stri
             hourly,
             time,
             weather.location.source,
-            weather.location.timezone
+            weather.location.timezone,
+            keepPastHour = true
 
         )
 
