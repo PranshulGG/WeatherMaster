@@ -371,5 +371,21 @@ Monitorizarea evoluției acesteia poate oferi un indiciu timpuriu privind schimb
     <string name="settings_widget_show_daily_weather_secondary">Displays today\'s forecast instead of the current conditions</string>
     <string name="settings_widget_show_clock">Show clock</string>
     <string name="settings_widget_clock_size">Clock size</string>
+    <string name="unit_wind_kt_short">kt</string>
+    <string name="unit_wind_bft_short">bft</string>
+    <string name="unit_pressure_mmhg_short">mmHG</string>
+    <string name="unit_wind_mps_short">m/s</string>
+    <string name="unit_wind_mph_short">mi/h</string>
+    <string name="unit_wind_kph_short">km/h</string>
+    <string name="unit_pressure_hpa_short">hPa</string>
+    <string name="unit_pressure_inhg_short">inHG</string>
+    <string name="unit_distance_km_short">km</string>
+    <string name="unit_distance_mi_short">mi</string>
+    <string name="unit_distance_m_short">m</string>
+    <string name="unit_precipitation_mm_short">mm</string>
+    <string name="unit_precipitation_inch_short">in</string>
+    <string name="unit_precipitation_cm_short">cm</string>
+    <string name="settings_widget_show_precip_probability">Show precipitation probability</string>
+    <string name="settings_widget_show_precip_probability_secondary">Displays the precipitation probability only when the selected source provides it</string>
 </resources>
 <!--<string name=""></string>-->
