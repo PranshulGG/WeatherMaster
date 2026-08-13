@@ -1,6 +1,8 @@
 package com.pranshulgg.weather_master_app.core.utils.locale
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
+import com.pranshulgg.weather_master_app.R
 import java.util.Locale
 
 data class Language(
@@ -11,9 +13,14 @@ data class Language(
 )
 
 
-fun getAppLocalLocales(): List<Language> {
+fun getAppLocalLocales(context: Context): List<Language> {
     return listOf(
-        Language(name = "System", value = "sys", nativeName = "Your device language", code = "SYS"),
+        Language(
+            name = context.getString(R.string.setting_system),
+            value = "sys",
+            nativeName = context.getString(R.string.settings_your_device_language),
+            code = "SYS"
+        ),
         Language(name = "English", value = "en", nativeName = "English", code = "US"),
         Language(
             name = "Arabic (Saudi Arabia)",
