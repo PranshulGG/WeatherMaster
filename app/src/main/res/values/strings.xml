@@ -315,6 +315,8 @@
 
     <string name="unit_wind_kt">Knots</string>
     <string name="unit_wind_bft">Beaufort</string>
+
+
     <string name="setting_day_summary">Day summary</string>
     <string name="setting_day_summary_secondary">Show a daily summary generated from hourly data</string>
 
@@ -445,6 +447,21 @@
 
     <string name="settings_widget_show_clock">Show clock</string>
     <string name="settings_widget_clock_size">Clock size</string>
+
+    <string name="unit_wind_kt_short">kt</string>
+    <string name="unit_wind_bft_short">bft</string>
+    <string name="unit_pressure_mmhg_short">mmHG</string>
+    <string name="unit_wind_mps_short">m/s</string>
+    <string name="unit_wind_mph_short">mi/h</string>
+    <string name="unit_wind_kph_short">km/h</string>
+    <string name="unit_pressure_hpa_short">hPa</string>
+    <string name="unit_pressure_inhg_short">inHG</string>
+    <string name="unit_distance_km_short">km</string>
+    <string name="unit_distance_mi_short">mi</string>
+    <string name="unit_distance_m_short">m</string>
+    <string name="unit_precipitation_mm_short">mm</string>
+    <string name="unit_precipitation_inch_short">in</string>
+    <string name="unit_precipitation_cm_short">cm</string>
 
 </resources>
 
