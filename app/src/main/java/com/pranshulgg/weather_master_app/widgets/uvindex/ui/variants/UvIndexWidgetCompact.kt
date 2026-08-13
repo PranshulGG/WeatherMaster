@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app.widgets.uvindex.ui.variants
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceModifier
@@ -15,6 +16,7 @@ import androidx.glance.layout.width
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
+import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.weather.uv.getUvIndex
 import com.pranshulgg.weather_master_app.core.model.weather.uv.toLabel
 import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
@@ -41,7 +43,7 @@ fun UvIndexWidgetCompact(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                "Current",
+                stringResource(R.string.weather_current),
                 style = TextStyle(
                     color = textColorVariant,
                     fontSize = 18.sp,
