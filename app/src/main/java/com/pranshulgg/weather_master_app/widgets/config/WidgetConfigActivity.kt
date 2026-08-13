@@ -22,6 +22,8 @@ import com.pranshulgg.weather_master_app.widgets.glance.GlanceWidgetReceiver
 import com.pranshulgg.weather_master_app.widgets.glance.ui.GlanceWidgetConfig
 import com.pranshulgg.weather_master_app.widgets.hourly.WidgetHourlyReceiver
 import com.pranshulgg.weather_master_app.widgets.hourly.ui.HourlyWidgetConfig
+import com.pranshulgg.weather_master_app.widgets.uvindex.UvIndexWidgetReceiver
+import com.pranshulgg.weather_master_app.widgets.uvindex.ui.UvIndexWidgetConfig
 import com.pranshulgg.weather_master_app.widgets.weather.WeatherWidgetReceiver
 import com.pranshulgg.weather_master_app.widgets.weather.ui.WeatherWidgetConfig
 import com.pranshulgg.weather_master_app.widgets.weather4.Weather4WidgerReceiver
@@ -131,6 +133,10 @@ class WidgetConfigActivity : ComponentActivity() {
 
                         WidgetHourlyReceiver::class.java.name -> {
                             HourlyWidgetConfig { onDone(it) }
+                        }
+
+                        UvIndexWidgetReceiver::class.java.name -> {
+                            UvIndexWidgetConfig { onDone(it) }
                         }
                     }
                 }

@@ -1,8 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:minWidth="100dp"
+    android:minWidth="50dp"
     android:minHeight="100dp"
-    android:minResizeWidth="100dp"
-    android:minResizeHeight="100dp"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen"
-    android:previewImage="@drawable/weather_pill_preview" />
+    android:configure="com.pranshulgg.weather_master_app.widgets.config.WidgetConfigActivity" />

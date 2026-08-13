@@ -3,6 +3,7 @@ package com.pranshulgg.weather_master_app.core.model.weather.uv
 import android.content.Context
 import androidx.compose.ui.graphics.Color
 import com.pranshulgg.weather_master_app.R
+import com.pranshulgg.weather_master_app.core.model.weather.airquality.AirQualityLevel
 
 enum class UvIndex {
     LOW,
@@ -39,5 +40,15 @@ fun UvIndex.toColor(): Color {
         UvIndex.HIGH -> Color(0xFFFF9800)
         UvIndex.VERY_HIGH -> Color(0xFFF44336)
         UvIndex.EXTREME -> Color(0xFF9C27B0)
+    }
+}
+
+fun UvIndex.toTextColor(): Color {
+    return when (this) {
+        UvIndex.LOW -> Color(0xFF0F3D0F)
+        UvIndex.MODERATE -> Color(0xFF5C4300)
+        UvIndex.HIGH -> Color(0xFFFFF4E0)
+        UvIndex.VERY_HIGH -> Color(0xFFFFEBEE)
+        UvIndex.EXTREME -> Color(0xFFFFE4F1)
     }
 }

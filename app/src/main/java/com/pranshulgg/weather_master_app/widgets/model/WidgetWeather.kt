@@ -15,7 +15,8 @@ data class WidgetWeather(
     val daily: List<WidgetDailyItem>,
     val locationName: String,
     val summary: String,
-    val weatherCondition: WeatherCondition
+    val weatherCondition: WeatherCondition,
+    val uvIndex: Int? = null
 )
 
 @Serializable
@@ -32,5 +33,7 @@ data class WidgetDailyItem(
     val tempMin: String,
     val conditionIcon: Int,
     val time: String,
-    val conditionName: String
+    val conditionName: String,
+    val maxUvIndex: Int? = null,
+    val maxUvIndexAt: String? = null
 )

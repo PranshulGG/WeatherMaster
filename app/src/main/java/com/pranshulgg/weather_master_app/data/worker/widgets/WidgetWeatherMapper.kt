@@ -15,6 +15,7 @@ import com.pranshulgg.weather_master_app.core.utils.formatters.toWeekdayString
 import com.pranshulgg.weather_master_app.core.utils.weather.computing.summary.computeDaySummary
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findHourlyIndexForTime
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findMatchingDaily
+import com.pranshulgg.weather_master_app.core.utils.weather.forecast.isSameDay
 import com.pranshulgg.weather_master_app.widgets.model.WidgetDailyItem
 import com.pranshulgg.weather_master_app.widgets.model.WidgetHourlyItem
 import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
@@ -55,6 +56,15 @@ fun widgetWeatherMapper(
 
     val daySummary = computeDaySummary(weather, applicationContext, 0, units)
 
+    val currentUvIndex = weather.current.uvIndex?.roundToInt()
+
+    val timeFormatter: (Long?) -> String? = {
+        if (it != null) {
+            if (is24hr) to24HourTimeString(it, timezone) else to12HourTimeString(it, timezone)
+        } else {
+            null
+        }
+    }
 
     val hourly = weather.hourly
         .drop(hourlyStartIndex)
@@ -67,18 +77,14 @@ fun widgetWeatherMapper(
                 weather.daily,
                 weather.location.timezone
             )
-            val formattedTime =
-                if (is24hr) to24HourTimeString(it.time, timezone) else to12HourTimeString(
-                    it.time,
-                    timezone
-                )
+            val formattedTime = timeFormatter(it.time)
 
             val icon = it.weatherCondition.toIcon(matchingDaily, it.time)
 
             val precipitationProbability = it.precipitationProbability
 
             WidgetHourlyItem(
-                time = formattedTime,
+                time = formattedTime!!,
                 temp = "${temperature}°",
                 conditionIcon = icon,
                 precipitationProbability = precipitationProbability
@@ -98,12 +104,18 @@ fun widgetWeatherMapper(
 
             val conditionName = it.weatherCondition.toLabel(applicationContext)
 
+            val maxUvIndexHour = weather.hourly.drop(hourlyStartIndex)
+                .takeWhile { hour -> isSameDay(hour.time, it.time, timezone) }
+                .maxByOrNull { index -> index.uvIndex ?: 0.0 }
+
             WidgetDailyItem(
                 tempMax = "${maxTemperature}°",
                 tempMin = "${minTemperature}°",
                 conditionIcon = icon,
                 time = toWeekdayString(it.time, timezone),
-                conditionName = conditionName
+                conditionName = conditionName,
+                maxUvIndexAt = timeFormatter(maxUvIndexHour?.time),
+                maxUvIndex = it.uvIndexMax?.roundToInt() ?: maxUvIndexHour?.uvIndex?.roundToInt()
             )
         }
 
@@ -112,6 +124,7 @@ fun widgetWeatherMapper(
         hourly = hourly,
         daily = daily,
         currentCondition = currentCondition,
+        uvIndex = currentUvIndex,
         currentIcon = currentIcon,
         currentFrog = currentFrogIcon,
         locationName = weather.location.name,
