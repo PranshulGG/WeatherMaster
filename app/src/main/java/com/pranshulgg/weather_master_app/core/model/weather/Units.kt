@@ -182,34 +182,56 @@ fun TemperatureUnit.toName(context: Context): String {
 
 fun WindSpeedUnit.toName(context: Context, inShort: Boolean = false): String {
     return when (this) {
-        MPS -> if (inShort) "m/s" else context.getString(R.string.unit_wind_mps)
-        MPH -> if (inShort) "mi/h" else context.getString(R.string.unit_wind_mph)
-        KPH -> if (inShort) "km/h" else context.getString(R.string.unit_wind_kph)
-        KT -> if (inShort) "kt" else context.getString(R.string.unit_wind_kt)
-        BFT -> if (inShort) "bft" else context.getString(R.string.unit_wind_bft)
+        MPS -> if (inShort) context.getString(R.string.unit_wind_mps_short) else context.getString(R.string.unit_wind_mps)
+        MPH -> if (inShort) context.getString(R.string.unit_wind_mph_short) else context.getString(R.string.unit_wind_mph)
+        KPH -> if (inShort) context.getString(R.string.unit_wind_kph_short) else context.getString(R.string.unit_wind_kph)
+        KT -> if (inShort) context.getString(R.string.unit_wind_kt_short) else context.getString(R.string.unit_wind_kt)
+        BFT -> if (inShort) context.getString(R.string.unit_wind_bft_short) else context.getString(R.string.unit_wind_bft)
     }
 }
 
 fun PressureUnit.toName(inShort: Boolean = false, context: Context): String {
     return when (this) {
-        HPA -> if (inShort) "hPa" else context.getString(R.string.unit_pressure_hpa)
-        INHG -> if (inShort) "inHG" else context.getString(R.string.unit_pressure_inhg)
-        PressureUnit.MMHG -> if (inShort) "mmHG" else context.getString(R.string.unit_pressure_mmhg)
+        HPA -> if (inShort) context.getString(R.string.unit_pressure_hpa_short) else context.getString(
+            R.string.unit_pressure_hpa
+        )
+
+        INHG -> if (inShort) context.getString(R.string.unit_pressure_inhg_short) else context.getString(
+            R.string.unit_pressure_inhg
+        )
+
+        PressureUnit.MMHG -> if (inShort) context.getString(R.string.unit_pressure_mmhg_short) else context.getString(
+            R.string.unit_pressure_mmhg
+        )
     }
 }
 
 fun DistanceUnit.toName(inShort: Boolean = false, context: Context): String {
     return when (this) {
-        KM -> if (inShort) "km" else context.getString(R.string.unit_distance_km)
-        MI -> if (inShort) "mi" else context.getString(R.string.unit_distance_mi)
-        M -> if (inShort) "m" else context.getString(R.string.unit_distance_m)
+        KM -> if (inShort) context.getString(R.string.unit_distance_km_short) else context.getString(
+            R.string.unit_distance_km
+        )
+
+        MI -> if (inShort) context.getString(R.string.unit_distance_mi_short) else context.getString(
+            R.string.unit_distance_mi
+        )
+
+        M -> if (inShort) context.getString(R.string.unit_distance_m_short) else context.getString(R.string.unit_distance_m)
     }
 }
 
 fun PrecipitationUnit.toName(context: Context, inShort: Boolean = false): String {
     return when (this) {
-        PrecipitationUnit.MM -> if (inShort) "mm" else context.getString(R.string.unit_precipitation_mm)
-        PrecipitationUnit.INCH -> if (inShort) "in" else context.getString(R.string.unit_precipitation_inch)
-        PrecipitationUnit.CM -> if (inShort) "cm" else context.getString(R.string.unit_precipitation_cm)
+        PrecipitationUnit.MM -> if (inShort) context.getString(R.string.unit_precipitation_mm_short) else context.getString(
+            R.string.unit_precipitation_mm
+        )
+
+        PrecipitationUnit.INCH -> if (inShort) context.getString(R.string.unit_precipitation_inch_short) else context.getString(
+            R.string.unit_precipitation_inch
+        )
+
+        PrecipitationUnit.CM -> if (inShort) context.getString(R.string.unit_precipitation_cm_short) else context.getString(
+            R.string.unit_precipitation_cm
+        )
     }
 }
