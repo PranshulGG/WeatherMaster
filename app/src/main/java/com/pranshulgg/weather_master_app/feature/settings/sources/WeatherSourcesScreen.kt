@@ -93,7 +93,7 @@ fun WeatherSourcesScreen(navController: NavController) {
             Gap(12.dp)
             sources.forEach {
                 val countryString =
-                    if (it.countryNameRes != null) "(${stringResource(it.countryNameRes)})" else ""
+                    if (it.countryNameRes != null) " (${stringResource(it.countryNameRes)})" else ""
 
                 SettingSection(
                     title = it.displayName + countryString,

@@ -22,7 +22,8 @@ data class WidgetWeather(
 data class WidgetHourlyItem(
     val temp: String,
     val conditionIcon: Int,
-    val time: String
+    val time: String,
+    val precipitationProbability: Int? = null,
 )
 
 @Serializable

@@ -19,6 +19,7 @@ import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
 import androidx.glance.layout.width
+import androidx.glance.text.FontFamily
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
@@ -155,7 +156,9 @@ fun WeatherWidgetLarge(
                         hourlyTextSize,
                         hourlyIconSize,
                         textColor.first,
-                        textColorVariant
+                        textColorVariant,
+                        precipitationProbability = if (config.showPrecipitationProbability)
+                            it.precipitationProbability else null
                     )
                 }
             }
