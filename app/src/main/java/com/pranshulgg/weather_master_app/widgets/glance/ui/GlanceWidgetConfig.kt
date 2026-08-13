@@ -106,7 +106,7 @@ fun GlanceWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                 tiles = listOf(
                     SettingTile.DialogOptionTile(
                         leading = { SettingsTileIcon(R.drawable.format_size_24px) },
-                        title = "Clock size",
+                        title = stringResource(R.string.settings_widget_clock_size),
                         options = clockSizeOptions,
                         selectedOption = clockSize.toString(),
                         onOptionSelected = {
@@ -114,7 +114,7 @@ fun GlanceWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                         }
                     ),
                     SettingTile.SwitchTile(
-                        title = "Show clock",
+                        title = stringResource(R.string.settings_widget_show_clock),
                         leading = { SettingsTileIcon(R.drawable.schedule_48px) },
                         checked = showClock,
                         onCheckedChange = {
@@ -123,7 +123,7 @@ fun GlanceWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                     ),
                     SettingTile.DialogOptionTile(
                         leading = { SettingsTileIcon(R.drawable.date_range_24px) },
-                        title = "Date format",
+                        title = stringResource(R.string.settings_date_format),
                         options = formatsOptions,
                         selectedOption = dateFormat,
                         onOptionSelected = {
@@ -132,7 +132,7 @@ fun GlanceWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                     ),
                     SettingTile.DialogOptionTile(
                         leading = { SettingsTileIcon(R.drawable.format_paint_24px) },
-                        title = "Widget text color",
+                        title = stringResource(R.string.settings_widget_text_color),
                         options = widgetTextThemeOptions,
                         selectedOption = widgetTextTheme.toString(),
                         onOptionSelected = {
@@ -167,7 +167,10 @@ fun GlanceWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                 contentPadding = ButtonDefaults.contentPaddingFor(btnSize),
                 shapes = ButtonDefaults.shapes()
             ) {
-                Text("Create Widget", style = ButtonDefaults.textStyleFor(btnSize))
+                Text(
+                    stringResource(R.string.action_create_widget),
+                    style = ButtonDefaults.textStyleFor(btnSize)
+                )
             }
         }
     }

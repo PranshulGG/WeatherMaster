@@ -106,7 +106,7 @@ fun WeatherHorizontalConfig(onDone: (WidgetConfig) -> Unit = {}) {
             }
             Gap(16.dp)
             Text(
-                text = "Variant",
+                text = stringResource(R.string.label_variant),
                 modifier = Modifier.padding(bottom = 5.dp, top = 5.dp, start = 3.dp + 16.dp),
                 fontSize = 16.sp,
                 color = MaterialTheme.colorScheme.primary,
@@ -143,8 +143,8 @@ fun WeatherHorizontalConfig(onDone: (WidgetConfig) -> Unit = {}) {
                 title = stringResource(R.string.setting_appearance),
                 tiles = listOf(
                     SettingTile.DialogSliderTile(
-                        title = "Font size",
-                        dialogTitle = "Font size",
+                        title = stringResource(R.string.settings_widget_font_size),
+                        dialogTitle = stringResource(R.string.settings_widget_font_size),
                         leading = { SettingsTileIcon(R.drawable.format_size_24px) },
                         description = "${round(selectedFontSize * 10) / 10}",
                         isDescriptionAsValue = true,
@@ -157,8 +157,8 @@ fun WeatherHorizontalConfig(onDone: (WidgetConfig) -> Unit = {}) {
                         },
                     ),
                     SettingTile.DialogSliderTile(
-                        title = "Icon size",
-                        dialogTitle = "Icon size",
+                        title = stringResource(R.string.settings_widget_icon_size),
+                        dialogTitle = stringResource(R.string.settings_widget_icon_size),
                         leading = { SettingsTileIcon(R.drawable.photo_size_select_large_24px) },
                         description = "${round(selectedIconSize * 10) / 10}",
                         isDescriptionAsValue = true,
@@ -172,7 +172,7 @@ fun WeatherHorizontalConfig(onDone: (WidgetConfig) -> Unit = {}) {
                     ),
                     SettingTile.DialogOptionTile(
                         leading = { SettingsTileIcon(R.drawable.palette_24px) },
-                        title = "Widget background",
+                        title = stringResource(R.string.settings_widget_background),
                         options = widgetThemeOptions,
                         selectedOption = widgetTheme.toString(),
                         onOptionSelected = {
@@ -189,7 +189,7 @@ fun WeatherHorizontalConfig(onDone: (WidgetConfig) -> Unit = {}) {
                     ),
                     SettingTile.DialogOptionTile(
                         leading = { SettingsTileIcon(R.drawable.format_paint_24px) },
-                        title = "Widget text color",
+                        title = stringResource(R.string.settings_widget_text_color),
                         options = widgetTextThemeOptions,
                         selectedOption = widgetTextTheme.toString(),
                         onOptionSelected = {
@@ -226,7 +226,10 @@ fun WeatherHorizontalConfig(onDone: (WidgetConfig) -> Unit = {}) {
                 contentPadding = ButtonDefaults.contentPaddingFor(btnSize),
                 shapes = ButtonDefaults.shapes()
             ) {
-                Text("Create Widget", style = ButtonDefaults.textStyleFor(btnSize))
+                Text(
+                    stringResource(R.string.action_create_widget),
+                    style = ButtonDefaults.textStyleFor(btnSize)
+                )
             }
         }
     }

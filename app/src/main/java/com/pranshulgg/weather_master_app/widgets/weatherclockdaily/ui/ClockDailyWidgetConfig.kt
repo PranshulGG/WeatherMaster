@@ -127,8 +127,8 @@ fun ClockDailyWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                     ),
                     SettingTile.SwitchTile(
                         leading = { SettingsTileIcon(R.drawable.date_range_24px) },
-                        title = "Hourly forecast",
-                        description = "Displays hourly instead of daily forecast",
+                        title = stringResource(R.string.weather_hourly_forecast),
+                        description = stringResource(R.string.widget_settings_display_hourly_secondary),
                         checked = isDisplayHourly,
                         onCheckedChange = {
                             isDisplayHourly = it
@@ -137,7 +137,7 @@ fun ClockDailyWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                     if (!isWeatherBackground) {
                         SettingTile.DialogOptionTile(
                             leading = { SettingsTileIcon(R.drawable.palette_24px) },
-                            title = "Widget background",
+                            title = stringResource(R.string.settings_widget_background),
                             options = widgetThemeOptions,
                             selectedOption = widgetTheme.toString(),
                             onOptionSelected = {
@@ -155,8 +155,8 @@ fun ClockDailyWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                     } else null,
                     SettingTile.SwitchTile(
                         leading = { },
-                        title = "Weather background",
-                        description = "Changes widget background color based on the current conditions",
+                        title = stringResource(R.string.settings_widget_weather_background),
+                        description = stringResource(R.string.settings_widget_weather_background_secondary),
                         checked = isWeatherBackground,
                         onCheckedChange = {
                             isWeatherBackground = it
@@ -169,7 +169,7 @@ fun ClockDailyWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                     ),
                     SettingTile.DialogOptionTile(
                         leading = { SettingsTileIcon(R.drawable.format_paint_24px) },
-                        title = "Widget text color",
+                        title = stringResource(R.string.settings_widget_text_color),
                         options = widgetTextThemeOptions,
                         selectedOption = widgetTextTheme.toString(),
                         onOptionSelected = {
@@ -184,8 +184,8 @@ fun ClockDailyWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                         }
                     ),
                     SettingTile.DialogSliderTile(
-                        title = "Font size",
-                        dialogTitle = "Font size",
+                        title = stringResource(R.string.settings_widget_font_size),
+                        dialogTitle = stringResource(R.string.settings_widget_font_size),
                         leading = { SettingsTileIcon(R.drawable.format_size_24px) },
                         description = "${round(selectedFontSize * 10) / 10}",
                         isDescriptionAsValue = true,
@@ -199,11 +199,14 @@ fun ClockDailyWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                     ),
                     if (!isDisplayHourly) {
                         SettingTile.DialogSliderTile(
-                            title = "Daily forecast count",
-                            dialogTitle = "Daily forecast count",
+                            title = stringResource(R.string.settings_widget_daily_forecast_count),
+                            dialogTitle = stringResource(R.string.settings_widget_daily_forecast_count),
                             leading = { SettingsTileIcon(R.drawable.date_range_24px) },
                             valueRange = 2f..6f,
-                            description = "${selectedDailyCount.roundToInt()} days",
+                            description = stringResource(
+                                R.string.time_days,
+                                "${selectedDailyCount.roundToInt()}"
+                            ),
                             isDescriptionAsValue = true,
                             initialValue = selectedDailyCount,
                             labelFormatter = { "${it.roundToInt()}" },
@@ -214,11 +217,14 @@ fun ClockDailyWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                         )
                     } else {
                         SettingTile.DialogSliderTile(
-                            title = "Hourly forecast count",
-                            dialogTitle = "Hourly forecast count",
+                            title = stringResource(R.string.settings_widget_hourly_forecast_count),
+                            dialogTitle = stringResource(R.string.settings_widget_hourly_forecast_count),
                             leading = { SettingsTileIcon(R.drawable.date_range_24px) },
                             valueRange = 2f..12f,
-                            description = "${selectedHourlyCount.roundToInt()} hours",
+                            description = stringResource(
+                                R.string.time_hours,
+                                "${selectedHourlyCount.roundToInt()}"
+                            ),
                             isDescriptionAsValue = true,
                             initialValue = selectedHourlyCount,
                             labelFormatter = { "${it.roundToInt()}" },
@@ -229,8 +235,8 @@ fun ClockDailyWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                         )
                     },
                     SettingTile.DialogSliderTile(
-                        title = "Icon size",
-                        dialogTitle = "Icon size",
+                        title = stringResource(R.string.settings_widget_icon_size),
+                        dialogTitle = stringResource(R.string.settings_widget_icon_size),
                         leading = { SettingsTileIcon(R.drawable.photo_size_select_large_24px) },
                         description = "${round(selectedIconSize * 10) / 10}",
                         isDescriptionAsValue = true,
@@ -269,7 +275,10 @@ fun ClockDailyWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                 contentPadding = ButtonDefaults.contentPaddingFor(btnSize),
                 shapes = ButtonDefaults.shapes()
             ) {
-                Text("Create Widget", style = ButtonDefaults.textStyleFor(btnSize))
+                Text(
+                    stringResource(R.string.action_create_widget),
+                    style = ButtonDefaults.textStyleFor(btnSize)
+                )
             }
         }
     }
