@@ -159,6 +159,20 @@
                 android:resource="@xml/weather4_widget_info" />
         </receiver>
 
+        <receiver
+            android:name=".widgets.hourly.WidgetHourlyReceiver"
+            android:label="Hourly"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/hourly_widget_info" />
+        </receiver>
+
 
     </application>
 
