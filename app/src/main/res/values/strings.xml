@@ -413,6 +413,16 @@
     <string name="open_meteo_model_best_match">Best Match</string>
     <string name="open_meteo_model_seamless">%1$s Seamless</string>
 
+    <string name="country_usa">United States</string>
+    <string name="country_sweden">Sweden</string>
+    <string name="country_germany">Germany</string>
+    <string name="country_canada">Canada</string>
+    <string name="country_finland">Finland</string>
+    <string name="country_indonesia">Indonesia</string>
+    <string name="country_italy">Italy</string>
+    <string name="country_portugal">Portugal</string>
+    <string name="country_russia">Russia</string>
+
 </resources>
 
     <!--<string name=""></string>-->
