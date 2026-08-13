@@ -375,17 +375,20 @@
     <string name="unit_wind_bft_short">bft</string>
     <string name="unit_pressure_mmhg_short">mmHG</string>
     <string name="unit_wind_mps_short">m/s</string>
-    <string name="unit_wind_mph_short">mi/h</string>
-    <string name="unit_wind_kph_short">km/h</string>
+    <string name="unit_wind_mph_short">myl/val</string>
+    <string name="unit_wind_kph_short">km/val</string>
     <string name="unit_pressure_hpa_short">hPa</string>
-    <string name="unit_pressure_inhg_short">inHG</string>
+    <string name="unit_pressure_inhg_short">inHg</string>
     <string name="unit_distance_km_short">km</string>
-    <string name="unit_distance_mi_short">mi</string>
+    <string name="unit_distance_mi_short">myl</string>
     <string name="unit_distance_m_short">m</string>
     <string name="unit_precipitation_mm_short">mm</string>
-    <string name="unit_precipitation_inch_short">in</string>
+    <string name="unit_precipitation_inch_short">col</string>
     <string name="unit_precipitation_cm_short">cm</string>
-    <string name="settings_widget_show_precip_probability">Show precipitation probability</string>
-    <string name="settings_widget_show_precip_probability_secondary">Displays the precipitation probability only when the selected source provides it</string>
+    <string name="settings_widget_show_precip_probability">Rodyti kritulių tikimybę</string>
+    <string name="settings_widget_show_precip_probability_secondary">Kritulių tikimybė rodoma tik tuomet, kai ją pateikia pasirinktas duomenų šaltinis</string>
+    <string name="weather_current">Current</string>
+    <string name="widget_weather_today_max_uv">Today\'s max: %1$s</string>
+    <string name="widget_weather_today_max_uv_at">At around %1$s</string>
 </resources>
 <!--<string name=""></string>-->
