@@ -68,6 +68,10 @@ object SharedBottomSheet {
                         tiles = recommendedSources.map { source ->
                             val isSelected = currentSelectedSource == source
 
+                            val countryString =
+                                if (source.countryNameRes != null) " (${stringResource(source.countryNameRes)})" else ""
+
+
                             SettingTile.ActionTile(
                                 leading = {
                                     if (isSelected) Symbol(
@@ -75,7 +79,7 @@ object SharedBottomSheet {
                                         color = MaterialTheme.colorScheme.onSecondaryContainer
                                     )
                                 },
-                                title = source.displayName,
+                                title = source.displayName + countryString,
                                 selected = isSelected,
                                 onClick = {
                                     currentSelectedSource = source
@@ -90,6 +94,9 @@ object SharedBottomSheet {
                     tiles = globalSources.map { source ->
                         val isSelected = currentSelectedSource == source
 
+                        val countryString =
+                            if (source.countryNameRes != null) " (${stringResource(source.countryNameRes)})" else ""
+
                         SettingTile.ActionTile(
                             leading = {
                                 if (isSelected) Symbol(
@@ -97,18 +104,11 @@ object SharedBottomSheet {
                                     color = MaterialTheme.colorScheme.onSecondaryContainer
                                 )
                             },
-                            title = source.displayName,
+                            title = source.displayName + countryString,
                             selected = isSelected,
                             onClick = {
                                 currentSelectedSource = source
                             },
-//                            trailing = {
-//                                if (source == WeatherSource.OPEN_METEO) {
-//                                    IconButton(onClick = {}, shapes = IconButtonDefaults.shapes()) {
-//                                        Symbol(R.drawable.settings_24px)
-//                                    }
-//                                }
-//                            }
                         )
                     }
                 )

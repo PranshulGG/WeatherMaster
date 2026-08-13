@@ -33,6 +33,7 @@ private data class WeatherSourceScreen(
     val displayName: String,
     val fullName: String,
     val displayLink: String,
+    val countryNameRes: Int? = null
 )
 
 @Composable
@@ -46,7 +47,7 @@ fun WeatherSourcesScreen(navController: NavController) {
                 WeatherSourceScreen(
                     displayName = it.displayName,
                     fullName = it.fullName,
-                    displayLink = it.displayLink
+                    displayLink = it.displayLink,
                 )
             }
 
@@ -54,7 +55,8 @@ fun WeatherSourcesScreen(navController: NavController) {
         WeatherSourceScreen(
             displayName = it.displayName,
             fullName = it.fullName,
-            displayLink = it.displayLink
+            displayLink = it.displayLink,
+            countryNameRes = it.countryNameRes
         )
     }
 
@@ -90,8 +92,11 @@ fun WeatherSourcesScreen(navController: NavController) {
             }
             Gap(12.dp)
             sources.forEach {
+                val countryString =
+                    if (it.countryNameRes != null) "(${stringResource(it.countryNameRes)})" else ""
+
                 SettingSection(
-                    title = it.displayName,
+                    title = it.displayName + countryString,
                     tiles = listOf(
                         SettingTile.ActionTile(
                             title = it.fullName,

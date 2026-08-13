@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -38,8 +39,9 @@ import java.util.Locale
 @Composable
 fun LanguageScreen(navController: NavController) {
 
+    val context = LocalContext.current
 
-    val languageList = getAppLocalLocales()
+    val languageList = getAppLocalLocales(context)
     val uriHandler = LocalUriHandler.current
 
     val currentAppLocale =

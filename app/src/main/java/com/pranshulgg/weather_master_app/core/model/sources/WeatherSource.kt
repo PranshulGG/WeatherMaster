@@ -1,10 +1,14 @@
 package com.pranshulgg.weather_master_app.core.model.sources
 
+import android.content.Context
+import com.pranshulgg.weather_master_app.R
+
 enum class WeatherSource(
     val displayName: String,
     val hourlyAggregationLimitHours: Int = 24, // stupid and should be removed
     val displayLink: String,
     val fullName: String,
+    val countryNameRes: Int? = null,
 ) {
     OPEN_METEO(
         displayName = "Open Meteo",
@@ -12,19 +16,22 @@ enum class WeatherSource(
         displayLink = "https://open-meteo.com/"
     ),
     NWS(
-        displayName = "NWS (United States)",
+        displayName = "NWS",
         fullName = "National Weather Service",
-        displayLink = "https://www.weather.gov/documentation/services-web-api"
+        displayLink = "https://www.weather.gov/documentation/services-web-api",
+        countryNameRes = R.string.country_usa
     ),
     SMHI(
-        displayName = "SMHI (Sweden)",
+        displayName = "SMHI",
         fullName = "Swedish Meteorological and Hydrological Institute",
-        displayLink = "https://opendata.smhi.se"
+        displayLink = "https://opendata.smhi.se",
+        countryNameRes = R.string.country_sweden
     ),
     DWD(
-        displayName = "DWD (Germany)",
+        displayName = "DWD",
         fullName = "Bright Sky DWD",
-        displayLink = "https://brightsky.dev"
+        displayLink = "https://brightsky.dev",
+        countryNameRes = R.string.country_germany
     ),
     METEO_FRANCE(
         displayName = "Météo-France",
@@ -32,14 +39,16 @@ enum class WeatherSource(
         displayLink = "https://meteofrance.com/"
     ),
     ECCC(
-        displayName = "ECCC (Canada)",
+        displayName = "ECCC",
         fullName = "Environment and Climate Change Canada",
         displayLink = "https://app.weather.gc.ca/",
+        countryNameRes = R.string.country_canada
     ),
     FMI(
-        displayName = "FMI (Finland)",
+        displayName = "FMI",
         fullName = "Finnish Meteorological Institute",
-        displayLink = "https://en.ilmatieteenlaitos.fi/"
+        displayLink = "https://en.ilmatieteenlaitos.fi/",
+        countryNameRes = R.string.country_finland
     ),
     CHINA(
         displayName = "China",
@@ -47,9 +56,10 @@ enum class WeatherSource(
         displayLink = "https://www.cnemc.cn/"
     ),
     BMKG(
-        displayName = "BMKG (Indonesia)",
+        displayName = "BMKG",
         fullName = "Badan Meteorologi, Klimatologi, dan Geofisika",
-        displayLink = "https://www.bmkg.go.id/"
+        displayLink = "https://www.bmkg.go.id/",
+        countryNameRes = R.string.country_indonesia
     ),
     ACCU_WEATHER(
         displayName = "AccuWeather",
@@ -57,19 +67,22 @@ enum class WeatherSource(
         displayLink = "https://www.accuweather.com/"
     ),
     METEO_AM(
-        displayName = "Meteo AM (Italy)",
+        displayName = "Meteo AM",
         fullName = "Meteorologia Aeronautica Militare",
-        displayLink = "https://www.meteoam.it/"
+        displayLink = "https://www.meteoam.it/",
+        countryNameRes = R.string.country_italy
     ),
     IPMA(
-        displayName = "IPMA (Portugal)",
+        displayName = "IPMA",
         fullName = "Instituto Português do Mar e da Atmosfera",
-        displayLink = "https://api.ipma.pt/"
+        displayLink = "https://api.ipma.pt/",
+        countryNameRes = R.string.country_portugal
     ),
     GISMETEO( // HAS WORLDWIDE DATA
-        displayName = "Gismeteo (Russia)",
+        displayName = "Gismeteo",
         fullName = "Gismeteo Russia",
-        displayLink = "https://www.gismeteo.ru/"
+        displayLink = "https://www.gismeteo.ru/",
+        countryNameRes = R.string.country_russia
     ),
     MET_NORWAY(
         displayName = "Met Norway",

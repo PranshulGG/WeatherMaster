@@ -108,7 +108,13 @@ fun EditLocationScreen(
 
     var currentLocationName by remember { mutableStateOf(locationName) }
 
-
+    val countryString =
+        if (uiState.selectedWeatherSource?.countryNameRes != null) " (${stringResource(uiState.selectedWeatherSource.countryNameRes)})"
+        else if (uiState.location.source.countryNameRes != null) " (${
+            stringResource(
+                uiState.location.source.countryNameRes
+            )
+        })" else ""
 
 
     LargeTopBarScaffold(
@@ -151,7 +157,7 @@ fun EditLocationScreen(
                         description = "${
                             uiState.selectedWeatherSource?.displayName
                                 ?: uiState.location.source.displayName
-                        } ${if (uiState.location.source == WeatherSource.OPEN_METEO || uiState.selectedWeatherSource == WeatherSource.OPEN_METEO) "(${uiState.selectedOpenMeteoModel?.displayName ?: uiState.location.openMeteoModel.displayName})" else ""}",
+                        }$countryString ${if (uiState.location.source == WeatherSource.OPEN_METEO || uiState.selectedWeatherSource == WeatherSource.OPEN_METEO) "(${uiState.selectedOpenMeteoModel?.displayName ?: uiState.location.openMeteoModel.displayName})" else ""}",
                         colorDesc = colorDesc,
                         onClick = {
                             viewModel.showWeatherSourcesForLocationSheet()

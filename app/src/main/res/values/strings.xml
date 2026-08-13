@@ -443,7 +443,7 @@
     <string name="label_variant">Variant</string>
 
     <string name="settings_widget_show_daily_weather">Show daily weather</string>
-    <string name="settings_widget_show_daily_weather_secondary">Displays today's forecast instead of the current conditions</string>
+    <string name="settings_widget_show_daily_weather_secondary">Displays today\'s forecast instead of the current conditions</string>
 
     <string name="settings_widget_show_clock">Show clock</string>
     <string name="settings_widget_clock_size">Clock size</string>
