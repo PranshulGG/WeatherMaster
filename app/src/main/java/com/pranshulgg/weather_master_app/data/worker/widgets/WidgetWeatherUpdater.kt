@@ -10,6 +10,7 @@ import androidx.glance.appwidget.updateAll
 import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateDefinition
 import com.pranshulgg.weather_master_app.widgets.config.WidgetConfig
 import com.pranshulgg.weather_master_app.widgets.glance.GlanceWidget
+import com.pranshulgg.weather_master_app.widgets.hourly.WidgetHourly
 import com.pranshulgg.weather_master_app.widgets.pill.WidgetPill
 import com.pranshulgg.weather_master_app.widgets.summary.SummaryWidget
 import com.pranshulgg.weather_master_app.widgets.weather.WeatherWidget
@@ -30,6 +31,8 @@ class WeatherWidgetUpdater(
     private val widgetClockDaily = ClockDailyWidget()
 
     private val widgetWeather4 = Weather4Widget()
+
+    private val widgetHourly = WidgetHourly()
 
     suspend fun update(json: String) {
         val manager = GlanceAppWidgetManager(context)
@@ -54,6 +57,7 @@ class WeatherWidgetUpdater(
         updateWidgets(widgetGlance, manager.getGlanceIds(GlanceWidget::class.java))
         updateWidgets(widgetClockDaily, manager.getGlanceIds(ClockDailyWidget::class.java))
         updateWidgets(widgetWeather4, manager.getGlanceIds(Weather4Widget::class.java))
+        updateWidgets(widgetHourly, manager.getGlanceIds(WidgetHourly::class.java))
 
     }
 

@@ -74,10 +74,14 @@ fun widgetWeatherMapper(
                 )
 
             val icon = it.weatherCondition.toIcon(matchingDaily, it.time)
+
+            val precipitationProbability = it.precipitationProbability
+
             WidgetHourlyItem(
                 time = formattedTime,
                 temp = "${temperature}°",
-                conditionIcon = icon
+                conditionIcon = icon,
+                precipitationProbability = precipitationProbability
             )
         }
 

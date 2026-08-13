@@ -2,6 +2,7 @@ package com.pranshulgg.weather_master_app.widgets.weather.components
 
 import android.graphics.Color
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceModifier
@@ -28,12 +29,14 @@ fun WidgetHourlyItem(
     fontSize: Float,
     iconSize: Float,
     textColor: ColorProvider,
-    textColorVariant: ColorProvider
+    textColorVariant: ColorProvider,
+    verticalPadding: Dp = 5.dp,
+    precipitationProbability: Int? = null
 ) {
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = GlanceModifier.padding(horizontal = 5.dp, vertical = 5.dp)
+        modifier = GlanceModifier.padding(horizontal = 5.dp, vertical = verticalPadding)
     ) {
         Text(
             temp,
@@ -43,6 +46,17 @@ fun WidgetHourlyItem(
                 fontSize = fontSize.sp
             )
         )
+
+        if (precipitationProbability != null) {
+            Text(
+                "${precipitationProbability}%",
+                style = TextStyle(
+                    color = textColorVariant,
+                    fontSize = (fontSize * 0.9).sp
+                )
+            )
+        }
+
         Spacer(GlanceModifier.height(3.dp))
         Image(
             provider = ImageProvider(icon),

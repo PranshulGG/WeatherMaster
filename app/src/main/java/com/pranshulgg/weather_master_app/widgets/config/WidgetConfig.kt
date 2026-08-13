@@ -20,6 +20,7 @@ data class WidgetConfig(
     val dailyCount: Int = 4,
     val showDailyInsteadOfCurrent: Boolean = false,
     val isWeatherBackground: Boolean = false,
-    val isDisplayHourly: Boolean = false
+    val isDisplayHourly: Boolean = false,
+    val showPrecipitationProbability: Boolean = false,
 
-)
+    )

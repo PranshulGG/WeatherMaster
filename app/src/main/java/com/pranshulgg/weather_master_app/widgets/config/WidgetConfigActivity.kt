@@ -20,6 +20,8 @@ import com.pranshulgg.weather_master_app.core.ui.theme.isThemeDark
 import com.pranshulgg.weather_master_app.data.worker.widgets.WeatherWidgetUpdater
 import com.pranshulgg.weather_master_app.widgets.glance.GlanceWidgetReceiver
 import com.pranshulgg.weather_master_app.widgets.glance.ui.GlanceWidgetConfig
+import com.pranshulgg.weather_master_app.widgets.hourly.WidgetHourlyReceiver
+import com.pranshulgg.weather_master_app.widgets.hourly.ui.HourlyWidgetConfig
 import com.pranshulgg.weather_master_app.widgets.weather.WeatherWidgetReceiver
 import com.pranshulgg.weather_master_app.widgets.weather.ui.WeatherWidgetConfig
 import com.pranshulgg.weather_master_app.widgets.weather4.Weather4WidgerReceiver
@@ -125,6 +127,10 @@ class WidgetConfigActivity : ComponentActivity() {
 
                         Weather4WidgerReceiver::class.java.name -> {
                             Weather4Config { onDone(it) }
+                        }
+
+                        WidgetHourlyReceiver::class.java.name -> {
+                            HourlyWidgetConfig { onDone(it) }
                         }
                     }
                 }

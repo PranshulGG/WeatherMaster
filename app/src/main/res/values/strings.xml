@@ -463,6 +463,8 @@
     <string name="unit_precipitation_inch_short">in</string>
     <string name="unit_precipitation_cm_short">cm</string>
 
+    <string name="settings_widget_show_precip_probability">Show precipitation probability</string>
+    <string name="settings_widget_show_precip_probability_secondary">Displays the precipitation probability only when the selected source provides it</string>
 </resources>
 
     <!--<string name=""></string>-->

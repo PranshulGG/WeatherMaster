@@ -72,6 +72,8 @@ fun WeatherWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
     var widgetTextTheme by remember { mutableStateOf(WidgetTextTheme.AUTO) }
     var selectedIconSize by remember { mutableFloatStateOf(1f) }
 
+    var showPrecipitationProbability by remember { mutableStateOf(false) }
+
     val widgetThemeOptions =
         WidgetTheme.entries.filter { it != WidgetTheme.TRANSPARENT }
             .map { DialogOption(it.toString(), stringResource(it.label)) }
@@ -106,7 +108,8 @@ fun WeatherWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                         selectedFontSize,
                         selectedIconSize,
                         widgetTextTheme,
-                        widgetTheme
+                        widgetTheme,
+                        showPrecipitationProbability
                     )
                 }
             }
@@ -210,6 +213,15 @@ fun WeatherWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                             widgetTheme = selected
                         }
                     ),
+                    SettingTile.SwitchTile(
+                        leading = { SettingsTileIcon(R.drawable.rainy_light_24px) },
+                        title = stringResource(R.string.settings_widget_show_precip_probability),
+                        description = stringResource(R.string.settings_widget_show_precip_probability_secondary),
+                        checked = showPrecipitationProbability,
+                        onCheckedChange = {
+                            showPrecipitationProbability = it
+                        }
+                    ),
                     SettingTile.DialogOptionTile(
                         leading = { SettingsTileIcon(R.drawable.format_paint_24px) },
                         title = stringResource(R.string.settings_widget_text_color),
@@ -240,7 +252,8 @@ fun WeatherWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                             fontSize = selectedFontSize,
                             iconSize = selectedIconSize,
                             widgetTheme = widgetTheme,
-                            widgetTextTheme = widgetTextTheme
+                            widgetTextTheme = widgetTextTheme,
+                            showPrecipitationProbability = showPrecipitationProbability
                         )
                     )
                 },
@@ -269,6 +282,7 @@ private fun GlanceWidgetPreview(
     iconSize: Float,
     textTheme: WidgetTextTheme,
     widgetTheme: WidgetTheme,
+    showPrecipitationProbability: Boolean
 ) {
 
     val textColor = when (textTheme) {
@@ -313,7 +327,8 @@ private fun GlanceWidgetPreview(
             widgetColor,
             textColor,
             textColorSecondary,
-            hourlyContainerColor
+            hourlyContainerColor,
+            showPrecipitationProbability
         )
 
         WidgetVariant.COMPACT -> CompactWidgetPreview(
@@ -335,7 +350,8 @@ private fun LargeWidgetPreview(
     widgetColor: Color,
     textColor: Color,
     textColorSecondary: Color,
-    hourlyContainerColor: Color
+    hourlyContainerColor: Color,
+    showPrecipitationProbability: Boolean
 ) {
 
 
@@ -386,6 +402,13 @@ private fun LargeWidgetPreview(
                 fontWeight = FontWeight.Medium,
                 color = textColor
             )
+            if (showPrecipitationProbability) {
+                Text(
+                    "${temp * 2}%",
+                    fontSize = (hourlyTextSize * 0.9).sp,
+                    color = textColorSecondary
+                )
+            }
             Gap(3.dp)
             WeatherIconBox(icon, hourlyIconSize.dp)
             Gap(3.dp)
