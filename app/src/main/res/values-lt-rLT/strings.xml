@@ -387,8 +387,8 @@
     <string name="unit_precipitation_cm_short">cm</string>
     <string name="settings_widget_show_precip_probability">Rodyti kritulių tikimybę</string>
     <string name="settings_widget_show_precip_probability_secondary">Kritulių tikimybė rodoma tik tuomet, kai ją pateikia pasirinktas duomenų šaltinis</string>
-    <string name="weather_current">Current</string>
-    <string name="widget_weather_today_max_uv">Today\'s max: %1$s</string>
-    <string name="widget_weather_today_max_uv_at">At around %1$s</string>
+    <string name="weather_current">Šiuo metu</string>
+    <string name="widget_weather_today_max_uv">Didžiausia reikšmė: %1$s</string>
+    <string name="widget_weather_today_max_uv_at">Maždaug %1$s</string>
 </resources>
 <!--<string name=""></string>-->
