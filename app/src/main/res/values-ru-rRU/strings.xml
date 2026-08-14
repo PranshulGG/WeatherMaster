@@ -387,8 +387,8 @@
     <string name="unit_precipitation_cm_short">см</string>
     <string name="settings_widget_show_precip_probability">Показать вероятность выпадения осадков</string>
     <string name="settings_widget_show_precip_probability_secondary">Отображает вероятность выпадения осадков только в том случае, если она указана в выбранном источнике</string>
-    <string name="weather_current">Current</string>
-    <string name="widget_weather_today_max_uv">Today\'s max: %1$s</string>
-    <string name="widget_weather_today_max_uv_at">At around %1$s</string>
+    <string name="weather_current">Текущая</string>
+    <string name="widget_weather_today_max_uv">Макс. сегодня: %1$s</string>
+    <string name="widget_weather_today_max_uv_at">Примерно в %1$s</string>
 </resources>
 <!--<string name=""></string>-->
