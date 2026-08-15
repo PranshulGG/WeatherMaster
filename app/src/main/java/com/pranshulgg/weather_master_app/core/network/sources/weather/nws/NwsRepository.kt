@@ -41,7 +41,7 @@ class NwsRepository @Inject constructor(
 
             val cache = dao.getWeatherDataForLocation(location.id)
             val cachedGridPointsData = nwsDao.getGridPointsForLocation(location.id)
-            val existingHourly = weatherDao.getHourlyDataForLocation(location.id)
+            val existingHourly = weatherDao.getHourlyDataForLocation(location.id, location.source)
 
 
             val shouldReturnCache = shouldReturnWeatherCache(cache, isManualRefresh, isForceRefresh)
@@ -167,7 +167,7 @@ class NwsRepository @Inject constructor(
 
                 val mergedHourly = mergeHourlyWeather(
                     existing = existingHourly,
-                    incoming = domain.hourly.toHourlyWeatherEntity(location.id)
+                    incoming = domain.hourly.toHourlyWeatherEntity(location)
                 )
 
 

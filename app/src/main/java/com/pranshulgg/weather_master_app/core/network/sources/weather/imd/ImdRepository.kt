@@ -1,19 +1,20 @@
-package com.pranshulgg.weather_master_app.core.network.sources.weather.metoffice
+package com.pranshulgg.weather_master_app.core.network.sources.weather.imd
 
+import android.util.Log
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
-import com.pranshulgg.weather_master_app.core.network.sources.weather.metoffice.model.MetOfficeForecastJson
-import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.imd.model.ImdForecastModel
+import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.MeteoamApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.json.bundle.MeteoamWeatherBundle
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherCacheSafe
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnWeatherCache
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.mergeHourlyWeather
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
-import com.pranshulgg.weather_master_app.data.local.dao.weather.ApiKeysDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
-import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.metoffice.toDomain
-import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.openmeteo.toDomain
+import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.imd.toDomain
+import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.meteoam.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toCurrentWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDailyWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDomain
@@ -21,16 +22,16 @@ import com.pranshulgg.weather_master_app.data.local.mapper.weather.toHourlyWeath
 import com.pranshulgg.weather_master_app.data.repository.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.net.UnknownHostException
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 
-class MetOfficeRepository @Inject constructor(
+class ImdRepository @Inject constructor(
     val dao: LocationsDao,
     val weatherDao: WeatherDao,
-    val api: MetOfficeApi,
-    val apiKeysDao: ApiKeysDao
+    val api: ImdApi
 ) : WeatherRepository {
+
 
     override suspend fun getWeather(
         location: Location,
@@ -40,15 +41,11 @@ class MetOfficeRepository @Inject constructor(
         withContext(
             Dispatchers.IO
         ) {
-
             val cache = dao.getWeatherDataForLocation(location.id)
 
-
             val shouldReturnCache = shouldReturnWeatherCache(cache, isManualRefresh, isForceRefresh)
+
             val existingHourly = weatherDao.getHourlyDataForLocation(location.id, location.source)
-
-
-            val apiKey = apiKeysDao.getApiKeyForSource(location.source)
 
             when (shouldReturnCache) {
                 WeatherResultType.REFRESH_TOO_EARLY -> return@withContext WeatherResult.RefreshNotAvailable
@@ -56,37 +53,40 @@ class MetOfficeRepository @Inject constructor(
                 else -> {}
             }
 
-            val isCacheSafe = isWeatherCacheSafe(cache)
-            if (apiKey?.apiKey.isNullOrBlank()) {
-                return@withContext WeatherResult.Error(
-                    exception = AppException.NoApiKeyError(),
-                    if (isCacheSafe) cache?.toDomain() else null
-                )
-            }
-
-
             return@withContext try {
 
-                val hourly = api.fetchHourlyForecast(
-                    apiKey.apiKey, location.latitude, location.longitude
-                )
-                val daily = api.fetchDailyForecast(
-                    apiKey.apiKey, location.latitude, location.longitude
-                )
+                val imdTimeFrames = listOf("1hr", "3hr", "6hr")
 
-                val hourlyBody = hourly.body()
-                    ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
-                val dailyBody = daily.body()
-                    ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
+                val timeStamps = imdTimeFrames.map {
+                    api.fetchTimestamps("mmem_${it}.txt")
+                }
+
+                val timeStampsBody = timeStamps.map {
+                    it.body()?.string()?.substringBefore(",")
+                }
 
 
-                val final = MetOfficeForecastJson(
-                    hourly = hourlyBody,
-                    daily = dailyBody
+                val latitude = roundToEighth(location.latitude)
+                val longitude = roundToEighth(location.longitude)
+
+                val forecasts = timeStampsBody.mapIndexed { index, s ->
+                    api.fetchForecast(
+                        latitude = latitude,
+                        longitude = longitude,
+                        date = "${s}_${imdTimeFrames[index]}_0p125"
+                    )
+                }
+
+                val final = ImdForecastModel(
+                    forecast1hr = forecasts[0].body(),
+                    forecast3hr = forecasts[1].body(),
+                    forecast6hr = forecasts[2].body(),
+                    timeStamp1 = timeStampsBody[0]!!,
+                    timeStamp2 = timeStampsBody[1]!!,
+                    timeStamp3 = timeStampsBody[2]!!
                 )
 
                 val domain = final.toDomain(location)
-
 
                 val mergedHourly = mergeHourlyWeather(
                     existing = existingHourly,
@@ -101,18 +101,17 @@ class MetOfficeRepository @Inject constructor(
 
                 WeatherResult.Success(domain)
 
-
             } catch (e: Exception) {
 
+                val isCacheSafe = isWeatherCacheSafe(cache)
 
                 WeatherResult.Error(
                     exception = e,
                     if (isCacheSafe) cache?.toDomain() else null
                 )
-
             }
-
         }
-
-
 }
+
+private fun roundToEighth(value: Double): Double =
+    (value * 8).roundToInt() / 8.0

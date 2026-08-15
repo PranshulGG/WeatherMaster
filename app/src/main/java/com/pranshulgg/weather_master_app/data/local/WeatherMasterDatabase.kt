@@ -47,7 +47,7 @@ import com.pranshulgg.weather_master_app.data.local.entity.weather.units.AppWeat
         AlertEntity::class,
         ApiKeyEntity::class
     ],
-    version = 55,
+    version = 56,
     autoMigrations = [
         AutoMigration(from = 39, to = 40),
         AutoMigration(from = 42, to = 43),
@@ -94,7 +94,8 @@ abstract class WeatherMasterDatabase : RoomDatabase() {
                     MIGRATION_41_42,
                     MIGRATION_45_46,
                     MIGRATION_46_47,
-                    MIGRATION_51_52
+                    MIGRATION_51_52,
+                    MIGRATION_55_56
                 )
                     .build()
                     .also { INSTANCE = it }
@@ -185,5 +186,13 @@ val MIGRATION_46_47 = object : Migration(46, 47) {
 val MIGRATION_51_52 = object : Migration(51, 52) {
     override fun migrate(db: SupportSQLiteDatabase) {
         db.execSQL("ALTER TABLE accu_locations RENAME TO location_keys")
+    }
+}
+
+val MIGRATION_55_56 = object : Migration(55, 56) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL(
+            "ALTER TABLE weather_hourly ADD COLUMN cachedSource TEXT"
+        )
     }
 }

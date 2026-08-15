@@ -41,7 +41,7 @@ class MeteoamRepository @Inject constructor(
 
             val shouldReturnCache = shouldReturnWeatherCache(cache, isManualRefresh, isForceRefresh)
 
-            val existingHourly = weatherDao.getHourlyDataForLocation(location.id)
+            val existingHourly = weatherDao.getHourlyDataForLocation(location.id, location.source)
 
             when (shouldReturnCache) {
                 WeatherResultType.REFRESH_TOO_EARLY -> return@withContext WeatherResult.RefreshNotAvailable
@@ -68,7 +68,7 @@ class MeteoamRepository @Inject constructor(
 
                 val mergedHourly = mergeHourlyWeather(
                     existing = existingHourly,
-                    incoming = domain.hourly.toHourlyWeatherEntity(location.id)
+                    incoming = domain.hourly.toHourlyWeatherEntity(location)
                 )
                 weatherDao.insertWeather(
                     domain.current.toCurrentWeatherEntity(location.id),

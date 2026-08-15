@@ -66,7 +66,7 @@ class OpenMeteoRepository @Inject constructor(
 
                 weatherDao.insertWeather(
                     domain.current.toCurrentWeatherEntity(location.id),
-                    domain.hourly.toHourlyWeatherEntity(location.id),
+                    domain.hourly.toHourlyWeatherEntity(location),
                     domain.daily.toDailyWeatherEntity(location.id),
                     location.id
                 )

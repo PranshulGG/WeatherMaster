@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.data.local.mapper.weather
 
+import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherCurrent
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherDaily
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherHourly
@@ -36,11 +37,11 @@ fun WeatherCurrent.toCurrentWeatherEntity(
 
 @OptIn(ExperimentalUuidApi::class)
 fun List<WeatherHourly>.toHourlyWeatherEntity(
-    locationId: String
+    location: Location
 ): List<HourlyWeatherEntity> =
     map { item ->
         HourlyWeatherEntity(
-            locationId = locationId,
+            locationId = location.id,
             temperature = item.temperature,
             windSpeed = item.windSpeed,
             windDirection = item.windDirection,
@@ -53,7 +54,8 @@ fun List<WeatherHourly>.toHourlyWeatherEntity(
             visibility = item.visibility,
             pressureMsl = item.pressureMsl,
             humidity = item.humidity,
-            dewPoint = item.dewPoint
+            dewPoint = item.dewPoint,
+            cachedSource = location.source
         )
     }
 

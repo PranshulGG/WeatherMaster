@@ -494,6 +494,11 @@
 
     <string name="weather_airquality_source">Air quality source</string>
 
+    <string name="country_india">India</string>
+
+
+    <string name="error_secure_connection_failed">Secure connection failed</string>
+
 </resources>
 
     <!--<string name=""></string>-->
