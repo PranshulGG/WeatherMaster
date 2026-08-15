@@ -22,7 +22,8 @@ fun DialogTextFieldTile(
     shapes: RoundedCornerShape,
     itemBgColor: Color,
     trailing: (@Composable (() -> Unit))? = null,
-    placeholderAsValue: Boolean = false
+    placeholderAsValue: Boolean = false,
+    overline: @Composable (() -> Unit)? = null
 ) {
     var showDialog by remember { mutableStateOf(false) }
     var textFieldValue by remember(initialText) { mutableStateOf(initialText) }
@@ -53,7 +54,8 @@ fun DialogTextFieldTile(
                     )
                 }
             },
-            trailingContent = trailing
+            trailingContent = trailing,
+            overlineContent = overline
         )
     }
 
