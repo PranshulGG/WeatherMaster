@@ -404,5 +404,7 @@ W ciągu dnia spodziewane są opady śniegu około %1$s z prawdopodobieństwem %
     <string name="location_permission_background">Background location permission</string>
     <string name="location_permission_background_secondary">Allow background location access to keep your saved device location updated even when the app is closed or running in the background</string>
     <string name="weather_airquality_source">Źródło jakości powietrza</string>
+    <string name="country_india">India</string>
+    <string name="error_secure_connection_failed">Secure connection failed</string>
 </resources>
 <!--<string name=""></string>-->
