@@ -18,6 +18,6 @@ interface ApiKeysDao {
     @Query("SELECT * FROM api_keys")
     suspend fun getAllApiKeys(): List<ApiKeyEntity>
 
-    @Query("UPDATE api_keys SET apiKey = :apiKey, savedAt = :savedAt WHERE source = :source")
-    suspend fun updateApiKeyForSource(source: WeatherSource, apiKey: String, savedAt: Long)
+    @Query("UPDATE api_keys SET apiKey = :apiKey WHERE source = :source")
+    suspend fun updateApiKeyForSource(source: WeatherSource, apiKey: String)
 }

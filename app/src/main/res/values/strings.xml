@@ -479,9 +479,7 @@
     <string name="source_regional_global">Regional with Global Coverage</string>
 
     <string name="error_no_api_key">No API key found. Please add your API key in the settings</string>
-    <string name="aemet_key_expiring_warning">Your AEMET key has expired. Tap to request a new one.</string>
-    <string name="aemet_key_valid">Valid key has been added</string>
-    <string name="aemet_key_invalid">Invalid key, try again with a valid key</string>
+    <string name="error_api_key_rejected">Your API key was rejected. It may be invalid or expired — check it in the API key settings.</string>
 
 
     <string name="weather_mixed_precipitation">Mixed precipitation</string>

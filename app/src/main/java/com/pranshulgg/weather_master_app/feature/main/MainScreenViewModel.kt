@@ -6,12 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pranshulgg.weather_master_app.R
-import com.pranshulgg.weather_master_app.core.model.domain.weather.isNearExpiry
-import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.core.network.github.GithubRepository
-import com.pranshulgg.weather_master_app.core.network.sources.weather.aemet.AemetRepository
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
-import com.pranshulgg.weather_master_app.data.repository.ApiKeysRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
@@ -21,8 +17,6 @@ import kotlin.coroutines.cancellation.CancellationException
 @HiltViewModel
 class MainScreenViewModel @Inject constructor(
     private val githubRepository: GithubRepository,
-    private val apiKeysRepository: ApiKeysRepository,
-    private val aemetRepository: AemetRepository,
     @ApplicationContext private val context: Context,
 ) : ViewModel() {
 
@@ -34,9 +28,6 @@ class MainScreenViewModel @Inject constructor(
             if (!_uiState.value.isGooglePlayStoreRelease) {
                 checkForUpdates()
             }
-        }
-        viewModelScope.launch {
-            checkAemetKeyExpiry()
         }
     }
 
@@ -89,28 +80,6 @@ class MainScreenViewModel @Inject constructor(
     fun dismissNewVersionSnackbar() {
         _uiState.value = _uiState.value.copy(isNewVersionAvailable = false)
 
-    }
-
-    private suspend fun checkAemetKeyExpiry() {
-        val aemetKey = apiKeysRepository.getAllApiKeys().find { it.source == WeatherSource.AEMET }
-
-        // Time elapsed is just a cheap gate to avoid hitting the network on every app open -
-        // once we're past it, confirm with a real live check rather than trusting the guess.
-        val isExpired = if (aemetKey?.isNearExpiry() == true) {
-            !aemetRepository.validateApiKey(aemetKey.apiKey.orEmpty())
-        } else {
-            false
-        }
-
-        _uiState.value = _uiState.value.copy(isAemetKeyExpiring = isExpired)
-    }
-
-    // Re-run whenever MainScreen is revisited (e.g. returning from the API key screen),
-    // so the banner reflects reality instead of a one-time dismiss.
-    fun refreshAemetKeyExpiryStatus() {
-        viewModelScope.launch {
-            checkAemetKeyExpiry()
-        }
     }
 
     fun hideChangelogSheet() {

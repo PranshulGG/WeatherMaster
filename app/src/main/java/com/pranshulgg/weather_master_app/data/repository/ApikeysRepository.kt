@@ -21,26 +21,23 @@ class ApiKeysRepository @Inject constructor(
             ApiKey(
                 id = it.id,
                 source = it.source,
-                apiKey = it.apiKey,
-                savedAt = it.savedAt
+                apiKey = it.apiKey
             )
         }
     }
 
     suspend fun updateApiKeyForSource(source: WeatherSource, apiKey: String) {
         val entity = dao.getApiKeyForSource(source)
-        val savedAt = System.currentTimeMillis()
 
         if (entity == null) {
             dao.insertApiKeyForSource(
                 ApiKeyEntity(
                     source = source,
-                    apiKey = apiKey,
-                    savedAt = savedAt
+                    apiKey = apiKey
                 )
             )
         } else {
-            dao.updateApiKeyForSource(source, apiKey, savedAt)
+            dao.updateApiKeyForSource(source, apiKey)
         }
     }
 }

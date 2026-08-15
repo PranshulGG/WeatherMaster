@@ -5,6 +5,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
 import com.pranshulgg.weather_master_app.core.network.sources.weather.aemet.json.AemetMunicipioJson
+import com.pranshulgg.weather_master_app.core.network.sources.weather.aemet.model.AemetEnvelopeJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.aemet.model.AemetForecastJson
 import com.pranshulgg.weather_master_app.core.utils.formatters.toSafeDouble
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherCacheSafe
@@ -23,6 +24,7 @@ import com.pranshulgg.weather_master_app.data.local.mapper.weather.toHourlyWeath
 import com.pranshulgg.weather_master_app.data.repository.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import retrofit2.Response
 import javax.inject.Inject
 
 
@@ -67,15 +69,13 @@ class AemetRepository @Inject constructor(
                 ?: resolveMunicipio(location, key)
                 ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
 
-            val dailyEnvelope = api.fetchDailyForecastEnvelope(municipio, key).body()
-                ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
+            val dailyEnvelope = api.fetchDailyForecastEnvelope(municipio, key).envelopeOrThrow()
             val dailyDatosUrl = dailyEnvelope.datos
                 ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
             val daily = api.fetchDailyForecastData(dailyDatosUrl).body()?.firstOrNull()
                 ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
 
-            val hourlyEnvelope = api.fetchHourlyForecastEnvelope(municipio, key).body()
-                ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
+            val hourlyEnvelope = api.fetchHourlyForecastEnvelope(municipio, key).envelopeOrThrow()
             val hourlyDatosUrl = hourlyEnvelope.datos
                 ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
             val hourly = api.fetchHourlyForecastData(hourlyDatosUrl).body()?.firstOrNull()
@@ -111,25 +111,21 @@ class AemetRepository @Inject constructor(
         }
     }
 
-    // Lightweight live check that an entered key is actually accepted by AEMET, used when a
-    // user saves a key in the API key config screen - hits only the small step-1 envelope,
-    // not the full municipios list.
-    suspend fun validateApiKey(key: String): Boolean = withContext(Dispatchers.IO) {
-        try {
-            val response = api.fetchMunicipiosEnvelope(key)
-            response.isSuccessful && response.body()?.estado == 200
-        } catch (e: Exception) {
-            false
-        }
-    }
-
     private suspend fun resolveMunicipio(location: Location, apiKey: String): String? {
-        val envelope = api.fetchMunicipiosEnvelope(apiKey).body() ?: return null
+        val envelope = api.fetchMunicipiosEnvelope(apiKey).envelopeOrThrow()
         val datosUrl = envelope.datos ?: return null
         val municipios = api.fetchMunicipiosData(datosUrl).body() ?: return null
 
         return getClosestMunicipio(municipios, location)?.removePrefix("id")
     }
+}
+
+// A bad/expired key surfaces as a 401 on any of AEMET's endpoints - thrown here so it flows
+// through the same WeatherResult.Error -> AppException -> Snackbar path as every other error,
+// rather than the repository owning any UI behavior of its own.
+private fun Response<AemetEnvelopeJson>.envelopeOrThrow(): AemetEnvelopeJson {
+    if (code() == 401) throw AppException.ApiKeyRejectedError()
+    return body() ?: throw AppException.Unknown()
 }
 
 private fun getClosestMunicipio(municipios: List<AemetMunicipioJson>, location: Location): String? {

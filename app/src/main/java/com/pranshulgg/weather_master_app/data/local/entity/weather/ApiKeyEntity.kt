@@ -11,6 +11,5 @@ data class ApiKeyEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val source: WeatherSource,
-    val apiKey: String? = null,
-    val savedAt: Long = System.currentTimeMillis()
+    val apiKey: String? = null
 )
