@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_launcher_name">Cuaca</string>
-    <string name="weather_hourly_forecast">Prakiraan per jam</string>
+    <string name="weather_hourly_forecast">Ramalan setiap jam </string>
     <string name="action_save">Simpan</string>
     <string name="action_cancel">Batal</string>
-    <string name="weather_daily_forecast">Prakiraan Harian</string>
+    <string name="weather_daily_forecast">Ramalan harian </string>
     <string name="locations">Lokasi</string>
-    <string name="location_default">Lokasi Bawaan</string>
-    <string name="weather_rain_today_amount">Total hari ini</string>
-    <string name="weather_precipitation_hours">Jam Curah Hujan</string>
+    <string name="location_default">Lokasi lalai </string>
+    <string name="weather_rain_today_amount">Jumlah hari ini </string>
+    <string name="weather_precipitation_hours">Jam hujan </string>
     <string name="time_now">Sekarang</string>
     <string name="day_today">Hari ini</string>
     <string name="weather_refresh_delay">Tunggu %1$d menit untuk memperbarui</string>
-    <string name="error_generic">Terjadi kesalahan. Silakan coba lagi</string>
+    <string name="error_generic">Ralat telah berlaku. Sila cuba lagi </string>
     <string name="weather_moon">Bulan</string>
     <string name="weather_sun">Matahari</string>
     <string name="weather_humidity">Kelembapan</string>
     <string name="weather_pressure">Tekanan</string>
     <string name="weather_wind">Angin</string>
     <string name="weather_visibility">Jarak Pandang</string>
-    <string name="weather_air_quality">Kualitas Udara</string>
+    <string name="weather_air_quality">Kualiti udara </string>
     <string name="weather_uv_index">Index UV</string>
     <string name="action_ok">OK</string>
     <string name="settings">Pengaturan</string>
@@ -381,5 +381,18 @@
     <string name="weather_current">Current</string>
     <string name="widget_weather_today_max_uv">Today\'s max: %1$s</string>
     <string name="widget_weather_today_max_uv_at">At around %1$s</string>
+    <string name="country_united_kingdom">United Kingdom</string>
+    <string name="region_europe">Europe</string>
+    <string name="settings_api_key_config">API keys config</string>
+    <string name="source_regional_global">Regional with Global Coverage</string>
+    <string name="error_no_api_key">No API key found. Please add your API key in the settings</string>
+    <string name="weather_mixed_precipitation">Mixed precipitation</string>
+    <string name="weather_hail">Hail</string>
+    <string name="weather_sleet">Sleet</string>
+    <string name="location_permission">Location permission</string>
+    <string name="location_permission_secondary">Allow location access to save places using your current position. Your location will only be shared with the sources you choose</string>
+    <string name="location_permission_background">Background location permission</string>
+    <string name="location_permission_background_secondary">Allow background location access to keep your saved device location updated even when the app is closed or running in the background</string>
+    <string name="weather_airquality_source">Sumber kualitas udara</string>
 </resources>
 <!--<string name=""></string>-->
