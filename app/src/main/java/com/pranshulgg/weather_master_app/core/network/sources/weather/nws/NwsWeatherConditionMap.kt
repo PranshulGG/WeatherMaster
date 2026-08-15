@@ -26,12 +26,12 @@ object NwsWeatherConditionMap {
             "wind_ovc" -> WeatherCondition.OVERCAST
             "snow" -> WeatherCondition.SNOW
             "rain_snow" -> WeatherCondition.LIGHT_SNOW
-            "rain_sleet" -> WeatherCondition.LIGHT_SNOW
-            "snow_sleet" -> WeatherCondition.LIGHT_SNOW
-            "fzra" -> WeatherCondition.RAIN
-            "rain_fzra" -> WeatherCondition.RAIN
-            "snow_fzra" -> WeatherCondition.SNOW
-            "sleet" -> WeatherCondition.SNOW
+            "rain_sleet" -> WeatherCondition.SLEET
+            "snow_sleet" -> WeatherCondition.SLEET
+            "fzra" -> WeatherCondition.HAIL
+            "rain_fzra" -> WeatherCondition.HAIL
+            "snow_fzra" -> WeatherCondition.HAIL
+            "sleet" -> WeatherCondition.SLEET
             "rain" -> WeatherCondition.RAIN
             "rain_showers" -> WeatherCondition.RAIN
             "rain_showers_hi" -> WeatherCondition.RAIN

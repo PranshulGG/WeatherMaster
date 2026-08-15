@@ -5,7 +5,11 @@ import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherDaily
 
 
-// TODO: ADD SLEET, HAIL, WINDY, BLIZZARD, TORNADO, HURRICANE
+// TODO: WINDY, BLIZZARD, TORNADO, HURRICANE
+/**
+ * SLEET AND HAIL is supported but not mapped to many sources yet
+ * TODO: FIX IT
+ */
 enum class WeatherCondition {
     CLEAR_SKY,
     OVERCAST,
