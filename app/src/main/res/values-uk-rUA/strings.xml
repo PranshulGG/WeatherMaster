@@ -21,10 +21,10 @@
     <string name="weather_visibility">Видимість</string>
     <string name="weather_air_quality">Якість повітря</string>
     <string name="weather_uv_index">УФ індекс</string>
-    <string name="action_ok">Порядок</string>
+    <string name="action_ok">OK</string>
     <string name="settings">Налаштування</string>
     <string name="search">Пошук</string>
-    <string name="location_current">Моє місцеперебування</string>
+    <string name="location_current">Моє місцезнаходження</string>
     <string name="search_provider">Пошукова служба</string>
     <plurals name="time_minutes_ago">
         <item quantity="one">%d хв. тому</item>
@@ -96,7 +96,7 @@
     <string name="setting_system_theme">Системна</string>
     <string name="setting_app_theme">Тема застосунку</string>
     <string name="search_empty_state_title">Пошук місць</string>
-    <string name="search_empty_state_secondary">Введіть місто або місцезнаходження, щоб переглянути погоду</string>
+    <string name="search_empty_state_secondary">Введіть місто або надайте доступ до місцезнаходження, щоб переглянути прогноз погоди</string>
     <string name="action_set_default">Встановити за замовчуванням</string>
     <string name="action_delete">Видалити</string>
     <string name="error_delete_default_location">Ви не можете видалити місце за замовчуванням</string>
@@ -287,13 +287,13 @@
     <string name="error_no_results">Результатів не знайдено</string>
     <string name="summary_overview_template_same_condition">Протягом усього дня та ночі буде %1$s.</string>
     <string name="summary_overview_template_day_night_condition">Вдень очікується %1$s, а вночі — %2$s.</string>
-    <string name="summary_rain_template_day_night">Вдень близько %1$s очікується дощ з імовірністю %2$s. Вночі близько %4$s також можливий дощ з імовірністю %3$s</string>
+    <string name="summary_rain_template_day_night">Вдень близько %1$s очікується дощ з імовірністю %2$s. Вночі близько %4$s також можливий дощ з імовірністю %3$s.</string>
     <string name="summary_rain_template_day">Вдень близько %1$s очікується дощ з імовірністю %2$s.</string>
     <string name="summary_rain_template_night">Вночі близько %2$s очікується дощ з імовірністю %1$s.</string>
     <string name="summary_snow_template_day_night">Вдень близько %1$s очікується сніг з імовірністю %2$s. Вночі близько %4$s також можливий сніг з імовірністю %3$s.</string>
     <string name="summary_snow_template_day">Вдень близько %1$s очікується сніг з імовірністю %2$s.</string>
     <string name="summary_snow_template_night">Вночі близько %2$s очікується сніг із ймовірністю %1$s.</string>
-    <string name="summary_temp_template_extreme">Вдень очікується сильна спека, температура сягне %1$s. Вночі вона знизиться приблизно до %2$s</string>
+    <string name="summary_temp_template_extreme">Вдень очікується сильна спека, температура сягне %1$s. Вночі вона знизиться приблизно до %2$s.</string>
     <string name="summary_temp_template_warm">Вдень буде тепло, температура сягне близько %1$s. Вночі вона знизиться приблизно до %2$s.</string>
     <string name="summary_temp_template_mild">Очікується теплий день, температура сягне %1$s. Вночі похолодає приблизно до %2$s.</string>
     <string name="summary_temp_template_cool">Вдень буде прохолодно, а температура сягне близько %1$s. Вночі вона опуститься приблизно до %2$s.</string>
