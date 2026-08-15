@@ -484,6 +484,12 @@
     <string name="weather_hail">Hail</string>
     <string name="weather_sleet">Sleet</string>
 
+    <string name="location_permission">Location permission</string>
+    <string name="location_permission_secondary">Allow location access to save places using your current position. Your location will only be shared with the sources you choose</string>
+
+    <string name="location_permission_background">Background location permission</string>
+    <string name="location_permission_background_secondary">Allow background location access to keep your saved device location updated even when the app is closed or running in the background</string>
+
 </resources>
 
     <!--<string name=""></string>-->

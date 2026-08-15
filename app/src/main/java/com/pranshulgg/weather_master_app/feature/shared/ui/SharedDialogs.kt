@@ -1,6 +1,8 @@
 package com.pranshulgg.weather_master_app.feature.shared.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.ui.components.TextAlertDialog
 
 object SharedDialogs {
@@ -15,8 +17,8 @@ object SharedDialogs {
             show,
             onDismiss = onDismiss,
             onConfirm = onConfirm,
-            title = "Location permission",
-            message = "Allow location access to save places using your current position. Your location will only be shared with the sources you choose"
+            title = stringResource(R.string.location_permission),
+            message = stringResource(R.string.location_permission_secondary)
         )
     }
 
@@ -30,8 +32,8 @@ object SharedDialogs {
             show,
             onDismiss = onDismiss,
             onConfirm = onConfirm,
-            title = "Background location permission",
-            message = "Allow background location access to keep your saved device location updated even when the app is closed or running in the background"
+            title = stringResource(R.string.location_permission_background),
+            message = stringResource(R.string.location_permission_background_secondary)
         )
     }
 
