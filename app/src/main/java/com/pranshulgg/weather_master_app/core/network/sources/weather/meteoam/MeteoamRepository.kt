@@ -7,6 +7,7 @@ import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.json.bundle.MeteoamWeatherBundle
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherCacheSafe
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnWeatherCache
+import com.pranshulgg.weather_master_app.core.utils.weather.forecast.mergeHourlyWeather
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
 import com.pranshulgg.weather_master_app.data.local.mapper.locations.toDomain
@@ -40,6 +41,7 @@ class MeteoamRepository @Inject constructor(
 
             val shouldReturnCache = shouldReturnWeatherCache(cache, isManualRefresh, isForceRefresh)
 
+            val existingHourly = weatherDao.getHourlyDataForLocation(location.id)
 
             when (shouldReturnCache) {
                 WeatherResultType.REFRESH_TOO_EARLY -> return@withContext WeatherResult.RefreshNotAvailable
@@ -64,9 +66,13 @@ class MeteoamRepository @Inject constructor(
 
                 val domain = final.toDomain(location)
 
+                val mergedHourly = mergeHourlyWeather(
+                    existing = existingHourly,
+                    incoming = domain.hourly.toHourlyWeatherEntity(location.id)
+                )
                 weatherDao.insertWeather(
                     domain.current.toCurrentWeatherEntity(location.id),
-                    domain.hourly.toHourlyWeatherEntity(location.id),
+                    mergedHourly,
                     domain.daily.toDailyWeatherEntity(location.id),
                     location.id
                 )

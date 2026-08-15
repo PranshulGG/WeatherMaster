@@ -7,6 +7,7 @@ import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.json.bundle.AccuWeatherBundle
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherCacheSafe
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnWeatherCache
+import com.pranshulgg.weather_master_app.core.utils.weather.forecast.mergeHourlyWeather
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationKeysDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
@@ -41,6 +42,7 @@ class AccuRepository @Inject constructor(
             val cache = dao.getWeatherDataForLocation(location.id)
 
             val shouldReturnCache = shouldReturnWeatherCache(cache, isManualRefresh, isForceRefresh)
+            val existingHourly = weatherDao.getHourlyDataForLocation(location.id)
 
 
             when (shouldReturnCache) {
@@ -86,9 +88,13 @@ class AccuRepository @Inject constructor(
                     )
                 )
 
+                val mergedHourly = mergeHourlyWeather(
+                    existing = existingHourly,
+                    incoming = domain.hourly.toHourlyWeatherEntity(location.id)
+                )
                 weatherDao.insertWeather(
                     domain.current.toCurrentWeatherEntity(location.id),
-                    domain.hourly.toHourlyWeatherEntity(location.id),
+                    mergedHourly,
                     domain.daily.toDailyWeatherEntity(location.id),
                     location.id
                 )
