@@ -369,7 +369,7 @@
     <string name="label_variant">Вариант</string>
     <string name="settings_widget_show_daily_weather">Показать погоду на сегодня</string>
     <string name="settings_widget_show_daily_weather_secondary">Отображает прогноз на сегодня вместо текущих погодных условий</string>
-    <string name="settings_widget_show_clock">Показывать часы</string>
+    <string name="settings_widget_show_clock">Показать часы</string>
     <string name="settings_widget_clock_size">Размер часов</string>
     <string name="unit_wind_kt_short">уз</string>
     <string name="unit_wind_bft_short">бф</string>
@@ -385,7 +385,10 @@
     <string name="unit_precipitation_mm_short">мм</string>
     <string name="unit_precipitation_inch_short">дюйм</string>
     <string name="unit_precipitation_cm_short">см</string>
-    <string name="settings_widget_show_precip_probability">Show precipitation probability</string>
-    <string name="settings_widget_show_precip_probability_secondary">Displays the precipitation probability only when the selected source provides it</string>
+    <string name="settings_widget_show_precip_probability">Показать вероятность выпадения осадков</string>
+    <string name="settings_widget_show_precip_probability_secondary">Отображает вероятность выпадения осадков только в том случае, если она указана в выбранном источнике</string>
+    <string name="weather_current">Текущая</string>
+    <string name="widget_weather_today_max_uv">Макс. сегодня: %1$s</string>
+    <string name="widget_weather_today_max_uv_at">Примерно в %1$s</string>
 </resources>
 <!--<string name=""></string>-->
