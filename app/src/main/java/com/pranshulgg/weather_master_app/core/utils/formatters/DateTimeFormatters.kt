@@ -4,10 +4,11 @@ import android.content.Context
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
 import java.time.Instant
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.zone.ZoneRulesException
 import java.util.concurrent.TimeUnit
+import java.time.ZoneId
+import java.time.ZonedDateTime
 
 fun to12HourTimeString(timeMilli: Long, zoneId: String, pattern: String = "ha"): String {
     val instant = Instant.ofEpochMilli(timeMilli)
@@ -84,3 +85,7 @@ fun safeZoneId(id: String): ZoneId =
     } catch (e: ZoneRulesException) {
         ZoneId.systemDefault()
     }
+
+
+fun getCurrentTimeFor(zoneId: String): Long =
+    ZonedDateTime.now(safeZoneId(zoneId)).toInstant().toEpochMilli()
