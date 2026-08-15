@@ -3,7 +3,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
-    id("com.google.devtools.ksp") version "2.3.4"
+    id("com.google.devtools.ksp") version "2.3.6"
     id("com.google.dagger.hilt.android")
     id("androidx.room")
     kotlin("plugin.serialization") version "2.3.21"

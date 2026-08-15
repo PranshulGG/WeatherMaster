@@ -1,5 +1,5 @@
 [versions]
-agp = "9.2.1"
+agp = "9.3.1"
 converterJaxb = "3.0.0"
 coreKtx = "1.19.0"
 desugar_jdk_libs = "2.1.5"
