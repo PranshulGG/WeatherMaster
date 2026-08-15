@@ -5,6 +5,7 @@ import com.pranshulgg.weather_master_app.R
 import java.io.IOException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
+import javax.net.ssl.SSLHandshakeException
 import kotlin.coroutines.cancellation.CancellationException
 
 sealed class AppException(message: String? = null) : Exception(message) {
@@ -15,6 +16,8 @@ sealed class AppException(message: String? = null) : Exception(message) {
 
     class NoApiKeyError : AppException()
 
+    class SecureConnection : AppException()
+
 }
 
 fun AppException.toMessageRes(): Int {
@@ -24,6 +27,8 @@ fun AppException.toMessageRes(): Int {
         is AppException.Server -> R.string.error_server
         is AppException.Unknown -> R.string.error_generic
         is AppException.NoApiKeyError -> R.string.error_no_api_key
+        is AppException.SecureConnection -> R.string.error_secure_connection_failed
+
     }
 }
 
@@ -32,9 +37,13 @@ fun Throwable.toAppException(): AppException {
 
     return when (this) {
         is AppException -> this
+
+        is SSLHandshakeException -> AppException.SecureConnection()
+
         is UnknownHostException,
         is SocketTimeoutException,
         is IOException -> AppException.Network()
+
 
         is HttpException -> AppException.Server()
 
