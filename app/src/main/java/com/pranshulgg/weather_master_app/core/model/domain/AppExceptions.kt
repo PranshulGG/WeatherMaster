@@ -31,11 +31,13 @@ fun Throwable.toAppException(): AppException {
     if (this is CancellationException) throw this
 
     return when (this) {
+        is AppException -> this
         is UnknownHostException,
         is SocketTimeoutException,
         is IOException -> AppException.Network()
 
         is HttpException -> AppException.Server()
+
 
         else -> AppException.Unknown()
     }

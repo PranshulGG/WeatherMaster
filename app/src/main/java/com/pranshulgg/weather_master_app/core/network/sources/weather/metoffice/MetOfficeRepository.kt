@@ -55,18 +55,24 @@ class MetOfficeRepository @Inject constructor(
                 WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain())
                 else -> {}
             }
-
+            
+            val isCacheSafe = isWeatherCacheSafe(cache)
             if (apiKey?.apiKey.isNullOrBlank()) {
-                return@withContext WeatherResult.Error(exception = AppException.NoApiKeyError())
+                return@withContext WeatherResult.Error(
+                    exception = AppException.NoApiKeyError(),
+                    if (isCacheSafe) cache?.toDomain() else null
+                )
             }
 
 
             return@withContext try {
 
-                val hourly =
-                    api.fetchHourlyForecast(apiKey.apiKey, location.latitude, location.longitude)
-                val daily =
-                    api.fetchDailyForecast(apiKey.apiKey, location.latitude, location.longitude)
+                val hourly = api.fetchHourlyForecast(
+                    apiKey.apiKey, location.latitude, location.longitude
+                )
+                val daily = api.fetchDailyForecast(
+                    apiKey.apiKey, location.latitude, location.longitude
+                )
 
                 val hourlyBody = hourly.body()
                     ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
@@ -98,7 +104,6 @@ class MetOfficeRepository @Inject constructor(
 
             } catch (e: Exception) {
 
-                val isCacheSafe = isWeatherCacheSafe(cache)
 
                 WeatherResult.Error(
                     exception = e,
