@@ -12,7 +12,6 @@ import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
 interface ImdApi {
-//    fix keep past hours
 
     @GET("test4_mme.php")
     suspend fun fetchForecast(
