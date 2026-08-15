@@ -490,6 +490,8 @@
     <string name="location_permission_background">Background location permission</string>
     <string name="location_permission_background_secondary">Allow background location access to keep your saved device location updated even when the app is closed or running in the background</string>
 
+    <string name="weather_airquality_source">Air quality source</string>
+
 </resources>
 
     <!--<string name=""></string>-->

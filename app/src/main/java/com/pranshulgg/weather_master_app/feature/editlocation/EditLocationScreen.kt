@@ -22,6 +22,7 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -141,10 +142,11 @@ fun EditLocationScreen(
         navigationIcon = { NavigateUpBtn(navController) },
         floatingActionButtonPosition = FabPosition.Center,
         actions = {
-            Button(onClick = {
-                navController.navigate(NavRoutes.API_KEYS_CONFIG)
-            }, modifier = Modifier.padding(horizontal = 16.dp), shapes = ButtonDefaults.shapes()) {
-                Text(stringResource(R.string.settings_api_key_config))
+            IconButton(
+                onClick = { navController.navigate(NavRoutes.API_KEYS_CONFIG) },
+                shapes = IconButtonDefaults.shapes()
+            ) {
+                Symbol(R.drawable.key_24px)
             }
         }
     ) { paddingValues ->
@@ -158,7 +160,7 @@ fun EditLocationScreen(
             SettingSection(
                 tiles = listOf(
                     SettingTile.ActionTile(
-                        title = "Location name",
+                        title = stringResource(R.string.location_name),
                         description = currentLocationName,
                         onClick = {
                             viewModel.showEditLocationNameSheet()
@@ -169,7 +171,7 @@ fun EditLocationScreen(
                             }
                         },
                         colorDesc = colorDesc,
-                        overline = { Text("Requires restart") }
+                        overline = { Text(stringResource(R.string.action_requires_restart)) }
                     )
                 )
             )
@@ -179,7 +181,7 @@ fun EditLocationScreen(
             SettingSection(
                 tiles = listOf(
                     SettingTile.ActionTile(
-                        title = "Weather source",
+                        title = stringResource(R.string.weather_source),
                         description = selectedWeatherSourceString,
                         colorDesc = colorDesc,
                         onClick = {
@@ -202,7 +204,7 @@ fun EditLocationScreen(
                         }
                     ),
                     SettingTile.ActionTile(
-                        title = "Alert source",
+                        title = stringResource(R.string.weather_alert_source),
                         description = uiState.selectedAlertSource?.displayName
                             ?: uiState.location.alertSource.displayName,
                         colorDesc = colorDesc,
@@ -211,7 +213,7 @@ fun EditLocationScreen(
                         }
                     ),
                     SettingTile.ActionTile(
-                        title = "Air quality source",
+                        title = stringResource(R.string.weather_airquality_source),
                         description = uiState.selectedAirQualitySource?.displayName
                             ?: uiState.location.airQualitySource.displayName,
                         colorDesc = colorDesc,
@@ -222,7 +224,11 @@ fun EditLocationScreen(
                 )
             )
             Text(
-                "Latitude: ${uiState.location.latitude}, Longitude: ${uiState.location.longitude}",
+                "${stringResource(R.string.location_latitude)}: ${uiState.location.latitude}, ${
+                    stringResource(
+                        R.string.location_longitude
+                    )
+                }: ${uiState.location.longitude}",
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(top = 10.dp, start = 16.dp, end = 16.dp)
