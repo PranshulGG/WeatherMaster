@@ -9,6 +9,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.N
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.bundle.NwsWeatherJsonBundle
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherCacheSafe
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnWeatherCache
+import com.pranshulgg.weather_master_app.core.utils.weather.forecast.mergeHourlyWeather
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.nws.NwsDao
@@ -40,6 +41,8 @@ class NwsRepository @Inject constructor(
 
             val cache = dao.getWeatherDataForLocation(location.id)
             val cachedGridPointsData = nwsDao.getGridPointsForLocation(location.id)
+            val existingHourly = weatherDao.getHourlyDataForLocation(location.id)
+
 
             val shouldReturnCache = shouldReturnWeatherCache(cache, isManualRefresh, isForceRefresh)
 
@@ -162,11 +165,17 @@ class NwsRepository @Inject constructor(
 
                 val domain = final.toDomain(location)
 
+                val mergedHourly = mergeHourlyWeather(
+                    existing = existingHourly,
+                    incoming = domain.hourly.toHourlyWeatherEntity(location.id)
+                )
+
+
                 nwsDao.insertLocationGridPoints(nwsStationsDomain.toEntity(location))
 
                 weatherDao.insertWeather(
                     domain.current.toCurrentWeatherEntity(location.id),
-                    domain.hourly.toHourlyWeatherEntity(location.id),
+                    mergedHourly,
                     domain.daily.toDailyWeatherEntity(location.id),
                     location.id
 
