@@ -54,16 +54,15 @@ fun HourlyCard(
 
 
     val lazyListState = rememberLazyListState()
-    val filteredHourly =
-        findMatchingHourly(
-            weather.hourly,
-            currentMilli,
-            weather.location.source,
-            weather.location.timezone,
-            alwaysReturn24Hrs = true,
-            keepPastHour = !isDaily
+    val filteredHourly = findMatchingHourly(
+        weather.hourly,
+        currentMilli,
+        weather.location.source,
+        weather.location.timezone,
+        alwaysReturn24Hrs = true,
+        keepPastHour = !isDaily
 
-        )
+    )
 
 
     val prefs = LocalAppPrefs.current

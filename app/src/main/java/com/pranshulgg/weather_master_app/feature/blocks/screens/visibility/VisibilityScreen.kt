@@ -81,7 +81,8 @@ fun VisibilityScreen(navController: NavController, index: Int = 0, locationId: S
         time,
         weather.location.source,
         weather.location.timezone,
-        keepPastHour = true
+        keepPastHour = index == 0
+
 
     )
     val zoneId = weather.location.timezone
