@@ -381,5 +381,20 @@
     <string name="weather_current">Current</string>
     <string name="widget_weather_today_max_uv">Today\'s max: %1$s</string>
     <string name="widget_weather_today_max_uv_at">At around %1$s</string>
+    <string name="country_united_kingdom">United Kingdom</string>
+    <string name="region_europe">Europe</string>
+    <string name="settings_api_key_config">API keys config</string>
+    <string name="source_regional_global">Regional with Global Coverage</string>
+    <string name="error_no_api_key">No API key found. Please add your API key in the settings</string>
+    <string name="weather_mixed_precipitation">Mixed precipitation</string>
+    <string name="weather_hail">Hail</string>
+    <string name="weather_sleet">Sleet</string>
+    <string name="location_permission">Location permission</string>
+    <string name="location_permission_secondary">Allow location access to save places using your current position. Your location will only be shared with the sources you choose</string>
+    <string name="location_permission_background">Background location permission</string>
+    <string name="location_permission_background_secondary">Allow background location access to keep your saved device location updated even when the app is closed or running in the background</string>
+    <string name="weather_airquality_source">Air quality source</string>
+    <string name="country_india">India</string>
+    <string name="error_secure_connection_failed">Secure connection failed</string>
 </resources>
 <!--<string name=""></string>-->

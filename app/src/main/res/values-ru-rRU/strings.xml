@@ -390,5 +390,20 @@
     <string name="weather_current">Текущая</string>
     <string name="widget_weather_today_max_uv">Макс. сегодня: %1$s</string>
     <string name="widget_weather_today_max_uv_at">Примерно в %1$s</string>
+    <string name="country_united_kingdom">Великобритания</string>
+    <string name="region_europe">Европа</string>
+    <string name="settings_api_key_config">Конфигурация API-ключей</string>
+    <string name="source_regional_global">Региональный с глобальным охватом</string>
+    <string name="error_no_api_key">API-ключ не найден. Пожалуйста, добавьте свой API-ключ в настройках</string>
+    <string name="weather_mixed_precipitation">Смешанные осадки</string>
+    <string name="weather_hail">Град</string>
+    <string name="weather_sleet">Мокрый снег</string>
+    <string name="location_permission">Разрешение на доступ к местоположению</string>
+    <string name="location_permission_secondary">Разрешите доступ к местоположению, чтобы сохранять места, используя ваше текущее положение. Ваше местоположение будет передаваться только выбранным вами источникам</string>
+    <string name="location_permission_background">Разрешение на доступ к местоположению в фоновом режиме</string>
+    <string name="location_permission_background_secondary">Разрешите доступ к местоположению в фоновом режиме, чтобы сохранять актуальное местоположение вашего устройства, даже когда приложение закрыто или работает в фоновом режиме</string>
+    <string name="weather_airquality_source">Источник данных о качестве воздуха</string>
+    <string name="country_india">India</string>
+    <string name="error_secure_connection_failed">Secure connection failed</string>
 </resources>
 <!--<string name=""></string>-->
