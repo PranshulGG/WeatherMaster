@@ -42,7 +42,7 @@ class FpasRepository @Inject constructor(
         )
 
         when (shouldReturnCache) {
-            AlertResultType.RETURN_CACHE -> return@withContext AlertResult.Success(cache.map { it.toDomain() })
+            AlertResultType.RETURN_CACHE -> return@withContext AlertResult.Success(cache.map { it!!.toDomain() })
             else -> {}
         }
 
@@ -87,7 +87,7 @@ class FpasRepository @Inject constructor(
             AlertResult.Success(domain)
 
         } catch (e: Exception) {
-            AlertResult.Error(exception = e, cacheAlerts = cache.map { it.toDomain() })
+            AlertResult.Error(exception = e, cacheAlerts = cache.map { it!!.toDomain() })
         }
     }
 }
@@ -126,6 +126,7 @@ private fun parseAlertXmlBody(stream: InputStream, preferredLanguage: String): F
                         description = null
                         headline = null
                     }
+
                     "language" -> language = parser.nextText()
                     "event" -> event = parser.nextText()
                     "severity" -> severity = parser.nextText()
@@ -162,7 +163,12 @@ private fun selectPreferredInfoBlock(
     infoBlocks: List<FpasCapAlert>,
     preferredLanguage: String
 ): FpasCapAlert {
-    return infoBlocks.firstOrNull { it.language?.startsWith(preferredLanguage, ignoreCase = true) == true }
+    return infoBlocks.firstOrNull {
+        it.language?.startsWith(
+            preferredLanguage,
+            ignoreCase = true
+        ) == true
+    }
         ?: infoBlocks.firstOrNull { it.language?.startsWith("en", ignoreCase = true) == true }
         ?: infoBlocks.firstOrNull()
         ?: FpasCapAlert(

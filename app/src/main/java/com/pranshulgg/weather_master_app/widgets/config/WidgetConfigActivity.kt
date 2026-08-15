@@ -41,46 +41,46 @@ class WidgetConfigActivity : ComponentActivity() {
         initPrefs(this)
         enableEdgeToEdge()
 
-//        val widgetId =
-//            intent.getIntExtra(
-//                AppWidgetManager.EXTRA_APPWIDGET_ID,
-//                AppWidgetManager.INVALID_APPWIDGET_ID
-//            )
-//
-//        if (widgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
-//            finish()
-//            return
-//        }
-//        val provider =
-//            AppWidgetManager
-//                .getInstance(this)
-//                .getAppWidgetInfo(widgetId)
-//                ?.provider
-//        setResult(RESULT_CANCELED)
-//
-//        val updater = WeatherWidgetUpdater(this)
+        val widgetId =
+            intent.getIntExtra(
+                AppWidgetManager.EXTRA_APPWIDGET_ID,
+                AppWidgetManager.INVALID_APPWIDGET_ID
+            )
+
+        if (widgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
+            finish()
+            return
+        }
+        val provider =
+            AppWidgetManager
+                .getInstance(this)
+                .getAppWidgetInfo(widgetId)
+                ?.provider
+        setResult(RESULT_CANCELED)
+
+        val updater = WeatherWidgetUpdater(this)
 
         val onDone: (WidgetConfig) -> Unit = {
-//            lifecycleScope.launch {
-//
-//                updater.saveWidgetConfig(
-//                    context = this@WidgetConfigActivity,
-//                    widgetId,
-//                    it
-//                )
-//
-//                setResult(
-//                    RESULT_OK,
-//                    Intent().apply {
-//                        putExtra(
-//                            AppWidgetManager.EXTRA_APPWIDGET_ID,
-//                            widgetId
-//                        )
-//                    }
-//                )
-//
-//                finish()
-//            }
+            lifecycleScope.launch {
+
+                updater.saveWidgetConfig(
+                    context = this@WidgetConfigActivity,
+                    widgetId,
+                    it
+                )
+
+                setResult(
+                    RESULT_OK,
+                    Intent().apply {
+                        putExtra(
+                            AppWidgetManager.EXTRA_APPWIDGET_ID,
+                            widgetId
+                        )
+                    }
+                )
+
+                finish()
+            }
         }
         val theme = PreferencesHelper.getString("app_theme") ?: "Dark"
 
@@ -110,35 +110,35 @@ class WidgetConfigActivity : ComponentActivity() {
                     dynamicTheme = true,
                     themeVariantType = ThemeVariantType.EXPRESSIVE,
                 ) {
-//                    when (provider?.className) {
-//                        GlanceWidgetReceiver::class.java.name -> {
-//                            GlanceWidgetConfig(onDone = { onDone(it) })
-//                        }
-//
-//                        ClockDailyWidgetReceiver::class.java.name -> {
-//                            ClockDailyWidgetConfig(onDone = { onDone(it) })
-//                        }
-//
-//                        WeatherWidgetReceiver::class.java.name -> {
-//                            WeatherWidgetConfig(onDone = { onDone(it) })
-//                        }
-//
-//                        WeatherHorizontalWidgetReceiver::class.java.name -> {
-//                            WeatherHorizontalConfig(onDone = { onDone(it) })
-//                        }
-//
-//                        Weather4WidgerReceiver::class.java.name -> {
-                    Weather4Config { onDone(it) }
-//                        }
+                    when (provider?.className) {
+                        GlanceWidgetReceiver::class.java.name -> {
+                            GlanceWidgetConfig(onDone = { onDone(it) })
+                        }
 
-//                        WidgetHourlyReceiver::class.java.name -> {
-//                            HourlyWidgetConfig { onDone(it) }
-//                        }
-//
-//                        UvIndexWidgetReceiver::class.java.name -> {
-//                            UvIndexWidgetConfig { onDone(it) }
-//                        }
-//                    }
+                        ClockDailyWidgetReceiver::class.java.name -> {
+                            ClockDailyWidgetConfig(onDone = { onDone(it) })
+                        }
+
+                        WeatherWidgetReceiver::class.java.name -> {
+                            WeatherWidgetConfig(onDone = { onDone(it) })
+                        }
+
+                        WeatherHorizontalWidgetReceiver::class.java.name -> {
+                            WeatherHorizontalConfig(onDone = { onDone(it) })
+                        }
+
+                        Weather4WidgerReceiver::class.java.name -> {
+                            Weather4Config { onDone(it) }
+                        }
+
+                        WidgetHourlyReceiver::class.java.name -> {
+                            HourlyWidgetConfig { onDone(it) }
+                        }
+
+                        UvIndexWidgetReceiver::class.java.name -> {
+                            UvIndexWidgetConfig { onDone(it) }
+                        }
+                    }
                 }
             }
         }
