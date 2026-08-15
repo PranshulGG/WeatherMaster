@@ -25,6 +25,7 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlockType
 import com.pranshulgg.weather_master_app.feature.alerts.AlertsScreen
+import com.pranshulgg.weather_master_app.feature.apikeyconfig.ApiKeysConfigScreen
 import com.pranshulgg.weather_master_app.feature.blocks.screens.SunMoonScreen
 import com.pranshulgg.weather_master_app.feature.blocks.screens.airquality.AirQualityScreen
 import com.pranshulgg.weather_master_app.feature.blocks.screens.humidity.HumidityScreen
@@ -174,6 +175,7 @@ fun AppNavHost(
                 ) {
                     WorkerInfoScreen(navController)
                 }
+
                 composable(
                     route = "${NavRoutes.EDIT_LOCATION}/{locationId}",
                     arguments = listOf(
@@ -222,6 +224,11 @@ fun AppNavHost(
                         NavRoutes.SNOW -> SnowScreen(navController, index, locationId)
                         NavRoutes.AIR_QUALITY -> AirQualityScreen(navController, index, locationId)
                     }
+                }
+                composable(
+                    NavRoutes.API_KEYS_CONFIG
+                ) {
+                    ApiKeysConfigScreen(navController)
                 }
             }
         }

@@ -24,14 +24,19 @@ import com.pranshulgg.weather_master_app.R
 @Composable
 fun CreditsBottomSection(weather: Weather?, onClick: () -> Unit) {
 
-    val source = weather?.location?.source?.displayName
+    val source = weather?.location?.source
+
+    val sourceString = source?.displayName
         ?: WeatherSource.OPEN_METEO.displayName
 
-    val countryString =
-        if (weather?.location?.source?.countryNameRes != null) " (${stringResource(weather.location.source.countryNameRes)})" else ""
+    val countryString = buildString {
+        if (source?.countryNameRes != null) {
+            append("(${stringResource(weather.location.source.countryNameRes)})")
+        }
+    }
 
     Text(
-        stringResource(R.string.source_credits_label, "$source $countryString"),
+        stringResource(R.string.source_credits_label, "$sourceString $countryString"),
         modifier = Modifier
             .fillMaxWidth()
             .clickable(
