@@ -57,7 +57,7 @@ fun Weather4Date(
             modifier = GlanceModifier.wrapContentSize()
         ) {
             WidgetDate(
-                "EEEE, MMMM d",
+                config.dateFormat,
                 color = textColor.second,
                 context = context,
                 size = textSize,
