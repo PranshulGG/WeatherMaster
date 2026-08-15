@@ -6,6 +6,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResult
 import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResultType
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.fpas.model.FpasCapAlert
+import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnAlertsCache
 import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
@@ -41,7 +42,7 @@ class FpasRepository @Inject constructor(
         )
 
         when (shouldReturnCache) {
-            AlertResultType.RETURN_CACHE -> return@withContext AlertResult.Success(cache.map { it!!.toDomain() })
+            AlertResultType.RETURN_CACHE -> return@withContext AlertResult.Success(cache.map { it.toDomain() })
             else -> {}
         }
 
@@ -58,12 +59,14 @@ class FpasRepository @Inject constructor(
                 ?: return@withContext AlertResult.Error(exception = AppException.Unknown())
 
 
+            val preferredLanguage = getCurrentAppLocale().language
+
             val alerts = body.mapNotNull {
                 val responseAlert = api.fetchAlertsCap(it)
 
                 if (responseAlert.isSuccessful) {
                     responseAlert.body()?.byteStream()?.use { stream ->
-                        parseAlertXmlBody(stream)
+                        parseAlertXmlBody(stream, preferredLanguage)
                     }
                 } else {
                     null
@@ -84,15 +87,16 @@ class FpasRepository @Inject constructor(
             AlertResult.Success(domain)
 
         } catch (e: Exception) {
-            AlertResult.Error(exception = e, cacheAlerts = cache.map { it!!.toDomain() })
+            AlertResult.Error(exception = e, cacheAlerts = cache.map { it.toDomain() })
         }
     }
 }
 
-private fun parseAlertXmlBody(stream: InputStream): FpasCapAlert {
+private fun parseAlertXmlBody(stream: InputStream, preferredLanguage: String): FpasCapAlert {
     val parser = Xml.newPullParser()
     parser.setInput(stream, null)
 
+    val infoBlocks = mutableListOf<FpasCapAlert>()
 
     var type = parser.eventType
 
@@ -110,6 +114,18 @@ private fun parseAlertXmlBody(stream: InputStream): FpasCapAlert {
         when (type) {
             XmlPullParser.START_TAG -> {
                 when (parser.name) {
+                    // a CAP alert can carry one <info> block per language; reset per block
+                    // so fields from one language don't leak into another
+                    "info" -> {
+                        language = null
+                        event = null
+                        severity = null
+                        effective = null
+                        expires = null
+                        senderName = null
+                        description = null
+                        headline = null
+                    }
                     "language" -> language = parser.nextText()
                     "event" -> event = parser.nextText()
                     "severity" -> severity = parser.nextText()
@@ -120,19 +136,43 @@ private fun parseAlertXmlBody(stream: InputStream): FpasCapAlert {
                     "headline" -> headline = parser.nextText()
                 }
             }
+
+            XmlPullParser.END_TAG -> {
+                if (parser.name == "info") {
+                    infoBlocks += FpasCapAlert(
+                        language = language,
+                        event = event,
+                        severity = severity,
+                        effective = effective,
+                        expires = expires,
+                        senderName = senderName,
+                        headline = headline,
+                        description = description
+                    )
+                }
+            }
         }
         type = parser.next()
     }
-    return FpasCapAlert(
-        language = language,
-        event = event,
-        severity = severity,
-        effective = effective,
-        expires = expires,
-        senderName = senderName,
-        headline = headline,
-        description = description
-    )
 
+    return selectPreferredInfoBlock(infoBlocks, preferredLanguage)
+}
 
+private fun selectPreferredInfoBlock(
+    infoBlocks: List<FpasCapAlert>,
+    preferredLanguage: String
+): FpasCapAlert {
+    return infoBlocks.firstOrNull { it.language?.startsWith(preferredLanguage, ignoreCase = true) == true }
+        ?: infoBlocks.firstOrNull { it.language?.startsWith("en", ignoreCase = true) == true }
+        ?: infoBlocks.firstOrNull()
+        ?: FpasCapAlert(
+            language = null,
+            event = null,
+            severity = null,
+            effective = null,
+            expires = null,
+            senderName = null,
+            headline = null,
+            description = null
+        )
 }
