@@ -26,6 +26,8 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.fmi.FmiApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.fmi.FmiRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.GismeteoApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.GismeteoRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.imd.ImdApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.imd.ImdRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.ipma.IpmaApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.ipma.IpmaRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.MeteoamApi
@@ -233,4 +235,12 @@ object WeatherRepositoryModule {
         weatherDao: WeatherDao,
         apiKeysDao: ApiKeysDao
     ): MetOfficeRepository = MetOfficeRepository(dao, weatherDao, api, apiKeysDao)
+
+    @Provides
+    @Singleton
+    fun provideImdRepository(
+        dao: LocationsDao,
+        weatherDao: WeatherDao,
+        api: ImdApi
+    ): ImdRepository = ImdRepository(dao, weatherDao, api)
 }

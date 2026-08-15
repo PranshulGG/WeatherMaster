@@ -96,6 +96,12 @@ enum class WeatherSource(
         requiresUserApiKey = true,
         regionalButWorldwideSupport = true
     ),
+    IMD(
+        displayName = "IMD",
+        fullName = "India Meteorological Department",
+        displayLink = "https://mausam.imd.gov.in/",
+        countryNameRes = R.string.country_india
+    ),
     MET_NORWAY(
         displayName = "Met Norway",
         fullName = "Met Norway",
@@ -132,6 +138,7 @@ private val weatherSourcesByCountry = buildMap {
     listOf("GB", "UK").forEach { put(it, listOf(WeatherSource.MET_OFFICE)) }
     put("NO", listOf(WeatherSource.MET_NORWAY))
     put("FR", listOf(WeatherSource.METEO_FRANCE))
+    put("IN", listOf(WeatherSource.IMD))
 
 }
 
