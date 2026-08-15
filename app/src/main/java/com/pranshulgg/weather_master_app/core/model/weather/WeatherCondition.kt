@@ -23,6 +23,10 @@ enum class WeatherCondition {
 
     RAIN,
 
+    SLEET,
+    HAIL,
+    MIXED_PRECIPITATION,
+
     NO_CONDITION_FOUND,
 
     // USED FOR DAILY
@@ -78,7 +82,7 @@ fun WeatherCondition.toIcon(daily: WeatherDaily? = null, targetTimeMilli: Long):
         WeatherCondition.PARTLY_CLOUDY -> if (isDay) R.drawable.weather_partly_cloudy_day else R.drawable.weather_partly_cloudy_night
 
         WeatherCondition.HEAVY_RAIN -> R.drawable.weather_heavy_rain
-        WeatherCondition.LIGHT_RAIN -> if (isDay) R.drawable.weather_light_rain_day else R.drawable.weather_light_rain_night
+        WeatherCondition.LIGHT_RAIN -> R.drawable.weather_light_rain
 
         WeatherCondition.LIGHT_SNOW -> if (isDay) R.drawable.weather_light_snow_day else R.drawable.weather_light_snow_night
         WeatherCondition.SNOW -> R.drawable.weather_snow
@@ -96,6 +100,10 @@ fun WeatherCondition.toIcon(daily: WeatherDaily? = null, targetTimeMilli: Long):
         WeatherCondition.FOG_HAZE -> R.drawable.weather_haze_fog_dust_smoke
 
         WeatherCondition.RAIN -> R.drawable.weather_rain
+
+        WeatherCondition.SLEET, WeatherCondition.HAIL -> R.drawable.weather_sleet_hail
+
+        WeatherCondition.MIXED_PRECIPITATION -> R.drawable.weather_mixed_precipitation
 
         WeatherCondition.CLEAR_WITH_CLOUDY -> R.drawable.clear_with_cloudy
         WeatherCondition.CLEAR_WITH_RAIN -> R.drawable.clear_with_rain
@@ -168,6 +176,10 @@ fun WeatherCondition.toLabel(context: Context): String {
         WeatherCondition.FOG_HAZE -> context.getString(R.string.weather_haze)
 
         WeatherCondition.RAIN -> context.getString(R.string.weather_rain)
+
+        WeatherCondition.SLEET -> context.getString(R.string.weather_sleet)
+        WeatherCondition.HAIL -> context.getString(R.string.weather_hail)
+        WeatherCondition.MIXED_PRECIPITATION -> context.getString(R.string.weather_mixed_precipitation)
 
         WeatherCondition.CLEAR_WITH_CLOUDY -> context.getString(R.string.weather_clear_with_cloudy)
         WeatherCondition.CLEAR_WITH_RAIN -> context.getString(R.string.weather_clear_with_rain)
