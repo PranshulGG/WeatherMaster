@@ -183,8 +183,8 @@ fun SearchScreen(navController: NavController) {
         onDismiss = viewModel::hideWeatherSourcesForLocationSheet,
         sheetState = sheetState,
         onClickApiConfig = {
-            viewModel.hideWeatherSourcesForLocationSheet()
             navController.navigate(NavRoutes.API_KEYS_CONFIG)
+            viewModel.hideWeatherSourcesForLocationSheet()
         },
         apiKeys = uiState.apiKeys
     )

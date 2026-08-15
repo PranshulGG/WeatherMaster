@@ -54,12 +54,27 @@ object SharedBottomSheet {
         if (show) {
             val recommendedSources = getWeatherSourcesForCountry(countryCode?.uppercase())
             val globalSources = getWeatherSourcesGlobal()
+
+            val isApiKeyAvailable: (WeatherSource) -> Boolean = { source ->
+                apiKeys.isNotEmpty()
+                        && apiKeys
+                    .any { it.source == source && !it.apiKey.isNullOrBlank() }
+            }
+
             var currentSelectedSource by remember(
                 show,
-                selectedSource
+                selectedSource,
+                isApiKeyAvailable
             ) {
-                mutableStateOf(if (recommendedSources.isNotEmpty() && !isEditing) recommendedSources[0] else selectedSource)
+                mutableStateOf(
+                    if (recommendedSources.isNotEmpty() && !isEditing && isApiKeyAvailable(
+                            recommendedSources[0]
+                        )
+                    ) recommendedSources[0] else selectedSource
+                )
             }
+
+
 
             ActionBottomSheet(
                 sheetState = sheetState,
@@ -75,8 +90,9 @@ object SharedBottomSheet {
                         tiles = recommendedSources.map { source ->
                             val isSelected = currentSelectedSource == source
 
-                            val countryString =
-                                source.countryNameRes?.let { " (${stringResource(it)})" } ?: ""
+                            val countryString = source.countryNameRes?.let {
+                                " (${stringResource(it)})"
+                            } ?: ""
 
                             SettingTile.ActionTile(
                                 leading = {
@@ -86,9 +102,20 @@ object SharedBottomSheet {
                                     )
                                 },
                                 title = source.displayName + countryString,
+                                description = if (source.requiresUserApiKey && !isApiKeyAvailable(
+                                        source
+                                    )
+                                ) "Requires API key" else null,
+                                colorDesc = MaterialTheme.colorScheme.error,
                                 selected = isSelected,
                                 onClick = {
-                                    currentSelectedSource = source
+                                    if (!source.requiresUserApiKey) {
+                                        currentSelectedSource = source
+                                    } else if (!isApiKeyAvailable(source)) {
+                                        onClickApiConfig()
+                                    } else {
+                                        currentSelectedSource = source
+                                    }
                                 }
                             )
                         }
@@ -126,10 +153,6 @@ object SharedBottomSheet {
                             val isSelected = currentSelectedSource == source
 
 
-                            val isApiKeyAvailable = apiKeys.isNotEmpty()
-                                    && apiKeys
-                                .any { it.source == source && !it.apiKey.isNullOrBlank() }
-
                             val countryString =
                                 if (source.countryNameRes != null) " (${stringResource(source.countryNameRes)})" else ""
 
@@ -142,12 +165,15 @@ object SharedBottomSheet {
                                 },
                                 title = source.displayName + countryString,
                                 selected = isSelected,
-                                description = if (source.requiresUserApiKey && !isApiKeyAvailable) "Requires API key" else null,
+                                description = if (source.requiresUserApiKey && !isApiKeyAvailable(
+                                        source
+                                    )
+                                ) "Requires API key" else null,
                                 colorDesc = MaterialTheme.colorScheme.error,
                                 onClick = {
                                     if (!source.requiresUserApiKey) {
                                         currentSelectedSource = source
-                                    } else if (!isApiKeyAvailable) {
+                                    } else if (!isApiKeyAvailable(source)) {
                                         onClickApiConfig()
                                     } else {
                                         currentSelectedSource = source
