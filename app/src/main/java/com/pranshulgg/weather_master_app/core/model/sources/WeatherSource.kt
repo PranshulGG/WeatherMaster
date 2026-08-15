@@ -9,6 +9,8 @@ enum class WeatherSource(
     val displayLink: String,
     val fullName: String,
     val countryNameRes: Int? = null,
+    val requiresUserApiKey: Boolean = false, // Source must not be selectable until the user has provided their API key
+    val regionalButWorldwideSupport: Boolean = false
 ) {
     OPEN_METEO(
         displayName = "Open Meteo",
@@ -36,7 +38,8 @@ enum class WeatherSource(
     METEO_FRANCE(
         displayName = "Météo-France",
         fullName = "Météo-France",
-        displayLink = "https://meteofrance.com/"
+        displayLink = "https://meteofrance.com/",
+        regionalButWorldwideSupport = true
     ),
     ECCC(
         displayName = "ECCC",
@@ -78,16 +81,26 @@ enum class WeatherSource(
         displayLink = "https://api.ipma.pt/",
         countryNameRes = R.string.country_portugal
     ),
-    GISMETEO( // HAS WORLDWIDE DATA
+    GISMETEO(
         displayName = "Gismeteo",
-        fullName = "Gismeteo Russia",
+        fullName = "Gismeteo",
         displayLink = "https://www.gismeteo.ru/",
-        countryNameRes = R.string.country_russia
+        countryNameRes = R.string.country_russia,
+        regionalButWorldwideSupport = true
+    ),
+    MET_OFFICE(
+        displayName = "Met Office",
+        fullName = "Meteorological Office",
+        displayLink = "https://www.metoffice.gov.uk/",
+        countryNameRes = R.string.country_united_kingdom,
+        requiresUserApiKey = true,
+        regionalButWorldwideSupport = true
     ),
     MET_NORWAY(
         displayName = "Met Norway",
         fullName = "Met Norway",
-        displayLink = "https://api.met.no/"
+        displayLink = "https://api.met.no/",
+        regionalButWorldwideSupport = true
     );
 
     // Sources that provide snow/rain as precipitation
@@ -116,6 +129,10 @@ private val weatherSourcesByCountry = buildMap {
     listOf("IT", "VA").forEach { put(it, listOf(WeatherSource.METEO_AM)) }
     put("PT", listOf(WeatherSource.IPMA))
     put("RU", listOf(WeatherSource.GISMETEO))
+    listOf("GB", "UK").forEach { put(it, listOf(WeatherSource.MET_OFFICE)) }
+    put("NO", listOf(WeatherSource.MET_NORWAY))
+    put("FR", listOf(WeatherSource.METEO_FRANCE))
+
 }
 
 fun getWeatherSourcesForCountry(countryCode: String?): List<WeatherSource> {
@@ -128,7 +145,9 @@ private val weatherSourcesGlobal = listOf(
     WeatherSource.OPEN_METEO,
     WeatherSource.MET_NORWAY,
     WeatherSource.METEO_FRANCE,
-    WeatherSource.ACCU_WEATHER
+    WeatherSource.ACCU_WEATHER,
+    WeatherSource.GISMETEO,
+    WeatherSource.MET_OFFICE
 )
 
 fun getWeatherSourcesGlobal(): List<WeatherSource> {

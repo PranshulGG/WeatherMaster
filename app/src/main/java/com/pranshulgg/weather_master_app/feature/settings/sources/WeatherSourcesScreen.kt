@@ -90,6 +90,13 @@ fun WeatherSourcesScreen(navController: NavController) {
             }, modifier = Modifier.padding(horizontal = 16.dp), shapes = ButtonDefaults.shapes()) {
                 Text(stringResource(R.string.action_request))
             }
+            Gap(5.dp)
+
+            Button(onClick = {
+                navController.navigate(NavRoutes.API_KEYS_CONFIG)
+            }, modifier = Modifier.padding(horizontal = 16.dp), shapes = ButtonDefaults.shapes()) {
+                Text(stringResource(R.string.settings_api_key_config))
+            }
             Gap(12.dp)
             sources.forEach {
                 val countryString =

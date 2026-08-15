@@ -34,6 +34,8 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofranc
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofrance.MeteoFranceRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.MetNorwayApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.MetNorwayRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.metoffice.MetOfficeApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.metoffice.MetOfficeRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoApi
@@ -44,6 +46,7 @@ import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
 import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationKeysDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
+import com.pranshulgg.weather_master_app.data.local.dao.weather.ApiKeysDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.nws.NwsDao
 import dagger.Module
@@ -221,4 +224,13 @@ object WeatherRepositoryModule {
         weatherDao: WeatherDao,
         locationKeysDao: LocationKeysDao
     ): GismeteoRepository = GismeteoRepository(dao, weatherDao, api, locationKeysDao)
+
+    @Provides
+    @Singleton
+    fun provideMetOfficeRepository(
+        dao: LocationsDao,
+        api: MetOfficeApi,
+        weatherDao: WeatherDao,
+        apiKeysDao: ApiKeysDao
+    ): MetOfficeRepository = MetOfficeRepository(dao, weatherDao, api, apiKeysDao)
 }

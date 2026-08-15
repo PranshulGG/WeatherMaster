@@ -11,9 +11,11 @@ import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
 import com.pranshulgg.weather_master_app.data.local.dao.github.GithubDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationKeysDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
+import com.pranshulgg.weather_master_app.data.local.dao.weather.ApiKeysDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherBlocksDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherUnitsDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.nws.NwsDao
+import com.pranshulgg.weather_master_app.data.repository.ApiKeysRepository
 import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherBlocksRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherDataReconcilerRepository
@@ -89,4 +91,7 @@ object AppModule {
     fun provideNominatimRepository(api: NominatimApi): NominatimRepository =
         NominatimRepository(api)
 
+    @Provides
+    @Singleton
+    fun provideApiKeysRepository(dao: ApiKeysDao): ApiKeysRepository = ApiKeysRepository(dao)
 }

@@ -13,6 +13,8 @@ sealed class AppException(message: String? = null) : Exception(message) {
     class Server : AppException()
     class Unknown : AppException()
 
+    class NoApiKeyError : AppException()
+
 }
 
 fun AppException.toMessageRes(): Int {
@@ -21,6 +23,7 @@ fun AppException.toMessageRes(): Int {
         is AppException.CurrentLocationUnavailable -> R.string.current_location_not_found
         is AppException.Server -> R.string.error_server
         is AppException.Unknown -> R.string.error_generic
+        is AppException.NoApiKeyError -> R.string.error_no_api_key
     }
 }
 
