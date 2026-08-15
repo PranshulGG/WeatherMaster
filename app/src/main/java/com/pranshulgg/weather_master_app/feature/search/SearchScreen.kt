@@ -33,6 +33,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.domain.weather.ApiKey
 import com.pranshulgg.weather_master_app.core.model.sources.SearchSource
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
@@ -44,6 +45,7 @@ import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weather_master_app.core.ui.components.SettingSection
 import com.pranshulgg.weather_master_app.core.ui.components.SettingTile
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
+import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
 import com.pranshulgg.weather_master_app.feature.search.ui.SearchFloatingToolbar
 import com.pranshulgg.weather_master_app.feature.search.ui.SearchScreenBottomSheets
 import com.pranshulgg.weather_master_app.feature.shared.ui.SharedBottomSheet
@@ -52,7 +54,8 @@ data class SearchUiState(
     val query: String = "",
     val source: SearchSource = SearchSource.OPEN_METEO,
     val isSearchSourcePickerSheetOpen: Boolean = false,
-    val isWeatherSourcesForLocationSheetOpen: Boolean = false
+    val isWeatherSourcesForLocationSheetOpen: Boolean = false,
+    val apiKeys: List<ApiKey> = emptyList()
 )
 
 
@@ -158,10 +161,10 @@ fun SearchScreen(navController: NavController) {
     }
 
 
-    // PROVIDERS DIALOG
+    // PROVIDERS SHEET
     SearchScreenBottomSheets.SearchSourcePickerSheet(prefs, viewModel, uiState, sheetState)
 
-    // WEATHER SOURCES DIALOG
+    // WEATHER SOURCES SHEET
     SharedBottomSheet.WeatherSourcesForLocationSheet(
         countryCode = selectedLocation?.countryCode,
         show = uiState.isWeatherSourcesForLocationSheetOpen,
@@ -177,10 +180,13 @@ fun SearchScreen(navController: NavController) {
 
             selectedLocationId = selectedLocation?.id ?: ""
         },
-        onDismiss = {
+        onDismiss = viewModel::hideWeatherSourcesForLocationSheet,
+        sheetState = sheetState,
+        onClickApiConfig = {
             viewModel.hideWeatherSourcesForLocationSheet()
+            navController.navigate(NavRoutes.API_KEYS_CONFIG)
         },
-        sheetState = sheetState
+        apiKeys = uiState.apiKeys
     )
 }
 

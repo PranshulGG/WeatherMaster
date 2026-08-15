@@ -16,6 +16,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.search.geonames.Ge
 import com.pranshulgg.weather_master_app.core.prefs.AppPrefsState
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weather_master_app.data.provider.SearchRepositoryProvider
+import com.pranshulgg.weather_master_app.data.repository.ApiKeysRepository
 import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
@@ -26,7 +27,8 @@ import javax.inject.Inject
 class SearchScreenViewModel @Inject constructor(
     val repo: SearchRepositoryProvider,
     val locationsRepo: LocationsRepository,
-    val geoNamesTimezoneRepository: GeoNamesTimezoneRepository
+    val geoNamesTimezoneRepository: GeoNamesTimezoneRepository,
+    private val apiKeysRepo: ApiKeysRepository,
 ) : ViewModel() {
 
     var results by mutableStateOf<List<Location>>(emptyList())
@@ -61,6 +63,7 @@ class SearchScreenViewModel @Inject constructor(
             results = data
         }
     }
+
 
     fun saveLocation(
         location: Location?,
@@ -120,7 +123,14 @@ class SearchScreenViewModel @Inject constructor(
     }
 
     fun showWeatherSourcesForLocationSheet() {
-        _uiState.value = _uiState.value.copy(isWeatherSourcesForLocationSheetOpen = true)
+        viewModelScope.launch {
+            val apiKeys = apiKeysRepo.getAllApiKeys()
+
+            _uiState.value = _uiState.value.copy(
+                apiKeys = apiKeys,
+                isWeatherSourcesForLocationSheetOpen = true
+            )
+        }
     }
 
 
