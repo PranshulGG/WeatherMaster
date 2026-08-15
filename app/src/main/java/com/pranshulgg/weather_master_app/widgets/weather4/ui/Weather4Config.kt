@@ -129,7 +129,6 @@ fun Weather4Config(onDone: (WidgetConfig) -> Unit = {}) {
                             selectedVariant = item
                         },
                         modifier = Modifier.semantics { role = Role.RadioButton },
-                        shapes = ToggleButtonDefaults.shapes(),
                         colors = ToggleButtonDefaults.toggleButtonColors(
                             checkedContainerColor = MaterialTheme.colorScheme.tertiary,
                             checkedContentColor = MaterialTheme.colorScheme.onTertiary,
