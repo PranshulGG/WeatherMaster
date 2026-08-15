@@ -11,9 +11,8 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
-
 interface ImdApi {
-
+//    fix keep past hours
 
     @GET("test4_mme.php")
     suspend fun fetchForecast(
@@ -32,7 +31,6 @@ interface ImdApi {
         const val BASE_URL = "https://mausamgram.imd.gov.in/"
 
         fun create(): ImdApi {
-
 
             val client = OkHttpClient.Builder()
                 .connectTimeout(30, TimeUnit.SECONDS)

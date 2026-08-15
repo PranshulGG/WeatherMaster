@@ -116,6 +116,7 @@ enum class WeatherSource(
             DWD -> false
             CHINA -> false
             BMKG -> false
+            IMD -> false
             else -> true
         }
     }

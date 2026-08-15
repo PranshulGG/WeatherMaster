@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.imd
 
+import com.google.gson.JsonElement
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherCurrent
@@ -80,7 +81,7 @@ fun ImdForecastModel.toDomain(location: Location): Weather {
         }
     }
 
-    val hourly = hourlyTemps.map {
+    val hourly = hourlyTemps.filter { it.value != null }.map {
         WeatherHourly(
             temperature = it.value,
             rain = hourlyPrecipitation[it.key] ?: 0.0,
@@ -103,8 +104,15 @@ fun ImdForecastModel.toDomain(location: Location): Weather {
 
     val currentHourlyIndex = findHourlyIndexForTime(hourly.map { it.time }, currentTime)
 
+    val futureHourly = hourly.filter { it.time >= currentTime }
+
     val dailyDates =
-        hourly.map { Instant.ofEpochMilli(it.time).atZone(safeZoneId(zoneId)).toLocalDate() }
+        futureHourly
+            .map {
+                Instant.ofEpochMilli(it.time)
+                    .atZone(safeZoneId(zoneId))
+                    .toLocalDate()
+            }
             .distinct()
 
     val dailyDateFormatter: (LocalDate) -> Long = {
@@ -128,6 +136,8 @@ fun ImdForecastModel.toDomain(location: Location): Weather {
         location.latitude,
         location.longitude
     )
+
+
 
     return Weather(
         location = location,
@@ -160,7 +170,7 @@ fun ImdForecastModel.toDomain(location: Location): Weather {
             val time = dailyDateFormatter(date)
 
             val dayHourly = hourlyForDay(
-                hourly,
+                futureHourly,
                 time,
                 zoneId
             )
@@ -245,4 +255,23 @@ private fun hourlyForDay(
     val data = data.drop(maxOf(0, startIndex)).takeWhile { isSameDay(it.time, time, zoneId) }
 
     return data
+}
+
+private fun JsonElement?.toSafeDouble(): Double? {
+    if (this == null || this.isJsonNull) return null
+
+    return try {
+        if (isJsonPrimitive) {
+
+            if (asJsonPrimitive.isString) {
+                asJsonPrimitive.asString.toDoubleOrNull()
+            } else {
+                asJsonPrimitive.asDouble.takeUnless { it.isNaN() }
+            }
+        } else {
+            null
+        }
+    } catch (_: Exception) {
+        null
+    }
 }
