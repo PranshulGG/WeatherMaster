@@ -25,7 +25,7 @@ fun DialogTextFieldTile(
     placeholderAsValue: Boolean = false
 ) {
     var showDialog by remember { mutableStateOf(false) }
-    var textFieldValue by remember { mutableStateOf(initialText) }
+    var textFieldValue by remember(initialText) { mutableStateOf(initialText) }
 
     Surface(
         modifier = Modifier.fillMaxWidth(),

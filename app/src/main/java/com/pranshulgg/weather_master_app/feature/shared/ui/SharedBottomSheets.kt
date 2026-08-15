@@ -1,11 +1,15 @@
 package com.pranshulgg.weather_master_app.feature.shared.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,6 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weather_master_app.R
+import com.pranshulgg.weather_master_app.core.model.domain.weather.ApiKey
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.core.model.sources.getWeatherSourcesForCountry
 import com.pranshulgg.weather_master_app.core.model.sources.getWeatherSourcesGlobal
@@ -29,6 +34,7 @@ import com.pranshulgg.weather_master_app.core.ui.components.SettingSection
 import com.pranshulgg.weather_master_app.core.ui.components.SettingTile
 import com.pranshulgg.weather_master_app.core.ui.components.SettingsTileIcon
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
+import com.pranshulgg.weather_master_app.core.ui.theme.ShapeRadius
 import com.pranshulgg.weather_master_app.feature.shared.components.ChangelogContent
 
 object SharedBottomSheet {
@@ -41,7 +47,9 @@ object SharedBottomSheet {
         selectedSource: WeatherSource = WeatherSource.OPEN_METEO,
         isEditing: Boolean = false,
         onSave: (WeatherSource) -> Unit,
-        onDismiss: () -> Unit
+        onDismiss: () -> Unit,
+        onClickApiConfig: () -> Unit,
+        apiKeys: List<ApiKey>,
     ) {
         if (show) {
             val recommendedSources = getWeatherSourcesForCountry(countryCode?.uppercase())
@@ -52,7 +60,6 @@ object SharedBottomSheet {
             ) {
                 mutableStateOf(if (recommendedSources.isNotEmpty() && !isEditing) recommendedSources[0] else selectedSource)
             }
-
 
             ActionBottomSheet(
                 sheetState = sheetState,
@@ -69,8 +76,7 @@ object SharedBottomSheet {
                             val isSelected = currentSelectedSource == source
 
                             val countryString =
-                                if (source.countryNameRes != null) " (${stringResource(source.countryNameRes)})" else ""
-
+                                source.countryNameRes?.let { " (${stringResource(it)})" } ?: ""
 
                             SettingTile.ActionTile(
                                 leading = {
@@ -91,11 +97,11 @@ object SharedBottomSheet {
                 Gap(8.dp)
                 SettingSection(
                     title = stringResource(R.string.global_sources),
-                    tiles = globalSources.map { source ->
+                    tiles = globalSources.filter { !it.regionalButWorldwideSupport }.map { source ->
                         val isSelected = currentSelectedSource == source
 
                         val countryString =
-                            if (source.countryNameRes != null) " (${stringResource(source.countryNameRes)})" else ""
+                            source.countryNameRes?.let { " (${stringResource(it)})" } ?: ""
 
                         SettingTile.ActionTile(
                             leading = {
@@ -111,6 +117,44 @@ object SharedBottomSheet {
                             },
                         )
                     }
+                )
+                Gap(8.dp)
+                SettingSection(
+                    title = stringResource(R.string.source_regional_global),
+                    tiles = globalSources.filter { it.regionalButWorldwideSupport && it !in recommendedSources }
+                        .map { source ->
+                            val isSelected = currentSelectedSource == source
+
+
+                            val isApiKeyAvailable = apiKeys.isNotEmpty()
+                                    && apiKeys
+                                .any { it.source == source && !it.apiKey.isNullOrBlank() }
+
+                            val countryString =
+                                if (source.countryNameRes != null) " (${stringResource(source.countryNameRes)})" else ""
+
+                            SettingTile.ActionTile(
+                                leading = {
+                                    if (isSelected) Symbol(
+                                        R.drawable.check_24px,
+                                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                                    )
+                                },
+                                title = source.displayName + countryString,
+                                selected = isSelected,
+                                description = if (source.requiresUserApiKey && !isApiKeyAvailable) "Requires API key" else null,
+                                colorDesc = MaterialTheme.colorScheme.error,
+                                onClick = {
+                                    if (!source.requiresUserApiKey) {
+                                        currentSelectedSource = source
+                                    } else if (!isApiKeyAvailable) {
+                                        onClickApiConfig()
+                                    } else {
+                                        currentSelectedSource = source
+                                    }
+                                },
+                            )
+                        }
                 )
             }
         }
@@ -137,5 +181,6 @@ object SharedBottomSheet {
             }
         }
     }
+
 }
 

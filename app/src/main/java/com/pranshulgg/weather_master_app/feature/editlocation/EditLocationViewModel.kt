@@ -10,6 +10,7 @@ import com.pranshulgg.weather_master_app.core.model.sources.AlertSource
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModel
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
+import com.pranshulgg.weather_master_app.data.repository.ApiKeysRepository
 import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -19,6 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class EditLocationViewModel @Inject constructor(
     private val locationsRepo: LocationsRepository,
+    private val apiKeysRepo: ApiKeysRepository
 ) : ViewModel() {
 
     private var _uiState = mutableStateOf(EditLocationScreenUiState())
@@ -38,8 +40,14 @@ class EditLocationViewModel @Inject constructor(
         }
     }
 
+
     fun showWeatherSourcesForLocationSheet() {
-        _uiState.value = _uiState.value.copy(isWeatherSourcesForLocationSheetOpen = true)
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(
+                apiKeys = apiKeysRepo.getAllApiKeys(),
+                isWeatherSourcesForLocationSheetOpen = true
+            )
+        }
     }
 
     fun hideWeatherSourcesForLocationSheet() {
@@ -107,4 +115,6 @@ class EditLocationViewModel @Inject constructor(
             locationsRepo.updateDefaultLocation(id)
         }
     }
+
+
 }

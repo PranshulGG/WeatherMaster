@@ -12,6 +12,7 @@ import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
 import com.pranshulgg.weather_master_app.data.local.dao.github.GithubDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationKeysDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
+import com.pranshulgg.weather_master_app.data.local.dao.weather.ApiKeysDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherBlocksDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherUnitsDao
@@ -22,6 +23,7 @@ import com.pranshulgg.weather_master_app.data.local.entity.alerts.AlertEntity
 import com.pranshulgg.weather_master_app.data.local.entity.github.GithubEntity
 import com.pranshulgg.weather_master_app.data.local.entity.location.LocationKeyEntity
 import com.pranshulgg.weather_master_app.data.local.entity.location.WeatherLocationEntity
+import com.pranshulgg.weather_master_app.data.local.entity.weather.ApiKeyEntity
 import com.pranshulgg.weather_master_app.data.local.entity.weather.CurrentWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.entity.weather.DailyWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.entity.weather.HourlyWeatherEntity
@@ -42,9 +44,10 @@ import com.pranshulgg.weather_master_app.data.local.entity.weather.units.AppWeat
         GithubEntity::class,
         HourlyAirQualityEntity::class,
         LocationKeyEntity::class,
-        AlertEntity::class
+        AlertEntity::class,
+        ApiKeyEntity::class
     ],
-    version = 54,
+    version = 55,
     autoMigrations = [
         AutoMigration(from = 39, to = 40),
         AutoMigration(from = 42, to = 43),
@@ -55,7 +58,8 @@ import com.pranshulgg.weather_master_app.data.local.entity.weather.units.AppWeat
         AutoMigration(from = 49, to = 50),
         AutoMigration(from = 50, to = 51),
         AutoMigration(from = 52, to = 53),
-        AutoMigration(from = 53, to = 54)
+        AutoMigration(from = 53, to = 54),
+        AutoMigration(from = 54, to = 55)
     ]
 )
 abstract class WeatherMasterDatabase : RoomDatabase() {
@@ -71,6 +75,8 @@ abstract class WeatherMasterDatabase : RoomDatabase() {
     abstract fun locationKeysDao(): LocationKeysDao
 
     abstract fun alertsDao(): AlertsDao
+
+    abstract fun apiKeysDao(): ApiKeysDao
 
     companion object {
 

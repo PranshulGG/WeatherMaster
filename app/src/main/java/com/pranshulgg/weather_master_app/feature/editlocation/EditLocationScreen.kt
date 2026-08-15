@@ -1,6 +1,8 @@
 package com.pranshulgg.weather_master_app.feature.editlocation
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,6 +37,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.domain.weather.ApiKey
 import com.pranshulgg.weather_master_app.core.model.sources.AirQualitySource
 import com.pranshulgg.weather_master_app.core.model.sources.AlertSource
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
@@ -45,11 +48,13 @@ import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weather_master_app.core.ui.components.SettingSection
 import com.pranshulgg.weather_master_app.core.ui.components.SettingTile
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
+import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weather_master_app.feature.editlocation.ui.EditLocationBottomSheet
 import com.pranshulgg.weather_master_app.feature.editlocation.ui.EditLocationScreenDialogs
 import com.pranshulgg.weather_master_app.feature.shared.WeatherViewModel
 import com.pranshulgg.weather_master_app.feature.shared.ui.SharedBottomSheet
+import com.pranshulgg.weather_master_app.feature.shared.ui.SharedDialogs
 
 
 data class EditLocationScreenUiState(
@@ -63,7 +68,8 @@ data class EditLocationScreenUiState(
     val isEditLocationNameSheetOpen: Boolean = false,
     val isConfirmationDialogOpen: Boolean = false,
     val isOpenMeteoModelsSheetOpen: Boolean = false,
-    val selectedOpenMeteoModel: OpenMeteoModel? = null
+    val selectedOpenMeteoModel: OpenMeteoModel? = null,
+    val apiKeys: List<ApiKey> = emptyList()
 )
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalMaterial3Api::class)
@@ -108,19 +114,39 @@ fun EditLocationScreen(
 
     var currentLocationName by remember { mutableStateOf(locationName) }
 
-    val countryString =
-        if (uiState.selectedWeatherSource?.countryNameRes != null) " (${stringResource(uiState.selectedWeatherSource.countryNameRes)})"
-        else if (uiState.location.source.countryNameRes != null) " (${
-            stringResource(
-                uiState.location.source.countryNameRes
-            )
-        })" else ""
+    val selectedWeatherSourceString = buildString {
+        if (uiState.selectedWeatherSource != null) {
+            append(uiState.selectedWeatherSource.displayName)
+        } else {
+            append(uiState.location.source.displayName)
+        }
+
+        if (uiState.selectedWeatherSource?.countryNameRes != null) {
+            append(" (${stringResource(uiState.selectedWeatherSource.countryNameRes)})")
+        } else if (uiState.location.source.countryNameRes != null) {
+            append(" (${stringResource(uiState.location.source.countryNameRes)})")
+        }
+
+        if (uiState.selectedWeatherSource == WeatherSource.OPEN_METEO) {
+            append(" (${uiState.selectedOpenMeteoModel?.displayName})")
+        } else if (uiState.location.source == WeatherSource.OPEN_METEO) {
+            append(" (${uiState.location.openMeteoModel.displayName})")
+        }
+
+    }
 
 
     LargeTopBarScaffold(
         title = stringResource(R.string.location_edit),
         navigationIcon = { NavigateUpBtn(navController) },
         floatingActionButtonPosition = FabPosition.Center,
+        actions = {
+            Button(onClick = {
+                navController.navigate(NavRoutes.API_KEYS_CONFIG)
+            }, modifier = Modifier.padding(horizontal = 16.dp), shapes = ButtonDefaults.shapes()) {
+                Text(stringResource(R.string.settings_api_key_config))
+            }
+        }
     ) { paddingValues ->
         Column(
             modifier =
@@ -154,19 +180,16 @@ fun EditLocationScreen(
                 tiles = listOf(
                     SettingTile.ActionTile(
                         title = "Weather source",
-                        description = "${
-                            uiState.selectedWeatherSource?.displayName
-                                ?: uiState.location.source.displayName
-                        }$countryString ${if (uiState.location.source == WeatherSource.OPEN_METEO || uiState.selectedWeatherSource == WeatherSource.OPEN_METEO) "(${uiState.selectedOpenMeteoModel?.displayName ?: uiState.location.openMeteoModel.displayName})" else ""}",
+                        description = selectedWeatherSourceString,
                         colorDesc = colorDesc,
                         onClick = {
                             viewModel.showWeatherSourcesForLocationSheet()
                         },
                         trailing = {
+                            val showButton = if (uiState.selectedWeatherSource != null)
+                                uiState.selectedWeatherSource == WeatherSource.OPEN_METEO else
+                                uiState.location.source == WeatherSource.OPEN_METEO
 
-                            val showButton =
-                                if (uiState.selectedWeatherSource != null) uiState.selectedWeatherSource == WeatherSource.OPEN_METEO
-                                else uiState.location.source == WeatherSource.OPEN_METEO
                             if (showButton) {
                                 IconButton(
                                     onClick = viewModel::showOpenMeteoModelsSheet,
@@ -175,6 +198,7 @@ fun EditLocationScreen(
                                     Symbol(R.drawable.settings_24px)
                                 }
                             }
+
                         }
                     ),
                     SettingTile.ActionTile(
@@ -255,9 +279,19 @@ fun EditLocationScreen(
                 selectedSource = uiState.selectedWeatherSource ?: uiState.location.source,
                 onSave = {
                     viewModel.updateSelectedWeatherSource(it)
+                    if (it == WeatherSource.OPEN_METEO) {
+                        viewModel.updateSelectedOpenMeteoModel(
+                            uiState.selectedOpenMeteoModel ?: uiState.location.openMeteoModel
+                        )
+                    }
                 },
                 onDismiss = viewModel::hideWeatherSourcesForLocationSheet,
-                sheetState = sheetState
+                sheetState = sheetState,
+                onClickApiConfig = {
+                    navController.navigate(NavRoutes.API_KEYS_CONFIG)
+                    viewModel.hideWeatherSourcesForLocationSheet()
+                },
+                apiKeys = uiState.apiKeys
             )
 
 

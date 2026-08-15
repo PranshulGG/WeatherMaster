@@ -49,9 +49,21 @@ object MainScreenBottomSheets {
 
         if (uiState.isWeatherSourcesInfoForLocationSheetOpen) {
 
-            val titleSource =
-                if (location!!.source == WeatherSource.OPEN_METEO) "${location.source.fullName} (${location.openMeteoModel.displayName})"
-                else location.source.fullName
+
+            val weatherSourceString = buildString {
+                append(location!!.source.fullName)
+
+                if (location.source.countryNameRes != null) {
+                    append(" (${stringResource(location.source.countryNameRes)})")
+                }
+
+                if (location.source == WeatherSource.OPEN_METEO) {
+                    append(" (${location.openMeteoModel.displayName})")
+                }
+
+            }
+
+
 
             ActionBottomSheet(
                 sheetState = sheetState,
@@ -65,8 +77,8 @@ object MainScreenBottomSheets {
                     tiles = listOf(
 
                         SettingTile.ActionTile(
-                            title = titleSource,
-                            description = location.source.displayLink,
+                            title = weatherSourceString,
+                            description = location!!.source.displayLink,
                             onClick = {
                                 uriHandler.openUri(location.source.displayLink)
                             },
