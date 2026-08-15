@@ -37,7 +37,7 @@ class ChinaRepository @Inject constructor(
             val cache = dao.getWeatherDataForLocation(location.id)
 
             val shouldReturnCache = shouldReturnWeatherCache(cache, isManualRefresh, isForceRefresh)
-            val existingHourly = weatherDao.getHourlyDataForLocation(location.id)
+            val existingHourly = weatherDao.getHourlyDataForLocation(location.id, location.source)
 
             val appKey = "weather20151024"
             val sign = "zUFJoAR2ZVrDy1vF3D07"
@@ -79,7 +79,7 @@ class ChinaRepository @Inject constructor(
 
                 val mergedHourly = mergeHourlyWeather(
                     existing = existingHourly,
-                    incoming = domain.hourly.toHourlyWeatherEntity(location.id)
+                    incoming = domain.hourly.toHourlyWeatherEntity(location)
                 )
                 weatherDao.insertWeather(
                     domain.current.toCurrentWeatherEntity(location.id),

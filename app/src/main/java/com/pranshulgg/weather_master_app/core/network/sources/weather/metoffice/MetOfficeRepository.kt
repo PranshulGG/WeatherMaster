@@ -45,7 +45,7 @@ class MetOfficeRepository @Inject constructor(
 
 
             val shouldReturnCache = shouldReturnWeatherCache(cache, isManualRefresh, isForceRefresh)
-            val existingHourly = weatherDao.getHourlyDataForLocation(location.id)
+            val existingHourly = weatherDao.getHourlyDataForLocation(location.id, location.source)
 
 
             val apiKey = apiKeysDao.getApiKeyForSource(location.source)
@@ -55,7 +55,7 @@ class MetOfficeRepository @Inject constructor(
                 WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain())
                 else -> {}
             }
-            
+
             val isCacheSafe = isWeatherCacheSafe(cache)
             if (apiKey?.apiKey.isNullOrBlank()) {
                 return@withContext WeatherResult.Error(
@@ -90,7 +90,7 @@ class MetOfficeRepository @Inject constructor(
 
                 val mergedHourly = mergeHourlyWeather(
                     existing = existingHourly,
-                    incoming = domain.hourly.toHourlyWeatherEntity(location.id)
+                    incoming = domain.hourly.toHourlyWeatherEntity(location)
                 )
                 weatherDao.insertWeather(
                     domain.current.toCurrentWeatherEntity(location.id),

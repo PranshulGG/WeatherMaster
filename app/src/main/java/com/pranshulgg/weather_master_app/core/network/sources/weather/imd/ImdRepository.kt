@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.core.network.sources.weather.imd
 
+import android.util.Log
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
@@ -22,6 +23,7 @@ import com.pranshulgg.weather_master_app.data.repository.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 
 class ImdRepository @Inject constructor(
@@ -43,7 +45,7 @@ class ImdRepository @Inject constructor(
 
             val shouldReturnCache = shouldReturnWeatherCache(cache, isManualRefresh, isForceRefresh)
 
-            val existingHourly = weatherDao.getHourlyDataForLocation(location.id)
+            val existingHourly = weatherDao.getHourlyDataForLocation(location.id, location.source)
 
             when (shouldReturnCache) {
                 WeatherResultType.REFRESH_TOO_EARLY -> return@withContext WeatherResult.RefreshNotAvailable
@@ -63,10 +65,14 @@ class ImdRepository @Inject constructor(
                     it.body()?.string()?.substringBefore(",")
                 }
 
+
+                val latitude = roundToEighth(location.latitude)
+                val longitude = roundToEighth(location.longitude)
+
                 val forecasts = timeStampsBody.mapIndexed { index, s ->
                     api.fetchForecast(
-                        latitude = location.latitude,
-                        longitude = location.longitude,
+                        latitude = latitude,
+                        longitude = longitude,
                         date = "${s}_${imdTimeFrames[index]}_0p125"
                     )
                 }
@@ -84,7 +90,7 @@ class ImdRepository @Inject constructor(
 
                 val mergedHourly = mergeHourlyWeather(
                     existing = existingHourly,
-                    incoming = domain.hourly.toHourlyWeatherEntity(location.id)
+                    incoming = domain.hourly.toHourlyWeatherEntity(location)
                 )
                 weatherDao.insertWeather(
                     domain.current.toCurrentWeatherEntity(location.id),
@@ -92,6 +98,7 @@ class ImdRepository @Inject constructor(
                     domain.daily.toDailyWeatherEntity(location.id),
                     location.id
                 )
+
                 WeatherResult.Success(domain)
 
             } catch (e: Exception) {
@@ -102,10 +109,9 @@ class ImdRepository @Inject constructor(
                     exception = e,
                     if (isCacheSafe) cache?.toDomain() else null
                 )
-
             }
-
-
         }
-
 }
+
+private fun roundToEighth(value: Double): Double =
+    (value * 8).roundToInt() / 8.0
