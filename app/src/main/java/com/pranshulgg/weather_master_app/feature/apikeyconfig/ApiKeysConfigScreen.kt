@@ -11,6 +11,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -22,6 +24,7 @@ import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weather_master_app.core.ui.components.SettingSection
 import com.pranshulgg.weather_master_app.core.ui.components.SettingTile
+import com.pranshulgg.weather_master_app.core.ui.components.StatusBanner
 
 
 @Composable
@@ -32,6 +35,8 @@ fun ApiKeysConfigScreen(navController: NavController) {
     val viewModel: ApiKeysConfigScreenViewModel = hiltViewModel()
 
     val apiKeys = viewModel.apiKeys.groupBy { it.source }
+
+    val uriHandler = LocalUriHandler.current
 
     LargeTopBarScaffold(
         title = stringResource(R.string.settings_api_key_config),
@@ -68,7 +73,36 @@ fun ApiKeysConfigScreen(navController: NavController) {
                 }
             )
 
+            viewModel.aemetKeyValidationResult?.let { isValid ->
+                Gap(8.dp)
+                StatusBanner(
+                    icon = if (isValid) R.drawable.check_24px else R.drawable.close_24px,
+                    text = stringResource(
+                        if (isValid) R.string.aemet_key_valid else R.string.aemet_key_invalid
+                    ),
+                    containerColor = if (isValid) SuccessContainerColor else MaterialTheme.colorScheme.errorContainer,
+                    contentColor = if (isValid) SuccessOnContainerColor else MaterialTheme.colorScheme.onErrorContainer,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
+
+            if (viewModel.isAemetKeyExpired) {
+                Gap(8.dp)
+                StatusBanner(
+                    icon = R.drawable.warning_24px,
+                    text = stringResource(R.string.aemet_key_expiring_warning),
+                    containerColor = MaterialTheme.colorScheme.errorContainer,
+                    contentColor = MaterialTheme.colorScheme.onErrorContainer,
+                    onClick = { uriHandler.openUri(WeatherSource.AEMET.displayLink) },
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
+
             Gap(WindowInsets.systemBars.asPaddingValues().calculateBottomPadding())
         }
     }
 }
+
+// Material3 has no built-in "success" color role.
+private val SuccessContainerColor = Color(0xFF1B5E20)
+private val SuccessOnContainerColor = Color(0xFFC8E6C9)

@@ -13,6 +13,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.search.geonames.Ge
 import com.pranshulgg.weather_master_app.core.network.sources.search.geonames.timezone.GeoNamesTimezoneApi
 import com.pranshulgg.weather_master_app.core.network.sources.search.openmeteo.OpenMeteoSearchApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.aemet.AemetApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.BmkgApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.china.ChinaApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.DwdApi
@@ -144,4 +145,8 @@ object ApiModule {
     @Provides
     @Singleton
     fun provideMetOfficeApi(): MetOfficeApi = MetOfficeApi.create()
+
+    @Provides
+    @Singleton
+    fun provideAemetApi(): AemetApi = AemetApi.create()
 }
