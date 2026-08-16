@@ -124,7 +124,7 @@ fun EditLocationScreen(
 
         if (uiState.selectedWeatherSource?.countryNameRes != null) {
             append(" (${stringResource(uiState.selectedWeatherSource.countryNameRes)})")
-        } else if (uiState.location.source.countryNameRes != null) {
+        } else if (uiState.location.source.countryNameRes != null && uiState.selectedWeatherSource == null) {
             append(" (${stringResource(uiState.location.source.countryNameRes)})")
         }
 
