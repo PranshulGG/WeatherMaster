@@ -39,6 +39,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.ApiKey
 import com.pranshulgg.weather_master_app.core.model.sources.SearchSource
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
+import com.pranshulgg.weather_master_app.core.utils.formatters.toTitleCase
 import com.pranshulgg.weather_master_app.core.ui.components.EmptyContainerPlaceholder
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
@@ -141,7 +142,7 @@ fun SearchScreen(navController: NavController) {
                         tiles = results.map {
                             SettingTile.ActionTile(
                                 title = it.name,
-                                description = "${if (it.state.isNotBlank()) "${it.state}, " else ""}${it.country}",
+                                description = "${if (it.state.isNotBlank()) "${it.state.toTitleCase()}, " else ""}${it.country.toTitleCase()}",
                                 trailing = {
                                     if (selectedLocationId == it.id) {
                                         LoadingIndicator()
