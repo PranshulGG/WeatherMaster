@@ -13,12 +13,14 @@ import com.pranshulgg.weather_master_app.core.network.sources.search.geonames.Ge
 import com.pranshulgg.weather_master_app.core.network.sources.search.geonames.timezone.GeoNamesTimezoneApi
 import com.pranshulgg.weather_master_app.core.network.sources.search.openmeteo.OpenMeteoSearchApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.aemet.AemetApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.BmkgApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.china.ChinaApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.DwdApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.EcccApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.fmi.FmiApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.GismeteoApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.imd.ImdApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.ipma.IpmaApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.MeteoamApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofrance.MeteoFranceApi
@@ -144,4 +146,12 @@ object ApiModule {
     @Provides
     @Singleton
     fun provideMetOfficeApi(): MetOfficeApi = MetOfficeApi.create()
+
+    @Provides
+    @Singleton
+    fun provideAemetApi(): AemetApi = AemetApi.create()
+
+    @Provides
+    @Singleton
+    fun provideImdApi(): ImdApi = ImdApi.create()
 }

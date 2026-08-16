@@ -65,7 +65,12 @@
 - **Meteo AM**
 - **IPMA**
 - **WeatherApi.com**
+- **Gismeteo**
+- **Met Office** _(requires your own API key — sign up [here](https://www.metoffice.gov.uk/))_
+- **AEMET** _(requires your own API key — sign up [here](https://opendata.aemet.es/centrodedescargas/altaUsuario))_
 - _**And more to be added**_
+
+Some sources need a free API key from the provider before you can select them — add yours from a location's weather source picker, or from **Settings → Weather Sources → API key config**.
 
 # 🌐 Translate the app on [Crowdin](https://crowdin.com/project/weathermaster)
 

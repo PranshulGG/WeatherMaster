@@ -96,11 +96,24 @@ enum class WeatherSource(
         requiresUserApiKey = true,
         regionalButWorldwideSupport = true
     ),
+    IMD(
+        displayName = "IMD",
+        fullName = "India Meteorological Department",
+        displayLink = "https://mausam.imd.gov.in/",
+        countryNameRes = R.string.country_india
+    ),
     MET_NORWAY(
         displayName = "Met Norway",
         fullName = "Met Norway",
         displayLink = "https://api.met.no/",
         regionalButWorldwideSupport = true
+    ),
+    AEMET(
+        displayName = "AEMET",
+        fullName = "Agencia Estatal de Meteorología",
+        displayLink = "https://opendata.aemet.es/centrodedescargas/altaUsuario",
+        countryNameRes = R.string.country_spain,
+        requiresUserApiKey = true
     );
 
     // Sources that provide snow/rain as precipitation
@@ -110,6 +123,7 @@ enum class WeatherSource(
             DWD -> false
             CHINA -> false
             BMKG -> false
+            IMD -> false
             else -> true
         }
     }
@@ -132,6 +146,8 @@ private val weatherSourcesByCountry = buildMap {
     listOf("GB", "UK").forEach { put(it, listOf(WeatherSource.MET_OFFICE)) }
     put("NO", listOf(WeatherSource.MET_NORWAY))
     put("FR", listOf(WeatherSource.METEO_FRANCE))
+    put("ES", listOf(WeatherSource.AEMET))
+    put("IN", listOf(WeatherSource.IMD))
 
 }
 

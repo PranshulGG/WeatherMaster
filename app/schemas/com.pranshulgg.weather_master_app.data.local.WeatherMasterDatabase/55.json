@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 55,
-    "identityHash": "2116ba84b58d666802441e0b07d88420",
+    "identityHash": "22d547191760fc6384f8af8dff3b1af3",
     "entities": [
       {
         "tableName": "weather_locations",
@@ -239,7 +239,7 @@
       },
       {
         "tableName": "weather_hourly",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`locationId` TEXT NOT NULL, `temperature` REAL, `windSpeed` REAL, `windDirection` TEXT, `rain` REAL NOT NULL, `snowfall` REAL, `uvIndex` REAL, `weatherCondition` TEXT NOT NULL, `pressureMsl` REAL, `visibility` INTEGER, `humidity` REAL, `dewPoint` REAL, `time` INTEGER NOT NULL, `precipitationProbability` INTEGER, PRIMARY KEY(`locationId`, `time`), FOREIGN KEY(`locationId`) REFERENCES `weather_locations`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`locationId` TEXT NOT NULL, `temperature` REAL, `windSpeed` REAL, `windDirection` TEXT, `rain` REAL NOT NULL, `snowfall` REAL, `uvIndex` REAL, `weatherCondition` TEXT NOT NULL, `pressureMsl` REAL, `visibility` INTEGER, `humidity` REAL, `dewPoint` REAL, `time` INTEGER NOT NULL, `precipitationProbability` INTEGER, `cachedSource` TEXT, PRIMARY KEY(`locationId`, `time`), FOREIGN KEY(`locationId`) REFERENCES `weather_locations`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "locationId",
@@ -314,6 +314,11 @@
             "fieldPath": "precipitationProbability",
             "columnName": "precipitationProbability",
             "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "cachedSource",
+            "columnName": "cachedSource",
+            "affinity": "TEXT"
           }
         ],
         "primaryKey": {
@@ -1037,7 +1042,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2116ba84b58d666802441e0b07d88420')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '22d547191760fc6384f8af8dff3b1af3')"
     ]
   }
 }

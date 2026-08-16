@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Surface
+import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -18,8 +20,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
+import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.core.ui.components.ActionBottomSheet
 
@@ -29,7 +33,11 @@ fun ColorPickerBtn() {
 
     val prefs = LocalAppPrefs.current
     var selectedColor = prefs.customThemeColor
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val sheetState = rememberBottomSheetState(
+        initialValue = SheetValue.Hidden,
+        enabledValues = setOf(SheetValue.Expanded, SheetValue.Hidden)
+    )
+
     var isSheetOpen by remember { mutableStateOf(false) }
 
     Surface(
@@ -55,6 +63,8 @@ fun ColorPickerBtn() {
     if (isSheetOpen)
         ActionBottomSheet(
             sheetState = sheetState,
+            cancelText = stringResource(R.string.action_cancel),
+            confirmText = stringResource(R.string.action_save),
             onCancel = {
                 isSheetOpen = false
             },

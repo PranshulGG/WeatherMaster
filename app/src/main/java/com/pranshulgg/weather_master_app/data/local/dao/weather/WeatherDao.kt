@@ -49,10 +49,12 @@ interface WeatherDao {
         """
     SELECT * FROM weather_hourly
     WHERE locationId = :locationId
+    AND cachedSource = :source
 """
     )
     suspend fun getHourlyDataForLocation(
-        locationId: String
+        locationId: String,
+        source: WeatherSource
     ): List<HourlyWeatherEntity>
 
 }

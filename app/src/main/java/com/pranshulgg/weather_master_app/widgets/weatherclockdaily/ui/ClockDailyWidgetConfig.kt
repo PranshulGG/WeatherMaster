@@ -118,7 +118,7 @@ fun ClockDailyWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                 tiles = listOf(
                     SettingTile.DialogOptionTile(
                         leading = { SettingsTileIcon(R.drawable.date_range_24px) },
-                        title = "Date format",
+                        title = stringResource(R.string.settings_date_format),
                         options = formatsOptions,
                         selectedOption = dateFormat,
                         onOptionSelected = {

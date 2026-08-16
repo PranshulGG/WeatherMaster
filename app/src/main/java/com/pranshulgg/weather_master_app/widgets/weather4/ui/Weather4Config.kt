@@ -74,6 +74,13 @@ fun Weather4Config(onDone: (WidgetConfig) -> Unit = {}) {
         it != WidgetVariant.LARGE && it != WidgetVariant.COMPACT && it != WidgetVariant.SMALL
     }
 
+    val formats = when (selectedVariant) {
+        WidgetVariant.DATE_PILL -> listOf("EEE d MMMM", "EEE, MMMM d", "EEE MMM-dd")
+        else -> listOf("EEEE, d MMMM", "EEEE, MMMM d", "EEEE MM-dd")
+    }
+
+    var dateFormat by remember(selectedVariant) { mutableStateOf(if (selectedVariant == WidgetVariant.DATE_PILL) "EEE, MMMM d" else "EEEE, MMMM d") }
+    val formatsOptions = formats.map { DialogOption(it, it) }
     var widgetTextTheme by remember { mutableStateOf(WidgetTextTheme.WHITE) }
     val widgetTextThemeOptions =
         WidgetTextTheme.entries.filter { it != WidgetTextTheme.AUTO }
@@ -103,7 +110,8 @@ fun Weather4Config(onDone: (WidgetConfig) -> Unit = {}) {
                         selectedVariant,
                         widgetTextTheme,
                         selectedFontSize,
-                        selectedIconSize, showDaily
+                        selectedIconSize, showDaily,
+                        dateFormat
                     )
                 }
             }
@@ -129,7 +137,6 @@ fun Weather4Config(onDone: (WidgetConfig) -> Unit = {}) {
                             selectedVariant = item
                         },
                         modifier = Modifier.semantics { role = Role.RadioButton },
-                        shapes = ToggleButtonDefaults.shapes(),
                         colors = ToggleButtonDefaults.toggleButtonColors(
                             checkedContainerColor = MaterialTheme.colorScheme.tertiary,
                             checkedContentColor = MaterialTheme.colorScheme.onTertiary,
@@ -145,6 +152,15 @@ fun Weather4Config(onDone: (WidgetConfig) -> Unit = {}) {
             SettingSection(
                 title = stringResource(R.string.setting_appearance),
                 tiles = listOf(
+                    SettingTile.DialogOptionTile(
+                        leading = { SettingsTileIcon(R.drawable.date_range_24px) },
+                        title = stringResource(R.string.settings_date_format),
+                        options = formatsOptions,
+                        selectedOption = dateFormat,
+                        onOptionSelected = {
+                            dateFormat = it
+                        }
+                    ),
                     SettingTile.SwitchTile(
                         title = stringResource(R.string.settings_widget_show_daily_weather),
                         description = stringResource(R.string.settings_widget_show_daily_weather_secondary),
@@ -210,7 +226,8 @@ fun Weather4Config(onDone: (WidgetConfig) -> Unit = {}) {
                             fontSize = selectedFontSize,
                             iconSize = selectedIconSize,
                             widgetTextTheme = widgetTextTheme,
-                            showDailyInsteadOfCurrent = showDaily
+                            showDailyInsteadOfCurrent = showDaily,
+                            dateFormat = dateFormat
                         )
                     )
                 },
@@ -236,7 +253,8 @@ private fun WidgetPreviews(
     widgetTextTheme: WidgetTextTheme,
     fontSize: Float,
     iconSize: Float,
-    showDaily: Boolean
+    showDaily: Boolean,
+    format: String
 ) {
 
     val textColor = when (widgetTextTheme) {
@@ -244,25 +262,41 @@ private fun WidgetPreviews(
         WidgetTextTheme.WHITE -> Color.White
         else -> Color.White
     }
+    val date = when (format) {
+        "EEE, d MMMM" -> "Wed, 18 June"
+        "EEE, MMMM d" -> "Wed, June 18"
+        "EEE MM-dd" -> "Wed 06-18"
+        "EEEE, d MMMM" -> "Wednesday, 9 July"
+        "EEEE, MMMM d" -> "Wednesday, July 9"
+        "EEEE MM-dd" -> "Wednesday 05-29"
+        else -> "Thu 18 Jun"
+    }
 
     when (variant) {
-        WidgetVariant.DATE -> DateWidgetPreview(textColor, fontSize, iconSize, showDaily)
-        WidgetVariant.DATE_PILL -> DatePillWidgetPreview(fontSize, iconSize, showDaily)
-        WidgetVariant.CLOCK_DATE -> ClockDateWidgetPreview(textColor, fontSize, iconSize, showDaily)
+        WidgetVariant.DATE -> DateWidgetPreview(textColor, fontSize, iconSize, showDaily, date)
+        WidgetVariant.DATE_PILL -> DatePillWidgetPreview(fontSize, iconSize, showDaily, date)
+        WidgetVariant.CLOCK_DATE -> ClockDateWidgetPreview(
+            textColor,
+            fontSize,
+            iconSize,
+            showDaily,
+            date
+        )
+
         WidgetVariant.CLOCK_VERTICAL -> ClockVerticalWidgetPreview(
             textColor,
             fontSize,
             iconSize,
-            showDaily
+            showDaily, date
         )
 
         WidgetVariant.CLOCK_HORIZONTAL -> ClockHorizontalWidgetPreview(
             textColor,
             fontSize,
-            iconSize, showDaily
+            iconSize, showDaily, date
         )
 
-        else -> DateWidgetPreview(textColor, fontSize, iconSize, showDaily)
+        else -> DateWidgetPreview(textColor, fontSize, iconSize, showDaily, date)
     }
 }
 
@@ -270,7 +304,8 @@ private fun WidgetPreviews(
 private fun DateWidgetPreview(
     textColor: Color, fontSize: Float,
     iconSize: Float,
-    showDaily: Boolean
+    showDaily: Boolean,
+    date: String
 ) {
 
     val icon = if (showDaily) R.drawable.rain_with_clear else R.drawable.weather_mostly_clear_day
@@ -279,9 +314,11 @@ private fun DateWidgetPreview(
     val textSize = 20 * fontSize
     val temp = if (showDaily) "28°" else "24°"
 
+
+
     Row(Modifier.height(120.dp), verticalAlignment = Alignment.CenterVertically) {
         Text(
-            "Wednesday, July 9 | ",
+            "$date | ",
             fontSize = textSize.sp,
             color = textColor,
             fontWeight = FontWeight.Medium
@@ -296,7 +333,8 @@ private fun DateWidgetPreview(
 private fun DatePillWidgetPreview(
     fontSize: Float,
     iconSize: Float,
-    showDaily: Boolean
+    showDaily: Boolean,
+    date: String
 ) {
     val icon = if (showDaily) R.drawable.rain_with_clear else R.drawable.weather_mostly_clear_day
     val condition = if (showDaily) "Rain with clear" else "Mostly clear"
@@ -304,6 +342,7 @@ private fun DatePillWidgetPreview(
     val iconSize = 48 * iconSize
     val textSize = 16 * fontSize
     val temp = if (showDaily) "28°" else "24°"
+
 
     Row(Modifier.height(120.dp), verticalAlignment = Alignment.CenterVertically) {
         Surface(
@@ -319,7 +358,7 @@ private fun DatePillWidgetPreview(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    "Wed, July 8",
+                    date,
                     fontWeight = FontWeight.Medium,
                     fontSize = textSize.sp,
                     color = MaterialTheme.colorScheme.onSurface
@@ -350,7 +389,8 @@ private fun DatePillWidgetPreview(
 private fun ClockDateWidgetPreview(
     textColor: Color, fontSize: Float,
     iconSize: Float,
-    showDaily: Boolean
+    showDaily: Boolean,
+    date: String
 ) {
 
     val icon = if (showDaily) R.drawable.rain_with_clear else R.drawable.weather_mostly_clear_day
@@ -379,7 +419,7 @@ private fun ClockDateWidgetPreview(
         )
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
-                "Monday, April 19 • ",
+                "$date • ",
                 fontSize = textSize.sp,
                 color = textColor,
                 fontWeight = FontWeight.Medium
@@ -395,7 +435,8 @@ private fun ClockDateWidgetPreview(
 private fun ClockVerticalWidgetPreview(
     textColor: Color, fontSize: Float,
     iconSize: Float,
-    showDaily: Boolean
+    showDaily: Boolean,
+    date: String
 ) {
 
     val iconSize = 20 * iconSize
@@ -443,7 +484,7 @@ private fun ClockVerticalWidgetPreview(
         )
 
         Text(
-            "Monday, April 19",
+            date,
             fontSize = textSize.sp,
             color = textColor,
             fontWeight = FontWeight.Medium
@@ -472,7 +513,8 @@ private fun ClockVerticalWidgetPreview(
 private fun ClockHorizontalWidgetPreview(
     textColor: Color, fontSize: Float,
     iconSize: Float,
-    showDaily: Boolean
+    showDaily: Boolean,
+    date: String
 ) {
 
     val iconSize = 24 * iconSize
@@ -513,7 +555,7 @@ private fun ClockHorizontalWidgetPreview(
                 )
             }
             Text(
-                "Monday, April 19",
+                date,
                 fontSize = textSize.sp,
                 color = textColor,
                 fontWeight = FontWeight.Medium

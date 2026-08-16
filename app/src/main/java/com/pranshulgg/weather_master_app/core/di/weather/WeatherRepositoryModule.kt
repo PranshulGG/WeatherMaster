@@ -14,6 +14,8 @@ import com.pranshulgg.weather_master_app.core.network.sources.alerts.wmoseverewe
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.wmosevereweather.WmoSevereWeatherRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.aemet.AemetApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.aemet.AemetRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.BmkgApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.BmkgRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.china.ChinaApi
@@ -26,6 +28,8 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.fmi.FmiApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.fmi.FmiRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.GismeteoApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.GismeteoRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.imd.ImdApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.imd.ImdRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.ipma.IpmaApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.ipma.IpmaRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.MeteoamApi
@@ -233,4 +237,22 @@ object WeatherRepositoryModule {
         weatherDao: WeatherDao,
         apiKeysDao: ApiKeysDao
     ): MetOfficeRepository = MetOfficeRepository(dao, weatherDao, api, apiKeysDao)
+
+    @Provides
+    @Singleton
+    fun provideAemetRepository(
+        dao: LocationsDao,
+        api: AemetApi,
+        weatherDao: WeatherDao,
+        apiKeysDao: ApiKeysDao,
+        locationKeysDao: LocationKeysDao
+    ): AemetRepository = AemetRepository(dao, weatherDao, api, apiKeysDao, locationKeysDao)
+
+    @Provides
+    @Singleton
+    fun provideImdRepository(
+        dao: LocationsDao,
+        weatherDao: WeatherDao,
+        api: ImdApi
+    ): ImdRepository = ImdRepository(dao, weatherDao, api)
 }
