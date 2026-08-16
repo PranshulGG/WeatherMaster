@@ -165,13 +165,20 @@ class LocationsRepository @Inject constructor(
         if (distanceInMeters < LOCATION_UPDATE_THRESHOLD_METERS) {
             return
         }
+        val address = try {
+            nominatimRepository.getAddress(
+                location.latitude,
+                location.longitude
+            )
+        } catch (e: Exception) {
+            null
+        }
 
-        val address = nominatimRepository.getAddress(location.latitude, location.longitude)
 
         dao.updateDeviceLocation(
             newLat,
             newLon,
-            address?.city ?: "$newLat, $newLon",
+            address?.city ?: currentLocation.name,
             address?.country ?: "",
             address?.countryCode ?: getCountryCode(context, location.latitude, location.longitude)
             ?: "",
@@ -195,7 +202,15 @@ class LocationsRepository @Inject constructor(
         }
 
 
-        val address = nominatimRepository.getAddress(location.latitude, location.longitude)
+        val address = try {
+            nominatimRepository.getAddress(
+                location.latitude,
+                location.longitude
+            )
+        } catch (e: Exception) {
+            null
+        }
+
 
         if (address != null && address.city != null) {
             saveLocation(
