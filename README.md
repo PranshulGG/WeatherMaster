@@ -70,6 +70,8 @@
 - **AEMET** _(requires your own API key — sign
   up [here](https://opendata.aemet.es/centrodedescargas/altaUsuario))_
 - **IMD**
+- **WMO Severe Weather Information Centre**
+- **FOSS Public Alert Server**
 - _**And more to be added**_
 
 Some sources need a free API key from the provider before you can select them — add yours from a
