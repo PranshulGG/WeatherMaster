@@ -35,7 +35,7 @@
         <item quantity="other">Há %d horas</item>
     </plurals>
     <plurals name="time_days_ago">
-        <item quantity="one">Ontem</item>
+        <item quantity="one">Há %d dia</item>
         <item quantity="other">Há %d dias</item>
     </plurals>
     <string name="time_just_now">Agora mesmo</string>
@@ -95,7 +95,7 @@
     <string name="action_delete">Apagar</string>
     <string name="error_delete_default_location">Não é possível eliminar o local padrão</string>
     <string name="setting_app_looks">Aparência da aplicação</string>
-    <string name="temp_feels_like">Sensação térmica</string>
+    <string name="temp_feels_like">Sensação térmica %1$s</string>
     <string name="temp_max">Máx.: %1$s</string>
     <string name="temp_min">Mín.: %1$s</string>
     <string name="search_results_provided">Resultados da pesquisa fornecido por %1$s</string>
