@@ -71,7 +71,7 @@ fun LocationItem(
                     WeatherIconBox(icon, size = 34.dp)
                 }
             },
-            headlineContent = {
+            content = {
                 if (isDefault) TitleForDefaultLocation(
                     contentColor,
                     title

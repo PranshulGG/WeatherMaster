@@ -27,22 +27,21 @@
     <string name="location_current">המיקום הנוכחי</string>
     <string name="search_provider">ספק החיפוש</string>
     <plurals name="time_minutes_ago">
-        <item quantity="one">לפני דקה</item>
-        <item quantity="two">לפני שתי דקות</item>
-        <item quantity="many">לפני %d דקות</item>
+        <item quantity="one">לפני %d דקה</item>
+        <item quantity="two">לפני %d דקות</item>
         <item quantity="other">לפני %d דקות</item>
     </plurals>
+
     <plurals name="time_hours_ago">
-        <item quantity="one">לפני שעה</item>
-        <item quantity="two">לפני שעתיים</item>
-        <item quantity="many">לפני %d שעות</item>
-        <item quantity="other">לפני %d שעות</item>
+        <item quantity="one">לפני %d שעה</item>
+        <item quantity="two">לפני %d שעות</item>
+        <item quantity="other">לפני %d דקות</item>
     </plurals>
+
     <plurals name="time_days_ago">
-        <item quantity="one">אתמול</item>
-        <item quantity="two">שלשום</item>
-        <item quantity="many">לפני %d ימים</item>
-        <item quantity="other">לפני %d ימים</item>
+        <item quantity="one">לפני %d יום</item>
+        <item quantity="two">לפני %d ימים</item>
+        <item quantity="other">לפני %d דקות</item>
     </plurals>
     <string name="time_just_now">בזה הרגע</string>
     <string name="time_last_updated">עודכן לאחרונה %1$s</string>
@@ -183,7 +182,7 @@
     <string name="setting_notification_permission_secondary">יישום זה שולח התראה ברקע כאשר יש עדכוני מזג אוויר</string>
     <string name="setting_notification">התראה</string>
     <string name="time_hours">%1$s שעות</string>
-    <string name="time_hour">שעה</string>
+    <string name="time_hour">%1$s hour</string>
     <string name="info_already_ignoring_battery_opt">מיטוב הסוללה כבר בהתעלמות</string>
     <string name="setting_additional">הגדרות נוספות</string>
     <string name="setting_update_interval">מרווח זמן בין עדכונים</string>
@@ -408,5 +407,4 @@
     <string name="weather_airquality_source">מקור איכות אוויר</string>
     <string name="country_india">India</string>
     <string name="error_secure_connection_failed">Secure connection failed</string>
-</resources>
-<!--<string name=""></string>-->
+</resources><!--<string name=""></string>-->

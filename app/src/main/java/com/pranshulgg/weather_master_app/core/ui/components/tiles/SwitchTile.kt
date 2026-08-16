@@ -47,7 +47,7 @@ fun SwitchTile(
                 containerColor = itemBgColor
             ),
             leadingContent = leading,
-            headlineContent = { Text(headline) },
+            content = { Text(headline) },
             supportingContent = {
                 if (description != null) Text(description)
             },
@@ -99,6 +99,12 @@ fun SingleSwitchTile(
 
 ) {
 
+    val description: @Composable (() -> Unit)? = description?.let {
+
+        {
+            Text(description)
+        }
+    }
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(50.dp),
@@ -114,10 +120,8 @@ fun SingleSwitchTile(
             },
 
             leadingContent = leading,
-            headlineContent = { Text(headline) },
-            supportingContent = {
-                if (description != null) Text(description)
-            },
+            content = { Text(headline) },
+            supportingContent = description,
             trailingContent = {
                 Switch(
                     enabled = switchEnabled,

@@ -28,6 +28,27 @@ fun DialogTextFieldTile(
     var showDialog by remember { mutableStateOf(false) }
     var textFieldValue by remember(initialText) { mutableStateOf(initialText) }
 
+    val description: @Composable (() -> Unit)? = description?.let {
+        {
+            Text(
+                description,
+                color = if (placeholderAsValue) MaterialTheme.colorScheme.tertiary else Color.Unspecified
+            )
+        }
+    } ?: textFieldValue.isNotEmpty().let {
+        {
+            Text(
+                textFieldValue,
+                color = MaterialTheme.colorScheme.tertiary
+            )
+        }
+    } ?: {
+        Text(
+            placeholder,
+            color = if (placeholderAsValue) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.onSurfaceVariant
+        )
+    }
+
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = shapes,
@@ -38,22 +59,8 @@ fun DialogTextFieldTile(
                 containerColor = itemBgColor
             ),
             leadingContent = leading,
-            headlineContent = { Text(headline) },
-            supportingContent = {
-                if (description != null) Text(
-                    description,
-                    color = if (placeholderAsValue) MaterialTheme.colorScheme.tertiary else Color.Unspecified
-                )
-                else if (textFieldValue.isNotEmpty()) Text(
-                    textFieldValue,
-                    color = MaterialTheme.colorScheme.tertiary
-                ) else {
-                    Text(
-                        placeholder,
-                        color = if (placeholderAsValue) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            },
+            content = { Text(headline) },
+            supportingContent = description,
             trailingContent = trailing,
             overlineContent = overline
         )

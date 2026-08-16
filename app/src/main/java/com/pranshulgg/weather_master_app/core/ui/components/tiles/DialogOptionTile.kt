@@ -60,6 +60,23 @@ fun <T> DialogOptionTile(
 ) {
     var showDialog by remember { mutableStateOf(false) }
     val selectedLabel = options.find { it.value == selectedOption }?.label
+
+    val description: @Composable (() -> Unit)? = description?.let {
+        {
+            Text(
+                description,
+            )
+        }
+    } ?: selectedLabel?.let {
+        {
+            Text(
+                selectedLabel,
+                color = MaterialTheme.colorScheme.tertiary,
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
+    }
+
     Surface(
         modifier = Modifier.fillMaxWidth(),
 
@@ -74,18 +91,7 @@ fun <T> DialogOptionTile(
             ),
             leadingContent = leading,
             headlineContent = { Text(headline) },
-            supportingContent = {
-                if (description != null) Text(
-                    description,
-                )
-                else selectedLabel?.let {
-                    Text(
-                        selectedLabel,
-                        color = MaterialTheme.colorScheme.tertiary,
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                }
-            },
+            supportingContent = description,
         )
     }
 

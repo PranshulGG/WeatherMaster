@@ -411,16 +411,21 @@ class WeatherViewModel @Inject constructor(
         location: Location,
         source: WeatherSource
     ) {
-        autoRefreshJob?.cancel()
+
+        if (autoRefreshJob?.isActive == true) return
 
         autoRefreshJob = viewModelScope.launch {
             while (isActive) {
+
+                delay(45.minutes)
+                if (_uiState.value.isLoading || _uiState.value.isError) {
+                    continue
+                }
+
                 getWeather(
                     location = location,
                     source = source
                 )
-
-                delay(45.minutes)
             }
         }
     }

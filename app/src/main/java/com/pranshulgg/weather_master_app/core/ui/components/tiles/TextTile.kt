@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +21,17 @@ fun TextTile(
     itemBgColor: Color,
     descriptionMaxLines: Int = Int.MAX_VALUE
 ) {
+
+    val description: @Composable (() -> Unit)? = description?.let {
+
+        {
+            Text(
+                description,
+                maxLines = descriptionMaxLines,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+    }
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = shapes,
@@ -30,16 +42,8 @@ fun TextTile(
             colors = ListItemDefaults.colors(
                 containerColor = itemBgColor
             ),
-            headlineContent = { Text(headline) },
-            supportingContent = {
-                if (description != null) {
-                    Text(
-                        description,
-                        maxLines = descriptionMaxLines,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
-            }
+            content = { Text(headline) },
+            supportingContent = description
         )
     }
 }

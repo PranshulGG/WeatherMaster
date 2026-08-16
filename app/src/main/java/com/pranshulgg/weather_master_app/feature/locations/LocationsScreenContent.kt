@@ -177,7 +177,7 @@ private fun UseDeviceLocationCard(onClick: () -> Unit, isLoading: Boolean = fals
                     }
                 }
             },
-            headlineContent = {
+            content = {
                 Text(
                     stringResource(R.string.location_use_current),
                     color = MaterialTheme.colorScheme.onSurface

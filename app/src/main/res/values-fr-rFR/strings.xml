@@ -35,7 +35,7 @@
         <item quantity="other">Il y a %dh</item>
     </plurals>
     <plurals name="time_days_ago">
-        <item quantity="one">Hier</item>
+        <item quantity="one">%d jour</item>
         <item quantity="other">Il y a %d jours</item>
     </plurals>
     <string name="time_just_now">À l\'instant</string>
@@ -401,5 +401,4 @@
     <string name="weather_airquality_source">Source des données de qualité de l\'air</string>
     <string name="country_india">India</string>
     <string name="error_secure_connection_failed">Secure connection failed</string>
-</resources>
-<!--<string name=""></string>-->
+</resources><!--<string name=""></string>-->

@@ -124,13 +124,13 @@ fun EditLocationScreen(
 
         if (uiState.selectedWeatherSource?.countryNameRes != null) {
             append(" (${stringResource(uiState.selectedWeatherSource.countryNameRes)})")
-        } else if (uiState.location.source.countryNameRes != null) {
+        } else if (uiState.location.source.countryNameRes != null && uiState.selectedWeatherSource == null) {
             append(" (${stringResource(uiState.location.source.countryNameRes)})")
         }
 
         if (uiState.selectedWeatherSource == WeatherSource.OPEN_METEO) {
             append(" (${uiState.selectedOpenMeteoModel?.displayName})")
-        } else if (uiState.location.source == WeatherSource.OPEN_METEO) {
+        } else if (uiState.location.source == WeatherSource.OPEN_METEO && uiState.selectedWeatherSource == null) {
             append(" (${uiState.location.openMeteoModel.displayName})")
         }
 

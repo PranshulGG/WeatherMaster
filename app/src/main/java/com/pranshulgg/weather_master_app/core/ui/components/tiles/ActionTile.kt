@@ -28,6 +28,17 @@ fun ActionTile(
     overline: @Composable (() -> Unit)? = null,
 ) {
 
+    val description: @Composable (() -> Unit)? = description?.let {
+
+        {
+            Text(
+                description,
+                color = colorDesc,
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
+    }
+
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = if (selected) RoundedCornerShape(ShapeRadius.Large) else shapes,
@@ -40,22 +51,14 @@ fun ActionTile(
             colors = ListItemDefaults.colors(
                 containerColor = if (selected) MaterialTheme.colorScheme.secondaryContainer else if (danger) MaterialTheme.colorScheme.errorContainer else itemBgColor
             ),
-            headlineContent = {
+            content = {
                 Text(
                     headline,
                     color = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else if (danger) MaterialTheme.colorScheme.onErrorContainer else MaterialTheme.colorScheme.onSurface,
                     style = MaterialTheme.typography.bodyLarge
                 )
             },
-            supportingContent = {
-                if (description != null) {
-                    Text(
-                        description,
-                        color = colorDesc,
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                }
-            },
+            supportingContent = description,
             overlineContent = overline,
             trailingContent = trailing
         )
