@@ -130,7 +130,7 @@ fun EditLocationScreen(
 
         if (uiState.selectedWeatherSource == WeatherSource.OPEN_METEO) {
             append(" (${uiState.selectedOpenMeteoModel?.displayName})")
-        } else if (uiState.location.source == WeatherSource.OPEN_METEO) {
+        } else if (uiState.location.source == WeatherSource.OPEN_METEO && uiState.selectedWeatherSource == null) {
             append(" (${uiState.location.openMeteoModel.displayName})")
         }
 
