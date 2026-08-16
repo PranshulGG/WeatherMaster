@@ -344,6 +344,7 @@
     <string name="country_italy">이탈리아</string>
     <string name="country_portugal">포르투갈</string>
     <string name="country_russia">러시아</string>
+    <string name="country_spain">Spain</string>
     <string name="settings_date_format">날짜 형식</string>
     <string name="widget_settings_display_hourly_secondary">일별 예보 대신 시간별 예보를 표시합니다</string>
     <string name="settings_widget_background">위젯 배경</string>
@@ -386,6 +387,7 @@
     <string name="settings_api_key_config">API keys config</string>
     <string name="source_regional_global">Regional with Global Coverage</string>
     <string name="error_no_api_key">No API key found. Please add your API key in the settings</string>
+    <string name="error_api_key_rejected">Your API key was rejected. It may be invalid or expired — check it in the API key settings.</string>
     <string name="weather_mixed_precipitation">Mixed precipitation</string>
     <string name="weather_hail">Hail</string>
     <string name="weather_sleet">Sleet</string>
