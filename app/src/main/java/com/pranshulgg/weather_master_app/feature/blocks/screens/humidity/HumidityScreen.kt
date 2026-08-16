@@ -152,7 +152,7 @@ fun HumidityScreen(navController: NavController, index: Int = 0, locationId: Str
                                 contentColor = Color.White
                             )
                         },
-                        headlineContent = { Text(dewPointScaleText[index]) },
+                        content = { Text(dewPointScaleText[index]) },
                         trailingContent = {
                             Text(
                                 if (units.tempUnit == TemperatureUnit.FAHRENHEIT) pair.second else pair.first,

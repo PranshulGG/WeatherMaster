@@ -41,7 +41,7 @@ fun CategoryTile(
             colors = ListItemDefaults.colors(
                 containerColor = itemBgColor
             ),
-            headlineContent = { Text(headline) },
+            content = { Text(headline) },
             supportingContent = {
                 if (description != null) {
                     Text(description)

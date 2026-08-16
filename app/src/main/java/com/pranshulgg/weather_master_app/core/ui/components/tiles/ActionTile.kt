@@ -40,7 +40,7 @@ fun ActionTile(
             colors = ListItemDefaults.colors(
                 containerColor = if (selected) MaterialTheme.colorScheme.secondaryContainer else if (danger) MaterialTheme.colorScheme.errorContainer else itemBgColor
             ),
-            headlineContent = {
+            content = {
                 Text(
                     headline,
                     color = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else if (danger) MaterialTheme.colorScheme.onErrorContainer else MaterialTheme.colorScheme.onSurface,

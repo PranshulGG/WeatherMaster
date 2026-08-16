@@ -163,7 +163,7 @@ private fun AppVersionTile(
             colors = ListItemDefaults.colors(
                 containerColor = MaterialTheme.colorScheme.tertiaryContainer
             ),
-            headlineContent = {
+            content = {
                 Text(
                     "WeatherMaster",
                     color = MaterialTheme.colorScheme.onTertiaryContainer,

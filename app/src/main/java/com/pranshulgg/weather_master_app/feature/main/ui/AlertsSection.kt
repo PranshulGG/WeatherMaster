@@ -66,7 +66,7 @@ fun AlertsSection(
                             size = 32.dp
                         )
                     },
-                    headlineContent = { Text(it.event) },
+                    content = { Text(it.event) },
                     supportingContent = {
                         if (it.effective != null && it.expires != null) {
                             Text("${formatter(it.effective)} • ${formatter(it.expires)}")

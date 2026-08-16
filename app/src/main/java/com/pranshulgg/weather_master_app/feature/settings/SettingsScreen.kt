@@ -154,7 +154,7 @@ private fun DonateListItem(headline: String, description: String, icon: Int, onC
     ListItem(
         colors = ListItemDefaults.colors(containerColor = Color.Transparent),
         leadingContent = { WeatherIconBox(icon, size = 28.dp) },
-        headlineContent = { Text(headline) },
+        content = { Text(headline) },
         supportingContent = { Text(description) },
         modifier = Modifier
             .clickable(onClick = onClick)

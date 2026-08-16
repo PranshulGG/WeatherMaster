@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.widgets.weather.ui.variants
 
+import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,6 +33,7 @@ import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetColors
 import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTheme
 import com.pranshulgg.weather_master_app.widgets.weather.components.WidgetHourlyItem
 
+@SuppressLint("RestrictedApi")
 @Composable
 fun WeatherWidgetLarge(
     state: WidgetWeather?,

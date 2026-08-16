@@ -129,7 +129,7 @@ fun VisibilityScreen(navController: NavController, index: Int = 0, locationId: S
                 scale.forEach {
                     ListItem(
                         colors = ListItemDefaults.colors(containerColor = Color.Transparent),
-                        headlineContent = { Text(it.headline) },
+                        content = { Text(it.headline) },
                         supportingContent = { Text(it.description) },
                         trailingContent = {
                             Text(

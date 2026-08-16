@@ -123,7 +123,7 @@ fun UvIndexScreen(navController: NavController, index: Int = 0, locationId: Stri
                                 contentColor = Color.White
                             )
                         },
-                        headlineContent = { Text(it.toLabel(context)) },
+                        content = { Text(it.toLabel(context)) },
                         trailingContent = {
                             Text(
                                 getUvIndexScaleFor(it),

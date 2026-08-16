@@ -47,7 +47,7 @@ fun SwitchTile(
                 containerColor = itemBgColor
             ),
             leadingContent = leading,
-            headlineContent = { Text(headline) },
+            content = { Text(headline) },
             supportingContent = {
                 if (description != null) Text(description)
             },
@@ -114,7 +114,7 @@ fun SingleSwitchTile(
             },
 
             leadingContent = leading,
-            headlineContent = { Text(headline) },
+            content = { Text(headline) },
             supportingContent = {
                 if (description != null) Text(description)
             },
