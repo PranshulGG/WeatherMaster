@@ -111,7 +111,7 @@
     <string name="weather_precipitation">Sademäärä</string>
     <string name="weather_air_quality_index">Ilmanlaatu</string>
     <string name="setting_translate_app">Auta sovelluksen kääntämisessä</string>
-    <string name="setting_translate_app_secondary">Auta sovelluksen kääntämisessä Crowdinissa</string>
+    <string name="setting_translate_app_secondary">Voit auttaa sovelluksen kääntämisessä Crowdinissa</string>
     <string name="location_use_current">Käytä nykyistä sijaintia</string>
     <string name="location_use_current_secondary">Tunnista laitteen sijainti ja lisää se listaan</string>
     <string name="location_permission_required">Sijaintilupa vaaditaan</string>
@@ -277,11 +277,11 @@
     <string name="settings_source_request_title">Onko sinulla säätietojen tarjoaja lisättäväksi? Voit toivoa sitä tästä</string>
     <string name="action_request">Toivo tarjoajaa</string>
     <string name="source_credits_label">%1$s ja muut</string>
-    <string name="weather_wind_direction_from">Tuuli:</string>
+    <string name="weather_wind_direction_from">Tuuli %1$s</string>
     <string name="day_length_hr">%1$s tuntia</string>
     <string name="error_no_results">Tuloksia ei löytynyt</string>
     <string name="summary_overview_template_same_condition">Luvassa %1$s päivällä ja yöllä.</string>
-    <string name="summary_overview_template_day_night_condition">Päivällä luvassa poutaa, yöksi %2$s.</string>
+    <string name="summary_overview_template_day_night_condition">Päivällä on %1$s, yöllä muuttuu %2$s.</string>
     <string name="summary_rain_template_day_night">Päivällä on luvassa sadetta noin kello %1$s %2$s todennäköisyydellä. Yöllä on %3$s todennäköisyys sateeseen noin kello %4$s.</string>
     <string name="summary_rain_template_day">Päivällä on luvassa sadetta noin kello %1$s %2$s todennäköisyydellä.</string>
     <string name="summary_rain_template_night">Yöllä on %1$s todennäköisyys sateeseen noin kello %2$s.</string>
@@ -348,7 +348,7 @@
     <string name="country_italy">Italia</string>
     <string name="country_portugal">Portugali</string>
     <string name="country_russia">Venäjä</string>
-    <string name="country_spain">Spain</string>
+    <string name="country_spain">Espanja</string>
     <string name="settings_date_format">Päivämäärän muoto</string>
     <string name="widget_settings_display_hourly_secondary">Näytä tunneittainen ennuste päivittäisen sijaan</string>
     <string name="settings_widget_background">Widgetin tausta</string>
@@ -391,7 +391,7 @@
     <string name="settings_api_key_config">API-avainten asetukset</string>
     <string name="source_regional_global">Paikallinen maailmanlaajuisella kattavuudella</string>
     <string name="error_no_api_key">API-avainta ei löytynyt. Voit lisätä sen asetuksissa.</string>
-    <string name="error_api_key_rejected">Your API key was rejected. It may be invalid or expired — check it in the API key settings.</string>
+    <string name="error_api_key_rejected">API-avaimesi hylättiin. Se saattaa olla virheellinen tai vanhentunut — Tarkista avaimesi asetuksista.</string>
     <string name="weather_mixed_precipitation">Räntää</string>
     <string name="weather_hail">Rakeita</string>
     <string name="weather_sleet">Räntää</string>
