@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.feature.shared.ui
 
+import android.text.format.DateFormat.getBestDateTimePattern
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -87,7 +88,14 @@ fun DailyCard(weather: Weather, units: WeatherUnits, navController: NavControlle
                                 )
                             )
                         },
-                        date = toDateString(item.time, weather.location.timezone, pattern = "dd/MM")
+                        date = toDateString(
+                            item.time,
+                            weather.location.timezone,
+                            pattern = getBestDateTimePattern(
+                                getCurrentAppLocale(),
+                                "Mdd"
+                            )
+                        )
                     )
 
                     if (index == daily.size - 1) Gap(horizontal = 16.dp)
