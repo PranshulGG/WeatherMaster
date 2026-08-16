@@ -72,11 +72,9 @@ fun WeatherBlocks(
     updatedBlockOrder: (List<WeatherBlock>) -> Unit = {},
     dailyIndex: Int = 0,
     navController: NavController,
-    isAirQualityLoading: Boolean = false
+    isAirQualityLoading: Boolean = false,
+    viewModel: WeatherViewModel
 ) {
-
-
-    val viewModel: WeatherViewModel = hiltViewModel()
 
 
     val rainForTheDay =

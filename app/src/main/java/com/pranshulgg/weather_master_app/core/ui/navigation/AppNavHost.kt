@@ -130,7 +130,12 @@ fun AppNavHost(
                     val index = backStackEntry.arguments?.getInt("index") ?: 0
                     val locationId = backStackEntry.arguments?.getString("locationId")
 
-                    DailyScreen(navController, index, locationId!!)
+                    val rootEntry = remember(backStackEntry) {
+                        navController.getBackStackEntry("root")
+                    }
+                    val weatherViewModel: WeatherViewModel = hiltViewModel(rootEntry)
+
+                    DailyScreen(navController, index, locationId!!, weatherViewModel)
                 }
                 composable(
                     route = "${NavRoutes.ALERTS}/{locationId}",

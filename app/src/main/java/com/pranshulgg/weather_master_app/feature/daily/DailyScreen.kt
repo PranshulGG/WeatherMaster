@@ -34,6 +34,7 @@ import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weather_master_app.core.utils.formatters.safeZoneId
 import com.pranshulgg.weather_master_app.feature.daily.ui.DailyDaysHeader
 import com.pranshulgg.weather_master_app.feature.daily.ui.DailyForecastHeroHeader
+import com.pranshulgg.weather_master_app.feature.shared.WeatherViewModel
 import com.pranshulgg.weather_master_app.feature.shared.components.blocks.WeatherBlocks
 import com.pranshulgg.weather_master_app.feature.shared.ui.HourlyCard
 import com.pranshulgg.weather_master_app.feature.shared.ui.SummaryCard
@@ -46,7 +47,12 @@ data class DailyScreenUiState(
 )
 
 @Composable
-fun DailyScreen(navController: NavController, index: Int = 0, locationId: String) {
+fun DailyScreen(
+    navController: NavController,
+    index: Int = 0,
+    locationId: String,
+    weatherViewModel: WeatherViewModel
+) {
 
     val viewModel: DailyScreenViewModel = hiltViewModel()
     val uiState = viewModel.uiState.value
@@ -123,7 +129,8 @@ fun DailyScreen(navController: NavController, index: Int = 0, locationId: String
                     true,
                     updatedBlockOrder = { viewModel.updateBlocksOrder(it) },
                     selectedIndex,
-                    navController
+                    navController,
+                    viewModel = weatherViewModel
                 )
 
                 Gap(WindowInsets.systemBars.asPaddingValues().calculateBottomPadding())
