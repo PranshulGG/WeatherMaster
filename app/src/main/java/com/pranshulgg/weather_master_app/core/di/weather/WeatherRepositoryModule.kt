@@ -20,6 +20,8 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.BmkgA
 import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.BmkgRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.china.ChinaApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.china.ChinaRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.cwa.CwaApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.cwa.CwaRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.DwdApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.DwdRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.EcccApi
@@ -255,4 +257,14 @@ object WeatherRepositoryModule {
         weatherDao: WeatherDao,
         api: ImdApi
     ): ImdRepository = ImdRepository(dao, weatherDao, api)
+
+    @Provides
+    @Singleton
+    fun provideCwaRepository(
+        dao: LocationsDao,
+        api: CwaApi,
+        weatherDao: WeatherDao,
+        apiKeysDao: ApiKeysDao,
+        locationKeysDao: LocationKeysDao
+    ): CwaRepository = CwaRepository(dao, weatherDao, api, apiKeysDao, locationKeysDao)
 }
