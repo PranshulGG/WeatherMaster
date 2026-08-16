@@ -2,6 +2,7 @@ package com.pranshulgg.weather_master_app.data.provider
 
 import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.aemet.AemetRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.BmkgRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.china.ChinaRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.DwdRepository
@@ -36,6 +37,7 @@ class WeatherRepositoryProvider @Inject constructor(
     private val ipmaRepository: IpmaRepository,
     private val gismeteoRepository: GismeteoRepository,
     private val metOfficeRepository: MetOfficeRepository,
+    private val aemetRepository: AemetRepository,
     private val imdRepository: ImdRepository
 ) {
 
@@ -56,6 +58,7 @@ class WeatherRepositoryProvider @Inject constructor(
             WeatherSource.IPMA -> ipmaRepository
             WeatherSource.GISMETEO -> gismeteoRepository
             WeatherSource.MET_OFFICE -> metOfficeRepository
+            WeatherSource.AEMET -> aemetRepository
             WeatherSource.IMD -> imdRepository
         }
     }

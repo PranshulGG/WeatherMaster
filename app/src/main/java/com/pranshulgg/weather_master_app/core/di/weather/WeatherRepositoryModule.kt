@@ -14,6 +14,8 @@ import com.pranshulgg.weather_master_app.core.network.sources.alerts.wmoseverewe
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.wmosevereweather.WmoSevereWeatherRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.aemet.AemetApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.aemet.AemetRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.BmkgApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.BmkgRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.china.ChinaApi
@@ -235,6 +237,16 @@ object WeatherRepositoryModule {
         weatherDao: WeatherDao,
         apiKeysDao: ApiKeysDao
     ): MetOfficeRepository = MetOfficeRepository(dao, weatherDao, api, apiKeysDao)
+
+    @Provides
+    @Singleton
+    fun provideAemetRepository(
+        dao: LocationsDao,
+        api: AemetApi,
+        weatherDao: WeatherDao,
+        apiKeysDao: ApiKeysDao,
+        locationKeysDao: LocationKeysDao
+    ): AemetRepository = AemetRepository(dao, weatherDao, api, apiKeysDao, locationKeysDao)
 
     @Provides
     @Singleton
