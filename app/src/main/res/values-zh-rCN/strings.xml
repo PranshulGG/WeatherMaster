@@ -276,7 +276,7 @@
     <string name="weather_wind_direction_from">%1$s风</string>
     <string name="day_length_hr">%1$s 小时</string>
     <string name="error_no_results">未找到相关结果</string>
-    <string name="summary_overview_template_same_condition"></string>
+    <string name="summary_overview_template_same_condition">It will stay %1$s throughout the day and night.</string>
     <string name="summary_overview_template_day_night_condition">白天以%1$s为主，夜间转为%2$s。</string>
     <string name="summary_rain_template_day_night">白天 %1$s 左右预计有雨，降雨概率为 %2$s；今晚 %4$s 左右可能有雨，降雨概率为 %3$s。</string>
     <string name="summary_rain_template_day">白天 %1$s 左右预计有雨，降雨概率为 %2$s。</string>
@@ -292,7 +292,7 @@
     <string name="summary_overview_template_day_condition">白天%1$s。</string>
     <string name="summary_overview_template_night_condition">夜间天气将转为%1$s。</string>
     <string name="gadgetbridge_not_available_error">未安装 Gadgetbridge</string>
-    <string name="settings_worker_info"></string>
+    <string name="settings_worker_info">Worker information</string>
     <string name="settings_send_data_gadgetbridge">向 Gadgetbridge 发送数据</string>
     <string name="aqi_PM25_full_label">细颗粒物 (PM₂.₅)</string>
     <string name="aqi_PM10_full_label">可吸入颗粒物 (PM₁₀)</string>
@@ -398,5 +398,4 @@
     <string name="weather_airquality_source">空气质量数据源</string>
     <string name="country_india">India</string>
     <string name="error_secure_connection_failed">Secure connection failed</string>
-</resources>
-<!--<string name=""></string>-->
+</resources><!--<string name=""></string>-->
