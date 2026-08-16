@@ -18,6 +18,8 @@
  <li><b>AccuWeather</b></li>
  <li><b>Meteo AM</b></li>
  <li><b>IPMA</b></li>
- <li><b>WeatherApi.com</b></li>
+ <li><b>Met Office</b></li>
+ <li><b>AEMET</b></li>
+ <li><b>IMD</b></li>
  <li><b>And more to be added</b></li>
 </ul>
