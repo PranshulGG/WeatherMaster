@@ -45,11 +45,11 @@ fun toWeekdayString(timeMilli: Long, zoneId: String): String {
     return formatter.format(zonedDateTime)
 }
 
-fun toDateString(timeMilli: Long, zoneId: String, pattern: String = "dd MMMM"): String {
+fun toDateString(timeMilli: Long, zoneId: String, pattern: String = "ddMMMM"): String {
     val instant = Instant.ofEpochMilli(timeMilli)
     val zonedDateTime = instant.atZone(safeZoneId(zoneId))
-    val formatter = DateTimeFormatter.ofPattern(pattern, getCurrentAppLocale())
-
+    val formatter = DateTimeFormatter
+        .ofPattern(getLocalizedPattern(pattern), getCurrentAppLocale())
 
     return formatter.format(zonedDateTime)
 
