@@ -44,6 +44,7 @@ import com.pranshulgg.weather_master_app.feature.main.ui.AlertsSection
 import com.pranshulgg.weather_master_app.feature.main.ui.BackgroundGradient
 import com.pranshulgg.weather_master_app.feature.main.ui.CurrentWeatherCard
 import com.pranshulgg.weather_master_app.feature.main.ui.weatherAnimations.WeatherAnimations
+import com.pranshulgg.weather_master_app.feature.shared.WeatherViewModel
 import com.pranshulgg.weather_master_app.feature.shared.components.blocks.WeatherBlocks
 import com.pranshulgg.weather_master_app.feature.shared.ui.DailyCard
 import com.pranshulgg.weather_master_app.feature.shared.ui.HourlyCard
@@ -59,7 +60,8 @@ fun MainScreenScaffold(
     onEditLocation: () -> Unit,
     context: Context,
     onWeatherSourceInfoClick: () -> Unit,
-    isTabletLike: Boolean
+    isTabletLike: Boolean,
+    viewModel: WeatherViewModel
 ) {
 
 
@@ -198,7 +200,8 @@ fun MainScreenScaffold(
                                     context,
                                     uiState.blocks,
                                     navController = navController,
-                                    isAirQualityLoading = uiState.isAirQualityLoading
+                                    isAirQualityLoading = uiState.isAirQualityLoading,
+                                    viewModel = viewModel
                                 )
 
                                 CreditsBottomSection(

@@ -40,9 +40,11 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.coroutines.cancellation.CancellationException
+import kotlin.time.Duration.Companion.minutes
 
 @HiltViewModel
 class WeatherViewModel @Inject constructor(
@@ -251,7 +253,6 @@ class WeatherViewModel @Inject constructor(
         items: List<WeatherBlock>,
         isDaily: Boolean = false
     ) {
-        _uiState.value = _uiState.value.copy(blocks = items)
 
         viewModelScope.launch {
             weatherBlocksRepository.saveBlocks(items.map {
@@ -265,6 +266,7 @@ class WeatherViewModel @Inject constructor(
             }, isDaily)
 
         }
+        _uiState.value = _uiState.value.copy(blocks = items)
 
     }
 
@@ -367,6 +369,7 @@ class WeatherViewModel @Inject constructor(
         }
     }
 
+
     private suspend fun handleAlerts(
         location: Location,
         isManualRefresh: Boolean,
@@ -400,5 +403,30 @@ class WeatherViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    private var autoRefreshJob: Job? = null
+
+    fun startAutoRefresh(
+        location: Location,
+        source: WeatherSource
+    ) {
+        autoRefreshJob?.cancel()
+
+        autoRefreshJob = viewModelScope.launch {
+            while (isActive) {
+                getWeather(
+                    location = location,
+                    source = source
+                )
+
+                delay(45.minutes)
+            }
+        }
+    }
+
+    fun stopAutoRefresh() {
+        autoRefreshJob?.cancel()
+        autoRefreshJob = null
     }
 }

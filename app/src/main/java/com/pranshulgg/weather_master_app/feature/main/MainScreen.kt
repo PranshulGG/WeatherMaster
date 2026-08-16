@@ -36,6 +36,7 @@ import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weather_master_app.feature.intro.IntroScreen
 import com.pranshulgg.weather_master_app.feature.locations.LocationsScreen
+import com.pranshulgg.weather_master_app.feature.main.data.WeatherAutoRefreshForeground
 import com.pranshulgg.weather_master_app.feature.main.ui.MainScreenBottomSheets
 import com.pranshulgg.weather_master_app.feature.main.ui.MainScreenDialogs
 import com.pranshulgg.weather_master_app.feature.main.ui.NavigationDrawer
@@ -85,6 +86,8 @@ fun MainScreen(navController: NavController, weatherViewModel: WeatherViewModel)
 
     val context = LocalContext.current
     val activeLocation = uiState.activeLocation
+
+    WeatherAutoRefreshForeground(weatherViewModel, activeLocation)
 
     val density = LocalDensity.current
     val widthDp = with(density) {
@@ -184,7 +187,8 @@ fun MainScreen(navController: NavController, weatherViewModel: WeatherViewModel)
                 },
                 context,
                 onWeatherSourceInfoClick = viewModel::showWeatherSourcesInfoForLocationSheet,
-                isTabletLike
+                isTabletLike,
+                weatherViewModel
             )
         }
     )
