@@ -20,15 +20,17 @@ fun getLocalizedPattern(pattern: String): String {
 
 fun to12HourTimeString(timeMilli: Long, zoneId: String, pattern: String = "ha"): String {
     val instant = Instant.ofEpochMilli(timeMilli)
-    val formatter = DateTimeFormatter.ofPattern(pattern, getCurrentAppLocale())
+    val formatter = DateTimeFormatter
+        .ofPattern(getLocalizedPattern(pattern), getCurrentAppLocale())
         .withZone(safeZoneId(zoneId))
 
     return formatter.format(instant)
 }
 
-fun to24HourTimeString(timeMilli: Long, zoneId: String, pattern: String = "HH:mm"): String {
+fun to24HourTimeString(timeMilli: Long, zoneId: String, pattern: String = "Hm"): String {
     val instant = Instant.ofEpochMilli(timeMilli)
-    val formatter = DateTimeFormatter.ofPattern(pattern, getCurrentAppLocale())
+    val formatter = DateTimeFormatter
+        .ofPattern(getLocalizedPattern(pattern), getCurrentAppLocale())
         .withZone(safeZoneId(zoneId))
 
     return formatter.format(instant)
