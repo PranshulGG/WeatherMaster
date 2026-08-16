@@ -21,6 +21,7 @@ import com.pranshulgg.weather_master_app.core.prefs.AppPrefsState
 import com.pranshulgg.weather_master_app.core.ui.components.SettingSection
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
 import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
+import com.pranshulgg.weather_master_app.core.utils.formatters.getLocalizedPattern
 import com.pranshulgg.weather_master_app.core.utils.formatters.safeZoneId
 import java.time.Instant
 import java.time.ZoneId
@@ -34,9 +35,9 @@ fun AlertsSection(
     onAlertClick: () -> Unit
 ) {
 
-    val pattern = if (prefs.is24HrTimeFormat) "MMM dd, HH:mm" else "MMM dd, hh:mm a"
-
-
+    val pattern = getLocalizedPattern(
+        if (prefs.is24HrTimeFormat) "MMMddHmm" else "MMMddhmma"
+    )
     val formatter: (Long) -> String = {
         val formatter = DateTimeFormatter.ofPattern(pattern)
         val instant = Instant.ofEpochMilli(it)
