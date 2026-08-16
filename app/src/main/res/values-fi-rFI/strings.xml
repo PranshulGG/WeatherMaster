@@ -348,6 +348,7 @@
     <string name="country_italy">Italia</string>
     <string name="country_portugal">Portugali</string>
     <string name="country_russia">Venäjä</string>
+    <string name="country_spain">Spain</string>
     <string name="settings_date_format">Päivämäärän muoto</string>
     <string name="widget_settings_display_hourly_secondary">Näytä tunneittainen ennuste päivittäisen sijaan</string>
     <string name="settings_widget_background">Widgetin tausta</string>
@@ -390,6 +391,7 @@
     <string name="settings_api_key_config">API-avainten asetukset</string>
     <string name="source_regional_global">Paikallinen maailmanlaajuisella kattavuudella</string>
     <string name="error_no_api_key">API-avainta ei löytynyt. Voit lisätä sen asetuksissa.</string>
+    <string name="error_api_key_rejected">Your API key was rejected. It may be invalid or expired — check it in the API key settings.</string>
     <string name="weather_mixed_precipitation">Räntää</string>
     <string name="weather_hail">Rakeita</string>
     <string name="weather_sleet">Räntää</string>

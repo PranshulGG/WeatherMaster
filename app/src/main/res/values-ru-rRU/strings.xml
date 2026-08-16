@@ -353,6 +353,7 @@
     <string name="country_italy">Италия</string>
     <string name="country_portugal">Португалия</string>
     <string name="country_russia">Россия</string>
+    <string name="country_spain">Spain</string>
     <string name="settings_date_format">Формат даты</string>
     <string name="widget_settings_display_hourly_secondary">Отображает почасовой прогноз, а не ежедневный</string>
     <string name="settings_widget_background">Фон виджета</string>
@@ -395,6 +396,7 @@
     <string name="settings_api_key_config">Конфигурация API-ключей</string>
     <string name="source_regional_global">Региональный с глобальным охватом</string>
     <string name="error_no_api_key">API-ключ не найден. Пожалуйста, добавьте свой API-ключ в настройках</string>
+    <string name="error_api_key_rejected">Your API key was rejected. It may be invalid or expired — check it in the API key settings.</string>
     <string name="weather_mixed_precipitation">Смешанные осадки</string>
     <string name="weather_hail">Град</string>
     <string name="weather_sleet">Мокрый снег</string>
@@ -403,7 +405,7 @@
     <string name="location_permission_background">Разрешение на доступ к местоположению в фоновом режиме</string>
     <string name="location_permission_background_secondary">Разрешите доступ к местоположению в фоновом режиме, чтобы сохранять актуальное местоположение вашего устройства, даже когда приложение закрыто или работает в фоновом режиме</string>
     <string name="weather_airquality_source">Источник данных о качестве воздуха</string>
-    <string name="country_india">India</string>
-    <string name="error_secure_connection_failed">Secure connection failed</string>
+    <string name="country_india">Индия</string>
+    <string name="error_secure_connection_failed">Безопасное подключение не удалось</string>
 </resources>
 <!--<string name=""></string>-->

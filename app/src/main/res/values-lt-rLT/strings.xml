@@ -353,6 +353,7 @@
     <string name="country_italy">Italija</string>
     <string name="country_portugal">Portugalija</string>
     <string name="country_russia">Rusija</string>
+    <string name="country_spain">Spain</string>
     <string name="settings_date_format">Datos formatas</string>
     <string name="widget_settings_display_hourly_secondary">Bus rodoma valandinė prognozė vietoj šiandienos prognozės</string>
     <string name="settings_widget_background">Valdiklio fonas</string>
@@ -395,6 +396,7 @@
     <string name="settings_api_key_config">API keys config</string>
     <string name="source_regional_global">Regional with Global Coverage</string>
     <string name="error_no_api_key">No API key found. Please add your API key in the settings</string>
+    <string name="error_api_key_rejected">Your API key was rejected. It may be invalid or expired — check it in the API key settings.</string>
     <string name="weather_mixed_precipitation">Mixed precipitation</string>
     <string name="weather_hail">Hail</string>
     <string name="weather_sleet">Sleet</string>
