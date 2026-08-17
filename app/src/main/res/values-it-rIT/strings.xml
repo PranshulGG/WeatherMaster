@@ -328,11 +328,11 @@
     <string name="dew_point_scale_sticky">Appiccicoso</string>
     <string name="dew_point_scale_muggy">Afoso</string>
     <string name="dew_point_scale_uncomfortable">Scomodo</string>
-    <string name="action_requires_restart">Requires restart</string>
+    <string name="action_requires_restart">Richiede il riavvio</string>
     <string name="location_latitude">Latitudine</string>
     <string name="location_longitude">Longitudine</string>
     <string name="settings_support">Support</string>
-    <string name="settings_support_secondary">If you enjoy the app, consider supporting its development</string>
+    <string name="settings_support_secondary">Se ti piace l\'app, considera di sostenere il suo sviluppo</string>
     <string name="settings_your_device_language">Your device language</string>
     <string name="label_system">Sistema</string>
     <string name="weather_active_alerts">Active alerts</string>
@@ -349,10 +349,10 @@
     <string name="country_russia">Russia</string>
     <string name="country_spain">Spain</string>
     <string name="settings_date_format">Date format</string>
-    <string name="widget_settings_display_hourly_secondary">Displays hourly instead of daily forecast</string>
+    <string name="widget_settings_display_hourly_secondary">Mostra le previsioni orarie invece di quelle giornaliere</string>
     <string name="settings_widget_background">Widget background</string>
     <string name="settings_widget_weather_background">Weather background</string>
-    <string name="settings_widget_weather_background_secondary">Changes widget background color based on the current conditions</string>
+    <string name="settings_widget_weather_background_secondary">Cambia il colore di sfondo del widget in base alle condizioni meteorologiche attuali</string>
     <string name="settings_widget_text_color">Widget text color</string>
     <string name="settings_widget_font_size">Font size</string>
     <string name="settings_widget_daily_forecast_count">Daily forecast count</string>
