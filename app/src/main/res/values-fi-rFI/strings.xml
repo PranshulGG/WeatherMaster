@@ -41,7 +41,7 @@
     <string name="time_just_now">Juuri nyt</string>
     <string name="time_last_updated">Viimeksi päivitetty %1$s</string>
     <string name="weather_no_data">Ei säätietoja saatavilla</string>
-    <string name="weather_clear_sky">Selkeä taivas</string>
+    <string name="weather_clear_sky">Selkeää</string>
     <string name="weather_overcast">Pilvistä</string>
     <string name="weather_partly_cloudy">Osittain pilvistä</string>
     <string name="weather_heavy_rain">Rankkaa sadetta</string>
