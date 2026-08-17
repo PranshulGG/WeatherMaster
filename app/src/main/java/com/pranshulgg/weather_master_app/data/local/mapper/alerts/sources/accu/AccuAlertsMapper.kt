@@ -9,7 +9,7 @@ import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtension
 fun AlertsAccuJson.toDomain(locationId: String): Alert {
     return Alert(
         locationId = locationId,
-        event = event.english,
+        event = event.localized.ifBlank { event.english },
         severity = getSeverity(alarmLevel),
         effective = area[0].epochStartTimeSeconds.secondsToMilliseconds(),
         expires = area[0].epochEndTimeSeconds.secondsToMilliseconds(),

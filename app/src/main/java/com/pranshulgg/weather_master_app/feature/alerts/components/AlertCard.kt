@@ -26,6 +26,7 @@ import com.pranshulgg.weather_master_app.core.prefs.AppPrefsState
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
 import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
+import com.pranshulgg.weather_master_app.core.utils.formatters.getLocalizedPattern
 import com.pranshulgg.weather_master_app.core.utils.formatters.safeZoneId
 import java.time.Instant
 import java.time.format.DateTimeFormatter
@@ -33,7 +34,9 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 fun AlertCard(alert: Alert, prefs: AppPrefsState, zoneId: String, shape: Shape) {
-    val pattern = if (prefs.is24HrTimeFormat) "MMM dd, HH:mm" else "MMM dd, hh:mm a"
+    val pattern = getLocalizedPattern(
+        if (prefs.is24HrTimeFormat) "MMMddHmm" else "MMMddhmma"
+    )
 
     val formatter: (Long?) -> String? = {
         it?.let {

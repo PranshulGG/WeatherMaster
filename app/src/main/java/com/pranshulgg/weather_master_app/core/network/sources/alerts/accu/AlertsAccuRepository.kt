@@ -5,6 +5,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResult
 import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResultType
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuApi
+import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnAlertsCache
 import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationKeysDao
@@ -53,7 +54,7 @@ class AlertsAccuRepository @Inject constructor(
                         .body()?.key
                     ?: return@withContext AlertResult.Error(exception = AppException.Unknown())
 
-            val response = api.fetchAlerts(locationKey)
+            val response = api.fetchAlerts(locationKey, language = getCurrentAppLocale().language)
             val body = response.body()
                 ?: return@withContext AlertResult.Error(exception = AppException.Unknown())
 
