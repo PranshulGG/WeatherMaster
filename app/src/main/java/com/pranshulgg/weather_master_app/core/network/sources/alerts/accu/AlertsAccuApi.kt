@@ -20,7 +20,8 @@ interface AlertsAccuApi {
     @GET("alerts/v1/{locationKey}")
     suspend fun fetchAlerts(
         @Path("locationKey") locationKey: String,
-        @Query("details") details: Boolean = true
+        @Query("details") details: Boolean = true,
+        @Query("language") language: String
     ): Response<List<AlertsAccuJson>>
 
 

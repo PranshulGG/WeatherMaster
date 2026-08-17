@@ -1,26 +1,36 @@
 package com.pranshulgg.weather_master_app.core.utils.formatters
 
 import android.content.Context
+import android.text.format.DateFormat
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
 import java.time.Instant
+import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.zone.ZoneRulesException
 import java.util.concurrent.TimeUnit
-import java.time.ZoneId
-import java.time.ZonedDateTime
+
+/**
+ * Modify the date and/or time pattern to adapt to the current locale.
+ */
+fun getLocalizedPattern(pattern: String): String {
+    return DateFormat.getBestDateTimePattern(getCurrentAppLocale(), pattern)
+}
 
 fun to12HourTimeString(timeMilli: Long, zoneId: String, pattern: String = "ha"): String {
     val instant = Instant.ofEpochMilli(timeMilli)
-    val formatter = DateTimeFormatter.ofPattern(pattern, getCurrentAppLocale())
+    val formatter = DateTimeFormatter
+        .ofPattern(getLocalizedPattern(pattern), getCurrentAppLocale())
         .withZone(safeZoneId(zoneId))
 
     return formatter.format(instant)
 }
 
-fun to24HourTimeString(timeMilli: Long, zoneId: String, pattern: String = "HH:mm"): String {
+fun to24HourTimeString(timeMilli: Long, zoneId: String, pattern: String = "Hm"): String {
     val instant = Instant.ofEpochMilli(timeMilli)
-    val formatter = DateTimeFormatter.ofPattern(pattern, getCurrentAppLocale())
+    val formatter = DateTimeFormatter
+        .ofPattern(getLocalizedPattern(pattern), getCurrentAppLocale())
         .withZone(safeZoneId(zoneId))
 
     return formatter.format(instant)
@@ -35,11 +45,11 @@ fun toWeekdayString(timeMilli: Long, zoneId: String): String {
     return formatter.format(zonedDateTime)
 }
 
-fun toDateString(timeMilli: Long, zoneId: String, pattern: String = "dd MMMM"): String {
+fun toDateString(timeMilli: Long, zoneId: String, pattern: String = "ddMMMM"): String {
     val instant = Instant.ofEpochMilli(timeMilli)
     val zonedDateTime = instant.atZone(safeZoneId(zoneId))
-    val formatter = DateTimeFormatter.ofPattern(pattern, getCurrentAppLocale())
-
+    val formatter = DateTimeFormatter
+        .ofPattern(getLocalizedPattern(pattern), getCurrentAppLocale())
 
     return formatter.format(zonedDateTime)
 
