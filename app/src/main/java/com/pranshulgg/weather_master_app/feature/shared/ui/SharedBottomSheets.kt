@@ -56,9 +56,13 @@ object SharedBottomSheet {
             val globalSources = getWeatherSourcesGlobal()
 
             val isApiKeyAvailable: (WeatherSource) -> Boolean = { source ->
-                apiKeys.isNotEmpty()
-                        && apiKeys
-                    .any { it.source == source && !it.apiKey.isNullOrBlank() }
+                if (source.requiresUserApiKey) {
+                    apiKeys.isNotEmpty()
+                            && apiKeys
+                        .any { it.source == source && !it.apiKey.isNullOrBlank() }
+                } else {
+                    true
+                }
             }
 
             var currentSelectedSource by remember(
