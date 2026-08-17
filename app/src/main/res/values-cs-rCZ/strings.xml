@@ -27,22 +27,22 @@
     <string name="location_current">Aktuální poloha</string>
     <string name="search_provider">Vyhledávání poskytovatele</string>
     <plurals name="time_minutes_ago">
-        <item quantity="one">%d min. zpět</item>
-        <item quantity="few">%d mins ago</item>
-        <item quantity="many">%d mins ago</item>
-        <item quantity="other">%d mins ago</item>
+        <item quantity="one">Před %d min</item>
+        <item quantity="few">Před %d min</item>
+        <item quantity="many">Před %d min</item>
+        <item quantity="other">Před %d min</item>
     </plurals>
     <plurals name="time_hours_ago">
-        <item quantity="one">%d hod. zpět</item>
-        <item quantity="few">%d hrs ago</item>
-        <item quantity="many">%d hrs ago</item>
-        <item quantity="other">%d hrs ago</item>
+        <item quantity="one">Před %d h</item>
+        <item quantity="few">Před %d h</item>
+        <item quantity="many">Před %d h</item>
+        <item quantity="other">Před %d h</item>
     </plurals>
     <plurals name="time_days_ago">
-        <item quantity="one">%d den zpět</item>
-        <item quantity="few">%d dny zpět </item>
-        <item quantity="many">%d dnů zpět </item>
-        <item quantity="other">%d days ago</item>
+        <item quantity="one">Před %d dnem</item>
+        <item quantity="few">Před %d dny</item>
+        <item quantity="many">Před %d dny</item>
+        <item quantity="other">Před %d dny</item>
     </plurals>
     <string name="time_just_now">Právě teď</string>
     <string name="time_last_updated">Poslední aktualizace: %1$s</string>
@@ -65,7 +65,7 @@
     <string name="weather_uv_low">Nízký</string>
     <string name="weather_uv_moderate">Střední</string>
     <string name="weather_uv_high">Vysoký</string>
-    <string name="weather_uv_very_high">Velmi vysoká</string>
+    <string name="weather_uv_very_high">Velmi vysoký</string>
     <string name="weather_uv_extreme">Extrémní</string>
     <string name="setting_appearance">Vzhled</string>
     <string name="setting_appearance_secondary">Themes, animations and weather units</string>
@@ -124,11 +124,11 @@
     <string name="current_location_not_found">Current location not found</string>
     <string name="error_server">Požadavek se nepodařilo zpracovat. Zkuste to za chvíli znovu.</string>
     <string name="weather_airquality_good">Dobrá</string>
-    <string name="weather_airquality_fair">Slušná</string>
+    <string name="weather_airquality_fair">Průměrná</string>
     <string name="weather_airquality_moderate">Střední</string>
     <string name="weather_airquality_poor">Špatná</string>
     <string name="weather_airquality_very_poor">Velmi špatná</string>
-    <string name="weather_airquality_hazardous">Nebezpečné</string>
+    <string name="weather_airquality_hazardous">Nebezpečná</string>
     <string name="weather_aqi_description_good">Kvalita vzduchu je uspokojivá, znečištění vzduchu vytváří buď nízké nebo žádné riziko.</string>
     <string name="weather_aqi_description_fair">Kvalita vzduchu je přijatelná. Nicméně pro některé lidi může představovat riziko. Zejména pro ty, kdo obvykle citlivě reagují na kvalitu vzduchu.</string>
     <string name="weather_aqi_description_moderate">Lidé citliví na kvalitu vzduchu mohou pociťovat dopad na své zdraví. Široká veřejnost by neměla být zasažena.</string>
@@ -225,7 +225,7 @@
     <string name="summary_uv_moderate_template_3">Sluneční záření bude po celý den mírné.</string>
     <string name="weather_summary">Shrnutí</string>
     <string name="about_changelog">Seznam změn</string>
-    <string name="about">O</string>
+    <string name="about">Informace</string>
     <string name="weather_max_for_the_day">Max for the day</string>
     <string name="weather_about_uv_index">The UV index is a measure of the level of ultraviolet radiation. The values of the index range from zero upward - the higher the UV index, the greater the potential for damage to the skin and eye, and the less time it takes for harm to occur</string>
     <string name="text_scale">Měřítko</string>
