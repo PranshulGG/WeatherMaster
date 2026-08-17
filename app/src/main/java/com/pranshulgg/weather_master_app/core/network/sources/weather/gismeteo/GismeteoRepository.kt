@@ -3,8 +3,10 @@ package com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo
 import android.util.Xml
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
+import com.pranshulgg.weather_master_app.core.network.calls.safeApiCall
 import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.model.GismeteoModel
 import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.model.GismeteoModelCurrent
 import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.model.GismeteoModelDaily
@@ -62,14 +64,21 @@ class GismeteoRepository @Inject constructor(
 
             return@withContext try {
 
-                val locationId =
-                    locationKeysDao.getCityKeyForLocation(location.id)?.cityKey.toSafeDouble()
-                        ?.toLong()
-                        ?: api.fetchLocations(location.latitude, location.longitude).body()
-                            ?.byteStream()?.use { stream ->
-                                findClosestLocation(location, stream)
-                            }
-                        ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
+                var locationId = locationKeysDao.getCityKeyForLocation(location.id)
+                    ?.cityKey.toSafeDouble()
+                    ?.toLong()
+
+                if (locationId == null) {
+                    locationId = safeApiCall {
+                        api.fetchLocations(location.latitude, location.longitude)
+                    }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
+                        .byteStream().use { stream ->
+                            findClosestLocation(location, stream)
+                        }
+                    
+                }
+
+                if (locationId == null) return@withContext WeatherResult.Error(exception = AppException.EmptyResponseBody())
 
 
                 val response = api.fetchForecast(id = locationId)

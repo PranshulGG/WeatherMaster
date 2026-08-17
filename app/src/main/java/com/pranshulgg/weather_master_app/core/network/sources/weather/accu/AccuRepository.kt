@@ -2,8 +2,10 @@ package com.pranshulgg.weather_master_app.core.network.sources.weather.accu
 
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
+import com.pranshulgg.weather_master_app.core.network.calls.safeApiCall
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.json.bundle.AccuWeatherBundle
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherCacheSafe
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnWeatherCache
@@ -54,29 +56,31 @@ class AccuRepository @Inject constructor(
             return@withContext try {
 
                 val locationKey = locationKeysDao.getCityKeyForLocation(location.id)?.cityKey
-                    ?: api.getLocationKey("${location.latitude},${location.longitude}").body()?.key
-                    ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
+                    ?: safeApiCall { api.getLocationKey("${location.latitude},${location.longitude}") }.getOrElse {
+                        return@withContext WeatherResult.Error(
+                            exception = it.toAppException()
+                        )
+                    }.key
+
+                val current = safeApiCall {
+                    api.fetchCurrent(locationKey)
+                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
 
 
-                val current = api.fetchCurrent(locationKey)
+                val hourly = safeApiCall {
+                    api.fetchHourly(locationKey)
+                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
 
-                val bodyCurrent = current.body()
-                    ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
 
-                val hourly = api.fetchHourly(locationKey)
+                val daily = safeApiCall { api.fetchDaily(locationKey) }.getOrElse {
+                    return@withContext WeatherResult.Error(exception = it.toAppException())
+                }
 
-                val bodyHourly = hourly.body()
-                    ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
-
-                val daily = api.fetchDaily(locationKey)
-
-                val bodyDaily = daily.body()
-                    ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
 
                 val final = AccuWeatherBundle(
-                    current = bodyCurrent[0],
-                    hourly = bodyHourly,
-                    daily = bodyDaily
+                    current = current[0],
+                    hourly = hourly,
+                    daily = daily
                 )
 
                 val domain = final.toDomain(location)

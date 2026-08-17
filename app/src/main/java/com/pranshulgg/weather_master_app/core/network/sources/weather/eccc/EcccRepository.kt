@@ -1,8 +1,11 @@
 package com.pranshulgg.weather_master_app.core.network.sources.weather.eccc
 
+import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
+import com.pranshulgg.weather_master_app.core.network.calls.safeApiCall
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofrance.MeteoFranceApi
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherCacheSafe
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnWeatherCache
@@ -49,16 +52,18 @@ class EcccRepository @Inject constructor(
             }
 
             return@withContext try {
+                
+                val response = safeApiCall {
+                    api.fetchWeather(
+                        location.latitude,
+                        location.longitude
+                    )
+                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
+                    .firstOrNull()
 
+                if (response == null) return@withContext WeatherResult.Error(exception = AppException.EmptyResponseBody())
 
-                val response = api.fetchWeather(location.latitude, location.longitude)
-
-                val body =
-                    response.body()?.firstOrNull()
-                        ?: return@withContext WeatherResult.Error(exception = UnknownHostException())
-
-
-                val domain = body.toDomain(location)
+                val domain = response.toDomain(location)
 
                 val mergedHourly = mergeHourlyWeather(
                     existing = existingHourly,

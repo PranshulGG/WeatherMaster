@@ -3,8 +3,10 @@ package com.pranshulgg.weather_master_app.core.network.sources.weather.imd
 import android.util.Log
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
+import com.pranshulgg.weather_master_app.core.network.calls.safeApiCall
 import com.pranshulgg.weather_master_app.core.network.sources.weather.imd.model.ImdForecastModel
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.MeteoamApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.json.bundle.MeteoamWeatherBundle
@@ -58,11 +60,13 @@ class ImdRepository @Inject constructor(
                 val imdTimeFrames = listOf("1hr", "3hr", "6hr")
 
                 val timeStamps = imdTimeFrames.map {
-                    api.fetchTimestamps("mmem_${it}.txt")
+                    safeApiCall {
+                        api.fetchTimestamps("mmem_${it}.txt")
+                    }.getOrElse { throwable -> return@withContext WeatherResult.Error(exception = throwable.toAppException()) }
                 }
 
                 val timeStampsBody = timeStamps.map {
-                    it.body()?.string()?.substringBefore(",")
+                    it.string().substringBefore(",")
                 }
 
 
@@ -70,20 +74,22 @@ class ImdRepository @Inject constructor(
                 val longitude = roundToEighth(location.longitude)
 
                 val forecasts = timeStampsBody.mapIndexed { index, s ->
-                    api.fetchForecast(
-                        latitude = latitude,
-                        longitude = longitude,
-                        date = "${s}_${imdTimeFrames[index]}_0p125"
-                    )
+                    safeApiCall {
+                        api.fetchForecast(
+                            latitude = latitude,
+                            longitude = longitude,
+                            date = "${s}_${imdTimeFrames[index]}_0p125"
+                        )
+                    }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
                 }
 
                 val final = ImdForecastModel(
-                    forecast1hr = forecasts[0].body(),
-                    forecast3hr = forecasts[1].body(),
-                    forecast6hr = forecasts[2].body(),
-                    timeStamp1 = timeStampsBody[0]!!,
-                    timeStamp2 = timeStampsBody[1]!!,
-                    timeStamp3 = timeStampsBody[2]!!
+                    forecast1hr = forecasts[0],
+                    forecast3hr = forecasts[1],
+                    forecast6hr = forecasts[2],
+                    timeStamp1 = timeStampsBody[0],
+                    timeStamp2 = timeStampsBody[1],
+                    timeStamp3 = timeStampsBody[2]
                 )
 
                 val domain = final.toDomain(location)

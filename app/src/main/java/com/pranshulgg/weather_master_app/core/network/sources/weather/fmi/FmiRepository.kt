@@ -2,9 +2,12 @@ package com.pranshulgg.weather_master_app.core.network.sources.weather.fmi
 
 import android.util.Log
 import android.util.Xml
+import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
+import com.pranshulgg.weather_master_app.core.network.calls.safeApiCall
 import com.pranshulgg.weather_master_app.core.network.sources.weather.fmi.model.FmiWeather
 import com.pranshulgg.weather_master_app.core.network.sources.weather.fmi.model.FmiWeatherMember
 import com.pranshulgg.weather_master_app.core.utils.formatters.safeZoneId
@@ -61,42 +64,45 @@ class FmiRepository @Inject constructor(
             }
 
             return@withContext try {
-                val stationResponse = api.fetchStations()
+                val stationResponse = safeApiCall {
+                    api.fetchStations()
+                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
 
-                val stationBody =
-                    stationResponse.body()?.byteStream()?.use { stream ->
-                        fmiStationXml(stream, location)
-                    }
+                val stationBody = stationResponse.byteStream().use { stream ->
+                    fmiStationXml(stream, location)
+                }
 
                 val forecastTimes = getStartEndTimeForecast(location)
 
-                val response = api.fetchForecast(
-                    latlon = "${location.latitude},${location.longitude}",
-                    forecastTimes.second,
-                    forecastTimes.first
-                )
+                val response = safeApiCall {
+                    api.fetchForecast(
+                        latlon = "${location.latitude},${location.longitude}",
+                        forecastTimes.second,
+                        forecastTimes.first
+                    )
+                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
 
                 val times = getStartEndTime()
-                val currentResponse = if (stationBody != null) api.fetchCurrent(
-                    stationBody,
-                    times.first,
-                    times.second
-                ) else {
-                    null
+
+                if (stationBody.isNullOrEmpty()) {
+                    return@withContext WeatherResult.Error(AppException.EmptyResponseBody())
                 }
 
-                val currentBody = currentResponse?.body()?.byteStream()?.use { stream ->
+                val currentResponse = safeApiCall {
+                    api.fetchCurrent(
+                        stationBody,
+                        times.first,
+                        times.second
+                    )
+                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
+
+                val currentBody = currentResponse.byteStream().use { stream ->
                     fmiXml(stream)
                 }
 
-
-                if (!response.isSuccessful || response.body() == null) {
-                    throw IllegalStateException("FMI request failed: ${response.code()}")
+                val body = response.byteStream().use { stream ->
+                    fmiXml(stream)
                 }
-                val body =
-                    response.body()?.byteStream()?.use { stream ->
-                        fmiXml(stream)
-                    } ?: return@withContext WeatherResult.Error(exception = UnknownHostException())
 
 
                 val final = FmiWeather(

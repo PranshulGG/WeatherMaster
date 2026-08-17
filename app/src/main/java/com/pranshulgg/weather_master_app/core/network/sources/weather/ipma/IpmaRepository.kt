@@ -2,8 +2,10 @@ package com.pranshulgg.weather_master_app.core.network.sources.weather.ipma
 
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
+import com.pranshulgg.weather_master_app.core.network.calls.safeApiCall
 import com.pranshulgg.weather_master_app.core.network.sources.weather.ipma.json.IpmaLocationsJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.MeteoamApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.json.bundle.MeteoamWeatherBundle
@@ -61,15 +63,14 @@ class IpmaRepository @Inject constructor(
                         ?.toLong()
                         ?: getClosestLocation(api.fetchLocations().body(), location)
                         ?: return@withContext WeatherResult.Error(
-                            exception = AppException.Unknown()
+                            exception = AppException.EmptyResponseBody()
                         )
 
-                val forecast = api.fetchForecast(locationId)
+                val forecast = safeApiCall { api.fetchForecast(locationId) }.getOrElse {
+                    return@withContext WeatherResult.Error(exception = it.toAppException())
+                }
 
-                val bodyForecast = forecast.body()
-                    ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
-
-                val domain = bodyForecast.toDomain(location)
+                val domain = forecast.toDomain(location)
 
                 locationKeysDao.insertCityKey(
                     LocationKeyEntity(
