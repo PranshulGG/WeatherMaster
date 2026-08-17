@@ -1,6 +1,5 @@
 package com.pranshulgg.weather_master_app.feature.daily.ui
 
-import android.text.format.DateFormat.getBestDateTimePattern
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -21,7 +20,6 @@ import com.pranshulgg.weather_master_app.core.model.weather.toLabel
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.WeatherIconBox
 import com.pranshulgg.weather_master_app.core.utils.formatters.toDateString
-import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
 import kotlin.math.roundToInt
 
 
@@ -32,12 +30,7 @@ fun DailyForecastHeroHeader(
     units: WeatherUnits
 ) {
 
-    val date = toDateString(
-        daily.time, location.timezone, getBestDateTimePattern(
-            getCurrentAppLocale(),
-            "MMMMdd"
-        )
-    )
+    val date = toDateString(daily.time, location.timezone)
     val context = LocalContext.current
 
     val maxTemp =
