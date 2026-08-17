@@ -225,7 +225,7 @@
     <string name="text_scale">Asteikko</string>
     <string name="weather_about_humidity">Kosteus tarkoittaa vesihöyryn määrää ilmassa. Vesihöyry eli veden kaasumainen muoto on yleensä näkymätöntä. Kosteus nostaa sateen, kasteen tai sumun todennäköisyyttä.</string>
     <string name="text_average_for_day">Päivän keskiarvo</string>
-    <string name="weather_about_dewpoint">Kastepiste on tärkeä kosteuden mittayksikkö. Kun kastepiste nousee 20 celsiuksen tai 70 fahrenheitin kieppeille, lähes kaikki alkaa tuntua tahmealta. Siispä kastepiste on paras ennuste ilmastoinnin energiankulutukselle kesällä.</string>
+    <string name="weather_about_dewpoint">Kastepiste on tärkeä kosteuden mittayksikkö. Kun kastepiste nousee 20 celsiuksen tai 70 fahrenheitin tuntumaan, lähes kaikki alkaa tuntua tahmealta. Siispä kastepiste on paras ennuste ilmastoinnin energiankulutukselle kesällä.</string>
     <string name="weather_visibility_about">Näkyvyys kuvaa matkaa, jonka näkee ulkona selkeästi, ennen kuin se peittyy esimerkiksi sateen tai muiden säätilojen vuoksi.</string>
     <string name="text_excellent">Erinomainen</string>
     <string name="text_very_good">Erittäin hyvä</string>
@@ -288,10 +288,10 @@
     <string name="summary_snow_template_day_night">Luvassa lumisadetta kello %1$s %2$s todennäköisyydellä. Yöllä sataa mahdollisesti lunta %3$s todennäköisyydellä noin kello %4$s.</string>
     <string name="summary_snow_template_day">Luvassa lumisadetta kello %1$s %2$s todennäköisyydellä.</string>
     <string name="summary_snow_template_night">Yöllä on %1$s todennäköisyys lumisateeseen noin kello %2$s.</string>
-    <string name="summary_temp_template_extreme">Päivällä luvassa jopa %1$s äärimmäisiä lämpötiloja. Yöllä lämpötila laskee noin %2$s kieppeille.</string>
-    <string name="summary_temp_template_warm">Luvassa lämmin päivä ja jopa %1$s lämpötila. Yöllä lämpötila laskee %2$s kieppeille.</string>
-    <string name="summary_temp_template_mild">Luvassa leuto päivä ja jopa %1$s lämpötila. Yöllä lämpötila laskee %2$s kieppeille.</string>
-    <string name="summary_temp_template_cool">Luvassa viileä päivä ja päivän ylin lämpötila on %1$s. Yöllä lämpötila tippuu %2$s kieppeille.</string>
+    <string name="summary_temp_template_extreme">Päivällä luvassa jopa %1$s äärimmäisiä lämpötiloja. Yöllä lämpötila laskee noin %2$s tuntumaan.</string>
+    <string name="summary_temp_template_warm">Luvassa lämmin päivä ja jopa %1$s lämpötila. Yöllä lämpötila laskee %2$s tuntumaan.</string>
+    <string name="summary_temp_template_mild">Luvassa leuto päivä ja jopa %1$s lämpötila. Yöllä lämpötila laskee %2$s tuntumaan.</string>
+    <string name="summary_temp_template_cool">Luvassa viileä päivä ja päivän ylin lämpötila on %1$s. Yöllä lämpötila tippuu %2$s tuntumaan.</string>
     <string name="summary_temp_template_cold">Tänään tulee olemaan kylmää lämpötilan pysytellessä %1$s kieppeillä päivällä. Yön alin lämpötila on noin %2$s. </string>
     <string name="summary_overview_template_day_condition">Päivällä tulee olemaan %1$s.</string>
     <string name="summary_overview_template_night_condition">Yöksi luvassa %1$s.</string>
