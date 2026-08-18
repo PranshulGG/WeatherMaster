@@ -348,6 +348,7 @@
     <string name="country_portugal">Portugal</string>
     <string name="country_russia">Rússia</string>
     <string name="country_spain">Espanha</string>
+    <string name="country_taiwan">Taiwan</string>
     <string name="settings_date_format">Formato de data</string>
     <string name="widget_settings_display_hourly_secondary">Exibe a previsão por hora em vez da previsão diária</string>
     <string name="settings_widget_background">Plano de fundo do widget</string>
@@ -401,5 +402,12 @@
     <string name="weather_airquality_source">Fonte da qualidade do ar</string>
     <string name="country_india">Índia</string>
     <string name="error_secure_connection_failed">Falha na conexão segura</string>
+    <string name="error_empty_response_body">The server returned an empty response.</string>
+    <string name="error_bad_request">The server could not process the request.</string>
+    <string name="error_unauthorized">Authentication with the service failed.</string>
+    <string name="error_forbidden">Access to this resource was denied.</string>
+    <string name="error_not_found">The requested resource could not be found.</string>
+    <string name="error_request_timeout">The server did not respond in time.</string>
+    <string name="error_too_many_requests">The request limit has been reached.</string>
 </resources>
 <!--<string name=""></string>-->
