@@ -25,6 +25,12 @@ fun WeatherAutoRefreshForeground(
                             location = it,
                             source = it.source
                         )
+                        // Cache-respecting; only forces a real refetch if the
+                        // device location actually moved since last time.
+                        weatherViewModel.getWeather(
+                            location = it,
+                            source = it.source
+                        )
                     }
                 }
 
