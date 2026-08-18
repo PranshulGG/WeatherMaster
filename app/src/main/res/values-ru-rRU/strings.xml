@@ -353,7 +353,8 @@
     <string name="country_italy">Италия</string>
     <string name="country_portugal">Португалия</string>
     <string name="country_russia">Россия</string>
-    <string name="country_spain">Spain</string>
+    <string name="country_spain">Испания</string>
+    <string name="country_taiwan">Тайвань</string>
     <string name="settings_date_format">Формат даты</string>
     <string name="widget_settings_display_hourly_secondary">Отображает почасовой прогноз, а не ежедневный</string>
     <string name="settings_widget_background">Фон виджета</string>
@@ -396,7 +397,7 @@
     <string name="settings_api_key_config">Конфигурация API-ключей</string>
     <string name="source_regional_global">Региональный с глобальным охватом</string>
     <string name="error_no_api_key">API-ключ не найден. Пожалуйста, добавьте свой API-ключ в настройках</string>
-    <string name="error_api_key_rejected">Your API key was rejected. It may be invalid or expired — check it in the API key settings.</string>
+    <string name="error_api_key_rejected">Ваш API-ключ был отклонён. Возможно, он недействителен или истёк — проверьте его в настройках API-ключа.</string>
     <string name="weather_mixed_precipitation">Смешанные осадки</string>
     <string name="weather_hail">Град</string>
     <string name="weather_sleet">Мокрый снег</string>
@@ -407,5 +408,12 @@
     <string name="weather_airquality_source">Источник данных о качестве воздуха</string>
     <string name="country_india">Индия</string>
     <string name="error_secure_connection_failed">Безопасное подключение не удалось</string>
+    <string name="error_empty_response_body">Сервер вернул пустой ответ.</string>
+    <string name="error_bad_request">Серверу не удалось обработать запрос.</string>
+    <string name="error_unauthorized">Не удалось выполнить аутентификацию с помощью службы.</string>
+    <string name="error_forbidden">Доступ к этому ресурсу был запрещён.</string>
+    <string name="error_not_found">Запрошенный ресурс не был найден.</string>
+    <string name="error_request_timeout">Сервер не ответил вовремя.</string>
+    <string name="error_too_many_requests">Достигнут лимит запросов.</string>
 </resources>
 <!--<string name=""></string>-->
