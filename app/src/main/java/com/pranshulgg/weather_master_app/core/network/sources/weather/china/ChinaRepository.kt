@@ -1,8 +1,10 @@
 package com.pranshulgg.weather_master_app.core.network.sources.weather.china
 
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
+import com.pranshulgg.weather_master_app.core.network.calls.safeApiCall
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherCacheSafe
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnWeatherCache
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.mergeHourlyWeather
@@ -51,31 +53,28 @@ class ChinaRepository @Inject constructor(
 
             return@withContext try {
 
+                val response = safeApiCall {
+                    api.getLocationKey(location.latitude, location.longitude)
+                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
 
-                val response = api.getLocationKey(location.latitude, location.longitude)
-
-                val body = response.body()
-                    ?: return@withContext WeatherResult.Error(exception = UnknownHostException())
-
-                val locationKey =
-                    body[0].locationKey ?: body[0].key ?: return@withContext WeatherResult.Error(
-                        exception = UnknownHostException()
-                    )
-
-
-                val forecastResponse = api.getForecast(
-                    location.latitude,
-                    location.longitude,
-                    appKey = appKey,
-                    sign = sign,
-                    locationKey = locationKey
+                val locationKey = response[0].locationKey ?: response[0].key
+                ?: return@withContext WeatherResult.Error(
+                    exception = UnknownHostException()
                 )
 
-                val forecastBody = forecastResponse.body()
-                    ?: return@withContext WeatherResult.Error(exception = UnknownHostException())
+
+                val forecastResponse = safeApiCall {
+                    api.getForecast(
+                        location.latitude,
+                        location.longitude,
+                        appKey = appKey,
+                        sign = sign,
+                        locationKey = locationKey
+                    )
+                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
 
 
-                val domain = forecastBody.toDomain(location)
+                val domain = forecastResponse.toDomain(location)
 
                 val mergedHourly = mergeHourlyWeather(
                     existing = existingHourly,

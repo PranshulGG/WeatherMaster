@@ -17,6 +17,7 @@ jobs:
       GEO_NAMES_USERNAME: ${{ secrets.GEO_NAMES_USERNAME }}
       MF_KEY: ${{ secrets.MF_KEY }}
       ACCU_KEY: ${{ secrets.ACCU_KEY }}
+      WEATHERAPI_KEY: ${{ secrets.WEATHERAPI_KEY }}
 
     steps:
       - name: Checkout
@@ -26,7 +27,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: "21.0.7"
@@ -52,6 +53,7 @@ jobs:
             -PGEO_NAMES_USERNAME="${{ secrets.GEO_NAMES_USERNAME }}" \
             -PMF_KEY="${{ secrets.MF_KEY }}" \
             -PACCU_KEY="${{ secrets.ACCU_KEY }}" \
+            -PWEATHERAPI_KEY="${{ secrets.WEATHERAPI_KEY }}" \
             clean assembleRelease
 
       - name: Upload APK

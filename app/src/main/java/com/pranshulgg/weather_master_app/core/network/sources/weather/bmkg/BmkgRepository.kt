@@ -1,8 +1,11 @@
 package com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg
 
+import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
+import com.pranshulgg.weather_master_app.core.network.calls.safeApiCall
 import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.json.bundle.BmkgForecastBundle
 import com.pranshulgg.weather_master_app.core.network.sources.weather.china.ChinaApi
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherCacheSafe
@@ -53,19 +56,19 @@ class BmkgRepository @Inject constructor(
             return@withContext try {
 
 
-                val response = api.fetchCurrent(location.latitude, location.longitude)
+                val response = safeApiCall {
+                    api.fetchCurrent(location.latitude, location.longitude)
+                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
 
-                val body = response.body()
-                    ?: return@withContext WeatherResult.Error(exception = UnknownHostException())
 
-                val forecastResponse = api.fetchForecast(location.latitude, location.longitude)
+                val forecastResponse = safeApiCall {
+                    api.fetchForecast(location.latitude, location.longitude)
+                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
 
-                val forecastBody = forecastResponse.body()
-                    ?: return@withContext WeatherResult.Error(exception = UnknownHostException())
 
                 val final = BmkgForecastBundle(
-                    current = body,
-                    forecast = forecastBody
+                    current = response,
+                    forecast = forecastResponse
                 )
 
                 val domain = final.toDomain(location)

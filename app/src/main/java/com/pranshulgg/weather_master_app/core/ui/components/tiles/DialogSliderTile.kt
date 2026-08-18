@@ -36,6 +36,22 @@ fun DialogSliderTile(
     var showDialog by remember { mutableStateOf(false) }
     var sliderValue by remember { mutableStateOf(initialValue) }
 
+
+    val description: @Composable (() -> Unit)? = description?.let {
+
+        {
+            Text(
+                description,
+                color = if (isDescriptionAsValue) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+    } ?: {
+        Text(
+            text = labelFormatter(sliderValue),
+            color = MaterialTheme.colorScheme.tertiary
+        )
+    }
+
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = shapes,
@@ -47,19 +63,7 @@ fun DialogSliderTile(
             ),
             leadingContent = leading,
             content = { Text(headline) },
-            supportingContent = {
-                if (description != null) {
-                    Text(
-                        description,
-                        color = if (isDescriptionAsValue) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                } else {
-                    Text(
-                        text = labelFormatter(sliderValue),
-                        color = MaterialTheme.colorScheme.tertiary
-                    )
-                }
-            },
+            supportingContent = description,
         )
     }
 

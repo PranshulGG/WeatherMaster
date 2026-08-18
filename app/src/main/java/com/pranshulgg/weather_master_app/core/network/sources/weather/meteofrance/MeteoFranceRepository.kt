@@ -1,8 +1,10 @@
 package com.pranshulgg.weather_master_app.core.network.sources.weather.meteofrance
 
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
+import com.pranshulgg.weather_master_app.core.network.calls.safeApiCall
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.MetNorwayApi
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherCacheSafe
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnWeatherCache
@@ -50,14 +52,12 @@ class MeteoFranceRepository @Inject constructor(
             return@withContext try {
 
 
-                val response = api.fetchWeather(location.latitude, location.longitude)
-
-                val body =
-                    response.body()
-                        ?: return@withContext WeatherResult.Error(exception = UnknownHostException())
+                val response = safeApiCall {
+                    api.fetchWeather(location.latitude, location.longitude)
+                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
 
 
-                val domain = body.toDomain(location)
+                val domain = response.toDomain(location)
 
                 val mergedHourly = mergeHourlyWeather(
                     existing = existingHourly,

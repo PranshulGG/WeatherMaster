@@ -90,13 +90,26 @@ class GetDeviceLocation {
         onTimeout: () -> Unit
     ) {
 
-        val lastKnown = lm.getLastKnownLocation(provider)
-            ?: lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-            ?: lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-            ?: lm.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
+//        val lastKnown = lm.getLastKnownLocation(provider)
+//            ?: lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+//            ?: lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+//            ?: lm.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
+//
+
+        val lastKnown = listOf(
+            LocationManager.GPS_PROVIDER,
+            LocationManager.NETWORK_PROVIDER,
+            LocationManager.PASSIVE_PROVIDER
+        ).filter { lm.allProviders.contains(it) }.mapNotNull { provider ->
+            try {
+                lm.getLastKnownLocation(provider)
+            } catch (e: SecurityException) {
+                null
+            }
+        }.maxByOrNull { it.time }
+
 
         if (lastKnown != null) {
-            timeoutHandler?.removeCallbacks(timeoutRunnable!!)
             onLocation(
                 DeviceLocation(
                     parseCord(lastKnown.latitude),
@@ -106,16 +119,25 @@ class GetDeviceLocation {
             return
         }
 
+        var delivered = false
+
+        fun deliver(location: Location) {
+            if (delivered) return
+
+            delivered = true
+            stopUpdates()
+
+            onLocation(
+                DeviceLocation(
+                    parseCord(location.latitude),
+                    parseCord(location.longitude)
+                )
+            )
+        }
+
         locationListener = object : LocationListener {
             override fun onLocationChanged(location: Location) {
-                timeoutHandler?.removeCallbacks(timeoutRunnable!!)
-                onLocation(
-                    DeviceLocation(
-                        parseCord(location.latitude),
-                        parseCord(location.longitude)
-                    )
-                )
-                stopUpdates()
+                deliver(location)
             }
 
             override fun onProviderEnabled(provider: String) {}
@@ -124,27 +146,63 @@ class GetDeviceLocation {
         }
 
 
-        lm.requestLocationUpdates(
-            provider,
-            0L,
-            0f,
-            locationListener!!,
-            Looper.getMainLooper()
-        )
+        val providers = listOf(
+            LocationManager.GPS_PROVIDER, LocationManager.NETWORK_PROVIDER
+        ).filter {
+            lm.allProviders.contains(it) && runCatching { lm.isProviderEnabled(it) }.getOrDefault(
+                false
+            )
+        }
+
+        if (providers.isEmpty()) {
+            locationListener = null
+            onTimeout()
+            return
+        }
+
+        // request live updates from BOTH providers @reveler-hub #938
+        providers.forEach { provider ->
+            try {
+                lm.requestLocationUpdates(
+                    provider,
+                    0L,
+                    0f,
+                    locationListener!!,
+                    Looper.getMainLooper()
+                )
+            } catch (_: SecurityException) {
+            }
+        }
+
 
         timeoutHandler = Handler(Looper.getMainLooper())
 
         timeoutRunnable = Runnable {
-            stopUpdates()
-            onTimeout()
+            if (!delivered) {
+                stopUpdates()
+                onTimeout()
+            }
         }
 
-        timeoutHandler?.postDelayed(timeoutRunnable!!, timeoutMillis)
+        timeoutHandler?.postDelayed(
+            timeoutRunnable!!,
+            timeoutMillis
+        )
     }
 
 
     fun stopUpdates() {
-        locationListener?.let { locationManager?.removeUpdates(it) }
+        timeoutRunnable?.let {
+            timeoutHandler?.removeCallbacks(it)
+        }
+
+        timeoutRunnable = null
+        timeoutHandler = null
+
+        locationListener?.let { listener ->
+            locationManager?.removeUpdates(listener)
+        }
+
         locationListener = null
     }
 }

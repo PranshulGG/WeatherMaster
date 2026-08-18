@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.widgets.ui.colors
 
+import android.annotation.SuppressLint
 import androidx.glance.unit.ColorProvider
 import com.pranshulgg.weather_master_app.R
 
@@ -20,6 +21,7 @@ enum class WidgetTheme(val label: Int) {
 
 class WidgetColors {
 
+    @SuppressLint("RestrictedApi")
     fun getTextColor(theme: WidgetTextTheme, widgetTheme: WidgetTheme): Pair<ColorProvider, Int>? {
 
         val color = when (theme) {
@@ -34,6 +36,7 @@ class WidgetColors {
         return if (color == null) null else Pair(ColorProvider(color), color)
     }
 
+    @SuppressLint("RestrictedApi")
     fun getTextVariantColor(theme: WidgetTextTheme, widgetTheme: WidgetTheme): ColorProvider? {
 
         val color = when (theme) {
@@ -48,6 +51,7 @@ class WidgetColors {
         return if (color == null) null else ColorProvider(color)
     }
 
+    @SuppressLint("RestrictedApi")
     fun getBackgroundColor(widgetTheme: WidgetTheme): ColorProvider? {
         val color = when (widgetTheme) {
             WidgetTheme.LIGHT -> R.color.white

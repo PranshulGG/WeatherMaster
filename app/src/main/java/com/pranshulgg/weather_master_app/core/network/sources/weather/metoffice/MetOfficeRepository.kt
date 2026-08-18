@@ -2,8 +2,10 @@ package com.pranshulgg.weather_master_app.core.network.sources.weather.metoffice
 
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
+import com.pranshulgg.weather_master_app.core.network.calls.safeApiCall
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metoffice.model.MetOfficeForecastJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoApi
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherCacheSafe
@@ -57,6 +59,7 @@ class MetOfficeRepository @Inject constructor(
             }
 
             val isCacheSafe = isWeatherCacheSafe(cache)
+
             if (apiKey?.apiKey.isNullOrBlank()) {
                 return@withContext WeatherResult.Error(
                     exception = AppException.NoApiKeyError(),
@@ -67,22 +70,22 @@ class MetOfficeRepository @Inject constructor(
 
             return@withContext try {
 
-                val hourly = api.fetchHourlyForecast(
-                    apiKey.apiKey, location.latitude, location.longitude
-                )
-                val daily = api.fetchDailyForecast(
-                    apiKey.apiKey, location.latitude, location.longitude
-                )
+                val hourly = safeApiCall {
+                    api.fetchHourlyForecast(
+                        apiKey.apiKey, location.latitude, location.longitude
+                    )
+                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
 
-                val hourlyBody = hourly.body()
-                    ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
-                val dailyBody = daily.body()
-                    ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
+                val daily = safeApiCall {
+                    api.fetchDailyForecast(
+                        apiKey.apiKey, location.latitude, location.longitude
+                    )
+                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
 
 
                 val final = MetOfficeForecastJson(
-                    hourly = hourlyBody,
-                    daily = dailyBody
+                    hourly = hourly,
+                    daily = daily
                 )
 
                 val domain = final.toDomain(location)
@@ -103,7 +106,6 @@ class MetOfficeRepository @Inject constructor(
 
 
             } catch (e: Exception) {
-
 
                 WeatherResult.Error(
                     exception = e,

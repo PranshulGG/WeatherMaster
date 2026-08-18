@@ -13,6 +13,7 @@ import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -56,6 +57,7 @@ fun SettingsScreen(navController: NavController) {
                     .padding(paddingValues),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
+
 
             SettingSection(
                 tiles = listOf(
@@ -107,6 +109,8 @@ fun SettingsScreen(navController: NavController) {
                             uriHandler.openUri("https://discord.gg/sSW2E4nqmn")
                         }
                     ),
+
+
                     SettingTile.ActionTile(
                         leading = { SettingsTileIcon(R.drawable.info_24px) },
                         title = stringResource(R.string.setting_about_app),

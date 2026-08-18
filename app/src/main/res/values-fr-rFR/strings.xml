@@ -35,7 +35,7 @@
         <item quantity="other">Il y a %dh</item>
     </plurals>
     <plurals name="time_days_ago">
-        <item quantity="one">Hier</item>
+        <item quantity="one">%d jour</item>
         <item quantity="other">Il y a %d jours</item>
     </plurals>
     <string name="time_just_now">À l\'instant</string>

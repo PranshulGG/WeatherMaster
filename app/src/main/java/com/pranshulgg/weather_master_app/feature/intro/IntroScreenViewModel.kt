@@ -23,7 +23,11 @@ class IntroScreenViewModel @Inject constructor(
     fun saveDeviceLocation(location: DeviceLocation) {
         viewModelScope.launch {
 
-            val address = nominatimRepository.getAddress(location.latitude, location.longitude)
+            val address = try {
+                nominatimRepository.getAddress(location.latitude, location.longitude)
+            } catch (e: Exception) {
+                null
+            }
 
             if (address != null && address.city != null) {
                 locationsRepo.saveLocation(

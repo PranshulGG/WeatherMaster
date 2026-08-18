@@ -16,6 +16,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuA
 import com.pranshulgg.weather_master_app.core.network.sources.weather.aemet.AemetApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.BmkgApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.china.ChinaApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.cwa.CwaApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.DwdApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.EcccApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.fmi.FmiApi
@@ -28,6 +29,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metoffice.MetOfficeApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.pirateweather.PirateWeatherApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.smhi.SmhiApi
 import dagger.Module
 import dagger.Provides
@@ -154,4 +156,12 @@ object ApiModule {
     @Provides
     @Singleton
     fun provideImdApi(): ImdApi = ImdApi.create()
+
+    @Provides
+    @Singleton
+    fun providePirateWeatherApi(): PirateWeatherApi = PirateWeatherApi.create()
+
+    @Provides
+    @Singleton
+    fun provideCwaApi(): CwaApi = CwaApi.create()
 }

@@ -1,8 +1,10 @@
 package com.pranshulgg.weather_master_app.core.network.sources.weather.dwd
 
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
+import com.pranshulgg.weather_master_app.core.network.calls.safeApiCall
 import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.json.bundle.DwdWeatherJsonBundle
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.MetNorwayApi
 import com.pranshulgg.weather_master_app.core.utils.formatters.safeZoneId
@@ -53,20 +55,25 @@ class DwdRepository @Inject constructor(
             return@withContext try {
 
 
-                val response = api.fetchCurrentWeather(location.latitude, location.longitude)
-                val dates = getStartEndDate(location)
-                val forecastResponse = api.fetchWeatherForecast(
-                    location.latitude, location.longitude, dates.first, dates.second
-                )
+                val response = safeApiCall {
+                    api.fetchCurrentWeather(
+                        location.latitude,
+                        location.longitude
+                    )
+                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
 
-                val body = response.body()
-                    ?: return@withContext WeatherResult.Error(exception = UnknownHostException())
-                val forecastBody = forecastResponse.body()
-                    ?: return@withContext WeatherResult.Error(exception = UnknownHostException())
+                val dates = getStartEndDate(location)
+
+                val forecastResponse = safeApiCall {
+                    api.fetchWeatherForecast(
+                        location.latitude, location.longitude, dates.first, dates.second
+                    )
+                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
+
 
                 val final = DwdWeatherJsonBundle(
-                    current = body,
-                    forecastJson = forecastBody
+                    current = response,
+                    forecastJson = forecastResponse
                 )
 
                 val domain = final.toDomain(location)

@@ -1,10 +1,8 @@
 package com.pranshulgg.weather_master_app.feature.shared.ui
 
-import android.text.format.DateFormat.getBestDateTimePattern
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -29,14 +27,10 @@ import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.WeatherIconBox
 import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
 import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
-import com.pranshulgg.weather_master_app.core.utils.formatters.safeZoneId
 import com.pranshulgg.weather_master_app.core.utils.formatters.toDateString
 import com.pranshulgg.weather_master_app.core.utils.formatters.toWeekdayString
-import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherDailyDomainSafe
 import com.pranshulgg.weather_master_app.feature.shared.components.CardsHeader
-import java.time.Instant
-import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
 
 
@@ -91,10 +85,7 @@ fun DailyCard(weather: Weather, units: WeatherUnits, navController: NavControlle
                         date = toDateString(
                             item.time,
                             weather.location.timezone,
-                            pattern = getBestDateTimePattern(
-                                getCurrentAppLocale(),
-                                "Mdd"
-                            )
+                            pattern = "Mdd"
                         )
                     )
 

@@ -1,9 +1,12 @@
 package com.pranshulgg.weather_master_app.core.network.sources.weather.nws
 
 import androidx.compose.runtime.mutableStateOf
+import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
+import com.pranshulgg.weather_master_app.core.network.calls.safeApiCall
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.NwsCurrentForecastJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.NwsStationsListJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.bundle.NwsWeatherJsonBundle
@@ -65,29 +68,27 @@ class NwsRepository @Inject constructor(
                     cachedGridPointsData.toDomain()
                 } else {
 
-                    val gridPointsResponse = api.fetchGridPoints(
-                        location.latitude,
-                        location.longitude
-                    )
-                    val gridPointsBody = gridPointsResponse.body()
-                        ?: return@withContext WeatherResult.Error(exception = UnknownHostException())
+                    val gridPoint = safeApiCall {
+                        api.fetchGridPoints(
+                            location.latitude,
+                            location.longitude
+                        )
+                    }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
 
 
-                    val gridPointsDomain =
-                        gridPointsBody.toDomain(location, stationIdentifier = null)
+                    val gridPointsDomain = gridPoint.toDomain(location, stationIdentifier = null)
 
-                    val nwsStationsResponse = api.fetchStations(
-                        gridPointsDomain.officeId,
-                        gridPointsDomain.gridX,
-                        gridPointsDomain.gridY
-                    )
-
-                    val nwsStationsBody = nwsStationsResponse.body()
-                        ?: return@withContext WeatherResult.Error(exception = UnknownHostException())
+                    val nwsStations = safeApiCall {
+                        api.fetchStations(
+                            gridPointsDomain.officeId,
+                            gridPointsDomain.gridX,
+                            gridPointsDomain.gridY
+                        )
+                    }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
 
 
                     // Get all the stations
-                    val stations = nwsStationsBody.features
+                    val stations = nwsStations.features
 
                     val station = getValidObservationAndStation(stations, api)
 
@@ -99,7 +100,7 @@ class NwsRepository @Inject constructor(
 
                     if (domain.stationIdentifier == null) {
                         return@withContext WeatherResult.Error(
-                            exception = UnknownHostException()
+                            exception = AppException.Unknown(),
                         )
                     }
 
@@ -111,55 +112,50 @@ class NwsRepository @Inject constructor(
 
 
                 // GET DAILY
-                val nwsForecastResponse = api.fetchForecast(
-                    nwsStationsDomain.officeId,
-                    nwsStationsDomain.gridX,
-                    nwsStationsDomain.gridY
-                )
-
-                val nwsForecastBody = nwsForecastResponse.body()
-                    ?: return@withContext WeatherResult.Error(exception = UnknownHostException())
-
+                val nwsForecast = safeApiCall {
+                    api.fetchForecast(
+                        nwsStationsDomain.officeId,
+                        nwsStationsDomain.gridX,
+                        nwsStationsDomain.gridY
+                    )
+                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
 
                 // GET CURRENT
                 val nwsCurrentForecastBody = if (currentObservation.value != null) {
                     currentObservation.value
                 } else {
-                    api.fetchCurrentForecast(nwsStationsDomain.stationIdentifier!!).body()
-                } ?: return@withContext WeatherResult.Error(exception = UnknownHostException())
-
+                    safeApiCall { api.fetchCurrentForecast(nwsStationsDomain.stationIdentifier!!) }.getOrElse {
+                        return@withContext WeatherResult.Error(
+                            exception = it.toAppException()
+                        )
+                    }
+                } ?: return@withContext WeatherResult.Error(AppException.EmptyResponseBody())
 
                 // GET HOURLY
-                val nwsHourlyForecastResponse =
-                    api.fetchHourlyForecast(
-                        nwsStationsDomain.officeId,
-                        nwsStationsDomain.gridX,
-                        nwsStationsDomain.gridY
-                    )
-
+                val nwsHourlyForecast =
+                    safeApiCall {
+                        api.fetchHourlyForecast(
+                            nwsStationsDomain.officeId,
+                            nwsStationsDomain.gridX,
+                            nwsStationsDomain.gridY
+                        )
+                    }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
 
                 // USING FOR QuantitativePrecipitation and Snowfall
-                val nwsGridPointDataResponse =
+                val nwsGridPointData = safeApiCall {
                     api.fetchGridPointData(
                         nwsStationsDomain.officeId,
                         nwsStationsDomain.gridX,
                         nwsStationsDomain.gridY
                     )
-
-
-                val nwsHourlyForecastBody = nwsHourlyForecastResponse.body()
-                    ?: return@withContext WeatherResult.Error(exception = UnknownHostException())
-
-                val nwsGridPointDataBody = nwsGridPointDataResponse.body()
-                    ?: return@withContext WeatherResult.Error(exception = UnknownHostException())
-
+                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
 
                 // PUT EVERYTHING TOGETHER IN A BUNDLE
                 val final = NwsWeatherJsonBundle(
                     current = nwsCurrentForecastBody,
-                    forecast = nwsForecastBody,
-                    hourly = nwsHourlyForecastBody,
-                    gridPointsData = nwsGridPointDataBody
+                    forecast = nwsForecast,
+                    hourly = nwsHourlyForecast,
+                    gridPointsData = nwsGridPointData
                 )
 
 

@@ -20,39 +20,39 @@ data class OpenMeteoCurrentForecastJson(
     @SerializedName("temperature_2m")
     val temperature: Double,
 
-    val rain: Double,
-    val showers: Double,
-    val snowfall: Double,
+    val rain: Double?,
+    val showers: Double?,
+    val snowfall: Double?,
 
     @SerializedName("weather_code")
-    val weatherCode: Int,
+    val weatherCode: Int?,
 
     @SerializedName("wind_speed_10m")
-    val windSpeed: Double,
+    val windSpeed: Double?,
 
     @SerializedName("wind_direction_10m")
-    val windDirection: Int,
+    val windDirection: Int?,
 
     @SerializedName("wind_gusts_10m")
-    val windGusts: Double,
+    val windGusts: Double?,
 
     @SerializedName("pressure_msl")
-    val pressureMsl: Double,
+    val pressureMsl: Double?,
 
     @SerializedName("relative_humidity_2m")
-    val relativeHumidity: Double,
+    val relativeHumidity: Double?,
 
     @SerializedName("is_day")
-    val isDay: Int,
+    val isDay: Int?,
 
     @SerializedName("apparent_temperature")
-    val feelsLike: Double,
+    val feelsLike: Double?,
 
     @SerializedName("cloud_cover")
-    val cloudCover: Double,
+    val cloudCover: Double?,
 
     @SerializedName("uv_index")
-    val uvIndex: Double
+    val uvIndex: Double?
 )
 
 data class OpenMeteoHourlyForecastJson(
@@ -61,82 +61,82 @@ data class OpenMeteoHourlyForecastJson(
     @SerializedName("temperature_2m")
     val temperature: List<Double>,
 
-    val rain: List<Double>,
-    val showers: List<Double>,
-    val snowfall: List<Double>,
+    val rain: List<Double?>,
+    val showers: List<Double?>,
+    val snowfall: List<Double?>,
 
     @SerializedName("weather_code")
-    val weatherCode: List<Int>,
+    val weatherCode: List<Int?>,
 
     @SerializedName("relative_humidity_2m")
-    val relativeHumidity: List<Double>,
+    val relativeHumidity: List<Double?>,
 
     @SerializedName("apparent_temperature")
-    val feelsLike: List<Double>,
+    val feelsLike: List<Double?>,
 
-    val visibility: List<Int>,
+    val visibility: List<Int?>,
 
     @SerializedName("dew_point_2m")
-    val dewPoint: List<Double>,
+    val dewPoint: List<Double?>,
 
     @SerializedName("uv_index")
-    val uvIndex: List<Double>,
+    val uvIndex: List<Double?>,
 
     @SerializedName("wind_speed_10m")
-    val windSpeed: List<Double>,
+    val windSpeed: List<Double?>,
 
     @SerializedName("wind_direction_10m")
-    val windDirection: List<Int>,
+    val windDirection: List<Int?>,
 
     @SerializedName("precipitation_probability")
-    val precipitationProbability: List<Int>,
+    val precipitationProbability: List<Int?>,
 
     @SerializedName("pressure_msl")
-    val pressureMsl: List<Double>,
+    val pressureMsl: List<Double?>,
 )
 
 data class OpenMeteoDailyForecastJson(
     val time: List<Long>,
 
     @SerializedName("temperature_2m_min")
-    val temperatureMin: List<Double>,
+    val temperatureMin: List<Double?>,
 
     @SerializedName("temperature_2m_max")
-    val temperatureMax: List<Double>,
+    val temperatureMax: List<Double?>,
 
 
     @SerializedName("rain_sum")
-    val rainSum: List<Double>,
+    val rainSum: List<Double?>,
 
     @SerializedName("showers_sum")
-    val showersSum: List<Double>,
+    val showersSum: List<Double?>,
 
     @SerializedName("snowfall_sum")
-    val snowfallSum: List<Double>,
+    val snowfallSum: List<Double?>,
 
     @SerializedName("weather_code")
-    val weatherCode: List<Int>,
+    val weatherCode: List<Int?>,
 
-    val sunrise: List<Long>,
-    val sunset: List<Long>,
+    val sunrise: List<Long?>,
+    val sunset: List<Long?>,
 
     @SerializedName("daylight_duration")
-    val daylightDuration: List<Double>,
+    val daylightDuration: List<Double?>,
 
     @SerializedName("uv_index_max")
-    val uvIndexMax: List<Double>,
+    val uvIndexMax: List<Double?>,
 
     @SerializedName("precipitation_hours")
-    val precipitationHours: List<Int>,
+    val precipitationHours: List<Int?>,
 
     @SerializedName("precipitation_probability_max")
-    val precipitationProbabilityMax: List<Int>,
+    val precipitationProbabilityMax: List<Int?>,
 
     @SerializedName("wind_speed_10m_max")
-    val windSpeedMax: List<Double>,
+    val windSpeedMax: List<Double?>,
 
     @SerializedName("wind_direction_10m_dominant")
-    val windDirectionDominant: List<Int>,
+    val windDirectionDominant: List<Int?>,
 
     @SerializedName("relative_humidity_2m_mean") val humidity: List<Int?>,
     @SerializedName("visibility_min") val visibility: List<Int?>,
@@ -144,6 +144,6 @@ data class OpenMeteoDailyForecastJson(
     @SerializedName("dew_point_2m_mean") val dewPoint: List<Double?>,
 
     @SerializedName("wind_speed_10m_mean")
-    val windSpeedMean: List<Double>
+    val windSpeedMean: List<Double?>
 )
 

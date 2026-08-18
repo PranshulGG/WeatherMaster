@@ -189,10 +189,29 @@ val MIGRATION_51_52 = object : Migration(51, 52) {
     }
 }
 
+
 val MIGRATION_55_56 = object : Migration(55, 56) {
     override fun migrate(db: SupportSQLiteDatabase) {
-        db.execSQL(
-            "ALTER TABLE weather_hourly ADD COLUMN cachedSource TEXT"
-        )
+        val cursor = db.query("PRAGMA table_info(weather_hourly)")
+        var cachedSourceExists = false
+
+        while (cursor.moveToNext()) {
+            val columnName = cursor.getString(
+                cursor.getColumnIndexOrThrow("name")
+            )
+
+            if (columnName == "cachedSource") {
+                cachedSourceExists = true
+                break
+            }
+        }
+
+        cursor.close()
+
+        if (!cachedSourceExists) {
+            db.execSQL(
+                "ALTER TABLE weather_hourly ADD COLUMN cachedSource TEXT"
+            )
+        }
     }
 }

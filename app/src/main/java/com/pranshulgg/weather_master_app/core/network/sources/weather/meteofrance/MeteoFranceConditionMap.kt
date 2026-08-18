@@ -24,10 +24,10 @@ object MeteoFranceConditionMap {
                             startsWith("p22") -> WeatherCondition.LIGHT_SNOW
 
                     startsWith("p19") ||
-                            startsWith("p20") -> WeatherCondition.SNOW  // TODO: SHOULD BE HAIL
+                            startsWith("p20") -> WeatherCondition.HAIL
 
                     startsWith("p17") ||
-                            startsWith("p18") -> WeatherCondition.SNOW // TODO: SHOULD BE SLEET
+                            startsWith("p18") -> WeatherCondition.SLEET
 
                     startsWith("p16") ||
                             startsWith("p24") ||

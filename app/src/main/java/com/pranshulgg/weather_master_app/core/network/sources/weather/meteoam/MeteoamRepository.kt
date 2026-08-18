@@ -2,8 +2,10 @@ package com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam
 
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
+import com.pranshulgg.weather_master_app.core.network.calls.safeApiCall
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.json.bundle.MeteoamWeatherBundle
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherCacheSafe
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnWeatherCache
@@ -51,17 +53,24 @@ class MeteoamRepository @Inject constructor(
 
             return@withContext try {
 
-                val current = api.fetchCurrent(location.latitude, location.longitude)
-                val bodyCurrent = current.body()
-                    ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
+                val current = safeApiCall {
+                    api.fetchCurrent(
+                        location.latitude,
+                        location.longitude
+                    )
+                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
 
-                val forecast = api.fetchForecast(location.latitude, location.longitude)
-                val bodyForecast = forecast.body()
-                    ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
+
+                val forecast = safeApiCall {
+                    api.fetchForecast(
+                        location.latitude,
+                        location.longitude
+                    )
+                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
 
                 val final = MeteoamWeatherBundle(
-                    current = bodyCurrent,
-                    forecast = bodyForecast
+                    current = current,
+                    forecast = forecast
                 )
 
                 val domain = final.toDomain(location)

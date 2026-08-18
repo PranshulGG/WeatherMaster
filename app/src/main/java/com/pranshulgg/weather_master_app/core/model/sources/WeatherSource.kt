@@ -96,6 +96,13 @@ enum class WeatherSource(
         requiresUserApiKey = true,
         regionalButWorldwideSupport = true
     ),
+    PIRATE_WEATHER(
+        displayName = "Pirate Weather",
+        fullName = "Pirate Weather",
+        displayLink = "https://pirateweather.net/",
+        requiresUserApiKey = true,
+        regionalButWorldwideSupport = false
+    ),
     IMD(
         displayName = "IMD",
         fullName = "India Meteorological Department",
@@ -114,6 +121,13 @@ enum class WeatherSource(
         displayLink = "https://opendata.aemet.es/centrodedescargas/altaUsuario",
         countryNameRes = R.string.country_spain,
         requiresUserApiKey = true
+    ),
+    CWA(
+        displayName = "CWA",
+        fullName = "Central Weather Administration",
+        displayLink = "https://opendata.cwa.gov.tw/",
+        countryNameRes = R.string.country_taiwan,
+        requiresUserApiKey = true
     );
 
     // Sources that provide snow/rain as precipitation
@@ -124,6 +138,7 @@ enum class WeatherSource(
             CHINA -> false
             BMKG -> false
             IMD -> false
+            CWA -> false
             else -> true
         }
     }
@@ -148,6 +163,7 @@ private val weatherSourcesByCountry = buildMap {
     put("FR", listOf(WeatherSource.METEO_FRANCE))
     put("ES", listOf(WeatherSource.AEMET))
     put("IN", listOf(WeatherSource.IMD))
+    put("TW", listOf(WeatherSource.CWA))
 
 }
 
@@ -163,7 +179,8 @@ private val weatherSourcesGlobal = listOf(
     WeatherSource.METEO_FRANCE,
     WeatherSource.ACCU_WEATHER,
     WeatherSource.GISMETEO,
-    WeatherSource.MET_OFFICE
+    WeatherSource.MET_OFFICE,
+    WeatherSource.PIRATE_WEATHER
 )
 
 fun getWeatherSourcesGlobal(): List<WeatherSource> {
