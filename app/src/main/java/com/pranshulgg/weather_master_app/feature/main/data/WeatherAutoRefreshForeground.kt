@@ -25,15 +25,9 @@ fun WeatherAutoRefreshForeground(
                             location = it,
                             source = it.source
                         )
-                        // Guarded on isInitialized so this only fires on a genuine
-                        // resume-from-background, not the initial cold-start load
-                        // (setActiveLocation() already covers that one, and this
-                        // DisposableEffect re-subscribes - and Android replays a
-                        // synthetic ON_START on subscribe when the lifecycle is
-                        // already started - the moment `location` first becomes
-                        // non-null, which would otherwise double-fire here too).
-                        // Cache-respecting; only forces a real refetch if the
-                        // device location actually moved since last time.
+                        // isInitialized guard avoids duplicating setActiveLocation()'s
+                        // cold-start fetch (Android replays ON_START on resubscribe,
+                        // which happens the moment `location` first becomes non-null).
                         if (weatherViewModel.uiState.value.isInitialized) {
                             weatherViewModel.getWeather(
                                 location = it,
