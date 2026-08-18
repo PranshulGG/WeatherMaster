@@ -349,6 +349,7 @@
     <string name="country_portugal">Portugali</string>
     <string name="country_russia">Venäjä</string>
     <string name="country_spain">Espanja</string>
+    <string name="country_taiwan">Taiwan</string>
     <string name="settings_date_format">Päivämäärän muoto</string>
     <string name="widget_settings_display_hourly_secondary">Näytä tunneittainen ennuste päivittäisen sijaan</string>
     <string name="settings_widget_background">Widgetin tausta</string>
@@ -402,5 +403,12 @@
     <string name="weather_airquality_source">Ilmanlaadun tarjoaja</string>
     <string name="country_india">Intia</string>
     <string name="error_secure_connection_failed">Salattu yhteys epäonnistui</string>
+    <string name="error_empty_response_body">Palvelin palautti tyhjän vastauksen.</string>
+    <string name="error_bad_request">Palvelin ei pystynyt käsittelemään pyyntöä.</string>
+    <string name="error_unauthorized">Tunnistautuminen epäonnistui.</string>
+    <string name="error_forbidden">Pääsy resurssiin evättiin.</string>
+    <string name="error_not_found">Pyydettyä resurssia ei löytynyt.</string>
+    <string name="error_request_timeout">Palvelin ei vastannut tarpeeksi nopeasti.</string>
+    <string name="error_too_many_requests">Pyyntöjen yläraja on saavutettu.</string>
 </resources>
 <!--<string name=""></string>-->
