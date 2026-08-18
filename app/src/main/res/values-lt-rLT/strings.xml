@@ -354,6 +354,7 @@
     <string name="country_portugal">Portugalija</string>
     <string name="country_russia">Rusija</string>
     <string name="country_spain">Ispanija</string>
+    <string name="country_taiwan">Taiwan</string>
     <string name="settings_date_format">Datos formatas</string>
     <string name="widget_settings_display_hourly_secondary">Bus rodoma valandinė prognozė vietoj šiandienos prognozės</string>
     <string name="settings_widget_background">Valdiklio fonas</string>
@@ -407,5 +408,12 @@
     <string name="weather_airquality_source">Oro kokybės šaltinis</string>
     <string name="country_india">Indija</string>
     <string name="error_secure_connection_failed">Nepavyko užmegzti saugaus ryšio</string>
+    <string name="error_empty_response_body">The server returned an empty response.</string>
+    <string name="error_bad_request">The server could not process the request.</string>
+    <string name="error_unauthorized">Authentication with the service failed.</string>
+    <string name="error_forbidden">Access to this resource was denied.</string>
+    <string name="error_not_found">The requested resource could not be found.</string>
+    <string name="error_request_timeout">The server did not respond in time.</string>
+    <string name="error_too_many_requests">The request limit has been reached.</string>
 </resources>
 <!--<string name=""></string>-->
