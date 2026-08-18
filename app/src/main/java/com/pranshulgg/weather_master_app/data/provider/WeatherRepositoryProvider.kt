@@ -5,6 +5,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuR
 import com.pranshulgg.weather_master_app.core.network.sources.weather.aemet.AemetRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.BmkgRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.china.ChinaRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.cwa.CwaRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.DwdRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.EcccRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.fmi.FmiRepository
@@ -40,7 +41,8 @@ class WeatherRepositoryProvider @Inject constructor(
     private val metOfficeRepository: MetOfficeRepository,
     private val aemetRepository: AemetRepository,
     private val imdRepository: ImdRepository,
-    private val pirateWeatherRepository: PirateWeatherRepository
+    private val pirateWeatherRepository: PirateWeatherRepository,
+    private val cwaRepository: CwaRepository
 ) {
 
     fun getRepository(source: WeatherSource): WeatherRepository {
@@ -63,6 +65,7 @@ class WeatherRepositoryProvider @Inject constructor(
             WeatherSource.AEMET -> aemetRepository
             WeatherSource.IMD -> imdRepository
             WeatherSource.PIRATE_WEATHER -> pirateWeatherRepository
+            WeatherSource.CWA -> cwaRepository
         }
     }
 

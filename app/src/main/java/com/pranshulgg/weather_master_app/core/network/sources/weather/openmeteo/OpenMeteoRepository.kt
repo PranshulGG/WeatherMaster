@@ -48,7 +48,6 @@ class OpenMeteoRepository @Inject constructor(
             }
 
 
-
             return@withContext try {
 
 

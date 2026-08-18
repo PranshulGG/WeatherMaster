@@ -14,7 +14,7 @@ data class Weather(
 
 data class WeatherCurrent(
     val temperature: Double?, // NOTE: ALWAYS C
-    val humidity: Double,
+    val humidity: Double, // TODO: should be nullable
     val windSpeed: Double?, // NOTE: ALWAYS KMH
     val windDirection: WindDirection?, // NOTE: ALWAYS DOMINANT
     val pressureMsl: Double?, // NOTE: ALWAYS HPA

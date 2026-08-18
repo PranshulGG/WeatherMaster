@@ -17,6 +17,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuA
 import com.pranshulgg.weather_master_app.core.network.sources.weather.aemet.AemetApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.BmkgApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.china.ChinaApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.cwa.CwaApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.DwdApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.EcccApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.fmi.FmiApi
@@ -164,4 +165,8 @@ object ApiModule {
     @Provides
     @Singleton
     fun providePirateWeatherAlertsApi(): PirateWeatherAlertsApi = PirateWeatherAlertsApi.create()
+
+    @Provides
+    @Singleton
+    fun provideCwaApi(): CwaApi = CwaApi.create()
 }

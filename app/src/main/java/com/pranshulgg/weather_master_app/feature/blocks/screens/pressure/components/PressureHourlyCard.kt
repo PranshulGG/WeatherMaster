@@ -63,7 +63,7 @@ fun PressureHourlyCard(
         )
     }
 
-    val formatter: (Double) -> Double? = {
+    val formatter: (Double?) -> Double? = {
         PressureUnit.HPA.convert(it, unit)
     }
 
@@ -163,7 +163,7 @@ fun PressureHourlyCard(
                         }
                         Gap(5.dp)
                         Text(
-                            item.pressureMsl.roundToInt().toString(),
+                            formatter(item.pressureMsl).toString(),
                             color = MaterialTheme.colorScheme.primary,
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold
