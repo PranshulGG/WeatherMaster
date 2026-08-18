@@ -96,6 +96,13 @@ enum class WeatherSource(
         requiresUserApiKey = true,
         regionalButWorldwideSupport = true
     ),
+    PIRATE_WEATHER(
+        displayName = "Pirate Weather",
+        fullName = "Pirate Weather",
+        displayLink = "https://pirateweather.net/",
+        requiresUserApiKey = true,
+        regionalButWorldwideSupport = false
+    ),
     IMD(
         displayName = "IMD",
         fullName = "India Meteorological Department",
@@ -163,7 +170,8 @@ private val weatherSourcesGlobal = listOf(
     WeatherSource.METEO_FRANCE,
     WeatherSource.ACCU_WEATHER,
     WeatherSource.GISMETEO,
-    WeatherSource.MET_OFFICE
+    WeatherSource.MET_OFFICE,
+    WeatherSource.PIRATE_WEATHER
 )
 
 fun getWeatherSourcesGlobal(): List<WeatherSource> {

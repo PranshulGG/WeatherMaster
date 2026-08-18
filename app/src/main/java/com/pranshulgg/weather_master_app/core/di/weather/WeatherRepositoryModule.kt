@@ -12,6 +12,8 @@ import com.pranshulgg.weather_master_app.core.network.sources.alerts.weatherapi.
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.weatherapi.AlertsWeatherApiRepository
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.wmosevereweather.WmoSevereWeatherApi
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.wmosevereweather.WmoSevereWeatherRepository
+import com.pranshulgg.weather_master_app.core.network.sources.alerts.pirateweather.PirateWeatherAlertsApi
+import com.pranshulgg.weather_master_app.core.network.sources.alerts.pirateweather.PirateWeatherAlertsRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.aemet.AemetApi
@@ -44,6 +46,8 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.pirateweather.PirateWeatherApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.pirateweather.PirateWeatherRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.smhi.SmhiApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.smhi.SmhiRepository
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
@@ -255,4 +259,23 @@ object WeatherRepositoryModule {
         weatherDao: WeatherDao,
         api: ImdApi
     ): ImdRepository = ImdRepository(dao, weatherDao, api)
+
+    @Provides
+    @Singleton
+    fun providePirateWeatherRepository(
+        dao: LocationsDao,
+        api: PirateWeatherApi,
+        weatherDao: WeatherDao,
+        apiKeysDao: ApiKeysDao
+    ): PirateWeatherRepository = PirateWeatherRepository(dao, weatherDao, api, apiKeysDao)
+
+    @Provides
+    @Singleton
+    fun providePirateWeatherAlertsRepository(
+        api: PirateWeatherAlertsApi,
+        alertsDao: AlertsDao,
+        locationsDao: LocationsDao,
+        apiKeysDao: ApiKeysDao
+    ): PirateWeatherAlertsRepository =
+        PirateWeatherAlertsRepository(api, alertsDao, locationsDao, apiKeysDao)
 }

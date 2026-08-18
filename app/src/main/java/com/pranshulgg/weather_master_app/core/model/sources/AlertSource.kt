@@ -27,5 +27,10 @@ enum class AlertSource(
         displayName = "FOSS Public Alert Server",
         fullName = "FOSS Public Alert Server",
         displayLink = "https://invent.kde.org/webapps/foss-public-alert-server"
+    ),
+    PIRATE_WEATHER(
+        displayName = "Pirate Weather",
+        fullName = "Pirate Weather",
+        displayLink = "https://pirateweather.net/"
     )
 }
