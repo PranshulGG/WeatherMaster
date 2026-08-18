@@ -67,16 +67,16 @@ fun computeDailyWeatherCondition(
     val primary = topPrimary.getOrNull(0)
 
     // Pick the dominant one for secondary
-    val topSecondary = counts.keys.sortedByDescending { it }.take(2)
-
-    val secondary = topSecondary.getOrNull(0).takeIf { it != primary } ?: topSecondary.getOrNull(1)
+    val topSecondary = counts.entries.sortedByDescending { it.value }.take(2)
+    val secondary =
+        topSecondary.getOrNull(0).takeIf { it?.key != primary } ?: topSecondary.getOrNull(1)?.key
 
 
     val primaryCount = primary?.let { counts[it] } ?: 0
     val secondaryCount = secondary?.let { counts[it] } ?: 0
 
 
-    val firstSecondaryIndex = data.indexOf(secondary)
+    val firstSecondaryIndex = dataNormalized.indexOf(secondary)
 
     /**
      * Drop everything before the secondary index
