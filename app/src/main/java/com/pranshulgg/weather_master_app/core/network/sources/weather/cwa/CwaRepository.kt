@@ -31,6 +31,8 @@ import javax.inject.Inject
 // since LocationKeyEntity only has a single cityKey column: "{shortRangeEndpointId}|{townshipName}".
 private const val CACHE_KEY_DELIMITER = "|"
 
+// TODO: refactor with "safeApiCall { }"
+
 class CwaRepository @Inject constructor(
     val dao: LocationsDao,
     val weatherDao: WeatherDao,
@@ -58,6 +60,7 @@ class CwaRepository @Inject constructor(
         val isCacheSafe = isWeatherCacheSafe(cache)
 
         val apiKey = apiKeysDao.getApiKeyForSource(location.source)
+
         if (apiKey?.apiKey.isNullOrBlank()) {
             return@withContext WeatherResult.Error(
                 exception = AppException.NoApiKeyError(),
@@ -74,8 +77,10 @@ class CwaRepository @Inject constructor(
             val weeklyId = CwaCountyEndpoints.byShortRangeId(shortRangeId)?.weeklyId
                 ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
 
-            val shortRangeForecast = api.fetchDataset(shortRangeId, key, locationName = townshipName).bodyOrThrow()
-            val weeklyForecast = api.fetchDataset(weeklyId, key, locationName = townshipName).bodyOrThrow()
+            val shortRangeForecast =
+                api.fetchDataset(shortRangeId, key, locationName = townshipName).bodyOrThrow()
+            val weeklyForecast =
+                api.fetchDataset(weeklyId, key, locationName = townshipName).bodyOrThrow()
 
             val domain = CwaForecastBundle(shortRange = shortRangeForecast, weekly = weeklyForecast)
                 .toDomain(location)
@@ -117,11 +122,13 @@ class CwaRepository @Inject constructor(
             if (parts.size == 2) return parts[0] to parts[1]
         }
 
-        val counties = api.fetchDataset(CwaCountyEndpoints.NATIONWIDE_SHORT_RANGE, apiKey).bodyOrThrow()
-            .records?.Locations?.firstOrNull()?.Location.orEmpty()
+        val counties =
+            api.fetchDataset(CwaCountyEndpoints.NATIONWIDE_SHORT_RANGE, apiKey).bodyOrThrow()
+                .records?.Locations?.firstOrNull()?.Location.orEmpty()
         val nearestCounty = getClosest(counties, location) ?: return null
-        val countyEndpoint = CwaCountyEndpoints.ALL.firstOrNull { it.countyName == nearestCounty.LocationName }
-            ?: return null
+        val countyEndpoint =
+            CwaCountyEndpoints.ALL.firstOrNull { it.countyName == nearestCounty.LocationName }
+                ?: return null
 
         val townships = api.fetchDataset(countyEndpoint.shortRangeId, apiKey).bodyOrThrow()
             .records?.Locations?.firstOrNull()?.Location.orEmpty()
