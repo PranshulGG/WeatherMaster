@@ -286,7 +286,7 @@
     <string name="day_length_hr">%1$s год.</string>
     <string name="error_no_results">Результатів не знайдено</string>
     <string name="summary_overview_template_same_condition">Протягом усього дня та ночі буде %1$s.</string>
-    <string name="summary_overview_template_day_night_condition">Удень буде %1$s, а вночі — %2$s.</string>
+    <string name="summary_overview_template_day_night_condition">Удень буде %1$s, а вночі %2$s.</string>
     <string name="summary_rain_template_day_night">Удень близько %1$s очікується дощ з імовірністю %2$s. Уночі близько %4$s також можливий дощ з імовірністю %3$s.</string>
     <string name="summary_rain_template_day">Вдень близько %1$s очікується дощ з імовірністю %2$s.</string>
     <string name="summary_rain_template_night">Уночі близько %2$s очікується дощ з імовірністю %1$s.</string>
@@ -296,7 +296,7 @@
     <string name="summary_temp_template_extreme">Удень очікується сильна спека, температура сягне %1$s. Вночі вона знизиться приблизно до %2$s.</string>
     <string name="summary_temp_template_warm">Удень буде тепло, температура сягне близько %1$s. Вночі вона знизиться приблизно до %2$s.</string>
     <string name="summary_temp_template_mild">Очікується теплий день, температура сягне %1$s. Вночі похолодає приблизно до %2$s.</string>
-    <string name="summary_temp_template_cool">Удень буде прохолодно, а температура сягне близько %1$s. Вночі вона опуститься приблизно до %2$s.</string>
+    <string name="summary_temp_template_cool">Удень буде прохолодно, температура сягне близько %1$s. Вночі вона опуститься приблизно до %2$s.</string>
     <string name="summary_temp_template_cold">Холодна погода збережеться, вдень буде близько %1$s. Вночі температура знизиться приблизно до %2$s.</string>
     <string name="summary_overview_template_day_condition">Удень буде %1$s.</string>
     <string name="summary_overview_template_night_condition">Уночі буде %1$s.</string>
@@ -354,7 +354,7 @@
     <string name="country_portugal">Португалія</string>
     <string name="country_russia">Росія</string>
     <string name="country_spain">Іспанія</string>
-    <string name="country_taiwan">Taiwan</string>
+    <string name="country_taiwan">Тайвань</string>
     <string name="settings_date_format">Формат дати</string>
     <string name="widget_settings_display_hourly_secondary">Показує погодинний прогноз замість щоденного</string>
     <string name="settings_widget_background">Фон віджета</string>
@@ -408,12 +408,12 @@
     <string name="weather_airquality_source">Джерело якості повітря</string>
     <string name="country_india">Індія</string>
     <string name="error_secure_connection_failed">Не вдалось установити безпечне з’єднання</string>
-    <string name="error_empty_response_body">The server returned an empty response.</string>
-    <string name="error_bad_request">The server could not process the request.</string>
-    <string name="error_unauthorized">Authentication with the service failed.</string>
-    <string name="error_forbidden">Access to this resource was denied.</string>
-    <string name="error_not_found">The requested resource could not be found.</string>
-    <string name="error_request_timeout">The server did not respond in time.</string>
-    <string name="error_too_many_requests">The request limit has been reached.</string>
+    <string name="error_empty_response_body">Відповідь сервера не містить даних.</string>
+    <string name="error_bad_request">Сервер не зміг обробити запит.</string>
+    <string name="error_unauthorized">Сервер не зміг обробити запит.</string>
+    <string name="error_forbidden">Не вдалося отримати доступ до цього ресурсу.</string>
+    <string name="error_not_found">Запитуваний ресурс не знайдено.</string>
+    <string name="error_request_timeout">Не вдалося вчасно отримати відповідь від сервера.</string>
+    <string name="error_too_many_requests">Ліміт запитів вичерпано.</string>
 </resources>
 <!--<string name=""></string>-->
