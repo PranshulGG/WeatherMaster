@@ -18,6 +18,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metoffice.MetOfficeRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.pirateweather.PirateWeatherRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.smhi.SmhiRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherRepository
 import javax.inject.Inject
@@ -40,6 +41,7 @@ class WeatherRepositoryProvider @Inject constructor(
     private val metOfficeRepository: MetOfficeRepository,
     private val aemetRepository: AemetRepository,
     private val imdRepository: ImdRepository,
+    private val pirateWeatherRepository: PirateWeatherRepository,
     private val cwaRepository: CwaRepository
 ) {
 
@@ -62,6 +64,7 @@ class WeatherRepositoryProvider @Inject constructor(
             WeatherSource.MET_OFFICE -> metOfficeRepository
             WeatherSource.AEMET -> aemetRepository
             WeatherSource.IMD -> imdRepository
+            WeatherSource.PIRATE_WEATHER -> pirateWeatherRepository
             WeatherSource.CWA -> cwaRepository
         }
     }
