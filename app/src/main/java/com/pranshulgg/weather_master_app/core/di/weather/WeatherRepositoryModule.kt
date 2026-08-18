@@ -12,8 +12,6 @@ import com.pranshulgg.weather_master_app.core.network.sources.alerts.weatherapi.
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.weatherapi.AlertsWeatherApiRepository
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.wmosevereweather.WmoSevereWeatherApi
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.wmosevereweather.WmoSevereWeatherRepository
-import com.pranshulgg.weather_master_app.core.network.sources.alerts.pirateweather.PirateWeatherAlertsApi
-import com.pranshulgg.weather_master_app.core.network.sources.alerts.pirateweather.PirateWeatherAlertsRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.aemet.AemetApi
@@ -270,16 +268,6 @@ object WeatherRepositoryModule {
         weatherDao: WeatherDao,
         apiKeysDao: ApiKeysDao
     ): PirateWeatherRepository = PirateWeatherRepository(dao, weatherDao, api, apiKeysDao)
-
-    @Provides
-    @Singleton
-    fun providePirateWeatherAlertsRepository(
-        api: PirateWeatherAlertsApi,
-        alertsDao: AlertsDao,
-        locationsDao: LocationsDao,
-        apiKeysDao: ApiKeysDao
-    ): PirateWeatherAlertsRepository =
-        PirateWeatherAlertsRepository(api, alertsDao, locationsDao, apiKeysDao)
 
     @Provides
     @Singleton

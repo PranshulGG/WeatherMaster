@@ -6,7 +6,6 @@ import com.pranshulgg.weather_master_app.core.network.sources.airquality.accu.Ac
 import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo.OpenMeteoAqiApi
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.accu.AlertsAccuApi
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.fpas.FpasApi
-import com.pranshulgg.weather_master_app.core.network.sources.alerts.pirateweather.PirateWeatherAlertsApi
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.weatherapi.AlertsWeatherApi
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.wmosevereweather.WmoSevereWeatherApi
 import com.pranshulgg.weather_master_app.core.network.sources.search.accu.AccuSearchApi
@@ -161,10 +160,6 @@ object ApiModule {
     @Provides
     @Singleton
     fun providePirateWeatherApi(): PirateWeatherApi = PirateWeatherApi.create()
-
-    @Provides
-    @Singleton
-    fun providePirateWeatherAlertsApi(): PirateWeatherAlertsApi = PirateWeatherAlertsApi.create()
 
     @Provides
     @Singleton
