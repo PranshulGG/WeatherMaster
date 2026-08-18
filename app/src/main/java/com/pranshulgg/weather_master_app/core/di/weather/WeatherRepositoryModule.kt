@@ -32,6 +32,10 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.G
 import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.GismeteoRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.imd.ImdApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.imd.ImdRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.IbgeApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.InmetForecastApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.InmetObservationApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.InmetRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.ipma.IpmaApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.ipma.IpmaRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.MeteoamApi
@@ -278,4 +282,15 @@ object WeatherRepositoryModule {
         apiKeysDao: ApiKeysDao,
         locationKeysDao: LocationKeysDao
     ): CwaRepository = CwaRepository(dao, weatherDao, api, apiKeysDao, locationKeysDao)
+
+    @Provides
+    @Singleton
+    fun provideInmetRepository(
+        dao: LocationsDao,
+        weatherDao: WeatherDao,
+        forecastApi: InmetForecastApi,
+        observationApi: InmetObservationApi,
+        ibgeApi: IbgeApi,
+        locationKeysDao: LocationKeysDao
+    ): InmetRepository = InmetRepository(dao, weatherDao, forecastApi, observationApi, ibgeApi, locationKeysDao)
 }

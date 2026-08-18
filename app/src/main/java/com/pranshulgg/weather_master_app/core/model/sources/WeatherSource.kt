@@ -128,6 +128,12 @@ enum class WeatherSource(
         displayLink = "https://opendata.cwa.gov.tw/",
         countryNameRes = R.string.country_taiwan,
         requiresUserApiKey = true
+    ),
+    INMET(
+        displayName = "INMET",
+        fullName = "Instituto Nacional de Meteorologia",
+        displayLink = "https://portal.inmet.gov.br/",
+        countryNameRes = R.string.country_brazil
     );
 
     // Sources that provide snow/rain as precipitation
@@ -139,6 +145,7 @@ enum class WeatherSource(
             BMKG -> false
             IMD -> false
             CWA -> false
+            INMET -> false
             else -> true
         }
     }
@@ -164,6 +171,7 @@ private val weatherSourcesByCountry = buildMap {
     put("ES", listOf(WeatherSource.AEMET))
     put("IN", listOf(WeatherSource.IMD))
     put("TW", listOf(WeatherSource.CWA))
+    put("BR", listOf(WeatherSource.INMET))
 
 }
 
