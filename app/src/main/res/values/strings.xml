@@ -506,7 +506,6 @@
     <string name="error_not_found">The requested resource could not be found.</string>
     <string name="error_request_timeout">The server did not respond in time.</string>
     <string name="error_too_many_requests">The request limit has been reached.</string>
-    <string name="error_server">The server encountered an error while processing the request.</string>
 </resources>
 
     <!--<string name=""></string>-->
