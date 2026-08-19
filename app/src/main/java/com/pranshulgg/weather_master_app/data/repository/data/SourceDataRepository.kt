@@ -21,8 +21,8 @@ class SourceDataRepository @Inject constructor(
         isForceRefreshForAirQuality: Boolean = false,
         isForceRefreshForAlerts: Boolean = false,
         onWeather: suspend (WeatherResult) -> Unit,
-        onAlerts: suspend (AlertResult) -> Unit,
-        onAirQuality: suspend (AirQualityResult) -> Unit,
+        onAlerts: suspend (AlertResult?) -> Unit,
+        onAirQuality: suspend (AirQualityResult?) -> Unit,
     ) = coroutineScope {
 
         val weatherSource = location.source
@@ -47,25 +47,20 @@ class SourceDataRepository @Inject constructor(
                 weatherJob.await()
 
                 val repo = sourceRepositoryProvider.getAlertRepository(alertSource)
-
-                if (repo != null) {
-                    onAlerts(repo.getAlerts(location = location))
-                }
+                onAlerts(repo?.getAlerts(location = location))
             }
 
         } else {
             launch {
                 val repo = sourceRepositoryProvider.getAlertRepository(alertSource)
 
-                if (repo != null) {
-                    onAlerts(
-                        repo.getAlerts(
-                            location = location,
-                            isManualRefresh = isManualRefresh,
-                            isForceRefresh = isForceRefreshForAlerts
-                        )
+                onAlerts(
+                    repo?.getAlerts(
+                        location = location,
+                        isManualRefresh = isManualRefresh,
+                        isForceRefresh = isForceRefreshForAlerts
                     )
-                }
+                )
             }
         }
 
@@ -74,25 +69,20 @@ class SourceDataRepository @Inject constructor(
                 weatherJob.await()
 
                 val repo = sourceRepositoryProvider.getAirQualityRepository(airQualitySource)
-
-                if (repo != null) {
-                    onAirQuality(repo.getAirQuality(location = location))
-                }
+                onAirQuality(repo?.getAirQuality(location = location))
             }
 
         } else {
             launch {
                 val repo = sourceRepositoryProvider.getAirQualityRepository(airQualitySource)
 
-                if (repo != null) {
-                    onAirQuality(
-                        repo.getAirQuality(
-                            location = location,
-                            isManualRefresh = isManualRefresh,
-                            isForceRefresh = isForceRefreshForAirQuality
-                        )
+                onAirQuality(
+                    repo?.getAirQuality(
+                        location = location,
+                        isManualRefresh = isManualRefresh,
+                        isForceRefresh = isForceRefreshForAirQuality
                     )
-                }
+                )
             }
         }
 

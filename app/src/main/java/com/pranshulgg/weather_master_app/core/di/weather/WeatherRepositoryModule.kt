@@ -21,6 +21,8 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.G
 import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.GismeteoRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.imd.ImdApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.imd.ImdRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.jma.JmaApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.jma.JmaRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.ipma.IpmaApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.ipma.IpmaRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.MeteoamApi
@@ -233,4 +235,14 @@ object WeatherRepositoryModule {
         apiKeysDao: ApiKeysDao,
         locationKeysDao: LocationKeysDao
     ): CwaRepository = CwaRepository(dao, weatherDao, api, apiKeysDao, locationKeysDao)
+
+    @Provides
+    @Singleton
+    fun provideJmaRepository(
+        dao: LocationsDao,
+        weatherDao: WeatherDao,
+        api: JmaApi,
+        locationKeysDao: LocationKeysDao,
+        alertsDao: AlertsDao
+    ): JmaRepository = JmaRepository(dao, weatherDao, api, locationKeysDao, alertsDao)
 }
