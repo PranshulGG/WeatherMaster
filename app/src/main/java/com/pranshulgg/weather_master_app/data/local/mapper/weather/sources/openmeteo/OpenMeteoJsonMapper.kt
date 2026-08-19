@@ -53,7 +53,7 @@ fun OpenMeteoWeatherJson.toDomain(location: Location): Weather {
         location = location,
         current = WeatherCurrent(
             temperature = current.temperature,
-            humidity = current.relativeHumidity ?: 0.0,
+            humidity = current.relativeHumidity,
             windSpeed = current.windSpeed,
             windDirection = WindDirection.toWindDirectionFromDegrees(current.windDirection),
             pressureMsl = current.pressureMsl,

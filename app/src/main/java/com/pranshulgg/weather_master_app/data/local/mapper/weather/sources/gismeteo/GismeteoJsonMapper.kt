@@ -62,7 +62,7 @@ fun GismeteoModel.toDomain(location: Location): Weather {
         location = location,
         current = WeatherCurrent(
             temperature = current.temperature,
-            humidity = current.humidity ?: 0.0,
+            humidity = current.humidity,
             windSpeed = WindSpeedUnit.MPS.convert(current.windSpeedMs, WindSpeedUnit.KPH),
             windDirection = convertWindDirection(current.windDirection),
             pressureMsl = PressureUnit.MMHG.convert(current.pressureMmHg, PressureUnit.HPA),

@@ -8,20 +8,20 @@ data class PirateWeatherCurrentJson(
     val icon: String?,
 
     val temperature: Double,
-    @SerializedName("apparentTemperature") val apparentTemperature: Double,
-    @SerializedName("dewPoint") val dewPoint: Double,
-    val humidity: Double,
-    val pressure: Double,
+    @SerializedName("apparentTemperature") val apparentTemperature: Double?,
+    @SerializedName("dewPoint") val dewPoint: Double?,
+    val humidity: Double?,
+    val pressure: Double?,
 
     @SerializedName("windSpeed") val windSpeed: Double,
     @SerializedName("windGust") val windGust: Double?,
-    @SerializedName("windBearing") val windBearing: Int,
+    @SerializedName("windBearing") val windBearing: Int?,
 
-    @SerializedName("cloudCover") val cloudCover: Double,
-    @SerializedName("uvIndex") val uvIndex: Double,
-    val visibility: Double,
+    @SerializedName("cloudCover") val cloudCover: Double?,
+    @SerializedName("uvIndex") val uvIndex: Double?,
+    val visibility: Double?,
 
-    @SerializedName("precipIntensity") val precipIntensity: Double,
-    @SerializedName("precipProbability") val precipProbability: Double,
-    @SerializedName("precipType") val precipType: String
+    @SerializedName("precipIntensity") val precipIntensity: Double?,
+    @SerializedName("precipProbability") val precipProbability: Double?,
+    @SerializedName("precipType") val precipType: String?
 )

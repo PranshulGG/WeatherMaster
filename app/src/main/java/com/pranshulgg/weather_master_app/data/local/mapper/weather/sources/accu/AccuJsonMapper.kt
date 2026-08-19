@@ -48,7 +48,7 @@ fun AccuWeatherBundle.toDomain(location: Location): Weather {
         location = location,
         current = WeatherCurrent(
             temperature = current.temperature.metric.value,
-            humidity = current.humidity?.toDouble() ?: 0.0,
+            humidity = current.humidity?.toDouble(),
             windSpeed = current.wind.speed.metric.value,
             windDirection = WindDirection.toWindDirectionFromDegrees(current.wind.direction.degrees),
             pressureMsl = current.pressure.metric.value,

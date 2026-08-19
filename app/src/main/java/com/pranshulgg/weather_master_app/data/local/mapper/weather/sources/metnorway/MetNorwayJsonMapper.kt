@@ -42,7 +42,7 @@ fun MetNorwayForecastJson.toDomain(location: Location): Weather {
     return Weather(
         current = WeatherCurrent(
             temperature = current.instant.details.temperature,
-            humidity = current.instant.details.relativeHumidity ?: 0.0,
+            humidity = current.instant.details.relativeHumidity,
             windSpeed = current.instant.details.windSpeed,
             windDirection = WindDirection.toWindDirectionFromDegrees(current.instant.details.windDirection.roundToInt()),
             pressureMsl = current.instant.details.pressureMsl,

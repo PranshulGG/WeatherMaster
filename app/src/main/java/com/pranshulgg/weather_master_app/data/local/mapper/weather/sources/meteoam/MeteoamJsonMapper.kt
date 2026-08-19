@@ -74,7 +74,7 @@ fun MeteoamWeatherBundle.toDomain(location: Location): Weather {
         location = location,
         current = WeatherCurrent(
             temperature = current.temperature.value,
-            humidity = current.humidity.value ?: 0.0,
+            humidity = current.humidity.value,
             windSpeed = current.windSpeedKmh.value,
             windDirection = WindDirection.toWindDirectionFromDegrees(
                 windDirectionCurrent.toSafeDouble()?.toInt()

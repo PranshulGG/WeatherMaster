@@ -48,7 +48,7 @@ fun ChinaForecastJson.toDomain(location: Location): Weather {
         location = location,
         current = WeatherCurrent(
             temperature = current.temperature.value.toSafeDouble(),
-            humidity = current.humidity.value.toSafeDouble() ?: 0.0,
+            humidity = current.humidity.value.toSafeDouble(),
             windSpeed = current.wind.speed.value.toSafeDouble(),
             windDirection = WindDirection.toWindDirectionFromDegrees(
                 current.wind.direction.value.toSafeDouble()?.roundToInt()

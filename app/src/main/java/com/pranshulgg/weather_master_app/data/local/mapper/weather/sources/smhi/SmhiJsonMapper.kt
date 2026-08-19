@@ -40,7 +40,7 @@ fun SmhiForecastJson.toDomain(location: Location): Weather {
         location = location,
         current = WeatherCurrent(
             temperature = current.temperature,
-            humidity = current.humidity?.toDouble() ?: 0.0,
+            humidity = current.humidity?.toDouble(),
             windSpeed = WindSpeedUnit.MPS.convert(current.windSpeed, WindSpeedUnit.KPH),
             windDirection = WindDirection.toWindDirectionFromDegrees(current.windDirection),
             pressureMsl = current.pressureMsl,

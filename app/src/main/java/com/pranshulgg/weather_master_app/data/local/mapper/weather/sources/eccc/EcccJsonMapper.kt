@@ -63,7 +63,7 @@ fun EcccWeatherJson.toDomain(location: Location): Weather {
         location = location,
         current = WeatherCurrent(
             temperature = current.temperature.metric?.toSafeDouble(),
-            humidity = current.humidity?.toSafeDouble() ?: 0.0,
+            humidity = current.humidity?.toSafeDouble(),
             windSpeed = current.windSpeed.metric?.toSafeDouble(),
             windDirection = WindDirection.toWindDirectionFromString(current.windDirection),
             pressureMsl = PressureUnit.INHG.convert(

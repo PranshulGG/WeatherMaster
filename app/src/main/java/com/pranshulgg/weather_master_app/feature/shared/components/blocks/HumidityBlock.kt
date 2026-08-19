@@ -40,14 +40,13 @@ fun HumidityBlock(
     val color = MaterialTheme.colorScheme.inversePrimary
 
     val humidity = if (isDaily) weather.daily[dailyIndex].humidity?.roundToInt()
-    else weather.current.humidity.roundToInt()
+    else weather.current.humidity?.roundToInt()
 
 
     val dewPoint = TemperatureUnit.CELSIUS.convert(
         if (isDaily) weather.daily[dailyIndex].dewPoint else weather.current.dewPoint,
         units.tempUnit
     )?.roundToInt()
-        ?: "-"
 
     val humidityDrawable = when (humidity) {
         in 0..30 -> R.drawable.humidity_seven_percent
@@ -84,17 +83,21 @@ fun HumidityBlock(
                 Header()
             }
 
-            Text(
-                "${humidity}%",
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .padding(horizontal = 12.dp),
-                style = MaterialTheme.typography.displayMedium,
-                color = MaterialTheme.colorScheme.onSurface
-            )
+            if (humidity != null) {
+                Text(
+                    "${humidity}%",
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .padding(horizontal = 12.dp),
+                    style = MaterialTheme.typography.displayMedium,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
 
             Box(Modifier.align(Alignment.BottomStart)) {
-                DewPointRow(dewPoint.toString())
+                if (dewPoint != null) {
+                    DewPointRow(dewPoint.toString())
+                }
             }
         }
     }

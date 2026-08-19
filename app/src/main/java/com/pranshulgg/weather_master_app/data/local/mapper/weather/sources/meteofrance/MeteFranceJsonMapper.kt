@@ -37,7 +37,7 @@ fun MeteoFranceForecastJson.toDomain(location: Location): Weather {
         location = location,
         current = WeatherCurrent(
             temperature = forecast[currentHour].temperature,
-            humidity = forecast[currentHour].humidity?.toDouble() ?: 0.0,
+            humidity = forecast[currentHour].humidity?.toDouble(),
             windSpeed = WindSpeedUnit.MPS.convert(
                 forecast[currentHour].windSpeed?.toDouble(),
                 WindSpeedUnit.KPH

@@ -227,10 +227,10 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
 
 }
 
-private fun fixHourlyNwsWindSpeedValue(value: String): Double? {
-    val filteredValue = value.filter { it.isDigit() } // 12 mph to 12
+private fun fixHourlyNwsWindSpeedValue(value: String?): Double? {
+    val filteredValue = value?.filter { it.isDigit() } // 12 mph to 12
 
-    return WindSpeedUnit.MPH.convert(filteredValue.toDouble(), WindSpeedUnit.KPH)
+    return WindSpeedUnit.MPH.convert(filteredValue?.toDouble(), WindSpeedUnit.KPH)
 }
 
 

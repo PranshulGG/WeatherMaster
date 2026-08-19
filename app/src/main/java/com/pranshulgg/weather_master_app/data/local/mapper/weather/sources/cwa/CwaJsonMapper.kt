@@ -76,7 +76,7 @@ fun CwaForecastBundle.toDomain(location: Location): Weather {
         location = location,
         current = WeatherCurrent(
             temperature = current?.temperature,
-            humidity = current?.humidity ?: 0.0,
+            humidity = current?.humidity,
             windSpeed = current?.windSpeed,
             windDirection = current?.windDirection,
             pressureMsl = null,
@@ -120,10 +120,13 @@ fun CwaForecastBundle.toDomain(location: Location): Weather {
                 .filter { it.windSpeed != null && it.windSpeed > 0 }
                 .maxByOrNull { it.windSpeed!! }
 
-            val precipitationProbabilityMax = blocks.mapNotNull { it.precipitationProbability }.maxOrNull()
+            val precipitationProbabilityMax =
+                blocks.mapNotNull { it.precipitationProbability }.maxOrNull()
 
-            val humidityAvg = blocks.mapNotNull { it.humidity }.takeIf { it.isNotEmpty() }?.average()
-            val dewPointAvg = blocks.mapNotNull { it.dewPoint }.takeIf { it.isNotEmpty() }?.average()
+            val humidityAvg =
+                blocks.mapNotNull { it.humidity }.takeIf { it.isNotEmpty() }?.average()
+            val dewPointAvg =
+                blocks.mapNotNull { it.dewPoint }.takeIf { it.isNotEmpty() }?.average()
             val uvIndexMax = blocks.mapNotNull { it.uvIndex }.maxOrNull()
 
             WeatherDaily(
@@ -166,12 +169,18 @@ private fun buildHourPoints(loc: CwaLocationJson?): List<CwaHourPoint> {
     // The hourly timeline is defined by whichever point-in-time element has the finest
     // resolution (Temperature, confirmed hourly) - other elements (wind) sample less often
     // and are looked up per-hour via nearest-look-back, same for the 3h interval elements.
-    val hourTimes = tempEl?.Time.orEmpty().mapNotNull { it.DataTime.toEpochMillisOrNull() }.distinct().sorted()
+    val hourTimes =
+        tempEl?.Time.orEmpty().mapNotNull { it.DataTime.toEpochMillisOrNull() }.distinct().sorted()
 
     return hourTimes.map { t ->
         CwaHourPoint(
             time = t,
-            condition = CwaWeatherConditionMap.getCondition(conditionEl.intervalValueAt(t, "WeatherCode")),
+            condition = CwaWeatherConditionMap.getCondition(
+                conditionEl.intervalValueAt(
+                    t,
+                    "WeatherCode"
+                )
+            ),
             temperature = tempEl.pointValueAt(t).toSafeDouble(),
             feelsLike = apparentEl.pointValueAt(t, "ApparentTemperature").toSafeDouble(),
             humidity = humidityEl.pointValueAt(t).toSafeDouble(),
@@ -205,12 +214,19 @@ private fun buildDayBlocks(loc: CwaLocationJson?, timezone: String): List<CwaDay
 
         CwaDayBlock(
             startTime = start,
-            condition = CwaWeatherConditionMap.getCondition(block.ElementValue?.firstOrNull()?.get("WeatherCode")),
+            condition = CwaWeatherConditionMap.getCondition(
+                block.ElementValue?.firstOrNull()?.get("WeatherCode")
+            ),
             temperatureMax = maxTempEl.intervalValueAt(mid, "MaxTemperature").toSafeDouble(),
             temperatureMin = minTempEl.intervalValueAt(mid, "MinTemperature").toSafeDouble(),
             humidity = humidityEl.intervalValueAt(mid, "RelativeHumidity").toSafeDouble(),
             dewPoint = dewEl.intervalValueAt(mid, "DewPoint").toSafeDouble(),
-            windDirection = cwaWindDirectionFromString(windDirEl.intervalValueAt(mid, "WindDirection")),
+            windDirection = cwaWindDirectionFromString(
+                windDirEl.intervalValueAt(
+                    mid,
+                    "WindDirection"
+                )
+            ),
             windSpeed = windSpeedEl.intervalValueAt(mid, "WindSpeed").toSafeDouble()
                 ?.let { WindSpeedUnit.MPS.convert(it, WindSpeedUnit.KPH) },
             precipitationProbability = precipEl.intervalValueAt(mid, "ProbabilityOfPrecipitation")
@@ -238,7 +254,10 @@ private fun CwaWeatherElementJson?.pointValueAt(targetMillis: Long, key: String?
 }
 
 // Looks up the StartTime/EndTime block containing targetMillis.
-private fun CwaWeatherElementJson?.intervalValueAt(targetMillis: Long, key: String? = null): String? {
+private fun CwaWeatherElementJson?.intervalValueAt(
+    targetMillis: Long,
+    key: String? = null
+): String? {
     val entry = this?.Time.orEmpty().firstOrNull { entry ->
         val start = entry.StartTime.toEpochMillisOrNull() ?: return@firstOrNull false
         val end = entry.EndTime.toEpochMillisOrNull() ?: return@firstOrNull false

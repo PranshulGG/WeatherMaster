@@ -33,7 +33,7 @@ fun BmkgForecastBundle.toDomain(location: Location): Weather {
         location = location,
         current = WeatherCurrent(
             temperature = current.temperature,
-            humidity = current.humidity ?: 0.0,
+            humidity = current.humidity,
             windSpeed = current.windSpeed,
             windDirection = WindDirection.toWindDirectionFromDegrees(current.windDirection?.toInt()),
             pressureMsl = null,

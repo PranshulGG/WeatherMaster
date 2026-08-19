@@ -86,7 +86,7 @@ fun FmiWeather.toDomain(location: Location): Weather {
         location = location,
         current = WeatherCurrent(
             temperature = currentDataForParam("t2m"),
-            humidity = currentDataForParam("rh") ?: 0.0,
+            humidity = currentDataForParam("rh"),
             windSpeed = WindSpeedUnit.MPS.convert(
                 currentDataForParam("ws_10min"),
                 WindSpeedUnit.KPH
