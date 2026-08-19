@@ -47,7 +47,20 @@ object MainScreenBottomSheets {
 
             }
 
+            val alertSourceString = buildString {
+                append(location!!.alertSource.fullName)
+                if (location.alertSource.countryNameRes != null) {
+                    append(" (${stringResource(location.alertSource.countryNameRes)})")
+                }
+            }
 
+
+            val airQualitySourceString = buildString {
+                append(location!!.airQualitySource.fullName)
+                if (location.airQualitySource.countryNameRes != null) {
+                    append(" (${stringResource(location.airQualitySource.countryNameRes)})")
+                }
+            }
 
             ActionBottomSheet(
                 sheetState = sheetState,
@@ -76,7 +89,7 @@ object MainScreenBottomSheets {
                         title = stringResource(R.string.weather_air_quality),
                         tiles = listOf(
                             SettingTile.ActionTile(
-                                title = location.airQualitySource.fullName,
+                                title = airQualitySourceString,
                                 description = location.airQualitySource.displayLink,
                                 trailing = { SettingsTileIcon(R.drawable.open_in_new_24px) },
                                 onClick = {
@@ -92,7 +105,7 @@ object MainScreenBottomSheets {
                         title = "Alerts",
                         tiles = listOf(
                             SettingTile.ActionTile(
-                                title = location.alertSource.fullName,
+                                title = alertSourceString,
                                 description = location.alertSource.displayLink,
                                 trailing = { SettingsTileIcon(R.drawable.open_in_new_24px) },
                                 onClick = {

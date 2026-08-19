@@ -216,7 +216,8 @@ object EditLocationBottomSheet {
 
             var recommendedSources = getSourcesForCountry(countryCode?.uppercase())
 
-            recommendedSources = recommendedSources.filter { Capability.ALERTS in it.capabilities }
+            recommendedSources =
+                recommendedSources.filter { Capability.AIR_QUALITY in it.capabilities }
 
             val isApiKeyAvailable: (Source) -> Boolean = { source ->
                 if (source.requiresUserApiKey) {
@@ -286,6 +287,7 @@ object EditLocationBottomSheet {
                     title = stringResource(R.string.global_sources),
                     tiles = sources.filter { it !in recommendedSources }.map { source ->
                         val isSelected = currentSelectedSource == source
+
 
                         SettingTile.ActionTile(
                             leading = {
