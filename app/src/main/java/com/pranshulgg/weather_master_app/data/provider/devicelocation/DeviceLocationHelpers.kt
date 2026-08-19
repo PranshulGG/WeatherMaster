@@ -133,7 +133,7 @@ suspend fun getCountryCode(
     }
 
     if (!countryCode.isNullOrBlank()) {
-        cont.resume(countryCode.uppercase())
+        cont.resume(countryCode.uppercase(Locale.ROOT))
         return@suspendCancellableCoroutine
     }
 
@@ -143,13 +143,13 @@ suspend fun getCountryCode(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             geocoder.getFromLocation(latitude, longitude, 1) { addresses ->
                 if (!cont.isActive) return@getFromLocation
-                val code = addresses.firstOrNull()?.countryCode?.uppercase()
+                val code = addresses.firstOrNull()?.countryCode?.uppercase(Locale.ROOT)
                 cont.resume(code)
             }
         } else {
             @Suppress("DEPRECATION")
             val result = geocoder.getFromLocation(latitude, longitude, 1)
-            val code = result?.firstOrNull()?.countryCode?.uppercase()
+            val code = result?.firstOrNull()?.countryCode?.uppercase(Locale.ROOT)
 
             if (cont.isActive) {
                 cont.resume(code)
