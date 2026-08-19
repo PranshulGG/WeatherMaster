@@ -14,6 +14,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.aemet.Aeme
 import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.BmkgApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.china.ChinaApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.cwa.CwaApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.jma.JmaApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.DwdApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.EcccApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.fmi.FmiApi
@@ -154,4 +155,8 @@ object ApiModule {
     @Provides
     @Singleton
     fun provideCwaApi(): CwaApi = CwaApi.create()
+
+    @Provides
+    @Singleton
+    fun provideJmaApi(): JmaApi = JmaApi.create()
 }

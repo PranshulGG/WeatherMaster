@@ -176,6 +176,13 @@ enum class Source(
         countryNameRes = R.string.country_taiwan,
         requiresUserApiKey = true,
         capabilities = setOf(Capability.WEATHER)
+    ),
+    JMA(
+        displayName = "JMA",
+        fullName = "Japan Meteorological Agency",
+        displayLink = "https://www.jma.go.jp/bosai/",
+        countryNameRes = R.string.country_japan,
+        capabilities = setOf(Capability.WEATHER)
     );
 
     // Sources that provide snow/rain as precipitation
@@ -187,6 +194,7 @@ enum class Source(
             BMKG -> false
             IMD -> false
             CWA -> false
+            JMA -> false
             else -> true
         }
     }
@@ -212,6 +220,7 @@ private val sourcesByCountry = buildMap {
     put("ES", listOf(Source.AEMET))
     put("IN", listOf(Source.IMD))
     put("TW", listOf(Source.CWA))
+    put("JP", listOf(Source.JMA))
 
 }
 
