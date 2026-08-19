@@ -134,6 +134,12 @@ fun MainScreenScaffold(
             ) {
                 AnimatedContent(
                     targetState = weather,
+                    // Keyed on the location, not the whole Weather object: a plain data
+                    // refresh produces a new Weather instance (different lastUpdatedInMilli
+                    // etc.) even when nothing visually changed, which made every refresh
+                    // full-screen crossfade instead of just recomposing the changed values -
+                    // only an actual location switch should get the transition.
+                    contentKey = { it?.location?.id },
                     transitionSpec = {
                         fadeIn() togetherWith fadeOut()
                     }
