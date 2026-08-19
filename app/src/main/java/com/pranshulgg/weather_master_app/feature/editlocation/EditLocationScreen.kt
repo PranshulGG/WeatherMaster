@@ -139,7 +139,7 @@ fun EditLocationScreen(
     val effectiveAirQualitySource =
         uiState.selectedAirQualitySource ?: uiState.location.airQualitySource
     val selectedAirQualitySourceString = buildString {
-        append(effectiveAlertSource.displayName)
+        append(effectiveAirQualitySource.displayName)
         effectiveAirQualitySource.countryNameRes?.let {
             append(" (${stringResource(it)})")
         }
