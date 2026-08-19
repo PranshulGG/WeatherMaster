@@ -1,8 +1,8 @@
 package com.pranshulgg.weather_master_app.core.network.sources.weather.smhi
 
-import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.toAppException
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
 import com.pranshulgg.weather_master_app.core.network.calls.safeApiCall
@@ -16,10 +16,9 @@ import com.pranshulgg.weather_master_app.data.local.mapper.weather.toCurrentWeat
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDailyWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toHourlyWeatherEntity
-import com.pranshulgg.weather_master_app.data.repository.WeatherRepository
+import com.pranshulgg.weather_master_app.data.repository.data.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.net.UnknownHostException
 import javax.inject.Inject
 
 
@@ -28,6 +27,10 @@ class SmhiRepository @Inject constructor(
     val weatherDao: WeatherDao,
     val api: SmhiApi
 ) : WeatherRepository {
+
+    override val weatherSource = Source.SMHI
+
+
     override suspend fun getWeather(
         location: Location,
         isManualRefresh: Boolean,

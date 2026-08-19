@@ -1,4 +1,4 @@
-package com.pranshulgg.weather_master_app.core.network.sources.airquality.accu.json
+package com.pranshulgg.weather_master_app.core.network.sources.weather.accu.airquality.json
 
 import com.google.gson.annotations.SerializedName
 

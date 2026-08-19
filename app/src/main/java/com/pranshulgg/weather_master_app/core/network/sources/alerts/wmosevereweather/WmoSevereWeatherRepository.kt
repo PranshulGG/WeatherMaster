@@ -3,6 +3,7 @@ package com.pranshulgg.weather_master_app.core.network.sources.alerts.wmoseverew
 import android.util.Xml
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResult
 import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResultType
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.wmosevereweather.model.WmoCapAlert
@@ -12,7 +13,7 @@ import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
 import com.pranshulgg.weather_master_app.data.local.mapper.alerts.sources.wmosevereweather.wmoSevereWeatherAlertsMapper
 import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toEntity
-import com.pranshulgg.weather_master_app.data.repository.AlertRepository
+import com.pranshulgg.weather_master_app.data.repository.data.AlertRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.xmlpull.v1.XmlPullParser
@@ -24,6 +25,9 @@ class WmoSevereWeatherRepository @Inject constructor(
     private val dao: AlertsDao,
     private val locationsDao: LocationsDao
 ) : AlertRepository {
+
+    override val alertSource = Source.WMO_SEVERE_WEATHER
+
     override suspend fun getAlerts(
         location: Location,
         isManualRefresh: Boolean,

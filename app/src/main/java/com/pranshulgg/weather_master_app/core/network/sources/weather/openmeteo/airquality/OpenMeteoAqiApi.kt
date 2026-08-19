@@ -1,8 +1,7 @@
-package com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo
+package com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.airquality
 
 
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -10,11 +9,11 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
-private const val CURRENT_FIELDS =
+private const val CURRENT_FIELDS_AIR_QUALITY =
     "us_aqi,pm10,pm2_5,carbon_monoxide,nitrogen_dioxide,sulphur_dioxide,ozone"
-private const val HOURLY_FIELDS =
+private const val HOURLY_FIELDS_AIR_QUALITY =
     "pm10,pm2_5,carbon_monoxide,nitrogen_dioxide,sulphur_dioxide,ozone"
-private const val DOMAINS = "cams_global"
+private const val DOMAINS_AIR_QUALITY = "cams_global"
 
 interface OpenMeteoAqiApi {
 
@@ -22,9 +21,9 @@ interface OpenMeteoAqiApi {
     suspend fun fetchAirQuality(
         @Query("latitude") latitude: Double,
         @Query("longitude") longitude: Double,
-        @Query("current") appendCurrent: String = CURRENT_FIELDS,
-        @Query("hourly") appendHourly: String = HOURLY_FIELDS,
-        @Query("domains") appendDomains: String = DOMAINS,
+        @Query("current") appendCurrent: String = CURRENT_FIELDS_AIR_QUALITY,
+        @Query("hourly") appendHourly: String = HOURLY_FIELDS_AIR_QUALITY,
+        @Query("domains") appendDomains: String = DOMAINS_AIR_QUALITY,
         @Query("forecast_days") forecastDays: String = "1",
         @Query("timeformat") appendTimeFormat: String = "unixtime"
     ): Response<OpenMeteoAqiDto>

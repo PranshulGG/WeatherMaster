@@ -1,9 +1,9 @@
-package com.pranshulgg.weather_master_app.data.local.mapper.airquality.sources.openmeteo
+package com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.openmeteo.airquality
 
 import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQuality
 import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQualityCurrent
 import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQualityHourly
-import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo.OpenMeteoAqiDto
+import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.airquality.OpenMeteoAqiDto
 
 
 fun OpenMeteoAqiDto.toDomain(): AirQuality =

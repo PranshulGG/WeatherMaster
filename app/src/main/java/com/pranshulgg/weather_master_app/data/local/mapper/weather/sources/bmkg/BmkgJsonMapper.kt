@@ -5,7 +5,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherCurrent
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherDaily
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherHourly
-import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherCondition
 import com.pranshulgg.weather_master_app.core.model.weather.WindSpeedUnit
 import com.pranshulgg.weather_master_app.core.model.weather.wind.WindDirection
@@ -13,9 +13,6 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.BmkgW
 import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.json.BmkgForecastWeatherJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.json.bundle.BmkgForecastBundle
 import com.pranshulgg.weather_master_app.core.network.sources.weather.china.ChinaWeatherConditionMap
-import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.DwdWeatherConditionMap
-import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.json.DwdWeatherForecastDataJson
-import com.pranshulgg.weather_master_app.core.network.sources.weather.smhi.json.SmhiForecastJson
 import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.iso8601TimestampToMilliseconds
 import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.normalizeToDay
 import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getMoonTimings
@@ -169,7 +166,7 @@ private fun getHourlyConditionsForDay(
 
 
     val conditions = data.drop(maxOf(0, startIndex - 1))
-        .take(WeatherSource.BMKG.hourlyAggregationLimitHours)
+        .take(Source.BMKG.hourlyAggregationLimitHours)
         .map {
             ChinaWeatherConditionMap.getCondition(it.weather)
         }

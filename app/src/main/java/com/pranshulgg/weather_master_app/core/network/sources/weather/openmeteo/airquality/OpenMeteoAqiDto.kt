@@ -1,4 +1,4 @@
-package com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo
+package com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.airquality
 
 import com.google.gson.annotations.SerializedName
 

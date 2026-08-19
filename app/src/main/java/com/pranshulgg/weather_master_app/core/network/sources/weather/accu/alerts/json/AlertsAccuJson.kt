@@ -1,7 +1,6 @@
-package com.pranshulgg.weather_master_app.core.network.sources.alerts.accu.json
+package com.pranshulgg.weather_master_app.core.network.sources.weather.accu.alerts.json
 
 import com.google.gson.annotations.SerializedName
-import kotlinx.serialization.Serializable
 
 
 data class AlertsAccuJson(

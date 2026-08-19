@@ -7,7 +7,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherCurrent
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherDaily
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherHourly
-import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.DistanceUnit
 import com.pranshulgg.weather_master_app.core.model.weather.PressureUnit
 import com.pranshulgg.weather_master_app.core.model.weather.WindSpeedUnit
@@ -164,7 +164,7 @@ private fun getMaxPrecipitationProbability(
 
 
     val data = hourly.drop(maxOf(0, startIndex - 1))
-        .take(WeatherSource.FMI.hourlyAggregationLimitHours)
+        .take(Source.FMI.hourlyAggregationLimitHours)
 
     if (data.map { it.precipProbability }.all { it == null }) {
         return null

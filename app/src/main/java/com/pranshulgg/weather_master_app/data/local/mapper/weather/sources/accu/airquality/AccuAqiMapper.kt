@@ -1,9 +1,9 @@
-package com.pranshulgg.weather_master_app.data.local.mapper.airquality.sources.accu
+package com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.accu.airquality
 
 import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQuality
 import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQualityCurrent
 import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQualityHourly
-import com.pranshulgg.weather_master_app.core.network.sources.airquality.accu.json.bundle.AccuAqiJsonBundle
+import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.airquality.json.bundle.AccuAqiJsonBundle
 
 
 fun AccuAqiJsonBundle.toDomain(): AirQuality {

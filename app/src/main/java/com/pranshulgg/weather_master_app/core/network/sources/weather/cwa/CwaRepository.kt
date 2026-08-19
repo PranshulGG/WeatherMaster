@@ -2,6 +2,7 @@ package com.pranshulgg.weather_master_app.core.network.sources.weather.cwa
 
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
 import com.pranshulgg.weather_master_app.core.network.sources.weather.cwa.json.CwaDatasetJson
@@ -21,7 +22,7 @@ import com.pranshulgg.weather_master_app.data.local.mapper.weather.toCurrentWeat
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDailyWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toHourlyWeatherEntity
-import com.pranshulgg.weather_master_app.data.repository.WeatherRepository
+import com.pranshulgg.weather_master_app.data.repository.data.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Response
@@ -40,6 +41,9 @@ class CwaRepository @Inject constructor(
     val apiKeysDao: ApiKeysDao,
     val locationKeysDao: LocationKeysDao
 ) : WeatherRepository {
+
+    override val weatherSource = Source.CWA
+
 
     override suspend fun getWeather(
         location: Location,

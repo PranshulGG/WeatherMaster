@@ -7,7 +7,6 @@ import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-
 class AlertsRepository @Inject constructor(
     private val dao: AlertsDao,
 ) {

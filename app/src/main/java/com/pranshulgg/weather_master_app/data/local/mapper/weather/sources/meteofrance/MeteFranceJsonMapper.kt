@@ -5,7 +5,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherCurrent
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherDaily
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherHourly
-import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherCondition
 import com.pranshulgg.weather_master_app.core.model.weather.WindSpeedUnit
 import com.pranshulgg.weather_master_app.core.model.weather.wind.WindDirection
@@ -186,7 +186,7 @@ private fun getHourlyConditionsForDay(
 
 
     val conditions = data.drop(maxOf(0, startIndex - 1))
-        .take(WeatherSource.METEO_FRANCE.hourlyAggregationLimitHours)
+        .take(Source.METEO_FRANCE.hourlyAggregationLimitHours)
         .map {
             MeteoFranceConditionMap.getCondition(it.icon)
         }

@@ -1,11 +1,13 @@
 package com.pranshulgg.weather_master_app.core.network.sources.weather.accu
 
 import com.pranshulgg.weather_master_app.BuildConfig
+import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.alerts.json.AlertsAccuJson
+import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.airquality.json.AccuAqiForecastJson
+import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.airquality.json.AccuAqiJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.json.AccuCurrentWeatherJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.json.AccuDailyWeatherJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.json.AccuHourlyWeatherJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.json.AccuLocationJson
-import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.json.BmkgCurrentForecastJson
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Response
@@ -44,6 +46,25 @@ interface AccuApi {
         @Query("details") details: Boolean = true,
         @Query("metric") metric: Boolean = true
     ): Response<AccuDailyWeatherJson>
+
+    @GET("airquality/v2/currentconditions/{locationKey}")
+    suspend fun fetchCurrentAirQuality(
+        @Path("locationKey") locationKey: String,
+        @Query("pollutants") details: Boolean = true
+    ): Response<AccuAqiJson>
+
+    @GET("airquality/v2/forecasts/hourly/24hour/{locationKey}")
+    suspend fun fetchAirQualityForecast(
+        @Path("locationKey") locationKey: String,
+        @Query("pollutants") details: Boolean = true
+    ): Response<AccuAqiForecastJson>
+
+    @GET("alerts/v1/{locationKey}")
+    suspend fun fetchAlerts(
+        @Path("locationKey") locationKey: String,
+        @Query("details") details: Boolean = true,
+        @Query("language") language: String
+    ): Response<List<AlertsAccuJson>>
 
 
     companion object {

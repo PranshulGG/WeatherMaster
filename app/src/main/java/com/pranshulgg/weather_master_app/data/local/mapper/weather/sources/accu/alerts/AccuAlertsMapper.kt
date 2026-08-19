@@ -1,8 +1,8 @@
-package com.pranshulgg.weather_master_app.data.local.mapper.alerts.sources.accu
+package com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.accu.alerts
 
 import com.pranshulgg.weather_master_app.core.model.domain.alerts.Alert
 import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertSeverity
-import com.pranshulgg.weather_master_app.core.network.sources.alerts.accu.json.AlertsAccuJson
+import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.alerts.json.AlertsAccuJson
 import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.secondsToMilliseconds
 
 

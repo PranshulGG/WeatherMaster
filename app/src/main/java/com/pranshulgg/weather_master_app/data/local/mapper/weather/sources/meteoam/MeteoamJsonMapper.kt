@@ -1,13 +1,11 @@
 package com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.meteoam
 
-import android.util.Log
-import androidx.core.text.isDigitsOnly
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherCurrent
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherDaily
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherHourly
-import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherCondition
 import com.pranshulgg.weather_master_app.core.model.weather.WindSpeedUnit
 import com.pranshulgg.weather_master_app.core.model.weather.wind.WindDirection
@@ -20,8 +18,6 @@ import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getMoonTim
 import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getSunTimings
 import com.pranshulgg.weather_master_app.core.utils.weather.calculations.computeApparentTemperature
 import com.pranshulgg.weather_master_app.core.utils.weather.computing.computeDailyWeatherCondition
-import kotlinx.serialization.json.intOrNull
-import kotlinx.serialization.json.jsonPrimitive
 import kotlin.math.roundToInt
 
 
@@ -224,7 +220,7 @@ private fun getHourlyConditionsForDay(
 
 
     val conditions = data.drop(maxOf(0, startIndex - 1))
-        .take(WeatherSource.METEO_AM.hourlyAggregationLimitHours)
+        .take(Source.METEO_AM.hourlyAggregationLimitHours)
         .map {
             MeteoamWeatherConditionMap.getCondition(it.icon)
         }
