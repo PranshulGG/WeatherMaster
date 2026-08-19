@@ -15,6 +15,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.jma.model.
 import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.normalizeToDay
 import com.pranshulgg.weather_master_app.core.utils.formatters.getCurrentTimeFor
 import com.pranshulgg.weather_master_app.core.utils.formatters.toSafeDouble
+import com.pranshulgg.weather_master_app.core.utils.weather.calculations.computeApparentTemperature
 import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getMoonTimings
 import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getSunTimings
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findHourlyIndexForTime
@@ -106,6 +107,13 @@ fun JmaForecastBundle.toDomain(location: Location): Weather {
         ?.let { WindSpeedUnit.MPS.convert(it, WindSpeedUnit.KPH) }
     val amedasWindDirection = current?.windDirection.value()
         ?.let { WindDirection.toWindDirectionFromDegrees(amedasIndexToDegrees(it)) }
+    // AMeDAS doesn't report apparent temperature directly - compute it from its own real
+    // temp/humidity/wind (same convention as FMI/DWD/NWS/SMHI/etc use for this exact gap).
+    val amedasFeelsLike = computeApparentTemperature(
+        tempC = current?.temp.value(),
+        humidity = current?.humidity.value(),
+        windMs = current?.wind.value()
+    )
 
     return Weather(
         location = location,
@@ -119,7 +127,7 @@ fun JmaForecastBundle.toDomain(location: Location): Weather {
             cloudCover = null,
             uvIndex = null,
             weatherCondition = nearestHourPoint?.condition ?: WeatherCondition.NO_CONDITION_FOUND,
-            feelsLike = null,
+            feelsLike = amedasFeelsLike,
             time = currentTime,
             dewPoint = null,
             utcOffsetSeconds = null,
