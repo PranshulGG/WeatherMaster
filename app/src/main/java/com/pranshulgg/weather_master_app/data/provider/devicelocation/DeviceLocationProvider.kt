@@ -33,13 +33,6 @@ class GetDeviceLocation {
     private var timeoutRunnable: Runnable? = null
 
     private val timeoutMillis = 20_000L
-    private fun getProvider(lm: LocationManager): String {
-        return when {
-            lm.allProviders.contains(LocationManager.NETWORK_PROVIDER) -> LocationManager.NETWORK_PROVIDER
-            lm.allProviders.contains(LocationManager.GPS_PROVIDER) -> LocationManager.GPS_PROVIDER
-            else -> LocationManager.PASSIVE_PROVIDER
-        }
-    }
 
     fun getDeviceLocation(
         context: Context,
@@ -71,22 +64,13 @@ class GetDeviceLocation {
 
         locationManager = lm
 
-        val provider = getProvider(lm)
-
-        if (!lm.isProviderEnabled(provider)) {
-            onResult(DeviceLocation(null, null))
-            return
-        }
-
-
-        getLocation(onLocation = { onResult(it) }, lm, provider, onTimeout)
+        getLocation(onLocation = { onResult(it) }, lm, onTimeout)
     }
 
     @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION])
     private fun getLocation(
         onLocation: (DeviceLocation) -> Unit,
         lm: LocationManager,
-        provider: String,
         onTimeout: () -> Unit
     ) {
 

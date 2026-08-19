@@ -130,21 +130,38 @@ class WeatherViewModel @Inject constructor(
 
         weatherJob = viewModelScope.launch {
 
-            if (location.isDeviceLocation && isManualRefresh) {
-                handleDeviceLocation()
+            var effectiveLocation = location
+            var effectiveForceRefresh = isForceRefresh
+            var effectiveForceRefreshForAirQuality = isForceRefreshForAirQuality
+            var effectiveForceRefreshForAlerts = isForceRefreshForAlerts
+
+            // Checked regardless of isManualRefresh so it also runs on app-open/auto-refresh,
+            // not just pull-to-refresh. If the device actually moved, force a real fetch for
+            // the new coordinates instead of trusting a cache keyed to the old ones (note:
+            // isForceRefresh bypasses the cache unconditionally, unlike isManualRefresh, which
+            // only relaxes the cache TTL and would still be blocked by the 15-min throttle).
+            if (location.isDeviceLocation) {
+                val positionChanged = handleDeviceLocation()
+                if (positionChanged) {
+                    effectiveLocation = locationsRepo.getLocationForId(location.id)
+                    effectiveForceRefresh = true
+                    effectiveForceRefreshForAirQuality = true
+                    effectiveForceRefreshForAlerts = true
+                    _uiState.value = _uiState.value.copy(activeLocation = effectiveLocation)
+                }
             }
 
             // Run separately
             if (!_uiState.value.isError) {
                 launch {
-                    handleAirQuality(location, isManualRefresh, isForceRefreshForAirQuality)
+                    handleAirQuality(effectiveLocation, isManualRefresh, effectiveForceRefreshForAirQuality)
                 }
                 launch {
-                    handleAlerts(location, isManualRefresh, isForceRefreshForAlerts)
+                    handleAlerts(effectiveLocation, isManualRefresh, effectiveForceRefreshForAlerts)
                 }
             }
 
-            handleWeatherData(source, location, isManualRefresh, isForceRefresh)
+            handleWeatherData(source, effectiveLocation, isManualRefresh, effectiveForceRefresh)
 
             val elapsed = System.currentTimeMillis() - startTime
             val minLoadingTime = 1000L // 1s
@@ -276,8 +293,8 @@ class WeatherViewModel @Inject constructor(
     }
 
 
-    private suspend fun handleDeviceLocation() {
-        locationsRepo.updateDeviceLocationPosition()
+    private suspend fun handleDeviceLocation(): Boolean {
+        return locationsRepo.updateDeviceLocationPosition()
     }
 
     private suspend fun handleWeatherData(

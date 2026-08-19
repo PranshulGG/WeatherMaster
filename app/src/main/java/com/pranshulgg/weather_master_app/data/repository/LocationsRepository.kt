@@ -131,7 +131,12 @@ class LocationsRepository @Inject constructor(
 
     val getDeviceLocation = GetDeviceLocation()
 
-    suspend fun updateDeviceLocationPosition() {
+    /**
+     * Refreshes the saved device-location entry if the device has moved far enough.
+     * Returns true if the location was actually updated (so callers know to force
+     * a fresh weather fetch instead of trusting a now-stale cache).
+     */
+    suspend fun updateDeviceLocationPosition(): Boolean {
 
         val location = suspendCancellableCoroutine { cont ->
             getDeviceLocation.getDeviceLocation(
@@ -144,8 +149,8 @@ class LocationsRepository @Inject constructor(
         }
 
 
-        val newLat = location.latitude ?: return
-        val newLon = location.longitude ?: return
+        val newLat = location.latitude ?: return false
+        val newLon = location.longitude ?: return false
 
         val currentLocation = dao.getDeviceLocation()
 
@@ -163,7 +168,7 @@ class LocationsRepository @Inject constructor(
         val distanceInMeters = results[0]
         // Only update the location if needed
         if (distanceInMeters < LOCATION_UPDATE_THRESHOLD_METERS) {
-            return
+            return false
         }
         val address = try {
             nominatimRepository.getAddress(
@@ -184,6 +189,8 @@ class LocationsRepository @Inject constructor(
             ?: "",
             ZoneId.systemDefault().id
         )
+
+        return true
     }
 
     suspend fun saveDeviceLocation() {
