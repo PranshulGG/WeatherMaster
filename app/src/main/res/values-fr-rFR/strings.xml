@@ -35,7 +35,7 @@
         <item quantity="other">Il y a %dh</item>
     </plurals>
     <plurals name="time_days_ago">
-        <item quantity="one">%d jour</item>
+        <item quantity="one">Hier</item>
         <item quantity="other">Il y a %d jours</item>
     </plurals>
     <string name="time_just_now">À l\'instant</string>
@@ -358,7 +358,7 @@
     <string name="settings_widget_font_size">Taille de police</string>
     <string name="settings_widget_daily_forecast_count">Daily forecast count</string>
     <string name="settings_widget_hourly_forecast_count">Hourly forecast count</string>
-    <string name="settings_widget_icon_size">Icon size</string>
+    <string name="settings_widget_icon_size">Taille des icônes</string>
     <string name="action_create_widget">Créer un widget</string>
     <string name="time_days">%1$s jours</string>
     <string name="time_day">%1$s jour</string>
@@ -381,9 +381,9 @@
     <string name="unit_precipitation_mm_short">mm</string>
     <string name="unit_precipitation_inch_short">in</string>
     <string name="unit_precipitation_cm_short">cm</string>
-    <string name="settings_widget_show_precip_probability">Show precipitation probability</string>
-    <string name="settings_widget_show_precip_probability_secondary">Displays the precipitation probability only when the selected source provides it</string>
-    <string name="weather_current">Current</string>
+    <string name="settings_widget_show_precip_probability">Afficher la probabilité de précipitations</string>
+    <string name="settings_widget_show_precip_probability_secondary">Affiche la probabilité de précipitations uniquement si fournie par la source de données sélectionnée</string>
+    <string name="weather_current">Actuellement</string>
     <string name="widget_weather_today_max_uv">Maximum du jour : %1$s</string>
     <string name="widget_weather_today_max_uv_at">Vers %1$s</string>
     <string name="country_united_kingdom">Royaume-Uni</string>
@@ -391,7 +391,7 @@
     <string name="settings_api_key_config">Configuration des clés d\'API</string>
     <string name="source_regional_global">Régional avec couverture mondiale</string>
     <string name="error_no_api_key">Aucune clé API n\'a été trouvée. Veuillez ajouter votre clé depuis les paramètres</string>
-    <string name="error_api_key_rejected">Your API key was rejected. It may be invalid or expired — check it in the API key settings.</string>
+    <string name="error_api_key_rejected">Votre clé API a été refusée. Elle est peut-être invalide ou expirée — vérifiez la dans les paramètres.</string>
     <string name="weather_mixed_precipitation">Averses</string>
     <string name="weather_hail">Grêle</string>
     <string name="weather_sleet">Neige fondue</string>
@@ -405,9 +405,9 @@
     <string name="error_empty_response_body">The server returned an empty response.</string>
     <string name="error_bad_request">The server could not process the request.</string>
     <string name="error_unauthorized">Authentication with the service failed.</string>
-    <string name="error_forbidden">Access to this resource was denied.</string>
-    <string name="error_not_found">The requested resource could not be found.</string>
-    <string name="error_request_timeout">The server did not respond in time.</string>
-    <string name="error_too_many_requests">The request limit has been reached.</string>
+    <string name="error_forbidden">L\'accès à cette ressource a été refusé.</string>
+    <string name="error_not_found">La ressource demandée est introuvable.</string>
+    <string name="error_request_timeout">Le serveur n’a pas répondu dans les temps.</string>
+    <string name="error_too_many_requests">La limite de requêtes a été atteinte.</string>
 </resources>
 <!--<string name=""></string>-->
