@@ -1,16 +1,15 @@
 package com.pranshulgg.weather_master_app.data.worker.widgets
 
 import android.content.Context
-import android.content.SharedPreferences
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
-import com.pranshulgg.weather_master_app.data.provider.WeatherRepositoryProvider
+import com.pranshulgg.weather_master_app.data.provider.SourceRepositoryProvider
 import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
 import jakarta.inject.Inject
 
 class WidgetReload @Inject constructor(
-    private val repositoryProvider: WeatherRepositoryProvider,
+    private val repositoryProvider: SourceRepositoryProvider,
     private val locationsRepository: LocationsRepository,
     private val weatherUnitsRepository: WeatherUnitsRepository
 ) {
@@ -24,7 +23,7 @@ class WidgetReload @Inject constructor(
 
         if (defaultLocation == null || units == null) return
 
-        val repo = repositoryProvider.getRepository(defaultLocation.source)
+        val repo = repositoryProvider.getWeatherRepository(defaultLocation.source)
 
         val result = repo.getWeather(
             location = defaultLocation,

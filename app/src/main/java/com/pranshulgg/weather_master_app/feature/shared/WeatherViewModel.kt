@@ -1,7 +1,6 @@
 package com.pranshulgg.weather_master_app.feature.shared
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -11,24 +10,19 @@ import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.domain.toMessageRes
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlock
-import com.pranshulgg.weather_master_app.core.model.sources.AirQualitySource
-import com.pranshulgg.weather_master_app.core.model.sources.AlertSource
-import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.sources.isGlobal
 import com.pranshulgg.weather_master_app.core.model.sources.isSourceSupportedFor
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.airquality.AirQualityResult
 import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResult
 import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModel
-import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo.OpenMeteoAqiRepository
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
-import com.pranshulgg.weather_master_app.data.provider.AirQualityRepositoryProvider
-import com.pranshulgg.weather_master_app.data.provider.AlertsRepositoryProvider
-import com.pranshulgg.weather_master_app.data.provider.WeatherRepositoryProvider
 import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherBlocksRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherDataReconcilerRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
+import com.pranshulgg.weather_master_app.data.repository.data.SourceDataRepository
 import com.pranshulgg.weather_master_app.data.worker.WeatherUpdateScheduler
 import com.pranshulgg.weather_master_app.feature.main.MainScreenWeatherUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -43,19 +37,15 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.coroutines.cancellation.CancellationException
 import kotlin.time.Duration.Companion.minutes
 
 @HiltViewModel
 class WeatherViewModel @Inject constructor(
-    private val repo: WeatherRepositoryProvider,
     private val locationsRepo: LocationsRepository,
     appWeatherUnitsRepo: WeatherUnitsRepository,
     private val weatherBlocksRepository: WeatherBlocksRepository,
-    private val openMeteoAqiRepository: OpenMeteoAqiRepository,
     private val weatherDataReconcilerRepository: WeatherDataReconcilerRepository,
-    private val airQualityRepositoryProvider: AirQualityRepositoryProvider,
-    private val alertRepositoryProvider: AlertsRepositoryProvider,
+    private val sourceDataRepository: SourceDataRepository,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
 
@@ -116,7 +106,7 @@ class WeatherViewModel @Inject constructor(
 
     fun getWeather(
         location: Location,
-        source: WeatherSource,
+        source: Source,
         isManualRefresh: Boolean = false,
         isForceRefresh: Boolean = false,
         isForceRefreshForAirQuality: Boolean = false,
@@ -125,7 +115,11 @@ class WeatherViewModel @Inject constructor(
         setLoading(true)
         weatherJob?.cancel()
         val startTime = System.currentTimeMillis()
-        _uiState.value = _uiState.value.copy(isError = false, isUnsupportedSource = false)
+        _uiState.value = _uiState.value.copy(
+            isError = false,
+            isUnsupportedSource = false,
+            isAirQualityLoading = true
+        )
 
 
         weatherJob = viewModelScope.launch {
@@ -151,17 +145,51 @@ class WeatherViewModel @Inject constructor(
                 }
             }
 
-            // Run separately
-            if (!_uiState.value.isError) {
-                launch {
-                    handleAirQuality(effectiveLocation, isManualRefresh, effectiveForceRefreshForAirQuality)
-                }
-                launch {
-                    handleAlerts(effectiveLocation, isManualRefresh, effectiveForceRefreshForAlerts)
-                }
-            }
 
-            handleWeatherData(source, effectiveLocation, isManualRefresh, effectiveForceRefresh)
+            sourceDataRepository.getData(
+                location = effectiveLocation,
+                isManualRefresh = isManualRefresh,
+                isForceRefresh = effectiveForceRefresh,
+                isForceRefreshForAirQuality = effectiveForceRefreshForAirQuality,
+                isForceRefreshForAlerts = effectiveForceRefreshForAlerts,
+                onWeather = { result ->
+                    handleWeatherData(result, effectiveLocation)
+                },
+                onAlerts = { result ->
+                    handleAlerts(result)
+                },
+                onAirQuality = { result ->
+                    handleAirQuality(result)
+                },
+            )
+//            handleWeatherData(source, effectiveLocation, isManualRefresh, effectiveForceRefresh)
+
+            // Run separately
+//            if (!_uiState.value.isError) {
+//                launch {
+//                    handleAirQuality(
+//                        effectiveLocation,
+//                        isManualRefresh,
+//                        effectiveForceRefreshForAirQuality
+//                    )
+//                }
+//
+
+            // Only run separately if the alert source is a different API of its own
+            // If not, then run after the weather has fetched
+//                if (!source.providesAlerts && effectiveLocation.alertSource.name != source.name) {
+//                    launch {
+//                        handleAlerts(
+//                            effectiveLocation,
+//                            isManualRefresh,
+//                            effectiveForceRefreshForAlerts
+//                        )
+//                    }
+//                } else {
+//                    handleAlertsFromWeatherSource(effectiveLocation)
+//                }
+//            }
+
 
             val elapsed = System.currentTimeMillis() - startTime
             val minLoadingTime = 1000L // 1s
@@ -203,9 +231,9 @@ class WeatherViewModel @Inject constructor(
 
     fun handleSourceChangeForWeather(
         location: Location,
-        source: WeatherSource,
-        airQualitySource: AirQualitySource,
-        alertSource: AlertSource,
+        source: Source,
+        airQualitySource: Source,
+        alertSource: Source,
         openMeteoModel: OpenMeteoModel
     ) {
         val updatedLocation = location.copy(
@@ -227,32 +255,11 @@ class WeatherViewModel @Inject constructor(
             val allowForceRefreshForAirQuality = location.airQualitySource != airQualitySource
             val allowForceRefreshForAlerts = location.alertSource != alertSource
 
-
-            if (allowForceRefreshForWeather) {
-                weatherDataReconcilerRepository.cleanUpStaleData(
-                    location.source,
-                    location.id,
-                    airQualitySource,
-                    alertSource
-                )
-            }
-            if (allowForceRefreshForAirQuality) {
-                weatherDataReconcilerRepository.cleanUpStaleAirQualityData(
-                    location.id,
-                    source,
-                    alertSource
-                )
-            }
-            if (allowForceRefreshForAlerts) {
-                weatherDataReconcilerRepository.cleanUpStaleAlertsData(
-                    location.id,
-                    source,
-                    airQualitySource
-                )
-            }
-            _uiState.value = _uiState.value.copy(
-                activeLocation = updatedLocation
+            weatherDataReconcilerRepository.reconcileSourceChange(
+                previous = location,
+                updated = updatedLocation
             )
+            _uiState.value = _uiState.value.copy(activeLocation = updatedLocation)
             getWeather(
                 updatedLocation,
                 source,
@@ -260,8 +267,6 @@ class WeatherViewModel @Inject constructor(
                 isForceRefreshForAirQuality = allowForceRefreshForAirQuality,
                 isForceRefreshForAlerts = allowForceRefreshForAlerts
             )
-
-
         }
     }
 
@@ -297,18 +302,10 @@ class WeatherViewModel @Inject constructor(
         return locationsRepo.updateDeviceLocationPosition()
     }
 
-    private suspend fun handleWeatherData(
-        source: WeatherSource,
-        location: Location,
-        isManualRefresh: Boolean,
-        isForceRefresh: Boolean
-    ) {
-
-        val repo = repo.getRepository(source)
+    private suspend fun handleWeatherData(result: WeatherResult, location: Location) {
 
 
-        when (val result = repo.getWeather(location, isManualRefresh, isForceRefresh)) {
-
+        when (result) {
 
             is WeatherResult.Success -> {
                 _uiState.value = _uiState.value.copy(weather = result.weather, isInitialized = true)
@@ -318,8 +315,6 @@ class WeatherViewModel @Inject constructor(
 
                 val appExpectation = result.exception.toAppException()
                 SnackbarManager.show(appExpectation.toMessageRes())
-
-
 
                 _uiState.value = _uiState.value.copy(
                     isError = true,
@@ -345,27 +340,11 @@ class WeatherViewModel @Inject constructor(
         }
     }
 
-    private suspend fun handleAirQuality(
-        location: Location,
-        isManualRefresh: Boolean,
-        isForceRefresh: Boolean
+    private fun handleAirQuality(
+        result: AirQualityResult
     ) {
 
-        if (_uiState.value.isAirQualityLoading) return
-
-        val repoAir = airQualityRepositoryProvider.getRepository(location.airQualitySource)
-
-
-        if (repoAir == null) {
-            _uiState.value = _uiState.value.copy(airQuality = null, isAirQualityLoading = false)
-            return
-        }
-
-        _uiState.value = _uiState.value.copy(isAirQualityLoading = true)
-
-
-
-        when (val result = repoAir.getAirQuality(location, isManualRefresh, isForceRefresh)) {
+        when (result) {
             is AirQualityResult.Success -> {
                 _uiState.value =
                     _uiState.value.copy(
@@ -387,30 +366,14 @@ class WeatherViewModel @Inject constructor(
     }
 
 
-    private suspend fun handleAlerts(
-        location: Location,
-        isManualRefresh: Boolean,
-        isForceRefresh: Boolean
-    ) {
+    private fun handleAlerts(result: AlertResult) {
 
-
-        val repoAlert = alertRepositoryProvider.getRepository(location.alertSource)
-
-
-        if (repoAlert == null) {
-            _uiState.value = _uiState.value.copy(alerts = emptyList())
-            return
-        }
-
-
-        when (val result = repoAlert.getAlerts(location, isManualRefresh, isForceRefresh)) {
+        when (result) {
             is AlertResult.Success -> {
                 _uiState.value =
                     _uiState.value.copy(
                         alerts = result.alerts
                     )
-
-
             }
 
             // Fail silently, we just won't show the Air quality in the UI
@@ -426,7 +389,7 @@ class WeatherViewModel @Inject constructor(
 
     fun startAutoRefresh(
         location: Location,
-        source: WeatherSource
+        source: Source
     ) {
 
         if (autoRefreshJob?.isActive == true) return

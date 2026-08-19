@@ -2,9 +2,6 @@ package com.pranshulgg.weather_master_app.core.di.network
 
 import com.pranshulgg.weather_master_app.core.network.github.GithubApi
 import com.pranshulgg.weather_master_app.core.network.sources.address.nominatim.NominatimApi
-import com.pranshulgg.weather_master_app.core.network.sources.airquality.accu.AccuAqiApi
-import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo.OpenMeteoAqiApi
-import com.pranshulgg.weather_master_app.core.network.sources.alerts.accu.AlertsAccuApi
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.fpas.FpasApi
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.weatherapi.AlertsWeatherApi
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.wmosevereweather.WmoSevereWeatherApi
@@ -29,6 +26,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metoffice.MetOfficeApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.airquality.OpenMeteoAqiApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.pirateweather.PirateWeatherApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.smhi.SmhiApi
 import dagger.Module
@@ -112,14 +110,6 @@ object ApiModule {
     @Provides
     @Singleton
     fun provideMeteoamApi(): MeteoamApi = MeteoamApi.create()
-
-    @Provides
-    @Singleton
-    fun provideAccuAqiApi(): AccuAqiApi = AccuAqiApi.create()
-
-    @Provides
-    @Singleton
-    fun provideAlertsAccuApi(): AlertsAccuApi = AlertsAccuApi.create()
 
     @Provides
     @Singleton

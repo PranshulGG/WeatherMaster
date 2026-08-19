@@ -14,11 +14,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
-import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.ui.res.stringResource
 import com.pranshulgg.weather_master_app.R
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -27,7 +27,7 @@ fun CreditsBottomSection(weather: Weather?, onClick: () -> Unit) {
     val source = weather?.location?.source
 
     val sourceString = source?.displayName
-        ?: WeatherSource.OPEN_METEO.displayName
+        ?: Source.OPEN_METEO.displayName
 
     val countryString = buildString {
         if (source?.countryNameRes != null) {

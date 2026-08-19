@@ -2,8 +2,6 @@ package com.pranshulgg.weather_master_app.data.worker
 
 import android.Manifest
 import android.content.Context
-import android.content.SharedPreferences
-import android.util.Log
 import androidx.annotation.RequiresPermission
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
@@ -12,7 +10,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
-import com.pranshulgg.weather_master_app.data.provider.WeatherRepositoryProvider
+import com.pranshulgg.weather_master_app.data.provider.SourceRepositoryProvider
 import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
 import com.pranshulgg.weather_master_app.data.worker.gadgetbridge.sendGadgetBridgeWeatherData
@@ -22,13 +20,12 @@ import com.pranshulgg.weather_master_app.data.worker.widgets.WeatherWidgetUpdate
 import com.pranshulgg.weather_master_app.data.worker.widgets.widgetWeatherMapper
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.delay
 
 @HiltWorker
 class WeatherWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
-    private val repositoryProvider: WeatherRepositoryProvider,
+    private val repositoryProvider: SourceRepositoryProvider,
     private val locationsRepository: LocationsRepository,
     private val appVisibility: AppVisibility,
     private val weatherUnitsRepository: WeatherUnitsRepository
@@ -64,7 +61,7 @@ class WeatherWorker @AssistedInject constructor(
 
 
             // Get the repository
-            val repo = repositoryProvider.getRepository(default.source)
+            val repo = repositoryProvider.getWeatherRepository(default.source)
 
             val result = repo.getWeather(
                 location = default,

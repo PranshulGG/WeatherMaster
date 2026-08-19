@@ -1,6 +1,9 @@
 package com.pranshulgg.weather_master_app.data.provider
 
-import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.model.sources.Source
+import com.pranshulgg.weather_master_app.core.network.sources.alerts.fpas.FpasRepository
+import com.pranshulgg.weather_master_app.core.network.sources.alerts.weatherapi.AlertsWeatherApiRepository
+import com.pranshulgg.weather_master_app.core.network.sources.alerts.wmosevereweather.WmoSevereWeatherRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.aemet.AemetRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.BmkgRepository
@@ -20,10 +23,12 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsRep
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.pirateweather.PirateWeatherRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.smhi.SmhiRepository
-import com.pranshulgg.weather_master_app.data.repository.WeatherRepository
+import com.pranshulgg.weather_master_app.data.repository.data.AirQualityRepository
+import com.pranshulgg.weather_master_app.data.repository.data.AlertRepository
+import com.pranshulgg.weather_master_app.data.repository.data.WeatherRepository
 import javax.inject.Inject
 
-class WeatherRepositoryProvider @Inject constructor(
+class SourceRepositoryProvider @Inject constructor(
     private val openMeteoRepository: OpenMeteoRepository,
     private val nwsRepository: NwsRepository,
     private val metNorwayRepository: MetNorwayRepository,
@@ -42,30 +47,55 @@ class WeatherRepositoryProvider @Inject constructor(
     private val aemetRepository: AemetRepository,
     private val imdRepository: ImdRepository,
     private val pirateWeatherRepository: PirateWeatherRepository,
-    private val cwaRepository: CwaRepository
-) {
+    private val cwaRepository: CwaRepository,
 
-    fun getRepository(source: WeatherSource): WeatherRepository {
-        return when (source) {
-            WeatherSource.OPEN_METEO -> openMeteoRepository
-            WeatherSource.NWS -> nwsRepository
-            WeatherSource.MET_NORWAY -> metNorwayRepository
-            WeatherSource.SMHI -> smhiRepository
-            WeatherSource.DWD -> dwdRepository
-            WeatherSource.METEO_FRANCE -> meteoFranceRepository
-            WeatherSource.ECCC -> ecccRepository
-            WeatherSource.FMI -> fmiRepository
-            WeatherSource.CHINA -> chinaRepository
-            WeatherSource.BMKG -> bmkgRepository
-            WeatherSource.ACCU_WEATHER -> accuRepository
-            WeatherSource.METEO_AM -> meteoamRepository
-            WeatherSource.IPMA -> ipmaRepository
-            WeatherSource.GISMETEO -> gismeteoRepository
-            WeatherSource.MET_OFFICE -> metOfficeRepository
-            WeatherSource.AEMET -> aemetRepository
-            WeatherSource.IMD -> imdRepository
-            WeatherSource.PIRATE_WEATHER -> pirateWeatherRepository
-            WeatherSource.CWA -> cwaRepository
+    // ALERTS
+    private val alertsWeatherApiRepository: AlertsWeatherApiRepository,
+    private val wmoSevereWeatherRepository: WmoSevereWeatherRepository,
+    private val fpasRepository: FpasRepository,
+
+    ) {
+
+    val repositories = listOf(
+        openMeteoRepository,
+        nwsRepository,
+        metNorwayRepository,
+        smhiRepository,
+        dwdRepository,
+        meteoFranceRepository,
+        ecccRepository,
+        fmiRepository,
+        chinaRepository,
+        bmkgRepository,
+        accuRepository,
+        meteoamRepository,
+        ipmaRepository,
+        gismeteoRepository,
+        metOfficeRepository,
+        aemetRepository,
+        imdRepository,
+        pirateWeatherRepository,
+        cwaRepository,
+        alertsWeatherApiRepository,
+        wmoSevereWeatherRepository,
+        fpasRepository,
+    )
+
+    fun getWeatherRepository(source: Source): WeatherRepository {
+        return repositories.filterIsInstance<WeatherRepository>().firstOrNull {
+            it.weatherSource == source
+        } ?: openMeteoRepository
+    }
+
+    fun getAlertRepository(source: Source): AlertRepository? {
+        return repositories.filterIsInstance<AlertRepository>().firstOrNull {
+            it.alertSource == source
+        }
+    }
+
+    fun getAirQualityRepository(source: Source): AirQualityRepository? {
+        return repositories.filterIsInstance<AirQualityRepository>().firstOrNull {
+            it.airQualitySource == source
         }
     }
 

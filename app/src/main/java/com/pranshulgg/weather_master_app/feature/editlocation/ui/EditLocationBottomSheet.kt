@@ -24,13 +24,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weather_master_app.R
-import com.pranshulgg.weather_master_app.core.model.sources.AirQualitySource
-import com.pranshulgg.weather_master_app.core.model.sources.AlertSource
-import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
-import com.pranshulgg.weather_master_app.core.model.sources.getWeatherSourcesForCountry
-import com.pranshulgg.weather_master_app.core.model.sources.getWeatherSourcesGlobal
+import com.pranshulgg.weather_master_app.core.model.sources.Capability
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModel
-import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModelType
 import com.pranshulgg.weather_master_app.core.ui.components.ActionBottomSheet
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.SettingSection
@@ -78,8 +74,8 @@ object EditLocationBottomSheet {
     fun AlertSourcesSheet(
         show: Boolean,
         sheetState: SheetState,
-        selectedSource: AlertSource = AlertSource.NONE,
-        onSave: (AlertSource) -> Unit,
+        selectedSource: Source = Source.NONE,
+        onSave: (Source) -> Unit,
         onDismiss: () -> Unit
     ) {
         if (show) {
@@ -91,6 +87,9 @@ object EditLocationBottomSheet {
                 mutableStateOf(selectedSource)
             }
 
+            val sources = Source.entries.filter {
+                Capability.ALERTS in it.capabilities
+            }
             ActionBottomSheet(
                 sheetState = sheetState,
                 onCancel = { onDismiss() },
@@ -100,7 +99,7 @@ object EditLocationBottomSheet {
             ) {
                 SettingSection(
                     title = stringResource(R.string.global_sources),
-                    tiles = AlertSource.entries.map { source ->
+                    tiles = sources.map { source ->
                         val isSelected = currentSelectedSource == source
 
                         SettingTile.ActionTile(
@@ -129,8 +128,8 @@ object EditLocationBottomSheet {
     fun AirQualitySourcesSheet(
         show: Boolean,
         sheetState: SheetState,
-        selectedSource: AirQualitySource = AirQualitySource.OPEN_METEO,
-        onSave: (AirQualitySource) -> Unit,
+        selectedSource: Source = Source.OPEN_METEO,
+        onSave: (Source) -> Unit,
         onDismiss: () -> Unit
     ) {
         if (show) {
@@ -142,6 +141,9 @@ object EditLocationBottomSheet {
                 mutableStateOf(selectedSource)
             }
 
+            val sources = Source.entries.filter {
+                Capability.AIR_QUALITY in it.capabilities
+            }
             ActionBottomSheet(
                 sheetState = sheetState,
                 onCancel = { onDismiss() },
@@ -151,7 +153,7 @@ object EditLocationBottomSheet {
             ) {
                 SettingSection(
                     title = stringResource(R.string.global_sources),
-                    tiles = AirQualitySource.entries.map { source ->
+                    tiles = sources.map { source ->
                         val isSelected = currentSelectedSource == source
 
                         SettingTile.ActionTile(

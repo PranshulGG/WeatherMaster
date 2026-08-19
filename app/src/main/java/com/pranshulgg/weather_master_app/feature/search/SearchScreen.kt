@@ -20,7 +20,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetState
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -37,9 +36,8 @@ import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.ApiKey
 import com.pranshulgg.weather_master_app.core.model.sources.SearchSource
-import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
-import com.pranshulgg.weather_master_app.core.utils.formatters.toTitleCase
 import com.pranshulgg.weather_master_app.core.ui.components.EmptyContainerPlaceholder
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
@@ -49,6 +47,7 @@ import com.pranshulgg.weather_master_app.core.ui.components.SettingSection
 import com.pranshulgg.weather_master_app.core.ui.components.SettingTile
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
 import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
+import com.pranshulgg.weather_master_app.core.utils.formatters.toTitleCase
 import com.pranshulgg.weather_master_app.feature.search.ui.SearchFloatingToolbar
 import com.pranshulgg.weather_master_app.feature.search.ui.SearchScreenBottomSheets
 import com.pranshulgg.weather_master_app.feature.shared.ui.SharedBottomSheet
@@ -174,7 +173,7 @@ fun SearchScreen(navController: NavController) {
     SharedBottomSheet.WeatherSourcesForLocationSheet(
         countryCode = selectedLocation?.countryCode,
         show = uiState.isWeatherSourcesForLocationSheetOpen,
-        selectedSource = selectedLocation?.source ?: WeatherSource.OPEN_METEO,
+        selectedSource = selectedLocation?.source ?: Source.OPEN_METEO,
         onSave = {
             viewModel.hideWeatherSourcesForLocationSheet()
             viewModel.saveLocation(

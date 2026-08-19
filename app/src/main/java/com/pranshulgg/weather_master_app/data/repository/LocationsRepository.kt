@@ -4,18 +4,14 @@ import android.content.Context
 import androidx.room.Transaction
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQuality
-import com.pranshulgg.weather_master_app.core.model.domain.alerts.Alert
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
-import com.pranshulgg.weather_master_app.core.model.sources.AirQualitySource
-import com.pranshulgg.weather_master_app.core.model.sources.AlertSource
-import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModel
 import com.pranshulgg.weather_master_app.core.network.sources.address.nominatim.json.NominatimRepository
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
 import com.pranshulgg.weather_master_app.data.local.mapper.airquality.toDomain
-import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.locations.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.locations.toEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDomain
@@ -72,7 +68,7 @@ class LocationsRepository @Inject constructor(
     }
 
 
-    suspend fun updateSourceForLocation(id: String, source: WeatherSource) {
+    suspend fun updateSourceForLocation(id: String, source: Source) {
         dao.updateSourceForLocation(id, source)
     }
 
@@ -80,11 +76,11 @@ class LocationsRepository @Inject constructor(
         dao.updateOpenMeteoModelForLocation(id, model)
     }
 
-    suspend fun updateAirQualitySourceForLocation(id: String, source: AirQualitySource) {
+    suspend fun updateAirQualitySourceForLocation(id: String, source: Source) {
         dao.updateAirQualitySourceForLocation(id, source)
     }
 
-    suspend fun updateAlertSourceForLocation(id: String, source: AlertSource) {
+    suspend fun updateAlertSourceForLocation(id: String, source: Source) {
         dao.updateAlertSourceForLocation(id, source)
     }
 

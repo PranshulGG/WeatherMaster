@@ -1,10 +1,9 @@
 package com.pranshulgg.weather_master_app.data.local.entity.weather
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
-import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherCondition
 import com.pranshulgg.weather_master_app.core.model.weather.wind.WindDirection
 import com.pranshulgg.weather_master_app.data.local.entity.location.WeatherLocationEntity
@@ -39,5 +38,5 @@ data class HourlyWeatherEntity(
     val time: Long,
     val precipitationProbability: Int?,
 
-    val cachedSource: WeatherSource? = null
+    val cachedSource: Source? = null
 )

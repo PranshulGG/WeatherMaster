@@ -3,7 +3,7 @@ package com.pranshulgg.weather_master_app.core.utils.weather.forecast
 import android.util.Log
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherDaily
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherHourly
-import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.utils.formatters.safeZoneId
 import java.time.Instant
 import java.time.ZoneId
@@ -34,7 +34,7 @@ fun findMatchingDaily(
 fun findMatchingHourly(
     data: List<WeatherHourly>,
     currentMilli: Long,
-    source: WeatherSource,
+    source: Source,
     zoneId: String,
     alwaysReturn24Hrs: Boolean = false,
     keepPastHour: Boolean = false

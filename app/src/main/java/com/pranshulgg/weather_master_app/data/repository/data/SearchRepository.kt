@@ -1,4 +1,4 @@
-package com.pranshulgg.weather_master_app.data.repository
+package com.pranshulgg.weather_master_app.data.repository.data
 
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 

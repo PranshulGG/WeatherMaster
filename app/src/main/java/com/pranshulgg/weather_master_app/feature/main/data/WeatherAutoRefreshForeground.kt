@@ -28,12 +28,12 @@ fun WeatherAutoRefreshForeground(
                         // isInitialized guard avoids duplicating setActiveLocation()'s
                         // cold-start fetch (Android replays ON_START on resubscribe,
                         // which happens the moment `location` first becomes non-null).
-                        if (weatherViewModel.uiState.value.isInitialized) {
-                            weatherViewModel.getWeather(
-                                location = it,
-                                source = it.source
-                            )
-                        }
+//                        if (weatherViewModel.uiState.value.isInitialized) {
+//                            weatherViewModel.getWeather(
+//                                location = it,
+//                                source = it.source
+//                            )
+//                        }
                     }
                 }
 

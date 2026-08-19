@@ -1,17 +1,6 @@
 package com.pranshulgg.weather_master_app.core.di.weather
 
-import com.pranshulgg.weather_master_app.core.network.sources.airquality.accu.AccuAqiApi
-import com.pranshulgg.weather_master_app.core.network.sources.airquality.accu.AccuAqiRepository
-import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo.OpenMeteoAqiApi
-import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo.OpenMeteoAqiRepository
-import com.pranshulgg.weather_master_app.core.network.sources.alerts.accu.AlertsAccuApi
-import com.pranshulgg.weather_master_app.core.network.sources.alerts.accu.AlertsAccuRepository
-import com.pranshulgg.weather_master_app.core.network.sources.alerts.fpas.FpasApi
-import com.pranshulgg.weather_master_app.core.network.sources.alerts.fpas.FpasRepository
-import com.pranshulgg.weather_master_app.core.network.sources.alerts.weatherapi.AlertsWeatherApi
-import com.pranshulgg.weather_master_app.core.network.sources.alerts.weatherapi.AlertsWeatherApiRepository
-import com.pranshulgg.weather_master_app.core.network.sources.alerts.wmosevereweather.WmoSevereWeatherApi
-import com.pranshulgg.weather_master_app.core.network.sources.alerts.wmosevereweather.WmoSevereWeatherRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.airquality.OpenMeteoAqiApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.aemet.AemetApi
@@ -71,16 +60,11 @@ object WeatherRepositoryModule {
     fun provideOpenMeteoRepository(
         dao: LocationsDao,
         api: OpenMeteoApi,
-        weatherDao: WeatherDao
-    ): OpenMeteoRepository = OpenMeteoRepository(dao, weatherDao, api)
+        weatherDao: WeatherDao,
+        airQualityDao: AirQualityDao,
+        airQualityApi: OpenMeteoAqiApi
+    ): OpenMeteoRepository = OpenMeteoRepository(dao, weatherDao, api, airQualityApi, airQualityDao)
 
-    @Provides
-    @Singleton
-    fun provideOpenMeteoAqiRepository(
-        api: OpenMeteoAqiApi,
-        dao: AirQualityDao
-    ): OpenMeteoAqiRepository =
-        OpenMeteoAqiRepository(api, dao)
 
     @Provides
     @Singleton
@@ -161,8 +145,19 @@ object WeatherRepositoryModule {
         dao: LocationsDao,
         api: AccuApi,
         weatherDao: WeatherDao,
-        locationKeysDao: LocationKeysDao
-    ): AccuRepository = AccuRepository(dao, weatherDao, api, locationKeysDao)
+        locationKeysDao: LocationKeysDao,
+        airQualityDao: AirQualityDao,
+        alertsDao: AlertsDao,
+        locationsDao: LocationsDao
+    ): AccuRepository = AccuRepository(
+        dao,
+        weatherDao,
+        api,
+        locationKeysDao,
+        airQualityDao,
+        alertsDao,
+        locationsDao
+    )
 
     @Provides
     @Singleton
@@ -174,33 +169,6 @@ object WeatherRepositoryModule {
 
     @Provides
     @Singleton
-    fun provideAccuAqiRepository(
-        api: AccuAqiApi,
-        dao: AirQualityDao,
-        locationKeysDao: LocationKeysDao,
-        accuApi: AccuApi
-    ): AccuAqiRepository = AccuAqiRepository(api, dao, locationKeysDao, accuApi)
-
-    @Provides
-    @Singleton
-    fun provideAccuAlertsRepository(
-        api: AlertsAccuApi,
-        dao: AlertsDao,
-        locationKeysDao: LocationKeysDao,
-        accuApi: AccuApi,
-        locationsDao: LocationsDao
-    ): AlertsAccuRepository = AlertsAccuRepository(api, dao, locationKeysDao, accuApi, locationsDao)
-
-    @Provides
-    @Singleton
-    fun provideWeatherApiAlertsRepository(
-        api: AlertsWeatherApi,
-        dao: AlertsDao,
-        locationsDao: LocationsDao
-    ): AlertsWeatherApiRepository = AlertsWeatherApiRepository(api, dao, locationsDao)
-
-    @Provides
-    @Singleton
     fun provideIpmaRepository(
         dao: LocationsDao,
         api: IpmaApi,
@@ -208,21 +176,6 @@ object WeatherRepositoryModule {
         locationKeysDao: LocationKeysDao
     ): IpmaRepository = IpmaRepository(dao, weatherDao, api, locationKeysDao)
 
-    @Provides
-    @Singleton
-    fun provideWmoSevereWeatherAlertsRepository(
-        api: WmoSevereWeatherApi,
-        dao: AlertsDao,
-        locationsDao: LocationsDao
-    ): WmoSevereWeatherRepository = WmoSevereWeatherRepository(api, dao, locationsDao)
-
-    @Provides
-    @Singleton
-    fun provideFpasAlertsRepository(
-        api: FpasApi,
-        dao: AlertsDao,
-        locationsDao: LocationsDao
-    ): FpasRepository = FpasRepository(api, dao, locationsDao)
 
     @Provides
     @Singleton
@@ -266,8 +219,10 @@ object WeatherRepositoryModule {
         dao: LocationsDao,
         api: PirateWeatherApi,
         weatherDao: WeatherDao,
-        apiKeysDao: ApiKeysDao
-    ): PirateWeatherRepository = PirateWeatherRepository(dao, weatherDao, api, apiKeysDao)
+        apiKeysDao: ApiKeysDao,
+        alertsDao: AlertsDao
+    ): PirateWeatherRepository =
+        PirateWeatherRepository(dao, weatherDao, api, apiKeysDao, alertsDao)
 
     @Provides
     @Singleton
