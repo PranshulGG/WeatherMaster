@@ -127,6 +127,23 @@ fun EditLocationScreen(
             append(" (${effectiveOpenMeteoModel.displayName})")
         }
     }
+
+    val effectiveAlertSource = uiState.selectedAlertSource ?: uiState.location.alertSource
+    val selectedAlertSourceString = buildString {
+        append(effectiveAlertSource.displayName)
+        effectiveAlertSource.countryNameRes?.let {
+            append(" (${stringResource(it)})")
+        }
+    }
+
+    val effectiveAirQualitySource =
+        uiState.selectedAirQualitySource ?: uiState.location.airQualitySource
+    val selectedAirQualitySourceString = buildString {
+        append(effectiveAirQualitySource.displayName)
+        effectiveAirQualitySource.countryNameRes?.let {
+            append(" (${stringResource(it)})")
+        }
+    }
     LargeTopBarScaffold(
         title = stringResource(R.string.location_edit),
         navigationIcon = { NavigateUpBtn(navController) },
@@ -195,8 +212,7 @@ fun EditLocationScreen(
                     ),
                     SettingTile.ActionTile(
                         title = stringResource(R.string.weather_alert_source),
-                        description = uiState.selectedAlertSource?.displayName
-                            ?: uiState.location.alertSource.displayName,
+                        description = selectedAlertSourceString,
                         colorDesc = colorDesc,
                         onClick = {
                             viewModel.showAlertSourcesSheet()
@@ -204,8 +220,7 @@ fun EditLocationScreen(
                     ),
                     SettingTile.ActionTile(
                         title = stringResource(R.string.weather_airquality_source),
-                        description = uiState.selectedAirQualitySource?.displayName
-                            ?: uiState.location.airQualitySource.displayName,
+                        description = selectedAirQualitySourceString,
                         colorDesc = colorDesc,
                         onClick = {
                             viewModel.showAirQualitySourcesSheet()
