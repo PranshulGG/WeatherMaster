@@ -1,11 +1,11 @@
 package com.pranshulgg.weather_master_app.core.network.sources.weather.inmet
 
 import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.json.IbgeMunicipioJson
+import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.json.InmetAvisoJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.json.InmetDayJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.json.InmetHourlyEntryJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.json.InmetStationJson
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -36,6 +36,31 @@ interface InmetForecastApi {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(InmetForecastApi::class.java)
+        }
+    }
+}
+
+
+interface InmetAvisosApi {
+
+    @GET("avisos/ativos")
+    suspend fun fetchAvisos(): Response<Map<String, List<InmetAvisoJson>>>
+
+    companion object {
+        const val BASE_URL = "https://apiprevmet3.inmet.gov.br/"
+
+        fun create(): InmetAvisosApi {
+            val client = OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .build()
+
+            return Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(InmetAvisosApi::class.java)
         }
     }
 }

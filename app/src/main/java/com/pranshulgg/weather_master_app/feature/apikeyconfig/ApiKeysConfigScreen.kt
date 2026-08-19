@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.R
-import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
@@ -27,7 +27,7 @@ import com.pranshulgg.weather_master_app.core.ui.components.SettingTile
 @Composable
 fun ApiKeysConfigScreen(navController: NavController) {
 
-    val sourcesRequireApiKey = WeatherSource.entries.filter { it.requiresUserApiKey }
+    val sourcesRequireApiKey = Source.entries.filter { it.requiresUserApiKey }
 
     val viewModel: ApiKeysConfigScreenViewModel = hiltViewModel()
 

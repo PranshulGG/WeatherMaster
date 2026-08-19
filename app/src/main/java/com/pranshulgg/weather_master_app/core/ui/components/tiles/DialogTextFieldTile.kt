@@ -28,25 +28,41 @@ fun DialogTextFieldTile(
     var showDialog by remember { mutableStateOf(false) }
     var textFieldValue by remember(initialText) { mutableStateOf(initialText) }
 
-    val description: @Composable (() -> Unit)? = description?.let {
-        {
-            Text(
-                description,
-                color = if (placeholderAsValue) MaterialTheme.colorScheme.tertiary else Color.Unspecified
-            )
+    val description: @Composable () -> Unit = when {
+        description != null -> {
+            {
+                Text(
+                    description,
+                    color = if (placeholderAsValue) {
+                        MaterialTheme.colorScheme.tertiary
+                    } else {
+                        Color.Unspecified
+                    }
+                )
+            }
         }
-    } ?: textFieldValue.isNotEmpty().let {
-        {
-            Text(
-                textFieldValue,
-                color = MaterialTheme.colorScheme.tertiary
-            )
+
+        textFieldValue.isNotBlank() -> {
+            {
+                Text(
+                    textFieldValue,
+                    color = MaterialTheme.colorScheme.tertiary
+                )
+            }
         }
-    } ?: {
-        Text(
-            placeholder,
-            color = if (placeholderAsValue) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.onSurfaceVariant
-        )
+
+        else -> {
+            {
+                Text(
+                    placeholder,
+                    color = if (placeholderAsValue) {
+                        MaterialTheme.colorScheme.tertiary
+                    } else {
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                    }
+                )
+            }
+        }
     }
 
     Surface(

@@ -2,9 +2,6 @@ package com.pranshulgg.weather_master_app.core.di.network
 
 import com.pranshulgg.weather_master_app.core.network.github.GithubApi
 import com.pranshulgg.weather_master_app.core.network.sources.address.nominatim.NominatimApi
-import com.pranshulgg.weather_master_app.core.network.sources.airquality.accu.AccuAqiApi
-import com.pranshulgg.weather_master_app.core.network.sources.airquality.openmeteo.OpenMeteoAqiApi
-import com.pranshulgg.weather_master_app.core.network.sources.alerts.accu.AlertsAccuApi
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.fpas.FpasApi
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.weatherapi.AlertsWeatherApi
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.wmosevereweather.WmoSevereWeatherApi
@@ -17,12 +14,14 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.aemet.Aeme
 import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.BmkgApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.china.ChinaApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.cwa.CwaApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.jma.JmaApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.DwdApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.EcccApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.fmi.FmiApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.GismeteoApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.imd.ImdApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.IbgeApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.InmetAvisosApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.InmetForecastApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.InmetObservationApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.ipma.IpmaApi
@@ -32,6 +31,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metoffice.MetOfficeApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.airquality.OpenMeteoAqiApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.pirateweather.PirateWeatherApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.smhi.SmhiApi
 import dagger.Module
@@ -118,14 +118,6 @@ object ApiModule {
 
     @Provides
     @Singleton
-    fun provideAccuAqiApi(): AccuAqiApi = AccuAqiApi.create()
-
-    @Provides
-    @Singleton
-    fun provideAlertsAccuApi(): AlertsAccuApi = AlertsAccuApi.create()
-
-    @Provides
-    @Singleton
     fun provideAlertsWeatherApi(): AlertsWeatherApi = AlertsWeatherApi.create()
 
     @Provides
@@ -170,7 +162,15 @@ object ApiModule {
 
     @Provides
     @Singleton
+    fun provideJmaApi(): JmaApi = JmaApi.create()
+
+    @Provides
+    @Singleton
     fun provideInmetForecastApi(): InmetForecastApi = InmetForecastApi.create()
+
+    @Provides
+    @Singleton
+    fun provideInmetAvisosApi(): InmetAvisosApi = InmetAvisosApi.create()
 
     @Provides
     @Singleton

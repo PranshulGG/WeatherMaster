@@ -1,40 +1,25 @@
 package com.pranshulgg.weather_master_app.feature.shared.ui
 
-import android.util.Log
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SheetState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.weather.ApiKey
-import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
-import com.pranshulgg.weather_master_app.core.model.sources.getWeatherSourcesForCountry
-import com.pranshulgg.weather_master_app.core.model.sources.getWeatherSourcesGlobal
+import com.pranshulgg.weather_master_app.core.model.sources.Source
+import com.pranshulgg.weather_master_app.core.model.sources.getSourcesForCountry
+import com.pranshulgg.weather_master_app.core.model.sources.getSourcesGlobal
 import com.pranshulgg.weather_master_app.core.ui.components.ActionBottomSheet
-import com.pranshulgg.weather_master_app.core.ui.components.DialogBasic
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
-import com.pranshulgg.weather_master_app.core.ui.components.RadioRow
 import com.pranshulgg.weather_master_app.core.ui.components.SettingSection
 import com.pranshulgg.weather_master_app.core.ui.components.SettingTile
-import com.pranshulgg.weather_master_app.core.ui.components.SettingsTileIcon
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
-import com.pranshulgg.weather_master_app.core.ui.theme.ShapeRadius
 import com.pranshulgg.weather_master_app.feature.shared.components.ChangelogContent
 
 object SharedBottomSheet {
@@ -44,18 +29,18 @@ object SharedBottomSheet {
         countryCode: String?,
         show: Boolean,
         sheetState: SheetState,
-        selectedSource: WeatherSource = WeatherSource.OPEN_METEO,
+        selectedSource: Source = Source.OPEN_METEO,
         isEditing: Boolean = false,
-        onSave: (WeatherSource) -> Unit,
+        onSave: (Source) -> Unit,
         onDismiss: () -> Unit,
         onClickApiConfig: () -> Unit,
         apiKeys: List<ApiKey>,
     ) {
         if (show) {
-            val recommendedSources = getWeatherSourcesForCountry(countryCode?.uppercase())
-            val globalSources = getWeatherSourcesGlobal()
+            val recommendedSources = getSourcesForCountry(countryCode?.uppercase())
+            val globalSources = getSourcesGlobal()
 
-            val isApiKeyAvailable: (WeatherSource) -> Boolean = { source ->
+            val isApiKeyAvailable: (Source) -> Boolean = { source ->
                 if (source.requiresUserApiKey) {
                     apiKeys.isNotEmpty()
                             && apiKeys
@@ -76,6 +61,22 @@ object SharedBottomSheet {
                         )
                     ) recommendedSources[0] else selectedSource
                 )
+            }
+
+            val handeSelection: (Source) -> Unit = {
+                if (!it.requiresUserApiKey) {
+                    currentSelectedSource = it
+                } else if (!isApiKeyAvailable(it)) {
+                    onClickApiConfig()
+                } else {
+                    currentSelectedSource = it
+                }
+            }
+
+            val description: (Source) -> String? = {
+                if (it.requiresUserApiKey &&
+                    !isApiKeyAvailable(it)
+                ) "Requires API key" else null
             }
 
 
@@ -106,20 +107,11 @@ object SharedBottomSheet {
                                     )
                                 },
                                 title = source.displayName + countryString,
-                                description = if (source.requiresUserApiKey && !isApiKeyAvailable(
-                                        source
-                                    )
-                                ) "Requires API key" else null,
+                                description = description(source),
                                 colorDesc = MaterialTheme.colorScheme.error,
                                 selected = isSelected,
                                 onClick = {
-                                    if (!source.requiresUserApiKey) {
-                                        currentSelectedSource = source
-                                    } else if (!isApiKeyAvailable(source)) {
-                                        onClickApiConfig()
-                                    } else {
-                                        currentSelectedSource = source
-                                    }
+                                    handeSelection(source)
                                 }
                             )
                         }
@@ -143,8 +135,10 @@ object SharedBottomSheet {
                             },
                             title = source.displayName + countryString,
                             selected = isSelected,
+                            description = description(source),
+                            colorDesc = MaterialTheme.colorScheme.error,
                             onClick = {
-                                currentSelectedSource = source
+                                handeSelection(source)
                             },
                         )
                     }
@@ -169,19 +163,10 @@ object SharedBottomSheet {
                                 },
                                 title = source.displayName + countryString,
                                 selected = isSelected,
-                                description = if (source.requiresUserApiKey && !isApiKeyAvailable(
-                                        source
-                                    )
-                                ) "Requires API key" else null,
+                                description = description(source),
                                 colorDesc = MaterialTheme.colorScheme.error,
                                 onClick = {
-                                    if (!source.requiresUserApiKey) {
-                                        currentSelectedSource = source
-                                    } else if (!isApiKeyAvailable(source)) {
-                                        onClickApiConfig()
-                                    } else {
-                                        currentSelectedSource = source
-                                    }
+                                    handeSelection(source)
                                 },
                             )
                         }

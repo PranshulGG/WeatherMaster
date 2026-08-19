@@ -4,18 +4,14 @@ import android.content.Context
 import androidx.room.Transaction
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQuality
-import com.pranshulgg.weather_master_app.core.model.domain.alerts.Alert
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
-import com.pranshulgg.weather_master_app.core.model.sources.AirQualitySource
-import com.pranshulgg.weather_master_app.core.model.sources.AlertSource
-import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModel
 import com.pranshulgg.weather_master_app.core.network.sources.address.nominatim.json.NominatimRepository
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
 import com.pranshulgg.weather_master_app.data.local.mapper.airquality.toDomain
-import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.locations.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.locations.toEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDomain
@@ -72,7 +68,7 @@ class LocationsRepository @Inject constructor(
     }
 
 
-    suspend fun updateSourceForLocation(id: String, source: WeatherSource) {
+    suspend fun updateSourceForLocation(id: String, source: Source) {
         dao.updateSourceForLocation(id, source)
     }
 
@@ -80,11 +76,11 @@ class LocationsRepository @Inject constructor(
         dao.updateOpenMeteoModelForLocation(id, model)
     }
 
-    suspend fun updateAirQualitySourceForLocation(id: String, source: AirQualitySource) {
+    suspend fun updateAirQualitySourceForLocation(id: String, source: Source) {
         dao.updateAirQualitySourceForLocation(id, source)
     }
 
-    suspend fun updateAlertSourceForLocation(id: String, source: AlertSource) {
+    suspend fun updateAlertSourceForLocation(id: String, source: Source) {
         dao.updateAlertSourceForLocation(id, source)
     }
 
@@ -131,7 +127,12 @@ class LocationsRepository @Inject constructor(
 
     val getDeviceLocation = GetDeviceLocation()
 
-    suspend fun updateDeviceLocationPosition() {
+    /**
+     * Refreshes the saved device-location entry if the device has moved far enough.
+     * Returns true if the location was actually updated (so callers know to force
+     * a fresh weather fetch instead of trusting a now-stale cache).
+     */
+    suspend fun updateDeviceLocationPosition(): Boolean {
 
         val location = suspendCancellableCoroutine { cont ->
             getDeviceLocation.getDeviceLocation(
@@ -144,8 +145,8 @@ class LocationsRepository @Inject constructor(
         }
 
 
-        val newLat = location.latitude ?: return
-        val newLon = location.longitude ?: return
+        val newLat = location.latitude ?: return false
+        val newLon = location.longitude ?: return false
 
         val currentLocation = dao.getDeviceLocation()
 
@@ -163,7 +164,7 @@ class LocationsRepository @Inject constructor(
         val distanceInMeters = results[0]
         // Only update the location if needed
         if (distanceInMeters < LOCATION_UPDATE_THRESHOLD_METERS) {
-            return
+            return false
         }
         val address = try {
             nominatimRepository.getAddress(
@@ -175,15 +176,22 @@ class LocationsRepository @Inject constructor(
         }
 
 
+        val countryCode = if (address?.countryCode.isNullOrBlank()) {
+            getCountryCode(context, location.latitude, location.longitude)
+        } else {
+            address.countryCode
+        }
+
         dao.updateDeviceLocation(
             newLat,
             newLon,
             address?.city ?: currentLocation.name,
             address?.country ?: "",
-            address?.countryCode ?: getCountryCode(context, location.latitude, location.longitude)
-            ?: "",
+            countryCode = countryCode ?: currentLocation.countryCode ?: "",
             ZoneId.systemDefault().id
         )
+
+        return true
     }
 
     suspend fun saveDeviceLocation() {
@@ -213,11 +221,18 @@ class LocationsRepository @Inject constructor(
 
 
         if (address != null && address.city != null) {
+
+            val countryCode = if (address.countryCode.isNullOrBlank()) {
+                getCountryCode(context, location.latitude, location.longitude)
+            } else {
+                address.countryCode
+            }
+
             saveLocation(
                 location.toDomain(context).copy(
                     name = address.city,
                     country = address.country,
-                    countryCode = address.countryCode
+                    countryCode = countryCode
                 )
             )
         } else {

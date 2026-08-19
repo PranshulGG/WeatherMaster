@@ -2,6 +2,7 @@ package com.pranshulgg.weather_master_app.core.network.sources.alerts.weatherapi
 
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResult
 import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResultType
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnAlertsCache
@@ -10,7 +11,7 @@ import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
 import com.pranshulgg.weather_master_app.data.local.mapper.alerts.sources.weatherapi.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toEntity
-import com.pranshulgg.weather_master_app.data.repository.AlertRepository
+import com.pranshulgg.weather_master_app.data.repository.data.AlertRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -21,6 +22,9 @@ class AlertsWeatherApiRepository @Inject constructor(
     private val dao: AlertsDao,
     private val locationsDao: LocationsDao
 ) : AlertRepository {
+
+    override val alertSource = Source.WEATHER_API
+
     override suspend fun getAlerts(
         location: Location,
         isManualRefresh: Boolean,

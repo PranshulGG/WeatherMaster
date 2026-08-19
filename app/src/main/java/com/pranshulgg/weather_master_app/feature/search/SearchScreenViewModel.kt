@@ -11,7 +11,7 @@ import com.pranshulgg.weather_master_app.core.model.sources.SearchSource
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.domain.toMessageRes
-import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.network.sources.search.geonames.GeoNamesTimezoneRepository
 import com.pranshulgg.weather_master_app.core.prefs.AppPrefsState
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
@@ -69,7 +69,7 @@ class SearchScreenViewModel @Inject constructor(
         location: Location?,
         onBack: () -> Unit,
         onReset: () -> Unit,
-        weatherSource: WeatherSource
+        weatherSource: Source
     ) {
         if (location == null) return
 

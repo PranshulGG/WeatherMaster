@@ -1,14 +1,9 @@
 package com.pranshulgg.weather_master_app.data.repository
 
-import android.content.Context
 import com.pranshulgg.weather_master_app.core.model.domain.weather.ApiKey
-import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
-import com.pranshulgg.weather_master_app.core.network.sources.address.nominatim.json.NominatimRepository
-import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
-import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.data.local.dao.weather.ApiKeysDao
 import com.pranshulgg.weather_master_app.data.local.entity.weather.ApiKeyEntity
-import dagger.hilt.android.qualifiers.ApplicationContext
 import jakarta.inject.Inject
 
 
@@ -26,7 +21,7 @@ class ApiKeysRepository @Inject constructor(
         }
     }
 
-    suspend fun updateApiKeyForSource(source: WeatherSource, apiKey: String) {
+    suspend fun updateApiKeyForSource(source: Source, apiKey: String) {
         val entity = dao.getApiKeyForSource(source)
 
         if (entity == null) {

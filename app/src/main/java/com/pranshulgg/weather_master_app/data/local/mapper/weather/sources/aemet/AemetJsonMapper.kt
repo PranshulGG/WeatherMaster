@@ -64,7 +64,7 @@ fun AemetForecastJson.toDomain(location: Location): Weather {
         location = location,
         current = WeatherCurrent(
             temperature = current?.temperature,
-            humidity = current?.humidity ?: 0.0,
+            humidity = current?.humidity,
             windSpeed = current?.windSpeed,
             windDirection = current?.windDirection,
             pressureMsl = null,
@@ -170,8 +170,9 @@ private fun buildHourPointsForDay(day: AemetHourlyDayJson, timezone: String): Li
             windByHour.keys
 
     return hours.mapNotNull { hour ->
-        val time = aemetDateToMillis(day.fecha, timezone, hour.toIntOrNull() ?: return@mapNotNull null)
-            ?: return@mapNotNull null
+        val time =
+            aemetDateToMillis(day.fecha, timezone, hour.toIntOrNull() ?: return@mapNotNull null)
+                ?: return@mapNotNull null
 
         val wind = windByHour[hour]
 
@@ -183,7 +184,8 @@ private fun buildHourPointsForDay(day: AemetHourlyDayJson, timezone: String): Li
             humidity = humidityByHour[hour]?.value.toSafeDouble(),
             rain = precipitationByHour[hour]?.value.toSafeDouble() ?: 0.0,
             snowfall = snowByHour[hour]?.value.toSafeDouble(),
-            precipitationProbability = precipitationProbabilityByHour[hour]?.value.toSafeDouble()?.toInt(),
+            precipitationProbability = precipitationProbabilityByHour[hour]?.value.toSafeDouble()
+                ?.toInt(),
             windDirection = aemetWindDirectionFromString(wind?.direccion?.firstOrNull()),
             windSpeed = wind?.velocidad?.firstOrNull().toSafeDouble()
         )

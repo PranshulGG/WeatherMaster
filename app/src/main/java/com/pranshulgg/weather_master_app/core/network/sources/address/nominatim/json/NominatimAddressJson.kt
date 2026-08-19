@@ -21,5 +21,5 @@ data class NominatimAddressDataJson(
     val state: String?,
     val country: String,
 
-    @SerializedName("country_code") val countryCode: String
+    @SerializedName("country_code") val countryCode: String?
 )

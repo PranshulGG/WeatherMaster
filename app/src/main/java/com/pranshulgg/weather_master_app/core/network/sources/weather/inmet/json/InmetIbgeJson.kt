@@ -1,7 +1,5 @@
 package com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.json
 
-import com.google.gson.annotations.SerializedName
-
 data class IbgeMunicipioJson(
     val id: Int,
     val nome: String,

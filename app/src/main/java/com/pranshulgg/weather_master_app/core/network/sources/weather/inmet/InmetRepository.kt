@@ -2,25 +2,34 @@ package com.pranshulgg.weather_master_app.core.network.sources.weather.inmet
 
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.toAppException
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
+import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResult
+import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResultType
 import com.pranshulgg.weather_master_app.core.network.calls.safeApiCall
 import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.json.IbgeMunicipioJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.json.InmetStationJson
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherCacheSafe
+import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnAlertsCache
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnWeatherCache
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.mergeHourlyWeather
+import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationKeysDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
 import com.pranshulgg.weather_master_app.data.local.entity.location.LocationKeyEntity
+import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toDomain
+import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.inmet.InmetWeatherBundle
+import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.inmet.alerts.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.inmet.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toCurrentWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDailyWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toHourlyWeatherEntity
-import com.pranshulgg.weather_master_app.data.repository.WeatherRepository
+import com.pranshulgg.weather_master_app.data.repository.data.AlertRepository
+import com.pranshulgg.weather_master_app.data.repository.data.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
@@ -38,11 +47,16 @@ class InmetRepository @Inject constructor(
     val forecastApi: InmetForecastApi,
     val observationApi: InmetObservationApi,
     val ibgeApi: IbgeApi,
-    val locationKeysDao: LocationKeysDao
-) : WeatherRepository {
+    val avisosApi: InmetAvisosApi,
+    val locationKeysDao: LocationKeysDao,
+    val alertsDao: AlertsDao
+) : WeatherRepository, AlertRepository {
 
     @Volatile
     private var cachedStations: List<InmetStationJson>? = null
+
+    override val weatherSource = Source.INMET
+    override val alertSource = Source.INMET
 
     override suspend fun getWeather(
         location: Location,
@@ -62,12 +76,19 @@ class InmetRepository @Inject constructor(
                 else -> {}
             }
 
+            val isCacheSafe = isWeatherCacheSafe(cache)
+
             return@withContext try {
                 val ibgeCode = resolveIbgeCode(location)
 
                 val forecastResponse = safeApiCall {
                     forecastApi.fetchForecast(ibgeCode)
-                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
+                }.getOrElse {
+                    return@withContext WeatherResult.Error(
+                        exception = it.toAppException(),
+                        if (isCacheSafe) cache?.toDomain() else null
+                    )
+                }
 
                 val hourlyObservations = try {
                     val stationCode = resolveNearestStationCode(location)
@@ -102,13 +123,59 @@ class InmetRepository @Inject constructor(
                 WeatherResult.Success(domain)
 
             } catch (e: Exception) {
-                val isCacheSafe = isWeatherCacheSafe(cache)
                 WeatherResult.Error(
                     exception = e,
                     if (isCacheSafe) cache?.toDomain() else null
                 )
             }
         }
+
+    override suspend fun getAlerts(
+        location: Location,
+        isManualRefresh: Boolean,
+        isForceRefresh: Boolean
+    ): AlertResult = withContext(Dispatchers.IO) {
+
+        val cache = alertsDao.getAlertsForLocation(location.id)
+        val shouldReturnCache = shouldReturnAlertsCache(
+            cache,
+            isManualRefresh,
+            isForceRefresh,
+            location.alertsLastFetchedAt
+        )
+
+        when (shouldReturnCache) {
+            AlertResultType.RETURN_CACHE ->
+                return@withContext AlertResult.Success(cache.map { it!!.toDomain() })
+            else -> {}
+        }
+
+        return@withContext try {
+            val ibgeCode = resolveIbgeCode(location)
+
+            val avisos = safeApiCall {
+                avisosApi.fetchAvisos()
+            }.getOrElse {
+                return@withContext AlertResult.Error(
+                    exception = it.toAppException(),
+                    cache.map { c -> c!!.toDomain() }
+                )
+            }
+
+            val domain = avisos.values.flatten().toDomain(location, ibgeCode)
+
+            alertsDao.insertAlerts(domain.map { it.toEntity(location.id) }, location.id)
+            dao.updateAlertsLastFetchedAt(location.id, System.currentTimeMillis())
+
+            AlertResult.Success(domain)
+
+        } catch (e: Exception) {
+            AlertResult.Error(
+                exception = e,
+                cache.map { c -> c!!.toDomain() }
+            )
+        }
+    }
 
     private suspend fun resolveIbgeCode(location: Location): String {
         locationKeysDao.getCityKeyForLocation(location.id)?.cityKey?.let { return it }
@@ -155,7 +222,10 @@ class InmetRepository @Inject constructor(
             val result = safeApiCall { observationApi.fetchStations() }
             val stations = result.getOrNull()
                 ?.filter { it.cdSituacao == "Operante" && it.tpEstacao == "Automatica" }
-                ?.filter { it.vlLatitude.toDoubleOrNull() != null && it.vlLongitude.toDoubleOrNull() != null }
+                ?.filter {
+                    it.vlLatitude.toDoubleOrNull() != null &&
+                        it.vlLongitude.toDoubleOrNull() != null
+                }
             stations?.let { cachedStations = it }
             stations
         } catch (e: Exception) {

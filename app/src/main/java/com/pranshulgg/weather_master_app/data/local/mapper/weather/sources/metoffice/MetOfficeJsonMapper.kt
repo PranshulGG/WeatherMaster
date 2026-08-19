@@ -58,7 +58,7 @@ fun MetOfficeForecastJson.toDomain(location: Location): Weather {
         location = location,
         current = WeatherCurrent(
             temperature = hourly[currentHourIndex].screenTemperature,
-            humidity = hourly[currentHourIndex].screenRelativeHumidity ?: 0.0,
+            humidity = hourly[currentHourIndex].screenRelativeHumidity,
             windSpeed = WindSpeedUnit.MPS.convert(
                 hourly[currentHourIndex].windSpeed10mMs,
                 WindSpeedUnit.KPH

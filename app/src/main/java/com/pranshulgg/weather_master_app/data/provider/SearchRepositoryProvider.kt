@@ -4,7 +4,7 @@ import com.pranshulgg.weather_master_app.core.model.sources.SearchSource
 import com.pranshulgg.weather_master_app.core.network.sources.search.accu.AccuSearchRepository
 import com.pranshulgg.weather_master_app.core.network.sources.search.geonames.GeoNamesSearchRepository
 import com.pranshulgg.weather_master_app.core.network.sources.search.openmeteo.OpenMeteoSearchRepository
-import com.pranshulgg.weather_master_app.data.repository.SearchRepository
+import com.pranshulgg.weather_master_app.data.repository.data.SearchRepository
 import javax.inject.Inject
 
 class SearchRepositoryProvider @Inject constructor(

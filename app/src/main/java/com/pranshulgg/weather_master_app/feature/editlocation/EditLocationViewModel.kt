@@ -4,12 +4,8 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pranshulgg.weather_master_app.R
-import com.pranshulgg.weather_master_app.core.model.sources.AirQualitySource
-import com.pranshulgg.weather_master_app.core.model.sources.AlertSource
-import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModel
-import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weather_master_app.data.repository.ApiKeysRepository
 import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -54,15 +50,15 @@ class EditLocationViewModel @Inject constructor(
         _uiState.value = _uiState.value.copy(isWeatherSourcesForLocationSheetOpen = false)
     }
 
-    fun updateSelectedWeatherSource(source: WeatherSource) {
+    fun updateSelectedWeatherSource(source: Source) {
         _uiState.value = _uiState.value.copy(selectedWeatherSource = source)
     }
 
-    fun updateSelectedAlertSource(source: AlertSource) {
+    fun updateSelectedAlertSource(source: Source) {
         _uiState.value = _uiState.value.copy(selectedAlertSource = source)
     }
 
-    fun updateSelectedAirQualitySource(source: AirQualitySource) {
+    fun updateSelectedAirQualitySource(source: Source) {
         _uiState.value = _uiState.value.copy(selectedAirQualitySource = source)
     }
 

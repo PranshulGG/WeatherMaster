@@ -3,9 +3,7 @@ package com.pranshulgg.weather_master_app.data.local.entity.location
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.pranshulgg.weather_master_app.core.model.sources.AirQualitySource
-import com.pranshulgg.weather_master_app.core.model.sources.AlertSource
-import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModel
 import kotlin.uuid.ExperimentalUuidApi
 
@@ -20,15 +18,15 @@ data class WeatherLocationEntity(
     val lat: Double,
     val lon: Double,
     val timezone: String,
-    val source: WeatherSource,
+    val source: Source,
     val state: String? = null,
     val isFavorite: Boolean = false,
     val isPinned: Boolean = false,
     val countryCode: String? = null,
     val isDefault: Boolean = false,
     val isDeviceLocation: Boolean = false,
-    val alertSource: AlertSource,
-    val airQualitySource: AirQualitySource,
+    val alertSource: Source,
+    val airQualitySource: Source,
     val customName: String? = null,
 
     @ColumnInfo(name = "openMeteoModel", defaultValue = "BEST_MATCH")

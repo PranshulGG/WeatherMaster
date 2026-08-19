@@ -4,12 +4,11 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
-import android.location.Address
 import android.location.Geocoder
 import android.os.Build
+import android.telephony.TelephonyManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat
@@ -17,7 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.util.Locale
-import kotlin.collections.isNullOrEmpty
+import kotlin.coroutines.resume
 
 fun Context.setLocationPermissionRequested() {
     getSharedPreferences("permissions", Context.MODE_PRIVATE)
@@ -118,23 +117,47 @@ fun rememberBackgroundLocationPermissionLauncher(
 }
 
 
+// WE WILL TRY EVERYTHING TO MAKE SURE COUNTRY CODE IS AVAILABLE
 suspend fun getCountryCode(
     context: Context,
     latitude: Double,
     longitude: Double
 ): String? = suspendCancellableCoroutine { cont ->
 
+    val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+
+    var countryCode = tm.networkCountryIso
+
+    if (countryCode.isNullOrBlank()) {
+        countryCode = tm.simCountryIso
+    }
+
+    if (!countryCode.isNullOrBlank()) {
+        cont.resume(countryCode.uppercase(Locale.ROOT))
+        return@suspendCancellableCoroutine
+    }
+
     val geocoder = Geocoder(context, Locale.getDefault())
 
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        geocoder.getFromLocation(latitude, longitude, 1) { addresses ->
-            val code = addresses.firstOrNull()?.countryCode
-            cont.resume(code) { cause, _, _ -> null?.let { it(cause) } }
+    try {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            geocoder.getFromLocation(latitude, longitude, 1) { addresses ->
+                if (!cont.isActive) return@getFromLocation
+                val code = addresses.firstOrNull()?.countryCode?.uppercase(Locale.ROOT)
+                cont.resume(code)
+            }
+        } else {
+            @Suppress("DEPRECATION")
+            val result = geocoder.getFromLocation(latitude, longitude, 1)
+            val code = result?.firstOrNull()?.countryCode?.uppercase(Locale.ROOT)
+
+            if (cont.isActive) {
+                cont.resume(code)
+            }
         }
-    } else {
-        @Suppress("DEPRECATION")
-        val result = geocoder.getFromLocation(latitude, longitude, 1)
-        val code = result?.firstOrNull()?.countryCode
-        cont.resume(code) { cause, _, _ -> null?.let { it(cause) } }
+    } catch (e: Exception) {
+        if (cont.isActive) {
+            cont.resume(null)
+        }
     }
 }

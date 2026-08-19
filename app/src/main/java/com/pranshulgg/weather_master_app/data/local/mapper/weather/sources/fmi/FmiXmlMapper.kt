@@ -7,7 +7,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherCurrent
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherDaily
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherHourly
-import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherCondition
 import com.pranshulgg.weather_master_app.core.model.weather.WindSpeedUnit
 import com.pranshulgg.weather_master_app.core.model.weather.wind.WindDirection
@@ -86,7 +86,7 @@ fun FmiWeather.toDomain(location: Location): Weather {
         location = location,
         current = WeatherCurrent(
             temperature = currentDataForParam("t2m"),
-            humidity = currentDataForParam("rh") ?: 0.0,
+            humidity = currentDataForParam("rh"),
             windSpeed = WindSpeedUnit.MPS.convert(
                 currentDataForParam("ws_10min"),
                 WindSpeedUnit.KPH
@@ -287,7 +287,7 @@ private fun getHourlyConditionsForDay(
 
 
     val conditions = data.drop(maxOf(0, startIndex - 1))
-        .take(WeatherSource.FMI.hourlyAggregationLimitHours)
+        .take(Source.FMI.hourlyAggregationLimitHours)
         .map {
             FmiConditionMap.getCondition(it.parameterValue?.toSafeDouble()?.toInt())
         }

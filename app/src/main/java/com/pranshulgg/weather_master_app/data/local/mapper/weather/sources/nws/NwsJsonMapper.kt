@@ -1,21 +1,18 @@
 package com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.nws
 
-import android.util.Log
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherCurrent
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherDaily
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherHourly
-import com.pranshulgg.weather_master_app.core.model.weather.nws.NwsGridPoints
-import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.PrecipitationUnit
 import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnit
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherCondition
 import com.pranshulgg.weather_master_app.core.model.weather.WindSpeedUnit
+import com.pranshulgg.weather_master_app.core.model.weather.nws.NwsGridPoints
 import com.pranshulgg.weather_master_app.core.model.weather.wind.WindDirection
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsWeatherConditionMap
-import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.NwsGridPointDataQuantitativePrecipitationValuesJson
-import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.NwsGridPointDataSnowfallAmountValuesJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.NwsGridPointsJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.NwsHourlyForecastPeriodsItemJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.NwsHourlyForecastPeriodsJson
@@ -230,10 +227,10 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
 
 }
 
-private fun fixHourlyNwsWindSpeedValue(value: String): Double? {
-    val filteredValue = value.filter { it.isDigit() } // 12 mph to 12
+private fun fixHourlyNwsWindSpeedValue(value: String?): Double? {
+    val filteredValue = value?.filter { it.isDigit() } // 12 mph to 12
 
-    return WindSpeedUnit.MPH.convert(filteredValue.toDouble(), WindSpeedUnit.KPH)
+    return WindSpeedUnit.MPH.convert(filteredValue?.toDouble(), WindSpeedUnit.KPH)
 }
 
 
@@ -243,7 +240,7 @@ private fun getAverageWindSpeed(data: NwsHourlyForecastPeriodsJson, time: Long):
             .takeIf { it != -1 } ?: 0
 
     val maxSpeed = data.periods.drop(maxOf(0, startIndex - 1))
-        .take(WeatherSource.NWS.hourlyAggregationLimitHours)
+        .take(Source.NWS.hourlyAggregationLimitHours)
         .map { fixHourlyNwsWindSpeedValue(it.windSpeed) ?: 0.0 }
 
     return maxSpeed.average()
@@ -322,7 +319,7 @@ private fun getRainSum(
         data.toList().indexOfFirst { it.first >= time }.minus(1).takeIf { it != -1 } ?: 0
 
     val data = data.toList().drop(maxOf(0, startIndex))
-        .take(WeatherSource.NWS.hourlyAggregationLimitHours)
+        .take(Source.NWS.hourlyAggregationLimitHours)
 
 
     val rainSum = data.sumOf { it.second ?: 0.0 }
@@ -339,7 +336,7 @@ private fun getSnowfallSum(
         data.toList().indexOfFirst { it.first >= time }.minus(1).takeIf { it != -1 } ?: 0
 
     val data = data.toList().drop(maxOf(0, startIndex))
-        .take(WeatherSource.NWS.hourlyAggregationLimitHours)
+        .take(Source.NWS.hourlyAggregationLimitHours)
 
 
     val snowfallSum = data.sumOf { it.second ?: 0.0 }
@@ -355,7 +352,7 @@ private fun getMinVisibility(
         data.toList().indexOfFirst { it.first >= time }.minus(1).takeIf { it != -1 } ?: 0
 
     val data = data.toList().drop(maxOf(0, startIndex))
-        .take(WeatherSource.NWS.hourlyAggregationLimitHours)
+        .take(Source.NWS.hourlyAggregationLimitHours)
 
 
     val minVisibility = data.mapNotNull { it.second }.minOfOrNull { it }
@@ -370,7 +367,7 @@ private fun getMaxPrecipitationProbability(data: NwsHourlyForecastPeriodsJson, t
             .takeIf { it != -1 } ?: 0
 
     val maxProbability = data.periods.drop(maxOf(0, startIndex - 1))
-        .take(WeatherSource.NWS.hourlyAggregationLimitHours)
+        .take(Source.NWS.hourlyAggregationLimitHours)
         .map { it.probabilityOfPrecipitation.value?.toDouble() }
 
     return maxProbability.maxOf { it ?: 0.0 }
@@ -385,7 +382,7 @@ private fun getDataForDay(
             .takeIf { it != -1 } ?: 0
 
     val data = data.periods.drop(maxOf(0, startIndex - 1))
-        .take(WeatherSource.NWS.hourlyAggregationLimitHours)
+        .take(Source.NWS.hourlyAggregationLimitHours)
 
 
     return data
@@ -401,7 +398,7 @@ private fun getHourlyConditionsForDay(
             .takeIf { it != -1 } ?: 0
 
     val conditions = data.periods.drop(maxOf(0, startIndex - 1))
-        .take(WeatherSource.NWS.hourlyAggregationLimitHours)
+        .take(Source.NWS.hourlyAggregationLimitHours)
         .map { NwsWeatherConditionMap.getCondition(it.icon) }
 
     return conditions

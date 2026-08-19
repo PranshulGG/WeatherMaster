@@ -5,7 +5,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherCurrent
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherDaily
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherHourly
-import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherCondition
 import com.pranshulgg.weather_master_app.core.model.weather.wind.WindDirection
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.MetNorwayWeatherConditionMap
@@ -42,7 +42,7 @@ fun MetNorwayForecastJson.toDomain(location: Location): Weather {
     return Weather(
         current = WeatherCurrent(
             temperature = current.instant.details.temperature,
-            humidity = current.instant.details.relativeHumidity ?: 0.0,
+            humidity = current.instant.details.relativeHumidity,
             windSpeed = current.instant.details.windSpeed,
             windDirection = WindDirection.toWindDirectionFromDegrees(current.instant.details.windDirection.roundToInt()),
             pressureMsl = current.instant.details.pressureMsl,
@@ -204,7 +204,7 @@ private fun getHourlyConditionsForDay(
 
 
     val conditions = data.drop(maxOf(0, startIndex - 1))
-        .take(WeatherSource.MET_NORWAY.hourlyAggregationLimitHours)
+        .take(Source.MET_NORWAY.hourlyAggregationLimitHours)
         .map {
             MetNorwayWeatherConditionMap.getCondition(
                 it.data.nextHour?.summary?.symbolCode

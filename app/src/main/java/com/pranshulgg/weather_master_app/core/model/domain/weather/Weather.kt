@@ -14,7 +14,7 @@ data class Weather(
 
 data class WeatherCurrent(
     val temperature: Double?, // NOTE: ALWAYS C
-    val humidity: Double, // TODO: should be nullable
+    val humidity: Double?,
     val windSpeed: Double?, // NOTE: ALWAYS KMH
     val windDirection: WindDirection?, // NOTE: ALWAYS DOMINANT
     val pressureMsl: Double?, // NOTE: ALWAYS HPA
@@ -51,6 +51,10 @@ data class WeatherCurrent(
 
     fun isUvIndexValid(): Boolean {
         return uvIndex != null
+    }
+
+    fun isHumidityValid(): Boolean {
+        return humidity != null
     }
 
 }
@@ -129,6 +133,10 @@ data class WeatherDaily(
 
     fun isHumidityValid(): Boolean {
         return humidity != null && humidity != -1.0
+    }
+
+    fun isDewPointValid(): Boolean {
+        return dewPoint != null
     }
 
     fun isPressureValid(): Boolean {

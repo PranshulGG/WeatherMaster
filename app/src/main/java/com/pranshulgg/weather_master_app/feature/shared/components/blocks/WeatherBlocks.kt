@@ -39,7 +39,7 @@ private data class BlockRules(
     val isPressureValid: Boolean,
     val isVisibilityValid: Boolean,
     val isWindValid: Boolean,
-    val isHumidityValid: Boolean
+    val isHumidityDewPoint: Boolean
 
 )
 
@@ -54,7 +54,7 @@ private fun shouldShow(block: WeatherBlock, rules: BlockRules): Boolean {
         !rules.isPressureValid && block.type == WeatherBlockType.PRESSURE_BLOCK -> false
         !rules.isVisibilityValid && block.type == WeatherBlockType.VISIBILITY_BLOCK -> false
         !rules.isWindValid && block.type == WeatherBlockType.WIND_BLOCK -> false
-        !rules.isHumidityValid && block.type == WeatherBlockType.HUMIDITY_BLOCK -> false
+        !rules.isHumidityDewPoint && block.type == WeatherBlockType.HUMIDITY_BLOCK -> false
         else -> true
     }
 }
@@ -102,7 +102,9 @@ fun WeatherBlocks(
     val isWindValid = if (isDaily) weather.daily[dailyIndex].isWindSpeedValid()
     else weather.current.isWindSpeedValid()
 
-    val isHumidityValid = if (isDaily) weather.daily[dailyIndex].isHumidityValid() else true
+    val isHumidityDewPoint = if (isDaily)
+        weather.daily[dailyIndex].isHumidityValid() || weather.daily[dailyIndex].isDewPointValid()
+    else weather.current.isHumidityValid() || weather.current.isDewPointValid()
 
     val prefs = LocalAppPrefs.current
 
@@ -115,7 +117,7 @@ fun WeatherBlocks(
         isPressureValid,
         isVisibilityValid,
         isWindValid,
-        isHumidityValid
+        isHumidityDewPoint
     )
 
 

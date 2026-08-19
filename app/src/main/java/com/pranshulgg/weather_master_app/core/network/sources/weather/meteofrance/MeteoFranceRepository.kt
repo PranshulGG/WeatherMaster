@@ -2,25 +2,23 @@ package com.pranshulgg.weather_master_app.core.network.sources.weather.meteofran
 
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.toAppException
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
 import com.pranshulgg.weather_master_app.core.network.calls.safeApiCall
-import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.MetNorwayApi
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherCacheSafe
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnWeatherCache
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.mergeHourlyWeather
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.meteofrance.toDomain
-import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.metnorway.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toCurrentWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDailyWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toHourlyWeatherEntity
-import com.pranshulgg.weather_master_app.data.repository.WeatherRepository
+import com.pranshulgg.weather_master_app.data.repository.data.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.net.UnknownHostException
 import javax.inject.Inject
 
 class MeteoFranceRepository @Inject constructor(
@@ -28,6 +26,9 @@ class MeteoFranceRepository @Inject constructor(
     val weatherDao: WeatherDao,
     val api: MeteoFranceApi
 ) : WeatherRepository {
+
+    override val weatherSource = Source.METEO_FRANCE
+
 
     override suspend fun getWeather(
         location: Location,

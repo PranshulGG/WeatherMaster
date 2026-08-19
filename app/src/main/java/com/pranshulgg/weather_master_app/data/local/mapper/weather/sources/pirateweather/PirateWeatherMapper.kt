@@ -52,11 +52,11 @@ private fun PirateWeatherCurrentJson.toWeatherCurrent(
 ): WeatherCurrent {
     return WeatherCurrent(
         temperature = temperature,
-        humidity = humidity,
-        windSpeed = windSpeed,
+        humidity = humidity?.times(100),
+        windSpeed = windSpeed.times(3.6),
         windDirection = WindDirection.toWindDirectionFromDegrees(windBearing),
         pressureMsl = pressure,
-        visibility = (visibility * 1000).roundToInt(),
+        visibility = (visibility?.times(1000))?.roundToInt(),
         cloudCover = cloudCover,
         uvIndex = uvIndex,
         weatherCondition = PirateWeatherConditionMap.getCondition(icon),
@@ -73,14 +73,14 @@ private fun PirateWeatherDataPointJson.toWeatherHourly(): WeatherHourly {
 
     return WeatherHourly(
         temperature = temperature,
-        windSpeed = windSpeed,
+        windSpeed = windSpeed?.times(3.6),
         windDirection = WindDirection.toWindDirectionFromDegrees(windBearing),
         rain = rain,
         snowfall = snow,
         uvIndex = uvIndex,
         pressureMsl = pressure,
         visibility = visibility?.let { (it * 1000).roundToInt() },
-        humidity = humidity,
+        humidity = (humidity?.times(100)),
         dewPoint = dewPoint,
         weatherCondition = PirateWeatherConditionMap.getCondition(icon),
         time = time.secondsToMilliseconds(),
@@ -98,7 +98,7 @@ private fun PirateWeatherDailyDataJson.toWeatherDaily(
     return WeatherDaily(
         temperatureMin = temperatureMin ?: temperatureLow,
         temperatureMax = temperatureMax ?: temperatureHigh,
-        windSpeed = windSpeed,
+        windSpeed = windSpeed?.times(3.6),
         windDirection = WindDirection.toWindDirectionFromDegrees(windBearing),
         rainSum = rain,
         snowfallSum = snow,
@@ -115,7 +115,7 @@ private fun PirateWeatherDailyDataJson.toWeatherDaily(
         dusk = sunTimings[index].dusk ?: 0L,
         pressureMsl = pressure,
         visibility = visibility?.let { (it * 1000).roundToInt() },
-        humidity = humidity,
+        humidity = (humidity?.times(100)),
         dewPoint = dewPoint
     )
 }

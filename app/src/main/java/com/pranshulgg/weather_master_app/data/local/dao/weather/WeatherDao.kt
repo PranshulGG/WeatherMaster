@@ -5,8 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
-import com.pranshulgg.weather_master_app.data.local.entity.weather.ApiKeyEntity
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.data.local.entity.weather.CurrentWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.entity.weather.DailyWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.entity.weather.HourlyWeatherEntity
@@ -54,7 +53,7 @@ interface WeatherDao {
     )
     suspend fun getHourlyDataForLocation(
         locationId: String,
-        source: WeatherSource
+        source: Source
     ): List<HourlyWeatherEntity>
 
 }

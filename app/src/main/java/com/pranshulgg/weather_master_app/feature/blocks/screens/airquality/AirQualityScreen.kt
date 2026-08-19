@@ -23,7 +23,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQualityHourly
-import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.airquality.AirQualityLevel
 import com.pranshulgg.weather_master_app.core.model.weather.airquality.toName
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
@@ -118,7 +118,7 @@ fun AirQualityScreen(navController: NavController, index: Int = 0, locationId: S
 private fun findMatchingHourly(
     data: List<AirQualityHourly>,
     currentMilli: Long,
-    source: WeatherSource
+    source: Source
 ): List<AirQualityHourly> {
 
 

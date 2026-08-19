@@ -66,7 +66,7 @@ fun List<IpmaForecastJson>.toDomain(location: Location): Weather {
         location = location,
         current = WeatherCurrent(
             temperature = current.temperature.toSafeDouble(),
-            humidity = current.humidity.toSafeDouble() ?: 0.0,
+            humidity = current.humidity.toSafeDouble(),
             windSpeed = current.windSpeed.toSafeDouble(),
             windDirection = WindDirection.toWindDirectionFromString(current.windDirection),
             pressureMsl = null,

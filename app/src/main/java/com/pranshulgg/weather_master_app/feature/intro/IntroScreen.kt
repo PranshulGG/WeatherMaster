@@ -39,7 +39,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.location.Address
-import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
@@ -279,7 +279,7 @@ fun DeviceLocation.toDomain(context: Context): Location {
         timezone = ZoneId.systemDefault().id,
         countryCode = "",
         state = "",
-        source = WeatherSource.OPEN_METEO,
+        source = Source.OPEN_METEO,
         isFavorite = false,
         isPinned = false,
         isDefault = false, // Repository can handle it

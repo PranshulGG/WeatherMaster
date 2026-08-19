@@ -24,7 +24,7 @@ data class CurrentWeatherEntity(
     val locationId: String,
 
     val temperature: Double?,
-    val humidity: Double,
+    val humidity: Double?,
     val windSpeed: Double?,
     val windDirection: WindDirection?,
     val pressureMsl: Double?,

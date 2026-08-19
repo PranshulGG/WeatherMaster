@@ -1,8 +1,7 @@
 package com.pranshulgg.weather_master_app.data.repository
 
-import com.pranshulgg.weather_master_app.core.model.sources.AirQualitySource
-import com.pranshulgg.weather_master_app.core.model.sources.AlertSource
-import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
 import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationKeysDao
@@ -25,55 +24,85 @@ class WeatherDataReconcilerRepository @Inject constructor(
      * NWS might have saved grid points
      * which are important to be removed from the DB so they don't end up stale
      */
-    suspend fun cleanUpStaleData(
-        previousSource: WeatherSource,
+    suspend fun reconcileSourceChange(
+        previous: Location,
+        updated: Location
+    ) {
+        if (previous.source != updated.source) {
+            cleanUpStaleWeatherData(
+                previousSource = previous.source,
+                locationId = previous.id,
+                airQualitySource = updated.airQualitySource,
+                currentAlertSource = updated.alertSource
+            )
+        }
+
+        if (previous.airQualitySource != updated.airQualitySource) {
+            cleanUpStaleAirQualityData(
+                locationId = previous.id,
+                currentWeatherSource = updated.source,
+                currentAlertSource = updated.alertSource
+            )
+        }
+
+        if (previous.alertSource != updated.alertSource) {
+            cleanUpStaleAlertsData(
+                locationId = previous.id,
+                currentWeatherSource = updated.source,
+                airQualitySource = updated.airQualitySource
+            )
+        }
+    }
+
+    private suspend fun cleanUpStaleWeatherData(
+        previousSource: Source,
         locationId: String,
-        airQualitySource: AirQualitySource,
-        currentAlertSource: AlertSource
+        airQualitySource: Source,
+        currentAlertSource: Source
     ) {
         when (previousSource) {
-            WeatherSource.NWS -> nwsDao.deleteGridPointsForLocation(locationId)
-            WeatherSource.ACCU_WEATHER -> cleanAccuWeather(
+            Source.NWS -> nwsDao.deleteGridPointsForLocation(locationId)
+
+            Source.ACCU_WEATHER -> cleanAccuWeather(
                 locationId,
                 airQualitySource,
                 currentAlertSource
             )
 
-            WeatherSource.IPMA -> locationKeysDao.getCityKeyForLocation(locationId)
             else -> {}
         }
     }
 
     private suspend fun cleanAccuWeather(
-        locationId: String, airQualitySource: AirQualitySource,
-        currentAlertSource: AlertSource
+        locationId: String, airQualitySource: Source,
+        currentAlertSource: Source
     ) {
-        if (airQualitySource != AirQualitySource.ACCU_WEATHER || currentAlertSource != AlertSource.ACCU_WEATHER) {
+        if (airQualitySource != Source.ACCU_WEATHER || currentAlertSource != Source.ACCU_WEATHER) {
             locationKeysDao.deleteCityKeyForLocation(locationId)
         }
     }
 
-    suspend fun cleanUpStaleAirQualityData(
+    private suspend fun cleanUpStaleAirQualityData(
         locationId: String,
-        currentWeatherSource: WeatherSource,
-        currentAlertSource: AlertSource
+        currentWeatherSource: Source,
+        currentAlertSource: Source
     ) {
         airQualityDao.deleteCurrentAirQuality(locationId)
         airQualityDao.deleteHourlyAirQuality(locationId)
 
-        if (currentWeatherSource != WeatherSource.ACCU_WEATHER || currentAlertSource != AlertSource.ACCU_WEATHER) {
+        if (currentWeatherSource != Source.ACCU_WEATHER || currentAlertSource != Source.ACCU_WEATHER) {
             locationKeysDao.deleteCityKeyForLocation(locationId)
         }
     }
 
-    suspend fun cleanUpStaleAlertsData(
+    private suspend fun cleanUpStaleAlertsData(
         locationId: String,
-        currentWeatherSource: WeatherSource,
-        airQualitySource: AirQualitySource,
+        currentWeatherSource: Source,
+        airQualitySource: Source,
     ) {
         alertsDao.deleteAlertsForLocation(locationId)
 
-        if (currentWeatherSource != WeatherSource.ACCU_WEATHER || airQualitySource != AirQualitySource.ACCU_WEATHER) {
+        if (currentWeatherSource != Source.ACCU_WEATHER || airQualitySource != Source.ACCU_WEATHER) {
             locationKeysDao.deleteCityKeyForLocation(locationId)
         }
     }

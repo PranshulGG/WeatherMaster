@@ -5,11 +5,8 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import com.pranshulgg.weather_master_app.core.model.sources.AirQualitySource
-import com.pranshulgg.weather_master_app.core.model.sources.AlertSource
-import com.pranshulgg.weather_master_app.core.model.sources.WeatherSource
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModel
-import com.pranshulgg.weather_master_app.data.local.entity.alerts.AlertEntity
 import com.pranshulgg.weather_master_app.data.local.entity.location.WeatherLocationEntity
 import com.pranshulgg.weather_master_app.data.local.entity.weather.WeatherWithRelations
 import kotlinx.coroutines.flow.Flow
@@ -63,7 +60,7 @@ interface LocationsDao {
     fun getAllLocationsCurrentWeather(): Flow<List<WeatherWithRelations>>
 
     @Query("UPDATE weather_locations SET source = :source WHERE id = :id")
-    suspend fun updateSourceForLocation(id: String, source: WeatherSource)
+    suspend fun updateSourceForLocation(id: String, source: Source)
 
     @Query("DELETE FROM weather_daily WHERE locationId = :id")
     suspend fun deleteDailyDataForLocation(id: String)
@@ -81,10 +78,10 @@ interface LocationsDao {
     suspend fun getLocationForId(id: String): WeatherLocationEntity
 
     @Query("UPDATE weather_locations SET airQualitySource = :source WHERE id = :id")
-    suspend fun updateAirQualitySourceForLocation(id: String, source: AirQualitySource)
+    suspend fun updateAirQualitySourceForLocation(id: String, source: Source)
 
     @Query("UPDATE weather_locations SET alertSource = :source WHERE id = :id")
-    suspend fun updateAlertSourceForLocation(id: String, source: AlertSource)
+    suspend fun updateAlertSourceForLocation(id: String, source: Source)
 
 
     @Query("UPDATE weather_locations SET customName = :name WHERE id = :id")

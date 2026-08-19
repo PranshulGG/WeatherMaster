@@ -20,14 +20,14 @@ data class NwsForecastPeriodsItemJson(
     @SerializedName("isDaytime")
     val isDayTime: Boolean,
     val temperature: Double,
-    val windSpeed: String,
-    val windDirection: String,
+    val windSpeed: String?,
+    val windDirection: String?,
     val icon: String?,
     val probabilityOfPrecipitation: NwsForecastProbabilityOfPrecipitationJson
 )
 
 data class NwsForecastProbabilityOfPrecipitationJson(
-    val value: Long
+    val value: Long?
 )
 
 // ---------------------------- CURRENT ----------------------------
@@ -63,7 +63,7 @@ data class NwsCurrentForecastVisibilityJson(
 )
 
 data class NwsCurrentForecastRelativeHumidityJson(
-    val value: Double
+    val value: Double?
 )
 
 // ---------------------------- HOURLY ----------------------------
@@ -89,8 +89,8 @@ data class NwsHourlyForecastPeriodsItemJson(
 
     val relativeHumidity: NwsHourlyForecastRelativeHumidityJson,
 
-    val windSpeed: String,
-    val windDirection: String,
+    val windSpeed: String?,
+    val windDirection: String?,
     val icon: String?
 
 )

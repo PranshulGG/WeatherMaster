@@ -143,7 +143,7 @@ fun ImdForecastModel.toDomain(location: Location): Weather {
         location = location,
         current = WeatherCurrent(
             temperature = hourly[currentHourlyIndex].temperature,
-            humidity = hourly[currentHourlyIndex].humidity ?: 0.0,
+            humidity = hourly[currentHourlyIndex].humidity,
             windSpeed = hourly[currentHourlyIndex].windSpeed,
             windDirection = hourly[currentHourlyIndex].windDirection,
             pressureMsl = null,

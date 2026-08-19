@@ -2,7 +2,7 @@ package com.pranshulgg.weather_master_app.core.network.sources.search.openmeteo
 
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.data.local.mapper.locations.toDomain
-import com.pranshulgg.weather_master_app.data.repository.SearchRepository
+import com.pranshulgg.weather_master_app.data.repository.data.SearchRepository
 import javax.inject.Inject
 
 class OpenMeteoSearchRepository @Inject constructor(
