@@ -52,11 +52,11 @@ private fun PirateWeatherCurrentJson.toWeatherCurrent(
 ): WeatherCurrent {
     return WeatherCurrent(
         temperature = temperature,
-        humidity = (humidity * 100),
+        humidity = humidity?.times(100),
         windSpeed = windSpeed.times(3.6),
         windDirection = WindDirection.toWindDirectionFromDegrees(windBearing),
         pressureMsl = pressure,
-        visibility = (visibility * 1000).roundToInt(),
+        visibility = (visibility?.times(1000))?.roundToInt(),
         cloudCover = cloudCover,
         uvIndex = uvIndex,
         weatherCondition = PirateWeatherConditionMap.getCondition(icon),
