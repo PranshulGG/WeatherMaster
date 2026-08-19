@@ -146,8 +146,8 @@ enum class Source(
     ),
 
     WEATHER_API(
-        displayName = "WeatherApi",
-        fullName = "WeatherApi.com",
+        displayName = "Weather API",
+        fullName = "Weather API",
         displayLink = "https://www.weatherapi.com/",
         capabilities = setOf(Capability.ALERTS)
     ),

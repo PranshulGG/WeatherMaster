@@ -7,14 +7,17 @@ import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
 import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResult
+import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResultType
 import com.pranshulgg.weather_master_app.core.network.calls.safeApiCall
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherCacheSafe
+import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnAlertsCache
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnWeatherCache
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.mergeHourlyWeather
 import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.ApiKeysDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
+import com.pranshulgg.weather_master_app.data.local.mapper.alerts.sources.weatherapi.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.pirateweather.alerts.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toEntity
@@ -122,9 +125,58 @@ class PirateWeatherRepository @Inject constructor(
         isManualRefresh: Boolean,
         isForceRefresh: Boolean
     ): AlertResult = withContext(Dispatchers.IO) {
+
         val cache = alertsDao.getAlertsForLocation(location.id)
 
-        AlertResult.Success(cache.map { it!!.toDomain() })
+        if (location.source == location.alertSource) {
+            AlertResult.Success(cache.map { it!!.toDomain() })
+        } else {
+            val shouldReturnCache = shouldReturnAlertsCache(
+                cache,
+                isManualRefresh,
+                isForceRefresh,
+                location.alertsLastFetchedAt
+            )
 
+            when (shouldReturnCache) {
+                AlertResultType.RETURN_CACHE -> return@withContext AlertResult.Success(cache.map { it!!.toDomain() })
+                else -> {}
+            }
+
+            val apiKey = apiKeysDao.getApiKeyForSource(location.alertSource)
+
+            if (apiKey?.apiKey.isNullOrBlank()) {
+                return@withContext AlertResult.Success(cache.map { it!!.toDomain() })
+            }
+
+            return@withContext try {
+
+                val response = safeApiCall {
+                    api.fetchWeather(
+                        apiKey.apiKey,
+                        "${location.latitude},${location.longitude}"
+                    )
+                }.getOrElse {
+                    return@withContext AlertResult.Error(
+                        exception = it.toAppException(),
+                        cacheAlerts = cache.map { cache -> cache!!.toDomain() }
+                    )
+                }
+
+                val domain = response.alerts?.toDomain(location.id)
+
+                alertsDao.insertAlerts(
+                    domain?.map { it.toEntity(location.id) } ?: emptyList(),
+                    location.id
+                )
+                dao.updateAlertsLastFetchedAt(location.id, System.currentTimeMillis())
+
+                AlertResult.Success(domain ?: emptyList())
+
+            } catch (e: Exception) {
+                AlertResult.Error(exception = e, cacheAlerts = cache.map { it!!.toDomain() })
+            }
+
+        }
     }
 }
