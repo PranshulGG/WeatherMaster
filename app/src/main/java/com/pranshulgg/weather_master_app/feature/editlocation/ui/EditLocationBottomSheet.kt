@@ -165,7 +165,7 @@ object EditLocationBottomSheet {
                 Gap(8.dp)
                 SettingSection(
                     title = stringResource(R.string.global_sources),
-                    tiles = sources.map { source ->
+                    tiles = sources.filter { it !in recommendedSources }.map { source ->
                         val isSelected = currentSelectedSource == source
 
                         SettingTile.ActionTile(
@@ -284,7 +284,7 @@ object EditLocationBottomSheet {
                 Gap(8.dp)
                 SettingSection(
                     title = stringResource(R.string.global_sources),
-                    tiles = sources.map { source ->
+                    tiles = sources.filter { it !in recommendedSources }.map { source ->
                         val isSelected = currentSelectedSource == source
 
                         SettingTile.ActionTile(
