@@ -183,6 +183,13 @@ enum class Source(
         displayLink = "https://www.jma.go.jp/bosai/",
         countryNameRes = R.string.country_japan,
         capabilities = setOf(Capability.WEATHER, Capability.ALERTS)
+    ),
+    INMET(
+        displayName = "INMET",
+        fullName = "Instituto Nacional de Meteorologia",
+        displayLink = "https://portal.inmet.gov.br/",
+        countryNameRes = R.string.country_brazil,
+        capabilities = setOf(Capability.WEATHER, Capability.ALERTS)
     );
 
     // Sources that provide snow/rain as precipitation
@@ -195,6 +202,7 @@ enum class Source(
             IMD -> false
             CWA -> false
             JMA -> false
+            INMET -> false
             else -> true
         }
     }
@@ -221,6 +229,7 @@ private val sourcesByCountry = buildMap {
     put("IN", listOf(Source.IMD))
     put("TW", listOf(Source.CWA))
     put("JP", listOf(Source.JMA))
+    put("BR", listOf(Source.INMET))
 
 }
 
