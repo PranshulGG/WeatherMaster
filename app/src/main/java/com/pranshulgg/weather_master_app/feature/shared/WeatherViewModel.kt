@@ -115,16 +115,10 @@ class WeatherViewModel @Inject constructor(
         setLoading(true)
         weatherJob?.cancel()
         val startTime = System.currentTimeMillis()
-        // Reset alerts/airQuality here, not just on a successful result: getData() only invokes
-        // onAlerts/onAirQuality when the location's alertSource/airQualitySource resolves to a
-        // real repository (e.g. NONE never does) - without this, switching to a location with no
-        // alert source left the previous location's alerts on screen indefinitely.
         _uiState.value = _uiState.value.copy(
             isError = false,
             isUnsupportedSource = false,
-            isAirQualityLoading = true,
-            alerts = emptyList(),
-            airQuality = null
+            isAirQualityLoading = true
         )
 
 
@@ -347,8 +341,18 @@ class WeatherViewModel @Inject constructor(
     }
 
     private fun handleAirQuality(
-        result: AirQualityResult
+        result: AirQualityResult?
     ) {
+
+        // No repository resolves for this location's airQualitySource (e.g. NONE) - clear
+        // rather than leaving a previous location's air quality on screen.
+        if (result == null) {
+            _uiState.value = _uiState.value.copy(
+                airQuality = null,
+                isAirQualityLoading = false
+            )
+            return
+        }
 
         when (result) {
             is AirQualityResult.Success -> {
@@ -372,7 +376,14 @@ class WeatherViewModel @Inject constructor(
     }
 
 
-    private fun handleAlerts(result: AlertResult) {
+    private fun handleAlerts(result: AlertResult?) {
+
+        // No repository resolves for this location's alertSource (e.g. NONE) - clear rather
+        // than leaving a previous location's alerts on screen.
+        if (result == null) {
+            _uiState.value = _uiState.value.copy(alerts = emptyList())
+            return
+        }
 
         when (result) {
             is AlertResult.Success -> {
