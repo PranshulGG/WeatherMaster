@@ -176,13 +176,18 @@ class LocationsRepository @Inject constructor(
         }
 
 
+        val countryCode = if (address?.countryCode.isNullOrBlank()) {
+            getCountryCode(context, location.latitude, location.longitude)
+        } else {
+            address.countryCode
+        }
+
         dao.updateDeviceLocation(
             newLat,
             newLon,
             address?.city ?: currentLocation.name,
             address?.country ?: "",
-            address?.countryCode ?: getCountryCode(context, location.latitude, location.longitude)
-            ?: "",
+            countryCode = countryCode ?: currentLocation.countryCode ?: "",
             ZoneId.systemDefault().id
         )
 
@@ -216,11 +221,18 @@ class LocationsRepository @Inject constructor(
 
 
         if (address != null && address.city != null) {
+
+            val countryCode = if (address.countryCode.isNullOrBlank()) {
+                getCountryCode(context, location.latitude, location.longitude)
+            } else {
+                address.countryCode
+            }
+
             saveLocation(
                 location.toDomain(context).copy(
                     name = address.city,
                     country = address.country,
-                    countryCode = address.countryCode
+                    countryCode = countryCode
                 )
             )
         } else {
