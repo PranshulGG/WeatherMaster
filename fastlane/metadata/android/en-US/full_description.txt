@@ -23,5 +23,8 @@
  <li><b>IMD</b></li>
  <li><b>WMO Severe Weather Information Centre</b></li>
  <li><b>FOSS Public Alert Server</b></li>
+ <li><b>JMA</b></li>
+ <li><b>CWA</b></li>
+ <li><b>Pirate Weather</b></li>
  <li><b>And more to be added</b></li>
 </ul>
