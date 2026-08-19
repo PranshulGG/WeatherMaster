@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.core.network.sources.weather.jma
 
+import com.pranshulgg.weather_master_app.core.network.sources.weather.jma.alerts.json.JmaWarningJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.jma.json.JmaAmedasCurrentJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.jma.json.JmaAmedasStationJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.jma.json.JmaAreaJson
@@ -40,6 +41,10 @@ interface JmaApi {
         @Path("amedasId") amedasId: String,
         @Path("dateHour") dateHour: String
     ): Map<String, JmaAmedasCurrentJson>
+
+    // officeCode = same one used for getForecast().
+    @GET("warning/data/warning/{officeCode}.json")
+    suspend fun getWarnings(@Path("officeCode") officeCode: String): JmaWarningJson
 
     companion object {
         const val BASE_URL = "https://www.jma.go.jp/bosai/"

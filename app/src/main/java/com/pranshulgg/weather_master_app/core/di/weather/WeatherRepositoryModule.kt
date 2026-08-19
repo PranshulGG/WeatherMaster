@@ -242,6 +242,7 @@ object WeatherRepositoryModule {
         dao: LocationsDao,
         weatherDao: WeatherDao,
         api: JmaApi,
-        locationKeysDao: LocationKeysDao
-    ): JmaRepository = JmaRepository(dao, weatherDao, api, locationKeysDao)
+        locationKeysDao: LocationKeysDao,
+        alertsDao: AlertsDao
+    ): JmaRepository = JmaRepository(dao, weatherDao, api, locationKeysDao, alertsDao)
 }

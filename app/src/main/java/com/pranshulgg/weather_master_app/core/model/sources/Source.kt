@@ -182,7 +182,7 @@ enum class Source(
         fullName = "Japan Meteorological Agency",
         displayLink = "https://www.jma.go.jp/bosai/",
         countryNameRes = R.string.country_japan,
-        capabilities = setOf(Capability.WEATHER)
+        capabilities = setOf(Capability.WEATHER, Capability.ALERTS)
     );
 
     // Sources that provide snow/rain as precipitation

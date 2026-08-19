@@ -4,21 +4,29 @@ import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
+import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResult
+import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResultType
 import com.pranshulgg.weather_master_app.core.network.sources.weather.jma.json.JmaAmedasCurrentJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.jma.model.JmaForecastBundle
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherCacheSafe
+import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnAlertsCache
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnWeatherCache
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.mergeHourlyWeather
+import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationKeysDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
 import com.pranshulgg.weather_master_app.data.local.entity.location.LocationKeyEntity
+import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toDomain
+import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toEntity
+import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.jma.alerts.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.jma.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toCurrentWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDailyWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toHourlyWeatherEntity
 import com.pranshulgg.weather_master_app.core.model.sources.Source
+import com.pranshulgg.weather_master_app.data.repository.data.AlertRepository
 import com.pranshulgg.weather_master_app.data.repository.data.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -36,10 +44,12 @@ class JmaRepository @Inject constructor(
     val dao: LocationsDao,
     val weatherDao: WeatherDao,
     val api: JmaApi,
-    val locationKeysDao: LocationKeysDao
-) : WeatherRepository {
+    val locationKeysDao: LocationKeysDao,
+    val alertsDao: AlertsDao
+) : WeatherRepository, AlertRepository {
 
     override val weatherSource = Source.JMA
+    override val alertSource = Source.JMA
 
     override suspend fun getWeather(
         location: Location,
@@ -98,6 +108,41 @@ class JmaRepository @Inject constructor(
                 exception = e,
                 if (isCacheSafe) cache?.toDomain() else null
             )
+        }
+    }
+
+    override suspend fun getAlerts(
+        location: Location,
+        isManualRefresh: Boolean,
+        isForceRefresh: Boolean
+    ): AlertResult = withContext(Dispatchers.IO) {
+
+        val cache = alertsDao.getAlertsForLocation(location.id)
+        val shouldReturnCache = shouldReturnAlertsCache(
+            cache,
+            isManualRefresh,
+            isForceRefresh,
+            location.alertsLastFetchedAt
+        )
+
+        when (shouldReturnCache) {
+            AlertResultType.RETURN_CACHE -> return@withContext AlertResult.Success(cache.map { it!!.toDomain() })
+            else -> {}
+        }
+
+        return@withContext try {
+            val (class10Code, officeCode, _) = resolveLocation(location)
+                ?: return@withContext AlertResult.Error(exception = AppException.Unknown())
+
+            val domain = api.getWarnings(officeCode).toDomain(location.id, class10Code)
+
+            alertsDao.insertAlerts(domain.map { it.toEntity(location.id) }, location.id)
+            dao.updateAlertsLastFetchedAt(location.id, System.currentTimeMillis())
+
+            AlertResult.Success(domain)
+
+        } catch (e: Exception) {
+            AlertResult.Error(exception = e, cacheAlerts = cache.map { it!!.toDomain() })
         }
     }
 
