@@ -123,8 +123,7 @@ fun EditLocationScreen(
             append(" (${stringResource(it)})")
         }
 
-        if (
-            effectiveWeatherSource == Source.OPEN_METEO) {
+        if (effectiveWeatherSource == Source.OPEN_METEO) {
             append(" (${effectiveOpenMeteoModel.displayName})")
         }
     }
@@ -285,8 +284,8 @@ fun EditLocationScreen(
                 onDismiss = viewModel::hideWeatherSourcesForLocationSheet,
                 sheetState = sheetState,
                 onClickApiConfig = {
-                    navController.navigate(NavRoutes.API_KEYS_CONFIG)
                     viewModel.hideWeatherSourcesForLocationSheet()
+                    navController.navigate(NavRoutes.API_KEYS_CONFIG)
                 },
                 apiKeys = uiState.apiKeys
             )
@@ -300,7 +299,13 @@ fun EditLocationScreen(
                 onSave = {
                     viewModel.updateSelectedAlertSource(it)
                 },
-                onDismiss = viewModel::hideAlertSourcesSheet
+                onDismiss = viewModel::hideAlertSourcesSheet,
+                onClickApiConfig = {
+                    viewModel.hideWeatherSourcesForLocationSheet()
+                    navController.navigate(NavRoutes.API_KEYS_CONFIG)
+                },
+                apiKeys = uiState.apiKeys,
+                countryCode = uiState.location.countryCode
             )
 
             // AIR QUALITY SOURCES SHEET
@@ -312,7 +317,13 @@ fun EditLocationScreen(
                 onSave = {
                     viewModel.updateSelectedAirQualitySource(it)
                 },
-                onDismiss = viewModel::hideAirQualitySourcesSheet
+                onDismiss = viewModel::hideAirQualitySourcesSheet,
+                onClickApiConfig = {
+                    viewModel.hideWeatherSourcesForLocationSheet()
+                    navController.navigate(NavRoutes.API_KEYS_CONFIG)
+                },
+                apiKeys = uiState.apiKeys,
+                countryCode = uiState.location.countryCode
             )
 
             // EDIT LOCATION NAME SHEET

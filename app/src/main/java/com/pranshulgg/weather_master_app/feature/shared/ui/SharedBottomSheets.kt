@@ -136,6 +136,7 @@ object SharedBottomSheet {
                             title = source.displayName + countryString,
                             selected = isSelected,
                             description = description(source),
+                            colorDesc = MaterialTheme.colorScheme.error,
                             onClick = {
                                 handeSelection(source)
                             },

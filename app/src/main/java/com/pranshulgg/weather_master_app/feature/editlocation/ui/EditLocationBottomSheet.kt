@@ -24,8 +24,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weather_master_app.R
+import com.pranshulgg.weather_master_app.core.model.domain.weather.ApiKey
 import com.pranshulgg.weather_master_app.core.model.sources.Capability
 import com.pranshulgg.weather_master_app.core.model.sources.Source
+import com.pranshulgg.weather_master_app.core.model.sources.getSourcesForCountry
 import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModel
 import com.pranshulgg.weather_master_app.core.ui.components.ActionBottomSheet
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
@@ -76,7 +78,10 @@ object EditLocationBottomSheet {
         sheetState: SheetState,
         selectedSource: Source = Source.NONE,
         onSave: (Source) -> Unit,
-        onDismiss: () -> Unit
+        onDismiss: () -> Unit,
+        countryCode: String?,
+        onClickApiConfig: () -> Unit,
+        apiKeys: List<ApiKey>,
     ) {
         if (show) {
 
@@ -90,6 +95,37 @@ object EditLocationBottomSheet {
             val sources = Source.entries.filter {
                 Capability.ALERTS in it.capabilities
             }
+
+            var recommendedSources = getSourcesForCountry(countryCode?.uppercase())
+
+            recommendedSources = recommendedSources.filter { Capability.ALERTS in it.capabilities }
+
+            val isApiKeyAvailable: (Source) -> Boolean = { source ->
+                if (source.requiresUserApiKey) {
+                    apiKeys.isNotEmpty()
+                            && apiKeys
+                        .any { it.source == source && !it.apiKey.isNullOrBlank() }
+                } else {
+                    true
+                }
+            }
+
+            val description: (Source) -> String? = {
+                if (it.requiresUserApiKey &&
+                    !isApiKeyAvailable(it)
+                ) "Requires API key" else null
+            }
+
+
+            val handeSelection: (Source) -> Unit = {
+                if (!it.requiresUserApiKey) {
+                    currentSelectedSource = it
+                } else if (!isApiKeyAvailable(it)) {
+                    onClickApiConfig()
+                } else {
+                    currentSelectedSource = it
+                }
+            }
             ActionBottomSheet(
                 sheetState = sheetState,
                 onCancel = { onDismiss() },
@@ -97,6 +133,36 @@ object EditLocationBottomSheet {
                 confirmText = stringResource(R.string.action_save),
                 cancelText = stringResource(R.string.action_cancel)
             ) {
+                if (recommendedSources.isNotEmpty()) {
+
+                    SettingSection(
+                        title = stringResource(R.string.recommended_sources),
+                        tiles = recommendedSources.map { source ->
+                            val isSelected = currentSelectedSource == source
+
+                            val countryString = source.countryNameRes?.let {
+                                " (${stringResource(it)})"
+                            } ?: ""
+
+                            SettingTile.ActionTile(
+                                leading = {
+                                    if (isSelected) Symbol(
+                                        R.drawable.check_24px,
+                                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                                    )
+                                },
+                                title = source.displayName + countryString,
+                                description = description(source),
+                                colorDesc = MaterialTheme.colorScheme.error,
+                                selected = isSelected,
+                                onClick = {
+                                    handeSelection(source)
+                                }
+                            )
+                        }
+                    )
+                }
+                Gap(8.dp)
                 SettingSection(
                     title = stringResource(R.string.global_sources),
                     tiles = sources.map { source ->
@@ -115,7 +181,6 @@ object EditLocationBottomSheet {
                                 currentSelectedSource = source
                             }
                         )
-
                     }
                 )
             }
@@ -130,7 +195,10 @@ object EditLocationBottomSheet {
         sheetState: SheetState,
         selectedSource: Source = Source.OPEN_METEO,
         onSave: (Source) -> Unit,
-        onDismiss: () -> Unit
+        onDismiss: () -> Unit,
+        countryCode: String?,
+        onClickApiConfig: () -> Unit,
+        apiKeys: List<ApiKey>
     ) {
         if (show) {
 
@@ -144,6 +212,39 @@ object EditLocationBottomSheet {
             val sources = Source.entries.filter {
                 Capability.AIR_QUALITY in it.capabilities
             }
+
+
+            var recommendedSources = getSourcesForCountry(countryCode?.uppercase())
+
+            recommendedSources = recommendedSources.filter { Capability.ALERTS in it.capabilities }
+
+            val isApiKeyAvailable: (Source) -> Boolean = { source ->
+                if (source.requiresUserApiKey) {
+                    apiKeys.isNotEmpty()
+                            && apiKeys
+                        .any { it.source == source && !it.apiKey.isNullOrBlank() }
+                } else {
+                    true
+                }
+            }
+
+            val description: (Source) -> String? = {
+                if (it.requiresUserApiKey &&
+                    !isApiKeyAvailable(it)
+                ) "Requires API key" else null
+            }
+
+
+            val handeSelection: (Source) -> Unit = {
+                if (!it.requiresUserApiKey) {
+                    currentSelectedSource = it
+                } else if (!isApiKeyAvailable(it)) {
+                    onClickApiConfig()
+                } else {
+                    currentSelectedSource = it
+                }
+            }
+
             ActionBottomSheet(
                 sheetState = sheetState,
                 onCancel = { onDismiss() },
@@ -151,6 +252,36 @@ object EditLocationBottomSheet {
                 confirmText = stringResource(R.string.action_save),
                 cancelText = stringResource(R.string.action_cancel)
             ) {
+                if (recommendedSources.isNotEmpty()) {
+
+                    SettingSection(
+                        title = stringResource(R.string.recommended_sources),
+                        tiles = recommendedSources.map { source ->
+                            val isSelected = currentSelectedSource == source
+
+                            val countryString = source.countryNameRes?.let {
+                                " (${stringResource(it)})"
+                            } ?: ""
+
+                            SettingTile.ActionTile(
+                                leading = {
+                                    if (isSelected) Symbol(
+                                        R.drawable.check_24px,
+                                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                                    )
+                                },
+                                title = source.displayName + countryString,
+                                description = description(source),
+                                colorDesc = MaterialTheme.colorScheme.error,
+                                selected = isSelected,
+                                onClick = {
+                                    handeSelection(source)
+                                }
+                            )
+                        }
+                    )
+                }
+                Gap(8.dp)
                 SettingSection(
                     title = stringResource(R.string.global_sources),
                     tiles = sources.map { source ->
