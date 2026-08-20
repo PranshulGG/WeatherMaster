@@ -46,7 +46,7 @@ fun HumidityBlock(
     val dewPoint = TemperatureUnit.CELSIUS.convert(
         if (isDaily) weather.daily[dailyIndex].dewPoint else weather.current.dewPoint,
         units.tempUnit
-    )?.roundToInt()
+    )?.roundToInt() ?: "?"
 
     val humidityDrawable = when (humidity) {
         in 0..30 -> R.drawable.humidity_seven_percent

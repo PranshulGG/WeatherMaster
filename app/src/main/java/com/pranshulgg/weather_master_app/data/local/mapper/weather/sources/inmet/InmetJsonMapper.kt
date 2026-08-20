@@ -66,7 +66,8 @@ fun InmetWeatherBundle.toDomain(location: Location): Weather {
             val tempMax = periods.maxOfOrNull { it.tempMax ?: Int.MIN_VALUE }
                 ?.takeIf { it != Int.MIN_VALUE }?.toDouble()
 
-            val windSpeed = periods.mapNotNull { parseWindIntensityToKmh(it.intVento) }.averageOrNull()
+            val windSpeed =
+                periods.mapNotNull { parseWindIntensityToKmh(it.intVento) }.averageOrNull()
             val windDir = periods.firstNotNullOfOrNull { parseWindDirection(it.dirVento) }
 
             val condition = periods.firstNotNullOfOrNull {
@@ -315,7 +316,7 @@ private fun createCurrentFromObservation(
     val zone = safeZoneId(location.timezone)
     val timeMilli = parseObservationTimestamp(entry.dtMedicao, entry.hrMedicao, zone)
     val temp = parseDoubleSafe(entry.tempAr)
-    val humidity = parseDoubleSafe(entry.umidRelAr) ?: 0.0
+    val humidity = parseDoubleSafe(entry.umidRelAr)
     val windMs = parseDoubleSafe(entry.ventVel)
     val windKmh = windMs?.let { WindSpeedUnit.MPS.convert(it, WindSpeedUnit.KPH) }
     val windDir = parseDoubleSafe(entry.ventDir)?.toInt()?.let {
