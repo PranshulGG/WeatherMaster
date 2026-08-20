@@ -28,6 +28,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.ApiKey
 import com.pranshulgg.weather_master_app.core.model.sources.Capability
 import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.sources.getSourcesForCountry
+import com.pranshulgg.weather_master_app.core.model.sources.getSourcesGlobal
 import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModel
 import com.pranshulgg.weather_master_app.core.ui.components.ActionBottomSheet
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
@@ -92,7 +93,9 @@ object EditLocationBottomSheet {
                 mutableStateOf(selectedSource)
             }
 
-            val sources = Source.entries.filter {
+            val globalSources = getSourcesGlobal()
+
+            val sources = globalSources.filter {
                 Capability.ALERTS in it.capabilities
             }
 
@@ -165,23 +168,24 @@ object EditLocationBottomSheet {
                 Gap(8.dp)
                 SettingSection(
                     title = stringResource(R.string.global_sources),
-                    tiles = sources.filter { it !in recommendedSources }.map { source ->
-                        val isSelected = currentSelectedSource == source
+                    tiles = sources.filter { it !in recommendedSources }
+                        .map { source ->
+                            val isSelected = currentSelectedSource == source
 
-                        SettingTile.ActionTile(
-                            leading = {
-                                if (isSelected) Symbol(
-                                    R.drawable.check_24px,
-                                    color = MaterialTheme.colorScheme.onSecondaryContainer
-                                )
-                            },
-                            title = source.displayName,
-                            selected = isSelected,
-                            onClick = {
-                                currentSelectedSource = source
-                            }
-                        )
-                    }
+                            SettingTile.ActionTile(
+                                leading = {
+                                    if (isSelected) Symbol(
+                                        R.drawable.check_24px,
+                                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                                    )
+                                },
+                                title = source.displayName,
+                                selected = isSelected,
+                                onClick = {
+                                    currentSelectedSource = source
+                                }
+                            )
+                        }
                 )
             }
         }
@@ -209,7 +213,9 @@ object EditLocationBottomSheet {
                 mutableStateOf(selectedSource)
             }
 
-            val sources = Source.entries.filter {
+            val globalSources = getSourcesGlobal()
+
+            val sources = globalSources.filter {
                 Capability.AIR_QUALITY in it.capabilities
             }
 
@@ -285,25 +291,26 @@ object EditLocationBottomSheet {
                 Gap(8.dp)
                 SettingSection(
                     title = stringResource(R.string.global_sources),
-                    tiles = sources.filter { it !in recommendedSources }.map { source ->
-                        val isSelected = currentSelectedSource == source
+                    tiles = sources.filter { it !in recommendedSources }
+                        .map { source ->
+                            val isSelected = currentSelectedSource == source
 
 
-                        SettingTile.ActionTile(
-                            leading = {
-                                if (isSelected) Symbol(
-                                    R.drawable.check_24px,
-                                    color = MaterialTheme.colorScheme.onSecondaryContainer
-                                )
-                            },
-                            title = source.displayName,
-                            selected = isSelected,
-                            onClick = {
-                                currentSelectedSource = source
-                            }
-                        )
+                            SettingTile.ActionTile(
+                                leading = {
+                                    if (isSelected) Symbol(
+                                        R.drawable.check_24px,
+                                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                                    )
+                                },
+                                title = source.displayName,
+                                selected = isSelected,
+                                onClick = {
+                                    currentSelectedSource = source
+                                }
+                            )
 
-                    }
+                        }
                 )
             }
         }

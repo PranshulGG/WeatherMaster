@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.weather.ApiKey
+import com.pranshulgg.weather_master_app.core.model.sources.Capability
 import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.sources.getSourcesForCountry
 import com.pranshulgg.weather_master_app.core.model.sources.getSourcesGlobal
@@ -38,7 +39,7 @@ object SharedBottomSheet {
     ) {
         if (show) {
             val recommendedSources = getSourcesForCountry(countryCode?.uppercase())
-            val globalSources = getSourcesGlobal()
+            val globalSources = getSourcesGlobal().filter { Capability.WEATHER in it.capabilities }
 
             val isApiKeyAvailable: (Source) -> Boolean = { source ->
                 if (source.requiresUserApiKey) {
