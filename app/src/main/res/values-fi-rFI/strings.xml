@@ -346,11 +346,12 @@
     <string name="country_finland">Suomi</string>
     <string name="country_indonesia">Indonesia</string>
     <string name="country_italy">Italia</string>
-    <string name="country_japan">Japan</string>
+    <string name="country_japan">Japani</string>
     <string name="country_portugal">Portugali</string>
     <string name="country_russia">Venäjä</string>
     <string name="country_spain">Espanja</string>
     <string name="country_taiwan">Taiwan</string>
+    <string name="country_brazil">Brasilia</string>
     <string name="settings_date_format">Päivämäärän muoto</string>
     <string name="widget_settings_display_hourly_secondary">Näytä tunneittainen ennuste päivittäisen sijaan</string>
     <string name="settings_widget_background">Widgetin tausta</string>
