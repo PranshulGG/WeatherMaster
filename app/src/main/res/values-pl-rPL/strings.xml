@@ -357,6 +357,7 @@ W ciągu dnia spodziewane są opady śniegu około %1$s z prawdopodobieństwem %
     <string name="country_russia">Rosja</string>
     <string name="country_spain">Hiszpania</string>
     <string name="country_taiwan">Taiwan</string>
+    <string name="country_brazil">Brazil</string>
     <string name="settings_date_format">Format daty</string>
     <string name="widget_settings_display_hourly_secondary">Wyświetla prognozę godzinową zamiast dziennej</string>
     <string name="settings_widget_background">Tło widżetu</string>
