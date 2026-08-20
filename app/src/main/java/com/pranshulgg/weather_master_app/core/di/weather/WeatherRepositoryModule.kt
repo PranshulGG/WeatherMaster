@@ -21,6 +21,11 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.G
 import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.GismeteoRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.imd.ImdApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.imd.ImdRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.IbgeApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.InmetAvisosApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.InmetForecastApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.InmetObservationApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.InmetRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.jma.JmaApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.jma.JmaRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.ipma.IpmaApi
@@ -245,4 +250,26 @@ object WeatherRepositoryModule {
         locationKeysDao: LocationKeysDao,
         alertsDao: AlertsDao
     ): JmaRepository = JmaRepository(dao, weatherDao, api, locationKeysDao, alertsDao)
+
+    @Provides
+    @Singleton
+    fun provideInmetRepository(
+        dao: LocationsDao,
+        weatherDao: WeatherDao,
+        forecastApi: InmetForecastApi,
+        observationApi: InmetObservationApi,
+        ibgeApi: IbgeApi,
+        avisosApi: InmetAvisosApi,
+        locationKeysDao: LocationKeysDao,
+        alertsDao: AlertsDao
+    ): InmetRepository = InmetRepository(
+        dao,
+        weatherDao,
+        forecastApi,
+        observationApi,
+        ibgeApi,
+        avisosApi,
+        locationKeysDao,
+        alertsDao
+    )
 }

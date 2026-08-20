@@ -20,6 +20,10 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.EcccA
 import com.pranshulgg.weather_master_app.core.network.sources.weather.fmi.FmiApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.GismeteoApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.imd.ImdApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.IbgeApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.InmetAvisosApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.InmetForecastApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.InmetObservationApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.ipma.IpmaApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.MeteoamApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofrance.MeteoFranceApi
@@ -159,4 +163,20 @@ object ApiModule {
     @Provides
     @Singleton
     fun provideJmaApi(): JmaApi = JmaApi.create()
+
+    @Provides
+    @Singleton
+    fun provideInmetForecastApi(): InmetForecastApi = InmetForecastApi.create()
+
+    @Provides
+    @Singleton
+    fun provideInmetAvisosApi(): InmetAvisosApi = InmetAvisosApi.create()
+
+    @Provides
+    @Singleton
+    fun provideInmetObservationApi(): InmetObservationApi = InmetObservationApi.create()
+
+    @Provides
+    @Singleton
+    fun provideIbgeApi(): IbgeApi = IbgeApi.create()
 }
