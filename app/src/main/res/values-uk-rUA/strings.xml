@@ -356,6 +356,7 @@
     <string name="country_russia">Росія</string>
     <string name="country_spain">Іспанія</string>
     <string name="country_taiwan">Тайвань</string>
+    <string name="country_brazil">Brazil</string>
     <string name="settings_date_format">Формат дати</string>
     <string name="widget_settings_display_hourly_secondary">Показує погодинний прогноз замість щоденного</string>
     <string name="settings_widget_background">Фон віджета</string>
