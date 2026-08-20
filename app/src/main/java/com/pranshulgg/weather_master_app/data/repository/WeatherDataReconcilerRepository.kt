@@ -54,6 +54,11 @@ class WeatherDataReconcilerRepository @Inject constructor(
         }
     }
 
+    suspend fun cleanLocationExtras(locationId: String) {
+        nwsDao.deleteGridPointsForLocation(locationId)
+        locationKeysDao.deleteCityKeyForLocation(locationId)
+    }
+
     private suspend fun cleanUpStaleWeatherData(
         previousSource: Source,
         locationId: String,
