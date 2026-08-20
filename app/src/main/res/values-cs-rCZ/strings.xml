@@ -356,6 +356,7 @@
     <string name="country_russia">Rusko</string>
     <string name="country_spain">Španělsko</string>
     <string name="country_taiwan">Taiwan</string>
+    <string name="country_brazil">Brazil</string>
     <string name="settings_date_format">Date format</string>
     <string name="widget_settings_display_hourly_secondary">Zobrazuje hodinovou předpověď namísto denní</string>
     <string name="settings_widget_background">Pozadí widgetu</string>
