@@ -350,6 +350,7 @@
     <string name="country_russia">Russie</string>
     <string name="country_spain">Espagne</string>
     <string name="country_taiwan">Taiwan</string>
+    <string name="country_brazil">Brazil</string>
     <string name="settings_date_format">Format de la date</string>
     <string name="widget_settings_display_hourly_secondary">Affiche les prévisions par heure plutôt que par jour</string>
     <string name="settings_widget_background">Arrière-plan du widget</string>
