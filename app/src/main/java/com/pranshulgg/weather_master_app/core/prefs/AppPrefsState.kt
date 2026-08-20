@@ -18,6 +18,9 @@ data class AppPrefsState(
     val isDynamicTheme: Boolean,
     val setDynamicColor: (Boolean) -> Unit,
 
+    val isAmoledTheme: Boolean,
+    val setAmoledTheme: (Boolean) -> Unit,
+
     val themeVariantType: ThemeVariantType,
     val setThemeVariantType: (ThemeVariantType) -> Unit,
 
