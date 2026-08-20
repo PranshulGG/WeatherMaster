@@ -343,12 +343,12 @@
     <string name="country_finland">芬蘭</string>
     <string name="country_indonesia">印度尼西亞（印尼）</string>
     <string name="country_italy">義大利</string>
-    <string name="country_japan">Japan</string>
+    <string name="country_japan">日本</string>
     <string name="country_portugal">葡萄牙</string>
     <string name="country_russia">俄羅斯</string>
     <string name="country_spain">西班牙</string>
     <string name="country_taiwan">臺灣</string>
-    <string name="country_brazil">Brazil</string>
+    <string name="country_brazil">巴西</string>
     <string name="settings_date_format">日期格式</string>
     <string name="widget_settings_display_hourly_secondary">顯示每小時預報（取代每日預報）</string>
     <string name="settings_widget_background">小工具背景</string>
@@ -367,8 +367,8 @@
     <string name="settings_widget_show_daily_weather_secondary">顯示今日預報（取代即時天氣）</string>
     <string name="settings_widget_show_clock">顯示時鐘</string>
     <string name="settings_widget_clock_size">時鐘大小</string>
-    <string name="unit_wind_kt_short">節</string>
-    <string name="unit_wind_bft_short">蒲福風級</string>
+    <string name="unit_wind_kt_short">節（kt）</string>
+    <string name="unit_wind_bft_short">蒲福風級（bkt）</string>
     <string name="unit_pressure_mmhg_short">毫米汞柱</string>
     <string name="unit_wind_mps_short">公尺/秒</string>
     <string name="unit_wind_mph_short">英里/小時</string>
