@@ -31,12 +31,12 @@ fun CreditsBottomSection(weather: Weather?, onClick: () -> Unit) {
 
     val countryString = buildString {
         if (source?.countryNameRes != null) {
-            append("(${stringResource(weather.location.source.countryNameRes)})")
+            append(" (${stringResource(weather.location.source.countryNameRes)})")
         }
     }
 
     Text(
-        stringResource(R.string.source_credits_label, "$sourceString $countryString"),
+        stringResource(R.string.source_credits_label, "$sourceString$countryString"),
         modifier = Modifier
             .fillMaxWidth()
             .clickable(
