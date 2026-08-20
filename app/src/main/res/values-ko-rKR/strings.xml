@@ -342,11 +342,12 @@
     <string name="country_finland">핀란드</string>
     <string name="country_indonesia">인도네시아</string>
     <string name="country_italy">이탈리아</string>
-    <string name="country_japan">Japan</string>
+    <string name="country_japan">일본</string>
     <string name="country_portugal">포르투갈</string>
     <string name="country_russia">러시아</string>
     <string name="country_spain">스페인</string>
-    <string name="country_taiwan">Taiwan</string>
+    <string name="country_taiwan">대만</string>
+    <string name="country_brazil">브라질</string>
     <string name="settings_date_format">날짜 형식</string>
     <string name="widget_settings_display_hourly_secondary">일별 예보 대신 시간별 예보를 표시합니다</string>
     <string name="settings_widget_background">위젯 배경</string>
@@ -400,12 +401,12 @@
     <string name="weather_airquality_source">대기질 데이터 출처</string>
     <string name="country_india">인도</string>
     <string name="error_secure_connection_failed">보안 연결 실패</string>
-    <string name="error_empty_response_body">The server returned an empty response.</string>
-    <string name="error_bad_request">The server could not process the request.</string>
-    <string name="error_unauthorized">Authentication with the service failed.</string>
-    <string name="error_forbidden">Access to this resource was denied.</string>
-    <string name="error_not_found">The requested resource could not be found.</string>
-    <string name="error_request_timeout">The server did not respond in time.</string>
-    <string name="error_too_many_requests">The request limit has been reached.</string>
+    <string name="error_empty_response_body">서버가 빈 응답을 반환하였습니다.</string>
+    <string name="error_bad_request">서버가 요청을 처리하지 못했습니다.</string>
+    <string name="error_unauthorized">서비스 인증이 실패했습니다.</string>
+    <string name="error_forbidden">이 리소스에 대한 접근이 거부되었습니다.</string>
+    <string name="error_not_found">요청한 리소스를 찾을 수 없습니다.</string>
+    <string name="error_request_timeout">서버가 응답하지 않습니다.</string>
+    <string name="error_too_many_requests">요청 한도에 도달하였습니다.</string>
 </resources>
 <!--<string name=""></string>-->
