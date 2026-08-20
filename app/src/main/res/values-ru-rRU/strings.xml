@@ -356,6 +356,7 @@
     <string name="country_russia">Россия</string>
     <string name="country_spain">Испания</string>
     <string name="country_taiwan">Тайвань</string>
+    <string name="country_brazil">Brazil</string>
     <string name="settings_date_format">Формат даты</string>
     <string name="widget_settings_display_hourly_secondary">Отображает почасовой прогноз, а не ежедневный</string>
     <string name="settings_widget_background">Фон виджета</string>
