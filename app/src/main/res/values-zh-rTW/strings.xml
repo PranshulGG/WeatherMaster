@@ -348,6 +348,7 @@
     <string name="country_russia">俄羅斯</string>
     <string name="country_spain">西班牙</string>
     <string name="country_taiwan">臺灣</string>
+    <string name="country_brazil">Brazil</string>
     <string name="settings_date_format">日期格式</string>
     <string name="widget_settings_display_hourly_secondary">顯示每小時預報（取代每日預報）</string>
     <string name="settings_widget_background">小工具背景</string>
