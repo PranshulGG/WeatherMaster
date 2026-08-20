@@ -3,6 +3,8 @@ package com.pranshulgg.weather_master_app.feature.main.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.R
@@ -42,6 +45,7 @@ fun MainSearchBar(
     drawerState: DrawerState,
     activeLocation: Location?,
     onEditLocation: () -> Unit,
+    layoutDirection: LayoutDirection
 ) {
     val scope = rememberCoroutineScope()
     val showDrawer = {
@@ -52,6 +56,8 @@ fun MainSearchBar(
         }
     }
 
+    val startPadding = paddingValues.calculateStartPadding(layoutDirection)
+    val endPadding = paddingValues.calculateEndPadding(layoutDirection)
 
     Surface(
         color = if (isFroggyLayout) getSearchBarColor(isDark = isThemeDark()) else Color.Transparent,
@@ -59,8 +65,9 @@ fun MainSearchBar(
         modifier = Modifier
             .padding(
                 top = paddingValues.calculateTopPadding() + 8.dp,
-                start = if (isFroggyLayout) 16.dp else 0.dp,
-                end = if (isFroggyLayout) 16.dp else 0.dp,
+                start = if (isFroggyLayout) startPadding.takeIf { it > 16.dp }
+                    ?: 16.dp else startPadding,
+                end = if (isFroggyLayout) endPadding.takeIf { it > 16.dp } ?: 16.dp else endPadding,
             )
             .clickable(
                 enabled = isFroggyLayout,

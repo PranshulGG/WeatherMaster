@@ -6,22 +6,17 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.focusable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.LoadingIndicator
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
@@ -32,23 +27,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
-import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
-import com.pranshulgg.weather_master_app.feature.main.components.CreditsBottomSection
-import com.pranshulgg.weather_master_app.feature.main.components.FroggyContainer
 import com.pranshulgg.weather_master_app.feature.main.components.MainSearchBar
-import com.pranshulgg.weather_master_app.feature.main.ui.AlertsSection
 import com.pranshulgg.weather_master_app.feature.main.ui.BackgroundGradient
-import com.pranshulgg.weather_master_app.feature.main.ui.CurrentWeatherCard
+import com.pranshulgg.weather_master_app.feature.main.ui.layouts.PhoneLayout
+import com.pranshulgg.weather_master_app.feature.main.ui.layouts.TabletLayout
 import com.pranshulgg.weather_master_app.feature.main.ui.weatherAnimations.WeatherAnimations
 import com.pranshulgg.weather_master_app.feature.shared.WeatherViewModel
-import com.pranshulgg.weather_master_app.feature.shared.components.blocks.WeatherBlocks
-import com.pranshulgg.weather_master_app.feature.shared.ui.DailyCard
-import com.pranshulgg.weather_master_app.feature.shared.ui.HourlyCard
-import com.pranshulgg.weather_master_app.feature.shared.ui.SummaryCard
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -60,8 +49,8 @@ fun MainScreenScaffold(
     onEditLocation: () -> Unit,
     context: Context,
     onWeatherSourceInfoClick: () -> Unit,
-    isTabletLike: Boolean,
-    viewModel: WeatherViewModel
+    viewModel: WeatherViewModel,
+    isTabletLike: Boolean = false
 ) {
 
 
@@ -70,6 +59,8 @@ fun MainScreenScaffold(
     val airQuality = remember(uiState.airQuality) { uiState.airQuality }
     val prefs = LocalAppPrefs.current
     val alerts = remember(uiState.alerts) { uiState.alerts }
+
+    val layoutDirection = LocalLayoutDirection.current
 
     val units = uiState.weatherUnits
     val scrollState = rememberScrollState()
@@ -94,7 +85,7 @@ fun MainScreenScaffold(
     Scaffold(
         containerColor = if (isWeatherBasedTheme) Color.Black else MaterialTheme.colorScheme.surfaceContainerHigh,
     ) { paddingValues ->
-        Box {
+        Box() {
 
 
             if (isWeatherBasedTheme) {
@@ -109,7 +100,7 @@ fun MainScreenScaffold(
                     weather?.let {
                         WeatherAnimations(
                             weather,
-                            if (isTabletLike) false else isFroggyLayout
+                            isFroggyLayout
                         )
                     }
                 }
@@ -144,81 +135,61 @@ fun MainScreenScaffold(
                         fadeIn() togetherWith fadeOut()
                     }
                 ) { weather ->
+
                     Column(
                         modifier = Modifier
                             .fillMaxHeight()
                             .fillMaxWidth()
                             .verticalScroll(scrollState),
                     ) {
+
+
                         MainSearchBar(
-                            isFroggyLayout = if (isTabletLike) false else isFroggyLayout,
+                            isFroggyLayout = isFroggyLayout,
                             paddingValues = paddingValues,
                             navController,
                             drawerState,
                             uiState.activeLocation,
-                            onEditLocation
+                            onEditLocation,
+                            layoutDirection
                         )
                         if (weather != null) {
-                            CurrentWeatherCard(
-                                weather,
-                                units,
-                                context,
-                                isFroggyLayout = if (isTabletLike) false else isFroggyLayout
-                            )
-                            if (if (isTabletLike) false else isFroggyLayout) {
-                                FroggyContainer(weather)
-                            }
-                            Column(
-                                Modifier.padding(
-                                    start = 16.dp,
-                                    end = 16.dp,
-                                    top = 24.dp
-                                ),
-                                verticalArrangement = Arrangement.spacedBy(14.dp)
-                            ) {
-                                if (alerts.isNotEmpty()) {
-                                    AlertsSection(
-                                        alerts,
-                                        prefs,
-                                        weather.location.timezone,
-                                        onAlertClick = {
-                                            navController.navigate(
-                                                NavRoutes.alerts(
-                                                    weather.location.id
-                                                )
-                                            )
-                                        }
-                                    )
-                                }
-                                if (isShowSummary) {
-                                    SummaryCard(
-                                        weather,
-                                        context = context,
-                                        units = units
-                                    )
-                                }
-                                HourlyCard(weather, units)
-                                DailyCard(weather, units, navController)
-                                WeatherBlocks(
+                            if (!isTabletLike) {
+                                PhoneLayout(
                                     weather,
-                                    airQuality,
                                     units,
                                     context,
-                                    uiState.blocks,
-                                    navController = navController,
-                                    isAirQualityLoading = uiState.isAirQualityLoading,
-                                    viewModel = viewModel
+                                    isFroggyLayout,
+                                    navController,
+                                    alerts,
+                                    prefs,
+                                    viewModel,
+                                    onWeatherSourceInfoClick,
+                                    isShowSummary,
+                                    airQuality,
+                                    uiState
                                 )
-
-                                CreditsBottomSection(
+                            } else {
+                                TabletLayout(
                                     weather,
-                                    onClick = onWeatherSourceInfoClick
+                                    units,
+                                    context,
+                                    isFroggyLayout,
+                                    navController,
+                                    alerts,
+                                    prefs,
+                                    viewModel,
+                                    onWeatherSourceInfoClick,
+                                    isShowSummary,
+                                    airQuality,
+                                    uiState,
+                                    paddingValues,
+                                    layoutDirection
                                 )
                             }
                         }
                     }
                 }
-
             }
         }
     }

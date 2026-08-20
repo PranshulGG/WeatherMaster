@@ -3,6 +3,8 @@ package com.pranshulgg.weather_master_app.feature.locations
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -29,7 +31,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -64,7 +68,7 @@ fun LocationsScreen(
     locations: List<Location>,
     activeLocation: Location?,
     onLocationSelect: (Location) -> Unit,
-    weatherViewModel: WeatherViewModel,
+    weatherViewModel: WeatherViewModel
 ) {
 
     val viewModel: LocationsScreenViewModel = hiltViewModel()
@@ -72,6 +76,7 @@ fun LocationsScreen(
         initialValue = SheetValue.Hidden,
         enabledValues = setOf(SheetValue.Expanded, SheetValue.Hidden)
     )
+    val layoutDirection = LocalLayoutDirection.current
 
 
     val uiState = viewModel.uiState
@@ -109,6 +114,7 @@ fun LocationsScreen(
 
 
 
+
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surfaceContainer,
         topBar = {
@@ -119,10 +125,18 @@ fun LocationsScreen(
         },
         floatingActionButtonPosition = FabPosition.Center,
     ) { paddingValues ->
+
+        val startPadding = paddingValues.calculateStartPadding(layoutDirection)
+        val endPadding = paddingValues.calculateEndPadding(layoutDirection)
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = paddingValues.calculateTopPadding())
+                .padding(
+                    top = paddingValues.calculateTopPadding(),
+                    start = startPadding,
+                    end = endPadding
+                )
         ) {
             LocationsScreenContent(
                 locations,

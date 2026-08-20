@@ -158,7 +158,6 @@ fun MainScreen(navController: NavController, weatherViewModel: WeatherViewModel)
             )
         },
         drawerState = drawerState,
-        isTabletLike = isTabletLike,
         content = {
             MainScreenScaffold(
                 navController,
@@ -178,8 +177,8 @@ fun MainScreen(navController: NavController, weatherViewModel: WeatherViewModel)
                 },
                 context,
                 onWeatherSourceInfoClick = viewModel::showWeatherSourcesInfoForLocationSheet,
-                isTabletLike,
-                weatherViewModel
+                weatherViewModel,
+                isTabletLike = isTabletLike
             )
         }
     )
