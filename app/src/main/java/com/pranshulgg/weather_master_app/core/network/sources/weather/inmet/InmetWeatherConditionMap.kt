@@ -20,6 +20,8 @@ object InmetWeatherConditionMap {
             2, 29, 30 -> WeatherCondition.PARTLY_CLOUDY
             3 -> WeatherCondition.OVERCAST
             4 -> WeatherCondition.OVERCAST
+            34 -> WeatherCondition.OVERCAST
+            56 -> WeatherCondition.LIGHT_RAIN
             5, 6 -> WeatherCondition.RAIN
             7 -> WeatherCondition.THUNDERSTORM
             8 -> WeatherCondition.THUNDERSTORM

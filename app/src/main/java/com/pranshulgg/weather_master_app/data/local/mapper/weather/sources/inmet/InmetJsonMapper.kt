@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.inmet
 
+import android.util.Log
 import com.pranshulgg.weather_master_app.core.model.astro.MoonPhase
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
@@ -370,7 +371,7 @@ private fun createCurrentFromForecast(
         listOfNotNull(it.tempMax, it.tempMin).averageOrNull()
     }
 
-    val humidity = 0.0
+    val humidity = null // Current humidity is nullable
     val windKmh = currentPeriod?.intVento?.let { parseWindIntensityToKmh(it) }
         ?: dayJson?.intVento?.let { parseWindIntensityToKmh(it) }
     val windMs = windKmh?.let { WindSpeedUnit.KPH.convert(it, WindSpeedUnit.MPS) }

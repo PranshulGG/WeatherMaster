@@ -417,7 +417,6 @@ class WeatherViewModel @Inject constructor(
                     )
             }
 
-            // Fail silently, we just won't show the Air quality in the UI
             is AlertResult.Error -> {
                 _uiState.value = _uiState.value.copy(
                     alerts = result.cacheAlerts

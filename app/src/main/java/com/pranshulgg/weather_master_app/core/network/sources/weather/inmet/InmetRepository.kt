@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.core.network.sources.weather.inmet
 
+import android.util.Log
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.sources.Source
@@ -92,8 +93,10 @@ class InmetRepository @Inject constructor(
 
                 val hourlyObservations = try {
                     val stationCode = resolveNearestStationCode(location)
+
                     if (stationCode != null) {
                         val today = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE)
+
                         val result = safeApiCall {
                             observationApi.fetchHourlyData(today, today, stationCode)
                         }
@@ -147,6 +150,7 @@ class InmetRepository @Inject constructor(
         when (shouldReturnCache) {
             AlertResultType.RETURN_CACHE ->
                 return@withContext AlertResult.Success(cache.map { it!!.toDomain() })
+
             else -> {}
         }
 
@@ -224,7 +228,7 @@ class InmetRepository @Inject constructor(
                 ?.filter { it.cdSituacao == "Operante" && it.tpEstacao == "Automatica" }
                 ?.filter {
                     it.vlLatitude.toDoubleOrNull() != null &&
-                        it.vlLongitude.toDoubleOrNull() != null
+                            it.vlLongitude.toDoubleOrNull() != null
                 }
             stations?.let { cachedStations = it }
             stations
@@ -257,8 +261,10 @@ class InmetRepository @Inject constructor(
         lon: Double
     ): InmetStationJson? {
         return minByOrNull { station ->
-            val stationLat = station.vlLatitude.toDoubleOrNull() ?: return@minByOrNull Double.MAX_VALUE
-            val stationLon = station.vlLongitude.toDoubleOrNull() ?: return@minByOrNull Double.MAX_VALUE
+            val stationLat =
+                station.vlLatitude.toDoubleOrNull() ?: return@minByOrNull Double.MAX_VALUE
+            val stationLon =
+                station.vlLongitude.toDoubleOrNull() ?: return@minByOrNull Double.MAX_VALUE
             haversineDistance(lat, lon, stationLat, stationLon)
         }
     }
@@ -280,8 +286,8 @@ class InmetRepository @Inject constructor(
         val dLat = Math.toRadians(lat2 - lat1)
         val dLon = Math.toRadians(lon2 - lon1)
         val a = sin(dLat / 2) * sin(dLat / 2) +
-            cos(Math.toRadians(lat1)) * cos(Math.toRadians(lat2)) *
-            sin(dLon / 2) * sin(dLon / 2)
+                cos(Math.toRadians(lat1)) * cos(Math.toRadians(lat2)) *
+                sin(dLon / 2) * sin(dLon / 2)
         val c = 2 * atan2(sqrt(a), sqrt(1 - a))
         return r * c
     }
