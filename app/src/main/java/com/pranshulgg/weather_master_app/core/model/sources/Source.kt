@@ -237,16 +237,31 @@ fun getSourcesForCountry(countryCode: String?): List<Source> {
     return sourcesByCountry[countryCode] ?: emptyList()
 }
 
-
-// GLOBAL SOURCES
+/**
+ * Any source that has global coverage,
+ * including regional sources with global data,
+ * must be added here.
+ */
 private val sourcesGlobal = listOf(
+
+    // GLOBAL
     Source.OPEN_METEO,
-    Source.MET_NORWAY,
-    Source.METEO_FRANCE,
     Source.ACCU_WEATHER,
+    Source.PIRATE_WEATHER,
+
+    // REGIONAL WITH GLOBAL
     Source.GISMETEO,
     Source.MET_OFFICE,
-    Source.PIRATE_WEATHER
+    Source.MET_NORWAY,
+    Source.METEO_FRANCE,
+
+    // ALERTS
+    Source.WEATHER_API,
+    Source.WMO_SEVERE_WEATHER,
+    Source.FPAS,
+
+    // Yes, "NONE" is a global source :P
+    Source.NONE
 )
 
 fun getSourcesGlobal(): List<Source> {
