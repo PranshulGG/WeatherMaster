@@ -46,15 +46,13 @@ object AppModule {
         airQualityDao: AirQualityDao,
         nominatimRepository: NominatimRepository,
         @ApplicationContext context: Context,
-        nwsDao: NwsDao,
-        locationKeysDao: LocationKeysDao
+        weatherDataReconcilerRepository: WeatherDataReconcilerRepository
     ): LocationsRepository = LocationsRepository(
         dao,
         airQualityDao,
         context,
         nominatimRepository,
-        nwsDao,
-        locationKeysDao
+        weatherDataReconcilerRepository
     )
 
 

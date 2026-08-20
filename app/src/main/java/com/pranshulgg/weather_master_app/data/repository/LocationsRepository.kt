@@ -10,9 +10,7 @@ import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModel
 import com.pranshulgg.weather_master_app.core.network.sources.address.nominatim.json.NominatimRepository
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
-import com.pranshulgg.weather_master_app.data.local.dao.location.LocationKeysDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
-import com.pranshulgg.weather_master_app.data.local.dao.weather.nws.NwsDao
 import com.pranshulgg.weather_master_app.data.local.mapper.airquality.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.locations.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.locations.toEntity
@@ -35,8 +33,7 @@ class LocationsRepository @Inject constructor(
     private val airQualityDao: AirQualityDao,
     @param:ApplicationContext private val context: Context,
     private val nominatimRepository: NominatimRepository,
-    private val nwsDao: NwsDao,
-    private val locationKeysDao: LocationKeysDao
+    private val weatherDataReconcilerRepository: WeatherDataReconcilerRepository
 ) {
     private val LOCATION_UPDATE_THRESHOLD_METERS = 1000f // 1000m
 
@@ -178,8 +175,7 @@ class LocationsRepository @Inject constructor(
         // location's name/coordinates update correctly but the actual weather stays pinned to
         // wherever it was last resolved (e.g. still showing the old city's weather under the new
         // city's name after traveling).
-        nwsDao.deleteGridPointsForLocation(currentLocation.id)
-        locationKeysDao.deleteCityKeyForLocation(currentLocation.id)
+        weatherDataReconcilerRepository.cleanLocationExtras(currentLocation.id)
 
         val address = try {
             nominatimRepository.getAddress(

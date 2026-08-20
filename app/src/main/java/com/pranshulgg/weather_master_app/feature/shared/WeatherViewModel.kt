@@ -3,6 +3,9 @@ package com.pranshulgg.weather_master_app.feature.shared
 import android.content.Context
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pranshulgg.weather_master_app.R
@@ -52,8 +55,29 @@ class WeatherViewModel @Inject constructor(
     private var _uiState = mutableStateOf(MainScreenWeatherUiState())
     val uiState: State<MainScreenWeatherUiState> = _uiState
 
+    // Registered on the process-wide lifecycle (same pattern as AppVisibility) rather than a
+    // Compose LocalLifecycleOwner tied to a screen: a screen-scoped observer gets torn down and
+    // recreated by ordinary in-app navigation, and Android replays a synthetic ON_START to any
+    // newly-added observer when the Activity is already started, firing a spurious refresh on
+    // every navigation instead of only on a genuine app resume. init{} runs exactly once for
+    // this ViewModel's lifetime, so this observer is only ever added once.
+    private val processLifecycleObserver = object : DefaultLifecycleObserver {
+        override fun onStart(owner: LifecycleOwner) {
+            val location = _uiState.value.activeLocation ?: return
+            startAutoRefresh(location = location, source = location.source)
+            // isInitialized guard avoids duplicating setActiveLocation()'s cold-start fetch.
+            if (_uiState.value.isInitialized) {
+                getWeather(location = location, source = location.source)
+            }
+        }
+
+        override fun onStop(owner: LifecycleOwner) {
+            stopAutoRefresh()
+        }
+    }
 
     init {
+        ProcessLifecycleOwner.get().lifecycle.addObserver(processLifecycleObserver)
 
         // LOAD DEFAULT ON START
         viewModelScope.launch {
@@ -430,5 +454,10 @@ class WeatherViewModel @Inject constructor(
     fun stopAutoRefresh() {
         autoRefreshJob?.cancel()
         autoRefreshJob = null
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        ProcessLifecycleOwner.get().lifecycle.removeObserver(processLifecycleObserver)
     }
 }
