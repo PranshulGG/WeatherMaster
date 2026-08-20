@@ -345,10 +345,11 @@
     <string name="country_finland">Finlandiya</string>
     <string name="country_indonesia">Endonezya</string>
     <string name="country_italy">İtalya</string>
+    <string name="country_japan">Japan</string>
     <string name="country_portugal">Portekiz</string>
     <string name="country_russia">Rusya</string>
     <string name="country_spain">İspanya</string>
-    <string name="country_taiwan">Taiwan</string>
+    <string name="country_taiwan">Tayvan</string>
     <string name="settings_date_format">Tarih biçimi</string>
     <string name="widget_settings_display_hourly_secondary">Saatlik hava durumu yerine günlük hava durumunu göster</string>
     <string name="settings_widget_background">Widget arka planı</string>
@@ -402,12 +403,12 @@
     <string name="weather_airquality_source">Hava kalitesi kaynağı</string>
     <string name="country_india">Hindistan</string>
     <string name="error_secure_connection_failed">Güvenli bağlantı sağlanamadı</string>
-    <string name="error_empty_response_body">The server returned an empty response.</string>
-    <string name="error_bad_request">The server could not process the request.</string>
-    <string name="error_unauthorized">Authentication with the service failed.</string>
-    <string name="error_forbidden">Access to this resource was denied.</string>
-    <string name="error_not_found">The requested resource could not be found.</string>
-    <string name="error_request_timeout">The server did not respond in time.</string>
-    <string name="error_too_many_requests">The request limit has been reached.</string>
+    <string name="error_empty_response_body">Sunucu cevap vermedi.</string>
+    <string name="error_bad_request">Sunucu isteği işleyemedi.</string>
+    <string name="error_unauthorized">Servis kimliği doğrulayamadı.</string>
+    <string name="error_forbidden">Bu kaynağa erişim reddedildi.</string>
+    <string name="error_not_found">İstenilen kaynak bulunamadı.</string>
+    <string name="error_request_timeout">Sunucu zaman aşımına uğradı.</string>
+    <string name="error_too_many_requests">İstek sınırına ulaşıldı.</string>
 </resources>
 <!--<string name=""></string>-->

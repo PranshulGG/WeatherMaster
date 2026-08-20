@@ -345,6 +345,7 @@
     <string name="country_finland">Finlândia</string>
     <string name="country_indonesia">Indonésia</string>
     <string name="country_italy">Itália</string>
+    <string name="country_japan">Japão</string>
     <string name="country_portugal">Portugal</string>
     <string name="country_russia">Rússia</string>
     <string name="country_spain">Espanha</string>
@@ -372,7 +373,7 @@
     <string name="unit_wind_bft_short">bft</string>
     <string name="unit_pressure_mmhg_short">mmHG</string>
     <string name="unit_wind_mps_short">m/s</string>
-    <string name="unit_wind_mph_short">milhas/h</string>
+    <string name="unit_wind_mph_short">mph</string>
     <string name="unit_wind_kph_short">km/h</string>
     <string name="unit_pressure_hpa_short">hPa</string>
     <string name="unit_pressure_inhg_short">inHG</string>
@@ -380,7 +381,7 @@
     <string name="unit_distance_mi_short">mi</string>
     <string name="unit_distance_m_short">m</string>
     <string name="unit_precipitation_mm_short">mm</string>
-    <string name="unit_precipitation_inch_short">in</string>
+    <string name="unit_precipitation_inch_short">pol</string>
     <string name="unit_precipitation_cm_short">cm</string>
     <string name="settings_widget_show_precip_probability">Mostrar probabilidade de precipitação</string>
     <string name="settings_widget_show_precip_probability_secondary">Exibe a probabilidade de precipitação somente quando a fonte selecionada a fornece</string>
@@ -392,7 +393,7 @@
     <string name="settings_api_key_config">Configuração das chaves de API</string>
     <string name="source_regional_global">Regional com cobertura global</string>
     <string name="error_no_api_key">Nenhuma chave de API encontrada. Adicione sua chave de API nas configurações</string>
-    <string name="error_api_key_rejected">Sua chave de API foi rejeitada. Ela pode ser inválida ou ter expirado, verifique-a nas configurações da chave de API.</string>
+    <string name="error_api_key_rejected">Sua chave de API foi rejeitada. Ela pode ser inválida ou ter expirado — verifique-a nas configurações da chave de API.</string>
     <string name="weather_mixed_precipitation">Precipitação mista</string>
     <string name="weather_hail">Granizo</string>
     <string name="weather_sleet">Chuva congelada</string>
@@ -403,12 +404,12 @@
     <string name="weather_airquality_source">Fonte da qualidade do ar</string>
     <string name="country_india">Índia</string>
     <string name="error_secure_connection_failed">Falha na conexão segura</string>
-    <string name="error_empty_response_body">The server returned an empty response.</string>
-    <string name="error_bad_request">The server could not process the request.</string>
-    <string name="error_unauthorized">Authentication with the service failed.</string>
-    <string name="error_forbidden">Access to this resource was denied.</string>
-    <string name="error_not_found">The requested resource could not be found.</string>
-    <string name="error_request_timeout">The server did not respond in time.</string>
-    <string name="error_too_many_requests">The request limit has been reached.</string>
+    <string name="error_empty_response_body">O servidor retornou uma resposta vazia.</string>
+    <string name="error_bad_request">O servidor não conseguiu processar a solicitação.</string>
+    <string name="error_unauthorized">A autenticação no serviço falhou.</string>
+    <string name="error_forbidden">O acesso a este recurso foi negado.</string>
+    <string name="error_not_found">O recurso solicitado não foi encontrado.</string>
+    <string name="error_request_timeout">O servidor não respondeu a tempo.</string>
+    <string name="error_too_many_requests">O limite de solicitações foi atingido.</string>
 </resources>
 <!--<string name=""></string>-->

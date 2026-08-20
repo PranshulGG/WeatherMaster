@@ -345,6 +345,7 @@
     <string name="country_finland">Finland</string>
     <string name="country_indonesia">Indonesië</string>
     <string name="country_italy">Italië</string>
+    <string name="country_japan">Japan</string>
     <string name="country_portugal">Portugal</string>
     <string name="country_russia">Rusland</string>
     <string name="country_spain">Spanje</string>
@@ -402,12 +403,12 @@
     <string name="weather_airquality_source">Luchtkwaliteit bron</string>
     <string name="country_india">India</string>
     <string name="error_secure_connection_failed">Beveiligde verbinding mislukt</string>
-    <string name="error_empty_response_body">The server returned an empty response.</string>
-    <string name="error_bad_request">The server could not process the request.</string>
-    <string name="error_unauthorized">Authentication with the service failed.</string>
-    <string name="error_forbidden">Access to this resource was denied.</string>
-    <string name="error_not_found">The requested resource could not be found.</string>
-    <string name="error_request_timeout">The server did not respond in time.</string>
-    <string name="error_too_many_requests">The request limit has been reached.</string>
+    <string name="error_empty_response_body">De server heeft een leeg antwoord teruggestuurd.</string>
+    <string name="error_bad_request">De server kon het verzoek niet verwerken.</string>
+    <string name="error_unauthorized">Authenticatie met de service is gefaald.</string>
+    <string name="error_forbidden">Toegang tot deze bron is afgewezen.</string>
+    <string name="error_not_found">De aangevraagde bron kon niet gevonden worden.</string>
+    <string name="error_request_timeout">De server reageerde niet op tijd.</string>
+    <string name="error_too_many_requests">De verzoek limiet is bereikt.</string>
 </resources>
 <!--<string name=""></string>-->

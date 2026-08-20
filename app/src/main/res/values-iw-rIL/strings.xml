@@ -29,19 +29,20 @@
     <plurals name="time_minutes_ago">
         <item quantity="one">לפני %d דקה</item>
         <item quantity="two">לפני %d דקות</item>
+        <item quantity="many">לפני %d דקות</item>
         <item quantity="other">לפני %d דקות</item>
     </plurals>
-
     <plurals name="time_hours_ago">
         <item quantity="one">לפני %d שעה</item>
         <item quantity="two">לפני %d שעות</item>
+        <item quantity="many">לפני %d דקות</item>
         <item quantity="other">לפני %d דקות</item>
     </plurals>
-
     <plurals name="time_days_ago">
         <item quantity="one">לפני %d יום</item>
         <item quantity="two">לפני %d ימים</item>
-        <item quantity="other">לפני %d דקות</item>
+        <item quantity="many">לפני %d ימים</item>
+        <item quantity="other">לפני %d ימים</item>
     </plurals>
     <string name="time_just_now">בזה הרגע</string>
     <string name="time_last_updated">עודכן לאחרונה %1$s</string>
@@ -351,6 +352,7 @@
     <string name="country_finland">פינלנד</string>
     <string name="country_indonesia">אינדונזיה</string>
     <string name="country_italy">איטליה</string>
+    <string name="country_japan">Japan</string>
     <string name="country_portugal">פורטוגל</string>
     <string name="country_russia">רוסיה</string>
     <string name="country_spain">ספרד</string>
