@@ -356,6 +356,7 @@
     <string name="country_russia">Rusija</string>
     <string name="country_spain">Ispanija</string>
     <string name="country_taiwan">Taivanas</string>
+    <string name="country_brazil">Brazilija</string>
     <string name="settings_date_format">Datos formatas</string>
     <string name="widget_settings_display_hourly_secondary">Bus rodoma valandinė prognozė vietoj šiandienos prognozės</string>
     <string name="settings_widget_background">Valdiklio fonas</string>
