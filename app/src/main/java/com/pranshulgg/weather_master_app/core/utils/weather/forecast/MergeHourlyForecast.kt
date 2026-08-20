@@ -1,6 +1,8 @@
 package com.pranshulgg.weather_master_app.core.utils.weather.forecast
 
 import com.pranshulgg.weather_master_app.data.local.entity.weather.HourlyWeatherEntity
+import kotlin.time.Clock
+import kotlin.time.Duration.Companion.hours
 
 
 /**
@@ -12,7 +14,11 @@ fun mergeHourlyWeather(
     existing: List<HourlyWeatherEntity>,
     incoming: List<HourlyWeatherEntity>
 ): List<HourlyWeatherEntity> {
+
+    val cutoff = Clock.System.now().minus(24.hours).toEpochMilliseconds()
+
     return (existing + incoming)
+        .filter { it.time >= cutoff }
         .associateBy { it.locationId to it.time }
         .values
         .sortedBy { it.time }
