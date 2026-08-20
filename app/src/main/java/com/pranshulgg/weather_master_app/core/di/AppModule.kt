@@ -45,8 +45,15 @@ object AppModule {
         dao: LocationsDao,
         airQualityDao: AirQualityDao,
         nominatimRepository: NominatimRepository,
-        @ApplicationContext context: Context
-    ): LocationsRepository = LocationsRepository(dao, airQualityDao, context, nominatimRepository)
+        @ApplicationContext context: Context,
+        weatherDataReconcilerRepository: WeatherDataReconcilerRepository
+    ): LocationsRepository = LocationsRepository(
+        dao,
+        airQualityDao,
+        context,
+        nominatimRepository,
+        weatherDataReconcilerRepository
+    )
 
 
     @Provides
