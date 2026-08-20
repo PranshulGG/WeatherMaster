@@ -350,6 +350,7 @@
     <string name="country_russia">Rusia</string>
     <string name="country_spain">España</string>
     <string name="country_taiwan">Taiwán</string>
+    <string name="country_brazil">Brazil</string>
     <string name="settings_date_format">Formato de fecha</string>
     <string name="widget_settings_display_hourly_secondary">Muestra horario en cambio de previsión diaria</string>
     <string name="settings_widget_background">Fondo de widget</string>
