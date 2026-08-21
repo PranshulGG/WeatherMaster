@@ -108,6 +108,8 @@
     <string name="setting_custom_color_secondary">Alege o culoare de bază pentru a genera tema</string>
     <string name="setting_dynamic_colors">Culori dinamice</string>
     <string name="setting_dynamic_colors_secondary">Utilizează culorile fundalului</string>
+    <string name="setting_amoled_theme">AMOLED</string>
+    <string name="setting_amoled_theme_secondary">Use pure black in dark theme</string>
     <string name="weather_total_rain_day">Total ploaie pe parcursul zilei</string>
     <string name="error_network">Fără conexiune la internet</string>
     <string name="weather_total_snow_day">Total ninsoare pe parcursul zilei</string>
