@@ -120,73 +120,97 @@ object EditLocationBottomSheet {
             }
 
 
-            val handeSelection: (Source) -> Unit = {
-                if (!it.requiresUserApiKey) {
-                    currentSelectedSource = it
-                } else if (!isApiKeyAvailable(it)) {
+            val handeSelection: (Source) -> Boolean = { source ->
+                if (!source.requiresUserApiKey) {
+                    currentSelectedSource = source
+                    true
+                } else if (!isApiKeyAvailable(source)) {
                     onClickApiConfig()
+                    true
                 } else {
-                    currentSelectedSource = it
+                    currentSelectedSource = source
+                    true
                 }
             }
             ActionBottomSheet(
                 sheetState = sheetState,
                 onCancel = { onDismiss() },
-                onConfirm = { onSave(currentSelectedSource) },
+                onConfirm = { },
                 confirmText = stringResource(R.string.action_save),
-                cancelText = stringResource(R.string.action_cancel)
-            ) {
-                if (recommendedSources.isNotEmpty()) {
+                cancelText = stringResource(R.string.action_cancel),
+                showActions = false,
+                removeBottomInset = true
+            ) { hide ->
+                Box(
+                    modifier = Modifier.heightIn(max = 700.dp)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .verticalScroll(rememberScrollState())
+                    ) {
+                        if (recommendedSources.isNotEmpty()) {
+                            SettingSection(
+                                title = stringResource(R.string.recommended_sources),
+                                tiles = recommendedSources.map { source ->
+                                    val isSelected = currentSelectedSource == source
 
-                    SettingSection(
-                        title = stringResource(R.string.recommended_sources),
-                        tiles = recommendedSources.map { source ->
-                            val isSelected = currentSelectedSource == source
+                                    val countryString = source.countryNameRes?.let {
+                                        " (${stringResource(it)})"
+                                    } ?: ""
 
-                            val countryString = source.countryNameRes?.let {
-                                " (${stringResource(it)})"
-                            } ?: ""
-
-                            SettingTile.ActionTile(
-                                leading = {
-                                    if (isSelected) Symbol(
-                                        R.drawable.check_24px,
-                                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                                    SettingTile.ActionTile(
+                                        leading = {
+                                            if (isSelected) Symbol(
+                                                R.drawable.check_24px,
+                                                color = MaterialTheme.colorScheme.onSecondaryContainer
+                                            )
+                                        },
+                                        title = source.displayName + countryString,
+                                        description = description(source),
+                                        colorDesc = MaterialTheme.colorScheme.error,
+                                        selected = isSelected,
+                                        onClick = {
+                                            if (handeSelection(source)) {
+                                                onSave(currentSelectedSource)
+                                                hide()
+                                            }
+                                        }
                                     )
-                                },
-                                title = source.displayName + countryString,
-                                description = description(source),
-                                colorDesc = MaterialTheme.colorScheme.error,
-                                selected = isSelected,
-                                onClick = {
-                                    handeSelection(source)
                                 }
                             )
                         }
-                    )
+                        Gap(8.dp)
+                        SettingSection(
+                            title = stringResource(R.string.global_sources),
+                            tiles = sources.filter { it !in recommendedSources }
+                                .map { source ->
+                                    val isSelected = currentSelectedSource == source
+
+                                    SettingTile.ActionTile(
+                                        leading = {
+                                            if (isSelected) Symbol(
+                                                R.drawable.check_24px,
+                                                color = MaterialTheme.colorScheme.onSecondaryContainer
+                                            )
+                                        },
+                                        title = source.displayName,
+                                        selected = isSelected,
+                                        description = description(source),
+                                        colorDesc = MaterialTheme.colorScheme.error,
+                                        onClick = {
+                                            if (handeSelection(source)) {
+                                                onSave(currentSelectedSource)
+                                                hide()
+                                            }
+                                        }
+                                    )
+                                }
+                        )
+
+                        Gap(WindowInsets.systemBars.asPaddingValues().calculateBottomPadding())
+                    }
                 }
-                Gap(8.dp)
-                SettingSection(
-                    title = stringResource(R.string.global_sources),
-                    tiles = sources.filter { it !in recommendedSources }
-                        .map { source ->
-                            val isSelected = currentSelectedSource == source
-
-                            SettingTile.ActionTile(
-                                leading = {
-                                    if (isSelected) Symbol(
-                                        R.drawable.check_24px,
-                                        color = MaterialTheme.colorScheme.onSecondaryContainer
-                                    )
-                                },
-                                title = source.displayName,
-                                selected = isSelected,
-                                onClick = {
-                                    currentSelectedSource = source
-                                }
-                            )
-                        }
-                )
             }
         }
     }
@@ -242,13 +266,16 @@ object EditLocationBottomSheet {
             }
 
 
-            val handeSelection: (Source) -> Unit = {
-                if (!it.requiresUserApiKey) {
-                    currentSelectedSource = it
-                } else if (!isApiKeyAvailable(it)) {
+            val handeSelection: (Source) -> Boolean = { source ->
+                if (!source.requiresUserApiKey) {
+                    currentSelectedSource = source
+                    true
+                } else if (!isApiKeyAvailable(source)) {
                     onClickApiConfig()
+                    true
                 } else {
-                    currentSelectedSource = it
+                    currentSelectedSource = source
+                    true
                 }
             }
 
@@ -257,61 +284,84 @@ object EditLocationBottomSheet {
                 onCancel = { onDismiss() },
                 onConfirm = { onSave(currentSelectedSource) },
                 confirmText = stringResource(R.string.action_save),
-                cancelText = stringResource(R.string.action_cancel)
-            ) {
-                if (recommendedSources.isNotEmpty()) {
+                cancelText = stringResource(R.string.action_cancel),
+                showActions = false,
+                removeBottomInset = true
+            ) { hide ->
+                Box(
+                    modifier = Modifier.heightIn(max = 700.dp)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .verticalScroll(rememberScrollState())
+                    ) {
+                        if (recommendedSources.isNotEmpty()) {
 
-                    SettingSection(
-                        title = stringResource(R.string.recommended_sources),
-                        tiles = recommendedSources.map { source ->
-                            val isSelected = currentSelectedSource == source
+                            SettingSection(
+                                title = stringResource(R.string.recommended_sources),
+                                tiles = recommendedSources.map { source ->
+                                    val isSelected = currentSelectedSource == source
 
-                            val countryString = source.countryNameRes?.let {
-                                " (${stringResource(it)})"
-                            } ?: ""
+                                    val countryString = source.countryNameRes?.let {
+                                        " (${stringResource(it)})"
+                                    } ?: ""
 
-                            SettingTile.ActionTile(
-                                leading = {
-                                    if (isSelected) Symbol(
-                                        R.drawable.check_24px,
-                                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                                    SettingTile.ActionTile(
+                                        leading = {
+                                            if (isSelected) Symbol(
+                                                R.drawable.check_24px,
+                                                color = MaterialTheme.colorScheme.onSecondaryContainer
+                                            )
+                                        },
+                                        title = source.displayName + countryString,
+                                        description = description(source),
+                                        colorDesc = MaterialTheme.colorScheme.error,
+                                        selected = isSelected,
+                                        onClick = {
+                                            if (handeSelection(source)) {
+                                                onSave(currentSelectedSource)
+                                                hide()
+                                            }
+                                        }
                                     )
-                                },
-                                title = source.displayName + countryString,
-                                description = description(source),
-                                colorDesc = MaterialTheme.colorScheme.error,
-                                selected = isSelected,
-                                onClick = {
-                                    handeSelection(source)
                                 }
                             )
                         }
-                    )
+                        Gap(8.dp)
+                        SettingSection(
+                            title = stringResource(R.string.global_sources),
+                            tiles = sources.filter { it !in recommendedSources }
+                                .map { source ->
+                                    val isSelected = currentSelectedSource == source
+
+
+                                    SettingTile.ActionTile(
+                                        leading = {
+                                            if (isSelected) Symbol(
+                                                R.drawable.check_24px,
+                                                color = MaterialTheme.colorScheme.onSecondaryContainer
+                                            )
+                                        },
+                                        title = source.displayName,
+                                        description = description(source),
+                                        colorDesc = MaterialTheme.colorScheme.error,
+                                        selected = isSelected,
+                                        onClick = {
+                                            if (handeSelection(source)) {
+                                                onSave(currentSelectedSource)
+                                                hide()
+                                            }
+                                        }
+                                    )
+
+                                }
+                        )
+
+                        Gap(WindowInsets.systemBars.asPaddingValues().calculateBottomPadding())
+
+                    }
                 }
-                Gap(8.dp)
-                SettingSection(
-                    title = stringResource(R.string.global_sources),
-                    tiles = sources.filter { it !in recommendedSources }
-                        .map { source ->
-                            val isSelected = currentSelectedSource == source
-
-
-                            SettingTile.ActionTile(
-                                leading = {
-                                    if (isSelected) Symbol(
-                                        R.drawable.check_24px,
-                                        color = MaterialTheme.colorScheme.onSecondaryContainer
-                                    )
-                                },
-                                title = source.displayName,
-                                selected = isSelected,
-                                onClick = {
-                                    currentSelectedSource = source
-                                }
-                            )
-
-                        }
-                )
             }
         }
     }

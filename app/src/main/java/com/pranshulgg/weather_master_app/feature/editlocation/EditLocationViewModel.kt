@@ -67,7 +67,13 @@ class EditLocationViewModel @Inject constructor(
     }
 
     fun showAlertSourcesSheet() {
-        _uiState.value = _uiState.value.copy(isAlertSourcesSheetOpen = true)
+        viewModelScope.launch {
+
+            _uiState.value = _uiState.value.copy(
+                apiKeys = apiKeysRepo.getAllApiKeys(),
+                isAlertSourcesSheetOpen = true
+            )
+        }
     }
 
     fun hideAlertSourcesSheet() {
@@ -75,7 +81,13 @@ class EditLocationViewModel @Inject constructor(
     }
 
     fun showAirQualitySourcesSheet() {
-        _uiState.value = _uiState.value.copy(isAirQualitySourcesSheetOpen = true)
+        viewModelScope.launch {
+
+            _uiState.value = _uiState.value.copy(
+                apiKeys = apiKeysRepo.getAllApiKeys(),
+                isAirQualitySourcesSheetOpen = true
+            )
+        }
     }
 
     fun hideAirQualitySourcesSheet() {

@@ -18,6 +18,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
@@ -44,6 +45,7 @@ fun ActionBottomSheet(
     enableHandle: Boolean = true,
     hideConfirmBtn: Boolean = false,
     removeBottomInset: Boolean = false,
+    showActionsBorder: Boolean = false,
     content: @Composable (hide: () -> Unit) -> Unit
 ) {
     val scope = rememberCoroutineScope()
@@ -84,12 +86,14 @@ fun ActionBottomSheet(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(max = 800.dp)
         ) {
 
             content { hide() }
 
             if (showActions) {
+                if (showActionsBorder) {
+                    HorizontalDivider()
+                }
                 Spacer(Modifier.height(12.dp))
                 Row(
                     modifier = Modifier
