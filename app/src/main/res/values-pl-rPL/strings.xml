@@ -111,6 +111,8 @@
     <string name="setting_custom_color_secondary">Wybierz ziarno koloru, aby wygenerować motyw</string>
     <string name="setting_dynamic_colors">Kolory dynamiczne</string>
     <string name="setting_dynamic_colors_secondary">Użyj kolorów tapety</string>
+    <string name="setting_amoled_theme">AMOLED</string>
+    <string name="setting_amoled_theme_secondary">Use pure black in dark theme</string>
     <string name="weather_total_rain_day">Sumaryczna ilość deszczu na dziś</string>
     <string name="error_network">Sieć niedostępna</string>
     <string name="weather_total_snow_day">Sumaryczna ilość śniegu na dziś</string>
