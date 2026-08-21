@@ -20,6 +20,8 @@ object NavRoutes {
 
     const val BACKGROUND_UPDATES = "background_updates"
 
+    const val BACKUP_RESTORE = "backup_restore"
+
     const val ABOUT = "about"
 
     const val TERMS_CONDITIONS = "terms_conditions"

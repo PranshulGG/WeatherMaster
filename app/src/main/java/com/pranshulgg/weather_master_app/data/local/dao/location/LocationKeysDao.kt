@@ -13,9 +13,18 @@ interface LocationKeysDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCityKey(entity: LocationKeyEntity)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(entities: List<LocationKeyEntity>)
+
     @Query("SELECT * FROM location_keys WHERE locationId = :locationId")
     suspend fun getCityKeyForLocation(locationId: String): LocationKeyEntity?
 
+    @Query("SELECT * FROM location_keys")
+    suspend fun getAllCityKeys(): List<LocationKeyEntity>
+
     @Query("DELETE FROM location_keys WHERE locationId = :locationId")
     suspend fun deleteCityKeyForLocation(locationId: String)
+
+    @Query("DELETE FROM location_keys")
+    suspend fun deleteAll()
 }

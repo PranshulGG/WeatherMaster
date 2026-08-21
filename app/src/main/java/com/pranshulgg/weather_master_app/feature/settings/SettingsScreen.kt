@@ -98,6 +98,12 @@ fun SettingsScreen(navController: NavController) {
                         description = getCurrentAppLocale().displayName,
                         onClick = { navController.navigate(NavRoutes.LANGUAGE) }
                     ),
+                    SettingTile.ActionTile(
+                        leading = { SettingsTileIcon(R.drawable.cloud_download_24px) },
+                        title = stringResource(R.string.setting_backup_restore),
+                        description = stringResource(R.string.setting_backup_restore_secondary),
+                        onClick = { navController.navigate(NavRoutes.BACKUP_RESTORE) }
+                    ),
                 )
             )
             SettingSection(

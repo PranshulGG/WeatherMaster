@@ -19,6 +19,12 @@ interface LocationsDao {
         weatherLocation: WeatherLocationEntity
     )
 
+    @Insert(onConflict = OnConflictStrategy.Companion.REPLACE)
+    suspend fun insertAllLocations(locations: List<WeatherLocationEntity>)
+
+    @Query("DELETE FROM weather_locations")
+    suspend fun deleteAllLocations()
+
     @Query("SELECT * FROM weather_locations ORDER BY isDefault DESC")
     fun getLocations(): Flow<List<WeatherLocationEntity>>
 

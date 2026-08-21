@@ -47,6 +47,7 @@ import com.pranshulgg.weather_master_app.feature.settings.about.terms.TermsCondi
 import com.pranshulgg.weather_master_app.feature.settings.appearance.AppearanceScreen
 import com.pranshulgg.weather_master_app.feature.settings.background.BackgroundUpdatesScreen
 import com.pranshulgg.weather_master_app.feature.settings.background.WorkerInfoScreen
+import com.pranshulgg.weather_master_app.feature.settings.backup.BackupScreen
 import com.pranshulgg.weather_master_app.feature.settings.language.LanguageScreen
 import com.pranshulgg.weather_master_app.feature.settings.sources.WeatherSourcesScreen
 import com.pranshulgg.weather_master_app.feature.settings.units.UnitsScreen
@@ -114,6 +115,11 @@ fun AppNavHost(
                     NavRoutes.BACKGROUND_UPDATES
                 ) {
                     BackgroundUpdatesScreen(navController)
+                }
+                composable(
+                    NavRoutes.BACKUP_RESTORE
+                ) {
+                    BackupScreen(navController)
                 }
                 composable(
                     route = "${NavRoutes.DAILY}/{index}/{locationId}",
