@@ -111,6 +111,8 @@
     <string name="setting_custom_color_secondary">Виберіть колір, щоб створити тему</string>
     <string name="setting_dynamic_colors">Динамічні кольори</string>
     <string name="setting_dynamic_colors_secondary">Використовувати кольори шпалер</string>
+    <string name="setting_amoled_theme">AMOLED</string>
+    <string name="setting_amoled_theme_secondary">Use pure black in dark theme</string>
     <string name="weather_total_rain_day">Загальна кількість опадів за день</string>
     <string name="error_network">Немає мережі</string>
     <string name="weather_total_snow_day">Загальна кількість опадів за день</string>
