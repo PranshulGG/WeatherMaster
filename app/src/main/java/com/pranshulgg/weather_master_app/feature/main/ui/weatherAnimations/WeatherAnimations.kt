@@ -27,7 +27,9 @@ fun WeatherAnimations(weather: Weather, isFroggyLayout: Boolean) {
 
         WeatherCondition.RAIN -> RainCanvas(rainDropCount = 50, isFroggyLayout = isFroggyLayout)
 
-        WeatherCondition.HEAVY_RAIN -> RainCanvas(
+
+        // TODO: implement animations for SLEET, HAIL, AND MIXED
+        WeatherCondition.HEAVY_RAIN, WeatherCondition.SLEET, WeatherCondition.HAIL, WeatherCondition.MIXED_PRECIPITATION -> RainCanvas(
             rainDropCount = 80,
             isFroggyLayout = isFroggyLayout
         )

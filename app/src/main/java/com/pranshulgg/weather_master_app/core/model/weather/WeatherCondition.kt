@@ -241,7 +241,7 @@ fun WeatherCondition.toFroggy(daily: WeatherDaily? = null, targetTimeMilli: Long
 
         WeatherCondition.PARTLY_CLOUDY -> R.drawable.froggy_partly_cloudy
 
-        WeatherCondition.HEAVY_RAIN -> R.drawable.froggy_rain
+        WeatherCondition.HEAVY_RAIN, WeatherCondition.HAIL, WeatherCondition.SLEET -> R.drawable.froggy_rain
         WeatherCondition.LIGHT_RAIN -> R.drawable.froggy_light_rain
 
         WeatherCondition.LIGHT_SNOW -> R.drawable.froggy_snow
@@ -261,9 +261,11 @@ fun WeatherCondition.toFroggy(daily: WeatherDaily? = null, targetTimeMilli: Long
 
         WeatherCondition.RAIN -> R.drawable.froggy_rain
 
-        WeatherCondition.NO_CONDITION_FOUND -> R.drawable.weather_not_available
+        WeatherCondition.MIXED_PRECIPITATION -> R.drawable.froggy_mixed_precip
 
-        else -> R.drawable.weather_not_available
+        WeatherCondition.NO_CONDITION_FOUND -> R.drawable.froggy_no_condition_found
+
+        else -> R.drawable.froggy_no_condition_found
 
     }
 

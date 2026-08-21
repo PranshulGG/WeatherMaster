@@ -83,9 +83,9 @@ private fun gradients(
 
         WeatherCondition.OVERCAST -> colors.OVERCAST
 
-        WeatherCondition.SNOW, WeatherCondition.HEAVY_SNOW, WeatherCondition.LIGHT_SNOW -> colors.SNOW
+        WeatherCondition.SNOW, WeatherCondition.HEAVY_SNOW, WeatherCondition.LIGHT_SNOW, WeatherCondition.MIXED_PRECIPITATION -> colors.SNOW
 
-        WeatherCondition.RAIN, WeatherCondition.HEAVY_RAIN, WeatherCondition.LIGHT_RAIN -> colors.RAIN
+        WeatherCondition.RAIN, WeatherCondition.HEAVY_RAIN, WeatherCondition.LIGHT_RAIN, WeatherCondition.SLEET, WeatherCondition.HAIL -> colors.RAIN
 
         WeatherCondition.FOG_HAZE -> colors.FOG_HAZE
 
