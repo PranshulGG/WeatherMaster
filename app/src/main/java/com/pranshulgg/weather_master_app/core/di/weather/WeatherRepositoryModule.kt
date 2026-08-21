@@ -42,6 +42,8 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.openweather.OpenWeatherApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.openweather.OpenWeatherRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.pirateweather.PirateWeatherApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.pirateweather.PirateWeatherRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.smhi.SmhiApi
@@ -272,4 +274,15 @@ object WeatherRepositoryModule {
         locationKeysDao,
         alertsDao
     )
+
+    @Provides
+    @Singleton
+    fun provideOpenWeatherRepository(
+        dao: LocationsDao,
+        weatherDao: WeatherDao,
+        api: OpenWeatherApi,
+        airQualityDao: AirQualityDao,
+        apiKeysDao: ApiKeysDao
+    ): OpenWeatherRepository =
+        OpenWeatherRepository(dao, weatherDao, api, airQualityDao, apiKeysDao)
 }

@@ -129,21 +129,48 @@ data class AirQuality(
 
 data class AirQualityCurrent(
     val usAqi: Int?,
+
+    /** µg/m³. */
     val pm10: Double?,
+
+    /** µg/m³. */
     val pm25: Double?,
+
+    /** µg/m³. */
     val carbonMonoxide: Double?,
+
+    /** µg/m³. */
     val nitrogenDioxide: Double?,
+
+    /** µg/m³. */
     val sulphurDioxide: Double?,
+
+    /** µg/m³. */
     val ozone: Double?,
+
+    /** Milliseconds */
     val lastUpdatedInMilli: Long
 )
 
 data class AirQualityHourly(
+    /** µg/m³. */
     val pm10: Double?,
+
+    /** µg/m³. */
     val pm25: Double?,
+
+    /** µg/m³. */
     val carbonMonoxide: Double?,
+
+    /** µg/m³. */
     val nitrogenDioxide: Double?,
+
+    /** µg/m³. */
     val sulphurDioxide: Double?,
+
+    /** µg/m³. */
     val ozone: Double?,
-    val time: Long, // SECONDS
+
+    /** Seconds */
+    val time: Long,
 )

@@ -190,6 +190,14 @@ enum class Source(
         displayLink = "https://portal.inmet.gov.br/",
         countryNameRes = R.string.country_brazil,
         capabilities = setOf(Capability.WEATHER, Capability.ALERTS)
+    ),
+
+    OPEN_WEATHER(
+        displayName = "OpenWeather",
+        fullName = "OpenWeather",
+        displayLink = "https://openweathermap.org/",
+        capabilities = setOf(Capability.WEATHER, Capability.AIR_QUALITY),
+        requiresUserApiKey = true
     );
 
     // Sources that provide snow/rain as precipitation
@@ -248,6 +256,7 @@ private val sourcesGlobal = listOf(
     Source.OPEN_METEO,
     Source.ACCU_WEATHER,
     Source.PIRATE_WEATHER,
+    Source.OPEN_WEATHER,
 
     // REGIONAL WITH GLOBAL
     Source.GISMETEO,

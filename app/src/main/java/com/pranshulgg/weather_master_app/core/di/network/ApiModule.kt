@@ -32,6 +32,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.metoffice.
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.airquality.OpenMeteoAqiApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.openweather.OpenWeatherApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.pirateweather.PirateWeatherApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.smhi.SmhiApi
 import dagger.Module
@@ -179,4 +180,8 @@ object ApiModule {
     @Provides
     @Singleton
     fun provideIbgeApi(): IbgeApi = IbgeApi.create()
+
+    @Provides
+    @Singleton
+    fun provideOpenWeatherApi(): OpenWeatherApi = OpenWeatherApi.create()
 }
