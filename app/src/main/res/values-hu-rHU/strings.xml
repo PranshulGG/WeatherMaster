@@ -105,6 +105,8 @@
     <string name="setting_custom_color_secondary">Válassz egy színt, hogy generálj egy témát</string>
     <string name="setting_dynamic_colors">Dinamikus színek</string>
     <string name="setting_dynamic_colors_secondary">Háttérkép színének használata</string>
+    <string name="setting_amoled_theme">AMOLED</string>
+    <string name="setting_amoled_theme_secondary">Use pure black in dark theme</string>
     <string name="weather_total_rain_day">Napi csapadékmennyiség</string>
     <string name="error_network">Hálózat nem elérhető</string>
     <string name="weather_total_snow_day">Napi hó mennyiség</string>
