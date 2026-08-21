@@ -105,6 +105,8 @@
     <string name="setting_custom_color_secondary">Selecciona un color base para generar el tema</string>
     <string name="setting_dynamic_colors">Colores dinámicos</string>
     <string name="setting_dynamic_colors_secondary">Usar colores de su fondo de pantalla</string>
+    <string name="setting_amoled_theme">AMOLED</string>
+    <string name="setting_amoled_theme_secondary">Use pure black in dark theme</string>
     <string name="weather_total_rain_day">Precipitación acumulada del día</string>
     <string name="error_network">Red no disponible </string>
     <string name="weather_total_snow_day">Precipitación de nevada del día</string>
