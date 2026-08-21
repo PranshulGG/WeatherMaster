@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_launcher_name">Cuaca</string>
-    <string name="weather_hourly_forecast">Ramalan setiap jam </string>
+    <string name="weather_hourly_forecast">Ramalan setiap jam</string>
     <string name="action_save">Simpan</string>
     <string name="action_cancel">Batal</string>
     <string name="weather_daily_forecast">Ramalan harian </string>
@@ -342,10 +342,10 @@
     <string name="country_finland">Finlandia</string>
     <string name="country_indonesia">Indonesia</string>
     <string name="country_italy">Italia</string>
-    <string name="country_japan">Japan</string>
+    <string name="country_japan">Jepang</string>
     <string name="country_portugal">Portugal</string>
     <string name="country_russia">Rusia</string>
-    <string name="country_spain">Spain</string>
+    <string name="country_spain">Spanyol</string>
     <string name="country_taiwan">Taiwan</string>
     <string name="country_brazil">Brazil</string>
     <string name="settings_date_format">Format tanggal</string>
@@ -369,9 +369,9 @@
     <string name="unit_wind_kt_short">kt</string>
     <string name="unit_wind_bft_short">bft</string>
     <string name="unit_pressure_mmhg_short">mmHG</string>
-    <string name="unit_wind_mps_short">m/s</string>
-    <string name="unit_wind_mph_short">mi/h</string>
-    <string name="unit_wind_kph_short">km/h</string>
+    <string name="unit_wind_mps_short">m/d</string>
+    <string name="unit_wind_mph_short">mi/j</string>
+    <string name="unit_wind_kph_short">km/j</string>
     <string name="unit_pressure_hpa_short">hPa</string>
     <string name="unit_pressure_inhg_short">inHG</string>
     <string name="unit_distance_km_short">km</string>
@@ -381,20 +381,20 @@
     <string name="unit_precipitation_inch_short">in</string>
     <string name="unit_precipitation_cm_short">cm</string>
     <string name="settings_widget_show_precip_probability">Show precipitation probability</string>
-    <string name="settings_widget_show_precip_probability_secondary">Displays the precipitation probability only when the selected source provides it</string>
-    <string name="weather_current">Current</string>
-    <string name="widget_weather_today_max_uv">Today\'s max: %1$s</string>
-    <string name="widget_weather_today_max_uv_at">At around %1$s</string>
-    <string name="country_united_kingdom">United Kingdom</string>
-    <string name="region_europe">Europe</string>
-    <string name="settings_api_key_config">API keys config</string>
-    <string name="source_regional_global">Regional with Global Coverage</string>
-    <string name="error_no_api_key">No API key found. Please add your API key in the settings</string>
+    <string name="settings_widget_show_precip_probability_secondary">Perlihatkan probabilitas presipitasi hanya ketika sumber yang dipilih menyediakannya</string>
+    <string name="weather_current">Sekarang</string>
+    <string name="widget_weather_today_max_uv">Maksimal hari ini: %1$s</string>
+    <string name="widget_weather_today_max_uv_at">Sekitar %1$s</string>
+    <string name="country_united_kingdom">Britania Raya</string>
+    <string name="region_europe">Eropa</string>
+    <string name="settings_api_key_config">Konfigurasi kunci-kunci API</string>
+    <string name="source_regional_global">Regional dengan cakupan Global</string>
+    <string name="error_no_api_key">Gak ada kunci API yang ketemu. Tolong tambahkan kunci API mu di setting</string>
     <string name="error_api_key_rejected">Your API key was rejected. It may be invalid or expired — check it in the API key settings.</string>
-    <string name="weather_mixed_precipitation">Mixed precipitation</string>
+    <string name="weather_mixed_precipitation">Curah hujan per jam</string>
     <string name="weather_hail">Hail</string>
     <string name="weather_sleet">Sleet</string>
-    <string name="location_permission">Location permission</string>
+    <string name="location_permission">Izin akses lokasi</string>
     <string name="location_permission_secondary">Allow location access to save places using your current position. Your location will only be shared with the sources you choose</string>
     <string name="location_permission_background">Background location permission</string>
     <string name="location_permission_background_secondary">Allow background location access to keep your saved device location updated even when the app is closed or running in the background</string>
@@ -406,7 +406,7 @@
     <string name="error_unauthorized">Authentication with the service failed.</string>
     <string name="error_forbidden">Access to this resource was denied.</string>
     <string name="error_not_found">The requested resource could not be found.</string>
-    <string name="error_request_timeout">The server did not respond in time.</string>
-    <string name="error_too_many_requests">The request limit has been reached.</string>
+    <string name="error_request_timeout">Server tidak bisa merespon saat ini.</string>
+    <string name="error_too_many_requests">Batas request udah penuh.</string>
 </resources>
 <!--<string name=""></string>-->
