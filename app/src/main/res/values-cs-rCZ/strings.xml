@@ -111,6 +111,8 @@
     <string name="setting_custom_color_secondary">Select a seed color to generate the theme</string>
     <string name="setting_dynamic_colors">Dynamické barvy</string>
     <string name="setting_dynamic_colors_secondary">Použít barvy pozadí</string>
+    <string name="setting_amoled_theme">AMOLED</string>
+    <string name="setting_amoled_theme_secondary">Use pure black in dark theme</string>
     <string name="weather_total_rain_day">Celkový denní úhrn srážek</string>
     <string name="error_network">Připojení není k dispozici</string>
     <string name="weather_total_snow_day">Total snow for the day</string>
