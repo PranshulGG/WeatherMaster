@@ -105,6 +105,8 @@
     <string name="setting_custom_color_secondary">Escolha uma cor base para gerar o tema</string>
     <string name="setting_dynamic_colors">Cores dinâmicas</string>
     <string name="setting_dynamic_colors_secondary">Usar cores do papel de parede</string>
+    <string name="setting_amoled_theme">AMOLED</string>
+    <string name="setting_amoled_theme_secondary">Use pure black in dark theme</string>
     <string name="weather_total_rain_day">Chuva total do dia</string>
     <string name="error_network">Rede indisponível</string>
     <string name="weather_total_snow_day">Neve total do dia</string>
