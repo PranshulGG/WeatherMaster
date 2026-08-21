@@ -110,8 +110,7 @@ fun MetOfficeForecastJson.toDomain(location: Location): Weather {
                 day.midday10mWindSpeedMs >= day.midnight10mWindSpeedMs ->
                     day.midday10mWindDirection
 
-                else ->
-                    day.midnight10mWindDirection
+                else -> day.midnight10mWindDirection
             }
 
             val hourly = hourlyForDay(hourly, day.time.iso8601TimestampToMilliseconds())

@@ -18,6 +18,12 @@ import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getSunTimi
 import com.pranshulgg.weather_master_app.core.utils.weather.calculations.computeApparentTemperature
 import com.pranshulgg.weather_master_app.core.utils.weather.computing.computeDailyWeatherCondition
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findHourlyIndexForTime
+import com.pranshulgg.weather_master_app.data.local.mapper.utils.WeatherUtils.getDominantCondition
+import com.pranshulgg.weather_master_app.data.local.mapper.utils.WeatherUtils.getDominantWindDirection
+import com.pranshulgg.weather_master_app.data.local.mapper.utils.WeatherUtils.safeAverage
+import com.pranshulgg.weather_master_app.data.local.mapper.utils.WeatherUtils.safeMax
+import com.pranshulgg.weather_master_app.data.local.mapper.utils.WeatherUtils.safeMin
+import com.pranshulgg.weather_master_app.data.local.mapper.utils.WeatherUtils.sumOrZero
 import kotlin.math.roundToInt
 
 // ---------------------------- JSON TO DOMAIN ----------------------------
@@ -142,35 +148,35 @@ private fun computeDaily(data: MetNorwayForecastJson, location: Location): List<
         }
 
 
-        val minTemperature = dailyIt.value.minOf { it.data.instant.details.temperature }
-        val maxTemperature = dailyIt.value.maxOf { it.data.instant.details.temperature }
-        val windSpeed = dailyIt.value.map { it.data.instant.details.windSpeed }.average()
+        val minTemperature = dailyIt.value.map { it.data.instant.details.temperature }.safeMin()
+        val maxTemperature = dailyIt.value.map { it.data.instant.details.temperature }.safeMax()
+        val windSpeed = dailyIt.value.map { it.data.instant.details.windSpeed }.safeAverage()
 
         val dominantWindDirection = dailyIt.value
-            .map { it.data.instant.details.windDirection }
-            .groupingBy { it }
-            .eachCount()
-            .maxByOrNull { it.value }
-            ?.key?.roundToInt()
+            .map { WindDirection.toWindDirectionFromDegrees(it.data.instant.details.windDirection.toInt()) }
+            .getDominantWindDirection()
 
-
-        val rainSum =
-            nextHourDetails.sumOf { it?.precipitationAmount ?: 0.0 } ?: 0.0
-        val uvIndexMax = dailyIt.value.maxOf { it.data.instant.details.uvIndex }
+        val rainSum = nextHourDetails.map { it?.precipitationAmount }.sumOrZero()
+        val uvIndexMax = dailyIt.value.map { it.data.instant.details.uvIndex }.safeMax()
         val time = dailyIt.key
-        val icon = nextHourSummary.map { it?.symbolCode }.groupingBy { it }
-            .eachCount().maxByOrNull { it.value }
+
+        val icon = nextHourSummary.map { MetNorwayWeatherConditionMap.getCondition(it?.symbolCode) }
+            .getDominantCondition()
 
         val condition = computeDailyWeatherCondition(
             getHourlyConditionsForDay(dailyIt.value, time),
-            MetNorwayWeatherConditionMap.getCondition(icon?.key)
+            icon ?: WeatherCondition.NO_CONDITION_FOUND
         )
 
-        val avgHumidity =
-            dailyIt.value.map { it.data.instant.details.relativeHumidity ?: -1.0 }.average()
-        val avgDewPoint = dailyIt.value.map { it.data.instant.details.dewPoint ?: -1.0 }.average()
-        val avgPressure =
-            dailyIt.value.map { it.data.instant.details.pressureMsl ?: -1.0 }.average()
+        val avgHumidity = dailyIt.value.map {
+            it.data.instant.details.relativeHumidity
+        }.safeAverage()
+        val avgDewPoint = dailyIt.value.map {
+            it.data.instant.details.dewPoint
+        }.safeAverage()
+        val avgPressure = dailyIt.value.map {
+            it.data.instant.details.pressureMsl
+        }.safeAverage()
 
         val index = groupedByDay.keys.indexOf(dailyIt.key)
 
@@ -178,7 +184,7 @@ private fun computeDaily(data: MetNorwayForecastJson, location: Location): List<
             temperatureMin = minTemperature,
             temperatureMax = maxTemperature,
             windSpeed = windSpeed,
-            windDirection = WindDirection.toWindDirectionFromDegrees(dominantWindDirection),
+            windDirection = dominantWindDirection,
             rainSum = rainSum,
             snowfallSum = null,
             uvIndexMax = uvIndexMax,
