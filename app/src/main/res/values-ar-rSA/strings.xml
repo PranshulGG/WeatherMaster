@@ -117,6 +117,8 @@
     <string name="setting_custom_color_secondary">اختر لوناً أساسياً لإنشاء السمة</string>
     <string name="setting_dynamic_colors">ألوان ديناميكية</string>
     <string name="setting_dynamic_colors_secondary">استخدام ألوان خلفية الشاشة</string>
+    <string name="setting_amoled_theme">AMOLED</string>
+    <string name="setting_amoled_theme_secondary">Use pure black in dark theme</string>
     <string name="weather_total_rain_day">إجمالي المطر لهذا اليوم</string>
     <string name="error_network">الشبكة غير متوفرة</string>
     <string name="weather_total_snow_day">إجمالي الثلج لهذا اليوم</string>
