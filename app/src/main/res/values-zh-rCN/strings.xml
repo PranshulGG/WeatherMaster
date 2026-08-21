@@ -102,6 +102,8 @@
     <string name="setting_custom_color_secondary">选择基准色生成主题</string>
     <string name="setting_dynamic_colors">动态配色</string>
     <string name="setting_dynamic_colors_secondary">使用壁纸颜色</string>
+    <string name="setting_amoled_theme">AMOLED</string>
+    <string name="setting_amoled_theme_secondary">Use pure black in dark theme</string>
     <string name="weather_total_rain_day">全天总降水量</string>
     <string name="error_network">网络不可用</string>
     <string name="weather_total_snow_day">全天总降雪量</string>
