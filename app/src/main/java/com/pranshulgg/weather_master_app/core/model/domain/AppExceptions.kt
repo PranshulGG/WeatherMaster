@@ -38,6 +38,7 @@ sealed class AppException(message: String? = null) : Exception(message) {
     class BackupSchemaVersionUnsupported : AppException()
     class BackupFileCorrupted : AppException()
     class BackupFileIOError : AppException()
+    class BackupMissingDefaultLocation : AppException()
 
 }
 
@@ -60,6 +61,7 @@ fun AppException.toMessageRes(): Int {
         is AppException.BackupSchemaVersionUnsupported -> R.string.error_backup_schema_unsupported
         is AppException.BackupFileCorrupted -> R.string.error_backup_file_corrupted
         is AppException.BackupFileIOError -> R.string.error_backup_file_io
+        is AppException.BackupMissingDefaultLocation -> R.string.error_backup_missing_default_location
     }
 }
 

@@ -260,6 +260,7 @@
     <string name="error_backup_schema_unsupported">This backup file was made with a newer version of the app and can\'t be imported</string>
     <string name="error_backup_file_corrupted">This backup file is invalid or corrupted</string>
     <string name="error_backup_file_io">Couldn\'t read or write the backup file</string>
+    <string name="error_backup_missing_default_location">This backup doesn\'t have a default location and can\'t be imported</string>
 
     <string name="setting_weather_sources_info">Separate sources for each region are recommended based on the country code</string>
 

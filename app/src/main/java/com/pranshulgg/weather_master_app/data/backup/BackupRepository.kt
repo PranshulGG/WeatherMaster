@@ -57,6 +57,13 @@ class BackupRepository @Inject constructor(
             throw AppException.BackupSchemaVersionUnsupported()
         }
 
+        // A location list with no default would leave the app in a state it never expects
+        // (default-location lookups assume exactly one exists) - reject the whole import
+        // rather than silently producing that state.
+        if (payload.locations.none { it.isDefault }) {
+            throw AppException.BackupMissingDefaultLocation()
+        }
+
         db.withTransaction {
             locationKeysDao.deleteAll()
             locationsDao.deleteAllLocations()
