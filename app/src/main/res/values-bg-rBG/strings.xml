@@ -105,6 +105,8 @@
     <string name="setting_custom_color_secondary">Изберете начален цвят, за да генерирате темата</string>
     <string name="setting_dynamic_colors">Динамични цветове</string>
     <string name="setting_dynamic_colors_secondary">Използвайте цветовете от тапета</string>
+    <string name="setting_amoled_theme">AMOLED</string>
+    <string name="setting_amoled_theme_secondary">Use pure black in dark theme</string>
     <string name="weather_total_rain_day">Общо количество дъжд за деня</string>
     <string name="error_network">Мрежата е недостъпна</string>
     <string name="weather_total_snow_day">Общо количество сняг за деня</string>
