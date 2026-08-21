@@ -102,6 +102,8 @@
     <string name="setting_custom_color_secondary">選取基礎顏色產生主題</string>
     <string name="setting_dynamic_colors">動態色彩</string>
     <string name="setting_dynamic_colors_secondary">使用桌布顏色</string>
+    <string name="setting_amoled_theme">AMOLED</string>
+    <string name="setting_amoled_theme_secondary">Use pure black in dark theme</string>
     <string name="weather_total_rain_day">當日總降雨量</string>
     <string name="error_network">網路不可用</string>
     <string name="weather_total_snow_day">當日總降雪量</string>
