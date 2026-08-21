@@ -105,6 +105,8 @@
     <string name="setting_custom_color_secondary">Valitse pohjaväri, jonka pohjalta muut värit luodaan</string>
     <string name="setting_dynamic_colors">Dynaamiset värit</string>
     <string name="setting_dynamic_colors_secondary">Käytä taustakuvan värejä</string>
+    <string name="setting_amoled_theme">AMOLED</string>
+    <string name="setting_amoled_theme_secondary">Use pure black in dark theme</string>
     <string name="weather_total_rain_day">Päivän sademäärä</string>
     <string name="error_network">Ei verkkoyhteyttä</string>
     <string name="weather_total_snow_day">Lumisateen määrä</string>
