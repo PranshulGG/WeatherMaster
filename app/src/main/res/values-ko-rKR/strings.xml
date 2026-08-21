@@ -102,6 +102,8 @@
     <string name="setting_custom_color_secondary">테마를 생성할 기준 색상을 선택하세요</string>
     <string name="setting_dynamic_colors">동적 색상</string>
     <string name="setting_dynamic_colors_secondary">배경화면 색상 사용</string>
+    <string name="setting_amoled_theme">AMOLED</string>
+    <string name="setting_amoled_theme_secondary">Use pure black in dark theme</string>
     <string name="weather_total_rain_day">하루 총강수량</string>
     <string name="error_network">네트워크에 연결할 수 없습니다</string>
     <string name="weather_total_snow_day">하루 총적설량</string>
