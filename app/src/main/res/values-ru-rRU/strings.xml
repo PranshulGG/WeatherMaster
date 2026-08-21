@@ -111,6 +111,8 @@
     <string name="setting_custom_color_secondary">Выберите акцентный цвет для создания темы</string>
     <string name="setting_dynamic_colors">Динамические цвета</string>
     <string name="setting_dynamic_colors_secondary">На основе цвета оформления рабочего стола</string>
+    <string name="setting_amoled_theme">AMOLED</string>
+    <string name="setting_amoled_theme_secondary">Use pure black in dark theme</string>
     <string name="weather_total_rain_day">Общее количество осадков за день</string>
     <string name="error_network">Сеть недоступна</string>
     <string name="weather_total_snow_day">Общее количество снега за день</string>
@@ -356,7 +358,7 @@
     <string name="country_russia">Россия</string>
     <string name="country_spain">Испания</string>
     <string name="country_taiwan">Тайвань</string>
-    <string name="country_brazil">Brazil</string>
+    <string name="country_brazil">Бразилия</string>
     <string name="settings_date_format">Формат даты</string>
     <string name="widget_settings_display_hourly_secondary">Отображает почасовой прогноз, а не ежедневный</string>
     <string name="settings_widget_background">Фон виджета</string>
