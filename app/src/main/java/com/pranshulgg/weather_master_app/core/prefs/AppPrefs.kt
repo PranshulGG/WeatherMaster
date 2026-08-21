@@ -14,6 +14,7 @@ object AppPrefs {
     private val _customThemeColor = mutableStateOf("#2196f3")
     private val _isCustomTheme = mutableStateOf(false)
     private val _isDynamicTheme = mutableStateOf(false)
+    private val _isAmoledTheme = mutableStateOf(false)
 
     private val _themeVariantType = mutableStateOf(ThemeVariantType.EXPRESSIVE)
 
@@ -42,6 +43,7 @@ object AppPrefs {
         _customThemeColor.value = PreferencesHelper.getString("custom_theme_color") ?: "#2196f3"
         _isCustomTheme.value = PreferencesHelper.getBool("isCustomTheme") ?: false
         _isDynamicTheme.value = PreferencesHelper.getBool("isDynamicTheme") ?: false
+        _isAmoledTheme.value = PreferencesHelper.getBool("isAmoledTheme") ?: false
 
         _themeVariantType.value = PreferencesHelper.getString("theme_variant_type")
             ?.let { runCatching { ThemeVariantType.valueOf(it) }.getOrNull() }
@@ -97,6 +99,12 @@ object AppPrefs {
         setDynamicColor = {
             _isDynamicTheme.value = it
             PreferencesHelper.setBool("isDynamicTheme", it)
+        },
+
+        isAmoledTheme = _isAmoledTheme.value,
+        setAmoledTheme = {
+            _isAmoledTheme.value = it
+            PreferencesHelper.setBool("isAmoledTheme", it)
         },
 
         themeVariantType = _themeVariantType.value,

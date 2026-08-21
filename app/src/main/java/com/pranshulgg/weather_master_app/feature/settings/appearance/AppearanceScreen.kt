@@ -107,6 +107,21 @@ fun AppearanceScreen(navController: NavController) {
                         }
                     ),
 
+                    SettingTile.SwitchTile(
+                        leading = {
+                            SettingsTileIcon(
+                                R.drawable.circle_circle_24px
+                            )
+                        },
+                        title = stringResource(R.string.setting_amoled_theme),
+                        description = stringResource(R.string.setting_amoled_theme_secondary),
+                        checked = prefs.isAmoledTheme,
+                        enabled = prefs.appTheme != "Light",
+                        onCheckedChange = { checked ->
+                            prefs.setAmoledTheme(checked)
+                        }
+                    ),
+
                     SettingTile.DialogOptionTile(
                         leading = { SettingsTileIcon(R.drawable.font_download_24px) },
                         title = stringResource(R.string.setting_app_font),

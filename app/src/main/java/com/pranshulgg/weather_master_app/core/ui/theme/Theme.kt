@@ -29,7 +29,9 @@ fun WeatherMasterTheme(
     applySystemUi: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
+    val prefs = LocalAppPrefs.current
+
+    val baseColorScheme = when {
         dynamicTheme && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
@@ -45,6 +47,16 @@ fun WeatherMasterTheme(
         }
     }
 
+    val colorScheme = if (darkTheme && prefs.isAmoledTheme) {
+        baseColorScheme.copy(
+            background = Color.Black,
+            surface = Color.Black,
+            surfaceContainer = Color.Black,
+        )
+    } else {
+        baseColorScheme
+    }
+
     val view = LocalView.current
     if (!view.isInEditMode) {
         if (applySystemUi) {
@@ -55,9 +67,6 @@ fun WeatherMasterTheme(
             }
         }
     }
-
-    val prefs = LocalAppPrefs.current
-
 
     MaterialExpressiveTheme(
         colorScheme = colorScheme,
