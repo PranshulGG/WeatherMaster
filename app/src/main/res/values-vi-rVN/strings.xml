@@ -102,6 +102,8 @@
     <string name="setting_custom_color_secondary">Chọn màu chủ đạo để tạo chủ đề</string>
     <string name="setting_dynamic_colors">Màu động (Dynamic)</string>
     <string name="setting_dynamic_colors_secondary">Sử dụng màu của hình nền</string>
+    <string name="setting_amoled_theme">AMOLED</string>
+    <string name="setting_amoled_theme_secondary">Use pure black in dark theme</string>
     <string name="weather_total_rain_day">Tổng lượng mưa trong ngày</string>
     <string name="error_network">Không có kết nối mạng</string>
     <string name="weather_total_snow_day">Tổng lượng tuyết trong ngày</string>
