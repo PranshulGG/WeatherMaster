@@ -105,6 +105,8 @@
     <string name="setting_custom_color_secondary">Kies een seedkleur om een thema te genereren</string>
     <string name="setting_dynamic_colors">Dynamische kleuren</string>
     <string name="setting_dynamic_colors_secondary">Gebruik achtergrond kleuren</string>
+    <string name="setting_amoled_theme">AMOLED</string>
+    <string name="setting_amoled_theme_secondary">Use pure black in dark theme</string>
     <string name="weather_total_rain_day">Totale neerslag voor de dag</string>
     <string name="error_network">Netwerk niet beschikbaar</string>
     <string name="weather_total_snow_day">Totale sneeuwval voor de dag</string>
