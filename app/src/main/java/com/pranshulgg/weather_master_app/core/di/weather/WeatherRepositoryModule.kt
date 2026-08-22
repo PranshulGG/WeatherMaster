@@ -81,8 +81,9 @@ object WeatherRepositoryModule {
         api: NwsApi,
         dao: LocationsDao,
         weatherDao: WeatherDao,
-        nwsDao: NwsDao
-    ): NwsRepository = NwsRepository(dao, weatherDao, nwsDao, api)
+        nwsDao: NwsDao,
+        alertsDao: AlertsDao
+    ): NwsRepository = NwsRepository(dao, weatherDao, nwsDao, api, alertsDao)
 
     @Provides
     @Singleton

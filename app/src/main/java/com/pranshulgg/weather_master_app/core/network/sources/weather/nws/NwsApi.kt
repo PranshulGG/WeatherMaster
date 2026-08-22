@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.core.network.sources.weather.nws
 
+import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.NwsAlertsJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.NwsCurrentForecastJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.NwsForecastJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.NwsGridPointDataJson
@@ -13,6 +14,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
 
@@ -59,6 +61,11 @@ interface NwsApi {
         @Path("gridX") gridX: Long,
         @Path("gridY") gridY: Long
     ): Response<NwsGridPointDataJson>
+
+    @GET("alerts/active")
+    suspend fun fetchActiveAlerts(
+        @Query("point") point: String
+    ): Response<NwsAlertsJson>
 
     companion object {
         const val BASE_URL = "https://api.weather.gov/"
