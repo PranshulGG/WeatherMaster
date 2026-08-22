@@ -122,7 +122,6 @@ object SharedBottomSheet {
                 showActionsBorder = showActions
             ) { hide ->
                 Box(
-                    modifier = Modifier.heightIn(max = if (showActions) 580.dp else 700.dp)
                 ) {
                     Column(
                         modifier = Modifier

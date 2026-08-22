@@ -299,7 +299,6 @@ fun EditLocationScreen(
                 onDismiss = viewModel::hideWeatherSourcesForLocationSheet,
                 sheetState = sheetState,
                 onClickApiConfig = {
-//                    viewModel.hideWeatherSourcesForLocationSheet()
                     navController.navigate(NavRoutes.API_KEYS_CONFIG)
                 },
                 showActions = false,

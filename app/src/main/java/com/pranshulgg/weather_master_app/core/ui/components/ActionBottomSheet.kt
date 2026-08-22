@@ -86,9 +86,16 @@ fun ActionBottomSheet(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .heightIn(max = 800.dp)
         ) {
 
-            content { hide() }
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f, fill = false)
+            ) {
+                content { hide() }
+            }
 
             if (showActions) {
                 if (showActionsBorder) {

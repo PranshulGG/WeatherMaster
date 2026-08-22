@@ -142,8 +142,8 @@ object EditLocationBottomSheet {
                 removeBottomInset = true
             ) { hide ->
                 Box(
-                    modifier = Modifier.heightIn(max = 700.dp)
                 ) {
+
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -289,7 +289,6 @@ object EditLocationBottomSheet {
                 removeBottomInset = true
             ) { hide ->
                 Box(
-                    modifier = Modifier.heightIn(max = 700.dp)
                 ) {
                     Column(
                         modifier = Modifier
