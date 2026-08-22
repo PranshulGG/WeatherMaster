@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pranshulgg.weather_master_app.core.model.sources.Capability
 import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModel
 import com.pranshulgg.weather_master_app.data.repository.ApiKeysRepository
@@ -51,7 +52,14 @@ class EditLocationViewModel @Inject constructor(
     }
 
     fun updateSelectedWeatherSource(source: Source) {
-        _uiState.value = _uiState.value.copy(selectedWeatherSource = source)
+        _uiState.value = _uiState.value.copy(
+            selectedWeatherSource = source,
+            selectedAlertSource = if (Capability.ALERTS in source.capabilities) {
+                source
+            } else {
+                _uiState.value.selectedAlertSource
+            }
+        )
     }
 
     fun updateSelectedAlertSource(source: Source) {

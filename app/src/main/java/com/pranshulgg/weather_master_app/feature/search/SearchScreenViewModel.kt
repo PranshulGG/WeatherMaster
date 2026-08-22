@@ -7,6 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pranshulgg.weather_master_app.R
+import com.pranshulgg.weather_master_app.core.model.sources.Capability
 import com.pranshulgg.weather_master_app.core.model.sources.SearchSource
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.toAppException
@@ -80,7 +81,12 @@ class SearchScreenViewModel @Inject constructor(
                 } else {
                     location
                 }
-                locationsRepo.saveLocation(resolved.copy(source = weatherSource))
+                val alertSource = if (Capability.ALERTS in weatherSource.capabilities) {
+                    weatherSource
+                } else {
+                    resolved.alertSource
+                }
+                locationsRepo.saveLocation(resolved.copy(source = weatherSource, alertSource = alertSource))
                 onBack()
             } catch (e: Exception) {
                 val appExpectation = e.toAppException()
