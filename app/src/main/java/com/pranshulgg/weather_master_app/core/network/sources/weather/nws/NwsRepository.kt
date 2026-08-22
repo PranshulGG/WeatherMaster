@@ -7,22 +7,30 @@ import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
+import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResult
+import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResultType
 import com.pranshulgg.weather_master_app.core.network.calls.safeApiCall
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.NwsCurrentForecastJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.NwsStationsListJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.bundle.NwsWeatherJsonBundle
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherCacheSafe
+import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnAlertsCache
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnWeatherCache
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.mergeHourlyWeather
+import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.nws.NwsDao
+import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toDomain
+import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toEntity
+import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.nws.alerts.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.nws.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.nws.toEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toCurrentWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDailyWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toHourlyWeatherEntity
+import com.pranshulgg.weather_master_app.data.repository.data.AlertRepository
 import com.pranshulgg.weather_master_app.data.repository.data.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -33,10 +41,12 @@ class NwsRepository @Inject constructor(
     val dao: LocationsDao,
     val weatherDao: WeatherDao,
     val nwsDao: NwsDao,
-    val api: NwsApi
-) : WeatherRepository {
+    val api: NwsApi,
+    val alertsDao: AlertsDao
+) : WeatherRepository, AlertRepository {
 
     override val weatherSource = Source.NWS
+    override val alertSource = Source.NWS
 
 
     override suspend fun getWeather(
@@ -194,6 +204,44 @@ class NwsRepository @Inject constructor(
 
             }
         }
+
+    override suspend fun getAlerts(
+        location: Location,
+        isManualRefresh: Boolean,
+        isForceRefresh: Boolean
+    ): AlertResult = withContext(Dispatchers.IO) {
+
+        val cache = alertsDao.getAlertsForLocation(location.id)
+        val shouldReturnCache = shouldReturnAlertsCache(
+            cache,
+            isManualRefresh,
+            isForceRefresh,
+            location.alertsLastFetchedAt
+        )
+
+        if (shouldReturnCache == AlertResultType.RETURN_CACHE) {
+            return@withContext AlertResult.Success(cache.map { it!!.toDomain() })
+        }
+
+        val point = "${location.latitude},${location.longitude}"
+
+        safeApiCall { api.fetchActiveAlerts(point) }.fold(
+            onSuccess = { body ->
+                val domain = body.toDomain(location.id)
+
+                alertsDao.insertAlerts(domain.map { it.toEntity(location.id) }, location.id)
+                dao.updateAlertsLastFetchedAt(location.id, System.currentTimeMillis())
+
+                AlertResult.Success(domain)
+            },
+            onFailure = { e ->
+                AlertResult.Error(
+                    exception = e as? Exception ?: Exception(e),
+                    cacheAlerts = cache.map { it!!.toDomain() }
+                )
+            }
+        )
+    }
 }
 
 
