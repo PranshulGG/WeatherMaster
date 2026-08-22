@@ -27,7 +27,7 @@ enum class Source(
         fullName = "National Weather Service",
         displayLink = "https://www.weather.gov/documentation/services-web-api",
         countryNameRes = R.string.country_usa,
-        capabilities = setOf(Capability.WEATHER)
+        capabilities = setOf(Capability.WEATHER, Capability.ALERTS)
     ),
     SMHI(
         displayName = "SMHI",
