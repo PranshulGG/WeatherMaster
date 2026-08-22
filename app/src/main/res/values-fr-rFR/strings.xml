@@ -106,7 +106,7 @@
     <string name="setting_dynamic_colors">Couleurs dynamiques</string>
     <string name="setting_dynamic_colors_secondary">Utiliser les couleurs du fond d\'écran</string>
     <string name="setting_amoled_theme">AMOLED</string>
-    <string name="setting_amoled_theme_secondary">Use pure black in dark theme</string>
+    <string name="setting_amoled_theme_secondary">Utiliser du noir pur pour le thème sombre</string>
     <string name="weather_total_rain_day">Pluie de la journée</string>
     <string name="error_network">Réseau indisponible</string>
     <string name="weather_total_snow_day">Neige de la journée</string>
@@ -360,13 +360,13 @@
     <string name="settings_widget_weather_background_secondary">Adapte la couleur d\'arrière-plan du widget en fonction de la météo du moment</string>
     <string name="settings_widget_text_color">Couleur de texte du widget</string>
     <string name="settings_widget_font_size">Taille de police</string>
-    <string name="settings_widget_daily_forecast_count">Daily forecast count</string>
-    <string name="settings_widget_hourly_forecast_count">Hourly forecast count</string>
+    <string name="settings_widget_daily_forecast_count">Nombre de jours de prévisions</string>
+    <string name="settings_widget_hourly_forecast_count">Nombre d\'heures de prévisions</string>
     <string name="settings_widget_icon_size">Taille des icônes</string>
     <string name="action_create_widget">Créer un widget</string>
     <string name="time_days">%1$s jours</string>
     <string name="time_day">%1$s jour</string>
-    <string name="label_variant">Variant</string>
+    <string name="label_variant">Variante</string>
     <string name="settings_widget_show_daily_weather">Afficher la météo quotidienne</string>
     <string name="settings_widget_show_daily_weather_secondary">Affiche les prévisions du jour au lieu des conditions actuelles</string>
     <string name="settings_widget_show_clock">Afficher l\'horloge</string>
