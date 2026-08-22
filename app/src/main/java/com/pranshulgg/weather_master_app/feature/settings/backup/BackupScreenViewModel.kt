@@ -1,24 +1,20 @@
-package com.pranshulgg.weather_master_app.feature.intro
+package com.pranshulgg.weather_master_app.feature.settings.backup
 
 import android.content.Context
 import android.net.Uri
-import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
-import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.domain.toMessageRes
-import com.pranshulgg.weather_master_app.core.network.sources.address.nominatim.json.NominatimRepository
 import com.pranshulgg.weather_master_app.core.prefs.AppPrefs
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weather_master_app.data.backup.BackupRepository
 import com.pranshulgg.weather_master_app.data.backup.model.BackupPayload
-import com.pranshulgg.weather_master_app.data.provider.devicelocation.DeviceLocation
-import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
@@ -28,44 +24,44 @@ import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
-class IntroScreenViewModel @Inject constructor(
-    val locationsRepo: LocationsRepository,
-    @ApplicationContext private val context: Context,
-    private val nominatimRepository: NominatimRepository,
-    private val backupRepository: BackupRepository
+class BackupScreenViewModel @Inject constructor(
+    private val backupRepository: BackupRepository,
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
 
-    var isImportingBackup by mutableStateOf(false)
+    var loading by mutableStateOf(false)
         private set
 
-    fun saveDeviceLocation(location: DeviceLocation) {
-        viewModelScope.launch {
+    var includeApiKeys by mutableStateOf(false)
+        private set
 
-            val address = try {
-                nominatimRepository.getAddress(location.latitude, location.longitude)
-            } catch (e: Exception) {
-                null
-            }
-
-            if (address != null && address.city != null) {
-                locationsRepo.saveLocation(
-                    location.toDomain(context).copy(
-                        name = address.city,
-                        country = address.country,
-                        countryCode = address.countryCode
-                    )
-                )
-            } else {
-                locationsRepo.saveLocation(location.toDomain(context))
-            }
-
-        }
-
+    fun onIncludeApiKeysChanged(value: Boolean) {
+        includeApiKeys = value
     }
 
-    fun importBackup(uri: Uri) {
+    fun exportTo(uri: Uri) {
         viewModelScope.launch {
-            isImportingBackup = true
+            loading = true
+            try {
+                val json = backupRepository.serializeBackup(includeApiKeys)
+                context.contentResolver.openOutputStream(uri)?.use {
+                    it.write(json.toByteArray(Charsets.UTF_8))
+                } ?: throw AppException.BackupFileIOError()
+
+                SnackbarManager.show(R.string.message_backup_exported)
+            } catch (e: IOException) {
+                SnackbarManager.show(AppException.BackupFileIOError().toMessageRes())
+            } catch (e: Exception) {
+                SnackbarManager.show(e.toAppException().toMessageRes())
+            } finally {
+                loading = false
+            }
+        }
+    }
+
+    fun importFrom(uri: Uri) {
+        viewModelScope.launch {
+            loading = true
             try {
                 val text = context.contentResolver.openInputStream(uri)?.use {
                     it.readBytes().decodeToString()
@@ -76,8 +72,8 @@ class IntroScreenViewModel @Inject constructor(
 
                 backupRepository.restoreBackup(payload)
                 AppPrefs.initPrefs(context)
-                // MainScreen watches the location list reactively and steps past this screen
-                // itself once it's non-empty - no explicit navigation needed here.
+
+                SnackbarManager.show(R.string.message_backup_restored)
             } catch (e: SerializationException) {
                 SnackbarManager.show(AppException.BackupFileCorrupted().toMessageRes())
             } catch (e: IllegalArgumentException) {
@@ -87,9 +83,8 @@ class IntroScreenViewModel @Inject constructor(
             } catch (e: Exception) {
                 SnackbarManager.show(e.toAppException().toMessageRes())
             } finally {
-                isImportingBackup = false
+                loading = false
             }
         }
     }
-
 }

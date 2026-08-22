@@ -35,6 +35,11 @@ sealed class AppException(message: String? = null) : Exception(message) {
 
     class EmptyResponseBody : AppException()
 
+    class BackupSchemaVersionUnsupported : AppException()
+    class BackupFileCorrupted : AppException()
+    class BackupFileIOError : AppException()
+    class BackupMissingDefaultLocation : AppException()
+
 }
 
 fun AppException.toMessageRes(): Int {
@@ -53,6 +58,10 @@ fun AppException.toMessageRes(): Int {
         is AppException.ApiKeyRejectedError -> R.string.error_api_key_rejected
         is AppException.SecureConnection -> R.string.error_secure_connection_failed
         is AppException.EmptyResponseBody -> R.string.error_empty_response_body
+        is AppException.BackupSchemaVersionUnsupported -> R.string.error_backup_schema_unsupported
+        is AppException.BackupFileCorrupted -> R.string.error_backup_file_corrupted
+        is AppException.BackupFileIOError -> R.string.error_backup_file_io
+        is AppException.BackupMissingDefaultLocation -> R.string.error_backup_missing_default_location
     }
 }
 

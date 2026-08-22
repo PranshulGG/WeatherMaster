@@ -2,6 +2,8 @@ package com.pranshulgg.weather_master_app.feature.intro
 
 import android.content.Context
 import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,6 +23,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -65,6 +68,13 @@ fun IntroScreen(navController: NavController) {
     var isLoading by remember { mutableStateOf(false) }
     var backgroundLocationPermissionInfoDialogOpen by remember { mutableStateOf(false) }
     var locationPermissionInfoDialogOpen by remember { mutableStateOf(false) }
+    val isImportingBackup = viewModel.isImportingBackup
+
+    val importBackupLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.OpenDocument()
+    ) { uri ->
+        uri?.let { viewModel.importBackup(it) }
+    }
 
     val continueWithLocation = {
         isLoading = true
@@ -146,7 +156,7 @@ fun IntroScreen(navController: NavController) {
                 )
                 Gap(28.dp)
                 Button(
-                    enabled = !isLoading,
+                    enabled = !isLoading && !isImportingBackup,
                     onClick = {
                         locationPermissionInfoDialogOpen = true
                     },
@@ -163,7 +173,7 @@ fun IntroScreen(navController: NavController) {
                 }
                 Gap(12.dp)
                 OutlinedButton(
-                    enabled = !isLoading,
+                    enabled = !isLoading && !isImportingBackup,
                     onClick = {
                         navController.navigate(NavRoutes.SEARCH)
                     },
@@ -175,6 +185,22 @@ fun IntroScreen(navController: NavController) {
                 ) {
                     Text(
                         "Search for a City",
+                        style = ButtonDefaults.textStyleFor(btnSize),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                Gap(4.dp)
+                TextButton(
+                    enabled = !isLoading && !isImportingBackup,
+                    onClick = {
+                        importBackupLauncher.launch(arrayOf("application/json"))
+                    },
+                    modifier = Modifier.heightIn(btnSize),
+                    contentPadding = ButtonDefaults.contentPaddingFor(btnSize),
+                    shapes = ButtonDefaults.shapes()
+                ) {
+                    Text(
+                        if (isImportingBackup) "Importing..." else "Import a backup",
                         style = ButtonDefaults.textStyleFor(btnSize),
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
