@@ -112,7 +112,7 @@
     <string name="setting_dynamic_colors">Динамические цвета</string>
     <string name="setting_dynamic_colors_secondary">На основе цвета оформления рабочего стола</string>
     <string name="setting_amoled_theme">AMOLED</string>
-    <string name="setting_amoled_theme_secondary">Use pure black in dark theme</string>
+    <string name="setting_amoled_theme_secondary">Чистый чёрный цвет в тёмной теме</string>
     <string name="weather_total_rain_day">Общее количество осадков за день</string>
     <string name="error_network">Сеть недоступна</string>
     <string name="weather_total_snow_day">Общее количество снега за день</string>
