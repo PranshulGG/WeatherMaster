@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
@@ -90,7 +91,7 @@ fun PressureHourlyCard(
             )
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
-                modifier = Modifier.height(200.dp),
+                modifier = Modifier.heightIn(200.dp),
                 verticalAlignment = Alignment.Bottom
             ) {
                 items(

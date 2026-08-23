@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
@@ -97,7 +98,7 @@ fun PollutantHourlyCard(
         Row(
             horizontalArrangement = Arrangement.spacedBy(6.dp),
             modifier = Modifier
-                .height(180.dp)
+                .heightIn(180.dp)
                 .horizontalScroll(sharedScrollState),
             verticalAlignment = Alignment.Bottom,
         ) {

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
@@ -83,7 +84,7 @@ fun VisibilityHourlyCard(
             )
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
-                modifier = Modifier.height(200.dp),
+                modifier = Modifier.heightIn(200.dp),
                 verticalAlignment = Alignment.Bottom
             ) {
                 items(
@@ -97,7 +98,8 @@ fun VisibilityHourlyCard(
                     val percentage = ((item.visibility!!.minus(visibilityMin))
                         .div((visibilityMax - visibilityMin))).times(100.0)
 
-                    val barHeight = max((percentage.div(100.0)).times(140.0), 5.0).coerceAtMost(140.0)
+                    val barHeight =
+                        max((percentage.div(100.0)).times(140.0), 5.0).coerceAtMost(140.0)
 
 
                     val visibilityKm =
