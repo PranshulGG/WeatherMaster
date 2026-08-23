@@ -47,7 +47,7 @@ import com.pranshulgg.weather_master_app.data.local.entity.weather.units.AppWeat
         AlertEntity::class,
         ApiKeyEntity::class
     ],
-    version = 58,
+    version = 59,
     autoMigrations = [
         AutoMigration(from = 39, to = 40),
         AutoMigration(from = 42, to = 43),
@@ -61,7 +61,8 @@ import com.pranshulgg.weather_master_app.data.local.entity.weather.units.AppWeat
         AutoMigration(from = 53, to = 54),
         AutoMigration(from = 54, to = 55),
         AutoMigration(from = 56, to = 57),
-        AutoMigration(from = 57, to = 58)
+        AutoMigration(from = 57, to = 58),
+        AutoMigration(from = 58, to = 59)
     ]
 )
 abstract class WeatherMasterDatabase : RoomDatabase() {

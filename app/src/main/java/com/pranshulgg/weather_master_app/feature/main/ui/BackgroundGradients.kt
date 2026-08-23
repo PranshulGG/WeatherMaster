@@ -58,7 +58,13 @@ private fun backgroundGradients(weather: Weather?, isDark: Boolean = true): Back
 
     val condition = weather?.current?.weatherCondition
     val day = weather?.daily?.firstOrNull()
-    val isDay = day?.let { weather.current.time in day.sunrise..day.sunset } ?: true
+
+
+    val isDay = if (day != null && day.sunrise != null && day.sunset != null) {
+        weather.current.time in day.sunrise..day.sunset
+    } else {
+        true
+    }
 
 
     val gradient = gradients(isDay, condition ?: WeatherCondition.CLEAR_SKY, isDark)

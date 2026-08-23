@@ -8,7 +8,12 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 fun WeatherAnimations(weather: Weather, isFroggyLayout: Boolean) {
     val condition = weather.current.weatherCondition
     val day = weather.daily.firstOrNull()
-    val isDay = day?.let { weather.current.time in day.sunrise..day.sunset } ?: true
+
+    val isDay = if (day != null && day.sunrise != null && day.sunset != null) {
+        weather.current.time in day.sunrise..day.sunset
+    } else {
+        true
+    }
 
     when (condition) {
 

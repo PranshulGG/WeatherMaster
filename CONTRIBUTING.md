@@ -47,6 +47,19 @@ used for
 PRs that appear to be largely or entirely AI-generated without meaningful
 review, understanding, or contribution from the author will be closed
 
+## Attributions
+
+Add your attribution above the feature you implemented. Attribution should only be added for feature
+implementations
+
+For example:
+
+```kt
+/**
+ * Initial YOUR_FEATURE integration implemented by https://github.com/YOUR_GITHUB
+ */
+```
+
 _Thanks :P_
 
 

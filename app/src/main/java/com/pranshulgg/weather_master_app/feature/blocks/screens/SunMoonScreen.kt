@@ -66,24 +66,24 @@ fun SunMoonScreen(navController: NavController, index: Int, locationId: String) 
     val date = toDateString(daily[index].time, weather.location.timezone)
 
     val duskFormatted = if (is24hr) to24HourTimeString(
-        daily[index].dusk,
+        daily[index].dusk!!,
         weather.location.timezone
     ) else to12HourTimeString(
-        daily[index].dusk,
+        daily[index].dusk!!,
         weather.location.timezone,
         "hh:mm a"
     )
     val dawnFormatted = if (is24hr) to24HourTimeString(
-        daily[index].dawn,
+        daily[index].dawn!!,
         weather.location.timezone
     ) else to12HourTimeString(
-        daily[index].dawn,
+        daily[index].dawn!!,
         weather.location.timezone,
         "hh:mm a"
     )
 
 
-    val dayLength = daily[index].sunset.minus(daily[index].sunrise)
+    val dayLength = daily[index].sunset!!.minus(daily[index].sunrise!!)
     val dayLengthHrs = TimeUnit.MILLISECONDS.toHours(dayLength)
 
 
