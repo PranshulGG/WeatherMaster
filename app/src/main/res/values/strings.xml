@@ -14,8 +14,6 @@
     <string name="weather_refresh_delay">Please wait %1$d minutes before refreshing</string>
     <string name="error_generic">Error occurred. Please try again</string>
     <string name="weather_moon">Moon</string>
-    <string name="weather_moonrise_unavailable">No moonrise</string>
-    <string name="weather_moonset_unavailable">No moonset</string>
     <string name="weather_sun">Sun</string>
     <string name="weather_humidity">Humidity</string>
     <string name="weather_pressure">Pressure</string>

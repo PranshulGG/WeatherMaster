@@ -74,15 +74,12 @@ fun MoonBlock(weather: Weather, dailyIndex: Int, prefs: AppPrefsState, onClickBl
             )
 
 
-            val moonrise = daily.moonrise
-            val moonset = daily.moonset
+            val moonrise = daily.moonrise ?: 0L
+            val moonset = daily.moonset ?: 0L
             val now = System.currentTimeMillis()
 
-            val progress = if (moonrise != null && moonset != null) {
-                ((now - moonrise).toFloat() / (moonset - moonrise)).coerceIn(0f, 1f)
-            } else {
-                null
-            }
+            val progress = ((now - moonrise).toFloat() / (moonset - moonrise))
+                .coerceIn(0f, 1f)
 
 
             val sunBitmap = ImageBitmap.imageResource(id = R.drawable.moon_rise_set_icon)
@@ -112,24 +109,22 @@ fun MoonBlock(weather: Weather, dailyIndex: Int, prefs: AppPrefsState, onClickBl
                     color = Color.Transparent
                 )
 
-                if (progress != null) {
-                    val pathMeasure = PathMeasure().apply { setPath(path, false) }
-                    pathMeasure.setPath(path, false)
-                    val pos = pathMeasure.getPosition(pathMeasure.length * progress)
+                val pathMeasure = PathMeasure().apply { setPath(path, false) }
+                pathMeasure.setPath(path, false)
+                val pos = pathMeasure.getPosition(pathMeasure.length * progress)
 
-                    val size = 58
+                val size = 58
 
-                    drawImage(
-                        image = sunBitmap,
-                        srcOffset = IntOffset.Zero,
-                        srcSize = IntSize(sunBitmap.width, sunBitmap.height),
-                        dstOffset = IntOffset(
-                            (pos.x - size / 2f).toInt(),
-                            (pos.y - size / 2f).toInt()
-                        ),
-                        dstSize = IntSize(size, size)
-                    )
-                }
+                drawImage(
+                    image = sunBitmap,
+                    srcOffset = IntOffset.Zero,
+                    srcSize = IntSize(sunBitmap.width, sunBitmap.height),
+                    dstOffset = IntOffset(
+                        (pos.x - size / 2f).toInt(),
+                        (pos.y - size / 2f).toInt()
+                    ),
+                    dstSize = IntSize(size, size)
+                )
 
 
             }
@@ -139,14 +134,22 @@ fun MoonBlock(weather: Weather, dailyIndex: Int, prefs: AppPrefsState, onClickBl
             }
 
 
-            val moonriseFormatted = moonrise?.let {
-                if (is24hr) to24HourTimeString(it, weather.location.timezone)
-                else to12HourTimeString(it, weather.location.timezone, "hh:mm a")
-            } ?: stringResource(R.string.weather_moonrise_unavailable)
-            val moonsetFormatted = moonset?.let {
-                if (is24hr) to24HourTimeString(it, weather.location.timezone)
-                else to12HourTimeString(it, weather.location.timezone, "hh:mm a")
-            } ?: stringResource(R.string.weather_moonset_unavailable)
+            val moonriseFormatted = if (is24hr) to24HourTimeString(
+                moonrise,
+                weather.location.timezone
+            ) else to12HourTimeString(
+                moonrise,
+                weather.location.timezone,
+                "hh:mm a"
+            )
+            val moonsetFormatted = if (is24hr) to24HourTimeString(
+                moonset,
+                weather.location.timezone
+            ) else to12HourTimeString(
+                moonset,
+                weather.location.timezone,
+                "hh:mm a"
+            )
 
 
             Surface(
