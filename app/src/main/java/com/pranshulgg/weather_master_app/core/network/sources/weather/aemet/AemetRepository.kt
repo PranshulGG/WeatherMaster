@@ -30,7 +30,9 @@ import retrofit2.HttpException
 import retrofit2.Response
 import javax.inject.Inject
 
-
+/**
+ * Initial AEMET integration implemented by https://github.com/reveler-hub
+ */
 class AemetRepository @Inject constructor(
     val dao: LocationsDao,
     val weatherDao: WeatherDao,

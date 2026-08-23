@@ -205,6 +205,10 @@ class NwsRepository @Inject constructor(
             }
         }
 
+
+    /**
+     * Initial NWS alerts integration implemented by https://github.com/reveler-hub
+     */
     override suspend fun getAlerts(
         location: Location,
         isManualRefresh: Boolean,

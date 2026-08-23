@@ -5,6 +5,11 @@ import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertSeverity
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.NwsAlertsJson
 import java.time.OffsetDateTime
 
+
+/**
+ * Initial NWS alerts integration implemented by https://github.com/reveler-hub
+ */
+
 fun NwsAlertsJson.toDomain(locationId: String): List<Alert> {
     return features.orEmpty().mapNotNull { feature ->
         val properties = feature.properties ?: return@mapNotNull null

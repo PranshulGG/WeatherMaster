@@ -18,6 +18,11 @@ import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getMoonTim
 import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getSunTimings
 import kotlin.math.roundToInt
 
+
+/**
+ * Initial Pirate Weather integration implemented by https://github.com/altendorfme
+ */
+
 fun PirateWeatherJson.toDomain(location: Location): Weather {
     val utcOffsetSeconds = (offset * 3600).toLong()
 
@@ -106,13 +111,13 @@ private fun PirateWeatherDailyDataJson.toWeatherDaily(
         weatherCondition = PirateWeatherConditionMap.getCondition(icon),
         time = time.secondsToMilliseconds(),
         precipitationProbabilityMax = (precipProbability?.times(100))?.roundToInt(),
-        sunrise = sunTimings[index].sunrise ?: 0L,
-        sunset = sunTimings[index].sunset ?: 0L,
-        moonrise = moonTimings[index].moonrise ?: 0L,
-        moonset = moonTimings[index].moonset ?: 0L,
+        sunrise = sunTimings[index].sunrise,
+        sunset = sunTimings[index].sunset,
+        moonrise = moonTimings[index].moonrise,
+        moonset = moonTimings[index].moonset,
         moonPhase = moonTimings[index].phase,
-        dawn = sunTimings[index].dawn ?: 0L,
-        dusk = sunTimings[index].dusk ?: 0L,
+        dawn = sunTimings[index].dawn,
+        dusk = sunTimings[index].dusk,
         pressureMsl = pressure,
         visibility = visibility?.let { (it * 1000).roundToInt() },
         humidity = (humidity?.times(100)),

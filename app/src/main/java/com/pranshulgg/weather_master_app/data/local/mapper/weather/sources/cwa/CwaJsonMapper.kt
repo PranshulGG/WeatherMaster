@@ -22,6 +22,10 @@ import com.pranshulgg.weather_master_app.core.utils.weather.computing.computeDai
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findHourlyIndexForTime
 import java.time.OffsetDateTime
 
+/**
+ * Initial CWA integration implemented by https://github.com/reveler-hub
+ */
+
 // CWA reports wind speed in m/s - needs converting to this app's canonical km/h.
 // Temperature is already Celsius. CWA's forecast product has no rain-amount-in-mm field at all
 // (only probability + a text description), so rain/snowfall are always 0.0/null here, same
@@ -144,13 +148,13 @@ fun CwaForecastBundle.toDomain(location: Location): Weather {
                 visibility = null,
                 humidity = humidityAvg,
                 dewPoint = dewPointAvg,
-                sunrise = sunTimings.getOrNull(index)?.sunrise ?: 0L,
-                sunset = sunTimings.getOrNull(index)?.sunset ?: 0L,
-                moonrise = moonTimings.getOrNull(index)?.moonrise ?: 0L,
-                moonset = moonTimings.getOrNull(index)?.moonset ?: 0L,
+                sunrise = sunTimings.getOrNull(index)?.sunrise,
+                sunset = sunTimings.getOrNull(index)?.sunset,
+                moonrise = moonTimings.getOrNull(index)?.moonrise,
+                moonset = moonTimings.getOrNull(index)?.moonset,
                 moonPhase = moonTimings.getOrNull(index)?.phase ?: MoonPhase.NEW_MOON,
-                dawn = sunTimings.getOrNull(index)?.dawn ?: 0L,
-                dusk = sunTimings.getOrNull(index)?.dusk ?: 0L
+                dawn = sunTimings.getOrNull(index)?.dawn,
+                dusk = sunTimings.getOrNull(index)?.dusk
             )
         }
     )

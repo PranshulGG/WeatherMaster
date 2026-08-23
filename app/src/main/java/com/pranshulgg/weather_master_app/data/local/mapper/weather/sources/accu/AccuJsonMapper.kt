@@ -128,13 +128,13 @@ fun AccuWeatherBundle.toDomain(location: Location): Weather {
                 visibility = null,
                 humidity = humidity,
                 dewPoint = null,
-                sunrise = sunTimings[index].sunrise ?: -0L,
-                sunset = sunTimings[index].sunset ?: -0L,
-                moonrise = moonTimings[index].moonrise ?: -0L,
-                moonset = moonTimings[index].moonset ?: -0L,
+                sunrise = sunTimings[index].sunrise,
+                sunset = sunTimings[index].sunset,
+                moonrise = moonTimings[index].moonrise,
+                moonset = moonTimings[index].moonset,
                 moonPhase = moonTimings[index].phase,
-                dawn = sunTimings[index].dawn ?: -0L,
-                dusk = sunTimings[index].dusk ?: -0L
+                dawn = sunTimings[index].dawn,
+                dusk = sunTimings[index].dusk
             )
         },
     )

@@ -28,6 +28,11 @@ import kotlinx.coroutines.withContext
 import retrofit2.Response
 import javax.inject.Inject
 
+
+/**
+ * Initial CWA integration implemented by https://github.com/reveler-hub
+ */
+
 // The cached "city key" for this source packs two values CWA needs into one delimited string,
 // since LocationKeyEntity only has a single cityKey column: "{shortRangeEndpointId}|{townshipName}".
 private const val CACHE_KEY_DELIMITER = "|"

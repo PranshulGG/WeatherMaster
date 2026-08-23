@@ -38,11 +38,11 @@ data class DailyWeatherEntity(
     val visibility: Int?,
     val humidity: Double?,
     val dewPoint: Double?,
-    val sunrise: Long,
-    val sunset: Long,
-    val moonrise: Long,
-    val moonset: Long,
+    val sunrise: Long?,
+    val sunset: Long?,
+    val moonrise: Long?,
+    val moonset: Long?,
     val moonPhase: MoonPhase,
-    val dawn: Long,
-    val dusk: Long
+    val dawn: Long?,
+    val dusk: Long?
 )

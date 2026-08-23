@@ -24,6 +24,9 @@ import java.time.LocalDate
 
 // AEMET reports wind speed in km/h already, matching this app's canonical unit - no conversion needed.
 
+/**
+ * Initial AEMET integration implemented by https://github.com/reveler-hub
+ */
 private data class AemetHourPoint(
     val time: Long,
     val condition: WeatherCondition,
@@ -139,14 +142,14 @@ fun AemetForecastJson.toDomain(location: Location): Weather {
                 visibility = null,
                 humidity = humidityAvg,
                 dewPoint = null,
-                sunrise = sunTimings.getOrNull(index)?.sunrise ?: 0L,
-                sunset = sunTimings.getOrNull(index)?.sunset ?: 0L,
-                moonrise = moonTimings.getOrNull(index)?.moonrise ?: 0L,
-                moonset = moonTimings.getOrNull(index)?.moonset ?: 0L,
+                sunrise = sunTimings.getOrNull(index)?.sunrise,
+                sunset = sunTimings.getOrNull(index)?.sunset,
+                moonrise = moonTimings.getOrNull(index)?.moonrise,
+                moonset = moonTimings.getOrNull(index)?.moonset,
                 moonPhase = moonTimings.getOrNull(index)?.phase
                     ?: com.pranshulgg.weather_master_app.core.model.astro.MoonPhase.NEW_MOON,
-                dawn = sunTimings.getOrNull(index)?.dawn ?: 0L,
-                dusk = sunTimings.getOrNull(index)?.dusk ?: 0L
+                dawn = sunTimings.getOrNull(index)?.dawn,
+                dusk = sunTimings.getOrNull(index)?.dusk
             )
         }
     )

@@ -146,13 +146,13 @@ fun OpenWeatherJsonBundle.toDomain(location: Location): Weather {
                 visibility = minVisibility?.toInt(),
                 humidity = humidityAvg,
                 dewPoint = avgDewPoint,
-                sunrise = sunTimings.sunrise ?: -1L,
-                sunset = sunTimings.sunset ?: -1L,
-                moonrise = moonTimings.moonrise ?: -1L,
-                moonset = moonTimings.moonset ?: -1L,
+                sunrise = sunTimings.sunrise,
+                sunset = sunTimings.sunset,
+                moonrise = moonTimings.moonrise,
+                moonset = moonTimings.moonset,
                 moonPhase = moonTimings.phase,
-                dawn = sunTimings.dawn ?: -1L,
-                dusk = sunTimings.dusk ?: -1L,
+                dawn = sunTimings.dawn,
+                dusk = sunTimings.dusk,
             )
         }
     )

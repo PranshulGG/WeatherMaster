@@ -41,7 +41,9 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-
+/**
+ * Initial INMET integration implemented by https://github.com/altendorfme
+ */
 class InmetRepository @Inject constructor(
     val dao: LocationsDao,
     val weatherDao: WeatherDao,

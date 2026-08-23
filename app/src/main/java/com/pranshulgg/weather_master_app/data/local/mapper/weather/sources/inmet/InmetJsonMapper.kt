@@ -25,6 +25,10 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 
+/**
+ * Initial INMET integration implemented by https://github.com/altendorfme
+ */
+
 data class InmetWeatherBundle(
     val forecast: Map<String, Map<String, InmetDayJson>>,
     val hourlyObservations: List<InmetHourlyEntryJson>?
@@ -164,13 +168,13 @@ fun InmetWeatherBundle.toDomain(location: Location): Weather {
             val sun = sunTimings[index]
             val moon = moonTimings[index]
             dailyEntries[index] = day.copy(
-                sunrise = sun.sunrise ?: -1L,
-                sunset = sun.sunset ?: -1L,
-                moonrise = moon.moonrise ?: -1L,
-                moonset = moon.moonset ?: -1L,
+                sunrise = sun.sunrise,
+                sunset = sun.sunset,
+                moonrise = moon.moonrise,
+                moonset = moon.moonset,
                 moonPhase = moon.phase,
-                dawn = sun.dawn ?: -1L,
-                dusk = sun.dusk ?: -1L
+                dawn = sun.dawn,
+                dusk = sun.dusk
             )
         }
     }

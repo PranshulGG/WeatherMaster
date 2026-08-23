@@ -35,6 +35,12 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
+
+/**
+ * Initial JMA integration implemented by https://github.com/reveler-hub
+ */
+
+
 // The cached "city key" packs three values into one delimited string (LocationKeyEntity only
 // has a single cityKey column), so a warm-cache read needs zero extra network calls:
 // "{class10Code}|{officeCode}|{amedasId}".
@@ -204,7 +210,8 @@ class JmaRepository @Inject constructor(
         for (bucket in listOf(boundary, boundary.minusHours(3))) {
             val path = bucket.format(DateTimeFormatter.ofPattern("yyyyMMdd_HH"))
             try {
-                val result = api.getAmedasCurrent(amedasId, path).entries.maxByOrNull { it.key }?.value
+                val result =
+                    api.getAmedasCurrent(amedasId, path).entries.maxByOrNull { it.key }?.value
                 if (result != null) return result
             } catch (e: Exception) {
                 // try the previous bucket

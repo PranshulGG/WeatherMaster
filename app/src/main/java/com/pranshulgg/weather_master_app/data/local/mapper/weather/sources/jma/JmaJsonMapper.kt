@@ -21,6 +21,11 @@ import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getSunTimi
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findHourlyIndexForTime
 import java.time.OffsetDateTime
 
+
+/**
+ * Initial JMA integration implemented by https://github.com/reveler-hub
+ */
+
 // JMA reports wind speed as a level+range in m/s (converted to km/h below) and temperature
 // already in Celsius. The forecast product has no rain/snow-amount field at all (only
 // probability), so rain/snowfall are always 0.0/null here, same treatment IPMA/AEMET/CWA use
@@ -58,7 +63,8 @@ fun JmaForecastBundle.toDomain(location: Location): Weather {
     fun popAt(targetMillis: Long): Int? {
         val index = popTimeDefines.indexOfLast { it <= targetMillis }
         if (index == -1) return null
-        val blockEnd = popTimeDefines.getOrNull(index + 1) ?: (popTimeDefines[index] + 6 * 3_600_000L)
+        val blockEnd =
+            popTimeDefines.getOrNull(index + 1) ?: (popTimeDefines[index] + 6 * 3_600_000L)
         if (targetMillis >= blockEnd) return null
         return pops.getOrNull(index)?.toSafeProbability()
     }
@@ -169,13 +175,13 @@ fun JmaForecastBundle.toDomain(location: Location): Weather {
                 visibility = null,
                 humidity = null,
                 dewPoint = null,
-                sunrise = sunTimings.getOrNull(index)?.sunrise ?: 0L,
-                sunset = sunTimings.getOrNull(index)?.sunset ?: 0L,
-                moonrise = moonTimings.getOrNull(index)?.moonrise ?: 0L,
-                moonset = moonTimings.getOrNull(index)?.moonset ?: 0L,
+                sunrise = sunTimings.getOrNull(index)?.sunrise,
+                sunset = sunTimings.getOrNull(index)?.sunset,
+                moonrise = moonTimings.getOrNull(index)?.moonrise,
+                moonset = moonTimings.getOrNull(index)?.moonset,
                 moonPhase = moonTimings.getOrNull(index)?.phase ?: MoonPhase.NEW_MOON,
-                dawn = sunTimings.getOrNull(index)?.dawn ?: 0L,
-                dusk = sunTimings.getOrNull(index)?.dusk ?: 0L
+                dawn = sunTimings.getOrNull(index)?.dawn,
+                dusk = sunTimings.getOrNull(index)?.dusk
             )
         }
     )

@@ -102,13 +102,13 @@ data class WeatherDaily(
     val visibility: Int?,  // NOTE: ALWAYS METERS (Minimum)
     val humidity: Double?, // (Average)
     val dewPoint: Double?, // (Average)
-    val sunrise: Long, // NOTE: ALWAYS MILLISECONDS
-    val sunset: Long, // NOTE: ALWAYS MILLISECONDS
-    val moonrise: Long, // NOTE: ALWAYS MILLISECONDS
-    val moonset: Long, // NOTE: ALWAYS MILLISECONDS
+    val sunrise: Long?, // NOTE: ALWAYS MILLISECONDS
+    val sunset: Long?, // NOTE: ALWAYS MILLISECONDS
+    val moonrise: Long?, // NOTE: ALWAYS MILLISECONDS
+    val moonset: Long?, // NOTE: ALWAYS MILLISECONDS
     val moonPhase: MoonPhase,
-    val dawn: Long,
-    val dusk: Long
+    val dawn: Long?,
+    val dusk: Long?
 ) {
 
     fun isWindSpeedValid(): Boolean {
@@ -143,4 +143,12 @@ data class WeatherDaily(
         return pressureMsl != null && pressureMsl != -1.0
     }
 
+    fun isMoonTimesValid(): Boolean {
+        return moonrise != null && moonset != null
+    }
+
+
+    fun isSunTimesValid(): Boolean {
+        return sunrise != null && sunset != null
+    }
 }

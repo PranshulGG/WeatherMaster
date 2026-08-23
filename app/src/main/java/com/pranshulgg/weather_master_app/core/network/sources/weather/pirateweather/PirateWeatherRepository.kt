@@ -33,6 +33,10 @@ import kotlinx.coroutines.withContext
 import java.net.UnknownHostException
 import javax.inject.Inject
 
+/**
+ * Initial Pirate Weather integration implemented by https://github.com/altendorfme
+ */
+
 class PirateWeatherRepository @Inject constructor(
     val dao: LocationsDao,
     val weatherDao: WeatherDao,
