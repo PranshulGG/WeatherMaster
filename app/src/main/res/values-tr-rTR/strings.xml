@@ -106,7 +106,7 @@
     <string name="setting_dynamic_colors">Dinamik renkler</string>
     <string name="setting_dynamic_colors_secondary">Duvar kağıdı renklerini kullan</string>
     <string name="setting_amoled_theme">AMOLED</string>
-    <string name="setting_amoled_theme_secondary">Use pure black in dark theme</string>
+    <string name="setting_amoled_theme_secondary">Karanlık temada gerçek siyah kullan</string>
     <string name="weather_total_rain_day">Gün için toplam yağış</string>
     <string name="error_network">Ağ bağlantısı yok</string>
     <string name="weather_total_snow_day">Gün için toplam kar yağışı</string>
@@ -216,7 +216,7 @@
     <string name="error_backup_schema_unsupported">This backup file was made with a newer version of the app and can\'t be imported</string>
     <string name="error_backup_file_corrupted">This backup file is invalid or corrupted</string>
     <string name="error_backup_file_io">Couldn\'t read or write the backup file</string>
-    <string name="error_backup_missing_default_location">This backup doesn\'t have a default location and can\'t be imported</string>
+    <string name="error_backup_missing_default_location">Bu yedek varsayılan bir konum içermediğinden içeri aktarılamadı.</string>
     <string name="setting_weather_sources_info">Her bölge için ülke koduna göre farklı kaynaklar seçilmesi önerilir</string>
     <string name="setting_weather_animations">Hava durumu animasyonu</string>
     <string name="setting_weather_animations_secondary">Hava durumuna göre değişen ekran animasyonları</string>
@@ -363,12 +363,12 @@
     <string name="country_finland">Finlandiya</string>
     <string name="country_indonesia">Endonezya</string>
     <string name="country_italy">İtalya</string>
-    <string name="country_japan">Japan</string>
+    <string name="country_japan">Japonya</string>
     <string name="country_portugal">Portekiz</string>
     <string name="country_russia">Rusya</string>
     <string name="country_spain">İspanya</string>
     <string name="country_taiwan">Tayvan</string>
-    <string name="country_brazil">Brazil</string>
+    <string name="country_brazil">Brezilya</string>
     <string name="settings_date_format">Tarih biçimi</string>
     <string name="widget_settings_display_hourly_secondary">Saatlik hava durumu yerine günlük hava durumunu göster</string>
     <string name="settings_widget_background">Widget arka planı</string>
