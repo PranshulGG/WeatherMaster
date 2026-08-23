@@ -77,10 +77,31 @@ fun getMoonTimings(
         val phaseName = getMoonPhase(phase)
 
 
+        /**
+         * Fix mentioned in https://github.com/PranshulGG/WeatherMaster/issues/1077 by @reveler-hub
+         *
+         * Since the moon doesn't follow a clean 24 hr cycle, the lib can return a rise and set that don't belong
+         * to the same cycle
+         *
+         * Like for e.g. rise = Aug 23, 13:55, set = Aug 23, 01:56
+         * 01:56 occurs before 13:55, that set belongs to the previous day. We keep the Aug 23 rise
+         * and use the next day's set instead
+         */
+        val resolveSet =
+            if (moonTimes.rise != null && moonTimes.set != null && moonTimes.rise!! > moonTimes.set) {
+                moonTimes.set
+            } else {
+                MoonTimes.compute()
+                    .on(date.plusDays(1))
+                    .at(lat, lon)
+                    .timezone(safeZoneId(zoneId))
+                    .execute().set
+            }
+
         MoonTimings(
             it,
             moonTimes.rise?.toEpochSecond()?.secondsToMilliseconds(),
-            moonTimes.set?.toEpochSecond()?.secondsToMilliseconds(),
+            resolveSet?.toEpochSecond()?.secondsToMilliseconds(),
             phase = phaseName
         )
     }
