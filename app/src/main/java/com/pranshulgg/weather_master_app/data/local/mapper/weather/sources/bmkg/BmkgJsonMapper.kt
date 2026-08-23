@@ -146,8 +146,8 @@ private fun computeDaily(
             dewPoint = null,
             sunrise = sunTimings[index].sunrise ?: -1L,
             sunset = sunTimings[index].sunset ?: -1L,
-            moonrise = moonTimings[index].moonrise ?: -1L,
-            moonset = moonTimings[index].moonset ?: -1L,
+            moonrise = moonTimings[index].moonrise,
+            moonset = moonTimings[index].moonset,
             moonPhase = moonTimings[index].phase,
             dawn = sunTimings[index].dawn ?: -1L,
             dusk = sunTimings[index].dusk ?: -1L

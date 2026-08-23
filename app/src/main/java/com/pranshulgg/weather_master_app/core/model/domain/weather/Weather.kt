@@ -104,8 +104,8 @@ data class WeatherDaily(
     val dewPoint: Double?, // (Average)
     val sunrise: Long, // NOTE: ALWAYS MILLISECONDS
     val sunset: Long, // NOTE: ALWAYS MILLISECONDS
-    val moonrise: Long, // NOTE: ALWAYS MILLISECONDS
-    val moonset: Long, // NOTE: ALWAYS MILLISECONDS
+    val moonrise: Long?, // NOTE: ALWAYS MILLISECONDS. Null when the moon doesn't rise on this local day.
+    val moonset: Long?, // NOTE: ALWAYS MILLISECONDS. Null when the moon doesn't set on this local day.
     val moonPhase: MoonPhase,
     val dawn: Long,
     val dusk: Long

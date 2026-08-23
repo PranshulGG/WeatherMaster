@@ -93,8 +93,8 @@ fun InmetWeatherBundle.toDomain(location: Location): Weather {
                     dewPoint = null,
                     sunrise = -1L,
                     sunset = -1L,
-                    moonrise = -1L,
-                    moonset = -1L,
+                    moonrise = null,
+                    moonset = null,
                     moonPhase = MoonPhase.NEW_MOON,
                     dawn = -1L,
                     dusk = -1L
@@ -125,8 +125,8 @@ fun InmetWeatherBundle.toDomain(location: Location): Weather {
                     dewPoint = null,
                     sunrise = -1L,
                     sunset = -1L,
-                    moonrise = -1L,
-                    moonset = -1L,
+                    moonrise = null,
+                    moonset = null,
                     moonPhase = MoonPhase.NEW_MOON,
                     dawn = -1L,
                     dusk = -1L
@@ -166,8 +166,8 @@ fun InmetWeatherBundle.toDomain(location: Location): Weather {
             dailyEntries[index] = day.copy(
                 sunrise = sun.sunrise ?: -1L,
                 sunset = sun.sunset ?: -1L,
-                moonrise = moon.moonrise ?: -1L,
-                moonset = moon.moonset ?: -1L,
+                moonrise = moon.moonrise,
+                moonset = moon.moonset,
                 moonPhase = moon.phase,
                 dawn = sun.dawn ?: -1L,
                 dusk = sun.dusk ?: -1L

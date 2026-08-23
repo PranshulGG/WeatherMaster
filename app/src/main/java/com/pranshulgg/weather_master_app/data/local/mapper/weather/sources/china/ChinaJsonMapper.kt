@@ -123,8 +123,8 @@ fun ChinaForecastJson.toDomain(location: Location): Weather {
                 dewPoint = null,
                 sunrise = sunTimings[it].sunrise ?: -1L,
                 sunset = sunTimings[it].sunset ?: -1L,
-                moonrise = moonTimings[it].moonrise ?: -1L,
-                moonset = moonTimings[it].moonset ?: -1L,
+                moonrise = moonTimings[it].moonrise,
+                moonset = moonTimings[it].moonset,
                 moonPhase = moonTimings[it].phase,
                 dawn = sunTimings[it].dawn ?: -1L,
                 dusk = sunTimings[it].dusk ?: -1L

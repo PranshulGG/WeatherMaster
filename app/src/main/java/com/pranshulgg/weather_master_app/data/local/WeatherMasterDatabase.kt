@@ -47,7 +47,7 @@ import com.pranshulgg.weather_master_app.data.local.entity.weather.units.AppWeat
         AlertEntity::class,
         ApiKeyEntity::class
     ],
-    version = 58,
+    version = 59,
     autoMigrations = [
         AutoMigration(from = 39, to = 40),
         AutoMigration(from = 42, to = 43),
@@ -97,7 +97,8 @@ abstract class WeatherMasterDatabase : RoomDatabase() {
                     MIGRATION_45_46,
                     MIGRATION_46_47,
                     MIGRATION_51_52,
-                    MIGRATION_55_56
+                    MIGRATION_55_56,
+                    MIGRATION_58_59
                 )
                     .build()
                     .also { INSTANCE = it }
@@ -191,6 +192,52 @@ val MIGRATION_51_52 = object : Migration(51, 52) {
     }
 }
 
+
+val MIGRATION_58_59 = object : Migration(58, 59) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        // weather_daily is a re-fetched cache table; recreated fresh rather than
+        // preserved, since SQLite can't ALTER COLUMN a NOT NULL constraint away.
+        // moonrise/moonset are now nullable: the moon legitimately doesn't rise
+        // or set on some local days, and that was previously masked by a fake
+        // sentinel timestamp being displayed as if it were real.
+        db.execSQL("DROP TABLE IF EXISTS weather_daily")
+
+        db.execSQL(
+            """
+            CREATE TABLE IF NOT EXISTS weather_daily (
+                locationId TEXT NOT NULL,
+                temperatureMin REAL,
+                temperatureMax REAL,
+                windSpeed REAL,
+                windDirection TEXT,
+                rainSum REAL NOT NULL,
+                snowfallSum REAL,
+                uvIndexMax REAL,
+                weatherCondition TEXT NOT NULL,
+                time INTEGER NOT NULL,
+                precipitationProbabilityMax INTEGER,
+                pressureMsl REAL,
+                visibility INTEGER,
+                humidity REAL,
+                dewPoint REAL,
+                sunrise INTEGER NOT NULL,
+                sunset INTEGER NOT NULL,
+                moonrise INTEGER,
+                moonset INTEGER,
+                moonPhase TEXT NOT NULL,
+                dawn INTEGER NOT NULL,
+                dusk INTEGER NOT NULL,
+                PRIMARY KEY(locationId, time),
+                FOREIGN KEY(locationId) REFERENCES weather_locations(id) ON UPDATE NO ACTION ON DELETE CASCADE
+            )
+        """.trimIndent()
+        )
+
+        db.execSQL(
+            "CREATE INDEX IF NOT EXISTS index_weather_daily_locationId ON weather_daily(locationId)"
+        )
+    }
+}
 
 val MIGRATION_55_56 = object : Migration(55, 56) {
     override fun migrate(db: SupportSQLiteDatabase) {

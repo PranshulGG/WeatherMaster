@@ -40,8 +40,8 @@ data class DailyWeatherEntity(
     val dewPoint: Double?,
     val sunrise: Long,
     val sunset: Long,
-    val moonrise: Long,
-    val moonset: Long,
+    val moonrise: Long?,
+    val moonset: Long?,
     val moonPhase: MoonPhase,
     val dawn: Long,
     val dusk: Long

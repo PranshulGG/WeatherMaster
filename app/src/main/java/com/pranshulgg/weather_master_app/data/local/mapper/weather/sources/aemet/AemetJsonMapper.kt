@@ -141,8 +141,8 @@ fun AemetForecastJson.toDomain(location: Location): Weather {
                 dewPoint = null,
                 sunrise = sunTimings.getOrNull(index)?.sunrise ?: 0L,
                 sunset = sunTimings.getOrNull(index)?.sunset ?: 0L,
-                moonrise = moonTimings.getOrNull(index)?.moonrise ?: 0L,
-                moonset = moonTimings.getOrNull(index)?.moonset ?: 0L,
+                moonrise = moonTimings.getOrNull(index)?.moonrise,
+                moonset = moonTimings.getOrNull(index)?.moonset,
                 moonPhase = moonTimings.getOrNull(index)?.phase
                     ?: com.pranshulgg.weather_master_app.core.model.astro.MoonPhase.NEW_MOON,
                 dawn = sunTimings.getOrNull(index)?.dawn ?: 0L,
