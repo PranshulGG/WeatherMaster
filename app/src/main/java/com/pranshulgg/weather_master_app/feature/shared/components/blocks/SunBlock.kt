@@ -38,6 +38,7 @@ import com.pranshulgg.weather_master_app.core.prefs.AppPrefsState
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
 import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
+import com.pranshulgg.weather_master_app.core.utils.formatters.getCurrentTimeFor
 import com.pranshulgg.weather_master_app.core.utils.formatters.to12HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.formatters.to24HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherDailyDomainSafe
@@ -76,10 +77,12 @@ fun SunBlock(weather: Weather, dailyIndex: Int, prefs: AppPrefsState, onClickBlo
 
             val sunrise = daily.sunrise
             val sunset = daily.sunset
-            val now = System.currentTimeMillis()
+            val now = getCurrentTimeFor(weather.location.timezone)
 
-            val progress = ((now - sunrise).toFloat() / (sunset - sunrise))
-                .coerceIn(0f, 1f)
+
+            val progress =
+                if (now in daily.sunrise..daily.sunset) ((now - sunrise).toFloat() / (sunset - sunrise))
+                    .coerceIn(0f, 1f) else 1f
 
 
             val sunBitmap = ImageBitmap.imageResource(id = R.drawable.sun_rise_set_icon)
