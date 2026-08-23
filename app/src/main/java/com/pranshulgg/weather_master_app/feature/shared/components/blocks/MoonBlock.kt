@@ -38,6 +38,7 @@ import com.pranshulgg.weather_master_app.core.prefs.AppPrefsState
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
 import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
+import com.pranshulgg.weather_master_app.core.utils.formatters.getCurrentTimeFor
 import com.pranshulgg.weather_master_app.core.utils.formatters.to12HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.formatters.to24HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherDailyDomainSafe
@@ -76,9 +77,8 @@ fun MoonBlock(weather: Weather, dailyIndex: Int, prefs: AppPrefsState, onClickBl
 
             val moonrise = daily.moonrise
             val moonset = daily.moonset
-            val now = System.currentTimeMillis()
-
-            val progress = ((now - moonrise).toFloat() / (moonset - moonrise))
+            val now = getCurrentTimeFor(weather.location.timezone)
+            val progress = ((now - moonrise!!).toFloat() / (moonset!! - moonrise))
                 .coerceIn(0f, 1f)
 
 
@@ -138,15 +138,15 @@ fun MoonBlock(weather: Weather, dailyIndex: Int, prefs: AppPrefsState, onClickBl
                 moonrise,
                 weather.location.timezone
             ) else to12HourTimeString(
-                moonrise,
+                moonrise!!,
                 weather.location.timezone,
                 "hh:mm a"
             )
             val moonsetFormatted = if (is24hr) to24HourTimeString(
-                moonset,
+                moonset!!,
                 weather.location.timezone
             ) else to12HourTimeString(
-                moonset,
+                moonset!!,
                 weather.location.timezone,
                 "hh:mm a"
             )

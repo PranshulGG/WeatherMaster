@@ -143,12 +143,12 @@ data class WeatherDaily(
         return pressureMsl != null && pressureMsl != -1.0
     }
 
-    fun isMoonTimesValid(): Boolean {
+    fun isMoonValid(): Boolean {
         return moonrise != null && moonset != null
     }
 
 
-    fun isSunTimesValid(): Boolean {
+    fun isSunValid(): Boolean {
         return sunrise != null && sunset != null
     }
 }

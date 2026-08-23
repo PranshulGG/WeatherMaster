@@ -80,8 +80,8 @@ fun SunBlock(weather: Weather, dailyIndex: Int, prefs: AppPrefsState, onClickBlo
             val now = getCurrentTimeFor(weather.location.timezone)
 
 
-            val progress =
-                if (now in daily.sunrise..daily.sunset) ((now - sunrise).toFloat() / (sunset - sunrise))
+            val progress = if (now in daily.sunrise!!..daily.sunset!!)
+                ((now - sunrise).toFloat() / (sunset - sunrise))
                     .coerceIn(0f, 1f) else 1f
 
 
