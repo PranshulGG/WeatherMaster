@@ -388,6 +388,7 @@ class WeatherViewModel @Inject constructor(
     }
 
     override fun onCleared() {
+        super.onCleared()
         ProcessLifecycleOwner.get().lifecycle.removeObserver(processLifecycleObserver)
     }
 }

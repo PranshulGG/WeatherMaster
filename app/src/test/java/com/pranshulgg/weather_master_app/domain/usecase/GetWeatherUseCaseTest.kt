@@ -1,12 +1,13 @@
 package com.pranshulgg.weather_master_app.domain.usecase
 
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
 import com.pranshulgg.weather_master_app.data.repository.data.SourceDataRepository
 import io.mockk.coEvery
+import io.mockk.coJustRun
 import io.mockk.coVerify
 import io.mockk.mockk
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -32,7 +33,7 @@ class GetWeatherUseCaseTest {
     @Test
     fun `invoke should call sourceDataRepository getData`() = runTest {
         // Given
-        coEvery {
+        coJustRun {
             sourceDataRepository.getData(
                 location = dummyLocation,
                 isManualRefresh = any(),
@@ -43,7 +44,7 @@ class GetWeatherUseCaseTest {
                 onAlerts = any(),
                 onAirQuality = any()
             )
-        } returns mockk<Job>()
+        }
 
         // When
         useCase(
@@ -77,7 +78,7 @@ class GetWeatherUseCaseTest {
         
         coEvery { locationsRepo.updateDeviceLocationPosition() } returns true
         coEvery { locationsRepo.getLocationForId(deviceLocation.id) } returns updatedLocation
-        coEvery {
+        coJustRun {
             sourceDataRepository.getData(
                 location = updatedLocation,
                 isManualRefresh = any(),
@@ -88,7 +89,7 @@ class GetWeatherUseCaseTest {
                 onAlerts = any(),
                 onAirQuality = any()
             )
-        } returns mockk<Job>()
+        }
 
         // When
         useCase(
@@ -114,5 +115,39 @@ class GetWeatherUseCaseTest {
                 onAirQuality = any()
             )
         }
+    }
+
+    @Test
+    fun `invoke should bubble up onWeather result`() = runTest {
+        // Given
+        val errorResult = WeatherResult.Error(Exception("Network error"), null)
+        var resultPassedToCallback: WeatherResult? = null
+
+        coEvery {
+            sourceDataRepository.getData(
+                location = any(),
+                isManualRefresh = any(),
+                isForceRefresh = any(),
+                isForceRefreshForAirQuality = any(),
+                isForceRefreshForAlerts = any(),
+                onWeather = any(),
+                onAlerts = any(),
+                onAirQuality = any()
+            )
+        } coAnswers {
+            val onWeatherCallback = it.invocation.args[5] as suspend (WeatherResult) -> Unit
+            onWeatherCallback(errorResult)
+        }
+
+        // When
+        useCase(
+            location = dummyLocation,
+            onWeather = { result, _ -> resultPassedToCallback = result },
+            onAlerts = {},
+            onAirQuality = {}
+        )
+
+        // Then
+        assertEquals(errorResult, resultPassedToCallback)
     }
 }

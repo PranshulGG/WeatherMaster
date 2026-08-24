@@ -90,6 +90,6 @@ class SourceDataRepository @Inject constructor(
             onWeather(weatherJob.await())
         }
 
-
+        Unit
     }
 }

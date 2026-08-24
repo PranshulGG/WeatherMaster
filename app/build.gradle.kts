@@ -81,7 +81,7 @@ android {
         buildConfigField(
             "String",
             "APP_VERSION",
-            "\"v$versionNameString\""
+            "\"v${versionNameString}\""
         )
 
         buildConfigField(
