@@ -14,6 +14,7 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import kotlin.time.Duration.Companion.minutes
 
 @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
 class WeatherViewModelTest {
@@ -123,7 +124,7 @@ class WeatherViewModelTest {
         // Given
         val deviceLocation = dummyLocation.copy(isDeviceLocation = true)
         val updatedLocation = deviceLocation.copy(latitude = 52.0)
-        val onLocationUpdatedSlot = slot<(Location) -> Unit>()
+        val onLocationUpdatedSlot = slot<suspend (Location) -> Unit>()
         
         coEvery {
             getWeatherUseCase(
@@ -147,6 +148,34 @@ class WeatherViewModelTest {
 
         // Then
         assertEquals(updatedLocation, viewModel.uiState.value.activeLocation)
+    }
+
+    @Test
+    fun `auto refresh should call getWeather periodically`() = runTest {
+        // Given
+        viewModel.setActiveLocation(dummyLocation)
+        advanceUntilIdle()
+        
+        // Clear initial call from setActiveLocation
+        clearMocks(getWeatherUseCase, answers = false)
+
+        // When
+        advanceTimeBy(45.minutes.inWholeMilliseconds + 1)
+
+        // Then
+        coVerify {
+            getWeatherUseCase(
+                location = dummyLocation,
+                isManualRefresh = false,
+                isForceRefresh = false,
+                isForceRefreshForAirQuality = false,
+                isForceRefreshForAlerts = false,
+                onLocationUpdated = any(),
+                onWeather = any(),
+                onAlerts = any(),
+                onAirQuality = any()
+            )
+        }
     }
 
     @Test

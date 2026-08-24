@@ -59,6 +59,10 @@ class WeatherViewModel @Inject constructor(
     private var _uiState = mutableStateOf(MainScreenWeatherUiState())
     val uiState: State<MainScreenWeatherUiState> = _uiState
 
+    companion object {
+        private val AUTO_REFRESH_INTERVAL = 45.minutes
+    }
+
     // Registered on the process-wide lifecycle (same pattern as AppVisibility) rather than a
     // Compose LocalLifecycleOwner tied to a screen: a screen-scoped observer gets torn down and
     // recreated by ordinary in-app navigation, and Android replays a synthetic ON_START to any
@@ -368,7 +372,7 @@ class WeatherViewModel @Inject constructor(
         autoRefreshJob = viewModelScope.launch {
             while (isActive) {
 
-                delay(45.minutes)
+                delay(AUTO_REFRESH_INTERVAL)
                 val location = _uiState.value.activeLocation ?: continue
 
                 if (_uiState.value.isLoading || _uiState.value.isError) {
