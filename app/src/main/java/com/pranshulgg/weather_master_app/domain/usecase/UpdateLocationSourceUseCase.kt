@@ -1,5 +1,9 @@
 package com.pranshulgg.weather_master_app.domain.usecase
 
+/**
+ * Initial Clean Architecture Domain Layer integration implemented by https://github.com/gietabhi10
+ */
+
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModel
 import com.pranshulgg.weather_master_app.core.model.sources.Source

@@ -1,5 +1,9 @@
 package com.pranshulgg.weather_master_app.domain.usecase
 
+/**
+ * Initial Clean Architecture Domain Layer integration implemented by https://github.com/gietabhi10
+ */
+
 import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
 import javax.inject.Inject
 
