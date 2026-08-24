@@ -28,8 +28,6 @@ class GetWeatherUseCase @Inject constructor(
      * asynchronous operations.
      *
      * All callbacks are invoked on the dispatcher used by the caller.
-     * Note: [onWeather], [onAlerts], and [onAirQuality] may be invoked from the
-     * repository's dispatcher if not explicitly controlled by the caller.
      *
      * @param location The location to fetch data for.
      * @param isManualRefresh Whether this is a user-initiated refresh (e.g., pull-to-refresh).

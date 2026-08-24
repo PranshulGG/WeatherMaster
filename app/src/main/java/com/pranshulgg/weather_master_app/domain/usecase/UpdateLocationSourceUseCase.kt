@@ -45,8 +45,6 @@ class UpdateLocationSourceUseCase @Inject constructor(
         locationsRepo.updateAlertSourceForLocation(location.id, alertSource)
         locationsRepo.updateOpenMeteoModelForLocation(location.id, openMeteoModel)
 
-        // Reconciliation cleans up stale data from previous sources.
-        // Note: These updates are currently performed in sequence without a transaction.
         weatherDataReconcilerRepository.reconcileSourceChange(
             previous = location,
             updated = updatedLocation

@@ -154,7 +154,7 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.materialKolor)
-    implementation(libs.androidx.foundation.layout) // Removed duplicate entry
+    implementation(libs.androidx.foundation.layout)
     implementation(libs.coil.compose)
     implementation(libs.kotlinx.coroutines.android)
 
