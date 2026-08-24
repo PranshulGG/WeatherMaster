@@ -11,6 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.*
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
@@ -51,7 +52,19 @@ class WeatherViewModelTest {
         every { locationsRepo.getDefaultLocation() } returns flowOf(dummyLocation)
         coEvery { locationsRepo.isLocationsEmpty() } returns false
         coEvery { loadWeatherBlocksUseCase() } returns emptyList()
-        coJustRun { getWeatherUseCase(any(), any(), any(), any(), any(), any(), any(), any(), any()) }
+        coJustRun {
+            getWeatherUseCase(
+                location = any(),
+                isManualRefresh = any(),
+                isForceRefresh = any(),
+                isForceRefreshForAirQuality = any(),
+                isForceRefreshForAlerts = any(),
+                onLocationUpdated = any(),
+                onWeather = any(),
+                onAlerts = any(),
+                onAirQuality = any()
+            )
+        }
 
         viewModel = WeatherViewModel(
             locationsRepo,
@@ -103,5 +116,36 @@ class WeatherViewModelTest {
 
         // Then
         coVerify { deleteLocationUseCase("1") }
+    }
+
+    @Test
+    fun `device location update should update activeLocation in state`() = runTest {
+        // Given
+        val deviceLocation = dummyLocation.copy(isDeviceLocation = true)
+        val updatedLocation = deviceLocation.copy(latitude = 52.0)
+        val onLocationUpdatedSlot = slot<(Location) -> Unit>()
+        
+        coEvery {
+            getWeatherUseCase(
+                location = any(),
+                isManualRefresh = any(),
+                isForceRefresh = any(),
+                isForceRefreshForAirQuality = any(),
+                isForceRefreshForAlerts = any(),
+                onLocationUpdated = capture(onLocationUpdatedSlot),
+                onWeather = any(),
+                onAlerts = any(),
+                onAirQuality = any()
+            )
+        } coAnswers {
+            onLocationUpdatedSlot.captured(updatedLocation)
+        }
+
+        // When
+        viewModel.setActiveLocation(deviceLocation)
+        advanceUntilIdle()
+
+        // Then
+        assertEquals(updatedLocation, viewModel.uiState.value.activeLocation)
     }
 }

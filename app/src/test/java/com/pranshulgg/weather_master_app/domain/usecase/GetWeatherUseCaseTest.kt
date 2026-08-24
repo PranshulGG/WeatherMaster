@@ -8,6 +8,7 @@ import io.mockk.coEvery
 import io.mockk.coJustRun
 import io.mockk.coVerify
 import io.mockk.mockk
+import io.mockk.slot
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -118,14 +119,14 @@ class GetWeatherUseCaseTest {
     }
 
     @Test
-    fun `invoke should bubble up onWeather result`() = runTest {
+    fun `invoke with device location should not update position if not changed`() = runTest {
         // Given
-        val errorResult = WeatherResult.Error(Exception("Network error"), null)
-        var resultPassedToCallback: WeatherResult? = null
-
-        coEvery {
+        val deviceLocation = dummyLocation.copy(isDeviceLocation = true)
+        
+        coEvery { locationsRepo.updateDeviceLocationPosition() } returns false
+        coJustRun {
             sourceDataRepository.getData(
-                location = any(),
+                location = deviceLocation,
                 isManualRefresh = any(),
                 isForceRefresh = any(),
                 isForceRefreshForAirQuality = any(),
@@ -134,9 +135,53 @@ class GetWeatherUseCaseTest {
                 onAlerts = any(),
                 onAirQuality = any()
             )
+        }
+
+        // When
+        useCase(
+            location = deviceLocation,
+            onWeather = { _, _ -> },
+            onAlerts = {},
+            onAirQuality = {}
+        )
+
+        // Then
+        coVerify { locationsRepo.updateDeviceLocationPosition() }
+        coVerify(exactly = 0) { locationsRepo.getLocationForId(any()) }
+        coVerify {
+            sourceDataRepository.getData(
+                location = deviceLocation,
+                isManualRefresh = false,
+                isForceRefresh = false,
+                isForceRefreshForAirQuality = false,
+                isForceRefreshForAlerts = false,
+                onWeather = any(),
+                onAlerts = any(),
+                onAirQuality = any()
+            )
+        }
+    }
+
+    @Test
+    fun `invoke should bubble up onWeather result`() = runTest {
+        // Given
+        val errorResult = WeatherResult.Error(Exception("Network error"), null)
+        var resultPassedToCallback: WeatherResult? = null
+        val onWeatherSlot = slot<suspend (WeatherResult) -> Unit>()
+
+        coEvery {
+            sourceDataRepository.getData(
+                location = any(),
+                isManualRefresh = any(),
+                isForceRefresh = any(),
+                isForceRefreshForAirQuality = any(),
+                isForceRefreshForAlerts = any(),
+                onWeather = capture(onWeatherSlot),
+                onAlerts = any(),
+                onAirQuality = any()
+            )
         } coAnswers {
-            val onWeatherCallback = it.invocation.args[5] as suspend (WeatherResult) -> Unit
-            onWeatherCallback(errorResult)
+            onWeatherSlot.captured(errorResult)
         }
 
         // When

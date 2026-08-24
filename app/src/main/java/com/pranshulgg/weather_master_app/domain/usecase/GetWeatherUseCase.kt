@@ -18,6 +18,11 @@ class GetWeatherUseCase @Inject constructor(
     /**
      * Executes the weather fetch process.
      *
+     * This function should be called from a coroutine scope (e.g., [viewModelScope]).
+     * It handles internal suspension and parallel execution of data fetching.
+     * Cancellation of the calling coroutine will correctly cancel all internal
+     * asynchronous operations.
+     *
      * @param location The location to fetch data for.
      * @param isManualRefresh Whether this is a user-initiated refresh (e.g., pull-to-refresh).
      * @param isForceRefresh Whether to bypass caches for weather data.
