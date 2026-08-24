@@ -113,9 +113,9 @@
     <string name="setting_dynamic_colors_secondary">Naudoti foninio paveikslėlio spalvas</string>
     <string name="setting_amoled_theme">AMOLED</string>
     <string name="setting_amoled_theme_secondary">Naudoti visiškai juodą spalvą tamsioje temoje</string>
-    <string name="weather_total_rain_day">Bendras dienos kritulių kiekis</string>
+    <string name="weather_total_rain_day">Bendras kiekis</string>
     <string name="error_network">Tinklas nepasiekiamas</string>
-    <string name="weather_total_snow_day">Bendras dienos sniego kiekis</string>
+    <string name="weather_total_snow_day">Bendras kiekis</string>
     <string name="weather_precipitation">Krituliai</string>
     <string name="weather_air_quality_index">Oro kokybės indeksas</string>
     <string name="setting_translate_app">Išverskite programėlę</string>
