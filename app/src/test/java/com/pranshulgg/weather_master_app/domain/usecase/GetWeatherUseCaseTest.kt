@@ -1,15 +1,14 @@
 package com.pranshulgg.weather_master_app.domain.usecase
 
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
-import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
 import com.pranshulgg.weather_master_app.data.repository.data.SourceDataRepository
 import io.mockk.coEvery
-import io.mockk.coInvoke
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class GetWeatherUseCaseTest {
@@ -70,10 +69,11 @@ class GetWeatherUseCaseTest {
     }
 
     @Test
-    fun `invoke with device location should update position if changed`() = runTest {
+    fun `invoke with device location should update position and notify if changed`() = runTest {
         // Given
         val deviceLocation = dummyLocation.copy(isDeviceLocation = true)
         val updatedLocation = deviceLocation.copy(latitude = 52.0)
+        var locationPassedToCallback: Location? = null
         
         coEvery { locationsRepo.updateDeviceLocationPosition() } returns true
         coEvery { locationsRepo.getLocationForId(deviceLocation.id) } returns updatedLocation
@@ -93,6 +93,7 @@ class GetWeatherUseCaseTest {
         // When
         useCase(
             location = deviceLocation,
+            onLocationUpdated = { locationPassedToCallback = it },
             onWeather = { _, _ -> },
             onAlerts = {},
             onAirQuality = {}
@@ -100,6 +101,7 @@ class GetWeatherUseCaseTest {
 
         // Then
         coVerify { locationsRepo.updateDeviceLocationPosition() }
+        assertEquals(updatedLocation, locationPassedToCallback)
         coVerify {
             sourceDataRepository.getData(
                 location = updatedLocation,

@@ -8,16 +8,33 @@ import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
 import com.pranshulgg.weather_master_app.data.repository.data.SourceDataRepository
 import javax.inject.Inject
 
+/**
+ * Orchestrates the fetching of weather, alerts, and air quality data for a given location.
+ */
 class GetWeatherUseCase @Inject constructor(
     private val locationsRepo: LocationsRepository,
     private val sourceDataRepository: SourceDataRepository
 ) {
+    /**
+     * Executes the weather fetch process.
+     *
+     * @param location The location to fetch data for.
+     * @param isManualRefresh Whether this is a user-initiated refresh (e.g., pull-to-refresh).
+     * @param isForceRefresh Whether to bypass caches for weather data.
+     * @param isForceRefreshForAirQuality Whether to bypass caches for air quality data.
+     * @param isForceRefreshForAlerts Whether to bypass caches for alerts.
+     * @param onLocationUpdated Callback invoked immediately if the device location's coordinates are updated.
+     * @param onWeather Callback invoked when weather data is successfully fetched or fails.
+     * @param onAlerts Callback invoked when alerts are fetched.
+     * @param onAirQuality Callback invoked when air quality data is fetched.
+     */
     suspend operator fun invoke(
         location: Location,
         isManualRefresh: Boolean = false,
         isForceRefresh: Boolean = false,
         isForceRefreshForAirQuality: Boolean = false,
         isForceRefreshForAlerts: Boolean = false,
+        onLocationUpdated: (Location) -> Unit = {},
         onWeather: suspend (WeatherResult, Location) -> Unit,
         onAlerts: suspend (AlertResult?) -> Unit,
         onAirQuality: suspend (AirQualityResult?) -> Unit,
@@ -34,6 +51,7 @@ class GetWeatherUseCase @Inject constructor(
                 effectiveForceRefresh = true
                 effectiveForceRefreshForAirQuality = true
                 effectiveForceRefreshForAlerts = true
+                onLocationUpdated(effectiveLocation)
             }
         }
 

@@ -4,6 +4,9 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlock
 import com.pranshulgg.weather_master_app.data.repository.WeatherBlocksRepository
 import javax.inject.Inject
 
+/**
+ * Use case to save the order and visibility configuration of weather blocks to the database.
+ */
 class SaveWeatherBlocksUseCase @Inject constructor(
     private val weatherBlocksRepository: WeatherBlocksRepository
 ) {

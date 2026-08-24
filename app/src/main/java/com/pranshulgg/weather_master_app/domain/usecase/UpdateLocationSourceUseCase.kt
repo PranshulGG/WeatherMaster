@@ -7,6 +7,12 @@ import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherDataReconcilerRepository
 import javax.inject.Inject
 
+/**
+ * Use case to update weather, air quality, and alert sources for a specific location.
+ *
+ * This use case updates the location configuration in the database and triggers
+ * data reconciliation to clean up any stale data associated with previous sources.
+ */
 class UpdateLocationSourceUseCase @Inject constructor(
     private val locationsRepo: LocationsRepository,
     private val weatherDataReconcilerRepository: WeatherDataReconcilerRepository

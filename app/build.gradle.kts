@@ -57,7 +57,7 @@ android {
         buildConfigField(
             "String",
             "GEO_NAMES_USERNAME",
-            "\"$geoNamesUserNameKey\"",
+            "\"$geoNamesUserNameKey\""
         )
 
         buildConfigField(
@@ -81,7 +81,7 @@ android {
         buildConfigField(
             "String",
             "APP_VERSION",
-            "\"v$versionNameString\"",
+            "\"v$versionNameString\""
         )
 
         buildConfigField(
