@@ -148,4 +148,45 @@ class WeatherViewModelTest {
         // Then
         assertEquals(updatedLocation, viewModel.uiState.value.activeLocation)
     }
+
+    @Test
+    fun `handleSourceChangeForWeather should compute force refresh flags correctly`() = runTest {
+        // Given
+        val newSource = com.pranshulgg.weather_master_app.core.model.sources.Source.MET_NORWAY
+        val updatedLocation = dummyLocation.copy(source = newSource)
+        
+        coEvery { 
+            updateLocationSourceUseCase(
+                location = any(),
+                source = any(),
+                airQualitySource = any(),
+                alertSource = any(),
+                openMeteoModel = any()
+            ) 
+        } returns updatedLocation
+
+        // When
+        viewModel.handleSourceChangeForWeather(
+            location = dummyLocation,
+            source = newSource,
+            airQualitySource = dummyLocation.airQualitySource,
+            alertSource = dummyLocation.alertSource,
+            openMeteoModel = dummyLocation.openMeteoModel
+        )
+        advanceUntilIdle()
+
+        // Then
+        coVerify {
+            getWeatherUseCase(
+                location = updatedLocation,
+                isForceRefresh = true, // Source changed
+                isForceRefreshForAirQuality = false,
+                isForceRefreshForAlerts = false,
+                onLocationUpdated = any(),
+                onWeather = any(),
+                onAlerts = any(),
+                onAirQuality = any()
+            )
+        }
+    }
 }

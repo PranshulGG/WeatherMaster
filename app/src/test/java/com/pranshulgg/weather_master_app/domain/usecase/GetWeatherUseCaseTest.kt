@@ -9,10 +9,14 @@ import io.mockk.coJustRun
 import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.slot
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.advanceTimeBy
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
+@OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
 class GetWeatherUseCaseTest {
 
     private val locationsRepo: LocationsRepository = mockk()
@@ -194,5 +198,45 @@ class GetWeatherUseCaseTest {
 
         // Then
         assertEquals(errorResult, resultPassedToCallback)
+    }
+
+    @Test
+    fun `invoke should respect cancellation`() = runTest {
+        // Given
+        var weatherCallbackInvoked = false
+        val onWeatherSlot = slot<suspend (WeatherResult) -> Unit>()
+
+        coEvery {
+            sourceDataRepository.getData(
+                location = any(),
+                isManualRefresh = any(),
+                isForceRefresh = any(),
+                isForceRefreshForAirQuality = any(),
+                isForceRefreshForAlerts = any(),
+                onWeather = capture(onWeatherSlot),
+                onAlerts = any(),
+                onAirQuality = any()
+            )
+        } coAnswers {
+            kotlinx.coroutines.delay(1000)
+            onWeatherSlot.captured(mockk())
+        }
+
+        // When
+        val job = launch {
+            useCase(
+                location = dummyLocation,
+                onWeather = { _, _ -> weatherCallbackInvoked = true },
+                onAlerts = {},
+                onAirQuality = {}
+            )
+        }
+        
+        advanceTimeBy(500)
+        job.cancel()
+        advanceUntilIdle()
+
+        // Then
+        assertEquals(false, weatherCallbackInvoked)
     }
 }

@@ -67,8 +67,8 @@ class WeatherViewModel @Inject constructor(
     // this ViewModel's lifetime, so this observer is only ever added once.
     private val processLifecycleObserver = object : DefaultLifecycleObserver {
         override fun onStart(owner: LifecycleOwner) {
+            startAutoRefresh()
             val location = _uiState.value.activeLocation ?: return
-            startAutoRefresh(location = location)
             // isInitialized guard avoids duplicating setActiveLocation()'s cold-start fetch.
             if (_uiState.value.isInitialized) {
                 getWeather(location = location)
@@ -361,9 +361,7 @@ class WeatherViewModel @Inject constructor(
 
     private var autoRefreshJob: Job? = null
 
-    fun startAutoRefresh(
-        location: Location
-    ) {
+    fun startAutoRefresh() {
 
         if (autoRefreshJob?.isActive == true) return
 
@@ -371,6 +369,8 @@ class WeatherViewModel @Inject constructor(
             while (isActive) {
 
                 delay(45.minutes)
+                val location = _uiState.value.activeLocation ?: continue
+
                 if (_uiState.value.isLoading || _uiState.value.isError) {
                     continue
                 }

@@ -17,6 +17,11 @@ class UpdateLocationSourceUseCase @Inject constructor(
     private val locationsRepo: LocationsRepository,
     private val weatherDataReconcilerRepository: WeatherDataReconcilerRepository
 ) {
+    /**
+     * Updates the weather, air quality, and alert sources for a location.
+     *
+     * @return An in-memory copy of the updated [Location].
+     */
     suspend operator fun invoke(
         location: Location,
         source: Source,

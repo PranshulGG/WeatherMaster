@@ -23,6 +23,8 @@ class GetWeatherUseCase @Inject constructor(
      * Cancellation of the calling coroutine will correctly cancel all internal
      * asynchronous operations.
      *
+     * All callbacks are invoked on the dispatcher used by the caller.
+     *
      * @param location The location to fetch data for.
      * @param isManualRefresh Whether this is a user-initiated refresh (e.g., pull-to-refresh).
      * @param isForceRefresh Whether to bypass caches for weather data.
@@ -39,7 +41,7 @@ class GetWeatherUseCase @Inject constructor(
         isForceRefresh: Boolean = false,
         isForceRefreshForAirQuality: Boolean = false,
         isForceRefreshForAlerts: Boolean = false,
-        onLocationUpdated: (Location) -> Unit = {},
+        onLocationUpdated: suspend (Location) -> Unit = {},
         onWeather: suspend (WeatherResult, Location) -> Unit,
         onAlerts: suspend (AlertResult?) -> Unit,
         onAirQuality: suspend (AirQualityResult?) -> Unit,
