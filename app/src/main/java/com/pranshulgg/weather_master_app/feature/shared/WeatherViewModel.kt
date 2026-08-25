@@ -23,7 +23,7 @@ import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoM
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
-import com.pranshulgg.weather_master_app.data.worker.WeatherUpdateScheduler
+import com.pranshulgg.weather_master_app.data.worker.WeatherBackgroundUpdateScheduler
 import com.pranshulgg.weather_master_app.domain.usecase.DeleteLocationUseCase
 import com.pranshulgg.weather_master_app.domain.usecase.GetWeatherUseCase
 import com.pranshulgg.weather_master_app.domain.usecase.LoadWeatherBlocksUseCase
@@ -294,7 +294,7 @@ class WeatherViewModel @Inject constructor(
         }
 
         if (location.isDefault && !_uiState.value.isError && _uiState.value.weather != null) {
-            WeatherUpdateScheduler.updateAllWidgets(
+            WeatherBackgroundUpdateScheduler.updateAllWidgets(
                 context,
                 _uiState.value.weather!!,
                 _uiState.value.weatherUnits
