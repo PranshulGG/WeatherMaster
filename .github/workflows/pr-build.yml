@@ -15,17 +15,11 @@ jobs:
   build:
     runs-on: ubuntu-24.04
 
-    env:
-      GEO_NAMES_USERNAME: ${{ secrets.GEO_NAMES_USERNAME }}
-      MF_KEY: ${{ secrets.MF_KEY }}
-      ACCU_KEY: ${{ secrets.ACCU_KEY }}
-      WEATHERAPI_KEY: ${{ secrets.WEATHERAPI_KEY }}
-
     steps:
       - name: Checkout PR
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event_name == 'workflow_dispatch' && format('refs/pull/{0}/head', inputs.pr_number) || github.event.pull_request.head.sha }}
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || format('refs/pull/{0}/head', inputs.pr_number) }}
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -44,10 +38,6 @@ jobs:
           ./gradlew \
             --no-daemon \
             --no-build-cache \
-            -PGEO_NAMES_USERNAME="${{ secrets.GEO_NAMES_USERNAME }}" \
-            -PMF_KEY="${{ secrets.MF_KEY }}" \
-            -PACCU_KEY="${{ secrets.ACCU_KEY }}" \
-            -PWEATHERAPI_KEY="${{ secrets.WEATHERAPI_KEY }}" \
             clean assembleDebug
 
       - name: Upload APK
