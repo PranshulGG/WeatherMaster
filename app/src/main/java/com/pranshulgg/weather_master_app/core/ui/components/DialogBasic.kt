@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app.core.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -47,7 +48,7 @@ fun DialogBasic(
         Surface(
             modifier = Modifier
                 .width(300.dp)
-                .heightIn(max = 500.dp),
+                .heightIn(max = 800.dp),
             shape = RoundedCornerShape(ShapeRadius.ExtraLarge),
             color = MaterialTheme.colorScheme.surfaceContainerHigh,
             shadowElevation = 6.dp
@@ -60,7 +61,12 @@ fun DialogBasic(
                     modifier = Modifier.padding(top = 24.dp, start = 24.dp, end = 24.dp)
                 )
                 Spacer(Modifier.height(16.dp))
-                content()
+                Box(
+                    modifier = Modifier
+                        .weight(1f, fill = false)
+                ) {
+                    content()
+                }
 
                 if (showDefaultActions) {
                     Spacer(Modifier.height(16.dp))
