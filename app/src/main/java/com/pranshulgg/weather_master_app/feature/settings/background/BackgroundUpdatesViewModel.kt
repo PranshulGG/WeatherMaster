@@ -2,8 +2,7 @@ package com.pranshulgg.weather_master_app.feature.settings.background
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
-import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
-import com.pranshulgg.weather_master_app.data.worker.WeatherUpdateScheduler
+import com.pranshulgg.weather_master_app.data.worker.WeatherBackgroundUpdateScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -15,10 +14,10 @@ class BackgroundUpdatesViewModel @Inject constructor(
 ) : ViewModel() {
 
     fun scheduleWeatherUpdates(minutes: Int) {
-        WeatherUpdateScheduler.scheduleWeatherUpdates(context, repeatInterval = minutes)
+        WeatherBackgroundUpdateScheduler.scheduleWeatherUpdates(context, repeatInterval = minutes)
     }
 
     fun disableWeatherUpdates() {
-        WeatherUpdateScheduler.disableWeatherUpdates(context)
+        WeatherBackgroundUpdateScheduler.disableWeatherUpdates(context)
     }
 }

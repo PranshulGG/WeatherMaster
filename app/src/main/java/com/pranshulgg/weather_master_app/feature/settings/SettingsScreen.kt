@@ -1,32 +1,33 @@
 package com.pranshulgg.weather_master_app.feature.settings
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.R
+import com.pranshulgg.weather_master_app.core.ui.components.BasicTimePicker
 import com.pranshulgg.weather_master_app.core.ui.components.DialogBasic
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
@@ -35,8 +36,14 @@ import com.pranshulgg.weather_master_app.core.ui.components.SettingTile
 import com.pranshulgg.weather_master_app.core.ui.components.SettingsTileIcon
 import com.pranshulgg.weather_master_app.core.ui.components.WeatherIconBox
 import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
+import com.pranshulgg.weather_master_app.core.utils.formatters.getLocalizedPattern
 import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
+import com.pranshulgg.weather_master_app.feature.notifications.NotificationConfig
+import com.pranshulgg.weather_master_app.feature.notifications.scheduled.NotificationScheduler
+import java.text.SimpleDateFormat
+import java.util.Date
 
+@RequiresApi(Build.VERSION_CODES.S)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(navController: NavController) {
@@ -44,6 +51,10 @@ fun SettingsScreen(navController: NavController) {
     val uriHandler = LocalUriHandler.current
 
     var isDonationDialogOpen by remember { mutableStateOf(false) }
+    var isTimePickerOpen by remember { mutableStateOf(false) }
+    var chosenTime by remember { mutableLongStateOf(0L) }
+
+    val context = LocalContext.current
 
     LargeTopBarScaffold(
         title = stringResource(R.string.settings),
@@ -61,6 +72,19 @@ fun SettingsScreen(navController: NavController) {
 
             SettingSection(
                 tiles = listOf(
+
+                    SettingTile.ActionTile(
+                        title = "Cc",
+                        description = SimpleDateFormat("hh:mm a", getCurrentAppLocale()).format(
+                            Date(
+                                chosenTime
+                            )
+                        ),
+                        onClick = {
+                            isTimePickerOpen = true
+                        }
+                    ),
+
                     SettingTile.ActionTile(
                         leading = { SettingsTileIcon(R.drawable.format_paint_24px) },
                         title = stringResource(R.string.setting_appearance),
@@ -130,6 +154,20 @@ fun SettingsScreen(navController: NavController) {
         }
     }
 
+    BasicTimePicker(
+        show = isTimePickerOpen,
+        onDismiss = { isTimePickerOpen = false },
+        onConfirm = {
+            isTimePickerOpen = false
+            chosenTime = it
+            NotificationScheduler.scheduleNotification(
+                context,
+                it,
+                NotificationConfig.TODAY_FORECAST
+            )
+        },
+        is24Hour = false
+    )
     DialogBasic(
         show = isDonationDialogOpen,
         title = "Donate",

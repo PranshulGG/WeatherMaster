@@ -1,18 +1,16 @@
 package com.pranshulgg.weather_master_app.data.worker
 
 import android.content.Context
-import android.content.SharedPreferences
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import java.util.concurrent.TimeUnit
 
-object WeatherUpdateScheduler {
+object WeatherBackgroundUpdateScheduler {
 
     const val WORK_NAME = "@pranshulgg_weather_master_updates"
     fun scheduleWeatherUpdates(

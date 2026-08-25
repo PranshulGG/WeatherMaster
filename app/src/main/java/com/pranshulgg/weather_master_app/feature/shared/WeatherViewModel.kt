@@ -26,7 +26,7 @@ import com.pranshulgg.weather_master_app.data.repository.WeatherBlocksRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherDataReconcilerRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
 import com.pranshulgg.weather_master_app.data.repository.data.SourceDataRepository
-import com.pranshulgg.weather_master_app.data.worker.WeatherUpdateScheduler
+import com.pranshulgg.weather_master_app.data.worker.WeatherBackgroundUpdateScheduler
 import com.pranshulgg.weather_master_app.feature.main.MainScreenWeatherUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -337,8 +337,6 @@ class WeatherViewModel @Inject constructor(
 
             is WeatherResult.Error -> {
 
-                val appExpectation = result.exception.toAppException()
-                SnackbarManager.show(appExpectation.toMessageRes())
 
                 _uiState.value = _uiState.value.copy(
                     isError = true,
@@ -347,6 +345,9 @@ class WeatherViewModel @Inject constructor(
                         location.countryCode?.uppercase()
                     )
                 )
+
+                val appExpectation = result.exception.toAppException()
+                SnackbarManager.show(appExpectation.toMessageRes())
             }
 
             is WeatherResult.RefreshNotAvailable -> {
@@ -356,7 +357,7 @@ class WeatherViewModel @Inject constructor(
         }
 
         if (location.isDefault && !_uiState.value.isError && _uiState.value.weather != null) {
-            WeatherUpdateScheduler.updateAllWidgets(
+            WeatherBackgroundUpdateScheduler.updateAllWidgets(
                 context,
                 _uiState.value.weather!!,
                 _uiState.value.weatherUnits

@@ -14,8 +14,8 @@ import com.pranshulgg.weather_master_app.data.provider.SourceRepositoryProvider
 import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
 import com.pranshulgg.weather_master_app.data.worker.gadgetbridge.sendGadgetBridgeWeatherData
-import com.pranshulgg.weather_master_app.data.worker.notification.WeatherNotification
-import com.pranshulgg.weather_master_app.data.worker.notification.WeatherNotification.showErrorNotification
+import com.pranshulgg.weather_master_app.data.worker.notification.BackgroundWeatherUpdateNotification
+import com.pranshulgg.weather_master_app.data.worker.notification.BackgroundWeatherUpdateNotification.showErrorNotification
 import com.pranshulgg.weather_master_app.data.worker.widgets.WeatherWidgetUpdater
 import com.pranshulgg.weather_master_app.data.worker.widgets.widgetWeatherMapper
 import dagger.assisted.Assisted
@@ -57,7 +57,7 @@ class WeatherWorker @AssistedInject constructor(
              * Show a notification whenever the worker runs
              * Don't really need it but why not, i wanna know if its working
              */
-            WeatherNotification.showNotification(default.name, applicationContext)
+            BackgroundWeatherUpdateNotification.showNotification(default.name, applicationContext)
 
 
             // Get the repository
@@ -94,7 +94,7 @@ class WeatherWorker @AssistedInject constructor(
             showErrorNotification(e.message, applicationContext)
             Result.failure()
         } finally {
-            WeatherNotification.hideNotification(applicationContext)
+            BackgroundWeatherUpdateNotification.hideNotification(applicationContext)
         }
     }
 

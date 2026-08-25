@@ -8,7 +8,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.pranshulgg.weather_master_app.R
 
 
-object WeatherNotification {
+object BackgroundWeatherUpdateNotification {
     @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
     fun showNotification(locationName: String?, context: Context) {
 
@@ -18,7 +18,7 @@ object WeatherNotification {
         val notification = context.let {
             NotificationCompat.Builder(
                 it,
-                WeatherNotificationConfig.CHANNEL_ID
+                BackgroundUpdateNotificationConfig.CHANNEL_ID
             )
         }
             .setContentTitle("WeatherMaster")
@@ -31,7 +31,7 @@ object WeatherNotification {
         context.let {
             NotificationManagerCompat.from(it)
                 .notify(
-                    WeatherNotificationConfig.NOTIFICATION_ID,
+                    BackgroundUpdateNotificationConfig.NOTIFICATION_ID,
                     notification
                 )
         }
@@ -41,7 +41,7 @@ object WeatherNotification {
         NotificationManagerCompat
             .from(context)
             .cancel(
-                WeatherNotificationConfig.NOTIFICATION_ID
+                BackgroundUpdateNotificationConfig.NOTIFICATION_ID
             )
     }
 
@@ -52,7 +52,7 @@ object WeatherNotification {
         val notification = context.let {
             NotificationCompat.Builder(
                 it,
-                WeatherNotificationConfig.ERROR_CHANNEL_ID
+                BackgroundUpdateNotificationConfig.ERROR_CHANNEL_ID
             )
         }
             .setContentTitle("Background update failed")
@@ -63,7 +63,7 @@ object WeatherNotification {
         context.let {
             NotificationManagerCompat.from(it)
                 .notify(
-                    WeatherNotificationConfig.ERROR_NOTIFICATION_ID,
+                    BackgroundUpdateNotificationConfig.ERROR_NOTIFICATION_ID,
                     notification
                 )
         }

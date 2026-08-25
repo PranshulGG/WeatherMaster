@@ -3,15 +3,9 @@ package com.pranshulgg.weather_master_app.feature.settings.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -21,15 +15,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
-import androidx.work.impl.schedulers
 import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weather_master_app.core.ui.components.SettingSection
 import com.pranshulgg.weather_master_app.core.ui.components.SettingTile
-import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
-import com.pranshulgg.weather_master_app.core.ui.theme.ShapeRadius
-import com.pranshulgg.weather_master_app.data.worker.WeatherUpdateScheduler
+import com.pranshulgg.weather_master_app.data.worker.WeatherBackgroundUpdateScheduler
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -40,7 +31,7 @@ fun WorkerInfoScreen(navController: NavController) {
 
     val workManager = WorkManager.getInstance(context)
 
-    val workInfos by workManager.getWorkInfosForUniqueWorkFlow(WeatherUpdateScheduler.WORK_NAME)
+    val workInfos by workManager.getWorkInfosForUniqueWorkFlow(WeatherBackgroundUpdateScheduler.WORK_NAME)
         .collectAsState(emptyList())
 
     val formatter: (Long) -> String = {

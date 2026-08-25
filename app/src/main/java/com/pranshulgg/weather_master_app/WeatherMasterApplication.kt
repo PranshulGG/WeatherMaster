@@ -7,7 +7,7 @@ import androidx.hilt.work.HiltWorkerFactory
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.work.Configuration
 import com.pranshulgg.weather_master_app.data.worker.AppVisibility
-import com.pranshulgg.weather_master_app.data.worker.notification.WeatherNotificationConfig
+import com.pranshulgg.weather_master_app.data.worker.notification.BackgroundUpdateNotificationConfig
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
@@ -38,7 +38,7 @@ class WeatherMasterApplication : Application(), Configuration.Provider {
 
         manager.createNotificationChannel(
             NotificationChannel(
-                WeatherNotificationConfig.CHANNEL_ID,
+                BackgroundUpdateNotificationConfig.CHANNEL_ID,
                 "WeatherMaster Updates",
                 NotificationManager.IMPORTANCE_DEFAULT
             )
@@ -46,7 +46,7 @@ class WeatherMasterApplication : Application(), Configuration.Provider {
 
         manager.createNotificationChannel(
             NotificationChannel(
-                WeatherNotificationConfig.ERROR_CHANNEL_ID,
+                BackgroundUpdateNotificationConfig.ERROR_CHANNEL_ID,
                 "WeatherMaster Update Errors",
                 NotificationManager.IMPORTANCE_DEFAULT
             )
