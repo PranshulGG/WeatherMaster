@@ -245,9 +245,9 @@
     <string name="about_changelog">Pakeitimų sąrašas</string>
     <string name="about">Plačiau</string>
     <string name="weather_max_for_the_day">Didžiausia paros vertė</string>
-    <string name="weather_about_uv_index">UV indeksas – tai ultravioletinių spindulių stiprio matas. Indekso vertės svyruoja nuo nulio ir didėja – kuo didesnis UV indeksas, tuo didesnė odos ir akių pažeidimų rizika ir tuo greičiau šie pažeidimai atsiranda</string>
+    <string name="weather_about_uv_index">UV indeksas nurodo ultravioletinės spinduliuotės stiprį. Jo reikšmės prasideda nuo nulio – kuo didesnis UV indeksas, tuo didesnė odos ir akių žalos rizika bei tuo greičiau ji gali pasireikšti</string>
     <string name="text_scale">Skalė</string>
-    <string name="weather_about_humidity">Oro drėgnumas – tai vandens garų koncentracija ore. Vandens garai, t. y. vandens dujinė forma, paprastai nematomi plika akimi. Oro drėgnumas nurodo, kokia yra kritulių, rasos ar rūko tikimybė.</string>
+    <string name="weather_about_humidity">Oro drėgnumas nurodo, koks vandens garų kiekis yra ore. Vandens garai – tai vandens dujinė forma, kurios paprastai plika akimi nematome. Didesnis oro drėgnumas gali būti susijęs su didesne kritulių, rasos ar rūko susidarymo tikimybe</string>
     <string name="text_average_for_day">Dienos vidurkis</string>
     <string name="weather_about_dewpoint">Rasos taško temperatūra nurodo oro drėgnumą. Kai rasos taškas pasiekia apie 20 °C, daugumai žmonių oras ima jaustis tvankus ir nemaloniai drėgnas. Pagal rasos tašką taip pat galima prognozuoti, kiek energijos vasarą prireiks patalpoms vėsinti.</string>
     <string name="weather_visibility_about">Matomumas nurodo, kokiu atstumu lauke galima aiškiai matyti, kol objektai tampa nematomi dėl oro ar atmosferos sąlygų</string>
@@ -280,7 +280,7 @@
     <string name="moon_phase">Fazė</string>
     <string name="weather_about_sun_moon_rise_set">Saulėtekis – tai akimirka, kai saulė arba mėnulis pirmą kartą pasirodo virš horizonto. Saulėlydis – tai akimirka, kai saulė arba mėnulis visiškai pasislėpia už horizonto.</string>
     <string name="weather_about_dawn_dusk">Aušra – tai laikas, kai danguje, likus nedaug laiko iki saulėtekio, pradeda švisti. Sutemos – tai laikas, kai danguje, praėjus nedaug laiko po saulėlydžio, pradeda temti.</string>
-    <string name="weather_about_pressure">Vidutinis oro slėgis jūros lygyje – rodiklis, parodantis, kokia jėga atmosfera daro spaudimą žemyn, normalizuotas pagal jūros lygį. Stebint jo pokyčius galima anksti numatyti oro sąlygų pasikeitimus. Įprastai mažėjantis oro slėgis rodo, kad artėja nepastovus oras, o didėjantis – kad oro sąlygos stabilizuojasi.</string>
+    <string name="weather_about_pressure">Oro slėgis jūros lygyje – tai atmosferos slėgis, perskaičiuotas pagal jūros lygį. Stebint jo pokytį galima iš anksto numatyti artėjančius orų pokyčius. Mažėjantis slėgis dažniausiai rodo, kad artėja nepastovesni orai, o didėjantis – kad oro sąlygos tampa stabilesnės</string>
     <string name="weather_about_windspeed">Vėjo greitis – tai oro judėjimo matavimo rodiklis tam tikrame taške. Jam įtaką daro atmosferos slėgio ir temperatūros skirtumai. </string>
     <string name="unit_wind_kt">Mazgai</string>
     <string name="unit_wind_bft">Beaufortas</string>
