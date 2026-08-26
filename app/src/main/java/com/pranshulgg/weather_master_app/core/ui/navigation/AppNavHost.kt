@@ -49,6 +49,7 @@ import com.pranshulgg.weather_master_app.feature.settings.background.BackgroundU
 import com.pranshulgg.weather_master_app.feature.settings.background.WorkerInfoScreen
 import com.pranshulgg.weather_master_app.feature.settings.backup.BackupScreen
 import com.pranshulgg.weather_master_app.feature.settings.language.LanguageScreen
+import com.pranshulgg.weather_master_app.feature.settings.notifications.NotificationsScreen
 import com.pranshulgg.weather_master_app.feature.settings.sources.WeatherSourcesScreen
 import com.pranshulgg.weather_master_app.feature.settings.units.UnitsScreen
 import com.pranshulgg.weather_master_app.feature.shared.WeatherViewModel
@@ -241,6 +242,12 @@ fun AppNavHost(
                 ) {
                     ApiKeysConfigScreen(navController)
                 }
+                composable(
+                    NavRoutes.NOTIFICATIONS
+                ) {
+                    NotificationsScreen(navController)
+                }
+
             }
         }
 

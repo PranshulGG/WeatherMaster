@@ -53,6 +53,8 @@ object NavRoutes {
 
     const val API_KEYS_CONFIG = "api_keys_config"
 
+    const val NOTIFICATIONS = "notifications"
+
     fun alerts(locationId: String): String {
         return "$ALERTS/$locationId"
     }

@@ -18,6 +18,7 @@ import com.pranshulgg.weather_master_app.data.worker.notification.BackgroundWeat
 import com.pranshulgg.weather_master_app.data.worker.notification.BackgroundWeatherUpdateNotification.showErrorNotification
 import com.pranshulgg.weather_master_app.data.worker.widgets.WeatherWidgetUpdater
 import com.pranshulgg.weather_master_app.data.worker.widgets.widgetWeatherMapper
+import com.pranshulgg.weather_master_app.feature.notifications.ongoing.OnGoingNotification
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
@@ -41,6 +42,13 @@ class WeatherWorker @AssistedInject constructor(
 
         PreferencesHelper.init(applicationContext)
         return try {
+
+            val sendDataToGadgetBridge = PreferencesHelper.getBool(
+                "isSendDataToGadgetbridge"
+            ) ?: false
+            val isOnGoingNotificationEnabled = PreferencesHelper.getBool(
+                "isOnGoingNotificationEnabled"
+            ) ?: false
 
 
             // Get the locations and units
@@ -77,11 +85,14 @@ class WeatherWorker @AssistedInject constructor(
 
             val weather = result.weather
 
-            val sendDataToGadgetbridge =
-                PreferencesHelper.getBool("isSendDataToGadgetbridge") ?: false
 
-            if (sendDataToGadgetbridge) {
+
+            if (sendDataToGadgetBridge) {
                 sendGadgetBridgeWeatherData(applicationContext, weather)
+            }
+
+            if (isOnGoingNotificationEnabled) {
+                OnGoingNotification.update(weather, applicationContext, units)
             }
 
             updateAllWidgets(applicationContext, weather, units)

@@ -6,7 +6,8 @@ import com.pranshulgg.weather_master_app.core.model.weather.WeatherCondition
 
 data class NotificationWeatherModel(
     val current: NotificationCurrentWeather,
-    val daily: List<NotificationDailyWeather>
+    val daily: List<NotificationDailyWeather>,
+    val hourly: List<NotificationHourlyWeather>
 )
 
 data class NotificationCurrentWeather(
@@ -23,4 +24,13 @@ data class NotificationDailyWeather(
     val minTemp: String?,
     val condition: String,
     val conditionIcon: Int,
+    val pop: String?,
+)
+
+data class NotificationHourlyWeather(
+    val time: String?,
+    val temp: String?,
+    val condition: String,
+    val conditionIcon: Int,
+    val pop: String?,
 )

@@ -34,6 +34,9 @@ object AppPrefs {
 
     private val _isGoogleSansFlex = mutableStateOf(false)
 
+    private val _isTodayForecastNotificationEnabled = mutableStateOf(true)
+    private val _isNextDayForecastNotificationEnabled = mutableStateOf(true)
+
 
     fun initPrefs(context: Context) {
         PreferencesHelper.init(context)
@@ -71,6 +74,11 @@ object AppPrefs {
         _isShowSummary.value = PreferencesHelper.getBool("isShowSummary") ?: true
 
         _isGoogleSansFlex.value = PreferencesHelper.getBool("isGoogleSansFlex") ?: false
+
+        _isTodayForecastNotificationEnabled.value =
+            PreferencesHelper.getBool("isTodayForecastNotificationEnabled") ?: false
+        _isNextDayForecastNotificationEnabled.value =
+            PreferencesHelper.getBool("isNextDayForecastNotificationEnabled") ?: false
 
     }
 
@@ -166,6 +174,18 @@ object AppPrefs {
         setGoogleSansFlex = {
             _isGoogleSansFlex.value = it
             PreferencesHelper.setBool("isGoogleSansFlex", it)
+        },
+
+        isTodayForecastNotificationEnabled = _isTodayForecastNotificationEnabled.value,
+        setTodayForecastNotificationEnabled = {
+            _isTodayForecastNotificationEnabled.value = it
+            PreferencesHelper.setBool("isTodayForecastNotificationEnabled", it)
+        },
+
+        isNextDayForecastNotificationEnabled = _isNextDayForecastNotificationEnabled.value,
+        setNextDayForecastNotificationEnabled = {
+            _isNextDayForecastNotificationEnabled.value = it
+            PreferencesHelper.setBool("isNextDayForecastNotificationEnabled", it)
         }
     )
 }

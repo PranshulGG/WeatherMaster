@@ -43,7 +43,6 @@ import com.pranshulgg.weather_master_app.feature.notifications.scheduled.Notific
 import java.text.SimpleDateFormat
 import java.util.Date
 
-@RequiresApi(Build.VERSION_CODES.S)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(navController: NavController) {
@@ -51,10 +50,6 @@ fun SettingsScreen(navController: NavController) {
     val uriHandler = LocalUriHandler.current
 
     var isDonationDialogOpen by remember { mutableStateOf(false) }
-    var isTimePickerOpen by remember { mutableStateOf(false) }
-    var chosenTime by remember { mutableLongStateOf(0L) }
-
-    val context = LocalContext.current
 
     LargeTopBarScaffold(
         title = stringResource(R.string.settings),
@@ -72,19 +67,6 @@ fun SettingsScreen(navController: NavController) {
 
             SettingSection(
                 tiles = listOf(
-
-                    SettingTile.ActionTile(
-                        title = "Cc",
-                        description = SimpleDateFormat("hh:mm a", getCurrentAppLocale()).format(
-                            Date(
-                                chosenTime
-                            )
-                        ),
-                        onClick = {
-                            isTimePickerOpen = true
-                        }
-                    ),
-
                     SettingTile.ActionTile(
                         leading = { SettingsTileIcon(R.drawable.format_paint_24px) },
                         title = stringResource(R.string.setting_appearance),
@@ -123,10 +105,10 @@ fun SettingsScreen(navController: NavController) {
                         onClick = { navController.navigate(NavRoutes.LANGUAGE) }
                     ),
                     SettingTile.ActionTile(
-                        leading = { SettingsTileIcon(R.drawable.cloud_download_24px) },
-                        title = stringResource(R.string.setting_backup_restore),
-                        description = stringResource(R.string.setting_backup_restore_secondary),
-                        onClick = { navController.navigate(NavRoutes.BACKUP_RESTORE) }
+                        leading = { SettingsTileIcon(R.drawable.notifications_unread_24px) },
+                        title = stringResource(R.string.settings_notifications),
+                        description = stringResource(R.string.settings_notifications_secondary),
+                        onClick = { navController.navigate(NavRoutes.NOTIFICATIONS) }
                     ),
                 )
             )
@@ -140,7 +122,12 @@ fun SettingsScreen(navController: NavController) {
                         }
                     ),
 
-
+                    SettingTile.ActionTile(
+                        leading = { SettingsTileIcon(R.drawable.cloud_download_24px) },
+                        title = stringResource(R.string.setting_backup_restore),
+                        description = stringResource(R.string.setting_backup_restore_secondary),
+                        onClick = { navController.navigate(NavRoutes.BACKUP_RESTORE) }
+                    ),
                     SettingTile.ActionTile(
                         leading = { SettingsTileIcon(R.drawable.info_24px) },
                         title = stringResource(R.string.setting_about_app),
@@ -154,20 +141,7 @@ fun SettingsScreen(navController: NavController) {
         }
     }
 
-    BasicTimePicker(
-        show = isTimePickerOpen,
-        onDismiss = { isTimePickerOpen = false },
-        onConfirm = {
-            isTimePickerOpen = false
-            chosenTime = it
-            NotificationScheduler.scheduleNotification(
-                context,
-                it,
-                NotificationConfig.TODAY_FORECAST
-            )
-        },
-        is24Hour = false
-    )
+
     DialogBasic(
         show = isDonationDialogOpen,
         title = "Donate",

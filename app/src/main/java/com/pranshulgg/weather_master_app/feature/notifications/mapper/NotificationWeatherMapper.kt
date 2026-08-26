@@ -12,6 +12,7 @@ import com.pranshulgg.weather_master_app.core.utils.formatters.to24HourTimeStrin
 import com.pranshulgg.weather_master_app.core.utils.weather.computing.summary.computeDaySummary
 import com.pranshulgg.weather_master_app.feature.notifications.model.NotificationCurrentWeather
 import com.pranshulgg.weather_master_app.feature.notifications.model.NotificationDailyWeather
+import com.pranshulgg.weather_master_app.feature.notifications.model.NotificationHourlyWeather
 import com.pranshulgg.weather_master_app.feature.notifications.model.NotificationWeatherModel
 import kotlin.math.roundToInt
 
@@ -31,10 +32,14 @@ fun notificationWeatherMapper(
         daily = weather.daily.firstOrNull()
     )
 
-    val currentTemperature = TemperatureUnit.CELSIUS.convert(
-        weather.current.temperature, units.tempUnit
-    )?.roundToInt()
+    val formatterTemperature: (Double?) -> Int? = {
+        TemperatureUnit.CELSIUS.convert(
+            it, units.tempUnit
+        )?.roundToInt()
+    }
 
+    val currentTemperature = formatterTemperature(weather.current.temperature)
+    val currentFeelsLike = formatterTemperature(weather.current.feelsLike)
 
     val is24hr = PreferencesHelper.getBool("is24HrTimeFormat") ?: true
 
@@ -51,7 +56,7 @@ fun notificationWeatherMapper(
     return NotificationWeatherModel(
         current = NotificationCurrentWeather(
             temp = "${currentTemperature}°",
-            feelsLike = null,
+            feelsLike = "${currentFeelsLike}°",
             uvIndex = currentUvIndex.toString(),
             currentCondition = currentCondition,
             currentConditionIcon = currentIcon
@@ -68,14 +73,40 @@ fun notificationWeatherMapper(
                 targetTimeMilli = System.currentTimeMillis()
             )
 
+            val pop = item.precipitationProbabilityMax?.let {
+                "${item.precipitationProbabilityMax}%"
+            }
 
             NotificationDailyWeather(
                 summary = summary,
                 maxTemp = "${maxTemperature}°",
                 minTemp = "${minTemperature}°",
                 condition = item.weatherCondition.toLabel(applicationContext),
-                conditionIcon = icon
+                conditionIcon = icon,
+                pop = pop
             )
-        }
+        },
+        hourly = List(weather.hourly.take(8).size) { index ->
+
+            val item = weather.hourly[index]
+
+            val temp = formatterTemperature(item.temperature)
+
+            val icon = item.weatherCondition.toIcon(
+                targetTimeMilli = System.currentTimeMillis()
+            )
+
+            val pop = item.precipitationProbability?.let {
+                "${item.precipitationProbability}%"
+            }
+
+            NotificationHourlyWeather(
+                temp = "${temp}°",
+                condition = item.weatherCondition.toLabel(applicationContext),
+                conditionIcon = icon,
+                pop = pop,
+                time = timeFormatter(item.time)
+            )
+        },
     )
 }

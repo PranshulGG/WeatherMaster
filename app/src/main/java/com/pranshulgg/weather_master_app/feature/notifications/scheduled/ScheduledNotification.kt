@@ -1,14 +1,18 @@
 package com.pranshulgg.weather_master_app.feature.notifications.scheduled
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import androidx.work.ListenableWorker
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
@@ -17,6 +21,7 @@ import com.pranshulgg.weather_master_app.data.provider.SourceRepositoryProvider
 import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
 import com.pranshulgg.weather_master_app.feature.notifications.NotificationConfig
+import com.pranshulgg.weather_master_app.feature.notifications.isNotificationPermissionGranted
 import com.pranshulgg.weather_master_app.feature.notifications.mapper.notificationWeatherMapper
 import com.pranshulgg.weather_master_app.feature.notifications.model.NotificationWeatherModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -92,15 +97,6 @@ class ScheduledNotification : BroadcastReceiver() {
         weather: NotificationWeatherModel,
         isToday: Boolean
     ) {
-        val notificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-        val channel = NotificationChannel(
-            NotificationConfig.CHANNEL_ID,
-            "Scheduled Weather Alerts",
-            NotificationManager.IMPORTANCE_DEFAULT
-        )
-        notificationManager.createNotificationChannel(channel)
 
         val title = buildString {
             if (isToday) {
@@ -134,7 +130,6 @@ class ScheduledNotification : BroadcastReceiver() {
         )
 
         val notification = NotificationCompat.Builder(context, NotificationConfig.CHANNEL_ID)
-            .setSmallIcon(icon)
             .setContentTitle(title)
             .setContentText(message)
             .setStyle(
@@ -146,7 +141,18 @@ class ScheduledNotification : BroadcastReceiver() {
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .build()
 
-        notificationManager.notify(id, notification)
+
+
+        @SuppressLint("MissingPermission")
+        if (context.isNotificationPermissionGranted()) {
+            NotificationManagerCompat
+                .from(context)
+                .notify(id, notification)
+        } else {
+            NotificationManagerCompat
+                .from(context)
+                .notify(id, notification)
+        }
     }
 
 }
@@ -156,6 +162,7 @@ private fun calculateNextDay(time: Long): Long {
     val nextDayInstant = instant.atZone(ZoneId.systemDefault())
         .plus(1, ChronoUnit.DAYS)
         .toInstant()
+
 
     return nextDayInstant.toEpochMilli()
 

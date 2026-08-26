@@ -1,4 +1,4 @@
-package com.pranshulgg.weather_master_app.feature.settings.background.notification
+package com.pranshulgg.weather_master_app.feature.notifications
 
 import android.Manifest
 import android.content.Context
@@ -6,7 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
+import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.compose.runtime.Composable
 import androidx.core.content.ContextCompat
 

@@ -49,7 +49,13 @@ data class AppPrefsState(
     val setShowSummary: (Boolean) -> Unit,
 
     val isGoogleSansFlex: Boolean,
-    val setGoogleSansFlex: (Boolean) -> Unit
+    val setGoogleSansFlex: (Boolean) -> Unit,
+
+    val isTodayForecastNotificationEnabled: Boolean,
+    val setTodayForecastNotificationEnabled: (Boolean) -> Unit,
+
+    val isNextDayForecastNotificationEnabled: Boolean,
+    val setNextDayForecastNotificationEnabled: (Boolean) -> Unit,
 )
 
 
