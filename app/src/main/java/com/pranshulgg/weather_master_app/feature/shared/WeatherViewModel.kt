@@ -153,11 +153,6 @@ class WeatherViewModel @Inject constructor(
             var effectiveForceRefreshForAirQuality = isForceRefreshForAirQuality
             var effectiveForceRefreshForAlerts = isForceRefreshForAlerts
 
-            // Checked regardless of isManualRefresh so it also runs on app-open/auto-refresh,
-            // not just pull-to-refresh. If the device actually moved, force a real fetch for
-            // the new coordinates instead of trusting a cache keyed to the old ones (note:
-            // isForceRefresh bypasses the cache unconditionally, unlike isManualRefresh, which
-            // only relaxes the cache TTL and would still be blocked by the 15-min throttle).
             if (location.isDeviceLocation) {
                 val positionChanged = handleDeviceLocation()
                 if (positionChanged) {
