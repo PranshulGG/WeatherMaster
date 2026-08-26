@@ -429,5 +429,15 @@
     <string name="error_not_found">La ressource demandée est introuvable.</string>
     <string name="error_request_timeout">Le serveur n’a pas répondu dans les temps.</string>
     <string name="error_too_many_requests">La limite de requêtes a été atteinte.</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_notifications_secondary">Notifications planifiées, en cours, et plus</string>
+    <string name="weather_precipitation_probability">Probabilité de précipitation %1$s</string>
+    <string name="error_failed_background_updates">Échec de la mise à jour en arrière-plan</string>
+    <string name="setting_on_going_notification">Notifications actives</string>
+    <string name="setting_today_forecast_notification">Notification des prévisions du jour</string>
+    <string name="setting_today_forecast_notification_set_time">Définir l\'heure de la notification des prévisions de la journée</string>
+    <string name="setting_next_day_forecast_notification">Notification des prévisions du lendemain</string>
+    <string name="setting_next_day_forecast_notification_set_time">Définir l\'heure de la notification des prévisions du lendemain</string>
+    <string name="label_disabled">Désactivé</string>
 </resources>
 <!--<string name=""></string>-->
