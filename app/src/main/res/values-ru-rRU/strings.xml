@@ -435,5 +435,15 @@
     <string name="error_not_found">Запрошенный ресурс не был найден.</string>
     <string name="error_request_timeout">Сервер не ответил вовремя.</string>
     <string name="error_too_many_requests">Достигнут лимит запросов.</string>
+    <string name="settings_notifications">Уведомления</string>
+    <string name="settings_notifications_secondary">Запланированные / текущие уведомления и другое</string>
+    <string name="weather_precipitation_probability">Вероятность осадков %1$s</string>
+    <string name="error_failed_background_updates">Сбой фоновых обновлений</string>
+    <string name="setting_on_going_notification">Текущее уведомление</string>
+    <string name="setting_today_forecast_notification">Уведомление о прогнозе погоды на сегодня</string>
+    <string name="setting_today_forecast_notification_set_time">Установить время для получения уведомления о прогнозе погоды на сегодня</string>
+    <string name="setting_next_day_forecast_notification">Уведомление о прогнозе погоды на следующий день</string>
+    <string name="setting_next_day_forecast_notification_set_time">Установить время получения уведомления о прогнозе погоды на следующий день</string>
+    <string name="label_disabled">Отключено</string>
 </resources>
 <!--<string name=""></string>-->
