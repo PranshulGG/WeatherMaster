@@ -167,7 +167,6 @@ fun MainScreen(navController: NavController, weatherViewModel: WeatherViewModel)
                     if (activeLocation != null) {
                         weatherViewModel.getWeather(
                             activeLocation,
-                            activeLocation.source,
                             isManualRefresh = true
                         )
                     }
@@ -201,6 +200,3 @@ fun MainScreen(navController: NavController, weatherViewModel: WeatherViewModel)
         show = mainScreenUiState.isChangelogSheetOpen
     )
 }
-
-
-
