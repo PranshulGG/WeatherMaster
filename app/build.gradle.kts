@@ -174,6 +174,7 @@ dependencies {
     ksp(libs.hilt.android.compiler)
     ksp(libs.hilt.compiler)
     implementation(libs.reorderable)
+    implementation(libs.androidx.foundation.layout)
     implementation(libs.androidx.animation.core)
     implementation(libs.core.splashscreen)
 
@@ -187,9 +188,6 @@ dependencies {
 
     implementation(libs.kotlinx.serialization.json)
     testImplementation(libs.junit)
-    testImplementation(libs.mockk)
-    testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(libs.turbine)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))

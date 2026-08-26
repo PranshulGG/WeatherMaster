@@ -7,9 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlock
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
+import com.pranshulgg.weather_master_app.data.repository.WeatherBlocksRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
-import com.pranshulgg.weather_master_app.domain.usecase.LoadWeatherBlocksUseCase
-import com.pranshulgg.weather_master_app.domain.usecase.SaveWeatherBlocksUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,9 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class DailyScreenViewModel @Inject constructor(
     private val locationsRepo: LocationsRepository,
-    private val weatherUnitsRepository: WeatherUnitsRepository,
-    private val loadWeatherBlocksUseCase: LoadWeatherBlocksUseCase,
-    private val saveWeatherBlocksUseCase: SaveWeatherBlocksUseCase
+    private val weatherBlocksRepository: WeatherBlocksRepository,
+    private val weatherUnitsRepository: WeatherUnitsRepository
 ) : ViewModel() {
 
     private var _uiState = mutableStateOf(DailyScreenUiState())
@@ -41,16 +39,11 @@ class DailyScreenViewModel @Inject constructor(
     }
 
 
+    // TODO: Duplicate from `WeatherViewModel`
     fun loadBlocks() {
         viewModelScope.launch {
-            val loadedBlocks = loadWeatherBlocksUseCase(isDaily = true)
+            val loadedBlocks = weatherBlocksRepository.loadBlocks(isDaily = true)
             _uiState.value = _uiState.value.copy(blocks = loadedBlocks)
-        }
-    }
-
-    fun saveBlocks(blocks: List<WeatherBlock>) {
-        viewModelScope.launch {
-            saveWeatherBlocksUseCase(blocks, isDaily = true)
         }
     }
 
