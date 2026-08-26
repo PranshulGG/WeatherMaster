@@ -16,13 +16,13 @@ fun getWidgetWeatherBackground(weatherCondition: WeatherCondition): ColorProvide
         )
 
         WeatherCondition.OVERCAST -> ColorProvider(Color(0xFF2F2F34))
-        WeatherCondition.SNOW, WeatherCondition.HEAVY_SNOW, WeatherCondition.LIGHT_SNOW -> ColorProvider(
+        WeatherCondition.SNOW, WeatherCondition.HEAVY_SNOW, WeatherCondition.LIGHT_SNOW, WeatherCondition.MIXED_PRECIPITATION -> ColorProvider(
             Color(
                 0xFF171717
             )
         )
 
-        WeatherCondition.RAIN, WeatherCondition.HEAVY_RAIN, WeatherCondition.LIGHT_RAIN -> ColorProvider(
+        WeatherCondition.RAIN, WeatherCondition.HEAVY_RAIN, WeatherCondition.LIGHT_RAIN, WeatherCondition.SLEET, WeatherCondition.HAIL -> ColorProvider(
             Color(0xFF1e2c3a)
         )
 
