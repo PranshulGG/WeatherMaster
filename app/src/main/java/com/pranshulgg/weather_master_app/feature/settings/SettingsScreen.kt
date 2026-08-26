@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.ui.components.BasicTimePicker
+import com.pranshulgg.weather_master_app.core.ui.components.BottomNavSpacing
 import com.pranshulgg.weather_master_app.core.ui.components.DialogBasic
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
@@ -138,6 +139,8 @@ fun SettingsScreen(navController: NavController) {
                     ),
                 )
             )
+
+            BottomNavSpacing(30.dp)
         }
     }
 
