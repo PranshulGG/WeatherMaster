@@ -30,6 +30,9 @@ fun SwitchTile(
     itemBgColor: Color
 ) {
 
+    val description: @Composable (() -> Unit)? = description?.let {
+        { Text(description) }
+    }
 
     Surface(
         modifier = Modifier.fillMaxWidth(),
@@ -48,9 +51,7 @@ fun SwitchTile(
             ),
             leadingContent = leading,
             content = { Text(headline) },
-            supportingContent = {
-                if (description != null) Text(description)
-            },
+            supportingContent = description,
             trailingContent = {
                 Switch(
                     enabled = switchEnabled,
