@@ -79,6 +79,7 @@ fun Weather4Config(onDone: (WidgetConfig) -> Unit = {}) {
         "EEEE, MMMM d",
         "EEEE MM-dd",
         "EEE d MMMM",
+        "EEE, MMMM d",
         "EEE MMM-dd",
         "EEE, d MMM",
         "EEE, MMM d",
@@ -272,11 +273,16 @@ private fun WidgetPreviews(
         "EEE, d MMMM" -> "Wed, 18 June"
         "EEE, MMMM d" -> "Wed, June 18"
         "EEE MM-dd" -> "Wed 06-18"
+        "EEEE, d MMMM" -> "Wednesday, 9 July"
+        "EEEE, MMMM d" -> "Wednesday, July 9"
+        "EEEE MM-dd" -> "Wednesday 05-29"
+
         "EEE d MMMM" -> "Wed 18 June"
         "EEE MMM-dd" -> "Wed Jun-18"
         "EEE, d MMM" -> "Wed, 18 Jun"
         "EEE, MMM d" -> "Wed, Jun 18"
         "EEE, d MM" -> "Wed, 18 06"
+
         else -> "Thu 18 Jun"
     }
 
