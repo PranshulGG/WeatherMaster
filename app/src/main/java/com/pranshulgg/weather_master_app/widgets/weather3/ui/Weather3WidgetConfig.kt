@@ -1,4 +1,4 @@
-package com.pranshulgg.weather_master_app.widgets.weatherclockdaily.ui
+package com.pranshulgg.weather_master_app.widgets.weather3.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -43,7 +42,6 @@ import com.pranshulgg.weather_master_app.core.ui.components.WeatherIconBox
 import com.pranshulgg.weather_master_app.core.ui.components.tiles.DialogOption
 import com.pranshulgg.weather_master_app.core.ui.theme.ShapeRadius
 import com.pranshulgg.weather_master_app.widgets.config.WidgetConfig
-import com.pranshulgg.weather_master_app.widgets.model.WidgetVariant
 import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTextTheme
 import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTheme
 import kotlin.math.round
@@ -52,7 +50,7 @@ import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun ClockDailyWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
+fun Weather3WidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
 
     var dateFormat by remember { mutableStateOf("EEE d MMM") }
     var widgetTheme by remember { mutableStateOf(WidgetTheme.AUTO) }

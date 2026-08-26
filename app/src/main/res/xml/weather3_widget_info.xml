@@ -5,5 +5,5 @@
     android:minResizeHeight="40dp"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen"
-    android:previewImage="@drawable/clock_daily_widget_preview"
+    android:previewImage="@drawable/weather3_widget_preview"
     android:configure="com.pranshulgg.weather_master_app.widgets.config.WidgetConfigActivity" />

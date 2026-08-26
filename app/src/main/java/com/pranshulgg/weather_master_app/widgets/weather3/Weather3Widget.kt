@@ -1,4 +1,4 @@
-package com.pranshulgg.weather_master_app.widgets.weatherclockdaily
+package com.pranshulgg.weather_master_app.widgets.weather3
 
 import android.content.Context
 import android.content.Intent
@@ -58,7 +58,7 @@ import com.pranshulgg.weather_master_app.widgets.weather.components.WidgetHourly
 import kotlinx.serialization.json.Json
 
 
-class ClockDailyWidget : GlanceAppWidget() {
+class Weather3Widget : GlanceAppWidget() {
 
     override val sizeMode = SizeMode.Responsive(
         sizes = WidgetSizePoints.SIZES
