@@ -1,0 +1,69 @@
+/** Initial Clean Architecture Domain Layer integration implemented by https://github.com/gietabhi10 */
+package com.pranshulgg.weather_master_app.domain.usecase
+
+import android.content.Context
+import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
+import com.pranshulgg.weather_master_app.core.model.sources.Source
+import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
+import com.pranshulgg.weather_master_app.core.model.weather.airquality.AirQualityResult
+import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResult
+import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
+import com.pranshulgg.weather_master_app.data.repository.data.SourceDataRepository
+import com.pranshulgg.weather_master_app.data.worker.WeatherBackgroundUpdateScheduler
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+
+class GetWeatherUseCase @Inject constructor(
+    private val locationsRepo: LocationsRepository,
+    private val sourceDataRepository: SourceDataRepository,
+    @ApplicationContext private val context: Context
+) {
+    suspend operator fun invoke(
+        location: Location,
+        source: Source,
+        isManualRefresh: Boolean = false,
+        isForceRefresh: Boolean = false,
+        isForceRefreshForAirQuality: Boolean = false,
+        isForceRefreshForAlerts: Boolean = false,
+        weatherUnits: WeatherUnits,
+        onWeather: suspend (WeatherResult, Location) -> Unit,
+        onAlerts: suspend (AlertResult?) -> Unit,
+        onAirQuality: suspend (AirQualityResult?) -> Unit
+    ) {
+        var effectiveLocation = location
+        var effectiveForceRefresh = isForceRefresh
+        var effectiveForceRefreshForAirQuality = isForceRefreshForAirQuality
+        var effectiveForceRefreshForAlerts = isForceRefreshForAlerts
+
+        if (location.isDeviceLocation) {
+            val positionChanged = locationsRepo.updateDeviceLocationPosition()
+            if (positionChanged) {
+                effectiveLocation = locationsRepo.getLocationForId(location.id)
+                effectiveForceRefresh = true
+                effectiveForceRefreshForAirQuality = true
+                effectiveForceRefreshForAlerts = true
+            }
+        }
+
+        sourceDataRepository.getData(
+            location = effectiveLocation,
+            isManualRefresh = isManualRefresh,
+            isForceRefresh = effectiveForceRefresh,
+            isForceRefreshForAirQuality = effectiveForceRefreshForAirQuality,
+            isForceRefreshForAlerts = effectiveForceRefreshForAlerts,
+            onWeather = { result ->
+                if (effectiveLocation.isDefault && result is WeatherResult.Success) {
+                    WeatherBackgroundUpdateScheduler.updateAllWidgets(
+                        context,
+                        result.weather,
+                        weatherUnits
+                    )
+                }
+                onWeather(result, effectiveLocation)
+            },
+            onAlerts = onAlerts,
+            onAirQuality = onAirQuality
+        )
+    }
+}

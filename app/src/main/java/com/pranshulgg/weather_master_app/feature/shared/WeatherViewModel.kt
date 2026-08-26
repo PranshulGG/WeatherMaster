@@ -22,11 +22,12 @@ import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResult
 import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModel
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
-import com.pranshulgg.weather_master_app.data.repository.WeatherBlocksRepository
-import com.pranshulgg.weather_master_app.data.repository.WeatherDataReconcilerRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
-import com.pranshulgg.weather_master_app.data.repository.data.SourceDataRepository
-import com.pranshulgg.weather_master_app.data.worker.WeatherBackgroundUpdateScheduler
+import com.pranshulgg.weather_master_app.domain.usecase.DeleteLocationUseCase
+import com.pranshulgg.weather_master_app.domain.usecase.GetWeatherUseCase
+import com.pranshulgg.weather_master_app.domain.usecase.LoadWeatherBlocksUseCase
+import com.pranshulgg.weather_master_app.domain.usecase.SaveWeatherBlocksUseCase
+import com.pranshulgg.weather_master_app.domain.usecase.UpdateLocationSourceUseCase
 import com.pranshulgg.weather_master_app.feature.main.MainScreenWeatherUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -46,9 +47,11 @@ import kotlin.time.Duration.Companion.minutes
 class WeatherViewModel @Inject constructor(
     private val locationsRepo: LocationsRepository,
     appWeatherUnitsRepo: WeatherUnitsRepository,
-    private val weatherBlocksRepository: WeatherBlocksRepository,
-    private val weatherDataReconcilerRepository: WeatherDataReconcilerRepository,
-    private val sourceDataRepository: SourceDataRepository,
+    private val getWeatherUseCase: GetWeatherUseCase,
+    private val updateLocationSourceUseCase: UpdateLocationSourceUseCase,
+    private val deleteLocationUseCase: DeleteLocationUseCase,
+    private val loadWeatherBlocksUseCase: LoadWeatherBlocksUseCase,
+    private val saveWeatherBlocksUseCase: SaveWeatherBlocksUseCase,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
 
@@ -142,31 +145,19 @@ class WeatherViewModel @Inject constructor(
 
         weatherJob = viewModelScope.launch {
 
-            var effectiveLocation = location
-            var effectiveForceRefresh = isForceRefresh
-            var effectiveForceRefreshForAirQuality = isForceRefreshForAirQuality
-            var effectiveForceRefreshForAlerts = isForceRefreshForAlerts
-
-            if (location.isDeviceLocation) {
-                val positionChanged = handleDeviceLocation()
-                if (positionChanged) {
-                    effectiveLocation = locationsRepo.getLocationForId(location.id)
-                    effectiveForceRefresh = true
-                    effectiveForceRefreshForAirQuality = true
-                    effectiveForceRefreshForAlerts = true
-                    _uiState.value = _uiState.value.copy(activeLocation = effectiveLocation)
-                }
-            }
-
-
-            sourceDataRepository.getData(
-                location = effectiveLocation,
+            getWeatherUseCase(
+                location = location,
+                source = source,
                 isManualRefresh = isManualRefresh,
-                isForceRefresh = effectiveForceRefresh,
-                isForceRefreshForAirQuality = effectiveForceRefreshForAirQuality,
-                isForceRefreshForAlerts = effectiveForceRefreshForAlerts,
-                onWeather = { result ->
-                    handleWeatherData(result, effectiveLocation)
+                isForceRefresh = isForceRefresh,
+                isForceRefreshForAirQuality = isForceRefreshForAirQuality,
+                isForceRefreshForAlerts = isForceRefreshForAlerts,
+                weatherUnits = _uiState.value.weatherUnits,
+                onWeather = { result, effectiveLocation ->
+                    if (effectiveLocation.id == _uiState.value.activeLocation?.id) {
+                        _uiState.value = _uiState.value.copy(activeLocation = effectiveLocation)
+                        handleWeatherData(result, effectiveLocation)
+                    }
                 },
                 onAlerts = { result ->
                     handleAlerts(result)
@@ -195,7 +186,7 @@ class WeatherViewModel @Inject constructor(
 
     fun deleteLocation(id: String) {
         viewModelScope.launch {
-            locationsRepo.deleteLocation(id)
+            deleteLocationUseCase(id)
 
             if (_uiState.value.activeLocation?.id == id) {
                 setActiveLocation(_uiState.value.locations.first { it.isDefault })
@@ -221,29 +212,20 @@ class WeatherViewModel @Inject constructor(
         alertSource: Source,
         openMeteoModel: OpenMeteoModel
     ) {
-        val updatedLocation = location.copy(
-            source = source,
-            airQualitySource = airQualitySource,
-            alertSource = alertSource,
-            openMeteoModel = openMeteoModel
-        )
-
         viewModelScope.launch {
-
-            locationsRepo.updateSourceForLocation(location.id, source)
-            locationsRepo.updateAirQualitySourceForLocation(location.id, airQualitySource)
-            locationsRepo.updateAlertSourceForLocation(location.id, alertSource)
-            locationsRepo.updateOpenMeteoModelForLocation(location.id, openMeteoModel)
+            val updatedLocation = updateLocationSourceUseCase(
+                location = location,
+                source = source,
+                airQualitySource = airQualitySource,
+                alertSource = alertSource,
+                openMeteoModel = openMeteoModel
+            )
 
             val allowForceRefreshForWeather =
                 location.source != source || location.openMeteoModel != openMeteoModel
             val allowForceRefreshForAirQuality = location.airQualitySource != airQualitySource
             val allowForceRefreshForAlerts = location.alertSource != alertSource
 
-            weatherDataReconcilerRepository.reconcileSourceChange(
-                previous = location,
-                updated = updatedLocation
-            )
             _uiState.value = _uiState.value.copy(activeLocation = updatedLocation)
             getWeather(
                 updatedLocation,
@@ -260,32 +242,17 @@ class WeatherViewModel @Inject constructor(
         items: List<WeatherBlock>,
         isDaily: Boolean = false
     ) {
-
         viewModelScope.launch {
-            weatherBlocksRepository.saveBlocks(items.map {
-                WeatherBlock(
-                    type = it.type,
-                    isHidden = false,
-                    position = it.position,
-                    isDaily = isDaily,
-                    id = it.id
-                )
-            }, isDaily)
-
+            saveWeatherBlocksUseCase(items, isDaily)
         }
         _uiState.value = _uiState.value.copy(blocks = items)
-
     }
 
     suspend fun loadBlocks() {
-        val loadedBlocks = weatherBlocksRepository.loadBlocks()
+        val loadedBlocks = loadWeatherBlocksUseCase()
         _uiState.value = _uiState.value.copy(blocks = loadedBlocks)
     }
 
-
-    private suspend fun handleDeviceLocation(): Boolean {
-        return locationsRepo.updateDeviceLocationPosition()
-    }
 
     private suspend fun handleWeatherData(result: WeatherResult, location: Location) {
 
@@ -318,11 +285,7 @@ class WeatherViewModel @Inject constructor(
         }
 
         if (location.isDefault && !_uiState.value.isError && _uiState.value.weather != null) {
-            WeatherBackgroundUpdateScheduler.updateAllWidgets(
-                context,
-                _uiState.value.weather!!,
-                _uiState.value.weatherUnits
-            )
+            // Widget update handled by GetWeatherUseCase
         }
     }
 
