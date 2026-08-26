@@ -91,7 +91,6 @@ fun BackupScreen(navController: NavController) {
                         leading = { SettingsTileIcon(R.drawable.cloud_download_24px) },
                         title = stringResource(R.string.backup_import_action),
                         description = stringResource(R.string.backup_import_action_secondary),
-                        danger = true,
                         onClick = {
                             importLauncher.launch(arrayOf("application/json"))
                         }

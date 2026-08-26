@@ -8,6 +8,7 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.work.Configuration
 import com.pranshulgg.weather_master_app.data.worker.AppVisibility
 import com.pranshulgg.weather_master_app.data.worker.notification.BackgroundUpdateNotificationConfig
+import com.pranshulgg.weather_master_app.feature.notifications.NotificationChannels
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
@@ -34,23 +35,7 @@ class WeatherMasterApplication : Application(), Configuration.Provider {
             .lifecycle
             .addObserver(visibilityTracker)
 
-        val manager = getSystemService(NotificationManager::class.java)
-
-        manager.createNotificationChannel(
-            NotificationChannel(
-                BackgroundUpdateNotificationConfig.CHANNEL_ID,
-                "WeatherMaster Updates",
-                NotificationManager.IMPORTANCE_DEFAULT
-            )
-        )
-
-        manager.createNotificationChannel(
-            NotificationChannel(
-                BackgroundUpdateNotificationConfig.ERROR_CHANNEL_ID,
-                "WeatherMaster Update Errors",
-                NotificationManager.IMPORTANCE_DEFAULT
-            )
-        )
+        NotificationChannels.createAll(this)
 
     }
 

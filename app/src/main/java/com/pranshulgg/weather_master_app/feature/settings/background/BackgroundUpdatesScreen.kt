@@ -33,8 +33,8 @@ import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weather_master_app.data.worker.gadgetbridge.isGadgetbridgeInstalled
 import com.pranshulgg.weather_master_app.feature.settings.background.batteryoptimization.BatteryOptimizationHelper
-import com.pranshulgg.weather_master_app.feature.settings.background.notification.isNotificationPermissionGranted
-import com.pranshulgg.weather_master_app.feature.settings.background.notification.rememberNotificationPermissionLauncher
+import com.pranshulgg.weather_master_app.feature.notifications.isNotificationPermissionGranted
+import com.pranshulgg.weather_master_app.feature.notifications.rememberNotificationPermissionLauncher
 
 
 @Composable
@@ -66,14 +66,14 @@ fun BackgroundUpdatesScreen(navController: NavController) {
 
     val uriHandler = LocalUriHandler.current
 
-    var isSendDataToGadgetbridge by remember {
+    var isSendDataToGadgetBridge by remember {
         mutableStateOf(
             PreferencesHelper.getBool("isSendDataToGadgetbridge") ?: false
         )
     }
 
 
-    val isGadgetbridgeInstalled = isGadgetbridgeInstalled(context)
+    val isGadgetBridgeInstalled = isGadgetbridgeInstalled(context)
 
     LargeTopBarScaffold(
         title = stringResource(R.string.setting_background_updates),
@@ -151,14 +151,14 @@ fun BackgroundUpdatesScreen(navController: NavController) {
                     SettingTile.SwitchTile(
                         leading = { SettingsTileIcon(R.drawable.aod_watch_24px) },
                         title = "Send data to Gadgetbridge",
-                        enabled = isGadgetbridgeInstalled,
-                        checked = isSendDataToGadgetbridge,
+                        enabled = isGadgetBridgeInstalled,
+                        checked = isSendDataToGadgetBridge,
                         onCheckedChange = {
-                            if (!isGadgetbridgeInstalled) {
+                            if (!isGadgetBridgeInstalled) {
                                 SnackbarManager.show(R.string.gadgetbridge_not_available_error)
                                 return@SwitchTile
                             }
-                            isSendDataToGadgetbridge = it
+                            isSendDataToGadgetBridge = it
                             PreferencesHelper.setBool("isSendDataToGadgetbridge", it)
                         }
                     ),
