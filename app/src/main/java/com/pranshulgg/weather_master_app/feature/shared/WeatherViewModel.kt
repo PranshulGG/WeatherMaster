@@ -175,34 +175,6 @@ class WeatherViewModel @Inject constructor(
                     handleAirQuality(result)
                 },
             )
-//            handleWeatherData(source, effectiveLocation, isManualRefresh, effectiveForceRefresh)
-
-            // Run separately
-//            if (!_uiState.value.isError) {
-//                launch {
-//                    handleAirQuality(
-//                        effectiveLocation,
-//                        isManualRefresh,
-//                        effectiveForceRefreshForAirQuality
-//                    )
-//                }
-//
-
-            // Only run separately if the alert source is a different API of its own
-            // If not, then run after the weather has fetched
-//                if (!source.providesAlerts && effectiveLocation.alertSource.name != source.name) {
-//                    launch {
-//                        handleAlerts(
-//                            effectiveLocation,
-//                            isManualRefresh,
-//                            effectiveForceRefreshForAlerts
-//                        )
-//                    }
-//                } else {
-//                    handleAlertsFromWeatherSource(effectiveLocation)
-//                }
-//            }
-
 
             val elapsed = System.currentTimeMillis() - startTime
             val minLoadingTime = 1000L // 1s
