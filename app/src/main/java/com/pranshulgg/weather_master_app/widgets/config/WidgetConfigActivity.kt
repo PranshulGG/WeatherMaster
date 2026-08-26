@@ -28,8 +28,11 @@ import com.pranshulgg.weather_master_app.widgets.weather.WeatherWidgetReceiver
 import com.pranshulgg.weather_master_app.widgets.weather.ui.WeatherWidgetConfig
 import com.pranshulgg.weather_master_app.widgets.weather4.Weather4WidgerReceiver
 import com.pranshulgg.weather_master_app.widgets.weather4.ui.Weather4Config
-import com.pranshulgg.weather_master_app.widgets.weatherclockdaily.ClockDailyWidgetReceiver
-import com.pranshulgg.weather_master_app.widgets.weatherclockdaily.ui.ClockDailyWidgetConfig
+import com.pranshulgg.weather_master_app.widgets.weather3.Weather3WidgetReceiver
+import com.pranshulgg.weather_master_app.widgets.weather3.ui.Weather3WidgetConfig
+import com.pranshulgg.weather_master_app.widgets.weather5.Weather5Widget
+import com.pranshulgg.weather_master_app.widgets.weather5.Weather5WidgetReceiver
+import com.pranshulgg.weather_master_app.widgets.weather5.ui.Weather5WidgetConfig
 import com.pranshulgg.weather_master_app.widgets.weatherhorizontal.WeatherHorizontalWidgetReceiver
 import com.pranshulgg.weather_master_app.widgets.weatherhorizontal.ui.WeatherHorizontalConfig
 import kotlinx.coroutines.launch
@@ -115,8 +118,8 @@ class WidgetConfigActivity : ComponentActivity() {
                             GlanceWidgetConfig(onDone = { onDone(it) })
                         }
 
-                        ClockDailyWidgetReceiver::class.java.name -> {
-                            ClockDailyWidgetConfig(onDone = { onDone(it) })
+                        Weather3WidgetReceiver::class.java.name -> {
+                            Weather3WidgetConfig(onDone = { onDone(it) })
                         }
 
                         WeatherWidgetReceiver::class.java.name -> {
@@ -137,6 +140,10 @@ class WidgetConfigActivity : ComponentActivity() {
 
                         UvIndexWidgetReceiver::class.java.name -> {
                             UvIndexWidgetConfig { onDone(it) }
+                        }
+
+                        Weather5WidgetReceiver::class.java.name -> {
+                            Weather5WidgetConfig { onDone(it) }
                         }
                     }
                 }

@@ -137,7 +137,7 @@
         </receiver>
 
         <receiver
-            android:name=".widgets.weatherclockdaily.ClockDailyWidgetReceiver"
+            android:name=".widgets.weather3.Weather3WidgetReceiver"
             android:label="Weather 3"
             android:exported="true">
 
@@ -147,7 +147,7 @@
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/clock_daily_widget_info" />
+                android:resource="@xml/weather3_widget_info" />
         </receiver>
 
         <receiver
@@ -190,6 +190,21 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/uv_index_widget_info" />
+        </receiver>
+
+
+        <receiver
+            android:name=".widgets.weather5.Weather5WidgetReceiver"
+            android:label="Weather 5"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/weather5_widget_info" />
         </receiver>
 
     </application>

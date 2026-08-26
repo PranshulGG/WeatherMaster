@@ -50,7 +50,7 @@ fun UvIndexWidgetCompact(
         )
         Row(verticalAlignment = Alignment.Bottom) {
             Text(
-                "${state.uvIndex ?: "No data"}",
+                "${state.uvIndex ?: "--"}",
                 style = TextStyle(
                     color = textColor,
                     fontSize = 32.sp,
@@ -61,7 +61,7 @@ fun UvIndexWidgetCompact(
             Text(
                 state.uvIndex?.let {
                     getUvIndex(it).toLabel(context)
-                } ?: "No data",
+                } ?: "--",
                 style = TextStyle(
                     color = textColor,
                     fontSize = 18.sp,

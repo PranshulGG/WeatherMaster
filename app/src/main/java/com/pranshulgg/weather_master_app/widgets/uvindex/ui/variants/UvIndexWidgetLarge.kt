@@ -46,7 +46,7 @@ fun UvIndexWidgetLarge(
         Text(
             state.uvIndex?.let {
                 getUvIndex(it).toLabel(context)
-            } ?: "No data",
+            } ?: "--",
             style = TextStyle(
                 color = textColor,
                 fontSize = 22.sp,
@@ -54,7 +54,7 @@ fun UvIndexWidgetLarge(
             ),
         )
         Text(
-            "${state.uvIndex ?: "No data"}",
+            "${state.uvIndex ?: "--"}",
             style = TextStyle(
                 color = textColor,
                 fontSize = 48.sp,

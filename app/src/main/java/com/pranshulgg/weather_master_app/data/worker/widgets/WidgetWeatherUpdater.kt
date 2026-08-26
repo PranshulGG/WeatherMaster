@@ -1,7 +1,6 @@
 package com.pranshulgg.weather_master_app.data.worker.widgets
 
 import android.content.Context
-import android.util.Log
 import androidx.glance.GlanceId
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetManager
@@ -15,8 +14,9 @@ import com.pranshulgg.weather_master_app.widgets.pill.WidgetPill
 import com.pranshulgg.weather_master_app.widgets.summary.SummaryWidget
 import com.pranshulgg.weather_master_app.widgets.uvindex.UvIndexWidget
 import com.pranshulgg.weather_master_app.widgets.weather.WeatherWidget
+import com.pranshulgg.weather_master_app.widgets.weather3.Weather3Widget
 import com.pranshulgg.weather_master_app.widgets.weather4.Weather4Widget
-import com.pranshulgg.weather_master_app.widgets.weatherclockdaily.ClockDailyWidget
+import com.pranshulgg.weather_master_app.widgets.weather5.Weather5Widget
 import com.pranshulgg.weather_master_app.widgets.weatherhorizontal.WeatherHorizontalWidget
 
 class WeatherWidgetUpdater(
@@ -29,13 +29,15 @@ class WeatherWidgetUpdater(
     private val widgetHorizontal = WeatherHorizontalWidget()
     private val widgetGlance = GlanceWidget()
 
-    private val widgetClockDaily = ClockDailyWidget()
+    private val widgetWeather3 = Weather3Widget()
 
     private val widgetWeather4 = Weather4Widget()
 
     private val widgetHourly = WidgetHourly()
 
     private val widgetUvIndex = UvIndexWidget()
+
+    private val widgetWeather5 = Weather5Widget()
 
     suspend fun update(json: String) {
         val manager = GlanceAppWidgetManager(context)
@@ -58,11 +60,11 @@ class WeatherWidgetUpdater(
         updateWidgets(summary, manager.getGlanceIds(SummaryWidget::class.java))
         updateWidgets(widgetHorizontal, manager.getGlanceIds(WeatherHorizontalWidget::class.java))
         updateWidgets(widgetGlance, manager.getGlanceIds(GlanceWidget::class.java))
-        updateWidgets(widgetClockDaily, manager.getGlanceIds(ClockDailyWidget::class.java))
+        updateWidgets(widgetWeather3, manager.getGlanceIds(Weather3Widget::class.java))
         updateWidgets(widgetWeather4, manager.getGlanceIds(Weather4Widget::class.java))
         updateWidgets(widgetHourly, manager.getGlanceIds(WidgetHourly::class.java))
         updateWidgets(widgetUvIndex, manager.getGlanceIds(UvIndexWidget::class.java))
-
+        updateWidgets(widgetWeather5, manager.getGlanceIds(Weather5Widget::class.java))
     }
 
     suspend fun saveWidgetConfig(
