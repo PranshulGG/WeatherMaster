@@ -26,52 +26,48 @@ import com.pranshulgg.weather_master_app.widgets.uvindex.getUvIndexTextColorForW
 
 @Composable
 fun UvIndexWidgetCompact(
-    state: WidgetWeather?,
+    state: WidgetWeather,
     glanceModifier: GlanceModifier
 ) {
     val context = LocalContext.current
 
-    if (state != null) {
 
-        val textColor = getUvIndexTextColorForWidget(getUvIndex(state.uvIndex ?: 0))
-        val textColorVariant = getUvIndexSecondaryTextColorForWidget(getUvIndex(state.uvIndex ?: 0))
-
+    val textColor = getUvIndexTextColorForWidget(getUvIndex(state.uvIndex ?: 0))
+    val textColorVariant = getUvIndexSecondaryTextColorForWidget(getUvIndex(state.uvIndex ?: 0))
 
 
-        Column(
-            modifier = glanceModifier.fillMaxSize().padding(horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+
+    Column(
+        modifier = glanceModifier.fillMaxSize().padding(horizontal = 16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            context.getString(R.string.weather_current),
+            style = TextStyle(
+                color = textColorVariant,
+                fontSize = 18.sp,
+            ),
+        )
+        Row(verticalAlignment = Alignment.Bottom) {
             Text(
-                stringResource(R.string.weather_current),
+                "${state.uvIndex ?: "No data"}",
                 style = TextStyle(
-                    color = textColorVariant,
-                    fontSize = 18.sp,
+                    color = textColor,
+                    fontSize = 32.sp,
+                    fontWeight = FontWeight.Bold
                 ),
             )
-            Row(verticalAlignment = Alignment.Bottom) {
-                Text(
-                    "${state.uvIndex ?: "No data"}",
-                    style = TextStyle(
-                        color = textColor,
-                        fontSize = 32.sp,
-                        fontWeight = FontWeight.Bold
-                    ),
-                )
-                Spacer(GlanceModifier.width(5.dp))
-                Text(
-                    state.uvIndex?.let {
-                        getUvIndex(it).toLabel(context)
-                    } ?: "No data",
-                    style = TextStyle(
-                        color = textColor,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Medium
-                    ),
-                )
-            }
+            Spacer(GlanceModifier.width(5.dp))
+            Text(
+                state.uvIndex?.let {
+                    getUvIndex(it).toLabel(context)
+                } ?: "No data",
+                style = TextStyle(
+                    color = textColor,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Medium
+                ),
+            )
         }
-    } else {
-        ReloadButton()
     }
 }

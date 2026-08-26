@@ -7,7 +7,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.glance.ColorFilter
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
-import androidx.glance.GlanceTheme
 import androidx.glance.ImageProvider
 import androidx.glance.action.actionStartActivity
 import androidx.glance.action.clickable
@@ -28,9 +27,7 @@ import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateDefinition
 import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateJson
 import com.pranshulgg.weather_master_app.widgets.model.WidgetVariant
 import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
-import com.pranshulgg.weather_master_app.widgets.pill.ui.WeatherWidgetPill
-import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetColors
-import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTheme
+import com.pranshulgg.weather_master_app.widgets.ui.ReloadButton
 import com.pranshulgg.weather_master_app.widgets.uvindex.ui.variants.UvIndexWidgetCompact
 import com.pranshulgg.weather_master_app.widgets.uvindex.ui.variants.UvIndexWidgetLarge
 import kotlinx.serialization.json.Json
@@ -40,6 +37,7 @@ class UvIndexWidget : GlanceAppWidget() {
     override val sizeMode = SizeMode.Exact
     override val stateDefinition =
         WeatherWidgetStateDefinition
+
 
     override suspend fun provideGlance(
         context: Context,
@@ -56,24 +54,26 @@ class UvIndexWidget : GlanceAppWidget() {
                 Json.decodeFromString<WidgetWeather>(it)
             }
             val config = widgetState.config
-            val widgetColors = WidgetColors()
+            if (state != null) {
 
+                Box(
+                    GlanceModifier.fillMaxSize()
+                        .clickable(actionStartActivity<MainActivity>())
+                ) {
+                    when (config.variant) {
+                        WidgetVariant.LARGE -> UvIndexWidgetLarge(
+                            state,
+                            GlanceModifier.appWidgetBackgroundShape(getUvIndex(state.uvIndex ?: 0))
+                        )
 
-            Box(
-                GlanceModifier.fillMaxSize()
-                    .clickable(actionStartActivity<MainActivity>())
-            ) {
-                when (config.variant) {
-                    WidgetVariant.LARGE -> UvIndexWidgetLarge(
-                        state,
-                        GlanceModifier.appWidgetBackgroundShape(getUvIndex(state?.uvIndex ?: 0))
-                    )
-
-                    else -> UvIndexWidgetCompact(
-                        state,
-                        GlanceModifier.appWidgetBackgroundShape(getUvIndex(state?.uvIndex ?: 0))
-                    )
+                        else -> UvIndexWidgetCompact(
+                            state,
+                            GlanceModifier.appWidgetBackgroundShape(getUvIndex(state.uvIndex ?: 0))
+                        )
+                    }
                 }
+            } else {
+                ReloadButton()
             }
         }
     }

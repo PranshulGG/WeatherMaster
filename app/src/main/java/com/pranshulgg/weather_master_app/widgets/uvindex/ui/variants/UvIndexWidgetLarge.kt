@@ -24,68 +24,62 @@ import com.pranshulgg.weather_master_app.widgets.uvindex.getUvIndexTextColorForW
 
 @Composable
 fun UvIndexWidgetLarge(
-    state: WidgetWeather?,
+    state: WidgetWeather,
     glanceModifier: GlanceModifier
 ) {
     val context = LocalContext.current
 
-    if (state != null) {
+
+    val textColor = getUvIndexTextColorForWidget(getUvIndex(state.uvIndex ?: 0))
+    val textColorVariant = getUvIndexSecondaryTextColorForWidget(getUvIndex(state.uvIndex ?: 0))
 
 
-        val textColor = getUvIndexTextColorForWidget(getUvIndex(state.uvIndex ?: 0))
-        val textColorVariant = getUvIndexSecondaryTextColorForWidget(getUvIndex(state.uvIndex ?: 0))
 
-        Column(modifier = glanceModifier.fillMaxSize().padding(16.dp)) {
-            Text(
-                stringResource(R.string.weather_current),
-                style = TextStyle(
-                    color = textColorVariant,
-                    fontSize = 18.sp,
-                ),
-            )
-            Text(
-                state.uvIndex?.let {
-                    getUvIndex(it).toLabel(context)
-                } ?: "No data",
-                style = TextStyle(
-                    color = textColor,
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Medium
-                ),
-            )
-            Text(
-                "${state.uvIndex ?: "No data"}",
-                style = TextStyle(
-                    color = textColor,
-                    fontSize = 48.sp,
-                    fontWeight = FontWeight.Bold
-                ),
-            )
-            Spacer(GlanceModifier.defaultWeight())
-            Text(
-                stringResource(
-                    R.string.widget_weather_today_max_uv,
-                    "${state.daily[0].maxUvIndex}"
-                ),
-                style = TextStyle(
-                    color = textColorVariant,
-                    fontSize = 20.sp,
-                ),
-            )
-            Text(
-                stringResource(
-                    R.string.widget_weather_today_max_uv_at,
-                    "${state.daily[0].maxUvIndexAt}"
-                ),
-                style = TextStyle(
-                    color = textColorVariant,
-                    fontSize = 18.sp,
-                ),
-            )
-        }
-
-    } else {
-        ReloadButton()
+    Column(modifier = glanceModifier.fillMaxSize().padding(16.dp)) {
+        Text(
+            context.getString(R.string.weather_current),
+            style = TextStyle(
+                color = textColorVariant,
+                fontSize = 18.sp,
+            ),
+        )
+        Text(
+            state.uvIndex?.let {
+                getUvIndex(it).toLabel(context)
+            } ?: "No data",
+            style = TextStyle(
+                color = textColor,
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Medium
+            ),
+        )
+        Text(
+            "${state.uvIndex ?: "No data"}",
+            style = TextStyle(
+                color = textColor,
+                fontSize = 48.sp,
+                fontWeight = FontWeight.Bold
+            ),
+        )
+        Spacer(GlanceModifier.defaultWeight())
+        Text(
+            context.getString(R.string.widget_weather_today_max_uv, "${state.daily[0].maxUvIndex}"),
+            style = TextStyle(
+                color = textColorVariant,
+                fontSize = 20.sp,
+            ),
+        )
+        Text(
+            context.getString(
+                R.string.widget_weather_today_max_uv_at,
+                "${state.daily[0].maxUvIndexAt}"
+            ),
+            style = TextStyle(
+                color = textColorVariant,
+                fontSize = 18.sp,
+            ),
+        )
     }
+
 
 }
