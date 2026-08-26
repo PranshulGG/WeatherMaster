@@ -435,5 +435,15 @@
     <string name="error_not_found">Požadovaný zdroj nebyl nalezen.</string>
     <string name="error_request_timeout">Server neodpověděl včas.</string>
     <string name="error_too_many_requests">Byl dosažen limit požadavků.</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_notifications_secondary">Scheduled notifications, on-going notification, and more</string>
+    <string name="weather_precipitation_probability">Precipitation probability %1$s</string>
+    <string name="error_failed_background_updates">Failed background updates</string>
+    <string name="setting_on_going_notification">On-going notification</string>
+    <string name="setting_today_forecast_notification">Today\'s forecast notification</string>
+    <string name="setting_today_forecast_notification_set_time">Set time for today\'s forecast notification</string>
+    <string name="setting_next_day_forecast_notification">Next day forecast notification</string>
+    <string name="setting_next_day_forecast_notification_set_time">Set time for next day forecast notification</string>
+    <string name="label_disabled">Disabled</string>
 </resources>
 <!--<string name=""></string>-->
